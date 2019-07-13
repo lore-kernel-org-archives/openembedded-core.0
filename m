@@ -1,52 +1,33 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DAE567F14E
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 377C77DAD9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 20:22:29 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id v85so7254397lfa.6
+	Sat, 13 Jul 2019 06:51:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45m0nM1BzjzFS
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 13:22:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=CcBZ7z+f0Frj/dqTf+N/P+dQ2wxQ5q0bLcs6/NoDLjQ=;
-	b=yie60YSyvWfpkoQMoAGH8raJ6wAR2q54ZAgu4jxiP1e+lZj3N2fzLltHV5aZmQxZjO
-	D4WBSoJ8lcQyCltbz3DiYvhbun87KBG+nXpCwDOw38gTfPJZ7IeQ5Px2Rd03tN2hQGAD
-	4h1/3YPdH6BRkVYrNj5B/n5TQBCuzMCmXpCek+9FWlip7etErQRH3zwpCd2L84qWwL4C
-	tuxALU/Xgg9MhklgzujXtKchwwfQ1sLlCWC2t6LV+zV3pBUSxQLfIvDtaszxkXfJaDm9
-	DnW9JUAp+34JHFwGn+NybfBpsdJHQufQRby3rT+HFZROLeMfYOmfO7rVrqCEyGRokztj
-	K8gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=CcBZ7z+f0Frj/dqTf+N/P+dQ2wxQ5q0bLcs6/NoDLjQ=;
-	b=hFl86PS0AGbZ/ktqMstoygmYqkXT4yHOaRVr40sYisDN5byk9yo2MGVOl8N+f/2+JL
-	imnXAz1aIPl2GZYXSzQBJsX1pZ32s2gbAsXMYDbLEieJ5dNPlHog5MByztH9DRIIsCt+
-	BDdjoQ6NzmlVqvvdXOEyqQwIUiEkKzzEHMMOkJsYTspBBMJ6WAXIO4WZZsZqUnEbpAs2
-	AR12nHxDIDJS+Bl2h9xu6PBlI5WOmN/ywI+6iSC+wEFFD/CTuHDjGxkDNE3eG/j9BcBH
-	qx7/NtSfrsH57WyvNfQUoj4RZfBarFQ1OlGDvum0exXLyMd4VIeOVENl7rR5pyIN6nKd
-	LYow==
-X-Gm-Message-State: APjAAAWyT3Z0P6Jv23RLpMXgSUxm9v/R8+W55HXOSlJ4PMMULX7G0akD
-	RxTNORLLNuN7i5K/QUQUHBZn/a0H
-X-Google-Smtp-Source: APXvYqwvcZjHjXe4rQ39ru4+lQks2FsfKF1AhqHBMYI4bJNCm9ouR1eB1U17sA9pDglHsFC38cJQBQ==
-X-Received: by 2002:ac2:5e9b:: with SMTP id b27mr5284944lfq.45.1562962950454; 
-	Fri, 12 Jul 2019 13:22:30 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	z85sm1608746ljb.101.2019.07.12.13.22.29
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 12 Jul 2019 13:22:30 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	Sat, 13 Jul 2019 08:51:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1563000679;
+	bh=twOQBJ0epl9RXYIeP/I4YpGyKmWk2xdpLpJV0pX857A=;
+	h=From:To:Subject:Date:From;
+	b=Flp9VRKX5FD2sERhNl+JhapxfraQKmSDByQXEtODkqbXHPlZISMItZzeKi50MXVrw
+	I/5F0cHO00oT9X23v3mmNxqafpaOBOejDKaA90PE4BDXURVCngwATwJBszgt4VeGZd
+	VeRBFgmAwbZOgDHD3/+sHKscO/P9zJgijA0Khrkz4Qlb+Wp9GlWOOSd0a1UgIyVkbM
+	g3USWp2rOhHkWed6yrVr6NLQsHbd4tp0XM03mvQaKr+YnbJiLtn2p++MP5XxFVdgk+
+	RPHQalxj9j4J1b10M/MNDYDb0O0xc9tZkzAMuUfiop82dE1CKBwubHkveifgul/WkQ
+	MDVIJemoMnJZaElFbdjc9c61DtJC2LZURQaQufcWVXnJuNJG1FAU3xV02dZ3xrNO3u
+	jDKwfcRre0ybMEplwZDTs+L+aE6JtQ4tu5eZ6Ihks0Yl45OdbuW1PgHBMNGKRqR5Iw
+	z3s7Ey/utzFhLz7bN4NQM9WajpPnD+u0ls/tm0KmGGFf6RUucYs+VYnNTFFOhZMfNo
+	x2g4n1l8f2d6mcDzdVbV5AdCdkzhUq/Bn8Dd9soXU55PJpeoSi8RIfBptIh+wTuzJC
+	t/mhyHg4I+QXi4zBeYXOVXpONDlWQLtv8JwvcA58lywUsj62bhxdMEdcOnx7zjS0gc
+	LMZw9bWg1nlcNErSmnrzJPZ0=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2019 22:22:16 +0200
-Message-Id: <20190712202216.29218-3-open.source@oleksandr-kravchuk.com>
+Date: Sat, 13 Jul 2019 09:51:18 +0300
+Message-Id: <20190713065118.3174-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190712202216.29218-1-open.source@oleksandr-kravchuk.com>
-References: <20190712202216.29218-1-open.source@oleksandr-kravchuk.com>
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH 3/3] libx11: update to 1.6.8
+Subject: [PATCH v2] Remove remnants of bluez4 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +40,298 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 20:22:30 -0000
+X-List-Received-Date: Sat, 13 Jul 2019 06:51:20 -0000
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+bluez4 was removed from meta-oe 2 years ago.
+
+Simplfy the setup of the two level bluetooth and bluez4/bluez5
+distro features by removing the bluez4/bluez5 distro features.
+
+This also removes the no longer required bluetooth class.
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../xorg-lib/{libx11-diet_1.6.7.bb => libx11-diet_1.6.8.bb}   | 0
- meta/recipes-graphics/xorg-lib/libx11.inc                     | 4 ++--
- .../xorg-lib/{libx11_1.6.7.bb => libx11_1.6.8.bb}             | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libx11-diet_1.6.7.bb => libx11-diet_1.6.8.bb} (100%)
- rename meta/recipes-graphics/xorg-lib/{libx11_1.6.7.bb => libx11_1.6.8.bb} (100%)
+v2: Remove the no longer needed PREFERRED_RPROVIDER_bluez-hcidump.
+Documentation changes will be sent separately.
+Users in meta-openembedded have already been fixed.
+---
+ meta/classes/bluetooth.bbclass                     | 14 --------------
+ meta/conf/bitbake.conf                             |  2 +-
+ meta/conf/distro/include/default-providers.inc     |  1 -
+ meta/recipes-connectivity/bluez5/bluez5_5.50.bb    |  2 --
+ meta/recipes-connectivity/connman/connman.inc      |  4 ++--
+ meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb |  4 ++--
+ meta/recipes-connectivity/neard/neard_0.16.bb      |  4 ++--
+ meta/recipes-connectivity/ofono/ofono.inc          |  4 ++--
+ .../packagegroups/packagegroup-base.bb             |  4 +---
+ meta/recipes-devtools/qemu/qemu.inc                |  4 ++--
+ meta/recipes-devtools/strace/strace_4.26.bb        |  4 ++--
+ .../gstreamer/gstreamer1.0-plugins-bad_1.16.0.bb   |  4 ++--
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |  5 ++---
+ 13 files changed, 18 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/classes/bluetooth.bbclass
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.7.bb b/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.8.bb
-similarity index 100%
-rename from meta/recipes-graphics/xorg-lib/libx11-diet_1.6.7.bb
-rename to meta/recipes-graphics/xorg-lib/libx11-diet_1.6.8.bb
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index ea2ebfb8b9..53c9e436e3 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -10,8 +10,8 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/libx11:"
+diff --git a/meta/classes/bluetooth.bbclass b/meta/classes/bluetooth.bbclass
+deleted file mode 100644
+index f88b4ae5b8..0000000000
+--- a/meta/classes/bluetooth.bbclass
++++ /dev/null
+@@ -1,14 +0,0 @@
+-# Avoid code duplication in bluetooth-dependent recipes.
+-
+-# Define a variable that expands to the recipe (package) providing core
+-# bluetooth support on the platform:
+-# "" if bluetooth is not in DISTRO_FEATURES
+-# else "bluez5" if bluez5 is in DISTRO_FEATURES
+-# else "bluez4"
+-
+-# Use this with:
+-#  inherit bluetooth
+-#  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}
+-#  PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4"
+-
+-BLUEZ ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5', 'bluez4', d), '', d)}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 5e93f5c223..140f45b895 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -839,7 +839,7 @@ DISTRO_FEATURES_NATIVESDK ?= "x11"
+ DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation"
+ DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation"
  
- PE = "1"
+-DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5 gobject-introspection-data ldconfig"
++DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
+ MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
  
--SRC_URI[md5sum] = "034fdd6cc5393974d88aec6f5bc96162"
--SRC_URI[sha256sum] = "910e9e30efba4ad3672ca277741c2728aebffa7bc526f04dcfa74df2e52a1348"
-+SRC_URI[md5sum] = "c5fa5a86a20e3591bed6c046498d4b8f"
-+SRC_URI[sha256sum] = "b289a845c189e251e0e884cc0f9269bbe97c238df3741e854ec4c17c21e473d5"
+ COMBINED_FEATURES = "${@oe.utils.set_intersect('DISTRO_FEATURES', 'MACHINE_FEATURES', d)}"
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 2be3378773..8f4d44d884 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -44,7 +44,6 @@ PREFERRED_PROVIDER_nativesdk-opkg ?= "nativesdk-opkg"
+ PREFERRED_PROVIDER_console-tools ?= "kbd"
+ PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
+ PREFERRED_PROVIDER_udev ?= "${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd','eudev',d)}"
+-PREFERRED_RPROVIDER_bluez-hcidump ?= "${@bb.utils.contains('DISTRO_FEATURES','bluetooth bluez5','bluez5','bluez-hcidump',d)}"
+ # Alternative is ltp-ddt in meta-oe: meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_0.0.4.bb
+ PREFERRED_PROVIDER_ltp ?= "ltp"
+ PREFERRED_PROVIDER_getopt ?= "util-linux-getopt"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.50.bb b/meta/recipes-connectivity/bluez5/bluez5_5.50.bb
+index 66271432fe..4e443e5fb0 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.50.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.50.bb
+@@ -1,7 +1,5 @@
+ require bluez5.inc
  
- PROVIDES = "virtual/libx11"
+-REQUIRED_DISTRO_FEATURES = "bluez5"
+-
+ SRC_URI[md5sum] = "8e35c67c81a55d3ad4c9f22280dae178"
+ SRC_URI[sha256sum] = "5ffcaae18bbb6155f1591be8c24898dc12f062075a40b538b745bfd477481911"
  
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.7.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.8.bb
-similarity index 100%
-rename from meta/recipes-graphics/xorg-lib/libx11_1.6.7.bb
-rename to meta/recipes-graphics/xorg-lib/libx11_1.6.8.bb
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index ae67079c71..ee00479926 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -13,7 +13,7 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://src/main.c;beginline=1;endline=20;md5=486a279a6ab0c8d152bcda3a5b5edc36"
+ 
+-inherit autotools pkgconfig systemd update-rc.d bluetooth update-alternatives
++inherit autotools pkgconfig systemd update-rc.d update-alternatives
+ 
+ DEPENDS  = "dbus glib-2.0 ppp readline"
+ 
+@@ -42,7 +42,7 @@ PACKAGECONFIG ??= "wispr \
+ 
+ PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/ --with-tmpfilesdir=${sysconfdir}/tmpfiles.d/,--with-systemdunitdir='' --with-tmpfilesdir=''"
+ PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant, wpa-supplicant"
+-PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}, ${BLUEZ}"
++PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, bluez5, bluez5"
+ PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono, ofono"
+ PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
+ PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb b/meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb
+index 78361561e6..77bc31af7e 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb
+@@ -16,7 +16,7 @@ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
+ SRC_URI[md5sum] = "dffd65cb14406ab9841f421732eb0f33"
+ SRC_URI[sha256sum] = "2edb88808e5913fdaa8e9c1fcaf272e19b2485338742b5074b9fe44d68f37019"
+ 
+-inherit autotools binconfig-disabled pkgconfig bluetooth
++inherit autotools binconfig-disabled pkgconfig
+ 
+ BINCONFIG = "${bindir}/pcap-config"
+ 
+@@ -29,7 +29,7 @@ EXTRA_OECONF = " \
+                  "
+ EXTRA_AUTORECONF += "--exclude=aclocal"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez5', '', d)} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+ "
+ PACKAGECONFIG[bluez5] = "--enable-bluetooth,--disable-bluetooth,bluez5"
+diff --git a/meta/recipes-connectivity/neard/neard_0.16.bb b/meta/recipes-connectivity/neard/neard_0.16.bb
+index cc6af4e1ca..7c124a3c0b 100644
+--- a/meta/recipes-connectivity/neard/neard_0.16.bb
++++ b/meta/recipes-connectivity/neard/neard_0.16.bb
+@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+  file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+  "
+ 
+-inherit autotools pkgconfig systemd update-rc.d bluetooth
++inherit autotools pkgconfig systemd update-rc.d
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
+ 
+@@ -40,7 +40,7 @@ RDEPENDS_${PN} = "dbus"
+ 
+ # Bluez & Wifi are not mandatory except for handover
+ RRECOMMENDS_${PN} = "\
+-                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
++                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez5', '', d)} \
+                      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
+                     "
+ 
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index e1185c6e6b..03d0fd53a6 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -5,7 +5,7 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://src/ofono.h;beginline=1;endline=20;md5=3ce17d5978ef3445def265b98899c2ee"
+ 
+-inherit autotools pkgconfig update-rc.d systemd bluetooth gobject-introspection-data
++inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
+ 
+ DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ell"
+ 
+@@ -17,7 +17,7 @@ PACKAGECONFIG ??= "\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+     "
+ PACKAGECONFIG[systemd] = "--with-systemdunitdir=${systemd_unitdir}/system/,--with-systemdunitdir="
+-PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, ${BLUEZ}"
++PACKAGECONFIG[bluez] = "--enable-bluetooth, --disable-bluetooth, bluez5"
+ 
+ EXTRA_OECONF += "--enable-test --enable-external-ell"
+ 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index d05403635c..1f802da09b 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -7,7 +7,6 @@ PR = "r83"
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ inherit packagegroup
+-inherit bluetooth
+ 
+ PROVIDES = "${PACKAGES}"
+ PACKAGES = ' \
+@@ -199,8 +198,7 @@ RRECOMMENDS_packagegroup-base-pcmcia = "\
+ 
+ SUMMARY_packagegroup-base-bluetooth = "Bluetooth support"
+ RDEPENDS_packagegroup-base-bluetooth = "\
+-    ${BLUEZ} \
+-    ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', bb.utils.contains('BLUEZ', 'bluez4', 'libasound-module-bluez', '', d), '',d)} \
++    bluez5 \
+     "
+ 
+ RRECOMMENDS_packagegroup-base-bluetooth = "\
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index ac475a8e2a..32379708e4 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -5,7 +5,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ RDEPENDS_${PN}-ptest = "bash make"
+ 
+ require qemu-targets.inc
+-inherit pkgconfig bluetooth ptest
++inherit pkgconfig ptest
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=8c5efda6cf1e1b03dcfd0e6c0d271c7f"
+@@ -148,7 +148,7 @@ PACKAGECONFIG[lzo] = "--enable-lzo,--disable-lzo,lzo"
+ PACKAGECONFIG[numa] = "--enable-numa,--disable-numa,numactl"
+ PACKAGECONFIG[gnutls] = "--enable-gnutls,--disable-gnutls,gnutls"
+ PACKAGECONFIG[bzip2] = "--enable-bzip2,--disable-bzip2,bzip2"
+-PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,${BLUEZ}"
++PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez5"
+ PACKAGECONFIG[libiscsi] = "--enable-libiscsi,--disable-libiscsi"
+ PACKAGECONFIG[kvm] = "--enable-kvm,--disable-kvm"
+ PACKAGECONFIG[virglrenderer] = "--enable-virglrenderer,--disable-virglrenderer,virglrenderer"
+diff --git a/meta/recipes-devtools/strace/strace_4.26.bb b/meta/recipes-devtools/strace/strace_4.26.bb
+index 3b61fc3eef..2688724e66 100644
+--- a/meta/recipes-devtools/strace/strace_4.26.bb
++++ b/meta/recipes-devtools/strace/strace_4.26.bb
+@@ -20,13 +20,13 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+ SRC_URI[md5sum] = "daa51acc0c7c696221ec03cf0b30a7af"
+ SRC_URI[sha256sum] = "7c4d2ffeef4f7d1cdc71062ca78d1130eb52f947c2fca82f59f6a1183bfa1e1c"
+ 
+-inherit autotools ptest bluetooth
++inherit autotools ptest
+ 
+ PACKAGECONFIG_class-target ??= "\
+     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+ "
+ 
+-PACKAGECONFIG[bluez] = "ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,${BLUEZ}"
++PACKAGECONFIG[bluez] = "ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,bluez5"
+ PACKAGECONFIG[libunwind] = "--with-libunwind,--without-libunwind,libunwind"
+ 
+ EXTRA_OECONF += "--enable-mpers=no"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.0.bb
+index 5af01a37ce..f9289e92d2 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.0.bb
+@@ -19,7 +19,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
+ 
+ DEPENDS += "gstreamer1.0-plugins-base"
+ 
+-inherit gettext bluetooth gobject-introspection
++inherit gettext gobject-introspection
+ 
+ PACKAGECONFIG ??= " \
+     ${GSTREAMER_ORC} \
+@@ -35,7 +35,7 @@ PACKAGECONFIG ??= " \
+ # not add GL dependencies here, since these are taken care of in -base.
+ 
+ PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
+-PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,${BLUEZ}"
++PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,bluez5"
+ PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
+ PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
+ PACKAGECONFIG[dash]            = "--enable-dash,--disable-dash,libxml2"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 9a95e7c65b..e245be7f77 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -61,7 +61,7 @@ DEPENDS = "libatomic-ops libsndfile1 libtool intltool-native"
+ DEPENDS += "udev alsa-lib glib-2.0"
+ DEPENDS += "speexdsp libxml-parser-perl-native libcap"
+ 
+-inherit autotools bash-completion pkgconfig useradd gettext perlnative bluetooth systemd manpages gsettings
++inherit autotools bash-completion pkgconfig useradd gettext perlnative systemd manpages gsettings
+ 
+ # *.desktop rules wont be generated during configure and build will fail
+ # if using --disable-nls
+@@ -98,7 +98,7 @@ EXTRA_OECONF += "--without-fftw"
+ # very good anyway, better alternatives exist (such as the webrtc canceller).
+ EXTRA_OECONF += "--disable-adrian-aec"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez5', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6 systemd x11', d)} \
+@@ -106,7 +106,6 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ
+                    "
+ 
+ PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
+-PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
+ PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
+ PACKAGECONFIG[gconf] = "--enable-gconf,--disable-gconf,gconf"
+ PACKAGECONFIG[gsettings] = "--enable-gsettings,--disable-gsettings,glib-2.0-native glib-2.0"
 -- 
 2.17.1
 
