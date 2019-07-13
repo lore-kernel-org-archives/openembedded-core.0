@@ -1,37 +1,18 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C1B227F111
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Jul 2019 06:53:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45m0qn35cKzFS;
-	Sat, 13 Jul 2019 08:53:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1563000805;
-	bh=j/5yG4kDRs/AcHhjDdinQWWW8tsts4xlpseg77A6Dpc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=el2oNIgvkqM+uEdrrsErH2KV5xGXp6fSCFHUl7LVwzjzWihUzme6wTxz5LSd5ofAj
-	ob5r1gUMN5TYn4x8mwd62/ZSqm4cLJ3zgQqi9KXaLypTXE6ulSmrwJ0E/eQ6yYwv9a
-	BAOdgzdYAKdEX7XJpo3ON65AZWvjbtM9zoLMMR7955N1lQpraq9WSv5Ydy2Dep/N32
-	MidvMQ5xfAo/oYDejyiPZ56jt3SdxAujbEkS1FbwuEwiZ95s65cAmSG8a6qMP5WZTQ
-	yyOFCJG0sqb26JLS7I5U/ysLQD8ktIuS+ie6X5/UqFsIa1BfwaWtxR/+LRFaFbqk7F
-	Z/erkOIpSPsuJYTOYoY1KQSYf84weu9f0DC22L388ncw5RdAkh/hS2vrf6qsKMHrT6
-	gdiYnmVTIUv+9oUDQRw0BM/66bRuq15tCQK45NBEK3M3/A3C/X7g2GScx5btvNMtFY
-	Bf8cztNmE1xJz2GneF8f0GLL8eNHYQeeguDTUvo+MDLjy03THu3fBDT6LEAi0AQ9ys
-	bmYB8JgSAbhmMi14tQSPqSjf4rMZ4Yx/bU+cvfwVsiTTNOE2sDPV6haH0GCt3sikQC
-	Bu1AxI+7VfOtO5Oez9m4jN78fXT8ziJ2JikxZB2uFWiiapK7QyaMKDNW00PDmH0EtQ
-	3Exs8CYSISOOtpQi89eRLPZM=
-Date: Sat, 13 Jul 2019 09:53:23 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20190713065323.GA21584@localhost>
-References: <20190712074813.15131-1-bunk@stusta.de>
-	<20190712075547.GA1468@jama>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 215B67C86A;
+	Sat, 13 Jul 2019 07:01:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190712075547.GA1468@jama>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Sat, 13 Jul 2019 07:01:40 -0000
+Message-ID: <20190713070140.2334.99039@do>
+References: <20190713065118.3174-1-bunk@stusta.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190713065118.3174-1-bunk@stusta.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Remove remnants of bluez4 support
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIHJlbW5hbnRzIG9mIGJsdWV6NCBzdXBwb3J0IChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Jul 2019 06:53:25 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 13 Jul 2019 07:01:39 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 12, 2019 at 09:55:47AM +0200, Martin Jansa wrote:
-> On Fri, Jul 12, 2019 at 10:48:13AM +0300, Adrian Bunk wrote:
->...
-> > --- a/meta/conf/distro/include/default-providers.inc
-> > +++ b/meta/conf/distro/include/default-providers.inc
-> > @@ -44,7 +44,7 @@ PREFERRED_PROVIDER_nativesdk-opkg ?= "nativesdk-opkg"
-> >  PREFERRED_PROVIDER_console-tools ?= "kbd"
-> >  PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
-> >  PREFERRED_PROVIDER_udev ?= "${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd','eudev',d)}"
-> > -PREFERRED_RPROVIDER_bluez-hcidump ?= "${@bb.utils.contains('DISTRO_FEATURES','bluetooth bluez5','bluez5','bluez-hcidump',d)}"
-> > +PREFERRED_RPROVIDER_bluez-hcidump ?= "${@bb.utils.contains('DISTRO_FEATURES','bluetooth','bluez5','bluez-hcidump',d)}"
-> 
-> Is this still needed?
-> 
-> With all remnants of bluez4 gone, bluez-hcidump is probably rprovided
-> only by bluez5 now.
->...
+== Series Details ==
 
-Thanks, v2 sent.
+Series: Remove remnants of bluez4 support (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/18642/
+State : failure
 
-cu
-Adrian
+== Summary ==
 
--- 
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [v2] Remove remnants of bluez4 support
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
