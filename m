@@ -1,47 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B1AB07EDE8
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5538E6A441
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Jul 2019 14:11:06 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id s145so9813173qke.7
+	Sun, 14 Jul 2019 16:53:48 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id i18so6584884pgl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Jul 2019 07:11:08 -0700 (PDT)
+	Sun, 14 Jul 2019 09:53:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=F6zpW/1oN7P/s1XSaD5wzc8U8y9b37w+zLDREYjQeB8=;
-	b=Kq9V5BsDzna1FsJu25wPKrKuuNoExgQDzaDnAi5HcwxkSi8FDkOePtPgLdigQAJBta
-	jlUCipxI5C6Qal41m7IguXsjU5BdemqLE94LpgzcVXaItu7kY8Hjb+Ls/eI6Tl3LqV+J
-	BIYqwnpHkzL+Gjeavszysk7WzDuExb9zstlR6LQ4VC+EvP7XZ87Lzhu5XpWwuOotWhWb
-	K20Qp4bMwf+CcTskEqcV1EK6bUMy3NDpDAguoWFSHeD/oK0HU1fmKv1/CKwjxJ6kjPcr
-	V7e7NyvQFyFIJzCePjmMxC4mHJieJI2jLTt9ZnV25AzR2R80tIhCT0qYBYC0668K80OB
-	0hcQ==
+	h=from:to:subject:date:message-id;
+	bh=lwHRogNPH6YLYSbnPP7R8s01fK9/n/1D0p6ptjKZk0o=;
+	b=BIsyA8YFEyA5te5ZVny4W0CyowDXOKXeYueqLA5zVL6WWUTDfgx0GeEAtlNSoAOx7C
+	P0IlSIKHnpi4iuUqm5qMteidpTlsHuIwHpPcK3yoE393wgavPKo0ouuEP1GDh8qmcR5i
+	jcDp+hIsg8mE5eRavjCDwVs3z1OGlm8AHWujiwthIXWuX/IPLbb5DwPR5eX1MMszTDlP
+	EsCQ7UjSSSkD4+FFU9gxiLKhRAPnAMBjILkhnoNS+Xn3ooTEj3UhdxciIN97WeVvzOeA
+	1/9+c0gQ7nSKfaz3G+jBQsz/YEdUS0xw8GejpaA/3QL1Wvy96+dOak3FFpAj4oJ50fUT
+	ZN4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=F6zpW/1oN7P/s1XSaD5wzc8U8y9b37w+zLDREYjQeB8=;
-	b=q9smxakuUNlhDR/tu7qvP7UAxiwJXVVy+DscY7ghhmOpOlpalOYm4wcOday3YWtisb
-	gOqng9Z+qkhl2orEGjAerv9lGCNuRj/15fOn6+DUmzLLDM6WSLbgK85+CcXjXPAk6VJ7
-	JxuceO0j5AvEADK5Bt4im5QvR2KnbIN+uJI/P1OiI4uFwSbYYjPxVgfOO9S4fmJrv0vf
-	ZVjy9aEpDf6FGDy3tvHZafRZONsbwcEnuwMO1yewFGKTlFZE3cyBxd63JaoZ6uVZbOou
-	nEuM7E9GE0J+SBtG0Zm7zfTwAGWAC1cxE72t/vOA8RDP1b55COMfaCsjVNxMD/YZmspt
-	nS2A==
-X-Gm-Message-State: APjAAAWXMUOqfR1H5VsqlokUAGf0I10fkrk4N3p8Aq5LztERG3whFm1T
-	3n51wIR0huQSqzZQa0F9GYfF3F9rKFxijsrPWhTW09aGh38=
-X-Google-Smtp-Source: APXvYqya3wy1523MDmc+Px1WUeOb24tdBaSWqAM6EqnLrAnPq5jmuK6dZJEtIq3rP47rC2bJHu9cmNVFT8j6ARWa4ok=
-X-Received: by 2002:a37:a20f:: with SMTP id l15mr13152672qke.212.1563113467151;
-	Sun, 14 Jul 2019 07:11:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190712202216.29218-1-open.source@oleksandr-kravchuk.com>
-In-Reply-To: <20190712202216.29218-1-open.source@oleksandr-kravchuk.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 14 Jul 2019 07:10:52 -0700
-Message-ID: <CAMKF1sqDEhFufgkQX5-55SnpAJwM6k8Yobc_uHYOqVk30jLf_Q@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] xorgproto: update to 2019.1
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=lwHRogNPH6YLYSbnPP7R8s01fK9/n/1D0p6ptjKZk0o=;
+	b=pieRZvMyFVodVG5zwgGyru6EQnSDxKzvEfr6FsFFKtQxk/OHZA6jsQ6KKkxl+aGhWu
+	lQEi3EA8abKBE3L7au62PPCva6XqfKKSGXphOXA48ujlL0aOswTHctByaQje7rDlv4tY
+	s3pUZgzYnOw0RAoRyQ3FH12XnAHCKMZFj6hTasmC7eyDBiU0TSOd1mQgZcuQJxCVbSPe
+	lm99FLZoxrGEGqE/WBZPQSwMCjeLLLfoiON8BDL9bNpAi7waCrFLnqBObQaJfBxFRLSZ
+	kTplXADijINPnU5vdc98lyevcwy95BOQLL1RIav3bN4oO9NSBH2AsFg/wvG3ppyCen2o
+	QNAw==
+X-Gm-Message-State: APjAAAU64PhrWhGFKpFUGybNMtTmDFtLNeWkENZxCyLmI/WqqQC4jZ2j
+	Ag02qPQBXwqUQ0GEqZMcI6+FB2JxCa4=
+X-Google-Smtp-Source: APXvYqwXVBPLp6MwGkIryOFYHl2mC1QEQfVfcrJfuziKbyxXVzhvGmc6O+Qo/NXiqE9QosfqCbihYw==
+X-Received: by 2002:a63:f807:: with SMTP id n7mr23169819pgh.119.1563123229153; 
+	Sun, 14 Jul 2019 09:53:49 -0700 (PDT)
+Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
+	[67.181.203.136])
+	by smtp.gmail.com with ESMTPSA id q7sm18089487pff.2.2019.07.14.09.53.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 14 Jul 2019 09:53:48 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 14 Jul 2019 09:53:45 -0700
+Message-Id: <20190714165345.19293-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] timezone: update to 2019b
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,523 +55,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Jul 2019 14:11:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 14 Jul 2019 16:53:48 -0000
 
-fails for arm/musl
+Briefly:
+  Brazil no longer observes DST.
+  'zic -b slim' outputs smaller TZif files; please try it out.
+  Palestine's 2019 spring-forward transition was on 03-29, not 03-30.
 
-https://errors.yoctoproject.org/Errors/Details/252023/
+Changes to future timestamps
 
-On Fri, Jul 12, 2019 at 1:22 PM Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
->
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
->  .../0001-Remove-libdir-specification.patch    | 468 ------------------
->  ...orgproto_2018.4.bb => xorgproto_2019.1.bb} |   6 +-
->  2 files changed, 2 insertions(+), 472 deletions(-)
->  delete mode 100644 meta/recipes-graphics/xorg-proto/xorgproto/0001-Remove-libdir-specification.patch
->  rename meta/recipes-graphics/xorg-proto/{xorgproto_2018.4.bb => xorgproto_2019.1.bb} (65%)
->
-> diff --git a/meta/recipes-graphics/xorg-proto/xorgproto/0001-Remove-libdir-specification.patch b/meta/recipes-graphics/xorg-proto/xorgproto/0001-Remove-libdir-specification.patch
-> deleted file mode 100644
-> index 48296f7844..0000000000
-> --- a/meta/recipes-graphics/xorg-proto/xorgproto/0001-Remove-libdir-specification.patch
-> +++ /dev/null
-> @@ -1,468 +0,0 @@
-> -Upstream-Status: Submitted
-> -
-> -https://cgit.freedesktop.org/xorg/proto/xorgproto/commit/?id=91c1c8e1490c970379efb16784003426faec806e
-> -
-> -From 6feb974e0deb3355908c30e07293d82a3f6996ed Mon Sep 17 00:00:00 2001
-> -From: Jeremy Puhlman <jpuhlman@mvista.com>
-> -Date: Mon, 11 Jun 2018 16:42:43 +0000
-> -Subject: [PATCH] Remove libdir specification.
-> -
-> -Currently the pc files define libdir, however they are installed into
-> -/usr/share, which means they should be architecture agnostic. In a
-> -multilib system, xorg-proto built for each multilib abi, the value of
-> -libdir is going to be different. These should either be installed in
-> -<libdir>/pkgconfig or they shouldn't define libdir, espeically since
-> -they don't actually use the definition. This specifically causes an
-> -issue when trying to install both abis at the same time, since they are
-> -not binary identical, something like rpm will complain that they
-> -
-> ----
-> - applewmproto.pc.in     | 1 -
-> - bigreqsproto.pc.in     | 1 -
-> - compositeproto.pc.in   | 1 -
-> - damageproto.pc.in      | 1 -
-> - dmxproto.pc.in         | 1 -
-> - dri2proto.pc.in        | 1 -
-> - dri3proto.pc.in        | 1 -
-> - evieproto.pc.in        | 1 -
-> - fixesproto.pc.in       | 1 -
-> - fontcacheproto.pc.in   | 1 -
-> - fontsproto.pc.in       | 1 -
-> - glproto.pc.in          | 1 -
-> - inputproto.pc.in       | 1 -
-> - kbproto.pc.in          | 1 -
-> - lg3dproto.pc.in        | 1 -
-> - presentproto.pc.in     | 1 -
-> - printproto.pc.in       | 1 -
-> - randrproto.pc.in       | 1 -
-> - recordproto.pc.in      | 1 -
-> - renderproto.pc.in      | 1 -
-> - resourceproto.pc.in    | 1 -
-> - scrnsaverproto.pc.in   | 1 -
-> - trapproto.pc.in        | 1 -
-> - videoproto.pc.in       | 1 -
-> - windowswmproto.pc.in   | 1 -
-> - xcalibrateproto.pc.in  | 1 -
-> - xcmiscproto.pc.in      | 1 -
-> - xextproto.pc.in        | 1 -
-> - xf86bigfontproto.pc.in | 1 -
-> - xf86dgaproto.pc.in     | 1 -
-> - xf86driproto.pc.in     | 1 -
-> - xf86miscproto.pc.in    | 1 -
-> - xf86rushproto.pc.in    | 1 -
-> - xf86vidmodeproto.pc.in | 1 -
-> - xineramaproto.pc.in    | 1 -
-> - xproto.pc.in           | 1 -
-> - xproxymngproto.pc.in   | 1 -
-> - 37 files changed, 37 deletions(-)
-> -
-> -diff --git a/applewmproto.pc.in b/applewmproto.pc.in
-> -index 17841ac..3227b21 100644
-> ---- a/applewmproto.pc.in
-> -+++ b/applewmproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: AppleWMProto
-> -diff --git a/bigreqsproto.pc.in b/bigreqsproto.pc.in
-> -index 94577ed..e21bb59 100644
-> ---- a/bigreqsproto.pc.in
-> -+++ b/bigreqsproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: BigReqsProto
-> -diff --git a/compositeproto.pc.in b/compositeproto.pc.in
-> -index da429c7..b0dada1 100644
-> ---- a/compositeproto.pc.in
-> -+++ b/compositeproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: CompositeExt
-> -diff --git a/damageproto.pc.in b/damageproto.pc.in
-> -index 6fd9ef1..bfd5244 100644
-> ---- a/damageproto.pc.in
-> -+++ b/damageproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: DamageProto
-> -diff --git a/dmxproto.pc.in b/dmxproto.pc.in
-> -index e82ee7d..d140e1c 100644
-> ---- a/dmxproto.pc.in
-> -+++ b/dmxproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: DMXProto
-> -diff --git a/dri2proto.pc.in b/dri2proto.pc.in
-> -index cb5b171..fa9d24d 100644
-> ---- a/dri2proto.pc.in
-> -+++ b/dri2proto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: DRI2Proto
-> -diff --git a/dri3proto.pc.in b/dri3proto.pc.in
-> -index e42d60e..20da358 100644
-> ---- a/dri3proto.pc.in
-> -+++ b/dri3proto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: DRI3Proto
-> -diff --git a/evieproto.pc.in b/evieproto.pc.in
-> -index 64e0ec4..fd5442b 100644
-> ---- a/evieproto.pc.in
-> -+++ b/evieproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: EvIEExt
-> -diff --git a/fixesproto.pc.in b/fixesproto.pc.in
-> -index f8258e2..c7fcb81 100644
-> ---- a/fixesproto.pc.in
-> -+++ b/fixesproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: FixesProto
-> -diff --git a/fontcacheproto.pc.in b/fontcacheproto.pc.in
-> -index eb4238b..8ffffe9 100644
-> ---- a/fontcacheproto.pc.in
-> -+++ b/fontcacheproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: FontcacheProto
-> -diff --git a/fontsproto.pc.in b/fontsproto.pc.in
-> -index 9d22354..ebb61a4 100644
-> ---- a/fontsproto.pc.in
-> -+++ b/fontsproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: FontsProto
-> -diff --git a/glproto.pc.in b/glproto.pc.in
-> -index b951db5..e97bfc9 100644
-> ---- a/glproto.pc.in
-> -+++ b/glproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: GLProto
-> -diff --git a/inputproto.pc.in b/inputproto.pc.in
-> -index 1eb6619..270b95c 100644
-> ---- a/inputproto.pc.in
-> -+++ b/inputproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: InputProto
-> -diff --git a/kbproto.pc.in b/kbproto.pc.in
-> -index bdd39f1..32a172d 100644
-> ---- a/kbproto.pc.in
-> -+++ b/kbproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: KBProto
-> -diff --git a/lg3dproto.pc.in b/lg3dproto.pc.in
-> -index 3930ad7..43fba29 100644
-> ---- a/lg3dproto.pc.in
-> -+++ b/lg3dproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: Lg3dProto
-> -diff --git a/presentproto.pc.in b/presentproto.pc.in
-> -index 6ec4b7d..55b84dc 100644
-> ---- a/presentproto.pc.in
-> -+++ b/presentproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: PresentProto
-> -diff --git a/printproto.pc.in b/printproto.pc.in
-> -index 8a2e2d6..a2da66d 100644
-> ---- a/printproto.pc.in
-> -+++ b/printproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: PrintProto
-> -diff --git a/randrproto.pc.in b/randrproto.pc.in
-> -index 5a5edb2..6d60cbb 100644
-> ---- a/randrproto.pc.in
-> -+++ b/randrproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: RandrProto
-> -diff --git a/recordproto.pc.in b/recordproto.pc.in
-> -index 0ff4c0b..a87aa82 100644
-> ---- a/recordproto.pc.in
-> -+++ b/recordproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: RecordProto
-> -diff --git a/renderproto.pc.in b/renderproto.pc.in
-> -index e6028ac..34b15e0 100644
-> ---- a/renderproto.pc.in
-> -+++ b/renderproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: RenderProto
-> -diff --git a/resourceproto.pc.in b/resourceproto.pc.in
-> -index a409db9..f927cbb 100644
-> ---- a/resourceproto.pc.in
-> -+++ b/resourceproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: ResourceProto
-> -diff --git a/scrnsaverproto.pc.in b/scrnsaverproto.pc.in
-> -index 6556a2c..fd9d368 100644
-> ---- a/scrnsaverproto.pc.in
-> -+++ b/scrnsaverproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: ScrnSaverProto
-> -diff --git a/trapproto.pc.in b/trapproto.pc.in
-> -index 8cb0aa8..8a220b9 100644
-> ---- a/trapproto.pc.in
-> -+++ b/trapproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: TrapProto
-> -diff --git a/videoproto.pc.in b/videoproto.pc.in
-> -index 14b907a..5c22f7a 100644
-> ---- a/videoproto.pc.in
-> -+++ b/videoproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: VideoProto
-> -diff --git a/windowswmproto.pc.in b/windowswmproto.pc.in
-> -index 0a2ec0b..ec56e82 100644
-> ---- a/windowswmproto.pc.in
-> -+++ b/windowswmproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: WindowsWMProto
-> -diff --git a/xcalibrateproto.pc.in b/xcalibrateproto.pc.in
-> -index 40b6fd0..f1ea5de 100644
-> ---- a/xcalibrateproto.pc.in
-> -+++ b/xcalibrateproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XCalibrate
-> -diff --git a/xcmiscproto.pc.in b/xcmiscproto.pc.in
-> -index 0dfbf21..b72bbc6 100644
-> ---- a/xcmiscproto.pc.in
-> -+++ b/xcmiscproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XCMiscProto
-> -diff --git a/xextproto.pc.in b/xextproto.pc.in
-> -index f66eeae..9419c91 100644
-> ---- a/xextproto.pc.in
-> -+++ b/xextproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XExtProto
-> -diff --git a/xf86bigfontproto.pc.in b/xf86bigfontproto.pc.in
-> -index 18c5647..4a67be6 100644
-> ---- a/xf86bigfontproto.pc.in
-> -+++ b/xf86bigfontproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XF86BigFontProto
-> -diff --git a/xf86dgaproto.pc.in b/xf86dgaproto.pc.in
-> -index 5c5f8b1..e029cd4 100644
-> ---- a/xf86dgaproto.pc.in
-> -+++ b/xf86dgaproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XF86DGAProto
-> -diff --git a/xf86driproto.pc.in b/xf86driproto.pc.in
-> -index 93df292..c8faf14 100644
-> ---- a/xf86driproto.pc.in
-> -+++ b/xf86driproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XF86DRIProto
-> -diff --git a/xf86miscproto.pc.in b/xf86miscproto.pc.in
-> -index af73fa3..05d5d9e 100644
-> ---- a/xf86miscproto.pc.in
-> -+++ b/xf86miscproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XF86MiscProto
-> -diff --git a/xf86rushproto.pc.in b/xf86rushproto.pc.in
-> -index fc5f63b..1c7ff1b 100644
-> ---- a/xf86rushproto.pc.in
-> -+++ b/xf86rushproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XF86RushProto
-> -diff --git a/xf86vidmodeproto.pc.in b/xf86vidmodeproto.pc.in
-> -index fcb74f2..ef062b3 100644
-> ---- a/xf86vidmodeproto.pc.in
-> -+++ b/xf86vidmodeproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XF86VidModeProto
-> -diff --git a/xineramaproto.pc.in b/xineramaproto.pc.in
-> -index 1ffd37d..9172f1e 100644
-> ---- a/xineramaproto.pc.in
-> -+++ b/xineramaproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XineramaProto
-> -diff --git a/xproto.pc.in b/xproto.pc.in
-> -index 8ff2d3d..899316a 100644
-> ---- a/xproto.pc.in
-> -+++ b/xproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> - includex11dir=@includedir@/X11
-> -
-> -diff --git a/xproxymngproto.pc.in b/xproxymngproto.pc.in
-> -index 5c6fad6..1a81e28 100644
-> ---- a/xproxymngproto.pc.in
-> -+++ b/xproxymngproto.pc.in
-> -@@ -1,6 +1,5 @@
-> - prefix=@prefix@
-> - exec_prefix=@exec_prefix@
-> --libdir=@libdir@
-> - includedir=@includedir@
-> -
-> - Name: XProxyManagementProtocol
-> ---
-> -2.11.1
-> -
-> diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2018.4.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2019.1.bb
-> similarity index 65%
-> rename from meta/recipes-graphics/xorg-proto/xorgproto_2018.4.bb
-> rename to meta/recipes-graphics/xorg-proto/xorgproto_2019.1.bb
-> index cec6e87559..2c7ce2a56c 100644
-> --- a/meta/recipes-graphics/xorg-proto/xorgproto_2018.4.bb
-> +++ b/meta/recipes-graphics/xorg-proto/xorgproto_2019.1.bb
-> @@ -8,9 +8,7 @@ the core protocol and (many) extensions for the X Window System"
->  LICENSE = "MIT-style"
->  LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=b9e051107d5628966739a0b2e9b32676"
->
-> -SRC_URI += "file://0001-Remove-libdir-specification.patch"
-> -
-> -SRC_URI[md5sum] = "81557ca47ee66a4e54590fcdadd28114"
-> -SRC_URI[sha256sum] = "fee885e0512899ea5280c593fdb2735beb1693ad170c22ebcc844470eec415a0"
-> +SRC_URI[md5sum] = "802ccb9e977ba3cf94ba798ddb2898a4"
-> +SRC_URI[sha256sum] = "a6daaa7a6cbc8e374032d83ff7f47d41be98f1e0f4475d66a4da3aa766a0d49b"
->
->  BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  Brazil has canceled DST and will stay on standard time indefinitely.
+  (Thanks to Steffen Thorsen, Marcus Diniz, and Daniel Soares de
+  Oliveira.)
+
+  Predictions for Morocco now go through 2087 instead of 2037, to
+  work around a problem on newlib when using TZif files output by
+  zic 2019a or earlier.  (Problem reported by David Gauchard.)
+
+Changes to past and future timestamps
+
+  Palestine's 2019 spring transition was 03-29 at 00:00, not 03-30
+  at 01:00.  (Thanks to Sharef Mustafa and Even Scharning.)  Guess
+  future transitions to be March's last Friday at 00:00.
+
+Changes to past timestamps
+
+  Hong Kong's 1941-06-15 spring-forward transition was at 03:00, not
+  03:30.  Its 1945 transition from JST to HKT was on 11-18 at 02:00,
+  not 09-15 at 00:00.  In 1946 its spring-forward transition was on
+  04-21 at 00:00, not the previous day at 03:30.  From 1946 through
+  1952 its fall-back transitions occurred at 04:30, not at 03:30.
+  In 1947 its fall-back transition was on 11-30, not 12-30.
+  (Thanks to P Chan.)
+
+Changes to past time zone abbreviations
+
+  Italy's 1866 transition to Rome Mean Time was on December 12, not
+  September 22.  This affects only the time zone abbreviation for
+  Europe/Rome between those dates.  (Thanks to Stephen Trainor and
+  Luigi Rosa.)
+
+Changes affecting metadata only
+
+  Add info about the Crimea situation in zone1970.tab and zone.tab.
+  (Problem reported by Serhii Demediuk.)
+
+Changes to code
+
+  zic's new -b option supports a way to control data bloat and to
+  test for year-2038 bugs in software that reads TZif files.
+  'zic -b fat' and 'zic -b slim' generate larger and smaller output;
+  for example, changing from fat to slim shrinks the Europe/London
+  file from 3648 to 1599 bytes, saving about 56%.  Fat and slim
+  files represent the same set of timestamps and use the same TZif
+  format as documented in tzfile(5) and in Internet RFC 8536.
+  Fat format attempts to work around bugs or incompatibilities in
+  older software, notably software that mishandles 64-bit TZif data
+  or uses obsolete TZ strings like "EET-2EEST" that lack DST rules.
+  Slim format is more efficient and does not work around 64-bit bugs
+  or obsolete TZ strings.  Currently zic defaults to fat format
+  unless you compile with -DZIC_BLOAT_DEFAULT=\"slim\"; this
+  out-of-the-box default is intended to change in future releases
+  as the buggy software often mishandles timestamps anyway.
+
+  zic no longer treats a set of rules ending in 2037 specially.
+  Previously, zic assumed that such a ruleset meant that future
+  timestamps could not be predicted, and therefore omitted a
+  POSIX-like TZ string in the TZif output.  The old behavior is no
+  longer needed for current tzdata, and caused problems with newlib
+  when used with older tzdata (reported by David Gauchard).
+
+  zic no longer generates some artifact transitions.  For example,
+  Europe/London no longer has a no-op transition in January 1996.
+
+Changes to build procedure
+
+  tzdata.zi now assumes zic 2017c or later.  This shrinks tzdata.zi
+  by a percent or so.
+
+Changes to documentation and commentary
+
+  The Makefile now documents the POSIXRULES macro as being obsolete,
+  and similarly, zic's -p POSIXRULES option is now documented as
+  being obsolete.  Although the POSIXRULES feature still exists and
+  works as before, in practice it is rarely used for its intended
+  purpose, and it does not work either in the default reference
+  implementation (for timestamps after 2037) or in common
+  implementations such as GNU/Linux (for contemporary timestamps).
+  Since POSIXRULES was designed primarily as a temporary transition
+  facility for System V platforms that died off decades ago, it is
+  being decommissioned rather than institutionalized.
+
+  New info on Bonin Islands and Marcus (thanks to Wakaba and Phake
+  Nick).
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-extended/timezone/timezone.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 1ade0075e6..ce16524ebb 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -4,7 +4,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2019a"
++PV = "2019b"
+ 
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -12,7 +12,7 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.md5sum] = "27585a20bc5401324f42c8deb6e4677f"
+-SRC_URI[tzcode.sha256sum] = "8739f162bc30cdfb482435697f969253abea49595541a0afd5f443fbae433ff5"
+-SRC_URI[tzdata.md5sum] = "288f7b1e43018c633da108f13b27cf91"
+-SRC_URI[tzdata.sha256sum] = "90366ddf4aa03e37a16cd49255af77f801822310b213f195e2206ead48c59772"
++SRC_URI[tzcode.md5sum] = "91e0978d947496fd6aaf46d351f9c41d"
++SRC_URI[tzcode.sha256sum] = "2e479d409337da41408629ce6c3b4d8410b10ba6d4431d862e22d2b137d7756d"
++SRC_URI[tzdata.md5sum] = "b26b5d7d844cb96c73ed2fb6d588daaf"
++SRC_URI[tzdata.sha256sum] = "05d9092c90dcf9ec4f3ccfdea80c7dcea5e882b3b105c3422da172aaa9a50c64"
+-- 
+2.17.1
+
 
