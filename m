@@ -1,24 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1275B6BA93
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DA6B7D65D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 05:23:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6F5MrRg000933
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Jul 2019 22:23:04 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Sun, 14 Jul 2019 22:22:31 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Jul 2019 13:35:14 +0800
-Message-ID: <cover.1563168887.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 15 Jul 2019 06:17:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45nCxT0qBQz3l;
+	Mon, 15 Jul 2019 08:17:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1563171453;
+	bh=IPRhLgPGKUaBFYV5HCZ4hou9Nph7XcwIwC9XzA+IVyE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BDmOVz2D3VG0ifv66Skp7fbD02MzXx1UiuW09jlsnpL+7zztuDZPoAd5DOAXLtu2C
+	09UwVrvM/IgAMg+MVZ+dsAhb1RzQb8ueAFO5yLVXyJE5F3sOPBR0SvZWLCnf60o6Vy
+	8dP9r+I7NVS61YvUMBW2zRQtGcWqTDeN4ymjmmDoWb1oInnhMG0bAb2PkUsVtZ79eg
+	Lxg2Zn2zwGs1H38DOMxoZAgZowbI6eLjpp6/KPKFR+wOYTLlPdF8DdmRVSldt8ccaa
+	QWOR5UDhvImJ0pS0vfjRiaEVSrp3KlO1eSo5h59OF1760CPvD5NLq/+GfWntOJmKgj
+	l9fX6ujAuJQ2myP5urVw1kIgppDKTu1gds9rJvaUM7QmMrFENs+1qgu70JMA3PVfT9
+	RzvMfl53vZU6U01/wVvNT/mw5MM5cOYpW3dJwb/tr+8xY8ygFcT5rAlSCxRTblXuqQ
+	OBRFTtIRZkMd6ouLqNXYseorreeuDn3Z0FgjuWtfulJicfsZpSPgUfqy5w0g7x+ezK
+	zlo7VZmo42blug6MfZt5FPzKsQVE3hXz3ZV9N16FWFBdwLKiiBx4HxPRwcH02khjy0
+	d00jXD7vnbxTyoLMsPTMyuCHKl8oR39pJ6vZ9AkXraUAzxvh/kWAFa6I55npohpqM8
+	tauqyEiEW5GFvTnhaxbxeT+E=
+Date: Mon, 15 Jul 2019 09:17:29 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Chen Qi <Qi.Chen@windriver.com>
+Message-ID: <20190715061729.GA21719@localhost>
+References: <cover.1563168887.git.Qi.Chen@windriver.com>
+	<c383309fe15b52683ac90b50d4305922c338b470.1563168887.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] msmtp: fix postinstall to avoid do_rootfs failure
+In-Reply-To: <c383309fe15b52683ac90b50d4305922c338b470.1563168887.git.Qi.Chen@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] msmtp: fix postinstall to avoid do_rootfs failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 05:23:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Jul 2019 06:17:33 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-*** BLURB HERE ***
-The following changes since commit 80ab79168ede2786868cbd354f0950c949f73527:
+On Mon, Jul 15, 2019 at 01:35:15PM +0800, Chen Qi wrote:
+> When lsb is enabled, that is, 'linuxstdbase' is in OVERRIDES,
+> do_rootfs would fail if both 'msmtp' and 'postfix' are installed.
+> This is because they both try to create /usr/lib/sendmail link if
+> it does not exist. So we need to fix the check to avoid non-zero
+> exit status.
+>...
 
-  gnome-themes-standard: remove (2019-07-11 09:32:50 +0100)
+This would make it random (depending on installation order) which is 
+linked to, and it could also make ${sbindir}/sendmail and 
+$D/usr/lib/sendmail point to different programs.
 
-are available in the git repository at:
+It would be better to make $D/usr/lib/sendmail also an alternative in 
+all packages that provide sendmail.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/msmtp-lsb
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/msmtp-lsb
-
-Chen Qi (1):
-  msmtp: fix postinstall to avoid do_rootfs failure
-
- meta/recipes-extended/msmtp/msmtp_1.8.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+cu
+Adrian
 
 -- 
-1.9.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
