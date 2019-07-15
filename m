@@ -1,30 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EA1627997D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A378A7D714
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 01:17:21 +0000 (UTC)
+	Mon, 15 Jul 2019 01:43:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6F1H8OS020902
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 14 Jul 2019 18:17:08 -0700 (PDT)
-Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Sun, 14 Jul 2019 18:17:08 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, Peter Kjellerstedt
-	<peter.kjellerstedt@axis.com>
-References: <c71ee3805fdb4335ba78791a42ad4257@xbox06.axis.com>
-	<CAJTo0LaHEHmxDcQ+s4QHLNzDqyO7mDV9hp4HhSZmVgrsS5xWtA@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <2701d357-646d-ec8a-4c0b-6120ed448934@windriver.com>
-Date: Mon, 15 Jul 2019 09:29:50 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6F1hBIC019270
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 14 Jul 2019 18:43:11 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Sun, 14 Jul 2019 18:43:11 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Jul 2019 09:55:32 +0800
+Message-ID: <e424c6b5d36ff1051144cf39911efb408f2f4834.1563155700.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1563155700.git.Qi.Chen@windriver.com>
+References: <cover.1563155700.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaHEHmxDcQ+s4QHLNzDqyO7mDV9hp4HhSZmVgrsS5xWtA@mail.gmail.com>
-X-Originating-IP: [128.224.162.148]
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: sysstat no longer builds (was: [PATCH 0/1] sysstat: use service file from source codes)
+Subject: [PATCH 1/1] libunwind: mark as incomatible with powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 01:17:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Jul 2019 01:43:10 -0000
+Content-Type: text/plain
 
-On 07/12/2019 07:56 PM, Burton, Ross wrote:
-> On Fri, 12 Jul 2019 at 12:21, Peter Kjellerstedt
-> <peter.kjellerstedt@axis.com> wrote:
->
->>    ERROR: sysstat-12.1.3-r0 do_package: SYSTEMD_SERVICE_sysstat value sysstat.service does not exist
->>    ERROR: sysstat-12.1.3-r0 do_package:
->>    ERROR: sysstat-12.1.3-r0 do_package: Function failed: systemd_populate_packages
->>
->> This is due to that the upstream package only installs the sysstat.service
->> file if cron support is enabled, which it isn't by default.
->>
->> There was another patch by Haiqing Bai sent on July 2 that seemed to handle
->> this properly.
-> So the basic problem is that we don't do enough testing with systemd
-> enabled on the AB.
->
-> Thanks, I'll queue up a revert and pick of the other patch.
->
-> Ross
->
-I thought I did the test but I actually did not due to PACKAGECONFIG 
-setting in local.conf. Sorry about this.
-Thanks to Ross for quickly resolving this regression.
+The libunwind has a README file listing supported archs,
+powerpc is never declared as supported, thus marking
+it as incompatible.
 
-Best Regards,
-Chen Qi
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-kernel/perf/perf.bb                  | 2 ++
+ meta/recipes-support/libunwind/libunwind_1.3.1.bb | 3 +++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 4e603f1..b905860 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -29,6 +29,8 @@ PACKAGECONFIG[manpages] = ",,xmlto-native asciidoc-native"
+ # libunwind is not yet ported for some architectures
+ PACKAGECONFIG_remove_arc = "libunwind"
+ PACKAGECONFIG_remove_riscv64 = "libunwind"
++# libunwind does not list powerps as supported
++PACKAGECONFIG_remove_powerpc = "libunwind"
+ 
+ DEPENDS = " \
+     virtual/${MLPREFIX}libc \
+diff --git a/meta/recipes-support/libunwind/libunwind_1.3.1.bb b/meta/recipes-support/libunwind/libunwind_1.3.1.bb
+index 037e04c..e7f5bb3 100644
+--- a/meta/recipes-support/libunwind/libunwind_1.3.1.bb
++++ b/meta/recipes-support/libunwind/libunwind_1.3.1.bb
+@@ -22,3 +22,6 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
+ LDFLAGS += "-Wl,-z,relro,-z,now ${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
+ 
+ SECURITY_LDFLAGS_append_libc-musl = " -lssp_nonshared"
++
++# As the README in source codes shows, powerpc has never been listed as supported.
++COMPATIBLE_HOST_powerpc = "null"
+-- 
+1.9.1
+
 
