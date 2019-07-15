@@ -1,39 +1,23 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 851807ED3D
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D79E37C5F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 06:44:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45nDXS75JJz3P;
-	Mon, 15 Jul 2019 08:44:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1563173065;
-	bh=zzZmLp2Lo5CDJYXjUh/U25rjwUU3SYdPCe8V2LkqpTI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fD7NDCI6XbNhX+h/E6Z305iXciQ4HdbF/mEbPoYTkYvMyiIR2qphtVGotHqqzEMzK
-	9GG/LF7zqYEFZVBQlvSFs9xn/cBwlLnipaEIaD1uC3qhl7M48aJovg1KYG7p2G7M5F
-	tKIk/gVH2xepdX14xYfk8X2a5dX1kbQMOj2e+pBBilOM44mnhfO66X7Lm4Q7DTZB92
-	ZYab6r0nfDXZAL4sybZXmKtzftPDVYonKDzhmwkbmIw0oCIeCEQ6BlpGhWFO/IVJwU
-	XC6zEKAlXInL93EONKzqRnTmK+hpnexXTPaZ2tjbq3MX2Ef8ao6tCavLwbMZ/bHPYx
-	503KCaP+Pv5Jp3zqyNUSTQrA/wCWel4SbBS1enAEAaowmoy+4HDNfwuzzaZgSZC9UF
-	d93LzNhoPJJL635AGTobUZWpmr1dTvOBExRSObE1yJeFaoUGhZsuw+AqejYF1tXWS7
-	DMhg1gZlxkQ7rX1h/s2qIlauboWIuXdaAftkOrfVUsH+rX9mCnllOhTtdV/ISKRp9r
-	WP9/+8HzF7YDCny0zzquxRRGzruTwjW9clWqv9Iu40Hz52sniHMxutB7U+NeZkbK5W
-	K7LXGeaffWKxg80UdUVMQN4CCZ93tBsxja6bdMusm7jlzrZzldzviIeHj0WlN7bu6q
-	CxDvFWQpoAz9Uqrlq9ZPGs1U=
-Date: Mon, 15 Jul 2019 09:44:22 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <20190715064422.GC21719@localhost>
-References: <cover.1563168887.git.Qi.Chen@windriver.com>
-	<c383309fe15b52683ac90b50d4305922c338b470.1563168887.git.Qi.Chen@windriver.com>
-	<20190715061729.GA21719@localhost>
-	<936a85fa-4248-6d37-455e-0a3bbf82b363@windriver.com>
+	Mon, 15 Jul 2019 08:16:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6F8GTUP027979
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jul 2019 01:16:30 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 15 Jul 2019 01:16:23 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Jul 2019 16:16:22 +0800
+Message-ID: <1563178582-165093-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <936a85fa-4248-6d37-455e-0a3bbf82b363@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] msmtp: fix postinstall to avoid do_rootfs failure
+Subject: [PATCH] mdadm: fix ptest hang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,56 +30,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 06:44:24 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 15 Jul 2019 08:16:29 -0000
+Content-Type: text/plain
 
-On Mon, Jul 15, 2019 at 02:40:28PM +0800, ChenQi wrote:
-> On 07/15/2019 02:17 PM, Adrian Bunk wrote:
-> > On Mon, Jul 15, 2019 at 01:35:15PM +0800, Chen Qi wrote:
-> > > When lsb is enabled, that is, 'linuxstdbase' is in OVERRIDES,
-> > > do_rootfs would fail if both 'msmtp' and 'postfix' are installed.
-> > > This is because they both try to create /usr/lib/sendmail link if
-> > > it does not exist. So we need to fix the check to avoid non-zero
-> > > exit status.
-> > > ...
-> > This would make it random (depending on installation order) which is
-> > linked to, and it could also make ${sbindir}/sendmail and
-> > $D/usr/lib/sendmail point to different programs.
-> > 
-> > It would be better to make $D/usr/lib/sendmail also an alternative in
-> > all packages that provide sendmail.
-> > 
-> > cu
-> > Adrian
-> > 
-> I don't think we should mix linuxstdbase and ALTERNATIVES setting. It makes
-> things complicated.
-> As ALTERNATIVES_PRIORITY is higher in postfix, I'll just remove the check in
-> postfix and use 'ln -sf' directly.
-> Can you accept this solution?
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-I do not see how this solves your problem if msmtp gets installed
-after postfix.
+Before commit[80d17497b7 mdadm: improve the run-ptest],
+the mdadm ptest just run some tests without
+"--keep-going" option. After the option added in
+commit 80d17497b7, all test cases have chance to
+be called.
 
-Is it actually required to have these packages installed at the same 
-time in LSB?
+But the logic in mdadm upstream commit
+[e2a8e9d tests: wait for complete rebuild in integrity checks]
+will make the test enter infinite loop especially in
+qemu env as commit e2a8e9d update the logic from
+"check wait" to "check state 'U*'" for testcase
+tests/01r5integ and tests/01raid6integ. Considering all
+other cases still use "check wait" logic, so revert e2a8e9d
+to make tests/01r5integ and tests/01raid6integ also use
+"check wait" logic to avoid the infinite loop.
 
-If not, something like
-  RCONFLICTS_linuxstdbase = "postfix"
-might work. (untested)
+[YOCTO #13368]
 
-> Regards,
-> Chen Qi
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ ...s-wait-for-complete-rebuild-in-integrity-.patch | 52 ++++++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.1.bb           |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch
 
-cu
-Adrian
-
+diff --git a/meta/recipes-extended/mdadm/files/0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch b/meta/recipes-extended/mdadm/files/0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch
+new file mode 100644
+index 0000000..8801fef
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch
+@@ -0,0 +1,52 @@
++From 02a41c3fd560fb5250186dd6b3cff6b21daa2e2b Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Mon, 15 Jul 2019 14:12:24 +0800
++Subject: [PATCH] Revert "tests: wait for complete rebuild in integrity checks"
++
++This reverts commit e2a8e9dcf67a28bc722fa5ab2c49b0bc452d4d74
++as the logic "check state 'U*'" will make the test enters
++infinite loop especially in qemu env, so revert it to
++use the previous logic "check wait" which also used
++commonly by other tests such as tests/02r5grow, tests/07revert-grow
++and etc.
++
++Upstream-Status: Submitted[https://marc.info/?l=linux-raid&m=156317157314030&w=2]
++
++---
++ tests/01r5integ    | 2 +-
++ tests/01raid6integ | 4 ++--
++ 2 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/tests/01r5integ b/tests/01r5integ
++index 48676a2..ffb30ce 100644
++--- a/tests/01r5integ
+++++ b/tests/01r5integ
++@@ -27,7 +27,7 @@ do
++      exit 1
++     fi
++     mdadm $md0 -a $i
++-    while ! (check state 'U*'); do check wait; sleep 0.2; done
+++   check wait
++   done
++   mdadm -S $md0
++ done
++diff --git a/tests/01raid6integ b/tests/01raid6integ
++index 12f4d81..c6fcdae 100644
++--- a/tests/01raid6integ
+++++ b/tests/01raid6integ
++@@ -47,10 +47,10 @@ do
++          exit 1
++        fi
++        mdadm $md0 -a $first
++-       while ! (check state 'U*_U*'); do check wait; sleep 0.2; done
+++       check wait
++     done
++     mdadm $md0 -a $second
++-    while ! (check state 'U*'); do check wait; sleep 0.2; done
+++    check wait
++     totest="$totest $second"
++   done
++   mdadm -S $md0
++-- 
++2.7.4
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 766004f..5df3f90 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-Compute-abs-diff-in-a-standard-compliant-way.patch \
+            file://0001-fix-gcc-8-format-truncation-warning.patch \
+            file://debian-no-Werror.patch \
++           file://0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch \
+ 	   file://mdadm.init \
+ 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
+            "
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.7.4
 
 
