@@ -1,54 +1,51 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
-	[209.85.208.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 736B17ED4A
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+	[209.85.166.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 056527ED9A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 14:32:57 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id r12so15718059edo.5
+	Mon, 15 Jul 2019 15:47:34 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id z3so34899477iog.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 07:32:59 -0700 (PDT)
+	Mon, 15 Jul 2019 08:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=z8uz0FMPrG16VXu610eN80ByFjBvlxkbVq95mgNhlrE=;
-	b=FB9MR+EF4AHQz1PZX6h9ifmASZ2Vm4RWkoR/bvzPHQyGmgp0C6xb/67WWi9SrQ5I0v
-	P8ckeZtoHUd1SBvrJyo5SzC3G9jy4joycth8686chxzYn71bX0xTpZKoDN9roeXEr082
-	g5qO4bsjaTZD+uvh0AHNb/fjlVKyA+deNcGChhPG9ETGQSeTf6UO4k9FYvYeZJOGPdKD
-	lqd86ULlqon7czmi9g/cWEeZpeHn0ewPBpYgM/OZXbB6U6SN1oiDcHnmmyoSOmzyLvUt
-	UtNK7QFkM6qnkxweGDURZBf7ohyep0y64h6aUo9YwCFKbLj8/DkT8F+OVoGgSzUfBis2
-	nFYA==
+	bh=FMhr60Vaou8Iz5bnbX4C+yzbwayufOGrcTA+q8y2pGA=;
+	b=nxZGHHdxh3W6UDSFIQ6TG+5/CCLXbK08Cir+r11DE2JlkW5MxzbUXvBSTNzRCl9sXB
+	IqluagACaWNskNgiGRGnYDYefolyWrjxC0dQm/SHBSEPcvOtTLI41VnMP/TGkiKbqOmu
+	G42pJT9xgeZ1loahLyqSMR3CwMi9xdtQEJA8LLrUXTmkyol68IRyXb+Mik8V6CFFbQ4y
+	b2/jqDeMjCtiVDQ7g01hOpkzawQZfQoTgtTC4TkfUAhuoWTm4HjdMKCp8mjbjwQpOOoU
+	zBKYaL3dX0Sd8V7Rgvhhd5RxrhVmKkW+L0MVP54nYP1jItIEWEAwPEOdcBmZ39PgACxx
+	bJwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=z8uz0FMPrG16VXu610eN80ByFjBvlxkbVq95mgNhlrE=;
-	b=Jxd0YcfTEEZilLnUD7xvvYDgUII/o9yVvb8BW2FFR8AHgfe6eSmrlX4dx9PSVSQ6D9
-	dkeMQxyiemv65pvsFqAudFHQIty79EehTEUGW5dV6r+lsQQj2vEtqrK1c3WSvWjD/Edt
-	fy0qP+l+m80Msqks6LWstYjcfaOfS2IpHS3LUl2uAvJyJZtBglbaUKchrhP5ueO/uXSL
-	FMyZOy+jkTytm8xLubX5Ukmuuy2HWj6yiXvJYDMNgam3jOanBq6QiLcOWFZlJAaQnS+l
-	Pkj/EQflKN2cmQEWYIIEJajbiIbPycH4D0pfUeZSQSIzHj8CgQxiP/RiMrdL37uHhC3C
-	Dtxg==
-X-Gm-Message-State: APjAAAUHUF+BlsGYvt170zleBhd543gqUiFN6xTDDJBRfkrJHur7e9IY
-	nlUW+F6cffMMJq6/urIyJ1XAutqaq7M=
-X-Google-Smtp-Source: APXvYqx6A/bVEWyv9WYCi6bcyht5byJQ2TnygDfUENoVxBFIOcl8Al776bEVJPmbXg4tt6KwhIgj2g==
-X-Received: by 2002:a17:906:3497:: with SMTP id
-	g23mr20881710ejb.70.1563201178136; 
-	Mon, 15 Jul 2019 07:32:58 -0700 (PDT)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=FMhr60Vaou8Iz5bnbX4C+yzbwayufOGrcTA+q8y2pGA=;
+	b=tpSRLsbC4/TlK1i2g/XWetZHIa0GOJZ4WLvASpd/sxt4PB+JdKqHnCR5LJA4Wl23BS
+	9xwFUfbh4zR3GthFKbA+6PMXJ3+HQV7bV2x2vWU5gj2dDFdBtsuvxRm9EdFFYtfG30AK
+	xBn5TNN35igOumtw8kns4F78MBC7NGXYql0YtC1pFolZ+hbB36gYFvz5evsjSnUVQnou
+	hMK2ZssYFb6IUfeM7od/wPBURv1QhAvmQwNz9LFt7hQ5u8UJKcmJPWorDiUwes2MmBWM
+	hGRKpKf2Y25/ZIywAZHkdBbCdVlkstfwK9gy0nUCar8/b4VYgp3C5FukqBvw2M6QFV21
+	abZw==
+X-Gm-Message-State: APjAAAXbL5WHn9X8KDGZbHx7x7+jP7bVGktenjTA0+vn3WlArYV7muqF
+	1Qqk6dyspLAX42RFrQeLq9uIwNmh
+X-Google-Smtp-Source: APXvYqyHBsXVlOvrS2kNgbCin2jiKe8NOHNJVQN1osNsk8BLk+n2OEbUfEIxpvESucvMXJ6iwQ/XRw==
+X-Received: by 2002:a02:b78a:: with SMTP id f10mr29566563jam.5.1563205655710; 
+	Mon, 15 Jul 2019 08:47:35 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	m39sm5446235edm.96.2019.07.15.07.32.57
+	x22sm13899336iob.84.2019.07.15.08.47.34
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 15 Jul 2019 07:32:57 -0700 (PDT)
-Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+	Mon, 15 Jul 2019 08:47:35 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jul 2019 16:32:52 +0200
-Message-Id: <20190715143252.8639-1-ricardo@ribalda.com>
-X-Mailer: git-send-email 2.20.1
+Date: Mon, 15 Jul 2019 10:47:33 -0500
+Message-Id: <20190715154733.10774-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Subject: [PATCH v2] systemd: Fix interface bring-up on kernels >= 5.2
+Subject: [PATCH] scripts/buildstats-diff: Add option to filter tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,216 +58,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 14:32:59 -0000
+X-List-Received-Date: Mon, 15 Jul 2019 15:47:35 -0000
 Content-Transfer-Encoding: 8bit
 
-With kernels >=5.2  systemd-networkd is unable to bring up the link.
+Adds a command line option to filter out the buildstats-diff report by
+one more more tasks. e.g.:
 
-eth0: Could not bring up interface: Invalid argument
+ buildstats-diff --only-task do_compile A B
 
-This is already reported upstream and fixed on master:
+will only show the differences for do_compile tasks. The --only-task
+option can be specified multiple times to filter out multiple tasks at
+once.
 
-https://github.com/systemd/systemd/issues/12784
-
-They recommend Debian to backport two patches.
-
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../systemd/0001-networkd-fix-link-up.patch   | 66 +++++++++++++
- .../0002-network-do-not-send-ipv6.patch       | 96 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_242.bb      |  2 +
- 3 files changed, 164 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-networkd-fix-link-up.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0002-network-do-not-send-ipv6.patch
+ scripts/buildstats-diff   | 14 ++++++++------
+ scripts/lib/buildstats.py |  6 +++++-
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-networkd-fix-link-up.patch b/meta/recipes-core/systemd/systemd/0001-networkd-fix-link-up.patch
-new file mode 100644
-index 0000000000..4c7a0a33a3
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-networkd-fix-link-up.patch
-@@ -0,0 +1,66 @@
-+From 6bd76d2d4ff130decd3aa13e0c2dbfd56ff8d7b7 Mon Sep 17 00:00:00 2001
-+From: Susant Sahani <ssahani@gmail.com>
-+Date: Thu, 9 May 2019 07:35:35 +0530
-+Subject: [PATCH] networkd: fix link_up() (#12505)
-+
-+Fillup IFLA_INET6_ADDR_GEN_MODE while we do link_up.
-+
-+Fixes the following error:
-+```
-+dummy-test: Could not bring up interface: Invalid argument
-+```
-+
-+After reading the kernel code when we do a link up
-+```
-+net/core/rtnetlink.c
-+IFLA_AF_SPEC
-+ af_ops->set_link_af(dev, af);
-+  inet6_set_link_af
-+   if (tb[IFLA_INET6_ADDR_GEN_MODE])
-+             Here it looks for IFLA_INET6_ADDR_GEN_MODE
-+```
-+Since link up we didn't filling up that it's failing.
-+
-+Closes #12504.
-+
-+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/4eb086a38712ea98faf41e075b84555b11b54362.patch]
-+
-+---
-+ src/network/networkd-link.c | 15 +++++++++++++++
-+ 1 file changed, 15 insertions(+)
-+
-+diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
-+index e466b96792..042496173c 100644
-+--- a/src/network/networkd-link.c
-++++ b/src/network/networkd-link.c
-+@@ -2034,6 +2034,8 @@ static int link_up(Link *link) {
-+         }
-+ 
-+         if (link_ipv6_enabled(link)) {
-++                uint8_t ipv6ll_mode;
-++
-+                 r = sd_netlink_message_open_container(req, IFLA_AF_SPEC);
-+                 if (r < 0)
-+                         return log_link_error_errno(link, r, "Could not open IFLA_AF_SPEC container: %m");
-+@@ -2049,6 +2051,19 @@ static int link_up(Link *link) {
-+                                 return log_link_error_errno(link, r, "Could not append IFLA_INET6_TOKEN: %m");
-+                 }
-+ 
-++                if (!link_ipv6ll_enabled(link))
-++                        ipv6ll_mode = IN6_ADDR_GEN_MODE_NONE;
-++                else if (sysctl_read_ip_property(AF_INET6, link->ifname, "stable_secret", NULL) < 0)
-++                        /* The file may not exist. And event if it exists, when stable_secret is unset,
-++                         * reading the file fails with EIO. */
-++                        ipv6ll_mode = IN6_ADDR_GEN_MODE_EUI64;
-++                else
-++                        ipv6ll_mode = IN6_ADDR_GEN_MODE_STABLE_PRIVACY;
-++
-++                r = sd_netlink_message_append_u8(req, IFLA_INET6_ADDR_GEN_MODE, ipv6ll_mode);
-++                if (r < 0)
-++                        return log_link_error_errno(link, r, "Could not append IFLA_INET6_ADDR_GEN_MODE: %m");
-++
-+                 r = sd_netlink_message_close_container(req);
-+                 if (r < 0)
-+                         return log_link_error_errno(link, r, "Could not close AF_INET6 container: %m");
-diff --git a/meta/recipes-core/systemd/systemd/0002-network-do-not-send-ipv6.patch b/meta/recipes-core/systemd/systemd/0002-network-do-not-send-ipv6.patch
-new file mode 100644
-index 0000000000..2565314876
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0002-network-do-not-send-ipv6.patch
-@@ -0,0 +1,96 @@
-+From b5c4eb818101127a606849e822937b15b8497c75 Mon Sep 17 00:00:00 2001
-+From: Yu Watanabe <watanabe.yu+github@gmail.com>
-+Date: Thu, 9 May 2019 14:39:46 +0900
-+Subject: [PATCH] network: do not send ipv6 token to kernel
-+
-+We disabled kernel RA support. Then, we should not send
-+IFLA_INET6_TOKEN.
-+Thus, we do not need to send IFLA_INET6_ADDR_GEN_MODE twice.
-+
-+Follow-up for 0e2fdb83bb5e22047e0c7cc058b415d0e93f02cf and
-+4eb086a38712ea98faf41e075b84555b11b54362.
-+
-+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/9f6e82e6eb3b6e73d66d00d1d6eee60691fb702f]
-+
-+---
-+ src/network/networkd-link.c | 51 +++++--------------------------------
-+ 1 file changed, 6 insertions(+), 45 deletions(-)
-+
-+diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
-+index 042496173c..c49dba33da 100644
-+--- a/src/network/networkd-link.c
-++++ b/src/network/networkd-link.c
-+@@ -1940,6 +1940,9 @@ static int link_configure_addrgen_mode(Link *link) {
-+         assert(link->manager);
-+         assert(link->manager->rtnl);
-+ 
-++        if (!socket_ipv6_is_supported())
-++                return 0;
-++
-+         log_link_debug(link, "Setting address genmode for link");
-+ 
-+         r = sd_rtnl_message_new_link(link->manager->rtnl, &req, RTM_SETLINK, link->ifindex);
-+@@ -2033,46 +2036,6 @@ static int link_up(Link *link) {
-+                         return log_link_error_errno(link, r, "Could not set MAC address: %m");
-+         }
-+ 
-+-        if (link_ipv6_enabled(link)) {
-+-                uint8_t ipv6ll_mode;
-+-
-+-                r = sd_netlink_message_open_container(req, IFLA_AF_SPEC);
-+-                if (r < 0)
-+-                        return log_link_error_errno(link, r, "Could not open IFLA_AF_SPEC container: %m");
-+-
-+-                /* if the kernel lacks ipv6 support setting IFF_UP fails if any ipv6 options are passed */
-+-                r = sd_netlink_message_open_container(req, AF_INET6);
-+-                if (r < 0)
-+-                        return log_link_error_errno(link, r, "Could not open AF_INET6 container: %m");
-+-
-+-                if (!in_addr_is_null(AF_INET6, &link->network->ipv6_token)) {
-+-                        r = sd_netlink_message_append_in6_addr(req, IFLA_INET6_TOKEN, &link->network->ipv6_token.in6);
-+-                        if (r < 0)
-+-                                return log_link_error_errno(link, r, "Could not append IFLA_INET6_TOKEN: %m");
-+-                }
-+-
-+-                if (!link_ipv6ll_enabled(link))
-+-                        ipv6ll_mode = IN6_ADDR_GEN_MODE_NONE;
-+-                else if (sysctl_read_ip_property(AF_INET6, link->ifname, "stable_secret", NULL) < 0)
-+-                        /* The file may not exist. And event if it exists, when stable_secret is unset,
-+-                         * reading the file fails with EIO. */
-+-                        ipv6ll_mode = IN6_ADDR_GEN_MODE_EUI64;
-+-                else
-+-                        ipv6ll_mode = IN6_ADDR_GEN_MODE_STABLE_PRIVACY;
-+-
-+-                r = sd_netlink_message_append_u8(req, IFLA_INET6_ADDR_GEN_MODE, ipv6ll_mode);
-+-                if (r < 0)
-+-                        return log_link_error_errno(link, r, "Could not append IFLA_INET6_ADDR_GEN_MODE: %m");
-+-
-+-                r = sd_netlink_message_close_container(req);
-+-                if (r < 0)
-+-                        return log_link_error_errno(link, r, "Could not close AF_INET6 container: %m");
-+-
-+-                r = sd_netlink_message_close_container(req);
-+-                if (r < 0)
-+-                        return log_link_error_errno(link, r, "Could not close IFLA_AF_SPEC container: %m");
-+-        }
-+-
-+         r = netlink_call_async(link->manager->rtnl, NULL, req, link_up_handler,
-+                                link_netlink_destroy_callback, link);
-+         if (r < 0)
-+@@ -3208,11 +3171,9 @@ static int link_configure(Link *link) {
-+         if (r < 0)
-+                 return r;
-+ 
-+-        if (socket_ipv6_is_supported()) {
-+-                r = link_configure_addrgen_mode(link);
-+-                if (r < 0)
-+-                        return r;
-+-        }
-++        r = link_configure_addrgen_mode(link);
-++        if (r < 0)
-++                return r;
-+ 
-+         return link_configure_after_setting_mtu(link);
-+ }
-diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
-index 29f64b995a..5085eb515b 100644
---- a/meta/recipes-core/systemd/systemd_242.bb
-+++ b/meta/recipes-core/systemd/systemd_242.bb
-@@ -25,6 +25,8 @@ SRC_URI += "file://touchscreen.rules \
-            file://0006-network-remove-redunant-link-name-in-message.patch \
-            file://99-default.preset \
-            file://0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch \
-+           file://0001-networkd-fix-link-up.patch \
-+           file://0002-network-do-not-send-ipv6.patch \
-            "
+diff --git a/scripts/buildstats-diff b/scripts/buildstats-diff
+index c179c93528..2f6498ab67 100755
+--- a/scripts/buildstats-diff
++++ b/scripts/buildstats-diff
+@@ -114,7 +114,7 @@ def print_ver_diff(bs1, bs2):
+             print(fmt_str.format(name, field1, field2, maxlen=maxlen))
  
- # patches needed by musl
+ 
+-def print_task_diff(bs1, bs2, val_type, min_val=0, min_absdiff=0, sort_by=('absdiff',)):
++def print_task_diff(bs1, bs2, val_type, min_val=0, min_absdiff=0, sort_by=('absdiff',), only_tasks=[]):
+     """Diff task execution times"""
+     def val_to_str(val, human_readable=False):
+         """Convert raw value to printable string"""
+@@ -151,8 +151,9 @@ def print_task_diff(bs1, bs2, val_type, min_val=0, min_absdiff=0, sort_by=('absd
+         """Get cumulative sum of all tasks"""
+         total = 0.0
+         for recipe_data in buildstats.values():
+-            for bs_task in recipe_data.tasks.values():
+-                total += getattr(bs_task, val_type)
++            for name, bs_task in recipe_data.tasks.items():
++                if not only_tasks or name in only_tasks:
++                    total += getattr(bs_task, val_type)
+         return total
+ 
+     if min_val:
+@@ -163,7 +164,7 @@ def print_task_diff(bs1, bs2, val_type, min_val=0, min_absdiff=0, sort_by=('absd
+                 val_to_str(min_absdiff, True), val_to_str(min_absdiff)))
+ 
+     # Prepare the data
+-    tasks_diff = diff_buildstats(bs1, bs2, val_type, min_val, min_absdiff)
++    tasks_diff = diff_buildstats(bs1, bs2, val_type, min_val, min_absdiff, only_tasks)
+ 
+     # Sort our list
+     for field in reversed(sort_by):
+@@ -248,6 +249,8 @@ Script for comparing buildstats of two separate builds."""
+     parser.add_argument('--multi', action='store_true',
+                         help="Read all buildstats from the given paths and "
+                              "average over them")
++    parser.add_argument('--only-task', dest='only_tasks', metavar='TASK', action='append', default=[],
++                        help="Only include TASK in report. May be specified multiple times")
+     parser.add_argument('buildstats1', metavar='BUILDSTATS1', help="'Left' buildstat")
+     parser.add_argument('buildstats2', metavar='BUILDSTATS2', help="'Right' buildstat")
+ 
+@@ -266,7 +269,6 @@ Script for comparing buildstats of two separate builds."""
+ 
+     return args
+ 
+-
+ def main(argv=None):
+     """Script entry point"""
+     args = parse_args(argv)
+@@ -290,7 +292,7 @@ def main(argv=None):
+             print_ver_diff(bs1, bs2)
+         else:
+             print_task_diff(bs1, bs2, args.diff_attr, args.min_val,
+-                            args.min_absdiff, sort_by)
++                            args.min_absdiff, sort_by, args.only_tasks)
+     except ScriptError as err:
+         log.error(str(err))
+         return 1
+diff --git a/scripts/lib/buildstats.py b/scripts/lib/buildstats.py
+index 1adab06edf..c69b5bf4d7 100644
+--- a/scripts/lib/buildstats.py
++++ b/scripts/lib/buildstats.py
+@@ -261,13 +261,17 @@ class BuildStats(dict):
+             self[pkg].aggregate(data)
+ 
+ 
+-def diff_buildstats(bs1, bs2, stat_attr, min_val=None, min_absdiff=None):
++def diff_buildstats(bs1, bs2, stat_attr, min_val=None, min_absdiff=None, only_tasks=[]):
+     """Compare the tasks of two buildstats"""
+     tasks_diff = []
+     pkgs = set(bs1.keys()).union(set(bs2.keys()))
+     for pkg in pkgs:
+         tasks1 = bs1[pkg].tasks if pkg in bs1 else {}
+         tasks2 = bs2[pkg].tasks if pkg in bs2 else {}
++        if only_tasks:
++            tasks1 = {k: v for k, v in tasks1.items() if k in only_tasks}
++            tasks2 = {k: v for k, v in tasks2.items() if k in only_tasks}
++
+         if not tasks1:
+             pkg_op = '+'
+         elif not tasks2:
 -- 
-2.20.1
+2.21.0
 
 
