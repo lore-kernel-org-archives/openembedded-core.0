@@ -1,25 +1,49 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C3C57ED5F
+Return-Path: <matthias.schiffer@ew.tq-group.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 567CC7ED6F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 08:56:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6F8uKfJ004508
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 15 Jul 2019 09:53:51 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.62,493,1554760800"; 
+   d="scan'208";a="8199941"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+	by mx1-pgp.tq-group.com with ESMTP; 15 Jul 2019 11:53:51 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+	by tq-pgp-pr1.tq-net.de (PGP Universal service);
+	Mon, 15 Jul 2019 11:53:51 +0200
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Mon, 15 Jul 2019 11:53:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+	t=1563184431; x=1594720431;
+	h=message-id:subject:from:to:date:in-reply-to:references:
+	mime-version:content-transfer-encoding;
+	bh=ND0Xqan7GJnwcsKXgJe5AUoCdp2SU0FpTy9b1/5ag6c=;
+	b=m+6KFcV2/MboW++umBiFAEgF5viND8bw1fnAghtLEsA0PX9S/i8YD+cU
+	gIl2XEl/P/4orLMCZVXH/ipEOX3q0s+mbyvs5jrs3EGD1G5JJAJlCvBKc
+	P+3dWFnHHB+MceeE83YmF3PkaLLoQWAiW/ErTmMqJlu1fwkCGdflO12iP
+	Ccz4354aQR3v+PC4sATGymXvon9hx45huylOLP1d87B5Ro8x6S3mPrOTt
+	RW08UDrYJT1iuN1h0iXgC4JoLMIcglci7Ufo9Zbd3Xv334fYRWTGYN4uo
+	qsKDn6DpdN7sMURcVFaZqI68/bsT9SNFI/n8DRdmNKIF8v6zaz9JCTujp w==;
+X-IronPort-AV: E=Sophos;i="5.62,493,1554760800"; 
+   d="scan'208";a="8199940"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+	by mx1.tq-group.com with ESMTP; 15 Jul 2019 11:53:51 +0200
+Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
+	[10.117.49.26])
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id E5499280074
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 01:56:20 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 15 Jul 2019 01:56:20 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Jul 2019 16:56:18 +0800
-Message-ID: <1563180978-169800-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20190715083133.2329.31270@do>
-References: <20190715083133.2329.31270@do>
-MIME-Version: 1.0
-Subject: [PATCH v2] mdadm: fix ptest hang
+	Mon, 15 Jul 2019 11:54:30 +0200 (CEST)
+Message-ID: <75459a751fccd43086ea4917ae2b542092cac03e.camel@ew.tq-group.com>
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jul 2019 11:53:51 +0200
+In-Reply-To: <714432f19e29fc660170d05ff3907ff2e40b1e95.camel@ew.tq-group.com>
+References: <20190710121353.32717-1-matthias.schiffer@ew.tq-group.com>
+	<20190710123132.2332.61175@do>
+	<714432f19e29fc660170d05ff3907ff2e40b1e95.camel@ew.tq-group.com>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHN5c3RlbWQ6IGJhY2twb3J0IHBhdGNoIHRvIGZpeCBzeXNjdGwgd2FybmluZyBvbiBib290?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,108 +56,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 08:56:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Jul 2019 09:53:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+On Wed, 2019-07-10 at 14:40 +0200, Matthias Schiffer wrote:
+> On Wed, 2019-07-10 at 12:31 +0000, Patchwork wrote:
+> > * Issue             Series cannot be parsed correctly due to
+> > malformed diff lines [test_mbox_format] 
+> >   Suggested fix    Create the series again using git-format-patch
+> > and
+> > ensure it can be applied using git am
+> >   Diff line        Hunk is shorter than expected
+> > 
+> > * Issue             Series does not apply on top of target branch
+> > [test_series_merge_on_head] 
+> >   Suggested fix    Rebase your series on top of targeted branch
+> >   Targeted branch  master (currently at 4cbb7392c7)
+> 
+> I'm not sure what is going on here, the patch applies fine for me.
+> 
+> Is it possible that the patchtest stumbles over unicode characters in
+> the added patch file? I don't see how that could be avoided, as the
+> patch touches a line where an emoji was used in a comment...
+> 
+> Kind regards,
+> Matthias
 
-Before commit[80d17497b7 mdadm: improve the run-ptest],
-the mdadm ptest just run some tests without
-"--keep-going" option. After the option added in
-commit 80d17497b7, all test cases have chance to
-be called.
+Ah, the issue is patchwork, not patchtest - the mbox download is cut
+off at the non-ASCII character. Should I try resending the patch with
+something like --transfer-encoding=quoted-printable ?
 
-But the logic in mdadm upstream commit
-[e2a8e9d tests: wait for complete rebuild in integrity checks]
-will make the test enter infinite loop especially in
-qemu env as commit e2a8e9d update the logic from
-"check wait" to "check state 'U*'" for testcase
-tests/01r5integ and tests/01raid6integ. Considering all
-other cases still use "check wait" logic, so revert e2a8e9d
-to make tests/01r5integ and tests/01raid6integ also use
-"check wait" logic to avoid the infinite loop.
-
-[YOCTO #13368]
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- ...s-wait-for-complete-rebuild-in-integrity-.patch | 53 ++++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb           |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch
-
-diff --git a/meta/recipes-extended/mdadm/files/0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch b/meta/recipes-extended/mdadm/files/0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch
-new file mode 100644
-index 0000000..b196084
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch
-@@ -0,0 +1,53 @@
-+From 02a41c3fd560fb5250186dd6b3cff6b21daa2e2b Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <Mingli.Yu@windriver.com>
-+Date: Mon, 15 Jul 2019 14:12:24 +0800
-+Subject: [PATCH] Revert "tests: wait for complete rebuild in integrity checks"
-+
-+This reverts commit e2a8e9dcf67a28bc722fa5ab2c49b0bc452d4d74
-+as the logic "check state 'U*'" will make the test enters
-+infinite loop especially in qemu env, so revert it to
-+use the previous logic "check wait" which also used
-+commonly by other tests such as tests/02r5grow, tests/07revert-grow
-+and etc.
-+
-+Upstream-Status: Submitted[https://marc.info/?l=linux-raid&m=156317157314030&w=2]
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ tests/01r5integ    | 2 +-
-+ tests/01raid6integ | 4 ++--
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/tests/01r5integ b/tests/01r5integ
-+index 48676a2..ffb30ce 100644
-+--- a/tests/01r5integ
-++++ b/tests/01r5integ
-+@@ -27,7 +27,7 @@ do
-+      exit 1
-+     fi
-+     mdadm $md0 -a $i
-+-    while ! (check state 'U*'); do check wait; sleep 0.2; done
-++   check wait
-+   done
-+   mdadm -S $md0
-+ done
-+diff --git a/tests/01raid6integ b/tests/01raid6integ
-+index 12f4d81..c6fcdae 100644
-+--- a/tests/01raid6integ
-++++ b/tests/01raid6integ
-+@@ -47,10 +47,10 @@ do
-+          exit 1
-+        fi
-+        mdadm $md0 -a $first
-+-       while ! (check state 'U*_U*'); do check wait; sleep 0.2; done
-++       check wait
-+     done
-+     mdadm $md0 -a $second
-+-    while ! (check state 'U*'); do check wait; sleep 0.2; done
-++    check wait
-+     totest="$totest $second"
-+   done
-+   mdadm -S $md0
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 766004f..5df3f90 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-Compute-abs-diff-in-a-standard-compliant-way.patch \
-            file://0001-fix-gcc-8-format-truncation-warning.patch \
-            file://debian-no-Werror.patch \
-+           file://0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch \
- 	   file://mdadm.init \
- 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
-            "
--- 
-2.7.4
 
 
