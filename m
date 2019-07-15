@@ -1,28 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ADEB7E950
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 13A257ED57
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 03:00:24 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Jul 2019 20:00:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,492,1557212400"; d="scan'208";a="318551735"
-Received: from lduttal-mobl.gar.corp.intel.com (HELO localhost.localdomain)
-	([10.255.187.17])
-	by orsmga004.jf.intel.com with ESMTP; 14 Jul 2019 20:00:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Date: Mon, 15 Jul 2019 15:00:20 +1200
-Message-ID: <6626896.5blaEgOQa4@localhost.localdomain>
-Organization: Intel Corporation
-In-Reply-To: <1562783254-14818-1-git-send-email-chandana.kalluri@xilinx.com>
-References: <1562783254-14818-1-git-send-email-chandana.kalluri@xilinx.com>
+	Mon, 15 Jul 2019 05:23:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6F5MrRh000933
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 14 Jul 2019 22:23:04 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Sun, 14 Jul 2019 22:23:02 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Jul 2019 13:35:15 +0800
+Message-ID: <c383309fe15b52683ac90b50d4305922c338b470.1563168887.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1563168887.git.Qi.Chen@windriver.com>
+References: <cover.1563168887.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [master][PATCH v5 0/3] Devtool: provide easy means of reconfiguring
+Subject: [PATCH 1/1] msmtp: fix postinstall to avoid do_rootfs failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 03:00:24 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 15 Jul 2019 05:23:13 -0000
+Content-Type: text/plain
 
-Hi Chandana
+When lsb is enabled, that is, 'linuxstdbase' is in OVERRIDES,
+do_rootfs would fail if both 'msmtp' and 'postfix' are installed.
+This is because they both try to create /usr/lib/sendmail link if
+it does not exist. So we need to fix the check to avoid non-zero
+exit status.
 
-On Thursday, 11 July 2019 6:27:31 AM NZST Sai Hari Chandana Kalluri wrote:
-> changelog v5
-> 1. test against devtool oe-selftests and add missing function imports
-> 2. rename function name from symblink_oelocal_files_srctree to 
-symlink_oelocal_files_srctree
-> 3. fix indendation
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-extended/msmtp/msmtp_1.8.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm afraid the indentation is still all over the place; however, I have taken 
-the liberty of fixing it (along with a few other minor style issues) and have 
-pushed the result as paule/devtool-menuconfig.
-
-Paul
-
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.4.bb b/meta/recipes-extended/msmtp/msmtp_1.8.4.bb
+index 888c1bb..bd8552c 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.4.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.4.bb
+@@ -25,5 +25,5 @@ ALTERNATIVE_PRIORITY = "100"
+ 
+ pkg_postinst_${PN}_linuxstdbase () {
+ 	# /usr/lib/sendmial is required by LSB core test
+-	[ ! -L $D/usr/lib/sendmail ] && ln -sf ${sbindir}/sendmail $D/usr/lib/
++	[ ! -L $D/usr/lib/sendmail ] && ln -sf ${sbindir}/sendmail $D/usr/lib/ || true
+ }
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+1.9.1
 
 
