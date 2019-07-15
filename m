@@ -1,24 +1,53 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C624E7C427
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 590A17D718
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 10:20:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6FAKV25008451
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 15 Jul 2019 11:04:19 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id l2so14736653wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 03:20:41 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 15 Jul 2019 03:20:20 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Jul 2019 06:20:16 -0400
-Message-ID: <20190715102016.114264-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
+	Mon, 15 Jul 2019 04:04:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3+q4JEa0VEAnKdAA68NJs6k8wOKtmqP6L7BnQfch3Ak=;
+	b=MfTRwhEnGvi4gR3nBi0Qf6OaMpyAwfpPFHqGg3V/JeZvwM57GoCRFAm1oGwY2GaGOY
+	EFwcRcPKgxKIyea2DLc42NwO7ukfEZJ/pywzfcJWxG2S6pT3d+e/Wd3Q9bMvG4gwn5oy
+	hWhfPedUX8D53CKn9KKJvbwxQ9rRWN6yo6SPgkrOf95q5zhUol/5lVGP3nHr4UYaec1x
+	YAoLRMqaDl9C7CQUjGh0VkzsChxP3yK6nemeSR3fP7ZfN3kMOn8zDfOgoTch/OgiPmdT
+	vhLeegqjJf+iyJIpeLQq+xHf/M/08x54bZi5ehI7nyJlCN2zJfU5IujseqKJloL92KXD
+	acyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3+q4JEa0VEAnKdAA68NJs6k8wOKtmqP6L7BnQfch3Ak=;
+	b=B+ZvXqKLfdNC2qLEtvfBVFh72F4Iee7WE+0lMAYIrjUy1enOz2rJ/uttPB5oZejPqx
+	J/Ucv3Q+vIhDPbnb1mpzNleiIBzuk8mmSkYptEfJrLCdE8QpCtjRC0CYJOjHldRdEbY4
+	rh9D7BSuVslcwmTiWRwsCwsvME5l7Nbu/pkh7sh1nicydOju18h8IDCLX+BEMteO2oUI
+	Giszz3WHngH29RPEscogmIHD92cZrDCJ6tl0KAMkf0dNxBDCTTqO1Apg0i3pONYTfWrp
+	Z8vk+8BGsBQY1OocFOl382cIZn98fOcJuc75+aXAafmOILzEsQET3XFcLC5E1XnGWnMl
+	wQ2Q==
+X-Gm-Message-State: APjAAAVdB5ADsMDWih6IlSIXdGXdzAuaZoGuwcGujwuyjjd318EKpTHF
+	uD+BqoVd8+6CguSMYfhNP9LIDneOzoQ=
+X-Google-Smtp-Source: APXvYqwYHeeOhJqkpQewjfqCRkh8lEiddB4YI/lr05Fb7Ek7zZ1hT/LO83kBlE2MLif5VRjwHnD/Ow==
+X-Received: by 2002:a1c:7e90:: with SMTP id
+	z138mr23443713wmc.128.1563188659784; 
+	Mon, 15 Jul 2019 04:04:19 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	n1sm13495486wrx.39.2019.07.15.04.04.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 15 Jul 2019 04:04:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jul 2019 12:04:11 +0100
+Message-Id: <20190715110413.30525-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] webkitgtk: set incomptible with tune mips
+Subject: [PATCH 1/3] tiff: remove redundant patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +60,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 10:20:51 -0000
+X-List-Received-Date: Mon, 15 Jul 2019 11:04:19 -0000
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+The patching to make the new libtool work (from 2008) is no longer needed.
 
-It fails to compile webkit when default tune is 'mips':
-
-| .../tmp-glibc/work/mips-wrs-linux/webkitgtk/2.24.2-r0/webkitgtk-2.24.2
-| /Source/JavaScriptCore/assembler/MacroAssemblerMIPS.h:418:23:
-| error: static assertion failed: CLZ opcode is not available for this ISA
-
-So don't build webkit when default tune is mips.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.24.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../libtiff/files/libtool2.patch              | 24 -------------------
+ .../recipes-multimedia/libtiff/tiff_4.0.10.bb |  5 +---
+ 2 files changed, 1 insertion(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/libtool2.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-index 056334fff5..891266b220 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-@@ -43,6 +43,8 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
- 	   gettext-native glib-2.0 glib-2.0-native libtasn1 \
-           "
+diff --git a/meta/recipes-multimedia/libtiff/files/libtool2.patch b/meta/recipes-multimedia/libtiff/files/libtool2.patch
+deleted file mode 100644
+index 96233b46c94..00000000000
+--- a/meta/recipes-multimedia/libtiff/files/libtool2.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-From 5b893206e0a0d529ba2d0caf58cfffc03bccb598 Mon Sep 17 00:00:00 2001
+-From: Marcin Juszkiewicz <hrw@openedhand.com>
+-Date: Sat, 14 Jun 2008 13:42:22 +0000
+-Subject: [PATCH] tiff: make it work after libtool upgrade
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+----
+- configure.ac | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index c7b02e2..ae1c964 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -27,7 +27,7 @@ dnl Process this file with autoconf to produce a configure script.
+- AC_PREREQ(2.64)
+- AC_INIT([LibTIFF Software],[4.0.10],[tiff@lists.maptools.org],[tiff])
+- AC_CONFIG_AUX_DIR(config)
+--AC_CONFIG_MACRO_DIR(m4)
+-+dnl AC_CONFIG_MACRO_DIR(m4)
+- AC_LANG(C)
+- 
+- dnl Compute the canonical host (run-time) system type variable
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
+index 152fa819a5b..7a30690ec17 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
+@@ -4,10 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=34da3db46fab7501992f9615d7e158cf"
  
-+COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips', 'null', 'mips.*-linux', d)}"
-+
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
-                    enchant \
+ CVE_PRODUCT = "libtiff"
+ 
+-SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+-           file://libtool2.patch \
+-           "
+-
++SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz"
+ SRC_URI[md5sum] = "114192d7ebe537912a2b97408832e7fd"
+ SRC_URI[sha256sum] = "2c52d11ccaf767457db0c46795d9c7d1a8d8f76f68b0b800a3dfe45786b996e4"
+ 
 -- 
-2.20.0
+2.20.1
 
 
