@@ -1,30 +1,30 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D1947ED6B
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ED2177ED6F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 06:24:16 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.63,493,1557158400"; d="scan'208";a="71447651"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Jul 2019 14:24:16 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 322AF4CDDD3D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 14:24:03 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 15 Jul 2019 14:24:18 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Jul 2019 14:23:28 +0800
-Message-ID: <20190715062328.18161-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Mon, 15 Jul 2019 06:28:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6F6RtSp002593
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 14 Jul 2019 23:28:06 -0700
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Sun, 14 Jul 2019 23:27:44 -0700
+To: Adrian Bunk <bunk@stusta.de>
+References: <cover.1563168887.git.Qi.Chen@windriver.com>
+	<c383309fe15b52683ac90b50d4305922c338b470.1563168887.git.Qi.Chen@windriver.com>
+	<20190715061729.GA21719@localhost>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <936a85fa-4248-6d37-455e-0a3bbf82b363@windriver.com>
+Date: Mon, 15 Jul 2019 14:40:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 322AF4CDDD3D.A9D4A
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] xauth:upgrade 1.0.10 -> 1.1
+In-Reply-To: <20190715061729.GA21719@localhost>
+X-Originating-IP: [128.224.162.148]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] msmtp: fix postinstall to avoid do_rootfs failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 06:24:18 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Jul 2019 06:28:36 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
--Upgrade from xauth_1.0.10.bb to xauth_1.1.bb.
+On 07/15/2019 02:17 PM, Adrian Bunk wrote:
+> On Mon, Jul 15, 2019 at 01:35:15PM +0800, Chen Qi wrote:
+>> When lsb is enabled, that is, 'linuxstdbase' is in OVERRIDES,
+>> do_rootfs would fail if both 'msmtp' and 'postfix' are installed.
+>> This is because they both try to create /usr/lib/sendmail link if
+>> it does not exist. So we need to fix the check to avoid non-zero
+>> exit status.
+>> ...
+> This would make it random (depending on installation order) which is
+> linked to, and it could also make ${sbindir}/sendmail and
+> $D/usr/lib/sendmail point to different programs.
+>
+> It would be better to make $D/usr/lib/sendmail also an alternative in
+> all packages that provide sendmail.
+>
+> cu
+> Adrian
+>
+I don't think we should mix linuxstdbase and ALTERNATIVES setting. It 
+makes things complicated.
+As ALTERNATIVES_PRIORITY is higher in postfix, I'll just remove the 
+check in postfix and use 'ln -sf' directly.
+Can you accept this solution?
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- meta/recipes-graphics/xorg-app/{xauth_1.0.10.bb => xauth_1.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xauth_1.0.10.bb => xauth_1.1.bb} (75%)
-
-diff --git a/meta/recipes-graphics/xorg-app/xauth_1.0.10.bb b/meta/recipes-graphics/xorg-app/xauth_1.1.bb
-similarity index 75%
-rename from meta/recipes-graphics/xorg-app/xauth_1.0.10.bb
-rename to meta/recipes-graphics/xorg-app/xauth_1.1.bb
-index 0e90ffd..24ad960 100644
---- a/meta/recipes-graphics/xorg-app/xauth_1.0.10.bb
-+++ b/meta/recipes-graphics/xorg-app/xauth_1.1.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5ec74dd7ea4d10c4715a7c44f159a40b"
- DEPENDS += "libxau libxext libxmu"
- PE = "1"
- 
--SRC_URI[md5sum] = "f3f76cb10f69b571c43893ea6a634aa4"
--SRC_URI[sha256sum] = "5afe42ce3cdf4f60520d1658d2b17face45c74050f39af45dccdc95e73fafc4d"
-+SRC_URI[md5sum] = "e50587c1bb832aafd1a19d91a0890a0b"
-+SRC_URI[sha256sum] = "6d1dd1b79dd185107c5b0fdd22d1d791ad749ad6e288d0cdf80964c4ffa7530c"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
--- 
-2.7.4
-
-
-
+Regards,
+Chen Qi
 
