@@ -1,57 +1,31 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA8A27ED80
+Return-Path: <mac@mcrowe.com>
+Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 496307ED3D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 11:25:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 781A9183AC
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 13:25:55 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id CZde1wit_Dhn
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 13:25:51 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 893B9183B0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 13:25:51 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 726381A06B
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 13:25:51 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 675641A069
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 13:25:51 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 13:25:51 +0200 (CEST)
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by seth.se.axis.com (Postfix) with ESMTP id 5BD2CFC4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 13:25:51 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x6FBPp0c031971
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 13:25:51 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x6FBPpbs031970
-	for openembedded-core@lists.openembedded.org;
-	Mon, 15 Jul 2019 13:25:51 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Mon, 15 Jul 2019 12:51:09 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id n0Rghl3R96ogsn0Rhhwlqm; Mon, 15 Jul 2019 13:51:09 +0100
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=Y62GTSWN c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=0o9FgrsRnhwA:10 a=-An2I_7KAAAA:8
+	a=IR7-BfzTyPpBs7QYz2MA:9 a=Sq34B_EcNBM9_nrAYB9S:22
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1hn0Rf-0000ka-79; Mon, 15 Jul 2019 13:51:07 +0100
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jul 2019 13:25:48 +0200
-Message-Id: <20190715112549.31924-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
+Date: Mon, 15 Jul 2019 13:51:00 +0100
+Message-Id: <20190715125100.14288-2-mac@mcrowe.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190715125100.14288-1-mac@mcrowe.com>
+References: <20190715125100.14288-1-mac@mcrowe.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH 1/2] meson.bbclass: Remove the MESON_*_ARGS variables
+X-CMAE-Envelope: MS4wfJV2csvcPH0nBrohCT0AAyP6YOIYjd+wiONsj7aMcTaNAzJn0KGhj0g5bFNtDOYAmSnSlfiKfnCIQyfIAgmgS8pAjXj//OjbixH08qEjq8AqgCH8ZkSz
+	nG9LaeNhhyWtx7Hpnk5U/XLgJz3d5qqGDfbbKP2b1B1+6lmyTPmvljC6
+Cc: Mike Crowe <mac@mcrowe.com>, Mike Crowe <mcrowe@mcrowe.com>
+Subject: [PATCH 2/2] rootfs-postcommands: Cope with empty IMAGE_LINK_NAME in write_image_test_data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,67 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 11:25:55 -0000
+X-List-Received-Date: Mon, 15 Jul 2019 12:51:09 -0000
 Content-Transfer-Encoding: 8bit
 
-The options in ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} are already passed
-via ${CC}/${CXX} and there is no reason to pass them a second time. Thus
-we can remove MESON_TOOLCHAIN_ARGS. And when it is removed, the other
-MESON_*_ARGS variables revert to the standard CFLAGS, CXXFLAGS and
-LDFLAGS, so just use them directly instead.
+From: Mike Crowe <mcrowe@mcrowe.com>
 
-Apart from the obvious improvement with not passing a lot of options
-twice, this also solves a problem where -pie would be passed on the
-command line in a way that it would prevent building any dynamic
-libraries using meson if using a toolchain that is not built with
---enable-default-pie and if security_flags.inc is used.
+Ensure that we don't create an image test data symlink named
+".testdata.json" when IMAGE_LINK_NAME is empty.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- meta/classes/meson.bbclass | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ meta/classes/rootfs-postcommands.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 0edbfc1815..70b3653738 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -30,11 +30,6 @@ MESONOPTS = " --prefix ${prefix} \
-               -Dcpp_args='${BUILD_CPPFLAGS} ${BUILD_CXXFLAGS}' \
-               -Dcpp_link_args='${BUILD_LDFLAGS}'"
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index a2fe3dea2b..6cec23ef1a 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -328,7 +328,7 @@ python write_image_test_data() {
+     searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
+     export2json(d, testdata_name, searchString=searchString, replaceString="")
  
--MESON_TOOLCHAIN_ARGS = "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
--MESON_C_ARGS = "${MESON_TOOLCHAIN_ARGS} ${CFLAGS}"
--MESON_CPP_ARGS = "${MESON_TOOLCHAIN_ARGS} ${CXXFLAGS}"
--MESON_LINK_ARGS = "${MESON_TOOLCHAIN_ARGS} ${LDFLAGS}"
--
- EXTRA_OEMESON_append = " ${PACKAGECONFIG_CONFARGS}"
- 
- MESON_CROSS_FILE = ""
-@@ -78,7 +73,7 @@ def meson_endian(prefix, d):
-         bb.fatal("Cannot determine endianism for %s-%s" % (arch, os))
- 
- addtask write_config before do_configure
--do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS CC CXX LD AR NM STRIP READELF"
-+do_write_config[vardeps] += "CC CXX LD AR NM STRIP READELF CFLAGS CXXFLAGS LDFLAGS"
- do_write_config() {
-     # This needs to be Py to split the args into single-element lists
-     cat >${WORKDIR}/meson.cross <<EOF
-@@ -95,10 +90,10 @@ llvm-config = 'llvm-config8.0.0'
- 
- [properties]
- needs_exe_wrapper = true
--c_args = ${@meson_array('MESON_C_ARGS', d)}
--c_link_args = ${@meson_array('MESON_LINK_ARGS', d)}
--cpp_args = ${@meson_array('MESON_CPP_ARGS', d)}
--cpp_link_args = ${@meson_array('MESON_LINK_ARGS', d)}
-+c_args = ${@meson_array('CFLAGS', d)}
-+c_link_args = ${@meson_array('LDFLAGS', d)}
-+cpp_args = ${@meson_array('CXXFLAGS', d)}
-+cpp_link_args = ${@meson_array('LDFLAGS', d)}
- gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
- 
- [host_machine]
+-    if os.path.exists(testdata_name):
++    if os.path.exists(testdata_name) and link_name:
+         testdata_link = os.path.join(deploy_dir, "%s.testdata.json" % link_name)
+         if os.path.lexists(testdata_link):
+             os.remove(testdata_link)
 -- 
-2.21.0
+2.20.1
 
 
