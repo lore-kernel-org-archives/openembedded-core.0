@@ -1,55 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E0057ED44
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C70797ED56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 13:03:44 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id v19so15139947wmj.5
+	Mon, 15 Jul 2019 14:15:01 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id x19so9731810eda.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2019 06:03:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=dc75lErr2J/nUCNiZgRB7PAUZ6UabZarXwhx901ojIA=;
-	b=TaslyFHlwNlQh7EU53IIUs0epmwKzeq9aGetUXLMPg6f+i5tMYVqTL0fFDw1tqGzJ3
-	ARuyjK+4gtD6ltRnniJVtMnE453XYzDrHT+fKTzQho+tyS5qlu04VKt+Z2J/gmLN67c1
-	MTor3pu+Wigu6ENqaCQJJXuZgJL4a/rxv1nzQ=
+	Mon, 15 Jul 2019 07:15:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nFIchSMvoAB1apoOsMZklsZsFTRG5BZOVgcNPSDI9lA=;
+	b=T/N6dC/9bOfRHJIYR5wOUa73c5JuwxgqOCgp3JcBkiqWA1r9qHScb16iguoZ6cySv/
+	HUSYuKT03QxMFl6DmkYL4MlaaVDessCXAjKeF6VW0Qh7Wbmbw17l4Bbi1d+F7CLYAE9Z
+	CyP4TKI/EwQ2mvcwmf7VZuNiWAgc2tZ2XYtouzL1hepMfziUgZ8jYzA50i7APp1yOudK
+	d2uYeFmbE9NKsmiqnD48ceQCM3hNbTjGL1I51Ei9fB8mSt8h97BQjJvDKpQp8RJUXr3F
+	gbJkH5Br4NgXowl/1GNiyVqgkfcskJe9gRsmjiNFB61QsuROvGcutEvnoGkOX6/0BQ5Q
+	Z5Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=dc75lErr2J/nUCNiZgRB7PAUZ6UabZarXwhx901ojIA=;
-	b=uN0qObAzjmt8sX3fzoTvif9v4XWJrKvYhR/h/4feFk8yHn3l4oWFdiIhaYXx+JkLX9
-	MRVNeLVAlwYP+oDULxDBDkgMv0RD0Wp4sowKIul6eXziVI2nXKJgezyAPWnzMhkPjSY1
-	kB7KcytesUSAPSRvUAI3DFbwVsI8geq1T1BW+jeemfYITHQEIlGPSDYrA7xnfDDn7p+d
-	hI+Njum8LB0isoxWkdNYc+0EUjXnu7Of2gVgWCjy7qya0TT65ybbzdVQNj1WarSMjcJV
-	VhPOD0r9BgU1rAWDJ9geF6fogLP24rGkPxRfZkrhhA4vj6Gj05islmgI2yBsg9hLQpSd
-	CHGg==
-X-Gm-Message-State: APjAAAXp75pKFj5ntsy87wExYuegS2D7fsBSMpVukQ9Ga578DgGFQpYq
-	5iJ/cAJuZipnq9BRL3BpozZssIWbuRo=
-X-Google-Smtp-Source: APXvYqwEA86GiKvH4WY6+2MSMTmay2y6z5KVVgv1F2VPYbAICyvj28ATOtgzXaAyfggFlA5P+789SQ==
-X-Received: by 2002:a05:600c:254b:: with SMTP id
-	e11mr23002810wma.171.1563195825726; 
-	Mon, 15 Jul 2019 06:03:45 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=nFIchSMvoAB1apoOsMZklsZsFTRG5BZOVgcNPSDI9lA=;
+	b=PXjQXnM2c/5bxNMTnMstz1FRwVCgaN39V75xps3pTcKSY/5MTQkI6DOzv+1Ci9j9wt
+	Axahb8yQtCK1Ze4qo9VxERyFw9y8xWpsN7TtRIWXS7rX6fF9kGt2DMr1dw4KJwUnALT0
+	7kBBfjiaS+lnIpeObl9TqGZpGyvobc+ukEJJ7WAmIDodlRpfAs7ulTeaxoOMLKSfWT7p
+	w84viZlUBKsqAo7G40Z5BFcklp2gGh4I1pJBGyU6CcuVphlArc1svgKchqHBTeOTVHYe
+	OhtPUpcj5R+Pt9r0dQap/cTwp/icArDVOMMufXAboQGtVpbB8lTILj8btAI35KuaqiqC
+	EJcg==
+X-Gm-Message-State: APjAAAXzuKQ5rOP5uk0stOAspuxYf7JA/Hb8Ztca9LJBpwVIOWhe189s
+	A8BFuOy4W1TVCXok42g1R+fnwl1a6so=
+X-Google-Smtp-Source: APXvYqw1kq13hIRK26sty5OlQEL5kM5l3rTLQRIhwg1+A2vUs6q8Mc/AtYVb0+vquPKMjetntnrX4w==
+X-Received: by 2002:a17:906:f0cd:: with SMTP id
+	dk13mr20908654ejb.84.1563200102043; 
+	Mon, 15 Jul 2019 07:15:02 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
 	by smtp.gmail.com with ESMTPSA id
-	g12sm23259132wrv.9.2019.07.15.06.03.44
+	j25sm5092107edq.68.2019.07.15.07.15.00
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 15 Jul 2019 06:03:44 -0700 (PDT)
-Message-ID: <cf30422888b7622672180b2cbfaebab58889dcfb.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jul 2019 14:03:43 +0100
-In-Reply-To: <75459a751fccd43086ea4917ae2b542092cac03e.camel@ew.tq-group.com>
-References: <20190710121353.32717-1-matthias.schiffer@ew.tq-group.com>
-	<20190710123132.2332.61175@do>
-	<714432f19e29fc660170d05ff3907ff2e40b1e95.camel@ew.tq-group.com>
-	<75459a751fccd43086ea4917ae2b542092cac03e.camel@ew.tq-group.com>
-User-Agent: Evolution 3.32.2-1 
+	Mon, 15 Jul 2019 07:15:01 -0700 (PDT)
+Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jul 2019 16:14:58 +0200
+Message-Id: <20190715141458.7382-1-ricardo@ribalda.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHN5c3RlbWQ6IGJhY2twb3J0IHBhdGNoIHRvIGZpeCBzeXNjdGwgd2FybmluZyBvbiBib290?=
+Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Subject: [PATCH] nfs-mountd: Add missing dependency on systemd service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,44 +61,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2019 13:03:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Jul 2019 14:15:02 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2019-07-15 at 11:53 +0200, Matthias Schiffer wrote:
-> On Wed, 2019-07-10 at 14:40 +0200, Matthias Schiffer wrote:
-> > On Wed, 2019-07-10 at 12:31 +0000, Patchwork wrote:
-> > > * Issue             Series cannot be parsed correctly due to
-> > > malformed diff lines [test_mbox_format] 
-> > >   Suggested fix    Create the series again using git-format-patch
-> > > and
-> > > ensure it can be applied using git am
-> > >   Diff line        Hunk is shorter than expected
-> > > 
-> > > * Issue             Series does not apply on top of target branch
-> > > [test_series_merge_on_head] 
-> > >   Suggested fix    Rebase your series on top of targeted branch
-> > >   Targeted branch  master (currently at 4cbb7392c7)
-> > 
-> > I'm not sure what is going on here, the patch applies fine for me.
-> > 
-> > Is it possible that the patchtest stumbles over unicode characters
-> > in
-> > the added patch file? I don't see how that could be avoided, as the
-> > patch touches a line where an emoji was used in a comment...
-> > 
-> > Kind regards,
-> > Matthias
-> 
-> Ah, the issue is patchwork, not patchtest - the mbox download is cut
-> off at the non-ASCII character. Should I try resending the patch with
-> something like --transfer-encoding=quoted-printable ?
+As described on: https://www.spinics.net/lists/linux-nfs/msg62022.html
 
-I've queued the patch for testing, the patch itself applies fine so we
-can handle it, it just doesn't get the automated testing.
+mountd requires rpcbind, otherwise it can can fail to start, which can
+lead to nfsroot not booting.
 
-Cheers,
+Upstream: http://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=907426b00bdcd69d9a56ac1870990e8ae8c6fe9f
 
-Richard
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+---
+ meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
+index 27ea58d366..3c3a8022ce 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
+@@ -1,6 +1,7 @@
+ [Unit]
+ Description=NFS Mount Daemon
+ DefaultDependencies=no
++After=rpcbind.socket
+ Requires=proc-fs-nfsd.mount
+ After=proc-fs-nfsd.mount
+ After=network.target local-fs.target
+-- 
+2.20.1
 
 
