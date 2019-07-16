@@ -1,28 +1,52 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 783DB7C7A3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BEDA7E467
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2019 09:33:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6G9XIxZ010299
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Jul 2019 02:33:18 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 16 Jul 2019 02:33:17 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <20190715102016.114264-1-kai.kang@windriver.com>
-	<CAMKF1sq8rpdxdH2Yr8bHze06-R3hsmLTDdSLkX-TEj4utY2VYQ@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <0f664af2-cea3-aaa2-2a7c-74c43d58ced4@windriver.com>
-Date: Tue, 16 Jul 2019 17:32:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.2
+	Tue, 16 Jul 2019 12:46:47 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id p17so20777505wrf.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jul 2019 05:46:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Zxnw26pXT7BWJoNZngNpcaJQUuXdH8knUN2cRx4JfbY=;
+	b=sshcKQCgkdn9vBbj+odhAAl2n2GuTprEf8vRR3tr25DypBPn3EUFXTWwOovzZTnzi8
+	hD8PZUtcTw5MUJMlxhRmBSI0iTNbvz1ZJU+S0VCJ23By+5PUN2c+JQWwsoS1XkL00caf
+	QGJFFO8OoPgV62z6WzgLAhBZTCHu3wNaK0GDpthcT2F2Sm5MR1GRKqTao2Y4MbnqzB4x
+	T6J2fL1AZElnefSwHzFfF4Sb9/8Hv7u1KQ+WGGOzgoSGjMKO9pOc16HuXNuppvnZ204n
+	ip/LCg+HkAStBWjyNWnU6c68+S22/nZd8UcF6lRUAy/RMoKxng0eMt8NWIp/kvozGbOH
+	fnkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Zxnw26pXT7BWJoNZngNpcaJQUuXdH8knUN2cRx4JfbY=;
+	b=IiHBKebXTHu6b9Wllpi53w4e57IgKlMNzykeK7cz/8IhOUrzufbWrv1lKGocmHV+nR
+	00gNAcXQgqtRAa+VdKF5d9KznbHR6G7zf9WW/SpKua2P2FpTVL5EISQk+FMn6yxMdej/
+	9xGqcUj3IOD+kalnTqj1LmRYHGRrGbrPFGpXNWrJ8HQWFYX4RZTcp3C5dXSOGw2EY9ff
+	4SDQHnfv+YMCAa91Cs8P30EuWG8KJVaP7ydHn1CeoAkijdjZX4vDMk7o3b4Hh7JXtWyM
+	uh42tLr3ociisydi4eNUQcw8zFt/Cbnfb55leA3Vyljf5OyE20NdcZReiHz3lBqnekLd
+	9UFQ==
+X-Gm-Message-State: APjAAAUwpm/OQkKaVKgfaIhvjxJO94l8nSbqUphh2J8au2lbx4bI88bR
+	OFkmFXflZ72BCqjAnSNgKDpiNZLTMkY=
+X-Google-Smtp-Source: APXvYqx/t+OUVC8/dpudM6yuh0q5QB5qC6Uo4Fx95H0PQCQp6b56ha1p8eVjUH7KftLJbM+2NtvQWg==
+X-Received: by 2002:a5d:680d:: with SMTP id w13mr36669784wru.141.1563281207875;
+	Tue, 16 Jul 2019 05:46:47 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id t3sm13517989wmi.6.2019.07.16.05.46.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 16 Jul 2019 05:46:46 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jul 2019 13:46:43 +0100
+Message-Id: <20190716124643.22183-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sq8rpdxdH2Yr8bHze06-R3hsmLTDdSLkX-TEj4utY2VYQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: set incomptible with tune mips
+Subject: [PATCH] cve-check: remove redundant readline CVE whitelisting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,68 +59,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2019 09:33:18 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 16 Jul 2019 12:46:47 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-On 2019/7/16 下午3:19, Khem Raj wrote:
-> On Mon, Jul 15, 2019 at 3:21 AM <kai.kang@windriver.com> wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> It fails to compile webkit when default tune is 'mips':
->>
->> | .../tmp-glibc/work/mips-wrs-linux/webkitgtk/2.24.2-r0/webkitgtk-2.24.2
->> | /Source/JavaScriptCore/assembler/MacroAssemblerMIPS.h:418:23:
->> | error: static assertion failed: CLZ opcode is not available for this ISA
->>
->> So don't build webkit when default tune is mips.
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta/recipes-sato/webkit/webkitgtk_2.24.2.bb | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
->> index 056334fff5..891266b220 100644
->> --- a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
->> +++ b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
->> @@ -43,6 +43,8 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
->>             gettext-native glib-2.0 glib-2.0-native libtasn1 \
->>             "
->>
->> +COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips', 'null', 'mips.*-linux', d)}"
->> +
-> this disables is for all kind of mips. I think thats a broad set, it
-> would be best to narrow it to what you saw it failing for
-> e.g. it should work for mips32 and mips64 so maybe mips1 is what you
-> want to disable for
+CVE-2014-2524 is a readline CVE that was fixed in 6.3patch3 onwards, but the
+tooling wasn't able to detect this version.  As we now ship readline 8 we don't
+need to manually whitelist it, and if we did then the whitelisting should be in
+the readline recipe.
 
-I tested with qemumips and qemumips64. When set
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/cve-check.bbclass | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-DEFAULTTUNE= "mips"
-
-It fails with the error.
-
-Regards,
-Kai
-
->
->
->>   PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
->>                      ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
->>                      enchant \
->> --
->> 2.20.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index ffd624333f6..5979edf3d17 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -41,10 +41,15 @@ CVE_CHECK_PN_WHITELIST = "\
+     glibc-locale \
+ "
+ 
+-# Whitelist for CVE and version of package
+-CVE_CHECK_CVE_WHITELIST = "{\
+-    'CVE-2014-2524': ('6.3','5.2',), \
+-}"
++# Whitelist for CVE and version of package. If a CVE is found then the PV is
++# compared with the version list, and if found the CVE is considered
++# patched.
++#
++# The value should be valid Python in this format:
++# {
++#   'CVE-2014-2524': ('6.3','5.2')
++# }
++CVE_CHECK_CVE_WHITELIST ?= "{}"
+ 
+ python do_cve_check () {
+     """
 -- 
-Kai Kang
+2.20.1
 
 
