@@ -1,30 +1,49 @@
-Return-Path: <uol@pengutronix.de>
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
-	[85.220.165.71])
-	by mail.openembedded.org (Postfix) with ESMTP id B5DCD7ECB8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 483837ECB4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2019 13:54:44 +0000 (UTC)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-	by metis.ext.pengutronix.de with esmtps
-	(TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
-	(envelope-from <uol@pengutronix.de>)
-	id 1hnNum-0007z2-Nk; Tue, 16 Jul 2019 15:54:44 +0200
-Received: from uol by dude.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <uol@pengutronix.de>)
-	id 1hnNum-00039G-1l; Tue, 16 Jul 2019 15:54:44 +0200
-From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jul 2019 15:54:44 +0200
-Message-Id: <20190716135444.12057-1-u.oelmann@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+	Tue, 16 Jul 2019 15:33:13 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id t8so14937560qkt.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jul 2019 08:33:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=mAWKvVP2zP9P8jLh/J7HnD/byAdn9+mYJ/ydymJqQBc=;
+	b=haD9jzLSPeR+iUEXZhrxubePtt7/QrL+aOtxxFIJsu5FLr0D3LrjmzrPNSY4mIzlSe
+	y+eek/gtHIJXlYPcu4xXh0lnFwDCr8Smlyk5SG+eJlqWrlreVwPK2DnlazaKTWZtr7oY
+	NmR97OVAFwOlWN+DW/scH2vzSEkIPBn597sRnJNr77WcM5IePHuyrFXhElrcO+csUgmO
+	edTj3BM4LwOSyNO9tslv6YNCc5H0Vf3vKQhZhEkcq+0vm/C1cOJjAJp9D7yv6iHrErI9
+	wm6lim/kHNOfBFYp6dji7pnMb68dz68ifOkYw0o0sECb4ZBW0f7pgiWmiDTPBo3a5MLE
+	9Irw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=mAWKvVP2zP9P8jLh/J7HnD/byAdn9+mYJ/ydymJqQBc=;
+	b=O96CbSeLb7WoI8fQk/Bf79R6mOGWwV+SFI0Tg4xuAXFXel8mpQfm2sK2KW8MelJOcy
+	a2G2iHG7/A6g7PJrBm4f6FBZvhhGbLLS/FcmV8ogYVAPujE8scw6WjKyjijKf3tSKfik
+	6jbyKI0cSeDA3Z4by3+ZaiC2n3e78hoMPIe+cxvALm+t5A8aeKHhbJ359j6GkE/Fldfw
+	bdSEp1yIaqxYgUrdilLff9naPGF52MMacJ7xYd740hon+bNWR7/U8vZ7cWTglOiuPaoe
+	aKAc27ya7qeBn5DliTELW4EMGWau3EQDy9psWyl0xIJR+uSQMv9EiqIW0ANoI/MrbvOJ
+	APdw==
+X-Gm-Message-State: APjAAAVkmy7+ahJsiH6EmP79yux7BNotnec1GQybHmjzZoRXN6BNjWgg
+	pk9KoKQPN3YneIUrTcXfXxwzPNxOCqhLRYpPqZ8=
+X-Google-Smtp-Source: APXvYqyVHVYlYI9z88WwJFLGMUkW9LHT7dtSHlhKgxeTMsM0s0BnpkShuiWBOGHfQlbIc25rS5x6AqWbOOE/yKYq91U=
+X-Received: by 2002:a37:a20f:: with SMTP id l15mr22029960qke.212.1563291193948;
+	Tue, 16 Jul 2019 08:33:13 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: uol@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>
-Subject: [PATCH] squashfs-tools: upgrade to commit f95864afe883
+References: <20190715102016.114264-1-kai.kang@windriver.com>
+	<CAMKF1sq8rpdxdH2Yr8bHze06-R3hsmLTDdSLkX-TEj4utY2VYQ@mail.gmail.com>
+	<0f664af2-cea3-aaa2-2a7c-74c43d58ced4@windriver.com>
+In-Reply-To: <0f664af2-cea3-aaa2-2a7c-74c43d58ced4@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 16 Jul 2019 08:33:02 -0700
+Message-ID: <CAMKF1spSOgaLYgy6U3r=wXNPcMA+qyy1Oigpob42xFAOFugbvA@mail.gmail.com>
+To: Kang Kai <Kai.Kang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] webkitgtk: set incomptible with tune mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,327 +56,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2019 13:54:45 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 16 Jul 2019 15:33:13 -0000
+Content-Type: multipart/alternative; boundary="0000000000004bbf53058dce1831"
 
-The master branch's current tip commit as of this writing is [1], see the
-squashfs-tool's repo at [0].
+--0000000000004bbf53058dce1831
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Because of commits [2]-[4] which are included in the master branch three
-corresponding patches are dropped as they are not needed anymore. The single
-remaining patch was rebased on top of [1] to apply cleanly.
+On Tue, Jul 16, 2019 at 2:33 AM Kang Kai <Kai.Kang@windriver.com> wrote:
 
-Commits [5] & [6] introduced interesting features, namely zstd support and
-reproducibility of created SquashFS images. They are reflected in two new
-PACKAGECONFIG options now.
-
-[0] https://github.com/plougher/squashfs-tools.git
-[1] f95864afe883 ("unsquashfs-4: Add more sanity checks + fix CVE-2015-4645/6")
-[2] 46bdc1726e5a ("mksquashfs: Make a load of functions static")
-[3] b0ca8a5c98ff ("pseudo.c: add explicit <sys/stat.h> include")
-[4] f95864afe883 ("unsquashfs-4: Add more sanity checks + fix CVE-2015-4645/6")
-[5] 6113361316d5 ("squashfs-tools: Add zstd support")
-[6] e0d74d07bb35 ("Add configuration and Mksquashfs build options for
-                   reproducible builds")
-
-Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
----
- ...c-get-inline-functions-work-with-C99.patch | 154 ------------------
- ...shfs-tools-patch-for-CVE-2015-4645-6.patch |  47 ------
- .../squashfs-tools/fix-compat.patch           |  17 --
- .../squashfs-tools-4.3-sysmacros.patch        |   2 +-
- .../squashfs-tools/squashfs-tools_git.bb      |   9 +-
- 5 files changed, 5 insertions(+), 224 deletions(-)
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch
-
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
-deleted file mode 100644
-index a5bab054486a..000000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
-+++ /dev/null
-@@ -1,154 +0,0 @@
--From ac6268e843c43286eebff2a1052182c2393cdb2e Mon Sep 17 00:00:00 2001
--From: Roy Li <rongqing.li@windriver.com>
--Date: Mon, 14 Sep 2015 12:31:42 +0800
--Subject: [PATCH] mksquashfs.c:  get inline functions work with both gnu11 and gnu89
--
--Upstream-Status: Pending
--
--After gcc upgraded to gcc5, and if the codes is compiled without optimization(-O0),
--and the below error will happen:
--
--| mksquashfs.o: In function `create_inode':
--| git/squashfs-tools/mksquashfs.c:897: undefined reference to `get_inode_no'
--| git/squashfs-tools/mksquashfs.c:960: undefined reference to `get_parent_no'
--| git/squashfs-tools/mksquashfs.c:983: undefined reference to `get_parent_no'
--| mksquashfs.o: In function `reader_read_process':
--| git/squashfs-tools/mksquashfs.c:2132: undefined reference to `is_fragment'
--| mksquashfs.o: In function `reader_read_file':
--| git/squashfs-tools/mksquashfs.c:2228: undefined reference to `is_fragment'
--| mksquashfs.o: In function `dir_scan':
--| git/squashfs-tools/mksquashfs.c:3101: undefined reference to `create_dir_entry'
--
--gcc5 defaults to -std=gnu11 instead of -std=gnu89, and it requires that exactly one C
--source file has the callable copy of the inline function. Consider the following
--program:
--
--  inline int
--  foo (void)
--  {
--    return 42;
--  }
--
--  int
--  main (void)
--  {
--    return foo ();
--  }
--
--The program above will not link with the C99 inline semantics, because no out-of-line
--function foo is generated. To fix this, either mark the function foo as static, or
--add the following declaration:
--  static inline int foo (void);
--
--more information refer to: https://gcc.gnu.org/gcc-5/porting_to.html;
--
--but the use of "extern inline" will lead to the compilation issue if gcc is not
--gcc5, as the commit in oe-core d0af30c92fde [alsa-lib: Change function type to
--"static __inline__"]
--    "extern __inline__ function()" is the inlined version that
--    can be used in this compilation unit, but there will be another
--    definition of this function somewhere, so compiler will not emit
--    any code for the function body. This causes problem in -O0,
--    where functions are never inlined, the function call is preserved,
--    but linker can't find the symbol, thus the error happens.
--
--so replace "inline" with "static inline" to make it work with both gnu11 and gnu89
--
--Signed-off-by: Roy Li <rongqing.li@windriver.com>
-----
-- squashfs-tools/mksquashfs.c | 20 ++++++++++----------
-- 1 file changed, 10 insertions(+), 10 deletions(-)
--
--diff --git a/squashfs-tools/mksquashfs.c b/squashfs-tools/mksquashfs.c
--index d221c35..6bba1d2 100644
----- a/squashfs-tools/mksquashfs.c
--+++ b/squashfs-tools/mksquashfs.c
--@@ -828,13 +828,13 @@ char *subpathname(struct dir_ent *dir_ent)
-- }
-- 
-- 
---inline unsigned int get_inode_no(struct inode_info *inode)
--+static inline unsigned int get_inode_no(struct inode_info *inode)
-- {
-- 	return inode->inode_number;
-- }
-- 
-- 
---inline unsigned int get_parent_no(struct dir_info *dir)
--+static inline unsigned int get_parent_no(struct dir_info *dir)
-- {
-- 	return dir->depth ? get_inode_no(dir->dir_ent->inode) : inode_no;
-- }
--@@ -2027,7 +2027,7 @@ struct file_info *duplicate(long long file_size, long long bytes,
-- }
-- 
-- 
---inline int is_fragment(struct inode_info *inode)
--+static inline int is_fragment(struct inode_info *inode)
-- {
-- 	off_t file_size = inode->buf.st_size;
-- 
--@@ -2996,13 +2996,13 @@ struct inode_info *lookup_inode2(struct stat *buf, int pseudo, int id)
-- }
-- 
-- 
---inline struct inode_info *lookup_inode(struct stat *buf)
--+static inline struct inode_info *lookup_inode(struct stat *buf)
-- {
-- 	return lookup_inode2(buf, 0, 0);
-- }
-- 
-- 
---inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
--+static inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
-- {
-- 	if (inode->inode_number == 0) {
-- 		inode->inode_number = use_this ? : inode_no ++;
--@@ -3013,7 +3013,7 @@ inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
-- }
-- 
-- 
---inline struct dir_ent *create_dir_entry(char *name, char *source_name,
--+static inline struct dir_ent *create_dir_entry(char *name, char *source_name,
-- 	char *nonstandard_pathname, struct dir_info *dir)
-- {
-- 	struct dir_ent *dir_ent = malloc(sizeof(struct dir_ent));
--@@ -3031,7 +3031,7 @@ inline struct dir_ent *create_dir_entry(char *name, char *source_name,
-- }
-- 
-- 
---inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
--+static inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
-- 	struct inode_info *inode_info)
-- {
-- 	struct dir_info *dir = dir_ent->our_dir;
--@@ -3047,7 +3047,7 @@ inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
-- }
-- 
-- 
---inline void add_dir_entry2(char *name, char *source_name,
--+static inline void add_dir_entry2(char *name, char *source_name,
-- 	char *nonstandard_pathname, struct dir_info *sub_dir,
-- 	struct inode_info *inode_info, struct dir_info *dir)
-- {
--@@ -3059,7 +3059,7 @@ inline void add_dir_entry2(char *name, char *source_name,
-- }
-- 
-- 
---inline void free_dir_entry(struct dir_ent *dir_ent)
--+static inline void free_dir_entry(struct dir_ent *dir_ent)
-- {
-- 	if(dir_ent->name)
-- 		free(dir_ent->name);
--@@ -3080,7 +3080,7 @@ inline void free_dir_entry(struct dir_ent *dir_ent)
-- }
-- 
-- 
---inline void add_excluded(struct dir_info *dir)
--+static inline void add_excluded(struct dir_info *dir)
-- {
-- 	dir->excluded ++;
-- }
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch
-deleted file mode 100644
-index 2261ea94b75d..000000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From 3c0d67184d6edb63f3b7d6d5eb81531daa6388f3 Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Tue, 28 Aug 2018 16:25:36 +0800
--Subject: [PATCH] squashfs-tools: patch for CVE-2015-4645(6)
--
--Upstream-Status: Backport[https://github.com/devttys0/sasquatch/pull/
--                 5/commits/6777e08cc38bc780d27c69c1d8c272867b74524f]
--
--CVE: CVE-2015-4645 CVE-2015-4646
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- squashfs-tools/unsquash-4.c | 11 ++++++++---
-- 1 file changed, 8 insertions(+), 3 deletions(-)
--
--diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
--index ecdaac7..692ae25 100644
----- a/squashfs-tools/unsquash-4.c
--+++ b/squashfs-tools/unsquash-4.c
--@@ -31,9 +31,9 @@ static unsigned int *id_table;
-- int read_fragment_table_4(long long *directory_table_end)
-- {
-- 	int res, i;
---	int bytes = SQUASHFS_FRAGMENT_BYTES(sBlk.s.fragments);
---	int  indexes = SQUASHFS_FRAGMENT_INDEXES(sBlk.s.fragments);
---	long long fragment_table_index[indexes];
--+	size_t bytes = SQUASHFS_FRAGMENT_BYTES(sBlk.s.fragments);
--+	size_t indexes = SQUASHFS_FRAGMENT_INDEXES(sBlk.s.fragments);
--+	long long *fragment_table_index;
-- 
-- 	TRACE("read_fragment_table: %d fragments, reading %d fragment indexes "
-- 		"from 0x%llx\n", sBlk.s.fragments, indexes,
--@@ -43,6 +43,11 @@ int read_fragment_table_4(long long *directory_table_end)
-- 		*directory_table_end = sBlk.s.fragment_table_start;
-- 		return TRUE;
-- 	}
--+        
--+	fragment_table_index = malloc(indexes*sizeof(long long));
--+	if(fragment_table_index == NULL)
--+		EXIT_UNSQUASH("read_fragment_table: failed to allocate "
--+			"fragment table index\n");
-- 
-- 	fragment_table = malloc(bytes);
-- 	if(fragment_table == NULL)
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch
-deleted file mode 100644
-index 87c1e8cac03f..000000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch
-+++ /dev/null
-@@ -1,17 +0,0 @@
--include missing sys/stat.h for stat* function declarations
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Index: squashfs-tools/pseudo.c
--===================================================================
----- squashfs-tools.orig/pseudo.c
--+++ squashfs-tools/pseudo.c
--@@ -32,6 +32,7 @@
-- #include <stdlib.h>
-- #include <sys/types.h>
-- #include <sys/wait.h>
--+#include <sys/stat.h>
-- #include <ctype.h>
-- 
-- #include "pseudo.h"
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
-index 39521a7d8b26..f2e88f416a2c 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
-@@ -19,7 +19,7 @@ sys/types.h might not always include sys/sysmacros.h for major/minor/makedev
-  #include "squashfs_fs.h"
- --- a/squashfs-tools/unsquashfs.c
- +++ b/squashfs-tools/unsquashfs.c
--@@ -38,6 +38,10 @@
-+@@ -40,6 +40,10 @@
-  #include <limits.h>
-  #include <ctype.h>
-  
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index dc1568a77c9a..cca0524b7ea4 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -6,12 +6,9 @@ LICENSE = "GPL-2"
- LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- PV = "4.3+gitr${SRCPV}"
--SRCREV = "9c1db6d13a51a2e009f0027ef336ce03624eac0d"
-+SRCREV = "f95864afe8833fe3ad782d714b41378e860977b1"
- SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
--           file://0001-mksquashfs.c-get-inline-functions-work-with-C99.patch;striplevel=2 \
-            file://squashfs-tools-4.3-sysmacros.patch;striplevel=2 \
--           file://fix-compat.patch \
--           file://0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch;striplevel=2 \
- "
- UPSTREAM_CHECK_COMMITS = "1"
- SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
-@@ -24,13 +21,15 @@ COMPATIBLE_HOST_libc-musl = 'null'
- 
- EXTRA_OEMAKE = "${PACKAGECONFIG_CONFARGS}"
- 
--PACKAGECONFIG ??= "gzip xz lzo lz4 lzma xattr"
-+PACKAGECONFIG ??= "gzip xz lzo lz4 lzma xattr zstd reproducible"
- PACKAGECONFIG[gzip] = "GZIP_SUPPORT=1,GZIP_SUPPORT=0,zlib"
- PACKAGECONFIG[xz] = "XZ_SUPPORT=1,XZ_SUPPORT=0,xz"
- PACKAGECONFIG[lzo] = "LZO_SUPPORT=1,LZO_SUPPORT=0,lzo"
- PACKAGECONFIG[lz4] = "LZ4_SUPPORT=1,LZ4_SUPPORT=0,lz4"
- PACKAGECONFIG[lzma] = "LZMA_XZ_SUPPORT=1,LZMA_XZ_SUPPORT=0,xz"
- PACKAGECONFIG[xattr] = "XATTR_SUPPORT=1,XATTR_SUPPORT=0,attr"
-+PACKAGECONFIG[zstd] = "ZSTD_SUPPORT=1,ZSTD_SUPPORT=0,zstd"
-+PACKAGECONFIG[reproducible] = "REPRODUCIBLE_DEFAULT=1,REPRODUCIBLE_DEFAULT=0,"
- 
- do_compile() {
- 	oe_runmake mksquashfs unsquashfs
--- 
-2.20.1
+> On 2019/7/16 =E4=B8=8B=E5=8D=883:19, Khem Raj wrote:
+> > On Mon, Jul 15, 2019 at 3:21 AM <kai.kang@windriver.com> wrote:
+> >> From: Kai Kang <kai.kang@windriver.com>
+> >>
+> >> It fails to compile webkit when default tune is 'mips':
+> >>
+> >> | .../tmp-glibc/work/mips-wrs-linux/webkitgtk/2.24.2-r0/webkitgtk-2.24=
+.2
+> >> | /Source/JavaScriptCore/assembler/MacroAssemblerMIPS.h:418:23:
+> >> | error: static assertion failed: CLZ opcode is not available for this
+> ISA
+> >>
+> >> So don't build webkit when default tune is mips.
+> >>
+> >> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> >> ---
+> >>   meta/recipes-sato/webkit/webkitgtk_2.24.2.bb | 2 ++
+> >>   1 file changed, 2 insertions(+)
+> >>
+> >> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
+> b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
+> >> index 056334fff5..891266b220 100644
+> >> --- a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
+> >> +++ b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
+> >> @@ -43,6 +43,8 @@ DEPENDS =3D "zlib libsoup-2.4 curl libxml2 cairo
+> libxslt libxt libidn libgcrypt \
+> >>             gettext-native glib-2.0 glib-2.0-native libtasn1 \
+> >>             "
+> >>
+> >> +COMPATIBLE_HOST_mipsarch =3D "${@bb.utils.contains('DEFAULTTUNE',
+> 'mips', 'null', 'mips.*-linux', d)}"
+> >> +
+> > this disables is for all kind of mips. I think thats a broad set, it
+> > would be best to narrow it to what you saw it failing for
+> > e.g. it should work for mips32 and mips64 so maybe mips1 is what you
+> > want to disable for
+>
+> I tested with qemumips and qemumips64. When set
+>
+> DEFAULTTUNE=3D "mips"
 
 
+How about using mips32 and mips64 for default tune and retest
+
+>
+>
+> It fails with the error.
+>
+> Regards,
+> Kai
+>
+> >
+> >
+> >>   PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11',
+> 'x11', 'wayland' ,d)} \
+> >>                      ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
+> 'webgl opengl', '' ,d)} \
+> >>                      enchant \
+> >> --
+> >> 2.20.0
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+> --
+> Kai Kang
+>
+>
+
+--0000000000004bbf53058dce1831
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Jul 16, 2019 at 2:33 AM Kang Kai &lt;<a href=3D"mai=
+lto:Kai.Kang@windriver.com">Kai.Kang@windriver.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">On 2019/7/16 =E4=B8=8B=E5=8D=883:19, Khem Ra=
+j wrote:<br>
+&gt; On Mon, Jul 15, 2019 at 3:21 AM &lt;<a href=3D"mailto:kai.kang@windriv=
+er.com" target=3D"_blank">kai.kang@windriver.com</a>&gt; wrote:<br>
+&gt;&gt; From: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targe=
+t=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; It fails to compile webkit when default tune is &#39;mips&#39;:<br=
+>
+&gt;&gt;<br>
+&gt;&gt; | .../tmp-glibc/work/mips-wrs-linux/webkitgtk/2.24.2-r0/webkitgtk-=
+2.24.2<br>
+&gt;&gt; | /Source/JavaScriptCore/assembler/MacroAssemblerMIPS.h:418:23:<br=
+>
+&gt;&gt; | error: static assertion failed: CLZ opcode is not available for =
+this ISA<br>
+&gt;&gt;<br>
+&gt;&gt; So don&#39;t build webkit when default tune is mips.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.c=
+om" target=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 =C2=A0meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2=
+.24.2.bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.24.2.bb</a> | 2 =
+++<br>
+&gt;&gt;=C2=A0 =C2=A01 file changed, 2 insertions(+)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_=
+2.24.2.bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.24.2.bb</a> b/m=
+eta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.24.2.bb" rel=3D"noref=
+errer" target=3D"_blank">webkitgtk_2.24.2.bb</a><br>
+&gt;&gt; index 056334fff5..891266b220 100644<br>
+&gt;&gt; --- a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.24.2.=
+bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.24.2.bb</a><br>
+&gt;&gt; +++ b/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.24.2.=
+bb" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.24.2.bb</a><br>
+&gt;&gt; @@ -43,6 +43,8 @@ DEPENDS =3D &quot;zlib libsoup-2.4 curl libxml2 =
+cairo libxslt libxt libidn libgcrypt \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gettext-native glib=
+-2.0 glib-2.0-native libtasn1 \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; +COMPATIBLE_HOST_mipsarch =3D &quot;${@bb.utils.contains(&#39;DEFA=
+ULTTUNE&#39;, &#39;mips&#39;, &#39;null&#39;, &#39;mips.*-linux&#39;, d)}&q=
+uot;<br>
+&gt;&gt; +<br>
+&gt; this disables is for all kind of mips. I think thats a broad set, it<b=
+r>
+&gt; would be best to narrow it to what you saw it failing for<br>
+&gt; e.g. it should work for mips32 and mips64 so maybe mips1 is what you<b=
+r>
+&gt; want to disable for<br>
+<br>
+I tested with qemumips and qemumips64. When set<br>
+<br>
+DEFAULTTUNE=3D &quot;mips&quot;</blockquote><div dir=3D"auto"><br></div><di=
+v dir=3D"auto">How about using mips32 and mips64 for default tune and retes=
+t=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><br>
+<br>
+It fails with the error.<br>
+<br>
+Regards,<br>
+Kai<br>
+<br>
+&gt;<br>
+&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0PACKAGECONFIG ??=3D &quot;${@bb.utils.contains(&#39;DI=
+STRO_FEATURES&#39;, &#39;x11&#39;, &#39;x11&#39;, &#39;wayland&#39; ,d)} \<=
+br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;opengl&#39;=
+, &#39;webgl opengl&#39;, &#39;&#39; ,d)} \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 enchant \<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.20.0<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; _______________________________________________<br>
+&gt;&gt; Openembedded-core mailing list<br>
+&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=
+=3D"_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
+rg/mailman/listinfo/openembedded-core</a><br>
+<br>
+<br>
+-- <br>
+Kai Kang<br>
+<br>
+</blockquote></div></div>
+
+--0000000000004bbf53058dce1831--
