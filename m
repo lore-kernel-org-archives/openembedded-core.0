@@ -1,53 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
-	[209.85.221.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 415387E65E
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+	[209.85.128.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 89DE87E467
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2019 12:46:54 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id f9so20774458wre.12
+	Tue, 16 Jul 2019 12:47:24 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id l2so18572353wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2019 05:46:55 -0700 (PDT)
+	Tue, 16 Jul 2019 05:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=xyQF/DJfcr/wUf1EqFjJVmI/XtIJalwSror0gETxiv4=;
-	b=mJdQa9RK8SZFrNHRjbr6U5E5SxXwsSuH7UY0Mv4FSnN5aTajSe8I60cuSODMhYpMdg
-	h5GG5yES6fxZQMLRhrkzvB1ucj2R5kIfmtCQpnHMdsvWZvEYUZ3rFh73SknaSQwQMuiJ
-	Ggv+XaSaf3gm3ghADpk1lcmBcaZLgqQ495+SNG1+ZkWkVdkr8QzHOi6ykb1WkFj/b8YO
-	M17GXUd/AEwLsvI+uurpCTx1+RU6zof7A3r8h+rnTxdzVcTy90crBRphgoTZOCqjVwZ1
-	ePYWaXkJF/MmD9cfTp3KtdrETYglP8nM4jYfTCKm/oF673eCUfjF5ydLmidXPy8Pi+4M
-	vy0g==
+	bh=QML8oMC1xdNQ8GtgkyHCi1A53x2hZgPAYn8XJL+6Ojc=;
+	b=ostOXA4utUOvf2oDj3a5v20vyU479bD4QGnLRoGm9LdGmBAgs9dm6TIZiR0WMIA2QO
+	qjMw47F0RwVwJ/mXciA9UaeSSKuWJdkUN/5267dbuTTnnbtPPd3qA3uyYjw5ZlHYyqW4
+	UUJbhd1N0iOuSmJQu+m1PEyOdeHioL4nv9QFBcP2iF4dTDMfiV948/qQpe6ugpwUCz8T
+	scTpE1xQbbxoBRCcvOxgodavugpQdet875TUL72/6AuBWd4gh1XuYE7R0xzXBLzLtYm3
+	Coj3fyUVymM4B9daKMOkAyqFGK6Z+OyETwDOP+XTdxuCn3lt5eSiY6yLiZgs5GsbZrDZ
+	5pDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=xyQF/DJfcr/wUf1EqFjJVmI/XtIJalwSror0gETxiv4=;
-	b=rpnoQ8MDy8sM6HjRlx7DJtdp2GBus2iqUWIqFGwMjyKv7pTkfDzpvvtd8yqj2Or2j3
-	a5q8HgC5/0DeKapegxazsbYC9yxDQssUKwosX2GyiLETYAGonyUvmUEUndXpMlg9iYYB
-	UVxgBK69ZGRa1zH2AIgn249esoWy2YGNs3W2sSgJ+cwN8YKq5i7Th4gzP0lN8uxK2EG4
-	chANE9ohgzTMgTPl3cCHsOC2KDrR8Z9Q4euVbj8LWVDvNScx0vpZ9GTHHTq1FM1mWpkI
-	D9FS5wM3mByIaDG6otX1rHuFkk57S1o68KmgiMaSHk78OFQTodvj6Us6D0We5+eikEI6
-	aAPg==
-X-Gm-Message-State: APjAAAUnqvT1KvJT3bHYZu4xIL2oA7kyob5BNPIthZA/FsV3w75g2LpU
-	IsfSoKQcroBm9OQ2/T0VkieIjIeC/r4=
-X-Google-Smtp-Source: APXvYqytUsJiCX9NiRd9A25k2BryJXWp6EORqPgvBMXFw1SCuNrBfIqKtkaatTTfIGx+fVS5GtFK9A==
-X-Received: by 2002:adf:9ece:: with SMTP id b14mr35749521wrf.192.1563281214143;
-	Tue, 16 Jul 2019 05:46:54 -0700 (PDT)
+	bh=QML8oMC1xdNQ8GtgkyHCi1A53x2hZgPAYn8XJL+6Ojc=;
+	b=km3VePBPDZv0XNUVWFt8GMk+tamHXEDaO2of7kCAVm3S5DioZG2RVU27zPOaKmJard
+	sb77R26uk/R3/jqa7rC8B5/nxSxE9habFR/ahQ9CM2a6rHQaHlPskgyvZCYOGg7TuRSn
+	VRSCQ20E3zUO07vUYB0Y7L19Ni7hQNvzZ1nKX4TJPHOPQkb1h/BExXKxM4iIKbsYBYwx
+	xFGhrYu8n/VQy8HFcBf3zNr7CnWWY/u9CJv2T3HTFpAZR7NGnoTYbz+5L5LdeSbKtA9i
+	h6oslxwr7OrRXWwBn4ZiF+lLPbzryEovmt3wzGnn14SwHAqdc2zAEbnsQz7MvU/R6xSh
+	WdgA==
+X-Gm-Message-State: APjAAAX5GgoQ9axTaQxZ/tb7HlKEAHAL8Y9MxOH1kRakuSf5A5GtgxZD
+	EIQpqLqdnxAXgPNsDVxqOwPfy7v7Dho=
+X-Google-Smtp-Source: APXvYqwntbCOZ4wlONvCZVtSm+kV8akbYf+ogs/ZYmjjjPA2w+VPHD+iX2PRNQai3PTy8RJbXnLvJQ==
+X-Received: by 2002:a1c:9a46:: with SMTP id c67mr29919399wme.11.1563281245030; 
+	Tue, 16 Jul 2019 05:47:25 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	r5sm21817269wmh.35.2019.07.16.05.46.52
+	m7sm17012436wrx.65.2019.07.16.05.47.24
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 16 Jul 2019 05:46:53 -0700 (PDT)
+	Tue, 16 Jul 2019 05:47:24 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jul 2019 13:46:50 +0100
-Message-Id: <20190716124650.22236-1-ross.burton@intel.com>
+Date: Tue, 16 Jul 2019 13:47:21 +0100
+Message-Id: <20190716124721.22289-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Sergey Popovich <popovich_sergei@mail.ua>,
-	Jussi Kukkonen <jussi.kukkonen@intel.com>
-Subject: [PATCH] cve-check-tool: remove
+Subject: [PATCH] glibc: exclude child recipes from CVE scanning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,627 +59,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2019 12:46:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 16 Jul 2019 12:47:24 -0000
 Content-Transfer-Encoding: 8bit
+
+As glibc will be scanned for CVEs, we don't need to scan glibc-locale,
+glibc-mtrace, and glibc-scripts which are all separate recipes for technical
+reasons.
+
+Exclude the recipes by setting CVE_PRODUCT in the recipe, instead of using the
+global whitelist.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../cve-check-tool/cve-check-tool_5.6.4.bb    |  62 -----
- ...x-freeing-memory-allocated-by-sqlite.patch |  50 ----
- ...erriding-default-CA-certificate-file.patch | 215 ------------------
- ...s-in-percent-when-downloading-CVE-db.patch | 135 -----------
- ...omputed-vs-expected-sha256-digit-str.patch |  52 -----
- ...heck-for-malloc_trim-before-using-it.patch |  51 -----
- 6 files changed, 565 deletions(-)
- delete mode 100644 meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
- delete mode 100644 meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch
- delete mode 100644 meta/recipes-devtools/cve-check-tool/files/0001-curl-allow-overriding-default-CA-certificate-file.patch
- delete mode 100644 meta/recipes-devtools/cve-check-tool/files/0001-print-progress-in-percent-when-downloading-CVE-db.patch
- delete mode 100644 meta/recipes-devtools/cve-check-tool/files/0001-update-Compare-computed-vs-expected-sha256-digit-str.patch
- delete mode 100644 meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
+ meta/classes/cve-check.bbclass            | 4 +---
+ meta/recipes-core/glibc/glibc-locale.inc  | 3 +++
+ meta/recipes-core/glibc/glibc-mtrace.inc  | 3 +++
+ meta/recipes-core/glibc/glibc-scripts.inc | 3 +++
+ 4 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb b/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
-deleted file mode 100644
-index 1c84fb1cf2d..00000000000
---- a/meta/recipes-devtools/cve-check-tool/cve-check-tool_5.6.4.bb
-+++ /dev/null
-@@ -1,62 +0,0 @@
--SUMMARY = "cve-check-tool"
--DESCRIPTION = "cve-check-tool is a tool for checking known (public) CVEs.\
--The tool will identify potentially vunlnerable software packages within Linux distributions through version matching."
--HOMEPAGE = "https://github.com/ikeydoherty/cve-check-tool"
--SECTION = "Development/Tools"
--LICENSE = "GPL-2.0+"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=e8c1458438ead3c34974bc0be3a03ed6"
--
--SRC_URI = "https://github.com/ikeydoherty/${BPN}/releases/download/v${PV}/${BP}.tar.xz \
--           file://check-for-malloc_trim-before-using-it.patch \
--           file://0001-print-progress-in-percent-when-downloading-CVE-db.patch \
--           file://0001-curl-allow-overriding-default-CA-certificate-file.patch \
--           file://0001-update-Compare-computed-vs-expected-sha256-digit-str.patch \
--           file://0001-Fix-freeing-memory-allocated-by-sqlite.patch \
--          "
--
--SRC_URI[md5sum] = "c5f4247140fc9be3bf41491d31a34155"
--SRC_URI[sha256sum] = "b8f283be718af8d31232ac1bfc10a0378fb958aaaa49af39168f8acf501e6a5b"
--
--UPSTREAM_CHECK_URI = "https://github.com/ikeydoherty/cve-check-tool/releases"
--
--DEPENDS = "libcheck glib-2.0 json-glib curl libxml2 sqlite3 openssl ca-certificates"
--
--RDEPENDS_${PN} = "ca-certificates"
--
--inherit pkgconfig autotools
--
--EXTRA_OECONF = "--disable-coverage --enable-relative-plugins"
--CFLAGS_append = " -Wno-error=pedantic"
--
--do_populate_cve_db() {
--    if [ "${BB_NO_NETWORK}" = "1" ] ; then
--        bbwarn "BB_NO_NETWORK is set; Can't update cve-check-tool database, new CVEs won't be detected"
--        return
--    fi
--
--    # In case we don't inherit cve-check class, use default values defined in the class.
--    cve_dir="${CVE_CHECK_DB_DIR}"
--    cve_file="${CVE_CHECK_TMP_FILE}"
--
--    [ -z "${cve_dir}" ] && cve_dir="${DL_DIR}/CVE_CHECK"
--    [ -z "${cve_file}" ] && cve_file="${TMPDIR}/cve_check"
--
--    unused="${@bb.utils.export_proxies(d)}"
--    bbdebug 2 "Updating cve-check-tool database located in $cve_dir"
--    # --cacert works around curl-native not finding the CA bundle
--    if cve-check-update --cacert ${sysconfdir}/ssl/certs/ca-certificates.crt -d "$cve_dir" ; then
--        printf "CVE database was updated on %s UTC\n\n" "$(LANG=C date --utc +'%F %T')" > "$cve_file"
--    else
--        bbwarn "Error in executing cve-check-update"
--        if [ "${@'1' if bb.data.inherits_class('cve-check', d) else '0'}" -ne 0 ] ; then
--            bbwarn "Failed to update cve-check-tool database, CVEs won't be checked"
--        fi
--    fi
--}
--
--addtask populate_cve_db after do_populate_sysroot
--do_populate_cve_db[depends] = "cve-check-tool-native:do_populate_sysroot"
--do_populate_cve_db[nostamp] = "1"
--do_populate_cve_db[progress] = "percent"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch b/meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch
-deleted file mode 100644
-index 4a82cf2dded..00000000000
---- a/meta/recipes-devtools/cve-check-tool/files/0001-Fix-freeing-memory-allocated-by-sqlite.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From a3353429652f83bb8b0316500faa88fa2555542d Mon Sep 17 00:00:00 2001
--From: Peter Marko <peter.marko@siemens.com>
--Date: Thu, 13 Apr 2017 23:09:52 +0200
--Subject: [PATCH] Fix freeing memory allocated by sqlite
--
--Upstream-Status: Backport
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- src/core.c | 8 ++++----
-- 1 file changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/src/core.c b/src/core.c
--index 6263031..6788f16 100644
----- a/src/core.c
--+++ b/src/core.c
--@@ -82,7 +82,7 @@ static bool ensure_table(CveDB *self)
--         rc = sqlite3_exec(self->db, query, NULL, NULL, &err);
--         if (rc != SQLITE_OK) {
--                 fprintf(stderr, "ensure_table(): %s\n", err);
---                free(err);
--+                sqlite3_free(err);
--                 return false;
--         }
--         
--@@ -91,7 +91,7 @@ static bool ensure_table(CveDB *self)
--         rc = sqlite3_exec(self->db, query, NULL, NULL, &err);
--         if (rc != SQLITE_OK) {
--                 fprintf(stderr, "ensure_table(): %s\n", err);
---                free(err);
--+                sqlite3_free(err);
--                 return false;
--         }
-- 
--@@ -99,11 +99,11 @@ static bool ensure_table(CveDB *self)
--         rc = sqlite3_exec(self->db, query, NULL, NULL, &err);
--         if (rc != SQLITE_OK) {
--                 fprintf(stderr, "ensure_table(): %s\n", err);
---                free(err);
--+                sqlite3_free(err);
--                 return false;
--         }
--         if (err) {
---                free(err);
--+                sqlite3_free(err);
--         }
-- 
--         return true;
---- 
--2.1.4
--
-diff --git a/meta/recipes-devtools/cve-check-tool/files/0001-curl-allow-overriding-default-CA-certificate-file.patch b/meta/recipes-devtools/cve-check-tool/files/0001-curl-allow-overriding-default-CA-certificate-file.patch
-deleted file mode 100644
-index 3d8ebd1bd26..00000000000
---- a/meta/recipes-devtools/cve-check-tool/files/0001-curl-allow-overriding-default-CA-certificate-file.patch
-+++ /dev/null
-@@ -1,215 +0,0 @@
--From 825a9969dea052b02ba868bdf39e676349f10dce Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Thu, 9 Feb 2017 14:51:28 +0200
--Subject: [PATCH] curl: allow overriding default CA certificate file
--
--Similar to curl, --cacert can now be used in cve-check-tool and
--cve-check-update to override the default CA certificate file. Useful
--in cases where the system default is unsuitable (for example,
--out-dated) or broken (as in OE's current native libcurl, which embeds
--a path string from one build host and then uses it on another although
--the right path may have become something different).
--
--Upstream-Status: Submitted [https://github.com/ikeydoherty/cve-check-tool/pull/45]
--
--Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
--
--
--Took Patrick Ohlys original patch from meta-security-isafw, rebased
--on top of other patches.
--
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-----
-- src/library/cve-check-tool.h |  1 +
-- src/library/fetch.c          | 10 +++++++++-
-- src/library/fetch.h          |  3 ++-
-- src/main.c                   |  5 ++++-
-- src/update-main.c            |  4 +++-
-- src/update.c                 | 12 +++++++-----
-- src/update.h                 |  2 +-
-- 7 files changed, 27 insertions(+), 10 deletions(-)
--
--diff --git a/src/library/cve-check-tool.h b/src/library/cve-check-tool.h
--index e4bb5b1..f89eade 100644
----- a/src/library/cve-check-tool.h
--+++ b/src/library/cve-check-tool.h
--@@ -43,6 +43,7 @@ typedef struct CveCheckTool {
--     bool bugs;                          /**<Whether bug tracking is enabled */
--     GHashTable *mapping;                /**<CVE Mapping */
--     const char *output_file;            /**<Output file, if any */
--+    const char *cacert_file;            /**<Non-default SSL certificate file, if any */
-- } CveCheckTool;
-- 
-- /**
--diff --git a/src/library/fetch.c b/src/library/fetch.c
--index 0fe6d76..8f998c3 100644
----- a/src/library/fetch.c
--+++ b/src/library/fetch.c
--@@ -60,7 +60,8 @@ static int progress_callback_new(void *ptr, curl_off_t dltotal, curl_off_t dlnow
-- }
-- 
-- FetchStatus fetch_uri(const char *uri, const char *target, bool verbose,
---                      unsigned int start_percent, unsigned int end_percent)
--+                      unsigned int start_percent, unsigned int end_percent,
--+                      const char *cacert_file)
-- {
--         FetchStatus ret = FETCH_STATUS_FAIL;
--         CURLcode res;
--@@ -74,6 +75,13 @@ FetchStatus fetch_uri(const char *uri, const char *target, bool verbose,
--                 return ret;
--         }
-- 
--+        if (cacert_file) {
--+                res = curl_easy_setopt(curl, CURLOPT_CAINFO, cacert_file);
--+                if (res != CURLE_OK) {
--+                        goto bail;
--+                }
--+        }
--+
--         if (stat(target, &st) == 0) {
--                 res = curl_easy_setopt(curl, CURLOPT_TIMECONDITION, CURL_TIMECOND_IFMODSINCE);
--                 if (res != CURLE_OK) {
--diff --git a/src/library/fetch.h b/src/library/fetch.h
--index 4cce5d1..836c7d7 100644
----- a/src/library/fetch.h
--+++ b/src/library/fetch.h
--@@ -29,7 +29,8 @@ typedef enum {
--  * @return A FetchStatus, indicating the operation taken
--  */
-- FetchStatus fetch_uri(const char *uri, const char *target, bool verbose,
---                      unsigned int this_percent, unsigned int next_percent);
--+                      unsigned int this_percent, unsigned int next_percent,
--+                      const char *cacert_file);
-- 
-- /**
--  * Attempt to extract the given gzipped file
--diff --git a/src/main.c b/src/main.c
--index 8e6f158..ae69d47 100644
----- a/src/main.c
--+++ b/src/main.c
--@@ -280,6 +280,7 @@ static bool csv_mode = false;
-- static char *modified_stamp = NULL;
-- static gchar *mapping_file = NULL;
-- static gchar *output_file = NULL;
--+static gchar *cacert_file = NULL;
-- 
-- static GOptionEntry _entries[] = {
--         { "not-patched", 'n', 0, G_OPTION_ARG_NONE, &hide_patched, "Hide patched/addressed CVEs", NULL },
--@@ -294,6 +295,7 @@ static GOptionEntry _entries[] = {
--         { "csv", 'c', 0, G_OPTION_ARG_NONE, &csv_mode, "Output CSV formatted data only", NULL },
--         { "mapping", 'M', 0, G_OPTION_ARG_STRING, &mapping_file, "Path to a mapping file", NULL},
--         { "output-file", 'o', 0, G_OPTION_ARG_STRING, &output_file, "Path to the output file (output plugin specific)", NULL},
--+        { "cacert", 'C', 0, G_OPTION_ARG_STRING, &cacert_file, "Path to the combined SSL certificates file (system default is used if not set)", NULL},
--         { .short_name = 0 }
-- };
-- 
--@@ -492,6 +494,7 @@ int main(int argc, char **argv)
-- 
--         quiet = csv_mode || !no_html;
--         self->output_file = output_file;
--+        self->cacert_file = cacert_file;
-- 
--         if (!csv_mode && self->output_file) {
--                 quiet = false;
--@@ -530,7 +533,7 @@ int main(int argc, char **argv)
--                 if (status) {
--                         fprintf(stderr, "Update of db forced\n");
--                         cve_db_unlock();
---                        if (!update_db(quiet, db_path->str)) {
--+                        if (!update_db(quiet, db_path->str, self->cacert_file)) {
--                                 fprintf(stderr, "DB update failure\n");
--                                 goto cleanup;
--                         }
--diff --git a/src/update-main.c b/src/update-main.c
--index 2379cfa..c52d9d0 100644
----- a/src/update-main.c
--+++ b/src/update-main.c
--@@ -43,11 +43,13 @@ the Free Software Foundation; either version 2 of the License, or\n\
-- static gchar *nvds = NULL;
-- static bool _show_version = false;
-- static bool _quiet = false;
--+static const char *_cacert_file = NULL;
-- 
-- static GOptionEntry _entries[] = {
--         { "nvd-dir", 'd', 0, G_OPTION_ARG_STRING, &nvds, "NVD directory in filesystem", NULL },
--         { "version", 'v', 0, G_OPTION_ARG_NONE, &_show_version, "Show version", NULL },
--         { "quiet", 'q', 0, G_OPTION_ARG_NONE, &_quiet, "Run silently", NULL },
--+        { "cacert", 'C', 0, G_OPTION_ARG_STRING, &_cacert_file, "Path to the combined SSL certificates file (system default is used if not set)", NULL},
--         { .short_name = 0 }
-- };
-- 
--@@ -88,7 +90,7 @@ int main(int argc, char **argv)
--                 goto end;
--         }
-- 
---        if (update_db(_quiet, db_path->str)) {
--+        if (update_db(_quiet, db_path->str, _cacert_file)) {
--                 ret = EXIT_SUCCESS;
--         } else {
--                 fprintf(stderr, "Failed to update database\n");
--diff --git a/src/update.c b/src/update.c
--index 070560a..8cb4a39 100644
----- a/src/update.c
--+++ b/src/update.c
--@@ -267,7 +267,8 @@ static inline void update_end(int fd, const char *update_fname, bool ok)
-- 
-- static int do_fetch_update(int year, const char *db_dir, CveDB *cve_db,
--                            bool db_exist, bool verbose,
---                           unsigned int this_percent, unsigned int next_percent)
--+                           unsigned int this_percent, unsigned int next_percent,
--+                           const char *cacert_file)
-- {
--         const char nvd_uri[] = URI_PREFIX;
--         autofree(cve_string) *uri_meta = NULL;
--@@ -331,14 +332,14 @@ refetch:
--         }
-- 
--         /* Fetch NVD META file */
---        st = fetch_uri(uri_meta->str, nvdcve_meta->str, verbose, this_percent, this_percent);
--+        st = fetch_uri(uri_meta->str, nvdcve_meta->str, verbose, this_percent, this_percent, cacert_file);
--         if (st == FETCH_STATUS_FAIL) {
--                 fprintf(stderr, "Failed to fetch %s\n", uri_meta->str);
--                 return -1;
--         }
-- 
--         /* Fetch NVD XML file */
---        st = fetch_uri(uri_data_gz->str, nvdcve_data_gz->str, verbose, this_percent, next_percent);
--+        st = fetch_uri(uri_data_gz->str, nvdcve_data_gz->str, verbose, this_percent, next_percent, cacert_file);
--         switch (st) {
--         case FETCH_STATUS_FAIL:
--                 fprintf(stderr, "Failed to fetch %s\n", uri_data_gz->str);
--@@ -391,7 +392,7 @@ refetch:
--         return 0;
-- }
-- 
---bool update_db(bool quiet, const char *db_file)
--+bool update_db(bool quiet, const char *db_file, const char *cacert_file)
-- {
--         autofree(char) *db_dir = NULL;
--         autofree(CveDB) *cve_db = NULL;
--@@ -466,7 +467,8 @@ bool update_db(bool quiet, const char *db_file)
--                 if (!quiet)
--                         fprintf(stderr, "completed: %u%%\r", start_percent);
--                 rc = do_fetch_update(y, db_dir, cve_db, db_exist, !quiet,
---                                     start_percent, end_percent);
--+                                     start_percent, end_percent,
--+                                     cacert_file);
--                 switch (rc) {
--                 case 0:
--                         if (!quiet)
--diff --git a/src/update.h b/src/update.h
--index b8e9911..ceea0c3 100644
----- a/src/update.h
--+++ b/src/update.h
--@@ -15,7 +15,7 @@ cve_string *get_db_path(const char *path);
-- 
-- int update_required(const char *db_file);
-- 
---bool update_db(bool quiet, const char *db_file);
--+bool update_db(bool quiet, const char *db_file, const char *cacert_file);
-- 
-- 
-- /*
---- 
--2.1.4
--
-diff --git a/meta/recipes-devtools/cve-check-tool/files/0001-print-progress-in-percent-when-downloading-CVE-db.patch b/meta/recipes-devtools/cve-check-tool/files/0001-print-progress-in-percent-when-downloading-CVE-db.patch
-deleted file mode 100644
-index 8ea6f686e3f..00000000000
---- a/meta/recipes-devtools/cve-check-tool/files/0001-print-progress-in-percent-when-downloading-CVE-db.patch
-+++ /dev/null
-@@ -1,135 +0,0 @@
--From e9ed26cde63f8ca7607a010a518329339f8c02d3 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
--Date: Mon, 26 Sep 2016 12:12:41 +0100
--Subject: [PATCH] print progress in percent when downloading CVE db
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Upstream-Status: Pending
--Signed-off-by: André Draszik <git@andred.net>
-----
-- src/library/fetch.c | 28 +++++++++++++++++++++++++++-
-- src/library/fetch.h |  3 ++-
-- src/update.c        | 16 ++++++++++++----
-- 3 files changed, 41 insertions(+), 6 deletions(-)
--
--diff --git a/src/library/fetch.c b/src/library/fetch.c
--index 06d4b30..0fe6d76 100644
----- a/src/library/fetch.c
--+++ b/src/library/fetch.c
--@@ -37,13 +37,37 @@ static size_t write_func(void *ptr, size_t size, size_t nmemb, struct fetch_t *f
--         return fwrite(ptr, size, nmemb, f->f);
-- }
-- 
---FetchStatus fetch_uri(const char *uri, const char *target, bool verbose)
--+struct percent_t {
--+        unsigned int start;
--+        unsigned int end;
--+};
--+
--+static int progress_callback_new(void *ptr, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
--+{
--+        (void) ultotal;
--+        (void) ulnow;
--+
--+        struct percent_t *percent = (struct percent_t *) ptr;
--+
--+        if (dltotal && percent && percent->end >= percent->start) {
--+                unsigned int diff = percent->end - percent->start;
--+                if (diff) {
--+                        fprintf(stderr,"completed: %"CURL_FORMAT_CURL_OFF_T"%%\r", percent->start + (diff * dlnow / dltotal));
--+                }
--+        }
--+
--+        return 0;
--+}
--+
--+FetchStatus fetch_uri(const char *uri, const char *target, bool verbose,
--+                      unsigned int start_percent, unsigned int end_percent)
-- {
--         FetchStatus ret = FETCH_STATUS_FAIL;
--         CURLcode res;
--         struct stat st;
--         CURL *curl = NULL;
--         struct fetch_t *f = NULL;
--+        struct percent_t percent = { .start = start_percent, .end = end_percent };
-- 
--         curl = curl_easy_init();
--         if (!curl) {
--@@ -67,6 +91,8 @@ FetchStatus fetch_uri(const char *uri, const char *target, bool verbose)
--         }
--         if (verbose) {
--                 (void)curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
--+                (void)curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &percent);
--+                (void)curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progress_callback_new);
--         }
--         res = curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, (curl_write_callback)write_func);
--         if (res != CURLE_OK) {
--diff --git a/src/library/fetch.h b/src/library/fetch.h
--index 70c3779..4cce5d1 100644
----- a/src/library/fetch.h
--+++ b/src/library/fetch.h
--@@ -28,7 +28,8 @@ typedef enum {
--  * @param verbose Whether to be verbose
--  * @return A FetchStatus, indicating the operation taken
--  */
---FetchStatus fetch_uri(const char *uri, const char *target, bool verbose);
--+FetchStatus fetch_uri(const char *uri, const char *target, bool verbose,
--+                      unsigned int this_percent, unsigned int next_percent);
-- 
-- /**
--  * Attempt to extract the given gzipped file
--diff --git a/src/update.c b/src/update.c
--index 30fbe96..eaeeefd 100644
----- a/src/update.c
--+++ b/src/update.c
--@@ -266,7 +266,8 @@ static inline void update_end(int fd, const char *update_fname, bool ok)
-- }
-- 
-- static int do_fetch_update(int year, const char *db_dir, CveDB *cve_db,
---                           bool db_exist, bool verbose)
--+                           bool db_exist, bool verbose,
--+                           unsigned int this_percent, unsigned int next_percent)
-- {
--         const char nvd_uri[] = URI_PREFIX;
--         autofree(cve_string) *uri_meta = NULL;
--@@ -330,14 +331,14 @@ refetch:
--         }
-- 
--         /* Fetch NVD META file */
---        st = fetch_uri(uri_meta->str, nvdcve_meta->str, verbose);
--+        st = fetch_uri(uri_meta->str, nvdcve_meta->str, verbose, this_percent, this_percent);
--         if (st == FETCH_STATUS_FAIL) {
--                 fprintf(stderr, "Failed to fetch %s\n", uri_meta->str);
--                 return -1;
--         }
-- 
--         /* Fetch NVD XML file */
---        st = fetch_uri(uri_data_gz->str, nvdcve_data_gz->str, verbose);
--+        st = fetch_uri(uri_data_gz->str, nvdcve_data_gz->str, verbose, this_percent, next_percent);
--         switch (st) {
--         case FETCH_STATUS_FAIL:
--                 fprintf(stderr, "Failed to fetch %s\n", uri_data_gz->str);
--@@ -459,10 +460,17 @@ bool update_db(bool quiet, const char *db_file)
--         for (int i = YEAR_START; i <= year+1; i++) {
--                 int y = i > year ? -1 : i;
--                 int rc;
--+                unsigned int start_percent = ((i+0 - YEAR_START) * 100) / (year+2 - YEAR_START);
--+                unsigned int end_percent = ((i+1 - YEAR_START) * 100) / (year+2 - YEAR_START);
-- 
---                rc = do_fetch_update(y, db_dir, cve_db, db_exist, !quiet);
--+                if (!quiet)
--+                        fprintf(stderr, "completed: %u%%\r", start_percent);
--+                rc = do_fetch_update(y, db_dir, cve_db, db_exist, !quiet,
--+                                     start_percent, end_percent);
--                 switch (rc) {
--                 case 0:
--+                        if (!quiet)
--+                                fprintf(stderr,"completed: %u%%\r", end_percent);
--                         continue;
--                 case ENOMEM:
--                         goto oom;
---- 
--2.9.3
--
-diff --git a/meta/recipes-devtools/cve-check-tool/files/0001-update-Compare-computed-vs-expected-sha256-digit-str.patch b/meta/recipes-devtools/cve-check-tool/files/0001-update-Compare-computed-vs-expected-sha256-digit-str.patch
-deleted file mode 100644
-index 458c0cc84e5..00000000000
---- a/meta/recipes-devtools/cve-check-tool/files/0001-update-Compare-computed-vs-expected-sha256-digit-str.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From b0426e63c9ac61657e029f689bcb8dd051e752c6 Mon Sep 17 00:00:00 2001
--From: Sergey Popovich <popovich_sergei@mail.ua>
--Date: Fri, 21 Apr 2017 07:32:23 -0700
--Subject: [PATCH] update: Compare computed vs expected sha256 digit string
-- ignoring case
--
--We produce sha256 digest string using %x snprintf()
--qualifier for each byte of digest which uses alphabetic
--characters from "a" to "f" in lower case to represent
--integer values from 10 to 15.
--
--Previously all of the NVD META files supply sha256
--digest string for corresponding XML file in lower case.
--
--However due to some reason this changed recently to
--provide digest digits in upper case causing fetched
--data consistency checks to fail. This prevents database
--from being updated periodically.
--
--While commit c4f6e94 (update: Do not treat sha256 failure
--as fatal if requested) adds useful option to skip
--digest validation at all and thus provides workaround for
--this situation, it might be unacceptable for some
--deployments where we need to ensure that downloaded
--data is consistent before start parsing it and update
--SQLite database.
--
--Use strcasecmp() to compare two digest strings case
--insensitively and addressing this case.
--
--Upstream-Status: Backport
--Signed-off-by: Sergey Popovich <popovich_sergei@mail.ua>
-----
-- src/update.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/update.c b/src/update.c
--index 8588f38..3cc6b67 100644
----- a/src/update.c
--+++ b/src/update.c
--@@ -187,7 +187,7 @@ static bool nvdcve_data_ok(const char *meta, const char *data)
--                 snprintf(&csum_data[idx], len, "%02hhx", digest[i]);
--         }
-- 
---        ret = streq(csum_meta, csum_data);
--+        ret = !strcasecmp(csum_meta, csum_data);
-- 
-- err_unmap:
--         munmap(buffer, length);
---- 
--2.11.0
--
-diff --git a/meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch b/meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
-deleted file mode 100644
-index 0774ad946a4..00000000000
---- a/meta/recipes-devtools/cve-check-tool/files/check-for-malloc_trim-before-using-it.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--From ce64633b9733e962b8d8482244301f614d8b5845 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 22 Aug 2016 22:54:24 -0700
--Subject: [PATCH] Check for malloc_trim before using it
--
--malloc_trim is gnu specific and not all libc
--implement it, threfore write a configure check
--to poke for it first and use the define to
--guard its use.
--
--Helps in compiling on musl based systems
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Submitted [https://github.com/ikeydoherty/cve-check-tool/pull/48]
-- configure.ac | 2 ++
-- src/core.c   | 4 ++--
-- 2 files changed, 4 insertions(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index d3b66ce..79c3542 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -19,6 +19,8 @@ m4_define([json_required_version], [0.16.0])
-- m4_define([openssl_required_version],[1.0.0])
-- # TODO: Set minimum sqlite
-- 
--+AC_CHECK_FUNCS_ONCE(malloc_trim)
--+
-- PKG_CHECK_MODULES(CVE_CHECK_TOOL,
--                  [
--                   glib-2.0 >= glib_required_version,
--diff --git a/src/core.c b/src/core.c
--index 6263031..0d5df29 100644
----- a/src/core.c
--+++ b/src/core.c
--@@ -498,9 +498,9 @@ bool cve_db_load(CveDB *self, const char *fname)
--         }
-- 
--         b = true;
---
--+#ifdef HAVE_MALLOC_TRIM
--         malloc_trim(0);
---
--+#endif
--         xmlFreeTextReader(r);
--         if (fd) {
--                 close(fd);
---- 
--2.9.3
--
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 5979edf3d17..19ac48cfd49 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -37,9 +37,7 @@ CVE_CHECK_COPY_FILES ??= "1"
+ CVE_CHECK_CREATE_MANIFEST ??= "1"
+ 
+ # Whitelist for packages (PN)
+-CVE_CHECK_PN_WHITELIST = "\
+-    glibc-locale \
+-"
++CVE_CHECK_PN_WHITELIST ?= ""
+ 
+ # Whitelist for CVE and version of package. If a CVE is found then the PV is
+ # compared with the version list, and if found the CVE is considered
+diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+index bf5eaee9380..ef06389ff94 100644
+--- a/meta/recipes-core/glibc/glibc-locale.inc
++++ b/meta/recipes-core/glibc/glibc-locale.inc
+@@ -98,3 +98,6 @@ do_install() {
+ inherit libc-package
+ 
+ BBCLASSEXTEND = "nativesdk"
++
++# Don't scan for CVEs as glibc will be scanned
++CVE_PRODUCT = ""
+diff --git a/meta/recipes-core/glibc/glibc-mtrace.inc b/meta/recipes-core/glibc/glibc-mtrace.inc
+index d703c14bdc1..ef9d60ec239 100644
+--- a/meta/recipes-core/glibc/glibc-mtrace.inc
++++ b/meta/recipes-core/glibc/glibc-mtrace.inc
+@@ -11,3 +11,6 @@ do_install() {
+ 	install -d -m 0755 ${D}${bindir}
+ 	install -m 0755 ${SRC}/mtrace ${D}${bindir}/
+ }
++
++# Don't scan for CVEs as glibc will be scanned
++CVE_PRODUCT = ""
+diff --git a/meta/recipes-core/glibc/glibc-scripts.inc b/meta/recipes-core/glibc/glibc-scripts.inc
+index 2a2b41507ed..14a14e45126 100644
+--- a/meta/recipes-core/glibc/glibc-scripts.inc
++++ b/meta/recipes-core/glibc/glibc-scripts.inc
+@@ -18,3 +18,6 @@ do_install() {
+ # sotruss script requires sotruss-lib.so (given by libsotruss package), 
+ # to produce trace of the library calls.
+ RDEPENDS_${PN} += "libsotruss"
++
++# Don't scan for CVEs as glibc will be scanned
++CVE_PRODUCT = ""
 -- 
 2.20.1
 
