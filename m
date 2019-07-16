@@ -1,56 +1,82 @@
-Return-Path: <crg7475@mailbox.org>
-X-Greylist: delayed 383 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 17 Jul 2019 16:41:13 UTC
-Received: from mx2.mailbox.org (mx2.mailbox.org [80.241.60.215])
-	by mail.openembedded.org (Postfix) with ESMTP id 7857C7EC54
+Return-Path: <MANJUKUM@xilinx.com>
+X-Greylist: delayed 7222 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 17 Jul 2019 17:35:40 UTC
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+	(mail-eopbgr800044.outbound.protection.outlook.com [40.107.80.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 71B907C136
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 16:41:13 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-	(No client certificate requested)
-	by mx2.mailbox.org (Postfix) with ESMTPS id 16962A113B;
-	Wed, 17 Jul 2019 18:34:51 +0200 (CEST)
-Authentication-Results: spamfilter05.heinlein-hosting.de (amavisd-new);
-	dkim=pass (2048-bit key) reason="pass (just generated, assumed good)"
-	header.d=mailbox.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
-	s=mail20150812; 
-	t=1563381290; h=from:from:sender:reply-to:subject:subject:date:date:
-	message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=9kYLojyr/uay0yUcl88VpyccIJkuQDTZfayGTRrx2Co=;
-	b=o/9lYle+buEyOf+ohW7Mg0EYFHMZWYM44hoOm8/oSKyfzWreDXhDxVCvrZ9eiiOYV+0CN1
-	crOB2HamNY2nXp5yYIR0vxcfjsShQJ4z+/WbPWUFOYm/aCoAhGmnRktkMtx2TXFd28W5xO
-	FaoSPhjuxuCa28alcdsdvyjb3snr25aoueCc1FEaiILKui4/Itb6fH3k7zE71ZVMNwNzAO
-	tKjIuczZKj+sX7qraheI/xj/g+vKWTDUp1xcW2YRWGyUHxVIyA3FYdCHLNTaDkQ0zk3y/C
-	9NC0Hyr4mRpwb+V7iITWAu6/MYYr21qYujuYjkRONg0cc/0ZvTWw382KG4yw3A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
-	content-language:content-transfer-encoding:content-type
-	:content-type:in-reply-to:mime-version:date:date:message-id:from
-	:from:references:subject:subject:received; s=mail20150812; t=
-	1563381278; bh=qyhxfykj+dMb7cCmDrhKmBNSixtFhXTsb5vRlP1Kuyc=; b=r
-	yZfBUvDcgCcXk5ATr42nBD9YLJlQGZeKtR2DqoSrtlwiXfRyScuUuvgPdM0xoqRG
-	3WDC/jg/P/jZcn6o3/Id8qcrPdD+BpW2SDDtuemvnqK1yJ3go1St1YQ6Y0cf4SOv
-	dDj6DXjuGNG2SNJgXhJ0MQGd0+FA71fG2SxvE4twZ8vbq4ubV6CuBshH08N/aCf5
-	AKORQ3MpMrvVSDs6QELtcVP73vY9TcGcxJxxFVFyfIFU3opXTrGLynt61RossXlI
-	wfeuuLx8sFlbwGhaWhiAM6pF4LSts2x4n4nUyDomJ0XoZZMUsg1JlY+eQXccNizg
-	ARh7CwioiykmZsNgZpQpg==
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-	by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de
-	[80.241.56.123]) (amavisd-new, port 10030)
-	with ESMTP id n1PQrtiZgmpj; Wed, 17 Jul 2019 18:34:38 +0200 (CEST)
-To: auh@auh.yoctoproject.org, Carlos Rafael Giani <dv@pseudoterminal.org>
-References: <20190717134750.65BCA440002@auh.yoctoproject.org>
-From: Carlos Rafael Giani <crg7475@mailbox.org>
-Message-ID: <014a27db-3a87-c1a8-a8ee-94d9e38f9ef1@mailbox.org>
-Date: Wed, 17 Jul 2019 18:34:37 +0200
+	Wed, 17 Jul 2019 17:35:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=MXxFISzI7FaxNEZFE91pfZLQMdNlipnoIx2I40dISEgaAOPJsbR5sjOYFXnhMT/M7gBN1x5X3j5D+n3N8vjUAsA3MldN8KttOiKKHp9itwCwE0gZCVEl53dpNYFIl53ucQG/w3Ch2v//HYN8DrqvNcGZboKAza+BMb9V4QZ+VPlFpkAgPG05lkXFM81lT/tnaWlUUupuOVEa8MB0wcr6V48rjq72240bP2B8rnd4QCb5gnkBgthVAoFUZ9aDf1ctrsh+v/W8POhzWm+Uob948IfPqfxoTRhi5Ia1jWRu3D2zuUKqqr2Eg09mKf3NrLStY6b76T1e1G047gq1jI8THQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=9GVqNTuKlVbdQKLlbIpoW/kVBzhnOa70HN1ocdWqQPA=;
+	b=gija0iXSsl2Vl0wYh1kP2wh5t95ohFLko8R2ya8VRrIp5Muq7/C5DOmavOgg/0lyrEXnau+ybpiCFHGpLSG8nxk6d8f63TK08DNRuyIbQFOyxTubcEmW1napuXn+DguFk0WUUXgJ8WE3EQambrRMuVTAh85sUyWvpkGUy5IavfLzJsJ275iT7QAq3rmkWO4x5LbpNDkNClhlssoWcicg3jP+XlXfki+E/lNQpW/CU1ur3SFqig90YyiB8KUiWUgSIVrYTqAmzivisRzYYwGk75LKpk1dGO0oNxpIyog7mfbx5YHo4RWDxrxMnAy4t7N0Bk9px+G0coXXVCrNXPs3oQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+	smtp.mailfrom=xilinx.com;dmarc=pass action=none
+	header.from=xilinx.com;dkim=pass header.d=xilinx.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=9GVqNTuKlVbdQKLlbIpoW/kVBzhnOa70HN1ocdWqQPA=;
+	b=BiTwY7nA2rdOIIkt8ojf1gXgam9DFIE/HKck8jh2CRt3UIVvpjXob4y08k9RjhWMxj/rfnl5zKGXv62u+JEKgJ0kphItDrJ2U4+shKgiSLkhK2dPwkt5kyavhQ0TwM6ud6r6PasARdaRg61vlWdsXd7W/yPuAGWFcXkPNBRxlsc=
+Received: from BYAPR02MB6005.namprd02.prod.outlook.com (20.179.89.140) by
+	BYAPR02MB4887.namprd02.prod.outlook.com (52.135.234.161) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2073.10; Tue, 16 Jul 2019 20:40:19 +0000
+Received: from BYAPR02MB6005.namprd02.prod.outlook.com
+	([fe80::41b2:9de0:b783:b865]) by
+	BYAPR02MB6005.namprd02.prod.outlook.com
+	([fe80::41b2:9de0:b783:b865%7]) with mapi id 15.20.2073.012;
+	Tue, 16 Jul 2019 20:40:19 +0000
+From: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
+To: Ricardo Salveti <ricardo@foundries.io>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] kernel-fitimage: include overlays with external dtb
+Thread-Index: AQHVPBIG40VPOliyZUaG8CSKnSRN2KbNtKKA
+Date: Tue, 16 Jul 2019 20:40:19 +0000
+Message-ID: <BYAPR02MB6005B773FEACFC04FCE862D7B9CE0@BYAPR02MB6005.namprd02.prod.outlook.com>
+References: <20190716200640.18414-1-ricardo@foundries.io>
+In-Reply-To: <20190716200640.18414-1-ricardo@foundries.io>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=MANJUKUM@xilinx.com; 
+x-originating-ip: [73.231.161.32]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5e908f6c-b656-4e80-95ea-08d70a2dd126
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+	SRVR:BYAPR02MB4887; 
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4887:|BYAPR02MB4887:|BYAPR02MB4887:|BYAPR02MB4887:
+x-microsoft-antispam-prvs: <BYAPR02MB48871B453189D22ED215BD2CB9CE0@BYAPR02MB4887.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-forefront-prvs: 0100732B76
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(4636009)(396003)(136003)(346002)(376002)(39860400002)(366004)(51914003)(199004)(189003)(13464003)(110136005)(476003)(11346002)(446003)(305945005)(81166006)(8676002)(81156014)(486006)(8936002)(86362001)(25786009)(52536014)(66066001)(229853002)(2906002)(2501003)(102836004)(76116006)(66946007)(3846002)(66556008)(66476007)(53936002)(71190400001)(66446008)(71200400001)(68736007)(7736002)(478600001)(64756008)(316002)(74316002)(99286004)(5660300002)(76176011)(6436002)(55016002)(256004)(9686003)(14454004)(186003)(26005)(6116002)(7696005)(33656002)(6246003)(53546011)(14444005)(6506007);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4887;
+	H:BYAPR02MB6005.namprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 5seZTKRPm5dYqQyNjE9W0s28RTd1IfDZebaSIPxWzJaVXHN/gGTjFTbi6ShSLsLfvlYJoOz9v6W6/QpYEQ8YVLnxFZJS1yluL/yPo6xCf1Ut2VxFHHzIM4TlADyItCvOLZ67dIjVxXg/aAtaQdMy2Bd18skrI+pYHGwlEOTcLoP6x+e4nMJx+OXfU3l5x+w7ihHLbgQYecR+l9bGah/O19x3HombzPnWv9O7tXNeRr6WBKGg0No+znwSgMRAZzMWEGTSlmzClXPMFAy5l9ZMkF3Eq0YwuWpboqR4MYgiKemNnG7h9+xxqOiGcRyeMPoM0LflxrNAUA8xDcGy2cUGJGdG00ML3QcqEcwTA2hiL6V8YvVoNUXKI8wTpAdqjRBzNkqiXm9TdzhUHI8x6SSuCcY9TjLuZ+3I57UxmSgv6e0=
 MIME-Version: 1.0
-In-Reply-To: <20190717134750.65BCA440002@auh.yoctoproject.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [AUH] kmscube: upgrading to a12e306ce18ff1c2922219a5342fa419ee80a12e FAILED
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e908f6c-b656-4e80-95ea-08d70a2dd126
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2019 20:40:19.4147 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: manjukum@xilinx.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4887
+X-OriginatorOrg: xilinx.com
+Subject: Re: [PATCH] kernel-fitimage: include overlays with external dtb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,83 +89,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 16:41:13 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Jul 2019 17:35:40 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-I noticed this already, yes. Working on it.
+Hi Ricardo,
 
-On 17.07.19 15:47, auh@auh.yoctoproject.org wrote:
-> Hello,
->
-> You are receiving this email because you are the maintainer
-> of *kmscube* recipe and this is to let you know that the automatic attempt
-> to upgrade the recipe to *a12e306ce18ff1c2922219a5342fa419ee80a12e* has Failed (devtool error).
->
-> Detailed error information:
->
-> Running 'devtool upgrade' for recipe kmscube failed.
-> NOTE: Starting bitbake server...
-> NOTE: Bitbake server didn't start within 5 seconds, waiting for 90
-> NOTE: Reconnecting to bitbake server...
-> NOTE: Retrying server connection (#1)...
-> WARNING: Layer workspacelayer should set LAYERSERIES_COMPAT_workspacelayer in its conf/layer.conf file to list the core layer names it is compatible with.
-> Loading cache...done.
-> INFO: Extracting current version source...
-> Loaded 1324 entries from dependency cache.
->
-> Summary: There was 1 WARNING message shown.
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION           = "1.43.0"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "universal"
-> TARGET_SYS           = "i686-poky-linux"
-> MACHINE              = "qemux86"
-> DISTRO               = "poky"
-> DISTRO_VERSION       = "2.7+snapshot-20190716"
-> TUNE_FEATURES        = "m32 core2"
-> TARGET_FPU           = ""
-> meta
-> meta-poky
-> meta-yocto-bsp       = "tmp-auh-upgrades:d1d025cb80e75952d4a8c5e0e5d44ca6d9716b5a"
-> workspace            = "<unknown>:<unknown>"
->
-> Initialising tasks...NOTE: No setscene tasks
-> NOTE: Executing Tasks
-> NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-> NOTE: Writing buildhistory
-> NOTE: Writing buildhistory took: 2 seconds
-> INFO: Extracting upgraded version source...
-> WARNING: Command 'git rebase a12e306ce18ff1c2922219a5342fa419ee80a12e' failed:
-> First, rewinding head to replay your work on top of it...
-> Applying: Detect gst_bo_map/_unmap and use it (or avoid it)
-> Using index info to reconstruct a base tree...
-> M	Makefile.am
-> M	kmscube.c
-> Falling back to patching base and 3-way merge...
-> Auto-merging kmscube.c
-> Auto-merging Makefile.am
-> CONFLICT (content): Merge conflict in Makefile.am
-> error: Failed to merge in the changes.
-> Patch failed at 0001 Detect gst_bo_map/_unmap and use it (or avoid it)
-> The copy of the patch that failed is found in: .git/rebase-apply/patch
->
-> When you have resolved this problem, run "git rebase --continue".
-> If you prefer to skip this patch, run "git rebase --skip" instead.
-> To check out the original branch and stop rebasing, run "git rebase --abort".
->
-> You will need to resolve conflicts in order to complete the upgrade.
-> INFO: Upgraded source extracted to /home/auh/build/workspace/sources/kmscube
-> INFO: New recipe is /home/auh/build/workspace/recipes/kmscube/kmscube_git.bb
->
->
->
-> Please review the attached files for further information and build/update failures.
-> Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
->
-> Regards,
-> The Upgrade Helper
+> -----Original Message-----
+> From: Ricardo Salveti <ricardo@foundries.io>
+> Sent: Tuesday, July 16, 2019 1:07 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
+> Subject: [PATCH] kernel-fitimage: include overlays with external dtb
+>=20
+> As done with the default dtb provider, create fit image sections for norm=
+al
+> device-tree files and device-tree overlays (.dtbo).
+>=20
+> Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
+
+Thanks for the patch.
+
+Acked-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+
+> ---
+>  meta/classes/kernel-fitimage.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-
+> fitimage.bbclass
+> index b51882dce4..17d4d85658 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -406,7 +406,7 @@ fitimage_assemble() {
+>=20
+>  	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
+>  		dtbcount=3D1
+> -		for DTBFILE in ${EXTERNAL_KERNEL_DEVICETREE}/*.dtb; do
+> +		for DTBFILE in ${EXTERNAL_KERNEL_DEVICETREE}/*.dtb*; do
+>  			DTB=3D`basename ${DTBFILE}`
+>  			DTB=3D$(echo "${DTB}" | tr '/' '_')
+>  			DTBS=3D"${DTBS} ${DTB}"
+> --
+> 2.22.0
+
 
