@@ -1,52 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B4FF7ECCD
+Return-Path: <mcfrisk@kapsi.fi>
+X-Greylist: delayed 1274 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 17 Jul 2019 09:30:07 UTC
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B61C7ECCD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 09:19:23 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id h19so18673199wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 02:19:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=jsk7IEYD4uI+Ux/SfZ8GyvzwrjptNjhm3SMoX9lcDTo=;
-	b=aDb2ELlXK2gXnjW/BPQmn7ZcDQ5lPn0T4WrP4q2zSydg8zMG6Q6IhztaWbpJnqlat8
-	ExeDixx3oKZC0wDXiD8MfP0atqpBerJKS7iuS8H6FerS1MDg7JCoq8OYqQb9Yo8Y4YI2
-	00NPfj0b6/6fFrzcFH+3cz9omrc2DTkycjyhc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=jsk7IEYD4uI+Ux/SfZ8GyvzwrjptNjhm3SMoX9lcDTo=;
-	b=C46Tfod8WJRJG6IYiF0P+tJ8iV6p3bRLD2GW2xSRQIlNv/GNxekfQch+r5R2Fc0Qkt
-	rP7cNedJh0211zK4uF6AvLMlBmGgJaxb9AnDIDyX4KdDVPPsUvLupv5UQPSIj2x41UU3
-	684DyFq5XFCKltR8M7ddpn330v+LNi8rZoxsv2IAQpqkxn4swD5/TxzGb4veLihOb/JY
-	bTfmu0Tf3IPN/mE5yKFPYY3bygHc4SuG8sn1QKz7zRxrkqlItT5tXXz+oN8MgBPAqRK2
-	fOLrO2BCKnqO5m8NoXsRS54o1X/UoN+/UJQKlCMiBlFXjztyKc9yp9QUqVewXWrMi/uL
-	UjYw==
-X-Gm-Message-State: APjAAAU28LWZS64DBcr0I7PmRfEvK5qv4TXZrgBZUTWiQV/JqoMh5I8S
-	AEjmqOvzR2AO0PRnAIraqOsVtwAq6jg=
-X-Google-Smtp-Source: APXvYqzpFmi+RhfUHUgHx0NAkstubbBD3xt+Y69mt8YUXKttpMQTYsQgn7HqSCVyKsVRT40NIId4EA==
-X-Received: by 2002:a1c:6641:: with SMTP id a62mr34261590wmc.175.1563355163881;
-	Wed, 17 Jul 2019 02:19:23 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	v5sm24050506wre.50.2019.07.17.02.19.22
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Jul 2019 02:19:23 -0700 (PDT)
-Message-ID: <09978b11aded8890d37f2a64f7833f7a028e2577.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ulrich =?ISO-8859-1?Q?=D6lmann?= <u.oelmann@pengutronix.de>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 10:19:21 +0100
-In-Reply-To: <20190716135444.12057-1-u.oelmann@pengutronix.de>
-References: <20190716135444.12057-1-u.oelmann@pengutronix.de>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: =?ISO-8859-1?Q?S=F8ren?= Andersen <san@skov.dk>
-Subject: Re: [PATCH] squashfs-tools: upgrade to commit f95864afe883
+	Wed, 17 Jul 2019 09:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=nswuiSoqOHvt5+exEJpT37olUNdwjPGF5A1XznYrKqs=;
+	b=zYWF2Ay1dH0itjZqKX3QzhyzjR
+	pJmNNea+Dq4d/UI29oH2StdI2v0+OyI7HrlZdv0ceTecB0dDZlGp5GmfIY6U2bag4kaN52pqC/6kA
+	fFu2UZXRiXgSxKTyyGUe6E0idITwldXryt1hPWByElSgIrWjzRde5YhERu23IFPyofICTOhT7Uwt9
+	qpnbbGNLukCdUp6BiW5xfhJn0cnNppbcIkih6LSJ+fS9Mw08WQZjwo2hG++E8iay5ZdIg8mrntMZE
+	00y9wKwWJlll6eA1LdD2+gURg9mHIDN2DJWUoCHZcAIhkn9bkNOhWJMAMqDq9stK35kbhY5FrNWbV
+	NB7muHSA==;
+Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1hnfvf-0005EV-R2; Wed, 17 Jul 2019 12:08:52 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1hnfvV-0008Q0-HZ; Wed, 17 Jul 2019 12:08:41 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jul 2019 12:08:36 +0300
+Message-Id: <1563354517-31850-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-Rspam-Score: 1.2 (+)
+X-Rspam-Report: Action: no action Symbol: ARC_NA(0.00)
+	Symbol: DMARC_POLICY_SOFTFAIL(0.10) Symbol: R_SPF_NEUTRAL(0.00)
+	Symbol: FROM_HAS_DN(0.00) Symbol: TO_DN_SOME(0.00)
+	Symbol: TO_MATCH_ENVRCPT_ALL(0.00) Symbol: MIME_GOOD(-0.10)
+	Symbol: RCVD_TLS_LAST(0.00) Symbol: NEURAL_SPAM(0.00)
+	Symbol: IP_SCORE(-0.08) Symbol: RCPT_COUNT_TWO(0.00)
+	Symbol: MID_CONTAINS_FROM(1.00) Symbol: FORGED_SENDER(0.30)
+	Symbol: R_DKIM_NA(0.00) Symbol: MIME_TRACE(0.00)
+	Symbol: ASN(0.00) Symbol: FROM_NEQ_ENVFROM(0.00)
+	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf neutral
+	Message-ID: 1563354517-31850-1-git-send-email-mikko.rapeli@bmw.de
+X-Rspam-Bar: +
+X-SA-Exim-Connect-IP: 91.232.154.11
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Subject: [PATCH 1/2] busybox: enable unicode support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,57 +59,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 09:19:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Jul 2019 09:30:07 -0000
 
-On Tue, 2019-07-16 at 15:54 +0200, Ulrich Ölmann wrote:  
-> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-> index dc1568a77c9a..cca0524b7ea4 100644
-> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-> @@ -6,12 +6,9 @@ LICENSE = "GPL-2"
->  LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->  
->  PV = "4.3+gitr${SRCPV}"
-> -SRCREV = "9c1db6d13a51a2e009f0027ef336ce03624eac0d"
-> +SRCREV = "f95864afe8833fe3ad782d714b41378e860977b1"
->  SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
-> -           file://0001-mksquashfs.c-get-inline-functions-work-with-C99.patch;striplevel=2 \
->             file://squashfs-tools-4.3-sysmacros.patch;striplevel=2 \
-> -           file://fix-compat.patch \
-> -           file://0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch;striplevel=2 \
->  "
->  UPSTREAM_CHECK_COMMITS = "1"
->  SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
-> @@ -24,13 +21,15 @@ COMPATIBLE_HOST_libc-musl = 'null'
->  
->  EXTRA_OEMAKE = "${PACKAGECONFIG_CONFARGS}"
->  
-> -PACKAGECONFIG ??= "gzip xz lzo lz4 lzma xattr"
-> +PACKAGECONFIG ??= "gzip xz lzo lz4 lzma xattr zstd reproducible"
->  PACKAGECONFIG[gzip] = "GZIP_SUPPORT=1,GZIP_SUPPORT=0,zlib"
->  PACKAGECONFIG[xz] = "XZ_SUPPORT=1,XZ_SUPPORT=0,xz"
->  PACKAGECONFIG[lzo] = "LZO_SUPPORT=1,LZO_SUPPORT=0,lzo"
->  PACKAGECONFIG[lz4] = "LZ4_SUPPORT=1,LZ4_SUPPORT=0,lz4"
->  PACKAGECONFIG[lzma] = "LZMA_XZ_SUPPORT=1,LZMA_XZ_SUPPORT=0,xz"
->  PACKAGECONFIG[xattr] = "XATTR_SUPPORT=1,XATTR_SUPPORT=0,attr"
-> +PACKAGECONFIG[zstd] = "ZSTD_SUPPORT=1,ZSTD_SUPPORT=0,zstd"
-> +PACKAGECONFIG[reproducible] = "REPRODUCIBLE_DEFAULT=1,REPRODUCIBLE_DEFAULT=0,"
+While creating and deleting files with unicode or other
+encodings works, it's annoying when ls and other core utils
+show questionmarks instead of the unicode characters.
+In 2019, it's quite common that users of embedded devices
+based on yocto need unicode support. Debugging a box with
+unicode encoded file names is a bit annoying when core utils
+from busybox don't support them.
 
-This fails in OE-Core since zstd isn't present and you've enabled that
-by default:
+The unicode config fragment has the same config as Debian in their
+deb and udeb builds of version 1:1.30.1-4.
 
-e.g.:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/827
+If developers do not want this or other default yocto features in busybox,
+or optimize the configuration for size, then they likely run a completely
+custom configuration. Thus I think it's safe to enable unicode support
+by default.
 
-(but many other similar failures).
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+---
+ meta/recipes-core/busybox/busybox/unicode.cfg | 10 ++++++++++
+ meta/recipes-core/busybox/busybox_1.31.0.bb   |  1 +
+ 2 files changed, 11 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/unicode.cfg
 
-Adding the PACKAGECONFIG[zstd] is good, we just can't enable it by
-default.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/busybox/busybox/unicode.cfg b/meta/recipes-core/busybox/busybox/unicode.cfg
+new file mode 100644
+index 0000000..ecb5a64
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/unicode.cfg
+@@ -0,0 +1,10 @@
++CONFIG_UNICODE_SUPPORT=y
++# CONFIG_UNICODE_USING_LOCALE is not set
++CONFIG_FEATURE_CHECK_UNICODE_IN_ENV=y
++CONFIG_SUBST_WCHAR=63
++CONFIG_LAST_SUPPORTED_WCHAR=767
++CONFIG_UNICODE_COMBINING_WCHARS=y
++CONFIG_UNICODE_WIDE_WCHARS=y
++# CONFIG_UNICODE_BIDI_SUPPORT is not set
++# CONFIG_UNICODE_NEUTRAL_TABLE is not set
++# CONFIG_UNICODE_PRESERVE_BROKEN is not set
+diff --git a/meta/recipes-core/busybox/busybox_1.31.0.bb b/meta/recipes-core/busybox/busybox_1.31.0.bb
+index f018543..c1da372 100644
+--- a/meta/recipes-core/busybox/busybox_1.31.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.31.0.bb
+@@ -37,6 +37,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            ${@["", "file://init.cfg"][(d.getVar('VIRTUAL-RUNTIME_init_manager') == 'busybox')]} \
+            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
+            file://syslog.cfg \
++           file://unicode.cfg \
+            file://inittab \
+            file://rcS \
+            file://rcK \
+-- 
+1.9.1
 
 
