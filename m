@@ -1,35 +1,52 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 61BD87EC66
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C20A26C44A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 08:25:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6H8OV9V014485
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 17 Jul 2019 01:25:02 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 17 Jul 2019 01:24:51 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <20190715102016.114264-1-kai.kang@windriver.com>
-	<CAMKF1sq8rpdxdH2Yr8bHze06-R3hsmLTDdSLkX-TEj4utY2VYQ@mail.gmail.com>
-	<0f664af2-cea3-aaa2-2a7c-74c43d58ced4@windriver.com>
-	<CAMKF1spSOgaLYgy6U3r=wXNPcMA+qyy1Oigpob42xFAOFugbvA@mail.gmail.com>
-	<8164ebb7-8a4f-a7ce-74de-e4adb60a6022@windriver.com>
-	<CAMKF1sp=r+x8+DyGPAmJUfAMn6qtSzjquP+iaEwjtz1SkYXf7A@mail.gmail.com>
-	<4d14f4a4-c3a2-ed2d-e8dc-fd6de1963124@windriver.com>
-	<CAMKF1srFgjj8r2PqzPKmsi2NToOkd60TknrcPWP4-pvRLLu58A@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <90bfbd77-4e09-9a83-77b1-e87d24e13c5c@windriver.com>
-Date: Wed, 17 Jul 2019 16:24:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.2
+	Wed, 17 Jul 2019 08:34:37 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p74so21202949wme.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jul 2019 01:34:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=U50LOluFB3UWfRmftoRzcX1+PW5RtTWzrhvWANGogBg=;
+	b=WF4imwqUDByUNaVjy2M4lJnGiEDipu6nnidB8S1HtqMKJ8cvUr2zHLeyzI44W2T2KL
+	bcj4EreqVrNknQouOd5nvuKzy08KYuF5u5JuHnwmiVcyF7MOJnguy+/dUgJfIkGlHArz
+	eVzmJ7/sFAUwj8Xo1fQD8Mcl11Y0T5s+IJip0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=U50LOluFB3UWfRmftoRzcX1+PW5RtTWzrhvWANGogBg=;
+	b=LUVknwu10eYKGHFhHhhwFP4B4KgVRzkQK31lSLVMXiNxyZbGODULzIQwNxLG4o5NKa
+	OHwSSzNgsQ/no60nrb/LqmP94In1Q9lB2MumLHdZ9aScypMfsTW7oTOkIq7dFKTvxcPm
+	Trm6Z7t9zm0Ircchqb7vOBEBT85bZR4MM6Or3vBtuq9JgoF0/Ct/TzE1sDGO3LujdPwy
+	oS5OxJzgJxaoYcm6j0jsV7qkO5zQL1PoeRph81Zh+Qkh5+5u1A+hDpv8hdPxpxUpiVuJ
+	FxqvYQiW9lsHmfJ7UGMKj+amtUccuhlCcnr2w17NKc9nlhg4he5quJKRJUmMCNt9aLLf
+	f9Jg==
+X-Gm-Message-State: APjAAAWfVyT2mE8k7QtbmppquWS1k1nPe8k3pw79R7OnGIHmQ6tcUrFI
+	ahrPItb37IJ3YuwCdr011RUm1piBvHY=
+X-Google-Smtp-Source: APXvYqxyyqjjqM/iIzidFBN5wP2CnEYijZBFHEbZ/2mk3DZdK6ceTT+SFaLgKZzjkRA55+6z4BusSw==
+X-Received: by 2002:a05:600c:da:: with SMTP id
+	u26mr34141569wmm.108.1563352478406; 
+	Wed, 17 Jul 2019 01:34:38 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	i66sm39403680wmi.11.2019.07.17.01.34.37
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 17 Jul 2019 01:34:37 -0700 (PDT)
+Message-ID: <b60f393b0bddab4623d22627d2c83b33774c4565.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: William Bourque <wbourque@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jul 2019 09:34:36 +0100
+In-Reply-To: <20190712140020.28280-1-wbourque@gmail.com>
+References: <20190712140020.28280-1-wbourque@gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srFgjj8r2PqzPKmsi2NToOkd60TknrcPWP4-pvRLLu58A@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: set incomptible with tune mips
+Subject: Re: [PATCH v2 1/2] wic/plugins: Source that support both EFI and BIOS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,117 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 08:25:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 17 Jul 2019 08:34:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2019/7/17 下午4:18, Khem Raj wrote:
-> oh COMPATIBLE_HOST_mipsarch threw me off. do we need to use the
-> override when the specific check
-> is done on right hand side?
+On Fri, 2019-07-12 at 10:00 -0400, William Bourque wrote:
+> Add a source plugin that support both EFI and legacy PC-Bios.
+> While using this plugin, both bootloaders configurations reside
+> in the same /boot partitions.
+> This plugin has very little code : to avoid code duplication,
+> we simply re-import bootimg-pcbios and bootmg-efi source and
+> call both their SourcePlugin methods.
+> 
+> Signed-off-by: William Bourque <wbourque@gmail.com>
+> ---
+>  .../wic/plugins/source/bootimg-biosplusefi.py | 213
+> ++++++++++++++++++
+>  1 file changed, 213 insertions(+)
+>  create mode 100644 scripts/lib/wic/plugins/source/bootimg-
+> biosplusefi.py
 
-I didn't figure out a better way to reset COMPATIBLE_HOST only for 
-default tune 'mips'.  Without override _mipsarch,
-I need to list all the COMPATIBLE_HOSTs such as 
-"(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'" in the *else*
-part of bb.utils.contains().
+Thanks for adding the test, that is much appreciated!
 
-Regards,
-Kai
+Unfortunately it failed during testing:
 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/290
 
->
-> On Tue, Jul 16, 2019 at 11:51 PM Kang Kai <Kai.Kang@windriver.com> wrote:
->> On 2019/7/17 下午2:20, Khem Raj wrote:
->>
->> Right so we should only disable the tunes which don’t have clz and not all mips as this patch is doing
->>
->> The patch only set COMPATILE_HOST to null  only when default tune is 'mips' which causes webkitgtk fails.
->> And for other conditions, it doesn't block to build that the COMPATILE_HOST is 'mips.*-linux'.  Such as the
->> default bsps qemumips(default tune mips32r2) and qemumips64(mips64r2), it doesn't affect them.
->>
->> Kai
->>
->>
->>
->> On Tue, Jul 16, 2019 at 10:42 PM Kang Kai <Kai.Kang@windriver.com> wrote:
->>> On 2019/7/16 下午11:33, Khem Raj wrote:
->>>
->>>
->>>
->>> On Tue, Jul 16, 2019 at 2:33 AM Kang Kai <Kai.Kang@windriver.com> wrote:
->>>> On 2019/7/16 下午3:19, Khem Raj wrote:
->>>>> On Mon, Jul 15, 2019 at 3:21 AM <kai.kang@windriver.com> wrote:
->>>>>> From: Kai Kang <kai.kang@windriver.com>
->>>>>>
->>>>>> It fails to compile webkit when default tune is 'mips':
->>>>>>
->>>>>> | .../tmp-glibc/work/mips-wrs-linux/webkitgtk/2.24.2-r0/webkitgtk-2.24.2
->>>>>> | /Source/JavaScriptCore/assembler/MacroAssemblerMIPS.h:418:23:
->>>>>> | error: static assertion failed: CLZ opcode is not available for this ISA
->>>>>>
->>>>>> So don't build webkit when default tune is mips.
->>>>>>
->>>>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>>>>> ---
->>>>>>    meta/recipes-sato/webkit/webkitgtk_2.24.2.bb | 2 ++
->>>>>>    1 file changed, 2 insertions(+)
->>>>>>
->>>>>> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
->>>>>> index 056334fff5..891266b220 100644
->>>>>> --- a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
->>>>>> +++ b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
->>>>>> @@ -43,6 +43,8 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
->>>>>>              gettext-native glib-2.0 glib-2.0-native libtasn1 \
->>>>>>              "
->>>>>>
->>>>>> +COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips', 'null', 'mips.*-linux', d)}"
->>>>>> +
->>>>> this disables is for all kind of mips. I think thats a broad set, it
->>>>> would be best to narrow it to what you saw it failing for
->>>>> e.g. it should work for mips32 and mips64 so maybe mips1 is what you
->>>>> want to disable for
->>>> I tested with qemumips and qemumips64. When set
->>>>
->>>> DEFAULTTUNE= "mips"
->>>
->>> How about using mips32 and mips64 for default tune and retest
->>>
->>>
->>> It build webkitgtk successfully on qemumips and qemumips64 with default tune mips32 and mips64.
->>>
->>>
->>>>
->>>> It fails with the error.
->>>>
->>>> Regards,
->>>> Kai
->>>>
->>>>>
->>>>>>    PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
->>>>>>                       ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
->>>>>>                       enchant \
->>>>>> --
->>>>>> 2.20.0
->>>>>>
->>>>>> --
->>>>>> _______________________________________________
->>>>>> Openembedded-core mailing list
->>>>>> Openembedded-core@lists.openembedded.org
->>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>>
->>>> --
->>>> Kai Kang
->>>>
->>> --
->>> Kai Kang
->>
->> --
->> Kai Kang
+(https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/290/steps/7/logs/step2d)
 
+Cheers,
 
--- 
-Kai Kang
+Richard
 
 
