@@ -1,44 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
-	[209.85.166.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 117557ED17
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D59757ED46
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 20:37:41 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id f4so47923406ioh.6
+	Wed, 17 Jul 2019 20:54:35 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id s15so2086177wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 13:37:43 -0700 (PDT)
+	Wed, 17 Jul 2019 13:54:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=cPDegesFKOF14fHWvXJWO293w29aPKJUAmrm2tHRAmE=;
-	b=Nc2q/C4gVzWuFnbqeB731tSiXj8+PRY9Z+qgQW47kgBNsjY8GJHCknBbYpBV2ux1km
-	+V/VeMs6T3oveG+WPLMVKou6qlIfGX5eUnBGjsg3RZDwqOKWuE2NH/v1lw2bQDSCBG2i
-	HdUD7tFYCoad5dFUZxCBdSpnlk/QGt9caZ60FgOKKBMA1EzDSCU2usPh83wxEL634eEw
-	qgtqvQ0DNTrVAi5igPfDN3VJt4vOYrYTbQG6+aS2NJIlm9lcWeYWuMEyT/o3FL+REYBD
-	gWLLKFgIX7KzaswN54CXkIOA7amI8d9rZ16iizNd6pzkcxa0t4EDzIHvSSGIOfqoBi+C
-	doMA==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=OtXyhs+sUgTwqc76IsAYRei6zx//IAeJTRuQ5Tiz5sg=;
+	b=t9cHJPeqMrjJYQOsdEpzfbw1MfTKnfExGruW86lX39zhUU7BqOqmfBvtIhLaJNI3Gy
+	pM9kb37CJ525yWliVrEoFG39Y9vIjG3WfXxVfUfECIO2HGxjpVKhrwYTwPxLHPWmkr/4
+	eQxtpKn9innIMRMJdU60yKW1mWz16hP7rPW7NbfTM0gruvSHGdOECUkheqrRF/UhvCJm
+	O+Tn31xjCfvE+GufO1C2QmJIrQuM7fnzoOpnE4KQGQ0MJzJKBlDxesHlE7GJfWZWE42Z
+	gHMRVtyJfLbRfjjWHAwhONS+9NBJeX3FZ8LeNzaBnRq7G9WDlNVn0dwF6fWnwramVJdV
+	eV6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=cPDegesFKOF14fHWvXJWO293w29aPKJUAmrm2tHRAmE=;
-	b=C1+SJFZhoRGXxJ9TYqcETbVNvul94MnsFoCIh3TgGXy5oWOOA2+mXpqYIVAKZlGdmM
-	l4/bkJf+PP/8bxCSCFv8137xorBqe1LRNsHKs29WZxJNksk5clrqdzAryMMtsiOkStED
-	mG9FIJR8MWz5n5fOJqbkPI3biktA+Kk4Bh8MJ6jzN/+TfyK//4zaaSqhNE4zzbR/m9j9
-	9ZaRXmhC3LKEXBWMRZratphT4jHsEYuaGumWOYq2cTi8N2kgIlHNW4g16IAG9eESfB2U
-	5j8wDWkDyb6I7KSJOyUq6fN7gKRJd37xdjC9oexsd3xybnnyQpV6DkWAtOZwR+aYWarO
-	+y9A==
-X-Gm-Message-State: APjAAAW19+1bkBIM9rb4LbZA15XFq6oMZFbO03vwSkE6rr0FxcvKlx9R
-	8yyZIdoxeMHdfAwlmcSuVeKj/5TzpZG7NuLvnf+17w==
-X-Google-Smtp-Source: APXvYqz/0FiS0po3PIoZpcPI3XMBRuJb7VAnkEpZ3gxsiy4e9l7YP98qzWHM3KIqNSs+j2sffmajlPaRYyoIqwktHno=
-X-Received: by 2002:a5e:c744:: with SMTP id g4mr37533006iop.187.1563395862880; 
-	Wed, 17 Jul 2019 13:37:42 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=OtXyhs+sUgTwqc76IsAYRei6zx//IAeJTRuQ5Tiz5sg=;
+	b=lMUUjlxcFaG5sRYDs7jT76ILsMpGI8kXJUVXbZdlVszn4ElRKafgXVH24mcSV/TkLw
+	Y2pbETBPAT8gLVrV7v8FA+iNgXRr8c+jCPRaoVmsqdKL+JI7tp5OabdzlS/aJpKCJ5Ky
+	vgSJLfXLzzf7SmC3TVwrkjPrgSekBiO4tU2Fj9EUQBkgWYD/o/SZ1IhgGPFR7arqndCs
+	dEUlQLbdFvnaT4/UDjsjllL+1ZUOTrudcbNoCpBwvcB75xfjC/8ze6U1Q4VRuzdF6JU+
+	QEQPvnZpH2q1wFuFLKKVE6RNJ5EL/3Rhg7oKAKvdGrfCORYBlCRmjCSpqYKl/EgOG0nc
+	mA8Q==
+X-Gm-Message-State: APjAAAXlSbpU1rl5JNrrJ2u2didpYWNivBrJny/dilti+KEphu6WWunC
+	E5gMwot1uP8qSQCgWw5kxDrEm9B9L90=
+X-Google-Smtp-Source: APXvYqypyNm0CvyxQYSy1WITLiGts3t3qXxAcmSLAAFshoB2F7prHUvK0ZXkznzL2AWQZpU0SRoAHA==
+X-Received: by 2002:a1c:7c11:: with SMTP id x17mr35494260wmc.22.1563396876150; 
+	Wed, 17 Jul 2019 13:54:36 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	o20sm58637610wrh.8.2019.07.17.13.54.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 17 Jul 2019 13:54:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jul 2019 21:54:31 +0100
+Message-Id: <20190717205432.31580-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 17 Jul 2019 21:37:31 +0100
-Message-ID: <CAJTo0LaOHbSB75OGLsHJ3Vxd5eVgg9+7Cq3k0=P-BwPLpFiyjg@mail.gmail.com>
-To: Yocto-mailing-list <yocto@yoctoproject.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: RFC: dropping official support for Debian 8 / Opensuse 42.3
+Subject: [PATCH 1/2] piglit: upgrade to latest revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,25 +59,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 20:37:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 17 Jul 2019 20:54:36 -0000
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Now that both Debian 8 and OpenSuse 42.3 are end-of-life and no longer
-formally supported, we think it's time to drop them from the supported
-distribution list.  Initially this involves removing them from the
-SANITY_TESTED_DISTROS list in Poky, at some point during this cycle we
-may remove those distributions from the Yocto Project autobuilder to
-add more workers for other supported distributions.
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 4350823f60b..5304f358fa7 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit;protocol=https \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+-SRCREV = "4294b15e3b84a96f24d1286b73d5832eea267bbf"
++SRCREV = "f0e868ac6fbdc295b2955c1b8f73169e7a52f938"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr${SRCPV}"
+ 
+-- 
+2.20.1
 
-It is expected that the next release will probably work on those two
-distributions, there are no plans to do new and exciting things
-dropping these unsupported distributions enables -- like increasing
-the minimum Python version to 3.5 until after the 2.8 release in
-October.
-
-Please, if this impacts you, speak up now.
-
-Ross
 
