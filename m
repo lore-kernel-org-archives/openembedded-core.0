@@ -1,54 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 75B477ED46
+Return-Path: <prvs=09430007d=alistair.francis@wdc.com>
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E0C87ED62
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 20:54:36 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id x15so23459106wmj.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 13:54:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=n0M6T7MOHt5wuMJJEKNmEiQuUqFgrS7r2ECriCOYnK0=;
-	b=V6BILN0S3IGL9bwVx6Lkal287TQIR283Y6jHNHlxroEssLH1t/ZlEyGO2eNlW2fn2s
-	7WlwGXoUOspu5mQgcgWb2SvUZtsMmsWsPH6nx6DgocOuHRtcVkSLgmL8+mNNDplGc9IP
-	ge6LVGNQVK4tgJLfN+cxKG72ljZ2TSVU9Q7SsRghnqRdy6aCvSv+A6scXHPPqz6t3Zvq
-	YrTGF0dx2ltSnTYz6coQBwkRP2I2cCwpQYKMAtb38uZv8Iosg5tblxg9KU7USkaChTZc
-	9rv978NHqD4C3SHegI492oX4/y/lzwkAkxLWJZ+jH8ET/54NB126zkcjcyvN1gLYvdNB
-	y7NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=n0M6T7MOHt5wuMJJEKNmEiQuUqFgrS7r2ECriCOYnK0=;
-	b=nj3KH19ypBv7+ER+j1kO05WDFZmxpNgnQ/6+Ha89PcnD6cWGkVcDTLEm4OvPKLGkzq
-	B605BCR/G+NLGLLXmUFaHz6XgtZJgV/xMNak6Ub02b0k9y1dTICf9dG/F/O76xVQCM3X
-	x23eyRiw8xhu4yyFyt1ESOj2vJBzHCimPQVn+212hcfnNHdGWIOzKrjG7HMVsUzshVoz
-	9G6ViSkhtxnqOMa/3kFeMYQM6zfy8u3RAfMwtIIeZzHjrrqdBBEG0abWJsqAcQx1Pd9k
-	8/aGnEmheVA7bPR+rjUBk7ymATai+7tE/l6R6AbOdZFOjXz9+nK9M5VrDf+PjJsCAh6w
-	97wg==
-X-Gm-Message-State: APjAAAW66HUmRJcCnw4nJtWYNn3s9C9HGzgDh4yju9Zu0TORhRVS4XZt
-	PwLqMaIQNY3rHqxaFdJjqpMXBnqQS5A=
-X-Google-Smtp-Source: APXvYqwtvgE5OxSunfOCgxso82IHj4m31Pm+VAoji+NaVg8813UMyci7vJ2looQ3hyd+gMoPOlX18w==
-X-Received: by 2002:a7b:c195:: with SMTP id y21mr37194998wmi.16.1563396877024; 
-	Wed, 17 Jul 2019 13:54:37 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o20sm58637610wrh.8.2019.07.17.13.54.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Jul 2019 13:54:36 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 17 Jul 2019 20:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1563396901; x=1594932901;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=zkLHpsKfSX+r1yVNq1FzZ8bo5puBU/qAga78V3EYNe8=;
+	b=pEZodiikzEaaIO52yj26ig4Jlqw2WVLYdWVXoRDOKUWVYlVIEIVMkdmE
+	2GW4CFMt967YIKOqQlSFK0E0Y7yZNBBMC1dRtBML6BcGHP4itQZ0CNOaz
+	jwT8fQPeL9SZheazVA88U+shJxe3jI1Noubf9K2MeLVvtbe0rfaWo40/S
+	lSRE95IlftNshS2mdmECtZoNGQAsZhTZGmmEc3AZq2rXEsmmgJ0pG6Cqv
+	za960DfeKKx5/zqjiAE4zLTk7JKUYwP3mJpxBtC+NMBixBBw/HXishEZR
+	Cj64QGcmZXCtCcxOI1ovh9aOJnQhUoWB0WGiBze+3IbxNbad7jx8wqftA w==;
+IronPort-SDR: +9/arbC6hQMrR4BfVtT/twMcEZwky4kJdYjc55zUF84HpZWhSRmA4R8W+Z9Qvm9N3kGlGrDbN8
+	MOjIXcchsoXCgkf4LQDOu2JOJn22nj+K2NU5LyNMSr8CUMoFGUm0GhOhfEW2c+UrdU8R7qo/Lx
+	98p6H4b3NrfGt4yb+SAdheuuv4/3PZPFzLJx+sJ8GAarI2SHArYGKIiunDTTo+5FQ7K/cWmCo0
+	2jYD+E+0sZqmcw7fp3JGGrOp0NSp44EEEfVHUQzxvG/MzPzjLouuKn7WCI+5fzZS6SrJI7NAoo
+	4hA=
+X-IronPort-AV: E=Sophos;i="5.64,275,1559491200"; d="scan'208";a="219761772"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 18 Jul 2019 04:54:45 +0800
+IronPort-SDR: 09g86SXS5XMc0tPROrMXeTg0aJtrOqK3KT5qCTW0XqdGq/SB9zvjNCrojUFqsPxSkhYsmuhsDo
+	I6btFocH5Ypz+DLmXq83AQfjw7AQ351wP8xyD3PPyLNrqgJljLhLm5XS/wpmSghCsxFweI690T
+	yxAdtrOFphsO1E4ebKp6oGQOfxSM9nMzVReRTJ3pEnsN5BD6A42vgUWUI6UYjF5X86NMFG872t
+	Hun2Yip7TZEl22jCgHC58Qiyq/Ygx6h/rRMjWnGeDk1Ud3oWLxtSJf35ucGsNPJFd2+kmbs4SN
+	IIZm1RNDnD+ljk0yLqyEeVeJ
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+	by uls-op-cesaep01.wdc.com with ESMTP; 17 Jul 2019 13:53:15 -0700
+IronPort-SDR: 8AXgu+BA/f2MCI9ARy+8FRAxvIalNaGp4KVXnLOAJWSnMKXEj+FyvRu8ZBybrATMLACZPRZ8VA
+	qaEhlxzAAoGxthH0hVgUjHN6yXDt51ZtQNTS0nWuYwPONjseu3D4/IO6AhvIUn5OrpjapoogbF
+	sq08/CKe3F/Qc2hWB/ybcpzzObQ+WpXZrYraP/+5vOJ1iYLpWexJ9zX0YXB6xOresCEMRerrN9
+	Ve2/nK67ti02S0ZOg6tZLyuX0P0s58ONxAs2rpLofFjMuYoengaUnTgHhfZ9A+3qzrL3bCWftl
+	mWw=
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.140])
+	by uls-op-cesaip01.wdc.com with ESMTP; 17 Jul 2019 13:54:45 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 21:54:32 +0100
-Message-Id: <20190717205432.31580-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190717205432.31580-1-ross.burton@intel.com>
-References: <20190717205432.31580-1-ross.burton@intel.com>
+Date: Wed, 17 Jul 2019 13:51:49 -0700
+Message-Id: <20190717205149.32709-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] pkgconf: upgrade 1.6.1 -> 1.6.3
+Subject: [PATCH] opensbi: Fix installed-vs-shipped warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,34 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 20:54:36 -0000
+X-List-Received-Date: Wed, 17 Jul 2019 20:55:00 -0000
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../pkgconf/{pkgconf_1.6.1.bb => pkgconf_1.6.3.bb}            | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/pkgconf/{pkgconf_1.6.1.bb => pkgconf_1.6.3.bb} (95%)
+Fix the following warning by just deleting the files:
+WARNING: opensbi-0.4-r0 do_package: QA Issue: opensbi: Files/directories were installed but not shipped in any package:
+  /lib
+  /lib/libsbiutils.a
+  /lib/libsbi.a
 
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.6.1.bb b/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
-similarity index 95%
-rename from meta/recipes-devtools/pkgconf/pkgconf_1.6.1.bb
-rename to meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
-index c60ef74226d..94bc112b9fd 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_1.6.1.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
-@@ -21,8 +21,8 @@ SRC_URI = "\
-     file://pkg-config-native.in \
-     file://pkg-config-esdk.in \
- "
--SRC_URI[md5sum] = "556bae2b9e0cc7b46e7c00083cb6d95d"
--SRC_URI[sha256sum] = "22b9ee38438901f9d60f180e5182821180854fa738fd071f593ea26a81da208c"
-+SRC_URI[md5sum] = "f93fb1be95a5cb62e43c219c82b5791a"
-+SRC_URI[sha256sum] = "61f0b31b0d5ea0e862b454a80c170f57bad47879c0c42bd8de89200ff62ea210"
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ meta/recipes-bsp/opensbi/opensbi_0.4.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-bsp/opensbi/opensbi_0.4.bb b/meta/recipes-bsp/opensbi/opensbi_0.4.bb
+index 139718c72b..068ae762d4 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_0.4.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_0.4.bb
+@@ -31,6 +31,7 @@ do_install_append() {
+ 	rm -r ${D}/include
+ 	rm -r ${D}/platform/${RISCV_SBI_PLAT}/lib
+ 	rm -r ${D}/platform/${RISCV_SBI_PLAT}/firmware/payloads
++	rm -r ${D}/lib
+ }
  
- inherit autotools
- 
+ do_deploy () {
 -- 
-2.20.1
+2.22.0
 
 
