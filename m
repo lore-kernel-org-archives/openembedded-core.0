@@ -1,49 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 921157ECF9
+Return-Path: <auh@auh.yoctoproject.org>
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
+	[140.211.169.56])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DC987EC56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 13:27:06 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id k20so45660484ios.10
+	Wed, 17 Jul 2019 13:48:02 +0000 (UTC)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 8698CE00D2C; Wed, 17 Jul 2019 06:48:03 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from auh.yoctoproject.org (unknown [198.145.29.2])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E166BE00DFE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 06:27:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oIh/iNXXj+scEf/rEzQyextAcFXllfotY/7ZKbSEN1A=;
-	b=Q2nrxvsOb2b5KCkthomSGjp2hB35BEOjm04pFqDzW4pSMelgR324uMXP1p0zl0nqDF
-	QsEnzEHZLQeBd278QY5HVpeIGvZAVQdr+8Q1U7ehB/9BrrsX2EsGnEIBmjQvrpzOXtDR
-	hvAVsvf53wTBqISEYTj5giBcOf/yQRWqhhi7HMnRfaLCDM3CGoWH+xyjRvSySuIXYqGP
-	VIfzG0rzo6RnFeNsNK88AxcMLPmpdg3Z3K1uA6CTqHPQzg7cC+h0shN6RT7h5v70+MQZ
-	ZSet/eauzcDRuTTAODKJsMRm+h4pMYjOgNWYAdZA6ClYf4d/0LYA7hN4d9PeqA8dpMM+
-	s2eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=oIh/iNXXj+scEf/rEzQyextAcFXllfotY/7ZKbSEN1A=;
-	b=bqLnNocRNCon0UnqZ4npIsomLtqOdxyRwkDzu+PjRNUAl11GYc5MOs11IMok//tkPd
-	0iBZIVUonfngyXbbb3pccaxbIeVmqK/zAHi7WKZ2/aIMH02wa6myzpDQHpZzlmkU+nDL
-	fO3CHtuGUSkGvPV4OHlnnpJhuA6amVVCs+gNR9PvvE1kZqTqJP3u7uTNhXIRSLY27XT0
-	0aIHDvVSWaQYIeY3t294tSWXWeQntLqPbbpinoyDajbpUXb79xrQPX6s+SKW1oZKSI9W
-	UInqIC7U+KWGUFFt0MW2KjB+IFP3HNmYpmghz32lRkdPZC+RdCMuK+AQcnVgBYp19Zku
-	9WMQ==
-X-Gm-Message-State: APjAAAWp+sD6dVhfImR9z2S1YtQT4ljvzYHu72L2Y0hnRcI9PtNPwGqR
-	PK3AViSz8CXDI7FyAiGCXiUm0W/dVjng+j0dwfqKcg==
-X-Google-Smtp-Source: APXvYqzc6W9DO+d/NB44DpSz1IgN09Q7bAKj2Sz/M2ZDfDzc/bkwVUgZnj1fG8LI5fd1kRSkaxNGyRNGegCm48XEgxY=
-X-Received: by 2002:a6b:6611:: with SMTP id a17mr14684690ioc.179.1563370027704;
-	Wed, 17 Jul 2019 06:27:07 -0700 (PDT)
+	Wed, 17 Jul 2019 06:47:53 -0700 (PDT)
+Received: from auh.yocto.io (localhost [127.0.0.1])
+	by auh.yoctoproject.org (Postfix) with ESMTP id D1559440001
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jul 2019 06:47:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <1563354517-31850-1-git-send-email-mikko.rapeli@bmw.de>
-	<a098852b41fcdb4adcda5060a3fd87694391e0ea.camel@linuxfoundation.org>
-	<20190717122439.GD3459@hiutale>
-In-Reply-To: <20190717122439.GD3459@hiutale>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 17 Jul 2019 14:26:56 +0100
-Message-ID: <CAJTo0LaMz=pzH0rGv0jPcCXxS+hVqGK4Qq0jX8au9GfM3Z1xFg@mail.gmail.com>
-To: Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] busybox: enable unicode support
+From: auh@auh.yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Message-Id: <20190717134753.D1559440001@auh.yoctoproject.org>
+Date: Wed, 17 Jul 2019 06:47:53 -0700 (PDT)
+Subject: [AUH] Upgrade status: 2019-07-17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +40,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 13:27:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 17 Jul 2019 13:48:03 -0000
+Content-Type: multipart/mixed; boundary="===============7647890514892870025=="
 
-On Wed, 17 Jul 2019 at 13:25, <Mikko.Rapeli@bmw.de> wrote:
+--===============7647890514892870025==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-> buildhistory shows that busybox-dbg PKGSIZE increases from 4523596 to 4546396,
-> busybox-ptest PKGSIZE decreases from 458949 to 458908 even when
-> /usr/lib/busybox/ptest/testsuite/tar.utf8.tar.bz2 is added, busybox-src
-> PKGSIZE increases from 4130952 to 4163274.
+UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
+IDQyCiAgICAgICAgcHl0aG9uLW51bXB5LCAxLjE2LjQsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0
+ZXJpdXMuaW8+CiAgICAgICAgbGlibmV3dCwgMC41Mi4yMSwgSG9uZ3h1IEppYSA8aG9uZ3h1Lmpp
+YUB3aW5kcml2ZXIuY29tPgogICAgICAgIGFwdCwgMS45LjEsIEFuw61iYWwgTGltw7NuIDxsaW1v
+bi5hbmliYWxAZ21haWwuY29tPgogICAgICAgIGxzYmluaXRzY3JpcHRzLCAxMC4wMiwgUm9zcyBC
+dXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBtZXNhLCAxOS4xLjIsIE90YXZp
+byBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgaXB1
+dGlscywgczIwMTkwNzA5LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29t
+PgogICAgICAgIGZsZXgsIDIuNi40LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAg
+ICAgICAgZGViaWFudXRpbHMsIDQuOC42LjIsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNv
+bT4KICAgICAgICBncnViLWVmaSwgMi4wNCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVs
+LmNvbT4KICAgICAgICBzZWQsIDQuNywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
+ICAgICAgIGUyZnNwcm9ncywgMS40NS4zLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJp
+dmVyLmNvbT4KICAgICAgICBzcXVhc2hmcy10b29scywgNC4zLW5ldy1jb21taXRzLWF2YWlsYWJs
+ZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgbHRwLCAy
+MDE5MDUxNywgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGdvLWRlcCwg
+MC41LjQsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+
+CiAgICAgICAgbGliaWNlLCAxLjAuMTAsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5j
+b20+CiAgICAgICAgYnVpbGQtY29tcGFyZSwgMjAxNS4wMi4xMC1uZXctY29tbWl0cy1hdmFpbGFi
+bGUsIFBhdWwgRWdnbGV0b24gPHBhdWwuZWdnbGV0b25AbGludXguaW50ZWwuY29tPgogICAgICAg
+IGZyZWV0eXBlLCAyLjEwLjEsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAg
+ICAgICAgc3lza2xvZ2QsIDEuNiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAg
+ICAgIHR6ZGF0YSwgMjAxOWIsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAg
+ICAgICAgc3RyYWNlLCA1LjIsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29t
+PgogICAgICAgIGFjbCwgMi4yLjUzLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAg
+ICAgICAgZ3RrKzMsIDMuMjQuMTAsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+
+CiAgICAgICAgdnVsa2FuLWRlbW9zLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb3NzIEJ1
+cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIHRleGluZm8sIDYuNiwgQW51aiBN
+aXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBwdXp6bGVzLCAwLjAtbmV3LWNv
+bW1pdHMtYXZhaWxhYmxlLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAg
+ICAgIGdwZ21lLCAxLjEzLjEsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4K
+ICAgICAgICBuZnMtdXRpbHMsIDIuNC4xLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJp
+dmVyLmNvbT4KICAgICAgICBrbXNjdWJlLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBDYXJs
+b3MgUmFmYWVsIEdpYW5pIDxkdkBwc2V1ZG90ZXJtaW5hbC5vcmc+CiAgICAgICAgYXR0ciwgMi40
+LjQ4LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgbGlibW9kdWxlbWQs
+IDIuNi4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAg
+ICBoYXJmYnV6eiwgMi41LjMsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAg
+ICAgICAgZ2V0dGV4dCwgMC4yMC4xLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVy
+LmNvbT4KICAgICAgICBzeXN2aW5pdCwgMi45NSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGlu
+dGVsLmNvbT4KICAgICAgICBtZXNvbiwgMC41MS4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5r
+YW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaWJpY2FsLCAzLjAuNSwgUm9zcyBCdXJ0b24gPHJv
+c3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBncnViLCAyLjA0LCBBbnVqIE1pdHRhbCA8YW51
+ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGtiZCwgMi4xLjAsIEFsZXhhbmRlciBLYW5hdmlu
+IDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtbnVtcHksIDEuMTYuNCwg
+RGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICBpZnVwZG93biwgMC44LjM1
+LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdsaWRlLCAwLjEz
+LjMsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAg
+ICAgICAgcnVieSwgMi42LjMsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAg
+ICAgICAgcHVsc2VhdWRpbywgMTIuOTkuMSwgVGFudSBLYXNraW5lbiA8dGFudWtAaWtpLmZpPgog
+ICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDE3CiAgICAgICAgd2FmZmxlLCAxLjYuMCwgUm9zcyBC
+dXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICB2dWxrYW4tbG9hZGVyLCAxLjEu
+MTA4LjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgYnRyZnMt
+dG9vbHMsIDUuMiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAg
+ICAgICAgZmZtcGVnLCA0LjEuNCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFp
+bC5jb20+CiAgICAgICAgZ28tcnVudGltZSwgMS4xMi43LCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
+aWwuY29tPgogICAgICAgIG1rZm9udHNjYWxlLCAxLjIuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVy
+ODA4QGdtYWlsLmNvbT4KICAgICAgICB2dWxrYW4tdG9vbHMsIDEuMS4xMDguMCwgQW51aiBNaXR0
+YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICB1bmZzMywgMywgUm9zcyBCdXJ0b24g
+PHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBuZXR0bGUsIDMuNS4xLCBBcm1pbiBLdXN0
+ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGxpYmRuZiwgMC4zNS4xLCBBbGV4YW5k
+ZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBwcmVsaW5rLCAxLjAt
+bmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBNYXJrIEhhdGxlIDxtYXJrLmhhdGxlQHdpbmRyaXZlci5j
+b20+CiAgICAgICAgZ28sIDEuMTIuNywgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAg
+ICAgICB2dWxrYW4taGVhZGVycywgMS4xLjEwOC4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
+aW50ZWwuY29tPgogICAgICAgIGFjcGljYSwgMjAxOTA3MDMsIEZhdGhpIEJvdWRyYSA8ZmF0aGku
+Ym91ZHJhQGxpbmFyby5vcmc+CiAgICAgICAgaXB0YWJsZXMsIDEuOC4zLCBDaGFuZ2h5ZW9rIEJh
+ZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAgICAgIHNoYWRvdywgNC43LCBDaGVuIFFp
+IDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgYm9vc3QsIDEuNzAuMCwgQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAqIEZhaWxlZChvdGhlciBlcnJv
+cnMpOiAxCiAgICAgICAgZ2NjLXNvdXJjZS04LjMuMCwgOS4xLjAsIEtoZW0gUmFqIDxyYWoua2hl
+bUBnbWFpbC5jb20+CiAgICAqIFN1Y2NlZWRlZDogMjQKICAgICAgICB2aW0tdGlueSwgOC4xLjE2
+OTQsIFRvbSBSaW5pIDx0cmluaUBrb25zdWxrby5jb20+CiAgICAgICAgbGlieDExLCAxLjYuOCwg
+QXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBweXRob24zLCAzLjcu
+NCwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICB4b3JncHJvdG8sIDIw
+MTkuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBsaWJwY2lh
+Y2Nlc3MsIDAuMTUsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgog
+ICAgICAgIHdlc3RvbiwgNi4wLjEsIERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+CiAg
+ICAgICAgd2Via2l0Z3RrLCAyLjI0LjMsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
+Z21haWwuY29tPgogICAgICAgIGlzby1jb2RlcywgNC4zLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
+eC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBnbGliLW5ldHdvcmtpbmcsIDIuNjAuMywgQW51
+aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBkbmYsIDQuMi43LCBBbGV4
+YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaW51eC1maXJt
+d2FyZSwgMjAxOTA2MTgtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBPdGF2aW8gU2FsdmFkb3IgPG90
+YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIHh3aW5pbmZvLCAxLjEuNSwg
+QXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBpcHJvdXRlMiwgNS4y
+LjAsIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZUBnbWFpbC5jb20+CiAgICAgICAgdmlt
+LCA4LjEuMTY5NCwgVG9tIFJpbmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4KICAgICAgICBtc210cCwg
+MS44LjUsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAg
+IHBpZ2xpdCwgMS4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVy
+dG9uQGludGVsLmNvbT4KICAgICAgICBjcmVhdGVyZXBvLWMsIDAuMTQuMywgQWxleGFuZGVyIEth
+bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgeGF1dGgsIDEuMSwgQXJtaW4g
+S3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBnbnUtY29uZmlnLCAyMDE5MDUw
+MS1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2
+ZXIuY29tPgogICAgICAgIGdsaWItMi4wLCAyLjYwLjUsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRh
+bEBpbnRlbC5jb20+CiAgICAgICAgeHNlcnZlci14b3JnLCAxLjIwLjUsIEFybWluIEt1c3RlciA8
+YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgdnRlLCAwLjU2LjMsIEFudWogTWl0dGFsIDxh
+bnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcGtnY29uZiwgMS42LjMsIFJvc3MgQnVydG9u
+IDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgbGlid2VicCwgMS4wLjMsIEFsZXhhbmRl
+ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgoKICAgIFRPVEFMOiBhdHRlbXB0ZWQ9
+ODQgc3VjY2VlZGVkPTI0KDI4LjU3JSkgZmFpbGVkPTYwKDcxLjQzJSkKClJlY2lwZSB1cGdyYWRl
+IHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6CgogICAgQ2hlbiBRaSA8UWkuQ2hlbjogYXR0ZW1w
+dGVkPTYgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD02KDEwMC4wMCUpCiAgICBDaGFuZ2h5ZW9r
+IEJhZSA8Y2hhbmdoeWVvay5iYWU6IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0xKDMzLjMzJSkgZmFp
+bGVkPTIoNjYuNjclKQogICAgS2hlbSBSYWogPHJhai5raGVtOiBhdHRlbXB0ZWQ9MyBzdWNjZWVk
+ZWQ9MCgwLjAwJSkgZmFpbGVkPTMoMTAwLjAwJSkKICAgIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWE6
+IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MigxMDAuMDAlKQogICAgQWxl
+eGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTE0IHN1Y2NlZWRlZD03KDUw
+LjAwJSkgZmFpbGVkPTcoNTAuMDAlKQogICAgRGVyZWsgU3RyYWthIDxkZXJlazogYXR0ZW1wdGVk
+PTMgc3VjY2VlZGVkPTEoMzMuMzMlKSBmYWlsZWQ9Mig2Ni42NyUpCiAgICBEZW55cyBEbXl0cml5
+ZW5rbyA8ZGVueXM6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAu
+MDAlKQogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsOiBhdHRlbXB0ZWQ9MTIgc3VjY2VlZGVk
+PTMoMjUuMDAlKSBmYWlsZWQ9OSg3NS4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xl
+dG9uOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAg
+IEFybWluIEt1c3RlciA8YWt1c3RlcjgwODogYXR0ZW1wdGVkPTkgc3VjY2VlZGVkPTUoNTUuNTYl
+KSBmYWlsZWQ9NCg0NC40NCUpCiAgICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRl
+bXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFJvYmVydCBZ
+YW5nIDxsaWV6aGkueWFuZzogYXR0ZW1wdGVkPTYgc3VjY2VlZGVkPTEoMTYuNjclKSBmYWlsZWQ9
+NSg4My4zMyUpCiAgICBNYXJrIEhhdGxlIDxtYXJrLmhhdGxlOiBhdHRlbXB0ZWQ9MSBzdWNjZWVk
+ZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVt
+cHRlZD0yIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MigxMDAuMDAlKQogICAgT3RhdmlvIFNh
+bHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0xKDI1LjAwJSkg
+ZmFpbGVkPTMoNzUuMDAlKQogICAgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uOiBhdHRlbXB0ZWQ9
+MTEgc3VjY2VlZGVkPTIoMTguMTglKSBmYWlsZWQ9OSg4MS44MiUpCiAgICBUYW51IEthc2tpbmVu
+IDx0YW51azogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUp
+CiAgICBGYXRoaSBCb3VkcmEgPGZhdGhpLmJvdWRyYTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAo
+MC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdjogYXR0
+ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBUb20gUmlu
+aSA8dHJpbmk6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0yKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAl
+KQo=
 
-For me:
-
-busybox-dbg:
--PKGSIZE = 5212120
-+PKGSIZE = 5239440
-
-busybox-ptest:
--PKGSIZE = 458881
-+PKGSIZE = 458840
-
-busybox-src:
--PKGSIZE = 4130692
-+PKGSIZE = 4163014
-
-busybox:
--PKGSIZE = 687247
-+PKGSIZE = 691343
-
-Oddly files-in-package doesn't appear to have been touched in the
-repo.  I wonder if my sysroot changes broke that part of
-buildhistory...
-
-Ross
-
+--===============7647890514892870025==--
