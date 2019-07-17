@@ -1,23 +1,24 @@
-Return-Path: <chee.yang.lee@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6678C7BD72
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 889917E502
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 02:02:43 +0000 (UTC)
+	Wed, 17 Jul 2019 03:05:01 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jul 2019 19:02:44 -0700
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jul 2019 20:05:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,272,1559545200"; d="scan'208";a="169430885"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga007.fm.intel.com with ESMTP; 16 Jul 2019 19:02:43 -0700
-From: chee.yang.lee@intel.com
+X-IronPort-AV: E=Sophos;i="5.64,272,1559545200"; d="scan'208";a="167836863"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.21.220])
+	by fmsmga008.fm.intel.com with ESMTP; 16 Jul 2019 20:05:00 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 10:02:42 +0800
-Message-Id: <1563328962-14728-1-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] wic: add support for kernel with initramfs bundled
+Date: Wed, 17 Jul 2019 11:04:07 +0800
+Message-Id: <20190717030408.11571-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH 1/2] python: fix CVE-2019-9740
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,167 +31,251 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 02:02:43 -0000
+X-List-Received-Date: Wed, 17 Jul 2019 03:05:01 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
-
-when INITRAMFS_IMAGE_BUNDLE and INITRAMFS_IMAGE are set, wic should
-look for kernel with initramfs image bundled.
-
-Include required variable MACHINE, INITRAMFS_IMAGE_BUNDLE,
-INITRAMFS_IMAGE, INITRAMFS_LINK_NAME and KERNEL_IMAGETYPE in WICVARS.
-No longer require default value for variable kernel as KERNEL_IMAGETYPE
-is not optional variable and included in WICVARS.
-image_types_wic to inherit kernel-artifact-names to obtain default
-INITRAMFS_LINK_NAME when INITRAMFS_IMAGE_BUNDLE are set.
-
-update wic.Wic2.test_image_env test case to filter optional
-variable INITRAMFS_LINK_NAME, INITRAMFS_IMAGE and INITRAMFS_IMAGE_BUNDLE.
-
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/image_types_wic.bbclass                 |  5 ++++-
- meta/lib/oeqa/selftest/cases/wic.py                  |  3 ++-
- scripts/lib/wic/plugins/source/bootimg-efi.py        | 18 ++++++++++++------
- scripts/lib/wic/plugins/source/bootimg-pcbios.py     |  6 ++++--
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 19 +++++++++++++------
- 5 files changed, 35 insertions(+), 16 deletions(-)
+ .../python/python/CVE-2019-9740.patch         | 215 ++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.16.bb |   1 +
+ 2 files changed, 216 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/CVE-2019-9740.patch
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 5b40a9e..97d681b 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -3,7 +3,10 @@
- WICVARS ?= "\
-            BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
-            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
--           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS"
-+           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
-+           KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME"
+diff --git a/meta/recipes-devtools/python/python/CVE-2019-9740.patch b/meta/recipes-devtools/python/python/CVE-2019-9740.patch
+new file mode 100644
+index 0000000000..066ac68290
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/CVE-2019-9740.patch
+@@ -0,0 +1,215 @@
++From bb8071a4cae5ab3fe321481dd3d73662ffb26052 Mon Sep 17 00:00:00 2001
++From: Victor Stinner <victor.stinner@gmail.com>
++Date: Tue, 21 May 2019 15:12:33 +0200
++Subject: [PATCH] bpo-30458: Disallow control chars in http URLs (GH-12755)
++ (GH-13154) (GH-13315)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+inherit ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
- 
- WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
- WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index f1c6f39..c390749 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -499,7 +499,8 @@ class Wic2(WicTestCase):
-         wicvars = set(bb_vars['WICVARS'].split())
-         # filter out optional variables
-         wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES',
--                                      'INITRD', 'INITRD_LIVE', 'ISODIR'))
-+                                      'INITRD', 'INITRD_LIVE', 'ISODIR','INITRAMFS_IMAGE',
-+                                      'INITRAMFS_IMAGE_BUNDLE', 'INITRAMFS_LINK_NAME'))
-         with open(path) as envfile:
-             content = dict(line.split("=", 1) for line in envfile)
-             # test if variables used by wic present in the .env file
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 5cc5c8a..2cfdc10 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -74,8 +74,10 @@ class BootimgEFIPlugin(SourcePlugin):
-             grubefi_conf += "menuentry '%s'{\n" % (title if title else "boot")
- 
-             kernel = get_bitbake_var("KERNEL_IMAGETYPE")
--            if not kernel:
--                kernel = "bzImage"
-+            if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-+                if get_bitbake_var("INITRAMFS_IMAGE"):
-+                    kernel = "%s-%s.bin" % \
-+                        (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
- 
-             label = source_params.get('label')
-             label_conf = "root=%s" % creator.rootdev
-@@ -154,8 +156,10 @@ class BootimgEFIPlugin(SourcePlugin):
-         if not custom_cfg:
-             # Create systemd-boot configuration using parameters from wks file
-             kernel = get_bitbake_var("KERNEL_IMAGETYPE")
--            if not kernel:
--                kernel = "bzImage"
-+            if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-+                if get_bitbake_var("INITRAMFS_IMAGE"):
-+                    kernel = "%s-%s.bin" % \
-+                        (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
- 
-             title = source_params.get('title')
- 
-@@ -225,8 +229,10 @@ class BootimgEFIPlugin(SourcePlugin):
-         hdddir = "%s/hdd/boot" % cr_workdir
- 
-         kernel = get_bitbake_var("KERNEL_IMAGETYPE")
--        if not kernel:
--            kernel = "bzImage"
-+        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-+            if get_bitbake_var("INITRAMFS_IMAGE"):
-+                kernel = "%s-%s.bin" % \
-+                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
- 
-         install_cmd = "install -m 0644 %s/%s %s/%s" % \
-             (staging_kernel_dir, kernel, hdddir, kernel)
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index 670d347..f2639e7 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -150,8 +150,10 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         hdddir = "%s/hdd/boot" % cr_workdir
- 
-         kernel = get_bitbake_var("KERNEL_IMAGETYPE")
--        if not kernel:
--            kernel = "bzImage"
-+        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-+            if get_bitbake_var("INITRAMFS_IMAGE"):
-+                kernel = "%s-%s.bin" % \
-+                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
- 
-         cmds = ("install -m 0644 %s/%s %s/vmlinuz" %
-                 (staging_kernel_dir, kernel, hdddir),
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index 74d6f14..24299c1 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -71,8 +71,11 @@ class IsoImagePlugin(SourcePlugin):
-         syslinux_conf += "LABEL boot\n"
- 
-         kernel = get_bitbake_var("KERNEL_IMAGETYPE")
--        if not kernel:
--            kernel = "bzImage"
-+        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-+            if get_bitbake_var("INITRAMFS_IMAGE"):
-+                kernel = "%s-%s.bin" % \
-+                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
++Disallow control chars in http URLs in urllib2.urlopen.  This
++addresses a potential security problem for applications that do not
++sanity check their URLs where http request headers could be injected.
 +
-         syslinux_conf += "KERNEL /" + kernel + "\n"
-         syslinux_conf += "APPEND initrd=/initrd LABEL=boot %s\n" \
-                              % bootloader.append
-@@ -117,8 +120,10 @@ class IsoImagePlugin(SourcePlugin):
-             grubefi_conf += "menuentry 'boot'{\n"
++Disable https related urllib tests on a build without ssl (GH-13032)
++These tests require an SSL enabled build. Skip these tests when
++python is built without SSL to fix test failures.
++
++Use httplib.InvalidURL instead of ValueError as the new error case's
++exception. (GH-13044)
++
++Backport Co-Authored-By: Miro Hrončok <miro@hroncok.cz>
++
++(cherry picked from commit 7e200e0763f5b71c199aaf98bd5588f291585619)
++
++Notes on backport to Python 2.7:
++
++* test_urllib tests urllib.urlopen() which quotes the URL and so is
++  not vulerable to HTTP Header Injection.
++* Add tests to test_urllib2 on urllib2.urlopen().
++* Reject non-ASCII characters: range 0x80-0xff.
++
++Upstream-Status: Backport
++CVE: CVE-2019-9740
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ Lib/httplib.py                                | 16 ++++++
++ Lib/test/test_urllib.py                       | 25 +++++++++
++ Lib/test/test_urllib2.py                      | 51 ++++++++++++++++++-
++ Lib/test/test_xmlrpc.py                       |  8 ++-
++ .../2019-04-10-08-53-30.bpo-30458.51E-DA.rst  |  1 +
++ 5 files changed, 99 insertions(+), 2 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
++
++diff --git a/Lib/httplib.py b/Lib/httplib.py
++index 60a8fb4e355f..1b41c346e090 100644
++--- a/Lib/httplib.py
+++++ b/Lib/httplib.py
++@@ -247,6 +247,16 @@
++ _is_legal_header_name = re.compile(r'\A[^:\s][^:\r\n]*\Z').match
++ _is_illegal_header_value = re.compile(r'\n(?![ \t])|\r(?![ \t\n])').search
++ 
+++# These characters are not allowed within HTTP URL paths.
+++#  See https://tools.ietf.org/html/rfc3986#section-3.3 and the
+++#  https://tools.ietf.org/html/rfc3986#appendix-A pchar definition.
+++# Prevents CVE-2019-9740.  Includes control characters such as \r\n.
+++# Restrict non-ASCII characters above \x7f (0x80-0xff).
+++_contains_disallowed_url_pchar_re = re.compile('[\x00-\x20\x7f-\xff]')
+++# Arguably only these _should_ allowed:
+++#  _is_allowed_url_pchars_re = re.compile(r"^[/!$&'()*+,;=:@%a-zA-Z0-9._~-]+$")
+++# We are more lenient for assumed real world compatibility purposes.
+++
++ # We always set the Content-Length header for these methods because some
++ # servers will otherwise respond with a 411
++ _METHODS_EXPECTING_BODY = {'PATCH', 'POST', 'PUT'}
++@@ -927,6 +937,12 @@ def putrequest(self, method, url, skip_host=0, skip_accept_encoding=0):
++         self._method = method
++         if not url:
++             url = '/'
+++        # Prevent CVE-2019-9740.
+++        match = _contains_disallowed_url_pchar_re.search(url)
+++        if match:
+++            raise InvalidURL("URL can't contain control characters. %r "
+++                             "(found at least %r)"
+++                             % (url, match.group()))
++         hdr = '%s %s %s' % (method, url, self._http_vsn_str)
++ 
++         self._output(hdr)
++diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
++index 1ce9201c0693..d7778d4194f3 100644
++--- a/Lib/test/test_urllib.py
+++++ b/Lib/test/test_urllib.py
++@@ -257,6 +257,31 @@ def test_url_fragment(self):
++         finally:
++             self.unfakehttp()
++ 
+++    def test_url_with_control_char_rejected(self):
+++        for char_no in range(0, 0x21) + range(0x7f, 0x100):
+++            char = chr(char_no)
+++            schemeless_url = "//localhost:7777/test%s/" % char
+++            self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+++            try:
+++                # urllib quotes the URL so there is no injection.
+++                resp = urllib.urlopen("http:" + schemeless_url)
+++                self.assertNotIn(char, resp.geturl())
+++            finally:
+++                self.unfakehttp()
+++
+++    def test_url_with_newline_header_injection_rejected(self):
+++        self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+++        host = "localhost:7777?a=1 HTTP/1.1\r\nX-injected: header\r\nTEST: 123"
+++        schemeless_url = "//" + host + ":8080/test/?test=a"
+++        try:
+++            # urllib quotes the URL so there is no injection.
+++            resp = urllib.urlopen("http:" + schemeless_url)
+++            self.assertNotIn(' ', resp.geturl())
+++            self.assertNotIn('\r', resp.geturl())
+++            self.assertNotIn('\n', resp.geturl())
+++        finally:
+++            self.unfakehttp()
+++
++     def test_read_bogus(self):
++         # urlopen() should raise IOError for many error codes.
++         self.fakehttp('''HTTP/1.1 401 Authentication Required
++diff --git a/Lib/test/test_urllib2.py b/Lib/test/test_urllib2.py
++index 6d24d5ddf83c..9531818e16b2 100644
++--- a/Lib/test/test_urllib2.py
+++++ b/Lib/test/test_urllib2.py
++@@ -15,6 +15,9 @@
++ except ImportError:
++     ssl = None
++ 
+++from test.test_urllib import FakeHTTPMixin
+++
+++
++ # XXX
++ # Request
++ # CacheFTPHandler (hard to write)
++@@ -1262,7 +1265,7 @@ def _test_basic_auth(self, opener, auth_handler, auth_header,
++         self.assertEqual(len(http_handler.requests), 1)
++         self.assertFalse(http_handler.requests[0].has_header(auth_header))
++ 
++-class MiscTests(unittest.TestCase):
+++class MiscTests(unittest.TestCase, FakeHTTPMixin):
++ 
++     def test_build_opener(self):
++         class MyHTTPHandler(urllib2.HTTPHandler): pass
++@@ -1317,6 +1320,52 @@ def test_unsupported_algorithm(self):
++             "Unsupported digest authentication algorithm 'invalid'"
++         )
++ 
+++    @unittest.skipUnless(ssl, "ssl module required")
+++    def test_url_with_control_char_rejected(self):
+++        for char_no in range(0, 0x21) + range(0x7f, 0x100):
+++            char = chr(char_no)
+++            schemeless_url = "//localhost:7777/test%s/" % char
+++            self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+++            try:
+++                # We explicitly test urllib.request.urlopen() instead of the top
+++                # level 'def urlopen()' function defined in this... (quite ugly)
+++                # test suite.  They use different url opening codepaths.  Plain
+++                # urlopen uses FancyURLOpener which goes via a codepath that
+++                # calls urllib.parse.quote() on the URL which makes all of the
+++                # above attempts at injection within the url _path_ safe.
+++                escaped_char_repr = repr(char).replace('\\', r'\\')
+++                InvalidURL = httplib.InvalidURL
+++                with self.assertRaisesRegexp(
+++                    InvalidURL, "contain control.*" + escaped_char_repr):
+++                    urllib2.urlopen("http:" + schemeless_url)
+++                with self.assertRaisesRegexp(
+++                    InvalidURL, "contain control.*" + escaped_char_repr):
+++                    urllib2.urlopen("https:" + schemeless_url)
+++            finally:
+++                self.unfakehttp()
+++
+++    @unittest.skipUnless(ssl, "ssl module required")
+++    def test_url_with_newline_header_injection_rejected(self):
+++        self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+++        host = "localhost:7777?a=1 HTTP/1.1\r\nX-injected: header\r\nTEST: 123"
+++        schemeless_url = "//" + host + ":8080/test/?test=a"
+++        try:
+++            # We explicitly test urllib2.urlopen() instead of the top
+++            # level 'def urlopen()' function defined in this... (quite ugly)
+++            # test suite.  They use different url opening codepaths.  Plain
+++            # urlopen uses FancyURLOpener which goes via a codepath that
+++            # calls urllib.parse.quote() on the URL which makes all of the
+++            # above attempts at injection within the url _path_ safe.
+++            InvalidURL = httplib.InvalidURL
+++            with self.assertRaisesRegexp(
+++                InvalidURL, r"contain control.*\\r.*(found at least . .)"):
+++                urllib2.urlopen("http:" + schemeless_url)
+++            with self.assertRaisesRegexp(InvalidURL, r"contain control.*\\n"):
+++                urllib2.urlopen("https:" + schemeless_url)
+++        finally:
+++            self.unfakehttp()
+++
+++
++ 
++ class RequestTests(unittest.TestCase):
++ 
++diff --git a/Lib/test/test_xmlrpc.py b/Lib/test/test_xmlrpc.py
++index 36b3be67fd6b..90ccb30716ff 100644
++--- a/Lib/test/test_xmlrpc.py
+++++ b/Lib/test/test_xmlrpc.py
++@@ -659,7 +659,13 @@ def test_dotted_attribute(self):
++     def test_partial_post(self):
++         # Check that a partial POST doesn't make the server loop: issue #14001.
++         conn = httplib.HTTPConnection(ADDR, PORT)
++-        conn.request('POST', '/RPC2 HTTP/1.0\r\nContent-Length: 100\r\n\r\nbye')
+++        conn.send('POST /RPC2 HTTP/1.0\r\n'
+++                  'Content-Length: 100\r\n\r\n'
+++                  'bye HTTP/1.1\r\n'
+++                  'Host: %s:%s\r\n'
+++                  'Accept-Encoding: identity\r\n'
+++                  'Content-Length: 0\r\n\r\n'
+++                  % (ADDR, PORT))
++         conn.close()
++ 
++ class SimpleServerEncodingTestCase(BaseServerTestCase):
++diff --git a/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
++new file mode 100644
++index 000000000000..47cb899df1af
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
++@@ -0,0 +1 @@
+++Address CVE-2019-9740 by disallowing URL paths with embedded whitespace or control characters through into the underlying http client request.  Such potentially malicious header injection URLs now cause an httplib.InvalidURL exception to be raised.
+diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
+index 5f387b8af1..b943a89885 100644
+--- a/meta/recipes-devtools/python/python_2.7.16.bb
++++ b/meta/recipes-devtools/python/python_2.7.16.bb
+@@ -34,6 +34,7 @@ SRC_URI += " \
+     file://bpo-35907-cve-2019-9948-fix.patch \
+     file://bpo-36216-cve-2019-9636.patch \
+     file://bpo-36216-cve-2019-9636-fix.patch \
++    file://CVE-2019-9740.patch \
+ "
  
-             kernel = get_bitbake_var("KERNEL_IMAGETYPE")
--            if not kernel:
--                kernel = "bzImage"
-+            if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-+                if get_bitbake_var("INITRAMFS_IMAGE"):
-+                    kernel = "%s-%s.bin" % \
-+                        (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
- 
-             grubefi_conf += "linux /%s rootwait %s\n" \
-                             % (kernel, bootloader.append)
-@@ -273,8 +278,10 @@ class IsoImagePlugin(SourcePlugin):
-             os.remove("%s/initrd.cpio.gz" % cr_workdir)
- 
-         kernel = get_bitbake_var("KERNEL_IMAGETYPE")
--        if not kernel:
--            kernel = "bzImage"
-+        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
-+            if get_bitbake_var("INITRAMFS_IMAGE"):
-+                kernel = "%s-%s.bin" % \
-+                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
- 
-         install_cmd = "install -m 0644 %s/%s %s/%s" % \
-                       (kernel_dir, kernel, isodir, kernel)
+ S = "${WORKDIR}/Python-${PV}"
 -- 
-2.7.4
+2.20.1
 
 
