@@ -1,51 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E65277ED36
+Return-Path: <adrian.ratiu@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CA457ED2B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 11:44:54 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id p13so24432612wru.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 04:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=nsHzHC0uqEesI/+CLANdC0UKnZI9rlFl+sFWX78e+sE=;
-	b=ghhXCdrOC5fuBTkwNLypq4eU3TlC70Mn0ubogmhU8mfWDjRpvqRqlxzZ6RcOdgqG59
-	JHJ188bKjfANtwtg2pz1hLRFcEz3AXJfNNWXgPAQFVCYV8AnOB/7AgFGhwE4mXi/vDeQ
-	6LDlmlmTcJOEac+bm0GCkGNznHpm6DOm8DNFg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=nsHzHC0uqEesI/+CLANdC0UKnZI9rlFl+sFWX78e+sE=;
-	b=JvmWIlbMS0KJ+GjdlkYHOS0eg4we+e/nWh4BmnmDb+HM1kUyNIdOUiwg1kX3gIxJfA
-	08P0LEo2/nfefdQ0ci4XnTiG5IGXh26p+4bqfwT1ti4muwSALiLhYf4YWRXF0gn/pxWu
-	t/iqFt2ko+dUhKbKqTRBpwjmhAm3ct92SMsiuEumyfv47F84aGGlvwxjEF4vCwZtqT82
-	BFbrd22Jtnp/CckHYh6sEFBIfRkmQHgSVhPTZd7bI1Dfo204ymOq6dN5Vpn4ZBis3haZ
-	/PXi7xXJxtbT3v0Iu1k7rtjZCQCiBG5Sw9wbqvRhUEFnBlf/3e85JTiPX/J/dj7d1HWS
-	lSEg==
-X-Gm-Message-State: APjAAAU9Qi0iMZNtiGLYm6g0OaMf9oJfXA0tqLgpDSuXSI6vNz5OuHmH
-	0xgbaiiRG+W5MaNYUFghOmEMTRIcE8M=
-X-Google-Smtp-Source: APXvYqwBdW9sF+RxMopoiYy8PbUyrRWT35/SIuemC5Z2HJDkdpjOSKrtJuNTbC8CAz4gnS/+IN/igQ==
-X-Received: by 2002:adf:de10:: with SMTP id b16mr11192543wrm.296.1563363895653;
-	Wed, 17 Jul 2019 04:44:55 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j17sm28518481wrb.35.2019.07.17.04.44.54
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Jul 2019 04:44:55 -0700 (PDT)
-Message-ID: <a098852b41fcdb4adcda5060a3fd87694391e0ea.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@bmw.de>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 12:44:54 +0100
-In-Reply-To: <1563354517-31850-1-git-send-email-mikko.rapeli@bmw.de>
-References: <1563354517-31850-1-git-send-email-mikko.rapeli@bmw.de>
-User-Agent: Evolution 3.32.2-1 
+	Wed, 17 Jul 2019 11:52:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aratiu) with ESMTPSA id 1AB2828AB4D
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <CA+chaQdO2xLQR6z+xNTXYaqj4fvppguu6iVBZsLUXZLBgqC8xg@mail.gmail.com>
+References: <20190716215558.23327-1-adrian.ratiu@collabora.com>
+	<CA+chaQdO2xLQR6z+xNTXYaqj4fvppguu6iVBZsLUXZLBgqC8xg@mail.gmail.com>
+Date: Wed, 17 Jul 2019 14:52:21 +0300
+Message-ID: <87d0i8g9oq.fsf@collabora.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] busybox: enable unicode support
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] opkg/package/rootfs_ipk: allow overwriting OPKGLIBDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,41 +28,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 11:44:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Jul 2019 11:52:11 -0000
+Content-Type: text/plain; format=flowed
 
-On Wed, 2019-07-17 at 12:08 +0300, Mikko Rapeli wrote:
-> While creating and deleting files with unicode or other
-> encodings works, it's annoying when ls and other core utils
-> show questionmarks instead of the unicode characters.
-> In 2019, it's quite common that users of embedded devices
-> based on yocto need unicode support. Debugging a box with
-> unicode encoded file names is a bit annoying when core utils
-> from busybox don't support them.
-> 
-> The unicode config fragment has the same config as Debian in their
-> deb and udeb builds of version 1:1.30.1-4.
-> 
-> If developers do not want this or other default yocto features in
-> busybox,
-> or optimize the configuration for size, then they likely run a
-> completely
-> custom configuration. Thus I think it's safe to enable unicode
-> support
-> by default.
-> 
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> ---
->  meta/recipes-core/busybox/busybox/unicode.cfg | 10 ++++++++++
->  meta/recipes-core/busybox/busybox_1.31.0.bb   |  1 +
->  2 files changed, 11 insertions(+)
->  create mode 100644 meta/recipes-core/busybox/busybox/unicode.cfg
+Hi
 
-Can you give an idea of the size implications of this change?
+On Wed, 17 Jul 2019, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Why don't you overwrite it with an override? We're doing that 
+> for years without any issues.
 
-Cheers,
+You mean a distro-wide override in a .conf?
 
-Richard
+Can you please point to an example?
 
+>
+> On Wed, Jul 17, 2019 at 12:01 AM Adrian Ratiu <adrian.ratiu@collabora.com>
+> wrote:
+>
+>> Some distributions for various reasons (like for example mounting a
+>> tmpfs over /var at runtime) can't use /var/lib to store the opkg
+>> metadata, so a different path is required to have a functioning
+>> package manager.
+>>
+>> ${localstatedir} can't be modified to something other than the
+>> hardcoded value in bitbake.conf because other recipes depending on it
+>> will fail to install.
+>>
+>> So the only recourse, which is also the least invasive, is to allow
+>> distros to overwrite the OPKGLIBDIR variable just like they are also
+>> allowed to overwrite OPKGBUILDCMD.
+>>
+>> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+>> ---
+>>  meta/classes/package_ipk.bbclass         | 2 +-
+>>  meta/classes/rootfs_ipk.bbclass          | 2 +-
+>>  meta/recipes-devtools/opkg/opkg_0.4.1.bb | 2 +-
+>>  3 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/classes/package_ipk.bbclass
+>> b/meta/classes/package_ipk.bbclass
+>> index d1b317b42b..9f9da2f91d 100644
+>> --- a/meta/classes/package_ipk.bbclass
+>> +++ b/meta/classes/package_ipk.bbclass
+>> @@ -14,7 +14,7 @@ OPKG_ARGS += "--force_postinstall
+>> --prefer-arch-to-version"
+>>  OPKG_ARGS += "${@['',
+>> '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
+>>  OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude
+>> '.join((d.getVar('PACKAGE_EXCLUDE') or
+>> "").split())][(d.getVar("PACKAGE_EXCLUDE") or "").strip() != ""]}"
+>>
+>> -OPKGLIBDIR = "${localstatedir}/lib"
+>> +OPKGLIBDIR ??= "${localstatedir}/lib"
+>>
+>>  python do_package_ipk () {
+>>      workdir = d.getVar('WORKDIR')
+>> diff --git a/meta/classes/rootfs_ipk.bbclass
+>> b/meta/classes/rootfs_ipk.bbclass
+>> index aabc370cfc..e73d2bfdae 100644
+>> --- a/meta/classes/rootfs_ipk.bbclass
+>> +++ b/meta/classes/rootfs_ipk.bbclass
+>> @@ -21,7 +21,7 @@ OPKG_PREPROCESS_COMMANDS = ""
+>>
+>>  OPKG_POSTPROCESS_COMMANDS = ""
+>>
+>> -OPKGLIBDIR = "${localstatedir}/lib"
+>> +OPKGLIBDIR ??= "${localstatedir}/lib"
+>>
+>>  MULTILIBRE_ALLOW_REP = "${OPKGLIBDIR}/opkg|/usr/lib/opkg"
+>>
+>> diff --git a/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+>> b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+>> index 8c48d3097c..c663eff13b 100644
+>> --- a/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+>> +++ b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+>> @@ -28,7 +28,7 @@ PACKAGES =+ "libopkg"
+>>  inherit autotools pkgconfig systemd ptest
+>>
+>>  target_localstatedir := "${localstatedir}"
+>> -OPKGLIBDIR = "${target_localstatedir}/lib"
+>> +OPKGLIBDIR ??= "${target_localstatedir}/lib"
+>>
+>>  PACKAGECONFIG ??= "libsolv"
+>>
+>> --
+>> 2.22.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 
