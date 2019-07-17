@@ -1,82 +1,62 @@
-Return-Path: <MANJUKUM@xilinx.com>
-X-Greylist: delayed 7222 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 17 Jul 2019 17:35:40 UTC
-Received: from NAM03-DM3-obe.outbound.protection.outlook.com
-	(mail-eopbgr800044.outbound.protection.outlook.com [40.107.80.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 71B907C136
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+	[209.85.217.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E53A7ED51
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 17:35:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=MXxFISzI7FaxNEZFE91pfZLQMdNlipnoIx2I40dISEgaAOPJsbR5sjOYFXnhMT/M7gBN1x5X3j5D+n3N8vjUAsA3MldN8KttOiKKHp9itwCwE0gZCVEl53dpNYFIl53ucQG/w3Ch2v//HYN8DrqvNcGZboKAza+BMb9V4QZ+VPlFpkAgPG05lkXFM81lT/tnaWlUUupuOVEa8MB0wcr6V48rjq72240bP2B8rnd4QCb5gnkBgthVAoFUZ9aDf1ctrsh+v/W8POhzWm+Uob948IfPqfxoTRhi5Ia1jWRu3D2zuUKqqr2Eg09mKf3NrLStY6b76T1e1G047gq1jI8THQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=9GVqNTuKlVbdQKLlbIpoW/kVBzhnOa70HN1ocdWqQPA=;
-	b=gija0iXSsl2Vl0wYh1kP2wh5t95ohFLko8R2ya8VRrIp5Muq7/C5DOmavOgg/0lyrEXnau+ybpiCFHGpLSG8nxk6d8f63TK08DNRuyIbQFOyxTubcEmW1napuXn+DguFk0WUUXgJ8WE3EQambrRMuVTAh85sUyWvpkGUy5IavfLzJsJ275iT7QAq3rmkWO4x5LbpNDkNClhlssoWcicg3jP+XlXfki+E/lNQpW/CU1ur3SFqig90YyiB8KUiWUgSIVrYTqAmzivisRzYYwGk75LKpk1dGO0oNxpIyog7mfbx5YHo4RWDxrxMnAy4t7N0Bk9px+G0coXXVCrNXPs3oQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
-	smtp.mailfrom=xilinx.com;dmarc=pass action=none
-	header.from=xilinx.com;dkim=pass header.d=xilinx.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=9GVqNTuKlVbdQKLlbIpoW/kVBzhnOa70HN1ocdWqQPA=;
-	b=BiTwY7nA2rdOIIkt8ojf1gXgam9DFIE/HKck8jh2CRt3UIVvpjXob4y08k9RjhWMxj/rfnl5zKGXv62u+JEKgJ0kphItDrJ2U4+shKgiSLkhK2dPwkt5kyavhQ0TwM6ud6r6PasARdaRg61vlWdsXd7W/yPuAGWFcXkPNBRxlsc=
-Received: from BYAPR02MB6005.namprd02.prod.outlook.com (20.179.89.140) by
-	BYAPR02MB4887.namprd02.prod.outlook.com (52.135.234.161) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2073.10; Tue, 16 Jul 2019 20:40:19 +0000
-Received: from BYAPR02MB6005.namprd02.prod.outlook.com
-	([fe80::41b2:9de0:b783:b865]) by
-	BYAPR02MB6005.namprd02.prod.outlook.com
-	([fe80::41b2:9de0:b783:b865%7]) with mapi id 15.20.2073.012;
-	Tue, 16 Jul 2019 20:40:19 +0000
-From: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
-To: Ricardo Salveti <ricardo@foundries.io>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] kernel-fitimage: include overlays with external dtb
-Thread-Index: AQHVPBIG40VPOliyZUaG8CSKnSRN2KbNtKKA
-Date: Tue, 16 Jul 2019 20:40:19 +0000
-Message-ID: <BYAPR02MB6005B773FEACFC04FCE862D7B9CE0@BYAPR02MB6005.namprd02.prod.outlook.com>
-References: <20190716200640.18414-1-ricardo@foundries.io>
-In-Reply-To: <20190716200640.18414-1-ricardo@foundries.io>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=MANJUKUM@xilinx.com; 
-x-originating-ip: [73.231.161.32]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5e908f6c-b656-4e80-95ea-08d70a2dd126
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
-	SRVR:BYAPR02MB4887; 
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4887:|BYAPR02MB4887:|BYAPR02MB4887:|BYAPR02MB4887:
-x-microsoft-antispam-prvs: <BYAPR02MB48871B453189D22ED215BD2CB9CE0@BYAPR02MB4887.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-forefront-prvs: 0100732B76
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(4636009)(396003)(136003)(346002)(376002)(39860400002)(366004)(51914003)(199004)(189003)(13464003)(110136005)(476003)(11346002)(446003)(305945005)(81166006)(8676002)(81156014)(486006)(8936002)(86362001)(25786009)(52536014)(66066001)(229853002)(2906002)(2501003)(102836004)(76116006)(66946007)(3846002)(66556008)(66476007)(53936002)(71190400001)(66446008)(71200400001)(68736007)(7736002)(478600001)(64756008)(316002)(74316002)(99286004)(5660300002)(76176011)(6436002)(55016002)(256004)(9686003)(14454004)(186003)(26005)(6116002)(7696005)(33656002)(6246003)(53546011)(14444005)(6506007);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4887;
-	H:BYAPR02MB6005.namprd02.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 5seZTKRPm5dYqQyNjE9W0s28RTd1IfDZebaSIPxWzJaVXHN/gGTjFTbi6ShSLsLfvlYJoOz9v6W6/QpYEQ8YVLnxFZJS1yluL/yPo6xCf1Ut2VxFHHzIM4TlADyItCvOLZ67dIjVxXg/aAtaQdMy2Bd18skrI+pYHGwlEOTcLoP6x+e4nMJx+OXfU3l5x+w7ihHLbgQYecR+l9bGah/O19x3HombzPnWv9O7tXNeRr6WBKGg0No+znwSgMRAZzMWEGTSlmzClXPMFAy5l9ZMkF3Eq0YwuWpboqR4MYgiKemNnG7h9+xxqOiGcRyeMPoM0LflxrNAUA8xDcGy2cUGJGdG00ML3QcqEcwTA2hiL6V8YvVoNUXKI8wTpAdqjRBzNkqiXm9TdzhUHI8x6SSuCcY9TjLuZ+3I57UxmSgv6e0=
+	Wed, 17 Jul 2019 19:34:19 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id j26so17348050vsn.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jul 2019 12:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=mgYXtAJ/3sT9k8di4+9gdKhekIT+qcXNc5fpJ1jbMwM=;
+	b=gTtcmFgQXddkvhrAnsa1mdgtkffvzkWzsG8Xi3ufPkSrRb8LIR8Mpsbm+hngvcCshO
+	OKFwNuTwNj4R9P73B3zyR9Vb01b34JEIyplh7yAo73pkz46LVVQ5ypsyM/d/xoP87XBh
+	4I8ol8+Toit5fEMKCcuyiTr7gJl4IgyZXsEbTUYiXmitZlLJAO90LC6T6BoV4PRVd+0x
+	Lv7qm2wwxIIbHYzD5Ibx+Kq7X+F9Vfp1ET7FAvQ7p7FAVEFzsh5HDO08yX/k14y9sP9C
+	zBfSjOqueXIKVr2A5hKVVShFmkT/41tTHf/oYVv/Vt9C65kw4G2KwYlBSr/idwVXWO+b
+	B5JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=mgYXtAJ/3sT9k8di4+9gdKhekIT+qcXNc5fpJ1jbMwM=;
+	b=XzDBSSGXWMGK6hlUqQ/h8Bw/+s1h+BQVdp4oL7HX9Lf7Sbd+YnC0bPXcHCUXypGLvJ
+	BQz6SbpvB8sDpeRI7ySmOISKDhaape5smYRaxQmToRyFTx2KZw+PFq+DOS1qjjY54xdx
+	F9xAYGKR48xeQ7xKQNLzfWMcU0B0Ucd8MHErkwgIW1h+yQquas+YJNGF3sHLgc6zqzMh
+	KDbEZTOO6yFpRQNM85Zsp4rXkkFmBbfWI6KId075b2Urskv/vbOqwDrjZwxbxpaUnvTE
+	rrxiO7bYJFS0VBu+ScosnqhPSU0PbiIq+fLg6nFs/tQHylF2WpbdJRU/7wkM9bnGieUv
+	bRCw==
+X-Gm-Message-State: APjAAAVzyV+LVAz76jxoiYVx3Pi2t/1cxxVaFF7AclPUuhe6xeqJ8w7U
+	5gtqQScTl2LMwlumS3mpw4ItXui/ACKPDpE0dFo=
+X-Google-Smtp-Source: APXvYqx7c8rnFNaBDfne4y857AgOy0lre7Src3jFf9XXaGr0BKbwZOfYpcUx55gDMxzsRrLx8jv6eiRx9owgnx81XOw=
+X-Received: by 2002:a67:8042:: with SMTP id b63mr27304920vsd.23.1563392060348; 
+	Wed, 17 Jul 2019 12:34:20 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e908f6c-b656-4e80-95ea-08d70a2dd126
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2019 20:40:19.4147 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: manjukum@xilinx.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4887
-X-OriginatorOrg: xilinx.com
-Subject: Re: [PATCH] kernel-fitimage: include overlays with external dtb
+References: <20190717134750.65BCA440002@auh.yoctoproject.org>
+	<014a27db-3a87-c1a8-a8ee-94d9e38f9ef1@mailbox.org>
+In-Reply-To: <014a27db-3a87-c1a8-a8ee-94d9e38f9ef1@mailbox.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 17 Jul 2019 22:34:08 +0300
+Message-ID: <CANNYZj_7w1_6TDjmP2hRpxR3g_0dyR+X_YV7GA3s3Lwys4QONg@mail.gmail.com>
+To: Carlos Rafael Giani <crg7475@mailbox.org>, Derek Straka <derek@asterius.io>,
+	Hongxu Jia <hongxu.jia@windriver.com>,
+	=?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <limon.anibal@gmail.com>, 
+	"Burton, Ross" <ross.burton@intel.com>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>, 
+	changhyeok.bae@gmail.com, Chen Qi <Qi.Chen@windriver.com>, 
+	Yi Zhao <yi.zhao@windriver.com>, Anuj Mittal <anuj.mittal@intel.com>, 
+	Robert Yang <liezhi.yang@windriver.com>,
+	Armin Kuster <akuster808@gmail.com>, 
+	"Paul Eggleton (paul.eggleton@linux.intel.com)"
+	<paul.eggleton@linux.intel.com>, Tanu Kaskinen <tanuk@iki.fi>, 
+	Khem Raj <raj.khem@gmail.com>, 
+	"Hatle, Mark G (Wind River)" <mark.hatle@windriver.com>,
+	Fathi Boudra <fathi.boudra@linaro.org>, 
+	Tom Rini <trini@konsulko.com>, Denys Dmytriyenko <denys@ti.com>
+Cc: Carlos Rafael Giani <dv@pseudoterminal.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [AUH] kmscube: upgrading to a12e306ce18ff1c2922219a5342fa419ee80a12e FAILED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -89,49 +69,246 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 17:35:40 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 17 Jul 2019 19:34:19 -0000
+Content-Type: multipart/alternative; boundary="00000000000066e12b058de594ff"
+
+--00000000000066e12b058de594ff
+Content-Type: text/plain; charset="UTF-8"
+
+Thanks.
+
+Generally I want to request all of the maintainers to pay attention to
+those AUH emails and act on them, or put respective action points in your
+TODO. If you feel like you can't allocate time to this work, or lost
+interest (which is totally fine), please let the project know; the worst
+outcome is simply ignoring the emails.
+
+Regards,
+Alex
+
+On Wed, 17 Jul 2019 at 19:41, Carlos Rafael Giani <crg7475@mailbox.org>
+wrote:
+
+> I noticed this already, yes. Working on it.
+>
+> On 17.07.19 15:47, auh@auh.yoctoproject.org wrote:
+> > Hello,
+> >
+> > You are receiving this email because you are the maintainer
+> > of *kmscube* recipe and this is to let you know that the automatic
+> attempt
+> > to upgrade the recipe to *a12e306ce18ff1c2922219a5342fa419ee80a12e* has
+> Failed (devtool error).
+> >
+> > Detailed error information:
+> >
+> > Running 'devtool upgrade' for recipe kmscube failed.
+> > NOTE: Starting bitbake server...
+> > NOTE: Bitbake server didn't start within 5 seconds, waiting for 90
+> > NOTE: Reconnecting to bitbake server...
+> > NOTE: Retrying server connection (#1)...
+> > WARNING: Layer workspacelayer should set
+> LAYERSERIES_COMPAT_workspacelayer in its conf/layer.conf file to list the
+> core layer names it is compatible with.
+> > Loading cache...done.
+> > INFO: Extracting current version source...
+> > Loaded 1324 entries from dependency cache.
+> >
+> > Summary: There was 1 WARNING message shown.
+> > NOTE: Resolving any missing task queue dependencies
+> >
+> > Build Configuration:
+> > BB_VERSION           = "1.43.0"
+> > BUILD_SYS            = "x86_64-linux"
+> > NATIVELSBSTRING      = "universal"
+> > TARGET_SYS           = "i686-poky-linux"
+> > MACHINE              = "qemux86"
+> > DISTRO               = "poky"
+> > DISTRO_VERSION       = "2.7+snapshot-20190716"
+> > TUNE_FEATURES        = "m32 core2"
+> > TARGET_FPU           = ""
+> > meta
+> > meta-poky
+> > meta-yocto-bsp       =
+> "tmp-auh-upgrades:d1d025cb80e75952d4a8c5e0e5d44ca6d9716b5a"
+> > workspace            = "<unknown>:<unknown>"
+> >
+> > Initialising tasks...NOTE: No setscene tasks
+> > NOTE: Executing Tasks
+> > NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be
+> rerun and all succeeded.
+> > NOTE: Writing buildhistory
+> > NOTE: Writing buildhistory took: 2 seconds
+> > INFO: Extracting upgraded version source...
+> > WARNING: Command 'git rebase a12e306ce18ff1c2922219a5342fa419ee80a12e'
+> failed:
+> > First, rewinding head to replay your work on top of it...
+> > Applying: Detect gst_bo_map/_unmap and use it (or avoid it)
+> > Using index info to reconstruct a base tree...
+> > M     Makefile.am
+> > M     kmscube.c
+> > Falling back to patching base and 3-way merge...
+> > Auto-merging kmscube.c
+> > Auto-merging Makefile.am
+> > CONFLICT (content): Merge conflict in Makefile.am
+> > error: Failed to merge in the changes.
+> > Patch failed at 0001 Detect gst_bo_map/_unmap and use it (or avoid it)
+> > The copy of the patch that failed is found in: .git/rebase-apply/patch
+> >
+> > When you have resolved this problem, run "git rebase --continue".
+> > If you prefer to skip this patch, run "git rebase --skip" instead.
+> > To check out the original branch and stop rebasing, run "git rebase
+> --abort".
+> >
+> > You will need to resolve conflicts in order to complete the upgrade.
+> > INFO: Upgraded source extracted to
+> /home/auh/build/workspace/sources/kmscube
+> > INFO: New recipe is /home/auh/build/workspace/recipes/kmscube/
+> kmscube_git.bb
+> >
+> >
+> >
+> > Please review the attached files for further information and
+> build/update failures.
+> > Any problem please file a bug at
+> https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+> >
+> > Regards,
+> > The Upgrade Helper
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--00000000000066e12b058de594ff
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ricardo,
+<div dir=3D"ltr">Thanks.<div><br></div><div>Generally I want to request all=
+ of the maintainers to pay attention to those AUH emails and act on them, o=
+r put respective action points in your TODO. If you feel like you can&#39;t=
+ allocate time to this work, or lost interest (which is totally fine), plea=
+se let the project know; the worst outcome is simply ignoring the emails.</=
+div><div><br></div><div>Regards,</div><div>Alex</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 17 Jul 2019 =
+at 19:41, Carlos Rafael Giani &lt;<a href=3D"mailto:crg7475@mailbox.org" ta=
+rget=3D"_blank">crg7475@mailbox.org</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;=
+border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex=
+">I noticed this already, yes. Working on it.<br>
+<br>
+On 17.07.19 15:47, <a href=3D"mailto:auh@auh.yoctoproject.org" target=3D"_b=
+lank">auh@auh.yoctoproject.org</a> wrote:<br>
+&gt; Hello,<br>
+&gt;<br>
+&gt; You are receiving this email because you are the maintainer<br>
+&gt; of *kmscube* recipe and this is to let you know that the automatic att=
+empt<br>
+&gt; to upgrade the recipe to *a12e306ce18ff1c2922219a5342fa419ee80a12e* ha=
+s Failed (devtool error).<br>
+&gt;<br>
+&gt; Detailed error information:<br>
+&gt;<br>
+&gt; Running &#39;devtool upgrade&#39; for recipe kmscube failed.<br>
+&gt; NOTE: Starting bitbake server...<br>
+&gt; NOTE: Bitbake server didn&#39;t start within 5 seconds, waiting for 90=
+<br>
+&gt; NOTE: Reconnecting to bitbake server...<br>
+&gt; NOTE: Retrying server connection (#1)...<br>
+&gt; WARNING: Layer workspacelayer should set LAYERSERIES_COMPAT_workspacel=
+ayer in its conf/layer.conf file to list the core layer names it is compati=
+ble with.<br>
+&gt; Loading cache...done.<br>
+&gt; INFO: Extracting current version source...<br>
+&gt; Loaded 1324 entries from dependency cache.<br>
+&gt;<br>
+&gt; Summary: There was 1 WARNING message shown.<br>
+&gt; NOTE: Resolving any missing task queue dependencies<br>
+&gt;<br>
+&gt; Build Configuration:<br>
+&gt; BB_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;1.43.0&qu=
+ot;<br>
+&gt; BUILD_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;x86_64-li=
+nux&quot;<br>
+&gt; NATIVELSBSTRING=C2=A0 =C2=A0 =C2=A0 =3D &quot;universal&quot;<br>
+&gt; TARGET_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;i686-poky=
+-linux&quot;<br>
+&gt; MACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;qemu=
+x86&quot;<br>
+&gt; DISTRO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot=
+;poky&quot;<br>
+&gt; DISTRO_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;2.7+snapshot-201907=
+16&quot;<br>
+&gt; TUNE_FEATURES=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;m32 core2&quot;<br>
+&gt; TARGET_FPU=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;&quot;<br=
+>
+&gt; meta<br>
+&gt; meta-poky<br>
+&gt; meta-yocto-bsp=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;tmp-auh-upgrades:d1=
+d025cb80e75952d4a8c5e0e5d44ca6d9716b5a&quot;<br>
+&gt; workspace=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;&lt;unkno=
+wn&gt;:&lt;unknown&gt;&quot;<br>
+&gt;<br>
+&gt; Initialising tasks...NOTE: No setscene tasks<br>
+&gt; NOTE: Executing Tasks<br>
+&gt; NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn&#39;t need to b=
+e rerun and all succeeded.<br>
+&gt; NOTE: Writing buildhistory<br>
+&gt; NOTE: Writing buildhistory took: 2 seconds<br>
+&gt; INFO: Extracting upgraded version source...<br>
+&gt; WARNING: Command &#39;git rebase a12e306ce18ff1c2922219a5342fa419ee80a=
+12e&#39; failed:<br>
+&gt; First, rewinding head to replay your work on top of it...<br>
+&gt; Applying: Detect gst_bo_map/_unmap and use it (or avoid it)<br>
+&gt; Using index info to reconstruct a base tree...<br>
+&gt; M=C2=A0 =C2=A0 =C2=A0Makefile.am<br>
+&gt; M=C2=A0 =C2=A0 =C2=A0kmscube.c<br>
+&gt; Falling back to patching base and 3-way merge...<br>
+&gt; Auto-merging kmscube.c<br>
+&gt; Auto-merging Makefile.am<br>
+&gt; CONFLICT (content): Merge conflict in Makefile.am<br>
+&gt; error: Failed to merge in the changes.<br>
+&gt; Patch failed at 0001 Detect gst_bo_map/_unmap and use it (or avoid it)=
+<br>
+&gt; The copy of the patch that failed is found in: .git/rebase-apply/patch=
+<br>
+&gt;<br>
+&gt; When you have resolved this problem, run &quot;git rebase --continue&q=
+uot;.<br>
+&gt; If you prefer to skip this patch, run &quot;git rebase --skip&quot; in=
+stead.<br>
+&gt; To check out the original branch and stop rebasing, run &quot;git reba=
+se --abort&quot;.<br>
+&gt;<br>
+&gt; You will need to resolve conflicts in order to complete the upgrade.<b=
+r>
+&gt; INFO: Upgraded source extracted to /home/auh/build/workspace/sources/k=
+mscube<br>
+&gt; INFO: New recipe is /home/auh/build/workspace/recipes/kmscube/<a href=
+=3D"http://kmscube_git.bb" rel=3D"noreferrer" target=3D"_blank">kmscube_git=
+.bb</a><br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; Please review the attached files for further information and build/upd=
+ate failures.<br>
+&gt; Any problem please file a bug at <a href=3D"https://bugzilla.yoctoproj=
+ect.org/enter_bug.cgi?product=3DAutomated%20Update%20Handler" rel=3D"norefe=
+rrer" target=3D"_blank">https://bugzilla.yoctoproject.org/enter_bug.cgi?pro=
+duct=3DAutomated%20Update%20Handler</a><br>
+&gt;<br>
+&gt; Regards,<br>
+&gt; The Upgrade Helper<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-> -----Original Message-----
-> From: Ricardo Salveti <ricardo@foundries.io>
-> Sent: Tuesday, July 16, 2019 1:07 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
-> Subject: [PATCH] kernel-fitimage: include overlays with external dtb
->=20
-> As done with the default dtb provider, create fit image sections for norm=
-al
-> device-tree files and device-tree overlays (.dtbo).
->=20
-> Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
-
-Thanks for the patch.
-
-Acked-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-
-> ---
->  meta/classes/kernel-fitimage.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-
-> fitimage.bbclass
-> index b51882dce4..17d4d85658 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -406,7 +406,7 @@ fitimage_assemble() {
->=20
->  	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
->  		dtbcount=3D1
-> -		for DTBFILE in ${EXTERNAL_KERNEL_DEVICETREE}/*.dtb; do
-> +		for DTBFILE in ${EXTERNAL_KERNEL_DEVICETREE}/*.dtb*; do
->  			DTB=3D`basename ${DTBFILE}`
->  			DTB=3D$(echo "${DTB}" | tr '/' '_')
->  			DTBS=3D"${DTBS} ${DTB}"
-> --
-> 2.22.0
-
-
+--00000000000066e12b058de594ff--
