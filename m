@@ -1,57 +1,55 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D5A37ECAA
+Return-Path: <prvs=094023b04=Mikko.Rapeli@bmw.de>
+Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com
+	[68.232.139.62])
+	by mail.openembedded.org (Postfix) with ESMTP id 559F27ECAA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 12:17:27 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id g17so24584073wrr.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 05:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=2+FF90ffCMO3uwxI34KGcI8l11SM8dx5Bsz0G4EVgVc=;
-	b=no6T6ItsZ5nBMu+Zm12BwIQ809rBPj2E0DynOVU3YlhFppumiR9jIvxqUSndfjFdCL
-	JJrbjPx6+HMyGVXsHnlfX4EGNHyF3QDMi3+fM5c13uzXwTKLkTNeEpXus3XbrRd3x6u5
-	86eF0myhS9WfAy8exYvLjtl90YnuDiW0knCeLQjQUnC8B8ADpWSZBptMwt4dhbKgEXgc
-	WE/SHplF6YYyrktHLoEifPLMMCn7XRzxpZrMOf2ihYkvw6r4+Q9VWBrM5ncnApNjiR5a
-	i9I0CvLlkDPX0//UiTqcvMJuXplDaBGzTz0SDTejmy3g9X/qLLDe6FqICaYsLTttMboV
-	aYMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=2+FF90ffCMO3uwxI34KGcI8l11SM8dx5Bsz0G4EVgVc=;
-	b=krUqnUGANZo1T6HkNj3wKzWqbjWxg+hdPx7sWHwvM3IpgLZxQmgD7qe6/UjG49/qIU
-	XaVv2aO6WvXGq6kv53fDcmap6j68GLoxcUy7HuFyuog0LD7W1btKTF8SejMVZHdaMjVf
-	56mAuAmZ/QwWNg5pHp4C6NVDEycuRFN83O/ZXSHYvfJjkGYjMtK+Pihe589LfAJP3yKQ
-	vzdwKAgk0IExtfidyg27FSQjr1ad2qfpkQZ2IcYbxo5GGdfqIboRAZCzenWus/f/PRpM
-	CRxZAlT9Pqb7IlNqm4O6Qi0yFvcfOzetNVIv7sVkvjoFV35nfWn8bzRu+DzKxhbqRnVm
-	PFwQ==
-X-Gm-Message-State: APjAAAW5qdUZuTS4LgLRwiDDJ0yPcShDIYyHStfmIJ5L5QpZlZhUGSud
-	EL3PJIj98yBtjg+IyDHwHbw=
-X-Google-Smtp-Source: APXvYqw4zVVFWlAMmi7+vGZTsSVJiirZIVyljwFz6duuoU5PPZu2IQTbePFN4Kmer5eYM/JdfUH5Uw==
-X-Received: by 2002:a5d:4041:: with SMTP id w1mr30801128wrp.199.1563365848337; 
-	Wed, 17 Jul 2019 05:17:28 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	t13sm28299484wrr.0.2019.07.17.05.17.27
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Jul 2019 05:17:27 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 17 Jul 2019 14:17:33 +0200
-To: Adrian Ratiu <adrian.ratiu@collabora.com>
-Message-ID: <20190717121733.GA2242@jama>
-References: <20190716215558.23327-1-adrian.ratiu@collabora.com>
-	<CA+chaQdO2xLQR6z+xNTXYaqj4fvppguu6iVBZsLUXZLBgqC8xg@mail.gmail.com>
-	<87d0i8g9oq.fsf@collabora.com>
+	Wed, 17 Jul 2019 12:24:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1563366282; x=1594902282;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=DwH5IRvumlTKnj8qu7ekfTXGqcxDMtH8NU88CepzPwU=;
+	b=YmCSF/JBSk0+gVNtUmfau0gghMab4CsbLWPV6Dx6TeK4Wo05a+i7P+7Q
+	to1C6EZQ4dq84cgvd0UWkRxdfyKD3swkpzkVOCXVHXomrDFU8y+IE38mo
+	cGCWsr5Zg7amAbfdwkChhsHMKuFpMRu1/6sx1Uy8hujr91ulV+TnR2Ty1 k=;
+IronPort-SDR: zCRP0aHesYGMQcDzvfUDZ+FjeEg0IcF5ExQX6TYfK7VN2hIeEVMgR97HjqtULb+nbWEFan4QfQ
+	xxvwgaqKGeB1SZbxSC4j2zLqYF2gIieae8Rywu+TW+t4xo9YxTP8r/hskTg/2Nt/4zMGfglFwG
+	1pff5h9RfU/mAvg69M5Zy5Xd3VkigsxeAVYPHNRdNhatSeX1RW5y9Twx47BFvN3kouFY23cVRT
+	wY2eczeVGy/S6t574XDWQ7mU2jFNGxUNx4ugzIPqM/XOPhhU+jDMowJH75+x0FfyU7niDcGNH7
+	U1s=
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+	esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 17 Jul 2019 14:24:41 +0200
+Received: from esabb4.muc ([160.50.100.33])  by esagw5.muc with ESMTP/TLS;
+	17 Jul 2019 14:24:40 +0200
+Received: from smucm10m.bmwgroup.net (HELO smucm10m.europe.bmw.corp)
+	([160.48.96.49])
+	by esabb4.muc with ESMTP/TLS; 17 Jul 2019 14:24:40 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10m.europe.bmw.corp
+	(160.48.96.49) with Microsoft SMTP Server (TLS;
+	Wed, 17 Jul 2019 14:24:39 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Wed, 17 Jul 2019 14:24:39 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH 1/2] busybox: enable unicode support
+Thread-Index: AQHVPH9YnaoGoDRNRUWbTIvMkKnyB6bOj5MAgAALHIA=
+Date: Wed, 17 Jul 2019 12:24:39 +0000
+Message-ID: <20190717122439.GD3459@hiutale>
+References: <1563354517-31850-1-git-send-email-mikko.rapeli@bmw.de>
+	<a098852b41fcdb4adcda5060a3fd87694391e0ea.camel@linuxfoundation.org>
+In-Reply-To: <a098852b41fcdb4adcda5060a3fd87694391e0ea.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.38]
 MIME-Version: 1.0
-In-Reply-To: <87d0i8g9oq.fsf@collabora.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] opkg/package/rootfs_ipk: allow overwriting OPKGLIBDIR
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] busybox: enable unicode support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,125 +62,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 12:17:28 -0000
-X-Groupsio-MsgNum: 126879
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
-Content-Disposition: inline
-
---azLHFNyN32YCQGCU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 17 Jul 2019 12:24:40 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <43065C8B721A8840823D6AE185FE5BFA@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 17, 2019 at 02:52:21PM +0300, Adrian Ratiu wrote:
-> Hi
+On Wed, Jul 17, 2019 at 12:44:54PM +0100, Richard Purdie wrote:
+> On Wed, 2019-07-17 at 12:08 +0300, Mikko Rapeli wrote:
+> > While creating and deleting files with unicode or other
+> > encodings works, it's annoying when ls and other core utils
+> > show questionmarks instead of the unicode characters.
+> > In 2019, it's quite common that users of embedded devices
+> > based on yocto need unicode support. Debugging a box with
+> > unicode encoded file names is a bit annoying when core utils
+> > from busybox don't support them.
+> >=20
+> > The unicode config fragment has the same config as Debian in their
+> > deb and udeb builds of version 1:1.30.1-4.
+> >=20
+> > If developers do not want this or other default yocto features in
+> > busybox,
+> > or optimize the configuration for size, then they likely run a
+> > completely
+> > custom configuration. Thus I think it's safe to enable unicode
+> > support
+> > by default.
+> >=20
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+> > ---
+> >  meta/recipes-core/busybox/busybox/unicode.cfg | 10 ++++++++++
+> >  meta/recipes-core/busybox/busybox_1.31.0.bb   |  1 +
+> >  2 files changed, 11 insertions(+)
+> >  create mode 100644 meta/recipes-core/busybox/busybox/unicode.cfg
 >=20
-> On Wed, 17 Jul 2019, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > Why don't you overwrite it with an override? We're doing that=20
-> > for years without any issues.
->=20
-> You mean a distro-wide override in a .conf?
+> Can you give an idea of the size implications of this change?
 
-yes
+buildhistory isn't working for me, or maybe it is since the size difference
+is zero bytes for busybox binaries and package. tmp has this patch,
+tmp_master doesn't:
 
-> Can you please point to an example?
+$ ls -l tmp*/deploy/images/qemux86/tmp/bin/busybox.*
+-rwxr-xr-x 1 mcfrisk mcfrisk 612024 Jul 17 10:45 tmp/deploy/images/qemux86/=
+tmp/bin/busybox.nosuid
+-rwxr-xr-x 1 mcfrisk mcfrisk  54656 Jul 17 10:45 tmp/deploy/images/qemux86/=
+tmp/bin/busybox.suid
+-rwxr-xr-x 1 mcfrisk mcfrisk 612024 Jul 17 13:56 tmp_master/deploy/images/q=
+emux86/tmp/bin/busybox.nosuid
+-rwxr-xr-x 1 mcfrisk mcfrisk  54656 Jul 17 13:56 tmp_master/deploy/images/q=
+emux86/tmp/bin/busybox.suid
 
-https://github.com/webosose/meta-webosose/blob/master/meta-webos/conf/distr=
-o/include/webos.inc#L256
+Just to be sure, the files differ:
 
-> > On Wed, Jul 17, 2019 at 12:01 AM Adrian Ratiu <adrian.ratiu@collabora.c=
-om>
-> > wrote:
-> >
-> >> Some distributions for various reasons (like for example mounting a
-> >> tmpfs over /var at runtime) can't use /var/lib to store the opkg
-> >> metadata, so a different path is required to have a functioning
-> >> package manager.
-> >>
-> >> ${localstatedir} can't be modified to something other than the
-> >> hardcoded value in bitbake.conf because other recipes depending on it
-> >> will fail to install.
-> >>
-> >> So the only recourse, which is also the least invasive, is to allow
-> >> distros to overwrite the OPKGLIBDIR variable just like they are also
-> >> allowed to overwrite OPKGBUILDCMD.
-> >>
-> >> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-> >> ---
-> >>  meta/classes/package_ipk.bbclass         | 2 +-
-> >>  meta/classes/rootfs_ipk.bbclass          | 2 +-
-> >>  meta/recipes-devtools/opkg/opkg_0.4.1.bb | 2 +-
-> >>  3 files changed, 3 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/meta/classes/package_ipk.bbclass
-> >> b/meta/classes/package_ipk.bbclass
-> >> index d1b317b42b..9f9da2f91d 100644
-> >> --- a/meta/classes/package_ipk.bbclass
-> >> +++ b/meta/classes/package_ipk.bbclass
-> >> @@ -14,7 +14,7 @@ OPKG_ARGS +=3D "--force_postinstall
-> >> --prefer-arch-to-version"
-> >>  OPKG_ARGS +=3D "${@['',
-> >> '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") =3D=3D "1"]}"
-> >>  OPKG_ARGS +=3D "${@['', '--add-exclude ' + ' --add-exclude
-> >> '.join((d.getVar('PACKAGE_EXCLUDE') or
-> >> "").split())][(d.getVar("PACKAGE_EXCLUDE") or "").strip() !=3D ""]}"
-> >>
-> >> -OPKGLIBDIR =3D "${localstatedir}/lib"
-> >> +OPKGLIBDIR ??=3D "${localstatedir}/lib"
-> >>
-> >>  python do_package_ipk () {
-> >>      workdir =3D d.getVar('WORKDIR')
-> >> diff --git a/meta/classes/rootfs_ipk.bbclass
-> >> b/meta/classes/rootfs_ipk.bbclass
-> >> index aabc370cfc..e73d2bfdae 100644
-> >> --- a/meta/classes/rootfs_ipk.bbclass
-> >> +++ b/meta/classes/rootfs_ipk.bbclass
-> >> @@ -21,7 +21,7 @@ OPKG_PREPROCESS_COMMANDS =3D ""
-> >>
-> >>  OPKG_POSTPROCESS_COMMANDS =3D ""
-> >>
-> >> -OPKGLIBDIR =3D "${localstatedir}/lib"
-> >> +OPKGLIBDIR ??=3D "${localstatedir}/lib"
-> >>
-> >>  MULTILIBRE_ALLOW_REP =3D "${OPKGLIBDIR}/opkg|/usr/lib/opkg"
-> >>
-> >> diff --git a/meta/recipes-devtools/opkg/opkg_0.4.1.bb
-> >> b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
-> >> index 8c48d3097c..c663eff13b 100644
-> >> --- a/meta/recipes-devtools/opkg/opkg_0.4.1.bb
-> >> +++ b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
-> >> @@ -28,7 +28,7 @@ PACKAGES =3D+ "libopkg"
-> >>  inherit autotools pkgconfig systemd ptest
-> >>
-> >>  target_localstatedir :=3D "${localstatedir}"
-> >> -OPKGLIBDIR =3D "${target_localstatedir}/lib"
-> >> +OPKGLIBDIR ??=3D "${target_localstatedir}/lib"
-> >>
-> >>  PACKAGECONFIG ??=3D "libsolv"
-> >>
-> >> --
-> >> 2.22.0
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >>
+$ sha1sum tmp*/deploy/images/qemux86/tmp/bin/busybox.*
+8866ced8ad8aa335bb5dfc8b229851b6e09397d7  tmp/deploy/images/qemux86/tmp/bin=
+/busybox.nosuid
+01cb28f1254f4200b005122ce03114b034b3aaec  tmp/deploy/images/qemux86/tmp/bin=
+/busybox.suid
+91ed5b26083c9b6f944344036b04ebf2aa5af6ff  tmp_master/deploy/images/qemux86/=
+tmp/bin/busybox.nosuid
+d4a3ee35246c0f42ba4f0a8a34cd96269b89e906  tmp_master/deploy/images/qemux86/=
+tmp/bin/busybox.suid
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+buildhistory shows that busybox-dbg PKGSIZE increases from 4523596 to 45463=
+96,=20
+busybox-ptest PKGSIZE decreases from 458949 to 458908 even when
+/usr/lib/busybox/ptest/testsuite/tar.utf8.tar.bz2 is added, busybox-src
+PKGSIZE increases from 4130952 to 4163274.
 
---azLHFNyN32YCQGCU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+I found that hard to believe so I didn't trust buildhistory anymore.
 
------BEGIN PGP SIGNATURE-----
+-Mikko=
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXS8R3AAKCRA3VSO3ZXaA
-HIJ3AKCI8MvF3BKQwYfoCLWH2m+U4ZFHFgCfTaB7YGTOKoQK19wKBKYLWtIPgDM=
-=3D2t
------END PGP SIGNATURE-----
-
---azLHFNyN32YCQGCU--
