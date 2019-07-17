@@ -1,52 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D6487ED36
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E65277ED36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 11:41:53 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id z1so24414934wru.13
+	Wed, 17 Jul 2019 11:44:54 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id p13so24432612wru.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 04:41:55 -0700 (PDT)
+	Wed, 17 Jul 2019 04:44:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=qhaHZ80gXviqUYa7BQg8aG2pYGeHtpFrr+5oJ9VXQPM=;
-	b=IjhphLxV85p/lkINaHTud/CfrsozxbdeLFmZjixPgsb6qgzxKDXTIQoS5OWls+znYt
-	TjuOaLyKJppPn71uaRtXGVR9oRZi/2SdZxJ3YbleeSqb9tXl1A17Bw5TJcwxMWewIgEp
-	2Y5DBp0UWMggmw+oRY0C4XpebvJrhQGAxtSCM=
+	bh=nsHzHC0uqEesI/+CLANdC0UKnZI9rlFl+sFWX78e+sE=;
+	b=ghhXCdrOC5fuBTkwNLypq4eU3TlC70Mn0ubogmhU8mfWDjRpvqRqlxzZ6RcOdgqG59
+	JHJ188bKjfANtwtg2pz1hLRFcEz3AXJfNNWXgPAQFVCYV8AnOB/7AgFGhwE4mXi/vDeQ
+	6LDlmlmTcJOEac+bm0GCkGNznHpm6DOm8DNFg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=qhaHZ80gXviqUYa7BQg8aG2pYGeHtpFrr+5oJ9VXQPM=;
-	b=mUvrWdL1as0q9jfVObYh5KkjGfAZc8sH8EQagJ8AAPuNFmXTW4W6kNYz9kd10tBLOI
-	uvWw/hz2sVMyNrBJ3z9LbPl4GZilgVeprOJ2vtlu7uQk985Sd67GcBNPawsZWgIMLYm9
-	dtyhSjr5dNXBkM5PvRNmv3g2tVxNj43TrCteQTS1XIg7tWdWsawrfRytzqnxvQaeYmCM
-	zrmCQGj5jH971cXFl+17iwqw+tFTXFwiYzpBgXJa+lu3IPaFn0nlACB3zmD/rCwtJvAH
-	VrwQP1CjERiR43Itpst4ld1ysrSt52gpiwQi70/1bjIHusp/QHjBVEdUKJqbPaJraEDd
-	DDDw==
-X-Gm-Message-State: APjAAAXFVlEr/aj9y4Zl4gDhjBnd92vyqfuk3QD5l30ZuItDxLSZ9ivM
-	qc0G3+fFrCKvHz9x3K86vERanQ==
-X-Google-Smtp-Source: APXvYqx92ZGtSlUzuCxY8Gb4blnrthfXEi8KNAPIWVR6cjkjwUqGgPfWE7GbFT6Zon27Q8k0u6K2+A==
-X-Received: by 2002:adf:eacf:: with SMTP id o15mr44670524wrn.171.1563363714884;
-	Wed, 17 Jul 2019 04:41:54 -0700 (PDT)
+	bh=nsHzHC0uqEesI/+CLANdC0UKnZI9rlFl+sFWX78e+sE=;
+	b=JvmWIlbMS0KJ+GjdlkYHOS0eg4we+e/nWh4BmnmDb+HM1kUyNIdOUiwg1kX3gIxJfA
+	08P0LEo2/nfefdQ0ci4XnTiG5IGXh26p+4bqfwT1ti4muwSALiLhYf4YWRXF0gn/pxWu
+	t/iqFt2ko+dUhKbKqTRBpwjmhAm3ct92SMsiuEumyfv47F84aGGlvwxjEF4vCwZtqT82
+	BFbrd22Jtnp/CckHYh6sEFBIfRkmQHgSVhPTZd7bI1Dfo204ymOq6dN5Vpn4ZBis3haZ
+	/PXi7xXJxtbT3v0Iu1k7rtjZCQCiBG5Sw9wbqvRhUEFnBlf/3e85JTiPX/J/dj7d1HWS
+	lSEg==
+X-Gm-Message-State: APjAAAU9Qi0iMZNtiGLYm6g0OaMf9oJfXA0tqLgpDSuXSI6vNz5OuHmH
+	0xgbaiiRG+W5MaNYUFghOmEMTRIcE8M=
+X-Google-Smtp-Source: APXvYqwBdW9sF+RxMopoiYy8PbUyrRWT35/SIuemC5Z2HJDkdpjOSKrtJuNTbC8CAz4gnS/+IN/igQ==
+X-Received: by 2002:adf:de10:: with SMTP id b16mr11192543wrm.296.1563363895653;
+	Wed, 17 Jul 2019 04:44:55 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	u1sm22781338wml.14.2019.07.17.04.41.53
+	j17sm28518481wrb.35.2019.07.17.04.44.54
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Jul 2019 04:41:54 -0700 (PDT)
-Message-ID: <1728686637c0ddb7bfcad08769da97a8705daca7.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Jun Nie <jun.nie@linaro.org>, liezhi.yang@windriver.com, 
-	andreas.obergschwandtner@skidata.com,
+	Wed, 17 Jul 2019 04:44:55 -0700 (PDT)
+Message-ID: <a098852b41fcdb4adcda5060a3fd87694391e0ea.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mikko Rapeli <mikko.rapeli@bmw.de>, 
 	openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 12:41:52 +0100
-In-Reply-To: <1562742656-23568-1-git-send-email-jun.nie@linaro.org>
-References: <1562742656-23568-1-git-send-email-jun.nie@linaro.org>
+Date: Wed, 17 Jul 2019 12:44:54 +0100
+In-Reply-To: <1563354517-31850-1-git-send-email-mikko.rapeli@bmw.de>
+References: <1563354517-31850-1-git-send-email-mikko.rapeli@bmw.de>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH] kernel-fitimage: uboot-sign: fix missing signature
+Subject: Re: [PATCH 1/2] busybox: enable unicode support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +58,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 11:41:54 -0000
+X-List-Received-Date: Wed, 17 Jul 2019 11:44:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-07-10 at 15:10 +0800, Jun Nie wrote:
-> u-boot.bin with dtb & signature should be placed in ${B} so that
-> it can be deployed by u-boot as expected. Otherwise, the version
-> without signature is installed.
+On Wed, 2019-07-17 at 12:08 +0300, Mikko Rapeli wrote:
+> While creating and deleting files with unicode or other
+> encodings works, it's annoying when ls and other core utils
+> show questionmarks instead of the unicode characters.
+> In 2019, it's quite common that users of embedded devices
+> based on yocto need unicode support. Debugging a box with
+> unicode encoded file names is a bit annoying when core utils
+> from busybox don't support them.
 > 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> The unicode config fragment has the same config as Debian in their
+> deb and udeb builds of version 1:1.30.1-4.
+> 
+> If developers do not want this or other default yocto features in
+> busybox,
+> or optimize the configuration for size, then they likely run a
+> completely
+> custom configuration. Thus I think it's safe to enable unicode
+> support
+> by default.
+> 
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
 > ---
->  meta/classes/uboot-sign.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  meta/recipes-core/busybox/busybox/unicode.cfg | 10 ++++++++++
+>  meta/recipes-core/busybox/busybox_1.31.0.bb   |  1 +
+>  2 files changed, 11 insertions(+)
+>  create mode 100644 meta/recipes-core/busybox/busybox/unicode.cfg
 
-I continue to be very worried we have no test coverage in this area of
-the code. Since I don't know it particularly well I'm effectively
-merging patches blindly :(.
+Can you give an idea of the size implications of this change?
 
 Cheers,
 
 Richard
-
 
 
