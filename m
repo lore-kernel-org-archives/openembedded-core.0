@@ -1,51 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F0A27ECE5
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C6F97ED17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 10:45:46 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 207so21664466wma.1
+	Wed, 17 Jul 2019 10:45:47 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p74so21636130wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 03:45:47 -0700 (PDT)
+	Wed, 17 Jul 2019 03:45:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lfPFoX4HvJR9R/nnGjGvAmUDiw6rIPnEWENxuw+SRmE=;
-	b=khJyOY/0zzNmf8lXSoBpEbP9w0Ez0hBqk14yCtvnm9m0KMoUYtesGFGeTn9TRpqSQU
-	+cSlCIKkgavyJ0U0gEmhPZM1HwkqvJwAsW0GVpGX2hwr9zaDUq1lnGdpoFm2I/W+Ptbw
-	cB0DN/xM3AFH8bdhWA9gLxNa1RiSqbUI04p+OSwudfz8wJXDPYX7nZOGBCpBeZEv5YqY
-	J5yOTWYavaK/8mvRhyCn365MDSL0wciM4cSc60ZljeOVRPur0RJtup+vXTHpu8wMDP+B
-	yDvjHC/zGxcTlWr/cL9M/UanusHuuhd+9YUF4jq8/DYIpRVdg3G5GnW0H1YctrNGfSZB
-	/QEw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=12mPXWn0Ux+VFa5LbGA24ztLa4OMjFK16phSl/qgNHU=;
+	b=UCVPmmXpg4fq9oSYWh0lYisN6QWbv97g9cfLXsrDcpS5KIpbSDf9KBKbzifEckstpc
+	GZIxuk5cf0ymLE2JaHFq7iZeP+8wwHL99foD07dt7aUs5nmVm7Kkzzvvi+GK6bkcdI1Y
+	va/fnyuGJ/foSrD2Io15v0K5Dv47fLSO/09C3WlXrTzIw7qLdEIj7X/jnQwBLGqrO9Dq
+	RTijL+Gcn01Bx19lZh4AtPwPZEimaRsDcXhQ0G0rRUcMuLdfCsjYzxDuXYYawVDIjs6Q
+	auR2le8QzKb4vdV4Xm1rAyAay/D5nM4MLbOyQRTEAWq//ew+HCsZoNAbaSsV+tDl8hmB
+	PbaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lfPFoX4HvJR9R/nnGjGvAmUDiw6rIPnEWENxuw+SRmE=;
-	b=kPuf5eDx2Tz02k11nVGp4jsam25OB7BzYNESRacsSGejhyCvvu3iZRcaTfciimrzdt
-	EdFyXFiAgdFPI3U6J29mCPxwsSAa1Ag8c/0xYR0ZhGIWakOlWG/HqT1KZJ8qTHj7x6pI
-	7gwGOS+Cyd4u1Gwi6/ZnTaiUgb4faKCqxJlqBeqFMfJCmkY/kvOLfXAQcY94NpuokVtX
-	edzKTiRwYIa8yFrWCYwMwzJKLS2Au1pV8oEYgPvijYaBElaworj5UemojTnrDVREVijv
-	a8mzMYHjTUyddSPUDA8Fj2IHcVk+Tnmiqy/+ldMrYhSNfxKYSbodBTN80tKX6aMC6DCz
-	qFXw==
-X-Gm-Message-State: APjAAAWs2N/tAU7iej0AtCTIdAibrtY8vuxmZfycRYpZv0gHGYPO4cqV
-	1nWYlG+oJtiAKwaaEiCVdcTJwdJ6koc=
-X-Google-Smtp-Source: APXvYqzMNg4FE7h/pP2QZslGBZCrq4ySJ3Mg6NaKkv8k2WLNeq/onZcpAaMd6F2Q3JVu4K9ASKAotg==
-X-Received: by 2002:a1c:c14b:: with SMTP id r72mr20444555wmf.166.1563360346667;
-	Wed, 17 Jul 2019 03:45:46 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=12mPXWn0Ux+VFa5LbGA24ztLa4OMjFK16phSl/qgNHU=;
+	b=IIeBqwNHSJkrYZn3LlW8EfnMEBcLuV0nTgXXDT315cyLd+Dn3qsLrmeR+qnSBToDzU
+	DEq1DvdyADeRMuEOLdNxUUUrR2tx5ZYkqkBEjqGojVgb2c5oiCHnz8yFybzOvMIuWtHn
+	UU8krFVxlJgALZPLoDxCoWR0AR7fcc6mgTylpHxJ8nXYlFj2KpnJ1sH/ANz9aSIO6loz
+	HvaPTPVqzt4Msk/Wqv74kYATSC36bo2hZETuFBlvfkAZ9pffarhcV1PfHHq5QlYqFPLT
+	Po3OUHmEBNVvX4duUxUNthL+foMe6xsClUUoY/yoGmCQe66nqShv6O4f9fcckmFf2Fy9
+	AiEw==
+X-Gm-Message-State: APjAAAXoc9psUijZrrhHrUo+20toxjn/XlO1rudvXnp8arETeid2tkko
+	p19AbcL9SJ+FvSy3S0BsSdJYjpa47CU=
+X-Google-Smtp-Source: APXvYqy6UI62UXNwh1DqgNkqeepjSzq+QijlXCKqUGPCZ5TpIunuH1f2u9QR2W+uEgshPqPYorhWuQ==
+X-Received: by 2002:a7b:c00b:: with SMTP id c11mr36802040wmb.46.1563360347721; 
+	Wed, 17 Jul 2019 03:45:47 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o11sm22822097wmh.37.2019.07.17.03.45.44
+	o11sm22822097wmh.37.2019.07.17.03.45.46
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Jul 2019 03:45:44 -0700 (PDT)
+	Wed, 17 Jul 2019 03:45:47 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 11:45:36 +0100
-Message-Id: <20190717104538.20990-1-ross.burton@intel.com>
+Date: Wed, 17 Jul 2019 11:45:37 +0100
+Message-Id: <20190717104538.20990-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190717104538.20990-1-ross.burton@intel.com>
+References: <20190717104538.20990-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] cve-check: allow comparison of Vendor as well as Product
+Subject: [PATCH 2/3] flex: set CVE_PRODUCT to include vendor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 10:45:46 -0000
+X-List-Received-Date: Wed, 17 Jul 2019 10:45:47 -0000
 Content-Transfer-Encoding: 8bit
 
-Some product names are too vague to be searched without also matching the
-vendor, for example Flex could be the parser compiler we ship, or Adobe Flex, or
-Apache Flex, or IBM Flex.
+There are many projects called Flex and they have CVEs, so also set the vendor
+to remove these false positives.
 
-If entries in CVE_PRODUCT contain a colon then split it as vendor:product to improve the search.
-
-Also don't use .format() to construct SQL as that can lead to security
-issues. Instead, use ? placeholders and lets sqlite3 handle the escaping.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/cve-check.bbclass | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/flex/flex_2.6.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 2a1381604ad..e8668b25663 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -190,12 +190,16 @@ def check_cves(d, patched_cves):
-     import sqlite3
-     db_file = d.getVar("CVE_CHECK_DB_FILE")
-     conn = sqlite3.connect(db_file)
--    c = conn.cursor()
--
--    query = "SELECT * FROM PRODUCTS WHERE PRODUCT IS '{0}';"
- 
-     for product in products:
--        for row in c.execute(query.format(product, pv)):
-+        c = conn.cursor()
-+        if ":" in product:
-+            vendor, product = product.split(":", 1)
-+            c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ? AND VENDOR IS ?", (product, vendor))
-+        else:
-+            c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ?", (product,))
+diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
+index b477cd8c7f2..12ce0cb461e 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.0.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
+@@ -68,3 +68,6 @@ do_install_ptest() {
+ 	    -e 's/^builddir = \(.*\)/builddir = ./' -e 's/^top_builddir = \(.*\)/top_builddir = ./' \
+ 	    -i ${D}${PTEST_PATH}/Makefile
+ }
 +
-+        for row in c:
-             cve = row[1]
-             version_start = row[4]
-             operator_start = row[5]
++# Not Apache Flex, or Adobe Flex, or IBM Flex.
++CVE_PRODUCT = "flex_project:flex"
 -- 
 2.20.1
 
