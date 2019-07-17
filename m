@@ -1,24 +1,23 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C3E837D28D
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6678C7BD72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 00:49:39 +0000 (UTC)
+	Wed, 17 Jul 2019 02:02:43 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jul 2019 17:49:40 -0700
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Jul 2019 19:02:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,272,1559545200"; d="scan'208";a="169417672"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.21.220])
-	by fmsmga007.fm.intel.com with ESMTP; 16 Jul 2019 17:49:39 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
+X-IronPort-AV: E=Sophos;i="5.64,272,1559545200"; d="scan'208";a="169430885"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga007.fm.intel.com with ESMTP; 16 Jul 2019 19:02:43 -0700
+From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 08:49:37 +0800
-Message-Id: <20190717004937.28680-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] nasm: fix CVE-2018-19755
+Date: Wed, 17 Jul 2019 10:02:42 +0800
+Message-Id: <1563328962-14728-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] wic: add support for kernel with initramfs bundled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,154 +30,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 00:49:40 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Jul 2019 02:02:43 -0000
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+From: Chee Yang Lee <chee.yang.lee@intel.com>
+
+when INITRAMFS_IMAGE_BUNDLE and INITRAMFS_IMAGE are set, wic should
+look for kernel with initramfs image bundled.
+
+Include required variable MACHINE, INITRAMFS_IMAGE_BUNDLE,
+INITRAMFS_IMAGE, INITRAMFS_LINK_NAME and KERNEL_IMAGETYPE in WICVARS.
+No longer require default value for variable kernel as KERNEL_IMAGETYPE
+is not optional variable and included in WICVARS.
+image_types_wic to inherit kernel-artifact-names to obtain default
+INITRAMFS_LINK_NAME when INITRAMFS_IMAGE_BUNDLE are set.
+
+update wic.Wic2.test_image_env test case to filter optional
+variable INITRAMFS_LINK_NAME, INITRAMFS_IMAGE and INITRAMFS_IMAGE_BUNDLE.
+
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 ---
- .../nasm/nasm/CVE-2018-19755.patch            | 116 ++++++++++++++++++
- meta/recipes-devtools/nasm/nasm_2.14.02.bb    |   4 +-
- 2 files changed, 119 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2018-19755.patch
+ meta/classes/image_types_wic.bbclass                 |  5 ++++-
+ meta/lib/oeqa/selftest/cases/wic.py                  |  3 ++-
+ scripts/lib/wic/plugins/source/bootimg-efi.py        | 18 ++++++++++++------
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py     |  6 ++++--
+ scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 19 +++++++++++++------
+ 5 files changed, 35 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2018-19755.patch b/meta/recipes-devtools/nasm/nasm/CVE-2018-19755.patch
-new file mode 100644
-index 0000000000..6e3f909d0f
---- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm/CVE-2018-19755.patch
-@@ -0,0 +1,116 @@
-+From 3079f7966dbed4497e36d5067cbfd896a90358cb Mon Sep 17 00:00:00 2001
-+From: Cyrill Gorcunov <gorcunov@gmail.com>
-+Date: Wed, 14 Nov 2018 10:03:42 +0300
-+Subject: [PATCH] preproc: Fix malformed parameter count
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 5b40a9e..97d681b 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -3,7 +3,10 @@
+ WICVARS ?= "\
+            BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
+            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
+-           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS"
++           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
++           KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME"
 +
-+readnum returns 64bit number which may become
-+a negative integer upon conversion which in
-+turn lead to out of bound array access.
-+
-+Fix it by explicit conversion with bounds check
-+
-+ | POC6:2: error: parameter count `2222222222' is out of bounds [0; 2147483647]
-+
-+https://bugzilla.nasm.us/show_bug.cgi?id=3392528
-+
-+Signed-off-by: Cyrill Gorcunov <gorcunov@gmail.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2018-19755
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ asm/preproc.c | 43 +++++++++++++++++++++----------------------
-+ 1 file changed, 21 insertions(+), 22 deletions(-)
-+
-+diff --git a/asm/preproc.c b/asm/preproc.c
-+index b6afee3..e5ad05a 100644
-+--- a/asm/preproc.c
-++++ b/asm/preproc.c
-+@@ -1650,6 +1650,23 @@ smacro_defined(Context * ctx, const char *name, int nparam, SMacro ** defn,
-+     return false;
-+ }
-+ 
-++/* param should be a natural number [0; INT_MAX] */
-++static int read_param_count(const char *str)
-++{
-++    int result;
-++    bool err;
-++
-++    result = readnum(str, &err);
-++    if (result < 0 || result > INT_MAX) {
-++        result = 0;
-++        nasm_error(ERR_NONFATAL, "parameter count `%s' is out of bounds [%d; %d]",
-++                   str, 0, INT_MAX);
-++    } else if (err) {
-++        nasm_error(ERR_NONFATAL, "unable to parse parameter count `%s'", str);
-++    }
-++    return result;
-++}
-++
-+ /*
-+  * Count and mark off the parameters in a multi-line macro call.
-+  * This is called both from within the multi-line macro expansion
-+@@ -1871,11 +1888,7 @@ static bool if_condition(Token * tline, enum preproc_token ct)
-+                   pp_directives[ct]);
-+         } else {
-+             searching.nparam_min = searching.nparam_max =
-+-                readnum(tline->text, &j);
-+-            if (j)
-+-                nasm_error(ERR_NONFATAL,
-+-                      "unable to parse parameter count `%s'",
-+-                      tline->text);
-++                read_param_count(tline->text);
-+         }
-+         if (tline && tok_is_(tline->next, "-")) {
-+             tline = tline->next->next;
-+@@ -1886,11 +1899,7 @@ static bool if_condition(Token * tline, enum preproc_token ct)
-+                       "`%s' expects a parameter count after `-'",
-+                       pp_directives[ct]);
-+             else {
-+-                searching.nparam_max = readnum(tline->text, &j);
-+-                if (j)
-+-                    nasm_error(ERR_NONFATAL,
-+-                          "unable to parse parameter count `%s'",
-+-                          tline->text);
-++                searching.nparam_max = read_param_count(tline->text);
-+                 if (searching.nparam_min > searching.nparam_max) {
-+                     nasm_error(ERR_NONFATAL,
-+                           "minimum parameter count exceeds maximum");
-+@@ -2079,8 +2088,6 @@ static void undef_smacro(Context *ctx, const char *mname)
-+  */
-+ static bool parse_mmacro_spec(Token *tline, MMacro *def, const char *directive)
-+ {
-+-    bool err;
-+-
-+     tline = tline->next;
-+     skip_white_(tline);
-+     tline = expand_id(tline);
-+@@ -2103,11 +2110,7 @@ static bool parse_mmacro_spec(Token *tline, MMacro *def, const char *directive)
-+     if (!tok_type_(tline, TOK_NUMBER)) {
-+         nasm_error(ERR_NONFATAL, "`%s' expects a parameter count", directive);
-+     } else {
-+-        def->nparam_min = def->nparam_max =
-+-            readnum(tline->text, &err);
-+-        if (err)
-+-            nasm_error(ERR_NONFATAL,
-+-                  "unable to parse parameter count `%s'", tline->text);
-++        def->nparam_min = def->nparam_max = read_param_count(tline->text);
-+     }
-+     if (tline && tok_is_(tline->next, "-")) {
-+         tline = tline->next->next;
-+@@ -2117,11 +2120,7 @@ static bool parse_mmacro_spec(Token *tline, MMacro *def, const char *directive)
-+             nasm_error(ERR_NONFATAL,
-+                   "`%s' expects a parameter count after `-'", directive);
-+         } else {
-+-            def->nparam_max = readnum(tline->text, &err);
-+-            if (err) {
-+-                nasm_error(ERR_NONFATAL, "unable to parse parameter count `%s'",
-+-                      tline->text);
-+-            }
-++            def->nparam_max = read_param_count(tline->text);
-+             if (def->nparam_min > def->nparam_max) {
-+                 nasm_error(ERR_NONFATAL, "minimum parameter count exceeds maximum");
-+                 def->nparam_max = def->nparam_min;
-+-- 
-+2.10.5.GIT
-+
-diff --git a/meta/recipes-devtools/nasm/nasm_2.14.02.bb b/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-index ecec78d8ec..e4f964ce93 100644
---- a/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-@@ -3,7 +3,9 @@ SECTION = "devel"
- LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
++inherit ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
  
--SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2"
-+SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
-+           file://CVE-2018-19755.patch \
-+           "
+ WKS_FILE ??= "${IMAGE_BASENAME}.${MACHINE}.wks"
+ WKS_FILES ?= "${WKS_FILE} ${IMAGE_BASENAME}.wks"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index f1c6f39..c390749 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -499,7 +499,8 @@ class Wic2(WicTestCase):
+         wicvars = set(bb_vars['WICVARS'].split())
+         # filter out optional variables
+         wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES',
+-                                      'INITRD', 'INITRD_LIVE', 'ISODIR'))
++                                      'INITRD', 'INITRD_LIVE', 'ISODIR','INITRAMFS_IMAGE',
++                                      'INITRAMFS_IMAGE_BUNDLE', 'INITRAMFS_LINK_NAME'))
+         with open(path) as envfile:
+             content = dict(line.split("=", 1) for line in envfile)
+             # test if variables used by wic present in the .env file
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 5cc5c8a..2cfdc10 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -74,8 +74,10 @@ class BootimgEFIPlugin(SourcePlugin):
+             grubefi_conf += "menuentry '%s'{\n" % (title if title else "boot")
  
- SRC_URI[md5sum] = "3f489aa48ad2aa1f967dc5e293bbd06f"
- SRC_URI[sha256sum] = "34fd26c70a277a9fdd54cb5ecf389badedaf48047b269d1008fbc819b24e80bc"
+             kernel = get_bitbake_var("KERNEL_IMAGETYPE")
+-            if not kernel:
+-                kernel = "bzImage"
++            if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
++                if get_bitbake_var("INITRAMFS_IMAGE"):
++                    kernel = "%s-%s.bin" % \
++                        (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
+ 
+             label = source_params.get('label')
+             label_conf = "root=%s" % creator.rootdev
+@@ -154,8 +156,10 @@ class BootimgEFIPlugin(SourcePlugin):
+         if not custom_cfg:
+             # Create systemd-boot configuration using parameters from wks file
+             kernel = get_bitbake_var("KERNEL_IMAGETYPE")
+-            if not kernel:
+-                kernel = "bzImage"
++            if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
++                if get_bitbake_var("INITRAMFS_IMAGE"):
++                    kernel = "%s-%s.bin" % \
++                        (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
+ 
+             title = source_params.get('title')
+ 
+@@ -225,8 +229,10 @@ class BootimgEFIPlugin(SourcePlugin):
+         hdddir = "%s/hdd/boot" % cr_workdir
+ 
+         kernel = get_bitbake_var("KERNEL_IMAGETYPE")
+-        if not kernel:
+-            kernel = "bzImage"
++        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
++            if get_bitbake_var("INITRAMFS_IMAGE"):
++                kernel = "%s-%s.bin" % \
++                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
+ 
+         install_cmd = "install -m 0644 %s/%s %s/%s" % \
+             (staging_kernel_dir, kernel, hdddir, kernel)
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index 670d347..f2639e7 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -150,8 +150,10 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         hdddir = "%s/hdd/boot" % cr_workdir
+ 
+         kernel = get_bitbake_var("KERNEL_IMAGETYPE")
+-        if not kernel:
+-            kernel = "bzImage"
++        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
++            if get_bitbake_var("INITRAMFS_IMAGE"):
++                kernel = "%s-%s.bin" % \
++                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
+ 
+         cmds = ("install -m 0644 %s/%s %s/vmlinuz" %
+                 (staging_kernel_dir, kernel, hdddir),
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index 74d6f14..24299c1 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -71,8 +71,11 @@ class IsoImagePlugin(SourcePlugin):
+         syslinux_conf += "LABEL boot\n"
+ 
+         kernel = get_bitbake_var("KERNEL_IMAGETYPE")
+-        if not kernel:
+-            kernel = "bzImage"
++        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
++            if get_bitbake_var("INITRAMFS_IMAGE"):
++                kernel = "%s-%s.bin" % \
++                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
++
+         syslinux_conf += "KERNEL /" + kernel + "\n"
+         syslinux_conf += "APPEND initrd=/initrd LABEL=boot %s\n" \
+                              % bootloader.append
+@@ -117,8 +120,10 @@ class IsoImagePlugin(SourcePlugin):
+             grubefi_conf += "menuentry 'boot'{\n"
+ 
+             kernel = get_bitbake_var("KERNEL_IMAGETYPE")
+-            if not kernel:
+-                kernel = "bzImage"
++            if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
++                if get_bitbake_var("INITRAMFS_IMAGE"):
++                    kernel = "%s-%s.bin" % \
++                        (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
+ 
+             grubefi_conf += "linux /%s rootwait %s\n" \
+                             % (kernel, bootloader.append)
+@@ -273,8 +278,10 @@ class IsoImagePlugin(SourcePlugin):
+             os.remove("%s/initrd.cpio.gz" % cr_workdir)
+ 
+         kernel = get_bitbake_var("KERNEL_IMAGETYPE")
+-        if not kernel:
+-            kernel = "bzImage"
++        if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
++            if get_bitbake_var("INITRAMFS_IMAGE"):
++                kernel = "%s-%s.bin" % \
++                    (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
+ 
+         install_cmd = "install -m 0644 %s/%s %s/%s" % \
+                       (kernel_dir, kernel, isodir, kernel)
 -- 
-2.20.1
+2.7.4
 
 
