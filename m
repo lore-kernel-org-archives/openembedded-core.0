@@ -1,23 +1,51 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 265BF7ED17
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F0A27ECE5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 09:50:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6H9oecZ026718
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 17 Jul 2019 10:45:46 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 207so21664466wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 02:50:40 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 17 Jul 2019 02:50:39 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jul 2019 02:50:39 -0700
-Message-ID: <20190717095039.121044-1-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.21.0
+	Wed, 17 Jul 2019 03:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lfPFoX4HvJR9R/nnGjGvAmUDiw6rIPnEWENxuw+SRmE=;
+	b=khJyOY/0zzNmf8lXSoBpEbP9w0Ez0hBqk14yCtvnm9m0KMoUYtesGFGeTn9TRpqSQU
+	+cSlCIKkgavyJ0U0gEmhPZM1HwkqvJwAsW0GVpGX2hwr9zaDUq1lnGdpoFm2I/W+Ptbw
+	cB0DN/xM3AFH8bdhWA9gLxNa1RiSqbUI04p+OSwudfz8wJXDPYX7nZOGBCpBeZEv5YqY
+	J5yOTWYavaK/8mvRhyCn365MDSL0wciM4cSc60ZljeOVRPur0RJtup+vXTHpu8wMDP+B
+	yDvjHC/zGxcTlWr/cL9M/UanusHuuhd+9YUF4jq8/DYIpRVdg3G5GnW0H1YctrNGfSZB
+	/QEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lfPFoX4HvJR9R/nnGjGvAmUDiw6rIPnEWENxuw+SRmE=;
+	b=kPuf5eDx2Tz02k11nVGp4jsam25OB7BzYNESRacsSGejhyCvvu3iZRcaTfciimrzdt
+	EdFyXFiAgdFPI3U6J29mCPxwsSAa1Ag8c/0xYR0ZhGIWakOlWG/HqT1KZJ8qTHj7x6pI
+	7gwGOS+Cyd4u1Gwi6/ZnTaiUgb4faKCqxJlqBeqFMfJCmkY/kvOLfXAQcY94NpuokVtX
+	edzKTiRwYIa8yFrWCYwMwzJKLS2Au1pV8oEYgPvijYaBElaworj5UemojTnrDVREVijv
+	a8mzMYHjTUyddSPUDA8Fj2IHcVk+Tnmiqy/+ldMrYhSNfxKYSbodBTN80tKX6aMC6DCz
+	qFXw==
+X-Gm-Message-State: APjAAAWs2N/tAU7iej0AtCTIdAibrtY8vuxmZfycRYpZv0gHGYPO4cqV
+	1nWYlG+oJtiAKwaaEiCVdcTJwdJ6koc=
+X-Google-Smtp-Source: APXvYqzMNg4FE7h/pP2QZslGBZCrq4ySJ3Mg6NaKkv8k2WLNeq/onZcpAaMd6F2Q3JVu4K9ASKAotg==
+X-Received: by 2002:a1c:c14b:: with SMTP id r72mr20444555wmf.166.1563360346667;
+	Wed, 17 Jul 2019 03:45:46 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	o11sm22822097wmh.37.2019.07.17.03.45.44
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 17 Jul 2019 03:45:44 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jul 2019 11:45:36 +0100
+Message-Id: <20190717104538.20990-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] ltp: getrlimit03: adjust-a-bit-of-code-to-compatiable-with mips32
+Subject: [PATCH 1/3] cve-check: allow comparison of Vendor as well as Product
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,200 +58,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 09:50:43 -0000
+X-List-Received-Date: Wed, 17 Jul 2019 10:45:46 -0000
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Error info:
-getrlimit03.c:104: FAIL: __NR_prlimit64(0) had rlim_cur =
-ffffffffffffffff but __NR_getrlimit(0) had rlim_cur = 7fffffff
+Some product names are too vague to be searched without also matching the
+vendor, for example Flex could be the parser compiler we ship, or Adobe Flex, or
+Apache Flex, or IBM Flex.
 
-According to kernel code: [arch/mips/include/uapi/asm/resource.h]
-RLIM_INFINITY is set to 0x7fffffffUL instead of ULONG_MAX on mips32.
+If entries in CVE_PRODUCT contain a colon then split it as vendor:product to improve the search.
 
- /*
- * SuS says limits have to be unsigned.
- * Which makes a ton more sense anyway,
- * but we keep the old value on MIPS32,
- * for compatibility:
- */
- #ifndef __mips64
- # define RLIM_INFINITY      0x7fffffffUL
- #endif
+Also don't use .format() to construct SQL as that can lead to security
+issues. Instead, use ? placeholders and lets sqlite3 handle the escaping.
 
-Adding conditional statement about mips to fix this.
-
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...-adjust-a-bit-of-code-to-compatiable-with.patch | 62 ++++++++++++++++++
- ...efine-TST_ABI-32-64-to-detect-target-type.patch | 74 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190115.bb          |  2 +
- 3 files changed, 138 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-lapi-Define-TST_ABI-32-64-to-detect-target-type.patch
+ meta/classes/cve-check.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch b/meta/recipes-extended/ltp/ltp/0001-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
-new file mode 100644
-index 0000000..7b66229
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
-@@ -0,0 +1,62 @@
-+From e79652a3839869b1983d65999e5d5dcb50bc9cd7 Mon Sep 17 00:00:00 2001
-+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-+Date: Mon, 15 Jul 2019 03:39:06 -0400
-+Subject: [PATCH] getrlimit03: adjust a bit of code to compatiable with mips32
-+
-+Error info:
-+getrlimit03.c:104: FAIL: __NR_prlimit64(0) had rlim_cur =
-+ffffffffffffffff but __NR_getrlimit(0) had rlim_cur = 7fffffff
-+
-+According to kernel code: [arch/mips/include/uapi/asm/resource.h]
-+RLIM_INFINITY is set to 0x7fffffffUL instead of ULONG_MAX on mips32.
-+
-+ /*
-+ * SuS says limits have to be unsigned.
-+ * Which makes a ton more sense anyway,
-+ * but we keep the old value on MIPS32,
-+ * for compatibility:
-+ */
-+ #ifndef __mips64
-+ # define RLIM_INFINITY      0x7fffffffUL
-+ #endif
-+
-+Adding conditional statement about mips to fix this.
-+
-+Signed-off-by: Jan Stancek <jstancek@redhat.com>
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-+
-+Upstream-Status: Backport
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-+---
-+ testcases/kernel/syscalls/getrlimit/getrlimit03.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/testcases/kernel/syscalls/getrlimit/getrlimit03.c b/testcases/kernel/syscalls/getrlimit/getrlimit03.c
-+index e4d56c4..03bd821 100644
-+--- a/testcases/kernel/syscalls/getrlimit/getrlimit03.c
-++++ b/testcases/kernel/syscalls/getrlimit/getrlimit03.c
-+@@ -26,6 +26,7 @@
-+ 
-+ #include "tst_test.h"
-+ #include "lapi/syscalls.h"
-++#include "lapi/abisize.h"
-+ 
-+ /**
-+  * Linux provides an "old" getrlimit syscall handler that uses signed long,
-+@@ -61,7 +62,12 @@ struct rlimit_ulong {
-+ 	unsigned long rlim_cur;
-+ 	unsigned long rlim_max;
-+ };
-+-const unsigned long RLIM_INFINITY_UL = ULONG_MAX;
-++
-++#if defined(__mips__) && defined(TST_ABI32)
-++	const unsigned long RLIM_INFINITY_UL = 0x7fffffffUL;
-++#else
-++	const unsigned long RLIM_INFINITY_UL = ULONG_MAX;
-++#endif
-+ 
-+ static int getrlimit_ulong(int resource, struct rlimit_ulong *rlim)
-+ {
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp/0001-lapi-Define-TST_ABI-32-64-to-detect-target-type.patch b/meta/recipes-extended/ltp/ltp/0001-lapi-Define-TST_ABI-32-64-to-detect-target-type.patch
-new file mode 100644
-index 0000000..a6129d3
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-lapi-Define-TST_ABI-32-64-to-detect-target-type.patch
-@@ -0,0 +1,74 @@
-+From d5293d73b760268a6b200ab7d9323e37700e6a8c Mon Sep 17 00:00:00 2001
-+From: Petr Vorel <petr.vorel@gmail.com>
-+Date: Thu, 28 Mar 2019 07:11:25 +0100
-+Subject: [PATCH] lapi: Define TST_ABI{,32,64} to detect target type
-+
-+This is meant to be a replacement of __WORDSIZE definition.
-+
-+Motivation was instead of finding, where all libc define
-+__WORDSIZE, which is usually used for detecting target type
-+(at least MUSL defines it in different place than other libc)
-+we define our own constant.
-+
-+Suggested-by: Cyril Hrubis <chrubis@suse.cz>
-+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-+
-+Upstream-Status: Backport
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-+---
-+ include/lapi/abisize.h | 29 +++++++++++++----------------
-+ 1 file changed, 13 insertions(+), 16 deletions(-)
-+
-+diff --git a/include/lapi/abisize.h b/include/lapi/abisize.h
-+index 897bdfd..9e6622c 100644
-+--- a/include/lapi/abisize.h
-++++ b/include/lapi/abisize.h
-+@@ -1,25 +1,22 @@
-++// SPDX-License-Identifier: GPL-2.0-or-later
-+ /*
-+- * Copyright (c) 2014 Linux Test Project
-++ * Copyright (c) 2014-2019 Linux Test Project
-+  *  Cyril Hrubis <chrubis@suse.cz>
-+- *
-+- * This program is free software; you can redistribute it and/or
-+- * modify it under the terms of the GNU General Public License as
-+- * published by the Free Software Foundation; either version 2 of
-+- * the License, or (at your option) any later version.
-+- *
-+- * This program is distributed in the hope that it would be useful,
-+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+- * GNU General Public License for more details.
-+- *
-+- * You should have received a copy of the GNU General Public License
-+- * along with this program; if not, write the Free Software Foundation,
-+- * Inc.,  51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-++ *  Petr Vorel <petr.vorel@gmail.com>
-+  */
-+ 
-+ #ifndef ABISIZE_H__
-+ #define ABISIZE_H__
-+ 
-++/* __WORDSIZE replacement */
-++#if defined(__LP64__) || defined(_LP64)
-++# define TST_ABI64
-++# define TST_ABI 64
-++#else
-++# define TST_ABI32
-++# define TST_ABI 32
-++#endif
-++
-+ /*
-+  * Determines if we have to split up 64 bit arguments or not
-+  *
-+@@ -29,6 +26,6 @@
-+      (defined(__mips__) && _MIPS_SIM == _ABIN32) || \
-+      (defined(__x86_64__) && defined(__ILP32__)) || \
-+      (defined(__aarch64__) && defined(__ILP32__)) || \
-+-     __WORDSIZE == 64
-++     defined(TST_ABI64)
-+ 
-+ #endif /* ABISIZE_H__ */
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20190115.bb b/meta/recipes-extended/ltp/ltp_20190115.bb
-index b7b581f..f208b71 100644
---- a/meta/recipes-extended/ltp/ltp_20190115.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190115.bb
-@@ -53,6 +53,8 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch \
-            file://0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch \
-            file://0001-file01.sh-Fix-in-was-not-recognized.patch \
-+           file://0001-lapi-Define-TST_ABI-32-64-to-detect-target-type.patch \
-+           file://0001-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch \
-            "
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 2a1381604ad..e8668b25663 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -190,12 +190,16 @@ def check_cves(d, patched_cves):
+     import sqlite3
+     db_file = d.getVar("CVE_CHECK_DB_FILE")
+     conn = sqlite3.connect(db_file)
+-    c = conn.cursor()
+-
+-    query = "SELECT * FROM PRODUCTS WHERE PRODUCT IS '{0}';"
  
- S = "${WORKDIR}/git"
+     for product in products:
+-        for row in c.execute(query.format(product, pv)):
++        c = conn.cursor()
++        if ":" in product:
++            vendor, product = product.split(":", 1)
++            c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ? AND VENDOR IS ?", (product, vendor))
++        else:
++            c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ?", (product,))
++
++        for row in c:
+             cve = row[1]
+             version_start = row[4]
+             operator_start = row[5]
 -- 
-2.8.1
+2.20.1
 
 
