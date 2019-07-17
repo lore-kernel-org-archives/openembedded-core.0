@@ -1,52 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D59757ED46
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 75B477ED46
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 20:54:35 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id s15so2086177wmj.3
+	Wed, 17 Jul 2019 20:54:36 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id x15so23459106wmj.3
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 17 Jul 2019 13:54:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=OtXyhs+sUgTwqc76IsAYRei6zx//IAeJTRuQ5Tiz5sg=;
-	b=t9cHJPeqMrjJYQOsdEpzfbw1MfTKnfExGruW86lX39zhUU7BqOqmfBvtIhLaJNI3Gy
-	pM9kb37CJ525yWliVrEoFG39Y9vIjG3WfXxVfUfECIO2HGxjpVKhrwYTwPxLHPWmkr/4
-	eQxtpKn9innIMRMJdU60yKW1mWz16hP7rPW7NbfTM0gruvSHGdOECUkheqrRF/UhvCJm
-	O+Tn31xjCfvE+GufO1C2QmJIrQuM7fnzoOpnE4KQGQ0MJzJKBlDxesHlE7GJfWZWE42Z
-	gHMRVtyJfLbRfjjWHAwhONS+9NBJeX3FZ8LeNzaBnRq7G9WDlNVn0dwF6fWnwramVJdV
-	eV6g==
+	bh=n0M6T7MOHt5wuMJJEKNmEiQuUqFgrS7r2ECriCOYnK0=;
+	b=V6BILN0S3IGL9bwVx6Lkal287TQIR283Y6jHNHlxroEssLH1t/ZlEyGO2eNlW2fn2s
+	7WlwGXoUOspu5mQgcgWb2SvUZtsMmsWsPH6nx6DgocOuHRtcVkSLgmL8+mNNDplGc9IP
+	ge6LVGNQVK4tgJLfN+cxKG72ljZ2TSVU9Q7SsRghnqRdy6aCvSv+A6scXHPPqz6t3Zvq
+	YrTGF0dx2ltSnTYz6coQBwkRP2I2cCwpQYKMAtb38uZv8Iosg5tblxg9KU7USkaChTZc
+	9rv978NHqD4C3SHegI492oX4/y/lzwkAkxLWJZ+jH8ET/54NB126zkcjcyvN1gLYvdNB
+	y7NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=OtXyhs+sUgTwqc76IsAYRei6zx//IAeJTRuQ5Tiz5sg=;
-	b=lMUUjlxcFaG5sRYDs7jT76ILsMpGI8kXJUVXbZdlVszn4ElRKafgXVH24mcSV/TkLw
-	Y2pbETBPAT8gLVrV7v8FA+iNgXRr8c+jCPRaoVmsqdKL+JI7tp5OabdzlS/aJpKCJ5Ky
-	vgSJLfXLzzf7SmC3TVwrkjPrgSekBiO4tU2Fj9EUQBkgWYD/o/SZ1IhgGPFR7arqndCs
-	dEUlQLbdFvnaT4/UDjsjllL+1ZUOTrudcbNoCpBwvcB75xfjC/8ze6U1Q4VRuzdF6JU+
-	QEQPvnZpH2q1wFuFLKKVE6RNJ5EL/3Rhg7oKAKvdGrfCORYBlCRmjCSpqYKl/EgOG0nc
-	mA8Q==
-X-Gm-Message-State: APjAAAXlSbpU1rl5JNrrJ2u2didpYWNivBrJny/dilti+KEphu6WWunC
-	E5gMwot1uP8qSQCgWw5kxDrEm9B9L90=
-X-Google-Smtp-Source: APXvYqypyNm0CvyxQYSy1WITLiGts3t3qXxAcmSLAAFshoB2F7prHUvK0ZXkznzL2AWQZpU0SRoAHA==
-X-Received: by 2002:a1c:7c11:: with SMTP id x17mr35494260wmc.22.1563396876150; 
-	Wed, 17 Jul 2019 13:54:36 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=n0M6T7MOHt5wuMJJEKNmEiQuUqFgrS7r2ECriCOYnK0=;
+	b=nj3KH19ypBv7+ER+j1kO05WDFZmxpNgnQ/6+Ha89PcnD6cWGkVcDTLEm4OvPKLGkzq
+	B605BCR/G+NLGLLXmUFaHz6XgtZJgV/xMNak6Ub02b0k9y1dTICf9dG/F/O76xVQCM3X
+	x23eyRiw8xhu4yyFyt1ESOj2vJBzHCimPQVn+212hcfnNHdGWIOzKrjG7HMVsUzshVoz
+	9G6ViSkhtxnqOMa/3kFeMYQM6zfy8u3RAfMwtIIeZzHjrrqdBBEG0abWJsqAcQx1Pd9k
+	8/aGnEmheVA7bPR+rjUBk7ymATai+7tE/l6R6AbOdZFOjXz9+nK9M5VrDf+PjJsCAh6w
+	97wg==
+X-Gm-Message-State: APjAAAW66HUmRJcCnw4nJtWYNn3s9C9HGzgDh4yju9Zu0TORhRVS4XZt
+	PwLqMaIQNY3rHqxaFdJjqpMXBnqQS5A=
+X-Google-Smtp-Source: APXvYqwtvgE5OxSunfOCgxso82IHj4m31Pm+VAoji+NaVg8813UMyci7vJ2looQ3hyd+gMoPOlX18w==
+X-Received: by 2002:a7b:c195:: with SMTP id y21mr37194998wmi.16.1563396877024; 
+	Wed, 17 Jul 2019 13:54:37 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o20sm58637610wrh.8.2019.07.17.13.54.35
+	o20sm58637610wrh.8.2019.07.17.13.54.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Jul 2019 13:54:35 -0700 (PDT)
+	Wed, 17 Jul 2019 13:54:36 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 21:54:31 +0100
-Message-Id: <20190717205432.31580-1-ross.burton@intel.com>
+Date: Wed, 17 Jul 2019 21:54:32 +0100
+Message-Id: <20190717205432.31580-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190717205432.31580-1-ross.burton@intel.com>
+References: <20190717205432.31580-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] piglit: upgrade to latest revision
+Subject: [PATCH 2/2] pkgconf: upgrade 1.6.1 -> 1.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,21 +66,27 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../pkgconf/{pkgconf_1.6.1.bb => pkgconf_1.6.3.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/pkgconf/{pkgconf_1.6.1.bb => pkgconf_1.6.3.bb} (95%)
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 4350823f60b..5304f358fa7 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit;protocol=https \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.6.1.bb b/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
+similarity index 95%
+rename from meta/recipes-devtools/pkgconf/pkgconf_1.6.1.bb
+rename to meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
+index c60ef74226d..94bc112b9fd 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_1.6.1.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
+@@ -21,8 +21,8 @@ SRC_URI = "\
+     file://pkg-config-native.in \
+     file://pkg-config-esdk.in \
+ "
+-SRC_URI[md5sum] = "556bae2b9e0cc7b46e7c00083cb6d95d"
+-SRC_URI[sha256sum] = "22b9ee38438901f9d60f180e5182821180854fa738fd071f593ea26a81da208c"
++SRC_URI[md5sum] = "f93fb1be95a5cb62e43c219c82b5791a"
++SRC_URI[sha256sum] = "61f0b31b0d5ea0e862b454a80c170f57bad47879c0c42bd8de89200ff62ea210"
  
--SRCREV = "4294b15e3b84a96f24d1286b73d5832eea267bbf"
-+SRCREV = "f0e868ac6fbdc295b2955c1b8f73169e7a52f938"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr${SRCPV}"
+ inherit autotools
  
 -- 
 2.20.1
