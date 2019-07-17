@@ -1,33 +1,22 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DC987EC56
+Return-Path: <adrian.ratiu@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F6587D00E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 13:48:02 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8698CE00D2C; Wed, 17 Jul 2019 06:48:03 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E166BE00DFE
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 06:47:53 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id D1559440001
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 06:47:53 -0700 (PDT)
+	Wed, 17 Jul 2019 14:17:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aratiu) with ESMTPSA id 861CB283B94
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <20190717121733.GA2242@jama>
+References: <20190716215558.23327-1-adrian.ratiu@collabora.com>
+	<CA+chaQdO2xLQR6z+xNTXYaqj4fvppguu6iVBZsLUXZLBgqC8xg@mail.gmail.com>
+	<87d0i8g9oq.fsf@collabora.com> <20190717121733.GA2242@jama>
+Date: Wed, 17 Jul 2019 17:17:30 +0300
+Message-ID: <87a7dcg2yt.fsf@collabora.com>
 MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Message-Id: <20190717134753.D1559440001@auh.yoctoproject.org>
-Date: Wed, 17 Jul 2019 06:47:53 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2019-07-17
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] opkg/package/rootfs_ipk: allow overwriting OPKGLIBDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,142 +29,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 13:48:03 -0000
-Content-Type: multipart/mixed; boundary="===============7647890514892870025=="
+X-List-Received-Date: Wed, 17 Jul 2019 14:17:21 -0000
+Content-Type: text/plain; format=flowed
 
---===============7647890514892870025==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+On Wed, 17 Jul 2019, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Wed, Jul 17, 2019 at 02:52:21PM +0300, Adrian Ratiu wrote: 
+>> Hi  On Wed, 17 Jul 2019, Martin Jansa <martin.jansa@gmail.com> 
+>> wrote: 
+>> > Why don't you overwrite it with an override? We're doing that 
+>> > for years without any issues. 
+>>  You mean a distro-wide override in a .conf? 
+> 
+> yes 
+> 
+>> Can you please point to an example? 
+> 
+> https://github.com/webosose/meta-webosose/blob/master/meta-webos/conf/distro/include/webos.inc#L256 
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
-IDQyCiAgICAgICAgcHl0aG9uLW51bXB5LCAxLjE2LjQsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0
-ZXJpdXMuaW8+CiAgICAgICAgbGlibmV3dCwgMC41Mi4yMSwgSG9uZ3h1IEppYSA8aG9uZ3h1Lmpp
-YUB3aW5kcml2ZXIuY29tPgogICAgICAgIGFwdCwgMS45LjEsIEFuw61iYWwgTGltw7NuIDxsaW1v
-bi5hbmliYWxAZ21haWwuY29tPgogICAgICAgIGxzYmluaXRzY3JpcHRzLCAxMC4wMiwgUm9zcyBC
-dXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBtZXNhLCAxOS4xLjIsIE90YXZp
-byBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgaXB1
-dGlscywgczIwMTkwNzA5LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29t
-PgogICAgICAgIGZsZXgsIDIuNi40LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAg
-ICAgICAgZGViaWFudXRpbHMsIDQuOC42LjIsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNv
-bT4KICAgICAgICBncnViLWVmaSwgMi4wNCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVs
-LmNvbT4KICAgICAgICBzZWQsIDQuNywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
-ICAgICAgIGUyZnNwcm9ncywgMS40NS4zLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJp
-dmVyLmNvbT4KICAgICAgICBzcXVhc2hmcy10b29scywgNC4zLW5ldy1jb21taXRzLWF2YWlsYWJs
-ZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgbHRwLCAy
-MDE5MDUxNywgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGdvLWRlcCwg
-MC41LjQsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+
-CiAgICAgICAgbGliaWNlLCAxLjAuMTAsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5j
-b20+CiAgICAgICAgYnVpbGQtY29tcGFyZSwgMjAxNS4wMi4xMC1uZXctY29tbWl0cy1hdmFpbGFi
-bGUsIFBhdWwgRWdnbGV0b24gPHBhdWwuZWdnbGV0b25AbGludXguaW50ZWwuY29tPgogICAgICAg
-IGZyZWV0eXBlLCAyLjEwLjEsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAg
-ICAgICAgc3lza2xvZ2QsIDEuNiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAg
-ICAgIHR6ZGF0YSwgMjAxOWIsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAg
-ICAgICAgc3RyYWNlLCA1LjIsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29t
-PgogICAgICAgIGFjbCwgMi4yLjUzLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAg
-ICAgICAgZ3RrKzMsIDMuMjQuMTAsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+
-CiAgICAgICAgdnVsa2FuLWRlbW9zLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb3NzIEJ1
-cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIHRleGluZm8sIDYuNiwgQW51aiBN
-aXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBwdXp6bGVzLCAwLjAtbmV3LWNv
-bW1pdHMtYXZhaWxhYmxlLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAg
-ICAgIGdwZ21lLCAxLjEzLjEsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4K
-ICAgICAgICBuZnMtdXRpbHMsIDIuNC4xLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJp
-dmVyLmNvbT4KICAgICAgICBrbXNjdWJlLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBDYXJs
-b3MgUmFmYWVsIEdpYW5pIDxkdkBwc2V1ZG90ZXJtaW5hbC5vcmc+CiAgICAgICAgYXR0ciwgMi40
-LjQ4LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgbGlibW9kdWxlbWQs
-IDIuNi4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAg
-ICBoYXJmYnV6eiwgMi41LjMsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAg
-ICAgICAgZ2V0dGV4dCwgMC4yMC4xLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVy
-LmNvbT4KICAgICAgICBzeXN2aW5pdCwgMi45NSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGlu
-dGVsLmNvbT4KICAgICAgICBtZXNvbiwgMC41MS4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5r
-YW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaWJpY2FsLCAzLjAuNSwgUm9zcyBCdXJ0b24gPHJv
-c3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBncnViLCAyLjA0LCBBbnVqIE1pdHRhbCA8YW51
-ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGtiZCwgMi4xLjAsIEFsZXhhbmRlciBLYW5hdmlu
-IDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtbnVtcHksIDEuMTYuNCwg
-RGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICBpZnVwZG93biwgMC44LjM1
-LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdsaWRlLCAwLjEz
-LjMsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAg
-ICAgICAgcnVieSwgMi42LjMsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAg
-ICAgICAgcHVsc2VhdWRpbywgMTIuOTkuMSwgVGFudSBLYXNraW5lbiA8dGFudWtAaWtpLmZpPgog
-ICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDE3CiAgICAgICAgd2FmZmxlLCAxLjYuMCwgUm9zcyBC
-dXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICB2dWxrYW4tbG9hZGVyLCAxLjEu
-MTA4LjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgYnRyZnMt
-dG9vbHMsIDUuMiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAg
-ICAgICAgZmZtcGVnLCA0LjEuNCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFp
-bC5jb20+CiAgICAgICAgZ28tcnVudGltZSwgMS4xMi43LCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
-aWwuY29tPgogICAgICAgIG1rZm9udHNjYWxlLCAxLjIuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVy
-ODA4QGdtYWlsLmNvbT4KICAgICAgICB2dWxrYW4tdG9vbHMsIDEuMS4xMDguMCwgQW51aiBNaXR0
-YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICB1bmZzMywgMywgUm9zcyBCdXJ0b24g
-PHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBuZXR0bGUsIDMuNS4xLCBBcm1pbiBLdXN0
-ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGxpYmRuZiwgMC4zNS4xLCBBbGV4YW5k
-ZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBwcmVsaW5rLCAxLjAt
-bmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBNYXJrIEhhdGxlIDxtYXJrLmhhdGxlQHdpbmRyaXZlci5j
-b20+CiAgICAgICAgZ28sIDEuMTIuNywgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAg
-ICAgICB2dWxrYW4taGVhZGVycywgMS4xLjEwOC4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
-aW50ZWwuY29tPgogICAgICAgIGFjcGljYSwgMjAxOTA3MDMsIEZhdGhpIEJvdWRyYSA8ZmF0aGku
-Ym91ZHJhQGxpbmFyby5vcmc+CiAgICAgICAgaXB0YWJsZXMsIDEuOC4zLCBDaGFuZ2h5ZW9rIEJh
-ZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAgICAgIHNoYWRvdywgNC43LCBDaGVuIFFp
-IDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgYm9vc3QsIDEuNzAuMCwgQWxleGFuZGVy
-IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAqIEZhaWxlZChvdGhlciBlcnJv
-cnMpOiAxCiAgICAgICAgZ2NjLXNvdXJjZS04LjMuMCwgOS4xLjAsIEtoZW0gUmFqIDxyYWoua2hl
-bUBnbWFpbC5jb20+CiAgICAqIFN1Y2NlZWRlZDogMjQKICAgICAgICB2aW0tdGlueSwgOC4xLjE2
-OTQsIFRvbSBSaW5pIDx0cmluaUBrb25zdWxrby5jb20+CiAgICAgICAgbGlieDExLCAxLjYuOCwg
-QXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBweXRob24zLCAzLjcu
-NCwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICB4b3JncHJvdG8sIDIw
-MTkuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBsaWJwY2lh
-Y2Nlc3MsIDAuMTUsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgog
-ICAgICAgIHdlc3RvbiwgNi4wLjEsIERlbnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+CiAg
-ICAgICAgd2Via2l0Z3RrLCAyLjI0LjMsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
-Z21haWwuY29tPgogICAgICAgIGlzby1jb2RlcywgNC4zLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
-eC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBnbGliLW5ldHdvcmtpbmcsIDIuNjAuMywgQW51
-aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBkbmYsIDQuMi43LCBBbGV4
-YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaW51eC1maXJt
-d2FyZSwgMjAxOTA2MTgtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBPdGF2aW8gU2FsdmFkb3IgPG90
-YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIHh3aW5pbmZvLCAxLjEuNSwg
-QXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBpcHJvdXRlMiwgNS4y
-LjAsIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZUBnbWFpbC5jb20+CiAgICAgICAgdmlt
-LCA4LjEuMTY5NCwgVG9tIFJpbmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4KICAgICAgICBtc210cCwg
-MS44LjUsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAg
-IHBpZ2xpdCwgMS4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVy
-dG9uQGludGVsLmNvbT4KICAgICAgICBjcmVhdGVyZXBvLWMsIDAuMTQuMywgQWxleGFuZGVyIEth
-bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgeGF1dGgsIDEuMSwgQXJtaW4g
-S3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBnbnUtY29uZmlnLCAyMDE5MDUw
-MS1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2
-ZXIuY29tPgogICAgICAgIGdsaWItMi4wLCAyLjYwLjUsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRh
-bEBpbnRlbC5jb20+CiAgICAgICAgeHNlcnZlci14b3JnLCAxLjIwLjUsIEFybWluIEt1c3RlciA8
-YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgdnRlLCAwLjU2LjMsIEFudWogTWl0dGFsIDxh
-bnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcGtnY29uZiwgMS42LjMsIFJvc3MgQnVydG9u
-IDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgbGlid2VicCwgMS4wLjMsIEFsZXhhbmRl
-ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgoKICAgIFRPVEFMOiBhdHRlbXB0ZWQ9
-ODQgc3VjY2VlZGVkPTI0KDI4LjU3JSkgZmFpbGVkPTYwKDcxLjQzJSkKClJlY2lwZSB1cGdyYWRl
-IHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6CgogICAgQ2hlbiBRaSA8UWkuQ2hlbjogYXR0ZW1w
-dGVkPTYgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD02KDEwMC4wMCUpCiAgICBDaGFuZ2h5ZW9r
-IEJhZSA8Y2hhbmdoeWVvay5iYWU6IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0xKDMzLjMzJSkgZmFp
-bGVkPTIoNjYuNjclKQogICAgS2hlbSBSYWogPHJhai5raGVtOiBhdHRlbXB0ZWQ9MyBzdWNjZWVk
-ZWQ9MCgwLjAwJSkgZmFpbGVkPTMoMTAwLjAwJSkKICAgIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWE6
-IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MigxMDAuMDAlKQogICAgQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTE0IHN1Y2NlZWRlZD03KDUw
-LjAwJSkgZmFpbGVkPTcoNTAuMDAlKQogICAgRGVyZWsgU3RyYWthIDxkZXJlazogYXR0ZW1wdGVk
-PTMgc3VjY2VlZGVkPTEoMzMuMzMlKSBmYWlsZWQ9Mig2Ni42NyUpCiAgICBEZW55cyBEbXl0cml5
-ZW5rbyA8ZGVueXM6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAu
-MDAlKQogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsOiBhdHRlbXB0ZWQ9MTIgc3VjY2VlZGVk
-PTMoMjUuMDAlKSBmYWlsZWQ9OSg3NS4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xl
-dG9uOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAg
-IEFybWluIEt1c3RlciA8YWt1c3RlcjgwODogYXR0ZW1wdGVkPTkgc3VjY2VlZGVkPTUoNTUuNTYl
-KSBmYWlsZWQ9NCg0NC40NCUpCiAgICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRl
-bXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFJvYmVydCBZ
-YW5nIDxsaWV6aGkueWFuZzogYXR0ZW1wdGVkPTYgc3VjY2VlZGVkPTEoMTYuNjclKSBmYWlsZWQ9
-NSg4My4zMyUpCiAgICBNYXJrIEhhdGxlIDxtYXJrLmhhdGxlOiBhdHRlbXB0ZWQ9MSBzdWNjZWVk
-ZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVt
-cHRlZD0yIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MigxMDAuMDAlKQogICAgT3RhdmlvIFNh
-bHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0xKDI1LjAwJSkg
-ZmFpbGVkPTMoNzUuMDAlKQogICAgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uOiBhdHRlbXB0ZWQ9
-MTEgc3VjY2VlZGVkPTIoMTguMTglKSBmYWlsZWQ9OSg4MS44MiUpCiAgICBUYW51IEthc2tpbmVu
-IDx0YW51azogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUp
-CiAgICBGYXRoaSBCb3VkcmEgPGZhdGhpLmJvdWRyYTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAo
-MC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdjogYXR0
-ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBUb20gUmlu
-aSA8dHJpbmk6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0yKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAl
-KQo=
+Thanks, I didn't know about the _forcevariable override.
 
---===============7647890514892870025==--
+Is using _forcevariable the preferred method to do this though 
+instead of using ??= ?
+
+The reference manual says it's not recommended and a "worst case" 
+solution...
+
+>
+>> > On Wed, Jul 17, 2019 at 12:01 AM Adrian Ratiu <adrian.ratiu@collabora.com>
+>> > wrote:
+>> >
+>> >> Some distributions for various reasons (like for example mounting a
+>> >> tmpfs over /var at runtime) can't use /var/lib to store the opkg
+>> >> metadata, so a different path is required to have a functioning
+>> >> package manager.
+>> >>
+>> >> ${localstatedir} can't be modified to something other than the
+>> >> hardcoded value in bitbake.conf because other recipes depending on it
+>> >> will fail to install.
+>> >>
+>> >> So the only recourse, which is also the least invasive, is to allow
+>> >> distros to overwrite the OPKGLIBDIR variable just like they are also
+>> >> allowed to overwrite OPKGBUILDCMD.
+>> >>
+>> >> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+>> >> ---
+>> >>  meta/classes/package_ipk.bbclass         | 2 +-
+>> >>  meta/classes/rootfs_ipk.bbclass          | 2 +-
+>> >>  meta/recipes-devtools/opkg/opkg_0.4.1.bb | 2 +-
+>> >>  3 files changed, 3 insertions(+), 3 deletions(-)
+>> >>
+>> >> diff --git a/meta/classes/package_ipk.bbclass
+>> >> b/meta/classes/package_ipk.bbclass
+>> >> index d1b317b42b..9f9da2f91d 100644
+>> >> --- a/meta/classes/package_ipk.bbclass
+>> >> +++ b/meta/classes/package_ipk.bbclass
+>> >> @@ -14,7 +14,7 @@ OPKG_ARGS += "--force_postinstall
+>> >> --prefer-arch-to-version"
+>> >>  OPKG_ARGS += "${@['',
+>> >> '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
+>> >>  OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude
+>> >> '.join((d.getVar('PACKAGE_EXCLUDE') or
+>> >> "").split())][(d.getVar("PACKAGE_EXCLUDE") or "").strip() != ""]}"
+>> >>
+>> >> -OPKGLIBDIR = "${localstatedir}/lib"
+>> >> +OPKGLIBDIR ??= "${localstatedir}/lib"
+>> >>
+>> >>  python do_package_ipk () {
+>> >>      workdir = d.getVar('WORKDIR')
+>> >> diff --git a/meta/classes/rootfs_ipk.bbclass
+>> >> b/meta/classes/rootfs_ipk.bbclass
+>> >> index aabc370cfc..e73d2bfdae 100644
+>> >> --- a/meta/classes/rootfs_ipk.bbclass
+>> >> +++ b/meta/classes/rootfs_ipk.bbclass
+>> >> @@ -21,7 +21,7 @@ OPKG_PREPROCESS_COMMANDS = ""
+>> >>
+>> >>  OPKG_POSTPROCESS_COMMANDS = ""
+>> >>
+>> >> -OPKGLIBDIR = "${localstatedir}/lib"
+>> >> +OPKGLIBDIR ??= "${localstatedir}/lib"
+>> >>
+>> >>  MULTILIBRE_ALLOW_REP = "${OPKGLIBDIR}/opkg|/usr/lib/opkg"
+>> >>
+>> >> diff --git a/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+>> >> b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+>> >> index 8c48d3097c..c663eff13b 100644
+>> >> --- a/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+>> >> +++ b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+>> >> @@ -28,7 +28,7 @@ PACKAGES =+ "libopkg"
+>> >>  inherit autotools pkgconfig systemd ptest
+>> >>
+>> >>  target_localstatedir := "${localstatedir}"
+>> >> -OPKGLIBDIR = "${target_localstatedir}/lib"
+>> >> +OPKGLIBDIR ??= "${target_localstatedir}/lib"
+>> >>
+>> >>  PACKAGECONFIG ??= "libsolv"
+>> >>
+>> >> --
+>> >> 2.22.0
+>> >>
+>> >> --
+>> >> _______________________________________________
+>> >> Openembedded-core mailing list
+>> >> Openembedded-core@lists.openembedded.org
+>> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> >>
+>
+> -- 
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
