@@ -1,51 +1,47 @@
-Return-Path: <prvs=09430007d=alistair.francis@wdc.com>
-Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C3D37ED5F
+Return-Path: <wbourque@gmail.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C3A937ED59
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 21:03:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1563397419; x=1594933419;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=0+ZwFDwV71rOrtQ9KbTV+d2lbc4s/QI5NecdmEeQKFg=;
-	b=k3mSDyhoH06BIu9vo4AiE/ujfTeo0zUXJOonkEDa4Oqqoz4RvuIJbhSn
-	L/gaPGGrZ/Q0kJrvKqYblMap9IyHZDxGmhZd/jo68RJzPC8zWve69iHWG
-	LsLP8v7GX82aw5PsTpuX+lePjUkmnk9MRmHEy3Q13EWrOgM+LWZm2ygwa
-	NyOSzAnGDKqP3xPEl3ZRiJVqdR0o7a9jY7mJuX6zao1KN1MEp6qTz2tcn
-	obSv9N3KSCZTBocmu9omHXOtZmY3htQIzjHye9QIYTQYT1+/U4aIPr/XP
-	kPyYE+J7IeI9QhxR7IOsGEYhmtRFyFPes202hsHGfhjhR67FZbj0+j025 g==;
-IronPort-SDR: UJnJLgqmjElxrqBYxi5hMqiuDE/jSOqKObYzaJZxNoLXt/UJu9P4rtNfQt/ueBcvMOnHrXYFWM
-	4u+umyTnolK12eLWvNxV3B3LnfhR3TB1DA6HUGZ8Qs8+7iNM4oa0SggzJXNg/MTVhOkrlbABbr
-	wBAlEhtSi3pXV1oz2Gl1tblEPvMlXYyi+RYMdY6ogoPHJOmR4UKgG1R8Amxrz4BoEVfr4BwC5y
-	m7XiNNMBz0+kHjBa863QU2mkrK1pmpgpN+L1s1bNLiYwTsWalYeI1ED2S0yg2tcX9dG13Q0+jN
-	RyQ=
-X-IronPort-AV: E=Sophos;i="5.64,275,1559491200"; d="scan'208";a="114440236"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
-	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 18 Jul 2019 04:56:35 +0800
-IronPort-SDR: wAs7w2J1MHgZTaKlXPnr8t0erksk3zBej9HgnndVDYmeaCFtV82HszKRxYXq76K6L7UPeUF82j
-	n/b8UHwTeLkgkzCEItbSU6KtTtscpZeoIyseuNHD+5MBqimCO28PDUSdQBj/S9IE3TMvc0k0cu
-	Ljy7lEyiRxIaPcJ5LfENi9MnVNgiX1nrpihKs8Po8FAv+2lZODq8Lxti34EtcLt/PwNILuXxyf
-	TjMuWUsaNpEQv1rVQDg9hu4u9nvyNc3B66Gr5xAQAMxfHJbMkA4L/chfnFu4IOH8p21E+5Xx0h
-	wQRGqC6xnAC4EJwcxoKOelHR
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-	by uls-op-cesaep02.wdc.com with ESMTP; 17 Jul 2019 13:55:02 -0700
-IronPort-SDR: p8g+gs4KVGEa8BotsgXm0lCnvyPWbjcAuBL6pFvfYunQZpz1cWbusoFnDUOfw0uHgtvTNmUiUm
-	HheBJTP+ROKI4WAuaem7JcxKyQlc2eZnHHJWQu+jHB/cp3rLvtLkz5K1wHlRSNDTt143I+KiX8
-	OHYVULjG8KCVI5Xiy8MH/cEHHZAOuSJJfnkYhaJWhuKACGnb0yYYYY+dgy2qzREsP310PD9864
-	Ki3NjcyMCH4bUhTuwOKDP+s/HhdQF7qiOiSmnxD5lmRLrXlKg2yCFgT9EqixFLeE6P+NlkxwED
-	sS8=
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
-	risc6-mainframe.int.fusionio.com) ([10.196.157.140])
-	by uls-op-cesaip01.wdc.com with ESMTP; 17 Jul 2019 13:56:36 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 13:53:40 -0700
-Message-Id: <20190717205340.918-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
+	Wed, 17 Jul 2019 21:31:31 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id r21so20629772otq.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jul 2019 14:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=/tc9CRx2i9QE0Xw3UqMYmO/r04LqxedPJ9CeAyb3C0Y=;
+	b=O9swD5u2QXZzwlfu7emgHv+xdtVcZ3ytdI9iAJmc5V8LkpkCpIXIwn5Jko5058wqJH
+	TLKG0ur2/4wAgcsG88eY/+oVkQcsDBI7jlLYrc0byjfkVfbYfqKpF4vUR6mou0p48nv5
+	xKZoAU8ZDkJTPbXSCEyyLMgP6keUfgyFdW/EzcytexdLKyDx3MW6Rkt7ipMf3Ly7hm26
+	cv3UnnXINULcKamrzGhIo4AOdDLJn5W+UIwGniwjSKGBfmUXBu/VixyjEsKMhmaUdqwu
+	THEWlb+tPbLKJ9euOKp2U5GA3Do0ESukeQTOl201KWiKVMUI2R47C86CW6NGLDPoN3Jy
+	od/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=/tc9CRx2i9QE0Xw3UqMYmO/r04LqxedPJ9CeAyb3C0Y=;
+	b=RE99WcVjtXsMMZUQQbkypjEbHv3hgDNNOO0dKE4ThyvAG12DEEUt1pbgwobNidUWX+
+	8zQVrUynSWCHA/nRrLd3VVz+sfPTx1Yh/IB6w9/Pp9MvNXhWJiWtqOMVnuMMgyvwJ+hu
+	YskfY8y58zOO+grw1PQaVZViN+88/S9CDj/IyKUgarWnvFfE1B9236c2GgshRHNJVe9M
+	g2kxmuS3zoeAgzPLaLNUHfO2LJQIRD4bBFxTFjZI7VjBKeabblqtW3MeLhVazm0HHSWl
+	/3siUlVWRYihZ6Gh+1JcVcjS9Ae+kdsnnpjEMnRPYU1Pa6qT+oDRt9dfTcfyYthv+jO9
+	lHfg==
+X-Gm-Message-State: APjAAAXDOVu/MP2kbdDrs30iX2C0DjSZr4043pm21/mDsP+FcuVzCkeQ
+	kc6jU8n8KnBhuAh15Edo+aM3Qrtbsb/rxxkr5pCuRG7i
+X-Google-Smtp-Source: APXvYqx+2xOnmIfh+l2eUBK06tLPTvPWqcGXuegRCSrObowmsbwtT4MaP58RL4fnHa+n6VMC8ZqqWo0K4bGAMNxMbVc=
+X-Received: by 2002:a9d:3e4e:: with SMTP id h14mr30590059otg.182.1563399092603;
+	Wed, 17 Jul 2019 14:31:32 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] package_manager: Ensure the base-feed directory exists
+References: <20190712140020.28280-1-wbourque@gmail.com>
+	<b60f393b0bddab4623d22627d2c83b33774c4565.camel@linuxfoundation.org>
+In-Reply-To: <b60f393b0bddab4623d22627d2c83b33774c4565.camel@linuxfoundation.org>
+From: William Bourque <wbourque@gmail.com>
+Date: Wed, 17 Jul 2019 17:31:20 -0400
+Message-ID: <CANBSh+Np-BfUJBwJDMDNRV_5-Ck3ikfZ79iQ_AE8EZnmK7OrTw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/2] wic/plugins: Source that support both EFI and BIOS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 21:03:37 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Jul 2019 21:31:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Ensure that the /etc/opkg directory exists before we try to create a
-file there.
+Hi,
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- meta/lib/oe/package_manager.py | 2 ++
- 1 file changed, 2 insertions(+)
+Sorry about the failure. I'm trying to figure out what's wrong; the
+output of the autobuilder is quite puzzling.
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 06feb4def7..7c373715ad 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1297,6 +1297,8 @@ class OpkgPM(OpkgDpkgPM):
-         rootfs_config = os.path.join('%s/etc/opkg/base-feeds.conf'
-                                   % self.target_rootfs)
- 
-+        os.makedirs('%s/etc/opkg' % self.target_rootfs, exist_ok=True)
-+
-         feed_uris = self.construct_uris(feed_uris.split(), feed_base_paths.split())
-         archs = self.pkg_archs.split() if feed_archs is None else feed_archs.split()
- 
--- 
-2.22.0
+For test_biosplusefi_plugin_qemu, at line 1303
+(https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/290/steps/7/logs/step2d)
+:
+It seems that for some reason my command was truncated ("sk -l
+/dev/sda" of "fdisk -l /dev/sda" as in the code).
 
+For test_biosplusefi_plugin, line 1287,
+(https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/290/steps/7/logs/step2d):
+If I read the output right, the test fails on "Couldn't find correct
+bootimg_dir"... which is unexpected since it's not something I'm using
+in the test itself.
+
+
+That said, I'm having a real hard time running the tests here and
+getting the same result as the autobuilder.
+Out of the box, all the *_qemu tests are failing on my setup. I was
+able to get them running after debugging oeqa selftest classes : for
+some reasons, qemu does not seems to like having multiple "-serial"
+passed as arguments; only the first one is considered. I had to patch
+the code locally to get the tests to run.
+
+I suspect there might be difference between my host machine compared
+to autobuilder, but I couldn't find information about what's the
+"right" setup.
+
+Is there a HOWTO or some documentation I can follow to make sure my
+own setup is comparable to autobuilder?
+Otherwise I fear I won't be able to get the same results as I see in
+the reports.
+
+- William
 
