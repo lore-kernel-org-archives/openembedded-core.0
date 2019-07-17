@@ -1,20 +1,34 @@
-Return-Path: <adrian.ratiu@collabora.com>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 57D247ED2B
+Return-Path: <uol@pengutronix.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+	[85.220.165.71])
+	by mail.openembedded.org (Postfix) with ESMTP id ECAA77ECC2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 10:46:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: aratiu) with ESMTPSA id EFCF528AE1F
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-In-Reply-To: <a1a87489-5023-2ac9-59ee-996725d08a72@windriver.com>
-References: <20190717074836.27002-1-adrian.ratiu@collabora.com>
-	<a1a87489-5023-2ac9-59ee-996725d08a72@windriver.com>
-Date: Wed, 17 Jul 2019 13:46:10 +0300
-Message-ID: <87ftn5ey6l.fsf@collabora.com>
+	Wed, 17 Jul 2019 10:48:43 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+	(envelope-from <uol@pengutronix.de>)
+	id 1hnhUK-0007nQ-HM; Wed, 17 Jul 2019 12:48:44 +0200
+Received: from uol by dude.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <uol@pengutronix.de>)
+	id 1hnhUJ-0007Y0-H5; Wed, 17 Jul 2019 12:48:43 +0200
+References: <20190716135444.12057-1-u.oelmann@pengutronix.de>
+	<20190717090812.GA18597@localhost>
+User-agent: mu4e 1.1.0; emacs 26.1
+From: Ulrich =?utf-8?Q?=C3=96lmann?= <u.oelmann@pengutronix.de>
+To: Adrian Bunk <bunk@stusta.de>
+In-reply-to: <20190717090812.GA18597@localhost>
+Date: Wed, 17 Jul 2019 12:48:43 +0200
+Message-ID: <6rmuhd2ayc.fsf@pengutronix.de>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cogl-1.0.inc: set RDEPENDS_${PN}-dev = ""
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: uol@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: =?utf-8?Q?S=C3=B8ren?= Andersen <san@skov.dk>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] squashfs-tools: upgrade to commit f95864afe883
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,59 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 10:46:00 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Wed, 17 Jul 2019 10:48:44 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 17 Jul 2019, Kang Kai <Kai.Kang@windriver.com> wrote:
-Hi
+Hi Adrian,
 
-> On 2019/7/17 =E4=B8=8B=E5=8D=883:48, Adrian Ratiu wrote:=20
->> ${PN}-dev by default depends on ${PN} but in this case ${PN} is=20
->> empty by design (FILES_${PN} =3D "") and is not created, leading=20
->> to installation dependency errors like the following:=20
->>=20
->> Collected errors:=20
->>   * Solver encountered 1 problem(s): * Problem 1/1: *   -=20
->>   nothing provides cogl-1.0 =3D 1.22.2-r0 needed by=20
->>   cogl-1.0-dev-1.22.2-r0.armv7at2hf-neon-imx * * Solution 1: *=20
->>   - do not ask to install a package providing cogl-1.0-dev=20
->=20=20
-> I think what you need is=20
->=20
-> ALLOW_EMPTY_${PN} =3D "1"
+On Wed, Jul 17 2019 at 11:08 +0200, Adrian Bunk <bunk@stusta.de> wrote:
+> On Tue, Jul 16, 2019 at 03:54:44PM +0200, Ulrich =C3=96lmann wrote:
+>>...
+>> Commits [5] & [6] introduced interesting features, namely zstd support a=
+nd
+>> reproducibility of created SquashFS images. They are reflected in two new
+>> PACKAGECONFIG options now.
+>>...
+>> -PACKAGECONFIG ??=3D "gzip xz lzo lz4 lzma xattr"
+>> +PACKAGECONFIG ??=3D "gzip xz lzo lz4 lzma xattr zstd reproducible"
+>>...
+>
+> zstd is not in OE-core, so this cannot be enabled by default.
 
-Why is creating and depending on an empty package better than not=20
-creating and depending on it at all?
+of course... although I should have known better I missed that as in the
+BSP I used to develop this patch I include meta-rauc which offers zstd
+(see [1]).
 
-From what I can see in other recipes both methods are used.
+I could send a v2 that does not enable zstd by default, but still offers
+the PACKAGECONFIG[zstd]. Otherwise if you like zstd to become a member
+of OE-core (as the other supported compressors already are) I could
+prepare a patch series with meta-rauc's zstd-recipe as a base for the
+update of the squashfs-tools. In the latter case meta-rauc could drop
+that recipe in the future and that's what we would prefer. What do you
+think?
 
->
->
-> Regards,
-> Kai
->
->
->>
->> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
->> ---
->>   meta/recipes-graphics/cogl/cogl-1.0.inc | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-grap=
-hics/cogl/cogl-1.0.inc
->> index 3e392fa5ec..a388023a03 100644
->> --- a/meta/recipes-graphics/cogl/cogl-1.0.inc
->> +++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
->> @@ -75,4 +75,6 @@ RPROVIDES_libcogl =3D "cogl-1.0"
->>   RCONFLICTS_libcogl =3D "cogl-1.0"
->>   RREPLACES_libcogl =3D "cogl-1.0"
->>=20=20=20
->> +RDEPENDS_${PN}-dev =3D ""
->> +
->>   COMPATIBLE_HOST_armv4 =3D 'null'
->
->
-> --=20
-> Kai Kang
+Best regards
+Ulrich
+
+
+[1] https://layers.openembedded.org/layerindex/recipe/79049/
+--=20
+Pengutronix e.K.                           | Ulrich =C3=96lmann            =
+   |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
