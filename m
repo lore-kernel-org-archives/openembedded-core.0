@@ -1,53 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 31D787ED15
+Return-Path: <adrian.ratiu@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 57D247ED2B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 10:45:48 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id p74so21636178wme.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 03:45:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=9lbR4I4+UUHgZVeaqH+baS/K1cDsjqlxsC88Fr0UKIs=;
-	b=Qq2TiALmuMzLsf1q10Hzn7V7PMl/IrQOS/PKllKzE352RY+mjd0KFuj3SRwl+A2Jfw
-	wVgG1579H6ZR/m6jlTmR5ePTbN1rhkcWStA0jK0KrErOR8JihId+TrHOZ0ImKg3ZkV5Q
-	rLqYaqTurpcq6P0ZIw1/9/jyRNo2HKEo2OhKO+s3wQU0eRazPiBw1KqJS7q+1YZyYrK0
-	qSvlcQrKv8aZ3iE5QHN0WnKIT8nHIioryL2c0zyF7SJgklF62xuFlqMFTuIvw5DMa6GW
-	GJVMiWzf2i/b4J+XjO4/PxT3Swql2LUEZEAeSgR3hvQAEOpW01ao0ybBYmLgs2JJ6VaA
-	N2lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=9lbR4I4+UUHgZVeaqH+baS/K1cDsjqlxsC88Fr0UKIs=;
-	b=bJo0H5Me2WiyJRpZNATMiJXPYRGed/Bf9GzuZOGSgVgLXisgb41cRcTKPHSNGm5xJD
-	5Ub+qOXDEQpmM2FYDuLh4SoFPx6cWk6dgiyf6S5Dgl9QOKWwZZlS5xYUIfBmCQVNcTiu
-	+ZDC5Pyzekej28i6ZkqWE5gxSzJYbqgYAk2VOa1m8svA6bXDloMPwyxscXCRvbmfwGGS
-	xsMNVtDhaB3a3meI3ymTd12S51kArqRL/maSEWZlOzL5tRJa5lLZzAFn2AUQKZhkY4ub
-	vUc/np8l8ypf2WhUUE9kSBOV6zky1Yg9LmJJaoDT0da0V9T7NAFwZDW2LjJMg8BOkvTG
-	OW8Q==
-X-Gm-Message-State: APjAAAUCqJDBeque60gmTve2zJXx9RJRU5WiPkVNlwHYhXNmTiS8bWM+
-	1M5emZzIO1THFQSCDeMC7Bz6aVcaCD0=
-X-Google-Smtp-Source: APXvYqyYVzFFkwXUi27aEoz6QPV/h37Ze0M/sEZe7LPsHlifoVCXjL2/DBCtAZt28NlhTlPMGJdTZQ==
-X-Received: by 2002:a1c:7304:: with SMTP id d4mr35564177wmb.39.1563360348744; 
-	Wed, 17 Jul 2019 03:45:48 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o11sm22822097wmh.37.2019.07.17.03.45.47
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Jul 2019 03:45:48 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 11:45:38 +0100
-Message-Id: <20190717104538.20990-3-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190717104538.20990-1-ross.burton@intel.com>
-References: <20190717104538.20990-1-ross.burton@intel.com>
+	Wed, 17 Jul 2019 10:46:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aratiu) with ESMTPSA id EFCF528AE1F
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: Kang Kai <Kai.Kang@windriver.com>
+In-Reply-To: <a1a87489-5023-2ac9-59ee-996725d08a72@windriver.com>
+References: <20190717074836.27002-1-adrian.ratiu@collabora.com>
+	<a1a87489-5023-2ac9-59ee-996725d08a72@windriver.com>
+Date: Wed, 17 Jul 2019 13:46:10 +0300
+Message-ID: <87ftn5ey6l.fsf@collabora.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] cve-update-db-native: use SQL placeholders instead of format strings
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cogl-1.0.inc: set RDEPENDS_${PN}-dev = ""
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,28 +27,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 10:45:48 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Jul 2019 10:46:00 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/meta/cve-update-db-native.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 17 Jul 2019, Kang Kai <Kai.Kang@windriver.com> wrote:
+Hi
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index e16c41a72fd..72d1f48835b 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -62,7 +62,7 @@ python do_populate_cve_db() {
-             break
- 
-         # Compare with current db last modified date
--        c.execute("select DATE from META where YEAR = '%d'" % year)
-+        c.execute("select DATE from META where YEAR = ?", (year,))
-         meta = c.fetchone()
-         if not meta or meta[0] != last_modified:
-             # Update db with current year json file
--- 
-2.20.1
+> On 2019/7/17 =E4=B8=8B=E5=8D=883:48, Adrian Ratiu wrote:=20
+>> ${PN}-dev by default depends on ${PN} but in this case ${PN} is=20
+>> empty by design (FILES_${PN} =3D "") and is not created, leading=20
+>> to installation dependency errors like the following:=20
+>>=20
+>> Collected errors:=20
+>>   * Solver encountered 1 problem(s): * Problem 1/1: *   -=20
+>>   nothing provides cogl-1.0 =3D 1.22.2-r0 needed by=20
+>>   cogl-1.0-dev-1.22.2-r0.armv7at2hf-neon-imx * * Solution 1: *=20
+>>   - do not ask to install a package providing cogl-1.0-dev=20
+>=20=20
+> I think what you need is=20
+>=20
+> ALLOW_EMPTY_${PN} =3D "1"
 
+Why is creating and depending on an empty package better than not=20
+creating and depending on it at all?
+
+From what I can see in other recipes both methods are used.
+
+>
+>
+> Regards,
+> Kai
+>
+>
+>>
+>> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+>> ---
+>>   meta/recipes-graphics/cogl/cogl-1.0.inc | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-grap=
+hics/cogl/cogl-1.0.inc
+>> index 3e392fa5ec..a388023a03 100644
+>> --- a/meta/recipes-graphics/cogl/cogl-1.0.inc
+>> +++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+>> @@ -75,4 +75,6 @@ RPROVIDES_libcogl =3D "cogl-1.0"
+>>   RCONFLICTS_libcogl =3D "cogl-1.0"
+>>   RREPLACES_libcogl =3D "cogl-1.0"
+>>=20=20=20
+>> +RDEPENDS_${PN}-dev =3D ""
+>> +
+>>   COMPATIBLE_HOST_armv4 =3D 'null'
+>
+>
+> --=20
+> Kai Kang
 
