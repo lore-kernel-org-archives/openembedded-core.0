@@ -1,25 +1,25 @@
 Return-Path: <uol@pengutronix.de>
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
 	[85.220.165.71])
-	by mail.openembedded.org (Postfix) with ESMTP id ECAA77ECC2
+	by mail.openembedded.org (Postfix) with ESMTP id ABDCF7ECC2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 10:48:43 +0000 (UTC)
+	Wed, 17 Jul 2019 10:51:30 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
 	by metis.ext.pengutronix.de with esmtps
 	(TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
 	(envelope-from <uol@pengutronix.de>)
-	id 1hnhUK-0007nQ-HM; Wed, 17 Jul 2019 12:48:44 +0200
+	id 1hnhX1-0008AK-9d; Wed, 17 Jul 2019 12:51:31 +0200
 Received: from uol by dude.hi.pengutronix.de with local (Exim 4.92)
 	(envelope-from <uol@pengutronix.de>)
-	id 1hnhUJ-0007Y0-H5; Wed, 17 Jul 2019 12:48:43 +0200
+	id 1hnhWz-0001sW-R8; Wed, 17 Jul 2019 12:51:29 +0200
 References: <20190716135444.12057-1-u.oelmann@pengutronix.de>
-	<20190717090812.GA18597@localhost>
+	<09978b11aded8890d37f2a64f7833f7a028e2577.camel@linuxfoundation.org>
 User-agent: mu4e 1.1.0; emacs 26.1
 From: Ulrich =?utf-8?Q?=C3=96lmann?= <u.oelmann@pengutronix.de>
-To: Adrian Bunk <bunk@stusta.de>
-In-reply-to: <20190717090812.GA18597@localhost>
-Date: Wed, 17 Jul 2019 12:48:43 +0200
-Message-ID: <6rmuhd2ayc.fsf@pengutronix.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-reply-to: <09978b11aded8890d37f2a64f7833f7a028e2577.camel@linuxfoundation.org>
+Date: Wed, 17 Jul 2019 12:51:29 +0200
+Message-ID: <6rlfwx2atq.fsf@pengutronix.de>
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
 X-SA-Exim-Mail-From: uol@pengutronix.de
@@ -41,43 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 10:48:44 -0000
+X-List-Received-Date: Wed, 17 Jul 2019 10:51:31 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Adrian,
+Hi Richard,
 
-On Wed, Jul 17 2019 at 11:08 +0200, Adrian Bunk <bunk@stusta.de> wrote:
-> On Tue, Jul 16, 2019 at 03:54:44PM +0200, Ulrich =C3=96lmann wrote:
->>...
->> Commits [5] & [6] introduced interesting features, namely zstd support a=
-nd
->> reproducibility of created SquashFS images. They are reflected in two new
->> PACKAGECONFIG options now.
->>...
+On Wed, Jul 17 2019 at 11:19 +0200, Richard Purdie <richard.purdie@linuxfou=
+ndation.org> wrote:
+> On Tue, 2019-07-16 at 15:54 +0200, Ulrich =C3=96lmann wrote:=20=20
+>> [...]=20
 >> -PACKAGECONFIG ??=3D "gzip xz lzo lz4 lzma xattr"
 >> +PACKAGECONFIG ??=3D "gzip xz lzo lz4 lzma xattr zstd reproducible"
->>...
+>> [...]=20
+>> +PACKAGECONFIG[zstd] =3D "ZSTD_SUPPORT=3D1,ZSTD_SUPPORT=3D0,zstd"
+>> +PACKAGECONFIG[reproducible] =3D "REPRODUCIBLE_DEFAULT=3D1,REPRODUCIBLE_=
+DEFAULT=3D0,"
 >
-> zstd is not in OE-core, so this cannot be enabled by default.
+> This fails in OE-Core since zstd isn't present and you've enabled that
+> by default:
+>
+> e.g.:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/827
+>
+> (but many other similar failures).
+>
+> Adding the PACKAGECONFIG[zstd] is good, we just can't enable it by
+> default.
 
-of course... although I should have known better I missed that as in the
-BSP I used to develop this patch I include meta-rauc which offers zstd
-(see [1]).
-
-I could send a v2 that does not enable zstd by default, but still offers
-the PACKAGECONFIG[zstd]. Otherwise if you like zstd to become a member
-of OE-core (as the other supported compressors already are) I could
-prepare a patch series with meta-rauc's zstd-recipe as a base for the
-update of the squashfs-tools. In the latter case meta-rauc could drop
-that recipe in the future and that's what we would prefer. What do you
-think?
+see my reply to Adrian: what do you think of transplanting the zstd
+recipe from meta-rauc to OE-core?
 
 Best regards
 Ulrich
-
-
-[1] https://layers.openembedded.org/layerindex/recipe/79049/
 --=20
 Pengutronix e.K.                           | Ulrich =C3=96lmann            =
    |
