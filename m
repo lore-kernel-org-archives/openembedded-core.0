@@ -1,52 +1,44 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C95187ED41
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+	[209.85.166.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 117557ED17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 20:09:51 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id r1so26150129wrl.7
+	Wed, 17 Jul 2019 20:37:41 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id f4so47923406ioh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 13:09:53 -0700 (PDT)
+	Wed, 17 Jul 2019 13:37:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=YSIPFxCSyj0EeXrj4l4w9lccEzjhXYHvF1bPDbOmzpw=;
-	b=WgCPed9YxcDlhWKgl2XCoYPxv1lH0FcMTL9e/EMANpVDTNH9zfbkogSP5NRDA+i2iv
-	sEO2r9TqwXBFdghCd66uevgXWVW2Ms8ZYl3PcyHmPE8jR/drjl5u+h1bvncqmQ7K7Q9D
-	LD91Ye5eBTExQUHbCb2EvKUlzjSW4i0F7wj7SlQP3PxjE1Pl15F2SKUwRKHOxfa1t7//
-	jtGCL0HA1CK2zwqdyLfzgusp/eQqiMyF7geW0Tu5Obls3Q+XRY4Nxc+E9abCJxQ1rlvW
-	nS2+wtjygTk+wRi3xh9ZZr1laqvklRPXIUbp/TQCC4lSara201IDa5gF3OuMKBPNRFUv
-	5Ktg==
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=cPDegesFKOF14fHWvXJWO293w29aPKJUAmrm2tHRAmE=;
+	b=Nc2q/C4gVzWuFnbqeB731tSiXj8+PRY9Z+qgQW47kgBNsjY8GJHCknBbYpBV2ux1km
+	+V/VeMs6T3oveG+WPLMVKou6qlIfGX5eUnBGjsg3RZDwqOKWuE2NH/v1lw2bQDSCBG2i
+	HdUD7tFYCoad5dFUZxCBdSpnlk/QGt9caZ60FgOKKBMA1EzDSCU2usPh83wxEL634eEw
+	qgtqvQ0DNTrVAi5igPfDN3VJt4vOYrYTbQG6+aS2NJIlm9lcWeYWuMEyT/o3FL+REYBD
+	gWLLKFgIX7KzaswN54CXkIOA7amI8d9rZ16iizNd6pzkcxa0t4EDzIHvSSGIOfqoBi+C
+	doMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=YSIPFxCSyj0EeXrj4l4w9lccEzjhXYHvF1bPDbOmzpw=;
-	b=el8mWIrZobKmZiDEZBCK+0wVhmhiprX+/nGp6QzUjW6SoNf+l/iXRu0fYcHlfexbrx
-	f4Odj6HTnXzwQ9el4iK4VE1xpxJEmVU3op2sPconWcZsMawuZbvnRIoFrFV5SoRXPRuH
-	4zNp8nkY1254YshJ3aUQwmUqRF5QjJo94mfiPhRY8tZL55XMO6MkcBKQUnrKB+Au99Zg
-	g3XA6WKBFYBAADdH15oPru9QB/KGsppu+HKb6GzIfgHuZokkYC5e4iJed+RE01YfnoKS
-	oV7Wj9HiP+55HfFWlQFWJcuD1H5DZN4Wf2Nd7Lr5+X1GW47ewImQDA1aENfMvECsbEW1
-	liNQ==
-X-Gm-Message-State: APjAAAUQIOB8MsO9HfasZ0EFpTbsUcYxixveoU+gLLsl2mYlJRdvltLC
-	tzfSCr6wDvDGVX2i2/PA5EL4lkcRgdQ=
-X-Google-Smtp-Source: APXvYqx4xurJMgOEqynbCs2DedHW3rP4Xc3kiI4gBsYIQhOcFfLkq71zAj+QHtXr2I8UObKj1TY78w==
-X-Received: by 2002:a5d:670b:: with SMTP id o11mr44869818wru.311.1563394192314;
-	Wed, 17 Jul 2019 13:09:52 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	t185sm18694819wma.11.2019.07.17.13.09.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Jul 2019 13:09:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2019 21:09:49 +0100
-Message-Id: <20190717200949.20659-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=cPDegesFKOF14fHWvXJWO293w29aPKJUAmrm2tHRAmE=;
+	b=C1+SJFZhoRGXxJ9TYqcETbVNvul94MnsFoCIh3TgGXy5oWOOA2+mXpqYIVAKZlGdmM
+	l4/bkJf+PP/8bxCSCFv8137xorBqe1LRNsHKs29WZxJNksk5clrqdzAryMMtsiOkStED
+	mG9FIJR8MWz5n5fOJqbkPI3biktA+Kk4Bh8MJ6jzN/+TfyK//4zaaSqhNE4zzbR/m9j9
+	9ZaRXmhC3LKEXBWMRZratphT4jHsEYuaGumWOYq2cTi8N2kgIlHNW4g16IAG9eESfB2U
+	5j8wDWkDyb6I7KSJOyUq6fN7gKRJd37xdjC9oexsd3xybnnyQpV6DkWAtOZwR+aYWarO
+	+y9A==
+X-Gm-Message-State: APjAAAW19+1bkBIM9rb4LbZA15XFq6oMZFbO03vwSkE6rr0FxcvKlx9R
+	8yyZIdoxeMHdfAwlmcSuVeKj/5TzpZG7NuLvnf+17w==
+X-Google-Smtp-Source: APXvYqz/0FiS0po3PIoZpcPI3XMBRuJb7VAnkEpZ3gxsiy4e9l7YP98qzWHM3KIqNSs+j2sffmajlPaRYyoIqwktHno=
+X-Received: by 2002:a5e:c744:: with SMTP id g4mr37533006iop.187.1563395862880; 
+	Wed, 17 Jul 2019 13:37:42 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] xkeyboard-config: remove redundant intltool dependency
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 17 Jul 2019 21:37:31 +0100
+Message-ID: <CAJTo0LaOHbSB75OGLsHJ3Vxd5eVgg9+7Cq3k0=P-BwPLpFiyjg@mail.gmail.com>
+To: Yocto-mailing-list <yocto@yoctoproject.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: RFC: dropping official support for Debian 8 / Opensuse 42.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,35 +51,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 20:09:52 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Jul 2019 20:37:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Upstream now uses plain gettext.
+Hi,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-lib/xkeyboard-config_2.27.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Now that both Debian 8 and OpenSuse 42.3 are end-of-life and no longer
+formally supported, we think it's time to drop them from the supported
+distribution list.  Initially this involves removing them from the
+SANITY_TESTED_DISTROS list in Poky, at some point during this cycle we
+may remove those distributions from the Yocto Project autobuilder to
+add more workers for other supported distributions.
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.27.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.27.bb
-index a6b2cc0eeaf..02156ad75b4 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.27.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.27.bb
-@@ -13,12 +13,11 @@ LICENSE = "MIT & MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
- 
- SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
--
- SRC_URI[md5sum] = "316753e35d3906d042c74230612eab9f"
- SRC_URI[sha256sum] = "690daec8fea63526c07620c90e6f3f10aae34e94b6db6e30906173480721901f"
- 
- SECTION = "x11/libs"
--DEPENDS = "intltool-native util-macros libxslt-native"
-+DEPENDS = "util-macros libxslt-native"
- 
- EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
- 
--- 
-2.20.1
+It is expected that the next release will probably work on those two
+distributions, there are no plans to do new and exciting things
+dropping these unsupported distributions enables -- like increasing
+the minimum Python version to 3.5 until after the 2.8 release in
+October.
 
+Please, if this impacts you, speak up now.
+
+Ross
 
