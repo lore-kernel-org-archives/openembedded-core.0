@@ -1,39 +1,28 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B1D887CFE9
+Return-Path: <adrian.freihofer@siemens.com>
+X-Greylist: delayed 816 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 18 Jul 2019 21:49:22 UTC
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 634647EEAE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 21:10:13 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id x25so28770950ljh.2
+	Thu, 18 Jul 2019 21:49:22 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x6ILZlNg013971
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 14:10:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9ExoXelNUkY2hjSKEqmaKMQo76x8CjOqoSAs/OjcMNM=;
-	b=fDG5qK52YvHJVK+sMFF41gsVTwva/fwPpR3tw+tbenq8JDc/8RG8IPMJnThdnkQTLI
-	8BkaPWq3F1GCGJhnZyAaG5WE2BTshpgAU/w5M4zNWt7U8Pz12BSpsc4T6kLGD0q9wOzD
-	mlVXNtfhhTtxKi+GQkk89KEnW8nTecp1FhSlYpAf0dKwjByasVcpow2nmic/oFbvwmfP
-	Fv9LeM7LJ7/b/zEE4h4tyoHJhVza1EHN+fPyT+BlEXJYkefpG3DZkmAWvXJRKYZYL6gl
-	lr+uTM5ClIrm8rLmb+YO/bz5qwE2GvZv5P8NpcrirxF5JQDlSW0VhyOHK/7kWf+dncx/
-	6Iag==
-X-Gm-Message-State: APjAAAX//e0cGpkw2HuJ4C2RuaINQZQrBCVQNFTzSw2NRfUzK/QE4nGi
-	oQFzZPfyMTPcp2iwGkrBNDJrVnZW8WWKU7RMI5o=
-X-Google-Smtp-Source: APXvYqxMVhaDGjzZv/rf6uqlH3kluslOvU50c5Fcp2K4EUIXU0Roc/lP0xce0j+v85psfJlNjAyECnCGnR4l8CH1xLs=
-X-Received: by 2002:a2e:3013:: with SMTP id w19mr25513247ljw.73.1563484214335; 
-	Thu, 18 Jul 2019 14:10:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190718194615.6874-1-ricardo@ribalda.com>
-	<CAMKF1spj-LXk1=YxeErV7UHVtWJmacjP1M-_W6M=4ZnSkaFk_w@mail.gmail.com>
-In-Reply-To: <CAMKF1spj-LXk1=YxeErV7UHVtWJmacjP1M-_W6M=4ZnSkaFk_w@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date: Thu, 18 Jul 2019 23:09:57 +0200
-Message-ID: <CAPybu_2tkssPOt8G1ZFZ6s9++7h0KhZV872tFccRXdRYuR=i-Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] inetutils: Fix abort on invalid files
+	Thu, 18 Jul 2019 23:35:47 +0200
+Received: from dev.vm6.ccp.siemens.com ([139.22.32.124])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id x6ILZiiR007403;
+	Thu, 18 Jul 2019 23:35:44 +0200
+Received: from dev.localdomain (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 5A18A23302D9;
+	Thu, 18 Jul 2019 23:35:44 +0200 (CEST)
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jul 2019 23:35:40 +0200
+Message-Id: <20190718213540.6491-1-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [meta-oe][PATCH] yocto-bsp: runqemu runs beaglebone-yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,102 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 21:10:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 18 Jul 2019 21:49:22 -0000
 
-Hi Khem
+Append the necessary QB_ flags to the MACHINE configuration of
+beaglebone-yocto. Using Qemu with "-machine virt" simplifies things
+greatly because for this machine the dtb is compiled into qemu. Since
+the beaglebone-yocto kernel config also supports this cpu architecture,
+it just works. However, u-boot is not involved and the virt machine is
+not 100% equal to a am335x SoC.
 
-I think the issue is that __memcpy_chk wrongly assume that the target
-size is 0. The origin size is calculated fine:
+A MACHINE configuration suitable for Qemu as well as for the real
+hardware allows to provide just one eSDK where both runqemu and devtool
+build-image work. Otherwise a qemuarm and a beaglebord-yocto MACHINE
+eSDK would be required to support development in Qemu as well as on real
+hardware.
 
-https://godbolt.org/z/qTaDWP
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta-yocto-bsp/conf/machine/beaglebone-yocto.conf | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-Thanks!
-
-On Thu, Jul 18, 2019 at 11:02 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Thu, Jul 18, 2019 at 12:46 PM Ricardo Ribalda Delgado
-> <ricardo@ribalda.com> wrote:
-> >
-> > When the code is compiled with  "-fstack-protector-strong
-> > -D_FORTIFY_SOURCE=2", everytime ftpfd is asked for a non existent file,
-> > it crashes with the following error:
-> >
-> > *** buffer overflow detected ***:
-> > Aborted
-> >
-> > This seems to be a bug/feature of gcc. A bug has been open on their
-> > bugzilla, and also inetutils have been posted with the proposed patch.
-> >
-> > Without this patch, pxelinux fails to boot because it keeps asking the
-> > server for the pxelinux.cfg/00-01-02-03-04 and never jumps to /default.
-> >
-> > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > ---
-> >  .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 +++++++++++++++++++
-> >  .../inetutils/inetutils_1.9.4.bb              |  1 +
-> >  2 files changed, 26 insertions(+)
-> >  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> >
-> > diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > new file mode 100644
-> > index 0000000000..a91913cb51
-> > --- /dev/null
-> > +++ b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > @@ -0,0 +1,25 @@
-> > +tftpd: Fix abort on error path
-> > +
-> > +When trying to fetch a non existent file, the app crashes with:
-> > +
-> > +*** buffer overflow detected ***:
-> > +Aborted
-> > +
-> > +
-> > +Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
-> > +Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > +diff --git a/src/tftpd.c b/src/tftpd.c
-> > +index 56002a0..144012f 100644
-> > +--- a/src/tftpd.c
-> > ++++ b/src/tftpd.c
-> > +@@ -864,9 +864,8 @@ nak (int error)
-> > +       pe->e_msg = strerror (error - 100);
-> > +       tp->th_code = EUNDEF;   /* set 'undef' errorcode */
-> > +     }
-> > +-  strcpy (tp->th_msg, pe->e_msg);
-> > +   length = strlen (pe->e_msg);
->
-> I wonder if length calculation is a problem as well here, if so then
-> it would need
-> correcting because it used in code below as well.
->
-> > +-  tp->th_msg[length] = '\0';
-> > ++  memcpy(tp->th_msg, pe->e_msg, length + 1);
-> > +   length += 5;
-> > +   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
-> > +     syslog (LOG_ERR, "nak: %m\n");
-> > diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > index ac2e017d8b..684fbe09e1 100644
-> > --- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > +++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > @@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-> >             file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-> >             file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
-> >             file://0001-rcp-fix-to-work-with-large-files.patch \
-> > +           file://fix-buffer-fortify-tfpt.patch \
-> >  "
-> >
-> >  SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
-> > --
-> > 2.20.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf b/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf
+index 35814cd8f1..7c7b3059a9 100644
+--- a/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf
++++ b/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf
+@@ -20,7 +20,7 @@ WKS_FILE ?= "beaglebone-yocto.wks"
+ IMAGE_INSTALL_append = " kernel-devicetree kernel-image-zimage"
+ do_image_wic[depends] += "mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot u-boot:do_deploy"
+ 
+-SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyO0"
++SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyO0 115200;ttyAMA0"
+ SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
+ 
+ PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
+@@ -39,3 +39,21 @@ UBOOT_LOADADDRESS = "0x80008000"
+ MACHINE_FEATURES = "usbgadget usbhost vfat alsa"
+ 
+ IMAGE_BOOT_FILES ?= "u-boot.${UBOOT_SUFFIX} MLO zImage am335x-bone.dtb am335x-boneblack.dtb am335x-bonegreen.dtb"
++
++# support runqemu
++EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
++IMAGE_CLASSES += "qemuboot"
++QB_DEFAULT_FSTYPE = "wic"
++QB_FSINFO = "wic:no-kernel-in-fs"
++QB_KERNEL_ROOT = "/dev/vda2"
++QB_SYSTEM_NAME = "qemu-system-arm"
++QB_MEM = "-m 512"
++QB_MACHINE = "-machine virt"
++QB_CPU = "-cpu cortex-a15"
++QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0 systemd.mask=systemd-networkd"
++QB_OPT_APPEND = "-device virtio-rng-device"
++QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
++QB_NETWORK_DEVICE = "-device virtio-net-device,netdev=net0,mac=@MAC@"
++QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
++QB_SERIAL_OPT = ""
++QB_TCPSERIAL_OPT = "-device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
 -- 
-Ricardo Ribalda
+2.11.0
+
 
