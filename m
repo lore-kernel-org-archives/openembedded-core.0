@@ -1,54 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 61DA07EE56
+Return-Path: <uol@pengutronix.de>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+	[85.220.165.71])
+	by mail.openembedded.org (Postfix) with ESMTP id 17D457EE98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 11:43:51 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id g67so21241367wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 04:43:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=rdmTN0U81tKdeVVJmLAUeuXMN67OdDq1tCW3LVhrExQ=;
-	b=HIpsLfWU1p02xri0pYRPSensKKMYjU1ZLDgN35sqr00wAUl9Ynuk3uwtuVD+kEJ3uj
-	67RjyMgZBw0phX69v8UIUzgAuP2akucdJdnnU5fgYiCu7ofWn+bqBiFW86r7yCLZldEQ
-	dVSK2ezk99PNDdwvvE+NOplx6k16szAk/RQSQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=rdmTN0U81tKdeVVJmLAUeuXMN67OdDq1tCW3LVhrExQ=;
-	b=BkdRIr0iitBGllPKgqGPd2ErcRmsXgBEE/tCAUbDBQAwxVH3gYQk/oBBV7Vpr7CC70
-	buJEUyqimjnPxb7zYlss5sKppNO3ZGq+fZrZUksTCikqjujMoj+6o+DAkw0GTOrq2FTT
-	XIQD1GYffaEtOGDyktinRwFdW4Qeh9yYBPW6j+oLJosIo4vDj4XL11sJ5GRxxJ1geUdO
-	yjuWuqX8C8GsOjIxRkCjsMdZJKzzgnZQLB/7o0N9YIHVgVJSsQeQaHjJOAe4AtrN9BY9
-	oagvHbQ/tQgh0/KfKsiL4+Jk6KsFU6Tn5Va0hCNWR0T0S9hhSQypMInKzzNAzBTZ7xWw
-	VlYQ==
-X-Gm-Message-State: APjAAAWZXMPCuzCxs/j3AOMhp2bOG/KRRDmrD6BA470Bn+IUzbndwYi0
-	8fz3cs8m20DhOS+bTuk6MwMMRg==
-X-Google-Smtp-Source: APXvYqwNvsrmM2TjbFxL02VbI6yzrQC+qqcEhh8uGgp/baH6D7UziaPs9NbRAmb6wUFmaO4185ydTA==
-X-Received: by 2002:a1c:770d:: with SMTP id t13mr41319181wmi.79.1563450232097; 
-	Thu, 18 Jul 2019 04:43:52 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n8sm20687061wro.89.2019.07.18.04.43.51
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 18 Jul 2019 04:43:51 -0700 (PDT)
-Message-ID: <b19a2df01ff9e66056d1c4f23fb9469cff9dacd9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>, Adrian Bunk <bunk@stusta.de>
-Date: Thu, 18 Jul 2019 12:43:50 +0100
-In-Reply-To: <CAJTo0LbDCp=Wn76R56LxkAbU7pbkeJuBmnXhVr7h=gCJd1phqA@mail.gmail.com>
-References: <CAJTo0LaOHbSB75OGLsHJ3Vxd5eVgg9+7Cq3k0=P-BwPLpFiyjg@mail.gmail.com>
-	<20190718060409.GA27459@localhost>
-	<CAJTo0LbDCp=Wn76R56LxkAbU7pbkeJuBmnXhVr7h=gCJd1phqA@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	Thu, 18 Jul 2019 11:50:41 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+	(envelope-from <uol@pengutronix.de>)
+	id 1ho4vp-0002tP-Kg; Thu, 18 Jul 2019 13:50:41 +0200
+Received: from uol by dude.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <uol@pengutronix.de>)
+	id 1ho4vn-0002Or-Cr; Thu, 18 Jul 2019 13:50:39 +0200
+From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jul 2019 13:50:39 +0200
+Message-Id: <20190718115039.9183-1-u.oelmann@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Yocto-mailing-list <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: dropping official support for Debian 8 / Opensuse 42.3
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: uol@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>,
+	Adrian Bunk <bunk@stusta.de>
+Subject: [PATCH v2] squashfs-tools: upgrade to commit f95864afe883
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,28 +38,336 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 11:43:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Jul 2019 11:50:41 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-07-18 at 12:31 +0100, Burton, Ross wrote:
-> > CentOS 7 is based on Fedora 19 from 2013.
-> > 
-> > This is the oldest currently supported distribution, and when to
-> > remove
-> > support for it (replacing it with the not yet existing CentOS 8)
-> > should
-> > IMHO be part of this discussion.
-> 
-> Centos 7 support is, I believe, already patchy - I think we mandate
-> the buildtools for that?  Any idea what the support plan for Centos 7
-> will be once 8 is released, whenever that is?
+The master branch's current tip commit as of this writing is [1], see the
+squashfs-tool's repo at [0].
 
-There is some kind of official feed to add python 3.6 to it which we
-use.
+Because of commits [2]-[4] which are included in the master branch three
+corresponding patches are dropped as they are not needed anymore. The single
+remaining patch was rebased on top of [1] to apply cleanly.
 
-Cheers,
+Commits [5] & [6] introduced interesting features, namely zstd support and
+reproducibility of created SquashFS images. They are reflected in two new
+PACKAGECONFIG options now, but only the latter ("reproducible") is appended to
+the default options as OE-core does not contain a recipe to build zstd at the
+moment (a working zstd recipe can be found e.g. in meta-rauc, see [7]).
 
-Richard
+[0] https://github.com/plougher/squashfs-tools.git
+[1] f95864afe883 ("unsquashfs-4: Add more sanity checks + fix CVE-2015-4645/6")
+[2] 46bdc1726e5a ("mksquashfs: Make a load of functions static")
+[3] b0ca8a5c98ff ("pseudo.c: add explicit <sys/stat.h> include")
+[4] f95864afe883 ("unsquashfs-4: Add more sanity checks + fix CVE-2015-4645/6")
+[5] 6113361316d5 ("squashfs-tools: Add zstd support")
+[6] e0d74d07bb35 ("Add configuration and Mksquashfs build options for
+                   reproducible builds")
+[7] https://layers.openembedded.org/layerindex/recipe/79049/
+
+Signed-off-by: Ulrich Ölmann <u.oelmann@pengutronix.de>
+---
+
+Changes since (implicit) v1:
+
+  * dropped "zstd" from default options
+  * refer to meta-rauc's zstd recipe in the commit message
+
+ ...c-get-inline-functions-work-with-C99.patch | 154 ------------------
+ ...shfs-tools-patch-for-CVE-2015-4645-6.patch |  47 ------
+ .../squashfs-tools/fix-compat.patch           |  17 --
+ .../squashfs-tools-4.3-sysmacros.patch        |   2 +-
+ .../squashfs-tools/squashfs-tools_git.bb      |   9 +-
+ 5 files changed, 5 insertions(+), 224 deletions(-)
+ delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
+ delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch
+ delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch
+
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
+deleted file mode 100644
+index a5bab054486a..000000000000
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
++++ /dev/null
+@@ -1,154 +0,0 @@
+-From ac6268e843c43286eebff2a1052182c2393cdb2e Mon Sep 17 00:00:00 2001
+-From: Roy Li <rongqing.li@windriver.com>
+-Date: Mon, 14 Sep 2015 12:31:42 +0800
+-Subject: [PATCH] mksquashfs.c:  get inline functions work with both gnu11 and gnu89
+-
+-Upstream-Status: Pending
+-
+-After gcc upgraded to gcc5, and if the codes is compiled without optimization(-O0),
+-and the below error will happen:
+-
+-| mksquashfs.o: In function `create_inode':
+-| git/squashfs-tools/mksquashfs.c:897: undefined reference to `get_inode_no'
+-| git/squashfs-tools/mksquashfs.c:960: undefined reference to `get_parent_no'
+-| git/squashfs-tools/mksquashfs.c:983: undefined reference to `get_parent_no'
+-| mksquashfs.o: In function `reader_read_process':
+-| git/squashfs-tools/mksquashfs.c:2132: undefined reference to `is_fragment'
+-| mksquashfs.o: In function `reader_read_file':
+-| git/squashfs-tools/mksquashfs.c:2228: undefined reference to `is_fragment'
+-| mksquashfs.o: In function `dir_scan':
+-| git/squashfs-tools/mksquashfs.c:3101: undefined reference to `create_dir_entry'
+-
+-gcc5 defaults to -std=gnu11 instead of -std=gnu89, and it requires that exactly one C
+-source file has the callable copy of the inline function. Consider the following
+-program:
+-
+-  inline int
+-  foo (void)
+-  {
+-    return 42;
+-  }
+-
+-  int
+-  main (void)
+-  {
+-    return foo ();
+-  }
+-
+-The program above will not link with the C99 inline semantics, because no out-of-line
+-function foo is generated. To fix this, either mark the function foo as static, or
+-add the following declaration:
+-  static inline int foo (void);
+-
+-more information refer to: https://gcc.gnu.org/gcc-5/porting_to.html;
+-
+-but the use of "extern inline" will lead to the compilation issue if gcc is not
+-gcc5, as the commit in oe-core d0af30c92fde [alsa-lib: Change function type to
+-"static __inline__"]
+-    "extern __inline__ function()" is the inlined version that
+-    can be used in this compilation unit, but there will be another
+-    definition of this function somewhere, so compiler will not emit
+-    any code for the function body. This causes problem in -O0,
+-    where functions are never inlined, the function call is preserved,
+-    but linker can't find the symbol, thus the error happens.
+-
+-so replace "inline" with "static inline" to make it work with both gnu11 and gnu89
+-
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+----
+- squashfs-tools/mksquashfs.c | 20 ++++++++++----------
+- 1 file changed, 10 insertions(+), 10 deletions(-)
+-
+-diff --git a/squashfs-tools/mksquashfs.c b/squashfs-tools/mksquashfs.c
+-index d221c35..6bba1d2 100644
+---- a/squashfs-tools/mksquashfs.c
+-+++ b/squashfs-tools/mksquashfs.c
+-@@ -828,13 +828,13 @@ char *subpathname(struct dir_ent *dir_ent)
+- }
+- 
+- 
+--inline unsigned int get_inode_no(struct inode_info *inode)
+-+static inline unsigned int get_inode_no(struct inode_info *inode)
+- {
+- 	return inode->inode_number;
+- }
+- 
+- 
+--inline unsigned int get_parent_no(struct dir_info *dir)
+-+static inline unsigned int get_parent_no(struct dir_info *dir)
+- {
+- 	return dir->depth ? get_inode_no(dir->dir_ent->inode) : inode_no;
+- }
+-@@ -2027,7 +2027,7 @@ struct file_info *duplicate(long long file_size, long long bytes,
+- }
+- 
+- 
+--inline int is_fragment(struct inode_info *inode)
+-+static inline int is_fragment(struct inode_info *inode)
+- {
+- 	off_t file_size = inode->buf.st_size;
+- 
+-@@ -2996,13 +2996,13 @@ struct inode_info *lookup_inode2(struct stat *buf, int pseudo, int id)
+- }
+- 
+- 
+--inline struct inode_info *lookup_inode(struct stat *buf)
+-+static inline struct inode_info *lookup_inode(struct stat *buf)
+- {
+- 	return lookup_inode2(buf, 0, 0);
+- }
+- 
+- 
+--inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
+-+static inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
+- {
+- 	if (inode->inode_number == 0) {
+- 		inode->inode_number = use_this ? : inode_no ++;
+-@@ -3013,7 +3013,7 @@ inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
+- }
+- 
+- 
+--inline struct dir_ent *create_dir_entry(char *name, char *source_name,
+-+static inline struct dir_ent *create_dir_entry(char *name, char *source_name,
+- 	char *nonstandard_pathname, struct dir_info *dir)
+- {
+- 	struct dir_ent *dir_ent = malloc(sizeof(struct dir_ent));
+-@@ -3031,7 +3031,7 @@ inline struct dir_ent *create_dir_entry(char *name, char *source_name,
+- }
+- 
+- 
+--inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
+-+static inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
+- 	struct inode_info *inode_info)
+- {
+- 	struct dir_info *dir = dir_ent->our_dir;
+-@@ -3047,7 +3047,7 @@ inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
+- }
+- 
+- 
+--inline void add_dir_entry2(char *name, char *source_name,
+-+static inline void add_dir_entry2(char *name, char *source_name,
+- 	char *nonstandard_pathname, struct dir_info *sub_dir,
+- 	struct inode_info *inode_info, struct dir_info *dir)
+- {
+-@@ -3059,7 +3059,7 @@ inline void add_dir_entry2(char *name, char *source_name,
+- }
+- 
+- 
+--inline void free_dir_entry(struct dir_ent *dir_ent)
+-+static inline void free_dir_entry(struct dir_ent *dir_ent)
+- {
+- 	if(dir_ent->name)
+- 		free(dir_ent->name);
+-@@ -3080,7 +3080,7 @@ inline void free_dir_entry(struct dir_ent *dir_ent)
+- }
+- 
+- 
+--inline void add_excluded(struct dir_info *dir)
+-+static inline void add_excluded(struct dir_info *dir)
+- {
+- 	dir->excluded ++;
+- }
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch
+deleted file mode 100644
+index 2261ea94b75d..000000000000
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-From 3c0d67184d6edb63f3b7d6d5eb81531daa6388f3 Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Tue, 28 Aug 2018 16:25:36 +0800
+-Subject: [PATCH] squashfs-tools: patch for CVE-2015-4645(6)
+-
+-Upstream-Status: Backport[https://github.com/devttys0/sasquatch/pull/
+-                 5/commits/6777e08cc38bc780d27c69c1d8c272867b74524f]
+-
+-CVE: CVE-2015-4645 CVE-2015-4646
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- squashfs-tools/unsquash-4.c | 11 ++++++++---
+- 1 file changed, 8 insertions(+), 3 deletions(-)
+-
+-diff --git a/squashfs-tools/unsquash-4.c b/squashfs-tools/unsquash-4.c
+-index ecdaac7..692ae25 100644
+---- a/squashfs-tools/unsquash-4.c
+-+++ b/squashfs-tools/unsquash-4.c
+-@@ -31,9 +31,9 @@ static unsigned int *id_table;
+- int read_fragment_table_4(long long *directory_table_end)
+- {
+- 	int res, i;
+--	int bytes = SQUASHFS_FRAGMENT_BYTES(sBlk.s.fragments);
+--	int  indexes = SQUASHFS_FRAGMENT_INDEXES(sBlk.s.fragments);
+--	long long fragment_table_index[indexes];
+-+	size_t bytes = SQUASHFS_FRAGMENT_BYTES(sBlk.s.fragments);
+-+	size_t indexes = SQUASHFS_FRAGMENT_INDEXES(sBlk.s.fragments);
+-+	long long *fragment_table_index;
+- 
+- 	TRACE("read_fragment_table: %d fragments, reading %d fragment indexes "
+- 		"from 0x%llx\n", sBlk.s.fragments, indexes,
+-@@ -43,6 +43,11 @@ int read_fragment_table_4(long long *directory_table_end)
+- 		*directory_table_end = sBlk.s.fragment_table_start;
+- 		return TRUE;
+- 	}
+-+        
+-+	fragment_table_index = malloc(indexes*sizeof(long long));
+-+	if(fragment_table_index == NULL)
+-+		EXIT_UNSQUASH("read_fragment_table: failed to allocate "
+-+			"fragment table index\n");
+- 
+- 	fragment_table = malloc(bytes);
+- 	if(fragment_table == NULL)
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch
+deleted file mode 100644
+index 87c1e8cac03f..000000000000
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/fix-compat.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-include missing sys/stat.h for stat* function declarations
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: squashfs-tools/pseudo.c
+-===================================================================
+---- squashfs-tools.orig/pseudo.c
+-+++ squashfs-tools/pseudo.c
+-@@ -32,6 +32,7 @@
+- #include <stdlib.h>
+- #include <sys/types.h>
+- #include <sys/wait.h>
+-+#include <sys/stat.h>
+- #include <ctype.h>
+- 
+- #include "pseudo.h"
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
+index 39521a7d8b26..f2e88f416a2c 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
+@@ -19,7 +19,7 @@ sys/types.h might not always include sys/sysmacros.h for major/minor/makedev
+  #include "squashfs_fs.h"
+ --- a/squashfs-tools/unsquashfs.c
+ +++ b/squashfs-tools/unsquashfs.c
+-@@ -38,6 +38,10 @@
++@@ -40,6 +40,10 @@
+  #include <limits.h>
+  #include <ctype.h>
+  
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+index dc1568a77c9a..ab2ff01b6230 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+@@ -6,12 +6,9 @@ LICENSE = "GPL-2"
+ LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ PV = "4.3+gitr${SRCPV}"
+-SRCREV = "9c1db6d13a51a2e009f0027ef336ce03624eac0d"
++SRCREV = "f95864afe8833fe3ad782d714b41378e860977b1"
+ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
+-           file://0001-mksquashfs.c-get-inline-functions-work-with-C99.patch;striplevel=2 \
+            file://squashfs-tools-4.3-sysmacros.patch;striplevel=2 \
+-           file://fix-compat.patch \
+-           file://0001-squashfs-tools-patch-for-CVE-2015-4645-6.patch;striplevel=2 \
+ "
+ UPSTREAM_CHECK_COMMITS = "1"
+ SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
+@@ -24,13 +21,15 @@ COMPATIBLE_HOST_libc-musl = 'null'
+ 
+ EXTRA_OEMAKE = "${PACKAGECONFIG_CONFARGS}"
+ 
+-PACKAGECONFIG ??= "gzip xz lzo lz4 lzma xattr"
++PACKAGECONFIG ??= "gzip xz lzo lz4 lzma xattr reproducible"
+ PACKAGECONFIG[gzip] = "GZIP_SUPPORT=1,GZIP_SUPPORT=0,zlib"
+ PACKAGECONFIG[xz] = "XZ_SUPPORT=1,XZ_SUPPORT=0,xz"
+ PACKAGECONFIG[lzo] = "LZO_SUPPORT=1,LZO_SUPPORT=0,lzo"
+ PACKAGECONFIG[lz4] = "LZ4_SUPPORT=1,LZ4_SUPPORT=0,lz4"
+ PACKAGECONFIG[lzma] = "LZMA_XZ_SUPPORT=1,LZMA_XZ_SUPPORT=0,xz"
+ PACKAGECONFIG[xattr] = "XATTR_SUPPORT=1,XATTR_SUPPORT=0,attr"
++PACKAGECONFIG[zstd] = "ZSTD_SUPPORT=1,ZSTD_SUPPORT=0,zstd"
++PACKAGECONFIG[reproducible] = "REPRODUCIBLE_DEFAULT=1,REPRODUCIBLE_DEFAULT=0,"
+ 
+ do_compile() {
+ 	oe_runmake mksquashfs unsquashfs
+-- 
+2.20.1
 
 
