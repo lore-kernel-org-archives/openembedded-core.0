@@ -1,48 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
-	[209.85.166.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 11A2D7EF47
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DF4E7EF47
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 13:10:20 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id e20so20963342iob.9
+	Thu, 18 Jul 2019 13:13:59 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id s49so30226686edb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 06:10:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=m7hqRklL8sZU02QLw6TgU/Gjp9qv8T8qQuMFF7rVrQk=;
-	b=ZZ2bUT1wNyUPpDwrA3YIhuHjsriifM9HH4NuHH87QPQ7s747rmpyGKdseA4r9tDua1
-	rbOC8z0b/FaJHx3qZjfjk1N9rOexGdDnGCgOgg9Bssb5hMfZtmBdPqOoYYE/dUovAqfU
-	NowkeVdNgknaWlK9eKFO8Mu+/aEeoCi606nhGPNvEUn4BEn6BtONOEyv0THUQRb055Sa
-	Xs+frnPeuC46O7grydfhJV1NyoCi3PYyU8L+VCJ++CWBN3dxQSczkQoYxUoNrgLQxtkM
-	w2/1cNKbUT4yg8unoz6CDVhfznx7HTtw88coGhTs9dPbPwRMIJ5XV6Mj/BqXxM4zhckX
-	Dw4Q==
+	Thu, 18 Jul 2019 06:14:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=f6UJHqhVm0QJr9ONiD+zsr/HSnkWiGvU/i0cOgBfkBs=;
+	b=Adb5CoHxgXs14mE1MccWUyzg5mHhEcSAXt3GfHr0GiDqnhtFHApT92F10/WYBWQUuC
+	ocyvJaWkW6p8/A0qqS7QpNswGJreYNhh6qHzcOJg8i66K6WpdmZm99JUMfIZmG+HkN1B
+	KNLLO6a1k5Re33CdhNpvhyb93Ne2nQ/KhQDqMiWVrI1lg5Z+jokndkJizVhmVsfHT+2+
+	uES86uhGTnuXSRlv2I9RsUYZV/hFJrCO0dQK+0MqSPsLR2cx9ty5QaYp3Bue9YjKY99z
+	f2q4zgfwDPa27dyJSoRUzc9pEwRgC69LlvlSfUvND3WyO5quuagyzUuQPWzQjJqn/1Gb
+	iPBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=m7hqRklL8sZU02QLw6TgU/Gjp9qv8T8qQuMFF7rVrQk=;
-	b=nSIIIEvXxakEihSxs1lh/3guWQxSRTPJtwX+48xivICJ2rq0nA42EGiQI98rsQLfzI
-	kVzfgBCFGir8D8bo+ZAQv9zBw2DP9LMmIO785FRVD1OiHLsv//sCx4/zPUQ6yWvzNRSB
-	jDNgAVaKw9/6KHK/keUTJloJSoSsaeQSYWKt38B9XlbgBIT4cQxKNNUH/piSFro4yv88
-	/Kt3NaYyxnRxVTOFQtAl0KAqMrR/RKcP9AsP6iJVp3SA4skuq5H6HM0VE5jIG1rbt19Z
-	wXrjkRnCHTwGmosWW+qIRidRdyefntpOuf2SNsKS1RICkpggv7o1xkrVbiP87Gm+OhDH
-	ptyQ==
-X-Gm-Message-State: APjAAAWIXHSR3J5Z7zI6vZu24mH7koRwDARVeJcW1oNfq/BAvkp9dWm1
-	ORZwKY6yGdymZohmxlj+xlO+V1nYVZzqnbf71s8YiQ==
-X-Google-Smtp-Source: APXvYqxbXOZ2e/yI8qdZ7UpVkLHBIwBriVT/z9s2grHdswHXKkLY2UpfePUSh4SZG/Ss8RZfLStH4Pt4NamJ0iLRSHw=
-X-Received: by 2002:a5e:c744:: with SMTP id g4mr41308234iop.187.1563455421895; 
-	Thu, 18 Jul 2019 06:10:21 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=f6UJHqhVm0QJr9ONiD+zsr/HSnkWiGvU/i0cOgBfkBs=;
+	b=f9DKl/ri2GmcGDG7HksonsXinfdQ1ynrNMQ46y+WVe0ij6XS3t0CWolwtuOztPCROe
+	+shIQPYTl5yMivI2rNT61cLX7M2x/UWSOOi/WeKQjajXax3ysK+vj2sC2U3USw9bRseK
+	OkvsGJiWP7dnlUFmpHPnguqvQOZUoTCC4hI/7DLeG/vUzXhecTO5/L3qReLQfJasK5RB
+	PF08oku8r1Lp26VDt2QuvAsKJoyhrBr91ObO2zNHvfY1CcecuHE3e3ihKNQJUC4T86cS
+	1Ei9F4HzhJ/EXcDH6yucdHM4IJXMmCH2IUlT6o9X77ITt7Go9/c3eUOmESJfz6wJizSs
+	/Z9w==
+X-Gm-Message-State: APjAAAWxkl5VlN2A0o7MqXEvt2igEHIjX8MJSnS8xPR4dZceDhf+DqTs
+	PPdCpd5bfaByRQLUwHT9KgvusLjNesM=
+X-Google-Smtp-Source: APXvYqxddLLV2WSbygnT2KJdEpvN/4C7tfHvlMsfUSD6glhxO/tnGJIDkFDx7hHCfcq2yzRjN/eQew==
+X-Received: by 2002:a17:906:2ecc:: with SMTP id
+	s12mr35870949eji.110.1563455640301; 
+	Thu, 18 Jul 2019 06:14:00 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id z9sm7998306edd.53.2019.07.18.06.13.58
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 18 Jul 2019 06:13:58 -0700 (PDT)
+Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jul 2019 15:13:56 +0200
+Message-Id: <20190718131356.6937-1-ricardo@ribalda.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190718124119.991-1-lemagoup@gmail.com>
-	<20190718124119.991-2-lemagoup@gmail.com>
-In-Reply-To: <20190718124119.991-2-lemagoup@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Jul 2019 14:10:10 +0100
-Message-ID: <CAJTo0Lb5PRQ8Z3Vc8OpFB7xRowj+QqK4ojfr_xbCeObZk0hKSg@mail.gmail.com>
-To: Pierre Le Magourou <lemagoup@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] cve-update-db-native: Remove hash column from database.
+Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Subject: [PATCH] wic: Fix (again) partition files UIDs on multi rootfs images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,119 +60,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 13:10:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 18 Jul 2019 13:14:00 -0000
+Content-Transfer-Encoding: 8bit
 
-Can you rebase this on top of the patches I sent yesterday to change
-the path construction to use os.path.join() please.
+Commit 450335ba5e73a375eb9932b4c4cf37979640dbfc copies the pseudo
+database to the working directory in order to have ownership information
+when the filesystem is generated.
 
-Ross
+Unfortunately this does not work anymore. The filenames on the database
+are absolute and there is no information about the new directory.
 
-On Thu, 18 Jul 2019 at 13:41, Pierre Le Magourou <lemagoup@gmail.com> wrote:
->
-> From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
->
-> djb2 hash algorithm was found to do collisions, so the database was
-> sometime missing data. Remove this hash mechanism, clear and populate
-> elements from scratch in PRODUCTS table if the current year needs an
-> update.
->
-> Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
-> ---
->  meta/classes/cve-check.bbclass                 | 12 ++++++------
->  meta/recipes-core/meta/cve-update-db-native.bb | 21 +++++++--------------
->  2 files changed, 13 insertions(+), 20 deletions(-)
->
-> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-> index 512d4c7302..c00d2910be 100644
-> --- a/meta/classes/cve-check.bbclass
-> +++ b/meta/classes/cve-check.bbclass
-> @@ -26,7 +26,7 @@ CVE_PRODUCT ??= "${BPN}"
->  CVE_VERSION ??= "${PV}"
->
->  CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
-> -CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve.db"
-> +CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.0.db"
->
->  CVE_CHECK_LOG ?= "${T}/cve.log"
->  CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
-> @@ -200,11 +200,11 @@ def check_cves(d, patched_cves):
->              c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ?", (product,))
->
->          for row in c:
-> -            cve = row[1]
-> -            version_start = row[4]
-> -            operator_start = row[5]
-> -            version_end = row[6]
-> -            operator_end = row[7]
-> +            cve = row[0]
-> +            version_start = row[3]
-> +            operator_start = row[4]
-> +            version_end = row[5]
-> +            operator_end = row[6]
->
->              if cve in cve_whitelist:
->                  bb.note("%s-%s has been whitelisted for %s" % (product, pv, cve))
-> diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-> index 72d1f48835..3519beae5f 100644
-> --- a/meta/recipes-core/meta/cve-update-db-native.bb
-> +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-> @@ -30,7 +30,7 @@ python do_populate_cve_db() {
->      YEAR_START = 2002
->
->      db_dir = d.getVar("DL_DIR") + '/CVE_CHECK'
-> -    db_file = db_dir + '/nvdcve.db'
-> +    db_file = db_dir + '/nvdcve_1.0.db'
->      json_tmpfile = db_dir + '/nvd.json.gz'
->      proxy = d.getVar("https_proxy")
->      cve_f = open(d.getVar("TMPDIR") + '/cve_check', 'a')
-> @@ -65,6 +65,10 @@ python do_populate_cve_db() {
->          c.execute("select DATE from META where YEAR = ?", (year,))
->          meta = c.fetchone()
->          if not meta or meta[0] != last_modified:
-> +            # Clear products table entries corresponding to current year
-> +            cve_year = 'CVE-' + str(year) + '%'
-> +            c.execute("delete from PRODUCTS where ID like ?", (cve_year,))
-> +
->              # Update db with current year json file
->              req = urllib.request.Request(json_url)
->              if proxy:
-> @@ -91,27 +95,16 @@ python do_populate_cve_db() {
->      conn.close()
->  }
->
-> -# DJB2 hash algorithm
-> -def hash_djb2(s):
-> -    hash = 5381
-> -    for x in s:
-> -        hash = (( hash << 5) + hash) + ord(x)
-> -
-> -    return hash & 0xFFFFFFFF
-> -
->  def initialize_db(c):
->      c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
->      c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
->          SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
-> -    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (HASH INTEGER UNIQUE, ID TEXT, \
-> +    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
->          VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
->          VERSION_END TEXT, OPERATOR_END TEXT)")
->
->  def insert_elt(c, db_values):
-> -    product_str = db_values[0] + db_values[1] + db_values[2] + db_values[3]
-> -    hashstr = hash_djb2(product_str)
-> -    db_values.insert(0, hashstr)
-> -    query = "insert or replace into PRODUCTS values (?, ?, ?, ?, ?, ?, ?, ?)"
-> +    query = "insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)"
->      c.execute(query, db_values)
->
->  def parse_node_and_insert(c, node, cveId):
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Instead of fixing the database, we could redo a bit the way we patch the
+fstab file. Now I am saving the old contents of fstab, modifying the
+file and then reverting the changes on exit.
+
+This is faster than the previous approach, although it can cause
+indeterminism if the application is killed before finishing.
+
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+---
+ scripts/lib/wic/plugins/imager/direct.py | 37 ++++++++----------------
+ 1 file changed, 12 insertions(+), 25 deletions(-)
+
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 67addeff3e..91fc5e70f6 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -49,7 +49,6 @@ class DirectPlugin(ImagerPlugin):
+ 
+         # parse possible 'rootfs=name' items
+         self.rootfs_dir = dict(rdir.split('=') for rdir in rootfs_dir.split(' '))
+-        self.replaced_rootfs_paths = {}
+         self.bootimg_dir = bootimg_dir
+         self.kernel_dir = kernel_dir
+         self.native_sysroot = native_sysroot
+@@ -59,6 +58,7 @@ class DirectPlugin(ImagerPlugin):
+         self.compressor = options.compressor
+         self.bmap = options.bmap
+         self.no_fstab_update = options.no_fstab_update
++        self.original_fstab = None
+ 
+         self.name = "%s-%s" % (os.path.splitext(os.path.basename(wks_file))[0],
+                                strftime("%Y%m%d%H%M"))
+@@ -104,24 +104,13 @@ class DirectPlugin(ImagerPlugin):
+ 
+         with open(fstab_path) as fstab:
+             fstab_lines = fstab.readlines()
++            self.original_fstab = fstab_lines.copy()
+ 
+         if self._update_fstab(fstab_lines, self.parts):
+-            # copy rootfs dir to workdir to update fstab
+-            # as rootfs can be used by other tasks and can't be modified
+-            new_pseudo = os.path.realpath(os.path.join(self.workdir, "pseudo"))
+-            from_dir = os.path.join(os.path.join(image_rootfs, ".."), "pseudo")
+-            from_dir = os.path.realpath(from_dir)
+-            copyhardlinktree(from_dir, new_pseudo)
+-            new_rootfs = os.path.realpath(os.path.join(self.workdir, "rootfs_copy"))
+-            copyhardlinktree(image_rootfs, new_rootfs)
+-            fstab_path = os.path.join(new_rootfs, 'etc/fstab')
+-
+-            os.unlink(fstab_path)
+-
+             with open(fstab_path, "w") as fstab:
+                 fstab.writelines(fstab_lines)
+-
+-            return new_rootfs
++        else:
++            self.original_fstab = None
+ 
+     def _update_fstab(self, fstab_lines, parts):
+         """Assume partition order same as in wks"""
+@@ -170,14 +159,8 @@ class DirectPlugin(ImagerPlugin):
+         filesystems from the artifacts directly and combine them into
+         a partitioned image.
+         """
+-        if self.no_fstab_update:
+-            new_rootfs = None
+-        else:
+-            new_rootfs = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
+-        if new_rootfs:
+-            # rootfs was copied to update fstab
+-            self.replaced_rootfs_paths[new_rootfs] = self.rootfs_dir['ROOTFS_DIR']
+-            self.rootfs_dir['ROOTFS_DIR'] = new_rootfs
++        if not self.no_fstab_update:
++            self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
+ 
+         for part in self.parts:
+             # get rootfs size from bitbake variable if it's not set in .ks file
+@@ -253,8 +236,6 @@ class DirectPlugin(ImagerPlugin):
+             else:
+                 suffix = '["%s"]:' % (part.mountpoint or part.label)
+             rootdir = part.rootfs_dir
+-            if rootdir in self.replaced_rootfs_paths:
+-                rootdir = self.replaced_rootfs_paths[rootdir]
+             msg += '  ROOTFS_DIR%s%s\n' % (suffix.ljust(20), rootdir)
+ 
+         msg += '  BOOTIMG_DIR:                  %s\n' % self.bootimg_dir
+@@ -292,6 +273,12 @@ class DirectPlugin(ImagerPlugin):
+             if os.path.isfile(path):
+                 shutil.move(path, os.path.join(self.outdir, fname))
+ 
++        #Restore original fstab
++        if self.original_fstab:
++            fstab_path = self.rootfs_dir.get("ROOTFS_DIR") + "/etc/fstab"
++            with open(fstab_path, "w") as fstab:
++                fstab.writelines(self.original_fstab)
++
+         # remove work directory
+         shutil.rmtree(self.workdir, ignore_errors=True)
+ 
+-- 
+2.20.1
+
 
