@@ -1,49 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <lemagoup@gmail.com>
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
 	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 92F267EF1E
+	by mail.openembedded.org (Postfix) with ESMTP id DE0297ECAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 12:35:07 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id p13so28484376wru.10
+	Thu, 18 Jul 2019 12:41:36 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n4so28580134wrs.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 05:35:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ZTKzzE9UPkNPlwD7wevrogkeBDRTpE41SzL6XZpMajo=;
-	b=JTi3+6hUqrF54bs4+69mVqD0TVtJv6er++Lm+Q5TSkNxH+q5PawXgK4wWs79GTw4Ud
-	AwIbKlHlsZMKgbFJOhYXJS4SLsYFqY+io9ArX10jLdi/kNpEsQfgIl7d0sZeeIk5MMn6
-	hTR+vuix5HPn5xJBboktJNuQjsr825rYQtfTc=
+	Thu, 18 Jul 2019 05:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=w+0ncD2woaN9C1eK3MSemzf71AQj4UOt+bdjeKnGAM0=;
+	b=ZY3e4gufsCTPr5kHKJIDc1zpp8PnluBmizBp4N+pB6JeNSLJUmXaA6fbTYMePge6nW
+	vwEroT5N4wTWSd9nOg1Y8nyuhxu7Onu6Lix1/wKw2Wv5lA/kgN14aZeuuStXLXAgncUR
+	iPCB/jAm2Ysjq5wPW+7eRRz4GrDjtmqtCzV55rmj3M10OS50Md/EXM7FmvwTrSymCh4l
+	Amc4UvID3hgQPGkAQjsMF9LXyF5XkA1sIEVfE5CVEGPruOToQOB2n/Jjlf1rg9nH0Awz
+	glwF6xNOJi5Qup4QvqFPPSoLBsh4c9utFp4eVkpyYENWDo9a6YOWAbjJM7rahm8gVwXK
+	d2og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ZTKzzE9UPkNPlwD7wevrogkeBDRTpE41SzL6XZpMajo=;
-	b=bKEIjybLj2V2zSgg707wILDbcmOaEVTacrHsVlmo/FtRmHh5uT7tbOXck63ncU5WbW
-	kLUbRKfsg84iwqwxpihF/xDger57cRKS/+UdjAhDifuFNobCBPO7OhIlr3i3xqXJUzzr
-	JbRZ0nCepkL9nLGc92e/P3fPPjPkfaVWjjjRNm0xqlg9ADtFXS54n5/WWO1ezscziOyA
-	OkCCmUQO1I6TZRY6OIA66QKXOPMq9QFGjDSFSbKL2nJUToHhw7GDR2795VPABQxkxIt+
-	CtekN6W1z22jpBJD0/omvZ8u33+XuYXvl7/aWWlvMIi5G/+96Srrs8Ve4ldI5wPUi2PT
-	rF2Q==
-X-Gm-Message-State: APjAAAXnX6jFwxVbqAzwJlcgc3XuttYPwHzrG4ykx7s6M9J2IyfsqBII
-	RF0RR0j0+6bP7noeYn03OPIaTUSH+Lc=
-X-Google-Smtp-Source: APXvYqxEuEYp+KQknpjD0wltMWoxRJgShTQbdpRzeHwwO0tbQjrnvs8X9/uYKgTrxZI4bXwXBoO3KA==
-X-Received: by 2002:a5d:498a:: with SMTP id r10mr50002671wrq.28.1563453308134; 
-	Thu, 18 Jul 2019 05:35:08 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j33sm61540812wre.42.2019.07.18.05.35.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 18 Jul 2019 05:35:07 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=w+0ncD2woaN9C1eK3MSemzf71AQj4UOt+bdjeKnGAM0=;
+	b=omxT8Hyc92WCX0xw7Tp4tJV4kRH3PBPnWJLr8vHg77SKVwmOdRiHxSJ0GOU/w1a3r9
+	MHFLXH1bPqpIvY9AQpqebo28sDh+k0pOWbnjkAve2h13IQvqPdjavk62z7dIjFum7cGz
+	GoQSvloja89TUL5r5FTZRbQEnff73nT9YHmOUq2X63CYxlMgNx4rgfjWR7lN11XbSi+G
+	iI69d/UcewJtkLPZWJARWPC0DFghIiLcCfl4H97N023MFhwI+/gxFFok3xN/SeFLE/IK
+	k4fNe7eJlMTIDbZW5Ok49WW/OWtIGCQIzL7FvlwYRi18BPyRgXBv0s/a7VyA9SExR5tD
+	oTBA==
+X-Gm-Message-State: APjAAAX7eq2MiA9thT0jxcZHrxJ8vuIX9uIiXd8WozVGdcU4jPgxZkGI
+	rEHVL0awLZzcX+kwNNpvI1jbQJGJ
+X-Google-Smtp-Source: APXvYqwnsO4CyWx5rTkQYPCnmwZLAC7CrAFY5BFeXlgDfKthwyNieoSuKplJANz1zfBxWy5JKTWPiw==
+X-Received: by 2002:adf:cf02:: with SMTP id o2mr30577200wrj.352.1563453697424; 
+	Thu, 18 Jul 2019 05:41:37 -0700 (PDT)
+Received: from localhost.localdomain
+	(softbank-robotics-gw1.ter4.eqx2.par.cust.as8218.eu.
+	[158.255.112.194])
+	by smtp.gmail.com with ESMTPSA id c1sm52715645wrh.1.2019.07.18.05.41.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 Jul 2019 05:41:36 -0700 (PDT)
+From: Pierre Le Magourou <lemagoup@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2019 13:35:06 +0100
-Message-Id: <20190718123506.30788-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] staging: Drop clean_recipe_sysroot
+Date: Thu, 18 Jul 2019 14:41:18 +0200
+Message-Id: <20190718124119.991-1-lemagoup@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] cve-check: Replace CVE_CHECK_CVE_WHITELIST by CVE_CHECK_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 12:35:07 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 18 Jul 2019 12:41:37 -0000
 
-With recent changes to runqueue, this fuction is unsafe as setscene tasks can run
-at the same time as normal ones and doing things before do_fetch no longer
-offers any guarantees.
+From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 
-There is other code which cleans out things from the sysroots as tasks rerun so
-we should rely upon that instead.
+CVE_CHECK_WHITELIST does not contain version anymore, as it was not
+used. This variable should be set per recipe.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 ---
- meta/classes/staging.bbclass | 11 -----------
- 1 file changed, 11 deletions(-)
+ meta/classes/cve-check.bbclass | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 94c85248daf..cdc342dbb94 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -577,17 +577,6 @@ python do_prepare_recipe_sysroot () {
- }
- addtask do_prepare_recipe_sysroot before do_configure after do_fetch
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index e8668b2566..512d4c7302 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -39,15 +39,12 @@ CVE_CHECK_CREATE_MANIFEST ??= "1"
+ # Whitelist for packages (PN)
+ CVE_CHECK_PN_WHITELIST ?= ""
  
--# Clean out the recipe specific sysroots before do_fetch
--# (use a prefunc so we can order before extend_recipe_sysroot if it gets added)
--python clean_recipe_sysroot() {
--    # We remove these stamps since we're removing any content they'd have added with
--    # cleandirs. This removes the sigdata too, likely not a big deal,
--    oe.path.remove(d.getVar("STAMP") + "*addto_recipe_sysroot*")
--    return
--}
--clean_recipe_sysroot[cleandirs] += "${RECIPE_SYSROOT} ${RECIPE_SYSROOT_NATIVE}"
--do_fetch[prefuncs] += "clean_recipe_sysroot"
--
- python staging_taskhandler() {
-     bbtasks = e.tasklist
-     for task in bbtasks:
+-# Whitelist for CVE and version of package. If a CVE is found then the PV is
+-# compared with the version list, and if found the CVE is considered
+-# patched.
+-#
+-# The value should be valid Python in this format:
+-# {
+-#   'CVE-2014-2524': ('6.3','5.2')
+-# }
+-CVE_CHECK_CVE_WHITELIST ?= "{}"
++# Whitelist for CVE. If a CVE is found, then it is considered patched.
++# The value is a string containing space separated CVE values:
++# 
++# CVE_CHECK_WHITELIST = 'CVE-2014-2524 CVE-2018-1234'
++# 
++CVE_CHECK_WHITELIST ?= ""
+ 
+ python do_cve_check () {
+     """
+@@ -185,7 +182,10 @@ def check_cves(d, patched_cves):
+         bb.note("Recipe has been whitelisted, skipping check")
+         return ([], [])
+ 
+-    cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST"))
++    old_cve_whitelist =  d.getVar("CVE_CHECK_CVE_WHITELIST")
++    if old_cve_whitelist:
++        bb.warn("CVE_CHECK_CVE_WHITELIST is deprecated, please use CVE_CHECK_WHITELIST.")
++    cve_whitelist = d.getVar("CVE_CHECK_WHITELIST").split()
+ 
+     import sqlite3
+     db_file = d.getVar("CVE_CHECK_DB_FILE")
+@@ -206,7 +206,7 @@ def check_cves(d, patched_cves):
+             version_end = row[6]
+             operator_end = row[7]
+ 
+-            if pv in cve_whitelist.get(cve, []):
++            if cve in cve_whitelist:
+                 bb.note("%s-%s has been whitelisted for %s" % (product, pv, cve))
+             elif cve in patched_cves:
+                 bb.note("%s has been patched" % (cve))
 -- 
-2.20.1
+2.11.0
 
 
