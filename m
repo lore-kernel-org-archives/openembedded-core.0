@@ -1,30 +1,30 @@
 Return-Path: <zangrc.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D6D87F0CA
+	by mail.openembedded.org (Postfix) with ESMTP id B53447F145
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 03:18:12 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,276,1559491200"; d="scan'208";a="71685357"
+	Thu, 18 Jul 2019 03:24:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,276,1559491200"; d="scan'208";a="71686595"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Jul 2019 11:18:11 +0800
+	by heian.cn.fujitsu.com with ESMTP; 18 Jul 2019 11:24:47 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 017EE4CE030D
+	by cn.fujitsu.com (Postfix) with ESMTP id F08374CDE8CC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 11:13:08 +0800 (CST)
+	Thu, 18 Jul 2019 11:24:42 +0800 (CST)
 Received: from localhost.local (10.167.225.40) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Thu, 18 Jul 2019 11:13:13 +0800
+	Server (TLS) id 14.3.439.0; Thu, 18 Jul 2019 11:24:49 +0800
 From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Jul 2019 11:12:23 +0800
-Message-ID: <20190718031223.13214-1-zangrc.fnst@cn.fujitsu.com>
+Date: Thu, 18 Jul 2019 11:23:58 +0800
+Message-ID: <20190718032358.13358-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 017EE4CE030D.A0E47
+X-yoursite-MailScanner-ID: F08374CDE8CC.AB2E6
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] libice:upgrade 1.0.9 -> 1.0.10
+Subject: [PATCH] xwininfo:upgrade 1.1.4 -> 1.1.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,198 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 03:18:12 -0000
+X-List-Received-Date: Thu, 18 Jul 2019 03:24:48 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
--Upgrade from libice_1.0.9.bb to libice_1.0.10.bb.
-
--libice/CVE-2017-2626.patch
- Removed since this is included in 1.0.10.
+-Upgrade from xwininfo_1.1.4.bb to xwininfo_1.1.5.bb.
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../xorg-lib/libice/CVE-2017-2626.patch            | 149 ---------------------
- .../xorg-lib/{libice_1.0.9.bb => libice_1.0.10.bb} |   6 +-
- 2 files changed, 2 insertions(+), 153 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
- rename meta/recipes-graphics/xorg-lib/{libice_1.0.9.bb => libice_1.0.10.bb} (82%)
+ .../xorg-app/{xwininfo_1.1.4.bb => xwininfo_1.1.5.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xwininfo_1.1.4.bb => xwininfo_1.1.5.bb} (72%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
-deleted file mode 100644
-index 20c6dda..0000000
---- a/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
-+++ /dev/null
-@@ -1,149 +0,0 @@
--From ff5e59f32255913bb1cdf51441b98c9107ae165b Mon Sep 17 00:00:00 2001
--From: Benjamin Tissoires <benjamin.tissoires@gmail.com>
--Date: Tue, 4 Apr 2017 19:12:53 +0200
--Subject: Use getentropy() if arc4random_buf() is not available
--
--This allows to fix CVE-2017-2626 on Linux platforms without pulling in
--libbsd.
--The libc getentropy() is available since glibc 2.25 but also on OpenBSD.
--For Linux, we need at least a v3.17 kernel. If the recommended
--arc4random_buf() function is not available, emulate it by first trying
--to use getentropy() on a supported glibc and kernel. If the call fails,
--fall back to the current (partly vulnerable) code.
--
--Signed-off-by: Benjamin Tissoires <benjamin.tissoires@gmail.com>
--Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
--Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
--Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
--
--Upstream-Status: Backport[https://cgit.freedesktop.org/xorg/lib/libICE
--                 /commit/?id=ff5e59f32255913bb1cdf51441b98c9107ae165b]
--
--CVE: CVE-2017-2626
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- configure.ac  |  2 +-
-- src/iceauth.c | 65 ++++++++++++++++++++++++++++++++++++++++++-----------------
-- 2 files changed, 47 insertions(+), 20 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 458882a..c971ab6 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -38,7 +38,7 @@ AC_DEFINE(ICE_t, 1, [Xtrans transport type])
-- 
-- # Checks for library functions.
-- AC_CHECK_LIB([bsd], [arc4random_buf])
---AC_CHECK_FUNCS([asprintf arc4random_buf])
--+AC_CHECK_FUNCS([asprintf arc4random_buf getentropy])
-- 
-- # Allow checking code with lint, sparse, etc.
-- XORG_WITH_LINT
--diff --git a/src/iceauth.c b/src/iceauth.c
--index ed31683..de4785b 100644
----- a/src/iceauth.c
--+++ b/src/iceauth.c
--@@ -44,31 +44,19 @@ Author: Ralph Mor, X Consortium
-- 
-- static int was_called_state;
-- 
---/*
--- * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
--- * the SI.  It is not part of standard ICElib.
--- */
--+#ifndef HAVE_ARC4RANDOM_BUF
-- 
---
---char *
---IceGenerateMagicCookie (
--+static void
--+emulate_getrandom_buf (
--+	char *auth,
-- 	int len
-- )
-- {
---    char    *auth;
---#ifndef HAVE_ARC4RANDOM_BUF
--     long    ldata[2];
--     int	    seed;
--     int	    value;
--     int	    i;
---#endif
-- 
---    if ((auth = malloc (len + 1)) == NULL)
---	return (NULL);
---
---#ifdef HAVE_ARC4RANDOM_BUF
---    arc4random_buf(auth, len);
---#else
-- #ifdef ITIMER_REAL
--     {
-- 	struct timeval  now;
--@@ -76,13 +64,13 @@ IceGenerateMagicCookie (
-- 	ldata[0] = now.tv_sec;
-- 	ldata[1] = now.tv_usec;
--     }
---#else
--+#else /* ITIMER_REAL */
--     {
-- 	long    time ();
-- 	ldata[0] = time ((long *) 0);
-- 	ldata[1] = getpid ();
--     }
---#endif
--+#endif /* ITIMER_REAL */
--     seed = (ldata[0]) + (ldata[1] << 16);
--     srand (seed);
--     for (i = 0; i < len; i++)
--@@ -90,7 +78,46 @@ IceGenerateMagicCookie (
-- 	value = rand ();
-- 	auth[i] = value & 0xff;
--     }
---#endif
--+}
--+
--+static void
--+arc4random_buf (
--+	char *auth,
--+	int len
--+)
--+{
--+    int	    ret;
--+
--+#if HAVE_GETENTROPY
--+    /* weak emulation of arc4random through the entropy libc */
--+    ret = getentropy (auth, len);
--+    if (ret == 0)
--+	return;
--+#endif /* HAVE_GETENTROPY */
--+
--+    emulate_getrandom_buf (auth, len);
--+}
--+
--+#endif /* !defined(HAVE_ARC4RANDOM_BUF) */
--+
--+/*
--+ * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
--+ * the SI.  It is not part of standard ICElib.
--+ */
--+
--+
--+char *
--+IceGenerateMagicCookie (
--+	int len
--+)
--+{
--+    char    *auth;
--+
--+    if ((auth = malloc (len + 1)) == NULL)
--+	return (NULL);
--+
--+    arc4random_buf (auth, len);
--+
--     auth[len] = '\0';
--     return (auth);
-- }
---- 
--cgit v1.1
--
-diff --git a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb
-similarity index 82%
-rename from meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-rename to meta/recipes-graphics/xorg-lib/libice_1.0.10.bb
-index c1b1913..6a6316f 100644
---- a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb
-@@ -20,10 +20,8 @@ XORG_PN = "libICE"
+diff --git a/meta/recipes-graphics/xorg-app/xwininfo_1.1.4.bb b/meta/recipes-graphics/xorg-app/xwininfo_1.1.5.bb
+similarity index 72%
+rename from meta/recipes-graphics/xorg-app/xwininfo_1.1.4.bb
+rename to meta/recipes-graphics/xorg-app/xwininfo_1.1.5.bb
+index 1fb90dd..ec9f082 100644
+--- a/meta/recipes-graphics/xorg-app/xwininfo_1.1.4.bb
++++ b/meta/recipes-graphics/xorg-app/xwininfo_1.1.5.bb
+@@ -11,5 +11,5 @@ DEPENDS += "libxext libxmu gettext-native"
  
- BBCLASSEXTEND = "native nativesdk"
+ PE = "0"
  
--SRC_URI[md5sum] = "addfb1e897ca8079531669c7c7711726"
--SRC_URI[sha256sum] = "8f7032f2c1c64352b5423f6b48a8ebdc339cc63064af34d66a6c9aa79759e202"
--
--SRC_URI += "file://CVE-2017-2626.patch"
-+SRC_URI[md5sum] = "76d77499ee7120a56566891ca2c0dbcf"
-+SRC_URI[sha256sum] = "6f86dce12cf4bcaf5c37dddd8b1b64ed2ddf1ef7b218f22b9942595fb747c348"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[arc4] = "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
+-SRC_URI[md5sum] = "9a505b91ae7160bbdec360968d060c83"
+-SRC_URI[sha256sum] = "839498aa46b496492a5c65cd42cd2e86e0da88149b0672e90cb91648f8cd5b01"
++SRC_URI[md5sum] = "26d46f7ef0588d3392da3ad5802be420"
++SRC_URI[sha256sum] = "7a405441dfc476666c744f5fcd1bc8a75abf8b5b1d85db7b88b370982365080e"
 -- 
 2.7.4
 
