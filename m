@@ -1,48 +1,52 @@
 Return-Path: <lemagoup@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DE0297ECAF
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 01DBF7EF49
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 12:41:36 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id n4so28580134wrs.3
+	Thu, 18 Jul 2019 12:41:41 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id v19so25558397wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 05:41:38 -0700 (PDT)
+	Thu, 18 Jul 2019 05:41:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=w+0ncD2woaN9C1eK3MSemzf71AQj4UOt+bdjeKnGAM0=;
-	b=ZY3e4gufsCTPr5kHKJIDc1zpp8PnluBmizBp4N+pB6JeNSLJUmXaA6fbTYMePge6nW
-	vwEroT5N4wTWSd9nOg1Y8nyuhxu7Onu6Lix1/wKw2Wv5lA/kgN14aZeuuStXLXAgncUR
-	iPCB/jAm2Ysjq5wPW+7eRRz4GrDjtmqtCzV55rmj3M10OS50Md/EXM7FmvwTrSymCh4l
-	Amc4UvID3hgQPGkAQjsMF9LXyF5XkA1sIEVfE5CVEGPruOToQOB2n/Jjlf1rg9nH0Awz
-	glwF6xNOJi5Qup4QvqFPPSoLBsh4c9utFp4eVkpyYENWDo9a6YOWAbjJM7rahm8gVwXK
-	d2og==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=6RiuY8Jl/ZSCMVWBnvHnn8Vi5ets9xvk+5ObvDABzb4=;
+	b=ROqMkC2POTLOAx1hynp2niEujdS83MQ6pd7AoXYFMmfNaZHwKLlQZoeUKJK87CsBoM
+	SK2CTcttC1pmKDQhQa+0ZpL30eBrb/RQC60+i5xIdDV/XauS+4cVMlZwiVwT2ksDyMWp
+	92Qu4c96G9vlcM4yLymeD2ACSlIuM6CqXUnBAOq928vUoP88IlFHPWo08PF6EI3CwlF2
+	QxpP5bJYGRxKpGYGNBYLlVC+8cjYv57/C5YLwbxb9LoAP0HUqoyEk2WMmD8kPyetF2CL
+	OznJ03T3qrlaFMUAoDDeM8ijD2EYonwgY0SjtLvBDoQmmRVrD77/PZFBl8KTig/ycCtY
+	3y6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=w+0ncD2woaN9C1eK3MSemzf71AQj4UOt+bdjeKnGAM0=;
-	b=omxT8Hyc92WCX0xw7Tp4tJV4kRH3PBPnWJLr8vHg77SKVwmOdRiHxSJ0GOU/w1a3r9
-	MHFLXH1bPqpIvY9AQpqebo28sDh+k0pOWbnjkAve2h13IQvqPdjavk62z7dIjFum7cGz
-	GoQSvloja89TUL5r5FTZRbQEnff73nT9YHmOUq2X63CYxlMgNx4rgfjWR7lN11XbSi+G
-	iI69d/UcewJtkLPZWJARWPC0DFghIiLcCfl4H97N023MFhwI+/gxFFok3xN/SeFLE/IK
-	k4fNe7eJlMTIDbZW5Ok49WW/OWtIGCQIzL7FvlwYRi18BPyRgXBv0s/a7VyA9SExR5tD
-	oTBA==
-X-Gm-Message-State: APjAAAX7eq2MiA9thT0jxcZHrxJ8vuIX9uIiXd8WozVGdcU4jPgxZkGI
-	rEHVL0awLZzcX+kwNNpvI1jbQJGJ
-X-Google-Smtp-Source: APXvYqwnsO4CyWx5rTkQYPCnmwZLAC7CrAFY5BFeXlgDfKthwyNieoSuKplJANz1zfBxWy5JKTWPiw==
-X-Received: by 2002:adf:cf02:: with SMTP id o2mr30577200wrj.352.1563453697424; 
-	Thu, 18 Jul 2019 05:41:37 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=6RiuY8Jl/ZSCMVWBnvHnn8Vi5ets9xvk+5ObvDABzb4=;
+	b=Ms47uchUFYmE3rNXBZ75vdyDzO0yO9iOIT1L6Up8gPONnC/R6cTxGdmFdLHRyIdOyX
+	qw+gK33ReepCoLAfcNt4r/2yQQZA8RYWzxRwOq4VM10pEfn5qi9X6SkPm2uWfEFPGf/C
+	gvzWYw8Q2r5iRx1pdkrKzbHAKFU/+7DY5/25dWl6hwGOxhwj9/kuFoY4PXR+gWqEf/l8
+	sY9Wqc+K+4qlO0QKvdOHpXPp19p+EYp558LMryZVbF+tVQZzbGBxdIyIo2S+aog8O+Tr
+	kD/ORFY2pUsEf0+qKg9KJj038PBdV2dbH5PQVGz2PdD86NBTgYMmFtmvkiNiCVHskU94
+	PwSA==
+X-Gm-Message-State: APjAAAXDr2l/gvigCLbRjzepXGM9nEi+ak+aCw7WHRryLRPW6wUb547l
+	6GzDG4nmacBcMQnkmgXSzFkpYrlo
+X-Google-Smtp-Source: APXvYqznU8IRoKqaA9cqA4EOnv5mW6E5pxzf5BX614V0msUew1OyVGOUqkNu6LxckmQNFrudFkgusQ==
+X-Received: by 2002:a1c:a5c2:: with SMTP id
+	o185mr41601490wme.172.1563453702371; 
+	Thu, 18 Jul 2019 05:41:42 -0700 (PDT)
 Received: from localhost.localdomain
 	(softbank-robotics-gw1.ter4.eqx2.par.cust.as8218.eu.
 	[158.255.112.194])
-	by smtp.gmail.com with ESMTPSA id c1sm52715645wrh.1.2019.07.18.05.41.36
+	by smtp.gmail.com with ESMTPSA id c1sm52715645wrh.1.2019.07.18.05.41.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 18 Jul 2019 05:41:36 -0700 (PDT)
+	Thu, 18 Jul 2019 05:41:41 -0700 (PDT)
 From: Pierre Le Magourou <lemagoup@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2019 14:41:18 +0200
-Message-Id: <20190718124119.991-1-lemagoup@gmail.com>
+Date: Thu, 18 Jul 2019 14:41:19 +0200
+Message-Id: <20190718124119.991-2-lemagoup@gmail.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/2] cve-check: Replace CVE_CHECK_CVE_WHITELIST by CVE_CHECK_WHITELIST
+In-Reply-To: <20190718124119.991-1-lemagoup@gmail.com>
+References: <20190718124119.991-1-lemagoup@gmail.com>
+Subject: [PATCH 2/2] cve-update-db-native: Remove hash column from database.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,65 +59,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 12:41:37 -0000
+X-List-Received-Date: Thu, 18 Jul 2019 12:41:42 -0000
 
 From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 
-CVE_CHECK_WHITELIST does not contain version anymore, as it was not
-used. This variable should be set per recipe.
+djb2 hash algorithm was found to do collisions, so the database was
+sometime missing data. Remove this hash mechanism, clear and populate
+elements from scratch in PRODUCTS table if the current year needs an
+update.
 
 Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 ---
- meta/classes/cve-check.bbclass | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ meta/classes/cve-check.bbclass                 | 12 ++++++------
+ meta/recipes-core/meta/cve-update-db-native.bb | 21 +++++++--------------
+ 2 files changed, 13 insertions(+), 20 deletions(-)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index e8668b2566..512d4c7302 100644
+index 512d4c7302..c00d2910be 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -39,15 +39,12 @@ CVE_CHECK_CREATE_MANIFEST ??= "1"
- # Whitelist for packages (PN)
- CVE_CHECK_PN_WHITELIST ?= ""
+@@ -26,7 +26,7 @@ CVE_PRODUCT ??= "${BPN}"
+ CVE_VERSION ??= "${PV}"
  
--# Whitelist for CVE and version of package. If a CVE is found then the PV is
--# compared with the version list, and if found the CVE is considered
--# patched.
--#
--# The value should be valid Python in this format:
--# {
--#   'CVE-2014-2524': ('6.3','5.2')
--# }
--CVE_CHECK_CVE_WHITELIST ?= "{}"
-+# Whitelist for CVE. If a CVE is found, then it is considered patched.
-+# The value is a string containing space separated CVE values:
-+# 
-+# CVE_CHECK_WHITELIST = 'CVE-2014-2524 CVE-2018-1234'
-+# 
-+CVE_CHECK_WHITELIST ?= ""
+ CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
+-CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve.db"
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.0.db"
  
- python do_cve_check () {
-     """
-@@ -185,7 +182,10 @@ def check_cves(d, patched_cves):
-         bb.note("Recipe has been whitelisted, skipping check")
-         return ([], [])
+ CVE_CHECK_LOG ?= "${T}/cve.log"
+ CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
+@@ -200,11 +200,11 @@ def check_cves(d, patched_cves):
+             c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ?", (product,))
  
--    cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST"))
-+    old_cve_whitelist =  d.getVar("CVE_CHECK_CVE_WHITELIST")
-+    if old_cve_whitelist:
-+        bb.warn("CVE_CHECK_CVE_WHITELIST is deprecated, please use CVE_CHECK_WHITELIST.")
-+    cve_whitelist = d.getVar("CVE_CHECK_WHITELIST").split()
+         for row in c:
+-            cve = row[1]
+-            version_start = row[4]
+-            operator_start = row[5]
+-            version_end = row[6]
+-            operator_end = row[7]
++            cve = row[0]
++            version_start = row[3]
++            operator_start = row[4]
++            version_end = row[5]
++            operator_end = row[6]
  
-     import sqlite3
-     db_file = d.getVar("CVE_CHECK_DB_FILE")
-@@ -206,7 +206,7 @@ def check_cves(d, patched_cves):
-             version_end = row[6]
-             operator_end = row[7]
- 
--            if pv in cve_whitelist.get(cve, []):
-+            if cve in cve_whitelist:
+             if cve in cve_whitelist:
                  bb.note("%s-%s has been whitelisted for %s" % (product, pv, cve))
-             elif cve in patched_cves:
-                 bb.note("%s has been patched" % (cve))
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 72d1f48835..3519beae5f 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -30,7 +30,7 @@ python do_populate_cve_db() {
+     YEAR_START = 2002
+ 
+     db_dir = d.getVar("DL_DIR") + '/CVE_CHECK'
+-    db_file = db_dir + '/nvdcve.db'
++    db_file = db_dir + '/nvdcve_1.0.db'
+     json_tmpfile = db_dir + '/nvd.json.gz'
+     proxy = d.getVar("https_proxy")
+     cve_f = open(d.getVar("TMPDIR") + '/cve_check', 'a')
+@@ -65,6 +65,10 @@ python do_populate_cve_db() {
+         c.execute("select DATE from META where YEAR = ?", (year,))
+         meta = c.fetchone()
+         if not meta or meta[0] != last_modified:
++            # Clear products table entries corresponding to current year
++            cve_year = 'CVE-' + str(year) + '%'
++            c.execute("delete from PRODUCTS where ID like ?", (cve_year,))
++
+             # Update db with current year json file
+             req = urllib.request.Request(json_url)
+             if proxy:
+@@ -91,27 +95,16 @@ python do_populate_cve_db() {
+     conn.close()
+ }
+ 
+-# DJB2 hash algorithm
+-def hash_djb2(s):
+-    hash = 5381
+-    for x in s:
+-        hash = (( hash << 5) + hash) + ord(x)
+-
+-    return hash & 0xFFFFFFFF
+-
+ def initialize_db(c):
+     c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
+     c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
+         SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
+-    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (HASH INTEGER UNIQUE, ID TEXT, \
++    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
+         VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
+         VERSION_END TEXT, OPERATOR_END TEXT)")
+ 
+ def insert_elt(c, db_values):
+-    product_str = db_values[0] + db_values[1] + db_values[2] + db_values[3]
+-    hashstr = hash_djb2(product_str)
+-    db_values.insert(0, hashstr)
+-    query = "insert or replace into PRODUCTS values (?, ?, ?, ?, ?, ?, ?, ?)"
++    query = "insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)"
+     c.execute(query, db_values)
+ 
+ def parse_node_and_insert(c, node, cveId):
 -- 
 2.11.0
 
