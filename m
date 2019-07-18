@@ -1,40 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 181477ECAF
+Return-Path: <jean-tiare.le-bigot@easymile.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 16C897EF4F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 12:43:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45qDMh3333z4s;
-	Thu, 18 Jul 2019 14:43:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1563453826;
-	bh=XLteHv8BGX6qWPV3c261OQEup612pedfNsAAEAuOcj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RMdjN1GCdNROx7wsTQrpqBdHM1n3s2Eosi9jvpiGiO1PF9Hk84OMQUZElSZFtD3SY
-	CgCEAdWAmoRfhIG6nsOsLQCZI9eEAV6K7EZ8RowR8L6Y3CYeU+CwQ3tVdbxZRhWONE
-	3m6Hsy6ZVDfUwp4khdWf+DToa5v5dsSk02VisowZ8mBaufgAuPld8k9WuloBeUX1LS
-	21T1ArlcUTk+p96KOCQX3V/Wca4ux8MW1yVLLxMhK+loZEeN7wfKtrhT6eovLa4nt1
-	1Csfmop3jvNJNZX3M2iftXeTqRYV+H4M03ErLqyd40bLWvro3fYjHwv6LNbkr1+mFj
-	x0xU0rgff73pjNPPZh/8HmRFzO79E0pYKVIRGTH46eQyqys0Z6+q/wMUvxabkIqMOY
-	vs3/xwlGCoMbP4PIen0lHCI38uiQ5jWZWdJ7nm3SlEOasN0/IbyElGAZZOA/mO4E8K
-	wvooI9rt+JclGiBRJ7YywsGEHQ0ZbVuXXNBKqODcZjsVTw9pMwHzTUCFYZWTnnxD2P
-	hkxSy9rNfDnD4lLAGrBxBmWdimgxZqPEasuP2Ot49669fiEn+cZqpz7SYWipT8WDV7
-	MELzPfrG8MsyLx9dJeH9imK15Vqm2xr015oJe6tExZko8RxMvW0Y1CS/ZfIlRwvrn/
-	U5hBSRQHRVryAmxrY5C/6KFo=
-Date: Thu, 18 Jul 2019 15:43:42 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190718124342.GA1393@localhost>
-References: <CAJTo0LaOHbSB75OGLsHJ3Vxd5eVgg9+7Cq3k0=P-BwPLpFiyjg@mail.gmail.com>
-	<20190718060409.GA27459@localhost>
-	<CAJTo0LbDCp=Wn76R56LxkAbU7pbkeJuBmnXhVr7h=gCJd1phqA@mail.gmail.com>
-	<b19a2df01ff9e66056d1c4f23fb9469cff9dacd9.camel@linuxfoundation.org>
+	Thu, 18 Jul 2019 12:48:29 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id d17so26930468qtj.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jul 2019 05:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=easymile.com; s=easymile;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=zWujlDh6kPnO/tGGqwQDVZWng6eLKlZfpMyEkW9MIRU=;
+	b=Xyg3a5hdQxyLi2RHAhoahvj1msA/iWaMqVNXeq6yBIZtT7nvQuM7v6aRuGRyBBcyuS
+	xLeEMQz40BX5lVoUaOoG3WxYyY6nZ/5x2AVBuSPQLJzjNm6LiGgNymA607FKqTKyBGi2
+	Vyb+iRC1Mc4bsGuyiUQheJ+5bT2syE6L8x09c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=zWujlDh6kPnO/tGGqwQDVZWng6eLKlZfpMyEkW9MIRU=;
+	b=C0iwTSb2OBWrHN/frpube+bVkMzw/JUpaXkAwK3Lu3lO4ARAfyIlJBsllm9j7CrKQd
+	C0wyxp6gcOeKHA2T0iOx9gzISLgzWtisw+STW7rcbX6ExXzFoBSuU8smbViF9Li6Mm1B
+	FKmwHketUV8twazCzss1Jy5vpg4m2Tp2g0uZL7fUZdyfp6co8E+BNCMy8X6qjud/gS+Q
+	BxKAFS3XGSzjP8uqKurecofOhS4eo1Id7717euFmpqfb7fq9J0x0QWfW7ExVNN7PZu1w
+	xw7Bk+oAVTIJnYJNLHFMwR80NlkBkCawnr2FKo98+uO/H+Xs7JGWYwnw+FFQCUPQnZ3U
+	jDlg==
+X-Gm-Message-State: APjAAAVYKA7Hu66EfmW+iKD62dHeEx0vV/znP6ysqW+xkbJ59vj0MRhO
+	73hPTs4L+E+AYmzJKmPLBPOwFunq4kgN5PUIOhPA/Q==
+X-Google-Smtp-Source: APXvYqyolMmhRJMXqr+NY/L0ENLrTTGqBPFeJiYkALU0ee1qt55w9ykgHG1Cp16KCRc2HeaxNKRfBfudSrI47V6ztw0=
+X-Received: by 2002:ac8:2a88:: with SMTP id b8mr29129638qta.331.1563454111045; 
+	Thu, 18 Jul 2019 05:48:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <b19a2df01ff9e66056d1c4f23fb9469cff9dacd9.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Yocto-mailing-list <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: dropping official support for Debian 8 / Opensuse 42.3
+References: <20190628101353.11933-1-jean-tiare.le-bigot@easymile.com>
+	<CAPVBjxFRyEvgBoNN818RD0Lg9D1GjdBidxrit-PQ4cqVwxJswQ@mail.gmail.com>
+	<0582005b00d2a7789ed794501c57064f265a0205.camel@linuxfoundation.org>
+In-Reply-To: <0582005b00d2a7789ed794501c57064f265a0205.camel@linuxfoundation.org>
+From: Jean-Tiare Le Bigot <jean-tiare.le-bigot@easymile.com>
+Date: Thu, 18 Jul 2019 14:48:19 +0200
+Message-ID: <CAPVBjxEk1mg1gE+CDAc1Suiuie-sDD0ywsd2OL1Vgae8+eAFjA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: =?UTF-8?Q?Jo=C3=ABl_Esponde?= <joel.esponde@easymile.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package.bbclass: fix directories setuid and setgid bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,51 +54,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 12:43:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 18 Jul 2019 12:48:30 -0000
+Content-Type: multipart/alternative; boundary="000000000000e97024058df40693"
 
-On Thu, Jul 18, 2019 at 12:43:50PM +0100, Richard Purdie wrote:
-> On Thu, 2019-07-18 at 12:31 +0100, Burton, Ross wrote:
-> > > CentOS 7 is based on Fedora 19 from 2013.
-> > > 
-> > > This is the oldest currently supported distribution, and when to
-> > > remove
-> > > support for it (replacing it with the not yet existing CentOS 8)
-> > > should
-> > > IMHO be part of this discussion.
-> > 
-> > Centos 7 support is, I believe, already patchy - I think we mandate
-> > the buildtools for that?  Any idea what the support plan for Centos 7
-> > will be once 8 is released, whenever that is?
-> 
-> There is some kind of official feed to add python 3.6 to it which we
-> use.
+--000000000000e97024058df40693
+Content-Type: text/plain; charset="UTF-8"
 
-Python is only a small part of the picture.
+Oh ! Thanks. I was following
+https://patchwork.openembedded.org/series/18376/# which is still "new".
 
-What I would be interested in would be to get rid of the 
-ever-growing number of hacks and patches for supporting
-the ancient gcc 4.8 in CentOS 7.
+Should I submit individual patches for backport to "thud" and "warrior"
+branches ?
 
-With support for Debian 8 removed, CentOS 7 will be two gcc major
-versions behind all other supported host distributions.
+On Thu, 18 Jul 2019 at 14:28, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Remember the nettle problems immediately before Yocto 2.7 was released, 
-the root cause was a (bogus) workaround for supporting hosts with gcc < 5.
-
+> On Thu, 2019-07-18 at 13:57 +0200, Jean-Tiare Le Bigot wrote:
+> > Do you have any feedback on this patch ?
+> >
+> > Thanks!
+>
+> It merged a while ago:
+>
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=0df6cef5258ccd6bd137279aa610b6b1bce43640
+>
 > Cheers,
-> 
+>
 > Richard
-
-cu
-Adrian
+>
+>
 
 -- 
+Jean-Tiare Le Bigot
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+--000000000000e97024058df40693
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Oh ! Thanks. I was following <a href=3D"https://patch=
+work.openembedded.org/series/18376/#">https://patchwork.openembedded.org/se=
+ries/18376/#</a> which is still &quot;new&quot;.</div><div><br></div><div>S=
+hould I submit individual patches for backport to &quot;thud&quot; and &quo=
+t;warrior&quot; branches ?<br></div></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Thu, 18 Jul 2019 at 14:28, Richard P=
+urdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.pur=
+die@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">On Thu, 2019-07-18 at 13:57 +0200, Jean-Tiare Le Big=
+ot wrote:<br>
+&gt; Do you have any feedback on this patch ?<br>
+&gt; <br>
+&gt; Thanks!<br>
+<br>
+It merged a while ago:<br>
+<br>
+<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D0df6cef52=
+58ccd6bd137279aa610b6b1bce43640" rel=3D"noreferrer" target=3D"_blank">http:=
+//git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D0df6cef5258ccd6bd137279aa=
+610b6b1bce43640</a><br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr">Jean-Tiare Le Bigot<br></div></div>
 
+--000000000000e97024058df40693--
