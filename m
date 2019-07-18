@@ -1,100 +1,30 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
-	[209.85.210.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D0AD7EF48
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D6D87F0CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 02:52:06 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id m30so11853094pff.8
+	Thu, 18 Jul 2019 03:18:12 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,276,1559491200"; d="scan'208";a="71685357"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 18 Jul 2019 11:18:11 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 017EE4CE030D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2019 19:52:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=ZbSIeTau1OO+FXZyyWgGD/co8ELaWGlisLeVcCYaXhM=;
-	b=oGfwKBoMfeotak0RP/A21Ygu1/xlOiPQzGktXnt2isl2sugMCgm0s1XWVZdU2jc7HM
-	GzKOPGZ6XbFRhFe5BCWXCGilhvEZ8XPgi02kEcW8cXRNy00RyhXU0HcTb6OHs5IW+O6t
-	dCF+5y9SvEq1T5EhjcYBvAYhCtArw6mZq+5QiVEH93lx0HX901OyNvi17U7Oceb+BGIt
-	XTCcEaPQinE2RgAhCNSlS/jaRFxMA7igoxpIBOq8w7Thlwc94pF34EM4xwi6qQeU/0fv
-	qxorezZb0ieEG+iF3kw4dnY5GtGV5a9QEXWYchteHc5EL6vdK7hf41pU+0RJAEO0yP4R
-	GioQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
-	:date:user-agent:mime-version:content-transfer-encoding
-	:content-language;
-	bh=ZbSIeTau1OO+FXZyyWgGD/co8ELaWGlisLeVcCYaXhM=;
-	b=LmNnMU2dRT0s/Q4EBRI+/fYgA1nBJrUNmoaW3XkdtrkSbqiLwtl5ytox2zjPIYURUu
-	M5/0AQiifzvqitN2d6zpr3lT5ZvB9IjZev0jZy3BKAt07EuEhiDXTjbtIaHYUmvDuZGf
-	imQa6i4zeflOjwWR4JEIRtYkX1dCHd18N/JnO8iBRN5VzawvmXw5Dh/ADm/vdtAKa0ME
-	men6Mrr8x3t9h7HST2hW3Ol/1eXUUcmuTTbEVQj0ADKcNsD5j6Tbg7jrqqK6dNitqDSt
-	LuLNqoOyJjgRaVYJZhpJsyz6Ki+nw/0LMg0myZ204kGaiyheO0QBS81GXtNo5Ct+jid8
-	bYkQ==
-X-Gm-Message-State: APjAAAU5PaWgyzjzziyjZ0q5PLnMktzynYocrlUsQUAjNL+xbiUFBscO
-	AqVco4t6iqMm+967c/q8EDQTpjay
-X-Google-Smtp-Source: APXvYqwpld4QyhZzhjpj84O4IqJv7scWKFMaCToL4LVytHyoT28HpyPgi82ct6ylY2+9o5boxr5r8Q==
-X-Received: by 2002:a17:90a:376f:: with SMTP id
-	u102mr48635256pjb.5.1563418327320; 
-	Wed, 17 Jul 2019 19:52:07 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:f51d:4a31:5625:62b4?
-	([2601:202:4180:c33:f51d:4a31:5625:62b4])
-	by smtp.gmail.com with ESMTPSA id
-	c23sm16574528pgj.62.2019.07.17.19.52.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Jul 2019 19:52:06 -0700 (PDT)
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <0ec49e1b-cc7e-f03d-56d5-65c9fb4866d5@gmail.com>
-Date: Wed, 17 Jul 2019 19:52:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.2
+	Thu, 18 Jul 2019 11:13:08 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 18 Jul 2019 11:13:13 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Jul 2019 11:12:23 +0800
+Message-ID: <20190718031223.13214-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: contrib repo
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 017EE4CE030D.A0E47
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libice:upgrade 1.0.9 -> 1.0.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,15 +37,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 02:52:06 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 18 Jul 2019 03:18:12 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hello,
+-Upgrade from libice_1.0.9.bb to libice_1.0.10.bb.
 
-Is anyone seeing issues pushing to
-git.openembedded.org/openembedded-core-contrib ?
+-libice/CVE-2017-2626.patch
+ Removed since this is included in 1.0.10.
 
-- armin
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ .../xorg-lib/libice/CVE-2017-2626.patch            | 149 ---------------------
+ .../xorg-lib/{libice_1.0.9.bb => libice_1.0.10.bb} |   6 +-
+ 2 files changed, 2 insertions(+), 153 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
+ rename meta/recipes-graphics/xorg-lib/{libice_1.0.9.bb => libice_1.0.10.bb} (82%)
+
+diff --git a/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch b/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
+deleted file mode 100644
+index 20c6dda..0000000
+--- a/meta/recipes-graphics/xorg-lib/libice/CVE-2017-2626.patch
++++ /dev/null
+@@ -1,149 +0,0 @@
+-From ff5e59f32255913bb1cdf51441b98c9107ae165b Mon Sep 17 00:00:00 2001
+-From: Benjamin Tissoires <benjamin.tissoires@gmail.com>
+-Date: Tue, 4 Apr 2017 19:12:53 +0200
+-Subject: Use getentropy() if arc4random_buf() is not available
+-
+-This allows to fix CVE-2017-2626 on Linux platforms without pulling in
+-libbsd.
+-The libc getentropy() is available since glibc 2.25 but also on OpenBSD.
+-For Linux, we need at least a v3.17 kernel. If the recommended
+-arc4random_buf() function is not available, emulate it by first trying
+-to use getentropy() on a supported glibc and kernel. If the call fails,
+-fall back to the current (partly vulnerable) code.
+-
+-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@gmail.com>
+-Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+-Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+-Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+-
+-Upstream-Status: Backport[https://cgit.freedesktop.org/xorg/lib/libICE
+-                 /commit/?id=ff5e59f32255913bb1cdf51441b98c9107ae165b]
+-
+-CVE: CVE-2017-2626
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- configure.ac  |  2 +-
+- src/iceauth.c | 65 ++++++++++++++++++++++++++++++++++++++++++-----------------
+- 2 files changed, 47 insertions(+), 20 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 458882a..c971ab6 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -38,7 +38,7 @@ AC_DEFINE(ICE_t, 1, [Xtrans transport type])
+- 
+- # Checks for library functions.
+- AC_CHECK_LIB([bsd], [arc4random_buf])
+--AC_CHECK_FUNCS([asprintf arc4random_buf])
+-+AC_CHECK_FUNCS([asprintf arc4random_buf getentropy])
+- 
+- # Allow checking code with lint, sparse, etc.
+- XORG_WITH_LINT
+-diff --git a/src/iceauth.c b/src/iceauth.c
+-index ed31683..de4785b 100644
+---- a/src/iceauth.c
+-+++ b/src/iceauth.c
+-@@ -44,31 +44,19 @@ Author: Ralph Mor, X Consortium
+- 
+- static int was_called_state;
+- 
+--/*
+-- * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
+-- * the SI.  It is not part of standard ICElib.
+-- */
+-+#ifndef HAVE_ARC4RANDOM_BUF
+- 
+--
+--char *
+--IceGenerateMagicCookie (
+-+static void
+-+emulate_getrandom_buf (
+-+	char *auth,
+- 	int len
+- )
+- {
+--    char    *auth;
+--#ifndef HAVE_ARC4RANDOM_BUF
+-     long    ldata[2];
+-     int	    seed;
+-     int	    value;
+-     int	    i;
+--#endif
+- 
+--    if ((auth = malloc (len + 1)) == NULL)
+--	return (NULL);
+--
+--#ifdef HAVE_ARC4RANDOM_BUF
+--    arc4random_buf(auth, len);
+--#else
+- #ifdef ITIMER_REAL
+-     {
+- 	struct timeval  now;
+-@@ -76,13 +64,13 @@ IceGenerateMagicCookie (
+- 	ldata[0] = now.tv_sec;
+- 	ldata[1] = now.tv_usec;
+-     }
+--#else
+-+#else /* ITIMER_REAL */
+-     {
+- 	long    time ();
+- 	ldata[0] = time ((long *) 0);
+- 	ldata[1] = getpid ();
+-     }
+--#endif
+-+#endif /* ITIMER_REAL */
+-     seed = (ldata[0]) + (ldata[1] << 16);
+-     srand (seed);
+-     for (i = 0; i < len; i++)
+-@@ -90,7 +78,46 @@ IceGenerateMagicCookie (
+- 	value = rand ();
+- 	auth[i] = value & 0xff;
+-     }
+--#endif
+-+}
+-+
+-+static void
+-+arc4random_buf (
+-+	char *auth,
+-+	int len
+-+)
+-+{
+-+    int	    ret;
+-+
+-+#if HAVE_GETENTROPY
+-+    /* weak emulation of arc4random through the entropy libc */
+-+    ret = getentropy (auth, len);
+-+    if (ret == 0)
+-+	return;
+-+#endif /* HAVE_GETENTROPY */
+-+
+-+    emulate_getrandom_buf (auth, len);
+-+}
+-+
+-+#endif /* !defined(HAVE_ARC4RANDOM_BUF) */
+-+
+-+/*
+-+ * MIT-MAGIC-COOKIE-1 is a sample authentication method implemented by
+-+ * the SI.  It is not part of standard ICElib.
+-+ */
+-+
+-+
+-+char *
+-+IceGenerateMagicCookie (
+-+	int len
+-+)
+-+{
+-+    char    *auth;
+-+
+-+    if ((auth = malloc (len + 1)) == NULL)
+-+	return (NULL);
+-+
+-+    arc4random_buf (auth, len);
+-+
+-     auth[len] = '\0';
+-     return (auth);
+- }
+--- 
+-cgit v1.1
+-
+diff --git a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb
+similarity index 82%
+rename from meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
+rename to meta/recipes-graphics/xorg-lib/libice_1.0.10.bb
+index c1b1913..6a6316f 100644
+--- a/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb
+@@ -20,10 +20,8 @@ XORG_PN = "libICE"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[md5sum] = "addfb1e897ca8079531669c7c7711726"
+-SRC_URI[sha256sum] = "8f7032f2c1c64352b5423f6b48a8ebdc339cc63064af34d66a6c9aa79759e202"
+-
+-SRC_URI += "file://CVE-2017-2626.patch"
++SRC_URI[md5sum] = "76d77499ee7120a56566891ca2c0dbcf"
++SRC_URI[sha256sum] = "6f86dce12cf4bcaf5c37dddd8b1b64ed2ddf1ef7b218f22b9942595fb747c348"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ PACKAGECONFIG[arc4] = "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
+-- 
+2.7.4
+
+
+
 
