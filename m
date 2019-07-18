@@ -1,52 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
-	[209.85.166.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 252897EF21
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BB9C47EF5A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 16:17:11 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id f4so52351562ioh.6
+	Thu, 18 Jul 2019 19:46:22 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id p15so31781201eds.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 09:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=pZjfOkJ/um9EEQZ2LH2eipvxYbF0IBY0odNTAdA3v58=;
-	b=u8g0vZuy0hQYMojKbvDbe7bsHh2Px0d4t/4G7cs2RsPKCbaDP/mHkkDkRqktaOrLQK
-	72KYUa2kQ0b5zjhtWzaGBkdhF53+QCZ8mkJyOkLXMwKhcudnEL1vNdL96S2LXIilD1Lo
-	GqnFbrvenG488kwfmYSeZv9Ao4A0EqqqFVHVKSLbVNE+3E6a+K/jfirRtvYveFbEqKbS
-	FwEhbz5tY9HbSDakCyLmHdp+u0fWya6UFexFVlIVobo9zvB0VENygDaF/Vhb3E7SB3Wr
-	UROJaFJHbyCHVqEsdxtekbUUIe6y2F2sUx+Bhlpvbn2y497CK0TA1D9kBnSfE6QPVa4Z
-	KS3g==
+	Thu, 18 Jul 2019 12:46:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jUGfGFZSc5eKIaJUeDmJRHAqjX84H5bSnPYUYDLq0zo=;
+	b=rbascoROo+iNTVbEpjD8C7xgcLb5i6I5jM2O8531HBRh0AgEsa3RWOQobvJKPHa2ja
+	x5As0h/imzkV8rVXn1WRXk/MU/paOJSJglMw9E9FRQ+o3Dkvp4sGHu2agjhhlazkyCiX
+	8r4pGrNV3jgXtw69pNa77m131Dn/dIJB2YEszcbXKGkKkGQv0JtHfpu5WGpVuLfzU+Nr
+	CqFdAzG4BQnTXapqVuIOTyQLclzsLwQvyQ4hwl5gp7T3teHUNfKyaxMeBM3//pW8w5ob
+	KawzGOfiSt3bn8L3X1jID6KW6bRCCPyAjJlbUCksSy7LcqUM+YI1zQF+Uzp76MkLzORZ
+	c2mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=pZjfOkJ/um9EEQZ2LH2eipvxYbF0IBY0odNTAdA3v58=;
-	b=LmcRdpfayEm21nTfZ9CsxAKdiSMpu1vfyoAkuu7pRWoR/c89XUFJEqimVcNxElE5ND
-	PATMmK2FOmj4X4ZWl1kISiOGJjEM9QVlvhQN15GHJM8JuJEVVH2yQyYU5/cqZk3OCg54
-	jhM9RwJjyQRoWwnLLqJEuKWJRI4knKP06D/F1yB1M6iitVZ3bg9CJVkzXpx/43VSLpjJ
-	NEtswehyQWzWmfsDKQaKND9VtpiTJRXDoGvmalExgajYAM3/6DbTEexID+y9lqPdVRr3
-	iuMVwoyI6EoSocxJjWDb2OHYNt1fbdB4RxEBQh8OH88mJk70sHDEvQ/uFeoTMXfwOKMn
-	kEiQ==
-X-Gm-Message-State: APjAAAU0MJ9j/tWNaBdHhAFuu0i7GEHAH2pIBfG1vBvF7bawbePZdLXu
-	7FQNp16y7ZM5kcIDPFQCQZFS8Di1XatNLTW5MyNwhQ==
-X-Google-Smtp-Source: APXvYqyNmXOq9PkX+kWnuAbJPJj8aa3k8fMOrfXa3K05W/n0sHy5wIoeihIWlvd8N/GPjaVIxneAUCKr4LTXyFTOz3s=
-X-Received: by 2002:a05:6602:104:: with SMTP id
-	s4mr41601897iot.200.1563466632882; 
-	Thu, 18 Jul 2019 09:17:12 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=jUGfGFZSc5eKIaJUeDmJRHAqjX84H5bSnPYUYDLq0zo=;
+	b=LmCwvuD08ShdO+gzbTnB8OImXOjcIbQ06+KvuCVexCK74iIajllgzApAJDww0c84e0
+	5yDMK4legoZd5xvTbNdUJWr46VLpD0j6oPkUs6Rs+hFF0Kfn8QRNrPxFjxJvqbPAOVZ2
+	F7RMmd9MHB0EUhqGApYFyOC1zHnt7DFpPSJsWTsQJSiMifIpY4FoQj2lA5XAaZ09PXH+
+	VVVUCy/eKprJO8SNioFYn39zHDvCoRG4342IYGMTm2Q2LRkFj9PVJOgUHzwbh9asLihT
+	XErW9X0beK8Yu3kKfZ7ItXUu1vSsWYC46X2roL0t+yrZs5jrYeVCJlecEb0iDZfB8vET
+	CzOw==
+X-Gm-Message-State: APjAAAXFxoeGR6JuWtb5zRkIW9G/R7OtQFrXt+oMzdlkHCraMaeAzr8w
+	BgAJN1LNPLbYey9TvETAFc2lcu4/6e0=
+X-Google-Smtp-Source: APXvYqzPMSaaFVUVkN+/F0eOeKx8V7vHYhUrWwq6ao8p58idVXVmkPOsyIHYku/ZRG9wLtOX6RBm/A==
+X-Received: by 2002:a50:b4cb:: with SMTP id x11mr43393593edd.284.1563479178824;
+	Thu, 18 Jul 2019 12:46:18 -0700 (PDT)
+Received: from piling.lan (80-71-134-83.u.parknet.dk. [80.71.134.83])
+	by smtp.gmail.com with ESMTPSA id
+	rv16sm5773879ejb.79.2019.07.18.12.46.17
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 18 Jul 2019 12:46:17 -0700 (PDT)
+Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jul 2019 21:46:15 +0200
+Message-Id: <20190718194615.6874-1-ricardo@ribalda.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190718124119.991-1-lemagoup@gmail.com>
-	<20190718124119.991-2-lemagoup@gmail.com>
-	<CAJTo0Lb5PRQ8Z3Vc8OpFB7xRowj+QqK4ojfr_xbCeObZk0hKSg@mail.gmail.com>
-	<CAEz4NHpi2kBHYkqYFfqB+SZx1B1_sdVr8+t0Kzp5bNREycXytw@mail.gmail.com>
-In-Reply-To: <CAEz4NHpi2kBHYkqYFfqB+SZx1B1_sdVr8+t0Kzp5bNREycXytw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Jul 2019 17:17:00 +0100
-Message-ID: <CAJTo0LZeopO983av-ZXMSqX_Osx2Dd7iUQEFcpRj3qYj1K6bTA@mail.gmail.com>
-To: Pierre Le Magourou <lemagoup@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] cve-update-db-native: Remove hash column from database.
+Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Subject: [PATCH] inetutils: Fix abort on invalid files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,155 +59,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 16:17:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 18 Jul 2019 19:46:23 -0000
+Content-Transfer-Encoding: 8bit
 
-I must have failed to actually post them, and this is now in next.
-I'll rebase and send instead!
+When the code is compiled with  "-fstack-protector-strong
+-D_FORTIFY_SOURCE=2", everytime ftpfd is asked for a non existent file,
+it crashes with the following error:
 
-Ross
+*** buffer overflow detected ***:
+Aborted
 
-On Thu, 18 Jul 2019 at 14:56, Pierre Le Magourou <lemagoup@gmail.com> wrote=
-:
->
-> Hello Ross,
->
-> > Can you rebase this on top of the patches I sent yesterday to change
-> > the path construction to use os.path.join() please.
->
-> I can't find the patches your are referring to. My patches are rebased
-> on the last master, and I don't see a patch from you in master-next.
->
-> Pierre
->
-> Le jeu. 18 juil. 2019 =C3=A0 15:10, Burton, Ross <ross.burton@intel.com> =
-a =C3=A9crit :
-> >
->
-> >
-> > Ross
-> >
-> > On Thu, 18 Jul 2019 at 13:41, Pierre Le Magourou <lemagoup@gmail.com> w=
-rote:
-> > >
-> > > From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
-> > >
-> > > djb2 hash algorithm was found to do collisions, so the database was
-> > > sometime missing data. Remove this hash mechanism, clear and populate
-> > > elements from scratch in PRODUCTS table if the current year needs an
-> > > update.
-> > >
-> > > Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics=
-.com>
-> > > ---
-> > >  meta/classes/cve-check.bbclass                 | 12 ++++++------
-> > >  meta/recipes-core/meta/cve-update-db-native.bb | 21 +++++++---------=
------
-> > >  2 files changed, 13 insertions(+), 20 deletions(-)
-> > >
-> > > diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.=
-bbclass
-> > > index 512d4c7302..c00d2910be 100644
-> > > --- a/meta/classes/cve-check.bbclass
-> > > +++ b/meta/classes/cve-check.bbclass
-> > > @@ -26,7 +26,7 @@ CVE_PRODUCT ??=3D "${BPN}"
-> > >  CVE_VERSION ??=3D "${PV}"
-> > >
-> > >  CVE_CHECK_DB_DIR ?=3D "${DL_DIR}/CVE_CHECK"
-> > > -CVE_CHECK_DB_FILE ?=3D "${CVE_CHECK_DB_DIR}/nvdcve.db"
-> > > +CVE_CHECK_DB_FILE ?=3D "${CVE_CHECK_DB_DIR}/nvdcve_1.0.db"
-> > >
-> > >  CVE_CHECK_LOG ?=3D "${T}/cve.log"
-> > >  CVE_CHECK_TMP_FILE ?=3D "${TMPDIR}/cve_check"
-> > > @@ -200,11 +200,11 @@ def check_cves(d, patched_cves):
-> > >              c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ?", (=
-product,))
-> > >
-> > >          for row in c:
-> > > -            cve =3D row[1]
-> > > -            version_start =3D row[4]
-> > > -            operator_start =3D row[5]
-> > > -            version_end =3D row[6]
-> > > -            operator_end =3D row[7]
-> > > +            cve =3D row[0]
-> > > +            version_start =3D row[3]
-> > > +            operator_start =3D row[4]
-> > > +            version_end =3D row[5]
-> > > +            operator_end =3D row[6]
-> > >
-> > >              if cve in cve_whitelist:
-> > >                  bb.note("%s-%s has been whitelisted for %s" % (produ=
-ct, pv, cve))
-> > > diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/re=
-cipes-core/meta/cve-update-db-native.bb
-> > > index 72d1f48835..3519beae5f 100644
-> > > --- a/meta/recipes-core/meta/cve-update-db-native.bb
-> > > +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-> > > @@ -30,7 +30,7 @@ python do_populate_cve_db() {
-> > >      YEAR_START =3D 2002
-> > >
-> > >      db_dir =3D d.getVar("DL_DIR") + '/CVE_CHECK'
-> > > -    db_file =3D db_dir + '/nvdcve.db'
-> > > +    db_file =3D db_dir + '/nvdcve_1.0.db'
-> > >      json_tmpfile =3D db_dir + '/nvd.json.gz'
-> > >      proxy =3D d.getVar("https_proxy")
-> > >      cve_f =3D open(d.getVar("TMPDIR") + '/cve_check', 'a')
-> > > @@ -65,6 +65,10 @@ python do_populate_cve_db() {
-> > >          c.execute("select DATE from META where YEAR =3D ?", (year,))
-> > >          meta =3D c.fetchone()
-> > >          if not meta or meta[0] !=3D last_modified:
-> > > +            # Clear products table entries corresponding to current =
-year
-> > > +            cve_year =3D 'CVE-' + str(year) + '%'
-> > > +            c.execute("delete from PRODUCTS where ID like ?", (cve_y=
-ear,))
-> > > +
-> > >              # Update db with current year json file
-> > >              req =3D urllib.request.Request(json_url)
-> > >              if proxy:
-> > > @@ -91,27 +95,16 @@ python do_populate_cve_db() {
-> > >      conn.close()
-> > >  }
-> > >
-> > > -# DJB2 hash algorithm
-> > > -def hash_djb2(s):
-> > > -    hash =3D 5381
-> > > -    for x in s:
-> > > -        hash =3D (( hash << 5) + hash) + ord(x)
-> > > -
-> > > -    return hash & 0xFFFFFFFF
-> > > -
-> > >  def initialize_db(c):
-> > >      c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE,=
- DATE TEXT)")
-> > >      c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMA=
-RY TEXT, \
-> > >          SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
-> > > -    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (HASH INTEGER UNI=
-QUE, ID TEXT, \
-> > > +    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
-> > >          VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_STAR=
-T TEXT, \
-> > >          VERSION_END TEXT, OPERATOR_END TEXT)")
-> > >
-> > >  def insert_elt(c, db_values):
-> > > -    product_str =3D db_values[0] + db_values[1] + db_values[2] + db_=
-values[3]
-> > > -    hashstr =3D hash_djb2(product_str)
-> > > -    db_values.insert(0, hashstr)
-> > > -    query =3D "insert or replace into PRODUCTS values (?, ?, ?, ?, ?=
-, ?, ?, ?)"
-> > > +    query =3D "insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)"
-> > >      c.execute(query, db_values)
-> > >
-> > >  def parse_node_and_insert(c, node, cveId):
-> > > --
-> > > 2.11.0
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This seems to be a bug/feature of gcc. A bug has been open on their
+bugzilla, and also inetutils have been posted with the proposed patch.
+
+Without this patch, pxelinux fails to boot because it keeps asking the
+server for the pxelinux.cfg/00-01-02-03-04 and never jumps to /default.
+
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+---
+ .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 +++++++++++++++++++
+ .../inetutils/inetutils_1.9.4.bb              |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
+
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
+new file mode 100644
+index 0000000000..a91913cb51
+--- /dev/null
++++ b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
+@@ -0,0 +1,25 @@
++tftpd: Fix abort on error path
++
++When trying to fetch a non existent file, the app crashes with:
++
++*** buffer overflow detected ***: 
++Aborted
++
++
++Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
++Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
++diff --git a/src/tftpd.c b/src/tftpd.c
++index 56002a0..144012f 100644
++--- a/src/tftpd.c
+++++ b/src/tftpd.c
++@@ -864,9 +864,8 @@ nak (int error)
++       pe->e_msg = strerror (error - 100);
++       tp->th_code = EUNDEF;	/* set 'undef' errorcode */
++     }
++-  strcpy (tp->th_msg, pe->e_msg);
++   length = strlen (pe->e_msg);
++-  tp->th_msg[length] = '\0';
+++  memcpy(tp->th_msg, pe->e_msg, length + 1);
++   length += 5;
++   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
++     syslog (LOG_ERR, "nak: %m\n");
+diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
+index ac2e017d8b..684fbe09e1 100644
+--- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
++++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
+@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
+            file://inetutils-1.9-PATH_PROCNET_DEV.patch \
+            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
+            file://0001-rcp-fix-to-work-with-large-files.patch \
++           file://fix-buffer-fortify-tfpt.patch \
+ "
+ 
+ SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
+-- 
+2.20.1
+
 
