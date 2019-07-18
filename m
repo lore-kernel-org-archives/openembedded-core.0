@@ -1,54 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A59F7EEE1
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 92F267EF1E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 12:33:55 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id g17so28518647wrr.5
+	Thu, 18 Jul 2019 12:35:07 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id p13so28484376wru.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 05:33:56 -0700 (PDT)
+	Thu, 18 Jul 2019 05:35:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=MIzV4reXMTEr9zIU9eC8g5eOAJ+kynWaIJbRh1bqv7M=;
-	b=IHaqHlCYdrA4uqTxvTunoBRo3mpDKNpYC35REfA8LQBYoh37i52QfAmjBFgWryHeW8
-	0hYqIqNGb0tZs89fNKHe7cOr5y6ej5bwAEOJ4/00CkSvDMrD5s+6y7Av/FCMKLXr+P7g
-	FF/FIEZW8TNZ+IWBlIWAXKiaO9vhk1t9f+BFk=
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZTKzzE9UPkNPlwD7wevrogkeBDRTpE41SzL6XZpMajo=;
+	b=JTi3+6hUqrF54bs4+69mVqD0TVtJv6er++Lm+Q5TSkNxH+q5PawXgK4wWs79GTw4Ud
+	AwIbKlHlsZMKgbFJOhYXJS4SLsYFqY+io9ArX10jLdi/kNpEsQfgIl7d0sZeeIk5MMn6
+	hTR+vuix5HPn5xJBboktJNuQjsr825rYQtfTc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=MIzV4reXMTEr9zIU9eC8g5eOAJ+kynWaIJbRh1bqv7M=;
-	b=ppg2BliQ097+qft58EEclMZrIm065k6bJ4+6I1sVyahmRWgjWv6/eoz7VxKnBAKAEk
-	h6XJdQyU2nvS3T7YzJCjrUvGHOHN02s9po4pr3YkJ2BFAAyjH3ZN881RR9ye6Ro9Gvr5
-	1VkQ0ZYDHcaKptTSbXnUFIVivZlJAU4RMddLlE/seqqiC0wiIwoXKvC8l3/Z2rVo4i8d
-	4vq2jGVYR5xYdpWYRcm4Ljs+BhDrukCklEk139hbqfCV++LmHhhFHTJ3KPFVU1igMDAs
-	wrsJUZJ2dRD8DyYiQxAPQ2ylsrgFQrhM9k2Rda7dvX0TPjwmql+FeK71ZRq07C29IYH1
-	kUsg==
-X-Gm-Message-State: APjAAAWJPu3v36A//K9Y2+2124Nsmuol2JGlW9tTAsEgfuK1S9x2OlMC
-	+KEBlbd3rNiTykXLcodmbg54eQ==
-X-Google-Smtp-Source: APXvYqyrIcqE1ZNKEhgYlESLJY+Z2LTxpOYuv6oYNe1W59Jy7rKdxGtWiz2+TDBlGc5gXANYctu7qg==
-X-Received: by 2002:a05:6000:1007:: with SMTP id
-	a7mr37821696wrx.172.1563453235939; 
-	Thu, 18 Jul 2019 05:33:55 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZTKzzE9UPkNPlwD7wevrogkeBDRTpE41SzL6XZpMajo=;
+	b=bKEIjybLj2V2zSgg707wILDbcmOaEVTacrHsVlmo/FtRmHh5uT7tbOXck63ncU5WbW
+	kLUbRKfsg84iwqwxpihF/xDger57cRKS/+UdjAhDifuFNobCBPO7OhIlr3i3xqXJUzzr
+	JbRZ0nCepkL9nLGc92e/P3fPPjPkfaVWjjjRNm0xqlg9ADtFXS54n5/WWO1ezscziOyA
+	OkCCmUQO1I6TZRY6OIA66QKXOPMq9QFGjDSFSbKL2nJUToHhw7GDR2795VPABQxkxIt+
+	CtekN6W1z22jpBJD0/omvZ8u33+XuYXvl7/aWWlvMIi5G/+96Srrs8Ve4ldI5wPUi2PT
+	rF2Q==
+X-Gm-Message-State: APjAAAXnX6jFwxVbqAzwJlcgc3XuttYPwHzrG4ykx7s6M9J2IyfsqBII
+	RF0RR0j0+6bP7noeYn03OPIaTUSH+Lc=
+X-Google-Smtp-Source: APXvYqxEuEYp+KQknpjD0wltMWoxRJgShTQbdpRzeHwwO0tbQjrnvs8X9/uYKgTrxZI4bXwXBoO3KA==
+X-Received: by 2002:a5d:498a:: with SMTP id r10mr50002671wrq.28.1563453308134; 
+	Thu, 18 Jul 2019 05:35:08 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	u186sm42256326wmu.26.2019.07.18.05.33.54
+	j33sm61540812wre.42.2019.07.18.05.35.07
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 18 Jul 2019 05:33:55 -0700 (PDT)
-Message-ID: <8ffc227244161cf4735427ed794ba569e41cd0ce.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 18 Jul 2019 13:33:53 +0100
-In-Reply-To: <CABymUCN4Z9mD3zytqA9s5nS-me3-iCU_tAz47KmUibMamtDsFQ@mail.gmail.com>
-References: <1562742656-23568-1-git-send-email-jun.nie@linaro.org>
-	<1728686637c0ddb7bfcad08769da97a8705daca7.camel@linuxfoundation.org>
-	<CABymUCN4Z9mD3zytqA9s5nS-me3-iCU_tAz47KmUibMamtDsFQ@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	Thu, 18 Jul 2019 05:35:07 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jul 2019 13:35:06 +0100
+Message-Id: <20190718123506.30788-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel-fitimage: uboot-sign: fix missing signature
+Subject: [PATCH] staging: Drop clean_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,39 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 12:33:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 18 Jul 2019 12:35:07 -0000
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-07-18 at 17:18 +0800, Jun Nie wrote:
-> <richard.purdie@linuxfoundation.org> 于2019年7月17日周三 下午7:41写道：
-> > On Wed, 2019-07-10 at 15:10 +0800, Jun Nie wrote:
-> > > u-boot.bin with dtb & signature should be placed in ${B} so that
-> > > it can be deployed by u-boot as expected. Otherwise, the version
-> > > without signature is installed.
-> > > 
-> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > > ---
-> > >  meta/classes/uboot-sign.bbclass | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > I continue to be very worried we have no test coverage in this area
-> > of
-> > the code. Since I don't know it particularly well I'm effectively
-> > merging patches blindly :(.
-> 
-> Then I think you can merge it as long as it pass current test
-> coverage. Because I already test the FIT signature feature comes back
-> with this patch :-)
+With recent changes to runqueue, this fuction is unsafe as setscene tasks can run
+at the same time as normal ones and doing things before do_fetch no longer
+offers any guarantees.
 
-It has merged but my point is we really need better test coverage of
-these areas of the code.
+There is other code which cleans out things from the sysroots as tasks rerun so
+we should rely upon that instead.
 
-What I'd really like is for people to help write tests which showed the
-broken behaviour the patch is fixing.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/staging.bbclass | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 94c85248daf..cdc342dbb94 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -577,17 +577,6 @@ python do_prepare_recipe_sysroot () {
+ }
+ addtask do_prepare_recipe_sysroot before do_configure after do_fetch
+ 
+-# Clean out the recipe specific sysroots before do_fetch
+-# (use a prefunc so we can order before extend_recipe_sysroot if it gets added)
+-python clean_recipe_sysroot() {
+-    # We remove these stamps since we're removing any content they'd have added with
+-    # cleandirs. This removes the sigdata too, likely not a big deal,
+-    oe.path.remove(d.getVar("STAMP") + "*addto_recipe_sysroot*")
+-    return
+-}
+-clean_recipe_sysroot[cleandirs] += "${RECIPE_SYSROOT} ${RECIPE_SYSROOT_NATIVE}"
+-do_fetch[prefuncs] += "clean_recipe_sysroot"
+-
+ python staging_taskhandler() {
+     bbtasks = e.tasklist
+     for task in bbtasks:
+-- 
+2.20.1
 
 
