@@ -1,40 +1,25 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FE937EEA1
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B02D46C44A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 06:19:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45q3rk2DtSz4q;
-	Thu, 18 Jul 2019 08:19:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1563430791;
-	bh=Km3xyrH+q9+bDf5Wrkgj9i2JDu4OFFUEyP7/3smdboQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pf1Fnzi7nXjg1OYU1m1zcV06wZwgcytgdUOVW+imFLDLa23AsRozaOTNQrKY6Inw8
-	pvuZjQV5zng6f7ZnMyTfvDeC1STUIwXKmYSwnc3DWLdUDLBxHGSLpKaWma+rHe9gd4
-	qyvWjYqTDey4StaDshOpwuOvt7wufG78ijAs58s537P/DQ4UzaFdg9w10wrCW914R2
-	FZL9RPg/xVIDkDnMDcDPkK2/2HPkCXQbUjRW6Lvf4xjVFt1+/Rw/uYz9o/sCI2iHI3
-	ee5r4wivH3rdQBpRowvLjPVs6SNXYsrmadvNtXD3q7q7KpyStNMRcAVhaOMtGAmNL2
-	KZTLYlQLKhJpL7c3YI1IsgauX5f1vh9w/GAQR7nv5nnydBe4JbzT/4FK0K2clRN/TY
-	IXqMKF8pAWJAr2PJXaHo20OGYFAiBkmMGZEEQuECM7TW1j2bfl8DQ2Cjh7hu/5+4cn
-	07lMJyV7c9PWK3C+30Vzui96aUgpJbVIt0afnhP9pIGmYH7FJmxMxjrH16cNH65wfP
-	iNiiIQmBR9uGW1c7V+DzzbvxTxQthFyA6pW421Dc3BhfmggUoGsZSfgQ/Qwbrla9Ob
-	N1I48/lI3jsXpae8M3zBWVJQetNMHhEq2Kc20o9IN28pbdvYfQzzijcf+ojsnI1pG5
-	6TBMLYqz9d5cKmIr5rSAnvWA=
-Date: Thu, 18 Jul 2019 09:19:48 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: richard.purdie@linuxfoundation.org
-Message-ID: <20190718061948.GB27459@localhost>
-References: <20190716135444.12057-1-u.oelmann@pengutronix.de>
-	<09978b11aded8890d37f2a64f7833f7a028e2577.camel@linuxfoundation.org>
-	<6rlfwx2atq.fsf@pengutronix.de>
-	<5fc8a130cfb17be80c146dec31ab5ffd71eea247.camel@linuxfoundation.org>
+	Thu, 18 Jul 2019 08:04:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6I83Xp9018526
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jul 2019 01:03:53 -0700
+Received: from localhost (128.224.162.195) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Thu, 18 Jul 2019 01:03:26 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Jul 2019 16:03:24 +0800
+Message-ID: <1563437004-27408-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <5fc8a130cfb17be80c146dec31ab5ffd71eea247.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org,
-	=?utf-8?B?U8O4cmVu?= Andersen <san@skov.dk>
-Subject: Re: [PATCH] squashfs-tools: upgrade to commit f95864afe883
+X-Originating-IP: [128.224.162.195]
+Subject: [PATCH] debianutils: upgrade 4.8.6.1 -> 4.8.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,66 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 06:19:50 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 18 Jul 2019 08:04:02 -0000
+Content-Type: text/plain
 
-On Wed, Jul 17, 2019 at 11:57:42AM +0100, richard.purdie@linuxfoundation.org wrote:
-> On Wed, 2019-07-17 at 12:51 +0200, Ulrich Ölmann wrote:
-> > Hi Richard,
-> > 
-> > On Wed, Jul 17 2019 at 11:19 +0200, Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> > > On Tue, 2019-07-16 at 15:54 +0200, Ulrich Ölmann wrote:  
-> > > > [...] 
-> > > > -PACKAGECONFIG ??= "gzip xz lzo lz4 lzma xattr"
-> > > > +PACKAGECONFIG ??= "gzip xz lzo lz4 lzma xattr zstd reproducible"
-> > > > [...] 
-> > > > +PACKAGECONFIG[zstd] = "ZSTD_SUPPORT=1,ZSTD_SUPPORT=0,zstd"
-> > > > +PACKAGECONFIG[reproducible] =
-> > > > "REPRODUCIBLE_DEFAULT=1,REPRODUCIBLE_DEFAULT=0,"
-> > > 
-> > > This fails in OE-Core since zstd isn't present and you've enabled
-> > > that
-> > > by default:
-> > > 
-> > > e.g.:
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/827
-> > > 
-> > > (but many other similar failures).
-> > > 
-> > > Adding the PACKAGECONFIG[zstd] is good, we just can't enable it by
-> > > default.
-> > 
-> > see my reply to Adrian: what do you think of transplanting the zstd
-> > recipe from meta-rauc to OE-core?
-> 
-> I think right now that zstd is not common enough to be something for
-> oe-core. If multiple people reply and disagree I'm willing to reasses
-> that but that's my feeling right now...
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../{debianutils_4.8.6.1.bb => debianutils_4.8.6.3.bb}            | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/debianutils/{debianutils_4.8.6.1.bb => debianutils_4.8.6.3.bb} (86%)
 
-zstd not even being in meta-oe is a surprise that should be corrected.
-
-btrfs-tools would be the only user that comes immediately into my mind,
-but zstd support in the kernel btrfs driver is relatively new and not
-yet widely used.
-
-zstd has already gotten a lot of traction in the Open Source world,
-but regarding adding it to oe-core right now one could argue either way.
-
-> Cheers,
-> 
-> Richard
-
-cu
-Adrian
-
+diff --git a/meta/recipes-support/debianutils/debianutils_4.8.6.1.bb b/meta/recipes-support/debianutils/debianutils_4.8.6.3.bb
+similarity index 86%
+rename from meta/recipes-support/debianutils/debianutils_4.8.6.1.bb
+rename to meta/recipes-support/debianutils/debianutils_4.8.6.3.bb
+index 7cc78a6..a69d01e 100644
+--- a/meta/recipes-support/debianutils/debianutils_4.8.6.1.bb
++++ b/meta/recipes-support/debianutils/debianutils_4.8.6.3.bb
+@@ -3,15 +3,13 @@ SECTION = "base"
+ LICENSE = "GPLv2 & SMAIL_GPL"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=f01a5203d50512fc4830b4332b696a9f"
+ 
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20190217T160716Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
++SRC_URI = "http://snapshot.debian.org/archive/debian/20190717T213444Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
+ 
+-SRC_URI[md5sum] = "80e2e670d8f6c0036770e971237f1f5c"
+-SRC_URI[sha256sum] = "099f1e8a7278b26145a2ba2dda84c4118403bfab38c8d7070a6235a7ffcb55ed"
+-
+-S = "${WORKDIR}/${BPN}"
++SRC_URI[md5sum] = "ca57cc6621275346d7d516ab0b5fa1f5"
++SRC_URI[sha256sum] = "2cc7de3afc6df1cf6d00af9938efac7ee8f739228e548e512ddc186b6a7be221"
+ 
+ inherit autotools update-alternatives
+ 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.7.4
 
 
