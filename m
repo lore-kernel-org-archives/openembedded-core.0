@@ -1,53 +1,55 @@
 Return-Path: <petr.vorel@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D91617E417
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D66C07E417
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 06:36:13 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id n4so31101053wrs.3
+	Fri, 19 Jul 2019 06:41:38 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id v15so27676272wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 23:36:15 -0700 (PDT)
+	Thu, 18 Jul 2019 23:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=uiYc29PHI9CLgobiHoR6aW4/ApoTU93knzz6ZKQ0ZJE=;
-	b=DJpoFYr8kyB5gFavSDoGtB9QcWwBJrNVMHLHL96qw1OAkccEuZUC4bw4tmzGfTQdqB
-	PSlId2xLAXHI6ypvSQ7gdhgWKvKWmFHOzpyf/dAaRoFkNgnEJmidVf0mAjMo3xOQ32VB
-	tP1udclUkuK7Ndt/c5bb/3Oha2J0WXV203z6N/8CU+s2ktOE0ByWgRBJaR/yVqBDmyuO
-	8hxWh59WjJyL4IenAjhADELelzQ+Wxp1z4WBmrVJkTsRNOXZ6/rjeYYHKODmIKqH9sRv
-	9C2QhBgYnmXvj4wfypdEWyM4qXWMIxvjd1FaZ1CwUNABvY78KaalY2KBfmUsIWQ5cSBk
-	wEaA==
+	bh=Jls0Dy/gAX3AXxe73I0T8tW08BbVEbAKoyZ29yDIukM=;
+	b=eUtH0oalBf+WHk0O28nuqCqLFv789qz8pEVdZ+A6NMC9iIp67jnCS/0fR53ppSUD89
+	li/iqJuGWgUvQl6bD/KZJ8h5Lq2euyl1NycUi4dDsOQsRymWR3QnQQuF3IUI3ih9UEqZ
+	Z4R8qe/c5kNoHFe1hHnacqAKD+vx0eIVOP5pjbgVM4+UwOEsHiqvg+9Pc5wEXea3zcJG
+	yz0udAqywi8KFFpBmgJAy+LKjcsW41GR86S2CeJsweCYBT/OV+ntGBRxr4XCpQFsz1wg
+	31gIJ+vhKXDU14SM5usQr2lHruLFd3jb0j4wwf+Ug4nEyO0VHhquglrtUvJ+BYG/Seka
+	u/vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
 	:references:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=uiYc29PHI9CLgobiHoR6aW4/ApoTU93knzz6ZKQ0ZJE=;
-	b=oFE9fU4waiJ25f1ln9J+/WRSCGgMMqr4sbI0hBm6z2axdsiQ81+FU/xcnfaddgCg1w
-	Xh/Wme3xkNrTvTy6bHhSCi5l9FVStONaw9DLxY+1iddshQlyFqYnqFQk2rfYv3+uh8mJ
-	o4qpeqioIPnhyCnStbrf9iHcpOuJka5k2gUwmAOpz78Gh11JnQY3hTOA8Zj9Ns+Mfu2W
-	KWCdmigO/6svuGaXoHecvHsg0xaHVz4B4DQqg6Zm7KWWdcrVBf6CEPhItT+SvdbJyO19
-	/GmJMqwDBgbs6No1BKglULZCBi3v9qg2Y1SF8TgQT7Jtu0nsPIeyhpAUguwsoHFL56tb
-	HSog==
-X-Gm-Message-State: APjAAAUccYjPxsuTvWXjI9uXJ1tD5veVcgGuYDIWMB/hC/Xj/T4rVhDO
-	w/DE6BFrOrTRF85TzVZ9PW0=
-X-Google-Smtp-Source: APXvYqxkUZ5JkfeKHZcT0MmVOMU8Je1xK00wx1guwDzXPTsEjVinYTflAZg0Ulh8+3ezb24oCglTpA==
-X-Received: by 2002:adf:b1d1:: with SMTP id r17mr54367021wra.273.1563518174561;
-	Thu, 18 Jul 2019 23:36:14 -0700 (PDT)
+	bh=Jls0Dy/gAX3AXxe73I0T8tW08BbVEbAKoyZ29yDIukM=;
+	b=GEe7K0rS0UkhRU2NAvaZWt1jP2iDntAmk26zmIa4OzESIGYieiJrwpsrkCuiqwsiah
+	dMnsNB2JbQNcYqfcKl2luDG3U+sGbEHFE55N3W1shVTM2Ez9QcFD4vI8MJXGdY0QOwrP
+	Ed5/JMLJKoUT2vcPv68+/KXsVjMnUv2awTLczBl0iA+00clnjHAX+ygq27lObSGMLUzQ
+	RNHiBjMEl722ZkqOl894kk1icWRBgPZgXw0mQOq5SXsNnr91VYZGCWwf7QPlGLe1ByL5
+	RYx1YIbWFIzZlcNIGh++DTf/kf1ZwDzlbnt7a9Cz713bd4gOqEn15Xfr/KOvEV/kaFmE
+	QHug==
+X-Gm-Message-State: APjAAAWd1oV2wdFhclHcGy3EspwF7COaZR0HJn6MITVJvvrk1NLgJtSg
+	qxahP69O8MB1p3vIwid1FPo=
+X-Google-Smtp-Source: APXvYqxvsr6C8+wj2ZmFXl7zKzsteNxxvYT5bbgR+W6M6cOaMEserF3hh8s5EiBeNQO652ozbgsJZQ==
+X-Received: by 2002:a1c:2d58:: with SMTP id t85mr42592523wmt.61.1563518499616; 
+	Thu, 18 Jul 2019 23:41:39 -0700 (PDT)
 Received: from x230 ([62.201.25.198]) by smtp.gmail.com with ESMTPSA id
-	b2sm37916512wrp.72.2019.07.18.23.36.13
+	e3sm25802065wrs.37.2019.07.18.23.41.38
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 18 Jul 2019 23:36:13 -0700 (PDT)
-Date: Fri, 19 Jul 2019 08:36:12 +0200
+	Thu, 18 Jul 2019 23:41:39 -0700 (PDT)
+Date: Fri, 19 Jul 2019 08:41:37 +0200
 From: Petr Vorel <petr.vorel@gmail.com>
-To: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <20190719063610.GA9894@x230>
+To: "Hongzhi, Song" <hongzhi.song@windriver.com>
+Message-ID: <20190719064136.GB9894@x230>
 Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <1563513198-4037-1-git-send-email-yi.zhao@windriver.com>
+References: <20190717095039.121044-1-hongzhi.song@windriver.com>
+	<20190718215132.GD26895@dell5510>
+	<5eada992-c0d9-b167-ab9a-aa03a1a3f5ce@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1563513198-4037-1-git-send-email-yi.zhao@windriver.com>
+In-Reply-To: <5eada992-c0d9-b167-ab9a-aa03a1a3f5ce@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ltp: upgrade 20190115 -> 20190517
+Subject: Re: [PATCH] ltp: getrlimit03: adjust-a-bit-of-code-to-compatiable-with mips32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,56 +62,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 06:36:14 -0000
+X-List-Received-Date: Fri, 19 Jul 2019 06:41:39 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yi,
+Hi Hongzhi,
 
-> Drop the following patches since the issues have been fixed upstream:
->   0001-file01.sh-Fix-in-was-not-recognized.patch
->   0001-lapi-Define-TST_ABI-32-64-to-detect-target-type.patch
->   0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
->   0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
->   0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch
->   0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch
->   0023-ptrace-Use-int-instead-of-enum-__ptrace_request.patch
->   0024-rt_sigaction-rt_sigprocmark-Define-_GNU_SOURCE.patch
->   0026-crash01-Define-_GNU_SOURCE.patch
->   0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
->   0034-periodic_output.patch
->   0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch
->   define-sigrtmin-and-sigrtmax-for-musl.patch
->   setregid01-security-string-formatting.patch
+> > ...
+> > > --- /dev/null
+> > > +++ b/meta/recipes-extended/ltp/ltp/0001-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
+> > > @@ -0,0 +1,62 @@
+> > > +From e79652a3839869b1983d65999e5d5dcb50bc9cd7 Mon Sep 17 00:00:00 2001
+> > > +From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+> > > +Date: Mon, 15 Jul 2019 03:39:06 -0400
+> > > +Subject: [PATCH] getrlimit03: adjust a bit of code to compatiable with mips32
+> > ...
+> > > +Signed-off-by: Jan Stancek <jstancek@redhat.com>
+> > > +Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> > > +
+> > > +Upstream-Status: Backport
+> > > +Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> > > +---
+> > > + testcases/kernel/syscalls/getrlimit/getrlimit03.c | 8 +++++++-
+> > > + 1 file changed, 7 insertions(+), 1 deletion(-)
+> > I have to say I prefer policy when only build fixes are backported / added.
+> > (approach which e.g. buildroot has). Having many patches (25 atm) makes updating
+> > a bit difficult (ok, not that much, 'Upstream-Status: Backport' shows what has
+> > been merged since last release) and sometimes brings users patches which weren't
+> > accepted by upstream (your mips patch [1] was not accepted [2]
 
-> Refresh the following patches:
->   0004-build-Add-option-to-select-libc-implementation.patch
->   0005-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch
->   0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
->   0018-guard-mallocopt-with-__GLIBC__.patch
->   0020-getdents-define-getdents-getdents64-only-for-glibc.patch
->   0035-fix-test_proc_kill-hang.patch
->   0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
->   0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
->   0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
->   0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch
->   0001-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
+> Thanks for your kindly remind.
 
-> Add patch:
->   0006-rt_tgsigqueueinfo-disable-test-on-musl.patch
-
-+rt_tgsigqueueinfo01.c: In function 'sigusr1_handler':
-+rt_tgsigqueueinfo01.c:42:22: error: 'siginfo_t' {aka 'struct <anonymous>'} has no member named '_sifields'; did you mean '__si_fields'?
-+   42 |  sigval_rcv = uinfo->_sifields._rt.SI_SIGVAL.sival_ptr;
-+      |                      ^~~~~~~~~
-+      |                      __si_fields
-
-Interesting, I didn't notice this musl error.
-
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-Reviewed-by: Petr Vorel <petr.vorel@gmail.com>
+> Agree with you. It's time to uprev ltp recipe.
 
 
-Kind regards,
-Petr
+> From now, if the "Submitting or Backport" is appropriate,
+
+> I will make sure the patch was merged by ltp before it was sent to oe-core.
+Great! Feel free to Cc me when sending patches.
+
+> > ).
+
+> > But I understand that LTP 3 months release cycle can be to
+> > slow for some LTP users.
+
+> > Kind regards,
+> > Petr
+
+> > PS: I'm slowly working on fixing all musl issues in LTP upstream. It's a long
+> > term run but were moving towards that goal.
+> > Patch "build: Add option to select libc implementation" [3] is a not a good
+> > approach.  Instead it's needed to find for each failure why it's not presented
+> > in musl.  Mostly because it uses non POSIX features or deprecated API, which
+> > needs to be avoided or used kernel headers where it's available.
+
+> > [1] http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
+
+> I am working on this patch.
+Good.
+
+
+> > [2] https://patchwork.ozlabs.org/patch/982194/#2012168
+
+> This patch has been merge by ltp finally.
+To LTP upstream? I don't see it [4]. That's the patch you working on.
+
+> --Hongzhi
+
+> > [3] http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
+
+[4] https://github.com/linux-test-project/ltp/commits/master/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
 
