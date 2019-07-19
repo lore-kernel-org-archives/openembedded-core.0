@@ -1,24 +1,54 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B00497D3CE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 770A06D548
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 22:06:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6JM5QTp028604
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 19 Jul 2019 22:28:21 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id x15so30077096wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 15:05:51 -0700
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 19 Jul 2019 15:05:31 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Jul 2019 15:05:31 -0700
-Message-ID: <20190719220531.40164-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.13.0
+	Fri, 19 Jul 2019 15:28:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=2SRC2X0hJgu6id531bTClj4tV9Y4RqMdvj747SzBrQ0=;
+	b=aLeeAtsIdjRU2isl4fSUL2Cdmg8vZuM2dJu0tqJLmbSiJVqFwJmmOueStzVwmo4+db
+	QFbZtS93zN4jM9XOoAzk2DYMasdoB75WlWCJSPhxmNhtGeFgAfqldNquK1/QeccTSOGR
+	qxw0kxiAuhXfyuihd0Bah7oXLEL8aqw6JEZEQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=2SRC2X0hJgu6id531bTClj4tV9Y4RqMdvj747SzBrQ0=;
+	b=ata94gUZ/RfYq4K7mI6K9O31KhQhyxF2Sb8cyLGX63w5oL4uNzmnnPfODJg5R96Hvq
+	zjOFHL3YWdah9IbLZRB27gsOEChVTOvBRLu+2RMXGpAC+M9ngGkyOHmM6bSkCfD59pIC
+	CsJR23bTNOYBUMA6Vs3vIGp+AfcIyVYoAA80X5P3DZYYYG7jyz9HfpDJ/2xzO9LydmH1
+	XC+JTjH30vvuZeC/KU/KU1N8J/jCK2eelOEX5thYZyE5MxaOPgBHgGuZq3+wE9K016JN
+	DgWUAl4ym+hnfWyJ7qtVdpF66KBBTgQZ4zwFH3yf7fq+VZFlAxLMeNKTtDic1BO03aRE
+	/XGQ==
+X-Gm-Message-State: APjAAAUPzvY21bIPTIsrY+0nSN4SLHglWVa6DpBPMF2EQTcbsv+u9Jjw
+	zloOVNkZ94b7F9MPKCnN4FnXOw==
+X-Google-Smtp-Source: APXvYqzDIqokswbpPSGjXaPbufcNNx6jdqSujx9cdXzFGreia/Syz08gyt21yJDwcPKLuEAy9GdLUw==
+X-Received: by 2002:a1c:a101:: with SMTP id k1mr51057166wme.98.1563575302200; 
+	Fri, 19 Jul 2019 15:28:22 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	f70sm34303408wme.22.2019.07.19.15.28.20
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 19 Jul 2019 15:28:21 -0700 (PDT)
+Message-ID: <a3ee2977ee2d63f1908f110d9273352815ba7d35.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Burton, Ross" <ross.burton@intel.com>, Kang Kai <kai.kang@windriver.com>
+Date: Fri, 19 Jul 2019 23:28:19 +0100
+In-Reply-To: <CAJTo0LbmYp-70L=Z_T0jE4xS1mR_vLXKQE18O_EpeEwD6wdroA@mail.gmail.com>
+References: <20190704134520.16320-1-kai.kang@windriver.com>
+	<20190704134520.16320-2-kai.kang@windriver.com>
+	<CAJTo0LbmYp-70L=Z_T0jE4xS1mR_vLXKQE18O_EpeEwD6wdroA@mail.gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH 1/1] libtool: remove host information from libtool
+Cc: Poky Project <poky@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] defaultsetup.conf: enable select init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,58 +61,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 22:06:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Jul 2019 22:28:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Import patch from Debian.
+On Fri, 2019-07-19 at 22:35 +0100, Burton, Ross wrote:
+> On Thu, 4 Jul 2019 at 15:40, <kai.kang@windriver.com> wrote:
+> > +++ b/meta/conf/distro/include/init-manager-systemd.inc
+> > @@ -0,0 +1,6 @@
+> > +# Use systemd for system initialization
+> > +DISTRO_FEATURES_append = " systemd"
+> > +DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " sysvinit"
+> > +VIRTUAL-RUNTIME_init_manager = "systemd"
+> > +VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
+> > +VIRTUAL-RUNTIME_login_manager = "shadow-base"
+> > diff --git a/meta/conf/distro/include/init-manager-sysvinit.inc
+> > b/meta/conf/distro/include/init-manager-sysvinit.inc
+> > new file mode 100644
+> > index 0000000000..7725b30e1e
+> > --- /dev/null
+> > +++ b/meta/conf/distro/include/init-manager-sysvinit.inc
+> > @@ -0,0 +1,6 @@
+> > +# Use sysvinit for system initialization
+> > +DISTRO_FEATURES_append = " sysvinit"
+> > +DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " systemd"
+> > +VIRTUAL-RUNTIME_init_manager = "sysvinit"
+> > +VIRTUAL-RUNTIME_initscripts = "initscripts"
+> > +VIRTUAL-RUNTIME_login_manager = "busybox"
+> 
+> Back when I integrated systemd into oe-core one of the use cases was
+> a single distro that builds a main image using systemd, and a
+> rescue/update image using sysv/busybox.  How is this possible with
+> this system?
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- .../libtool/libtool/debian-no_hostname.patch        | 21 +++++++++++++++++++++
- meta/recipes-devtools/libtool/libtool_2.4.6.bb      |  2 +-
- 2 files changed, 22 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-devtools/libtool/libtool/debian-no_hostname.patch
+We're still missing one or two init system setup variants, I was
+planning to add those and convert our autobuilder tests over to use
+them rather than the fragements that are currently coded into
+autobuilder-helper.
 
-diff --git a/meta/recipes-devtools/libtool/libtool/debian-no_hostname.patch b/meta/recipes-devtools/libtool/libtool/debian-no_hostname.patch
-new file mode 100755
-index 0000000..5add0cc
---- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool/debian-no_hostname.patch
-@@ -0,0 +1,21 @@
-+libtool: remove host specific info from header file
-+
-+https://sources.debian.org/data/main/libt/libtool/2.4.6-10/debian/patches/
-+        no_hostname.patch
-+
-+Upstream-Status: Inappropriate [not author]
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+---
-+Index: libtool-2.4.6/m4/libtool.m4
-+===================================================================
-+--- libtool-2.4.6.orig/m4/libtool.m4
-++++ libtool-2.4.6/m4/libtool.m4
-+@@ -728,7 +728,6 @@ _LT_CONFIG_SAVE_COMMANDS([
-+     cat <<_LT_EOF >> "$cfgfile"
-+ #! $SHELL
-+ # Generated automatically by $as_me ($PACKAGE) $VERSION
-+-# Libtool was configured on host `(hostname || uname -n) 2>/dev/null | sed 1q`:
-+ # NOTE: Changes made to this file will be lost: look at ltmain.sh.
-+ 
-+ # Provide generalized library-building support services.
-diff --git a/meta/recipes-devtools/libtool/libtool_2.4.6.bb b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-index f5fdd00..a5715fa 100644
---- a/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-+++ b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-@@ -1,6 +1,6 @@
- require libtool-${PV}.inc
- 
--SRC_URI += "file://multilib.patch"
-+SRC_URI += "file://multilib.patch file://debian-no_hostname.patch"
- 
- RDEPENDS_${PN} += "bash"
- 
--- 
-2.7.4
+> Personally, I'd prefer to see the DISTRO_FEATURE wrangling left out
+> of those files, and let the user ensure the right features are set.
+> After all, systemd will refuse to build unless the systemd feature is
+> enabled.
+
+With the addition of the "none" default, users aren't being forced to
+use them so that can do something custom or use a precanned default
+which I think gives the best of both worlds?
+
+Cheers,
+
+Richard
 
 
