@@ -1,54 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 770A06D548
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B2C57F1E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 22:28:21 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id x15so30077096wmj.3
+	Fri, 19 Jul 2019 22:30:19 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id s3so30074196wms.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 15:28:22 -0700 (PDT)
+	Fri, 19 Jul 2019 15:30:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=2SRC2X0hJgu6id531bTClj4tV9Y4RqMdvj747SzBrQ0=;
-	b=aLeeAtsIdjRU2isl4fSUL2Cdmg8vZuM2dJu0tqJLmbSiJVqFwJmmOueStzVwmo4+db
-	QFbZtS93zN4jM9XOoAzk2DYMasdoB75WlWCJSPhxmNhtGeFgAfqldNquK1/QeccTSOGR
-	qxw0kxiAuhXfyuihd0Bah7oXLEL8aqw6JEZEQ=
+	bh=SxdC3lG+2iqeJgW+SX7VNfTXqpwKaVBKB2Mi+IIAuGU=;
+	b=QeK4sgDOzRUNFtnES1xnYxJSdFMe18BbuvOrsBnYh10QCznWR1G45YWjmu7PeoqkqE
+	u6c1W78sshbL8+0/YSSrzQHxY+lRIH/6aUWaLoJsY0Ul2V/97arvSopptNRC6cR9sB6s
+	fYnzGjvqO11A1tsdDjRNVt2+SoWHq9Jq+0jkg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=2SRC2X0hJgu6id531bTClj4tV9Y4RqMdvj747SzBrQ0=;
-	b=ata94gUZ/RfYq4K7mI6K9O31KhQhyxF2Sb8cyLGX63w5oL4uNzmnnPfODJg5R96Hvq
-	zjOFHL3YWdah9IbLZRB27gsOEChVTOvBRLu+2RMXGpAC+M9ngGkyOHmM6bSkCfD59pIC
-	CsJR23bTNOYBUMA6Vs3vIGp+AfcIyVYoAA80X5P3DZYYYG7jyz9HfpDJ/2xzO9LydmH1
-	XC+JTjH30vvuZeC/KU/KU1N8J/jCK2eelOEX5thYZyE5MxaOPgBHgGuZq3+wE9K016JN
-	DgWUAl4ym+hnfWyJ7qtVdpF66KBBTgQZ4zwFH3yf7fq+VZFlAxLMeNKTtDic1BO03aRE
-	/XGQ==
-X-Gm-Message-State: APjAAAUPzvY21bIPTIsrY+0nSN4SLHglWVa6DpBPMF2EQTcbsv+u9Jjw
-	zloOVNkZ94b7F9MPKCnN4FnXOw==
-X-Google-Smtp-Source: APXvYqzDIqokswbpPSGjXaPbufcNNx6jdqSujx9cdXzFGreia/Syz08gyt21yJDwcPKLuEAy9GdLUw==
-X-Received: by 2002:a1c:a101:: with SMTP id k1mr51057166wme.98.1563575302200; 
-	Fri, 19 Jul 2019 15:28:22 -0700 (PDT)
+	bh=SxdC3lG+2iqeJgW+SX7VNfTXqpwKaVBKB2Mi+IIAuGU=;
+	b=FXCBGW/nbRa5YaUf1GrSQ57C7mvz1HkNHIzMYV1rr2Y6z9U0fPgRrkyBbwEI5dmrsp
+	MbExVO3YJLWw4yrdOkcE8pGTRX8SsAxFUd0mlPuYy4Byo3XhpeGpNu7hIRZAk3pb6aBW
+	shos2546KWBrDX5IXk1V2aITqbLgwmXUvlLW36NNLInG7c1y+tDE5NH9tNq7y/+ObV2I
+	XE9i9vpNyEAijWVh3A3XNYDb3bNUEbdCWCNBnaNLI6gEipICKtz8yiCO3hsxh+feAFMq
+	cfYh4nH9lXvSOu6IohgpVWjX7SMWMtOl9oluSuI46bXu1Xc5a0gjz/t9F/vupmIoReD+
+	5rIg==
+X-Gm-Message-State: APjAAAWQUSJLaXYuvqJ216kJyvjKzCV/pHg4QQNwyK9UEbP6KDPCa/J6
+	gIA8Aiep1QdxRrEd5iMePOYQ8nIE0tE=
+X-Google-Smtp-Source: APXvYqwIDSmUcKYmhRYfNp1PYYjHW/w3yl4wNM7tRKZheRxCkOmbIQlLp+qPMtXAyx+08Q14KIKPEQ==
+X-Received: by 2002:a1c:a942:: with SMTP id s63mr49216613wme.76.1563575420825; 
+	Fri, 19 Jul 2019 15:30:20 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	f70sm34303408wme.22.2019.07.19.15.28.20
+	e6sm32632598wrw.23.2019.07.19.15.30.19
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 19 Jul 2019 15:28:21 -0700 (PDT)
-Message-ID: <a3ee2977ee2d63f1908f110d9273352815ba7d35.camel@linuxfoundation.org>
+	Fri, 19 Jul 2019 15:30:20 -0700 (PDT)
+Message-ID: <43ed87044aaf0901257c30967085eccd67a608b6.camel@linuxfoundation.org>
 From: richard.purdie@linuxfoundation.org
-To: "Burton, Ross" <ross.burton@intel.com>, Kang Kai <kai.kang@windriver.com>
-Date: Fri, 19 Jul 2019 23:28:19 +0100
-In-Reply-To: <CAJTo0LbmYp-70L=Z_T0jE4xS1mR_vLXKQE18O_EpeEwD6wdroA@mail.gmail.com>
-References: <20190704134520.16320-1-kai.kang@windriver.com>
-	<20190704134520.16320-2-kai.kang@windriver.com>
-	<CAJTo0LbmYp-70L=Z_T0jE4xS1mR_vLXKQE18O_EpeEwD6wdroA@mail.gmail.com>
+To: Stefan Agner <stefan@agner.ch>, openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jul 2019 23:30:19 +0100
+In-Reply-To: <20190719194456.1344-1-stefan@agner.ch>
+References: <20190719194456.1344-1-stefan@agner.ch>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: Poky Project <poky@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] defaultsetup.conf: enable select init manager
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: Re: [PATCH] psplash: create psplash tmpfs mount directory in psplash-init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,52 +58,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 22:28:21 -0000
+X-List-Received-Date: Fri, 19 Jul 2019 22:30:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-07-19 at 22:35 +0100, Burton, Ross wrote:
-> On Thu, 4 Jul 2019 at 15:40, <kai.kang@windriver.com> wrote:
-> > +++ b/meta/conf/distro/include/init-manager-systemd.inc
-> > @@ -0,0 +1,6 @@
-> > +# Use systemd for system initialization
-> > +DISTRO_FEATURES_append = " systemd"
-> > +DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " sysvinit"
-> > +VIRTUAL-RUNTIME_init_manager = "systemd"
-> > +VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
-> > +VIRTUAL-RUNTIME_login_manager = "shadow-base"
-> > diff --git a/meta/conf/distro/include/init-manager-sysvinit.inc
-> > b/meta/conf/distro/include/init-manager-sysvinit.inc
-> > new file mode 100644
-> > index 0000000000..7725b30e1e
-> > --- /dev/null
-> > +++ b/meta/conf/distro/include/init-manager-sysvinit.inc
-> > @@ -0,0 +1,6 @@
-> > +# Use sysvinit for system initialization
-> > +DISTRO_FEATURES_append = " sysvinit"
-> > +DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " systemd"
-> > +VIRTUAL-RUNTIME_init_manager = "sysvinit"
-> > +VIRTUAL-RUNTIME_initscripts = "initscripts"
-> > +VIRTUAL-RUNTIME_login_manager = "busybox"
+On Fri, 2019-07-19 at 21:44 +0200, Stefan Agner wrote:
+> From: Stefan Agner <stefan.agner@toradex.com>
 > 
-> Back when I integrated systemd into oe-core one of the use cases was
-> a single distro that builds a main image using systemd, and a
-> rescue/update image using sysv/busybox.  How is this possible with
-> this system?
+> The psplash binary uses TMPDIR as directory to store the FIFO to
+> communicate with the psplash tools. This directory can be in any
+> location an init system determines to be suitable, psplash-init
+> uses /mnt/ for it. Rather than creating the mount directory in
+> the recipe, just create it in the init script itself. This allows
+> other init scripts to use a different location without having
+> an unnecessary .psplash directory in /mnt.
+> 
+> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+> ---
+>  meta/recipes-core/psplash/files/psplash-init | 1 +
+>  meta/recipes-core/psplash/psplash_git.bb     | 3 ---
+>  2 files changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-core/psplash/files/psplash-init
+> b/meta/recipes-core/psplash/files/psplash-init
+> index 0bce1de536..7a3902a7e0 100755
+> --- a/meta/recipes-core/psplash/files/psplash-init
+> +++ b/meta/recipes-core/psplash/files/psplash-init
+> @@ -24,6 +24,7 @@ for x in $CMDLINE; do
+>  done
+>  
+>  export TMPDIR=/mnt/.psplash
+> +mkdir -p $TMPDIR
+>  mount tmpfs -t tmpfs $TMPDIR -o,size=40k
+>  
+>  rotation=0
 
-We're still missing one or two init system setup variants, I was
-planning to add those and convert our autobuilder tests over to use
-them rather than the fragements that are currently coded into
-autobuilder-helper.
+The main reason for avoiding this is probably the extra fork overhead
+of mkdir. It sounds trivial but the fork/exec calls add up over a boot
+process.
 
-> Personally, I'd prefer to see the DISTRO_FEATURE wrangling left out
-> of those files, and let the user ensure the right features are set.
-> After all, systemd will refuse to build unless the systemd feature is
-> enabled.
-
-With the addition of the "none" default, users aren't being forced to
-use them so that can do something custom or use a precanned default
-which I think gives the best of both worlds?
+Testing whether that directory exists before the mkdir might help with
+that.
 
 Cheers,
 
