@@ -1,51 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B2C57F1E3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A80537F1E5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 22:30:19 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id s3so30074196wms.2
+	Fri, 19 Jul 2019 22:49:18 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id v19so30344997wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 15:30:21 -0700 (PDT)
+	Fri, 19 Jul 2019 15:49:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=SxdC3lG+2iqeJgW+SX7VNfTXqpwKaVBKB2Mi+IIAuGU=;
-	b=QeK4sgDOzRUNFtnES1xnYxJSdFMe18BbuvOrsBnYh10QCznWR1G45YWjmu7PeoqkqE
-	u6c1W78sshbL8+0/YSSrzQHxY+lRIH/6aUWaLoJsY0Ul2V/97arvSopptNRC6cR9sB6s
-	fYnzGjvqO11A1tsdDjRNVt2+SoWHq9Jq+0jkg=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Y5IBymkKq7E6E4xbj++m896i+IKNsvYkPd196ZceJns=;
+	b=ONKDxsGyAKYMJXk0K1qKIXWnHhuHDjmqY02qwyzhlECKVuzMPdfkp8TbyGU/pQz4os
+	d6UM0FRtB0c2fQgpUJK5oa/7/rUDBnznSk0k3/fC/DiAa81nA0ssi6mATawco580PUrl
+	0k546UTgzzUnf4kr/aZghH3VjRQZO0XECJwQKE9CKN/5MSVA+RU4ubkG9WO1JPSFvPYS
+	TXqzFLm3gsNr0UlkeEMdfSaBEE3xk2sdZEfStRWsSmbV2gJBc9WxPbcHFw0L2w0iuRTs
+	qWB/hcYalfN7WZ3rWOuRgsAjUZVsHLvyUY/GXt3ZyTqmG/+JL78w3L8iI1xR+4hBc7OF
+	FAIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=SxdC3lG+2iqeJgW+SX7VNfTXqpwKaVBKB2Mi+IIAuGU=;
-	b=FXCBGW/nbRa5YaUf1GrSQ57C7mvz1HkNHIzMYV1rr2Y6z9U0fPgRrkyBbwEI5dmrsp
-	MbExVO3YJLWw4yrdOkcE8pGTRX8SsAxFUd0mlPuYy4Byo3XhpeGpNu7hIRZAk3pb6aBW
-	shos2546KWBrDX5IXk1V2aITqbLgwmXUvlLW36NNLInG7c1y+tDE5NH9tNq7y/+ObV2I
-	XE9i9vpNyEAijWVh3A3XNYDb3bNUEbdCWCNBnaNLI6gEipICKtz8yiCO3hsxh+feAFMq
-	cfYh4nH9lXvSOu6IohgpVWjX7SMWMtOl9oluSuI46bXu1Xc5a0gjz/t9F/vupmIoReD+
-	5rIg==
-X-Gm-Message-State: APjAAAWQUSJLaXYuvqJ216kJyvjKzCV/pHg4QQNwyK9UEbP6KDPCa/J6
-	gIA8Aiep1QdxRrEd5iMePOYQ8nIE0tE=
-X-Google-Smtp-Source: APXvYqwIDSmUcKYmhRYfNp1PYYjHW/w3yl4wNM7tRKZheRxCkOmbIQlLp+qPMtXAyx+08Q14KIKPEQ==
-X-Received: by 2002:a1c:a942:: with SMTP id s63mr49216613wme.76.1563575420825; 
-	Fri, 19 Jul 2019 15:30:20 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	e6sm32632598wrw.23.2019.07.19.15.30.19
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Y5IBymkKq7E6E4xbj++m896i+IKNsvYkPd196ZceJns=;
+	b=Qo2H6XSyNnbSxDi3I90//KgTTMzP3FHKl3G+t3QjJbPwBN3txCfBvikWVsycaCnkNK
+	1Cc4gsyLtprtqi4mpfcDTTsOqk0CwyBAVyAvJ6C9Br6pk9mSGonW31jhMScYjYhhyPLl
+	VqI1jzLfPZvNRueXwJtfO7ibzlI9V9TTDudOBX6Q7S00NkmbjSpEn7NjuZDyOPrXJHZ9
+	9DWkrBH6I0uz+WtzHbchkW8pOuUqjsMoH3JOqz0bQh4IHrkZ0GVHFuQmYthjNpK3PEU8
+	+ToplQSG379spM6KBBguCuIg2++en3ThZxc3fOAHkxCu9ROSBV1cYgveFb0zVnyrQQzg
+	jluw==
+X-Gm-Message-State: APjAAAXBi6M2MCyLdXLCtUguQAg7CDYKc7l8F6CoMAwymETmTs+xCXmP
+	JHZnaPyyEt/e8D/pW1/XyEHn7/L1rBU=
+X-Google-Smtp-Source: APXvYqxfC8GWXiW49T9UY9ObdDmUsEXj1fjRC8FgZpcBFMSybMRpi8XSSoRzS3rB6DD2bu1ThsEx3w==
+X-Received: by 2002:a1c:20c3:: with SMTP id g186mr37924075wmg.15.1563576559079;
+	Fri, 19 Jul 2019 15:49:19 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id c1sm62791729wrh.1.2019.07.19.15.49.18
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 19 Jul 2019 15:30:20 -0700 (PDT)
-Message-ID: <43ed87044aaf0901257c30967085eccd67a608b6.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Stefan Agner <stefan@agner.ch>, openembedded-core@lists.openembedded.org
-Date: Fri, 19 Jul 2019 23:30:19 +0100
-In-Reply-To: <20190719194456.1344-1-stefan@agner.ch>
-References: <20190719194456.1344-1-stefan@agner.ch>
-User-Agent: Evolution 3.32.2-1 
+	Fri, 19 Jul 2019 15:49:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jul 2019 23:49:15 +0100
+Message-Id: <20190719224915.4581-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH] psplash: create psplash tmpfs mount directory in psplash-init
+Subject: [PATCH] meson.bbclass: export STRIP=${BUILD_STRIP}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,50 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 22:30:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Jul 2019 22:49:18 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2019-07-19 at 21:44 +0200, Stefan Agner wrote:
-> From: Stefan Agner <stefan.agner@toradex.com>
-> 
-> The psplash binary uses TMPDIR as directory to store the FIFO to
-> communicate with the psplash tools. This directory can be in any
-> location an init system determines to be suitable, psplash-init
-> uses /mnt/ for it. Rather than creating the mount directory in
-> the recipe, just create it in the init script itself. This allows
-> other init scripts to use a different location without having
-> an unnecessary .psplash directory in /mnt.
-> 
-> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-> ---
->  meta/recipes-core/psplash/files/psplash-init | 1 +
->  meta/recipes-core/psplash/psplash_git.bb     | 3 ---
->  2 files changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-core/psplash/files/psplash-init
-> b/meta/recipes-core/psplash/files/psplash-init
-> index 0bce1de536..7a3902a7e0 100755
-> --- a/meta/recipes-core/psplash/files/psplash-init
-> +++ b/meta/recipes-core/psplash/files/psplash-init
-> @@ -24,6 +24,7 @@ for x in $CMDLINE; do
->  done
->  
->  export TMPDIR=/mnt/.psplash
-> +mkdir -p $TMPDIR
->  mount tmpfs -t tmpfs $TMPDIR -o,size=40k
->  
->  rotation=0
+In Meson the environment variables are always the native tools, so export
+STRIP=${BUILD_STRIP} along with CC et al to silence this Meson warning:
 
-The main reason for avoiding this is probably the extra fork overhead
-of mkdir. It sounds trivial but the fork/exec calls add up over a boot
-process.
+ARNING: Env var STRIP seems to point to the cross compiler.
+This is probably wrong, it should always point to the native compiler.
 
-Testing whether that directory exists before the mkdir might help with
-that.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/meson.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 893853142c7..7267e58b101 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -130,6 +130,7 @@ override_native_tools() {
+     export CXX="${BUILD_CXX}"
+     export LD="${BUILD_LD}"
+     export AR="${BUILD_AR}"
++    export STRIP="${BUILD_STRIP}"
+     # These contain *target* flags but will be used as *native* flags.  The
+     # correct native flags will be passed via -Dc_args and so on, unset them so
+     # they don't interfere with tools invoked by Meson (such as g-ir-scanner)
+-- 
+2.20.1
 
 
