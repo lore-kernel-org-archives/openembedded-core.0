@@ -1,36 +1,23 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 776957EF14
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 55C087F157
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 08:59:52 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jul 2019 01:59:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,281,1559545200"; d="scan'208";a="343636715"
-Received: from pgsmsx102.gar.corp.intel.com ([10.221.44.80])
-	by orsmga005.jf.intel.com with ESMTP; 19 Jul 2019 01:59:52 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
-	PGSMSX102.gar.corp.intel.com ([169.254.6.248]) with mapi id
-	14.03.0439.000; Fri, 19 Jul 2019 16:53:02 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 3/3] iptables: upgrade 1.8.2 -> 1.8.3
-Thread-Index: AQHVPfasFB9fWtYSR02tZ8JfiY/rbabRHLOA
-Date: Fri, 19 Jul 2019 08:53:02 +0000
-Message-ID: <f0a07fcefb4d52eea216cbe763d6ee8f597f8832.camel@intel.com>
-References: <20190719055529.25447-1-anuj.mittal@intel.com>
-	<20190719055529.25447-3-anuj.mittal@intel.com>
-In-Reply-To: <20190719055529.25447-3-anuj.mittal@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.175.29]
+	Fri, 19 Jul 2019 09:47:18 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6J9lJ8m028921
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jul 2019 02:47:19 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Fri, 19 Jul 2019 02:47:18 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Jul 2019 18:00:07 +0800
+Message-ID: <cover.1563530365.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/3] iptables: upgrade 1.8.2 -> 1.8.3
+Subject: [PATCH 0/2] Two fixes about cleaning up temp dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,15 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 08:59:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5DD7E330ADDFE64CB93D0FEE83D7CB2A@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 19 Jul 2019 09:47:18 -0000
+Content-Type: text/plain
 
-T24gRnJpLCAyMDE5LTA3LTE5IGF0IDEzOjU1ICswODAwLCBBbnVqIE1pdHRhbCB3cm90ZToNCj4g
-UmVtb3ZlIHVwc3RyZWFtZWQgcGF0Y2ggYW5kIG1hbnVhbGx5IHBhY2thZ2Ugc3ltbGlua3Mgd2hp
-Y2ggYXJlbid0DQo+IGhhbmRsZWQgYnkgZG9fc3BsaXRfcGFja2FnZS4NCj4gDQo+IEZpeGVzIENW
-RS0yMDE5LTEyMTU1Lg0KDQpJIGNvcHkgcGFzdGVkIHRoZSB3cm9uZyBDVkUgbnVtYmVyIGhlcmUu
-IFBsZWFzZSBpZ25vcmUgdGhpcyBjaGFuZ2UuDQoNClRoYW5rcywNCkFudWoNCg==
+*** BLURB HERE ***
+The following changes since commit ecf098877522508875ccff8c56cd7fee0fa3762a:
+
+  distro/include: Add poky-distro-alt-test-config.inc (2019-07-19 08:46:04 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/temp-clean
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/temp-clean
+
+Chen Qi (2):
+  runtime_test.py: use track_for_cleanup for temp dir
+  devtool: remove temp dir in upgrade
+
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 4 +---
+ scripts/lib/devtool/upgrade.py               | 1 +
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+-- 
+1.9.1
+
 
