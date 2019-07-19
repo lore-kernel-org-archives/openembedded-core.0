@@ -1,50 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B2C247F118
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 776957EF14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 08:10:01 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id p13so31271632wru.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 01:10:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=MDRPkVKdl9fuCcTy8WbzUb2IXhxH4Q6+6m5yCvjyB6Q=;
-	b=SfqLoIJ9qWtT/bvLJFOEXBKAHOl+d+WpOFCqPlpgnFFW0TB2t4icvgDK8gDMGTfDsT
-	avAZiO6mYMoARJ+lUZhf9X7kKKQWr0Yv/b1Nhl/zmR333dp/BGy97moNZ0dr3ahhXWQS
-	+DOeBhlZFdlBRN40xTlaf4mJtzI66TeDeVqAU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=MDRPkVKdl9fuCcTy8WbzUb2IXhxH4Q6+6m5yCvjyB6Q=;
-	b=aOAxHnPV61QiBXpqEbvS/n/tQnnBhSRraVDVkJ3xWnG6JSf5h/dX7hyu9Gk5+oTNqh
-	RzCAloYGQDbcAd/hMfIRFOV9oUde8hzoJ25pyeMS9MXEzLMewsIvyyfkUh1RAQR9ZlU6
-	A9iWpGD31gRN08Nl7l3PdZvgicayhn4pMTQESVPBOVGB8xsqzN7WEpP1nXv2PAHFYuAA
-	eo/k7xjvfwTuf9FMQhuFv1elkyEr4ETS807XURJXVUP7a+XnSweuSPlrzfRx1pFmsNke
-	IhwrpoLRvup1/8plof8NziwEVXrRZXCESTsvjqC4BheCrFWuzOgRP6Y+84p0eHJ9LBQa
-	KLjA==
-X-Gm-Message-State: APjAAAW6Zxwi3NUfLdyMZCbnZBi24F6Q5/C5JzdIDJkA2eYCovwtM55e
-	IRQzlxCwXK5aunojql24acJNnSHnC2s=
-X-Google-Smtp-Source: APXvYqzRTL4X0HAPEawkdjSenA0X7on0zMueNypoTKerfJUSxW4Z/ZRwGKE6S3KdlEUdiK9+tNxTug==
-X-Received: by 2002:adf:f591:: with SMTP id f17mr40014018wro.119.1563523802557;
-	Fri, 19 Jul 2019 01:10:02 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	k63sm37340309wmb.2.2019.07.19.01.10.01
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 19 Jul 2019 01:10:01 -0700 (PDT)
-Message-ID: <d8d7ddffe296b619b2e6c124f5a9653db920c377.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
-Date: Fri, 19 Jul 2019 09:10:00 +0100
-In-Reply-To: <1563512345-367867-1-git-send-email-changqing.li@windriver.com>
-References: <1563512345-367867-1-git-send-email-changqing.li@windriver.com>
-User-Agent: Evolution 3.32.2-1 
+	Fri, 19 Jul 2019 08:59:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Jul 2019 01:59:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,281,1559545200"; d="scan'208";a="343636715"
+Received: from pgsmsx102.gar.corp.intel.com ([10.221.44.80])
+	by orsmga005.jf.intel.com with ESMTP; 19 Jul 2019 01:59:52 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
+	PGSMSX102.gar.corp.intel.com ([169.254.6.248]) with mapi id
+	14.03.0439.000; Fri, 19 Jul 2019 16:53:02 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 3/3] iptables: upgrade 1.8.2 -> 1.8.3
+Thread-Index: AQHVPfasFB9fWtYSR02tZ8JfiY/rbabRHLOA
+Date: Fri, 19 Jul 2019 08:53:02 +0000
+Message-ID: <f0a07fcefb4d52eea216cbe763d6ee8f597f8832.camel@intel.com>
+References: <20190719055529.25447-1-anuj.mittal@intel.com>
+	<20190719055529.25447-3-anuj.mittal@intel.com>
+In-Reply-To: <20190719055529.25447-3-anuj.mittal@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.175.29]
 MIME-Version: 1.0
-Subject: Re: [PATCH] oeqa/parselogs: Whitelist qemuarm64 runtime errors
+Subject: Re: [PATCH 3/3] iptables: upgrade 1.8.2 -> 1.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,22 +43,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 08:10:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Jul 2019 08:59:52 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5DD7E330ADDFE64CB93D0FEE83D7CB2A@intel.com>
+Content-Transfer-Encoding: base64
 
-On Fri, 2019-07-19 at 12:59 +0800, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> The qemuarm64 machine doesn't have graphics so whitelist the
-> X server related failures
-
-qemuarm64 *does* have graphics and we don't see these errors on the
-autobuilder?
-
-Cheers,
-
-Richard
-
-
+T24gRnJpLCAyMDE5LTA3LTE5IGF0IDEzOjU1ICswODAwLCBBbnVqIE1pdHRhbCB3cm90ZToNCj4g
+UmVtb3ZlIHVwc3RyZWFtZWQgcGF0Y2ggYW5kIG1hbnVhbGx5IHBhY2thZ2Ugc3ltbGlua3Mgd2hp
+Y2ggYXJlbid0DQo+IGhhbmRsZWQgYnkgZG9fc3BsaXRfcGFja2FnZS4NCj4gDQo+IEZpeGVzIENW
+RS0yMDE5LTEyMTU1Lg0KDQpJIGNvcHkgcGFzdGVkIHRoZSB3cm9uZyBDVkUgbnVtYmVyIGhlcmUu
+IFBsZWFzZSBpZ25vcmUgdGhpcyBjaGFuZ2UuDQoNClRoYW5rcywNCkFudWoNCg==
 
