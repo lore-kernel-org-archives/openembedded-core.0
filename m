@@ -1,41 +1,53 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F1307F102
+Return-Path: <petr.vorel@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D91617E417
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 06:12:57 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id k18so29622835ljc.11
+	Fri, 19 Jul 2019 06:36:13 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id n4so31101053wrs.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 23:12:59 -0700 (PDT)
+	Thu, 18 Jul 2019 23:36:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=uiYc29PHI9CLgobiHoR6aW4/ApoTU93knzz6ZKQ0ZJE=;
+	b=DJpoFYr8kyB5gFavSDoGtB9QcWwBJrNVMHLHL96qw1OAkccEuZUC4bw4tmzGfTQdqB
+	PSlId2xLAXHI6ypvSQ7gdhgWKvKWmFHOzpyf/dAaRoFkNgnEJmidVf0mAjMo3xOQ32VB
+	tP1udclUkuK7Ndt/c5bb/3Oha2J0WXV203z6N/8CU+s2ktOE0ByWgRBJaR/yVqBDmyuO
+	8hxWh59WjJyL4IenAjhADELelzQ+Wxp1z4WBmrVJkTsRNOXZ6/rjeYYHKODmIKqH9sRv
+	9C2QhBgYnmXvj4wfypdEWyM4qXWMIxvjd1FaZ1CwUNABvY78KaalY2KBfmUsIWQ5cSBk
+	wEaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=RyJjZtgodX+VuBNTHkCB1aWCB1VOG/B54smxjewvq2w=;
-	b=IK9pcmBwhMGt3gU6jActCxc76TCSbH/hkV4UhtzQ5+DQ/O09Sc7i0O/YKKlq6JtmrA
-	9jToBUAh/zk341sncCAzNKLWYAaDbTKW8TuGTxTZZ4EzofQ/9ButFRxh00LBQehtgyg9
-	8tJkBNBFFwyYQJ8BBFccMnPdTcGISiXffyuCl2CzwxgHAQ55Oi/AtdOYz2/16bpF7hKq
-	HOJeSoZyEx/XxDrsvmQ6jEdUA7lVwynMYfBTLspOnJS7Mf3ZfW1WCdsOWz9DoBs4RiTQ
-	2BqFRL6J3jtDwVdqXRWNHd7jG50GjAJIqwRnSkovYVWmbfTQp+EciHdcZmSSpTa5cfW5
-	CURg==
-X-Gm-Message-State: APjAAAU3C/dToxsaAQosOa9vBDTTV7FfbPosollBwgPbeEqlnOuxyHjr
-	yGrhnb+UBMon+ajhn7I0Xbj7E9dv1sHD4IGxe1E=
-X-Google-Smtp-Source: APXvYqwKseJD5Leko7HtjpjyPNq7tyRD1H8WvZHcPQ9MHyK4Jl0JiRZuKpwy5Vc129mHGTn9orUbUc7BmueXsCu7E58=
-X-Received: by 2002:a2e:480a:: with SMTP id v10mr25476639lja.94.1563516778527; 
-	Thu, 18 Jul 2019 23:12:58 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+	:references:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=uiYc29PHI9CLgobiHoR6aW4/ApoTU93knzz6ZKQ0ZJE=;
+	b=oFE9fU4waiJ25f1ln9J+/WRSCGgMMqr4sbI0hBm6z2axdsiQ81+FU/xcnfaddgCg1w
+	Xh/Wme3xkNrTvTy6bHhSCi5l9FVStONaw9DLxY+1iddshQlyFqYnqFQk2rfYv3+uh8mJ
+	o4qpeqioIPnhyCnStbrf9iHcpOuJka5k2gUwmAOpz78Gh11JnQY3hTOA8Zj9Ns+Mfu2W
+	KWCdmigO/6svuGaXoHecvHsg0xaHVz4B4DQqg6Zm7KWWdcrVBf6CEPhItT+SvdbJyO19
+	/GmJMqwDBgbs6No1BKglULZCBi3v9qg2Y1SF8TgQT7Jtu0nsPIeyhpAUguwsoHFL56tb
+	HSog==
+X-Gm-Message-State: APjAAAUccYjPxsuTvWXjI9uXJ1tD5veVcgGuYDIWMB/hC/Xj/T4rVhDO
+	w/DE6BFrOrTRF85TzVZ9PW0=
+X-Google-Smtp-Source: APXvYqxkUZ5JkfeKHZcT0MmVOMU8Je1xK00wx1guwDzXPTsEjVinYTflAZg0Ulh8+3ezb24oCglTpA==
+X-Received: by 2002:adf:b1d1:: with SMTP id r17mr54367021wra.273.1563518174561;
+	Thu, 18 Jul 2019 23:36:14 -0700 (PDT)
+Received: from x230 ([62.201.25.198]) by smtp.gmail.com with ESMTPSA id
+	b2sm37916512wrp.72.2019.07.18.23.36.13
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 18 Jul 2019 23:36:13 -0700 (PDT)
+Date: Fri, 19 Jul 2019 08:36:12 +0200
+From: Petr Vorel <petr.vorel@gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
+Message-ID: <20190719063610.GA9894@x230>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <1563513198-4037-1-git-send-email-yi.zhao@windriver.com>
 MIME-Version: 1.0
-References: <20190718194615.6874-1-ricardo@ribalda.com>
-	<CAMKF1spj-LXk1=YxeErV7UHVtWJmacjP1M-_W6M=4ZnSkaFk_w@mail.gmail.com>
-	<CAPybu_2tkssPOt8G1ZFZ6s9++7h0KhZV872tFccRXdRYuR=i-Q@mail.gmail.com>
-	<CAMKF1sqzAbADXCR1gW07-j1L=RLWEWJJur8gVZ4GC=xA04KfNA@mail.gmail.com>
-In-Reply-To: <CAMKF1sqzAbADXCR1gW07-j1L=RLWEWJJur8gVZ4GC=xA04KfNA@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date: Fri, 19 Jul 2019 08:12:42 +0200
-Message-ID: <CAPybu_3Ho8UJXhAnogaGw9QucD=4zdjmjWmeZ9iUuW4VLrha9g@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] inetutils: Fix abort on invalid files
+In-Reply-To: <1563513198-4037-1-git-send-email-yi.zhao@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] ltp: upgrade 20190115 -> 20190517
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,222 +60,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 06:12:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 19 Jul 2019 06:36:14 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Khem
+Hi Yi,
 
-Indeed is due to that, but infortunately it is part of arpa/tftp.h .
-So the propossed solutionI believe that it is simpler.
+> Drop the following patches since the issues have been fixed upstream:
+>   0001-file01.sh-Fix-in-was-not-recognized.patch
+>   0001-lapi-Define-TST_ABI-32-64-to-detect-target-type.patch
+>   0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
+>   0007-fix-__WORDSIZE-undeclared-when-building-with-musl.patch
+>   0009-fix-redefinition-of-struct-msgbuf-error-building-wit.patch
+>   0021-Define-_GNU_SOURCE-for-MREMAP_MAYMOVE-definition.patch
+>   0023-ptrace-Use-int-instead-of-enum-__ptrace_request.patch
+>   0024-rt_sigaction-rt_sigprocmark-Define-_GNU_SOURCE.patch
+>   0026-crash01-Define-_GNU_SOURCE.patch
+>   0028-rt_sigaction.h-Use-sighandler_t-instead-of-__sighand.patch
+>   0034-periodic_output.patch
+>   0039-commands-ar01-Fix-for-test-in-deterministic-mode.patch
+>   define-sigrtmin-and-sigrtmax-for-musl.patch
+>   setregid01-security-string-formatting.patch
 
-https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+> Refresh the following patches:
+>   0004-build-Add-option-to-select-libc-implementation.patch
+>   0005-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch
+>   0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+>   0018-guard-mallocopt-with-__GLIBC__.patch
+>   0020-getdents-define-getdents-getdents64-only-for-glibc.patch
+>   0035-fix-test_proc_kill-hang.patch
+>   0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
+>   0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
+>   0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
+>   0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch
+>   0001-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
 
-Also is what I have been suggested in #gcc
+> Add patch:
+>   0006-rt_tgsigqueueinfo-disable-test-on-musl.patch
 
++rt_tgsigqueueinfo01.c: In function 'sigusr1_handler':
++rt_tgsigqueueinfo01.c:42:22: error: 'siginfo_t' {aka 'struct <anonymous>'} has no member named '_sifields'; did you mean '__si_fields'?
++   42 |  sigval_rcv = uinfo->_sifields._rt.SI_SIGVAL.sival_ptr;
++      |                      ^~~~~~~~~
++      |                      __si_fields
 
-Thanks!
+Interesting, I didn't notice this musl error.
 
-On Fri, Jul 19, 2019 at 12:39 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Thu, Jul 18, 2019 at 2:10 PM Ricardo Ribalda Delgado
-> <ricardo@ribalda.com> wrote:
-> >
-> > Hi Khem
-> >
-> > I think the issue is that __memcpy_chk wrongly assume that the target
-> > size is 0. The origin size is calculated fine:
-> >
-> > https://godbolt.org/z/qTaDWP
-> >
->             char tu_data[0];    /* data or error string */
->
-> that seems an old stype variable length array
-> can you change it to char tu_data[] and see if it helps
->
-> > Thanks!
-> >
-> > On Thu, Jul 18, 2019 at 11:02 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > >
-> > > On Thu, Jul 18, 2019 at 12:46 PM Ricardo Ribalda Delgado
-> > > <ricardo@ribalda.com> wrote:
-> > > >
-> > > > When the code is compiled with  "-fstack-protector-strong
-> > > > -D_FORTIFY_SOURCE=2", everytime ftpfd is asked for a non existent file,
-> > > > it crashes with the following error:
-> > > >
-> > > > *** buffer overflow detected ***:
-> > > > Aborted
-> > > >
-> > > > This seems to be a bug/feature of gcc. A bug has been open on their
-> > > > bugzilla, and also inetutils have been posted with the proposed patch.
-> > > >
-> > > > Without this patch, pxelinux fails to boot because it keeps asking the
-> > > > server for the pxelinux.cfg/00-01-02-03-04 and never jumps to /default.
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > ---
-> > > >  .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 +++++++++++++++++++
-> > > >  .../inetutils/inetutils_1.9.4.bb              |  1 +
-> > > >  2 files changed, 26 insertions(+)
-> > > >  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > >
-> > > > diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > new file mode 100644
-> > > > index 0000000000..a91913cb51
-> > > > --- /dev/null
-> > > > +++ b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > @@ -0,0 +1,25 @@
-> > > > +tftpd: Fix abort on error path
-> > > > +
-> > > > +When trying to fetch a non existent file, the app crashes with:
-> > > > +
-> > > > +*** buffer overflow detected ***:
-> > > > +Aborted
-> > > > +
-> > > > +
-> > > > +Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
-> > > > +Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > +diff --git a/src/tftpd.c b/src/tftpd.c
-> > > > +index 56002a0..144012f 100644
-> > > > +--- a/src/tftpd.c
-> > > > ++++ b/src/tftpd.c
-> > > > +@@ -864,9 +864,8 @@ nak (int error)
-> > > > +       pe->e_msg = strerror (error - 100);
-> > > > +       tp->th_code = EUNDEF;   /* set 'undef' errorcode */
-> > > > +     }
-> > > > +-  strcpy (tp->th_msg, pe->e_msg);
-> > > > +   length = strlen (pe->e_msg);
-> > >
-> > > I wonder if length calculation is a problem as well here, if so then
-> > > it would need
-> > > correcting because it used in code below as well.
-> > >
-> > > > +-  tp->th_msg[length] = '\0';
-> > > > ++  memcpy(tp->th_msg, pe->e_msg, length + 1);
-> > > > +   length += 5;
-> > > > +   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
-> > > > +     syslog (LOG_ERR, "nak: %m\n");
-> > > > diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > index ac2e017d8b..684fbe09e1 100644
-> > > > --- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > +++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > @@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-> > > >             file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-> > > >             file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
-> > > >             file://0001-rcp-fix-to-work-with-large-files.patch \
-> > > > +           file://fix-buffer-fortify-tfpt.patch \
-> > > >  "
-> > > >
-> > > >  SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
-> > > > --
-> > > > 2.20.1
-> > > >
-> > > > --
-> > > > _______________________________________________
-> > > > Openembedded-core mailing list
-> > > > Openembedded-core@lists.openembedded.org
-> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> >
-> >
-> > --
-> > Ricardo Ribalda
-> > Thanks!
-> >
-> > On Thu, Jul 18, 2019 at 11:02 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > >
-> > > On Thu, Jul 18, 2019 at 12:46 PM Ricardo Ribalda Delgado
-> > > <ricardo@ribalda.com> wrote:
-> > > >
-> > > > When the code is compiled with  "-fstack-protector-strong
-> > > > -D_FORTIFY_SOURCE=2", everytime ftpfd is asked for a non existent file,
-> > > > it crashes with the following error:
-> > > >
-> > > > *** buffer overflow detected ***:
-> > > > Aborted
-> > > >
-> > > > This seems to be a bug/feature of gcc. A bug has been open on their
-> > > > bugzilla, and also inetutils have been posted with the proposed patch.
-> > > >
-> > > > Without this patch, pxelinux fails to boot because it keeps asking the
-> > > > server for the pxelinux.cfg/00-01-02-03-04 and never jumps to /default.
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > ---
-> > > >  .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 +++++++++++++++++++
-> > > >  .../inetutils/inetutils_1.9.4.bb              |  1 +
-> > > >  2 files changed, 26 insertions(+)
-> > > >  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > >
-> > > > diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > new file mode 100644
-> > > > index 0000000000..a91913cb51
-> > > > --- /dev/null
-> > > > +++ b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > @@ -0,0 +1,25 @@
-> > > > +tftpd: Fix abort on error path
-> > > > +
-> > > > +When trying to fetch a non existent file, the app crashes with:
-> > > > +
-> > > > +*** buffer overflow detected ***:
-> > > > +Aborted
-> > > > +
-> > > > +
-> > > > +Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
-> > > > +Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > +diff --git a/src/tftpd.c b/src/tftpd.c
-> > > > +index 56002a0..144012f 100644
-> > > > +--- a/src/tftpd.c
-> > > > ++++ b/src/tftpd.c
-> > > > +@@ -864,9 +864,8 @@ nak (int error)
-> > > > +       pe->e_msg = strerror (error - 100);
-> > > > +       tp->th_code = EUNDEF;   /* set 'undef' errorcode */
-> > > > +     }
-> > > > +-  strcpy (tp->th_msg, pe->e_msg);
-> > > > +   length = strlen (pe->e_msg);
-> > >
-> > > I wonder if length calculation is a problem as well here, if so then
-> > > it would need
-> > > correcting because it used in code below as well.
-> > >
-> > > > +-  tp->th_msg[length] = '\0';
-> > > > ++  memcpy(tp->th_msg, pe->e_msg, length + 1);
-> > > > +   length += 5;
-> > > > +   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
-> > > > +     syslog (LOG_ERR, "nak: %m\n");
-> > > > diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > index ac2e017d8b..684fbe09e1 100644
-> > > > --- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > +++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > @@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-> > > >             file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-> > > >             file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
-> > > >             file://0001-rcp-fix-to-work-with-large-files.patch \
-> > > > +           file://fix-buffer-fortify-tfpt.patch \
-> > > >  "
-> > > >
-> > > >  SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
-> > > > --
-> > > > 2.20.1
-> > > >
-> > > > --
-> > > > _______________________________________________
-> > > > Openembedded-core mailing list
-> > > > Openembedded-core@lists.openembedded.org
-> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> >
-> >
-> > --
-> > Ricardo Ribalda
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Reviewed-by: Petr Vorel <petr.vorel@gmail.com>
 
 
-
--- 
-Ricardo Ribalda
+Kind regards,
+Petr
 
