@@ -1,23 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 55C087F157
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B0317F188
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 09:47:18 +0000 (UTC)
+	Fri, 19 Jul 2019 09:47:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6J9lJ8m028921
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6J9lgGn012088
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 02:47:19 -0700 (PDT)
+	Fri, 19 Jul 2019 02:47:42 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Fri, 19 Jul 2019 02:47:18 -0700
+	14.3.468.0; Fri, 19 Jul 2019 02:47:41 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Jul 2019 18:00:07 +0800
-Message-ID: <cover.1563530365.git.Qi.Chen@windriver.com>
+Date: Fri, 19 Jul 2019 18:00:09 +0800
+Message-ID: <9937fa85aae217bbe5be0a63143207b0728564a1.1563530365.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1563530365.git.Qi.Chen@windriver.com>
+References: <cover.1563530365.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Two fixes about cleaning up temp dir
+Subject: [PATCH 2/2] devtool: remove temp dir in upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,27 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 09:47:18 -0000
+X-List-Received-Date: Fri, 19 Jul 2019 09:47:41 -0000
 Content-Type: text/plain
 
-*** BLURB HERE ***
-The following changes since commit ecf098877522508875ccff8c56cd7fee0fa3762a:
+For now, the temp dir is left in system, although the temporary
+source directory has been cleaned up. So we clean it up too.
 
-  distro/include: Add poky-distro-alt-test-config.inc (2019-07-19 08:46:04 +0100)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ scripts/lib/devtool/upgrade.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/temp-clean
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/temp-clean
-
-Chen Qi (2):
-  runtime_test.py: use track_for_cleanup for temp dir
-  devtool: remove temp dir in upgrade
-
- meta/lib/oeqa/selftest/cases/runtime_test.py | 4 +---
- scripts/lib/devtool/upgrade.py               | 1 +
- 2 files changed, 2 insertions(+), 3 deletions(-)
-
+diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+index 706f91c..18c5b66 100644
+--- a/scripts/lib/devtool/upgrade.py
++++ b/scripts/lib/devtool/upgrade.py
+@@ -281,6 +281,7 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
+             logger.info('Preserving temporary directory %s' % tmpsrctree)
+         else:
+             shutil.rmtree(tmpsrctree)
++            shutil.rmtree(tmpdir)
+ 
+     return (rev, md5, sha256, srcbranch, srcsubdir_rel)
+ 
 -- 
 1.9.1
 
