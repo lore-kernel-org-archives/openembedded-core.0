@@ -1,29 +1,51 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 21E947F133
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 60D227EE6C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 07:47:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6J7l2uT026598
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 19 Jul 2019 00:47:12 -0700
-Received: from [128.224.162.188] (128.224.162.188) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Fri, 19 Jul 2019 00:46:51 -0700
-To: Petr Vorel <petr.vorel@gmail.com>
+	Fri, 19 Jul 2019 08:06:59 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n9so6226454wrr.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jul 2019 01:07:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=zlYusrtaspkUK67HXTYqUy33qPCNNjcZwFe3wWFnMEQ=;
+	b=JGE1ceoSQ0CoNlMWgDsScGaoFkfQMIQUj13oeKuYyIjK8HDFMuhvvaWiLa3TDOb+sE
+	ocevs9Dh8qEzAbaRC8ysIoZkbpw2NxIju/Qmh+KQFX1K15hUx+gLisZr9lNv+j673QyH
+	8gZkTwgdGjuzLU/b4pPTTPHk4jndOw795qzjk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=zlYusrtaspkUK67HXTYqUy33qPCNNjcZwFe3wWFnMEQ=;
+	b=FuqUKoCUvBByJ4Niop4mL2uzFcatyx9/vu04PtdLzH8KAA4OxFBDAKdB1u+q9QZoKC
+	PhNHWSeq5cRSbd4uxdyQ7yOT5j64NeFFFpWAewBLMr8OCkFaGnrWtqfvUWUld+IEgJhu
+	avSrlmErjGYFXsTg2yyCimYGM56b0afdqD0gRACPVBU4/uisYwuIlwAgEtXyfXqJjZHP
+	O7xcBkhDvE/mjvoWB1/7e8AO/w58lrDYzoUzaF1VtDzj7ohhnc7tw6lSQTr7wUlR+NnY
+	9mPk0BfH6coCFXYRtWEp1TY+nKDLC4koYOpcJUQ5P0JXYuD8qcSPj1othK4D3JHOrQLZ
+	Cdkw==
+X-Gm-Message-State: APjAAAUm/RXQK62COLyQcZIHVHPAygwI/R3yK43MHGpQXm6CkrYGynjh
+	TvgN8Xf/vNmnfwFb0nhvrRwciw==
+X-Google-Smtp-Source: APXvYqwNGN7aXSITyhWfvRwLM4aPftidrQCw1BusxF6GW1Pr8W7hesbu0PtYry4HP5FDQN/wzE3XaA==
+X-Received: by 2002:adf:dcc2:: with SMTP id x2mr42377006wrm.55.1563523620116; 
+	Fri, 19 Jul 2019 01:07:00 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o6sm54867849wra.27.2019.07.19.01.06.59
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 19 Jul 2019 01:06:59 -0700 (PDT)
+Message-ID: <99beb56891c932f2d4efc59dd80ae69f043e5cde.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Petr Vorel <petr.vorel@gmail.com>, "Hongzhi.Song"
+	<hongzhi.song@windriver.com>
+Date: Fri, 19 Jul 2019 09:06:58 +0100
+In-Reply-To: <20190718215132.GD26895@dell5510>
 References: <20190717095039.121044-1-hongzhi.song@windriver.com>
 	<20190718215132.GD26895@dell5510>
-	<5eada992-c0d9-b167-ab9a-aa03a1a3f5ce@windriver.com>
-	<20190719064136.GB9894@x230>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <f649a897-5c9a-ef44-a09e-eda986fb016f@windriver.com>
-Date: Fri, 19 Jul 2019 15:46:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.2
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <20190719064136.GB9894@x230>
-X-Originating-IP: [128.224.162.188]
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] ltp: getrlimit03: adjust-a-bit-of-code-to-compatiable-with mips32
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,77 +60,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 07:47:37 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 19 Jul 2019 08:06:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-
-
-On 7/19/19 2:41 PM, Petr Vorel wrote:
-> Hi Hongzhi,
->
->>> ...
->>>> --- /dev/null
->>>> +++ b/meta/recipes-extended/ltp/ltp/0001-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
->>>> @@ -0,0 +1,62 @@
->>>> +From e79652a3839869b1983d65999e5d5dcb50bc9cd7 Mon Sep 17 00:00:00 2001
->>>> +From: "Hongzhi.Song" <hongzhi.song@windriver.com>
->>>> +Date: Mon, 15 Jul 2019 03:39:06 -0400
->>>> +Subject: [PATCH] getrlimit03: adjust a bit of code to compatiable with mips32
->>> ...
->>>> +Signed-off-by: Jan Stancek <jstancek@redhat.com>
->>>> +Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
->>>> +
->>>> +Upstream-Status: Backport
->>>> +Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
->>>> +---
->>>> + testcases/kernel/syscalls/getrlimit/getrlimit03.c | 8 +++++++-
->>>> + 1 file changed, 7 insertions(+), 1 deletion(-)
->>> I have to say I prefer policy when only build fixes are backported / added.
->>> (approach which e.g. buildroot has). Having many patches (25 atm) makes updating
->>> a bit difficult (ok, not that much, 'Upstream-Status: Backport' shows what has
->>> been merged since last release) and sometimes brings users patches which weren't
->>> accepted by upstream (your mips patch [1] was not accepted [2]
->> Thanks for your kindly remind.
->> Agree with you. It's time to uprev ltp recipe.
->
->>  From now, if the "Submitting or Backport" is appropriate,
->> I will make sure the patch was merged by ltp before it was sent to oe-core.
-> Great! Feel free to Cc me when sending patches.
->
->>> ).
->>> But I understand that LTP 3 months release cycle can be to
->>> slow for some LTP users.
->>> Kind regards,
->>> Petr
->>> PS: I'm slowly working on fixing all musl issues in LTP upstream. It's a long
->>> term run but were moving towards that goal.
->>> Patch "build: Add option to select libc implementation" [3] is a not a good
->>> approach.  Instead it's needed to find for each failure why it's not presented
->>> in musl.  Mostly because it uses non POSIX features or deprecated API, which
->>> needs to be avoided or used kernel headers where it's available.
->>> [1] http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-extended/ltp/ltp/0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
->> I am working on this patch.
-> Good.
->
->
->>> [2] https://patchwork.ozlabs.org/patch/982194/#2012168
->> This patch has been merge by ltp finally.
-> To LTP upstream? I don't see it [4]. That's the patch you working on.
 
 Hi Petr,
 
-quote your statement above : "[2] 
-https://patchwork.ozlabs.org/patch/982194/#2012168"
+On Thu, 2019-07-18 at 23:51 +0200, Petr Vorel wrote:
+> I have to say I prefer policy when only build fixes are backported /
+> added. (approach which e.g. buildroot has). Having many patches (25
+> atm) makes updating a bit difficult (ok, not that much, 'Upstream-
+> Status: Backport' shows what has been merged since last release) and
+> sometimes brings users patches which weren't accepted by upstream
+> (your mips patch [1] was not accepted [2]).
+> 
+> But I understand that LTP 3 months release cycle can be to
+> slow for some LTP users.
 
-https://github.com/linux-test-project/ltp/commit/7a3bca63cd7f059d490b6274f0fdf3247be93fde
+FWIW our policy does vary a lot depending on the upstream. Where we can
+have an open dialog with active projects I'm very keen to figure out
+how to get our patch set to zero, we really don't want patches.
 
---Hongzhi
+Backports don't worry me so much because as you say, we clearly mark
+them and those are easy to drop upon upgrade.
+
+I see we have an ltp upgrade which looks to remove 50% of the patches
+which is a good start. 
+
+That leaves 12 of them, of which 6 are musl and 6 appear to be other
+test 'fixes' of various kinds.
+
+Of the other 6, 3 say they're backports, one submitted and two pending.
+Figuring out the two pending and the submitted would set us up for a
+cleaner upgrade in future outside of musl.
+
+> Kind regards,
+> Petr
+> 
+> PS: I'm slowly working on fixing all musl issues in LTP upstream.
+> It's a long term run but were moving towards that goal. Patch "build:
+> Add option to select libc implementation" [3] is a nota good
+> approach.  Instead it's needed to find for each failure why it's not
+> presented in musl.  Mostly because it uses non POSIX features or
+> deprecated API, which needs to be avoided or used kernel headers
+> where it's available.
+
+This sounds great, I think what we have right now can only be described
+as a bit of a hack. It lets us build and run tests but clearly isn't
+appropriate to merge upstream. We can at the very least help with
+testing and certainly want to drop our patch if/as/when we can.
+
+Also, I'm not sure if you've seen it but our "full" builds now run ltp
+for x86 and arm under qemu and report the results:
+
+https://autobuilder.yocto.io/pub/non-release/20190712-13/testresults/testresult-report.txt
+
+(see the Ltp and Ltp Posix sections)
+
+I'm actually quite worried about the numbers of failures we see there.
+Up to now I've been focusing on sorting out our ptest results but ltp
+would be something we need to focus on next.
+
+There should be more raw log data in 
+https://autobuilder.yocto.io/pub/non-release/20190712-13/testresults/qemux86-64-ltp/
+and
+https://autobuilder.yocto.io/pub/non-release/20190712-13/testresults/qemuarm64-ltp/testresults.json
+but I've not had a chance to look at the ltp side of things at all
+myself, Armin has done the integration work so far.
+
+Cheers,
+
+Richard
 
 
->
->> --Hongzhi
->>> [3] http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-extended/ltp/ltp/0004-build-Add-option-to-select-libc-implementation.patch
-> [4] https://github.com/linux-test-project/ltp/commits/master/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
->
+
+
 
