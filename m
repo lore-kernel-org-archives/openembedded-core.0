@@ -1,54 +1,55 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id D3F5F7F1C9
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CFB97F1CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 20:33:24 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id 207so29903608wma.1
+	Fri, 19 Jul 2019 20:33:26 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id h19so24447085wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 13:33:26 -0700 (PDT)
+	Fri, 19 Jul 2019 13:33:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=OMjkKOr6498GEdEZisk7t+n/Vc+Lnh2P/4ijmX4iutc=;
-	b=utLCdmS3VZoHGUiueNjO8SBECelBeebCb/ycMYHS8YZXQZekbqXn1aUwlu5A2M08Cq
-	Z2uIeOQcUkam1J4RMJ2nUGUf4/dFBEguSQuy4gaDdWUX5k5p6yN4sb0EdY9FpUdG3PJi
-	FRgLQ2HJiR0aWo8gCgjmkTxGLMM7rbB7tuCQ1A+ozs+D7NgTF7+1E1FQUTr4MmoXeKoB
-	ErhqnsyacvQ/ag4wZq+FfDgOF9ymBbL9anEhlVfuPC6zrv6i16pWnXwi9KtXwof+7wPd
-	b8E/Lqo37ibCLTpXV4AUg0pw50n3hArjVK84wLkxmExNi90V3pOp8RlpV6Cl007jW3Kk
-	icgA==
+	bh=gRZ2nKNkQHNFH21Pp6bphmKeLPDT4193/vucv/vuzII=;
+	b=DFJJbO8mQQeI9V9A6WZy/OUUZa5Pg0U4IGdSNBqD2xRQlJQKBE1AJQSCvWJhULKfKi
+	UZ34A3MfW7XGkzJ2+mY7Ae2aSIY6jfbv72pjGwnoMoZpxDEKdkGbvTItHVmXoD3GF2sW
+	TnoGK56oKOikJgM+RUgCg0xd+fwMNgqiOmJrzVGAoKhgpphCui6nhO2nIEfvTz3kXCWF
+	A38t+HwJ0AyqDK1DNldJ9oLjjm2y81bdqLvJgi+rdYIXLtpCn2TBEsaDz9+uanDO484r
+	EgPIt+jtR8u6+wLeymdcVJzz4XppCIsKzwSR1c+XIFmiGSiOEbLZW1+IrIwItGGIFIgk
+	H/pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=OMjkKOr6498GEdEZisk7t+n/Vc+Lnh2P/4ijmX4iutc=;
-	b=ni5hLeuSnRQ6kGsMXxqV/ox0KjWL+D5tM8xgcl7awM+if/oEstvZ29/NRMtzlZVd9w
-	yviDx/O9O/VuMBK11vFjThqrVrPLEU1tyL2A9wq1DYMXc2E8TnUkgXbzLUPUL+2tEYWe
-	p1ylJXrf/hntlHpOQrUAvpv8A9rxhP4pPgpxeMCh4cRjdzlAkhP8540mOpjjkzoXlmcJ
-	U1jtYuvhgNSZrL3QbmqvYz38qq5uBZgBZEwN96qc7WY7Arn+wOpNJOXuxQjT+5mLBfhk
-	sjFNF7VixNSA1wsBVUwMykkXAUjOEQyj2V3ydX0uRxpyNDlVpQlZTrsIgMye/Vkh3ZJZ
-	ZSrA==
-X-Gm-Message-State: APjAAAUgUZqcsggkzlCBThEEQrHEbtWo232BpnN3Rm23VweLLOtScvOa
-	fmm0JJfHCu3ae3gOYibIOZdN0kfPals=
-X-Google-Smtp-Source: APXvYqyflBVumWUi7naR+vjq/zfoMEzWW/Y7r0wvp3yPIOREMkbqgana2ZRLRT2irkfjmcDivVVNHg==
-X-Received: by 2002:a1c:1a87:: with SMTP id a129mr48949791wma.21.1563568405327;
-	Fri, 19 Jul 2019 13:33:25 -0700 (PDT)
+	bh=gRZ2nKNkQHNFH21Pp6bphmKeLPDT4193/vucv/vuzII=;
+	b=DMZS///yOp7oE4Jqtzpk6mTa5vQGcxiom6S+3eY20VI/rdn958gbLB3v8wCxZtoFot
+	JdPm63an2sBWS/8hZsIa3YhYTJ1IdJQcVAu/f18cFrE2UlR4K7V5d22sRHlznwpnVFtZ
+	v7d3OgfFzpZt2gaixFl5D2OfL2UGff0epyOfFr8qsbDvK9KUNTcCL5bLSVUKDxCvr0O8
+	nmMVOMfkHwdmu7hfQiFcySR/si+vYv0TqVg/YYyM+uAuXkFkws8h2FeurExhfHUfnkjT
+	TlQeS4q6D56JHPrh2EmrCSSUwmwVGyfdG9KlWFFJnfb/FQJ7mYI4HrNEdyU708heWluE
+	lNzQ==
+X-Gm-Message-State: APjAAAUQXgDu+8k4YxqZLBfoUVuqbrGyzazsLD6R0g1aPtNKDBLJ3s9j
+	xn8JBmWxuK76oVJ7MhptAnyz78QgtRc=
+X-Google-Smtp-Source: APXvYqy4FiPWWkYdeDIBZYRPjl08zMcwtdzsJkqj9ydzqN44YThSTj2NlY1umi31PlV2wPTd/P1uKw==
+X-Received: by 2002:a05:600c:228f:: with SMTP id
+	15mr46115667wmf.60.1563568406986; 
+	Fri, 19 Jul 2019 13:33:26 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	z1sm35298988wrp.51.2019.07.19.13.33.24
+	z1sm35298988wrp.51.2019.07.19.13.33.25
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 19 Jul 2019 13:33:24 -0700 (PDT)
+	Fri, 19 Jul 2019 13:33:26 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Jul 2019 21:33:18 +0100
-Message-Id: <20190719203319.20580-2-ross.burton@intel.com>
+Date: Fri, 19 Jul 2019 21:33:19 +0100
+Message-Id: <20190719203319.20580-3-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190719203319.20580-1-ross.burton@intel.com>
 References: <20190719203319.20580-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] cve-update-db-native: improve metadata parsing
+Subject: [PATCH 3/3] cve-update-db-native: clean up JSON fetching
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,59 +62,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 20:33:25 -0000
+X-List-Received-Date: Fri, 19 Jul 2019 20:33:26 -0000
 Content-Transfer-Encoding: 8bit
 
-The metadata parser is fragile: first it coerces a bytes() to a str() (so the
-string is b'LastModifiedDate:2019...'), assumes the first line is the date, and
-then uses a regex to parse (which then includes the trailing quote as part of
-the date).
+Currently the code fetches the compressed JSON, writes it to a temporary file,
+uncompresses that with gzip and passes the fake file object to update_db().
 
-Clean this up by parsing the bytes as UTF-8 (ASCII is probably fine, but this is
-safer), iterate through the lines and split on colons to find the right
-key/value pair.
+Instead, uncompress the gzip'd data in memory and pass the JSON directly to
+update_db().
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ .../recipes-core/meta/cve-update-db-native.bb | 29 ++++++++-----------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
 diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 09e19c0aaef..41a2aa8f207 100644
+index 41a2aa8f207..9c083bdc991 100644
 --- a/meta/recipes-core/meta/cve-update-db-native.bb
 +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -22,7 +22,7 @@ python do_populate_cve_db() {
-     Update NVD database with json data feed
-     """
+@@ -67,25 +67,20 @@ python do_populate_cve_db() {
+         meta = c.fetchone()
+         if not meta or meta[0] != last_modified:
+             # Clear products table entries corresponding to current year
+-            cve_year = 'CVE-' + str(year) + '%'
+-            c.execute("delete from PRODUCTS where ID like ?", (cve_year,))
++            c.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,))
  
--    import sqlite3, urllib, shutil, gzip, re
-+    import sqlite3, urllib, shutil, gzip
-     from datetime import date
- 
-     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
-@@ -52,13 +52,15 @@ python do_populate_cve_db() {
-         req = urllib.request.Request(meta_url)
-         if proxy:
-             req.set_proxy(proxy, 'https')
--        try:
--            with urllib.request.urlopen(req, timeout=1) as r:
--                date_line = str(r.read().splitlines()[0])
--                last_modified = re.search('lastModifiedDate:(.*)', date_line).group(1)
--        except:
--            cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
--            break
-+        with urllib.request.urlopen(req) as r:
-+            for l in r.read().decode("utf-8").splitlines():
-+                key, value = l.split(":", 1)
-+                if key == "lastModifiedDate":
-+                    last_modified = value
-+                    break
-+            else:
-+                bb.warn("Cannot parse CVE metadata, update failed")
+             # Update db with current year json file
+-            req = urllib.request.Request(json_url)
+-            if proxy:
+-                req.set_proxy(proxy, 'https')
+             try:
+-                with urllib.request.urlopen(req, timeout=1) as r, \
+-                     open(json_tmpfile, 'wb') as tmpfile:
+-                    shutil.copyfileobj(r, tmpfile)
+-            except:
++                req = urllib.request.Request(json_url)
++                if proxy:
++                    req.set_proxy(proxy, 'https')
++                with urllib.request.urlopen(req) as r:
++                    update_db(c, gzip.decompress(r.read()))
++                c.execute("insert or replace into META values (?, ?)", [year, last_modified])
++            except urllib.error.URLError as e:
+                 cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+-                break
+-
+-            with gzip.open(json_tmpfile, 'rt') as jsonfile:
+-                update_db(c, jsonfile)
+-            c.execute("insert or replace into META values (?, ?)",
+-                    [year, last_modified])
++                bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
 +                return
  
-         # Compare with current db last modified date
-         c.execute("select DATE from META where YEAR = ?", (year,))
+         # Update success, set the date to cve_check file.
+         if year == date.today().year:
+@@ -148,9 +143,9 @@ def parse_node_and_insert(c, node, cveId):
+ 
+     c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator())
+ 
+-def update_db(c, json_filename):
++def update_db(c, jsondata):
+     import json
+-    root = json.load(json_filename)
++    root = json.loads(jsondata)
+ 
+     for elt in root['CVE_Items']:
+         if not elt['impact']:
 -- 
 2.20.1
 
