@@ -1,54 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BFE3A7D9D5
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id BBDAE7F022
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 20:20:03 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id u25so19730773wmc.4
+	Fri, 19 Jul 2019 20:33:23 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id g67so26012586wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 13:20:05 -0700 (PDT)
+	Fri, 19 Jul 2019 13:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=pcJ0/kSEg6mqLSSx0YArmBVtx59b2zSv3s3bSyXAHIE=;
-	b=E03jctecm4Dej78xhoiq4tiFrDZ0ih/1WAHx+R0BPY9MLiH4PvwoFahxYUKS8v58OV
-	qdd2XLjlTRGhYKkoWs1nlRwiEgYpBbwZuRdocCFkLeUJafbifO/WbWSrisUsm+AZhBTB
-	CqmGCz0FOFjW18l/sL34MjPOe1aIapz2agq0lnrJG3IvwZBODuhWhDnT69CztTxLYN/u
-	qOoLF6kzOnZqhYgNis9N+ynx+LhMYpwxg8JUGjfhqB03YcpLOadUrfjIK1+2uWGKmuSm
-	FOSFQJeXKKjtLmT3yn5LFdQKjoX1SPeFZZe5C2AHLhYZ00xArQwhKBM+WC5BpfOl1sYX
-	yAJQ==
+	bh=jG6IE2c5pJrCXjYWZfnMOlyX0lyiXgAM+gzZDJT1IC0=;
+	b=iv5j58w21Kp6/+2bj+x3QmMdiw7IWYqpPuX7e7P+YKqidN64GgBNY3jyOwxO6zlrMO
+	a/kcUTQoGbUFCHmePDDKy97nb78EHqwgMzN6+1qyNlI2CQUp505PvXPjJyEF+GTDfudT
+	lE0GlR2FiGoST/RkOWCJn9fvThz4qWlKBuENa3UtSdCWMbIyePEIB1YVUqhgwO0BzWXk
+	v5/aSq5Mikj5CdLVblfa8vBmtUyd9gBbMmT6Xr1gyxQaYrSamMYU49tZV02mzjGO8Whz
+	Whn6OryHk+uDS6fbKoB5NC1XUJqA0dXO8NTkxH7gm1JLDm0yDCih36kgLkvspVoTKnYU
+	Wf9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=pcJ0/kSEg6mqLSSx0YArmBVtx59b2zSv3s3bSyXAHIE=;
-	b=qquDCJz3xhoEm9DBiAVkrPzRpDQQH1srUv+nSFFfW3OPkxz4ySKlHpGEEeK1AneZwL
-	fJ1EnjZFLouQ2WE8sSWPh0bS7ePjTNM7zdofFlpghYYEYwhpDNJ5mwN4Fsb/10Y8kstG
-	5Pr/CX0ZDWp5TGZdk/MdUNj9fTM65yP3k9+ZLBKAPVBI0Q2B5hP+WpQsgnmj2w8sMCiO
-	h+COYvHovzAPDwmZ+ThsU3ufqa+dIJePo1JnfgzEflUfiyBxI4ISPWAfEK16PMH623Lw
-	wSy0+IFwBX4Rcale0JLbOQgihaquf8oGdDY+0aAK7dulI4c/LWZOxgNTG/V2D/cZ+KM3
-	pDsQ==
-X-Gm-Message-State: APjAAAUBbQdiyVmbwQsYmum7HFQFULGN1WZ3gkUGn8HZ4vU4sis91HHR
-	hRKjYmIMCp9iZdo6813wKN7NXxLJdlg=
-X-Google-Smtp-Source: APXvYqxPcMYCg+n4tl12rFuvPk8/IL2gbJ1kffdWBX124PJGEGDmlinG5D++OXlmFI01Ph8nnt+vGw==
-X-Received: by 2002:a7b:c632:: with SMTP id p18mr50857661wmk.114.1563567604271;
-	Fri, 19 Jul 2019 13:20:04 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jG6IE2c5pJrCXjYWZfnMOlyX0lyiXgAM+gzZDJT1IC0=;
+	b=e2xhUFwXwBXkYQOu3zeHwAJKCzqj0Bv6XlN8GqUMVmBzs5wwdW8m+1RkS6ZsPS3jha
+	z40xFQ7+8VTXiuiCmSbg7EBHjdXnqACnAoPIre4d6GJ6BiBzfKWq4e6F4Ca47OvzLc3Z
+	fs0i66k+HEYC99FXp5WZuwsPc9tuacNV4k8Y+RH1T78BHrtM+gYrBsp95nUSKq8bAanh
+	0Z9SLR2LAdt5l1IPqH0zu6xAY4cTIyhw7r47eOAkZXnuYCh8bRWvwuPb0NmuaW2rS3UF
+	5LuTIcqNQg6AItUy7CjAPifwX6+2z1i6s2D2ZCt74nNrtxFC4iQJTcs9WAfJcfcwOvJ9
+	xlcQ==
+X-Gm-Message-State: APjAAAUgrzmmCtMzvpwqFcKKuMs5Igwk7RZYfVeSYWqvLzSNLfqNiGxo
+	S/N1TqN5QxaUw2Ug6QxUuJkIxzDwRYo=
+X-Google-Smtp-Source: APXvYqxu0ZI2f90V5BFo8McRhSsdQhCUzLh/7jjo/7mPolZlnzrXl5tGhTKVX9gVMPEgyxDsd0z8ZA==
+X-Received: by 2002:a05:600c:2189:: with SMTP id
+	e9mr46986179wme.56.1563568404093; 
+	Fri, 19 Jul 2019 13:33:24 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	t13sm38854282wrr.0.2019.07.19.13.20.03
+	z1sm35298988wrp.51.2019.07.19.13.33.23
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 19 Jul 2019 13:20:03 -0700 (PDT)
+	Fri, 19 Jul 2019 13:33:23 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Jul 2019 21:19:58 +0100
-Message-Id: <20190719201958.19700-2-ross.burton@intel.com>
+Date: Fri, 19 Jul 2019 21:33:17 +0100
+Message-Id: <20190719203319.20580-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719201958.19700-1-ross.burton@intel.com>
-References: <20190719201958.19700-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] ffmpeg: upgrade to 4.1.4
+Subject: [PATCH 1/3] cve-update-db-native: use executemany() to optimise CPE insertion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,64 +60,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2019 20:20:04 -0000
+X-List-Received-Date: Fri, 19 Jul 2019 20:33:24 -0000
 Content-Transfer-Encoding: 8bit
 
-Add a PACKAGECONFIG for the use of XCB and enable by default if X11 is in
-DISTRO_FEATURES.
+Instead of calling execute() repeatedly, rewrite the function to be a generator
+and use executemany() for performance.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../ffmpeg/{ffmpeg_4.1.3.bb => ffmpeg_4.1.4.bb}       | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.1.3.bb => ffmpeg_4.1.4.bb} (96%)
+ .../recipes-core/meta/cve-update-db-native.bb | 85 +++++++------------
+ 1 file changed, 32 insertions(+), 53 deletions(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.4.bb
-similarity index 96%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.4.bb
-index 6d230c33169..884973d237c 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.4.bb
-@@ -26,8 +26,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
-            "
--SRC_URI[md5sum] = "dcc20dd2682ea01c678b7b8324339d43"
--SRC_URI[sha256sum] = "0c3020452880581a8face91595b239198078645e7d7184273b8bcc7758beb63d"
-+SRC_URI[md5sum] = "5307931aeb7aaee5e1509d9996040661"
-+SRC_URI[sha256sum] = "f1f049a82fcfbf156564e73a3935d7e750891fab2abf302e735104fd4050a7e1"
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index cabbde5066c..09e19c0aaef 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -102,70 +102,49 @@ def initialize_db(c):
+         VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
+         VERSION_END TEXT, OPERATOR_END TEXT)")
  
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET_armv4 = "arm"
-@@ -44,7 +44,7 @@ inherit autotools pkgconfig
+-def insert_elt(c, db_values):
+-    query = "insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)"
+-    c.execute(query, db_values)
+-
+ def parse_node_and_insert(c, node, cveId):
+     # Parse children node if needed
+-    try:
+-        for child in node['children']:
+-            parse_node_and_insert(c, child, cveId)
+-    except:
+-        pass
+-
+-    # Exit if the cpe_match node does not exists
+-    try:
+-        cpe_match = node['cpe_match']
+-    except:
+-        return
+-
+-    for cpe in cpe_match:
+-        if not cpe['vulnerable']:
+-            return
+-        cpe23 = cpe['cpe23Uri'].split(':')
+-        vendor = cpe23[3]
+-        product = cpe23[4]
+-        version = cpe23[5]
+-
+-        if version != '*':
+-            # Version is defined, this is a '=' match
+-            db_values = [cveId, vendor, product, version, '=', '', '']
+-            insert_elt(c, db_values)
+-        else:
+-            # Parse start version, end version and operators
+-            op_start = ''
+-            op_end = ''
+-            v_start = ''
+-            v_end = ''
+-
+-            try:
+-                if cpe['versionStartIncluding']:
++    for child in node.get('children', ()):
++        parse_node_and_insert(c, child, cveId)
++
++    def cpe_generator():
++        for cpe in node.get('cpe_match', ()):
++            if not cpe['vulnerable']:
++                return
++            cpe23 = cpe['cpe23Uri'].split(':')
++            vendor = cpe23[3]
++            product = cpe23[4]
++            version = cpe23[5]
++
++            if version != '*':
++                # Version is defined, this is a '=' match
++                yield [cveId, vendor, product, version, '=', '', '']
++            else:
++                # Parse start version, end version and operators
++                op_start = ''
++                op_end = ''
++                v_start = ''
++                v_end = ''
++
++                if 'versionStartIncluding' in cpe:
+                     op_start = '>='
+                     v_start = cpe['versionStartIncluding']
+-            except:
+-                pass
+-            try:
+-                if cpe['versionStartExcluding']:
++
++                if 'versionStartExcluding' in cpe:
+                     op_start = '>'
+                     v_start = cpe['versionStartExcluding']
+-            except:
+-                pass
+-            try:
+-                if cpe['versionEndIncluding']:
++
++                if 'versionEndIncluding' in cpe:
+                     op_end = '<='
+                     v_end = cpe['versionEndIncluding']
+-            except:
+-                pass
+-            try:
+-                if cpe['versionEndExcluding']:
++
++                if 'versionEndExcluding' in cpe:
+                     op_end = '<'
+                     v_end = cpe['versionEndExcluding']
+-            except:
+-                pass
  
- PACKAGECONFIG ??= "avdevice avfilter avcodec avformat swresample swscale postproc avresample \
-                    bzlib gpl lzma theora x264 \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv', '', d)}"
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xv xcb', '', d)}"
+-            db_values = [cveId, vendor, product, v_start, op_start, v_end, op_end]
+-            insert_elt(c, db_values)
++                yield [cveId, vendor, product, v_start, op_start, v_end, op_end]
++
++    c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator())
  
- # libraries to build in addition to avutil
- PACKAGECONFIG[avdevice] = "--enable-avdevice,--disable-avdevice"
-@@ -73,6 +73,7 @@ PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
- PACKAGECONFIG[vdpau] = "--enable-vdpau,--disable-vdpau,libvdpau"
- PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
- PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
-+PACKAGECONFIG[xcb] = "--enable-libxcb,--disable-libxcb,libxcb"
- PACKAGECONFIG[xv] = "--enable-outdev=xv,--disable-outdev=xv,libxv"
- 
- # Check codecs that require --enable-nonfree
-@@ -89,10 +90,6 @@ EXTRA_OECONF = " \
-     --enable-pic \
-     --enable-shared \
-     --enable-pthreads \
--    --disable-libxcb \
--    --disable-libxcb-shm \
--    --disable-libxcb-xfixes \
--    --disable-libxcb-shape \
-     ${@bb.utils.contains('USE_NONFREE', 'yes', '--enable-nonfree', '', d)} \
-     \
-     --cross-prefix=${TARGET_PREFIX} \
+ def update_db(c, json_filename):
+     import json
 -- 
 2.20.1
 
