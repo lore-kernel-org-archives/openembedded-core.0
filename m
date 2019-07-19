@@ -1,49 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id DA1E27F095
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0773B7ED5F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 22:39:06 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id x22so24087268qtp.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2019 15:39:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=a1ap3Yi2sXESyZB/x7XJe84o+8ykCQSrTAiQf1TYBl4=;
-	b=bxVIZnAOMKnpq2fTPaCN9v39+K9XTF0lSw1TH/5xvhofUlboWRs5nwrqbwBiTXgJNW
-	/ayN0yRrQVUXIWJ1mYqQx91nu7g3dsYHa2QaA5GvRyscjQOSTViKzCntilpVhI+HgyLH
-	GrCLDyrq8H5ctakRbMhSNUCLEOWE0mh/eqHI73R/gWCc2+6pNnETVrrKBVGkp6O77CB5
-	W1EWnPESWLjDG9kDSdX2E2Ga/tPr6VhPCuG/RGpJgEEMZgn/exwREampu3/qi7ZoLy4d
-	CMPEZzQ1qXxZrvDCgfV2sbvgK+iJS6y/Irj3ykhq24F3dwWlSSnqrfUt2/29gu0VQukK
-	SOAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=a1ap3Yi2sXESyZB/x7XJe84o+8ykCQSrTAiQf1TYBl4=;
-	b=rO7Cn5mckNn3tiCSD88DlpQysheB31oH4hiAmdV5Sk3QOBGWyj6ah4WMP026G7I9RN
-	6hiP+7IOAUE37/VFpENsXyASxJ8C3xyGjW6B01/tVnNOYcXd8zpb0b0Kq1r7XXXwEEth
-	9F9hLDXtIkiJblQNI+XcxNLtiKiv2i/V3aaz3VNwF1lp4bOdlPm8XBJzvJU9BcCQipev
-	A2GaGPkphXDL0w5TH8mLLpEjQYfdd2LNdVAAwNTbbnSOvT8jhOqYOc6465ESUu4jtzRB
-	PdRZz6msP8QBePDxHINN2P5bAbuELXoMhlfHq31TPTgONxyOZCZ2rLyO4ZqOLm3vbPB7
-	TRtQ==
-X-Gm-Message-State: APjAAAW5FNF3tLiRoc43WM8Ys56fcDNFu2BRpkS6f53lgMOhFqCMyYXV
-	OERHNfQCzJfxzFyMxayeTF3b3It2CQjsSD5COiWWXEezUMg=
-X-Google-Smtp-Source: APXvYqwrSwR2oxuCkfemQJhZck0x6rfVLLtYoWjusoh7bpTJfheVz9TGCdQ+GSOHFunln94K8n36Js0lIlV3KoutEKY=
-X-Received: by 2002:ac8:764f:: with SMTP id i15mr33801185qtr.194.1563489547368;
-	Thu, 18 Jul 2019 15:39:07 -0700 (PDT)
+	Fri, 19 Jul 2019 01:31:11 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Jul 2019 18:31:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,280,1559545200"; d="scan'208";a="252007411"
+Received: from anmitta2-mobl1.png.intel.com ([10.221.21.220])
+	by orsmga001.jf.intel.com with ESMTP; 18 Jul 2019 18:31:11 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jul 2019 09:31:06 +0800
+Message-Id: <20190719013108.5712-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190718194615.6874-1-ricardo@ribalda.com>
-	<CAMKF1spj-LXk1=YxeErV7UHVtWJmacjP1M-_W6M=4ZnSkaFk_w@mail.gmail.com>
-	<CAPybu_2tkssPOt8G1ZFZ6s9++7h0KhZV872tFccRXdRYuR=i-Q@mail.gmail.com>
-In-Reply-To: <CAPybu_2tkssPOt8G1ZFZ6s9++7h0KhZV872tFccRXdRYuR=i-Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 18 Jul 2019 15:38:41 -0700
-Message-ID: <CAMKF1sqzAbADXCR1gW07-j1L=RLWEWJJur8gVZ4GC=xA04KfNA@mail.gmail.com>
-To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] inetutils: Fix abort on invalid files
+Subject: [PATCH 1/3] rsync: fix CVEs for included zlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,198 +31,460 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2019 22:39:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 19 Jul 2019 01:31:12 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 18, 2019 at 2:10 PM Ricardo Ribalda Delgado
-<ricardo@ribalda.com> wrote:
->
-> Hi Khem
->
-> I think the issue is that __memcpy_chk wrongly assume that the target
-> size is 0. The origin size is calculated fine:
->
-> https://godbolt.org/z/qTaDWP
->
-            char tu_data[0];    /* data or error string */
+rsync includes its own copy of zlib and doesn't recommend linking with
+the system version [1].
 
-that seems an old stype variable length array
-can you change it to char tu_data[] and see if it helps
+Import CVE fixes that impact zlib version 1.2.8 [2] that is currently used
+by rsync.
 
-> Thanks!
->
-> On Thu, Jul 18, 2019 at 11:02 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Thu, Jul 18, 2019 at 12:46 PM Ricardo Ribalda Delgado
-> > <ricardo@ribalda.com> wrote:
-> > >
-> > > When the code is compiled with  "-fstack-protector-strong
-> > > -D_FORTIFY_SOURCE=2", everytime ftpfd is asked for a non existent file,
-> > > it crashes with the following error:
-> > >
-> > > *** buffer overflow detected ***:
-> > > Aborted
-> > >
-> > > This seems to be a bug/feature of gcc. A bug has been open on their
-> > > bugzilla, and also inetutils have been posted with the proposed patch.
-> > >
-> > > Without this patch, pxelinux fails to boot because it keeps asking the
-> > > server for the pxelinux.cfg/00-01-02-03-04 and never jumps to /default.
-> > >
-> > > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > ---
-> > >  .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 +++++++++++++++++++
-> > >  .../inetutils/inetutils_1.9.4.bb              |  1 +
-> > >  2 files changed, 26 insertions(+)
-> > >  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > >
-> > > diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > new file mode 100644
-> > > index 0000000000..a91913cb51
-> > > --- /dev/null
-> > > +++ b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > @@ -0,0 +1,25 @@
-> > > +tftpd: Fix abort on error path
-> > > +
-> > > +When trying to fetch a non existent file, the app crashes with:
-> > > +
-> > > +*** buffer overflow detected ***:
-> > > +Aborted
-> > > +
-> > > +
-> > > +Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
-> > > +Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > +diff --git a/src/tftpd.c b/src/tftpd.c
-> > > +index 56002a0..144012f 100644
-> > > +--- a/src/tftpd.c
-> > > ++++ b/src/tftpd.c
-> > > +@@ -864,9 +864,8 @@ nak (int error)
-> > > +       pe->e_msg = strerror (error - 100);
-> > > +       tp->th_code = EUNDEF;   /* set 'undef' errorcode */
-> > > +     }
-> > > +-  strcpy (tp->th_msg, pe->e_msg);
-> > > +   length = strlen (pe->e_msg);
-> >
-> > I wonder if length calculation is a problem as well here, if so then
-> > it would need
-> > correcting because it used in code below as well.
-> >
-> > > +-  tp->th_msg[length] = '\0';
-> > > ++  memcpy(tp->th_msg, pe->e_msg, length + 1);
-> > > +   length += 5;
-> > > +   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
-> > > +     syslog (LOG_ERR, "nak: %m\n");
-> > > diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > index ac2e017d8b..684fbe09e1 100644
-> > > --- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > +++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > @@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-> > >             file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-> > >             file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
-> > >             file://0001-rcp-fix-to-work-with-large-files.patch \
-> > > +           file://fix-buffer-fortify-tfpt.patch \
-> > >  "
-> > >
-> > >  SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
-> > > --
-> > > 2.20.1
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> Ricardo Ribalda
-> Thanks!
->
-> On Thu, Jul 18, 2019 at 11:02 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Thu, Jul 18, 2019 at 12:46 PM Ricardo Ribalda Delgado
-> > <ricardo@ribalda.com> wrote:
-> > >
-> > > When the code is compiled with  "-fstack-protector-strong
-> > > -D_FORTIFY_SOURCE=2", everytime ftpfd is asked for a non existent file,
-> > > it crashes with the following error:
-> > >
-> > > *** buffer overflow detected ***:
-> > > Aborted
-> > >
-> > > This seems to be a bug/feature of gcc. A bug has been open on their
-> > > bugzilla, and also inetutils have been posted with the proposed patch.
-> > >
-> > > Without this patch, pxelinux fails to boot because it keeps asking the
-> > > server for the pxelinux.cfg/00-01-02-03-04 and never jumps to /default.
-> > >
-> > > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > ---
-> > >  .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 +++++++++++++++++++
-> > >  .../inetutils/inetutils_1.9.4.bb              |  1 +
-> > >  2 files changed, 26 insertions(+)
-> > >  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > >
-> > > diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > new file mode 100644
-> > > index 0000000000..a91913cb51
-> > > --- /dev/null
-> > > +++ b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > @@ -0,0 +1,25 @@
-> > > +tftpd: Fix abort on error path
-> > > +
-> > > +When trying to fetch a non existent file, the app crashes with:
-> > > +
-> > > +*** buffer overflow detected ***:
-> > > +Aborted
-> > > +
-> > > +
-> > > +Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
-> > > +Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > +diff --git a/src/tftpd.c b/src/tftpd.c
-> > > +index 56002a0..144012f 100644
-> > > +--- a/src/tftpd.c
-> > > ++++ b/src/tftpd.c
-> > > +@@ -864,9 +864,8 @@ nak (int error)
-> > > +       pe->e_msg = strerror (error - 100);
-> > > +       tp->th_code = EUNDEF;   /* set 'undef' errorcode */
-> > > +     }
-> > > +-  strcpy (tp->th_msg, pe->e_msg);
-> > > +   length = strlen (pe->e_msg);
-> >
-> > I wonder if length calculation is a problem as well here, if so then
-> > it would need
-> > correcting because it used in code below as well.
-> >
-> > > +-  tp->th_msg[length] = '\0';
-> > > ++  memcpy(tp->th_msg, pe->e_msg, length + 1);
-> > > +   length += 5;
-> > > +   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
-> > > +     syslog (LOG_ERR, "nak: %m\n");
-> > > diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > index ac2e017d8b..684fbe09e1 100644
-> > > --- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > +++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > @@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-> > >             file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-> > >             file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
-> > >             file://0001-rcp-fix-to-work-with-large-files.patch \
-> > > +           file://fix-buffer-fortify-tfpt.patch \
-> > >  "
-> > >
-> > >  SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
-> > > --
-> > > 2.20.1
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> Ricardo Ribalda
+[1] https://git.samba.org/rsync.git/?p=rsync.git;a=blob;f=zlib/README.rsync
+[2] https://nvd.nist.gov/vuln/search/results?form_type=Advanced&cves=on&cpe_version=cpe%3a%2fa%3agnu%3azlib%3a1.2.8
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../rsync/files/CVE-2016-9840.patch           |  75 ++++++
+ .../rsync/files/CVE-2016-9841.patch           | 228 ++++++++++++++++++
+ .../rsync/files/CVE-2016-9842.patch           |  33 +++
+ .../rsync/files/CVE-2016-9843.patch           |  53 ++++
+ meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   4 +
+ 5 files changed, 393 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
+
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9840.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
+new file mode 100644
+index 0000000000..7581887790
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
+@@ -0,0 +1,75 @@
++From 6a043145ca6e9c55184013841a67b2fef87e44c0 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Wed, 21 Sep 2016 23:35:50 -0700
++Subject: [PATCH] Remove offset pointer optimization in inftrees.c.
++
++inftrees.c was subtracting an offset from a pointer to an array,
++in order to provide a pointer that allowed indexing starting at
++the offset. This is not compliant with the C standard, for which
++the behavior of a pointer decremented before its allocated memory
++is undefined. Per the recommendation of a security audit of the
++zlib code by Trail of Bits and TrustInSoft, in support of the
++Mozilla Foundation, this tiny optimization was removed, in order
++to avoid the possibility of undefined behavior.
++
++CVE: CVE-2016-9840
++Upstream-Status: Backport
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ inftrees.c | 18 ++++++++----------
++ 1 file changed, 8 insertions(+), 10 deletions(-)
++
++diff --git a/zlib/inftrees.c b/zlib/inftrees.c
++index 22fcd666..0d2670d5 100644
++--- a/zlib/inftrees.c
+++++ b/zlib/inftrees.c
++@@ -54,7 +54,7 @@ unsigned short FAR *work;
++     code FAR *next;             /* next available space in table */
++     const unsigned short FAR *base;     /* base value table to use */
++     const unsigned short FAR *extra;    /* extra bits table to use */
++-    int end;                    /* use base and extra for symbol > end */
+++    unsigned match;             /* use base and extra for symbol >= match */
++     unsigned short count[MAXBITS+1];    /* number of codes of each length */
++     unsigned short offs[MAXBITS+1];     /* offsets in table for each length */
++     static const unsigned short lbase[31] = { /* Length codes 257..285 base */
++@@ -181,19 +181,17 @@ unsigned short FAR *work;
++     switch (type) {
++     case CODES:
++         base = extra = work;    /* dummy value--not used */
++-        end = 19;
+++        match = 20;
++         break;
++     case LENS:
++         base = lbase;
++-        base -= 257;
++         extra = lext;
++-        extra -= 257;
++-        end = 256;
+++        match = 257;
++         break;
++     default:            /* DISTS */
++         base = dbase;
++         extra = dext;
++-        end = -1;
+++        match = 0;
++     }
++ 
++     /* initialize state for loop */
++@@ -216,13 +214,13 @@ unsigned short FAR *work;
++     for (;;) {
++         /* create table entry */
++         here.bits = (unsigned char)(len - drop);
++-        if ((int)(work[sym]) < end) {
+++        if (work[sym] + 1 < match) {
++             here.op = (unsigned char)0;
++             here.val = work[sym];
++         }
++-        else if ((int)(work[sym]) > end) {
++-            here.op = (unsigned char)(extra[work[sym]]);
++-            here.val = base[work[sym]];
+++        else if (work[sym] >= match) {
+++            here.op = (unsigned char)(extra[work[sym] - match]);
+++            here.val = base[work[sym] - match];
++         }
++         else {
++             here.op = (unsigned char)(32 + 64);         /* end of block */
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9841.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
+new file mode 100644
+index 0000000000..3942176de5
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
+@@ -0,0 +1,228 @@
++From 9aaec95e82117c1cb0f9624264c3618fc380cecb Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Wed, 21 Sep 2016 22:25:21 -0700
++Subject: [PATCH] Use post-increment only in inffast.c.
++
++An old inffast.c optimization turns out to not be optimal anymore
++with modern compilers, and furthermore was not compliant with the
++C standard, for which decrementing a pointer before its allocated
++memory is undefined. Per the recommendation of a security audit of
++the zlib code by Trail of Bits and TrustInSoft, in support of the
++Mozilla Foundation, this "optimization" was removed, in order to
++avoid the possibility of undefined behavior.
++
++CVE: CVE-2016-9841
++Upstream-Status: Backport
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ zlib/inffast.c | 81 +++++++++++++++++++++----------------------------------
++ 1 file changed, 31 insertions(+), 50 deletions(-)
++
++diff --git a/zlib/inffast.c b/zlib/inffast.c
++index bda59ceb..f0d163db 100644
++--- a/zlib/inffast.c
+++++ b/zlib/inffast.c
++@@ -10,25 +10,6 @@
++ 
++ #ifndef ASMINF
++ 
++-/* Allow machine dependent optimization for post-increment or pre-increment.
++-   Based on testing to date,
++-   Pre-increment preferred for:
++-   - PowerPC G3 (Adler)
++-   - MIPS R5000 (Randers-Pehrson)
++-   Post-increment preferred for:
++-   - none
++-   No measurable difference:
++-   - Pentium III (Anderson)
++-   - M68060 (Nikl)
++- */
++-#ifdef POSTINC
++-#  define OFF 0
++-#  define PUP(a) *(a)++
++-#else
++-#  define OFF 1
++-#  define PUP(a) *++(a)
++-#endif
++-
++ /*
++    Decode literal, length, and distance codes and write out the resulting
++    literal and match bytes until either not enough input or output is
++@@ -96,9 +77,9 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++ 
++     /* copy state to local variables */
++     state = (struct inflate_state FAR *)strm->state;
++-    in = strm->next_in - OFF;
+++    in = strm->next_in;
++     last = in + (strm->avail_in - 5);
++-    out = strm->next_out - OFF;
+++    out = strm->next_out;
++     beg = out - (start - strm->avail_out);
++     end = out + (strm->avail_out - 257);
++ #ifdef INFLATE_STRICT
++@@ -119,9 +100,9 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++        input data or output space */
++     do {
++         if (bits < 15) {
++-            hold += (unsigned long)(PUP(in)) << bits;
+++            hold += (unsigned long)(*in++) << bits;
++             bits += 8;
++-            hold += (unsigned long)(PUP(in)) << bits;
+++            hold += (unsigned long)(*in++) << bits;
++             bits += 8;
++         }
++         here = lcode[hold & lmask];
++@@ -134,14 +115,14 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++             Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
++                     "inflate:         literal '%c'\n" :
++                     "inflate:         literal 0x%02x\n", here.val));
++-            PUP(out) = (unsigned char)(here.val);
+++            *out++ = (unsigned char)(here.val);
++         }
++         else if (op & 16) {                     /* length base */
++             len = (unsigned)(here.val);
++             op &= 15;                           /* number of extra bits */
++             if (op) {
++                 if (bits < op) {
++-                    hold += (unsigned long)(PUP(in)) << bits;
+++                    hold += (unsigned long)(*in++) << bits;
++                     bits += 8;
++                 }
++                 len += (unsigned)hold & ((1U << op) - 1);
++@@ -150,9 +131,9 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++             }
++             Tracevv((stderr, "inflate:         length %u\n", len));
++             if (bits < 15) {
++-                hold += (unsigned long)(PUP(in)) << bits;
+++                hold += (unsigned long)(*in++) << bits;
++                 bits += 8;
++-                hold += (unsigned long)(PUP(in)) << bits;
+++                hold += (unsigned long)(*in++) << bits;
++                 bits += 8;
++             }
++             here = dcode[hold & dmask];
++@@ -165,10 +146,10 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++                 dist = (unsigned)(here.val);
++                 op &= 15;                       /* number of extra bits */
++                 if (bits < op) {
++-                    hold += (unsigned long)(PUP(in)) << bits;
+++                    hold += (unsigned long)(*in++) << bits;
++                     bits += 8;
++                     if (bits < op) {
++-                        hold += (unsigned long)(PUP(in)) << bits;
+++                        hold += (unsigned long)(*in++) << bits;
++                         bits += 8;
++                     }
++                 }
++@@ -196,30 +177,30 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++ #ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
++                         if (len <= op - whave) {
++                             do {
++-                                PUP(out) = 0;
+++                                *out++ = 0;
++                             } while (--len);
++                             continue;
++                         }
++                         len -= op - whave;
++                         do {
++-                            PUP(out) = 0;
+++                            *out++ = 0;
++                         } while (--op > whave);
++                         if (op == 0) {
++                             from = out - dist;
++                             do {
++-                                PUP(out) = PUP(from);
+++                                *out++ = *from++;
++                             } while (--len);
++                             continue;
++                         }
++ #endif
++                     }
++-                    from = window - OFF;
+++                    from = window;
++                     if (wnext == 0) {           /* very common case */
++                         from += wsize - op;
++                         if (op < len) {         /* some from window */
++                             len -= op;
++                             do {
++-                                PUP(out) = PUP(from);
+++                                *out++ = *from++;
++                             } while (--op);
++                             from = out - dist;  /* rest from output */
++                         }
++@@ -230,14 +211,14 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++                         if (op < len) {         /* some from end of window */
++                             len -= op;
++                             do {
++-                                PUP(out) = PUP(from);
+++                                *out++ = *from++;
++                             } while (--op);
++-                            from = window - OFF;
+++                            from = window;
++                             if (wnext < len) {  /* some from start of window */
++                                 op = wnext;
++                                 len -= op;
++                                 do {
++-                                    PUP(out) = PUP(from);
+++                                    *out++ = *from++;
++                                 } while (--op);
++                                 from = out - dist;      /* rest from output */
++                             }
++@@ -248,35 +229,35 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++                         if (op < len) {         /* some from window */
++                             len -= op;
++                             do {
++-                                PUP(out) = PUP(from);
+++                                *out++ = *from++;
++                             } while (--op);
++                             from = out - dist;  /* rest from output */
++                         }
++                     }
++                     while (len > 2) {
++-                        PUP(out) = PUP(from);
++-                        PUP(out) = PUP(from);
++-                        PUP(out) = PUP(from);
+++                        *out++ = *from++;
+++                        *out++ = *from++;
+++                        *out++ = *from++;
++                         len -= 3;
++                     }
++                     if (len) {
++-                        PUP(out) = PUP(from);
+++                        *out++ = *from++;
++                         if (len > 1)
++-                            PUP(out) = PUP(from);
+++                            *out++ = *from++;
++                     }
++                 }
++                 else {
++                     from = out - dist;          /* copy direct from output */
++                     do {                        /* minimum length is three */
++-                        PUP(out) = PUP(from);
++-                        PUP(out) = PUP(from);
++-                        PUP(out) = PUP(from);
+++                        *out++ = *from++;
+++                        *out++ = *from++;
+++                        *out++ = *from++;
++                         len -= 3;
++                     } while (len > 2);
++                     if (len) {
++-                        PUP(out) = PUP(from);
+++                        *out++ = *from++;
++                         if (len > 1)
++-                            PUP(out) = PUP(from);
+++                            *out++ = *from++;
++                     }
++                 }
++             }
++@@ -313,8 +294,8 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++     hold &= (1U << bits) - 1;
++ 
++     /* update state and return */
++-    strm->next_in = in + OFF;
++-    strm->next_out = out + OFF;
+++    strm->next_in = in;
+++    strm->next_out = out;
++     strm->avail_in = (unsigned)(in < last ? 5 + (last - in) : 5 - (in - last));
++     strm->avail_out = (unsigned)(out < end ?
++                                  257 + (end - out) : 257 - (out - end));
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9842.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
+new file mode 100644
+index 0000000000..810d8a3fdb
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
+@@ -0,0 +1,33 @@
++From e54e1299404101a5a9d0cf5e45512b543967f958 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Sat, 5 Sep 2015 17:45:55 -0700
++Subject: [PATCH] Avoid shifts of negative values inflateMark().
++
++The C standard says that bit shifts of negative integers is
++undefined.  This casts to unsigned values to assure a known
++result.
++
++CVE: CVE-2016-9842
++Upstream-Status: Backport
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ inflate.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/zlib/inflate.c b/zlib/inflate.c
++index 2889e3a0..a7184167 100644
++--- a/zlib/inflate.c
+++++ b/zlib/inflate.c
++@@ -1506,9 +1506,10 @@ z_streamp strm;
++ {
++     struct inflate_state FAR *state;
++ 
++-    if (strm == Z_NULL || strm->state == Z_NULL) return -1L << 16;
+++    if (strm == Z_NULL || strm->state == Z_NULL)
+++        return (long)(((unsigned long)0 - 1) << 16);
++     state = (struct inflate_state FAR *)strm->state;
++-    return ((long)(state->back) << 16) +
+++    return (long)(((unsigned long)((long)state->back)) << 16) +
++         (state->mode == COPY ? state->length :
++             (state->mode == MATCH ? state->was - state->length : 0));
++ }
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9843.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
+new file mode 100644
+index 0000000000..ea2e42fe76
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
+@@ -0,0 +1,53 @@
++From d1d577490c15a0c6862473d7576352a9f18ef811 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Wed, 28 Sep 2016 20:20:25 -0700
++Subject: [PATCH] Avoid pre-decrement of pointer in big-endian CRC calculation.
++
++There was a small optimization for PowerPCs to pre-increment a
++pointer when accessing a word, instead of post-incrementing. This
++required prefacing the loop with a decrement of the pointer,
++possibly pointing before the object passed. This is not compliant
++with the C standard, for which decrementing a pointer before its
++allocated memory is undefined. When tested on a modern PowerPC
++with a modern compiler, the optimization no longer has any effect.
++Due to all that, and per the recommendation of a security audit of
++the zlib code by Trail of Bits and TrustInSoft, in support of the
++Mozilla Foundation, this "optimization" was removed, in order to
++avoid the possibility of undefined behavior.
++
++CVE: CVE-2016-9843
++Upstream-Status: Backport
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ crc32.c | 4 +---
++ 1 file changed, 1 insertion(+), 3 deletions(-)
++
++diff --git a/zlib/crc32.c b/zlib/crc32.c
++index 979a7190..05733f4e 100644
++--- a/zlib/crc32.c
+++++ b/zlib/crc32.c
++@@ -278,7 +278,7 @@ local unsigned long crc32_little(crc, buf, len)
++ }
++ 
++ /* ========================================================================= */
++-#define DOBIG4 c ^= *++buf4; \
+++#define DOBIG4 c ^= *buf4++; \
++         c = crc_table[4][c & 0xff] ^ crc_table[5][(c >> 8) & 0xff] ^ \
++             crc_table[6][(c >> 16) & 0xff] ^ crc_table[7][c >> 24]
++ #define DOBIG32 DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4
++@@ -300,7 +300,6 @@ local unsigned long crc32_big(crc, buf, len)
++     }
++ 
++     buf4 = (const z_crc_t FAR *)(const void FAR *)buf;
++-    buf4--;
++     while (len >= 32) {
++         DOBIG32;
++         len -= 32;
++@@ -309,7 +308,6 @@ local unsigned long crc32_big(crc, buf, len)
++         DOBIG4;
++         len -= 4;
++     }
++-    buf4++;
++     buf = (const unsigned char FAR *)buf4;
++ 
++     if (len) do {
+diff --git a/meta/recipes-devtools/rsync/rsync_3.1.3.bb b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+index 29cb231f36..ffb1d061c0 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.1.3.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+@@ -11,6 +11,10 @@ DEPENDS = "popt"
+ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://rsyncd.conf \
+            file://makefile-no-rebuild.patch \
++           file://CVE-2016-9840.patch \
++           file://CVE-2016-9841.patch \
++           file://CVE-2016-9842.patch \
++           file://CVE-2016-9843.patch \
+ "
+ 
+ SRC_URI[md5sum] = "1581a588fde9d89f6bc6201e8129afaf"
+-- 
+2.20.1
+
 
