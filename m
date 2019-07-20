@@ -1,78 +1,50 @@
-Return-Path: <laurent.bonnans@here.com>
-X-Greylist: delayed 17987 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 20 Jul 2019 03:58:17 UTC
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr140105.outbound.protection.outlook.com [40.107.14.105])
-	by mail.openembedded.org (Postfix) with ESMTP id ABF517EFE3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CDAD67D5C3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 03:58:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=MbnRLzNs2YbEOegE/7CF8SFu6qvKdJtthNQd0k006tKxQCYV6+jRX1HesXTK1mojMFR/L3Ax2onjclK/1N9blX+QpA5yiBFDPGTs4r+UPrpRyulbgnv88cH0njAaWFE62qiP6ssJu+l2YprsL+k6xOh3tjlRx7VaMjh0OpRRrNgdYB417EsD70970w0IweU58NEZ0s0U8Vf3LZNzRJfydx48+Aq74+DNDM2L7/OOR2rA/HBIxnMjTkuofERBPLP3QLcYX1jHU5N/dwSxCdwaX0tzehqJ/twD3pXB9OJZZ7ORGn3AkraE4qX9LKiWpC03LAAICPhKeEeKGIKO3Mm6nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=ecOI6SFjHx34uNsBdSpsJ2QowO4aDLv/U/BGUq726Mw=;
-	b=BwklSSW/SHzPdPdPSiXLdnEU6XsGjEg01ViEhB+qs0NcDIU9nENGipz/uJ8eh+rdJY28dK8tpg3dv7YlH1s06OnBrOaHJfVY6q3W4HxeGCaYFWNIzEIQWe6vna0sGbNfcqEMibGuKIHLQfDxZIr+Na5h8bccz2CWcJgS7i/hDynXwL4YfD+3ZHgunLbMiCwFs7nWPy7Ty810EVNAeJ9aOqn4lusTwd+T3dEQEfNbzHbbkMtPBPwl9DXbECYRVFd33XjEqxSmsUZrngCK5Ak1HoHfGFvAXlV8FfoTdAor0C8sQb5Ry4TUBY03DRnz+1hFXFNDYY7kohMCiNTl3roKyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
-	smtp.mailfrom=here.com; dmarc=pass action=none header.from=here.com;
-	dkim=pass header.d=here.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=here.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=ecOI6SFjHx34uNsBdSpsJ2QowO4aDLv/U/BGUq726Mw=;
-	b=m5Fvs0pN5Wsv3OJltIcduUbaFMSA3/kNj6QiVPs1HpMoRAnWgEUDIQMhQoLI6e7SbUmjIWKGT15MnWlwPsR1AH508FT2s+NRbLnNxUame83mVvUnn7Sf3ZFLt6Z0il+hX2uGJR/wDB5SF4dC7x1cOhqawpvnQc1bY3vHZO5Q4ew=
-Received: from AM5PR04MB3299.eurprd04.prod.outlook.com (10.173.255.158) by
-	AM5PR04MB3027.eurprd04.prod.outlook.com (10.173.254.142) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2094.12; Fri, 19 Jul 2019 14:27:48 +0000
-Received: from AM5PR04MB3299.eurprd04.prod.outlook.com
-	([fe80::5012:d47a:1f5d:9b84]) by
-	AM5PR04MB3299.eurprd04.prod.outlook.com
-	([fe80::5012:d47a:1f5d:9b84%5]) with mapi id 15.20.2094.013;
-	Fri, 19 Jul 2019 14:27:48 +0000
-From: "Bonnans, Laurent" <laurent.bonnans@here.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] openssl: fix valgrind errors on v1.1.1c
-Thread-Index: AQHVPj4jxaY6s5bTSU2eUekG3cdEiA==
-Date: Fri, 19 Jul 2019 14:27:48 +0000
-Message-ID: <20190719142742.31137-1-laurent.bonnans@here.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=laurent.bonnans@here.com; 
-x-originating-ip: [131.228.216.132]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9ce97f13-12c5-4485-2a4c-08d70c554644
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
-	SRVR:AM5PR04MB3027; 
-x-ms-traffictypediagnostic: AM5PR04MB3027:
-x-ms-exchange-purlcount: 3
-x-microsoft-antispam-prvs: <AM5PR04MB302730C85088977BCFEAF7C385CB0@AM5PR04MB3027.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:216;
-x-forefront-prvs: 01039C93E4
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(4636009)(346002)(39860400002)(136003)(366004)(376002)(396003)(199004)(189003)(68736007)(53936002)(6512007)(36756003)(186003)(102836004)(99286004)(316002)(26005)(2616005)(305945005)(6306002)(6506007)(476003)(486006)(66066001)(6916009)(7736002)(5660300002)(66946007)(8936002)(2351001)(6486002)(71200400001)(71190400001)(76116006)(8676002)(6436002)(478600001)(2906002)(1076003)(256004)(966005)(14444005)(4326008)(6116002)(3846002)(5640700003)(86362001)(66446008)(107886003)(2501003)(81156014)(81166006)(25786009)(64756008)(66556008)(91956017)(14454004)(66476007);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AM5PR04MB3027;
-	H:AM5PR04MB3299.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: here.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: O9TCjxFQiYu7Gd6CUCkdpFXw0UgdqroH94+W6f91MAT/7xk+H/kHwMzy7fJ5J7mJyF8zRcsFABXENYaRDleud087xpqeUsaFSZLDCxY1jvywdh6IUpTn3C1IN4vRWxkiho26BWFv7gO3ummMq3eNglagls0JfQkrgr7ztP9yvP90FdTWLlXLUdY0W7f4OsO7ESEDmBEw5WTOkZndyY2u2KQb52wXMD8GyjfM30x7pMZ6b0vsBnQaNxz2mYsn5E1Z4hxegKz/At/QE3c1i7EVotk7U5OmEFZsMyomWWO7+0tBAkzUinJkfKI1G97LpgAU2EjZ4F4zLJWlFTXW8WVeF8fbbGxtDW5OHb3df81VNZJ6rOGC58RxXiXAVl3mH97GceogSFdGlokYiHVAR0DgCob5VPKdhOZhXQdPbzBBYgA=
+	Sat, 20 Jul 2019 06:16:36 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id f17so11089827pfn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jul 2019 23:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zHtFtG6pt5zSqKJNxQoCE01P3cuD45tesE6aK55qqT4=;
+	b=AoK/90sHu18Q/qMgh3WL5Pe5h3ASgGO7RBMhjcDkx8PFJQQpqzuAsnRNl/K7nMw5Yz
+	DpNtnr1IUpfFUwIjeB1FfGNr5VHkd5Yy/wQi4ruezbPXcItwvm0MBlMXK6phwtf8qOD3
+	FGhQEMwCZf7cT7UNSy4/0hNVFajtsamktUhW6Tg7kSdbivEsmKCANCfN/1tO+M4M4/bO
+	fE3J8rV9XlnpGD1jsJJAbrVj+xVKpmPNY5OKuoiW0/Lfs20izIKFmE87oATu3Q8hAQV6
+	0ST0fmY1WUp2bgRtK9hyXnQh26Sat8AHX529mRrxe6xli1jGeWkEsvYdUW5acq2Mu51O
+	4eNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zHtFtG6pt5zSqKJNxQoCE01P3cuD45tesE6aK55qqT4=;
+	b=fjwNd08VCWDdsZbVrtENJdy+AKfzC29MCno8VUhv6rDW+k0lUreR+MzcG/sIoI0HxU
+	JCksxMLNIvIXuPSjKUAc5/CzcKjLMiCPCmJ1qBmD7oLGtbu18i3q1jMB/0z6OBeLfXMR
+	XS65+imzw3PFPrOVxWQZlnt01+pG03D3NITgoBuAHwbSADY5GcCtWNa8eVOm87tTsGBe
+	mfFLwPtcIX7o09AtTiB+eJWoNBwdT29NwnENtP7Y4MjK3HdceA2NQjUpbKL0tiQGlpUe
+	+fo1jnOmWiuZmc6WVaID0LQPj0RySgLj6JdhvOwyfrj8iiTVDDoej6qqARSwLWD2n1AV
+	xeJQ==
+X-Gm-Message-State: APjAAAXDajTYEya2Uy9fkxwKH8KvxquVm27n85JC/1R8tzH6eG0ZUmTd
+	I2O/7ID+r7BqGVXNiK+ZUDNbqAZCZbw=
+X-Google-Smtp-Source: APXvYqzyO+mFgcBdXHh7G3S5jsAmvgzUb8e5j9QGEwM9hHrGM8L9FTJTXqLHb5YRXG3FJIs+Pq6wkw==
+X-Received: by 2002:a63:dd17:: with SMTP id t23mr31209365pgg.295.1563603397271;
+	Fri, 19 Jul 2019 23:16:37 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
+	a128sm33380576pfb.185.2019.07.19.23.16.35
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 19 Jul 2019 23:16:35 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jul 2019 23:16:28 -0700
+Message-Id: <20190720061628.30213-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-X-OriginatorOrg: here.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ce97f13-12c5-4485-2a4c-08d70c554644
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2019 14:27:48.5960 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6d4034cd-7225-4f72-b853-91feaea64919
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: laurent.bonnans@here.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR04MB3027
-Subject: [PATCH] openssl: fix valgrind errors on v1.1.1c
+Subject: [PATCH] mpeg2dec: Fix PIE build and avoid relocation in text section on ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -85,84 +57,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2019 03:58:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 20 Jul 2019 06:16:36 -0000
+Content-Transfer-Encoding: 8bit
 
-Running valgrind against code using Openssl v1.1.1c reports a large number =
-of
-uninitialized memory errors. This fix from upstream solves this problem.
+This a backport from upstream
 
-Signed-off-by: Laurent Bonnans <laurent.bonnans@here.com>
+Fixes package_qa on arm
+
+ERROR: QA Issue: ELF binary 'TOPDIR/build/tmpfs/work/armv7vet2hf-neon-yoe-linux-gnueabi/mpeg2dec/0.5.1-r0/packages-split/libmpeg2/usr/lib/libmpeg2.so.0.1.0' has relocations in .text [textrel]
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../0001-Fix-broken-change-from-b3d113e.patch | 35 +++++++++++++++++++
- .../openssl/openssl_1.1.1c.bb                 |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-brok=
-en-change-from-b3d113e.patch
+ ...-1206-from-upstream-to-fix-PIE-build.patch | 156 ++++++++++++++++++
+ .../mpeg2dec/mpeg2dec_0.5.1.bb                |   1 +
+ 2 files changed, 157 insertions(+)
+ create mode 100644 meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-broken-chan=
-ge-from-b3d113e.patch b/meta/recipes-connectivity/openssl/openssl/0001-Fix-=
-broken-change-from-b3d113e.patch
+diff --git a/meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch b/meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch
 new file mode 100644
-index 0000000000..6b4789fc70
+index 0000000000..b2544cb44d
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/0001-Fix-broken-change-from=
--b3d113e.patch
-@@ -0,0 +1,35 @@
-+From 711a161f03ef9ed7cd149a22bf1203700c103e96 Mon Sep 17 00:00:00 2001
-+From: Pauli <paul.dale@oracle.com>
-+Date: Fri, 29 Mar 2019 09:24:07 +1000
-+Subject: [PATCH] Fix broken change from b3d113e.
++++ b/meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch
+@@ -0,0 +1,156 @@
++From 0cafb99b57f43cf6ac2c6208718e49ad2dbe462d Mon Sep 17 00:00:00 2001
++From: Jan Schmidt <thaytan@noraisin.net>
++Date: Sun, 10 Nov 2013 00:49:52 +1100
++Subject: [PATCH] Import revision 1206 from upstream to fix PIE build.
 +
-+Reviewed-by: Tim Hudson <tjh@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/8606)
++Functions MC_put_o_16_arm, MC_put_o_8_arm, MC_put_x_16_arm, MC_put_x_8_arm
++in libmpeg2/motion_comp_arm_s.S have addresses in .text, which is bad
++for shared libraries.  Some environments demand that .text actually be
++read-only all the time, yet MC_put_o_16_arm etc require that the addresses
++be modified by the dynamic linking mechanism (dlopen, LoadLibrary, etc.)
++Even in those environments which permit the dynamic linker to modify the
++.text segment, the runtime cost of doing the relocation can be noticeable.
 +
-+Running valgrind against code using Openssl v1.1.1c reports a large number=
- of
-+uninitialized memory errors. This fix from upstream solves this problem.
++This commit rewrites the linkage, discarding the tables of addresses
++in favor of tables of offsets.  All transfers are local within each individual
++function, so there can be no interference by processing that occurs
++after assembly, such as link-time re-ordering (even of individual functions.)
 +
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/711a1=
-61f03ef9ed7cd149a22bf1203700c103e96]
-+Signed-off-by: Laurent Bonnans <laurent.bonnans@here.com>
++Patch by John Reiser <jreiser@bitwagon.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Backport [https://code.videolan.org/videolan/libmpeg2/commit/946bf4b518aacc224f845e73708f99e394744499]
 +---
-+ crypto/rand/rand_lib.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ libmpeg2/motion_comp_arm_s.S | 70 +++++++++++++++++-------------------
++ 1 file changed, 33 insertions(+), 37 deletions(-)
 +
-+diff --git a/crypto/rand/rand_lib.c b/crypto/rand/rand_lib.c
-+index 23abbde156..a298b7515b 100644
-+--- a/crypto/rand/rand_lib.c
-++++ b/crypto/rand/rand_lib.c
-+@@ -235,8 +235,9 @@ size_t rand_drbg_get_nonce(RAND_DRBG *drbg,
-+     struct {
-+         void * instance;
-+         int count;
-+-    } data =3D { NULL, 0 };
-++    } data;
-+=20
-++    memset(&data, 0, sizeof(data));
-+     pool =3D rand_pool_new(0, min_len, max_len);
-+     if (pool =3D=3D NULL)
-+         return 0;
-+--=20
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/rec=
-ipes-connectivity/openssl/openssl_1.1.1c.bb
-index 377adb1785..75159ac725 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-@@ -17,6 +17,7 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV}.=
-tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-c=
-o.patch \
-            file://afalg.patch \
-            file://0001-Fix-build-error-for-aarch64-big-endian.patch \
-+           file://0001-Fix-broken-change-from-b3d113e.patch \
++diff --git a/libmpeg2/motion_comp_arm_s.S b/libmpeg2/motion_comp_arm_s.S
++index c921f7c..82143f8 100644
++--- a/libmpeg2/motion_comp_arm_s.S
+++++ b/libmpeg2/motion_comp_arm_s.S
++@@ -30,9 +30,13 @@ MC_put_o_16_arm:
++ 	pld [r1]
++         stmfd sp!, {r4-r11, lr} @ R14 is also called LR
++ 	and r4, r1, #3
++-	adr r5, MC_put_o_16_arm_align_jt
++-	add r5, r5, r4, lsl #2
++-	ldr pc, [r5]
+++	ldrb r4, [pc, r4]
+++	add pc, pc, r4, lsl #2
+++	.byte (MC_put_o_16_arm_align0 - 0f)>>2
+++	.byte (MC_put_o_16_arm_align1 - 0f)>>2
+++	.byte (MC_put_o_16_arm_align2 - 0f)>>2
+++	.byte (MC_put_o_16_arm_align3 - 0f)>>2
+++0:
++ 
++ MC_put_o_16_arm_align0:
++ 	ldmia r1, {r4-r7}
++@@ -76,11 +80,6 @@ MC_put_o_16_arm_align3:
++ 1:	PROC(24)
++ 	bne 1b
++         ldmfd sp!, {r4-r11, pc} @@ update PC with LR content.
++-MC_put_o_16_arm_align_jt:
++-	.word MC_put_o_16_arm_align0
++-	.word MC_put_o_16_arm_align1
++-	.word MC_put_o_16_arm_align2
++-	.word MC_put_o_16_arm_align3
++ 
++ @ ----------------------------------------------------------------
++ 	.align
++@@ -91,9 +90,14 @@ MC_put_o_8_arm:
++ 	pld [r1]
++         stmfd sp!, {r4-r10, lr} @ R14 is also called LR
++ 	and r4, r1, #3
++-	adr r5, MC_put_o_8_arm_align_jt
++-	add r5, r5, r4, lsl #2
++-	ldr pc, [r5]
+++	ldrb r4, [pc, r4]
+++	add pc, pc, r4, lsl #2
+++	.byte (MC_put_o_8_arm_align0 - 0f)>>2
+++	.byte (MC_put_o_8_arm_align1 - 0f)>>2
+++	.byte (MC_put_o_8_arm_align2 - 0f)>>2
+++	.byte (MC_put_o_8_arm_align3 - 0f)>>2
+++0:
+++
++ MC_put_o_8_arm_align0:
++ 	ldmia r1, {r4-r5}
++ 	add r1, r1, r2
++@@ -135,12 +139,6 @@ MC_put_o_8_arm_align3:
++ 	bne 1b
++         ldmfd sp!, {r4-r10, pc} @@ update PC with LR content.
++ 
++-MC_put_o_8_arm_align_jt:
++-	.word MC_put_o_8_arm_align0
++-	.word MC_put_o_8_arm_align1
++-	.word MC_put_o_8_arm_align2
++-	.word MC_put_o_8_arm_align3
++-
++ @ ----------------------------------------------------------------
++ .macro	AVG_PW rW1, rW2
++ 	mov \rW2, \rW2, lsl #24
++@@ -160,12 +158,17 @@ MC_put_x_16_arm:
++ 	@@ void func(uint8_t * dest, const uint8_t * ref, int stride, int height)
++ 	pld [r1]
++         stmfd sp!, {r4-r11,lr} @ R14 is also called LR
+++	ldr r11, 0f
++ 	and r4, r1, #3
++-	adr r5, MC_put_x_16_arm_align_jt
++-	ldr r11, [r5]
++ 	mvn r12, r11
++-	add r5, r5, r4, lsl #2
++-	ldr pc, [r5, #4]
+++	ldrb r4, [pc, r4]
+++	add pc, pc, r4, lsl #2
+++	.byte (MC_put_x_16_arm_align0 - 0f)>>2
+++	.byte (MC_put_x_16_arm_align1 - 0f)>>2
+++	.byte (MC_put_x_16_arm_align2 - 0f)>>2
+++	.byte (MC_put_x_16_arm_align3 - 0f)>>2
+++0:
+++	  .word 0x01010101
++ 
++ .macro	ADJ_ALIGN_QW shift, R0, R1, R2, R3, R4
++ 	mov \R0, \R0, lsr #(\shift)
++@@ -238,12 +241,6 @@ MC_put_x_16_arm_align3:
++ 	add r0, r0, r2
++ 	bne 1b
++         ldmfd sp!, {r4-r11,pc} @@ update PC with LR content.
++-MC_put_x_16_arm_align_jt:
++-	.word 0x01010101
++-	.word MC_put_x_16_arm_align0
++-	.word MC_put_x_16_arm_align1
++-	.word MC_put_x_16_arm_align2
++-	.word MC_put_x_16_arm_align3
++ 
++ @ ----------------------------------------------------------------
++ 	.align
++@@ -253,12 +250,17 @@ MC_put_x_8_arm:
++ 	@@ void func(uint8_t * dest, const uint8_t * ref, int stride, int height)
++ 	pld [r1]
++         stmfd sp!, {r4-r11,lr} @ R14 is also called LR
+++	ldr r11, 0f
++ 	and r4, r1, #3
++-	adr r5, MC_put_x_8_arm_align_jt
++-	ldr r11, [r5]
++ 	mvn r12, r11
++-	add r5, r5, r4, lsl #2
++-	ldr pc, [r5, #4]
+++	ldrb r4, [pc, r4]
+++	add pc, pc, r4, lsl #2
+++	.byte (MC_put_x_8_arm_align0 - 0f)>>2
+++	.byte (MC_put_x_8_arm_align1 - 0f)>>2
+++	.byte (MC_put_x_8_arm_align2 - 0f)>>2
+++	.byte (MC_put_x_8_arm_align3 - 0f)>>2
+++0:
+++	  .word 0x01010101
++ 
++ .macro	ADJ_ALIGN_DW shift, R0, R1, R2
++ 	mov \R0, \R0, lsr #(\shift)
++@@ -319,9 +321,3 @@ MC_put_x_8_arm_align3:
++ 	add r0, r0, r2
++ 	bne 1b
++         ldmfd sp!, {r4-r11,pc} @@ update PC with LR content.
++-MC_put_x_8_arm_align_jt:
++-	.word 0x01010101
++-	.word MC_put_x_8_arm_align0
++-	.word MC_put_x_8_arm_align1
++-	.word MC_put_x_8_arm_align2
++-	.word MC_put_x_8_arm_align3
+diff --git a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
+index 6b59d4f681..00ca3675ca 100644
+--- a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
++++ b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
+@@ -11,6 +11,7 @@ SRC_URI = "http://libmpeg2.sourceforge.net/files/libmpeg2-${PV}.tar.gz \
+            file://0001-check-for-available-arm-optimizations.patch \
+            file://0002-Set-visibility-of-global-symbols-used-in-ARM-specifi.patch \
+            file://61_global-symbol-test.patch \
++           file://0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch \
             "
-=20
- SRC_URI_append_class-nativesdk =3D " \
---=20
-2.20.1
+ 
+ S = "${WORKDIR}/libmpeg2-${PV}"
+-- 
+2.22.0
+
 
