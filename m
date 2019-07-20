@@ -1,30 +1,49 @@
-Return-Path: <ayoub.zaki@embexus.com>
-Received: from mailrelay1-3.pub.mailoutpod1-cph3.one.com
-	(mailrelay1-3.pub.mailoutpod1-cph3.one.com [46.30.212.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 24E857D718
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+	[209.85.167.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 281A37F095
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 16:09:32 +0000 (UTC)
+	Sat, 20 Jul 2019 16:29:40 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id c19so23767610lfm.10
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 20 Jul 2019 09:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=embexus.com; s=20140924;
-	h=references:in-reply-to:message-id:date:subject:cc:to:from:from;
-	bh=oBoMraYGZ3KozAqei8KjF4dM0ti4xalMWm9oNP2wGlk=;
-	b=D6RcQu7cuzBQKe5+hWQZCf3ALt1IWYHM6ENxH2lUtnJ3VAFbU+TmQ5xWrFWS+QLFjf7oq+13j6G9P
-	LqtjLCoZqdKWk2Uju/uI6TiLsn00OB8uVqGlnkUgGS5eY6sSr6Ctzb7RlFX/FktkGL7eR5PbgXEF5g
-	6PTsJenvdGz77AqU=
-X-HalOne-Cookie: 42c5bc87867de1022454d6f0ab6772e4024d6923
-X-HalOne-ID: c2daa0bc-ab08-11e9-aee2-d0431ea8a283
-Received: from localhost.localdomain (unknown [185.156.158.10])
-	by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id c2daa0bc-ab08-11e9-aee2-d0431ea8a283;
-	Sat, 20 Jul 2019 16:09:33 +0000 (UTC)
-From: Ayoub Zaki <ayoub.zaki@embexus.com>
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=Gvxwiom2Lhi4DN1tu8uDuRx5iXmnFcb8J7K8785UGd4=;
+	b=DDAqmsMofQnxTG8IFnYSBjuyYDYWA30ATL4j7lB6NJwvwf78KTdAd0IesUb+sqS7yj
+	bxWS2Z7zyqQcsIez4myUx039db+LZME5noysCmtMRSJvXQh0F3m7x4Ya32EdQIvx3S+U
+	iZKMfrKc1torlR/Q1HRfn1kjbkcclcclprAbCIcyLybq0HtLxo0/sUTxgT+N9aza8Yde
+	Um0OIUNMY+vamB+2oF45omfLsyBdkV9vmWRXs2nLGiLL48DJlXbu0Sq98E6SQBJBhdyR
+	gaGS8IdOJGvZOBlctkSg8roJQ2Z5jNX2P/CWyqi90JqG+NGdC98BCEFe8csiJtMDilwR
+	d5bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Gvxwiom2Lhi4DN1tu8uDuRx5iXmnFcb8J7K8785UGd4=;
+	b=q6KiFHxKXuEuoOa6YIzhGC7D+eT00rZeZ3yYxRhJWyswkczxTkL/vydWJ1fbSthCUT
+	RwQpuuvrcLko/R255oGaEiiowaM1G9fXAhaEpKAx+PVTuJjre7qokNljGRVa8CSHs1Ts
+	Ql9tbzbi1y8v+HS/DByJesYl44BMpAZx/F8eQ6yl+mavRdKT+5v4SSEOUAGKDHhTagHk
+	udlWdTCXTDxcpdyPmsIXT11qDhmwgrg1Wrcy7ffLuUaKwY6THuDnE3p0iopnVLW+3Z/v
+	5Nv1lvXC5XIDUD4DccLfkmMkujSix5cCFoZ5srZi7A3NiGqFgEfx0k3+wq5IPD8k442c
+	7L3Q==
+X-Gm-Message-State: APjAAAXywFAhocJiwSRGY1XL0Isb8ViMqWvj+ZaVH34ONCCWSEhYh/Iy
+	QWa/XCAWSQF64J2yFC/vEtMOBiDQ
+X-Google-Smtp-Source: APXvYqz7gAN7Kp5NMZ5pT79twXED22HotMAKT+fm9GMdqESLeT9iF0ThyANClVamiq5EQTKG4cn5Wg==
+X-Received: by 2002:ac2:59c6:: with SMTP id x6mr27935500lfn.169.1563640181104; 
+	Sat, 20 Jul 2019 09:29:41 -0700 (PDT)
+Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	e62sm6491669ljf.82.2019.07.20.09.29.40
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sat, 20 Jul 2019 09:29:40 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Jul 2019 18:09:29 +0200
-Message-Id: <20190720160929.31232-2-ayoub.zaki@embexus.com>
+Date: Sat, 20 Jul 2019 18:29:37 +0200
+Message-Id: <20190720162937.19324-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190720160929.31232-1-ayoub.zaki@embexus.com>
-References: <20190720160929.31232-1-ayoub.zaki@embexus.com>
-Subject: [meta-oe][PATCH 2/2] usbguard: Initial recipe
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] python3-pbr: update to 5.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,60 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2019 16:09:33 -0000
+X-List-Received-Date: Sat, 20 Jul 2019 16:29:41 -0000
 
-Introduce the USBGuard software framework that helps to protect against rogue USB devices (a.k.a. BadUSB)
-by implementing basic whitelisting and blacklisting capabilities based on device attributes.
-
-Signed-off-by: Ayoub Zaki <ayoub.zaki@embexus.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../usbguard/usbguard_0.7.4.bb                | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
- create mode 100644 meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb
+ meta/recipes-devtools/python/python3-pbr_5.4.0.bb | 5 -----
+ meta/recipes-devtools/python/python3-pbr_5.4.1.bb | 5 +++++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-pbr_5.4.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pbr_5.4.1.bb
 
-diff --git a/meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb b/meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.0.bb b/meta/recipes-devtools/python/python3-pbr_5.4.0.bb
+deleted file mode 100644
+index 1f1ec3a420..0000000000
+--- a/meta/recipes-devtools/python/python3-pbr_5.4.0.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-inherit setuptools3
+-require python-pbr.inc
+-
+-SRC_URI[md5sum] = "fcf120102d3e4859d41425638122058c"
+-SRC_URI[sha256sum] = "36ebd78196e8c9588c972f5571230a059ff83783fabbbbedecc07be263ccd7e6"
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.1.bb b/meta/recipes-devtools/python/python3-pbr_5.4.1.bb
 new file mode 100644
-index 000000000..a77694cc3
+index 0000000000..338ac8b707
 --- /dev/null
-+++ b/meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb
-@@ -0,0 +1,37 @@
-+DESCRIPTION="USBGuard framework helps to protect against BadUSB."
-+HOMEPAGE="https://github.com/dkopecek/usbguard"
-+LICENSE="GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8264535c0c4e9c6c335635c4026a8022"
++++ b/meta/recipes-devtools/python/python3-pbr_5.4.1.bb
+@@ -0,0 +1,5 @@
++inherit setuptools3
++require python-pbr.inc
 +
-+SRC_URI="https://github.com/USBGuard/usbguard/archive/${PN}-${PV}.tar.gz"
-+SRC_URI[md5sum] = "ddaa9ae884200c861ad946f34dfd5ab9"
-+SRC_URI[sha256sum] = "d37886508583565aae0df6a110b11524c59b39e0deb25ee49fc34274e4784f55"
-+
-+inherit autotools pkgconfig systemd bash-completion
-+
-+S= "${WORKDIR}/${PN}-${PN}-${PV}"
-+
-+DEPENDS = "protobuf-native libxml2-native libxslt-native xmlto-native glib-2.0-native \
-+	dbus dbus-glib libqb libseccomp libcap-ng libgcrypt libsodium protobuf pegtl"
-+
-+EXTRA_OECONF += "--with-bundled-catch"
-+
-+PACKAGECONFIG ??= "libsodium \
-+	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-+	${@bb.utils.filter('DISTRO_FEATURES', 'polkit', d)}"
-+
-+PACKAGECONFIG[systemd]   = "--enable-systemd,--disable-systemd"
-+PACKAGECONFIG[libsodium] = "--with-crypto-library=sodium"
-+PACKAGECONFIG[libgcrypt] = "--with-crypto-library=gcrypt"
-+PACKAGECONFIG[polkit]    = "--with-polkit,--without-polkit"
-+PACKAGECONFIG[dbus]      = "--with-dbus,--without-dbus"
-+
-+SYSTEMD_SERVICE_${PN} = "${PN}.service"
-+SYSTEMD_PACKAGES += "${PN}"
-+
-+
-+do_install_append(){
-+	
-+	sed -i 's|/var/log/usbguard/usbguard-audit.log|/var/log/usbguard-audit.log|g' \ 
-+						${D}${sysconfdir}/usbguard/usbguard-daemon.conf
-+}
++SRC_URI[md5sum] = "ab6e26026ab306989a636ec2d50a435a"
++SRC_URI[sha256sum] = "0ca44dc9fd3b04a22297c2a91082d8df2894862e8f4c86a49dac69eae9e85ca0"
 -- 
 2.17.1
 
