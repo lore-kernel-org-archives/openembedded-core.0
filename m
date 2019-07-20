@@ -1,27 +1,47 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 6730D7EEC2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8488D7F00D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 00:12:41 +0000 (UTC)
-Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 025715C02F6;
-	Sat, 20 Jul 2019 02:12:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1563581561;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
-	in-reply-to:references; bh=4NlBdSyFsODyu8xm5hxBzevUQbfbTqzzhZB+XTG6oNU=;
-	b=iUyEEOBj0JA2uOsCGii7hkpeYqksFXw3xlvNbdJX73pJ0tNdDLL7iGG24oKJtBpa8OexMm
-	BP8tflfx/E/MpcsZV6XIsYW3RgTmDYuW2H83RRnSF07Lh7AGu+chYAoNWsbZVRPhbTj2uq
-	LwP9lPkvsL0g9RWTOcJ0qE70rU1g4hw=
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Sat, 20 Jul 2019 02:12:37 +0200
-Message-Id: <20190720001237.44615-1-stefan@agner.ch>
-X-Mailer: git-send-email 2.13.6
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH v2] psplash: create psplash tmpfs mount directory in psplash-init
+	Sat, 20 Jul 2019 00:48:45 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id t8so24622253qkt.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jul 2019 17:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=OPvHW5tqb3jARqnupBbSeXkczcfT+5aZejw0ZBtJQ8A=;
+	b=TrVuz4B63SE16X7fQzSRMXngxS81Ov/lGGEvbTlplzO22djzTBkgVkCHYIjbuRjPyF
+	ldgpuq4Ge7ibRwUFGfaQdaBc3DxNl+4ywusLLKFQxV0NWcbxARm1oLNzG95tPbu6fPXv
+	9azHh2ESF3EBBnhaJZB2eFnQsDb646OboZ9qdW/ujyydwiz+ppJR6V6O89FsHNwNY3eo
+	VpUMsebR3cwssboppsXfQsEmUiyx/SLCbyEtv6DVllbHhhiECy2g2oUvN2G4rzK/j11u
+	vxrKyeFquM3TcxFpGCpBJFlg2DlRx4hWdIl/qf5gdLzpoPaE6TdWKp07cxEKROdq1LWz
+	jU/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=OPvHW5tqb3jARqnupBbSeXkczcfT+5aZejw0ZBtJQ8A=;
+	b=Gkv+mPmlqe6/ZHzqwmrAMjtjac+7bof1rhVs5y4CgTyz77yZ/EkZl9T1GvQaYqJNHQ
+	JNmC3Pl9PJVIm3fM4+wqqbhPXSZGMvt0sffXGguQoHqv23Ozwqe3obkErJkHUSy2pMGH
+	C3BO9zGSNcDiThuT7gbEvnGb+OT1QhFwkBVWjcw2/z/vn0/DO+4DwGEY0l1v5hLy7Ilj
+	4WhqGRf7vkGzAt6rqIi0ZmozomWAPdsoQvDZWdZvCzH8BNBmtnmT49kXfAUOQUqw4Vt3
+	BY93J0NxiwkrG6m+iO/H40r6927Mm+fDatird9BMWNOcZcSj+i7mDlV+pnIXOqbGm+r1
+	cyTg==
+X-Gm-Message-State: APjAAAUKG6tPN0LWqJ8aOVOnniBTN3nKdJVHsDnrC+Er6ykGoYIDDtdV
+	LPPMed3aIpC0ndOI5/AUfX0O6OapVh956IsLNi6ikdqd
+X-Google-Smtp-Source: APXvYqz1fpYXVhaX74cDb0z9zwX+eY9aoVrmpltz9pQi/FGB9LKzy3nvAzE+IyY+ZE8J9nwcuIu3QuIV6SqygWv/+qE=
+X-Received: by 2002:a37:a20f:: with SMTP id l15mr37405326qke.212.1563583725865;
+	Fri, 19 Jul 2019 17:48:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190719201958.19700-1-ross.burton@intel.com>
+In-Reply-To: <20190719201958.19700-1-ross.burton@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 19 Jul 2019 17:48:29 -0700
+Message-ID: <CAMKF1srXVcvcM+yPEzKoFj7=LqxfvbZbMHgmCArdurSwGsbmHQ@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] ffmpeg: don't use hardcoded lookup tables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,58 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2019 00:12:41 -0000
+X-List-Received-Date: Sat, 20 Jul 2019 00:48:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Stefan Agner <stefan.agner@toradex.com>
+On Fri, Jul 19, 2019 at 1:20 PM Ross Burton <ross.burton@intel.com> wrote:
+>
+> ffmpeg can generate lookup tables at build time instead of runtime, but this is
+> no longer a recommended option.  The size impact is significant (12% of the
+> total libavcodec size, nearly 2MB), the runtime impact of dynamic tables isn't
+> too costly, and only a few codecs actually use the pre-generated tables (MP3,
+> notably).
 
-The psplash binary uses TMPDIR as directory to store the FIFO to
-communicate with the psplash tools. This directory can be in any
-location an init system determines to be suitable, psplash-init
-uses /mnt/ for it. Rather than creating the mount directory in
-the recipe, just create it in the init script itself. This allows
-other init scripts to use a different location without having
-an unnecessary .psplash directory in /mnt.
+I think it will be good to understand the performance impact with some
+low end non-x86 device
+as for now, it will be better to turn this into a packageconfig knob
+instead of just removing the
+option
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- meta/recipes-core/psplash/files/psplash-init | 1 +
- meta/recipes-core/psplash/psplash_git.bb     | 3 ---
- 2 files changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/psplash/files/psplash-init b/meta/recipes-core/psplash/files/psplash-init
-index 0bce1de536..fee23e681c 100755
---- a/meta/recipes-core/psplash/files/psplash-init
-+++ b/meta/recipes-core/psplash/files/psplash-init
-@@ -24,6 +24,7 @@ for x in $CMDLINE; do
- done
- 
- export TMPDIR=/mnt/.psplash
-+[ -d $TMPDIR ] || mkdir -p $TMPDIR
- mount tmpfs -t tmpfs $TMPDIR -o,size=40k
- 
- rotation=0
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 3161a5e3f1..56734c1582 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -97,7 +97,6 @@ python do_compile () {
- }
- 
- do_install_append() {
--	install -d ${D}/mnt/.psplash/
- 	install -d ${D}${sysconfdir}/init.d/
- 	install -m 0755 ${WORKDIR}/psplash-init ${D}${sysconfdir}/init.d/psplash.sh
- 	install -d ${D}${bindir}
-@@ -107,8 +106,6 @@ do_install_append() {
- 	rm -f ${D}${bindir}/psplash
- }
- 
--FILES_${PN} += "/mnt/.psplash"
--
- INITSCRIPT_NAME = "psplash.sh"
- INITSCRIPT_PARAMS = "start 0 S . stop 20 0 1 6 ."
- 
--- 
-2.13.6
-
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
+> index 147388d9b7c..6d230c33169 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
+> @@ -106,7 +106,6 @@ EXTRA_OECONF = " \
+>      --extra-cflags="${TARGET_CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}" \
+>      --extra-ldflags="${TARGET_LDFLAGS}" \
+>      --sysroot="${STAGING_DIR_TARGET}" \
+> -    --enable-hardcoded-tables \
+>      ${EXTRA_FFCONF} \
+>      --libdir=${libdir} \
+>      --shlibdir=${libdir} \
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
