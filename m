@@ -1,50 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CDAD67D5C3
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+	[209.85.208.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E28977C603
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 06:16:36 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id f17so11089827pfn.6
+	Sat, 20 Jul 2019 15:58:27 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id h10so33554110ljg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2019 23:16:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zHtFtG6pt5zSqKJNxQoCE01P3cuD45tesE6aK55qqT4=;
-	b=AoK/90sHu18Q/qMgh3WL5Pe5h3ASgGO7RBMhjcDkx8PFJQQpqzuAsnRNl/K7nMw5Yz
-	DpNtnr1IUpfFUwIjeB1FfGNr5VHkd5Yy/wQi4ruezbPXcItwvm0MBlMXK6phwtf8qOD3
-	FGhQEMwCZf7cT7UNSy4/0hNVFajtsamktUhW6Tg7kSdbivEsmKCANCfN/1tO+M4M4/bO
-	fE3J8rV9XlnpGD1jsJJAbrVj+xVKpmPNY5OKuoiW0/Lfs20izIKFmE87oATu3Q8hAQV6
-	0ST0fmY1WUp2bgRtK9hyXnQh26Sat8AHX529mRrxe6xli1jGeWkEsvYdUW5acq2Mu51O
-	4eNw==
+	Sat, 20 Jul 2019 08:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=VpKxMPY5zgMKS7luS5gW0sl/ZGaBDwh00uw9Un9RwGU=;
+	b=I7lFwhK5IKMz4wgvTlJqJyFW/K3hs8VH/C79R2i7ExRyxgQyyGK0T7rPSEZV57Dm6m
+	10tS2dBxvMH7JFlRDzzpfwW19LH8hLQiPcvNfbi39Nv1qgRhn1z/CvakoJ81v9Uhi97A
+	upZ/1qlFJuK4iYvI6B/UCNMXZ7hr+pyTxHHpAGYTQ2VGSOTDlZx+ya+SZWBGLhbK/NBZ
+	OYKGruHCMV3phjuopTw/M3xc/HpgbPV3HxczAQRZwUJ35b/k+IjYz44CVjQL+Ug8pp5j
+	SSMSPYhHVEG4Q9snUDIvtH+Ib85vxDy6sK0U33PEeeP/SSQmpgPSYvILanC8tPbB7fwo
+	vEHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zHtFtG6pt5zSqKJNxQoCE01P3cuD45tesE6aK55qqT4=;
-	b=fjwNd08VCWDdsZbVrtENJdy+AKfzC29MCno8VUhv6rDW+k0lUreR+MzcG/sIoI0HxU
-	JCksxMLNIvIXuPSjKUAc5/CzcKjLMiCPCmJ1qBmD7oLGtbu18i3q1jMB/0z6OBeLfXMR
-	XS65+imzw3PFPrOVxWQZlnt01+pG03D3NITgoBuAHwbSADY5GcCtWNa8eVOm87tTsGBe
-	mfFLwPtcIX7o09AtTiB+eJWoNBwdT29NwnENtP7Y4MjK3HdceA2NQjUpbKL0tiQGlpUe
-	+fo1jnOmWiuZmc6WVaID0LQPj0RySgLj6JdhvOwyfrj8iiTVDDoej6qqARSwLWD2n1AV
-	xeJQ==
-X-Gm-Message-State: APjAAAXDajTYEya2Uy9fkxwKH8KvxquVm27n85JC/1R8tzH6eG0ZUmTd
-	I2O/7ID+r7BqGVXNiK+ZUDNbqAZCZbw=
-X-Google-Smtp-Source: APXvYqzyO+mFgcBdXHh7G3S5jsAmvgzUb8e5j9QGEwM9hHrGM8L9FTJTXqLHb5YRXG3FJIs+Pq6wkw==
-X-Received: by 2002:a63:dd17:: with SMTP id t23mr31209365pgg.295.1563603397271;
-	Fri, 19 Jul 2019 23:16:37 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	a128sm33380576pfb.185.2019.07.19.23.16.35
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=VpKxMPY5zgMKS7luS5gW0sl/ZGaBDwh00uw9Un9RwGU=;
+	b=dktaG7+Nrp1166YmuPTLRXfcSrQz4iG6w1TdChYkZ66ocPF//C+QMYMc4TtNFa1ziX
+	61jqZkdnTgEsvnm8DWwfWCRFMAz/sDma7ArK0Lyhvy8b2GJnl902We/0YDpFZQtQ4hEh
+	l0I+/jODgXPpwsNqbz00yu3jsYxgJ729wvqJDFkRQtyt7VgGQ4vjiqKmSbb6L3f76E81
+	jKFpLPMhIf7wPuCN7utfJmaR64HAs8UrHNie5ZO+kgrfZLdEZAxOvvPJwDaxwwtZH0XT
+	kLaISCpnwZ2yZjON6H9s9Da9dmdY4modVzvw6U8FgJO07A2ACjVL0a6Cd2h81ZfRldhq
+	szcw==
+X-Gm-Message-State: APjAAAV0nGJ7TmRtgdltIf79fjsqAW38TAJy16XfpMknbLuRbDNeqCbR
+	N2gEcQ0wcBvECMKI8KLZTbcxFHKJ
+X-Google-Smtp-Source: APXvYqzrbaHGnmURlxxZHqfi0Fd/fPSFg7fJOw5bQiHKo0kfKGhai0tByc135wgYWG/REpnYmMjhGA==
+X-Received: by 2002:a2e:86c3:: with SMTP id n3mr31879264ljj.129.1563638308045; 
+	Sat, 20 Jul 2019 08:58:28 -0700 (PDT)
+Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	d21sm5167446lfc.73.2019.07.20.08.58.26
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 19 Jul 2019 23:16:35 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Sat, 20 Jul 2019 08:58:27 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Jul 2019 23:16:28 -0700
-Message-Id: <20190720061628.30213-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.22.0
-MIME-Version: 1.0
-Subject: [PATCH] mpeg2dec: Fix PIE build and avoid relocation in text section on ARM
+Date: Sat, 20 Jul 2019 17:57:50 +0200
+Message-Id: <20190720155750.28692-1-oleksandr.kravchuk@pelagicore.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+Subject: [PATCH] udev-extraconf: do not mount swap partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,197 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2019 06:16:36 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 20 Jul 2019 15:58:28 -0000
 
-This a backport from upstream
+Swap is a special filesystem that cannot be mounted, so do not try to,
+otherwise we will have service that tries and fails to mount it with
+the following error:
 
-Fixes package_qa on arm
+systemd[1]: Mounting /run/media/nvme0n1p3...
+mount[1229]: mount: /run/media/nvme0n1p3: unknown filesystem type 'swap'.
 
-ERROR: QA Issue: ELF binary 'TOPDIR/build/tmpfs/work/armv7vet2hf-neon-yoe-linux-gnueabi/mpeg2dec/0.5.1-r0/packages-split/libmpeg2/usr/lib/libmpeg2.so.0.1.0' has relocations in .text [textrel]
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
 ---
- ...-1206-from-upstream-to-fix-PIE-build.patch | 156 ++++++++++++++++++
- .../mpeg2dec/mpeg2dec_0.5.1.bb                |   1 +
- 2 files changed, 157 insertions(+)
- create mode 100644 meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch b/meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch
-new file mode 100644
-index 0000000000..b2544cb44d
---- /dev/null
-+++ b/meta/recipes-multimedia/mpeg2dec/files/0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch
-@@ -0,0 +1,156 @@
-+From 0cafb99b57f43cf6ac2c6208718e49ad2dbe462d Mon Sep 17 00:00:00 2001
-+From: Jan Schmidt <thaytan@noraisin.net>
-+Date: Sun, 10 Nov 2013 00:49:52 +1100
-+Subject: [PATCH] Import revision 1206 from upstream to fix PIE build.
-+
-+Functions MC_put_o_16_arm, MC_put_o_8_arm, MC_put_x_16_arm, MC_put_x_8_arm
-+in libmpeg2/motion_comp_arm_s.S have addresses in .text, which is bad
-+for shared libraries.  Some environments demand that .text actually be
-+read-only all the time, yet MC_put_o_16_arm etc require that the addresses
-+be modified by the dynamic linking mechanism (dlopen, LoadLibrary, etc.)
-+Even in those environments which permit the dynamic linker to modify the
-+.text segment, the runtime cost of doing the relocation can be noticeable.
-+
-+This commit rewrites the linkage, discarding the tables of addresses
-+in favor of tables of offsets.  All transfers are local within each individual
-+function, so there can be no interference by processing that occurs
-+after assembly, such as link-time re-ordering (even of individual functions.)
-+
-+Patch by John Reiser <jreiser@bitwagon.com>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Backport [https://code.videolan.org/videolan/libmpeg2/commit/946bf4b518aacc224f845e73708f99e394744499]
-+---
-+ libmpeg2/motion_comp_arm_s.S | 70 +++++++++++++++++-------------------
-+ 1 file changed, 33 insertions(+), 37 deletions(-)
-+
-+diff --git a/libmpeg2/motion_comp_arm_s.S b/libmpeg2/motion_comp_arm_s.S
-+index c921f7c..82143f8 100644
-+--- a/libmpeg2/motion_comp_arm_s.S
-++++ b/libmpeg2/motion_comp_arm_s.S
-+@@ -30,9 +30,13 @@ MC_put_o_16_arm:
-+ 	pld [r1]
-+         stmfd sp!, {r4-r11, lr} @ R14 is also called LR
-+ 	and r4, r1, #3
-+-	adr r5, MC_put_o_16_arm_align_jt
-+-	add r5, r5, r4, lsl #2
-+-	ldr pc, [r5]
-++	ldrb r4, [pc, r4]
-++	add pc, pc, r4, lsl #2
-++	.byte (MC_put_o_16_arm_align0 - 0f)>>2
-++	.byte (MC_put_o_16_arm_align1 - 0f)>>2
-++	.byte (MC_put_o_16_arm_align2 - 0f)>>2
-++	.byte (MC_put_o_16_arm_align3 - 0f)>>2
-++0:
-+ 
-+ MC_put_o_16_arm_align0:
-+ 	ldmia r1, {r4-r7}
-+@@ -76,11 +80,6 @@ MC_put_o_16_arm_align3:
-+ 1:	PROC(24)
-+ 	bne 1b
-+         ldmfd sp!, {r4-r11, pc} @@ update PC with LR content.
-+-MC_put_o_16_arm_align_jt:
-+-	.word MC_put_o_16_arm_align0
-+-	.word MC_put_o_16_arm_align1
-+-	.word MC_put_o_16_arm_align2
-+-	.word MC_put_o_16_arm_align3
-+ 
-+ @ ----------------------------------------------------------------
-+ 	.align
-+@@ -91,9 +90,14 @@ MC_put_o_8_arm:
-+ 	pld [r1]
-+         stmfd sp!, {r4-r10, lr} @ R14 is also called LR
-+ 	and r4, r1, #3
-+-	adr r5, MC_put_o_8_arm_align_jt
-+-	add r5, r5, r4, lsl #2
-+-	ldr pc, [r5]
-++	ldrb r4, [pc, r4]
-++	add pc, pc, r4, lsl #2
-++	.byte (MC_put_o_8_arm_align0 - 0f)>>2
-++	.byte (MC_put_o_8_arm_align1 - 0f)>>2
-++	.byte (MC_put_o_8_arm_align2 - 0f)>>2
-++	.byte (MC_put_o_8_arm_align3 - 0f)>>2
-++0:
-++
-+ MC_put_o_8_arm_align0:
-+ 	ldmia r1, {r4-r5}
-+ 	add r1, r1, r2
-+@@ -135,12 +139,6 @@ MC_put_o_8_arm_align3:
-+ 	bne 1b
-+         ldmfd sp!, {r4-r10, pc} @@ update PC with LR content.
-+ 
-+-MC_put_o_8_arm_align_jt:
-+-	.word MC_put_o_8_arm_align0
-+-	.word MC_put_o_8_arm_align1
-+-	.word MC_put_o_8_arm_align2
-+-	.word MC_put_o_8_arm_align3
-+-
-+ @ ----------------------------------------------------------------
-+ .macro	AVG_PW rW1, rW2
-+ 	mov \rW2, \rW2, lsl #24
-+@@ -160,12 +158,17 @@ MC_put_x_16_arm:
-+ 	@@ void func(uint8_t * dest, const uint8_t * ref, int stride, int height)
-+ 	pld [r1]
-+         stmfd sp!, {r4-r11,lr} @ R14 is also called LR
-++	ldr r11, 0f
-+ 	and r4, r1, #3
-+-	adr r5, MC_put_x_16_arm_align_jt
-+-	ldr r11, [r5]
-+ 	mvn r12, r11
-+-	add r5, r5, r4, lsl #2
-+-	ldr pc, [r5, #4]
-++	ldrb r4, [pc, r4]
-++	add pc, pc, r4, lsl #2
-++	.byte (MC_put_x_16_arm_align0 - 0f)>>2
-++	.byte (MC_put_x_16_arm_align1 - 0f)>>2
-++	.byte (MC_put_x_16_arm_align2 - 0f)>>2
-++	.byte (MC_put_x_16_arm_align3 - 0f)>>2
-++0:
-++	  .word 0x01010101
-+ 
-+ .macro	ADJ_ALIGN_QW shift, R0, R1, R2, R3, R4
-+ 	mov \R0, \R0, lsr #(\shift)
-+@@ -238,12 +241,6 @@ MC_put_x_16_arm_align3:
-+ 	add r0, r0, r2
-+ 	bne 1b
-+         ldmfd sp!, {r4-r11,pc} @@ update PC with LR content.
-+-MC_put_x_16_arm_align_jt:
-+-	.word 0x01010101
-+-	.word MC_put_x_16_arm_align0
-+-	.word MC_put_x_16_arm_align1
-+-	.word MC_put_x_16_arm_align2
-+-	.word MC_put_x_16_arm_align3
-+ 
-+ @ ----------------------------------------------------------------
-+ 	.align
-+@@ -253,12 +250,17 @@ MC_put_x_8_arm:
-+ 	@@ void func(uint8_t * dest, const uint8_t * ref, int stride, int height)
-+ 	pld [r1]
-+         stmfd sp!, {r4-r11,lr} @ R14 is also called LR
-++	ldr r11, 0f
-+ 	and r4, r1, #3
-+-	adr r5, MC_put_x_8_arm_align_jt
-+-	ldr r11, [r5]
-+ 	mvn r12, r11
-+-	add r5, r5, r4, lsl #2
-+-	ldr pc, [r5, #4]
-++	ldrb r4, [pc, r4]
-++	add pc, pc, r4, lsl #2
-++	.byte (MC_put_x_8_arm_align0 - 0f)>>2
-++	.byte (MC_put_x_8_arm_align1 - 0f)>>2
-++	.byte (MC_put_x_8_arm_align2 - 0f)>>2
-++	.byte (MC_put_x_8_arm_align3 - 0f)>>2
-++0:
-++	  .word 0x01010101
-+ 
-+ .macro	ADJ_ALIGN_DW shift, R0, R1, R2
-+ 	mov \R0, \R0, lsr #(\shift)
-+@@ -319,9 +321,3 @@ MC_put_x_8_arm_align3:
-+ 	add r0, r0, r2
-+ 	bne 1b
-+         ldmfd sp!, {r4-r11,pc} @@ update PC with LR content.
-+-MC_put_x_8_arm_align_jt:
-+-	.word 0x01010101
-+-	.word MC_put_x_8_arm_align0
-+-	.word MC_put_x_8_arm_align1
-+-	.word MC_put_x_8_arm_align2
-+-	.word MC_put_x_8_arm_align3
-diff --git a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
-index 6b59d4f681..00ca3675ca 100644
---- a/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
-+++ b/meta/recipes-multimedia/mpeg2dec/mpeg2dec_0.5.1.bb
-@@ -11,6 +11,7 @@ SRC_URI = "http://libmpeg2.sourceforge.net/files/libmpeg2-${PV}.tar.gz \
-            file://0001-check-for-available-arm-optimizations.patch \
-            file://0002-Set-visibility-of-global-symbols-used-in-ARM-specifi.patch \
-            file://61_global-symbol-test.patch \
-+           file://0001-Import-revision-1206-from-upstream-to-fix-PIE-build.patch \
-            "
- 
- S = "${WORKDIR}/libmpeg2-${PV}"
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index 3ee67b1318..79eb0145c2 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -57,6 +57,8 @@ automount_systemd() {
+     vfat|fat)
+         MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
+         ;;
++    swap)
++        return ;;
+     # TODO
+     *)
+         ;;
+@@ -98,6 +100,8 @@ automount() {
+ 	vfat|fat)
+ 		MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
+ 		;;
++	swap)
++		return ;;
+ 	# TODO
+ 	*)
+ 		;;
 -- 
-2.22.0
+2.17.1
 
 
