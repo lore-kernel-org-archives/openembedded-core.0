@@ -1,48 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 849047F101
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 661557F0BD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 18:21:51 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id d23so34440376qto.2
+	Sat, 20 Jul 2019 18:26:54 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id i2so17190857plt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 11:21:52 -0700 (PDT)
+	Sat, 20 Jul 2019 11:26:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=SFvBEzmMzgNA3HgDrr5+BayvtbdKfB8ZVnWOr57TLg0=;
-	b=Fl5ou9ws9nYal4qMpRj950e0/3VXGXRSYsTH5zGj3M1W8j+Rg0N/VMYZIzfKt8M2GL
-	DFas467B+YLVBhvhuFKT2FyUIyw1nSG9wIErCUfsAVSVBgZUNDbgEK7yiZIft/IPMOuk
-	hrolkS8iOHasirnOv+JYhE+sn6Ml38v63aAcfoaWbRjUvi0weGGAPxCwMVMuk0WY6jaw
-	mvo6ELbjJYS7M1VIHhgqkigqVBSou78l4f47tbaQltRd8QzQtpReoisjVqF8Gs7JQZSf
-	5e1doziThNvUg5e9Gqv+9VaWisxqyyul/8D0SawM1+Uh8dpmsoNV8oruVrBviiGe/Wf8
-	gAgQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xS8NIQYXsH8mbB22hsWnecLKhi/NlcFZX81eXLZQ1d0=;
+	b=PTzNIq4mjOLW2OGsjhL6JxmguvYxlOSKZFXyjeYbBxKZM51M+iwc3NQGam2ijDL7Xu
+	C9vz5sH7P2LPPQRfsism1x5CBBLBtq1Enhxp/sr4Ko9qYMaI/9rmYE1FlsscEBwJmGV3
+	5Bx8cBHAW9iQVNolpINbVvQIG/bZt44T4TFtxybiWWGA3iEGN3EAQpUA90LyZ+49exMg
+	zas2hqMdxOhm3LstFzOHfJcQCA9y/DyH5pOZEItLx+W1Gb242bU+iOo3S8WKC9eEf2tU
+	byQyxzeve7n07ZHiFIDK9p3DNX404tUpuCEoUTULq1Ws3O09ugbNI6jw5swkcP9AqI1I
+	kf2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=SFvBEzmMzgNA3HgDrr5+BayvtbdKfB8ZVnWOr57TLg0=;
-	b=YTNiyHiQLTsRQwKccvuWaBs4tqWWV/S6CiIMNDNbmsQb8JSfPhC0r7zLKKua+H5++6
-	4mA1GtG/6LfYPM2gY2+cFZOHrHG39jna8xwnQfBnf3KPP4XAbBd4xus8KwExEi75dkEe
-	TcBvb5wz/so4IV6UBB33O6PkHXWeVGszE8v6ASIfkx86Wze4Ke+1JPmAfKx4Vy32LPLN
-	c7kdK5yb5EEdYJ8IZlOCKqeeVXj5thgmcpGJ1rNStU7Mg2MnHrV9UOi6CK1J1wawmAD9
-	3TP+i2CpC6QgXTXxmyqEWJyxjHBZjuXbBFALCuM1JNR0wPTHjj6AxQnAmFNCLTirlqvT
-	2eDA==
-X-Gm-Message-State: APjAAAV5vWZ4YIxo5iJj72D9qa1FSu0UjymFEKUbfwUZNLZGM+0ZZIoy
-	woML+xeYMTTu5gyS7vQ+Z3F1pDdArU3hv2+eP5RoM/9Z
-X-Google-Smtp-Source: APXvYqy/YvjU0purwSoGzjzdJTwDnr3mLn5BiUc8ieyHLV3s39UL5vsrN8HBUE01jQ/1Et85TOw/yJWKnJvK2gsBla0=
-X-Received: by 2002:aed:36e8:: with SMTP id f95mr41862082qtb.88.1563646912262; 
-	Sat, 20 Jul 2019 11:21:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190720160929.31232-1-ayoub.zaki@embexus.com>
-	<20190720160929.31232-2-ayoub.zaki@embexus.com>
-In-Reply-To: <20190720160929.31232-2-ayoub.zaki@embexus.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xS8NIQYXsH8mbB22hsWnecLKhi/NlcFZX81eXLZQ1d0=;
+	b=B9KecjNtOTKcvyjfRmPrCvcWmT9UkhgUKkwVPSR77jDHf/kPMIRD9S25/HXszcO8Cr
+	7KWFdIOhy0p8aSE0ZAuGe4OQm666VIYFFBHp2X1fvbbagabxQdzQuhw6Bp1J7lnf9kPu
+	XqKSreNt+mxKIsUojiInwoCI2IH/RXqDgt7JRcXLKUGpxrI0IEpP5o5kjymHsj64J3ZV
+	2GUGdUO4u9kDEsvzDFioJ0GgQ42XgnWjOWDRrUIfXzh/4PugASCFf3jiBC4p0RhTzMF3
+	e+Vc2/yFNiyBNFBIngBNEt1zX7bxaefTq0ZzH/aZXqcL3FTmup66nJRUMklgff7L2nfV
+	iOJg==
+X-Gm-Message-State: APjAAAVPqQeRuFNwvCPsDTxPZAyQTGZNYbwwYMatX0WBs9IGMnjM6dv1
+	U4q85Kqa+jMDbPPnuHwngTNvuFWj3ho=
+X-Google-Smtp-Source: APXvYqws1qbxxQOIIyyM+ErsWbiAAYnAvbDCVCfumn6jSxn0Qx7L1v+r6ZQ6XAuZtwJJ2I0EBZbaoQ==
+X-Received: by 2002:a17:902:e613:: with SMTP id
+	cm19mr60262809plb.299.1563647215045; 
+	Sat, 20 Jul 2019 11:26:55 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
+	23sm37896621pfn.176.2019.07.20.11.26.54
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sat, 20 Jul 2019 11:26:54 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 20 Jul 2019 11:21:26 -0700
-Message-ID: <CAMKF1soLmNoEF3Mj0cwB7dmBiYwAwUtRAi6g=j+S3ZLX3FgX6w@mail.gmail.com>
-To: Ayoub Zaki <ayoub.zaki@embexus.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH 2/2] usbguard: Initial recipe
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 20 Jul 2019 11:26:45 -0700
+Message-Id: <20190720182645.16464-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.22.0
+MIME-Version: 1.0
+Subject: [PATCH] Revert "unzip: fix CVE-2019-13232"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +58,381 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2019 18:21:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 20 Jul 2019 18:26:54 -0000
+Content-Transfer-Encoding: 8bit
 
-wrong mailing list
+See [1]
 
-On Sat, Jul 20, 2019 at 9:09 AM Ayoub Zaki <ayoub.zaki@embexus.com> wrote:
->
-> Introduce the USBGuard software framework that helps to protect against rogue USB devices (a.k.a. BadUSB)
-> by implementing basic whitelisting and blacklisting capabilities based on device attributes.
->
-> Signed-off-by: Ayoub Zaki <ayoub.zaki@embexus.com>
-> ---
->  .../usbguard/usbguard_0.7.4.bb                | 37 +++++++++++++++++++
->  1 file changed, 37 insertions(+)
->  create mode 100644 meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb
->
-> diff --git a/meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb b/meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb
-> new file mode 100644
-> index 000000000..a77694cc3
-> --- /dev/null
-> +++ b/meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb
-> @@ -0,0 +1,37 @@
-> +DESCRIPTION="USBGuard framework helps to protect against BadUSB."
-> +HOMEPAGE="https://github.com/dkopecek/usbguard"
-> +LICENSE="GPLv2"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=8264535c0c4e9c6c335635c4026a8022"
-> +
-> +SRC_URI="https://github.com/USBGuard/usbguard/archive/${PN}-${PV}.tar.gz"
-> +SRC_URI[md5sum] = "ddaa9ae884200c861ad946f34dfd5ab9"
-> +SRC_URI[sha256sum] = "d37886508583565aae0df6a110b11524c59b39e0deb25ee49fc34274e4784f55"
-> +
-> +inherit autotools pkgconfig systemd bash-completion
-> +
-> +S= "${WORKDIR}/${PN}-${PN}-${PV}"
-> +
-> +DEPENDS = "protobuf-native libxml2-native libxslt-native xmlto-native glib-2.0-native \
-> +       dbus dbus-glib libqb libseccomp libcap-ng libgcrypt libsodium protobuf pegtl"
-> +
-> +EXTRA_OECONF += "--with-bundled-catch"
-> +
-> +PACKAGECONFIG ??= "libsodium \
-> +       ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> +       ${@bb.utils.filter('DISTRO_FEATURES', 'polkit', d)}"
-> +
-> +PACKAGECONFIG[systemd]   = "--enable-systemd,--disable-systemd"
-> +PACKAGECONFIG[libsodium] = "--with-crypto-library=sodium"
-> +PACKAGECONFIG[libgcrypt] = "--with-crypto-library=gcrypt"
-> +PACKAGECONFIG[polkit]    = "--with-polkit,--without-polkit"
-> +PACKAGECONFIG[dbus]      = "--with-dbus,--without-dbus"
-> +
-> +SYSTEMD_SERVICE_${PN} = "${PN}.service"
-> +SYSTEMD_PACKAGES += "${PN}"
-> +
-> +
-> +do_install_append(){
-> +
-> +       sed -i 's|/var/log/usbguard/usbguard-audit.log|/var/log/usbguard-audit.log|g' \
-> +                                               ${D}${sysconfdir}/usbguard/usbguard-daemon.conf
-> +}
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This reverts commit 4df4de2ac8bc0e80446e1ad0ce67eb244e2d2a32.
+
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2019-July/284859.html
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../unzip/unzip/CVE-2019-13232.patch          | 339 ------------------
+ meta/recipes-extended/unzip/unzip_6.0.bb      |   1 -
+ 2 files changed, 340 deletions(-)
+ delete mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch
+
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch b/meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch
+deleted file mode 100644
+index c808f3d36a..0000000000
+--- a/meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch
++++ /dev/null
+@@ -1,339 +0,0 @@
+-From: Mark Adler <madler@alumni.caltech.edu>
+-Subject: Detect and reject a zip bomb using overlapped entries.
+-Origin: https://github.com/madler/unzip/commit/47b3ceae397d21bf822bc2ac73052a4b1daf8e1c
+-Bug-Debian: https://bugs.debian.org/931433
+-X-Debian-version: 6.0-24
+-
+-    Detect and reject a zip bomb using overlapped entries.
+-    
+-    This detects an invalid zip file that has at least one entry that
+-    overlaps with another entry or with the central directory to the
+-    end of the file. A Fifield zip bomb uses overlapped local entries
+-    to vastly increase the potential inflation ratio. Such an invalid
+-    zip file is rejected.
+-    
+-    See https://www.bamsoftware.com/hacks/zipbomb/ for David Fifield's
+-    analysis, construction, and examples of such zip bombs.
+-    
+-    The detection maintains a list of covered spans of the zip files
+-    so far, where the central directory to the end of the file and any
+-    bytes preceding the first entry at zip file offset zero are
+-    considered covered initially. Then as each entry is decompressed
+-    or tested, it is considered covered. When a new entry is about to
+-    be processed, its initial offset is checked to see if it is
+-    contained by a covered span. If so, the zip file is rejected as
+-    invalid.
+-    
+-    This commit depends on a preceding commit: "Fix bug in
+-    undefer_input() that misplaced the input state."
+-
+-Upstream-Status: Pending [Patch taken from debian]
+-CVE: CVE-2019-13232
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+-
+---- a/extract.c
+-+++ b/extract.c
+-@@ -321,6 +321,125 @@
+-   "\nerror:  unsupported extra-field compression type (%u)--skipping\n";
+- static ZCONST char Far BadExtraFieldCRC[] =
+-   "error [%s]:  bad extra-field CRC %08lx (should be %08lx)\n";
+-+static ZCONST char Far NotEnoughMemCover[] =
+-+  "error: not enough memory for bomb detection\n";
+-+static ZCONST char Far OverlappedComponents[] =
+-+  "error: invalid zip file with overlapped components (possible zip bomb)\n";
+-+
+-+
+-+
+-+
+-+
+-+/* A growable list of spans. */
+-+typedef zoff_t bound_t;
+-+typedef struct {
+-+    bound_t beg;        /* start of the span */
+-+    bound_t end;        /* one past the end of the span */
+-+} span_t;
+-+typedef struct {
+-+    span_t *span;       /* allocated, distinct, and sorted list of spans */
+-+    size_t num;         /* number of spans in the list */
+-+    size_t max;         /* allocated number of spans (num <= max) */
+-+} cover_t;
+-+
+-+/*
+-+ * Return the index of the first span in cover whose beg is greater than val.
+-+ * If there is no such span, then cover->num is returned.
+-+ */
+-+static size_t cover_find(cover, val)
+-+    cover_t *cover;
+-+    bound_t val;
+-+{
+-+    size_t lo = 0, hi = cover->num;
+-+    while (lo < hi) {
+-+        size_t mid = (lo + hi) >> 1;
+-+        if (val < cover->span[mid].beg)
+-+            hi = mid;
+-+        else
+-+            lo = mid + 1;
+-+    }
+-+    return hi;
+-+}
+-+
+-+/* Return true if val lies within any one of the spans in cover. */
+-+static int cover_within(cover, val)
+-+    cover_t *cover;
+-+    bound_t val;
+-+{
+-+    size_t pos = cover_find(cover, val);
+-+    return pos > 0 && val < cover->span[pos - 1].end;
+-+}
+-+
+-+/*
+-+ * Add a new span to the list, but only if the new span does not overlap any
+-+ * spans already in the list. The new span covers the values beg..end-1. beg
+-+ * must be less than end.
+-+ *
+-+ * Keep the list sorted and merge adjacent spans. Grow the allocated space for
+-+ * the list as needed. On success, 0 is returned. If the new span overlaps any
+-+ * existing spans, then 1 is returned and the new span is not added to the
+-+ * list. If the new span is invalid because beg is greater than or equal to
+-+ * end, then -1 is returned. If the list needs to be grown but the memory
+-+ * allocation fails, then -2 is returned.
+-+ */
+-+static int cover_add(cover, beg, end)
+-+    cover_t *cover;
+-+    bound_t beg;
+-+    bound_t end;
+-+{
+-+    size_t pos;
+-+    int prec, foll;
+-+
+-+    if (beg >= end)
+-+    /* The new span is invalid. */
+-+        return -1;
+-+
+-+    /* Find where the new span should go, and make sure that it does not
+-+       overlap with any existing spans. */
+-+    pos = cover_find(cover, beg);
+-+    if ((pos > 0 && beg < cover->span[pos - 1].end) ||
+-+        (pos < cover->num && end > cover->span[pos].beg))
+-+        return 1;
+-+
+-+    /* Check for adjacencies. */
+-+    prec = pos > 0 && beg == cover->span[pos - 1].end;
+-+    foll = pos < cover->num && end == cover->span[pos].beg;
+-+    if (prec && foll) {
+-+        /* The new span connects the preceding and following spans. Merge the
+-+           following span into the preceding span, and delete the following
+-+           span. */
+-+        cover->span[pos - 1].end = cover->span[pos].end;
+-+        cover->num--;
+-+        memmove(cover->span + pos, cover->span + pos + 1,
+-+                (cover->num - pos) * sizeof(span_t));
+-+    }
+-+    else if (prec)
+-+        /* The new span is adjacent only to the preceding span. Extend the end
+-+           of the preceding span. */
+-+        cover->span[pos - 1].end = end;
+-+    else if (foll)
+-+        /* The new span is adjacent only to the following span. Extend the
+-+           beginning of the following span. */
+-+        cover->span[pos].beg = beg;
+-+    else {
+-+        /* The new span has gaps between both the preceding and the following
+-+           spans. Assure that there is room and insert the span.  */
+-+        if (cover->num == cover->max) {
+-+            size_t max = cover->max == 0 ? 16 : cover->max << 1;
+-+            span_t *span = realloc(cover->span, max * sizeof(span_t));
+-+            if (span == NULL)
+-+                return -2;
+-+            cover->span = span;
+-+            cover->max = max;
+-+        }
+-+        memmove(cover->span + pos + 1, cover->span + pos,
+-+                (cover->num - pos) * sizeof(span_t));
+-+        cover->num++;
+-+        cover->span[pos].beg = beg;
+-+        cover->span[pos].end = end;
+-+    }
+-+    return 0;
+-+}
+- 
+- 
+- 
+-@@ -376,6 +495,29 @@
+-     }
+- #endif /* !SFX || SFX_EXDIR */
+- 
+-+    /* One more: initialize cover structure for bomb detection. Start with a
+-+       span that covers the central directory though the end of the file. */
+-+    if (G.cover == NULL) {
+-+        G.cover = malloc(sizeof(cover_t));
+-+        if (G.cover == NULL) {
+-+            Info(slide, 0x401, ((char *)slide,
+-+              LoadFarString(NotEnoughMemCover)));
+-+            return PK_MEM;
+-+        }
+-+        ((cover_t *)G.cover)->span = NULL;
+-+        ((cover_t *)G.cover)->max = 0;
+-+    }
+-+    ((cover_t *)G.cover)->num = 0;
+-+    if ((G.extra_bytes != 0 &&
+-+         cover_add((cover_t *)G.cover, 0, G.extra_bytes) != 0) ||
+-+        cover_add((cover_t *)G.cover,
+-+                  G.extra_bytes + G.ecrec.offset_start_central_directory,
+-+                  G.ziplen) != 0) {
+-+        Info(slide, 0x401, ((char *)slide,
+-+          LoadFarString(NotEnoughMemCover)));
+-+        return PK_MEM;
+-+    }
+-+
+- /*---------------------------------------------------------------------------
+-     The basic idea of this function is as follows.  Since the central di-
+-     rectory lies at the end of the zipfile and the member files lie at the
+-@@ -593,7 +735,8 @@
+-             if (error > error_in_archive)
+-                 error_in_archive = error;
+-             /* ...and keep going (unless disk full or user break) */
+--            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC) {
+-+            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC ||
+-+                error == PK_BOMB) {
+-                 /* clear reached_end to signal premature stop ... */
+-                 reached_end = FALSE;
+-                 /* ... and cancel scanning the central directory */
+-@@ -1062,6 +1205,11 @@
+- 
+-         /* seek_zipf(__G__ pInfo->offset);  */
+-         request = G.pInfo->offset + G.extra_bytes;
+-+        if (cover_within((cover_t *)G.cover, request)) {
+-+            Info(slide, 0x401, ((char *)slide,
+-+              LoadFarString(OverlappedComponents)));
+-+            return PK_BOMB;
+-+        }
+-         inbuf_offset = request % INBUFSIZ;
+-         bufstart = request - inbuf_offset;
+- 
+-@@ -1602,6 +1750,18 @@
+-             return IZ_CTRLC;        /* cancel operation by user request */
+-         }
+- #endif
+-+        error = cover_add((cover_t *)G.cover, request,
+-+                          G.cur_zipfile_bufstart + (G.inptr - G.inbuf));
+-+        if (error < 0) {
+-+            Info(slide, 0x401, ((char *)slide,
+-+              LoadFarString(NotEnoughMemCover)));
+-+            return PK_MEM;
+-+        }
+-+        if (error != 0) {
+-+            Info(slide, 0x401, ((char *)slide,
+-+              LoadFarString(OverlappedComponents)));
+-+            return PK_BOMB;
+-+        }
+- #ifdef MACOS  /* MacOS is no preemptive OS, thus call event-handling by hand */
+-         UserStop();
+- #endif
+-@@ -2003,6 +2163,34 @@
+-     }
+- 
+-     undefer_input(__G);
+-+
+-+    if ((G.lrec.general_purpose_bit_flag & 8) != 0) {
+-+        /* skip over data descriptor (harder than it sounds, due to signature
+-+         * ambiguity)
+-+         */
+-+#       define SIG 0x08074b50
+-+#       define LOW 0xffffffff
+-+        uch buf[12];
+-+        unsigned shy = 12 - readbuf((char *)buf, 12);
+-+        ulg crc = shy ? 0 : makelong(buf);
+-+        ulg clen = shy ? 0 : makelong(buf + 4);
+-+        ulg ulen = shy ? 0 : makelong(buf + 8); /* or high clen if ZIP64 */
+-+        if (crc == SIG &&                       /* if not SIG, no signature */
+-+            (G.lrec.crc32 != SIG ||             /* if not SIG, have signature */
+-+             (clen == SIG &&                    /* if not SIG, no signature */
+-+              ((G.lrec.csize & LOW) != SIG ||   /* if not SIG, have signature */
+-+               (ulen == SIG &&                  /* if not SIG, no signature */
+-+                (G.zip64 ? G.lrec.csize >> 32 : G.lrec.ucsize) != SIG
+-+                                                /* if not SIG, have signature */
+-+                )))))
+-+                   /* skip four more bytes to account for signature */
+-+                   shy += 4 - readbuf((char *)buf, 4);
+-+        if (G.zip64)
+-+            shy += 8 - readbuf((char *)buf, 8); /* skip eight more for ZIP64 */
+-+        if (shy)
+-+            error = PK_ERR;
+-+    }
+-+
+-     return error;
+- 
+- } /* end function extract_or_test_member() */
+---- a/globals.c
+-+++ b/globals.c
+-@@ -181,6 +181,7 @@
+- # if (!defined(NO_TIMESTAMPS))
+-     uO.D_flag=1;    /* default to '-D', no restoration of dir timestamps */
+- # endif
+-+    G.cover = NULL;     /* not allocated yet */
+- #endif
+- 
+-     uO.lflag=(-1);
+---- a/globals.h
+-+++ b/globals.h
+-@@ -260,12 +260,15 @@
+-     ecdir_rec       ecrec;         /* used in unzip.c, extract.c */
+-     z_stat   statbuf;              /* used by main, mapname, check_for_newer */
+- 
+-+    int zip64;                     /* true if Zip64 info in extra field */
+-+
+-     int      mem_mode;
+-     uch      *outbufptr;           /* extract.c static */
+-     ulg      outsize;              /* extract.c static */
+-     int      reported_backslash;   /* extract.c static */
+-     int      disk_full;
+-     int      newfile;
+-+    void     **cover;              /* used in extract.c for bomb detection */
+- 
+-     int      didCRlast;            /* fileio static */
+-     ulg      numlines;             /* fileio static: number of lines printed */
+---- a/process.c
+-+++ b/process.c
+-@@ -637,6 +637,13 @@
+-     }
+- #endif
+- 
+-+    /* Free the cover span list and the cover structure. */
+-+    if (G.cover != NULL) {
+-+        free(*(G.cover));
+-+        free(G.cover);
+-+        G.cover = NULL;
+-+    }
+-+
+- } /* end function free_G_buffers() */
+- 
+- 
+-@@ -1913,6 +1920,8 @@
+- #define Z64FLGS 0xffff
+- #define Z64FLGL 0xffffffff
+- 
+-+    G.zip64 = FALSE;
+-+
+-     if (ef_len == 0 || ef_buf == NULL)
+-         return PK_COOL;
+- 
+-@@ -2084,6 +2093,8 @@
+-                     (ZCONST char *)(offset + ef_buf), ULen);
+-             G.unipath_filename[ULen] = '\0';
+-           }
+-+
+-+          G.zip64 = TRUE;
+-         }
+- 
+-         /* Skip this extra field block */
+---- a/unzip.h
+-+++ b/unzip.h
+-@@ -645,6 +645,7 @@
+- #define PK_NOZIP           9   /* zipfile not found */
+- #define PK_PARAM          10   /* bad or illegal parameters specified */
+- #define PK_FIND           11   /* no files found */
+-+#define PK_BOMB           12   /* likely zip bomb */
+- #define PK_DISK           50   /* disk full */
+- #define PK_EOF            51   /* unexpected EOF */
+- 
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index 1d18526ce2..daba722722 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -22,7 +22,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+ 	file://symlink.patch \
+ 	file://0001-unzip-fix-CVE-2018-1000035.patch \
+ 	file://CVE-2018-18384.patch \
+-        file://CVE-2019-13232.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+-- 
+2.22.0
+
 
