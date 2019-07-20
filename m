@@ -1,47 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 470077EE84
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 849047F101
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 18:21:41 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id y26so34411739qto.4
+	Sat, 20 Jul 2019 18:21:51 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id d23so34440376qto.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 11:21:42 -0700 (PDT)
+	Sat, 20 Jul 2019 11:21:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fDUY4eHnFjizcZYDsIZxxp+95Vd/GcmX7ZSlNdy9PiQ=;
-	b=U+V1PB6IKv1RX61UKk9cg1JJeo7e89cZQ1JZdEE5uaUUh23XoAQi84gl+yUW4qshLu
-	ob9xYdWWs9CXWSNkFMLLCtkRPH4Zd/4m/4tkby5abZyexKw00PqpyUaZF98O1fk81fi9
-	sWO+7DwE7XAp+/dyd3welFbg4Qm6EoD4mYCiOjnB++GGJZW0wNwZXORs4RIvvAV5Gt+P
-	wUxn6QO4l0s8MoImQ8tIcjTM/QWPu1LC7b5y6L1wIaNgd5UHHj8PpcLtlupfx/9cCFud
-	N6MpIWukG82GMZk5aAPuVgavEzORyVYmXyGfZr3JaZergEyGnDx6/QfFC9Xd4rbd9x/0
-	bVxQ==
+	:cc; bh=SFvBEzmMzgNA3HgDrr5+BayvtbdKfB8ZVnWOr57TLg0=;
+	b=Fl5ou9ws9nYal4qMpRj950e0/3VXGXRSYsTH5zGj3M1W8j+Rg0N/VMYZIzfKt8M2GL
+	DFas467B+YLVBhvhuFKT2FyUIyw1nSG9wIErCUfsAVSVBgZUNDbgEK7yiZIft/IPMOuk
+	hrolkS8iOHasirnOv+JYhE+sn6Ml38v63aAcfoaWbRjUvi0weGGAPxCwMVMuk0WY6jaw
+	mvo6ELbjJYS7M1VIHhgqkigqVBSou78l4f47tbaQltRd8QzQtpReoisjVqF8Gs7JQZSf
+	5e1doziThNvUg5e9Gqv+9VaWisxqyyul/8D0SawM1+Uh8dpmsoNV8oruVrBviiGe/Wf8
+	gAgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=fDUY4eHnFjizcZYDsIZxxp+95Vd/GcmX7ZSlNdy9PiQ=;
-	b=tK/zueaLUXf/yBmluw0OB/81n9c8tf41LS4pwqTqAfd3HC7cG+91l6IF+ZHpwQT8Xl
-	sosoXEOAfY49Qys2/uJXe91/x8eCeSrx7rXZyOk8cP+cSnAV1y4S4A7xMoHBBVgAcAJ2
-	UvX6g0nYUmpqNI2Mn9QAEWd3bTLWp3T49BBts0QsKmnMrwkf1hzY6CO602TgIfccdyhn
-	mvG+TJZCppbnXZteYCtY4AH5gAk4d2bJ+KqbuyOiMLYol9mIY9fSWZ0O9Cqe3K0YpzaD
-	Hb5l3P/nmgEucQl9uvbPP9SA194ov9GZMPUeXABQ9N/F9Sv/SVyMetRhPWqSge21eug+
-	OSZw==
-X-Gm-Message-State: APjAAAW+NMnjks6pCSULuHu7PNkEWOuI1vdzLzgJ2t0HChTgzi1P7OtI
-	KG0s5GrhLnNE46BfP3wqpytqdGADyefnQRXgRvvU032B
-X-Google-Smtp-Source: APXvYqxTr1csZd+Dd+NEqu1ZbtI3k2LLzKqTRxznkJhJ2QInNxXcTaRoeeBahxLWFrSMGxznbTYVGLCyq9o69/eqK8s=
-X-Received: by 2002:ac8:525a:: with SMTP id y26mr42377746qtn.378.1563646901899;
-	Sat, 20 Jul 2019 11:21:41 -0700 (PDT)
+	bh=SFvBEzmMzgNA3HgDrr5+BayvtbdKfB8ZVnWOr57TLg0=;
+	b=YTNiyHiQLTsRQwKccvuWaBs4tqWWV/S6CiIMNDNbmsQb8JSfPhC0r7zLKKua+H5++6
+	4mA1GtG/6LfYPM2gY2+cFZOHrHG39jna8xwnQfBnf3KPP4XAbBd4xus8KwExEi75dkEe
+	TcBvb5wz/so4IV6UBB33O6PkHXWeVGszE8v6ASIfkx86Wze4Ke+1JPmAfKx4Vy32LPLN
+	c7kdK5yb5EEdYJ8IZlOCKqeeVXj5thgmcpGJ1rNStU7Mg2MnHrV9UOi6CK1J1wawmAD9
+	3TP+i2CpC6QgXTXxmyqEWJyxjHBZjuXbBFALCuM1JNR0wPTHjj6AxQnAmFNCLTirlqvT
+	2eDA==
+X-Gm-Message-State: APjAAAV5vWZ4YIxo5iJj72D9qa1FSu0UjymFEKUbfwUZNLZGM+0ZZIoy
+	woML+xeYMTTu5gyS7vQ+Z3F1pDdArU3hv2+eP5RoM/9Z
+X-Google-Smtp-Source: APXvYqy/YvjU0purwSoGzjzdJTwDnr3mLn5BiUc8ieyHLV3s39UL5vsrN8HBUE01jQ/1Et85TOw/yJWKnJvK2gsBla0=
+X-Received: by 2002:aed:36e8:: with SMTP id f95mr41862082qtb.88.1563646912262; 
+	Sat, 20 Jul 2019 11:21:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190720160929.31232-1-ayoub.zaki@embexus.com>
-In-Reply-To: <20190720160929.31232-1-ayoub.zaki@embexus.com>
+	<20190720160929.31232-2-ayoub.zaki@embexus.com>
+In-Reply-To: <20190720160929.31232-2-ayoub.zaki@embexus.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 20 Jul 2019 11:21:15 -0700
-Message-ID: <CAMKF1sqog+Ry8GhR=c9nizfP+5A4JKBAKgTNUGY_jPbw86buWQ@mail.gmail.com>
+Date: Sat, 20 Jul 2019 11:21:26 -0700
+Message-ID: <CAMKF1soLmNoEF3Mj0cwB7dmBiYwAwUtRAi6g=j+S3ZLX3FgX6w@mail.gmail.com>
 To: Ayoub Zaki <ayoub.zaki@embexus.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH 1/2] pegtl: Initial recipe
+Subject: Re: [meta-oe][PATCH 2/2] usbguard: Initial recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +55,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2019 18:21:41 -0000
+X-List-Received-Date: Sat, 20 Jul 2019 18:21:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-wong mailing list.
+wrong mailing list
 
 On Sat, Jul 20, 2019 at 9:09 AM Ayoub Zaki <ayoub.zaki@embexus.com> wrote:
 >
-> Introduce the Parsing Expression Grammar Template Library (PEGTL)
-> a zero-dependency C++ header-only parser combinator library for creating parsers
-> according to the Parsing Expression Grammar (PEG).
+> Introduce the USBGuard software framework that helps to protect against rogue USB devices (a.k.a. BadUSB)
+> by implementing basic whitelisting and blacklisting capabilities based on device attributes.
 >
 > Signed-off-by: Ayoub Zaki <ayoub.zaki@embexus.com>
 > ---
->  meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->  create mode 100644 meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb
+>  .../usbguard/usbguard_0.7.4.bb                | 37 +++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb
 >
-> diff --git a/meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb b/meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb
+> diff --git a/meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb b/meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb
 > new file mode 100644
-> index 000000000..ca175f868
+> index 000000000..a77694cc3
 > --- /dev/null
-> +++ b/meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb
-> @@ -0,0 +1,12 @@
-> +DESCRIPTION="header-only library for creating parsers according to Parsing Expression Grammar"
-> +HOMEPAGE="https://github.com/taocpp/PEGTL"
-> +LICENSE="MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=80cb066ab204c7fe022f1cfe0c2c6818"
+> +++ b/meta-oe/recipes-security/usbguard/usbguard_0.7.4.bb
+> @@ -0,0 +1,37 @@
+> +DESCRIPTION="USBGuard framework helps to protect against BadUSB."
+> +HOMEPAGE="https://github.com/dkopecek/usbguard"
+> +LICENSE="GPLv2"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=8264535c0c4e9c6c335635c4026a8022"
 > +
-> +SRC_URI="https://github.com/taocpp/PEGTL/archive/${PV}.tar.gz"
-> +SRC_URI[md5sum] = "fe96a704913523763642a2c4c4618091"
-> +SRC_URI[sha256sum] = "5699558ce06e8fad0530143199eeaefd29128fb4584879975c87947c8ad0395f"
+> +SRC_URI="https://github.com/USBGuard/usbguard/archive/${PN}-${PV}.tar.gz"
+> +SRC_URI[md5sum] = "ddaa9ae884200c861ad946f34dfd5ab9"
+> +SRC_URI[sha256sum] = "d37886508583565aae0df6a110b11524c59b39e0deb25ee49fc34274e4784f55"
 > +
-> +inherit cmake
+> +inherit autotools pkgconfig systemd bash-completion
 > +
-> +S="${WORKDIR}/PEGTL-${PV}"
+> +S= "${WORKDIR}/${PN}-${PN}-${PV}"
+> +
+> +DEPENDS = "protobuf-native libxml2-native libxslt-native xmlto-native glib-2.0-native \
+> +       dbus dbus-glib libqb libseccomp libcap-ng libgcrypt libsodium protobuf pegtl"
+> +
+> +EXTRA_OECONF += "--with-bundled-catch"
+> +
+> +PACKAGECONFIG ??= "libsodium \
+> +       ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+> +       ${@bb.utils.filter('DISTRO_FEATURES', 'polkit', d)}"
+> +
+> +PACKAGECONFIG[systemd]   = "--enable-systemd,--disable-systemd"
+> +PACKAGECONFIG[libsodium] = "--with-crypto-library=sodium"
+> +PACKAGECONFIG[libgcrypt] = "--with-crypto-library=gcrypt"
+> +PACKAGECONFIG[polkit]    = "--with-polkit,--without-polkit"
+> +PACKAGECONFIG[dbus]      = "--with-dbus,--without-dbus"
+> +
+> +SYSTEMD_SERVICE_${PN} = "${PN}.service"
+> +SYSTEMD_PACKAGES += "${PN}"
+> +
+> +
+> +do_install_append(){
+> +
+> +       sed -i 's|/var/log/usbguard/usbguard-audit.log|/var/log/usbguard-audit.log|g' \
+> +                                               ${D}${sysconfdir}/usbguard/usbguard-daemon.conf
+> +}
 > --
 > 2.17.1
 >
