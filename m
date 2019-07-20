@@ -1,50 +1,28 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
-	[209.85.208.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E28977C603
+Return-Path: <ayoub.zaki@embexus.com>
+Received: from mailrelay1-3.pub.mailoutpod1-cph3.one.com
+	(mailrelay1-3.pub.mailoutpod1-cph3.one.com [46.30.212.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 4498C7D718
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 15:58:27 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id h10so33554110ljg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 08:58:29 -0700 (PDT)
+	Sat, 20 Jul 2019 16:09:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=VpKxMPY5zgMKS7luS5gW0sl/ZGaBDwh00uw9Un9RwGU=;
-	b=I7lFwhK5IKMz4wgvTlJqJyFW/K3hs8VH/C79R2i7ExRyxgQyyGK0T7rPSEZV57Dm6m
-	10tS2dBxvMH7JFlRDzzpfwW19LH8hLQiPcvNfbi39Nv1qgRhn1z/CvakoJ81v9Uhi97A
-	upZ/1qlFJuK4iYvI6B/UCNMXZ7hr+pyTxHHpAGYTQ2VGSOTDlZx+ya+SZWBGLhbK/NBZ
-	OYKGruHCMV3phjuopTw/M3xc/HpgbPV3HxczAQRZwUJ35b/k+IjYz44CVjQL+Ug8pp5j
-	SSMSPYhHVEG4Q9snUDIvtH+Ib85vxDy6sK0U33PEeeP/SSQmpgPSYvILanC8tPbB7fwo
-	vEHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VpKxMPY5zgMKS7luS5gW0sl/ZGaBDwh00uw9Un9RwGU=;
-	b=dktaG7+Nrp1166YmuPTLRXfcSrQz4iG6w1TdChYkZ66ocPF//C+QMYMc4TtNFa1ziX
-	61jqZkdnTgEsvnm8DWwfWCRFMAz/sDma7ArK0Lyhvy8b2GJnl902We/0YDpFZQtQ4hEh
-	l0I+/jODgXPpwsNqbz00yu3jsYxgJ729wvqJDFkRQtyt7VgGQ4vjiqKmSbb6L3f76E81
-	jKFpLPMhIf7wPuCN7utfJmaR64HAs8UrHNie5ZO+kgrfZLdEZAxOvvPJwDaxwwtZH0XT
-	kLaISCpnwZ2yZjON6H9s9Da9dmdY4modVzvw6U8FgJO07A2ACjVL0a6Cd2h81ZfRldhq
-	szcw==
-X-Gm-Message-State: APjAAAV0nGJ7TmRtgdltIf79fjsqAW38TAJy16XfpMknbLuRbDNeqCbR
-	N2gEcQ0wcBvECMKI8KLZTbcxFHKJ
-X-Google-Smtp-Source: APXvYqzrbaHGnmURlxxZHqfi0Fd/fPSFg7fJOw5bQiHKo0kfKGhai0tByc135wgYWG/REpnYmMjhGA==
-X-Received: by 2002:a2e:86c3:: with SMTP id n3mr31879264ljj.129.1563638308045; 
-	Sat, 20 Jul 2019 08:58:28 -0700 (PDT)
-Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	d21sm5167446lfc.73.2019.07.20.08.58.26
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 20 Jul 2019 08:58:27 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-X-Google-Original-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+	d=embexus.com; s=20140924;
+	h=message-id:date:subject:cc:to:from:from;
+	bh=gor2J6nL9enxqg1/SY7DO/yvMar7j+dpOGbAjL7A2iI=;
+	b=lgN8e9HXyexZ6sOAuUMN3FfcK6pH2sXwnaIkc/ajY05LduCcaWrbgqgyjqzlCh9pN8DRj4irOCNI9
+	EwaVpNxXWP+hcTTkU0Q/qARa1Pb4Wp1+Rpf3QdwA5CtMZYuvm3TZuYGCLCe1su+mh/3F66i7Q/KHaA
+	lX8dJ3K+Bx9vxJD8=
+X-HalOne-Cookie: 031818b5c4c0a48911dc8dd6024c6e4fff146012
+X-HalOne-ID: c18bfdb1-ab08-11e9-aee2-d0431ea8a283
+Received: from localhost.localdomain (unknown [185.156.158.10])
+	by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id c18bfdb1-ab08-11e9-aee2-d0431ea8a283;
+	Sat, 20 Jul 2019 16:09:31 +0000 (UTC)
+From: Ayoub Zaki <ayoub.zaki@embexus.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Jul 2019 17:57:50 +0200
-Message-Id: <20190720155750.28692-1-oleksandr.kravchuk@pelagicore.com>
+Date: Sat, 20 Jul 2019 18:09:28 +0200
+Message-Id: <20190720160929.31232-1-ayoub.zaki@embexus.com>
 X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Subject: [PATCH] udev-extraconf: do not mount swap partitions
+Subject: [meta-oe][PATCH 1/2] pegtl: Initial recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2019 15:58:28 -0000
+X-List-Received-Date: Sat, 20 Jul 2019 16:09:32 -0000
 
-Swap is a special filesystem that cannot be mounted, so do not try to,
-otherwise we will have service that tries and fails to mount it with
-the following error:
+Introduce the Parsing Expression Grammar Template Library (PEGTL)
+a zero-dependency C++ header-only parser combinator library for creating parsers
+according to the Parsing Expression Grammar (PEG).
 
-systemd[1]: Mounting /run/media/nvme0n1p3...
-mount[1229]: mount: /run/media/nvme0n1p3: unknown filesystem type 'swap'.
-
-Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+Signed-off-by: Ayoub Zaki <ayoub.zaki@embexus.com>
 ---
- meta/recipes-core/udev/udev-extraconf/mount.sh | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+ create mode 100644 meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
-index 3ee67b1318..79eb0145c2 100644
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-@@ -57,6 +57,8 @@ automount_systemd() {
-     vfat|fat)
-         MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
-         ;;
-+    swap)
-+        return ;;
-     # TODO
-     *)
-         ;;
-@@ -98,6 +100,8 @@ automount() {
- 	vfat|fat)
- 		MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
- 		;;
-+	swap)
-+		return ;;
- 	# TODO
- 	*)
- 		;;
+diff --git a/meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb b/meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb
+new file mode 100644
+index 000000000..ca175f868
+--- /dev/null
++++ b/meta-oe/recipes-extended/pegtl/pegtl_2.1.4.bb
+@@ -0,0 +1,12 @@
++DESCRIPTION="header-only library for creating parsers according to Parsing Expression Grammar"
++HOMEPAGE="https://github.com/taocpp/PEGTL"
++LICENSE="MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=80cb066ab204c7fe022f1cfe0c2c6818"
++
++SRC_URI="https://github.com/taocpp/PEGTL/archive/${PV}.tar.gz"
++SRC_URI[md5sum] = "fe96a704913523763642a2c4c4618091"
++SRC_URI[sha256sum] = "5699558ce06e8fad0530143199eeaefd29128fb4584879975c87947c8ad0395f"
++
++inherit cmake
++
++S="${WORKDIR}/PEGTL-${PV}"
 -- 
 2.17.1
 
