@@ -1,49 +1,51 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
-	[209.85.167.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 281A37F095
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 45ABC7EE84
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 16:29:40 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id c19so23767610lfm.10
+	Sat, 20 Jul 2019 18:01:05 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id ay6so17172536plb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 09:29:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=Gvxwiom2Lhi4DN1tu8uDuRx5iXmnFcb8J7K8785UGd4=;
-	b=DDAqmsMofQnxTG8IFnYSBjuyYDYWA30ATL4j7lB6NJwvwf78KTdAd0IesUb+sqS7yj
-	bxWS2Z7zyqQcsIez4myUx039db+LZME5noysCmtMRSJvXQh0F3m7x4Ya32EdQIvx3S+U
-	iZKMfrKc1torlR/Q1HRfn1kjbkcclcclprAbCIcyLybq0HtLxo0/sUTxgT+N9aza8Yde
-	Um0OIUNMY+vamB+2oF45omfLsyBdkV9vmWRXs2nLGiLL48DJlXbu0Sq98E6SQBJBhdyR
-	gaGS8IdOJGvZOBlctkSg8roJQ2Z5jNX2P/CWyqi90JqG+NGdC98BCEFe8csiJtMDilwR
-	d5bA==
+	Sat, 20 Jul 2019 11:01:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=RNXLSzZ+YZs+YpiUruyxeErEJL6hFr+8s02+xLZpjAk=;
+	b=dzwfQtmlHopnRyMCCc0aZrftQf5+PQvUkJUUmkd1C5tAHKFE5o/GB1ZHZCbIlIOM7f
+	KAJKgone1v2ppBSCxTNzPo7QFXU1eAegpKIIB8IXXEuxRtq4uH+d8AOiIFhhFM+Rbt9I
+	6Q+nK6HezDy6Noo9NadGXwJBW/b+/mMgu9tYpb9/szKut2AuwQpO/8kdHambA97hjUsi
+	vxSnQuzT8MoCuCpuzZNuAR2dNm8NK63euAvB9OD0Hdu4LJeErXsarrsZ3O/8Lwf8/yp2
+	r9KyhgFKhzHFJVvIgiPXE2cCIYC9h+4RA4toz/ufuvOPPvwcc/gvwcGczx8IeiKktxBH
+	2vwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Gvxwiom2Lhi4DN1tu8uDuRx5iXmnFcb8J7K8785UGd4=;
-	b=q6KiFHxKXuEuoOa6YIzhGC7D+eT00rZeZ3yYxRhJWyswkczxTkL/vydWJ1fbSthCUT
-	RwQpuuvrcLko/R255oGaEiiowaM1G9fXAhaEpKAx+PVTuJjre7qokNljGRVa8CSHs1Ts
-	Ql9tbzbi1y8v+HS/DByJesYl44BMpAZx/F8eQ6yl+mavRdKT+5v4SSEOUAGKDHhTagHk
-	udlWdTCXTDxcpdyPmsIXT11qDhmwgrg1Wrcy7ffLuUaKwY6THuDnE3p0iopnVLW+3Z/v
-	5Nv1lvXC5XIDUD4DccLfkmMkujSix5cCFoZ5srZi7A3NiGqFgEfx0k3+wq5IPD8k442c
-	7L3Q==
-X-Gm-Message-State: APjAAAXywFAhocJiwSRGY1XL0Isb8ViMqWvj+ZaVH34ONCCWSEhYh/Iy
-	QWa/XCAWSQF64J2yFC/vEtMOBiDQ
-X-Google-Smtp-Source: APXvYqz7gAN7Kp5NMZ5pT79twXED22HotMAKT+fm9GMdqESLeT9iF0ThyANClVamiq5EQTKG4cn5Wg==
-X-Received: by 2002:ac2:59c6:: with SMTP id x6mr27935500lfn.169.1563640181104; 
-	Sat, 20 Jul 2019 09:29:41 -0700 (PDT)
-Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	e62sm6491669ljf.82.2019.07.20.09.29.40
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=RNXLSzZ+YZs+YpiUruyxeErEJL6hFr+8s02+xLZpjAk=;
+	b=KzBpSzamZmus17HxwilOnfCxcpLuM2tWCdC9IiP/FkRumKnuOL5/mDGN/GeZubkrGK
+	19v41rRHAPW/azcHaJpJ9Bd7+oQ5dqHR6xA7AXDkzC/3FwozesnDjD5Refqn29/tfrgL
+	OqJEFL71BkJYVy/T4WBRFsvmz8vHrgC0fCWG4Lu5ohxJKVWqlpfs0RAwMajrf4oUNT9c
+	P4CABwtYtu35jvOZd8x0oTmvpIdK3iM2YDraDmv4RJZCxnixTfbHqubPAsjPjB9WSF3q
+	GE5K5LBrSmdPIMXdqR7ZCWSDEdJU6ZdiHQv4nGR1liLg3glgBc6iyHYNmfe7pN7ijoXL
+	NUFw==
+X-Gm-Message-State: APjAAAUbEPdpitjkHACJQv6Qcsf2CJu8GwrRczyM/XZHWXfYOb18sSTl
+	19Jsu1LpebiLftA2CimUFzwo+sNcsUQ=
+X-Google-Smtp-Source: APXvYqwCSKIivkqBBLA8GAEN7MqkA36sEJFQ+suhSsMI3Q18ioIoEum0On+V6C75V7dfPXkjINHucQ==
+X-Received: by 2002:a17:902:9004:: with SMTP id
+	a4mr64508649plp.109.1563645665831; 
+	Sat, 20 Jul 2019 11:01:05 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
+	v27sm46118706pgn.76.2019.07.20.11.01.04
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 20 Jul 2019 09:29:40 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	Sat, 20 Jul 2019 11:01:05 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Jul 2019 18:29:37 +0200
-Message-Id: <20190720162937.19324-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] python3-pbr: update to 5.4.1
+Date: Sat, 20 Jul 2019 11:00:55 -0700
+Message-Id: <20190720180058.10672-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.22.0
+MIME-Version: 1.0
+Subject: [PATCH V4 1/4] pam_systemd: Include missing.h for secure_getenv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +58,305 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2019 16:29:41 -0000
+X-List-Received-Date: Sat, 20 Jul 2019 18:01:05 -0000
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+'secure_getenv' api is not uniformly implemented across all C libraries
+therefore its good to include missing.h so it can use the alternative
+implementation where its not awvailable
+
+Fixes
+../git/src/login/pam_systemd.c:344:13: error: implicit declaration of function 'secure_getenv' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+        v = secure_getenv(key);
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/python/python3-pbr_5.4.0.bb | 5 -----
- meta/recipes-devtools/python/python3-pbr_5.4.1.bb | 5 +++++
- 2 files changed, 5 insertions(+), 5 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-pbr_5.4.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-pbr_5.4.1.bb
+ ...missing.h-check-for-missing-strndupa.patch | 71 +++----------------
+ 1 file changed, 10 insertions(+), 61 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.0.bb b/meta/recipes-devtools/python/python3-pbr_5.4.0.bb
-deleted file mode 100644
-index 1f1ec3a420..0000000000
---- a/meta/recipes-devtools/python/python3-pbr_5.4.0.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--inherit setuptools3
--require python-pbr.inc
+diff --git a/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch b/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch
+index a2e25a97df..df1043b27d 100644
+--- a/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch
++++ b/meta/recipes-core/systemd/systemd/0005-src-basic-missing.h-check-for-missing-strndupa.patch
+@@ -43,8 +43,6 @@ Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+  src/udev/udev-rules.c                      |  1 +
+  29 files changed, 40 insertions(+)
+ 
+-diff --git a/meson.build b/meson.build
+-index 79195c9..80d9564 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -572,6 +572,7 @@ foreach ident : [
+@@ -55,8 +53,6 @@ index 79195c9..80d9564 100644
+  ]
+  
+          have = cc.has_function(ident[0], prefix : ident[1], args : '-D_GNU_SOURCE')
+-diff --git a/src/backlight/backlight.c b/src/backlight/backlight.c
+-index dfd6805..c2b2ace 100644
+ --- a/src/backlight/backlight.c
+ +++ b/src/backlight/backlight.c
+ @@ -17,6 +17,7 @@
+@@ -67,8 +63,6 @@ index dfd6805..c2b2ace 100644
+  
+  static int find_pci_or_platform_parent(sd_device *device, sd_device **ret) {
+          const char *subsystem, *sysname, *value;
+-diff --git a/src/basic/env-util.c b/src/basic/env-util.c
+-index fd449dc..e2b0722 100644
+ --- a/src/basic/env-util.c
+ +++ b/src/basic/env-util.c
+ @@ -16,6 +16,7 @@
+@@ -79,8 +73,6 @@ index fd449dc..e2b0722 100644
+  
+  #define VALID_CHARS_ENV_NAME                    \
+          DIGITS LETTERS                          \
+-diff --git a/src/basic/missing_stdlib.h b/src/basic/missing_stdlib.h
+-index 188a8d4..1e16ec2 100644
+ --- a/src/basic/missing_stdlib.h
+ +++ b/src/basic/missing_stdlib.h
+ @@ -11,3 +11,15 @@
+@@ -99,8 +91,6 @@ index 188a8d4..1e16ec2 100644
+ +    (char *)memcpy(__new, __old, __len); \
+ +  })
+ +#endif
+-diff --git a/src/basic/mkdir.c b/src/basic/mkdir.c
+-index 6b82eab..51c6b78 100644
+ --- a/src/basic/mkdir.c
+ +++ b/src/basic/mkdir.c
+ @@ -14,6 +14,7 @@
+@@ -111,8 +101,6 @@ index 6b82eab..51c6b78 100644
+  
+  int mkdir_safe_internal(const char *path, mode_t mode, uid_t uid, gid_t gid, MkdirFlags flags, mkdir_func_t _mkdir) {
+          struct stat st;
+-diff --git a/src/basic/parse-util.c b/src/basic/parse-util.c
+-index 87724af..d9c53bc 100644
+ --- a/src/basic/parse-util.c
+ +++ b/src/basic/parse-util.c
+ @@ -19,6 +19,7 @@
+@@ -123,8 +111,6 @@ index 87724af..d9c53bc 100644
+  
+  int parse_boolean(const char *v) {
+          if (!v)
+-diff --git a/src/basic/proc-cmdline.c b/src/basic/proc-cmdline.c
+-index 1670001..b51feaa 100644
+ --- a/src/basic/proc-cmdline.c
+ +++ b/src/basic/proc-cmdline.c
+ @@ -15,6 +15,7 @@
+@@ -135,8 +121,6 @@ index 1670001..b51feaa 100644
+  
+  int proc_cmdline(char **ret) {
+          const char *e;
+-diff --git a/src/basic/procfs-util.c b/src/basic/procfs-util.c
+-index 7aaf95b..42ce53d 100644
+ --- a/src/basic/procfs-util.c
+ +++ b/src/basic/procfs-util.c
+ @@ -11,6 +11,7 @@
+@@ -147,8 +131,6 @@ index 7aaf95b..42ce53d 100644
+  
+  int procfs_tasks_get_limit(uint64_t *ret) {
+          _cleanup_free_ char *value = NULL;
+-diff --git a/src/basic/time-util.c b/src/basic/time-util.c
+-index daf952b..374b97f 100644
+ --- a/src/basic/time-util.c
+ +++ b/src/basic/time-util.c
+ @@ -28,6 +28,7 @@
+@@ -159,8 +141,6 @@ index daf952b..374b97f 100644
+  
+  static clockid_t map_clock_id(clockid_t c) {
+  
+-diff --git a/src/core/dbus-cgroup.c b/src/core/dbus-cgroup.c
+-index 4615aea..bc1364f 100644
+ --- a/src/core/dbus-cgroup.c
+ +++ b/src/core/dbus-cgroup.c
+ @@ -15,6 +15,7 @@
+@@ -171,8 +151,6 @@ index 4615aea..bc1364f 100644
+  
+  static BUS_DEFINE_PROPERTY_GET_ENUM(property_get_cgroup_device_policy, cgroup_device_policy, CGroupDevicePolicy);
+  
+-diff --git a/src/core/dbus-util.c b/src/core/dbus-util.c
+-index f4fbb72..0a1e3b5 100644
+ --- a/src/core/dbus-util.c
+ +++ b/src/core/dbus-util.c
+ @@ -7,6 +7,7 @@
+@@ -183,8 +161,6 @@ index f4fbb72..0a1e3b5 100644
+  
+  int bus_property_get_triggered_unit(
+                  sd_bus *bus,
+-diff --git a/src/core/kmod-setup.c b/src/core/kmod-setup.c
+-index a91cfeb..a459610 100644
+ --- a/src/core/kmod-setup.c
+ +++ b/src/core/kmod-setup.c
+ @@ -11,6 +11,7 @@
+@@ -195,8 +171,6 @@ index a91cfeb..a459610 100644
+  
+  #if HAVE_KMOD
+  #include <libkmod.h>
+-diff --git a/src/core/service.c b/src/core/service.c
+-index 0289990..0e725b5 100644
+ --- a/src/core/service.c
+ +++ b/src/core/service.c
+ @@ -42,6 +42,7 @@
+@@ -207,8 +181,6 @@ index 0289990..0e725b5 100644
+  
+  static const UnitActiveState state_translation_table[_SERVICE_STATE_MAX] = {
+          [SERVICE_DEAD] = UNIT_INACTIVE,
+-diff --git a/src/journal/journalctl.c b/src/journal/journalctl.c
+-index 0048909..0e85eb7 100644
+ --- a/src/journal/journalctl.c
+ +++ b/src/journal/journalctl.c
+ @@ -67,6 +67,7 @@
+@@ -219,8 +191,6 @@ index 0048909..0e85eb7 100644
+  
+  #define DEFAULT_FSS_INTERVAL_USEC (15*USEC_PER_MINUTE)
+  
+-diff --git a/src/libsystemd/sd-bus/bus-message.c b/src/libsystemd/sd-bus/bus-message.c
+-index 427d42f..b050568 100644
+ --- a/src/libsystemd/sd-bus/bus-message.c
+ +++ b/src/libsystemd/sd-bus/bus-message.c
+ @@ -21,6 +21,7 @@
+@@ -231,8 +201,6 @@ index 427d42f..b050568 100644
+  
+  static int message_append_basic(sd_bus_message *m, char type, const void *p, const void **stored);
+  
+-diff --git a/src/libsystemd/sd-bus/bus-objects.c b/src/libsystemd/sd-bus/bus-objects.c
+-index d9fc256..e9c6932 100644
+ --- a/src/libsystemd/sd-bus/bus-objects.c
+ +++ b/src/libsystemd/sd-bus/bus-objects.c
+ @@ -13,6 +13,7 @@
+@@ -243,8 +211,6 @@ index d9fc256..e9c6932 100644
+  
+  static int node_vtable_get_userdata(
+                  sd_bus *bus,
+-diff --git a/src/libsystemd/sd-bus/test-bus-benchmark.c b/src/libsystemd/sd-bus/test-bus-benchmark.c
+-index 8de0a85..4fd0a2e 100644
+ --- a/src/libsystemd/sd-bus/test-bus-benchmark.c
+ +++ b/src/libsystemd/sd-bus/test-bus-benchmark.c
+ @@ -14,6 +14,7 @@
+@@ -255,8 +221,6 @@ index 8de0a85..4fd0a2e 100644
+  
+  #define MAX_SIZE (2*1024*1024)
+  
+-diff --git a/src/locale/keymap-util.c b/src/locale/keymap-util.c
+-index b8bd181..fe0cae0 100644
+ --- a/src/locale/keymap-util.c
+ +++ b/src/locale/keymap-util.c
+ @@ -23,6 +23,7 @@
+@@ -267,8 +231,6 @@ index b8bd181..fe0cae0 100644
+  
+  static bool startswith_comma(const char *s, const char *prefix) {
+          s = startswith(s, prefix);
+-diff --git a/src/nspawn/nspawn-settings.c b/src/nspawn/nspawn-settings.c
+-index 476cb07..91e28de 100644
+ --- a/src/nspawn/nspawn-settings.c
+ +++ b/src/nspawn/nspawn-settings.c
+ @@ -16,6 +16,7 @@
+@@ -279,8 +241,6 @@ index 476cb07..91e28de 100644
+  
+  Settings *settings_new(void) {
+          Settings *s;
+-diff --git a/src/shared/dns-domain.c b/src/shared/dns-domain.c
+-index 4b31cb3..989ebf3 100644
+ --- a/src/shared/dns-domain.c
+ +++ b/src/shared/dns-domain.c
+ @@ -24,6 +24,7 @@
+@@ -291,8 +251,6 @@ index 4b31cb3..989ebf3 100644
+  
+  int dns_label_unescape(const char **name, char *dest, size_t sz, DNSLabelFlags flags) {
+          const char *n;
+-diff --git a/src/shared/journal-importer.c b/src/shared/journal-importer.c
+-index 8638cd3..d03774a 100644
+ --- a/src/shared/journal-importer.c
+ +++ b/src/shared/journal-importer.c
+ @@ -13,6 +13,7 @@
+@@ -303,8 +261,6 @@ index 8638cd3..d03774a 100644
+  
+  enum {
+          IMPORTER_STATE_LINE = 0,    /* waiting to read, or reading line */
+-diff --git a/src/shared/logs-show.c b/src/shared/logs-show.c
+-index 5fb736f..19cb165 100644
+ --- a/src/shared/logs-show.c
+ +++ b/src/shared/logs-show.c
+ @@ -38,6 +38,7 @@
+@@ -315,8 +271,6 @@ index 5fb736f..19cb165 100644
+  
+  /* up to three lines (each up to 100 characters) or 300 characters, whichever is less */
+  #define PRINT_LINE_THRESHOLD 3
+-diff --git a/src/shared/pager.c b/src/shared/pager.c
+-index 2abb0f6..a00c95f 100644
+ --- a/src/shared/pager.c
+ +++ b/src/shared/pager.c
+ @@ -25,6 +25,7 @@
+@@ -327,8 +281,6 @@ index 2abb0f6..a00c95f 100644
+  
+  static pid_t pager_pid = 0;
+  
+-diff --git a/src/shared/path-lookup.c b/src/shared/path-lookup.c
+-index 442fde7..0eb1188 100644
+ --- a/src/shared/path-lookup.c
+ +++ b/src/shared/path-lookup.c
+ @@ -20,6 +20,7 @@
+@@ -339,8 +291,6 @@ index 442fde7..0eb1188 100644
+  
+  int xdg_user_runtime_dir(char **ret, const char *suffix) {
+          const char *e;
+-diff --git a/src/shared/uid-range.c b/src/shared/uid-range.c
+-index 7cb7d8a..8b12b91 100644
+ --- a/src/shared/uid-range.c
+ +++ b/src/shared/uid-range.c
+ @@ -9,6 +9,7 @@
+@@ -351,8 +301,6 @@ index 7cb7d8a..8b12b91 100644
+  
+  static bool uid_range_intersect(UidRange *range, uid_t start, uid_t nr) {
+          assert(range);
+-diff --git a/src/socket-proxy/socket-proxyd.c b/src/socket-proxy/socket-proxyd.c
+-index abbbc9f..6179b58 100644
+ --- a/src/socket-proxy/socket-proxyd.c
+ +++ b/src/socket-proxy/socket-proxyd.c
+ @@ -28,6 +28,7 @@
+@@ -363,8 +311,6 @@ index abbbc9f..6179b58 100644
+  
+  #define BUFFER_SIZE (256 * 1024)
+  
+-diff --git a/src/test/test-hexdecoct.c b/src/test/test-hexdecoct.c
+-index 5221742..a05e778 100644
+ --- a/src/test/test-hexdecoct.c
+ +++ b/src/test/test-hexdecoct.c
+ @@ -6,6 +6,7 @@
+@@ -375,8 +321,6 @@ index 5221742..a05e778 100644
+  
+  static void test_hexchar(void) {
+          assert_se(hexchar(0xa) == 'a');
+-diff --git a/src/udev/udev-builtin-path_id.c b/src/udev/udev-builtin-path_id.c
+-index 7ce1c56..cc19b8e 100644
+ --- a/src/udev/udev-builtin-path_id.c
+ +++ b/src/udev/udev-builtin-path_id.c
+ @@ -23,6 +23,7 @@
+@@ -387,8 +331,6 @@ index 7ce1c56..cc19b8e 100644
+  
+  _printf_(2,3)
+  static void path_prepend(char **path, const char *fmt, ...) {
+-diff --git a/src/udev/udev-rules.c b/src/udev/udev-rules.c
+-index ee87d7c..9aced10 100644
+ --- a/src/udev/udev-rules.c
+ +++ b/src/udev/udev-rules.c
+ @@ -40,6 +40,7 @@
+@@ -399,6 +341,13 @@ index ee87d7c..9aced10 100644
+  
+  #define PREALLOC_TOKEN          2048
+  #define RULES_DIRS (const char* const*) CONF_PATHS_STRV("udev/rules.d")
+--- 
+-2.11.0
 -
--SRC_URI[md5sum] = "fcf120102d3e4859d41425638122058c"
--SRC_URI[sha256sum] = "36ebd78196e8c9588c972f5571230a059ff83783fabbbbedecc07be263ccd7e6"
-diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.1.bb b/meta/recipes-devtools/python/python3-pbr_5.4.1.bb
-new file mode 100644
-index 0000000000..338ac8b707
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pbr_5.4.1.bb
-@@ -0,0 +1,5 @@
-+inherit setuptools3
-+require python-pbr.inc
-+
-+SRC_URI[md5sum] = "ab6e26026ab306989a636ec2d50a435a"
-+SRC_URI[sha256sum] = "0ca44dc9fd3b04a22297c2a91082d8df2894862e8f4c86a49dac69eae9e85ca0"
++--- a/src/login/pam_systemd.c
+++++ b/src/login/pam_systemd.c
++@@ -27,6 +27,7 @@
++ #include "hostname-util.h"
++ #include "login-util.h"
++ #include "macro.h"
+++#include "missing.h"
++ #include "parse-util.h"
++ #include "path-util.h"
++ #include "process-util.h"
 -- 
-2.17.1
+2.22.0
 
 
