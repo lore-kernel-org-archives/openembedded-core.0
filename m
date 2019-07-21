@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
 	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8107B7ED59
+	by mail.openembedded.org (Postfix) with ESMTP id 4364D7EE6C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 14:25:35 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id az7so17872094plb.5
+	Sun, 21 Jul 2019 14:25:36 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id w24so17894647plp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 07:25:36 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=aIv8pJ3WUEb06Y0/DoOgNWHtpRzUittm9mT0+UehMng=;
-	b=Sz0vjRhEg7M26c+kH++0H03UrRDt9ptX3wyAYxqCWUP7Pn7ptiuwtpDGe4BdlYWKS6
-	1aJ3sNjRDsDlLr9cE5sPQbMl9Fzz/Nr8162c/95fSZw6U3xkud0wxct/JeobjHWj1dAj
-	ITKSz08qA+Aeg9C2PV08mJ3F6R3BD7Vfffx/Skg7dc3wBNGGlRp+Ts+ZhO1PclzAUX0k
-	D5wqErLMjBFr/3cljTtkWAYYNSViGVvE/2PnJG+oRYwAVXRNjZG7bb7I58Hn2Snj7xWt
-	pQXvnxUWNjjCVzQs1Rt5dn0BjZszUpw/Q7fYEzUZ+UhYe1A2AwqfU3WiihYSdM6i0Abs
-	xF3A==
+	bh=F9fbS9BYAwTacfw92qzL84BpBcirwOukCTcUSCeaMBU=;
+	b=QGbqlB2YdqmtA3nbLNc5zQrAk25quH1J+PZ7VTat96HO8+VdIx3ftFBTId0J8H4Sw0
+	5y3YkQ1ey2mt728kZoBstNzmC9c0/o2d6LDngB+ZM4suBny//1eP23iNTZvAXftLJdjn
+	Q0gdPo+oDNuzKpArbep9EMgM0ApncQ2DTAD90o6jcU69jkGNwWnX+s6qlIxdstZTh2/2
+	ZyruoPnXPJ4rO6oDtWMuilwetdEnCWRtrFviHg80jhJj6u62SFQ5DhWUsf452uVCQPL1
+	ceB3baoBREAMkaiTuIW9wdTFM8qNDxUPJ5jkrSQK4X3e6l1bMYY9XrFXx5eKLmCRuPb3
+	oWWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=aIv8pJ3WUEb06Y0/DoOgNWHtpRzUittm9mT0+UehMng=;
-	b=hKh+xdWkmiqMcaBuw3vcTWs4ln4OpC4xo11ZMb9u7S8/UPFrowEc1FmACrgWiWiAgL
-	U9TMczymvPqqU0NbgOEK+/7KWq9T2uygbL+v89S5hLGgyAfzu2MdF9VjwyzsXoWrfsdC
-	yZiWQbWi1cNFOUUsfj5Vz85NFIieqoyjTRMKtW5XPpPH/19U2VJHNBrCJVhKxYt4wsrr
-	2CxM2JK7skWHVQ/+Vecri9BMlt4bD6mV6vHn+26gF1O52amM3vyhPT169xgMBkVnpa7E
-	EWAsm8LtoLLrrsKtcKs5a807k2yqbu1MBgcZk/jvOTOoV5/lqbheMA+a8qx46V2SbObj
-	NBrg==
-X-Gm-Message-State: APjAAAU1mIoS8WL0SYvCDstiboxjUNxF4Wa7zvzqS4hLijUe9Mg98mx/
-	qw9PH5KA+D5MRiBoLRq5mxrkLUZ6
-X-Google-Smtp-Source: APXvYqxEyKohJ6bAC3UoVTMHR8+HwUCRgeMZoMfbd/8/TyJBWYttYxEkxeziUoUI2tTo/Y3g1+xtLg==
-X-Received: by 2002:a17:902:d892:: with SMTP id
-	b18mr65677261plz.165.1563719136513; 
-	Sun, 21 Jul 2019 07:25:36 -0700 (PDT)
+	bh=F9fbS9BYAwTacfw92qzL84BpBcirwOukCTcUSCeaMBU=;
+	b=WW+kn3yFN0IJ8yI0ADfr1FsFzh1w0wTrWHawgjS8Z9yc/Fur1Tt6ouq1cwYDpT+9Ad
+	HOzYZS2UICiAkyjlG2591nYQaoG+5HRLSbRVo4egGV3SqupqUfKVzRUJa4cHgnOb/E0X
+	kuht+7N9WT9BuiFxTIsFtDjga928rMeGRGlIK+CNIbHN/CSCFgdI0Puhxwc2RiZuKimV
+	hd+clgQXONAuVdSgXe62WDEaouoW9gKuq7asxu2Ht2N/GRdloi5WZcoC5CsjNWYM15Ao
+	uNWBrzNdIsTTBTlFhbSL1HcQenf41Btjn/DNc2PdH+PiLXoVdJ/5Cg5fNkPzIwAaiC/i
+	aD+Q==
+X-Gm-Message-State: APjAAAWWM8wHQ6yQsioam7Pgf+KBJv3bNnUABi4ryoWhOO+FH/d809WD
+	dsXn0oKM2INXB4PSPo29peKVlZle
+X-Google-Smtp-Source: APXvYqyRvJCaylQzI9Da1GRgNkox38EyGsswq1b+RUpo5/nWBCnwCYd6MKLtiaX/Nu9lpnweXRmBew==
+X-Received: by 2002:a17:902:b603:: with SMTP id
+	b3mr71184810pls.9.1563719137451; 
+	Sun, 21 Jul 2019 07:25:37 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:bd4d:a6f4:da99:27b4])
 	by smtp.gmail.com with ESMTPSA id
-	a3sm28807750pfc.70.2019.07.21.07.25.35
+	a3sm28807750pfc.70.2019.07.21.07.25.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Jul 2019 07:25:35 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:37 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jul 2019 07:25:01 -0700
-Message-Id: <fca74928bf2002daf526ad8c1446c8d9ba891a78.1563719003.git.akuster808@gmail.com>
+Date: Sun, 21 Jul 2019 07:25:02 -0700
+Message-Id: <025cd45d4129266d34a919573c02a8504f092c1b.1563719003.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1563719003.git.akuster808@gmail.com>
 References: <cover.1563719003.git.akuster808@gmail.com>
-Subject: [thud] 12/30] go-target.inc: fix go not found while multilib enabled
+Subject: [thud] 13/30] go-crosssdk: PN should use SDK_SYS, not TARGET_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,36 +60,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Jul 2019 14:25:35 -0000
+X-List-Received-Date: Sun, 21 Jul 2019 14:25:36 -0000
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Go binaries were installed to ${libdir}/go/bin, and create symlink
-in ${bindir}, while enabling multilib, libdir was extended (such as
-/usr/lib64), but BASELIB was not (still /lib), so use
-baselib (such as /lib64)) to replace
+The crosssdk dependencies are handled using the virtual/ namespace so
+this name doesn't matter in the general sense. We want to be able to provide
+recipe maintainer information through overrides though, so this standardises it
+with the behaviour from gcc-crosssdk and ensures the maintainer overrides work.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/go/go-target.inc | 2 +-
+ meta/recipes-devtools/go/go-crosssdk.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
-index c229ab2..379f87b 100644
---- a/meta/recipes-devtools/go/go-target.inc
-+++ b/meta/recipes-devtools/go/go-target.inc
-@@ -40,7 +40,7 @@ do_install() {
- 	for f in ${B}/${GO_BUILD_BINDIR}/*; do
- 		name=`basename $f`
- 		install -m 0755 $f ${D}${libdir}/go/bin/
--		ln -sf ../${BASELIB}/go/bin/$name ${D}${bindir}/
-+		ln -sf ../${baselib}/go/bin/$name ${D}${bindir}/
- 	done
- }
+diff --git a/meta/recipes-devtools/go/go-crosssdk.inc b/meta/recipes-devtools/go/go-crosssdk.inc
+index 4391b32..94f6fb8 100644
+--- a/meta/recipes-devtools/go/go-crosssdk.inc
++++ b/meta/recipes-devtools/go/go-crosssdk.inc
+@@ -1,7 +1,7 @@
+ inherit crosssdk
  
+ DEPENDS = "go-native virtual/${TARGET_PREFIX}gcc-crosssdk virtual/nativesdk-${TARGET_PREFIX}compilerlibs virtual/${TARGET_PREFIX}binutils-crosssdk"
+-PN = "go-crosssdk-${TARGET_ARCH}"
++PN = "go-crosssdk-${SDK_SYS}"
+ PROVIDES = "virtual/${TARGET_PREFIX}go-crosssdk"
+ 
+ export GOHOSTOS = "${BUILD_GOOS}"
 -- 
 2.7.4
 
