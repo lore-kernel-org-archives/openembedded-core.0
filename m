@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
 	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E6697ED91
+	by mail.openembedded.org (Postfix) with ESMTP id C01767EE74
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 14:25:38 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id i2so17905770plt.1
+	Sun, 21 Jul 2019 14:25:39 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id t14so17862665plr.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 07:25:40 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=+0PDOZz2cAqj8sQOlHdRED2kxYT0anLKsKIWmX95thM=;
-	b=becWE044Vw7cS9aldaJFhMmsRO+J556ubz348bolygBUQCOV+obRpX4vt0vDc5APGk
-	bamem2HxSI5FZTVwc0QXqCB1YC3xNUl3q+UDH76whP9p5TTGVJ4+cpa8/i++dmSpnSdr
-	aZO0VmdeGz3ZXCHT87enTzCUUZvALWKocfoOqb24hbdtOOfHaZaPRVkQhmlnBJddtDqe
-	jrnOCeCH7AC0MIj4Im2/xBsiWyMhRR9KuCghq45uQLpgJLCVPRi2XgSyngZhmkBmw3Z8
-	34KahmRoGrGNVgtuCxo2s1KI/ViIAV6N09g2acFfMHaW7oQj1/FGIrr027xwQ5MSljmj
-	O8SQ==
+	bh=Yjk2iCSMd0qW6ItDElCjR/NGiM5KsZVMd2S/mXDKsOM=;
+	b=c8zR1UF/E2TCQC9tfd1VO+twvTj5hQ4/y00Wdc0W8MDM36HkKCj8cNL4fYHj7fTQc0
+	SlfQczi9Nrh7pzRhMRwu+2fRFyJvRG2gS8V0RTQWr895ONZyCuZHS065sxa8NFiyowYD
+	ham2d9dGcHdYbhAwvX1ih+oqHPWB1uF/KFNV+wUeZJm0c8MTfFb1PXsEwYCk+9+1r+Iv
+	3aSe8k6J6b+JaBHwgWRfM2QkTp41sTcJ41NruzMIAWfi509RckWDmi2hWW9FvQyq7j8R
+	vAmhzl1WEcafJPmtqPIFYMEIkhwzP/MDLsn3c2tR5PgCGLZCHrG2dDRTZwpuMFyvbGKZ
+	SnXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=+0PDOZz2cAqj8sQOlHdRED2kxYT0anLKsKIWmX95thM=;
-	b=gjadMGQhIRtoUXdqQKbVB0+AYM7TV1KDj3v1sWuEqh8VMqiclGGmGy2lcDMSvBy4HO
-	jR6jHRSdSX9FT55fjdeC6wkejGe+REYgIhvoUMAPBpik4bW9PzpHBnUJGFGxchXq9ZFN
-	bMelwhjhJKp4+9ruErvkS79Mg4YbAdqU2r2enUS2WEFWE9hJvGpXyJXf2tek3EhxujhO
-	S465GXO7GGf7gRoO6hiYS+f7ibThddms/a5crG3gIFjWVfU3mliy+V/OYm589tgYhAKK
-	2xR9IVWFkrLm3r68XybmjYX8SRjKZiWrMoqdqNj0aWwogrOa/ulcuhkTz8pMmWnUarrj
-	hvxA==
-X-Gm-Message-State: APjAAAU0emFPHryfNFPO//TIQWN2fuEGsokgA3qodbffLvAsMHboq/g8
-	tLEzAyc2gHYCVn6e8J0TM7xp6s9B
-X-Google-Smtp-Source: APXvYqwU4ba/veB5DiuLHD9HqCJPoL5nK18aFFjsWINbE38QYpFoBd6/1DxbKXSckYwfA+JgXlEXiw==
-X-Received: by 2002:a17:902:704c:: with SMTP id
-	h12mr67217285plt.318.1563719140067; 
+	bh=Yjk2iCSMd0qW6ItDElCjR/NGiM5KsZVMd2S/mXDKsOM=;
+	b=IQ8PvxTT7ggvIrnV6xO6Br3ozvsVmNrenhh/ImsTfMdnDaEX2D1JzmcvBys9tP217K
+	YL1taInm5Jd0cQzPrLIoW1FBJDTQgUGfc104/Ibkz+a3Qh0e/F2A3rXnK4seUhKHrmdo
+	q9pIbdWsayO4bjX3dx54pRQkfVRZFiKpesN3aUAVCcL7y6/gpBypJsVLzYPV7ub0DWKt
+	GFbvkBPXxQiJG3lY5uqT/ls9HoQkI4/+H6y+C5rX6i2lz+qjLqUQIs93fDYAB3+WxrhD
+	FtAg4528lwT6HInwMOnq8vXzbndZN1HUhPPJ1lyR/H2tRkoqY2oiECa0fiiGFsCNBBkZ
+	ZOgA==
+X-Gm-Message-State: APjAAAX8zv45/Y0M5buXTp/W9T6lmihuQQivBt4myshsPBYwmQw0VCg6
+	ohHht2OxpXcCg01M/U/tCzanCv2+
+X-Google-Smtp-Source: APXvYqwbQiVyXgXbFnmGXCd3Z6SJ088TdKggG5ukjrxbM33lzfCNk1U0A4Gq4CLIXJQ3S04htoSrpw==
+X-Received: by 2002:a17:902:2d01:: with SMTP id
+	o1mr71712007plb.105.1563719140923; 
 	Sun, 21 Jul 2019 07:25:40 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:bd4d:a6f4:da99:27b4])
 	by smtp.gmail.com with ESMTPSA id
-	a3sm28807750pfc.70.2019.07.21.07.25.39
+	a3sm28807750pfc.70.2019.07.21.07.25.40
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Jul 2019 07:25:39 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:40 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jul 2019 07:25:05 -0700
-Message-Id: <d05e98cdccbe36be8906c31249adeb0f0bc13ac5.1563719003.git.akuster808@gmail.com>
+Date: Sun, 21 Jul 2019 07:25:06 -0700
+Message-Id: <249447828cd1ed13f9faf19793208b503acf0d30.1563719003.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1563719003.git.akuster808@gmail.com>
 References: <cover.1563719003.git.akuster808@gmail.com>
-Subject: [thud] 16/30] wpa_supplicant: Changed systemd template units
+Subject: [thud] 17/30] qemu: Security fix for CVE-2018-19489
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,116 +62,131 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 21 Jul 2019 14:25:39 -0000
 
-From: Joshua DeWeese <jdeweese@hennypenny.com>
+From: Armin Kuster <akuster@mvista.com>
 
-I goofed up the scissor line on the last attempt. Not sure how much it matters,
-but here it is correct this time.
+Source: Qemu.org
+MR: 97453
+Type: Security Fix
+Disposition: Backport from git.qemu.org/gemu.git
 
-Here it is, updated to work with wpa-supplicant_2.6.bb.
+ChangeID: a06fcb432d447cec2ed1caf112822dd1b4831ace
+Description:
 
--- >8 --
-https://www.freedesktop.org/software/systemd/man/systemd.unit.html#WantedBy=
+In the spirt of YP Compatible, sending change upstream.
 
-When building root filesystems with any of the wpa_supplicant systemd
-template service files enabled (current default is to have them disabled) the
-systemd-native-fake script would not process the line:
+fixes CVE CVE-2018-19489
 
-Alias=multi-user.target.wants/wpa_supplicant@%i.service
+Affect < = 4.0.0
 
-appropriately due the the use of "%i."
-
-According to the systemd documentation "WantedBy=foo.service in a service
-bar.service is mostly equivalent to Alias=foo.service.wants/bar.service in
-the same file." However, this is not really the intended purpose of install
-Aliases.
-
-All lines of the form:
-
-Alias=multi-user.target.wants/*%i.service
-
-Were replaced with the following lines:
-
-WantedBy=multi-user.target
-
-Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...place-systemd-install-Alias-with-WantedBy.patch | 52 ++++++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.6.bb           |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
+ .../qemu/qemu/CVE-2018-19489.patch                 | 83 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  1 +
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch
 new file mode 100644
-index 0000000..a476cf0
+index 0000000..7619e2a
 --- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
-@@ -0,0 +1,52 @@
-+From 94c401733a5a3d294cc412671166e6adfb409f53 Mon Sep 17 00:00:00 2001
-+From: Joshua DeWeese <jdeweese@hennypenny.com>
-+Date: Wed, 30 Jan 2019 16:19:47 -0500
-+Subject: [PATCH] replace systemd install Alias with WantedBy
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch
+@@ -0,0 +1,83 @@
++From 1d20398694a3b67a388d955b7a945ba4aa90a8a8 Mon Sep 17 00:00:00 2001
++From: Greg Kurz <groug@kaod.org>
++Date: Fri, 23 Nov 2018 13:28:03 +0100
++Subject: [PATCH] 9p: fix QEMU crash when renaming files
 +
-+According to the systemd documentation "WantedBy=foo.service in a
-+service bar.service is mostly equivalent to
-+Alias=foo.service.wants/bar.service in the same file." However,
-+this is not really the intended purpose of install Aliases.
++When using the 9P2000.u version of the protocol, the following shell
++command line in the guest can cause QEMU to crash:
 +
-+Upstream-Status: Submitted [hostap@lists.infradead.org]
++    while true; do rm -rf aa; mkdir -p a/b & touch a/b/c & mv a aa; done
 +
-+Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
++With 9P2000.u, file renaming is handled by the WSTAT command. The
++v9fs_wstat() function calls v9fs_complete_rename(), which calls
++v9fs_fix_path() for every fid whose path is affected by the change.
++The involved calls to v9fs_path_copy() may race with any other access
++to the fid path performed by some worker thread, causing a crash like
++shown below:
++
++Thread 12 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
++0x0000555555a25da2 in local_open_nofollow (fs_ctx=0x555557d958b8, path=0x0,
++ flags=65536, mode=0) at hw/9pfs/9p-local.c:59
++59          while (*path && fd != -1) {
++(gdb) bt
++#0  0x0000555555a25da2 in local_open_nofollow (fs_ctx=0x555557d958b8,
++ path=0x0, flags=65536, mode=0) at hw/9pfs/9p-local.c:59
++#1  0x0000555555a25e0c in local_opendir_nofollow (fs_ctx=0x555557d958b8,
++ path=0x0) at hw/9pfs/9p-local.c:92
++#2  0x0000555555a261b8 in local_lstat (fs_ctx=0x555557d958b8,
++ fs_path=0x555556b56858, stbuf=0x7fff84830ef0) at hw/9pfs/9p-local.c:185
++#3  0x0000555555a2b367 in v9fs_co_lstat (pdu=0x555557d97498,
++ path=0x555556b56858, stbuf=0x7fff84830ef0) at hw/9pfs/cofile.c:53
++#4  0x0000555555a1e9e2 in v9fs_stat (opaque=0x555557d97498)
++ at hw/9pfs/9p.c:1083
++#5  0x0000555555e060a2 in coroutine_trampoline (i0=-669165424, i1=32767)
++ at util/coroutine-ucontext.c:116
++#6  0x00007fffef4f5600 in __start_context () at /lib64/libc.so.6
++#7  0x0000000000000000 in  ()
++(gdb)
++
++The fix is to take the path write lock when calling v9fs_complete_rename(),
++like in v9fs_rename().
++
++Impact:  DoS triggered by unprivileged guest users.
++
++Fixes: CVE-2018-19489
++Cc: P J P <ppandit@redhat.com>
++Reported-by: zhibin hu <noirfate@gmail.com>
++Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: Greg Kurz <groug@kaod.org>
++
++Upstream-Status: Backport
++Affects: < 4.0.0
++CVE: CVE-2018-19489
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
 +---
-+ wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in | 2 +-
-+ wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in   | 2 +-
-+ wpa_supplicant/systemd/wpa_supplicant.service.arg.in         | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
++ hw/9pfs/9p.c | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
-+index 03ac507..da69a87 100644
-+--- a/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
-++++ b/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
-+@@ -12,4 +12,4 @@ Type=simple
-+ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-nl80211-%I.conf -Dnl80211 -i%I
++diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
++index 267a255..bdf7919 100644
++--- a/hw/9pfs/9p.c
+++++ b/hw/9pfs/9p.c
++@@ -2855,6 +2855,7 @@ static void coroutine_fn v9fs_wstat(void *opaque)
++     struct stat stbuf;
++     V9fsFidState *fidp;
++     V9fsPDU *pdu = opaque;
+++    V9fsState *s = pdu->s;
 + 
-+ [Install]
-+-Alias=multi-user.target.wants/wpa_supplicant-nl80211@%i.service
-++WantedBy=multi-user.target
-+diff --git a/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
-+index c8a744d..ca3054b 100644
-+--- a/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
-++++ b/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
-+@@ -12,4 +12,4 @@ Type=simple
-+ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-wired-%I.conf -Dwired -i%I
-+ 
-+ [Install]
-+-Alias=multi-user.target.wants/wpa_supplicant-wired@%i.service
-++WantedBy=multi-user.target
-+diff --git a/wpa_supplicant/systemd/wpa_supplicant.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
-+index 7788b38..55d2b9c 100644
-+--- a/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
-++++ b/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
-+@@ -12,4 +12,4 @@ Type=simple
-+ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-%I.conf -i%I
-+ 
-+ [Install]
-+-Alias=multi-user.target.wants/wpa_supplicant@%i.service
-++WantedBy=multi-user.target
++     v9fs_stat_init(&v9stat);
++     err = pdu_unmarshal(pdu, offset, "dwS", &fid, &unused, &v9stat);
++@@ -2920,7 +2921,9 @@ static void coroutine_fn v9fs_wstat(void *opaque)
++         }
++     }
++     if (v9stat.name.size != 0) {
+++        v9fs_path_write_lock(s);
++         err = v9fs_complete_rename(pdu, fidp, -1, &v9stat.name);
+++        v9fs_path_unlock(s);
++         if (err < 0) {
++             goto out;
++         }
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-index aa4c4c2..c92ed4a 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-            file://key-replay-cve-multiple7.patch \
-            file://key-replay-cve-multiple8.patch \
-            file://wpa_supplicant-CVE-2018-14526.patch \
-+           file://0001-replace-systemd-install-Alias-with-WantedBy.patch \
-           "
- SRC_URI[md5sum] = "091569eb4440b7d7f2b4276dbfc03c3c"
- SRC_URI[sha256sum] = "b4936d34c4e6cdd44954beba74296d964bc2c9668ecaa5255e499636fe2b1450"
+diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+index 59cfc38..992cf7b 100644
+--- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+@@ -30,6 +30,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2018-18849.patch \
+            file://CVE-2018-19364_p1.patch \
+            file://CVE-2018-19364_p2.patch \
++           file://CVE-2018-19489.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
 -- 
 2.7.4
 
