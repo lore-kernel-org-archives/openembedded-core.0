@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
-	[209.85.210.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D5A87EE19
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 31AEA7EE19
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 14:25:29 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id q10so16118897pff.9
+	Sun, 21 Jul 2019 14:25:30 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id f25so16407592pgv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 07:25:30 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=qSIa913X/eojZHRFwVKTEyQL4Ho56g+BjQZGbPBT4zM=;
-	b=lBM9VGAEsRRe473JxFyqJ9WMQ6d5wVJiezcjP181L+XEPrVtKaktBYRf8TIWkEvFqJ
-	PTddNBbXGjswcOLAuUh0WlIk3aEyx9ZpemTl+HJO9sZ4F74aRW6+6kMn+bWsB1jPnmUc
-	RfTMDyrkqpxop/XmK7aERsF6W2P4yrvS2ukaNy2HbTcntk3UmLzYYGsEFGgkXKjdwDR9
-	FSOIvGvd4+54LARq5JM1kvybhJyPqXnhPYBSdYV73LqLcrU20hY/4CCYmF+BaREz4NjH
-	cOCz2IEPiByx/BKrodwf4osu9Kh+Fcae0sv2luUHbxbDa+OautWsw0NwbXKNMKZ65AqD
-	Oiig==
+	bh=7MP90QPFzf3RShunZple+56TVE27c53lNZqFaVH+v+0=;
+	b=O0/V/vLCoUvB3A5RU4OxmDJx555xqrEGP/d07uwCmW3PXwhMNMJjD1uJsRu108QG6y
+	EuztWViYoU3W8xPRCpc2nOb675Yh76t2uik9M11TOrFvf+LBAd2orRc14rv7t4FNC8q6
+	D7Iq6BuRCm/hX7CbR5SpJ2+lRe1Zt8NtlSmPcsedKvH0MRyqLJCTfuLx+io4pNPH+pXU
+	AHGgK2cotG3NmZUTGCsISdX6gg8bh65ruvh0qlyCeNPsVtSV1dsG2dYlhI8Ox9H5y4Hg
+	S02SMuHDiV0V3QYEEj1S2sZkVGkA4d/e7RF6yGiAp+ptqzIlELp3+xeoLRXNdprW9SZV
+	91jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=qSIa913X/eojZHRFwVKTEyQL4Ho56g+BjQZGbPBT4zM=;
-	b=Ri0A35iuptbe7O3Q3HoJ/1oPw9H1dS92ik80GShh3Lqg2Fkd1Bs2WSl53UVl4mGhF6
-	SKlO6LlFRMr67AVo6Tnz5SPdgo9cT4pkHluoe9LTMOFelyGXCcjk+tavbsinvAAlshVn
-	HyxGNSyGFySF6xrooPvNJdOidwFrpJwfU1eoE82tPleXRPts9E+RkG96WIPAiu0U/Eml
-	ywqm1Lzwk9lwVbrtqrqOxLXhP8wp0cIzFo/uIQOurPBbiNpqRtl+OvQ8Zl+0DG0qDlhQ
-	ei80a6RIf8PaEWJCPoZeciUxbTcRnUccASpElBcvzMyh6j2o59xcWg4W/c4mHi5JYYeZ
-	W9Ag==
-X-Gm-Message-State: APjAAAVyaIE8sS5bFTFTPsv+P+LqVB5xCvk/CkSwBffW2zvWSOm8z3P/
-	CAEyTe/nbsIB+BcyyxmLfj7mAePk
-X-Google-Smtp-Source: APXvYqyPwTov9JBv6nZKk6XcqpW7Tvgr6zejHrlIggDVELZGaBhigaBveGcCvVc732e5d0zjWaiCzw==
-X-Received: by 2002:a63:5f09:: with SMTP id t9mr33162942pgb.351.1563719130144; 
-	Sun, 21 Jul 2019 07:25:30 -0700 (PDT)
+	bh=7MP90QPFzf3RShunZple+56TVE27c53lNZqFaVH+v+0=;
+	b=IRZ/CghFMBLKNUe6Ipn6PspNyBykuY3Xk0f+h5NceuDbSLaeqD83Lc9llEm8BqE9rW
+	XDE713+7fI6D8mS453jbYlg451VeQq1hG/aeXxGiww9c4GLuVmFTSm2a54aIjl2x1Me0
+	wdR5exJUHcyxTXOyvgx7ljY/I+r5g06Enk3/P5t1Dn+3bVkhysZxvqHtiU7QmqgJ98xp
+	rpFZHL2A5P92054zpFWVq03qha4CIrdm7QALIH29LuwkRW+LWmtE+GI0vlQJIR8ND3LD
+	ubiNjrBQmqIDTY3tXTVqLYDXsTv+3wAX2/LY+lKc1vOoTnmvX6cyIgxs6tCqzJgTTgAz
+	XE7w==
+X-Gm-Message-State: APjAAAWQd2OFMtX9Z408BeOTI0t/+Zq/58nz4ZPCMDCSPayDhCN2V7TI
+	oA4F6OXQ9hn9D3fdjO7Bjt9Zjo/9
+X-Google-Smtp-Source: APXvYqwqAqniySURHjo9CI9Q15HOoHLF/EJsFcrMFTk1wCh/vJrk+Rix3/cVP93Kr8tfWghYQtOUtQ==
+X-Received: by 2002:a17:90a:ac0e:: with SMTP id
+	o14mr42956678pjq.142.1563719131123; 
+	Sun, 21 Jul 2019 07:25:31 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:bd4d:a6f4:da99:27b4])
 	by smtp.gmail.com with ESMTPSA id
-	a3sm28807750pfc.70.2019.07.21.07.25.29
+	a3sm28807750pfc.70.2019.07.21.07.25.30
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Jul 2019 07:25:29 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:30 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jul 2019 07:24:55 -0700
-Message-Id: <7db146abad6d2bbb7d7a549e7091412e0e494db2.1563719003.git.akuster808@gmail.com>
+Date: Sun, 21 Jul 2019 07:24:56 -0700
+Message-Id: <e2f9efdc93068bce00b07021aa447f0b8786f69d.1563719003.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1563719003.git.akuster808@gmail.com>
 References: <cover.1563719003.git.akuster808@gmail.com>
-Subject: [thud] 06/30] busybox: Security fixes for CVE-2018-20679 CVE-2019-5747
+Subject: [thud] 07/30] sqlite3: Security fixes for CVE-2018-20505 & 20506
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,257 +60,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Jul 2019 14:25:29 -0000
+X-List-Received-Date: Sun, 21 Jul 2019 14:25:30 -0000
 
-Source: busybox.git
-MR: 97332
+From: Armin Kuster <akuster@mvista.com>
+
+Source: sqlite.org
+MR: 97484, 97490
 Type: Security Fix
-Disposition: Backport from busybox.git
-ChangeID: ec203c79e7322de1ed5721d08b6f59b1eca67c7d
+Disposition: Backport from sqilte.org
+ChangeID: c6105b5d3ce4fb2c0f38c3cab745b769d2df38f5
 Description:
 
-Affects < 1.30.0
+Affects < 3.26.0
+fixes:
+CVE-2018-20505
+CVE-2018-20506
 
-Fixes:
-CVE-2018-20679
-CVE-2019-5747
-
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../busybox/busybox/CVE-2018-20679.patch           | 142 +++++++++++++++++++++
- .../busybox/busybox/CVE-2019-5747.patch            |  60 +++++++++
- meta/recipes-core/busybox/busybox_1.29.3.bb        |   2 +
- 3 files changed, 204 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2018-20679.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
+ .../sqlite/files/CVE-2018-20505.patch              |  31 +++++++
+ .../sqlite/files/CVE-2018-20506.patch              | 103 +++++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.23.1.bb      |   2 +
+ 3 files changed, 136 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20505.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20506.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2018-20679.patch b/meta/recipes-core/busybox/busybox/CVE-2018-20679.patch
+diff --git a/meta/recipes-support/sqlite/files/CVE-2018-20505.patch b/meta/recipes-support/sqlite/files/CVE-2018-20505.patch
 new file mode 100644
-index 0000000..e469376
+index 0000000..d1119f3
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2018-20679.patch
-@@ -0,0 +1,142 @@
-+From 6d3b4bb24da9a07c263f3c1acf8df85382ff562c Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Mon, 17 Dec 2018 18:07:18 +0100
-+Subject: [PATCH] udhcpc: check that 4-byte options are indeed 4-byte, closes
-+ 11506
++++ b/meta/recipes-support/sqlite/files/CVE-2018-20505.patch
+@@ -0,0 +1,31 @@
++From: D. Richard Hipp <drh@hwaci.com>
++Date: Sat, 3 Nov 2018 13:11:24 +0000 (+0000)
++Subject: Fix a assert() in the query planner that can arise when doing row-value
++X-Git-Tag: version-3.26.0~59
++X-Git-Url: https://repo.or.cz/sqlite.git/commitdiff_plain/24298027a30cf7941f16a8cc878d0c1f9f14308f
 +
-+function                                             old     new   delta
-+udhcp_get_option32                                     -      27     +27
-+udhcp_get_option                                     231     248     +17
-+------------------------------------------------------------------------------
-+(add/remove: 1/0 grow/shrink: 1/0 up/down: 44/0)               Total: 44 bytes
++Fix a assert() in the query planner that can arise when doing row-value
++operations on a PRIMARY KEY that contains duplicate columns.
++Ticket [1a84668dcfdebaf12415d].
 +
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++https://sqlite.org/src/info/1a84668dcfdebaf12415d
 +
-+Upstream-Status: Backport
-+CVE: CVE-2018-20679
++upstream-Status: Backport
++CVE: CVE-2018-20505
++affects <= 3.26.0
 +
-+Affects < 1.30.0
-+
-+signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ networking/udhcp/common.c | 19 +++++++++++++++++++
-+ networking/udhcp/common.h |  4 ++++
-+ networking/udhcp/dhcpc.c  |  6 +++---
-+ networking/udhcp/dhcpd.c  |  6 +++---
-+ 4 files changed, 29 insertions(+), 6 deletions(-)
-+
-+Index: busybox-1.29.3/networking/udhcp/common.c
-+===================================================================
-+--- busybox-1.29.3.orig/networking/udhcp/common.c
-++++ busybox-1.29.3/networking/udhcp/common.c
-+@@ -270,6 +270,15 @@ uint8_t* FAST_FUNC udhcp_get_option(stru
-+ 			goto complain; /* complain and return NULL */
-+ 
-+ 		if (optionptr[OPT_CODE] == code) {
-++			if (optionptr[OPT_LEN] == 0) {
-++				/* So far no valid option with length 0 known.
-++				 * Having this check means that searching
-++				 * for DHCP_MESSAGE_TYPE need not worry
-++				 * that returned pointer might be unsafe
-++				 * to dereference.
-++				 */
-++				goto complain; /* complain and return NULL */
-++			}
-+ 			log_option("option found", optionptr);
-+ 			return optionptr + OPT_DATA;
-+ 		}
-+@@ -287,6 +296,16 @@ uint8_t* FAST_FUNC udhcp_get_option(stru
-+ 	return NULL;
-+ }
-+ 
-++uint8_t* FAST_FUNC udhcp_get_option32(struct dhcp_packet *packet, int code)
-++{
-++	uint8_t *r = udhcp_get_option(packet, code);
-++	if (r) {
-++		if (r[-1] != 4)
-++			r = NULL;
-++	}
-++	return r;
-++}
-++
-+ /* Return the position of the 'end' option (no bounds checking) */
-+ int FAST_FUNC udhcp_end_option(uint8_t *optionptr)
-+ {
-+Index: busybox-1.29.3/networking/udhcp/common.h
-+===================================================================
-+--- busybox-1.29.3.orig/networking/udhcp/common.h
-++++ busybox-1.29.3/networking/udhcp/common.h
-+@@ -204,6 +204,10 @@ extern const uint8_t dhcp_option_lengths
-+ unsigned FAST_FUNC udhcp_option_idx(const char *name, const char *option_strings);
-+ 
-+ uint8_t *udhcp_get_option(struct dhcp_packet *packet, int code) FAST_FUNC;
-++/* Same as above + ensures that option length is 4 bytes
-++ * (returns NULL if size is different)
-++ */
-++uint8_t *udhcp_get_option32(struct dhcp_packet *packet, int code) FAST_FUNC;
-+ int udhcp_end_option(uint8_t *optionptr) FAST_FUNC;
-+ void udhcp_add_binary_option(struct dhcp_packet *packet, uint8_t *addopt) FAST_FUNC;
-+ #if ENABLE_UDHCPC || ENABLE_UDHCPD
-+Index: busybox-1.29.3/networking/udhcp/dhcpc.c
-+===================================================================
-+--- busybox-1.29.3.orig/networking/udhcp/dhcpc.c
-++++ busybox-1.29.3/networking/udhcp/dhcpc.c
-+@@ -1694,7 +1694,7 @@ int udhcpc_main(int argc UNUSED_PARAM, c
-+  * They say ISC DHCP client supports this case.
-+  */
-+ 				server_addr = 0;
-+-				temp = udhcp_get_option(&packet, DHCP_SERVER_ID);
-++				temp = udhcp_get_option32(&packet, DHCP_SERVER_ID);
-+ 				if (!temp) {
-+ 					bb_error_msg("no server ID, using 0.0.0.0");
-+ 				} else {
-+@@ -1721,7 +1721,7 @@ int udhcpc_main(int argc UNUSED_PARAM, c
-+ 				struct in_addr temp_addr;
-+ 				uint8_t *temp;
-+ 
-+-				temp = udhcp_get_option(&packet, DHCP_LEASE_TIME);
-++				temp = udhcp_get_option32(&packet, DHCP_LEASE_TIME);
-+ 				if (!temp) {
-+ 					bb_error_msg("no lease time with ACK, using 1 hour lease");
-+ 					lease_seconds = 60 * 60;
-+@@ -1817,7 +1817,7 @@ int udhcpc_main(int argc UNUSED_PARAM, c
-+ 					uint32_t svid;
-+ 					uint8_t *temp;
-+ 
-+-					temp = udhcp_get_option(&packet, DHCP_SERVER_ID);
-++					temp = udhcp_get_option32(&packet, DHCP_SERVER_ID);
-+ 					if (!temp) {
-+  non_matching_svid:
-+ 						log1("received DHCP NAK with wrong"
-+Index: busybox-1.29.3/networking/udhcp/dhcpd.c
-+===================================================================
-+--- busybox-1.29.3.orig/networking/udhcp/dhcpd.c
-++++ busybox-1.29.3/networking/udhcp/dhcpd.c
-+@@ -640,7 +640,7 @@ static void add_server_options(struct dh
-+ static uint32_t select_lease_time(struct dhcp_packet *packet)
-+ {
-+ 	uint32_t lease_time_sec = server_config.max_lease_sec;
-+-	uint8_t *lease_time_opt = udhcp_get_option(packet, DHCP_LEASE_TIME);
-++	uint8_t *lease_time_opt = udhcp_get_option32(packet, DHCP_LEASE_TIME);
-+ 	if (lease_time_opt) {
-+ 		move_from_unaligned32(lease_time_sec, lease_time_opt);
-+ 		lease_time_sec = ntohl(lease_time_sec);
-+@@ -987,7 +987,7 @@ int udhcpd_main(int argc UNUSED_PARAM, c
-+ 		}
-+ 
-+ 		/* Get SERVER_ID if present */
-+-		server_id_opt = udhcp_get_option(&packet, DHCP_SERVER_ID);
-++		server_id_opt = udhcp_get_option32(&packet, DHCP_SERVER_ID);
-+ 		if (server_id_opt) {
-+ 			uint32_t server_id_network_order;
-+ 			move_from_unaligned32(server_id_network_order, server_id_opt);
-+@@ -1011,7 +1011,7 @@ int udhcpd_main(int argc UNUSED_PARAM, c
-+ 		}
-+ 
-+ 		/* Get REQUESTED_IP if present */
-+-		requested_ip_opt = udhcp_get_option(&packet, DHCP_REQUESTED_IP);
-++		requested_ip_opt = udhcp_get_option32(&packet, DHCP_REQUESTED_IP);
-+ 		if (requested_ip_opt) {
-+ 			move_from_unaligned32(requested_nip, requested_ip_opt);
-+ 		}
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2019-5747.patch b/meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
-new file mode 100644
-index 0000000..4225b11
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
-@@ -0,0 +1,60 @@
-+From 74d9f1ba37010face4bd1449df4d60dd84450b06 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Mon, 7 Jan 2019 15:33:42 +0100
-+Subject: [PATCH] udhcpc: when decoding DHCP_SUBNET, ensure it is 4 bytes long
-+
-+function                                             old     new   delta
-+udhcp_run_script                                     795     801      +6
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-5747
-+Affects < 1.30.0
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+---
-+ networking/udhcp/common.c | 2 +-
-+ networking/udhcp/common.h | 2 +-
-+ networking/udhcp/dhcpc.c  | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
++Index: sqlite-autoconf-3230100/sqlite3.c
++===================================================================
++--- sqlite-autoconf-3230100.orig/sqlite3.c
+++++ sqlite-autoconf-3230100/sqlite3.c
++@@ -131231,7 +131231,7 @@ static Expr *removeUnindexableInClauseTe
++     for(i=iEq; i<pLoop->nLTerm; i++){
++       if( pLoop->aLTerm[i]->pExpr==pX ){
++         int iField = pLoop->aLTerm[i]->iField - 1;
++-        assert( pOrigRhs->a[iField].pExpr!=0 );
+++        if( pOrigRhs->a[iField].pExpr==0 ) continue; /* Duplicate PK column */
++         pRhs = sqlite3ExprListAppend(pParse, pRhs, pOrigRhs->a[iField].pExpr);
++         pOrigRhs->a[iField].pExpr = 0;
++         assert( pOrigLhs->a[iField].pExpr!=0 );
+diff --git a/meta/recipes-support/sqlite/files/CVE-2018-20506.patch b/meta/recipes-support/sqlite/files/CVE-2018-20506.patch
+new file mode 100644
+index 0000000..7919f9b
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/CVE-2018-20506.patch
+@@ -0,0 +1,103 @@
++From: Dan Kennedy <danielk1977@gmail.com>
++Date: Sat, 3 Nov 2018 16:51:30 +0000 (+0000)
++Subject: Add extra defenses against strategically corrupt databases to fts3/4.
++X-Git-Tag: version-3.26.0~58
++X-Git-Url: https://repo.or.cz/sqlite.git/commitdiff_plain/19816852d4e82e115338b1997540c26a1b794d18
 +
-+Index: busybox-1.29.3/networking/udhcp/common.c
++Add extra defenses against strategically corrupt databases to fts3/4.
++
++https://sqlite.org/src/info/940f2adc8541a838
++
++Upstream-Status: Backport
++CVE: CVE-2018-20506
++Affects <= 3.26.0
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: sqlite-autoconf-3230100/sqlite3.c
 +===================================================================
-+--- busybox-1.29.3.orig/networking/udhcp/common.c
-++++ busybox-1.29.3/networking/udhcp/common.c
-+@@ -300,7 +300,7 @@ uint8_t* FAST_FUNC udhcp_get_option32(st
-+ {
-+ 	uint8_t *r = udhcp_get_option(packet, code);
-+ 	if (r) {
-+-		if (r[-1] != 4)
-++		if (r[-OPT_DATA + OPT_LEN] != 4)
-+ 			r = NULL;
-+ 	}
-+ 	return r;
-+Index: busybox-1.29.3/networking/udhcp/common.h
-+===================================================================
-+--- busybox-1.29.3.orig/networking/udhcp/common.h
-++++ busybox-1.29.3/networking/udhcp/common.h
-+@@ -119,7 +119,7 @@ enum {
-+ //#define DHCP_TIME_SERVER      0x04 /* RFC 868 time server (32-bit, 0 = 1.1.1900) */
-+ //#define DHCP_NAME_SERVER      0x05 /* IEN 116 _really_ ancient kind of NS */
-+ //#define DHCP_DNS_SERVER       0x06
-+-//#define DHCP_LOG_SERVER       0x07 /* port 704 UDP log (not syslog)
-++//#define DHCP_LOG_SERVER       0x07 /* port 704 UDP log (not syslog) */
-+ //#define DHCP_COOKIE_SERVER    0x08 /* "quote of the day" server */
-+ //#define DHCP_LPR_SERVER       0x09
-+ #define DHCP_HOST_NAME          0x0c /* either client informs server or server gives name to client */
-+Index: busybox-1.29.3/networking/udhcp/dhcpc.c
-+===================================================================
-+--- busybox-1.29.3.orig/networking/udhcp/dhcpc.c
-++++ busybox-1.29.3/networking/udhcp/dhcpc.c
-+@@ -526,7 +526,7 @@ static char **fill_envp(struct dhcp_pack
-+ 		temp = udhcp_get_option(packet, code);
-+ 		*curr = xmalloc_optname_optval(temp, &dhcp_optflags[i], opt_name);
-+ 		putenv(*curr++);
-+-		if (code == DHCP_SUBNET) {
-++		if (code == DHCP_SUBNET && temp[-OPT_DATA + OPT_LEN] == 4) {
-+ 			/* Subnet option: make things like "$ip/$mask" possible */
-+ 			uint32_t subnet;
-+ 			move_from_unaligned32(subnet, temp);
-diff --git a/meta/recipes-core/busybox/busybox_1.29.3.bb b/meta/recipes-core/busybox/busybox_1.29.3.bb
-index 6064e9f..5714d70 100644
---- a/meta/recipes-core/busybox/busybox_1.29.3.bb
-+++ b/meta/recipes-core/busybox/busybox_1.29.3.bb
-@@ -41,6 +41,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://rcS \
-            file://rcK \
-            file://makefile-libbb-race.patch \
-+           file://CVE-2018-20679.patch \
-+	   file://CVE-2019-5747.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
++--- sqlite-autoconf-3230100.orig/sqlite3.c
+++++ sqlite-autoconf-3230100/sqlite3.c
++@@ -152368,7 +152368,7 @@ static int fts3ScanInteriorNode(
++   const char *zCsr = zNode;       /* Cursor to iterate through node */
++   const char *zEnd = &zCsr[nNode];/* End of interior node buffer */
++   char *zBuffer = 0;              /* Buffer to load terms into */
++-  int nAlloc = 0;                 /* Size of allocated buffer */
+++  i64 nAlloc = 0;                 /* Size of allocated buffer */
++   int isFirstTerm = 1;            /* True when processing first term on page */
++   sqlite3_int64 iChild;           /* Block id of child node to descend to */
++ 
++@@ -152406,14 +152406,14 @@ static int fts3ScanInteriorNode(
++     zCsr += fts3GetVarint32(zCsr, &nSuffix);
++     
++     assert( nPrefix>=0 && nSuffix>=0 );
++-    if( &zCsr[nSuffix]>zEnd ){
+++    if( nPrefix>zCsr-zNode || nSuffix>zEnd-zCsr ){
++       rc = FTS_CORRUPT_VTAB;
++       goto finish_scan;
++     }
++-    if( nPrefix+nSuffix>nAlloc ){
+++    if( (i64)nPrefix+nSuffix>nAlloc ){
++       char *zNew;
++-      nAlloc = (nPrefix+nSuffix) * 2;
++-      zNew = (char *)sqlite3_realloc(zBuffer, nAlloc);
+++      nAlloc = ((i64)nPrefix+nSuffix) * 2;
+++      zNew = (char *)sqlite3_realloc64(zBuffer, nAlloc);
++       if( !zNew ){
++         rc = SQLITE_NOMEM;
++         goto finish_scan;
++@@ -162012,15 +162012,19 @@ static int fts3SegReaderNext(
++   ** safe (no risk of overread) even if the node data is corrupted. */
++   pNext += fts3GetVarint32(pNext, &nPrefix);
++   pNext += fts3GetVarint32(pNext, &nSuffix);
++-  if( nPrefix<0 || nSuffix<=0 
++-   || &pNext[nSuffix]>&pReader->aNode[pReader->nNode] 
+++  if( nSuffix<=0 
+++   || (&pReader->aNode[pReader->nNode] - pNext)<nSuffix
+++   || nPrefix>pReader->nTermAlloc
++   ){
++     return FTS_CORRUPT_VTAB;
++   }
++ 
++-  if( nPrefix+nSuffix>pReader->nTermAlloc ){
++-    int nNew = (nPrefix+nSuffix)*2;
++-    char *zNew = sqlite3_realloc(pReader->zTerm, nNew);
+++  /* Both nPrefix and nSuffix were read by fts3GetVarint32() and so are
+++  ** between 0 and 0x7FFFFFFF. But the sum of the two may cause integer
+++  ** overflow - hence the (i64) casts.  */
+++  if( (i64)nPrefix+nSuffix>(i64)pReader->nTermAlloc ){
+++    i64 nNew = ((i64)nPrefix+nSuffix)*2;
+++    char *zNew = sqlite3_realloc64(pReader->zTerm, nNew);
++     if( !zNew ){
++       return SQLITE_NOMEM;
++     }
++@@ -162042,7 +162046,7 @@ static int fts3SegReaderNext(
++   ** b-tree node. And that the final byte of the doclist is 0x00. If either 
++   ** of these statements is untrue, then the data structure is corrupt.
++   */
++-  if( &pReader->aDoclist[pReader->nDoclist]>&pReader->aNode[pReader->nNode] 
+++  if( (&pReader->aNode[pReader->nNode] - pReader->aDoclist)<pReader->nDoclist
++    || (pReader->nPopulate==0 && pReader->aDoclist[pReader->nDoclist-1])
++   ){
++     return FTS_CORRUPT_VTAB;
++@@ -164367,7 +164371,9 @@ static int nodeReaderNext(NodeReader *p)
++       p->iOff += fts3GetVarint32(&p->aNode[p->iOff], &nPrefix);
++     }
++     p->iOff += fts3GetVarint32(&p->aNode[p->iOff], &nSuffix);
++-
+++    if( nPrefix>p->iOff || nSuffix>p->nNode-p->iOff ){
+++      return SQLITE_CORRUPT_VTAB;
+++    }
++     blobGrowBuffer(&p->term, nPrefix+nSuffix, &rc);
++     if( rc==SQLITE_OK ){
++       memcpy(&p->term.a[nPrefix], &p->aNode[p->iOff], nSuffix);
++@@ -164375,6 +164381,9 @@ static int nodeReaderNext(NodeReader *p)
++       p->iOff += nSuffix;
++       if( p->iChild==0 ){
++         p->iOff += fts3GetVarint32(&p->aNode[p->iOff], &p->nDoclist);
+++        if( (p->nNode-p->iOff)<p->nDoclist ){
+++          return SQLITE_CORRUPT_VTAB;
+++        }
++         p->aDoclist = &p->aNode[p->iOff];
++         p->iOff += p->nDoclist;
++       }
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+index 3755761..d214ea1 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
  
+ SRC_URI = "\
+   http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++  file://CVE-2018-20505.patch \
++  file://CVE-2018-20506.patch \
+   "
+ SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
+ SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
 -- 
 2.7.4
 
