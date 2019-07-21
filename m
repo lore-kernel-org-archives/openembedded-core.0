@@ -1,51 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 661557F0BD
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0058371B99
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 18:26:54 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id i2so17190857plt.1
+	Sun, 21 Jul 2019 14:25:23 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id ay6so17908225plb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2019 11:26:55 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=xS8NIQYXsH8mbB22hsWnecLKhi/NlcFZX81eXLZQ1d0=;
-	b=PTzNIq4mjOLW2OGsjhL6JxmguvYxlOSKZFXyjeYbBxKZM51M+iwc3NQGam2ijDL7Xu
-	C9vz5sH7P2LPPQRfsism1x5CBBLBtq1Enhxp/sr4Ko9qYMaI/9rmYE1FlsscEBwJmGV3
-	5Bx8cBHAW9iQVNolpINbVvQIG/bZt44T4TFtxybiWWGA3iEGN3EAQpUA90LyZ+49exMg
-	zas2hqMdxOhm3LstFzOHfJcQCA9y/DyH5pOZEItLx+W1Gb242bU+iOo3S8WKC9eEf2tU
-	byQyxzeve7n07ZHiFIDK9p3DNX404tUpuCEoUTULq1Ws3O09ugbNI6jw5swkcP9AqI1I
-	kf2g==
+	h=from:to:subject:date:message-id;
+	bh=HUstN77OaUUlUyR8XBAmG9dTvSZYa4Mfh5Sr1kt/+Zk=;
+	b=ruyokO7lALC0uzk40R9QpvgFYsPLb2TtNyadRvMDE57KspIiXMGFNG4FzNlXDa6gLI
+	jYQ6yirLfOLkqkELUWPSt8FCp/LaFo7O/sKmqDbSs8SQyZ+ll2jXVa/0v2ZUJpUua7fO
+	W9sKUzimsI8Dq6RUvL31CsP1EuUc0p8G5KM0U2TLRwL9PcMODSXDgeOGsZCD7aoim46y
+	RQy9rM8UZvaMaLhVmr0bdYXcqJE4JWBSk+mNH4PVxsziEuomO7MgKYA/OFZR2XI4vcdx
+	gxydeUYelCTRHOo5C9PVenR6yGAhI3sk++aD3s/Esxw8Yi9a2w/z7jH524j/QdFDG+pq
+	7XAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=xS8NIQYXsH8mbB22hsWnecLKhi/NlcFZX81eXLZQ1d0=;
-	b=B9KecjNtOTKcvyjfRmPrCvcWmT9UkhgUKkwVPSR77jDHf/kPMIRD9S25/HXszcO8Cr
-	7KWFdIOhy0p8aSE0ZAuGe4OQm666VIYFFBHp2X1fvbbagabxQdzQuhw6Bp1J7lnf9kPu
-	XqKSreNt+mxKIsUojiInwoCI2IH/RXqDgt7JRcXLKUGpxrI0IEpP5o5kjymHsj64J3ZV
-	2GUGdUO4u9kDEsvzDFioJ0GgQ42XgnWjOWDRrUIfXzh/4PugASCFf3jiBC4p0RhTzMF3
-	e+Vc2/yFNiyBNFBIngBNEt1zX7bxaefTq0ZzH/aZXqcL3FTmup66nJRUMklgff7L2nfV
-	iOJg==
-X-Gm-Message-State: APjAAAVPqQeRuFNwvCPsDTxPZAyQTGZNYbwwYMatX0WBs9IGMnjM6dv1
-	U4q85Kqa+jMDbPPnuHwngTNvuFWj3ho=
-X-Google-Smtp-Source: APXvYqws1qbxxQOIIyyM+ErsWbiAAYnAvbDCVCfumn6jSxn0Qx7L1v+r6ZQ6XAuZtwJJ2I0EBZbaoQ==
-X-Received: by 2002:a17:902:e613:: with SMTP id
-	cm19mr60262809plb.299.1563647215045; 
-	Sat, 20 Jul 2019 11:26:55 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	23sm37896621pfn.176.2019.07.20.11.26.54
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 20 Jul 2019 11:26:54 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=HUstN77OaUUlUyR8XBAmG9dTvSZYa4Mfh5Sr1kt/+Zk=;
+	b=lvQBjpyTC2dgo5DQNBswSxBlgr/8HCiVAl5WJroVcC6FDWakblVEuzJlTupciM3lff
+	v5AXUm2z2n5wg3sow5n+dnnytCm++wwGuMRAGCLh3DaUdbpo6riE46CCRaW47zVrwl5L
+	7rVrVlM695RRdN8B++4SmIGohTkAQhVkV8/zrZ5204zR0FOmkdNvwOZ0A0VK37OnN/P1
+	E0ZXgmZm8ptn1kDoOugX7RHz7QhrGNSP/FJlx7Jg3UHPhqQDKwHmru1uaiwS03k1qTVC
+	nMQCNVQyKDRZxxyi5OWcM4OSviKZLlR42IXaecIbeznsaUkSdtx4TtxFHxxn4BP61bJ/
+	CTfA==
+X-Gm-Message-State: APjAAAXpvU+lFqIKjeb+BcHWMJv0HQy5miQ9/W1KJG2oz4AGfbs/32Sw
+	sy/ZggCinYEwXMdwdpH7Fq3BOVcu
+X-Google-Smtp-Source: APXvYqzMObsOQm3NkWq6S6Uw/mNX4sxSDpbGuP+2LVd94F7X2hgFzym75u6YDdI5k8JkoxbbBgMP3g==
+X-Received: by 2002:a17:902:a514:: with SMTP id
+	s20mr66555332plq.162.1563719124696; 
+	Sun, 21 Jul 2019 07:25:24 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4180:c33:bd4d:a6f4:da99:27b4])
+	by smtp.gmail.com with ESMTPSA id
+	a3sm28807750pfc.70.2019.07.21.07.25.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 21 Jul 2019 07:25:24 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Jul 2019 11:26:45 -0700
-Message-Id: <20190720182645.16464-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.22.0
-MIME-Version: 1.0
-Subject: [PATCH] Revert "unzip: fix CVE-2019-13232"
+Date: Sun, 21 Jul 2019 07:24:49 -0700
+Message-Id: <cover.1563719003.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [thud] 00/30] Platch review for thud-next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,381 +57,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2019 18:26:54 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 21 Jul 2019 14:25:24 -0000
 
-See [1]
+Comments regarding this patch series due by Wednesday.
 
-This reverts commit 4df4de2ac8bc0e80446e1ad0ce67eb244e2d2a32.
+The following changes since commit f162d5bfe6eaeca24f441c83c87252c8d05744fc:
 
-[1] http://lists.openembedded.org/pipermail/openembedded-core/2019-July/284859.html
+  core-image-sato-sdk-ptest: Tweak size to stay within 4GB limit (2019-05-17 22:05:59 -0700)
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Anuj Mittal <anuj.mittal@intel.com>
----
- .../unzip/unzip/CVE-2019-13232.patch          | 339 ------------------
- meta/recipes-extended/unzip/unzip_6.0.bb      |   1 -
- 2 files changed, 340 deletions(-)
- delete mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch
+are available in the git repository at:
 
-diff --git a/meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch b/meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch
-deleted file mode 100644
-index c808f3d36a..0000000000
---- a/meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch
-+++ /dev/null
-@@ -1,339 +0,0 @@
--From: Mark Adler <madler@alumni.caltech.edu>
--Subject: Detect and reject a zip bomb using overlapped entries.
--Origin: https://github.com/madler/unzip/commit/47b3ceae397d21bf822bc2ac73052a4b1daf8e1c
--Bug-Debian: https://bugs.debian.org/931433
--X-Debian-version: 6.0-24
--
--    Detect and reject a zip bomb using overlapped entries.
--    
--    This detects an invalid zip file that has at least one entry that
--    overlaps with another entry or with the central directory to the
--    end of the file. A Fifield zip bomb uses overlapped local entries
--    to vastly increase the potential inflation ratio. Such an invalid
--    zip file is rejected.
--    
--    See https://www.bamsoftware.com/hacks/zipbomb/ for David Fifield's
--    analysis, construction, and examples of such zip bombs.
--    
--    The detection maintains a list of covered spans of the zip files
--    so far, where the central directory to the end of the file and any
--    bytes preceding the first entry at zip file offset zero are
--    considered covered initially. Then as each entry is decompressed
--    or tested, it is considered covered. When a new entry is about to
--    be processed, its initial offset is checked to see if it is
--    contained by a covered span. If so, the zip file is rejected as
--    invalid.
--    
--    This commit depends on a preceding commit: "Fix bug in
--    undefer_input() that misplaced the input state."
--
--Upstream-Status: Pending [Patch taken from debian]
--CVE: CVE-2019-13232
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
--
----- a/extract.c
--+++ b/extract.c
--@@ -321,6 +321,125 @@
--   "\nerror:  unsupported extra-field compression type (%u)--skipping\n";
-- static ZCONST char Far BadExtraFieldCRC[] =
--   "error [%s]:  bad extra-field CRC %08lx (should be %08lx)\n";
--+static ZCONST char Far NotEnoughMemCover[] =
--+  "error: not enough memory for bomb detection\n";
--+static ZCONST char Far OverlappedComponents[] =
--+  "error: invalid zip file with overlapped components (possible zip bomb)\n";
--+
--+
--+
--+
--+
--+/* A growable list of spans. */
--+typedef zoff_t bound_t;
--+typedef struct {
--+    bound_t beg;        /* start of the span */
--+    bound_t end;        /* one past the end of the span */
--+} span_t;
--+typedef struct {
--+    span_t *span;       /* allocated, distinct, and sorted list of spans */
--+    size_t num;         /* number of spans in the list */
--+    size_t max;         /* allocated number of spans (num <= max) */
--+} cover_t;
--+
--+/*
--+ * Return the index of the first span in cover whose beg is greater than val.
--+ * If there is no such span, then cover->num is returned.
--+ */
--+static size_t cover_find(cover, val)
--+    cover_t *cover;
--+    bound_t val;
--+{
--+    size_t lo = 0, hi = cover->num;
--+    while (lo < hi) {
--+        size_t mid = (lo + hi) >> 1;
--+        if (val < cover->span[mid].beg)
--+            hi = mid;
--+        else
--+            lo = mid + 1;
--+    }
--+    return hi;
--+}
--+
--+/* Return true if val lies within any one of the spans in cover. */
--+static int cover_within(cover, val)
--+    cover_t *cover;
--+    bound_t val;
--+{
--+    size_t pos = cover_find(cover, val);
--+    return pos > 0 && val < cover->span[pos - 1].end;
--+}
--+
--+/*
--+ * Add a new span to the list, but only if the new span does not overlap any
--+ * spans already in the list. The new span covers the values beg..end-1. beg
--+ * must be less than end.
--+ *
--+ * Keep the list sorted and merge adjacent spans. Grow the allocated space for
--+ * the list as needed. On success, 0 is returned. If the new span overlaps any
--+ * existing spans, then 1 is returned and the new span is not added to the
--+ * list. If the new span is invalid because beg is greater than or equal to
--+ * end, then -1 is returned. If the list needs to be grown but the memory
--+ * allocation fails, then -2 is returned.
--+ */
--+static int cover_add(cover, beg, end)
--+    cover_t *cover;
--+    bound_t beg;
--+    bound_t end;
--+{
--+    size_t pos;
--+    int prec, foll;
--+
--+    if (beg >= end)
--+    /* The new span is invalid. */
--+        return -1;
--+
--+    /* Find where the new span should go, and make sure that it does not
--+       overlap with any existing spans. */
--+    pos = cover_find(cover, beg);
--+    if ((pos > 0 && beg < cover->span[pos - 1].end) ||
--+        (pos < cover->num && end > cover->span[pos].beg))
--+        return 1;
--+
--+    /* Check for adjacencies. */
--+    prec = pos > 0 && beg == cover->span[pos - 1].end;
--+    foll = pos < cover->num && end == cover->span[pos].beg;
--+    if (prec && foll) {
--+        /* The new span connects the preceding and following spans. Merge the
--+           following span into the preceding span, and delete the following
--+           span. */
--+        cover->span[pos - 1].end = cover->span[pos].end;
--+        cover->num--;
--+        memmove(cover->span + pos, cover->span + pos + 1,
--+                (cover->num - pos) * sizeof(span_t));
--+    }
--+    else if (prec)
--+        /* The new span is adjacent only to the preceding span. Extend the end
--+           of the preceding span. */
--+        cover->span[pos - 1].end = end;
--+    else if (foll)
--+        /* The new span is adjacent only to the following span. Extend the
--+           beginning of the following span. */
--+        cover->span[pos].beg = beg;
--+    else {
--+        /* The new span has gaps between both the preceding and the following
--+           spans. Assure that there is room and insert the span.  */
--+        if (cover->num == cover->max) {
--+            size_t max = cover->max == 0 ? 16 : cover->max << 1;
--+            span_t *span = realloc(cover->span, max * sizeof(span_t));
--+            if (span == NULL)
--+                return -2;
--+            cover->span = span;
--+            cover->max = max;
--+        }
--+        memmove(cover->span + pos + 1, cover->span + pos,
--+                (cover->num - pos) * sizeof(span_t));
--+        cover->num++;
--+        cover->span[pos].beg = beg;
--+        cover->span[pos].end = end;
--+    }
--+    return 0;
--+}
-- 
-- 
-- 
--@@ -376,6 +495,29 @@
--     }
-- #endif /* !SFX || SFX_EXDIR */
-- 
--+    /* One more: initialize cover structure for bomb detection. Start with a
--+       span that covers the central directory though the end of the file. */
--+    if (G.cover == NULL) {
--+        G.cover = malloc(sizeof(cover_t));
--+        if (G.cover == NULL) {
--+            Info(slide, 0x401, ((char *)slide,
--+              LoadFarString(NotEnoughMemCover)));
--+            return PK_MEM;
--+        }
--+        ((cover_t *)G.cover)->span = NULL;
--+        ((cover_t *)G.cover)->max = 0;
--+    }
--+    ((cover_t *)G.cover)->num = 0;
--+    if ((G.extra_bytes != 0 &&
--+         cover_add((cover_t *)G.cover, 0, G.extra_bytes) != 0) ||
--+        cover_add((cover_t *)G.cover,
--+                  G.extra_bytes + G.ecrec.offset_start_central_directory,
--+                  G.ziplen) != 0) {
--+        Info(slide, 0x401, ((char *)slide,
--+          LoadFarString(NotEnoughMemCover)));
--+        return PK_MEM;
--+    }
--+
-- /*---------------------------------------------------------------------------
--     The basic idea of this function is as follows.  Since the central di-
--     rectory lies at the end of the zipfile and the member files lie at the
--@@ -593,7 +735,8 @@
--             if (error > error_in_archive)
--                 error_in_archive = error;
--             /* ...and keep going (unless disk full or user break) */
---            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC) {
--+            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC ||
--+                error == PK_BOMB) {
--                 /* clear reached_end to signal premature stop ... */
--                 reached_end = FALSE;
--                 /* ... and cancel scanning the central directory */
--@@ -1062,6 +1205,11 @@
-- 
--         /* seek_zipf(__G__ pInfo->offset);  */
--         request = G.pInfo->offset + G.extra_bytes;
--+        if (cover_within((cover_t *)G.cover, request)) {
--+            Info(slide, 0x401, ((char *)slide,
--+              LoadFarString(OverlappedComponents)));
--+            return PK_BOMB;
--+        }
--         inbuf_offset = request % INBUFSIZ;
--         bufstart = request - inbuf_offset;
-- 
--@@ -1602,6 +1750,18 @@
--             return IZ_CTRLC;        /* cancel operation by user request */
--         }
-- #endif
--+        error = cover_add((cover_t *)G.cover, request,
--+                          G.cur_zipfile_bufstart + (G.inptr - G.inbuf));
--+        if (error < 0) {
--+            Info(slide, 0x401, ((char *)slide,
--+              LoadFarString(NotEnoughMemCover)));
--+            return PK_MEM;
--+        }
--+        if (error != 0) {
--+            Info(slide, 0x401, ((char *)slide,
--+              LoadFarString(OverlappedComponents)));
--+            return PK_BOMB;
--+        }
-- #ifdef MACOS  /* MacOS is no preemptive OS, thus call event-handling by hand */
--         UserStop();
-- #endif
--@@ -2003,6 +2163,34 @@
--     }
-- 
--     undefer_input(__G);
--+
--+    if ((G.lrec.general_purpose_bit_flag & 8) != 0) {
--+        /* skip over data descriptor (harder than it sounds, due to signature
--+         * ambiguity)
--+         */
--+#       define SIG 0x08074b50
--+#       define LOW 0xffffffff
--+        uch buf[12];
--+        unsigned shy = 12 - readbuf((char *)buf, 12);
--+        ulg crc = shy ? 0 : makelong(buf);
--+        ulg clen = shy ? 0 : makelong(buf + 4);
--+        ulg ulen = shy ? 0 : makelong(buf + 8); /* or high clen if ZIP64 */
--+        if (crc == SIG &&                       /* if not SIG, no signature */
--+            (G.lrec.crc32 != SIG ||             /* if not SIG, have signature */
--+             (clen == SIG &&                    /* if not SIG, no signature */
--+              ((G.lrec.csize & LOW) != SIG ||   /* if not SIG, have signature */
--+               (ulen == SIG &&                  /* if not SIG, no signature */
--+                (G.zip64 ? G.lrec.csize >> 32 : G.lrec.ucsize) != SIG
--+                                                /* if not SIG, have signature */
--+                )))))
--+                   /* skip four more bytes to account for signature */
--+                   shy += 4 - readbuf((char *)buf, 4);
--+        if (G.zip64)
--+            shy += 8 - readbuf((char *)buf, 8); /* skip eight more for ZIP64 */
--+        if (shy)
--+            error = PK_ERR;
--+    }
--+
--     return error;
-- 
-- } /* end function extract_or_test_member() */
----- a/globals.c
--+++ b/globals.c
--@@ -181,6 +181,7 @@
-- # if (!defined(NO_TIMESTAMPS))
--     uO.D_flag=1;    /* default to '-D', no restoration of dir timestamps */
-- # endif
--+    G.cover = NULL;     /* not allocated yet */
-- #endif
-- 
--     uO.lflag=(-1);
----- a/globals.h
--+++ b/globals.h
--@@ -260,12 +260,15 @@
--     ecdir_rec       ecrec;         /* used in unzip.c, extract.c */
--     z_stat   statbuf;              /* used by main, mapname, check_for_newer */
-- 
--+    int zip64;                     /* true if Zip64 info in extra field */
--+
--     int      mem_mode;
--     uch      *outbufptr;           /* extract.c static */
--     ulg      outsize;              /* extract.c static */
--     int      reported_backslash;   /* extract.c static */
--     int      disk_full;
--     int      newfile;
--+    void     **cover;              /* used in extract.c for bomb detection */
-- 
--     int      didCRlast;            /* fileio static */
--     ulg      numlines;             /* fileio static: number of lines printed */
----- a/process.c
--+++ b/process.c
--@@ -637,6 +637,13 @@
--     }
-- #endif
-- 
--+    /* Free the cover span list and the cover structure. */
--+    if (G.cover != NULL) {
--+        free(*(G.cover));
--+        free(G.cover);
--+        G.cover = NULL;
--+    }
--+
-- } /* end function free_G_buffers() */
-- 
-- 
--@@ -1913,6 +1920,8 @@
-- #define Z64FLGS 0xffff
-- #define Z64FLGL 0xffffffff
-- 
--+    G.zip64 = FALSE;
--+
--     if (ef_len == 0 || ef_buf == NULL)
--         return PK_COOL;
-- 
--@@ -2084,6 +2093,8 @@
--                     (ZCONST char *)(offset + ef_buf), ULen);
--             G.unipath_filename[ULen] = '\0';
--           }
--+
--+          G.zip64 = TRUE;
--         }
-- 
--         /* Skip this extra field block */
----- a/unzip.h
--+++ b/unzip.h
--@@ -645,6 +645,7 @@
-- #define PK_NOZIP           9   /* zipfile not found */
-- #define PK_PARAM          10   /* bad or illegal parameters specified */
-- #define PK_FIND           11   /* no files found */
--+#define PK_BOMB           12   /* likely zip bomb */
-- #define PK_DISK           50   /* disk full */
-- #define PK_EOF            51   /* unexpected EOF */
-- 
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index 1d18526ce2..daba722722 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -22,7 +22,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
- 	file://symlink.patch \
- 	file://0001-unzip-fix-CVE-2018-1000035.patch \
- 	file://CVE-2018-18384.patch \
--        file://CVE-2019-13232.patch \
- "
- UPSTREAM_VERSION_UNKNOWN = "1"
- 
+  git://git.openembedded.org/openembedded-core-contrib stable/thud-nmut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/thud-nmut
+
+Armin Kuster (16):
+  glibc: Security fix CVE-2019-9169
+  elfutils: Security fixes  CVE-2019-7146,7149,7150
+  qemu: Several CVE fixes
+  python: Update to 2.7.16
+  busybox: Security fixes for CVE-2018-20679 CVE-2019-5747
+  sqlite3: Security fixes for CVE-2018-20505 & 20506
+  file: Multiple Secruity fixes
+  go: update to minor update 1.11.10
+  qemu: Security fix for CVE-2018-19489
+  Tar: Security fix CVE-2019-0023
+  glib-2.0: Security fix for CVE-2019-12450
+  wget: Security fix for CVE-2019-5953
+  Curl: Securiyt fix CVE-2019-5435 CVE-2019-5436
+  qemu: Security fix for CVE-2019-12155
+  qemu: Security fixes CVE-2018-20815 CVE-2019-9824
+  glib: Security fix for CVE-2019-9633
+
+Chen Qi (2):
+  cups: upgrade to 2.2.9
+  cups: upgrade to 2.2.10
+
+Hongxu Jia (1):
+  go-target.inc: fix go not found while multilib enabled
+
+Joshua DeWeese (1):
+  wpa_supplicant: Changed systemd template units
+
+Khem Raj (1):
+  go: Upgrade 1.11.1 -> 1.11.4 minor release
+
+Martin Jansa (1):
+  python: add a fix for CVE-2019-9948 and CVE-2019-9636
+
+Richard Purdie (4):
+  go-crosssdk: PN should use SDK_SYS, not TARGET_ARCH
+  yocto-uninative: Update to 2.5 release
+  uninative: Switch from bz2 to xz
+  uninative: Update to 2.6 release
+
+Robert Yang (1):
+  uboot-sign.bbclass: Remove tab indentations in python code
+
+Ross Burton (3):
+  cairo: fix CVE-2018-19876 CVE-2019-6461 CVE-2019-6462
+  lighttpd: fix CVE-2019-11072
+  glibc: backport CVE fixes
+
+ meta/classes/uboot-sign.bbclass                    |  20 +-
+ meta/classes/uninative.bbclass                     |   4 +-
+ meta/conf/distro/include/yocto-uninative.inc       |   8 +-
+ ...place-systemd-install-Alias-with-WantedBy.patch |  52 ++++
+ .../wpa-supplicant/wpa-supplicant_2.6.bb           |   1 +
+ .../busybox/busybox/CVE-2018-20679.patch           | 142 +++++++++
+ .../busybox/busybox/CVE-2019-5747.patch            |  60 ++++
+ meta/recipes-core/busybox/busybox_1.29.3.bb        |   2 +
+ .../glib-2.0/glib-2.0/CVE-2019-12450.patch         |  59 ++++
+ .../glib-2.0/glib-2.0/CVE-2019-9633_p1.patch       | 316 +++++++++++++++++++++
+ .../glib-2.0/glib-2.0/CVE-2019-9633_p2.patch       | 231 +++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb      |   3 +
+ meta/recipes-core/glibc/glibc/CVE-2016-10739.patch | 232 +++++++++++++++
+ meta/recipes-core/glibc/glibc/CVE-2018-19591.patch |  48 ++++
+ meta/recipes-core/glibc/glibc/CVE-2019-9169.patch  |  63 ++++
+ meta/recipes-core/glibc/glibc_2.28.bb              |   3 +
+ meta/recipes-devtools/elfutils/elfutils_0.175.bb   |   4 +
+ .../elfutils/files/CVE-2019-7146_p1.patch          |  52 ++++
+ .../elfutils/files/CVE-2019-7146_p2.patch          |  65 +++++
+ .../elfutils/files/CVE-2019-7149.patch             | 148 ++++++++++
+ .../elfutils/files/CVE-2019-7150.patch             |  51 ++++
+ .../recipes-devtools/file/file/CVE-2019-8904.patch |  30 ++
+ .../file/file/CVE-2019-8905_CVE-2019-8907.patch    | 120 ++++++++
+ .../recipes-devtools/file/file/CVE-2019-8906.patch |  27 ++
+ meta/recipes-devtools/file/file_5.34.bb            |   3 +
+ meta/recipes-devtools/go/go-1.11.inc               |   7 +-
+ ...07-cmd-go-make-GOROOT-precious-by-default.patch |   6 +-
+ .../0008-use-GOBUILDMODE-to-set-buildmode.patch    |  13 +-
+ meta/recipes-devtools/go/go-crosssdk.inc           |   2 +-
+ meta/recipes-devtools/go/go-target.inc             |   2 +-
+ ...on-native_2.7.15.bb => python-native_2.7.16.bb} |   2 -
+ meta/recipes-devtools/python/python.inc            |  18 +-
+ ...23-Use-XML_SetHashSalt-in-_elementtree-GH.patch |  96 -------
+ ...ix-test_ssl-when-a-filename-cannot-be-enc.patch |  55 ----
+ ...LS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch | 120 --------
+ ...34540-Convert-shutil._call_external_zip-t.patch |  67 -----
+ ...dd-missing-closing-wrapper-in-test_tls1_3.patch |  37 ---
+ ...ix-test_ssl.test_options-to-account-for-O.patch |  37 ---
+ ...ix-test_default_ecdh_curve-needs-no-tlsv1.patch |  34 ---
+ .../python/bpo-35907-cve-2019-9948-fix.patch       |  55 ++++
+ .../python/python/bpo-35907-cve-2019-9948.patch    |  55 ++++
+ .../python/bpo-36216-cve-2019-9636-fix.patch       |  28 ++
+ .../python/python/bpo-36216-cve-2019-9636.patch    | 111 ++++++++
+ .../python/{python_2.7.15.bb => python_2.7.16.bb}  |   6 +-
+ .../qemu/qemu/CVE-2018-16867.patch                 |  49 ++++
+ .../qemu/qemu/CVE-2018-16872.patch                 |  89 ++++++
+ .../qemu/qemu/CVE-2018-18849.patch                 |  86 ++++++
+ .../qemu/qemu/CVE-2018-19364_p1.patch              |  51 ++++
+ .../qemu/qemu/CVE-2018-19364_p2.patch              | 115 ++++++++
+ .../qemu/qemu/CVE-2018-19489.patch                 |  83 ++++++
+ .../qemu/qemu/CVE-2018-20815_p1.patch              |  42 +++
+ .../qemu/qemu/CVE-2018-20815_p2.patch              |  52 ++++
+ .../qemu/qemu/CVE-2019-12155.patch                 |  38 +++
+ .../recipes-devtools/qemu/qemu/CVE-2019-9824.patch |  47 +++
+ meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  10 +
+ .../0001-don-t-try-to-run-generated-binaries.patch |  29 +-
+ .../cups/{cups_2.2.8.bb => cups_2.2.10.bb}         |   4 +-
+ .../lighttpd/lighttpd/fix-http-parseopts.patch     |  51 ++++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.51.bb  |   1 +
+ meta/recipes-extended/tar/tar/CVE-2019-9923.patch  |  38 +++
+ meta/recipes-extended/tar/tar_1.30.bb              |   1 +
+ .../recipes-extended/wget/wget/CVE-2019-5953.patch |  51 ++++
+ meta/recipes-extended/wget/wget_1.19.5.bb          |   1 +
+ .../cairo/cairo/CVE-2019-6461.patch                |  19 ++
+ .../cairo/cairo/CVE-2019-6462.patch                |  20 ++
+ meta/recipes-graphics/cairo/cairo_1.14.12.bb       |   2 +
+ meta/recipes-support/curl/curl/CVE-2019-5435.patch | 200 +++++++++++++
+ meta/recipes-support/curl/curl/CVE-2019-5436.patch |  32 +++
+ meta/recipes-support/curl/curl_7.61.0.bb           |   2 +
+ .../sqlite/files/CVE-2018-20505.patch              |  31 ++
+ .../sqlite/files/CVE-2018-20506.patch              | 103 +++++++
+ meta/recipes-support/sqlite/sqlite3_3.23.1.bb      |   2 +
+ 72 files changed, 3233 insertions(+), 511 deletions(-)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2018-20679.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-9633_p1.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-9633_p2.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-10739.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-19591.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p1.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p2.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7149.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7150.patch
+ create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8904.patch
+ create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch
+ create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8906.patch
+ rename meta/recipes-devtools/python/{python-native_2.7.15.bb => python-native_2.7.16.bb} (96%)
+ delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0001-bpo-33354-Fix-test_ssl-when-a-filename-cannot-be-enc.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0001-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0002-bpo-34818-Add-missing-closing-wrapper-in-test_tls1_3.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0003-bpo-34834-Fix-test_ssl.test_options-to-account-for-O.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0004-bpo-34836-fix-test_default_ecdh_curve-needs-no-tlsv1.patch
+ create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
+ create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
+ create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
+ create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
+ rename meta/recipes-devtools/python/{python_2.7.15.bb => python_2.7.16.bb} (98%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-16867.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-16872.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-18849.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-20815_p1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-20815_p2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-12155.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-9824.patch
+ rename meta/recipes-extended/cups/{cups_2.2.8.bb => cups_2.2.10.bb} (40%)
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/fix-http-parseopts.patch
+ create mode 100644 meta/recipes-extended/tar/tar/CVE-2019-9923.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2019-5953.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+ create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5435.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5436.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20505.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20506.patch
+
 -- 
-2.22.0
+2.7.4
 
 
