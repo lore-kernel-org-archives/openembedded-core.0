@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
-	[209.85.214.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6796A7ED5C
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+	[209.85.210.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D5A87EE19
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 14:25:28 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id az7so17872012plb.5
+	Sun, 21 Jul 2019 14:25:29 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id q10so16118897pff.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 07:25:29 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=arAaWj/EFW9MbMxqzkRjfaOBEakaRSVBhPbSD4zZbiM=;
-	b=sWy/ftwBAHMmwVrvtjYiqMR6CxmC/8QTWSEkAI7F50ak4nsuMWdWNMegms9NYIw6US
-	Fg8mYoZ5NORFiIQEZP0W4l764KdUcsX1Kdz9RNHKR03y5l7v/xxhwITMekZ7YIcXMHbp
-	Z3oPhjTwpYpjWASUkh2iYYDJGNXVJy3GuoUSK7gCjCkNSLXjc3GdPVjWJkm58O4Wrf0b
-	KSQ6vdabxApQtRHj/muHU0MWP4l4jhRLA20PEOWujHjAufnRUP1zRdUwazUYiM4NJVwO
-	NtXUw8gbzkbPGqCdQn1zPXiwIeoDOahYEsnUfTrCQGLyJPu2hQ1Oi2mFt2BWV+pa0wW2
-	RQvQ==
+	bh=qSIa913X/eojZHRFwVKTEyQL4Ho56g+BjQZGbPBT4zM=;
+	b=lBM9VGAEsRRe473JxFyqJ9WMQ6d5wVJiezcjP181L+XEPrVtKaktBYRf8TIWkEvFqJ
+	PTddNBbXGjswcOLAuUh0WlIk3aEyx9ZpemTl+HJO9sZ4F74aRW6+6kMn+bWsB1jPnmUc
+	RfTMDyrkqpxop/XmK7aERsF6W2P4yrvS2ukaNy2HbTcntk3UmLzYYGsEFGgkXKjdwDR9
+	FSOIvGvd4+54LARq5JM1kvybhJyPqXnhPYBSdYV73LqLcrU20hY/4CCYmF+BaREz4NjH
+	cOCz2IEPiByx/BKrodwf4osu9Kh+Fcae0sv2luUHbxbDa+OautWsw0NwbXKNMKZ65AqD
+	Oiig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=arAaWj/EFW9MbMxqzkRjfaOBEakaRSVBhPbSD4zZbiM=;
-	b=jkVvsAvxohUMFSi0VDJfEeWtdvcUBZ+lwu9UsSmdi85NFPOrIQySSe9nKJ9XbXFogY
-	w/XoFANyxzOfiuj8WozFhAciCCI47UdQn+M3SCROdAOsW3oam89EuJ8BTmMI49JFUsqN
-	7CTUo+vOjgc0+SDfOYs0BPU0g7PdRMVpXr6atfCuvtvFCUrAzafc70KWWlAMe0bTTXo7
-	eGKhIvY5YPzZTRpZNpWiZMQFDBkTZx7/KvDfIl+IdFzJ77ww84upQ2/AgfS/XNA7N1Sf
-	o07Vh8cv2f2m8tHIfJPfPkHKcs1QuqnsDL6gSNb3ADmcYGdH6yLcD9up7oJs9/CoNlPV
-	l/zA==
-X-Gm-Message-State: APjAAAUQLo0/CKUrxNZu0FoSMg/gJ+bAbUyUIPCSvnys4JuH2LEkj+rc
-	yQBq+3R/URrzg5G2TLUZJHWiIvkD
-X-Google-Smtp-Source: APXvYqwp/qqkB0iQfY4dPKaPooZeOY/ytK9KCNbK4QYyMHmVQGZqLKxamUAgChFH/1nyTOJ+ExJirQ==
-X-Received: by 2002:a17:902:7894:: with SMTP id
-	q20mr67656734pll.339.1563719129240; 
-	Sun, 21 Jul 2019 07:25:29 -0700 (PDT)
+	bh=qSIa913X/eojZHRFwVKTEyQL4Ho56g+BjQZGbPBT4zM=;
+	b=Ri0A35iuptbe7O3Q3HoJ/1oPw9H1dS92ik80GShh3Lqg2Fkd1Bs2WSl53UVl4mGhF6
+	SKlO6LlFRMr67AVo6Tnz5SPdgo9cT4pkHluoe9LTMOFelyGXCcjk+tavbsinvAAlshVn
+	HyxGNSyGFySF6xrooPvNJdOidwFrpJwfU1eoE82tPleXRPts9E+RkG96WIPAiu0U/Eml
+	ywqm1Lzwk9lwVbrtqrqOxLXhP8wp0cIzFo/uIQOurPBbiNpqRtl+OvQ8Zl+0DG0qDlhQ
+	ei80a6RIf8PaEWJCPoZeciUxbTcRnUccASpElBcvzMyh6j2o59xcWg4W/c4mHi5JYYeZ
+	W9Ag==
+X-Gm-Message-State: APjAAAVyaIE8sS5bFTFTPsv+P+LqVB5xCvk/CkSwBffW2zvWSOm8z3P/
+	CAEyTe/nbsIB+BcyyxmLfj7mAePk
+X-Google-Smtp-Source: APXvYqyPwTov9JBv6nZKk6XcqpW7Tvgr6zejHrlIggDVELZGaBhigaBveGcCvVc732e5d0zjWaiCzw==
+X-Received: by 2002:a63:5f09:: with SMTP id t9mr33162942pgb.351.1563719130144; 
+	Sun, 21 Jul 2019 07:25:30 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:bd4d:a6f4:da99:27b4])
 	by smtp.gmail.com with ESMTPSA id
-	a3sm28807750pfc.70.2019.07.21.07.25.28
+	a3sm28807750pfc.70.2019.07.21.07.25.29
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Jul 2019 07:25:28 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:29 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jul 2019 07:24:54 -0700
-Message-Id: <e7bdff05da6075efc21c5ac9492b06e481e5a239.1563719003.git.akuster808@gmail.com>
+Date: Sun, 21 Jul 2019 07:24:55 -0700
+Message-Id: <7db146abad6d2bbb7d7a549e7091412e0e494db2.1563719003.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1563719003.git.akuster808@gmail.com>
 References: <cover.1563719003.git.akuster808@gmail.com>
-Subject: [thud] 05/30] python: add a fix for CVE-2019-9948 and CVE-2019-9636
+Subject: [thud] 06/30] busybox: Security fixes for CVE-2018-20679 CVE-2019-5747
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,329 +59,257 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Jul 2019 14:25:28 -0000
+X-List-Received-Date: Sun, 21 Jul 2019 14:25:29 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
-
-Source: OpenEmbedded.org
-MR: 98320, 98319
+Source: busybox.git
+MR: 97332
 Type: Security Fix
-Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/python/python_2.7.16.bb?id=9d23b982fa4e0290761b3d15f6959779fed72ad6
-ChangeID: e79b6fe3b7b4253bf0d76b029070ae869d5234bd
+Disposition: Backport from busybox.git
+ChangeID: ec203c79e7322de1ed5721d08b6f59b1eca67c7d
 Description:
 
+Affects < 1.30.0
+
 Fixes:
-CVE-2019-9948
-CVE-2019-9636
+CVE-2018-20679
+CVE-2019-5747
 
-CVE-2019-9940 is a dup of 9948 per python.org
-CVE-2019-9947 appears to be a dup of 9940 per https://bugs.python.org/issue30458#msg295067
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[Minor clean up for thud]
-Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../python/bpo-35907-cve-2019-9948-fix.patch       |  55 ++++++++++
- .../python/python/bpo-35907-cve-2019-9948.patch    |  55 ++++++++++
- .../python/bpo-36216-cve-2019-9636-fix.patch       |  28 ++++++
- .../python/python/bpo-36216-cve-2019-9636.patch    | 111 +++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.16.bb      |   4 +
- 5 files changed, 253 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
+ .../busybox/busybox/CVE-2018-20679.patch           | 142 +++++++++++++++++++++
+ .../busybox/busybox/CVE-2019-5747.patch            |  60 +++++++++
+ meta/recipes-core/busybox/busybox_1.29.3.bb        |   2 +
+ 3 files changed, 204 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2018-20679.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
 
-diff --git a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2018-20679.patch b/meta/recipes-core/busybox/busybox/CVE-2018-20679.patch
 new file mode 100644
-index 0000000..b267237
+index 0000000..e469376
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
-@@ -0,0 +1,55 @@
-+From 179a5f75f1121dab271fe8f90eb35145f9dcbbda Mon Sep 17 00:00:00 2001
-+From: Sihoon Lee <push0ebp@gmail.com>
-+Date: Fri, 17 May 2019 02:41:06 +0900
-+Subject: [PATCH] Update test_urllib.py and urllib.py\nchange assertEqual into
-+ assertRasies in DummyURLopener test, and simplify mitigation
++++ b/meta/recipes-core/busybox/busybox/CVE-2018-20679.patch
+@@ -0,0 +1,142 @@
++From 6d3b4bb24da9a07c263f3c1acf8df85382ff562c Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Mon, 17 Dec 2018 18:07:18 +0100
++Subject: [PATCH] udhcpc: check that 4-byte options are indeed 4-byte, closes
++ 11506
 +
-+Upstream-Status: Submitted https://github.com/python/cpython/pull/11842
++function                                             old     new   delta
++udhcp_get_option32                                     -      27     +27
++udhcp_get_option                                     231     248     +17
++------------------------------------------------------------------------------
++(add/remove: 1/0 grow/shrink: 1/0 up/down: 44/0)               Total: 44 bytes
 +
-+CVE: CVE-2019-9948
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
 +
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++Upstream-Status: Backport
++CVE: CVE-2018-20679
++
++Affects < 1.30.0
++
++signed-off-by: Armin Kuster <akuster@mvista.com>
++
 +---
-+ Lib/test/test_urllib.py | 11 +++--------
-+ Lib/urllib.py           |  4 ++--
-+ 2 files changed, 5 insertions(+), 10 deletions(-)
++ networking/udhcp/common.c | 19 +++++++++++++++++++
++ networking/udhcp/common.h |  4 ++++
++ networking/udhcp/dhcpc.c  |  6 +++---
++ networking/udhcp/dhcpd.c  |  6 +++---
++ 4 files changed, 29 insertions(+), 6 deletions(-)
 +
-+diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
-+index e5f210e62a18..1e23dfb0bb16 100644
-+--- a/Lib/test/test_urllib.py
-++++ b/Lib/test/test_urllib.py
-+@@ -1027,14 +1027,9 @@ def test_local_file_open(self):
-+         class DummyURLopener(urllib.URLopener):
-+             def open_local_file(self, url):
-+                 return url
-+-        self.assertEqual(DummyURLopener().open(
-+-            'local-file://example'), '//example')
-+-        self.assertEqual(DummyURLopener().open(
-+-            'local_file://example'), '//example')
-+-        self.assertRaises(IOError, urllib.urlopen,
-+-            'local-file://example')
-+-        self.assertRaises(IOError, urllib.urlopen,
-+-            'local_file://example')
-++        for url in ('local_file://example', 'local-file://example'):
-++            self.assertRaises(IOError, DummyURLopener().open, url)
-++            self.assertRaises(IOError, urllib.urlopen, url)
++Index: busybox-1.29.3/networking/udhcp/common.c
++===================================================================
++--- busybox-1.29.3.orig/networking/udhcp/common.c
+++++ busybox-1.29.3/networking/udhcp/common.c
++@@ -270,6 +270,15 @@ uint8_t* FAST_FUNC udhcp_get_option(stru
++ 			goto complain; /* complain and return NULL */
 + 
-+ # Just commented them out.
-+ # Can't really tell why keep failing in windows and sparc.
-+diff --git a/Lib/urllib.py b/Lib/urllib.py
-+index a24e9a5c68fb..39b834054e9e 100644
-+--- a/Lib/urllib.py
-++++ b/Lib/urllib.py
-+@@ -203,10 +203,10 @@ def open(self, fullurl, data=None):
-+         name = 'open_' + urltype
-+         self.type = urltype
-+         name = name.replace('-', '_')
-+-        
++ 		if (optionptr[OPT_CODE] == code) {
+++			if (optionptr[OPT_LEN] == 0) {
+++				/* So far no valid option with length 0 known.
+++				 * Having this check means that searching
+++				 * for DHCP_MESSAGE_TYPE need not worry
+++				 * that returned pointer might be unsafe
+++				 * to dereference.
+++				 */
+++				goto complain; /* complain and return NULL */
+++			}
++ 			log_option("option found", optionptr);
++ 			return optionptr + OPT_DATA;
++ 		}
++@@ -287,6 +296,16 @@ uint8_t* FAST_FUNC udhcp_get_option(stru
++ 	return NULL;
++ }
++ 
+++uint8_t* FAST_FUNC udhcp_get_option32(struct dhcp_packet *packet, int code)
+++{
+++	uint8_t *r = udhcp_get_option(packet, code);
+++	if (r) {
+++		if (r[-1] != 4)
+++			r = NULL;
+++	}
+++	return r;
+++}
 ++
-+         # bpo-35907: # disallow the file reading with the type not allowed
-+         if not hasattr(self, name) or \
-+-            (self == _urlopener and name == 'open_local_file'):
-++            getattr(self, name) == self.open_local_file:
-+             if proxy:
-+                 return self.open_unknown_proxy(proxy, fullurl, data)
-+             else:
-diff --git a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
++ /* Return the position of the 'end' option (no bounds checking) */
++ int FAST_FUNC udhcp_end_option(uint8_t *optionptr)
++ {
++Index: busybox-1.29.3/networking/udhcp/common.h
++===================================================================
++--- busybox-1.29.3.orig/networking/udhcp/common.h
+++++ busybox-1.29.3/networking/udhcp/common.h
++@@ -204,6 +204,10 @@ extern const uint8_t dhcp_option_lengths
++ unsigned FAST_FUNC udhcp_option_idx(const char *name, const char *option_strings);
++ 
++ uint8_t *udhcp_get_option(struct dhcp_packet *packet, int code) FAST_FUNC;
+++/* Same as above + ensures that option length is 4 bytes
+++ * (returns NULL if size is different)
+++ */
+++uint8_t *udhcp_get_option32(struct dhcp_packet *packet, int code) FAST_FUNC;
++ int udhcp_end_option(uint8_t *optionptr) FAST_FUNC;
++ void udhcp_add_binary_option(struct dhcp_packet *packet, uint8_t *addopt) FAST_FUNC;
++ #if ENABLE_UDHCPC || ENABLE_UDHCPD
++Index: busybox-1.29.3/networking/udhcp/dhcpc.c
++===================================================================
++--- busybox-1.29.3.orig/networking/udhcp/dhcpc.c
+++++ busybox-1.29.3/networking/udhcp/dhcpc.c
++@@ -1694,7 +1694,7 @@ int udhcpc_main(int argc UNUSED_PARAM, c
++  * They say ISC DHCP client supports this case.
++  */
++ 				server_addr = 0;
++-				temp = udhcp_get_option(&packet, DHCP_SERVER_ID);
+++				temp = udhcp_get_option32(&packet, DHCP_SERVER_ID);
++ 				if (!temp) {
++ 					bb_error_msg("no server ID, using 0.0.0.0");
++ 				} else {
++@@ -1721,7 +1721,7 @@ int udhcpc_main(int argc UNUSED_PARAM, c
++ 				struct in_addr temp_addr;
++ 				uint8_t *temp;
++ 
++-				temp = udhcp_get_option(&packet, DHCP_LEASE_TIME);
+++				temp = udhcp_get_option32(&packet, DHCP_LEASE_TIME);
++ 				if (!temp) {
++ 					bb_error_msg("no lease time with ACK, using 1 hour lease");
++ 					lease_seconds = 60 * 60;
++@@ -1817,7 +1817,7 @@ int udhcpc_main(int argc UNUSED_PARAM, c
++ 					uint32_t svid;
++ 					uint8_t *temp;
++ 
++-					temp = udhcp_get_option(&packet, DHCP_SERVER_ID);
+++					temp = udhcp_get_option32(&packet, DHCP_SERVER_ID);
++ 					if (!temp) {
++  non_matching_svid:
++ 						log1("received DHCP NAK with wrong"
++Index: busybox-1.29.3/networking/udhcp/dhcpd.c
++===================================================================
++--- busybox-1.29.3.orig/networking/udhcp/dhcpd.c
+++++ busybox-1.29.3/networking/udhcp/dhcpd.c
++@@ -640,7 +640,7 @@ static void add_server_options(struct dh
++ static uint32_t select_lease_time(struct dhcp_packet *packet)
++ {
++ 	uint32_t lease_time_sec = server_config.max_lease_sec;
++-	uint8_t *lease_time_opt = udhcp_get_option(packet, DHCP_LEASE_TIME);
+++	uint8_t *lease_time_opt = udhcp_get_option32(packet, DHCP_LEASE_TIME);
++ 	if (lease_time_opt) {
++ 		move_from_unaligned32(lease_time_sec, lease_time_opt);
++ 		lease_time_sec = ntohl(lease_time_sec);
++@@ -987,7 +987,7 @@ int udhcpd_main(int argc UNUSED_PARAM, c
++ 		}
++ 
++ 		/* Get SERVER_ID if present */
++-		server_id_opt = udhcp_get_option(&packet, DHCP_SERVER_ID);
+++		server_id_opt = udhcp_get_option32(&packet, DHCP_SERVER_ID);
++ 		if (server_id_opt) {
++ 			uint32_t server_id_network_order;
++ 			move_from_unaligned32(server_id_network_order, server_id_opt);
++@@ -1011,7 +1011,7 @@ int udhcpd_main(int argc UNUSED_PARAM, c
++ 		}
++ 
++ 		/* Get REQUESTED_IP if present */
++-		requested_ip_opt = udhcp_get_option(&packet, DHCP_REQUESTED_IP);
+++		requested_ip_opt = udhcp_get_option32(&packet, DHCP_REQUESTED_IP);
++ 		if (requested_ip_opt) {
++ 			move_from_unaligned32(requested_nip, requested_ip_opt);
++ 		}
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2019-5747.patch b/meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
 new file mode 100644
-index 0000000..f4c225d
+index 0000000..4225b11
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
-@@ -0,0 +1,55 @@
-+From 8f99cc799e4393bf1112b9395b2342f81b3f45ef Mon Sep 17 00:00:00 2001
-+From: push0ebp <push0ebp@shl-MacBook-Pro.local>
-+Date: Thu, 14 Feb 2019 02:05:46 +0900
-+Subject: [PATCH] bpo-35907: Avoid file reading as disallowing the unnecessary
-+ URL scheme in urllib
++++ b/meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
+@@ -0,0 +1,60 @@
++From 74d9f1ba37010face4bd1449df4d60dd84450b06 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Mon, 7 Jan 2019 15:33:42 +0100
++Subject: [PATCH] udhcpc: when decoding DHCP_SUBNET, ensure it is 4 bytes long
 +
-+Upstream-Status: Submitted https://github.com/python/cpython/pull/11842
++function                                             old     new   delta
++udhcp_run_script                                     795     801      +6
 +
-+CVE: CVE-2019-9948
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
 +
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++Upstream-Status: Backport
++CVE: CVE-2019-5747
++Affects < 1.30.0
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
 +---
-+ Lib/test/test_urllib.py | 12 ++++++++++++
-+ Lib/urllib.py           |  5 ++++-
-+ 2 files changed, 16 insertions(+), 1 deletion(-)
++ networking/udhcp/common.c | 2 +-
++ networking/udhcp/common.h | 2 +-
++ networking/udhcp/dhcpc.c  | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
 +
-+diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
-+index 1ce9201c0693..e5f210e62a18 100644
-+--- a/Lib/test/test_urllib.py
-++++ b/Lib/test/test_urllib.py
-+@@ -1023,6 +1023,18 @@ def open_spam(self, url):
-+             "spam://c:|windows%/:=&?~#+!$,;'@()*[]|/path/"),
-+             "//c:|windows%/:=&?~#+!$,;'@()*[]|/path/")
-+ 
-++    def test_local_file_open(self):
-++        class DummyURLopener(urllib.URLopener):
-++            def open_local_file(self, url):
-++                return url
-++        self.assertEqual(DummyURLopener().open(
-++            'local-file://example'), '//example')
-++        self.assertEqual(DummyURLopener().open(
-++            'local_file://example'), '//example')
-++        self.assertRaises(IOError, urllib.urlopen,
-++            'local-file://example')
-++        self.assertRaises(IOError, urllib.urlopen,
-++            'local_file://example')
-+ 
-+ # Just commented them out.
-+ # Can't really tell why keep failing in windows and sparc.
-+diff --git a/Lib/urllib.py b/Lib/urllib.py
-+index d85504a5cb7e..a24e9a5c68fb 100644
-+--- a/Lib/urllib.py
-++++ b/Lib/urllib.py
-+@@ -203,7 +203,10 @@ def open(self, fullurl, data=None):
-+         name = 'open_' + urltype
-+         self.type = urltype
-+         name = name.replace('-', '_')
-+-        if not hasattr(self, name):
-++        
-++        # bpo-35907: # disallow the file reading with the type not allowed
-++        if not hasattr(self, name) or \
-++            (self == _urlopener and name == 'open_local_file'):
-+             if proxy:
-+                 return self.open_unknown_proxy(proxy, fullurl, data)
-+             else:
-diff --git a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
-new file mode 100644
-index 0000000..2ce4d2c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
-@@ -0,0 +1,28 @@
-+From 06b5ee585d6e76bdbb4002f642d864d860cbbd2b Mon Sep 17 00:00:00 2001
-+From: Steve Dower <steve.dower@python.org>
-+Date: Tue, 12 Mar 2019 08:23:33 -0700
-+Subject: [PATCH] bpo-36216: Only print test messages when verbose
-+
-+CVE: CVE-2019-9636
-+ 
-+Upstream-Status: Backport https://github.com/python/cpython/pull/12291/commits/06b5ee585d6e76bdbb4002f642d864d860cbbd2b
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ Lib/test/test_urlparse.py | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
-+index 73b0228ea8e3..1830d0b28688 100644
-+--- a/Lib/test/test_urlparse.py
-++++ b/Lib/test/test_urlparse.py
-+@@ -644,7 +644,8 @@ def test_urlsplit_normalization(self):
-+         for scheme in [u"http", u"https", u"ftp"]:
-+             for c in denorm_chars:
-+                 url = u"{}://netloc{}false.netloc/path".format(scheme, c)
-+-                print "Checking %r" % url
-++                if test_support.verbose:
-++                    print "Checking %r" % url
-+                 with self.assertRaises(ValueError):
-+                     urlparse.urlsplit(url)
-+ 
-diff --git a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
-new file mode 100644
-index 0000000..352b13b
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
-@@ -0,0 +1,111 @@
-+From 3e3669c9c41a27e1466e2c28b3906e3dd0ce3e7e Mon Sep 17 00:00:00 2001
-+From: Steve Dower <steve.dower@python.org>
-+Date: Thu, 7 Mar 2019 08:25:22 -0800
-+Subject: [PATCH] bpo-36216: Add check for characters in netloc that normalize
-+ to separators (GH-12201)
-+
-+CVE: CVE-2019-9636
-+
-+Upstream-Status: Backport https://github.com/python/cpython/pull/12216/commits/3e3669c9c41a27e1466e2c28b3906e3dd0ce3e7e
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ Doc/library/urlparse.rst                      | 20 ++++++++++++++++
-+ Lib/test/test_urlparse.py                     | 24 +++++++++++++++++++
-+ Lib/urlparse.py                               | 17 +++++++++++++
-+ .../2019-03-06-09-38-40.bpo-36216.6q1m4a.rst  |  3 +++
-+ 4 files changed, 64 insertions(+)
-+ create mode 100644 Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
-+
-+diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
-+index 4e1ded73c266..73b0228ea8e3 100644
-+--- a/Lib/test/test_urlparse.py
-++++ b/Lib/test/test_urlparse.py
-+@@ -1,4 +1,6 @@
-+ from test import test_support
-++import sys
-++import unicodedata
-+ import unittest
-+ import urlparse
-+ 
-+@@ -624,6 +626,28 @@ def test_portseparator(self):
-+         self.assertEqual(urlparse.urlparse("http://www.python.org:80"),
-+                 ('http','www.python.org:80','','','',''))
-+ 
-++    def test_urlsplit_normalization(self):
-++        # Certain characters should never occur in the netloc,
-++        # including under normalization.
-++        # Ensure that ALL of them are detected and cause an error
-++        illegal_chars = u'/:#?@'
-++        hex_chars = {'{:04X}'.format(ord(c)) for c in illegal_chars}
-++        denorm_chars = [
-++            c for c in map(unichr, range(128, sys.maxunicode))
-++            if (hex_chars & set(unicodedata.decomposition(c).split()))
-++            and c not in illegal_chars
-++        ]
-++        # Sanity check that we found at least one such character
-++        self.assertIn(u'\u2100', denorm_chars)
-++        self.assertIn(u'\uFF03', denorm_chars)
-++
-++        for scheme in [u"http", u"https", u"ftp"]:
-++            for c in denorm_chars:
-++                url = u"{}://netloc{}false.netloc/path".format(scheme, c)
-++                print "Checking %r" % url
-++                with self.assertRaises(ValueError):
-++                    urlparse.urlsplit(url)
-++
-+ def test_main():
-+     test_support.run_unittest(UrlParseTestCase)
-+ 
-+diff --git a/Lib/urlparse.py b/Lib/urlparse.py
-+index f7c2b032b097..54eda08651ab 100644
-+--- a/Lib/urlparse.py
-++++ b/Lib/urlparse.py
-+@@ -165,6 +165,21 @@ def _splitnetloc(url, start=0):
-+             delim = min(delim, wdelim)     # use earliest delim position
-+     return url[start:delim], url[delim:]   # return (domain, rest)
-+ 
-++def _checknetloc(netloc):
-++    if not netloc or not isinstance(netloc, unicode):
-++        return
-++    # looking for characters like \u2100 that expand to 'a/c'
-++    # IDNA uses NFKC equivalence, so normalize for this check
-++    import unicodedata
-++    netloc2 = unicodedata.normalize('NFKC', netloc)
-++    if netloc == netloc2:
-++        return
-++    _, _, netloc = netloc.rpartition('@') # anything to the left of '@' is okay
-++    for c in '/?#@:':
-++        if c in netloc2:
-++            raise ValueError("netloc '" + netloc2 + "' contains invalid " +
-++                             "characters under NFKC normalization")
-++
-+ def urlsplit(url, scheme='', allow_fragments=True):
-+     """Parse a URL into 5 components:
-+     <scheme>://<netloc>/<path>?<query>#<fragment>
-+@@ -193,6 +208,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
-+                 url, fragment = url.split('#', 1)
-+             if '?' in url:
-+                 url, query = url.split('?', 1)
-++            _checknetloc(netloc)
-+             v = SplitResult(scheme, netloc, url, query, fragment)
-+             _parse_cache[key] = v
-+             return v
-+@@ -216,6 +232,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
-+         url, fragment = url.split('#', 1)
-+     if '?' in url:
-+         url, query = url.split('?', 1)
-++    _checknetloc(netloc)
-+     v = SplitResult(scheme, netloc, url, query, fragment)
-+     _parse_cache[key] = v
-+     return v
-+diff --git a/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
-+new file mode 100644
-+index 000000000000..1e1ad92c6feb
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
-+@@ -0,0 +1,3 @@
-++Changes urlsplit() to raise ValueError when the URL contains characters that
-++decompose under IDNA encoding (NFKC-normalization) into characters that
-++affect how the URL is parsed.
-+\ No newline at end of file
-diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
-index 7fe16f7..9c79faf 100644
---- a/meta/recipes-devtools/python/python_2.7.16.bb
-+++ b/meta/recipes-devtools/python/python_2.7.16.bb
-@@ -31,6 +31,10 @@ SRC_URI += "\
-   file://pass-missing-libraries-to-Extension-for-mul.patch \
-   file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
-   file://float-endian.patch \
-+  file://bpo-35907-cve-2019-9948.patch \
-+  file://bpo-35907-cve-2019-9948-fix.patch \
-+  file://bpo-36216-cve-2019-9636.patch \
-+  file://bpo-36216-cve-2019-9636-fix.patch \
++Index: busybox-1.29.3/networking/udhcp/common.c
++===================================================================
++--- busybox-1.29.3.orig/networking/udhcp/common.c
+++++ busybox-1.29.3/networking/udhcp/common.c
++@@ -300,7 +300,7 @@ uint8_t* FAST_FUNC udhcp_get_option32(st
++ {
++ 	uint8_t *r = udhcp_get_option(packet, code);
++ 	if (r) {
++-		if (r[-1] != 4)
+++		if (r[-OPT_DATA + OPT_LEN] != 4)
++ 			r = NULL;
++ 	}
++ 	return r;
++Index: busybox-1.29.3/networking/udhcp/common.h
++===================================================================
++--- busybox-1.29.3.orig/networking/udhcp/common.h
+++++ busybox-1.29.3/networking/udhcp/common.h
++@@ -119,7 +119,7 @@ enum {
++ //#define DHCP_TIME_SERVER      0x04 /* RFC 868 time server (32-bit, 0 = 1.1.1900) */
++ //#define DHCP_NAME_SERVER      0x05 /* IEN 116 _really_ ancient kind of NS */
++ //#define DHCP_DNS_SERVER       0x06
++-//#define DHCP_LOG_SERVER       0x07 /* port 704 UDP log (not syslog)
+++//#define DHCP_LOG_SERVER       0x07 /* port 704 UDP log (not syslog) */
++ //#define DHCP_COOKIE_SERVER    0x08 /* "quote of the day" server */
++ //#define DHCP_LPR_SERVER       0x09
++ #define DHCP_HOST_NAME          0x0c /* either client informs server or server gives name to client */
++Index: busybox-1.29.3/networking/udhcp/dhcpc.c
++===================================================================
++--- busybox-1.29.3.orig/networking/udhcp/dhcpc.c
+++++ busybox-1.29.3/networking/udhcp/dhcpc.c
++@@ -526,7 +526,7 @@ static char **fill_envp(struct dhcp_pack
++ 		temp = udhcp_get_option(packet, code);
++ 		*curr = xmalloc_optname_optval(temp, &dhcp_optflags[i], opt_name);
++ 		putenv(*curr++);
++-		if (code == DHCP_SUBNET) {
+++		if (code == DHCP_SUBNET && temp[-OPT_DATA + OPT_LEN] == 4) {
++ 			/* Subnet option: make things like "$ip/$mask" possible */
++ 			uint32_t subnet;
++ 			move_from_unaligned32(subnet, temp);
+diff --git a/meta/recipes-core/busybox/busybox_1.29.3.bb b/meta/recipes-core/busybox/busybox_1.29.3.bb
+index 6064e9f..5714d70 100644
+--- a/meta/recipes-core/busybox/busybox_1.29.3.bb
++++ b/meta/recipes-core/busybox/busybox_1.29.3.bb
+@@ -41,6 +41,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://rcS \
+            file://rcK \
+            file://makefile-libbb-race.patch \
++           file://CVE-2018-20679.patch \
++	   file://CVE-2019-5747.patch \
  "
+ SRC_URI_append_libc-musl = " file://musl.cfg "
  
- S = "${WORKDIR}/Python-${PV}"
 -- 
 2.7.4
 
