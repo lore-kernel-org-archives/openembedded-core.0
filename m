@@ -1,50 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
-	[209.85.214.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0058371B99
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 86F8F71B99
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 14:25:23 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id ay6so17908225plb.9
+	Sun, 21 Jul 2019 14:25:24 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id m9so17807828pls.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 07:25:25 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=HUstN77OaUUlUyR8XBAmG9dTvSZYa4Mfh5Sr1kt/+Zk=;
-	b=ruyokO7lALC0uzk40R9QpvgFYsPLb2TtNyadRvMDE57KspIiXMGFNG4FzNlXDa6gLI
-	jYQ6yirLfOLkqkELUWPSt8FCp/LaFo7O/sKmqDbSs8SQyZ+ll2jXVa/0v2ZUJpUua7fO
-	W9sKUzimsI8Dq6RUvL31CsP1EuUc0p8G5KM0U2TLRwL9PcMODSXDgeOGsZCD7aoim46y
-	RQy9rM8UZvaMaLhVmr0bdYXcqJE4JWBSk+mNH4PVxsziEuomO7MgKYA/OFZR2XI4vcdx
-	gxydeUYelCTRHOo5C9PVenR6yGAhI3sk++aD3s/Esxw8Yi9a2w/z7jH524j/QdFDG+pq
-	7XAw==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=f8F5t1fxjZbpdCZEDpSQhbYzAVgvLDy3RxWpO5z5Uto=;
+	b=sQXheZgBbynVoD34sm/a17O8H8ty8JMhs0mgYETzbowp1iNdcEZSwpL4B6VNqOjhFz
+	Crv/uLVB4lwaM6nObKv1+Mbx5hjjgyirgV/orPDgAzTk6Sk5U+ZiLAv+NeIK50oWC+XF
+	z2m0zulbQN1XWJ4biD22Mxjf+MN+q7YhouB7inwMoo6sfkT8/I/z5IieXkmyIjuiUkCt
+	58c8t8+dNcfWbfC7YqimUIY+y1by/d/I7lwuZ7RHyLuf3g557VVTtDrVo2Vl0mUsWUWu
+	CVex2NzqSWqlWIlssnloVKsQzhcqCBAsxPgUkZlbGsLg+r6g6/+9rGrakdCH/uOYt2Gv
+	tIDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=HUstN77OaUUlUyR8XBAmG9dTvSZYa4Mfh5Sr1kt/+Zk=;
-	b=lvQBjpyTC2dgo5DQNBswSxBlgr/8HCiVAl5WJroVcC6FDWakblVEuzJlTupciM3lff
-	v5AXUm2z2n5wg3sow5n+dnnytCm++wwGuMRAGCLh3DaUdbpo6riE46CCRaW47zVrwl5L
-	7rVrVlM695RRdN8B++4SmIGohTkAQhVkV8/zrZ5204zR0FOmkdNvwOZ0A0VK37OnN/P1
-	E0ZXgmZm8ptn1kDoOugX7RHz7QhrGNSP/FJlx7Jg3UHPhqQDKwHmru1uaiwS03k1qTVC
-	nMQCNVQyKDRZxxyi5OWcM4OSviKZLlR42IXaecIbeznsaUkSdtx4TtxFHxxn4BP61bJ/
-	CTfA==
-X-Gm-Message-State: APjAAAXpvU+lFqIKjeb+BcHWMJv0HQy5miQ9/W1KJG2oz4AGfbs/32Sw
-	sy/ZggCinYEwXMdwdpH7Fq3BOVcu
-X-Google-Smtp-Source: APXvYqzMObsOQm3NkWq6S6Uw/mNX4sxSDpbGuP+2LVd94F7X2hgFzym75u6YDdI5k8JkoxbbBgMP3g==
-X-Received: by 2002:a17:902:a514:: with SMTP id
-	s20mr66555332plq.162.1563719124696; 
-	Sun, 21 Jul 2019 07:25:24 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=f8F5t1fxjZbpdCZEDpSQhbYzAVgvLDy3RxWpO5z5Uto=;
+	b=r6q9Q3BOFxcQWzgMdr98KpgyLGy92AoUxkU216gD8Karnf8UGMR3TCqc3gOVHI8b5f
+	Tof78NvYupdOi2w+oG9YJx/qm4b8GZkVM1kF13mA39fdqz2HL39AXkwU/dUAqS+xn5sd
+	pAyxnGiGsCgvZOq9fTl7yGkbQZOB/8QAgIg1JRu4n9MBGLzpDLl38u+5gkwQJ/dE9xGj
+	jG4mkQ4MXF9zhkPybUvAb21uDdPEWs5XIP2saxYnLR6Z9N0n9UM59xUIj1ETEZWToK1s
+	OZbyI72ZRES9JDanqfPUQyJv40Doo/9+/bB8fH1yEKQCU3anRht3ugyBTIPJJmT2xD2t
+	0imw==
+X-Gm-Message-State: APjAAAWD9kj19OqKhXO7vDrGzhW4a/JCo93u8Eg7/t81GKHF99lBcGEc
+	M9lvD+ajUKUyHXKRBvwhgO0oeVXx
+X-Google-Smtp-Source: APXvYqwrWv+ALibI/RWjwrqgbdpDaYqPXcMypLSuxZqhnk8X004akKT08VOtLK83nroRd7xTW4djXA==
+X-Received: by 2002:a17:902:1102:: with SMTP id
+	d2mr70122746pla.149.1563719125531; 
+	Sun, 21 Jul 2019 07:25:25 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:bd4d:a6f4:da99:27b4])
 	by smtp.gmail.com with ESMTPSA id
-	a3sm28807750pfc.70.2019.07.21.07.25.23
+	a3sm28807750pfc.70.2019.07.21.07.25.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Jul 2019 07:25:24 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:25 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jul 2019 07:24:49 -0700
-Message-Id: <cover.1563719003.git.akuster808@gmail.com>
+Date: Sun, 21 Jul 2019 07:24:50 -0700
+Message-Id: <3103f407ff0c579c7e5887fd925d52d5c92c83f9.1563719003.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [thud] 00/30] Platch review for thud-next
+In-Reply-To: <cover.1563719003.git.akuster808@gmail.com>
+References: <cover.1563719003.git.akuster808@gmail.com>
+Subject: [thud] 01/30] glibc: Security fix CVE-2019-9169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,188 +62,96 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 21 Jul 2019 14:25:24 -0000
 
-Comments regarding this patch series due by Wednesday.
+From: Armin Kuster <akuster@mvista.com>
 
-The following changes since commit f162d5bfe6eaeca24f441c83c87252c8d05744fc:
-
-  core-image-sato-sdk-ptest: Tweak size to stay within 4GB limit (2019-05-17 22:05:59 -0700)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/thud-nmut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/thud-nmut
-
-Armin Kuster (16):
-  glibc: Security fix CVE-2019-9169
-  elfutils: Security fixes  CVE-2019-7146,7149,7150
-  qemu: Several CVE fixes
-  python: Update to 2.7.16
-  busybox: Security fixes for CVE-2018-20679 CVE-2019-5747
-  sqlite3: Security fixes for CVE-2018-20505 & 20506
-  file: Multiple Secruity fixes
-  go: update to minor update 1.11.10
-  qemu: Security fix for CVE-2018-19489
-  Tar: Security fix CVE-2019-0023
-  glib-2.0: Security fix for CVE-2019-12450
-  wget: Security fix for CVE-2019-5953
-  Curl: Securiyt fix CVE-2019-5435 CVE-2019-5436
-  qemu: Security fix for CVE-2019-12155
-  qemu: Security fixes CVE-2018-20815 CVE-2019-9824
-  glib: Security fix for CVE-2019-9633
-
-Chen Qi (2):
-  cups: upgrade to 2.2.9
-  cups: upgrade to 2.2.10
-
-Hongxu Jia (1):
-  go-target.inc: fix go not found while multilib enabled
-
-Joshua DeWeese (1):
-  wpa_supplicant: Changed systemd template units
-
-Khem Raj (1):
-  go: Upgrade 1.11.1 -> 1.11.4 minor release
-
-Martin Jansa (1):
-  python: add a fix for CVE-2019-9948 and CVE-2019-9636
-
-Richard Purdie (4):
-  go-crosssdk: PN should use SDK_SYS, not TARGET_ARCH
-  yocto-uninative: Update to 2.5 release
-  uninative: Switch from bz2 to xz
-  uninative: Update to 2.6 release
-
-Robert Yang (1):
-  uboot-sign.bbclass: Remove tab indentations in python code
-
-Ross Burton (3):
-  cairo: fix CVE-2018-19876 CVE-2019-6461 CVE-2019-6462
-  lighttpd: fix CVE-2019-11072
-  glibc: backport CVE fixes
-
- meta/classes/uboot-sign.bbclass                    |  20 +-
- meta/classes/uninative.bbclass                     |   4 +-
- meta/conf/distro/include/yocto-uninative.inc       |   8 +-
- ...place-systemd-install-Alias-with-WantedBy.patch |  52 ++++
- .../wpa-supplicant/wpa-supplicant_2.6.bb           |   1 +
- .../busybox/busybox/CVE-2018-20679.patch           | 142 +++++++++
- .../busybox/busybox/CVE-2019-5747.patch            |  60 ++++
- meta/recipes-core/busybox/busybox_1.29.3.bb        |   2 +
- .../glib-2.0/glib-2.0/CVE-2019-12450.patch         |  59 ++++
- .../glib-2.0/glib-2.0/CVE-2019-9633_p1.patch       | 316 +++++++++++++++++++++
- .../glib-2.0/glib-2.0/CVE-2019-9633_p2.patch       | 231 +++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb      |   3 +
- meta/recipes-core/glibc/glibc/CVE-2016-10739.patch | 232 +++++++++++++++
- meta/recipes-core/glibc/glibc/CVE-2018-19591.patch |  48 ++++
- meta/recipes-core/glibc/glibc/CVE-2019-9169.patch  |  63 ++++
- meta/recipes-core/glibc/glibc_2.28.bb              |   3 +
- meta/recipes-devtools/elfutils/elfutils_0.175.bb   |   4 +
- .../elfutils/files/CVE-2019-7146_p1.patch          |  52 ++++
- .../elfutils/files/CVE-2019-7146_p2.patch          |  65 +++++
- .../elfutils/files/CVE-2019-7149.patch             | 148 ++++++++++
- .../elfutils/files/CVE-2019-7150.patch             |  51 ++++
- .../recipes-devtools/file/file/CVE-2019-8904.patch |  30 ++
- .../file/file/CVE-2019-8905_CVE-2019-8907.patch    | 120 ++++++++
- .../recipes-devtools/file/file/CVE-2019-8906.patch |  27 ++
- meta/recipes-devtools/file/file_5.34.bb            |   3 +
- meta/recipes-devtools/go/go-1.11.inc               |   7 +-
- ...07-cmd-go-make-GOROOT-precious-by-default.patch |   6 +-
- .../0008-use-GOBUILDMODE-to-set-buildmode.patch    |  13 +-
- meta/recipes-devtools/go/go-crosssdk.inc           |   2 +-
- meta/recipes-devtools/go/go-target.inc             |   2 +-
- ...on-native_2.7.15.bb => python-native_2.7.16.bb} |   2 -
- meta/recipes-devtools/python/python.inc            |  18 +-
- ...23-Use-XML_SetHashSalt-in-_elementtree-GH.patch |  96 -------
- ...ix-test_ssl-when-a-filename-cannot-be-enc.patch |  55 ----
- ...LS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch | 120 --------
- ...34540-Convert-shutil._call_external_zip-t.patch |  67 -----
- ...dd-missing-closing-wrapper-in-test_tls1_3.patch |  37 ---
- ...ix-test_ssl.test_options-to-account-for-O.patch |  37 ---
- ...ix-test_default_ecdh_curve-needs-no-tlsv1.patch |  34 ---
- .../python/bpo-35907-cve-2019-9948-fix.patch       |  55 ++++
- .../python/python/bpo-35907-cve-2019-9948.patch    |  55 ++++
- .../python/bpo-36216-cve-2019-9636-fix.patch       |  28 ++
- .../python/python/bpo-36216-cve-2019-9636.patch    | 111 ++++++++
- .../python/{python_2.7.15.bb => python_2.7.16.bb}  |   6 +-
- .../qemu/qemu/CVE-2018-16867.patch                 |  49 ++++
- .../qemu/qemu/CVE-2018-16872.patch                 |  89 ++++++
- .../qemu/qemu/CVE-2018-18849.patch                 |  86 ++++++
- .../qemu/qemu/CVE-2018-19364_p1.patch              |  51 ++++
- .../qemu/qemu/CVE-2018-19364_p2.patch              | 115 ++++++++
- .../qemu/qemu/CVE-2018-19489.patch                 |  83 ++++++
- .../qemu/qemu/CVE-2018-20815_p1.patch              |  42 +++
- .../qemu/qemu/CVE-2018-20815_p2.patch              |  52 ++++
- .../qemu/qemu/CVE-2019-12155.patch                 |  38 +++
- .../recipes-devtools/qemu/qemu/CVE-2019-9824.patch |  47 +++
- meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  10 +
- .../0001-don-t-try-to-run-generated-binaries.patch |  29 +-
- .../cups/{cups_2.2.8.bb => cups_2.2.10.bb}         |   4 +-
- .../lighttpd/lighttpd/fix-http-parseopts.patch     |  51 ++++
- meta/recipes-extended/lighttpd/lighttpd_1.4.51.bb  |   1 +
- meta/recipes-extended/tar/tar/CVE-2019-9923.patch  |  38 +++
- meta/recipes-extended/tar/tar_1.30.bb              |   1 +
- .../recipes-extended/wget/wget/CVE-2019-5953.patch |  51 ++++
- meta/recipes-extended/wget/wget_1.19.5.bb          |   1 +
- .../cairo/cairo/CVE-2019-6461.patch                |  19 ++
- .../cairo/cairo/CVE-2019-6462.patch                |  20 ++
- meta/recipes-graphics/cairo/cairo_1.14.12.bb       |   2 +
- meta/recipes-support/curl/curl/CVE-2019-5435.patch | 200 +++++++++++++
- meta/recipes-support/curl/curl/CVE-2019-5436.patch |  32 +++
- meta/recipes-support/curl/curl_7.61.0.bb           |   2 +
- .../sqlite/files/CVE-2018-20505.patch              |  31 ++
- .../sqlite/files/CVE-2018-20506.patch              | 103 +++++++
- meta/recipes-support/sqlite/sqlite3_3.23.1.bb      |   2 +
- 72 files changed, 3233 insertions(+), 511 deletions(-)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2018-20679.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-9633_p1.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-9633_p2.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-10739.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-19591.patch
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-core/glibc/glibc/CVE-2019-9169.patch | 63 +++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.28.bb             |  1 +
+ 2 files changed, 64 insertions(+)
  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p1.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p2.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7149.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7150.patch
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8904.patch
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8906.patch
- rename meta/recipes-devtools/python/{python-native_2.7.15.bb => python-native_2.7.16.bb} (96%)
- delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch
- delete mode 100644 meta/recipes-devtools/python/python/0001-bpo-33354-Fix-test_ssl-when-a-filename-cannot-be-enc.patch
- delete mode 100644 meta/recipes-devtools/python/python/0001-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch
- delete mode 100644 meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch
- delete mode 100644 meta/recipes-devtools/python/python/0002-bpo-34818-Add-missing-closing-wrapper-in-test_tls1_3.patch
- delete mode 100644 meta/recipes-devtools/python/python/0003-bpo-34834-Fix-test_ssl.test_options-to-account-for-O.patch
- delete mode 100644 meta/recipes-devtools/python/python/0004-bpo-34836-fix-test_default_ecdh_curve-needs-no-tlsv1.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
- rename meta/recipes-devtools/python/{python_2.7.15.bb => python_2.7.16.bb} (98%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-16867.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-16872.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-18849.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-20815_p1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-20815_p2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-12155.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-9824.patch
- rename meta/recipes-extended/cups/{cups_2.2.8.bb => cups_2.2.10.bb} (40%)
- create mode 100644 meta/recipes-extended/lighttpd/lighttpd/fix-http-parseopts.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2019-9923.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2019-5953.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5435.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5436.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20505.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20506.patch
 
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+new file mode 100644
+index 0000000..14cfaa3
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+@@ -0,0 +1,63 @@
++From 583dd860d5b833037175247230a328f0050dbfe9 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Mon, 21 Jan 2019 11:08:13 -0800
++Subject: [PATCH] regex: fix read overrun [BZ #24114]
++
++Problem found by AddressSanitizer, reported by Hongxu Chen in:
++https://debbugs.gnu.org/34140
++* posix/regexec.c (proceed_next_node):
++Do not read past end of input buffer.
++
++Upstream-Status: Backport 
++https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=583dd860d5b833037175247230a328f0050dbfe9
++
++CVE: CVE-2019-9169
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ ChangeLog       | 10 +++++++++-
++ posix/regexec.c |  6 ++++--
++ 2 files changed, 13 insertions(+), 3 deletions(-)
++
++Index: git/ChangeLog
++===================================================================
++--- git.orig/ChangeLog
+++++ git/ChangeLog
++@@ -1,3 +1,11 @@
+++2019-01-31  Paul Eggert  <eggert@cs.ucla.edu>
+++
+++       regex: fix read overrun [BZ #24114]
+++       Problem found by AddressSanitizer, reported by Hongxu Chen in:
+++       https://debbugs.gnu.org/34140
+++       * posix/regexec.c (proceed_next_node):
+++       Do not read past end of input buffer.
+++
++ 2018-09-30  Martin Jansa  <Martin.Jansa@gmail.com>
++ 	Partial fix for [BZ #23716]
++ 	* locale/weight.h: Fix build with -Os.
++@@ -10917,7 +10925,7 @@
++ 	(CFLAGS-wcstof_l.c): Likewise.
++ 	(CPPFLAGS-tst-wchar-h.c): Likewise.
++ 	(CPPFLAGS-wcstold_l.c): Likewise.
++----
+++
++ 2017-12-11  Paul A. Clarke  <pc@us.ibm.com>
++ 
++ 	* sysdeps/ieee754/flt-32/s_cosf.c: New implementation.
++Index: git/posix/regexec.c
++===================================================================
++--- git.orig/posix/regexec.c
+++++ git/posix/regexec.c
++@@ -1289,8 +1289,10 @@ proceed_next_node (const re_match_contex
++ 	      else if (naccepted)
++ 		{
++ 		  char *buf = (char *) re_string_get_buffer (&mctx->input);
++-		  if (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
++-			      naccepted) != 0)
+++		  if (mctx->input.valid_len - *pidx < naccepted
+++		      || (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
+++				  naccepted)
+++			  != 0))
++ 		    return -1;
++ 		}
++ 	    }
+diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+index 72cee04..1bcec3e 100644
+--- a/meta/recipes-core/glibc/glibc_2.28.bb
++++ b/meta/recipes-core/glibc/glibc_2.28.bb
+@@ -47,6 +47,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0032-sysdeps-ieee754-soft-fp-ignore-maybe-uninitialized-w.patch \
+            file://0033-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+            file://0034-inject-file-assembly-directives.patch \
++           file://CVE-2019-9169.patch \
+ "
+ 
+ NATIVESDKFIXES ?= ""
 -- 
 2.7.4
 
