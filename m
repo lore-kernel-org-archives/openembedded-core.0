@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
-	[209.85.210.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 30D5F7EE9C
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 4871D7EE6C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 14:25:44 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id m30so16138290pff.8
+	Sun, 21 Jul 2019 14:25:45 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id a93so17848732pla.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 07:25:45 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ZPk2rsi+Mdhy8RG34Du3JY3lUMBek6ype5Yb63gu39E=;
-	b=NP5QZwOETSpChOiA4mjxEwflxrUspun0PsGzsvvUTDuoBwsYqxYnyD+M6tU9skk7Hx
-	DOykul8PxEC5o94+6iViU7opFtEr400P/zSnu9lSRkMePioQ3avoho5oPjyMKKY5yHSN
-	TaL5Ec4FoVSRJ8RJCSPsEAf6MzkzpALT1qpE0F9KdReyu48hMk3hqn+ZLU19hb/Gwu7N
-	LuEcBLmY6Kl5MqB025q1Vb7N10tW64m+PF9pmyb/NgDVl9HDYelCTT3w8VXUTdJxd408
-	L7TmsPEgaPdfg2dIMU+Pu7JpBL+RASgqUB0ImcpLjz1oTKbe9GnnDsrRa507PxGPQSKq
-	u8sQ==
+	bh=gbyao6hJL2A1gPZB3KqPAgr0T+XOf+6fnLiyCN1EcfU=;
+	b=K4Twkp+DEIy0OkueHzX3VcbhW2/adqFde9KAo0kvJ0MLfrs+EJs8jmmf0jEUP7odQL
+	/7vvEq2JAjooOpsd/CLkdeNv1Bqf+jNBsKxU9SZdZzv7aN6X8B1yhVAewdNwU/p1JBak
+	S6LDfEQXh8XQowQLMnXqkeCtO1B17l//vL/h1HT+Q6WL126xh3ElqqDU6sFy52M9iIzJ
+	cSy8j9SvV+IL85OKcZkKOHPJ1HlCz9PxanX45N8ggk6/xfx30IfCrSa0SyGt9187XMwE
+	x+FTJ6YDvpchIM/c2BUG98JZuTif09k7SmjcHECnLQsDwSkTF5b8MhTl3PHlthqaRTot
+	MKmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=ZPk2rsi+Mdhy8RG34Du3JY3lUMBek6ype5Yb63gu39E=;
-	b=GnC1xURytfNbFnZ/bbi/0pTMUX5VL1z/BnFr+CYmsYu6tjBZVyhvR3S+9GP5SRX39x
-	II+xcusiPKcdGzCt15g4tb6jYemI70OpEWxKsZH84lM2I8g5hQk4TXP71sHyTjlQR65o
-	bOO8phJuBgYLx5JuhLCTTnkjkuCwTqS+PKAjvrk2HPZBGZKSDE/DOaBVM2Jo9pfo1l3R
-	8Se3GH/QJBdL2XFU2/8Bk6MdIPdSmY1zXwjsjvq0y9092rHvRwM894hL2WkAiB1g6OkJ
-	HVSBjFHNaDrl9B79zvWWCTWlA4N/mM0K8w5jQxPgkzPFhr6GBazZOA6CY7p+N9HJSPTM
-	Alog==
-X-Gm-Message-State: APjAAAWM40DhG4BVpufFrrXibTPE3jQkyh04ySMtpsm4FiEZcA6XTVmQ
-	GrXb4GQ4h4wlOhYhzSylxD6Cq93g
-X-Google-Smtp-Source: APXvYqxuRxKON+9hxxhzR2UJ3B8uXxy+cBG3ykceIp/WYNMNRHk1J4JiUY8fg/hiOyS8LSGbykDvIA==
-X-Received: by 2002:a63:4e60:: with SMTP id o32mr67880544pgl.68.1563719145154; 
-	Sun, 21 Jul 2019 07:25:45 -0700 (PDT)
+	bh=gbyao6hJL2A1gPZB3KqPAgr0T+XOf+6fnLiyCN1EcfU=;
+	b=Zfr+/CKD0ud2AuXR8Rxk2ae05rgOh6pavvAx6wNwMJJDiJIoA+oyi76u8EzbYlEAE6
+	Ef7tEwhBokBDwKzjRhIlSRimmQhxZAUWd+pw80dywzSaWVEFvtzS5Y+qvqX05N8C4M2b
+	g9r4GdkcX+wOpRLEW3m7X0d4OwTl6027TH9wvlBfDxoQ91FRth+uurWsXpKzXQpneUrE
+	rh6k09s/w2A9PR/+x0iF/XzrWtBr74Wm05jnUpPaDy74fo8ZVgksx9TKeVELw1YTK+Qq
+	Ak5APufYmh4uaLl3yljX/mhTV/ve0Xm5Qf13ntN3kaTpciEiiPN21JpPTKZePv/lhFOW
+	3b/A==
+X-Gm-Message-State: APjAAAX9GIsls+3o5K9ixCd89BFMNcol05tK/+W0UCUJP9CDv9XuGc0Q
+	zZJPyEHDaibMos8VKzxu1JmLfUoi
+X-Google-Smtp-Source: APXvYqz6goCqw0t0aJtgS0dswuYqtqx3gEjTyRPMGFdj8OvgXC8TTlQhFsdGJqvGSDkgF/gLHWlQ3w==
+X-Received: by 2002:a17:902:24b:: with SMTP id
+	69mr67234389plc.250.1563719146297; 
+	Sun, 21 Jul 2019 07:25:46 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:bd4d:a6f4:da99:27b4])
 	by smtp.gmail.com with ESMTPSA id
-	a3sm28807750pfc.70.2019.07.21.07.25.44
+	a3sm28807750pfc.70.2019.07.21.07.25.45
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Jul 2019 07:25:44 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:45 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jul 2019 07:25:11 -0700
-Message-Id: <6045c57895cad301c5e3a94de740427343a08065.1563719003.git.akuster808@gmail.com>
+Date: Sun, 21 Jul 2019 07:25:12 -0700
+Message-Id: <0497623882da714cbe098a4281982b7f9ce6030f.1563719003.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1563719003.git.akuster808@gmail.com>
 References: <cover.1563719003.git.akuster808@gmail.com>
-Subject: [thud] 22/30] qemu: Security fix for CVE-2019-12155
+Subject: [thud] 23/30] yocto-uninative: Update to 2.5 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,82 +60,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Jul 2019 14:25:44 -0000
+X-List-Received-Date: Sun, 21 Jul 2019 14:25:45 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Source: qemu.org
-MR: 98382
-Type: Security Fix
-Disposition: Backport from https://git.qemu.org/?p=qemu.git;a=commit;h=d52680fc932efb8a2f334cc6993e705ed1e31e99
-ChangeID: e4e5983ec1fa489eb8a0db08d1afa0606e59dde3
-Description:
+This includes libstdc++ changes from gcc 9.X.
 
-Fixes CVE-2019-12155
-Affects: <= 4.0.0
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+It also switches uninative from bz2 to xz compression.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../qemu/qemu/CVE-2019-12155.patch                 | 38 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-12155.patch
+ meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2019-12155.patch b/meta/recipes-devtools/qemu/qemu/CVE-2019-12155.patch
-new file mode 100644
-index 0000000..8a5ece5
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2019-12155.patch
-@@ -0,0 +1,38 @@
-+From d52680fc932efb8a2f334cc6993e705ed1e31e99 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Thu, 25 Apr 2019 12:05:34 +0530
-+Subject: [PATCH] qxl: check release info object
-+
-+When releasing spice resources in release_resource() routine,
-+if release info object 'ext.info' is null, it leads to null
-+pointer dereference. Add check to avoid it.
-+
-+Reported-by: Bugs SysSec <bugs-syssec@rub.de>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-id: 20190425063534.32747-1-ppandit@redhat.com
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+Upstream-Status: Backport
-+https://git.qemu.org/?p=qemu.git;a=commit;h=d52680fc932efb8a2f334cc6993e705ed1e31e99
-+
-+CVE: CVE-2019-12155
-+Affects: <= 4.0.0
-+Signed-off-by: Armin Kuster <akuster@mvistra.com>
-+---
-+ hw/display/qxl.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+Index: qemu-3.0.0/hw/display/qxl.c
-+===================================================================
-+--- qemu-3.0.0.orig/hw/display/qxl.c
-++++ qemu-3.0.0/hw/display/qxl.c
-+@@ -764,6 +764,9 @@ static void interface_release_resource(Q
-+     QXLReleaseRing *ring;
-+     uint64_t *item, id;
-+ 
-++    if (!ext.info) {
-++        return;
-++    }
-+     if (ext.group_id == MEMSLOT_GROUP_HOST) {
-+         /* host group -> vga mode update request */
-+         QXLCommandExt *cmdext = (void *)(intptr_t)(ext.info->id);
-diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-index 992cf7b..63a6468 100644
---- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-@@ -31,6 +31,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2018-19364_p1.patch \
-            file://CVE-2018-19364_p2.patch \
-            file://CVE-2018-19489.patch \
-+           file://CVE-2019-12155.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index 59ccd69..0bb8f7a 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -8,7 +8,7 @@
  
+ UNINATIVE_MAXGLIBCVERSION = "2.29"
+ 
+-UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.4/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "af2e2faf6cf00ff45cc1bcd5e3fb00cee7f79b3ec7c3be15917ad4ff8c154cfe"
+-UNINATIVE_CHECKSUM[i686] ?= "fafacfc537a6ce2bd122bd16c146881ab5ac69bd575abf6cb68a0dd33fa70ea2"
+-UNINATIVE_CHECKSUM[x86_64] ?= "06f91685b782f2ccfedf3070b3ba0fe4a5ba2f0766dad5c9d1642dccf95accd0"
++UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.5/"
++UNINATIVE_CHECKSUM[aarch64] ?= "ca977ff95c77f983570141908d451ff7d78add2864471605af404302bb36a1fa"
++UNINATIVE_CHECKSUM[i686] ?= "7b5822891c293795faf8a4a80586b36f8cde405387524916a24f9055ea82f7ca"
++UNINATIVE_CHECKSUM[x86_64] ?= "ed0ac07c710b711925cb976685dd855fb1d442dd840d00194751c18bf480c4ed"
 -- 
 2.7.4
 
