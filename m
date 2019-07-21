@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 4871D7EE6C
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+	[209.85.210.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C5627EE79
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 14:25:45 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id a93so17848732pla.7
+	Sun, 21 Jul 2019 14:25:46 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id u14so16147045pfn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 07:25:46 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=gbyao6hJL2A1gPZB3KqPAgr0T+XOf+6fnLiyCN1EcfU=;
-	b=K4Twkp+DEIy0OkueHzX3VcbhW2/adqFde9KAo0kvJ0MLfrs+EJs8jmmf0jEUP7odQL
-	/7vvEq2JAjooOpsd/CLkdeNv1Bqf+jNBsKxU9SZdZzv7aN6X8B1yhVAewdNwU/p1JBak
-	S6LDfEQXh8XQowQLMnXqkeCtO1B17l//vL/h1HT+Q6WL126xh3ElqqDU6sFy52M9iIzJ
-	cSy8j9SvV+IL85OKcZkKOHPJ1HlCz9PxanX45N8ggk6/xfx30IfCrSa0SyGt9187XMwE
-	x+FTJ6YDvpchIM/c2BUG98JZuTif09k7SmjcHECnLQsDwSkTF5b8MhTl3PHlthqaRTot
-	MKmA==
+	bh=YOnUvV/jmebYgu0JjgXSsbVLmC8rYcF8/kJi9g3Efoo=;
+	b=c1fmrFKC5Z9mYK+jKp76hAJmw5/iyGVnalp6ea/3De2sWoSfJxV2kUSzF5KK3ZYrk0
+	8g6DjIHW5XcjuuCAwvCvWJcMNwqT/GxcvdtKGjrS5xFb3eEVNX50WHBBYwGOZkR9b3Rx
+	K2ueIA0+hsy0Zo/YKEDxx8+vxcJvXRlFysrSB3tgbl494GCr0mHZ1b24yhEmCniBzuyd
+	G73CXrhncGDcL/GgMx70GxXu5pEiKW/7Dko6F9iz3dxeduhfOLfjOLBe8TJuv2LVYiRV
+	5066FnQ22cDxjT4oRIUu3EcmCuOI9P21d08rrrBkgUMXogPOrdFsCCmgR+HxyovotrrG
+	sSgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=gbyao6hJL2A1gPZB3KqPAgr0T+XOf+6fnLiyCN1EcfU=;
-	b=Zfr+/CKD0ud2AuXR8Rxk2ae05rgOh6pavvAx6wNwMJJDiJIoA+oyi76u8EzbYlEAE6
-	Ef7tEwhBokBDwKzjRhIlSRimmQhxZAUWd+pw80dywzSaWVEFvtzS5Y+qvqX05N8C4M2b
-	g9r4GdkcX+wOpRLEW3m7X0d4OwTl6027TH9wvlBfDxoQ91FRth+uurWsXpKzXQpneUrE
-	rh6k09s/w2A9PR/+x0iF/XzrWtBr74Wm05jnUpPaDy74fo8ZVgksx9TKeVELw1YTK+Qq
-	Ak5APufYmh4uaLl3yljX/mhTV/ve0Xm5Qf13ntN3kaTpciEiiPN21JpPTKZePv/lhFOW
-	3b/A==
-X-Gm-Message-State: APjAAAX9GIsls+3o5K9ixCd89BFMNcol05tK/+W0UCUJP9CDv9XuGc0Q
-	zZJPyEHDaibMos8VKzxu1JmLfUoi
-X-Google-Smtp-Source: APXvYqz6goCqw0t0aJtgS0dswuYqtqx3gEjTyRPMGFdj8OvgXC8TTlQhFsdGJqvGSDkgF/gLHWlQ3w==
-X-Received: by 2002:a17:902:24b:: with SMTP id
-	69mr67234389plc.250.1563719146297; 
-	Sun, 21 Jul 2019 07:25:46 -0700 (PDT)
+	bh=YOnUvV/jmebYgu0JjgXSsbVLmC8rYcF8/kJi9g3Efoo=;
+	b=G1+NCkEDqXaPZKTn/ecGyH4GEyzWsiw1AJGW2SPZ725ZAJuJC6Gbfz/0H275jSGnhj
+	ejcWgezC5wvs6mN20jfDsCTNyfUo5ih7wiJsWPFznSOY+ZmfCXhkI3rJgp8v35PAR8VR
+	Kzn54Y/HaUi1VXx1eqkMCGwXKhcOLCNzzQ9USEeKu0ZwmoEZgHCUZXqVfCuDGYOai1JK
+	FZv+e2J5Mr3mkI3V+10T2HJ2Y5sFUFqtZE9rJpyD6vzx3jXHFMIZ1DI+y2vXvo+NawlQ
+	oAGgHCdeVqwnoMxKGkkxG0kteGuGHLMc4hAQ10ud5+vb+8AeLvazxZDVd+K3rnBvg4Rf
+	ilLw==
+X-Gm-Message-State: APjAAAVome66C/zltp97pVvwyOjSImk+tva3FY8HUrANIgoSQsd+dkb4
+	H+wXqyZ7ztPN2vlMdHUJLeC1CJvp
+X-Google-Smtp-Source: APXvYqyKSc+pRHDaWgwhJNSx6xjJ/BLrlqu68a8c7UIzkPxM0+AzI1bWa20as8xN/D/ZlctpAALj6w==
+X-Received: by 2002:a65:514c:: with SMTP id g12mr66925263pgq.76.1563719147092; 
+	Sun, 21 Jul 2019 07:25:47 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:bd4d:a6f4:da99:27b4])
 	by smtp.gmail.com with ESMTPSA id
-	a3sm28807750pfc.70.2019.07.21.07.25.45
+	a3sm28807750pfc.70.2019.07.21.07.25.46
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Jul 2019 07:25:45 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:46 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jul 2019 07:25:12 -0700
-Message-Id: <0497623882da714cbe098a4281982b7f9ce6030f.1563719003.git.akuster808@gmail.com>
+Date: Sun, 21 Jul 2019 07:25:13 -0700
+Message-Id: <16785ebdc50f38ef4bc30d477a6833bdd4b541d1.1563719003.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1563719003.git.akuster808@gmail.com>
 References: <cover.1563719003.git.akuster808@gmail.com>
-Subject: [thud] 23/30] yocto-uninative: Update to 2.5 release
+Subject: [thud] 24/30] uninative: Switch from bz2 to xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,36 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Jul 2019 14:25:45 -0000
+X-List-Received-Date: Sun, 21 Jul 2019 14:25:46 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This includes libstdc++ changes from gcc 9.X.
-
-It also switches uninative from bz2 to xz compression.
+(From OE-Core rev: 29fc9210b973be68de474e75068e4c72371afe5a)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/uninative.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 59ccd69..0bb8f7a 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -8,7 +8,7 @@
+diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+index ba99fb6..3326c0d 100644
+--- a/meta/classes/uninative.bbclass
++++ b/meta/classes/uninative.bbclass
+@@ -2,7 +2,7 @@ UNINATIVE_LOADER ?= "${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/
+ UNINATIVE_STAGING_DIR ?= "${STAGING_DIR}"
  
- UNINATIVE_MAXGLIBCVERSION = "2.29"
- 
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.4/"
--UNINATIVE_CHECKSUM[aarch64] ?= "af2e2faf6cf00ff45cc1bcd5e3fb00cee7f79b3ec7c3be15917ad4ff8c154cfe"
--UNINATIVE_CHECKSUM[i686] ?= "fafacfc537a6ce2bd122bd16c146881ab5ac69bd575abf6cb68a0dd33fa70ea2"
--UNINATIVE_CHECKSUM[x86_64] ?= "06f91685b782f2ccfedf3070b3ba0fe4a5ba2f0766dad5c9d1642dccf95accd0"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.5/"
-+UNINATIVE_CHECKSUM[aarch64] ?= "ca977ff95c77f983570141908d451ff7d78add2864471605af404302bb36a1fa"
-+UNINATIVE_CHECKSUM[i686] ?= "7b5822891c293795faf8a4a80586b36f8cde405387524916a24f9055ea82f7ca"
-+UNINATIVE_CHECKSUM[x86_64] ?= "ed0ac07c710b711925cb976685dd855fb1d442dd840d00194751c18bf480c4ed"
+ UNINATIVE_URL ?= "unset"
+-UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.bz2"
++UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.xz"
+ # Example checksums
+ #UNINATIVE_CHECKSUM[aarch64] = "dead"
+ #UNINATIVE_CHECKSUM[i686] = "dead"
+@@ -89,7 +89,7 @@ python uninative_event_fetchloader() {
+         cmd = d.expand("\
+ mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; \
+ cd ${UNINATIVE_STAGING_DIR}-uninative; \
+-tar -xjf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; \
++tar -xJf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; \
+ ${UNINATIVE_STAGING_DIR}-uninative/relocate_sdk.py \
+   ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux \
+   ${UNINATIVE_LOADER} \
 -- 
 2.7.4
 
