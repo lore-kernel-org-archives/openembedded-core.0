@@ -1,55 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
-	[209.85.214.178])
-	by mail.openembedded.org (Postfix) with ESMTP id AAA537ED59
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+	[209.85.210.175])
+	by mail.openembedded.org (Postfix) with ESMTP id E98007ED7E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 14:25:26 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id c14so17837451plo.0
+	Sun, 21 Jul 2019 14:25:27 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id i189so16129896pfg.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 07:25:27 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:mime-version:in-reply-to:references
 	:content-transfer-encoding;
-	bh=9NMocb97CY06MipGUoBJLGjJCN4z2W7JmDOk73ueCPI=;
-	b=Ed6kUxcJVL5CxZ9QNCM1Naieo6a6rMDfVEQ2p/ocbGUPhXRAaxPMaoHZWpMQoJFol0
-	z9eBXQzE1ZpeEfjuVI+poS1mJB/4kb29ykD5f+85/v3Tpg+Jkp7IxOAdub3jKKznXybQ
-	QAY44aaRkr7PV6VICrQYOseMShaHYzeIZVnjacQbyS7rTmj5qYbXWmnSkFp/WZ0t2MaR
-	EQus8ilYqYkPgRGS9UGcrzUrEkIkUddteIY3akMGMoF8dpYEYRRes9Oo40h1PJtjb585
-	F+kijDCnQa0hCOlGGYKn4ZhHEwG+cdx1qN3BpMmH2WxTJ0BOdjhCI2OWtaFdA+cGFF95
-	boXA==
+	bh=F4vsE9UHw+/E5klz5faNjrlXgX9aza8WpNk8Xq3x/c8=;
+	b=sorcbIb/SJq0h48ofeQgs5vhRuwxz8WdkNcLlly1xVLO6qcecqQpkTPvWnGWt37s9t
+	SnV0dLlcL57fanBi3zvv/aJmBAFVC6jNpXE6r24etvvmHATsvZsTVU5OxXgX5qn/uxF+
+	ddMMJ9MWFDbUs/xtk4DDty3RkzBIEdJdKtRvlp/WoyptEQalhXveU3fvIJsGj6ifyupJ
+	XWgPFr6cJTPbkSI17WTtjoNXiPkPq/ltAiXeS3vTAvSUwCfsshYDPAtczteVAWlAw40d
+	/sI2snVF7/CUzv0SV9zswUwyrKLjACGMZSSARRp+rq3r2ncdZ5FhrCSY2HDXWxfcE4nr
+	Oluw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:in-reply-to:references:content-transfer-encoding;
-	bh=9NMocb97CY06MipGUoBJLGjJCN4z2W7JmDOk73ueCPI=;
-	b=Qa6fny1VN0AphQ7MSca2WTZQz4kL/w8mqHNIns8QXo4jArNmgC3NyQquiix2IW+Vmf
-	Cma/nR6XdQFilbbFidElX1GwR4c7F8xV0szFMmccpR5+6ljMWU9a4J4xIFQQY4yFbHRn
-	HSOw/u7JjWmbj5PnKPv6SEZv/MydvZ/CyqkYodbXVtr1lF6VFjEbTMUcqy3bG6C9OXJW
-	cJ3HPRENQX+XIO4+a348b3VOrMdw2tIm/dvB86mGjzGXU52Yv4CSj5AuhHAiysc8vlEY
-	K9jbrC12InIqZr8OxeJuSPoUNVDns5vP7r1Br1qR9NAbRWBxHSti+FOmZHuj2zJRZ/Qv
-	qhfA==
-X-Gm-Message-State: APjAAAVy95Gw0I43UiUbMhG9Im3azrkloqVlUCihPd9qL6kEVWCCpziZ
-	Nk36nehGJwQZRnS4yZrO/841+9uI
-X-Google-Smtp-Source: APXvYqzofICTQYXOHga6MAiEdzHQP3M69HkRYel+kJnSISW2s2cFOxQic6/UsO7fH4JL2bB9Coo5TQ==
-X-Received: by 2002:a17:902:2868:: with SMTP id
-	e95mr65741502plb.319.1563719127345; 
-	Sun, 21 Jul 2019 07:25:27 -0700 (PDT)
+	bh=F4vsE9UHw+/E5klz5faNjrlXgX9aza8WpNk8Xq3x/c8=;
+	b=NdAhv490ZOYKDm3jFJ65NKorn2uqJiaV1KeOD7iyv7x9lgT1ILXLSi13EE4yRzLEUQ
+	bbA4rlo3bU1h94xOLJtQ/CzRkS1ibf/TbLrPHG5ghchLApWKMyIgOG9a7cAOfUeN+Cyk
+	difi32ddGtFrRR96Nd06a8bz5OMmIC1En6rOrMDud9RQmNaa/sHpydu+2NAEfOikSXSQ
+	rKGvYfMO4Ah6gZM2QvsoXQyHAE90XeNklK/WgTEg3aQOMRvHr3B17mf8yjAFLWCsPFkH
+	mmslK6OnCtQfwHnk7NlAaGgU5apPAXVb4x1orMCZa5eMvzlKIW+G8frLf5HWsXbeQ0Na
+	NqQw==
+X-Gm-Message-State: APjAAAV0DEF6oL7aynbMjL9gqGsI7QsOaBWV7iNT8f3bsVclCf7DnZBI
+	8YccPPfpUZTX419JLedJ2DfBpqw+
+X-Google-Smtp-Source: APXvYqz4JN6lnAQ4IbgfwZjxDJU10ottr66uxTkHRVx2qBLQusPg1e84bcaL8R9bMI51jeIBzxrNIQ==
+X-Received: by 2002:a65:6284:: with SMTP id f4mr8521007pgv.416.1563719128337; 
+	Sun, 21 Jul 2019 07:25:28 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:bd4d:a6f4:da99:27b4])
 	by smtp.gmail.com with ESMTPSA id
-	a3sm28807750pfc.70.2019.07.21.07.25.26
+	a3sm28807750pfc.70.2019.07.21.07.25.27
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Jul 2019 07:25:26 -0700 (PDT)
+	Sun, 21 Jul 2019 07:25:27 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jul 2019 07:24:52 -0700
-Message-Id: <e3dfe53a334cd952cc2194fd3baad6d082659b7e.1563719003.git.akuster808@gmail.com>
+Date: Sun, 21 Jul 2019 07:24:53 -0700
+Message-Id: <592e7de7f5208940fbcfcad3371f93f8ce2ca738.1563719003.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 In-Reply-To: <cover.1563719003.git.akuster808@gmail.com>
 References: <cover.1563719003.git.akuster808@gmail.com>
-Subject: [thud] 03/30] qemu: Several CVE fixes
+Subject: [thud] 04/30] python: Update to 2.7.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,479 +61,612 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Jul 2019 14:25:26 -0000
+X-List-Received-Date: Sun, 21 Jul 2019 14:25:28 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Armin Kuster <akuster@mvista.com>
 
-Source: qemu.org
-MR: 97258, 97342, 97438, 97443
-Type: Security Fix
-Disposition: Backport from git.qemu.org/qemu.git
-ChangeID: a5e9fd03ca5bebc880dcc3c4567e10a9ae47dba5
+Source: Python.org
+MR: 98220
+Type: Security Fix & Integration
+Disposition: Backport from python.org
+ChangeID: 96fdd2dee9fe9317eb72584583ae0100c0be9eaa
 Description:
 
-These issues affect qemu < 3.1.0
+Bug fix update per Python.org
+https://www.python.org/downloads/release/python-2716/
 
-Fixes:
-CVE-2018-16867
-CVE-2018-16872
-CVE-2018-18849
-CVE-2018-19364
+drop backported patch
+
+License-update: copyright years
+
+Helps prepare Thud for 2.7 EOL support moving forward.
+
+Update includes:
+CVE-CVE-2019-5010
+https://github.com/python/cpython/commit/06b15424b0dcacb1c551b2a36e739fffa8d0c595
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../qemu/qemu/CVE-2018-16867.patch                 |  49 +++++++++
- .../qemu/qemu/CVE-2018-16872.patch                 |  89 ++++++++++++++++
- .../qemu/qemu/CVE-2018-18849.patch                 |  86 +++++++++++++++
- .../qemu/qemu/CVE-2018-19364_p1.patch              |  51 +++++++++
- .../qemu/qemu/CVE-2018-19364_p2.patch              | 115 +++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_3.0.0.bb           |   5 +
- 6 files changed, 395 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-16867.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-16872.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-18849.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p2.patch
+ ...on-native_2.7.15.bb => python-native_2.7.16.bb} |   2 -
+ meta/recipes-devtools/python/python.inc            |  18 ++--
+ ...23-Use-XML_SetHashSalt-in-_elementtree-GH.patch |  96 -----------------
+ ...ix-test_ssl-when-a-filename-cannot-be-enc.patch |  55 ----------
+ ...LS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch | 120 ---------------------
+ ...34540-Convert-shutil._call_external_zip-t.patch |  67 ------------
+ ...dd-missing-closing-wrapper-in-test_tls1_3.patch |  37 -------
+ ...ix-test_ssl.test_options-to-account-for-O.patch |  37 -------
+ ...ix-test_default_ecdh_curve-needs-no-tlsv1.patch |  34 ------
+ .../python/{python_2.7.15.bb => python_2.7.16.bb}  |   2 -
+ 10 files changed, 6 insertions(+), 462 deletions(-)
+ rename meta/recipes-devtools/python/{python-native_2.7.15.bb => python-native_2.7.16.bb} (96%)
+ delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0001-bpo-33354-Fix-test_ssl-when-a-filename-cannot-be-enc.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0001-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0002-bpo-34818-Add-missing-closing-wrapper-in-test_tls1_3.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0003-bpo-34834-Fix-test_ssl.test_options-to-account-for-O.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0004-bpo-34836-fix-test_default_ecdh_curve-needs-no-tlsv1.patch
+ rename meta/recipes-devtools/python/{python_2.7.15.bb => python_2.7.16.bb} (98%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-16867.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-16867.patch
-new file mode 100644
-index 0000000..644459e
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-16867.patch
-@@ -0,0 +1,49 @@
-+From 61f87388af0af72ad61dee00ddd267b8047049f2 Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Mon, 3 Dec 2018 11:10:45 +0100
-+Subject: [PATCH] usb-mtp: outlaw slashes in filenames
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Slash is unix directory separator, so they are not allowed in filenames.
-+Note this also stops the classic escape via "../".
-+
-+Fixes: CVE-2018-16867
-+Reported-by: Michael Hanselmann <public@hansmi.ch>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-+Message-id: 20181203101045.27976-3-kraxel@redhat.com
-+(cherry picked from commit c52d46e041b42bb1ee6f692e00a0abe37a9659f6)
-+Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2018-16867
-+Affects: < 3.1.0
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ hw/usb/dev-mtp.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-+index 1ded7ac..899c8a3 100644
-+--- a/hw/usb/dev-mtp.c
-++++ b/hw/usb/dev-mtp.c
-+@@ -1667,6 +1667,12 @@ static void usb_mtp_write_metadata(MTPState *s)
-+ 
-+     utf16_to_str(dataset->length, dataset->filename, filename);
-+ 
-++    if (strchr(filename, '/')) {
-++        usb_mtp_queue_result(s, RES_PARAMETER_NOT_SUPPORTED, d->trans,
-++                             0, 0, 0, 0);
-++        return;
-++    }
-++
-+     o = usb_mtp_object_lookup_name(p, filename, dataset->length);
-+     if (o != NULL) {
-+         next_handle = o->handle;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-16872.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-16872.patch
-new file mode 100644
-index 0000000..9f2c5d3
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-16872.patch
-@@ -0,0 +1,89 @@
-+From 7347a04da35ec6284ce83e8bcd72dc4177d17b10 Mon Sep 17 00:00:00 2001
-+From: Gerd Hoffmann <kraxel@redhat.com>
-+Date: Thu, 13 Dec 2018 13:25:11 +0100
-+Subject: [PATCH] usb-mtp: use O_NOFOLLOW and O_CLOEXEC.
-+
-+Open files and directories with O_NOFOLLOW to avoid symlinks attacks.
-+While being at it also add O_CLOEXEC.
-+
-+usb-mtp only handles regular files and directories and ignores
-+everything else, so users should not see a difference.
-+
-+Because qemu ignores symlinks, carrying out a successful symlink attack
-+requires swapping an existing file or directory below rootdir for a
-+symlink and winning the race against the inotify notification to qemu.
-+
-+Fixes: CVE-2018-16872
-+Cc: Prasad J Pandit <ppandit@redhat.com>
-+Cc: Bandan Das <bsd@redhat.com>
-+Reported-by: Michael Hanselmann <public@hansmi.ch>
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Reviewed-by: Michael Hanselmann <public@hansmi.ch>
-+Message-id: 20181213122511.13853-1-kraxel@redhat.com
-+(cherry picked from commit bab9df35ce73d1c8e19a37e2737717ea1c984dc1)
-+Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2018-16872
-+Affects: < 3.1.0
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ hw/usb/dev-mtp.c | 13 +++++++++----
-+ 1 file changed, 9 insertions(+), 4 deletions(-)
-+
-+diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-+index 899c8a3..f4223fb 100644
-+--- a/hw/usb/dev-mtp.c
-++++ b/hw/usb/dev-mtp.c
-+@@ -649,13 +649,18 @@ static void usb_mtp_object_readdir(MTPState *s, MTPObject *o)
-+ {
-+     struct dirent *entry;
-+     DIR *dir;
-++    int fd;
-+ 
-+     if (o->have_children) {
-+         return;
-+     }
-+     o->have_children = true;
-+ 
-+-    dir = opendir(o->path);
-++    fd = open(o->path, O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
-++    if (fd < 0) {
-++        return;
-++    }
-++    dir = fdopendir(fd);
-+     if (!dir) {
-+         return;
-+     }
-+@@ -1003,7 +1008,7 @@ static MTPData *usb_mtp_get_object(MTPState *s, MTPControl *c,
-+ 
-+     trace_usb_mtp_op_get_object(s->dev.addr, o->handle, o->path);
-+ 
-+-    d->fd = open(o->path, O_RDONLY);
-++    d->fd = open(o->path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW);
-+     if (d->fd == -1) {
-+         usb_mtp_data_free(d);
-+         return NULL;
-+@@ -1027,7 +1032,7 @@ static MTPData *usb_mtp_get_partial_object(MTPState *s, MTPControl *c,
-+                                         c->argv[1], c->argv[2]);
-+ 
-+     d = usb_mtp_data_alloc(c);
-+-    d->fd = open(o->path, O_RDONLY);
-++    d->fd = open(o->path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW);
-+     if (d->fd == -1) {
-+         usb_mtp_data_free(d);
-+         return NULL;
-+@@ -1608,7 +1613,7 @@ static void usb_mtp_write_data(MTPState *s)
-+                                  0, 0, 0, 0);
-+             goto done;
-+         }
-+-        d->fd = open(path, O_CREAT | O_WRONLY, mask);
-++        d->fd = open(path, O_CREAT | O_WRONLY | O_CLOEXEC | O_NOFOLLOW, mask);
-+         if (d->fd == -1) {
-+             usb_mtp_queue_result(s, RES_STORE_FULL, d->trans,
-+                                  0, 0, 0, 0);
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-18849.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-18849.patch
-new file mode 100644
-index 0000000..b632512
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-18849.patch
-@@ -0,0 +1,86 @@
-+From bd6dd4eaa6f7fe0c4d797d4e59803d295313b7a7 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Sat, 27 Oct 2018 01:13:14 +0530
-+Subject: [PATCH] lsi53c895a: check message length value is valid
-+
-+While writing a message in 'lsi_do_msgin', message length value
-+in 'msg_len' could be invalid due to an invalid migration stream.
-+Add an assertion to avoid an out of bounds access, and reject
-+the incoming migration data if it contains an invalid message
-+length.
-+
-+Discovered by Deja vu Security. Reported by Oracle.
-+
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-Id: <20181026194314.18663-1-ppandit@redhat.com>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+(cherry picked from commit e58ccf039650065a9442de43c9816f81e88f27f6)
-+*CVE-2018-18849
-+*avoid context dep. on c921370b22c
-+Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-+
-+Upstream-Status: Backport
-+Affects: < 3.1.0
-+CVE: CVE-2018-18849
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ hw/scsi/lsi53c895a.c | 19 +++++++++++++++++--
-+ 1 file changed, 17 insertions(+), 2 deletions(-)
-+
-+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-+index 160657f..3758635 100644
-+--- a/hw/scsi/lsi53c895a.c
-++++ b/hw/scsi/lsi53c895a.c
-+@@ -865,10 +865,11 @@ static void lsi_do_status(LSIState *s)
-+ 
-+ static void lsi_do_msgin(LSIState *s)
-+ {
-+-    int len;
-++    uint8_t len;
-+     DPRINTF("Message in len=%d/%d\n", s->dbc, s->msg_len);
-+     s->sfbr = s->msg[0];
-+     len = s->msg_len;
-++    assert(len > 0 && len <= LSI_MAX_MSGIN_LEN);
-+     if (len > s->dbc)
-+         len = s->dbc;
-+     pci_dma_write(PCI_DEVICE(s), s->dnad, s->msg, len);
-+@@ -1703,8 +1704,10 @@ static uint8_t lsi_reg_readb(LSIState *s, int offset)
-+         break;
-+     case 0x58: /* SBDL */
-+         /* Some drivers peek at the data bus during the MSG IN phase.  */
-+-        if ((s->sstat1 & PHASE_MASK) == PHASE_MI)
-++        if ((s->sstat1 & PHASE_MASK) == PHASE_MI) {
-++            assert(s->msg_len > 0);
-+             return s->msg[0];
-++        }
-+         ret = 0;
-+         break;
-+     case 0x59: /* SBDL high */
-+@@ -2096,11 +2099,23 @@ static int lsi_pre_save(void *opaque)
-+     return 0;
-+ }
-+ 
-++static int lsi_post_load(void *opaque, int version_id)
-++{
-++    LSIState *s = opaque;
-++
-++    if (s->msg_len < 0 || s->msg_len > LSI_MAX_MSGIN_LEN) {
-++        return -EINVAL;
-++    }
-++
-++    return 0;
-++}
-++
-+ static const VMStateDescription vmstate_lsi_scsi = {
-+     .name = "lsiscsi",
-+     .version_id = 0,
-+     .minimum_version_id = 0,
-+     .pre_save = lsi_pre_save,
-++    .post_load = lsi_post_load,
-+     .fields = (VMStateField[]) {
-+         VMSTATE_PCI_DEVICE(parent_obj, LSIState),
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p1.patch
-new file mode 100644
-index 0000000..1d77af4
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p1.patch
-@@ -0,0 +1,51 @@
-+From 5b76ef50f62079a2389ba28cacaf6cce68b1a0ed Mon Sep 17 00:00:00 2001
-+From: Greg Kurz <groug@kaod.org>
-+Date: Wed, 7 Nov 2018 01:00:04 +0100
-+Subject: [PATCH] 9p: write lock path in v9fs_co_open2()
-+
-+The assumption that the fid cannot be used by any other operation is
-+wrong. At least, nothing prevents a misbehaving client to create a
-+file with a given fid, and to pass this fid to some other operation
-+at the same time (ie, without waiting for the response to the creation
-+request). The call to v9fs_path_copy() performed by the worker thread
-+after the file was created can race with any access to the fid path
-+performed by some other thread. This causes use-after-free issues that
-+can be detected by ASAN with a custom 9p client.
-+
-+Unlike other operations that only read the fid path, v9fs_co_open2()
-+does modify it. It should hence take the write lock.
-+
-+Cc: P J P <ppandit@redhat.com>
-+Reported-by: zhibin hu <noirfate@gmail.com>
-+Signed-off-by: Greg Kurz <groug@kaod.org>
-+
-+Upstream-status: Backport
-+Affects: < 3.1.0
-+CVE:  CVE-2018-19364 patch #1
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ hw/9pfs/cofile.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/hw/9pfs/cofile.c b/hw/9pfs/cofile.c
-+index 88791bc..9c22837 100644
-+--- a/hw/9pfs/cofile.c
-++++ b/hw/9pfs/cofile.c
-+@@ -140,10 +140,10 @@ int coroutine_fn v9fs_co_open2(V9fsPDU *pdu, V9fsFidState *fidp,
-+     cred.fc_gid = gid;
-+     /*
-+      * Hold the directory fid lock so that directory path name
-+-     * don't change. Read lock is fine because this fid cannot
-+-     * be used by any other operation.
-++     * don't change. Take the write lock to be sure this fid
-++     * cannot be used by another operation.
-+      */
-+-    v9fs_path_read_lock(s);
-++    v9fs_path_write_lock(s);
-+     v9fs_co_run_in_worker(
-+         {
-+             err = s->ops->open2(&s->ctx, &fidp->path,
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p2.patch
-new file mode 100644
-index 0000000..b8d094c
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p2.patch
-@@ -0,0 +1,115 @@
-+From 5b3c77aa581ebb215125c84b0742119483571e55 Mon Sep 17 00:00:00 2001
-+From: Greg Kurz <groug@kaod.org>
-+Date: Tue, 20 Nov 2018 13:00:35 +0100
-+Subject: [PATCH] 9p: take write lock on fid path updates (CVE-2018-19364)
-+
-+Recent commit 5b76ef50f62079a fixed a race where v9fs_co_open2() could
-+possibly overwrite a fid path with v9fs_path_copy() while it is being
-+accessed by some other thread, ie, use-after-free that can be detected
-+by ASAN with a custom 9p client.
-+
-+It turns out that the same can happen at several locations where
-+v9fs_path_copy() is used to set the fid path. The fix is again to
-+take the write lock.
-+
-+Fixes CVE-2018-19364.
-+
-+Cc: P J P <ppandit@redhat.com>
-+Reported-by: zhibin hu <noirfate@gmail.com>
-+Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Signed-off-by: Greg Kurz <groug@kaod.org>
-+
-+Upstream-status: Backport
-+Affects: < 3.1.0
-+CVE:  CVE-2018-19364 patch #2
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ hw/9pfs/9p.c | 15 +++++++++++++++
-+ 1 file changed, 15 insertions(+)
-+
-+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-+index eef289e..267a255 100644
-+--- a/hw/9pfs/9p.c
-++++ b/hw/9pfs/9p.c
-+@@ -1391,7 +1391,9 @@ static void coroutine_fn v9fs_walk(void *opaque)
-+             err = -EINVAL;
-+             goto out;
-+         }
-++        v9fs_path_write_lock(s);
-+         v9fs_path_copy(&fidp->path, &path);
-++        v9fs_path_unlock(s);
-+     } else {
-+         newfidp = alloc_fid(s, newfid);
-+         if (newfidp == NULL) {
-+@@ -2160,6 +2162,7 @@ static void coroutine_fn v9fs_create(void *opaque)
-+     V9fsString extension;
-+     int iounit;
-+     V9fsPDU *pdu = opaque;
-++    V9fsState *s = pdu->s;
-+ 
-+     v9fs_path_init(&path);
-+     v9fs_string_init(&name);
-+@@ -2200,7 +2203,9 @@ static void coroutine_fn v9fs_create(void *opaque)
-+         if (err < 0) {
-+             goto out;
-+         }
-++        v9fs_path_write_lock(s);
-+         v9fs_path_copy(&fidp->path, &path);
-++        v9fs_path_unlock(s);
-+         err = v9fs_co_opendir(pdu, fidp);
-+         if (err < 0) {
-+             goto out;
-+@@ -2216,7 +2221,9 @@ static void coroutine_fn v9fs_create(void *opaque)
-+         if (err < 0) {
-+             goto out;
-+         }
-++        v9fs_path_write_lock(s);
-+         v9fs_path_copy(&fidp->path, &path);
-++        v9fs_path_unlock(s);
-+     } else if (perm & P9_STAT_MODE_LINK) {
-+         int32_t ofid = atoi(extension.data);
-+         V9fsFidState *ofidp = get_fid(pdu, ofid);
-+@@ -2234,7 +2241,9 @@ static void coroutine_fn v9fs_create(void *opaque)
-+             fidp->fid_type = P9_FID_NONE;
-+             goto out;
-+         }
-++        v9fs_path_write_lock(s);
-+         v9fs_path_copy(&fidp->path, &path);
-++        v9fs_path_unlock(s);
-+         err = v9fs_co_lstat(pdu, &fidp->path, &stbuf);
-+         if (err < 0) {
-+             fidp->fid_type = P9_FID_NONE;
-+@@ -2272,7 +2281,9 @@ static void coroutine_fn v9fs_create(void *opaque)
-+         if (err < 0) {
-+             goto out;
-+         }
-++        v9fs_path_write_lock(s);
-+         v9fs_path_copy(&fidp->path, &path);
-++        v9fs_path_unlock(s);
-+     } else if (perm & P9_STAT_MODE_NAMED_PIPE) {
-+         err = v9fs_co_mknod(pdu, fidp, &name, fidp->uid, -1,
-+                             0, S_IFIFO | (perm & 0777), &stbuf);
-+@@ -2283,7 +2294,9 @@ static void coroutine_fn v9fs_create(void *opaque)
-+         if (err < 0) {
-+             goto out;
-+         }
-++        v9fs_path_write_lock(s);
-+         v9fs_path_copy(&fidp->path, &path);
-++        v9fs_path_unlock(s);
-+     } else if (perm & P9_STAT_MODE_SOCKET) {
-+         err = v9fs_co_mknod(pdu, fidp, &name, fidp->uid, -1,
-+                             0, S_IFSOCK | (perm & 0777), &stbuf);
-+@@ -2294,7 +2307,9 @@ static void coroutine_fn v9fs_create(void *opaque)
-+         if (err < 0) {
-+             goto out;
-+         }
-++        v9fs_path_write_lock(s);
-+         v9fs_path_copy(&fidp->path, &path);
-++        v9fs_path_unlock(s);
-+     } else {
-+         err = v9fs_co_open2(pdu, fidp, &name, -1,
-+                             omode_to_uflags(mode)|O_CREAT, perm, &stbuf);
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-index 776548b..59cfc38 100644
---- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-@@ -25,6 +25,11 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2018-17958.patch \
-            file://CVE-2018-17962.patch \
-            file://CVE-2018-17963.patch \
-+           file://CVE-2018-16867.patch \
-+           file://CVE-2018-16872.patch \
-+           file://CVE-2018-18849.patch \
-+           file://CVE-2018-19364_p1.patch \
-+           file://CVE-2018-19364_p2.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/python/python-native_2.7.15.bb b/meta/recipes-devtools/python/python-native_2.7.16.bb
+similarity index 96%
+rename from meta/recipes-devtools/python/python-native_2.7.15.bb
+rename to meta/recipes-devtools/python/python-native_2.7.16.bb
+index 26d67df..b744280 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.15.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.16.bb
+@@ -1,7 +1,6 @@
+ require python.inc
+ EXTRANATIVEPATH += "bzip2-native"
+ DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native expat-native gdbm-native db-native"
+-PR = "${INC_PR}.1"
  
+ SRC_URI += "\
+             file://05-enable-ctypes-cross-build.patch \
+@@ -17,7 +16,6 @@ SRC_URI += "\
+             file://parallel-makeinst-create-bindir.patch \
+             file://revert_use_of_sysconfigdata.patch \
+             file://0001-python-native-fix-one-do_populate_sysroot-warning.patch \
+-            file://0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch \
+            "
+ 
+ S = "${WORKDIR}/Python-${PV}"
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 6692367..e5f1981 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -5,18 +5,12 @@ SECTION = "devel/python"
+ # bump this on every change in contrib/python/generate-manifest-2.7.py
+ INC_PR = "r1"
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=f257cc14f81685691652a3d3e1b5d754"
+-
+-SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+-           file://0001-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch \
+-           file://0002-bpo-34818-Add-missing-closing-wrapper-in-test_tls1_3.patch \
+-           file://0003-bpo-34834-Fix-test_ssl.test_options-to-account-for-O.patch \
+-           file://0004-bpo-34836-fix-test_default_ecdh_curve-needs-no-tlsv1.patch \
+-           file://0001-bpo-33354-Fix-test_ssl-when-a-filename-cannot-be-enc.patch \
+-           "
+-
+-SRC_URI[md5sum] = "a80ae3cc478460b922242f43a1b4094d"
+-SRC_URI[sha256sum] = "22d9b1ac5b26135ad2b8c2901a9413537e08749a753356ee913c84dbd2df5574"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
++
++SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz"
++
++SRC_URI[md5sum] = "30157d85a2c0479c09ea2cbe61f2aaf5"
++SRC_URI[sha256sum] = "f222ef602647eecb6853681156d32de4450a2c39f4de93bd5b20235f2e660ed7"
+ 
+ # python recipe is actually python 2.x
+ # also, exclude pre-releases for both python 2.x and 3.x
+diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch
+deleted file mode 100644
+index 3c0d662..0000000
+--- a/meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch
++++ /dev/null
+@@ -1,96 +0,0 @@
+-From 3ffc80959f01f9fde548f1632694b9f950c2dd7c Mon Sep 17 00:00:00 2001
+-From: Christian Heimes <christian@python.org>
+-Date: Tue, 18 Sep 2018 15:13:09 +0200
+-Subject: [PATCH] [2.7] bpo-34623: Use XML_SetHashSalt in _elementtree
+- (GH-9146) (GH-9394)
+-
+-The C accelerated _elementtree module now initializes hash randomization
+-salt from _Py_HashSecret instead of libexpat's default CPRNG.
+-
+-Signed-off-by: Christian Heimes <christian@python.org>
+-
+-https://bugs.python.org/issue34623.
+-(cherry picked from commit cb5778f00ce48631c7140f33ba242496aaf7102b)
+-
+-Co-authored-by: Christian Heimes <christian@python.org>
+-
+-
+-
+-https://bugs.python.org/issue34623
+-
+-Upstream-Status: Backport
+-CVE: CVE-2018-14647
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- Include/pyexpat.h                                                  | 4 +++-
+- Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst | 2 ++
+- Modules/_elementtree.c                                             | 5 +++++
+- Modules/pyexpat.c                                                  | 5 +++++
+- 4 files changed, 15 insertions(+), 1 deletion(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst
+-
+-diff --git a/Include/pyexpat.h b/Include/pyexpat.h
+-index 5340ef5..3fc5fa5 100644
+---- a/Include/pyexpat.h
+-+++ b/Include/pyexpat.h
+-@@ -3,7 +3,7 @@
+- 
+- /* note: you must import expat.h before importing this module! */
+- 
+--#define PyExpat_CAPI_MAGIC  "pyexpat.expat_CAPI 1.0"
+-+#define PyExpat_CAPI_MAGIC  "pyexpat.expat_CAPI 1.1"
+- #define PyExpat_CAPSULE_NAME "pyexpat.expat_CAPI"
+- 
+- struct PyExpat_CAPI 
+-@@ -43,6 +43,8 @@ struct PyExpat_CAPI
+-         XML_Parser parser, XML_UnknownEncodingHandler handler,
+-         void *encodingHandlerData);
+-     void (*SetUserData)(XML_Parser parser, void *userData);
+-+    /* might be none for expat < 2.1.0 */
+-+    int (*SetHashSalt)(XML_Parser parser, unsigned long hash_salt);
+-     /* always add new stuff to the end! */
+- };
+- 
+-diff --git a/Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst b/Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst
+-new file mode 100644
+-index 0000000..31ad92e
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2018-09-10-16-05-39.bpo-34623.Ua9jMv.rst
+-@@ -0,0 +1,2 @@
+-+The C accelerated _elementtree module now initializes hash randomization
+-+salt from _Py_HashSecret instead of libexpat's default CSPRNG.
+-diff --git a/Modules/_elementtree.c b/Modules/_elementtree.c
+-index 1d316a1..a19cbf7 100644
+---- a/Modules/_elementtree.c
+-+++ b/Modules/_elementtree.c
+-@@ -2574,6 +2574,11 @@ xmlparser(PyObject* self_, PyObject* args, PyObject* kw)
+-         PyErr_NoMemory();
+-         return NULL;
+-     }
+-+    /* expat < 2.1.0 has no XML_SetHashSalt() */
+-+    if (EXPAT(SetHashSalt) != NULL) {
+-+        EXPAT(SetHashSalt)(self->parser,
+-+                           (unsigned long)_Py_HashSecret.prefix);
+-+    }
+- 
+-     ALLOC(sizeof(XMLParserObject), "create expatparser");
+- 
+-diff --git a/Modules/pyexpat.c b/Modules/pyexpat.c
+-index 2b4d312..1f8c0d7 100644
+---- a/Modules/pyexpat.c
+-+++ b/Modules/pyexpat.c
+-@@ -2042,6 +2042,11 @@ MODULE_INITFUNC(void)
+-     capi.SetProcessingInstructionHandler = XML_SetProcessingInstructionHandler;
+-     capi.SetUnknownEncodingHandler = XML_SetUnknownEncodingHandler;
+-     capi.SetUserData = XML_SetUserData;
+-+#if XML_COMBINED_VERSION >= 20100
+-+    capi.SetHashSalt = XML_SetHashSalt;
+-+#else
+-+    capi.SetHashSalt = NULL;
+-+#endif
+- 
+-     /* export using capsule */
+-     capi_object = PyCapsule_New(&capi, PyExpat_CAPSULE_NAME, NULL);
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/python/python/0001-bpo-33354-Fix-test_ssl-when-a-filename-cannot-be-enc.patch b/meta/recipes-devtools/python/python/0001-bpo-33354-Fix-test_ssl-when-a-filename-cannot-be-enc.patch
+deleted file mode 100644
+index 4c0b357..0000000
+--- a/meta/recipes-devtools/python/python/0001-bpo-33354-Fix-test_ssl-when-a-filename-cannot-be-enc.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 19f6bd06af3c7fc0db5f96878aaa68f5589ff13e Mon Sep 17 00:00:00 2001
+-From: Pablo Galindo <Pablogsal@gmail.com>
+-Date: Thu, 24 May 2018 23:20:44 +0100
+-Subject: [PATCH] bpo-33354: Fix test_ssl when a filename cannot be encoded
+- (GH-6613)
+-
+-Skip test_load_dh_params() of test_ssl when Python filesystem encoding
+-cannot encode the provided path.
+-
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/19f6bd06af3c7fc0db5f96878aaa68f5589ff13e]
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- Lib/test/test_ssl.py                                     | 9 ++++++++-
+- .../next/Tests/2018-04-26-22-39-17.bpo-33354.g35-44.rst  | 2 ++
+- 2 files changed, 10 insertions(+), 1 deletion(-)
+- create mode 100644 Misc/NEWS.d/next/Tests/2018-04-26-22-39-17.bpo-33354.g35-44.rst
+-
+-diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
+-index b59fe73f04..7ced90fdf6 100644
+---- a/Lib/test/test_ssl.py
+-+++ b/Lib/test/test_ssl.py
+-@@ -989,6 +989,13 @@ class ContextTests(unittest.TestCase):
+- 
+- 
+-     def test_load_dh_params(self):
+-+        filename = u'dhpäräm.pem'
+-+        fs_encoding = sys.getfilesystemencoding()
+-+        try:
+-+            filename.encode(fs_encoding)
+-+        except UnicodeEncodeError:
+-+            self.skipTest("filename %r cannot be encoded to the filesystem encoding %r" % (filename, fs_encoding))
+-+
+-         ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+-         ctx.load_dh_params(DHFILE)
+-         if os.name != 'nt':
+-@@ -1001,7 +1008,7 @@ class ContextTests(unittest.TestCase):
+-         with self.assertRaises(ssl.SSLError) as cm:
+-             ctx.load_dh_params(CERTFILE)
+-         with support.temp_dir() as d:
+--            fname = os.path.join(d, u'dhpäräm.pem')
+-+            fname = os.path.join(d, filename)
+-             shutil.copy(DHFILE, fname)
+-             ctx.load_dh_params(fname)
+- 
+-diff --git a/Misc/NEWS.d/next/Tests/2018-04-26-22-39-17.bpo-33354.g35-44.rst b/Misc/NEWS.d/next/Tests/2018-04-26-22-39-17.bpo-33354.g35-44.rst
+-new file mode 100644
+-index 0000000000..c66cecac32
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Tests/2018-04-26-22-39-17.bpo-33354.g35-44.rst
+-@@ -0,0 +1,2 @@
+-+Skip ``test_ssl.test_load_dh_params`` when Python filesystem encoding cannot encode the
+-+provided path.
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/python/python/0001-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch b/meta/recipes-devtools/python/python/0001-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch
+deleted file mode 100644
+index 1f70562..0000000
+--- a/meta/recipes-devtools/python/python/0001-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch
++++ /dev/null
+@@ -1,120 +0,0 @@
+-From a333351592f097220fc862911b34d3a300f0985e Mon Sep 17 00:00:00 2001
+-From: Christian Heimes <christian@python.org>
+-Date: Wed, 15 Aug 2018 09:07:28 +0200
+-Subject: [PATCH 1/4] bpo-33570: TLS 1.3 ciphers for OpenSSL 1.1.1 (GH-6976)
+- (GH-8760)
+-
+-Change TLS 1.3 cipher suite settings for compatibility with OpenSSL
+-1.1.1-pre6 and newer. OpenSSL 1.1.1 will have TLS 1.3 cipers enabled by
+-default.
+-
+-Also update multissltests to test with latest OpenSSL.
+-
+-Signed-off-by: Christian Heimes <christian@python.org>.
+-(cherry picked from commit 3e630c541b35c96bfe5619165255e559f577ee71)
+-
+-Co-authored-by: Christian Heimes <christian@python.org>
+-
+-Upstream-Status: Accepted [https://github.com/python/cpython/pull/8771]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- Doc/library/ssl.rst                           |  8 ++--
+- Lib/test/test_ssl.py                          | 37 +++++++++++--------
+- .../2018-05-18-21-50-47.bpo-33570.7CZy4t.rst  |  3 ++
+- 3 files changed, 27 insertions(+), 21 deletions(-)
+- create mode 100644 Misc/NEWS.d/next/Library/2018-05-18-21-50-47.bpo-33570.7CZy4t.rst
+-
+-diff --git a/Doc/library/ssl.rst b/Doc/library/ssl.rst
+-index 0421031772..7c7c85b833 100644
+---- a/Doc/library/ssl.rst
+-+++ b/Doc/library/ssl.rst
+-@@ -294,11 +294,6 @@ purposes.
+- 
+-      3DES was dropped from the default cipher string.
+- 
+--   .. versionchanged:: 2.7.15
+--
+--     TLS 1.3 cipher suites TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384,
+--     and TLS_CHACHA20_POLY1305_SHA256 were added to the default cipher string.
+--
+- .. function:: _https_verify_certificates(enable=True)
+- 
+-    Specifies whether or not server certificates are verified when creating
+-@@ -1179,6 +1174,9 @@ to speed up repeated connections from the same clients.
+-       when connected, the :meth:`SSLSocket.cipher` method of SSL sockets will
+-       give the currently selected cipher.
+- 
+-+      OpenSSL 1.1.1 has TLS 1.3 cipher suites enabled by default. The suites
+-+      cannot be disabled with :meth:`~SSLContext.set_ciphers`.
+-+
+- .. method:: SSLContext.set_alpn_protocols(protocols)
+- 
+-    Specify which protocols the socket should advertise during the SSL/TLS
+-diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
+-index dc14e22ad1..f51572e319 100644
+---- a/Lib/test/test_ssl.py
+-+++ b/Lib/test/test_ssl.py
+-@@ -2772,19 +2772,24 @@ else:
+-                     sock.do_handshake()
+-                 self.assertEqual(cm.exception.errno, errno.ENOTCONN)
+- 
+--        def test_default_ciphers(self):
+--            context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+--            try:
+--                # Force a set of weak ciphers on our client context
+--                context.set_ciphers("DES")
+--            except ssl.SSLError:
+--                self.skipTest("no DES cipher available")
+--            with ThreadedEchoServer(CERTFILE,
+--                                    ssl_version=ssl.PROTOCOL_SSLv23,
+--                                    chatty=False) as server:
+--                with closing(context.wrap_socket(socket.socket())) as s:
+--                    with self.assertRaises(ssl.SSLError):
+--                        s.connect((HOST, server.port))
+-+        def test_no_shared_ciphers(self):
+-+            server_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+-+            server_context.load_cert_chain(SIGNED_CERTFILE)
+-+            client_context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+-+            client_context.verify_mode = ssl.CERT_REQUIRED
+-+            client_context.check_hostname = True
+-+
+-+            # OpenSSL enables all TLS 1.3 ciphers, enforce TLS 1.2 for test
+-+            client_context.options |= ssl.OP_NO_TLSv1_3
+-+            # Force different suites on client and master
+-+            client_context.set_ciphers("AES128")
+-+            server_context.set_ciphers("AES256")
+-+            with ThreadedEchoServer(context=server_context) as server:
+-+                s = client_context.wrap_socket(
+-+                        socket.socket(),
+-+                        server_hostname="localhost")
+-+                with self.assertRaises(ssl.SSLError):
+-+                    s.connect((HOST, server.port))
+-             self.assertIn("no shared cipher", str(server.conn_errors[0]))
+- 
+-         def test_version_basic(self):
+-@@ -2815,9 +2820,9 @@ else:
+-                 with context.wrap_socket(socket.socket()) as s:
+-                     s.connect((HOST, server.port))
+-                     self.assertIn(s.cipher()[0], [
+--                        'TLS13-AES-256-GCM-SHA384',
+--                        'TLS13-CHACHA20-POLY1305-SHA256',
+--                        'TLS13-AES-128-GCM-SHA256',
+-+                        'TLS_AES_256_GCM_SHA384',
+-+                        'TLS_CHACHA20_POLY1305_SHA256',
+-+                        'TLS_AES_128_GCM_SHA256',
+-                     ])
+- 
+-         @unittest.skipUnless(ssl.HAS_ECDH, "test requires ECDH-enabled OpenSSL")
+-diff --git a/Misc/NEWS.d/next/Library/2018-05-18-21-50-47.bpo-33570.7CZy4t.rst b/Misc/NEWS.d/next/Library/2018-05-18-21-50-47.bpo-33570.7CZy4t.rst
+-new file mode 100644
+-index 0000000000..bd719a47e8
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Library/2018-05-18-21-50-47.bpo-33570.7CZy4t.rst
+-@@ -0,0 +1,3 @@
+-+Change TLS 1.3 cipher suite settings for compatibility with OpenSSL
+-+1.1.1-pre6 and newer. OpenSSL 1.1.1 will have TLS 1.3 cipers enabled by
+-+default.
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch b/meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch
+deleted file mode 100644
+index 125db85..0000000
+--- a/meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch
++++ /dev/null
+@@ -1,67 +0,0 @@
+-From c7e692c61dc091d07dee573f5f424b6b427ff056 Mon Sep 17 00:00:00 2001
+-From: Benjamin Peterson <benjamin@python.org>
+-Date: Wed, 29 Aug 2018 21:59:21 -0700
+-Subject: [PATCH] closes bpo-34540: Convert shutil._call_external_zip to use
+- subprocess rather than distutils.spawn. (GH-8985)
+-
+-Upstream-Status: Backport
+-CVE: CVE-2018-1000802
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- Lib/shutil.py                                            | 16 ++++++++++------
+- .../Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst    |  3 +++
+- 2 files changed, 13 insertions(+), 6 deletions(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst
+-
+-diff --git a/Lib/shutil.py b/Lib/shutil.py
+-index 3462f7c..0ab1a06 100644
+---- a/Lib/shutil.py
+-+++ b/Lib/shutil.py
+-@@ -413,17 +413,21 @@ def _make_tarball(base_name, base_dir, compress="gzip", verbose=0, dry_run=0,
+- 
+-     return archive_name
+- 
+--def _call_external_zip(base_dir, zip_filename, verbose=False, dry_run=False):
+-+def _call_external_zip(base_dir, zip_filename, verbose, dry_run, logger):
+-     # XXX see if we want to keep an external call here
+-     if verbose:
+-         zipoptions = "-r"
+-     else:
+-         zipoptions = "-rq"
+--    from distutils.errors import DistutilsExecError
+--    from distutils.spawn import spawn
+-+    cmd = ["zip", zipoptions, zip_filename, base_dir]
+-+    if logger is not None:
+-+        logger.info(' '.join(cmd))
+-+    if dry_run:
+-+        return
+-+    import subprocess
+-     try:
+--        spawn(["zip", zipoptions, zip_filename, base_dir], dry_run=dry_run)
+--    except DistutilsExecError:
+-+        subprocess.check_call(cmd)
+-+    except subprocess.CalledProcessError:
+-         # XXX really should distinguish between "couldn't find
+-         # external 'zip' command" and "zip failed".
+-         raise ExecError, \
+-@@ -458,7 +462,7 @@ def _make_zipfile(base_name, base_dir, verbose=0, dry_run=0, logger=None):
+-         zipfile = None
+- 
+-     if zipfile is None:
+--        _call_external_zip(base_dir, zip_filename, verbose, dry_run)
+-+        _call_external_zip(base_dir, zip_filename, verbose, dry_run, logger)
+-     else:
+-         if logger is not None:
+-             logger.info("creating '%s' and adding '%s' to it",
+-diff --git a/Misc/NEWS.d/next/Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst b/Misc/NEWS.d/next/Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst
+-new file mode 100644
+-index 0000000..4f68696
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2018-08-28-22-11-54.bpo-34540.gfQ0TM.rst
+-@@ -0,0 +1,3 @@
+-+When ``shutil.make_archive`` falls back to the external ``zip`` problem, it
+-+uses :mod:`subprocess` to invoke it rather than :mod:`distutils.spawn`. This
+-+closes a possible shell injection vector.
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/python/python/0002-bpo-34818-Add-missing-closing-wrapper-in-test_tls1_3.patch b/meta/recipes-devtools/python/python/0002-bpo-34818-Add-missing-closing-wrapper-in-test_tls1_3.patch
+deleted file mode 100644
+index 9688271..0000000
+--- a/meta/recipes-devtools/python/python/0002-bpo-34818-Add-missing-closing-wrapper-in-test_tls1_3.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 0e1f3856a7e1511fb64d99646c54ddf3897cd444 Mon Sep 17 00:00:00 2001
+-From: Dimitri John Ledkov <xnox@ubuntu.com>
+-Date: Fri, 28 Sep 2018 14:15:52 +0100
+-Subject: [PATCH 2/4] bpo-34818: Add missing closing() wrapper in test_tls1_3.
+-
+-Python 2.7 socket classes do not implement context manager protocol,
+-hence closing() is required around it. Resolves testcase error
+-traceback.
+-
+-Signed-off-by: Dimitri John Ledkov <xnox@ubuntu.com>
+-
+-https://bugs.python.org/issue34818
+-
+-Patch taken from Ubuntu.
+-
+-Upstream-Status: Submitted [https://github.com/python/cpython/pull/9622]
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- Lib/test/test_ssl.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
+-index f51572e319..7a14053cee 100644
+---- a/Lib/test/test_ssl.py
+-+++ b/Lib/test/test_ssl.py
+-@@ -2817,7 +2817,7 @@ else:
+-                 ssl.OP_NO_TLSv1 | ssl.OP_NO_TLSv1_1 | ssl.OP_NO_TLSv1_2
+-             )
+-             with ThreadedEchoServer(context=context) as server:
+--                with context.wrap_socket(socket.socket()) as s:
+-+                with closing(context.wrap_socket(socket.socket())) as s:
+-                     s.connect((HOST, server.port))
+-                     self.assertIn(s.cipher()[0], [
+-                         'TLS_AES_256_GCM_SHA384',
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/python/python/0003-bpo-34834-Fix-test_ssl.test_options-to-account-for-O.patch b/meta/recipes-devtools/python/python/0003-bpo-34834-Fix-test_ssl.test_options-to-account-for-O.patch
+deleted file mode 100644
+index 77016cb..0000000
+--- a/meta/recipes-devtools/python/python/0003-bpo-34834-Fix-test_ssl.test_options-to-account-for-O.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 8b06d56d26eee289fec22b9b72ab4c7cc3d6c482 Mon Sep 17 00:00:00 2001
+-From: Dimitri John Ledkov <xnox@ubuntu.com>
+-Date: Fri, 28 Sep 2018 16:34:16 +0100
+-Subject: [PATCH 3/4] bpo-34834: Fix test_ssl.test_options to account for
+- OP_ENABLE_MIDDLEBOX_COMPAT.
+-
+-Signed-off-by: Dimitri John Ledkov <xnox@ubuntu.com>
+-
+-https://bugs.python.org/issue34834
+-
+-Patch taken from Ubuntu.
+-Upstream-Status: Submitted [https://github.com/python/cpython/pull/9624]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- Lib/test/test_ssl.py | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
+-index 7a14053cee..efc906a5ba 100644
+---- a/Lib/test/test_ssl.py
+-+++ b/Lib/test/test_ssl.py
+-@@ -777,6 +777,11 @@ class ContextTests(unittest.TestCase):
+-         default = (ssl.OP_ALL | ssl.OP_NO_SSLv2 | ssl.OP_NO_SSLv3)
+-         if not IS_LIBRESSL and ssl.OPENSSL_VERSION_INFO >= (1, 1, 0):
+-             default |= ssl.OP_NO_COMPRESSION
+-+        if not IS_LIBRESSL and ssl.OPENSSL_VERSION_INFO >= (1, 1, 1):
+-+            # define MIDDLEBOX constant, as python2.7 does not know about it
+-+            # but it is used by default.
+-+            OP_ENABLE_MIDDLEBOX_COMPAT = 1048576L
+-+            default |= OP_ENABLE_MIDDLEBOX_COMPAT
+-         self.assertEqual(default, ctx.options)
+-         ctx.options |= ssl.OP_NO_TLSv1
+-         self.assertEqual(default | ssl.OP_NO_TLSv1, ctx.options)
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/python/python/0004-bpo-34836-fix-test_default_ecdh_curve-needs-no-tlsv1.patch b/meta/recipes-devtools/python/python/0004-bpo-34836-fix-test_default_ecdh_curve-needs-no-tlsv1.patch
+deleted file mode 100644
+index 39e1bcf..0000000
+--- a/meta/recipes-devtools/python/python/0004-bpo-34836-fix-test_default_ecdh_curve-needs-no-tlsv1.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 946a7969345c6697697effd226ec396d3fea05b7 Mon Sep 17 00:00:00 2001
+-From: Dimitri John Ledkov <xnox@ubuntu.com>
+-Date: Fri, 28 Sep 2018 17:30:19 +0100
+-Subject: [PATCH 4/4] bpo-34836: fix test_default_ecdh_curve, needs no tlsv1.3.
+-
+-Signed-off-by: Dimitri John Ledkov <xnox@ubuntu.com>
+-
+-https://bugs.python.org/issue34836
+-
+-Patch taken from Ubuntu.
+-Upstream-Status: Submitted [https://github.com/python/cpython/pull/9626]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- Lib/test/test_ssl.py | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
+-index efc906a5ba..4a3286cd5f 100644
+---- a/Lib/test/test_ssl.py
+-+++ b/Lib/test/test_ssl.py
+-@@ -2836,6 +2836,9 @@ else:
+-             # should be enabled by default on SSL contexts.
+-             context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+-             context.load_cert_chain(CERTFILE)
+-+            # TLSv1.3 defaults to PFS key agreement and no longer has KEA in
+-+            # cipher name.
+-+            context.options |= ssl.OP_NO_TLSv1_3
+-             # Prior to OpenSSL 1.0.0, ECDH ciphers have to be enabled
+-             # explicitly using the 'ECCdraft' cipher alias.  Otherwise,
+-             # our default cipher list should prefer ECDH-based ciphers
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.16.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python_2.7.15.bb
+rename to meta/recipes-devtools/python/python_2.7.16.bb
+index 3f361ae..7fe16f7 100644
+--- a/meta/recipes-devtools/python/python_2.7.15.bb
++++ b/meta/recipes-devtools/python/python_2.7.16.bb
+@@ -31,8 +31,6 @@ SRC_URI += "\
+   file://pass-missing-libraries-to-Extension-for-mul.patch \
+   file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
+   file://float-endian.patch \
+-  file://0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch \
+-  file://0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.7.4
 
