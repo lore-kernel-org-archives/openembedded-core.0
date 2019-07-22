@@ -1,49 +1,52 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
 Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
 	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id CB8CC7ECC7
+	by mail.openembedded.org (Postfix) with ESMTP id 078297ECC7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2019 00:18:20 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id p17so35767321ljg.1
+	Mon, 22 Jul 2019 00:18:22 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id h10so35775506ljg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 17:18:22 -0700 (PDT)
+	Sun, 21 Jul 2019 17:18:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=JU0/g+qixWSIREn/bDxBtkNonZvkC5n+OR+pJthYJ4s=;
-	b=tCKuxFeu6JqNcVzdgDAyyVjRdlVczOxL3XuCk89OcN5SQkWoP4eBwpCReMZyqoxnt7
-	/vYAHNsnQt4dWJlafW+XoKqxoOH23izvHgY4mkywdDPCF2dqwwrYZLMg9kjgYmexnpkJ
-	6vpklEdCxipzlLU0Y7ygIZmnz+HDqZbFOc7uPkJ7xGYttkE5ASmsA2k79c7a8Nj8vBZH
-	c5FiESZ9FgavW6x04JNM+LjgLtNEJCnsGHxXgOwdG+vCZ6L58p/ysfySoqCAerVZk01T
-	KcYQexw8D1p+Sb7yx29+mABUePm0hHt4zYyjMerCxuc209tQ10W7TwJJe3do87DrfVG2
-	hy7g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=W5vUHe+SiHi7AkDmq5dtuOqjCyD1wHyU6HIHyU1fG94=;
+	b=j46u88Cozr4bH5+iti3Juj1z7m5HPUSD6Gwrbz7N3sRrVot4M+KItAJucfafx7qaZg
+	SPcHcYzPHpS4MQggwzI2tBFYTSgY5jjfwABAk15sh2mrRT29DSjLfm90f6ED5sL0PLD0
+	Pa4NUwcWRCZzqZ27R1U6Yro4U79L2HMA7bZOxexwujR4Gs8kjGw30OZwpkE3nEmYb9WC
+	D3KkzuIjEz1RS7ly62y7lBSbww3Gn5mND9cA2gLsBHYiWwLMjv1nddRrO9ck9Xfgd9z5
+	s+OcJ0B5Zka25b/eEI+zr8MiaIw5YNcAGBtz+IUAcWQvE6tTMjXk4x+93E7LluhR+HSY
+	nC7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=JU0/g+qixWSIREn/bDxBtkNonZvkC5n+OR+pJthYJ4s=;
-	b=VL8ihjhSVUqKee9bp78lwgBT0rdqXpwbrt0DVbcro64lWnTci0OreFt5vDhuywzXPb
-	EJ7R37kyRW7kmcuQsYT395p3df9nPUGWhRj4BSwqDWEpYbFYJUui09zlRrxzutzI1XRF
-	35INrqO8UKQAl9SrVaA2ixl6DjNMJdTZYv6LxOb2YRDI1mlRaDzpjpGtMfucfzjsdjqo
-	Dh3HoIRwkzKzXb95l2qLN0AjzoBqPx7gQJ31lRa0qU75XgJ0pd7au0nU+z/6n90WnSxq
-	cqIQPN5GEHvk7EvmwAxkbLa9Xr/xAKJ3irFaD7jOG38IrZE8ubOS6qCW5obkgCAnmL7K
-	gckg==
-X-Gm-Message-State: APjAAAV8ulNR/wMsnEU0WIZRSi38EsA3PkmCOWaqp+uvpL2rnat68OGe
-	HP5jc9azbfACtUmSoBdnCNIXrBx7
-X-Google-Smtp-Source: APXvYqxqsJR++XLv2qotNWagFi60zx9tV0pcF4poD2QOv24RV5mnV9Xjyo0+1YXe+EatqJeog/oT8Q==
-X-Received: by 2002:a2e:80c8:: with SMTP id r8mr34516693ljg.168.1563754700673; 
-	Sun, 21 Jul 2019 17:18:20 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=W5vUHe+SiHi7AkDmq5dtuOqjCyD1wHyU6HIHyU1fG94=;
+	b=JsH+bLObGgOecqdGEN8doXni+gWZFr4POphDIt2r/tAgARhZrsAYZ7KLlmFuKLdZP7
+	90cbi8sfaxT/INqtdeiR3UKj4AO7O2PWfazG8gpuHgw3q2DYx7kP7+ivSGJSjs+FTZ/G
+	w145XQuwCU1fjBBALPI8p8MIgCtxaaAQAF/58ffeCjTq0hvb+z4q5LNkYtdjmnzeTwIf
+	ZKURmp9630Bszg1LaUdt0KEiUPYKlTDGIROXK3PNekavAXkeEx+UeS3VbvN76ksYhA5h
+	mt/N6NiDThYUcTGQxldAChuEAtv8ujbwltIfPtDjMeIz9hH456SbSYSeBJFbNEadmMdi
+	8QVg==
+X-Gm-Message-State: APjAAAWnqVXdQRJY2jkBhWCITrJGB1IkJTiO0IKN++QJf6Ug6a73XKMg
+	7w6cbTdKNOkwvL1W1UCKl3KrKJTM
+X-Google-Smtp-Source: APXvYqxP9mHDdxlOIGaO+xqHiMK7WIk1ViEAz25GAhLtxToaq4IBOQdTaf+cHfEyUHHGroKpN4GBbw==
+X-Received: by 2002:a2e:3807:: with SMTP id f7mr20858329lja.87.1563754702643; 
+	Sun, 21 Jul 2019 17:18:22 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	d21sm5771826lfc.73.2019.07.21.17.18.19
+	d21sm5771826lfc.73.2019.07.21.17.18.21
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 21 Jul 2019 17:18:20 -0700 (PDT)
+	Sun, 21 Jul 2019 17:18:22 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jul 2019 02:18:07 +0200
-Message-Id: <20190722001812.14947-1-open.source@oleksandr-kravchuk.com>
+Date: Mon, 22 Jul 2019 02:18:08 +0200
+Message-Id: <20190722001812.14947-2-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190722001812.14947-1-open.source@oleksandr-kravchuk.com>
+References: <20190722001812.14947-1-open.source@oleksandr-kravchuk.com>
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH 1/6] python-scons: update to 3.1.0
+Subject: [PATCH 2/6] python3-scons: update to 3.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,27 +59,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2019 00:18:21 -0000
+X-List-Received-Date: Mon, 22 Jul 2019 00:18:22 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- ...hon-scons-native_3.0.5.bb => python-scons-native_3.1.0.bb} | 0
- .../python/{python-scons_3.0.5.bb => python-scons_3.1.0.bb}   | 4 ++--
+ ...n3-scons-native_3.0.5.bb => python3-scons-native_3.1.0.bb} | 0
+ .../python/{python3-scons_3.0.5.bb => python3-scons_3.1.0.bb} | 4 ++--
  2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-scons-native_3.0.5.bb => python-scons-native_3.1.0.bb} (100%)
- rename meta/recipes-devtools/python/{python-scons_3.0.5.bb => python-scons_3.1.0.bb} (79%)
+ rename meta/recipes-devtools/python/{python3-scons-native_3.0.5.bb => python3-scons-native_3.1.0.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-scons_3.0.5.bb => python3-scons_3.1.0.bb} (82%)
 
-diff --git a/meta/recipes-devtools/python/python-scons-native_3.0.5.bb b/meta/recipes-devtools/python/python-scons-native_3.1.0.bb
+diff --git a/meta/recipes-devtools/python/python3-scons-native_3.0.5.bb b/meta/recipes-devtools/python/python3-scons-native_3.1.0.bb
 similarity index 100%
-rename from meta/recipes-devtools/python/python-scons-native_3.0.5.bb
-rename to meta/recipes-devtools/python/python-scons-native_3.1.0.bb
-diff --git a/meta/recipes-devtools/python/python-scons_3.0.5.bb b/meta/recipes-devtools/python/python-scons_3.1.0.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python-scons_3.0.5.bb
-rename to meta/recipes-devtools/python/python-scons_3.1.0.bb
-index 939c15bcc6..b174050583 100644
---- a/meta/recipes-devtools/python/python-scons_3.0.5.bb
-+++ b/meta/recipes-devtools/python/python-scons_3.1.0.bb
+rename from meta/recipes-devtools/python/python3-scons-native_3.0.5.bb
+rename to meta/recipes-devtools/python/python3-scons-native_3.1.0.bb
+diff --git a/meta/recipes-devtools/python/python3-scons_3.0.5.bb b/meta/recipes-devtools/python/python3-scons_3.1.0.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-scons_3.0.5.bb
+rename to meta/recipes-devtools/python/python3-scons_3.1.0.bb
+index 7fb75a627e..f1545dade6 100644
+--- a/meta/recipes-devtools/python/python3-scons_3.0.5.bb
++++ b/meta/recipes-devtools/python/python3-scons_3.1.0.bb
 @@ -4,8 +4,8 @@ LICENSE = "MIT"
  LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=37bb53a08e6beaea0c90e7821d731284"
  
