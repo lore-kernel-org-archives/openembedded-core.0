@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id F1D267C427
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E87527D69D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2019 10:16:24 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id f4so72680774ioh.6
+	Mon, 22 Jul 2019 14:48:12 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id w9so28956263wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2019 03:16:26 -0700 (PDT)
+	Mon, 22 Jul 2019 07:48:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Kh9EqE7zvroueBBWPVJHfVXx8O7jJcdEPxrwlqy8Y0U=;
-	b=iq2LQKV6kzz7ppNmb49BL/W+7TugkKq29PKrMEr6k8Y6GyQtGiSeMsqnwZjJiJzS5E
-	T3jnvOVmvQco/VhAJHh7sXoLHgzjpQFHtUF1CAV+jOy4UNJVaz7DA0mxDD9sgUvfkP2F
-	KBcfjj9bVbnHFlJBHPcZ+5C3pHlPxOREsjv0rn6Gq2du0FOWcwPZDhoRPH+LWAkZsr+C
-	Sg6WGuOqF6yIzOo5igpRJzft5/T1sSTjYHypXHUT91CAHlJtdf/3gtm17+TcYlYclrbx
-	lt/Zxex0MLDWnR1jjsrPR0JZLIJpuynL8sjr8ibOHnTS4f/lYzHfO6ZDwWVzfjCj7sT8
-	3ECg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cpGDrHko4kgy9KW9kf6m80hlY0Avks9/QYOx6yE4UlU=;
+	b=AnHYK6jxryuK7+Qa8o+64/1aY3hGkpROrUm1dqhOppy1Ar4vOZQZl8At9VRCu2sE9p
+	km2C9G5z+oiDh8RFz2ohXfCOiCIWZdVz3JY+sVcbkJjy3g+ihHk021VLoHe2FTDIgnFt
+	s7o6MLMBUET+u7Be9OW9a+tm8nVQ6psviSuGQEC9v4P1gKEqVDCX8zm3ry2tiNP9RyRn
+	Gylfl+YDL+6/tgrSBrCJLsV79p/3LdKeZDECWkzxm5MJlF+9ytM9UXLqHtG48XQqKPhl
+	hEY3Rn6bB/79uoHpYiXV7dWNDOpAP3BB9a172WqztS1p/8goq2K+UJQ/32uNiPkZ1QgW
+	P/sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Kh9EqE7zvroueBBWPVJHfVXx8O7jJcdEPxrwlqy8Y0U=;
-	b=XQJeNtja1kJ9nRJCY0F7e8AJgH/wbUunglPpdhun7lrW3t+TzSjxaoY5y+PK8EnDbn
-	jZLIkEojvXMiky879c9HaGgps+1SiJb5Paj7lAwOuERj3Z4WLT1Of/iMphIiltC9UwTf
-	drN8dqZ+2PCTdi0Tjz3Y263gg9IN2dso7ASrrWNtuy3zYrl638kYnxYWfjowXJor6oMw
-	nY76Ho3MisADYGqMg3y6XbGGBka6ib6Qz1a2+kO7czApLkVAFrO19yUrFqQqXBVg1ulJ
-	PRwCmZ6airah5RDhzLxoJKQ/6YExvFPSCKyHxLFLD086cG9fKCuOboI/mVhCIy3AkPms
-	4ffw==
-X-Gm-Message-State: APjAAAXI6KtkAkn4j1SKMIda/WGbI2/34VTH4+R2avbXON9xqiYzSKL5
-	gFR2U5Ryf7FbliR0HqvT8+dGwhC69tbWGndCtSPLm8V8
-X-Google-Smtp-Source: APXvYqxfCmH0L6v9M++lIOSZywj22IpsFdfPJN/8V0HcWlVva4qAVVc03kw/6tnzgE2edKtDHPhNMmRbGr4HI9996j8=
-X-Received: by 2002:a5e:9747:: with SMTP id h7mr23650960ioq.299.1563790585973; 
-	Mon, 22 Jul 2019 03:16:25 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cpGDrHko4kgy9KW9kf6m80hlY0Avks9/QYOx6yE4UlU=;
+	b=C8rV3iXljKAX7ng/fAVa1OTZY5ygKcm3RV6M+Lv13JKPVX+WNV59ez/TasTvJ2XFUg
+	1sM6C/0dm627C7qJLQmr9Kf7M4Phm0PxavQ05thCXck7YqtApTswX22NM/d/Eu2gyb+a
+	cGLpbXDNGXTpe4SVTXOMqNJgHrUThKmw9ml/buLcQ69/GcAkXotj+YTHSqBE9RKFH5JV
+	ZmIKAWgAHoBsCiZG7xX+FjhxA0EBm6Y0THP+3fEJx/OvIoDigQefsgExchuABhY1duJE
+	wJJvozWJP5PSwFYz18qhubCiPiKlrCwTdb9hgwtyiTjwX6xf0yCmUtcA1FDaO5n29Mco
+	e2Hw==
+X-Gm-Message-State: APjAAAWG49g3Q8kC6dOSu15AhzNkBcOhmHvMl+mHo7b4Akzk367waDrP
+	2LQvlle94dc+3dTSVF4sPlxPpR46YDA=
+X-Google-Smtp-Source: APXvYqyOfHCXiEfBtokmriiP69CLZD5xmA9DICpekQlv7a5dEbscybp9wRs4/a/0j6eLEEYXgnDsKw==
+X-Received: by 2002:a1c:2302:: with SMTP id j2mr62087336wmj.174.1563806893179; 
+	Mon, 22 Jul 2019 07:48:13 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	g17sm28626768wrm.7.2019.07.22.07.48.11
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 22 Jul 2019 07:48:12 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Jul 2019 15:48:09 +0100
+Message-Id: <20190722144809.14972-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190722001812.14947-1-open.source@oleksandr-kravchuk.com>
-	<20190722001812.14947-4-open.source@oleksandr-kravchuk.com>
-	<CAJTo0LYD8ujue+Ls+oxsE64GNp0P-uXpE7xX_poEkPdb+7cj2g@mail.gmail.com>
-In-Reply-To: <CAJTo0LYD8ujue+Ls+oxsE64GNp0P-uXpE7xX_poEkPdb+7cj2g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Jul 2019 11:16:15 +0100
-Message-ID: <CAJTo0LZQPPbMyg6UdWc=qv+1sZSMyyusBijM0oZHTHppUbZzLQ@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] python3-git: update to 2.1.12
+Cc: "Maxin B . John" <maxin.john@intel.com>
+Subject: [PATCH] libical: upgrade to 3.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,91 +59,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2019 10:16:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 22 Jul 2019 14:48:13 -0000
+Content-Transfer-Encoding: 8bit
 
-(The recipe is doing DEPENDS= and overriding the DEPENDS+= in
-setuptools3.bbclass)
+Note that this upgrade includes some API breakage.
 
-On Mon, 22 Jul 2019 at 11:15, Burton, Ross <ross.burton@intel.com> wrote:
->
-> The upgrade is failing for me:
->
-> ERROR: python3-git-2.1.12-r0 do_configure: Function failed:
-> do_configure (log file is located at
-> /data/poky-tmp/master/work/corei7-64-poky-linux/python3-git/2.1.12-r0/temp/log.do_configure.32072)
-> ERROR: Logfile of failure stored in:
-> /data/poky-tmp/master/work/corei7-64-poky-linux/python3-git/2.1.12-r0/temp/log.do_configure.32072
-> Log data follows:
-> | DEBUG: Executing shell function do_configure
-> | Traceback (most recent call last):
-> |   File "setup.py", line 4, in <module>
-> |     from setuptools import setup, find_packages
-> | ModuleNotFoundError: No module named 'setuptools'
-> |
-> | During handling of the above exception, another exception occurred:
-> |
-> | Traceback (most recent call last):
-> |   File "setup.py", line 6, in <module>
-> |     from ez_setup import use_setuptools
-> | ModuleNotFoundError: No module named 'ez_setup'
->
-> Ross
->
-> On Mon, 22 Jul 2019 at 01:19, Oleksandr Kravchuk
-> <open.source@oleksandr-kravchuk.com> wrote:
-> >
-> > Got rid of python-git since there is no python2 version of the package.
-> >
-> > Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> > ---
-> >  meta/recipes-devtools/python/python3-git_2.1.11.bb         | 2 --
-> >  .../python/{python-git.inc => python3-git_2.1.12.bb}       | 7 ++++---
-> >  2 files changed, 4 insertions(+), 5 deletions(-)
-> >  delete mode 100644 meta/recipes-devtools/python/python3-git_2.1.11.bb
-> >  rename meta/recipes-devtools/python/{python-git.inc => python3-git_2.1.12.bb} (86%)
-> >
-> > diff --git a/meta/recipes-devtools/python/python3-git_2.1.11.bb b/meta/recipes-devtools/python/python3-git_2.1.11.bb
-> > deleted file mode 100644
-> > index ac320fa56b..0000000000
-> > --- a/meta/recipes-devtools/python/python3-git_2.1.11.bb
-> > +++ /dev/null
-> > @@ -1,2 +0,0 @@
-> > -require python-git.inc
-> > -inherit setuptools3
-> > diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python3-git_2.1.12.bb
-> > similarity index 86%
-> > rename from meta/recipes-devtools/python/python-git.inc
-> > rename to meta/recipes-devtools/python/python3-git_2.1.12.bb
-> > index f973e9f42c..99e59cbb8a 100644
-> > --- a/meta/recipes-devtools/python/python-git.inc
-> > +++ b/meta/recipes-devtools/python/python3-git_2.1.12.bb
-> > @@ -10,10 +10,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
-> >
-> >  PYPI_PACKAGE = "GitPython"
-> >
-> > -inherit pypi
-> > +inherit pypi setuptools3
-> >
-> > -SRC_URI[md5sum] = "cee43a39a1468084d49d1c49fb675204"
-> > -SRC_URI[sha256sum] = "8237dc5bfd6f1366abeee5624111b9d6879393d84745a507de0fda86043b65a8"
-> > +SRC_URI[md5sum] = "33bfbc89fe616ca22b6336be80d570f4"
-> > +SRC_URI[sha256sum] = "7428f1cc5e72d53e65c3259d5cebc22fb2b07f973c49d95b3c3d26c64890a3c3"
-> >
-> >  DEPENDS = "${PYTHON_PN}-gitdb"
-> >
-> > @@ -29,4 +29,5 @@ RDEPENDS_${PN} += " \
-> >                     ${PYTHON_PN}-unixadmin \
-> >                     git \
-> >  "
-> > +
-> >  BBCLASSEXTEND = "native nativesdk"
-> > --
-> > 2.17.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...ibical.pc.in-fix-iculibs-remove-full.patch | 44 -------------------
+ .../{libical_2.0.0.bb => libical_3.0.5.bb}    | 20 +++++----
+ 2 files changed, 12 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch
+ rename meta/recipes-support/libical/{libical_2.0.0.bb => libical_3.0.5.bb} (53%)
+
+diff --git a/meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch b/meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch
+deleted file mode 100644
+index 6db75f5086c..00000000000
+--- a/meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 1a41069c0dc054e59cd76fc3d8cf7cc2a78b5e8d Mon Sep 17 00:00:00 2001
+-From: Allen Winter <allen.winter@kdab.com>
+-Date: Sat, 3 Sep 2016 16:56:29 -0400
+-Subject: [PATCH] CMakeLists.txt, libical.pc.in - fix iculibs (remove full path) ISSUE: 227
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+-----
+-diff -Naur libical-2.0.0-orig/CMakeLists.txt libical-2.0.0/CMakeLists.txt
+---- libical-2.0.0-orig/CMakeLists.txt	2016-09-08 18:05:06.166049345 +0300
+-+++ libical-2.0.0/CMakeLists.txt	2016-09-08 18:05:45.201561334 +0300
+-@@ -128,6 +128,7 @@
+- #  RSCALE info at http://tools.ietf.org/html/rfc7529
+- find_package(ICU)
+- if(ICU_FOUND)
+-+  set(ICUUC_LIBS "-licuuc") #for libical.pc
+-   set(HAVE_LIBICU 1)
+-   if(ICU_MAJOR_VERSION VERSION_GREATER 50)
+-     set(HAVE_ICU_DANGI TRUE)
+-@@ -137,6 +138,7 @@
+- endif()
+- if(ICU_I18N_FOUND)
+-   set(HAVE_LIBICU_I18N 1)
+-+  set(ICUI18N_LIBS "-licui18n") #for libical.pc
+- endif()
+- 
+- # MSVC specific definitions
+-diff -Naur libical-2.0.0-orig/libical.pc.in libical-2.0.0/libical.pc.in
+---- libical-2.0.0-orig/libical.pc.in	2015-12-28 23:44:53.000000000 +0200
+-+++ libical-2.0.0/libical.pc.in	2016-09-08 18:09:12.991963597 +0300
+-@@ -3,10 +3,10 @@
+- libdir=@libdir@
+- includedir=@includedir@
+- threadslib=@PTHREAD_LIBS@
+--iculib=@ICU_LIBRARIES@ @ICU_I18N_LIBRARIES@
+-+iculibs=@ICUUC_LIBS@ @ICUI18N_LIBS@
+- 
+- Name: libical
+- Description: An implementation of basic iCAL protocols
+- Version: @VERSION@
+--Libs: -L${libdir} -lical -licalss -licalvcal ${threadslib} ${iculib}
+-+Libs: -L${libdir} -lical -licalss -licalvcal ${threadslib} ${iculibs}
+- Cflags: -I${includedir}
+diff --git a/meta/recipes-support/libical/libical_2.0.0.bb b/meta/recipes-support/libical/libical_3.0.5.bb
+similarity index 53%
+rename from meta/recipes-support/libical/libical_2.0.0.bb
+rename to meta/recipes-support/libical/libical_3.0.5.bb
+index 7dffdcfb013..6489ccb9323 100644
+--- a/meta/recipes-support/libical/libical_2.0.0.bb
++++ b/meta/recipes-support/libical/libical_3.0.5.bb
+@@ -1,18 +1,18 @@
+ SUMMARY = "iCal and scheduling (RFC 2445, 2446, 2447) library"
+ HOMEPAGE = "https://github.com/libical/libical"
+ BUGTRACKER = "https://github.com/libical/libical/issues"
+-LICENSE = "LGPLv2.1 | MPL-1.0"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
+-                    file://LICENSE;md5=d1a0891cd3e582b3e2ec8fe63badbbb6"
++LICENSE = "LGPLv2.1 | MPL-2"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1910a2a76ddf6a9ba369182494170d87 \
++                    file://LICENSE.LGPL21.txt;md5=933adb561f159e7c3da079536f0ed871 \
++                    file://LICENSE.MPL2.txt;md5=9741c346eef56131163e13b9db1241b3"
+ SECTION = "libs"
+ 
+-SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
+-           file://0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch \
+-           "
++SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz"
++
+ DEPENDS = "icu"
+ 
+-SRC_URI[md5sum] = "6bf8e5f5a3ba88baf390d0134e05d76e"
+-SRC_URI[sha256sum] = "654c11f759c19237be39f6ad401d917e5a05f36f1736385ed958e60cf21456da"
++SRC_URI[md5sum] = "9be4e8a1739a9c27e06aa8ce66b8cb34"
++SRC_URI[sha256sum] = "7ad550c8c49c9b9983658e3ab3e68b1eee2439ec17b169a6b1e6ecb5274e78e6"
+ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
+ 
+ inherit cmake pkgconfig
+@@ -20,6 +20,10 @@ inherit cmake pkgconfig
+ # No need to use perl-native, the host perl is sufficient.
+ EXTRA_OECMAKE += "-DPERL_EXECUTABLE=${HOSTTOOLS_DIR}/perl"
+ 
++# The glib library can't be cross-compiled, disable for now.
++# https://github.com/libical/libical/issues/394
++EXTRA_OECMAKE += "-DICAL_GLIB=false"
++
+ do_install_append_class-target () {
+     # Remove build host references
+     sed -i \
+-- 
+2.20.1
+
 
