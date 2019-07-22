@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
-	[209.85.215.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 313497EFF5
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+	[209.85.210.177])
+	by mail.openembedded.org (Postfix) with ESMTP id AB2717F022
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2019 07:26:42 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id f20so8005370pgj.0
+	Mon, 22 Jul 2019 07:27:02 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id q10so16938652pff.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2019 00:26:43 -0700 (PDT)
+	Mon, 22 Jul 2019 00:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=cwOzglr40ogbE30J9QjFg7lUZxWWqy2isLO/L9aVvHM=;
-	b=qFN86pCP9AXaHdXK91YixA9sgsSeKiz/m3VX7bhpdvmdqOQDs01xpEmHMMgtlpZx2h
-	Ba9SVbb6NV1fg8xsAcseygRj9MmDijjMXF89jE3jlzj0CQmGFIemoMqZLgka0k71/G8o
-	FMjEoWtDrvRtWZB9vXiR9iBn3/UZ+vobHvBVMP37pBWkPko6acAvWX4PK9fP8ZrMd3yb
-	j2DPgwtK67ENZntvGm4PNBwoNOM6jaNsWjHbqUCY3dCVBRRvymm8cBHu5v1zGt82mv/Y
-	23oKTvNgKfz2vbSeEMbHC5zBAWw1hkHI9dThKlc88HXayMrf5RUmml+Ppu/Cf4hBd5ey
-	WTqA==
+	:user-agent; bh=/KwXwlhsXlOle41zJH/kd12lDPOiy7K69IxQev6rvgA=;
+	b=PSwjGOPF3ATkHywteEecv2gP6lkP2OCBJw2vHoQAncvZ4Bm+BcH48kYS7lHd+Rv4C7
+	hFlxUq1RvnxYtCnRmaIcYccKxzgxauGWlshc53VbR4Yovguxpt9CYfdIiFBIqBu1JorI
+	LkLp+rHoJDHtYmmRpUk3CP+jG5m4Bi91b4EBXjm0jLH06SyaPDbbcwist2UAJRS2PQyc
+	8n+c61Pi1Cpv6S6G9XInC+9DOb/bAEOV+s1M+J7PJzyDJApouOMglvw2Ci/+tvj1+Vdk
+	mnLEi2m/0Ug0GuhjrGVBrHudRb/9OQTQgiaZlzAqrxKnbtM6bgyMp4SMUJtaiZgRX1aH
+	M9Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:subject:message-id:mime-version
 	:content-disposition:user-agent;
-	bh=cwOzglr40ogbE30J9QjFg7lUZxWWqy2isLO/L9aVvHM=;
-	b=Zgj++m9scMMfD5WGZAcLWSwyYg5tFuaAYVIeqCpqpOaC/Un9g+s1Vl/kYHHv7k1QbP
-	sBWzgvo8Syfv/kEDIJWawc5eSVOhpZIIXVxFgLZC+/6OBdusRJLxjjY2Kw1YJvOqxw0i
-	maqpYxPfQo3f2arWguZ2svCVKf7hRrcqN5p+dmIZFFNlSrbJZnMhWLHNIux7l6Y8MZKb
-	kvCPocl51WahkVp2D7BZKObrweIQ9nxwoq4/kZJ2HaKyQ0cbB7QLW64IipVMy4Vo4IwX
-	ujGADk7mZOFSAxF9DPZxhlNHS/bnYuQaEHfLseyUfZJjU6dOD6ZVxNEU0ENLlniyoAoP
-	9ecA==
-X-Gm-Message-State: APjAAAWcj5n9S47AffD/CvQv4c3fJL8XHR3PlRlCDiv/YAd+RBIifq0R
-	qGMj7oKnKUcYnaPGaKGs6fbk0DLaGII=
-X-Google-Smtp-Source: APXvYqyo5WaADi9b3/9RjyVkumJeMfwquJI2qoEGKc8k/9taQPojM+JG2Tn2TcQk+s+PJnEp7T6ysg==
-X-Received: by 2002:a17:90a:2190:: with SMTP id
-	q16mr73193018pjc.23.1563780402882; 
-	Mon, 22 Jul 2019 00:26:42 -0700 (PDT)
+	bh=/KwXwlhsXlOle41zJH/kd12lDPOiy7K69IxQev6rvgA=;
+	b=Jgzemhvyw569QDpo4fGVB6dXH/hgTrdDbKhP/9OhTa0ZXdWi18wJ3nXQ9S0WxT0Nrl
+	qjQsl8fXw3596rPdT/Ib3q+YPM6o4i+bfxKOWklym9mpQAMxR9nZyjWuoOTWrku3ecAZ
+	GPsyf5jkN7ufevjQJa+xF/5CRv7y//FpszWx0UjH4Vp6Atw1AFJkiPQv/8DSItSMxLzJ
+	tS6S4x22G/AdWlsUy4Syn3+24QhZ/jHtsKpefhgSmdKwyOGHrsxUW8ZkC1u/B0DSv6f4
+	SK4RIcn+mg0ZiKee+BjAOp9e0M3/Te+vxHKB5QNTke8O18Iy63oG4HfYQnedb68s8EGO
+	S2VA==
+X-Gm-Message-State: APjAAAUlpZXbPVJ/8vMVAQw8WVLqO5MpuMyNcgavLs9LDY4NI2i0ORkE
+	uG8jWCNstNgh7TlzRbEdkJa5wvtrcAo=
+X-Google-Smtp-Source: APXvYqzlVOsF80azdId+5WqMcnuxX8vaaXJ9ZVkLdXlyJsv4wY1WNHRHJJzv/0sz5faqirVPD6tOgg==
+X-Received: by 2002:a17:90a:cf8f:: with SMTP id
+	i15mr24832694pju.110.1563780423355; 
+	Mon, 22 Jul 2019 00:27:03 -0700 (PDT)
 Received: from apollo (c-73-71-176-3.hsd1.ca.comcast.net. [73.71.176.3])
 	by smtp.gmail.com with ESMTPSA id
-	i9sm30513421pgg.38.2019.07.22.00.26.42
+	e189sm9374887pgc.15.2019.07.22.00.27.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 22 Jul 2019 00:26:42 -0700 (PDT)
-Date: Mon, 22 Jul 2019 00:26:32 -0700
+	Mon, 22 Jul 2019 00:27:03 -0700 (PDT)
+Date: Mon, 22 Jul 2019 00:26:54 -0700
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20190722072632.7q2t3zxuo6p6h7en@apollo>
+Message-ID: <20190722072654.eks3gy2e66wzhhun@apollo>
 MIME-Version: 1.0
 User-Agent: NeoMutt/20180716
-Subject: [PATCH 2/3] mdadm: Include sys/sysmacros.h for major/minor definitions
+Subject: [PATCH 3/3] sysvinit: Include sys/sysmacros.h for major/minor definitions on musl too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +58,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2019 07:26:42 -0000
+X-List-Received-Date: Mon, 22 Jul 2019 07:27:02 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Fixes
-implicit declaration of function 'minor' is invalid in C99 [-Wimplicit-function-declaration]
+Fixes musl issue
 
+implicit declaration of function 'minor' is invalid in C99 [-Wimplicit-function-declaration]
 which eventually ends up with a linker error
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../mdadm/files/include_sysmacros.patch            | 14 ++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb           |  1 +
- 2 files changed, 15 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/include_sysmacros.patch
+ ...acros.h-for-major-minor-defines-in-g.patch | 99 ++++++++-----------
+ 1 file changed, 39 insertions(+), 60 deletions(-)
 
-diff --git a/meta/recipes-extended/mdadm/files/include_sysmacros.patch b/meta/recipes-extended/mdadm/files/include_sysmacros.patch
-new file mode 100644
-index 0000000000..8a1d8342d8
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/include_sysmacros.patch
-@@ -0,0 +1,14 @@
-+include sys/sysmacros.h for major/minor macro definitions
+diff --git a/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch b/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
+index 2575b59b5e..e13ac9d06b 100644
+--- a/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
++++ b/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
+@@ -1,71 +1,50 @@
+-From 29c7a529d3bb0c1e20239f885e74c5036f1a908c Mon Sep 17 00:00:00 2001
++From 3c29a86f351ea4827dc445bb8e6cb774543c9be6 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 6 Aug 2018 15:38:58 -0700
+-Subject: [PATCH] include sys/sysmacros.h for major/minor defines in glibc
++Subject: [PATCH] include sys/sysmacros.h for major/minor definitions
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Upstream-Status: Pending
 +
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+--- a/mdadm.h
-++++ b/mdadm.h
-+@@ -35,6 +35,7 @@ extern __off64_t lseek64 __P ((int __fd,
-+ 
-+ #include	<sys/types.h>
-+ #include	<sys/stat.h>
-++#include	<sys/sysmacros.h>
-+ #include	<stdint.h>
-+ #include	<stdlib.h>
-+ #include	<time.h>
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 0cd9626f27..74c94f6ecb 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch \
- 	   file://mdadm.init \
- 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
-+           file://include_sysmacros.patch \
-            "
- SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
- SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+ ---
+- src/bootlogd.c |   3 +++
+- src/bootlogd.o | Bin 58448 -> 60376 bytes
+- src/dowall.c   |   3 +++
+- src/shutdown.c |   4 +++-
+- 4 files changed, 9 insertions(+), 1 deletion(-)
++ src/bootlogd.c   | 1 +
++ src/mountpoint.c | 1 +
++ src/shutdown.c   | 1 +
++ 3 files changed, 3 insertions(+)
+ 
+-Index: sysvinit-2.88dsf/src/bootlogd.c
+-===================================================================
+---- sysvinit-2.88dsf.orig/src/bootlogd.c
+-+++ sysvinit-2.88dsf/src/bootlogd.c
+-@@ -53,6 +53,9 @@
+- #ifdef __linux__
+- #include <sys/mount.h>
+- #endif
+-+#ifdef __GLIBC__
+-+#include <sys/sysmacros.h>
+-+#endif
+- 
+- char *Version = "@(#) bootlogd 2.86 03-Jun-2004 miquels@cistron.nl";
+- 
+-Index: sysvinit-2.88dsf/src/dowall.c
+-===================================================================
+---- sysvinit-2.88dsf.orig/src/dowall.c
+-+++ sysvinit-2.88dsf/src/dowall.c
+-@@ -37,6 +37,9 @@
+- #include <signal.h>
+- #include <setjmp.h>
+- #include <paths.h>
+-+#ifdef __GLIBC__
++diff --git a/src/bootlogd.c b/src/bootlogd.c
++index 570d382..68d62f3 100644
++--- a/src/bootlogd.c
+++++ b/src/bootlogd.c
++@@ -35,6 +35,7 @@
++ #include <sys/types.h>
++ #include <sys/time.h>
++ #include <sys/stat.h>
+ +#include <sys/sysmacros.h>
+-+#endif
++ #include <sys/ioctl.h>
++ #include <sys/utsname.h>
++ #include <time.h>
++diff --git a/src/mountpoint.c b/src/mountpoint.c
++index 9e3dd9c..91f74ed 100644
++--- a/src/mountpoint.c
+++++ b/src/mountpoint.c
++@@ -25,6 +25,7 @@
+  
+- #ifndef _PATH_DEV
+- # define _PATH_DEV	"/dev/"
+-Index: sysvinit-2.88dsf/src/shutdown.c
+-===================================================================
+---- sysvinit-2.88dsf.orig/src/shutdown.c
+-+++ sysvinit-2.88dsf/src/shutdown.c
+-@@ -57,7 +57,9 @@
+- #include "reboot.h"
+- #include "initreq.h"
+- #include "init.h"
+--
+-+#ifdef __GLIBC__
++ #include <sys/types.h>
++ #include <sys/stat.h>
+ +#include <sys/sysmacros.h>
+-+#endif
+- 
+- char *Version = "@(#) shutdown 2.86-1 31-Jul-2004 miquels@cistron.nl";
+- 
+-Index: sysvinit-2.88dsf/src/mountpoint.c
+-===================================================================
+---- sysvinit-2.88dsf.orig/src/mountpoint.c
+-+++ sysvinit-2.88dsf/src/mountpoint.c
+-@@ -32,6 +32,9 @@
+- #include <stdarg.h>
+- #include <getopt.h>
+- #include <stdio.h>
+-+#ifdef __GLIBC__
++ #include <unistd.h>
++ #include <stdlib.h>
++ #include <string.h>
++diff --git a/src/shutdown.c b/src/shutdown.c
++index 7e997da..17de58d 100644
++--- a/src/shutdown.c
+++++ b/src/shutdown.c
++@@ -40,6 +40,7 @@
++ #endif
++ #include <sys/types.h>
++ #include <sys/stat.h>
+ +#include <sys/sysmacros.h>
+-+#endif
+- 
+- int dostat(char *path, struct stat *st, int do_lstat, int quiet)
+- {
++ #include <sys/wait.h>
++ #include <time.h>
++ #include <string.h>
 -- 
 2.22.0
 
