@@ -1,51 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
-	[209.85.210.177])
-	by mail.openembedded.org (Postfix) with ESMTP id AB2717F022
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id CC0FC7EEBC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2019 07:27:02 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id q10so16938652pff.9
+	Mon, 22 Jul 2019 09:51:45 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id i10so72452458iol.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2019 00:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=/KwXwlhsXlOle41zJH/kd12lDPOiy7K69IxQev6rvgA=;
-	b=PSwjGOPF3ATkHywteEecv2gP6lkP2OCBJw2vHoQAncvZ4Bm+BcH48kYS7lHd+Rv4C7
-	hFlxUq1RvnxYtCnRmaIcYccKxzgxauGWlshc53VbR4Yovguxpt9CYfdIiFBIqBu1JorI
-	LkLp+rHoJDHtYmmRpUk3CP+jG5m4Bi91b4EBXjm0jLH06SyaPDbbcwist2UAJRS2PQyc
-	8n+c61Pi1Cpv6S6G9XInC+9DOb/bAEOV+s1M+J7PJzyDJApouOMglvw2Ci/+tvj1+Vdk
-	mnLEi2m/0Ug0GuhjrGVBrHudRb/9OQTQgiaZlzAqrxKnbtM6bgyMp4SMUJtaiZgRX1aH
-	M9Og==
+	Mon, 22 Jul 2019 02:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=MW2AWZXCy1H9h6+azf8aRoT3tM9gCUejhtr+rz07K2Q=;
+	b=tzkeVE5mfsEJRKF1Cb5EBI/IKvKQN6lqUiuE+GR//R/tFfW6o5woMb1ewEYWtbJoB1
+	1P65dXBrDu/JGhIcEQdx3t44IFxHTKdKFwa5WjuKMiACUNeYZ0bALgjPG7RyOF7HblI5
+	UkVKK7PF4eIo1mYywXzpJcYkbUGhtyEv5eHJdkg9jQ+dTHwN/4tt+gMMvoger2wU5Sew
+	AytiAz8tS0G56gNOUQwpvS3vjhSH2Atych/9of8KA0Qg9Ur67MU1OkN+Hvqm2Tfhw/sJ
+	Csq3tu3cxh/qISfRFFaWcIeMJpt6VSIoK6gTW6l9mpdsZylkEHjFBP3DCMs2dOeGLZzK
+	bLBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-	:content-disposition:user-agent;
-	bh=/KwXwlhsXlOle41zJH/kd12lDPOiy7K69IxQev6rvgA=;
-	b=Jgzemhvyw569QDpo4fGVB6dXH/hgTrdDbKhP/9OhTa0ZXdWi18wJ3nXQ9S0WxT0Nrl
-	qjQsl8fXw3596rPdT/Ib3q+YPM6o4i+bfxKOWklym9mpQAMxR9nZyjWuoOTWrku3ecAZ
-	GPsyf5jkN7ufevjQJa+xF/5CRv7y//FpszWx0UjH4Vp6Atw1AFJkiPQv/8DSItSMxLzJ
-	tS6S4x22G/AdWlsUy4Syn3+24QhZ/jHtsKpefhgSmdKwyOGHrsxUW8ZkC1u/B0DSv6f4
-	SK4RIcn+mg0ZiKee+BjAOp9e0M3/Te+vxHKB5QNTke8O18Iy63oG4HfYQnedb68s8EGO
-	S2VA==
-X-Gm-Message-State: APjAAAUlpZXbPVJ/8vMVAQw8WVLqO5MpuMyNcgavLs9LDY4NI2i0ORkE
-	uG8jWCNstNgh7TlzRbEdkJa5wvtrcAo=
-X-Google-Smtp-Source: APXvYqzlVOsF80azdId+5WqMcnuxX8vaaXJ9ZVkLdXlyJsv4wY1WNHRHJJzv/0sz5faqirVPD6tOgg==
-X-Received: by 2002:a17:90a:cf8f:: with SMTP id
-	i15mr24832694pju.110.1563780423355; 
-	Mon, 22 Jul 2019 00:27:03 -0700 (PDT)
-Received: from apollo (c-73-71-176-3.hsd1.ca.comcast.net. [73.71.176.3])
-	by smtp.gmail.com with ESMTPSA id
-	e189sm9374887pgc.15.2019.07.22.00.27.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 22 Jul 2019 00:27:03 -0700 (PDT)
-Date: Mon, 22 Jul 2019 00:26:54 -0700
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20190722072654.eks3gy2e66wzhhun@apollo>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=MW2AWZXCy1H9h6+azf8aRoT3tM9gCUejhtr+rz07K2Q=;
+	b=gDiYQNC1YMWZkYFQFbFXs6i1mHA39KKNxOIjfN3OvwZZl8QS6hMqKP/f1B37wje6i6
+	i27TqX38mSZwOGXVegVOzk86RASSOpOIc01TW6vSzHS2PDpA2Om48av68x42D6jwP0/A
+	56xBCBCqj3GSA6pf34Snt5GjiEHmMZtv76jfZnafPHnh7Iuu0N+uJJyikUP/w2u+lIeT
+	Njih++IAhgLDbwgtqPbrJyobNHWTtIHnHNkRLisW7a19839lfpRuwooYVdZjIxQI7gS0
+	sH7hRlymrU9ljingzp5QjftsbeX/hTYy1QQ2NZiIIhnEhR0qsGNQMbUJd+Btjs4RuEdi
+	SGOw==
+X-Gm-Message-State: APjAAAVAw7AOM8D+8R2eNbkWsHZ0gL/tf43HuEx+fSa+L1/72KHDpfm4
+	gZQ3DFS6RrQGeTtsJaKHt4DG8GA+8hGFy34J0gnCqImR
+X-Google-Smtp-Source: APXvYqzdCWBPMDEWBqgfiyuJaLScC/+/aMP2rVfCp8foDzrB7Sii11oJHQ3WGk4wn73o5SQAvG5lmvf0U/Wj9NYz1q4=
+X-Received: by 2002:a02:914c:: with SMTP id b12mr25807183jag.105.1563789106118;
+	Mon, 22 Jul 2019 02:51:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: NeoMutt/20180716
-Subject: [PATCH 3/3] sysvinit: Include sys/sysmacros.h for major/minor definitions on musl too
+References: <20190722001812.14947-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190722001812.14947-1-open.source@oleksandr-kravchuk.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 22 Jul 2019 10:51:35 +0100
+Message-ID: <CAJTo0LaVCn47fzpMYcsO9sjwgRpaexGYDRxrrvoWTVny1uVQ_g@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/6] python-scons: update to 3.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,136 +54,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2019 07:27:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 22 Jul 2019 09:51:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Fixes musl issue
+Do we need the Python 2 variation of scons in oe-core, or even at all?
 
-implicit declaration of function 'minor' is invalid in C99 [-Wimplicit-function-declaration]
-which eventually ends up with a linker error
+Ross
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...acros.h-for-major-minor-defines-in-g.patch | 99 ++++++++-----------
- 1 file changed, 39 insertions(+), 60 deletions(-)
-
-diff --git a/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch b/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
-index 2575b59b5e..e13ac9d06b 100644
---- a/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
-+++ b/meta/recipes-core/sysvinit/sysvinit/0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch
-@@ -1,71 +1,50 @@
--From 29c7a529d3bb0c1e20239f885e74c5036f1a908c Mon Sep 17 00:00:00 2001
-+From 3c29a86f351ea4827dc445bb8e6cb774543c9be6 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 6 Aug 2018 15:38:58 -0700
--Subject: [PATCH] include sys/sysmacros.h for major/minor defines in glibc
-+Subject: [PATCH] include sys/sysmacros.h for major/minor definitions
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- Upstream-Status: Pending
-+
- ---
-- src/bootlogd.c |   3 +++
-- src/bootlogd.o | Bin 58448 -> 60376 bytes
-- src/dowall.c   |   3 +++
-- src/shutdown.c |   4 +++-
-- 4 files changed, 9 insertions(+), 1 deletion(-)
-+ src/bootlogd.c   | 1 +
-+ src/mountpoint.c | 1 +
-+ src/shutdown.c   | 1 +
-+ 3 files changed, 3 insertions(+)
- 
--Index: sysvinit-2.88dsf/src/bootlogd.c
--===================================================================
----- sysvinit-2.88dsf.orig/src/bootlogd.c
--+++ sysvinit-2.88dsf/src/bootlogd.c
--@@ -53,6 +53,9 @@
-- #ifdef __linux__
-- #include <sys/mount.h>
-- #endif
--+#ifdef __GLIBC__
--+#include <sys/sysmacros.h>
--+#endif
-- 
-- char *Version = "@(#) bootlogd 2.86 03-Jun-2004 miquels@cistron.nl";
-- 
--Index: sysvinit-2.88dsf/src/dowall.c
--===================================================================
----- sysvinit-2.88dsf.orig/src/dowall.c
--+++ sysvinit-2.88dsf/src/dowall.c
--@@ -37,6 +37,9 @@
-- #include <signal.h>
-- #include <setjmp.h>
-- #include <paths.h>
--+#ifdef __GLIBC__
-+diff --git a/src/bootlogd.c b/src/bootlogd.c
-+index 570d382..68d62f3 100644
-+--- a/src/bootlogd.c
-++++ b/src/bootlogd.c
-+@@ -35,6 +35,7 @@
-+ #include <sys/types.h>
-+ #include <sys/time.h>
-+ #include <sys/stat.h>
- +#include <sys/sysmacros.h>
--+#endif
-+ #include <sys/ioctl.h>
-+ #include <sys/utsname.h>
-+ #include <time.h>
-+diff --git a/src/mountpoint.c b/src/mountpoint.c
-+index 9e3dd9c..91f74ed 100644
-+--- a/src/mountpoint.c
-++++ b/src/mountpoint.c
-+@@ -25,6 +25,7 @@
-  
-- #ifndef _PATH_DEV
-- # define _PATH_DEV	"/dev/"
--Index: sysvinit-2.88dsf/src/shutdown.c
--===================================================================
----- sysvinit-2.88dsf.orig/src/shutdown.c
--+++ sysvinit-2.88dsf/src/shutdown.c
--@@ -57,7 +57,9 @@
-- #include "reboot.h"
-- #include "initreq.h"
-- #include "init.h"
---
--+#ifdef __GLIBC__
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
- +#include <sys/sysmacros.h>
--+#endif
-- 
-- char *Version = "@(#) shutdown 2.86-1 31-Jul-2004 miquels@cistron.nl";
-- 
--Index: sysvinit-2.88dsf/src/mountpoint.c
--===================================================================
----- sysvinit-2.88dsf.orig/src/mountpoint.c
--+++ sysvinit-2.88dsf/src/mountpoint.c
--@@ -32,6 +32,9 @@
-- #include <stdarg.h>
-- #include <getopt.h>
-- #include <stdio.h>
--+#ifdef __GLIBC__
-+ #include <unistd.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+diff --git a/src/shutdown.c b/src/shutdown.c
-+index 7e997da..17de58d 100644
-+--- a/src/shutdown.c
-++++ b/src/shutdown.c
-+@@ -40,6 +40,7 @@
-+ #endif
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
- +#include <sys/sysmacros.h>
--+#endif
-- 
-- int dostat(char *path, struct stat *st, int do_lstat, int quiet)
-- {
-+ #include <sys/wait.h>
-+ #include <time.h>
-+ #include <string.h>
--- 
-2.22.0
-
+On Mon, 22 Jul 2019 at 01:18, Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+>
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  ...hon-scons-native_3.0.5.bb => python-scons-native_3.1.0.bb} | 0
+>  .../python/{python-scons_3.0.5.bb => python-scons_3.1.0.bb}   | 4 ++--
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python-scons-native_3.0.5.bb => python-scons-native_3.1.0.bb} (100%)
+>  rename meta/recipes-devtools/python/{python-scons_3.0.5.bb => python-scons_3.1.0.bb} (79%)
+>
+> diff --git a/meta/recipes-devtools/python/python-scons-native_3.0.5.bb b/meta/recipes-devtools/python/python-scons-native_3.1.0.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/python/python-scons-native_3.0.5.bb
+> rename to meta/recipes-devtools/python/python-scons-native_3.1.0.bb
+> diff --git a/meta/recipes-devtools/python/python-scons_3.0.5.bb b/meta/recipes-devtools/python/python-scons_3.1.0.bb
+> similarity index 79%
+> rename from meta/recipes-devtools/python/python-scons_3.0.5.bb
+> rename to meta/recipes-devtools/python/python-scons_3.1.0.bb
+> index 939c15bcc6..b174050583 100644
+> --- a/meta/recipes-devtools/python/python-scons_3.0.5.bb
+> +++ b/meta/recipes-devtools/python/python-scons_3.1.0.bb
+> @@ -4,8 +4,8 @@ LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=37bb53a08e6beaea0c90e7821d731284"
+>
+>  SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
+> -SRC_URI[md5sum] = "9f9c163e8bd48cf8cd92f03e85ca6395"
+> -SRC_URI[sha256sum] = "df676f23dc6d4bfa384fc389d95dcd21ab907e6349d4c848958ba4befb73c73e"
+> +SRC_URI[md5sum] = "e2fe9d16f81b0285b969238af4b552ff"
+> +SRC_URI[sha256sum] = "f3f548d738d4a2179123ecd744271ec413b2d55735ea7625a59b1b59e6cd132f"
+>
+>  S = "${WORKDIR}/scons-${PV}"
+>
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
