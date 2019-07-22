@@ -1,52 +1,52 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 125B67EF42
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+	[209.85.208.180])
+	by mail.openembedded.org (Postfix) with ESMTP id B13CB7EF36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2019 00:18:25 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id v85so25260621lfa.6
+	Mon, 22 Jul 2019 00:18:26 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id t28so35759799lje.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2019 17:18:26 -0700 (PDT)
+	Sun, 21 Jul 2019 17:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=TRFkAssph0/iDeKhrvmqaPkMAs7+1lzt071SnZq69y0=;
-	b=MkEVn6fkAhNDpSN6m+nqQ4CKbCzPxTtxL9Z21TBGUKeSbPdmedJn3kZT/GtaQjZSLq
-	zKhMKFlNYiWSZsAPsiEo3ElzqwQFVEibMpwF4sXeNuX61yBeEaY4Blu6Ds6OPuPZEBEh
-	0K750WK9cPHBbPwCNXbgMdHlQUTRSZXo30+G7UHtFZQMpM2vqEm2RiH421vHMVzGhflW
-	EWT0EU3zzT6KECaURVZCl9RyLsCn+lBdgneJCsh/WPRjH+8Arhf31VrS/qWzv97c+1uy
-	qUCFTliadPPNdtKjpSRKn0NQZIT+Ac0G85KuLN2dptFKYXg1MUVDVXQtxBXnMLFIRTJ+
-	LEbQ==
+	bh=jlmXt/68JZoL/eWcn779S0J6OgR6MNGn71MMEoATZUs=;
+	b=X3xO9dVyIz8Z9CuAFHskq8IguIMBo5ccwrMA7x6w/T/jS+VLL3WVOxCDXa2T0RO2Tc
+	52pZYXUIEsgNBpeEGF9Nyb7/j2Rarh8Un18vczwC+TBlsbjOlYMgTy6ZfcVEgHUQAkub
+	6iYsa5npd6Ae3BBNaEJbBEVWM4/9xY5KrxZJZJcvcF6BUHY++Srx0CHuiGQvm+MMwxvC
+	HIFlrdJezJSPjRsxwkVTBMANji5qjJkRnmgGvCWRVPAit0Nk8iavzXF4Fws/ePRJs4kj
+	6glP2+EwH0IpsjdMFb/ZxDDHCG4Acxg0w+3UF7XOVTpkoqE60/uae1Rc91hJBeElTt0l
+	v1Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=TRFkAssph0/iDeKhrvmqaPkMAs7+1lzt071SnZq69y0=;
-	b=ltZk/MRbrFBkMys74U8apXZ/WetdfEVzrW8ZkDXLacim9CUKNcUM9O9NRpvtCTOIR0
-	ZNI6xNGiuz+GDCcMIgto+2MOOY6U4SzEySs9bLRZFUxMZ2J/bsimD3lgdebu4met+Ahn
-	cX5il23qEWSQ9cMd+Ffbf5x5J4v5/Bd9aUbUi7+W5R8nioFozhr/kZIrhNUL4JTcELZg
-	rjy0PBhvs95aHpuVqMwbTAaNWagZuYCaoWlunvyV8swHm8oEc3tM/qGfJ/F8X0jwVEnv
-	RTq8V0DfTIFpuuXLaQO0dLCx/p3AqLPpZH0G7xvSNnre7RpW0dvC2GrwOFzPBw+w/z4g
-	bZTA==
-X-Gm-Message-State: APjAAAVyhoS9Habj3tfMt7NXRQ4ahzRFQViySmbePTeshVL/wp7aGiOS
-	R87v7J2vGvFEh98dUK10RzLzbwOn
-X-Google-Smtp-Source: APXvYqzjtc8kFOl+4zUXniFVGxPSsKbBn9EpXoIcbDE0VchsagtyU0GN3p6SVj3ErvLMAl/QrkiHsg==
-X-Received: by 2002:ac2:51ab:: with SMTP id f11mr17225956lfk.55.1563754705631; 
-	Sun, 21 Jul 2019 17:18:25 -0700 (PDT)
+	bh=jlmXt/68JZoL/eWcn779S0J6OgR6MNGn71MMEoATZUs=;
+	b=qWD3RPc9vWEfVG/K+3QdnC6yyl2puCSYUJO2KUcHsHQxDk8uY8v3wPcyiC12xdQ/fj
+	ZCSkegpAGe7Qr+NAw/gEQHahOJuVvltaCK/ckg6Ousli51oQ+j1b6fsvEUuq1d2DxIUE
+	x3otXvjE2q3OvZE2EpCr9O50q3bCFqohIzVgB9mX4wzm6IGW0t8A0ztURjTlp268U8hT
+	QngY4zz7XThgKlR2FqFa0lDlD/V234Wr0xUfXU5A8kkDXD/gelSrXWSDghzUzIqeXp8i
+	2+up7thWEBKfRdw6Ej4qxaieRkkl7mbda75GULQTnJqGshq6+wzvDjY3CkzcbYie29pD
+	7o5w==
+X-Gm-Message-State: APjAAAWYd539FB4Tla+eMClaYH8Lu9ffvJgQqaPlQeF3a/9ogCnVXVlt
+	WfdglBxHHRvbJvYwOZYzCjiyUsHt
+X-Google-Smtp-Source: APXvYqyAjIs0DltXOI0q0my2X71NbXlrmfzJxsgvcHyb59KsDeds6XmDokWHk9taf4XfpXGyLhdwOA==
+X-Received: by 2002:a2e:b003:: with SMTP id y3mr35064005ljk.72.1563754707057; 
+	Sun, 21 Jul 2019 17:18:27 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	d21sm5771826lfc.73.2019.07.21.17.18.24
+	d21sm5771826lfc.73.2019.07.21.17.18.26
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 21 Jul 2019 17:18:25 -0700 (PDT)
+	Sun, 21 Jul 2019 17:18:26 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jul 2019 02:18:10 +0200
-Message-Id: <20190722001812.14947-4-open.source@oleksandr-kravchuk.com>
+Date: Mon, 22 Jul 2019 02:18:11 +0200
+Message-Id: <20190722001812.14947-5-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190722001812.14947-1-open.source@oleksandr-kravchuk.com>
 References: <20190722001812.14947-1-open.source@oleksandr-kravchuk.com>
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH 4/6] python3-git: update to 2.1.12
+Subject: [PATCH 5/6] python3-mako: update to 1.0.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,47 +65,42 @@ Got rid of python-git since there is no python2 version of the package.
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/recipes-devtools/python/python3-git_2.1.11.bb         | 2 --
- .../python/{python-git.inc => python3-git_2.1.12.bb}       | 7 ++++---
- 2 files changed, 4 insertions(+), 5 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-git_2.1.11.bb
- rename meta/recipes-devtools/python/{python-git.inc => python3-git_2.1.12.bb} (86%)
+ meta/recipes-devtools/python/python3-mako_1.0.13.bb         | 3 ---
+ .../python/{python-mako.inc => python3-mako_1.0.14.bb}      | 6 +++---
+ 2 files changed, 3 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-mako_1.0.13.bb
+ rename meta/recipes-devtools/python/{python-mako.inc => python3-mako_1.0.14.bb} (71%)
 
-diff --git a/meta/recipes-devtools/python/python3-git_2.1.11.bb b/meta/recipes-devtools/python/python3-git_2.1.11.bb
+diff --git a/meta/recipes-devtools/python/python3-mako_1.0.13.bb b/meta/recipes-devtools/python/python3-mako_1.0.13.bb
 deleted file mode 100644
-index ac320fa56b..0000000000
---- a/meta/recipes-devtools/python/python3-git_2.1.11.bb
+index 17803f1b00..0000000000
+--- a/meta/recipes-devtools/python/python3-mako_1.0.13.bb
 +++ /dev/null
-@@ -1,2 +0,0 @@
--require python-git.inc
+@@ -1,3 +0,0 @@
 -inherit setuptools3
-diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python3-git_2.1.12.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python-git.inc
-rename to meta/recipes-devtools/python/python3-git_2.1.12.bb
-index f973e9f42c..99e59cbb8a 100644
---- a/meta/recipes-devtools/python/python-git.inc
-+++ b/meta/recipes-devtools/python/python3-git_2.1.12.bb
-@@ -10,10 +10,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
+-require python-mako.inc
+-
+diff --git a/meta/recipes-devtools/python/python-mako.inc b/meta/recipes-devtools/python/python3-mako_1.0.14.bb
+similarity index 71%
+rename from meta/recipes-devtools/python/python-mako.inc
+rename to meta/recipes-devtools/python/python3-mako_1.0.14.bb
+index d71df956e8..d2f5188cc4 100644
+--- a/meta/recipes-devtools/python/python-mako.inc
++++ b/meta/recipes-devtools/python/python3-mako_1.0.14.bb
+@@ -6,10 +6,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=df7e6c7c82990acf0228a55e00d29bc9"
  
- PYPI_PACKAGE = "GitPython"
+ PYPI_PACKAGE = "Mako"
  
 -inherit pypi
 +inherit pypi setuptools3
  
--SRC_URI[md5sum] = "cee43a39a1468084d49d1c49fb675204"
--SRC_URI[sha256sum] = "8237dc5bfd6f1366abeee5624111b9d6879393d84745a507de0fda86043b65a8"
-+SRC_URI[md5sum] = "33bfbc89fe616ca22b6336be80d570f4"
-+SRC_URI[sha256sum] = "7428f1cc5e72d53e65c3259d5cebc22fb2b07f973c49d95b3c3d26c64890a3c3"
+-SRC_URI[md5sum] = "ad6c7dcb5d39c99f4fdf4fec892c5dee"
+-SRC_URI[sha256sum] = "95ee720cc3453063788515d55bd7ce4a2a77b7b209e4ac70ec5c86091eb02541"
++SRC_URI[md5sum] = "e162578170331f0cc6a4adb063c7c0f6"
++SRC_URI[sha256sum] = "f5a642d8c5699269ab62a68b296ff990767eb120f51e2e8f3d6afb16bdb57f4b"
  
- DEPENDS = "${PYTHON_PN}-gitdb"
- 
-@@ -29,4 +29,5 @@ RDEPENDS_${PN} += " \
-                    ${PYTHON_PN}-unixadmin \
-                    git \
- "
-+
- BBCLASSEXTEND = "native nativesdk"
+ RDEPENDS_${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-netclient \
 -- 
 2.17.1
 
