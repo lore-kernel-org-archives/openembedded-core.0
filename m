@@ -1,49 +1,18 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
-	[209.85.222.51])
-	by mail.openembedded.org (Postfix) with ESMTP id C1E277ECBE
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2019 20:22:51 +0000 (UTC)
-Received: by mail-ua1-f51.google.com with SMTP id o19so17531482uap.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2019 13:22:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=es568nykRz53kKuyJVN+nakzkltmCa4E6GH0O9w9cyc=;
-	b=TklzmwPkJ4Q0HTGSbDv1TVPsMh+JpEu4L/MYpvkaOGXEwP7uQIZvchsrdxGHf5rClm
-	AB8sRADmKSp67MELkCi1/x+DJ9qrgg50nKi7Dx1O8iBPytv2s3Tpdfdg8NSNVfnGHJuv
-	AHUt6abKTt5SFZ/z6kwtOfXzVStXPr52X0xBGytTc+UzqkwhXOFU8gcHMgSVFe+aoMb4
-	fpNFGOe55BOXhLJWxkdPH6i6qjGqH+Kf6hBjlIqaWQj52sEdacflxEkpaOdJAH0xaXhQ
-	XA4JOPHpczoWl7JArn+OE/tiFgCejhpTtLEwFNi7p3ELsWeGfivrlXMOVFgCBZU8wMby
-	zymQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=es568nykRz53kKuyJVN+nakzkltmCa4E6GH0O9w9cyc=;
-	b=Ssyyf4FlwuKO7DJK0CQ7KuQGHq9LhYJ4PLPckr3sNEdJWJnc/vt7NlCG23LGnxfJAK
-	TPcw4Q2ReaW5Vpc0a2wIKz1cdzgX7XaV05+rw5LTgGWzEwOq+ND/vR7gQ9772LEtx+9f
-	YughaUYzlIp3QzRx97ntl3HnxD26/9kJPC/BfbRrqqSbxgt60+MucVcvMKriHPIu1kdu
-	G4kZl2xyPsuf/Rfy7prW4uMboU/rxlmItHg4e3nyhPs5zTDDLgIgsXCj0p2Ux9NsD52l
-	wv1JerIl6nOWGWhHLCAdgtDsEtWoRgdMGKmwpAeYsbSU543OKVDXA1Rw19xtvR8L1H2B
-	jh6A==
-X-Gm-Message-State: APjAAAWzamFs/UUVBCIEGLtJGK9S45nLDlAHxoxv49XIDIAyTIjy81Bu
-	ecxsf9vZ36DsE4Ah7jAdrAhdmuK3+xGVb6MM2U0=
-X-Google-Smtp-Source: APXvYqzR3eP3go1VeAi+1Xe8qD/gk9YmqhHapE0r7N2mjgAZ536HIxiryGEchSIJR++EVKcaClwdLP2G1sgGZkVShLA=
-X-Received: by 2002:ab0:760e:: with SMTP id o14mr31311303uap.93.1563913372778; 
-	Tue, 23 Jul 2019 13:22:52 -0700 (PDT)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id EB3097E3B2;
+	Tue, 23 Jul 2019 20:31:35 +0000 (UTC)
 MIME-Version: 1.0
-References: <006d01d5417e$e1c31180$a5493480$@gmail.com>
-In-Reply-To: <006d01d5417e$e1c31180$a5493480$@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 23 Jul 2019 23:22:41 +0300
-Message-ID: <CANNYZj9n2q1udd4Rg_sGrh=8u-S4_mg+cRx3k1m5i-ZFHZXFGw@mail.gmail.com>
-To: sjolley.yp.pm@gmail.com, Yocto discussion list <yocto@yoctoproject.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Joshua Watt <jpewhacker@gmail.com>
-Cc: Lieu.Ta@windriver.com
-Subject: Re: Yocto Project Status WW30'19
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Date: Tue, 23 Jul 2019 20:31:37 -0000
+Message-ID: <20190723203137.2331.39718@do>
+References: <20190723200355.13385-1-ricardo@ribalda.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190723200355.13385-1-ricardo@ribalda.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZnd0czogVXBkYXRlIHRvIDE5LjA2LjAwIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,51 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2019 20:22:52 -0000
-Content-Type: multipart/alternative; boundary="0000000000000b43dc058e5ef5eb"
+X-List-Received-Date: Tue, 23 Jul 2019 20:31:36 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---0000000000000b43dc058e5ef5eb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+== Series Details ==
 
-On Tue, 23 Jul 2019 at 20:49, <sjolley.yp.pm@gmail.com> wrote:
+Series: fwts: Update to 19.06.00 (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/18834/
+State : failure
 
->
->    - There are patches available which enable runqueue optimisations
->    based on output comparisons of tasks. This removes the need to run lat=
-er
->    tasks if the output is unchanged and is based upon the previous hash
->    equivalence server work. This feature should be a significant win for =
-the
->    users and is now working to a level where we=E2=80=99ll likely make th=
-is a key
->    feature of the next release.
->
-> This is going to be awesome! Maybe this achievement should get wider
-exposure via a LWN article? (provided they accept the submission)
+== Summary ==
 
-Alex
 
---0000000000000b43dc058e5ef5eb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 23 Jul 2019 at 20:49, &lt;<a href=
-=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>&gt; wrote:<=
-br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-border-left-color:rgb(204,204,204);padding-left:1ex"><div lang=3D"EN-US"><d=
-iv class=3D"gmail-m_-7111157689397501626WordSection1"><ul style=3D"margin-t=
-op:0in" type=3D"disc"><li class=3D"MsoNormal" style=3D"color:black;vertical=
--align:baseline"><span style=3D"font-family:Arial,sans-serif">There are pat=
-ches available which enable runqueue optimisations based on output comparis=
-ons of tasks. This removes the need to run later tasks if the output is unc=
-hanged and is based upon the previous hash equivalence server work. This fe=
-ature should be a significant win for the users and is now working to a lev=
-el where we=E2=80=99ll likely make this a key feature of the next release.<=
-/span></li></ul></div></div></blockquote><div>This is going to be awesome! =
-Maybe this achievement should get wider exposure via a LWN article? (provid=
-ed they accept the submission)</div><div><br></div><div>Alex=C2=A0</div></d=
-iv></div>
 
---0000000000000b43dc058e5ef5eb--
+
+* Patch            [meta-oe,v2] fwts: Update to 19.06.00
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-oe,v2) and send the patch to the indicated list
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at dd8c7f2466)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+
