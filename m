@@ -1,44 +1,48 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C08787EF68
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+	[209.85.160.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 181977E21C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2019 23:26:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Jul 2019 16:26:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,296,1559545200"; d="scan'208";a="320830151"
-Received: from kmsmsx152.gar.corp.intel.com ([172.21.73.87])
-	by orsmga004.jf.intel.com with ESMTP; 22 Jul 2019 16:26:30 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
-	KMSMSX152.gar.corp.intel.com ([169.254.11.92]) with mapi id
-	14.03.0439.000; Tue, 23 Jul 2019 07:26:27 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "Kai.Kang@windriver.com" <Kai.Kang@windriver.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [oe-core][PATCH 1/2] defaultsetup.conf: enable
-	select init manager
-Thread-Index: AQHVQC5YQSYsIyDN80WWvDB7WGEHmKbWw0oA
-Date: Mon, 22 Jul 2019 23:26:26 +0000
-Message-ID: <73fdb42fa63f84e7ed6ec52a183bff73edc4272b.camel@intel.com>
-References: <20190704134520.16320-1-kai.kang@windriver.com>
-	<20190704134520.16320-2-kai.kang@windriver.com>
-	<CAJTo0LbmYp-70L=Z_T0jE4xS1mR_vLXKQE18O_EpeEwD6wdroA@mail.gmail.com>
-	<a3ee2977ee2d63f1908f110d9273352815ba7d35.camel@linuxfoundation.org>
-	<8d6b156e-7d68-e4b8-8688-2c897ebf228a@windriver.com>
-In-Reply-To: <8d6b156e-7d68-e4b8-8688-2c897ebf228a@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.21.220]
+	Tue, 23 Jul 2019 00:59:59 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id h18so40294864qtm.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2019 18:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=AiX7LOa0IZPlPu/cicRFfvZ+jriNMILlqbq/dzrB49Q=;
+	b=MRjjn3Ilh10yu50LorvONal+PoaJlgNU1upSc3N2KnYVH9lIdc47dP5lJTDgkpHuxD
+	e7H8nuYvg3IqKt7ElTx21yaySP4+tgNcKKSC9AbXo6GRqAY6EVmTnnSN5Xgm3QTM3skz
+	5iHsB/IqD+nQuc4iXjSC8eoNXlEDqDwlT4Mu/DMcBXw/Lxva6Q3YHMf/RpA3U8vih0Mg
+	LWJpbvO2VgobVIbV10JKQ5jutR/x7AkMMewikimlIqJMjBWfdkLKxNDq/ncpX+ZDR1Qz
+	rY3/zIYT69HVj8y/489i3q4wM4k1kvv3RMeoZLkWRgHAtB7L5jK5kA5RkSghijoBpfdY
+	digg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=AiX7LOa0IZPlPu/cicRFfvZ+jriNMILlqbq/dzrB49Q=;
+	b=e/ttrm2LjUQtt/v3z0KYq74xuimUthTML4fX0XN6ysS2QXEbhGpJhPOa25qZ18px6R
+	pjxmXg34YTuRyOYx3MkzWeWhjyHev32D3OW19q0/mXmhA58goXlAcV2cHMg6V/tfpI+Q
+	yJBFOFM5NHOMNf5/z9r3aJAiI/IfVV283uzsQ89va/3O3Fxgetf3EW5fB599pOajZler
+	cjc45lwEB78jqkjLNB0WAOE71Ut4w90kLo0KN84zoV2P7gRTquUrwYV9dKpX1Dg4CUZl
+	cotihSrAk5SX4DcsiOrEucezmIHCr69tSRPgtVirvKJ93FMyAVXdP+OYW2lSarizTXyR
+	ZQMw==
+X-Gm-Message-State: APjAAAXhSgYwTqt2BH424SsgbllqHXD7yUSKKRjTZGz+BCrleo2zmeNG
+	vvJpB1vKkL5grZ6Q4YgJn3pqdyXsxbZikPCD+pA=
+X-Google-Smtp-Source: APXvYqyX7twN8BnC2XuhqbUXSiW9YitpavtDJ46YzBRA8PCfHYusj9kDqV++89F6jHwYJDIks7uCOB9Ydm7NWhYTPgU=
+X-Received: by 2002:ac8:525a:: with SMTP id y26mr51231728qtn.378.1563843600605;
+	Mon, 22 Jul 2019 18:00:00 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
+References: <20190722144809.14972-1-ross.burton@intel.com>
+	<f4a6845ad7408e22bb84a85da103f53ffd5b1736.camel@intel.com>
+In-Reply-To: <f4a6845ad7408e22bb84a85da103f53ffd5b1736.camel@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 22 Jul 2019 17:59:44 -0700
+Message-ID: <CAMKF1srhurgFYqP0sEgdHn7jpYY44ihY=3r2Y=hRz_R21Rzi1w@mail.gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] defaultsetup.conf: enable select init manager
+Subject: Re: [PATCH] libical: upgrade to 3.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,25 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2019 23:26:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <05E8746326D31247883AF1219E311336@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 23 Jul 2019 01:00:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-T24gTW9uLCAyMDE5LTA3LTIyIGF0IDA5OjM3ICswODAwLCBLYW5nIEthaSB3cm90ZToNCj4gSSBq
-dXN0IHJ1biBvZS1zZWxmdGVzdCAtYSB3aXRoIHRoaXMgcGF0Y2ggYWZ0ZXIgeW91IHVwZGF0ZWQg
-dGhlIHBhdGNoDQo+IGluIA0KPiBvZS1jb3JlLiBCdXQgSSBtZXQgc29tZSAoPjE1KSBlcnJvcnMN
-Cj4gDQo+IEVSUk9SOiBVbmFibGUgdG8gc3RhcnQgYml0YmFrZSBzZXJ2ZXIgKE5vbmUpDQo+IA0K
-PiBCdXQgSSB0aGluayBpdCBzaG91bGQgbm90IGJlIHJlbGF0ZWQgd2l0aCBpbml0IG1hbmFnZXIg
-Y2hhbmdlcyBhbmQNCj4gd2lsbCANCj4gY2hhbmdlIGEgYnVpbGQgbWFjaGluZSB0byB0ZXN0Lg0K
-PiBEbyB5b3UgaGF2ZSB0ZXN0IGl0IGFnYWluIGluIGF1dG9idWlsZGVyIGFuZCBhbnkgZmFpbHVy
-ZSBmb3VuZD8NCj4gVGhhbmtzLg0KDQpOb3Qgc3VyZSBpZiB0aGVzZSBoYXZlIGJlZW4gcmVwb3J0
-ZWQgYnV0IHRoZXJlIGFyZSBzb21lIGZhaWx1cmVzIGluDQpydW50aW1lIHRlc3RzIHdoaWNoIGxv
-b2sgcmVsYXRlZCB0byB0aGlzIGNoYW5nZToNCg0KaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3By
-b2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy8zOC9idWlsZHMvODU1L3N0ZXBzLzgvbG9ncy9z
-dGVwMWMNCg0KaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9i
-dWlsZGVycy81MC9idWlsZHMvODUyL3N0ZXBzLzgvbG9ncy9zdGVwMWMNCg0KaHR0cHM6Ly9hdXRv
-YnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy83Ni9idWlsZHMvODU2
-L3N0ZXBzLzgvbG9ncy9zdGVwMmMNCg0KVGhhbmtzLA0KDQpBbnVqDQo=
+On Mon, Jul 22, 2019 at 4:17 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Mon, 2019-07-22 at 15:48 +0100, Ross Burton wrote:
+> > -LICENSE = "LGPLv2.1 | MPL-1.0"
+
+this should be MPL-2.0 | LGPL-2.1
+
+> > -LIC_FILES_CHKSUM =
+> > "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
+> > -
+> > file://LICENSE;md5=d1a0891cd3e582b3e2ec8fe63badbbb6"
+> > +LICENSE = "LGPLv2.1 | MPL-2"
+> > +LIC_FILES_CHKSUM =
+> > "file://LICENSE;md5=1910a2a76ddf6a9ba369182494170d87 \
+> > +
+> > file://LICENSE.LGPL21.txt;md5=933adb561f159e7c3da079536f0ed871 \
+> > +
+> > file://LICENSE.MPL2.txt;md5=9741c346eef56131163e13b9db1241b3"
+>
+> Should this be MPL-2.0 instead? This is causing warnings:
+
+the license is MPL-2.0 but the license file name is MPL2.txt so this seems fine.
+
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/862/steps/8/logs/warnings
+>
+> Thanks,
+> Anuj
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
