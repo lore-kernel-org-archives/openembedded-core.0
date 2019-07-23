@@ -1,52 +1,49 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B78067ECBE
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+	[209.85.222.51])
+	by mail.openembedded.org (Postfix) with ESMTP id C1E277ECBE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2019 20:04:54 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id d4so45112975edr.13
+	Tue, 23 Jul 2019 20:22:51 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id o19so17531482uap.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2019 13:04:56 -0700 (PDT)
+	Tue, 23 Jul 2019 13:22:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=imIlMFFcvD2B+a5XB/4zIyqHYpGix2J+1pd9WrZMeR4=;
-	b=cBiSS1jvkR/vogpeWR9HkLQRi5e6ByjC1j45Jsk3i32D4zzlhsLLZglAkQX9ax0Q2y
-	11yp69C5dfmpdErLyzdZhZQN5VjySAoasGQI363expePPIsCNr2Zj/4ExDIv+p4uBBtu
-	+KKOZyTTEaWTPsTnR7qn678CwfMoAtxiISZXSBz2PfRQ3TKWS8nTeXaKCdYI9+9npBaG
-	71kbikDIiP+1z8/DiTaVVrEtm3iMKdlCsaYZ2NvUMjjD7hDCR3Sy+e8bfIrC/GO+4Ri2
-	qokeQYs/9+0aQLNUHVxMtA0gj1rvgVoS7gGzyU1jAtT4JNzUtdtocf9gd/i2LQFVmEKu
-	yRvg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=es568nykRz53kKuyJVN+nakzkltmCa4E6GH0O9w9cyc=;
+	b=TklzmwPkJ4Q0HTGSbDv1TVPsMh+JpEu4L/MYpvkaOGXEwP7uQIZvchsrdxGHf5rClm
+	AB8sRADmKSp67MELkCi1/x+DJ9qrgg50nKi7Dx1O8iBPytv2s3Tpdfdg8NSNVfnGHJuv
+	AHUt6abKTt5SFZ/z6kwtOfXzVStXPr52X0xBGytTc+UzqkwhXOFU8gcHMgSVFe+aoMb4
+	fpNFGOe55BOXhLJWxkdPH6i6qjGqH+Kf6hBjlIqaWQj52sEdacflxEkpaOdJAH0xaXhQ
+	XA4JOPHpczoWl7JArn+OE/tiFgCejhpTtLEwFNi7p3ELsWeGfivrlXMOVFgCBZU8wMby
+	zymQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=imIlMFFcvD2B+a5XB/4zIyqHYpGix2J+1pd9WrZMeR4=;
-	b=V2m0vJZcVDEoiHM4DSV+GBzzoX4E1yc4MP3xUgMeSNuxJxxlUg5O4Xlr4Blg4uQgpY
-	CvwBevWcEtr5cpGfMqn8BnwPEbJc5E52kX/JjrrsOXK9PHTtOT1TkXUNzVs0IL3U7Sod
-	1AVO1SlZT9TsBPOFLSCif7GB6mMt8fxKw7kRmNrreBIaD4IeccxFErL53SPbltRVLaRY
-	V7KAipd965K4rUSdgQITvB0uS6n5ei+1/go1hMweauPYyVTOry0+TP0tHmYDbARzUO1S
-	qDyXEKqTC0GPFBQFm76U1J3ouWQTJnbPSnZZ7morX/0hxzTFaUml6GzWoedLphNvd/gg
-	9SWw==
-X-Gm-Message-State: APjAAAXUZfJVYZfKWCBsM8aRX7lueOKT37BSGu2h3pyNT69DCuijQydU
-	o5BsmMzyCzYaWrTkv16MOkT1Im1bva0=
-X-Google-Smtp-Source: APXvYqxZJKG1KjY6xRQa31cz3GrRH+3IwsFJg4pJiKKpBg4nHsspakeF/4IQ3Mp5+dSlOP5BJddfYw==
-X-Received: by 2002:a50:90c5:: with SMTP id d5mr69020137eda.28.1563912295097; 
-	Tue, 23 Jul 2019 13:04:55 -0700 (PDT)
-Received: from piling.lan (80-71-134-83.u.parknet.dk. [80.71.134.83])
-	by smtp.gmail.com with ESMTPSA id
-	p43sm12503939edc.3.2019.07.23.13.04.53
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 23 Jul 2019 13:04:53 -0700 (PDT)
-Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Jul 2019 22:03:55 +0200
-Message-Id: <20190723200355.13385-1-ricardo@ribalda.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=es568nykRz53kKuyJVN+nakzkltmCa4E6GH0O9w9cyc=;
+	b=Ssyyf4FlwuKO7DJK0CQ7KuQGHq9LhYJ4PLPckr3sNEdJWJnc/vt7NlCG23LGnxfJAK
+	TPcw4Q2ReaW5Vpc0a2wIKz1cdzgX7XaV05+rw5LTgGWzEwOq+ND/vR7gQ9772LEtx+9f
+	YughaUYzlIp3QzRx97ntl3HnxD26/9kJPC/BfbRrqqSbxgt60+MucVcvMKriHPIu1kdu
+	G4kZl2xyPsuf/Rfy7prW4uMboU/rxlmItHg4e3nyhPs5zTDDLgIgsXCj0p2Ux9NsD52l
+	wv1JerIl6nOWGWhHLCAdgtDsEtWoRgdMGKmwpAeYsbSU543OKVDXA1Rw19xtvR8L1H2B
+	jh6A==
+X-Gm-Message-State: APjAAAWzamFs/UUVBCIEGLtJGK9S45nLDlAHxoxv49XIDIAyTIjy81Bu
+	ecxsf9vZ36DsE4Ah7jAdrAhdmuK3+xGVb6MM2U0=
+X-Google-Smtp-Source: APXvYqzR3eP3go1VeAi+1Xe8qD/gk9YmqhHapE0r7N2mjgAZ536HIxiryGEchSIJR++EVKcaClwdLP2G1sgGZkVShLA=
+X-Received: by 2002:ab0:760e:: with SMTP id o14mr31311303uap.93.1563913372778; 
+	Tue, 23 Jul 2019 13:22:52 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Subject: [meta-oe][PATCH v2] fwts: Update to 19.06.00
+References: <006d01d5417e$e1c31180$a5493480$@gmail.com>
+In-Reply-To: <006d01d5417e$e1c31180$a5493480$@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 23 Jul 2019 23:22:41 +0300
+Message-ID: <CANNYZj9n2q1udd4Rg_sGrh=8u-S4_mg+cRx3k1m5i-ZFHZXFGw@mail.gmail.com>
+To: sjolley.yp.pm@gmail.com, Yocto discussion list <yocto@yoctoproject.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Joshua Watt <jpewhacker@gmail.com>
+Cc: Lieu.Ta@windriver.com
+Subject: Re: Yocto Project Status WW30'19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,199 +56,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2019 20:04:55 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 23 Jul 2019 20:22:52 -0000
+Content-Type: multipart/alternative; boundary="0000000000000b43dc058e5ef5eb"
 
-Update to latest release.
+--0000000000000b43dc058e5ef5eb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Since version 18.08.00, libbsd is a dependency:
-https://wiki.ubuntu.com/FirmwareTestSuite/ReleaseNotes/18.08.00
+On Tue, 23 Jul 2019 at 20:49, <sjolley.yp.pm@gmail.com> wrote:
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
----
- .../fwts/0001-Remove-Werror-from-build.patch  | 22 ++---
- ...t-logical-operand-warning-with-clang.patch | 84 -------------------
- .../fwts/{fwts_git.bb => fwts_19.06.00.bb}    | 11 +--
- 3 files changed, 15 insertions(+), 102 deletions(-)
- delete mode 100644 meta-oe/recipes-test/fwts/fwts/0001-ignore-constant-logical-operand-warning-with-clang.patch
- rename meta-oe/recipes-test/fwts/{fwts_git.bb => fwts_19.06.00.bb} (83%)
+>
+>    - There are patches available which enable runqueue optimisations
+>    based on output comparisons of tasks. This removes the need to run lat=
+er
+>    tasks if the output is unchanged and is based upon the previous hash
+>    equivalence server work. This feature should be a significant win for =
+the
+>    users and is now working to a level where we=E2=80=99ll likely make th=
+is a key
+>    feature of the next release.
+>
+> This is going to be awesome! Maybe this achievement should get wider
+exposure via a LWN article? (provided they accept the submission)
 
-diff --git a/meta-oe/recipes-test/fwts/fwts/0001-Remove-Werror-from-build.patch b/meta-oe/recipes-test/fwts/fwts/0001-Remove-Werror-from-build.patch
-index 611ccc8fc..6795ba849 100644
---- a/meta-oe/recipes-test/fwts/fwts/0001-Remove-Werror-from-build.patch
-+++ b/meta-oe/recipes-test/fwts/fwts/0001-Remove-Werror-from-build.patch
-@@ -12,33 +12,33 @@ Upstream-Status: Pending
-  3 files changed, 3 insertions(+), 3 deletions(-)
- 
- diff --git a/src/Makefile.am b/src/Makefile.am
--index 4daa9e8f..873f23eb 100644
-+index 62c9ba8..435ec23 100644
- --- a/src/Makefile.am
- +++ b/src/Makefile.am
- @@ -14,7 +14,7 @@ AM_CPPFLAGS = \
-- 	`pkg-config --silence-errors --cflags json` \
-- 	`pkg-config --silence-errors --cflags json-c` \
-+ 	`pkg-config --silence-errors --cflags json`	\
-+ 	`pkg-config --silence-errors --cflags json-c`	\
-  	-pthread `pkg-config --cflags glib-2.0 gio-2.0` \
---	-Wall -Werror -Wextra
--+	-Wall -Wextra
-+-	-Wall -Werror -Wextra				\
-++	-Wall -Wextra				\
-+ 	-Wno-address-of-packed-member
-  
-  bin_PROGRAMS = fwts
-- 
- diff --git a/src/lib/src/Makefile.am b/src/lib/src/Makefile.am
--index fa232451..082403a2 100644
-+index 6bcf9f8..de89bf1 100644
- --- a/src/lib/src/Makefile.am
- +++ b/src/lib/src/Makefile.am
- @@ -24,7 +24,7 @@ AM_CPPFLAGS = \
-  	`pkg-config --silence-errors --cflags json-c`	\
-  	`pkg-config --cflags glib-2.0 gio-2.0` 		\
-  	-DDATAROOTDIR=\"$(datarootdir)\"		\
---	-Wall -Werror -Wextra
--+	-Wall -Wextra
-+-	-Wall -Werror -Wextra				\
-++	-Wall -Wextra				\
-+ 	-Wno-address-of-packed-member
-  
-  pkglib_LTLIBRARIES = libfwts.la
-- 
- diff --git a/src/utilities/Makefile.am b/src/utilities/Makefile.am
--index aa37de55..4d5297cc 100644
-+index 21f969e..82009a0 100644
- --- a/src/utilities/Makefile.am
- +++ b/src/utilities/Makefile.am
- @@ -16,7 +16,7 @@
-diff --git a/meta-oe/recipes-test/fwts/fwts/0001-ignore-constant-logical-operand-warning-with-clang.patch b/meta-oe/recipes-test/fwts/fwts/0001-ignore-constant-logical-operand-warning-with-clang.patch
-deleted file mode 100644
-index ae3665b4d..000000000
---- a/meta-oe/recipes-test/fwts/fwts/0001-ignore-constant-logical-operand-warning-with-clang.patch
-+++ /dev/null
-@@ -1,84 +0,0 @@
--From 5bd05ad8569880985ddf6d4c06ed927d388c297f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 19 Oct 2016 01:57:16 +0000
--Subject: [PATCH] ignore constant-logical-operand warning with clang
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- src/dmi/dmicheck/dmicheck.c            | 3 +++
-- src/lib/src/fwts_acpi_tables.c         | 5 +++++
-- src/uefi/uefirtauthvar/uefirtauthvar.c | 5 +++++
-- 3 files changed, 13 insertions(+)
--
--diff --git a/src/dmi/dmicheck/dmicheck.c b/src/dmi/dmicheck/dmicheck.c
--index 3cca9db9..60fb758f 100644
----- a/src/dmi/dmicheck/dmicheck.c
--+++ b/src/dmi/dmicheck/dmicheck.c
--@@ -211,6 +211,8 @@ static const char *uuid_patterns[] = {
-- 	"0A0A0A0A-0A0A-0A0A-0A0A-0A0A0A0A0A0A",
-- 	NULL,
-- };
--+#pragma clang diagnostic push
--+#pragma clang diagnostic ignored "-Wunneeded-internal-declaration"
-- 
-- static const fwts_chassis_type_map fwts_dmi_chassis_type[] = {
-- 	{ "Invalid",		FWTS_SMBIOS_CHASSIS_INVALID },
--@@ -251,6 +253,7 @@ static const fwts_chassis_type_map fwts_dmi_chassis_type[] = {
-- 	{ "Mini PC",		FWTS_SMBIOS_CHASSIS_MINI_PC },
-- 	{ "Stick PC",		FWTS_SMBIOS_CHASSIS_STICK_PC },
-- };
--+#pragma clang diagnostic pop
-- 
-- /* Remapping table from buggy version numbers to correct values */
-- static const fwts_dmi_version dmi_versions[] = {
--diff --git a/src/lib/src/fwts_acpi_tables.c b/src/lib/src/fwts_acpi_tables.c
--index c7ba59be..bdd224aa 100644
----- a/src/lib/src/fwts_acpi_tables.c
--+++ b/src/lib/src/fwts_acpi_tables.c
--@@ -393,10 +393,14 @@ static int fwts_acpi_handle_fadt(
-- 	/* Determine FACS addr and load it.
-- 	 * Will ignore the missing FACS in the hardware-reduced mode.
-- 	 */
--+#pragma clang diagnostic push
--+#pragma clang diagnostic ignored "-Waddress-of-packed-member"
--+
-- 	result = fwts_acpi_handle_fadt_tables(fw, fadt,
-- 			"FACS", "FIRMWARE_CTRL", "X_FIRMWARE_CTRL",
-- 			&fadt->firmware_control, &fadt->x_firmware_ctrl,
-- 			provenance);
--+
-- 	if (result != FWTS_OK) {
-- 		if ((result == FWTS_NULL_POINTER) &&
-- 				fwts_acpi_is_reduced_hardware(fadt)) {
--@@ -415,6 +419,7 @@ static int fwts_acpi_handle_fadt(
-- 		return FWTS_ERROR;
-- 	}
-- 	return FWTS_OK;
--+#pragma clang diagnostic pop
-- }
-- 
-- /*
--diff --git a/src/uefi/uefirtauthvar/uefirtauthvar.c b/src/uefi/uefirtauthvar/uefirtauthvar.c
--index c2031741..7a33d19d 100644
----- a/src/uefi/uefirtauthvar/uefirtauthvar.c
--+++ b/src/uefi/uefirtauthvar/uefirtauthvar.c
--@@ -142,6 +142,9 @@ static int uefirtauthvar_deinit(fwts_framework *fw)
-- 	return FWTS_OK;
-- }
-- 
--+#pragma clang diagnostic push
--+#pragma clang diagnostic ignored "-Wconstant-logical-operand"
--+
-- static int check_fw_support(fwts_framework *fw, uint64_t status)
-- {
-- 	if ((status == EFI_INVALID_PARAMETER) &&
--@@ -172,6 +175,8 @@ static int check_fw_support(fwts_framework *fw, uint64_t status)
-- 	return FWTS_OK;
-- }
-- 
--+#pragma clang diagnostic pop
--+
-- /*
--  * Set the created authenticated variable, AuthVarCreate,
--  * and checking the data size and data.
-diff --git a/meta-oe/recipes-test/fwts/fwts_git.bb b/meta-oe/recipes-test/fwts/fwts_19.06.00.bb
-similarity index 83%
-rename from meta-oe/recipes-test/fwts/fwts_git.bb
-rename to meta-oe/recipes-test/fwts/fwts_19.06.00.bb
-index d3fb644df..88a89fb0b 100644
---- a/meta-oe/recipes-test/fwts/fwts_git.bb
-+++ b/meta-oe/recipes-test/fwts/fwts_19.06.00.bb
-@@ -5,11 +5,8 @@ HOMEPAGE = "https://wiki.ubuntu.com/Kernel/Reference/fwts"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://src/main.c;beginline=1;endline=16;md5=31da590f3e9f3bd34dcdb9e4db568519"
- 
--PV = "18.05.00+git${SRCPV}"
--
- SRCREV = "b0ec7aa2ef743d113fd8c5e57c0ca3d5edd86f0e"
--SRC_URI = "git://kernel.ubuntu.com/hwe/fwts.git \
--           file://0001-ignore-constant-logical-operand-warning-with-clang.patch \
-+SRC_URI = "http://fwts.ubuntu.com/release/fwts-V19.06.00.tar.gz;subdir=${BPN}-${PV} \
-            file://0001-Include-poll.h-instead-of-deprecated-sys-poll.h.patch \
-            file://0002-Define-__SWORD_TYPE-if-not-defined-by-libc.patch \
-            file://0003-Undefine-PAGE_SIZE.patch \
-@@ -17,12 +14,12 @@ SRC_URI = "git://kernel.ubuntu.com/hwe/fwts.git \
-            file://0003-use-intptr_t-to-fix-pointer-to-int-cast-issues.patch \
-            file://0001-Remove-Werror-from-build.patch \
-            "
--
--S = "${WORKDIR}/git"
-+SRC_URI[md5sum] = "012f933329510cc5a71817ede681eee2"
-+SRC_URI[sha256sum] = "13aa991f12c69f48df368aae5e5d0fbc9136413b4bfe115421bc3216d919f8a2"
- 
- COMPATIBLE_HOST = "(i.86|x86_64|aarch64|powerpc64).*-linux"
- 
--DEPENDS = "libpcre json-c glib-2.0 dtc bison-native"
-+DEPENDS = "libpcre json-c glib-2.0 dtc bison-native libbsd"
- DEPENDS_append_libc-musl = " libexecinfo"
- 
- inherit autotools bash-completion pkgconfig
--- 
-2.20.1
+Alex
 
+--0000000000000b43dc058e5ef5eb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 23 Jul 2019 at 20:49, &lt;<a href=
+=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>&gt; wrote:<=
+br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
+border-left-color:rgb(204,204,204);padding-left:1ex"><div lang=3D"EN-US"><d=
+iv class=3D"gmail-m_-7111157689397501626WordSection1"><ul style=3D"margin-t=
+op:0in" type=3D"disc"><li class=3D"MsoNormal" style=3D"color:black;vertical=
+-align:baseline"><span style=3D"font-family:Arial,sans-serif">There are pat=
+ches available which enable runqueue optimisations based on output comparis=
+ons of tasks. This removes the need to run later tasks if the output is unc=
+hanged and is based upon the previous hash equivalence server work. This fe=
+ature should be a significant win for the users and is now working to a lev=
+el where we=E2=80=99ll likely make this a key feature of the next release.<=
+/span></li></ul></div></div></blockquote><div>This is going to be awesome! =
+Maybe this achievement should get wider exposure via a LWN article? (provid=
+ed they accept the submission)</div><div><br></div><div>Alex=C2=A0</div></d=
+iv></div>
+
+--0000000000000b43dc058e5ef5eb--
