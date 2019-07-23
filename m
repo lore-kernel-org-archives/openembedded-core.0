@@ -1,35 +1,47 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EB447F081
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B7A87EEB0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2019 01:05:44 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Jul 2019 18:05:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,297,1559545200"; d="scan'208";a="368702192"
-Received: from pgsmsx114.gar.corp.intel.com ([10.108.55.203])
-	by fmsmga006.fm.intel.com with ESMTP; 22 Jul 2019 18:05:44 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
-	pgsmsx114.gar.corp.intel.com ([169.254.4.144]) with mapi id
-	14.03.0439.000; Tue, 23 Jul 2019 09:05:42 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH] libical: upgrade to 3.0.5
-Thread-Index: AQHVQJyQhq5ZdoRj5E+NSZy4s7qV4qbWv+aAgAAcmQCAAAGpgA==
-Date: Tue, 23 Jul 2019 01:05:41 +0000
-Message-ID: <393734e9ff3b6095b159744b01405a0b0616269d.camel@intel.com>
+	Tue, 23 Jul 2019 01:12:58 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id d23so40356040qto.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2019 18:13:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=BOi5ff1ah82EU67Vh0X6zZduY6fUkpjyPQO5v2M0kEI=;
+	b=tf9oQa+6I3T3ZFVzmwWqZIl1KmIYLnXFf7v0Ao/rAMqx36RYQco7ixQlgedRLS4BJo
+	+T2fG/xlAwqtwMcvXPFXaixtrec9B6aPMD+f2MUwsaEGwutfTkJ7DPUsx6RqijXbjMl6
+	S8OA6qOQw9Q69BLagcEGSf56TOeVaxzrtJKu7wicpNIbfAQAohPg5/awQL9ukLRXDCGq
+	EGQn30z9obaTFTAIUVgYISxOXBQSA/IRW3ooWJSibNFARB3Tnmj91DIBuJK7jHASEsKj
+	XMhjsu6x4cjGi0UUvPalrmSMyrYl+iPmVexGfw2QTZJG49B3iU7NUkYfMThqxaSTanJ8
+	8vDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=BOi5ff1ah82EU67Vh0X6zZduY6fUkpjyPQO5v2M0kEI=;
+	b=C33kvL/CFmC+M+PmVWZ4pYvCuKe+Q+Q4VuqLCDVQuwumFZ4WlKV0F2KQ5GzxhfJUEy
+	5rtGfNuVk4MZvlmO6MQ6X0t+v9o9cUpXFO0hsRODheXO62iiKY9hfXZcBihJEilKgHKB
+	xHfKLnUjvfv32PKvy4eX0Pec+CYpPe1KeNgJ7dpXqiw3E74wWyNVFcVE4sJKa49rqw8M
+	KnQ4Jcur0Sm2XTFjIiluwi3htYcsw6NHC8lwKJtBz8weWiu6pfik+k7KTxhfwFs6+m0D
+	0nDvuk7oXFkIA8gQ8fxcqQ891Bsbnd4jKo4vXFcLwhLV1VycU0hGlAwMnASKCpOAaID9
+	7mgg==
+X-Gm-Message-State: APjAAAVQlN+8hdcsA6vhnm7RYHsgUbmMW96vn8CDQJIdNNmdLI31X8zh
+	LP5n7eEWGdFqO9LDP6QRdaJSpmiObYIRUpwlEFE=
+X-Google-Smtp-Source: APXvYqx26Im/L9LtwHbhHvf1BaIInMiREjF+IHhCh9Bs8ryFV9WGxjL/GwgXx93P28F+EN0RGKEq2O/nL6KBA7eussg=
+X-Received: by 2002:a0c:d2da:: with SMTP id x26mr53659515qvh.51.1563844379760; 
+	Mon, 22 Jul 2019 18:12:59 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190722144809.14972-1-ross.burton@intel.com>
 	<f4a6845ad7408e22bb84a85da103f53ffd5b1736.camel@intel.com>
 	<CAMKF1srhurgFYqP0sEgdHn7jpYY44ihY=3r2Y=hRz_R21Rzi1w@mail.gmail.com>
-In-Reply-To: <CAMKF1srhurgFYqP0sEgdHn7jpYY44ihY=3r2Y=hRz_R21Rzi1w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.21.220]
-MIME-Version: 1.0
+	<393734e9ff3b6095b159744b01405a0b0616269d.camel@intel.com>
+In-Reply-To: <393734e9ff3b6095b159744b01405a0b0616269d.camel@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 22 Jul 2019 18:12:43 -0700
+Message-ID: <CAMKF1sqQ2SSdfj7BYnTnzHuScw8Fucxhhd7kwuragxF+y7nufg@mail.gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libical: upgrade to 3.0.5
@@ -45,27 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2019 01:05:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <72A041D4B8ED5D42BDAF35B6B672031A@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 23 Jul 2019 01:12:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-T24gTW9uLCAyMDE5LTA3LTIyIGF0IDE3OjU5IC0wNzAwLCBLaGVtIFJhaiB3cm90ZToNCj4gT24g
-TW9uLCBKdWwgMjIsIDIwMTkgYXQgNDoxNyBQTSBNaXR0YWwsIEFudWogPGFudWoubWl0dGFsQGlu
-dGVsLmNvbT4NCj4gd3JvdGU6DQo+ID4gT24gTW9uLCAyMDE5LTA3LTIyIGF0IDE1OjQ4ICswMTAw
-LCBSb3NzIEJ1cnRvbiB3cm90ZToNCj4gPiA+IC1MSUNFTlNFID0gIkxHUEx2Mi4xIHwgTVBMLTEu
-MCINCj4gDQo+IHRoaXMgc2hvdWxkIGJlIE1QTC0yLjAgfCBMR1BMLTIuMQ0KPiANCj4gPiA+IC1M
-SUNfRklMRVNfQ0hLU1VNID0NCj4gPiA+ICJmaWxlOi8vQ09QWUlORzttZDU9ZDRmYzU4MzA5ZDhl
-ZDQ2NTg3YWM2M2JiNDQ5ZDgyZjggXA0KPiA+ID4gLQ0KPiA+ID4gZmlsZTovL0xJQ0VOU0U7bWQ1
-PWQxYTA4OTFjZDNlNTgyYjNlMmVjOGZlNjNiYWRiYmI2Ig0KPiA+ID4gK0xJQ0VOU0UgPSAiTEdQ
-THYyLjEgfCBNUEwtMiINCj4gPiA+ICtMSUNfRklMRVNfQ0hLU1VNID0NCj4gPiA+ICJmaWxlOi8v
-TElDRU5TRTttZDU9MTkxMGEyYTc2ZGRmNmE5YmEzNjkxODI0OTQxNzBkODcgXA0KPiA+ID4gKw0K
-PiA+ID4gZmlsZTovL0xJQ0VOU0UuTEdQTDIxLnR4dDttZDU9OTMzYWRiNTYxZjE1OWU3YzNkYTA3
-OTUzNmYwZWQ4NzEgXA0KPiA+ID4gKw0KPiA+ID4gZmlsZTovL0xJQ0VOU0UuTVBMMi50eHQ7bWQ1
-PTk3NDFjMzQ2ZWVmNTYxMzExNjNlMTNiOWRiMTI0MWIzIg0KPiA+IA0KPiA+IFNob3VsZCB0aGlz
-IGJlIE1QTC0yLjAgaW5zdGVhZD8gVGhpcyBpcyBjYXVzaW5nIHdhcm5pbmdzOg0KPiANCj4gdGhl
-IGxpY2Vuc2UgaXMgTVBMLTIuMCBidXQgdGhlIGxpY2Vuc2UgZmlsZSBuYW1lIGlzIE1QTDIudHh0
-IHNvIHRoaXMNCj4gc2VlbXMgZmluZS4NCg0KSSBtZWFudCB0aGUgZmllbGQgaW4gTElDRU5TRS4g
-UXVvdGVkIHRoZSB3cm9uZyB0ZXh0Lg0KDQpUaGFua3MuDQo=
+On Mon, Jul 22, 2019 at 6:05 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Mon, 2019-07-22 at 17:59 -0700, Khem Raj wrote:
+> > On Mon, Jul 22, 2019 at 4:17 PM Mittal, Anuj <anuj.mittal@intel.com>
+> > wrote:
+> > > On Mon, 2019-07-22 at 15:48 +0100, Ross Burton wrote:
+> > > > -LICENSE = "LGPLv2.1 | MPL-1.0"
+> >
+> > this should be MPL-2.0 | LGPL-2.1
+> >
+> > > > -LIC_FILES_CHKSUM =
+> > > > "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
+> > > > -
+> > > > file://LICENSE;md5=d1a0891cd3e582b3e2ec8fe63badbbb6"
+> > > > +LICENSE = "LGPLv2.1 | MPL-2"
+> > > > +LIC_FILES_CHKSUM =
+> > > > "file://LICENSE;md5=1910a2a76ddf6a9ba369182494170d87 \
+> > > > +
+> > > > file://LICENSE.LGPL21.txt;md5=933adb561f159e7c3da079536f0ed871 \
+> > > > +
+> > > > file://LICENSE.MPL2.txt;md5=9741c346eef56131163e13b9db1241b3"
+> > >
+> > > Should this be MPL-2.0 instead? This is causing warnings:
+> >
+> > the license is MPL-2.0 but the license file name is MPL2.txt so this
+> > seems fine.
+>
+> I meant the field in LICENSE. Quoted the wrong text.
+
+reply quote confused me. yes it is wrong. It should be MPL-2.0
+
+>
+> Thanks.
 
