@@ -1,81 +1,47 @@
-Return-Path: <alban.bedel@aerq.com>
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr20098.outbound.protection.outlook.com [40.107.2.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E2326D561
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E1D17D278
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2019 14:13:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=nZL0b/M3HLX48M2OVp6gzKVllYsdRlByYOLo0PwkBcUdPw/OOGaUSfTw9V5AcIiFrk2VSWA6/YJ/rmHPM70JyD+oxQb7dI5vwB2ezrKF0o90L+XlaZYs9uTDDsShafQ0yD1etMiXF31nRRNuhRkxdX0Xd7jcsAd/4n17xlB28upIOgb77QPkwGw0yk/7OM3/ErzWddD1xVCPyn3N1uVoEI3qYPSGHlqGGyOZ1dBfvPrarbaluBYfxV7+E5c3umYAVWMxRDz5j/wzFMLC9/J4bi71choKkrKPLrFbN77CAiy/PXY33CtHRU3YqIaHEuK+lKeQIFiOHNXDqZfP8O15jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=l574pWkAmV5lXgFj0PMfkSMs+Oi5bBVpJB6cdAFkxc4=;
-	b=PnAKq0dtaXBqcAW9rJImSqlkTOPqRTM9QpL9QeKxnLpjWgLd8U+vsEWWulpqW6v3Rm0XgIsMN3srFy/q90bjUJo3ABs0BjBxx4yJWYP6W/90jQUkyWhwUKLI5nNK59IgooCK9pNH7oqq7J+/k50k9dFzQUnnKau2OOZdgQBkxZpLCJ+RbnBsSYaQLiuBw/Q5QEIx0iVcdPaKfcRxdCSdoo9FmpUjqDWCEvzI9w2dg7cDaoj5+S5+5AwwdCgGo/PhCvw7ddpGR52/GkwUU5SBxi5N5sJjH4qaNFZRkaXUpNP9utzORx88CTooQLWDH56Tz5bfHDag/4Gr3V1sIHxGGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
-	smtp.mailfrom=aerq.com; dmarc=pass action=none header.from=aerq.com;
-	dkim=pass header.d=aerq.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=l2task.onmicrosoft.com; s=selector1-l2task-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=l574pWkAmV5lXgFj0PMfkSMs+Oi5bBVpJB6cdAFkxc4=;
-	b=p+TBslDF2/7e5VN4eVIKkpT9g3fNMsagXBsj2AaI5qAmBy1WLYvOLkSdGzFDWOWuU4j6nXqcvwl+3xU/V144/cefPrvhlngOX9p1GNHOWsBYWLg/zyTAYvmoib09YEuHmGNAp7ngXEWpWc1omUa5mN0I5M8z+Dx0RYrLEOcx/6s=
-Received: from VI1PR10MB2045.EURPRD10.PROD.OUTLOOK.COM (52.134.28.150) by
-	VI1PR10MB1886.EURPRD10.PROD.OUTLOOK.COM (52.134.26.28) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2073.14; Tue, 23 Jul 2019 14:13:36 +0000
-Received: from VI1PR10MB2045.EURPRD10.PROD.OUTLOOK.COM
-	([fe80::d1d5:b8e:3ccc:cd06]) by VI1PR10MB2045.EURPRD10.PROD.OUTLOOK.COM
-	([fe80::d1d5:b8e:3ccc:cd06%4]) with mapi id 15.20.2094.013;
-	Tue, 23 Jul 2019 14:13:36 +0000
-From: "Bedel, Alban" <alban.bedel@aerq.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] kernel-uboot: remove useless special casing of arm64
-	Image
-Thread-Index: AQHVQWDRDbYSSSv3fEaAkvRzhzWUmg==
-Date: Tue, 23 Jul 2019 14:13:36 +0000
-Message-ID: <20190723141324.19525-1-alban.bedel@aerq.com>
-Accept-Language: en-DE, de-DE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: PR0P264CA0219.FRAP264.PROD.OUTLOOK.COM
-	(2603:10a6:100:1e::15) To VI1PR10MB2045.EURPRD10.PROD.OUTLOOK.COM
-	(2603:10a6:803:39::22)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=alban.bedel@aerq.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.20.1
-x-originating-ip: [213.61.153.180]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 906ea42f-8c8c-46f5-5dd9-08d70f77f3ca
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(7168020)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:VI1PR10MB1886; 
-x-ms-traffictypediagnostic: VI1PR10MB1886:
-x-microsoft-antispam-prvs: <VI1PR10MB1886E4542C92B097DFCB94DD96C70@VI1PR10MB1886.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:348;
-x-forefront-prvs: 0107098B6C
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(396003)(376002)(34096005)(39830400003)(346002)(136003)(366004)(199004)(189003)(66946007)(55236004)(66476007)(66446008)(476003)(26005)(50226002)(1076003)(71190400001)(66556008)(316002)(71200400001)(8936002)(81166006)(6506007)(2616005)(2501003)(386003)(86362001)(256004)(186003)(2351001)(4326008)(64756008)(5660300002)(81156014)(102836004)(66066001)(6916009)(25786009)(99286004)(2906002)(6486002)(5640700003)(4744005)(305945005)(14454004)(3846002)(7736002)(6512007)(8676002)(107886003)(6116002)(53936002)(486006)(36756003)(52116002)(6436002)(508600001)(68736007);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR10MB1886;
-	H:VI1PR10MB2045.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: aerq.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Y6S84K4hCEW26phvY1Kd7xtvtvPmOP5JUuSV6tji6AXjBejFV1rRUokZVIep/qbTaj3BIdV43UF7Q4cGKcE/gLX4Pk5bYqGhIJtUmaLeIQoCtTyZFtr8H84zzshD8KEKypcj2Gt3rftzGw+VyoFi7CvFtE/ElLSPGp2OGEQCSutPS1+cNIhS8uDphObgl69xS9uG4QDtAaAKVn4b4uR1/76csH473Cj8QcXl0+/LtOpVQgQZiiUlsahKBL4gW/fkH4BAd1WJynfqtKqVPyG/HCHtqQGDDwjxQYodCbUElDWYwRAo6t2FPPmSalYLgeXYZi0zt0zDwAPTpYWN8MJTz1dJEN2uPR5OBLfYrzaiYnsIliC+9/SX61Z/tDvYgOF4yf1otStsenybEtYa9dF5JEnzdqxTiAz6Uyl9HTFxluM=
+	Tue, 23 Jul 2019 14:39:29 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id v22so31282386qkj.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Jul 2019 07:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=JX0EC/QaWs62JM7ci7Ce55WCCV5N2vRmVD5MGPQBV+Y=;
+	b=E2KnHTQQcIV3serX6Hf1b3igU0yM5Uen6RQecNNv4RALiR5JyLx+oQBjK+0M2daXIe
+	XReqbzJnMmy3+xntNNiI9ABLmnBAbOgutDW1hdr6FSX99RakTM51CiwaXFiD9zYLogyb
+	Qb48BEhXvNp34+9v+NH3YH4v0oUTEtP335lDN7cUup8r1Mb4yIqG5d/SIvEQzKB62nXu
+	z4zMnb04tI/TN61iqoHWWWh69ywzrmF0QY+Dc7WVRx26NgujuhXCBf/4pQ6Hu+glX1Lw
+	9ZVULm3X/lng4zb5pXeUE732m0bnW4vvY9S1gAc993FpdOTZaamTllMKqyinmC/uS98y
+	ZbYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=JX0EC/QaWs62JM7ci7Ce55WCCV5N2vRmVD5MGPQBV+Y=;
+	b=DLUhPLkXFBQeZBcsdmcduzq6RZZPOqCwHClf3+OJFhE6fdNVpKNUb8MmftgrmnGEjX
+	S5IPBg6x6eV5E/FKOTkLreLB15FL9Rm2g0I1geapN60KhxC0oVUDgBT8im60rgb+Wuz+
+	/yufqs/57NDcXvBSrbzzK9ktdlDH0mMyujEg1wpX1vu0jFD3iiS6Ndufc81+Ru9Ci6mw
+	nx21RiKLp/PCw/F9QxsbOWU2h/2NH8O3m6ihfzyB28cMbMsAGz59CmQCHrbKLF40Ehs2
+	NLfm84xjs4eNtT1mNESkjZT59I7ZWeIjEUkd+2mwa4WgTgFgEtEwQCOZXFBCWsd3f5b3
+	rhPA==
+X-Gm-Message-State: APjAAAXvcK4zAKVIs2OnsAk25tQlPiC8zEClBgzHu1vW9nWDxWfoP2xf
+	bsNLKAT9pmUD3zS2l7ZgDI0AekgfYzNIASoIIfHZca1z
+X-Google-Smtp-Source: APXvYqyplfU1XEwDgLAnqyUxnKYHIoJ1kGb7Q/XJfVptMAyYHphR/Wuct4sWUyacmBJPWssxaAArzoE67jNOM0aKedQ=
+X-Received: by 2002:ae9:f101:: with SMTP id k1mr17181600qkg.337.1563892769621; 
+	Tue, 23 Jul 2019 07:39:29 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: aerq.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 906ea42f-8c8c-46f5-5dd9-08d70f77f3ca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2019 14:13:36.3704 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bf24ff3e-ad0a-4c79-a44a-df7092489e22
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: alban.bedel@aerq.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB1886
-Cc: "Bedel, Alban" <alban.bedel@aerq.com>
-Subject: [PATCH] kernel-uboot: remove useless special casing of arm64 Image
+References: <20190723123802.24182-1-ricardo@ribalda.com>
+In-Reply-To: <20190723123802.24182-1-ricardo@ribalda.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 23 Jul 2019 07:39:13 -0700
+Message-ID: <CAMKF1srPfqty5AVn=JvxuAnUu9xFK4VDQMYrxUQxfj8X6oGMPQ@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] fwts: Update to 19.06.00
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -88,37 +54,202 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2019 14:13:38 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Jul 2019 14:39:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Since commit a725d188b5 (kernel-uboot: compress arm64 kernels)
-arm64 Image files are handled exactly like in the default case, making
-this special case pointless. Remove it to make the code simpler.
+On Tue, Jul 23, 2019 at 5:38 AM Ricardo Ribalda Delgado
+<ricardo@ribalda.com> wrote:
+>
+> Update to latest release.
+>
+> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+> ---
+>  .../fwts/0001-Remove-Werror-from-build.patch  | 22 ++---
+>  ...t-logical-operand-warning-with-clang.patch | 84 -------------------
+>  .../fwts/{fwts_git.bb => fwts_19.06.00.bb}    | 11 +--
+>  3 files changed, 15 insertions(+), 102 deletions(-)
+>  delete mode 100644 meta-oe/recipes-test/fwts/fwts/0001-ignore-constant-logical-operand-warning-with-clang.patch
+>  rename meta-oe/recipes-test/fwts/{fwts_git.bb => fwts_19.06.00.bb} (83%)
+>
+> diff --git a/meta-oe/recipes-test/fwts/fwts/0001-Remove-Werror-from-build.patch b/meta-oe/recipes-test/fwts/fwts/0001-Remove-Werror-from-build.patch
+> index 611ccc8fc..6795ba849 100644
+> --- a/meta-oe/recipes-test/fwts/fwts/0001-Remove-Werror-from-build.patch
+> +++ b/meta-oe/recipes-test/fwts/fwts/0001-Remove-Werror-from-build.patch
+> @@ -12,33 +12,33 @@ Upstream-Status: Pending
+>   3 files changed, 3 insertions(+), 3 deletions(-)
+>
+>  diff --git a/src/Makefile.am b/src/Makefile.am
+> -index 4daa9e8f..873f23eb 100644
+> +index 62c9ba8..435ec23 100644
+>  --- a/src/Makefile.am
+>  +++ b/src/Makefile.am
+>  @@ -14,7 +14,7 @@ AM_CPPFLAGS = \
+> -       `pkg-config --silence-errors --cflags json` \
+> -       `pkg-config --silence-errors --cflags json-c` \
+> +       `pkg-config --silence-errors --cflags json`     \
+> +       `pkg-config --silence-errors --cflags json-c`   \
+>         -pthread `pkg-config --cflags glib-2.0 gio-2.0` \
+> --      -Wall -Werror -Wextra
+> -+      -Wall -Wextra
+> +-      -Wall -Werror -Wextra                           \
+> ++      -Wall -Wextra                           \
+> +       -Wno-address-of-packed-member
+>
+>   bin_PROGRAMS = fwts
+> -
+>  diff --git a/src/lib/src/Makefile.am b/src/lib/src/Makefile.am
+> -index fa232451..082403a2 100644
+> +index 6bcf9f8..de89bf1 100644
+>  --- a/src/lib/src/Makefile.am
+>  +++ b/src/lib/src/Makefile.am
+>  @@ -24,7 +24,7 @@ AM_CPPFLAGS = \
+>         `pkg-config --silence-errors --cflags json-c`   \
+>         `pkg-config --cflags glib-2.0 gio-2.0`          \
+>         -DDATAROOTDIR=\"$(datarootdir)\"                \
+> --      -Wall -Werror -Wextra
+> -+      -Wall -Wextra
+> +-      -Wall -Werror -Wextra                           \
+> ++      -Wall -Wextra                           \
+> +       -Wno-address-of-packed-member
+>
+>   pkglib_LTLIBRARIES = libfwts.la
+> -
+>  diff --git a/src/utilities/Makefile.am b/src/utilities/Makefile.am
+> -index aa37de55..4d5297cc 100644
+> +index 21f969e..82009a0 100644
+>  --- a/src/utilities/Makefile.am
+>  +++ b/src/utilities/Makefile.am
+>  @@ -16,7 +16,7 @@
+> diff --git a/meta-oe/recipes-test/fwts/fwts/0001-ignore-constant-logical-operand-warning-with-clang.patch b/meta-oe/recipes-test/fwts/fwts/0001-ignore-constant-logical-operand-warning-with-clang.patch
+> deleted file mode 100644
+> index ae3665b4d..000000000
+> --- a/meta-oe/recipes-test/fwts/fwts/0001-ignore-constant-logical-operand-warning-with-clang.patch
+> +++ /dev/null
+> @@ -1,84 +0,0 @@
+> -From 5bd05ad8569880985ddf6d4c06ed927d388c297f Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Wed, 19 Oct 2016 01:57:16 +0000
+> -Subject: [PATCH] ignore constant-logical-operand warning with clang
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> ----
+> - src/dmi/dmicheck/dmicheck.c            | 3 +++
+> - src/lib/src/fwts_acpi_tables.c         | 5 +++++
+> - src/uefi/uefirtauthvar/uefirtauthvar.c | 5 +++++
+> - 3 files changed, 13 insertions(+)
+> -
+> -diff --git a/src/dmi/dmicheck/dmicheck.c b/src/dmi/dmicheck/dmicheck.c
+> -index 3cca9db9..60fb758f 100644
+> ---- a/src/dmi/dmicheck/dmicheck.c
+> -+++ b/src/dmi/dmicheck/dmicheck.c
+> -@@ -211,6 +211,8 @@ static const char *uuid_patterns[] = {
+> -       "0A0A0A0A-0A0A-0A0A-0A0A-0A0A0A0A0A0A",
+> -       NULL,
+> - };
+> -+#pragma clang diagnostic push
+> -+#pragma clang diagnostic ignored "-Wunneeded-internal-declaration"
+> -
+> - static const fwts_chassis_type_map fwts_dmi_chassis_type[] = {
+> -       { "Invalid",            FWTS_SMBIOS_CHASSIS_INVALID },
+> -@@ -251,6 +253,7 @@ static const fwts_chassis_type_map fwts_dmi_chassis_type[] = {
+> -       { "Mini PC",            FWTS_SMBIOS_CHASSIS_MINI_PC },
+> -       { "Stick PC",           FWTS_SMBIOS_CHASSIS_STICK_PC },
+> - };
+> -+#pragma clang diagnostic pop
+> -
+> - /* Remapping table from buggy version numbers to correct values */
+> - static const fwts_dmi_version dmi_versions[] = {
+> -diff --git a/src/lib/src/fwts_acpi_tables.c b/src/lib/src/fwts_acpi_tables.c
+> -index c7ba59be..bdd224aa 100644
+> ---- a/src/lib/src/fwts_acpi_tables.c
+> -+++ b/src/lib/src/fwts_acpi_tables.c
+> -@@ -393,10 +393,14 @@ static int fwts_acpi_handle_fadt(
+> -       /* Determine FACS addr and load it.
+> -        * Will ignore the missing FACS in the hardware-reduced mode.
+> -        */
+> -+#pragma clang diagnostic push
+> -+#pragma clang diagnostic ignored "-Waddress-of-packed-member"
+> -+
+> -       result = fwts_acpi_handle_fadt_tables(fw, fadt,
+> -                       "FACS", "FIRMWARE_CTRL", "X_FIRMWARE_CTRL",
+> -                       &fadt->firmware_control, &fadt->x_firmware_ctrl,
+> -                       provenance);
+> -+
+> -       if (result != FWTS_OK) {
+> -               if ((result == FWTS_NULL_POINTER) &&
+> -                               fwts_acpi_is_reduced_hardware(fadt)) {
+> -@@ -415,6 +419,7 @@ static int fwts_acpi_handle_fadt(
+> -               return FWTS_ERROR;
+> -       }
+> -       return FWTS_OK;
+> -+#pragma clang diagnostic pop
+> - }
+> -
+> - /*
+> -diff --git a/src/uefi/uefirtauthvar/uefirtauthvar.c b/src/uefi/uefirtauthvar/uefirtauthvar.c
+> -index c2031741..7a33d19d 100644
+> ---- a/src/uefi/uefirtauthvar/uefirtauthvar.c
+> -+++ b/src/uefi/uefirtauthvar/uefirtauthvar.c
+> -@@ -142,6 +142,9 @@ static int uefirtauthvar_deinit(fwts_framework *fw)
+> -       return FWTS_OK;
+> - }
+> -
+> -+#pragma clang diagnostic push
+> -+#pragma clang diagnostic ignored "-Wconstant-logical-operand"
+> -+
+> - static int check_fw_support(fwts_framework *fw, uint64_t status)
+> - {
+> -       if ((status == EFI_INVALID_PARAMETER) &&
+> -@@ -172,6 +175,8 @@ static int check_fw_support(fwts_framework *fw, uint64_t status)
+> -       return FWTS_OK;
+> - }
+> -
+> -+#pragma clang diagnostic pop
+> -+
+> - /*
+> -  * Set the created authenticated variable, AuthVarCreate,
+> -  * and checking the data size and data.
+> diff --git a/meta-oe/recipes-test/fwts/fwts_git.bb b/meta-oe/recipes-test/fwts/fwts_19.06.00.bb
+> similarity index 83%
+> rename from meta-oe/recipes-test/fwts/fwts_git.bb
+> rename to meta-oe/recipes-test/fwts/fwts_19.06.00.bb
+> index d3fb644df..88a89fb0b 100644
+> --- a/meta-oe/recipes-test/fwts/fwts_git.bb
+> +++ b/meta-oe/recipes-test/fwts/fwts_19.06.00.bb
+> @@ -5,11 +5,8 @@ HOMEPAGE = "https://wiki.ubuntu.com/Kernel/Reference/fwts"
+>  LICENSE = "GPLv2+"
+>  LIC_FILES_CHKSUM = "file://src/main.c;beginline=1;endline=16;md5=31da590f3e9f3bd34dcdb9e4db568519"
+>
+> -PV = "18.05.00+git${SRCPV}"
+> -
+>  SRCREV = "b0ec7aa2ef743d113fd8c5e57c0ca3d5edd86f0e"
+> -SRC_URI = "git://kernel.ubuntu.com/hwe/fwts.git \
+> -           file://0001-ignore-constant-logical-operand-warning-with-clang.patch \
+> +SRC_URI = "http://fwts.ubuntu.com/release/fwts-V19.06.00.tar.gz;subdir=${BPN}-${PV} \
+>             file://0001-Include-poll.h-instead-of-deprecated-sys-poll.h.patch \
+>             file://0002-Define-__SWORD_TYPE-if-not-defined-by-libc.patch \
+>             file://0003-Undefine-PAGE_SIZE.patch \
+> @@ -17,12 +14,12 @@ SRC_URI = "git://kernel.ubuntu.com/hwe/fwts.git \
+>             file://0003-use-intptr_t-to-fix-pointer-to-int-cast-issues.patch \
+>             file://0001-Remove-Werror-from-build.patch \
+>             "
+> -
+> -S = "${WORKDIR}/git"
+> +SRC_URI[md5sum] = "012f933329510cc5a71817ede681eee2"
+> +SRC_URI[sha256sum] = "13aa991f12c69f48df368aae5e5d0fbc9136413b4bfe115421bc3216d919f8a2"
+>
+>  COMPATIBLE_HOST = "(i.86|x86_64|aarch64|powerpc64).*-linux"
+>
+> -DEPENDS = "libpcre json-c glib-2.0 dtc bison-native"
+> +DEPENDS = "libpcre json-c glib-2.0 dtc bison-native libbsd"
 
-Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
----
- meta/classes/kernel-uboot.bbclass | 4 ----
- 1 file changed, 4 deletions(-)
+Mention this in commit message please
 
-diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-uboot.=
-bbclass
-index 0457c5d1d1..87f02654fa 100644
---- a/meta/classes/kernel-uboot.bbclass
-+++ b/meta/classes/kernel-uboot.bbclass
-@@ -3,10 +3,6 @@ uboot_prep_kimage() {
- 		vmlinux_path=3D"arch/${ARCH}/boot/compressed/vmlinux"
- 		linux_suffix=3D""
- 		linux_comp=3D"none"
--	elif [ -e arch/${ARCH}/boot/Image ] ; then
--		vmlinux_path=3D"vmlinux"
--		linux_suffix=3D".gz"
--		linux_comp=3D"gzip"
- 	elif [ -e arch/${ARCH}/boot/vmlinuz.bin ]; then
- 		rm -f linux.bin
- 		cp -l arch/${ARCH}/boot/vmlinuz.bin linux.bin
---=20
-2.17.1
-
+>  DEPENDS_append_libc-musl = " libexecinfo"
+>
+>  inherit autotools bash-completion pkgconfig
+> --
+> 2.20.1
+>
 
