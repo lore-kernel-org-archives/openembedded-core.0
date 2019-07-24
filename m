@@ -1,51 +1,49 @@
-Return-Path: <wbourque@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D63FF7F160
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A77387EE4F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 13:32:32 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id 201so33704290qkm.9
+	Wed, 24 Jul 2019 13:39:26 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id 44so14463348qtg.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 06:32:34 -0700 (PDT)
+	Wed, 24 Jul 2019 06:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=alsUkOCG+JQr30l7moBbSk7MEQJs2VyT0Jm+484M9wo=;
-	b=G62WmVkGowRJqFlOqHM7BZkLoPcDdw6d+j6xNavFnq9FuyIT09ca1QJz9PDIQVH/CA
-	eP+XF9wfe9UFyVmu4f38/hFJIuEdcqGhR1GYcK3zm1byTyWLE07Mn4914X+wlYa4QTGN
-	P4tpmZZ/4QCzyeIDUJV3CG8Rcm4ilcirP7ROR5eb1OjGnYz0IPyp8Ss0D7mJcW4APWGI
-	SR2ln+LfAGMsha3zsjgi4icWCVoKmyDNkW+/RIX/FqINCVt44mqDjGcq150CKw93asCK
-	d3AkPz1lHSXuU7w8t6wmczQXwIFal3WS3oIgXEbQrO7b08K8O9D+iSorroocqtComR43
-	tAIA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=KdwmxGlbSznWAwzL5ArSIOtXPwxa6zgrerhW0Oag+uw=;
+	b=c1bsLTzfCj/hgTDFWf5EtHFVuPuWn0kzI2lDBaiKRpt68SRAjwdJfDjBkG74GduNrr
+	oZOmxGvq+10CADPoPV3FpT9xAdTw665QOh+U/7D0bC+EK1aolfc9COBln666OJFYABIP
+	Uh5aHVmhAHHdM4QY8SmJuo/pz39czHYzYRXDNbe9jgRpQA7qm+xYmIBaXRvySGpLPcQa
+	ovDXww5z4QBM4IhSI4dSz0YveXsylKP9fZ6uUBBr9vbxL2tnKazenyTFaXQw9L8dRUpy
+	JibWfbf7E3vZtzJy37pxIKPvL11/a8oxFkTAEJfB0rOx61c4vqoWdikRWxdSY1AUFOVx
+	xfnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=alsUkOCG+JQr30l7moBbSk7MEQJs2VyT0Jm+484M9wo=;
-	b=Ahg2nFpHapHwHa8YuVBZ5j2o0DGZHyxlisEHAJuinjKL3I3EZgTRIrxAyef7bdVWs5
-	KUix7jE6L8nZO501aWCcVsfy8xj1Y4RQ3fP5XD/N+6RcL45ycxEYUA6HIrd+aOa0sySO
-	ebvKz6gqc3HuCTXA4TtH0/HAwBte8L8mVOn+8SvX8QQDpermRhZ1ZQ+MRivND/tX8e2J
-	gfuyv+0Oeviwmdqc3JlhD/kpvvr9t/7DAi9hYRiT3sfiX6Ow7QT+LUT1a6ZgN61Eq5Bg
-	GFMTHiEBo89I6AVoy56KoxalJX3Cd/enVNpMl66U0nySrQMRCGbrt1uKw6abf1Q2+3Z3
-	u+FA==
-X-Gm-Message-State: APjAAAVBGBkcODsoaqW5uBHnr7QeThtaMHOQZrs0Rs1fvf1abFWS4CBf
-	ZKThc247Qi6my0RkwD2AfTuRWsvwKHI=
-X-Google-Smtp-Source: APXvYqy6t2oFgrW9OBLT4UahwXiy3rFYXY63R/2qO6xIT4WkJ2785mp6feNIE14+BocnKFwIckXnpg==
-X-Received: by 2002:a37:2d86:: with SMTP id
-	t128mr55089965qkh.429.1563975153473; 
-	Wed, 24 Jul 2019 06:32:33 -0700 (PDT)
-Received: from dingo.touchtunes.com (vcmtl.touchtunes.com. [207.96.182.162])
-	by smtp.gmail.com with ESMTPSA id
-	z50sm24637232qtz.36.2019.07.24.06.32.32
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 24 Jul 2019 06:32:33 -0700 (PDT)
-From: William Bourque <wbourque@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jul 2019 09:32:05 -0400
-Message-Id: <20190724133205.31296-2-wbourque@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190724133205.31296-1-wbourque@gmail.com>
-References: <20190724133205.31296-1-wbourque@gmail.com>
-Subject: [PATCH V4 2/2] meta/lib/oeqa: Test for bootimg-biosplusefi Source
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=KdwmxGlbSznWAwzL5ArSIOtXPwxa6zgrerhW0Oag+uw=;
+	b=GFNcpA2MT55J+0GXN7/VL4BAGZ1nLc9n/lRIb26WE/qqpi/uAmPxJDlhf2GDk7P3hL
+	IPXWE+O9VSqScTt92ZKInXFIXyzERaciVXKqT42St3KEVrS7mEKs0w+cGuobE04fQ8Qx
+	fLRnf8JDNaJTUmugiLJDitMljst2d683YgJRtKfVb0ZZtDYrUTMG+UuVvPsk80kjZZ7C
+	4/RGPMPG6NycGw5isPyr3kBka2NshX+soUSoHxD52Kw8/kJ3YS52v9L5slxWLn7b4lX6
+	cSlzd2dNBcOjXpOEa1ITH1y2TnOeGCWgkDN+iVqGuuRNLWYYywtqV/KY21NfwyCybQWu
+	7r3g==
+X-Gm-Message-State: APjAAAVopNfsUamSPVX2K82PHBBkbtyf26qDTfMKHmeV0CAQCQsaVsqT
+	qMIhLQhCbErbvFugFWL2ssQp6XKPkc6oPIvy0AU=
+X-Google-Smtp-Source: APXvYqxaqJTTbNjtbm0g9vfEMmwaJrMGxLBmtP2z1jJ6Nyt9DY2d2gCPnevOdYwtdEpYktJn8HB+pD/8hOf9HeTNghA=
+X-Received: by 2002:ac8:525a:: with SMTP id y26mr57348365qtn.378.1563975567413;
+	Wed, 24 Jul 2019 06:39:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190720180058.10672-1-raj.khem@gmail.com>
+	<20190720180058.10672-3-raj.khem@gmail.com>
+	<20190721152022.GA5474@localhost>
+	<531504ebcdae52b7ce1fe8221417d4026c0f9ceb.camel@linuxfoundation.org>
+In-Reply-To: <531504ebcdae52b7ce1fe8221417d4026c0f9ceb.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 24 Jul 2019 06:39:16 -0700
+Message-ID: <CAMKF1sqhkL7moib2Z0N8+quptPW7fEx9ez_MBE0zZAjr-A-kgg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH V4 3/4] elfutils: Fix eu-* utils builds for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,101 +56,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2019 13:32:33 -0000
+X-List-Received-Date: Wed, 24 Jul 2019 13:39:26 -0000
+Content-Type: multipart/alternative; boundary="00000000000022160e058e6d7070"
 
-Add unittests for bootimg-biosplusefi SourcePlugin in wic module.
-First test check wic creation works correctly.
-Second test uses qemu to boot image and checks that it has both
-EFI and BIOS files in a single partition.
+--00000000000022160e058e6d7070
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: William Bourque <wbourque@gmail.com>
----
- meta-selftest/wic/test_biosplusefi_plugin.wks |  6 ++
- meta/lib/oeqa/selftest/cases/wic.py           | 57 +++++++++++++++++++
- 2 files changed, 63 insertions(+)
- create mode 100644 meta-selftest/wic/test_biosplusefi_plugin.wks
+On Wed, Jul 24, 2019 at 1:24 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-diff --git a/meta-selftest/wic/test_biosplusefi_plugin.wks b/meta-selftest/wic/test_biosplusefi_plugin.wks
-new file mode 100644
-index 0000000000..5a56c84518
---- /dev/null
-+++ b/meta-selftest/wic/test_biosplusefi_plugin.wks
-@@ -0,0 +1,6 @@
-+# short-description: This file is used in oe-selftest wic module to test biosplusefi plugin
-+
-+part /boot --source bootimg-biosplusefi --sourceparams="loader=grub-efi" --active --align 1024 --use-uuid
-+part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-+
-+bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index c390749401..fcdd55059d 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -681,6 +681,63 @@ class Wic2(WicTestCase):
-             out = glob(self.resultdir + "%s-*direct" % wksname)
-             self.assertEqual(1, len(out))
- 
-+    @only_for_arch(['i586', 'i686', 'x86_64'])
-+    def test_biosplusefi_plugin_qemu(self):
-+        """Test biosplusefi plugin in qemu"""
-+        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "test_biosplusefi_plugin.wks"\nMACHINE_FEATURES_append = " efi"\n'
-+        self.append_config(config)
-+        self.assertEqual(0, bitbake('core-image-minimal').status)
-+        self.remove_config(config)
-+
-+        with runqemu('core-image-minimal', ssh=False, image_fstype='wic') as qemu:
-+            # Check that we have ONLY two /dev/sda* partitions (/boot and /)
-+            cmd = "grep sda. /proc/partitions | wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '2')
-+            # Check that /dev/sda1 is /boot and that either /dev/root OR /dev/sda2 is /
-+            cmd = "mount | grep '^/dev/' | cut -f1,3 -d ' ' | egrep -c -e '/dev/sda1 /boot' -e '/dev/root /|/dev/sda2 /'"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '2')
-+            # Check that /boot has EFI bootx64.efi (required for EFI)
-+            cmd = "ls /boot/EFI/BOOT/bootx64.efi | wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '1')
-+            # Check that "BOOTABLE" flag is set on boot partition (required for PC-Bios)
-+            # Trailing "cat" seems to be required; otherwise run_serial() sends back echo of the input command
-+            cmd = "fdisk -l /dev/sda | grep /dev/sda1 | awk {print'$2'} | cat"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '*')
-+
-+    @only_for_arch(['i586', 'i686', 'x86_64'])
-+    def test_biosplusefi_plugin(self):
-+        """Test biosplusefi plugin"""
-+        # Wic generation below may fail depending on the order of the unittests
-+        # This is because bootimg-pcbios (that bootimg-biosplusefi uses) generate its MBR inside STAGING_DATADIR directory
-+        #    which may or may not exists depending on what was built already
-+        # If an image hasn't been built yet, directory ${STAGING_DATADIR}/syslinux won't exists and _get_bootimg_dir()
-+        #   will raise with "Couldn't find correct bootimg_dir"
-+        # The easiest way to work-around this issue is to make sure we already built an image here, hence the bitbake call
-+        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "test_biosplusefi_plugin.wks"\nMACHINE_FEATURES_append = " efi"\n'
-+        self.append_config(config)
-+        self.assertEqual(0, bitbake('core-image-minimal').status)
-+        self.remove_config(config)
-+
-+        img = 'core-image-minimal'
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.writelines(['part /boot --active --source bootimg-biosplusefi --sourceparams="loader=grub-efi"\n',
-+                            'part / --source rootfs --fstype=ext4 --align 1024 --use-uuid\n'\
-+                            'bootloader --timeout=0 --append="console=ttyS0,115200n8"\n'])
-+            wks.flush()
-+            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            runCmd(cmd)
-+            wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+            out = glob(self.resultdir + "%s-*.direct" % wksname)
-+            self.assertEqual(1, len(out))
-+
-     def test_fs_types(self):
-         """Test filesystem types for empty and not empty partitions"""
-         img = 'core-image-minimal'
--- 
-2.17.1
+> On Sun, 2019-07-21 at 18:20 +0300, Adrian Bunk wrote:
+> > On Sat, Jul 20, 2019 at 11:00:57AM -0700, Khem Raj wrote:
+> > > ...
+> > > ++#if !defined(FNM_EXTMATCH)
+> > > ++# define FNM_EXTMATCH (0)
+> > > ++#endif
+> > > ...
+> >
+> > As already said in [1] this is expected to result in broken code,
+> > and the upstream testsuite also confirms this.
+>
+> I've taken the patches as they don't make things worse. I am a bit
+> concerned about a few places musl is building up problematic patches
+> though (systemd, elfutils, ltp come to mind).
+>
 
+Yes I am aware of this I think LTP we are upstreaming and I hope this will
+be better in future
+Systemd we might have to re-evaluate but I think few patches are worthy of
+upstreaming elfutils I don=E2=80=99t know yet
 
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+--00000000000022160e058e6d7070
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Jul 24, 2019 at 1:24 AM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, 2019-=
+07-21 at 18:20 +0300, Adrian Bunk wrote:<br>
+&gt; On Sat, Jul 20, 2019 at 11:00:57AM -0700, Khem Raj wrote:<br>
+&gt; &gt; ...<br>
+&gt; &gt; ++#if !defined(FNM_EXTMATCH)<br>
+&gt; &gt; ++# define FNM_EXTMATCH (0)<br>
+&gt; &gt; ++#endif<br>
+&gt; &gt; ...<br>
+&gt; <br>
+&gt; As already said in [1] this is expected to result in broken code,<br>
+&gt; and the upstream testsuite also confirms this.<br>
+<br>
+I&#39;ve taken the patches as they don&#39;t make things worse. I am a bit<=
+br>
+concerned about a few places musl is building up problematic patches<br>
+though (systemd, elfutils, ltp come to mind).<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yes I am aware o=
+f this I think LTP we are upstreaming and I hope this will be better in fut=
+ure</div><div dir=3D"auto">Systemd we might have to re-evaluate but I think=
+ few patches are worthy of upstreaming elfutils I don=E2=80=99t know yet=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div>
+
+--00000000000022160e058e6d7070--
