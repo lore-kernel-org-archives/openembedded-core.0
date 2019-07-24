@@ -1,18 +1,37 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 186697C132;
-	Wed, 24 Jul 2019 06:01:51 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 24 Jul 2019 06:01:52 -0000
-Message-ID: <20190724060152.2331.98532@do>
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 456367F07C
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jul 2019 06:27:14 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Jul 2019 23:27:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,300,1559545200"; d="scan'208";a="177566425"
+Received: from kmsmsx156.gar.corp.intel.com ([172.21.138.133])
+	by FMSMGA003.fm.intel.com with ESMTP; 23 Jul 2019 23:27:14 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
+	KMSMSX156.gar.corp.intel.com ([169.254.1.127]) with mapi id
+	14.03.0439.000; Wed, 24 Jul 2019 14:27:13 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
+	<raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH] linux-libc-header: Fix ptrace.h and prctl.h
+	conflict on aarch64
+Thread-Index: AQHVQejU6LYYs8GJxUmAkrbYtwwkzw==
+Date: Wed, 24 Jul 2019 06:27:12 +0000
+Message-ID: <d108d3e1e13962b7810a74cb04273e9d21617bfe.camel@intel.com>
 References: <20190724055607.30927-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
 In-Reply-To: <20190724055607.30927-1-raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGludXgtbGliYy1oZWFkZXI6IEZpeCBwdHJhY2UuaCBhbmQgcHJjdGwuaCBjb25mbGljdCBvbiBhYXJjaDY0?=
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.183.241]
+MIME-Version: 1.0
+Subject: Re: [PATCH] linux-libc-header: Fix ptrace.h and prctl.h conflict on aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +44,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2019 06:01:51 -0000
+X-List-Received-Date: Wed, 24 Jul 2019 06:27:14 -0000
+Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-ID: <00A23671EF7BAE459E46565D55E1B77F@intel.com>
+Content-Transfer-Encoding: base64
 
-== Series Details ==
-
-Series: linux-libc-header: Fix ptrace.h and prctl.h conflict on aarch64
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/18852/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-kernel/linux/files/0001-Replace-Wattribute-alias-with-Wattribute-alias.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+T24gVHVlLCAyMDE5LTA3LTIzIGF0IDIyOjU2IC0wNzAwLCBLaGVtIFJhaiB3cm90ZToNCj4gVGhp
+cyBpcyBhIGJhY2twb3J0IGZyb20gNS4yIHJlbGVhc2UgdXBzdHJlYW0sIGl0IGZpeGVzIGxvbmcg
+c3RhbmRpbmcNCj4gYnVpbGQgZmFpbHVyZSBvbiBtdXNsL2FhcmNoNjQNCj4gDQo+IFNpZ25lZC1v
+ZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQo+IC0tLQ0KPiAgLi4uc20tcHRy
+YWNlLmgtc2hvdWxkLW5vdC1kZXBlbmQtb24tdWFwLnBhdGNoIHwgNjINCj4gKysrKysrKysrKysr
+KysrKysrKw0KPiAgLi4uL2xpbnV4LWxpYmMtaGVhZGVyc181LjAuYmIgICAgICAgICAgICAgICAg
+IHwgIDEgKw0KPiAgLi4udHRyaWJ1dGUtYWxpYXMtd2l0aC1XYXR0cmlidXRlLWFsaWFzLnBhdGNo
+IHwgNDMgKysrKysrKysrKysrKw0KPiAgMyBmaWxlcyBjaGFuZ2VkLCAxMDYgaW5zZXJ0aW9ucygr
+KQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgtbGliYy1o
+ZWFkZXJzL2xpbnV4LQ0KPiBsaWJjLWhlYWRlcnMvMDAwMS1hcm02NC1zdmUtdWFwaS1hc20tcHRy
+YWNlLmgtc2hvdWxkLW5vdC1kZXBlbmQtb24tDQo+IHVhcC5wYXRjaA0KPiAgY3JlYXRlIG1vZGUg
+MTAwNjQ0IG1ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvZmlsZXMvMDAwMS1SZXBsYWNlLQ0KPiBX
+YXR0cmlidXRlLWFsaWFzLXdpdGgtV2F0dHJpYnV0ZS1hbGlhcy5wYXRjaA0KPiANCg0KVGhpcyBz
+ZWNvbmQgcGF0Y2ggbG9va3MgdW5yZWxhdGVkIHRvIHRoaXMgY29tbWl0Lg0KDQpUaGFua3MsDQpB
+bnVqDQoNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgtbGliYy1oZWFk
+ZXJzL2xpbnV4LWxpYmMtDQo+IGhlYWRlcnMvMDAwMS1hcm02NC1zdmUtdWFwaS1hc20tcHRyYWNl
+Lmgtc2hvdWxkLW5vdC1kZXBlbmQtb24tDQo+IHVhcC5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJu
+ZWwvbGludXgtbGliYy1oZWFkZXJzL2xpbnV4LWxpYmMtDQo+IGhlYWRlcnMvMDAwMS1hcm02NC1z
+dmUtdWFwaS1hc20tcHRyYWNlLmgtc2hvdWxkLW5vdC1kZXBlbmQtb24tDQo+IHVhcC5wYXRjaA0K
+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwLi41ZWE0NmU5NTkwDQo+
+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC1saWJjLWhl
+YWRlcnMvbGludXgtbGliYy1oZWFkZXJzLzAwMDEtDQo+IGFybTY0LXN2ZS11YXBpLWFzbS1wdHJh
+Y2UuaC1zaG91bGQtbm90LWRlcGVuZC1vbi11YXAucGF0Y2gNCj4gQEAgLTAsMCArMSw2MiBAQA0K
+PiArRnJvbSAzNTM0MWNhMDYxNGFiMTNlMWVmMzRhZDRmMjlhMzllMTVlZjMxZmE4IE1vbiBTZXAg
+MTcgMDA6MDA6MDANCj4gMjAwMQ0KPiArRnJvbTogQW5pc3NlIEFzdGllciA8YWFzdGllckBmcmVl
+Ym94LmZyPg0KPiArRGF0ZTogTW9uLCAxNyBKdW4gMjAxOSAxNToyMjoyMiArMDIwMA0KPiArU3Vi
+amVjdDogW1BBVENIXSBhcm02NC9zdmU6IDx1YXBpL2FzbS9wdHJhY2UuaD4gc2hvdWxkIG5vdCBk
+ZXBlbmQgb24NCj4gKyA8dWFwaS9saW51eC9wcmN0bC5oPg0KPiArDQo+ICtQdWxsaW5nIGxpbnV4
+L3ByY3RsLmggaW50byBhc20vcHRyYWNlLmggaW4gdGhlIGFybTY0IFVBUEkgaGVhZGVycw0KPiBj
+YXVzZXMNCj4gK3VzZXJzcGFjZSBidWlsZCBpc3N1ZXMgZm9yIGFueSBwcm9ncmFtIChlLmcuIHN0
+cmFjZSBhbmQgcWVtdSkgdGhhdA0KPiAraW5jbHVkZXMgYm90aCA8c3lzL3ByY3RsLmg+IGFuZCA8
+bGludXgvcHRyYWNlLmg+IHdoZW4gdXNpbmcgbXVzbA0KPiBsaWJjOg0KPiArDQo+ICsgIHwgZXJy
+b3I6IHJlZGVmaW5pdGlvbiBvZiAnc3RydWN0IHByY3RsX21tX21hcCcNCj4gKyAgfCAgc3RydWN0
+IHByY3RsX21tX21hcCB7DQo+ICsNCj4gK1NlZSANCj4gaHR0cHM6Ly9naXRodWIuY29tL2ZvdW5k
+cmllc2lvL21ldGEtbG1wL2NvbW1pdC82ZDRhMTA2ZTE5MWI1ZDc5YzQxYjlhYzc4ZmQzMjEzMTZk
+MzAxM2MwDQo+ICtmb3IgYSBwdWJsaWMgZXhhbXBsZSBvZiBwZW9wbGUgd29ya2luZyBhcm91bmQg
+dGhpcyBpc3N1ZS4NCj4gKw0KPiArQWx0aG91Z2ggaXQncyBhIGJpdCBncm90dHksIGZpeCB0aGlz
+IGJyZWFrYWdlIGJ5IGR1cGxpY2F0aW5nIHRoZQ0KPiBwcmN0bA0KPiArY29uc3RhbnQgZGVmaW5p
+dGlvbnMuIFNpbmNlIHRoZXNlIGFyZSBwYXJ0IG9mIHRoZSBrZXJuZWwgQUJJLCB0aGV5DQo+ICtj
+YW5ub3QgYmUgY2hhbmdlZCBpbiBmdXR1cmUgYW5kIHNvIGl0J3Mgbm90IHRoZSBlbmQgb2YgdGhl
+IHdvcmxkIHRvDQo+IGhhdmUNCj4gK3RoZW0gb3Blbi1jb2RlZC4NCj4gKw0KPiArRml4ZXM6IDQz
+ZDRkYTJjNDViMiAoImFybTY0L3N2ZTogcHRyYWNlIGFuZCBFTEYgY29yZWR1bXAgc3VwcG9ydCIp
+DQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgWw0KPiBodHRwczovL2dpdGh1Yi5j
+b20vdG9ydmFsZHMvbGludXgvY29tbWl0LzM1MzQxY2EwNjE0YWIxM2UxZWYzNGFkNGYyOWEzOWUx
+NWVmMzFmYTgNCj4gXQ0KPiArQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcNCj4gK0Fja2VkLWJ5
+OiBEYXZlIE1hcnRpbiA8RGF2ZS5NYXJ0aW5AYXJtLmNvbT4NCj4gK1NpZ25lZC1vZmYtYnk6IEFu
+aXNzZSBBc3RpZXIgPGFhc3RpZXJAZnJlZWJveC5mcj4NCj4gK1NpZ25lZC1vZmYtYnk6IFdpbGwg
+RGVhY29uIDx3aWxsLmRlYWNvbkBhcm0uY29tPg0KPiArLS0tDQo+ICsgYXJjaC9hcm02NC9pbmNs
+dWRlL3VhcGkvYXNtL3B0cmFjZS5oIHwgOCArKystLS0tLQ0KPiArIDEgZmlsZSBjaGFuZ2VkLCAz
+IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pDQo+ICsNCj4gK2RpZmYgLS1naXQgYS9hcmNo
+L2FybTY0L2luY2x1ZGUvdWFwaS9hc20vcHRyYWNlLmgNCj4gYi9hcmNoL2FybTY0L2luY2x1ZGUv
+dWFwaS9hc20vcHRyYWNlLmgNCj4gK2luZGV4IDk3YzUzMjAzMTUwYi4uZTkzMjI4NDk5M2Q0IDEw
+MDY0NA0KPiArLS0tIGEvYXJjaC9hcm02NC9pbmNsdWRlL3VhcGkvYXNtL3B0cmFjZS5oDQo+ICsr
+KysgYi9hcmNoL2FybTY0L2luY2x1ZGUvdWFwaS9hc20vcHRyYWNlLmgNCj4gK0BAIC02NSw4ICs2
+NSw2IEBADQo+ICsgDQo+ICsgI2lmbmRlZiBfX0FTU0VNQkxZX18NCj4gKyANCj4gKy0jaW5jbHVk
+ZSA8bGludXgvcHJjdGwuaD4NCj4gKy0NCj4gKyAvKg0KPiArICAqIFVzZXIgc3RydWN0dXJlcyBm
+b3IgZ2VuZXJhbCBwdXJwb3NlLCBmbG9hdGluZyBwb2ludCBhbmQgZGVidWcNCj4gcmVnaXN0ZXJz
+Lg0KPiArICAqLw0KPiArQEAgLTExMywxMCArMTExLDEwIEBAIHN0cnVjdCB1c2VyX3N2ZV9oZWFk
+ZXIgew0KPiArIA0KPiArIC8qDQo+ICsgICogQ29tbW9uIFNWRV9QVF8qIGZsYWdzOg0KPiArLSAq
+IFRoZXNlIG11c3QgYmUga2VwdCBpbiBzeW5jIHdpdGggcHJjdGwgaW50ZXJmYWNlIGluDQo+IDxs
+aW51eC9wdHJhY2UuaD4NCj4gKysgKiBUaGVzZSBtdXN0IGJlIGtlcHQgaW4gc3luYyB3aXRoIHBy
+Y3RsIGludGVyZmFjZSBpbg0KPiA8bGludXgvcHJjdGwuaD4NCj4gKyAgKi8NCj4gKy0jZGVmaW5l
+IFNWRV9QVF9WTF9JTkhFUklUCQkoUFJfU1ZFX1ZMX0lOSEVSSVQgPj4gMTYpDQo+ICstI2RlZmlu
+ZSBTVkVfUFRfVkxfT05FWEVDCQkoUFJfU1ZFX1NFVF9WTF9PTkVYRUMgPj4gMTYpDQo+ICsrI2Rl
+ZmluZSBTVkVfUFRfVkxfSU5IRVJJVAkJKCgxIDw8IDE3KSAvKiBQUl9TVkVfVkxfSU5IRVJJVA0K
+PiAqLyA+PiAxNikNCj4gKysjZGVmaW5lIFNWRV9QVF9WTF9PTkVYRUMJCSgoMSA8PCAxOCkgLyoN
+Cj4gUFJfU1ZFX1NFVF9WTF9PTkVYRUMgKi8gPj4gMTYpDQo+ICsgDQo+ICsgDQo+ICsgLyoNCj4g
+Ky0tIA0KPiArMi4yMi4wDQo+ICsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwv
+bGludXgtbGliYy1oZWFkZXJzL2xpbnV4LWxpYmMtDQo+IGhlYWRlcnNfNS4wLmJiIGIvbWV0YS9y
+ZWNpcGVzLWtlcm5lbC9saW51eC1saWJjLWhlYWRlcnMvbGludXgtbGliYy0NCj4gaGVhZGVyc181
+LjAuYmINCj4gaW5kZXggZTc2MTIwYzViOC4uNDczNjg4ZDk1ZiAxMDA2NDQNCj4gLS0tIGEvbWV0
+YS9yZWNpcGVzLWtlcm5lbC9saW51eC1saWJjLWhlYWRlcnMvbGludXgtbGliYy0NCj4gaGVhZGVy
+c181LjAuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC1saWJjLWhlYWRlcnMv
+bGludXgtbGliYy0NCj4gaGVhZGVyc181LjAuYmINCj4gQEAgLTEyLDYgKzEyLDcgQEAgU1JDX1VS
+SV9hcHBlbmRfbGliYy1tdXNsID0gIlwNCj4gIFNSQ19VUklfYXBwZW5kID0gIlwNCj4gICAgICBm
+aWxlOi8vMDAwMS1zY3JpcHRzLVVzZS1maXhlZC1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLWluc3Rl
+YWQtb2YtDQo+IC5wYXRjaCBcDQo+ICAgICAgZmlsZTovLzAwMDEta2J1aWxkLWluc3RhbGxfaGVh
+ZGVycy5zaC1TdHJpcC1fVUFQSS1mcm9tLWlmLQ0KPiBkZWZpbmUucGF0Y2ggXA0KPiArICAgIGZp
+bGU6Ly8wMDAxLWFybTY0LXN2ZS11YXBpLWFzbS1wdHJhY2UuaC1zaG91bGQtbm90LWRlcGVuZC1v
+bi0NCj4gdWFwLnBhdGNoIFwNCj4gICINCj4gIA0KPiAgU1JDX1VSSVttZDVzdW1dID0gIjczODFj
+ZThhYWM4MGEwMTQ0OGUwNjVjZTc5NWMxOWMwIg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWtlcm5lbC9saW51eC9maWxlcy8wMDAxLVJlcGxhY2UtV2F0dHJpYnV0ZS0NCj4gYWxpYXMtd2l0
+aC1XYXR0cmlidXRlLWFsaWFzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiBrZXJuZWwvbGludXgv
+ZmlsZXMvMDAwMS1SZXBsYWNlLVdhdHRyaWJ1dGUtYWxpYXMtd2l0aC1XYXR0cmlidXRlLQ0KPiBh
+bGlhcy5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwLi5i
+NDFiMjc3YmI0DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9s
+aW51eC9maWxlcy8wMDAxLVJlcGxhY2UtV2F0dHJpYnV0ZS1hbGlhcy0NCj4gd2l0aC1XYXR0cmli
+dXRlLWFsaWFzLnBhdGNoDQo+IEBAIC0wLDAgKzEsNDMgQEANCj4gK0Zyb20gMjI5YzY3MzgxM2I3
+ZGZmOTBmODJmMTA2MjcyNDMxOWRmZWI2ODYxYSBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDEN
+Cj4gK0Zyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQo+ICtEYXRlOiBGcmksIDIx
+IERlYyAyMDE4IDE1OjU3OjM1IC0wODAwDQo+ICtTdWJqZWN0OiBbUEFUQ0hdIFJlcGxhY2UgIi1X
+YXR0cmlidXRlLWFsaWFzIiB3aXRoICItV2F0dHJpYnV0ZS0NCj4gYWxpYXM9Ig0KPiArDQo+ICtt
+YWtlcyBnY2M5IGhhcHB5IGJ1dCBtYWtlcyBnY2M4IHNhZCA6KA0KPiArSSBndWVzcyBJIGNhbnQg
+ZW5kIHdvcmxkIGh1bmdlcg0KPiArDQo+ICtTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmto
+ZW1AZ21haWwuY29tPg0KPiArLS0tDQo+ICsgaW5jbHVkZS9saW51eC9jb21wYXQuaCAgIHwgMiAr
+LQ0KPiArIGluY2x1ZGUvbGludXgvc3lzY2FsbHMuaCB8IDIgKy0NCj4gKyAyIGZpbGVzIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gKw0KPiArZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvbGludXgvY29tcGF0LmggYi9pbmNsdWRlL2xpbnV4L2NvbXBhdC5oDQo+ICtpbmRl
+eCBkZTBjMTNiZGNkMmMuLjk1ZDExOTJkYTFmNSAxMDA2NDQNCj4gKy0tLSBhL2luY2x1ZGUvbGlu
+dXgvY29tcGF0LmgNCj4gKysrKyBiL2luY2x1ZGUvbGludXgvY29tcGF0LmgNCj4gK0BAIC03Myw3
+ICs3Myw3IEBADQo+ICsgI2lmbmRlZiBDT01QQVRfU1lTQ0FMTF9ERUZJTkV4DQo+ICsgI2RlZmlu
+ZSBDT01QQVRfU1lTQ0FMTF9ERUZJTkV4KHgsIG5hbWUsIC4uLikJCQkNCj4gCQlcDQo+ICsgCV9f
+ZGlhZ19wdXNoKCk7CQkJCQkJCQ0KPiAJXA0KPiArLQlfX2RpYWdfaWdub3JlKEdDQywgOCwgIi1X
+YXR0cmlidXRlLWFsaWFzIiwJCQkNCj4gCVwNCj4gKysJX19kaWFnX2lnbm9yZShHQ0MsIDgsICIt
+V2F0dHJpYnV0ZS1hbGlhcz0iLAkJCQ0KPiAJXA0KPiArIAkJICAgICAgIlR5cGUgYWxpYXNpbmcg
+aXMgdXNlZCB0byBzYW5pdGl6ZSBzeXNjYWxsDQo+IGFyZ3VtZW50cyIpO1wNCj4gKyAJYXNtbGlu
+a2FnZSBsb25nDQo+IGNvbXBhdF9zeXMjI25hbWUoX19NQVAoeCxfX1NDX0RFQ0wsX19WQV9BUkdT
+X18pKTsJXA0KPiArIAlhc21saW5rYWdlIGxvbmcNCj4gY29tcGF0X3N5cyMjbmFtZShfX01BUCh4
+LF9fU0NfREVDTCxfX1ZBX0FSR1NfXykpCVwNCj4gK2RpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4
+L3N5c2NhbGxzLmggYi9pbmNsdWRlL2xpbnV4L3N5c2NhbGxzLmgNCj4gK2luZGV4IDJmZjgxNGM5
+MmY3Zi4uNThmNzYxZDJjOWU5IDEwMDY0NA0KPiArLS0tIGEvaW5jbHVkZS9saW51eC9zeXNjYWxs
+cy5oDQo+ICsrKysgYi9pbmNsdWRlL2xpbnV4L3N5c2NhbGxzLmgNCj4gK0BAIC0yMzQsNyArMjM0
+LDcgQEAgc3RhdGljIGlubGluZSBpbnQgaXNfc3lzY2FsbF90cmFjZV9ldmVudChzdHJ1Y3QNCj4g
+dHJhY2VfZXZlbnRfY2FsbCAqdHBfZXZlbnQpDQo+ICsgI2lmbmRlZiBfX1NZU0NBTExfREVGSU5F
+eA0KPiArICNkZWZpbmUgX19TWVNDQUxMX0RFRklORXgoeCwgbmFtZSwgLi4uKQkJCQkNCj4gCVwN
+Cj4gKyAJX19kaWFnX3B1c2goKTsJCQkJCQkJDQo+IFwNCj4gKy0JX19kaWFnX2lnbm9yZShHQ0Ms
+IDgsICItV2F0dHJpYnV0ZS1hbGlhcyIsCQkJDQo+IFwNCj4gKysJX19kaWFnX2lnbm9yZShHQ0Ms
+IDgsICItV2F0dHJpYnV0ZS1hbGlhcz0iLAkJCQ0KPiBcDQo+ICsgCQkgICAgICAiVHlwZSBhbGlh
+c2luZyBpcyB1c2VkIHRvIHNhbml0aXplIHN5c2NhbGwNCj4gYXJndW1lbnRzIik7XA0KPiArIAlh
+c21saW5rYWdlIGxvbmcgc3lzIyNuYW1lKF9fTUFQKHgsX19TQ19ERUNMLF9fVkFfQVJHU19fKSkJ
+XA0KPiArIAkJX19hdHRyaWJ1dGVfXygoYWxpYXMoX19zdHJpbmdpZnkoX19zZV9zeXMjI25hbWUp
+KSkpOwkNCj4gXA0KPiArLS0gDQo+ICsyLjIwLjENCj4gKw0KPiAtLSANCj4gMi4yMi4wDQo+IA0K
+DQo=
 
