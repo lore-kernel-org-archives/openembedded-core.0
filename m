@@ -1,48 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CF2767C132
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 107837C87F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 05:06:51 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id g18so32871453qkl.3
+	Wed, 24 Jul 2019 05:38:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,300,1559491200"; d="scan'208";a="72068822"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 24 Jul 2019 13:38:47 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id A79A44CDE65E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2019 22:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QK7WjgEWyDgoVZcCtqD1A5KukYs5LUOfSO7dbKuoW3w=;
-	b=gbhSUYHfmuHYHTXRujkmNKqrbLPUAanymyMGxguMqi7WUVTNGnNd1P/hA/j/6TJWrR
-	aJ6Wybf4JNL+GHQde9JNJ+DyKhz40ZVVE+U2lxHBUdTK9KauYK/A+tVQa46s3Tq6hGnf
-	h/TWsmamt8AlL7XPzjhwp/UgefYNWDj6AmqRRdmdfzrdfaittGezhmxPl9CoKHBFKoRZ
-	cota4kzf2wvFZQuFWfHnRfRUfzoZh4m/J+OgLVbg3s6FzE2csAvvc/i19MbBDkApHkDx
-	8bR5l9uED6GrcSF0Jq6urFLDCgIBXBgWaSPxu8Hp8unnt0CIlz4ASXZY/5wDezBQGbSp
-	mqEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QK7WjgEWyDgoVZcCtqD1A5KukYs5LUOfSO7dbKuoW3w=;
-	b=Pfxyy3ZrJhw9MP+z+dTDmeT49KNQLU6hpQxqmzdyVPBqeNfueakZ3oETc7gVh+Ulav
-	CtRD0x1NhGXChcwV3Y4iho4iZ32OOTwUmEuwJczjDlTpKHz7cDuK+O0Yv715Vh/1urkv
-	bIG5dsYxslmCDpAg2qTiLyTRYUUr2xHvttzlQkFuZf2BgfturUZWIBpy6IQL5LtJjErt
-	+Q2LG2S4bKcSfOld0KDx1c6BESdshFtucyGcRxjIZhNwmc9mcOZx7zd+eMycodtNQndg
-	unmLU34smtzwI9QRvccgyEF23vXTLkHXIGQEjE7x13YRTvQmZSMmh/PeRA3m7w6rOjYz
-	4bOQ==
-X-Gm-Message-State: APjAAAUjxtBdrd/zVlMnCE44b2LDjDEeaUnjvPrGYBGpwXdOrtmVYEwX
-	L5rw9ZsypdmO3it4OML+97yf2AFKnEhzLxvhsDA=
-X-Google-Smtp-Source: APXvYqxbGImvLu3v0dLmOgCdQ5zk2Mv8uZYuFKuHXa20IK4owxtNV3RlJ3ZBpNAFSSwKXF1unEgyEbPc3HR04bOOPBs=
-X-Received: by 2002:a37:7083:: with SMTP id l125mr50892312qkc.71.1563944812404;
-	Tue, 23 Jul 2019 22:06:52 -0700 (PDT)
+	Wed, 24 Jul 2019 13:38:47 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 24 Jul 2019 13:38:47 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Jul 2019 13:38:02 +0800
+Message-ID: <20190724053802.20272-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190724023833.13718-1-Qi.Chen@windriver.com>
-	<CADkTA4Og9UDHziXHSdN2VFvziRXm=dxtpFvMJvueAJrniOB-pA@mail.gmail.com>
-In-Reply-To: <CADkTA4Og9UDHziXHSdN2VFvziRXm=dxtpFvMJvueAJrniOB-pA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 23 Jul 2019 22:06:35 -0700
-Message-ID: <CAMKF1srTkebjpsQTYM0_VBZAF1zsF7BuowpiSCYL7M341tkZ8w@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] container-image-busybox: add a reference container image
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: A79A44CDE65E.AAC95
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] msmtp:upgrade 1.8.4 -> 1.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,83 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2019 05:06:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 24 Jul 2019 05:38:48 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Jul 23, 2019 at 8:03 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> On Tue, Jul 23, 2019 at 10:39 PM Chen Qi <Qi.Chen@windriver.com> wrote:
-> >
-> > Add a small busybox based container image.
->
-> This really isn't a great container reference image. It isn't
-> manipulating many of
-> the things that you should be in a container image (linux-dummy, etc).
->
-> Have you seen the reference images that have either been presented at the
-> various ELC conferences and/or the ones that are in meta-virtualization ?
-> Or the ones from Togan labs, meta-overc, etc ?
->
-> IMHO, It would be better to collaborate on this in a non-core layer
-> for this release and
-> then consolidate things with the OCI image types, and when we sort out
-> if/what/when
-> makes sense from meta-virt into oe-core.
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ .../recipes-extended/msmtp/{msmtp_1.8.4.bb => msmtp_1.8.5.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/msmtp/{msmtp_1.8.4.bb => msmtp_1.8.5.bb} (86%)
 
-I think this is very much suitable for OE-Core, and I would like us to
-have container reference image
-in core, however, I agree there is prework that should be includes
-from prior work in other layers and
-we should consolidate all that into a reference usable image in oe-core.
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.4.bb b/meta/recipes-extended/msmtp/msmtp_1.8.5.bb
+similarity index 86%
+rename from meta/recipes-extended/msmtp/msmtp_1.8.4.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.8.5.bb
+index 0f10500b38..4f6b66f226 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.4.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.5.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
+ 
+ SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[md5sum] = "abfabb92f0461137f3c09cd16d98fc9b"
+-SRC_URI[sha256sum] = "e5dd7fe95bc8e2f5eea3e4894ec9628252f30bd700a7fd1a568b10efa91129f7"
++SRC_URI[md5sum] = "5d7bb10606fbceeb2e0687379c75234b"
++SRC_URI[sha256sum] = "1613daced9c47b8c028224fc076799c2a4d72923e242be4e9e5c984cbbbb9f39"
+ 
+ inherit gettext autotools update-alternatives pkgconfig
+ 
+-- 
+2.20.1
 
->
-> This is a topic of many opinions and different implementations and deserves some
-> cycles spent on documenting the choices, what we expect the base image to
-> do, etc.
->
-> Cheers,
->
-> Bruce
->
-> >
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> >  meta/recipes-core/images/container-image-busybox.bb | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >  create mode 100644 meta/recipes-core/images/container-image-busybox.bb
-> >
-> > diff --git a/meta/recipes-core/images/container-image-busybox.bb b/meta/recipes-core/images/container-image-busybox.bb
-> > new file mode 100644
-> > index 0000000000..a4d63b0eea
-> > --- /dev/null
-> > +++ b/meta/recipes-core/images/container-image-busybox.bb
-> > @@ -0,0 +1,8 @@
-> > +SUMMARY = "A small busybox based container image."
-> > +LICENSE = "MIT"
-> > +
-> > +IMAGE_INSTALL = "busybox"
-> > +IMAGE_LINGUAS = ""
-> > +IMAGE_FSTYPES = "container"
-> > +
-> > +inherit core-image
-> > --
-> > 2.17.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
