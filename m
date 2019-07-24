@@ -1,47 +1,51 @@
 Return-Path: <wbourque@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EFCFE7D71B
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D63FF7F160
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 13:32:14 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id r6so41240155qtt.0
+	Wed, 24 Jul 2019 13:32:32 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id 201so33704290qkm.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 06:32:16 -0700 (PDT)
+	Wed, 24 Jul 2019 06:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=L+7K9oJZ9oM5kCHmyGvMbkBRJ+VsV2Ny1ifPe9CRsuY=;
-	b=uMW0CrCfh2d8afbIV+7DHr+HtEKM+Dqi7TU1bmjRoUOjdTAMxSyw0tDrNW8DBPJnd1
-	MZjGoWfwZWca/RAE6aL/e7cd+OvWakJjWedsOSl1jA9cdowtJae34oGeGLWVb5S8zbnw
-	GDfL+3zbMLspP+xe3fvw0nArXMAxEf4uBooC9EQCUyyg3+gyVJvBLi3WCsGMgANCmCuV
-	U6cpzzYOZXymbDBO3nCVhwDHeVf/JvegZkSvpJmM0VfeRH9leTj4KSwJPXt3AXplTySE
-	fbfhitS7j1wev7KWB07pElYiRCTQxDXlC/Z+viVpBaOaz+HYdfhUt5k1nhhbIvzLDzII
-	4NeQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=alsUkOCG+JQr30l7moBbSk7MEQJs2VyT0Jm+484M9wo=;
+	b=G62WmVkGowRJqFlOqHM7BZkLoPcDdw6d+j6xNavFnq9FuyIT09ca1QJz9PDIQVH/CA
+	eP+XF9wfe9UFyVmu4f38/hFJIuEdcqGhR1GYcK3zm1byTyWLE07Mn4914X+wlYa4QTGN
+	P4tpmZZ/4QCzyeIDUJV3CG8Rcm4ilcirP7ROR5eb1OjGnYz0IPyp8Ss0D7mJcW4APWGI
+	SR2ln+LfAGMsha3zsjgi4icWCVoKmyDNkW+/RIX/FqINCVt44mqDjGcq150CKw93asCK
+	d3AkPz1lHSXuU7w8t6wmczQXwIFal3WS3oIgXEbQrO7b08K8O9D+iSorroocqtComR43
+	tAIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=L+7K9oJZ9oM5kCHmyGvMbkBRJ+VsV2Ny1ifPe9CRsuY=;
-	b=Ae6TA8HJLTnE4rQ9JAJFwjsEHZb4vxQoNtzuvNQz9nG//JDST2HGvyZ+RPq+ED7Ndp
-	U2+GENKV3kWZa+1b3BuHSbrVU+6gwNdrWyNfAgT5L3xyMRVPi4FF/hVJ76+cWXKJasxN
-	RSZ36/RBuUlv6510+A83kp+dVviGXX0p0aRg+GeN6KO/TtJznpWg8XiFBTiewSwUFTAQ
-	RGFPjKSUyWpy854NEGsishMm1/y2oTB07O2akfp17oNPizJIH7cYO+f6ahkb6zMaN9NE
-	xQR42nG5Aj6+sBDBLjXUpzTEv1x3TBJdRBy/sp6VotwfdgfqVZhtjJpgE6NODCz+ZiDB
-	wINg==
-X-Gm-Message-State: APjAAAUnPP5PKIlWhfKBzj+1fssTYpAcV2cNc72rP9pP8+2nda3kFtXX
-	EbkHYmq4n2TwFsihuHCAgYLmSkcyrPk=
-X-Google-Smtp-Source: APXvYqw6fZDEMoDqpJkG4zInxrOwHcy6omUnO0nbD0H494Bk5W5e7d8j/Ffs/KDTX9oHACoF4DVKdA==
-X-Received: by 2002:a0c:afac:: with SMTP id s41mr59658961qvc.184.1563975135458;
-	Wed, 24 Jul 2019 06:32:15 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=alsUkOCG+JQr30l7moBbSk7MEQJs2VyT0Jm+484M9wo=;
+	b=Ahg2nFpHapHwHa8YuVBZ5j2o0DGZHyxlisEHAJuinjKL3I3EZgTRIrxAyef7bdVWs5
+	KUix7jE6L8nZO501aWCcVsfy8xj1Y4RQ3fP5XD/N+6RcL45ycxEYUA6HIrd+aOa0sySO
+	ebvKz6gqc3HuCTXA4TtH0/HAwBte8L8mVOn+8SvX8QQDpermRhZ1ZQ+MRivND/tX8e2J
+	gfuyv+0Oeviwmdqc3JlhD/kpvvr9t/7DAi9hYRiT3sfiX6Ow7QT+LUT1a6ZgN61Eq5Bg
+	GFMTHiEBo89I6AVoy56KoxalJX3Cd/enVNpMl66U0nySrQMRCGbrt1uKw6abf1Q2+3Z3
+	u+FA==
+X-Gm-Message-State: APjAAAVBGBkcODsoaqW5uBHnr7QeThtaMHOQZrs0Rs1fvf1abFWS4CBf
+	ZKThc247Qi6my0RkwD2AfTuRWsvwKHI=
+X-Google-Smtp-Source: APXvYqy6t2oFgrW9OBLT4UahwXiy3rFYXY63R/2qO6xIT4WkJ2785mp6feNIE14+BocnKFwIckXnpg==
+X-Received: by 2002:a37:2d86:: with SMTP id
+	t128mr55089965qkh.429.1563975153473; 
+	Wed, 24 Jul 2019 06:32:33 -0700 (PDT)
 Received: from dingo.touchtunes.com (vcmtl.touchtunes.com. [207.96.182.162])
 	by smtp.gmail.com with ESMTPSA id
-	z50sm24637232qtz.36.2019.07.24.06.32.14
+	z50sm24637232qtz.36.2019.07.24.06.32.32
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 24 Jul 2019 06:32:14 -0700 (PDT)
+	Wed, 24 Jul 2019 06:32:33 -0700 (PDT)
 From: William Bourque <wbourque@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jul 2019 09:32:04 -0400
-Message-Id: <20190724133205.31296-1-wbourque@gmail.com>
+Date: Wed, 24 Jul 2019 09:32:05 -0400
+Message-Id: <20190724133205.31296-2-wbourque@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH V4 1/2] wic/plugins: Source that support both EFI and BIOS
+In-Reply-To: <20190724133205.31296-1-wbourque@gmail.com>
+References: <20190724133205.31296-1-wbourque@gmail.com>
+Subject: [PATCH V4 2/2] meta/lib/oeqa: Test for bootimg-biosplusefi Source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,240 +58,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2019 13:32:15 -0000
+X-List-Received-Date: Wed, 24 Jul 2019 13:32:33 -0000
 
-Add a source plugin that support both EFI and legacy PC-Bios.
-While using this plugin, both bootloaders configurations reside
-in the same /boot partitions.
-This plugin has very little code : to avoid code duplication,
-we simply re-import bootimg-pcbios and bootmg-efi source and
-call both their SourcePlugin methods.
+Add unittests for bootimg-biosplusefi SourcePlugin in wic module.
+First test check wic creation works correctly.
+Second test uses qemu to boot image and checks that it has both
+EFI and BIOS files in a single partition.
 
 Signed-off-by: William Bourque <wbourque@gmail.com>
 ---
- .../wic/plugins/source/bootimg-biosplusefi.py | 213 ++++++++++++++++++
- 1 file changed, 213 insertions(+)
- create mode 100644 scripts/lib/wic/plugins/source/bootimg-biosplusefi.py
+ meta-selftest/wic/test_biosplusefi_plugin.wks |  6 ++
+ meta/lib/oeqa/selftest/cases/wic.py           | 57 +++++++++++++++++++
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta-selftest/wic/test_biosplusefi_plugin.wks
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-biosplusefi.py b/scripts/lib/wic/plugins/source/bootimg-biosplusefi.py
+diff --git a/meta-selftest/wic/test_biosplusefi_plugin.wks b/meta-selftest/wic/test_biosplusefi_plugin.wks
 new file mode 100644
-index 0000000000..5bd7390680
+index 0000000000..5a56c84518
 --- /dev/null
-+++ b/scripts/lib/wic/plugins/source/bootimg-biosplusefi.py
-@@ -0,0 +1,213 @@
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+#
-+# DESCRIPTION
-+# This implements the 'bootimg-biosplusefi' source plugin class for 'wic'
-+#
-+# AUTHORS
-+# William Bourque <wbourque [at) gmail.com>
++++ b/meta-selftest/wic/test_biosplusefi_plugin.wks
+@@ -0,0 +1,6 @@
++# short-description: This file is used in oe-selftest wic module to test biosplusefi plugin
 +
-+import types
++part /boot --source bootimg-biosplusefi --sourceparams="loader=grub-efi" --active --align 1024 --use-uuid
++part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
 +
-+from wic.pluginbase import SourcePlugin
-+from importlib.machinery import SourceFileLoader
++bootloader  --timeout=0 --append="console=ttyS0,115200n8"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index c390749401..fcdd55059d 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -681,6 +681,63 @@ class Wic2(WicTestCase):
+             out = glob(self.resultdir + "%s-*direct" % wksname)
+             self.assertEqual(1, len(out))
+ 
++    @only_for_arch(['i586', 'i686', 'x86_64'])
++    def test_biosplusefi_plugin_qemu(self):
++        """Test biosplusefi plugin in qemu"""
++        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "test_biosplusefi_plugin.wks"\nMACHINE_FEATURES_append = " efi"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal').status)
++        self.remove_config(config)
 +
-+class BootimgBiosPlusEFIPlugin(SourcePlugin):
-+    """
-+    Create MBR + EFI boot partition
++        with runqemu('core-image-minimal', ssh=False, image_fstype='wic') as qemu:
++            # Check that we have ONLY two /dev/sda* partitions (/boot and /)
++            cmd = "grep sda. /proc/partitions | wc -l"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertEqual(output, '2')
++            # Check that /dev/sda1 is /boot and that either /dev/root OR /dev/sda2 is /
++            cmd = "mount | grep '^/dev/' | cut -f1,3 -d ' ' | egrep -c -e '/dev/sda1 /boot' -e '/dev/root /|/dev/sda2 /'"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertEqual(output, '2')
++            # Check that /boot has EFI bootx64.efi (required for EFI)
++            cmd = "ls /boot/EFI/BOOT/bootx64.efi | wc -l"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertEqual(output, '1')
++            # Check that "BOOTABLE" flag is set on boot partition (required for PC-Bios)
++            # Trailing "cat" seems to be required; otherwise run_serial() sends back echo of the input command
++            cmd = "fdisk -l /dev/sda | grep /dev/sda1 | awk {print'$2'} | cat"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++            self.assertEqual(output, '*')
 +
-+    This plugin creates a boot partition that contains both
-+    legacy BIOS and EFI content. It will be able to boot from both.
-+    This is useful when managing PC fleet with some older machines
-+    without EFI support.
++    @only_for_arch(['i586', 'i686', 'x86_64'])
++    def test_biosplusefi_plugin(self):
++        """Test biosplusefi plugin"""
++        # Wic generation below may fail depending on the order of the unittests
++        # This is because bootimg-pcbios (that bootimg-biosplusefi uses) generate its MBR inside STAGING_DATADIR directory
++        #    which may or may not exists depending on what was built already
++        # If an image hasn't been built yet, directory ${STAGING_DATADIR}/syslinux won't exists and _get_bootimg_dir()
++        #   will raise with "Couldn't find correct bootimg_dir"
++        # The easiest way to work-around this issue is to make sure we already built an image here, hence the bitbake call
++        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "test_biosplusefi_plugin.wks"\nMACHINE_FEATURES_append = " efi"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal').status)
++        self.remove_config(config)
 +
-+    Note it is possible to create an image that can boot from both
-+    legacy BIOS and EFI by defining two partitions : one with arg
-+    --source bootimg-efi  and another one with --source bootimg-pcbios.
-+    However, this method has the obvious downside that it requires TWO
-+    partitions to be created on the storage device.
-+    Both partitions will also be marked as "bootable" which does not work on
-+    most BIOS, has BIOS often uses the "bootable" flag to determine
-+    what to boot. If you have such a BIOS, you need to manually remove the
-+    "bootable" flag from the EFI partition for the drive to be bootable.
-+    Having two partitions also seems to confuse wic : the content of
-+    the first partition will be duplicated into the second, even though it
-+    will not be used at all.
++        img = 'core-image-minimal'
++        with NamedTemporaryFile("w", suffix=".wks") as wks:
++            wks.writelines(['part /boot --active --source bootimg-biosplusefi --sourceparams="loader=grub-efi"\n',
++                            'part / --source rootfs --fstype=ext4 --align 1024 --use-uuid\n'\
++                            'bootloader --timeout=0 --append="console=ttyS0,115200n8"\n'])
++            wks.flush()
++            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
++            runCmd(cmd)
++            wksname = os.path.splitext(os.path.basename(wks.name))[0]
++            out = glob(self.resultdir + "%s-*.direct" % wksname)
++            self.assertEqual(1, len(out))
 +
-+    Also, unlike "isoimage-isohybrid" that also does BIOS and EFI, this plugin
-+    allows you to have more than only a single rootfs partitions and does
-+    not turn the rootfs into an initramfs RAM image.
-+
-+    This plugin is made to put everything into a single /boot partition so it
-+    does not have the limitations listed above.
-+
-+    The plugin is made so it does tries not to reimplement what's already
-+    been done in other plugins; as such it imports "bootimg-pcbios"
-+    and "bootimg-efi".
-+    Plugin "bootimg-pcbios" is used to generate legacy BIOS boot.
-+    Plugin "bootimg-efi" is used to generate the UEFI boot. Note that it
-+    requires a --sourceparams argument to know which loader to use; refer
-+    to "bootimg-efi" code/documentation for the list of loader.
-+
-+    Imports are handled with "SourceFileLoader" from importlib as it is
-+    otherwise very difficult to import module that has hyphen "-" in their
-+    filename.
-+    The SourcePlugin() methods used in the plugins (do_install_disk,
-+    do_configure_partition, do_prepare_partition) are then called on both,
-+    beginning by "bootimg-efi".
-+
-+    Plugin options, such as "--sourceparams" can still be passed to a
-+    plugin, as long they does not cause issue in the other plugin.
-+
-+    Example wic configuration:
-+    part /boot --source bootimg-biosplusefi --sourceparams="loader=grub-efi"\\
-+               --ondisk sda --label os_boot --active --align 1024 --use-uuid
-+    """
-+
-+    name = 'bootimg-biosplusefi'
-+
-+    __PCBIOS_MODULE_NAME = "bootimg-pcbios"
-+    __EFI_MODULE_NAME = "bootimg-efi"
-+
-+    __imgEFIObj = None
-+    __imgBiosObj = None
-+
-+    @classmethod
-+    def __init__(cls):
-+        """
-+        Constructor (init)
-+        """
-+
-+        # XXX
-+        # For some reasons, __init__ constructor is never called.
-+        # Something to do with how pluginbase works?
-+        cls.__instanciateSubClasses()
-+
-+    @classmethod
-+    def __instanciateSubClasses(cls):
-+        """
-+
-+        """
-+
-+        # Import bootimg-pcbios (class name "BootimgPcbiosPlugin")
-+        modulePath = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-+                                  cls.__PCBIOS_MODULE_NAME + ".py")
-+        loader = SourceFileLoader(cls.__PCBIOS_MODULE_NAME, modulePath)
-+        mod = types.ModuleType(loader.name)
-+        loader.exec_module(mod)
-+        cls.__imgBiosObj = mod.BootimgPcbiosPlugin()
-+
-+        # Import bootimg-efi (class name "BootimgEFIPlugin")
-+        modulePath = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-+                                  cls.__EFI_MODULE_NAME + ".py")
-+        loader = SourceFileLoader(cls.__EFI_MODULE_NAME, modulePath)
-+        mod = types.ModuleType(loader.name)
-+        loader.exec_module(mod)
-+        cls.__imgEFIObj = mod.BootimgEFIPlugin()
-+
-+    @classmethod
-+    def do_install_disk(cls, disk, disk_name, creator, workdir, oe_builddir,
-+                        bootimg_dir, kernel_dir, native_sysroot):
-+        """
-+        Called after all partitions have been prepared and assembled into a
-+        disk image.
-+        """
-+
-+        if ( (not cls.__imgEFIObj) or (not cls.__imgBiosObj) ):
-+            cls.__instanciateSubClasses()
-+
-+        cls.__imgEFIObj.do_install_disk(
-+            disk,
-+            disk_name,
-+            creator,
-+            workdir,
-+            oe_builddir,
-+            bootimg_dir,
-+            kernel_dir,
-+            native_sysroot)
-+
-+        cls.__imgBiosObj.do_install_disk(
-+            disk,
-+            disk_name,
-+            creator,
-+            workdir,
-+            oe_builddir,
-+            bootimg_dir,
-+            kernel_dir,
-+            native_sysroot)
-+
-+    @classmethod
-+    def do_configure_partition(cls, part, source_params, creator, cr_workdir,
-+                               oe_builddir, bootimg_dir, kernel_dir,
-+                               native_sysroot):
-+        """
-+        Called before do_prepare_partition()
-+        """
-+
-+        if ( (not cls.__imgEFIObj) or (not cls.__imgBiosObj) ):
-+            cls.__instanciateSubClasses()
-+
-+        cls.__imgEFIObj.do_configure_partition(
-+            part,
-+            source_params,
-+            creator,
-+            cr_workdir,
-+            oe_builddir,
-+            bootimg_dir,
-+            kernel_dir,
-+            native_sysroot)
-+
-+        cls.__imgBiosObj.do_configure_partition(
-+            part,
-+            source_params,
-+            creator,
-+            cr_workdir,
-+            oe_builddir,
-+            bootimg_dir,
-+            kernel_dir,
-+            native_sysroot)
-+
-+    @classmethod
-+    def do_prepare_partition(cls, part, source_params, creator, cr_workdir,
-+                             oe_builddir, bootimg_dir, kernel_dir,
-+                             rootfs_dir, native_sysroot):
-+        """
-+        Called to do the actual content population for a partition i.e. it
-+        'prepares' the partition to be incorporated into the image.
-+        """
-+
-+        if ( (not cls.__imgEFIObj) or (not cls.__imgBiosObj) ):
-+            cls.__instanciateSubClasses()
-+
-+        cls.__imgEFIObj.do_prepare_partition(
-+            part,
-+            source_params,
-+            creator,
-+            cr_workdir,
-+            oe_builddir,
-+            bootimg_dir,
-+            kernel_dir,
-+            rootfs_dir,
-+            native_sysroot)
-+
-+        cls.__imgBiosObj.do_prepare_partition(
-+            part,
-+            source_params,
-+            creator,
-+            cr_workdir,
-+            oe_builddir,
-+            bootimg_dir,
-+            kernel_dir,
-+            rootfs_dir,
-+            native_sysroot)
+     def test_fs_types(self):
+         """Test filesystem types for empty and not empty partitions"""
+         img = 'core-image-minimal'
 -- 
 2.17.1
 
