@@ -1,53 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D09D67F0BB
+Return-Path: <wbourque@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D51227C617
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 17:39:45 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id n11so46310117qtl.5
+	Wed, 24 Jul 2019 19:12:55 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id v22so34588569qkj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 10:39:47 -0700 (PDT)
+	Wed, 24 Jul 2019 12:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=10JlxJmo9Dxwzj0f/C4XoqyjBiGEXRUTtH9XzpzOhNY=;
-	b=S1llionPfCBwjpH95ETdb27WHAmzN0603bGU5mWzxEPj7YomMXQY8OZ3wJ1Dx39GV1
-	KSlWnom6i0yNhLQyKn+3CM1KWBJFqAzPROgB2q92g1JMMfeVHBv2n5wrYLgn28xnveYU
-	f+HFNz18zAmEGZHrDyLp0GW+G91mLnYNXqumFdW30Sl0EfD9M1E+v6urjtLsTa+F5LdZ
-	BNEdficH5WtRz/Dr8dkwBXXsZh0FtTReLQLFsbqcor7ui5ZQ1MXNGOlTSIDh6EZHPHsH
-	us8iQz/9hky+fTBjXEI9O1HJfiUPp8aA+0StKsShvPc1aZ1TY8UPw8M+azTTb6opOHNm
-	+YVg==
+	h=from:to:cc:subject:date:message-id;
+	bh=Y7/6hFkF1rgiDNmBDH90dsrMkBLOOKjHqpi8u8ODGt4=;
+	b=nbxCQvJZBu9fzRs+43+a6EFiorqBw0fH9cbextAl+EuTJRWb6+uqozPOry6/HRYUVM
+	wLz2JqAcc/kvEhnp+yTQpLTZDlS3WT/umg7URdXQL8ZyGCpnRyEQzP7VL5kSvBbAOa3H
+	LKL9THNPieC8UadEInOAaMh22viCQSL6zNi/otyevXyTQKZOpHUrrqcqRHZJyojAvqhb
+	Uk7Gp+C/ESdAOQdOo4BdL8iGgRQyorUGLOXC7nRUdPNYU1/F8p2EjoGtqvPAqQ2IrUk+
+	XDAUzDXLcEs+ie5WIvbJRPUBqGFml9kha/H1QG4fqfzJpOfCe3QJV0+Vk97ti2/R074w
+	YxOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=10JlxJmo9Dxwzj0f/C4XoqyjBiGEXRUTtH9XzpzOhNY=;
-	b=uQ69bktR2PFXUNNM6QfSliDuERQa9tDL01vwVVB2XP2qoLBuwU4wfbxLbPG7YGjtB2
-	cS3oNf7Mas4JjW+HiGDpJPXACcLS0MbiMNy7rV71C2Ho5HNNDT4e/KQCM/KhwiH0Zsqi
-	aZRtpN81bAIxuJkg4GX2SrxRwMDlpPHNSa43lgCSSy46oMj/Cmfv3HPwOZGz6D2HdF6O
-	fpLwLj/XRygoptzu3rfC+n/f5YDcrNd/lM3fQqKg/cjVcqp+Fitl+Hmv1Q544kuwQgmG
-	AXUr73EYX5fwPhDR/V8/82m/OrC8EAMWF+++EjD6cKlxlA6rvr22RQqiTKVJhHY8/491
-	Ob+g==
-X-Gm-Message-State: APjAAAVW4Ulegx92iO+lPX1JqaW+AhKUpc360QOd3qFmTlaBSh3Hozh3
-	uVp5QhxZr0pNRn9TOoaKF2axuAMQ0IPZQ5X+gQg=
-X-Google-Smtp-Source: APXvYqxQs397WLi1xJYry0MY2DHJ1fYykPBQle61357Ex+MXY+Umsnb5o1xQJZMQEe6KJD8UiokJdLjNHg4mC/VNPbU=
-X-Received: by 2002:ac8:764f:: with SMTP id i15mr57557155qtr.194.1563989986522;
-	Wed, 24 Jul 2019 10:39:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190720180058.10672-1-raj.khem@gmail.com>
-	<20190720180058.10672-3-raj.khem@gmail.com>
-	<20190721152022.GA5474@localhost>
-	<531504ebcdae52b7ce1fe8221417d4026c0f9ceb.camel@linuxfoundation.org>
-	<CAMKF1sqhkL7moib2Z0N8+quptPW7fEx9ez_MBE0zZAjr-A-kgg@mail.gmail.com>
-	<20190724145814.GB626@localhost>
-In-Reply-To: <20190724145814.GB626@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 24 Jul 2019 10:39:20 -0700
-Message-ID: <CAMKF1sp+OvO6tF8Z2=q9=jFTn-ciLntwjhxh2kenkh23z3x3xw@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V4 3/4] elfutils: Fix eu-* utils builds for musl
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Y7/6hFkF1rgiDNmBDH90dsrMkBLOOKjHqpi8u8ODGt4=;
+	b=asjIP2QcBz4nbItO8436NxM60N6t6sWTjtxNbRnRniHa9KYyP0w9w6CiCXiuDDbQ6+
+	owgSLqTWFxFCr1q00eemeI3NO2U96zH+cCaootStf7eQRZEKEE4h/LvSdwt2MxiqDZEn
+	RmZWwu0pjNuKQXPKFHi9OYhBJLmX6OfxUGTFtC68nlPknCrLkj7BHVpZQ5rBz21ySXvI
+	vs4K7gvlyOu4up18n6FwngWCGpUrzV52EgXr0Wc3fgihEkHQXPD+0YlaREMslmfTXUHt
+	1wsKunkJH0ORqeHfQ8WmxUfDcMcuX+Rqy9bFMmjok1hUzsMGDvBpH8JzTSkZh5/WHyUN
+	muDA==
+X-Gm-Message-State: APjAAAUz3EeS/7Gvgq4vpy9XTCbTmCT4a2RCpPX649ofT8i/O7a05pXC
+	r3T1diFtuOFLaWjJDJViSa8JchYn
+X-Google-Smtp-Source: APXvYqx+ljtEuvzrJND5zyPpq90801QqvlslULMZZs8hoz58Sjl8V9bLsTM93VJx+NcJbbcfsWGMWg==
+X-Received: by 2002:a37:dc42:: with SMTP id v63mr39734707qki.488.1563995576621;
+	Wed, 24 Jul 2019 12:12:56 -0700 (PDT)
+Received: from dingo.touchtunes.com (vcmtl.touchtunes.com. [207.96.182.162])
+	by smtp.gmail.com with ESMTPSA id
+	t8sm20233517qkt.75.2019.07.24.12.12.55
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 24 Jul 2019 12:12:55 -0700 (PDT)
+From: William Bourque <wbourque@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Jul 2019 15:12:44 -0400
+Message-Id: <20190724191244.23258-1-wbourque@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] meta/lib/oeqa: Remove ext4 for bootimg-biosplusefi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,58 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2019 17:39:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 24 Jul 2019 19:12:56 -0000
 
-On Wed, Jul 24, 2019 at 7:58 AM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Wed, Jul 24, 2019 at 06:39:16AM -0700, Khem Raj wrote:
-> > On Wed, Jul 24, 2019 at 1:24 AM Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> >
-> > > On Sun, 2019-07-21 at 18:20 +0300, Adrian Bunk wrote:
-> > > > On Sat, Jul 20, 2019 at 11:00:57AM -0700, Khem Raj wrote:
-> > > > > ...
-> > > > > ++#if !defined(FNM_EXTMATCH)
-> > > > > ++# define FNM_EXTMATCH (0)
-> > > > > ++#endif
-> > > > > ...
-> > > >
-> > > > As already said in [1] this is expected to result in broken code,
-> > > > and the upstream testsuite also confirms this.
-> > >
-> > > I've taken the patches as they don't make things worse. I am a bit
-> > > concerned about a few places musl is building up problematic patches
-> > > though (systemd, elfutils, ltp come to mind).
-> > >
-> >
-> > Yes I am aware of this I think LTP we are upstreaming and I hope this w=
-ill
-> > be better in future
-> > Systemd we might have to re-evaluate but I think few patches are worthy=
- of
-> > upstreaming elfutils I don=E2=80=99t know yet
->
-> elfutils and the same bogus change in ifupdown might need the
-> implementation from glibc added as an own package, similar to
-> what you've already done for argp and obstack.
->
+Remove "ext4" IMAGE_FSTYPES when generating core-image-minimal
+for the bootimg-biosplusefi unittests; "wic" type is enough.
 
-yes FNM_EXTMATCH change needs to be done logically at app level,
-instead of defining it
-sometimes apps just use it because its available and covers vast set
-that maybe otherwise not
-needed.
+Signed-off-by: William Bourque <wbourque@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/wic.py | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 928c476ebc..fcdd55059d 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -684,11 +684,10 @@ class Wic2(WicTestCase):
+     @only_for_arch(['i586', 'i686', 'x86_64'])
+     def test_biosplusefi_plugin_qemu(self):
+         """Test biosplusefi plugin in qemu"""
+-        for fstype in ("ext4", "wic"):
+-            config = 'IMAGE_FSTYPES = "%s"\nWKS_FILE = "test_biosplusefi_plugin.wks"\nMACHINE_FEATURES_append = " efi"\n' % fstype
+-            self.append_config(config)
+-            self.assertEqual(0, bitbake('core-image-minimal').status)
+-            self.remove_config(config)
++        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "test_biosplusefi_plugin.wks"\nMACHINE_FEATURES_append = " efi"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal').status)
++        self.remove_config(config)
+ 
+         with runqemu('core-image-minimal', ssh=False, image_fstype='wic') as qemu:
+             # Check that we have ONLY two /dev/sda* partitions (/boot and /)
+@@ -722,11 +721,10 @@ class Wic2(WicTestCase):
+         # If an image hasn't been built yet, directory ${STAGING_DATADIR}/syslinux won't exists and _get_bootimg_dir()
+         #   will raise with "Couldn't find correct bootimg_dir"
+         # The easiest way to work-around this issue is to make sure we already built an image here, hence the bitbake call
+-        for fstype in ("ext4", "wic"):
+-            config = 'IMAGE_FSTYPES = "%s"\nWKS_FILE = "test_biosplusefi_plugin.wks"\nMACHINE_FEATURES_append = " efi"\n' % fstype
+-            self.append_config(config)
+-            self.assertEqual(0, bitbake('core-image-minimal').status)
+-            self.remove_config(config)
++        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "test_biosplusefi_plugin.wks"\nMACHINE_FEATURES_append = " efi"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal').status)
++        self.remove_config(config)
+ 
+         img = 'core-image-minimal'
+         with NamedTemporaryFile("w", suffix=".wks") as wks:
+-- 
+2.17.1
+
 
