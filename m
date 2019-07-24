@@ -1,49 +1,54 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 64F507F166
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E7B3D7F166
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 13:41:05 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id k10so45558000qtq.1
+	Wed, 24 Jul 2019 13:55:25 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id p17so47078072wrf.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 06:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ud7n6IX0hlosJRSI/Le8MWNrpsPIZPPNflTJeMfKqnU=;
-	b=qxOR73BxixYs7ckpQNIMY1HXrbhTNfWgdl3QhC3D8eD6EwucCsWOGs81AJ0bER7EKH
-	UOazlwDl7qZdTID5a/vcVUQ8+XO/g3ue3Z1XdQOIw7/Y/pS6z/sylIoMb9twVONDFl4W
-	3mdWNwYNcDFBsMrjg2Ak/Zr55yp6DvNNQSlrUSml5gJeXwbmn1HqAj03vg68SCjUWvbW
-	XWy6toXXyqjtPfKC/9vyEXDDqzRugjAX+tz6tbrubHfYmDjovqC4qL2E3aw5Q7dFlCJ8
-	mB5r4gm6V3ZVBC33MmmmXbulgclx514jtyXs8Rx0vllj+/6ISKWnCAUbpUwLopB8cE90
-	RgkA==
+	Wed, 24 Jul 2019 06:55:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=9KxF2mymGUzLbMNYVWd5dK5OJ12/J7Jc+NwGI8IOMFE=;
+	b=UoML8d2ljfyKiMiR+L5TyiK9EWIxW1aQ5XEO3kaHhOZsoThvDtRiQuoqICKf3CIune
+	LMOWaf+N/tw0baxx/gWpMhgI4FCk+w0zPUfcJDXGwwKcCdepmF//HS/hPZj/+KNlfs6O
+	Zow91mHn+PzFQnhj9F0HLpLxdFeYSXIh4iExQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Ud7n6IX0hlosJRSI/Le8MWNrpsPIZPPNflTJeMfKqnU=;
-	b=YPP15RasENODp/HJ83nqxPltVf1caal/RFGgCs1w6nlbOgAJ7LqTVz5XAKncfAIKM4
-	QBpMiofh9+CU9Uc+zJa8qYF3p6U3tGgB+tAACnAqpsgtU7tMbsL6na29XT6IH46Zycg9
-	j1TTAOv3kQ26uj4m/N/s8PpUFqvyztQMJahdpUVQspoIy3DJaajaN0gdAbIjxPl293HW
-	0iBtxDHEbQzhy/MBL4adzq+s6/1trcELWgXQBSuYIKgjHgVEdRsh6qwJCWDlyR+EbmQP
-	YTyJfZfTNQAFlE5QW0yPGIdITiYo1ZvftEXy561IosZk6v2dYWZdInCMyfkQBTJi+CVi
-	mEHQ==
-X-Gm-Message-State: APjAAAVaY9ayY7cCX4+XNtcJS8KAGuXPeRycs4JKEOBgvElfbnrchHgu
-	GqrthUORHWUJ/pgSOMnirtm/KLkzfCw8nEwPpUs=
-X-Google-Smtp-Source: APXvYqzfxZt40W5rTJOh2h8qLbc+KNO0eYHeOkMmtGm46Lpzr1qDvdXWGKQ3Y2EFSa6tVcSBj6TBbT8iKjkA3907bzw=
-X-Received: by 2002:a0c:ae5a:: with SMTP id z26mr58342585qvc.65.1563975666074; 
-	Wed, 24 Jul 2019 06:41:06 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=9KxF2mymGUzLbMNYVWd5dK5OJ12/J7Jc+NwGI8IOMFE=;
+	b=IFfIJNGyjwQhrzox9q8cx9LJTMSRPfIGdpkuNwcKwrS/vtXN5CQqo9XzNwQRFFkvVa
+	/PzeDfoDwjpfNqddCUZDXFcWf1FZKGz8jJhryeKYpltYztdQv2h8Erp3tt/jNGywIh5l
+	dKpgmXP9L1lh89o85I2D+3H5ir7/k6m8hHWxYpEbIchaHOdP4JGCuDISSfWOoRBUE3Sd
+	aQzpQLkClq781vZ3dYQAJyMcE1ShLp410qLUqqnEgW7uPATIMPRuoZPvBf0+fHXin3Fn
+	JaNFk2UkbbYIuDrVOzSHTm0UP3eyBt+cQpAZk89MEG8cJpWrtqDcLOQYKaIUvvY2zGmh
+	UbLw==
+X-Gm-Message-State: APjAAAXAAeket0m1XOB2wQPIuJc3ME47AYHrAOyaEaLgjJHTI2cRQVZN
+	R+CCEpes5sgMOPP29OsYF2NPTPxHmps=
+X-Google-Smtp-Source: APXvYqxyh9/XKmPhR32ZJOmc3amdaYt+GqiMxLDUr1SAk9bZx1NrxZZ0svKpHrECAThjllGkk1fC9g==
+X-Received: by 2002:adf:f186:: with SMTP id h6mr74950815wro.274.1563976526495; 
+	Wed, 24 Jul 2019 06:55:26 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	n14sm84656002wra.75.2019.07.24.06.55.24
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 24 Jul 2019 06:55:25 -0700 (PDT)
+Message-ID: <692d2a624d62b06c781a0d5bb579a8d14973ddc9.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Nathan Rossi <nathan@nathanrossi.com>
+Date: Wed, 24 Jul 2019 14:55:23 +0100
+In-Reply-To: <CA+aJhH1GcWWkD0KVRxG7a8OZRGBZQZWu0-kVHWZjMD2gnxEYzA@mail.gmail.com>
+References: <20190706113909.11836-1-nathan@nathanrossi.com>
+	<2305ec57f78c799c2e72273b5e00d5faa4d0cba8.camel@linuxfoundation.org>
+	<CA+aJhH2p50Tqyxq0iOLng+i8kgnd3HfFsCoVJCJAPwDY=xCxTA@mail.gmail.com>
+	<CA+aJhH1GcWWkD0KVRxG7a8OZRGBZQZWu0-kVHWZjMD2gnxEYzA@mail.gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <20190724000313.26375-1-anuj.mittal@intel.com>
-	<fb36e3dc-6246-914d-c427-974a1b167216@balister.org>
-	<a38548e3-17a5-8007-80ec-77bca123d491@gmail.com>
-	<20190724071549.GA19385@localhost>
-In-Reply-To: <20190724071549.GA19385@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 24 Jul 2019 06:40:55 -0700
-Message-ID: <CAMKF1sr9kSXwD-imhW75zs+GzTRvH3W1+xaqvaRVfQ0oN-SGuA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libsdl: remove
+Subject: Re: [RFC PATCH] Add gnu testsuite execution for OEQA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,101 +61,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2019 13:41:05 -0000
-Content-Type: multipart/alternative; boundary="0000000000000387d5058e6d762e"
-
---0000000000000387d5058e6d762e
+X-List-Received-Date: Wed, 24 Jul 2019 13:55:26 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 24, 2019 at 12:15 AM Adrian Bunk <bunk@stusta.de> wrote:
+On Wed, 2019-07-24 at 22:30 +1000, Nathan Rossi wrote:
+> So I only hit one major issue with the oe-core qemu* machines I
+> tested on when running under system emulation, specifically with
+> aarch64/qemuarm64.
+> 
+> One (or more) test in the "c" suite of gcc causes qemu to crash due
+> to what appears to be an internal qemu issue.
+> 
+> qemu outputted:
+> qemu-4.0.0/tcg/tcg.c:3952: tcg_gen_code: Assertion
+> `s->gen_insn_end_off[num_insns] == off' failed.
+> 
+> The test that caused this was:
+> gcc.target/aarch64/advsimd-intrinsics/vldX.c   -O2  execution test
 
-> On Tue, Jul 23, 2019 at 11:59:47PM -0700, Khem Raj wrote:
-> >
-> > On 7/23/19 11:28 PM, Philip Balister wrote:
-> > > On 07/24/2019 02:03 AM, Anuj Mittal wrote:
-> > > > All the users in OE-Core have moved to libsdl2. It will be moved to
-> > > > meta-oe.
-> > > Are there any users in meta-oe? Can we just drop this completely? (Yes,
-> > > I've been afk so may have missed some email)
-> >
-> > yes there are recipes asking for virtual/libsdl2
->
-> libsdl is the previous generation before libsdl2.
-> libsdl2 will stay in oe-core.
+Ok, interesting. I'd hope that issue could be resolved if it started
+causing problems for us, or we could skip that test as a workaround I
+guess.
+
+> Just an update here, managed to get the results for this. As you will
+> see below, running some of these tests is very slow on qemu system
+> emulation. Though kvm did give a decent boost in performance.
+> 
+> Note: qemuarm64 (sys) is missing gcc results because one of the gcc
+> tests crashes qemu.
+
+The results were wrapped and hard to read so I unwrapped them (added
+here for others):
+
+                           | g++          | gcc          | glibc       | libatomic   | libgomp     | libitm      | libstdc++-v3
+qemuarm (usr)              |   365/128416 |   469/123905 |    65/ 5130 |     0/   49 |     0/ 2515 |     0/   46 |     23/12782
+qemuarm (sys)              |   365/128416 |   468/123874 |    47/ 5130 |     0/   49 |     0/ 2515 |    18/   46 |     48/12790
+qemux86-64 (usr)           |   457/131913 |   589/135169 |  1423/ 5991 |     0/   54 |     0/ 2522 |     0/   46 |      1/13008
+qemux86-64 (sys)           |   418/131913 |   519/135221 |  1418/ 5991 |     0/   54 |     1/ 2522 |    18/   46 |     51/13010
+qemux86-64 (sys+kvm)       |   418/131913 |   519/135415 |    40/ 5991 |     0/   54 |     1/ 2522 |    18/   46 |     46/13010
+qemuarm64 (usr)            |   364/128977 |   459/130904 |    75/ 5882 |     0/   54 |     0/ 2515 |     0/   46 |      1/12789
+qemuarm64 (sys)            |   364/128977 |              |    43/ 5882 |     0/   54 |     0/ 2515 |    18/   46 |     62/12791
+qemuppc (usr)              |  6747/128636 | 18336/116624 |  1220/ 5110 |     0/   49 |     2/ 2515 |     0/   46 |     33/12996
+qemuppc (sys)              |   383/129056 |   800/119824 |  1188/ 5110 |     0/   49 |     2/ 2515 |    18/   46 |     34/12998
+qemuriscv64 (usr)          |   376/128427 |   460/106399 |    86/ 5847 |     0/   54 |     4/ 2508 |             |      1/12748
+qemuriscv64 (sys)          |   376/128427 |   458/106451 |    53/ 5847 |     0/   54 |     0/ 2508 |             |     52/12750
+
+                           | g++          | gcc          | glibc       | libatomic   | libgomp     | libitm      | libstdc++-v3
+qemuarm (usr)              |       9m 24s |       15m 3s |     37m 10s |          8s |      6m 52s |          8s |       1h 24s
+qemuarm (sys)              |   3h 58m 30s |  12h 21m 44s |  5h 36m 53s |         55s |     45m 57s |         53s |  12h 16m 11s
+qemux86-64 (usr)           |       8m 22s |      15m 48s |     36m 52s |          8s |       6m 1s |          8s |      34m 42s
+qemux86-64 (sys)           |   5h 38m 27s |  15h 15m 40s |  5h 54m 42s |       1m 8s |     45m 52s |         55s |   3h 26m 11s
+qemux86-64 (sys+kvm)       |      16m 22s |      56m 44s |  2h 29m 45s |         25s |     16m 58s |         21s |      19m 20s
+qemuarm64 (usr)            |       8m 34s |      16m 15s |     44m 25s |          8s |      6m 23s |          8s |      35m 38s
+qemuarm64 (sys)            |    4h 2m 53s |              |   6h 2m 39s |       1m 7s |     44m 47s |         53s |    3h 9m 37s
+qemuppc (usr)              |       6m 54s |      10m 47s |     32m 50s |          6s |      6m 22s |          7s |      34m 25s
+qemuppc (sys)              |   5h 46m 23s |  16h 16m 10s |   4h 10m 6s |      1m 16s |   1h 3m 11s |      1m 12s |   4h 32m 45s
+qemuriscv64 (usr)          |       6m 54s |      10m 23s |     36m 50s |          7s |      9m 38s |             |      33m 13s
+qemuriscv64 (sys)          |   2h 19m 24s |   6h 27m 37s |  4h 23m 43s |         47s |     31m 47s |             |   1h 52m 18s
+
+This makes very interesting reading, thanks!
+
+I'm quite amazed how much faster user mode qemu is at running the tests
+against a system kvm qemu. The accuracy of sys, usr and sys+kvm looks
+questionable in different places.
+
+There isn't a clear answer here although its obvious qemuppc user mode
+emulation is bad. The usermode testing is clearly the winner speed wise
+by a long margin. I would like to understand why though as KVM should
+be reasonable...
+
+Cheers,
+
+Richard
 
 
-Libsdl I agree add it if someone asks for it
 
->
->
-> In meta-oe there's gegl that needs libsdl,
-> and in meta-multimedia libdc1394.
->
-> Plus various libsdl-* packages.
->
-> So yes, dropping it completely sounds feasible.
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
->
 
---0000000000000387d5058e6d762e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Jul 24, 2019 at 12:15 AM Adrian Bunk &lt;<a href=3D=
-"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">On Tue, Jul 23, 2019 at 11:59:47PM -0700, Khem Raj wrote=
-:<br>
-&gt; <br>
-&gt; On 7/23/19 11:28 PM, Philip Balister wrote:<br>
-&gt; &gt; On 07/24/2019 02:03 AM, Anuj Mittal wrote:<br>
-&gt; &gt; &gt; All the users in OE-Core have moved to libsdl2. It will be m=
-oved to<br>
-&gt; &gt; &gt; meta-oe.<br>
-&gt; &gt; Are there any users in meta-oe? Can we just drop this completely?=
- (Yes,<br>
-&gt; &gt; I&#39;ve been afk so may have missed some email)<br>
-&gt; <br>
-&gt; yes there are recipes asking for virtual/libsdl2<br>
-<br>
-libsdl is the previous generation before libsdl2.<br>
-libsdl2 will stay in oe-core.</blockquote><div dir=3D"auto"><br></div><div =
-dir=3D"auto">Libsdl I agree add it if someone asks for it=C2=A0</div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex"><br>
-<br>
-In meta-oe there&#39;s gegl that needs libsdl,<br>
-and in meta-multimedia libdc1394.<br>
-<br>
-Plus various libsdl-* packages.<br>
-<br>
-So yes, dropping it completely sounds feasible.<br>
-<br>
-cu<br>
-Adrian<br>
-<br>
--- <br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Is there not promise of rain?&quot; Ling T=
-an asked suddenly out<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 of the darkness. There had been need of rain fo=
-r many days.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Only a promise,&quot; Lao Er said.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Pearl S. =
-Buck - Dragon Seed<br>
-<br>
-</blockquote></div></div>
 
---0000000000000387d5058e6d762e--
