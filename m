@@ -1,54 +1,36 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 91A5C7C9C5;
-	Thu, 25 Jul 2019 12:52:16 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id p13so50632963wru.10;
-	Thu, 25 Jul 2019 05:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:mime-version:subject:message-id:date:cc:to;
-	bh=3kn1OBIewWGyiydI27F6msyIVpIKw/6P27Nlzhd+uQk=;
-	b=mH7RvhXZXXqxYbdAR2WFCRW3v3cH9VLuuBDVTsj7NT6mzX+LEC6ESbV7rnfsbgGXPu
-	1tkPySvGyNSaXZ1qgbnk7a8xDhSa6k8gk/CBF8iYgY8jsnr9C2w7TiDKm86G2gh0SPHP
-	wo6BLAte3aK3QybUdVpgfRoTKVgPFvJ4S8ZiABbiw/gsUfIfUW/QkcBVwaiEyviN0zwk
-	/Wb9ZfpDFk3DRFUetoAO8aeqXk6Ny9e12IrmOpYC9hNCYaPtmiYthYcUzfuQs4LgblF1
-	GMkoS084qt8vJwJ8fZbGsv8llPWdKFZ+5d+91IPewRgNykkAYlzCp1Z0ztBqMysrs91M
-	rBkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:mime-version:subject:message-id:date
-	:cc:to;
-	bh=3kn1OBIewWGyiydI27F6msyIVpIKw/6P27Nlzhd+uQk=;
-	b=PjcPAu/uXw02KRbPFW68jD3kdX+5/nDa4/gvaH4dr/Qq06eoP+Jig94PWn+27q1U8H
-	cSOU99XPLdFAtLebpmruSTjUXldrZHqZCMHvrGEiTwkV/Oi2014EPxjToHFyLDLGOpFC
-	el/LGRp5DamNo/gx0UhMxRq0knQYfvytclSL3MrvsfBzJkpLDMkKTU2eBsnbTHo2SLGg
-	0v4zhyDN6UyR0HKvu/CVJgIOKYW4LmwAOZmGm1x1cpqMFQSVCJAiGxzsMxmSwjF8ee/X
-	5W/IiRezhCJy7+JUV5ihIlDojo6+7FHwKViUjIWsQsMJBcQAjDM253kn1+JNmco3pI5+
-	VYgw==
-X-Gm-Message-State: APjAAAWFhop9z8UTei0TQ/SBmPC3obwLAOS7+K3u8vmt6rp3nBsRAF8j
-	r2FN6fMeMndqLkerNznH0HU=
-X-Google-Smtp-Source: APXvYqyymWye5Nd1a8r7QOwTyWgkCvlcWjiXOHSbmF8VpXSuZMINvJHfutc+5CiJ0aBW1WEce0C6aA==
-X-Received: by 2002:adf:e790:: with SMTP id n16mr78127625wrm.120.1564059137069;
-	Thu, 25 Jul 2019 05:52:17 -0700 (PDT)
-Received: from [10.42.8.217] (p4FE9398A.dip0.t-ipconnect.de. [79.233.57.138])
-	by smtp.gmail.com with ESMTPSA id
-	i18sm65363754wrp.91.2019.07.25.05.52.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 Jul 2019 05:52:15 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Message-Id: <A3D1BC0A-704E-4F87-9D63-86C8DBCBA1E7@netbsd.org>
-Date: Thu, 25 Jul 2019 14:52:14 +0200
-To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Tim Orling <ticotimo@gmail.com>, Khem Raj <raj.khem@gmail.com>,
-	=?utf-8?B?QWxiZXJ0byBTaW3DtWVzIPCfkKo=?= <ambs@zbr.pt>,
-	Leon Timmermans <fawaka@gmail.com>
-X-Mailer: Apple Mail (2.3445.104.11)
-Cc: Ingmar Gebhardt <ige@ivu.de>, openembedded-devel@lists.openembedded.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Perl5 build issues (meta-cpan only?)
+Return-Path: <Daniel.Klauer@gin.de>
+X-Greylist: delayed 915 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 25 Jul 2019 12:58:30 UTC
+Received: from good-out-07.clustermail.de (good-out-07.clustermail.de
+	[212.223.35.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E13B7EE86
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2019 12:58:30 +0000 (UTC)
+Received: from [10.0.0.17] (helo=frontend.clustermail.de)
+	by smtpout-02.clustermail.de with esmtp (Exim 4.92)
+	(envelope-from <Daniel.Klauer@gin.de>) id 1hqd5S-0005XV-Rv
+	for openembedded-core@lists.openembedded.org;
+	Thu, 25 Jul 2019 14:43:16 +0200
+Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
+	by frontend.clustermail.de with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
+	(envelope-from <Daniel.Klauer@gin.de>) id 1hqd5S-0003PY-Pw
+	for openembedded-core@lists.openembedded.org;
+	Thu, 25 Jul 2019 14:43:10 +0200
+Received: from [10.160.138.39] (10.160.138.39) by Win2012-02.gin-domain.local
+	(192.168.1.12) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Thu, 25 Jul 2019 14:43:10 +0200
+To: <openembedded-core@lists.openembedded.org>
+From: Daniel Klauer <daniel.klauer@gin.de>
+Message-ID: <dad4085c-9767-f4bc-e89e-462166f09d8b@gin.de>
+Date: Thu, 25 Jul 2019 14:43:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
+MIME-Version: 1.0
+X-Originating-IP: [10.160.138.39]
+X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
+	Win2012-02.gin-domain.local (192.168.1.12)
+Subject: package.bbclass behaviour with multiple providers of a shared library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,92 +43,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 12:52:17 -0000
-X-Groupsio-MsgNum: 127167
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_D92B0113-8B24-472B-8C48-27A4B2D3137E";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
+X-List-Received-Date: Thu, 25 Jul 2019 12:58:30 -0000
+X-Groupsio-MsgNum: 127168
+Content-Type: multipart/mixed; boundary="------------CE3F1FC4790B0140A4889C6B"
+Content-Language: en-US
 
---Apple-Mail=_D92B0113-8B24-472B-8C48-27A4B2D3137E
+--------------CE3F1FC4790B0140A4889C6B
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-Hi all,
+Hi oe-core devs,
 
-please apologize that I didn't act earlier after Alexanders update of =
-perl. Too many weddings ... you know very well.
+looking at package.bbclass and in particular the read_shlib_providers()
+function (although, without having fully understood it):
 
-The problem with the conflicts with the dual-life modules we should =
-perhaps discuss separately - as far as I know, there were more =
-fundamental problems with -native. Then we might not only need a =
-technical solution for ... I try to come to Lyon.
+For scanning the SHLIBSDIRS, it uses os.listdir() but seemingly without
+sorting. There is a comment saying "the last one found wins". Couldn't
+this cause "undefined" behaviour in case there are multiple providers of
+a shared library? (meaning sometimes one provider wins, sometimes the
+others, since they are in separate files in the SHLIBSDIRS)
 
-Maybe one or the other has already seen the following message in =
-connection with modules::Build-based Perl modules:
-ERROR: hash-fieldhash-perl-0.15-r0 do_package_qa: QA Issue: No GNU_HASH =
-in the ELF binary =
-/home/sno/gpw-community-bsp/gpw-yocto-platform/tmp/work/cortexa8hf-neon-po=
-ky-linux-gnueabi/hash-fieldhash-perl/0.15-r0/packages-split/hash-fieldhash=
--perl/usr/lib/perl5/vendor_perl/5.30.0/arm-linux/auto/Hash/FieldHash/Field=
-Hash.so, didn't pass LDFLAGS? [ldflags]
-ERROR: hash-fieldhash-perl-0.15-r0 do_package_qa: QA run found fatal =
-errors. Please consider fixing them.
-ERROR: hash-fieldhash-perl-0.15-r0 do_package_qa:
-ERROR: hash-fieldhash-perl-0.15-r0 do_package_qa: Function failed: =
-do_package_qa
-ERROR: Logfile of failure stored in: =
-/home/sno/gpw-community-bsp/gpw-yocto-platform/tmp/work/cortexa8hf-neon-po=
-ky-linux-gnueabi/hash-fieldhash-perl/0.15-r0/temp/log.do_package_qa.12168
-ERROR: Task =
-(/home/sno/gpw-community-bsp/sources/meta-cpan/recipes-devel/hash-fieldhas=
-h-perl/hash-fieldhash-perl_0.15.bb:do_package_qa) failed with exit code =
-'1'
+Specifically, I saw a build failure, which I can't seem to reproduce
+anymore now, with meta-freescale's openssl-qoriq, which packages
+libcrypto.so.1.1/libssl.so.1.1 in libcrypto/libssl packages but also in
+a openssl-qoriq-ptest package.
 
-I think the reason is in =
-https://metacpan.org/source/AMBS/ExtUtils-CBuilder-0.280231/lib/ExtUtils/C=
-Builder/Base.pm#L319 where the arguments from ldflags are thrown away.
+=2E../tmp/pkgdata/lx2160ardb/shlibs2$ grep -r
+'libssl\.so\.1\.1\|libcrypto\.so\.1\.1'
+openssl-qoriq-ptest.list:libssl.so.1.1:/usr/lib/openssl-qoriq/ptest:1.1.0=
+g
+openssl-qoriq-ptest.list:libcrypto.so.1.1:/usr/lib/openssl-qoriq/ptest:1.=
+1.0g
+libcrypto.list:libcrypto.so.1.1:/usr/lib:1.1.0g
+libssl.list:libssl.so.1.1:/usr/lib:1.1.0g
 
-When those issues came up somewhere else than in meta-cpan, please let =
-me know (only open-source ^^). We should develop a fix like =
-https://github.com/meta-cpan/meta-cpan/commit/52ded0759daa3bff909bf5fac6d3=
-1c6bc52d713e then ...
+Kind regards,
+Daniel
 
-For now - I think Alberto should receive a patch to use ldflags, too.
+--------------CE3F1FC4790B0140A4889C6B
+Content-Type: application/pgp-keys; name="pEpkey.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment; filename="pEpkey.asc"
 
-I cannot decide how critic and important that is to make it into =
-perl-5.30.1 ...
-When ExtUtils::CBuilder is properly fixed, no changed are required to =
-cpan_build.bbclass, aren't they?
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-Cheers
---
-Jens Rehsack - rehsack@gmail.com
+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
+i0nr
+=3DtIpE
+-----END PGP PUBLIC KEY BLOCK-----
 
-
---Apple-Mail=_D92B0113-8B24-472B-8C48-27A4B2D3137E
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAl05pf4ACgkQRJmWrtzl
-Cp2ZLg//e9GtM//ak3qldzbf3C0IuxKaDVlPqaX2TZCmI1ueX4/Zdn/isWmFcVB/
-E3ocaIlCe+9lCqfRWrmfsSaul/q2DV6t0lkuJ2tt8RBdcukoOSzExbenJuUpa8x6
-jAfA/9xHWGcwgw1rc2FNqfxEr2hVxg9Y2A7kOqbNAILVjvwPaUgBCYzoUmKgL4Ts
-P+L3FzOrGZN+XaZZLZvebpIh76F/xRdCvuTFHnywN9hlJsC7EAfl7HGcMQyokx3z
-MO5jQlqu/pQeXksFJizp0ACkUabZM8KJAxrjFRk+CzSAgbwrMAYQrHjs/UtXe7kf
-5L+iSEjd49V0JU5W6i5Nyh/CNY7S93O2FGiLHqlQwAnNqzrzQD5PiFzIDaDkLQXf
-qJAes3QRAgz/Qvm4Gkv7msupbXzmIwvL4WeLnD2Zz31oxutEvl7r5KAhi5NO+gvc
-+lQjz9ZRJPIec8/YKPn4rsi2LGuRQF+hU8C0IshUgrInPK0WficMGbVbiM1IFylQ
-lhxDTmygur2Hyte8pqyQBQ039TZwOgI+OUDqtkGCW+jjSeu1rAENqM065S/sufoN
-6PPAgWj8j9QsnZPumn6CthPVIcaBgFxatcmXqi0bDT5+m2Gkfjrs6VRFPpmuFoG8
-eSq4O7BUePP/zajFNocswbU4ORMPdn8W9nAY7jxw+Xv1jEpArgo=
-=bsjD
------END PGP SIGNATURE-----
-
---Apple-Mail=_D92B0113-8B24-472B-8C48-27A4B2D3137E--
+--------------CE3F1FC4790B0140A4889C6B--
