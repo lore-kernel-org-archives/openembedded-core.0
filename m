@@ -1,36 +1,50 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0212F7C326
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 941D27D2D6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 11:12:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6PBBnB6029720
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 25 Jul 2019 04:12:00 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 25 Jul 2019 04:11:39 -0700
-To: <richard.purdie@linuxfoundation.org>, "Mittal, Anuj"
-	<anuj.mittal@intel.com>, "Burton, Ross" <ross.burton@intel.com>
-References: <20190704134520.16320-1-kai.kang@windriver.com>
-	<20190704134520.16320-2-kai.kang@windriver.com>
-	<CAJTo0LbmYp-70L=Z_T0jE4xS1mR_vLXKQE18O_EpeEwD6wdroA@mail.gmail.com>
-	<a3ee2977ee2d63f1908f110d9273352815ba7d35.camel@linuxfoundation.org>
-	<8d6b156e-7d68-e4b8-8688-2c897ebf228a@windriver.com>
-	<73fdb42fa63f84e7ed6ec52a183bff73edc4272b.camel@intel.com>
-	<71422bd44cac604f8a076b30a5d353669cc0b314.camel@linuxfoundation.org>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <f82bad2b-c366-9000-32ab-3ce780c328b4@windriver.com>
-Date: Thu, 25 Jul 2019 19:10:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <71422bd44cac604f8a076b30a5d353669cc0b314.camel@linuxfoundation.org>
-Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] defaultsetup.conf: enable select init manager
+	Thu, 25 Jul 2019 11:41:50 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id p15so49911090eds.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2019 04:41:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=HkUEaI97O8vCFgbB4416VTQM8p2Q66AQlazeQ6sj3iw=;
+	b=kijeAMQFwimRMC+zTCa3x9DpsZq8Ocb3nmgl/IAhvtZ3CpEq05iHvBMub5UKRIYejn
+	EY41pZ7loS56OBmNr3jL3Ce9mA5uDfLlg2QR4v2DC35N0htZMKHC+1cb2aS7UGA2lHsC
+	2ZNKm5ji5RhFUMTDo8URtIJV3ES4/fq+jFKuuNLkq3kd1TzlVxhJ4YTrAJTnMf5lXhx8
+	MBW9J24MpdCyNMdcsfyo9qhCYhaIcGI6weklHkHCPIN9FKinWC+xMCuzBHfexv7RJHMB
+	z1/EEe5rKYPq3KfiJgZ8kWGdsRlXY++1ngJLzqIOI7+f6hFG6GDNsDB/ZPzD76cfUFWq
+	TtGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=HkUEaI97O8vCFgbB4416VTQM8p2Q66AQlazeQ6sj3iw=;
+	b=lwy66tJMSlkpeVXosc3lpgnNqo1IDAQocVRd0mngywJlSPHLod+z92fnxVluOPW1gV
+	EWIq50o3/gUZUgjZyTtTmceZrqzcr76lPIIPO31J4dXftBr38bGScvlxhmRpFGs+Y495
+	x9l6fOLyz1dCLaW19Nn0gsg6htyC0iflwjBljEGd+bXBnLH5WS6D+BfMpWjAM4qf8Flv
+	GhhcNZaorfSNZJ6e8F5xhoeLwgyzuLy1QM1z5+TvDRsFe/SZYtWt3E82oE2m+SHypQuX
+	Ay6gFD00yGGOBFFpeXzyfl1yUw9YcyCZcNePMeyQvvyZ4xD5z2SP8kXkj2Prjp7LEXeK
+	BLTA==
+X-Gm-Message-State: APjAAAVi0OAD5O8i2FAy+FPOSnXlXVdT9NPB+mBR8ZahvCFI0ydelyHW
+	BQl4NQXrF0yvkj9/U+T7hbN/N+Bc0xU=
+X-Google-Smtp-Source: APXvYqw1QGYhIJRfwkj2qEHlzxm+j2BfzPQVdAZ5L/W0Z6HRZocEGUtBSfuzqd8fLhl9Iv2HjnAUtA==
+X-Received: by 2002:a17:906:8591:: with SMTP id
+	v17mr66970979ejx.244.1564054910940; 
+	Thu, 25 Jul 2019 04:41:50 -0700 (PDT)
+Received: from peterliu-Precision-7530.toradex.int ([27.191.202.72])
+	by smtp.gmail.com with ESMTPSA id
+	a8sm12853949edt.56.2019.07.25.04.41.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 25 Jul 2019 04:41:50 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jul 2019 19:41:31 +0800
+Message-Id: <1564054891-8168-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <ming.liu@toradex.com>, Stefan Agner <stefan.agner@toradex.com>,
+	luka.pivk@toradex.com
+Subject: [PATCH] weston: change to use meson build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,73 +57,295 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 11:12:53 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 25 Jul 2019 11:41:51 -0000
 
-On 2019/7/24 上午3:30, richard.purdie@linuxfoundation.org wrote:
-> On Mon, 2019-07-22 at 23:26 +0000, Mittal, Anuj wrote:
->> On Mon, 2019-07-22 at 09:37 +0800, Kang Kai wrote:
->>> I just run oe-selftest -a with this patch after you updated the
->>> patch
->>> in
->>> oe-core. But I met some (>15) errors
->>>
->>> ERROR: Unable to start bitbake server (None)
->>>
->>> But I think it should not be related with init manager changes and
->>> will
->>> change a build machine to test.
->>> Do you have test it again in autobuilder and any failure found?
->>> Thanks.
->> Not sure if these have been reported but there are some failures in
->> runtime tests which look related to this change:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/855/steps/8/logs/step1c
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/852/steps/8/logs/step1c
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/856/steps/8/logs/step2c
-> I did a back to back build comparision with and without the init system
-> change.
->
-> Basically every failure in:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/297
+From: Ming Liu <ming.liu@toradex.com>
 
+The changes include:
+- Drop all autotools related patches.
+- Move weston-launch setuid-install to do_install task since it's not
+  supported yet by meson build.
+- Drop cairo-glesv2 package config, it's not supported by meson build,
+  it is hardcoded to cairo-image for now in weston source.
+- Introduce remoting package config, without it meson would run into a
+  build error.
 
-It fails with
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+Signed-off-by: Ming Liu <ming.liu@toradex.com>
+---
+ .../wayland/weston/0001-make-error-portable.patch  | 34 ++++----
+ ...ch-Provide-a-default-version-that-doesn-t.patch | 93 ++++++++++++++--------
+ meta/recipes-graphics/wayland/weston_6.0.0.bb      | 48 +++++------
+ 3 files changed, 101 insertions(+), 74 deletions(-)
 
-$ bitbake core-image-sato-sdk -c testimage
-
-RESULTS - systemd.SystemdBasicTests.test_systemd_failed: FAILED (0.56s)
-
-It checks failed systemd services and got one:
-
-UNIT              LOAD   ACTIVE SUB DESCRIPTION
-● nfs-statd.service loaded failed failed NFS status monitor for NFSv2/3 
-locking.
-
-
-But when boot the qemu image or only run systemd testcases( with its 
-dependenies), no such failure.
-I doubt it may be affected by other test cases.
-
-Regards,
-Kai
-
->
-> seems to be due to the init system default change so we have some
-> issues in there to resolve before we can change the default.
->
-> Cheers,
->
-> Richard
->
->
-
+diff --git a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+index 0eb3d95..acea9db 100644
+--- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
++++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+@@ -9,27 +9,14 @@ kind of systemsi e.g. musl.
+ Upstream-Status: Submitted
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
++Signed-off-by: Ming Liu <ming.liu@toradex.com>
+ ---
+- configure.ac              |  2 ++
+  libweston/weston-error.h  | 20 ++++++++++++++++++++
+  libweston/weston-launch.c |  2 +-
+- 3 files changed, 23 insertions(+), 1 deletion(-)
++ meson.build               |  1 +
++ 3 files changed, 22 insertions(+), 1 deletion(-)
+  create mode 100644 libweston/weston-error.h
+ 
+-diff --git a/configure.ac b/configure.ac
+-index c05ad01..6da6e04 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -126,6 +126,8 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+- 	      [AC_MSG_ERROR("CLOCK_MONOTONIC is needed to compile weston")],
+- 	      [[#include <time.h>]])
+- 
+-+AC_CHECK_HEADERS([error.h])
+-+
+- AC_CHECK_FUNCS([mkostemp strchrnul initgroups posix_fallocate])
+- 
+- # check for libdrm as a build-time dependency only
+ diff --git a/libweston/weston-error.h b/libweston/weston-error.h
+ new file mode 100644
+ index 0000000..2089d02
+@@ -76,3 +63,18 @@ index bf73e0d..9064439 100644
+  
+  #define DRM_MAJOR 226
+  
++diff --git a/meson.build b/meson.build
++index 2155b7b..baa52d9 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -94,6 +94,7 @@ foreach func : optional_libc_funcs
++ endforeach
++ 
++ optional_system_headers = [
+++	'error.h',
++ 	'linux/sync_file.h'
++ ]
++ foreach hdr : optional_system_headers
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+index a2f61bf..81cc025 100644
+--- a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
++++ b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+@@ -15,44 +15,46 @@ Upstream-Status: Pending
+ Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+-
++Signed-off-by: Ming Liu <ming.liu@toradex.com>
+ ---
+- configure.ac              |  9 +++++++--
++ libweston/meson.build     | 16 ++++++++++++----
+  libweston/weston-launch.c | 20 ++++++++++++++++++++
+- 2 files changed, 27 insertions(+), 2 deletions(-)
++ meson_options.txt         |  7 +++++++
++ 3 files changed, 39 insertions(+), 4 deletions(-)
+ 
+-diff --git a/configure.ac b/configure.ac
+-index 6da6e04..681f7c8 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -515,13 +515,17 @@ AC_ARG_ENABLE(resize-optimization,
+- AS_IF([test "x$enable_resize_optimization" = "xyes"],
+-       [AC_DEFINE([USE_RESIZE_POOL], [1], [Use resize memory pool as a performance optimization])])
+- 
+-+AC_ARG_WITH(pam,
+-+            AS_HELP_STRING([--with-pam], [Use PAM]),
+-+            [use_pam=$withval], [use_pam=yes])
+- AC_ARG_ENABLE(weston-launch, [  --enable-weston-launch],, enable_weston_launch=yes)
+- AM_CONDITIONAL(BUILD_WESTON_LAUNCH, test x$enable_weston_launch = xyes)
+--if test x$enable_weston_launch = xyes; then
+-+if test x$enable_weston_launch = xyes -a x$use_pam = xyes; then
+-   WESTON_SEARCH_LIBS([PAM], [pam], [pam_open_session], [have_pam=yes], [have_pam=no])
+-   if test x$have_pam = xno; then
+--    AC_ERROR([weston-launch requires pam])
+-+    AC_ERROR([PAM support is explicitly requested, but libpam couldn't be found])
+-   fi
+-+  AC_DEFINE([HAVE_PAM], [1], [Define if PAM is available])
+- fi
+- 
+- AM_CONDITIONAL(HAVE_PANGO, test "x$have_pango" = "xyes")
+-@@ -767,6 +771,7 @@ AC_MSG_RESULT([
+- 	Enable developer documentation	${enable_devdocs}
+- 
+- 	weston-launch utility		${enable_weston_launch}
+-+	PAM support			${use_pam}
+- 	systemd-login support		${have_systemd_login}
+- 	systemd notify support		${enable_systemd_notify}
+- 
++diff --git a/libweston/meson.build b/libweston/meson.build
++index 33ab970..32f495a 100644
++--- a/libweston/meson.build
+++++ b/libweston/meson.build
++@@ -472,16 +472,24 @@ if get_option('renderer-gl')
++ endif
++ 
++ if get_option('weston-launch')
++-	dep_pam = cc.find_library('pam')
+++	deps_weston_launch = [systemd_dep, dep_libdrm]
++ 
++-	if not cc.has_function('pam_open_session', dependencies: dep_pam)
++-		error('pam_open_session not found for weston-launch')
+++	if get_option('pam')
+++		dep_pam = cc.find_library('pam')
+++		if not cc.has_function('pam_open_session', dependencies: dep_pam)
+++			error('pam_open_session not found for weston-launch')
+++		endif
+++
+++		if dep_pam.found()
+++			deps_weston_launch += dep_pam
+++			config_h.set('HAVE_PAM', '1')
+++		endif
++ 	endif
++ 
++ 	executable(
++ 		'weston-launch',
++ 		'weston-launch.c',
++-		dependencies: [dep_pam, systemd_dep, dep_libdrm],
+++		dependencies: deps_weston_launch,
++ 		include_directories: include_directories('..'),
++ 		install: true
++ 	)
+ diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
+ index 9064439..c6abe92 100644
+ --- a/libweston/weston-launch.c
+@@ -172,3 +174,24 @@ index 9064439..c6abe92 100644
+  
+  	if (setup_launcher_socket(&wl) < 0)
+  		exit(EXIT_FAILURE);
++diff --git a/meson_options.txt b/meson_options.txt
++index 0e1d183..9a5c3d5 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -73,6 +73,13 @@ option(
++ )
++ 
++ option(
+++	'pam',
+++	type: 'boolean',
+++	value: true,
+++	description: 'Define if PAM is available'
+++)
+++
+++option(
++ 	'xwayland',
++ 	type: 'boolean',
++ 	value: true,
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/wayland/weston_6.0.0.bb b/meta/recipes-graphics/wayland/weston_6.0.0.bb
+index fa08dac..19e24b3 100644
+--- a/meta/recipes-graphics/wayland/weston_6.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_6.0.0.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+            file://weston.desktop \
+-           file://0001-make-error-portable.patch \
+            file://xwayland.weston-start \
++           file://0001-make-error-portable.patch \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
+ "
+ SRC_URI[md5sum] = "7c634e262f8a464a076c97fd50ad36b3"
+@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "546323a90607b3bd7f48809ea9d76e64cd09718102f2deca6d95aa59a8
+ 
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ 
+-inherit autotools pkgconfig useradd distro_features_check
++inherit meson pkgconfig useradd distro_features_check
+ # depends on virtual/egl
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+@@ -26,10 +26,8 @@ DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
+ 
+ WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+ 
+-EXTRA_OECONF = "--enable-setuid-install \
+-                --disable-rdp-compositor \
+-                --enable-autotools \
+-                "
++EXTRA_OEMESON += "-Dbackend-default=auto -Dbackend-rdp=false"
++
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd x11', d)} \
+@@ -38,37 +36,37 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev
+ # Compositor choices
+ #
+ # Weston on KMS
+-PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa virtual/libgbm mtdev"
++PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev virtual/mesa virtual/libgbm mtdev"
+ # Weston on Wayland (nested Weston)
+-PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
++PACKAGECONFIG[wayland] = "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/mesa"
+ # Weston on X11
+-PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
++PACKAGECONFIG[x11] = "-Dbackend-x11=true,-Dbackend-x11=false,virtual/libx11 libxcb libxcb libxcursor cairo"
+ # Headless Weston
+-PACKAGECONFIG[headless] = "--enable-headless-compositor,--disable-headless-compositor"
++PACKAGECONFIG[headless] = "-Dbackend-headless=true,-Dbackend-headless=false"
+ # Weston on framebuffer
+-PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
++PACKAGECONFIG[fbdev] = "-Dbackend-fbdev=true,-Dbackend-fbdev=false,udev mtdev"
+ # weston-launch
+-PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,drm"
++PACKAGECONFIG[launch] = "-Dweston-launch=true,-Dweston-launch=false,drm"
+ # VA-API desktop recorder
+-PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
++PACKAGECONFIG[vaapi] = "-Dbackend-drm-screencast-vaapi=true,-Dbackend-drm-screencast-vaapi=false,libva"
+ # Weston with EGL support
+-PACKAGECONFIG[egl] = "--enable-egl --enable-simple-egl-clients,--disable-egl --disable-simple-egl-clients,virtual/egl"
+-# Weston with cairo glesv2 support
+-PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
++PACKAGECONFIG[egl] = "-Drenderer-gl=true,-Drenderer-gl=false,virtual/egl"
+ # Weston with lcms support
+-PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
++PACKAGECONFIG[lcms] = "-Dcolor-management-lcms=true,-Dcolor-management-lcms=false,lcms"
+ # Weston with webp support
+-PACKAGECONFIG[webp] = "--with-webp,--without-webp,libwebp"
++PACKAGECONFIG[webp] = "-Dimage-webp=true,-Dimage-webp=false,libwebp"
+ # Weston with systemd-login support
+-PACKAGECONFIG[systemd] = "--enable-systemd-login,--disable-systemd-login,systemd dbus"
++PACKAGECONFIG[systemd] = "-Dsystemd=true -Dlauncher-logind=true,-Dsystemd=false -Dlauncher-logind=false,systemd dbus"
+ # Weston with Xwayland support (requires X11 and Wayland)
+-PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland"
++PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false"
+ # colord CMS support
+-PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
++PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-colord=false,colord"
+ # Clients support
+-PACKAGECONFIG[clients] = "--enable-clients --enable-simple-clients --enable-demo-clients-install,--disable-clients --disable-simple-clients"
++PACKAGECONFIG[clients] = "-Dsimple-clients=all -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
++# Virtual remote output with GStreamer on DRM backend
++PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer-1.0"
+ # Weston with PAM support
+-PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
++PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam"
+ 
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
+@@ -86,6 +84,10 @@ do_install_append() {
+ 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no', d)}" = "yes" ]; then
+ 		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
+ 	fi
++
++	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}" = "yes" ]; then
++		chmod u+s ${D}${bindir}/weston-launch
++	fi
+ }
+ 
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
 -- 
-Kai Kang
+2.7.4
 
 
