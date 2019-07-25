@@ -1,24 +1,24 @@
-Return-Path: <chin.huat.ang@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D79F27DDA5
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4951E6C102
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 02:03:48 +0000 (UTC)
+	Thu, 25 Jul 2019 04:03:29 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Jul 2019 19:03:49 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Jul 2019 21:03:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,305,1559545200"; d="scan'208";a="345285504"
+X-IronPort-AV: E=Sophos;i="5.64,305,1559545200"; d="scan'208";a="189233225"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga005.jf.intel.com with ESMTP; 24 Jul 2019 19:03:48 -0700
-From: Chin Huat Ang <chin.huat.ang@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Jul 2019 10:01:20 +0800
-Message-Id: <1564020080-62476-1-git-send-email-chin.huat.ang@intel.com>
+	by fmsmga001.fm.intel.com with ESMTP; 24 Jul 2019 21:03:30 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jul 2019 12:02:56 +0800
+Message-Id: <1564027386-8107-1-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] cve-update-db-native: fix https proxy issues
+Subject: [warrior][PATCH 01/11] binutils: fix CVE-2019-12972 CVE-2019-9071
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,93 +31,260 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 02:03:50 -0000
+X-List-Received-Date: Thu, 25 Jul 2019 04:03:30 -0000
 
-When https_proxy is set, use proxy opener to open CVE metadata and
-database URLs, otherwise fallback to the urllib.request.urlopen.
+(From OE-Core rev: 093f0914f261a27d58ecba9c1e9d3b78a35af012)
 
-Also fix a minor issue where the json database which has been gzip
-decompressed as byte object should be decoded as utf-8 string as
-expected by update_db.
-
-Signed-off-by: Chin Huat Ang <chin.huat.ang@intel.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 41 +++++++++++++++++++-------
- 1 file changed, 30 insertions(+), 11 deletions(-)
+ meta/recipes-devtools/binutils/binutils-2.32.inc   |   2 +
+ .../binutils/binutils/CVE-2019-12972.patch         |  51 +++++++
+ .../binutils/binutils/CVE-2019-9071.patch          | 164 +++++++++++++++++++++
+ 3 files changed, 217 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9071.patch
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 9c083bd..2c427a5 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -22,7 +22,7 @@ python do_populate_cve_db() {
-     Update NVD database with json data feed
-     """
+diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
+index 49e6827..31c24a3 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.32.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
+@@ -48,6 +48,8 @@ SRC_URI = "\
+      file://CVE-2019-9075.patch \
+      file://CVE-2019-9076.patch \
+      file://CVE-2019-9077.patch \
++     file://CVE-2019-9071.patch \
++     file://CVE-2019-12972.patch \
+ "
+ S  = "${WORKDIR}/git"
  
--    import sqlite3, urllib, shutil, gzip
-+    import sqlite3, urllib, urllib.parse, shutil, gzip
-     from datetime import date
- 
-     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
-@@ -32,6 +32,16 @@ python do_populate_cve_db() {
-     db_file = os.path.join(db_dir, 'nvdcve_1.0.db')
-     json_tmpfile = os.path.join(db_dir, 'nvd.json.gz')
-     proxy = d.getVar("https_proxy")
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch
+new file mode 100644
+index 0000000..07d1d65
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch
+@@ -0,0 +1,51 @@
++From 30bcc01478433a1cb05b36dc5c4beef7d2c89b5b Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Fri, 21 Jun 2019 11:51:38 +0930
++Subject: [PATCH] PR24689, string table corruption
 +
-+    if proxy:
-+        # instantiate an opener but do not install it as the global
-+        # opener unless if we're really sure it's applicable for all
-+        # urllib requests
-+        proxy_handler = urllib.request.ProxyHandler({'https': proxy})
-+        proxy_opener = urllib.request.build_opener(proxy_handler)
-+    else:
-+        proxy_opener = None
++The testcase in the PR had a e_shstrndx section of type SHT_GROUP.
++hdr->contents were initialized by setup_group rather than being read
++from the file, thus last byte was not zero and string dereference ran
++off the end of the buffer.
 +
-     cve_f = open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a')
- 
-     if not os.path.isdir(db_dir):
-@@ -49,11 +59,17 @@ python do_populate_cve_db() {
-         json_url = year_url + ".json.gz"
- 
-         # Retrieve meta last modified date
--        req = urllib.request.Request(meta_url)
--        if proxy:
--            req.set_proxy(proxy, 'https')
--        with urllib.request.urlopen(req) as r:
--            for l in r.read().decode("utf-8").splitlines():
++	PR 24689
++	* elfcode.h (elf_object_p): Check type of e_shstrndx section.
 +
-+        response = None
++Upstream-Status: Backport
++CVE: CVE-2019-12972
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ bfd/ChangeLog | 5 +++++
++ bfd/elfcode.h | 3 ++-
++ 2 files changed, 7 insertions(+), 1 deletion(-)
 +
-+        if proxy_opener:
-+            response = proxy_opener.open(meta_url)
-+        else:
-+            req = urllib.request.Request(meta_url)
-+            response = urllib.request.urlopen(req)
++diff --git a/bfd/ChangeLog b/bfd/ChangeLog
++index 91f09e6346..e66fb40a2c 100644
++--- a/bfd/ChangeLog
+++++ b/bfd/ChangeLog
++@@ -1,3 +1,8 @@
+++2019-06-21  Alan Modra  <amodra@gmail.com>
+++
+++	PR 24689
+++	* elfcode.h (elf_object_p): Check type of e_shstrndx section.
+++
++ 2019-02-20  Alan Modra  <amodra@gmail.com>
++ 
++ 	PR 24236
++diff --git a/bfd/elfcode.h b/bfd/elfcode.h
++index ec5ea766de..a35a629087 100644
++--- a/bfd/elfcode.h
+++++ b/bfd/elfcode.h
++@@ -755,7 +755,8 @@ elf_object_p (bfd *abfd)
++   /* A further sanity check.  */
++   if (i_ehdrp->e_shnum != 0)
++     {
++-      if (i_ehdrp->e_shstrndx >= elf_numsections (abfd))
+++      if (i_ehdrp->e_shstrndx >= elf_numsections (abfd)
+++	  || i_shdrp[i_ehdrp->e_shstrndx].sh_type != SHT_STRTAB)
++ 	{
++ 	  /* PR 2257:
++ 	     We used to just goto got_wrong_format_error here
++-- 
++2.20.1
 +
-+        if response:
-+            for l in response.read().decode("utf-8").splitlines():
-                 key, value = l.split(":", 1)
-                 if key == "lastModifiedDate":
-                     last_modified = value
-@@ -71,11 +87,14 @@ python do_populate_cve_db() {
- 
-             # Update db with current year json file
-             try:
--                req = urllib.request.Request(json_url)
--                if proxy:
--                    req.set_proxy(proxy, 'https')
--                with urllib.request.urlopen(req) as r:
--                    update_db(c, gzip.decompress(r.read()))
-+                if proxy_opener:
-+                    response = proxy_opener.open(json_url)
-+                else:
-+                    req = urllib.request.Request(json_url)
-+                    response = urllib.request.urlopen(req)
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-9071.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-9071.patch
+new file mode 100644
+index 0000000..26f4809
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-9071.patch
+@@ -0,0 +1,164 @@
++From c1202057eb9161a86af27d867703235fee7b7555 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Wed, 10 Apr 2019 15:49:36 +0100
++Subject: [PATCH] Pull in patch for libiberty that fixes a stack exhaustion bug
++ when demangling a pathalogically constructed mangled name.
 +
-+                if response:
-+                    update_db(c, gzip.decompress(response.read()).decode('utf-8'))
-                 c.execute("insert or replace into META values (?, ?)", [year, last_modified])
-             except urllib.error.URLError as e:
-                 cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
++	PR 89394
++	* cp-demangle.c (cplus_demangle_fill_name): Reject negative
++	lengths.
++	(d_count_templates_scopes): Replace num_templates and num_scopes
++	parameters with a struct d_print_info pointer parameter.  Adjust
++	body of the function accordingly.  Add recursion counter and check
++	that the recursion limit is not reached.
++	(d_print_init): Pass dpi parameter to d_count_templates_scopes.
++	Reset recursion counter afterwards, unless the recursion limit was
++	reached.
++
++CVE: CVE-2019-9071
++Upstream-Status: Backport
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ ChangeLog               | 16 ++++++++++++++
++ libiberty/cp-demangle.c | 48 ++++++++++++++++++++++-------------------
++ 2 files changed, 42 insertions(+), 22 deletions(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index cd631a15b6..4df3aaa62c 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,19 @@
+++2019-04-10  Nick Clifton  <nickc@redhat.com>
+++
+++	* libiberty: Sync with gcc.  Bring in:
+++	2019-04-10  Nick Clifton  <nickc@redhat.com>
+++
+++	PR 89394
+++	* cp-demangle.c (cplus_demangle_fill_name): Reject negative
+++	lengths.
+++	(d_count_templates_scopes): Replace num_templates and num_scopes
+++	parameters with a struct d_print_info pointer parameter.  Adjust
+++	body of the function accordingly.  Add recursion counter and check
+++	that the recursion limit is not reached.
+++	(d_print_init): Pass dpi parameter to d_count_templates_scopes.
+++	Reset recursion counter afterwards, unless the recursion limit was
+++	reached.
+++
++ 2018-06-24  Nick Clifton  <nickc@redhat.com>
++ 
++ 	2.32 branch created.
++diff --git a/libiberty/cp-demangle.c b/libiberty/cp-demangle.c
++index b34b485692..779b4e763a 100644
++--- a/libiberty/cp-demangle.c
+++++ b/libiberty/cp-demangle.c
++@@ -861,7 +861,7 @@ CP_STATIC_IF_GLIBCPP_V3
++ int
++ cplus_demangle_fill_name (struct demangle_component *p, const char *s, int len)
++ {
++-  if (p == NULL || s == NULL || len == 0)
+++  if (p == NULL || s == NULL || len <= 0)
++     return 0;
++   p->d_printing = 0;
++   p->type = DEMANGLE_COMPONENT_NAME;
++@@ -4061,7 +4061,7 @@ d_growable_string_callback_adapter (const char *s, size_t l, void *opaque)
++    are larger than the actual numbers encountered.  */
++ 
++ static void
++-d_count_templates_scopes (int *num_templates, int *num_scopes,
+++d_count_templates_scopes (struct d_print_info *dpi,
++ 			  const struct demangle_component *dc)
++ {
++   if (dc == NULL)
++@@ -4081,13 +4081,13 @@ d_count_templates_scopes (int *num_templates, int *num_scopes,
++       break;
++ 
++     case DEMANGLE_COMPONENT_TEMPLATE:
++-      (*num_templates)++;
+++      dpi->num_copy_templates++;
++       goto recurse_left_right;
++ 
++     case DEMANGLE_COMPONENT_REFERENCE:
++     case DEMANGLE_COMPONENT_RVALUE_REFERENCE:
++       if (d_left (dc)->type == DEMANGLE_COMPONENT_TEMPLATE_PARAM)
++-	(*num_scopes)++;
+++	dpi->num_saved_scopes++;
++       goto recurse_left_right;
++ 
++     case DEMANGLE_COMPONENT_QUAL_NAME:
++@@ -4152,42 +4152,42 @@ d_count_templates_scopes (int *num_templates, int *num_scopes,
++     case DEMANGLE_COMPONENT_TAGGED_NAME:
++     case DEMANGLE_COMPONENT_CLONE:
++     recurse_left_right:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				d_left (dc));
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				d_right (dc));
+++      /* PR 89394 - Check for too much recursion.  */
+++      if (dpi->recursion > DEMANGLE_RECURSION_LIMIT)
+++	/* FIXME: There ought to be a way to report to the
+++	   user that the recursion limit has been reached.  */
+++	return;
+++
+++      ++ dpi->recursion;
+++      d_count_templates_scopes (dpi, d_left (dc));
+++      d_count_templates_scopes (dpi, d_right (dc));
+++      -- dpi->recursion;
++       break;
++ 
++     case DEMANGLE_COMPONENT_CTOR:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				dc->u.s_ctor.name);
+++      d_count_templates_scopes (dpi, dc->u.s_ctor.name);
++       break;
++ 
++     case DEMANGLE_COMPONENT_DTOR:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				dc->u.s_dtor.name);
+++      d_count_templates_scopes (dpi, dc->u.s_dtor.name);
++       break;
++ 
++     case DEMANGLE_COMPONENT_EXTENDED_OPERATOR:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				dc->u.s_extended_operator.name);
+++      d_count_templates_scopes (dpi, dc->u.s_extended_operator.name);
++       break;
++ 
++     case DEMANGLE_COMPONENT_FIXED_TYPE:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-                                dc->u.s_fixed.length);
+++      d_count_templates_scopes (dpi, dc->u.s_fixed.length);
++       break;
++ 
++     case DEMANGLE_COMPONENT_GLOBAL_CONSTRUCTORS:
++     case DEMANGLE_COMPONENT_GLOBAL_DESTRUCTORS:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				d_left (dc));
+++      d_count_templates_scopes (dpi, d_left (dc));
++       break;
++ 
++     case DEMANGLE_COMPONENT_LAMBDA:
++     case DEMANGLE_COMPONENT_DEFAULT_ARG:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				dc->u.s_unary_num.sub);
+++      d_count_templates_scopes (dpi, dc->u.s_unary_num.sub);
++       break;
++     }
++ }
++@@ -4222,8 +4222,12 @@ d_print_init (struct d_print_info *dpi, demangle_callbackref callback,
++   dpi->next_copy_template = 0;
++   dpi->num_copy_templates = 0;
++ 
++-  d_count_templates_scopes (&dpi->num_copy_templates,
++-			    &dpi->num_saved_scopes, dc);
+++  d_count_templates_scopes (dpi, dc);
+++  /* If we did not reach the recursion limit, then reset the
+++     current recursion value back to 0, so that we can print
+++     the templates.  */
+++  if (dpi->recursion < DEMANGLE_RECURSION_LIMIT)
+++    dpi->recursion = 0;
++   dpi->num_copy_templates *= dpi->num_saved_scopes;
++ 
++   dpi->current_template = NULL;
++-- 
++2.20.1
++
 -- 
 2.7.4
 
