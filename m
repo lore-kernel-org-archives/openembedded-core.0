@@ -1,55 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1553C7F0F5
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 328 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 25 Jul 2019 23:28:42 UTC
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 2313E7F0F6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 22:29:36 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id x4so52288841wrt.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 15:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=M2m1iAYp6UBrtXwGaZaSD0xfQ46OKES3IQZpVtGGSvo=;
-	b=GBbwXOCj+rgpd+nxvHhGSoz9hQqrO6BHoQCK/LnKwy6/203ptvFj2WcFo71CjOUeeL
-	bqiGON+t0zzMeKH9nn+TECHdS2rYTGjOdDBZjmJheDaZvCNezE8gWGcDIKkzEJyiPvZx
-	Co+pASmBXtUFv6ssHl/OQZ2807I7loOR9eNEE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=M2m1iAYp6UBrtXwGaZaSD0xfQ46OKES3IQZpVtGGSvo=;
-	b=WzWgNkyJGymTLUuSthvPhDu6xD702ncroLF5MG2iuEAAflXywCXoADg0OophDPopcJ
-	4uOBUnpk27V5x72gdaIi3F0/Cjk6HiWF3urum2QvDFIwaON6D8BwfiYMKfzn6y931/aI
-	erwobkYZCCHM2d/E1Q5wVntzsMhczrdlWAxM/30Eeyo0OhhL73eMLyBzcLBVc1DHCgcd
-	4amK7X7In6pOXxgneVpWtVtBgZhSHPDigLYF7sm3kMJXjcOh0mStbiMic0+p4qL6rXcl
-	pjR4VelBLL4bTIhKIaWoQHmYgE2nU/8QDnAlueBLlQwTtqeyIiu55/fhjCXeV1v/sxFA
-	xW3w==
-X-Gm-Message-State: APjAAAVb2IvchVSej9Sfhij4U87BzINJB00aLLt/v/VQBDv7aADYwiLZ
-	5gX0oJqohCoSoeNINiThP/aGfg==
-X-Google-Smtp-Source: APXvYqypB8XApzHYW67PTmtJy/WAuRkO34klq78D8UpzbW8RE/bdJpqBaicPcDbNv8tAdG5p23t3nQ==
-X-Received: by 2002:adf:91c2:: with SMTP id 60mr40674673wri.334.1564093776769; 
-	Thu, 25 Jul 2019 15:29:36 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n3sm44881646wrt.31.2019.07.25.15.29.35
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 25 Jul 2019 15:29:36 -0700 (PDT)
-Message-ID: <e14fe2b9f2fa5009794676e3e7e4b1837e80cb79.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Jens Rehsack <sno@netbsd.org>, Alexander Kanavin
-	<alex.kanavin@gmail.com>,  Tim Orling <ticotimo@gmail.com>, Khem Raj
-	<raj.khem@gmail.com>, Alberto =?UTF-8?Q?Sim=C3=B5es_=F0=9F=90=AA?=
-	<ambs@zbr.pt>, Leon Timmermans <fawaka@gmail.com>
-Date: Thu, 25 Jul 2019 23:29:34 +0100
-In-Reply-To: <A3D1BC0A-704E-4F87-9D63-86C8DBCBA1E7@netbsd.org>
-References: <A3D1BC0A-704E-4F87-9D63-86C8DBCBA1E7@netbsd.org>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: Ingmar Gebhardt <ige@ivu.de>, openembedded-devel@lists.openembedded.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Perl5 build issues (meta-cpan only?)
+	Thu, 25 Jul 2019 23:28:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id B200C40B37;
+	Thu, 25 Jul 2019 23:23:15 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id 3Cozd4ENRlu4; Thu, 25 Jul 2019 23:23:15 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
+	[100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 971A640B66;
+	Thu, 25 Jul 2019 23:23:14 +0000 (UTC)
+Received: from gimli.denix (unknown [192.168.30.6])
+	by mail.denix.org (Postfix) with ESMTP id A188217189D;
+	Thu, 25 Jul 2019 19:23:13 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jul 2019 19:22:59 -0400
+Message-Id: <1564096979-19730-2-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1564096979-19730-1-git-send-email-denis@denix.org>
+References: <1564096979-19730-1-git-send-email-denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH 2/2] weston: upgrade 6.0.0 -> 6.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,60 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 22:29:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jul 2019 23:28:43 -0000
 
-On Thu, 2019-07-25 at 14:52 +0200, Jens Rehsack wrote:
-> Maybe one or the other has already seen the following message in
-> connection with modules::Build-based Perl modules:
-> ERROR: hash-fieldhash-perl-0.15-r0 do_package_qa: QA Issue: No
-> GNU_HASH in the ELF binary /home/sno/gpw-community-bsp/gpw-yocto-
-> platform/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/hash-fieldhash-
-> perl/0.15-r0/packages-split/hash-fieldhash-
-> perl/usr/lib/perl5/vendor_perl/5.30.0/arm-
-> linux/auto/Hash/FieldHash/FieldHash.so, didn't pass LDFLAGS?
-> [ldflags]
-> ERROR: hash-fieldhash-perl-0.15-r0 do_package_qa: QA run found fatal
-> errors. Please consider fixing them.
-> ERROR: hash-fieldhash-perl-0.15-r0 do_package_qa:
-> ERROR: hash-fieldhash-perl-0.15-r0 do_package_qa: Function failed:
-> do_package_qa
-> ERROR: Logfile of failure stored in: /home/sno/gpw-community-bsp/gpw-
-> yocto-platform/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/hash-
-> fieldhash-perl/0.15-r0/temp/log.do_package_qa.12168
-> ERROR: Task (/home/sno/gpw-community-bsp/sources/meta-cpan/recipes-
-> devel/hash-fieldhash-perl/hash-fieldhash-perl_0.15.bb:do_package_qa)
-> failed with exit code '1'
-> 
-> I think the reason is in 
-> https://metacpan.org/source/AMBS/ExtUtils-CBuilder-0.280231/lib/ExtUtils/CBuilder/Base.pm#L319
-> where the arguments from ldflags are thrown away.
+From: Denys Dmytriyenko <denys@ti.com>
 
-That seems very likely, yes.
+Weston 6.0.1 is released with build system fixes to smooth the
+transition to Meson. Other miscellaneous bugfixes are also included.
+https://lists.freedesktop.org/archives/wayland-devel/2019-June/040661.html
 
-> When those issues came up somewhere else than in meta-cpan, please
-> let me know (only open-source ^^). We should develop a fix like 
-> https://github.com/meta-cpan/meta-cpan/commit/52ded0759daa3bff909bf5fac6d31c6bc52d713e
-> then ...
-> 
-> For now - I think Alberto should receive a patch to use ldflags, too.
-> 
-> I cannot decide how critic and important that is to make it into
-> perl-5.30.1 ...
-> When ExtUtils::CBuilder is properly fixed, no changed are required to
-> cpan_build.bbclass, aren't they?
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ meta/recipes-graphics/wayland/{weston_6.0.0.bb => weston_6.0.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_6.0.0.bb => weston_6.0.1.bb} (97%)
 
-I'm not sure I understand exactly what you're asking. I think that if
-the question is whether we should fix this in the perl recipe itself
-with a patch, so we don't have to add workarounds all over the
-metadata, I think the answer is yes, we should.
-
-It would obviously be ideal if such a change were a backported on which
-was accepted upstream so we don't have to carry the patch forever! :)
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/wayland/weston_6.0.0.bb b/meta/recipes-graphics/wayland/weston_6.0.1.bb
+similarity index 97%
+rename from meta/recipes-graphics/wayland/weston_6.0.0.bb
+rename to meta/recipes-graphics/wayland/weston_6.0.1.bb
+index fa08dac..95b5403 100644
+--- a/meta/recipes-graphics/wayland/weston_6.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_6.0.1.bb
+@@ -12,8 +12,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://xwayland.weston-start \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
+ "
+-SRC_URI[md5sum] = "7c634e262f8a464a076c97fd50ad36b3"
+-SRC_URI[sha256sum] = "546323a90607b3bd7f48809ea9d76e64cd09718102f2deca6d95aa59a882e612"
++SRC_URI[md5sum] = "e7b10710ef1eac82258f97bfd41fe534"
++SRC_URI[sha256sum] = "bf2f6d5aae2e11cabb6bd69a76bcf9edb084f8c3e14ca769bea7234a513155b4"
+ 
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ 
+-- 
+2.7.4
 
 
