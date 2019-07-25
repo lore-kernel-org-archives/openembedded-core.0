@@ -1,54 +1,39 @@
 Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
-	[209.85.208.52])
-	by mail.openembedded.org (Postfix) with ESMTP id F0FDC7F0B8
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F2C57F0EC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 07:21:12 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id k8so49252972edr.11
+	Thu, 25 Jul 2019 07:22:45 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id m8so13375734lji.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 00:21:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=YBuNLHvtHlr3XtQ3ZFiQ3Kfjw02xp7kU1P5btkc2N1Q=;
-	b=IwTfUKD+8Tf8Tl8P2B/8rRvk9vEhsrRfqgyZAPiyzG5xmwz0KnkgHYQP3xjk9xVZqN
-	u94lWTFJTcUY4vIka30FuGmwWyMlW0ZGgHaKK0Bzvt3A48Fl0CUo+R4o1KXbsolS868U
-	uTIva6a1e0V2kamPJStM6KTevBAeY/QrAMKgzkxfIrRL+TepS1rhd0nrgaBMmxPwDhbg
-	60BtWwL6yasDkkKwCHS7AarE1z8oKCR4xZ1yo8PGHxO2RWgZzb3tqmA1IbACCrQ4NhlN
-	5PQer6xcW6qKS+LLemVBRFTJiICY+QLLmVZbe1LUW4+JPlffe1HG2ZipxjIOayhpsax9
-	yRPA==
+	Thu, 25 Jul 2019 00:22:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=YBuNLHvtHlr3XtQ3ZFiQ3Kfjw02xp7kU1P5btkc2N1Q=;
-	b=XcqvC3L3A4JWAnCLXTUkzyLGZenmJ7neK/KtR/8HEVOBxQUZ+yeBMd9OcXaZ+BBaJu
-	RhhCUl0OYoV3SEQCHdiuG1asxXK0k5SmMKkaRs7413c7A8lEAN/PBIVpp1bvl2zP1XOT
-	NnYOY5p3FK/m+yNtF+2V2k9GzfKXjjqsOcFOMYBQTjh7yqJpvs1HxahTnadJgNoud4iU
-	ysiI2/yNVfak2xnbmKl4qTZiLx7XVkh+C5P0krL0QVxJEUcxbq4OKy0wFcc8NX4ICPMb
-	wtJizVJg9tkkdGSnXk2z/f/DT1HvjpI0Vok5zk0S94Vp5i1yIiyDxFMb4oACWbp7XiVa
-	wPug==
-X-Gm-Message-State: APjAAAXf6ziKaml2ygqxZSRrMh54WWaC63Sx50NXo0rjC6Kjvjaz1Iy4
-	Q08dqDKHvk6EFTgbx9qXFOE=
-X-Google-Smtp-Source: APXvYqygupANd48nTlFVVwoReal6kzhUkA+YTvLJwJylZDypduchaN41tGQqEhL9l5RWSPd0rh5tpw==
-X-Received: by 2002:a50:cd91:: with SMTP id p17mr76533833edi.35.1564039273441; 
-	Thu, 25 Jul 2019 00:21:13 -0700 (PDT)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id
-	cb19sm9699757ejb.51.2019.07.25.00.21.12
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 25 Jul 2019 00:21:12 -0700 (PDT)
-Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-To: anuj.mittal@intel.com, openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Thu, 25 Jul 2019 09:21:10 +0200
-Message-Id: <20190725072110.15924-1-ricardo@ribalda.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=8HZkeCOlvFBHaze51TdlLnhsYwLK/sgbSPzDTxRaCUk=;
+	b=YdjQOdUY6aSkevUpc0kcFIo4aiUaVyocxPXIeSjth5IGgAulrSxFVSY5EOBEMSUr6S
+	OHxl0wY/TtKfBOjCl+3hut3j5q3/vJ0hApibMs5Ehd2RvqGrZ3wZJ3YFxGMgV3IxTiNx
+	iR4DdNb1WKRFvECv9rVWJVXmgJ5LpBaHwqawTh8QCKEzlMKBuF/Eeyin7hWevUCQSJLP
+	qCnY4xOdSEjYbiVL/QSdlGEOCfM15G6AGcMPcU7P11p5pq6wggAu3QmugNooS9EABvFy
+	45lIi3loBazZzUxnl72Qyr7/J+w9l4pMK6SjNKjbpxYbs33zITdqbVIJb1O8M/cYHpTu
+	cuAw==
+X-Gm-Message-State: APjAAAU0i+2MemjY/5A2iJFdWZn9R3H1mmVrzJ8H+4F2MEP2tw1ass2e
+	kNw/JrTdn86Qn/t5660im5WAleKyL+tg982Wf6o=
+X-Google-Smtp-Source: APXvYqwcwnIPecEGBnjrPE9+f9nnDhxVP+NWHJzsWOQlgNiJvH/DOexQAfsgAl9a2xlHgsV9r+LdEfZHP/YgW7LaOzY=
+X-Received: by 2002:a2e:854d:: with SMTP id u13mr46422806ljj.236.1564039365961;
+	Thu, 25 Jul 2019 00:22:45 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Subject: [PATCH v2] packagegroup-core-base-utils: Make it machine specific
+References: <20190723123750.24125-1-ricardo@ribalda.com>
+	<8ef2c6da3338af5ff5de8a34bd96f30e8ac232dc.camel@intel.com>
+In-Reply-To: <8ef2c6da3338af5ff5de8a34bd96f30e8ac232dc.camel@intel.com>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Date: Thu, 25 Jul 2019 09:22:26 +0200
+Message-ID: <CAPybu_2=STY24V4NWfdZXft23U2hTvHXNRvKvPtoMx1qdOV0bg@mail.gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] packagegroup-core-base-utils: Make it machine specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,78 +46,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 07:21:13 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 25 Jul 2019 07:22:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Recipe makes use of the variable MACHINE_FEATURES, which is machine
-specific:
+Sorry about that, I did not catch that on my builder.
 
-  ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "kbd", "", d)}
+I have sent a v2 of the patch, please let me know if you prefer
+instead a "patch to fix the patch".
 
-This patch avoids multiconfig errors such as:
+Thanks!
 
-ERROR: mc:qt5222:packagegroup-core-base-utils-1.0-r0 do_package_qa_setscene: Error executing a python function in exec_python_func() autogenerated:
+On Thu, Jul 25, 2019 at 6:15 AM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> This is causing errors:
+>
+> Parsing recipes...ERROR: /home/pokybuild/yocto-
+> worker/multilib/build/meta/recipes-extended/packagegroups/packagegroup-
+> core-base-utils.bb: Please ensure recipe /home/pokybuild/yocto-
+> worker/multilib/build/meta/recipes-extended/packagegroups/packagegroup-
+> core-base-utils.bb sets PACKAGE_ARCH before inherit packagegroup
+> ERROR: /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
+> extended/packagegroups/packagegroup-core-base-utils.bb: Please ensure
+> recipe /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
+> extended/packagegroups/packagegroup-core-base-utils.bb sets
+> PACKAGE_ARCH before inherit packagegroup
+> ERROR: /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
+> extended/packagegroups/packagegroup-core-base-utils.bb: Please ensure
+> recipe /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
+> extended/packagegroups/packagegroup-core-base-utils.bb sets
+> PACKAGE_ARCH before inherit packagegroup
+> done.
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/879/steps/8/logs/step6b
+>
+> Thanks,
+>
+> Anuj
+>
+> On Tue, 2019-07-23 at 14:37 +0200, Ricardo Ribalda Delgado wrote:
+> > Recipe makes use of the variable MACHINE_FEATURES, which is machine
+> > specific:
+> >
+> >   ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "kbd", "", d)}
+> >
+> > This patch avoids multiconfig errors such as:
+> >
+> > ERROR: mc:qt5222:packagegroup-core-base-utils-1.0-r0
+> > do_package_qa_setscene: Error executing a python function in
+> > exec_python_func() autogenerated:
+> >
+> > The stack trace of python calls that resulted in this
+> > exception/failure was:
+> > File: 'exec_python_func() autogenerated', lineno: 2, function:
+> > <module>
+> >      0001:
+> >  *** 0002:do_package_qa_setscene(d)
+> >      0003:
+> > File: '/workdir/repo/poky/meta/classes/insane.bbclass', lineno: 1026,
+> > function: do_package_qa_setscene
+> >      1022:SSTATETASKS += "do_package_qa"
+> >      1023:do_package_qa[sstate-inputdirs] = ""
+> >      1024:do_package_qa[sstate-outputdirs] = ""
+> >      1025:python do_package_qa_setscene () {
+> >  *** 1026:    sstate_setscene(d)
+> >      1027:}
+> >      1028:addtask do_package_qa_setscene
+> >      1029:
+> >      1030:python do_qa_staging() {
+> >
+> > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+> > ---
+> >  .../packagegroups/packagegroup-core-base-utils.bb               | 2
+> > ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-
+> > base-utils.bb b/meta/recipes-extended/packagegroups/packagegroup-
+> > core-base-utils.bb
+> > index 611e0cafcc..935322cfe0 100644
+> > --- a/meta/recipes-extended/packagegroups/packagegroup-core-base-
+> > utils.bb
+> > +++ b/meta/recipes-extended/packagegroups/packagegroup-core-base-
+> > utils.bb
+> > @@ -9,6 +9,8 @@ inherit packagegroup
+> >
+> >  VIRTUAL-RUNTIME_vim ?= "vim-tiny"
+> >
+> > +PACKAGE_ARCH = "${MACHINE_ARCH}"
+> > +
+> >  RDEPENDS_${PN} = "\
+> >      base-passwd \
+> >      bash \
+> > --
+> > 2.20.1
+> >
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_package_qa_setscene(d)
-     0003:
-File: '/workdir/repo/poky/meta/classes/insane.bbclass', lineno: 1026, function: do_package_qa_setscene
-     1022:SSTATETASKS += "do_package_qa"
-     1023:do_package_qa[sstate-inputdirs] = ""
-     1024:do_package_qa[sstate-outputdirs] = ""
-     1025:python do_package_qa_setscene () {
- *** 1026:    sstate_setscene(d)
-     1027:}
-     1028:addtask do_package_qa_setscene
-     1029:
-     1030:python do_qa_staging() {
-
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-
-v2: Swap order of PACKAGE_ARCH = "${MACHINE_ARCH}" and  inherit packagegroup
-
-This is causing errors:
-
-Parsing recipes...ERROR: /home/pokybuild/yocto-
-worker/multilib/build/meta/recipes-extended/packagegroups/packagegroup-
-core-base-utils.bb: Please ensure recipe /home/pokybuild/yocto-
-worker/multilib/build/meta/recipes-extended/packagegroups/packagegroup-
-core-base-utils.bb sets PACKAGE_ARCH before inherit packagegroup
-ERROR: /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
-extended/packagegroups/packagegroup-core-base-utils.bb: Please ensure
-recipe /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
-extended/packagegroups/packagegroup-core-base-utils.bb sets
-PACKAGE_ARCH before inherit packagegroup
-ERROR: /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
-extended/packagegroups/packagegroup-core-base-utils.bb: Please ensure
-recipe /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
-extended/packagegroups/packagegroup-core-base-utils.bb sets
-PACKAGE_ARCH before inherit packagegroup
-done.
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/879/steps/8/logs/step6b
 
 
- .../packagegroups/packagegroup-core-base-utils.bb               | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
-index 611e0cafcc..18e227144a 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
-@@ -5,6 +5,8 @@
- SUMMARY = "Full-featured set of base utils"
- DESCRIPTION = "Package group bringing in packages needed to provide much of the base utils type functionality found in busybox"
- 
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
- inherit packagegroup
- 
- VIRTUAL-RUNTIME_vim ?= "vim-tiny"
 -- 
-2.20.1
-
+Ricardo Ribalda
 
