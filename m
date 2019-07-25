@@ -1,39 +1,23 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F2C57F0EC
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 46F647CE21
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 07:22:45 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id m8so13375734lji.7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 00:22:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8HZkeCOlvFBHaze51TdlLnhsYwLK/sgbSPzDTxRaCUk=;
-	b=YdjQOdUY6aSkevUpc0kcFIo4aiUaVyocxPXIeSjth5IGgAulrSxFVSY5EOBEMSUr6S
-	OHxl0wY/TtKfBOjCl+3hut3j5q3/vJ0hApibMs5Ehd2RvqGrZ3wZJ3YFxGMgV3IxTiNx
-	iR4DdNb1WKRFvECv9rVWJVXmgJ5LpBaHwqawTh8QCKEzlMKBuF/Eeyin7hWevUCQSJLP
-	qCnY4xOdSEjYbiVL/QSdlGEOCfM15G6AGcMPcU7P11p5pq6wggAu3QmugNooS9EABvFy
-	45lIi3loBazZzUxnl72Qyr7/J+w9l4pMK6SjNKjbpxYbs33zITdqbVIJb1O8M/cYHpTu
-	cuAw==
-X-Gm-Message-State: APjAAAU0i+2MemjY/5A2iJFdWZn9R3H1mmVrzJ8H+4F2MEP2tw1ass2e
-	kNw/JrTdn86Qn/t5660im5WAleKyL+tg982Wf6o=
-X-Google-Smtp-Source: APXvYqwcwnIPecEGBnjrPE9+f9nnDhxVP+NWHJzsWOQlgNiJvH/DOexQAfsgAl9a2xlHgsV9r+LdEfZHP/YgW7LaOzY=
-X-Received: by 2002:a2e:854d:: with SMTP id u13mr46422806ljj.236.1564039365961;
-	Thu, 25 Jul 2019 00:22:45 -0700 (PDT)
+	Thu, 25 Jul 2019 08:22:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6P8M14n003327
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Jul 2019 01:22:01 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 25 Jul 2019 01:22:00 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Thu, 25 Jul 2019 04:21:07 -0400
+Message-ID: <1564042867-156900-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-References: <20190723123750.24125-1-ricardo@ribalda.com>
-	<8ef2c6da3338af5ff5de8a34bd96f30e8ac232dc.camel@intel.com>
-In-Reply-To: <8ef2c6da3338af5ff5de8a34bd96f30e8ac232dc.camel@intel.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date: Thu, 25 Jul 2019 09:22:26 +0200
-Message-ID: <CAPybu_2=STY24V4NWfdZXft23U2hTvHXNRvKvPtoMx1qdOV0bg@mail.gmail.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] packagegroup-core-base-utils: Make it machine specific
+Subject: [PATCH] archive: fix racing between do_ar_patched and do_kernel_configme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,103 +30,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 07:22:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 25 Jul 2019 08:22:01 -0000
+Content-Type: text/plain
 
-Sorry about that, I did not catch that on my builder.
+While archive mode is 'patched', there is a probably racing between
+do_ar_patched and do_kernel_configme
+[snip]
+|File: 'oe-core/meta/classes/archiver.bbclass', lineno: 313, function: create_tarball
+...
+|Exception: FileNotFoundError: [Errno 2] No such file or directory: 'build/
+tmp-glibc/work-shared/qemux86-64/kernel-source/.tmp.config.DCUH7mUNe3'
+[snip]
 
-I have sent a v2 of the patch, please let me know if you prefer
-instead a "patch to fix the patch".
+Task do_kernel_configme will modify ${S}, and it broke create_tarball in
+do_ar_patched.
 
-Thanks!
+Order do_kernel_configme and do_ar_patched to avoid racing.
 
-On Thu, Jul 25, 2019 at 6:15 AM Mittal, Anuj <anuj.mittal@intel.com> wrote:
->
-> This is causing errors:
->
-> Parsing recipes...ERROR: /home/pokybuild/yocto-
-> worker/multilib/build/meta/recipes-extended/packagegroups/packagegroup-
-> core-base-utils.bb: Please ensure recipe /home/pokybuild/yocto-
-> worker/multilib/build/meta/recipes-extended/packagegroups/packagegroup-
-> core-base-utils.bb sets PACKAGE_ARCH before inherit packagegroup
-> ERROR: /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
-> extended/packagegroups/packagegroup-core-base-utils.bb: Please ensure
-> recipe /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
-> extended/packagegroups/packagegroup-core-base-utils.bb sets
-> PACKAGE_ARCH before inherit packagegroup
-> ERROR: /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
-> extended/packagegroups/packagegroup-core-base-utils.bb: Please ensure
-> recipe /home/pokybuild/yocto-worker/multilib/build/meta/recipes-
-> extended/packagegroups/packagegroup-core-base-utils.bb sets
-> PACKAGE_ARCH before inherit packagegroup
-> done.
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/879/steps/8/logs/step6b
->
-> Thanks,
->
-> Anuj
->
-> On Tue, 2019-07-23 at 14:37 +0200, Ricardo Ribalda Delgado wrote:
-> > Recipe makes use of the variable MACHINE_FEATURES, which is machine
-> > specific:
-> >
-> >   ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "kbd", "", d)}
-> >
-> > This patch avoids multiconfig errors such as:
-> >
-> > ERROR: mc:qt5222:packagegroup-core-base-utils-1.0-r0
-> > do_package_qa_setscene: Error executing a python function in
-> > exec_python_func() autogenerated:
-> >
-> > The stack trace of python calls that resulted in this
-> > exception/failure was:
-> > File: 'exec_python_func() autogenerated', lineno: 2, function:
-> > <module>
-> >      0001:
-> >  *** 0002:do_package_qa_setscene(d)
-> >      0003:
-> > File: '/workdir/repo/poky/meta/classes/insane.bbclass', lineno: 1026,
-> > function: do_package_qa_setscene
-> >      1022:SSTATETASKS += "do_package_qa"
-> >      1023:do_package_qa[sstate-inputdirs] = ""
-> >      1024:do_package_qa[sstate-outputdirs] = ""
-> >      1025:python do_package_qa_setscene () {
-> >  *** 1026:    sstate_setscene(d)
-> >      1027:}
-> >      1028:addtask do_package_qa_setscene
-> >      1029:
-> >      1030:python do_qa_staging() {
-> >
-> > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > ---
-> >  .../packagegroups/packagegroup-core-base-utils.bb               | 2
-> > ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-
-> > base-utils.bb b/meta/recipes-extended/packagegroups/packagegroup-
-> > core-base-utils.bb
-> > index 611e0cafcc..935322cfe0 100644
-> > --- a/meta/recipes-extended/packagegroups/packagegroup-core-base-
-> > utils.bb
-> > +++ b/meta/recipes-extended/packagegroups/packagegroup-core-base-
-> > utils.bb
-> > @@ -9,6 +9,8 @@ inherit packagegroup
-> >
-> >  VIRTUAL-RUNTIME_vim ?= "vim-tiny"
-> >
-> > +PACKAGE_ARCH = "${MACHINE_ARCH}"
-> > +
-> >  RDEPENDS_${PN} = "\
-> >      base-passwd \
-> >      bash \
-> > --
-> > 2.20.1
-> >
+Also improve sstatesig.py to respect commit [fed0ed8 archiver.bbclass: do
+not cause kernel rebuilds]
 
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/archiver.bbclass | 8 ++++++--
+ meta/lib/oe/sstatesig.py      | 3 ++-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index af9f010..72ce34a 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -487,7 +487,11 @@ python () {
+     # Add tasks in the correct order, specifically for linux-yocto to avoid race condition.
+     # sstatesig.py:sstate_rundepfilter has special support that excludes this dependency
+     # so that do_kernel_configme does not need to run again when do_unpack_and_patch
+-    # gets added or removed (by adding or removing archiver.bbclass).
++    # or do_ar_patched gets added or removed (by adding or removing archiver.bbclass).
+     if bb.data.inherits_class('kernel-yocto', d):
+-        bb.build.addtask('do_kernel_configme', 'do_configure', 'do_unpack_and_patch', d)
++        ar_src = d.getVarFlag('ARCHIVER_MODE', 'src')
++        if ar_src == "patched":
++            bb.build.addtask('do_kernel_configme', 'do_configure', 'do_ar_patched', d)
++        else:
++            bb.build.addtask('do_kernel_configme', 'do_configure', 'do_unpack_and_patch', d)
+ }
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 13af16e..b1b9c39 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -28,7 +28,8 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
+     # The exception is the special do_kernel_configme->do_unpack_and_patch
+     # dependency from archiver.bbclass.
+     if recipename == depname:
+-        if task == "do_kernel_configme" and dep.endswith(".do_unpack_and_patch"):
++        if task == "do_kernel_configme" and (dep.endswith(".do_unpack_and_patch") or \
++                                             dep.endswith(".do_ar_patched")):
+             return False
+         return True
+ 
 -- 
-Ricardo Ribalda
+2.8.1
+
 
