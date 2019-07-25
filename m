@@ -1,18 +1,43 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 792907E5F5;
-	Thu, 25 Jul 2019 18:01:48 +0000 (UTC)
+Return-Path: <FredericOuellet@eaton.com>
+Received: from simtcimsva03.etn.com (mail.eaton.com [192.104.67.6])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D43160557
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2019 19:18:35 +0000 (UTC)
+Received: from simtcimsva03.etn.com (simtcimsva03.etn.com [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D208EA415D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2019 15:18:35 -0400 (EDT)
+Received: from simtcimsva03.etn.com (simtcimsva03.etn.com [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D046AA4109
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2019 15:18:35 -0400 (EDT)
+Received: from SIMTCSGWY04.napa.ad.etn.com (simtcsgwy04.napa.ad.etn.com
+	[151.110.126.121]) by simtcimsva03.etn.com (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2019 15:18:35 -0400 (EDT)
+Received: from CASROWHP6063516-VML1.eaton.ad.etn.com (10.106.181.101) by
+	SIMTCSGWY04.napa.ad.etn.com (151.110.126.205) with Microsoft SMTP
+	Server id 14.3.408.0; Thu, 25 Jul 2019 15:18:19 -0400
+From: Frederic Ouellet <fredericouellet@eaton.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Jul 2019 15:18:17 -0400
+Message-ID: <1564082297-6297-1-git-send-email-fredericouellet@eaton.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Frederic Ouellet <fredericouellet@eaton.com>
-Date: Thu, 25 Jul 2019 18:01:50 -0000
-Message-ID: <20190725180150.2329.78312@do>
-References: <1564075871-5248-1-git-send-email-fredericouellet@eaton.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1564075871-5248-1-git-send-email-fredericouellet@eaton.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWRkIHBhcnRpYWwgc3VwcG9ydCBvZiBkcm9wLWluIGNvbmZpZ3VyYXRpb24gZmlsZXMgdG8gc3lzdGVtZC1zeXN0ZW1jdGwtbmF0aXZlIHNjcmlwdA==?=
+X-EXCLAIMER-MD-CONFIG: 96b59d02-bc1a-4a40-8c96-611cac62bce9
+X-TM-SNTS-SMTP: EF9EBD9FC301F7269513EA9018FAB4F33D65F69B636B7DC65E1D753C1EBB91992002:8
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSVA-9.1.0.1817-8.5.0.1020-24798.001
+X-TM-AS-Result: No--7.105-10.0-31-10
+X-imss-scan-details: No--7.105-10.0-31-10
+X-TMASE-Version: IMSVA-9.1.0.1817-8.5.1020-24798.001
+X-TMASE-Result: 10--7.105200-10.000000
+X-TMASE-MatchedRID: uc5cNCUKFYp0abwLl8OMVZxVZzZr7+O7+LljbN4c70MQ6IKhv9EC6Feh
+	ickTy3ziVL7YbuOsNC8hCBJ5VoC96ZWbeF6SCfG1PwKTD1v8YV5MkOX0UoduuazG9MIKeG/GC7w
+	CgDJ8bdGf7qMlTsJfYov9sGOtq3aSaTkWqXcVpruQgeuUY0WN7H0tCKdnhB589yM15V5aWpj6C0
+	ePs7A07cN/HV0XjLV3/cD+5Nu0KszUoDw7odWzbSdrXxIG4z1TtheTy2BJ6m1WXGvUUmKP2w==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-12:0,22:0,33:0,34:0-0
+Subject: [PATCH] systemd: Add partial support of drop-in configuration files to systemd-systemctl-native script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +50,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 18:01:48 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jul 2019 19:18:35 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Support for serive-name.service.d/ folders containing .conf files
+It don't support all the partial folder names
 
-Series: Add partial support of drop-in configuration files to systemd-systemctl-native script
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/18895/
-State : failure
+See https://www.freedesktop.org/software/systemd/man/systemd.unit.html
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            Add partial support of drop-in configuration files to systemd-systemctl-native script
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Frederic Ouellet <fredericouellet@eaton.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-core/systemd/systemd-systemctl/systemctl | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index 8d7b3ba..8837f54 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -28,6 +28,10 @@ class SystemdFile():
+     def __init__(self, root, path):
+         self.sections = dict()
+         self._parse(root, path)
++        dirname = os.path.basename(path.name) + ".d"
++        for location in locations:
++            for path2 in sorted((root / location / "system" / dirname).glob("*.conf")):                
++                self._parse(root, path2)
+ 
+     def _parse(self, root, path):
+         """Parse a systemd syntax configuration file
+@@ -56,8 +60,11 @@ class SystemdFile():
+                 line = line.rstrip("\n")
+                 m = section_re.match(line)
+                 if m:
+-                    section = dict()
+-                    self.sections[m.group('section')] = section
++                    if m.group('section') not in self.sections:
++                        section = dict()
++                        self.sections[m.group('section')] = section
++                    else:
++                        section = self.sections[m.group('section')]
+                     continue
+ 
+                 while line.endswith("\\"):
+-- 
+2.7.4
 
 
