@@ -1,35 +1,31 @@
 Return-Path: <denis@denix.org>
-X-Greylist: delayed 328 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 25 Jul 2019 23:28:42 UTC
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 2313E7F0F6
+	by mail.openembedded.org (Postfix) with ESMTP id 2213A7F013
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 25 Jul 2019 23:28:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id B200C40B37;
+	by mailout4.zoneedit.com (Postfix) with ESMTP id A577C40BCF;
 	Thu, 25 Jul 2019 23:23:15 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id 3Cozd4ENRlu4; Thu, 25 Jul 2019 23:23:15 +0000 (UTC)
+	with ESMTP id OBhXFQPpxb2s; Thu, 25 Jul 2019 23:23:15 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
 	[100.15.86.127])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 971A640B66;
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 888A240B37;
 	Thu, 25 Jul 2019 23:23:14 +0000 (UTC)
 Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id A188217189D;
+	by mail.denix.org (Postfix) with ESMTP id 94DC217183F;
 	Thu, 25 Jul 2019 19:23:13 -0400 (EDT)
 From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jul 2019 19:22:59 -0400
-Message-Id: <1564096979-19730-2-git-send-email-denis@denix.org>
+Date: Thu, 25 Jul 2019 19:22:58 -0400
+Message-Id: <1564096979-19730-1-git-send-email-denis@denix.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1564096979-19730-1-git-send-email-denis@denix.org>
-References: <1564096979-19730-1-git-send-email-denis@denix.org>
 Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 2/2] weston: upgrade 6.0.0 -> 6.0.1
+Subject: [PATCH 1/2] wayland-protocols: upgrade 1.17 -> 1.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,31 +42,31 @@ X-List-Received-Date: Thu, 25 Jul 2019 23:28:43 -0000
 
 From: Denys Dmytriyenko <denys@ti.com>
 
-Weston 6.0.1 is released with build system fixes to smooth the
-transition to Meson. Other miscellaneous bugfixes are also included.
-https://lists.freedesktop.org/archives/wayland-devel/2019-June/040661.html
+This version comes with documentational clarifications, bug fixes and minor
+additions to existing protocols. See the commit log for details.
+https://lists.freedesktop.org/archives/wayland-devel/2019-July/040756.html
 
 Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
- meta/recipes-graphics/wayland/{weston_6.0.0.bb => weston_6.0.1.bb} | 4 ++--
+ .../wayland/{wayland-protocols_1.17.bb => wayland-protocols_1.18.bb}  | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{weston_6.0.0.bb => weston_6.0.1.bb} (97%)
+ rename meta/recipes-graphics/wayland/{wayland-protocols_1.17.bb => wayland-protocols_1.18.bb} (86%)
 
-diff --git a/meta/recipes-graphics/wayland/weston_6.0.0.bb b/meta/recipes-graphics/wayland/weston_6.0.1.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/weston_6.0.0.bb
-rename to meta/recipes-graphics/wayland/weston_6.0.1.bb
-index fa08dac..95b5403 100644
---- a/meta/recipes-graphics/wayland/weston_6.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_6.0.1.bb
-@@ -12,8 +12,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://xwayland.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
- "
--SRC_URI[md5sum] = "7c634e262f8a464a076c97fd50ad36b3"
--SRC_URI[sha256sum] = "546323a90607b3bd7f48809ea9d76e64cd09718102f2deca6d95aa59a882e612"
-+SRC_URI[md5sum] = "e7b10710ef1eac82258f97bfd41fe534"
-+SRC_URI[sha256sum] = "bf2f6d5aae2e11cabb6bd69a76bcf9edb084f8c3e14ca769bea7234a513155b4"
+diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.17.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.18.bb
+similarity index 86%
+rename from meta/recipes-graphics/wayland/wayland-protocols_1.17.bb
+rename to meta/recipes-graphics/wayland/wayland-protocols_1.18.bb
+index ca8f06c..c8bec66 100644
+--- a/meta/recipes-graphics/wayland/wayland-protocols_1.17.bb
++++ b/meta/recipes-graphics/wayland/wayland-protocols_1.18.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
+ 
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            "
+-SRC_URI[md5sum] = "55ddd5fdb02b73b9de9559aaec267315"
+-SRC_URI[sha256sum] = "df1319cf9705643aea9fd16f9056f4e5b2471bd10c0cc3713d4a4cdc23d6812f"
++SRC_URI[md5sum] = "af38f22d8e233c2f2e00ddc8dcc94694"
++SRC_URI[sha256sum] = "3d73b7e7661763dc09d7d9107678400101ecff2b5b1e531674abfa81e04874b3"
  
  UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
  
