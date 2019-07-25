@@ -1,18 +1,30 @@
-Return-Path: <tworaz@tworaz.net>
-Received: from mail.tworaz.net (tworaz.net [139.162.170.142])
-	by mail.openembedded.org (Postfix) with ESMTP id 96D707D3A6
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DF3B7D537
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2019 20:33:57 +0000 (UTC)
-Received: from raven.lan (87-206-69-189.dynamic.chello.pl [87.206.69.189])
-	by mail.tworaz.net (Postfix) with ESMTPSA id 33378102833;
-	Wed, 24 Jul 2019 20:33:58 +0000 (UTC)
-From: Piotr Tworek <tworaz@tworaz.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jul 2019 22:33:50 +0200
-Message-Id: <20190724203350.26659-1-tworaz@tworaz.net>
-X-Mailer: git-send-email 2.21.0
+	Thu, 25 Jul 2019 01:00:32 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,304,1559491200"; d="scan'208";a="72151065"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 25 Jul 2019 09:00:25 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id E973B4CDE923
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2019 09:00:27 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 25 Jul 2019 09:00:34 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Jul 2019 08:59:43 +0800
+Message-ID: <20190725005943.27855-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [meta-oe][PATCH] pulseaudio: Backport upstream fix new alsa compatibility.
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: E973B4CDE923.A96D2
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] iso-codes:upgrade 4.2 -> 4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,92 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2019 20:33:58 -0000
+X-List-Received-Date: Thu, 25 Jul 2019 01:00:33 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Recent alsa upgrade stripped /usr/include/alsa directory from include
-path reported by pkgconfig. Due to this pulseaudio 12.2 configure script
-can find alsa's use-case.h header which in turn results in HAVE_ALSA_UCM
-being undefined. This turn results in pa_alsa_ucm_device_update_available
-symbol missing even though libalsa-util.so needs it. Once could argue
-pulseaudio should not allow undefined symmbols in its shared modules.
-Unfortunately it does and due to this current OE builds of pulseaudio
-crash when the server tries to dlopen any module using libalsa-util.so.
-
-Fix this by backporting ustream alsa header include fix.
-
-Signed-off-by: Piotr Tworek <tworaz@tworaz.net>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- ...001-alsa-Fix-inclusion-of-use-case.h.patch | 46 +++++++++++++++++++
- .../pulseaudio/pulseaudio_12.2.bb             |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-alsa-Fix-inclusion-of-use-case.h.patch
+ .../iso-codes/{iso-codes_4.2.bb => iso-codes_4.3.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/iso-codes/{iso-codes_4.2.bb => iso-codes_4.3.bb} (92%)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-alsa-Fix-inclusion-of-use-case.h.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-alsa-Fix-inclusion-of-use-case.h.patch
-new file mode 100644
-index 0000000000..15026a2f83
---- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-alsa-Fix-inclusion-of-use-case.h.patch
-@@ -0,0 +1,46 @@
-+From b89d33bb182c42db5ad3987b0e91b7bf62f421e8 Mon Sep 17 00:00:00 2001
-+From: Takashi Iwai <tiwai@suse.de>
-+Date: Sun, 21 Apr 2019 11:59:30 +0200
-+Subject: [PATCH] alsa: Fix inclusion of use-case.h
-+
-+The recent change in ALSA upstream stripped -I$include/alsa path from
-+pkgconfig.  We already fixed for this change in some places but still
-+the code for UCM was overlooked, and this resulted in the unresolved
-+symbols in alsa card module. Fix them as well.
-+
-+Signed-off-by: Takashi Iwai <tiwai@suse.de>
-+Upstream-Status: Backport
-+---
-+ configure.ac                | 2 +-
-+ src/modules/alsa/alsa-ucm.h | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index c004bd70d..b44ed1595 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -826,7 +826,7 @@ AS_IF([test "x$enable_alsa" = "xyes" && test "x$HAVE_ALSA" = "x0"],
-+ AS_IF([test "x$HAVE_ALSA" = "x1"],
-+     [
-+         save_CPPFLAGS="$CPPFLAGS"; CPPFLAGS="$CPPFLAGS $ASOUNDLIB_CFLAGS"
-+-        AC_CHECK_HEADERS([use-case.h], HAVE_ALSA_UCM=1, HAVE_ALSA_UCM=0)
-++        AC_CHECK_HEADERS([alsa/use-case.h], HAVE_ALSA_UCM=1, HAVE_ALSA_UCM=0)
-+         CPPFLAGS="$save_CPPFLAGS"
-+     ],
-+     HAVE_ALSA_UCM=0)
-+diff --git a/src/modules/alsa/alsa-ucm.h b/src/modules/alsa/alsa-ucm.h
-+index 53abf3f90..c926f3cc3 100644
-+--- a/src/modules/alsa/alsa-ucm.h
-++++ b/src/modules/alsa/alsa-ucm.h
-+@@ -23,7 +23,7 @@
-+ ***/
-+ 
-+ #ifdef HAVE_ALSA_UCM
-+-#include <use-case.h>
-++#include <alsa/use-case.h>
-+ #else
-+ typedef void snd_use_case_mgr_t;
-+ #endif
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-index c020fbd4f6..88b4975a66 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-@@ -3,6 +3,7 @@ require pulseaudio.inc
- SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
-            file://0001-introduce-a-special-build-flag-to-explicitly-disable.patch \
-+           file://0001-alsa-Fix-inclusion-of-use-case.h.patch \
-            file://0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch \
-            file://volatiles.04_pulse \
-            "
+diff --git a/meta/recipes-support/iso-codes/iso-codes_4.2.bb b/meta/recipes-support/iso-codes/iso-codes_4.3.bb
+similarity index 92%
+rename from meta/recipes-support/iso-codes/iso-codes_4.2.bb
+rename to meta/recipes-support/iso-codes/iso-codes_4.3.bb
+index 15130dd7c4..5651a96c66 100644
+--- a/meta/recipes-support/iso-codes/iso-codes_4.2.bb
++++ b/meta/recipes-support/iso-codes/iso-codes_4.3.bb
+@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=http"
+-SRCREV = "58a4f20f8e6f4d8f9545333f3eae4cfe5678de16"
++SRCREV = "43398a317371e309361ce43072603863cb2f57e1"
+ 
+ # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
+ # are inhibited by allarch
 -- 
-2.21.0
+2.20.1
+
+
 
 
