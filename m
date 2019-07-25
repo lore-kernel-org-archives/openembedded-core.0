@@ -1,36 +1,34 @@
-Return-Path: <Daniel.Klauer@gin.de>
-X-Greylist: delayed 915 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 25 Jul 2019 12:58:30 UTC
-Received: from good-out-07.clustermail.de (good-out-07.clustermail.de
-	[212.223.35.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E13B7EE86
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 322726C45D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 12:58:30 +0000 (UTC)
-Received: from [10.0.0.17] (helo=frontend.clustermail.de)
-	by smtpout-02.clustermail.de with esmtp (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>) id 1hqd5S-0005XV-Rv
-	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Jul 2019 14:43:16 +0200
-Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
-	by frontend.clustermail.de with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>) id 1hqd5S-0003PY-Pw
-	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Jul 2019 14:43:10 +0200
-Received: from [10.160.138.39] (10.160.138.39) by Win2012-02.gin-domain.local
-	(192.168.1.12) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Thu, 25 Jul 2019 14:43:10 +0200
-To: <openembedded-core@lists.openembedded.org>
-From: Daniel Klauer <daniel.klauer@gin.de>
-Message-ID: <dad4085c-9767-f4bc-e89e-462166f09d8b@gin.de>
-Date: Thu, 25 Jul 2019 14:43:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Thu, 25 Jul 2019 13:12:15 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 7D3485C04DF;
+	Thu, 25 Jul 2019 15:12:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1564060333;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=hPKWUjapvS8G87C8XbaxP5Rb40/VcY04LvUJLDuR9qk=;
+	b=ON0o09M25DwIEnYlrc/FA4f3Pnak1xlKrvHxkXJlEeZAdydEDHuJVg/T/lentsip8jtwrH
+	Ec1eTjmxazonz6no+tcZ3V/lMk3S6ebtxMXVm4orxMfQzfyPqKDGQEOzB4qcNrVLUrC6wE
+	wHaff/OWoenEN0QFwxDK1YVEXGahxVw=
 MIME-Version: 1.0
-X-Originating-IP: [10.160.138.39]
-X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
-	Win2012-02.gin-domain.local (192.168.1.12)
-Subject: package.bbclass behaviour with multiple providers of a shared library
+Date: Thu, 25 Jul 2019 15:12:13 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: liu.ming50@gmail.com
+In-Reply-To: <1564054891-8168-1-git-send-email-liu.ming50@gmail.com>
+References: <1564054891-8168-1-git-send-email-liu.ming50@gmail.com>
+Message-ID: <c1defd307036043cf35dc7b6ced68c08@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.9
+Cc: Ming Liu <ming.liu@toradex.com>, luka.pivk@toradex.com,
+	Stefan Agner <stefan.agner@toradex.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] weston: change to use meson build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,98 +41,367 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 12:58:30 -0000
-X-Groupsio-MsgNum: 127168
-Content-Type: multipart/mixed; boundary="------------CE3F1FC4790B0140A4889C6B"
-Content-Language: en-US
+X-List-Received-Date: Thu, 25 Jul 2019 13:12:15 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
---------------CE3F1FC4790B0140A4889C6B
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Ming,
 
-Hi oe-core devs,
+Thanks for working on that!
 
-looking at package.bbclass and in particular the read_shlib_providers()
-function (although, without having fully understood it):
+On 2019-07-25 13:41, liu.ming50@gmail.com wrote:
+> From: Ming Liu <ming.liu@toradex.com>
+> 
+> The changes include:
+> - Drop all autotools related patches.
+> - Move weston-launch setuid-install to do_install task since it's not
+>   supported yet by meson build.
+> - Drop cairo-glesv2 package config, it's not supported by meson build,
+>   it is hardcoded to cairo-image for now in weston source.
 
-For scanning the SHLIBSDIRS, it uses os.listdir() but seemingly without
-sorting. There is a comment saying "the last one found wins". Couldn't
-this cause "undefined" behaviour in case there are multiple providers of
-a shared library? (meaning sometimes one provider wins, sometimes the
-others, since they are in separate files in the SHLIBSDIRS)
+It seem that upstream recommends cairo image anyway (see README.md). I
+am not exactly sure why, but this bug seems to indicate that using the
+image backend is more efficient?
+https://gitlab.freedesktop.org/wayland/weston/issues/46
 
-Specifically, I saw a build failure, which I can't seem to reproduce
-anymore now, with meta-freescale's openssl-qoriq, which packages
-libcrypto.so.1.1/libssl.so.1.1 in libcrypto/libssl packages but also in
-a openssl-qoriq-ptest package.
+I actually realized that meta-freescale uses the cairo-glesv2 package
+config. 
 
-=2E../tmp/pkgdata/lx2160ardb/shlibs2$ grep -r
-'libssl\.so\.1\.1\|libcrypto\.so\.1\.1'
-openssl-qoriq-ptest.list:libssl.so.1.1:/usr/lib/openssl-qoriq/ptest:1.1.0=
-g
-openssl-qoriq-ptest.list:libcrypto.so.1.1:/usr/lib/openssl-qoriq/ptest:1.=
-1.0g
-libcrypto.list:libcrypto.so.1.1:/usr/lib:1.1.0g
-libssl.list:libssl.so.1.1:/usr/lib:1.1.0g
+[added Tom to CC who added the package config a while ago]
 
-Kind regards,
-Daniel
+I guess we should send a patch to remove that.
 
---------------CE3F1FC4790B0140A4889C6B
-Content-Type: application/pgp-keys; name="pEpkey.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment; filename="pEpkey.asc"
+Otherwise the patch looks good to me. I like the fact that this patch
+mostly migrates 1:1 to Meson without changing anything else.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+--
+Stefan
 
-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
-i0nr
-=3DtIpE
------END PGP PUBLIC KEY BLOCK-----
 
---------------CE3F1FC4790B0140A4889C6B--
+> - Introduce remoting package config, without it meson would run into a
+>   build error.
+> 
+> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+> Signed-off-by: Ming Liu <ming.liu@toradex.com>
+> ---
+>  .../wayland/weston/0001-make-error-portable.patch  | 34 ++++----
+>  ...ch-Provide-a-default-version-that-doesn-t.patch | 93 ++++++++++++++--------
+>  meta/recipes-graphics/wayland/weston_6.0.0.bb      | 48 +++++------
+>  3 files changed, 101 insertions(+), 74 deletions(-)
+> 
+> diff --git
+> a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+> b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+> index 0eb3d95..acea9db 100644
+> --- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+> +++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+> @@ -9,27 +9,14 @@ kind of systemsi e.g. musl.
+>  Upstream-Status: Submitted
+>  
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> +Signed-off-by: Ming Liu <ming.liu@toradex.com>
+>  ---
+> - configure.ac              |  2 ++
+>   libweston/weston-error.h  | 20 ++++++++++++++++++++
+>   libweston/weston-launch.c |  2 +-
+> - 3 files changed, 23 insertions(+), 1 deletion(-)
+> + meson.build               |  1 +
+> + 3 files changed, 22 insertions(+), 1 deletion(-)
+>   create mode 100644 libweston/weston-error.h
+>  
+> -diff --git a/configure.ac b/configure.ac
+> -index c05ad01..6da6e04 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -126,6 +126,8 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+> - 	      [AC_MSG_ERROR("CLOCK_MONOTONIC is needed to compile weston")],
+> - 	      [[#include <time.h>]])
+> - 
+> -+AC_CHECK_HEADERS([error.h])
+> -+
+> - AC_CHECK_FUNCS([mkostemp strchrnul initgroups posix_fallocate])
+> - 
+> - # check for libdrm as a build-time dependency only
+>  diff --git a/libweston/weston-error.h b/libweston/weston-error.h
+>  new file mode 100644
+>  index 0000000..2089d02
+> @@ -76,3 +63,18 @@ index bf73e0d..9064439 100644
+>   
+>   #define DRM_MAJOR 226
+>   
+> +diff --git a/meson.build b/meson.build
+> +index 2155b7b..baa52d9 100644
+> +--- a/meson.build
+> ++++ b/meson.build
+> +@@ -94,6 +94,7 @@ foreach func : optional_libc_funcs
+> + endforeach
+> + 
+> + optional_system_headers = [
+> ++	'error.h',
+> + 	'linux/sync_file.h'
+> + ]
+> + foreach hdr : optional_system_headers
+> +-- 
+> +2.7.4
+> +
+> diff --git
+> a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+> b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+> index a2f61bf..81cc025 100644
+> ---
+> a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+> +++
+> b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+> @@ -15,44 +15,46 @@ Upstream-Status: Pending
+>  Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+>  Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>  Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> -
+> +Signed-off-by: Ming Liu <ming.liu@toradex.com>
+>  ---
+> - configure.ac              |  9 +++++++--
+> + libweston/meson.build     | 16 ++++++++++++----
+>   libweston/weston-launch.c | 20 ++++++++++++++++++++
+> - 2 files changed, 27 insertions(+), 2 deletions(-)
+> + meson_options.txt         |  7 +++++++
+> + 3 files changed, 39 insertions(+), 4 deletions(-)
+>  
+> -diff --git a/configure.ac b/configure.ac
+> -index 6da6e04..681f7c8 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -515,13 +515,17 @@ AC_ARG_ENABLE(resize-optimization,
+> - AS_IF([test "x$enable_resize_optimization" = "xyes"],
+> -       [AC_DEFINE([USE_RESIZE_POOL], [1], [Use resize memory pool as
+> a performance optimization])])
+> - 
+> -+AC_ARG_WITH(pam,
+> -+            AS_HELP_STRING([--with-pam], [Use PAM]),
+> -+            [use_pam=$withval], [use_pam=yes])
+> - AC_ARG_ENABLE(weston-launch, [  --enable-weston-launch],,
+> enable_weston_launch=yes)
+> - AM_CONDITIONAL(BUILD_WESTON_LAUNCH, test x$enable_weston_launch = xyes)
+> --if test x$enable_weston_launch = xyes; then
+> -+if test x$enable_weston_launch = xyes -a x$use_pam = xyes; then
+> -   WESTON_SEARCH_LIBS([PAM], [pam], [pam_open_session],
+> [have_pam=yes], [have_pam=no])
+> -   if test x$have_pam = xno; then
+> --    AC_ERROR([weston-launch requires pam])
+> -+    AC_ERROR([PAM support is explicitly requested, but libpam
+> couldn't be found])
+> -   fi
+> -+  AC_DEFINE([HAVE_PAM], [1], [Define if PAM is available])
+> - fi
+> - 
+> - AM_CONDITIONAL(HAVE_PANGO, test "x$have_pango" = "xyes")
+> -@@ -767,6 +771,7 @@ AC_MSG_RESULT([
+> - 	Enable developer documentation	${enable_devdocs}
+> - 
+> - 	weston-launch utility		${enable_weston_launch}
+> -+	PAM support			${use_pam}
+> - 	systemd-login support		${have_systemd_login}
+> - 	systemd notify support		${enable_systemd_notify}
+> - 
+> +diff --git a/libweston/meson.build b/libweston/meson.build
+> +index 33ab970..32f495a 100644
+> +--- a/libweston/meson.build
+> ++++ b/libweston/meson.build
+> +@@ -472,16 +472,24 @@ if get_option('renderer-gl')
+> + endif
+> + 
+> + if get_option('weston-launch')
+> +-	dep_pam = cc.find_library('pam')
+> ++	deps_weston_launch = [systemd_dep, dep_libdrm]
+> + 
+> +-	if not cc.has_function('pam_open_session', dependencies: dep_pam)
+> +-		error('pam_open_session not found for weston-launch')
+> ++	if get_option('pam')
+> ++		dep_pam = cc.find_library('pam')
+> ++		if not cc.has_function('pam_open_session', dependencies: dep_pam)
+> ++			error('pam_open_session not found for weston-launch')
+> ++		endif
+> ++
+> ++		if dep_pam.found()
+> ++			deps_weston_launch += dep_pam
+> ++			config_h.set('HAVE_PAM', '1')
+> ++		endif
+> + 	endif
+> + 
+> + 	executable(
+> + 		'weston-launch',
+> + 		'weston-launch.c',
+> +-		dependencies: [dep_pam, systemd_dep, dep_libdrm],
+> ++		dependencies: deps_weston_launch,
+> + 		include_directories: include_directories('..'),
+> + 		install: true
+> + 	)
+>  diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
+>  index 9064439..c6abe92 100644
+>  --- a/libweston/weston-launch.c
+> @@ -172,3 +174,24 @@ index 9064439..c6abe92 100644
+>   
+>   	if (setup_launcher_socket(&wl) < 0)
+>   		exit(EXIT_FAILURE);
+> +diff --git a/meson_options.txt b/meson_options.txt
+> +index 0e1d183..9a5c3d5 100644
+> +--- a/meson_options.txt
+> ++++ b/meson_options.txt
+> +@@ -73,6 +73,13 @@ option(
+> + )
+> + 
+> + option(
+> ++	'pam',
+> ++	type: 'boolean',
+> ++	value: true,
+> ++	description: 'Define if PAM is available'
+> ++)
+> ++
+> ++option(
+> + 	'xwayland',
+> + 	type: 'boolean',
+> + 	value: true,
+> +-- 
+> +2.7.4
+> +
+> diff --git a/meta/recipes-graphics/wayland/weston_6.0.0.bb
+> b/meta/recipes-graphics/wayland/weston_6.0.0.bb
+> index fa08dac..19e24b3 100644
+> --- a/meta/recipes-graphics/wayland/weston_6.0.0.bb
+> +++ b/meta/recipes-graphics/wayland/weston_6.0.0.bb
+> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM =
+> "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
+>  SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+>             file://weston.png \
+>             file://weston.desktop \
+> -           file://0001-make-error-portable.patch \
+>             file://xwayland.weston-start \
+> +           file://0001-make-error-portable.patch \
+>            
+> file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
+> \
+>  "
+>  SRC_URI[md5sum] = "7c634e262f8a464a076c97fd50ad36b3"
+> @@ -17,7 +17,7 @@ SRC_URI[sha256sum] =
+> "546323a90607b3bd7f48809ea9d76e64cd09718102f2deca6d95aa59a8
+>  
+>  UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+>  
+> -inherit autotools pkgconfig useradd distro_features_check
+> +inherit meson pkgconfig useradd distro_features_check
+>  # depends on virtual/egl
+>  REQUIRED_DISTRO_FEATURES = "opengl"
+>  
+> @@ -26,10 +26,8 @@ DEPENDS += "wayland wayland-protocols libinput
+> virtual/egl pango wayland-native"
+>  
+>  WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+>  
+> -EXTRA_OECONF = "--enable-setuid-install \
+> -                --disable-rdp-compositor \
+> -                --enable-autotools \
+> -                "
+> +EXTRA_OEMESON += "-Dbackend-default=auto -Dbackend-rdp=false"
+> +
+>  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland',
+> 'kms fbdev wayland egl', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11
+> wayland', 'xwayland', '', d)} \
+>                     ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd
+> x11', d)} \
+> @@ -38,37 +36,37 @@ PACKAGECONFIG ??=
+> "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev
+>  # Compositor choices
+>  #
+>  # Weston on KMS
+> -PACKAGECONFIG[kms] =
+> "--enable-drm-compositor,--disable-drm-compositor,drm udev
+> virtual/mesa virtual/libgbm mtdev"
+> +PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev
+> virtual/mesa virtual/libgbm mtdev"
+>  # Weston on Wayland (nested Weston)
+> -PACKAGECONFIG[wayland] =
+> "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
+> +PACKAGECONFIG[wayland] =
+> "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/mesa"
+>  # Weston on X11
+> -PACKAGECONFIG[x11] =
+> "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11
+> libxcb libxcb libxcursor cairo"
+> +PACKAGECONFIG[x11] =
+> "-Dbackend-x11=true,-Dbackend-x11=false,virtual/libx11 libxcb libxcb
+> libxcursor cairo"
+>  # Headless Weston
+> -PACKAGECONFIG[headless] =
+> "--enable-headless-compositor,--disable-headless-compositor"
+> +PACKAGECONFIG[headless] = "-Dbackend-headless=true,-Dbackend-headless=false"
+>  # Weston on framebuffer
+> -PACKAGECONFIG[fbdev] =
+> "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
+> +PACKAGECONFIG[fbdev] = "-Dbackend-fbdev=true,-Dbackend-fbdev=false,udev mtdev"
+>  # weston-launch
+> -PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,drm"
+> +PACKAGECONFIG[launch] = "-Dweston-launch=true,-Dweston-launch=false,drm"
+>  # VA-API desktop recorder
+> -PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
+> +PACKAGECONFIG[vaapi] =
+> "-Dbackend-drm-screencast-vaapi=true,-Dbackend-drm-screencast-vaapi=false,libva"
+>  # Weston with EGL support
+> -PACKAGECONFIG[egl] = "--enable-egl
+> --enable-simple-egl-clients,--disable-egl
+> --disable-simple-egl-clients,virtual/egl"
+> -# Weston with cairo glesv2 support
+> -PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
+> +PACKAGECONFIG[egl] = "-Drenderer-gl=true,-Drenderer-gl=false,virtual/egl"
+>  # Weston with lcms support
+> -PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
+> +PACKAGECONFIG[lcms] =
+> "-Dcolor-management-lcms=true,-Dcolor-management-lcms=false,lcms"
+>  # Weston with webp support
+> -PACKAGECONFIG[webp] = "--with-webp,--without-webp,libwebp"
+> +PACKAGECONFIG[webp] = "-Dimage-webp=true,-Dimage-webp=false,libwebp"
+>  # Weston with systemd-login support
+> -PACKAGECONFIG[systemd] =
+> "--enable-systemd-login,--disable-systemd-login,systemd dbus"
+> +PACKAGECONFIG[systemd] = "-Dsystemd=true
+> -Dlauncher-logind=true,-Dsystemd=false -Dlauncher-logind=false,systemd
+> dbus"
+>  # Weston with Xwayland support (requires X11 and Wayland)
+> -PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland"
+> +PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false"
+>  # colord CMS support
+> -PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
+> +PACKAGECONFIG[colord] =
+> "-Dcolor-management-colord=true,-Dcolor-management-colord=false,colord"
+>  # Clients support
+> -PACKAGECONFIG[clients] = "--enable-clients --enable-simple-clients
+> --enable-demo-clients-install,--disable-clients
+> --disable-simple-clients"
+> +PACKAGECONFIG[clients] = "-Dsimple-clients=all
+> -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
+> +# Virtual remote output with GStreamer on DRM backend
+> +PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer-1.0"
+>  # Weston with PAM support
+> -PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
+> +PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam"
+>  
+>  do_install_append() {
+>  	# Weston doesn't need the .la files to load modules, so wipe them
+> @@ -86,6 +84,10 @@ do_install_append() {
+>  	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no',
+> d)}" = "yes" ]; then
+>  		install -Dm 644 ${WORKDIR}/xwayland.weston-start
+> ${D}${datadir}/weston-start/xwayland
+>  	fi
+> +
+> +	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no',
+> d)}" = "yes" ]; then
+> +		chmod u+s ${D}${bindir}/weston-launch
+> +	fi
+>  }
+>  
+>  PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland',
+> '${PN}-xwayland', '', d)} \
+> -- 
+> 2.7.4
+
