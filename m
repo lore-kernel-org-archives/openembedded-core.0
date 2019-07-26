@@ -1,25 +1,24 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ED1ED7F1C7
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B6887F1E2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 09:35:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6Q9Z1Bk011787
+	Fri, 26 Jul 2019 09:35:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6Q9YjbD000912
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 02:35:02 -0700 (PDT)
+	Fri, 26 Jul 2019 02:35:00 -0700
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 26 Jul 2019 02:35:01 -0700
+	Fri, 26 Jul 2019 02:34:45 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Jul 2019 05:34:43 -0400
-Message-ID: <20190726093443.40634-2-kai.kang@windriver.com>
+Date: Fri, 26 Jul 2019 05:34:42 -0400
+Message-ID: <20190726093443.40634-1-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20190726093443.40634-1-kai.kang@windriver.com>
-References: <20190726093443.40634-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] epiphany: set imcompatible with tune mips
+Subject: [PATCH 1/2] subversion: add packageconfig boost
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 09:35:01 -0000
+X-List-Received-Date: Fri, 26 Jul 2019 09:35:10 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-webkitgtk doesn't work with tune mips and set imcompatible with it.
-epiphany depends on webkitgtk and mask it too.
+subversion checks whether build with boost during do_configure. If boost
+exists on build machine, it causes configure-unsafe QA issue:
+
+| ERROR: subversion-1.12.0-r0 do_configure: QA Issue: This autoconf log
+|  indicates errors, it looked at host include and/or library paths
+|  while determining system capabilities.
+| Rerun configure task after fixing this. [configure-unsafe]
+
+Add a PACKAGECONFIG 'boost' to fix the issue.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-gnome/epiphany/epiphany_3.32.3.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/subversion/subversion_1.12.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-index de1b6e2f84..d1c6af52ed 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-@@ -16,5 +16,8 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}
- SRC_URI[archive.md5sum] = "c4976507bf3de69f27a050ad09531f5a"
- SRC_URI[archive.sha256sum] = "3ccb6859a43b839b714aa425cb185056f1e8604adbaab6a1bc179d1ba641a33f"
+diff --git a/meta/recipes-devtools/subversion/subversion_1.12.0.bb b/meta/recipes-devtools/subversion/subversion_1.12.0.bb
+index 3d0f3e688d..f1ac1dcfdc 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.12.0.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.12.0.bb
+@@ -23,6 +23,7 @@ CVE_PRODUCT = "apache:subversion"
  
-+# webkitgtk doesn't work with tune 'mips'
-+COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips', 'null', 'mips.*-linux', d)}"
-+
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+ PACKAGECONFIG ?= ""
+ 
++PACKAGECONFIG[boost] = "--with-boost=${RECIPE_SYSROOT}${exec_prefix},--without-boost,boost"
+ PACKAGECONFIG[sasl] = "--with-sasl,--without-sasl,cyrus-sasl"
+ PACKAGECONFIG[gnome-keyring] = "--with-gnome-keyring,--without-gnome-keyring,glib-2.0 gnome-keyring"
+ 
 -- 
 2.20.0
 
