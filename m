@@ -1,33 +1,52 @@
-Return-Path: <lukma@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 63B8B7D69D
+Return-Path: <diego.rondini@kynetics.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CD4F7F1D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 07:40:57 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 45w1Gf3TM0z1rTYK;
-	Fri, 26 Jul 2019 09:40:58 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 45w1Gf329bz1qqkS;
-	Fri, 26 Jul 2019 09:40:58 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id eV67_ON7BRbf; Fri, 26 Jul 2019 09:40:57 +0200 (CEST)
-X-Auth-Info: AlcG4AQA5lN6Ie8lEx7/yjAdk1CgAm5fHE+nkQ/zrbg=
-Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl
-	[85.222.111.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 26 Jul 2019 09:40:57 +0200 (CEST)
-From: Lukasz Majewski <lukma@denx.de>
-To: akuster808 <akuster808@gmail.com>
-Date: Fri, 26 Jul 2019 09:40:39 +0200
-Message-Id: <20190726074039.26753-1-lukma@denx.de>
-X-Mailer: git-send-email 2.11.0
-Cc: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] u-boot: Generate default U-Boot environment images
+	Fri, 26 Jul 2019 08:19:18 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id x15so47209738wmj.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jul 2019 01:19:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kynetics-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=49DGI5iFuD2Vksd4cWbdUJfbCCPBT2SSxQmnHbVDSOA=;
+	b=CmlAYvMqUj4z/Zkmh8r27T+r7nqTxICrd0dVxMYW9Xyoxfih/Fk/hsuZZ6De2+tEdc
+	wma6NygjesAYmeR4PQ0oao5jxpUdAvVWVpVvDX/HRewJZ8gTIei6vG2LZTc4bR7t/ywe
+	kKe1GtOTIPcIIhlsrubGnA+a6dN3QPmHOVGnd0fH0UhZxFj1QGcCCWSD1Yb0SvwglSPg
+	hla8BcpjwuJT6xZJpINnmNxPWgAjuznG8xkEy1W4g0kpkhzQE4cnbXes089GW232keiY
+	ZnFjtFmFpeJTSGuG1ZBZDGlsgbcPO2Ag39uz16OL1CB54w+ZqlxfnEJmL6vzpZbQ40ul
+	akWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=49DGI5iFuD2Vksd4cWbdUJfbCCPBT2SSxQmnHbVDSOA=;
+	b=GrGRqI9b0XTj8d+iEZQHBDSUKMf3OmCEwm8TuQUH3gtNMlSHun+d3vreO7No1vd3hr
+	SaRw3CmkTz9cfCrcdswShFyL7fPLjMtD/nT2b0nevQj/CT2scupMKm2zkICB2yT90XpA
+	k4SXLewP5CNs7ltY5oQsYptmFHntENk/dllzfKnIjy/Zs29wIUj2Vhrn7u8UMMKRiDzt
+	avuG/P6bKm0LvqIOVu6wPaYSHC8wF9Mx4UkE6uw64jLO5af2Zu2Te/Suft17Mr7ir4Jo
+	44CcHVuP8TO2Aidvs6wQzM5Xztx5p+TNvxiCZoBIGTLyrzunnOSTgM00sfEOIH1Nr+qp
+	B3iw==
+X-Gm-Message-State: APjAAAUfDzspsHLk/ieotkHliL++rN3LGwzTLL0wKuN1XmxZeDya6Fiq
+	E6kWUfm6ria8IYSiSWNR3C0va6BNtFM=
+X-Google-Smtp-Source: APXvYqzx+WZbV0+rfI2wp6e234HyjJyRB8DdeGdl01RU7XniBUMUHOwq0AfyCuBWbBpRy/hxJ3XriQ==
+X-Received: by 2002:a1c:4c1a:: with SMTP id z26mr82230625wmf.2.1564129158738; 
+	Fri, 26 Jul 2019 01:19:18 -0700 (PDT)
+Received: from localhost.localdomain (217-133-17-98.static.clienti.tiscali.it.
+	[217.133.17.98]) by smtp.gmail.com with ESMTPSA id
+	g19sm94806266wrb.52.2019.07.26.01.19.17
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 26 Jul 2019 01:19:18 -0700 (PDT)
+From: Diego Rondini <diego.rondini@kynetics.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Jul 2019 10:18:57 +0200
+Message-Id: <20190726081857.27834-1-diego.rondini@kynetics.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Cc: Diego Rondini <diego.rondini@kynetics.com>
+Subject: [PATCH] image_types.bbclass: make gzipped images rsyncable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,105 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 07:40:58 -0000
+X-List-Received-Date: Fri, 26 Jul 2019 08:19:18 -0000
+Content-Transfer-Encoding: 8bit
 
-This change provides tasks to generate default U-Boot environment images
-from built U-Boot (via. get_default_envs.sh script).
+Both gzip and pigz implement the --rsyncable option, allowing small changes to
+images to save a lot of data when they are transferred using rsync. This patch
+enables --rsyncable by default.
 
-Those images then can be used to generate wic images (with e.g. eMMC layout).
-With such approach the end user doesn't see the "CRC environment" error
-after the first boot.
-
-Moreover, those are built per MACHINE (as u-boot itself is) so then could
-be used in SWUpdate scenarios with single tar'ed archive with multiple
-MACHINE specific *.swu images.
-
-The UBOOT_ENVS_SIZE must be defined in machine specific conf file as well
-as it is also possible to adjust (optionally) the *_ENVS_* variables.
-
-Test:
-Newest master-next for poky repo - SHA1: eb5b0a0b5e53a6e55a09e66489d3f24d0c6232ee
-MACHINE = "beaglebone-yocto" in local.conf
-bitbake virtual/bootloader
-
-
-As a result following links are available in deploy directory:
-u-boot-env.img{_r}.
-
-Signed-off-by: Lukasz Majewski <lukma@denx.de>
-
+Signed-off-by: Diego Rondini <diego.rondini@kynetics.com>
 ---
-Changes for v2:
+ meta/classes/image_types.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-- Move the content of deploy_default_envs task to do_deploy
-- Move the content of gen_default_envs task to do_compile
-- Create the u-boot-env.img{r} conditionally, only when UBOOT_ENVS_SIZE is
-  defined
-- Change the commit title to reflect changes done for v2
----
- meta/recipes-bsp/u-boot/u-boot.inc | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 9a754fd09b..7ede2da0eb 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -68,6 +68,13 @@ UBOOT_EXTLINUX_INSTALL_DIR ?= "/boot/extlinux"
- UBOOT_EXTLINUX_CONF_NAME ?= "extlinux.conf"
- UBOOT_EXTLINUX_SYMLINK ?= "${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}-${PR}"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 617aa4ccd8..2eeffbb366 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -284,7 +284,7 @@ COMPRESSIONTYPES ?= ""
  
-+# U-Boot variables necessary for extracting default envs from build U-Boot
-+DEFAULT_UBOOT_ENVS_FILE ?= "u-boot-env"
-+DEFAULT_ENVS ?= "${DEFAULT_UBOOT_ENVS_FILE}.txt"
-+UBOOT_ENVS_DEFAULT ?= "${DEFAULT_UBOOT_ENVS_FILE}-${MACHINE}-${PV}-${PR}.img"
-+# The UBOOT_ENVS_SIZE needs to defined in the <machine>.conf file
-+# UBOOT_ENVS_SIZE = "65536"
-+
- # returns all the elements from the src uri that are .cfg files
- def find_cfgs(d):
-     sources=src_patches(d, True)
-@@ -132,6 +139,19 @@ do_compile () {
-         oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET}
-     fi
- 
-+    # Generate default environment
-+    if [ -n "${UBOOT_ENVS_SIZE}" ]
-+    then
-+        ${B}/source/scripts/get_default_envs.sh ${B} > ${B}/${DEFAULT_ENVS}
-+
-+        # Generate env image
-+        ${B}/tools/mkenvimage -s ${UBOOT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS}
-+
-+        # Generate redundant env image
-+        ${B}/tools/mkenvimage -r -s ${UBOOT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS}
-+
-+        rm ${B}/${DEFAULT_ENVS}
-+    fi
- }
- 
- do_install () {
-@@ -328,6 +348,20 @@ do_deploy () {
-         ln -sf ${UBOOT_EXTLINUX_SYMLINK} ${DEPLOYDIR}/${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}
-         ln -sf ${UBOOT_EXTLINUX_SYMLINK} ${DEPLOYDIR}/${UBOOT_EXTLINUX_CONF_NAME}
-     fi
-+
-+    if [ -n "${UBOOT_ENVS_SIZE}" ]
-+    then
-+        install -d ${DEPLOYDIR}
-+        install ${B}/${UBOOT_ENVS_DEFAULT} ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}
-+        install ${B}/${UBOOT_ENVS_DEFAULT}_r ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r
-+
-+        cd ${DEPLOYDIR}
-+        ln -sf ${UBOOT_ENVS_DEFAULT} ${DEFAULT_UBOOT_ENVS_FILE}.img
-+        ln -sf ${UBOOT_ENVS_DEFAULT}_r ${DEFAULT_UBOOT_ENVS_FILE}.img_r
-+
-+        rm ${B}/${UBOOT_ENVS_DEFAULT}
-+        rm ${B}/${UBOOT_ENVS_DEFAULT}_r
-+    fi
- }
- 
- addtask deploy before do_build after do_compile
+ CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
+ CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+-CONVERSION_CMD_gz = "gzip -f -9 -n -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
++CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+ CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.xz"
+ CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
 -- 
-2.11.0
+2.21.0
 
 
