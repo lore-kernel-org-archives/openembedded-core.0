@@ -1,50 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 40BD97D088
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D673E7EEEC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 26 Jul 2019 17:15:18 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id x15so14725430pgg.8
+Received: by mail-pg1-f193.google.com with SMTP id t132so25061702pgb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 10:15:19 -0700 (PDT)
+	Fri, 26 Jul 2019 10:15:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=oepCRfGUZCzGdbvEz9QSP8IVN6Gk7OF+de6fAW35p7s=;
-	b=BwlfJ08avA7iyHxqscvOr1G7cmZQy7Vu7JIPgualEMGAk6M4Rk7S4I+mRXbAy2sExG
-	Kr8Uwvc3PLXaea67hqQ2GaJRClsWSMgFd40E0zW7FBrySNLzpugi5OhZ8H4x7bVnPgZM
-	athKimvpFu1FbmczVehXe7ca25wLzoIj/f/mj5JCCr3q4oR6KWnJ0cm+JF6HqtcvZofh
-	7UQZsUWnkGLwWYpx7MGTl3pEFsM4Ov4vyEVOXuVpZBOl0LXJWSu1Cq+GkFvCgirmWmYx
-	s43nsgO3e6je2GNA/pc3dQJASDahj+cX2y4HeXWQeliM0iq6bX5sYCsOX+FeCyLxMFlT
-	/Hpw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Fw+OnsMSaPrmmLXTG2F1Xn9FOPtsHTuXaAnT6P0zSe4=;
+	b=M0DfHy0nYCuoxH0FJiyL53X6/F7b2vz4RrQdBUj73mFqAMCoflXKgmu3RxlAaI5wQP
+	vdQuG7Jl8LeFpjF79QYxpBzD2wzqL1cpqLrVA13d6hgpFZ7cW3aqdyhnobttZm3IxMLw
+	EGbxElfcaXRmr2uZ52nSQ6XugoJI7rFQ767vKlm37UJrvBZZi07JvATwRR72vd6DTOBc
+	GSjIrBx4FapxVh7ngObEHUcQcZ7GXs8nWEX93of443Gg0lqAvQnD7C+11H2d0/wcyhr7
+	CBQqq+OUrD69BJm438KxJmaKfisRGd41oLGlfK1mibwsU06InZ0/xhyuZV8DC9Wwm4s3
+	O9hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=oepCRfGUZCzGdbvEz9QSP8IVN6Gk7OF+de6fAW35p7s=;
-	b=hQJ+Xb4SN9o51QThgva8ywXJWx5uFSMhIYeke7IV51QMhWh+KzbI8jvZMnYlPEufLA
-	KCb4l9/w6ttCn8rwzuqo9DLuWXi+QhoRGT0e+3IZq0eODkXyfBOfMG2BNTeY56OH+08V
-	7+pHbl5Q/h2tZ5chFvMuJ5LrjkX5/T8Az3qv56R178qTiF8ZoOc2BuQJ9z1RbLor5TxG
-	UE1I0EN2zqNfn7BVwT76hAGaCvXwfCiAu3pihGP837r8naC/9Rph/D/N1XPSZ4mQHFmy
-	BnQjZ6zaVr+2Ap/YekV8px83QQOk34Gi7j1R7VxqW5B2gZxW6meBZnP+d+LitUDGpgmJ
-	Amow==
-X-Gm-Message-State: APjAAAXvt7lkT02H95HQHx2N6UHW8vmQntJUv4Eo4Xg6OQbXBJfPOgQ1
-	TJBDt+XxgY1p5zMHtm2VctqaQB4LzoQ=
-X-Google-Smtp-Source: APXvYqy0Jfo7xKaNLY2qaO88seCq93HaOndfUAqrp09oORv61QMJP7oCm20Hqnfa4N+KoMuQ+poSYA==
-X-Received: by 2002:a63:745e:: with SMTP id e30mr2820098pgn.73.1564161318705; 
-	Fri, 26 Jul 2019 10:15:18 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Fw+OnsMSaPrmmLXTG2F1Xn9FOPtsHTuXaAnT6P0zSe4=;
+	b=E2ADk151mbWBptPLUTkYNcAEZUt5CFQLqPFQJS7KmNc8lmNhXNuU+2kL9+1DwHo64T
+	t7hbKITx9tvmRRKiVrR6ht3EjssPbyHCRyy9bEdZCdOJmLLJcQ+96iEM8R18fCYkbGtn
+	PoSPle0a6mwky29LT7VWDF07+Rz6CT9h4AtXGyTynfZJJEyCtvOgFIHKekyy9yCPwfWa
+	yiW31kV41eOLrDHalIt5jLZ7+KkS1FawyGkuOS960eqcePbZxz9RRcR4wER2zHtTXZs1
+	IavdkNayKXNT21HsjpLKbTjPXmS8LXAmCs20S2g7/mhXkh3vzb/A9n1WoksPefALZB/W
+	W18g==
+X-Gm-Message-State: APjAAAXP09XepqUQlsvY/8RZuImrKgvEBQjzryMWKCmfDe5mk+TSzn0Z
+	qZwSj0JcyWu1D72y/y2LSz6bRBQyWro=
+X-Google-Smtp-Source: APXvYqw9GOQUhIY9K3QDXBQKfUefhx1kXGitsPb8nkNvQvrkfrzLwuMED+08IE+hcJhu3A6xB2e9lw==
+X-Received: by 2002:a63:8f55:: with SMTP id r21mr91145884pgn.318.1564161319491;
+	Fri, 26 Jul 2019 10:15:19 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
 	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	p67sm62533159pfg.124.2019.07.26.10.15.17
+	p67sm62533159pfg.124.2019.07.26.10.15.18
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 26 Jul 2019 10:15:18 -0700 (PDT)
+	Fri, 26 Jul 2019 10:15:19 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jul 2019 10:15:08 -0700
-Message-Id: <20190726171509.29091-1-raj.khem@gmail.com>
+Date: Fri, 26 Jul 2019 10:15:09 -0700
+Message-Id: <20190726171509.29091-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190726171509.29091-1-raj.khem@gmail.com>
+References: <20190726171509.29091-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] libnss-nis: Fix build with glibc 2.30
+Subject: [PATCH 2/2] lttng-ust: Check for gettid libc API
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,193 +62,90 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 26 Jul 2019 17:15:18 -0000
 Content-Transfer-Encoding: 8bit
 
+Fixes build with glibc 2.30
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../recipes-extended/libnss-nis/libnss-nis.bb |   1 +
- ...is-hosts-Remove-use-of-RES_USE_INET6.patch | 162 ++++++++++++++++++
- 2 files changed, 163 insertions(+)
- create mode 100644 meta/recipes-extended/libnss-nis/libnss-nis/0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch
+ ...config-time-check-for-new-gettid-API.patch | 57 +++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_2.10.4.bb |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust/0001-Add-config-time-check-for-new-gettid-API.patch
 
-diff --git a/meta/recipes-extended/libnss-nis/libnss-nis.bb b/meta/recipes-extended/libnss-nis/libnss-nis.bb
-index 47447acd6c..4fbd4b1f6a 100644
---- a/meta/recipes-extended/libnss-nis/libnss-nis.bb
-+++ b/meta/recipes-extended/libnss-nis/libnss-nis.bb
-@@ -18,6 +18,7 @@ PV = "3.0+git${SRCPV}"
- SRCREV = "d4aea48657a8e90d7922574b8021ee03915a36cb"
- 
- SRC_URI = "git://github.com/thkukuk/libnss_nis \
-+           file://0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch \
-           "
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-extended/libnss-nis/libnss-nis/0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch b/meta/recipes-extended/libnss-nis/libnss-nis/0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch
+diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-Add-config-time-check-for-new-gettid-API.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-Add-config-time-check-for-new-gettid-API.patch
 new file mode 100644
-index 0000000000..348c8c94b6
+index 0000000000..15db1d3af7
 --- /dev/null
-+++ b/meta/recipes-extended/libnss-nis/libnss-nis/0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch
-@@ -0,0 +1,162 @@
-+From e41ddbd89a4bb042ac00469fa5880ba584c25c05 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-kernel/lttng/lttng-ust/0001-Add-config-time-check-for-new-gettid-API.patch
+@@ -0,0 +1,57 @@
++From 2bb3e259d0410f16a8b2058a05af434376a1583a Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 25 Jul 2019 12:10:56 -0700
-+Subject: [PATCH] nis-hosts: Remove use of RES_USE_INET6
++Date: Fri, 26 Jul 2019 09:57:32 -0700
++Subject: [lttng-ust][PATCH] Add config time check for new gettid API
 +
-+Upstream glibc dropped it starting glibc 2.30
-+see
-+https://sourceware.org/git/?p=glibc.git;a=commit;h=3f8b44be0a658266adff5ece1e4bc3ce097a5dbe
++glibc 2.30 introdoced this function see [1]
++so its best to detect it
++and provide fallbacks only if its not present
 +
-+Fixes issue #6
++[1] https://sourceware.org/bugzilla/show_bug.cgi?id=6399
 +
-+Upstream-Status: Submitted [https://github.com/thkukuk/libnss_nis/pull/7]
++Upstream-Status: Submitted [https://lists.lttng.org/pipermail/lttng-dev/2019-July/029131.html]
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ src/nis-hosts.c | 55 ++++++++++++-------------------------------------
-+ 1 file changed, 13 insertions(+), 42 deletions(-)
++ configure.ac            | 1 +
++ include/lttng/ust-tid.h | 7 +++++--
++ 2 files changed, 6 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/nis-hosts.c b/src/nis-hosts.c
-+index 307b46e..bd3c4ad 100644
-+--- a/src/nis-hosts.c
-++++ b/src/nis-hosts.c
-+@@ -35,15 +35,12 @@
-+ #include "libc-lock.h"
-+ #include "nss-nis.h"
-+ 
-+-/* Get implementation for some internal functions. */
-+-#include "mapv4v6addr.h"
++diff --git a/configure.ac b/configure.ac
++index 7fa059a..b1099c1 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -137,6 +137,7 @@ AC_CHECK_FUNCS([ \
++ 	clock_gettime \
++ 	ftruncate \
++ 	getpagesize \
+++	gettid \
++ 	gettimeofday \
++ 	localeconv \
++ 	memchr \
++diff --git a/include/lttng/ust-tid.h b/include/lttng/ust-tid.h
++index e669d7e..7995c78 100644
++--- a/include/lttng/ust-tid.h
+++++ b/include/lttng/ust-tid.h
++@@ -26,7 +26,10 @@
++  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++  * SOFTWARE.
++  */
 +-
-+ #define ENTNAME         hostent
-+ #define DATABASE        "hosts"
-+ #define NEED_H_ERRNO
-+ 
-+-#define EXTRA_ARGS      , af, flags
-+-#define EXTRA_ARGS_DECL , int af, int flags
-++#define EXTRA_ARGS      , af
-++#define EXTRA_ARGS_DECL , int af
-+ 
-+ #define ENTDATA hostent_data
-+ struct hostent_data
-+@@ -67,19 +64,8 @@ LINE_PARSER
-+    /* Parse address.  */
-+    if (af != AF_INET6 && inet_pton (AF_INET, addr, entdata->host_addr) > 0)
-+      {
-+-       assert ((flags & AI_V4MAPPED) == 0 || af != AF_UNSPEC);
-+-       if (flags & AI_V4MAPPED)
-+-	 {
-+-	   map_v4v6_address ((char *) entdata->host_addr,
-+-			     (char *) entdata->host_addr);
-+-	   result->h_addrtype = AF_INET6;
-+-	   result->h_length = IN6ADDRSZ;
-+-	 }
-+-       else
-+-	 {
-+-	   result->h_addrtype = AF_INET;
-+-	   result->h_length = INADDRSZ;
-+-	 }
-++       result->h_addrtype = AF_INET;
-++       result->h_length = INADDRSZ;
-+      }
-+    else if (af != AF_INET
-+ 	    && inet_pton (AF_INET6, addr, entdata->host_addr) > 0)
-+@@ -134,7 +120,7 @@ strong_alias (_nss_nis_sethostent, _nss_nis_endhostent)
-+ static enum nss_status
-+ internal_nis_gethostent_r (struct hostent *host, char *buffer,
-+ 			   size_t buflen, int *errnop, int *h_errnop,
-+-			   int af, int flags)
-++			   int af)
-+ {
-+   char *domain;
-+   if (yp_get_default_domain (&domain))
-+@@ -203,7 +189,7 @@ internal_nis_gethostent_r (struct hostent *host, char *buffer,
-+ 	++p;
-+       free (result);
-+ 
-+-      parse_res = parse_line (p, host, data, buflen, errnop, af, flags);
-++      parse_res = parse_line (p, host, data, buflen, errnop, af);
-+       if (parse_res == -1)
-+ 	{
-+ 	  free (outkey);
-+@@ -232,8 +218,7 @@ _nss_nis_gethostent_r (struct hostent *host, char *buffer, size_t buflen,
-+   __libc_lock_lock (lock);
-+ 
-+   status = internal_nis_gethostent_r (host, buffer, buflen, errnop, h_errnop,
-+-			((_res.options & RES_USE_INET6) ? AF_INET6 : AF_INET),
-+-			((_res.options & RES_USE_INET6) ? AI_V4MAPPED : 0 ));
-++			AF_INET);
-+ 
-+   __libc_lock_unlock (lock);
-+ 
-+@@ -244,7 +229,7 @@ _nss_nis_gethostent_r (struct hostent *host, char *buffer, size_t buflen,
-+ static enum nss_status
-+ internal_gethostbyname2_r (const char *name, int af, struct hostent *host,
-+ 			   char *buffer, size_t buflen, int *errnop,
-+-			   int *h_errnop, int flags)
-++			   int *h_errnop)
-+ {
-+   uintptr_t pad = -(uintptr_t) buffer % __alignof__ (struct parser_data);
-+   buffer += pad;
-+@@ -318,7 +303,7 @@ internal_gethostbyname2_r (const char *name, int af, struct hostent *host,
-+     ++p;
-+   free (result);
-+ 
-+-  int parse_res = parse_line (p, host, data, buflen, errnop, af, flags);
-++  int parse_res = parse_line (p, host, data, buflen, errnop, af);
-+ 
-+   if (parse_res < 1 || host->h_addrtype != af)
-+     {
-+@@ -351,8 +336,7 @@ _nss_nis_gethostbyname2_r (const char *name, int af, struct hostent *host,
-+     }
-+ 
-+   return internal_gethostbyname2_r (name, af, host, buffer, buflen, errnop,
-+-				    h_errnop,
-+-			((_res.options & RES_USE_INET6) ? AI_V4MAPPED : 0));
-++				    h_errnop);
+++#include <config.h>
+++#if HAVE_GETTID
+++#include <unistd.h>
+++#else
++ #ifdef __linux__
++ #include <syscall.h>
++ #endif
++@@ -49,5 +52,5 @@ static inline pid_t gettid(void)
++ 	return getpid();
 + }
-+ 
-+ 
-+@@ -360,18 +344,8 @@ enum nss_status
-+ _nss_nis_gethostbyname_r (const char *name, struct hostent *host, char *buffer,
-+ 			  size_t buflen, int *errnop, int *h_errnop)
-+ {
-+-  if (_res.options & RES_USE_INET6)
-+-    {
-+-      enum nss_status status;
++ #endif
 +-
-+-      status = internal_gethostbyname2_r (name, AF_INET6, host, buffer, buflen,
-+-					  errnop, h_errnop, AI_V4MAPPED);
-+-      if (status == NSS_STATUS_SUCCESS)
-+-	return status;
-+-    }
-+-
-+   return internal_gethostbyname2_r (name, AF_INET, host, buffer, buflen,
-+-				    errnop, h_errnop, 0);
-++				    errnop, h_errnop);
-+ }
-+ 
-+ 
-+@@ -433,9 +407,7 @@ _nss_nis_gethostbyaddr_r (const void *addr, socklen_t addrlen, int af,
-+     ++p;
-+   free (result);
-+ 
-+-  int parse_res = parse_line (p, host, data, buflen, errnop, af,
-+-			      ((_res.options & RES_USE_INET6)
-+-			       ? AI_V4MAPPED : 0));
-++  int parse_res = parse_line (p, host, data, buflen, errnop, af);
-+   if (parse_res < 1)
-+     {
-+       if (parse_res == -1)
-+@@ -532,8 +504,7 @@ _nss_nis_gethostbyname4_r (const char *name, struct gaih_addrtuple **pat,
-+   buflen -= pad;
-+ 
-+   struct hostent host;
-+-  int parse_res = parse_line (result, &host, data, buflen, errnop, AF_UNSPEC,
-+-			      0);
-++  int parse_res = parse_line (result, &host, data, buflen, errnop, AF_UNSPEC);
-+   if (parse_res < 1)
-+     {
-+       if (parse_res == -1)
+++#endif /* HAVE_GETTID */
++ #endif /* _LTTNG_UST_TID_H */
 +-- 
 +2.22.0
 +
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.10.4.bb b/meta/recipes-kernel/lttng/lttng-ust_2.10.4.bb
+index a8eebb223b..861a05e6a8 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.10.4.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.10.4.bb
+@@ -27,6 +27,7 @@ PE = "2"
+ 
+ SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
+            file://lttng-ust-doc-examples-disable.patch \
++           file://0001-Add-config-time-check-for-new-gettid-API.patch \
+           "
+ 
+ SRC_URI[md5sum] = "19916ff0dec23c90f985586a8cbd1fd2"
 -- 
 2.22.0
 
