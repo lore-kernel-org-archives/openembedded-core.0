@@ -1,25 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E7F187F119
+	by mail.openembedded.org (Postfix) with ESMTP id 14BF97F117
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 04:47:40 +0000 (UTC)
+	Fri, 26 Jul 2019 04:47:42 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Jul 2019 21:47:42 -0700
+	25 Jul 2019 21:47:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,309,1559545200"; d="scan'208";a="172069565"
+X-IronPort-AV: E=Sophos;i="5.64,309,1559545200"; d="scan'208";a="172069566"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2019 21:47:41 -0700
+	by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2019 21:47:42 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jul 2019 12:47:28 +0800
-Message-Id: <1564116449-69248-6-git-send-email-anuj.mittal@intel.com>
+Date: Fri, 26 Jul 2019 12:47:29 +0800
+Message-Id: <1564116449-69248-7-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564116449-69248-1-git-send-email-anuj.mittal@intel.com>
 References: <1564116449-69248-1-git-send-email-anuj.mittal@intel.com>
-Subject: [warrior][PATCH 6/7] python3: fix CVE-2018-20852 CVE-2019-9636
+Subject: [warrior][PATCH 7/7] curl: fix CVE-2019-5435 CVE-2019-5436
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,320 +32,338 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 04:47:41 -0000
+X-List-Received-Date: Fri, 26 Jul 2019 04:47:42 -0000
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../python/python3/CVE-2018-20852.patch            | 124 +++++++++++++++++
- .../python/python3/CVE-2019-9636.patch             | 154 +++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.2.bb      |   2 +
- 3 files changed, 280 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2018-20852.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-9636.patch
+ meta/recipes-support/curl/curl/CVE-2019-5435.patch | 266 +++++++++++++++++++++
+ meta/recipes-support/curl/curl/CVE-2019-5436.patch |  30 +++
+ meta/recipes-support/curl/curl_7.64.1.bb           |   2 +
+ 3 files changed, 298 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5435.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5436.patch
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2018-20852.patch b/meta/recipes-devtools/python/python3/CVE-2018-20852.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2019-5435.patch b/meta/recipes-support/curl/curl/CVE-2019-5435.patch
 new file mode 100644
-index 0000000..ff671d3
+index 0000000..f72435f
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2018-20852.patch
-@@ -0,0 +1,124 @@
-+From e5123d81ffb3be35a1b2767d6ced1a097aaf77be Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Sat, 9 Mar 2019 18:58:25 -0800
-+Subject: [PATCH] bpo-35121: prefix dot in domain for proper subdomain
-+ validation (GH-10258) (GH-12261)
++++ b/meta/recipes-support/curl/curl/CVE-2019-5435.patch
+@@ -0,0 +1,266 @@
++From 756380f74d58d5a877b26dc21be7b1316b617213 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 29 Apr 2019 08:00:49 +0200
++Subject: [PATCH] CURL_MAX_INPUT_LENGTH: largest acceptable string input size
 +
-+Don't send cookies of domain A without Domain attribute to domain B when domain A is a suffix match of domain B while using a cookiejar with `http.cookiejar.DefaultCookiePolicy` policy.  Patch by Karthikeyan Singaravelan.
-+(cherry picked from commit ca7fe5063593958e5efdf90f068582837f07bd14)
++This limits all accepted input strings passed to libcurl to be less than
++CURL_MAX_INPUT_LENGTH (8000000) bytes, for these API calls:
++curl_easy_setopt() and curl_url_set().
 +
-+Co-authored-by: Xtreak <tir.karthi@gmail.com>
-+Upstream-Status: Backport
-+CVE: CVE-2018-20852
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com> 
-+---
-+ Lib/http/cookiejar.py                         | 13 ++++++--
-+ Lib/test/test_http_cookiejar.py               | 30 +++++++++++++++++++
-+ .../2018-10-31-15-39-17.bpo-35121.EgHv9k.rst  |  4 +++
-+ 3 files changed, 45 insertions(+), 2 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2018-10-31-15-39-17.bpo-35121.EgHv9k.rst
++The 8000000 number is arbitrary picked and is meant to detect mistakes
++or abuse, not to limit actual practical use cases. By limiting the
++acceptable string lengths we also reduce the risk of integer overflows
++all over.
 +
-+diff --git a/Lib/http/cookiejar.py b/Lib/http/cookiejar.py
-+index e0f1032b2816..00cb1250a07e 100644
-+--- a/Lib/http/cookiejar.py
-++++ b/Lib/http/cookiejar.py
-+@@ -1145,6 +1145,11 @@ def return_ok_domain(self, cookie, request):
-+         req_host, erhn = eff_request_host(request)
-+         domain = cookie.domain
-+ 
-++        if domain and not domain.startswith("."):
-++            dotdomain = "." + domain
-++        else:
-++            dotdomain = domain
-++
-+         # strict check of non-domain cookies: Mozilla does this, MSIE5 doesn't
-+         if (cookie.version == 0 and
-+             (self.strict_ns_domain & self.DomainStrictNonDomain) and
-+@@ -1157,7 +1162,7 @@ def return_ok_domain(self, cookie, request):
-+             _debug("   effective request-host name %s does not domain-match "
-+                    "RFC 2965 cookie domain %s", erhn, domain)
-+             return False
-+-        if cookie.version == 0 and not ("."+erhn).endswith(domain):
-++        if cookie.version == 0 and not ("."+erhn).endswith(dotdomain):
-+             _debug("   request-host %s does not match Netscape cookie domain "
-+                    "%s", req_host, domain)
-+             return False
-+@@ -1171,7 +1176,11 @@ def domain_return_ok(self, domain, request):
-+             req_host = "."+req_host
-+         if not erhn.startswith("."):
-+             erhn = "."+erhn
-+-        if not (req_host.endswith(domain) or erhn.endswith(domain)):
-++        if domain and not domain.startswith("."):
-++            dotdomain = "." + domain
-++        else:
-++            dotdomain = domain
-++        if not (req_host.endswith(dotdomain) or erhn.endswith(dotdomain)):
-+             #_debug("   request domain %s does not match cookie domain %s",
-+             #       req_host, domain)
-+             return False
-+diff --git a/Lib/test/test_http_cookiejar.py b/Lib/test/test_http_cookiejar.py
-+index abc625d672a7..6e1b30881310 100644
-+--- a/Lib/test/test_http_cookiejar.py
-++++ b/Lib/test/test_http_cookiejar.py
-+@@ -415,6 +415,7 @@ def test_domain_return_ok(self):
-+             ("http://foo.bar.com/", ".foo.bar.com", True),
-+             ("http://foo.bar.com/", "foo.bar.com", True),
-+             ("http://foo.bar.com/", ".bar.com", True),
-++            ("http://foo.bar.com/", "bar.com", True),
-+             ("http://foo.bar.com/", "com", True),
-+             ("http://foo.com/", "rhubarb.foo.com", False),
-+             ("http://foo.com/", ".foo.com", True),
-+@@ -425,6 +426,8 @@ def test_domain_return_ok(self):
-+             ("http://foo/", "foo", True),
-+             ("http://foo/", "foo.local", True),
-+             ("http://foo/", ".local", True),
-++            ("http://barfoo.com", ".foo.com", False),
-++            ("http://barfoo.com", "foo.com", False),
-+             ]:
-+             request = urllib.request.Request(url)
-+             r = pol.domain_return_ok(domain, request)
-+@@ -959,6 +962,33 @@ def test_domain_block(self):
-+         c.add_cookie_header(req)
-+         self.assertFalse(req.has_header("Cookie"))
-+ 
-++        c.clear()
-++
-++        pol.set_blocked_domains([])
-++        req = urllib.request.Request("http://acme.com/")
-++        res = FakeResponse(headers, "http://acme.com/")
-++        cookies = c.make_cookies(res, req)
-++        c.extract_cookies(res, req)
-++        self.assertEqual(len(c), 1)
-++
-++        req = urllib.request.Request("http://acme.com/")
-++        c.add_cookie_header(req)
-++        self.assertTrue(req.has_header("Cookie"))
-++
-++        req = urllib.request.Request("http://badacme.com/")
-++        c.add_cookie_header(req)
-++        self.assertFalse(pol.return_ok(cookies[0], req))
-++        self.assertFalse(req.has_header("Cookie"))
-++
-++        p = pol.set_blocked_domains(["acme.com"])
-++        req = urllib.request.Request("http://acme.com/")
-++        c.add_cookie_header(req)
-++        self.assertFalse(req.has_header("Cookie"))
-++
-++        req = urllib.request.Request("http://badacme.com/")
-++        c.add_cookie_header(req)
-++        self.assertFalse(req.has_header("Cookie"))
-++
-+     def test_secure(self):
-+         for ns in True, False:
-+             for whitespace in " ", "":
-+diff --git a/Misc/NEWS.d/next/Security/2018-10-31-15-39-17.bpo-35121.EgHv9k.rst b/Misc/NEWS.d/next/Security/2018-10-31-15-39-17.bpo-35121.EgHv9k.rst
-+new file mode 100644
-+index 000000000000..d2eb8f1f352c
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2018-10-31-15-39-17.bpo-35121.EgHv9k.rst
-+@@ -0,0 +1,4 @@
-++Don't send cookies of domain A without Domain attribute to domain B
-++when domain A is a suffix match of domain B while using a cookiejar
-++with :class:`http.cookiejar.DefaultCookiePolicy` policy. Patch by
-++Karthikeyan Singaravelan.
-diff --git a/meta/recipes-devtools/python/python3/CVE-2019-9636.patch b/meta/recipes-devtools/python/python3/CVE-2019-9636.patch
-new file mode 100644
-index 0000000..72128f0
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2019-9636.patch
-@@ -0,0 +1,154 @@
-+From daad2c482c91de32d8305abbccc76a5de8b3a8be Mon Sep 17 00:00:00 2001
-+From: Steve Dower <steve.dower@microsoft.com>
-+Date: Thu, 7 Mar 2019 09:08:18 -0800
-+Subject: [PATCH] bpo-36216: Add check for characters in netloc that normalize
-+ to separators (GH-12201)
++NOTE: This does not apply to `CURLOPT_POSTFIELDS`.
++
++Test 1559 verifies.
++
++Closes #3805
 +
 +Upstream-Status: Backport
-+CVE: CVE-2019-9636
++CVE: CVE-2019-5435
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +
 +---
-+ Doc/library/urllib.parse.rst                  | 18 +++++++++++++++
-+ Lib/test/test_urlparse.py                     | 23 +++++++++++++++++++
-+ Lib/urllib/parse.py                           | 17 ++++++++++++++
-+ .../2019-03-06-09-38-40.bpo-36216.6q1m4a.rst  |  3 +++
-+ 4 files changed, 61 insertions(+)
-+ create mode 100644 Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
++ lib/setopt.c               |  7 +++++
++ lib/urlapi.c               |  8 +++++
++ lib/urldata.h              |  4 +++
++ tests/data/Makefile.inc    |  2 +-
++ tests/data/test1559        | 44 ++++++++++++++++++++++++++
++ tests/libtest/Makefile.inc |  6 ++--
++ tests/libtest/lib1559.c    | 78 ++++++++++++++++++++++++++++++++++++++++++++++
++ 7 files changed, 146 insertions(+), 3 deletions(-)
++ create mode 100644 tests/data/test1559
++ create mode 100644 tests/libtest/lib1559.c
 +
-+diff --git a/Doc/library/urllib.parse.rst b/Doc/library/urllib.parse.rst
-+index 0c8f0f607314..b565e1edd321 100644
-+--- a/Doc/library/urllib.parse.rst
-++++ b/Doc/library/urllib.parse.rst
-+@@ -124,6 +124,11 @@ or on combining URL components into a URL string.
-+    Unmatched square brackets in the :attr:`netloc` attribute will raise a
-+    :exc:`ValueError`.
++diff --git a/lib/setopt.c b/lib/setopt.c
++index b5f74a9..edf7165 100644
++--- a/lib/setopt.c
+++++ b/lib/setopt.c
++@@ -61,6 +61,13 @@ CURLcode Curl_setstropt(char **charp, const char *s)
++   if(s) {
++     char *str = strdup(s);
 + 
-++   Characters in the :attr:`netloc` attribute that decompose under NFKC
-++   normalization (as used by the IDNA encoding) into any of ``/``, ``?``,
-++   ``#``, ``@``, or ``:`` will raise a :exc:`ValueError`. If the URL is
-++   decomposed before parsing, no error will be raised.
+++    if(str) {
+++      size_t len = strlen(str);
+++      if(len > CURL_MAX_INPUT_LENGTH) {
+++        free(str);
+++        return CURLE_BAD_FUNCTION_ARGUMENT;
+++      }
+++    }
++     if(!str)
++       return CURLE_OUT_OF_MEMORY;
++ 
++diff --git a/lib/urlapi.c b/lib/urlapi.c
++index a19867e..822e4b3 100644
++--- a/lib/urlapi.c
+++++ b/lib/urlapi.c
++@@ -642,6 +642,10 @@ static CURLUcode seturl(const char *url, CURLU *u, unsigned int flags)
++    ************************************************************/
++   /* allocate scratch area */
++   urllen = strlen(url);
+++  if(urllen > CURL_MAX_INPUT_LENGTH)
+++    /* excessive input length */
+++    return CURLUE_MALFORMED_INPUT;
 ++
-+    .. versionchanged:: 3.2
-+       Added IPv6 URL parsing capabilities.
++   path = u->scratch = malloc(urllen * 2 + 2);
++   if(!path)
++     return CURLUE_OUT_OF_MEMORY;
++@@ -1272,6 +1276,10 @@ CURLUcode curl_url_set(CURLU *u, CURLUPart what,
++     const char *newp = part;
++     size_t nalloc = strlen(part);
 + 
-+@@ -136,6 +141,10 @@ or on combining URL components into a URL string.
-+       Out-of-range port numbers now raise :exc:`ValueError`, instead of
-+       returning :const:`None`.
-+ 
-++   .. versionchanged:: 3.7.3
-++      Characters that affect netloc parsing under NFKC normalization will
-++      now raise :exc:`ValueError`.
+++    if(nalloc > CURL_MAX_INPUT_LENGTH)
+++      /* excessive input length */
+++      return CURLUE_MALFORMED_INPUT;
 ++
++     if(urlencode) {
++       const char *i;
++       char *o;
++diff --git a/lib/urldata.h b/lib/urldata.h
++index 24187a4..049a34d 100644
++--- a/lib/urldata.h
+++++ b/lib/urldata.h
++@@ -79,6 +79,10 @@
++ */
++ #define RESP_TIMEOUT (120*1000)
 + 
-+ .. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
-+ 
-+@@ -257,10 +266,19 @@ or on combining URL components into a URL string.
-+    Unmatched square brackets in the :attr:`netloc` attribute will raise a
-+    :exc:`ValueError`.
-+ 
-++   Characters in the :attr:`netloc` attribute that decompose under NFKC
-++   normalization (as used by the IDNA encoding) into any of ``/``, ``?``,
-++   ``#``, ``@``, or ``:`` will raise a :exc:`ValueError`. If the URL is
-++   decomposed before parsing, no error will be raised.
+++/* Max string intput length is a precaution against abuse and to detect junk
+++   input easier and better. */
+++#define CURL_MAX_INPUT_LENGTH 8000000
 ++
-+    .. versionchanged:: 3.6
-+       Out-of-range port numbers now raise :exc:`ValueError`, instead of
-+       returning :const:`None`.
-+ 
-++   .. versionchanged:: 3.7.3
-++      Characters that affect netloc parsing under NFKC normalization will
-++      now raise :exc:`ValueError`.
-++
-+ 
-+ .. function:: urlunsplit(parts)
-+ 
-+diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
-+index be50b47603aa..e6638aee2244 100644
-+--- a/Lib/test/test_urlparse.py
-++++ b/Lib/test/test_urlparse.py
-+@@ -1,3 +1,5 @@
-++import sys
-++import unicodedata
-+ import unittest
-+ import urllib.parse
-+ 
-+@@ -984,6 +986,27 @@ def test_all(self):
-+                 expected.append(name)
-+         self.assertCountEqual(urllib.parse.__all__, expected)
-+ 
-++    def test_urlsplit_normalization(self):
-++        # Certain characters should never occur in the netloc,
-++        # including under normalization.
-++        # Ensure that ALL of them are detected and cause an error
-++        illegal_chars = '/:#?@'
-++        hex_chars = {'{:04X}'.format(ord(c)) for c in illegal_chars}
-++        denorm_chars = [
-++            c for c in map(chr, range(128, sys.maxunicode))
-++            if (hex_chars & set(unicodedata.decomposition(c).split()))
-++            and c not in illegal_chars
-++        ]
-++        # Sanity check that we found at least one such character
-++        self.assertIn('\u2100', denorm_chars)
-++        self.assertIn('\uFF03', denorm_chars)
-++
-++        for scheme in ["http", "https", "ftp"]:
-++            for c in denorm_chars:
-++                url = "{}://netloc{}false.netloc/path".format(scheme, c)
-++                with self.subTest(url=url, char='{:04X}'.format(ord(c))):
-++                    with self.assertRaises(ValueError):
-++                        urllib.parse.urlsplit(url)
-+ 
-+ class Utility_Tests(unittest.TestCase):
-+     """Testcase to test the various utility functions in the urllib."""
-+diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
-+index f691ab74f87f..39c5d6a80824 100644
-+--- a/Lib/urllib/parse.py
-++++ b/Lib/urllib/parse.py
-+@@ -391,6 +391,21 @@ def _splitnetloc(url, start=0):
-+             delim = min(delim, wdelim)     # use earliest delim position
-+     return url[start:delim], url[delim:]   # return (domain, rest)
-+ 
-++def _checknetloc(netloc):
-++    if not netloc or netloc.isascii():
-++        return
-++    # looking for characters like \u2100 that expand to 'a/c'
-++    # IDNA uses NFKC equivalence, so normalize for this check
-++    import unicodedata
-++    netloc2 = unicodedata.normalize('NFKC', netloc)
-++    if netloc == netloc2:
-++        return
-++    _, _, netloc = netloc.rpartition('@') # anything to the left of '@' is okay
-++    for c in '/?#@:':
-++        if c in netloc2:
-++            raise ValueError("netloc '" + netloc2 + "' contains invalid " +
-++                             "characters under NFKC normalization")
-++
-+ def urlsplit(url, scheme='', allow_fragments=True):
-+     """Parse a URL into 5 components:
-+     <scheme>://<netloc>/<path>?<query>#<fragment>
-+@@ -419,6 +434,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
-+                 url, fragment = url.split('#', 1)
-+             if '?' in url:
-+                 url, query = url.split('?', 1)
-++            _checknetloc(netloc)
-+             v = SplitResult('http', netloc, url, query, fragment)
-+             _parse_cache[key] = v
-+             return _coerce_result(v)
-+@@ -442,6 +458,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
-+         url, fragment = url.split('#', 1)
-+     if '?' in url:
-+         url, query = url.split('?', 1)
-++    _checknetloc(netloc)
-+     v = SplitResult(scheme, netloc, url, query, fragment)
-+     _parse_cache[key] = v
-+     return _coerce_result(v)
-+diff --git a/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
++ #include "cookie.h"
++ #include "psl.h"
++ #include "formdata.h"
++diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
++index 2eca9c6..3dd234f 100644
++--- a/tests/data/Makefile.inc
+++++ b/tests/data/Makefile.inc
++@@ -176,7 +176,7 @@ test1525 test1526 test1527 test1528 test1529 test1530 test1531 test1532 \
++ test1533 test1534 test1535 test1536 test1537 test1538 \
++ test1540 test1541 \
++ test1550 test1551 test1552 test1553 test1554 test1555 test1556 test1557 \
++-test1558          test1560 test1561 test1562 \
+++test1558 test1559 test1560 test1561 test1562 \
++ \
++ test1590 test1591 test1592 \
++ \
++diff --git a/tests/data/test1559 b/tests/data/test1559
 +new file mode 100644
-+index 000000000000..5546394157f9
++index 0000000..cbed6fb
 +--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
-+@@ -0,0 +1,3 @@
-++Changes urlsplit() to raise ValueError when the URL contains characters that
-++decompose under IDNA encoding (NFKC-normalization) into characters that
-++affect how the URL is parsed.
-diff --git a/meta/recipes-devtools/python/python3_3.7.2.bb b/meta/recipes-devtools/python/python3_3.7.2.bb
-index 7ef7cb5..dc851cb 100644
---- a/meta/recipes-devtools/python/python3_3.7.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.2.bb
-@@ -22,6 +22,8 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0002-Don-t-do-runtime-test-to-get-float-byte-order.patch \
-            file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
-            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
-+           file://CVE-2018-20852.patch \
-+           file://CVE-2019-9636.patch \
-            "
+++++ b/tests/data/test1559
++@@ -0,0 +1,44 @@
+++<testcase>
+++<info>
+++<keywords>
+++CURLOPT_URL
+++</keywords>
+++</info>
+++
+++<reply>
+++</reply>
+++
+++<client>
+++<server>
+++none
+++</server>
+++
+++# require HTTP so that CURLOPT_POSTFIELDS works as assumed
+++<features>
+++http
+++</features>
+++<tool>
+++lib1559
+++</tool>
+++
+++<name>
+++Set excessive URL lengths
+++</name>
+++</client>
+++
+++#
+++# Verify that the test runs to completion without crashing
+++<verify>
+++<errorcode>
+++0
+++</errorcode>
+++<stdout>
+++CURLOPT_URL 10000000 bytes URL == 43
+++CURLOPT_POSTFIELDS 10000000 bytes data == 0
+++CURLUPART_URL 10000000 bytes URL == 3
+++CURLUPART_SCHEME 10000000 bytes scheme == 3
+++CURLUPART_USER 10000000 bytes user == 3
+++</stdout>
+++</verify>
+++
+++</testcase>
++diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
++index e38f481..52b51c5 100644
++--- a/tests/libtest/Makefile.inc
+++++ b/tests/libtest/Makefile.inc
++@@ -31,8 +31,7 @@ noinst_PROGRAMS = chkhostname libauthretry libntlmconnect                \
++  lib1534 lib1535 lib1536 lib1537 lib1538 \
++  lib1540 lib1541 \
++  lib1550 lib1551 lib1552 lib1553 lib1554 lib1555 lib1556 lib1557 \
++- lib1558 \
++- lib1560 \
+++ lib1558 lib1559 lib1560 \
++  lib1591 lib1592 \
++  lib1900 lib1905 \
++  lib2033
++@@ -529,6 +528,9 @@ lib1557_CPPFLAGS = $(AM_CPPFLAGS) -DLIB1557
++ lib1558_SOURCES = lib1558.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)
++ lib1558_LDADD = $(TESTUTIL_LIBS)
++ 
+++lib1559_SOURCES = lib1559.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)
+++lib1559_LDADD = $(TESTUTIL_LIBS)
+++
++ lib1560_SOURCES = lib1560.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)
++ lib1560_LDADD = $(TESTUTIL_LIBS)
++ 
++diff --git a/tests/libtest/lib1559.c b/tests/libtest/lib1559.c
++new file mode 100644
++index 0000000..2aa3615
++--- /dev/null
+++++ b/tests/libtest/lib1559.c
++@@ -0,0 +1,78 @@
+++/***************************************************************************
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) 1998 - 2019, Daniel Stenberg, <daniel@haxx.se>, et al.
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.haxx.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+++ * KIND, either express or implied.
+++ *
+++ ***************************************************************************/
+++#include "test.h"
+++
+++#include "testutil.h"
+++#include "warnless.h"
+++#include "memdebug.h"
+++
+++#define EXCESSIVE 10*1000*1000
+++int test(char *URL)
+++{
+++  CURLcode res = 0;
+++  CURL *curl = NULL;
+++  char *longurl = malloc(EXCESSIVE);
+++  CURLU *u;
+++  (void)URL;
+++
+++  memset(longurl, 'a', EXCESSIVE);
+++  longurl[EXCESSIVE-1] = 0;
+++
+++  global_init(CURL_GLOBAL_ALL);
+++  easy_init(curl);
+++
+++  res = curl_easy_setopt(curl, CURLOPT_URL, longurl);
+++  printf("CURLOPT_URL %d bytes URL == %d\n",
+++         EXCESSIVE, (int)res);
+++
+++  res = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, longurl);
+++  printf("CURLOPT_POSTFIELDS %d bytes data == %d\n",
+++         EXCESSIVE, (int)res);
+++
+++  u = curl_url();
+++  if(u) {
+++    CURLUcode uc = curl_url_set(u, CURLUPART_URL, longurl, 0);
+++    printf("CURLUPART_URL %d bytes URL == %d\n",
+++           EXCESSIVE, (int)uc);
+++    uc = curl_url_set(u, CURLUPART_SCHEME, longurl, CURLU_NON_SUPPORT_SCHEME);
+++    printf("CURLUPART_SCHEME %d bytes scheme == %d\n",
+++           EXCESSIVE, (int)uc);
+++    uc = curl_url_set(u, CURLUPART_USER, longurl, 0);
+++    printf("CURLUPART_USER %d bytes user == %d\n",
+++           EXCESSIVE, (int)uc);
+++    curl_url_cleanup(u);
+++  }
+++
+++  free(longurl);
+++
+++  curl_easy_cleanup(curl);
+++  curl_global_cleanup();
+++
+++  return 0;
+++
+++test_cleanup:
+++
+++  curl_easy_cleanup(curl);
+++  curl_global_cleanup();
+++
+++  return res; /* return the final return code */
+++}
+diff --git a/meta/recipes-support/curl/curl/CVE-2019-5436.patch b/meta/recipes-support/curl/curl/CVE-2019-5436.patch
+new file mode 100644
+index 0000000..eee26ce
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2019-5436.patch
+@@ -0,0 +1,30 @@
++From 2da531b3068e22cf714f001b493a704b2e9b923f Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Fri, 3 May 2019 22:20:37 +0200
++Subject: [PATCH] tftp: use the current blksize for recvfrom()
++
++bug: https://curl.haxx.se/docs/CVE-2019-5436.html
++Reported-by: l00p3r on hackerone
++CVE-2019-5436
++
++Upstream-Status: Backport
++CVE: CVE-2019-5436
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++
++---
++ lib/tftp.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/tftp.c b/lib/tftp.c
++index 8b92b7b..289cda2 100644
++--- a/lib/tftp.c
+++++ b/lib/tftp.c
++@@ -1009,7 +1009,7 @@ static CURLcode tftp_connect(struct connectdata *conn, bool *done)
++   state->sockfd = state->conn->sock[FIRSTSOCKET];
++   state->state = TFTP_STATE_START;
++   state->error = TFTP_ERR_NONE;
++-  state->blksize = TFTP_BLKSIZE_DEFAULT;
+++  state->blksize = blksize;
++   state->requested_blksize = blksize;
++ 
++   ((struct sockaddr *)&state->local_addr)->sa_family =
+diff --git a/meta/recipes-support/curl/curl_7.64.1.bb b/meta/recipes-support/curl/curl_7.64.1.bb
+index 47c28be..00c8c5a 100644
+--- a/meta/recipes-support/curl/curl_7.64.1.bb
++++ b/meta/recipes-support/curl/curl_7.64.1.bb
+@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=be5d9e1419c4363f4b32037a2d3b7ffa"
  
- SRC_URI_append_class-native = " \
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
++           file://CVE-2019-5435.patch \
++           file://CVE-2019-5436.patch \
+ "
+ 
+ SRC_URI[md5sum] = "790c101927845208a9d7e8c429ddd1b2"
 -- 
 2.7.4
 
