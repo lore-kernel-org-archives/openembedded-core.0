@@ -1,83 +1,58 @@
-Return-Path: <jlock@vmware.com>
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
-	(mail-eopbgr820079.outbound.protection.outlook.com [40.107.82.79])
-	by mail.openembedded.org (Postfix) with ESMTP id 9111A7F1DF
+Return-Path: <Arturo.Buzarra@digi.com>
+X-Greylist: delayed 766 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 26 Jul 2019 12:54:24 UTC
+Received: from mail1.bemta23.messagelabs.com (mail1.bemta23.messagelabs.com
+	[67.219.246.212])
+	by mail.openembedded.org (Postfix) with ESMTP id 6671471BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 11:26:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=cVwRaRDYc6Idc9ztN6xO28/Myylh63VPQ3j1azJzidFU5v/tCDIPLWI8Zo5sBX6CIKkOyiRQkIgq1W3HVHprf23dl8lDBZeLE2ur3D6pStUYFc1+NlyOFWGPduk03deXqm+oPdtwDQ8KArdKLpjXjVxhCTI1I7yhu1VX2jxXxviY+G9Q3FUeofYoc7wur5EceRYwVLh7+jEj6yz8Fj8W4Z9A5mg5rYPnsIJNDuOxQWj+NCDNaLBZcQdgPZ31qOCeHWU4o+ityiO1XS5LWRDIGgY6LhLtA+2PnnYBO7sW2wE7b3ONi5rYCW7OETk1/lUUB7Hf1FztRJPH3u7YADsWFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=jLEcvoozeuetlX0EVH2HpMxRS8f+H38cDpH/qkvY0y8=;
-	b=Gnm0ubsWPOoCzOAMPR6FO1ByZ4QRrqFvVfmiV7/ibEmg2CGVIbmyFCZemIytE1c+iYPYUA5FrErPcGFP1EDHWalsLhmIAfXsKllRnN/Lky5SlwmPajhhLjYGP0AOW4u6t3fKRevPJIkiSa9kSJBof1iQZUojGm12j67PMg9knVe2NInwT33KtCK2UjD77+ZcbIxVo4ncneaCTVs29KmuD50WwJmCKcrdYu584NyReg2hTKI52K/EoM9RheD8wPVQttlyOiHYNhjRXlaOndJ2Is6iZ/2bf+4CQWM/m27Xw6bgJTD39tJfxG6MJ5hO/F/rX90SyTEZptP9oWwdFWVhCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
-	smtp.mailfrom=vmware.com;dmarc=pass action=none
-	header.from=vmware.com;dkim=pass header.d=vmware.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
-	s=selector2;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=jLEcvoozeuetlX0EVH2HpMxRS8f+H38cDpH/qkvY0y8=;
-	b=Nd568pAj39GkiRnhn+Hl0n/OY+es3HdId99tCai3Vc1KUykXDpbNQ9MmddzAaid86HtWAPYh4i7HdT4IJvTOPwrsZ37QxXYAb87oTL6RBAtriPcJfVAYy7QZwk4z8ggETPtRMTn2x2WBH/tWeHhMRCJK3Gp06qID6gF8Zy43U3w=
-Received: from CO2PR05MB2645.namprd05.prod.outlook.com (10.166.91.154) by
-	CO2PR05MB2453.namprd05.prod.outlook.com (10.166.214.148) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2136.9; Fri, 26 Jul 2019 11:26:50 +0000
-Received: from CO2PR05MB2645.namprd05.prod.outlook.com
-	([fe80::4d14:654a:9769:3f59]) by
-	CO2PR05MB2645.namprd05.prod.outlook.com
-	([fe80::4d14:654a:9769:3f59%5]) with mapi id 15.20.2115.005;
-	Fri, 26 Jul 2019 11:26:50 +0000
-From: Joshua Lock <jlock@vmware.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [RFC PATCH 3/3] classes/sstate: regenerate sstate when signing
-	enabled
-Thread-Index: AQHVQ6UE5rhOJ/uaUky4hHEl4x+jFA==
-Date: Fri, 26 Jul 2019 11:26:50 +0000
-Message-ID: <5c2484a9c2c5dd78f7c4488839a4e2d2929e2c7d.1564139487.git.jlock@vmware.com>
-References: <cover.1564139487.git.jlock@vmware.com>
-In-Reply-To: <cover.1564139487.git.jlock@vmware.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: DB7PR04CA0015.eurprd04.prod.outlook.com
-	(2603:10a6:10:12::28) To CO2PR05MB2645.namprd05.prod.outlook.com
-	(2603:10b6:102:8::26)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=jlock@vmware.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.21.0
-x-originating-ip: [212.140.202.154]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 49187e5a-e291-442d-c8de-08d711bc273c
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:CO2PR05MB2453; 
-x-ms-traffictypediagnostic: CO2PR05MB2453:
-x-microsoft-antispam-prvs: <CO2PR05MB2453AD06ACD70FAB66C96C40CEC00@CO2PR05MB2453.namprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2276;
-x-forefront-prvs: 01106E96F6
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(4636009)(396003)(346002)(376002)(366004)(39860400002)(136003)(189003)(199004)(118296001)(6116002)(6436002)(3846002)(5640700003)(2501003)(86362001)(2351001)(5660300002)(66446008)(64756008)(66556008)(66476007)(66946007)(6506007)(386003)(102836004)(14454004)(11346002)(76176011)(2906002)(52116002)(6486002)(478600001)(486006)(305945005)(2616005)(256004)(14444005)(476003)(7736002)(6512007)(71200400001)(99286004)(71190400001)(81166006)(81156014)(8676002)(6916009)(316002)(8936002)(50226002)(25786009)(36756003)(186003)(66066001)(446003)(53936002)(26005)(68736007);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CO2PR05MB2453;
-	H:CO2PR05MB2645.namprd05.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: vmware.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: d8NpOwM9EG+Wi6bu3B5d4DrJDafCQ5W4foqK35BQmYyb/5n0dxjww0U/s8GR95LSSvLNVE7gwwktXY9gWlk4g+VvXZpezWh/BnhsFmQwYcOt3dwYCsD5ezZB+oqblJcic/CU+SpXuX8dHifG0iBj6uY2tiuSFaZtyGPfDc/wP71xRqPuItWMSgeGOAW1N+K2bpfAbVksaTeqwrrrFZT975bcNhV48ZWYnOF8P5uCATTQg1DY0lznpdS4swQ2tjc6IQAj1PJEQsgsg0nA+wSnoO1J22R3rjtwy9QckZp1iNpievOboIXh8MlWJCBRBnHBvvk5RsYw34c01ZAQVhLsaKWAIlmaETCEakumMhbcydXeI5caQwJLQ40+RtZmG+8AgXY7XyQNUGXIZ6n8OXLQmi01mzUG6FSmdE5bLfczRd4=
+	Fri, 26 Jul 2019 12:54:24 +0000 (UTC)
+Received: from [67.219.246.101] (using TLSv1.2 with cipher
+	DHE-RSA-AES256-GCM-SHA384 (256 bits))
+	by server-2.bemta.az-b.us-east-1.aws.symcld.net id 2A/25-14179-305FA3D5;
+	Fri, 26 Jul 2019 12:41:39 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAIsWRWlGSWpSXmKPExsXi5LtOQJf5q1W
+	swc42OYs7P9+xOzB6nNu4gjGAMYo1My8pvyKBNWP3scWsBf+5K5Yu6mZpYDzB1cXIxSEksJpR
+	4mnbbnYIZw2jxLy+WawQzkZGiUc7/zJ2MXJysAnoSXz7Mou5i5GDQwTIvvpPFCQsLOAicebhY
+	rAwi4CqRNc3X5Awr4C1xOM5F5lAbAkBeYnOHbtZIOKCEidnPgGzmYHizVtnM0PYEhIHX7wAGy
+	MkoCLx/IktRKuCxLX3i9knMPLNQtI9C0n3LCTdCxiZVzGaJRVlpmeU5CZm5ugaGhjoGhoa6Rr
+	pGpob6SVW6SbplRbrpiYWl+ga6iWWF+sVV+Ym56To5aWWbGIEBmJKAdOaHYwvZr7RO8QoycGk
+	JMorp28VK8SXlJ9SmZFYnBFfVJqTWnyIUYaDQ0mCd+kHoJxgUWp6akVaZg4wKmDSEhw8SiK8f
+	F+A0rzFBYm5xZnpEKlTjK4cb9YuWcTM8RZMrt0OItvu3QWS7SBSiCUvPy9VSpy3/TNQswBIc0
+	ZpHtxoWERfYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTMywtyAk9mXgncBa+AjmMCOi5MCuy
+	4kkSElFQDE2fx4asGmjqvVyhLJwgsVjy7pIOv7d2rj1k7w+d/dtnLHroq3Hgp171vsyoenX5z
+	f98LtcnfbkstyJl9cLe/YNOm71fkSpcozg3OjA64rzDx/JvoLJX2FQ6+AsovAxxvpvps25LYw
+	PRmtttyHTNB6/dmbFf+qfeHfjp0Jp2r9ORvb82keSV3u21+JB2Jlr/u1majXPxgGbt+eHDeb/
+	5v3XOPC/vvMM+OSgrc2H+C1/vb5FfiVwOSkw6t/cPLvWLGKXXeiaecw0t4ap/92BEw7X1lWdR
+	u2wnHnmk/vyi8K4bv+ovwPD//UCEhfhtpB8UjjlKxbnESGTvYz7zSPaDosPPixLUnDn/gaJns
+	+3nhByWW4oxEQy3mouJEACb/fw1jAwAA
+X-Env-Sender: Arturo.Buzarra@digi.com
+X-Msg-Ref: server-9.tower-385.messagelabs.com!1564144898!966582!1
+X-Originating-IP: [66.77.174.16]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.43.9; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 12259 invoked from network); 26 Jul 2019 12:41:39 -0000
+Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
+	by server-9.tower-385.messagelabs.com with ECDHE-RSA-AES256-SHA384
+	encrypted SMTP; 26 Jul 2019 12:41:39 -0000
+Received: from MTK-SMS-XCH04.digi.com (10.10.8.198) by MCL-VMS-XCH01.digi.com
+	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Fri, 26 Jul 2019 07:41:39 -0500
+Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MTK-SMS-XCH04.digi.com
+	(10.10.8.198) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Fri, 26 Jul 2019 07:41:38 -0500
+Received: from LOG-CLN-ABUZARRA2.digi.com (10.101.2.112) by
+	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
+	14.3.468.0; Fri, 26 Jul 2019 14:41:36 +0200
+From: Arturo Buzarra <arturo.buzarra@digi.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Jul 2019 14:41:25 +0200
+Message-ID: <20190726124125.6238-1-arturo.buzarra@digi.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49187e5a-e291-442d-c8de-08d711bc273c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2019 11:26:50.7792 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jlock@vmware.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO2PR05MB2453
-Subject: [RFC PATCH 3/3] classes/sstate: regenerate sstate when signing enabled
+X-Originating-IP: [10.101.2.112]
+Subject: [meta-oe][thud] lvm2: Fix RDEPEND on lvm2 to lvm2-udevrules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -90,89 +65,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 11:26:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Jul 2019 12:54:24 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This change ensures that the task signatures changes, and therefore
-sstate tasks are rerun, when signing is enabled. This has the
-positive outcome that if signing is enabled new signed shared state
-objects will be produced, rather than just signing shared state
-objects for tasks where no work has been performed yet.
+Commit c6e963f9e078b728911afed38d31ed234a384154 ("lvm2: Add RDEPEND
+on lvm2 to lvm2-udevrules") added a package dependency due to
+lvm2-udevrules needs dmsetup, however dmsetup was moved to libdevmapper
+in commit 269d009a81d4 ("lvm2: libdevicemapper package needs udev
+rules and dmsetup"), so this dependency should be only for libdevmapper
+instead of the full package.
 
-The downside of this change is that enabling/disabling sstate object
-signing alters the taskhash and results in rebuilding the world.
+With the current implementation, a package that has a dependency with
+lvm2-udev rules will include also many unnecessary packages like lvm2,
+lvm2-scripts, etc. and their dependencies.
 
-Signed-off-by: Joshua Lock <jlock@vmware.com>
+Signed-off-by: Arturo Buzarra <arturo.buzarra@digi.com>
 ---
- meta/classes/sstate.bbclass | 10 ++++++++--
- meta/lib/oe/gpg_sign.py     | 10 ++++++++++
- 2 files changed, 18 insertions(+), 2 deletions(-)
+ meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 3342c5ef50..b060e15053 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -659,8 +659,12 @@ def sstate_package(ss, d):
-     if d.getVar('SSTATE_SKIP_CREATION') =3D=3D '1':
-         return
-=20
-+    sstate_create_package =3D ['sstate_report_unihash', 'sstate_create_pac=
-kage']
-+    if d.getVar('SSTATE_SIG_KEY'):
-+        sstate_create_package.append('sstate_sign_package')
-+
-     for f in (d.getVar('SSTATECREATEFUNCS') or '').split() + \
--             ['sstate_report_unihash', 'sstate_create_package', 'sstate_si=
-gn_package'] + \
-+             sstate_create_package + \
-              (d.getVar('SSTATEPOSTCREATEFUNCS') or '').split():
-         # All hooks should run in SSTATE_BUILDDIR.
-         bb.build.exec_func(f, d, (sstatebuild,))
-@@ -774,7 +778,7 @@ sstate_create_package () {
- }
-=20
- python sstate_sign_package () {
--    from oe.gpg_sign import get_signer
-+    from oe.gpg_sign import get_signer, SignFailedError
-=20
-     if d.getVar('SSTATE_SIG_KEY'):
-         signer =3D get_signer(d, 'local')
-@@ -783,6 +787,8 @@ python sstate_sign_package () {
-             os.unlink(sstate_pkg + '.sig')
-         signer.detach_sign(sstate_pkg, d.getVar('SSTATE_SIG_KEY', False), =
-None,
-                            d.getVar('SSTATE_SIG_PASSPHRASE'), armor=3DFals=
-e)
-+    else:
-+        raise SignFailedError("Can't sign sstate packages without key, SST=
-ATE_SIG_KEY empty")
- }
-=20
- python sstate_report_unihash() {
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 2fd8c3b1ac..ec5ace0dd0 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -123,6 +123,16 @@ class LocalSigner(object):
-         return ret
-=20
-=20
-+class SignFailedError(bb.build.FuncFailed):
-+    def __init__(self, description, name=3DNone, logfile=3DNone):
-+        self.description =3D description
-+        self.name =3D name
-+        self.logfile =3D logfile
-+
-+    def __str__(self):
-+        return 'Signing failed: %s' % self.description
-+
-+
- def get_signer(d, backend):
-     """Get signer object for the specified backend"""
-     # Use local signing by default
---=20
-2.21.0
+diff --git a/meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb b/meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb
+index 7bd7b09d8..08287e358 100644
+--- a/meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb
++++ b/meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb
+@@ -48,11 +48,11 @@ FILES_${PN}-scripts = " \
+     ${sbindir}/lvmdump \
+ "
+ # Specified explicitly for the udev rules, just in case that it does not get picked
+ # up automatically:
+ FILES_${PN}-udevrules = "${nonarch_base_libdir}/udev/rules.d"
+-RDEPENDS_${PN}-udevrules = "${PN}"
++RDEPENDS_${PN}-udevrules = "libdevmapper"
+ RDEPENDS_${PN}_append_class-target = " libdevmapper"
+ RDEPENDS_${PN}_append_class-nativesdk = " libdevmapper"
+ 
+ RDEPENDS_${PN}-scripts = "${PN} (= ${EXTENDPKGV}) bash"
+ RRECOMMENDS_${PN}_class-target = "${PN}-scripts (= ${EXTENDPKGV})"
+-- 
+2.22.0
 
 
