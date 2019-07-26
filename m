@@ -1,25 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id F19857E5E8
+	by mail.openembedded.org (Postfix) with ESMTP id B7BF37F160
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 04:47:37 +0000 (UTC)
+	Fri, 26 Jul 2019 04:47:38 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Jul 2019 21:47:39 -0700
+	25 Jul 2019 21:47:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,309,1559545200"; d="scan'208";a="172069556"
+X-IronPort-AV: E=Sophos;i="5.64,309,1559545200"; d="scan'208";a="172069557"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2019 21:47:38 -0700
+	by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2019 21:47:39 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jul 2019 12:47:25 +0800
-Message-Id: <1564116449-69248-3-git-send-email-anuj.mittal@intel.com>
+Date: Fri, 26 Jul 2019 12:47:26 +0800
+Message-Id: <1564116449-69248-4-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564116449-69248-1-git-send-email-anuj.mittal@intel.com>
 References: <1564116449-69248-1-git-send-email-anuj.mittal@intel.com>
-Subject: [warrior][PATCH 3/7] gstreamer1.0-plugins-base: fix CVE-2019-9928
+Subject: [warrior][PATCH 4/7] wget: fix CVE-2019-5953
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,62 +36,62 @@ X-List-Received-Date: Fri, 26 Jul 2019 04:47:38 -0000
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../gstreamer1.0-plugins-base/CVE-2019-9928.patch  | 33 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-base_1.14.4.bb  |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2019-9928.patch
+ .../recipes-extended/wget/wget/CVE-2019-5953.patch | 34 ++++++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.20.1.bb          |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2019-5953.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2019-9928.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2019-9928.patch
+diff --git a/meta/recipes-extended/wget/wget/CVE-2019-5953.patch b/meta/recipes-extended/wget/wget/CVE-2019-5953.patch
 new file mode 100644
-index 0000000..0ad7245
+index 0000000..00efe20
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2019-9928.patch
-@@ -0,0 +1,33 @@
-+From f672277509705c4034bc92a141eefee4524d15aa Mon Sep 17 00:00:00 2001
-+From: Tobias Ronge <tobiasr@axis.com>
-+Date: Thu, 14 Mar 2019 10:12:27 +0100
-+Subject: [PATCH] gstrtspconnection: Security loophole making heap overflow
++++ b/meta/recipes-extended/wget/wget/CVE-2019-5953.patch
+@@ -0,0 +1,34 @@
++From 692d5c5215de0db482c252492a92fc424cc6a97c Mon Sep 17 00:00:00 2001
++From: Tim Ruehsen <tim.ruehsen@gmx.de>
++Date: Fri, 5 Apr 2019 11:50:44 +0200
++Subject: Fix a buffer overflow vulnerability
 +
-+The former code allowed an attacker to create a heap overflow by
-+sending a longer than allowed session id in a response and including a
-+semicolon to change the maximum length. With this change, the parser
-+will never go beyond 512 bytes.
-+
++* src/iri.c(do_conversion): Reallocate the output buffer to a larger
++  size if it is already full
 +Upstream-Status: Backport
-+CVE: CVE-2019-9928
++CVE: CVE-2019-5953
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ gst-libs/gst/rtsp/gstrtspconnection.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gst-libs/gst/rtsp/gstrtspconnection.c b/gst-libs/gst/rtsp/gstrtspconnection.c
-+index a6755bedd..c0429064a 100644
-+--- a/gst-libs/gst/rtsp/gstrtspconnection.c
-++++ b/gst-libs/gst/rtsp/gstrtspconnection.c
-+@@ -2461,7 +2461,7 @@ build_next (GstRTSPBuilder * builder, GstRTSPMessage * message,
-+           maxlen = sizeof (conn->session_id) - 1;
-+           /* the sessionid can have attributes marked with ;
-+            * Make sure we strip them */
-+-          for (i = 0; session_id[i] != '\0'; i++) {
-++          for (i = 0; i < maxlen && session_id[i] != '\0'; i++) {
-+             if (session_id[i] == ';') {
-+               maxlen = i;
-+               /* parse timeout */
++--- a/src/iri.c
+++++ b/src/iri.c
++@@ -188,11 +191,14 @@ do_conversion (const char *tocode, const char *fromcode, char const *in_org, siz
++         }
++       else if (errno == E2BIG) /* Output buffer full */
++         {
+++          logprintf (LOG_VERBOSE,
+++                    _("Reallocate output buffer len=%d outlen=%d inlen=%d\n"), len, outlen, inlen);
++           tooshort++;
++           done = len;
++-          len = outlen = done + inlen * 2;
++-          s = xrealloc (s, outlen + 1);
++-          *out = s + done;
+++          len = done + inlen * 2;
+++          s = xrealloc (s, len + 1);
+++          *out = s + done - outlen;
+++          outlen += inlen * 2;
++         }
++       else /* Weird, we got an unspecified error */
++         {
 +-- 
-+2.21.0
++cgit v1.0-41-gc330
 +
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.bb
-index f3e6daf..05d90dc 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.bb
-@@ -20,6 +20,7 @@ SRC_URI = " \
-             file://0010-gl-Add-switch-for-explicitely-enabling-disabling-GBM.patch \
-             file://0011-gl-Add-switches-for-explicitely-enabling-disabling-P.patch \
-             file://link-with-libvchostif.patch \
-+            file://CVE-2019-9928.patch \
-             "
- SRC_URI[md5sum] = "4dbe20c1bf44191c2b8833234df5cb2a"
- SRC_URI[sha256sum] = "ca6139490e48863e7706d870ff4e8ac9f417b56f3b9e4b3ce490c13b09a77461"
+diff --git a/meta/recipes-extended/wget/wget_1.20.1.bb b/meta/recipes-extended/wget/wget_1.20.1.bb
+index d176bd0..e852a0c 100644
+--- a/meta/recipes-extended/wget/wget_1.20.1.bb
++++ b/meta/recipes-extended/wget/wget_1.20.1.bb
+@@ -1,5 +1,6 @@
+ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
++           file://CVE-2019-5953.patch \
+           "
+ 
+ SRC_URI[md5sum] = "f6ebe9c7b375fc9832fb1b2028271fb7"
 -- 
 2.7.4
 
