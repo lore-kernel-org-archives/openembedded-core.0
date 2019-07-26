@@ -1,23 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1261B7E5E8
+	by mail.openembedded.org (Postfix) with ESMTP id 32D507F117
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 04:47:36 +0000 (UTC)
+	Fri, 26 Jul 2019 04:47:37 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Jul 2019 21:47:37 -0700
+	25 Jul 2019 21:47:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,309,1559545200"; d="scan'208";a="172069553"
+X-IronPort-AV: E=Sophos;i="5.64,309,1559545200"; d="scan'208";a="172069554"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2019 21:47:36 -0700
+	by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2019 21:47:37 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jul 2019 12:47:23 +0800
-Message-Id: <1564116449-69248-1-git-send-email-anuj.mittal@intel.com>
+Date: Fri, 26 Jul 2019 12:47:24 +0800
+Message-Id: <1564116449-69248-2-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [warrior][PATCH 1/7] expat: fix CVE-2018-20843
+In-Reply-To: <1564116449-69248-1-git-send-email-anuj.mittal@intel.com>
+References: <1564116449-69248-1-git-send-email-anuj.mittal@intel.com>
+Subject: [warrior][PATCH 2/7] vim: fix CVE-2019-12735
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,55 +36,93 @@ X-List-Received-Date: Fri, 26 Jul 2019 04:47:37 -0000
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-core/expat/expat/CVE-2018-20843.patch | 26 ++++++++++++++++++++++
- meta/recipes-core/expat/expat_2.2.6.bb             |  1 +
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2018-20843.patch
+ .../recipes-support/vim/files/CVE-2019-12735.patch | 64 ++++++++++++++++++++++
+ meta/recipes-support/vim/vim_8.1.1017.bb           |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2019-12735.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2018-20843.patch b/meta/recipes-core/expat/expat/CVE-2018-20843.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2019-12735.patch b/meta/recipes-support/vim/files/CVE-2019-12735.patch
 new file mode 100644
-index 0000000..af6641e
+index 0000000..d8afa18
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2018-20843.patch
-@@ -0,0 +1,26 @@
-+From 11f8838bf99ea0a6f0b76f9760c43704d00c4ff6 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Wed, 12 Jun 2019 15:42:22 +0200
-+Subject: [PATCH] xmlparse.c: Fix extraction of namespace prefix from XML name
-+ (#186)
++++ b/meta/recipes-support/vim/files/CVE-2019-12735.patch
+@@ -0,0 +1,64 @@
++From e8197acdd091881fdbf9ed6ca8318f3c96465f0a Mon Sep 17 00:00:00 2001
++From: Bram Moolenaar <Bram@vim.org>
++Date: Wed, 22 May 2019 22:38:25 +0200
++Subject: [PATCH] patch 8.1.1365: source command doesn't check for the sandbox
++
++Problem:    Source command doesn't check for the sandbox. (Armin Razmjou)
++Solution:   Check for the sandbox when sourcing a file.
 +
 +Upstream-Status: Backport
-+CVE: CVE-2018-20843
++CVE: CVE-2019-12735
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ expat/lib/xmlparse.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/getchar.c               | 6 ++++++
++ src/testdir/test_source.vim | 9 +++++++++
++ src/version.c               | 2 ++
++ 3 files changed, 17 insertions(+)
 +
-+diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-+index 30d55c5c..737d7cd2 100644
-+--- a/expat/lib/xmlparse.c
-++++ b/expat/lib/xmlparse.c
-+@@ -6071,7 +6071,7 @@ setElementTypePrefix(XML_Parser parser, ELEMENT_TYPE *elementType)
-+       else
-+         poolDiscard(&dtd->pool);
-+       elementType->prefix = prefix;
-+-
-++      break;
++diff --git a/src/getchar.c b/src/getchar.c
++index 0e9942b..475f644 100644
++--- a/src/getchar.c
+++++ b/src/getchar.c
++@@ -1407,6 +1407,12 @@ openscript(
++ 	emsg(_(e_nesting));
++ 	return;
 +     }
-+   }
-+   return 1;
-diff --git a/meta/recipes-core/expat/expat_2.2.6.bb b/meta/recipes-core/expat/expat_2.2.6.bb
-index c9e6081..0cef705 100644
---- a/meta/recipes-core/expat/expat_2.2.6.bb
-+++ b/meta/recipes-core/expat/expat_2.2.6.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
- SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
-            file://autotools.patch \
-            file://libtool-tag.patch \
-+           file://CVE-2018-20843.patch;striplevel=2 \
- 	  "
+++
+++    // Disallow sourcing a file in the sandbox, the commands would be executed
+++    // later, possibly outside of the sandbox.
+++    if (check_secure())
+++	return;
+++
++ #ifdef FEAT_EVAL
++     if (ignore_script)
++ 	/* Not reading from script, also don't open one.  Warning message? */
++diff --git a/src/testdir/test_source.vim b/src/testdir/test_source.vim
++index a33d286..5166baf 100644
++--- a/src/testdir/test_source.vim
+++++ b/src/testdir/test_source.vim
++@@ -36,3 +36,12 @@ func Test_source_cmd()
++   au! SourcePre
++   au! SourcePost
++ endfunc
+++
+++func Test_source_sandbox()
+++  new
+++  call writefile(["Ohello\<Esc>"], 'Xsourcehello')
+++  source! Xsourcehello | echo
+++  call assert_equal('hello', getline(1))
+++  call assert_fails('sandbox source! Xsourcehello', 'E48:')
+++  bwipe!
+++endfunc
++diff --git a/src/version.c b/src/version.c
++index a49f6fb..e4f74be 100644
++--- a/src/version.c
+++++ b/src/version.c
++@@ -780,6 +780,8 @@ static char *(features[]) =
++ static int included_patches[] =
++ {   /* Add new patch number below this line */
++ /**/
+++    1365,
+++/**/
++     1017,
++ /**/
++     1016,
+diff --git a/meta/recipes-support/vim/vim_8.1.1017.bb b/meta/recipes-support/vim/vim_8.1.1017.bb
+index 7627d28..e161e12 100644
+--- a/meta/recipes-support/vim/vim_8.1.1017.bb
++++ b/meta/recipes-support/vim/vim_8.1.1017.bb
+@@ -12,6 +12,7 @@ SRC_URI = "git://github.com/vim/vim.git \
+            file://disable_acl_header_check.patch;patchdir=.. \
+            file://vim-add-knob-whether-elf.h-are-checked.patch;patchdir=.. \
+            file://0001-src-Makefile-improve-reproducibility.patch;patchdir=.. \
++           file://CVE-2019-12735.patch;patchdir=.. \
+ "
+ SRCREV = "493fbe4abee660d30b4f2aef87b754b0a720213c"
  
- SRC_URI[md5sum] = "ca047ae951b40020ac831c28859161b2"
 -- 
 2.7.4
 
