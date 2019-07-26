@@ -1,23 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 09CD97F1CC
+	by mail.openembedded.org (Postfix) with ESMTP id ED1ED7F1C7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 09:23:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6Q9NwYU010820
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 Jul 2019 02:23:58 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 26 Jul 2019 02:23:45 -0700
+	Fri, 26 Jul 2019 09:35:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6Q9Z1Bk011787
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jul 2019 02:35:02 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Fri, 26 Jul 2019 02:35:01 -0700
 From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 26 Jul 2019 05:23:42 -0400
-Message-ID: <20190726092342.37231-1-kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Jul 2019 05:34:43 -0400
+Message-ID: <20190726093443.40634-2-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.20.0
+In-Reply-To: <20190726093443.40634-1-kai.kang@windriver.com>
+References: <20190726093443.40634-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] core-image-sato-sdk: test image with 512M memory
+Subject: [PATCH 2/2] epiphany: set imcompatible with tune mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,37 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 09:23:58 -0000
+X-List-Received-Date: Fri, 26 Jul 2019 09:35:01 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-When run do_testimage for core-image-sato-sdk, it fails to pass test
-case:
-
-| RESULTS - systemd.SystemdBasicTests.test_systemd_failed: FAILED (0.43s)
-
-It is OOM issue and daemon rpc.statd is killed:
-
-|  [  531.306146] Out of memory: Kill process 193 (rpc.statd) score 200 or sacrifice child
-
-Increase the memory of qemu to 512M to avoid such OOM issue.
+webkitgtk doesn't work with tune mips and set imcompatible with it.
+epiphany depends on webkitgtk and mask it too.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-sato/images/core-image-sato-sdk.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-gnome/epiphany/epiphany_3.32.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb b/meta/recipes-sato/images/core-image-sato-sdk.bb
-index d7cc52b52b..f7963d018e 100644
---- a/meta/recipes-sato/images/core-image-sato-sdk.bb
-+++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
-@@ -9,3 +9,4 @@ IMAGE_FEATURES += "dev-pkgs tools-sdk \
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
+index de1b6e2f84..d1c6af52ed 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
+@@ -16,5 +16,8 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}
+ SRC_URI[archive.md5sum] = "c4976507bf3de69f27a050ad09531f5a"
+ SRC_URI[archive.sha256sum] = "3ccb6859a43b839b714aa425cb185056f1e8604adbaab6a1bc179d1ba641a33f"
  
- IMAGE_INSTALL += "kernel-devsrc"
- 
-+TEST_QEMUPARAMS = "-m 512"
++# webkitgtk doesn't work with tune 'mips'
++COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips', 'null', 'mips.*-linux', d)}"
++
+ FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
+ RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
 -- 
 2.20.0
 
