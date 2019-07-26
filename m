@@ -1,31 +1,34 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 2213A7F013
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 37E927EEA1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2019 23:28:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id A577C40BCF;
-	Thu, 25 Jul 2019 23:23:15 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id OBhXFQPpxb2s; Thu, 25 Jul 2019 23:23:15 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
-	[100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 888A240B37;
-	Thu, 25 Jul 2019 23:23:14 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id 94DC217183F;
-	Thu, 25 Jul 2019 19:23:13 -0400 (EDT)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jul 2019 19:22:58 -0400
-Message-Id: <1564096979-19730-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH 1/2] wayland-protocols: upgrade 1.17 -> 1.18
+	Fri, 26 Jul 2019 00:53:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6Q0r2VR019201
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Jul 2019 17:53:12 -0700
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.115]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0468.000;
+	Thu, 25 Jul 2019 17:52:51 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] oeqa: small modification to
+	oe_syslog
+Thread-Index: AQHVQyfR0y8CVw1kEEucGsE3h1PQ2qbcU3yA//+8/sA=
+Date: Fri, 26 Jul 2019 00:52:50 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84FA850A09@ALA-MBD.corp.ad.wrs.com>
+References: <20190725203037.33849-1-joe.slater@windriver.com>
+	<fd395b9f9d74daabab0d2a3c3f37c8a486fd0bce.camel@linuxfoundation.org>
+In-Reply-To: <fd395b9f9d74daabab0d2a3c3f37c8a486fd0bce.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.116.242]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] oeqa: small modification to oe_syslog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,39 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 23:28:43 -0000
+X-List-Received-Date: Fri, 26 Jul 2019 00:53:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Denys Dmytriyenko <denys@ti.com>
-
-This version comes with documentational clarifications, bug fixes and minor
-additions to existing protocols. See the commit log for details.
-https://lists.freedesktop.org/archives/wayland-devel/2019-July/040756.html
-
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- .../wayland/{wayland-protocols_1.17.bb => wayland-protocols_1.18.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland-protocols_1.17.bb => wayland-protocols_1.18.bb} (86%)
-
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.17.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.18.bb
-similarity index 86%
-rename from meta/recipes-graphics/wayland/wayland-protocols_1.17.bb
-rename to meta/recipes-graphics/wayland/wayland-protocols_1.18.bb
-index ca8f06c..c8bec66 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.17.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.18.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
- 
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            "
--SRC_URI[md5sum] = "55ddd5fdb02b73b9de9559aaec267315"
--SRC_URI[sha256sum] = "df1319cf9705643aea9fd16f9056f4e5b2471bd10c0cc3713d4a4cdc23d6812f"
-+SRC_URI[md5sum] = "af38f22d8e233c2f2e00ddc8dcc94694"
-+SRC_URI[sha256sum] = "3d73b7e7661763dc09d7d9107678400101ecff2b5b1e531674abfa81e04874b3"
- 
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
- 
--- 
-2.7.4
-
+SSB0aG91Z2h0IG9mIHRoYXQsIGJ1dCBJIHRoaW5rIHRoZSBwYWNrYWdlIG1pZ2h0IGJlIHZhcmlh
+YmxlIGFuZCB3ZSB3b3VsZCBoYXZlIHRvIGxpc3QgYWxsIHRoZSBwb3NzaWJsZXMsIHdoaWNoIHJl
+cXVpcmVzIG1vbml0b3JpbmcuICBJZiAibG9nZ2VyIiBpc24ndCBvbiB0aGUgcGF0aCwgd2UgY291
+bGQgdGFrZSB0aGUgcG9zaXRpb24gdGhhdCB0aGUgdGVzdCBpcyBwb2ludGxlc3MgYW5kIG5vdCB3
+b3JyeSBhYm91dCB3aGVyZSBpdCBtaWdodCBoYXZlIGNvbWUgZnJvbS4NCg0KSm9lDQoNCi0tLS0t
+T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJk
+aWVAbGludXhmb3VuZGF0aW9uLm9yZz4gDQpTZW50OiBUaHVyc2RheSwgSnVseSAyNSwgMjAxOSAy
+OjQ1IFBNDQpUbzogU2xhdGVyLCBKb3NlcGggPGpvZS5zbGF0ZXJAd2luZHJpdmVyLmNvbT47IG9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0Ut
+Y29yZV0gW29lLWNvcmVdW1BBVENIIDEvMV0gb2VxYTogc21hbGwgbW9kaWZpY2F0aW9uIHRvIG9l
+X3N5c2xvZw0KDQpPbiBUaHUsIDIwMTktMDctMjUgYXQgMTM6MzAgLTA3MDAsIEpvZSBTbGF0ZXIg
+d3JvdGU6DQo+IFNraXAgbG9nZ2VyIHRlc3QgaWYgbG9nZ2VyIGlzIG5vdCBhIGNvbW1hbmQuDQo+
+IA0KPiBTaWduZWQtb2ZmLWJ5OiBKb2UgU2xhdGVyIDxqb2Uuc2xhdGVyQHdpbmRyaXZlci5jb20+
+DQo+IC0tLQ0KPiAgbWV0YS9saWIvb2VxYS9ydW50aW1lL2Nhc2VzL29lX3N5c2xvZy5weSB8IDIg
+KysNCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQg
+YS9tZXRhL2xpYi9vZXFhL3J1bnRpbWUvY2FzZXMvb2Vfc3lzbG9nLnB5IA0KPiBiL21ldGEvbGli
+L29lcWEvcnVudGltZS9jYXNlcy9vZV9zeXNsb2cucHkNCj4gaW5kZXggM2E4MjcxYS4uMDRmODM0
+NSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9saWIvb2VxYS9ydW50aW1lL2Nhc2VzL29lX3N5c2xvZy5w
+eQ0KPiArKysgYi9tZXRhL2xpYi9vZXFhL3J1bnRpbWUvY2FzZXMvb2Vfc3lzbG9nLnB5DQo+IEBA
+IC04Myw2ICs4Myw4IEBAIGNsYXNzIFN5c2xvZ1Rlc3RDb25maWcoT0VSdW50aW1lVGVzdENhc2Up
+Og0KPiAgICAgIGRlZiB0ZXN0X3N5c2xvZ19sb2dnZXIoc2VsZik6DQo+ICAgICAgICAgIHN0YXR1
+cywgb3V0cHV0ID0gc2VsZi50YXJnZXQucnVuKCdsb2dnZXIgZm9vYmFyJykNCj4gICAgICAgICAg
+bXNnID0gIkNhbid0IGxvZyBpbnRvIHN5c2xvZy4gT3V0cHV0OiAlcyAiICUgb3V0cHV0DQo+ICsg
+ICAgICAgIGlmIHN0YXR1cyA9PSAxMjc6DQo+ICsgICAgICAgICAgICBzZWxmLnNraXBUZXN0KCJX
+ZSBjYW5ub3QgdGVzdCBsb2dnZXIgYmVjYXVzZSBpdCBpcyBub3QgDQo+ICsgdGhlcmUuIikNCj4g
+ICAgICAgICAgc2VsZi5hc3NlcnRFcXVhbChzdGF0dXMsIDAsIG1zZz1tc2cpDQo+ICANCj4gICAg
+ICAgICAgIyBUaGVyZSBpcyBubyB3YXkgdG8gZmx1c2ggdGhlIGxvZ2dlciB0byBkaXNrIGluIGFs
+bCBjYXNlcw0KDQpTaG91bGQgd2Ugbm90IGJlIG1hcmtpbmcgdXAgdGhlIHRlc3QgdG8gc2tpcCBp
+ZiB0aGUgYXBwcm9wcmlhdGUgcGFja2FnZSBpc24ndCBpbiB0aGUgaW1hZ2U/DQoNCkNoZWVycywN
+Cg0KUmljaGFyZA0KDQo=
 
