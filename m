@@ -1,37 +1,49 @@
-Return-Path: <lukma@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B6D07D771
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 8861D6BC7E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 20:44:16 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 45wLfS40Qxz1rD9F;
-	Fri, 26 Jul 2019 22:44:16 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 45wLfS3c68z1qqkH;
-	Fri, 26 Jul 2019 22:44:16 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id 4t8K40FOyMO5; Fri, 26 Jul 2019 22:44:15 +0200 (CEST)
-X-Auth-Info: a8wFkLdZcnzQtqnrpNhYqpvL1iMhvrJnoKp5Kd1G5J8=
-Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 26 Jul 2019 22:44:15 +0200 (CEST)
-Date: Fri, 26 Jul 2019 22:44:08 +0200
-From: Lukasz Majewski <lukma@denx.de>
-To: Stefano Babic <sbabic@denx.de>
-Message-ID: <20190726224408.3d0b2e93@jawa>
-In-Reply-To: <2d08f0f5-dda0-d21b-6b7b-d28d9ca728dd@denx.de>
-References: <20190726074039.26753-1-lukma@denx.de>
-	<2d08f0f5-dda0-d21b-6b7b-d28d9ca728dd@denx.de>
-Organization: denx.de
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+	Fri, 26 Jul 2019 21:35:16 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id l9so54017619qtu.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jul 2019 14:35:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wq8ydTvVIocXcPUVGixwoZoHucSfttX8VXfYo8H7w+8=;
+	b=U82m7jMSnUpt6uRhvLlRIQKC4O0obkhwGpb4k00RN5ayNHZfOCNVIthBjHtPBQgFis
+	xBlgCSrxNy1Op0xt/QRzdOKCZ6q5EXfxE8Rj8juSXWOKJMxnS0xUziR5S/iYDmHB/AvW
+	ElHohTxLu1niSZy+IiDE3dkeaNDbS9ejfxftLmFK8ocCC4IAF/KeAt5L4mDD/Yn1rWVC
+	NMS/fUctKXEnajz0/ezW/Xq2ryQSp4XPD0Auar61KaWOS+kOmjfp1PnMLhr1h1U3AJYP
+	kCmA9v2deTx8IpTZIlhDEJiIqc+nXfNUNSKtLBRqJ8JSZFWXvzLU/O25UFC9dbOpchIM
+	m76g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wq8ydTvVIocXcPUVGixwoZoHucSfttX8VXfYo8H7w+8=;
+	b=HpKzJf+oMR7PPWop7E6w8OwqwUiPgRWW5Z5TWm1RwLkSDLk5HVqmu5GlP4ZhK52kz+
+	OMzO/EjUtwP5kuY/T0otlBEKsq+k/Ms0hW92tcfVMlyqb9fqj2X3dXcb6ARCLWs1IiNL
+	JS9WSOzwjFgLY7PF51MQEaDPKumT1K6sX/sp6wcOeoBU7jTiEnsVOKPuaBJO5lPq0MaB
+	e6j+bxyD9nnA8nXmKJ9xfwadDlVaGQOg0CmbZ4Ls0scAjmt8okiz3S6annDDGvOXLljd
+	xifJOYYUoOlcA+CKrZWLAhp9IQKzX8WJWjro3dR5THHKoyXafIkuLRbWK1aPG0xCfIzo
+	ndcQ==
+X-Gm-Message-State: APjAAAVj8nW3owMi3QB81TwD6DMq+FDSWeQGrrJp3sWSj2j+y5t8gyou
+	KIQBbzkl3HHzGx54qvwEI6bb5Rgc2m7l9/4WtGA=
+X-Google-Smtp-Source: APXvYqxMQ2eyplrDH7af6hAV8UAzPFD2jrpKP36NzClh4gSy3y/dzBAEL713pkcKsJnEJAwAw652t67mnvBr/Py7ZAg=
+X-Received: by 2002:a0c:d2da:: with SMTP id x26mr71064732qvh.51.1564176916958; 
+	Fri, 26 Jul 2019 14:35:16 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] u-boot: Generate default U-Boot environment images
+References: <20190726153927.14245-1-tworaz@tworaz.net>
+	<CAJTo0Lbwj-5k4K8UDVY0cD+eXnSL1Cv1QoR_Ddvfboh3KDkANw@mail.gmail.com>
+	<aa275fd3-1f67-ae34-86cd-3e761d1c0c8c@tworaz.net>
+	<CANNYZj_MRhgSz89mGkEn+RO8bOYe9nT5DnGyXEsWrve13JQbfg@mail.gmail.com>
+In-Reply-To: <CANNYZj_MRhgSz89mGkEn+RO8bOYe9nT5DnGyXEsWrve13JQbfg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 26 Jul 2019 14:35:01 -0700
+Message-ID: <CAMKF1spP76aSwMd9RN3bdjr50tirb8qxn22UoBDrdQpD0Z1qwA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] itstool: Use python3 binary fom PATH instead of /usr/bin/python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,224 +56,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 20:44:17 -0000
-X-Groupsio-MsgNum: 127227
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	boundary="Sig_/3JGhzEJzl/gVE5KFk9Mv8lj";
-	protocol="application/pgp-signature"
+X-List-Received-Date: Fri, 26 Jul 2019 21:35:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---Sig_/3JGhzEJzl/gVE5KFk9Mv8lj
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+and send to oe-devel ml please
 
-Hi Stefano,
+On Fri, Jul 26, 2019 at 11:50 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> I think this should be fine, as long as you:
+> 1. Modify the commit to fix the original place in the source code via a SRC_URI patch (instead of doing it after the fact with sed - such ad hoc patching is hard to read and understand).
+> 2. Write a better description: we need to preserve explanations like this in commit history.
+>
+> Alex
+>
+> On Fri, 26 Jul 2019 at 21:31, Piotr Tworek <tworaz@tworaz.net> wrote:
+>>
+>> Hi Ross,
+>>
+>> Thanks for looking at my patch. You're right that my explanation behind
+>> it is a wrong, I was a bit lazy there. Its not really about python3 not
+>> being installed on the host system. My patch does fix a real issue with
+>> itstool-native which is currently unusable. The main problem is we can't
+>> mix host and OE provided python3 usage in one recipe. The problem I
+>> found is that if  the recipe inherits python3native bbclass any use of
+>> system provided python3 will fail. This seems to happen because
+>> python3native bbclass exports
+>> _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata". If I try to invoke host
+>> python3 binary with this export it fails to start.complaining it can't
+>> find module named _sysconfigdata.
+>>
+>> You might ask why nobody noticed it before. The explanation is pretty
+>> simple. In meta-oe there are two recipes which depend on itstool-native.
+>> Those are gnome-desktop3 and gnome-system-monitor. Both recipes inherit
+>> meson class which in turn inherit python3native so in theory they should
+>> fail. This does not happen because both recipes actually disable
+>> document generation steps for which itstool is invoked.
+>> Gnome-system-monitor has a patch for it while gnome-desktop3 has
+>> desktop_docs=false in EXTRA_OEMESON. I haven't tried it yet, but with my
+>> patch the document generation step should probably work fine in both
+>> cases. This was the case for some other gnome related recipes which I
+>> have in my own custom layer.
+>>
+>> Is there anything besides the explanation that is wrong with my patch?
+>>
+>> /ptw
+>>
+>> On 26/07/2019 17:57, Burton, Ross wrote:
+>> > Considering:
+>> >
+>> > 1) bitbake is written in Python 3
+>> > 2) HOSTTOOLS contains python3
+>> >
+>> > There *really* is a host python 3 binary, and the canonical path to it
+>> > is ${HOSTTOOLS_DIR}/python3.
+>> >
+>> > Ross
+>> >
+>> > On Fri, 26 Jul 2019 at 16:40, Piotr Tworek <tworaz@tworaz.net> wrote:
+>> >> Although /usr/bin/python3 works fine for class-target builds its not
+>> >> really what we want for class-native. The host system might not even
+>> >> have python3 installed. The native itstool version should use pythn3
+>> >> provided in recipe-sysroot-native. To accomplish it modify the default
+>> >> shebang to use /usr/bin/env. This works as expected for both native and
+>> >> target builds.
+>> >>
+>> >> Signed-off-by: Piotr Tworek <tworaz@tworaz.net>
+>> >> ---
+>> >>   meta-oe/recipes-support/itstool/itstool_2.0.5.bb | 2 +-
+>> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> >>
+>> >> diff --git a/meta-oe/recipes-support/itstool/itstool_2.0.5.bb b/meta-oe/recipes-support/itstool/itstool_2.0.5.bb
+>> >> index a0af44a71..f21e7f39b 100644
+>> >> --- a/meta-oe/recipes-support/itstool/itstool_2.0.5.bb
+>> >> +++ b/meta-oe/recipes-support/itstool/itstool_2.0.5.bb
+>> >> @@ -13,7 +13,7 @@ SRC_URI[sha256sum] = "100506f8df62cca6225ec3e631a8237e9c04650c77495af4919ac6a100
+>> >>
+>> >>   do_install_append() {
+>> >>       # fix shebang of main script
+>> >> -    sed -i 's:^#!${WORKDIR}.*${PYTHON_PN} -s:#!${bindir_native}/${PYTHON_PN} -s:' ${D}${bindir}/itstool
+>> >> +    sed -i 's:^#!${WORKDIR}.*${PYTHON_PN} -s:#!${bindir_native}/env -S ${PYTHON_PN} -s:' ${D}${bindir}/itstool
+>> >>   }
+>> >>
+>> >>   BBCLASSEXTEND = "native"
+>> >> --
+>> >> 2.21.0
+>> >>
+>> >> --
+>> >> _______________________________________________
+>> >> Openembedded-core mailing list
+>> >> Openembedded-core@lists.openembedded.org
+>> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-> Hi Lukasz,
->=20
-> On 26/07/19 09:40, Lukasz Majewski wrote:
-> > This change provides tasks to generate default U-Boot environment
-> > images from built U-Boot (via. get_default_envs.sh script).
-> >=20
-> > Those images then can be used to generate wic images (with e.g.
-> > eMMC layout). With such approach the end user doesn't see the "CRC
-> > environment" error after the first boot.
-> >=20
-> > Moreover, those are built per MACHINE (as u-boot itself is) so then
-> > could be used in SWUpdate scenarios with single tar'ed archive with
-> > multiple MACHINE specific *.swu images. =20
->=20
-> By working together with SWUpdate, I am just wondering why this is
-> necessary. I guess that "default" U-Boot environment images means
-> "initial" environment.=20
-
-The main use case is with eMMC/SPI-NOR/NAND memory images produced with
-*.wic files for different machines.
-
-In this case - the whole layout of eMMC or SPI-NOR is flashed. With the
-default images generated with this u-boot recipe modification it is
-possible to create this layout with properly set environment images.
-
-As a result from the first run of the flashed devices there is no "CRC
-error" and default (in U-boot binary) envs are not used.
-
-> The issue I think you see is if there is no
-> environment in the storage and boards boot with the linked-in
-> environment.
-
-On my use case eMMC layouts for two MACHINEs are bundled together and
-then updated by SWUpdate depending on the MACHINE.
-
-> SWUpdate cannot find such as an environment.
->=20
-> For that, there is a target in u-boot: make u-boot-initial-env.
-
-Yes, I've noticed that it was added recently to U-Boot.
-
-> This
-> generates an ASCII file that can be used by SWUpdate if no environment
-> is stored and U-Boot starts with the linked-in environemnt.=20
-> It is
-> enough to put this file into rootfs and to enable SWUpdate (and
-> libubootenv) to use it.=20
-
-And if we do have this ASCII file, shall the mkimage with some SWUpdate
-script be run to generate default envs, which then would be stored to
-eMMC/SPI-NOR to avoid after reset "CRC env read error" ?
-
-> Create specific image to be stored into
-> a .wic seems overkilling,
-
-The advantages for such approach:
-
-- I do have a single, per MACHINE *.wic file which I can write either
-  via u-boot HUSH script or with SWUpdate and after reset I do have
-  access to right envs (no adjustments needed).
-
-- This is helpful for factory flashing.
-
-- The correct *.wic image is created solely with OE/Yocto - no extra
-  hacks needed.
-
-
-> and it does not help if for some reason the
-> board comes up without environment in the flash.
-
-As I update the whole layout (including GPT/MBR, boot, rootfs, custom,
-envs, etc) - all elements are updated.
-
-(For incremental updates I can provide *.swu file with only fitImage or
-rootfs).
-
-
-In short:
-
-What I need ?=20
-
-I do need env images generated (with mkimage) during u-boot build, so I
-can then use then during *.wic per machine image creation.
-
->=20
-> Best regards,
-> Stefano Babic
->=20
-> >=20
-> > The UBOOT_ENVS_SIZE must be defined in machine specific conf file
-> > as well as it is also possible to adjust (optionally) the *_ENVS_*
-> > variables.
-> >=20
-> > Test:
-> > Newest master-next for poky repo - SHA1:
-> > eb5b0a0b5e53a6e55a09e66489d3f24d0c6232ee MACHINE =3D
-> > "beaglebone-yocto" in local.conf bitbake virtual/bootloader
-> >=20
-> >=20
-> > As a result following links are available in deploy directory:
-> > u-boot-env.img{_r}.
-> >=20
-> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> >=20
-> > ---
-> > Changes for v2:
-> >=20
-> > - Move the content of deploy_default_envs task to do_deploy
-> > - Move the content of gen_default_envs task to do_compile
-> > - Create the u-boot-env.img{r} conditionally, only when
-> > UBOOT_ENVS_SIZE is defined
-> > - Change the commit title to reflect changes done for v2
-> > ---
-> >  meta/recipes-bsp/u-boot/u-boot.inc | 34
-> > ++++++++++++++++++++++++++++++++++ 1 file changed, 34 insertions(+)
-> >=20
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc
-> > b/meta/recipes-bsp/u-boot/u-boot.inc index 9a754fd09b..7ede2da0eb
-> > 100644 --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> > @@ -68,6 +68,13 @@ UBOOT_EXTLINUX_INSTALL_DIR ?=3D "/boot/extlinux"
-> >  UBOOT_EXTLINUX_CONF_NAME ?=3D "extlinux.conf"
-> >  UBOOT_EXTLINUX_SYMLINK ?=3D
-> > "${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE}-${PR}"=20
-> > +# U-Boot variables necessary for extracting default envs from
-> > build U-Boot +DEFAULT_UBOOT_ENVS_FILE ?=3D "u-boot-env"
-> > +DEFAULT_ENVS ?=3D "${DEFAULT_UBOOT_ENVS_FILE}.txt"
-> > +UBOOT_ENVS_DEFAULT ?=3D
-> > "${DEFAULT_UBOOT_ENVS_FILE}-${MACHINE}-${PV}-${PR}.img" +# The
-> > UBOOT_ENVS_SIZE needs to defined in the <machine>.conf file +#
-> > UBOOT_ENVS_SIZE =3D "65536" +
-> >  # returns all the elements from the src uri that are .cfg files
-> >  def find_cfgs(d):
-> >      sources=3Dsrc_patches(d, True)
-> > @@ -132,6 +139,19 @@ do_compile () {
-> >          oe_runmake -C ${S} O=3D${B} ${UBOOT_MAKE_TARGET}
-> >      fi
-> > =20
-> > +    # Generate default environment
-> > +    if [ -n "${UBOOT_ENVS_SIZE}" ]
-> > +    then
-> > +        ${B}/source/scripts/get_default_envs.sh ${B} >
-> > ${B}/${DEFAULT_ENVS} +
-> > +        # Generate env image
-> > +        ${B}/tools/mkenvimage -s ${UBOOT_ENVS_SIZE} -o
-> > ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS} +
-> > +        # Generate redundant env image
-> > +        ${B}/tools/mkenvimage -r -s ${UBOOT_ENVS_SIZE} -o
-> > ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS} +
-> > +        rm ${B}/${DEFAULT_ENVS}
-> > +    fi
-> >  }
-> > =20
-> >  do_install () {
-> > @@ -328,6 +348,20 @@ do_deploy () {
-> >          ln -sf ${UBOOT_EXTLINUX_SYMLINK}
-> > ${DEPLOYDIR}/${UBOOT_EXTLINUX_CONF_NAME}-${MACHINE} ln -sf
-> > ${UBOOT_EXTLINUX_SYMLINK} ${DEPLOYDIR}/${UBOOT_EXTLINUX_CONF_NAME}
-> > fi +
-> > +    if [ -n "${UBOOT_ENVS_SIZE}" ]
-> > +    then
-> > +        install -d ${DEPLOYDIR}
-> > +        install ${B}/${UBOOT_ENVS_DEFAULT}
-> > ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}
-> > +        install ${B}/${UBOOT_ENVS_DEFAULT}_r
-> > ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r +
-> > +        cd ${DEPLOYDIR}
-> > +        ln -sf ${UBOOT_ENVS_DEFAULT} ${DEFAULT_UBOOT_ENVS_FILE}.img
-> > +        ln -sf ${UBOOT_ENVS_DEFAULT}_r
-> > ${DEFAULT_UBOOT_ENVS_FILE}.img_r +
-> > +        rm ${B}/${UBOOT_ENVS_DEFAULT}
-> > +        rm ${B}/${UBOOT_ENVS_DEFAULT}_r
-> > +    fi
-> >  }
-> > =20
-> >  addtask deploy before do_build after do_compile
-> >  =20
->=20
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/3JGhzEJzl/gVE5KFk9Mv8lj
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl07ZhgACgkQAR8vZIA0
-zr3M9Af8DFfk/YpB0k1wSOlOlCflzcQgD5Yt1qs5C/cIjV/NjyKftczknmuodgUp
-X58v+vTlCZ9f3cudP4MATe4zMUDn3vjjyuvIDaI0RD/XvK7l5kJJRpR6+fKvTgUR
-JGlHC1MfJuXGjOyZ7Y+seJ6D4YzdH90upMIfB7XjxB1+Tdj1foCWJ/K8Z4OC/ny8
-oFkRLzX+tsN8eLc4matbampp9Ek1jgUXw20LjBGrg9pLsFbn4SUTqxIjyc4TV1M9
-2515Bv+BG6eIFZOd1ldEz175yII2HSfjQX/9hBlwgduSfTi1r/3BI4QfMrwiDXfq
-YSmw0a6eTk1CZsT9DlVSALq3RDi+Yw==
-=+yQp
------END PGP SIGNATURE-----
-
---Sig_/3JGhzEJzl/gVE5KFk9Mv8lj--
