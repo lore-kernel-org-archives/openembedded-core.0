@@ -1,47 +1,46 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
-	[209.85.222.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 027307F1DA
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
+	[209.85.221.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DD477F128
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 10:09:29 +0000 (UTC)
-Received: by mail-ua1-f66.google.com with SMTP id o19so21082487uap.13
+	Fri, 26 Jul 2019 10:11:16 +0000 (UTC)
+Received: by mail-vk1-f195.google.com with SMTP id s16so10638226vke.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 03:09:31 -0700 (PDT)
+	Fri, 26 Jul 2019 03:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=KtKa71l+2FR/OdGyvc/CuodZM0maaejS2SzJ3Roa6Bk=;
-	b=CX/qGMxQYVzUcpK16lvy17LTV0jtkkn1PGKY/GNrmabc+pzA7dzjHNJ8BIuo4Vzp22
-	ITR6Qepuk9DLV67sR/iEiv192vG/InIu+F8tkqf+6VZiNkqpbcZePcyOZixesFbw49xp
-	zhoeMrotQTAANk4iMe+q72btXybZtKgODKFMd0BID+Gz/Mf405qMkcdFI9Fm8ZCteBy+
-	72iFIQRWuXm6bkoamL03iGyEzEZRZ5Tk5uRuKPy1Iid4s+OBL/yDih56yhKtiF/x1L+A
-	d962w8j0uwSlWg1L99v9fSCYJFBp2VjXcgApD0A6DUmTL/sq46f/jmtEkGQK4hWZ47DX
-	0qlg==
+	:cc; bh=jMC/QpfrifEkuHSG8lqGLn4JiRdhv6qgEl2+jt4t/+Y=;
+	b=o9CCpIdqXDi4eA1J4hQm3bx6ldifdSKrmiTod6C7pJM114L9bFgHMl+wad3AYwL04d
+	/B6+2QjnUBHCQC9N5UI+78tdWLM3SJ1gDR+ys+vgvLKRUw4doUlMiBlO4rq/1NTs/eAf
+	TeUBMNgKRoP+SqtHyA2XKX9b7DapE2CQFVK9fyFcnEEoKMf6aKM7vMMHs4baQeX+KFJT
+	PpLmQsfWRIpBTCuz+NKqTwwfO1AEl6Sw9lUHYujyWLS53ThFoS4JijM5IJ8Tc5pi9TRr
+	4wC7Ek5Iqx6EiJzZIhCf2eeFWy1fHZgEehZ5RmiaBekWPJkqTCThWRLU9ukQ6n8wT7GX
+	uHPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=KtKa71l+2FR/OdGyvc/CuodZM0maaejS2SzJ3Roa6Bk=;
-	b=uKGsCypjs2/HYSSX/fIcUkR3pMRubyowoxKD1ey0OPHZJq8vCDtY+/7qGa1vohoMoK
-	v4qINmF1ZyNxOBo/fxGf6K90BNjZHAFp3AJktJqdekKMzuQSFHJYF41zlW3pH/rkpU/7
-	ps2TXCrsr5le5i7KG0mUh8QKYtZx5BZIf+GihYPTrv+TrqtCkfUkknWanMUm6fECCF8F
-	umX/Whtoo1uBhD5uD/ed7+nINvroCgiCOqAaEm/xLa6etUT64Zl75oPYALmn1jt8YIZD
-	efGQX+ANjLmvo9ZF4i+GioXLZb8eLWdZ8ivD6H9og8Y/Pntq0r+oRp2Qg2cGcvjVAtDz
-	JR5Q==
-X-Gm-Message-State: APjAAAXjEpUh1ztHJmIfYUGQU00OdsgGumhvsLqBcein5IXghcTcXlsy
-	xEcW9O39FJcWin6tWRqOgodddmT1XxMG59HrMcSQHc7k
-X-Google-Smtp-Source: APXvYqyNFcKLDfN4NNE1wG8Dq9imokHlwuFgLnHdWv815ySa90AxPmRWWblUKpB6gDR2M3pSofLfFlUEdu6vty6+eTI=
-X-Received: by 2002:ab0:e19:: with SMTP id g25mr8565324uak.71.1564135770911;
-	Fri, 26 Jul 2019 03:09:30 -0700 (PDT)
+	bh=jMC/QpfrifEkuHSG8lqGLn4JiRdhv6qgEl2+jt4t/+Y=;
+	b=tDW72dL+/A5g2d1bth9bo99lI15oXLXRXz6cutFSPte3322pP8MFj4gACwhtMLNtIe
+	eqYwy3v6wLH/DbAudck72d2ur9CkcdZdn5KpTx4eFtcBRqYfj20wfDgArXHQBY9xHDm0
+	mfImPNCx20uX8ZlK9TujLBmfMIjGeUzGm1n40Xs0+p2BBida2cy8wJQCb8NhzrZ6hSFO
+	pcHHASg1yi+MtSRPZJ+oX+bIl1Ki4sgRboNRQTkXVgOWfccrmVJO7fk2DriVZnggfZJC
+	B/BUCunpI1PUPt7xs+fk6mMPrElLbgZqvOyNSE0mxZekOFzUtWOfKiegN6ghM1aU8NEw
+	Pa6w==
+X-Gm-Message-State: APjAAAU+xlyHT9o9d/kmz3go1TDwnkCTbjdV/smQ1rI+5dS4DiCd7f8D
+	T4v9Y9FfW7yKaYUNo2CnVZVFMzmmLZNnCLFcpwc=
+X-Google-Smtp-Source: APXvYqxntM8/pdqHwmhey669583jIcfghGrmJbEyGbiU34FwQAjAX+GPzcpwl62iWQ3sK/28CEzjltxMOQSRpIXelPA=
+X-Received: by 2002:a1f:8bc4:: with SMTP id n187mr36315822vkd.32.1564135877469;
+	Fri, 26 Jul 2019 03:11:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190726093443.40634-1-kai.kang@windriver.com>
-	<20190726093443.40634-2-kai.kang@windriver.com>
-In-Reply-To: <20190726093443.40634-2-kai.kang@windriver.com>
+References: <20190726092342.37231-1-kai.kang@windriver.com>
+In-Reply-To: <20190726092342.37231-1-kai.kang@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 Jul 2019 13:09:19 +0300
-Message-ID: <CANNYZj--B16+q6PHBk7W9ESpGFs1gjGJwNYUGR-rc0yznYMJyw@mail.gmail.com>
+Date: Fri, 26 Jul 2019 13:11:06 +0300
+Message-ID: <CANNYZj8Jm7q5NfUjHVuDJGaJHC51txQ-iMWZP7YC4-nWkRstdg@mail.gmail.com>
 To: Kai Kang <kai.kang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] epiphany: set imcompatible with tune mips
+Subject: Re: [PATCH] core-image-sato-sdk: test image with 512M memory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +53,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 10:09:31 -0000
-Content-Type: multipart/alternative; boundary="000000000000019a7b058e92bd35"
+X-List-Received-Date: Fri, 26 Jul 2019 10:11:16 -0000
+Content-Type: multipart/alternative; boundary="0000000000005b6aab058e92c3f1"
 
---000000000000019a7b058e92bd35
+--0000000000005b6aab058e92c3f1
 Content-Type: text/plain; charset="UTF-8"
 
-Wait, does this mean that the line must be inserted into all of the recipes
-that depend on webkitgtk (wihch is very awkward)? Shouldn't just the
-webkitgtk recipe fix be enough?
+I think you need to use QB_MEM here.
+
+Also, maybe we should just bump the 256M default?
 
 Alex
 
-On Fri, 26 Jul 2019 at 12:35, <kai.kang@windriver.com> wrote:
+On Fri, 26 Jul 2019 at 12:24, <kai.kang@windriver.com> wrote:
 
 > From: Kai Kang <kai.kang@windriver.com>
 >
-> webkitgtk doesn't work with tune mips and set imcompatible with it.
-> epiphany depends on webkitgtk and mask it too.
+> When run do_testimage for core-image-sato-sdk, it fails to pass test
+> case:
+>
+> | RESULTS - systemd.SystemdBasicTests.test_systemd_failed: FAILED (0.43s)
+>
+> It is OOM issue and daemon rpc.statd is killed:
+>
+> |  [  531.306146] Out of memory: Kill process 193 (rpc.statd) score 200 or
+> sacrifice child
+>
+> Increase the memory of qemu to 512M to avoid such OOM issue.
 >
 > Signed-off-by: Kai Kang <kai.kang@windriver.com>
 > ---
->  meta/recipes-gnome/epiphany/epiphany_3.32.3.bb | 3 +++
->  1 file changed, 3 insertions(+)
+>  meta/recipes-sato/images/core-image-sato-sdk.bb | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-> b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-> index de1b6e2f84..d1c6af52ed 100644
-> --- a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-> +++ b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-> @@ -16,5 +16,8 @@ SRC_URI =
-> "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}
->  SRC_URI[archive.md5sum] = "c4976507bf3de69f27a050ad09531f5a"
->  SRC_URI[archive.sha256sum] =
-> "3ccb6859a43b839b714aa425cb185056f1e8604adbaab6a1bc179d1ba641a33f"
+> diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb
+> b/meta/recipes-sato/images/core-image-sato-sdk.bb
+> index d7cc52b52b..f7963d018e 100644
+> --- a/meta/recipes-sato/images/core-image-sato-sdk.bb
+> +++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
+> @@ -9,3 +9,4 @@ IMAGE_FEATURES += "dev-pkgs tools-sdk \
 >
-> +# webkitgtk doesn't work with tune 'mips'
-> +COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips',
-> 'null', 'mips.*-linux', d)}"
-> +
->  FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers
-> ${datadir}/metainfo"
->  RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+>  IMAGE_INSTALL += "kernel-devsrc"
+>
+> +TEST_QEMUPARAMS = "-m 512"
 > --
 > 2.20.0
 >
@@ -106,55 +106,54 @@ On Fri, 26 Jul 2019 at 12:35, <kai.kang@windriver.com> wrote:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---000000000000019a7b058e92bd35
+--0000000000005b6aab058e92c3f1
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Wait, does this mean that the line must be inserted into a=
-ll of the recipes that depend on webkitgtk (wihch is very awkward)? Shouldn=
-&#39;t just the webkitgtk recipe fix be enough?<div><br></div><div>Alex</di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Fri, 26 Jul 2019 at 12:35, &lt;<a href=3D"mailto:kai.kang@windriver.co=
-m">kai.kang@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-lef=
-t-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">From: Ka=
-i Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" target=3D"_blank">kai.=
-kang@windriver.com</a>&gt;<br>
+<div dir=3D"ltr">I think you need to use QB_MEM here.<div><br></div><div>Al=
+so, maybe we should just bump the 256M default?</div><div><br></div><div>Al=
+ex</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Fri, 26 Jul 2019 at 12:24, &lt;<a href=3D"mailto:kai.kang@windri=
+ver.com">kai.kang@windriver.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
+rder-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">=
+From: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" target=3D"_bla=
+nk">kai.kang@windriver.com</a>&gt;<br>
 <br>
-webkitgtk doesn&#39;t work with tune mips and set imcompatible with it.<br>
-epiphany depends on webkitgtk and mask it too.<br>
+When run do_testimage for core-image-sato-sdk, it fails to pass test<br>
+case:<br>
+<br>
+| RESULTS - systemd.SystemdBasicTests.test_systemd_failed: FAILED (0.43s)<b=
+r>
+<br>
+It is OOM issue and daemon rpc.statd is killed:<br>
+<br>
+|=C2=A0 [=C2=A0 531.306146] Out of memory: Kill process 193 (rpc.statd) sco=
+re 200 or sacrifice child<br>
+<br>
+Increase the memory of qemu to 512M to avoid such OOM issue.<br>
 <br>
 Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targe=
 t=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-gnome/epiphany/<a href=3D"http://epiphany_3.32.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">epiphany_3.32.3.bb</a> | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
+=C2=A0meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" re=
+l=3D"noreferrer" target=3D"_blank">core-image-sato-sdk.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
 <br>
-diff --git a/meta/recipes-gnome/epiphany/<a href=3D"http://epiphany_3.32.3.=
-bb" rel=3D"noreferrer" target=3D"_blank">epiphany_3.32.3.bb</a> b/meta/reci=
-pes-gnome/epiphany/<a href=3D"http://epiphany_3.32.3.bb" rel=3D"noreferrer"=
- target=3D"_blank">epiphany_3.32.3.bb</a><br>
-index de1b6e2f84..d1c6af52ed 100644<br>
---- a/meta/recipes-gnome/epiphany/<a href=3D"http://epiphany_3.32.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">epiphany_3.32.3.bb</a><br>
-+++ b/meta/recipes-gnome/epiphany/<a href=3D"http://epiphany_3.32.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">epiphany_3.32.3.bb</a><br>
-@@ -16,5 +16,8 @@ SRC_URI =3D &quot;${GNOME_MIRROR}/${GNOMEBN}/${@gnome_ver=
-dir(&quot;${PV}&quot;)}/${GNOMEBN}-${PV}<br>
-=C2=A0SRC_URI[archive.md5sum] =3D &quot;c4976507bf3de69f27a050ad09531f5a&qu=
-ot;<br>
-=C2=A0SRC_URI[archive.sha256sum] =3D &quot;3ccb6859a43b839b714aa425cb185056=
-f1e8604adbaab6a1bc179d1ba641a33f&quot;<br>
+diff --git a/meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk=
+.bb" rel=3D"noreferrer" target=3D"_blank">core-image-sato-sdk.bb</a> b/meta=
+/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" rel=3D"noref=
+errer" target=3D"_blank">core-image-sato-sdk.bb</a><br>
+index d7cc52b52b..f7963d018e 100644<br>
+--- a/meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" re=
+l=3D"noreferrer" target=3D"_blank">core-image-sato-sdk.bb</a><br>
++++ b/meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" re=
+l=3D"noreferrer" target=3D"_blank">core-image-sato-sdk.bb</a><br>
+@@ -9,3 +9,4 @@ IMAGE_FEATURES +=3D &quot;dev-pkgs tools-sdk \<br>
 <br>
-+# webkitgtk doesn&#39;t work with tune &#39;mips&#39;<br>
-+COMPATIBLE_HOST_mipsarch =3D &quot;${@bb.utils.contains(&#39;DEFAULTTUNE&#=
-39;, &#39;mips&#39;, &#39;null&#39;, &#39;mips.*-linux&#39;, d)}&quot;<br>
-+<br>
-=C2=A0FILES_${PN} +=3D &quot;${datadir}/dbus-1 ${datadir}/gnome-shell/searc=
-h-providers ${datadir}/metainfo&quot;<br>
-=C2=A0RDEPENDS_${PN} =3D &quot;iso-codes adwaita-icon-theme gsettings-deskt=
-op-schemas&quot;<br>
+=C2=A0IMAGE_INSTALL +=3D &quot;kernel-devsrc&quot;<br>
+<br>
++TEST_QEMUPARAMS =3D &quot;-m 512&quot;<br>
 -- <br>
 2.20.0<br>
 <br>
@@ -168,4 +167,4 @@ k">Openembedded-core@lists.openembedded.org</a><br>
 n/listinfo/openembedded-core</a><br>
 </blockquote></div>
 
---000000000000019a7b058e92bd35--
+--0000000000005b6aab058e92c3f1--
