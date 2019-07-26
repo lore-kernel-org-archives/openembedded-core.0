@@ -1,25 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B71C77F13D
+	by mail.openembedded.org (Postfix) with ESMTP id E7F187F119
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 04:47:39 +0000 (UTC)
+	Fri, 26 Jul 2019 04:47:40 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Jul 2019 21:47:41 -0700
+	25 Jul 2019 21:47:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,309,1559545200"; d="scan'208";a="172069559"
+X-IronPort-AV: E=Sophos;i="5.64,309,1559545200"; d="scan'208";a="172069565"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2019 21:47:40 -0700
+	by fmsmga007.fm.intel.com with ESMTP; 25 Jul 2019 21:47:41 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jul 2019 12:47:27 +0800
-Message-Id: <1564116449-69248-5-git-send-email-anuj.mittal@intel.com>
+Date: Fri, 26 Jul 2019 12:47:28 +0800
+Message-Id: <1564116449-69248-6-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564116449-69248-1-git-send-email-anuj.mittal@intel.com>
 References: <1564116449-69248-1-git-send-email-anuj.mittal@intel.com>
-Subject: [warrior][PATCH 5/7] bzip2: fix CVE-2019-12900
+Subject: [warrior][PATCH 6/7] python3: fix CVE-2018-20852 CVE-2019-9636
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,161 +32,320 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 04:47:40 -0000
-
-Also include a patch to fix regression caused by it. See:
-
-https://gitlab.com/federicomenaquintero/bzip2/issues/24
+X-List-Received-Date: Fri, 26 Jul 2019 04:47:41 -0000
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../bzip2/bzip2-1.0.6/CVE-2019-12900.patch         | 33 +++++++++
- .../fix-regression-CVE-2019-12900.patch            | 82 ++++++++++++++++++++++
- meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |  2 +
- 3 files changed, 117 insertions(+)
- create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
- create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/fix-regression-CVE-2019-12900.patch
+ .../python/python3/CVE-2018-20852.patch            | 124 +++++++++++++++++
+ .../python/python3/CVE-2019-9636.patch             | 154 +++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.7.2.bb      |   2 +
+ 3 files changed, 280 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2018-20852.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-9636.patch
 
-diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch b/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2018-20852.patch b/meta/recipes-devtools/python/python3/CVE-2018-20852.patch
 new file mode 100644
-index 0000000..9841644
+index 0000000..ff671d3
 --- /dev/null
-+++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
-@@ -0,0 +1,33 @@
-+From 11e1fac27eb8a3076382200736874c78e09b75d6 Mon Sep 17 00:00:00 2001
-+From: Albert Astals Cid <aacid@kde.org>
-+Date: Tue, 28 May 2019 19:35:18 +0200
-+Subject: [PATCH] Make sure nSelectors is not out of range
++++ b/meta/recipes-devtools/python/python3/CVE-2018-20852.patch
+@@ -0,0 +1,124 @@
++From e5123d81ffb3be35a1b2767d6ced1a097aaf77be Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Sat, 9 Mar 2019 18:58:25 -0800
++Subject: [PATCH] bpo-35121: prefix dot in domain for proper subdomain
++ validation (GH-10258) (GH-12261)
 +
-+nSelectors is used in a loop from 0 to nSelectors to access selectorMtf
-+which is
-+	UChar    selectorMtf[BZ_MAX_SELECTORS];
-+so if nSelectors is bigger than BZ_MAX_SELECTORS it'll do an invalid memory
-+access
++Don't send cookies of domain A without Domain attribute to domain B when domain A is a suffix match of domain B while using a cookiejar with `http.cookiejar.DefaultCookiePolicy` policy.  Patch by Karthikeyan Singaravelan.
++(cherry picked from commit ca7fe5063593958e5efdf90f068582837f07bd14)
 +
-+Fixes out of bounds access discovered while fuzzying karchive
-+CVE: CVE-2019-12900
++Co-authored-by: Xtreak <tir.karthi@gmail.com>
 +Upstream-Status: Backport
++CVE: CVE-2018-20852
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com> 
++---
++ Lib/http/cookiejar.py                         | 13 ++++++--
++ Lib/test/test_http_cookiejar.py               | 30 +++++++++++++++++++
++ .../2018-10-31-15-39-17.bpo-35121.EgHv9k.rst  |  4 +++
++ 3 files changed, 45 insertions(+), 2 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2018-10-31-15-39-17.bpo-35121.EgHv9k.rst
++
++diff --git a/Lib/http/cookiejar.py b/Lib/http/cookiejar.py
++index e0f1032b2816..00cb1250a07e 100644
++--- a/Lib/http/cookiejar.py
+++++ b/Lib/http/cookiejar.py
++@@ -1145,6 +1145,11 @@ def return_ok_domain(self, cookie, request):
++         req_host, erhn = eff_request_host(request)
++         domain = cookie.domain
++ 
+++        if domain and not domain.startswith("."):
+++            dotdomain = "." + domain
+++        else:
+++            dotdomain = domain
+++
++         # strict check of non-domain cookies: Mozilla does this, MSIE5 doesn't
++         if (cookie.version == 0 and
++             (self.strict_ns_domain & self.DomainStrictNonDomain) and
++@@ -1157,7 +1162,7 @@ def return_ok_domain(self, cookie, request):
++             _debug("   effective request-host name %s does not domain-match "
++                    "RFC 2965 cookie domain %s", erhn, domain)
++             return False
++-        if cookie.version == 0 and not ("."+erhn).endswith(domain):
+++        if cookie.version == 0 and not ("."+erhn).endswith(dotdomain):
++             _debug("   request-host %s does not match Netscape cookie domain "
++                    "%s", req_host, domain)
++             return False
++@@ -1171,7 +1176,11 @@ def domain_return_ok(self, domain, request):
++             req_host = "."+req_host
++         if not erhn.startswith("."):
++             erhn = "."+erhn
++-        if not (req_host.endswith(domain) or erhn.endswith(domain)):
+++        if domain and not domain.startswith("."):
+++            dotdomain = "." + domain
+++        else:
+++            dotdomain = domain
+++        if not (req_host.endswith(dotdomain) or erhn.endswith(dotdomain)):
++             #_debug("   request domain %s does not match cookie domain %s",
++             #       req_host, domain)
++             return False
++diff --git a/Lib/test/test_http_cookiejar.py b/Lib/test/test_http_cookiejar.py
++index abc625d672a7..6e1b30881310 100644
++--- a/Lib/test/test_http_cookiejar.py
+++++ b/Lib/test/test_http_cookiejar.py
++@@ -415,6 +415,7 @@ def test_domain_return_ok(self):
++             ("http://foo.bar.com/", ".foo.bar.com", True),
++             ("http://foo.bar.com/", "foo.bar.com", True),
++             ("http://foo.bar.com/", ".bar.com", True),
+++            ("http://foo.bar.com/", "bar.com", True),
++             ("http://foo.bar.com/", "com", True),
++             ("http://foo.com/", "rhubarb.foo.com", False),
++             ("http://foo.com/", ".foo.com", True),
++@@ -425,6 +426,8 @@ def test_domain_return_ok(self):
++             ("http://foo/", "foo", True),
++             ("http://foo/", "foo.local", True),
++             ("http://foo/", ".local", True),
+++            ("http://barfoo.com", ".foo.com", False),
+++            ("http://barfoo.com", "foo.com", False),
++             ]:
++             request = urllib.request.Request(url)
++             r = pol.domain_return_ok(domain, request)
++@@ -959,6 +962,33 @@ def test_domain_block(self):
++         c.add_cookie_header(req)
++         self.assertFalse(req.has_header("Cookie"))
++ 
+++        c.clear()
+++
+++        pol.set_blocked_domains([])
+++        req = urllib.request.Request("http://acme.com/")
+++        res = FakeResponse(headers, "http://acme.com/")
+++        cookies = c.make_cookies(res, req)
+++        c.extract_cookies(res, req)
+++        self.assertEqual(len(c), 1)
+++
+++        req = urllib.request.Request("http://acme.com/")
+++        c.add_cookie_header(req)
+++        self.assertTrue(req.has_header("Cookie"))
+++
+++        req = urllib.request.Request("http://badacme.com/")
+++        c.add_cookie_header(req)
+++        self.assertFalse(pol.return_ok(cookies[0], req))
+++        self.assertFalse(req.has_header("Cookie"))
+++
+++        p = pol.set_blocked_domains(["acme.com"])
+++        req = urllib.request.Request("http://acme.com/")
+++        c.add_cookie_header(req)
+++        self.assertFalse(req.has_header("Cookie"))
+++
+++        req = urllib.request.Request("http://badacme.com/")
+++        c.add_cookie_header(req)
+++        self.assertFalse(req.has_header("Cookie"))
+++
++     def test_secure(self):
++         for ns in True, False:
++             for whitespace in " ", "":
++diff --git a/Misc/NEWS.d/next/Security/2018-10-31-15-39-17.bpo-35121.EgHv9k.rst b/Misc/NEWS.d/next/Security/2018-10-31-15-39-17.bpo-35121.EgHv9k.rst
++new file mode 100644
++index 000000000000..d2eb8f1f352c
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2018-10-31-15-39-17.bpo-35121.EgHv9k.rst
++@@ -0,0 +1,4 @@
+++Don't send cookies of domain A without Domain attribute to domain B
+++when domain A is a suffix match of domain B while using a cookiejar
+++with :class:`http.cookiejar.DefaultCookiePolicy` policy. Patch by
+++Karthikeyan Singaravelan.
+diff --git a/meta/recipes-devtools/python/python3/CVE-2019-9636.patch b/meta/recipes-devtools/python/python3/CVE-2019-9636.patch
+new file mode 100644
+index 0000000..72128f0
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2019-9636.patch
+@@ -0,0 +1,154 @@
++From daad2c482c91de32d8305abbccc76a5de8b3a8be Mon Sep 17 00:00:00 2001
++From: Steve Dower <steve.dower@microsoft.com>
++Date: Thu, 7 Mar 2019 09:08:18 -0800
++Subject: [PATCH] bpo-36216: Add check for characters in netloc that normalize
++ to separators (GH-12201)
++
++Upstream-Status: Backport
++CVE: CVE-2019-9636
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +
 +---
-+ decompress.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Doc/library/urllib.parse.rst                  | 18 +++++++++++++++
++ Lib/test/test_urlparse.py                     | 23 +++++++++++++++++++
++ Lib/urllib/parse.py                           | 17 ++++++++++++++
++ .../2019-03-06-09-38-40.bpo-36216.6q1m4a.rst  |  3 +++
++ 4 files changed, 61 insertions(+)
++ create mode 100644 Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
 +
-+diff --git a/decompress.c b/decompress.c
-+index 311f566..b6e0a29 100644
-+--- a/decompress.c
-++++ b/decompress.c
-+@@ -287,7 +287,7 @@ Int32 BZ2_decompress ( DState* s )
-+       GET_BITS(BZ_X_SELECTOR_1, nGroups, 3);
-+       if (nGroups < 2 || nGroups > 6) RETURN(BZ_DATA_ERROR);
-+       GET_BITS(BZ_X_SELECTOR_2, nSelectors, 15);
-+-      if (nSelectors < 1) RETURN(BZ_DATA_ERROR);
-++      if (nSelectors < 1 || nSelectors > BZ_MAX_SELECTORS) RETURN(BZ_DATA_ERROR);
-+       for (i = 0; i < nSelectors; i++) {
-+          j = 0;
-+          while (True) {
-diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-regression-CVE-2019-12900.patch b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-regression-CVE-2019-12900.patch
-new file mode 100644
-index 0000000..362e6cf
---- /dev/null
-+++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/fix-regression-CVE-2019-12900.patch
-@@ -0,0 +1,82 @@
-+From 212f3ed7ac3931c9e0e9167a0bdc16eeb3c76af4 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Wed, 3 Jul 2019 01:28:11 +0200
-+Subject: [PATCH] Accept as many selectors as the file format allows.
-+
-+But ignore any larger than the theoretical maximum, BZ_MAX_SELECTORS.
-+
-+The theoretical maximum number of selectors depends on the maximum
-+blocksize (900000 bytes) and the number of symbols (50) that can be
-+encoded with a different Huffman tree. BZ_MAX_SELECTORS is 18002.
-+
-+But the bzip2 file format allows the number of selectors to be encoded
-+with 15 bits (because 18002 isn't a factor of 2 and doesn't fit in
-+14 bits). So the file format maximum is 32767 selectors.
-+
-+Some bzip2 encoders might actually have written out more selectors
-+than the theoretical maximum because they rounded up the number of
-+selectors to some convenient factor of 8.
-+
-+The extra 14766 selectors can never be validly used by the decompression
-+algorithm. So we can read them, but then discard them.
-+
-+This is effectively what was done (by accident) before we added a
-+check for nSelectors to be at most BZ_MAX_SELECTORS to mitigate
-+CVE-2019-12900.
-+
-+The extra selectors were written out after the array inside the
-+EState struct. But the struct has extra space allocated after the
-+selector arrays of 18060 bytes (which is larger than 14766).
-+All of which will be initialized later (so the overwrite of that
-+space with extra selector values would have been harmless).
-+
-+Upstream-Status: Backport
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+
-+---
-+ compress.c   |  2 +-
-+ decompress.c | 10 ++++++++--
-+ 2 files changed, 9 insertions(+), 3 deletions(-)
-+
-+diff --git a/compress.c b/compress.c
-+index caf7696..19b662b 100644
-+--- a/compress.c
-++++ b/compress.c
-+@@ -454,7 +454,7 @@ void sendMTFValues ( EState* s )
++diff --git a/Doc/library/urllib.parse.rst b/Doc/library/urllib.parse.rst
++index 0c8f0f607314..b565e1edd321 100644
++--- a/Doc/library/urllib.parse.rst
+++++ b/Doc/library/urllib.parse.rst
++@@ -124,6 +124,11 @@ or on combining URL components into a URL string.
++    Unmatched square brackets in the :attr:`netloc` attribute will raise a
++    :exc:`ValueError`.
 + 
-+    AssertH( nGroups < 8, 3002 );
-+    AssertH( nSelectors < 32768 &&
-+-            nSelectors <= (2 + (900000 / BZ_G_SIZE)),
-++            nSelectors <= BZ_MAX_SELECTORS,
-+             3003 );
+++   Characters in the :attr:`netloc` attribute that decompose under NFKC
+++   normalization (as used by the IDNA encoding) into any of ``/``, ``?``,
+++   ``#``, ``@``, or ``:`` will raise a :exc:`ValueError`. If the URL is
+++   decomposed before parsing, no error will be raised.
+++
++    .. versionchanged:: 3.2
++       Added IPv6 URL parsing capabilities.
 + 
++@@ -136,6 +141,10 @@ or on combining URL components into a URL string.
++       Out-of-range port numbers now raise :exc:`ValueError`, instead of
++       returning :const:`None`.
 + 
-+diff --git a/decompress.c b/decompress.c
-+index b6e0a29..78060c9 100644
-+--- a/decompress.c
-++++ b/decompress.c
-+@@ -287,7 +287,7 @@ Int32 BZ2_decompress ( DState* s )
-+       GET_BITS(BZ_X_SELECTOR_1, nGroups, 3);
-+       if (nGroups < 2 || nGroups > 6) RETURN(BZ_DATA_ERROR);
-+       GET_BITS(BZ_X_SELECTOR_2, nSelectors, 15);
-+-      if (nSelectors < 1 || nSelectors > BZ_MAX_SELECTORS) RETURN(BZ_DATA_ERROR);
-++      if (nSelectors < 1) RETURN(BZ_DATA_ERROR);
-+       for (i = 0; i < nSelectors; i++) {
-+          j = 0;
-+          while (True) {
-+@@ -296,8 +296,14 @@ Int32 BZ2_decompress ( DState* s )
-+             j++;
-+             if (j >= nGroups) RETURN(BZ_DATA_ERROR);
-+          }
-+-         s->selectorMtf[i] = j;
-++         /* Having more than BZ_MAX_SELECTORS doesn't make much sense
-++            since they will never be used, but some implementations might
-++            "round up" the number of selectors, so just ignore those. */
-++         if (i < BZ_MAX_SELECTORS)
-++           s->selectorMtf[i] = j;
-+       }
-++      if (nSelectors > BZ_MAX_SELECTORS)
-++        nSelectors = BZ_MAX_SELECTORS;
+++   .. versionchanged:: 3.7.3
+++      Characters that affect netloc parsing under NFKC normalization will
+++      now raise :exc:`ValueError`.
+++
 + 
-+       /*--- Undo the MTF values for the selectors. ---*/
-+       {
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-index 7d04e30..d30e1b9 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -14,6 +14,8 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.gz \
-            file://Makefile.am;subdir=${BP} \
-            file://run-ptest \
-            file://CVE-2016-3189.patch \
-+           file://CVE-2019-12900.patch \
-+           file://fix-regression-CVE-2019-12900.patch \
++ .. function:: parse_qs(qs, keep_blank_values=False, strict_parsing=False, encoding='utf-8', errors='replace', max_num_fields=None)
++ 
++@@ -257,10 +266,19 @@ or on combining URL components into a URL string.
++    Unmatched square brackets in the :attr:`netloc` attribute will raise a
++    :exc:`ValueError`.
++ 
+++   Characters in the :attr:`netloc` attribute that decompose under NFKC
+++   normalization (as used by the IDNA encoding) into any of ``/``, ``?``,
+++   ``#``, ``@``, or ``:`` will raise a :exc:`ValueError`. If the URL is
+++   decomposed before parsing, no error will be raised.
+++
++    .. versionchanged:: 3.6
++       Out-of-range port numbers now raise :exc:`ValueError`, instead of
++       returning :const:`None`.
++ 
+++   .. versionchanged:: 3.7.3
+++      Characters that affect netloc parsing under NFKC normalization will
+++      now raise :exc:`ValueError`.
+++
++ 
++ .. function:: urlunsplit(parts)
++ 
++diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
++index be50b47603aa..e6638aee2244 100644
++--- a/Lib/test/test_urlparse.py
+++++ b/Lib/test/test_urlparse.py
++@@ -1,3 +1,5 @@
+++import sys
+++import unicodedata
++ import unittest
++ import urllib.parse
++ 
++@@ -984,6 +986,27 @@ def test_all(self):
++                 expected.append(name)
++         self.assertCountEqual(urllib.parse.__all__, expected)
++ 
+++    def test_urlsplit_normalization(self):
+++        # Certain characters should never occur in the netloc,
+++        # including under normalization.
+++        # Ensure that ALL of them are detected and cause an error
+++        illegal_chars = '/:#?@'
+++        hex_chars = {'{:04X}'.format(ord(c)) for c in illegal_chars}
+++        denorm_chars = [
+++            c for c in map(chr, range(128, sys.maxunicode))
+++            if (hex_chars & set(unicodedata.decomposition(c).split()))
+++            and c not in illegal_chars
+++        ]
+++        # Sanity check that we found at least one such character
+++        self.assertIn('\u2100', denorm_chars)
+++        self.assertIn('\uFF03', denorm_chars)
+++
+++        for scheme in ["http", "https", "ftp"]:
+++            for c in denorm_chars:
+++                url = "{}://netloc{}false.netloc/path".format(scheme, c)
+++                with self.subTest(url=url, char='{:04X}'.format(ord(c))):
+++                    with self.assertRaises(ValueError):
+++                        urllib.parse.urlsplit(url)
++ 
++ class Utility_Tests(unittest.TestCase):
++     """Testcase to test the various utility functions in the urllib."""
++diff --git a/Lib/urllib/parse.py b/Lib/urllib/parse.py
++index f691ab74f87f..39c5d6a80824 100644
++--- a/Lib/urllib/parse.py
+++++ b/Lib/urllib/parse.py
++@@ -391,6 +391,21 @@ def _splitnetloc(url, start=0):
++             delim = min(delim, wdelim)     # use earliest delim position
++     return url[start:delim], url[delim:]   # return (domain, rest)
++ 
+++def _checknetloc(netloc):
+++    if not netloc or netloc.isascii():
+++        return
+++    # looking for characters like \u2100 that expand to 'a/c'
+++    # IDNA uses NFKC equivalence, so normalize for this check
+++    import unicodedata
+++    netloc2 = unicodedata.normalize('NFKC', netloc)
+++    if netloc == netloc2:
+++        return
+++    _, _, netloc = netloc.rpartition('@') # anything to the left of '@' is okay
+++    for c in '/?#@:':
+++        if c in netloc2:
+++            raise ValueError("netloc '" + netloc2 + "' contains invalid " +
+++                             "characters under NFKC normalization")
+++
++ def urlsplit(url, scheme='', allow_fragments=True):
++     """Parse a URL into 5 components:
++     <scheme>://<netloc>/<path>?<query>#<fragment>
++@@ -419,6 +434,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
++                 url, fragment = url.split('#', 1)
++             if '?' in url:
++                 url, query = url.split('?', 1)
+++            _checknetloc(netloc)
++             v = SplitResult('http', netloc, url, query, fragment)
++             _parse_cache[key] = v
++             return _coerce_result(v)
++@@ -442,6 +458,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
++         url, fragment = url.split('#', 1)
++     if '?' in url:
++         url, query = url.split('?', 1)
+++    _checknetloc(netloc)
++     v = SplitResult(scheme, netloc, url, query, fragment)
++     _parse_cache[key] = v
++     return _coerce_result(v)
++diff --git a/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
++new file mode 100644
++index 000000000000..5546394157f9
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
++@@ -0,0 +1,3 @@
+++Changes urlsplit() to raise ValueError when the URL contains characters that
+++decompose under IDNA encoding (NFKC-normalization) into characters that
+++affect how the URL is parsed.
+diff --git a/meta/recipes-devtools/python/python3_3.7.2.bb b/meta/recipes-devtools/python/python3_3.7.2.bb
+index 7ef7cb5..dc851cb 100644
+--- a/meta/recipes-devtools/python/python3_3.7.2.bb
++++ b/meta/recipes-devtools/python/python3_3.7.2.bb
+@@ -22,6 +22,8 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0002-Don-t-do-runtime-test-to-get-float-byte-order.patch \
+            file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
+            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
++           file://CVE-2018-20852.patch \
++           file://CVE-2019-9636.patch \
             "
  
- SRC_URI[md5sum] = "00b516f4704d4a7cb50a1d97e6e8e15b"
+ SRC_URI_append_class-native = " \
 -- 
 2.7.4
 
