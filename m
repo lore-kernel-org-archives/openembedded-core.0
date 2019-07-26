@@ -1,52 +1,81 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 36BCE7F1DA
+Return-Path: <jlock@vmware.com>
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com
+	(mail-eopbgr820073.outbound.protection.outlook.com [40.107.82.73])
+	by mail.openembedded.org (Postfix) with ESMTP id 848F87E26B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 10:22:01 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id g67so43123478wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 03:22:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=IDxSo9pdtSZjPdqGWMn+RHfcOo/w1MxQaeGiUs2VFS8=;
-	b=C4qNyWgdvEG16XpBO2WFGDShqsMRoOb3eTy/WLvqSKcVJj0oZ3kg7aVckpBWCCu2g4
-	f5QtVRlR/+koVJJ9AqfiFuAa/DbN5IR5vjcgvN4/SJwyZUD+qrlPXgCHZGUnS5ThTsIP
-	zLsSztzyik4YPCT4NizHnFRp2C0XQ/ecPCYflKfSNCHEt4aGjU+J82zV6g2k7JO3djao
-	xirs4g15lJZZPaGEt57vLoM6N6bUA8SXjgels6kKM6ZulGkmbApGQZ4KuveEDiZVRVZH
-	j0G3tiMw06WmZsoC4r6DhxmGI3I5yu3WADnkn0oQUupyUlLyEX0qJVtirR7eYdvQySwV
-	Bdyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=IDxSo9pdtSZjPdqGWMn+RHfcOo/w1MxQaeGiUs2VFS8=;
-	b=f3swMkW3ZIcQ81QiAIorIKmTL+Pza7rGTOtiZlWtcEquPQJ/RE6cfJJ/+HsabbtLJD
-	+kax1FEhjBNTctoYbUoko6Gxrymj6/G4paT2hFmzb7v6cQAOWFyg6740///t0qpsPH5U
-	bDRgbKy304qwCin+e0vCgcaovvEOKQ0lPzEvFRSmPqyUSnpgIrNbekGIXqCBI3AxZKqM
-	XYYR1O7iXGawauVuCeI8zyMyyeiRa0m0Q5d+WGy+F/trGaSpnRMAQTK5260WgxYjMt1z
-	Tzi9lahWCjIhA/pyA0uSMmD5XteTEqBAwvZ2ZgrbPXpNR28/JDs7GHCOzJt3m3jIIOnB
-	Gcag==
-X-Gm-Message-State: APjAAAXAVO8m/2Si8WVjLACyQvRwd6jswZpBzUjqLGZEFKHxsL28c/3N
-	xRVSlOJ5rpNnBUISmwxLLsxWGRVmPSU=
-X-Google-Smtp-Source: APXvYqynFgyA+h3HzKn3f5gLzAGAFEu/QldMSdcJHyPC4iJF5nQHhF0tplLeoXYue3fc+Ee8IW/n4w==
-X-Received: by 2002:a1c:9e4d:: with SMTP id h74mr88675344wme.9.1564136521589; 
-	Fri, 26 Jul 2019 03:22:01 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	d16sm44786380wrv.55.2019.07.26.03.22.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 26 Jul 2019 03:22:00 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jul 2019 11:21:58 +0100
-Message-Id: <20190726102158.19164-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	Fri, 26 Jul 2019 11:26:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=QB43X4k01f3JT/CQuBSrZeOXNpVxJzrRQWWILGKAsQWrlGe4Zw/lJXzRtZms5Xh8awGFNHcsCKSjs9Ge0tYTjjrgth7TwV7IAvaY/80Cw6rQAT7BN/sWvGBUq2rEa9+bqHdJk8DW7Od5SpDQFtPkSlEdcBcJ00ONf3CXseFue47ISqVpiX5gE1hbGyHS6RGdyode+d2eh9chhxzAmE82w2JkRXtR3WJhW85Htsp8T7feVVKoex/L5fEbQdEH47C4b0uJcp+XMAv14aYNVXNR1CHhtd3ur5hafs1HgG1PXw71/c9pDqjfyOrgEu5AVHh+DqxC+KT1Y7rJu3YWLRS8Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=JLybzILN7SfL/DCLt8byBMc18GVJlrsB1op3XQTt154=;
+	b=mbfKgAJju4dkzNdCLsrQoeVYFC62AMJLiHJvnY+Z26HBPoQuc/IqqXdapfCZ0jfXKVUjIbKuTp5Z/JbU4nWzDMFZEDJjePLiZmzWa+0MOcdeR360GPdU8gJlOtgCDtV5JwZqzqQqKv4Cnufq0t8UCoWUReKob0dtzaPYOiVVGapYINKZJwoybOrkDv+VobMgwkH51zznhvtWIThR8Gd8Q7hueyZECYGFdRbQ8hOAO1ChxBPhcWA54DqiPSZIffeXIWtLDU8zxTiWuk7BDVr/q/B5pbZ9sQ3H9ZXJ/YdNhbgnvdjhmXefdCoMS+WXl6PhNyN1/XXbpoW+J6Trt44M3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+	smtp.mailfrom=vmware.com;dmarc=pass action=none
+	header.from=vmware.com;dkim=pass header.d=vmware.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+	s=selector2;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=JLybzILN7SfL/DCLt8byBMc18GVJlrsB1op3XQTt154=;
+	b=aA9PiOyeiiyqMTt77lmGkID6tg6CZQ6bbOFoZYoinjf6TP37B2LdPG1tufS83RzUC+UZe6aPyqoUUA06rFV6y8XNDM15D9KPXePlioryuclyI9hw4/Mox92sP0V7tiMBviFtCjGVH+QQkXT+eVaYFxSTAeA9AiuqCL6zRpEb3oQ=
+Received: from CO2PR05MB2645.namprd05.prod.outlook.com (10.166.91.154) by
+	CO2PR05MB2453.namprd05.prod.outlook.com (10.166.214.148) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2136.9; Fri, 26 Jul 2019 11:26:47 +0000
+Received: from CO2PR05MB2645.namprd05.prod.outlook.com
+	([fe80::4d14:654a:9769:3f59]) by
+	CO2PR05MB2645.namprd05.prod.outlook.com
+	([fe80::4d14:654a:9769:3f59%5]) with mapi id 15.20.2115.005;
+	Fri, 26 Jul 2019 11:26:47 +0000
+From: Joshua Lock <jlock@vmware.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [RFC PATCH 0/3] Enforce Shared State Signing when options set
+Thread-Index: AQHVQ6UCcci5UrkoyECZU0JtfLRwuQ==
+Date: Fri, 26 Jul 2019 11:26:47 +0000
+Message-ID: <cover.1564139487.git.jlock@vmware.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: DB7PR04CA0015.eurprd04.prod.outlook.com
+	(2603:10a6:10:12::28) To CO2PR05MB2645.namprd05.prod.outlook.com
+	(2603:10b6:102:8::26)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=jlock@vmware.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.21.0
+x-originating-ip: [212.140.202.154]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3a4e8a0a-afc7-4dfc-86b4-08d711bc2509
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+	SRVR:CO2PR05MB2453; 
+x-ms-traffictypediagnostic: CO2PR05MB2453:
+x-ms-exchange-purlcount: 2
+x-microsoft-antispam-prvs: <CO2PR05MB2453512873F298D8059C3D06CEC00@CO2PR05MB2453.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 01106E96F6
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(4636009)(396003)(346002)(376002)(366004)(39860400002)(136003)(189003)(199004)(6116002)(6436002)(3846002)(5640700003)(2501003)(86362001)(2351001)(5660300002)(66446008)(64756008)(66556008)(66476007)(66946007)(6506007)(386003)(102836004)(14454004)(2906002)(966005)(52116002)(6486002)(478600001)(486006)(305945005)(2616005)(256004)(14444005)(476003)(7736002)(6306002)(6512007)(71200400001)(99286004)(71190400001)(81166006)(81156014)(8676002)(6916009)(316002)(8936002)(50226002)(25786009)(36756003)(186003)(66066001)(53936002)(26005)(68736007);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CO2PR05MB2453;
+	H:CO2PR05MB2645.namprd05.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: vmware.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: ZRIQPcwPa4Jk069LiXjcbN9N9dt+ixKJeMyKLqIFo19dceHbhCG+QZsduHX7ToLqZ05CUGyWmPb+1A/+ndUXpYT0VuL/MfjzGhyvf9JNDv+MpDEzWfcytcPy4Mmvq5/2MZs70vKAtb948Y99Ei5hiMa7CI+9GRXnyLOIQpWdd29R9lHbZnV2nKT6Ck9wtjOibGKRDxfFcVqW2dvoZBJBrmkZs3J5stGbqeEDgyq3IVZp6VHH414sOaBzSD7Ab93Igvr0VoSnJVaMmQab3PEXAGjfjPHUSJxUWc8zNdtNOmnjHp7SkQqzr8vgPD5etXJmEXFSw/KOCPOwuwaWlE/Jp31vPE7sU8NdeXAiaHPINbA4VWASmfGJoVdPMtrBslAeZ9KscN7CX7/1x0J87+sesQIn4TJcb/CQWkKNj6xQ+vs=
 MIME-Version: 1.0
-Subject: [PATCH v3] libical: upgrade to 3.0.5
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a4e8a0a-afc7-4dfc-86b4-08d711bc2509
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2019 11:26:47.3037 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jlock@vmware.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO2PR05MB2453
+Subject: [RFC PATCH 0/3] Enforce Shared State Signing when options set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,150 +88,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 10:22:01 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 26 Jul 2019 11:26:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Add PACKAGECONFIG options for ICU (enabled by default) and BDB (disabled by
-default).
+There are 2 surprising behaviours in the current shared state signing
+implementation which this pull request addresses:
+1) when signature verification is enabled a failure to verify doesn't preve=
+nt
+   the shared state object from being used. A warning is printed and the
+   unsigned shared state object is used to accelerate the task.
+2) when signing is enabled the taskhash doesn't change and any existing,
+   unsigned, shared state objects will not be signed. This is particularly
+   problematic when combined with 1.
 
-Note that this upgrade includes some API breakage.
+Please review the following changes for suitability for inclusion. If you h=
+ave
+any objections or suggestions for improvement, please respond to the patche=
+s. If
+you agree with the changes, please provide your Acked-by.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...ibical.pc.in-fix-iculibs-remove-full.patch | 44 -------------------
- meta/recipes-support/libical/libical_2.0.0.bb | 28 ------------
- meta/recipes-support/libical/libical_3.0.5.bb | 35 +++++++++++++++
- 3 files changed, 35 insertions(+), 72 deletions(-)
- delete mode 100644 meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch
- delete mode 100644 meta/recipes-support/libical/libical_2.0.0.bb
- create mode 100644 meta/recipes-support/libical/libical_3.0.5.bb
+The following changes since commit 835f7eac0610325e906591cd81890bebe8627580=
+:
 
-diff --git a/meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch b/meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch
-deleted file mode 100644
-index 6db75f5086c..00000000000
---- a/meta/recipes-support/libical/libical/0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 1a41069c0dc054e59cd76fc3d8cf7cc2a78b5e8d Mon Sep 17 00:00:00 2001
--From: Allen Winter <allen.winter@kdab.com>
--Date: Sat, 3 Sep 2016 16:56:29 -0400
--Subject: [PATCH] CMakeLists.txt, libical.pc.in - fix iculibs (remove full path) ISSUE: 227
--
--Upstream-Status: Backport
--
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
------
--diff -Naur libical-2.0.0-orig/CMakeLists.txt libical-2.0.0/CMakeLists.txt
----- libical-2.0.0-orig/CMakeLists.txt	2016-09-08 18:05:06.166049345 +0300
--+++ libical-2.0.0/CMakeLists.txt	2016-09-08 18:05:45.201561334 +0300
--@@ -128,6 +128,7 @@
-- #  RSCALE info at http://tools.ietf.org/html/rfc7529
-- find_package(ICU)
-- if(ICU_FOUND)
--+  set(ICUUC_LIBS "-licuuc") #for libical.pc
--   set(HAVE_LIBICU 1)
--   if(ICU_MAJOR_VERSION VERSION_GREATER 50)
--     set(HAVE_ICU_DANGI TRUE)
--@@ -137,6 +138,7 @@
-- endif()
-- if(ICU_I18N_FOUND)
--   set(HAVE_LIBICU_I18N 1)
--+  set(ICUI18N_LIBS "-licui18n") #for libical.pc
-- endif()
-- 
-- # MSVC specific definitions
--diff -Naur libical-2.0.0-orig/libical.pc.in libical-2.0.0/libical.pc.in
----- libical-2.0.0-orig/libical.pc.in	2015-12-28 23:44:53.000000000 +0200
--+++ libical-2.0.0/libical.pc.in	2016-09-08 18:09:12.991963597 +0300
--@@ -3,10 +3,10 @@
-- libdir=@libdir@
-- includedir=@includedir@
-- threadslib=@PTHREAD_LIBS@
---iculib=@ICU_LIBRARIES@ @ICU_I18N_LIBRARIES@
--+iculibs=@ICUUC_LIBS@ @ICUI18N_LIBS@
-- 
-- Name: libical
-- Description: An implementation of basic iCAL protocols
-- Version: @VERSION@
---Libs: -L${libdir} -lical -licalss -licalvcal ${threadslib} ${iculib}
--+Libs: -L${libdir} -lical -licalss -licalvcal ${threadslib} ${iculibs}
-- Cflags: -I${includedir}
-diff --git a/meta/recipes-support/libical/libical_2.0.0.bb b/meta/recipes-support/libical/libical_2.0.0.bb
-deleted file mode 100644
-index 7dffdcfb013..00000000000
---- a/meta/recipes-support/libical/libical_2.0.0.bb
-+++ /dev/null
-@@ -1,28 +0,0 @@
--SUMMARY = "iCal and scheduling (RFC 2445, 2446, 2447) library"
--HOMEPAGE = "https://github.com/libical/libical"
--BUGTRACKER = "https://github.com/libical/libical/issues"
--LICENSE = "LGPLv2.1 | MPL-1.0"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
--                    file://LICENSE;md5=d1a0891cd3e582b3e2ec8fe63badbbb6"
--SECTION = "libs"
--
--SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
--           file://0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch \
--           "
--DEPENDS = "icu"
--
--SRC_URI[md5sum] = "6bf8e5f5a3ba88baf390d0134e05d76e"
--SRC_URI[sha256sum] = "654c11f759c19237be39f6ad401d917e5a05f36f1736385ed958e60cf21456da"
--UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
--
--inherit cmake pkgconfig
--
--# No need to use perl-native, the host perl is sufficient.
--EXTRA_OECMAKE += "-DPERL_EXECUTABLE=${HOSTTOOLS_DIR}/perl"
--
--do_install_append_class-target () {
--    # Remove build host references
--    sed -i \
--       -e 's,${STAGING_LIBDIR},${libdir},g' \
--       ${D}${libdir}/cmake/LibIcal/LibIcalTargets-noconfig.cmake
--}
-diff --git a/meta/recipes-support/libical/libical_3.0.5.bb b/meta/recipes-support/libical/libical_3.0.5.bb
-new file mode 100644
-index 00000000000..3832b20bf11
---- /dev/null
-+++ b/meta/recipes-support/libical/libical_3.0.5.bb
-@@ -0,0 +1,35 @@
-+SUMMARY = "iCal and scheduling (RFC 2445, 2446, 2447) library"
-+HOMEPAGE = "https://github.com/libical/libical"
-+BUGTRACKER = "https://github.com/libical/libical/issues"
-+LICENSE = "LGPLv2.1 | MPL-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1910a2a76ddf6a9ba369182494170d87 \
-+                    file://LICENSE.LGPL21.txt;md5=933adb561f159e7c3da079536f0ed871 \
-+                    file://LICENSE.MPL2.txt;md5=9741c346eef56131163e13b9db1241b3"
-+SECTION = "libs"
-+
-+SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz"
-+
-+SRC_URI[md5sum] = "9be4e8a1739a9c27e06aa8ce66b8cb34"
-+SRC_URI[sha256sum] = "7ad550c8c49c9b9983658e3ab3e68b1eee2439ec17b169a6b1e6ecb5274e78e6"
-+UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
-+
-+inherit cmake pkgconfig
-+
-+PACKAGECONFIG ??= "icu"
-+PACKAGECONFIG[bdb] = ",-DCMAKE_DISABLE_FIND_PACKAGE_BDB=True,db"
-+# ICU is used for RSCALE (RFC7529) support
-+PACKAGECONFIG[icu] = ",-DCMAKE_DISABLE_FIND_PACKAGE_ICU=True,icu"
-+
-+# No need to use perl-native, the host perl is sufficient.
-+EXTRA_OECMAKE += "-DPERL_EXECUTABLE=${HOSTTOOLS_DIR}/perl"
-+
-+# The glib library can't be cross-compiled, disable for now.
-+# https://github.com/libical/libical/issues/394
-+EXTRA_OECMAKE += "-DICAL_GLIB=false"
-+
-+do_install_append_class-target () {
-+    # Remove build host references
-+    sed -i \
-+       -e 's,${STAGING_LIBDIR},${libdir},g' \
-+       ${D}${libdir}/cmake/LibIcal/LibIcal*.cmake
-+}
--- 
-2.20.1
+  meta/lib/oeqa: Test for bootimg-biosplusefi Source (2019-07-23 22:26:28 +=
+0100)
+
+are available in the Git repository at:
+
+  https://github.com/joshuagl/poky joshuagl/signed-sstate
+  https://github.com/joshuagl/poky/tree/joshuagl/signed-sstate
+
+Joshua Lock (3):
+  sstate: fix log message
+  classes/sstate: don't use unsigned sstate when verification enabled
+  classes/sstate: regenerate sstate when signing enabled
+
+ meta/classes/sstate.bbclass | 15 +++++++++++----
+ meta/lib/oe/gpg_sign.py     | 10 ++++++++++
+ 2 files changed, 21 insertions(+), 4 deletions(-)
+
+--=20
+2.21.0
 
 
