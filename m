@@ -1,30 +1,36 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DFE227BD72
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A9BB7F0C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 02:22:57 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,308,1559491200"; d="scan'208";a="72226862"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Jul 2019 10:22:57 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 9D9AC4CDCEBD
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 10:22:55 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Fri, 26 Jul 2019 10:22:56 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Jul 2019 10:22:10 +0800
-Message-ID: <20190726022210.18415-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Fri, 26 Jul 2019 03:32:31 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Jul 2019 20:32:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,309,1559545200"; d="scan'208";a="172913607"
+Received: from kmsmsx155.gar.corp.intel.com ([172.21.73.106])
+	by orsmga003.jf.intel.com with ESMTP; 25 Jul 2019 20:32:31 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
+	KMSMSX155.gar.corp.intel.com ([169.254.15.33]) with mapi id
+	14.03.0439.000; Fri, 26 Jul 2019 11:27:36 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Burton, Ross"
+	<ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH v2] libical: upgrade to 3.0.5
+Thread-Index: AQHVQgXS5czHli4qp0eCake3sr+oe6bbufsA
+Date: Fri, 26 Jul 2019 03:27:36 +0000
+Message-ID: <a416d7c03581b0dbd9b5d91490d690c2a03ac72e.camel@intel.com>
+References: <20190724095423.23610-1-ross.burton@intel.com>
+In-Reply-To: <20190724095423.23610-1-ross.burton@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.190.99]
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 9D9AC4CDCEBD.AD9CC
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] mdadm:add mdmonitor.service
+Subject: Re: [PATCH v2] libical: upgrade to 3.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,59 +43,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2019 02:22:58 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Jul 2019 03:32:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <98B8C0D8652CE2479117914EB453902E@intel.com>
+Content-Transfer-Encoding: base64
 
--The original mdmonitor.service is wrong, so append new
-mdmonitor.service.
-
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/mdadm/files/mdmonitor.service | 10 ++++++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb            |  2 ++
- 2 files changed, 12 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/mdmonitor.service
-
-diff --git a/meta/recipes-extended/mdadm/files/mdmonitor.service b/meta/recipes-extended/mdadm/files/mdmonitor.service
-new file mode 100644
-index 0000000000..4f07c755ae
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/mdmonitor.service
-@@ -0,0 +1,10 @@
-+[Unit]
-+Description=Software RAID monitoring and management
-+ConditionPathExists=/etc/mdadm.conf
-+[Service]
-+Type=forking
-+PIDFile=/var/run/mdadm/mdadm.pid
-+EnvironmentFile=-/etc/sysconfig/mdmonitor
-+ExecStart=/sbin/mdadm --monitor --scan -f --pid-file=/var/run/mdadm/mdadm.pid
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 74c94f6ecb..daa2ed8e2e 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://debian-no-Werror.patch \
-            file://0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch \
- 	   file://mdadm.init \
-+	   file://mdmonitor.service \
- 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
-            file://include_sysmacros.patch \
-            "
-@@ -65,6 +66,7 @@ do_install_append() {
- 
- do_install_append() {
-         oe_runmake install-systemd DESTDIR=${D}
-+        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/lib/systemd/system/mdmonitor.service
- }
- 
- do_compile_ptest() {
--- 
-2.20.1
-
-
-
+SGkgUm9zcw0KDQpUaGlzIGlzIGNhdXNpbmcgZXJyb3JzOg0KDQpodHRwczovL2F1dG9idWlsZGVy
+LnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzcyL2J1aWxkcy84Njkvc3RlcHMv
+OC9sb2dzL2Vycm9ycw0KDQpzdGVwN2I6IEVSUk9SOiBsaWJpY2FsLTMuMC41LXIwIGRvX3BhY2th
+Z2VfcWE6IFFBIElzc3VlOg0KL3Vzci9saWIvbGliaWNhbHNzLnNvLjMuMC41IGNvbnRhaW5lZCBp
+biBwYWNrYWdlIGxpYmljYWwgcmVxdWlyZXMNCmxpYmRiLTUuMy5zbygpKDY0Yml0KSwgYnV0IG5v
+IHByb3ZpZGVycyBmb3VuZCBpbiBSREVQRU5EU19saWJpY2FsPw0KW2ZpbGUtcmRlcHNdDQpzdGVw
+N2I6IEVSUk9SOiBsaWJpY2FsLTMuMC41LXIwIGRvX3BhY2thZ2VfcWE6IFFBIHJ1biBmb3VuZCBm
+YXRhbA0KZXJyb3JzLiBQbGVhc2UgY29uc2lkZXIgZml4aW5nIHRoZW0uDQpzdGVwN2I6IEVSUk9S
+OiBsaWJpY2FsLTMuMC41LXIwIGRvX3BhY2thZ2VfcWE6IA0Kc3RlcDdiOiBFUlJPUjogbGliaWNh
+bC0zLjAuNS1yMCBkb19wYWNrYWdlX3FhOiBGdW5jdGlvbiBmYWlsZWQ6DQpkb19wYWNrYWdlX3Fh
+DQpzdGVwN2I6IEVSUk9SOiBMb2dmaWxlIG9mIGZhaWx1cmUgc3RvcmVkIGluOiAvaG9tZS9wb2t5
+YnVpbGQveW9jdG8tDQp3b3JrZXIvcWEtZXh0cmFzMi9idWlsZC9idWlsZC90bXAvd29yay9jb3Jl
+Mi02NC1wb2t5LQ0KbGludXgvbGliaWNhbC8zLjAuNS1yMC90ZW1wL2xvZy5kb19wYWNrYWdlX3Fh
+LjQwNDU4DQoNClRoYW5rcywNCg0KQW51ag0KDQpPbiBXZWQsIDIwMTktMDctMjQgYXQgMTA6NTQg
+KzAxMDAsIFJvc3MgQnVydG9uIHdyb3RlOg0KPiBOb3RlIHRoYXQgdGhpcyB1cGdyYWRlIGluY2x1
+ZGVzIHNvbWUgQVBJIGJyZWFrYWdlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogUm9zcyBCdXJ0b24g
+PHJvc3MuYnVydG9uQGludGVsLmNvbT4NCj4gLS0tDQo+ICAuLi5pYmljYWwucGMuaW4tZml4LWlj
+dWxpYnMtcmVtb3ZlLWZ1bGwucGF0Y2ggfCA0NCAtLS0tLS0tLS0tLS0tLS0NCj4gLS0tLQ0KPiAg
+Li4uL3tsaWJpY2FsXzIuMC4wLmJiID0+IGxpYmljYWxfMy4wLjUuYmJ9ICAgIHwgMjAgKysrKyst
+LS0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDUyIGRlbGV0aW9ucygt
+KQ0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmljYWwvbGli
+aWNhbC8wMDAxLQ0KPiBDTWFrZUxpc3RzLnR4dC1saWJpY2FsLnBjLmluLWZpeC1pY3VsaWJzLXJl
+bW92ZS1mdWxsLnBhdGNoDQo+ICByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC97
+bGliaWNhbF8yLjAuMC5iYiA9Pg0KPiBsaWJpY2FsXzMuMC41LmJifSAoNTMlKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmljYWwvbGliaWNhbC8wMDAxLQ0KPiBD
+TWFrZUxpc3RzLnR4dC1saWJpY2FsLnBjLmluLWZpeC1pY3VsaWJzLXJlbW92ZS1mdWxsLnBhdGNo
+DQo+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsLzAwMDEtQ01ha2VMaXN0
+cy50eHQtDQo+IGxpYmljYWwucGMuaW4tZml4LWljdWxpYnMtcmVtb3ZlLWZ1bGwucGF0Y2gNCj4g
+ZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDZkYjc1ZjUwODZjLi4wMDAwMDAwMDAw
+MA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJpY2FsL2xpYmljYWwvMDAwMS1DTWFr
+ZUxpc3RzLnR4dC0NCj4gbGliaWNhbC5wYy5pbi1maXgtaWN1bGlicy1yZW1vdmUtZnVsbC5wYXRj
+aA0KPiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDQ0ICswLDAgQEANCj4gLUZyb20gMWE0MTA2OWMw
+ZGMwNTRlNTljZDc2ZmMzZDhjZjdjYzJhNzhiNWU4ZCBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIw
+MDENCj4gLUZyb206IEFsbGVuIFdpbnRlciA8YWxsZW4ud2ludGVyQGtkYWIuY29tPg0KPiAtRGF0
+ZTogU2F0LCAzIFNlcCAyMDE2IDE2OjU2OjI5IC0wNDAwDQo+IC1TdWJqZWN0OiBbUEFUQ0hdIENN
+YWtlTGlzdHMudHh0LCBsaWJpY2FsLnBjLmluIC0gZml4IGljdWxpYnMgKHJlbW92ZQ0KPiBmdWxs
+IHBhdGgpIElTU1VFOiAyMjcNCj4gLQ0KPiAtVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydA0KPiAt
+DQo+IC1TaWduZWQtb2ZmLWJ5OiBNYXhpbiBCLiBKb2huIDxtYXhpbi5qb2huQGludGVsLmNvbT4N
+Cj4gLS0tLS0NCj4gLWRpZmYgLU5hdXIgbGliaWNhbC0yLjAuMC1vcmlnL0NNYWtlTGlzdHMudHh0
+IGxpYmljYWwtDQo+IDIuMC4wL0NNYWtlTGlzdHMudHh0DQo+IC0tLS0gbGliaWNhbC0yLjAuMC1v
+cmlnL0NNYWtlTGlzdHMudHh0CTIwMTYtMDktMDgNCj4gMTg6MDU6MDYuMTY2MDQ5MzQ1ICswMzAw
+DQo+IC0rKysgbGliaWNhbC0yLjAuMC9DTWFrZUxpc3RzLnR4dAkyMDE2LTA5LTA4IDE4OjA1OjQ1
+LjIwMTU2MTMzNA0KPiArMDMwMA0KPiAtQEAgLTEyOCw2ICsxMjgsNyBAQA0KPiAtICMgIFJTQ0FM
+RSBpbmZvIGF0IGh0dHA6Ly90b29scy5pZXRmLm9yZy9odG1sL3JmYzc1MjkNCj4gLSBmaW5kX3Bh
+Y2thZ2UoSUNVKQ0KPiAtIGlmKElDVV9GT1VORCkNCj4gLSsgIHNldChJQ1VVQ19MSUJTICItbGlj
+dXVjIikgI2ZvciBsaWJpY2FsLnBjDQo+IC0gICBzZXQoSEFWRV9MSUJJQ1UgMSkNCj4gLSAgIGlm
+KElDVV9NQUpPUl9WRVJTSU9OIFZFUlNJT05fR1JFQVRFUiA1MCkNCj4gLSAgICAgc2V0KEhBVkVf
+SUNVX0RBTkdJIFRSVUUpDQo+IC1AQCAtMTM3LDYgKzEzOCw3IEBADQo+IC0gZW5kaWYoKQ0KPiAt
+IGlmKElDVV9JMThOX0ZPVU5EKQ0KPiAtICAgc2V0KEhBVkVfTElCSUNVX0kxOE4gMSkNCj4gLSsg
+IHNldChJQ1VJMThOX0xJQlMgIi1saWN1aTE4biIpICNmb3IgbGliaWNhbC5wYw0KPiAtIGVuZGlm
+KCkNCj4gLSANCj4gLSAjIE1TVkMgc3BlY2lmaWMgZGVmaW5pdGlvbnMNCj4gLWRpZmYgLU5hdXIg
+bGliaWNhbC0yLjAuMC1vcmlnL2xpYmljYWwucGMuaW4gbGliaWNhbC0NCj4gMi4wLjAvbGliaWNh
+bC5wYy5pbg0KPiAtLS0tIGxpYmljYWwtMi4wLjAtb3JpZy9saWJpY2FsLnBjLmluCTIwMTUtMTIt
+MjggMjM6NDQ6NTMuMDAwMDAwMDAwDQo+ICswMjAwDQo+IC0rKysgbGliaWNhbC0yLjAuMC9saWJp
+Y2FsLnBjLmluCTIwMTYtMDktMDggMTg6MDk6MTIuOTkxOTYzNTk3DQo+ICswMzAwDQo+IC1AQCAt
+MywxMCArMywxMCBAQA0KPiAtIGxpYmRpcj1AbGliZGlyQA0KPiAtIGluY2x1ZGVkaXI9QGluY2x1
+ZGVkaXJADQo+IC0gdGhyZWFkc2xpYj1AUFRIUkVBRF9MSUJTQA0KPiAtLWljdWxpYj1ASUNVX0xJ
+QlJBUklFU0AgQElDVV9JMThOX0xJQlJBUklFU0ANCj4gLStpY3VsaWJzPUBJQ1VVQ19MSUJTQCBA
+SUNVSTE4Tl9MSUJTQA0KPiAtIA0KPiAtIE5hbWU6IGxpYmljYWwNCj4gLSBEZXNjcmlwdGlvbjog
+QW4gaW1wbGVtZW50YXRpb24gb2YgYmFzaWMgaUNBTCBwcm90b2NvbHMNCj4gLSBWZXJzaW9uOiBA
+VkVSU0lPTkANCj4gLS1MaWJzOiAtTCR7bGliZGlyfSAtbGljYWwgLWxpY2Fsc3MgLWxpY2FsdmNh
+bCAke3RocmVhZHNsaWJ9DQo+ICR7aWN1bGlifQ0KPiAtK0xpYnM6IC1MJHtsaWJkaXJ9IC1saWNh
+bCAtbGljYWxzcyAtbGljYWx2Y2FsICR7dGhyZWFkc2xpYn0NCj4gJHtpY3VsaWJzfQ0KPiAtIENm
+bGFnczogLUkke2luY2x1ZGVkaXJ9DQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9saWJpY2FsL2xpYmljYWxfMi4wLjAuYmINCj4gYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJp
+Y2FsL2xpYmljYWxfMy4wLjUuYmINCj4gc2ltaWxhcml0eSBpbmRleCA1MyUNCj4gcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliaWNhbC9saWJpY2FsXzIuMC4wLmJiDQo+IHJlbmFt
+ZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJpY2FsL2xpYmljYWxfMy4wLjUuYmINCj4gaW5k
+ZXggN2RmZmRjZmIwMTMuLmE0MjM4ZjIyNjMzIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJpY2FsL2xpYmljYWxfMi4wLjAuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbGliaWNhbC9saWJpY2FsXzMuMC41LmJiDQo+IEBAIC0xLDE4ICsxLDE4IEBADQo+ICBT
+VU1NQVJZID0gImlDYWwgYW5kIHNjaGVkdWxpbmcgKFJGQyAyNDQ1LCAyNDQ2LCAyNDQ3KSBsaWJy
+YXJ5Ig0KPiAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYmljYWwvbGliaWNhbCIN
+Cj4gIEJVR1RSQUNLRVIgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYmljYWwvbGliaWNhbC9pc3N1
+ZXMiDQo+IC1MSUNFTlNFID0gIkxHUEx2Mi4xIHwgTVBMLTEuMCINCj4gLUxJQ19GSUxFU19DSEtT
+VU0gPQ0KPiAiZmlsZTovL0NPUFlJTkc7bWQ1PWQ0ZmM1ODMwOWQ4ZWQ0NjU4N2FjNjNiYjQ0OWQ4
+MmY4IFwNCj4gLSAgICAgICAgICAgICAgICAgICAgZmlsZTovL0xJQ0VOU0U7bWQ1PWQxYTA4OTFj
+ZDNlNTgyYjNlMmVjOGZlNjNiYWRiDQo+IGJiNiINCj4gK0xJQ0VOU0UgPSAiTEdQTHYyLjEgfCBN
+UEwtMi4wIg0KPiArTElDX0ZJTEVTX0NIS1NVTSA9DQo+ICJmaWxlOi8vTElDRU5TRTttZDU9MTkx
+MGEyYTc2ZGRmNmE5YmEzNjkxODI0OTQxNzBkODcgXA0KPiArICAgICAgICAgICAgICAgICAgICBm
+aWxlOi8vTElDRU5TRS5MR1BMMjEudHh0O21kNT05MzNhZGI1NjFmMTU5ZTdjM2QNCj4gYTA3OTUz
+NmYwZWQ4NzEgXA0KPiArICAgICAgICAgICAgICAgICAgICBmaWxlOi8vTElDRU5TRS5NUEwyLnR4
+dDttZDU9OTc0MWMzNDZlZWY1NjEzMTE2M2UNCj4gMTNiOWRiMTI0MWIzIg0KPiAgU0VDVElPTiA9
+ICJsaWJzIg0KPiAgDQo+IC1TUkNfVVJJID0gIg0KPiBodHRwczovL2dpdGh1Yi5jb20vJHtCUE59
+LyR7QlBOfS9yZWxlYXNlcy9kb3dubG9hZC92JHtQVn0vJHtCUH0udGFyLmd6DQo+IFwNCj4gLSAg
+ICAgICAgICAgZmlsZTovLzAwMDEtQ01ha2VMaXN0cy50eHQtbGliaWNhbC5wYy5pbi1maXgtaWN1
+bGlicy0NCj4gcmVtb3ZlLWZ1bGwucGF0Y2ggXA0KPiAtICAgICAgICAgICAiDQo+ICtTUkNfVVJJ
+ID0gIg0KPiBodHRwczovL2dpdGh1Yi5jb20vJHtCUE59LyR7QlBOfS9yZWxlYXNlcy9kb3dubG9h
+ZC92JHtQVn0vJHtCUH0udGFyLmd6DQo+ICINCj4gKw0KPiAgREVQRU5EUyA9ICJpY3UiDQo+ICAN
+Cj4gLVNSQ19VUklbbWQ1c3VtXSA9ICI2YmY4ZTVmNWEzYmE4OGJhZjM5MGQwMTM0ZTA1ZDc2ZSIN
+Cj4gLVNSQ19VUklbc2hhMjU2c3VtXSA9DQo+ICI2NTRjMTFmNzU5YzE5MjM3YmUzOWY2YWQ0MDFk
+OTE3ZTVhMDVmMzZmMTczNjM4NWVkOTU4ZTYwY2YyMTQ1NmRhIg0KPiArU1JDX1VSSVttZDVzdW1d
+ID0gIjliZTRlOGExNzM5YTljMjdlMDZhYThjZTY2YjhjYjM0Ig0KPiArU1JDX1VSSVtzaGEyNTZz
+dW1dID0NCj4gIjdhZDU1MGM4YzQ5YzliOTk4MzY1OGUzYWIzZTY4YjFlZWUyNDM5ZWMxN2IxNjlh
+NmIxZTZlY2I1Mjc0ZTc4ZTYiDQo+ICBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRo
+dWIuY29tL2xpYmljYWwvbGliaWNhbC9yZWxlYXNlcyINCj4gIA0KPiAgaW5oZXJpdCBjbWFrZSBw
+a2djb25maWcNCj4gQEAgLTIwLDYgKzIwLDEwIEBAIGluaGVyaXQgY21ha2UgcGtnY29uZmlnDQo+
+ICAjIE5vIG5lZWQgdG8gdXNlIHBlcmwtbmF0aXZlLCB0aGUgaG9zdCBwZXJsIGlzIHN1ZmZpY2ll
+bnQuDQo+ICBFWFRSQV9PRUNNQUtFICs9ICItRFBFUkxfRVhFQ1VUQUJMRT0ke0hPU1RUT09MU19E
+SVJ9L3BlcmwiDQo+ICANCj4gKyMgVGhlIGdsaWIgbGlicmFyeSBjYW4ndCBiZSBjcm9zcy1jb21w
+aWxlZCwgZGlzYWJsZSBmb3Igbm93Lg0KPiArIyBodHRwczovL2dpdGh1Yi5jb20vbGliaWNhbC9s
+aWJpY2FsL2lzc3Vlcy8zOTQNCj4gK0VYVFJBX09FQ01BS0UgKz0gIi1ESUNBTF9HTElCPWZhbHNl
+Ig0KPiArDQo+ICBkb19pbnN0YWxsX2FwcGVuZF9jbGFzcy10YXJnZXQgKCkgew0KPiAgICAgICMg
+UmVtb3ZlIGJ1aWxkIGhvc3QgcmVmZXJlbmNlcw0KPiAgICAgIHNlZCAtaSBcDQo+IC0tIA0KPiAy
+LjIwLjENCj4gDQo=
 
