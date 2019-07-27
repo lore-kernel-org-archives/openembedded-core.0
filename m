@@ -1,47 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C1B97D667
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C7757CF88
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jul 2019 01:59:48 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id h21so54428015qtn.13
+	Sat, 27 Jul 2019 02:44:55 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id s3so49397012wms.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2019 18:59:50 -0700 (PDT)
+	Fri, 26 Jul 2019 19:44:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZI9vTz7hp/J1UkeMCS2S0eDJk3F5MHw7YdElo4MzsJQ=;
-	b=e2CwPksZz/HwNYAllWW7qpy5bEzn4Te42XT6vqJ/Q96G0Q9BzplZrE3AHoyh1XvPYZ
-	MnKdZ4olFN0VOEr8JHKpltG89xq1nSdVcx8ZAtViezMvp9zdd9ky3sFVzQXAMucVni7m
-	egGL3n2pkgOmTkaTIk31RxKs0NCWm60FTUtaiXjo68kgECXE7GxuFcesAVkCd8sEQFms
-	AHEK652mL/85t78Tm4RnAbtDb7bBZ5/ot/T53/+pSSkVUIYij/MObGbncjdU3y8ZAOgw
-	GcvXE7YDbYjuCsBnPjfmvLtudWav5cUlxECoLf5as/PvId9ZskdgxUcj/33N/tIhA9ke
-	gsfg==
+	:cc; bh=yzF4BT37hgoI0LZg4JFZYynP3JAf20QuR5bZuKUt5R4=;
+	b=Aqa/ERONl5z38asCJOcSUciyfmHeOJM9tMMYDf4K36lLo/PPlduvOw2cgRUxJzniU8
+	y1bul/wVGKbQKUHHDNxBtToo9cvFcw1oc+6Vl6WUiWKq2AGBpxUZXlxA7z8RIIoU+lg9
+	GoZBpR2HrW9RDCq63UCHIZkPCjIW7E+BsY3FILleNodJRHkxuuZIQvuLEXlv34F8RFzE
+	FxVHygssvJhLrui5cflHH7j9v8UvuOfTuEQvcuVGJgnEUEa3pToho+wIRB9lQA5nq9Ym
+	ihYq85hfecqIl/Y15jIamJI2VZUA/RLd1poGfLCctD18srG3GPTvIdKupBZQcbQleMCO
+	D00g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=ZI9vTz7hp/J1UkeMCS2S0eDJk3F5MHw7YdElo4MzsJQ=;
-	b=X9IY9gJ5b7Qx/QMPS14IUcdC3xVlErtIE6s1rG0smgMQoMuE89m/5aVSnUjjZFpQ8k
-	RZQnGCBn3vSEjvyh49kk+ap6AtfLhHa1MsDHUCK7NxMMC4GZpCFaFo/PDHsf2Yr5y4l4
-	fiULAdtfEghUQ19d8Sf62jBistEHPrn9SFpSwnP+Hcdkgtrojd5u/8s2dCwKNbdd6UhL
-	L3VovN0rev5SQOErIx9gWub01BVY9oLMgp2PUZFrpX3t56+CxcK4q1bQ/Au+sxSbkmIX
-	9yXTAsH3qPRQmOnxZBlYGGSBx8Kn8myRWMkwChlC6VdDVjqD2M5POaP9mo51/x0Em35h
-	AvxA==
-X-Gm-Message-State: APjAAAW0PsBgDN8JboKb0xmK76OsOgiJQRTr2w/bTzsU743XR/wMjcHE
-	pbSQnDbBwKTkfabHFVptcBkXGRJRs3mufWRzMJU=
-X-Google-Smtp-Source: APXvYqy8aY+75oq6gy6XUG4Xe9M0F1jG4z75BksswWM6r2r348pjOca6AJc3Qr55pAOmFKfyw9h7crgznqs6TqauDtQ=
-X-Received: by 2002:a0c:d2da:: with SMTP id x26mr71759782qvh.51.1564192789642; 
-	Fri, 26 Jul 2019 18:59:49 -0700 (PDT)
+	bh=yzF4BT37hgoI0LZg4JFZYynP3JAf20QuR5bZuKUt5R4=;
+	b=GwjPJpFxCCwOugIeUGQF1IeywQqC8xVdfdSU+3MnQhnyxcl33Tgk7fOXB6xMr3ZVP9
+	Bbmqo5IkJEoVA6x1FfLifRxSov+9F/METTqspfShiydwEq+cHQ02oDbka/Jh0BxGjavz
+	XagDQ57met25FTjWdSYRf2wBfSRsOroWYDZxo8xbo6Vw7I+nWp2p5fOswBFhbMLt/8Lk
+	yUNYd8rXfSdAtPWhditk8PclgsecxN0mrE/ctTTc2L13AaG/wNo0tbM99hEVTLfORelP
+	/NBYYQD6ljQd+6SkcLisc/VaXgUr5r3TwZX8J7IcsZIIF7K3BSeOoxd4Ir/BFghBwOel
+	LE6g==
+X-Gm-Message-State: APjAAAUeGkTeteNqvOPA2OpugSyAFNLaqqtKnfL1K90id/7kLWlGIMg8
+	FMeCzj/vXISy121RtQmGJO1geWRN4+D5gbbhis8=
+X-Google-Smtp-Source: APXvYqx0902E4X84coMSsuGRfa6kSAL9DSxQrRy2IsbJaS4XvSXUBsECHTxeQ7lhobVa18uSKe4N5zv/lXmYcsBRTKs=
+X-Received: by 2002:a1c:7ec7:: with SMTP id z190mr85593542wmc.17.1564195496438;
+	Fri, 26 Jul 2019 19:44:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190726124125.6238-1-arturo.buzarra@digi.com>
-In-Reply-To: <20190726124125.6238-1-arturo.buzarra@digi.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 26 Jul 2019 18:59:34 -0700
-Message-ID: <CAMKF1sp=+wRBVLdY1igR_BAW1EV=U40e2nH1twqQPvkPxnPL6w@mail.gmail.com>
-To: Arturo Buzarra <arturo.buzarra@digi.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][thud] lvm2: Fix RDEPEND on lvm2 to lvm2-udevrules
+References: <1564054891-8168-1-git-send-email-liu.ming50@gmail.com>
+	<CAJTo0LZas-J9VBo1UyHOatWQXi0TKsSydBB21H=L3wEXCvk1Aw@mail.gmail.com>
+	<CALatG=6TgEG7_Zf0ZKc-S2k4Jd_zuMgOjhhnovET=Bdx6GQsUQ@mail.gmail.com>
+In-Reply-To: <CALatG=6TgEG7_Zf0ZKc-S2k4Jd_zuMgOjhhnovET=Bdx6GQsUQ@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Sat, 27 Jul 2019 10:44:45 +0800
+Message-ID: <CALatG=7vRbyWBUQOAtOG46PgcXLARO-3Kx7LNjQQuSdz_-dvHQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>, "denys@ti.com" <denys@ti.com>
+Cc: Ming Liu <ming.liu@toradex.com>, luka.pivk@toradex.com,
+	Stefan Agner <stefan.agner@toradex.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston: change to use meson build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,54 +57,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Jul 2019 01:59:49 -0000
+X-List-Received-Date: Sat, 27 Jul 2019 02:44:56 -0000
+Content-Type: multipart/alternative; boundary="000000000000ecb256058ea0a441"
+
+--000000000000ecb256058ea0a441
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi
+FYI,
+I have made a V2 patch, but I noticed Denys Dmytriyenko had sent a patch to
+upgrade weston from 6.0.0 to 6.0.1, I would like to send out the V2 patch
+later after it=E2=80=99s merged.
 
-Please send this to oe-devel mailing list
+//Ming Liu
 
-On Fri, Jul 26, 2019 at 5:54 AM Arturo Buzarra <arturo.buzarra@digi.com> wrote:
->
-> Commit c6e963f9e078b728911afed38d31ed234a384154 ("lvm2: Add RDEPEND
-> on lvm2 to lvm2-udevrules") added a package dependency due to
-> lvm2-udevrules needs dmsetup, however dmsetup was moved to libdevmapper
-> in commit 269d009a81d4 ("lvm2: libdevicemapper package needs udev
-> rules and dmsetup"), so this dependency should be only for libdevmapper
-> instead of the full package.
->
-> With the current implementation, a package that has a dependency with
-> lvm2-udev rules will include also many unnecessary packages like lvm2,
-> lvm2-scripts, etc. and their dependencies.
->
-> Signed-off-by: Arturo Buzarra <arturo.buzarra@digi.com>
-> ---
->  meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb b/meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb
-> index 7bd7b09d8..08287e358 100644
-> --- a/meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb
-> +++ b/meta-oe/recipes-support/lvm2/lvm2_2.02.180.bb
-> @@ -48,11 +48,11 @@ FILES_${PN}-scripts = " \
->      ${sbindir}/lvmdump \
->  "
->  # Specified explicitly for the udev rules, just in case that it does not get picked
->  # up automatically:
->  FILES_${PN}-udevrules = "${nonarch_base_libdir}/udev/rules.d"
-> -RDEPENDS_${PN}-udevrules = "${PN}"
-> +RDEPENDS_${PN}-udevrules = "libdevmapper"
->  RDEPENDS_${PN}_append_class-target = " libdevmapper"
->  RDEPENDS_${PN}_append_class-nativesdk = " libdevmapper"
->
->  RDEPENDS_${PN}-scripts = "${PN} (= ${EXTENDPKGV}) bash"
->  RRECOMMENDS_${PN}_class-target = "${PN}-scripts (= ${EXTENDPKGV})"
-> --
-> 2.22.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+Sorry, I did not describe it correctly, as Stefan said, it=E2=80=99s not a =
+build
+> issue with meson, but we need explicitly set the remoting option on or of=
+f
+>  , or else we will have a gstreamer dependency missing issue. I will chan=
+ge
+> the commit message here in V2.
+>
+> //Ming Liu
+>
+> On Thu, 25 Jul 2019 at 12:42, <liu.ming50@gmail.com> wrote:
+>> > - Introduce remoting package config, without it meson would run into a
+>> >   build error.
+>>
+>> Did you tell upstream about this?
+>>
+>> Ross
+>>
+>
+
+--000000000000ecb256058ea0a441
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><div dir=3D"auto">FYI,</div></div><div><div dir=3D"auto">I have made a=
+ V2 patch, but I noticed Denys Dmytriyenko had sent a patch to upgrade west=
+on from 6.0.0 to 6.0.1, I would like to send out the V2 patch later after i=
+t=E2=80=99s merged.</div><div dir=3D"auto"><br></div><div dir=3D"auto">//Mi=
+ng Liu</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
+attr"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div><div dir=3D"auto">Sorry=
+, I did not describe it correctly, as Stefan said, it=E2=80=99s not a build=
+ issue with meson, but we need explicitly set the remoting option on or off=
+ =C2=A0, or else we will have a gstreamer dependency missing issue. I will =
+change the commit message here in V2.</div></div><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">//Ming Liu</div><div><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr"><br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On =
+Thu, 25 Jul 2019 at 12:42, &lt;<a href=3D"mailto:liu.ming50@gmail.com" targ=
+et=3D"_blank">liu.ming50@gmail.com</a>&gt; wrote:<br>
+&gt; - Introduce remoting package config, without it meson would run into a=
+<br>
+&gt;=C2=A0 =C2=A0build error.<br>
+<br>
+Did you tell upstream about this?<br>
+<br>
+Ross<br>
+</blockquote></div></div>
+</blockquote></div></div>
+
+--000000000000ecb256058ea0a441--
