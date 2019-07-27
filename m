@@ -1,48 +1,51 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EA1D775C60
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 32E2E6BC44
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jul 2019 14:21:10 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id h19so39880724wme.0
+	Sat, 27 Jul 2019 15:59:05 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id i2so25890071plt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jul 2019 07:21:12 -0700 (PDT)
+	Sat, 27 Jul 2019 08:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=akkuel8ZonLHoEzBMoHFo6axD2OwIheYv2dBnE+0zJA=;
-	b=J33Lf05KUChvXwNZZPKkSkhSXqf8VdFVXYnXcAJ3/XSXSRWwvPNUgYE/jVsJsahksx
-	yHGsTM7rx6SloSwNytFke0PFB/n04fEOMHw/NBxxzsQsmAob32l1YwtjCITyGvC1Ehd5
-	gKbDiwocmm1CnWkpMbCSAKanDaJiQ03nSFKL32zzDIiZA2h8E6Pj+2M6dCE2Ll5XdahI
-	hSi7F9XTntALilhgsGB/88RjxI5O4cwxTpLhP4Q66lBg/M2kKmhqfgSHgie5SAbAPSRG
-	7VRMAam8FBvpuO7QXw8EK1LFq7hsENy88Z1HTHJq3ZqvdOYC7hJKLClr4+EncBgOy4kR
-	KqjA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jp1yk7JXBTWFUdvjRN/zJkgtxDtEqrr6dM4dCvtRkRg=;
+	b=lIuQV/vvdc1UEWBmsoYX8UmFBKHe2rFZaH2/ZcGRPA336itfdHUsRMF4oR6kcZnhEt
+	MxMucEQ6SdJCmJ9FziB9m5k7ZdFFRV5czkGOLOUxkrLizlabbDSOfxLqmHQQI3cxsCzo
+	EAECFu5fKn88wYGCroJtZ8GyVtc40kqPFOgRwWAHLUlCkJNEmIaElXPJ0ptKo1Sc4NHd
+	L59TXfdFP1ipueixo4QlIbboRs5la5xVdSJXFwwje/iyMns3gp5yZLEMC/NA9AFBko72
+	Sk4e81JGFs+oeZ42/RGDfw9lUo9LepEasNdp8uoxnE+O4tfiPhlDLXDdi16qRi5TQPub
+	c/fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=akkuel8ZonLHoEzBMoHFo6axD2OwIheYv2dBnE+0zJA=;
-	b=dWnTT2/286Y02z7E/eOmfLMKUhwaS6nNUILUQ17CCcOBnGKugh6xnMiOxiwH1aLoTp
-	p5Bd8yO/NEFeK6RyffBtztWEGzF6UL8Qc6uW9CV7B8BNwZBx2s3VyLbZ6fDatV2f6c14
-	n+iJ0yDGlIe94RCGf+98bcw2GsIDG6bGRkzoaxZW8JolalJbG2U25jdVRKrVAAXNXVxz
-	BajmnQrQAbHfo+KIN8Pz4LtwUhcUiZD2LwMHFzf8y52DfhbIVywTr166uuyTfDkjHnCy
-	qXpfTKU4I06HrKD6FSE7QtoHD/9T8XEa8IzVHsQ1QTpTlAg6IGErb45yVnLgCbKAoLhC
-	KnBA==
-X-Gm-Message-State: APjAAAWvCDrC2gf/I8F3Ou78/5E81WRLJeG6gLkfF/fQ9rvYXF7sewJe
-	fPAPLw1cHI5vD4h1ukbmatwCA8udsZE=
-X-Google-Smtp-Source: APXvYqya0d4Qv5HJobUYe2+ChFyOZi3ytnQMv8YK5CbAZR0lYNfYCMg9B5NLjBN6nyb6zVasRSBiGQ==
-X-Received: by 2002:a1c:1a87:: with SMTP id a129mr89206438wma.21.1564237271112;
-	Sat, 27 Jul 2019 07:21:11 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.lan ([85.255.233.136])
-	by smtp.gmail.com with ESMTPSA id
-	f192sm59404574wmg.30.2019.07.27.07.21.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 27 Jul 2019 07:21:10 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=jp1yk7JXBTWFUdvjRN/zJkgtxDtEqrr6dM4dCvtRkRg=;
+	b=GJzb7cqVSiL6DDXmvCCu9PmLCkwNnrWaQLtLaSRZXeOJGET6fxNI24uAhXcuFeDbgk
+	eQcCYXJEAZ0lA0iEKIe2o/0DzNMMZx9CwmesDUvuNX7n1EXJUZsHBr5uGkOtR7OfOi/w
+	yBdQs9RuTipedvX+5T+f72pplvGvRjx30qZGKULWeD0HSRvxJwXUXXFVOirP1NMvQ8e/
+	z4Hocfy3CgAidC24ROyyliVamQWho6PbP9VyM9EQIBsQx0S+d7UTT0FDCCQhTr+qUkID
+	dvFZYAXnxo131yIHc7uRxEgv7GhUYdQ+CR5XzMGOsK2/H8+PuHVlxz44XQ1GS37L78Y3
+	5mvA==
+X-Gm-Message-State: APjAAAX8ynMIf9k8zFeifgAE7QPsjBdYf5JSExyEin0hRF2fMrG3/zoR
+	SSQrq6mP0blJNJLpDiBRFi/4PuaIMkQ=
+X-Google-Smtp-Source: APXvYqzDK4H+RPxER2dOAqhBR6EL3F/fyGcHT70xMLA7Bxj1XUirsDMY07X7MDcidver0GpTtAV5+g==
+X-Received: by 2002:a17:902:ea:: with SMTP id
+	a97mr26413299pla.182.1564243145643; 
+	Sat, 27 Jul 2019 08:59:05 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
+	g2sm57118347pfi.26.2019.07.27.08.59.04
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sat, 27 Jul 2019 08:59:05 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 27 Jul 2019 07:20:36 -0700
-Message-Id: <cover.1564236944.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 00/30] Thud-next pull request
+Date: Sat, 27 Jul 2019 08:58:48 -0700
+Message-Id: <20190727155849.38385-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.22.0
+MIME-Version: 1.0
+Subject: [PATCH 1/2] ltp: Fix build with glibc 2.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,189 +58,250 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Jul 2019 14:21:11 -0000
+X-List-Received-Date: Sat, 27 Jul 2019 15:59:05 -0000
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit f162d5bfe6eaeca24f441c83c87252c8d05744fc:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...me-check-for-getdents-getdents64-API.patch | 72 +++++++++++++++++++
+ ...k-for-RES_USE_INET6-during-configure.patch | 68 ++++++++++++++++++
+ ...e-getdents-getdents64-only-for-glibc.patch | 50 -------------
+ meta/recipes-extended/ltp/ltp_20190517.bb     |  3 +-
+ 4 files changed, 142 insertions(+), 51 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0005-getdents-define-getdents-getdents64-only-for-glibc.patch
 
-  core-image-sato-sdk-ptest: Tweak size to stay within 4GB limit (2019-05-17 22:05:59 -0700)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/thud-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/thud-next
-
-Armin Kuster (16):
-  glibc: Security fix CVE-2019-9169
-  elfutils: Security fixes  CVE-2019-7146,7149,7150
-  qemu: Several CVE fixes
-  python: Update to 2.7.16
-  busybox: Security fixes for CVE-2018-20679 CVE-2019-5747
-  sqlite3: Security fixes for CVE-2018-20505 & 20506
-  file: Multiple Secruity fixes
-  go: update to minor update 1.11.10
-  qemu: Security fix for CVE-2018-19489
-  Tar: Security fix CVE-2019-0023
-  glib-2.0: Security fix for CVE-2019-12450
-  wget: Security fix for CVE-2019-5953
-  Curl: Securiyt fix CVE-2019-5435 CVE-2019-5436
-  qemu: Security fix for CVE-2019-12155
-  qemu: Security fixes CVE-2018-20815 CVE-2019-9824
-  glib: Security fix for CVE-2019-9633
-
-Chen Qi (2):
-  cups: upgrade to 2.2.9
-  cups: upgrade to 2.2.10
-
-Hongxu Jia (1):
-  go-target.inc: fix go not found while multilib enabled
-
-Joshua DeWeese (1):
-  wpa_supplicant: Changed systemd template units
-
-Khem Raj (1):
-  go: Upgrade 1.11.1 -> 1.11.4 minor release
-
-Martin Jansa (1):
-  python: add a fix for CVE-2019-9948 and CVE-2019-9636
-
-Richard Purdie (4):
-  go-crosssdk: PN should use SDK_SYS, not TARGET_ARCH
-  yocto-uninative: Update to 2.5 release
-  uninative: Switch from bz2 to xz
-  uninative: Update to 2.6 release
-
-Robert Yang (1):
-  uboot-sign.bbclass: Remove tab indentations in python code
-
-Ross Burton (3):
-  cairo: fix CVE-2018-19876 CVE-2019-6461 CVE-2019-6462
-  lighttpd: fix CVE-2019-11072
-  glibc: backport CVE fixes
-
- meta/classes/uboot-sign.bbclass                    |  20 +-
- meta/classes/uninative.bbclass                     |   4 +-
- meta/conf/distro/include/yocto-uninative.inc       |   8 +-
- ...place-systemd-install-Alias-with-WantedBy.patch |  52 ++++
- .../wpa-supplicant/wpa-supplicant_2.6.bb           |   1 +
- .../busybox/busybox/CVE-2018-20679.patch           | 142 +++++++++
- .../busybox/busybox/CVE-2019-5747.patch            |  60 ++++
- meta/recipes-core/busybox/busybox_1.29.3.bb        |   2 +
- .../glib-2.0/glib-2.0/CVE-2019-12450.patch         |  59 ++++
- .../glib-2.0/glib-2.0/CVE-2019-9633_p1.patch       | 316 +++++++++++++++++++++
- .../glib-2.0/glib-2.0/CVE-2019-9633_p2.patch       | 231 +++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb      |   3 +
- meta/recipes-core/glibc/glibc/CVE-2016-10739.patch | 232 +++++++++++++++
- meta/recipes-core/glibc/glibc/CVE-2018-19591.patch |  48 ++++
- meta/recipes-core/glibc/glibc/CVE-2019-9169.patch  |  63 ++++
- meta/recipes-core/glibc/glibc_2.28.bb              |   3 +
- meta/recipes-devtools/elfutils/elfutils_0.175.bb   |   4 +
- .../elfutils/files/CVE-2019-7146_p1.patch          |  52 ++++
- .../elfutils/files/CVE-2019-7146_p2.patch          |  65 +++++
- .../elfutils/files/CVE-2019-7149.patch             | 148 ++++++++++
- .../elfutils/files/CVE-2019-7150.patch             |  51 ++++
- .../recipes-devtools/file/file/CVE-2019-8904.patch |  30 ++
- .../file/file/CVE-2019-8905_CVE-2019-8907.patch    | 120 ++++++++
- .../recipes-devtools/file/file/CVE-2019-8906.patch |  27 ++
- meta/recipes-devtools/file/file_5.34.bb            |   3 +
- meta/recipes-devtools/go/go-1.11.inc               |   7 +-
- ...07-cmd-go-make-GOROOT-precious-by-default.patch |   6 +-
- .../0008-use-GOBUILDMODE-to-set-buildmode.patch    |  13 +-
- meta/recipes-devtools/go/go-crosssdk.inc           |   2 +-
- meta/recipes-devtools/go/go-target.inc             |   2 +-
- ...on-native_2.7.15.bb => python-native_2.7.16.bb} |   2 -
- meta/recipes-devtools/python/python.inc            |  18 +-
- ...23-Use-XML_SetHashSalt-in-_elementtree-GH.patch |  96 -------
- ...ix-test_ssl-when-a-filename-cannot-be-enc.patch |  55 ----
- ...LS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch | 120 --------
- ...34540-Convert-shutil._call_external_zip-t.patch |  67 -----
- ...dd-missing-closing-wrapper-in-test_tls1_3.patch |  37 ---
- ...ix-test_ssl.test_options-to-account-for-O.patch |  37 ---
- ...ix-test_default_ecdh_curve-needs-no-tlsv1.patch |  34 ---
- .../python/bpo-35907-cve-2019-9948-fix.patch       |  55 ++++
- .../python/python/bpo-35907-cve-2019-9948.patch    |  55 ++++
- .../python/bpo-36216-cve-2019-9636-fix.patch       |  28 ++
- .../python/python/bpo-36216-cve-2019-9636.patch    | 111 ++++++++
- .../python/{python_2.7.15.bb => python_2.7.16.bb}  |   6 +-
- .../qemu/qemu/CVE-2018-16867.patch                 |  49 ++++
- .../qemu/qemu/CVE-2018-16872.patch                 |  89 ++++++
- .../qemu/qemu/CVE-2018-18849.patch                 |  86 ++++++
- .../qemu/qemu/CVE-2018-19364_p1.patch              |  51 ++++
- .../qemu/qemu/CVE-2018-19364_p2.patch              | 115 ++++++++
- .../qemu/qemu/CVE-2018-19489.patch                 |  83 ++++++
- .../qemu/qemu/CVE-2018-20815_p1.patch              |  42 +++
- .../qemu/qemu/CVE-2018-20815_p2.patch              |  52 ++++
- .../qemu/qemu/CVE-2019-12155.patch                 |  38 +++
- .../recipes-devtools/qemu/qemu/CVE-2019-9824.patch |  47 +++
- meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  10 +
- .../0001-don-t-try-to-run-generated-binaries.patch |  29 +-
- .../cups/{cups_2.2.8.bb => cups_2.2.10.bb}         |   4 +-
- .../lighttpd/lighttpd/fix-http-parseopts.patch     |  51 ++++
- meta/recipes-extended/lighttpd/lighttpd_1.4.51.bb  |   1 +
- meta/recipes-extended/tar/tar/CVE-2019-9923.patch  |  38 +++
- meta/recipes-extended/tar/tar_1.30.bb              |   1 +
- .../recipes-extended/wget/wget/CVE-2019-5953.patch |  51 ++++
- meta/recipes-extended/wget/wget_1.19.5.bb          |   1 +
- .../cairo/cairo/CVE-2019-6461.patch                |  19 ++
- .../cairo/cairo/CVE-2019-6462.patch                |  20 ++
- meta/recipes-graphics/cairo/cairo_1.14.12.bb       |   2 +
- meta/recipes-support/curl/curl/CVE-2019-5435.patch | 200 +++++++++++++
- meta/recipes-support/curl/curl/CVE-2019-5436.patch |  32 +++
- meta/recipes-support/curl/curl_7.61.0.bb           |   2 +
- .../sqlite/files/CVE-2018-20505.patch              |  31 ++
- .../sqlite/files/CVE-2018-20506.patch              | 103 +++++++
- meta/recipes-support/sqlite/sqlite3_3.23.1.bb      |   2 +
- 72 files changed, 3233 insertions(+), 511 deletions(-)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2018-20679.patch
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-9633_p1.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-9633_p2.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2016-10739.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2018-19591.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p1.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p2.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7149.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7150.patch
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8904.patch
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8906.patch
- rename meta/recipes-devtools/python/{python-native_2.7.15.bb => python-native_2.7.16.bb} (96%)
- delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-34623-Use-XML_SetHashSalt-in-_elementtree-GH.patch
- delete mode 100644 meta/recipes-devtools/python/python/0001-bpo-33354-Fix-test_ssl-when-a-filename-cannot-be-enc.patch
- delete mode 100644 meta/recipes-devtools/python/python/0001-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976-.patch
- delete mode 100644 meta/recipes-devtools/python/python/0001-closes-bpo-34540-Convert-shutil._call_external_zip-t.patch
- delete mode 100644 meta/recipes-devtools/python/python/0002-bpo-34818-Add-missing-closing-wrapper-in-test_tls1_3.patch
- delete mode 100644 meta/recipes-devtools/python/python/0003-bpo-34834-Fix-test_ssl.test_options-to-account-for-O.patch
- delete mode 100644 meta/recipes-devtools/python/python/0004-bpo-34836-fix-test_default_ecdh_curve-needs-no-tlsv1.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
- rename meta/recipes-devtools/python/{python_2.7.15.bb => python_2.7.16.bb} (98%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-16867.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-16872.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-18849.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19364_p2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-20815_p1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-20815_p2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-12155.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-9824.patch
- rename meta/recipes-extended/cups/{cups_2.2.8.bb => cups_2.2.10.bb} (40%)
- create mode 100644 meta/recipes-extended/lighttpd/lighttpd/fix-http-parseopts.patch
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2019-9923.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2019-5953.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5435.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5436.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20505.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20506.patch
-
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch b/meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch
+new file mode 100644
+index 0000000000..bfceadb190
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch
+@@ -0,0 +1,72 @@
++From 404dfeb4faef213b0450f173b60cd7080edec349 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 26 Jul 2019 10:32:29 -0700
++Subject: [PATCH 1/2] Add configure time check for getdents/getdents64 APIs
++
++glibc 2.30 has added wrapper for getdents64 this will help in detecting
++right condition to use fallback
++
++Check for getdents API as well while here
++
++Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-July/012954.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure.ac                                  | 2 ++
++ testcases/kernel/syscalls/getdents/getdents.h | 8 ++++++--
++ 2 files changed, 8 insertions(+), 2 deletions(-)
++
++--- a/configure.ac
+++++ b/configure.ac
++@@ -65,6 +65,8 @@ AC_CHECK_FUNCS([ \
++     fallocate \
++     fchownat \
++     fstatat \
+++    getdents \
+++    getdents64 \
++     kcmp \
++     mkdirat \
++     mknodat \
++--- a/testcases/kernel/syscalls/getdents/getdents.h
+++++ b/testcases/kernel/syscalls/getdents/getdents.h
++@@ -23,7 +23,7 @@
++ #include <stdint.h>
++ #include "test.h"
++ #include "lapi/syscalls.h"
++-
+++#include "config.h"
++ /*
++  * See fs/compat.c struct compat_linux_dirent
++  */
++@@ -34,12 +34,17 @@ struct linux_dirent {
++ 	char            d_name[];
++ };
++ 
+++#if HAVE_GETDENTS
+++#include <unistd.h>
+++#else
++ static inline int
++ getdents(unsigned int fd, struct linux_dirent *dirp, unsigned int size)
++ {
++ 	return ltp_syscall(__NR_getdents, fd, dirp, size);
++ }
++ 
+++#endif /* HAVE_GETDENTS */
+++
++ struct linux_dirent64 {
++ 	uint64_t	d_ino;
++ 	int64_t		d_off;
++@@ -48,10 +53,13 @@ struct linux_dirent64 {
++ 	char		d_name[];
++ };
++ 
+++#if HAVE_GETDENTS64
+++#include <unistd.h>
+++#else
++ static inline int
++ getdents64(unsigned int fd, struct linux_dirent64 *dirp64, unsigned int size)
++ {
++ 	return ltp_syscall(__NR_getdents64, fd, dirp64, size);
++ }
++-
+++#endif /* HAVE_GETDENTS64 */
++ #endif /* GETDENTS_H */
+diff --git a/meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch b/meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch
+new file mode 100644
+index 0000000000..12e47eb2b6
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch
+@@ -0,0 +1,68 @@
++From 7bc134545b7beb09717a60541530c20a1a5740d3 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 26 Jul 2019 10:55:28 -0700
++Subject: [PATCH 2/2] check for RES_USE_INET6 during configure
++
++glibc 2.30 has remove RES_USE_INET6 define which has been on its way out
++since 2.26 release, this check ensures that we detect it before using it
++
++Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-July/012955.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure.ac                                        | 13 +++++++++++++
++ testcases/network/multicast/mc_gethost/mc_gethost.c |  6 ++++++
++ 2 files changed, 19 insertions(+)
++
++diff --git a/configure.ac b/configure.ac
++index 2255b5c181..ed7acccb01 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -91,6 +91,19 @@ AC_CHECK_FUNCS([ \
++     vmsplice \
++ ])
++ 
+++#check defines
+++AC_MSG_CHECKING([for RES_USE_INET6])
+++AC_COMPILE_IFELSE( [AC_LANG_PROGRAM([[#include <resolv.h>]],
+++  [[char dummy[RES_USE_INET6];]])],
+++  [
+++    AC_MSG_RESULT([yes])
+++    AC_DEFINE_UNQUOTED([HAVE_RES_USE_INET6], 1, [Define to 1 if you have the RES_USE_INET6 macro.])
+++  ],
+++  [
+++    AC_MSG_RESULT([no])
+++    AC_DEFINE_UNQUOTED([HAVE_RES_USE_INET6], 0, [Define to 1 if you have the RES_USE_INET6 macro.])
+++  ]
+++)
++ # Tools knobs
++ 
++ # Expect
++diff --git a/testcases/network/multicast/mc_gethost/mc_gethost.c b/testcases/network/multicast/mc_gethost/mc_gethost.c
++index 9cc15d086b..d1cae5441a 100644
++--- a/testcases/network/multicast/mc_gethost/mc_gethost.c
+++++ b/testcases/network/multicast/mc_gethost/mc_gethost.c
++@@ -17,6 +17,8 @@
++ #include <string.h>
++ #include <stdlib.h>
++ 
+++#include "config.h"
+++
++ #ifndef LOG_PERROR
++ #define LOG_PERROR 0
++ #endif
++@@ -50,8 +52,12 @@ usage:
++ 		argv++, argc--;
++ 	}
++ 	if (argc >= 1 && !strcmp(*argv, "-6")) {
+++#if HAVE_RES_USE_INET6
++ 		af = AF_INET6, size = IN6ADDRSZ;
++ 		_res.options |= RES_USE_INET6;
+++#else
+++		af = AF_INET, size = INADDRSZ;
+++#endif
++ 		argv++, argc--;
++ 	}
++ 	if (argc >= 1 && !strcmp(*argv, "-f")) {
++-- 
++2.22.0
++
+diff --git a/meta/recipes-extended/ltp/ltp/0005-getdents-define-getdents-getdents64-only-for-glibc.patch b/meta/recipes-extended/ltp/ltp/0005-getdents-define-getdents-getdents64-only-for-glibc.patch
+deleted file mode 100644
+index d1f7b0746b..0000000000
+--- a/meta/recipes-extended/ltp/ltp/0005-getdents-define-getdents-getdents64-only-for-glibc.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From b996b2480fe3a800ffbdc4a0fdc5e8775c575449 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 8 Jan 2016 06:57:04 +0000
+-Subject: [PATCH] getdents: define getdents/getdents64 only for glibc
+-
+-getdents/getdents64 are implemented in musl and when we define static
+-functions with same name, it errors out.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- testcases/kernel/syscalls/getdents/getdents.h | 6 ++++--
+- 1 file changed, 4 insertions(+), 2 deletions(-)
+-
+-diff --git a/testcases/kernel/syscalls/getdents/getdents.h b/testcases/kernel/syscalls/getdents/getdents.h
+-index 702b0bd..860b22e 100644
+---- a/testcases/kernel/syscalls/getdents/getdents.h
+-+++ b/testcases/kernel/syscalls/getdents/getdents.h
+-@@ -34,12 +34,13 @@ struct linux_dirent {
+- 	char            d_name[];
+- };
+- 
+-+#ifdef __GLIBC__
+- static inline int
+- getdents(unsigned int fd, struct linux_dirent *dirp, unsigned int size)
+- {
+- 	return ltp_syscall(__NR_getdents, fd, dirp, size);
+- }
+--
+-+#endif
+- struct linux_dirent64 {
+- 	uint64_t	d_ino;
+- 	int64_t		d_off;
+-@@ -48,10 +49,11 @@ struct linux_dirent64 {
+- 	char		d_name[];
+- };
+- 
+-+#ifdef __GLIBC__
+- static inline int
+- getdents64(unsigned int fd, struct linux_dirent64 *dirp64, unsigned int size)
+- {
+- 	return ltp_syscall(__NR_getdents64, fd, dirp64, size);
+- }
+--
+-+#endif
+- #endif /* GETDENTS_H */
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
+index 1f3a94bdfa..c62f2618b5 100644
+--- a/meta/recipes-extended/ltp/ltp_20190517.bb
++++ b/meta/recipes-extended/ltp/ltp_20190517.bb
+@@ -34,7 +34,6 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch \
+            file://0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch \
+            file://0004-guard-mallocopt-with-__GLIBC__.patch \
+-           file://0005-getdents-define-getdents-getdents64-only-for-glibc.patch \
+            file://0006-rt_tgsigqueueinfo-disable-test-on-musl.patch \
+            file://0007-Fix-test_proc_kill-hanging.patch \
+            file://0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+@@ -42,6 +41,8 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch \
+            file://0011-direct_io-diotest4-drop-MAP_FIXED.patch \
+            file://0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch \
++           file://0001-Add-configure-time-check-for-getdents-getdents64-API.patch \
++           file://0002-check-for-RES_USE_INET6-during-configure.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
 -- 
-2.7.4
+2.22.0
 
 
