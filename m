@@ -1,36 +1,102 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FB507F21F
+Return-Path: <akuster808@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C1C596C109
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jul 2019 03:44:38 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Jul 2019 20:44:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,317,1559545200"; d="scan'208";a="173489920"
-Received: from pgsmsx112-dag.png.intel.com (HELO PGSMSX112.gar.corp.intel.com)
-	([10.108.55.234])
-	by orsmga003.jf.intel.com with ESMTP; 27 Jul 2019 20:44:37 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
-	PGSMSX112.gar.corp.intel.com ([169.254.3.46]) with mapi id
-	14.03.0439.000; Sun, 28 Jul 2019 11:44:36 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "akuster808@gmail.com"
-	<akuster808@gmail.com>
-Thread-Topic: [OE-core] [PATCH] bind: Update to latest stable, 9.14.
-Thread-Index: AQHVRLzrqudaRKQmDEqx3O7YEq85KKbe3fWA
-Date: Sun, 28 Jul 2019 03:44:35 +0000
-Message-ID: <ba93630ad71ed6be2e986cea9ea59cb891ba72a8.camel@intel.com>
+	Sun, 28 Jul 2019 07:08:20 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n4so58507646wrs.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 Jul 2019 00:08:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=GVZ6I21/WZlMi2aOyKrQ9zQSXLKgUVx/sg5P6v0kgIo=;
+	b=VcXTZI0d3mIydoe+tEo1KUqs2px0coLXbi6wVnMiBw43hrbY7oEV0ccyYZgv7yk39I
+	58z+hVOeC+BTkorUfQZMzFb+5UU7xohQliqfUq4Hp9A0Q4eaoKbZ/h7FPIVKgNbSLkNd
+	4qfpBh2y9byWKK/lfQVSOZOZBAL0W15/piK0is0+uTwtmetXC2dOIozvajx2lN06gaGI
+	Qy4C6zSrE15ww51z9dBq0po5cOFsxK0l3rJrvde3wi1mY0QfioZgRKlMthsOQ41/1lQD
+	bxNrqFHDMvPJZKHXZdczc+OKsNEc5ZcWXyd8iQ0OFiPW7qNEAXzuvyFvw+66KQZ0Ici7
+	OHTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=GVZ6I21/WZlMi2aOyKrQ9zQSXLKgUVx/sg5P6v0kgIo=;
+	b=US9Pwb0dB94tjGU6R+KHd+ADgg6KLl1wQutEoJGJVtLcsZg6OS6ZY7tLD6f6IbYNYl
+	69YyzyVlmvod+lfJlF+du6WHI+8pKmOAfzAzJglERkHVe87FMX8xxL4ya3l+lGZm7cjg
+	NwrjIOofXW+9sU5uDZ5fk7Ywd0eARU7g4gToeFLw2cjnGryFzGIxNBwnEBnJkR7hiyEk
+	221L5ZgT+nsbZz69vifFzWTwkSn/OxHpV0oFJ+kJDDVCk6oKfuGJg3BEAspZJwlFcp7U
+	xw8xcjSmgKDD1lvwSjic1sfS2fTHpjKtzLY1EpCL7FnOiGtB+bRpuKaHqxQ1P2RXulec
+	KTvQ==
+X-Gm-Message-State: APjAAAWkVnERectLhQ1jw54jR5jnecB/wVQzaRj5FaSy1rdUzUIxPkLl
+	w1Uox29aJpY9d2KPSD9G0sxg6/ryZDI=
+X-Google-Smtp-Source: APXvYqzh0HRdoMbYorxr9I2lpnugFL0a8ROhjGZ6z2hrUCnat7DtygRlZgLzwXEinxVbdoG0Ms6wow==
+X-Received: by 2002:a5d:43d0:: with SMTP id
+	v16mr108113468wrr.252.1564297701077; 
+	Sun, 28 Jul 2019 00:08:21 -0700 (PDT)
+Received: from [192.168.40.180] ([210.89.72.18])
+	by smtp.gmail.com with ESMTPSA id
+	o26sm117785945wro.53.2019.07.28.00.08.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 28 Jul 2019 00:08:20 -0700 (PDT)
+To: "Mittal, Anuj" <anuj.mittal@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 References: <1564260566-8134-1-git-send-email-akuster808@gmail.com>
-In-Reply-To: <1564260566-8134-1-git-send-email-akuster808@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.190.98]
+	<ba93630ad71ed6be2e986cea9ea59cb891ba72a8.camel@intel.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <9f416d86-afc5-3305-a79b-e383d109e9aa@gmail.com>
+Date: Sun, 28 Jul 2019 00:08:07 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <ba93630ad71ed6be2e986cea9ea59cb891ba72a8.camel@intel.com>
 Subject: Re: [PATCH] bind: Update to latest stable, 9.14.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,270 +110,395 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Jul 2019 03:44:38 -0000
+X-List-Received-Date: Sun, 28 Jul 2019 07:08:21 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CC03C8BA93B38F49B7BC2AF48E655ED3@intel.com>
-Content-Transfer-Encoding: base64
 
-VGhpcyBpcyBjYXVzaW5nIGVycm9yczoNCg0KfCBNYWtlZmlsZTo1NTc6IHJlY2lwZSBmb3IgdGFy
-Z2V0ICdhbGxvYy5sbycgZmFpbGVkDQp8IG1ha2VbMl06ICoqKiBbYWxsb2MubG9dIEVycm9yIDEN
-CnwgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4uL2luY2x1ZGVzL2RoY3BkLmg6OTEsDQp8ICAgICAg
-ICAgICAgICAgICAgZnJvbSBjb25mbGV4LmM6Mjk6DQp8IC4uL2luY2x1ZGVzL29tYXBpcC9pc2Ns
-aWIuaDo1MToxMDogZmF0YWwgZXJyb3I6IGlzYy9ib29sZWFuLmg6IE5vDQpzdWNoIGZpbGUgb3Ig
-ZGlyZWN0b3J5DQp8ICAgIDUxIHwgI2luY2x1ZGUgPGlzYy9ib29sZWFuLmg+DQp8ICAgICAgIHwg
-ICAgICAgICAgXn5+fn5+fn5+fn5+fn5+DQp8IGNvbXBpbGF0aW9uIHRlcm1pbmF0ZWQuDQp8IE1h
-a2VmaWxlOjU1NzogcmVjaXBlIGZvciB0YXJnZXQgJ2RoY3A0bzYubG8nIGZhaWxlZA0KfCBtYWtl
-WzJdOiAqKiogW2RoY3A0bzYubG9dIEVycm9yIDENCnwgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4u
-L2luY2x1ZGVzL2RoY3BkLmg6OTEsDQp8ICAgICAgICAgICAgICAgICAgZnJvbSBpY21wLmM6MzA6
-DQp8IC4uL2luY2x1ZGVzL29tYXBpcC9pc2NsaWIuaDo1MToxMDogZmF0YWwgZXJyb3I6IGlzYy9i
-b29sZWFuLmg6IE5vDQpzdWNoIGZpbGUgb3IgZGlyZWN0b3J5DQp8ICAgIDUxIHwgI2luY2x1ZGUg
-PGlzYy9ib29sZWFuLmg+DQp8ICAgICAgIHwgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+DQp8IGNv
-bXBpbGF0aW9uIHRlcm1pbmF0ZWQuDQp8IE1ha2VmaWxlOjU1NzogcmVjaXBlIGZvciB0YXJnZXQg
-J2Rpc3BhdGNoLmxvJyBmYWlsZWQNCnwgbWFrZVsyXTogKioqIFtkaXNwYXRjaC5sb10gRXJyb3Ig
-MQ0KfCBJbiBmaWxlIGluY2x1ZGVkIGZyb20gLi4vaW5jbHVkZXMvZGhjcGQuaDo5MSwNCnwgICAg
-ICAgICAgICAgICAgICBmcm9tIGJwZi5jOjM1Og0KfCAuLi9pbmNsdWRlcy9vbWFwaXAvaXNjbGli
-Lmg6NTE6MTA6IGZhdGFsIGVycm9yOiBpc2MvYm9vbGVhbi5oOiBObw0Kc3VjaCBmaWxlIG9yIGRp
-cmVjdG9yeQ0KfCAgICA1MSB8ICNpbmNsdWRlIDxpc2MvYm9vbGVhbi5oPg0KfCAgICAgICB8ICAg
-ICAgICAgIF5+fn5+fn5+fn5+fn5+fg0KDQpodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVj
-dC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzY0L2J1aWxkcy84NzEvc3RlcHMvOC9sb2dzL3N0ZXAx
-Yg0KDQpUaGFua3MsDQoNCkFudWoNCg0KT24gU2F0LCAyMDE5LTA3LTI3IGF0IDEzOjQ5IC0wNzAw
-LCBBcm1pbiBLdXN0ZXIgd3JvdGU6DQo+IEV2ZW4gcmVsZWFzZXMgYXJlIHN0YWJsZSBhbmQgc3Vw
-cG9ydGVkIGZvciAxIHllYXIuDQo+IA0KPiBEcm9wIHBhdGNoZXMgbm8gbG9uZ2VyIG5lZWRlZC4N
-Cj4gUmVmcmVzaCBhIGZldyBwYXRjaGVzLg0KPiBSZW1vdmVkIGNvbmZpZyBvcHRpb25zIG5vIGxv
-bmdlZCBzdXBwb3J0ZWQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBcm1pbiBLdXN0ZXIgPGFrdXN0
-ZXI4MDhAZ21haWwuY29tPg0KPiAtLS0NCj4gIC4uLmlndXJlLmluLXJlbW92ZS11c2VsZXNzLUwt
-dXNlX29wZW5zc2wtbGliLnBhdGNoIHwgMzIgLS0tLS0tLS0tLS0tDQo+IC0tLS0tLS0tLQ0KPiAg
-Li4uLWdlbi5jLWV4dGVuZC1ESVJOQU1FU0laRS1mcm9tLTI1Ni10by01MTIucGF0Y2ggfCAyMiAt
-LS0tLS0tLS0tLS0NCj4gLS0tDQo+ICAuLi4vMDAwMS1saWItZG5zLWdlbi5jLWZpeC10b28tbG9u
-Zy1lcnJvci5wYXRjaCAgICB8IDMxIC0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0tLQ0KPiAgLi4ubHdy
-ZXNkLVYtYW5kLXN0YXJ0LWxvZy1oaWRlLWJ1aWxkLW9wdGlvbnMucGF0Y2ggfCAzMyArKysrKysr
-KysrDQo+IC0tLS0tLS0tLS0tLQ0KPiAgLi4uLXNlYXJjaGluZy1mb3ItanNvbi1oZWFkZXJzLXNl
-YXJjaGVzLXN5c3IucGF0Y2ggfCAzMCArKysrKysrKysrDQo+IC0tLS0tLS0tLS0NCj4gIC4uLi9i
-aW5kL3tiaW5kXzkuMTEuNS1QNC5iYiA9PiBiaW5kXzkuMTQuMy5iYn0gICAgIHwgMjQgKysrKysr
-LS0tLQ0KPiAtLS0tLS0NCj4gIDYgZmlsZXMgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygrKSwgMTM0
-IGRlbGV0aW9ucygtKQ0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvYmluZC9iaW5kLzAwMDEtDQo+IGNvbmZpZ3VyZS5pbi1yZW1vdmUtdXNlbGVzcy1MLXVz
-ZV9vcGVuc3NsLWxpYi5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtZ2VuLmMtDQo+IGV4dGVuZC1ESVJOQU1FU0laRS1m
-cm9tLTI1Ni10by01MTIucGF0Y2gNCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMt
-Y29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLWxpYi1kbnMtDQo+IGdlbi5jLWZpeC10b28tbG9u
-Zy1lcnJvci5wYXRjaA0KPiAgcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC97
-YmluZF85LjExLjUtUDQuYmIgPT4NCj4gYmluZF85LjE0LjMuYmJ9ICg4MyUpDQo+IA0KPiBkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1jb25maWd1
-cmUuaW4tDQo+IHJlbW92ZS11c2VsZXNzLUwtdXNlX29wZW5zc2wtbGliLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLQ0KPiBjb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtY29uZmlndXJlLmluLXJlbW92
-ZS11c2VsZXNzLUwtDQo+IHVzZV9vcGVuc3NsLWxpYi5wYXRjaA0KPiBkZWxldGVkIGZpbGUgbW9k
-ZSAxMDA2NDQNCj4gaW5kZXggODcxYmIyYS4uMDAwMDAwMA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMt
-Y29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLWNvbmZpZ3VyZS5pbi1yZW1vdmUtDQo+IHVzZWxl
-c3MtTC11c2Vfb3BlbnNzbC1saWIucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwzMiAr
-MCwwIEBADQo+IC1Gcm9tIDk1MDg2N2Q5ZmQzZjY5MGUyNzFjOGM4MDdiNmVlZDE0NGIyOTM1YjIg
-TW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+IC1Gcm9tOiBIb25neHUgSmlhIDxob25neHUu
-amlhQHdpbmRyaXZlci5jb20+DQo+IC1EYXRlOiBNb24sIDI3IEF1ZyAyMDE4IDE1OjAwOjUxICsw
-ODAwDQo+IC1TdWJqZWN0OiBbUEFUQ0hdIGNvbmZpZ3VyZS5pbjogcmVtb3ZlIHVzZWxlc3MgYC1M
-JHVzZV9vcGVuc3NsL2xpYicNCj4gLQ0KPiAtU2luY2UgYC0td2l0aC1vcGVuc3NsPSR7U1RBR0lO
-R19ESVJfSE9TVH0ke3ByZWZpeH0nIGlzIHVzZWQgaW4gYmluZA0KPiByZWNpcGUsDQo+IC10aGUg
-YC1MJHVzZV9vcGVuc3NsL2xpYicgaGFzIGEgaGFyZGNvZGVkIHN1ZmZpeCwgcmVtb3ZpbmcgaXQg
-aXMNCj4gaGFybWxlc3MNCj4gLWFuZCBoZWxwZnVsIGZvciBjbGVhbiB1cCBob3N0IGJ1aWxkIHBh
-dGggaW4gaXNjLWNvbmZpZy5zaA0KPiAtDQo+IC1VcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlh
-dGUgW29lLWNvcmUgc3BlY2lmaWNdDQo+IC0NCj4gLVNpZ25lZC1vZmYtYnk6IEhvbmd4dSBKaWEg
-PGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4NCj4gLS0tLQ0KPiAtIGNvbmZpZ3VyZS5pbiB8IDIg
-Ky0NCj4gLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4g
-LQ0KPiAtZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5pbiBiL2NvbmZpZ3VyZS5pbg0KPiAtaW5kZXgg
-NTRlZmM1NS4uNzZhYzBlYiAxMDA2NDQNCj4gLS0tLSBhL2NvbmZpZ3VyZS5pbg0KPiAtKysrIGIv
-Y29uZmlndXJlLmluDQo+IC1AQCAtMTY5MSw3ICsxNjkxLDcgQEAgSWYgeW91IGRvbid0IHdhbnQg
-T3BlblNTTCwgdXNlIC0td2l0aG91dC0NCj4gb3BlbnNzbF0pDQo+IC0gCQkJCWZpDQo+IC0gCQkJ
-CTs7DQo+IC0gCQkJKikNCj4gLS0JCQkJRFNUX09QRU5TU0xfTElCUz0iLUwkdXNlX29wZW5zc2wv
-bGliDQo+IC1sY3J5cHRvIg0KPiAtKwkJCQlEU1RfT1BFTlNTTF9MSUJTPSItbGNyeXB0byINCj4g
-LSAJCQkJOzsNCj4gLSAJCQllc2FjDQo+IC0gCQlmaQ0KPiAtLS0gDQo+IC0yLjcuNA0KPiAtDQo+
-IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLWdl
-bi5jLWV4dGVuZC0NCj4gRElSTkFNRVNJWkUtZnJvbS0yNTYtdG8tNTEyLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLQ0KPiBjb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtZ2VuLmMtZXh0ZW5kLURJUk5B
-TUVTSVpFLWZyb20tMjU2LXRvLQ0KPiA1MTIucGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAw
-NjQ0DQo+IGluZGV4IGE4ZDYwMWQuLjAwMDAwMDANCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1nZW4uYy1leHRlbmQtDQo+IERJUk5BTUVTSVpFLWZyb20t
-MjU2LXRvLTUxMi5wYXRjaA0KPiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDIyICswLDAgQEANCj4g
-LVVwc3RyZWFtLVN0YXR1czogUGVuZGluZw0KPiAtDQo+IC1TdWJqZWN0OiBnZW4uYzogZXh0ZW5k
-IERJUk5BTUVTSVpFIGZyb20gMjU2IHRvIDUxMg0KPiAtDQo+IC1TaWduZWQtb2ZmLWJ5OiBDaGVu
-IFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+DQo+IC0tLS0NCj4gLSBsaWIvZG5zL2dlbi5jIHwg
-MiArLQ0KPiAtIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0K
-PiAtDQo+IC1JbmRleDogYmluZC05LjExLjMvbGliL2Rucy9nZW4uYw0KPiAtPT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0K
-PiAtLS0tIGJpbmQtOS4xMS4zLm9yaWcvbGliL2Rucy9nZW4uYw0KPiAtKysrIGJpbmQtOS4xMS4z
-L2xpYi9kbnMvZ2VuLmMNCj4gLUBAIC0xMzAsNyArMTMwLDcgQEAgc3RhdGljIGNvbnN0IGNoYXIg
-Y29weXJpZ2h0W10gPQ0KPiAtICNkZWZpbmUgVFlQRUNMQVNTQlVGIChUWVBFQ0xBU1NMRU4gKyAx
-KQ0KPiAtICNkZWZpbmUgVFlQRUNMQVNTRk1UICIlIiBTVFIoVFlQRUNMQVNTTEVOKSAiWy0wLTlh
-LXpdXyVkIg0KPiAtICNkZWZpbmUgQVRUUklCVVRFU0laRSAyNTYNCj4gLS0jZGVmaW5lIERJUk5B
-TUVTSVpFIDI1Ng0KPiAtKyNkZWZpbmUgRElSTkFNRVNJWkUgNTEyDQo+IC0gDQo+IC0gc3RhdGlj
-IHN0cnVjdCBjYyB7DQo+IC0gCXN0cnVjdCBjYyAqbmV4dDsNCj4gZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbGliLWRucy1nZW4uYy0NCj4gZml4
-LXRvby1sb25nLWVycm9yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2Jp
-bmQvMDAwMS0NCj4gbGliLWRucy1nZW4uYy1maXgtdG9vLWxvbmctZXJyb3IucGF0Y2gNCj4gZGVs
-ZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAxODc0YTQuLjAwMDAwMDANCj4gLS0tIGEv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1saWItZG5zLWdlbi5jLWZp
-eC10b28tDQo+IGxvbmctZXJyb3IucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwzMSAr
-MCwwIEBADQo+IC1Gcm9tIDViYzMxNjdhOGI3MTRlYzBjNGEzZjFjN2YzYjk0MTEyOTZlYzBhMjMg
-TW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+IC1Gcm9tOiBSb2JlcnQgWWFuZyA8bGllemhp
-LnlhbmdAd2luZHJpdmVyLmNvbT4NCj4gLURhdGU6IFdlZCwgMTYgU2VwIDIwMTUgMjA6MjM6NDcg
-LTA3MDANCj4gLVN1YmplY3Q6IFtQQVRDSF0gbGliL2Rucy9nZW4uYzogZml4IHRvbyBsb25nIGVy
-cm9yDQo+IC0NCj4gLVRoZSA1MTIgaXMgYSBsaXR0bGUgc2hvcnQgd2hlbiBidWlsZCBpbiBkZWVw
-IGRpciwgYW5kIGNhdXNlICJ0b28NCj4gbG9uZyINCj4gLWVycm9yLCB1c2UgUEFUSF9NQVggaWYg
-ZGVmaW5lZC4NCj4gLQ0KPiAtVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nDQo+IC0NCj4gLVNpZ25l
-ZC1vZmYtYnk6IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPg0KPiAtLS0t
-DQo+IC0gbGliL2Rucy9nZW4uYyB8ICAgIDQgKysrKw0KPiAtIDEgZmlsZSBjaGFuZ2VkLCA0IGlu
-c2VydGlvbnMoKykNCj4gLQ0KPiAtSW5kZXg6IGJpbmQtOS4xMS4zL2xpYi9kbnMvZ2VuLmMNCj4g
-LT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT0NCj4gLS0tLSBiaW5kLTkuMTEuMy5vcmlnL2xpYi9kbnMvZ2VuLmMNCj4gLSsr
-KyBiaW5kLTkuMTEuMy9saWIvZG5zL2dlbi5jDQo+IC1AQCAtMTMwLDcgKzEzMCwxMSBAQCBzdGF0
-aWMgY29uc3QgY2hhciBjb3B5cmlnaHRbXSA9DQo+IC0gI2RlZmluZSBUWVBFQ0xBU1NCVUYgKFRZ
-UEVDTEFTU0xFTiArIDEpDQo+IC0gI2RlZmluZSBUWVBFQ0xBU1NGTVQgIiUiIFNUUihUWVBFQ0xB
-U1NMRU4pICJbLTAtOWEtel1fJWQiDQo+IC0gI2RlZmluZSBBVFRSSUJVVEVTSVpFIDI1Ng0KPiAt
-KyNpZmRlZiBQQVRIX01BWA0KPiAtKyNkZWZpbmUgRElSTkFNRVNJWkUgUEFUSF9NQVgNCj4gLSsj
-ZWxzZQ0KPiAtICNkZWZpbmUgRElSTkFNRVNJWkUgNTEyDQo+IC0rI2VuZGlmDQo+IC0gDQo+IC0g
-c3RhdGljIHN0cnVjdCBjYyB7DQo+IC0gCXN0cnVjdCBjYyAqbmV4dDsNCj4gZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFtZWQtbHdyZXNkLVYt
-DQo+IGFuZC1zdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoIGIvbWV0YS9yZWNpcGVz
-LQ0KPiBjb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFtZWQtbHdyZXNkLVYtYW5kLXN0YXJ0
-LWxvZy1oaWRlLWJ1aWxkLQ0KPiBvcHRpb25zLnBhdGNoDQo+IGluZGV4IDc1OTA4YWEuLjg0ODk0
-YWUgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAw
-MDEtbmFtZWQtbHdyZXNkLVYtYW5kLQ0KPiBzdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBh
-dGNoDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFt
-ZWQtbHdyZXNkLVYtYW5kLQ0KPiBzdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoDQo+
-IEBAIC0xMiwyMyArMTIsMjAgQEAgJCBuYW1lZCAtVg0KPiAgVXBzdHJlYW0tU3RhdHVzOiBJbmFw
-cHJvcHJpYXRlIFtvZS1jb3JlIHNwZWNpZmljXQ0KPiAgDQo+ICBTaWduZWQtb2ZmLWJ5OiBIb25n
-eHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+DQo+IC0tLS0NCj4gLSBiaW4vbmFtZWQv
-aW5jbHVkZS9uYW1lZC9nbG9iYWxzLmggfCAyICstDQo+IC0gMSBmaWxlIGNoYW5nZWQsIDEgaW5z
-ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+ICANCj4gLWRpZmYgLS1naXQgYS9iaW4vbmFtZWQv
-aW5jbHVkZS9uYW1lZC9nbG9iYWxzLmgNCj4gYi9iaW4vbmFtZWQvaW5jbHVkZS9uYW1lZC9nbG9i
-YWxzLmgNCj4gLWluZGV4IGJhMzQ1N2UuLjc3NDFkYTcgMTAwNjQ0DQo+IC0tLS0gYS9iaW4vbmFt
-ZWQvaW5jbHVkZS9uYW1lZC9nbG9iYWxzLmgNCj4gLSsrKyBiL2Jpbi9uYW1lZC9pbmNsdWRlL25h
-bWVkL2dsb2JhbHMuaA0KPiAtQEAgLTY4LDcgKzY4LDcgQEAgRVhURVJOIGNvbnN0IGNoYXIgKgkJ
-bnNfZ192ZXJzaW9uCQ0KPiAJSU5JVChWRVJTSU9OKTsNCj4gLSBFWFRFUk4gY29uc3QgY2hhciAq
-CQluc19nX3Byb2R1Y3QJCUlOSVQoUFJPRFVDVCkNCj4gOw0KPiAtIEVYVEVSTiBjb25zdCBjaGFy
-ICoJCW5zX2dfZGVzY3JpcHRpb24JSU5JVChERVNDUklQVElPTik7DQo+IC0gRVhURVJOIGNvbnN0
-IGNoYXIgKgkJbnNfZ19zcmNpZAkJSU5JVChTUkNJRCk7DQo+IC0tRVhURVJOIGNvbnN0IGNoYXIg
-KgkJbnNfZ19jb25maWdhcmdzCQlJTklUKENPTkZJR0FSDQo+IEdTKTsNCj4gLStFWFRFUk4gY29u
-c3QgY2hhciAqCQluc19nX2NvbmZpZ2FyZ3MJCUlOSVQoIioqKg0KPiAob3B0aW9ucyBhcmUgaGlk
-ZGVuKSIpOw0KPiAtIEVYVEVSTiBjb25zdCBjaGFyICoJCW5zX2dfYnVpbGRlcgkJSU5JVChCVUlM
-REVSKQ0KPiA7DQo+IC0gRVhURVJOIGluX3BvcnRfdAkJbnNfZ19wb3J0CQlJTklUKDApOw0KPiAt
-IEVYVEVSTiBpc2NfZHNjcF90CQluc19nX2RzY3AJCUlOSVQoLTEpOw0KPiAtLS0gDQo+IC0yLjcu
-NA0KPiArW1JlZnJlc2hlZCBmb3IgOS4xNC4zXQ0KPiArU2lnbmVkLW9mZi1ieTogQXJtaW4ga3Vz
-dGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4NCj4gIA0KPiArSW5kZXg6IGJpbmQtOS4xNC4zL2Jp
-bi9uYW1lZC9pbmNsdWRlL25hbWVkL2dsb2JhbHMuaA0KPiArPT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiArLS0tIGJp
-bmQtOS4xNC4zLm9yaWcvYmluL25hbWVkL2luY2x1ZGUvbmFtZWQvZ2xvYmFscy5oDQo+ICsrKysg
-YmluZC05LjE0LjMvYmluL25hbWVkL2luY2x1ZGUvbmFtZWQvZ2xvYmFscy5oDQo+ICtAQCAtNjgs
-NyArNjgsNyBAQCBFWFRFUk4gY29uc3QgY2hhciAqCQluYW1lZF9nX3ZlcnNpb24NCj4gCQlJTg0K
-PiArIEVYVEVSTiBjb25zdCBjaGFyICoJCW5hbWVkX2dfcHJvZHVjdAkJSU5JVChQUk9EVUNUKQ0K
-PiA7DQo+ICsgRVhURVJOIGNvbnN0IGNoYXIgKgkJbmFtZWRfZ19kZXNjcmlwdGlvbglJTklUKERF
-U0NSSVBUDQo+IElPTik7DQo+ICsgRVhURVJOIGNvbnN0IGNoYXIgKgkJbmFtZWRfZ19zcmNpZAkJ
-SU5JVChTUkNJRCk7DQo+ICstRVhURVJOIGNvbnN0IGNoYXIgKgkJbmFtZWRfZ19jb25maWdhcmdz
-CUlOSVQoQ09ORklHQVINCj4gR1MpOw0KPiArK0VYVEVSTiBjb25zdCBjaGFyICoJCW5hbWVkX2df
-Y29uZmlnYXJncwlJTklUKCIqKioNCj4gKG9wdGlvbnMgYXJlIGhpZGRlbikiKTsNCj4gKyBFWFRF
-Uk4gY29uc3QgY2hhciAqCQluYW1lZF9nX2J1aWxkZXIJCUlOSVQoQlVJTERFUikNCj4gOw0KPiAr
-IEVYVEVSTiBpbl9wb3J0X3QJCW5hbWVkX2dfcG9ydAkJSU5JVCgwKTsNCj4gKyBFWFRFUk4gaXNj
-X2RzY3BfdAkJbmFtZWRfZ19kc2NwCQlJTklUKC0xKTsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJlLQ0KPiBzZWFyY2hpbmctZm9y
-LWpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiBjb25u
-ZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJlLXNlYXJjaGluZy1mb3ItanNvbi1oZWFkZXJz
-LQ0KPiBzZWFyY2hlcy1zeXNyLnBhdGNoDQo+IGluZGV4IDM3ZTIxMGUuLjM5OTljNmEgMTAwNjQ0
-DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJl
-LXNlYXJjaGluZy1mb3ItDQo+IGpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoDQo+ICsr
-KyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJlLXNlYXJj
-aGluZy1mb3ItDQo+IGpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoDQo+IEBAIC0xNywy
-NSArMTcsMjUgQEAgTm8gY3VycmVudGx5IHJ1bm5pbmcgdGFza3MgKDc3MyBvZiA3ODEpDQo+ICBT
-dW1tYXJ5OiAxIHRhc2sgZmFpbGVkOg0KPiAgICAvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9i
-aW5kL2JpbmRfOS4xMC4yLmJiLCBkb19jb25maWd1cmUNCj4gIA0KPiAtT25lIHdheSB0byBmaXgg
-aXQgd291bGQgYmUgdG8gdW5jb25kaXRpb25hbGx5IGRpc2FibGUganNvbiBpbiBiaW5kDQo+IC1j
-b25maWd1cmVbMl0gYnV0IGhlcmUgd2UgZml4IGl0IGJ5IHVzaW5nIHRoZSBwYXRoIHRvIHdoZXJl
-IHdlIHdvdWxkDQo+IC1wdXQgdGhlIGhlYWRlciBpZiB3ZSBoYWQganNvbiBpbiB0aGUgc3lzcm9v
-dCwgaW4gY2FzZSBzb21lb25lIHdhbnRzDQo+IC10byBtYWtlIHVzZSBvZiB0aGUgY29tYmluYXRp
-b24gc29tZSBkYXkuDQo+ICsgIE9uZSB3YXkgdG8gZml4IGl0IHdvdWxkIGJlIHRvIHVuY29uZGl0
-aW9uYWxseSBkaXNhYmxlIGpzb24gaW4gYmluZA0KPiArICBjb25maWd1cmVbMl0gYnV0IGhlcmUg
-d2UgZml4IGl0IGJ5IHVzaW5nIHRoZSBwYXRoIHRvIHdoZXJlIHdlDQo+IHdvdWxkDQo+ICsgIHB1
-dCB0aGUgaGVhZGVyIGlmIHdlIGhhZCBqc29uIGluIHRoZSBzeXNyb290LCBpbiBjYXNlIHNvbWVv
-bmUNCj4gd2FudHMNCj4gKyAgdG8gbWFrZSB1c2Ugb2YgdGhlIGNvbWJpbmF0aW9uIHNvbWUgZGF5
-Lg0KPiAgDQo+IC1bMV0gaHR0cHM6Ly90cmFjLm1hY3BvcnRzLm9yZy90aWNrZXQvNDUzMDUNCj4g
-LVsyXSBodHRwczovL3RyYWMubWFjcG9ydHMub3JnL2NoYW5nZXNldC8xMjY0MDYNCj4gKyAgWzFd
-IGh0dHBzOi8vdHJhYy5tYWNwb3J0cy5vcmcvdGlja2V0LzQ1MzA1DQo+ICsgIFsyXSBodHRwczov
-L3RyYWMubWFjcG9ydHMub3JnL2NoYW5nZXNldC8xMjY0MDYNCj4gIA0KPiAtVXBzdHJlYW0tU3Rh
-dHVzOiBJbmFwcHJvcHJpYXRlIFtPRSBTcGVjaWZpY10NCj4gLVNpZ25lZC1vZmYtYnk6IFBhdWwg
-R29ydG1ha2VyIDxwYXVsLmdvcnRtYWtlckB3aW5kcml2ZXIuY29tPg0KPiAtLS0tDQo+IC0gY29u
-ZmlndXJlLmluIHwgMiArLQ0KPiAtIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQ0KPiArICBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW09FIFNwZWNp
-ZmljXQ0KPiArICBTaWduZWQtb2ZmLWJ5OiBQYXVsIEdvcnRtYWtlciA8cGF1bC5nb3J0bWFrZXJA
-d2luZHJpdmVyLmNvbT4NCj4gIA0KPiAtSW5kZXg6IGJpbmQtOS4xMS4zL2NvbmZpZ3VyZS5pbg0K
-PiArW1JlZnJlc2hlZCBmb3IgOS4xNC4zDQo+ICtTaWduZWQtb2ZmLWJ5OiBBcm1pbiBLdXN0ZXIg
-PGFrdXN0ZXI4MDhAZ21haWwuY29tPg0KPiArDQo+ICtJbmRleDogYmluZC05LjE0LjMvY29uZmln
-dXJlLmFjDQo+ICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09DQo+IC0tLS0gYmluZC05LjExLjMub3JpZy9jb25maWd1cmUu
-aW4NCj4gLSsrKyBiaW5kLTkuMTEuMy9jb25maWd1cmUuaW4NCj4gLUBAIC0yNTc0LDcgKzI1NzQs
-NyBAQCBjYXNlICIkdXNlX2xpYmpzb24iIGluDQo+ICstLS0gYmluZC05LjE0LjMub3JpZy9jb25m
-aWd1cmUuYWMNCj4gKysrKyBiaW5kLTkuMTQuMy9jb25maWd1cmUuYWMNCj4gK0BAIC0xMzUzLDcg
-KzEzNTMsNyBAQCBjYXNlICIkdXNlX2xpYmpzb24iIGluDQo+ICAgCQlsaWJqc29uX2xpYnM9IiIN
-Cj4gICAJCTs7DQo+ICAgCWF1dG98eWVzKQ0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9iaW5kL2JpbmRfOS4xMS41LVA0LmJiDQo+IGIvbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9iaW5kL2JpbmRfOS4xNC4zLmJiDQo+IHNpbWlsYXJpdHkgaW5kZXggODMlDQo+IHJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kXzkuMTEuNS1QNC5i
-Yg0KPiByZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmRfOS4xNC4z
-LmJiDQo+IGluZGV4IDEzNTU4NDEuLjJjZmZlMGYgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvYmluZC9iaW5kXzkuMTEuNS1QNC5iYg0KPiArKysgYi9tZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjE0LjMuYmINCj4gQEAgLTE0LDIyICsxNCwxOCBA
-QCBTUkNfVVJJID0gIg0KPiBodHRwczovL2Z0cC5pc2Mub3JnL2lzYy9iaW5kOS8ke1BWfS8ke0JQ
-Tn0tJHtQVn0udGFyLmd6IFwNCj4gICAgICAgICAgICAgZmlsZTovL2dlbmVyYXRlLXJuZGMta2V5
-LnNoIFwNCj4gICAgICAgICAgICAgZmlsZTovL21ha2UtZXRjLWluaXRkLWJpbmQtc3RvcC13b3Jr
-LnBhdGNoIFwNCj4gICAgICAgICAgICAgZmlsZTovL2luaXQuZC1hZGQtc3VwcG9ydC1mb3ItcmVh
-ZC1vbmx5LXJvb3Rmcy5wYXRjaCBcDQo+ICsgICAgICAgICAgIGZpbGU6Ly8wMDAxLWF2b2lkLXN0
-YXJ0LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2ggXA0KPiAgICAgICAgICAgICBmaWxlOi8v
-YmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNoZXMtDQo+IHN5c3Iu
-cGF0Y2ggXA0KPiAtICAgICAgICAgICBmaWxlOi8vMDAwMS1nZW4uYy1leHRlbmQtRElSTkFNRVNJ
-WkUtZnJvbS0yNTYtdG8tDQo+IDUxMi5wYXRjaCBcDQo+IC0gICAgICAgICAgIGZpbGU6Ly8wMDAx
-LWxpYi1kbnMtZ2VuLmMtZml4LXRvby1sb25nLWVycm9yLnBhdGNoIFwNCj4gLSAgICAgICAgICAg
-ZmlsZTovLzAwMDEtY29uZmlndXJlLmluLXJlbW92ZS11c2VsZXNzLUwtdXNlX29wZW5zc2wtDQo+
-IGxpYi5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLW5hbWVkLWx3cmVzZC1WLWFu
-ZC1zdGFydC1sb2ctaGlkZS1idWlsZC0NCj4gb3B0aW9ucy5wYXRjaCBcDQo+IC0gICAgICAgICAg
-IGZpbGU6Ly8wMDAxLWF2b2lkLXN0YXJ0LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2ggXA0K
-PiAgIg0KPiAgDQo+IC1TUkNfVVJJW21kNXN1bV0gPSAiOGRkYWI0YjYxZmE0NTE2ZmU0MDQ2Nzlj
-NzRlMzc5NjAiDQo+IC1TUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiN2U4YzA4MTkyYmNiYWViNmU5
-ZjIzOTFhNzBlNjc1ODNiMDI3YjkwZThjNGJjMTYwNWRhNmViMTI2ZWRkZTQzNCINCj4gK1NSQ19V
-UklbbWQ1c3VtXSA9ICI2MWYzMGFmYzIxMDhjZGMyMzBlMDhmNTE0NjZmZTJmNCINCj4gK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9DQo+ICJjZTg3OGFhYmNmMDFiNjFlZDExNDUyMmMzMmZmZjllMjY4YjAy
-ZGE1NWIzYzI0ODM0OTg2MGJjM2QwYzhiZGZhIg0KPiAgDQo+ICBVUFNUUkVBTV9DSEVDS19VUkkg
-PSAiaHR0cHM6Ly9mdHAuaXNjLm9yZy9pc2MvYmluZDkvIg0KPiAtVVBTVFJFQU1fQ0hFQ0tfUkVH
-RVggPSAiKD9QPHB2ZXI+OShcLlxkKykrKC1QXGQrKSopLyINCj4gLVJFQ0lQRV9OT19VUERBVEVf
-UkVBU09OID0gIjkuMTEgaXMgTFRTIDIwMjEiDQo+ICtSRUNJUEVfTk9fVVBEQVRFX1JFQVNPTiA9
-ICJldmVuIGFyZSBzdGFibGUiDQo+ICANCj4gLWluaGVyaXQgYXV0b3Rvb2xzIHVwZGF0ZS1yYy5k
-IHN5c3RlbWQgdXNlcmFkZCBwa2djb25maWcNCj4gbXVsdGlsaWJfc2NyaXB0DQo+ICtpbmhlcml0
-IGF1dG90b29scyB1cGRhdGUtcmMuZCBzeXN0ZW1kIHVzZXJhZGQgcGtnY29uZmlnDQo+IG11bHRp
-bGliX3NjcmlwdCB1cHN0cmVhbS12ZXJzaW9uLWlzLWV2ZW4NCj4gIA0KPiAgTVVMVElMSUJfU0NS
-SVBUUyA9ICIke1BOfToke2JpbmRpcn0vYmluZDktY29uZmlnDQo+ICR7UE59OiR7YmluZGlyfS9p
-c2MtY29uZmlnLnNoIg0KPiAgDQo+IEBAIC0zOCwxNCArMzQsMTAgQEAgUEFDS0FHRUNPTkZJRyA/
-PSAicmVhZGxpbmUiDQo+ICBQQUNLQUdFQ09ORklHW2h0dHBzdGF0c10gPSAiLS13aXRoLQ0KPiBs
-aWJ4bWwyPSR7U1RBR0lOR19ESVJfSE9TVH0ke3ByZWZpeH0sLS13aXRob3V0LWxpYnhtbDIsbGli
-eG1sMiINCj4gIFBBQ0tBR0VDT05GSUdbcmVhZGxpbmVdID0gIi0td2l0aC1yZWFkbGluZT0tbHJl
-YWRsaW5lLCxyZWFkbGluZSINCj4gIFBBQ0tBR0VDT05GSUdbbGliZWRpdF0gPSAiLS13aXRoLXJl
-YWRsaW5lPS1sZWRpdCwsbGliZWRpdCINCj4gLVBBQ0tBR0VDT05GSUdbdXJhbmRvbV0gPSAiLS13
-aXRoLXJhbmRvbWRldj0vZGV2L3VyYW5kb20sLS13aXRoLQ0KPiByYW5kb21kZXY9L2Rldi9yYW5k
-b20sLCINCj4gIFBBQ0tBR0VDT05GSUdbcHl0aG9uM10gPSAiLS13aXRoLXB5dGhvbj0ke1BZVEhP
-Tn0gLS13aXRoLXB5dGhvbi0NCj4gaW5zdGFsbC1kaXI9JHtEfS8ke1BZVEhPTl9TSVRFUEFDS0FH
-RVNfRElSfSAsIC0td2l0aG91dC1weXRob24sDQo+IHB5dGhvbjMtcGx5LW5hdGl2ZSwiDQo+ICAN
-Cj4gLUVOQUJMRV9JUFY2ID0gIi0tZW5hYmxlLWlwdjY9JHtAYmIudXRpbHMuY29udGFpbnMoJ0RJ
-U1RST19GRUFUVVJFUycsDQo+ICdpcHY2JywgJ3llcycsICdubycsIGQpfSINCj4gLUVYVFJBX09F
-Q09ORiA9ICIgJHtFTkFCTEVfSVBWNn0gLS13aXRoLWxpYnRvb2wgLS1lbmFibGUtdGhyZWFkcyBc
-DQo+IC0gICAgICAgICAgICAgICAgIC0tZGlzYWJsZS1kZXZwb2xsIC0tZW5hYmxlLWVwb2xsIC0t
-d2l0aC1nb3N0PW5vIFwNCj4gLSAgICAgICAgICAgICAgICAgLS13aXRoLWdzc2FwaT1ubyAtLXdp
-dGgtZWNkc2E9eWVzIC0td2l0aC1lZGRzYT1ubyBcDQo+IC0gICAgICAgICAgICAgICAgIC0td2l0
-aC1sbWRiPW5vIFwNCj4gK0VYVFJBX09FQ09ORiA9ICIgLS13aXRoLWxpYnRvb2wgLS1kaXNhYmxl
-LWRldnBvbGwgLS1lbmFibGUtZXBvbGwgXA0KPiArICAgICAgICAgICAgICAgICAtLXdpdGgtZ3Nz
-YXBpPW5vIC0td2l0aC1sbWRiPW5vIFwNCj4gICAgICAgICAgICAgICAgICAgLS1zeXNjb25mZGly
-PSR7c3lzY29uZmRpcn0vYmluZCBcDQo+ICAgICAgICAgICAgICAgICAgIC0td2l0aC1vcGVuc3Ns
-PSR7U1RBR0lOR19ESVJfSE9TVH0ke3ByZWZpeH0gXA0KPiAgICAgICAgICAgICAgICAgIg0KPiBA
-QCAtMTI2LDcgKzExOCw3IEBAIEZJTEVTXyR7UE59LWRldiArPSAiJHtiaW5kaXJ9L2lzYy1jb25m
-aWcuaCINCj4gIEZJTEVTXyR7UE59ICs9ICIke3NiaW5kaXJ9L2dlbmVyYXRlLXJuZGMta2V5LnNo
-Ig0KPiAgDQo+ICBQQUNLQUdFX0JFRk9SRV9QTiArPSAiJHtQTn0tbGlicyINCj4gLUZJTEVTXyR7
-UE59LWxpYnMgPSAiJHtsaWJkaXJ9Lyouc28qIg0KPiArRklMRVNfJHtQTn0tbGlicyA9ICIke2xp
-YmRpcn0vKi5zbyogJHtsaWJkaXJ9L25hbWVkLyouc28iDQo+ICBGSUxFU18ke1BOfS1zdGF0aWNk
-ZXYgKz0gIiR7bGliZGlyfS8qLmxhIg0KPiAgDQo+ICBQQUNLQUdFX0JFRk9SRV9QTiArPSAiJHtA
-YmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcnLA0KPiAncHl0aG9uMycsICdweXRob24z
-LWJpbmQnLCAnJywgZCl9Ig0KPiAtLSANCj4gMi43LjQNCj4gDQo=
+
+
+On 7/27/19 8:44 PM, Mittal, Anuj wrote:
+> This is causing errors:
+>
+> | Makefile:557: recipe for target 'alloc.lo' failed
+> | make[2]: *** [alloc.lo] Error 1
+> | In file included from ../includes/dhcpd.h:91,
+> |                  from conflex.c:29:
+> | ../includes/omapip/isclib.h:51:10: fatal error: isc/boolean.h: No
+> such file or directory
+> |    51 | #include <isc/boolean.h>
+> |       |          ^~~~~~~~~~~~~~~
+> | compilation terminated.
+> | Makefile:557: recipe for target 'dhcp4o6.lo' failed
+> | make[2]: *** [dhcp4o6.lo] Error 1
+> | In file included from ../includes/dhcpd.h:91,
+> |                  from icmp.c:30:
+> | ../includes/omapip/isclib.h:51:10: fatal error: isc/boolean.h: No
+> such file or directory
+> |    51 | #include <isc/boolean.h>
+> |       |          ^~~~~~~~~~~~~~~
+> | compilation terminated.
+> | Makefile:557: recipe for target 'dispatch.lo' failed
+> | make[2]: *** [dispatch.lo] Error 1
+> | In file included from ../includes/dhcpd.h:91,
+> |                  from bpf.c:35:
+> | ../includes/omapip/isclib.h:51:10: fatal error: isc/boolean.h: No
+> such file or directory
+> |    51 | #include <isc/boolean.h>
+> |       |          ^~~~~~~~~~~~~~~
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/871/steps/8/logs/step1b
+Ah, musl.. ok thanks,
+Armin
+>
+> Thanks,
+>
+> Anuj
+>
+> On Sat, 2019-07-27 at 13:49 -0700, Armin Kuster wrote:
+>> Even releases are stable and supported for 1 year.
+>>
+>> Drop patches no longer needed.
+>> Refresh a few patches.
+>> Removed config options no longed supported.
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> ---
+>>  ...igure.in-remove-useless-L-use_openssl-lib.patch | 32 ------------
+>> ---------
+>>  ...-gen.c-extend-DIRNAMESIZE-from-256-to-512.patch | 22 ------------
+>> ---
+>>  .../0001-lib-dns-gen.c-fix-too-long-error.patch    | 31 ------------
+>> --------
+>>  ...lwresd-V-and-start-log-hide-build-options.patch | 33 ++++++++++
+>> ------------
+>>  ...-searching-for-json-headers-searches-sysr.patch | 30 ++++++++++
+>> ----------
+>>  .../bind/{bind_9.11.5-P4.bb => bind_9.14.3.bb}     | 24 ++++++----
+>> ------
+>>  6 files changed, 38 insertions(+), 134 deletions(-)
+>>  delete mode 100644 meta/recipes-connectivity/bind/bind/0001-
+>> configure.in-remove-useless-L-use_openssl-lib.patch
+>>  delete mode 100644 meta/recipes-connectivity/bind/bind/0001-gen.c-
+>> extend-DIRNAMESIZE-from-256-to-512.patch
+>>  delete mode 100644 meta/recipes-connectivity/bind/bind/0001-lib-dns-
+>> gen.c-fix-too-long-error.patch
+>>  rename meta/recipes-connectivity/bind/{bind_9.11.5-P4.bb =>
+>> bind_9.14.3.bb} (83%)
+>>
+>> diff --git a/meta/recipes-connectivity/bind/bind/0001-configure.in-
+>> remove-useless-L-use_openssl-lib.patch b/meta/recipes-
+>> connectivity/bind/bind/0001-configure.in-remove-useless-L-
+>> use_openssl-lib.patch
+>> deleted file mode 100644
+>> index 871bb2a..0000000
+>> --- a/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-
+>> useless-L-use_openssl-lib.patch
+>> +++ /dev/null
+>> @@ -1,32 +0,0 @@
+>> -From 950867d9fd3f690e271c8c807b6eed144b2935b2 Mon Sep 17 00:00:00
+>> 2001
+>> -From: Hongxu Jia <hongxu.jia@windriver.com>
+>> -Date: Mon, 27 Aug 2018 15:00:51 +0800
+>> -Subject: [PATCH] configure.in: remove useless `-L$use_openssl/lib'
+>> -
+>> -Since `--with-openssl=${STAGING_DIR_HOST}${prefix}' is used in bind
+>> recipe,
+>> -the `-L$use_openssl/lib' has a hardcoded suffix, removing it is
+>> harmless
+>> -and helpful for clean up host build path in isc-config.sh
+>> -
+>> -Upstream-Status: Inappropriate [oe-core specific]
+>> -
+>> -Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ----
+>> - configure.in | 2 +-
+>> - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> -
+>> -diff --git a/configure.in b/configure.in
+>> -index 54efc55..76ac0eb 100644
+>> ---- a/configure.in
+>> -+++ b/configure.in
+>> -@@ -1691,7 +1691,7 @@ If you don't want OpenSSL, use --without-
+>> openssl])
+>> - 				fi
+>> - 				;;
+>> - 			*)
+>> --				DST_OPENSSL_LIBS="-L$use_openssl/lib
+>> -lcrypto"
+>> -+				DST_OPENSSL_LIBS="-lcrypto"
+>> - 				;;
+>> - 			esac
+>> - 		fi
+>> --- 
+>> -2.7.4
+>> -
+>> diff --git a/meta/recipes-connectivity/bind/bind/0001-gen.c-extend-
+>> DIRNAMESIZE-from-256-to-512.patch b/meta/recipes-
+>> connectivity/bind/bind/0001-gen.c-extend-DIRNAMESIZE-from-256-to-
+>> 512.patch
+>> deleted file mode 100644
+>> index a8d601d..0000000
+>> --- a/meta/recipes-connectivity/bind/bind/0001-gen.c-extend-
+>> DIRNAMESIZE-from-256-to-512.patch
+>> +++ /dev/null
+>> @@ -1,22 +0,0 @@
+>> -Upstream-Status: Pending
+>> -
+>> -Subject: gen.c: extend DIRNAMESIZE from 256 to 512
+>> -
+>> -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ----
+>> - lib/dns/gen.c | 2 +-
+>> - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> -
+>> -Index: bind-9.11.3/lib/dns/gen.c
+>> -===================================================================
+>> ---- bind-9.11.3.orig/lib/dns/gen.c
+>> -+++ bind-9.11.3/lib/dns/gen.c
+>> -@@ -130,7 +130,7 @@ static const char copyright[] =
+>> - #define TYPECLASSBUF (TYPECLASSLEN + 1)
+>> - #define TYPECLASSFMT "%" STR(TYPECLASSLEN) "[-0-9a-z]_%d"
+>> - #define ATTRIBUTESIZE 256
+>> --#define DIRNAMESIZE 256
+>> -+#define DIRNAMESIZE 512
+>> - 
+>> - static struct cc {
+>> - 	struct cc *next;
+>> diff --git a/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen.c-
+>> fix-too-long-error.patch b/meta/recipes-connectivity/bind/bind/0001-
+>> lib-dns-gen.c-fix-too-long-error.patch
+>> deleted file mode 100644
+>> index 01874a4..0000000
+>> --- a/meta/recipes-connectivity/bind/bind/0001-lib-dns-gen.c-fix-too-
+>> long-error.patch
+>> +++ /dev/null
+>> @@ -1,31 +0,0 @@
+>> -From 5bc3167a8b714ec0c4a3f1c7f3b9411296ec0a23 Mon Sep 17 00:00:00
+>> 2001
+>> -From: Robert Yang <liezhi.yang@windriver.com>
+>> -Date: Wed, 16 Sep 2015 20:23:47 -0700
+>> -Subject: [PATCH] lib/dns/gen.c: fix too long error
+>> -
+>> -The 512 is a little short when build in deep dir, and cause "too
+>> long"
+>> -error, use PATH_MAX if defined.
+>> -
+>> -Upstream-Status: Pending
+>> -
+>> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ----
+>> - lib/dns/gen.c |    4 ++++
+>> - 1 file changed, 4 insertions(+)
+>> -
+>> -Index: bind-9.11.3/lib/dns/gen.c
+>> -===================================================================
+>> ---- bind-9.11.3.orig/lib/dns/gen.c
+>> -+++ bind-9.11.3/lib/dns/gen.c
+>> -@@ -130,7 +130,11 @@ static const char copyright[] =
+>> - #define TYPECLASSBUF (TYPECLASSLEN + 1)
+>> - #define TYPECLASSFMT "%" STR(TYPECLASSLEN) "[-0-9a-z]_%d"
+>> - #define ATTRIBUTESIZE 256
+>> -+#ifdef PATH_MAX
+>> -+#define DIRNAMESIZE PATH_MAX
+>> -+#else
+>> - #define DIRNAMESIZE 512
+>> -+#endif
+>> - 
+>> - static struct cc {
+>> - 	struct cc *next;
+>> diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-
+>> and-start-log-hide-build-options.patch b/meta/recipes-
+>> connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-
+>> options.patch
+>> index 75908aa..84894ae 100644
+>> --- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-
+>> start-log-hide-build-options.patch
+>> +++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-
+>> start-log-hide-build-options.patch
+>> @@ -12,23 +12,20 @@ $ named -V
+>>  Upstream-Status: Inappropriate [oe-core specific]
+>>  
+>>  Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ----
+>> - bin/named/include/named/globals.h | 2 +-
+>> - 1 file changed, 1 insertion(+), 1 deletion(-)
+>>  
+>> -diff --git a/bin/named/include/named/globals.h
+>> b/bin/named/include/named/globals.h
+>> -index ba3457e..7741da7 100644
+>> ---- a/bin/named/include/named/globals.h
+>> -+++ b/bin/named/include/named/globals.h
+>> -@@ -68,7 +68,7 @@ EXTERN const char *		ns_g_version	
+>> 	INIT(VERSION);
+>> - EXTERN const char *		ns_g_product		INIT(PRODUCT)
+>> ;
+>> - EXTERN const char *		ns_g_description	INIT(DESCRIPTION);
+>> - EXTERN const char *		ns_g_srcid		INIT(SRCID);
+>> --EXTERN const char *		ns_g_configargs		INIT(CONFIGAR
+>> GS);
+>> -+EXTERN const char *		ns_g_configargs		INIT("***
+>> (options are hidden)");
+>> - EXTERN const char *		ns_g_builder		INIT(BUILDER)
+>> ;
+>> - EXTERN in_port_t		ns_g_port		INIT(0);
+>> - EXTERN isc_dscp_t		ns_g_dscp		INIT(-1);
+>> --- 
+>> -2.7.4
+>> +[Refreshed for 9.14.3]
+>> +Signed-off-by: Armin kuster <akuster808@gmail.com>
+>>  
+>> +Index: bind-9.14.3/bin/named/include/named/globals.h
+>> +===================================================================
+>> +--- bind-9.14.3.orig/bin/named/include/named/globals.h
+>> ++++ bind-9.14.3/bin/named/include/named/globals.h
+>> +@@ -68,7 +68,7 @@ EXTERN const char *		named_g_version
+>> 		IN
+>> + EXTERN const char *		named_g_product		INIT(PRODUCT)
+>> ;
+>> + EXTERN const char *		named_g_description	INIT(DESCRIPT
+>> ION);
+>> + EXTERN const char *		named_g_srcid		INIT(SRCID);
+>> +-EXTERN const char *		named_g_configargs	INIT(CONFIGAR
+>> GS);
+>> ++EXTERN const char *		named_g_configargs	INIT("***
+>> (options are hidden)");
+>> + EXTERN const char *		named_g_builder		INIT(BUILDER)
+>> ;
+>> + EXTERN in_port_t		named_g_port		INIT(0);
+>> + EXTERN isc_dscp_t		named_g_dscp		INIT(-1);
+>> diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-
+>> searching-for-json-headers-searches-sysr.patch b/meta/recipes-
+>> connectivity/bind/bind/bind-ensure-searching-for-json-headers-
+>> searches-sysr.patch
+>> index 37e210e..3999c6a 100644
+>> --- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-
+>> json-headers-searches-sysr.patch
+>> +++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-
+>> json-headers-searches-sysr.patch
+>> @@ -17,25 +17,25 @@ No currently running tasks (773 of 781)
+>>  Summary: 1 task failed:
+>>    /meta/recipes-connectivity/bind/bind_9.10.2.bb, do_configure
+>>  
+>> -One way to fix it would be to unconditionally disable json in bind
+>> -configure[2] but here we fix it by using the path to where we would
+>> -put the header if we had json in the sysroot, in case someone wants
+>> -to make use of the combination some day.
+>> +  One way to fix it would be to unconditionally disable json in bind
+>> +  configure[2] but here we fix it by using the path to where we
+>> would
+>> +  put the header if we had json in the sysroot, in case someone
+>> wants
+>> +  to make use of the combination some day.
+>>  
+>> -[1] https://trac.macports.org/ticket/45305
+>> -[2] https://trac.macports.org/changeset/126406
+>> +  [1] https://trac.macports.org/ticket/45305
+>> +  [2] https://trac.macports.org/changeset/126406
+>>  
+>> -Upstream-Status: Inappropriate [OE Specific]
+>> -Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>> ----
+>> - configure.in | 2 +-
+>> - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +  Upstream-Status: Inappropriate [OE Specific]
+>> +  Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>>  
+>> -Index: bind-9.11.3/configure.in
+>> +[Refreshed for 9.14.3
+>> +Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> +
+>> +Index: bind-9.14.3/configure.ac
+>>  ===================================================================
+>> ---- bind-9.11.3.orig/configure.in
+>> -+++ bind-9.11.3/configure.in
+>> -@@ -2574,7 +2574,7 @@ case "$use_libjson" in
+>> +--- bind-9.14.3.orig/configure.ac
+>> ++++ bind-9.14.3/configure.ac
+>> +@@ -1353,7 +1353,7 @@ case "$use_libjson" in
+>>   		libjson_libs=""
+>>   		;;
+>>   	auto|yes)
+>> diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+>> b/meta/recipes-connectivity/bind/bind_9.14.3.bb
+>> similarity index 83%
+>> rename from meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+>> rename to meta/recipes-connectivity/bind/bind_9.14.3.bb
+>> index 1355841..2cffe0f 100644
+>> --- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+>> +++ b/meta/recipes-connectivity/bind/bind_9.14.3.bb
+>> @@ -14,22 +14,18 @@ SRC_URI = "
+>> https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+>>             file://generate-rndc-key.sh \
+>>             file://make-etc-initd-bind-stop-work.patch \
+>>             file://init.d-add-support-for-read-only-rootfs.patch \
+>> +           file://0001-avoid-start-failure-with-bind-user.patch \
+>>             file://bind-ensure-searching-for-json-headers-searches-
+>> sysr.patch \
+>> -           file://0001-gen.c-extend-DIRNAMESIZE-from-256-to-
+>> 512.patch \
+>> -           file://0001-lib-dns-gen.c-fix-too-long-error.patch \
+>> -           file://0001-configure.in-remove-useless-L-use_openssl-
+>> lib.patch \
+>>             file://0001-named-lwresd-V-and-start-log-hide-build-
+>> options.patch \
+>> -           file://0001-avoid-start-failure-with-bind-user.patch \
+>>  "
+>>  
+>> -SRC_URI[md5sum] = "8ddab4b61fa4516fe404679c74e37960"
+>> -SRC_URI[sha256sum] =
+>> "7e8c08192bcbaeb6e9f2391a70e67583b027b90e8c4bc1605da6eb126edde434"
+>> +SRC_URI[md5sum] = "61f30afc2108cdc230e08f51466fe2f4"
+>> +SRC_URI[sha256sum] =
+>> "ce878aabcf01b61ed114522c32fff9e268b02da55b3c248349860bc3d0c8bdfa"
+>>  
+>>  UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+>> -UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+>> -RECIPE_NO_UPDATE_REASON = "9.11 is LTS 2021"
+>> +RECIPE_NO_UPDATE_REASON = "even are stable"
+>>  
+>> -inherit autotools update-rc.d systemd useradd pkgconfig
+>> multilib_script
+>> +inherit autotools update-rc.d systemd useradd pkgconfig
+>> multilib_script upstream-version-is-even
+>>  
+>>  MULTILIB_SCRIPTS = "${PN}:${bindir}/bind9-config
+>> ${PN}:${bindir}/isc-config.sh"
+>>  
+>> @@ -38,14 +34,10 @@ PACKAGECONFIG ?= "readline"
+>>  PACKAGECONFIG[httpstats] = "--with-
+>> libxml2=${STAGING_DIR_HOST}${prefix},--without-libxml2,libxml2"
+>>  PACKAGECONFIG[readline] = "--with-readline=-lreadline,,readline"
+>>  PACKAGECONFIG[libedit] = "--with-readline=-ledit,,libedit"
+>> -PACKAGECONFIG[urandom] = "--with-randomdev=/dev/urandom,--with-
+>> randomdev=/dev/random,,"
+>>  PACKAGECONFIG[python3] = "--with-python=${PYTHON} --with-python-
+>> install-dir=${D}/${PYTHON_SITEPACKAGES_DIR} , --without-python,
+>> python3-ply-native,"
+>>  
+>> -ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES',
+>> 'ipv6', 'yes', 'no', d)}"
+>> -EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
+>> -                 --disable-devpoll --enable-epoll --with-gost=no \
+>> -                 --with-gssapi=no --with-ecdsa=yes --with-eddsa=no \
+>> -                 --with-lmdb=no \
+>> +EXTRA_OECONF = " --with-libtool --disable-devpoll --enable-epoll \
+>> +                 --with-gssapi=no --with-lmdb=no \
+>>                   --sysconfdir=${sysconfdir}/bind \
+>>                   --with-openssl=${STAGING_DIR_HOST}${prefix} \
+>>                 "
+>> @@ -126,7 +118,7 @@ FILES_${PN}-dev += "${bindir}/isc-config.h"
+>>  FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
+>>  
+>>  PACKAGE_BEFORE_PN += "${PN}-libs"
+>> -FILES_${PN}-libs = "${libdir}/*.so*"
+>> +FILES_${PN}-libs = "${libdir}/*.so* ${libdir}/named/*.so"
+>>  FILES_${PN}-staticdev += "${libdir}/*.la"
+>>  
+>>  PACKAGE_BEFORE_PN += "${@bb.utils.contains('PACKAGECONFIG',
+>> 'python3', 'python3-bind', '', d)}"
+>> -- 
+>> 2.7.4
+>>
+
 
