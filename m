@@ -1,49 +1,37 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6376D72E8C
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FB507F21F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jul 2019 02:50:10 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id e3so56376373edr.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Jul 2019 19:50:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=/lnY7JeSuZtE3MvqOvO3nN1tY+s4Vx6kIEfK8TT3tws=;
-	b=CWz9elQP5/lKxm//P7LLD6nPLbHH46O5LWsLAi8sERIba+8KM5ZUeF35Jle2qFzt8b
-	2Wyp25j5doEgWdWKZSMQh+iRjFl+j9vziDC8r+lLq2L+rUdzWzBgeK8vWDAj81w2IYm+
-	YP2yhtlEu0ia2qnAdynaUaJUUPnRDPRxKZaK039nWuLGW+P9aO3NCujuMw9ZgKfVwt9W
-	7ozneRmzlI8brNhA1PwI2J1R98aOQyzW12N4DhNFMfzxAfzo2pwrsdc4kbr8B+A1hevM
-	ea3sCtHn+EVJubN13hJFwzUx4hK7+B8X/lO/ZYJeIWr9aJ37cv87ESrWTJrblouKA5xh
-	mrvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/lnY7JeSuZtE3MvqOvO3nN1tY+s4Vx6kIEfK8TT3tws=;
-	b=nvOSM7G2C/HcLZm4hUwhKjzSB+QpP7d8S0NWikTVsrOetcAqNQrQ5eQJEHvGeu3qB6
-	9M4bxa4b6x89DYKvjuLxRZ3XWf+9kehl/c/CdncwuD9+7SwPEJc1hYZ4DRuYE5ec7Dom
-	rZovpLj9S/G5s3/jYjqczclLF2upSW4sNJCvHjBh8lW20SkLbzr9KiUoUMtgU7ei10Y4
-	uXYOI54kl2I+A71AMuMX9HR4dy5aQvBHhQ7RmZ0/AEAZmlRI6nrD2lafQwn6QOxSEnsO
-	VyJ323Gp3rXyWE6HJhw0JH5YXV4vSZmpxjU5aUHZn0P34dBf1ThKXhmU6ZbhoIm7x4AE
-	4vEQ==
-X-Gm-Message-State: APjAAAX+rkKG2izpZKJtyCBTubUasB0IoPvYE1kl5dS3+hz0XEuC2d8+
-	s498p73aB5xXPnLSCBoVSHvRqVCWhlo=
-X-Google-Smtp-Source: APXvYqwjfwZW65M4gX4GGD/NjfUdTYiXh5ZOTTLg+YzNtxDHwaw/JQ9xjN1mQSRwAjSJrUL2yC3rcA==
-X-Received: by 2002:a50:9468:: with SMTP id q37mr88634949eda.163.1564282210725;
-	Sat, 27 Jul 2019 19:50:10 -0700 (PDT)
-Received: from peterliu-Precision-7530.toradex.int ([27.191.203.138])
-	by smtp.gmail.com with ESMTPSA id
-	c48sm15533947edb.10.2019.07.27.19.50.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 27 Jul 2019 19:50:10 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 28 Jul 2019 10:49:57 +0800
-Message-Id: <1564282197-5044-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <ming.liu@toradex.com>, stefan.agner@toradex.com,
-	luka.pivk@toradex.com
-Subject: [PATCH V2] weston: change to use meson build system
+	Sun, 28 Jul 2019 03:44:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Jul 2019 20:44:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,317,1559545200"; d="scan'208";a="173489920"
+Received: from pgsmsx112-dag.png.intel.com (HELO PGSMSX112.gar.corp.intel.com)
+	([10.108.55.234])
+	by orsmga003.jf.intel.com with ESMTP; 27 Jul 2019 20:44:37 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
+	PGSMSX112.gar.corp.intel.com ([169.254.3.46]) with mapi id
+	14.03.0439.000; Sun, 28 Jul 2019 11:44:36 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "akuster808@gmail.com"
+	<akuster808@gmail.com>
+Thread-Topic: [OE-core] [PATCH] bind: Update to latest stable, 9.14.
+Thread-Index: AQHVRLzrqudaRKQmDEqx3O7YEq85KKbe3fWA
+Date: Sun, 28 Jul 2019 03:44:35 +0000
+Message-ID: <ba93630ad71ed6be2e986cea9ea59cb891ba72a8.camel@intel.com>
+References: <1564260566-8134-1-git-send-email-akuster808@gmail.com>
+In-Reply-To: <1564260566-8134-1-git-send-email-akuster808@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.190.98]
+MIME-Version: 1.0
+Subject: Re: [PATCH] bind: Update to latest stable, 9.14.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,297 +44,270 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Jul 2019 02:50:10 -0000
+X-List-Received-Date: Sun, 28 Jul 2019 03:44:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <CC03C8BA93B38F49B7BC2AF48E655ED3@intel.com>
+Content-Transfer-Encoding: base64
 
-From: Ming Liu <ming.liu@toradex.com>
-
-The changes include:
-- Drop all autotools related patches.
-- Move weston-launch setuid-install to do_install task since it's not
-  supported yet by meson build.
-- Drop cairo-glesv2 package config, it's not supported by meson build,
-  the recommended value is hard-coded to cairo-image for now in weston
-  source.
-- Introduce remoting package config, to give this option a explicit
-  value, or else the build would run into gstreamer missing error since
-  it defaults to be true but gstreamer is not in depends list.
-
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-Signed-off-by: Ming Liu <ming.liu@toradex.com>
----
- .../wayland/weston/0001-make-error-portable.patch  | 34 ++++----
- ...ch-Provide-a-default-version-that-doesn-t.patch | 93 ++++++++++++++--------
- meta/recipes-graphics/wayland/weston_6.0.1.bb      | 48 +++++------
- 3 files changed, 101 insertions(+), 74 deletions(-)
-
-diff --git a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
-index 0eb3d95..acea9db 100644
---- a/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
-+++ b/meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
-@@ -9,27 +9,14 @@ kind of systemsi e.g. musl.
- Upstream-Status: Submitted
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-+Signed-off-by: Ming Liu <ming.liu@toradex.com>
- ---
-- configure.ac              |  2 ++
-  libweston/weston-error.h  | 20 ++++++++++++++++++++
-  libweston/weston-launch.c |  2 +-
-- 3 files changed, 23 insertions(+), 1 deletion(-)
-+ meson.build               |  1 +
-+ 3 files changed, 22 insertions(+), 1 deletion(-)
-  create mode 100644 libweston/weston-error.h
- 
--diff --git a/configure.ac b/configure.ac
--index c05ad01..6da6e04 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -126,6 +126,8 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
-- 	      [AC_MSG_ERROR("CLOCK_MONOTONIC is needed to compile weston")],
-- 	      [[#include <time.h>]])
-- 
--+AC_CHECK_HEADERS([error.h])
--+
-- AC_CHECK_FUNCS([mkostemp strchrnul initgroups posix_fallocate])
-- 
-- # check for libdrm as a build-time dependency only
- diff --git a/libweston/weston-error.h b/libweston/weston-error.h
- new file mode 100644
- index 0000000..2089d02
-@@ -76,3 +63,18 @@ index bf73e0d..9064439 100644
-  
-  #define DRM_MAJOR 226
-  
-+diff --git a/meson.build b/meson.build
-+index 2155b7b..baa52d9 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -94,6 +94,7 @@ foreach func : optional_libc_funcs
-+ endforeach
-+ 
-+ optional_system_headers = [
-++	'error.h',
-+ 	'linux/sync_file.h'
-+ ]
-+ foreach hdr : optional_system_headers
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-index a2f61bf..81cc025 100644
---- a/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-+++ b/meta/recipes-graphics/wayland/weston/0001-weston-launch-Provide-a-default-version-that-doesn-t.patch
-@@ -15,44 +15,46 @@ Upstream-Status: Pending
- Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
- Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Signed-off-by: Denys Dmytriyenko <denys@ti.com>
--
-+Signed-off-by: Ming Liu <ming.liu@toradex.com>
- ---
-- configure.ac              |  9 +++++++--
-+ libweston/meson.build     | 16 ++++++++++++----
-  libweston/weston-launch.c | 20 ++++++++++++++++++++
-- 2 files changed, 27 insertions(+), 2 deletions(-)
-+ meson_options.txt         |  7 +++++++
-+ 3 files changed, 39 insertions(+), 4 deletions(-)
- 
--diff --git a/configure.ac b/configure.ac
--index 6da6e04..681f7c8 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -515,13 +515,17 @@ AC_ARG_ENABLE(resize-optimization,
-- AS_IF([test "x$enable_resize_optimization" = "xyes"],
--       [AC_DEFINE([USE_RESIZE_POOL], [1], [Use resize memory pool as a performance optimization])])
-- 
--+AC_ARG_WITH(pam,
--+            AS_HELP_STRING([--with-pam], [Use PAM]),
--+            [use_pam=$withval], [use_pam=yes])
-- AC_ARG_ENABLE(weston-launch, [  --enable-weston-launch],, enable_weston_launch=yes)
-- AM_CONDITIONAL(BUILD_WESTON_LAUNCH, test x$enable_weston_launch = xyes)
---if test x$enable_weston_launch = xyes; then
--+if test x$enable_weston_launch = xyes -a x$use_pam = xyes; then
--   WESTON_SEARCH_LIBS([PAM], [pam], [pam_open_session], [have_pam=yes], [have_pam=no])
--   if test x$have_pam = xno; then
---    AC_ERROR([weston-launch requires pam])
--+    AC_ERROR([PAM support is explicitly requested, but libpam couldn't be found])
--   fi
--+  AC_DEFINE([HAVE_PAM], [1], [Define if PAM is available])
-- fi
-- 
-- AM_CONDITIONAL(HAVE_PANGO, test "x$have_pango" = "xyes")
--@@ -767,6 +771,7 @@ AC_MSG_RESULT([
-- 	Enable developer documentation	${enable_devdocs}
-- 
-- 	weston-launch utility		${enable_weston_launch}
--+	PAM support			${use_pam}
-- 	systemd-login support		${have_systemd_login}
-- 	systemd notify support		${enable_systemd_notify}
-- 
-+diff --git a/libweston/meson.build b/libweston/meson.build
-+index 33ab970..32f495a 100644
-+--- a/libweston/meson.build
-++++ b/libweston/meson.build
-+@@ -472,16 +472,24 @@ if get_option('renderer-gl')
-+ endif
-+ 
-+ if get_option('weston-launch')
-+-	dep_pam = cc.find_library('pam')
-++	deps_weston_launch = [systemd_dep, dep_libdrm]
-+ 
-+-	if not cc.has_function('pam_open_session', dependencies: dep_pam)
-+-		error('pam_open_session not found for weston-launch')
-++	if get_option('pam')
-++		dep_pam = cc.find_library('pam')
-++		if not cc.has_function('pam_open_session', dependencies: dep_pam)
-++			error('pam_open_session not found for weston-launch')
-++		endif
-++
-++		if dep_pam.found()
-++			deps_weston_launch += dep_pam
-++			config_h.set('HAVE_PAM', '1')
-++		endif
-+ 	endif
-+ 
-+ 	executable(
-+ 		'weston-launch',
-+ 		'weston-launch.c',
-+-		dependencies: [dep_pam, systemd_dep, dep_libdrm],
-++		dependencies: deps_weston_launch,
-+ 		include_directories: include_directories('..'),
-+ 		install: true
-+ 	)
- diff --git a/libweston/weston-launch.c b/libweston/weston-launch.c
- index 9064439..c6abe92 100644
- --- a/libweston/weston-launch.c
-@@ -172,3 +174,24 @@ index 9064439..c6abe92 100644
-  
-  	if (setup_launcher_socket(&wl) < 0)
-  		exit(EXIT_FAILURE);
-+diff --git a/meson_options.txt b/meson_options.txt
-+index 0e1d183..9a5c3d5 100644
-+--- a/meson_options.txt
-++++ b/meson_options.txt
-+@@ -73,6 +73,13 @@ option(
-+ )
-+ 
-+ option(
-++	'pam',
-++	type: 'boolean',
-++	value: true,
-++	description: 'Define if PAM is available'
-++)
-++
-++option(
-+ 	'xwayland',
-+ 	type: 'boolean',
-+ 	value: true,
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/wayland/weston_6.0.1.bb b/meta/recipes-graphics/wayland/weston_6.0.1.bb
-index 95b5403..bbcdc68 100644
---- a/meta/recipes-graphics/wayland/weston_6.0.1.bb
-+++ b/meta/recipes-graphics/wayland/weston_6.0.1.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://weston.png \
-            file://weston.desktop \
--           file://0001-make-error-portable.patch \
-            file://xwayland.weston-start \
-+           file://0001-make-error-portable.patch \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
- "
- SRC_URI[md5sum] = "e7b10710ef1eac82258f97bfd41fe534"
-@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "bf2f6d5aae2e11cabb6bd69a76bcf9edb084f8c3e14ca769bea7234a51
- 
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
- 
--inherit autotools pkgconfig useradd distro_features_check
-+inherit meson pkgconfig useradd distro_features_check
- # depends on virtual/egl
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
-@@ -26,10 +26,8 @@ DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
- 
- WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
- 
--EXTRA_OECONF = "--enable-setuid-install \
--                --disable-rdp-compositor \
--                --enable-autotools \
--                "
-+EXTRA_OEMESON += "-Dbackend-default=auto -Dbackend-rdp=false"
-+
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd x11', d)} \
-@@ -38,37 +36,37 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev
- # Compositor choices
- #
- # Weston on KMS
--PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa virtual/libgbm mtdev"
-+PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev virtual/mesa virtual/libgbm mtdev"
- # Weston on Wayland (nested Weston)
--PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
-+PACKAGECONFIG[wayland] = "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/mesa"
- # Weston on X11
--PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
-+PACKAGECONFIG[x11] = "-Dbackend-x11=true,-Dbackend-x11=false,virtual/libx11 libxcb libxcb libxcursor cairo"
- # Headless Weston
--PACKAGECONFIG[headless] = "--enable-headless-compositor,--disable-headless-compositor"
-+PACKAGECONFIG[headless] = "-Dbackend-headless=true,-Dbackend-headless=false"
- # Weston on framebuffer
--PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
-+PACKAGECONFIG[fbdev] = "-Dbackend-fbdev=true,-Dbackend-fbdev=false,udev mtdev"
- # weston-launch
--PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,drm"
-+PACKAGECONFIG[launch] = "-Dweston-launch=true,-Dweston-launch=false,drm"
- # VA-API desktop recorder
--PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
-+PACKAGECONFIG[vaapi] = "-Dbackend-drm-screencast-vaapi=true,-Dbackend-drm-screencast-vaapi=false,libva"
- # Weston with EGL support
--PACKAGECONFIG[egl] = "--enable-egl --enable-simple-egl-clients,--disable-egl --disable-simple-egl-clients,virtual/egl"
--# Weston with cairo glesv2 support
--PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
-+PACKAGECONFIG[egl] = "-Drenderer-gl=true,-Drenderer-gl=false,virtual/egl"
- # Weston with lcms support
--PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
-+PACKAGECONFIG[lcms] = "-Dcolor-management-lcms=true,-Dcolor-management-lcms=false,lcms"
- # Weston with webp support
--PACKAGECONFIG[webp] = "--with-webp,--without-webp,libwebp"
-+PACKAGECONFIG[webp] = "-Dimage-webp=true,-Dimage-webp=false,libwebp"
- # Weston with systemd-login support
--PACKAGECONFIG[systemd] = "--enable-systemd-login,--disable-systemd-login,systemd dbus"
-+PACKAGECONFIG[systemd] = "-Dsystemd=true -Dlauncher-logind=true,-Dsystemd=false -Dlauncher-logind=false,systemd dbus"
- # Weston with Xwayland support (requires X11 and Wayland)
--PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland"
-+PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false"
- # colord CMS support
--PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
-+PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-colord=false,colord"
- # Clients support
--PACKAGECONFIG[clients] = "--enable-clients --enable-simple-clients --enable-demo-clients-install,--disable-clients --disable-simple-clients"
-+PACKAGECONFIG[clients] = "-Dsimple-clients=all -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
-+# Virtual remote output with GStreamer on DRM backend
-+PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer-1.0"
- # Weston with PAM support
--PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
-+PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam"
- 
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
-@@ -86,6 +84,10 @@ do_install_append() {
- 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no', d)}" = "yes" ]; then
- 		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
- 	fi
-+
-+	if [ "${@bb.utils.contains('PACKAGECONFIG', 'launch', 'yes', 'no', d)}" = "yes" ]; then
-+		chmod u+s ${D}${bindir}/weston-launch
-+	fi
- }
- 
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
--- 
-2.7.4
-
+VGhpcyBpcyBjYXVzaW5nIGVycm9yczoNCg0KfCBNYWtlZmlsZTo1NTc6IHJlY2lwZSBmb3IgdGFy
+Z2V0ICdhbGxvYy5sbycgZmFpbGVkDQp8IG1ha2VbMl06ICoqKiBbYWxsb2MubG9dIEVycm9yIDEN
+CnwgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4uL2luY2x1ZGVzL2RoY3BkLmg6OTEsDQp8ICAgICAg
+ICAgICAgICAgICAgZnJvbSBjb25mbGV4LmM6Mjk6DQp8IC4uL2luY2x1ZGVzL29tYXBpcC9pc2Ns
+aWIuaDo1MToxMDogZmF0YWwgZXJyb3I6IGlzYy9ib29sZWFuLmg6IE5vDQpzdWNoIGZpbGUgb3Ig
+ZGlyZWN0b3J5DQp8ICAgIDUxIHwgI2luY2x1ZGUgPGlzYy9ib29sZWFuLmg+DQp8ICAgICAgIHwg
+ICAgICAgICAgXn5+fn5+fn5+fn5+fn5+DQp8IGNvbXBpbGF0aW9uIHRlcm1pbmF0ZWQuDQp8IE1h
+a2VmaWxlOjU1NzogcmVjaXBlIGZvciB0YXJnZXQgJ2RoY3A0bzYubG8nIGZhaWxlZA0KfCBtYWtl
+WzJdOiAqKiogW2RoY3A0bzYubG9dIEVycm9yIDENCnwgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4u
+L2luY2x1ZGVzL2RoY3BkLmg6OTEsDQp8ICAgICAgICAgICAgICAgICAgZnJvbSBpY21wLmM6MzA6
+DQp8IC4uL2luY2x1ZGVzL29tYXBpcC9pc2NsaWIuaDo1MToxMDogZmF0YWwgZXJyb3I6IGlzYy9i
+b29sZWFuLmg6IE5vDQpzdWNoIGZpbGUgb3IgZGlyZWN0b3J5DQp8ICAgIDUxIHwgI2luY2x1ZGUg
+PGlzYy9ib29sZWFuLmg+DQp8ICAgICAgIHwgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+DQp8IGNv
+bXBpbGF0aW9uIHRlcm1pbmF0ZWQuDQp8IE1ha2VmaWxlOjU1NzogcmVjaXBlIGZvciB0YXJnZXQg
+J2Rpc3BhdGNoLmxvJyBmYWlsZWQNCnwgbWFrZVsyXTogKioqIFtkaXNwYXRjaC5sb10gRXJyb3Ig
+MQ0KfCBJbiBmaWxlIGluY2x1ZGVkIGZyb20gLi4vaW5jbHVkZXMvZGhjcGQuaDo5MSwNCnwgICAg
+ICAgICAgICAgICAgICBmcm9tIGJwZi5jOjM1Og0KfCAuLi9pbmNsdWRlcy9vbWFwaXAvaXNjbGli
+Lmg6NTE6MTA6IGZhdGFsIGVycm9yOiBpc2MvYm9vbGVhbi5oOiBObw0Kc3VjaCBmaWxlIG9yIGRp
+cmVjdG9yeQ0KfCAgICA1MSB8ICNpbmNsdWRlIDxpc2MvYm9vbGVhbi5oPg0KfCAgICAgICB8ICAg
+ICAgICAgIF5+fn5+fn5+fn5+fn5+fg0KDQpodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVj
+dC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzY0L2J1aWxkcy84NzEvc3RlcHMvOC9sb2dzL3N0ZXAx
+Yg0KDQpUaGFua3MsDQoNCkFudWoNCg0KT24gU2F0LCAyMDE5LTA3LTI3IGF0IDEzOjQ5IC0wNzAw
+LCBBcm1pbiBLdXN0ZXIgd3JvdGU6DQo+IEV2ZW4gcmVsZWFzZXMgYXJlIHN0YWJsZSBhbmQgc3Vw
+cG9ydGVkIGZvciAxIHllYXIuDQo+IA0KPiBEcm9wIHBhdGNoZXMgbm8gbG9uZ2VyIG5lZWRlZC4N
+Cj4gUmVmcmVzaCBhIGZldyBwYXRjaGVzLg0KPiBSZW1vdmVkIGNvbmZpZyBvcHRpb25zIG5vIGxv
+bmdlZCBzdXBwb3J0ZWQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBBcm1pbiBLdXN0ZXIgPGFrdXN0
+ZXI4MDhAZ21haWwuY29tPg0KPiAtLS0NCj4gIC4uLmlndXJlLmluLXJlbW92ZS11c2VsZXNzLUwt
+dXNlX29wZW5zc2wtbGliLnBhdGNoIHwgMzIgLS0tLS0tLS0tLS0tDQo+IC0tLS0tLS0tLQ0KPiAg
+Li4uLWdlbi5jLWV4dGVuZC1ESVJOQU1FU0laRS1mcm9tLTI1Ni10by01MTIucGF0Y2ggfCAyMiAt
+LS0tLS0tLS0tLS0NCj4gLS0tDQo+ICAuLi4vMDAwMS1saWItZG5zLWdlbi5jLWZpeC10b28tbG9u
+Zy1lcnJvci5wYXRjaCAgICB8IDMxIC0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0tLQ0KPiAgLi4ubHdy
+ZXNkLVYtYW5kLXN0YXJ0LWxvZy1oaWRlLWJ1aWxkLW9wdGlvbnMucGF0Y2ggfCAzMyArKysrKysr
+KysrDQo+IC0tLS0tLS0tLS0tLQ0KPiAgLi4uLXNlYXJjaGluZy1mb3ItanNvbi1oZWFkZXJzLXNl
+YXJjaGVzLXN5c3IucGF0Y2ggfCAzMCArKysrKysrKysrDQo+IC0tLS0tLS0tLS0NCj4gIC4uLi9i
+aW5kL3tiaW5kXzkuMTEuNS1QNC5iYiA9PiBiaW5kXzkuMTQuMy5iYn0gICAgIHwgMjQgKysrKysr
+LS0tLQ0KPiAtLS0tLS0NCj4gIDYgZmlsZXMgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygrKSwgMTM0
+IGRlbGV0aW9ucygtKQ0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvYmluZC9iaW5kLzAwMDEtDQo+IGNvbmZpZ3VyZS5pbi1yZW1vdmUtdXNlbGVzcy1MLXVz
+ZV9vcGVuc3NsLWxpYi5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtZ2VuLmMtDQo+IGV4dGVuZC1ESVJOQU1FU0laRS1m
+cm9tLTI1Ni10by01MTIucGF0Y2gNCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLWxpYi1kbnMtDQo+IGdlbi5jLWZpeC10b28tbG9u
+Zy1lcnJvci5wYXRjaA0KPiAgcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC97
+YmluZF85LjExLjUtUDQuYmIgPT4NCj4gYmluZF85LjE0LjMuYmJ9ICg4MyUpDQo+IA0KPiBkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1jb25maWd1
+cmUuaW4tDQo+IHJlbW92ZS11c2VsZXNzLUwtdXNlX29wZW5zc2wtbGliLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLQ0KPiBjb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtY29uZmlndXJlLmluLXJlbW92
+ZS11c2VsZXNzLUwtDQo+IHVzZV9vcGVuc3NsLWxpYi5wYXRjaA0KPiBkZWxldGVkIGZpbGUgbW9k
+ZSAxMDA2NDQNCj4gaW5kZXggODcxYmIyYS4uMDAwMDAwMA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLWNvbmZpZ3VyZS5pbi1yZW1vdmUtDQo+IHVzZWxl
+c3MtTC11c2Vfb3BlbnNzbC1saWIucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwzMiAr
+MCwwIEBADQo+IC1Gcm9tIDk1MDg2N2Q5ZmQzZjY5MGUyNzFjOGM4MDdiNmVlZDE0NGIyOTM1YjIg
+TW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+IC1Gcm9tOiBIb25neHUgSmlhIDxob25neHUu
+amlhQHdpbmRyaXZlci5jb20+DQo+IC1EYXRlOiBNb24sIDI3IEF1ZyAyMDE4IDE1OjAwOjUxICsw
+ODAwDQo+IC1TdWJqZWN0OiBbUEFUQ0hdIGNvbmZpZ3VyZS5pbjogcmVtb3ZlIHVzZWxlc3MgYC1M
+JHVzZV9vcGVuc3NsL2xpYicNCj4gLQ0KPiAtU2luY2UgYC0td2l0aC1vcGVuc3NsPSR7U1RBR0lO
+R19ESVJfSE9TVH0ke3ByZWZpeH0nIGlzIHVzZWQgaW4gYmluZA0KPiByZWNpcGUsDQo+IC10aGUg
+YC1MJHVzZV9vcGVuc3NsL2xpYicgaGFzIGEgaGFyZGNvZGVkIHN1ZmZpeCwgcmVtb3ZpbmcgaXQg
+aXMNCj4gaGFybWxlc3MNCj4gLWFuZCBoZWxwZnVsIGZvciBjbGVhbiB1cCBob3N0IGJ1aWxkIHBh
+dGggaW4gaXNjLWNvbmZpZy5zaA0KPiAtDQo+IC1VcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlh
+dGUgW29lLWNvcmUgc3BlY2lmaWNdDQo+IC0NCj4gLVNpZ25lZC1vZmYtYnk6IEhvbmd4dSBKaWEg
+PGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4NCj4gLS0tLQ0KPiAtIGNvbmZpZ3VyZS5pbiB8IDIg
+Ky0NCj4gLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4g
+LQ0KPiAtZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5pbiBiL2NvbmZpZ3VyZS5pbg0KPiAtaW5kZXgg
+NTRlZmM1NS4uNzZhYzBlYiAxMDA2NDQNCj4gLS0tLSBhL2NvbmZpZ3VyZS5pbg0KPiAtKysrIGIv
+Y29uZmlndXJlLmluDQo+IC1AQCAtMTY5MSw3ICsxNjkxLDcgQEAgSWYgeW91IGRvbid0IHdhbnQg
+T3BlblNTTCwgdXNlIC0td2l0aG91dC0NCj4gb3BlbnNzbF0pDQo+IC0gCQkJCWZpDQo+IC0gCQkJ
+CTs7DQo+IC0gCQkJKikNCj4gLS0JCQkJRFNUX09QRU5TU0xfTElCUz0iLUwkdXNlX29wZW5zc2wv
+bGliDQo+IC1sY3J5cHRvIg0KPiAtKwkJCQlEU1RfT1BFTlNTTF9MSUJTPSItbGNyeXB0byINCj4g
+LSAJCQkJOzsNCj4gLSAJCQllc2FjDQo+IC0gCQlmaQ0KPiAtLS0gDQo+IC0yLjcuNA0KPiAtDQo+
+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLWdl
+bi5jLWV4dGVuZC0NCj4gRElSTkFNRVNJWkUtZnJvbS0yNTYtdG8tNTEyLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLQ0KPiBjb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtZ2VuLmMtZXh0ZW5kLURJUk5B
+TUVTSVpFLWZyb20tMjU2LXRvLQ0KPiA1MTIucGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1vZGUgMTAw
+NjQ0DQo+IGluZGV4IGE4ZDYwMWQuLjAwMDAwMDANCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1nZW4uYy1leHRlbmQtDQo+IERJUk5BTUVTSVpFLWZyb20t
+MjU2LXRvLTUxMi5wYXRjaA0KPiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDIyICswLDAgQEANCj4g
+LVVwc3RyZWFtLVN0YXR1czogUGVuZGluZw0KPiAtDQo+IC1TdWJqZWN0OiBnZW4uYzogZXh0ZW5k
+IERJUk5BTUVTSVpFIGZyb20gMjU2IHRvIDUxMg0KPiAtDQo+IC1TaWduZWQtb2ZmLWJ5OiBDaGVu
+IFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+DQo+IC0tLS0NCj4gLSBsaWIvZG5zL2dlbi5jIHwg
+MiArLQ0KPiAtIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0K
+PiAtDQo+IC1JbmRleDogYmluZC05LjExLjMvbGliL2Rucy9nZW4uYw0KPiAtPT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0K
+PiAtLS0tIGJpbmQtOS4xMS4zLm9yaWcvbGliL2Rucy9nZW4uYw0KPiAtKysrIGJpbmQtOS4xMS4z
+L2xpYi9kbnMvZ2VuLmMNCj4gLUBAIC0xMzAsNyArMTMwLDcgQEAgc3RhdGljIGNvbnN0IGNoYXIg
+Y29weXJpZ2h0W10gPQ0KPiAtICNkZWZpbmUgVFlQRUNMQVNTQlVGIChUWVBFQ0xBU1NMRU4gKyAx
+KQ0KPiAtICNkZWZpbmUgVFlQRUNMQVNTRk1UICIlIiBTVFIoVFlQRUNMQVNTTEVOKSAiWy0wLTlh
+LXpdXyVkIg0KPiAtICNkZWZpbmUgQVRUUklCVVRFU0laRSAyNTYNCj4gLS0jZGVmaW5lIERJUk5B
+TUVTSVpFIDI1Ng0KPiAtKyNkZWZpbmUgRElSTkFNRVNJWkUgNTEyDQo+IC0gDQo+IC0gc3RhdGlj
+IHN0cnVjdCBjYyB7DQo+IC0gCXN0cnVjdCBjYyAqbmV4dDsNCj4gZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbGliLWRucy1nZW4uYy0NCj4gZml4
+LXRvby1sb25nLWVycm9yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2Jp
+bmQvMDAwMS0NCj4gbGliLWRucy1nZW4uYy1maXgtdG9vLWxvbmctZXJyb3IucGF0Y2gNCj4gZGVs
+ZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAxODc0YTQuLjAwMDAwMDANCj4gLS0tIGEv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1saWItZG5zLWdlbi5jLWZp
+eC10b28tDQo+IGxvbmctZXJyb3IucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSwzMSAr
+MCwwIEBADQo+IC1Gcm9tIDViYzMxNjdhOGI3MTRlYzBjNGEzZjFjN2YzYjk0MTEyOTZlYzBhMjMg
+TW9uIFNlcCAxNyAwMDowMDowMA0KPiAyMDAxDQo+IC1Gcm9tOiBSb2JlcnQgWWFuZyA8bGllemhp
+LnlhbmdAd2luZHJpdmVyLmNvbT4NCj4gLURhdGU6IFdlZCwgMTYgU2VwIDIwMTUgMjA6MjM6NDcg
+LTA3MDANCj4gLVN1YmplY3Q6IFtQQVRDSF0gbGliL2Rucy9nZW4uYzogZml4IHRvbyBsb25nIGVy
+cm9yDQo+IC0NCj4gLVRoZSA1MTIgaXMgYSBsaXR0bGUgc2hvcnQgd2hlbiBidWlsZCBpbiBkZWVw
+IGRpciwgYW5kIGNhdXNlICJ0b28NCj4gbG9uZyINCj4gLWVycm9yLCB1c2UgUEFUSF9NQVggaWYg
+ZGVmaW5lZC4NCj4gLQ0KPiAtVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nDQo+IC0NCj4gLVNpZ25l
+ZC1vZmYtYnk6IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPg0KPiAtLS0t
+DQo+IC0gbGliL2Rucy9nZW4uYyB8ICAgIDQgKysrKw0KPiAtIDEgZmlsZSBjaGFuZ2VkLCA0IGlu
+c2VydGlvbnMoKykNCj4gLQ0KPiAtSW5kZXg6IGJpbmQtOS4xMS4zL2xpYi9kbnMvZ2VuLmMNCj4g
+LT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT0NCj4gLS0tLSBiaW5kLTkuMTEuMy5vcmlnL2xpYi9kbnMvZ2VuLmMNCj4gLSsr
+KyBiaW5kLTkuMTEuMy9saWIvZG5zL2dlbi5jDQo+IC1AQCAtMTMwLDcgKzEzMCwxMSBAQCBzdGF0
+aWMgY29uc3QgY2hhciBjb3B5cmlnaHRbXSA9DQo+IC0gI2RlZmluZSBUWVBFQ0xBU1NCVUYgKFRZ
+UEVDTEFTU0xFTiArIDEpDQo+IC0gI2RlZmluZSBUWVBFQ0xBU1NGTVQgIiUiIFNUUihUWVBFQ0xB
+U1NMRU4pICJbLTAtOWEtel1fJWQiDQo+IC0gI2RlZmluZSBBVFRSSUJVVEVTSVpFIDI1Ng0KPiAt
+KyNpZmRlZiBQQVRIX01BWA0KPiAtKyNkZWZpbmUgRElSTkFNRVNJWkUgUEFUSF9NQVgNCj4gLSsj
+ZWxzZQ0KPiAtICNkZWZpbmUgRElSTkFNRVNJWkUgNTEyDQo+IC0rI2VuZGlmDQo+IC0gDQo+IC0g
+c3RhdGljIHN0cnVjdCBjYyB7DQo+IC0gCXN0cnVjdCBjYyAqbmV4dDsNCj4gZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFtZWQtbHdyZXNkLVYt
+DQo+IGFuZC1zdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoIGIvbWV0YS9yZWNpcGVz
+LQ0KPiBjb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFtZWQtbHdyZXNkLVYtYW5kLXN0YXJ0
+LWxvZy1oaWRlLWJ1aWxkLQ0KPiBvcHRpb25zLnBhdGNoDQo+IGluZGV4IDc1OTA4YWEuLjg0ODk0
+YWUgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAw
+MDEtbmFtZWQtbHdyZXNkLVYtYW5kLQ0KPiBzdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBh
+dGNoDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFt
+ZWQtbHdyZXNkLVYtYW5kLQ0KPiBzdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoDQo+
+IEBAIC0xMiwyMyArMTIsMjAgQEAgJCBuYW1lZCAtVg0KPiAgVXBzdHJlYW0tU3RhdHVzOiBJbmFw
+cHJvcHJpYXRlIFtvZS1jb3JlIHNwZWNpZmljXQ0KPiAgDQo+ICBTaWduZWQtb2ZmLWJ5OiBIb25n
+eHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+DQo+IC0tLS0NCj4gLSBiaW4vbmFtZWQv
+aW5jbHVkZS9uYW1lZC9nbG9iYWxzLmggfCAyICstDQo+IC0gMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQo+ICANCj4gLWRpZmYgLS1naXQgYS9iaW4vbmFtZWQv
+aW5jbHVkZS9uYW1lZC9nbG9iYWxzLmgNCj4gYi9iaW4vbmFtZWQvaW5jbHVkZS9uYW1lZC9nbG9i
+YWxzLmgNCj4gLWluZGV4IGJhMzQ1N2UuLjc3NDFkYTcgMTAwNjQ0DQo+IC0tLS0gYS9iaW4vbmFt
+ZWQvaW5jbHVkZS9uYW1lZC9nbG9iYWxzLmgNCj4gLSsrKyBiL2Jpbi9uYW1lZC9pbmNsdWRlL25h
+bWVkL2dsb2JhbHMuaA0KPiAtQEAgLTY4LDcgKzY4LDcgQEAgRVhURVJOIGNvbnN0IGNoYXIgKgkJ
+bnNfZ192ZXJzaW9uCQ0KPiAJSU5JVChWRVJTSU9OKTsNCj4gLSBFWFRFUk4gY29uc3QgY2hhciAq
+CQluc19nX3Byb2R1Y3QJCUlOSVQoUFJPRFVDVCkNCj4gOw0KPiAtIEVYVEVSTiBjb25zdCBjaGFy
+ICoJCW5zX2dfZGVzY3JpcHRpb24JSU5JVChERVNDUklQVElPTik7DQo+IC0gRVhURVJOIGNvbnN0
+IGNoYXIgKgkJbnNfZ19zcmNpZAkJSU5JVChTUkNJRCk7DQo+IC0tRVhURVJOIGNvbnN0IGNoYXIg
+KgkJbnNfZ19jb25maWdhcmdzCQlJTklUKENPTkZJR0FSDQo+IEdTKTsNCj4gLStFWFRFUk4gY29u
+c3QgY2hhciAqCQluc19nX2NvbmZpZ2FyZ3MJCUlOSVQoIioqKg0KPiAob3B0aW9ucyBhcmUgaGlk
+ZGVuKSIpOw0KPiAtIEVYVEVSTiBjb25zdCBjaGFyICoJCW5zX2dfYnVpbGRlcgkJSU5JVChCVUlM
+REVSKQ0KPiA7DQo+IC0gRVhURVJOIGluX3BvcnRfdAkJbnNfZ19wb3J0CQlJTklUKDApOw0KPiAt
+IEVYVEVSTiBpc2NfZHNjcF90CQluc19nX2RzY3AJCUlOSVQoLTEpOw0KPiAtLS0gDQo+IC0yLjcu
+NA0KPiArW1JlZnJlc2hlZCBmb3IgOS4xNC4zXQ0KPiArU2lnbmVkLW9mZi1ieTogQXJtaW4ga3Vz
+dGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4NCj4gIA0KPiArSW5kZXg6IGJpbmQtOS4xNC4zL2Jp
+bi9uYW1lZC9pbmNsdWRlL25hbWVkL2dsb2JhbHMuaA0KPiArPT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiArLS0tIGJp
+bmQtOS4xNC4zLm9yaWcvYmluL25hbWVkL2luY2x1ZGUvbmFtZWQvZ2xvYmFscy5oDQo+ICsrKysg
+YmluZC05LjE0LjMvYmluL25hbWVkL2luY2x1ZGUvbmFtZWQvZ2xvYmFscy5oDQo+ICtAQCAtNjgs
+NyArNjgsNyBAQCBFWFRFUk4gY29uc3QgY2hhciAqCQluYW1lZF9nX3ZlcnNpb24NCj4gCQlJTg0K
+PiArIEVYVEVSTiBjb25zdCBjaGFyICoJCW5hbWVkX2dfcHJvZHVjdAkJSU5JVChQUk9EVUNUKQ0K
+PiA7DQo+ICsgRVhURVJOIGNvbnN0IGNoYXIgKgkJbmFtZWRfZ19kZXNjcmlwdGlvbglJTklUKERF
+U0NSSVBUDQo+IElPTik7DQo+ICsgRVhURVJOIGNvbnN0IGNoYXIgKgkJbmFtZWRfZ19zcmNpZAkJ
+SU5JVChTUkNJRCk7DQo+ICstRVhURVJOIGNvbnN0IGNoYXIgKgkJbmFtZWRfZ19jb25maWdhcmdz
+CUlOSVQoQ09ORklHQVINCj4gR1MpOw0KPiArK0VYVEVSTiBjb25zdCBjaGFyICoJCW5hbWVkX2df
+Y29uZmlnYXJncwlJTklUKCIqKioNCj4gKG9wdGlvbnMgYXJlIGhpZGRlbikiKTsNCj4gKyBFWFRF
+Uk4gY29uc3QgY2hhciAqCQluYW1lZF9nX2J1aWxkZXIJCUlOSVQoQlVJTERFUikNCj4gOw0KPiAr
+IEVYVEVSTiBpbl9wb3J0X3QJCW5hbWVkX2dfcG9ydAkJSU5JVCgwKTsNCj4gKyBFWFRFUk4gaXNj
+X2RzY3BfdAkJbmFtZWRfZ19kc2NwCQlJTklUKC0xKTsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJlLQ0KPiBzZWFyY2hpbmctZm9y
+LWpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiBjb25u
+ZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJlLXNlYXJjaGluZy1mb3ItanNvbi1oZWFkZXJz
+LQ0KPiBzZWFyY2hlcy1zeXNyLnBhdGNoDQo+IGluZGV4IDM3ZTIxMGUuLjM5OTljNmEgMTAwNjQ0
+DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJl
+LXNlYXJjaGluZy1mb3ItDQo+IGpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoDQo+ICsr
+KyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2JpbmQtZW5zdXJlLXNlYXJj
+aGluZy1mb3ItDQo+IGpzb24taGVhZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoDQo+IEBAIC0xNywy
+NSArMTcsMjUgQEAgTm8gY3VycmVudGx5IHJ1bm5pbmcgdGFza3MgKDc3MyBvZiA3ODEpDQo+ICBT
+dW1tYXJ5OiAxIHRhc2sgZmFpbGVkOg0KPiAgICAvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9i
+aW5kL2JpbmRfOS4xMC4yLmJiLCBkb19jb25maWd1cmUNCj4gIA0KPiAtT25lIHdheSB0byBmaXgg
+aXQgd291bGQgYmUgdG8gdW5jb25kaXRpb25hbGx5IGRpc2FibGUganNvbiBpbiBiaW5kDQo+IC1j
+b25maWd1cmVbMl0gYnV0IGhlcmUgd2UgZml4IGl0IGJ5IHVzaW5nIHRoZSBwYXRoIHRvIHdoZXJl
+IHdlIHdvdWxkDQo+IC1wdXQgdGhlIGhlYWRlciBpZiB3ZSBoYWQganNvbiBpbiB0aGUgc3lzcm9v
+dCwgaW4gY2FzZSBzb21lb25lIHdhbnRzDQo+IC10byBtYWtlIHVzZSBvZiB0aGUgY29tYmluYXRp
+b24gc29tZSBkYXkuDQo+ICsgIE9uZSB3YXkgdG8gZml4IGl0IHdvdWxkIGJlIHRvIHVuY29uZGl0
+aW9uYWxseSBkaXNhYmxlIGpzb24gaW4gYmluZA0KPiArICBjb25maWd1cmVbMl0gYnV0IGhlcmUg
+d2UgZml4IGl0IGJ5IHVzaW5nIHRoZSBwYXRoIHRvIHdoZXJlIHdlDQo+IHdvdWxkDQo+ICsgIHB1
+dCB0aGUgaGVhZGVyIGlmIHdlIGhhZCBqc29uIGluIHRoZSBzeXNyb290LCBpbiBjYXNlIHNvbWVv
+bmUNCj4gd2FudHMNCj4gKyAgdG8gbWFrZSB1c2Ugb2YgdGhlIGNvbWJpbmF0aW9uIHNvbWUgZGF5
+Lg0KPiAgDQo+IC1bMV0gaHR0cHM6Ly90cmFjLm1hY3BvcnRzLm9yZy90aWNrZXQvNDUzMDUNCj4g
+LVsyXSBodHRwczovL3RyYWMubWFjcG9ydHMub3JnL2NoYW5nZXNldC8xMjY0MDYNCj4gKyAgWzFd
+IGh0dHBzOi8vdHJhYy5tYWNwb3J0cy5vcmcvdGlja2V0LzQ1MzA1DQo+ICsgIFsyXSBodHRwczov
+L3RyYWMubWFjcG9ydHMub3JnL2NoYW5nZXNldC8xMjY0MDYNCj4gIA0KPiAtVXBzdHJlYW0tU3Rh
+dHVzOiBJbmFwcHJvcHJpYXRlIFtPRSBTcGVjaWZpY10NCj4gLVNpZ25lZC1vZmYtYnk6IFBhdWwg
+R29ydG1ha2VyIDxwYXVsLmdvcnRtYWtlckB3aW5kcml2ZXIuY29tPg0KPiAtLS0tDQo+IC0gY29u
+ZmlndXJlLmluIHwgMiArLQ0KPiAtIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
+ZWxldGlvbigtKQ0KPiArICBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW09FIFNwZWNp
+ZmljXQ0KPiArICBTaWduZWQtb2ZmLWJ5OiBQYXVsIEdvcnRtYWtlciA8cGF1bC5nb3J0bWFrZXJA
+d2luZHJpdmVyLmNvbT4NCj4gIA0KPiAtSW5kZXg6IGJpbmQtOS4xMS4zL2NvbmZpZ3VyZS5pbg0K
+PiArW1JlZnJlc2hlZCBmb3IgOS4xNC4zDQo+ICtTaWduZWQtb2ZmLWJ5OiBBcm1pbiBLdXN0ZXIg
+PGFrdXN0ZXI4MDhAZ21haWwuY29tPg0KPiArDQo+ICtJbmRleDogYmluZC05LjE0LjMvY29uZmln
+dXJlLmFjDQo+ICA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09DQo+IC0tLS0gYmluZC05LjExLjMub3JpZy9jb25maWd1cmUu
+aW4NCj4gLSsrKyBiaW5kLTkuMTEuMy9jb25maWd1cmUuaW4NCj4gLUBAIC0yNTc0LDcgKzI1NzQs
+NyBAQCBjYXNlICIkdXNlX2xpYmpzb24iIGluDQo+ICstLS0gYmluZC05LjE0LjMub3JpZy9jb25m
+aWd1cmUuYWMNCj4gKysrKyBiaW5kLTkuMTQuMy9jb25maWd1cmUuYWMNCj4gK0BAIC0xMzUzLDcg
+KzEzNTMsNyBAQCBjYXNlICIkdXNlX2xpYmpzb24iIGluDQo+ICAgCQlsaWJqc29uX2xpYnM9IiIN
+Cj4gICAJCTs7DQo+ICAgCWF1dG98eWVzKQ0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
+bm5lY3Rpdml0eS9iaW5kL2JpbmRfOS4xMS41LVA0LmJiDQo+IGIvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9iaW5kL2JpbmRfOS4xNC4zLmJiDQo+IHNpbWlsYXJpdHkgaW5kZXggODMlDQo+IHJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kXzkuMTEuNS1QNC5i
+Yg0KPiByZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmRfOS4xNC4z
+LmJiDQo+IGluZGV4IDEzNTU4NDEuLjJjZmZlMGYgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvYmluZC9iaW5kXzkuMTEuNS1QNC5iYg0KPiArKysgYi9tZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjE0LjMuYmINCj4gQEAgLTE0LDIyICsxNCwxOCBA
+QCBTUkNfVVJJID0gIg0KPiBodHRwczovL2Z0cC5pc2Mub3JnL2lzYy9iaW5kOS8ke1BWfS8ke0JQ
+Tn0tJHtQVn0udGFyLmd6IFwNCj4gICAgICAgICAgICAgZmlsZTovL2dlbmVyYXRlLXJuZGMta2V5
+LnNoIFwNCj4gICAgICAgICAgICAgZmlsZTovL21ha2UtZXRjLWluaXRkLWJpbmQtc3RvcC13b3Jr
+LnBhdGNoIFwNCj4gICAgICAgICAgICAgZmlsZTovL2luaXQuZC1hZGQtc3VwcG9ydC1mb3ItcmVh
+ZC1vbmx5LXJvb3Rmcy5wYXRjaCBcDQo+ICsgICAgICAgICAgIGZpbGU6Ly8wMDAxLWF2b2lkLXN0
+YXJ0LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2ggXA0KPiAgICAgICAgICAgICBmaWxlOi8v
+YmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29uLWhlYWRlcnMtc2VhcmNoZXMtDQo+IHN5c3Iu
+cGF0Y2ggXA0KPiAtICAgICAgICAgICBmaWxlOi8vMDAwMS1nZW4uYy1leHRlbmQtRElSTkFNRVNJ
+WkUtZnJvbS0yNTYtdG8tDQo+IDUxMi5wYXRjaCBcDQo+IC0gICAgICAgICAgIGZpbGU6Ly8wMDAx
+LWxpYi1kbnMtZ2VuLmMtZml4LXRvby1sb25nLWVycm9yLnBhdGNoIFwNCj4gLSAgICAgICAgICAg
+ZmlsZTovLzAwMDEtY29uZmlndXJlLmluLXJlbW92ZS11c2VsZXNzLUwtdXNlX29wZW5zc2wtDQo+
+IGxpYi5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLW5hbWVkLWx3cmVzZC1WLWFu
+ZC1zdGFydC1sb2ctaGlkZS1idWlsZC0NCj4gb3B0aW9ucy5wYXRjaCBcDQo+IC0gICAgICAgICAg
+IGZpbGU6Ly8wMDAxLWF2b2lkLXN0YXJ0LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2ggXA0K
+PiAgIg0KPiAgDQo+IC1TUkNfVVJJW21kNXN1bV0gPSAiOGRkYWI0YjYxZmE0NTE2ZmU0MDQ2Nzlj
+NzRlMzc5NjAiDQo+IC1TUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiN2U4YzA4MTkyYmNiYWViNmU5
+ZjIzOTFhNzBlNjc1ODNiMDI3YjkwZThjNGJjMTYwNWRhNmViMTI2ZWRkZTQzNCINCj4gK1NSQ19V
+UklbbWQ1c3VtXSA9ICI2MWYzMGFmYzIxMDhjZGMyMzBlMDhmNTE0NjZmZTJmNCINCj4gK1NSQ19V
+Uklbc2hhMjU2c3VtXSA9DQo+ICJjZTg3OGFhYmNmMDFiNjFlZDExNDUyMmMzMmZmZjllMjY4YjAy
+ZGE1NWIzYzI0ODM0OTg2MGJjM2QwYzhiZGZhIg0KPiAgDQo+ICBVUFNUUkVBTV9DSEVDS19VUkkg
+PSAiaHR0cHM6Ly9mdHAuaXNjLm9yZy9pc2MvYmluZDkvIg0KPiAtVVBTVFJFQU1fQ0hFQ0tfUkVH
+RVggPSAiKD9QPHB2ZXI+OShcLlxkKykrKC1QXGQrKSopLyINCj4gLVJFQ0lQRV9OT19VUERBVEVf
+UkVBU09OID0gIjkuMTEgaXMgTFRTIDIwMjEiDQo+ICtSRUNJUEVfTk9fVVBEQVRFX1JFQVNPTiA9
+ICJldmVuIGFyZSBzdGFibGUiDQo+ICANCj4gLWluaGVyaXQgYXV0b3Rvb2xzIHVwZGF0ZS1yYy5k
+IHN5c3RlbWQgdXNlcmFkZCBwa2djb25maWcNCj4gbXVsdGlsaWJfc2NyaXB0DQo+ICtpbmhlcml0
+IGF1dG90b29scyB1cGRhdGUtcmMuZCBzeXN0ZW1kIHVzZXJhZGQgcGtnY29uZmlnDQo+IG11bHRp
+bGliX3NjcmlwdCB1cHN0cmVhbS12ZXJzaW9uLWlzLWV2ZW4NCj4gIA0KPiAgTVVMVElMSUJfU0NS
+SVBUUyA9ICIke1BOfToke2JpbmRpcn0vYmluZDktY29uZmlnDQo+ICR7UE59OiR7YmluZGlyfS9p
+c2MtY29uZmlnLnNoIg0KPiAgDQo+IEBAIC0zOCwxNCArMzQsMTAgQEAgUEFDS0FHRUNPTkZJRyA/
+PSAicmVhZGxpbmUiDQo+ICBQQUNLQUdFQ09ORklHW2h0dHBzdGF0c10gPSAiLS13aXRoLQ0KPiBs
+aWJ4bWwyPSR7U1RBR0lOR19ESVJfSE9TVH0ke3ByZWZpeH0sLS13aXRob3V0LWxpYnhtbDIsbGli
+eG1sMiINCj4gIFBBQ0tBR0VDT05GSUdbcmVhZGxpbmVdID0gIi0td2l0aC1yZWFkbGluZT0tbHJl
+YWRsaW5lLCxyZWFkbGluZSINCj4gIFBBQ0tBR0VDT05GSUdbbGliZWRpdF0gPSAiLS13aXRoLXJl
+YWRsaW5lPS1sZWRpdCwsbGliZWRpdCINCj4gLVBBQ0tBR0VDT05GSUdbdXJhbmRvbV0gPSAiLS13
+aXRoLXJhbmRvbWRldj0vZGV2L3VyYW5kb20sLS13aXRoLQ0KPiByYW5kb21kZXY9L2Rldi9yYW5k
+b20sLCINCj4gIFBBQ0tBR0VDT05GSUdbcHl0aG9uM10gPSAiLS13aXRoLXB5dGhvbj0ke1BZVEhP
+Tn0gLS13aXRoLXB5dGhvbi0NCj4gaW5zdGFsbC1kaXI9JHtEfS8ke1BZVEhPTl9TSVRFUEFDS0FH
+RVNfRElSfSAsIC0td2l0aG91dC1weXRob24sDQo+IHB5dGhvbjMtcGx5LW5hdGl2ZSwiDQo+ICAN
+Cj4gLUVOQUJMRV9JUFY2ID0gIi0tZW5hYmxlLWlwdjY9JHtAYmIudXRpbHMuY29udGFpbnMoJ0RJ
+U1RST19GRUFUVVJFUycsDQo+ICdpcHY2JywgJ3llcycsICdubycsIGQpfSINCj4gLUVYVFJBX09F
+Q09ORiA9ICIgJHtFTkFCTEVfSVBWNn0gLS13aXRoLWxpYnRvb2wgLS1lbmFibGUtdGhyZWFkcyBc
+DQo+IC0gICAgICAgICAgICAgICAgIC0tZGlzYWJsZS1kZXZwb2xsIC0tZW5hYmxlLWVwb2xsIC0t
+d2l0aC1nb3N0PW5vIFwNCj4gLSAgICAgICAgICAgICAgICAgLS13aXRoLWdzc2FwaT1ubyAtLXdp
+dGgtZWNkc2E9eWVzIC0td2l0aC1lZGRzYT1ubyBcDQo+IC0gICAgICAgICAgICAgICAgIC0td2l0
+aC1sbWRiPW5vIFwNCj4gK0VYVFJBX09FQ09ORiA9ICIgLS13aXRoLWxpYnRvb2wgLS1kaXNhYmxl
+LWRldnBvbGwgLS1lbmFibGUtZXBvbGwgXA0KPiArICAgICAgICAgICAgICAgICAtLXdpdGgtZ3Nz
+YXBpPW5vIC0td2l0aC1sbWRiPW5vIFwNCj4gICAgICAgICAgICAgICAgICAgLS1zeXNjb25mZGly
+PSR7c3lzY29uZmRpcn0vYmluZCBcDQo+ICAgICAgICAgICAgICAgICAgIC0td2l0aC1vcGVuc3Ns
+PSR7U1RBR0lOR19ESVJfSE9TVH0ke3ByZWZpeH0gXA0KPiAgICAgICAgICAgICAgICAgIg0KPiBA
+QCAtMTI2LDcgKzExOCw3IEBAIEZJTEVTXyR7UE59LWRldiArPSAiJHtiaW5kaXJ9L2lzYy1jb25m
+aWcuaCINCj4gIEZJTEVTXyR7UE59ICs9ICIke3NiaW5kaXJ9L2dlbmVyYXRlLXJuZGMta2V5LnNo
+Ig0KPiAgDQo+ICBQQUNLQUdFX0JFRk9SRV9QTiArPSAiJHtQTn0tbGlicyINCj4gLUZJTEVTXyR7
+UE59LWxpYnMgPSAiJHtsaWJkaXJ9Lyouc28qIg0KPiArRklMRVNfJHtQTn0tbGlicyA9ICIke2xp
+YmRpcn0vKi5zbyogJHtsaWJkaXJ9L25hbWVkLyouc28iDQo+ICBGSUxFU18ke1BOfS1zdGF0aWNk
+ZXYgKz0gIiR7bGliZGlyfS8qLmxhIg0KPiAgDQo+ICBQQUNLQUdFX0JFRk9SRV9QTiArPSAiJHtA
+YmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcnLA0KPiAncHl0aG9uMycsICdweXRob24z
+LWJpbmQnLCAnJywgZCl9Ig0KPiAtLSANCj4gMi43LjQNCj4gDQo=
 
