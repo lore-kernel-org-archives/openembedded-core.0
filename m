@@ -1,36 +1,51 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7026C6C1BE
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D5F277F214
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jul 2019 09:28:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45xHZ56lnHz4t;
-	Sun, 28 Jul 2019 11:28:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1564306126;
-	bh=Xtaes0uEl99ye6tQlcc56E6Vug64Q4UvJLwubA7JlOM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LvagKid7N/Q1Fv4kgDSvLILmUMMl+nL/8P738VvhTp7C3I9JLSlCK0h3TA2FuSW26
-	lro5vK+PZ7oaphgQquMsebPrs2Ow/9mvSwnaZpqpfQvgucXzPDkbKiWL/JZFNc67o3
-	LULvwdN+axumRvQJcLpoL/s8fmpgO5gf6KBphLgZNuGdzpqVMMARcCRQ3bjl1Ysa80
-	CaZS61dvXwcXuKdHOuFIQpxnlUa4zUmeOlLuFiSBbLlGtsOFWmKtGJaBRiL49Q9iYX
-	h46iCdDjufzDYc+KHCRMtqYMVJSQVrcH6RYV0CwQIQ+GBj1NLiFk33inbet0PswMuH
-	cGRuo/fSA0RECIPNQz056qIVaY5eMNS96f1JUIMNDnvv7gOjS/VMrXzzB57I9aYBgb
-	btdTXdiRhnGt2wB1BTaBir5VP8CPUFF1Qazx5QnM+2a7+iJAZklcCI+8IN78AJcA2L
-	mXQZ0KCuEp/Baar87Es/xIyfjjNpac3i0aPNyabF0SkXXDx1bhmnf+yAonCDm3yvnB
-	5aRp24iXKtsAZAzrMexmRBw6uD0sbwA6N3vYVvJNxhONX4viOuLSg4qhXXqCFt4ni/
-	eZwWV0+1BUfgj2OZFNb5TFfbvwD5A48Wo+2pcRhTriKm3eic/fR38CkDUmYe8Uf+Zi
-	iD9pVTl9wnm4kK9v1IV4skFA=
-Date: Sun, 28 Jul 2019 12:28:43 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Armin Kuster <akuster808@gmail.com>
-Message-ID: <20190728092843.GA15666@localhost>
-References: <1564260566-8134-1-git-send-email-akuster808@gmail.com>
+	Sun, 28 Jul 2019 10:01:15 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id c19so39965486lfm.10
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 28 Jul 2019 03:01:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JugRUVAycst3scv5c8zUqQRIQ2Pl9vs2bu88gB9vT74=;
+	b=GSkA8HO342q3HullitC+DyVZEd6M4EEFcxXBeOdVmm3vbgFmQf5AZXTAARstJK33ut
+	ooP//EX80uXbJ7c55zC3lvIiUNoNsR4jnOha6oTs8l8HoRZoYVNWJbGb8qkJeryG/OW/
+	iPcPOc0Tx8A1l+3WEkUqzTfbfC45hMow355Y5oSyIfKtMjcg2NNv33cAIHoJ7EptNxkO
+	d11e/7kWRIT7uckNC/5jSoRugdfSimn4zGIXRGSBUdS/+0TRdA0p1Z07ygrCOpodLIb6
+	QCQ9HhQC45FfrqiVa817dFND+qMbohCvUhjME1khfWMzSHygMuYpe7YgYUE73Ef5kJvl
+	xkRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JugRUVAycst3scv5c8zUqQRIQ2Pl9vs2bu88gB9vT74=;
+	b=mZ9M9LJE4ryZ0ywbVsep1QyXLjMFCipG+2DMA5WFMtqswWcUZsFVkvF3QDtRkTzzHw
+	vb+2P0kh1znor6hTKnz/XUMEcRkN7rBE9MRbhOSX6DsmUfwzdX44J0Nxdj5wxAhkQwJR
+	TZcy+AiUutbDuEiIrhk2Um2F7Mzk4yB6NtyE+um/4Hp2JnSROobqKA0Dw9aB3GlFMUCX
+	M83HdSnqWJEyWE4UUWpISpFcCO92wPlzdECJe65XgkTiz6OLFNF6nNBZ0dPhxyphU0WK
+	Rc89aAxbBYTw5l9lH+pQxV0tbo12misXzmBrSqdH7dZY6y2ehKXJAZlrpL3VLQiLXLXy
+	q/+w==
+X-Gm-Message-State: APjAAAWyHceePpmS+Jfg8w4ezW/IDT4jAH4WIx5Wj/BuGK1eVp6Rv9Jz
+	x2MGwL8rK27ArnjbafFzk84wCe5A1H0=
+X-Google-Smtp-Source: APXvYqzrBm3ZGJwKfDshWjYuP+y1tqL89tzZMd4mrNFDWOL+VfnGcuO5aZGXcE/rAxkaDCBnG/7Wzg==
+X-Received: by 2002:ac2:563c:: with SMTP id b28mr35647572lff.93.1564308075887; 
+	Sun, 28 Jul 2019 03:01:15 -0700 (PDT)
+Received: from localhost.localdomain ([94.25.228.154])
+	by smtp.gmail.com with ESMTPSA id
+	u15sm11960939lje.89.2019.07.28.03.01.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sun, 28 Jul 2019 03:01:14 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 28 Jul 2019 13:01:03 +0300
+Message-Id: <20190728100103.21136-1-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1564260566-8134-1-git-send-email-akuster808@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bind: Update to latest stable, 9.14.
+Subject: [PATCH] kernel.bbclass: fix installation of modules signing certificates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Jul 2019 09:28:48 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sun, 28 Jul 2019 10:01:16 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 27, 2019 at 01:49:26PM -0700, Armin Kuster wrote:
-> Even releases are stable and supported for 1 year.
->...
+From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 
-9.11 upstream support covers the whole lifetime of Yocto 2.8,
-9.14 upstream support does not.
+If one has provided external key/certificate for modules signing, Kbuild
+will skip creating signing_key.pem and will write only signing_key.x509
+certificate. Thus we have to check for .x509 file existence rather than
+.pem one.
 
-Eve worse, Yocto 2.9 would ship with 9.14 that might become EOL around 
-the time of the 2.9 release.
+Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ESV (3 years supported) releases are planned when upstream
-is divisible by 4.
-
-cu
-Adrian
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a60e15b57814..bf3674238f02 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -454,7 +454,7 @@ do_shared_workdir () {
+ 	cp .config $kerneldir/
+ 	mkdir -p $kerneldir/include/config
+ 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
+-	if [ -e certs/signing_key.pem ]; then
++	if [ -e certs/signing_key.x509 ]; then
+ 		# The signing_key.* files are stored in the certs/ dir in
+ 		# newer Linux kernels
+ 		mkdir -p $kerneldir/certs
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.20.1
 
 
