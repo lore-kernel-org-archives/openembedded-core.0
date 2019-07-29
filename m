@@ -1,25 +1,30 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A5C657F1D1
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id E52EA7F0C0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jul 2019 23:21:13 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Jul 2019 16:21:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,320,1559545200"; d="scan'208";a="346424882"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga005.jf.intel.com with ESMTP; 28 Jul 2019 16:21:14 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jul 2019 07:21:00 +0800
-Message-Id: <1564356060-13772-7-git-send-email-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1564356060-13772-1-git-send-email-anuj.mittal@intel.com>
-References: <1564356060-13772-1-git-send-email-anuj.mittal@intel.com>
-Subject: [thud][PATCH 7/7] expat: fix CVE-2018-20843
+	Mon, 29 Jul 2019 01:33:56 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,320,1559491200"; d="scan'208";a="72401624"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 29 Jul 2019 09:33:54 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 774FD4CDE889
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jul 2019 09:33:55 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 29 Jul 2019 09:34:16 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Jul 2019 09:33:09 +0800
+Message-ID: <20190729013309.22223-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 774FD4CDE889.AAEB1
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCHv2] mdadm:add mdmonitor.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Jul 2019 23:21:13 -0000
+X-List-Received-Date: Mon, 29 Jul 2019 01:33:58 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+-The original file mdmonitor.service is as follows:
+...
+|[Service]
+|Environment=  MDADM_MONITOR_ARGS=--scan
+|EnvironmentFile=-/run/sysconfig/mdadm
+|ExecStartPre=-/usr/lib/mdadm/mdadm_env.sh
+|ExecStart=/sbin/mdadm --monitor -y $MDADM_MONITOR_ARGS
+...
+-It has a syntax error and it doesn't work properly, 
+ so add new file mdmonitor.service to overwrite it.
+
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-core/expat/expat/CVE-2018-20843.patch | 26 ++++++++++++++++++++++
- meta/recipes-core/expat/expat_2.2.6.bb             |  1 +
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2018-20843.patch
+ meta/recipes-extended/mdadm/files/mdmonitor.service | 10 ++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.1.bb            |  2 ++
+ 2 files changed, 12 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/mdmonitor.service
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2018-20843.patch b/meta/recipes-core/expat/expat/CVE-2018-20843.patch
+diff --git a/meta/recipes-extended/mdadm/files/mdmonitor.service b/meta/recipes-extended/mdadm/files/mdmonitor.service
 new file mode 100644
-index 0000000..af6641e
+index 0000000000..4f07c755ae
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2018-20843.patch
-@@ -0,0 +1,26 @@
-+From 11f8838bf99ea0a6f0b76f9760c43704d00c4ff6 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Wed, 12 Jun 2019 15:42:22 +0200
-+Subject: [PATCH] xmlparse.c: Fix extraction of namespace prefix from XML name
-+ (#186)
-+
-+Upstream-Status: Backport
-+CVE: CVE-2018-20843
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ expat/lib/xmlparse.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-+index 30d55c5c..737d7cd2 100644
-+--- a/expat/lib/xmlparse.c
-++++ b/expat/lib/xmlparse.c
-+@@ -6071,7 +6071,7 @@ setElementTypePrefix(XML_Parser parser, ELEMENT_TYPE *elementType)
-+       else
-+         poolDiscard(&dtd->pool);
-+       elementType->prefix = prefix;
-+-
-++      break;
-+     }
-+   }
-+   return 1;
-diff --git a/meta/recipes-core/expat/expat_2.2.6.bb b/meta/recipes-core/expat/expat_2.2.6.bb
-index c9e6081..0cef705 100644
---- a/meta/recipes-core/expat/expat_2.2.6.bb
-+++ b/meta/recipes-core/expat/expat_2.2.6.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
- SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
-            file://autotools.patch \
-            file://libtool-tag.patch \
-+           file://CVE-2018-20843.patch;striplevel=2 \
- 	  "
++++ b/meta/recipes-extended/mdadm/files/mdmonitor.service
+@@ -0,0 +1,10 @@
++[Unit]
++Description=Software RAID monitoring and management
++ConditionPathExists=/etc/mdadm.conf
++[Service]
++Type=forking
++PIDFile=/var/run/mdadm/mdadm.pid
++EnvironmentFile=-/etc/sysconfig/mdmonitor
++ExecStart=/sbin/mdadm --monitor --scan -f --pid-file=/var/run/mdadm/mdadm.pid
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 74c94f6ecb..daa2ed8e2e 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -20,6 +20,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://debian-no-Werror.patch \
+            file://0001-Revert-tests-wait-for-complete-rebuild-in-integrity-.patch \
+ 	   file://mdadm.init \
++	   file://mdmonitor.service \
+ 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
+            file://include_sysmacros.patch \
+            "
+@@ -65,6 +66,7 @@ do_install_append() {
  
- SRC_URI[md5sum] = "ca047ae951b40020ac831c28859161b2"
+ do_install_append() {
+         oe_runmake install-systemd DESTDIR=${D}
++        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/lib/systemd/system/mdmonitor.service
+ }
+ 
+ do_compile_ptest() {
 -- 
-2.7.4
+2.20.1
+
+
 
 
