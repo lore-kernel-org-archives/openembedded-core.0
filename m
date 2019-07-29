@@ -1,33 +1,19 @@
-Return-Path: <Daniel.Klauer@gin.de>
-Received: from good-out-12.clustermail.de (good-out-12.clustermail.de
-	[212.223.35.74])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FF617F223
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 009B27D39B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 12:14:24 +0000 (UTC)
-Received: from [10.0.0.17] (helo=frontend.clustermail.de)
-	by smtpout-03.clustermail.de with esmtp (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>) id 1hs4Xj-0003U9-2i
-	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Jul 2019 14:14:24 +0200
-Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
-	by frontend.clustermail.de with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>) id 1hs4Xj-0002Mi-0w
-	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Jul 2019 14:14:19 +0200
-Received: from daniel-desktop.gin-domain.local (10.160.138.39) by
-	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Mon, 29 Jul 2019 14:14:18 +0200
-From: Daniel Klauer <daniel.klauer@gin.de>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Jul 2019 14:13:44 +0200
-Message-ID: <20190729121344.31643-1-daniel.klauer@gin.de>
-X-Mailer: git-send-email 2.17.1
+	Mon, 29 Jul 2019 12:31:40 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.160.138.39]
-X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
-	Win2012-02.gin-domain.local (192.168.1.12)
-Subject: [PATCH] image.bbclass: Fix debug output for rootfs size
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Klauer, Daniel <Daniel.Klauer@gin.de>
+Date: Mon, 29 Jul 2019 12:31:42 -0000
+Message-ID: <20190729123142.2332.94789@do>
+References: <20190729121344.31643-1-daniel.klauer@gin.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190729121344.31643-1-daniel.klauer@gin.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgaW1hZ2UuYmJjbGFzczogRml4IGRlYnVnIG91dHB1dCBmb3Igcm9vdGZzIHNpemU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,28 +26,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2019 12:14:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 29 Jul 2019 12:31:41 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The debug output didn't match the calculation - it showed a wrong value.
+== Series Details ==
+
+Series: image.bbclass: Fix debug output for rootfs size
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18951/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            image.bbclass: Fix debug output for rootfs size
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 682858dc95..25b0ead9bf 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -529,7 +529,7 @@ def get_rootfs_size(d):
-     base_size = size_kb * overhead_factor
-     bb.debug(1, '%f = %d * %f' % (base_size, size_kb, overhead_factor))
-     base_size2 = max(base_size, rootfs_req_size) + rootfs_extra_space
--    bb.debug(1, '%f = max(%f, %d)[%f] + %d' % (base_size2, base_size, rootfs_req_size, max(base_size, rootfs_req_size), overhead_factor))
-+    bb.debug(1, '%f = max(%f, %d)[%f] + %d' % (base_size2, base_size, rootfs_req_size, max(base_size, rootfs_req_size), rootfs_extra_space))
- 
-     base_size = base_size2
-     if base_size != int(base_size):
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
