@@ -1,29 +1,23 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 086A86BDD2
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D00A7D41E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 02:12:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6T2Cqgb005098
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 28 Jul 2019 19:12:52 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Sun, 28 Jul 2019 19:12:51 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20190726092342.37231-1-kai.kang@windriver.com>
-	<CANNYZj8Jm7q5NfUjHVuDJGaJHC51txQ-iMWZP7YC4-nWkRstdg@mail.gmail.com>
-	<ee2018da-9448-97ba-b34e-c490164492bb@windriver.com>
-	<607380CA-E78F-40F5-A77B-AE5DE1E42E59@gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <b538e413-a2c2-85ff-37af-62d6f7caf06e@windriver.com>
-Date: Mon, 29 Jul 2019 10:11:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <607380CA-E78F-40F5-A77B-AE5DE1E42E59@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] core-image-sato-sdk: test image with 512M memory
+	Mon, 29 Jul 2019 03:20:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Jul 2019 20:20:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,321,1559545200"; d="scan'208";a="173059325"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga007.fm.intel.com with ESMTP; 28 Jul 2019 20:20:29 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jul 2019 11:20:25 +0800
+Message-Id: <1564370426-60448-1-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] libsdl2: upgrade 2.0.9 -> 2.0.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,287 +30,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2019 02:12:54 -0000
-Content-Type: multipart/alternative;
-	boundary="------------F7800898ECCE31036CA84438"
-Content-Language: en-US
+X-List-Received-Date: Mon, 29 Jul 2019 03:20:29 -0000
 
---------------F7800898ECCE31036CA84438
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+License-Update: Change in Copyright Year.
 
-On 2019/7/27 下午4:35, Alexander Kanavin wrote:
-> I think you need to re-generate the image first (it goes to qemuboot 
-> config file). It is already used in ptest images, so it’s good to be 
-> consistent.
+Refresh the patch to apply on configure.ac instead of .in.
 
-Thank. It works for testimage with setting QB_MEM. For the other 2 
-images which has been set QB_MEM are ptest images just as you said
-(core-image-sato-ptest-fast and core-image-sato-sdk-ptest). But for 
-core-image-sato-sdk, it affects runqemu beyond testiamge. I just wonder
-is that acceptable?
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../libsdl2/libsdl2/more-gen-depends.patch         | 37 +++++++++++++++-------
+ .../{libsdl2_2.0.9.bb => libsdl2_2.0.10.bb}        |  6 ++--
+ 2 files changed, 28 insertions(+), 15 deletions(-)
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.9.bb => libsdl2_2.0.10.bb} (93%)
 
-Regards,
-Kai
-
->
-> Alex
->
-> On 27 Jul 2019, at 4.35, Kang Kai <Kai.Kang@windriver.com 
-> <mailto:Kai.Kang@windriver.com>> wrote:
->
->> On 2019/7/26 下午6:11, Alexander Kanavin wrote:
->>> I think you need to use QB_MEM here.
->>
->> Used TEST_QEMUPARAMS because I found the following line in 
->> testimage.bbclass:
->>
->> # TEST_QEMUPARAMS can be used to pass extra parameters to qemu, e.g. 
->> "-m 1024" for setting the amount o f ram to 1 GB.
->>
->>
->> And it seems QB_MEM is not used when boot the qemu during testimage.
->>
->>
->>>
->>> Also, maybe we should just bump the 256M default?
->>
->> I hope so.
->>
->>
->> Regards,
->> Kai
->>
->>
->>>
->>> Alex
->>>
->>> On Fri, 26 Jul 2019 at 12:24, <kai.kang@windriver.com 
->>> <mailto:kai.kang@windriver.com>> wrote:
->>>
->>>     From: Kai Kang <kai.kang@windriver.com
->>>     <mailto:kai.kang@windriver.com>>
->>>
->>>     When run do_testimage for core-image-sato-sdk, it fails to pass test
->>>     case:
->>>
->>>     | RESULTS - systemd.SystemdBasicTests.test_systemd_failed:
->>>     FAILED (0.43s)
->>>
->>>     It is OOM issue and daemon rpc.statd is killed:
->>>
->>>     |  [  531.306146] Out of memory: Kill process 193 (rpc.statd)
->>>     score 200 or sacrifice child
->>>
->>>     Increase the memory of qemu to 512M to avoid such OOM issue.
->>>
->>>     Signed-off-by: Kai Kang <kai.kang@windriver.com
->>>     <mailto:kai.kang@windriver.com>>
->>>     ---
->>>      meta/recipes-sato/images/core-image-sato-sdk.bb
->>>     <http://core-image-sato-sdk.bb> | 1 +
->>>      1 file changed, 1 insertion(+)
->>>
->>>     diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb
->>>     <http://core-image-sato-sdk.bb>
->>>     b/meta/recipes-sato/images/core-image-sato-sdk.bb
->>>     <http://core-image-sato-sdk.bb>
->>>     index d7cc52b52b..f7963d018e 100644
->>>     --- a/meta/recipes-sato/images/core-image-sato-sdk.bb
->>>     <http://core-image-sato-sdk.bb>
->>>     +++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
->>>     <http://core-image-sato-sdk.bb>
->>>     @@ -9,3 +9,4 @@ IMAGE_FEATURES += "dev-pkgs tools-sdk \
->>>
->>>      IMAGE_INSTALL += "kernel-devsrc"
->>>
->>>     +TEST_QEMUPARAMS = "-m 512"
->>>     -- 
->>>     2.20.0
->>>
->>>     -- 
->>>     _______________________________________________
->>>     Openembedded-core mailing list
->>>     Openembedded-core@lists.openembedded.org
->>>     <mailto:Openembedded-core@lists.openembedded.org>
->>>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
->> -- 
->> Kai Kang
-
-
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/more-gen-depends.patch b/meta/recipes-graphics/libsdl2/libsdl2/more-gen-depends.patch
+index 29076bf..8ca52eb 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2/more-gen-depends.patch
++++ b/meta/recipes-graphics/libsdl2/libsdl2/more-gen-depends.patch
+@@ -1,3 +1,8 @@
++From e0f4b6d18ce6f025c78773e909b9c395ad833c7a Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Mon, 29 Jul 2019 08:38:32 +0800
++Subject: [PATCH] configure: fix dependencies
++
+ Many source files include e.g. wayland-protocols.h which should be found in the
+ sysroot but SDL wants to build its own headers from the XML definitions.
+ 
+@@ -14,34 +19,42 @@ the primary objects.
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
++[Moved to configure.ac]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ configure.ac | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
+ 
+-diff --git a/configure.in b/data/poky-tmp/master/work/corei7-64-poky-linux/libsdl2/2.0.8-r0/SDL2-2.0.8/configure.in
+-index 1c7e79338..ba07a4a4e 100644
+---- a/configure.in
+-+++ b/data/poky-tmp/master/work/corei7-64-poky-linux/libsdl2/2.0.8-r0/SDL2-2.0.8/configure.in
+-@@ -4011,7 +4011,7 @@ DEPENDS=`echo $SOURCES | tr ' ' '\n'`
++diff --git a/configure.ac b/configure.ac
++index 9e782c6..997915a 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -4061,7 +4061,7 @@ DEPENDS=`echo $SOURCES | tr ' ' '\n'`
+  for EXT in asm cc m c S; do
+      OBJECTS=`echo "$OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.'$EXT',$(objects)/\1.lo,g'`
+      DEPENDS=`echo "$DEPENDS" | sed "s,^\\([[^ ]]*\\)/\\([[^ ]]*\\)\\.$EXT\\$,\\\\
+--\\$(objects)/\\2.lo: \\1/\\2.$EXT\\\\
+-+\\$(objects)/\\2.lo: \\1/\\2.$EXT \\$(GEN_OBJECTS)\\\\
++-\\$(objects)/\\2.lo: \\1/\\2.$EXT \\$(objects)/.created\\\\
+++\\$(objects)/\\2.lo: \\1/\\2.$EXT \\$(objects)/.created \\$(GEN_OBJECTS)\\\\
+  	\\$(RUN_CMD_CC)\\$(LIBTOOL) --tag=CC --mode=compile \\$(CC) \\$(CFLAGS) \\$(EXTRA_CFLAGS) $DEPENDENCY_TRACKING_OPTIONS -c \\$< -o \\$@,g"`
+  done
+  
+-@@ -4028,14 +4028,14 @@ SDLMAIN_OBJECTS=`echo $SDLMAIN_SOURCES`
++@@ -4078,14 +4078,14 @@ SDLMAIN_OBJECTS=`echo $SDLMAIN_SOURCES`
+  SDLMAIN_DEPENDS=`echo $SDLMAIN_SOURCES`
+  SDLMAIN_OBJECTS=`echo "$SDLMAIN_OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.c,$(objects)/\1.lo,g'`
+  SDLMAIN_DEPENDS=`echo "$SDLMAIN_DEPENDS" | sed "s,\\([[^ ]]*\\)/\\([[^ ]]*\\)\\.c,\\\\
+--\\$(objects)/\\2.lo: \\1/\\2.c\\\\
+-+\\$(objects)/\\2.lo: \\1/\\2.c \\$(GEN_OBJECTS)\\\\
++-\\$(objects)/\\2.lo: \\1/\\2.c \\$(objects)/.created\\\\
+++\\$(objects)/\\2.lo: \\1/\\2.c \\$(objects)/.created \\$(GEN_OBJECTS)\\\\
+  	\\$(RUN_CMD_CC)\\$(LIBTOOL) --tag=CC --mode=compile \\$(CC) \\$(CFLAGS) \\$(EXTRA_CFLAGS) $DEPENDENCY_TRACKING_OPTIONS -c \\$< -o \\$@,g"`
+  
+  SDLTEST_OBJECTS=`echo $SDLTEST_SOURCES`
+  SDLTEST_DEPENDS=`echo $SDLTEST_SOURCES`
+  SDLTEST_OBJECTS=`echo "$SDLTEST_OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.c,$(objects)/\1.lo,g'`
+  SDLTEST_DEPENDS=`echo "$SDLTEST_DEPENDS" | sed "s,\\([[^ ]]*\\)/\\([[^ ]]*\\)\\.c,\\\\
+--\\$(objects)/\\2.lo: \\1/\\2.c\\\\
+-+\\$(objects)/\\2.lo: \\1/\\2.c\\\\ \\$(GEN_OBJECTS)\\\\
++-\\$(objects)/\\2.lo: \\1/\\2.c \\$(objects)/.created\\\\
+++\\$(objects)/\\2.lo: \\1/\\2.c \\$(objects)/.created \\$(GEN_OBJECTS)\\\\
+  	\\$(RUN_CMD_CC)\\$(LIBTOOL) --tag=CC --mode=compile \\$(CC) \\$(CFLAGS) \\$(EXTRA_CFLAGS) $DEPENDENCY_TRACKING_OPTIONS -c \\$< -o \\$@,g"`
+  
+  # Set runtime shared library paths as needed
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
+similarity index 93%
+rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb
+rename to meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
+index a0a0b15..3a0654b 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
+@@ -8,7 +8,7 @@ BUGTRACKER = "http://bugzilla.libsdl.org/"
+ SECTION = "libs"
+ 
+ LICENSE = "Zlib"
+-LIC_FILES_CHKSUM = "file://COPYING.txt;md5=02ee26814dd044bd7838ae24e05b880f"
++LIC_FILES_CHKSUM = "file://COPYING.txt;md5=504a9454ceb89fd75a2583473b11409e"
+ 
+ PROVIDES = "virtual/libsdl2"
+ 
+@@ -18,8 +18,8 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+ 
+ S = "${WORKDIR}/SDL2-${PV}"
+ 
+-SRC_URI[md5sum] = "f2ecfba915c54f7200f504d8b48a5dfe"
+-SRC_URI[sha256sum] = "255186dc676ecd0c1dbf10ec8a2cc5d6869b5079d8a38194c2aecdff54b324b1"
++SRC_URI[md5sum] = "5a2114f2a6f348bdab5bf52b994811db"
++SRC_URI[sha256sum] = "b4656c13a1f0d0023ae2f4a9cf08ec92fffb464e0f24238337784159b8b91d57"
+ 
+ inherit autotools lib_package binconfig-disabled pkgconfig
+ 
 -- 
-Kai Kang
+2.7.4
 
 
---------------F7800898ECCE31036CA84438
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 2019/7/27 下午4:35, Alexander Kanavin
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:607380CA-E78F-40F5-A77B-AE5DE1E42E59@gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      I think you need to re-generate the image first (it goes to
-      qemuboot config file). It is already used in ptest images, so it’s
-      good to be consistent.<br>
-    </blockquote>
-    <p>Thank. It works for testimage with setting QB_MEM. For the other
-      2 images which has been set QB_MEM are ptest images just as you
-      said<br>
-      (core-image-sato-ptest-fast and core-image-sato-sdk-ptest). But
-      for core-image-sato-sdk, it affects runqemu beyond testiamge. I
-      just wonder<br>
-      is that acceptable?<br>
-    </p>
-    <p>Regards,<br>
-      Kai<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:607380CA-E78F-40F5-A77B-AE5DE1E42E59@gmail.com"><br>
-      <div id="AppleMailSignature" dir="ltr">Alex</div>
-      <div dir="ltr"><br>
-        On 27 Jul 2019, at 4.35, Kang Kai &lt;<a
-          href="mailto:Kai.Kang@windriver.com" moz-do-not-send="true">Kai.Kang@windriver.com</a>&gt;
-        wrote:<br>
-        <br>
-      </div>
-      <blockquote type="cite">
-        <div dir="ltr">
-          <div class="moz-cite-prefix">On 2019/7/26 下午6:11, Alexander
-            Kanavin wrote:<br>
-          </div>
-          <blockquote type="cite"
-cite="mid:CANNYZj8Jm7q5NfUjHVuDJGaJHC51txQ-iMWZP7YC4-nWkRstdg@mail.gmail.com">
-            <div dir="ltr">I think you need to use QB_MEM here.</div>
-          </blockquote>
-          <p>Used TEST_QEMUPARAMS because I found the following line in
-            testimage.bbclass:</p>
-          <p># TEST_QEMUPARAMS can be used to pass extra parameters to
-            qemu, e.g. "-m 1024" for setting the amount o f ram to 1 GB.</p>
-          <p><br>
-          </p>
-          <p>And it seems QB_MEM is not used when boot the qemu during
-            testimage.<br>
-          </p>
-          <p><br>
-          </p>
-          <blockquote type="cite"
-cite="mid:CANNYZj8Jm7q5NfUjHVuDJGaJHC51txQ-iMWZP7YC4-nWkRstdg@mail.gmail.com">
-            <div dir="ltr">
-              <div><br>
-              </div>
-              <div>Also, maybe we should just bump the 256M default?</div>
-            </div>
-          </blockquote>
-          <p>I hope so. <br>
-          </p>
-          <p><br>
-          </p>
-          <p>Regards,<br>
-            Kai<br>
-          </p>
-          <p><br>
-          </p>
-          <blockquote type="cite"
-cite="mid:CANNYZj8Jm7q5NfUjHVuDJGaJHC51txQ-iMWZP7YC4-nWkRstdg@mail.gmail.com">
-            <div dir="ltr">
-              <div><br>
-              </div>
-              <div>Alex</div>
-            </div>
-            <br>
-            <div class="gmail_quote">
-              <div dir="ltr" class="gmail_attr">On Fri, 26 Jul 2019 at
-                12:24, &lt;<a href="mailto:kai.kang@windriver.com"
-                  moz-do-not-send="true">kai.kang@windriver.com</a>&gt;
-                wrote:<br>
-              </div>
-              <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">From:
-                Kai Kang &lt;<a href="mailto:kai.kang@windriver.com"
-                  target="_blank" moz-do-not-send="true">kai.kang@windriver.com</a>&gt;<br>
-                <br>
-                When run do_testimage for core-image-sato-sdk, it fails
-                to pass test<br>
-                case:<br>
-                <br>
-                | RESULTS -
-                systemd.SystemdBasicTests.test_systemd_failed: FAILED
-                (0.43s)<br>
-                <br>
-                It is OOM issue and daemon rpc.statd is killed:<br>
-                <br>
-                |  [  531.306146] Out of memory: Kill process 193
-                (rpc.statd) score 200 or sacrifice child<br>
-                <br>
-                Increase the memory of qemu to 512M to avoid such OOM
-                issue.<br>
-                <br>
-                Signed-off-by: Kai Kang &lt;<a
-                  href="mailto:kai.kang@windriver.com" target="_blank"
-                  moz-do-not-send="true">kai.kang@windriver.com</a>&gt;<br>
-                ---<br>
-                 meta/recipes-sato/images/<a
-                  href="http://core-image-sato-sdk.bb" rel="noreferrer"
-                  target="_blank" moz-do-not-send="true">core-image-sato-sdk.bb</a>
-                | 1 +<br>
-                 1 file changed, 1 insertion(+)<br>
-                <br>
-                diff --git a/meta/recipes-sato/images/<a
-                  href="http://core-image-sato-sdk.bb" rel="noreferrer"
-                  target="_blank" moz-do-not-send="true">core-image-sato-sdk.bb</a>
-                b/meta/recipes-sato/images/<a
-                  href="http://core-image-sato-sdk.bb" rel="noreferrer"
-                  target="_blank" moz-do-not-send="true">core-image-sato-sdk.bb</a><br>
-                index d7cc52b52b..f7963d018e 100644<br>
-                --- a/meta/recipes-sato/images/<a
-                  href="http://core-image-sato-sdk.bb" rel="noreferrer"
-                  target="_blank" moz-do-not-send="true">core-image-sato-sdk.bb</a><br>
-                +++ b/meta/recipes-sato/images/<a
-                  href="http://core-image-sato-sdk.bb" rel="noreferrer"
-                  target="_blank" moz-do-not-send="true">core-image-sato-sdk.bb</a><br>
-                @@ -9,3 +9,4 @@ IMAGE_FEATURES += "dev-pkgs tools-sdk \<br>
-                <br>
-                 IMAGE_INSTALL += "kernel-devsrc"<br>
-                <br>
-                +TEST_QEMUPARAMS = "-m 512"<br>
-                -- <br>
-                2.20.0<br>
-                <br>
-                -- <br>
-                _______________________________________________<br>
-                Openembedded-core mailing list<br>
-                <a
-                  href="mailto:Openembedded-core@lists.openembedded.org"
-                  target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
-                <a
-                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                  rel="noreferrer" target="_blank"
-                  moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-              </blockquote>
-            </div>
-          </blockquote>
-          <p><br>
-          </p>
-          <pre class="moz-signature" cols="72">-- 
-Kai Kang</pre>
-        </div>
-      </blockquote>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-Kai Kang</pre>
-  </body>
-</html>
-
---------------F7800898ECCE31036CA84438--
