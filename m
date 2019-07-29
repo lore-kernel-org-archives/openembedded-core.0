@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 74C147E4F7;
-	Mon, 29 Jul 2019 07:31:45 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 29 Jul 2019 07:31:46 -0000
-Message-ID: <20190729073146.2329.39673@do>
-References: <20190729071700.31314-1-brgl@bgdev.pl>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190729071700.31314-1-brgl@bgdev.pl>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcWVtdTogYWRkIGEgcGF0Y2ggZml4aW5nIHRoZSBuYXRpdmUgYnVpbGQgb24gbmV3ZXIga2VybmVscw==?=
+Return-Path: <naveen.kumar.saini@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 75E4F7E4F7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jul 2019 07:42:21 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Jul 2019 00:40:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,321,1559545200"; d="scan'208";a="195237233"
+Received: from optimus-prime.png.intel.com ([172.30.199.130])
+	by fmsmga004.fm.intel.com with ESMTP; 29 Jul 2019 00:39:59 -0700
+From: Naveen Saini <naveen.kumar.saini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jul 2019 15:41:54 +0800
+Message-Id: <20190729074154.26755-1-naveen.kumar.saini@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [warrior][PATCH] qemu: fix CVE-2018-20815
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +30,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2019 07:31:45 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Jul 2019 07:42:21 -0000
 
-== Series Details ==
-
-Series: qemu: add a patch fixing the native build on newer kernels
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/18944/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2018-20815.patch            | 39 +++++++++++++++++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-20815.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e503aa866d..4f21bae99c 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,6 +30,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0018-fix-CVE-2018-20191.patch \
+            file://0019-fix-CVE-2018-20216.patch \
+            file://CVE-2019-3812.patch \
++           file://CVE-2018-20815.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-20815.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-20815.patch
+new file mode 100644
+index 0000000000..f1fcaaf56d
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-20815.patch
+@@ -0,0 +1,39 @@
++From 8bb018af1a7f2b9965f872a4b1121864e73e1b61 Mon Sep 17 00:00:00 2001
++From: Peter Maydell <peter.maydell@linaro.org>
++Date: Fri, 14 Dec 2018 13:30:52 +0000
++Subject: [PATCH] device_tree.c: Don't use load_image()
++
++The load_image() function is deprecated, as it does not let the
++caller specify how large the buffer to read the file into is.
++Instead use load_image_size().
++
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Reviewed-by: Eric Blake <eblake@redhat.com>
++Message-id: 20181130151712.2312-9-peter.maydell@linaro.org
++
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/da885fe1ee8b4589047484bd7fa05a4905b52b17]
++CVE: CVE-2018-20815
++Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
++---
++ device_tree.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/device_tree.c b/device_tree.c
++index 6d9c9726f6..296278e12a 100644
++--- a/device_tree.c
+++++ b/device_tree.c
++@@ -91,7 +91,7 @@ void *load_device_tree(const char *filename_path, int *sizep)
++     /* First allocate space in qemu for device tree */
++     fdt = g_malloc0(dt_size);
++ 
++-    dt_file_load_size = load_image(filename_path, fdt);
+++    dt_file_load_size = load_image_size(filename_path, fdt, dt_size);
++     if (dt_file_load_size < 0) {
++         error_report("Unable to open device tree file '%s'",
++                      filename_path);
++-- 
++2.17.1
++
+-- 
+2.17.1
 
 
