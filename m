@@ -1,33 +1,31 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 097577CBE3
+Return-Path: <Daniel.Klauer@gin.de>
+Received: from good-out-11.clustermail.de (good-out-11.clustermail.de
+	[212.223.35.73])
+	by mail.openembedded.org (Postfix) with ESMTP id 49BD67F242
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 11:37:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45xyMz6YLJz4R
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 13:37:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1564400240;
-	bh=V/kFO0LzMGiJeB+LKNpSvJHU0DxgHBbB6jUAUvB9BFQ=;
-	h=From:To:Subject:Date:From;
-	b=ktdEuBMgBsaAjFveAk/muOkuOukZ0Onlb6IzI+7BHZ4rktRXxEYQwLbcsMm//EAet
-	n/8/LCSJtAhvsVclY0wZilGLXpEAR5hlCiLMl8KJcIw6DXoea1/F27YkSSvf7mX86z
-	kUMfRgoKC7ni7bxut3LemcVsiB2RcSsP1lXXcJWTnco3QAlgGfuLTtr/qfDNKGbW76
-	FCxaIO+gMLOmU4MNG1GWOxQrH80izk5K2UpSWJ26N/M+DcRrXli87WSkzRGvjid1cS
-	d8hbe2tnTBMYV0UwwpyS82Sajh31u5P9dF8L9WN0OOmBjJpdyOvrvLEk3exMqtAPGy
-	ApeWzbbI8N3WHcZ0Y4FIh7iOG1wXXKpS9q+3VoDT9S70wgeDpTw3Pd1OtHIKbeywzt
-	bMMN+iyashILzfQ26wqxaiTkawmAQD5EgD6Fo9ozefeHi8SjiUOtFqMWokY9bcq0d5
-	lYeVFgOr8dQCfgF9p8mNGfvsRbJHFWeIrgG6mJL6UJm49WnXPCwg1SbnUKf6jML+jK
-	9Fjit8B1trfyDVGVzZHjusjk/Gm/1ud1Rm85R+3YZ1lvMDPX63C3hQG8ern6eNL/wU
-	KUuAJ9SeCcjnL3SNDHVKXOQ+LSRuQNi3pyl5d5qUdVkVf3+3oEvtb3Y6wafANl0pbt
-	jx23nyTSu5OKen7Jm5uB+a6s=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jul 2019 14:37:19 +0300
-Message-Id: <20190729113719.15521-1-bunk@stusta.de>
+	Mon, 29 Jul 2019 11:37:31 +0000 (UTC)
+Received: from [10.0.0.9] (helo=frontend.clustermail.de)
+	by smtpout-03.clustermail.de with esmtp (Exim 4.92)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1hs3y2-0000xT-69; Mon, 29 Jul 2019 13:37:32 +0200
+Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
+	by frontend.clustermail.de with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1hs3y2-0007FO-3x; Mon, 29 Jul 2019 13:37:26 +0200
+Received: from daniel-desktop.gin-domain.local (10.160.138.39) by
+	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Mon, 29 Jul 2019 13:37:25 +0200
+From: Daniel Klauer <daniel.klauer@gin.de>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Jul 2019 13:37:02 +0200
+Message-ID: <20190729113702.20541-1-daniel.klauer@gin.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] webkitgtk: Reenable on mips
+MIME-Version: 1.0
+X-Originating-IP: [10.160.138.39]
+X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
+	Win2012-02.gin-domain.local (192.168.1.12)
+Subject: [warrior][PATCH] package: Improve determinism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,51 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2019 11:37:20 -0000
+X-List-Received-Date: Mon, 29 Jul 2019 11:37:32 -0000
+Content-Type: text/plain
 
-It builds using the generic C_LOOP code.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Its possible in cases with multiple shlib providers we were not being
+deterministic. Add in a couple of sorted() calls to fix the shlibs and
+pkgconfig cases with this potential issue.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-gnome/epiphany/epiphany_3.32.3.bb | 3 ---
- meta/recipes-sato/webkit/webkitgtk_2.24.2.bb   | 4 +---
- 2 files changed, 1 insertion(+), 6 deletions(-)
+ meta/classes/package.bbclass | 2 +-
+ meta/lib/oe/package.py       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-index d1c6af52ed..de1b6e2f84 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-@@ -16,8 +16,5 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}
- SRC_URI[archive.md5sum] = "c4976507bf3de69f27a050ad09531f5a"
- SRC_URI[archive.sha256sum] = "3ccb6859a43b839b714aa425cb185056f1e8604adbaab6a1bc179d1ba641a33f"
- 
--# webkitgtk doesn't work with tune 'mips'
--COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips', 'null', 'mips.*-linux', d)}"
--
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-index 891266b220..7f01c4e26d 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-@@ -43,8 +43,6 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
- 	   gettext-native glib-2.0 glib-2.0-native libtasn1 \
-           "
- 
--COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips', 'null', 'mips.*-linux', d)}"
--
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
-                    enchant \
-@@ -97,7 +95,7 @@ EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
- EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
- 
- # JIT not supported on MIPS either
--EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF "
-+EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF -DENABLE_C_LOOP=ON "
- 
- # JIT not supported on X32
- # An attempt was made to upstream JIT support for x32 in
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 8b89fb1129..e67bb5bd97 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1924,7 +1924,7 @@ python package_do_pkgconfig () {
+     for dir in reversed(shlibs_dirs):
+         if not os.path.exists(dir):
+             continue
+-        for file in os.listdir(dir):
++        for file in sorted(os.listdir(dir)):
+             m = re.match(r'^(.*)\.pclist$', file)
+             if m:
+                 pkg = m.group(1)
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index b59513227b..b8585d4253 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -265,7 +265,7 @@ def read_shlib_providers(d):
+         bb.debug(2, "Reading shlib providers in %s" % (dir))
+         if not os.path.exists(dir):
+             continue
+-        for file in os.listdir(dir):
++        for file in sorted(os.listdir(dir)):
+             m = list_re.match(file)
+             if m:
+                 dep_pkg = m.group(1)
 -- 
 2.17.1
 
