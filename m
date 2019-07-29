@@ -1,51 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4040B7C7A5
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 44CE57F223
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 09:24:11 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id l2so52752211wmg.0
+	Mon, 29 Jul 2019 10:00:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45xwD62bgHz56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 02:24:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=k9fe8/0ZFeEDAs4iETwVGJfOSnKcucbbqkI0mMgcB5w=;
-	b=SXWP7KVdY8iMCgNEkbQRTiZTGCtWLm7mI15432lBVpeubTEYq7r3SefZFFkKxuMeY1
-	h1mgf9n2RVbvFamduuWn8l8BLjhs5sK/VC4cx9LlBq+18xzfdw56axOjYQuDFfD04XFZ
-	h5w6H6n0kJDfkNaGEiIrHUDhvanE3kjSvymtc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=k9fe8/0ZFeEDAs4iETwVGJfOSnKcucbbqkI0mMgcB5w=;
-	b=W+xSXXRXqJRL9FlxHQO65BX+SNiWuxvCNJouEoV6VG8k+YXT29LnBe1yihI0N9WLiu
-	1vhbb4aeugTa1cmP2KS6fOupS9FWcRevTeEDTl/5GpuADRAjHVGelPWO/oaZAau8Q8dJ
-	P/hFkNSnSWx5zRFQYhWK/WeI6n5Xo2ggVSLxjQyDdkagkRI4s2pkKmdfM7FAhO0JrtJW
-	S55jzrgxT1EBHyhVKMfJ2eK28AUYjQ524SUNLjBjP7F96DSQ3gf3cXQfKI7YqXpltW0v
-	Jl3VwPKRxKUd3ECbkKkhiwudWvTevo5lwH4T8mOp1gZEZVvSJ5BrRcakEuNd1Mxlcxl6
-	JQLg==
-X-Gm-Message-State: APjAAAXRbmwM/qejQ05PFe3o+ZZEFULlwQgSwXhaTjjETqVzNCDkJlp8
-	wHrSWA1y4wyfx6rGmEAnPq74Onab23U=
-X-Google-Smtp-Source: APXvYqzvw5mbnI9YL2JwagGNIqtph/I3k3umyWVEL1w3UoalvuMPvLXizKJlXOCNPgwGYVy/zNySbg==
-X-Received: by 2002:a1c:4e14:: with SMTP id g20mr22709398wmh.3.1564392251893; 
-	Mon, 29 Jul 2019 02:24:11 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c30sm115382610wrb.15.2019.07.29.02.24.10
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 29 Jul 2019 02:24:11 -0700 (PDT)
-Message-ID: <94cb7605aac2de544bd8e1bd3784dbc226b6e73b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jul 2019 10:24:10 +0100
-In-Reply-To: <20190729013309.22223-1-zangrc.fnst@cn.fujitsu.com>
-References: <20190729013309.22223-1-zangrc.fnst@cn.fujitsu.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Subject: Re: [PATCHv2] mdadm:add mdmonitor.service
+	Mon, 29 Jul 2019 12:00:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1564394422;
+	bh=ULdGnwr3I2aaNFMMxX5tXRE0MQ4bsdfhKsyfuSMvKKk=;
+	h=From:To:Subject:Date:From;
+	b=avdDLT40MwvaEWYAl29Q6Px8L07PPdK/8mY49NIMU24vt1rK4/4gif1ul5eenhcPA
+	3YjXHtdoX+q1W4ACg/avhhvISoDtESs9s/xre9fjSz5qZX4DcCLTgAy5dBShG5UeDU
+	/3JrJn8w194H+mXVRb79NT+8dz0gq/lV3Nh1rm9DqZF92B+VOBa/wsO/ftDDrnyqO0
+	OvfT7MNoETkN+r1/VBDvnRQyxxl9wqu6dkoUuglNCZrPYcUtlSzpKg+dqcMw1+ohrZ
+	GasAQA8QRBzQHgpioCMaGFsY4TvpYRbDtphK594NufXvBGfHy6Ev2c+vQOeBOL50P7
+	zzeAwY67zQQ/lxNkTnTPEJ4hd8MV55QJiZmI2rR4GuYjlbjlqEkx5V9QsFN1O9A6LP
+	kTju79oxRrIsO5oQ1EQP62gJa8XyxExTm7mQzsm3674s/RXMiR709i7XsCN1w01eLi
+	vSGnRqcKv5S6GvhDwWZZ4EeZ7IdhhpQqboJlg/WFl8hUEjut1+qprZsH29zIWbRMh2
+	kkNsF8BkcP2UdnEddkRTKihXwLrqPr+4YG5vzQfECnTawgRMSGtFfH6EKYlKd+Wr4w
+	g0mKbfvHcyDQvO/WEmK71Pvmjjy89Pqmpw8RQg5qcszcVQXi8/GV7mlBqge2xgmPwB
+	ZVqD+3h4IBwJpvsImNnXb23I=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jul 2019 13:00:20 +0300
+Message-Id: <20190729100020.10517-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] bind: Remove RECIPE_NO_UPDATE_REASON and follow the ESV releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +40,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2019 09:24:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Jul 2019 10:00:24 -0000
 
-On Mon, 2019-07-29 at 09:33 +0800, Zang Ruochen wrote:
-> -The original file mdmonitor.service is as follows:
-> ...
-> > [Service]
-> > Environment=  MDADM_MONITOR_ARGS=--scan
-> > EnvironmentFile=-/run/sysconfig/mdadm
-> > ExecStartPre=-/usr/lib/mdadm/mdadm_env.sh
-> > ExecStart=/sbin/mdadm --monitor -y $MDADM_MONITOR_ARGS
-> ...
-> -It has a syntax error and it doesn't work properly, 
->  so add new file mdmonitor.service to overwrite it.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-connectivity/bind/bind_9.11.5-P4.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This is better as it tells us what the problem is but it still isn't
-quite what I asked for.
-
-Can we patch the file that mdadm is installing so the difference is
-clear to anyone reading the recipe? The patch will also have comments
-as above so that people don't have to find this commit to understand
-why we're changing it and what the problem is. If/as/when upstream
-fixes it we'll also be able to drop the patch, rather than not knowing
-if/when its fixed.
-
-Thanks,
-
-Richard
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+index 1355841e6b..93c406f778 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+@@ -26,8 +26,8 @@ SRC_URI[md5sum] = "8ddab4b61fa4516fe404679c74e37960"
+ SRC_URI[sha256sum] = "7e8c08192bcbaeb6e9f2391a70e67583b027b90e8c4bc1605da6eb126edde434"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+-UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+-RECIPE_NO_UPDATE_REASON = "9.11 is LTS 2021"
++# stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
++UPSTREAM_CHECK_REGEX = "(?P<pver>9.(11|16|20|24|28)(\.\d+)+(-P\d+)*)/"
+ 
+ inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
+ 
+-- 
+2.17.1
 
 
