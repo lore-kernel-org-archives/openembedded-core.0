@@ -1,49 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EC3687F284
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A3CD97D007
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 14:20:48 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id j5so116222265ioj.8
+	Mon, 29 Jul 2019 17:43:55 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id q26so42699034lfc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 07:20:50 -0700 (PDT)
+	Mon, 29 Jul 2019 10:43:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=z8XYvyhoYOOREaCSuiF8fbFlUMlrnN4AhvRxnAKYzOU=;
-	b=S1AyzhXwgdXC6w1ESnYaIsLJ34CYYL7+Okni1tgbB8CeiKwV7i1gQVAXlLTC+NHILj
-	YS/xiz5E7qeDFU0N1tedNuZxSl/nseQRZC5yd1IiF9eN+IZcZ1knO8NhQDdLI5Q3uYrn
-	MlTINO3ZGg2rPs/bdUf57dXOfRYQ0ffr6mpDEh1rV0PmbPy4CWXsKDuIrOe3yws+PkjU
-	AmCssVJtR6ysKuX95I0j7kNEt7OvV2eMrnHl3HliSkV5SfjSpCv0t0EJ2z8m17El6mu8
-	icLYoJp2xT3jaMqnSlzoSXZnbphIQO7xcz1XPud3EHsACd13/Qq1aoqA3FX4bv4yR3IK
-	ZhIA==
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=zQRgzw6eQJ0XYAdwwwFnR20CNO/3edJqtSLbY83ujAc=;
+	b=i9M+1vI3J46/xYLv39dAo/nbikiqgkS8MarN4EM31f9IpWhXOpiwaI3bpYhSKYLdmP
+	lMgOg9Eus9PUDHX/dDdDYgPWNtWyk6k9Vq1p+XIRk0sBPi9tFQQ+mXeVG5Dpa63Twsxa
+	3KlJH3+4k99STwx4d5oPJDTWcUfh+LZttPfo7glP8CsyAcWZEUc7O98bv72DNEGEmz31
+	m9GOfw/H1qWaKbyirm8yzEQBOqcUZp1O31XFDD/pBmEta1INzRiGMTBsjEADSLTnzWl+
+	Iysq6i9qs/ymUgMVpCjTegdT2o2UCJeqPu/fVtj96bOrdus6XuANn+RlITm9XbqJHKk8
+	QBQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=z8XYvyhoYOOREaCSuiF8fbFlUMlrnN4AhvRxnAKYzOU=;
-	b=j3x4sSmj0MqKduT4xbV2Xhrw1ifuZPG1yGCBHjGPSzl9rHOB3FPQ0VdFnDpQFZX2Co
-	q4YnAUPEXJabGogT1YT2E6pBMY9E1JdM8mn2KE9Gi42O4dB1E/mD4gBZb5CysxlmF1fR
-	aP7snMo/a4/Kx/ShBijYlZSf4voki5sOJH2Yw9Js6fwwNKHcEZd4PoaMAU2jonSoZuiI
-	4F193AhS87F0817gLotcPAkkWq72o7eauXf6XUFwmm3rmk22sEZH0/Cfx6/qPi51tN+v
-	Tmd1GD/q13DxXlZ7W5I4MPtqVfQEN5u0BqE5Zq7WSFf+/CJGcn9sVgE49IaSl0zsWK8G
-	JOxA==
-X-Gm-Message-State: APjAAAXMpuEu50lVOUEpw9k0zt+nvA/7dTwAtsqHUCsKrf8nWMRDPGeX
-	KYEAmQWXSsMSNl+TkE5R3NRxp9I536HmM3STurnnnQ==
-X-Google-Smtp-Source: APXvYqw5NLH44gAPZE56Q7Br4NPymKSkftIE7f+bA3ceGNzcyNXC/f4J0eVM/qYHny3REQz/Wp3kJWziuoFHPYmNxSg=
-X-Received: by 2002:a02:c7c9:: with SMTP id s9mr54915718jao.82.1564410049875; 
-	Mon, 29 Jul 2019 07:20:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <1564282197-5044-1-git-send-email-liu.ming50@gmail.com>
-In-Reply-To: <1564282197-5044-1-git-send-email-liu.ming50@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Jul 2019 15:20:38 +0100
-Message-ID: <CAJTo0LYKX_=UjE-6Kd+BvLH+i6Gub3ffqjOQcM4eEx2JDOwRVQ@mail.gmail.com>
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: Ming Liu <ming.liu@toradex.com>, luka.pivk@toradex.com,
-	Stefan Agner <stefan.agner@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] weston: change to use meson build system
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=zQRgzw6eQJ0XYAdwwwFnR20CNO/3edJqtSLbY83ujAc=;
+	b=irlQDRmdFA1voE4GFzv8Pl4wZ0+mjzNjNeXC2zVtICz8SuOu+GLBzS3xwNuwk+G1X0
+	TIKkvBA6u1GeJ+9FiKcREX2JNUZMiB0pV2y4L0OeURt6tRLwF/WAiVYAZS8kN5Mrb857
+	wV8ZC0lK9cTwsF/n4dQEyvoOVIlBzgB8nOM8mtSSVa6D35sKOL3Vd5pOvOB5CTNrqiQm
+	Thw5wOdyQFtkQEmbXAQkXsuK9TzcIiE8smOB2FxdRboydWCGEXZ7HgYdz/uPwUgFsrCK
+	7iFL/HmFgTCdMS1AeA4fK+EwSuwzN67gIaAbGzPCyl56g9mtQUdiMqKq+YtXkX6bUm0a
+	zuqw==
+X-Gm-Message-State: APjAAAVBJVgPpdmUwCK9lGRVlrrJUs7aanHhmfBA6mh97GgnActxhUTI
+	vekBDzfM8At5TE+VUxfaqPjlm2xB
+X-Google-Smtp-Source: APXvYqzMb6sm1XSuREYrUwRBvqpvP23YLhmGeUP4q2RXt/pzmE5DrAt62tu+lN1CtuAbJ3UcE4pxzw==
+X-Received: by 2002:a19:8093:: with SMTP id
+	b141mr53730101lfd.137.1564422235667; 
+	Mon, 29 Jul 2019 10:43:55 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	l24sm13021051lji.78.2019.07.29.10.43.54
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 29 Jul 2019 10:43:54 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jul 2019 19:43:48 +0200
+Message-Id: <20190729174348.21971-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ethtool: update to 5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +57,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2019 14:20:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 29 Jul 2019 17:43:56 -0000
 
-On Sun, 28 Jul 2019 at 03:50, <liu.ming50@gmail.com> wrote:
-> The changes include:
-> - Drop all autotools related patches.
-> - Move weston-launch setuid-install to do_install task since it's not
->   supported yet by meson build.
-> - Drop cairo-glesv2 package config, it's not supported by meson build,
->   the recommended value is hard-coded to cairo-image for now in weston
->   source.
-> - Introduce remoting package config, to give this option a explicit
->   value, or else the build would run into gstreamer missing error since
->   it defaults to be true but gstreamer is not in depends list.
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../ethtool/ethtool/avoid_parallel_tests.patch         | 10 ++++------
+ .../ethtool/{ethtool_5.1.bb => ethtool_5.2.bb}         |  4 ++--
+ 2 files changed, 6 insertions(+), 8 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_5.1.bb => ethtool_5.2.bb} (88%)
 
-There's more undocumented changes:
+diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+index 7a0e38a394..7c5d4f956b 100644
+--- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
++++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+@@ -1,4 +1,4 @@
+-From 2ca4c2492c4a06b28012e3e1033d10aa48f153b4 Mon Sep 17 00:00:00 2001
++From f8333f7759717b4d163cfe8e3ef8861c5a667324 Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Wed, 28 May 2014 18:59:54 +0200
+ Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
+@@ -9,16 +9,17 @@ serial-tests is required to generate those targets.
+ Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+ Upstream-Status: Inappropriate
+ (default automake behavior incompatible with ptest)
++
+ ---
+  configure.ac | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 2941a65..b0a1896 100644
++index 2127fdb..4910e6f 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+- AC_INIT(ethtool, 5.1, netdev@vger.kernel.org)
++ AC_INIT(ethtool, 5.2, netdev@vger.kernel.org)
+  AC_PREREQ(2.52)
+  AC_CONFIG_SRCDIR([ethtool.c])
+ -AM_INIT_AUTOMAKE([gnu])
+@@ -26,6 +27,3 @@ index 2941a65..b0a1896 100644
+  AC_CONFIG_HEADERS([ethtool-config.h])
+  
+  AM_MAINTAINER_MODE
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-extended/ethtool/ethtool_5.1.bb b/meta/recipes-extended/ethtool/ethtool_5.2.bb
+similarity index 88%
+rename from meta/recipes-extended/ethtool/ethtool_5.1.bb
+rename to meta/recipes-extended/ethtool/ethtool_5.2.bb
+index d379d93bcf..e9759bd21b 100644
+--- a/meta/recipes-extended/ethtool/ethtool_5.1.bb
++++ b/meta/recipes-extended/ethtool/ethtool_5.2.bb
+@@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
+ 
+-SRC_URI[md5sum] = "5d3aad86aec055348a37e867695a744a"
+-SRC_URI[sha256sum] = "4edb1fa4d7cf5667a5958d4213f61609f96d02cda90d2b6ec440561f8f8ffbf2"
++SRC_URI[md5sum] = "79cff0d4af62b030ad28be90414b5c4a"
++SRC_URI[sha256sum] = "8ad6cb30f6e1767d9d23a5cb5f606f3b51f83e85ebf0153c1506194f6709e90b"
+ 
+ inherit autotools ptest bash-completion
+ 
+-- 
+2.17.1
 
-packages/corei7-64-poky-linux/weston/weston-dbg: RRECOMMENDS: removed
-"zlib-intel-dbg libxcb-shape-dbg"
-packages/corei7-64-poky-linux/weston/weston-dev: FILELIST: removed
-"/usr/include/libweston-6/compositor-headless.h
-/usr/include/libweston-6/compositor-rdp.h"
-packages/corei7-64-poky-linux/weston/weston-dev: RRECOMMENDS: removed
-"zlib-intel-dev libxcb-shape-dev"
-packages/corei7-64-poky-linux/weston/weston-src: FILELIST: added
-"/usr/src/debug/weston/6.0.1-r0/weston-6.0.1/compositor/systemd-notify.c
-/usr/src/debug/weston/6.0.1-r0/weston-6.0.1/compositor/screen-share.c"
-packages/corei7-64-poky-linux/weston/weston-xwayland: RDEPENDS:
-removed "glib-2.0 (['>= 2.60.5']) libxkbcommon (['>= 0.8.4'])
-zlib-intel (['>= 1.2.11.1']) libxcb-shape (['>= 1.13.1']) libinput
-(['>= 1.13.4'])"
-packages/corei7-64-poky-linux/weston/weston: FILELIST: directory
-renamed /usr/share/weston/protocols -> /usr/share/libweston/protocols,
-added "/usr/lib/weston/systemd-notify.so
-/usr/lib/weston/screen-share.so"
-
-Some bits have been turned off, others turned on.
-
-Ross
 
