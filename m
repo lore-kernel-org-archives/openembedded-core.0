@@ -1,36 +1,33 @@
 Return-Path: <Daniel.Klauer@gin.de>
-Received: from good-out-11.clustermail.de (good-out-11.clustermail.de
-	[212.223.35.73])
-	by mail.openembedded.org (Postfix) with ESMTP id BF4547CBE3
+Received: from good-out-12.clustermail.de (good-out-12.clustermail.de
+	[212.223.35.74])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FF617F223
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 11:43:06 +0000 (UTC)
-Received: from [10.0.0.4] (helo=frontend.clustermail.de)
+	Mon, 29 Jul 2019 12:14:24 +0000 (UTC)
+Received: from [10.0.0.17] (helo=frontend.clustermail.de)
 	by smtpout-03.clustermail.de with esmtp (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>)
-	id 1hs43S-0001Iw-AV; Mon, 29 Jul 2019 13:43:07 +0200
+	(envelope-from <Daniel.Klauer@gin.de>) id 1hs4Xj-0003U9-2i
+	for openembedded-core@lists.openembedded.org;
+	Mon, 29 Jul 2019 14:14:24 +0200
 Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
 	by frontend.clustermail.de with esmtpsa
 	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>)
-	id 1hs43S-00024D-5v; Mon, 29 Jul 2019 13:43:02 +0200
-Received: from [10.160.138.39] (10.160.138.39) by Win2012-02.gin-domain.local
-	(192.168.1.12) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Mon, 29 Jul 2019 13:43:01 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <dad4085c-9767-f4bc-e89e-462166f09d8b@gin.de>
-	<a961a7b844771bf26bb1f8fe8c97bdaafe1cde2a.camel@linuxfoundation.org>
+	(envelope-from <Daniel.Klauer@gin.de>) id 1hs4Xj-0002Mi-0w
+	for openembedded-core@lists.openembedded.org;
+	Mon, 29 Jul 2019 14:14:19 +0200
+Received: from daniel-desktop.gin-domain.local (10.160.138.39) by
+	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Mon, 29 Jul 2019 14:14:18 +0200
 From: Daniel Klauer <daniel.klauer@gin.de>
-Message-ID: <8ab3c3cb-ffc8-ee02-38d9-7c3ff408031d@gin.de>
-Date: Mon, 29 Jul 2019 13:43:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Jul 2019 14:13:44 +0200
+Message-ID: <20190729121344.31643-1-daniel.klauer@gin.de>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <a961a7b844771bf26bb1f8fe8c97bdaafe1cde2a.camel@linuxfoundation.org>
 X-Originating-IP: [10.160.138.39]
 X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
 	Win2012-02.gin-domain.local (192.168.1.12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: package.bbclass behaviour with multiple providers of a shared library
+Subject: [PATCH] image.bbclass: Fix debug output for rootfs size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,14 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2019 11:43:07 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Jul 2019 12:14:24 -0000
+Content-Type: text/plain
 
-On 25.07.19 23:57, Richard Purdie wrote:
-> We definitely should sort to make things deterministic. Since I don't
-> want to forget this I've added a patch into my testing queue.
-OK, thanks! It would be great to have the patch backported to warrior
-too, so I just re-sent your patch for [warrior] for that.
+The debug output didn't match the calculation - it showed a wrong value.
+---
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 682858dc95..25b0ead9bf 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -529,7 +529,7 @@ def get_rootfs_size(d):
+     base_size = size_kb * overhead_factor
+     bb.debug(1, '%f = %d * %f' % (base_size, size_kb, overhead_factor))
+     base_size2 = max(base_size, rootfs_req_size) + rootfs_extra_space
+-    bb.debug(1, '%f = max(%f, %d)[%f] + %d' % (base_size2, base_size, rootfs_req_size, max(base_size, rootfs_req_size), overhead_factor))
++    bb.debug(1, '%f = max(%f, %d)[%f] + %d' % (base_size2, base_size, rootfs_req_size, max(base_size, rootfs_req_size), rootfs_extra_space))
+ 
+     base_size = base_size2
+     if base_size != int(base_size):
+-- 
+2.17.1
+
 
