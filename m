@@ -1,33 +1,18 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 72FF06C37E
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 05:26:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45xp8f004Pz3l
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 07:26:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1564378018;
-	bh=IweZgC2Z2uK4cXebFBgX3t9v1TUG2SL+kcJ8Wm7cqZ4=;
-	h=From:To:Subject:Date:From;
-	b=pVpFWs3ywNuWKynS7KP8O8VtIAVELFDLWjngiDviOh4oNBwium3pmUi6h+i0l32my
-	6r6UbG4cRr/xfp/jdVuoB+F7eVBe7anogZSjskRjCUzbDDx90CnL95U/YdDi85+TBP
-	WsKEkdR1X9uSeJl7t6VuELYBfzOll4eWCYhPsu8SNpfFEgwZC8tdM3Y1AOPeJn6A1n
-	KlZABbZVVolDdZOpe6U+0bg0489J0FPCbVD50Lp9jeIQEIMAZAutuzUWJbyY652Et1
-	kYmdr46smGcdYZ9vANqt8j3DJERSawfHJw67pN/3UeuYDf43rC9o95NYoceLxShVwJ
-	u5zmjRFRaEbb/flYT9juMg7vet8H2SdcGX3eXvw2wA3BwgngGX714gUEyil8aohsUX
-	ZDeuS1EyEfqWsTS0ESO4axF+0IjX2R8bWtkJ9luVS0sdz/wzZ+1o/BQfiogih14v+E
-	elj5580bjiKohUYLn+khERuqzuCzd++StkOEq4hGKWglvrL3jY5bFlhCDaIDCJ59ag
-	NCdBTJlPu4LxfGssw1GG1YjYZAM+Sh24j0NlNYh59dmpfVdUQpnPsgzbeVkKNepnkl
-	nJH9d58LU/rpfwpy9TkL6p3A0iAmUyCT6OA4f5URBL8KzT0Grl9kBf4qFrq3NNTfbH
-	DTZIU+wcQW029ayP9A2SGX2Q=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jul 2019 08:26:57 +0300
-Message-Id: <20190729052657.15206-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] Remove the gnome class
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B6B07F242;
+	Mon, 29 Jul 2019 05:31:41 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Mon, 29 Jul 2019 05:31:42 -0000
+Message-ID: <20190729053142.2334.47766@do>
+References: <20190729052657.15206-1-bunk@stusta.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190729052657.15206-1-bunk@stusta.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIHRoZSBnbm9tZSBjbGFzcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,29 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2019 05:26:57 -0000
+X-List-Received-Date: Mon, 29 Jul 2019 05:31:41 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-All that was left was
-  inherit gnomebase gtk-icon-cache gconf mime
-and especially inheriting the obsolete gconf is usually unwanted.
+== Series Details ==
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Series: Remove the gnome class
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18942/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            Remove the gnome class
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-Documentation changes will be sent separately.
-Users in meta-openembedded have already been fixed.
----
- meta/classes/gnome.bbclass | 1 -
- 1 file changed, 1 deletion(-)
- delete mode 100644 meta/classes/gnome.bbclass
-
-diff --git a/meta/classes/gnome.bbclass b/meta/classes/gnome.bbclass
-deleted file mode 100644
-index c6202bbb75..0000000000
---- a/meta/classes/gnome.bbclass
-+++ /dev/null
-@@ -1 +0,0 @@
--inherit gnomebase gtk-icon-cache gconf mime
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
