@@ -1,37 +1,25 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id CB4547E687
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EFD57F2DE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 09:47:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45yWtS0Wj1z5k;
-	Tue, 30 Jul 2019 11:47:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1564480032;
-	bh=DZSRin2tZRiK94/Hwe6RIPc25njyCN59G5ydJ8hBYWg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LZi5s4rzrDUW+GfNUAEesd5vthSN4SNoSQGAJfzOD+yXtDNtm/S8gy+owjUfsHReN
-	ps4hiA11lVw44yTxXFcFuBJjy3gMHi3UnOU9ftO2tyQld5sI8pKwN3i/DIY/KiGPN4
-	CDtjTU3lGFnkg2g23eL/eQJJ2jVvfkpP9n0IKiTvoXkZvdHSS83moWRrqOIFNpKGQc
-	5f0/hBUqbr+elJV4W6vnoZOAtZ/srfh1+CJZLPCGglwHZtpw3MQlQT5rEo3B6S7uf3
-	+SQ8CcCIC/wahqaR8XT0SVgjx7caMQ4ek0XB8i9iynt16WIII+ld/x7zHxuRRdKGlE
-	0qNJC/QFl450jJZpC0PPllrI9fA8UbHYOUwsnz9Ch/rJaNdj1FtnQcvBVMY3NyNPaZ
-	rLZ41r61pJK6Isz4meJT6dyLGIFF1fJHLB4dldnnH/vru2Mv0wGzdS0a0oHjEX3H2O
-	YLN5BPffrMYRLkAr2fiCwylaMFkxLfOw4a9FwMzNEoYqoL40iaBkVYQw7qA/x1HC8k
-	2+QhEa9IEQBRMG5yOUy9Nk8BVgSCSw4KCL09ttcliu03NNggjYPwiBSphKMM784B1h
-	sypZuNyNq1SGzcoXoxdAqCMoKs6ej7C5NghtujixXpYRkt/yfaEQw9rgC4JZa0E3eH
-	NXsTupGpSx1KchDwVyBa0k+Q=
-Date: Tue, 30 Jul 2019 12:47:10 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20190730094710.GB11235@localhost>
-References: <20190729100020.10517-1-bunk@stusta.de>
-	<5acdfa6c-f88a-7812-a0b1-108e4532ebbd@gmail.com>
+	Tue, 30 Jul 2019 09:52:44 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jul 2019 02:52:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,326,1559545200"; d="scan'208";a="346938993"
+Received: from hngiam-mobl1.gar.corp.intel.com (HELO
+	anmitta2-mobl1.gar.corp.intel.com) ([10.249.70.217])
+	by orsmga005.jf.intel.com with ESMTP; 30 Jul 2019 02:52:43 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Jul 2019 17:52:39 +0800
+Message-Id: <20190730095239.20486-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <5acdfa6c-f88a-7812-a0b1-108e4532ebbd@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bind: Remove RECIPE_NO_UPDATE_REASON and follow the ESV releases
+Subject: [PATCH] patch: fix CVE-2019-13636
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,58 +32,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 09:47:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 30 Jul 2019 09:52:44 -0000
 Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 30, 2019 at 02:20:40AM -0700, akuster808 wrote:
-> 
-> 
-> On 7/29/19 3:00 AM, Adrian Bunk wrote:
-> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> > ---
-> >  meta/recipes-connectivity/bind/bind_9.11.5-P4.bb | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-> > index 1355841e6b..93c406f778 100644
-> > --- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-> > +++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-> > @@ -26,8 +26,8 @@ SRC_URI[md5sum] = "8ddab4b61fa4516fe404679c74e37960"
-> >  SRC_URI[sha256sum] = "7e8c08192bcbaeb6e9f2391a70e67583b027b90e8c4bc1605da6eb126edde434"
-> >  
-> >  UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
-> > -UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
-> > -RECIPE_NO_UPDATE_REASON = "9.11 is LTS 2021"
-> > +# stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
-> > +UPSTREAM_CHECK_REGEX = "(?P<pver>9.(11|16|20|24|28)(\.\d+)+(-P\d+)*)/"
-> 
-> So are you setting the package update policy to LTS only ?
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../patch/patch/CVE-2019-13636.patch          | 113 ++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb    |   1 +
+ 2 files changed, 114 insertions(+)
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2019-13636.patch
 
-RECIPE_NO_UPDATE_REASON was a bug in any case since it prevented 
-upgrades on the 9.11 branch.
-
-> Its a function over maintenance question.
-
-Yes.
-
-> I don't understand why this package is being singled out. I think it
-> should be an OE  architecture discussion
-
-My impression is that the default in OE is to follow upstream LTS,
-and not doing so would be the exception.
-
-> - Armin
-
-cu
-Adrian
-
+diff --git a/meta/recipes-devtools/patch/patch/CVE-2019-13636.patch b/meta/recipes-devtools/patch/patch/CVE-2019-13636.patch
+new file mode 100644
+index 0000000000..9f8b6db0b9
+--- /dev/null
++++ b/meta/recipes-devtools/patch/patch/CVE-2019-13636.patch
+@@ -0,0 +1,113 @@
++From dce4683cbbe107a95f1f0d45fabc304acfb5d71a Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruen@gnu.org>
++Date: Mon, 15 Jul 2019 16:21:48 +0200
++Subject: Don't follow symlinks unless --follow-symlinks is given
++
++* src/inp.c (plan_a, plan_b), src/util.c (copy_to_fd, copy_file,
++append_to_file): Unless the --follow-symlinks option is given, open files with
++the O_NOFOLLOW flag to avoid following symlinks.  So far, we were only doing
++that consistently for input files.
++* src/util.c (create_backup): When creating empty backup files, (re)create them
++with O_CREAT | O_EXCL to avoid following symlinks in that case as well.
++
++CVE: CVE-2019-13636
++Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=dce4683cbbe107a95f1f0d45fabc304acfb5d71a]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++
++---
++ src/inp.c  | 12 ++++++++++--
++ src/util.c | 14 +++++++++++---
++ 2 files changed, 21 insertions(+), 5 deletions(-)
++
++diff --git a/src/inp.c b/src/inp.c
++index 32d0919..22d7473 100644
++--- a/src/inp.c
+++++ b/src/inp.c
++@@ -238,8 +238,13 @@ plan_a (char const *filename)
++     {
++       if (S_ISREG (instat.st_mode))
++         {
++-	  int ifd = safe_open (filename, O_RDONLY|binary_transput, 0);
+++	  int flags = O_RDONLY | binary_transput;
++ 	  size_t buffered = 0, n;
+++	  int ifd;
+++
+++	  if (! follow_symlinks)
+++	    flags |= O_NOFOLLOW;
+++	  ifd = safe_open (filename, flags, 0);
++ 	  if (ifd < 0)
++ 	    pfatal ("can't open file %s", quotearg (filename));
++ 
++@@ -340,6 +345,7 @@ plan_a (char const *filename)
++ static void
++ plan_b (char const *filename)
++ {
+++  int flags = O_RDONLY | binary_transput;
++   int ifd;
++   FILE *ifp;
++   int c;
++@@ -353,7 +359,9 @@ plan_b (char const *filename)
++ 
++   if (instat.st_size == 0)
++     filename = NULL_DEVICE;
++-  if ((ifd = safe_open (filename, O_RDONLY | binary_transput, 0)) < 0
+++  if (! follow_symlinks)
+++    flags |= O_NOFOLLOW;
+++  if ((ifd = safe_open (filename, flags, 0)) < 0
++       || ! (ifp = fdopen (ifd, binary_transput ? "rb" : "r")))
++     pfatal ("Can't open file %s", quotearg (filename));
++   if (TMPINNAME_needs_removal)
++diff --git a/src/util.c b/src/util.c
++index 1cc08ba..fb38307 100644
++--- a/src/util.c
+++++ b/src/util.c
++@@ -388,7 +388,7 @@ create_backup (char const *to, const struct stat *to_st, bool leave_original)
++ 
++ 	  try_makedirs_errno = ENOENT;
++ 	  safe_unlink (bakname);
++-	  while ((fd = safe_open (bakname, O_CREAT | O_WRONLY | O_TRUNC, 0666)) < 0)
+++	  while ((fd = safe_open (bakname, O_CREAT | O_EXCL | O_WRONLY | O_TRUNC, 0666)) < 0)
++ 	    {
++ 	      if (errno != try_makedirs_errno)
++ 		pfatal ("Can't create file %s", quotearg (bakname));
++@@ -579,10 +579,13 @@ create_file (char const *file, int open_flags, mode_t mode,
++ static void
++ copy_to_fd (const char *from, int tofd)
++ {
+++  int from_flags = O_RDONLY | O_BINARY;
++   int fromfd;
++   ssize_t i;
++ 
++-  if ((fromfd = safe_open (from, O_RDONLY | O_BINARY, 0)) < 0)
+++  if (! follow_symlinks)
+++    from_flags |= O_NOFOLLOW;
+++  if ((fromfd = safe_open (from, from_flags, 0)) < 0)
++     pfatal ("Can't reopen file %s", quotearg (from));
++   while ((i = read (fromfd, buf, bufsize)) != 0)
++     {
++@@ -625,6 +628,8 @@ copy_file (char const *from, char const *to, struct stat *tost,
++   else
++     {
++       assert (S_ISREG (mode));
+++      if (! follow_symlinks)
+++	to_flags |= O_NOFOLLOW;
++       tofd = create_file (to, O_WRONLY | O_BINARY | to_flags, mode,
++ 			  to_dir_known_to_exist);
++       copy_to_fd (from, tofd);
++@@ -640,9 +645,12 @@ copy_file (char const *from, char const *to, struct stat *tost,
++ void
++ append_to_file (char const *from, char const *to)
++ {
+++  int to_flags = O_WRONLY | O_APPEND | O_BINARY;
++   int tofd;
++ 
++-  if ((tofd = safe_open (to, O_WRONLY | O_BINARY | O_APPEND, 0)) < 0)
+++  if (! follow_symlinks)
+++    to_flags |= O_NOFOLLOW;
+++  if ((tofd = safe_open (to, to_flags, 0)) < 0)
++     pfatal ("Can't reopen file %s", quotearg (to));
++   copy_to_fd (from, tofd);
++   if (close (tofd) != 0)
++-- 
++cgit v1.0-41-gc330
++
+diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+index 85b0db7333..8cf20a3597 100644
+--- a/meta/recipes-devtools/patch/patch_2.7.6.bb
++++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+@@ -6,6 +6,7 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+             file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch \
+             file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
+             file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
++            file://CVE-2019-13636.patch \
+ "
+ 
+ SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.21.0
 
 
