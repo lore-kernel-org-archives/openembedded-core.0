@@ -1,42 +1,99 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E53077F302
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 815647E3AA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 08:32:36 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id p17so61259868ljg.1
+	Tue, 30 Jul 2019 09:20:46 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id r22so2137285pgk.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 01:32:38 -0700 (PDT)
+	Tue, 30 Jul 2019 02:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=x67cEfhkEYIQuHUn+07EfGTg1pTxqzMu93sRh8kvqCU=;
+	b=dT0R5+THR5FmYteHd4q7ro1lIcSg383+WEinhIJgBciFhEVnSGJEPsjfSR/RvKzWUE
+	eL2vzP+VkBW9rhwTXfO73WBB/REj/CZHhQB1Pt7tHg2llno17RqliTOjeaN5fvY4SBg+
+	z1Nd5Wifh3HDRa8GD+/jY7KWSklVCPOzFtUXc8NUecRPZt4hwVTGwoTkmUaioVO3Xa1o
+	iDwCVf735CtzDfXKnUwSfkJSxdxABpZYsshLKnhBzSBNePG93djtPy5HpYUfG7kX8+U0
+	D3ouD8RZlVp5SkoWmgvns7Zvm4F9VBEbL/MLIczxia8CmaVJybW0OKTrv5Sjja7CWaus
+	wNSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=T4xaGFoO4KhRcsao4S2edxXpHoRO4J627unYjAmBzXI=;
-	b=OLKUC9d/cSNsE7rEsC7R3u1Gm811xXMF9sIwahf17QJbobSwykoIeEQSgSOMAtXkCv
-	F6rGvET0xGC62MaNmgk5i3NtcVN4TlJ/mVmgh+T+TDeYFw0ByPWVr8usnbBrhPATcn0n
-	TF5WqigG/kZykx4bgJ2rZpouxsBEYCS4B1P+CBlkBsEmhNNaFBzuxGcLYH6+OzgOt7nV
-	r6q/80dRQR5N9MU4qVAFDpxtHwBjftyqk5qv033rygxZYyyWL8CjHfJAmJfA46ba+VYo
-	/D+AzSNzWF+QJ6g50oq8puR8nAdZbv7c52A3CgTx2G5bWy/JT0c63MlB1c8jsZd0/ph0
-	Y4gg==
-X-Gm-Message-State: APjAAAWLZvvZ0FxwDsWk46eDu5clDxRVQJbNOOzK/h5ZnLA/uz5K/wnE
-	GvPFwHU2upea4/vIpopgoU35TF9C69EJZGaItbVtwD8b
-X-Google-Smtp-Source: APXvYqz8rMJsfSg1aNpkuGmWx3QfItAKYWTOnsWXLIe2cXZLD3NBC4BpabQkV/MStk3/7+0IiytYp0GB5zketn1q+7g=
-X-Received: by 2002:a2e:3013:: with SMTP id w19mr60543048ljw.73.1564475557351; 
-	Tue, 30 Jul 2019 01:32:37 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=x67cEfhkEYIQuHUn+07EfGTg1pTxqzMu93sRh8kvqCU=;
+	b=FEF6dstebyQQpb8SLEIGq/iOuSqlHPbenvdunHKBgyXFR7y7gmmXgpYBWr0GLwnBIu
+	Z/HejNsVh1+DsbB56UZLYDMrGuSWqUFODRZS7xD8Wm9YVhRV8O8ya23qJL3F66eMrAT3
+	SLtgBP2NU+BJjGZ+xtyBdPXClA58tBcPfd59bdA9WYtITBz6cp91jMkEdjH7ApXsH7Eb
+	uXfVoLJ3SafMu0kqEuMkzKaoGUgBFCrHduQ9rsospcpqz3DKmV8H1JdN7Xz4lBMNsyzR
+	9+cTcbYeI/TbXDIys/gr60i2wpmLmYvVI/lMNjkai4NKPYQWJHsYtE3RGShuveIgCGY5
+	PapA==
+X-Gm-Message-State: APjAAAUi0y1rSochwDst1x7v/0jnf9kceOv6AZcTwLoaxhd8Ib2/N3Ps
+	/bnjWdpV1m/zM7sK/j7ILxImalPhlbk=
+X-Google-Smtp-Source: APXvYqwSAFoe/hh3Vclo6Ag76UqglRA5R2/m3fUZq/LJvwRfa71SAvFG6vHmgHnRPyRgm9LkW+k21w==
+X-Received: by 2002:a17:90a:372a:: with SMTP id
+	u39mr116278290pjb.2.1564478447454; 
+	Tue, 30 Jul 2019 02:20:47 -0700 (PDT)
+Received: from [192.168.0.10] ([2.28.42.19]) by smtp.gmail.com with ESMTPSA id
+	195sm106895040pfu.75.2019.07.30.02.20.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Jul 2019 02:20:46 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
+References: <20190729100020.10517-1-bunk@stusta.de>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	mQINBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
+	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
+	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
+	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
+	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
+	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
+	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
+	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
+	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
+	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABtCFha3VzdGVyODA4
+	IDxha3VzdGVyODA4QGdtYWlsLmNvbT6JAj0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
+	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
+	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
+	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
+	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
+	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
+	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
+	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
+	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
+	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
+	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
+	oRoyDxC5Ag0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
+	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
+	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
+	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
+	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
+	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
+	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
+	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
+	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
+	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAGJAiUEGAEI
+	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
+	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
+	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
+	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
+	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
+	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
+	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
+	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
+	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
+	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
+	8CS2NxU=
+Message-ID: <5acdfa6c-f88a-7812-a0b1-108e4532ebbd@gmail.com>
+Date: Tue, 30 Jul 2019 02:20:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190718194615.6874-1-ricardo@ribalda.com>
-	<CAMKF1spj-LXk1=YxeErV7UHVtWJmacjP1M-_W6M=4ZnSkaFk_w@mail.gmail.com>
-	<CAPybu_2tkssPOt8G1ZFZ6s9++7h0KhZV872tFccRXdRYuR=i-Q@mail.gmail.com>
-	<CAMKF1sqzAbADXCR1gW07-j1L=RLWEWJJur8gVZ4GC=xA04KfNA@mail.gmail.com>
-	<CAPybu_3Ho8UJXhAnogaGw9QucD=4zdjmjWmeZ9iUuW4VLrha9g@mail.gmail.com>
-In-Reply-To: <CAPybu_3Ho8UJXhAnogaGw9QucD=4zdjmjWmeZ9iUuW4VLrha9g@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date: Tue, 30 Jul 2019 10:32:20 +0200
-Message-ID: <CAPybu_1ZFJfjDqaPGnDrV_d6axAfA1b6qkpXO3BW0=Ep7sVanA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] inetutils: Fix abort on invalid files
+In-Reply-To: <20190729100020.10517-1-bunk@stusta.de>
+Subject: Re: [PATCH] bind: Remove RECIPE_NO_UPDATE_REASON and follow the ESV releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,232 +106,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 08:32:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-
-ping?
-
-On Fri, Jul 19, 2019 at 8:12 AM Ricardo Ribalda Delgado
-<ricardo@ribalda.com> wrote:
->
-> Hi Khem
->
-> Indeed is due to that, but infortunately it is part of arpa/tftp.h .
-> So the propossed solutionI believe that it is simpler.
->
-> https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
->
-> Also is what I have been suggested in #gcc
->
->
-> Thanks!
->
-> On Fri, Jul 19, 2019 at 12:39 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Thu, Jul 18, 2019 at 2:10 PM Ricardo Ribalda Delgado
-> > <ricardo@ribalda.com> wrote:
-> > >
-> > > Hi Khem
-> > >
-> > > I think the issue is that __memcpy_chk wrongly assume that the target
-> > > size is 0. The origin size is calculated fine:
-> > >
-> > > https://godbolt.org/z/qTaDWP
-> > >
-> >             char tu_data[0];    /* data or error string */
-> >
-> > that seems an old stype variable length array
-> > can you change it to char tu_data[] and see if it helps
-> >
-> > > Thanks!
-> > >
-> > > On Thu, Jul 18, 2019 at 11:02 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > > >
-> > > > On Thu, Jul 18, 2019 at 12:46 PM Ricardo Ribalda Delgado
-> > > > <ricardo@ribalda.com> wrote:
-> > > > >
-> > > > > When the code is compiled with  "-fstack-protector-strong
-> > > > > -D_FORTIFY_SOURCE=2", everytime ftpfd is asked for a non existent file,
-> > > > > it crashes with the following error:
-> > > > >
-> > > > > *** buffer overflow detected ***:
-> > > > > Aborted
-> > > > >
-> > > > > This seems to be a bug/feature of gcc. A bug has been open on their
-> > > > > bugzilla, and also inetutils have been posted with the proposed patch.
-> > > > >
-> > > > > Without this patch, pxelinux fails to boot because it keeps asking the
-> > > > > server for the pxelinux.cfg/00-01-02-03-04 and never jumps to /default.
-> > > > >
-> > > > > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > > ---
-> > > > >  .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 +++++++++++++++++++
-> > > > >  .../inetutils/inetutils_1.9.4.bb              |  1 +
-> > > > >  2 files changed, 26 insertions(+)
-> > > > >  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > >
-> > > > > diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > > new file mode 100644
-> > > > > index 0000000000..a91913cb51
-> > > > > --- /dev/null
-> > > > > +++ b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > > @@ -0,0 +1,25 @@
-> > > > > +tftpd: Fix abort on error path
-> > > > > +
-> > > > > +When trying to fetch a non existent file, the app crashes with:
-> > > > > +
-> > > > > +*** buffer overflow detected ***:
-> > > > > +Aborted
-> > > > > +
-> > > > > +
-> > > > > +Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
-> > > > > +Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > > +diff --git a/src/tftpd.c b/src/tftpd.c
-> > > > > +index 56002a0..144012f 100644
-> > > > > +--- a/src/tftpd.c
-> > > > > ++++ b/src/tftpd.c
-> > > > > +@@ -864,9 +864,8 @@ nak (int error)
-> > > > > +       pe->e_msg = strerror (error - 100);
-> > > > > +       tp->th_code = EUNDEF;   /* set 'undef' errorcode */
-> > > > > +     }
-> > > > > +-  strcpy (tp->th_msg, pe->e_msg);
-> > > > > +   length = strlen (pe->e_msg);
-> > > >
-> > > > I wonder if length calculation is a problem as well here, if so then
-> > > > it would need
-> > > > correcting because it used in code below as well.
-> > > >
-> > > > > +-  tp->th_msg[length] = '\0';
-> > > > > ++  memcpy(tp->th_msg, pe->e_msg, length + 1);
-> > > > > +   length += 5;
-> > > > > +   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
-> > > > > +     syslog (LOG_ERR, "nak: %m\n");
-> > > > > diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > > index ac2e017d8b..684fbe09e1 100644
-> > > > > --- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > > +++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > > @@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-> > > > >             file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-> > > > >             file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
-> > > > >             file://0001-rcp-fix-to-work-with-large-files.patch \
-> > > > > +           file://fix-buffer-fortify-tfpt.patch \
-> > > > >  "
-> > > > >
-> > > > >  SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
-> > > > > --
-> > > > > 2.20.1
-> > > > >
-> > > > > --
-> > > > > _______________________________________________
-> > > > > Openembedded-core mailing list
-> > > > > Openembedded-core@lists.openembedded.org
-> > > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > >
-> > >
-> > >
-> > > --
-> > > Ricardo Ribalda
-> > > Thanks!
-> > >
-> > > On Thu, Jul 18, 2019 at 11:02 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > > >
-> > > > On Thu, Jul 18, 2019 at 12:46 PM Ricardo Ribalda Delgado
-> > > > <ricardo@ribalda.com> wrote:
-> > > > >
-> > > > > When the code is compiled with  "-fstack-protector-strong
-> > > > > -D_FORTIFY_SOURCE=2", everytime ftpfd is asked for a non existent file,
-> > > > > it crashes with the following error:
-> > > > >
-> > > > > *** buffer overflow detected ***:
-> > > > > Aborted
-> > > > >
-> > > > > This seems to be a bug/feature of gcc. A bug has been open on their
-> > > > > bugzilla, and also inetutils have been posted with the proposed patch.
-> > > > >
-> > > > > Without this patch, pxelinux fails to boot because it keeps asking the
-> > > > > server for the pxelinux.cfg/00-01-02-03-04 and never jumps to /default.
-> > > > >
-> > > > > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > > ---
-> > > > >  .../inetutils/fix-buffer-fortify-tfpt.patch   | 25 +++++++++++++++++++
-> > > > >  .../inetutils/inetutils_1.9.4.bb              |  1 +
-> > > > >  2 files changed, 26 insertions(+)
-> > > > >  create mode 100644 meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > >
-> > > > > diff --git a/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > > new file mode 100644
-> > > > > index 0000000000..a91913cb51
-> > > > > --- /dev/null
-> > > > > +++ b/meta/recipes-connectivity/inetutils/inetutils/fix-buffer-fortify-tfpt.patch
-> > > > > @@ -0,0 +1,25 @@
-> > > > > +tftpd: Fix abort on error path
-> > > > > +
-> > > > > +When trying to fetch a non existent file, the app crashes with:
-> > > > > +
-> > > > > +*** buffer overflow detected ***:
-> > > > > +Aborted
-> > > > > +
-> > > > > +
-> > > > > +Upstream-Status: Submitted [https://www.mail-archive.com/bug-inetutils@gnu.org/msg03036.html https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91205]
-> > > > > +Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > > +diff --git a/src/tftpd.c b/src/tftpd.c
-> > > > > +index 56002a0..144012f 100644
-> > > > > +--- a/src/tftpd.c
-> > > > > ++++ b/src/tftpd.c
-> > > > > +@@ -864,9 +864,8 @@ nak (int error)
-> > > > > +       pe->e_msg = strerror (error - 100);
-> > > > > +       tp->th_code = EUNDEF;   /* set 'undef' errorcode */
-> > > > > +     }
-> > > > > +-  strcpy (tp->th_msg, pe->e_msg);
-> > > > > +   length = strlen (pe->e_msg);
-> > > >
-> > > > I wonder if length calculation is a problem as well here, if so then
-> > > > it would need
-> > > > correcting because it used in code below as well.
-> > > >
-> > > > > +-  tp->th_msg[length] = '\0';
-> > > > > ++  memcpy(tp->th_msg, pe->e_msg, length + 1);
-> > > > > +   length += 5;
-> > > > > +   if (sendto (peer, buf, length, 0, (struct sockaddr *) &from, fromlen) != length)
-> > > > > +     syslog (LOG_ERR, "nak: %m\n");
-> > > > > diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > > index ac2e017d8b..684fbe09e1 100644
-> > > > > --- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > > +++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> > > > > @@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
-> > > > >             file://inetutils-1.9-PATH_PROCNET_DEV.patch \
-> > > > >             file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
-> > > > >             file://0001-rcp-fix-to-work-with-large-files.patch \
-> > > > > +           file://fix-buffer-fortify-tfpt.patch \
-> > > > >  "
-> > > > >
-> > > > >  SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
-> > > > > --
-> > > > > 2.20.1
-> > > > >
-> > > > > --
-> > > > > _______________________________________________
-> > > > > Openembedded-core mailing list
-> > > > > Openembedded-core@lists.openembedded.org
-> > > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > >
-> > >
-> > >
-> > > --
-> > > Ricardo Ribalda
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> Ricardo Ribalda
+X-List-Received-Date: Tue, 30 Jul 2019 09:20:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
 
 
--- 
-Ricardo Ribalda
+On 7/29/19 3:00 AM, Adrian Bunk wrote:
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>  meta/recipes-connectivity/bind/bind_9.11.5-P4.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+> index 1355841e6b..93c406f778 100644
+> --- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+> +++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+> @@ -26,8 +26,8 @@ SRC_URI[md5sum] = "8ddab4b61fa4516fe404679c74e37960"
+>  SRC_URI[sha256sum] = "7e8c08192bcbaeb6e9f2391a70e67583b027b90e8c4bc1605da6eb126edde434"
+>  
+>  UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+> -UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+> -RECIPE_NO_UPDATE_REASON = "9.11 is LTS 2021"
+> +# stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
+> +UPSTREAM_CHECK_REGEX = "(?P<pver>9.(11|16|20|24|28)(\.\d+)+(-P\d+)*)/"
+
+So are you setting the package update policy to LTS only ?  Its a
+function over maintenance question.
+
+I don't understand why this package is being singled out. I think it
+should be an OE  architecture discussion
+
+- Armin
+>  
+>  inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
+>  
+
 
