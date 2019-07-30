@@ -1,48 +1,54 @@
-Return-Path: <zoltan.kuscsik@solution57.com>
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
-	[209.85.208.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CAFB07F27C
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 193507F27C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 14:12:46 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id m10so62705687edv.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 07:12:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=solution57.com; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=te3+yZCtmE44A3Cxrbp8M9wnRn5Ro7JZgxv7+xSlBuM=;
-	b=aYRRowvcHB0KfjyI2p/N08kjqpGCHWySIRAjyyfVOV/+wTXQxWq1cQjn9syrvJyAww
-	xl6k8AVgaLJaM/CH2VMwpdNjNBLbMnkV/QmtVu/da7cE2IcC1Ms0lNjBG+EhBfpIL4JA
-	11ufVIHxAjIdKBXR7vafbiSH0S6f0moZKR3HE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=te3+yZCtmE44A3Cxrbp8M9wnRn5Ro7JZgxv7+xSlBuM=;
-	b=ZhlzkvTvMxtAeIeWERkguhsw1R0dB41KBYLJvLTkwZ72btlnh4hP0hc1lVjIHz3CzM
-	GV5FkPSw9KzAkrfFDCdZxHzsIQWn34cB6crgGwPuVdOZmZEEHCK85/pyseIhsUOXHYmg
-	0s017UOT25PNkOIa6CwBUhZmWa6mtnPjvP4JS7UwJmTMRc8h4knh84WNAwVgzYUTDWxS
-	HBNdpanYZCQLR5rs7b9UsEG+3azXgTbG+jNU868ov1OXr9HIJAHTRKPZQu8pwPYEmve7
-	A1gVoQYZBY7K/GQVF2xMFmpUWvZkX2o7pMmMkrrVzaZZHMnZWTdZxXZnJl4hPX+23sDo
-	4EOQ==
-X-Gm-Message-State: APjAAAUzNB74RSvRMA86guW3hGU0yeW8cWtOdh4pZYlGTeaNvzHI9qwD
-	8kUHatfF3EoGjDv2cUX0+2JnLoZztFw=
-X-Google-Smtp-Source: APXvYqx7izbHh7VYdRJMX++su47hxU3keVsg0m6umPUBtR7jQJvRRmZ+XtCFEKVZshdGwNLTdV3cQg==
-X-Received: by 2002:a50:b803:: with SMTP id j3mr99380361ede.208.1564495967290; 
-	Tue, 30 Jul 2019 07:12:47 -0700 (PDT)
-Received: from hydra.zetee.io ([85.191.217.70])
-	by smtp.gmail.com with ESMTPSA id
-	l50sm16735295edb.77.2019.07.30.07.12.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 30 Jul 2019 07:12:46 -0700 (PDT)
-From: Zoltan Kuscsik <zoltan.kuscsik@solution57.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jul 2019 16:12:41 +0200
-Message-Id: <20190730141241.493-1-zoltan.kuscsik@solution57.com>
-X-Mailer: git-send-email 2.22.0
+	Tue, 30 Jul 2019 14:14:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6UEDmid026098
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 30 Jul 2019 07:14:14 -0700
+Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 30 Jul 2019 07:14:02 -0700
+To: Mike Crowe <mac@mcrowe.com>
+References: <20190730110111.5143-1-mac@mcrowe.com>
+	<adacdf23-1d66-a1e0-fa19-521b0d5f2861@windriver.com>
+	<20190730134917.GA30833@mcrowe.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <6b194922-8aa4-f2c1-645b-ace8331ae532@windriver.com>
+Date: Tue, 30 Jul 2019 09:14:01 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH] kmscube: update to latest revision
+In-Reply-To: <20190730134917.GA30833@mcrowe.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sstate: Truncate PV in sstate filenames that are too long
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,115 +61,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 14:12:48 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 Jul 2019 14:14:34 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Switch to gitlab URL, since previos location is now a mirror
+On 7/30/19 8:49 AM, Mike Crowe wrote:
+> On Tuesday 30 July 2019 at 08:25:52 -0500, Mark Hatle wrote:
+>> On 7/30/19 6:01 AM, Mike Crowe wrote:
+>>> sstate filenames are generated by concatenating a variety of bits of
+>>> package metadata. Some of these parts could be long, which could cause
+>>> the filename to be longer than the 255 character maximum for ext4.
+>>>
+>>> So, let's try to detect this situation and truncate the PV part of the
+>>> filename so that it will fit. If this happens, an ellipsis is added to
+>>> make it clear that the version number is incomplete.
+>>>
+>>> SSTATE_PKG needs to be consistent for all tasks so that the hash
+>>> remains stable. This means that we need to make an assumption for the
+>>> maximum length of the task name. In this implementation, the task name
+>>> is limited to 27 characters.
+>>>
+>>> This change also results in a sensible error message being emitted if
+>>> the resulting filename is still too long.
+>>>
+>>> Signed-off-by: Mike Crowe <mac@mcrowe.com>
+>>>
+>>> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+>>> index 3342c5ef50..6313b1c538 100644
+>>> --- a/meta/classes/sstate.bbclass
+>>> +++ b/meta/classes/sstate.bbclass
+>>> @@ -8,6 +8,24 @@ def generate_sstatefn(spec, hash, d):
+>>>          hash = "INVALID"
+>>>      return hash[:2] + "/" + spec + hash
+>>>  
+>>> +def sstate_path(taskname, d):
+>>> +    max_filename_len = 245 # leave some room for ".siginfo"
+>>> +    max_addendum_len = 32 # '_' + taskname + '.tgz'
+>>
+>> Since the task name is variable, is there really a 32 character limit here?
+>>
+>> It may make sense to do:
+>>
+>> # '_' + taskname + '.tgz', reserving a minimum of 32 for taskname
+>> max_addendum_len = len(taskname) + 5 if len(taskname) + 5 > 32 else 32
+>>
+>> Always reserve a minimum of 32 for consistency, but if we go over account
+>> for it.
+> 
+> I think that would just cause task hash mismatches (see third paragraph of
+> commit message.)
+> 
+> It probably does make sense to detect such long task names in this
+> situation and generate errors though.
+> 
+>>> +    sstate_prefix = d.getVar('SSTATE_PKG')
+>>> +    excess = len(os.path.basename(sstate_prefix)) - (max_filename_len - max_addendum_len)
+>>> +    if excess > 0:
+>>> +        pv = d.getVar('PV')
+>>> +        if len(pv) >= excess and len(pv) >= 3:
+>>> +            short_pv = d.getVar('PV')[:-excess-3] + '...'
+>>
+>> Is truncating the PV enough?  In a discussion on the bitbake list, I suggested
+>> possibly changing the order of the entries in the SSTATE_PKGSPEC to allow us to
+>> prune things prior to the hash w/o affecting the hash.  Maybe this is simply not
+>> needed.. but it's a possibility if this proves to not be effective.
+> 
+> Truncating PV solves the problem I was having. The other fields don't
+> really tend to be very long, so there's less to be gained by shortening
+> them.
+> 
+>>> +            d2 = d.createCopy()
+>>> +            d2.setVar('PV', short_pv)
+>>> +            sstate_prefix = d2.getVar('SSTATE_PKG')
+>>> +
+>>> +    sstatepkg = sstate_prefix + '_'+ taskname + ".tgz"
+>>> +    if len(os.path.basename(sstatepkg)) > max_filename_len:
+>>> +        bb.error('Failed to shorten sstate filename')
+>>> +    return sstatepkg
+>>> +
+>>>  SSTATE_PKGARCH    = "${PACKAGE_ARCH}"
+>>>  SSTATE_PKGSPEC    = "sstate:${PN}:${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}:${PV}:${PR}:${SSTATE_PKGARCH}:${SSTATE_VERSION}:"
+>>>  SSTATE_SWSPEC     = "sstate:${PN}::${PV}:${PR}::${SSTATE_VERSION}:"
+>>
+>> There is something else I noticed..  "SSTATE_PKGNAME" defined as:
+>>
+>> SSTATE_PKGNAME    =
+>> "${SSTATE_EXTRAPATH}${@generate_sstatefn(d.getVar('SSTATE_PKGSPEC'),
+>> d.getVar('BB_UNIHASH'), d)}"
+>>
+>> From what I can tell, this really should be using the new sstate_path function
+>> in someway.
+> 
+> Hmm, you're right. I can't have covered that in my testing. :(
+> 
+>> Would it make more sense to define SSTATE_PKGNAME in such a way that it always
+>> resulted in something "short" enough, and in the right format, that it would
+>> always work?
+> 
+> I'd considered doing it that way. If SSTATE_OKGSPEC contained ${SSTATE_PV}
+> and that either had the value of ${PV} or the a truncated version of ${PV}
+> then the rest of the file could remain the same. However, truncating PV
+> without access to the rest of the spec would mean just picking some
+> arbitrary maximum PV length which is likely to be more conservative than
+> necessary.
+> 
+>> Adjusting or rewriting "generate_sstatefn" could still accomplish the PV change,
+>> but the max length of the string would need further shrinking to accommodate an
+>> unknown task length (which goes back to my previous comment).  If the 32 default
+>> is long enough then that shouldn't be a problem -- and may also resolve my
+>> concerns that something outside of sstate class could try to use that various
+>> and without the new magic function get the wrong results.
+> 
+> I wonder whether I can get away with applying per-task PV truncation in
+> generate_sstatefn without causing hash mismatches? That's worth a try.
 
-Signed-off-by: Zoltan Kuscsik <zoltan.kuscsik@solution57.com>
----
- ...bo_map-_unmap-and-use-it-or-avoid-it.patch | 25 ++++++++++---------
- meta/recipes-graphics/kmscube/kmscube_git.bb  |  4 +--
- 2 files changed, 15 insertions(+), 14 deletions(-)
+The only cause of a task hash mismatch (actual hash, not filename) would be in
+SSTATE_PKGNAME is part of the hash itself.  I'd contend if it is, then we should
+exclude it.
 
-diff --git a/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch b/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch
-index 611e541598..a7a08f14e6 100644
---- a/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch
-+++ b/meta/recipes-graphics/kmscube/kmscube/detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch
-@@ -1,7 +1,7 @@
--From 761bf993ca55095f46380c0238583791c1797295 Mon Sep 17 00:00:00 2001
-+From a91c588b5a4122506e7fe949c37d530621bdd997 Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
- Date: Tue, 11 Jul 2017 14:50:37 -0500
--Subject: [PATCH kmscube] Detect gst_bo_map/_unmap and use it (or avoid it)
-+Subject: [PATCH] Detect gst_bo_map/_unmap and use it (or avoid it)
- MIME-Version: 1.0
- Content-Type: text/plain; charset=UTF-8
- Content-Transfer-Encoding: 8bit
-@@ -18,6 +18,7 @@ Cc: Rob Clark <robdclark@gmail.com>
- Reviewed-by: Eric Engestrom <eric.engestrom@imgtec.com>
- 
- Upstream-Status: Submitted [https://lists.freedesktop.org/archives/mesa-dev/2017-July/163020.html]
-+Signed-off-by: Zoltan Kuscsik <zoltan.kuscsik@solution57.com>
- ---
-  Makefile.am   | 5 ++++-
-  configure.ac  | 3 +++
-@@ -26,7 +27,7 @@ Upstream-Status: Submitted [https://lists.freedesktop.org/archives/mesa-dev/2017
-  4 files changed, 17 insertions(+), 2 deletions(-)
- 
- diff --git a/Makefile.am b/Makefile.am
--index a36087d..ab4adbf 100644
-+index ba064e4..3a0a50b 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -43,7 +43,6 @@ kmscube_SOURCES = \
-@@ -37,16 +38,16 @@ index a36087d..ab4adbf 100644
-  	drm-atomic.c \
-  	drm-common.c \
-  	drm-common.h \
--@@ -59,3 +58,7 @@ kmscube_LDADD += $(GST_LIBS)
-- kmscube_CFLAGS += $(GST_CFLAGS)
-- kmscube_SOURCES += cube-video.c gst-decoder.c
-- endif
-+@@ -68,3 +67,7 @@ texturator_SOURCES = \
-+ 	drm-common.c \
-+ 	drm-legacy.c \
-+ 	texturator.c
- +
- +if ENABLE_GBM_MAP
- +kmscube_SOURCES += cube-tex.c
- +endif
- diff --git a/configure.ac b/configure.ac
--index 8397f7b..c7f1f4d 100644
-+index 6be6541..3d20121 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -49,5 +49,8 @@ if test "x$HAVE_GST" = "xyes"; then
-@@ -59,7 +60,7 @@ index 8397f7b..c7f1f4d 100644
-  AC_CONFIG_FILES([Makefile])
-  AC_OUTPUT
- diff --git a/gst-decoder.c b/gst-decoder.c
--index 2d6d581..b84980e 100644
-+index 5431014..0aa7a55 100644
- --- a/gst-decoder.c
- +++ b/gst-decoder.c
- @@ -332,6 +332,7 @@ set_last_frame(struct decoder *dec, EGLImage frame, GstSample *samp)
-@@ -96,10 +97,10 @@ index 2d6d581..b84980e 100644
-  	if (dmabuf_fd < 0) {
-  		GST_ERROR("could not obtain DMABUF FD");
- diff --git a/kmscube.c b/kmscube.c
--index 3a2c4dd..276dc55 100644
-+index 81803be..e93da67 100644
- --- a/kmscube.c
- +++ b/kmscube.c
--@@ -148,7 +148,11 @@ int main(int argc, char *argv[])
-+@@ -166,7 +166,11 @@ int main(int argc, char *argv[])
-  	else if (mode == VIDEO)
-  		egl = init_cube_video(gbm, video, samples);
-  	else
-@@ -112,5 +113,5 @@ index 3a2c4dd..276dc55 100644
-  	if (!egl) {
-  		printf("failed to initialize EGL\n");
- -- 
--2.7.4
-+2.22.0
- 
-diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
-index 513148f9e0..fd90d20172 100644
---- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-+++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-@@ -6,8 +6,8 @@ DEPENDS = "virtual/libgles2 virtual/egl libdrm"
- 
- LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
- 
--SRCREV = "485b385e966a63cecc143765d112d267b299ffe5"
--SRC_URI = "git://anongit.freedesktop.org/mesa/kmscube;branch=master;protocol=git \
-+SRCREV = "e888ea1d233b2639b87a68e099d18d4e919905df"
-+SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https \
-     file://detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch"
- UPSTREAM_CHECK_COMMITS = "1"
- 
--- 
-2.22.0
+-All- of the components of the name itself are already included in the hash.  So
+why should we (or the system) care that SSTATE_PKGNAME has a specific value or not?
+
+The important items in the sstate hash name, as far as I'm concerned, are:
+
+sstate (literal), sstate version, the hash, and the 'type'. (siginfo, tgz, etc)
+
+Everything else there is for the user to be able to look at the filename and
+determine what it is.  It could be used to avoid collisions if we have two items
+with the same hash, but otherwise different contents -- but with sha256 this
+should be almost impossible.
+
+Richard mentioned in the bitbake-devel thread that there may be external tools
+using some of the components.  I'm not sure how to even identify what those
+tools are at this time, but a new sstate version entry may be enough to start to
+deal with them.
+
+--Mark
+
+> Thanks for your comments. They've been very helpful.
+> 
+> Mike.
+> 
 
 
