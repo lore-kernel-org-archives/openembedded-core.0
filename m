@@ -1,54 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 193507F27C
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+	[209.85.167.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 632B37F265
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 14:14:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6UEDmid026098
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Jul 2019 07:14:14 -0700
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 30 Jul 2019 07:14:02 -0700
-To: Mike Crowe <mac@mcrowe.com>
-References: <20190730110111.5143-1-mac@mcrowe.com>
-	<adacdf23-1d66-a1e0-fa19-521b0d5f2861@windriver.com>
-	<20190730134917.GA30833@mcrowe.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <6b194922-8aa4-f2c1-645b-ace8331ae532@windriver.com>
-Date: Tue, 30 Jul 2019 09:14:01 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.8.0
+	Tue, 30 Jul 2019 14:46:22 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id q26so44949435lfc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jul 2019 07:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=w099luuBFFObpBnNwGTR9rOiGEmnaOPx8+DKgPoPEkA=;
+	b=lvHHBOcv0Qn9HbeuyNmEdik0U28B9geH6kK6CD1TsIL9KFok3UloRJUHMgKlbRGCj+
+	fC3oXS35NCfROKwgBAxGLKw4wy/zkEju5LiBIsheEPchlOWD7WEW2K8alezYTAekZ4D9
+	gRpT/R9Z2Qr59UCrhxyPPS6MsVU1Yen/dkOlF9OGYHzUOpM1X85co66g/+PmvVKjMG6m
+	JTN8W2CEJ/5Z/y2c0VhFcquICGC0dH+qgcYPxQuaRbviHLqugjBVbIGOT1gcyAO9HAH1
+	4NNP9W8D6MF1Tppkjh2R36vnR8c6/RBFrfP56/lj55x+Ox/lXcqpgAXYPLal9u6ZiDKX
+	n3jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=w099luuBFFObpBnNwGTR9rOiGEmnaOPx8+DKgPoPEkA=;
+	b=GeTkXbb4Zm1O4EQatKpphZ9q6ldYZxeY7O1lTi5J79ezRH7evgq3EQa+i1w3ac/hjL
+	QRmX9Ld80SJhSd7ObqIRTmeqYCbEQm0Qx3dwO3TC8fTSfeB29Wvl9SuVkofnj8Wi43uq
+	E5rUWzsAXNpwMys1Ng6Vc32IXSgUGMbPDq4+2HQ176Xm5uF5w0N4KBlvxjuH97TBPrQB
+	w7nG/3LFWq67KfNho7OrsP5BD2kTNcOGhQSFsgEvHfARc832DMJKHlZzkoT0lulTLKNb
+	TYqSbNqTGN+vumVJDM4cfuh4j6Sd92sMhD/uCCfIQ7/V7XxWIX8zsS1DvvFxs4IC1HSY
+	4rXw==
+X-Gm-Message-State: APjAAAVMnJqJHL0zDFMxW384MkI7YOeWyj9SXYje3O44rkqFA/45pKK9
+	y/MdSg4qGAdj4z1EDG/PzozbjUjE4Ku7Kc+dzM5UmQ==
+X-Google-Smtp-Source: APXvYqxRbhny8bLatezLkpfn29BXWcOZIyXeosapu2oa7u5Jh0XbjNS9gin052O2rDFbBKJmpgdzbNruOBfLu5fyrUI=
+X-Received: by 2002:ac2:43bb:: with SMTP id t27mr20415238lfl.187.1564497982765;
+	Tue, 30 Jul 2019 07:46:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190730134917.GA30833@mcrowe.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sstate: Truncate PV in sstate filenames that are too long
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 30 Jul 2019 16:46:11 +0200
+Message-ID: <CAP71WjyWeiJA+3ahU1cdDi5kh6qTVvTi7CCNo5qzOA9_ti2vCw@mail.gmail.com>
+To: Yocto list discussion <yocto@yoctoproject.org>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: LF Community Bridge Mentorship
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,147 +53,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 14:14:34 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jul 2019 14:46:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/30/19 8:49 AM, Mike Crowe wrote:
-> On Tuesday 30 July 2019 at 08:25:52 -0500, Mark Hatle wrote:
->> On 7/30/19 6:01 AM, Mike Crowe wrote:
->>> sstate filenames are generated by concatenating a variety of bits of
->>> package metadata. Some of these parts could be long, which could cause
->>> the filename to be longer than the 255 character maximum for ext4.
->>>
->>> So, let's try to detect this situation and truncate the PV part of the
->>> filename so that it will fit. If this happens, an ellipsis is added to
->>> make it clear that the version number is incomplete.
->>>
->>> SSTATE_PKG needs to be consistent for all tasks so that the hash
->>> remains stable. This means that we need to make an assumption for the
->>> maximum length of the task name. In this implementation, the task name
->>> is limited to 27 characters.
->>>
->>> This change also results in a sensible error message being emitted if
->>> the resulting filename is still too long.
->>>
->>> Signed-off-by: Mike Crowe <mac@mcrowe.com>
->>>
->>> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
->>> index 3342c5ef50..6313b1c538 100644
->>> --- a/meta/classes/sstate.bbclass
->>> +++ b/meta/classes/sstate.bbclass
->>> @@ -8,6 +8,24 @@ def generate_sstatefn(spec, hash, d):
->>>          hash = "INVALID"
->>>      return hash[:2] + "/" + spec + hash
->>>  
->>> +def sstate_path(taskname, d):
->>> +    max_filename_len = 245 # leave some room for ".siginfo"
->>> +    max_addendum_len = 32 # '_' + taskname + '.tgz'
->>
->> Since the task name is variable, is there really a 32 character limit here?
->>
->> It may make sense to do:
->>
->> # '_' + taskname + '.tgz', reserving a minimum of 32 for taskname
->> max_addendum_len = len(taskname) + 5 if len(taskname) + 5 > 32 else 32
->>
->> Always reserve a minimum of 32 for consistency, but if we go over account
->> for it.
-> 
-> I think that would just cause task hash mismatches (see third paragraph of
-> commit message.)
-> 
-> It probably does make sense to detect such long task names in this
-> situation and generate errors though.
-> 
->>> +    sstate_prefix = d.getVar('SSTATE_PKG')
->>> +    excess = len(os.path.basename(sstate_prefix)) - (max_filename_len - max_addendum_len)
->>> +    if excess > 0:
->>> +        pv = d.getVar('PV')
->>> +        if len(pv) >= excess and len(pv) >= 3:
->>> +            short_pv = d.getVar('PV')[:-excess-3] + '...'
->>
->> Is truncating the PV enough?  In a discussion on the bitbake list, I suggested
->> possibly changing the order of the entries in the SSTATE_PKGSPEC to allow us to
->> prune things prior to the hash w/o affecting the hash.  Maybe this is simply not
->> needed.. but it's a possibility if this proves to not be effective.
-> 
-> Truncating PV solves the problem I was having. The other fields don't
-> really tend to be very long, so there's less to be gained by shortening
-> them.
-> 
->>> +            d2 = d.createCopy()
->>> +            d2.setVar('PV', short_pv)
->>> +            sstate_prefix = d2.getVar('SSTATE_PKG')
->>> +
->>> +    sstatepkg = sstate_prefix + '_'+ taskname + ".tgz"
->>> +    if len(os.path.basename(sstatepkg)) > max_filename_len:
->>> +        bb.error('Failed to shorten sstate filename')
->>> +    return sstatepkg
->>> +
->>>  SSTATE_PKGARCH    = "${PACKAGE_ARCH}"
->>>  SSTATE_PKGSPEC    = "sstate:${PN}:${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}:${PV}:${PR}:${SSTATE_PKGARCH}:${SSTATE_VERSION}:"
->>>  SSTATE_SWSPEC     = "sstate:${PN}::${PV}:${PR}::${SSTATE_VERSION}:"
->>
->> There is something else I noticed..  "SSTATE_PKGNAME" defined as:
->>
->> SSTATE_PKGNAME    =
->> "${SSTATE_EXTRAPATH}${@generate_sstatefn(d.getVar('SSTATE_PKGSPEC'),
->> d.getVar('BB_UNIHASH'), d)}"
->>
->> From what I can tell, this really should be using the new sstate_path function
->> in someway.
-> 
-> Hmm, you're right. I can't have covered that in my testing. :(
-> 
->> Would it make more sense to define SSTATE_PKGNAME in such a way that it always
->> resulted in something "short" enough, and in the right format, that it would
->> always work?
-> 
-> I'd considered doing it that way. If SSTATE_OKGSPEC contained ${SSTATE_PV}
-> and that either had the value of ${PV} or the a truncated version of ${PV}
-> then the rest of the file could remain the same. However, truncating PV
-> without access to the rest of the spec would mean just picking some
-> arbitrary maximum PV length which is likely to be more conservative than
-> necessary.
-> 
->> Adjusting or rewriting "generate_sstatefn" could still accomplish the PV change,
->> but the max length of the string would need further shrinking to accommodate an
->> unknown task length (which goes back to my previous comment).  If the 32 default
->> is long enough then that shouldn't be a problem -- and may also resolve my
->> concerns that something outside of sstate class could try to use that various
->> and without the new magic function get the wrong results.
-> 
-> I wonder whether I can get away with applying per-task PV truncation in
-> generate_sstatefn without causing hash mismatches? That's worth a try.
+Dear all,
 
-The only cause of a task hash mismatch (actual hash, not filename) would be in
-SSTATE_PKGNAME is part of the hash itself.  I'd contend if it is, then we should
-exclude it.
+The Community Bridge platform was launched earlier this year by the
+Linux Foundation. It=E2=80=99s a set of services available to LF projects t=
+o
+help them build stronger ecosystems, and foster developers
+relationship within their respective communities. See [1] and [2]. The
+Yocto Project has joined the Community Bridge Funding and Mentorship
+programs.
 
--All- of the components of the name itself are already included in the hash.  So
-why should we (or the system) care that SSTATE_PKGNAME has a specific value or not?
+If you have any specific questions about these programs, please do not
+hesitate to reach out to me.
 
-The important items in the sstate hash name, as far as I'm concerned, are:
+Today, we would like to talk more about the mentorship program. We
+have tried several initiatives in the past about interns and
+mentorship, and we would like to do that again using the new LF
+platform. A mentorship program for the Yocto Project is a good
+opportunity for our overall community to reach out to new developers,
+improve our developers diversity. It will help increase the pool of
+available developers with appropriate skills about the Yocto Project
+and Open Embedded technologies and as a consequence create a more
+sustainable ecosystem around the Yocto Project. It also offers
+existing senior developers the chance to become mentors, and share
+their knowledge!
 
-sstate (literal), sstate version, the hash, and the 'type'. (siginfo, tgz, etc)
+We would like to request feedback about how to best define the Yocto
+Project Mentorship program.
 
-Everything else there is for the user to be able to look at the filename and
-determine what it is.  It could be used to avoid collisions if we have two items
-with the same hash, but otherwise different contents -- but with sha256 this
-should be almost impossible.
+The structure of the mentorship is flexible and we can adjust as
+needed. Our initial thought is to set 12-week project, which is what
+the Linux Kernel Mentorship program is using, see [4]. The overall
+process involves:
 
-Richard mentioned in the bitbake-devel thread that there may be external tools
-using some of the components.  I'm not sure how to even identify what those
-tools are at this time, but a new sstate version entry may be enough to start to
-deal with them.
+1. Finding / defining work items for potential mentees.
+2. Get appropriate funding for mentees=E2=80=99 stipends
+3. Recruit mentors within our community
+4. Review and select mentees=E2=80=99 applications
 
---Mark
+There has already been some work on the potential work items in the
+form of the newcomer bugs, some of which could be turned into work
+suitable for a mentorship programme.
 
-> Thanks for your comments. They've been very helpful.
-> 
-> Mike.
-> 
+=3D=3D=3D Call for ACTION =3D=3D=3D
 
+* We need your help for any of the items above, and especially #1 to
+get started. Whether you are a long time contributor to the project or
+you recently joined our mailing list, your feedback will be greatly
+appreciated.
+* If you are interested to participate as a mentor, please let me know!
+* You don=E2=80=99t need to be a project expert to be a mentor, you need to
+know how the project works and be willing to help guide someone
+through their task.
+
+There is no specific timeline set yet, it will most likely depend on
+how much feedback we receive about this initiative, but most likely
+the internships will have to be tied to the Yocto Project release
+timeline.
+
+If you have any questions or any suggestions, please reach out to me!
+cheers,
+Nico
+
+[1] https://www.linuxfoundation.org/press-release/2019/03/the-linux-foundat=
+ion-launches-new-communitybridge-platform-to-help-sustain-open-source-commu=
+nities/
+[2] https://communitybridge.org/
+[3] https://people.communitybridge.org/
+[4] https://wiki.linuxfoundation.org/lkmp
 
