@@ -1,50 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 334537F2CF
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+	[209.85.210.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 79EF16B5C5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 22:58:30 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id g2so28762838pfq.0
+	Tue, 30 Jul 2019 00:36:10 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id c3so5724670pfa.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2019 15:58:31 -0700 (PDT)
+	Mon, 29 Jul 2019 17:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=UcZj4DWP7cLQ5Wur529AV1Zr4DlN5jOIx2FMRVpiT/8=;
-	b=hZ4cQP9YWPeBp9ptGn1qKVgoYD0eUGDx6aJPhmZTppvsxNIdPILDb+zyPfhH4vSPAI
-	6YCy62G5yQC6F/P9JuAkHH17aMWwrWrHksgiz2HUiO9v3xwB5L6bQh4xrReEeH7v9ed3
-	yRo37TIzrghGYvpanzNiQjvIwMF5OlzfJRHc0Xp1LXjIcgI20k4+/GCSFpJUHelkMu4T
-	aQHbW/XvTgGpsX3flRtYvs7RmGUNipYR9g1/dJ3eCDciwBhKkgboIigGzqqG9r+691bH
-	vb59C5oDzHS/UH8K33q0VuEcuZOZdj5uV3Qn3BpJ971lL3s93oVR21GU1k12Ngg/0d3y
-	zytQ==
+	bh=+PsMkjR0SV7mQVzD8Yn5pEoPNllcSLB70znKqhqcrKQ=;
+	b=SnWYeqB3XSOHk/sWSSi/GlbNVWtw+v4oTMXbVIVJsO/z0IkIEpUf6vWSU7gFvDogFL
+	yQFg5WWrcWjn28pPDFazNW6Fv7UDpL947uDzV/x3ogR1W3UBWnODFtsTh63WGsPQ0OgZ
+	GRmhwYxfbUWtNgK2quRya+PQaFvskV5ssITc3oPir2blTlFJHJf7O2HNDhkNVsAvIbZw
+	R4f7Cxd83Yx/cDONljfH/E5PZPBSQn+gGgqp/QaSo8AK11iNkIWWIXR8t7sgkWtG3Lrf
+	SgksljLc8IBntnqIqOAiLNoGnEeI2ye/WZ8/NRQbAbG1Bx5Xy7IIxyt3AMEhIbjJBLiD
+	iVyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=UcZj4DWP7cLQ5Wur529AV1Zr4DlN5jOIx2FMRVpiT/8=;
-	b=JpL8qB26HjqigMBJ0tP4djn6Xy8maG/NphqfEcOrlmLxUEhP8X5l3uIjsfonwF6KnE
-	J6oMbTdHnc1mAZQXDKJsJbrRn9nYTyl+pYjmu7hVe5IUoA4ILjgXzZ/AQCikQmwwFzmW
-	q1db0n0wlhqHNr/f+9533q53MsTvWJurNr6y2aSEnnosqgtKosQaGhdViuldSndJjagg
-	naWenxBG4HqAuAUgKOXPw8hVsAkP3GcQNwZ+UcijFAjIMD+mtQTDSvdKM1mpYHWjJT6o
-	YUchtgayn3NdlRNLBiOv9OtHpu44kDm3WK08mHCTO1rbA8e5q4A2+y7J6k1RGGSpf7lc
-	JMIA==
-X-Gm-Message-State: APjAAAXCeTvxrTYdUPym1714yzh7MSJidxtfNZSnM72SZR7535u0CiAl
-	oryfStDPk9JBuR4LhL/ODrNqngYIDzc=
-X-Google-Smtp-Source: APXvYqyUhv2chTyy7PFqrGqtVQUxBstp6eI9NfphqIK83xldkY+r6G9Bbtfu3dZOpbVfdnyEp0cupQ==
-X-Received: by 2002:a63:20a:: with SMTP id 10mr105357817pgc.226.1564441110682; 
-	Mon, 29 Jul 2019 15:58:30 -0700 (PDT)
+	bh=+PsMkjR0SV7mQVzD8Yn5pEoPNllcSLB70znKqhqcrKQ=;
+	b=ViBhBlTPZOKZjYqCPI9veWKN5TcYJRbK9Bbux0ZhDt8GJjNQpKwIUcr20yzns3pTXs
+	QkOcxlaKGBt5mg1DSXZlCUEFs11g/iOrzJ54i09bnX50a9HXhcmgOx3LxXe75R5sV00g
+	fsXXSs/JJhMrZvUHbVybJJ1guX/PBOL4f/ImMfrfzpFzew9Ifov1ofP7S3A58VkYp5Vi
+	L9MgYEKTsG4g1kJyY7jd4DxjPPS2JnMPz9DKmN8NfEfNQ6SXS2HJCv9c5TfXqywGOKlg
+	ptZgOg8k7VK+316s2vJVsAA4vg5CQyDYGz5DPC/kelZnOjms0tprUjQ4z3ULCyr1nMXy
+	qHTQ==
+X-Gm-Message-State: APjAAAUDUhcCFOXMP9ri6/5dIblqjCe7326XFtBEMMi4d4vqODjaANkS
+	7JTwhO4oFdcO85Bjk8IFyb3zi8QVG5I=
+X-Google-Smtp-Source: APXvYqxVX3fUhdaJI3e/l0cmRtzQhuqBC4R33dPJAltcXlExpugjYj3J6DI8C9+8O09e8JlRgitpMg==
+X-Received: by 2002:a63:bf01:: with SMTP id v1mr104252923pgf.278.1564446970136;
+	Mon, 29 Jul 2019 17:36:10 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
 	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	f12sm52537052pgq.52.2019.07.29.15.58.29
+	g92sm77368925pje.11.2019.07.29.17.36.09
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 29 Jul 2019 15:58:30 -0700 (PDT)
+	Mon, 29 Jul 2019 17:36:09 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jul 2019 15:58:09 -0700
-Message-Id: <20190729225809.30710-1-raj.khem@gmail.com>
+Date: Mon, 29 Jul 2019 17:36:01 -0700
+Message-Id: <20190730003601.6197-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Subject: [PATCH] xserver-xorg: Backport patch to remove using sys/io.h
+Subject: [PATCH] Apache-2.0-with-LLVM-exception: Add new license file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,138 +57,245 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2019 22:58:30 -0000
+X-List-Received-Date: Tue, 30 Jul 2019 00:36:10 -0000
 Content-Transfer-Encoding: 8bit
 
-latest glibc dropped support for sys/io.h on arm, which is fixed in
-upstream xserver, as a bonus we can drop musl specific patch which was
-doing something similar up until now.
-
-Fixes
-|In file included from ../../../../xorg-server-1.20.4/hw/xfree86/int10/generic.c:15:
-| ../../../../xorg-server-1.20.4/hw/xfree86/common/compiler.h:767:10: fatal error: 'sys/io.h' file not found
-| #include <sys/io.h>
-|          ^~~~~~~~~~
-| 1 error generated.
+As per SPDX 2.1 it should be
+'Apache-2.0 WITH LLVM-exception'
+but license parser refuses to parse it, so this
+is closest we can get
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...t-include-sys-io.h-on-ARM-with-glibc.patch | 63 +++++++++++++++++++
- .../xserver-xorg/musl-arm-inb-outb.patch      | 18 ------
- .../xorg-xserver/xserver-xorg_1.20.4.bb       |  4 +-
- 3 files changed, 65 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-compiler.h-Do-not-include-sys-io.h-on-ARM-with-glibc.patch
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/musl-arm-inb-outb.patch
+ .../Apache-2.0-with-LLVM-exception            | 219 ++++++++++++++++++
+ 1 file changed, 219 insertions(+)
+ create mode 100644 meta/files/common-licenses/Apache-2.0-with-LLVM-exception
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-compiler.h-Do-not-include-sys-io.h-on-ARM-with-glibc.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-compiler.h-Do-not-include-sys-io.h-on-ARM-with-glibc.patch
+diff --git a/meta/files/common-licenses/Apache-2.0-with-LLVM-exception b/meta/files/common-licenses/Apache-2.0-with-LLVM-exception
 new file mode 100644
-index 0000000000..da9a4f2b25
+index 0000000000..f9dc50615d
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-compiler.h-Do-not-include-sys-io.h-on-ARM-with-glibc.patch
-@@ -0,0 +1,63 @@
-+From 2ba9510721b7a76cb7fe507449fa0ac997a4cce3 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Mon, 1 Jul 2019 13:20:39 +0200
-+Subject: [PATCH] compiler.h: Do not include sys/io.h on ARM with glibc
++++ b/meta/files/common-licenses/Apache-2.0-with-LLVM-exception
+@@ -0,0 +1,219 @@
++                                 Apache License
++                           Version 2.0, January 2004
++                        http://www.apache.org/licenses/
 +
-+<sys/io.h> on ARM hasn't worked for a long, long time, so it was removed
-+it from glibc upstream.
++    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 +
-+Remove the include to avoid a compilation failure on ARM with glibc.
++    1. Definitions.
 +
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Closes: https://gitlab.freedesktop.org/xorg/xserver/issues/840
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++      "License" shall mean the terms and conditions for use, reproduction,
++      and distribution as defined by Sections 1 through 9 of this document.
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/commit/fe4cd0e7f5c58fa94db36326aadc1bd4e6d73eba]
-+---
-+ hw/xfree86/common/compiler.h | 30 ------------------------------
-+ 1 file changed, 30 deletions(-)
++      "Licensor" shall mean the copyright owner or entity authorized by
++      the copyright owner that is granting the License.
 +
-+diff --git a/hw/xfree86/common/compiler.h b/hw/xfree86/common/compiler.h
-+index 7144c6a..2b2008b 100644
-+--- a/hw/xfree86/common/compiler.h
-++++ b/hw/xfree86/common/compiler.h
-+@@ -758,36 +758,6 @@ inl(unsigned short port)
-+     return xf86ReadMmio32Le((void *) ioBase, port);
-+ }
-+ 
-+-#elif defined(__arm__) && defined(__linux__)
-+-
-+-/* for Linux on ARM, we use the LIBC inx/outx routines */
-+-/* note that the appropriate setup via "ioperm" needs to be done */
-+-/*  *before* any inx/outx is done. */
-+-
-+-#include <sys/io.h>
-+-
-+-static __inline__ void
-+-xf_outb(unsigned short port, unsigned char val)
-+-{
-+-    outb(val, port);
-+-}
-+-
-+-static __inline__ void
-+-xf_outw(unsigned short port, unsigned short val)
-+-{
-+-    outw(val, port);
-+-}
-+-
-+-static __inline__ void
-+-xf_outl(unsigned short port, unsigned int val)
-+-{
-+-    outl(val, port);
-+-}
-+-
-+-#define outb xf_outb
-+-#define outw xf_outw
-+-#define outl xf_outl
-+-
-+ #elif defined(__nds32__)
-+ 
-+ /*
-+-- 
-+2.22.0
++      "Legal Entity" shall mean the union of the acting entity and all
++      other entities that control, are controlled by, or are under common
++      control with that entity. For the purposes of this definition,
++      "control" means (i) the power, direct or indirect, to cause the
++      direction or management of such entity, whether by contract or
++      otherwise, or (ii) ownership of fifty percent (50%) or more of the
++      outstanding shares, or (iii) beneficial ownership of such entity.
 +
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/musl-arm-inb-outb.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/musl-arm-inb-outb.patch
-deleted file mode 100644
-index 4be441fb71..0000000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/musl-arm-inb-outb.patch
-+++ /dev/null
-@@ -1,18 +0,0 @@
--inb/outb family for arm is only implemented on glibc
--so assumption across linux is wrong
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
--Index: xorg-server-1.18.0/hw/xfree86/common/compiler.h
--===================================================================
----- xorg-server-1.18.0.orig/hw/xfree86/common/compiler.h
--+++ xorg-server-1.18.0/hw/xfree86/common/compiler.h
--@@ -758,7 +758,7 @@ inl(unsigned short port)
--     return xf86ReadMmio32Le((void *) ioBase, port);
-- }
-- 
---#elif defined(__arm__) && defined(__linux__)
--+#elif defined(__arm__) && defined(__GLIBC__)
-- 
-- /* for Linux on ARM, we use the LIBC inx/outx routines */
-- /* note that the appropriate setup via "ioperm" needs to be done */
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.4.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.4.bb
-index ad99d6bece..d7c5e6b355 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.4.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.4.bb
-@@ -1,9 +1,9 @@
- require xserver-xorg.inc
- 
--SRC_URI += "file://musl-arm-inb-outb.patch \
--            file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-+SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-             file://pkgconfig.patch \
-             file://0001-test-xtest-Initialize-array-with-braces.patch \
-+            file://0001-compiler.h-Do-not-include-sys-io.h-on-ARM-with-glibc.patch \
-             "
- SRC_URI[md5sum] = "c4841cc24b79420205d082fe82e0a650"
- SRC_URI[sha256sum] = "fe0fd493ebe93bfc56bede382fa204458ff5f636ea54d413a5d1bd58e19166ee"
++      "You" (or "Your") shall mean an individual or Legal Entity
++      exercising permissions granted by this License.
++
++      "Source" form shall mean the preferred form for making modifications,
++      including but not limited to software source code, documentation
++      source, and configuration files.
++
++      "Object" form shall mean any form resulting from mechanical
++      transformation or translation of a Source form, including but
++      not limited to compiled object code, generated documentation,
++      and conversions to other media types.
++
++      "Work" shall mean the work of authorship, whether in Source or
++      Object form, made available under the License, as indicated by a
++      copyright notice that is included in or attached to the work
++      (an example is provided in the Appendix below).
++
++      "Derivative Works" shall mean any work, whether in Source or Object
++      form, that is based on (or derived from) the Work and for which the
++      editorial revisions, annotations, elaborations, or other modifications
++      represent, as a whole, an original work of authorship. For the purposes
++      of this License, Derivative Works shall not include works that remain
++      separable from, or merely link (or bind by name) to the interfaces of,
++      the Work and Derivative Works thereof.
++
++      "Contribution" shall mean any work of authorship, including
++      the original version of the Work and any modifications or additions
++      to that Work or Derivative Works thereof, that is intentionally
++      submitted to Licensor for inclusion in the Work by the copyright owner
++      or by an individual or Legal Entity authorized to submit on behalf of
++      the copyright owner. For the purposes of this definition, "submitted"
++      means any form of electronic, verbal, or written communication sent
++      to the Licensor or its representatives, including but not limited to
++      communication on electronic mailing lists, source code control systems,
++      and issue tracking systems that are managed by, or on behalf of, the
++      Licensor for the purpose of discussing and improving the Work, but
++      excluding communication that is conspicuously marked or otherwise
++      designated in writing by the copyright owner as "Not a Contribution."
++
++      "Contributor" shall mean Licensor and any individual or Legal Entity
++      on behalf of whom a Contribution has been received by Licensor and
++      subsequently incorporated within the Work.
++
++    2. Grant of Copyright License. Subject to the terms and conditions of
++      this License, each Contributor hereby grants to You a perpetual,
++      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++      copyright license to reproduce, prepare Derivative Works of,
++      publicly display, publicly perform, sublicense, and distribute the
++      Work and such Derivative Works in Source or Object form.
++
++    3. Grant of Patent License. Subject to the terms and conditions of
++      this License, each Contributor hereby grants to You a perpetual,
++      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
++      (except as stated in this section) patent license to make, have made,
++      use, offer to sell, sell, import, and otherwise transfer the Work,
++      where such license applies only to those patent claims licensable
++      by such Contributor that are necessarily infringed by their
++      Contribution(s) alone or by combination of their Contribution(s)
++      with the Work to which such Contribution(s) was submitted. If You
++      institute patent litigation against any entity (including a
++      cross-claim or counterclaim in a lawsuit) alleging that the Work
++      or a Contribution incorporated within the Work constitutes direct
++      or contributory patent infringement, then any patent licenses
++      granted to You under this License for that Work shall terminate
++      as of the date such litigation is filed.
++
++    4. Redistribution. You may reproduce and distribute copies of the
++      Work or Derivative Works thereof in any medium, with or without
++      modifications, and in Source or Object form, provided that You
++      meet the following conditions:
++
++      (a) You must give any other recipients of the Work or
++          Derivative Works a copy of this License; and
++
++      (b) You must cause any modified files to carry prominent notices
++          stating that You changed the files; and
++
++      (c) You must retain, in the Source form of any Derivative Works
++          that You distribute, all copyright, patent, trademark, and
++          attribution notices from the Source form of the Work,
++          excluding those notices that do not pertain to any part of
++          the Derivative Works; and
++
++      (d) If the Work includes a "NOTICE" text file as part of its
++          distribution, then any Derivative Works that You distribute must
++          include a readable copy of the attribution notices contained
++          within such NOTICE file, excluding those notices that do not
++          pertain to any part of the Derivative Works, in at least one
++          of the following places: within a NOTICE text file distributed
++          as part of the Derivative Works; within the Source form or
++          documentation, if provided along with the Derivative Works; or,
++          within a display generated by the Derivative Works, if and
++          wherever such third-party notices normally appear. The contents
++          of the NOTICE file are for informational purposes only and
++          do not modify the License. You may add Your own attribution
++          notices within Derivative Works that You distribute, alongside
++          or as an addendum to the NOTICE text from the Work, provided
++          that such additional attribution notices cannot be construed
++          as modifying the License.
++
++      You may add Your own copyright statement to Your modifications and
++      may provide additional or different license terms and conditions
++      for use, reproduction, or distribution of Your modifications, or
++      for any such Derivative Works as a whole, provided Your use,
++      reproduction, and distribution of the Work otherwise complies with
++      the conditions stated in this License.
++
++    5. Submission of Contributions. Unless You explicitly state otherwise,
++      any Contribution intentionally submitted for inclusion in the Work
++      by You to the Licensor shall be under the terms and conditions of
++      this License, without any additional terms or conditions.
++      Notwithstanding the above, nothing herein shall supersede or modify
++      the terms of any separate license agreement you may have executed
++      with Licensor regarding such Contributions.
++
++    6. Trademarks. This License does not grant permission to use the trade
++      names, trademarks, service marks, or product names of the Licensor,
++      except as required for reasonable and customary use in describing the
++      origin of the Work and reproducing the content of the NOTICE file.
++
++    7. Disclaimer of Warranty. Unless required by applicable law or
++      agreed to in writing, Licensor provides the Work (and each
++      Contributor provides its Contributions) on an "AS IS" BASIS,
++      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
++      implied, including, without limitation, any warranties or conditions
++      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
++      PARTICULAR PURPOSE. You are solely responsible for determining the
++      appropriateness of using or redistributing the Work and assume any
++      risks associated with Your exercise of permissions under this License.
++
++    8. Limitation of Liability. In no event and under no legal theory,
++      whether in tort (including negligence), contract, or otherwise,
++      unless required by applicable law (such as deliberate and grossly
++      negligent acts) or agreed to in writing, shall any Contributor be
++      liable to You for damages, including any direct, indirect, special,
++      incidental, or consequential damages of any character arising as a
++      result of this License or out of the use or inability to use the
++      Work (including but not limited to damages for loss of goodwill,
++      work stoppage, computer failure or malfunction, or any and all
++      other commercial damages or losses), even if such Contributor
++      has been advised of the possibility of such damages.
++
++    9. Accepting Warranty or Additional Liability. While redistributing
++      the Work or Derivative Works thereof, You may choose to offer,
++      and charge a fee for, acceptance of support, warranty, indemnity,
++      or other liability obligations and/or rights consistent with this
++      License. However, in accepting such obligations, You may act only
++      on Your own behalf and on Your sole responsibility, not on behalf
++      of any other Contributor, and only if You agree to indemnify,
++      defend, and hold each Contributor harmless for any liability
++      incurred by, or claims asserted against, such Contributor by reason
++      of your accepting any such warranty or additional liability.
++
++    END OF TERMS AND CONDITIONS
++
++    APPENDIX: How to apply the Apache License to your work.
++
++      To apply the Apache License to your work, attach the following
++      boilerplate notice, with the fields enclosed by brackets "[]"
++      replaced with your own identifying information. (Don't include
++      the brackets!)  The text should be enclosed in the appropriate
++      comment syntax for the file format. We also recommend that a
++      file or class name and description of purpose be included on the
++      same "printed page" as the copyright notice for easier
++      identification within third-party archives.
++
++    Copyright [yyyy] [name of copyright owner]
++
++    Licensed under the Apache License, Version 2.0 (the "License");
++    you may not use this file except in compliance with the License.
++    You may obtain a copy of the License at
++
++       http://www.apache.org/licenses/LICENSE-2.0
++
++    Unless required by applicable law or agreed to in writing, software
++    distributed under the License is distributed on an "AS IS" BASIS,
++    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++    See the License for the specific language governing permissions and
++    limitations under the License.
++
++
++--- LLVM Exceptions to the Apache 2.0 License ----
++
++As an exception, if, as a result of your compiling your source code, portions
++of this Software are embedded into an Object form of such source code, you
++may redistribute such embedded portions in such Object form without complying
++with the conditions of Sections 4(a), 4(b) and 4(d) of the License.
++
++In addition, if you combine or link compiled forms of this Software with
++software that is licensed under the GPLv2 ("Combined Software") and if a
++court of competent jurisdiction determines that the patent provision (Section
++3), the indemnity provision (Section 9) or other Section of the License
++conflicts with the conditions of the GPLv2, you may retroactively and
++prospectively choose to deem waived or otherwise exclude such Section(s) of
++the License, but only in their entirety and only with respect to the Combined
++Software.
++
 -- 
 2.22.0
 
