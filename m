@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 5037E7F332
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC067F332
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 30 Jul 2019 15:54:45 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id p74so57637093wme.4
+Received: by mail-wm1-f42.google.com with SMTP id a15so57664556wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 08:54:46 -0700 (PDT)
+	Tue, 30 Jul 2019 08:54:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1rD+4hZLVK6Vj+2t6nsZpCdb+N0b1cZfj48R0lO5lTg=;
-	b=TXpnjVRKzm4OMFd3irOZ4IfLHuf39jocGr0Grz22ts6JFAWODhw+bWkVO21UEnz6cz
-	sTv/GNtFHTOZh+kb2Q1ELv7E9sVhWYTFmi99ZJoDwZwrCLvTirRg6W51UwQHUKvjFqrD
-	h6E0itDWJ9Wg2mzbjF0jyOTV2yP49LPm1+XHBQl3hnRBAQauv+RY6JfLvTV57Npmg/2C
-	WVgzaJ0vm31/ehMKKimnxL5JR0H+CPJTJV/rhLc3KKrnvPzaGcDPO6eL75A8bwDDKFZa
-	SZmWu6FOqLL1hU0qgppc/dREs9J77+RAAkycJZ79yjbfn98jBGjKG18C1IQpZML+oR1R
-	mkCw==
+	bh=fl0Ih5pM+rGmoJHPbBOuyrGS/vSnYgS/E4KQNPHYgrA=;
+	b=RljlI5fLQQfPTXPoPo2UWsaPDNSOBLaq3Nu++3t7NycleLxXUmMss4fRzWYPrT0oeh
+	U1YmrOaTuE75pCT2Zr08SMK3CBTGeZf5tzoZOh2CachJyx97ZQwzqdvl9bXJcmwTJiTd
+	xYpt9ysvK+mHPCYKfFCALcJ7e/FlxoRvSKOMcSZkAjX0SeW/9U7ibpH2briqymZhFCGH
+	zASuJTBNKPNToB6UZmJNwtwGC6ygzREjyKTdKteKW5/nqGFpPQuFElC5S4irSxPU46MO
+	Z+eemurSltqvTNPYqCGIwnvIoRjhbpt1gXHEuRo9XAvtKa9p4WqkW+AqZo2nP9S3MuVB
+	riOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=1rD+4hZLVK6Vj+2t6nsZpCdb+N0b1cZfj48R0lO5lTg=;
-	b=lZ3SkaEBdiwCbbI1XqYO033wCxdZDpKxK7ir0HG1lHVo9rR/yzc6OJ5Q//Q3SLC7Hb
-	HWFtxgtMj1oHVoRL6RWrxRxp6x1/EBjWOJ56fHuKPutN50T3xcMV4ZaLQWmUXpsquka2
-	RiqiRTsxdwzvosdhLin2InRAzgTLvT6TQDbeCN96Kj1IVsfHlC7D3o9sVtFkWkx6HyM1
-	/g2MGjWSzcpQTGkN1b4LpvXwHdsbqu63z1gORrIyukbzqIJALDWkvSLg5JUvDsgJ9oT8
-	KH/SgxgOJuLTtFYzWv+GaqNtoRPaN6sdMotO29Txmeg9DkRQh5IMkh/7dep77AYjDXnN
-	e0jw==
-X-Gm-Message-State: APjAAAWZfwDXvA/eilM8gH0Ezp5DMLzmGOFYmADVSmEhvdKaymO8i1Ls
-	TpgaJ659rVXM2PI92vglOMD3e3iWJdM=
-X-Google-Smtp-Source: APXvYqz7bqDDJpA+B73hSglPPp6b1VlxFoLHPa5xrl60El1opY9ID8qgCQD39+t8MuEWYlbVS8HwTQ==
-X-Received: by 2002:a1c:f009:: with SMTP id a9mr4438650wmb.32.1564502085824;
-	Tue, 30 Jul 2019 08:54:45 -0700 (PDT)
+	bh=fl0Ih5pM+rGmoJHPbBOuyrGS/vSnYgS/E4KQNPHYgrA=;
+	b=UMvflUDl3ERYpL+bC9Rb1LbL89UVPjOQTe8WyrEHfpioO58Hm/84Lhqck1ozmgjdjx
+	X6KJ607hRwUuKpEYYk/8CfD5lNj8FI7CdMNjayowbS0Vq98U0X4X9+otudIx1UYbGtU0
+	9kcBLl7xzEIxKVzzc9r1TGpT6swvFBlcCdY0Z5ppSJpkNELSdNXXJV7hdWGk5gpTriFZ
+	yFlkn50V1Ec+jMqob0r4f59+j2/2JEGidB3cXwSLIQRx/54YlJmNuFK3dQSBqLFZCg5+
+	x5med4IHnvK1jf6BCN90E6H9O4bPVmvJX/Qvj0KN2YDnWLckemD8gDlIXw0vSXIC5FpE
+	ct+g==
+X-Gm-Message-State: APjAAAU0/GVAWfS0aZ8raoBr08EL6EWXJhsa9fCaN1T7v2gmnpQoRYXb
+	jgLg6dbqvQ7F2JROnbqdqCp+YHzQqpk=
+X-Google-Smtp-Source: APXvYqxKDci++6BVnC11y7pAbqmiq96BedCy/4TQGb84rkJkUZqK8q9L9S8dyTdxOyhKwwkcMQxEjw==
+X-Received: by 2002:a7b:c04f:: with SMTP id u15mr17009343wmc.106.1564502086538;
+	Tue, 30 Jul 2019 08:54:46 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
 	c3sm70781403wrx.19.2019.07.30.08.54.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Jul 2019 08:54:45 -0700 (PDT)
+	Tue, 30 Jul 2019 08:54:46 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jul 2019 17:54:31 +0200
-Message-Id: <20190730155432.96611-7-alex.kanavin@gmail.com>
+Date: Tue, 30 Jul 2019 17:54:32 +0200
+Message-Id: <20190730155432.96611-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190730155432.96611-1-alex.kanavin@gmail.com>
 References: <20190730155432.96611-1-alex.kanavin@gmail.com>
-Subject: [PATCH 7/8] webkitgtk: upgrade 2.24.2 -> 2.24.3
+Subject: [PATCH 8/8] bzip2: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,58 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 15:54:45 -0000
+X-List-Received-Date: Tue, 30 Jul 2019 15:54:46 -0000
+
+As it is now working, we do not need an exception from the check anymore.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-sato/webkit/webkitgtk/snprintf.patch | 15 ---------------
- .../{webkitgtk_2.24.2.bb => webkitgtk_2.24.3.bb}  |  5 ++---
- 2 files changed, 2 insertions(+), 18 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/snprintf.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.24.2.bb => webkitgtk_2.24.3.bb} (97%)
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/snprintf.patch b/meta/recipes-sato/webkit/webkitgtk/snprintf.patch
-deleted file mode 100644
-index b1481d78e83..00000000000
---- a/meta/recipes-sato/webkit/webkitgtk/snprintf.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--include missing header for snprintf definition
--
--Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=197088]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
----- a/Source/WebCore/platform/text/TextCodec.cpp
--+++ b/Source/WebCore/platform/text/TextCodec.cpp
--@@ -28,6 +28,7 @@
-- #include "TextCodec.h"
-- 
-- #include <array>
--+#include <cstdio>
-- 
-- namespace WebCore {
-- 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
-similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
-index 891266b220b..1a56108afd5 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
-@@ -22,12 +22,11 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://detect-gstreamer-gl.patch \
-            file://include_array.patch \
-            file://narrowing.patch \
--           file://snprintf.patch \
-            file://0001-gstreamer-add-a-missing-format-string.patch \
-            "
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 73d933a0025..6f86b451ae0 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -16,7 +16,6 @@ SRC_URI[md5sum] = "67e051268d0c475ea773822f7500d0e5"
+ SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
  
--SRC_URI[md5sum] = "83012998e1b9f71abb37d8baf6f9c7e6"
--SRC_URI[sha256sum] = "019cb1f0d05bf6148b72c7a85734bcd006388a1c14132843ef9a1b2cb7b4321c"
-+SRC_URI[md5sum] = "e2a5bbd09a217eba096a2d1562143e35"
-+SRC_URI[sha256sum] = "940d746d7e82c357222feb5b3f44c4b201e81df7d81ddca5ca2bf3ae0acf6c51"
+ UPSTREAM_CHECK_URI = "https://www.sourceware.org/pub/bzip2/"
+-UPSTREAM_VERSION_UNKNOWN = "1"
  
- inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ PACKAGES =+ "libbz2"
  
 -- 
 2.17.1
