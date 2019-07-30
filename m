@@ -1,42 +1,50 @@
-Return-Path: <ruslan.bilovol@gmail.com>
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
-	[209.85.210.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 986407F31A
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with ESMTP id DAEE57EB0F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 16:59:05 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id j19so28569024otq.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 09:59:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=JO1bmNNL6InJ9/IVMOrp/5QFAcRkdUei3/RSDzvdYbw=;
-	b=FqhE5oB7QLeV4McHo7uTmONINiPEBg/ZfQ9Ukod3eB7ACwAyQpnotHQzuSiNJ2NekE
-	D0Cu8JIo6q5Xsw6LktYuiwqS/ItnG2SiKiwMUv/Hjc6avMonkt8bctzBc0kuD2t8xVlZ
-	S9kCByp3zQocprngpohDOmrhQdzcOlHNSAnG+bmr+yOss6R8p+aiaNBG7dK+EmAP7htk
-	2Flxb+weFYi2amhxCfMaRRiCuBFngtNM8gbV8UoatAH+jIVpS2AUCTA2SghY5QDASKM6
-	1UoQHCOJBU5O1n4KJ1eTe8OCD7owwlK7IraDPWHMZAjdPH3VynI67pgU4NFU70QkJGme
-	k8xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=JO1bmNNL6InJ9/IVMOrp/5QFAcRkdUei3/RSDzvdYbw=;
-	b=LhV7VGQD5hY3PSsl0deBzkZMtlWfEaDLXbdHBlhMYeOnyjoT66LUZWisJqo7ip6EKN
-	gHVnH2DM7Qg7kKSNL2dQWNZAhpodoKlCLRbxtMIES3gyUXDzy1PlEjaio0CYvXU/G3SZ
-	0YjHBCW1wNzxGZ+ip7wjz4Oko0G3APhncpSG+jz4vzJuv0+jQGrxYOEZFp8epatwoUeP
-	kR/NtwMP2QeW/0D/vIp8u3XGGwEs80FtoetunS3xJB1OkVTkWbXVuMuLNmQKNSqnO8r+
-	GYabSZhbmv5fPJuJjOzsQYIFXgvvtx+p3gE8Xj5SKffZrqsqmmlUaXmoxet0vrmRmVGC
-	xWEA==
-X-Gm-Message-State: APjAAAWiiYlIIIgKQgC0kAYZMwCy9KFtszm6AcEqk9scdT33/d+y5kdF
-	qGogrCYHlfSRp0xvr/YQXSaKMLCvQTF+21DiRnMySp1cdXA=
-X-Google-Smtp-Source: APXvYqx9ug8Rhut+UkrXmRgKI7ydB2ydoAEkW7481JTV3GMrM1QRuGUQTEXE7dBfVdHL7RhHb+Bvdp7yT4B+UZ7/i7w=
-X-Received: by 2002:a9d:6282:: with SMTP id x2mr52763820otk.223.1564505946220; 
-	Tue, 30 Jul 2019 09:59:06 -0700 (PDT)
+	Tue, 30 Jul 2019 17:33:14 +0000 (UTC)
+Received: (qmail 30046 invoked by uid 1003); 30 Jul 2019 17:33:21 -0000
+Received: from unknown (HELO ?192.168.11.100?)
+	(philip@opensdr.com@73.152.143.112)
+	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
+	30 Jul 2019 17:33:21 -0000
+To: Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <CAB=otbSH85m0WnBj0Q2z9Bj2ZGwzGzcM74-GuaXtt6PeReP60Q@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
+	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
+	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
+	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
+	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
+	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
+	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
+	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
+	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
+	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
+	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
+	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
+	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
+	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
+	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
+	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
+	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
+	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
+	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
+	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
+	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
+	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
+	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
+	6eUfr0u7CwnEyqiQ
+Message-ID: <3f13cb86-a12b-aba7-e8a1-517f25ba7f1e@balister.org>
+Date: Tue, 30 Jul 2019 13:33:14 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
-Date: Tue, 30 Jul 2019 19:58:55 +0300
-Message-ID: <CAB=otbSH85m0WnBj0Q2z9Bj2ZGwzGzcM74-GuaXtt6PeReP60Q@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: OEDEM 2019
+In-Reply-To: <CAB=otbSH85m0WnBj0Q2z9Bj2ZGwzGzcM74-GuaXtt6PeReP60Q@mail.gmail.com>
+Subject: Re: OEDEM 2019
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,18 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 16:59:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 30 Jul 2019 17:33:15 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+We are working with the Yocto Project on a two day Summit event. This
+should implement part of the ideas from the the last couple of developer
+meetings.
 
-Is there any plan to hold an OpenEmbedded developer meting
-in Lyon, France around this year's ELCE 2019 (October 28-30)?
+Philip
 
-I see that OEDEM 2019 page isn't created yet and I didn't find
-any news in mailing lists yet:
-https://www.openembedded.org/wiki/OEDEM_2019
-
-Thanks,
-Ruslan
+On 07/30/2019 12:58 PM, Ruslan Bilovol wrote:
+> Hi all,
+> 
+> Is there any plan to hold an OpenEmbedded developer meting
+> in Lyon, France around this year's ELCE 2019 (October 28-30)?
+> 
+> I see that OEDEM 2019 page isn't created yet and I didn't find
+> any news in mailing lists yet:
+> https://www.openembedded.org/wiki/OEDEM_2019
+> 
+> Thanks,
+> Ruslan
+> 
 
