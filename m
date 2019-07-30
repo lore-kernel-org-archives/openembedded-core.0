@@ -1,50 +1,59 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id DAEE57EB0F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B15F67C5F0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 17:33:14 +0000 (UTC)
-Received: (qmail 30046 invoked by uid 1003); 30 Jul 2019 17:33:21 -0000
-Received: from unknown (HELO ?192.168.11.100?)
-	(philip@opensdr.com@73.152.143.112)
-	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
-	30 Jul 2019 17:33:21 -0000
-To: Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <CAB=otbSH85m0WnBj0Q2z9Bj2ZGwzGzcM74-GuaXtt6PeReP60Q@mail.gmail.com>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Message-ID: <3f13cb86-a12b-aba7-e8a1-517f25ba7f1e@balister.org>
-Date: Tue, 30 Jul 2019 13:33:14 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+	Tue, 30 Jul 2019 18:02:41 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id k8so130272189iot.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jul 2019 11:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language;
+	bh=aG2wuIa2eslgsUAiZTBn9j/tCAy7/mbCg+TsANQMUwM=;
+	b=MjN6v3wQp9WM4LGMbgwYezBWBdgCoDPbfJj5d4ymLJLb+j0hYWNDlKWBahwE3oj31M
+	4PZZy6eiIpnHhGMQgJW1RRbCvizVy7APIM+oey63+WACrdCAFFXDBeXsLOl1h58XmqIw
+	GP09+YW4f3MoC1iHfCjvCxJAaWkNmnLTXJUyKr5bH8nLX2WfDibOhor3gctr33BUVl6d
+	OlY7f69Az8tY5Kz1wEj4TmbW5+AcS2koVPyijbN5snVhNVL5WF813UVDadRDHc6pylVt
+	S6qCad7n5O6475+i5f2WTdEcmEvHIFhjCwfU2M0cHx84oGEBQPSVrnp6GBLtVzDKkCCu
+	t70w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=aG2wuIa2eslgsUAiZTBn9j/tCAy7/mbCg+TsANQMUwM=;
+	b=mPg+ZFbQ5jvhq2wWZkBPR3MW5Z+NZtQ+QuIj5JPklxxq2Bexfp3lo5UCOjlS73oExs
+	IXSQtDdI6U3eYKVa73Jdd8sa/t0S2QnGy3pHzL3Zm9SddvnvSLMTt85Kz5tlsydfBp08
+	Z4FvCG773mCDZZEu4p5MkVraqCqswUZFEdM3ejPB+OwIIlOvteyBppv/qoRx6A3Ei9kM
+	dNtic4Ml1kQIZLqLsAjfnI2eiBItEiiUaakxZHA00A2olNmZFWf703Oe2aAVw+x8N/pv
+	sDKD9FJRJRTGCMRafwpLwIvEFOsm6paVPW8ncZG088pwLUNQelNWWfu48rm4zMacUEoe
+	iCYg==
+X-Gm-Message-State: APjAAAVEfvngPuew14X/tuVcyroySc6orV3q/7het1mDx1wiatjzW8mo
+	eUqxIoG20X9UyVoWfxUJVZY=
+X-Google-Smtp-Source: APXvYqygqX7UyHX31R2BgmMNAkvtSfqTCQFebt2LOggefz3CVetr1tTNB16bHbNYi8daQak7iibAGA==
+X-Received: by 2002:a02:3b62:: with SMTP id i34mr124417573jaf.91.1564509762368;
+	Tue, 30 Jul 2019 11:02:42 -0700 (PDT)
+Received: from ?IPv6:2601:646:8500:6bc6:49d0:515a:e57b:abb3?
+	([2601:646:8500:6bc6:49d0:515a:e57b:abb3])
+	by smtp.gmail.com with ESMTPSA id
+	j14sm55846551ioa.78.2019.07.30.11.02.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Jul 2019 11:02:41 -0700 (PDT)
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	akuster808 <akuster808@gmail.com>
+References: <20190729100020.10517-1-bunk@stusta.de>
+	<5acdfa6c-f88a-7812-a0b1-108e4532ebbd@gmail.com>
+	<CANNYZj8XyDdF_VNHL_YiDcFXeXf4Pk=o-pqg2SD3TO32ozqbyw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <5f784845-62c8-8a50-a05a-4a7eba319199@gmail.com>
+Date: Tue, 30 Jul 2019 11:02:40 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAB=otbSH85m0WnBj0Q2z9Bj2ZGwzGzcM74-GuaXtt6PeReP60Q@mail.gmail.com>
-Subject: Re: OEDEM 2019
+In-Reply-To: <CANNYZj8XyDdF_VNHL_YiDcFXeXf4Pk=o-pqg2SD3TO32ozqbyw@mail.gmail.com>
+Cc: Adrian Bunk <bunk@stusta.de>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bind: Remove RECIPE_NO_UPDATE_REASON and follow the ESV releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +66,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 17:33:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jul 2019 18:02:41 -0000
+Content-Type: multipart/alternative;
+	boundary="------------7F111B6F76D7C14D976BF224"
+Content-Language: en-US
 
-We are working with the Yocto Project on a two day Summit event. This
-should implement part of the ideas from the the last couple of developer
-meetings.
+--------------7F111B6F76D7C14D976BF224
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Philip
 
-On 07/30/2019 12:58 PM, Ruslan Bilovol wrote:
-> Hi all,
-> 
-> Is there any plan to hold an OpenEmbedded developer meting
-> in Lyon, France around this year's ELCE 2019 (October 28-30)?
-> 
-> I see that OEDEM 2019 page isn't created yet and I didn't find
-> any news in mailing lists yet:
-> https://www.openembedded.org/wiki/OEDEM_2019
-> 
-> Thanks,
-> Ruslan
-> 
+On 7/30/19 6:01 AM, Alexander Kanavin wrote:
+> On Tue, 30 Jul 2019 at 11:21, akuster808 <akuster808@gmail.com 
+> <mailto:akuster808@gmail.com>> wrote:
+>
+>     So are you setting the package update policy to LTS only ?  Its a
+>     function over maintenance question.
+>
+>     I don't understand why this package is being singled out. I think it
+>     should be an OE  architecture discussion
+>
+>
+> I am not sure why are you objecting to this. This line:
+> RECIPE_NO_UPDATE_REASON = "9.11 is LTS 2021"
+> was added by you, and more or less states that update policy for bind 
+> is LTS-only.
 
+I see a technical reason where dependent packages like dhcp expects 9.11 
+if used from system, there is an option to built the bundled version of 
+bind9 but that results in duplication. Unless there are other compelling 
+reason for upgrading, I would like us to stick with 9.11
+
+>
+> Alex
+>
+
+--------------7F111B6F76D7C14D976BF224
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 7/30/19 6:01 AM, Alexander Kanavin
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CANNYZj8XyDdF_VNHL_YiDcFXeXf4Pk=o-pqg2SD3TO32ozqbyw@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr">On Tue, 30 Jul 2019 at 11:21, akuster808 &lt;<a
+            href="mailto:akuster808@gmail.com" moz-do-not-send="true">akuster808@gmail.com</a>&gt;
+          wrote:<br>
+        </div>
+        <div class="gmail_quote">
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">So are you setting the
+            package update policy to LTS only ?  Its a<br>
+            function over maintenance question.<br>
+            <br>
+            I don't understand why this package is being singled out. I
+            think it<br>
+            should be an OE  architecture discussion<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>I am not sure why are you objecting to this. This line:</div>
+          <div><span class="gmail-im">RECIPE_NO_UPDATE_REASON = "9.11 is
+              LTS 2021"</span></div>
+          <div><span class="gmail-im">was added by you, and more or less
+              states that update policy for bind is LTS-only.<br>
+            </span></div>
+        </div>
+      </div>
+    </blockquote>
+    <p>I see a technical reason where dependent packages like dhcp
+      expects 9.11 if used from system, there is an option to built the
+      bundled version of bind9 but that results in duplication. Unless
+      there are other compelling reason for upgrading, I would like us
+      to stick with 9.11<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CANNYZj8XyDdF_VNHL_YiDcFXeXf4Pk=o-pqg2SD3TO32ozqbyw@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div><span class="gmail-im"><br>
+            </span></div>
+          <div><span class="gmail-im">Alex<br>
+            </span></div>
+        </div>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+    </blockquote>
+  </body>
+</html>
+
+--------------7F111B6F76D7C14D976BF224--
