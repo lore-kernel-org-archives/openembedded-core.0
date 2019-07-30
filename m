@@ -1,25 +1,52 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2336D6D666
+Return-Path: <brgl@bgdev.pl>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BCFB747E7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 05:10:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6U5Aqbc006213
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 29 Jul 2019 22:10:53 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 29 Jul 2019 22:10:51 -0700
-To: Adrian Bunk <bunk@stusta.de>, <openembedded-core@lists.openembedded.org>
-References: <20190729113719.15521-1-bunk@stusta.de>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <814f8678-6b09-a766-91ff-7e4f0463745e@windriver.com>
-Date: Tue, 30 Jul 2019 13:09:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Tue, 30 Jul 2019 07:22:55 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id p74so56005393wme.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jul 2019 00:22:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8kMTdpr4tPk1a/ycXsWiUJc8tBWXIfCA836RT7LASIs=;
+	b=tFHnDaapjzM0MOp5k652Wvw8hKI8Kli0FJYOjS13Hs6zcsoAWPIZqluOkEacVaHPc0
+	JD1/c8gJMtCeneQD8tBu+oWBgG0GHK9xh59ix8MVHiD/Xj8AMKIjlEcmU1vZJCwg4jMd
+	lX1K68hy9zMXScm7ZoIuZVLdZ3fTgrSGpDXlYD2OuOhazIVmPIOF9ezaxLikSFEpsORa
+	DxAi4cYiLv4upgknCfK6Jov9Yf4tKnd79408HKyP4Jya8PgRTNSoM7JUwOk9tN5JB9D5
+	spHKRdmiisx6BuT5M4veyAMMe9Z7bf9yOgHlxVNj9w6318ZnNbBpILMJ9oI7OD0Geg8L
+	E4eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8kMTdpr4tPk1a/ycXsWiUJc8tBWXIfCA836RT7LASIs=;
+	b=sE/r4BeKMhKcy9kL80vAPD60Nhzl0Ohloq9YiO5RfRgd4D8sWmgb6npQx9p7utHNph
+	wSmg2GPrpUZh4y3S3r+loH7YM3hSJdicuFKNh9waf20gPSzdCujMzz0E7xxaPx+YNqkz
+	57YyzPprcCfQ3C3wqPe9FnE8aQS5Bro5jUz9xiKYIc8p8ntzaqmMfsjL38iaQa2aPeVU
+	FJiyQGHYGZRF46VwE8Fs2a9LIgut9tpmZkb/pgsfWW242VShmCQ21sB2EVIid5sssc2p
+	Y/NouWtOXla8mAr0Ywn0Oog8g5c6yM8likvlguNXTx+fViX1iAI4yMRkNX4HX9Gq3e2E
+	qjuA==
+X-Gm-Message-State: APjAAAVzD+GwwQb/f0a+XLLT2o60FVZhfvljP5o1tz2ZIavVs/AYmqAA
+	vKvrKf51WfVami/s4QkXoFY=
+X-Google-Smtp-Source: APXvYqx73Gt1Nuj8fxaHzxMCxu0yNHpn70mxyzEJsnq4yBOHdz+qSpq3TlNFR/OFBQJ3HrZxCDGsfA==
+X-Received: by 2002:a1c:9813:: with SMTP id a19mr100688751wme.11.1564471376595;
+	Tue, 30 Jul 2019 00:22:56 -0700 (PDT)
+Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
+	by smtp.gmail.com with ESMTPSA id 2sm88478297wrn.29.2019.07.30.00.22.55
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 30 Jul 2019 00:22:56 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Khem Raj <raj.khem@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 30 Jul 2019 09:22:54 +0200
+Message-Id: <20190730072254.10730-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190729113719.15521-1-bunk@stusta.de>
-Subject: Re: [PATCH] webkitgtk: Reenable on mips
+Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH] qemu: fix patch authorship
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,65 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 05:10:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 30 Jul 2019 07:22:56 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-On 2019/7/29 下午7:37, Adrian Bunk wrote:
-> It builds using the generic C_LOOP code.
->
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->   meta/recipes-gnome/epiphany/epiphany_3.32.3.bb | 3 ---
->   meta/recipes-sato/webkit/webkitgtk_2.24.2.bb   | 4 +---
->   2 files changed, 1 insertion(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-> index d1c6af52ed..de1b6e2f84 100644
-> --- a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-> +++ b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-> @@ -16,8 +16,5 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}
->   SRC_URI[archive.md5sum] = "c4976507bf3de69f27a050ad09531f5a"
->   SRC_URI[archive.sha256sum] = "3ccb6859a43b839b714aa425cb185056f1e8604adbaab6a1bc179d1ba641a33f"
->   
-> -# webkitgtk doesn't work with tune 'mips'
-> -COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips', 'null', 'mips.*-linux', d)}"
-> -
->   FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
->   RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-> index 891266b220..7f01c4e26d 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
-> @@ -43,8 +43,6 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
->   	   gettext-native glib-2.0 glib-2.0-native libtasn1 \
->             "
->   
-> -COMPATIBLE_HOST_mipsarch = "${@bb.utils.contains('DEFAULTTUNE', 'mips', 'null', 'mips.*-linux', d)}"
-> -
->   PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
->                      ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
->                      enchant \
-> @@ -97,7 +95,7 @@ EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
->   EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
->   
->   # JIT not supported on MIPS either
-> -EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF "
-> +EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF -DENABLE_C_LOOP=ON "
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
+I accidentally changed the patch author when backporting this from
+upstream qemu. This commit restores the original author.
 
-Thanks. It works for me.
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
+ ...4-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Kai
-
->   
->   # JIT not supported on X32
->   # An attempt was made to upstream JIT support for x32 in
-
-
+diff --git a/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch b/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch
+index 2feb567f1c..f7939b84bf 100644
+--- a/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch
++++ b/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch
+@@ -1,5 +1,5 @@
+ From 8104018ba4c66e568d2583a3a0ee940851ee7471 Mon Sep 17 00:00:00 2001
+-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
++From: Daniel P. Berrangé <berrange@redhat.com>
+ Date: Tue, 23 Jul 2019 17:50:00 +0200
+ Subject: [PATCH] linux-user: fix to handle variably sized SIOCGSTAMP with new
+  kernels
 -- 
-Kai Kang
+2.21.0
 
 
