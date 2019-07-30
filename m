@@ -1,83 +1,51 @@
-Return-Path: <jlock@vmware.com>
-Received: from NAM05-CO1-obe.outbound.protection.outlook.com
-	(mail-eopbgr720081.outbound.protection.outlook.com [40.107.72.81])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CACA7F331
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 801CA7F289
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 13:16:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=dMIhFfGrYQ8/EwlwJiCzwTaotxNBQ3oF7oZ5Vsm3gw64RKOGPAvvZO6ZkVn5bychAOqJOglSb87Dt0pasWhcuvIkYxyQdEHcLZjScqP3w4IUw5XU5LObs4E3f4hyFXBEjKIxZ2gbz/Jw3yug2FcK++dwNVNDFJBD+F2e9dL44ErQYIcYJIEiXw9rI7Qbyfg0JjFPJczvasJquOMoaPqXhKZl3kJ0r6DkkOK4mx/ZhrcJCrQkSltjbuk1f0IRImhvpgAVMWom8LYHtS3cbfOcnuyLlI+zoTT4JKL54cHSrc4WWovXl/msTxU24k9Czb1Mk9ko3mcSFKnZQ3b3pKI5bA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=gJPJh5LYi06QxkNAli4StaB8dFqWnlhti6g7yys/rSc=;
-	b=ZAMOYb0O1sZeFZ+48NuUj669zzw/W3mFFlIRDWqJHPctUZqZ8wK8l54gad8USH0VhXRhWwdrTz8y3PoFn+op/b1AaX2gDk9PggPng1Pis7m/TN+gKrdKBW7x/7cU/DiV+i8mYmZ6kjGAE4LZR7JgY+4EVsa//hJWPw+VpEKQkbTBt2pcudjsxevE4mOdRo1bCG2fjUoKHNhOz9c4fXkljr0mhhj024bvT1nnqcllFgIL3CW2/v5lRqK2XooilsUeiyXEH2VKXme40b7MG3pFZJ3dYBJuHDrn8EXwLTBSuH+wemYqG3GiTd9HacaenSnpkh4nuoGTug5UcbyWLLpAUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
-	smtp.mailfrom=vmware.com;dmarc=pass action=none
-	header.from=vmware.com;dkim=pass header.d=vmware.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
-	s=selector2;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=gJPJh5LYi06QxkNAli4StaB8dFqWnlhti6g7yys/rSc=;
-	b=XYR9SkrWPfsyti6dY/FA2NxgoV9NYs0NYBu8N6v9MPY9nRVOPT0vhK2uwUdYs92NepDbRtQzOSU2klLmANBFs7SDuDOLBjDBoDwsVHEuGRpGSLn6z5iFETbmKY5mXAcuMtdgzs+Nk83aKGKgNPWq42t9JM06LysTWXTW3yFDDzQ=
-Received: from CO2PR05MB2645.namprd05.prod.outlook.com (10.166.91.154) by
-	CO2PR05MB2662.namprd05.prod.outlook.com (10.166.95.14) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2136.12; Tue, 30 Jul 2019 13:16:08 +0000
-Received: from CO2PR05MB2645.namprd05.prod.outlook.com
-	([fe80::4d14:654a:9769:3f59]) by
-	CO2PR05MB2645.namprd05.prod.outlook.com
-	([fe80::4d14:654a:9769:3f59%5]) with mapi id 15.20.2136.010;
-	Tue, 30 Jul 2019 13:16:08 +0000
-From: Joshua Lock <jlock@vmware.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2 3/3] classes/sstate: regenerate sstate when signing
-	enabled
-Thread-Index: AQHVRtjz/ol+TwuJ1Ummvy7lYAz4KQ==
-Date: Tue, 30 Jul 2019 13:16:08 +0000
-Message-ID: <59778e62f8f110a61638af2ba35da732553448a5.1564487218.git.jlock@vmware.com>
-References: <cover.1564487218.git.jlock@vmware.com>
-In-Reply-To: <cover.1564487218.git.jlock@vmware.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: DB6PR07CA0020.eurprd07.prod.outlook.com
-	(2603:10a6:6:2d::30) To CO2PR05MB2645.namprd05.prod.outlook.com
-	(2603:10b6:102:8::26)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=jlock@vmware.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.21.0
-x-originating-ip: [212.140.202.154]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3ddbf110-26ac-47dd-a16e-08d714f01566
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:CO2PR05MB2662; 
-x-ms-traffictypediagnostic: CO2PR05MB2662:
-x-microsoft-antispam-prvs: <CO2PR05MB266279A5EE47A301E7308384CEDC0@CO2PR05MB2662.namprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-forefront-prvs: 0114FF88F6
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(4636009)(39860400002)(136003)(396003)(366004)(346002)(376002)(189003)(199004)(478600001)(6512007)(256004)(14444005)(81156014)(2351001)(316002)(5640700003)(476003)(486006)(7736002)(446003)(11346002)(6486002)(50226002)(6436002)(305945005)(66476007)(2616005)(53936002)(2501003)(14454004)(6916009)(66556008)(64756008)(66446008)(2906002)(66946007)(68736007)(8936002)(6116002)(3846002)(118296001)(25786009)(26005)(86362001)(102836004)(6506007)(386003)(36756003)(66066001)(52116002)(99286004)(81166006)(71200400001)(5660300002)(71190400001)(186003)(76176011)(8676002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CO2PR05MB2662;
-	H:CO2PR05MB2645.namprd05.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: vmware.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: G3rdJwdJ1NNdCKqIoS3TFZT0INnf3Qx8E1/tR4EQb2TMs7y4PcbYIEbmNJTjz1+1iS9jv9aXVEXIO8eI7MJS3gMHQRBFkAo1S0Hk+jFNfgjiaRwJnm7frnmBbhBXuwbtub1uAfX5XOF4YlQB2s/YeK7+eZdrX/IJMMR9nGSq+F75RYBVe6G8oDtl+5CyHMARwrjQAb4vGUrzkfcMXGc69WAzfFgrSXZEgYlRpkjaLSf/8G2r+w26LV6Hvn1SMfXZ1Xhiwks38AUZUH/hivBzDVoAAi1+wHPmnfZ4zrS9/A2LZEVzVtlpyLibCwR3NO7aNzkUS4Lyz8DW+RlyPVjiewOdgSuLo+7aeUbynGkYwZlWa/dtBiWgie4LB79bDa29D6XnsSlCGq5PNYBRdGlaO1atfsN6BmtiiX6sG1lPu7Y=
+	Tue, 30 Jul 2019 13:26:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6UDQ1Vl024350
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 30 Jul 2019 06:26:17 -0700
+Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 30 Jul 2019 06:25:53 -0700
+To: Mike Crowe <mac@mcrowe.com>, <openembedded-core@lists.openembedded.org>
+References: <20190730110111.5143-1-mac@mcrowe.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <adacdf23-1d66-a1e0-fa19-521b0d5f2861@windriver.com>
+Date: Tue, 30 Jul 2019 08:25:52 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ddbf110-26ac-47dd-a16e-08d714f01566
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2019 13:16:08.2627 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jlock@vmware.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO2PR05MB2662
-Subject: [PATCH v2 3/3] classes/sstate: regenerate sstate when signing enabled
+In-Reply-To: <20190730110111.5143-1-mac@mcrowe.com>
+Subject: Re: [PATCH] sstate: Truncate PV in sstate filenames that are too long
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -90,70 +58,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 13:16:08 -0000
+X-List-Received-Date: Tue, 30 Jul 2019 13:26:37 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-This change ensures that the task signatures changes, and therefore
-sstate tasks are rerun, when signing is enabled. This has the
-positive outcome that if signing is enabled new signed shared state
-objects will be produced, rather than just signing shared state
-objects for tasks where no work has been performed yet.
+On 7/30/19 6:01 AM, Mike Crowe wrote:
+> sstate filenames are generated by concatenating a variety of bits of
+> package metadata. Some of these parts could be long, which could cause
+> the filename to be longer than the 255 character maximum for ext4.
+> 
+> So, let's try to detect this situation and truncate the PV part of the
+> filename so that it will fit. If this happens, an ellipsis is added to
+> make it clear that the version number is incomplete.
+> 
+> SSTATE_PKG needs to be consistent for all tasks so that the hash
+> remains stable. This means that we need to make an assumption for the
+> maximum length of the task name. In this implementation, the task name
+> is limited to 27 characters.
+> 
+> This change also results in a sensible error message being emitted if
+> the resulting filename is still too long.
+> 
+> Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> 
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 3342c5ef50..6313b1c538 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -8,6 +8,24 @@ def generate_sstatefn(spec, hash, d):
+>          hash = "INVALID"
+>      return hash[:2] + "/" + spec + hash
+>  
+> +def sstate_path(taskname, d):
+> +    max_filename_len = 245 # leave some room for ".siginfo"
+> +    max_addendum_len = 32 # '_' + taskname + '.tgz'
 
-The downside of this change is that enabling/disabling sstate object
-signing alters the taskhash and results in rebuilding the world.
+Since the task name is variable, is there really a 32 character limit here?
 
-Signed-off-by: Joshua Lock <jlock@vmware.com>
----
- meta/classes/sstate.bbclass | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+It may make sense to do:
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 3342c5ef50..ee029196da 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -659,8 +659,12 @@ def sstate_package(ss, d):
-     if d.getVar('SSTATE_SKIP_CREATION') =3D=3D '1':
-         return
-=20
-+    sstate_create_package =3D ['sstate_report_unihash', 'sstate_create_pac=
-kage']
-+    if d.getVar('SSTATE_SIG_KEY'):
-+        sstate_create_package.append('sstate_sign_package')
-+
-     for f in (d.getVar('SSTATECREATEFUNCS') or '').split() + \
--             ['sstate_report_unihash', 'sstate_create_package', 'sstate_si=
-gn_package'] + \
-+             sstate_create_package + \
-              (d.getVar('SSTATEPOSTCREATEFUNCS') or '').split():
-         # All hooks should run in SSTATE_BUILDDIR.
-         bb.build.exec_func(f, d, (sstatebuild,))
-@@ -776,13 +780,13 @@ sstate_create_package () {
- python sstate_sign_package () {
-     from oe.gpg_sign import get_signer
-=20
--    if d.getVar('SSTATE_SIG_KEY'):
--        signer =3D get_signer(d, 'local')
--        sstate_pkg =3D d.getVar('SSTATE_PKG')
--        if os.path.exists(sstate_pkg + '.sig'):
--            os.unlink(sstate_pkg + '.sig')
--        signer.detach_sign(sstate_pkg, d.getVar('SSTATE_SIG_KEY', False), =
-None,
--                           d.getVar('SSTATE_SIG_PASSPHRASE'), armor=3DFals=
-e)
-+
-+    signer =3D get_signer(d, 'local')
-+    sstate_pkg =3D d.getVar('SSTATE_PKG')
-+    if os.path.exists(sstate_pkg + '.sig'):
-+        os.unlink(sstate_pkg + '.sig')
-+    signer.detach_sign(sstate_pkg, d.getVar('SSTATE_SIG_KEY', False), None=
-,
-+                       d.getVar('SSTATE_SIG_PASSPHRASE'), armor=3DFalse)
- }
-=20
- python sstate_report_unihash() {
---=20
-2.21.0
+# '_' + taskname + '.tgz', reserving a minimum of 32 for taskname
+max_addendum_len = len(taskname) + 5 if len(taskname) + 5 > 32 else 32
+
+Always reserve a minimum of 32 for consistency, but if we go over account for it.
+
+> +    sstate_prefix = d.getVar('SSTATE_PKG')
+> +    excess = len(os.path.basename(sstate_prefix)) - (max_filename_len - max_addendum_len)
+> +    if excess > 0:
+> +        pv = d.getVar('PV')
+> +        if len(pv) >= excess and len(pv) >= 3:
+> +            short_pv = d.getVar('PV')[:-excess-3] + '...'
+
+Is truncating the PV enough?  In a discussion on the bitbake list, I suggested
+possibly changing the order of the entries in the SSTATE_PKGSPEC to allow us to
+prune things prior to the hash w/o affecting the hash.  Maybe this is simply not
+needed.. but it's a possibility if this proves to not be effective.
+
+> +            d2 = d.createCopy()
+> +            d2.setVar('PV', short_pv)
+> +            sstate_prefix = d2.getVar('SSTATE_PKG')
+> +
+> +    sstatepkg = sstate_prefix + '_'+ taskname + ".tgz"
+> +    if len(os.path.basename(sstatepkg)) > max_filename_len:
+> +        bb.error('Failed to shorten sstate filename')
+> +    return sstatepkg
+> +
+>  SSTATE_PKGARCH    = "${PACKAGE_ARCH}"
+>  SSTATE_PKGSPEC    = "sstate:${PN}:${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}:${PV}:${PR}:${SSTATE_PKGARCH}:${SSTATE_VERSION}:"
+>  SSTATE_SWSPEC     = "sstate:${PN}::${PV}:${PR}::${SSTATE_VERSION}:"
+
+There is something else I noticed..  "SSTATE_PKGNAME" defined as:
+
+SSTATE_PKGNAME    =
+"${SSTATE_EXTRAPATH}${@generate_sstatefn(d.getVar('SSTATE_PKGSPEC'),
+d.getVar('BB_UNIHASH'), d)}"
+
+From what I can tell, this really should be using the new sstate_path function
+in someway.
+
+Would it make more sense to define SSTATE_PKGNAME in such a way that it always
+resulted in something "short" enough, and in the right format, that it would
+always work?
+
+Adjusting or rewriting "generate_sstatefn" could still accomplish the PV change,
+but the max length of the string would need further shrinking to accommodate an
+unknown task length (which goes back to my previous comment).  If the 32 default
+is long enough then that shouldn't be a problem -- and may also resolve my
+concerns that something outside of sstate class could try to use that various
+and without the new magic function get the wrong results.
+
+Anyway, my immediate 2 cents...
+
+--Mark
+
+> @@ -323,7 +341,7 @@ def sstate_installpkg(ss, d):
+>  
+>      sstateinst = d.expand("${WORKDIR}/sstate-install-%s/" % ss['task'])
+>      sstatefetch = d.getVar('SSTATE_PKGNAME') + '_' + ss['task'] + ".tgz"
+> -    sstatepkg = d.getVar('SSTATE_PKG') + '_' + ss['task'] + ".tgz"
+> +    sstatepkg = sstate_path(ss['task'], d)
+>  
+>      if not os.path.exists(sstatepkg):
+>          pstaging_fetch(sstatefetch, d)
+> @@ -617,7 +635,7 @@ def sstate_package(ss, d):
+>      tmpdir = d.getVar('TMPDIR')
+>  
+>      sstatebuild = d.expand("${WORKDIR}/sstate-build-%s/" % ss['task'])
+> -    sstatepkg = d.getVar('SSTATE_PKG') + '_'+ ss['task'] + ".tgz"
+> +    sstatepkg = sstate_path(ss['task'], d)
+>      bb.utils.remove(sstatebuild, recurse=True)
+>      bb.utils.mkdirhier(sstatebuild)
+>      bb.utils.mkdirhier(os.path.dirname(sstatepkg))
+> @@ -1084,8 +1102,8 @@ python sstate_eventhandler() {
+>          if taskname in ["fetch", "unpack", "patch", "populate_lic", "preconfigure"] and swspec:
+>              d.setVar("SSTATE_PKGSPEC", "${SSTATE_SWSPEC}")
+>              d.setVar("SSTATE_EXTRAPATH", "")
+> -        sstatepkg = d.getVar('SSTATE_PKG')
+> -        bb.siggen.dump_this_task(sstatepkg + '_' + taskname + ".tgz" ".siginfo", d)
+> +        sstateinfo = sstate_path(taskname, d) + ".siginfo"
+> +        bb.siggen.dump_this_task(sstateinfo, d)
+>  }
+>  
+>  SSTATE_PRUNE_OBSOLETEWORKDIR ?= "1"
+> 
 
 
