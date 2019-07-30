@@ -1,48 +1,30 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 554717E830
+Return-Path: <ross.burton@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id C25037E265
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 13:01:16 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id u124so43407689vsu.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 06:01:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=f5Yi+oMmUjRDxf8D1c/Dr9+0dK4hCWvTB2/KpAhPtj4=;
-	b=uwFuMaV9Um3bCKYd6wNXImUnUZBgTuDGA09yCYZikrNj7tVOlaYUmKJ8zXxUokywDg
-	C/494EE0YddFu2ftrrJKap81p4RLEQrJwP+ovYUwjlFAjfyajpurJExM0f+I4PSWnxus
-	dsSKy6oS9UaHpJE6q5VMdA4s5nrSzETG3OwGh6wPZz2u0FtgX4MJSF1/wuPV5DNRFWdz
-	zu7RgmaGGxEgPAB1ct8rY7Dy4vgC8NTVP2mBXpMT4OwtxTY3l5PvCSRq+OYmMQtnWU3x
-	f09VOs2HeroSgC9Pt/3XAdvZwwtbbUO/4z9SdEOLbHhEouLsbvS8qIB8V1ja8PohWr3S
-	wscQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=f5Yi+oMmUjRDxf8D1c/Dr9+0dK4hCWvTB2/KpAhPtj4=;
-	b=opJKukzikTmkiC9jEuVOWRw6J/+PzSq/Db0odmCr0QqSm7G+2GbumK4PrBqVl9rNlX
-	g2cQPzlx8KkYQFPkb9f7PUJ2pkX9JaedbKevZlsajH0JFTfT0SEkHKAT4egTvSFUTA3q
-	hCFWiZ0eAAcnXAMsN2XOjUoS1dEWcRxTu7/fPPLhrzkPhTzYq1SMq4120fc7Qw2Ag0dI
-	lpIN7tfXRaj/pfKa5M834W0MJcC8CN6yt7j2FpLQHTGzI5JGwlzwQzgesQh9nNYpWodu
-	bI7TH4KG8FVdDju/cYpBfPFcWDMgbOh69kmFp2JtKJGAfVsA6YuvgkrD7pi4m33pZ5AM
-	90jw==
-X-Gm-Message-State: APjAAAWEc0i9w5f1hgoZQpXZH0XK0zkMoOHNpGYUWKborHVstWppPKu0
-	BG7zvOd6lrWS9TvndLoQsidWOMLfDBTWcCcsawW2J0UsrvY=
-X-Google-Smtp-Source: APXvYqx7ZL13rvBUvek5RG0FYw5UjxjazJKfDeBl9+RQLwRZYSHx5tO+iiZ3bT8Gn0s4NW9EBdDYEf9zDc/ioNLvZJ4=
-X-Received: by 2002:a67:8042:: with SMTP id b63mr76068966vsd.23.1564491677054; 
-	Tue, 30 Jul 2019 06:01:17 -0700 (PDT)
+	Tue, 30 Jul 2019 13:06:36 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jul 2019 06:06:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,326,1559545200"; d="scan'208";a="371532644"
+Received: from jaisharm-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.36.125])
+	by fmsmga006.fm.intel.com with ESMTP; 30 Jul 2019 06:06:35 -0700
+To: Mike Crowe <mac@mcrowe.com>, openembedded-core@lists.openembedded.org
+References: <20190730110035.4806-1-mac@mcrowe.com>
+	<ea261419-94c4-7dc1-92d0-c38ef6228bd6@intel.com>
+	<20190730130316.GA17561@mcrowe.com>
+From: Ross Burton <ross.burton@intel.com>
+Message-ID: <52bc0a3d-9ce4-9125-78a8-df93927d7d53@intel.com>
+Date: Tue, 30 Jul 2019 14:06:35 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190729100020.10517-1-bunk@stusta.de>
-	<5acdfa6c-f88a-7812-a0b1-108e4532ebbd@gmail.com>
-In-Reply-To: <5acdfa6c-f88a-7812-a0b1-108e4532ebbd@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 30 Jul 2019 15:01:05 +0200
-Message-ID: <CANNYZj8XyDdF_VNHL_YiDcFXeXf4Pk=o-pqg2SD3TO32ozqbyw@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH] bind: Remove RECIPE_NO_UPDATE_REASON and follow the ESV releases
+In-Reply-To: <20190730130316.GA17561@mcrowe.com>
+Subject: Re: [PATCH] glib-networking: Support building with USE_NLS=no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 13:01:16 -0000
-Content-Type: multipart/alternative; boundary="000000000000aa3ce4058ee59aa4"
+X-List-Received-Date: Tue, 30 Jul 2019 13:06:36 -0000
+Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 
---000000000000aa3ce4058ee59aa4
-Content-Type: text/plain; charset="UTF-8"
+T24gMzAvMDcvMjAxOSAxNDowMywgTWlrZSBDcm93ZSB3cm90ZToKPiBPbiBUdWVzZGF5IDMwIEp1
+bHkgMjAxOSBhdCAxMjoxNTozNiArMDEwMCwgUm9zcyBCdXJ0b24gd3JvdGU6Cj4+IE9uIDMwLzA3
+LzIwMTkgMTI6MDAsIE1pa2UgQ3Jvd2Ugd3JvdGU6Cj4+PiBBcyByZXBvcnRlZCBpbgo+Pj4gaHR0
+cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvcGlwZXJtYWlsL29wZW5lbWJlZGRlZC1jb3JlLzIw
+MTktRmVicnVhcnkvMjc5MzQ0Lmh0bWwKPj4+ICwgZ2xpYi1uZXR3b3JraW5nIG5vIGxvbmdlciBj
+b25maWd1cmVzIHN1Y2Nlc3NmdWxseSBpZiBVU0VfTkxTPSJubyI6Cj4+Pgo+Pj4gfCBwby9tZXNv
+bi5idWlsZDoxOjU6IEVSUk9SOiAgQ2FuIG5vdCBkbyBnZXR0ZXh0IGJlY2F1c2UgeGdldHRleHQg
+aXMgbm90IGluc3RhbGxlZC4KPj4+Cj4+PiBJbiB0aGUgY3VycmVudCBhYnNlbmNlIG9mIGFueXRo
+aW5nIGJldHRlciwgaXQgc2VlbXMgdGhhdCB0aGlzIGNhbiBiZQo+Pj4gb3ZlcmNvbWUgYnkgdGVs
+bGluZyBNZXNvbiBub3QgdG8gbG9vayBpbiB0aGUgcG8vIGRpcmVjdG9yeS4KPj4KPj4gRG9lcyB0
+aGlzIGFjdHVhbGx5IHdvcms/ICBnbGliIGhhcyB0aGUgc2FtZSBpc3N1ZSAoYWxvbmcgd2l0aCBt
+b3N0IG9mIHRoZQo+PiByZXN0IG9mIHRoZSBHVEsrIHN0YWNrIHRoYXQgaGFzIG1vdmVkIHRvIE1l
+c29uKSBhbmQgdGhlIHNvbHV0aW9uIHRoZXJlIHdhcwo+PiB0byBqdXN0IGFkZCBnZXR0ZXh0IGFz
+IGEgZGVwZW5kZW5jeS4KPiAKPiBJdCBzZWVtcyB0byBmb3IgbWUuIEkgZGlkIHRoaXMgaW4gb3Vy
+IHRyZWUsIGJ1dCBJJ3ZlIGp1c3QgdHJpZWQgdGhpcyBjaGFuZ2UKPiBhbmQgZm9yY2luZyBVU0Vf
+TkxTID0gIm5vIiBpbiB0aGUgY3VycmVudCBzdGF0ZSBvZiBtYXN0ZXIgYW5kIHRoZSBidWlsZAo+
+IHN1Y2NlZWRlZC4KPiAKPj4gV2UncmUgZ29pbmcgdG8gYmUgcGxheWluZyB3aGFjay1hLW1vbGUg
+d2l0aCB0aGlzLCBtYXliZSB3ZSBzaG91bGQganVzdCBmaXgKPj4gdGhpcyB1cHN0cmVhbT8KPiAK
+PiBGaXhpbmcgaXQgdXBzdHJlYW0gaW4gbWVzb24gd291bGQgY2xlYXJseSBiZSBwcmVmZXJhYmxl
+LCBidXQgaXQgc2VlbWVkIHRoYXQKPiB0aGlzIGhhcyBhbHJlYWR5IGJlZW4gdHJpZWQuIEZpeGlu
+ZyBpdCBpbiBlYWNoIG1lc29uLXVzaW5nIHBhY2thZ2UgaXMKPiBhbm90aGVyIGFsdGVybmF0aXZl
+LCBidXQgaXQgd291bGQgYmUgZ29vZCBmb3IgaXQgdG8gYmUgZG9uZSBpbiB0aGUgc2FtZQo+IHdh
+eS4gSSBrbm93IGxpdHRsZSBhYm91dCBtZXNvbi4gOigKPiAKPiBBcyBzdWNoIGhhY2tzIGdvLCB0
+aGlzIGlzIGF0IHRoZSBsZXNzIG5hc3R5IGVuZC4gUGVyaGFwcyBpdCBjb3VsZCBldmVuCj4gcGVy
+aGFwcyBiZSBpbmNvcnBvcmF0ZWQgaW50byB0aGUgbWVzb24gY2xhc3M/Cj4gCj4gSSd2ZSBhZGRl
+ZCBhIGNvbW1lbnQgdG8gaHR0cHM6Ly9naXRodWIuY29tL21lc29uYnVpbGQvbWVzb24vaXNzdWVz
+LzgyMSAuCj4gCj4gTWlrZS4KPiAKPiAoSSdtIG5vdCBzdXJlIGlmIHlvdSBpbnRlbnRpb25hbGx5
+IHNlbnQgdGhpcyBvZmYtbGlzdC4gSSBkb24ndCBtaW5kIHNlbmRpbmcKPiB0aGlzIHJlcGx5IGFn
+YWluIHRvIHRoZSBsaXN0IGlmIGl0IHdhcyBhIG1pc3Rha2UuKQo+IAoKTm8sIEkgZGlkbid0IHNl
+bmQgaXQgb2ZmLWxpc3QgaW50ZW50aW9uYWxseS4gIE5ldyBtYWlsZXIgOiggIENDaW5nIHRoZSAK
+bGlzdCBhZ2FpbiBub3cuCgpJIHdvbmRlciBpZiBwYXRjaGluZyBpbiBhIGRpc2FibGUtbmxzIG9w
+dGlvbiB0aGF0IGd1YXJkcyB0aGUgc3ViZGlyKHBvKSAKd291bGQgYmUgc3VmZmljaWVudGx5IHVu
+aW52YXNpdmUgYW5kIHVwc3RyZWFtYWJsZSB0byBlYWNoIHByb2plY3Q/CgpSb3NzCi0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQpJbnRlbCBDb3Jwb3JhdGlvbiAoVUspIExpbWl0ZWQKUmVnaXN0ZXJlZCBOby4gMTEzNDk0
+NSAoRW5nbGFuZCkKUmVnaXN0ZXJlZCBPZmZpY2U6IFBpcGVycyBXYXksIFN3aW5kb24gU04zIDFS
+SgpWQVQgTm86IDg2MCAyMTczIDQ3CgpUaGlzIGUtbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRzIG1h
+eSBjb250YWluIGNvbmZpZGVudGlhbCBtYXRlcmlhbCBmb3IKdGhlIHNvbGUgdXNlIG9mIHRoZSBp
+bnRlbmRlZCByZWNpcGllbnQocykuIEFueSByZXZpZXcgb3IgZGlzdHJpYnV0aW9uCmJ5IG90aGVy
+cyBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQKcmVj
+aXBpZW50LCBwbGVhc2UgY29udGFjdCB0aGUgc2VuZGVyIGFuZCBkZWxldGUgYWxsIGNvcGllcy4K
 
-On Tue, 30 Jul 2019 at 11:21, akuster808 <akuster808@gmail.com> wrote:
 
-> So are you setting the package update policy to LTS only ?  Its a
-> function over maintenance question.
->
-> I don't understand why this package is being singled out. I think it
-> should be an OE  architecture discussion
->
-
-I am not sure why are you objecting to this. This line:
-RECIPE_NO_UPDATE_REASON = "9.11 is LTS 2021"
-was added by you, and more or less states that update policy for bind is
-LTS-only.
-
-Alex
-
---000000000000aa3ce4058ee59aa4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 30 Jul 2019 at 11:21, akuster808 =
-&lt;<a href=3D"mailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wr=
-ote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">So are you setting the package update policy to LTS only ?=
-=C2=A0 Its a<br>
-function over maintenance question.<br>
-<br>
-I don&#39;t understand why this package is being singled out. I think it<br=
->
-should be an OE=C2=A0 architecture discussion<br></blockquote><div><br></di=
-v><div>I am not sure why are you objecting to this. This line:</div><div><s=
-pan class=3D"gmail-im">RECIPE_NO_UPDATE_REASON =3D &quot;9.11 is LTS 2021&q=
-uot;</span></div><div><span class=3D"gmail-im">was added by you, and more o=
-r less states that update policy for bind is LTS-only.<br></span></div><div=
-><span class=3D"gmail-im"><br></span></div><div><span class=3D"gmail-im">Al=
-ex<br></span></div></div></div>
-
---000000000000aa3ce4058ee59aa4--
