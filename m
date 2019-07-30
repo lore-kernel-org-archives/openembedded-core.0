@@ -1,59 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B15F67C5F0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id AA9277F266
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 18:02:41 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id k8so130272189iot.1
+	Tue, 30 Jul 2019 21:20:15 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id s15so36536736wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 11:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language;
-	bh=aG2wuIa2eslgsUAiZTBn9j/tCAy7/mbCg+TsANQMUwM=;
-	b=MjN6v3wQp9WM4LGMbgwYezBWBdgCoDPbfJj5d4ymLJLb+j0hYWNDlKWBahwE3oj31M
-	4PZZy6eiIpnHhGMQgJW1RRbCvizVy7APIM+oey63+WACrdCAFFXDBeXsLOl1h58XmqIw
-	GP09+YW4f3MoC1iHfCjvCxJAaWkNmnLTXJUyKr5bH8nLX2WfDibOhor3gctr33BUVl6d
-	OlY7f69Az8tY5Kz1wEj4TmbW5+AcS2koVPyijbN5snVhNVL5WF813UVDadRDHc6pylVt
-	S6qCad7n5O6475+i5f2WTdEcmEvHIFhjCwfU2M0cHx84oGEBQPSVrnp6GBLtVzDKkCCu
-	t70w==
+	Tue, 30 Jul 2019 14:20:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IbRzYqPZicNPEyXgsXJ/1iMrhdJfaskPmJ2p22/bQNM=;
+	b=eOHorXtmMFIOHO5ORjQSabeYg5zySh0mnRn9kA8etXMnJjl5Gh0A8loqEgRVHwwdmJ
+	7oq9pXf6cWlGJ5t0oyGIoyttee7k1ZEfJWmLDcJBUluhM+7N82QgGreWo5sl10xdJY2U
+	tDg8WjTO/rP+a0dpROK0yZRZq7dbVnkpcJFSth1mCI2IkQaKR+pmMq+Rw91RQVoDaF14
+	6myYbmgfu8si0xwUuqPyRKA+TX97j+nrur8HnHqmXSPCJxY+w34RO9KYiSPvBq0YAxUu
+	6YgGqTQ/KDP5yLUn4wnFVA5l295zgpbnLlvFwNh7gvNsnoqWgdeVIS2FhHRSijq5tcQ1
+	u5CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=aG2wuIa2eslgsUAiZTBn9j/tCAy7/mbCg+TsANQMUwM=;
-	b=mPg+ZFbQ5jvhq2wWZkBPR3MW5Z+NZtQ+QuIj5JPklxxq2Bexfp3lo5UCOjlS73oExs
-	IXSQtDdI6U3eYKVa73Jdd8sa/t0S2QnGy3pHzL3Zm9SddvnvSLMTt85Kz5tlsydfBp08
-	Z4FvCG773mCDZZEu4p5MkVraqCqswUZFEdM3ejPB+OwIIlOvteyBppv/qoRx6A3Ei9kM
-	dNtic4Ml1kQIZLqLsAjfnI2eiBItEiiUaakxZHA00A2olNmZFWf703Oe2aAVw+x8N/pv
-	sDKD9FJRJRTGCMRafwpLwIvEFOsm6paVPW8ncZG088pwLUNQelNWWfu48rm4zMacUEoe
-	iCYg==
-X-Gm-Message-State: APjAAAVEfvngPuew14X/tuVcyroySc6orV3q/7het1mDx1wiatjzW8mo
-	eUqxIoG20X9UyVoWfxUJVZY=
-X-Google-Smtp-Source: APXvYqygqX7UyHX31R2BgmMNAkvtSfqTCQFebt2LOggefz3CVetr1tTNB16bHbNYi8daQak7iibAGA==
-X-Received: by 2002:a02:3b62:: with SMTP id i34mr124417573jaf.91.1564509762368;
-	Tue, 30 Jul 2019 11:02:42 -0700 (PDT)
-Received: from ?IPv6:2601:646:8500:6bc6:49d0:515a:e57b:abb3?
-	([2601:646:8500:6bc6:49d0:515a:e57b:abb3])
-	by smtp.gmail.com with ESMTPSA id
-	j14sm55846551ioa.78.2019.07.30.11.02.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Jul 2019 11:02:41 -0700 (PDT)
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	akuster808 <akuster808@gmail.com>
-References: <20190729100020.10517-1-bunk@stusta.de>
-	<5acdfa6c-f88a-7812-a0b1-108e4532ebbd@gmail.com>
-	<CANNYZj8XyDdF_VNHL_YiDcFXeXf4Pk=o-pqg2SD3TO32ozqbyw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <5f784845-62c8-8a50-a05a-4a7eba319199@gmail.com>
-Date: Tue, 30 Jul 2019 11:02:40 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.8.0
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IbRzYqPZicNPEyXgsXJ/1iMrhdJfaskPmJ2p22/bQNM=;
+	b=jkb3Jb56g14QrzIVG1qGjKSes3BSCtvrdvhmBwH/ItVkUhztutOEnAvTfJbHL1n22t
+	QTGpLAfIx25uiVugn2AIPiiTUXZntG545zKEBqv58KJmomhzTnHeAU19krG3YxULBjmW
+	hrUPcf1cbywZ+S6NDrCPPPRe8KQrCLooyy75hybprqmspmUXTECAppSbQww25i8D3535
+	d256ugHEPWe0M1iuEugenp54HFTMcTnjTpHXl55apm6Gs3TZ5U52ffXAaPhhR1uQGzRU
+	tNZo6HhpXn/LHu5mCPFptQ+Jo09TX64YTdXE0t3WT2rMBYy8PU9jwhkX7y3IS6P7sF/I
+	eS0g==
+X-Gm-Message-State: APjAAAXbsh81t8VRJDTjrlWluLPYu0vz8kErHHgZGJY3YKrJOZh6zDt4
+	6zyXlkvzg7vBjVYc/537Mn4hLUBYXWo=
+X-Google-Smtp-Source: APXvYqxOfHSXuQgVHcR58pMAOtet8n48/JhGZldJC2MZQplx3q2xsypthJwfn33keBjzuOXOo2vDzg==
+X-Received: by 2002:a1c:c78d:: with SMTP id x135mr99473587wmf.82.1564521615960;
+	Tue, 30 Jul 2019 14:20:15 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	y16sm66737943wrw.33.2019.07.30.14.20.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 30 Jul 2019 14:20:14 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Jul 2019 22:20:11 +0100
+Message-Id: <20190730212012.24115-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj8XyDdF_VNHL_YiDcFXeXf4Pk=o-pqg2SD3TO32ozqbyw@mail.gmail.com>
-Cc: Adrian Bunk <bunk@stusta.de>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bind: Remove RECIPE_NO_UPDATE_REASON and follow the ESV releases
+Subject: [PATCH 1/2] perl: fix whitespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,105 +59,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 18:02:41 -0000
-Content-Type: multipart/alternative;
-	boundary="------------7F111B6F76D7C14D976BF224"
-Content-Language: en-US
-
---------------7F111B6F76D7C14D976BF224
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 30 Jul 2019 21:20:16 -0000
 Content-Transfer-Encoding: 8bit
 
+There was some tabs embedded in spaces, fix those.
 
-On 7/30/19 6:01 AM, Alexander Kanavin wrote:
-> On Tue, 30 Jul 2019 at 11:21, akuster808 <akuster808@gmail.com 
-> <mailto:akuster808@gmail.com>> wrote:
->
->     So are you setting the package update policy to LTS only ?  Its a
->     function over maintenance question.
->
->     I don't understand why this package is being singled out. I think it
->     should be an OE  architecture discussion
->
->
-> I am not sure why are you objecting to this. This line:
-> RECIPE_NO_UPDATE_REASON = "9.11 is LTS 2021"
-> was added by you, and more or less states that update policy for bind 
-> is LTS-only.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/perl/perl_5.30.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I see a technical reason where dependent packages like dhcp expects 9.11 
-if used from system, there is an option to built the bundled version of 
-bind9 but that results in duplication. Unless there are other compelling 
-reason for upgrading, I would like us to stick with 9.11
+diff --git a/meta/recipes-devtools/perl/perl_5.30.0.bb b/meta/recipes-devtools/perl/perl_5.30.0.bb
+index e3664290e30..ce280cb1cbd 100644
+--- a/meta/recipes-devtools/perl/perl_5.30.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.30.0.bb
+@@ -179,7 +179,7 @@ perl_package_preprocess () {
+             ${PKGD}${libdir}/perl5/${PV}/Config.pm \
+             ${PKGD}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/Config.pm \
+             ${PKGD}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/Config.pod \
+-	    ${PKGD}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/Config_git.pl \
++            ${PKGD}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/Config_git.pl \
+             ${PKGD}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/Config_heavy.pl \
+             ${PKGD}${libdir}/perl5/${PV}/ExtUtils/Liblist/Kid.pm \
+             ${PKGD}${libdir}/perl5/${PV}/FileCache.pm \
+@@ -192,7 +192,7 @@ require perl-ptest.inc
+ FILES_${PN} = "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} ${libdir}/libperl.so* \
+                ${libdir}/perl5/site_perl \
+                ${libdir}/perl5/${PV}/Config.pm \
+-	       ${libdir}/perl5/${PV}/*/Config_git.pl \
++               ${libdir}/perl5/${PV}/*/Config_git.pl \
+                ${libdir}/perl5/${PV}/*/Config_heavy-target.pl \
+                ${libdir}/perl5/config.sh \
+                ${libdir}/perl5/${PV}/strict.pm \
+-- 
+2.20.1
 
->
-> Alex
->
 
---------------7F111B6F76D7C14D976BF224
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 7/30/19 6:01 AM, Alexander Kanavin
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CANNYZj8XyDdF_VNHL_YiDcFXeXf4Pk=o-pqg2SD3TO32ozqbyw@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div dir="ltr">On Tue, 30 Jul 2019 at 11:21, akuster808 &lt;<a
-            href="mailto:akuster808@gmail.com" moz-do-not-send="true">akuster808@gmail.com</a>&gt;
-          wrote:<br>
-        </div>
-        <div class="gmail_quote">
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-            0.8ex;border-left:1px solid
-            rgb(204,204,204);padding-left:1ex">So are you setting the
-            package update policy to LTS only ?  Its a<br>
-            function over maintenance question.<br>
-            <br>
-            I don't understand why this package is being singled out. I
-            think it<br>
-            should be an OE  architecture discussion<br>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>I am not sure why are you objecting to this. This line:</div>
-          <div><span class="gmail-im">RECIPE_NO_UPDATE_REASON = "9.11 is
-              LTS 2021"</span></div>
-          <div><span class="gmail-im">was added by you, and more or less
-              states that update policy for bind is LTS-only.<br>
-            </span></div>
-        </div>
-      </div>
-    </blockquote>
-    <p>I see a technical reason where dependent packages like dhcp
-      expects 9.11 if used from system, there is an option to built the
-      bundled version of bind9 but that results in duplication. Unless
-      there are other compelling reason for upgrading, I would like us
-      to stick with 9.11<br>
-    </p>
-    <blockquote type="cite"
-cite="mid:CANNYZj8XyDdF_VNHL_YiDcFXeXf4Pk=o-pqg2SD3TO32ozqbyw@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_quote">
-          <div><span class="gmail-im"><br>
-            </span></div>
-          <div><span class="gmail-im">Alex<br>
-            </span></div>
-        </div>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-    </blockquote>
-  </body>
-</html>
-
---------------7F111B6F76D7C14D976BF224--
