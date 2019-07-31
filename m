@@ -1,54 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7113F7F266
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id C581E7EB0F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 21:20:16 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id l2so57868171wmg.0
+	Wed, 31 Jul 2019 01:51:35 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,327,1559491200"; d="scan'208";a="72554067"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 31 Jul 2019 09:51:05 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 4DBB44CDE65E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 14:20:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=ndutl2nD/0hwnXXAOzSqNzejBiMCMVkn4qlFGBscqBw=;
-	b=yvDi8Y80vsdgF8rvmZ6EwOCJ7IRMhNubPznJiyH2bu6uWCBIE4/2ps1r4mWMRdJ9Nt
-	ZGXfJa/uNSryfExV0rlTbPdYKWEPYSlsLKctRgCe9fdv1QmQqRiCo7ztlhVeQFOmX/N3
-	FCMIMn2BgHNTv78TY2kZksQC4AsX6H1IJqHvcnhiG7SB40yIfVF7xxMFB2dNVqnTDwsf
-	+lwCJUXG+qYx+oxU6xap/t7lKlMRyMa5pvTIFw4s+S2+bJTjYK6rPOD9hzr592k0uK6A
-	vNYzlwpxoW+vj2TiUhs8lWBK8cOI3KZjrcwZCk13tTuq/vZyAkXwDV/qamouyFTlZ1D4
-	RwFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=ndutl2nD/0hwnXXAOzSqNzejBiMCMVkn4qlFGBscqBw=;
-	b=LL2KFZ1EFgRyuNqQuaLcE9MI2iUYEji83ZBWtap8uXQ1zUhG5o5EmUVO4ky4adobT7
-	ZQVjhNhrSZmHqV470MWvPNA8YeCnwqn8DZTQFq1VRJFDLTyeTZSm7jqdS+t1dmf5sRIn
-	AaNmR0SAfGYQFpmnZJ/qLjWC+8DrSHhL7tklA9CIAU7i0Cf5wDxz6w+Z4q5q1igJXDK2
-	BYHjR6w3TeBnOPrchyJ3Mia48CGsY71PBHtpt7k/zHppq1LDoG2VBevambJXqihwwYTU
-	SkbISY9AVfdvImrEj4tG9hobDAyJ9ppUDHPcjPDJjHFdyurqDYWUbD8aEL92DqMtPoaG
-	2b8A==
-X-Gm-Message-State: APjAAAV5adlqupNwFS/PNTM2MzrJcrj+HlRjeZfUcpu50+j4WX3nq04F
-	o+BbP9sdG76FZXHuHDUupvu5TjiNeEE=
-X-Google-Smtp-Source: APXvYqxVpgOuk4HJe2r3rmwDAzoFh/+WfYfZYanfRNu7TgC+AD5y2INiLTDqIrA5fQg5TmtmA/3xBg==
-X-Received: by 2002:a1c:c742:: with SMTP id x63mr112563024wmf.0.1564521616902; 
-	Tue, 30 Jul 2019 14:20:16 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	y16sm66737943wrw.33.2019.07.30.14.20.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 30 Jul 2019 14:20:16 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jul 2019 22:20:12 +0100
-Message-Id: <20190730212012.24115-2-ross.burton@intel.com>
+	Wed, 31 Jul 2019 09:51:01 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 31 Jul 2019 09:51:03 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 31 Jul 2019 09:50:20 +0800
+Message-ID: <20190731015020.21434-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190730212012.24115-1-ross.burton@intel.com>
-References: <20190730212012.24115-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] perl: add PACKAGECONFIG for db
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 4DBB44CDE65E.AC56F
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCHv3] mdadm:fix mdmonitor.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,72 +37,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2019 21:20:16 -0000
+X-List-Received-Date: Wed, 31 Jul 2019 01:51:36 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-perl-cross makes it easy to cleanly disable the use of Berkeley DB if desired,
-so add a PACKAGECONFIG for this.
+-The original file mdmonitor.service is as follows:
+...
+|[Service]
+|Environment=  MDADM_MONITOR_ARGS=--scan
+|EnvironmentFile=-/run/sysconfig/mdadm
+|ExecStartPre=-/usr/lib/mdadm/mdadm_env.sh
+|ExecStart=/sbin/mdadm --monitor -y $MDADM_MONITOR_ARGS
+...
+-It has a syntax error and it doesn't work properly,
+ so add files/0001-Fix-file-mdmonitor.service-syntax-error.patch to fix it.
 
-More of the dependencies (such as gdbm) can be controlled in the same way, but
-Berkeley DB is a prime contender: it's a large library which we have to ship an
-old release for due to licensing issues, so there are users who may want to
-strip it out of builds entirely.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-devtools/perl/perl_5.30.0.bb | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ ...-file-mdmonitor.service-syntax-error.patch | 49 +++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.1.bb      |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-Fix-file-mdmonitor.service-syntax-error.patch
 
-diff --git a/meta/recipes-devtools/perl/perl_5.30.0.bb b/meta/recipes-devtools/perl/perl_5.30.0.bb
-index ce280cb1cbd..a221bce52bd 100644
---- a/meta/recipes-devtools/perl/perl_5.30.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.0.bb
-@@ -35,10 +35,13 @@ S = "${WORKDIR}/perl-${PV}"
- 
- inherit upstream-version-is-even
- 
--DEPENDS += "db gdbm zlib virtual/crypt"
-+DEPENDS += "gdbm zlib virtual/crypt"
- 
- PERL_LIB_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}.0"
- 
-+PACKAGECONFIG ??= "bdb"
-+PACKAGECONFIG[bdb] = ",-Ui_db,db"
+diff --git a/meta/recipes-extended/mdadm/files/0001-Fix-file-mdmonitor.service-syntax-error.patch b/meta/recipes-extended/mdadm/files/0001-Fix-file-mdmonitor.service-syntax-error.patch
+new file mode 100644
+index 0000000000..a36fed6f9f
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-Fix-file-mdmonitor.service-syntax-error.patch
+@@ -0,0 +1,49 @@
++From a4a37cc9d91d7129910360914b8b2060139c0307 Mon Sep 17 00:00:00 2001
++From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
++Date: Tue, 30 Jul 2019 12:44:25 +0800
++Subject: [PATCH] Fix file mdmonitor.service syntax error
 +
- # Don't generate comments in enc2xs output files. They are not reproducible
- export ENC2XS_NO_COMMENTS = "1"
- 
-@@ -56,7 +59,8 @@ do_configure_class-target() {
-     -Duseshrplib \
-     -Dsoname=libperl.so.5 \
-     -Dvendorprefix=${prefix} \
--    -Darchlibexp=${STAGING_LIBDIR}/perl5/${PV}/${TARGET_ARCH}-linux
-+    -Darchlibexp=${STAGING_LIBDIR}/perl5/${PV}/${TARGET_ARCH}-linux \
-+    ${PACKAGECONFIG_CONFARGS}
- 
-     #perl.c uses an ARCHLIB_EXP define to generate compile-time code that
-     #adds the archlibexp path to @INC during run-time initialization of a
-@@ -79,7 +83,8 @@ do_configure_class-nativesdk() {
-     -Duseshrplib \
-     -Dsoname=libperl.so.5 \
-     -Dvendorprefix=${prefix} \
--    -Darchlibexp=${STAGING_LIBDIR}/perl5/${PV}/${TARGET_ARCH}-linux
-+    -Darchlibexp=${STAGING_LIBDIR}/perl5/${PV}/${TARGET_ARCH}-linux \
-+    ${PACKAGECONFIG_CONFARGS}
- 
-     # See the comment above
-     sed -i -e "s,${STAGING_LIBDIR},${libdir},g" config.h
-@@ -91,7 +96,8 @@ do_configure_class-native() {
-     -Duseshrplib \
-     -Dsoname=libperl.so.5 \
-     -Dvendorprefix=${prefix} \
--    -Ui_xlocale
-+    -Ui_xlocale \
-+    ${PACKAGECONFIG_CONFARGS}
- }
- 
- do_configure_append() {
++-The original file mdmonitor.service is as follows:
++...
++|[Service]
++|Environment=  MDADM_MONITOR_ARGS=--scan
++|EnvironmentFile=-/run/sysconfig/mdadm
++|ExecStartPre=-/usr/lib/mdadm/mdadm_env.sh
++|ExecStart=/sbin/mdadm --monitor -y $MDADM_MONITOR_ARGS
++...
++-It has a syntax error and it doesn't work properly, 
++ so add new file mdmonitor.service to overwrite it.
++
++Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
++---
++ systemd/mdmonitor.service | 15 +++++++++------
++ 1 file changed, 9 insertions(+), 6 deletions(-)
++
++diff --git a/systemd/mdmonitor.service b/systemd/mdmonitor.service
++index 3fc4687..bd243b4 100644
++--- a/systemd/mdmonitor.service
+++++ b/systemd/mdmonitor.service
++@@ -6,11 +6,14 @@
++ #  (at your option) any later version.
++ 
++ [Unit]
++-Description=MD array monitor
++-DefaultDependencies=no
+++Description=Software RAID monitoring and management
+++ConditionPathExists=/etc/mdadm.conf
++ 
++ [Service]
++-Environment=  MDADM_MONITOR_ARGS=--scan
++-EnvironmentFile=-/run/sysconfig/mdadm
++-ExecStartPre=-/usr/lib/mdadm/mdadm_env.sh
++-ExecStart=BINDIR/mdadm --monitor -y $MDADM_MONITOR_ARGS
+++Type=forking
+++PIDFile=/var/run/mdadm/mdadm.pid
+++EnvironmentFile=-/etc/sysconfig/mdmonitor
+++ExecStart=/sbin/mdadm --monitor --scan -y -f --pid-file=/var/run/mdadm/mdadm.pid
+++
+++[Install]
+++WantedBy=multi-user.target
++-- 
++2.20.1
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 74c94f6ecb..c3e15adc71 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -22,6 +22,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+ 	   file://mdadm.init \
+ 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
+            file://include_sysmacros.patch \
++           file://0001-Fix-file-mdmonitor.service-syntax-error.patch \
+            "
+ SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
+ SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
 -- 
 2.20.1
+
+
 
 
