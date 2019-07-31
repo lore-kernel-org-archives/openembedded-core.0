@@ -1,27 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Changqing.Li@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4683F7F3AE
+	by mail.openembedded.org (Postfix) with ESMTP id DA6067F3A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 02:36:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6V2atVm001984
+	Wed, 31 Jul 2019 03:06:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6V36w6e004242
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2019 19:36:55 -0700 (PDT)
-Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Tue, 30 Jul 2019 19:36:54 -0700
+	Tue, 30 Jul 2019 20:06:58 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Tue, 30 Jul 2019 20:06:58 -0700
+From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <20190731015020.21434-1-zangrc.fnst@cn.fujitsu.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <9c7d5cdd-649c-a945-ef77-f5c6953e11f4@windriver.com>
-Date: Wed, 31 Jul 2019 10:50:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+Date: Wed, 31 Jul 2019 11:06:56 +0800
+Message-ID: <1564542416-199959-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20190731015020.21434-1-zangrc.fnst@cn.fujitsu.com>
-X-Originating-IP: [128.224.162.148]
-Subject: Re: [PATCHv3] mdadm:fix mdmonitor.service
+Subject: [PATCH] qemuboot-x86.inc: remove it and move content to corresponding conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,111 +30,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 02:36:54 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 31 Jul 2019 03:06:59 -0000
+Content-Type: text/plain
 
-On 07/31/2019 09:50 AM, Zang Ruochen wrote:
-> -The original file mdmonitor.service is as follows:
-> ...
-> |[Service]
-> |Environment=  MDADM_MONITOR_ARGS=--scan
-> |EnvironmentFile=-/run/sysconfig/mdadm
-> |ExecStartPre=-/usr/lib/mdadm/mdadm_env.sh
-> |ExecStart=/sbin/mdadm --monitor -y $MDADM_MONITOR_ARGS
-> ...
-> -It has a syntax error and it doesn't work properly,
+From: Changqing Li <changqing.li@windriver.com>
 
-What is the actual syntax error? Why does it not work properly?
+Configrations:
+MACHINE: qemux86-64
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
->   so add files/0001-Fix-file-mdmonitor.service-syntax-error.patch to fix it.
->
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> ---
->   ...-file-mdmonitor.service-syntax-error.patch | 49 +++++++++++++++++++
->   meta/recipes-extended/mdadm/mdadm_4.1.bb      |  1 +
->   2 files changed, 50 insertions(+)
->   create mode 100644 meta/recipes-extended/mdadm/files/0001-Fix-file-mdmonitor.service-syntax-error.patch
->
-> diff --git a/meta/recipes-extended/mdadm/files/0001-Fix-file-mdmonitor.service-syntax-error.patch b/meta/recipes-extended/mdadm/files/0001-Fix-file-mdmonitor.service-syntax-error.patch
-> new file mode 100644
-> index 0000000000..a36fed6f9f
-> --- /dev/null
-> +++ b/meta/recipes-extended/mdadm/files/0001-Fix-file-mdmonitor.service-syntax-error.patch
-> @@ -0,0 +1,49 @@
-> +From a4a37cc9d91d7129910360914b8b2060139c0307 Mon Sep 17 00:00:00 2001
-> +From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> +Date: Tue, 30 Jul 2019 12:44:25 +0800
-> +Subject: [PATCH] Fix file mdmonitor.service syntax error
-> +
-> +-The original file mdmonitor.service is as follows:
-> +...
-> +|[Service]
-> +|Environment=  MDADM_MONITOR_ARGS=--scan
-> +|EnvironmentFile=-/run/sysconfig/mdadm
-> +|ExecStartPre=-/usr/lib/mdadm/mdadm_env.sh
-> +|ExecStart=/sbin/mdadm --monitor -y $MDADM_MONITOR_ARGS
-> +...
-> +-It has a syntax error and it doesn't work properly,
-> + so add new file mdmonitor.service to overwrite it.
-> +
-> +Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> +---
-> + systemd/mdmonitor.service | 15 +++++++++------
-> + 1 file changed, 9 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/systemd/mdmonitor.service b/systemd/mdmonitor.service
-> +index 3fc4687..bd243b4 100644
-> +--- a/systemd/mdmonitor.service
-> ++++ b/systemd/mdmonitor.service
-> +@@ -6,11 +6,14 @@
-> + #  (at your option) any later version.
-> +
-> + [Unit]
-> +-Description=MD array monitor
-> +-DefaultDependencies=no
-> ++Description=Software RAID monitoring and management
-> ++ConditionPathExists=/etc/mdadm.conf
+Reproduce steps:
+bitbake lib32-core-image-minimal
+runqemu qemux86-64 nographic lib32-core-image-minimal
 
-Why do above changes? Also, isn't /etc/mdadm.conf always there?
+Errors:
+qemu cannot bootup since:
+Booting from ROM...
+This kernel requires an x86-64 CPU, but only detected an i686 CPU.
+Unable to boot - please use a kernel appropriate for your CPU.
+QEMU: Terminated
 
-> +
-> + [Service]
-> +-Environment=  MDADM_MONITOR_ARGS=--scan
-> +-EnvironmentFile=-/run/sysconfig/mdadm
-> +-ExecStartPre=-/usr/lib/mdadm/mdadm_env.sh
-> +-ExecStart=BINDIR/mdadm --monitor -y $MDADM_MONITOR_ARGS
-> ++Type=forking
-> ++PIDFile=/var/run/mdadm/mdadm.pid
+For lib32 image, override has x86, so the qemubin set to qemu-system-i386,
+fix by move qemuboot parameters to corresponding conf, don't use the override
 
-Type=forking is not encouraged. Is there any reason we want to use it?
-Also, PIDFile is recommended to locate under /run instead of /var/run. 
-systemd actually automatically modifies the configuration to change 
-/var/run to /run.
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta-yocto-bsp/conf/machine/genericx86-64.conf         | 16 ++++++++++++++++
+ meta-yocto-bsp/conf/machine/genericx86.conf            | 16 ++++++++++++++++
+ .../conf/machine/include/genericx86-common.inc         |  1 -
+ meta/conf/machine/include/qemuboot-x86.inc             | 18 ------------------
+ meta/conf/machine/qemux86-64.conf                      | 17 ++++++++++++++++-
+ meta/conf/machine/qemux86.conf                         | 17 ++++++++++++++++-
+ 6 files changed, 64 insertions(+), 21 deletions(-)
+ delete mode 100644 meta/conf/machine/include/qemuboot-x86.inc
 
-Regards,
-Chen Qi
-
-> ++EnvironmentFile=-/etc/sysconfig/mdmonitor
-> ++ExecStart=/sbin/mdadm --monitor --scan -y -f --pid-file=/var/run/mdadm/mdadm.pid
-> ++
-> ++[Install]
-> ++WantedBy=multi-user.target
-> +--
-> +2.20.1
-> +
-> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> index 74c94f6ecb..c3e15adc71 100644
-> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> @@ -22,6 +22,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
->   	   file://mdadm.init \
->   	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
->              file://include_sysmacros.patch \
-> +           file://0001-Fix-file-mdmonitor.service-syntax-error.patch \
->              "
->   SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
->   SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
-
+diff --git a/meta-yocto-bsp/conf/machine/genericx86-64.conf b/meta-yocto-bsp/conf/machine/genericx86-64.conf
+index c489462..bf85af0 100644
+--- a/meta-yocto-bsp/conf/machine/genericx86-64.conf
++++ b/meta-yocto-bsp/conf/machine/genericx86-64.conf
+@@ -7,3 +7,19 @@ require conf/machine/include/tune-core2.inc
+ require conf/machine/include/genericx86-common.inc
+ 
+ SERIAL_CONSOLES_CHECK = "ttyS0"
++
++# For runqemu
++IMAGE_CLASSES += "qemuboot"
++
++QB_SYSTEM_NAME = "qemu-system-x86_64"
++QB_CPU = "-cpu core2duo"
++QB_CPU_KVM = "-cpu core2duo"
++
++QB_AUDIO_DRV = "alsa"
++QB_AUDIO_OPT = "-soundhw ac97,es1370"
++QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE} oprofile.timer=1 uvesafb.task_timeout=-1"
++QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
++
++UVESA_MODE ?= "640x480-32"
+diff --git a/meta-yocto-bsp/conf/machine/genericx86.conf b/meta-yocto-bsp/conf/machine/genericx86.conf
+index 9929d27..d8a573e 100644
+--- a/meta-yocto-bsp/conf/machine/genericx86.conf
++++ b/meta-yocto-bsp/conf/machine/genericx86.conf
+@@ -7,3 +7,19 @@ require conf/machine/include/tune-core2.inc
+ require conf/machine/include/genericx86-common.inc
+ 
+ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS += "gma500-gfx-check"
++
++# For runqemu
++IMAGE_CLASSES += "qemuboot"
++
++QB_SYSTEM_NAME = "qemu-system-i386"
++QB_CPU = "-cpu core2duo"
++QB_CPU_KVM = "-cpu core2duo"
++
++QB_AUDIO_DRV = "alsa"
++QB_AUDIO_OPT = "-soundhw ac97,es1370"
++QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE} oprofile.timer=1 uvesafb.task_timeout=-1"
++QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
++
++UVESA_MODE ?= "640x480-32"
+diff --git a/meta-yocto-bsp/conf/machine/include/genericx86-common.inc b/meta-yocto-bsp/conf/machine/include/genericx86-common.inc
+index f83ce5c..75db054 100644
+--- a/meta-yocto-bsp/conf/machine/include/genericx86-common.inc
++++ b/meta-yocto-bsp/conf/machine/include/genericx86-common.inc
+@@ -1,5 +1,4 @@
+ include conf/machine/include/x86-base.inc
+-require conf/machine/include/qemuboot-x86.inc
+ MACHINE_FEATURES += "wifi efi pcbios"
+ 
+ PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+deleted file mode 100644
+index 82ce46d..0000000
+--- a/meta/conf/machine/include/qemuboot-x86.inc
++++ /dev/null
+@@ -1,18 +0,0 @@
+-# For runqemu
+-IMAGE_CLASSES += "qemuboot"
+-QB_SYSTEM_NAME_x86 = "qemu-system-i386"
+-QB_CPU_x86 = "-cpu core2duo"
+-QB_CPU_KVM_x86 = "-cpu core2duo"
+-
+-QB_SYSTEM_NAME_x86-64 = "qemu-system-x86_64"
+-QB_CPU_x86-64 = "-cpu core2duo"
+-QB_CPU_KVM_x86-64 = "-cpu core2duo"
+-
+-QB_AUDIO_DRV = "alsa"
+-QB_AUDIO_OPT = "-soundhw ac97,es1370"
+-QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE} oprofile.timer=1 uvesafb.task_timeout=-1"
+-QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet"
+-# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+-QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+-
+-UVESA_MODE ?= "640x480-32"
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index 383e3bd..c39f72d 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -10,7 +10,6 @@ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+ require conf/machine/include/qemu.inc
+ DEFAULTTUNE ?= "core2-64"
+ require conf/machine/include/tune-core2.inc
+-require conf/machine/include/qemuboot-x86.inc
+ 
+ UBOOT_MACHINE ?= "qemu-x86_64_defconfig"
+ 
+@@ -39,3 +38,19 @@ module_conf_uvesafb = "options uvesafb mode_option=${UVESA_MODE}"
+ 
+ WKS_FILE ?= "qemux86-directdisk.wks"
+ do_image_wic[depends] += "syslinux:do_populate_sysroot syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
++
++# For runqemu
++IMAGE_CLASSES += "qemuboot"
++
++QB_SYSTEM_NAME = "qemu-system-x86_64"
++QB_CPU = "-cpu core2duo"
++QB_CPU_KVM = "-cpu core2duo"
++
++QB_AUDIO_DRV = "alsa"
++QB_AUDIO_OPT = "-soundhw ac97,es1370"
++QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE} oprofile.timer=1 uvesafb.task_timeout=-1"
++QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
++
++UVESA_MODE ?= "640x480-32"
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index 272ad1e..cce87b6 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -10,7 +10,6 @@ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+ require conf/machine/include/qemu.inc
+ DEFAULTTUNE ?= "core2-32"
+ require conf/machine/include/tune-corei7.inc
+-require conf/machine/include/qemuboot-x86.inc
+ 
+ UBOOT_MACHINE ?= "qemu-x86_defconfig"
+ 
+@@ -39,3 +38,19 @@ module_conf_uvesafb = "options uvesafb mode_option=${UVESA_MODE}"
+ 
+ WKS_FILE ?= "qemux86-directdisk.wks"
+ do_image_wic[depends] += "syslinux:do_populate_sysroot syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
++
++# For runqemu
++IMAGE_CLASSES += "qemuboot"
++
++QB_SYSTEM_NAME = "qemu-system-i386"
++QB_CPU = "-cpu core2duo"
++QB_CPU_KVM = "-cpu core2duo"
++
++QB_AUDIO_DRV = "alsa"
++QB_AUDIO_OPT = "-soundhw ac97,es1370"
++QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE} oprofile.timer=1 uvesafb.task_timeout=-1"
++QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet"
++# Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
++QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
++
++UVESA_MODE ?= "640x480-32"
+-- 
+2.7.4
 
 
