@@ -1,50 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id AA6357F35A
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+	[209.85.210.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E6136A441
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 17:48:33 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id t132so32398610pgb.9
+	Wed, 31 Jul 2019 17:48:34 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id r7so32284411pfl.3
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 31 Jul 2019 10:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=CWNYA5pqDaZnnH65JvnOc/XW+SRDJoEfJRR8bxabTAk=;
-	b=s5UVZofFnu6PYC5br+dIiaj6ZzWdhFkYvlQuCJno6p6WpZI2vzKJFPw2W0zxidMOev
-	Uny2XgF4dxajobEmqJUVEd6JHG72PO1v6pbfg6wM2vP5CBCvmywMjBXs0VOC8jCGHCrM
-	KofDSUeCB1sEbEkjrei96LRGn6KxfX3rtAkLQow/MhUPGBtX+gQkk/lURzDT3Yu9yxmh
-	7E5ivwq29IkVOLoFVPpGPdzcuXbe1V90vlXVn2bURHWkis3N9E0eNUiouJXjCgpetGkB
-	iSCYlCxyr3Ykg+AyWI1z2u6d9Ev+P8kPqHQKT5lB3TLQygJv8tAdGExgAZILuUTULjKE
-	IoaA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=4MzgthbKsfambikA/ftcFE6TJPBjaK2RRFI7/ANsbmk=;
+	b=ctFFNEZvtAyeTl3oraYwI1axnYDgO25oE506Ogs19eCgvf7AJxEzG4RizSa9sWL6t4
+	SDczV4GrYRlh1doAsC937ufRKvGQe93Wr7FtaOFyCxr3KO2pfy5gaV4HIKcj8oBIlO5F
+	yjJelQNoDNTPP9VsUaKzPwsoTKKxgUPNT/LwVWq+U+iPxX1Jkr5V3cFF6Xwrg6i9lcga
+	wk7qUNNwr0VQkyHd+1RCZYbdf03dm6LMj3vmxnjOWiAMl3NP3B5ij39lPkPk6oshTTGu
+	XcxDC3DZUDxLWtaazduBIdlyD2exskuGu0Isjl5V9ypjEeV9glesS5LnEPAaB1DaQ++7
+	kGlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=CWNYA5pqDaZnnH65JvnOc/XW+SRDJoEfJRR8bxabTAk=;
-	b=VKulYrCNP9yfuP1aSQKLHOLzvo/gqMXf2HpMEnF32a8V0iQLLLPjiRE+ANKAWyP4pN
-	tCk0FvdM008eyKlv8DN6FFkYWl//MjJNdUiWJvP5xHhbnayqDpX5VFdGqwuo/zJBMdIk
-	iu7B3pNK/Dt3y0GIe+onf6IMnsiSm7+QYZkdON8rIU0/BAyhKNp4Qi7Rqe5nHCbnzRjM
-	dvEBSQbO1N7zJYyvb5MhVumNR9L00mXMcCCn7rKeeby+RxcmZknJlR3XoK7sjvkDNuys
-	gcnwg4LdLRUM2e6HKarb3W/73XWs/OFgmmcfxxEcUpTSC1RJY9vfJTY4EtCH+JBIkyCu
-	9JWQ==
-X-Gm-Message-State: APjAAAWEwsLvPA5blth4uWOkbM0Iex4JrZPvzoyzUxT7JZxQdWGaaV3D
-	ybdLS3XYWb03rxIKKxRx5LxqVSwG2o0=
-X-Google-Smtp-Source: APXvYqzae0p7i80MBLvx3OV2xRf6hciYz34H2FRnDbu2dBfmjVSz0gaZ+KBpVhBqL5Oh1APozwhKyw==
-X-Received: by 2002:a63:3112:: with SMTP id x18mr32978780pgx.385.1564595314165;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=4MzgthbKsfambikA/ftcFE6TJPBjaK2RRFI7/ANsbmk=;
+	b=I1kshDg+ibIyS+3qGgTLLTmQ8ZtxEW0tZbwAgJJ6QDa1J8gYsRDAw8YMWgpDqim9/1
+	dH0th/mHQd98beAuXjLTNG3Bzw97WMS2vf2J0pwVM40uQpvLvbQyseyT3ymk8jaqRsnc
+	BqKgu6CdVElAS6V0ILkm2V6Fe9WZzsHsoq0bDV+pgM8N/Bkl10+LYbCGqNCEyb9Ri8UF
+	teQSVDjsprnXFCFfY+APi7oe/Td7jlBCdRVEyQx9IIn52BEGjtqR4qD1AROV4vbRXvFa
+	lGSCi7KXt3ifsEcp1wSrwatlyYPSlREtAWNkx9HoGXnv0SiH+2mXM6efm7VDUpv7LQ/2
+	CNtQ==
+X-Gm-Message-State: APjAAAWfri1lbWgid4uBSnU5AwING1aY2ULxdwZWW0UXg2EiifO9Be5R
+	4FkAthNG4tk9ZzAcVB8SKfpTCZIg5ps=
+X-Google-Smtp-Source: APXvYqxTUsuNWg1htCKG8vXwFfBIJALQ0gl7MsvnT0LL1J8/0BZHjh3RCNfcd5gkfj6f1X2NCxnGNw==
+X-Received: by 2002:a17:90a:24ac:: with SMTP id
+	i41mr4084166pje.124.1564595314925; 
 	Wed, 31 Jul 2019 10:48:34 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
 	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	m4sm114750440pff.108.2019.07.31.10.48.33
+	m4sm114750440pff.108.2019.07.31.10.48.34
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 31 Jul 2019 10:48:33 -0700 (PDT)
+	Wed, 31 Jul 2019 10:48:34 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2019 10:48:19 -0700
-Message-Id: <20190731174820.16459-1-raj.khem@gmail.com>
+Date: Wed, 31 Jul 2019 10:48:20 -0700
+Message-Id: <20190731174820.16459-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190731174820.16459-1-raj.khem@gmail.com>
+References: <20190731174820.16459-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] libedit: Move from meta-oe
+Subject: [PATCH 2/2] llvm: Update to 8.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,88 +60,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 17:48:33 -0000
+X-List-Received-Date: Wed, 31 Jul 2019 17:48:34 -0000
 Content-Transfer-Encoding: 8bit
 
-libedit is needed by llvm on linux and this makes it useful
-for both oe-core and clang layer among other users
-
-Thanks to various contributors in maintaing it in meta-oe
+Add missing dependency on libedit
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../libedit/libedit/stdc-predef.patch         | 18 +++++++++++++++
- .../libedit/libedit_20190324-3.1.bb           | 23 +++++++++++++++++++
- 3 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/libedit/libedit/stdc-predef.patch
- create mode 100644 meta/recipes-devtools/libedit/libedit_20190324-3.1.bb
+ meta/recipes-devtools/llvm/llvm_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 77af8b6dad..201130e771 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -326,6 +326,7 @@ RECIPE_MAINTAINER_pn-libdazzle = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libdmx = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libdnf = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libdrm = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
-+RECIPE_MAINTAINER_pn-libedit = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-libepoxy = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-liberation-fonts = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-liberror-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
-diff --git a/meta/recipes-devtools/libedit/libedit/stdc-predef.patch b/meta/recipes-devtools/libedit/libedit/stdc-predef.patch
-new file mode 100644
-index 0000000000..75ef308fad
---- /dev/null
-+++ b/meta/recipes-devtools/libedit/libedit/stdc-predef.patch
-@@ -0,0 +1,18 @@
-+__STDC_ISO_10646__ is defined in stdc-predef.h
-+therefore include it to see if its there on a platform
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: libedit-20160903-3.1/src/chartype.h
-+===================================================================
-+--- libedit-20160903-3.1.orig/src/chartype.h
-++++ libedit-20160903-3.1/src/chartype.h
-+@@ -29,6 +29,7 @@
-+ #ifndef _h_chartype_f
-+ #define _h_chartype_f
-+ 
-++#include <stdc-predef.h>
-+ /* Ideally we should also test the value of the define to see if it
-+  * supports non-BMP code points without requiring UTF-16, but nothing
-+  * seems to actually advertise this properly, despite Unicode 3.1 having
-diff --git a/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb b/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb
-new file mode 100644
-index 0000000000..01e7f36009
---- /dev/null
-+++ b/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb
-@@ -0,0 +1,23 @@
-+SUMMARY = "BSD replacement for libreadline"
-+DESCRIPTION = "Command line editor library providing generic line editing, \
-+history, and tokenization functions"
-+HOMEPAGE = "http://www.thrysoee.dk/editline/"
-+SECTION = "libs"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1e4228d0c5a9093b01aeaaeae6641533"
-+
-+DEPENDS = "ncurses"
-+
-+inherit autotools
-+
-+# upstream site does not allow wget's User-Agent
-+FETCHCMD_wget += "-U bitbake"
-+SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
-+           file://stdc-predef.patch \
-+          "
-+SRC_URI[md5sum] = "bec755c8044ad84b752dfe49a0b371d8"
-+SRC_URI[sha256sum] = "ac8f0f51c1cf65492e4d1e3ed2be360bda41e54633444666422fbf393bba1bae"
-+
-+UPSTREAM_CHECK_REGEX = "libedit-(?P<pver>\d+(\.\d+)+)\.tar.gz"
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 0067635c2b..6d3d69b9fb 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -8,7 +8,7 @@ SECTION = "devel"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=c6b766a4e85dd28301eeed54a6684648"
+ 
+-DEPENDS = "libffi libxml2 zlib ninja-native llvm-native"
++DEPENDS = "libffi libxml2 zlib libedit ninja-native llvm-native"
+ 
+ RDEPENDS_${PN}_append_class-target = " ncurses-terminfo"
+ 
+@@ -19,12 +19,12 @@ PROVIDES += "llvm${PV}"
+ LLVM_RELEASE = "${PV}"
+ LLVM_DIR = "llvm${LLVM_RELEASE}"
+ 
+-SRCREV = "d2298e74235598f15594fe2c99bbac870a507c59"
++SRCREV = "19a71f6bdf2dddb10764939e7f0ec2b98dba76c9"
+ 
+ BRANCH = "release/${MAJOR_VERSION}.x"
+ MAJOR_VERSION = "8"
+ MINOR_VERSION = "0"
+-PATCH_VERSION = "0"
++PATCH_VERSION = "1"
+ SOLIBVER = "1"
+ PV = "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+ SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH} \
 -- 
 2.22.0
 
