@@ -1,55 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 45C2B7F4CB
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ECD47F4BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 17:43:00 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id 31so70656243wrm.1
+	Wed, 31 Jul 2019 17:48:00 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id i21so66487286ljj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 10:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=9o/iJdV6+UJUy131hCtnC0ru9ZFl/zn5rzBqN8+6nrk=;
-	b=cZTLCKqo49Kg+oRH4s3nzNbGLF9dum/L1du8s7jQ+1djPI4pf6oP4DhOvj6NaVJJe5
-	ZN7a3cQTqi0PfYt0LVxwtHw7dS76YftxZrW1iBEwBAYXTDFXLM1bgccXFb5G0uGilo9g
-	TPDy7PVsYjAo8NKIaN5lft5Z65iYJSv1izxrZX/SQ13chF2cxTFtyr8hSqAs+HYi4ZR7
-	nsvKYVr+uMg2IMZPndueUcPkMJgOkdDhB1tAEhbrbiQDa4dvEre/KdOuPLBFPkQm73iB
-	QnRehbOi5d2H78KzPQ4Of5IMzV655jGEj9Wsht1XEClz9dKqr0WQkElal2TmTlzzUeK4
-	bONQ==
+	Wed, 31 Jul 2019 10:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=p5FwewwfR1BMMj+eVbOKGCLQMG1OTtGGIwqRKOR680Y=;
+	b=Xfb49W//BZ+lNo1zL6cnExMsN8s7DksmIbIWj2cZROlJzg0vOgn1OHPnvl93/fHq1Y
+	N+0t8RsSkmsB9ji3P/8Q2DWrtcpGUuKGoBwea/v7SFcfQirCOssGEqqT1yWDd2wQpBJs
+	oD9txli68r+5DkOJCLjah0mRZV/Wj2knoRJ2IiKnUaFvBg//nlMGsF2+0toqW3mzVlI2
+	2SU18B3OLWyBi9Kql+M0F1Vy90BEVTKfmOvT9LjuWa4rN89nsGHe5rNu7/DDqtry9jYG
+	LI2ZvIPy3aO0meiqENbadDl1wx0HxmuUkOdTOfVpIWdeBF183v+8a7Arw3QqX6MZQCCG
+	k6cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=9o/iJdV6+UJUy131hCtnC0ru9ZFl/zn5rzBqN8+6nrk=;
-	b=p0z4QTUjZ8HG1tk22Ge7vvPdfM6u80LZkMwYnS5W/Ilv0kg9h/kv34HEztnB/dc7sL
-	Na0ncdqljcQkCA0y2GN28HCbowdJuqSQjRbesxxVo/ZsFNHgeq80Amr/L4cfp6NQGhRT
-	kQzcsAZCePVjcKYrm2BlRzPElvOPClpyD6pYxHooL8nsjhH1VNvsuPYaOtU8znHuIu+m
-	ly3soUbYJdEoUAah5VZOfvYEuYvhyq/GmyFMZ5JSF+jKICA1cjT0MSHsq93o4f21Wa42
-	5yG2tvCIXHlbACg42/PadyDO+eckwTNcw8LCNQm6/58I2peACOCz49NROiz89rcsB+Cu
-	/MEg==
-X-Gm-Message-State: APjAAAV4dW6rSijVBjDJfpk++FlV3i9oenPiZ5B17GYv3/3uMuyOKDP6
-	YLZc10HVCCG45hnHlo8iE2msdTIVMYI=
-X-Google-Smtp-Source: APXvYqydptotUJg8ieE+uu9lHmpEgPjc+YtuPqt6N9plRo1slWHzFnHG9oZSu3Jw25mvq9EBr8E7+Q==
-X-Received: by 2002:a05:6000:12c2:: with SMTP id
-	l2mr20531131wrx.65.1564594980774; 
-	Wed, 31 Jul 2019 10:43:00 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	t63sm62973454wmt.6.2019.07.31.10.42.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 31 Jul 2019 10:43:00 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2019 18:42:54 +0100
-Message-Id: <20190731174254.11340-3-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190731174254.11340-1-ross.burton@intel.com>
-References: <20190731174254.11340-1-ross.burton@intel.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=p5FwewwfR1BMMj+eVbOKGCLQMG1OTtGGIwqRKOR680Y=;
+	b=c+jXb1IKVgLE4hMcB/G2tvJ8koaQuBW8SQfsMw0JhWAW1uMmS53OU4ipt/REzHtdly
+	RJfghuU/1GjrN5xNCCCPUM7OceZ9AIKgrPgPVsi9sTnVgUeGNGz9r7A4y9D/56APCFVQ
+	R5Wj4ZTKoA+EN9pQc4IgpX53IMXBI1fxK564lE6USkZ4bdtUZQQm1alsKyxTPePs2ygn
+	Ylp9POV6ZDT97FUXP1S+JIpLhkpMy85ZRcOVLvXbASdrVaGtqYYD6ItwnKjzoSXfC/cf
+	MuSGHPO0PALNwTco+Hcl5ue4vHZOqbmGO+DMrOOxNW5sp/z8iZTikVnpvOH10v8C3wog
+	pk2Q==
+X-Gm-Message-State: APjAAAWNOF6mM5smxbWZ6bVGuG5JUP7h1th3+hMRAOyGDT1PZ7cUIS9f
+	JTXvbxIJU0jRdTvW6RIkC9EyB1Scj3KxErjf5Wo=
+X-Google-Smtp-Source: APXvYqxNHcNXMzC7hUnDRqBTX26KlIEr+lC9crey88dta3/2vs5tXZCpCh/7mDU/zlZ5FNz9QoTnUI4+ndO2EE4hvO8=
+X-Received: by 2002:a2e:480a:: with SMTP id v10mr1708410lja.94.1564595280932; 
+	Wed, 31 Jul 2019 10:48:00 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 3/3] python3: split out the Windows distutils installer stubs
+References: <CAB=otbSH85m0WnBj0Q2z9Bj2ZGwzGzcM74-GuaXtt6PeReP60Q@mail.gmail.com>
+	<3f13cb86-a12b-aba7-e8a1-517f25ba7f1e@balister.org>
+	<CAPybu_2XioOxrcbyWe0-5uhR_jfa_emqejhDZrWQwq4NNuUqPg@mail.gmail.com>
+	<b6c09802-7627-d312-0caa-f6506c0dcdb1@balister.org>
+In-Reply-To: <b6c09802-7627-d312-0caa-f6506c0dcdb1@balister.org>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Wed, 31 Jul 2019 19:47:44 +0200
+Message-ID: <CAPybu_3R5RUehy-8AxJZ9s3BDisotMXrc6MMaWENiWSeMHBUZw@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OEDEM 2019
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,52 +56,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 17:43:00 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 31 Jul 2019 17:48:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Needing the Windows distutils installer stubs is quite a niche requirement, so
-put them into a separate package and just recommend it.
+If there are enough people interested it would be great a BoF, even if
+it is "unofficial"
 
-This can save both space and legal pain, as the installers embed an old zlib
-that has known CVEs.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../python/python3/python3-manifest.json            | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+On Wed, Jul 31, 2019 at 6:45 PM Philip Balister <philip@balister.org> wrote:
+>
+> On 07/31/2019 05:48 AM, Ricardo Ribalda Delgado wrote:
+> > BTW, Is there anything for Embedded Recipes or Plumbers?
+>
+> No. But we are always interested in improving communication with the
+> larger community. Any suggestions what you would like to see at events
+> like these?
+>
+> Philip
+>
+> >
+> > On Tue, Jul 30, 2019 at 7:33 PM Philip Balister <philip@balister.org> wrote:
+> >>
+> >> We are working with the Yocto Project on a two day Summit event. This
+> >> should implement part of the ideas from the the last couple of developer
+> >> meetings.
+> >>
+> >> Philip
+> >>
+> >> On 07/30/2019 12:58 PM, Ruslan Bilovol wrote:
+> >>> Hi all,
+> >>>
+> >>> Is there any plan to hold an OpenEmbedded developer meting
+> >>> in Lyon, France around this year's ELCE 2019 (October 28-30)?
+> >>>
+> >>> I see that OEDEM 2019 page isn't created yet and I didn't find
+> >>> any news in mailing lists yet:
+> >>> https://www.openembedded.org/wiki/OEDEM_2019
+> >>>
+> >>> Thanks,
+> >>> Ruslan
+> >>>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> >
+> >
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index b179215838a..ec28c2dbb45 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -512,6 +512,16 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/difflib.*.pyc"
-         ]
-     },
-+    "distutils-windows": {
-+        "cached": [],
-+        "files": [
-+            "${libdir}/python${PYTHON_MAJMIN}/distutils/command/wininst-*.exe"
-+        ],
-+        "rdepends": [
-+            "distutils"
-+        ],
-+        "summary": "Python distribution utilities (Windows installer stubs)"
-+    },
-     "distutils": {
-         "summary": "Python Distribution Utilities",
-         "rdepends": [
-@@ -789,6 +799,9 @@
-             "xml",
-             "xmlrpc"
-         ],
-+        "rrecommends": [
-+            "distutils-windows"
-+        ],
-         "summary": "All Python modules"
-     },
-     "multiprocessing": {
--- 
-2.20.1
 
+
+--
+Ricardo Ribalda
 
