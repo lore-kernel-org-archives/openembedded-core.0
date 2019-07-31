@@ -1,23 +1,24 @@
-Return-Path: <naveen.kumar.saini@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 78F917F3EC
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 9295D7F367
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 07:16:50 +0000 (UTC)
+	Wed, 31 Jul 2019 08:25:25 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 Jul 2019 00:16:51 -0700
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jul 2019 01:25:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,329,1559545200"; d="scan'208";a="180165427"
-Received: from optimus-prime.png.intel.com ([172.30.199.130])
-	by FMSMGA003.fm.intel.com with ESMTP; 31 Jul 2019 00:16:49 -0700
-From: Naveen Saini <naveen.kumar.saini@intel.com>
+X-IronPort-AV: E=Sophos;i="5.64,329,1559545200"; d="scan'208";a="371432624"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.182.62])
+	by fmsmga005.fm.intel.com with ESMTP; 31 Jul 2019 01:25:25 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2019 15:18:51 +0800
-Message-Id: <20190731071851.9964-1-naveen.kumar.saini@intel.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] ghostscript: fix CVE-2019-3839
+Date: Wed, 31 Jul 2019 16:25:21 +0800
+Message-Id: <20190731082521.30555-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Subject: [PATCH] libtasn1: upgrade 4.13 -> 4.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,474 +31,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 07:16:50 -0000
+X-List-Received-Date: Wed, 31 Jul 2019 08:25:25 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+* For changes in this version, see:
+https://gitlab.com/gnutls/libtasn1/-/releases
+
+* Remove the musl patch as it's no longer needed.
+
+* Backport a patch to ensure LDFLAGS are not over-ridden.
+
+License-Update: License clarification, no change in actual terms.
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../ghostscript/CVE-2019-3839-0008.patch      | 440 ++++++++++++++++++
- .../ghostscript/ghostscript_9.26.bb           |   1 +
- 2 files changed, 441 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3839-0008.patch
+ ...roduce-GNULIB_OVERRIDES_WINT_T-check.patch | 63 -------------------
+ .../gnutls/libtasn1/fix-ldflags.patch         | 31 +++++++++
+ .../{libtasn1_4.13.bb => libtasn1_4.14.bb}    | 12 ++--
+ 3 files changed, 37 insertions(+), 69 deletions(-)
+ delete mode 100644 meta/recipes-support/gnutls/libtasn1/0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/fix-ldflags.patch
+ rename meta/recipes-support/gnutls/{libtasn1_4.13.bb => libtasn1_4.14.bb} (47%)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3839-0008.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3839-0008.patch
+diff --git a/meta/recipes-support/gnutls/libtasn1/0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch b/meta/recipes-support/gnutls/libtasn1/0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch
+deleted file mode 100644
+index 1e52d6abf5..0000000000
+--- a/meta/recipes-support/gnutls/libtasn1/0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-From b17dbb8d3c5605db3a1d82861fcaeef4636d1117 Mon Sep 17 00:00:00 2001
+-From: "Maxin B. John" <maxin.john@intel.com>
+-Date: Thu, 26 Jan 2017 18:54:48 +0200
+-Subject: [PATCH] stdint.m4: reintroduce GNULIB_OVERRIDES_WINT_T check
+-
+-Partially revert the gnulib commit: 5a400b3f5a1f5483dbfd75d38bdb7080218a063b
+-to fix the build error with musl library.
+-
+-Upstream-Status: Inappropriate
+-
+-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+----
+- gl/m4/stdint.m4 | 27 +++++++++++++++++++++++++++
+- 1 file changed, 27 insertions(+)
+-
+-diff --git a/gl/m4/stdint.m4 b/gl/m4/stdint.m4
+-index 4ac854d..3dc3da1 100644
+---- a/gl/m4/stdint.m4
+-+++ b/gl/m4/stdint.m4
+-@@ -355,6 +355,32 @@ int32_t i32 = INT32_C (0x7fffffff);
+-     gl_STDINT_TYPE_PROPERTIES
+-   fi
+- 
+-+  dnl Determine whether gnulib's <wchar.h> or <wctype.h> would, if present,
+-+  dnl override 'wint_t'.
+-+    AC_CACHE_CHECK([whether wint_t is too small],
+-+      [gl_cv_type_wint_t_too_small],
+-+      [AC_COMPILE_IFELSE(
+-+           [AC_LANG_PROGRAM([[
+-+  /* Tru64 with Desktop Toolkit C has a bug: <stdio.h> must be included before
+-+     <wchar.h>.
+-+     BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
+-+     included before <wchar.h>.  */
+-+  #if !(defined __GLIBC__ && !defined __UCLIBC__)
+-+  # include <stddef.h>
+-+  # include <stdio.h>
+-+  # include <time.h>
+-+  #endif
+-+  #include <wchar.h>
+-+              int verify[sizeof (wint_t) < sizeof (int) ? -1 : 1];
+-+              ]])],
+-+           [gl_cv_type_wint_t_too_small=no],
+-+           [gl_cv_type_wint_t_too_small=yes])])
+-+    if test $gl_cv_type_wint_t_too_small = yes; then
+-+      GNULIB_OVERRIDES_WINT_T=1
+-+    else
+-+      GNULIB_OVERRIDES_WINT_T=0
+-+    fi
+-+
+-   dnl The substitute stdint.h needs the substitute limit.h's _GL_INTEGER_WIDTH.
+-   LIMITS_H=limits.h
+-   AM_CONDITIONAL([GL_GENERATE_LIMITS_H], [test -n "$LIMITS_H"])
+-@@ -363,6 +389,7 @@ int32_t i32 = INT32_C (0x7fffffff);
+-   AC_SUBST([HAVE_SYS_BITYPES_H])
+-   AC_SUBST([HAVE_SYS_INTTYPES_H])
+-   AC_SUBST([STDINT_H])
+-+  AC_SUBST([GNULIB_OVERRIDES_WINT_T])
+-   AM_CONDITIONAL([GL_GENERATE_STDINT_H], [test -n "$STDINT_H"])
+- ])
+- 
+--- 
+-2.4.0
+-
+diff --git a/meta/recipes-support/gnutls/libtasn1/fix-ldflags.patch b/meta/recipes-support/gnutls/libtasn1/fix-ldflags.patch
 new file mode 100644
-index 0000000000..4be1c84f92
+index 0000000000..f18f3c6267
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3839-0008.patch
-@@ -0,0 +1,440 @@
-+From c253752ef731f49922e0a97490d1ef09ca697c91 Mon Sep 17 00:00:00 2001
-+From: Ray Johnston <ray.johnston@artifex.com>
-+Date: Thu, 31 Jan 2019 11:31:30 -0800
-+Subject: [PATCH] Hide pdfdict and GS_PDF_ProcSet (internal stuff for the PDF
-+ interp).
++++ b/meta/recipes-support/gnutls/libtasn1/fix-ldflags.patch
+@@ -0,0 +1,31 @@
++From a6f93b7ace347bc4fe29eb4a8fe4383d786cc8d0 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
++Date: Tue, 23 Jul 2019 20:44:01 +0200
++Subject: [PATCH] Fix LDFLAGS to AM_LDFLAGS in src/Makefile.am
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+We now keep GS_PDF_ProcSet in pdfdict, and immediately bind pdfdict
-+where needed so we can undef it after the last PDF interp file has
-+run (pdf_sec.ps).
-+
-+CVE: CVE-2019-3839
-+Upstream-Status: Backport [http://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=4ec9ca74bed49f2a82acb4bf430eae0d8b3b75c9]
-+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
++Signed-off-by: Tim Rühsen <tim.ruehsen@gmx.de>
++Upstream-Status: Backport
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ Resource/Init/pdf_base.ps | 11 ++++----
-+ Resource/Init/pdf_draw.ps | 59 +++++++++++++++++++--------------------
-+ Resource/Init/pdf_font.ps |  9 +++---
-+ Resource/Init/pdf_main.ps | 25 +++++++++--------
-+ Resource/Init/pdf_ops.ps  | 11 ++++----
-+ Resource/Init/pdf_sec.ps  |  4 ++-
-+ 6 files changed, 60 insertions(+), 59 deletions(-)
++ src/Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Resource/Init/pdf_base.ps b/Resource/Init/pdf_base.ps
-+index e35e0e373..13dd51f46 100644
-+--- a/Resource/Init/pdf_base.ps
-++++ b/Resource/Init/pdf_base.ps
-+@@ -23,7 +23,6 @@
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 5bf3622..4459767 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -21,7 +21,7 @@ AM_CPPFLAGS = -I$(top_builddir)/lib/includes -I$(top_srcdir)/lib/includes \
++  -I$(top_builddir)/lib/gl -I$(top_srcdir)/lib/gl $(CODE_COVERAGE_CPPFLAGS)
 + 
-+ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
-+ .currentglobal //true .setglobal
-+-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
-+ pdfdict begin
++ LDADD = ../lib/libtasn1.la
++-LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
+++AM_LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
 + 
-+ % Define the name interpretation dictionary for reading values.
-+@@ -133,11 +132,11 @@ currentdict /num-chars-dict .undef
++ bin_PROGRAMS = asn1Parser asn1Coding asn1Decoding
 + 
-+ /.pdfexectoken {		% <count> <opdict> <exectoken> .pdfexectoken ?
-+   PDFDEBUG {
-+-    pdfdict /PDFSTEPcount known not { pdfdict /PDFSTEPcount 1 .forceput } executeonly if
-++    //pdfdict /PDFSTEPcount known not { //pdfdict /PDFSTEPcount 1 .forceput } executeonly if
-+     PDFSTEP {
-+-      pdfdict /PDFtokencount 2 copy .knownget { 1 add } { 1 } ifelse .forceput
-++      //pdfdict /PDFtokencount 2 copy .knownget { 1 add } { 1 } ifelse .forceput
-+       PDFSTEPcount 1 gt {
-+-        pdfdict /PDFSTEPcount PDFSTEPcount 1 sub .forceput
-++        //pdfdict /PDFSTEPcount PDFSTEPcount 1 sub .forceput
-+       } executeonly
-+       {
-+         dup ==only
-+@@ -145,10 +144,10 @@ currentdict /num-chars-dict .undef
-+         ( ? ) print flush 1 //false .outputpage
-+         (%stdin) (r) file 255 string readline {
-+           token {
-+-            exch pop pdfdict /PDFSTEPcount 3 -1 roll .forceput
-++            exch pop //pdfdict /PDFSTEPcount 3 -1 roll .forceput
-+           } executeonly
-+           {
-+-            pdfdict /PDFSTEPcount 1 .forceput
-++            //pdfdict /PDFSTEPcount 1 .forceput
-+           } executeonly ifelse % token
-+         } {
-+           pop /PDFSTEP //false def	 % EOF on stdin
-+diff --git a/Resource/Init/pdf_draw.ps b/Resource/Init/pdf_draw.ps
-+index 36c41a9a3..2e39c87d2 100644
-+--- a/Resource/Init/pdf_draw.ps
-++++ b/Resource/Init/pdf_draw.ps
-+@@ -18,8 +18,7 @@
-+ 
-+ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
-+ .currentglobal //true .setglobal
-+-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
-+-GS_PDF_ProcSet begin
-++/GS_PDF_ProcSet load begin
-+ pdfdict begin
-+ 
-+ % For simplicity, we use a single interpretation dictionary for all
-+@@ -113,7 +112,7 @@ pdfdict begin
-+ 
-+ /resolvefunction {	% <fndict> resolvefunction <function>
-+   .resolvefn
-+-  PDFDEBUG { pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Function: ) print dup === flush } if } if
-++  PDFDEBUG { //pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Function: ) print dup === flush } if } if
-+ } bind executeonly def
-+ 
-+ /resolvefnproc {	% <fndict> resolvefnproc <proc>
-+@@ -1086,7 +1085,7 @@ currentdict end readonly def
-+ %% finished running the PaintProc.
-+ 
-+ /.actual_pdfpaintproc {         % <patdict> <resdict> .pdfpaintproc -
-+-  PDFDEBUG { pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Begin PaintProc) print dup === flush } if } if
-++  PDFDEBUG { //pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Begin PaintProc) print dup === flush } if } if
-+   PDFfile fileposition 3 1 roll
-+   q
-+   1 index /PaintType oget 1 eq {
-+@@ -1121,21 +1120,21 @@ currentdict end readonly def
-+       Q
-+     }{
-+       (\n   **** Error: File has unbalanced q/Q operators \(too many Q's\)\n               Output may be incorrect.\n)
-+-      pdfdict /.Qqwarning_issued .knownget
-++      //pdfdict /.Qqwarning_issued .knownget
-+       {
-+         {
-+           pop
-+         }
-+         {
-+-          currentglobal pdfdict gcheck .setglobal
-+-          pdfdict /.Qqwarning_issued //true .forceput
-++          currentglobal //pdfdict gcheck .setglobal
-++          //pdfdict /.Qqwarning_issued //true .forceput
-+           .setglobal
-+           pdfformaterror
-+         } executeonly ifelse
-+       }
-+       {
-+-        currentglobal pdfdict gcheck .setglobal
-+-        pdfdict /.Qqwarning_issued //true .forceput
-++        currentglobal //pdfdict gcheck .setglobal
-++        //pdfdict /.Qqwarning_issued //true .forceput
-+         .setglobal
-+         pdfformaterror
-+       } executeonly ifelse
-+@@ -1144,21 +1143,21 @@ currentdict end readonly def
-+   } loop
-+   {
-+     (\n   **** Error: File has unbalanced q/Q operators \(too many q's\)\n               Output may be incorrect.\n)
-+-    pdfdict /.Qqwarning_issued .knownget
-++    //pdfdict /.Qqwarning_issued .knownget
-+     {
-+       {
-+         pop
-+       }
-+       {
-+-        currentglobal pdfdict gcheck .setglobal
-+-        pdfdict /.Qqwarning_issued //true .forceput
-++        currentglobal //pdfdict gcheck .setglobal
-++        //pdfdict /.Qqwarning_issued //true .forceput
-+         .setglobal
-+         pdfformaterror
-+       } executeonly ifelse
-+     }
-+     {
-+-      currentglobal pdfdict gcheck .setglobal
-+-      pdfdict /.Qqwarning_issued //true .forceput
-++      currentglobal //pdfdict gcheck .setglobal
-++      //pdfdict /.Qqwarning_issued //true .forceput
-+       .setglobal
-+       pdfformaterror
-+     } executeonly ifelse
-+@@ -1169,7 +1168,7 @@ currentdict end readonly def
-+   /pdfemptycount exch def
-+ 
-+   Q
-+-  PDFDEBUG { pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%End PaintProc) print dup === flush } if } if
-++  PDFDEBUG { //pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%End PaintProc) print dup === flush } if } if
-+   PDFfile exch setfileposition
-+ } bind executeonly odef
-+ 
-+@@ -1240,7 +1239,7 @@ currentdict end readonly def
-+   ] cvx put
-+   dup /BBox 2 copy knownoget { normrect FixPatternBBox put } { pop pop } ifelse
-+   dup /.pattern_uses_transparency  1 index patternusestransparency put
-+-  PDFDEBUG { pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Pattern: ) print dup === flush } if } if
-++  PDFDEBUG { //pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Pattern: ) print dup === flush } if } if
-+ } bind executeonly def
-+ 
-+ /ignore_color_op  (   **** Error: Ignoring a color operation in a cached context.\n               Output may be incorrect.\n) readonly def
-+@@ -2361,16 +2360,16 @@ currentdict /last-ditch-bpc-csp undef
-+ } bind executeonly def
-+ 
-+ /IncrementAppearanceNumber {
-+-  pdfdict /AppearanceNumber .knownget {
-+-    1 add pdfdict /AppearanceNumber 3 -1 roll .forceput
-++  //pdfdict /AppearanceNumber .knownget {
-++    1 add //pdfdict /AppearanceNumber 3 -1 roll .forceput
-+   } executeonly
-+   {
-+-    pdfdict /AppearanceNumber 0 .forceput
-++    //pdfdict /AppearanceNumber 0 .forceput
-+   } executeonly ifelse
-+ }bind executeonly odef
-+ 
-+ /MakeAppearanceName {
-+-  pdfdict /AppearanceNumber get
-++  //pdfdict /AppearanceNumber get
-+   10 string cvs
-+   dup length 10 add string dup 0 (\{FormName) putinterval
-+   dup 3 -1 roll
-+@@ -2391,17 +2390,17 @@ currentdict /last-ditch-bpc-csp undef
-+   gsave initclip
-+   MakeNewAppearanceName
-+   .pdfFormName
-+-  pdfdict /.PreservePDFForm known {pdfdict /.PreservePDFForm get} {//false}ifelse exch
-+-  pdfdict /.PreservePDFForm true .forceput
-++  //pdfdict /.PreservePDFForm known {//pdfdict /.PreservePDFForm get} {//false}ifelse exch
-++  //pdfdict /.PreservePDFForm true .forceput
-+   DoForm
-+-  pdfdict /.PreservePDFForm 3 -1 roll .forceput
-++  //pdfdict /.PreservePDFForm 3 -1 roll .forceput
-+   grestore
-+ } bind executeonly odef
-+ 
-+ /DoForm {
-+   %% save the current value, if its true we will set it to false later, in order
-+   %% to prevent us preserving Forms which are used *from* an annotation /Appearance.
-+-  pdfdict /.PreservePDFForm known {pdfdict /.PreservePDFForm get} {//false}ifelse exch
-++  //pdfdict /.PreservePDFForm known {//pdfdict /.PreservePDFForm get} {//false}ifelse exch
-+ 
-+   %% We may alter the Default* colour spaces, if the Resources
-+   %% ColorSpace entry contains one of them. But we don't want that
-+@@ -2516,13 +2515,13 @@ currentdict /last-ditch-bpc-csp undef
-+   pdfemptycount countdictstack 3 -1 roll
-+   /pdfemptycount count 4 sub store
-+ 
-+-  pdfdict /.PreservePDFForm known {pdfdict /.PreservePDFForm get}{//false} ifelse
-++  //pdfdict /.PreservePDFForm known {//pdfdict /.PreservePDFForm get}{//false} ifelse
-+   {
-+     %% We must *not* preserve any subsidiary forms (curently at least) as PDF
-+     %% form preservation doesn't really work. This is used just for Annotation
-+     %% Appearances currently, and if they should happen to use a form, we do not
-+     %% want to preserve it.
-+-    pdfdict /.PreservePDFForm false .forceput
-++    //pdfdict /.PreservePDFForm false .forceput
-+     /q cvx /execform cvx 5 -2 roll
-+   } executeonly
-+   {
-+@@ -2555,7 +2554,7 @@ currentdict /last-ditch-bpc-csp undef
-+     saved_DCMYK /DefaultCMYK exch /ColorSpace defineresource pop
-+     end
-+   } if
-+-  pdfdict /.PreservePDFForm 3 -1 roll .forceput
-++  //pdfdict /.PreservePDFForm 3 -1 roll .forceput
-+ } bind executeonly odef
-+ 
-+ /_dops_save 1 array def
-+@@ -2714,13 +2713,13 @@ drawopdict begin
-+     % Start by getting the object number for a Form XObject
-+     dup Page /XObject obj_get dup 0 eq not {
-+       % Now get the recording dictionary and see if that object number has been seen
-+-      pdfdict /Recursive_XObject_D get 1 index known {
-++      //pdfdict /Recursive_XObject_D get 1 index known {
-+         (   **** Error: Recursive XObject detected, ignoring ") print 1 index 256 string cvs print (", object number ) print 256 string cvs print (\n) print
-+         (               Output may be incorrect.\n) pdfformaterror
-+         //false
-+       }{
-+         % We haven't seen it yet, so record it.
-+-        pdfdict /Recursive_XObject_D get 1 index null put
-++        //pdfdict /Recursive_XObject_D get 1 index null put
-+         3 1 roll
-+         //true
-+       }ifelse
-+@@ -2758,7 +2757,7 @@ drawopdict begin
-+         (               Output may be incorrect.\n) pdfformaterror
-+       } ifelse
-+       PDFfile exch setfileposition
-+-      pdfdict /Recursive_XObject_D get exch undef
-++      //pdfdict /Recursive_XObject_D get exch undef
-+     }{
-+       % Otherwise ignore it and tidy up the stacks
-+       pop pop
-+diff --git a/Resource/Init/pdf_font.ps b/Resource/Init/pdf_font.ps
-+index 7e35c02ac..6b09be61f 100644
-+--- a/Resource/Init/pdf_font.ps
-++++ b/Resource/Init/pdf_font.ps
-+@@ -37,8 +37,7 @@
-+ 
-+ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
-+ .currentglobal //true .setglobal
-+-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
-+-GS_PDF_ProcSet begin
-++/GS_PDF_ProcSet load begin	% from userdict at this point
-+ pdfdict begin
-+ 
-+ % We cache the PostScript font in an additional element of the
-+@@ -1227,11 +1226,11 @@ currentdict /eexec_pdf_param_dict .undef
-+             .pdfruncontext
-+             countdictstack BuildCharDictDepth sub
-+             {
-+-              pdfdict /.Qqwarning_issued .knownget {not}{//true} ifelse
-++              //pdfdict /.Qqwarning_issued .knownget {not}{//true} ifelse
-+               {
-+                 (\n   **** Warning: Type 3 glyph has unbalanced q/Q operators \(too many q's\)\n               Output may be incorrect.\n)
-+                 pdfformatwarning
-+-                pdfdict /.Qqwarning_issued //true .forceput
-++                //pdfdict /.Qqwarning_issued //true .forceput
-+               } executeonly if
-+               Q
-+             } repeat
-+@@ -2361,7 +2360,7 @@ currentdict /bndef undef
-+   dup //null eq
-+   {pop}
-+   {
-+-    pdfdict /InputPDFFileName .knownget {.CRCHashFilenameAndObject} if
-++    //pdfdict /InputPDFFileName .knownget {.CRCHashFilenameAndObject} if
-+     exch dup /.OrigUniqueIDXUID .knownget not
-+     {
-+       dup /XUID .knownget not
-+diff --git a/Resource/Init/pdf_main.ps b/Resource/Init/pdf_main.ps
-+index 0a8929a2a..c1de1b0ef 100644
-+--- a/Resource/Init/pdf_main.ps
-++++ b/Resource/Init/pdf_main.ps
-+@@ -18,8 +18,9 @@
-+ 
-+ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
-+ .currentglobal //true .setglobal
-+-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
-+ pdfdict begin
-++/GS_PDF_ProcSet dup load def	% keep in pdfdict to hide it
-++userdict /GS_PDF_ProcSet undef
-+ 
-+ % Patch in an obsolete variable used by some third-party software.
-+ /#? //false def
-+@@ -304,8 +305,8 @@ currentdict /runpdfstring .undef
-+    /Page //null def
-+    /DSCPageCount 0 def
-+    /PDFSave //null def
-+-   GS_PDF_ProcSet begin
-+-   pdfdict begin
-++   //pdfdict /GS_PDF_ProcSet get begin
-++   //pdfdict begin
-+    pdfopen begin
-+    /CumulativePageCount currentpagedevice /PageCount get def
-+ } bind executeonly def
-+@@ -624,7 +625,7 @@ currentdict /runpdfstring .undef
-+   %% copied to a temporary file) and store it in pdfdict. We will use this for
-+   %% hashing fonts to detect if fonts with the same name are from different files.
-+   %%
-+-  dup currentglobal exch true setglobal .getfilename exch setglobal /InputPDFFileName exch pdfdict 3 1 roll .forceput
-++  dup currentglobal exch true setglobal .getfilename exch setglobal /InputPDFFileName exch //pdfdict 3 1 roll .forceput
-+ 
-+   //runpdfbegin exec
-+   //pdf_collection_files exec
-+@@ -1390,7 +1391,7 @@ currentdict /xref-char-dict undef
-+ } bind executeonly def
-+ 
-+ /pdfopenfile {		% <file> pdfopenfile <dict>
-+-   pdfdict readonly pop		% can't do it any earlier than this
-++   //pdfdict readonly pop		% can't do it any earlier than this
-+    32 dict begin
-+    /LocalResources 0 dict def
-+    /DefaultQstate //null def	% establish binding
-+@@ -2717,21 +2718,21 @@ currentdict /PDF2PS_matrix_key undef
-+     StreamRunAborted not {
-+       (\n   **** Error: File has unbalanced q/Q operators \(too many q's\)\n               Output may be incorrect.\n)
-+ 
-+-      pdfdict /.Qqwarning_issued .knownget
-++      //pdfdict /.Qqwarning_issued .knownget
-+       {
-+         {
-+           pop
-+         }
-+         {
-+-          currentglobal pdfdict gcheck .setglobal
-+-          pdfdict /.Qqwarning_issued //true .forceput
-++          currentglobal //pdfdict gcheck .setglobal
-++          //pdfdict /.Qqwarning_issued //true .forceput
-+           .setglobal
-+           pdfformaterror
-+         } executeonly ifelse
-+       }
-+       {
-+-        currentglobal pdfdict gcheck .setglobal
-+-        pdfdict /.Qqwarning_issued //true .forceput
-++        currentglobal //pdfdict gcheck .setglobal
-++        //pdfdict /.Qqwarning_issued //true .forceput
-+         .setglobal
-+         pdfformaterror
-+       } executeonly ifelse
-+@@ -2743,8 +2744,8 @@ currentdict /PDF2PS_matrix_key undef
-+   Repaired		% pass Repaired state around the restore
-+   RepairedAnError
-+   PDFSave restore
-+-  currentglobal pdfdict gcheck .setglobal
-+-  pdfdict /.Qqwarning_issued //false .forceput
-++  currentglobal //pdfdict gcheck .setglobal
-++  //pdfdict /.Qqwarning_issued //false .forceput
-+   .setglobal
-+   /RepairedAnError exch def
-+   /Repaired exch def
-+diff --git a/Resource/Init/pdf_ops.ps b/Resource/Init/pdf_ops.ps
-+index 34e2fbd58..46de547f7 100644
-+--- a/Resource/Init/pdf_ops.ps
-++++ b/Resource/Init/pdf_ops.ps
-+@@ -24,6 +24,7 @@
-+ systemdict /pdfmark known not
-+  { userdict /pdfmark { cleartomark } bind executeonly put } if
-+ 
-++systemdict /pdfdict where { pop } { /pdfdict 100 dict put } ifelse
-+ userdict /GS_PDF_ProcSet 256 dict dup begin
-+ 
-+ % ---------------- Abbreviations ---------------- %
-+@@ -174,21 +175,21 @@ currentdict /gput_always_allow .undef
-+   {
-+     (\n   **** Error: File has unbalanced q/Q operators \(too many Q's\)\n               Output may be incorrect.\n)
-+ 
-+-    pdfdict /.Qqwarning_issued .knownget
-++    //pdfdict /.Qqwarning_issued .knownget
-+     {
-+       {
-+         pop
-+       }
-+       {
-+-        currentglobal pdfdict gcheck .setglobal
-+-        pdfdict /.Qqwarning_issued //true .forceput
-++        currentglobal //pdfdict gcheck .setglobal
-++        //pdfdict /.Qqwarning_issued //true .forceput
-+         .setglobal
-+         pdfformaterror
-+       } executeonly ifelse
-+     }
-+     {
-+-      currentglobal pdfdict gcheck .setglobal
-+-      pdfdict /.Qqwarning_issued //true .forceput
-++      currentglobal //pdfdict gcheck .setglobal
-++      //pdfdict /.Qqwarning_issued //true .forceput
-+       .setglobal
-+       pdfformaterror
-+     } executeonly ifelse
-+diff --git a/Resource/Init/pdf_sec.ps b/Resource/Init/pdf_sec.ps
-+index d8cc94c86..163dd6877 100644
-+--- a/Resource/Init/pdf_sec.ps
-++++ b/Resource/Init/pdf_sec.ps
-+@@ -39,7 +39,6 @@
-+ 
-+ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
-+ .currentglobal //true .setglobal
-+-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
-+ pdfdict begin
-+ 
-+ % Older ghostscript versions do not have .pdftoken, so we use 'token' instead.
-+@@ -748,4 +747,7 @@ currentdict /PDFScanRules_null undef
-+  } bind executeonly def
-+ 
-+ end			% pdfdict
-++
-++systemdict /pdfdict .forceundef		% hide pdfdict
-++
-+ .setglobal
 +-- 
-+2.17.1
++2.21.0
 +
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.26.bb b/meta/recipes-extended/ghostscript/ghostscript_9.26.bb
-index 2630084a07..03e4569dbc 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.26.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.26.bb
-@@ -45,6 +45,7 @@ SRC_URI = "${SRC_URI_BASE} \
-            file://CVE-2019-3835-0004.patch \
-            file://CVE-2019-3838-0001.patch \
-            file://CVE-2019-3838-0002.patch \
-+           file://CVE-2019-3839-0008.patch \
+diff --git a/meta/recipes-support/gnutls/libtasn1_4.13.bb b/meta/recipes-support/gnutls/libtasn1_4.14.bb
+similarity index 47%
+rename from meta/recipes-support/gnutls/libtasn1_4.13.bb
+rename to meta/recipes-support/gnutls/libtasn1_4.14.bb
+index 9ee1913091..cb7fed4449 100644
+--- a/meta/recipes-support/gnutls/libtasn1_4.13.bb
++++ b/meta/recipes-support/gnutls/libtasn1_4.14.bb
+@@ -4,19 +4,19 @@ HOMEPAGE = "http://www.gnu.org/software/libtasn1/"
+ LICENSE = "GPLv3+ & LGPLv2.1+"
+ LICENSE_${PN}-bin = "GPLv3+"
+ LICENSE_${PN} = "LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+-                    file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
++LIC_FILES_CHKSUM = "file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://doc/COPYING.LESSER;md5=4fbd65380cdd255951079008b364516c \
++                    file://LICENSE;md5=75ac100ec923f959898182307970c360"
+ 
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://dont-depend-on-help2man.patch \
+-           file://0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch \
++           file://fix-ldflags.patch \
             "
  
- SRC_URI_class-native = "${SRC_URI_BASE} \
+ DEPENDS = "bison-native"
+ 
+-SRC_URI[md5sum] = "ce2ba4d3088119b48e7531a703669c52"
+-SRC_URI[sha256sum] = "7e528e8c317ddd156230c4e31d082cd13e7ddeb7a54824be82632209550c8cca"
++SRC_URI[md5sum] = "e9918200ed4a778e2b3cbe34c1be4205"
++SRC_URI[sha256sum] = "9e604ba5c5c8ea403487695c2e407405820d98540d9de884d6e844f9a9c5ba08"
+ 
+ inherit autotools texinfo lib_package gtk-doc
+ 
 -- 
-2.17.1
+2.21.0
 
 
