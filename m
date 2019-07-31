@@ -1,30 +1,33 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DD4C77F3A3
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id D04DD7F11C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 08:26:22 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,329,1559491200"; d="scan'208";a="72580552"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 31 Jul 2019 16:26:23 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id D263A4CDDAE4
+	Wed, 31 Jul 2019 09:33:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45z7XX5b9Dz3n
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 16:26:20 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 31 Jul 2019 16:26:23 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 31 Jul 2019 16:25:39 +0800
-Message-ID: <20190731082539.27000-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: D263A4CDDAE4.AB0E4
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] kexec-tools:upgrade 2.0.19 -> 2.0.20
+	Wed, 31 Jul 2019 11:33:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1564565628;
+	bh=z43tOgtnSn6KW+zORXSmrnHkb1d4iRQpeZEVPswfXOw=;
+	h=From:To:Subject:Date:From;
+	b=XNlSS6fwYSGmwurc9lmTLwS2C2Mbv8Fp0nL5MFiu2ROvThwMU2gMcct+OmxGd9uyh
+	o7E2MAQo9WM/wHQhmVDm5IwogLH/t5wVwEMepZ5MFYUKsAGDFMTZ300/oQfDHTMZku
+	1Knh7KOTNphj9oRgJrDNEB/7I+QNELoPk8fSW0Gv3XH+qPuK1JrmWtKUT6XNd2+dzs
+	Cd2qkFLSnWBbbgaH4K7wTnEgI9AX7uebIZijgcSna5gIgyHueiz2ZgoYgHwmHuTBi/
+	EwuTwhfhO/16opje6OmnUP1YD3kZPUOAFy9Nld/U02z6SzE1bc+snMvci45aS1JBxd
+	hce6dWUZc6KUTP7djMo82KGCo1U4lO6X8w3E9N6JjmO7LVHylecoZVixHUExao86PN
+	C1usUNnLTpPj13IT827X3p/neJ58y6VXFOlx/Kb0LrZ8LtmcCGN44EDGOrsJXO+2qL
+	Vo/z4abu7Cvwc/RKBvGN2sJZ3qZo6pOKB6iLX11YPxQlXprTA1GCmFww60JGboVCjZ
+	wy8whPIO5l8S6Ysjy3rsICltTAr0OmuNZcg9kYPmuRRHUKzGVrErrqreFPcV9B3jhg
+	mSQXb/W8ZTPH+oSoqrZy4Fl6l+885vDFCUuO5xobvj0h48C1k/atMoX5OBzSmg9Yaq
+	B0LtU56nkfB2FS6s0wRTIbT0=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 31 Jul 2019 12:33:47 +0300
+Message-Id: <20190731093347.16834-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] mtd-utils: Upgrade to 2.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +40,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 08:26:23 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 31 Jul 2019 09:33:49 -0000
 
-From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+Move from a git snapshot to a tarball release.
 
-Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+Add zstd PACKAGECONFIG to disable the zstd support that upstream
+enables by default, zstd is not in oe-core.
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../kexec/{kexec-tools_2.0.19.bb => kexec-tools_2.0.20.bb}            | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/kexec/{kexec-tools_2.0.19.bb => kexec-tools_2.0.20.bb} (95%)
+ .../mtd/{mtd-utils_git.bb => mtd-utils_2.1.1.bb}       | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/mtd/{mtd-utils_git.bb => mtd-utils_2.1.1.bb} (92%)
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
-similarity index 95%
-rename from meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
-rename to meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
-index 3439899..1167cfa 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
-@@ -20,8 +20,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
-     file://0005-Disable-PIE-during-link.patch \
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_2.1.1.bb
+similarity index 92%
+rename from meta/recipes-devtools/mtd/mtd-utils_git.bb
+rename to meta/recipes-devtools/mtd/mtd-utils_2.1.1.bb
+index 49a650a9ef..dc39ee6058 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_2.1.1.bb
+@@ -10,14 +10,11 @@ inherit autotools pkgconfig update-alternatives
+ DEPENDS = "zlib e2fsprogs util-linux"
+ RDEPENDS_mtd-utils-tests += "bash"
+ 
+-PV = "2.1.0+${SRCPV}"
+-
+-SRCREV = "b5027be5f470830ac9543db3c52e076b13abd313"
+-SRC_URI = "git://git.infradead.org/mtd-utils.git \
++SRC_URI = "ftp://ftp.infradead.org/pub/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
  "
+-
+-S = "${WORKDIR}/git/"
++SRC_URI[md5sum] = "94bbd31b217a5169ae26ab8c0442f691"
++SRC_URI[sha256sum] = "8d15e8b70f036d6af1a66011f8ca0e048e9675fa7983d33bea92c24313a232d2"
  
--SRC_URI[md5sum] = "052458f0a35c2a3b0d2302caa3318e9f"
--SRC_URI[sha256sum] = "913c8dee918e5855a4ba60d609371390978144b4c8d15d6446ca0057b7bc5e58"
-+SRC_URI[md5sum] = "46724b67f32501c5d3e778161347cad9"
-+SRC_URI[sha256sum] = "cb16d79818e0c9de3bb3e33ede5677c34a1d28c646379c7ab44e0faa3eb57a16"
+ EXTRA_OECONF += "--enable-install-tests"
  
- inherit autotools update-rc.d systemd
+@@ -30,6 +27,7 @@ PACKAGECONFIG[xattr] = "--with-xattr,--without-xattr,acl"
+ PACKAGECONFIG[crypto] = "--with-crypto,--without-crypto,openssl"
+ PACKAGECONFIG[jffs] = "--with-jffs,--without-jffs"
+ PACKAGECONFIG[ubifs] = "--with-ubifs,--without-ubifs"
++PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
+ 
+ CPPFLAGS_append_riscv64  = " -pthread -D_REENTRANT"
  
 -- 
-2.7.4
-
-
+2.17.1
 
 
