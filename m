@@ -1,51 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BE587F463
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id BBFAC7F455
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 14:08:51 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id c2so66632470wrm.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 07:08:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=TGc0nLNPgAJypPld298FQzBl2lAAbEhuh3/4A6oDTfU=;
-	b=AhblUlbW/7XVuTZQO5yggNqJkD03m3mA+UJLQeKG9Ax+DwSjWQZhAkyCP9obtnM8YD
-	cftssCylTdOpHPUG/ouNXNlfgrTC6+tRxh/K39NMGWD8a+q2j5rtFgFAn62sEu0kR8gM
-	a+FUNAxQgG4k2XfE1VOWwsNW7W4YF2ltf2lL4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=TGc0nLNPgAJypPld298FQzBl2lAAbEhuh3/4A6oDTfU=;
-	b=IZP2smew1ueEmbJ/aYA/SN29FK0JTeMAidGi2WdszQaEDh8CSODxglIcp8qn03i93O
-	i54OV7BdjjZQX5WaRhchcH6SuEc5Vj06aIWflIiqOy3h/IRTb4Vcideh3cyooWS2A4yB
-	AoqRBm+2W58CblkDoW9gDxnwgHav1ntAjlsZnV4oTIuh7GygBsA46D9OZPI9D2subIz1
-	zS+Zw4+99KPL/kJDSyG4f6HFcD9kDmvenDrkeWFVBZkscCeocf7D8Z6M+bCillyZwDVA
-	uGZqbO6RoJ0PfjlsHj4BXJfzyhH1G0Qwj5mX5wA2cv1s7YF2uSJTuvwAB2Lmxt3hODvP
-	GJcQ==
-X-Gm-Message-State: APjAAAUnWxTYyai1n99JWwyFUD3oeXk+MtIMJRZSg+6QthQP8rgXQW2+
-	rzRq+FVCDvZGTVcD6WswRka6kw==
-X-Google-Smtp-Source: APXvYqx4otsiBL0q+GYQGiFPEuyzV7shVRipS5pCr08R0fO96rtOVc1i8xmr9tIbka4O0qWJUMIh3Q==
-X-Received: by 2002:adf:ca0f:: with SMTP id o15mr18798363wrh.135.1564582132049;
-	Wed, 31 Jul 2019 07:08:52 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r5sm73151990wmh.35.2019.07.31.07.08.51
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 31 Jul 2019 07:08:51 -0700 (PDT)
-Message-ID: <48417a96cf6cdec3d2b13e6857bbaf2df2567dae.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2019 15:08:50 +0100
-In-Reply-To: <20190731082539.27000-1-zangrc.fnst@cn.fujitsu.com>
-References: <20190731082539.27000-1-zangrc.fnst@cn.fujitsu.com>
-User-Agent: Evolution 3.32.2-1 
+	Wed, 31 Jul 2019 14:48:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45zGW50nS5z1n;
+	Wed, 31 Jul 2019 16:48:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1564584481;
+	bh=1jWdAhINvPKpGVX7GGMMAhNy0o6WraPr1wJar6gSZiY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZwwCrHk6uz8rvcEkLuQWWRVx3/cclMOeHe+j9g5MA48Ekz4/FW/7RkvDwxOw3wBtX
+	XmRpr2fwHI+jnVW2PkIO3rqPkLU07VW2vl3V9WjDqED2Vi9UgJ4TG5GmyEEsILvkoW
+	kXm768YITN7IP5BX+9SQOOAZ3gUyVymsAMz8NBENP6rdlY1YX6kJBM/+r7gRaQyKz+
+	xLvqrTJKSicwXdlFGr/mKwc0GKcJhSaM0Fbs/yBMuneEE3dRQICFhGfep/V6x39gy4
+	+0HLZuST4ffq986MOhTRxuqU/33QljB5vYuJkH2GZ6enOtYiFd03bps9Cuv9B32P3x
+	m+Ctw94z61DnBfPIYl/zeZ/bGWP5KF5EdCmsZjpZ+Zjm7PDnprU/K4IMo6C7TSrslv
+	zyvOhr9TxPPw3gPizEAYK2azte0AeBi9DwwpwlTedFuSIYT1Az1Y7aqT0MDNCKd76l
+	0DFKyfh2kpw2UHoZXKYRDMIw9/PkbpINCLcIEr/JfbZcHB90Gy0eK36dE3tFLAfcbG
+	rrap+zcTw4Hrmn8170NZ5s5cYgpQ4tQEF/0hzFCCXOAgxa8Je040UdHsuyg5BuQ8JM
+	Ii7JgRMiU5LYn0YdUSYWtexsemXWCbW0D2JBWRI70FIWeScS+/8oY1PMil24nXoicZ
+	pYlYXG4ciPqVpJZPWDS86qD8=
+Date: Wed, 31 Jul 2019 17:47:58 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190731144758.GC1647@localhost>
+References: <20190731132957.4782-1-bunk@stusta.de>
+	<CAMKF1sriCokV8j2TsVva1DbxBnoe3q84cd=XXXaLpv6aHhLT-A@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] kexec-tools:upgrade 2.0.19 -> 2.0.20
+In-Reply-To: <CAMKF1sriCokV8j2TsVva1DbxBnoe3q84cd=XXXaLpv6aHhLT-A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [yocto] [yocto-docs][PATCH] ref-manual: Remove documentation for the removed gnome class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,27 +45,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 14:08:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 31 Jul 2019 14:48:02 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Wed, 2019-07-31 at 16:25 +0800, Zang Ruochen wrote:
-> From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+On Wed, Jul 31, 2019 at 07:33:37AM -0700, Khem Raj wrote:
+> On Wed, Jul 31, 2019 at 6:30 AM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > When removed all it did was
+> >   inherit gnomebase gtk-icon-cache gconf mime
+> > which would also be the most trivial replacement.
+> >
+> > Most of the time not all of these classes were needed,
+> > and it is recommended to use only the ones actually required.
+> >
 > 
-> Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
-> ---
->  .../kexec/{kexec-tools_2.0.19.bb => kexec-
-> tools_2.0.20.bb}            | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-kernel/kexec/{kexec-tools_2.0.19.bb => kexec-
-> tools_2.0.20.bb} (95%)
+> This should go to oe-core ml as well.
 
-Doesn't seem to build:
+Added to Cc.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/877
+> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> > ---
+> >  documentation/ref-manual/ref-classes.xml | 15 ---------------
+> >  1 file changed, 15 deletions(-)
+> >
+> > diff --git a/documentation/ref-manual/ref-classes.xml b/documentation/ref-manual/ref-classes.xml
+> > index 37619e382d..5403f20b6f 100644
+> > --- a/documentation/ref-manual/ref-classes.xml
+> > +++ b/documentation/ref-manual/ref-classes.xml
+> > @@ -920,21 +920,6 @@
+> >      </para>
+> >  </section>
+> >
+> > -<section id='ref-classes-gnome'>
+> > -    <title><filename>gnome.bbclass</filename></title>
+> > -
+> > -    <para>
+> > -        The <filename>gnome</filename> class supports recipes that
+> > -        build software from the GNOME stack.
+> > -        This class inherits the
+> > -        <link linkend='ref-classes-gnomebase'><filename>gnomebase</filename></link>,
+> > -        <link linkend='ref-classes-gtk-icon-cache'><filename>gtk-icon-cache</filename></link>,
+> > -        <link linkend='ref-classes-gconf'><filename>gconf</filename></link> and
+> > -        <link linkend='ref-classes-mime'><filename>mime</filename></link> classes.
+> > -        The class also disables GObject introspection where applicable.
+> > -    </para>
+> > -</section>
+> > -
+> 
+> do we need to enhance the documentation for gnomebase bbclass to
+> mention about disabling  gobject introspection
+> or is it handled differently now.
+>...
 
-Cheers,
+This part of the documentation had been wrong for 3-4 years.
 
-Richard
+The gobject introspection disabling was moved to the gnomebase class
+back in 2015.
+
+In 2016 the gnomebase class stopped disabling gobject introspection.
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
