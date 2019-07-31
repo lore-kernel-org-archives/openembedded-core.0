@@ -1,52 +1,28 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DE717D718
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id EB4817F3E5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 11:53:06 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id r1so69330535wrl.7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 04:53:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=UW+GGkjkgJsj/SIuYFzYuG8x3DNOYSl9e8NhYYp2Kuk=;
-	b=avdAriN0G1rcVAYKodwLtFS+/y1haXF/HHsN5x4yyYire5mi6l+M1/cciW7X1HLJYL
-	Hvo2CwyRXd5DHCl2lck2I5fwiM7xq2YJ9RiiDgK6c1zrMPGyPnamsCcTyDgcYuI2dy+Y
-	1N/wB+kdLdG1bmdfk+RhdRvxSP6vj3YdO0mQD6Ggw9pTB0iRHXlFBZoaY6XxfZodpExQ
-	c0lAiA8j5X7goeBLp99JLGlQPke0MPoccJvOGVS4NytY4UZ6jXQrJrEDTWkKSGUZujLT
-	g7N4lEoAKlMRA+Babo8L2oh7+07dHTat+bc0cnWa4YUsfIM9/Ed5oXSpwnZyxzHj/GJ+
-	/FAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=UW+GGkjkgJsj/SIuYFzYuG8x3DNOYSl9e8NhYYp2Kuk=;
-	b=I/OTYZxSY9IyyxgY8OnsmqhEODZaWN91L9plGVCwUjGQhygZbqCtTDSUoQFQP0bEcx
-	syNLnk94W/pe0Y5hDavxshjTWIlWQ2Txd/dWPFU4WyWTbDk5ursnqT9rL2HKlZHBXKp4
-	syfyfM+jW3kWC8Sl4Iv8DLh+iD/PHVPrirvcT7rDu5/rtQ4LFzHrktxRY5aNOit+/Xfw
-	AUeP3+q9oCNDRGuH7MWeCX8QuFFd9gtGad6tqTnOKDoc1QMYunUk2LZG887p6X8F9lt6
-	tH6sO85KOuUdeqbN2jIkZQcfBRXTHx1MgYQZWoIV9WwD8iT1uzTarrsYXByzuGdeC3gv
-	op3w==
-X-Gm-Message-State: APjAAAWli1I0Q9mplUg/GPF2YIhLvPjCSpsx90oG1CtIpfm7+xnrwrwD
-	Gpf3C7FS1uwQ+LZrezzDjm3RqYTsxgQ=
-X-Google-Smtp-Source: APXvYqzhRrkPwQcSp1ZCv62ogGs6jRMDhmP1PKkq7J9VK/xBAn51gPzFMqgf/ioZACR28ll886XL9g==
-X-Received: by 2002:adf:f883:: with SMTP id u3mr133319410wrp.0.1564573986700; 
-	Wed, 31 Jul 2019 04:53:06 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	y16sm69422795wrw.33.2019.07.31.04.53.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 31 Jul 2019 04:53:05 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 31 Jul 2019 12:37:01 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jul 2019 05:37:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,330,1559545200"; d="scan'208";a="172434423"
+Received: from jaisharm-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.36.125])
+	by fmsmga008.fm.intel.com with ESMTP; 31 Jul 2019 05:37:02 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2019 12:53:02 +0100
-Message-Id: <20190731115302.18138-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+References: <6ce08045-fb67-aab4-9ff5-9f8d511eeb78@topic.nl>
+From: Ross Burton <ross.burton@intel.com>
+Message-ID: <99ef1d9c-c642-92b3-33b0-aafc38c8e62b@intel.com>
+Date: Wed, 31 Jul 2019 13:37:01 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH] fortran-helloworld: neaten recipe
+In-Reply-To: <6ce08045-fb67-aab4-9ff5-9f8d511eeb78@topic.nl>
+Subject: Re: SDK does not contain pkg-config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +35,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 11:53:06 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 31 Jul 2019 12:37:02 -0000
+Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
 
-Use ${FC} instead of constructing the fortran name/arguments explictly, and
-clean up installation.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta-selftest/recipes-test/fortran/fortran-helloworld.bb | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/meta-selftest/recipes-test/fortran/fortran-helloworld.bb b/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
-index 97313d7e249..3a464044775 100644
---- a/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
-+++ b/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
-@@ -11,15 +11,14 @@ SECURITY_CFLAGS = ""
- SECURITY_LDFLAGS = ""
- 
- do_compile() {
--	${HOST_PREFIX}gfortran ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS} ${WORKDIR}/hello.f95 -o ${B}/fortran-hello
-+	${FC} ${LDFLAGS} ${WORKDIR}/hello.f95 -o ${B}/fortran-hello
- }
- 
- do_install() {
--	install -d ${D}${bindir}
--	install ${B}/fortran-hello ${D}${bindir}
-+	install -D ${B}/fortran-hello ${D}${bindir}/fortran-hello
- }
- 
- python () {
-     if not d.getVar("FORTRAN"):
-         raise bb.parse.SkipRecipe("Fortran isn't enabled")
--}
-\ No newline at end of file
-+}
--- 
-2.20.1
+T24gMzEvMDcvMjAxOSAwNjo0NywgTWlrZSBMb29pam1hbnMgd3JvdGU6Cj4gSSdtIHRyeWluZyB0
+byBnZXQgdGhlIFNESyB0byB3b3JrLCBidXQgbm8gc3VjY2VzcyBiZWNhdXNlIHRoZSBTREsgYXBw
+YXJlbnRseQo+IGRvZXMgbm90IGluc3RhbGwgYW55IHBrZy1jb25maWcgZmlsZSwgcmVzdWx0aW5n
+IGluIGF1dG90b29scyBhbmQgY21ha2Ugbm90Cj4gYmVpbmcgYWJsZSB0byBmaW5kIGFueSBsaWJy
+YXJ5Lgo+IAo+IEJ1aWx0IHRoZSBTREsgdXNpbmcgImJpdGJha2UgLWMgcG9wdWxhdGVfc2RrIGlt
+YWdlIgo+IAo+IEluc3RhbGwgdGhlIHJlc3VsdGluZyBTREssIGFuZCBzb3VyY2UgdGhlIHNoZWxs
+IHNjcmlwdC4KPiAKPiBCdWlsZGluZyAiaGVsbG93b3JsZCIgd29ya3MuIEJ1aWxkaW5nIHNvbWV0
+aGluZyBzbGlnaHRseSBtb3JlIGFkdmFuY2VkIGZhaWxzLAo+IGJlY2F1c2UgcGtnLWNvbmZpZyBp
+c24ndCB3b3JraW5nOiAicGtnLWNvbmZpZyAtLWxpc3QtYWxsIiBpcyBlbXB0eS4KPiAKPiBUaGUg
+Y2F1c2UgaXMgdGhhdCB0aGUgcGtnY29uZmlnIGZpbGVzIHNpbXBseSBhcmVuJ3QgaW4gdGhlIHN5
+c3Jvb3Q6Cj4gCj4gJCBlY2hvICRQS0dfQ09ORklHX1BBVEgKPiAvaG9tZS9taWtlL3Avc3lzcm9v
+dHMvY29ydGV4YTl0MmhmLW5lb24tb2UtbGludXgtZ251ZWFiaS91c3IvbGliL3BrZ2NvbmZpZzov
+aG9tZS9taWtlL3Avc3lzcm9vdHMvY29ydGV4YTl0MmhmLW5lb24tb2UtbGludXgtZ251ZWFiaS91
+c3Ivc2hhcmUvcGtnY29uZmlnCj4gJCBscyAvaG9tZS9taWtlL3Avc3lzcm9vdHMvY29ydGV4YTl0
+MmhmLW5lb24tb2UtbGludXgtZ251ZWFiaS91c3IvbGliL3BrZ2NvbmZpZwo+IGxzOiBjYW5ub3Qg
+YWNjZXNzCj4gJy9ob21lL21pa2UvcC9zeXNyb290cy9jb3J0ZXhhOXQyaGYtbmVvbi1vZS1saW51
+eC1nbnVlYWJpL3Vzci9saWIvcGtnY29uZmlnJzoKPiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5
+Cj4gJCBscyAvaG9tZS9taWtlL3Avc3lzcm9vdHMvY29ydGV4YTl0MmhmLW5lb24tb2UtbGludXgt
+Z251ZWFiaS91c3Ivc2hhcmUvcGtnY29uZmlnCj4gbHM6IGNhbm5vdCBhY2Nlc3MKPiAnL2hvbWUv
+bWlrZS9wL3N5c3Jvb3RzL2NvcnRleGE5dDJoZi1uZW9uLW9lLWxpbnV4LWdudWVhYmkvdXNyL3No
+YXJlL3BrZ2NvbmZpZyc6Cj4gTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQoKTG9va3MgbGlrZSBz
+b21ldGhpbmcgd2VudCB3cm9uZy4KCk15IGhvc3QgaGFzIG1pbmltYWwgLWRldiBwYWNrYWdlcyBp
+bnN0YWxsZWQ6CgokIGRwa2cgLWwgXCotZGV2fGdyZXAgaWkKaWkgIGRwa2ctZGV2ICAgICAgICAg
+ICAgICAgICAgMS4xOS43ICAgICAgICAgICAgYWxsICAgICAgICAgIERlYmlhbiAKcGFja2FnZSBk
+ZXZlbG9wbWVudCB0b29scwppaSAgbGliYzYtZGV2OmFtZDY0ICAgICAgICAgICAyLjI4LTEwICAg
+ICAgICAgICBhbWQ2NCAgICAgICAgR05VIEMgCkxpYnJhcnk6IERldmVsb3BtZW50IExpYnJhcmll
+cyBhbmQgSGVhZGVyIEZpbGVzCmlpICBsaWJnY2MtOC1kZXY6YW1kNjQgICAgICAgIDguMy4wLTYg
+ICAgICAgICAgIGFtZDY0ICAgICAgICBHQ0Mgc3VwcG9ydCAKbGlicmFyeSAoZGV2ZWxvcG1lbnQg
+ZmlsZXMpCmlpICBsaWJzdGRjKystOC1kZXY6YW1kNjQgICAgIDguMy4wLTYgICAgICAgICAgIGFt
+ZDY0ICAgICAgICBHTlUgClN0YW5kYXJkIEMrKyBMaWJyYXJ5IHYzIChkZXZlbG9wbWVudCBmaWxl
+cykKaWkgIGxpbnV4LWxpYmMtZGV2OmFtZDY0ICAgICAgNC4xOS4zNy01K2RlYjEwdTEgYW1kNjQg
+ICAgICAgIExpbnV4IApzdXBwb3J0IGhlYWRlcnMgZm9yIHVzZXJzcGFjZSBkZXZlbG9wbWVudApp
+aSAgbWFucGFnZXMtZGV2ICAgICAgICAgICAgICA0LjE2LTIgICAgICAgICAgICBhbGwgICAgICAg
+ICAgTWFudWFsIApwYWdlcyBhYm91dCB1c2luZyBHTlUvTGludXggZm9yIGRldmVsb3BtZW50CgpC
+dXQgaW5zaWRlIGEgY29yZS1pbWFnZS1taW5pbWFsIFNESzoKCiQgbHMgc3lzcm9vdHMvY29yZWk3
+LTY0LXBva3ktbGludXgvdXNyL2xpYi9wa2djb25maWcvIHwgaGVhZApibGtpZC5wYwpjaGVjay5w
+Ywpjb21fZXJyLnBjCmRidXMtMS5wYwpkYnVzLWdsaWItMS5wYwplMnAucGMKZXhwYXQucGMKZXh0
+MmZzLnBjCmZkaXNrLnBjCmZvcm0ucGMKCiQgcGtnLWNvbmZpZyAgLS1saXN0LWFsbCB8IGhlYWQK
+emxpYiAgICAgICAgICAgICAgICAgIHpsaWIgLSB6bGliIGNvbXByZXNzaW9uIGxpYnJhcnkKZ2lv
+LXVuaXgtMi4wICAgICAgICAgIEdJTyB1bml4IHNwZWNpZmljIEFQSXMgLSB1bml4IHNwZWNpZmlj
+IGhlYWRlcnMgZm9yIApnbGliIEkvTyBsaWJyYXJ5CmxpYmR3ICAgICAgICAgICAgICAgICBsaWJk
+dyAtIGVsZnV0aWxzIGxpYnJhcnkgZm9yIERXQVJGIGRhdGEgYW5kIEVMRiAKZmlsZSBvciBwcm9j
+ZXNzIGluc3BlY3Rpb24KbGlia21vZCAgICAgICAgICAgICAgIGxpYmttb2QgLSBMaWJyYXJ5IHRv
+IGRlYWwgd2l0aCBrZXJuZWwgbW9kdWxlcwphcHBsZXdtcHJvdG8gICAgICAgICAgQXBwbGVXTVBy
+b3RvIC0gQXBwbGVXTSBleHRlbnNpb24gaGVhZGVycwpnaW8tMi4wICAgICAgICAgICAgICAgR0lP
+IC0gZ2xpYiBJL08gbGlicmFyeQpkYnVzLWdsaWItMSAgICAgICAgICAgZGJ1cy1nbGliIC0gR0xp
+YiBpbnRlZ3JhdGlvbiBmb3IgdGhlIGZyZWUgZGVza3RvcCAKbWVzc2FnZSBidXMKeGY4NmRnYXBy
+b3RvICAgICAgICAgIFhGODZER0FQcm90byAtIFhGODZER0EgZXh0ZW5zaW9uIGhlYWRlcnMKcnBt
+ICAgICAgICAgICAgICAgICAgIFJQTSAtIFJQTSBQYWNrYWdlIE1hbmFnZXIKeGNiLWNvbXBvc2l0
+ZSAgICAgICAgIFhDQiBDb21wb3NpdGUgLSBYQ0IgQ29tcG9zaXRlIEV4dGVuc2lvbgoKU28sIHdv
+cmtzIGZvciBtZT8KClJvc3MKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkludGVsIENvcnBvcmF0aW9uIChVSykgTGlt
+aXRlZApSZWdpc3RlcmVkIE5vLiAxMTM0OTQ1IChFbmdsYW5kKQpSZWdpc3RlcmVkIE9mZmljZTog
+UGlwZXJzIFdheSwgU3dpbmRvbiBTTjMgMVJKClZBVCBObzogODYwIDIxNzMgNDcKClRoaXMgZS1t
+YWlsIGFuZCBhbnkgYXR0YWNobWVudHMgbWF5IGNvbnRhaW4gY29uZmlkZW50aWFsIG1hdGVyaWFs
+IGZvcgp0aGUgc29sZSB1c2Ugb2YgdGhlIGludGVuZGVkIHJlY2lwaWVudChzKS4gQW55IHJldmll
+dyBvciBkaXN0cmlidXRpb24KYnkgb3RoZXJzIGlzIHN0cmljdGx5IHByb2hpYml0ZWQuIElmIHlv
+dSBhcmUgbm90IHRoZSBpbnRlbmRlZApyZWNpcGllbnQsIHBsZWFzZSBjb250YWN0IHRoZSBzZW5k
+ZXIgYW5kIGRlbGV0ZSBhbGwgY29waWVzLgo=
 
 
