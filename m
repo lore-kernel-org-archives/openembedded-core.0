@@ -1,37 +1,35 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 67C337F383
+Return-Path: <mac@mcrowe.com>
+Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A97F7F37E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 10:35:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45z8vw0cJCz3n;
-	Wed, 31 Jul 2019 12:35:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1564569340;
-	bh=WGBJyDIllbwi2gBz0hQXoCS9j+Tu0d85IpNyToHinMY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GXukGnE1vLlc048CiiwUtGgyAzJZjqilDkAlwFSi+cK3sdrYS/RjE4ns/Fbk0M+os
-	nU3i1JHaAnKxQ2OT8p7hGMvJ4HcNcarTkOcA20mHBQtFmUDvtvayDaFq6pHtpKGchk
-	wvG08u6Nb89bIX1JjwShK6AiHaSIfm8972dMPd9qwG7nTEW15XTF+ah6oZcgYpX01f
-	ycDj2JPJywzZO2iIqJB0hHI5sTT2145gv2GhOfDiryIHIiY/Im+yPmr9pL+t91EOqB
-	CEQI+ii6eUPWNxwjsr2/0mUvUSOcd2cRR9f28meC+LXJnI+ztWqhZoZ/HTg+7IA6Rk
-	rB2+x2kRT+dggUh2qCMf8S5/GZ4YUD6vdI5l/uImJ3NuegNjJY5HNPsf+/YBX0Hnwn
-	q3NFBt61kTSu0EUa6QqWyaJbcZRjJctIOTVnV9FmEuilPj9WPpOPwCe/8TZyTv2E1w
-	GgrAJVDnl10VHsZWpsLDaEZfObeQna2Ebd7Bgpio189zhDHmkv5Y/OT8xiSkbxXwCm
-	WkYN2fBUvyMYmYqXn2Ej4dCZtpAdJKQuHB4LvV/gBz1q0xv/Pw+RgN7y5o9QO3KfSA
-	SNeY9/0P1QAz9mDqXftf2EazwxJy41J8tqM1jUp4dtv5nvuJbDdDP5hP7Z0scWFabk
-	PwHg5w+GYT29l1IsIVRgNAr4=
-Date: Wed, 31 Jul 2019 13:35:38 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20190731103538.GB1647@localhost>
-References: <20190731093347.16834-1-bunk@stusta.de>
-	<CANNYZj9Yi6MQPo_8yzy-iSorHRfc3Syj5_wLj7jSLuuJNykefQ@mail.gmail.com>
+	Wed, 31 Jul 2019 11:13:49 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id smYFhCGc46ogssmYGh4hH8; Wed, 31 Jul 2019 12:13:50 +0100
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=Y62GTSWN c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=0o9FgrsRnhwA:10
+	a=Q4-j1AaZAAAA:8 a=wCfO-aNCzqGrcds3OhMA:9 a=CjuIK1q_8ugA:10
+	a=37i-4DpEtJMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
+Received: from mac by deneb with local (Exim 4.92)
+	(envelope-from <mac@mcrowe.com>) id 1hsmYF-0007nf-Hh
+	for openembedded-core@lists.openembedded.org;
+	Wed, 31 Jul 2019 12:13:47 +0100
+Date: Wed, 31 Jul 2019 12:13:47 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20190731111347.GA27256@mcrowe.com>
+References: <20190730110111.5143-1-mac@mcrowe.com>
+	<adacdf23-1d66-a1e0-fa19-521b0d5f2861@windriver.com>
+	<20190730134917.GA30833@mcrowe.com>
+	<6b194922-8aa4-f2c1-645b-ace8331ae532@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj9Yi6MQPo_8yzy-iSorHRfc3Syj5_wLj7jSLuuJNykefQ@mail.gmail.com>
+In-Reply-To: <6b194922-8aa4-f2c1-645b-ace8331ae532@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mtd-utils: Upgrade to 2.1.1
+X-CMAE-Envelope: MS4wfNiyC53qEFIoDw5i6PUyvC+kXPdqsUDdoQuVHBQruWGUmri/7sNwst2PyUUOVlZX3cqThsUFab0SYVlJBXpQHhdxMVdFLyPgmcMrRk7fyoB2Wzds/3gF
+	lA0+4L6X6GivLbDwG+4tK/l2XMIbJgKNzKyFgG2CaK4F+RZDUPUEZvAs
+Subject: Re: [PATCH] sstate: Truncate PV in sstate filenames that are too long
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 10:35:39 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Wed, 31 Jul 2019 11:13:50 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Jul 31, 2019 at 12:17:35PM +0200, Alexander Kanavin wrote:
-> Please do not use ftp:// as it is deprecated for oe-core recipes. We are
-> trying to eliminate it entirely.
-> (if no http is available, then git is actually preferred!)
+On Tuesday 30 July 2019 at 09:14:01 -0500, Mark Hatle wrote:
+> Richard mentioned in the bitbake-devel thread that there may be external tools
+> using some of the components.  I'm not sure how to even identify what those
+> tools are at this time, but a new sstate version entry may be enough to start to
+> deal with them.
 
-OK, v2 sent.
+We have a couple of tools that know the format of sstate cache files:
 
-> Alex
+The first tool[1] processes locked-sigs.inc to update the atime of any
+files that would be necessary for the build. (We discovered that relying on
+actually building to update atime was insufficient since it skipped sstate
+files that were only necessary in order to build others.)
 
-cu
-Adrian
+The second tool is simpler and just expires sstate files that haven't been
+accessed in a while. We have a handful of different expiry policies by PN,
+so we need to understand where that is in the filename. This tool needs to
+cope with a cache populated by a mixture of oe-core versions, so any change
+in format risks complicating it.
 
--- 
+Mike.
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2016-April/120227.html
 
