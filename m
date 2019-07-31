@@ -1,132 +1,23 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com
-	(mail-eopbgr00081.outbound.protection.outlook.com [40.107.0.81])
-	by mail.openembedded.org (Postfix) with ESMTP id C097D7F3B0
+Return-Path: <naveen.kumar.saini@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 78F917F3EC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 05:47:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=topicbv.onmicrosoft.com; s=selector1-topicbv-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=5u7ubxhK/n178er2Op86bLm9AatwurKo28Qf/UBcMVI=;
-	b=ie5VQKuyOhqbgxpPhoJrZ+9ilQMlQuHILcbhpzVItJ3RXgFVSCKoGZ7cAtUhxV4IKJ9MIfHjlnmRU6rloCb4iTuLe74Vdu1/gKchC59y7tGJeowUrFgiKSmRA1jnaUtK7eMwJm2lek6/sxFbBodII1GAeHZHqXjO9kINvA5qobs=
-Received: from VI1PR04CA0100.eurprd04.prod.outlook.com (2603:10a6:803:64::35)
-	by AM5PR0401MB2579.eurprd04.prod.outlook.com (2603:10a6:203:37::18)
-	with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2115.15;
-	Wed, 31 Jul 2019 05:47:11 +0000
-Received: from DB5EUR01FT035.eop-EUR01.prod.protection.outlook.com
-	(2a01:111:f400:7e02::203) by VI1PR04CA0100.outlook.office365.com
-	(2603:10a6:803:64::35) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2115.15 via
-	Frontend Transport; Wed, 31 Jul 2019 05:47:11 +0000
-Authentication-Results: spf=pass (sender IP is 52.166.56.231)
-	smtp.mailfrom=topicproducts.com; lists.openembedded.org;
-	dkim=pass (signature
-	was verified) header.d=topicbv.onmicrosoft.com; lists.openembedded.org; 
-	dmarc=none action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topicproducts.com
-	designates 52.166.56.231 as permitted sender)
-	receiver=protection.outlook.com; client-ip=52.166.56.231;
-	helo=westeu11-emailsignatures-cloud.codetwo.com;
-Received: from westeu11-emailsignatures-cloud.codetwo.com (52.166.56.231) by
-	DB5EUR01FT035.mail.protection.outlook.com (10.152.4.243) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2136.14 via Frontend Transport; Wed, 31 Jul 2019 05:47:10 +0000
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com (104.47.4.50) by
-	westeu11-emailsignatures-cloud.codetwo.com with CodeTwo SMTP
-	Server (TLS12) via SMTP; Wed, 31 Jul 2019 05:47:08 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=oFsZ1C9xwf/99ViTlrJDFooXwCkuxokA545jy1DS1eTlMGm3ICtlaMqiGHH77ETjb0zUyVlJn6b2DHPTk8iurdSToAjJkY0v8Fgjg9jmlDjq8f8t4Q0Yk6a5+lrxLPULfJN03G87ZndHEojN2Nvd185Et0CzB7FRtAeXQO7MKT+kgeffl1IlU2rce55KHkwvkeBxKDB/t/phNVdpEuAUxzh9Kr1whRUAnpoaAFXdBfpbVnv6W+dmmiHqHlvfFu3JJQiG+JktfiVh1iS1BDg89in+f/1cK+KVbw0najjCf7jii+84fB9/65aELvsHiZgB4Z8A+FtS2ijwx4nCi73T/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=5u7ubxhK/n178er2Op86bLm9AatwurKo28Qf/UBcMVI=;
-	b=Aw0oj9fpDAmYnQazZTZlAfdK/h5OnhcBo+U8Udlt2KO5IYPZ8f95dgjjh1jOJ3OGKO/r3QpnJECmtQGKRdjwbSaysc3BaGfcCipsiCuQIbCJ2iImkwHzj40NBVj4lxS2/MUaifU6lbPeQDLfSf6zrMsmH/t2XeWEjVDoVcoLskQyymzjDdV0q7mpkaLg2QSBzTCHn6s9cb0R8+W6D6HGePR94/iRGmWvFTWsipNBXPdkvZhZK4qWo6gLl3yvhsRIQurxKLpmErkltPRDxF02VTRKBd9rJr268UV75m+4AbNZlNTxfwLM5RzsUkKWwr4wMO+1fWtKk2XVJA7WP7sdhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
-	smtp.mailfrom=topicproducts.com;dmarc=pass action=none
-	header.from=topic.nl;dkim=pass header.d=topic.nl;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=topicbv.onmicrosoft.com; s=selector1-topicbv-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=5u7ubxhK/n178er2Op86bLm9AatwurKo28Qf/UBcMVI=;
-	b=ie5VQKuyOhqbgxpPhoJrZ+9ilQMlQuHILcbhpzVItJ3RXgFVSCKoGZ7cAtUhxV4IKJ9MIfHjlnmRU6rloCb4iTuLe74Vdu1/gKchC59y7tGJeowUrFgiKSmRA1jnaUtK7eMwJm2lek6/sxFbBodII1GAeHZHqXjO9kINvA5qobs=
-Received: from AM7PR04MB6934.eurprd04.prod.outlook.com (10.141.174.88) by
-	AM7PR04MB7093.eurprd04.prod.outlook.com (52.135.58.144) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2115.14; Wed, 31 Jul 2019 05:47:07 +0000
-Received: from AM7PR04MB6934.eurprd04.prod.outlook.com
-	([fe80::b9ee:2fbb:bd36:514c]) by
-	AM7PR04MB6934.eurprd04.prod.outlook.com
-	([fe80::b9ee:2fbb:bd36:514c%3]) with mapi id 15.20.2073.012;
-	Wed, 31 Jul 2019 05:47:07 +0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: SDK does not contain pkg-config files
-Thread-Index: AQHVR2Njc80gtQeYw0K3PX3gQGd5og==
-Date: Wed, 31 Jul 2019 05:47:06 +0000
-Message-ID: <6ce08045-fb67-aab4-9ff5-9f8d511eeb78@topic.nl>
-Accept-Language: nl-NL, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.1
-x-clientproxiedby: AM0PR0102CA0043.eurprd01.prod.exchangelabs.com
-	(2603:10a6:208::20) To AM7PR04MB6934.eurprd04.prod.outlook.com
-	(2603:10a6:20b:10d::24)
-Authentication-Results-Original: spf=none (sender IP is )
-	smtp.mailfrom=mike.looijmans@topicproducts.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [81.173.50.109]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-Correlation-Id: 2072c7dd-c461-4cac-5715-08d7157a8809
-X-Microsoft-Antispam-Untrusted: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(2017052603328)(7193020);
-	SRVR:AM7PR04MB7093; 
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7093:|AM5PR0401MB2579:
-X-Microsoft-Antispam-PRVS: <AM5PR0401MB257934A086DAD2E0C2084D9196DF0@AM5PR0401MB2579.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;OLM:7691;
-x-forefront-prvs: 011579F31F
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
-	SFS:(10009020)(366004)(376002)(396003)(39840400004)(136003)(346002)(189003)(199004)(316002)(6512007)(7736002)(81156014)(68736007)(81166006)(186003)(6436002)(6486002)(256004)(66556008)(66476007)(64126003)(476003)(25786009)(486006)(2616005)(58126008)(14444005)(44832011)(65806001)(66066001)(65956001)(31686004)(65826007)(66946007)(52116002)(42882007)(66446008)(6916009)(64756008)(8936002)(26005)(71200400001)(53936002)(14454004)(5660300002)(71190400001)(8676002)(2906002)(36756003)(386003)(508600001)(305945005)(99286004)(3846002)(6116002)(31696002)(6506007)(102836004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM7PR04MB7093;
-	H:AM7PR04MB6934.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: topicproducts.com does not
-	designate permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info-Original: MS5JEK35sLTtC8R1eGdXteztuso6fiAMsR22+6l0jK4bD9OvJkJD1OYda4+kW0HeK0Uw5jZG5rJkW6QeobxA6gtMg+Ybh8gnqqiPbUW7Xxn9jVJPbU1YwehgIpxKLWRkhdjyotoK5fayVgIq4RIA0nAZkRukqQf7jU8Ek7GkHNOIq3oRRUUzAX8YLIfseRiE8oJ0BsuJWsGK4RheyOxtpOm1FRekkvY6l66L56ZRGX8jRBPKUotxeybR14s83oE1zbgEXOLncPuA03KashfBy4A9SVC61DGgr7ZTIPb+0BL+TBKUKFq9mEQASxYxPpiyG8e8zufNvlyllO/W+TQ8V4iyfXwDSSpxHObSX+mlWYBrQkAGP8vpFzLhEyU5BXze+5+8IWLAoASnTvi97ieGjlYB8D5fRfOREzhwsiL76mQ=
-MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7093
-X-CodeTwo-MessageID: 7c30f2ee-0d40-4ebf-a0ef-a6d30f14a0be.20190731054708@westeu11-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR01FT035.eop-EUR01.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:52.166.56.231; IPV:NLI; CTRY:NL; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(376002)(346002)(39840400004)(396003)(136003)(2980300002)(189003)(199004)(36756003)(50466002)(8676002)(6512007)(508600001)(65826007)(5660300002)(70206006)(42882007)(70586007)(65806001)(65956001)(58126008)(23676004)(25786009)(64126003)(106002)(246002)(316002)(7636002)(6486002)(7736002)(31696002)(6916009)(305945005)(14454004)(126002)(2616005)(66066001)(186003)(31686004)(2486003)(6506007)(26005)(7596002)(8936002)(336012)(3846002)(486006)(476003)(386003)(47776003)(2906002)(356004)(6116002)(436003)(14444005)(99286004)(44832011)(102836004);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM5PR0401MB2579;
-	H:westeu11-emailsignatures-cloud.codetwo.com; FPR:; SPF:Pass;
-	LANG:en; PTR:westeu11-emailsignatures-cloud.codetwo.com; MX:1;
-	A:1; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: e907a185-5488-4c16-fd8c-08d7157a8592
-X-Microsoft-Antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600148)(710020)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:AM5PR0401MB2579; 
-X-Forefront-PRVS: 011579F31F
-X-Microsoft-Antispam-Message-Info: IG7IRSdEQp/yCUHJ6j1Uxra2bWGVH0NM/TNil96+cKyP45sKlci4JtMN8ro1d2DDFKqrzyxIi8WSvzo+ayP9oRO9JZNP4xiZk2XU39lukgpJ5Tu3yTF5RvQzxFc0JWkIM9sef6xEPaVeWvFyWPwFgJiaYk6CYO+GfiVeVLZ/248dNvYxIp/n0ocEpiuGIFRhbq5JdkHblTTgsixmnNiwp2fh1VuUjnLjwK2c/qVUYnAoEAwFhW71T7PTsnrlWuXQlePNg6gXEbpI+wJoQZD5jRP/ME68QDcxYZ11hqQU+nkDK2NUVYn6ee9AnSkReK81tLCO2LUl9GQnbE1GL27DVO5/po+k1t2B83w8aJ5CHyI6Svj/Ml07zU/HdyXm5wH0B4Pi70CsPcquiU/L0mYUDKqmRr5bGI27uWATYZH8QbA=
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2019 05:47:10.8150 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2072c7dd-c461-4cac-5715-08d7157a8809
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3;
-	Ip=[52.166.56.231];
-	Helo=[westeu11-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0401MB2579
-Subject: SDK does not contain pkg-config files
+	Wed, 31 Jul 2019 07:16:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jul 2019 00:16:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,329,1559545200"; d="scan'208";a="180165427"
+Received: from optimus-prime.png.intel.com ([172.30.199.130])
+	by FMSMGA003.fm.intel.com with ESMTP; 31 Jul 2019 00:16:49 -0700
+From: Naveen Saini <naveen.kumar.saini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 31 Jul 2019 15:18:51 +0800
+Message-Id: <20190731071851.9964-1-naveen.kumar.saini@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [warrior][PATCH] ghostscript: fix CVE-2019-3839
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -139,30 +30,474 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 05:47:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BBFBFEF6CA56964F9CFA516159434C0D@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 31 Jul 2019 07:16:50 -0000
 
-SSdtIHRyeWluZyB0byBnZXQgdGhlIFNESyB0byB3b3JrLCBidXQgbm8gc3VjY2VzcyBiZWNhdXNl
-IHRoZSBTREsgYXBwYXJlbnRseSANCmRvZXMgbm90IGluc3RhbGwgYW55IHBrZy1jb25maWcgZmls
-ZSwgcmVzdWx0aW5nIGluIGF1dG90b29scyBhbmQgY21ha2Ugbm90IA0KYmVpbmcgYWJsZSB0byBm
-aW5kIGFueSBsaWJyYXJ5Lg0KDQpCdWlsdCB0aGUgU0RLIHVzaW5nICJiaXRiYWtlIC1jIHBvcHVs
-YXRlX3NkayBpbWFnZSINCg0KSW5zdGFsbCB0aGUgcmVzdWx0aW5nIFNESywgYW5kIHNvdXJjZSB0
-aGUgc2hlbGwgc2NyaXB0Lg0KDQpCdWlsZGluZyAiaGVsbG93b3JsZCIgd29ya3MuIEJ1aWxkaW5n
-IHNvbWV0aGluZyBzbGlnaHRseSBtb3JlIGFkdmFuY2VkIGZhaWxzLCANCmJlY2F1c2UgcGtnLWNv
-bmZpZyBpc24ndCB3b3JraW5nOiAicGtnLWNvbmZpZyAtLWxpc3QtYWxsIiBpcyBlbXB0eS4NCg0K
-VGhlIGNhdXNlIGlzIHRoYXQgdGhlIHBrZ2NvbmZpZyBmaWxlcyBzaW1wbHkgYXJlbid0IGluIHRo
-ZSBzeXNyb290Og0KDQokIGVjaG8gJFBLR19DT05GSUdfUEFUSA0KL2hvbWUvbWlrZS9wL3N5c3Jv
-b3RzL2NvcnRleGE5dDJoZi1uZW9uLW9lLWxpbnV4LWdudWVhYmkvdXNyL2xpYi9wa2djb25maWc6
-L2hvbWUvbWlrZS9wL3N5c3Jvb3RzL2NvcnRleGE5dDJoZi1uZW9uLW9lLWxpbnV4LWdudWVhYmkv
-dXNyL3NoYXJlL3BrZ2NvbmZpZw0KJCBscyAvaG9tZS9taWtlL3Avc3lzcm9vdHMvY29ydGV4YTl0
-MmhmLW5lb24tb2UtbGludXgtZ251ZWFiaS91c3IvbGliL3BrZ2NvbmZpZw0KbHM6IGNhbm5vdCBh
-Y2Nlc3MgDQonL2hvbWUvbWlrZS9wL3N5c3Jvb3RzL2NvcnRleGE5dDJoZi1uZW9uLW9lLWxpbnV4
-LWdudWVhYmkvdXNyL2xpYi9wa2djb25maWcnOiANCk5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkN
-CiQgbHMgL2hvbWUvbWlrZS9wL3N5c3Jvb3RzL2NvcnRleGE5dDJoZi1uZW9uLW9lLWxpbnV4LWdu
-dWVhYmkvdXNyL3NoYXJlL3BrZ2NvbmZpZw0KbHM6IGNhbm5vdCBhY2Nlc3MgDQonL2hvbWUvbWlr
-ZS9wL3N5c3Jvb3RzL2NvcnRleGE5dDJoZi1uZW9uLW9lLWxpbnV4LWdudWVhYmkvdXNyL3NoYXJl
-L3BrZ2NvbmZpZyc6IA0KTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQ0KDQo=
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+---
+ .../ghostscript/CVE-2019-3839-0008.patch      | 440 ++++++++++++++++++
+ .../ghostscript/ghostscript_9.26.bb           |   1 +
+ 2 files changed, 441 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3839-0008.patch
+
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3839-0008.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3839-0008.patch
+new file mode 100644
+index 0000000000..4be1c84f92
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3839-0008.patch
+@@ -0,0 +1,440 @@
++From c253752ef731f49922e0a97490d1ef09ca697c91 Mon Sep 17 00:00:00 2001
++From: Ray Johnston <ray.johnston@artifex.com>
++Date: Thu, 31 Jan 2019 11:31:30 -0800
++Subject: [PATCH] Hide pdfdict and GS_PDF_ProcSet (internal stuff for the PDF
++ interp).
++
++We now keep GS_PDF_ProcSet in pdfdict, and immediately bind pdfdict
++where needed so we can undef it after the last PDF interp file has
++run (pdf_sec.ps).
++
++CVE: CVE-2019-3839
++Upstream-Status: Backport [http://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=4ec9ca74bed49f2a82acb4bf430eae0d8b3b75c9]
++Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
++---
++ Resource/Init/pdf_base.ps | 11 ++++----
++ Resource/Init/pdf_draw.ps | 59 +++++++++++++++++++--------------------
++ Resource/Init/pdf_font.ps |  9 +++---
++ Resource/Init/pdf_main.ps | 25 +++++++++--------
++ Resource/Init/pdf_ops.ps  | 11 ++++----
++ Resource/Init/pdf_sec.ps  |  4 ++-
++ 6 files changed, 60 insertions(+), 59 deletions(-)
++
++diff --git a/Resource/Init/pdf_base.ps b/Resource/Init/pdf_base.ps
++index e35e0e373..13dd51f46 100644
++--- a/Resource/Init/pdf_base.ps
+++++ b/Resource/Init/pdf_base.ps
++@@ -23,7 +23,6 @@
++ 
++ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
++ .currentglobal //true .setglobal
++-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
++ pdfdict begin
++ 
++ % Define the name interpretation dictionary for reading values.
++@@ -133,11 +132,11 @@ currentdict /num-chars-dict .undef
++ 
++ /.pdfexectoken {		% <count> <opdict> <exectoken> .pdfexectoken ?
++   PDFDEBUG {
++-    pdfdict /PDFSTEPcount known not { pdfdict /PDFSTEPcount 1 .forceput } executeonly if
+++    //pdfdict /PDFSTEPcount known not { //pdfdict /PDFSTEPcount 1 .forceput } executeonly if
++     PDFSTEP {
++-      pdfdict /PDFtokencount 2 copy .knownget { 1 add } { 1 } ifelse .forceput
+++      //pdfdict /PDFtokencount 2 copy .knownget { 1 add } { 1 } ifelse .forceput
++       PDFSTEPcount 1 gt {
++-        pdfdict /PDFSTEPcount PDFSTEPcount 1 sub .forceput
+++        //pdfdict /PDFSTEPcount PDFSTEPcount 1 sub .forceput
++       } executeonly
++       {
++         dup ==only
++@@ -145,10 +144,10 @@ currentdict /num-chars-dict .undef
++         ( ? ) print flush 1 //false .outputpage
++         (%stdin) (r) file 255 string readline {
++           token {
++-            exch pop pdfdict /PDFSTEPcount 3 -1 roll .forceput
+++            exch pop //pdfdict /PDFSTEPcount 3 -1 roll .forceput
++           } executeonly
++           {
++-            pdfdict /PDFSTEPcount 1 .forceput
+++            //pdfdict /PDFSTEPcount 1 .forceput
++           } executeonly ifelse % token
++         } {
++           pop /PDFSTEP //false def	 % EOF on stdin
++diff --git a/Resource/Init/pdf_draw.ps b/Resource/Init/pdf_draw.ps
++index 36c41a9a3..2e39c87d2 100644
++--- a/Resource/Init/pdf_draw.ps
+++++ b/Resource/Init/pdf_draw.ps
++@@ -18,8 +18,7 @@
++ 
++ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
++ .currentglobal //true .setglobal
++-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
++-GS_PDF_ProcSet begin
+++/GS_PDF_ProcSet load begin
++ pdfdict begin
++ 
++ % For simplicity, we use a single interpretation dictionary for all
++@@ -113,7 +112,7 @@ pdfdict begin
++ 
++ /resolvefunction {	% <fndict> resolvefunction <function>
++   .resolvefn
++-  PDFDEBUG { pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Function: ) print dup === flush } if } if
+++  PDFDEBUG { //pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Function: ) print dup === flush } if } if
++ } bind executeonly def
++ 
++ /resolvefnproc {	% <fndict> resolvefnproc <proc>
++@@ -1086,7 +1085,7 @@ currentdict end readonly def
++ %% finished running the PaintProc.
++ 
++ /.actual_pdfpaintproc {         % <patdict> <resdict> .pdfpaintproc -
++-  PDFDEBUG { pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Begin PaintProc) print dup === flush } if } if
+++  PDFDEBUG { //pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Begin PaintProc) print dup === flush } if } if
++   PDFfile fileposition 3 1 roll
++   q
++   1 index /PaintType oget 1 eq {
++@@ -1121,21 +1120,21 @@ currentdict end readonly def
++       Q
++     }{
++       (\n   **** Error: File has unbalanced q/Q operators \(too many Q's\)\n               Output may be incorrect.\n)
++-      pdfdict /.Qqwarning_issued .knownget
+++      //pdfdict /.Qqwarning_issued .knownget
++       {
++         {
++           pop
++         }
++         {
++-          currentglobal pdfdict gcheck .setglobal
++-          pdfdict /.Qqwarning_issued //true .forceput
+++          currentglobal //pdfdict gcheck .setglobal
+++          //pdfdict /.Qqwarning_issued //true .forceput
++           .setglobal
++           pdfformaterror
++         } executeonly ifelse
++       }
++       {
++-        currentglobal pdfdict gcheck .setglobal
++-        pdfdict /.Qqwarning_issued //true .forceput
+++        currentglobal //pdfdict gcheck .setglobal
+++        //pdfdict /.Qqwarning_issued //true .forceput
++         .setglobal
++         pdfformaterror
++       } executeonly ifelse
++@@ -1144,21 +1143,21 @@ currentdict end readonly def
++   } loop
++   {
++     (\n   **** Error: File has unbalanced q/Q operators \(too many q's\)\n               Output may be incorrect.\n)
++-    pdfdict /.Qqwarning_issued .knownget
+++    //pdfdict /.Qqwarning_issued .knownget
++     {
++       {
++         pop
++       }
++       {
++-        currentglobal pdfdict gcheck .setglobal
++-        pdfdict /.Qqwarning_issued //true .forceput
+++        currentglobal //pdfdict gcheck .setglobal
+++        //pdfdict /.Qqwarning_issued //true .forceput
++         .setglobal
++         pdfformaterror
++       } executeonly ifelse
++     }
++     {
++-      currentglobal pdfdict gcheck .setglobal
++-      pdfdict /.Qqwarning_issued //true .forceput
+++      currentglobal //pdfdict gcheck .setglobal
+++      //pdfdict /.Qqwarning_issued //true .forceput
++       .setglobal
++       pdfformaterror
++     } executeonly ifelse
++@@ -1169,7 +1168,7 @@ currentdict end readonly def
++   /pdfemptycount exch def
++ 
++   Q
++-  PDFDEBUG { pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%End PaintProc) print dup === flush } if } if
+++  PDFDEBUG { //pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%End PaintProc) print dup === flush } if } if
++   PDFfile exch setfileposition
++ } bind executeonly odef
++ 
++@@ -1240,7 +1239,7 @@ currentdict end readonly def
++   ] cvx put
++   dup /BBox 2 copy knownoget { normrect FixPatternBBox put } { pop pop } ifelse
++   dup /.pattern_uses_transparency  1 index patternusestransparency put
++-  PDFDEBUG { pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Pattern: ) print dup === flush } if } if
+++  PDFDEBUG { //pdfdict /PDFSTEPcount .knownget { 1 le } { //true } ifelse { (%Pattern: ) print dup === flush } if } if
++ } bind executeonly def
++ 
++ /ignore_color_op  (   **** Error: Ignoring a color operation in a cached context.\n               Output may be incorrect.\n) readonly def
++@@ -2361,16 +2360,16 @@ currentdict /last-ditch-bpc-csp undef
++ } bind executeonly def
++ 
++ /IncrementAppearanceNumber {
++-  pdfdict /AppearanceNumber .knownget {
++-    1 add pdfdict /AppearanceNumber 3 -1 roll .forceput
+++  //pdfdict /AppearanceNumber .knownget {
+++    1 add //pdfdict /AppearanceNumber 3 -1 roll .forceput
++   } executeonly
++   {
++-    pdfdict /AppearanceNumber 0 .forceput
+++    //pdfdict /AppearanceNumber 0 .forceput
++   } executeonly ifelse
++ }bind executeonly odef
++ 
++ /MakeAppearanceName {
++-  pdfdict /AppearanceNumber get
+++  //pdfdict /AppearanceNumber get
++   10 string cvs
++   dup length 10 add string dup 0 (\{FormName) putinterval
++   dup 3 -1 roll
++@@ -2391,17 +2390,17 @@ currentdict /last-ditch-bpc-csp undef
++   gsave initclip
++   MakeNewAppearanceName
++   .pdfFormName
++-  pdfdict /.PreservePDFForm known {pdfdict /.PreservePDFForm get} {//false}ifelse exch
++-  pdfdict /.PreservePDFForm true .forceput
+++  //pdfdict /.PreservePDFForm known {//pdfdict /.PreservePDFForm get} {//false}ifelse exch
+++  //pdfdict /.PreservePDFForm true .forceput
++   DoForm
++-  pdfdict /.PreservePDFForm 3 -1 roll .forceput
+++  //pdfdict /.PreservePDFForm 3 -1 roll .forceput
++   grestore
++ } bind executeonly odef
++ 
++ /DoForm {
++   %% save the current value, if its true we will set it to false later, in order
++   %% to prevent us preserving Forms which are used *from* an annotation /Appearance.
++-  pdfdict /.PreservePDFForm known {pdfdict /.PreservePDFForm get} {//false}ifelse exch
+++  //pdfdict /.PreservePDFForm known {//pdfdict /.PreservePDFForm get} {//false}ifelse exch
++ 
++   %% We may alter the Default* colour spaces, if the Resources
++   %% ColorSpace entry contains one of them. But we don't want that
++@@ -2516,13 +2515,13 @@ currentdict /last-ditch-bpc-csp undef
++   pdfemptycount countdictstack 3 -1 roll
++   /pdfemptycount count 4 sub store
++ 
++-  pdfdict /.PreservePDFForm known {pdfdict /.PreservePDFForm get}{//false} ifelse
+++  //pdfdict /.PreservePDFForm known {//pdfdict /.PreservePDFForm get}{//false} ifelse
++   {
++     %% We must *not* preserve any subsidiary forms (curently at least) as PDF
++     %% form preservation doesn't really work. This is used just for Annotation
++     %% Appearances currently, and if they should happen to use a form, we do not
++     %% want to preserve it.
++-    pdfdict /.PreservePDFForm false .forceput
+++    //pdfdict /.PreservePDFForm false .forceput
++     /q cvx /execform cvx 5 -2 roll
++   } executeonly
++   {
++@@ -2555,7 +2554,7 @@ currentdict /last-ditch-bpc-csp undef
++     saved_DCMYK /DefaultCMYK exch /ColorSpace defineresource pop
++     end
++   } if
++-  pdfdict /.PreservePDFForm 3 -1 roll .forceput
+++  //pdfdict /.PreservePDFForm 3 -1 roll .forceput
++ } bind executeonly odef
++ 
++ /_dops_save 1 array def
++@@ -2714,13 +2713,13 @@ drawopdict begin
++     % Start by getting the object number for a Form XObject
++     dup Page /XObject obj_get dup 0 eq not {
++       % Now get the recording dictionary and see if that object number has been seen
++-      pdfdict /Recursive_XObject_D get 1 index known {
+++      //pdfdict /Recursive_XObject_D get 1 index known {
++         (   **** Error: Recursive XObject detected, ignoring ") print 1 index 256 string cvs print (", object number ) print 256 string cvs print (\n) print
++         (               Output may be incorrect.\n) pdfformaterror
++         //false
++       }{
++         % We haven't seen it yet, so record it.
++-        pdfdict /Recursive_XObject_D get 1 index null put
+++        //pdfdict /Recursive_XObject_D get 1 index null put
++         3 1 roll
++         //true
++       }ifelse
++@@ -2758,7 +2757,7 @@ drawopdict begin
++         (               Output may be incorrect.\n) pdfformaterror
++       } ifelse
++       PDFfile exch setfileposition
++-      pdfdict /Recursive_XObject_D get exch undef
+++      //pdfdict /Recursive_XObject_D get exch undef
++     }{
++       % Otherwise ignore it and tidy up the stacks
++       pop pop
++diff --git a/Resource/Init/pdf_font.ps b/Resource/Init/pdf_font.ps
++index 7e35c02ac..6b09be61f 100644
++--- a/Resource/Init/pdf_font.ps
+++++ b/Resource/Init/pdf_font.ps
++@@ -37,8 +37,7 @@
++ 
++ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
++ .currentglobal //true .setglobal
++-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
++-GS_PDF_ProcSet begin
+++/GS_PDF_ProcSet load begin	% from userdict at this point
++ pdfdict begin
++ 
++ % We cache the PostScript font in an additional element of the
++@@ -1227,11 +1226,11 @@ currentdict /eexec_pdf_param_dict .undef
++             .pdfruncontext
++             countdictstack BuildCharDictDepth sub
++             {
++-              pdfdict /.Qqwarning_issued .knownget {not}{//true} ifelse
+++              //pdfdict /.Qqwarning_issued .knownget {not}{//true} ifelse
++               {
++                 (\n   **** Warning: Type 3 glyph has unbalanced q/Q operators \(too many q's\)\n               Output may be incorrect.\n)
++                 pdfformatwarning
++-                pdfdict /.Qqwarning_issued //true .forceput
+++                //pdfdict /.Qqwarning_issued //true .forceput
++               } executeonly if
++               Q
++             } repeat
++@@ -2361,7 +2360,7 @@ currentdict /bndef undef
++   dup //null eq
++   {pop}
++   {
++-    pdfdict /InputPDFFileName .knownget {.CRCHashFilenameAndObject} if
+++    //pdfdict /InputPDFFileName .knownget {.CRCHashFilenameAndObject} if
++     exch dup /.OrigUniqueIDXUID .knownget not
++     {
++       dup /XUID .knownget not
++diff --git a/Resource/Init/pdf_main.ps b/Resource/Init/pdf_main.ps
++index 0a8929a2a..c1de1b0ef 100644
++--- a/Resource/Init/pdf_main.ps
+++++ b/Resource/Init/pdf_main.ps
++@@ -18,8 +18,9 @@
++ 
++ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
++ .currentglobal //true .setglobal
++-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
++ pdfdict begin
+++/GS_PDF_ProcSet dup load def	% keep in pdfdict to hide it
+++userdict /GS_PDF_ProcSet undef
++ 
++ % Patch in an obsolete variable used by some third-party software.
++ /#? //false def
++@@ -304,8 +305,8 @@ currentdict /runpdfstring .undef
++    /Page //null def
++    /DSCPageCount 0 def
++    /PDFSave //null def
++-   GS_PDF_ProcSet begin
++-   pdfdict begin
+++   //pdfdict /GS_PDF_ProcSet get begin
+++   //pdfdict begin
++    pdfopen begin
++    /CumulativePageCount currentpagedevice /PageCount get def
++ } bind executeonly def
++@@ -624,7 +625,7 @@ currentdict /runpdfstring .undef
++   %% copied to a temporary file) and store it in pdfdict. We will use this for
++   %% hashing fonts to detect if fonts with the same name are from different files.
++   %%
++-  dup currentglobal exch true setglobal .getfilename exch setglobal /InputPDFFileName exch pdfdict 3 1 roll .forceput
+++  dup currentglobal exch true setglobal .getfilename exch setglobal /InputPDFFileName exch //pdfdict 3 1 roll .forceput
++ 
++   //runpdfbegin exec
++   //pdf_collection_files exec
++@@ -1390,7 +1391,7 @@ currentdict /xref-char-dict undef
++ } bind executeonly def
++ 
++ /pdfopenfile {		% <file> pdfopenfile <dict>
++-   pdfdict readonly pop		% can't do it any earlier than this
+++   //pdfdict readonly pop		% can't do it any earlier than this
++    32 dict begin
++    /LocalResources 0 dict def
++    /DefaultQstate //null def	% establish binding
++@@ -2717,21 +2718,21 @@ currentdict /PDF2PS_matrix_key undef
++     StreamRunAborted not {
++       (\n   **** Error: File has unbalanced q/Q operators \(too many q's\)\n               Output may be incorrect.\n)
++ 
++-      pdfdict /.Qqwarning_issued .knownget
+++      //pdfdict /.Qqwarning_issued .knownget
++       {
++         {
++           pop
++         }
++         {
++-          currentglobal pdfdict gcheck .setglobal
++-          pdfdict /.Qqwarning_issued //true .forceput
+++          currentglobal //pdfdict gcheck .setglobal
+++          //pdfdict /.Qqwarning_issued //true .forceput
++           .setglobal
++           pdfformaterror
++         } executeonly ifelse
++       }
++       {
++-        currentglobal pdfdict gcheck .setglobal
++-        pdfdict /.Qqwarning_issued //true .forceput
+++        currentglobal //pdfdict gcheck .setglobal
+++        //pdfdict /.Qqwarning_issued //true .forceput
++         .setglobal
++         pdfformaterror
++       } executeonly ifelse
++@@ -2743,8 +2744,8 @@ currentdict /PDF2PS_matrix_key undef
++   Repaired		% pass Repaired state around the restore
++   RepairedAnError
++   PDFSave restore
++-  currentglobal pdfdict gcheck .setglobal
++-  pdfdict /.Qqwarning_issued //false .forceput
+++  currentglobal //pdfdict gcheck .setglobal
+++  //pdfdict /.Qqwarning_issued //false .forceput
++   .setglobal
++   /RepairedAnError exch def
++   /Repaired exch def
++diff --git a/Resource/Init/pdf_ops.ps b/Resource/Init/pdf_ops.ps
++index 34e2fbd58..46de547f7 100644
++--- a/Resource/Init/pdf_ops.ps
+++++ b/Resource/Init/pdf_ops.ps
++@@ -24,6 +24,7 @@
++ systemdict /pdfmark known not
++  { userdict /pdfmark { cleartomark } bind executeonly put } if
++ 
+++systemdict /pdfdict where { pop } { /pdfdict 100 dict put } ifelse
++ userdict /GS_PDF_ProcSet 256 dict dup begin
++ 
++ % ---------------- Abbreviations ---------------- %
++@@ -174,21 +175,21 @@ currentdict /gput_always_allow .undef
++   {
++     (\n   **** Error: File has unbalanced q/Q operators \(too many Q's\)\n               Output may be incorrect.\n)
++ 
++-    pdfdict /.Qqwarning_issued .knownget
+++    //pdfdict /.Qqwarning_issued .knownget
++     {
++       {
++         pop
++       }
++       {
++-        currentglobal pdfdict gcheck .setglobal
++-        pdfdict /.Qqwarning_issued //true .forceput
+++        currentglobal //pdfdict gcheck .setglobal
+++        //pdfdict /.Qqwarning_issued //true .forceput
++         .setglobal
++         pdfformaterror
++       } executeonly ifelse
++     }
++     {
++-      currentglobal pdfdict gcheck .setglobal
++-      pdfdict /.Qqwarning_issued //true .forceput
+++      currentglobal //pdfdict gcheck .setglobal
+++      //pdfdict /.Qqwarning_issued //true .forceput
++       .setglobal
++       pdfformaterror
++     } executeonly ifelse
++diff --git a/Resource/Init/pdf_sec.ps b/Resource/Init/pdf_sec.ps
++index d8cc94c86..163dd6877 100644
++--- a/Resource/Init/pdf_sec.ps
+++++ b/Resource/Init/pdf_sec.ps
++@@ -39,7 +39,6 @@
++ 
++ /.setlanguagelevel where { pop 2 .setlanguagelevel } if
++ .currentglobal //true .setglobal
++-/pdfdict where { pop } { /pdfdict 100 dict def } ifelse
++ pdfdict begin
++ 
++ % Older ghostscript versions do not have .pdftoken, so we use 'token' instead.
++@@ -748,4 +747,7 @@ currentdict /PDFScanRules_null undef
++  } bind executeonly def
++ 
++ end			% pdfdict
+++
+++systemdict /pdfdict .forceundef		% hide pdfdict
+++
++ .setglobal
++-- 
++2.17.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.26.bb b/meta/recipes-extended/ghostscript/ghostscript_9.26.bb
+index 2630084a07..03e4569dbc 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.26.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.26.bb
+@@ -45,6 +45,7 @@ SRC_URI = "${SRC_URI_BASE} \
+            file://CVE-2019-3835-0004.patch \
+            file://CVE-2019-3838-0001.patch \
+            file://CVE-2019-3838-0002.patch \
++           file://CVE-2019-3839-0008.patch \
+            "
+ 
+ SRC_URI_class-native = "${SRC_URI_BASE} \
+-- 
+2.17.1
+
 
