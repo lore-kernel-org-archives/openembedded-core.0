@@ -1,33 +1,37 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C75F07F383
+	by mail.openembedded.org (Postfix) with ESMTP id 67C337F383
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 10:34:16 +0000 (UTC)
+	Wed, 31 Jul 2019 10:35:39 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45z8tJ5cc6z3n
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 12:34:16 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45z8vw0cJCz3n;
+	Wed, 31 Jul 2019 12:35:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1564569256;
-	bh=HmdwA0RJmm70+V/GKd1RAqjRTwpz9PwJjk8Wy6WvEkI=;
-	h=From:To:Subject:Date:From;
-	b=CPrRC+JEFzaT8aLdY4Nu9S7SqsXblKl+LhQ+VdMdfcmrJhdc1fYJ99ZgbvISXqhqw
-	jKWF3pR4hc6ZbagkCVViz+u7ysjDx30v+Lht0w3YeO/EzI+zcqcbX0Eq4QS6+nhBIT
-	ysfZ/nHcrOQ2M1wbDVxuYC/VLIv0QAodp09vW5Z8zhzWOOBjMKni9ZYpt892QsBQcw
-	t16O8Al4FFszXmbiusD7Rev0oy8ZnzmV/bYibzqhFXPZQSf80BBYwBeU/v6eEG2gsE
-	ZkZdWcffpkb9B3hrzOwGfqit2YahPmEwOPm1j2JaDi2TlmKTLK33DcmuWk/ByVVmAb
-	18TUNP4g07B9FNwpTR6jbR3xFMZcYk327iMYVg2jIhaYxhzYJ6F2qmYPEfiTq/O1U7
-	cdjgIOVeN45ZPizT8+euHSq7MA1+Hc8uqCleUnfu1RjrTXtwyrSCpncMW4zrnjwZIJ
-	UrHbsjC7RBZZl3s9q4O8djYL7RzMxuSiTh1k9oEtNsXovEUqMuFkUFO1ZkUzU7xdHl
-	Mt/meOUhi011mu59XiW0WGE9MnlNIEWVCUeq8YMQx8VBgL1Q+12CzByQ2NNV6PUHEK
-	I9MG+BaVgYaCYumnsNCEWuL+bkFXzEwh19i/ZumNlzWoncVNjO9mZFSIJq6Imsw33x
-	EoBiFdddKkoY93lg0sDusMAc=
+	s=default; t=1564569340;
+	bh=WGBJyDIllbwi2gBz0hQXoCS9j+Tu0d85IpNyToHinMY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GXukGnE1vLlc048CiiwUtGgyAzJZjqilDkAlwFSi+cK3sdrYS/RjE4ns/Fbk0M+os
+	nU3i1JHaAnKxQ2OT8p7hGMvJ4HcNcarTkOcA20mHBQtFmUDvtvayDaFq6pHtpKGchk
+	wvG08u6Nb89bIX1JjwShK6AiHaSIfm8972dMPd9qwG7nTEW15XTF+ah6oZcgYpX01f
+	ycDj2JPJywzZO2iIqJB0hHI5sTT2145gv2GhOfDiryIHIiY/Im+yPmr9pL+t91EOqB
+	CEQI+ii6eUPWNxwjsr2/0mUvUSOcd2cRR9f28meC+LXJnI+ztWqhZoZ/HTg+7IA6Rk
+	rB2+x2kRT+dggUh2qCMf8S5/GZ4YUD6vdI5l/uImJ3NuegNjJY5HNPsf+/YBX0Hnwn
+	q3NFBt61kTSu0EUa6QqWyaJbcZRjJctIOTVnV9FmEuilPj9WPpOPwCe/8TZyTv2E1w
+	GgrAJVDnl10VHsZWpsLDaEZfObeQna2Ebd7Bgpio189zhDHmkv5Y/OT8xiSkbxXwCm
+	WkYN2fBUvyMYmYqXn2Ej4dCZtpAdJKQuHB4LvV/gBz1q0xv/Pw+RgN7y5o9QO3KfSA
+	SNeY9/0P1QAz9mDqXftf2EazwxJy41J8tqM1jUp4dtv5nvuJbDdDP5hP7Z0scWFabk
+	PwHg5w+GYT29l1IsIVRgNAr4=
+Date: Wed, 31 Jul 2019 13:35:38 +0300
 From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2019 13:34:16 +0300
-Message-Id: <20190731103416.7812-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v2] mtd-utils: Upgrade to 2.1.1
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20190731103538.GB1647@localhost>
+References: <20190731093347.16834-1-bunk@stusta.de>
+	<CANNYZj9Yi6MQPo_8yzy-iSorHRfc3Syj5_wLj7jSLuuJNykefQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj9Yi6MQPo_8yzy-iSorHRfc3Syj5_wLj7jSLuuJNykefQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mtd-utils: Upgrade to 2.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,41 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 10:34:17 -0000
+X-List-Received-Date: Wed, 31 Jul 2019 10:35:39 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Add zstd PACKAGECONFIG to disable the zstd support that upstream
-enables by default, zstd is not in oe-core.
+On Wed, Jul 31, 2019 at 12:17:35PM +0200, Alexander Kanavin wrote:
+> Please do not use ftp:// as it is deprecated for oe-core recipes. We are
+> trying to eliminate it entirely.
+> (if no http is available, then git is actually preferred!)
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-devtools/mtd/mtd-utils_git.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+OK, v2 sent.
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index 49a650a9ef..810fe40f4e 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -10,9 +10,9 @@ inherit autotools pkgconfig update-alternatives
- DEPENDS = "zlib e2fsprogs util-linux"
- RDEPENDS_mtd-utils-tests += "bash"
- 
--PV = "2.1.0+${SRCPV}"
-+PV = "2.1.1"
- 
--SRCREV = "b5027be5f470830ac9543db3c52e076b13abd313"
-+SRCREV = "4443221ce9b88440cd9f5bb78e6fe95621d36c8a"
- SRC_URI = "git://git.infradead.org/mtd-utils.git \
-            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
- "
-@@ -30,6 +30,7 @@ PACKAGECONFIG[xattr] = "--with-xattr,--without-xattr,acl"
- PACKAGECONFIG[crypto] = "--with-crypto,--without-crypto,openssl"
- PACKAGECONFIG[jffs] = "--with-jffs,--without-jffs"
- PACKAGECONFIG[ubifs] = "--with-ubifs,--without-ubifs"
-+PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
- 
- CPPFLAGS_append_riscv64  = " -pthread -D_REENTRANT"
- 
+> Alex
+
+cu
+Adrian
+
 -- 
-2.17.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
