@@ -1,33 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id D04DD7F11C
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+	[209.85.208.178])
+	by mail.openembedded.org (Postfix) with ESMTP id B06137F302
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 09:33:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45z7XX5b9Dz3n
+	Wed, 31 Jul 2019 09:48:31 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id v18so64903501ljh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 11:33:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1564565628;
-	bh=z43tOgtnSn6KW+zORXSmrnHkb1d4iRQpeZEVPswfXOw=;
-	h=From:To:Subject:Date:From;
-	b=XNlSS6fwYSGmwurc9lmTLwS2C2Mbv8Fp0nL5MFiu2ROvThwMU2gMcct+OmxGd9uyh
-	o7E2MAQo9WM/wHQhmVDm5IwogLH/t5wVwEMepZ5MFYUKsAGDFMTZ300/oQfDHTMZku
-	1Knh7KOTNphj9oRgJrDNEB/7I+QNELoPk8fSW0Gv3XH+qPuK1JrmWtKUT6XNd2+dzs
-	Cd2qkFLSnWBbbgaH4K7wTnEgI9AX7uebIZijgcSna5gIgyHueiz2ZgoYgHwmHuTBi/
-	EwuTwhfhO/16opje6OmnUP1YD3kZPUOAFy9Nld/U02z6SzE1bc+snMvci45aS1JBxd
-	hce6dWUZc6KUTP7djMo82KGCo1U4lO6X8w3E9N6JjmO7LVHylecoZVixHUExao86PN
-	C1usUNnLTpPj13IT827X3p/neJ58y6VXFOlx/Kb0LrZ8LtmcCGN44EDGOrsJXO+2qL
-	Vo/z4abu7Cvwc/RKBvGN2sJZ3qZo6pOKB6iLX11YPxQlXprTA1GCmFww60JGboVCjZ
-	wy8whPIO5l8S6Ysjy3rsICltTAr0OmuNZcg9kYPmuRRHUKzGVrErrqreFPcV9B3jhg
-	mSQXb/W8ZTPH+oSoqrZy4Fl6l+885vDFCUuO5xobvj0h48C1k/atMoX5OBzSmg9Yaq
-	B0LtU56nkfB2FS6s0wRTIbT0=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2019 12:33:47 +0300
-Message-Id: <20190731093347.16834-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] mtd-utils: Upgrade to 2.1.1
+	Wed, 31 Jul 2019 02:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ONat8F7BL8fqgz6TvVIDWVi2O86ea/4Wqp5ZM2bCvnY=;
+	b=PUbMBsIq0HS0OZY1Q9knnOyVBJIRe0SqXe3mQQqag21g47atCyL7+ujY+QaVdZrdRn
+	oB5D3ZqxxJsY6dMZzDbfzu69gUkz08X5dWwyFNBaT5oDwHq9KASB6yGMFk1r1+pBKsy5
+	PxySn0VGBpa8DCZUtKqA13GRcwjoHzTb9+G4fdKh1Jus7SPL2znRGe0p7iLc+vZ4REIk
+	KhqKxxpVeVqRybt9pcf/y0QaHSUB16c03VaBCxJnbdcSgUIL/rlT/xTRXy9RU2MAeLty
+	JxJZqTrmu2zbEfAEn5NiIPZ6/D/OGYjMqgT5w3mSzvYi51Gp3Uxuc95vSxRUNFWnYHdq
+	d3Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ONat8F7BL8fqgz6TvVIDWVi2O86ea/4Wqp5ZM2bCvnY=;
+	b=WIVaSNNh8isxtnzxoYPTjEg61ZtWG/cV3Ef6VVRYeFnFK5uuIVcoxcBmu9SrXjTZBm
+	HPIkmNLT6Sbrdd38yRsdBtg8xMxgwfdXNRIwbQe4p644fgv5r8QNjNxh36ydG+2LT/9Z
+	dBNUwQP/+iLEc76zf08vX0j0PXSmpZ1VxIh8Ansfyx9OT43gVPzjLT9isYXT931ZcaZf
+	1SZAU2MNhWEn6lpfTntelHuEf1C6tESJ0QYNZMLOztDznmjH86i41BR3oG2I5ZOTphBB
+	Qr011BlJ4IhS+6HrzPhB64xT4gj+tgVoRcxUI7Ht0E2RSkIp11wbOCVz06K0N7Teu32W
+	smJg==
+X-Gm-Message-State: APjAAAWjXR+RjRlixirRlZc11lFeS9QDYsbu7DzymuAx0hE1H++thuG9
+	gUdeuPOkcOTHAptgC832JgjARA4fNA2Qj8XDK2M=
+X-Google-Smtp-Source: APXvYqzMfwtvRTGNG0c1mBr2oYd0UCDVqR6w6QUBxS0QpeRBPlpQENaPNpn6KsmuHI9Q8XIJOEvwDG2PQJO6lqB4Wlg=
+X-Received: by 2002:a2e:854d:: with SMTP id u13mr65405474ljj.236.1564566512078;
+	Wed, 31 Jul 2019 02:48:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAB=otbSH85m0WnBj0Q2z9Bj2ZGwzGzcM74-GuaXtt6PeReP60Q@mail.gmail.com>
+	<3f13cb86-a12b-aba7-e8a1-517f25ba7f1e@balister.org>
+In-Reply-To: <3f13cb86-a12b-aba7-e8a1-517f25ba7f1e@balister.org>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Wed, 31 Jul 2019 11:48:15 +0200
+Message-ID: <CAPybu_2XioOxrcbyWe0-5uhR_jfa_emqejhDZrWQwq4NNuUqPg@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OEDEM 2019
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,53 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 09:33:49 -0000
+X-List-Received-Date: Wed, 31 Jul 2019 09:48:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Move from a git snapshot to a tarball release.
+BTW, Is there anything for Embedded Recipes or Plumbers?
 
-Add zstd PACKAGECONFIG to disable the zstd support that upstream
-enables by default, zstd is not in oe-core.
+On Tue, Jul 30, 2019 at 7:33 PM Philip Balister <philip@balister.org> wrote:
+>
+> We are working with the Yocto Project on a two day Summit event. This
+> should implement part of the ideas from the the last couple of developer
+> meetings.
+>
+> Philip
+>
+> On 07/30/2019 12:58 PM, Ruslan Bilovol wrote:
+> > Hi all,
+> >
+> > Is there any plan to hold an OpenEmbedded developer meting
+> > in Lyon, France around this year's ELCE 2019 (October 28-30)?
+> >
+> > I see that OEDEM 2019 page isn't created yet and I didn't find
+> > any news in mailing lists yet:
+> > https://www.openembedded.org/wiki/OEDEM_2019
+> >
+> > Thanks,
+> > Ruslan
+> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- .../mtd/{mtd-utils_git.bb => mtd-utils_2.1.1.bb}       | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/mtd/{mtd-utils_git.bb => mtd-utils_2.1.1.bb} (92%)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_2.1.1.bb
-similarity index 92%
-rename from meta/recipes-devtools/mtd/mtd-utils_git.bb
-rename to meta/recipes-devtools/mtd/mtd-utils_2.1.1.bb
-index 49a650a9ef..dc39ee6058 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_2.1.1.bb
-@@ -10,14 +10,11 @@ inherit autotools pkgconfig update-alternatives
- DEPENDS = "zlib e2fsprogs util-linux"
- RDEPENDS_mtd-utils-tests += "bash"
- 
--PV = "2.1.0+${SRCPV}"
--
--SRCREV = "b5027be5f470830ac9543db3c52e076b13abd313"
--SRC_URI = "git://git.infradead.org/mtd-utils.git \
-+SRC_URI = "ftp://ftp.infradead.org/pub/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
- "
--
--S = "${WORKDIR}/git/"
-+SRC_URI[md5sum] = "94bbd31b217a5169ae26ab8c0442f691"
-+SRC_URI[sha256sum] = "8d15e8b70f036d6af1a66011f8ca0e048e9675fa7983d33bea92c24313a232d2"
- 
- EXTRA_OECONF += "--enable-install-tests"
- 
-@@ -30,6 +27,7 @@ PACKAGECONFIG[xattr] = "--with-xattr,--without-xattr,acl"
- PACKAGECONFIG[crypto] = "--with-crypto,--without-crypto,openssl"
- PACKAGECONFIG[jffs] = "--with-jffs,--without-jffs"
- PACKAGECONFIG[ubifs] = "--with-ubifs,--without-ubifs"
-+PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
- 
- CPPFLAGS_append_riscv64  = " -pthread -D_REENTRANT"
- 
+
 -- 
-2.17.1
-
+Ricardo Ribalda
 
