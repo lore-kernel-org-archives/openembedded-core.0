@@ -1,53 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
-	[209.85.210.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E6136A441
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0948A7F445
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 17:48:34 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id r7so32284411pfl.3
+	Thu,  1 Aug 2019 01:11:25 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,332,1559491200"; d="scan'208";a="72631024"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 01 Aug 2019 09:11:25 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 857D54CDDAEB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 10:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=4MzgthbKsfambikA/ftcFE6TJPBjaK2RRFI7/ANsbmk=;
-	b=ctFFNEZvtAyeTl3oraYwI1axnYDgO25oE506Ogs19eCgvf7AJxEzG4RizSa9sWL6t4
-	SDczV4GrYRlh1doAsC937ufRKvGQe93Wr7FtaOFyCxr3KO2pfy5gaV4HIKcj8oBIlO5F
-	yjJelQNoDNTPP9VsUaKzPwsoTKKxgUPNT/LwVWq+U+iPxX1Jkr5V3cFF6Xwrg6i9lcga
-	wk7qUNNwr0VQkyHd+1RCZYbdf03dm6LMj3vmxnjOWiAMl3NP3B5ij39lPkPk6oshTTGu
-	XcxDC3DZUDxLWtaazduBIdlyD2exskuGu0Isjl5V9ypjEeV9glesS5LnEPAaB1DaQ++7
-	kGlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=4MzgthbKsfambikA/ftcFE6TJPBjaK2RRFI7/ANsbmk=;
-	b=I1kshDg+ibIyS+3qGgTLLTmQ8ZtxEW0tZbwAgJJ6QDa1J8gYsRDAw8YMWgpDqim9/1
-	dH0th/mHQd98beAuXjLTNG3Bzw97WMS2vf2J0pwVM40uQpvLvbQyseyT3ymk8jaqRsnc
-	BqKgu6CdVElAS6V0ILkm2V6Fe9WZzsHsoq0bDV+pgM8N/Bkl10+LYbCGqNCEyb9Ri8UF
-	teQSVDjsprnXFCFfY+APi7oe/Td7jlBCdRVEyQx9IIn52BEGjtqR4qD1AROV4vbRXvFa
-	lGSCi7KXt3ifsEcp1wSrwatlyYPSlREtAWNkx9HoGXnv0SiH+2mXM6efm7VDUpv7LQ/2
-	CNtQ==
-X-Gm-Message-State: APjAAAWfri1lbWgid4uBSnU5AwING1aY2ULxdwZWW0UXg2EiifO9Be5R
-	4FkAthNG4tk9ZzAcVB8SKfpTCZIg5ps=
-X-Google-Smtp-Source: APXvYqxTUsuNWg1htCKG8vXwFfBIJALQ0gl7MsvnT0LL1J8/0BZHjh3RCNfcd5gkfj6f1X2NCxnGNw==
-X-Received: by 2002:a17:90a:24ac:: with SMTP id
-	i41mr4084166pje.124.1564595314925; 
-	Wed, 31 Jul 2019 10:48:34 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	m4sm114750440pff.108.2019.07.31.10.48.34
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 31 Jul 2019 10:48:34 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2019 10:48:20 -0700
-Message-Id: <20190731174820.16459-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190731174820.16459-1-raj.khem@gmail.com>
-References: <20190731174820.16459-1-raj.khem@gmail.com>
+	Thu,  1 Aug 2019 09:11:20 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 1 Aug 2019 09:11:21 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 1 Aug 2019 09:10:38 +0800
+Message-ID: <20190801011038.4416-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] llvm: Update to 8.0.1
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 857D54CDDAEB.AA6AA
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libx11:upgrade 1.6.7 -> 1.6.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,45 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2019 17:48:34 -0000
+X-List-Received-Date: Thu, 01 Aug 2019 01:11:26 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Add missing dependency on libedit
+From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-devtools/llvm/llvm_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-lib/libx11.inc                           | 4 ++--
+ meta/recipes-graphics/xorg-lib/{libx11_1.6.7.bb => libx11_1.6.8.bb} | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libx11_1.6.7.bb => libx11_1.6.8.bb} (100%)
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 0067635c2b..6d3d69b9fb 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -8,7 +8,7 @@ SECTION = "devel"
+diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
+index ea2ebfb..53c9e43 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11.inc
++++ b/meta/recipes-graphics/xorg-lib/libx11.inc
+@@ -10,8 +10,8 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/libx11:"
  
- LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=c6b766a4e85dd28301eeed54a6684648"
+ PE = "1"
  
--DEPENDS = "libffi libxml2 zlib ninja-native llvm-native"
-+DEPENDS = "libffi libxml2 zlib libedit ninja-native llvm-native"
+-SRC_URI[md5sum] = "034fdd6cc5393974d88aec6f5bc96162"
+-SRC_URI[sha256sum] = "910e9e30efba4ad3672ca277741c2728aebffa7bc526f04dcfa74df2e52a1348"
++SRC_URI[md5sum] = "c5fa5a86a20e3591bed6c046498d4b8f"
++SRC_URI[sha256sum] = "b289a845c189e251e0e884cc0f9269bbe97c238df3741e854ec4c17c21e473d5"
  
- RDEPENDS_${PN}_append_class-target = " ncurses-terminfo"
+ PROVIDES = "virtual/libx11"
  
-@@ -19,12 +19,12 @@ PROVIDES += "llvm${PV}"
- LLVM_RELEASE = "${PV}"
- LLVM_DIR = "llvm${LLVM_RELEASE}"
- 
--SRCREV = "d2298e74235598f15594fe2c99bbac870a507c59"
-+SRCREV = "19a71f6bdf2dddb10764939e7f0ec2b98dba76c9"
- 
- BRANCH = "release/${MAJOR_VERSION}.x"
- MAJOR_VERSION = "8"
- MINOR_VERSION = "0"
--PATCH_VERSION = "0"
-+PATCH_VERSION = "1"
- SOLIBVER = "1"
- PV = "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH} \
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.7.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.8.bb
+similarity index 100%
+rename from meta/recipes-graphics/xorg-lib/libx11_1.6.7.bb
+rename to meta/recipes-graphics/xorg-lib/libx11_1.6.8.bb
 -- 
-2.22.0
+2.7.4
+
+
 
 
