@@ -1,84 +1,24 @@
-Return-Path: <chris.laplante@agilent.com>
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com
-	(mail-eopbgr680080.outbound.protection.outlook.com [40.107.68.80])
-	by mail.openembedded.org (Postfix) with ESMTP id 840146BE2D;
-	Thu,  1 Aug 2019 20:18:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=Vgubm+TBi1VnwUJYFyEo+sqzEwhSM+OueY5s2WGRh0oVwFqAwmF4IQTMuSvi+nqB9tUS/lWflAjCaoHsVIwKFdWkGoL22eF55qKdCJ280bm/S3O+sET2RAjfrNr8Zcq5kj6DJYveyhKtDS4q5MYsFaMB0oSTvpvGpUHLCgzTkMnvwhjyVbKWxrL9dezR10vlTI/XASbkRT2XLoA7tOYzZ1h/bWKfKzk0IqMdQ6MOyqfkuT33+9L56WWs1UPPqHpT+IhEn7WhqrxShoNMcrpPZD1qFM3nGqJB6VQPY4M+elkKzErnktejEnFF6hCEPFJueMFsGMuX+JzwQLaW9h5F4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=hFuc/035ASI8Wc90apsTwpvKHM9c3XCt2AO386HShRs=;
-	b=hvI/QZ0LUhCezb2LJL01Z8C4Wjjua+8lH93UFzuCqHUuJLVnmC1sKxKnP0OZf6RhKkzmXgQbIqsext9qp8tJs7GirxUUAqRFdJHRmOAoo+lvJdeiSLTrZ9jp+STRdC87qab9zo+lIpxpT5nRZUYFj0oqjVKUZFlm/4YawhyOyru03AJQUAPggFISe0goRv7LUQ6+HsKS+vYG075RukFqv5CgE7EUyI484CXSs/mIob1X1MJ5fj2x4urtxtvdJzsnwvMg/Uv33g5epLI000NLs/oE+soncHX3IZIdkeTZxmG8iRsmIWqsVGREnyFq2iXo5KrMNhKnQoo0uYgQdEiepA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
-	smtp.mailfrom=agilent.com;dmarc=pass action=none
-	header.from=agilent.com;dkim=pass header.d=agilent.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector2;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=hFuc/035ASI8Wc90apsTwpvKHM9c3XCt2AO386HShRs=;
-	b=LU5wXb6I9i9JGvClDJWz8svHnscy7wkhLjt9QKgClieZ6k/92wfiFoa8fti4UmbqsKzmIrhnxhEZ+dIYcz6fuZqJKKnldaCy0eki6IFHEdQSHoy6ArC7Sc5LS+wgD6OEirPQQHR8Yk+bBjI/kLfNOyOaXwMmbwXakBzRwLtNuQg=
-Received: from CY4PR12MB1653.namprd12.prod.outlook.com (10.172.71.137) by
-	CY4PR12MB1158.namprd12.prod.outlook.com (10.168.168.143) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2136.12; Thu, 1 Aug 2019 20:18:59 +0000
-Received: from CY4PR12MB1653.namprd12.prod.outlook.com
-	([fe80::4154:e959:dc1e:4abc]) by
-	CY4PR12MB1653.namprd12.prod.outlook.com
-	([fe80::4154:e959:dc1e:4abc%9]) with mapi id 15.20.2136.010;
-	Thu, 1 Aug 2019 20:18:59 +0000
-From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-To: Mark Hatle <mark.hatle@windriver.com>,
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>,
-	"bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>
-Thread-Topic: UNVERIFIED SENDER Re: UNVERIFIED SENDER Re: [bitbake-devel] RFC:
-	exposing information about the SRC_URI(s)/branch via
-	buildhistory (or similar mechanism)
-Thread-Index: AdVIiV4bZ0XUaI6MTqawP3i+Dxw25gAAV48AAAIZtdAAAOWOgAADxTCw
-Date: Thu, 1 Aug 2019 20:18:59 +0000
-Message-ID: <CY4PR12MB16531320849693B31BF37FFD8BDE0@CY4PR12MB1653.namprd12.prod.outlook.com>
-References: <CY4PR12MB1653C06268B3B4B862119BE18BDE0@CY4PR12MB1653.namprd12.prod.outlook.com>
-	<baa880f5-9f42-9364-dd23-325837f791c5@windriver.com>
-	<CY4PR12MB1653E78A4333D0184E5A67178BDE0@CY4PR12MB1653.namprd12.prod.outlook.com>
-	<92bd027a-4edb-f23f-a7c8-cbd3d91543b3@windriver.com>
-In-Reply-To: <92bd027a-4edb-f23f-a7c8-cbd3d91543b3@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chris.laplante@agilent.com; 
-x-originating-ip: [68.80.99.7]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7c9a7eeb-e4b5-4aae-40b8-08d716bd7ce3
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:CY4PR12MB1158; 
-x-ms-traffictypediagnostic: CY4PR12MB1158:
-x-microsoft-antispam-prvs: <CY4PR12MB11588128ABF5044F1E430EAD8BDE0@CY4PR12MB1158.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 01165471DB
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(396003)(366004)(376002)(136003)(39860400002)(346002)(29502001)(199004)(189003)(54534003)(14444005)(229853002)(71200400001)(86362001)(2201001)(71190400001)(66446008)(256004)(52536014)(53936002)(478600001)(9686003)(55016002)(74316002)(66556008)(66066001)(305945005)(110136005)(64756008)(7736002)(66946007)(6506007)(102836004)(186003)(2906002)(66476007)(14454004)(76116006)(7696005)(26005)(76176011)(11346002)(99286004)(446003)(8676002)(6246003)(476003)(486006)(33656002)(81166006)(81156014)(3846002)(6116002)(68736007)(5660300002)(2501003)(6436002)(25786009)(8936002)(4744005)(316002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1158;
-	H:CY4PR12MB1653.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: agilent.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: oD6oMWptZr4P2EkpUKNcoy1rlRCjdgwXqe84eA/bb7AfWqglNd+1NFyFe9m4q7kfvYYSw83lW5h36fWggcXtlhfBAS/rSjIh6ZLhD/Uzk1UPEaE9EzwPJzUM+JsxPgLB4lQ3n95He1GufkvX7HGXng0AEKXKaBp6Pvi42FejSvP4PMt6I72OzxWOwGZisMqI8MTed+eofHdTVDExrsFZAsrRtWS8QHlWdj4BLgKyEHkJ1SEw3eO3AoWxQ5zH9yBzj0Atw4uCR9ZPLqLLnOcuys9+7i5IGQvgHAst1+qOozcBDWguJhQI9JzOo2eFxJTnERPfDoB3/x+1HYGJ545YNA0Xqm18BYR8Hh41pn6ft35RwuljtqembuMZjsoeHlXMCRuzs+d6w/fvWrac6eAo5sORr4WJw893TTsnD1rbZ1w=
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A3F87F3E1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  1 Aug 2019 20:37:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x71Kb0qp010798
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 1 Aug 2019 13:37:10 -0700
+Received: from fidler.wrs.com (128.224.56.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 1 Aug 2019 13:36:49 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 1 Aug 2019 16:36:48 -0400
+Message-ID: <20190801203648.14429-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c9a7eeb-e4b5-4aae-40b8-08d716bd7ce3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2019 20:18:59.4793 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: chris.laplante@agilent.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1158
-Subject: Re: UNVERIFIED SENDER Re: UNVERIFIED SENDER Re: [bitbake-devel] RFC: exposing information about the SRC_URI(s)/branch via buildhistory (or similar mechanism)
+Subject: [PATCH] ptest-runner: update from 2.3.1 to 2.3.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -91,24 +31,453 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2019 20:19:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 01 Aug 2019 20:37:19 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-PiA+IFdvdWxkbid0IGl0IGJlIGEgYml0IG92ZXJraWxsIHRvIGFkZCBhIG5ldyBjbGFzcyBqdXN0
-IHRvIGhhbmRsZSBTUkNfVVJJPyBJIHdvdWxkIHRoaW5rIGl0IHdvdWxkIGp1c3QgYmUgYSBsaXR0
-bGUgZXh0cmEgY29kZSBpbnNpZGUNCj4gd3JpdGVfbGF0ZXN0X3NyY3Jldi4NCj4gDQo+IE9yZGlu
-YXJpbHkgSSdkIHNheSB5ZXMuICBCdXQgUlAgaGFkIGNvbmNlcm5zIHRoYXQgdGhlc2UgY2hhbmdl
-cyBhZGQgdXAgYW5kDQo+IHVubGVzcyBldmVyeW9uZSB3YW50cyB0aGVtIGl0IGNvdWxkIHByb3Zl
-IHRvIGJlIGEgbWFpbnRlbmFuY2UgcHJvYmxlbS4gIEF0IHRoZQ0KPiB0aW1lIGhlIHdhbnRlZCBh
-IHN5c3RlbSBmb3IgcGVvcGxlIHRvIG9wdCBpbiB0byBuZXcgZnVuY3Rpb25hbGl0eS4gIChJJ20g
-bm90DQo+IHRyeWluZyB0byBzcGVhayBmb3IgaGltLCBqdXN0IHJlcGVhdGluZyB3aGF0IEkgd2Fz
-IHRvbGQgd2hlbiBJIGFza2VkIGhpbSBhDQo+IHNpbWlsYXIgcXVlc3Rpb24uKSAgIEluIG15IGNh
-c2UgdGhvdWdoIEkgd2FzIHN1Z2dlc3RpbmcgbXVjaCBtb3JlIGZ1bmN0aW9uYWxpdHkNCj4gdGhl
-biBqdXN0IHRoaXMgb25lIGl0ZW0uDQoNCk1ha2VzIHNlbnNlLiBJIGRlZmluaXRlbHkgbGlrZSB0
-aGUgaWRlYSBvZiB0aGUgYXV0b21hdGljIGNoYW5nZWxvZy4NCg0KRm9yIG5vdywgYXMgYSBxdWlj
-ayBwcm90b3R5cGUgb2YgdGhlIGJhc2ljIGZ1bmN0aW9uYWxpdHkgKGNhcHR1cmluZyBTUkNfVVJJ
-KSwgSSB3aWxsIGRvIGFzIHRoZSBiYmNsYXNzIHN1Z2dlc3RzIGFuZCBleHRlbmQgQlVJTERISVNU
-T1JZX1BSRVNFUlZFLg0KDQpUaGFua3MsDQpDaHJpcw0K
+All local patches are now upstream so they have been dropped.
+Other upstream commits make ptest-runner build using: clang -Weverything
+
+$ git log --oneline b73bd54..7015e91
+7015e91 (HEAD -> oe-core-master, tag: v2.3.2, origin/master, origin/HEAD, master) Fix additional warnings when using clang
+dd1daa8 tests: fix clang warnings.
+15fd131 main code: fix clang warnings
+59381a6 utils: ensure child can be session leader
+5fe2c0a utils: Ensure pipes are read after exit
+79a9c27 use process groups when spawning
+b73bd54 utils: Ensure stdout/stderr are flushed
+
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+---
+ ...ils-Ensure-stdout-stderr-are-flushed.patch |  45 ----
+ ...002-use-process-groups-when-spawning.patch |  35 ---
+ ...ils-Ensure-pipes-are-read-after-exit.patch |  76 -------
+ ...s-ensure-child-can-be-session-leader.patch | 212 ------------------
+ ...-runner_2.3.1.bb => ptest-runner_2.3.2.bb} |   8 +-
+ 5 files changed, 2 insertions(+), 374 deletions(-)
+ delete mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch
+ delete mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch
+ delete mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch
+ delete mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0004-utils-ensure-child-can-be-session-leader.patch
+ rename meta/recipes-support/ptest-runner/{ptest-runner_2.3.1.bb => ptest-runner_2.3.2.bb} (69%)
+
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch b/meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch
+deleted file mode 100644
+index c9a9dd7cf4..0000000000
+--- a/meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From 9b36993794c1de733c521b2477370c874c07b617 Mon Sep 17 00:00:00 2001
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Date: Thu, 4 Apr 2019 14:18:55 +0100
+-Subject: [PATCH 1/3] utils: Ensure stdout/stderr are flushed
+-
+-There is no guarantee that the data written with fwrite will be flushed to the
+-buffer. If stdout and stderr are the same thing, this could lead to interleaved
+-writes. The common case is stdout output so flush the output pipes when writing to
+-stderr. Also flush stdout before the function returns.
+-
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Upstream-Status: Pending [code being tested]
+----
+- utils.c | 7 +++++--
+- 1 file changed, 5 insertions(+), 2 deletions(-)
+-
+-diff --git a/utils.c b/utils.c
+-index 504df0b..3ceb342 100644
+---- a/utils.c
+-+++ b/utils.c
+-@@ -295,8 +295,11 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
+- 			}
+- 
+- 			if (pfds[1].revents != 0) {
+--				while ((n = read(fds[1], buf, WAIT_CHILD_BUF_MAX_SIZE)) > 0)
+-+				while ((n = read(fds[1], buf, WAIT_CHILD_BUF_MAX_SIZE)) > 0) {
+-+					fflush(fps[0]);
+- 					fwrite(buf, n, 1, fps[1]);
+-+					fflush(fps[1]);
+-+				}
+- 			}
+- 
+- 			clock_gettime(clock, &sentinel);
+-@@ -315,7 +318,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
+- 			break;
+- 	}
+- 
+--
+-+	fflush(fps[0]);
+- 	return status;
+- }
+- 
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch b/meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch
+deleted file mode 100644
+index 5436a3340c..0000000000
+--- a/meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From f0c42a65633341ad048718c7a6dbd035818e9eaf Mon Sep 17 00:00:00 2001
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Date: Thu, 4 Apr 2019 14:20:31 +0100
+-Subject: [PATCH 2/3] use process groups when spawning
+-
+-Rather than just killing the process we've swawned, set the process group
+-for spawned children and then kill the group of processes.
+-
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Upstream-Status: Pending [code being tested]
+----
+- utils.c | 9 +++++----
+- 1 file changed, 5 insertions(+), 4 deletions(-)
+-
+-diff --git a/utils.c b/utils.c
+-index 3ceb342..c5b3b8d 100644
+---- a/utils.c
+-+++ b/utils.c
+-@@ -309,7 +309,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
+- 			clock_gettime(clock, &time);
+- 			if ((time.tv_sec - sentinel.tv_sec) > timeout) {
+- 				*timeouted = 1;
+--				kill(pid, SIGKILL);
+-+				kill(-pid, SIGKILL);
+- 				waitflags = 0;
+- 			}
+- 		}
+-@@ -371,6 +371,7 @@ run_ptests(struct ptest_list *head, const struct ptest_options opts,
+- 				rc = -1;
+- 				break;
+- 			} else if (child == 0) {
+-+				setsid();
+- 				run_child(p->run_ptest, pipefd_stdout[1], pipefd_stderr[1]);
+- 			} else {
+- 				int status;
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch b/meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch
+deleted file mode 100644
+index f7c3ebe6f2..0000000000
+--- a/meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch
++++ /dev/null
+@@ -1,76 +0,0 @@
+-From e58e4e1a7f854953f823dc5135d35f728f253f31 Mon Sep 17 00:00:00 2001
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Date: Thu, 4 Apr 2019 14:24:14 +0100
+-Subject: [PATCH 3/3] utils: Ensure pipes are read after exit
+-
+-There was a race in the code where the pipes may not be read after the process has exited
+-and data may be left behind in them. This change to ordering ensures the pipes are read
+-after the exit code has been read meaning no data can be left behind and the logs should
+-be complete.
+-
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Upstream-Status: Pending [code being tested]
+----
+- utils.c | 29 ++++++++++++++++-------------
+- 1 file changed, 16 insertions(+), 13 deletions(-)
+-
+-diff --git a/utils.c b/utils.c
+-index c5b3b8d..37e88ab 100644
+---- a/utils.c
+-+++ b/utils.c
+-@@ -264,6 +264,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid, pid_t group,
+- 	struct pollfd pfds[2];
+- 	struct timespec sentinel;
+- 	clockid_t clock = CLOCK_MONOTONIC;
+-+	int looping = 1;
+- 	int r;
+- 
+- 	int status;
+-@@ -281,9 +282,23 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid, pid_t group,
+- 
+- 	*timeouted = 0;
+- 
+--	while (1) {
+-+	while (looping) {
+- 		waitflags = WNOHANG;
+- 
+-+		if (timeout >= 0) {
+-+			struct timespec time;
+-+
+-+			clock_gettime(clock, &time);
+-+			if ((time.tv_sec - sentinel.tv_sec) > timeout) {
+-+				*timeouted = 1;
+-+				kill(-pid, SIGKILL);
+-+				waitflags = 0;
+-+			}
+-+		}
+-+
+-+		if (waitpid(pid, &status, waitflags) == pid)
+-+			looping = 0;
+-+
+- 		r = poll(pfds, 2, WAIT_CHILD_POLL_TIMEOUT_MS);
+- 		if (r > 0) {
+- 			char buf[WAIT_CHILD_BUF_MAX_SIZE];
+-@@ -303,19 +318,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid, pid_t group,
+- 			}
+- 
+- 			clock_gettime(clock, &sentinel);
+--		} else if (timeout >= 0) {
+--			struct timespec time;
+--
+--			clock_gettime(clock, &time);
+--			if ((time.tv_sec - sentinel.tv_sec) > timeout) {
+--				*timeouted = 1;
+--				kill(-pid, SIGKILL);
+--				waitflags = 0;
+--			}
+- 		}
+--
+--		if (waitpid(pid, &status, waitflags) == pid)
+--			break;
+- 	}
+- 
+- 	fflush(fps[0]);
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0004-utils-ensure-child-can-be-session-leader.patch b/meta/recipes-support/ptest-runner/ptest-runner/0004-utils-ensure-child-can-be-session-leader.patch
+deleted file mode 100644
+index 13b4cbc7fb..0000000000
+--- a/meta/recipes-support/ptest-runner/ptest-runner/0004-utils-ensure-child-can-be-session-leader.patch
++++ /dev/null
+@@ -1,212 +0,0 @@
+-From 79698d3205dedba887e0d2492de945d3079de029 Mon Sep 17 00:00:00 2001
+-From: Randy MacLeod <Randy.MacLeod@windriver.com>
+-Date: Thu, 6 Jun 2019 17:03:50 -0400
+-Subject: [PATCH] utils: ensure child can be session leader
+-
+-When running the run-execscript bash ptest as a user rather than root, a warning:
+-  bash: cannot set terminal process group (16036): Inappropriate ioctl for device
+-  bash: no job control in this shell
+-contaminates the bash log files causing the test to fail. This happens only
+-when run under ptest-runner and not when interactively testing!
+-
+-The changes made to fix this include:
+-1. Get the process group id (pgid) before forking,
+-2. Set the pgid in both the parent and child to avoid a race,
+-3. Find, open and set permission on the child tty, and
+-4. Allow the child to attach to controlling tty.
+-
+-Also add '-lutil' to Makefile. This lib is from libc and provides openpty.
+-
+-Upstream-Status: Submitted [yocto@yoctoproject.org]
+-
+-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+----
+- Makefile |   2 +-
+- utils.c  | 102 +++++++++++++++++++++++++++++++++++++++++++++++++------
+- 2 files changed, 92 insertions(+), 12 deletions(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 1bde7be..439eb79 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -29,7 +29,7 @@ TEST_DATA=$(shell echo `pwd`/tests/data)
+- all: $(SOURCES) $(EXECUTABLE)
+- 
+- $(EXECUTABLE): $(OBJECTS)
+--	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+-+	$(CC) $(LDFLAGS) $(OBJECTS) -lutil -o $@
+- 
+- tests: $(TEST_SOURCES) $(TEST_EXECUTABLE)
+- 
+-diff --git a/utils.c b/utils.c
+-index ad737c2..f11ce39 100644
+---- a/utils.c
+-+++ b/utils.c
+-@@ -1,5 +1,6 @@
+- /**
+-  * Copyright (c) 2016 Intel Corporation
+-+ * Copyright (C) 2019 Wind River Systems, Inc.
+-  *
+-  * This program is free software; you can redistribute it and/or
+-  * modify it under the terms of the GNU General Public License
+-@@ -22,23 +23,27 @@
+-  */
+- 
+- #define _GNU_SOURCE 
+-+
+- #include <stdio.h>
+- 
+-+#include <dirent.h>
+-+#include <errno.h>
+-+#include <fcntl.h>
+-+#include <grp.h>
+- #include <libgen.h>
+--#include <signal.h>
+- #include <poll.h>
+--#include <fcntl.h>
+-+#include <pty.h>
+-+#include <signal.h>
+-+#include <stdlib.h>
+-+#include <string.h>
+- #include <time.h>
+--#include <dirent.h>
+-+#include <unistd.h>
+-+
+-+#include <sys/ioctl.h>
+- #include <sys/resource.h>
+-+#include <sys/stat.h>
+- #include <sys/types.h>
+- #include <sys/wait.h>
+--#include <sys/stat.h>
+--#include <unistd.h>
+--#include <string.h>
+--#include <stdlib.h>
+--
+--#include <errno.h>
+- 
+- #include "ptest_list.h"
+- #include "utils.h"
+-@@ -346,6 +351,53 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
+- 	return status;
+- }
+- 
+-+/* Returns an integer file descriptor.
+-+ * If it returns < 0, an error has occurred.
+-+ * Otherwise, it has returned the slave pty file descriptor.
+-+ * fp should be writable, likely stdout/err.
+-+ */
+-+static int
+-+setup_slave_pty(FILE *fp) { 
+-+	int pty_master = -1;
+-+	int pty_slave = -1;
+-+	char pty_name[256];
+-+	struct group *gptr;
+-+	gid_t gid;
+-+	int slave = -1;
+-+
+-+	if (openpty(&pty_master, &pty_slave, pty_name, NULL, NULL) < 0) {
+-+		fprintf(fp, "ERROR: openpty() failed with: %s.\n", strerror(errno));
+-+		return -1;
+-+	}
+-+
+-+	if ((gptr = getgrnam(pty_name)) != 0) {
+-+		gid = gptr->gr_gid;
+-+	} else {
+-+		/* If the tty group does not exist, don't change the
+-+		 * group on the slave pty, only the owner
+-+		 */
+-+		gid = -1;
+-+	}
+-+
+-+	/* chown/chmod the corresponding pty, if possible.
+-+	 * This will only work if the process has root permissions.
+-+	 */
+-+	if (chown(pty_name, getuid(), gid) != 0) {
+-+		fprintf(fp, "ERROR; chown() failed with: %s.\n", strerror(errno));
+-+	}
+-+
+-+	/* Makes the slave read/writeable for the user. */
+-+	if (chmod(pty_name, S_IRUSR|S_IWUSR) != 0) {
+-+		fprintf(fp, "ERROR: chmod() failed with: %s.\n", strerror(errno));
+-+	}
+-+
+-+	if ((slave = open(pty_name, O_RDWR)) == -1) {
+-+		fprintf(fp, "ERROR: open() failed with: %s.\n", strerror(errno));
+-+	}
+-+	return (slave);
+-+}
+-+
+-+
+- int
+- run_ptests(struct ptest_list *head, const struct ptest_options opts,
+- 		const char *progname, FILE *fp, FILE *fp_stderr)
+-@@ -362,6 +414,8 @@ run_ptests(struct ptest_list *head, const struct ptest_options opts,
+- 	int timeouted;
+- 	time_t sttime, entime;
+- 	int duration;
+-+	int slave;
+-+	int pgid = -1;
+- 
+- 	if (opts.xml_filename) {
+- 		xh = xml_create(ptest_list_length(head), opts.xml_filename);
+-@@ -379,7 +433,6 @@ run_ptests(struct ptest_list *head, const struct ptest_options opts,
+- 			close(pipefd_stdout[1]);
+- 			break;
+- 		}
+--
+- 		fprintf(fp, "START: %s\n", progname);
+- 		PTEST_LIST_ITERATE_START(head, p);
+- 			char *ptest_dir = strdup(p->run_ptest);
+-@@ -388,6 +441,13 @@ run_ptests(struct ptest_list *head, const struct ptest_options opts,
+- 				break;
+- 			}
+- 			dirname(ptest_dir);
+-+			if (ioctl(0, TIOCNOTTY) == -1) {
+-+				fprintf(fp, "ERROR: Unable to detach from controlling tty, %s\n", strerror(errno));
+-+			}
+-+
+-+			if ((pgid = getpgid(0)) == -1) {
+-+				fprintf(fp, "ERROR: getpgid() failed, %s\n", strerror(errno));
+-+			}
+- 
+- 			child = fork();
+- 			if (child == -1) {
+-@@ -395,13 +455,33 @@ run_ptests(struct ptest_list *head, const struct ptest_options opts,
+- 				rc = -1;
+- 				break;
+- 			} else if (child == 0) {
+--				setsid();
+-+				close(0);
+-+				if ((slave = setup_slave_pty(fp)) < 0) {
+-+					fprintf(fp, "ERROR: could not setup pty (%d).", slave);
+-+				}
+-+				if (setpgid(0,pgid) == -1) {
+-+					fprintf(fp, "ERROR: setpgid() failed, %s\n", strerror(errno));
+-+				}
+-+
+-+				if (setsid() ==  -1) {
+-+					fprintf(fp, "ERROR: setsid() failed, %s\n", strerror(errno));
+-+				}
+-+
+-+				if (ioctl(0, TIOCSCTTY, NULL) == -1) {
+-+					fprintf(fp, "ERROR: Unable to attach to controlling tty, %s\n", strerror(errno));
+-+				}
+-+
+- 				run_child(p->run_ptest, pipefd_stdout[1], pipefd_stderr[1]);
+-+
+- 			} else {
+- 				int status;
+- 				int fds[2]; fds[0] = pipefd_stdout[0]; fds[1] = pipefd_stderr[0];
+- 				FILE *fps[2]; fps[0] = fp; fps[1] = fp_stderr;
+- 
+-+				if (setpgid(child, pgid) == -1) {
+-+					fprintf(fp, "ERROR: setpgid() failed, %s\n", strerror(errno));
+-+				}
+-+
+- 				sttime = time(NULL);
+- 				fprintf(fp, "%s\n", get_stime(stime, GET_STIME_BUF_SIZE, sttime));
+- 				fprintf(fp, "BEGIN: %s\n", ptest_dir);
+--- 
+-2.17.0
+-
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
+similarity index 69%
+rename from meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
+rename to meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
+index dec60fcc9b..187f22df04 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
+@@ -7,14 +7,10 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRCREV = "63d097cc46142157931682fed076b5407757a0bd"
+-PV = "2.3.1+git${SRCPV}"
++SRCREV = "7015e9199ce748c0717addeebe7a8c47448bab03"
++PV = "2.3.2+git${SRCPV}"
+ 
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
+- file://0001-utils-Ensure-stdout-stderr-are-flushed.patch \
+- file://0002-use-process-groups-when-spawning.patch \
+- file://0003-utils-Ensure-pipes-are-read-after-exit.patch \
+- file://0004-utils-ensure-child-can-be-session-leader.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.22.0
+
 
