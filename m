@@ -1,35 +1,57 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id E87A47DD6E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B671760116
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2019 05:37:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45zfFB5qbLz3P;
-	Thu,  1 Aug 2019 07:37:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1564637839;
-	bh=TPBXXldze0tMBXiNoQYQmHnw2yxSLjkcj5nJWIaN/DY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YR5Q0TGTHOeudtyWGplZ+M7DC2isjrMWWYYfTgD+MIZoeTylAMihE/QisFznHy04y
-	x/mN2qbL6nenZf1xqZLy4kD8v9V7YMA4XUbF+nYyW6JkYcAz3+cw9fj9NNGc1b0qeC
-	1v4LWX3MSm1vqOAgi15DAfQ7shS3VH+Ye3UsQZw5CMWhGk4Zq7naMn3xm5CWsrS/mK
-	ZsEftboCqxI9S1DbNX7WfWVjetMa3NY+jVjyFNkK2Mof9sw+c7wyq28Wz5pjlBd/Mu
-	cAh/HyEzg/RER9nW2PMC0TFFWA0LWlGBEqgzFrvg3SyDJfgYRWnJil5Yk0YzDvv/aK
-	DrHWeOH1VPW8V3mpLPDF5igvLqsFMhmf8+Cfg7+bLy/mGMcxezLXvy22ge4ogsK90l
-	jaahoisMS1hECaYmmZLzKrNqg8iZmG7D+xTRL55PY1EFaFGVMgga59W1xrEWUUyLGm
-	AKUddB/rUy1ilU114tmODhMGduj67RQDHdrHKUSLvLHrup4Np9LzDXlL/bcjbDc96u
-	L55pYQ3lHg1nylIcsQkCg9gilhii0jSucCayIAa2yN3smKUVRoKxOfp7OvPNF+tyuK
-	Pd1Td7HW4HqKI0BeVEyQRqYVZVFYaGERv1oDMjzEryY9n1e+haM1cMu03rClvM1SZL
-	E5tW2F20l7tOHvUs4GWHHl00=
-Date: Thu, 1 Aug 2019 08:37:15 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190801053715.GA12769@localhost>
+	Thu,  1 Aug 2019 06:05:24 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id t16so33338817pfe.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Jul 2019 23:05:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=5DFvKSijNliEB8XLOcRDp4jBywxEEXTLg2qkmip+gfQ=;
+	b=G9HoJ8Wx4dh1XeItmM2RH+fjXYYfwZnX3TOuSzip44EIjkC012dh0/lMX8H0nSI6mc
+	dShmLKUyDHp8L85pgy9BM1fVls384WZKBuau0kbPrbzNfHFaghRUTt7vXGVFUmweXuqT
+	fgxdeIP2i60FU2fXypjtm5sFPdzIGSu+xXlS2o/HlyQ3rVdo8z8tbf0BkrufWI5Rp/LF
+	6YT5kowp0o3kWh7cMNfLMiX6KDZloJWS4iTv6C79xtNzIQx3wXhbU+fr7L3n32TlKZr7
+	YWf8VY6YZ8xf3rRSFJJZj1AdnivKQBBR8AQgehQ7cRQBXmJvhkEsbEc1Xl/DnAXlbZto
+	BJlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=5DFvKSijNliEB8XLOcRDp4jBywxEEXTLg2qkmip+gfQ=;
+	b=RVjnN+q4tJ0xKIe8RqCUSLgv+zPqqBiHDEeI3QWBT+zQ3YzcegGvR4dxl8t848bNAX
+	c3A62DGIbw6VE9lkWVhmvJKfOAqz8hlAfX5zJvoQrJ7KUYsEx6iKx84QRlZigjIj6hrQ
+	Xv4LquOpunhqvAk6yfiszZndhKxAul22PsGyy7JGqlxHXdAmdE12TUmnTVrC4NvFvDy+
+	hs2rfNUhJGGuy1AHA/sQjLa7Tng16uTHii4BX+Nj/X+yDUiV/21jQ6s9qPP8Os3/vshC
+	nSTP3/iImGo2oAuB41+eO789UKWiAIFUnvCEejmR4LsENiavZGlwhxZxVYLQ3b3PT4qy
+	JoEA==
+X-Gm-Message-State: APjAAAWytO+RL8XZIJC4RmD0MqXcXx0gKvinysYEFIrVXHg3YkYmVwnP
+	E4AfhnT0UmMFIAh/ybc0LiEu2yaojxo=
+X-Google-Smtp-Source: APXvYqxGtRljPrRpbCwGyaBwD/k8hL3ZMjqj+fI269EqSpkUHgrlGfeE+nyZZXds9KWT8grxRjNg+Q==
+X-Received: by 2002:a63:c203:: with SMTP id b3mr118681401pgd.450.1564639525327;
+	Wed, 31 Jul 2019 23:05:25 -0700 (PDT)
+Received: from ?IPv6:2601:646:8500:6bc6::c2e0? ([2601:646:8500:6bc6::c2e0])
+	by smtp.gmail.com with ESMTPSA id
+	bo20sm3058834pjb.23.2019.07.31.23.05.24
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Wed, 31 Jul 2019 23:05:24 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>
 References: <20190801045001.19548-1-bunk@stusta.de>
 	<CAMKF1so74xJArBvgMKUi34Lh65C5+BHV5xznsG=HUfXa18tQZg@mail.gmail.com>
+	<20190801053715.GA12769@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS
+Message-ID: <0f5751c5-ad0e-ec3e-7f70-773d9e22c9ab@gmail.com>
+Date: Wed, 31 Jul 2019 23:05:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1so74xJArBvgMKUi34Lh65C5+BHV5xznsG=HUfXa18tQZg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190801053715.GA12769@localhost>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] webkitgtk: Stop disabling gold on aarch64 and mips
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,35 +66,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2019 05:37:20 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 01 Aug 2019 06:05:25 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Wed, Jul 31, 2019 at 10:19:24PM -0700, Khem Raj wrote:
-> I don’t remember if mips disable reason was same as aarch64 I hope it was
-> not a runtime failure can you dig a bit
 
-Author: Khem Raj <raj.khem@gmail.com>
-Date:   Mon Aug 8 15:51:00 2016 -0700
+On 7/31/19 10:37 PM, Adrian Bunk wrote:
+> On Wed, Jul 31, 2019 at 10:19:24PM -0700, Khem Raj wrote:
+>> I don’t remember if mips disable reason was same as aarch64 I hope it was
+>> not a runtime failure can you dig a bit
+> Author: Khem Raj <raj.khem@gmail.com>
+> Date:   Mon Aug 8 15:51:00 2016 -0700
+>
+>      webkitgtk: Disable gold for mips/mips64
+>      
+>      with binutils 2.27, mips has got the gold support
+>      but it doesnt work for webkitgtk _yet_ therefore
+>      disable it for now.
+>
+> To me this looked like a buildtime failure, but it's hard to be sure
+> when the problem is not described.
 
-    webkitgtk: Disable gold for mips/mips64
-    
-    with binutils 2.27, mips has got the gold support
-    but it doesnt work for webkitgtk _yet_ therefore
-    disable it for now.
 
-To me this looked like a buildtime failure, but it's hard to be sure 
-when the problem is not described.
+yes i remember it now it was build time failure
 
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+> cu
+> Adrian
+>
 
