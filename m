@@ -1,24 +1,18 @@
-Return-Path: <seebs@seebs.net>
-X-Greylist: delayed 311 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 01 Aug 2019 16:22:13 UTC
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BCD07F4F4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2019 16:22:13 +0000 (UTC)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 4D4B62E890F;
-	Thu,  1 Aug 2019 11:17:03 -0500 (CDT)
-Date: Thu, 1 Aug 2019 11:17:01 -0500
-From: Seebs <seebs@seebs.net>
-To: Max Kellermann <max+openembedded@blarg.de>
-Message-ID: <20190801111701.367588b2@seebsdell>
-In-Reply-To: <20190801160206.24078-1-max+openembedded@blarg.de>
-References: <20190801160206.24078-1-max+openembedded@blarg.de>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 128C27F4F4;
+	Thu,  1 Aug 2019 16:31:50 +0000 (UTC)
 MIME-Version: 1.0
-Cc: Max Kellermann <max.kellermann@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH pseudo] ports/linux: wrap faccessat()
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Max Kellermann <max+openembedded@blarg.de>
+Date: Thu, 01 Aug 2019 16:31:51 -0000
+Message-ID: <20190801163151.2330.99926@do>
+References: <20190801160206.24078-1-max+openembedded@blarg.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190801160206.24078-1-max+openembedded@blarg.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcG9ydHMvbGludXg6IHdyYXAgZmFjY2Vzc2F0KCk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,23 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2019 16:22:14 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 01 Aug 2019 16:31:50 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu,  1 Aug 2019 18:02:06 +0200
-Max Kellermann <max+openembedded@blarg.de> wrote:
+== Series Details ==
 
-> + * wrap_access(int dirfd, const char *path, int mode, int flags) {
+Series: ports/linux: wrap faccessat()
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/19012/
+State : failure
 
-This should probably say "faccessat". I know it's just a comment, but
-I try to be consistent about these.
+== Summary ==
 
-> +	rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, AT_SYMLINK_NOFOLLOW);
 
-We should probably be using flags here, not AT_SYMLINK_NOFOLLOW.
-Or possibly (flags & AT_SYMLINK_NOFOLLOW). Otherwise, we'll get the wrong
-results if called with flags not including AT_SYMLINK_NOFOLLOW.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
--s
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at fc634c41e4)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
