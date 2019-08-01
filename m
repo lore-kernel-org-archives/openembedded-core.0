@@ -1,26 +1,49 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E105D7F27B
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id A0AB37F35A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2019 19:55:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x71JtDPn024174
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  1 Aug 2019 19:58:55 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id t28so70595185lje.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Aug 2019 12:55:13 -0700 (PDT)
-Received: from [192.168.10.15] (172.25.59.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 1 Aug 2019 12:55:12 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-References: <20190801175545.63356-1-jason.wessel@windriver.com>
-Message-ID: <2ffc17d7-b964-56fb-119c-ebf2b633af34@windriver.com>
-Date: Thu, 1 Aug 2019 14:55:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190801175545.63356-1-jason.wessel@windriver.com>
-Subject: Re: [PATCH] pseudo: Upgrade to latest to fix openat() with a directory symlink
+	Thu, 01 Aug 2019 12:58:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=0KKmuBEieCkhsae8PyKuLbAC5wstvejJuO8GBE/2oiw=;
+	b=UZUjKEUhRS2O6l94SW6ZozQoOFE+sPUJnIqjXl9n9eQINOMtvJK786W63h4lr5qkac
+	sA8Zfz1Hn2TRLUrmo+AJoz3vaOvaiDrYQOF0qzoois5ht/XkXfWs02WL+8TUndWnjBZg
+	eSQMUP+7M0bgkJHFHUnGMau1r9k2EzIMxCsFSgaft1DOQ6Pu5QVABdGjaDlk+fXyUAe1
+	Tx4V2n+NIYUkUGKDU0AfNZcnuMdBQHr9O4wjsOhcJAuXGrYfoKxNdM3DWEl2m/ehwOIl
+	rlc9nFrzHFNgqfVktIwbk85jNtmYWa6/l6ySdfBlViG+Ed/I5PKSPN16DHw8tCpxMbk0
+	1K7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0KKmuBEieCkhsae8PyKuLbAC5wstvejJuO8GBE/2oiw=;
+	b=Vmm/nsy9nqWwbgbf7VnxtXC0hIKnq2Z6KYfRq9zGC5HJWauXLNw12jiVCqUd0f939I
+	LV7Rl9mdro5gspxH15ndh7qghP71kv0tRa0hNnxE51q5aVDfaq4rpnzeSvBBBVkxnmv8
+	l6p7XVRLLXpejy/Aoy6Z9hf5X8axLLaOCUprfyLt+zNfu1aulfSZVEsM5FDFpTaCrNmr
+	Oue/PTe8bZmEoFTfw2nsz5p45TbMoG3KR5aKRsbRV7qzh4LyCTIc+zvFabCe9xcWRWGl
+	BuMRHKGFNe1zELG8GCtmFlAUtb0CqGJC8zOOTlXuBgh1W98dRjbkY3aMi+uBtWT1uRLS
+	mVvA==
+X-Gm-Message-State: APjAAAWh5FqxHVNkNI9GGojwWOwR0EKGplQ9UF/bsU+0mch26kwR3z8S
+	qfFlK0vI96v9vf9ftpYCqiZQCP6R
+X-Google-Smtp-Source: APXvYqyYU47sXmlM3hxBXTkLzbRfkMFEHJ8b8LGrF1vSyQzkyjzXref8eQAZOdDoO9KsYTCt2Z9NIg==
+X-Received: by 2002:a2e:9188:: with SMTP id f8mr23758076ljg.33.1564689535867; 
+	Thu, 01 Aug 2019 12:58:55 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	i9sm12526806lfl.10.2019.08.01.12.58.53
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 01 Aug 2019 12:58:54 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Aug 2019 21:58:49 +0200
+Message-Id: <20190801195849.2695-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] python3-git: update to 2.1.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,62 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2019 19:55:13 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 01 Aug 2019 19:58:57 -0000
 
-Looks like the checksum license changed between the prior commit and now.  So I'll send a v2, because we don't want to break the master branch of oe-core.
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../python/{python3-git_2.1.12.bb => python3-git_2.1.13.bb}   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_2.1.12.bb => python3-git_2.1.13.bb} (88%)
 
-Cheers,
-Jason.
-
-On 8/1/19 12:55 PM, Jason Wessel wrote:
-> While working with ostree disk generation in conjunction with wic, I
-> found a problem with pseudo where it tried to resolve a symlink when
-> it shouldn't, based on openat() flags.  I narrowed down the problem to
-> a simple c program to reproduce the issue:
->
-> int main()
-> {
->      /* Tested with: gcc -Wall -o app app.c ; echo "no pseudo" ; ./app ; echo "pseudo"; pseudo ./app */
->      system("rm -rf tdir tlink");
->      system("mkdir tdir");
->      system("ln -s tdir tlink");
->      DIR *dir = opendir(".");
->      int dfd = dirfd(dir);
->
->      int target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
->      if (target_dfd == -1) {
->          printf("This is right\n");
->      } else {
->          printf("This is broken\n");
->      }
->      return 0;
-> }
->
-> Many thanks to Peter Seebach for fixing the problem in the pseudo code
-> to use the same logic which was already there for the
-> AT_SYMLINK_NOFOLLOW.
->
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->   meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> index 51db84c4d4..3350c3fabd 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> @@ -8,7 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
->              file://toomanyfiles.patch \
->              "
->   
-> -SRCREV = "3fa7c853e0bcd6fe23f7524c2a3c9e3af90901c3"
-> +SRCREV = "097ca3e245200c4a4333964af59a106c42ff3bca"
->   S = "${WORKDIR}/git"
->   PV = "1.9.0+git${SRCPV}"
->   
-
+diff --git a/meta/recipes-devtools/python/python3-git_2.1.12.bb b/meta/recipes-devtools/python/python3-git_2.1.13.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-git_2.1.12.bb
+rename to meta/recipes-devtools/python/python3-git_2.1.13.bb
+index 380371f783..fd6ba50df5 100644
+--- a/meta/recipes-devtools/python/python3-git_2.1.12.bb
++++ b/meta/recipes-devtools/python/python3-git_2.1.13.bb
+@@ -12,8 +12,8 @@ PYPI_PACKAGE = "GitPython"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[md5sum] = "33bfbc89fe616ca22b6336be80d570f4"
+-SRC_URI[sha256sum] = "7428f1cc5e72d53e65c3259d5cebc22fb2b07f973c49d95b3c3d26c64890a3c3"
++SRC_URI[md5sum] = "1ecc2d27123418e4c9e5602788c96855"
++SRC_URI[sha256sum] = "c15c55ff890cd3a6a8330059e80885410a328f645551b55a91d858bfb3eb2573"
+ 
+ DEPENDS += " ${PYTHON_PN}-gitdb"
+ 
+-- 
+2.17.1
 
 
