@@ -1,49 +1,33 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 808177F2FF
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A189606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2019 03:42:53 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id a15so63007676wmj.5
+	Thu,  1 Aug 2019 04:50:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45zdBf20KVz3P
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2019 20:42:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zt0yqzsXNNbw29acC2Zng8NTZX/iM3Ruq75rgmpvrlM=;
-	b=dmjeMF3Gk0tsLm0M8NRd4aIWRHGidq6WlEGLfN7qnNTuwDik3OSOK8O9QDdUnS24Ti
-	i4v1BC0PY5YFyyxeq60wHoB20r1dC8SqxohlYFNz/RVu4huT2sCZEvgJHaoj+Y0+qQ7B
-	XPiz7fNyeEKEyTWUv4bHSfcLXb89GcaqSEwINl6m1754wp7eSboV38x1ecxXKrkRgoEQ
-	FaGfWcTdLGIoPbKS4F+58W6bM+OOfV4+8dN1T1KzgI3RBD/Zws8T/bseNBVZQ1clpF+i
-	2i+Tu/o3a5m2DzxvByFr1BQESckxtTG1mo+qCvVmOliBcLgUJnBwgkU+Hzb0/wXtUKrT
-	6s0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=zt0yqzsXNNbw29acC2Zng8NTZX/iM3Ruq75rgmpvrlM=;
-	b=HYn3YgDCDBqtrbIOY3Ia8yGlQXTpPBpfw1Esr1EulrQ/Xu5GnlbdfRknjPkClr5Sj3
-	6HdPI/+8PNgGqGLrcbNgTmgFW97Xnkz4wEArwKeDDDIEl73xf4pV0cVZcuDBGpHCyyMs
-	He4c6HigK6HQTSMkCvqTTL+tj33tRbqmuHk+qjLmx5mztjVelfYWGexKb4/T9PT2oHOn
-	b3v2UfgiN7DF+jmSwOMm8MrvDh+OyFo1ju0LcS7Vc//PRjyILqvKq5Dly45GsuSagcas
-	Pr7xrBSQboiJnBQfgrILzvuwtJq3adBLNMTKHpqvWkfAeTDlqvYCimFTIW94DjCBs8MK
-	zmAg==
-X-Gm-Message-State: APjAAAVf3T3XRws3cWYHzS3bMsm2O4Bv1QKepjRHe5EHfH0Yai55DN8R
-	0h0Z8I/LT1z0C7wlMvP8K8RfyHgL3nt0T3Y1a1s=
-X-Google-Smtp-Source: APXvYqxcUbL0SIxUof1nrWindzj8c9KxDNWbulvsJEZla5sKt50Ap3DAEmB3e5idI+LSSXuNesPMGTW0TDEDe2qBPqQ=
-X-Received: by 2002:a7b:cf32:: with SMTP id m18mr84899593wmg.27.1564630973987; 
-	Wed, 31 Jul 2019 20:42:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <1564282197-5044-1-git-send-email-liu.ming50@gmail.com>
-	<CAJTo0LYKX_=UjE-6Kd+BvLH+i6Gub3ffqjOQcM4eEx2JDOwRVQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYKX_=UjE-6Kd+BvLH+i6Gub3ffqjOQcM4eEx2JDOwRVQ@mail.gmail.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Thu, 1 Aug 2019 11:42:43 +0800
-Message-ID: <CALatG=5kY2YNraZ10jdpo7ZVT4pAsK8BjdmbObV5EZA4GyOHFA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Ming Liu <ming.liu@toradex.com>, luka.pivk@toradex.com,
-	Stefan Agner <stefan.agner@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] weston: change to use meson build system
+	Thu,  1 Aug 2019 06:50:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1564635002;
+	bh=LtBDirl0m1e69JwzEYC7R9PXPl/FKYGKe3awgZj+C3k=;
+	h=From:To:Subject:Date:From;
+	b=ZH2IkPCIQYfFQTF2GdFHlvZ096+WteYqzxtWV58gZwCoV7h29hrZmfz+5BJIBehaq
+	D2oVmb5qRZGxEyhvn7RsKmeXAicRH5HnREViXuIuXgw2wj7bhuU17VCeeiWV+IlaZ2
+	Nwtjdbw2ukdfruiNhQRPLbgE6OdN69up8v8FAlQxhBPtMMgy8IGAjHMPmjLQeSOod3
+	P+7sOOC1RpgLNsIdI2wFaI6qIvbol69xQCNgnSlT/Dy6BRUwec9odAv4yu5xHimy3H
+	bR4D/xGuElhw5ygx8L73CxDYR6M9TjLoSdxU7tG9Sbweju6/nOQrC/GwL+7+oo33Z5
+	F49kJ8RjxfE9lSvxN+hdfbyqD2BpS1Wc+7I0mKz9LWWaUr81KpeVWxRCWn8nBMuNs4
+	/br0jYOqTKmiQ4HrbaQGxxSPH9v/fP7gWlSRx4qNzLxjLeuTT3aSvRykpuPVc4y2WL
+	9WOlgos5thXm+hc214dpvZBLW+BNUeJGW+gCTdLYB1FZOhpb8XgseE0hnCmQGkEi+6
+	9dx8G+o9Ejxia1T/JkgidnrndUtVBWIcNGAtIKoHW0YjJUsN10AMXAR6tc7mWfIcIN
+	WUF/lpqJSXZUJQVcMMZYvrhSlLZH2NCptdBtW8soGBn7fOliW7+kDhmyMi+qfMW3YZ
+	M6n8pdNJM3nnBKSNFrQh9Nq8=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Aug 2019 07:50:01 +0300
+Message-Id: <20190801045001.19548-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] webkitgtk: Stop disabling gold on aarch64 and mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,115 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2019 03:42:53 -0000
-Content-Type: multipart/alternative; boundary="00000000000068c0f7058f0609e2"
+X-List-Received-Date: Thu, 01 Aug 2019 04:50:02 -0000
 
---00000000000068c0f7058f0609e2
-Content-Type: text/plain; charset="UTF-8"
+The binutils bug appears to have gone away.
 
-Hi, Ross:
+Using gold on powerpc still fails for seemingly unrelated reasons.
 
-thanks for the review, will double check them and make a V3.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.24.3.bb | 4 ----
+ 1 file changed, 4 deletions(-)
 
-//Ming LIu
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
+index f65d79b0fb..81cbf34198 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
+@@ -87,10 +87,6 @@ EXTRA_OECMAKE_append_armv5 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
+ 
+-# binutils 2.25.1 has a bug on aarch64:
+-# https://sourceware.org/bugzilla/show_bug.cgi?id=18430
+-EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+-EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
+ 
+ # JIT not supported on MIPS either
+-- 
+2.17.1
 
 
-On Sun, 28 Jul 2019 at 03:50, <liu.ming50@gmail.com> wrote:
-> > The changes include:
-> > - Drop all autotools related patches.
-> > - Move weston-launch setuid-install to do_install task since it's not
-> >   supported yet by meson build.
-> > - Drop cairo-glesv2 package config, it's not supported by meson build,
-> >   the recommended value is hard-coded to cairo-image for now in weston
-> >   source.
-> > - Introduce remoting package config, to give this option a explicit
-> >   value, or else the build would run into gstreamer missing error since
-> >   it defaults to be true but gstreamer is not in depends list.
->
-> There's more undocumented changes:
->
-> packages/corei7-64-poky-linux/weston/weston-dbg: RRECOMMENDS: removed
-> "zlib-intel-dbg libxcb-shape-dbg"
-> packages/corei7-64-poky-linux/weston/weston-dev: FILELIST: removed
-> "/usr/include/libweston-6/compositor-headless.h
-> /usr/include/libweston-6/compositor-rdp.h"
-> packages/corei7-64-poky-linux/weston/weston-dev: RRECOMMENDS: removed
-> "zlib-intel-dev libxcb-shape-dev"
-> packages/corei7-64-poky-linux/weston/weston-src: FILELIST: added
-> "/usr/src/debug/weston/6.0.1-r0/weston-6.0.1/compositor/systemd-notify.c
-> /usr/src/debug/weston/6.0.1-r0/weston-6.0.1/compositor/screen-share.c"
-> packages/corei7-64-poky-linux/weston/weston-xwayland: RDEPENDS:
-> removed "glib-2.0 (['>= 2.60.5']) libxkbcommon (['>= 0.8.4'])
-> zlib-intel (['>= 1.2.11.1']) libxcb-shape (['>= 1.13.1']) libinput
-> (['>= 1.13.4'])"
-> packages/corei7-64-poky-linux/weston/weston: FILELIST: directory
-> renamed /usr/share/weston/protocols -> /usr/share/libweston/protocols,
-> added "/usr/lib/weston/systemd-notify.so
-> /usr/lib/weston/screen-share.so"
->
-> Some bits have been turned off, others turned on.
->
-> Ross
->
-
---00000000000068c0f7058f0609e2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><div dir=3D"auto">Hi, Ross:</div></div><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">thanks for the review, will double check them and make a V3.=
-</div><div dir=3D"auto"><br></div><div dir=3D"auto">//Ming LIu</div><div><b=
-r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"><br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">On Sun, 28 Jul 2019 at 03:50, &lt;<a href=
-=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a>=
-&gt; wrote:<br>
-&gt; The changes include:<br>
-&gt; - Drop all autotools related patches.<br>
-&gt; - Move weston-launch setuid-install to do_install task since it&#39;s =
-not<br>
-&gt;=C2=A0 =C2=A0supported yet by meson build.<br>
-&gt; - Drop cairo-glesv2 package config, it&#39;s not supported by meson bu=
-ild,<br>
-&gt;=C2=A0 =C2=A0the recommended value is hard-coded to cairo-image for now=
- in weston<br>
-&gt;=C2=A0 =C2=A0source.<br>
-&gt; - Introduce remoting package config, to give this option a explicit<br=
->
-&gt;=C2=A0 =C2=A0value, or else the build would run into gstreamer missing =
-error since<br>
-&gt;=C2=A0 =C2=A0it defaults to be true but gstreamer is not in depends lis=
-t.<br>
-<br>
-There&#39;s more undocumented changes:<br>
-<br>
-packages/corei7-64-poky-linux/weston/weston-dbg: RRECOMMENDS: removed<br>
-&quot;zlib-intel-dbg libxcb-shape-dbg&quot;<br>
-packages/corei7-64-poky-linux/weston/weston-dev: FILELIST: removed<br>
-&quot;/usr/include/libweston-6/compositor-headless.h<br>
-/usr/include/libweston-6/compositor-rdp.h&quot;<br>
-packages/corei7-64-poky-linux/weston/weston-dev: RRECOMMENDS: removed<br>
-&quot;zlib-intel-dev libxcb-shape-dev&quot;<br>
-packages/corei7-64-poky-linux/weston/weston-src: FILELIST: added<br>
-&quot;/usr/src/debug/weston/6.0.1-r0/weston-6.0.1/compositor/systemd-notify=
-.c<br>
-/usr/src/debug/weston/6.0.1-r0/weston-6.0.1/compositor/screen-share.c&quot;=
-<br>
-packages/corei7-64-poky-linux/weston/weston-xwayland: RDEPENDS:<br>
-removed &quot;glib-2.0 ([&#39;&gt;=3D 2.60.5&#39;]) libxkbcommon ([&#39;&gt=
-;=3D 0.8.4&#39;])<br>
-zlib-intel ([&#39;&gt;=3D 1.2.11.1&#39;]) libxcb-shape ([&#39;&gt;=3D 1.13.=
-1&#39;]) libinput<br>
-([&#39;&gt;=3D 1.13.4&#39;])&quot;<br>
-packages/corei7-64-poky-linux/weston/weston: FILELIST: directory<br>
-renamed /usr/share/weston/protocols -&gt; /usr/share/libweston/protocols,<b=
-r>
-added &quot;/usr/lib/weston/systemd-notify.so<br>
-/usr/lib/weston/screen-share.so&quot;<br>
-<br>
-Some bits have been turned off, others turned on.<br>
-<br>
-Ross<br>
-</blockquote></div></div>
-
---00000000000068c0f7058f0609e2--
