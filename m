@@ -1,26 +1,43 @@
-Return-Path: <jwessel@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E2ED17F530
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+	[209.85.208.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 8193F7F530
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2019 17:56:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x71HtxpH006620
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  1 Aug 2019 18:02:09 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id m23so70211421lje.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Aug 2019 10:56:09 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 1 Aug 2019 10:55:49 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 215C5AA45D5;
-	Thu,  1 Aug 2019 10:55:49 -0700 (PDT)
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 1 Aug 2019 10:55:45 -0700
-Message-ID: <20190801175545.63356-1-jason.wessel@windriver.com>
-X-Mailer: git-send-email 2.21.0
+	Thu, 01 Aug 2019 11:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=KuipBP8PQOyXr0L2cMEOey+1LhvDBDoWNRj3+GxWnAI=;
+	b=oNlnGhBRCvyc5na3RVFiGeBBwVrBD58DHkzmXn0Z+x/TRLsVvo43njeVfE36EnNajM
+	ufd4PJ2+5ssKBIUH41RmI0ryviJc/2zw4OwSdHV+55etqHcAB8q3aFG7p+yBMy8Lshpq
+	Ph9pto+XAIaknjo3Nip16YEsHReplgwlppv11IZWpeeYlGcuupSExtSks6JEONELID6Z
+	hDihbm3gkGJdAiwOfMt+im3MPcPefkMpGp/tknN1YrfpOthwqakP6xQItaLRBu0Ruxwx
+	ZCecw5WP9vbXA1T221wxGjNK5xDjqrQXgteLkvpLD4kyQ5eCLNpbLJ++rf19EyX3jwT+
+	r18g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=KuipBP8PQOyXr0L2cMEOey+1LhvDBDoWNRj3+GxWnAI=;
+	b=J8cKdcXCPe88R06aSibkun6xXv/fbPa0BSa61o7d+4qfKByNAALdah6NoD51hshhKr
+	jX9x6Qn4ISPMcsSTwEX3d6jiwlQPOiZtybFrgdL8sWiRcddsrfhKynXLgspsE2WX7Euv
+	xk9rVDeuEDDZu1EcIQJ07jlWpXHRH/hvkpHwvm+NoiWv8rW7epSmrzrfABpDTvcZsBGw
+	HCOdEJq3pLp0ze6F7NS1kxROXlLjANkMSF0BHZFSW+FFHgxVHq19oqglcWdDMURuJfQB
+	R5TImebgEcx0KvvYouZDRLDzneAOQdfOHQAnSutpvZcAngSmIkcFE5DGGyx92Dt5Vl8/
+	RhqA==
+X-Gm-Message-State: APjAAAWBK3wEEGFIOCR/CPfx4mojvPbOgQE1XgHvJjO3FeWN5BIwN9mN
+	o0Q1zKABADSnLCxJ8lA2MtSkQezP5baBZchXdnu0scE3kLs=
+X-Google-Smtp-Source: APXvYqyLzCO8BP0cSZS/sf2R4kqOJOUrlnr8IX++w+UO4NHJDYTWckgRmh5ozq1t/cID/pyvbux4d4QZrJ7k7NU/TZI=
+X-Received: by 2002:a2e:86cc:: with SMTP id n12mr43928407ljj.146.1564682529612;
+	Thu, 01 Aug 2019 11:02:09 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] pseudo: Upgrade to latest to fix openat() with a directory symlink
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 1 Aug 2019 20:01:58 +0200
+Message-ID: <CAP71WjxR7OQkiAFaYULnPn_Ufj0pcxHfRxV5ia4tfzY2i05E8A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: build stat output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +50,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2019 17:56:24 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Thu, 01 Aug 2019 18:02:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-While working with ostree disk generation in conjunction with wic, I
-found a problem with pseudo where it tried to resolve a symlink when
-it shouldn't, based on openat() flags.  I narrowed down the problem to
-a simple c program to reproduce the issue:
+hi,
 
-int main()
-{
-    /* Tested with: gcc -Wall -o app app.c ; echo "no pseudo" ; ./app ; echo "pseudo"; pseudo ./app */
-    system("rm -rf tdir tlink");
-    system("mkdir tdir");
-    system("ln -s tdir tlink");
-    DIR *dir = opendir(".");
-    int dfd = dirfd(dir);
+I am trying to make up some sense with the bitbake output at the end
+of my build. I have enabled buildstats and buildstats-summary.
 
-    int target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
-    if (target_dfd == -1) {
-        printf("This is right\n");
-    } else {
-        printf("This is broken\n");
-    }
-    return 0;
-}
+What do all these numbers mean? They don't quite sum up..
 
-Many thanks to Peter Seebach for fixing the problem in the pseudo code
-to use the same logic which was already there for the
-AT_SYMLINK_NOFOLLOW.
+Sstate summary: Wanted 15 Found 9 Missed 12 Current 125 (60% match,
+95% complete)
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+NOTE: Tasks Summary: Attempted 592 tasks of which 576 didn't need to
+be rerun and all succeeded.
+NOTE: Build completion summary:
+NOTE:   do_populate_sysroot: 99.5% sstate reuse(183 setscene, 1 scratch)
+NOTE:   do_package_qa: 98.9% sstate reuse(89 setscene, 1 scratch)
+NOTE:   do_package: 0.0% sstate reuse(0 setscene, 1 scratch)
+NOTE:   do_packagedata: 98.9% sstate reuse(89 setscene, 1 scratch)
+NOTE:   do_package_write_ipk: 98.9% sstate reuse(89 setscene, 1 scratch)
+NOTE:   do_populate_lic: 99.5% sstate reuse(185 setscene, 1 scratch)
+NOTE: Writing buildhistory
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 51db84c4d4..3350c3fabd 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
-            file://toomanyfiles.patch \
-            "
- 
--SRCREV = "3fa7c853e0bcd6fe23f7524c2a3c9e3af90901c3"
-+SRCREV = "097ca3e245200c4a4333964af59a106c42ff3bca"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
--- 
-2.21.0
-
+thanks!
 
