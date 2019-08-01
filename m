@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 128C27F4F4;
+	by mail.openembedded.org (Postfix) with ESMTP id E80F77F5A8;
 	Thu,  1 Aug 2019 16:31:50 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Max Kellermann <max+openembedded@blarg.de>
-Date: Thu, 01 Aug 2019 16:31:51 -0000
-Message-ID: <20190801163151.2330.99926@do>
-References: <20190801160206.24078-1-max+openembedded@blarg.de>
+Date: Thu, 01 Aug 2019 16:31:52 -0000
+Message-ID: <20190801163152.2329.39762@do>
+References: <20190801111701.367588b2@seebsdell>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190801160206.24078-1-max+openembedded@blarg.de>
+In-Reply-To: <20190801111701.367588b2@seebsdell>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcG9ydHMvbGludXg6IHdyYXAgZmFjY2Vzc2F0KCk=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcG9ydHMvbGludXg6IHdyYXAgZmFjY2Vzc2F0KCkgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2019 16:31:50 -0000
+X-List-Received-Date: Thu, 01 Aug 2019 16:31:51 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: ports/linux: wrap faccessat()
-Revision: 1
+Series: ports/linux: wrap faccessat() (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/19012/
 State : failure
 
