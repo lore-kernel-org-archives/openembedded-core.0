@@ -1,20 +1,21 @@
 Return-Path: <seebs@seebs.net>
 Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
-	by mail.openembedded.org (Postfix) with ESMTP id F23D76C132
+	by mail.openembedded.org (Postfix) with ESMTP id 4A70D7EC95
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 17:07:35 +0000 (UTC)
+	Fri,  2 Aug 2019 17:42:49 +0000 (UTC)
 Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 6A3262E892B;
-	Fri,  2 Aug 2019 12:07:36 -0500 (CDT)
-Date: Fri, 2 Aug 2019 12:07:33 -0500
+	by mail.seebs.net (Postfix) with ESMTPSA id C64222E895D;
+	Fri,  2 Aug 2019 12:42:49 -0500 (CDT)
+Date: Fri, 2 Aug 2019 12:42:46 -0500
 From: Seebs <seebs@seebs.net>
 To: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <20190802120733.4a24ca3f@seebsdell>
-In-Reply-To: <f991e41b-39c6-a088-63aa-07553cae131b@windriver.com>
+Message-ID: <20190802124246.27d4beca@seebsdell>
+In-Reply-To: <20190802120733.4a24ca3f@seebsdell>
 References: <20190801200354.119252-1-jason.wessel@windriver.com>
 	<8934e4e0-aaf6-5eb6-5d1b-355063bee94a@windriver.com>
 	<20190801185725.139cfa73@seebsdell>
 	<f991e41b-39c6-a088-63aa-07553cae131b@windriver.com>
+	<20190802120733.4a24ca3f@seebsdell>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
@@ -31,35 +32,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 17:07:36 -0000
+X-List-Received-Date: Fri, 02 Aug 2019 17:42:49 -0000
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2 Aug 2019 11:27:45 -0500
-Jason Wessel <jason.wessel@windriver.com> wrote:
+On Fri, 2 Aug 2019 12:07:33 -0500
+Seebs <seebs@seebs.net> wrote:
 
-> The sequence of openat() followed by an fstat() on the opened file
-> handle, will erase the pseudo uid entry for the symlink, as shown by
-> the following lstat() in test 5. The culprit appears to be the
-> fstat(), but it could be something much more complex than that...
-> The next step is to figure out why the recent change to openat() to
-> address test case 1, caused this new problem.
+> Note that there's no lstat, and no AT_SYMLINK_NOFOLLOW. Which is to
+> say, these stats will be following the symlink even though O_NOFOLLOW
+> was set. I can probably patch this in a bit.
 
-I suspect I know that one, although I'm not sure I know the details.
+Followup: Patch applied to master, but also in addition to fixing the
+stat calls, I had to use `flags&O_NOFOLLOW` rather than
+`flags|O_NOFOLLOW`.
 
-Pseudo will destroy entries of incompatible directory-entry types; for
-instance, if it has the same path listed as both a plain file and a
-directory. But consider, from openat.c:
-
-#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
-                rc = real___xstat64(_STAT_VER, path, &buf);
-#else           
-                rc = real___fxstatat64(_STAT_VER, dirfd, path, &buf, 0);
-#endif
-
-Note that there's no lstat, and no AT_SYMLINK_NOFOLLOW. Which is to say,
-these stats will be following the symlink even though O_NOFOLLOW was
-set. I can probably patch this in a bit.
+I am sort of amazed at how much DIDN'T break right away with that one.
 
 -s
 
