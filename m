@@ -1,24 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 32CC57C410
+Return-Path: <ross.burton@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 925937F2F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 09:59:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x729xCRK030207
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Aug 2019 02:59:22 -0700
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Fri, 2 Aug 2019 02:59:01 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Aug 2019 18:24:35 +0800
-Message-ID: <cover.1564741458.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Fri,  2 Aug 2019 10:21:25 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Aug 2019 03:21:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,337,1559545200"; d="scan'208";a="173185973"
+Received: from mekarim-mobl1.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.49.129])
+	by fmsmga008.fm.intel.com with ESMTP; 02 Aug 2019 03:21:25 -0700
+To: openembedded-core@lists.openembedded.org
+References: <cover.1564741458.git.liezhi.yang@windriver.com>
+	<6e12b495c74cfe8497e067fe1b4c4b823c6d4abe.1564741458.git.liezhi.yang@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <67a9995b-8401-7308-bb0b-b6b81da03abb@intel.com>
+Date: Fri, 2 Aug 2019 11:21:24 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] kill-bb: Add it for killing abnormal bitbake processes
+In-Reply-To: <6e12b495c74cfe8497e067fe1b4c4b823c6d4abe.1564741458.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/1] kill-bb: Add it for killing abnormal bitbake processes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +38,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 09:59:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Aug 2019 10:21:25 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit fc634c41e4b3fbaf29dc0104ae6b15757e77f60a:
+On 02/08/2019 11:24, Robert Yang wrote:
+> There might be processes left after Ctr-C, e.g.:
+> $ rm -f tmp/cache/default-glibc/qemux86/x86_64/
+> $ bitbake -p
+> 
+> Press 'Ctrl-C' multiple times during parsing, then bitbake processes may not
+> exit, and the worse is that we can't start bitbake again, we can't always
+> reproduce this, but sometime. We can only use "ps ux" to find the processes and
+> kill them one by one. This tool can kill all of them easily.
+I've noticed this, and also noticed that it got a lot worse recently.
 
-  Apache-2.0-with-LLVM-exception: Add new license file (2019-07-31 23:02:56 +0100)
+But let's fix bitbake instead of adding tools to work around it?
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/kill-bb
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/kill-bb
-
-Robert Yang (1):
-  kill-bb: Add it for killing abnormal bitbake processes
-
- scripts/kill-bb | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
- create mode 100755 scripts/kill-bb
-
--- 
-2.7.4
-
+Ross
 
