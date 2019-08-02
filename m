@@ -1,51 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C78D7D65D
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A4FF7E543
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 16:17:23 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id y4so77770716wrm.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Aug 2019 09:17:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=+qEUrnDReSu8BZQ/dG8UZIytK58GFtueJ8lkrllx1AA=;
-	b=X36pEpyxDuEc43euNCWi5PfFs0rPAkV04ebv1EIWL8uEL0kCHWteWZvijSOHVkKgNy
-	FVKaqZ3MfevalFmDN8KkLmTMc7a6aEio2mVR8lcnGVMACidYPiMTODQqwnTgXSkGIluT
-	VOI/S7HPEAPSQs0i2/vv3iHfY5yIVllirbZtk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=+qEUrnDReSu8BZQ/dG8UZIytK58GFtueJ8lkrllx1AA=;
-	b=inHH4QOr8KRHK/XLXpk9OY6bHCvmSofq0kw8UNSA833+9jLZzal3F97IzUExbyYqwj
-	t0j8AkcLmxJg6qzmc4ojJgGvjeh3HpLB1Ak5SluxIUzDjXEz76iuRgb+t5fkDKe95eAD
-	s0N1CKS3XZ/jIso4yrcGMYZDEGla7WBiTmcQansPtMPbxx4abQcUJRbdFXSHPzSEhG0L
-	OSlXADX4J5ZUeMxAnVkV2O3Ac0w3HhG+DBrvfCNb7zE9egyfGDKP/6PX98Z/oNCY2JuM
-	5aY1f9B1MH5xs+VOY/EQK2TE9D76nJj6Qqen6LqwwWEQvDoRbHjPGwuTnde34hg9OxxF
-	PsVQ==
-X-Gm-Message-State: APjAAAWewWDBX5lbW2i3YpuSrJmVdGSgBxU/VLZ9A+8CEBHEi3zcvISj
-	HWTJjtpROmGr8cXlLAnTk4XLN4FxhtA=
-X-Google-Smtp-Source: APXvYqw6Sf5i2NmfRb5nwwUkvAIS6zLFD/+SqNj10+75GJOgPYFdbdMzJuaP8s6mx+L/kxLNK0F83g==
-X-Received: by 2002:adf:f246:: with SMTP id b6mr26710317wrp.92.1564762643734; 
-	Fri, 02 Aug 2019 09:17:23 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x83sm87909869wmb.42.2019.08.02.09.17.22
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 02 Aug 2019 09:17:22 -0700 (PDT)
-Message-ID: <a020143f53511171dc4d407e0d8dde259af3852a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 02 Aug 2019 17:17:21 +0100
-In-Reply-To: <a3cde6526f42e115340654402a3e89bed42facd8.camel@linuxfoundation.org>
-References: <a3cde6526f42e115340654402a3e89bed42facd8.camel@linuxfoundation.org>
-User-Agent: Evolution 3.32.2-1 
+	Fri,  2 Aug 2019 16:28:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x72GRuUW007556
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 2 Aug 2019 09:28:06 -0700
+Received: from [192.168.10.15] (172.25.59.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Fri, 2 Aug 2019 09:27:45 -0700
+To: Seebs <seebs@seebs.net>
+References: <20190801200354.119252-1-jason.wessel@windriver.com>
+	<8934e4e0-aaf6-5eb6-5d1b-355063bee94a@windriver.com>
+	<20190801185725.139cfa73@seebsdell>
+From: Jason Wessel <jason.wessel@windriver.com>
+Message-ID: <f991e41b-39c6-a088-63aa-07553cae131b@windriver.com>
+Date: Fri, 2 Aug 2019 11:27:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Cc: Joshua Watt <JPEW.hacker@gmail.com>
-Subject: Re: Hash Equivalency - What this means for developer productivity
+In-Reply-To: <20190801185725.139cfa73@seebsdell>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] pseudo: Upgrade to latest to fix openat() with a directory symlink [NAK]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +36,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 16:17:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 02 Aug 2019 16:28:27 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-08-02 at 16:53 +0100, Richard Purdie wrote:
-> With the patches in master-next and this configuration in local.conf:
-> 
-> BB_HASHSERVE = "localhost:0"
-> BB_SIGNATURE_HANDLER = "OEEquivHash"
-> 
-> $ bitbake core-image-sato
-> $ bitbake m4-native -c install -f
-> $ bitbake core-image-sato
-> 
-> will result in do_populate_sysroot of m4-native running, it will see
-> the output matches the previous build and it will then skip to the
-> rootfs generation pulling all the other pieces from sstate.
-> 
-> Note that for this to work, m4-native has to have previously built
-> with the hashserv running, otherwise it has nothing to compare its
-> output to.
-> 
-> I think this should be a "big deal" for many developers, reducing
-> unneeded rebuilds and hence speeding up development.
+It took a while to narrow this down to a concise test case, and I am not exactly sure what is going on in pseudo.  The C app is created based on mimicking exactly the python code that causes the failure, so that bitbake can be entirely removed from the picture.
 
-I should have mentioned, this code relies on reproducibile builds as
-its comparing the binary output. The more reproducibile builds are, the
-more likely sstate reuse will happen.
+If you use the master branch of pseudo with the C app below, it will something like the following but with a different owner uid if yours is not 5002.
 
-This is one reason reproducibile builds are important!
+===
+Test 1 good
+Test 2 good
+Test 3 good
+Test 4 good
+Test 5 failed... tlink is owned by 5002 and not 0
+===
 
-We may want to look at more interesting comparison mechanisms in the
-future like the APIs exposed by libraries. Having support for matching
-"equivalent" binaries in the core is the key first step to these things
-though.
 
-Cheers,
+The sequence of openat() followed by an fstat() on the opened file handle, will erase the pseudo uid entry for the symlink, as shown by the following lstat() in test 5. The culprit appears to be the fstat(), but it could be something much more complex than that...  The next step is to figure out why the recent change to openat() to address test case 1, caused this new problem.
 
-Richard
+
+==== test case app.c ====
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+int main()
+{
+     /* Tested with: gcc -Wall -o app app.c ; pseudo ./app */
+     system("rm -rf tdir tlink");
+     system("mkdir tdir");
+     system("ln -s tdir tlink");
+     DIR *dir = opendir(".");
+     int dfd = dirfd(dir);
+
+     int target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+     if (target_dfd == -1) {
+         printf("Test 1 good\n");
+     } else {
+         printf("Test 1 failed\n");
+		close(target_dfd);
+     }
+	target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK | O_DIRECTORY | O_CLOEXEC);
+     if (target_dfd == -1) {
+         printf("Test 2 failed\n");
+     } else {
+         printf("Test 2 good\n");
+		close(target_dfd);
+     }
+	/* Test 3 make sure the owner of the link is root  */
+	struct stat sbuf;
+	if (!lstat("tlink", &sbuf) && sbuf.st_uid == 0) {
+		printf("Test 3 good\n");
+	} else {
+		printf("Test 3 failed\n");
+	}
+	/* Test 4 tests open with the "rb" flag, owner should not change */
+	int ofd = openat(dfd,"./tlink", O_RDONLY|O_CLOEXEC);
+	if (ofd >= 0) {
+		if (fstat(ofd, &sbuf) != 0)
+			printf("ERROR in fstat test 4\n");
+		else if (sbuf.st_uid == 0)
+			printf("Test 4 good\n");
+		close(ofd);
+	} else {
+		printf("Test 4 failed with openat()\n");
+	}
+	/* In pseudo, after the fstat above, it seems the db is corrupted */
+	if (!lstat("tlink", &sbuf) && sbuf.st_uid == 0)
+         printf("Test 5 good\n");
+	else
+         printf("Test 5 failed... tlink is owned by %i and not 0\n", sbuf.st_uid);
+
+     return 0;
+}
+
+
+
+On 8/1/19 6:57 PM, Seebs wrote:
+> On Thu, 1 Aug 2019 16:37:26 -0500
+> Jason Wessel <jason.wessel@windriver.com> wrote:
+> 
+>> It seems to have caused really odd problems with the oe link
+>> management that were not there previously, such as:
+>>
+>>
+>> WARNING: pinentry-1.1.0-r0 do_package_qa: QA Issue:
+>> pinentry: /usr/bin/pinentry is owned by uid 5002, which is the same
+>> as the user running bitbake. This may be due to host contamination
+>> [host-user-contaminated]
+>>
+>> I'll continue to look into the problem.
+> 
+> There's a possibility that the right flag is something like
+> 	(flags&O_NOFOLLOW)&&!(flags&O_PATH)
+> 
+> or something like that. There's a handful of references to this in
+> wrapfuncs.in in ports/unix and ports/linux.
+> 
+> -s
+> 
 
 
