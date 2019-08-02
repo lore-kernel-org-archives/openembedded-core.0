@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E3A37F2D8;
+	by mail.openembedded.org (Postfix) with ESMTP id 0317F6B06C;
 	Fri,  2 Aug 2019 21:02:01 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Ross Burton <ross.burton@intel.com>
-Date: Fri, 02 Aug 2019 21:02:02 -0000
-Message-ID: <20190802210202.2334.68226@do>
-References: <20190802203719.20437-1-ross.burton@intel.com>
+Date: Fri, 02 Aug 2019 21:02:03 -0000
+Message-ID: <20190802210203.2329.17315@do>
+References: <20190802204406.21313-1-ross.burton@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190802203719.20437-1-ross.burton@intel.com>
+In-Reply-To: <20190802204406.21313-1-ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImxpYnh4ODZtaXNjOiByZW1vdmUgdGhpcyBub3cgci4uLiIgYW5kIDggbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlieDExLWRpZXQ6IHJlbW92ZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 21:02:01 -0000
+X-List-Received-Date: Fri, 02 Aug 2019 21:02:02 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "libxx86misc: remove this now r..." and 8 more
+Series: libx11-diet: remove
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/19059/
+URL   : https://patchwork.openembedded.org/series/19060/
 State : failure
 
 == Summary ==
@@ -45,10 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
-  Suggested fix    Include a brief reason why fix-libtool.patch is inappropriate
-  Current          Upstream-Status: Inappropriate
-  Standard format  Upstream-Status: Inappropriate [reason]
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at fc634c41e4)
 
 
 
