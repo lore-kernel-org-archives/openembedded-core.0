@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
-	[209.85.128.41])
-	by mail.openembedded.org (Postfix) with ESMTP id EE5A47D6B4
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id EC1586C149
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 15:22:25 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id p74so68322734wme.4
+	Fri,  2 Aug 2019 15:22:26 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id x1so27670946wrr.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Aug 2019 08:22:27 -0700 (PDT)
+	Fri, 02 Aug 2019 08:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=uvJ67W8o075E/YrVZ1pGi/442rNO85b1Ygy/SJCi3ug=;
-	b=M05HuLrvsrnGCERT22MJZZ1bTKZ4rZPZGGyeIAceKCQubX4ZBF6kPKUobaUVOhe4oR
-	E6YbtMlDVYJsqfUjbQ5r40CWsO10ILc/s/a/ePTU5T41Anj44pt+RyRvjjtB/Fs00+w7
-	bH/7jSr3fYFuRO11/1EDrCugd/pwPKaFkm3VQ=
+	bh=wY/F7Nws4fwCAHLI6tnIP33ig8kecDHWmGNsVw3T18c=;
+	b=M5Sb1cFvKVzRR7TJmQpiB7uS8PwQgq5Mqp5ZUx8t4xo/hLvvfAlrDhCrYcCbQuejPy
+	GYFadpIayGh20uhxN9sP2cbn2X4qgqA1dsydph9MGH5IaL78nXLpwjhx+K3XQUaAPqPM
+	qPP+V5dQTOLF4qgSfclDaztvpe/e9JAj8W/9Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=uvJ67W8o075E/YrVZ1pGi/442rNO85b1Ygy/SJCi3ug=;
-	b=hPopesChTT+Zf94zQRre4WQm/WFhAb0Sv/YVLipBDgcc2LXBqugnPnno/6SB6CsVhO
-	3qHMZJyS3M28XenkUmlyt5ma1TuLcZ9yeCH4r6KLKjcwMXSry9svPVPThj/A28cEC/Yj
-	LQW8tMbmzcS7oTO/JIC73VZNSJOsPsQICfP7k5KQvNACCr8jfsAXsIQnIJRJ5bGijBQJ
-	wdJyVsjlx8BcErh786uhQWRPdX3nCjixLsWUMiwltfcleH/FVorTXw3aCna7CuImV+cf
-	fqqsx3jrsZxVoatspyxX91IDM209zVNkY2GGZWxB58NK4WU8NG/OOsUz6WfnJejRG8at
-	VfCw==
-X-Gm-Message-State: APjAAAXrtv0KdQMZWJtjPvl6wYbyLnisqfC+bgydv8SjvsxTrlWOXCBj
-	PMJmJtOBbOB212M2GQn34ae5INxinPQ=
-X-Google-Smtp-Source: APXvYqwqeQC3lbNt/UAI3odfYMNnNo96bNwOP6eYo2wFlgMyCfHTWmn2jQrv37wEm2u1FvL46/8X5w==
-X-Received: by 2002:a1c:343:: with SMTP id 64mr5190486wmd.116.1564759346346;
-	Fri, 02 Aug 2019 08:22:26 -0700 (PDT)
+	bh=wY/F7Nws4fwCAHLI6tnIP33ig8kecDHWmGNsVw3T18c=;
+	b=muc0ruhvovTucwXJWcFudRFbNy4C74q6YqJyGRQZWOeDO2tuXyPJ5VKYadOMpozICX
+	Z6Ei+hiAYtK3VU9K+8Uc+UkDcAnRvnSgb8RllyRPVl1HJU4iOyoDGa+RY81CLT9e3NHd
+	3rMOCVIdOAl92ktO4NaM80TC4/Va1maAY/L6RKP5f1qGMqMQpbLK2wg4EJKWPEXBvtGl
+	eUI8f6Pc9gEC1KtNIywwzuYc1z5B6mvAlTbqsDfY8cWI4JjLUA6rbd6vB+YwtCsvcNJa
+	kkaZOmuSBLJu7c53m12N5TISeDaekZQLLxWWTeZvjWR8u29eS3sJ+lupgCRXDJ0fksh+
+	v1DA==
+X-Gm-Message-State: APjAAAV/vLkrcwiILCZTA6sHlyFQqSVtGeMApx2e+J6yS77LdYSCyn/k
+	Qcjm7QlLhj9Is5DlQqFzQg0vkasyID4=
+X-Google-Smtp-Source: APXvYqyIZ1PZDcUkwamYpegQgu0vbj2zrjAFK3Gat5ljxvqOImMqM5gIS9lGqQ+GzRz7XbF5aZd3Qw==
+X-Received: by 2002:a5d:494d:: with SMTP id r13mr3252144wrs.152.1564759347236; 
+	Fri, 02 Aug 2019 08:22:27 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	r4sm46734991wrq.82.2019.08.02.08.22.25
+	r4sm46734991wrq.82.2019.08.02.08.22.26
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 02 Aug 2019 08:22:25 -0700 (PDT)
+	Fri, 02 Aug 2019 08:22:26 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2019 16:22:18 +0100
-Message-Id: <20190802152220.16954-6-richard.purdie@linuxfoundation.org>
+Date: Fri,  2 Aug 2019 16:22:19 +0100
+Message-Id: <20190802152220.16954-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190802152220.16954-1-richard.purdie@linuxfoundation.org>
 References: <20190802152220.16954-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 6/8] sstatesig: Update to handle BB_HASHSERVE
+Subject: [PATCH 7/8] sstate/sstatesig: Update to new form of BB_HASHCHECK_FUNCTION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +58,210 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 15:22:26 -0000
+X-List-Received-Date: Fri, 02 Aug 2019 15:22:27 -0000
 Content-Transfer-Encoding: 8bit
 
-Update the code to handle BB_HASHSERV, an autostarted bitbake internal hash
-equivalency server suited to local developer usage.
+Bitbake has updated to a cleaned up form of BB_HASHCHECK_FUNCTION,
+adapt to this cleanup. This is an API breaking change.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf   | 2 +-
- meta/lib/oe/sstatesig.py | 8 ++++++--
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ meta/classes/sstate.bbclass | 80 ++++++++++++++++++-------------------
+ meta/lib/oe/sstatesig.py    | 13 +++---
+ 2 files changed, 45 insertions(+), 48 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 140f45b895b..ddcac09c5c7 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -885,7 +885,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
-     WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR BUILD_ARCH SSTATE_PKGARCH \
-     BB_WORKERCONTEXT BB_LIMITEDDEPS BB_UNIHASH extend_recipe_sysroot DEPLOY_DIR \
-     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_SERVER SSTATE_HASHEQUIV_REPORT_TASKDATA \
--    SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR"
-+    SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index ee029196dad..aa5841446c9 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -813,29 +813,26 @@ sstate_unpack_package () {
+ 
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+ 
+-def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False, *, sq_unihash=None):
+-
+-    ret = []
+-    missed = []
++def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, **kwargs):
++    found = set()
++    missed = set()
+     extension = ".tgz"
+     if siginfo:
+         extension = extension + ".siginfo"
+ 
+     def gethash(task):
+-        if sq_unihash is not None:
+-            return sq_unihash[task]
+-        return sq_hash[task]
++        return sq_data['unihash'][task]
+ 
+     def getpathcomponents(task, d):
+         # Magic data from BB_HASHFILENAME
+-        splithashfn = sq_hashfn[task].split(" ")
++        splithashfn = sq_data['hashfn'][task].split(" ")
+         spec = splithashfn[1]
+         if splithashfn[0] == "True":
+             extrapath = d.getVar("NATIVELSBSTRING") + "/"
+         else:
+             extrapath = ""
+-
+-        tname = sq_task[task][3:]
++        
++        tname = bb.runqueue.taskname_from_tid(task)[3:]
+ 
+         if tname in ["fetch", "unpack", "patch", "populate_lic", "preconfigure"] and splithashfn[2]:
+             spec = splithashfn[2]
+@@ -844,18 +841,18 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False, *,
+         return spec, extrapath, tname
+ 
+ 
+-    for task in range(len(sq_fn)):
++    for tid in sq_data['hash']:
+ 
+-        spec, extrapath, tname = getpathcomponents(task, d)
++        spec, extrapath, tname = getpathcomponents(tid, d)
+ 
+-        sstatefile = d.expand("${SSTATE_DIR}/" + extrapath + generate_sstatefn(spec, gethash(task), d) + "_" + tname + extension)
++        sstatefile = d.expand("${SSTATE_DIR}/" + extrapath + generate_sstatefn(spec, gethash(tid), d) + "_" + tname + extension)
+ 
+         if os.path.exists(sstatefile):
+             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
+-            ret.append(task)
++            found.add(tid)
+             continue
+         else:
+-            missed.append(task)
++            missed.add(tid)
+             bb.debug(2, "SState: Looked for but didn't find file %s" % sstatefile)
+ 
+     mirrors = d.getVar("SSTATE_MIRRORS")
+@@ -885,7 +882,7 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False, *,
+             thread_worker.connection_cache.close_connections()
+ 
+         def checkstatus(thread_worker, arg):
+-            (task, sstatefile) = arg
++            (tid, sstatefile) = arg
+ 
+             localdata2 = bb.data.createCopy(localdata)
+             srcuri = "file://" + sstatefile
+@@ -897,22 +894,22 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False, *,
+                             connection_cache=thread_worker.connection_cache)
+                 fetcher.checkstatus()
+                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
+-                ret.append(task)
+-                if task in missed:
+-                    missed.remove(task)
++                found.add(tid)
++                if tid in missed:
++                    missed.remove(tid)
+             except:
+-                missed.append(task)
++                missed.add(tid)
+                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
+                 pass
+             bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
+ 
+         tasklist = []
+-        for task in range(len(sq_fn)):
+-            if task in ret:
++        for tid in sq_data['hash']:
++            if tid in found:
+                 continue
+-            spec, extrapath, tname = getpathcomponents(task, d)
+-            sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(task), d) + "_" + tname + extension)
+-            tasklist.append((task, sstatefile))
++            spec, extrapath, tname = getpathcomponents(tid, d)
++            sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), d) + "_" + tname + extension)
++            tasklist.append((tid, sstatefile))
+ 
+         if tasklist:
+             msg = "Checking sstate mirror object availability"
+@@ -933,38 +930,37 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False, *,
+             bb.event.fire(bb.event.ProcessFinished(msg), d)
+ 
+     # Likely checking an individual task hash again for multiconfig sharing of sstate tasks so skip reporting
+-    if len(sq_fn) == 1:
+-        return ret
++    if len(sq_data['hash']) == 1:
++        return found
+ 
+     inheritlist = d.getVar("INHERIT")
+     if "toaster" in inheritlist:
+         evdata = {'missed': [], 'found': []};
+-        for task in missed:
+-            spec, extrapath, tname = getpathcomponents(task, d)
+-            sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(task), d) + "_" + tname + ".tgz")
+-            evdata['missed'].append( (sq_fn[task], sq_task[task], gethash(task), sstatefile ) )
+-        for task in ret:
+-            spec, extrapath, tname = getpathcomponents(task, d)
+-            sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(task), d) + "_" + tname + ".tgz")
+-            evdata['found'].append( (sq_fn[task], sq_task[task], gethash(task), sstatefile ) )
++        for tid in missed:
++            spec, extrapath, tname = getpathcomponents(tid, d)
++            sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), d) + "_" + tname + ".tgz")
++            evdata['missed'].append((bb.runqueue.fn_from_tid(tid), bb.runqueue.taskname_from_tid(tid), gethash(tid), sstatefile ) )
++        for tid in found:
++            spec, extrapath, tname = getpathcomponents(tid, d)
++            sstatefile = d.expand(extrapath + generate_sstatefn(spec, gethash(tid), d) + "_" + tname + ".tgz")
++            evdata['found'].append((bb.runqueue.fn_from_tid(tid), bb.runqueue.taskname_from_tid(tid), gethash(tid), sstatefile ) )
+         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
+ 
+     # Print some summary statistics about the current task completion and how much sstate
+     # reuse there was. Avoid divide by zero errors.
+-    total = len(sq_fn)
+-    currentcount = d.getVar("BB_SETSCENE_STAMPCURRENT_COUNT") or 0
++    total = len(sq_data['hash'])
+     complete = 0
+     if currentcount:
+-        complete = (len(ret) + currentcount) / (total + currentcount) * 100
++        complete = (len(found) + currentcount) / (total + currentcount) * 100
+     match = 0
+     if total:
+-        match = len(ret) / total * 100
+-    bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(ret), len(missed), currentcount, match, complete))
++        match = len(found) / total * 100
++    bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(found), len(missed), currentcount, match, complete))
+ 
+     if hasattr(bb.parse.siggen, "checkhashes"):
+-        bb.parse.siggen.checkhashes(missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d)
++        bb.parse.siggen.checkhashes(sq_data, missed, found, d)
+ 
+-    return ret
++    return found
+ 
+ BB_SETSCENE_DEPVALID = "setscene_depvalid"
+ 
 diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index f1a5af69c5e..3f926e3e515 100644
+index 3f926e3e515..80aafa0c2d1 100644
 --- a/meta/lib/oe/sstatesig.py
 +++ b/meta/lib/oe/sstatesig.py
-@@ -271,9 +271,13 @@ class SignatureGeneratorOEEquivHash(bb.siggen.SignatureGeneratorUniHashMixIn, Si
+@@ -235,19 +235,20 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+             for (pn, task, fn, taskhash) in sorted(tasks):
+                 f.write('%s.%s %s %s\n' % (pn, task, fn, taskhash))
  
-     def init_rundepcheck(self, data):
-         super().init_rundepcheck(data)
--        self.server = data.getVar('SSTATE_HASHEQUIV_SERVER')
-+        autostart = data.getVar('BB_HASHSERVE')
-+        if autostart:
-+            self.server = "http://" + autostart
-+        else:
-+            self.server = data.getVar('SSTATE_HASHEQUIV_SERVER')
-         if not self.server:
--            bb.fatal("OEEquivHash requires SSTATE_HASHEQUIV_SERVER to be set")
-+            bb.fatal("OEEquivHash requires SSTATE_HASHEQUIV_SERVER or BB_HASHSERVE to be set")
-         self.method = data.getVar('SSTATE_HASHEQUIV_METHOD')
-         if not self.method:
-             bb.fatal("OEEquivHash requires SSTATE_HASHEQUIV_METHOD to be set")
+-    def checkhashes(self, missed, ret, sq_fn, sq_task, sq_hash, sq_hashfn, d):
++    def checkhashes(self, sq_data, missed, found, d):
+         warn_msgs = []
+         error_msgs = []
+         sstate_missing_msgs = []
+ 
+-        for task in range(len(sq_fn)):
+-            if task not in ret:
++        for tid in sq_data['hash']:
++            if tid not in found:
+                 for pn in self.lockedsigs:
+-                    if sq_hash[task] in iter(self.lockedsigs[pn].values()):
+-                        if sq_task[task] == 'do_shared_workdir':
++                    taskname = bb.runqueue.taskname_from_tid(tid)
++                    if sq_data['hash'][tid] in iter(self.lockedsigs[pn].values()):
++                        if taskname == 'do_shared_workdir':
+                             continue
+                         sstate_missing_msgs.append("Locked sig is set for %s:%s (%s) yet not in sstate cache?"
+-                                               % (pn, sq_task[task], sq_hash[task]))
++                                               % (pn, taskname, sq_data['hash'][tid]))
+ 
+         checklevel = d.getVar("SIGGEN_LOCKEDSIGS_TASKSIG_CHECK")
+         if checklevel == 'warn':
 -- 
 2.20.1
 
