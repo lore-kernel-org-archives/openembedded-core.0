@@ -1,51 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
-	[209.85.222.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B53E7D270
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 05:17:59 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id r21so53949437qke.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2019 22:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZIse+oNGG1mULcJYLWioKYxBOc4kpEs2UoxkUbqny5I=;
-	b=YHyygI0oc9BRN6L00X9mxgWikrts9M92MNV3zuYnutvrP+s43VMWbPX4amIQJB3zwt
-	Ad6INngHxBYhfNEswP9+fjxFKsV8e3GqSzhg7HYF0SsB5A7XPbaxyAV5ems4mCQWhKnk
-	FGGZPjo5MX6GNFHOb29EjhNQq3fyT5LjrlgbFLkoVzn226Jc5xhgW1EPUuSeH5kzhooe
-	mIrmXwX0GEUeVOubYGXtSmWhwCS4YkBUARauvYyFANTxGKJFeu4R4qaSDK/xZ2g9+O6e
-	zR6cezVM5cNE2tfHj0F2Q9M4c0UH3ACmcHh89VWMtxNvh04/YclE5l1GUxXZ8OGadljh
-	r2Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZIse+oNGG1mULcJYLWioKYxBOc4kpEs2UoxkUbqny5I=;
-	b=DI6QgPK7T25FpF5W2apMBldIi6BNqVIWL4Zmd4l2w+W4wPLJk940cTL/TPBO3QL8C4
-	qDY/9rUtDXT9qjV6+1NukT+MAeeVlQnYyomBjCSf3KeOoVDNZC8PFC3gSAmPGHRprxvA
-	zpJ3oeWYm2YyQCOHPGoraTtlAlXd0BuSuJIKYOWRElSV37u4q568pR+JGj4mds9mzC7h
-	Uqo27S16lcAeZZTpw0AazSSndgU4GZHlGbBsVI6yy/9dW+YQQi/g2pnFVRI+HdQKji8N
-	k/NZ3k6AcciWwl7Ldfu3sGV1sg/Uc+hCoTAhS73R73lGCgjzZetD9wwROuWGm+Pg65FP
-	wD3A==
-X-Gm-Message-State: APjAAAXGiu0jNIqFsPNyP5YscP0BDo848wd00XqZ6myCE/6l1LMbeEz4
-	2NRXyZqzhnTzr8i2/wNnrt7mfoxIs9u1ZTR43mk=
-X-Google-Smtp-Source: APXvYqwgcoyoD5kxt7dzmvNmzKUj9V69YnhlAEd+LX12O5Wc7p5fM/UbQ+seektWrrV9X3Zfb1n2x/g+O8V9pLBdyRg=
-X-Received: by 2002:a37:4243:: with SMTP id p64mr71419882qka.9.1564723080042; 
-	Thu, 01 Aug 2019 22:18:00 -0700 (PDT)
+Return-Path: <prvs=110bfcb55=Mikko.Rapeli@bmw.de>
+Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com
+	[68.232.139.124])
+	by mail.openembedded.org (Postfix) with ESMTP id C17067F07B
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri,  2 Aug 2019 07:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1564731479; x=1596267479;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=x45KArdW+WnN6QjnPCy5SnkUzOozYClFI23GksIVLao=;
+	b=jzolXZ0/aqYhFUYcOofn8tmy9+jmORJzVtgB/kWr3vrcYomzJxr1QNWG
+	ExHpKQTpPAKmQEQ6sF6TnsLVz8gnMj02bJfkRoEweP46o9uvSbej8uW1+
+	4oxVcjuPolgJ3KRkR+BMmuzqZ22FOz1WIkgfdl8biAYjQ5iZGgnr3sh+j I=;
+IronPort-SDR: 58c7O0dRA6yeQdHq1Cj2E+6qNKlFb1cLH2LE6RgXxYgUYqZgLM3Jw3nd8alNdXfU2ishLuwekt
+	+EV5r09QaV5X+6zYU2pShpP/Yy9nEXiUqTUMXJrr5KuUQmw9knHFHg1KCy9SWC48mROAjyIhIv
+	jYlrjUgy94feL09qdh2YUg//GPqUrBeiNL0BWEwEKPkHh/bUNrt95IlU/ybcy7oNa1vaoVf5/c
+	VDAy3ZoIi6ug5dvm1bk1slGhJtMXL/nlP331SEVbVEUdnLRB8gyIRElyWvtfp+M+3Wenvsxw0Z
+	Ik8=
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+	esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 02 Aug 2019 09:37:57 +0200
+Received: from esabb4.muc ([160.50.100.33])  by esagw4.muc with ESMTP/TLS;
+	02 Aug 2019 09:37:43 +0200
+Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
+	([160.48.96.48])
+	by esabb4.muc with ESMTP/TLS; 02 Aug 2019 09:37:43 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10l.europe.bmw.corp
+	(160.48.96.48) with Microsoft SMTP Server (TLS;
+	Fri, 2 Aug 2019 09:37:43 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Fri, 2 Aug 2019 09:37:43 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <chris.laplante@agilent.com>
+Thread-Topic: [OE-core] RFC: exposing information about the SRC_URI(s)/branch
+	via buildhistory (or similar mechanism)
+Thread-Index: AdVIiV4bZ0XUaI6MTqawP3i+Dxw25gAawieA
+Date: Fri, 2 Aug 2019 07:37:43 +0000
+Message-ID: <20190802073741.GI3459@hiutale>
+References: <CY4PR12MB1653C06268B3B4B862119BE18BDE0@CY4PR12MB1653.namprd12.prod.outlook.com>
+In-Reply-To: <CY4PR12MB1653C06268B3B4B862119BE18BDE0@CY4PR12MB1653.namprd12.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.38]
 MIME-Version: 1.0
-References: <6ce08045-fb67-aab4-9ff5-9f8d511eeb78@topic.nl>
-	<99ef1d9c-c642-92b3-33b0-aafc38c8e62b@intel.com>
-	<63da8199-4e73-70e2-bcea-60f7e53a2e16@topic.nl>
-	<487ea47b-1db4-8c95-c0ad-661a56ccc07a@intel.com>
-	<b2880fb2-75a4-825a-6bbf-8a07df8cce55@topic.nl>
-In-Reply-To: <b2880fb2-75a4-825a-6bbf-8a07df8cce55@topic.nl>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 1 Aug 2019 22:17:44 -0700
-Message-ID: <CAMKF1spF9OXtEz+GCA6zzD1Wyr=q1cfaxJmA7xCXauN+CB18bg@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: SDK does not contain pkg-config files
+Cc: bitbake-devel@lists.openembedded.org,
+	Openembedded-core@lists.openembedded.org
+Subject: Re: RFC: exposing information about the SRC_URI(s)/branch via buildhistory (or similar mechanism)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +63,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 05:17:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 02 Aug 2019 07:37:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <554F7A9EB981D84B801809F9E48A023F@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 1, 2019 at 4:17 AM Mike Looijmans <mike.looijmans@topic.nl> wrote:
->
-> On 31-07-19 15:29, Ross Burton wrote:
-> > On 31/07/2019 14:22, Mike Looijmans wrote:
-> >> Well, that's at least good to know.
-> >>
-> >> I'm on the "thud" branch currently, so I hope this isn't something that got
-> >> fixed only recently.
-> >>
-> >> I'll try some simple images first. I gather there's no particular magic
-> >> incantation I need to put into my image recipe to get the pkg-config files
-> >> into the SDK sysroot?
-> >
-> > Right, they're just in the -dev packages.  I'd try building a
-> > core-image-minimal SDK to verify that works, as I suspect you've done
-> > something in your image to break the SDK.
->
-> I think I found it.
->
-> The image installs the dropbear SSH server, and the openssh-sftp-server. These
-> seem to cause a conflict, and then ALL the "-dev" packages get skipped.
->
-> The warning looks like this (I removed some sensitive information and a list
-> of a few hundred package names):
->
->
-> WARNING: prolira-delirium-image-1.0-r0 do_populate_sdk: Unable to install
-> packages. Command '.../..-image/1.0-r0/recipe-sysroot-native/usr/bin/opkg
-> --volatile-cache -f ... --force_postinstall --prefer-arch-to-version   install
-> ... binutils-dev liblzo2-dev ... libaio-dev' returned 1:
-> Collected errors:
->   * Solver encountered 1 problem(s):
->   * Problem 1/1:
->   *   - package openssh-dev-7.8p1+git-r0.cortexa9t2hf-neon requires openssh =
-> 7.8p1+git-r0, but none of the providers can be installed
->   *
->   * Solution 1:
->   *   - allow deinstallation of packagegroup-core-ssh-dropbear-1.0-r1.all
->
->   *   - do not ask to install a package providing dropbear-dev
->
->   *   - do not ask to install a package providing
-> packagegroup-core-ssh-dropbear-dev
->
->   * Solution 2:
->   *   - do not ask to install a package providing openssh-dev
->
->
->
-> If I remove "openssh-sftp-server" from the packages, the warning (which should
-> have been an error?) disappears and the resulting SDK properly contains all
-> the pkg-config files again.
->
-> I wonder if there's a proper fix to prevent this, i.e. break the link between
-> openssh-sftp-server and openssh-dev.
-> --
+Hi,
 
-RDEPENDS_${PN}-dev_remove =  "openssh-sftp-server"
+On Thu, Aug 01, 2019 at 04:51:38PM +0000, chris.laplante--- via Openembedde=
+d-core wrote:
+<snip>
+> I'm interesting in adding SRC_URI support to buildhistory (or a similar m=
+echanism), and would like to get some input.
 
-in openssh recipe might be able to do it
+Yes to this.
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Also would be nice if there was an easy way to add bitbake variables to
+buildhistory.
+
+I've patched our tree so that SRC_URI, LICENSE and CVE_PRODUCT are archived
+in buildhistory. SRC_URI has many uses and changes and patches can
+be easily identified. Same with LICENSE, any changes trigger a review.
+CVE_PRODUCT is exported so that we can do QA check to make sure mapping
+from CVE_PRODUCT for non CLOSED licenses exists to NVD database product
+names (maintaining a white list of recipes which don't have any CVEs yet).
+
+We've also changed the SDK name to be stable across builds and added
+DISTRO to the path. In our case IMAGE_NAME and SDK_NAME will include
+git tree tag and hash if tree is dirty, which changes buildhistory SDK path=
+s
+for every build with different input.
+
+I could submit the patches if there is interest in them.
+
+Cheers,
+
+-Mikko=
 
