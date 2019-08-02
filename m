@@ -1,56 +1,50 @@
-Return-Path: <prvs=110bfcb55=Mikko.Rapeli@bmw.de>
-Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com
-	[68.232.139.124])
-	by mail.openembedded.org (Postfix) with ESMTP id C17067F07B
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 07:37:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1564731479; x=1596267479;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=x45KArdW+WnN6QjnPCy5SnkUzOozYClFI23GksIVLao=;
-	b=jzolXZ0/aqYhFUYcOofn8tmy9+jmORJzVtgB/kWr3vrcYomzJxr1QNWG
-	ExHpKQTpPAKmQEQ6sF6TnsLVz8gnMj02bJfkRoEweP46o9uvSbej8uW1+
-	4oxVcjuPolgJ3KRkR+BMmuzqZ22FOz1WIkgfdl8biAYjQ5iZGgnr3sh+j I=;
-IronPort-SDR: 58c7O0dRA6yeQdHq1Cj2E+6qNKlFb1cLH2LE6RgXxYgUYqZgLM3Jw3nd8alNdXfU2ishLuwekt
-	+EV5r09QaV5X+6zYU2pShpP/Yy9nEXiUqTUMXJrr5KuUQmw9knHFHg1KCy9SWC48mROAjyIhIv
-	jYlrjUgy94feL09qdh2YUg//GPqUrBeiNL0BWEwEKPkHh/bUNrt95IlU/ybcy7oNa1vaoVf5/c
-	VDAy3ZoIi6ug5dvm1bk1slGhJtMXL/nlP331SEVbVEUdnLRB8gyIRElyWvtfp+M+3Wenvsxw0Z
-	Ik8=
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
-	esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 02 Aug 2019 09:37:57 +0200
-Received: from esabb4.muc ([160.50.100.33])  by esagw4.muc with ESMTP/TLS;
-	02 Aug 2019 09:37:43 +0200
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb4.muc with ESMTP/TLS; 02 Aug 2019 09:37:43 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Fri, 2 Aug 2019 09:37:43 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Fri, 2 Aug 2019 09:37:43 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <chris.laplante@agilent.com>
-Thread-Topic: [OE-core] RFC: exposing information about the SRC_URI(s)/branch
-	via buildhistory (or similar mechanism)
-Thread-Index: AdVIiV4bZ0XUaI6MTqawP3i+Dxw25gAawieA
-Date: Fri, 2 Aug 2019 07:37:43 +0000
-Message-ID: <20190802073741.GI3459@hiutale>
-References: <CY4PR12MB1653C06268B3B4B862119BE18BDE0@CY4PR12MB1653.namprd12.prod.outlook.com>
-In-Reply-To: <CY4PR12MB1653C06268B3B4B862119BE18BDE0@CY4PR12MB1653.namprd12.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.38]
-MIME-Version: 1.0
-Cc: bitbake-devel@lists.openembedded.org,
-	Openembedded-core@lists.openembedded.org
-Subject: Re: RFC: exposing information about the SRC_URI(s)/branch via buildhistory (or similar mechanism)
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B8E1E7CE5E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  2 Aug 2019 09:12:50 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id k21so71748107edq.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Aug 2019 02:12:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=HXak1Qsc9gmEl+z//RAKM77fcQPKcAuCdO6C/2KCVM0=;
+	b=baUe1713FSKpTvZV/tzRdJRJoBFGoyGVhztmKJS3Ku+zn38z8V7mtz9rKgxfFg/+HV
+	SK30iQurnLJfhwyXbKGRtfLhGNdFie3C9sqJGTTnb6+TyFWEG18g7rRJ1+hFs3ZOtLB5
+	Md/OkBfzxnJyCSz4cOg8977oyXUIIILDC3Ez+fepSaWFIx4NpucRdzrkTXSXrQsjFcNn
+	OGCbkoJ1V/xP2zeSz3zro+lGik67MFaUDkNv9ry3OmD1W0bbvuYl6xbtLOc2dEAd7ZgK
+	NIAhmqBI4bMPeOqxdMnvQMjHS47vCdnGeGcWCH9PzynVpceMVzvuhkOAUUYcuige056g
+	6iqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=HXak1Qsc9gmEl+z//RAKM77fcQPKcAuCdO6C/2KCVM0=;
+	b=OlW7buw9uJzzyyiZjG7M9RKznk0bOrPENc4h6oepquuS/mKa54jFeMY2MjDn7VZo+T
+	SaatPWNLUijYHOp4U5avafDAeKhdWdCBYQanKzTUTWTHHDJY4Xg6OPA1e5bi6pbRjZDy
+	Xubd/GWutU85pMhQWh4F5Ch8PD1uG6k1diW6ibqklJBqQojtiQ3HNrZoLhqAxAfyGAYk
+	OReWBiiLhdQAnO3anIO7tRxqUQw2S+3tShSNzmR5XVz83Lce+3Wzs05tgjtMKYZRGN2j
+	gqc3LZVxSegd5TT17zQzIRt8pWlA6jVCWIIQPbOTA7qqMdyRC6Nyj6TFawoJFBQm4oDy
+	nAkg==
+X-Gm-Message-State: APjAAAWzKPkMUrGOGm63B+2p80PA4SjEEpMud1fBZeM3jVit0u6f+1bZ
+	Y3uPu+mPgEidbmbTrk9jDT9oU2guI94=
+X-Google-Smtp-Source: APXvYqw3Zpe1fME+QNvjpDn28ZDoQB2G9gKsaxhtZT3um+P2Tkt6KB7f/Sho1nCwKgy5S1oed5NYkQ==
+X-Received: by 2002:a17:906:24c1:: with SMTP id
+	f1mr103092585ejb.285.1564737171311; 
+	Fri, 02 Aug 2019 02:12:51 -0700 (PDT)
+Received: from peterliu-Precision-7530.toradex.int ([27.191.202.28])
+	by smtp.gmail.com with ESMTPSA id
+	v8sm17675500edy.14.2019.08.02.02.12.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 02 Aug 2019 02:12:50 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Aug 2019 17:12:43 +0800
+Message-Id: <1564737163-4640-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: marcel.ziswiler@toradex.com, Ming Liu <ming.liu@toradex.com>,
+	stefan.agner@toradex.com
+Subject: [PATCH] image.bbclass: exclude deploy-${PN}-image-complete from rm_work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,41 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 07:37:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <554F7A9EB981D84B801809F9E48A023F@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 02 Aug 2019 09:12:51 -0000
 
-Hi,
+From: Ming Liu <ming.liu@toradex.com>
 
-On Thu, Aug 01, 2019 at 04:51:38PM +0000, chris.laplante--- via Openembedde=
-d-core wrote:
-<snip>
-> I'm interesting in adding SRC_URI support to buildhistory (or a similar m=
-echanism), and would like to get some input.
+The results in ${IMGDEPLOYDIR} generated by a image task could be used
+by later image tasks, hence they should be excluded by rm_work. Or else
+when a image task gets rerun but one of its dependent image task does
+not, then the results generated by this dependent image task would not
+be there in ${IMGDEPLOYDIR}.
 
-Yes to this.
+Signed-off-by: Ming Liu <ming.liu@toradex.com>
+---
+ meta/classes/image.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Also would be nice if there was an easy way to add bitbake variables to
-buildhistory.
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 682858d..d16e285 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -84,6 +84,10 @@ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
+ 
+ IMGDEPLOYDIR = "${WORKDIR}/deploy-${PN}-image-complete"
+ 
++# The results in ${IMGDEPLOYDIR} generated by a image task could be used by
++# later image tasks, hence they should be excluded by rm_work.
++RM_WORK_EXCLUDE_ITEMS += "deploy-${PN}-image-complete"
++
+ # Images are generally built explicitly, do not need to be part of world.
+ EXCLUDE_FROM_WORLD = "1"
+ 
+-- 
+2.7.4
 
-I've patched our tree so that SRC_URI, LICENSE and CVE_PRODUCT are archived
-in buildhistory. SRC_URI has many uses and changes and patches can
-be easily identified. Same with LICENSE, any changes trigger a review.
-CVE_PRODUCT is exported so that we can do QA check to make sure mapping
-from CVE_PRODUCT for non CLOSED licenses exists to NVD database product
-names (maintaining a white list of recipes which don't have any CVEs yet).
-
-We've also changed the SDK name to be stable across builds and added
-DISTRO to the path. In our case IMAGE_NAME and SDK_NAME will include
-git tree tag and hash if tree is dirty, which changes buildhistory SDK path=
-s
-for every build with different input.
-
-I could submit the patches if there is interest in them.
-
-Cheers,
-
--Mikko=
 
