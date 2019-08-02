@@ -1,57 +1,44 @@
-Return-Path: <prvs=110bfcb55=Mikko.Rapeli@bmw.de>
-Received: from esa10.bmw.c3s2.iphmx.com (esa10.bmw.c3s2.iphmx.com
-	[68.232.139.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 77B6B7C7A9
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FCEA7F2EF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 10:25:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1564741552; x=1596277552;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=8kQTxCkpApd28OavfY5TrNescpYZU6cRrzseVigiLKU=;
-	b=mM6/7czo+/dgOaCkW/kacQIjenfF4RUaJnVNoWIfz0IbhHzOPYGgGQcq
-	Oj6RRVctg40ZcFXY2LGckNT07GoZinFTdmrkM/tURuMD0nBZxOaIFMw41
-	O0yXCM7sMlB1Q+1lmFKY1tgm4oA7pB8C4u3xi0bbK1Zua/r4ie/ejo6J5 Q=;
-IronPort-SDR: 8kEVgeh/h/ekJTB56ijzNwikpzWkugetm9YVpHdsec7+JWjfZlg0UbZOLNaJf5B0Q0vWMA1Y2H
-	u9PJbG1rq7IgS4R8KadYe0Cj4jjrSG4tYVSWXiWJXei5AeTYJtfKPqU4XkE450tMmYCWLGfLDc
-	gZX5/DGob+ZQ/OzWBHc01rSO4OYlhDejrM887BwvHgjehGGziaWEl1PQhS+K87gvbDsseH3NGj
-	zvS8q+jA0MGVevU6sNu0GazJLJ3zMuo34KRakFpH5hOlWm0nN6FFQqGUid0ekpbSv9MR2YozFA
-	DW4=
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
-	esa10.bmw.c3s2.iphmx.com with ESMTP/TLS; 02 Aug 2019 12:25:51 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw6.muc with ESMTP/TLS;
-	02 Aug 2019 12:25:50 +0200
-Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
-	([160.48.96.47])
-	by esabb2.muc with ESMTP/TLS; 02 Aug 2019 12:25:50 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10k.europe.bmw.corp
-	(160.48.96.47) with Microsoft SMTP Server (TLS;
-	Fri, 2 Aug 2019 12:25:50 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Fri, 2 Aug 2019 12:25:50 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 1/1] kill-bb: Add it for killing abnormal
-	bitbake processes
-Thread-Index: AQHVSRwcPOL0TpneREWUJYdDMQlraqbnhZAA
-Date: Fri, 2 Aug 2019 10:25:50 +0000
-Message-ID: <20190802102549.GL3459@hiutale>
-References: <cover.1564741458.git.liezhi.yang@windriver.com>
-	<6e12b495c74cfe8497e067fe1b4c4b823c6d4abe.1564741458.git.liezhi.yang@windriver.com>
-	<67a9995b-8401-7308-bb0b-b6b81da03abb@intel.com>
-In-Reply-To: <67a9995b-8401-7308-bb0b-b6b81da03abb@intel.com>
-Accept-Language: en-US
+	Fri,  2 Aug 2019 10:51:02 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,337,1559491200"; d="scan'208";a="72749489"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 02 Aug 2019 18:51:02 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id C596D4CDCCC4;
+	Fri,  2 Aug 2019 18:51:03 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0439.000; Fri, 2 Aug 2019 18:51:05 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] toolchain-scripts: make rpm work in toolchain
+Thread-Index: AQHU+/TDIwoyJadc00aYDkPgmXccEqZgID6AgAmfCQCAFeluAIALOKKAgF1nDPA=
+Date: Fri, 2 Aug 2019 10:51:03 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B60024@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF0FB0C1@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF1002A6@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF1026BA@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF123A0E@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
+In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
+Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.45]
+x-originating-ip: [10.167.225.35]
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kill-bb: Add it for killing abnormal bitbake processes
+X-yoursite-MailScanner-ID: C596D4CDCCC4.AEB15
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] toolchain-scripts: make rpm work in toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,34 +51,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 10:25:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <BF22C5E315394445A8DEF1A624F0F2DC@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 02 Aug 2019 10:51:03 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-On Fri, Aug 02, 2019 at 11:21:24AM +0100, Ross Burton wrote:
-> On 02/08/2019 11:24, Robert Yang wrote:
-> > There might be processes left after Ctr-C, e.g.:
-> > $ rm -f tmp/cache/default-glibc/qemux86/x86_64/
-> > $ bitbake -p
-> >=20
-> > Press 'Ctrl-C' multiple times during parsing, then bitbake processes ma=
-y not
-> > exit, and the worse is that we can't start bitbake again, we can't alwa=
-ys
-> > reproduce this, but sometime. We can only use "ps ux" to find the proce=
-sses and
-> > kill them one by one. This tool can kill all of them easily.
-> I've noticed this, and also noticed that it got a lot worse recently.
->=20
-> But let's fix bitbake instead of adding tools to work around it?
-
-I run builds in lxc containers for this and host contamination reasons.
-
-Several build tools can also escape the bitbake environment and keep
-running in the build machine if bitbake itself ends or gets killed,
-so the problems are not only with bitbake.
-
--Mikko=
+cGluZw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3Ug
+TmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjog
+Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5h
+bmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24u
+ZnVqaXN0dS5jb20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
+DQo+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KPiBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJv
+dW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24gQmVoYWxmIE9mDQo+
+IExlaSwgTWFvaHVpDQo+IFNlbnQ6IFR1ZXNkYXksIEp1bmUgMDQsIDIwMTkg
+NDozMCBQTQ0KPiBUbzogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGll
+QGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+IENjOiBvcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0Ut
+Y29yZV0gW1BBVENIXSB0b29sY2hhaW4tc2NyaXB0czogbWFrZSBycG0gd29y
+ayBpbiB0b29sY2hhaW4NCj4gDQo+IEhpIFJpY2hhcmQNCj4gDQo+IFRoaXMg
+cGF0Y2ggaXMgbmVjZXNzYXJ5IGZvciBkbmYtbmF0aXZlc2RrIHdoaWNoIGhh
+cyBiZWVuIG1lcmdlZC4gQnV0IHRoaXMgcGF0Y2gNCj4gaXMgc3RpbGwgaWdu
+b3JlZC4NCj4gRG8geW91IGhhdmUgYW55IGNvbW1lbnQgYWJvdXQgdGhpcyBw
+YXRjaD8NCj4gDQo+IEJlc3QgcmVnYXJkcy4NCj4gTGVpIE1hb2h1aQ0KPiAN
+Cj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9t
+OiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcNCj4gPiBbbWFpbHRvOm9wZW5lbWJlZGRlZC0gY29yZS1ib3VuY2Vz
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZg0KPiA+IE9mIExl
+aSwgTWFvaHVpDQo+ID4gU2VudDogVHVlc2RheSwgTWF5IDI4LCAyMDE5IDE6
+MDggUE0NCj4gPiBUbzogUmljaGFyZCBQdXJkaWU7IG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtQQVRDSF0gdG9vbGNoYWluLXNjcmlwdHM6IG1ha2UgcnBt
+IHdvcmsgaW4NCj4gPiB0b29sY2hhaW4NCj4gPg0KPiA+IHBpbmcNCj4gPg0K
+PiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206
+IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZw0KPiA+ID4gW21haWx0bzpvcGVuZW1iZWRkZWQtIGNvcmUtYm91bmNl
+c0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYNCj4gPiA+IE9m
+IExlaSwgTWFvaHVpDQo+ID4gPiBTZW50OiBUdWVzZGF5LCBNYXkgMTQsIDIw
+MTkgMjozMSBQTQ0KPiA+ID4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29y
+ZV0gW1BBVENIXSB0b29sY2hhaW4tc2NyaXB0czogbWFrZSBycG0gd29yayBp
+bg0KPiA+ID4gdG9vbGNoYWluDQo+ID4gPg0KPiA+ID4gSGksDQo+ID4gPg0K
+PiA+ID4gVGhpcyBwYXRjaCBoYXNuJ3QgYmVlbiBtZXJnZWQgeWV0LiBBcmUg
+dGhlcmUgYW55IHN1Z2dlc3Rpb25zPw0KPiA+ID4NCj4gPiA+IEJlc3QgcmVn
+YXJkcw0KPiA+ID4gTGVpDQo+ID4gPg0KPiA+ID4gPiAtLS0tLU9yaWdpbmFs
+IE1lc3NhZ2UtLS0tLQ0KPiA+ID4gPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29y
+ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBbbWFpbHRv
+Om9wZW5lbWJlZGRlZC0NCj4gPiA+ID4gY29yZS1ib3VuY2VzQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBMZWksIE1hb2h1aQ0KPiA+
+ID4gPiBTZW50OiBXZWRuZXNkYXksIE1heSAwOCwgMjAxOSAxMTozNiBBTQ0K
+PiA+ID4gPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZw0KPiA+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRD
+SF0gdG9vbGNoYWluLXNjcmlwdHM6IG1ha2UgcnBtIHdvcmsgaW4NCj4gPiB0
+b29sY2hhaW4NCj4gPiA+ID4NCj4gPiA+ID4gUGluZw0KPiA+ID4gPg0KPiA+
+ID4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiA+ID4g
+RnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnDQo+ID4gPiBbbWFpbHRvOm9wZW5lbWJlZGRlZC0NCj4gPiA+
+ID4gPiBjb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24g
+QmVoYWxmIE9mIExlaSwgTWFvaHVpDQo+ID4gPiA+ID4gU2VudDogRnJpZGF5
+LCBBcHJpbCAyNiwgMjAxOSAxOjU2IFBNDQo+ID4gPiA+ID4gVG86IG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+ID4g
+PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gdG9vbGNoYWluLXNj
+cmlwdHM6IG1ha2UgcnBtIHdvcmsNCj4gPiA+ID4gPiBpbg0KPiA+ID4gdG9v
+bGNoYWluDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBIaSwNCj4gPiA+ID4gPg0K
+PiA+ID4gPiA+IEkgbm90aWNlZCB0aGF0ICIgZG5mOiBFbmFibGUgbmF0aXZl
+c2RrICIgaGFzIGJlZW4gbWVyZ2VkIGludG8gbWFzdGVyLW5leHQuDQo+ID4g
+PiA+IFRoaXMNCj4gPiA+ID4gPiBwYXRjaCBpcyBuZWNlc3NhcnkgZm9yIGRu
+Zi1uYXRpdmVzZGssIHNvIHBsZWFzZSBtZXJnZSB0b28uDQo+ID4gPiA+ID4N
+Cj4gPiA+ID4gPiBCZXN0IHJlZ2FyZHMNCj4gPiA+ID4gPiBMZWkNCj4gPiA+
+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAtLS0tLU9yaWdpbmFsIE1l
+c3NhZ2UtLS0tLQ0KPiA+ID4gPiA+ID4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
+cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiA+IFtt
+YWlsdG86b3BlbmVtYmVkZGVkLQ0KPiA+ID4gPiA+ID4gY29yZS1ib3VuY2Vz
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBaaGVuZywN
+Cj4gPiA+ID4gPiA+IFJ1b3Fpbg0KPiA+ID4gPiA+ID4gU2VudDogRnJpZGF5
+LCBBcHJpbCAxOSwgMjAxOSAxMDo1NSBBTQ0KPiA+ID4gPiA+ID4gVG86IG9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+
+ID4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSB0b29sY2hh
+aW4tc2NyaXB0czogbWFrZSBycG0NCj4gPiA+ID4gPiA+IHdvcmsgaW4NCj4g
+PiA+ID4gdG9vbGNoYWluDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gcGlu
+Zw0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IC0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiA+ID4g
+PiBaaGVuZyBSdW9xaW4NCj4gPiA+ID4gPiA+IE5hbmppbmcgRnVqaXRzdSBO
+YW5kYSBTb2Z0d2FyZSBUZWNoLiBDby4sIEx0ZC4oRk5TVCkNCj4gPiA+ID4g
+PiA+IEFERFIuOiBOby42IFdlbnpodSBSb2FkLCBTb2Z0d2FyZSBBdmVudWUs
+DQo+ID4gPiA+ID4gPiAgICAgICAgTmFuamluZywgMjEwMDEyLCBDaGluYQ0K
+PiA+ID4gPiA+ID4gTUFJTCA6IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1LmNv
+bQ0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+IC0t
+LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiA+ID4gPiA+IEZyb206
+IFpoZW5nLCBSdW9xaW4NCj4gPiA+ID4gPiA+ID4gU2VudDogU2F0dXJkYXks
+IEFwcmlsIDEzLCAyMDE5IDEwOjM3IFBNDQo+ID4gPiA+ID4gPiA+IFRvOiBv
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4g
+PiA+ID4gPiA+IENjOiBaaGVuZywgUnVvcWluIDx6aGVuZ3JxLmZuc3RAY24u
+ZnVqaXRzdS5jb20+DQo+ID4gPiA+ID4gPiA+IFN1YmplY3Q6IFtPRS1jb3Jl
+XVtQQVRDSF0gdG9vbGNoYWluLXNjcmlwdHM6IG1ha2UgcnBtIHdvcmsNCj4g
+PiA+ID4gPiA+ID4gaW4NCj4gPiB0b29sY2hhaW4NCj4gPiA+ID4gPiA+ID4N
+Cj4gPiA+ID4gPiA+ID4gUnBtIG5lZWQgdG8gcmVhZCB0aGUgYXJjaCBpbmZv
+LCBidXQgJHNjcmlwdCBkaWQgbm90IHByb3ZpZGUNCj4gPiA+ID4gPiA+ID4g
+aXQsIHNvDQo+ID4gYWRkDQo+ID4gPiBpdC4NCj4gPiA+ID4gPiA+ID4NCj4g
+PiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogWmhlbmcgUnVvcWluIDx6aGVu
+Z3JxLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+ID4gPiA+ID4gPiA+IC0tLQ0K
+PiA+ID4gPiA+ID4gPiAgbWV0YS9jbGFzc2VzL3Rvb2xjaGFpbi1zY3JpcHRz
+LmJiY2xhc3MgfCAxICsNCj4gPiA+ID4gPiA+ID4gIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKQ0KPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4g
+PiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL3Rvb2xjaGFpbi1zY3JpcHRz
+LmJiY2xhc3MNCj4gPiA+ID4gPiBiL21ldGEvY2xhc3Nlcy90b29sY2hhaW4t
+DQo+ID4gPiA+ID4gPiA+IHNjcmlwdHMuYmJjbGFzcw0KPiA+ID4gPiA+ID4g
+PiBpbmRleCAxYTJlYzRmLi5kZTUwYjdlIDEwMDY0NA0KPiA+ID4gPiA+ID4g
+PiAtLS0gYS9tZXRhL2NsYXNzZXMvdG9vbGNoYWluLXNjcmlwdHMuYmJjbGFz
+cw0KPiA+ID4gPiA+ID4gPiArKysgYi9tZXRhL2NsYXNzZXMvdG9vbGNoYWlu
+LXNjcmlwdHMuYmJjbGFzcw0KPiA+ID4gPiA+ID4gPiBAQCAtMTAxLDYgKzEw
+MSw3IEBAIHRvb2xjaGFpbl9zaGFyZWRfZW52X3NjcmlwdCAoKSB7DQo+ID4g
+PiA+ID4gPiA+ICAJZWNobyAnZXhwb3J0IENQUEZMQUdTPSIke1RBUkdFVF9D
+UFBGTEFHU30iJyA+PiAkc2NyaXB0DQo+ID4gPiA+ID4gPiA+ICAJZWNobyAn
+ZXhwb3J0IEtDRkxBR1M9Ii0tc3lzcm9vdD0kU0RLVEFSR0VUU1lTUk9PVCIn
+ID4+DQo+ICRzY3JpcHQNCj4gPiA+ID4gPiA+ID4gIAllY2hvICdleHBvcnQN
+Cj4gT0VDT1JFX0RJU1RST19WRVJTSU9OPSIke0RJU1RST19WRVJTSU9OfSIn
+ID4+DQo+ID4gPiA+ID4gPiA+ICRzY3JpcHQNCj4gPiA+ID4gPiA+ID4gKwll
+Y2hvICdleHBvcnQgTUFDSElORV9BUkNIPSR7TUFDSElORV9BUkNIfScgPj4g
+JHNjcmlwdA0KPiA+ID4gPiA+ID4gPiAgCWVjaG8gJ2V4cG9ydCBPRUNPUkVf
+U0RLX1ZFUlNJT049IiR7U0RLX1ZFUlNJT059IicgPj4NCj4gJHNjcmlwdA0K
+PiA+ID4gPiA+ID4gPiAgCWVjaG8gJ2V4cG9ydCBBUkNIPSR7QVJDSH0nID4+
+ICRzY3JpcHQNCj4gPiA+ID4gPiA+ID4gIAllY2hvICdleHBvcnQgQ1JPU1Nf
+Q09NUElMRT0ke1RBUkdFVF9QUkVGSVh9JyA+PiAkc2NyaXB0DQo+ID4gPiA+
+ID4gPiA+IC0tDQo+ID4gPiA+ID4gPiA+IDEuOC4zLjENCj4gPiA+ID4gPiA+
+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IC0tDQo+
+ID4gPiA+ID4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXw0KPiA+ID4gPiA+ID4gT3BlbmVtYmVkZGVkLWNvcmUg
+bWFpbGluZyBsaXN0DQo+ID4gPiA+ID4gPiBPcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiA+ID4gPiBodHRwOi8vbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJl
+ZGRlZC1jbw0KPiA+ID4gPiA+ID4gcmUNCj4gPiA+ID4gPg0KPiA+ID4gPiA+
+DQo+ID4gPiA+ID4gLS0NCj4gPiA+ID4gPiBfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+ID4gPiA+IE9wZW5l
+bWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiA+ID4gPiA+IE9wZW5lbWJl
+ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+ID4gPiBo
+dHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L29wZW5lbWJlZGRlZC1jb3JlDQo+ID4gPiA+DQo+ID4gPiA+DQo+ID4gPiA+
+IC0tDQo+ID4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fDQo+ID4gPiA+IE9wZW5lbWJlZGRlZC1jb3JlIG1h
+aWxpbmcgbGlzdA0KPiA+ID4gPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnDQo+ID4gPiA+IGh0dHA6Ly9saXN0cy5vcGVuZW1i
+ZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUN
+Cj4gPiA+DQo+ID4gPg0KPiA+ID4gLS0NCj4gPiA+IF9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4gPiBPcGVu
+ZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gPiA+IE9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IGh0dHA6Ly9s
+aXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVt
+YmVkZGVkLWNvcmUNCj4gPg0KPiA+DQo+ID4gLS0NCj4gPiBfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+IE9w
+ZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiA+IE9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBodHRwOi8vbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJl
+ZGRlZC1jb3JlDQo+IA0KPiANCj4gLS0NCj4gX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gT3BlbmVtYmVkZGVk
+LWNvcmUgbWFpbGluZyBsaXN0DQo+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNCj4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KCgo=
 
