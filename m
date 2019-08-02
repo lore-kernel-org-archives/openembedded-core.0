@@ -1,54 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BAAB67F394
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id F24927D25F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 20:37:25 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id s15so46133787wmj.3
+	Fri,  2 Aug 2019 20:37:26 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id p74so69093393wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Aug 2019 13:37:27 -0700 (PDT)
+	Fri, 02 Aug 2019 13:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=clocniWax+N9fQmgQc3cuLSgPsP4Xm2vobtBRX/YtR0=;
-	b=vXcBJxvH4eH0t5SPlBffqW+D6hyFFRaPDKjMeMIVw+G4ssJz//HQy/j4KuMH3lR4TC
-	H1ZgmMUJI54xvLAHXnQlZ+cQM3LyaPtPFC/Ie5U+fCTacfVLpW4koG2n9qwSBx2dk4zg
-	pYAHj6HWLoo6q7VAp6F0GycdMOECrHMB9258MQMDFXVDXFkp6R10SiU2AVhfdJO1NhfY
-	3bacJLBlcywJqw/dacMTLjIoFpsWBJOuj0i0BWEIGJll8qBeuhDO5dDf4zOJCnR8MeuB
-	5OhW+4ng7Ws+J7qwJlckSUW/kBlcUxQgrAPTBOQ4tcplYA8hDxCjS+W3CA7Rqh08uf/B
-	xGWg==
+	bh=BMhusBfw3tIi/kpPIZYLpU9etaPIkof40VIYukrx0eg=;
+	b=C2BDn3mXmJ6aOs1YqDlcsGeFpCJlwuB7skc0eHIxLj9sKq8/7gaNWEumAoOdUIKYE7
+	wwU260QdbYrsFMAWQMb3mSupADq2H+af2MFAfBNDhAJVsjcZtaPovnfhYgu6eJw3iJ7t
+	o6TGA8Oz+qXr5iAbQVNeP1ZBbD8a8UrDGeHa7C5qkTjfwE9Vk7BPbL3UyHrTa5504F/a
+	dAmm2FqWPVbH1ZteOuFQ7XYtr5Tj2rni1B074zMjANcJqAWFAch3AM+QRY/lBVMttC3v
+	eyaAbN2xxCWUbhCpnI61KZX/otbl163Vm8Vc7wsantkhVYc3CB/P1g9v5hI+GlpKyk3C
+	dfRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=clocniWax+N9fQmgQc3cuLSgPsP4Xm2vobtBRX/YtR0=;
-	b=n/lZgLDyz01p7bCoKGd+LO1nnUFHPW9I7I0gQuUOEu0XIVa9GtTXkOwrDjbPCBlLjA
-	i7TGtn3WVwknw4ze5kWc4pJVkgsbHcEDnrceKAs/jUm4jelLJMi2lcjcz6de+m3X9Inn
-	KcLRHJ8HAnipmb3T65t61uNbHnPGGuSeAp6p302wKhSu+nsIeGMA+1jtjxb6Bf5xBXqy
-	qy+j7BREMT4mjQKk4jTST5z1eEHUaBl2hqDOnOxsFJgbvKe4xqQmYFjKmMXVe2qBkyU5
-	1thIC5jqwbGS1Sie8RSskL0MJfbmzom8ayD4654iRCLFFsf9a/ZNEFIqYj0lZwOV0/Vk
-	dEUA==
-X-Gm-Message-State: APjAAAVD8xFauQbMoyA+rPAxiNDHLuZi1n2X2a5SDplPEQlm8iNRYCvJ
-	tfcqlJ8/wOaopeS2QIZlxXUe0Pu3FNg=
-X-Google-Smtp-Source: APXvYqzpDnB15HjKqjylgDzoija0QmMa7LdQFuhO10AgEHd3joZm5Ie28qXnbBvkpEcoWCNSQiPkrg==
-X-Received: by 2002:a1c:345:: with SMTP id 66mr5826889wmd.8.1564778246354;
-	Fri, 02 Aug 2019 13:37:26 -0700 (PDT)
+	bh=BMhusBfw3tIi/kpPIZYLpU9etaPIkof40VIYukrx0eg=;
+	b=T7b4NEonH3RkfVvKHL9GPksAAo81FupzXCiYkY4JEYF1RJrbYCkf9mqEPgtXbPb2fp
+	MGZUw/la9wmRKc1WQGlJYpsCKdbQlGDkLbGXW2R2r9MtB9SeFWyHMkTkO0uhORLN222R
+	swJ06okTjs26gJk8OakP0gw3yRZR2HtG6fBngidAqQCjUJxWOmEy6I9ETe1hyc0pR1c/
+	M2Io6kS8+pD9tTKJSB8sS6XBhx3WKgpaRQeDTsfSR6kAvynTH9WoAR+hnnT2Esa1KtCe
+	tUp4TwSpmvdrN5StoM/sTA7Zcb4MrXpY+A/93wD/ogg7mc+eaR6iOc6UrMD16wtiUxKq
+	Fb1w==
+X-Gm-Message-State: APjAAAVgggc7njNYaeRAFoMqtDWipVugCTc/SHyLpIUUYlWgHIFgDfRM
+	RdKJl5wLlZossVc29ZvNzZGnoMKkdHA=
+X-Google-Smtp-Source: APXvYqzckyIFAappOR0Rv1yMx7VMpHtvlldyaMUB7a+RsjzvF5kReCgAIzKp6AXWe/3kQ4kOaZY/Fw==
+X-Received: by 2002:a7b:cbc6:: with SMTP id n6mr5967240wmi.14.1564778247472;
+	Fri, 02 Aug 2019 13:37:27 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	n1sm59083910wrx.39.2019.08.02.13.37.25
+	n1sm59083910wrx.39.2019.08.02.13.37.26
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 02 Aug 2019 13:37:25 -0700 (PDT)
+	Fri, 02 Aug 2019 13:37:26 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2019 21:37:14 +0100
-Message-Id: <20190802203719.20437-4-ross.burton@intel.com>
+Date: Fri,  2 Aug 2019 21:37:15 +0100
+Message-Id: <20190802203719.20437-5-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190802203719.20437-1-ross.burton@intel.com>
 References: <20190802203719.20437-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/9] xdpyinfo: don't depend on DGA
+Subject: [PATCH 5/9] libxx86dga: remove obsolete client libary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,31 +61,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 20:37:26 -0000
+X-List-Received-Date: Fri, 02 Aug 2019 20:37:27 -0000
 Content-Transfer-Encoding: 8bit
 
-DGA (Direct Graphics Access) is an obsolete extension that neither modern X
-drivers nor applications support.  We'll remove the client library, so remove
-the optional dependency on DGA in xdpyinfo.
+No modern drivers nor applications use DGA, so remove the client library.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-app/xdpyinfo_1.3.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ .../xorg-lib/libxxf86dga_1.1.5.bb             | 19 -------------------
+ 2 files changed, 20 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb
 
-diff --git a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.2.bb b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.2.bb
-index a09e220f9d0..2d10b7acca7 100644
---- a/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.2.bb
-+++ b/meta/recipes-graphics/xorg-app/xdpyinfo_1.3.2.bb
-@@ -9,7 +9,7 @@ clients and the server, and the different types of screens and visuals \
- that are available."
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=f3d09e6b9e203a1af489e16c708f4fb3"
--DEPENDS += "libxtst libxext libxxf86vm libxxf86dga libxi libxrender libxinerama libdmx libxau libxcomposite"
-+DEPENDS += "libxtst libxext libxxf86vm libxi libxrender libxinerama libdmx libxau libxcomposite"
- PE = "1"
- 
- SRC_URI += "file://disable-xkb.patch"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 0bb4a57248f..d9ef9bf1fdb 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -442,7 +442,6 @@ RECIPE_MAINTAINER_pn-libxt = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libxtst = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libxv = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libxvmc = "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-libxxf86dga = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libxxf86vm = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libyaml = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-lighttpd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb
+deleted file mode 100644
+index e1cb3456588..00000000000
+--- a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb
++++ /dev/null
+@@ -1,19 +0,0 @@
+-require xorg-lib-common.inc
+-
+-SUMMARY = "XFree86-DGA: XFree86 Direct Graphics Access extension library"
+-
+-DESCRIPTION = "libXxf86dga provides the XFree86-DGA extension, which \
+-allows direct graphics access to a framebuffer-like region, and also \
+-allows relative mouse reporting, et al.  It is mainly used by games and \
+-emulators for games."
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=abb99ac125f84f424a4278153988e32f"
+-
+-DEPENDS += "libxext"
+-
+-PE = "1"
+-
+-SRC_URI[md5sum] = "0ddeafc13b33086357cfa96fae41ee8e"
+-SRC_URI[sha256sum] = "2b98bc5f506c6140d4eddd3990842d30f5dae733b64f198a504f07461bdb7203"
+-
+-XORG_PN = "libXxf86dga"
 -- 
 2.20.1
 
