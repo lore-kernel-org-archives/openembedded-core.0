@@ -1,54 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 58AF87F394
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 219377F38D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 20:37:29 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id x15so69139040wmj.3
+	Fri,  2 Aug 2019 20:37:31 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id n9so78542188wru.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Aug 2019 13:37:30 -0700 (PDT)
+	Fri, 02 Aug 2019 13:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=6jFClr709M0mgzoiwmjJD4hZWlsPC4Y3LsuiUh+I7lg=;
-	b=XcOITN7OUo1bAy5etHwa3k20LqvnPonWzORqBBVGBVGEF+KcgUD50JxR29a8/E1X/Q
-	mrPa5Oo2HHK29bXvsqy3v3+DBlK43O+6xNvANpqk04Yed+Ob0ZCQ6QyZGj70BnK9PbKj
-	WJxkxAR+IxpxtsS3BCKrlVdQDmz3VN25V77XtQmNnydBGjzBbDhnBnaOMmbVYXtxgg+s
-	C020CPVdCq469Fc/1LorTnpEPIXqfQnbXKnWAJRv5hf3s04THU/fuvjr3kf/5YCxlks0
-	c0oCQja2YwINW5KBHtx3UKh87kfKBlwJ18X8glX4Dp3rBKj0vckC9Ott0mgXfmCneekO
-	Hf2Q==
+	bh=5OESrkCxyflK1aLfUunLaFZYXlNGrdWhez93xpcQ2Iw=;
+	b=k0lbyGLkAAQG7Pu/fsOqFUOu6eZX7F7hPnZJZk0A1sLRMtG3+gu6DOfYq5rxMAAkAg
+	zp8V9WEla0lFFkL3UXzdmU/VHFFVUFQjTV1h7Pq1OvkqF27+l/OvxrrgVbdiBMTMA0mu
+	tNV4PcAo7KEYSr+J2WL1gkJldeqqtK3yYRaRvtcoEy5+LwN4R0VZha9ACKabtSUQdQ2A
+	3yr1EE9Si6uLzoIiiNG9vXljXRKtYBH8zx3bU6crFNsLqIyzj81wLPgSXi+fOqNDqGnc
+	6D2WNoywj5pUmKX3Df9i1s0gBemDX5rdw/KHzsiV2Ixp0mA+vph8qig2hS3BDq63EDdH
+	Z8Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=6jFClr709M0mgzoiwmjJD4hZWlsPC4Y3LsuiUh+I7lg=;
-	b=U3LRKfUkf5MzYpcf3X6KlZPoGMCkgZABdcecJxsLABf0YF5ld24eZCOsjK/TH2zcgk
-	pfiXXzjN0nDBptlx+1BsztavFmZpR3zaoRNjB+50+PNYaLF7hd1O8fLZm8F87l6OIvwy
-	/Rf4pFTMgFRgpoApDZG9zR/DF6z85SQ5bUWFjM/NMeOPNmw6uR1hZOahQeesWVBz6Tuj
-	XTccpZAP7dwh1Py5oAsfcFf7ULE5beMa6mYZi8uxW2d6qqrMfrNFjgr1GKL49oGwjCW6
-	n8I/rCLm9aiZNF9V/YbE3AlhaQqFRAw4sHtd1MTol00loSlIWGgnJXyNRNHhBHKw79bi
-	o0Ww==
-X-Gm-Message-State: APjAAAVH9Z/5HKeNiuGVqBcce/OOPd1gsjJABxx4YZFwzF5voljgw7H0
-	RysX4ZzuUcSAAiSyPKN7bXB5FSQx9ag=
-X-Google-Smtp-Source: APXvYqw88LHG9M7GMqvRrANxBOI0+4z7C1AphBfxhK0gt0X/SEY6uC7/kFTTl1wzgDilwCtLX3wAJQ==
-X-Received: by 2002:a7b:c251:: with SMTP id b17mr5904857wmj.143.1564778249631; 
-	Fri, 02 Aug 2019 13:37:29 -0700 (PDT)
+	bh=5OESrkCxyflK1aLfUunLaFZYXlNGrdWhez93xpcQ2Iw=;
+	b=SyA1S7afbCjchljg/sXlvy2tMwxnGXHDXwZrZSh+cyyrGGIYiw8of2gpUCsGNfA/vr
+	RnFgsQ7fM369i4IlD/0VXhmUvEx/4NIy5v0D0cc6SbEzN3DGE/Q2H3skD7IPJ8tPKChC
+	VMwjr+ud+YXu56EGeEBcaZc3/F9b6qYCHqia2JTEBsw6gwOigEAygJNo12U4/zoq99Dn
+	kH17Degzqck4BOjRIKrE6QwSL2uVjI2BT8mkfTjOiw6XVc9E7OUi3dAC3IhdawVdbdpx
+	CAXWcJhHI2PnfgfMRm12rbS8wG5fM2xbM24ANzFfjiXth7kClzoMonzjxSEISHS9G5i1
+	FhiQ==
+X-Gm-Message-State: APjAAAXybhIrjfThGkotln5Rh7JlNpYh6WH4b2ouw86enAblpjiqZBjN
+	jnpRX1QsaMg0aqTv+WxcbBW/Ay0uEm8=
+X-Google-Smtp-Source: APXvYqz/Po22K4ZrtS21p0cXMER+bzxyyyuIhr2SYHuJKDggFq1+/952ATyvsOtTwdHJ0bxZV0MOrA==
+X-Received: by 2002:a5d:628d:: with SMTP id k13mr21452217wru.69.1564778251701; 
+	Fri, 02 Aug 2019 13:37:31 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	n1sm59083910wrx.39.2019.08.02.13.37.28
+	n1sm59083910wrx.39.2019.08.02.13.37.29
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
 	Fri, 02 Aug 2019 13:37:29 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2019 21:37:17 +0100
-Message-Id: <20190802203719.20437-7-ross.burton@intel.com>
+Date: Fri,  2 Aug 2019 21:37:18 +0100
+Message-Id: <20190802203719.20437-8-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190802203719.20437-1-ross.burton@intel.com>
 References: <20190802203719.20437-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 7/9] xorgproto: update to 2019.1
+Subject: [PATCH 8/9] xserver-xorg: update to 1.20.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,7 +61,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 20:37:29 -0000
+X-List-Received-Date: Fri, 02 Aug 2019 20:37:31 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
@@ -69,505 +69,28 @@ From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../0001-Remove-libdir-specification.patch    | 468 ------------------
- ...orgproto_2018.4.bb => xorgproto_2019.1.bb} |   6 +-
- 2 files changed, 2 insertions(+), 472 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-proto/xorgproto/0001-Remove-libdir-specification.patch
- rename meta/recipes-graphics/xorg-proto/{xorgproto_2018.4.bb => xorgproto_2019.1.bb} (65%)
+ .../{xserver-xorg_1.20.4.bb => xserver-xorg_1.20.5.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.4.bb => xserver-xorg_1.20.5.bb} (89%)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xorgproto/0001-Remove-libdir-specification.patch b/meta/recipes-graphics/xorg-proto/xorgproto/0001-Remove-libdir-specification.patch
-deleted file mode 100644
-index 48296f7844e..00000000000
---- a/meta/recipes-graphics/xorg-proto/xorgproto/0001-Remove-libdir-specification.patch
-+++ /dev/null
-@@ -1,468 +0,0 @@
--Upstream-Status: Submitted
--
--https://cgit.freedesktop.org/xorg/proto/xorgproto/commit/?id=91c1c8e1490c970379efb16784003426faec806e
--
--From 6feb974e0deb3355908c30e07293d82a3f6996ed Mon Sep 17 00:00:00 2001
--From: Jeremy Puhlman <jpuhlman@mvista.com>
--Date: Mon, 11 Jun 2018 16:42:43 +0000
--Subject: [PATCH] Remove libdir specification.
--
--Currently the pc files define libdir, however they are installed into
--/usr/share, which means they should be architecture agnostic. In a
--multilib system, xorg-proto built for each multilib abi, the value of
--libdir is going to be different. These should either be installed in
--<libdir>/pkgconfig or they shouldn't define libdir, espeically since
--they don't actually use the definition. This specifically causes an
--issue when trying to install both abis at the same time, since they are
--not binary identical, something like rpm will complain that they
--
-----
-- applewmproto.pc.in     | 1 -
-- bigreqsproto.pc.in     | 1 -
-- compositeproto.pc.in   | 1 -
-- damageproto.pc.in      | 1 -
-- dmxproto.pc.in         | 1 -
-- dri2proto.pc.in        | 1 -
-- dri3proto.pc.in        | 1 -
-- evieproto.pc.in        | 1 -
-- fixesproto.pc.in       | 1 -
-- fontcacheproto.pc.in   | 1 -
-- fontsproto.pc.in       | 1 -
-- glproto.pc.in          | 1 -
-- inputproto.pc.in       | 1 -
-- kbproto.pc.in          | 1 -
-- lg3dproto.pc.in        | 1 -
-- presentproto.pc.in     | 1 -
-- printproto.pc.in       | 1 -
-- randrproto.pc.in       | 1 -
-- recordproto.pc.in      | 1 -
-- renderproto.pc.in      | 1 -
-- resourceproto.pc.in    | 1 -
-- scrnsaverproto.pc.in   | 1 -
-- trapproto.pc.in        | 1 -
-- videoproto.pc.in       | 1 -
-- windowswmproto.pc.in   | 1 -
-- xcalibrateproto.pc.in  | 1 -
-- xcmiscproto.pc.in      | 1 -
-- xextproto.pc.in        | 1 -
-- xf86bigfontproto.pc.in | 1 -
-- xf86dgaproto.pc.in     | 1 -
-- xf86driproto.pc.in     | 1 -
-- xf86miscproto.pc.in    | 1 -
-- xf86rushproto.pc.in    | 1 -
-- xf86vidmodeproto.pc.in | 1 -
-- xineramaproto.pc.in    | 1 -
-- xproto.pc.in           | 1 -
-- xproxymngproto.pc.in   | 1 -
-- 37 files changed, 37 deletions(-)
--
--diff --git a/applewmproto.pc.in b/applewmproto.pc.in
--index 17841ac..3227b21 100644
----- a/applewmproto.pc.in
--+++ b/applewmproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: AppleWMProto
--diff --git a/bigreqsproto.pc.in b/bigreqsproto.pc.in
--index 94577ed..e21bb59 100644
----- a/bigreqsproto.pc.in
--+++ b/bigreqsproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: BigReqsProto
--diff --git a/compositeproto.pc.in b/compositeproto.pc.in
--index da429c7..b0dada1 100644
----- a/compositeproto.pc.in
--+++ b/compositeproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
-- 
-- Name: CompositeExt
--diff --git a/damageproto.pc.in b/damageproto.pc.in
--index 6fd9ef1..bfd5244 100644
----- a/damageproto.pc.in
--+++ b/damageproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
-- 
-- Name: DamageProto
--diff --git a/dmxproto.pc.in b/dmxproto.pc.in
--index e82ee7d..d140e1c 100644
----- a/dmxproto.pc.in
--+++ b/dmxproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: DMXProto
--diff --git a/dri2proto.pc.in b/dri2proto.pc.in
--index cb5b171..fa9d24d 100644
----- a/dri2proto.pc.in
--+++ b/dri2proto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: DRI2Proto
--diff --git a/dri3proto.pc.in b/dri3proto.pc.in
--index e42d60e..20da358 100644
----- a/dri3proto.pc.in
--+++ b/dri3proto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: DRI3Proto
--diff --git a/evieproto.pc.in b/evieproto.pc.in
--index 64e0ec4..fd5442b 100644
----- a/evieproto.pc.in
--+++ b/evieproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
-- 
-- Name: EvIEExt
--diff --git a/fixesproto.pc.in b/fixesproto.pc.in
--index f8258e2..c7fcb81 100644
----- a/fixesproto.pc.in
--+++ b/fixesproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
-- 
-- Name: FixesProto
--diff --git a/fontcacheproto.pc.in b/fontcacheproto.pc.in
--index eb4238b..8ffffe9 100644
----- a/fontcacheproto.pc.in
--+++ b/fontcacheproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: FontcacheProto
--diff --git a/fontsproto.pc.in b/fontsproto.pc.in
--index 9d22354..ebb61a4 100644
----- a/fontsproto.pc.in
--+++ b/fontsproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: FontsProto
--diff --git a/glproto.pc.in b/glproto.pc.in
--index b951db5..e97bfc9 100644
----- a/glproto.pc.in
--+++ b/glproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: GLProto
--diff --git a/inputproto.pc.in b/inputproto.pc.in
--index 1eb6619..270b95c 100644
----- a/inputproto.pc.in
--+++ b/inputproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: InputProto
--diff --git a/kbproto.pc.in b/kbproto.pc.in
--index bdd39f1..32a172d 100644
----- a/kbproto.pc.in
--+++ b/kbproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: KBProto
--diff --git a/lg3dproto.pc.in b/lg3dproto.pc.in
--index 3930ad7..43fba29 100644
----- a/lg3dproto.pc.in
--+++ b/lg3dproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: Lg3dProto
--diff --git a/presentproto.pc.in b/presentproto.pc.in
--index 6ec4b7d..55b84dc 100644
----- a/presentproto.pc.in
--+++ b/presentproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: PresentProto
--diff --git a/printproto.pc.in b/printproto.pc.in
--index 8a2e2d6..a2da66d 100644
----- a/printproto.pc.in
--+++ b/printproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
-- 
-- Name: PrintProto
--diff --git a/randrproto.pc.in b/randrproto.pc.in
--index 5a5edb2..6d60cbb 100644
----- a/randrproto.pc.in
--+++ b/randrproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: RandrProto
--diff --git a/recordproto.pc.in b/recordproto.pc.in
--index 0ff4c0b..a87aa82 100644
----- a/recordproto.pc.in
--+++ b/recordproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: RecordProto
--diff --git a/renderproto.pc.in b/renderproto.pc.in
--index e6028ac..34b15e0 100644
----- a/renderproto.pc.in
--+++ b/renderproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
-- 
-- Name: RenderProto
--diff --git a/resourceproto.pc.in b/resourceproto.pc.in
--index a409db9..f927cbb 100644
----- a/resourceproto.pc.in
--+++ b/resourceproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: ResourceProto
--diff --git a/scrnsaverproto.pc.in b/scrnsaverproto.pc.in
--index 6556a2c..fd9d368 100644
----- a/scrnsaverproto.pc.in
--+++ b/scrnsaverproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: ScrnSaverProto
--diff --git a/trapproto.pc.in b/trapproto.pc.in
--index 8cb0aa8..8a220b9 100644
----- a/trapproto.pc.in
--+++ b/trapproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: TrapProto
--diff --git a/videoproto.pc.in b/videoproto.pc.in
--index 14b907a..5c22f7a 100644
----- a/videoproto.pc.in
--+++ b/videoproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
-- 
-- Name: VideoProto
--diff --git a/windowswmproto.pc.in b/windowswmproto.pc.in
--index 0a2ec0b..ec56e82 100644
----- a/windowswmproto.pc.in
--+++ b/windowswmproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: WindowsWMProto
--diff --git a/xcalibrateproto.pc.in b/xcalibrateproto.pc.in
--index 40b6fd0..f1ea5de 100644
----- a/xcalibrateproto.pc.in
--+++ b/xcalibrateproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
-- 
-- Name: XCalibrate
--diff --git a/xcmiscproto.pc.in b/xcmiscproto.pc.in
--index 0dfbf21..b72bbc6 100644
----- a/xcmiscproto.pc.in
--+++ b/xcmiscproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XCMiscProto
--diff --git a/xextproto.pc.in b/xextproto.pc.in
--index f66eeae..9419c91 100644
----- a/xextproto.pc.in
--+++ b/xextproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XExtProto
--diff --git a/xf86bigfontproto.pc.in b/xf86bigfontproto.pc.in
--index 18c5647..4a67be6 100644
----- a/xf86bigfontproto.pc.in
--+++ b/xf86bigfontproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XF86BigFontProto
--diff --git a/xf86dgaproto.pc.in b/xf86dgaproto.pc.in
--index 5c5f8b1..e029cd4 100644
----- a/xf86dgaproto.pc.in
--+++ b/xf86dgaproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XF86DGAProto
--diff --git a/xf86driproto.pc.in b/xf86driproto.pc.in
--index 93df292..c8faf14 100644
----- a/xf86driproto.pc.in
--+++ b/xf86driproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XF86DRIProto
--diff --git a/xf86miscproto.pc.in b/xf86miscproto.pc.in
--index af73fa3..05d5d9e 100644
----- a/xf86miscproto.pc.in
--+++ b/xf86miscproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XF86MiscProto
--diff --git a/xf86rushproto.pc.in b/xf86rushproto.pc.in
--index fc5f63b..1c7ff1b 100644
----- a/xf86rushproto.pc.in
--+++ b/xf86rushproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XF86RushProto
--diff --git a/xf86vidmodeproto.pc.in b/xf86vidmodeproto.pc.in
--index fcb74f2..ef062b3 100644
----- a/xf86vidmodeproto.pc.in
--+++ b/xf86vidmodeproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XF86VidModeProto
--diff --git a/xineramaproto.pc.in b/xineramaproto.pc.in
--index 1ffd37d..9172f1e 100644
----- a/xineramaproto.pc.in
--+++ b/xineramaproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XineramaProto
--diff --git a/xproto.pc.in b/xproto.pc.in
--index 8ff2d3d..899316a 100644
----- a/xproto.pc.in
--+++ b/xproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
-- includex11dir=@includedir@/X11
--  
--diff --git a/xproxymngproto.pc.in b/xproxymngproto.pc.in
--index 5c6fad6..1a81e28 100644
----- a/xproxymngproto.pc.in
--+++ b/xproxymngproto.pc.in
--@@ -1,6 +1,5 @@
-- prefix=@prefix@
-- exec_prefix=@exec_prefix@
---libdir=@libdir@
-- includedir=@includedir@
--  
-- Name: XProxyManagementProtocol
---- 
--2.11.1
--
-diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2018.4.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2019.1.bb
-similarity index 65%
-rename from meta/recipes-graphics/xorg-proto/xorgproto_2018.4.bb
-rename to meta/recipes-graphics/xorg-proto/xorgproto_2019.1.bb
-index cec6e875593..2c7ce2a56c0 100644
---- a/meta/recipes-graphics/xorg-proto/xorgproto_2018.4.bb
-+++ b/meta/recipes-graphics/xorg-proto/xorgproto_2019.1.bb
-@@ -8,9 +8,7 @@ the core protocol and (many) extensions for the X Window System"
- LICENSE = "MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING-x11proto;md5=b9e051107d5628966739a0b2e9b32676"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.4.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.5.bb
+similarity index 89%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.4.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.5.bb
+index abc4656b0f8..3de6d22e573 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.4.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.5.bb
+@@ -6,8 +6,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+             file://0001-compiler.h-Do-not-include-sys-io.h-on-ARM-with-glibc.patch \
+             file://sdksyms-no-build-path.patch \
+             "
+-SRC_URI[md5sum] = "c4841cc24b79420205d082fe82e0a650"
+-SRC_URI[sha256sum] = "fe0fd493ebe93bfc56bede382fa204458ff5f636ea54d413a5d1bd58e19166ee"
++SRC_URI[md5sum] = "c9fc7e21e11286dbedd22c00df652130"
++SRC_URI[sha256sum] = "a81d8243f37e75a03d4f8c55f96d0bc25802be6ec45c3bfa5cb614c6d01bac9d"
  
--SRC_URI += "file://0001-Remove-libdir-specification.patch"
--
--SRC_URI[md5sum] = "81557ca47ee66a4e54590fcdadd28114"
--SRC_URI[sha256sum] = "fee885e0512899ea5280c593fdb2735beb1693ad170c22ebcc844470eec415a0"
-+SRC_URI[md5sum] = "802ccb9e977ba3cf94ba798ddb2898a4"
-+SRC_URI[sha256sum] = "a6daaa7a6cbc8e374032d83ff7f47d41be98f1e0f4475d66a4da3aa766a0d49b"
- 
- BBCLASSEXTEND = "native nativesdk"
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
 2.20.1
 
