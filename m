@@ -1,44 +1,23 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FCEA7F2EF
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DF016B073
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2019 10:51:02 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,337,1559491200"; d="scan'208";a="72749489"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 02 Aug 2019 18:51:02 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id C596D4CDCCC4;
-	Fri,  2 Aug 2019 18:51:03 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0439.000; Fri, 2 Aug 2019 18:51:05 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] toolchain-scripts: make rpm work in toolchain
-Thread-Index: AQHU+/TDIwoyJadc00aYDkPgmXccEqZgID6AgAmfCQCAFeluAIALOKKAgF1nDPA=
-Date: Fri, 2 Aug 2019 10:51:03 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B60024@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF0FB0C1@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF1002A6@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF1026BA@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF123A0E@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
-In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.35]
-MIME-Version: 1.0
-X-yoursite-MailScanner-ID: C596D4CDCCC4.AEB15
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] toolchain-scripts: make rpm work in toolchain
+	Fri,  2 Aug 2019 11:39:59 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Aug 2019 04:40:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,337,1559545200"; d="scan'208";a="348389459"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga005.jf.intel.com with ESMTP; 02 Aug 2019 04:39:59 -0700
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Aug 2019 19:39:58 +0800
+Message-Id: <1564745998-90050-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] add variable APPENDS for multiple boot configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,162 +30,339 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2019 10:51:03 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 02 Aug 2019 11:40:00 -0000
 
-cGluZw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3Ug
-TmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjog
-Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5h
-bmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24u
-ZnVqaXN0dS5jb20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQo+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZw0KPiBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJv
-dW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24gQmVoYWxmIE9mDQo+
-IExlaSwgTWFvaHVpDQo+IFNlbnQ6IFR1ZXNkYXksIEp1bmUgMDQsIDIwMTkg
-NDozMCBQTQ0KPiBUbzogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGll
-QGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+IENjOiBvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV0gW1BBVENIXSB0b29sY2hhaW4tc2NyaXB0czogbWFrZSBycG0gd29y
-ayBpbiB0b29sY2hhaW4NCj4gDQo+IEhpIFJpY2hhcmQNCj4gDQo+IFRoaXMg
-cGF0Y2ggaXMgbmVjZXNzYXJ5IGZvciBkbmYtbmF0aXZlc2RrIHdoaWNoIGhh
-cyBiZWVuIG1lcmdlZC4gQnV0IHRoaXMgcGF0Y2gNCj4gaXMgc3RpbGwgaWdu
-b3JlZC4NCj4gRG8geW91IGhhdmUgYW55IGNvbW1lbnQgYWJvdXQgdGhpcyBw
-YXRjaD8NCj4gDQo+IEJlc3QgcmVnYXJkcy4NCj4gTGVpIE1hb2h1aQ0KPiAN
-Cj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9t
-OiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcNCj4gPiBbbWFpbHRvOm9wZW5lbWJlZGRlZC0gY29yZS1ib3VuY2Vz
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZg0KPiA+IE9mIExl
-aSwgTWFvaHVpDQo+ID4gU2VudDogVHVlc2RheSwgTWF5IDI4LCAyMDE5IDE6
-MDggUE0NCj4gPiBUbzogUmljaGFyZCBQdXJkaWU7IG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBTdWJqZWN0OiBSZTog
-W09FLWNvcmVdIFtQQVRDSF0gdG9vbGNoYWluLXNjcmlwdHM6IG1ha2UgcnBt
-IHdvcmsgaW4NCj4gPiB0b29sY2hhaW4NCj4gPg0KPiA+IHBpbmcNCj4gPg0K
-PiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206
-IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZw0KPiA+ID4gW21haWx0bzpvcGVuZW1iZWRkZWQtIGNvcmUtYm91bmNl
-c0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYNCj4gPiA+IE9m
-IExlaSwgTWFvaHVpDQo+ID4gPiBTZW50OiBUdWVzZGF5LCBNYXkgMTQsIDIw
-MTkgMjozMSBQTQ0KPiA+ID4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIXSB0b29sY2hhaW4tc2NyaXB0czogbWFrZSBycG0gd29yayBp
-bg0KPiA+ID4gdG9vbGNoYWluDQo+ID4gPg0KPiA+ID4gSGksDQo+ID4gPg0K
-PiA+ID4gVGhpcyBwYXRjaCBoYXNuJ3QgYmVlbiBtZXJnZWQgeWV0LiBBcmUg
-dGhlcmUgYW55IHN1Z2dlc3Rpb25zPw0KPiA+ID4NCj4gPiA+IEJlc3QgcmVn
-YXJkcw0KPiA+ID4gTGVpDQo+ID4gPg0KPiA+ID4gPiAtLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KPiA+ID4gPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29y
-ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBbbWFpbHRv
-Om9wZW5lbWJlZGRlZC0NCj4gPiA+ID4gY29yZS1ib3VuY2VzQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBMZWksIE1hb2h1aQ0KPiA+
-ID4gPiBTZW50OiBXZWRuZXNkYXksIE1heSAwOCwgMjAxOSAxMTozNiBBTQ0K
-PiA+ID4gPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZw0KPiA+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRD
-SF0gdG9vbGNoYWluLXNjcmlwdHM6IG1ha2UgcnBtIHdvcmsgaW4NCj4gPiB0
-b29sY2hhaW4NCj4gPiA+ID4NCj4gPiA+ID4gUGluZw0KPiA+ID4gPg0KPiA+
-ID4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiA+ID4g
-RnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnDQo+ID4gPiBbbWFpbHRvOm9wZW5lbWJlZGRlZC0NCj4gPiA+
-ID4gPiBjb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24g
-QmVoYWxmIE9mIExlaSwgTWFvaHVpDQo+ID4gPiA+ID4gU2VudDogRnJpZGF5
-LCBBcHJpbCAyNiwgMjAxOSAxOjU2IFBNDQo+ID4gPiA+ID4gVG86IG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+ID4g
-PiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gdG9vbGNoYWluLXNj
-cmlwdHM6IG1ha2UgcnBtIHdvcmsNCj4gPiA+ID4gPiBpbg0KPiA+ID4gdG9v
-bGNoYWluDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBIaSwNCj4gPiA+ID4gPg0K
-PiA+ID4gPiA+IEkgbm90aWNlZCB0aGF0ICIgZG5mOiBFbmFibGUgbmF0aXZl
-c2RrICIgaGFzIGJlZW4gbWVyZ2VkIGludG8gbWFzdGVyLW5leHQuDQo+ID4g
-PiA+IFRoaXMNCj4gPiA+ID4gPiBwYXRjaCBpcyBuZWNlc3NhcnkgZm9yIGRu
-Zi1uYXRpdmVzZGssIHNvIHBsZWFzZSBtZXJnZSB0b28uDQo+ID4gPiA+ID4N
-Cj4gPiA+ID4gPiBCZXN0IHJlZ2FyZHMNCj4gPiA+ID4gPiBMZWkNCj4gPiA+
-ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAtLS0tLU9yaWdpbmFsIE1l
-c3NhZ2UtLS0tLQ0KPiA+ID4gPiA+ID4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
-cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiA+IFtt
-YWlsdG86b3BlbmVtYmVkZGVkLQ0KPiA+ID4gPiA+ID4gY29yZS1ib3VuY2Vz
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBaaGVuZywN
-Cj4gPiA+ID4gPiA+IFJ1b3Fpbg0KPiA+ID4gPiA+ID4gU2VudDogRnJpZGF5
-LCBBcHJpbCAxOSwgMjAxOSAxMDo1NSBBTQ0KPiA+ID4gPiA+ID4gVG86IG9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+
-ID4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSB0b29sY2hh
-aW4tc2NyaXB0czogbWFrZSBycG0NCj4gPiA+ID4gPiA+IHdvcmsgaW4NCj4g
-PiA+ID4gdG9vbGNoYWluDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gcGlu
-Zw0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IC0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiA+ID4g
-PiBaaGVuZyBSdW9xaW4NCj4gPiA+ID4gPiA+IE5hbmppbmcgRnVqaXRzdSBO
-YW5kYSBTb2Z0d2FyZSBUZWNoLiBDby4sIEx0ZC4oRk5TVCkNCj4gPiA+ID4g
-PiA+IEFERFIuOiBOby42IFdlbnpodSBSb2FkLCBTb2Z0d2FyZSBBdmVudWUs
-DQo+ID4gPiA+ID4gPiAgICAgICAgTmFuamluZywgMjEwMDEyLCBDaGluYQ0K
-PiA+ID4gPiA+ID4gTUFJTCA6IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1LmNv
-bQ0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+IC0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiA+ID4gPiA+IEZyb206
-IFpoZW5nLCBSdW9xaW4NCj4gPiA+ID4gPiA+ID4gU2VudDogU2F0dXJkYXks
-IEFwcmlsIDEzLCAyMDE5IDEwOjM3IFBNDQo+ID4gPiA+ID4gPiA+IFRvOiBv
-cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4g
-PiA+ID4gPiA+IENjOiBaaGVuZywgUnVvcWluIDx6aGVuZ3JxLmZuc3RAY24u
-ZnVqaXRzdS5jb20+DQo+ID4gPiA+ID4gPiA+IFN1YmplY3Q6IFtPRS1jb3Jl
-XVtQQVRDSF0gdG9vbGNoYWluLXNjcmlwdHM6IG1ha2UgcnBtIHdvcmsNCj4g
-PiA+ID4gPiA+ID4gaW4NCj4gPiB0b29sY2hhaW4NCj4gPiA+ID4gPiA+ID4N
-Cj4gPiA+ID4gPiA+ID4gUnBtIG5lZWQgdG8gcmVhZCB0aGUgYXJjaCBpbmZv
-LCBidXQgJHNjcmlwdCBkaWQgbm90IHByb3ZpZGUNCj4gPiA+ID4gPiA+ID4g
-aXQsIHNvDQo+ID4gYWRkDQo+ID4gPiBpdC4NCj4gPiA+ID4gPiA+ID4NCj4g
-PiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogWmhlbmcgUnVvcWluIDx6aGVu
-Z3JxLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+ID4gPiA+ID4gPiA+IC0tLQ0K
-PiA+ID4gPiA+ID4gPiAgbWV0YS9jbGFzc2VzL3Rvb2xjaGFpbi1zY3JpcHRz
-LmJiY2xhc3MgfCAxICsNCj4gPiA+ID4gPiA+ID4gIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKQ0KPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4g
-PiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL3Rvb2xjaGFpbi1zY3JpcHRz
-LmJiY2xhc3MNCj4gPiA+ID4gPiBiL21ldGEvY2xhc3Nlcy90b29sY2hhaW4t
-DQo+ID4gPiA+ID4gPiA+IHNjcmlwdHMuYmJjbGFzcw0KPiA+ID4gPiA+ID4g
-PiBpbmRleCAxYTJlYzRmLi5kZTUwYjdlIDEwMDY0NA0KPiA+ID4gPiA+ID4g
-PiAtLS0gYS9tZXRhL2NsYXNzZXMvdG9vbGNoYWluLXNjcmlwdHMuYmJjbGFz
-cw0KPiA+ID4gPiA+ID4gPiArKysgYi9tZXRhL2NsYXNzZXMvdG9vbGNoYWlu
-LXNjcmlwdHMuYmJjbGFzcw0KPiA+ID4gPiA+ID4gPiBAQCAtMTAxLDYgKzEw
-MSw3IEBAIHRvb2xjaGFpbl9zaGFyZWRfZW52X3NjcmlwdCAoKSB7DQo+ID4g
-PiA+ID4gPiA+ICAJZWNobyAnZXhwb3J0IENQUEZMQUdTPSIke1RBUkdFVF9D
-UFBGTEFHU30iJyA+PiAkc2NyaXB0DQo+ID4gPiA+ID4gPiA+ICAJZWNobyAn
-ZXhwb3J0IEtDRkxBR1M9Ii0tc3lzcm9vdD0kU0RLVEFSR0VUU1lTUk9PVCIn
-ID4+DQo+ICRzY3JpcHQNCj4gPiA+ID4gPiA+ID4gIAllY2hvICdleHBvcnQN
-Cj4gT0VDT1JFX0RJU1RST19WRVJTSU9OPSIke0RJU1RST19WRVJTSU9OfSIn
-ID4+DQo+ID4gPiA+ID4gPiA+ICRzY3JpcHQNCj4gPiA+ID4gPiA+ID4gKwll
-Y2hvICdleHBvcnQgTUFDSElORV9BUkNIPSR7TUFDSElORV9BUkNIfScgPj4g
-JHNjcmlwdA0KPiA+ID4gPiA+ID4gPiAgCWVjaG8gJ2V4cG9ydCBPRUNPUkVf
-U0RLX1ZFUlNJT049IiR7U0RLX1ZFUlNJT059IicgPj4NCj4gJHNjcmlwdA0K
-PiA+ID4gPiA+ID4gPiAgCWVjaG8gJ2V4cG9ydCBBUkNIPSR7QVJDSH0nID4+
-ICRzY3JpcHQNCj4gPiA+ID4gPiA+ID4gIAllY2hvICdleHBvcnQgQ1JPU1Nf
-Q09NUElMRT0ke1RBUkdFVF9QUkVGSVh9JyA+PiAkc2NyaXB0DQo+ID4gPiA+
-ID4gPiA+IC0tDQo+ID4gPiA+ID4gPiA+IDEuOC4zLjENCj4gPiA+ID4gPiA+
-DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IC0tDQo+
-ID4gPiA+ID4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXw0KPiA+ID4gPiA+ID4gT3BlbmVtYmVkZGVkLWNvcmUg
-bWFpbGluZyBsaXN0DQo+ID4gPiA+ID4gPiBPcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiA+ID4gPiBodHRwOi8vbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJl
-ZGRlZC1jbw0KPiA+ID4gPiA+ID4gcmUNCj4gPiA+ID4gPg0KPiA+ID4gPiA+
-DQo+ID4gPiA+ID4gLS0NCj4gPiA+ID4gPiBfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+ID4gPiA+IE9wZW5l
-bWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiA+ID4gPiA+IE9wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+ID4gPiBo
-dHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L29wZW5lbWJlZGRlZC1jb3JlDQo+ID4gPiA+DQo+ID4gPiA+DQo+ID4gPiA+
-IC0tDQo+ID4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fDQo+ID4gPiA+IE9wZW5lbWJlZGRlZC1jb3JlIG1h
-aWxpbmcgbGlzdA0KPiA+ID4gPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQo+ID4gPiA+IGh0dHA6Ly9saXN0cy5vcGVuZW1i
-ZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUN
-Cj4gPiA+DQo+ID4gPg0KPiA+ID4gLS0NCj4gPiA+IF9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4gPiBPcGVu
-ZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gPiA+IE9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IGh0dHA6Ly9s
-aXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVt
-YmVkZGVkLWNvcmUNCj4gPg0KPiA+DQo+ID4gLS0NCj4gPiBfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+IE9w
-ZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiA+IE9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBodHRwOi8vbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJl
-ZGRlZC1jb3JlDQo+IA0KPiANCj4gLS0NCj4gX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gT3BlbmVtYmVkZGVk
-LWNvcmUgbWFpbGluZyBsaXN0DQo+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcNCj4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KCgo=
+From: Chee Yang Lee <chee.yang.lee@intel.com>
+
+This patch introduce new variable APPENDS to define multiple
+boot configuration for systemd-boot and grub-efi.
+
+APPENDS set the different in kernel option for each .conf
+file(for systemd-boot) or menuentry(for grub-efi).
+Include the differences in the title.
+Separate each configuration with ";".
+
+e.g.:
+APPEND = "console=tty0 rootwait"
+APPENDS = " i915.enable_guc=0; i915.enable_guc=2"
+
+for systemd-boot, above setting will produce 2 .conf,
+boot-1.conf and boot-2.conf which set with below title and option:
+
+boot-1.conf -
+	title boot-1 i915.enable_guc=0
+	option console=tty0 rootwait i915.enable_guc=0
+
+boot-2.conf -
+	title boot-2 i915.enable_guc=2
+	option console=tty0 rootwait i915.enable_guc=2
+
+This patch also update oeqa/selftest/wic testcase.
+---
+ meta/classes/grub-efi-cfg.bbclass             | 46 +++++++-------
+ meta/classes/image_types_wic.bbclass          |  2 +-
+ meta/classes/systemd-boot-cfg.bbclass         | 75 +++++++++++++----------
+ meta/lib/oeqa/selftest/cases/wic.py           |  2 +-
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 86 +++++++++++++++------------
+ 5 files changed, 118 insertions(+), 93 deletions(-)
+
+diff --git a/meta/classes/grub-efi-cfg.bbclass b/meta/classes/grub-efi-cfg.bbclass
+index f661a69..811c78f 100644
+--- a/meta/classes/grub-efi-cfg.bbclass
++++ b/meta/classes/grub-efi-cfg.bbclass
+@@ -89,29 +89,31 @@ python build_efi_cfg() {
+     for label in labels.split():
+         localdata = d.createCopy()
+ 
++        initrd = localdata.getVar('INITRD')
++        append = localdata.getVar('APPEND')
++        appends = localdata.getVar('APPENDS') if localdata.getVar('APPENDS') else ""
+         for btype in btypes:
+-            cfgfile.write('\nmenuentry \'%s%s\'{\n' % (label, btype[0]))
+-            lb = label
+-            if label == "install":
+-                lb = "install-efi"
+-            kernel = localdata.getVar('KERNEL_IMAGETYPE')
+-            cfgfile.write('linux /%s LABEL=%s' % (kernel, lb))
+-
+-            cfgfile.write(' %s' % replace_rootfs_uuid(d, root))
+-
+-            append = localdata.getVar('APPEND')
+-            initrd = localdata.getVar('INITRD')
+-
+-            if append:
+-                append = replace_rootfs_uuid(d, append)
+-                cfgfile.write(' %s' % (append))
+-
+-            cfgfile.write(' %s' % btype[1])
+-            cfgfile.write('\n')
+-
+-            if initrd:
+-                cfgfile.write('initrd /initrd')
+-            cfgfile.write('\n}\n')
++            for apd in appends.split(';'):
++                cfgfile.write('\nmenuentry \'%s%s %s\'{\n' % (label, btype[0],apd))
++                lb = label
++                if label == "install":
++                    lb = "install-efi"
++                kernel = localdata.getVar('KERNEL_IMAGETYPE')
++                cfgfile.write('linux /%s LABEL=%s' % (kernel, lb))
++
++                cfgfile.write(' %s' % replace_rootfs_uuid(d, root))
++
++                ap = append + apd
++                if ap:
++                    append = replace_rootfs_uuid(d, ap)
++                    cfgfile.write(' %s' % (ap))
++
++                cfgfile.write(' %s' % btype[1])
++                cfgfile.write('\n')
++
++                if initrd:
++                    cfgfile.write('initrd /initrd')
++                cfgfile.write('\n}\n')
+ 
+     cfgfile.close()
+ }
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 519aeb1..4f2bdcc 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -3,7 +3,7 @@
+ WICVARS ?= "\
+            BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
+            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
+-           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
++           ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS APPENDS \
+            KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME"
+ 
+ inherit ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
+diff --git a/meta/classes/systemd-boot-cfg.bbclass b/meta/classes/systemd-boot-cfg.bbclass
+index b3e0e6a..fddbfad 100644
+--- a/meta/classes/systemd-boot-cfg.bbclass
++++ b/meta/classes/systemd-boot-cfg.bbclass
+@@ -19,6 +19,12 @@ python build_efi_cfg() {
+         bb.debug(1, "No labels, nothing to do")
+         return
+ 
++    #remove conf file from previous build
++    files = os.listdir(s)
++    for file in files:
++        if file.endswith(".conf"):
++            os.unlink(file)
++
+     cfile = d.getVar('SYSTEMD_BOOT_CFG')
+     cdir = os.path.dirname(cfile)
+     if not os.path.exists(cdir):
+@@ -37,35 +43,44 @@ python build_efi_cfg() {
+         cfgfile.write('timeout 10\n')
+     cfgfile.close()
+ 
++    appends = d.getVar('APPENDS') if d.getVar('APPENDS') else ""
++
+     for label in labels.split():
+-        localdata = d.createCopy()
+-
+-        entryfile = "%s/%s.conf" % (s, label)
+-        if not os.path.exists(s):
+-            os.makedirs(s)
+-        d.appendVar("SYSTEMD_BOOT_ENTRIES", " " + entryfile)
+-        try:
+-            entrycfg = open(entryfile, "w")
+-        except OSError:
+-            bb.fatal('Unable to open %s' % entryfile)
+-
+-        entrycfg.write('title %s\n' % label)
+-
+-        kernel = localdata.getVar("KERNEL_IMAGETYPE")
+-        entrycfg.write('linux /%s\n' % kernel)
+-
+-        append = localdata.getVar('APPEND')
+-        initrd = localdata.getVar('INITRD')
+-
+-        if initrd:
+-            entrycfg.write('initrd /initrd\n')
+-        lb = label
+-        if label == "install":
+-            lb = "install-efi"
+-        entrycfg.write('options LABEL=%s ' % lb)
+-        if append:
+-            append = replace_rootfs_uuid(d, append)
+-            entrycfg.write('%s' % append)
+-        entrycfg.write('\n')
+-        entrycfg.close()
++        conf_count = 0
++        for apd in appends.split(';'):
++            conf_title = "%s-%s" % ( label, conf_count) if apd else label
++            localdata = d.createCopy()
++
++            entryfile = "%s/%s.conf" % (s, conf_title)
++            if not os.path.exists(s):
++                os.makedirs(s)
++            d.appendVar("SYSTEMD_BOOT_ENTRIES", " " + entryfile)
++            try:
++                entrycfg = open(entryfile, "w")
++            except OSError:
++                bb.fatal('Unable to open %s' % entryfile)
++
++            entrycfg.write('title %s %s\n' % (conf_title, apd) )
++
++            kernel = localdata.getVar("KERNEL_IMAGETYPE")
++            entrycfg.write('linux /%s\n' % kernel)
++
++            append = localdata.getVar('APPEND')
++            initrd = localdata.getVar('INITRD')
++
++            if initrd:
++                entrycfg.write('initrd /initrd\n')
++            lb = label
++            if label == "install":
++                lb = "install-efi"
++            entrycfg.write('options LABEL=%s ' % lb)
++
++            ap = append + apd
++            if ap:
++                append = replace_rootfs_uuid(d, ap)
++                entrycfg.write('%s' % ap)
++
++            entrycfg.write('\n')
++            entrycfg.close()
++            conf_count += 1
+ }
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index fcdd550..cee8776 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -498,7 +498,7 @@ class Wic2(WicTestCase):
+ 
+         wicvars = set(bb_vars['WICVARS'].split())
+         # filter out optional variables
+-        wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES',
++        wicvars = wicvars.difference(('DEPLOY_DIR_IMAGE', 'IMAGE_BOOT_FILES', 'APPENDS',
+                                       'INITRD', 'INITRD_LIVE', 'ISODIR','INITRAMFS_IMAGE',
+                                       'INITRAMFS_IMAGE_BUNDLE', 'INITRAMFS_LINK_NAME'))
+         with open(path) as envfile:
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 2cfdc10..5977ab0 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -65,37 +65,39 @@ class BootimgEFIPlugin(SourcePlugin):
+         if not custom_cfg:
+             # Create grub configuration using parameters from wks file
+             bootloader = creator.ks.bootloader
+-            title = source_params.get('title')
++            title = source_params.get('title') if source_params.get('title') else "boot"
+ 
+             grubefi_conf = ""
+             grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
+             grubefi_conf += "default=boot\n"
+             grubefi_conf += "timeout=%s\n" % bootloader.timeout
+-            grubefi_conf += "menuentry '%s'{\n" % (title if title else "boot")
+ 
+-            kernel = get_bitbake_var("KERNEL_IMAGETYPE")
+-            if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
+-                if get_bitbake_var("INITRAMFS_IMAGE"):
+-                    kernel = "%s-%s.bin" % \
+-                        (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
++            appends = get_bitbake_var("APPENDS") if get_bitbake_var("APPENDS") else ""
++            for apd in appends.split(';'):
++                grubefi_conf += "menuentry '%s %s'{\n" % (title, apd )
+ 
+-            label = source_params.get('label')
+-            label_conf = "root=%s" % creator.rootdev
+-            if label:
+-                label_conf = "LABEL=%s" % label
++                kernel = get_bitbake_var("KERNEL_IMAGETYPE")
++                if get_bitbake_var("INITRAMFS_IMAGE_BUNDLE") == "1":
++                    if get_bitbake_var("INITRAMFS_IMAGE"):
++                        kernel = "%s-%s.bin" % \
++                            (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
+ 
+-            grubefi_conf += "linux /%s %s rootwait %s\n" \
+-                % (kernel, label_conf, bootloader.append)
++                label = source_params.get('label')
++                label_conf = "root=%s" % creator.rootdev
++                if label:
++                    label_conf = "LABEL=%s" % label
+ 
+-            if initrd:
+-                initrds = initrd.split(';')
+-                grubefi_conf += "initrd"
+-                for rd in initrds:
+-                    grubefi_conf += " /%s" % rd
+-                grubefi_conf += "\n"
++                grubefi_conf += "linux /%s %s rootwait %s %s\n" \
++                    % (kernel, label_conf, bootloader.append, apd)
+ 
+-            grubefi_conf += "}\n"
++                if initrd:
++                    initrds = initrd.split(';')
++                    grubefi_conf += "initrd"
++                    for rd in initrds:
++                        grubefi_conf += " /%s" % rd
++                    grubefi_conf += "\n"
+ 
++                grubefi_conf += "}\n"
+         logger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg",
+                      cr_workdir)
+         cfg = open("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir, "w")
+@@ -161,30 +163,36 @@ class BootimgEFIPlugin(SourcePlugin):
+                     kernel = "%s-%s.bin" % \
+                         (get_bitbake_var("KERNEL_IMAGETYPE"), get_bitbake_var("INITRAMFS_LINK_NAME"))
+ 
+-            title = source_params.get('title')
++            title = source_params.get('title') if source_params.get('title') else "boot"
++            appends = get_bitbake_var("APPENDS") if get_bitbake_var("APPENDS") else ""
++            conf_count = 0
++            for apd in appends.split(';'):
++                conf_title = "%s-%s" % ( title, conf_count) if apd else title
+ 
+-            boot_conf = ""
+-            boot_conf += "title %s\n" % (title if title else "boot")
+-            boot_conf += "linux /%s\n" % kernel
++                boot_conf = ""
++                boot_conf += "title %s %s\n" % ( conf_title, apd )
++                boot_conf += "linux /%s\n" % kernel
+ 
+-            label = source_params.get('label')
+-            label_conf = "LABEL=Boot root=%s" % creator.rootdev
+-            if label:
+-                label_conf = "LABEL=%s" % label
++                label = source_params.get('label')
++                label_conf = "LABEL=Boot root=%s" % creator.rootdev
++                if label:
++                    label_conf = "LABEL=%s" % label
+ 
+-            boot_conf += "options %s %s\n" % \
+-                             (label_conf, bootloader.append)
++                boot_conf += "options %s %s %s\n" % \
++                                 (label_conf, bootloader.append, apd)
+ 
+-            if initrd:
+-                initrds = initrd.split(';')
+-                for rd in initrds:
+-                    boot_conf += "initrd /%s\n" % rd
++                if initrd:
++                    initrds = initrd.split(';')
++                    for rd in initrds:
++                        boot_conf += "initrd /%s\n" % rd
+ 
+-        logger.debug("Writing systemd-boot config "
+-                     "%s/hdd/boot/loader/entries/boot.conf", cr_workdir)
+-        cfg = open("%s/hdd/boot/loader/entries/boot.conf" % cr_workdir, "w")
+-        cfg.write(boot_conf)
+-        cfg.close()
++                conf_count += 1
++
++                logger.debug("Writing systemd-boot config "
++                             "%s/hdd/boot/loader/entries/%s.conf" % (cr_workdir, conf_title))
++                cfg = open("%s/hdd/boot/loader/entries/%s.conf" % (cr_workdir, conf_title), "w")
++                cfg.write(boot_conf)
++                cfg.close()
+ 
+ 
+     @classmethod
+-- 
+2.7.4
+
 
