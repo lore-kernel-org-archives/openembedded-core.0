@@ -1,51 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AD9C77F3DD
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2471B7F3DD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Aug 2019 15:10:24 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id d79so57050135qke.11
+	Sat,  3 Aug 2019 15:12:34 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id 44so45929196qtg.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Aug 2019 08:10:26 -0700 (PDT)
+	Sat, 03 Aug 2019 08:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=N9kNF+sWnfdkemm9m4ZK9ZhK80KmfSUTJ5BvU9MAzy4=;
-	b=dFil+gmIMHutBzZ0UhEhNgJ+WieFkeME6tVTD1a1DeP3MnOr59r069CYCfyTRB2LXc
-	qxq9bAn8rw3rhsLd00WxAFUSXqZc89VnG8UTZujG2xNtKVRanarm9Xi0zzq9X6RUr3pm
-	3OzrJkogyptMXynQ2KS88Eu2dN/rLgiWP8K5lzPWrBVbSC/AVX0LQkojEcmlqCYnC1Lo
-	VxMeZAHGto7Ys60HFj7ecZnIXq6KrBAniwV7eff1YJ36HzRQe69nsjjp7Ea+Ybm8AbwO
-	u2VTSw7n8jOm9oUCYG+SQfyd0ss4cr46L0qr5YxwwhNG89iO9+MOXCu3rEYhMwfgpQTZ
-	EQzA==
+	:cc; bh=UHSaXHxLo0vIs+A686+k6o28zNLey4cwFpQ0b0eqIog=;
+	b=RFBYW2zipevbIn9MnWqZvRngM5dk/mXC58cPUfkDdFhAITjFyJ4FhDwKWa+yGLatXo
+	GCNHnQn9XomEH64wj0TK4y9otUzn7Hcnk9OZi+7/qgPujSCefk0wXaJWFLTKRIBrg1Y+
+	bdf0mcodQLZ/IxghK7yZoSD+1tCCPIHcTY/tu5dD8rz4k01STCm65Wdm4FXhRp87OV2r
+	jIlNHoaU4fG1kDVhOpokueXR4IemUlN0YQyTbcfddfkcbE5cpEhjn0B6biEoDpGi9Sh7
+	LDLWjqxsvRKge9afU316ADAbY6QM6Ssukyf85G8XBPOJcvHzKbY6a/N6/mdfvgrik8IP
+	bEAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=N9kNF+sWnfdkemm9m4ZK9ZhK80KmfSUTJ5BvU9MAzy4=;
-	b=q3K5+Zb7v6ko0GozMKLRTugDkB7rVLJISLhqzdI56MvwOoLY0gNi5WnSc/aedpyRXN
-	miqy4pdS1D8WDLLGmcqbKRWm8MiXuHK+Kj/7XtQhF0/i24EJXPG5aiTb4pPVSARc1Jo6
-	Va2V3Hpy2mJhzr8ysfCHfyRyrG4H9Dk7G0smTrhk0JEqTQH6G6T8xw7KO5CRy1MF44Qd
-	kHdz1D16ICpngYlCiFX5O6fKakaNBRLHHir+te30wlORUXG3K3cto69yw1TyWH7J4UUk
-	7CSOOWKFp0GI3/nfF0F4T9LWE1SkLi/Nd1WCrDgQGkae5+heVDQbsFfu/exadzoQJkK3
-	QO+Q==
-X-Gm-Message-State: APjAAAW1Nbz4nQaJVDFDPCfLSzrjP7q1j1VTg3DuqPT+siqoorSn5Zel
-	JO1DyEYY46OTVSxoWLeuLso36UlnKUWHoaEu7UhgalB59/I=
-X-Google-Smtp-Source: APXvYqyKpg5qdu1BT+LYUcmNI4kmSACvvpV35MkptpL3gSF7Xi38eb9aG06K0W4NBrFTI2sAKQNwG6+yh3Jmckwj0xA=
-X-Received: by 2002:a37:4243:: with SMTP id p64mr77679523qka.9.1564845025208; 
-	Sat, 03 Aug 2019 08:10:25 -0700 (PDT)
+	bh=UHSaXHxLo0vIs+A686+k6o28zNLey4cwFpQ0b0eqIog=;
+	b=FrrHfwCYmE/xnC/UaiJ8IpM8TwjfBXUK4XPWjSXfTqzchowzzDx1afmmPE8n9BR5zc
+	ri/F41iYQhS4fCRHdrRd6qi+mfIKN2Zhfss7HI8vGsJbp7W6Gel6PrJ0oQ+uBHtb79Ep
+	VMn4Tpt6IUXopVTSlVah9PZxb+FBGPw1XybnsJquq6F4uXYpu7erNrXmVJkTu71qp16+
+	7WCphF5oxtIEkg2g37+l74e8beOaz3zlEKG0+0mLld+pOOGfDYY0Al4VGMUo7rjIMavB
+	hNzqlHEklXJc8cc1ZeHVuN9JvHe+iuhgSKyjWlQxJb8R/jbfB8icrIzOkXu0efp5GenR
+	jPJQ==
+X-Gm-Message-State: APjAAAXVN0vF8qh17Oorxak6zEGJNSe/qRzfIU/Nug8Upa77sSJXiELZ
+	EEJzwZfjQb7tRnrxoBsf6xYmsLYve0mD4BDUZWg=
+X-Google-Smtp-Source: APXvYqxLiv2GhyKqOnUyQ6AJgWzqn7ZZB+MTQfFvjeiLhbUDfJj49/eI+EHvVX0fq2kPXyap8E8hwneQ9joySuQkTik=
+X-Received: by 2002:a0c:b115:: with SMTP id q21mr102806105qvc.68.1564845154810;
+	Sat, 03 Aug 2019 08:12:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190731174820.16459-1-raj.khem@gmail.com>
-	<20190731174820.16459-2-raj.khem@gmail.com>
-	<232eed90aa6b376d8505d94f0b51e9352101fea7.camel@linuxfoundation.org>
-	<CAMKF1so97t0zFsDB3PRaGaXD=VeTn8159WZojW29ctTEngyzYg@mail.gmail.com>
-	<a8e8972184dcac7be154510d1ac49f38d5979d89.camel@linuxfoundation.org>
-In-Reply-To: <a8e8972184dcac7be154510d1ac49f38d5979d89.camel@linuxfoundation.org>
+References: <20190803133517.7199-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20190803133517.7199-1-richard.purdie@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 3 Aug 2019 08:10:08 -0700
-Message-ID: <CAMKF1srDd=EMhwpJnAwamCj7s7FRuuq0dtT-NNergaPWbykyKA@mail.gmail.com>
+Date: Sat, 3 Aug 2019 08:12:18 -0700
+Message-ID: <CAMKF1soTU=xpRVha2DAVAUKku-_egwbtPKNm7b8F1yGaWV5S6g@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] llvm: Update to 8.0.1
+Subject: Re: [PATCH] sstate: Reduce race windows
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,75 +54,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Aug 2019 15:10:24 -0000
+X-List-Received-Date: Sat, 03 Aug 2019 15:12:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Aug 3, 2019 at 6:42 AM <richard.purdie@linuxfoundation.org> wrote:
+On Sat, Aug 3, 2019 at 6:35 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Sat, 2019-08-03 at 05:13 -0700, Khem Raj wrote:
-> > Thanks for taking care of this I noticed this failure last night as
-> > well
-> >
-> > On Sat, Aug 3, 2019 at 3:53 AM Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> > > On Wed, 2019-07-31 at 10:48 -0700, Khem Raj wrote:
-> > > > Add missing dependency on libedit
-> > > >
-> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > ---
-> > > >  meta/recipes-devtools/llvm/llvm_git.bb | 6 +++---
-> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/meta/recipes-devtools/llvm/llvm_git.bb
-> > > b/meta/recipes-
-> > > > devtools/llvm/llvm_git.bb
-> > > > index 0067635c2b..6d3d69b9fb 100644
-> > > > --- a/meta/recipes-devtools/llvm/llvm_git.bb
-> > > > +++ b/meta/recipes-devtools/llvm/llvm_git.bb
-> > > > @@ -8,7 +8,7 @@ SECTION = "devel"
-> > > >
-> > > >  LIC_FILES_CHKSUM =
-> > > > "file://LICENSE.TXT;md5=c6b766a4e85dd28301eeed54a6684648"
-> > > >
-> > > > -DEPENDS = "libffi libxml2 zlib ninja-native llvm-native"
-> > > > +DEPENDS = "libffi libxml2 zlib libedit ninja-native llvm-native"
-> > > >
-> > > >  RDEPENDS_${PN}_append_class-target = " ncurses-terminfo"
-> > > >
-> > > > @@ -19,12 +19,12 @@ PROVIDES += "llvm${PV}"
-> > > >  LLVM_RELEASE = "${PV}"
-> > > >  LLVM_DIR = "llvm${LLVM_RELEASE}"
-> > > >
-> > > > -SRCREV = "d2298e74235598f15594fe2c99bbac870a507c59"
-> > > > +SRCREV = "19a71f6bdf2dddb10764939e7f0ec2b98dba76c9"
-> > > >
-> > > >  BRANCH = "release/${MAJOR_VERSION}.x"
-> > > >  MAJOR_VERSION = "8"
-> > > >  MINOR_VERSION = "0"
-> > > > -PATCH_VERSION = "0"
-> > > > +PATCH_VERSION = "1"
-> > >
-> > > I had to tweak MESA_LLVM_RELEASE in the mesa recipe to match this
-> > > change...
-> > >
-> > > (squashed into this patch in -next)
+> When we write to the sstate directory we try to do so atomically so
+> consumers either see one version or another but never an imcomplete file.
+
+                                 ^^^^
+typo .
+
+> Unfortunately this is reliant on filesystem support and with some NFS
+> configurations a replaced file would be lost from memory even if users held
+> open descriptors.
 >
-> Unfortunately there is still something else wrong:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/901
+> It makes sense to try and avoid replacing existing files where we can.
 >
 
-something meson ... I wonder, I will see if I can reproduce it here on
-top of master-next
+yes this is helpful. Change looks good.
 
-| llvm-config found: NO need '>= 7.0.0'
-| Run-time dependency LLVM found: NO (tried config-tool)
-|
-| meson.build:1253:2: ERROR: Dependency "llvm" not found, tried config-tool
-
-
-> Cheers,
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/sstate.bbclass | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 >
-> Richard
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index aa5841446c9..11222223a9b 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -755,6 +755,11 @@ sstate_task_postfunc[dirs] = "${WORKDIR}"
+>  sstate_create_package () {
+>         TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
 >
+> +       # Exit earlu if it already exists
+                       ^^^
+typo
+
+
+> +       if [ -e ${SSTATE_PKG} ]; then
+> +               return
+> +       fi
+> +
+>          # Use pigz if available
+>          OPT="-czS"
+>          if [ -x "$(command -v pigz)" ]; then
+> @@ -774,7 +779,12 @@ sstate_create_package () {
+>                 tar $OPT --file=$TFILE --files-from=/dev/null
+>         fi
+>         chmod 0664 $TFILE
+> -       mv -f $TFILE ${SSTATE_PKG}
+> +       # Skip if it was already created by some other process
+> +       if [ ! -e ${SSTATE_PKG} ]; then
+> +               mv -f $TFILE ${SSTATE_PKG}
+> +       else
+> +               rm $TFILE
+> +       fi
+>  }
+>
+>  python sstate_sign_package () {
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
