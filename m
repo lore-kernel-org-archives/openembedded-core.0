@@ -1,48 +1,49 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
-	[209.85.208.45])
-	by mail.openembedded.org (Postfix) with ESMTP id DDCF37BE3C
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+	[209.85.208.51])
+	by mail.openembedded.org (Postfix) with ESMTP id E9B937D69D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Aug 2019 13:03:16 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id d4so76363586edr.13
+	Sun,  4 Aug 2019 13:06:23 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id k21so76339350edq.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 Aug 2019 06:03:18 -0700 (PDT)
+	Sun, 04 Aug 2019 06:06:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=IemNmq/GN0hv7As2xlDl9xzEOoWTSJNVcQ5OyfuxjLA=;
-	b=BzXUVMC4vLxfnO+p2BM+dGCRCvebVihLtUrAaGA2kDLb1g9N8vVY0kyTVwKhkc9PKX
-	Z9WzvnYEbYP228EI3iF2AUSMxwVlJyoR0Kx9O9vLEMMj+2uZENNo9xWrC7VE4pEIvmR2
-	cq/wnt/620Cw5nXkl/gmluD5jtbzj81hOyLpjQI9nYc/M/3lZ/m9xArBl/JAXPLdt1GY
-	BK5bdIyeqeK8xz9YW2mbg7po6SIoSclKXu81ZiDNMtg2crRBBZ1+ZcxG5ZZXwIJvs6Vr
-	Z/EVvqq67UYnNfMu71oX+rskgnhWUQYuxVJAqlHWg3zMHKFrq/3toSHaVRq7XpM3X0ir
-	TWlQ==
+	bh=yiMAZpJlgynn2eVdZ6ac5jupAvaTp5Ph/QnArf/xsMQ=;
+	b=fivHyCRUsjgk7H2aXJTiudUKZQD3vfTvSsWwjR3794MLWOyv5FTsfnkI1Qj7GLxz4p
+	DqiYdennyXvP1z4qKwrCfV4phjsOWFqmPiBVaxv5uvJuYKHQWEMO8FZhSrROVPTWhgZo
+	s2TRErxymCtLOTtTjcaFHBEuUSW8gQPCuklxFX7uH121HYcrpe0uHWx339SPWzREgZlA
+	I+NqrFqvMMGQd6PKeRvkoL8JTwvsPwDxg+FYfBKAGuFBdMo7S6wSWenCxpoYzUjus7CB
+	Ux8V1ESSGe8eUBx/AARS5/9mVaLjpkINIT7vM994GFaUwPRXp1T+ZP95FpiPksFdoLKK
+	DOlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=IemNmq/GN0hv7As2xlDl9xzEOoWTSJNVcQ5OyfuxjLA=;
-	b=U1bJyhYvTKCqwy2W4EJ8Plo+4sS4OcwZsdopUrIC98gj1qW0oh/u6gv3FKVLh+MklN
-	6hwo/On1pgccqIBtBxCi3c0zoVfv7FQjt9WleEMk7ljwlaHaJPBmJJXSaDQjOy5YVNVy
-	J2rRqz0+doqIfSEHBD9jTDG3Nz5RS+SEsH60TjAp5FpWw30WL8bH6xqHwEdF3CWzDs++
-	isYcO812Cd4cEGjR9dCbjemYkL1gNmu+0zQBRS3JUy7NMrJ3SIFK6DIXL1cMpl6fHYZE
-	hdtHe2yrZaFfGyFFKw94N0KZgug9BCnon3dosDYFPY2OGggbri0wH3SoF+Z/KHEc3kYw
-	trFg==
-X-Gm-Message-State: APjAAAXT8rz6eFpaNTh4rO/owgWJ86TTxVTiCB8YEQLzpNg1Z4gFKPBu
-	zvh1nHAtj50Z9ydfGynEbePpZFpY3xY=
-X-Google-Smtp-Source: APXvYqxe0OIFNoz0NgRFN8X4TcCT7J6YcPs06mwwrHsioi8ZbNwLYqcBvQG34T/EHnXVwO7GS6P7aQ==
-X-Received: by 2002:a50:9846:: with SMTP id h6mr126045869edb.263.1564923797304;
-	Sun, 04 Aug 2019 06:03:17 -0700 (PDT)
+	bh=yiMAZpJlgynn2eVdZ6ac5jupAvaTp5Ph/QnArf/xsMQ=;
+	b=nJKXCHfQtaTas3FPY676WP7ZE8462alM7Q9X07UbvQq7QD5bvTrRHyY8f+4IlwiQYY
+	M5OGEBXeBHDH9JnYQvu6PVJBIuVTeuUrSnZMBjugA2S+z9873CWde7TudRpszJAXC0nf
+	bcM0OwIvzeZ2KPiq8l6krUYZ8prNXCJxImgZieUYcT1UdAPmPk1INlgL/T5o55CaUntN
+	9M4uZXyaWenDD0RQZlyTsFX4jGGWEx1eR68HxLw/ZicxRNQgNaonOdpcs7pb4rWf+Gc3
+	CmdEpV51/COagS6eq9Xgg/QVBRfzGejLfO3yjUx70ZsXjA2CTghhikWdOjcc6fS2Ze1u
+	6RVw==
+X-Gm-Message-State: APjAAAUJoNAyCeIVmmb7o4RRmwSUGJFWRbRrDIiVq7DyqX3is5Oh6But
+	gp3qEctMR/OY7N17nQdKXQQe2K9+tOs=
+X-Google-Smtp-Source: APXvYqzTyMacD3iQy4ooFE7P4kuo0kTz0RkFbqhSQI01PCbZqYYEB/coLwmkQKlzmIk5OhTC/vHQqg==
+X-Received: by 2002:a50:9646:: with SMTP id
+	y64mr128614711eda.111.1564923984424; 
+	Sun, 04 Aug 2019 06:06:24 -0700 (PDT)
 Received: from peterliu-Precision-7530.toradex.int ([27.191.200.33])
 	by smtp.gmail.com with ESMTPSA id
-	y22sm18520275edw.94.2019.08.04.06.03.15
+	a18sm11127076ejp.2.2019.08.04.06.06.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 04 Aug 2019 06:03:16 -0700 (PDT)
+	Sun, 04 Aug 2019 06:06:24 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Aug 2019 21:03:06 +0800
-Message-Id: <1564923786-13805-1-git-send-email-liu.ming50@gmail.com>
+Date: Sun,  4 Aug 2019 21:06:17 +0800
+Message-Id: <1564923977-13917-1-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] opensbi: handle deploy task under sstate
+Cc: Ming Liu <ming.liu@toradex.com>, max.krummenacher@toradex.com
+Subject: [PATCH] image.bbclass: fix EXTRA_IMAGEDEPENDS dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Aug 2019 13:03:17 -0000
+X-List-Received-Date: Sun, 04 Aug 2019 13:06:24 -0000
 
-From: Ming Liu <liu.ming50@gmail.com>
+From: Ming Liu <ming.liu@toradex.com>
 
-Inherit deploy bbclass and install files to DEPLOYDIR rather than in
-DEPLOY_DIR_IMAGE.
+Sometimes the deploy tasks of EXTRA_IMAGEDEPENDS are also needed by
+image, for instance, in qemuriscv64/qemuriscv machines:
+- EXTRA_IMAGEDEPENDS += "u-boot"
+- EXTRA_IMAGEDEPENDS += "opensbi"
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+and there are also a lot of similar usuages in some BSP layers like
+meta-freescale.
+
+So we change to let image's do_image_complete depend on do_build task
+of EXTRA_IMAGEDEPENDS recipes, to be able to depend on do_deploy task
+as well as do_populate_sysroot task.
+
+Signed-off-by: Ming Liu <ming.liu@toradex.com>
 ---
- meta/recipes-bsp/opensbi/opensbi_0.4.bb | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/opensbi/opensbi_0.4.bb b/meta/recipes-bsp/opensbi/opensbi_0.4.bb
-index 068ae76..3827528 100644
---- a/meta/recipes-bsp/opensbi/opensbi_0.4.bb
-+++ b/meta/recipes-bsp/opensbi/opensbi_0.4.bb
-@@ -6,7 +6,7 @@ DEPENDS += "dtc-native"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 682858d..89ec2b4 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -144,7 +144,7 @@ python () {
+             deps += " %s:%s" % (dep, task)
+         return deps
  
- require opensbi-payloads.inc
+-    d.appendVarFlag('do_image_complete', 'depends', extraimage_getdepends('do_populate_sysroot'))
++    d.appendVarFlag('do_image_complete', 'depends', extraimage_getdepends(d.getVar('RM_WORK_BUILD_WITHOUT') or 'do_build'))
  
--inherit autotools-brokensep
-+inherit autotools-brokensep deploy
- 
- SRCREV = "ce228ee0919deb9957192d723eecc8aaae2697c6"
- SRC_URI = "git://github.com/riscv/opensbi.git \
-@@ -35,13 +35,12 @@ do_install_append() {
- }
- 
- do_deploy () {
--	install -d ${DEPLOY_DIR_IMAGE}
--	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_payload.* ${DEPLOY_DIR_IMAGE}/
--	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_jump.* ${DEPLOY_DIR_IMAGE}/
--	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_dynamic.* ${DEPLOY_DIR_IMAGE}/
-+	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_payload.* ${DEPLOYDIR}/
-+	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_jump.* ${DEPLOYDIR}/
-+	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_dynamic.* ${DEPLOYDIR}/
- }
- 
--addtask deploy after do_install
-+addtask deploy before do_build after do_install
- 
- FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_jump.*"
- FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
+     deps = " " + imagetypes_getdepends(d)
+     d.appendVarFlag('do_rootfs', 'depends', deps)
 -- 
 2.7.4
 
