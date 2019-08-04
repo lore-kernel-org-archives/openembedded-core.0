@@ -1,49 +1,48 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
-	[209.85.208.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E9B937D69D
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CC0AE751D2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Aug 2019 13:06:23 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id k21so76339350edq.3
+	Sun,  4 Aug 2019 14:04:23 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id f9so2888892wre.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 04 Aug 2019 06:06:25 -0700 (PDT)
+	Sun, 04 Aug 2019 07:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=yiMAZpJlgynn2eVdZ6ac5jupAvaTp5Ph/QnArf/xsMQ=;
-	b=fivHyCRUsjgk7H2aXJTiudUKZQD3vfTvSsWwjR3794MLWOyv5FTsfnkI1Qj7GLxz4p
-	DqiYdennyXvP1z4qKwrCfV4phjsOWFqmPiBVaxv5uvJuYKHQWEMO8FZhSrROVPTWhgZo
-	s2TRErxymCtLOTtTjcaFHBEuUSW8gQPCuklxFX7uH121HYcrpe0uHWx339SPWzREgZlA
-	I+NqrFqvMMGQd6PKeRvkoL8JTwvsPwDxg+FYfBKAGuFBdMo7S6wSWenCxpoYzUjus7CB
-	Ux8V1ESSGe8eUBx/AARS5/9mVaLjpkINIT7vM994GFaUwPRXp1T+ZP95FpiPksFdoLKK
-	DOlw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wcwP0xX3E5m3vrppzSvAte/v49RsY7hZMNNEMwJJk9o=;
+	b=pAOOjWbaSOLiu0IFWxO4Wc2rmUdr9sp/O/b4eO7iB9v7d+1lgh1PY6cgALGowoixLu
+	iCZcqzofztKtxjeqBs5VFW3EyRI2nVjRtbsEvxr+6a52yElqWxkrTpaC0c3gLh8LI8ch
+	Ateul8kWujNDReQFfTXJI2Sr8nPBf64+R2oGzJn5WO4wrQn6obDHKcCAQ83mQq9r1I05
+	RoGKYCWXD/bmivRBnEf8468hg4i9sHBLAO6ADbOwSy/Zt0N4MD2zKv+l8FVojfIjssk4
+	Bldmyo0jk/PZ46rPlGOT1B7d6ri/A2OQOwPN87Ea2llN32ua0Wv0OdOxXWe2lV1dmlt8
+	Bm2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yiMAZpJlgynn2eVdZ6ac5jupAvaTp5Ph/QnArf/xsMQ=;
-	b=nJKXCHfQtaTas3FPY676WP7ZE8462alM7Q9X07UbvQq7QD5bvTrRHyY8f+4IlwiQYY
-	M5OGEBXeBHDH9JnYQvu6PVJBIuVTeuUrSnZMBjugA2S+z9873CWde7TudRpszJAXC0nf
-	bcM0OwIvzeZ2KPiq8l6krUYZ8prNXCJxImgZieUYcT1UdAPmPk1INlgL/T5o55CaUntN
-	9M4uZXyaWenDD0RQZlyTsFX4jGGWEx1eR68HxLw/ZicxRNQgNaonOdpcs7pb4rWf+Gc3
-	CmdEpV51/COagS6eq9Xgg/QVBRfzGejLfO3yjUx70ZsXjA2CTghhikWdOjcc6fS2Ze1u
-	6RVw==
-X-Gm-Message-State: APjAAAUJoNAyCeIVmmb7o4RRmwSUGJFWRbRrDIiVq7DyqX3is5Oh6But
-	gp3qEctMR/OY7N17nQdKXQQe2K9+tOs=
-X-Google-Smtp-Source: APXvYqzTyMacD3iQy4ooFE7P4kuo0kTz0RkFbqhSQI01PCbZqYYEB/coLwmkQKlzmIk5OhTC/vHQqg==
-X-Received: by 2002:a50:9646:: with SMTP id
-	y64mr128614711eda.111.1564923984424; 
-	Sun, 04 Aug 2019 06:06:24 -0700 (PDT)
-Received: from peterliu-Precision-7530.toradex.int ([27.191.200.33])
-	by smtp.gmail.com with ESMTPSA id
-	a18sm11127076ejp.2.2019.08.04.06.06.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 04 Aug 2019 06:06:24 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Aug 2019 21:06:17 +0800
-Message-Id: <1564923977-13917-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <ming.liu@toradex.com>, max.krummenacher@toradex.com
-Subject: [PATCH] image.bbclass: fix EXTRA_IMAGEDEPENDS dependencies
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wcwP0xX3E5m3vrppzSvAte/v49RsY7hZMNNEMwJJk9o=;
+	b=U9jZf2g7kbE4FY14R9o0FlUXoXukYsauWHmle3n2KdV3AazaB06Wz+x2rqjuoZFnzG
+	sLjMjZ1mn047NNX8ugj6VevOb29G4a+P6FBrokHOTM+pQHRSPQWtzgwtOMsZ+osZo+1c
+	kfo9t1h7ZwnI3qjxKIrGK3PyU3b+PgplyaFKwcB2+oLer+useyM3Ljt9krnYMwgDdRe8
+	qGqOpasiC57ROgZA+iz55xm6pA69D7K8/HF7xqt4svr366nkoqIv4baL2nIDYUPVW/3n
+	2/XMd9NNv029A80+iDCqgIKL+g7upljHTt0jVdbNij7zWEJf7BjgW+kJo2TShkYPorSZ
+	iZdg==
+X-Gm-Message-State: APjAAAXJyYuC7G4iVgK1n2b/869+/JwczvU0NQ7Z/bBXIFGRIeJIaa++
+	FfFd1fDSr4q5rRfe8stCfNiZOQG6REPWbqC8AVQ=
+X-Google-Smtp-Source: APXvYqxUN4ciH/7uKyIEzdpJxuT1PwTjNto/fqga+X/1gtCFwUPBuStL6pTUPaQmVGK451DgKQxVQfQAXOHGrdNWUTk=
+X-Received: by 2002:a5d:52c5:: with SMTP id r5mr10036799wrv.146.1564927464263; 
+	Sun, 04 Aug 2019 07:04:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <1564737163-4640-1-git-send-email-liu.ming50@gmail.com>
+	<d64de27d193a114ff3903258064929d01a0ec57b.camel@linuxfoundation.org>
+In-Reply-To: <d64de27d193a114ff3903258064929d01a0ec57b.camel@linuxfoundation.org>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Sun, 4 Aug 2019 22:04:13 +0800
+Message-ID: <CALatG=7_3gXkDG1rjJKJmNy=0H6cc8oeTh0rWYSxVjDm=0MxUA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: marcel.ziswiler@toradex.com, Ming Liu <ming.liu@toradex.com>,
+	stefan.agner@toradex.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image.bbclass: exclude deploy-${PN}-image-complete from rm_work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,41 +55,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Aug 2019 13:06:24 -0000
+X-List-Received-Date: Sun, 04 Aug 2019 14:04:24 -0000
+Content-Type: multipart/alternative; boundary="0000000000009b55df058f4b11bb"
 
-From: Ming Liu <ming.liu@toradex.com>
+--0000000000009b55df058f4b11bb
+Content-Type: text/plain; charset="UTF-8"
 
-Sometimes the deploy tasks of EXTRA_IMAGEDEPENDS are also needed by
-image, for instance, in qemuriscv64/qemuriscv machines:
-- EXTRA_IMAGEDEPENDS += "u-boot"
-- EXTRA_IMAGEDEPENDS += "opensbi"
+Hi, Richard:
 
-and there are also a lot of similar usuages in some BSP layers like
-meta-freescale.
+This is to handle the case IMAGE_CMD_yyy depending on IMAGE_CMD_xxx, while
+IMAGE_CMD_yyy need access the result generated by IMAGE_CMD_xxx in
+${IMGDEPLOYDIR}, and IMAGE_CMD_yyy itself wanna generate a result in
+${IMGDEPLOYDIR} as well, to be able to be covered by sstate.
 
-So we change to let image's do_image_complete depend on do_build task
-of EXTRA_IMAGEDEPENDS recipes, to be able to depend on do_deploy task
-as well as do_populate_sysroot task.
+In this case, IMAGE_CMD_yyy should not get the IMAGE_CMD_xxx's result from
+${DEPLOY_DIR_IMAGE} because that might not be generated by the latest
+bitbake run.
 
-Signed-off-by: Ming Liu <ming.liu@toradex.com>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+And the result of IMAGE_CMD_xxx might not exit in ${IMGDEPLOYDIR} when
+rm_work is chosen in the following scenario:
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 682858d..89ec2b4 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -144,7 +144,7 @@ python () {
-             deps += " %s:%s" % (dep, task)
-         return deps
- 
--    d.appendVarFlag('do_image_complete', 'depends', extraimage_getdepends('do_populate_sysroot'))
-+    d.appendVarFlag('do_image_complete', 'depends', extraimage_getdepends(d.getVar('RM_WORK_BUILD_WITHOUT') or 'do_build'))
- 
-     deps = " " + imagetypes_getdepends(d)
-     d.appendVarFlag('do_rootfs', 'depends', deps)
--- 
-2.7.4
+1 bitbake image (IMAGE_CMD_xxx and IMAGE_CMD_yyy both run at the first time)
+2 Change some code in IMAGE_CMD_yyy, but do not touch IMAGE_CMD_xxx
+3 bitbake image
+
+in the step 3, the result generated by IMAGE_CMD_xxx would not be in
+${IMGDEPLOYDIR} if rm_work is chosen (Because it's removed in step 1), so
+this patch mainly aims to fix this problem.
+
+//Ming Liu
 
 
+
+On Fri, 2019-08-02 at 17:12 +0800, liu.ming50@gmail.com wrote:
+> > From: Ming Liu <ming.liu@toradex.com>
+> >
+> > The results in ${IMGDEPLOYDIR} generated by a image task could be
+> > used by later image tasks.
+>
+> No they shouldn't.
+>
+> > , hence they should be excluded by rm_work. Or else when a image task
+> > gets rerun but one of its dependent image task does not, then the
+> > results generated by this dependent image task would not be there in
+> > ${IMGDEPLOYDIR}.
+>
+> Nothing should be poking into IMGDEPLOYDIR outside of the image tasks.
+>
+> do_image_complete[sstate-inputdirs] = "${IMGDEPLOYDIR}"
+> do_image_complete[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
+>
+> anything else should be after do_image_complete and be referencing
+> DEPLOY_DIR_IMAGE.
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+--0000000000009b55df058f4b11bb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><div class=3D"  NE-CH-HEIGHT" style=3D"font-family:Arial;font-size:14p=
+x" dir=3D"auto">Hi, Richard:</div><div class=3D"  NE-CH-HEIGHT" style=3D"fo=
+nt-family:Arial;font-size:14px" dir=3D"auto"><br class=3D"  NE-CH-HEIGHT" s=
+tyle=3D"cursor: pointer;"></div><div class=3D"  NE-CH-HEIGHT" style=3D"font=
+-family:Arial;font-size:14px" dir=3D"auto">This is to handle the case IMAGE=
+_CMD_yyy depending on IMAGE_CMD_xxx, while IMAGE_CMD_yyy need access the re=
+sult generated by IMAGE_CMD_xxx in ${IMGDEPLOYDIR}, and IMAGE_CMD_yyy itsel=
+f wanna generate a result in ${IMGDEPLOYDIR} as well, to be able to be cove=
+red by sstate.</div><div class=3D"  NE-CH-HEIGHT" style=3D"font-family:Aria=
+l;font-size:14px" dir=3D"auto"><br class=3D"  NE-CH-HEIGHT" style=3D"cursor=
+: pointer;"></div><div class=3D"  NE-CH-HEIGHT" style=3D"font-family:Arial;=
+font-size:14px" dir=3D"auto">In this case, IMAGE_CMD_yyy should not get the=
+ IMAGE_CMD_xxx&#39;s result from ${DEPLOY_DIR_IMAGE} because that might not=
+ be generated by the latest bitbake run.</div><div class=3D"  NE-CH-HEIGHT"=
+ style=3D"font-family:Arial;font-size:14px" dir=3D"auto"><br class=3D"  NE-=
+CH-HEIGHT" style=3D"cursor: pointer;"></div><div class=3D"  NE-CH-HEIGHT" s=
+tyle=3D"font-family:Arial;font-size:14px" dir=3D"auto">And the result of IM=
+AGE_CMD_xxx might not exit in ${IMGDEPLOYDIR} when rm_work is chosen in the=
+ following scenario:</div><div class=3D"  NE-CH-HEIGHT" style=3D"font-famil=
+y:Arial;font-size:14px" dir=3D"auto"><br class=3D"  NE-CH-HEIGHT" style=3D"=
+cursor: pointer;"></div><div class=3D"  NE-CH-HEIGHT" style=3D"font-family:=
+Arial;font-size:14px" dir=3D"auto">1 bitbake image (IMAGE_CMD_xxx and IMAGE=
+_CMD_yyy both run at the first time)</div><div class=3D"  NE-CH-HEIGHT" sty=
+le=3D"font-family:Arial;font-size:14px" dir=3D"auto">2 Change some code in =
+IMAGE_CMD_yyy, but do not touch IMAGE_CMD_xxx</div><div class=3D"  NE-CH-HE=
+IGHT" style=3D"font-family:Arial;font-size:14px" dir=3D"auto">3 bitbake ima=
+ge</div><div class=3D"  NE-CH-HEIGHT" style=3D"font-family:Arial;font-size:=
+14px" dir=3D"auto"><br class=3D"  NE-CH-HEIGHT" style=3D"cursor: pointer;">=
+</div><div class=3D"  NE-CH-HEIGHT" style=3D"font-family:Arial;font-size:14=
+px" dir=3D"auto">in the step 3, the result generated by IMAGE_CMD_xxx would=
+ not be in ${IMGDEPLOYDIR} if rm_work is chosen (Because it&#39;s removed i=
+n step 1), so this patch mainly aims to fix this problem.</div><div class=
+=3D"  NE-CH-HEIGHT" style=3D"font-family:Arial;font-size:14px" dir=3D"auto"=
+><br class=3D"  NE-CH-HEIGHT" style=3D"cursor: pointer;"></div><div class=
+=3D"  NE-CH-HEIGHT" style=3D"font-family:Arial;font-size:14px" dir=3D"auto"=
+>//Ming Liu</div><br class=3D"Apple-interchange-newline" style=3D"font-fami=
+ly:-webkit-standard"></div><div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr"><br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, =
+2019-08-02 at 17:12 +0800, <a href=3D"mailto:liu.ming50@gmail.com" target=
+=3D"_blank">liu.ming50@gmail.com</a> wrote:<br>
+&gt; From: Ming Liu &lt;<a href=3D"mailto:ming.liu@toradex.com" target=3D"_=
+blank">ming.liu@toradex.com</a>&gt;<br>
+&gt; <br>
+&gt; The results in ${IMGDEPLOYDIR} generated by a image task could be<br>
+&gt; used by later image tasks.<br>
+<br>
+No they shouldn&#39;t.<br>
+<br>
+&gt; , hence they should be excluded by rm_work. Or else when a image task<=
+br>
+&gt; gets rerun but one of its dependent image task does not, then the<br>
+&gt; results generated by this dependent image task would not be there in<b=
+r>
+&gt; ${IMGDEPLOYDIR}.<br>
+<br>
+Nothing should be poking into IMGDEPLOYDIR outside of the image tasks.<br>
+<br>
+do_image_complete[sstate-inputdirs] =3D &quot;${IMGDEPLOYDIR}&quot;<br>
+do_image_complete[sstate-outputdirs] =3D &quot;${DEPLOY_DIR_IMAGE}&quot;<br=
+>
+<br>
+anything else should be after do_image_complete and be referencing<br>
+DEPLOY_DIR_IMAGE.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div>
+
+--0000000000009b55df058f4b11bb--
