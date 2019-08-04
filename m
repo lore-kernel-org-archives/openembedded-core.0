@@ -1,49 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E8BAF7F275
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 149F77E5F1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Aug 2019 00:49:49 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id d23so77756348qto.2
+	Sun,  4 Aug 2019 12:39:05 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id e3so76304717edr.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Aug 2019 17:49:51 -0700 (PDT)
+	Sun, 04 Aug 2019 05:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=DRI8rxLt1wKJwsHTK5Nv1MYcV5nlhBGS0vdoSUng2Qo=;
-	b=NQPXVCZ6WDchTrYqMVRwWqx72JHtHTkdrvo8sXz1kxWYGGS1vucLL8w9LJ3njbvOUZ
-	93UF/HCTcLsLP9QyOFlnN0R3KmJVTASfq6yYpkvd1ObZd3HrCQxSY9oyBNaQWXujsC3W
-	tHTFxTFC0VBAD77SzZVqGxRVijEkhsCgnWFFewcP6AkXVS+mP7aDnyUknO/Jk4ICZ2qO
-	F5y4TYrG7hUrxv5NepZs73xxROkOc9qWWJH0y+4WkWC8Xlv/VC0JQjYcAPG4F/FkP5bD
-	al9NNXQu0qt9Rk4HWdOa8jDZQZwByf6mPPEma7P/pnwr+/AYgfvrtgrr11XaZnF7hHBu
-	xiow==
+	h=from:to:cc:subject:date:message-id;
+	bh=q5K24Br3JDB9k98Wnfq0mdm4h74G2g2eGIFmd2glN1A=;
+	b=mMil7qkY7tZ6XuRb999lSI6rWumXCK7RKWNMQ14uJk0RcFK5YAcnA4DM1lFauL8J9o
+	V9b/lRfCh2Py5dov21NoJtoIlSMz5hn9+H98G59JnupzUxKmggUk69RZmETI9CALUigV
+	1PGwcXP6+fbjeAYDkdzA8mQ/mtFwK3+vRWqR1MTt2OIC1iKo3kCRzAiXWysuPJdremqj
+	e0g2FumlIr68sKxyAIhH4p5VrAm/3F+/lyieneM0ZhR6HhFsiL2vT3unhX6ajPe5HuWk
+	GrbFuUktbMtO6wd+6+rBRso70Ns3DZtD4RnsPNe0JNXZRMhjEPl9fOJbDWnILDJECz+q
+	NS0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=DRI8rxLt1wKJwsHTK5Nv1MYcV5nlhBGS0vdoSUng2Qo=;
-	b=Ko+bDNFry4nF31dJQ2/9+aXD9wQaEdiVEzf6rJt7n573YnqKUfxMPb1cIGcKRsD6yT
-	0BdgdxaSeDyM+UljzcD7SEdcD0LwLgfKVjCCwVw5U/PdcuxiQZgPp2l14s8PEH+5DVqa
-	AttEKzTiRqjkoyqWL0i/DbIOT8uzOW6Ii6hsDgKDf9rCytaWGnKSWHWXejGLmEEowCsc
-	liKBOzHA9llWtnJp8nX5mcRZceq3UMevk/s5jklzLta5QknxyK8WglJwdnq+jsLdMNvT
-	F1JK1CZZDbVbtmuPHui6uPKleLlkiOw9pBuHqyqup8m+k/8c1QDF8cnDkHZv175hHyLn
-	gYqg==
-X-Gm-Message-State: APjAAAW+h1ye619mD/w3Vd0vfEH06IR7LTnhXKDZ93i98PjnOEUsFGIk
-	j6nXtKL9tDhvLQ6aqDC3+ASu7MGgv2xFq0noHHA=
-X-Google-Smtp-Source: APXvYqzqg5gf09h8z5M34rnR68LZ1JAQutL5yvrj9EfX3Z8qDqPtsUR/q4eWiwvgFq4Rfmj0hJmmCkisQEM2wXgdNrA=
-X-Received: by 2002:ad4:4112:: with SMTP id
-	i18mr104651002qvp.175.1564879790422; 
-	Sat, 03 Aug 2019 17:49:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190802203719.20437-1-ross.burton@intel.com>
-	<20190802203719.20437-5-ross.burton@intel.com>
-In-Reply-To: <20190802203719.20437-5-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 3 Aug 2019 17:49:23 -0700
-Message-ID: <CAMKF1soKtwNUY6SchZLPH8oHbbUiLabEir+JJD1_FdhHqGfhEw@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/9] libxx86dga: remove obsolete client libary
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=q5K24Br3JDB9k98Wnfq0mdm4h74G2g2eGIFmd2glN1A=;
+	b=ZNc3OR+BHiiPV8AuQ/rs1EPxokQ1//Vv1QhElYW/FV1gBK8WWedd2SWx/tTTH/idsy
+	Qb9CVtnpy0F3eMbMQLN8+Gho9qDkHTqWS3f7I0IoBEOQ/rdrh7bzw1eTFdM7+rjcbhEw
+	RCOavL9wXVvUk22PLFDGNkwlS7MLm5GQZtVFCw+YREIBkTfjdnyv+pUawPDFkTlLcK4/
+	pFNscBS28MtzgMqTMOR5db6E9wEh8NsVRzic48fi8AMU7A6ytkYOqGSo45DTGU2QFsRx
+	VOp9YX+WYqJ4W/Es+WC0HD4+nPNSoz3Ff/F+97f7RGOX+xrPKSHT/gZsNzdqhY3wwGTn
+	Y3lg==
+X-Gm-Message-State: APjAAAWSv2w/hosMGGdPWjjaLWwTF9LExzbI3or8fzYcEcpob4QE2yUF
+	TcZeUi+V+FgdCmjs7phbQvHW2ngOXIc=
+X-Google-Smtp-Source: APXvYqzuAn8oRPx5yP6Jj4kLLFLQ4NuzeLu+77t/QH7SHbvFk+zy/IjOdC8uLqMyrpocZn8rAv1RLQ==
+X-Received: by 2002:a50:886a:: with SMTP id c39mr61251498edc.214.1564922346423;
+	Sun, 04 Aug 2019 05:39:06 -0700 (PDT)
+Received: from peterliu-Precision-7530.toradex.int ([27.191.200.33])
+	by smtp.gmail.com with ESMTPSA id
+	d44sm19504266eda.75.2019.08.04.05.39.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 04 Aug 2019 05:39:05 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  4 Aug 2019 20:37:55 +0800
+Message-Id: <1564922275-12877-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] license_image.bbclass: drop invalid comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,72 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Aug 2019 00:49:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 04 Aug 2019 12:39:06 -0000
 
-Ross
+From: Ming Liu <liu.ming50@gmail.com>
 
-I am seeing
+These comments are not valid any more, drop them.
 
-https://errors.yoctoproject.org/Errors/Details/257733/
-https://errors.yoctoproject.org/Errors/Details/257734/
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/license_image.bbclass | 4 ----
+ 1 file changed, 4 deletions(-)
 
-I wonder if they are related to this series
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index 2cfda81..3f102d0 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -198,10 +198,6 @@ def get_deployed_dependencies(d):
+ 
+     deploy = {}
+     # Get all the dependencies for the current task (rootfs).
+-    # Also get EXTRA_IMAGEDEPENDS because the bootloader is
+-    # usually in this var and not listed in rootfs.
+-    # At last, get the dependencies from boot classes because
+-    # it might contain the bootloader.
+     taskdata = d.getVar("BB_TASKDEPDATA", False)
+     depends = list(set([dep[0] for dep
+                     in list(taskdata.values())
+-- 
+2.7.4
 
-On Fri, Aug 2, 2019 at 1:51 PM Ross Burton <ross.burton@intel.com> wrote:
->
-> No modern drivers nor applications use DGA, so remove the client library.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/conf/distro/include/maintainers.inc      |  1 -
->  .../xorg-lib/libxxf86dga_1.1.5.bb             | 19 -------------------
->  2 files changed, 20 deletions(-)
->  delete mode 100644 meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb
->
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 0bb4a57248f..d9ef9bf1fdb 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -442,7 +442,6 @@ RECIPE_MAINTAINER_pn-libxt = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-libxtst = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-libxv = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-libxvmc = "Armin Kuster <akuster808@gmail.com>"
-> -RECIPE_MAINTAINER_pn-libxxf86dga = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-libxxf86vm = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-libyaml = "Alexander Kanavin <alex.kanavin@gmail.com>"
->  RECIPE_MAINTAINER_pn-lighttpd = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb
-> deleted file mode 100644
-> index e1cb3456588..00000000000
-> --- a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.5.bb
-> +++ /dev/null
-> @@ -1,19 +0,0 @@
-> -require xorg-lib-common.inc
-> -
-> -SUMMARY = "XFree86-DGA: XFree86 Direct Graphics Access extension library"
-> -
-> -DESCRIPTION = "libXxf86dga provides the XFree86-DGA extension, which \
-> -allows direct graphics access to a framebuffer-like region, and also \
-> -allows relative mouse reporting, et al.  It is mainly used by games and \
-> -emulators for games."
-> -
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=abb99ac125f84f424a4278153988e32f"
-> -
-> -DEPENDS += "libxext"
-> -
-> -PE = "1"
-> -
-> -SRC_URI[md5sum] = "0ddeafc13b33086357cfa96fae41ee8e"
-> -SRC_URI[sha256sum] = "2b98bc5f506c6140d4eddd3990842d30f5dae733b64f198a504f07461bdb7203"
-> -
-> -XORG_PN = "libXxf86dga"
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
