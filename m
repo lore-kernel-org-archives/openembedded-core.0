@@ -1,43 +1,25 @@
-Return-Path: <loic.poulain@linaro.org>
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
-	[209.85.208.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A54947ED96
+Return-Path: <jwessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CB817D270
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 16:05:40 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id w13so79297817eds.4
+	Mon,  5 Aug 2019 16:32:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x75GWcM2017229
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2019 09:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=ILbH5kziEASsh3JtohYvXmTkvGqzjq08qWOh9CQ/qnM=;
-	b=yGkej34iClQTUqP+bIZutRB/SDsjKMwfZRoPoLu0/OmuyajI5QgpvEx/nEAbJuZArZ
-	+TINnLXL8oMpocpCdBBypexLZyp0TlXZisV8/gdFutzAhPICpHjRLrljbzWcWQbIMdo+
-	+fAs/W2aC0zYBgwi4DbTRjpoGlhIr53K6FmYIsLljG162/rHHFCRHGKNSf4q5pcjliNU
-	yRf19HR65pxn+SRWnHohMNH6qtu7Wkl0mYiSRZE8sOcbGyiY3LFUCpF4LeibHrC6dFDZ
-	Q8n2sZdMYwUQ7f1HSfCjU/Wdgcnj6AUDJl5JQSIR909gukQKzqRwYRM0tQi/CRMuOsbg
-	EoxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=ILbH5kziEASsh3JtohYvXmTkvGqzjq08qWOh9CQ/qnM=;
-	b=IFuRp8EBf2UZG7VLK7T7j7GnRWfw51CPzYce/hOhf7tsSt5txDqq0Uhvt22rAMFC21
-	ojlr5jMq7CGdzlPRZpifeCBGPzQoVJCfJHFiKoOyMDjmT5rOB278+usKJs4A3awYBHZv
-	DhQgvM305bOtISGtdj78WmFWZ34EZYkuTJud5EyUgsonRkGtel2dpD0awu8zW+zS7xEN
-	Esf1Bfh2aB0ODvFK/dTix9rIHFTO1xlB5jCCLW4Q6jOM/QeLLIw0gw0vd4raiv4jzdyU
-	m/Dx7KYL4IgFr5sHx5kA7eVaiXWW2B4gTPVU8jbzPH/0zAuLOx1axUVxonDAOyL4TcRA
-	jk1Q==
-X-Gm-Message-State: APjAAAVZwUt23QlRABZFlGXfka7nz6H+a73ZOtZGw7sn3LtX6TYr4QFf
-	RS25WNMsOE7lmmg2EbjrXfKVqJEbqtztG0T4lpNDOAhA
-X-Google-Smtp-Source: APXvYqw+n7pAyyO/LCFJLXJ1J9wLRLp+wXs9obxBiMO3LXxP6F3YXkqNMKObAZK6uN/PrPE1N7PqzIgRXqhLxSdUDQw=
-X-Received: by 2002:a17:906:95d0:: with SMTP id
-	n16mr118652094ejy.116.1565021141004; 
-	Mon, 05 Aug 2019 09:05:41 -0700 (PDT)
+	Mon, 5 Aug 2019 09:32:38 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Mon, 5 Aug 2019 09:32:38 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 3A17BAA47AC;
+	Mon,  5 Aug 2019 09:32:37 -0700 (PDT)
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Aug 2019 09:32:37 -0700
+Message-ID: <20190805163237.106405-1-jason.wessel@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-From: Loic Poulain <loic.poulain@linaro.org>
-Date: Mon, 5 Aug 2019 18:06:03 +0200
-Message-ID: <CAMZdPi_2=mFZFgwzUVis4BE7P3C4boOZmVB6_eYeLCaT0wLJaA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Automatic prebuilt management
+Subject: [PATCH v3] pseudo: Fix openat() with a symlink pointing to a directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,64 +32,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 16:05:41 -0000
-Content-Type: multipart/alternative; boundary="0000000000002d071c058f60e1fb"
+X-List-Received-Date: Mon, 05 Aug 2019 16:32:37 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---0000000000002d071c058f60e1fb
-Content-Type: text/plain; charset="UTF-8"
+While working with ostree disk generation in conjunction with wic, I
+found a problem with pseudo where it tried to resolve a symlink when
+it shouldn't, based on openat() flags. A C program has been
+constructed to test pseudo to show that it is working properly with
+the correct behavior around openat().
 
-Hello,
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <dirent.h>
+ #include <unistd.h>
+ #include <fcntl.h>
 
-Say a company works with an OE internal tree, with open-source and
-closed-source packages. The company wants to release the tree so that its
-customers can fully customize the images/distro. The closed sources being
-only available internally, the company has to generate and handle prebuilt
-binaries for proprietary packages. Ideally, with a unified public/internal
-OE tree (same recipes for internal/public build).
+int main()
+{
+    /*
+     * Tested with: gcc -Wall -o app app.c ; echo "no pseudo" ;
+     * ./app ; echo "pseudo"; pseudo ./app
+     */
+    system("rm -rf tdir tlink");
+    system("mkdir tdir");
+    system("ln -s tdir tlink");
+    DIR *dir = opendir(".");
+    int dfd = dirfd(dir);
 
-This question is actually similar to an older thread:
-https://marc.info/?l=openembedded-core&m=146779329804683
+    int target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK |
+                             O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+    if (target_dfd == -1) {
+        printf("Test 1 good\n");
+    } else {
+        printf("Test 1 failed\n");
+        close(target_dfd);
+    }
+    target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK |
+                         O_DIRECTORY | O_CLOEXEC);
+    if (target_dfd == -1) {
+        printf("Test 2 failed\n");
+    } else {
+        printf("Test 2 good\n");
+        close(target_dfd);
+    }
+    /* Test 3 make sure the owner of the link is root  */
+    struct stat sbuf;
+    if (!lstat("tlink", &sbuf) && sbuf.st_uid == 0) {
+        printf("Test 3 good\n");
+    } else {
+        printf("Test 3 failed\n");
+    }
+    /* Test 4 tests open with the "rb" flag, owner should not change */
+    int ofd = openat(dfd,"./tlink", O_RDONLY|O_CLOEXEC);
+    if (ofd >= 0) {
+        if (fstat(ofd, &sbuf) != 0)
+            printf("ERROR in fstat test 4\n");
+        else if (sbuf.st_uid == 0)
+            printf("Test 4 good\n");
+        close(ofd);
+    } else {
+        printf("Test 4 failed with openat()\n");
+    }
+    /* Test pseudo db to see the fstat() above did not delete the DB entry */
+    if (!lstat("tlink", &sbuf) && sbuf.st_uid == 0)
+        printf("Test 5 good\n");
+    else
+        printf("Test 5 failed... tlink is owned by %i and not 0\n", sbuf.st_uid);
+    return 0;
+}
 
-I started to work on this and added a 'generate-prebuilt' class which
-generates a tarball of ${D} in deploy/prebuilts after do_install task.
-Symmetrically, It's also possible to create an 'install-prebuilt' class
-which bypasses do_fetch, do_unpack, ..., do_install with noexec flag and
-instead uncompresses a previously generated prebuilt tarball into ${D} and
-continue normally. But I would like something smarter, e.g. first trying to
-check if the SRC_URI is available, if not switching on using the prebuilt
-package if available (e.g. in a DIR_PREBUILT)...
+int main()
+{
+    /* Tested with: gcc -Wall -o app app.c ; echo "no pseudo" ; ./app ; echo "pseudo"; pseudo ./app */
+    system("rm -rf tdir tlink");
+    system("mkdir tdir");
+    system("ln -s tdir tlink");
+    DIR *dir = opendir(".");
+    int dfd = dirfd(dir);
 
-Before going further is there already an existing solution for that? do you
-have any recommendation on the easier/best way to achieve this?
+    int target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+    if (target_dfd == -1) {
+        printf("This is right\n");
+    } else {
+        printf("This is broken\n");
+    }
+    return 0;
+}
 
-Regards,
-Loic
+Many thanks to Peter Seebach for fixing the problem in the pseudo code
+to use the same logic which was already there for the
+AT_SYMLINK_NOFOLLOW.
 
---0000000000002d071c058f60e1fb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Also updated is the license MD5 checksum since the master branch of
+pseudo has had the SPDX data updated.
 
-<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>Say a company works w=
-ith an OE internal tree, with open-source and closed-source packages. The c=
-ompany wants to release the tree so that its customers can fully customize =
-the images/distro. The closed sources being only available internally, the =
-company has to generate and handle prebuilt binaries for proprietary packag=
-es. Ideally, with a unified public/internal OE tree (same recipes for inter=
-nal/public build). <br></div><div></div><div><br></div><div>This question i=
-s actually similar to an older thread:<br></div><div><a href=3D"https://mar=
-c.info/?l=3Dopenembedded-core&amp;m=3D146779329804683" target=3D"_blank">ht=
-tps://marc.info/?l=3Dopenembedded-core&amp;m=3D146779329804683</a></div><di=
-v><br></div><div></div><div>I started to work on this and added a &#39;gene=
-rate-prebuilt&#39; class which generates a tarball of ${D} in deploy/prebui=
-lts after do_install task. Symmetrically, It&#39;s also possible to create =
-an &#39;install-prebuilt&#39; class which bypasses do_fetch, do_unpack, ...=
-, do_install with noexec flag and instead uncompresses a previously generat=
-ed prebuilt tarball into ${D} and continue normally. But I would like somet=
-hing smarter, e.g. first trying to check if the SRC_URI is available, if no=
-t switching on using the prebuilt package if available (e.g. in a DIR_PREBU=
-ILT)...</div><div><br></div><div>Before going further is there already an e=
-xisting solution for that? do you have any recommendation on the easier/bes=
-t way to achieve this?<br></div><div><br></div><div>Regards,</div><div>Loic=
-<br></div></div>
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/recipes-devtools/pseudo/pseudo.inc    | 2 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
---0000000000002d071c058f60e1fb--
+diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+index 8b05735bb1..8b34909726 100644
+--- a/meta/recipes-devtools/pseudo/pseudo.inc
++++ b/meta/recipes-devtools/pseudo/pseudo.inc
+@@ -4,7 +4,7 @@
+ 
+ SUMMARY = "Pseudo gives fake root capabilities to a normal user"
+ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/pseudo"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=243b725d71bb5df4a1e5920b344b86ad"
++LIC_FILES_CHKSUM = "file://COPYING;md5=a1d8023a6f953ac6ea4af765ff62d574"
+ SECTION = "base"
+ LICENSE = "LGPL2.1"
+ DEPENDS = "sqlite3 attr"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 51db84c4d4..6cf711e4c2 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
+            file://toomanyfiles.patch \
+            "
+ 
+-SRCREV = "3fa7c853e0bcd6fe23f7524c2a3c9e3af90901c3"
++SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git${SRCPV}"
+ 
+-- 
+2.21.0
+
+
