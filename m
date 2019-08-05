@@ -1,52 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
-	[209.85.210.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 804867F2ED
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id CB4397F2FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 19:34:46 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id q10so40128448pff.9
+	Mon,  5 Aug 2019 19:34:47 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id u17so40244606pgi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2019 12:34:47 -0700 (PDT)
+	Mon, 05 Aug 2019 12:34:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=/y8Rw5BjL4SSnJIvDgTYY62MZo/gEoqNXiA3nNaGgj8=;
-	b=W/OxY661AdbZJODQn7DqXCfjGsPKJ94VCj6JiFl4uy3cTiIW4TjvQxsKY6zdQtVb7L
-	ml5eDYsYrJQPIzXlc87CPes7pWQ6HM4LF8Oa3Pee+n0rQlX1WIAXep0AKlr4fA9iX0B6
-	gkqYpZslKad0nR1XmrFhPuNyLah0pxmRuv9/O1n/WeMs8QnZC48JIJt1YtvuMqSxW8hN
-	4/ZbmXJaIne7v6bYHuz5GCza1UYUJBxoeIuyG/r4ASSpydya4MEfSLVj0jrVVa1B3ZRw
-	AXCQcgTOMM0R6AIMKRIqiQoBcTmwCu9AYA7jHPd+7Y/OvXurQXEy6fQYaWDYRFhwkrW5
-	+/9A==
+	bh=S6c1d6DWn46FmbkAxlZ+lRCEwOHO1LtFJ6r3Suve7TI=;
+	b=YuYVl3sdJuHow9IbOUo9gD/hORp0vdsLjI/8zmQNES25nGWWuk0xhnNsxJH/kPk2cQ
+	/nFSJo6PzwVyhMfQiKCkWm+cY1o8Y9bxhIakcKpXBDtfYWZ4I31lqffVx92V6DOlNqjD
+	BKsQIGlXj/+C1lxRSNJA3xlTb4I9SORZ02Q+dADIQcarkA0stdWsAuF8dr8BtqnEY0f6
+	qfttkNEsOS38EJ1Jkj6UwefKDDpqrJXQvseMtnVsStbVUasR6zKZFYqunY20wDjyxLLE
+	lSluUkV15mVLsd0gUhIwb1Tqy/8DIy8VSHqidh17nSsSMWzmMa4GMWEJke1f8yCd/kCh
+	1V9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=/y8Rw5BjL4SSnJIvDgTYY62MZo/gEoqNXiA3nNaGgj8=;
-	b=umv8FWHi85x2k2gzJvu2HuEV9gPSzjYdntt6qNbFCj26uhFCPPUqrqEVeFJeoi0tMY
-	lr+v/WSwlmtfUI38+s5HokMqR+RyJnq6RCKZYSslddffmKdm78llqkN7QXyalzch6xZZ
-	XuH0koNiUs01+iBY7o3t8V3ybX4xQeFAC8fPSloKGTeIAiabK1yEFD+KB0l3UN+2Edf3
-	L2tFig50Ab9UNbCOWlY5z8/64a7giPYyLs+H0c8IdLrB9jl+JsAYaEvjueq1fgMiUBL0
-	6RqPLxFvHExvav2jpna+kXiGjcpOCGVDK1bfvQpdxBw2w1rM7pWFg3DOTygSVCQcqhRp
-	zZ1A==
-X-Gm-Message-State: APjAAAWUEnCBgH3RrEdVM7RLGbRG2oGozTzZMdttNDmk/cL8Uz8JzTGX
-	Zi6Vwyh4ts1j2a5MSgU77WvmlX5oXoc=
-X-Google-Smtp-Source: APXvYqxixm6V5vD4/Zj4HparNkXdJonhm9JuoiwmYiSRt/hP8SJ0KLxTpNU/EL7pTCOdGjMowVx0EQ==
-X-Received: by 2002:a63:e807:: with SMTP id s7mr133600638pgh.194.1565033687016;
-	Mon, 05 Aug 2019 12:34:47 -0700 (PDT)
+	bh=S6c1d6DWn46FmbkAxlZ+lRCEwOHO1LtFJ6r3Suve7TI=;
+	b=uehFq0yE5qo8W2wE4vZ2+zBuMJY1IsTTDkD4+6mo6BhZCV6Bpatl6xN7lRaQi7yirS
+	bOFox29P2rhCInEa6yJvNuAcUJYs29QCPVcKHY7pUmHJ9k9v8GBNMfJVfNHcrqIaoo+1
+	npVkA0KA/RcbgOF8yK2sZNu7o++6/Od2n1uml5nydWdYlzBee85SHmUckFBFdGuJomwg
+	xgPWxGSK7paJOb5tIzqylA6ZQbfHUXUtQ3d0ih0MS7sBKSi7AvyB1L9TitLhP9KSR33z
+	uYmGFOafpQ0y3seC15yp57JACoStyn4SrUv4Tdqpr1mUtJZ3BZGW9K/hxc/Foi0rFe52
+	8m9Q==
+X-Gm-Message-State: APjAAAUsOXExoqQgI3bRkpevuv8VpCgpwg8f7OlAaOKDCNNIjd1Iv358
+	S/tTbC5CR1Kmrj+yA9IJYEmuq6Jszmw=
+X-Google-Smtp-Source: APXvYqxpurM0idv3FhTeISujkiSWSLX4WGJuXQHBtUwe1TrFCeB5DOGqrZLBDtBkI6N1Xrzh4cJA5w==
+X-Received: by 2002:a62:78c2:: with SMTP id
+	t185mr76433684pfc.142.1565033688463; 
+	Mon, 05 Aug 2019 12:34:48 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
 	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	j10sm51904961pfn.188.2019.08.05.12.34.46
+	j10sm51904961pfn.188.2019.08.05.12.34.47
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 05 Aug 2019 12:34:46 -0700 (PDT)
+	Mon, 05 Aug 2019 12:34:47 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Aug 2019 12:34:30 -0700
-Message-Id: <20190805193431.32053-2-raj.khem@gmail.com>
+Date: Mon,  5 Aug 2019 12:34:31 -0700
+Message-Id: <20190805193431.32053-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190805193431.32053-1-raj.khem@gmail.com>
 References: <20190805193431.32053-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] musl: Fix clock_gettime on 32-bit archs without vdso
+Subject: [PATCH 3/3] webkitgtk: Fix compile failures with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,69 +60,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 19:34:46 -0000
+X-List-Received-Date: Mon, 05 Aug 2019 19:34:48 -0000
 Content-Transfer-Encoding: 8bit
 
-This was seen in x86 code being run via qemu-user ending in
+Backport upstream patch to address build regression with clang
 
-(process:883): GLib-ERROR **: 22:28:34.117: GLib requires working CLOCK_MONOTONIC
-qemu: uncaught target signal 5 (Trace/breakpoint trap) - core dumped
+Fixes
+webkitgtk-2.24.3/Source/bmalloc/bmalloc/AvailableMemory.cpp:120:31: error: implicit instantiation of undefined template 'std::__1::array<char, 256>'
+        std::array<char, 256> statmBuffer;
+                              ^
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...n-clock_gettime-on-32-bit-archs-with.patch | 30 +++++++++++++++++++
- meta/recipes-core/musl/musl_git.bb            |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl/0001-fix-regression-in-clock_gettime-on-32-bit-archs-with.patch
+ ...uild-failure-https-bugs.webkit.org-s.patch | 33 +++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.24.3.bb  |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Unreviewed-fix-build-failure-https-bugs.webkit.org-s.patch
 
-diff --git a/meta/recipes-core/musl/musl/0001-fix-regression-in-clock_gettime-on-32-bit-archs-with.patch b/meta/recipes-core/musl/musl/0001-fix-regression-in-clock_gettime-on-32-bit-archs-with.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Unreviewed-fix-build-failure-https-bugs.webkit.org-s.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Unreviewed-fix-build-failure-https-bugs.webkit.org-s.patch
 new file mode 100644
-index 0000000000..d89fcee4f3
+index 0000000000..e550a0d457
 --- /dev/null
-+++ b/meta/recipes-core/musl/musl/0001-fix-regression-in-clock_gettime-on-32-bit-archs-with.patch
-@@ -0,0 +1,30 @@
-+From 192c8e18c0f502fe8269b075c21e58290f875182 Mon Sep 17 00:00:00 2001
-+From: Rich Felker <dalias@aerifal.cx>
-+Date: Mon, 5 Aug 2019 12:01:13 -0400
-+Subject: [PATCH] fix regression in clock_gettime on 32-bit archs without vdso
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-Unreviewed-fix-build-failure-https-bugs.webkit.org-s.patch
+@@ -0,0 +1,33 @@
++From 4bc241539246f7a17d07357257ab47cb96bc4b69 Mon Sep 17 00:00:00 2001
++From: "ysuzuki@apple.com" <ysuzuki@apple.com>
++Date: Thu, 18 Apr 2019 07:30:18 +0000
++Subject: [PATCH] Unreviewed, fix build failure
++ https://bugs.webkit.org/show_bug.cgi?id=195938
 +
-+commit 72f50245d018af0c31b38dec83c557a4e5dd1ea8 broke this by creating
-+a code path where r is uninitialized.
++Including <array>.
 +
-+Upstream-Status: Submitted
++* bmalloc/AvailableMemory.cpp:
++
++git-svn-id: http://svn.webkit.org/repository/webkit/trunk@244422 268f45cc-cd09-0410-ab3c-d52691b4dbfc
++
++Upstream-Status: Backport [https://github.com/WebKit/webkit/commit/84c111dc0d83b5acf60706ef49bc2f5e91112471]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
 +---
-+ src/time/clock_gettime.c | 1 +
++ Source/bmalloc/bmalloc/AvailableMemory.cpp | 1 +
 + 1 file changed, 1 insertion(+)
 +
-+diff --git a/src/time/clock_gettime.c b/src/time/clock_gettime.c
-+index 63e9f9c8..3e1d0975 100644
-+--- a/src/time/clock_gettime.c
-++++ b/src/time/clock_gettime.c
-+@@ -73,6 +73,7 @@ int __clock_gettime(clockid_t clk, struct timespec *ts)
-+ #endif
-+ 
-+ #ifdef SYS_clock_gettime64
-++	r = -ENOSYS;
-+ 	if (sizeof(time_t) > 4)
-+ 		r = __syscall(SYS_clock_gettime64, clk, ts);
-+ 	if (SYS_clock_gettime == SYS_clock_gettime64 || r!=-ENOSYS)
++diff --git a/Source/bmalloc/bmalloc/AvailableMemory.cpp b/Source/bmalloc/bmalloc/AvailableMemory.cpp
++index 595889fe..b72000d5 100644
++--- a/Source/bmalloc/bmalloc/AvailableMemory.cpp
+++++ b/Source/bmalloc/bmalloc/AvailableMemory.cpp
++@@ -32,6 +32,7 @@
++ #include "PerProcess.h"
++ #include "Scavenger.h"
++ #include "Sizes.h"
+++#include <array>
++ #include <mutex>
++ #if BOS(DARWIN)
++ #if BPLATFORM(IOS_FAMILY)
 +-- 
 +2.22.0
 +
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index bf6f983dc0..87eec31a0f 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -15,6 +15,7 @@ PV = "${BASEVER}+git${SRCPV}"
- SRC_URI = "git://git.musl-libc.org/musl \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
-+           file://0001-fix-regression-in-clock_gettime-on-32-bit-archs-with.patch \
-           "
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
+index 81cbf34198..c42c3de69f 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
+@@ -23,6 +23,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://include_array.patch \
+            file://narrowing.patch \
+            file://0001-gstreamer-add-a-missing-format-string.patch \
++           file://0001-Unreviewed-fix-build-failure-https-bugs.webkit.org-s.patch \
+            "
  
- S = "${WORKDIR}/git"
+ SRC_URI[md5sum] = "e2a5bbd09a217eba096a2d1562143e35"
 -- 
 2.22.0
 
