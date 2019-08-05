@@ -1,51 +1,49 @@
-Return-Path: <eduardoabinader@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C49FA7F284
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B81017F284
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 12:21:04 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id n9so59127146wrr.4
+	Mon,  5 Aug 2019 12:36:05 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id t28so79152455lje.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2019 05:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=IA0zuvkQ9UMF6RP/uYBdglMYQB4OCGhUf/3AysH+WCs=;
-	b=eKyoi4YrSoMo6Fgd9FOAxSibzoE7MwefDwuXrLxvCmMlbeOmreDZL0v/xCGR+qe581
-	Tf0GnW+3TJX5MqFzZR9tcsFqrnWGoz+vr9IvZgeoASjmsTrv3o/rZIEJZ0pq+f+i91Ib
-	S0PEYMHGAcbA4mBiGiUTyO7WbSCur0GNNFKMX7aYofnPdDfiFxXE5lbTGLwUqhpGGRwu
-	X77q5PIku0IAp1KZighgCsycPYK6EiQ0k85LUZH22HOsnpUvQWhDaUqTyB0SFaSXQGqk
-	A79VQlbm19sXTUvWr5C4vHRb/+O4GBqXzcI7gBRXi8gL8tSntUtW4b4GnJ6Irg4YWSmx
-	dvxw==
+	Mon, 05 Aug 2019 05:36:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=g9IMw09bzrY8+2KCGgUbp/SJ1ts5C4yCI554BJojero=;
+	b=Xv0nFDYVT3TKtk1d8uNtfFWWLY70O5ysyrtq2El+7EZUr2z+bD4JTJtlXgkkQbBlLA
+	QknM6bOSqcswnuQYSPFRAWgP0hbBwodo5pyWxkCrY7ZpSsW2nOG72f9eXFCUF/sAaKJs
+	/Qie/WtmmZfSg5m2QPd5HCTFiqx6QMT/ztpLh5Q72efy4ZAPE4jY9CDaWkuiaawSA0hy
+	lYUgU/pZp151WhfsadV7stIecgu1qQ/g3irQqS1IWdpcoBW24zni2plb7Nc9SCqhkKYS
+	aIfVKFp8vIOnq9PkrfuO6M9WggL7nOwM5oEnfEkrqMAQ+c6PmnJItzoR8EQWA/suec96
+	1HBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=IA0zuvkQ9UMF6RP/uYBdglMYQB4OCGhUf/3AysH+WCs=;
-	b=DmXGxpAzM2BxEelrre7Fkx69bsYNUuipHVNz/nIB30ifyPapaEXT2dkoloVtC5hqBy
-	kFWSfH+8So4P2yqCUotRuClkp2tpA5MjS8vTaFJQvwJXnDP7ymxnAUQ4PnP0SP1Wih9B
-	6XoFOCYrFiGmnIGZ/OHMOWnKJdrXuIld6M9pg0cYrZ1tDWm50PgOZwDkjUXVP04lj3xF
-	sFtvbPVmDcp961a2nydq7M524GCShWOlkYf4kT6Zs9Dy2F9T3h5Bo92HKfu71BE0tUKA
-	5ZifDFyYxVsslMQan0lXLqEBIkqz3B4yjmRLsgP0cJPZGIbxYB/MHrKEEuVqDgL2Dsv6
-	KJ4g==
-X-Gm-Message-State: APjAAAU5Rq+nXZmA6jQZAdO4JjvM1kuDiK2dInHpjzxeqj+vwMIFxGhy
-	qn8g6vcoqCpUGw5cNOdzZjEO9XjPFNg=
-X-Google-Smtp-Source: APXvYqz9/6gTzYUnKoDhIVFYttakQEZ6++1VDL8cem0iQ24+WTibcWW7jauaz9SmXQnZ20KjmBCIcg==
-X-Received: by 2002:adf:f3cc:: with SMTP id g12mr51574595wrp.149.1565007664789;
-	Mon, 05 Aug 2019 05:21:04 -0700 (PDT)
-Received: from localhost.localdomain (p5B2F645F.dip0.t-ipconnect.de.
-	[91.47.100.95]) by smtp.gmail.com with ESMTPSA id
-	v15sm77227191wrt.25.2019.08.05.05.21.03
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=g9IMw09bzrY8+2KCGgUbp/SJ1ts5C4yCI554BJojero=;
+	b=m0kjYrtvvsqTKj034lEeDA/yG/XYSi+ks3WhpjbVuDeTVXIvCWWFpiY4ugArcdok9+
+	MJI6pPJlnXFIRLnZDZz0QFqbKwXAxR2yVgdyiLwWZyC0HiqegPSoNPoC34h6DQ/q3VAW
+	1E57eVcxQoMOcGfsvU70iyqEzyAUBq/SNd/gx0CItBBnRxLcD+/maGCtveqKvabNt4+G
+	07+yCU7St5pBPaGH4T+dRUcGr0a9wLIfV61xo9L1AsfZJGQLgUvQusiWWm1EalPUSqiE
+	qlC5UeC1IpWwr+6ES+IyfXROuHdcxJ1IjQcljapqS4bOSjF3NaCBH9RIqNtYK2OOq83Z
+	VLkQ==
+X-Gm-Message-State: APjAAAV2hTO/JHiNQhZeaL30fJ8f79YFF3ZidmC2GqLOyGt7ctGmJ6PK
+	wGg7MNayf8QzFynI3q5uShWOyXFF
+X-Google-Smtp-Source: APXvYqw1+I5jojjYxs+w5T5kHNjoVfuQhT1R5CmUH9W/d5UHea433/d6lbVq8NiWeadSth0PfXIq1A==
+X-Received: by 2002:a2e:5b5b:: with SMTP id p88mr41095163ljb.192.1565008565658;
+	Mon, 05 Aug 2019 05:36:05 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id g12sm705695lfc.96.2019.08.05.05.36.04
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 05 Aug 2019 05:21:03 -0700 (PDT)
-From: Eduardo Abinader <eduardoabinader@gmail.com>
+	Mon, 05 Aug 2019 05:36:05 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Aug 2019 14:20:38 +0200
-Message-Id: <20190805122038.21312-1-eduardoabinader@gmail.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH 1/1] devtool: add ssh key option to deploy-target param
+Date: Mon,  5 Aug 2019 14:36:00 +0200
+Message-Id: <20190805123600.15631-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ell: update to 0.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 12:21:05 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 05 Aug 2019 12:36:06 -0000
 
-From: Eduardo Abinader <eduardo.abinader@gmail.com>
+Changelog:
+- Fix issue with resetting DHCP lease on client stop.
+- Add support for GPIO helper functionality.
 
-Signed-off-by: Eduardo Abinader <eduardoabinader@gmail.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- scripts/lib/devtool/deploy.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/recipes-core/ell/{ell_0.20.bb => ell_0.21.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.20.bb => ell_0.21.bb} (83%)
 
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index d1ce2309f9..6a997735fc 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -212,6 +212,9 @@ def deploy(args, config, basepath, workspace):
-             scp_port = "-P %s" % args.port
-             ssh_port = "-p %s" % args.port
+diff --git a/meta/recipes-core/ell/ell_0.20.bb b/meta/recipes-core/ell/ell_0.21.bb
+similarity index 83%
+rename from meta/recipes-core/ell/ell_0.20.bb
+rename to meta/recipes-core/ell/ell_0.21.bb
+index 81caa80fab..487fbccab5 100644
+--- a/meta/recipes-core/ell/ell_0.20.bb
++++ b/meta/recipes-core/ell/ell_0.21.bb
+@@ -14,8 +14,8 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
  
-+        if args.key:
-+            extraoptions += ' -i %s' % args.key
-+
-         # In order to delete previously deployed files and have the manifest file on
-         # the target, we write out a shell script and then copy it to the target
-         # so we can then run it (piping tar output to it).
-@@ -326,6 +329,8 @@ def register_commands(subparsers, context):
-     parser_deploy.add_argument('--no-check-space', help='Do not check for available space before deploying', action='store_true')
-     parser_deploy.add_argument('-e', '--ssh-exec', help='Executable to use in place of ssh')
-     parser_deploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
-+    parser_deploy.add_argument('-I', '--key',
-+                               help='Specifiy ssh private key for connection to the target')
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "920189f5be4ee4cd72d610baeb20da65"
+-SRC_URI[sha256sum] = "d4aa08915f4058ecaab509dffbe22665d71dba6fe9626caff63c0e5f4b78a394"
++SRC_URI[md5sum] = "f94f8c812b0426b0c30b651fa5142dd9"
++SRC_URI[sha256sum] = "a0db4e3057ba41035637354b6af2aa4c74f83509e0c3e563d682df9d72eaff17"
  
-     strip_opts = parser_deploy.add_mutually_exclusive_group(required=False)
-     strip_opts.add_argument('-S', '--strip',
-@@ -349,4 +354,7 @@ def register_commands(subparsers, context):
-     parser_undeploy.add_argument('-n', '--dry-run', help='List files to be undeployed only', action='store_true')
-     parser_undeploy.add_argument('-e', '--ssh-exec', help='Executable to use in place of ssh')
-     parser_undeploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
-+    parser_undeploy.add_argument('-I', '--key',
-+                               help='Specifiy ssh private key for connection to the target')
-+
-     parser_undeploy.set_defaults(func=undeploy)
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
 -- 
-2.20.1
+2.17.1
 
 
