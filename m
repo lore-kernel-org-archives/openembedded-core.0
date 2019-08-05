@@ -1,51 +1,52 @@
-Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E4AA579CB3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D6227F35C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 10:52:34 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id n4so84001899wrs.3
+	Mon,  5 Aug 2019 10:59:23 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id u25so62191493wmc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2019 03:52:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 05 Aug 2019 03:59:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=lk5L0Aw5J5kjYYSp5b0bI08XEHHErr4qxK4+yRDxX2M=;
-	b=fjU8+6r455qz6k3gRApqSATjW1TWVjA8VlmoJS3pjHKsoGkYMc11/mMke6bWn68U8+
-	4feRdEa4gF2EagRPT+dzYWVYPHLd4lQrb+Vot9JMzQrCxRqVQaOtTskH/Go/yQWOTwal
-	RBpBzngmQu7UTRcTdNgrCA1f4c//lRkFyffNKhe9BViSoQMQHxgd+4//B7RmLM2ajSSY
-	xkRyyAU8iZZmcDwIKFB/xwyZhbwn4RR3caEWf6mnAiQV8qcvDO8BxY6MFDNF+3ZtclG1
-	I5NQchuGCae9EABzwpc5I1F4oMY9pUK0Ch+gT9a3cyBHfnfQ0wZYFj82iosoHJvofU4f
-	fqgA==
+	bh=o1jUxj8A2VC93tSKheuEuDiiEVKbDaBpZel6OravNkU=;
+	b=VDYalMhQnt7J2cqgwkW/ptyqDt4M/lb+9mKSTDdsg32xVacbKa/0a4LfBotORDnb5p
+	AF48UdXmzf/XtTeCuOsqMTPflQ3xZH/rVeCUuTt30h5a8lysXKxhkocYQqzrd/qyVx3L
+	DIrfrg4eMQvAIiOD04AFb5cPQmnVxk3LbC6I/XCm2xfyEZjTPSFrxXe7St65MqoY0t6D
+	z7DyFP0n8mC7fc6j0G2IKyVla/WZe1o/v68QHGCN0aGTEZo5fod34MbsIth5pSWBJwE5
+	rxhGwVGqztmio3PRLeBxjjoJZb6HgYdlU8D2/rTMcaiCg4yni2fuCJVyZ8TkTOajRSju
+	D3Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=lk5L0Aw5J5kjYYSp5b0bI08XEHHErr4qxK4+yRDxX2M=;
-	b=OKZUeEKe1zRO4iSw8kPtyave5VPuf8kXOc9VG2WDvzpmhvz0HuE99KCteccsZsANYb
-	1TZaA4D6G8I6l4fpDetQ0kV59txLRcM+CCdSNJkNLBXTTiM9OTH8qnyPcGFTjMT90WCO
-	bNmamV5CQcpqb3OaGn5++Jxcn6S31Jhj6ZRmB8Oi31QtzL5tI4lWUCTVSI7o8VzX5/6n
-	jDxagkUTJzRZvQtDdBBHOe/xL5cMr1v29/9m6DvsLqs3YNCxhvYxzMbHELU/LLe5M0IA
-	WCxUR4h6JLuocYd7rzlfZUzpfWRBp3E6BARzBtR5ginv9NlFq18LVJyqBAT8NxPRr9f8
-	uBvw==
-X-Gm-Message-State: APjAAAUWzAqm0/phQx+2Z5L2srHpxPmSV8kIVw9dZ86MOKlftAJwb6ee
-	9rW78KG+Ne/L3AVbmOX99m8HT/XR
-X-Google-Smtp-Source: APXvYqyFHwFlzcc3QpGGX02iIaVy5EfhXQd6efMMLlKsG5DFO32dbxY/lg2P4kSHKhe0BDlJsnycew==
-X-Received: by 2002:adf:9f0e:: with SMTP id l14mr20583172wrf.23.1565002355040; 
-	Mon, 05 Aug 2019 03:52:35 -0700 (PDT)
-Received: from localhost ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
-	by smtp.gmail.com with ESMTPSA id
-	o11sm79589302wmh.37.2019.08.05.03.52.34
+	bh=o1jUxj8A2VC93tSKheuEuDiiEVKbDaBpZel6OravNkU=;
+	b=DRRGhBm3yGFp4zTo6NCSb2+vhgv6246KkcdUHDsIos8giTcUk1iyCUGeGfawqlonCu
+	p1IJ7gg0FxOG/ZVG/8c8NL1Hj9om2oiRrXROFSHPrC6TDyoRYCSGcmG/nHqmDzZe6CeB
+	9Tx6AZljm+u+nd+/iDxO2D/jvFMTc8S2h1iioJINKODy22R2cjsdi/N36MafC86BFVUJ
+	eBUmxUXQN0sXCinW93sNKwlvBaVYPExl2hnhxR1taC9pf7q6Y2NeK100LEFgtyIyieMD
+	IvZiRHybxWYrfgfoggLbXcuq7yHOEeEQHDu1p+zng50HmPmh4H1Ai4ybPMci8r7uZHqk
+	eUqA==
+X-Gm-Message-State: APjAAAUX4CPNNOhmba734hEBegq+OXnaLtzY67IqSWILLYNkR7Uhg1X7
+	n+w1lqw7qlD59Wp3M6q1EpBpVjuadZg=
+X-Google-Smtp-Source: APXvYqwtyii2Uhh41eoKZfY+UY91rK/+tTjhJGUCRJ9TGhOSEqEVCqRqAX+oGwP3R19HRRHNO8EEpg==
+X-Received: by 2002:a1c:20c3:: with SMTP id g186mr18090817wmg.15.1565002763662;
+	Mon, 05 Aug 2019 03:59:23 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	c1sm192158885wrh.1.2019.08.05.03.59.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 05 Aug 2019 03:52:34 -0700 (PDT)
-From: luca.boccassi@gmail.com
+	Mon, 05 Aug 2019 03:59:21 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Aug 2019 11:52:32 +0100
-Message-Id: <20190805105232.16148-1-luca.boccassi@gmail.com>
+Date: Mon,  5 Aug 2019 11:59:19 +0100
+Message-Id: <20190805105919.22258-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] python3-pygobject: move python3-setuptools from RDEPENDS to DEPENDS
+Subject: [PATCH] qemu: fix patch Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,46 +59,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 10:52:35 -0000
+X-List-Received-Date: Mon, 05 Aug 2019 10:59:23 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
-
-python3-setuptools is necessary to build pygobject but not to run it, as
-also documented by the upstream packaging guide:
-
-https://gitlab.gnome.org/GNOME/pygobject/blob/master/docs/packagingguide.rst
-
-Move it to DEPENDS to shrink the runtime dependency chain, as setuptools
-includes scripts to download other packages, which might not be desired on
-a minimal image.
-
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/python/python3-pygobject_3.32.2.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ ...4-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb b/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
-index 05688be603..58a251f8eb 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase distutils3-base gobject-introspection upstream-version-is-even
+diff --git a/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch b/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch
+index f7939b84bf6..7cac8ef3d11 100644
+--- a/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch
++++ b/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch
+@@ -31,7 +31,7 @@ Message-Id: <20190718130641.15294-1-laurent@vivier.eu>
+ Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+ Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+ ---
+-Uptream-status: Backport (upstream commit: 6d5d5dde9adb5acb32e6b8e3dfbf47fff0f308d2)
++Upstream-Status: Backport [upstream commit: 6d5d5dde9adb5acb32e6b8e3dfbf47fff0f308d2]
  
--DEPENDS += "python3 glib-2.0"
-+DEPENDS += "python3 python3-setuptools glib-2.0"
- 
- SRCNAME="pygobject"
- 
-@@ -27,7 +27,5 @@ PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', [ 'directfb', 'wa
- # we don't link against python3-pycairo -> RDEPENDS
- PACKAGECONFIG[cairo] = "-Dpycairo=true,-Dpycairo=false, cairo python3-pycairo, python3-pycairo"
- 
--RDEPENDS_${PN} += "python3-setuptools"
--
- BBCLASSEXTEND = "native"
- PACKAGECONFIG_class-native = ""
+  linux-user/ioctls.h        |  21 +++++-
+  linux-user/syscall.c       | 140 +++++++++++++++++++++++++++++--------
 -- 
 2.20.1
 
