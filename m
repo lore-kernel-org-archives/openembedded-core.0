@@ -1,48 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E3CA07E71A
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 773497F278
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 17:16:43 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id z4so81738442qtc.3
+	Mon,  5 Aug 2019 18:59:52 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id s145so60945857qke.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2019 10:16:45 -0700 (PDT)
+	Mon, 05 Aug 2019 11:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=W/pHTiNnZ4rmfuYotrbeaJ8zBMi9/0kECinMf85bS8M=;
-	b=BeK/4uY09FHssBbJdJUl6bhfiV4FKxSZYsIN2cAifx7IFIDYU1S+AOJvZX6n2TNj5g
-	B250riSBXlTWkeRnv8DGc6BFKRIs/hlAqHpZG5bMcO8+6pLZz6wGdo/Jp5kiCC6Rn/0x
-	aHXCf3gDzS7U2yZ9eKQYfV+d+n+WYe7TtcTfHHxmNdUt0mdQM77EyeKZ0uQ+8EHU375L
-	Qi7w7aoO2E/2iiLKDtw/83GWAzPBh/7I/w36RxEuD/MZVH59eschYNdTUIA3wTimjPJI
-	tRIuWK+e/kIFKJOkA0LtJuRwtipLHXAXwi/rp3jwbOHDHIGFug/Wtz39rUlTbFqiiliY
-	9WWQ==
+	:cc; bh=8THmp3waLqTRuN8LEWl6JSY3mw8e7O/EHjl3fSakU4Q=;
+	b=JBPvhLfH+ASgV+jE0zmLaiuaH1XJVbBdk5xEpQFdDexp0eZn9N8GodVgyW7cfl1OUY
+	xk1usbLscKFO085DnaZvp5Ex1810hVRq3aBZUqn6m4XXo67VfS4bbnxCxIK23VPTe7At
+	aNHksOli/4ruIpnBvn/JStlLipPwM+2W9JfolFuSRzaOuC70E1hYpILM1sWWA/yJkKFc
+	bCWfIGk6gv+4X8IOi4ApiH8cvcJl6V7SCE2Km+75H7s3a/aHTFovkHxrrfbxkKwjAFvt
+	wEPpEh9D/p/C+4NZ4VcT1w79Ws9N2/4kojdNNyNbHPuWkm5Qv80mBfXfz4Fl827O3zEH
+	AcFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=W/pHTiNnZ4rmfuYotrbeaJ8zBMi9/0kECinMf85bS8M=;
-	b=Kn4nY1CZ5Kaxn7AWogEaK0MoSFOMJXiOcHbczxTz0SQsUrogujCj1aSqLBXPoVbocw
-	o5ZS9Vla67GKMMpfSMeQAdGWO3nI1UTAOteX0/fzSKza9HBsOceyKJfXjkjVDUEM4D4c
-	Ybhs1nRZWuypH2aYABwBWDmk4qDUXZW0mJn6go7OrZXmr6S16oB1i0BHoa5NmXJpEJaD
-	33ANChQdLuN+5spEziaC5w0TjrALDEOqh4llDn+Enq5LDh63cGrpyT9jRmTct/ORb+c4
-	oqLOm3GHc+g6jXiy3OLw7qMzSEs6qfF4SrzR0rQDHYS2EuQjZcVnlpoeFbp/d8PZNC88
-	IhwA==
-X-Gm-Message-State: APjAAAUL7fNSpzFYWrbJmxfvt/t/S/R6sQdeME8w5BTgUM9g6fL2RjFX
-	ks3bnMm3Ekjo68oLaXrx5uWK1mVAW8I0+Njq61U=
-X-Google-Smtp-Source: APXvYqw+uN5g0tlqf/gdSZdHxBt224bI5cQHxor2VtRkObap8Dk8C8NabYflZWUZi8omYDvUrnzXUhh3Cy7RTsxx/WY=
-X-Received: by 2002:ac8:764f:: with SMTP id
-	i15mr105394755qtr.194.1565025404382; 
-	Mon, 05 Aug 2019 10:16:44 -0700 (PDT)
+	bh=8THmp3waLqTRuN8LEWl6JSY3mw8e7O/EHjl3fSakU4Q=;
+	b=sUWXrWz4i1gRISx++n0z0nIa+wz/wTYXZD+ZS6HMqLZF/WRDGRzClpeTBbtGbtkH1r
+	M7mBGhffP+NIF4sf6KTA5GC9diaDrFQFFvdb5O6WcE3l4i9c6JabfQDKJjkH3Ob1XfJ4
+	0mx+iNtTc7413AoL3PgMRY4F38sKaM6IjFK5se1urCpCguozIVZF6kSufDJ8q66ppCtB
+	23Er1d6tN5djLd8u/X5rjZYCtsiZNxQW0rYMe+pzRpP/VZc5Z0tIFkiQ6c6U+xuDqkGh
+	8x1kjplMBCbYDfo+6CB3cnnw84LnTuhjRyK0FI6JJtMyZaKhTClZmeD7Kt7SLLwApmmC
+	UMXw==
+X-Gm-Message-State: APjAAAVPICZTbEN2uGzf6BwhBeppaSUp67LfmknkB908Rhuka8C1/QyX
+	GUvZjp65gZUNknrPq56pC1VEhwBJSv5nzgzSaZrk5wZz
+X-Google-Smtp-Source: APXvYqySf4n0ZEP010ulHjfgUAY8W08tMGg6KpxDGrk7HBT5RL5rJQSLKf6RNW5iSz6JyyS61Tq8gYh+qKOx6ONbqrI=
+X-Received: by 2002:a37:ef14:: with SMTP id j20mr35729qkk.474.1565031592767;
+	Mon, 05 Aug 2019 11:59:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190805113522.31021-1-alex.kanavin@gmail.com>
-In-Reply-To: <20190805113522.31021-1-alex.kanavin@gmail.com>
+References: <20190802203719.20437-1-ross.burton@intel.com>
+	<20190802203719.20437-5-ross.burton@intel.com>
+	<CAMKF1soKtwNUY6SchZLPH8oHbbUiLabEir+JJD1_FdhHqGfhEw@mail.gmail.com>
+	<919ee9f0-c746-018e-3b88-c3c8ea1fd8dd@intel.com>
+	<a2ae7b01-3719-cae5-fc4b-956dbbaf9c0b@intel.com>
+In-Reply-To: <a2ae7b01-3719-cae5-fc4b-956dbbaf9c0b@intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 5 Aug 2019 10:16:18 -0700
-Message-ID: <CAMKF1srYmsS06QM3qaj1gwYhmmejraPBF-3GePjztTjk10h+Ew@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 5 Aug 2019 11:59:35 -0700
+Message-ID: <CAMKF1spKJkMKGLDpBXs3Ab=dmx1QnXt2ttB=SPfuDLeXtGbP1A@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libedit: fix upstream verison check
+Subject: Re: [PATCH 5/9] libxx86dga: remove obsolete client libary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 17:16:44 -0000
+X-List-Received-Date: Mon, 05 Aug 2019 18:59:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 5, 2019 at 4:35 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+On Mon, Aug 5, 2019 at 4:03 AM Ross Burton <ross.burton@intel.com> wrote:
 >
-> The default works fine; not sure why the line was added.
+> On 05/08/2019 10:19, Ross Burton wrote:
+> > On 04/08/2019 01:49, Khem Raj wrote:
+> >> Ross
+> >>
+> >> I am seeing
+> >>
+> >> https://errors.yoctoproject.org/Errors/Details/257733/
+> >> https://errors.yoctoproject.org/Errors/Details/257734/
+> >>
+> >> I wonder if they are related to this series
+> >
+> > I thought I solved this, maybe a patch I meant to drop had sneaked back
+> > in.  I'll look and fix.
+>
+> I'm guessing your distro is overriding xserver-xorg PACKAGECONFIG?
+> Ensure 'dga' is enabled.
 >
 
-LGTM. Thanks for fixiing it
+indeed thats what turned out to be the issue.
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-devtools/libedit/libedit_20190324-3.1.bb | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb b/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb
-> index 01e7f360096..6a599ebca55 100644
-> --- a/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb
-> +++ b/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb
-> @@ -18,6 +18,4 @@ SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
->  SRC_URI[md5sum] = "bec755c8044ad84b752dfe49a0b371d8"
->  SRC_URI[sha256sum] = "ac8f0f51c1cf65492e4d1e3ed2be360bda41e54633444666422fbf393bba1bae"
->
-> -UPSTREAM_CHECK_REGEX = "libedit-(?P<pver>\d+(\.\d+)+)\.tar.gz"
-> -
->  BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.17.1
->
+> Ross
 > --
 > _______________________________________________
 > Openembedded-core mailing list
