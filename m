@@ -1,38 +1,43 @@
-Return-Path: <prvs=113152c95=Andreas.Obergschwandtner@skidata.com>
-X-Greylist: delayed 429 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 05 Aug 2019 14:43:49 UTC
-Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D0B97ED8E
+Return-Path: <loic.poulain@linaro.org>
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50])
+	by mail.openembedded.org (Postfix) with ESMTP id A54947ED96
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 14:43:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-	t=1565016231; x=1596552231;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=208CT7lwuNCE4+ZIregii/jDSo1RssBh7ovLX1qPM3o=;
-	b=ZWmNcrayMRtF9lE2pMTjzb5+shj0dm4nTzNBHlrr2pqzM4Ow6VjBRHC7
-	zxW8dr6GckRLWFZXlF8u76T24mt6wGzX6RVewXV2Fu4sPU19UI9StTWyu
-	m936zsdoEwf4ql51ZqZ4ddDJfxiCExgaXHg1zv1xm8YfuZ/SeRv9jQHFg
-	zgBLY+BKonICxn9p0OAWya3Yq0fRwPrbxFgl9kw4g6zMwcsOs8XA0IUGj
-	JOlQgFgBundSd7bRa6qb/jy+ihigyW3vqRlFUFpVIYBjMwtglI77xYJzL
-	FEZLGdi3jcLPmWz8F3EsM1DUzEpiyvRRsS3ggVlh8EBnuYS5CR4/992jJ A==;
-IronPort-SDR: /uI3k39q+YsTC1A2mYlMm0JCIMTBDpwvGXKM8HlD7mSP6Ghcj3jhIau8xKydQHX7OYwLbyYnWT
-	HuoGCfCAjCBp62QTBFXepS85g/rdaHFZyP5vMdb8SSrYyobi18CiUAdDbbY5xokopaSOA2B523
-	MJ3tRu3mFCQPo1V67QVUa1Xe3mble8TUVNcxEzsuUYEpN+0TbQRCoyQU1a4d0nTSfSW3ka++px
-	PVwPdhOL/yt5ARk3HoNkaJz5PpVC7hSSQqjoY41S5KTum3igtc32D9BZjaNLjr8r8IXwD/GJaA
-	LXM=
-X-IronPort-AV: E=Sophos;i="5.64,350,1559512800"; d="scan'208";a="18789615"
-From: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Aug 2019 16:35:55 +0200
-Message-ID: <20190805143555.15669-1-andreas.obergschwandtner@skidata.com>
-X-Mailer: git-send-email 2.20.1
+	Mon,  5 Aug 2019 16:05:40 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id w13so79297817eds.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Aug 2019 09:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=ILbH5kziEASsh3JtohYvXmTkvGqzjq08qWOh9CQ/qnM=;
+	b=yGkej34iClQTUqP+bIZutRB/SDsjKMwfZRoPoLu0/OmuyajI5QgpvEx/nEAbJuZArZ
+	+TINnLXL8oMpocpCdBBypexLZyp0TlXZisV8/gdFutzAhPICpHjRLrljbzWcWQbIMdo+
+	+fAs/W2aC0zYBgwi4DbTRjpoGlhIr53K6FmYIsLljG162/rHHFCRHGKNSf4q5pcjliNU
+	yRf19HR65pxn+SRWnHohMNH6qtu7Wkl0mYiSRZE8sOcbGyiY3LFUCpF4LeibHrC6dFDZ
+	Q8n2sZdMYwUQ7f1HSfCjU/Wdgcnj6AUDJl5JQSIR909gukQKzqRwYRM0tQi/CRMuOsbg
+	EoxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=ILbH5kziEASsh3JtohYvXmTkvGqzjq08qWOh9CQ/qnM=;
+	b=IFuRp8EBf2UZG7VLK7T7j7GnRWfw51CPzYce/hOhf7tsSt5txDqq0Uhvt22rAMFC21
+	ojlr5jMq7CGdzlPRZpifeCBGPzQoVJCfJHFiKoOyMDjmT5rOB278+usKJs4A3awYBHZv
+	DhQgvM305bOtISGtdj78WmFWZ34EZYkuTJud5EyUgsonRkGtel2dpD0awu8zW+zS7xEN
+	Esf1Bfh2aB0ODvFK/dTix9rIHFTO1xlB5jCCLW4Q6jOM/QeLLIw0gw0vd4raiv4jzdyU
+	m/Dx7KYL4IgFr5sHx5kA7eVaiXWW2B4gTPVU8jbzPH/0zAuLOx1axUVxonDAOyL4TcRA
+	jk1Q==
+X-Gm-Message-State: APjAAAVZwUt23QlRABZFlGXfka7nz6H+a73ZOtZGw7sn3LtX6TYr4QFf
+	RS25WNMsOE7lmmg2EbjrXfKVqJEbqtztG0T4lpNDOAhA
+X-Google-Smtp-Source: APXvYqw+n7pAyyO/LCFJLXJ1J9wLRLp+wXs9obxBiMO3LXxP6F3YXkqNMKObAZK6uN/PrPE1N7PqzIgRXqhLxSdUDQw=
+X-Received: by 2002:a17:906:95d0:: with SMTP id
+	n16mr118652094ejy.116.1565021141004; 
+	Mon, 05 Aug 2019 09:05:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [192.168.111.252]
-X-ClientProxiedBy: sdex5srv.skidata.net (192.168.111.83) To
-	sdex4srv.skidata.net (192.168.111.82)
-Subject: [meta-oe][PATCH] bzip2: set the autoconf package version to the recipe version
+From: Loic Poulain <loic.poulain@linaro.org>
+Date: Mon, 5 Aug 2019 18:06:03 +0200
+Message-ID: <CAMZdPi_2=mFZFgwzUVis4BE7P3C4boOZmVB6_eYeLCaT0wLJaA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Automatic prebuilt management
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,48 +50,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 14:43:50 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Aug 2019 16:05:41 -0000
+Content-Type: multipart/alternative; boundary="0000000000002d071c058f60e1fb"
 
-This is done to require only a single version change if bzip2
-is updated and fixes also setting package version 1.0.6 for
-bzip2 1.0.8.
+--0000000000002d071c058f60e1fb
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
----
- meta/recipes-extended/bzip2/bzip2/configure.ac | 2 +-
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb     | 4 ++++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+Hello,
 
-diff --git a/meta/recipes-extended/bzip2/bzip2/configure.ac b/meta/recipes-extended/bzip2/bzip2/configure.ac
-index e2bf1bf110..b8abade2d9 100644
---- a/meta/recipes-extended/bzip2/bzip2/configure.ac
-+++ b/meta/recipes-extended/bzip2/bzip2/configure.ac
-@@ -1,6 +1,6 @@
- AC_PREREQ([2.57])
- 
--AC_INIT(bzip2, 1.0.6)
-+AC_INIT(bzip2, %BZIP2_VERSION%)
- AM_INIT_AUTOMAKE(foreign)
- AM_MAINTAINER_MODE
- 
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-index 6f86b451ae..8e9b779e67 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-@@ -29,6 +29,10 @@ ALTERNATIVE_${PN} = "bunzip2 bzcat bzip2"
- #install binaries to bzip2-native under sysroot for replacement-native
- EXTRA_OECONF_append_class-native = " --bindir=${STAGING_BINDIR_NATIVE}/${PN}"
- 
-+do_configure_prepend () {
-+    sed -i -e "s|%BZIP2_VERSION%|${PV}|" ${S}/configure.ac
-+}
-+
- do_install_ptest () {
- 	sed -i -e "s|^Makefile:|_Makefile:|" ${D}${PTEST_PATH}/Makefile
- }
--- 
-2.20.1
+Say a company works with an OE internal tree, with open-source and
+closed-source packages. The company wants to release the tree so that its
+customers can fully customize the images/distro. The closed sources being
+only available internally, the company has to generate and handle prebuilt
+binaries for proprietary packages. Ideally, with a unified public/internal
+OE tree (same recipes for internal/public build).
 
+This question is actually similar to an older thread:
+https://marc.info/?l=openembedded-core&m=146779329804683
 
+I started to work on this and added a 'generate-prebuilt' class which
+generates a tarball of ${D} in deploy/prebuilts after do_install task.
+Symmetrically, It's also possible to create an 'install-prebuilt' class
+which bypasses do_fetch, do_unpack, ..., do_install with noexec flag and
+instead uncompresses a previously generated prebuilt tarball into ${D} and
+continue normally. But I would like something smarter, e.g. first trying to
+check if the SRC_URI is available, if not switching on using the prebuilt
+package if available (e.g. in a DIR_PREBUILT)...
+
+Before going further is there already an existing solution for that? do you
+have any recommendation on the easier/best way to achieve this?
+
+Regards,
+Loic
+
+--0000000000002d071c058f60e1fb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>Say a company works w=
+ith an OE internal tree, with open-source and closed-source packages. The c=
+ompany wants to release the tree so that its customers can fully customize =
+the images/distro. The closed sources being only available internally, the =
+company has to generate and handle prebuilt binaries for proprietary packag=
+es. Ideally, with a unified public/internal OE tree (same recipes for inter=
+nal/public build). <br></div><div></div><div><br></div><div>This question i=
+s actually similar to an older thread:<br></div><div><a href=3D"https://mar=
+c.info/?l=3Dopenembedded-core&amp;m=3D146779329804683" target=3D"_blank">ht=
+tps://marc.info/?l=3Dopenembedded-core&amp;m=3D146779329804683</a></div><di=
+v><br></div><div></div><div>I started to work on this and added a &#39;gene=
+rate-prebuilt&#39; class which generates a tarball of ${D} in deploy/prebui=
+lts after do_install task. Symmetrically, It&#39;s also possible to create =
+an &#39;install-prebuilt&#39; class which bypasses do_fetch, do_unpack, ...=
+, do_install with noexec flag and instead uncompresses a previously generat=
+ed prebuilt tarball into ${D} and continue normally. But I would like somet=
+hing smarter, e.g. first trying to check if the SRC_URI is available, if no=
+t switching on using the prebuilt package if available (e.g. in a DIR_PREBU=
+ILT)...</div><div><br></div><div>Before going further is there already an e=
+xisting solution for that? do you have any recommendation on the easier/bes=
+t way to achieve this?<br></div><div><br></div><div>Regards,</div><div>Loic=
+<br></div></div>
+
+--0000000000002d071c058f60e1fb--
