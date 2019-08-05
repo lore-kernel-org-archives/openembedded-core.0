@@ -1,58 +1,34 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
-	[209.85.166.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 810097F278
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 37B367F2AD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 13:46:11 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id g20so167400845ioc.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2019 06:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:cc:references:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=b9t/I7rrYvND6i90bvxeshYRiOu7rJr3qJsMO7Slj5s=;
-	b=N0d72Hkyn/Qe/j2hklxeYbIypMffYXvqca3ynCakyZ+PW4vx6HVijgbiWw7INkPQkN
-	gsS4mNZyqVPgMEDkAVwjJ0OEf72DhQIQjwpnIutay2zpujGh6vWwJf1CASmGj1ZxHD5L
-	T01CCJORgFESIp/4EtOhvJ+ybhaDBMGbctE7v0g5KAxQSCO6KF7JRdog5o/Zl7Blj9EP
-	6C0KnSUPltfc4GPNGEBwQgo9BYUQTU0bJaECsBBWalxMy6XBOPUROgF2eut1jxMmMZYr
-	PJFAeHv7lz5gQkmFLwHyqDfNzqsp/dqBz12QPD1kIpkQXl7T3C6ONbAfECTEtrx/ZfiI
-	h9Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=b9t/I7rrYvND6i90bvxeshYRiOu7rJr3qJsMO7Slj5s=;
-	b=aG+V5Od4r6Z80NJtcZ2VyUWq1DLyIygf1mkCGdvUv1FFnTLZjsHGPGGeLH7qKwrTUn
-	Gyn+kCTufEJZSDvVMPi1IQl+gV15BEdmVArG8PTs5Gg/WmxbQpBmpu5kldA3T4V2K2IK
-	XvUVoQNBzv7du2HK7KulHbS9PcMQTaLfCkZnmjQZRq2smZLUOhSjLZnCjsfGieptoJn1
-	PhQ9AWHjGNrt8LU6Novk2akilVDJjJKFYRR4ZdgNX3e54a/3pKuAVg10DE6QbRdLx+hR
-	sRvJwwOtX0slBCu23DoKfgLAzg2kocuvxBBRsdeZ2yXiDJvzr6S266GvWNYqmUMTmCYT
-	rakg==
-X-Gm-Message-State: APjAAAUo4Ce58czggLMdih1q1GPJvFnSYzFjpHhBmpafqJsl68X/d5mS
-	ZbEQC5nm8LvHRb1C/deQtoM=
-X-Google-Smtp-Source: APXvYqxXEMjvCbGRVEsbFjBWAzIlTcAKnu9glWPloSVYvTKbWUlJYpyOr3lZWjNeVvj4T1kq2N3HHA==
-X-Received: by 2002:a02:c95a:: with SMTP id u26mr1372226jao.15.1565012772444; 
-	Mon, 05 Aug 2019 06:46:12 -0700 (PDT)
-Received: from [10.30.197.57] ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	x22sm62823022iob.84.2019.08.05.06.46.11
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Aug 2019 06:46:11 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: Mikko.Rapeli@bmw.de, richard.purdie@linuxfoundation.org
-References: <a3cde6526f42e115340654402a3e89bed42facd8.camel@linuxfoundation.org>
-	<a020143f53511171dc4d407e0d8dde259af3852a.camel@linuxfoundation.org>
-	<20190805072121.GM3459@hiutale>
-Message-ID: <423417c6-cf67-1456-0a0a-f071dc1ba0bb@gmail.com>
-Date: Mon, 5 Aug 2019 08:46:10 -0500
+	Mon,  5 Aug 2019 14:23:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x75EN6M2021813
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 5 Aug 2019 07:23:06 -0700 (PDT)
+Received: from [192.168.10.15] (147.11.117.76) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Mon, 5 Aug 2019 07:23:05 -0700
+To: Khem Raj <raj.khem@gmail.com>, Seebs <seebs@seebs.net>
+References: <20190801200354.119252-1-jason.wessel@windriver.com>
+	<8934e4e0-aaf6-5eb6-5d1b-355063bee94a@windriver.com>
+	<20190801185725.139cfa73@seebsdell>
+	<f991e41b-39c6-a088-63aa-07553cae131b@windriver.com>
+	<20190802120733.4a24ca3f@seebsdell> <20190802124246.27d4beca@seebsdell>
+	<CAMKF1sr-gxJBXUn6OtU=0GtTw=CTLWfFLVWjATB-_k-1NYCP1g@mail.gmail.com>
+	<20190803092307.486e930d@seebsdell>
+	<CAMKF1so6TnxR13TvFHxRpcEuA-xAd2gSk8bnS7hBXfDW=d7+YQ@mail.gmail.com>
+From: Jason Wessel <jason.wessel@windriver.com>
+Message-ID: <95e79f14-c9bb-9e75-88f7-f452eccf95b7@windriver.com>
+Date: Mon, 5 Aug 2019 09:23:04 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190805072121.GM3459@hiutale>
-Cc: JPEW.hacker@gmail.com, openembedded-core@lists.openembedded.org
-Subject: Re: Hash Equivalency - What this means for developer productivity
+In-Reply-To: <CAMKF1so6TnxR13TvFHxRpcEuA-xAd2gSk8bnS7hBXfDW=d7+YQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] pseudo: Upgrade to latest to fix openat() with a directory symlink [NAK]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,79 +41,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 13:46:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 05 Aug 2019 14:23:08 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
+If we understood more about the nature of the race condition a test case could probably be constructed. For now, it is worth a try to see if it is any better.  I am certain the timing will change ever so slightly, so we could hit the glibc-locale issue more or less...
 
-On 8/5/19 2:21 AM, Mikko.Rapeli@bmw.de wrote:
-> Hi,
+All of the regression tests completed over the weekend and the new code which found the problem in the first place is also working well. I'll send a new patch out to move pseudo forward.
+
+Cheers,
+Jason.
+
+
+On 8/3/19 9:57 AM, Khem Raj wrote:
+> I see the locale issue atleast 5-7 times a week on world builds so I
+> will be able to see if that frequency stays same after this fix.
 >
-> On Fri, Aug 02, 2019 at 05:17:21PM +0100, Richard Purdie wrote:
->> On Fri, 2019-08-02 at 16:53 +0100, Richard Purdie wrote:
->>> With the patches in master-next and this configuration in local.conf:
->>>
->>> BB_HASHSERVE = "localhost:0"
->>> BB_SIGNATURE_HANDLER = "OEEquivHash"
->>>
->>> $ bitbake core-image-sato
->>> $ bitbake m4-native -c install -f
->>> $ bitbake core-image-sato
->>>
->>> will result in do_populate_sysroot of m4-native running, it will see
->>> the output matches the previous build and it will then skip to the
->>> rootfs generation pulling all the other pieces from sstate.
->>>
->>> Note that for this to work, m4-native has to have previously built
->>> with the hashserv running, otherwise it has nothing to compare its
->>> output to.
->>>
->>> I think this should be a "big deal" for many developers, reducing
->>> unneeded rebuilds and hence speeding up development.
-> Awesome, thanks for pushing this!
->
->> I should have mentioned, this code relies on reproducibile builds as
->> its comparing the binary output. The more reproducibile builds are, the
->> more likely sstate reuse will happen.
+> On Sat, Aug 3, 2019 at 7:23 AM Seebs <seebs@seebs.net> wrote:
+>> On Sat, 3 Aug 2019 05:33:46 -0700
+>> Khem Raj <raj.khem@gmail.com> wrote:
 >>
->> This is one reason reproducibile builds are important!
-> What else do users need to enable to get more reproducible builds, or
-> are poky defaults enough?
+>>> Will this fix the file ownership issue that we see with Glibc-locale
+>>> packages from time to time?
+>> I have no idea. Since I haven't got a reliable reproducer for it, I
+>> can't test it in a sane way.
+>>
+>> -s
 
-You can test with what we currently have by adding:
 
-  INHERIT += "reproducible_build"
-
-to local.conf. This is subject to change though as we are still sorting 
-out some of the details.
-
->
-> Are there some tools available to debug build reproducibility issues e.g.
-> when task hashes suddenly changed?
-
-The current goal of the reproducible build work is to create and OEQA 
-test that checks if all recipes that are required for a given image can 
-be built in a reproducible manner. This QA test will be run on the 
-autobuilder to detect regressions. We are currently working toward 
-getting core-image-minimal reproducible, but I think Ross Burton 
-investigated core-image-sato and determined it wouldn't be too much 
-extra work, so we might try that one also. Either way, the test is 
-designed to be be easily extensible so you can write your own tests on 
-whatever image you would like.
-
-I think that there is a significant opportunity to improve the reporting 
-and tests for reproducible builds, and much of this complements hash 
-equivalence. For example, the hash equivalence code is (or can be) 
-really good at reporting why a task's output hash changed, which would 
-be really useful information for debugging reproducibility.
-
-I also have some patches that should make it easier to debug packages 
-that didn't build reproducibly when the QA check fails by allowing you 
-to run diffoscope on them.
-
->
-> Cheers,
->
-> -Mikko
 
