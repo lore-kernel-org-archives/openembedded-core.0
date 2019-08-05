@@ -1,47 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E7CAF6B07E
+Return-Path: <eduardoabinader@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C49FA7F284
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 12:13:17 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id a15so74499613wmj.5
+	Mon,  5 Aug 2019 12:21:04 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id n9so59127146wrr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2019 05:13:19 -0700 (PDT)
+	Mon, 05 Aug 2019 05:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=+Ha4dvjs7eEKXl8mc9OIIJm4zs7Xi/OatJBjMqeoRXY=;
-	b=sUFrVotlLOXAP8UtMByZXrE3yEjr7zFC2SEfue9e/POBAlfWPH7mo8DrCarOnhaDSf
-	9fqxx8Gf+dFv06Nx1jjyKiB2msHcn+9c66SAebo746MfTxRTSN9obefbkuKm4BVckYOF
-	HWJBFNODsbODl1faYGwfCHkIbFJfCMRVk6txro9OF/47/Z0wjMERaFlei38rCLInPmJT
-	18DGn53GVqlMhVKw5Vk/HH/DpEzN29qMPIQFrV4WnxgQXiT161evu20kcjpAZJS/+xd4
-	9O2XTIFnFaTfBMtQcdABUc4pQ2Cf8930jcD0q6qPgNtjmvuLI/9bnhHukfXYe95ITQbA
-	XfpA==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IA0zuvkQ9UMF6RP/uYBdglMYQB4OCGhUf/3AysH+WCs=;
+	b=eKyoi4YrSoMo6Fgd9FOAxSibzoE7MwefDwuXrLxvCmMlbeOmreDZL0v/xCGR+qe581
+	Tf0GnW+3TJX5MqFzZR9tcsFqrnWGoz+vr9IvZgeoASjmsTrv3o/rZIEJZ0pq+f+i91Ib
+	S0PEYMHGAcbA4mBiGiUTyO7WbSCur0GNNFKMX7aYofnPdDfiFxXE5lbTGLwUqhpGGRwu
+	X77q5PIku0IAp1KZighgCsycPYK6EiQ0k85LUZH22HOsnpUvQWhDaUqTyB0SFaSXQGqk
+	A79VQlbm19sXTUvWr5C4vHRb/+O4GBqXzcI7gBRXi8gL8tSntUtW4b4GnJ6Irg4YWSmx
+	dvxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+Ha4dvjs7eEKXl8mc9OIIJm4zs7Xi/OatJBjMqeoRXY=;
-	b=aGEhXGGIsJRwRrn+ZeGYn5RV18hJ6gjjjkhjo16sJZ6eN9xbPgMVJzys/2F8uMQlLw
-	PqZP9h8IFcGcAqBGzud1L4S8FIH2Bgc61JQ1LofPOQJI+kE6gXTRGPcbFajvlkvQm96X
-	sJsE2Uui1zEa0yaWKO+pjnxky2HIZyi4zSrJ17NCsl3HxGDND6L1tFMMxl35r+bqZp26
-	vRP4+e0DlkONk1OcfMR4ZkI9T1n6esEcct5RmP1/YtWmhHSrkxqECSjLKJTUuIHixZOc
-	380MGjyb6Phi/LjXOOuGTTFtCBIPKhgdsTAECj/nf6OkfooKc/xdG8ajlBRFKIcx4Or+
-	SP3w==
-X-Gm-Message-State: APjAAAUp0qMM2bl/i390mgt7/D+AY4v2b1/5B4K8gMlzkrrHaay157Lm
-	ZNsV0pC3GZu7Whg86hXpbqx309tPU5Y=
-X-Google-Smtp-Source: APXvYqyCfFVusVqsPH6mE8K2eLzBnjDCRf84xYekWKlnCf5u07r9Ueqybqrt23JKEa8R6qNYZ32c1A==
-X-Received: by 2002:a7b:c398:: with SMTP id s24mr18934907wmj.53.1565007198468; 
-	Mon, 05 Aug 2019 05:13:18 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	w25sm76641800wmk.18.2019.08.05.05.13.17
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IA0zuvkQ9UMF6RP/uYBdglMYQB4OCGhUf/3AysH+WCs=;
+	b=DmXGxpAzM2BxEelrre7Fkx69bsYNUuipHVNz/nIB30ifyPapaEXT2dkoloVtC5hqBy
+	kFWSfH+8So4P2yqCUotRuClkp2tpA5MjS8vTaFJQvwJXnDP7ymxnAUQ4PnP0SP1Wih9B
+	6XoFOCYrFiGmnIGZ/OHMOWnKJdrXuIld6M9pg0cYrZ1tDWm50PgOZwDkjUXVP04lj3xF
+	sFtvbPVmDcp961a2nydq7M524GCShWOlkYf4kT6Zs9Dy2F9T3h5Bo92HKfu71BE0tUKA
+	5ZifDFyYxVsslMQan0lXLqEBIkqz3B4yjmRLsgP0cJPZGIbxYB/MHrKEEuVqDgL2Dsv6
+	KJ4g==
+X-Gm-Message-State: APjAAAU5Rq+nXZmA6jQZAdO4JjvM1kuDiK2dInHpjzxeqj+vwMIFxGhy
+	qn8g6vcoqCpUGw5cNOdzZjEO9XjPFNg=
+X-Google-Smtp-Source: APXvYqz9/6gTzYUnKoDhIVFYttakQEZ6++1VDL8cem0iQ24+WTibcWW7jauaz9SmXQnZ20KjmBCIcg==
+X-Received: by 2002:adf:f3cc:: with SMTP id g12mr51574595wrp.149.1565007664789;
+	Mon, 05 Aug 2019 05:21:04 -0700 (PDT)
+Received: from localhost.localdomain (p5B2F645F.dip0.t-ipconnect.de.
+	[91.47.100.95]) by smtp.gmail.com with ESMTPSA id
+	v15sm77227191wrt.25.2019.08.05.05.21.03
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 05 Aug 2019 05:13:18 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Mon, 05 Aug 2019 05:21:03 -0700 (PDT)
+From: Eduardo Abinader <eduardoabinader@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Aug 2019 14:13:13 +0200
-Message-Id: <20190805121313.31362-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] maintainers.inc: assign acpica to Ross
+Date: Mon,  5 Aug 2019 14:20:38 +0200
+Message-Id: <20190805122038.21312-1-eduardoabinader@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH 1/1] devtool: add ssh key option to deploy-target param
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,29 +58,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 12:13:18 -0000
+X-List-Received-Date: Mon, 05 Aug 2019 12:21:05 -0000
+Content-Transfer-Encoding: 8bit
 
-Fathi has as well been inactive for a long time.
+From: Eduardo Abinader <eduardo.abinader@gmail.com>
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Eduardo Abinader <eduardoabinader@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/devtool/deploy.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index bc13be2fd4f..fe0a7755780 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -28,7 +28,7 @@
- # Please keep this list in alphabetical order.
- #
- RECIPE_MAINTAINER_pn-acl = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-acpica = "Fathi Boudra <fathi.boudra@linaro.org>"
-+RECIPE_MAINTAINER_pn-acpica = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-acpid = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-adwaita-icon-theme = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-alsa-lib = "Tanu Kaskinen <tanuk@iki.fi>"
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index d1ce2309f9..6a997735fc 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -212,6 +212,9 @@ def deploy(args, config, basepath, workspace):
+             scp_port = "-P %s" % args.port
+             ssh_port = "-p %s" % args.port
+ 
++        if args.key:
++            extraoptions += ' -i %s' % args.key
++
+         # In order to delete previously deployed files and have the manifest file on
+         # the target, we write out a shell script and then copy it to the target
+         # so we can then run it (piping tar output to it).
+@@ -326,6 +329,8 @@ def register_commands(subparsers, context):
+     parser_deploy.add_argument('--no-check-space', help='Do not check for available space before deploying', action='store_true')
+     parser_deploy.add_argument('-e', '--ssh-exec', help='Executable to use in place of ssh')
+     parser_deploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
++    parser_deploy.add_argument('-I', '--key',
++                               help='Specifiy ssh private key for connection to the target')
+ 
+     strip_opts = parser_deploy.add_mutually_exclusive_group(required=False)
+     strip_opts.add_argument('-S', '--strip',
+@@ -349,4 +354,7 @@ def register_commands(subparsers, context):
+     parser_undeploy.add_argument('-n', '--dry-run', help='List files to be undeployed only', action='store_true')
+     parser_undeploy.add_argument('-e', '--ssh-exec', help='Executable to use in place of ssh')
+     parser_undeploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
++    parser_undeploy.add_argument('-I', '--key',
++                               help='Specifiy ssh private key for connection to the target')
++
+     parser_undeploy.set_defaults(func=undeploy)
 -- 
-2.17.1
+2.20.1
 
 
