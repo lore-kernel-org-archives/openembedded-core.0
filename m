@@ -1,58 +1,36 @@
-Return-Path: <andrew@aj.id.au>
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
-	[64.147.123.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 82AB971B99
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DD3B7ECCF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 06:32:00 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 72AF4392;
-	Mon,  5 Aug 2019 02:31:59 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-	by compute4.internal (MEProxy); Mon, 05 Aug 2019 02:31:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
-	mime-version:message-id:in-reply-to:references:date:from:to:cc
-	:subject:content-type; s=fm3; bh=f4TvW5G+bx+d52aZm5+w9bsoegXNNB6
-	fRHttpiD5OE8=; b=Wwjr1h2gB0oQhwuD5mjFAzVpaGcNiOJ04Hm+FiML42+Sh66
-	W15vNn8mGX1qPaIgcmYXj3oH5ZnkURjXz+mbGv9tvGMzifqPnN553kPGuClcAkHn
-	2TwD1vQIChvV6plSpgxhw4X8zJKlMck/NrThPc33Lm854Gaqk70T+GAh65uF87Np
-	oZWvMsC6maa1zmeUG+1aXDvaCIEDpKan1fLXwOwaY7N6fEbhJ8my5QReaVAmbX9f
-	nZCQvaLGUQML/ryZg0w16Eo1S7E4lTiXRdkvvcztI2MJQWqUEn5PGCgnSdh7lxzp
-	GuzVXJba2p8E3QVVdZRfCzSFUg3/58f10jgCrww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=f4TvW5
-	G+bx+d52aZm5+w9bsoegXNNB6fRHttpiD5OE8=; b=Wd8PsV5zkFjSoQXcvK4YpF
-	E/DikOTcTDTg10yfBVg8zvck1Fv501itM4MDP+mrx8rNIBarD++u1oMc7P1/YYo3
-	gVv+AbRAYczHFpoUQ0iAzv5Xo+hS8/WasfxSQ+u0PR0oQXjCOgeh9QQOPP2Q1KEE
-	LAs3ZpwwJvy34taWRtIKDraWTygc3KnW/r1IcsDuYuGqm/8jDiVr2ISxp0W2uNCu
-	B5CL+j8xx1uQdCimZXVIncr1A3PskX4aWf+f2ugr2zxxG5t/Yip+mmPN+YTi5+TP
-	A6dgdZorItRWNs7qIbYpg1Jg1E42oJ350sPBEe3GONgATREXrd3PeEFsjVmcygaw
-	==
-X-ME-Sender: <xms:Xs1HXZP61mGjW74-9mE07sTuvFE7PoN_4v5Dt2hWmCyKaxNl6ka1jA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddruddtiedgleejucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-	cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
-	rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuffhomh
-	grihhnpehgihhthhhusgdrtghomhenucfrrghrrghmpehmrghilhhfrhhomheprghnughr
-	vgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:Xs1HXdNHzfz1rBHVCPXfk8cgBHCzsqbyVYXWpk_1QGi8QETxC-txhA>
-	<xmx:Xs1HXaDLPOnd1mIUYpxMCLgB6WipBssopeg9FmV6gvdS_KxQ4Z3R_A>
-	<xmx:Xs1HXfLL0bXD3w8OJzZ3gLh2KTi_S3oSZRpUdOY5Xvogy8Y4ZEkDVw>
-	<xmx:X81HXfonwM8B6nlnPtf5I1f_NR-TuRWykT9tlebA1ps0K5GmBu-qgw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5C261E00A2; Mon,  5 Aug 2019 02:31:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-799-g925e343-fmstable-20190729v1
-Mime-Version: 1.0
-Message-Id: <f7fa211f-7552-4515-ba7e-7f0d82c96922@www.fastmail.com>
-In-Reply-To: <20190805050455.GA4799@localhost>
+	Mon,  5 Aug 2019 06:43:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4627Wj1vlCz4s;
+	Mon,  5 Aug 2019 08:43:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1564987409;
+	bh=DhO719NW+5CB2DNJr/odVjiCWWFFtlepv3ROTRAefOQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pz/koD8x7uQ0vVR1h6LdCBeB5JeGnqD6nrbLTMBm4PoYC2t/h8N2zo08eTePcbcxQ
+	EFC8833USrKtG0QtLol1Lvynp7jGgES+WAKBIGsm76L0lAZ73pSzNSAHyBIA3xuSF6
+	Lb2/rEdAFqg5aDkakevm3pRSOvK8wm3CKlGfbOoZ5vZLIJKCpRuHl/NNAA+KfXb7ZC
+	jjQ6OZcHoYl5lP0UJLDNCErW01IKaUVGmURAx8hpaUIXHob1hlwkQ0RzzACBCravC9
+	bfGt9cQ3gAvmQ6+dRanHs34l1LD7E0FDfDdjDJFDrQklMQKA3RrOtWmM4j7cHL7O3m
+	v45Rpyaxdpa45tCmKNg534eskvduJMor7OlyBLGmSUWlEA/muiZpMvlSO+ETPILI4T
+	+ps0227g5llVk15182HZ8Qz3piIqqAsYAkZz8o5PFKoXGYsPuZ4h++eUZbkINw2o9v
+	kT9NEUgQHjH+CCaC0MPRM0QhOQk3ZrtTZ322fQPpgsjWrYdLn+gzHhH/AYVAbwrVCu
+	MVv+oURqaGI2dd6AHbouIh1/L5TxT0yU/jLMp5aTn5iTDYGYSb6s1rDPaH7uPQcDle
+	EUPB5mlTgavNrkPJrF8N2urXVhjWTU4cXKa1NxLQ4CY/iuSM0q9bT+UR5BOn7gykb+
+	22E90Ou2xsB/ryLPxAooZGhM=
+Date: Mon, 5 Aug 2019 09:43:27 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Andrew Jeffery <andrew@aj.id.au>
+Message-ID: <20190805064327.GD4799@localhost>
 References: <20190805031211.11190-1-andrew@aj.id.au>
 	<20190805050455.GA4799@localhost>
-Date: Mon, 05 Aug 2019 16:01:57 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Adrian Bunk" <bunk@stusta.de>
+	<f7fa211f-7552-4515-ba7e-7f0d82c96922@www.fastmail.com>
+MIME-Version: 1.0
+In-Reply-To: <f7fa211f-7552-4515-ba7e-7f0d82c96922@www.fastmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] dtc: Provide libfdt
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -67,50 +45,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 06:32:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 05 Aug 2019 06:43:29 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-
-
-On Mon, 5 Aug 2019, at 14:35, Adrian Bunk wrote:
-> On Mon, Aug 05, 2019 at 12:42:11PM +0930, Andrew Jeffery wrote:
-> > Applications are appearing that depend on parsing flattened devicetree
-> > in userspace on target devices, e.g. pdbg[1]. Mark dtc as providing
-> > libfdt so application recipes can depend on it.
+On Mon, Aug 05, 2019 at 04:01:57PM +0930, Andrew Jeffery wrote:
+> 
+> 
+> On Mon, 5 Aug 2019, at 14:35, Adrian Bunk wrote:
+> > On Mon, Aug 05, 2019 at 12:42:11PM +0930, Andrew Jeffery wrote:
+> > > Applications are appearing that depend on parsing flattened devicetree
+> > > in userspace on target devices, e.g. pdbg[1]. Mark dtc as providing
+> > > libfdt so application recipes can depend on it.
+> > > 
+> > > [1] https://github.com/open-power/pdbg
 > > 
-> > [1] https://github.com/open-power/pdbg
+> > Shouldn't runtime dependencies on dtc already be autogenerated in this 
+> > case when you have dtc in DEPENDS?
 > 
-> Shouldn't runtime dependencies on dtc already be autogenerated in this 
-> case when you have dtc in DEPENDS?
+> "dtc" doesn't need to appear in depends for pdbg: "dtc-native" does for the
+> purpose of building the devicetrees shipped with the application, but "dtc"
+> doesn't and dtc(1) itself isn't required at runtime, rather we just need libfdt,
+>...
 
-"dtc" doesn't need to appear in depends for pdbg: "dtc-native" does for the
-purpose of building the devicetrees shipped with the application, but "dtc"
-doesn't and dtc(1) itself isn't required at runtime, rather we just need libfdt,
-which brings up your point below.
+How do you link with libfdt without the non-native dtc in DEPENDS?
 
+> Thanks for the feedback.
 > 
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > ---
-> >  meta/recipes-kernel/dtc/dtc.inc | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-> > index 0650e3c82e6d..d55c8af90660 100644
-> > --- a/meta/recipes-kernel/dtc/dtc.inc
-> > +++ b/meta/recipes-kernel/dtc/dtc.inc
-> > @@ -5,6 +5,8 @@ SECTION = "bootloader"
-> >  LICENSE = "GPLv2 | BSD"
-> >  DEPENDS = "flex-native bison-native"
-> >  
-> > +PROVIDES += "libfdt"
-> >...
-> 
-> This should be a proper separate library package, so that applications 
-> depending on it stop pulling in the command line tools.
+> Andrew
 
-Yeah, you're right, on reflection this was a bit of a hack.
+cu
+Adrian
 
-Thanks for the feedback.
+-- 
 
-Andrew
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
