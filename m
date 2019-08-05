@@ -1,23 +1,51 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CA3F7E71C
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E4AA579CB3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 09:38:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x759cJbJ007748
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  5 Aug 2019 10:52:34 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n4so84001899wrs.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Aug 2019 02:38:19 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 5 Aug 2019 02:38:18 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 5 Aug 2019 02:38:18 -0700
-Message-ID: <20190805093818.61993-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.21.0
+	Mon, 05 Aug 2019 03:52:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lk5L0Aw5J5kjYYSp5b0bI08XEHHErr4qxK4+yRDxX2M=;
+	b=fjU8+6r455qz6k3gRApqSATjW1TWVjA8VlmoJS3pjHKsoGkYMc11/mMke6bWn68U8+
+	4feRdEa4gF2EagRPT+dzYWVYPHLd4lQrb+Vot9JMzQrCxRqVQaOtTskH/Go/yQWOTwal
+	RBpBzngmQu7UTRcTdNgrCA1f4c//lRkFyffNKhe9BViSoQMQHxgd+4//B7RmLM2ajSSY
+	xkRyyAU8iZZmcDwIKFB/xwyZhbwn4RR3caEWf6mnAiQV8qcvDO8BxY6MFDNF+3ZtclG1
+	I5NQchuGCae9EABzwpc5I1F4oMY9pUK0Ch+gT9a3cyBHfnfQ0wZYFj82iosoHJvofU4f
+	fqgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lk5L0Aw5J5kjYYSp5b0bI08XEHHErr4qxK4+yRDxX2M=;
+	b=OKZUeEKe1zRO4iSw8kPtyave5VPuf8kXOc9VG2WDvzpmhvz0HuE99KCteccsZsANYb
+	1TZaA4D6G8I6l4fpDetQ0kV59txLRcM+CCdSNJkNLBXTTiM9OTH8qnyPcGFTjMT90WCO
+	bNmamV5CQcpqb3OaGn5++Jxcn6S31Jhj6ZRmB8Oi31QtzL5tI4lWUCTVSI7o8VzX5/6n
+	jDxagkUTJzRZvQtDdBBHOe/xL5cMr1v29/9m6DvsLqs3YNCxhvYxzMbHELU/LLe5M0IA
+	WCxUR4h6JLuocYd7rzlfZUzpfWRBp3E6BARzBtR5ginv9NlFq18LVJyqBAT8NxPRr9f8
+	uBvw==
+X-Gm-Message-State: APjAAAUWzAqm0/phQx+2Z5L2srHpxPmSV8kIVw9dZ86MOKlftAJwb6ee
+	9rW78KG+Ne/L3AVbmOX99m8HT/XR
+X-Google-Smtp-Source: APXvYqyFHwFlzcc3QpGGX02iIaVy5EfhXQd6efMMLlKsG5DFO32dbxY/lg2P4kSHKhe0BDlJsnycew==
+X-Received: by 2002:adf:9f0e:: with SMTP id l14mr20583172wrf.23.1565002355040; 
+	Mon, 05 Aug 2019 03:52:35 -0700 (PDT)
+Received: from localhost ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
+	by smtp.gmail.com with ESMTPSA id
+	o11sm79589302wmh.37.2019.08.05.03.52.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 05 Aug 2019 03:52:34 -0700 (PDT)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Aug 2019 11:52:32 +0100
+Message-Id: <20190805105232.16148-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] python3: fix the test_locale output format
+Subject: [PATCH] python3-pygobject: move python3-setuptools from RDEPENDS to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,104 +58,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 09:38:19 -0000
+X-List-Received-Date: Mon, 05 Aug 2019 10:52:35 -0000
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Before this patch:
- # python3 -m test -v test_locale
- [snip]
- test_getsetlocale_issue1813 (test.test_locale.TestMiscellaneous) ... testing with ('tr_TR', 'ISO8859-9') ok
- [snip]
+python3-setuptools is necessary to build pygobject but not to run it, as
+also documented by the upstream packaging guide:
 
- After this patch:
- # python3 -m test -v test_locale
- [snip]
- test_getsetlocale_issue1813 (test.test_locale.TestMiscellaneous) ... testing with ('tr_TR', 'ISO8859-9')... ok
- [snip]
+https://gitlab.gnome.org/GNOME/pygobject/blob/master/docs/packagingguide.rst
 
-Make the test ended with "... ok" is common in python
-unittest world, we should make it keep consistent
-with other test cases in case it may be ignored to
-record in the report if we use the common filter
-"... ok".
+Move it to DEPENDS to shrink the runtime dependency chain, as setuptools
+includes scripts to download other packages, which might not be desired on
+a minimal image.
 
-[YOCTO #13298]
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 ---
- ...le.py-correct-the-test-output-format.patch | 46 +++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.4.bb |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
+ meta/recipes-devtools/python/python3-pygobject_3.32.2.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-new file mode 100644
-index 0000000000..35b7e0c480
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
-@@ -0,0 +1,46 @@
-+From b94995e0c694ec9561efec0d1a59b323340e6105 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Mon, 5 Aug 2019 15:57:39 +0800
-+Subject: [PATCH] test_locale.py: correct the test output format
-+
-+Before this patch:
-+ # python3 -m test -v test_locale
-+ [snip]
-+ test_getsetlocale_issue1813 (test.test_locale.TestMiscellaneous) ... testing with ('tr_TR', 'ISO8859-9') ok
-+ [snip]
-+
-+ After this patch:
-+ # python3 -m test -v test_locale
-+ [snip]
-+ test_getsetlocale_issue1813 (test.test_locale.TestMiscellaneous) ... testing with ('tr_TR', 'ISO8859-9')... ok
-+ [snip]
-+
-+ Make the test ended with "... ok" is common in python
-+ unittest world, we should make it keep consistent
-+ with other test cases in case it may be ignored to
-+ record in the report if we use the common filter
-+ "... ok".
-+
-+Upstream-Status: Submitted [https://github.com/python/cpython/pull/15132]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ Lib/test/test_locale.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
-+index e2c2178..558d63c 100644
-+--- a/Lib/test/test_locale.py
-++++ b/Lib/test/test_locale.py
-+@@ -527,7 +527,7 @@ class TestMiscellaneous(unittest.TestCase):
-+             self.skipTest('test needs Turkish locale')
-+         loc = locale.getlocale(locale.LC_CTYPE)
-+         if verbose:
-+-            print('testing with %a' % (loc,), end=' ', flush=True)
-++            print('testing with %a...' % (loc,), end=' ', flush=True)
-+         locale.setlocale(locale.LC_CTYPE, loc)
-+         self.assertEqual(loc, locale.getlocale(locale.LC_CTYPE))
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
-index 59d7024988..80c9b2919e 100644
---- a/meta/recipes-devtools/python/python3_3.7.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.4.bb
-@@ -27,6 +27,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- 	   file://crosspythonpath.patch \
-            file://reformat_sysconfig.py \
-            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
-+           file://0001-test_locale.py-correct-the-test-output-format.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb b/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
+index 05688be603..58a251f8eb 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+ GNOMEBASEBUILDCLASS = "meson"
+ inherit gnomebase distutils3-base gobject-introspection upstream-version-is-even
  
- SRC_URI_append_class-native = " \
+-DEPENDS += "python3 glib-2.0"
++DEPENDS += "python3 python3-setuptools glib-2.0"
+ 
+ SRCNAME="pygobject"
+ 
+@@ -27,7 +27,5 @@ PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', [ 'directfb', 'wa
+ # we don't link against python3-pycairo -> RDEPENDS
+ PACKAGECONFIG[cairo] = "-Dpycairo=true,-Dpycairo=false, cairo python3-pycairo, python3-pycairo"
+ 
+-RDEPENDS_${PN} += "python3-setuptools"
+-
+ BBCLASSEXTEND = "native"
+ PACKAGECONFIG_class-native = ""
 -- 
-2.21.0
+2.20.1
 
 
