@@ -1,25 +1,56 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F2F717F338
+Return-Path: <prvs=11390c5c8=Mikko.Rapeli@bmw.de>
+Received: from esa9.bmw.c3s2.iphmx.com (esa9.bmw.c3s2.iphmx.com
+	[68.232.133.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 09FC27F338
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 07:18:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x757I5cQ015812
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Aug 2019 00:18:05 -0700 (PDT)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Mon, 5 Aug 2019 00:18:04 -0700
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <2194f82b-9dae-7941-9ba9-4492a3ca0d2d@windriver.com>
-Date: Mon, 5 Aug 2019 15:18:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Mon,  5 Aug 2019 07:21:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1564989685; x=1596525685;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=4Y+R1mbGVeu+slPbWWo0gTQgaWjFSXu+aOYkohf+Nck=;
+	b=DJzeEPAgHo2fOSPhyI/WlXQh/2dl5q3xe7px63eBzGH83PvwzdNHaqI8
+	AAs9J1lccpFSTYDxStcKK0zj3fY5u/PHMky+cLBcxidXNjaYKKfeJZdn7
+	p1NSADvNt8WoSPBmgk5WhTbyvh/VIa/3jREiGdekoUcWM72G8KVDC5hDb M=;
+IronPort-SDR: 4l8tdicBRDVwJuM3nonU6jWqWtNmMdWlbsRC1DsoHfA3EieY9ycnFJqcvXXEIRAMJpx4PYXkAH
+	jwPsujZZ7EKTkJJO6TT35q2I9JMGkzESrGgEQPHkodeQPxtL5qYaFn2CEX5fnVKJ0BL28JxIJR
+	seMUpR0Q7WVnYykj92iWNwHZ8D1PMMxhTB/+sczG3SzXtH6+NFclskin/L7SHhNnEcbbipRCZN
+	D/SFa3NqcTrO7t2BEnQSx3xtxaq1Pm0/JlAGAryW1Wbf8K88UswPT62lEtszPhdH93Gi3SeUIp
+	Nh8=
+Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
+	esa9.bmw.c3s2.iphmx.com with ESMTP/TLS; 05 Aug 2019 09:21:24 +0200
+Received: from esabb2.muc ([160.50.100.34])  by esagw3.muc with ESMTP/TLS;
+	05 Aug 2019 09:21:23 +0200
+Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
+	([160.48.96.46])
+	by esabb2.muc with ESMTP/TLS; 05 Aug 2019 09:21:22 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10j.europe.bmw.corp
+	(160.48.96.46) with Microsoft SMTP Server (TLS;
+	Mon, 5 Aug 2019 09:21:21 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Mon, 5 Aug 2019 09:21:21 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] Hash Equivalency - What this means for developer
+	productivity
+Thread-Index: AQHVSU4p3ePxqXq1q0+N7kw4NPUZt6bsCJ+A
+Date: Mon, 5 Aug 2019 07:21:21 +0000
+Message-ID: <20190805072121.GM3459@hiutale>
+References: <a3cde6526f42e115340654402a3e89bed42facd8.camel@linuxfoundation.org>
+	<a020143f53511171dc4d407e0d8dde259af3852a.camel@linuxfoundation.org>
+In-Reply-To: <a020143f53511171dc4d407e0d8dde259af3852a.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.35]
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.186]
-Subject: populate_sdk failed when multilib enabled
+Cc: JPEW.hacker@gmail.com, openembedded-core@lists.openembedded.org
+Subject: Re: Hash Equivalency - What this means for developer productivity
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,130 +63,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 07:18:04 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 05 Aug 2019 07:21:23 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <85C4C429EA70424FA7E053700966257B@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Hi, All
+Hi,
 
-bitbake core-image-minimal -c populate_sdk failed with below 
-configuration in local.conf:
+On Fri, Aug 02, 2019 at 05:17:21PM +0100, Richard Purdie wrote:
+> On Fri, 2019-08-02 at 16:53 +0100, Richard Purdie wrote:
+> > With the patches in master-next and this configuration in local.conf:
+> >=20
+> > BB_HASHSERVE =3D "localhost:0"
+> > BB_SIGNATURE_HANDLER =3D "OEEquivHash"
+> >=20
+> > $ bitbake core-image-sato
+> > $ bitbake m4-native -c install -f
+> > $ bitbake core-image-sato
+> >=20
+> > will result in do_populate_sysroot of m4-native running, it will see
+> > the output matches the previous build and it will then skip to the
+> > rootfs generation pulling all the other pieces from sstate.
+> >=20
+> > Note that for this to work, m4-native has to have previously built
+> > with the hashserv running, otherwise it has nothing to compare its
+> > output to.
+> >=20
+> > I think this should be a "big deal" for many developers, reducing
+> > unneeded rebuilds and hence speeding up development.
 
-IMAGE_INSTALL_append = " bash"
+Awesome, thanks for pushing this!
 
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+> I should have mentioned, this code relies on reproducibile builds as
+> its comparing the binary output. The more reproducibile builds are, the
+> more likely sstate reuse will happen.
+>=20
+> This is one reason reproducibile builds are important!
 
-I did some research, but no clue how to fix,  so I want to get some help 
-from community.
+What else do users need to enable to get more reproducible builds, or
+are poky defaults enough?
 
-Error info:
+Are there some tools available to debug build reproducibility issues e.g.
+when task hashes suddenly changed?
 
-core-image-minimal-1.0-r0 do_populate_sdk: Could not invoke dnf. Command 
-'/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/recipe-sysroot-native/usr/bin/dnf 
--v --rpmverbosity=info -y -c 
-/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk/image/opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux/etc/dnf/dnf.conf 
---setopt=reposdir=/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk/image/opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux/etc/yum.repos.d 
---installroot=/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk/image/opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux 
---setopt=logdir=/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp 
---repofrompath=oe-repo,/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/oe-sdk-repo 
---nogpgcheck install lib32-packagegroup-core-standalone-sdk-target 
-run-postinsts bash packagegroup-core-standalone-sdk-target 
-packagegroup-core-boot target-sdk-provides-dummy' returned 1:
+Cheers,
 
-Error:
-  Problem: package 
-target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target conflicts 
-with /bin/sh provided by bash-5.0-r0.core2_64
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-conflicts with bash provided by bash-5.0-r0.core2_64
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-conflicts with /bin/bash provided by bash-5.0-r0.core2_64
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-obsoletes bash provided by bash-5.0-r0.core2_64
-   - cannot install the best candidate for the job
-   - conflicting requests
-(try to add '--allowerasing' to command line to replace conflicting 
-packages or '--skip-broken' to skip uninstallable packages or '--nobest' 
-to use not only best candidate packages)
-
-Some other info:
-
-1. package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-and bash-5.0-r0.core2_64 both provides /bin/sh and /bin/bash,  but if 
-removed above multilib related 3lines in local.conf, populate_sdk will 
-success.
-
-I don't understand why it failed with multilib enabled, since no matter 
-if multilib is enabled, package target-sdk-provides-dummy and bash will 
-both provides /bin/sh and /bin/bash, but error only occurred when 
-multilib enabled.
-
-2.with multilib enabled,  in bitbake core-image-minimal -c devshell,  run:
-
-/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/recipe-sysroot-native/usr/bin/dnf 
--v --rpmverbosity=info -y -c 
-/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk/image/opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux/etc/dnf/dnf.conf 
---setopt=reposdir=/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk/image/opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux/etc/yum.repos.d 
---installroot=/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk/image/opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux 
---setopt=logdir=/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/temp 
---repofrompath=oe-repo,/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/oe-sdk-repo 
---nogpgcheck provides /bin/bash
-DNF version: 4.2.2
-cachedir: 
-/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk/image/opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux/var/cache/dnf
-Added oe-repo repo from 
-/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/oe-sdk-repo
-repo: using cache for: oe-repo
-not found other for:
-not found modules for:
-not found deltainfo for:
-not found updateinfo for:
-oe-repo: using metadata from Mon 05 Aug 2019 04:00:20 AM UTC.
-Last metadata expiration check: 1:30:06 ago on Mon 05 Aug 2019 04:00:23 
-AM UTC.
-No module defaults found
-Searching Packages:
-bash-5.0-r0.core2_64 : An sh-compatible command language interpreter
-Repo        : oe-repo
-Matched from:
-Provide    : /bin/bash
-
-target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target : Dummy 
-packages which handle excluding packages from the sdk, e.g. ensuring 
-perl is excluded from buildtools
-Repo        : oe-repo
-Matched from:
-Provide    : /bin/bash
-
-BUT,  if multilib is disabled, the cmd will return no matches.
-
-3.  here is  configs under 
-/yocto/builds/sysV/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/sdk/image/opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux/etc/dnf/
-
-  tree
-.
-├── dnf.conf
-└── vars
-     ├── arch
-     └── releasever
-
-$ cat dnf.conf
-
-$ cat vars/arch
-core2_64:x86_64:sdk_provides_dummy_target:qemux86_64:x86
-
-$ cat vars/releasever
-master
-
-
-
-
--- 
-BRs
-
-Sandy(Li Changqing)
-
+-Mikko=
 
