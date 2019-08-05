@@ -1,78 +1,47 @@
-Return-Path: <chris.laplante@agilent.com>
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com
-	(mail-eopbgr790047.outbound.protection.outlook.com [40.107.79.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BDF37E71C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id F320B7D2D6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 16:39:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=T3wE7qrQAceVc7qgsOXHBRprzJWmRNgqfrGbD6tXpoBS+yuCONdQR5u/PPuAew1PejPZqIw+74yZWTuMNrX3GNqOBL85Xms3dKnYKwTqO2314pal5jgxynzJO/iL6+m3x56rSLG64T1ljjp05dePi24m4QpS1BEct8UFD8elT8GweWf/1Wg/2mOSHsnfyRrDDeMf+nJO0A7VhSdadHr1YZEeXVuv2RdgQhOjryePdWR+sqAOWwAgY3ClgZmSXUgC31i0C4z6WuMNJc2PZLTYMG3NMztnmc444IVfilpX6rUG/5YZODxYYuxlGrjksaV/E1t2S387Q/CxA/33+hHjuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=IDLOlKE4fa5iaoj8Sp6N37Qak5DMeFv2nwLiMRLC1b8=;
-	b=YsbqJJRskdW8ZEJ23+hmX+c/MWtz9Ms5XiYKGT9t5rT4vDm9QC4DycKb2E/1URlUCIFD+f6wrxMCzY7pa/s7scSrF2oYTxRy34yF8ThmceNLWLuf+8rXXX0iGfRT3oGyhx2nI76AOBDMRKByyNVt4JPWSiCI35h06XuUaaG3pgiXdP/zyB2ikcsN5sCA9fbZpQA3AEiwef8/sHHpvLvCdOpqitJmeCHLf5TsGqtm2CPkU64ceg3InptIE5U5SSErWthIzQUjMWmSKXwbq/80muIkKE9c+mMtUm9GJEzvTDS9Tio1VEq/v4Npb5ISFnGxHTs0yIKcC4W6KBcfJqQnWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
-	smtp.mailfrom=agilent.com;dmarc=pass action=none
-	header.from=agilent.com;dkim=pass header.d=agilent.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector2;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=IDLOlKE4fa5iaoj8Sp6N37Qak5DMeFv2nwLiMRLC1b8=;
-	b=qwp+NZCFZHwEnC+QOj4Sb7+Pvh1msoUzFcvtqp2Mp1fr5ondq3ZzHyOahnj+nYtaWHiwuFe3vPmK66uLja2zAyM/4Mnx67IRFVyf1x7SpL58RAihAzb8eg4TeOidjmkItd3dnfiX46ahauX5TPQqHw1I9w0Ndi0Kmsc3Sbws3ls=
-Received: from CY4PR12MB1653.namprd12.prod.outlook.com (10.172.71.137) by
-	CY4PR12MB1480.namprd12.prod.outlook.com (10.172.71.148) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2136.16; Mon, 5 Aug 2019 16:39:00 +0000
-Received: from CY4PR12MB1653.namprd12.prod.outlook.com
-	([fe80::4154:e959:dc1e:4abc]) by
-	CY4PR12MB1653.namprd12.prod.outlook.com
-	([fe80::4154:e959:dc1e:4abc%9]) with mapi id 15.20.2136.018;
-	Mon, 5 Aug 2019 16:39:00 +0000
-From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-To: Loic Poulain <loic.poulain@linaro.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core]  Automatic prebuilt management
-Thread-Index: AQHVS6eqNsTSJSzas0q1dY9NQfedCabsvndw
-Date: Mon, 5 Aug 2019 16:39:00 +0000
-Message-ID: <CY4PR12MB1653873989F017FCB269F5DD8BDA0@CY4PR12MB1653.namprd12.prod.outlook.com>
-References: <CAMZdPi_2=mFZFgwzUVis4BE7P3C4boOZmVB6_eYeLCaT0wLJaA@mail.gmail.com>
-In-Reply-To: <CAMZdPi_2=mFZFgwzUVis4BE7P3C4boOZmVB6_eYeLCaT0wLJaA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chris.laplante@agilent.com; 
-x-originating-ip: [4.16.127.92]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1325e6c0-7000-45dc-8782-08d719c36b68
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:CY4PR12MB1480; 
-x-ms-traffictypediagnostic: CY4PR12MB1480:
-x-microsoft-antispam-prvs: <CY4PR12MB14801A447D5D9998A0CB0D898BDA0@CY4PR12MB1480.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 01208B1E18
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(366004)(346002)(376002)(396003)(39860400002)(136003)(189003)(199004)(29502001)(14444005)(186003)(52536014)(76116006)(71200400001)(110136005)(102836004)(5660300002)(6506007)(76176011)(81156014)(74316002)(86362001)(9686003)(7696005)(53936002)(26005)(6436002)(66066001)(71190400001)(68736007)(8676002)(33656002)(6246003)(316002)(55016002)(478600001)(2906002)(476003)(11346002)(486006)(66946007)(64756008)(66556008)(446003)(256004)(66476007)(99286004)(7736002)(8936002)(6116002)(2501003)(3846002)(25786009)(14454004)(229853002)(305945005)(81166006)(66446008);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1480;
-	H:CY4PR12MB1653.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: agilent.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 32KVBPhLJZmxl36agijpHGHhJrS8+vkj+KomRlIJwAwvAeQ5iPUpbI0Yj3LKGNXskJbbz3vrR+Ct1rQV99RIyry2i23skv0GDUBKTqYE6YXf+/sNO7IswitTPMuMcW4OA3I7x84ozcWMdAvOg3oki/932ZBYXcsUQxhu/BpLMOz5Sh7RG2felq2/wC3Nh2KsWp7AjRfxm0Zu61PlqnmfKxelcGWAmAeJuZGXZv6qwJPRQ+MMg1R61bZQ9+vJ7U1aW2pq6wUmYYdG8m6se6IlrDnlgFV9On3bWV8I9SjtxptJ/hMlFl8xMgbU1irgkKlGr1Pf0TqSixehz2XNHyT6dcxQ1zJx/tABvmY64iXXYVzbS9VUtqHPPrmV6ljq36ZwecnRM42ub5mo3fitlMkR4Tt8mUyrLiRiXSJ+TjAQ8xk=
+	Mon,  5 Aug 2019 16:53:55 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id d79so60555178qke.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Aug 2019 09:53:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=FwSNzq6HjffVbfPqZ3mTffag0jb3S+bWp3EI06gdj2Q=;
+	b=ClwsZX4dZc1tHQAkZRHLufgUQB0ezlx+Ks1VRugbgHP7pqECvWxOyQV6ygR++2lVy9
+	bdbj5pN9DQ9d61HJUnKIZi8fTNrsrrmuwzE2u9yD+ry1unoQvJUZITh8wRwGuH+ZBUBf
+	Zht6O8bCE4yKee2Y9hKsmCak5639wb8CIwncSBVN814LNUiaUJamWd8yGyqq9cWzbHmC
+	o05uZ4XH9EwsGZcxghOXG5igsYWTTSS4Xas46Z1+4EF3MtphdyvN1ykGQKp61nSsk3kE
+	knXrmuxCIJt5QNs9VO/U/djK2ECWDN+0bTv+gcUQP3wQ/QHLRaGMN+669GDrbDwk6jv8
+	f6lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=FwSNzq6HjffVbfPqZ3mTffag0jb3S+bWp3EI06gdj2Q=;
+	b=hQrG788pAZ30fIHgY9IyFNHzVW8DhPw87r0jyJQZC+gnLF8sEuJzAZ+q41Auh4bHad
+	EO8ZYCMP5lPAP4SVHh/uGUQemI5XxziAmgkeq52hsmwnFGEcmM6rYPD26YDIZ1cV+HAr
+	Wdi4JgH4tugRf7uRXe0EI+k1d+xaYzUvpFsq+QRpX/V0gvvWc8oh9kYbVxVJRB7H8/My
+	rZgpmNMZ6wyVZIx365lM5R6zkqP47kuDbNwADJwlOx0fP0aiBGuK4Ow26lX+R20dlKsW
+	e/Y5kbZSO658N72O0kjjw5HtOBYIYm5FevdVdMLIdM1gnHNYyEQbHK2wWI3kbYDBzJG1
+	3BZA==
+X-Gm-Message-State: APjAAAWhfYkaHQpEve4X+caWzG/RUqfftOLJOO0PGU+MsanTCEkcfFw3
+	X03caH2x8uoUhGUOHjDaOpSepPvNh+s74OsBhkQ=
+X-Google-Smtp-Source: APXvYqzqy2VBp7SvqU4qFsvyAcWHG1AxZoqqyEZnSczGf1vRwlj+CWld07aZ+KivM2QD/ECJGmhGHbgU9L02wu8mVXU=
+X-Received: by 2002:a37:c81:: with SMTP id 123mr105520077qkm.474.1565024036543;
+	Mon, 05 Aug 2019 09:53:56 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1325e6c0-7000-45dc-8782-08d719c36b68
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 16:39:00.6294 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: chris.laplante@agilent.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1480
-Subject: Re: Automatic prebuilt management
+References: <20190731174820.16459-1-raj.khem@gmail.com>
+	<CANNYZj8jXXn4-kjumdBu-jeJmZec_X3sfjO=Z+YjY=wZocrdhQ@mail.gmail.com>
+In-Reply-To: <CANNYZj8jXXn4-kjumdBu-jeJmZec_X3sfjO=Z+YjY=wZocrdhQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 5 Aug 2019 09:53:45 -0700
+Message-ID: <CAMKF1sp88sbmHSaRL3pxjoijaCsASeZd8iNrFfnC9zpwaeo9JQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libedit: Move from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -85,38 +54,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 16:39:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 05 Aug 2019 16:53:56 -0000
+Content-Type: multipart/alternative; boundary="000000000000c36123058f618d46"
 
-PiBCdXQgSSB3b3VsZCBsaWtlIHNvbWV0aGluZyBzbWFydGVyLCBlLmcuIGZpcnN0IHRyeWluZyB0
-byBjaGVjayBpZiB0aGUgU1JDX1VSSSBpcyBhdmFpbGFibGUsIGlmIG5vdCBzd2l0Y2hpbmcgb24g
-dXNpbmcgdGhlIHByZWJ1aWx0IHBhY2thZ2UgaWYgYXZhaWxhYmxlIChlLmcuDQo+IGluIGEgRElS
-X1BSRUJVSUxUKS4uLg0KPiANCj4gQmVmb3JlIGdvaW5nIGZ1cnRoZXIgaXMgdGhlcmUgYWxyZWFk
-eSBhbiBleGlzdGluZyBzb2x1dGlvbiBmb3IgdGhhdD8gZG8geW91IGhhdmUgYW55IHJlY29tbWVu
-ZGF0aW9uIG9uIHRoZSBlYXNpZXIvYmVzdCB3YXkgdG8NCj4gYWNoaWV2ZSB0aGlzPw0KDQpJIGRv
-bid0IGhhdmUgYSAiYmVzdCBwcmFjdGljZSIgcmVjb21tZW5kYXRpb24gdG8gb2ZmZXIuIEJ1dCBj
-b2luY2lkZW50YWxseSBJIHN1Z2dlc3RlZCBzb21ldGhpbmcgc2ltaWxhciBmb3IgdXBzdHJlYW1p
-bmcgYSBmZXcgd2Vla3MgYWdvLiBJdCB3YXMgKHJpZ2h0ZnVsbHkpIHJlamVjdGVkIGFzIHRvbyAi
-aGFja3kiIGZvciBpbmNsdXNpb24gaW4gY29yZSBjb2RlLiBSZWdhcmRsZXNzLCBoZXJlJ3MgYSBi
-YmNsYXNzIHdlIGN1cnJlbnRseSB1c2U6DQoNCmFkZGhhbmRsZXIgc2tpcF9ldmVudGhhbmRsZXIN
-CnB5dGhvbiBza2lwX2V2ZW50aGFuZGxlcigpIHsNCiAgICB0cnk6DQogICAgICAgIGJiLmZldGNo
-Mi5GZXRjaChkLmdldFZhcigiU1JDX1VSSSIpLnNwbGl0KCksIGQpDQogICAgZXhjZXB0IGJiLmZl
-dGNoMi5GZXRjaEVycm9yOg0KICAgICAgICByYWlzZSBiYi5wYXJzZS5Ta2lwUmVjaXBlKCJza2lw
-LWluYWNjZXNzaWJsZTogY291bGQgbm90IGFjY2VzcyB1cHN0cmVhbSByZXBvOyBjaGVjayBTUkNf
-VVJJLCBhY2Nlc3MgcmlnaHRzLCBhbmQgbmV0d29yayBhdmFpbGFiaWxpdHkiKQ0KfQ0Kc2tpcF9l
-dmVudGhhbmRsZXJbZXZlbnRtYXNrXSA9ICJiYi5ldmVudC5SZWNpcGVQcmVGaW5hbGlzZSINCg0K
-DQpBcyB3YXMgcG9pbnRlZCBvdXQgdG8gbWUsIHRoaXMgaXMgYSBwcmV0dHkgaGVhdnktaGFuZGVk
-IGFwcHJvYWNoIC0gaXQgY2FuIGZhaWwgZm9yIGFueSBudW1iZXIgb2YgcmVhc29ucywgbm90IGp1
-c3QgdGhlIFVSSSBhY3R1YWxseSBiZWluZyB1bmF2YWlsYWJsZS4gU28geW91IG1heSBjb25zaWRl
-ciBhIG1vcmUgc3VyZ2ljYWwgY2hlY2ssIGUuZy4gYWN0dWFsbHkgdHJ5aW5nIHRvIGZldGNoIHRo
-ZSBTUkNfVVJJIGRpcmVjdGx5IHVzaW5nIHJhdyBHRVQgcmVxdWVzdHMuDQoNClRvIGltcGxlbWVu
-dCB0aGUgaGFuZG92ZXIsIHlvdSdkIGhhdmUgc2VwYXJhdGUgcmVjaXBlcyBmb3IgdGhlIGJ1aWxk
-LWZyb20tc291cmNlIGFuZCB0aGUgcHJlYnVpbHQgY2FzZSB3aGljaCBQUk9WSURFIHRoZSBzYW1l
-IHBhY2thZ2UuIFlvdSBwcm9iYWJseSBhbHNvIHdhbnQgdG8gc2V0IFBSRUZFUlJFRF9QUk9WSURF
-UiBpbiB5b3VyIGxheWVyIGNvbmYgdG8gcHJlZmVyIHRoZSBidWlsZC1mcm9tLXNvdXJjZSByZWNp
-cGUuIA0KDQpBbHRlcm5hdGl2ZWx5LCB5b3UgY2FuIGRvIGl0IGFsbCBpbiBhIHNpbmdsZSByZWNp
-cGUgYnkgcmV3cml0aW5nIHRoZSBTUkNfVVJJIGZyb20gd2l0aGluIHRoZSBldmVudCBoYW5kbGVy
-LiBCdXQgSSB0aGluayBzZXBhcmF0ZSByZWNpcGVzIGlzIG5pY2VyLg0KDQpDaHJpcw0K
+--000000000000c36123058f618d46
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, Aug 5, 2019 at 4:34 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> On Wed, 31 Jul 2019 at 19:48, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> +UPSTREAM_CHECK_REGEX = "libedit-(?P<pver>\d+(\.\d+)+)\.tar.gz"
+>>
+>
+> The recipe in meta-oe did not have this line. Where did you take it from
+> and how did you test it? It is incorrect as it does not match anything with
+> a dash (-) in it.
+> Simply dropping the line makes the version check work again.
+>
+
+Yes it was left over of some trying thanks for finding it I will send a
+patch
+
+>
+> Alex
+>
+
+--000000000000c36123058f618d46
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Aug 5, 2019 at 4:34 AM Alexander Kanavin &lt;<a hre=
+f=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On=
+ Wed, 31 Jul 2019 at 19:48, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.c=
+om" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></div><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">+UPSTREA=
+M_CHECK_REGEX =3D &quot;libedit-(?P&lt;pver&gt;\d+(\.\d+)+)\.tar.gz&quot;<b=
+r></blockquote><div><br></div><div>The recipe in meta-oe did not have this =
+line. Where did you take it from and how did you test it? It is incorrect a=
+s it does not match anything with a dash (-) in it.</div><div>Simply droppi=
+ng the line makes the version check work again.<br></div><div></div></div><=
+/div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yes it was =
+left over of some trying thanks for finding it I will send a patch=C2=A0</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quot=
+e"><div><br></div><div>Alex<br></div></div></div>
+</blockquote></div></div>
+
+--000000000000c36123058f618d46--
