@@ -1,34 +1,38 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 37B367F2AD
+Return-Path: <prvs=113152c95=Andreas.Obergschwandtner@skidata.com>
+X-Greylist: delayed 429 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 05 Aug 2019 14:43:49 UTC
+Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D0B97ED8E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 14:23:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x75EN6M2021813
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 5 Aug 2019 07:23:06 -0700 (PDT)
-Received: from [192.168.10.15] (147.11.117.76) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 5 Aug 2019 07:23:05 -0700
-To: Khem Raj <raj.khem@gmail.com>, Seebs <seebs@seebs.net>
-References: <20190801200354.119252-1-jason.wessel@windriver.com>
-	<8934e4e0-aaf6-5eb6-5d1b-355063bee94a@windriver.com>
-	<20190801185725.139cfa73@seebsdell>
-	<f991e41b-39c6-a088-63aa-07553cae131b@windriver.com>
-	<20190802120733.4a24ca3f@seebsdell> <20190802124246.27d4beca@seebsdell>
-	<CAMKF1sr-gxJBXUn6OtU=0GtTw=CTLWfFLVWjATB-_k-1NYCP1g@mail.gmail.com>
-	<20190803092307.486e930d@seebsdell>
-	<CAMKF1so6TnxR13TvFHxRpcEuA-xAd2gSk8bnS7hBXfDW=d7+YQ@mail.gmail.com>
-From: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <95e79f14-c9bb-9e75-88f7-f452eccf95b7@windriver.com>
-Date: Mon, 5 Aug 2019 09:23:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Mon,  5 Aug 2019 14:43:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+	t=1565016231; x=1596552231;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=208CT7lwuNCE4+ZIregii/jDSo1RssBh7ovLX1qPM3o=;
+	b=ZWmNcrayMRtF9lE2pMTjzb5+shj0dm4nTzNBHlrr2pqzM4Ow6VjBRHC7
+	zxW8dr6GckRLWFZXlF8u76T24mt6wGzX6RVewXV2Fu4sPU19UI9StTWyu
+	m936zsdoEwf4ql51ZqZ4ddDJfxiCExgaXHg1zv1xm8YfuZ/SeRv9jQHFg
+	zgBLY+BKonICxn9p0OAWya3Yq0fRwPrbxFgl9kw4g6zMwcsOs8XA0IUGj
+	JOlQgFgBundSd7bRa6qb/jy+ihigyW3vqRlFUFpVIYBjMwtglI77xYJzL
+	FEZLGdi3jcLPmWz8F3EsM1DUzEpiyvRRsS3ggVlh8EBnuYS5CR4/992jJ A==;
+IronPort-SDR: /uI3k39q+YsTC1A2mYlMm0JCIMTBDpwvGXKM8HlD7mSP6Ghcj3jhIau8xKydQHX7OYwLbyYnWT
+	HuoGCfCAjCBp62QTBFXepS85g/rdaHFZyP5vMdb8SSrYyobi18CiUAdDbbY5xokopaSOA2B523
+	MJ3tRu3mFCQPo1V67QVUa1Xe3mble8TUVNcxEzsuUYEpN+0TbQRCoyQU1a4d0nTSfSW3ka++px
+	PVwPdhOL/yt5ARk3HoNkaJz5PpVC7hSSQqjoY41S5KTum3igtc32D9BZjaNLjr8r8IXwD/GJaA
+	LXM=
+X-IronPort-AV: E=Sophos;i="5.64,350,1559512800"; d="scan'208";a="18789615"
+From: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Aug 2019 16:35:55 +0200
+Message-ID: <20190805143555.15669-1-andreas.obergschwandtner@skidata.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1so6TnxR13TvFHxRpcEuA-xAd2gSk8bnS7hBXfDW=d7+YQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] pseudo: Upgrade to latest to fix openat() with a directory symlink [NAK]
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex5srv.skidata.net (192.168.111.83) To
+	sdex4srv.skidata.net (192.168.111.82)
+Subject: [meta-oe][PATCH] bzip2: set the autoconf package version to the recipe version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +45,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 14:23:08 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Mon, 05 Aug 2019 14:43:50 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 
-If we understood more about the nature of the race condition a test case could probably be constructed. For now, it is worth a try to see if it is any better.  I am certain the timing will change ever so slightly, so we could hit the glibc-locale issue more or less...
+This is done to require only a single version change if bzip2
+is updated and fixes also setting package version 1.0.6 for
+bzip2 1.0.8.
 
-All of the regression tests completed over the weekend and the new code which found the problem in the first place is also working well. I'll send a new patch out to move pseudo forward.
+Signed-off-by: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
+---
+ meta/recipes-extended/bzip2/bzip2/configure.ac | 2 +-
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb     | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-Cheers,
-Jason.
-
-
-On 8/3/19 9:57 AM, Khem Raj wrote:
-> I see the locale issue atleast 5-7 times a week on world builds so I
-> will be able to see if that frequency stays same after this fix.
->
-> On Sat, Aug 3, 2019 at 7:23 AM Seebs <seebs@seebs.net> wrote:
->> On Sat, 3 Aug 2019 05:33:46 -0700
->> Khem Raj <raj.khem@gmail.com> wrote:
->>
->>> Will this fix the file ownership issue that we see with Glibc-locale
->>> packages from time to time?
->> I have no idea. Since I haven't got a reliable reproducer for it, I
->> can't test it in a sane way.
->>
->> -s
-
+diff --git a/meta/recipes-extended/bzip2/bzip2/configure.ac b/meta/recipes-extended/bzip2/bzip2/configure.ac
+index e2bf1bf110..b8abade2d9 100644
+--- a/meta/recipes-extended/bzip2/bzip2/configure.ac
++++ b/meta/recipes-extended/bzip2/bzip2/configure.ac
+@@ -1,6 +1,6 @@
+ AC_PREREQ([2.57])
+ 
+-AC_INIT(bzip2, 1.0.6)
++AC_INIT(bzip2, %BZIP2_VERSION%)
+ AM_INIT_AUTOMAKE(foreign)
+ AM_MAINTAINER_MODE
+ 
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 6f86b451ae..8e9b779e67 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -29,6 +29,10 @@ ALTERNATIVE_${PN} = "bunzip2 bzcat bzip2"
+ #install binaries to bzip2-native under sysroot for replacement-native
+ EXTRA_OECONF_append_class-native = " --bindir=${STAGING_BINDIR_NATIVE}/${PN}"
+ 
++do_configure_prepend () {
++    sed -i -e "s|%BZIP2_VERSION%|${PV}|" ${S}/configure.ac
++}
++
+ do_install_ptest () {
+ 	sed -i -e "s|^Makefile:|_Makefile:|" ${D}${PTEST_PATH}/Makefile
+ }
+-- 
+2.20.1
 
 
