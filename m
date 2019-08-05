@@ -1,36 +1,60 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DD3B7ECCF
+Return-Path: <andrew@aj.id.au>
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+	[64.147.123.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 336D97F33C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 06:43:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4627Wj1vlCz4s;
-	Mon,  5 Aug 2019 08:43:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1564987409;
-	bh=DhO719NW+5CB2DNJr/odVjiCWWFFtlepv3ROTRAefOQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pz/koD8x7uQ0vVR1h6LdCBeB5JeGnqD6nrbLTMBm4PoYC2t/h8N2zo08eTePcbcxQ
-	EFC8833USrKtG0QtLol1Lvynp7jGgES+WAKBIGsm76L0lAZ73pSzNSAHyBIA3xuSF6
-	Lb2/rEdAFqg5aDkakevm3pRSOvK8wm3CKlGfbOoZ5vZLIJKCpRuHl/NNAA+KfXb7ZC
-	jjQ6OZcHoYl5lP0UJLDNCErW01IKaUVGmURAx8hpaUIXHob1hlwkQ0RzzACBCravC9
-	bfGt9cQ3gAvmQ6+dRanHs34l1LD7E0FDfDdjDJFDrQklMQKA3RrOtWmM4j7cHL7O3m
-	v45Rpyaxdpa45tCmKNg534eskvduJMor7OlyBLGmSUWlEA/muiZpMvlSO+ETPILI4T
-	+ps0227g5llVk15182HZ8Qz3piIqqAsYAkZz8o5PFKoXGYsPuZ4h++eUZbkINw2o9v
-	kT9NEUgQHjH+CCaC0MPRM0QhOQk3ZrtTZ322fQPpgsjWrYdLn+gzHhH/AYVAbwrVCu
-	MVv+oURqaGI2dd6AHbouIh1/L5TxT0yU/jLMp5aTn5iTDYGYSb6s1rDPaH7uPQcDle
-	EUPB5mlTgavNrkPJrF8N2urXVhjWTU4cXKa1NxLQ4CY/iuSM0q9bT+UR5BOn7gykb+
-	22E90Ou2xsB/ryLPxAooZGhM=
-Date: Mon, 5 Aug 2019 09:43:27 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Andrew Jeffery <andrew@aj.id.au>
-Message-ID: <20190805064327.GD4799@localhost>
+	Mon,  5 Aug 2019 06:46:17 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 3F7C5392;
+	Mon,  5 Aug 2019 02:46:18 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+	by compute4.internal (MEProxy); Mon, 05 Aug 2019 02:46:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+	mime-version:message-id:in-reply-to:references:date:from:to:cc
+	:subject:content-type; s=fm3; bh=VHYwku5mJb1s6zPWoafnZJ0i4R14YaD
+	p3BfckCq6XUo=; b=PEP+1ssAtQd0ph3EsEq0OquT/4uUxtIKKLsC67lO2XZSIT1
+	Q4TzmxAfN0rMnB2qBz0GhhROdZZBG1VQrZGdPCUVKQQgp4le/TjQu+SVQVV9Utxs
+	6gA6nf535qyeFkwqEQYU1NGKXyUSbwax84XtYWgweAN/UIx2gQx7ZXyL/QX1hWaB
+	y8QYAvp0cjy1er5NSVIqSVBTzD5tfAVxVIqFVZAY/gwsmL159zVGiOrugnfWMrWl
+	bL8uhUpJNpoK8LuSMW+RmjwDUeSIk6yteWgZKpGJJjgKUgDmhgxLbtalX8t2x4oC
+	QptCeOzbqaRz3tMpEtJ9KDuG1iJL77Vn7SqXE7w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=VHYwku
+	5mJb1s6zPWoafnZJ0i4R14YaDp3BfckCq6XUo=; b=bZhXvviVWRJofhCcTwklnk
+	W7Pu2uYYL11uvEGFyAsQWWTGo/Q/UmV2xYA/l5FtJiNBeEj5NCMgRYK+knhCoNL4
+	gkwDQOuOLZLDlPsoXRwOBYkDFwUtNZkKMkmSYVdLFES+uxSDm5B1iVm5KNgV08CD
+	jJbLUvhgVpm8okD6Ugr51fuOjPG5QSkdKw2vi4WZdHqX4okrboW0+3UT+JBpVIvZ
+	BO4GG0fOpn/JFFybDg9PSL1GfZK+9Q56zrhoDWCJLDKXZVyGABgoGF3ANjzyYw2w
+	vicOGHPPaDzzFFExzaUpWzJeo1dLB6UiSwKl6bXG1mYYWsYUYTuK3f/HqPGHW1PA
+	==
+X-ME-Sender: <xms:udBHXeFf4WVMIsOyC2WcJfruW9IG64Ovkk9_E0_6ir6IpTTPeHBrRA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddruddtiedguddttdcutefuodetggdotefrod
+	ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+	necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+	enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
+	ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucffoh
+	hmrghinhepghhithhhuhgsrdgtohhmnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgu
+	rhgvfiesrghjrdhiugdrrghunecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:udBHXSKkRuoucMTyTpK3yDLhjUIZ4oosKsx_JJMzF7d1kkwNFX1nRQ>
+	<xmx:udBHXa53VUQYQCUYxfagFwgqwCuzqSdQE_hchnLjj-JoJeAqzt2oaA>
+	<xmx:udBHXbl4F0j5f0Cqa3gzI5xsQ7paxBsejOG9gAxpaVRfL1sxWscxCw>
+	<xmx:udBHXS3RlRol_7LsDJj30ArGblrRUpBPkPhwTrFtK9Db034Rr6NCcQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 8CFABE00A2; Mon,  5 Aug 2019 02:46:17 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-799-g925e343-fmstable-20190729v1
+Mime-Version: 1.0
+Message-Id: <cb64a8f8-adef-4c83-b0db-b5bdfee60ecf@www.fastmail.com>
+In-Reply-To: <20190805064327.GD4799@localhost>
 References: <20190805031211.11190-1-andrew@aj.id.au>
 	<20190805050455.GA4799@localhost>
 	<f7fa211f-7552-4515-ba7e-7f0d82c96922@www.fastmail.com>
-MIME-Version: 1.0
-In-Reply-To: <f7fa211f-7552-4515-ba7e-7f0d82c96922@www.fastmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+	<20190805064327.GD4799@localhost>
+Date: Mon, 05 Aug 2019 16:16:40 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Adrian Bunk" <bunk@stusta.de>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] dtc: Provide libfdt
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,43 +69,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 06:43:29 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 05 Aug 2019 06:46:17 -0000
+Content-Type: text/plain
 
-On Mon, Aug 05, 2019 at 04:01:57PM +0930, Andrew Jeffery wrote:
-> 
-> 
-> On Mon, 5 Aug 2019, at 14:35, Adrian Bunk wrote:
-> > On Mon, Aug 05, 2019 at 12:42:11PM +0930, Andrew Jeffery wrote:
-> > > Applications are appearing that depend on parsing flattened devicetree
-> > > in userspace on target devices, e.g. pdbg[1]. Mark dtc as providing
-> > > libfdt so application recipes can depend on it.
-> > > 
-> > > [1] https://github.com/open-power/pdbg
+
+
+On Mon, 5 Aug 2019, at 16:13, Adrian Bunk wrote:
+> On Mon, Aug 05, 2019 at 04:01:57PM +0930, Andrew Jeffery wrote:
 > > 
-> > Shouldn't runtime dependencies on dtc already be autogenerated in this 
-> > case when you have dtc in DEPENDS?
+> > 
+> > On Mon, 5 Aug 2019, at 14:35, Adrian Bunk wrote:
+> > > On Mon, Aug 05, 2019 at 12:42:11PM +0930, Andrew Jeffery wrote:
+> > > > Applications are appearing that depend on parsing flattened devicetree
+> > > > in userspace on target devices, e.g. pdbg[1]. Mark dtc as providing
+> > > > libfdt so application recipes can depend on it.
+> > > > 
+> > > > [1] https://github.com/open-power/pdbg
+> > > 
+> > > Shouldn't runtime dependencies on dtc already be autogenerated in this 
+> > > case when you have dtc in DEPENDS?
+> > 
+> > "dtc" doesn't need to appear in depends for pdbg: "dtc-native" does for the
+> > purpose of building the devicetrees shipped with the application, but "dtc"
+> > doesn't and dtc(1) itself isn't required at runtime, rather we just need libfdt,
+> >...
 > 
-> "dtc" doesn't need to appear in depends for pdbg: "dtc-native" does for the
-> purpose of building the devicetrees shipped with the application, but "dtc"
-> doesn't and dtc(1) itself isn't required at runtime, rather we just need libfdt,
->...
+> How do you link with libfdt without the non-native dtc in DEPENDS?
 
-How do you link with libfdt without the non-native dtc in DEPENDS?
+Currently pdbg includes a copy of libfdt. However, the build system tests for
+the presence of a system copy and will prefer it over the included copy.
 
-> Thanks for the feedback.
-> 
-> Andrew
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+Andrew
 
