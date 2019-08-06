@@ -1,38 +1,45 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
-	[209.85.221.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B9C37F2C6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A6DB96D6C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 14:05:57 +0000 (UTC)
-Received: by mail-vk1-f194.google.com with SMTP id b64so17355306vke.13
+	Tue,  6 Aug 2019 14:10:29 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id v15so78379738wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Aug 2019 07:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Fa7yLtfUkWX5iG/cbnZrJpsvzP0r47DtlnlSC+g6owk=;
-	b=CGSt/ubvZ2DkEB9iE2TVqQIkJKMp9s9fDPx9wtm4pJxZVfT9rnBatqu9MaMeEZrXgH
-	P+4ckXW0o0QNwPiKqEg5OHcCUDRmcJ38iK3siQElhs9hGYFLevXMFxWomPyHG+xBglQP
-	mVOcvqQVVDkzHaWZpR4Qi83B0ovsJD3FLwnA0/dhu4vLXFIkY9Z6uIVopY7s685Z7bGK
-	44U8jhE+FylJgs8oK1GM78w0tJUvDo4YqSeLXseAn4w3XJlFN8TRMAnkudU5ZkKapRyn
-	+i2obV22BKxjiqtjMwwXdvezcBqdxt/QId0naYQeOEE+TeL64SXbBnVLOhFByTkiRm4W
-	4/eQ==
+	Tue, 06 Aug 2019 07:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=D1CIt/oBoqwkPpo0vJpaMftNiJNkgZVYLMK9psA7Tsw=;
+	b=NNBx3svLMWY+wJnq2m/AgqOuOO+JyF/EVEaTCvqh6l9cWDNNXJHrnQqJIerIJcSX/T
+	4WsKJl5X0DJK8xCwbiMSydGJ6xhA1+ykQaYAmySwIP7DoZyPTkiNJKmwIm8kjcHK09SV
+	hOSjlIII9IOtmz1PmkpjAgWjvE5sgpQ814IZ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Fa7yLtfUkWX5iG/cbnZrJpsvzP0r47DtlnlSC+g6owk=;
-	b=oekS1gLQH8F0bP8UIChsf0XNQuE2n7CEWT9vSXSmgkht2pD4P5FyXJ223jIa9D/+3p
-	TpBO2APjwlW2cMA/RwKkIwRxRGr8xDRxoYs+lFApc8TymXB7Upc9Ogxta6wDS+6hi6ZX
-	FYzM17e9iGQkNMwjmQUPJj5+OZMoPVxnJ+UYkuVLAhBwGeaEwYoIzVB4tvvW2BToJM1o
-	HL/2X77OLhTRCvxWB06/U9OqCOwW+ajz0deZLrkfeUQwD/3L86y3A+AZl0x+CRA1uliM
-	Sf7glzLQUEVewYEH8CTSiSf6HwtnvMPtgk3i6SSOxLO3c2m/R22AljH2BKoGii5Y/Mp9
-	cd5w==
-X-Gm-Message-State: APjAAAVeJVfHD5GmrQvTTWE4bBt/aS54bHT4j7mqc41GYzwvDj8pg++8
-	liWdM9R8HpyNMnhyPvblyvzgqtqyMwLt7SG2vMM=
-X-Google-Smtp-Source: APXvYqzFCxBc8e5H9E5jzpb+i2gcQisTfSibg1K0BR2+R4u4Hej9LWIc92iX4CXlzMlvGf3flNh75usCNZK4scHC+Cc=
-X-Received: by 2002:a1f:1288:: with SMTP id 130mr1263638vks.12.1565100358117; 
-	Tue, 06 Aug 2019 07:05:58 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=D1CIt/oBoqwkPpo0vJpaMftNiJNkgZVYLMK9psA7Tsw=;
+	b=QRfvDElIkKNB9rQGPQPvZn8NN3Pi7AsnkYPsKVzHkmFsyCccha02NUb6qSVI8GE1R9
+	G4dByuSDj7F+HZF4YcBGWT1kZ461ghKxV6vHBR/GKzaV57p3tPx0pF3Vr2VxZeRYp5Tt
+	tOW/7GKcBqz2xbML3sygS0Cd0ZTknQRiefCk9DLIRbnJFCVIH8uM5MtlVV5C0cJRhAxT
+	vuxeK7p5XfHRsrh2dMuC+lLi7gV2UzZKmd5mqvXGX1UFCas4wPUYqKTwqfA1wi+dt4r4
+	4HuPmW9nzOqU3Ow+uGFqR8XOzIBRoh+mWcygDNtgMk3R20yMq6+3Ei8CVYD0TOMr3rLa
+	nx9A==
+X-Gm-Message-State: APjAAAVt/0eMXBLTedDZ3d1QkgKOauZpEMfGWsYMy6SXd84ehccpYhn/
+	6ZTt67e3zMGq7nFjrKPa6WDcyQ==
+X-Google-Smtp-Source: APXvYqwROZ5wbPoxMKTSFgnqlQsvtPur7ZU/Fl9PJSI6KiJ5Azr8sMx7WnX7DGrnQbgeevIwine+jA==
+X-Received: by 2002:a7b:c212:: with SMTP id x18mr5017512wmi.77.1565100630435; 
+	Tue, 06 Aug 2019 07:10:30 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id k9sm587870wrq.15.2019.08.06.07.10.29
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 06 Aug 2019 07:10:29 -0700 (PDT)
+Message-ID: <da3a1a23fdb0b9c65a6701c1be3cfc7e17aa5d1a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 06 Aug 2019 15:10:28 +0100
+In-Reply-To: <CANNYZj9iLsF0fBRCYp+_CbRakizOyN=CJuDdRtZ9OdnZ84rFbA@mail.gmail.com>
 References: <cover.1565075067.git.liezhi.yang@windriver.com>
 	<e5519d97e195842c793f688162919b21851d1dcb.1565075067.git.liezhi.yang@windriver.com>
 	<4f3b75ada0eae73855b43347a56ea89042ab6aae.camel@linuxfoundation.org>
@@ -44,11 +51,8 @@ References: <cover.1565075067.git.liezhi.yang@windriver.com>
 	<CANNYZj_YSBdctNSqewYy96qofF4A_XkVVWahU0wMw3nBV=q58Q@mail.gmail.com>
 	<b25b0b717daa6dbeecd61255caf10bc49deb3509.camel@linuxfoundation.org>
 	<CANNYZj9iLsF0fBRCYp+_CbRakizOyN=CJuDdRtZ9OdnZ84rFbA@mail.gmail.com>
-In-Reply-To: <CANNYZj9iLsF0fBRCYp+_CbRakizOyN=CJuDdRtZ9OdnZ84rFbA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 6 Aug 2019 16:05:46 +0200
-Message-ID: <CANNYZj_4QNNfHr+9rke06rGDrfh-0C9PwqfnAYrT6urf5k62wA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] stress-ng: Add bash to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -63,102 +67,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 14:05:57 -0000
-Content-Type: multipart/alternative; boundary="000000000000e235f3058f7352ed"
-
---000000000000e235f3058f7352ed
+X-List-Received-Date: Tue, 06 Aug 2019 14:10:30 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, 6 Aug 2019 at 15:22, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+On Tue, 2019-08-06 at 15:22 +0200, Alexander Kanavin wrote:
+> On Tue, 6 Aug 2019 at 14:51, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > We now filter the pkgdata to the things a recipe can see in its
+> > dependencies after:
+> > 
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=99206cb7b41be7a124ea8339bc891077f02128a2
+> > 
+> > Does that help? If not, is it because some code isn't using the
+> > filtered copy? Or could we use this technique somewhere else?
+> > 
+> > I've not looked at the underlying issues enough to tell which code
+> > is
+> > actually triggering it but that kind of approach should help with
+> > this
+> > kind of problem and at least make it deterministic...
+> 
+> I think the issue might be actually in the QA check where it looks
+> beyond the recipe's immediate RDEPENDS (and then fails or not
+> depending on whether those indirect dependencies have been packaged).
+> I need to better understand what happens there so will add some
+> printouts first. The problem does happen with latest master.
 
-> I think the issue might be actually in the QA check where it looks beyond
-> the recipe's immediate RDEPENDS (and then fails or not depending on whether
-> those indirect dependencies have been packaged). I need to better
-> understand what happens there so will add some printouts first. The problem
-> does happen with latest master.
->
+I had a quick look and package_qa_check_rdepends() has a call to:
 
-I can confirm that this bit in insane.bbclass is non-deterministic:
+oe.packagedata.read_subpkgdata(pkg, d)
 
-                # Find all the rdepends on the dependency chain
-                while next:
-                    new = []
-                    for rdep in next:
-                        rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
-                        sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
-                        if not sub_rdeps:
-                            continue
-                        for sub_rdep in bb.utils.explode_deps(sub_rdeps):
-                            if sub_rdep in done:
-                                continue
-                            if oe.packagedata.has_subpkgdata(sub_rdep, d):
-                                # It's a new rdep
-                                done.append(sub_rdep)
-                                new.append(sub_rdep)
-                    next = new
+which effectively calls:
 
-It only fully expands the dependencies if all of them have been already
-packaged. As there is no mechanism to ensure that package_qa runs after
-packaging all of the recursive RDEPENDS, this is causing a race between
-packaging them, and running the package qa check.
+def get_subpkgedata_fn(pkg, d):
+    return d.expand('${PKGDATA_DIR}/runtime/%s' % pkg)
 
-I think the right way to address this is to actually drop the recursive
-RDEPENDS resolution, and only consider the immediate runtime dependencies.
-Alternatively, we may introduce additional task dependencies to fix the
-race. Thoughts?
+(from packagedata.py)
 
-Alex
+I think that this should be changed to WORKDIR_PKGDATA, at least for
+the purposes of insane.bbclass. The copy in WORKDIR_PKGDATA is limited
+to the recipe's dependencies.
 
---000000000000e235f3058f7352ed
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Its not quite that simple as we need to ensure that WORKDIR_PKGDATA
+when the insane code runs but you hopefully get the idea...
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 6 Aug 2019 at 15:22, Alexander Ka=
-navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com<=
-/a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><div dir=3D"ltr">I think the issue might be actua=
-lly in the QA check where it looks=20
-beyond the recipe&#39;s immediate RDEPENDS (and then fails or not depending=
-=20
-on whether those indirect dependencies have been packaged). I need to bette=
-r understand what happens there so will add some printouts first. The probl=
-em does happen with latest master.<br></div></blockquote><div><br></div><di=
-v>I can confirm that this bit in insane.bbclass is non-deterministic:</div>=
-<div><br></div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- # Find all the rdepends on the dependency chain<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 while next:<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 new =3D []<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for rdep in next:<b=
-r>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 rdep_data =3D oe.packagedata.read_subpkgdata(rdep, d)<br>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 sub_rdeps =3D rdep_data.get(&quot;RDEPENDS_&quot; + rdep)<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f not sub_rdeps:<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for sub_rde=
-p in bb.utils.explode_deps(sub_rdeps):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if sub_r=
-dep in done:<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 if oe.packagedata.has_subpkgdata(sub_rdep, d):<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # It&#39;s a new rdep<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 done.append(sub_rdep)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 new.append(sub_rdep)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 next =3D new</div><div><br></div><div>It only f=
-ully expands the dependencies if all of them have been already packaged. As=
- there is no mechanism to ensure that package_qa runs after packaging all o=
-f the recursive RDEPENDS, this is causing a race between packaging them, an=
-d running the package qa check.</div><div><br></div><div>I think the right =
-way to address this is to actually drop the recursive RDEPENDS resolution, =
-and only consider the immediate runtime dependencies. Alternatively, we may=
- introduce additional task dependencies to fix the race. Thoughts?</div><di=
-v><br></div><div>Alex<br></div></div></div>
+Cheers,
 
---000000000000e235f3058f7352ed--
+Richard
+
+
+
+
+
