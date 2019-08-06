@@ -1,30 +1,59 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CCD747F398
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 90BDA7C603
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 15:54:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x76Frb5O015345
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 6 Aug 2019 08:53:57 -0700
-Received: from [192.168.10.15] (172.25.59.219) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 6 Aug 2019 08:53:36 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20190805163237.106405-1-jason.wessel@windriver.com>
-	<aeeadff58eb8c60f7cf433f22e67b309a9a0d4ca.camel@linuxfoundation.org>
-	<d7376620-d008-a887-d117-9a1afbd52e94@windriver.com>
-	<51891b15-569e-dd9c-81b9-5e349cae4c4a@windriver.com>
-Message-ID: <37bb8527-4e13-2690-a35a-d9fdb503b2a0@windriver.com>
-Date: Tue, 6 Aug 2019 10:53:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Tue,  6 Aug 2019 15:57:05 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id o2so33862789uae.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Aug 2019 08:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=/sDVCmNS28CGlqaFnvwgRPbQpy8nubLWeYa5nu1+6s0=;
+	b=QrtSDlLiAFMq1TZY0lpDI7w4+Kgtm0EtOpSMIJ/Aq/+vWukNYWenxCUTBDyzBeqJAw
+	r0SjBvB12aTbqI5PUPOOaFMyd5n5C2WrieK2xBXxvpuV7AWTWpHuWQNXLbH4oIMjSBFX
+	+geyWKJWAR4gE7oKJmHWJQeBTyltxs+2XKYNxQMb/HBYQa7QimBsx0VuKvehuNq2fqus
+	k+50a/vmQjKTeiJfrDKcgriTUFxa9FtP8SNrncWDC2V/iHVEtaW3CPpigpH/3SBTvEBA
+	bUxL/e3+5IbeYRmWzCnMp+kTCy8WMZfVtFSvw/EMA7rdAhns0jp372T+tx5mi9AeP+zr
+	kDSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=/sDVCmNS28CGlqaFnvwgRPbQpy8nubLWeYa5nu1+6s0=;
+	b=ob1dhjVnzHx7ZG8D6hX7edqOCNYREnjgWljFybq+HiAqBWrV//dgj78MwjcczaZLrj
+	0flO8eX4DE12yvCCR/xYoFde6ON2n+6r01S9H6UkCbcu7f5qHg0brk9OX5j4XD3Jrmvs
+	p+qm01zJvicHU8wTNGzcWcDVj84ntbfulgBkfFAk4PxpINdh5trCLXarHVGm/xjqn+kW
+	wT1ITcY4kG4rpVhDgPc0wlvd7iOh91SxVMrAu0e2mAHxPCssFqTM8pK1LDen4DG+7kWF
+	URR8S7NoJFhW+PyykNnYgNQzoGsLgWQStvLMI1HI+lUdGPyWqFVclHpBhSUfrJHq4vSz
+	9CFQ==
+X-Gm-Message-State: APjAAAV42di9PGrAm5+gif4NAbLAB/a4QV9K1xJEZWGVki+53U4oHjlE
+	Y5COAqn8XeF1XVIDTln0Y6Oe5XgNk9XcR4W/bTI=
+X-Google-Smtp-Source: APXvYqwq3kknfg9RHIb+MAmFk7yIGPpQxR54xyLq93oYmCRusy5kacJ6ljuF7VAlMhMwYlA9buvvc1pR4I5uPVX56gA=
+X-Received: by 2002:ab0:70b1:: with SMTP id q17mr2777933ual.100.1565107026524; 
+	Tue, 06 Aug 2019 08:57:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <51891b15-569e-dd9c-81b9-5e349cae4c4a@windriver.com>
-Subject: Re: [PATCH v3] pseudo: Fix openat() with a symlink pointing to a directory
+References: <cover.1565075067.git.liezhi.yang@windriver.com>
+	<e5519d97e195842c793f688162919b21851d1dcb.1565075067.git.liezhi.yang@windriver.com>
+	<4f3b75ada0eae73855b43347a56ea89042ab6aae.camel@linuxfoundation.org>
+	<18287a98-33b5-c788-946e-5b5338c1c204@windriver.com>
+	<CANNYZj8nk8q7VscomyLkaLYcNy-2gH+nwgsKgAO7x59i7uDgHw@mail.gmail.com>
+	<eba25cda-3ca0-039d-45ea-f9a86e80b4f6@intel.com>
+	<CANNYZj-QUcKdw4BygFyfXLSm4L=89XC44u65LNFx2OiiqrQE0Q@mail.gmail.com>
+	<CA+chaQfsQLEcxS9-XVQJT-7PR-JgtZ1cEFMdbJshmYMst6s2Lw@mail.gmail.com>
+	<CANNYZj_YSBdctNSqewYy96qofF4A_XkVVWahU0wMw3nBV=q58Q@mail.gmail.com>
+	<b25b0b717daa6dbeecd61255caf10bc49deb3509.camel@linuxfoundation.org>
+	<CANNYZj9iLsF0fBRCYp+_CbRakizOyN=CJuDdRtZ9OdnZ84rFbA@mail.gmail.com>
+	<CANNYZj_4QNNfHr+9rke06rGDrfh-0C9PwqfnAYrT6urf5k62wA@mail.gmail.com>
+	<837f692b83714ef0ed412288121e817e7790dae3.camel@linuxfoundation.org>
+	<CANNYZj8WgVxSqgih-P=5kgT-+fg1dGwSEqmWkKbn4z22qfE+Qw@mail.gmail.com>
+In-Reply-To: <CANNYZj8WgVxSqgih-P=5kgT-+fg1dGwSEqmWkKbn4z22qfE+Qw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 6 Aug 2019 17:56:55 +0200
+Message-ID: <CANNYZj_o30FVJfwfLr5=uzFMB8NsArq9Mx5W5EMcmGe67N060Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] stress-ng: Add bash to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,70 +66,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 15:54:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Aug 2019 15:57:05 -0000
+Content-Type: multipart/alternative; boundary="00000000000059fe7e058f74e025"
 
-On 8/6/19 10:39 AM, Jason Wessel wrote:
-> On 8/6/19 9:59 AM, Jason Wessel wrote:
->> On 8/6/19 9:20 AM, Richard Purdie wrote:
->>> On Mon, 2019-08-05 at 09:32 -0700, Jason Wessel wrote:
->>>> While working with ostree disk generation in conjunction with wic, I
->>>> found a problem with pseudo where it tried to resolve a symlink when
->>>> it shouldn't, based on openat() flags. A C program has been
->>>> constructed to test pseudo to show that it is working properly with
->>>> the correct behavior around openat().
->>>>
->>> [...]
->>>>
->>>> Many thanks to Peter Seebach for fixing the problem in the pseudo
->>>> code
->>>> to use the same logic which was already there for the
->>>> AT_SYMLINK_NOFOLLOW.
->>>>
->>>> Also updated is the license MD5 checksum since the master branch of
->>>> pseudo has had the SPDX data updated.
->>>>
->>>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
->>>> ---
->>>>     meta/recipes-devtools/pseudo/pseudo.inc    | 2 +-
->>>>     meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
->>>>     2 files changed, 2 insertions(+), 2 deletions(-)
->>>
->>> pseudo-native didn't build on fedora28 or centos7:
->>>
->>> http://errors.yoctoproject.org/Errors/Latest/?filter=9382629d4bbcd26196c36d31ffdf097b30023150&type=commit&limit=150
->>>
->>> (see the pseudo-native failures).
->>>
->>> It looks like an issue on hosts which don't have zlib-devel installed,
+--00000000000059fe7e058f74e025
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, 6 Aug 2019 at 16:30, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> On Tue, 6 Aug 2019 at 16:16, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+>
+>> I partly agree with this. There is:
 >>
->>> at a very approximate guess -  I've not been able to look in detail.
->>>
+>> insane.bbclass:do_package_qa[rdeptask] = "do_packagedata"
 >>
->> I'll try and setup a test, since I can easily run fedora28.   I wonder if we can just use zlib-native to solve it, or if it is a a chicken-egg problem with the early boot strap.
+>> which does help the situation by forcing package_qa after all the
+>> runtime dependencies.
 >>
-> 
-> I cannot duplicate the problem.  It must have to do with the way your particular system is setup.   What is interesting is that the -lz is not actually called on my system, where I most certainly don't have the libz devel package installed.  I am guessing there is a configure failure of some sort?
-> 
-> Do you think on the fedora28 system you could send me the "rpm -q -a" output?
-> 
+>> I suspect the real problem is that it can also see RDEPENDS for things
+>> it doesn't rdepend upon...
+>>
+>> You might want package_prepare_pkgdata() from package_pkgdata called
+>> for package_qa's context on a separate directory, then to use that as
+>> the pkgdata to resolve against?
+>>
+>> Note that package_prepare_pkgdata() called for do_package is different
+>> than package_prepare_pkgdata() called for do_package_qa as the tasks
+>> have different dependencies...
+>>
+>
+> I am actually inclined to remove the recursive resolver in insane.bbclass.
+> It gives a QA pass to a situation when there is a bash script in A, and the
+> bash runtime dependency is satisfied indirectly through a chain of
+> arbitrary length: A -> bash-completion -> bash. It becomes hard to reason
+> where the dependencies come from; I think any runtime dependencies should
+> be explicitly listed. We may need to fix up a few recipes, but the outcome
+> is a better definition of runtime dependencies.
+>
 
-I found out where the link flags come from in the pseudo recipe.
+I made a patch for this:
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=akanavin/package-version-updates&id=77bb080eb15de21901c15072898303f2b5275093
 
+Now building oe-core world, to see what kind of fallout it causes.
 
-         for sqlite_link_opt in $(pkg-config sqlite3 --libs --static)
-         do
-             case "$sqlite_link_opt" in
-             -lsqlite3)
-                 ;;
-             -l*)
-                 SQLITE_LDADD="${SQLITE_LDADD} ${sqlite_link_opt}"
+Alex
 
+--00000000000059fe7e058f74e025
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This implies that your local sqlite3 is perhaps different in some manner.  I am not sure exactly what kind of edge case you have going on with your system.  :-)
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 6 Aug 2019 at 16:30, Alexander Ka=
+navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com<=
+/a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Tue, 6 Aug 2=
+019 at 16:16, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoun=
+dation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wr=
+ote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">I partly agree with this. There is:<br>
+<br>
+insane.bbclass:do_package_qa[rdeptask] =3D &quot;do_packagedata&quot;<br>
+<br>
+which does help the situation by forcing package_qa after all the<br>
+runtime dependencies.<br>
+<br>
+I suspect the real problem is that it can also see RDEPENDS for things<br>
+it doesn&#39;t rdepend upon...<br>
+<br>
+You might want package_prepare_pkgdata() from package_pkgdata called<br>
+for package_qa&#39;s context on a separate directory, then to use that as<b=
+r>
+the pkgdata to resolve against?<br>
+<br>
+Note that package_prepare_pkgdata() called for do_package is different<br>
+than package_prepare_pkgdata() called for do_package_qa as the tasks<br>
+have different dependencies...<br></blockquote><div><br></div><div>I am act=
+ually inclined to remove the recursive resolver in insane.bbclass. It gives=
+ a QA pass to a situation when there is a bash script in A, and the bash ru=
+ntime dependency is satisfied indirectly through a chain of arbitrary lengt=
+h: A -&gt; bash-completion -&gt; bash. It becomes hard to reason where the =
+dependencies come from; I think any runtime dependencies should be explicit=
+ly listed. We may need to fix up a few recipes, but the outcome is a better=
+ definition of runtime dependencies.<br></div></div></div></blockquote><div=
+>=C2=A0</div><div>I made a patch for this:</div><div><a href=3D"http://git.=
+yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Dakanavin/package-version=
+-updates&amp;id=3D77bb080eb15de21901c15072898303f2b5275093">http://git.yoct=
+oproject.org/cgit.cgi/poky-contrib/commit/?h=3Dakanavin/package-version-upd=
+ates&amp;id=3D77bb080eb15de21901c15072898303f2b5275093</a></div><div><br></=
+div><div>Now building oe-core world, to see what kind of fallout it causes.=
+</div><div><br></div><div>Alex<br></div></div></div>
 
-Cheers,
-Jason.
-
+--00000000000059fe7e058f74e025--
