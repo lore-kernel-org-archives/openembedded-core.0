@@ -1,28 +1,18 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DFF07F381
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 18:52:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x76IqwTa002656
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 6 Aug 2019 11:52:58 -0700 (PDT)
-Received: from [192.168.10.15] (172.25.59.219) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 6 Aug 2019 11:52:57 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20190806173101.28671-1-jason.wessel@windriver.com>
-	<CANNYZj96=yCYWO_UG9MkUx2HvwG00v0n3dTK5aMdhqb3BHhFjw@mail.gmail.com>
-	<32e8e38d-b215-b56e-d523-71811803db99@windriver.com>
-Message-ID: <902909f9-0c57-5e0f-9c68-b73722a32869@windriver.com>
-Date: Tue, 6 Aug 2019 13:52:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E7777F30B;
+	Tue,  6 Aug 2019 19:02:07 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <32e8e38d-b215-b56e-d523-71811803db99@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sqlite3: Always build sqlite3-native with zlib
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Trevor Gamblin <trevor.gamblin@windriver.com>
+Date: Tue, 06 Aug 2019 19:02:09 -0000
+Message-ID: <20190806190209.2332.1991@do>
+References: <1565117132-11888-1-git-send-email-Trevor.Gamblin@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1565117132-11888-1-git-send-email-Trevor.Gamblin@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ3ppcDsgdXBkYXRlIHB0ZXN0IHBhY2thZ2UgZGVwZW5kZW5jaWVz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,191 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 18:52:58 -0000
-Content-Type: multipart/alternative;
-	boundary="------------52AC8A61DA5C9E245640DABE"
-Content-Language: en-US
+X-List-Received-Date: Tue, 06 Aug 2019 19:02:07 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---------------52AC8A61DA5C9E245640DABE
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+== Series Details ==
 
-On 8/6/19 1:36 PM, Jason Wessel wrote:
-> On 8/6/19 12:55 PM, Alexander Kanavin wrote:
->>
->>
->> On Tue, 6 Aug 2019 at 19:31, Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>> wrote:
->>
->>     The build of sqlite3-native is not fully deterministic.  There is some
->>     corner case as shown with the recent pseudo commit where the sqlite3
->>     will sometimes link against zlib.  It is possible that in a build with
->>     sstate that since the zlib is not listed, that pseudo-native will fail
->>     to build because it calls the pkg-config to get the link arguments for
->>     sqlite3 and will ultimately try to link against zlib.
->>
->>
->> It would be good to dig a little deeper and get to the root cause of why sqlite *sometimes* does it. The fix provided below seems like fixing the symptom, not the problem.
->>
->> Alex
->
->
-> Without getting access to the build machine where it failed to perform more in depth forensics it is a bit hard to determine the exact cause.  I performed some local testing using the Fedora 28 and could not replicate the exact circumstance unless I deleted a file in the sysroot.  From what I can tell there are two ways of seeing the problem.
->
-> 1) Host contamination
->
-> % pkg-config sqlite3 --libs --static
-> -lsqlite3 -lm -ldl -lz -lpthread
->
-> This was not the way the sqlite3 was built.  However there is no way to know if this was the circumstance without poking around in the log files and re-running the context of the run.do_compile script in the packages temp directory.
->
-> 2) Dependency race
->
-> This is the one where I deleted a file to simulate the problem, but I couldn't reproduce it.  For this, we'd really need to look at the failed machine's log of the build of sqlite3, which may be long gone from the sstate.  But it should have the pkg-config files laying around.  If it shows that it did build against the zlib, but zlib was not listed dependency it was never going to build because the recipe-sysroot-native is not going to have the required library.
->
-> There of course might be other ways to end up with the same result but these are the most likely candidates, each of which is fixed by listing the dependency.   I too would like to know the actual root cause, but without access to the build it is hard to track it down.
->
+Series: gzip; update ptest package dependencies
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/19125/
+State : failure
+
+== Summary ==
 
 
-Just to follow up to be very specific about how I deleted files, you can see the identical failure with:
-
-sudo yum install -y zlib-devel
-
-rm -rf tmp
-
-bitbake -c cleansstate sqlite3-native
-
-bitbake sqlite3-native
-
-sudo yum remove -y zlib-devel
-
-bitbake -c cleansstate pseudo-native
-
-bitbake pseudo-native
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
 
-I seriously doubt this is exactly what is going on on the host builder which failed.  More analysis would be needed as I explained earlier to draw a final conclusion.  Either way sqlite3-native should be configured to build consistently, which would prevent this kind of contamination.
 
-Cheers,
+* Patch            gzip; update ptest package dependencies
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
-Jason.
+* Patch            gzip; update ptest package dependencies
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
 
 
---------------52AC8A61DA5C9E245640DABE
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 8/6/19 1:36 PM, Jason Wessel wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:32e8e38d-b215-b56e-d523-71811803db99@windriver.com">
-      <div class="moz-cite-prefix">On 8/6/19 12:55 PM, Alexander Kanavin
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-cite="mid:CANNYZj96=yCYWO_UG9MkUx2HvwG00v0n3dTK5aMdhqb3BHhFjw@mail.gmail.com">
-        <div dir="ltr">
-          <div dir="ltr"><br>
-          </div>
-          <br>
-          <div class="gmail_quote">
-            <div dir="ltr" class="gmail_attr">On Tue, 6 Aug 2019 at
-              19:31, Jason Wessel &lt;<a
-                href="mailto:jason.wessel@windriver.com"
-                moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;
-              wrote:<br>
-            </div>
-            <blockquote class="gmail_quote">The build of sqlite3-native
-              is not fully deterministic.  There is some<br>
-              corner case as shown with the recent pseudo commit where
-              the sqlite3<br>
-              will sometimes link against zlib.  It is possible that in
-              a build with<br>
-              sstate that since the zlib is not listed, that
-              pseudo-native will fail<br>
-              to build because it calls the pkg-config to get the link
-              arguments for<br>
-              sqlite3 and will ultimately try to link against zlib.<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>It would be good to dig a little deeper and get to the
-              root cause of why sqlite *sometimes* does it. The fix
-              provided below seems like fixing the symptom, not the
-              problem.</div>
-          </div>
-          <div class="gmail_quote"><br>
-          </div>
-          <div class="gmail_quote">Alex<br>
-          </div>
-        </div>
-      </blockquote>
-      <p><br>
-      </p>
-      <p>Without getting access to the build machine where it failed to
-        perform more in depth forensics it is a bit hard to determine
-        the exact cause.  I performed some local testing using the
-        Fedora 28 and could not replicate the exact circumstance unless
-        I deleted a file in the sysroot.  From what I can tell there are
-        two ways of seeing the problem.  <br>
-      </p>
-      <p>1) Host contamination <br>
-      </p>
-      <p>% pkg-config sqlite3 --libs --static<br>
-        -lsqlite3 -lm -ldl -lz -lpthread <br>
-      </p>
-      <p>This was not the way the sqlite3 was built.  However there is
-        no way to know if this was the circumstance without poking
-        around in the log files and re-running the context of the
-        run.do_compile script in the packages temp directory.</p>
-      <p>2) Dependency race<br>
-      </p>
-      <p>This is the one where I deleted a file to simulate the problem,
-        but I couldn't reproduce it.  For this, we'd really need to look
-        at the failed machine's log of the build of sqlite3, which may
-        be long gone from the sstate.  But it should have the pkg-config
-        files laying around.  If it shows that it did build against the
-        zlib, but zlib was not listed dependency it was never going to
-        build because the recipe-sysroot-native is not going to have the
-        required library. <br>
-      </p>
-      <p>There of course might be other ways to end up with the same
-        result but these are the most likely candidates, each of which
-        is fixed by listing the dependency.   I too would like to know
-        the actual root cause, but without access to the build it is
-        hard to track it down.<br>
-      </p>
-    </blockquote>
-    <p><br>
-    </p>
-    <p><br>
-    </p>
-    <p>Just to follow up to be very specific about how I deleted files,
-      you can see the identical failure with:</p>
-    <p>sudo yum install -y zlib-devel</p>
-    rm -rf tmp<br>
-    <p>bitbake -c cleansstate sqlite3-native</p>
-    <p>bitbake sqlite3-native</p>
-    <p>sudo yum remove -y zlib-devel</p>
-    <p>bitbake -c cleansstate pseudo-native</p>
-    <p>bitbake pseudo-native<br>
-    </p>
-    <p><br>
-    </p>
-    <p>I seriously doubt this is exactly what is going on on the host
-      builder which failed.  More analysis would be needed as I
-      explained earlier to draw a final conclusion.  Either way
-      sqlite3-native should be configured to build consistently, which
-      would prevent this kind of contamination. <br>
-    </p>
-    <p>Cheers,</p>
-    <p>Jason.<br>
-    </p>
-  </body>
-</html>
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
 
---------------52AC8A61DA5C9E245640DABE--
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+
