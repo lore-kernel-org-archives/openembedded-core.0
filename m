@@ -1,33 +1,51 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B5337F3A9
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
+	[209.85.221.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E6277F3B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 19:41:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4634kq2s1yz8L
+	Tue,  6 Aug 2019 19:54:08 +0000 (UTC)
+Received: by mail-vk1-f195.google.com with SMTP id y130so17619617vkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 21:41:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1565120483;
-	bh=M/S69tGYKkYJ+wy9UnG00hoA9xBdcBMifACxtXUYf2I=;
-	h=From:To:Subject:Date:From;
-	b=lTHRV+0Ogwb3QUivzTk6+/kQMgxOtkJODb9XIykNaNx88s6SL3x0quOoU5zMF9Zow
-	RQYBsRENw0q/BOb33iDJyPCq0Bj+5ZniHln4hi1hajBC0G1kuY9mEkJnZpnfNwkgQS
-	6o1d25qSNE7fvL0jpYibvNifzEiVjnQ+nhOsbNMXaCfhC4+/Trq48mKICl3mVnkgYE
-	kgrUvEUX50HGCaFVFnknZDufhaFpFgCEpNPEZv+OpbWAZk2t9QD0EenPQVBFoOBUgD
-	dBl1mCnn7VJt/oWYri0ak9IISIoNCKo+L1HrYpaSwAr9PGYngsETwIfxxit5nVwRXn
-	F2YzAEuM1Xsv2lM3Gvv7odh5shzJjKWUjF/U+RUPIXSs2r2qtOT8BsYMbzZGjMJsQg
-	/jssCaWCs7xQLjuM2Wu+ECplFK6BEp93mjOogWNeT+ktZPXQthTqCwVDJOcsVjgYVe
-	1hVc1Jqf9cAm26+1u/jndpyQDP0v5f2GnFg+i3QyiMyuSVURhiFhWEPtQuG59YC6uE
-	ZSC0zetdx1SU7g2ZJ5aDKncOyH6AgPh2bShFL/7hNFQ3/+fs+4VqkONvJlSHKVgarc
-	++Dby99jtL29056RfdHe3H+GzUSPoqs7RsS/xpoC/V83xG7E9eehEnSmSIF8GsR5g9
-	vf04QXvfwdepMQzsQ2mTXihI=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Aug 2019 22:41:22 +0300
-Message-Id: <20190806194122.22430-2-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] systemd: Backport OpenSSL BUF_MEM fix
+	Tue, 06 Aug 2019 12:54:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=/EY58yLtfphRdMpXOA260fpx6IM9VRpfEhirqldXkxA=;
+	b=HJPGBTEk5lMv8b48jA3PUuOLthvTA4VCE3Fild/XkBJfFsqpewmXKPvtXadLomJ9Jo
+	ADlyebGvEcLqOhZoF9fNqH4BHlN4OcjQvjuzhbmVFNNfKbc2yEMDoG5XANX0LZqoG+F0
+	5fsONWWlgkap6tL1EkirgvGvGfrUgjfP2K6R4+Az7QyEK4A0MpnPk0HCYxRQ2Jamx8xk
+	SWnsYX/c1EML46p4PmWxlGLYMfcVhmJ8LgAM6vC3L+NCoGB6VCh1TXA1hGg6tNKDFYt2
+	bXKNmOwsA9YaOuGhVUVVmDPpsoVKrMHRei/Vzx0oQ5fzfVGfWZ8G96e9cckn55aTLvKH
+	mG1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=/EY58yLtfphRdMpXOA260fpx6IM9VRpfEhirqldXkxA=;
+	b=Hc68ajhF8z+uybLFLaFbu8MW8QFp708iJTqHax3nPQrNwuoutTLu2ZS0sjeYtc8gMt
+	obmvpA6IgkmzvA3X+B957GujI/261YryhYdEpUreXvSnpKgtjCX+XvlwS/mFTAQnPqOz
+	+NTtABKr7eZWrZq6dM8apdc/ABZj8hunWK8bKMpAPT3m0RHadffzluiHEdSHxNFrgmtw
+	GiNWWkm6oq+Kn59RayPcQLlzCyTurm7QSe4lOuhEyEeQlrVJhslwnGyiFYJZNrmhEzxo
+	CV61IyBXppLQc833Xpe+D7xTLfi2bS3m6JYDza0H4KgQgIUshy3lgXvUNx9CyEZQ+VyQ
+	MkFw==
+X-Gm-Message-State: APjAAAVhFYbf28Jp1PPAdaG2GNVyagZ997jKwDO/jiWSBhkaN6HDlZi/
+	vzw5sT7MKS693zslThPHPSVMxCeMBjXkZdoXI7g=
+X-Google-Smtp-Source: APXvYqxwG/gM8bQMaNKWutEOHw3bpj+VVkEJ5Qar1mEA+HN5etAnzsqJmSVGm6CBK+caRFO0ruCxm8w2PUcTmpz3KXQ=
+X-Received: by 2002:a1f:bd56:: with SMTP id n83mr806520vkf.59.1565121249062;
+	Tue, 06 Aug 2019 12:54:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190806173101.28671-1-jason.wessel@windriver.com>
+	<CANNYZj96=yCYWO_UG9MkUx2HvwG00v0n3dTK5aMdhqb3BHhFjw@mail.gmail.com>
+	<32e8e38d-b215-b56e-d523-71811803db99@windriver.com>
+	<902909f9-0c57-5e0f-9c68-b73722a32869@windriver.com>
+	<CANNYZj_h6f6vR83Zbw=H0NGaVLt3bGpd85Ra3ukYaJvwN0Vy-g@mail.gmail.com>
+	<f411e447-22eb-e23b-9b1e-f8f1925d3e13@windriver.com>
+In-Reply-To: <f411e447-22eb-e23b-9b1e-f8f1925d3e13@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 6 Aug 2019 21:53:57 +0200
+Message-ID: <CANNYZj_V9_YmVaPjyhK1S-phjnA7QGhiQbpNibq7yC+FoJkZ5A@mail.gmail.com>
+To: Jason Wessel <jason.wessel@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sqlite3: Always build sqlite3-native with zlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,118 +58,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 19:41:23 -0000
+X-List-Received-Date: Tue, 06 Aug 2019 19:54:08 -0000
+Content-Type: multipart/alternative; boundary="00000000000014b27b058f7830ba"
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+--00000000000014b27b058f7830ba
+Content-Type: text/plain; charset="UTF-8"
 
-Building `systemd-resolve` from systemd 242 with OpenSSL 1.1.1c and enabling
-DNS over TLS ends up calling abort (on 32 bit armhf):
+On Tue, 6 Aug 2019 at 21:38, Jason Wessel <jason.wessel@windriver.com>
+wrote:
 
-  Program terminated with signal SIGABRT, Aborted.
-  #0  __libc_do_syscall () at libc-do-syscall.S:49
-  49	libc-do-syscall.S: No such file or directory.
-  (gdb) where
-  #0  __libc_do_syscall () at libc-do-syscall.S:49
-  #1  0xb6940ea4 in __libc_signal_restore_set (set=0xbec68b78) at ../sysdeps/unix/sysv/linux/internal-signals.h:84
-  #2  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:48
-  #3  0xb69336e0 in __GI_abort () at abort.c:79
-  #4  0xb6968428 in __libc_message (action=action@entry=do_abort, fmt=<optimized out>) at ../sysdeps/posix/libc_fatal.c:181
-  #5  0xb696c7e6 in malloc_printerr (str=<optimized out>) at malloc.c:5352
-  #6  0xb696ca1a in munmap_chunk (p=<optimized out>) at malloc.c:2840
-  #7  0xb6bd1c4a in CRYPTO_clear_realloc (str=0xd0e59a, old_len=388, num=<optimized out>, file=0xb6c300dc "../../../../../../workspace/sources/openssl/crypto/buffer/buffer.c", line=135)
-      at ../../../../../../workspace/sources/openssl/crypto/mem.c:290
-  #8  0xb6b5da3a in BUF_MEM_grow_clean (str=0xcfb960, len=len@entry=393) at ../../../../../../workspace/sources/openssl/crypto/buffer/buffer.c:135
-  #9  0xb6b486a0 in mem_write (b=0xcf8300, in=0xd07c6b "\027\003\003", inl=24) at ../../../../../../workspace/sources/openssl/crypto/bio/bss_mem.c:235
-  #10 0xb6b45c86 in bwrite_conv (bio=<optimized out>, data=<optimized out>, datal=<optimized out>, written=0xbec68ec8) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_meth.c:77
-  #11 0xb6b452d4 in bio_write_intern (written=0xbec68ec8, dlen=24, data=0xd07c6b, b=0xcf8300) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_lib.c:343
-  #12 bio_write_intern (b=0xcf8300, data=0xd07c6b, dlen=24, written=0xbec68ec8) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_lib.c:320
-  #13 0xb6b455b2 in BIO_write (b=<optimized out>, data=<optimized out>, dlen=<optimized out>) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_lib.c:363
-  #14 0xb6cabd1a in ssl3_write_pending (s=s@entry=0xcfd2d8, type=type@entry=23, buf=buf@entry=0xcfcc28 "", len=len@entry=2, written=written@entry=0xbec698b0) at ../../../../../../workspace/sources/openssl/ssl/record/rec_layer_s3.c:1146
-  #15 0xb6cac72e in do_ssl3_write (s=s@entry=0xcfd2d8, type=type@entry=23, buf=buf@entry=0xcfcc28 "", pipelens=pipelens@entry=0xbec698b4, numpipes=numpipes@entry=1, create_empty_fragment=create_empty_fragment@entry=0,
-      written=written@entry=0xbec698b0) at ../../../../../../workspace/sources/openssl/ssl/record/rec_layer_s3.c:1107
-  #16 0xb6cac92e in ssl3_write_bytes (s=0xcfd2d8, type=23, buf_=0xcfcc28, len=<optimized out>, written=0xbec699c0) at ../../../../../../workspace/sources/openssl/ssl/record/rec_layer_s3.c:613
-  #17 0xb6cb1698 in ssl3_write (s=<optimized out>, buf=0xcfcc28, len=2, written=0xbec699c0) at ../../../../../../workspace/sources/openssl/ssl/s3_lib.c:4460
-  #18 0xb6cb87b2 in ssl_write_internal (s=<optimized out>, buf=buf@entry=0xcfcc28, num=num@entry=2, written=written@entry=0xbec699c0) at ../../../../../../workspace/sources/openssl/ssl/ssl_lib.c:1943
-  #19 0xb6cb8896 in SSL_write (s=<optimized out>, buf=buf@entry=0xcfcc28, num=num@entry=2) at ../../../../../../workspace/sources/openssl/ssl/ssl_lib.c:1957
-  #20 0x004ddac8 in dnstls_stream_write (stream=stream@entry=0xcfca60, buf=0xcfcc28 "", count=2) at ../git/src/resolve/resolved-dnstls-openssl.c:270
-  #21 0x004d8d5c in dns_stream_writev (s=s@entry=0xcfca60, iov=iov@entry=0xbec69b4c, iovcnt=iovcnt@entry=2, flags=flags@entry=0) at ../git/src/resolve/resolved-dns-stream.c:225
-  #22 0x004d9516 in on_stream_io (es=<optimized out>, fd=<optimized out>, revents=4, userdata=0xcfca60) at ../git/src/resolve/resolved-dns-stream.c:334
-  #23 0xb6e7f020 in source_dispatch (s=0xcf3658) at ../git/src/libsystemd/sd-event/sd-event.c:2821
-  #24 0xb6e806b0 in sd_event_dispatch (e=e@entry=0xced6d0) at ../git/src/libsystemd/sd-event/sd-event.c:3234
-  #25 0xb6e807f6 in sd_event_run (e=0xced6d0, timeout=<optimized out>) at ../git/src/libsystemd/sd-event/sd-event.c:3291
-  #26 0xb6e809bc in sd_event_loop (e=0xced6d0) at ../git/src/libsystemd/sd-event/sd-event.c:3312
-  #27 0x004bb64c in run (argv=<optimized out>, argc=<optimized out>) at ../git/src/resolve/resolved.c:84
-  #28 main (argc=<optimized out>, argv=<optimized out>) at ../git/src/resolve/resolved.c:91
+>
+> Sqlite3 doesn't have a an explicit disable.  It has the typical autoconf
+> check for a header/library.  From configure.ac:
+>
+>
+> AC_CHECK_HEADERS(zlib.h,[
+>   AC_SEARCH_LIBS(deflate,z,[BUILD_CFLAGS="$BUILD_CFLAGS
+> -DSQLITE_HAVE_ZLIB"])
+> ])
+>
+> This means it would need to be patched if you want to make it a pkgconfig
+> option, or play games with the configure cache values...  I chose zlib as a
+> default dependency because it was the easiest to implement.  If we really
+> want to make it not build with zlib or build it conditionally, it is
+> certainly possible.  Is that what is needed to get this patch accepted?
+>
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- ...Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch | 41 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_241.bb      |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
+I'd say if you adjust the patch to work for both native and target variants
+and always build with zlib, that should be fine.
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch b/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
-new file mode 100644
-index 0000000000..f0ae1db60d
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
-@@ -0,0 +1,41 @@
-+From 18bddeaaf225d5becfc10cd2c6a1d037c90574a2 Mon Sep 17 00:00:00 2001
-+From: Tomas Mraz <tmraz@fedoraproject.org>
-+Date: Tue, 11 Jun 2019 15:10:21 +0200
-+Subject: [PATCH] resolved: Fix incorrect use of OpenSSL BUF_MEM
-+
-+Fixes: #12763
-+Upstream-Status: Backport [Not yet released]
-+  https://github.com/systemd/systemd/commit/18bddeaaf225d5becfc10cd2c6a1d037c90574a2
-+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-+---
-+ src/resolve/resolved-dnstls-openssl.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/resolve/resolved-dnstls-openssl.c b/src/resolve/resolved-dnstls-openssl.c
-+index f269e4d6487f..5d9223007581 100644
-+--- a/src/resolve/resolved-dnstls-openssl.c
-++++ b/src/resolve/resolved-dnstls-openssl.c
-+@@ -6,6 +6,7 @@
-+ 
-+ #include <openssl/bio.h>
-+ #include <openssl/err.h>
-++#include <string.h>
-+ 
-+ #include "io-util.h"
-+ #include "resolved-dns-stream.h"
-+@@ -34,9 +35,11 @@ static int dnstls_flush_write_buffer(DnsStream *stream) {
-+                         return ss;
-+                 } else {
-+                         stream->dnstls_data.write_buffer->length -= ss;
-+-                        stream->dnstls_data.write_buffer->data += ss;
-+ 
-+                         if (stream->dnstls_data.write_buffer->length > 0) {
-++                                memmove(stream->dnstls_data.write_buffer->data,
-++                                        stream->dnstls_data.write_buffer->data + ss,
-++                                        stream->dnstls_data.write_buffer->length);
-+                                 stream->dnstls_events |= EPOLLOUT;
-+                                 return -EAGAIN;
-+                         }
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
-index eb3242d624..3ebbbb7897 100644
---- a/meta/recipes-core/systemd/systemd_241.bb
-+++ b/meta/recipes-core/systemd/systemd_241.bb
-@@ -24,6 +24,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
-            file://0001-meson-declare-version.h-as-dep-for-various-targets-t.patch \
-            file://0001-meson-declare-version.h-as-dependency-for-systemd.patch \
-+           file://0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch \
-            "
- 
- # patches needed by musl
--- 
-2.17.1
+Alex
 
+--00000000000014b27b058f7830ba
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 6 Aug 2019 at 21:38, Jason Wessel=
+ &lt;<a href=3D"mailto:jason.wessel@windriver.com">jason.wessel@windriver.c=
+om</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+ =20
+   =20
+ =20
+  <div bgcolor=3D"#FFFFFF"><br><p>Sqlite3 doesn&#39;t have a an explicit di=
+sable.=C2=A0 It has the typical
+      autoconf check for a header/library.=C2=A0 From <a href=3D"http://con=
+figure.ac" target=3D"_blank">configure.ac</a>:</p>
+    <p><br>
+    </p>
+    <p>AC_CHECK_HEADERS(zlib.h,[<br>
+      =C2=A0 AC_SEARCH_LIBS(deflate,z,[BUILD_CFLAGS=3D&quot;$BUILD_CFLAGS
+      -DSQLITE_HAVE_ZLIB&quot;])<br>
+      ])<br>
+      <br>
+    </p>
+    <p>This means it would need to be patched if you want to make it a
+      pkgconfig option, or play games with the configure cache
+      values...=C2=A0 I chose zlib as a default dependency because it was t=
+he
+      easiest to implement.=C2=A0 If we really want to make it not build wi=
+th
+      zlib or build it conditionally, it is certainly possible.=C2=A0 Is th=
+at
+      what is needed to get this patch accepted? <br>
+    </p></div></blockquote><div><br></div><div>I&#39;d say if you adjust th=
+e patch to work for both native and target variants and always build with z=
+lib, that should be fine.</div><div><br></div><div>Alex<br></div></div></di=
+v>
+
+--00000000000014b27b058f7830ba--
