@@ -1,25 +1,25 @@
 Return-Path: <jwessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 325F57F3AE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C0F267F3AB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 21:14:12 +0000 (UTC)
+	Tue,  6 Aug 2019 21:16:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x76LEEXA009431
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x76LGxsP027743
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Aug 2019 14:14:14 -0700 (PDT)
+	Tue, 6 Aug 2019 14:16:59 -0700 (PDT)
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 6 Aug 2019 14:14:13 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id BC3D8AA4816;
-	Tue,  6 Aug 2019 14:14:13 -0700 (PDT)
+	Tue, 6 Aug 2019 14:16:10 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 632B8AA4816;
+	Tue,  6 Aug 2019 14:16:09 -0700 (PDT)
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 6 Aug 2019 14:14:11 -0700
-Message-ID: <20190806211411.5571-1-jason.wessel@windriver.com>
+Date: Tue, 6 Aug 2019 14:16:08 -0700
+Message-ID: <20190806211608.5801-1-jason.wessel@windriver.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH v2] sqlite3: Fix zlib determinism problem
+Subject: [PATCH v3] sqlite3: Fix zlib determinism problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 21:14:13 -0000
+X-List-Received-Date: Tue, 06 Aug 2019 21:16:58 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
@@ -49,22 +49,23 @@ building with it "occasionally", but not for anything at runtime.
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/recipes-support/sqlite/sqlite3.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-support/sqlite/sqlite3.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index daf3db5e9f..2e48f303ee 100644
+index daf3db5e9f..7cf23d0447 100644
 --- a/meta/recipes-support/sqlite/sqlite3.inc
 +++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -2,6 +2,8 @@ SUMMARY = "Embeddable SQL database engine"
- HOMEPAGE = "http://www.sqlite.org"
- SECTION = "libs"
- 
-+DEPENDS = "zlib-native"
+@@ -34,6 +34,9 @@ PACKAGECONFIG[json1] = "--enable-json1,--disable-json1"
+ PACKAGECONFIG[rtree] = "--enable-rtree,--disable-rtree"
+ PACKAGECONFIG[session] = "--enable-session,--disable-session"
+ PACKAGECONFIG[dyn_ext] = "--enable-dynamic-extensions,--disable-dynamic-extensions"
++PACKAGECONFIG[zlib] = ",,zlib"
 +
- PE = "3"
++CACHED_CONFIGUREVARS += "${@bb.utils.contains('PACKAGECONFIG', 'zlib', '', 'ac_cv_search_deflate=no',d)}"
  
- def sqlite_download_version(d):
+ EXTRA_OECONF = " \
+     --enable-shared \
 -- 
 2.21.0
 
