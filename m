@@ -1,47 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id B9BC37F33B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
+	[209.85.221.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D46E7F35D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 12:51:13 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id s3so78059031wms.2
+	Tue,  6 Aug 2019 13:22:24 +0000 (UTC)
+Received: by mail-vk1-f194.google.com with SMTP id o19so17358446vkb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Aug 2019 05:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=Ko1HKBD/NJqcFqurze32Kp016oPxbK3vVROCWHTNxR0=;
-	b=EiIRTIXPrq/imkMNWQtGdNw1lZft9FQRhEFod74C/Hmqs3GF0VXsp3ENLhymf0enm1
-	wf1SBZOe2mftgjYBkFnaJOYX4BreUErXw7IBzLnbzoy1VAWL17boV/QUXDlXTPJPr9wQ
-	dQpPq/s9M/mxjK1HqF7KhHi4ZjvDwXghBrdKY=
+	Tue, 06 Aug 2019 06:22:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Jm8hWJ1Vtkb+yILQ3zA3CKVFrmPcGN94+HErNLgbuFc=;
+	b=ibQ7TMafHhp3iEPs9EQTnjP+S4j160t1ElsEvtwAhYn1PnwWlVel9VdfDQt7uJ9zQz
+	k2NQB6GZkSN2nPs7GOGdGuVzIuVBUEj46DZO9X0L+CXWXPuafWGakTHbVfc5K5Kyrluj
+	ptZbqJjTYyRnYeSPQ9+bSDVpKhQYbfMbmx/82NyBD3m1h/CX2SmFUOUe9Z5tFk7mf0fq
+	eefWg+UwrarZQMsazg5VPe0Bp5xDqvoyXdfcyQoAA64SMYTPlQoDf9XgNEYHKzNSL6+n
+	M9mszs3Fpa7S+81Wekp3P34KYhUKd0FEgbcX/R3PFtdI9urR4yc/3Kpoiw9XM5czvhbr
+	RBNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Ko1HKBD/NJqcFqurze32Kp016oPxbK3vVROCWHTNxR0=;
-	b=Gtat0n3rZuZg7XHsgdIVrgGxUmmkyejdW2XqwyfnxcL32aKkABUteNliZPpKmCxbv2
-	X7MoMHUq6F1uNPPOj2b23DEgcrw1NxnAr69ZoI5d9M9ZJxbTQ45kgtN13iRk+QJU+FAe
-	DR0RL8umaBOTGAfjTOLoY5DD1KJjxIVMXgsDCGXhKXK+BJdZVrAWFBQra4IMs3GbCxe5
-	XMqhJ6uRhinaofkF5Ku8lv6vvaATp9WfYDUJDyLHvXXXyNvaaZx2AEUWV62zovidSW/1
-	kxOa/SbT81aXEmVyQpo6srWd5Y5q93ZJrkmae3C4PI6rya8wOzL4U6iHTrXq+hTy3X3F
-	sfvA==
-X-Gm-Message-State: APjAAAVOfCW39pVF5KXQd7u/S7M+U/tXQ0iWeOdS73oY5BoWMusivxiw
-	BptnsZxMZOWJNtXjzNhgn/Vukg==
-X-Google-Smtp-Source: APXvYqw8OqJPx+EzFJeGcBsnJjDqoSqa/IGIolNU3hAMWOiKSllVirEIKI+S+vn+m4GdHyBSPDVraw==
-X-Received: by 2002:a1c:7503:: with SMTP id o3mr4713222wmc.170.1565095874315; 
-	Tue, 06 Aug 2019 05:51:14 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	v23sm78595198wmj.32.2019.08.06.05.51.13
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 06 Aug 2019 05:51:13 -0700 (PDT)
-Message-ID: <b25b0b717daa6dbeecd61255caf10bc49deb3509.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Martin Jansa
-	<martin.jansa@gmail.com>
-Date: Tue, 06 Aug 2019 13:51:12 +0100
-In-Reply-To: <CANNYZj_YSBdctNSqewYy96qofF4A_XkVVWahU0wMw3nBV=q58Q@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Jm8hWJ1Vtkb+yILQ3zA3CKVFrmPcGN94+HErNLgbuFc=;
+	b=fajwaTIlWE10H5VSF7on1syT8i9KgLx6tzeCNCESvWTxNBD7RAslUihB0e/sSsVTkX
+	LSK3SGN+ZdvvVHN5fsfpf5KaaIue04GFgmKFyVactfK4fvDScEDmRkk2I5HQXlGpZLaq
+	uFiYGX75DECjwknc+/rgZwvBjxdxOxg85sO0Rm92TfTrxOmHnwmpklUG6Ald8M4m3sMw
+	30tDcfDCB4lvIEwZoW1TVgfnt54D3IC5/Iv3QBNF8W38lYppsaC0WybdMZ7HqgQ6THp7
+	3oBPm+wd7xGxGyUTnqHxQvS5uomANREgAVEVhG7LSbqiLoSFYS/u2SwzMQ37eokukfmb
+	CFzQ==
+X-Gm-Message-State: APjAAAWJzuYF7HTlaclWjidcSkq7KoXH7jwj+sacGMCnenRuT/RhPNfr
+	pjeTpzaYG33PjtHdt3IOTkDsM/nuLs0lHgFkJ+8=
+X-Google-Smtp-Source: APXvYqx3gyqivwcb7rLEiyBDVrROCsvNqi8dUcpiqg30RhjVcwDCOlVqmPlSeyejyj2mfohrT9Jvr9XinNk8nPhjdeM=
+X-Received: by 2002:a1f:8bc4:: with SMTP id n187mr1131869vkd.32.1565097745120; 
+	Tue, 06 Aug 2019 06:22:25 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.1565075067.git.liezhi.yang@windriver.com>
 	<e5519d97e195842c793f688162919b21851d1dcb.1565075067.git.liezhi.yang@windriver.com>
 	<4f3b75ada0eae73855b43347a56ea89042ab6aae.camel@linuxfoundation.org>
@@ -51,8 +42,12 @@ References: <cover.1565075067.git.liezhi.yang@windriver.com>
 	<CANNYZj-QUcKdw4BygFyfXLSm4L=89XC44u65LNFx2OiiqrQE0Q@mail.gmail.com>
 	<CA+chaQfsQLEcxS9-XVQJT-7PR-JgtZ1cEFMdbJshmYMst6s2Lw@mail.gmail.com>
 	<CANNYZj_YSBdctNSqewYy96qofF4A_XkVVWahU0wMw3nBV=q58Q@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
+	<b25b0b717daa6dbeecd61255caf10bc49deb3509.camel@linuxfoundation.org>
+In-Reply-To: <b25b0b717daa6dbeecd61255caf10bc49deb3509.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 6 Aug 2019 15:22:13 +0200
+Message-ID: <CANNYZj9iLsF0fBRCYp+_CbRakizOyN=CJuDdRtZ9OdnZ84rFbA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] stress-ng: Add bash to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -67,59 +62,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 12:51:14 -0000
+X-List-Received-Date: Tue, 06 Aug 2019 13:22:24 -0000
+Content-Type: multipart/alternative; boundary="0000000000002302d6058f72b7a4"
+
+--0000000000002302d6058f72b7a4
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-08-06 at 14:27 +0200, Alexander Kanavin wrote:
-> Could be, yes. I will next try to untangle the file-rdeps and see why
-> it fails if bash hasn't been packaged yet, and passes if it has. I
-> have reproduced this on thud, so this is an old problem.
-> 
-> Alex
-> 
-> 
-> On Tue, 6 Aug 2019 at 14:16, Martin Jansa <martin.jansa@gmail.com>
-> wrote:
-> > Maybe another case of 
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=9217#c6 ?
-> > 
-> > On Tue, Aug 6, 2019 at 1:57 PM Alexander Kanavin <
-> > alex.kanavin@gmail.com> wrote:
-> > > On Tue, 6 Aug 2019 at 13:18, Ross Burton <ross.burton@intel.com>
-> > > wrote:
-> > > > > Note that bash-completion files are not executable, and we do
-> > > > not 
-> > > > > observe this with other recipes. We might have a false
-> > > > positive here - 
-> > > > > can you look at the actual contents of the package please and
-> > > > see why 
-> > > > > _qa thinks it needs /bin/bash?
-> > > > 
-> > > > Also I don't see this with master.  Do you have some local
-> > > > patches or QA 
-> > > > changes?
-> > > 
-> > > Actually there is a determinism problem here. I have reproduced
-> > > it with master, and the error happens if and only if bash's
-> > > do_package task has not yet run. If it has already run, then the
-> > > package_qa for stress-ng passes fine. I'll poke at it to see if
-> > > it's a recent issue.
+On Tue, 6 Aug 2019 at 14:51, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-We now filter the pkgdata to the things a recipe can see in its
-dependencies after:
+>
+> We now filter the pkgdata to the things a recipe can see in its
+> dependencies after:
+>
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=99206cb7b41be7a124ea8339bc891077f02128a2
+>
+> Does that help? If not, is it because some code isn't using the
+> filtered copy? Or could we use this technique somewhere else?
+>
+> I've not looked at the underlying issues enough to tell which code is
+> actually triggering it but that kind of approach should help with this
+> kind of problem and at least make it deterministic...
+>
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=99206cb7b41be7a124ea8339bc891077f02128a2
+I think the issue might be actually in the QA check where it looks beyond
+the recipe's immediate RDEPENDS (and then fails or not depending on whether
+those indirect dependencies have been packaged). I need to better
+understand what happens there so will add some printouts first. The problem
+does happen with latest master.
 
-Does that help? If not, is it because some code isn't using the
-filtered copy? Or could we use this technique somewhere else?
+Alex
 
-I've not looked at the underlying issues enough to tell which code is
-actually triggering it but that kind of approach should help with this
-kind of problem and at least make it deterministic...
+--0000000000002302d6058f72b7a4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div dir=3D"ltr"><div>On Tue, 6 Aug 2019 at 14:51, Richard=
+ Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.p=
+urdie@linuxfoundation.org</a>&gt; wrote:<br></div></div><div class=3D"gmail=
+_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+We now filter the pkgdata to the things a recipe can see in its<br>
+dependencies after:<br>
+<br>
+<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D99206cb7b=
+41be7a124ea8339bc891077f02128a2" rel=3D"noreferrer" target=3D"_blank">http:=
+//git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D99206cb7b41be7a124ea8339b=
+c891077f02128a2</a><br>
+<br>
+Does that help? If not, is it because some code isn&#39;t using the<br>
+filtered copy? Or could we use this technique somewhere else?<br>
+<br>
+I&#39;ve not looked at the underlying issues enough to tell which code is<b=
+r>
+actually triggering it but that kind of approach should help with this<br>
+kind of problem and at least make it deterministic...<br></blockquote><div>=
+<br></div><div><div>I think the issue might be actually in the QA check whe=
+re it looks=20
+beyond the recipe&#39;s immediate RDEPENDS (and then fails or not depending=
+=20
+on whether those indirect dependencies have been packaged). I need to bette=
+r understand what happens there so will add some printouts first. The probl=
+em does happen with latest master.<br></div><div><br></div><div>Alex<br></d=
+iv></div></div></div>
 
-Richard
-
-
+--0000000000002302d6058f72b7a4--
