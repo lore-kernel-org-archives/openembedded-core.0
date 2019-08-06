@@ -1,37 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
-	[209.85.208.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A5977F354
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+	[209.85.222.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 0274E7F32F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 12:16:54 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id m10so82087820edv.6
+	Tue,  6 Aug 2019 12:27:35 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id g11so6747972uak.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Aug 2019 05:16:55 -0700 (PDT)
+	Tue, 06 Aug 2019 05:27:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+csuONPt6cFRr0rMM8MMI7qyo1wc1dJepc7dF7w4xQw=;
-	b=TLIU6TPC7SThlZWGTfxYjHOssWerrqwr+JtWbdyKQlcfe3SznWGY9ADtG3ZVgSgqyX
-	9qRfhzmAJkYxsZwrJAnIKdTeZIzTwgMjce2DroG5+4LGPn/xTWF7zxBJO2rQdyszr13w
-	y6WrGYjY4PKEVSbD4uS73uL4g4TXZkcoHpiZYvxYxP7VgrHHd5etCwFM2zGq00Dc+ivu
-	LE/gx9g/Ve1RDcfUKSyBP/QhRzdhYoNCLDPqsADPCI2vCwJScoMBWQ809gc18dOU/KIO
-	cIBsRTwg+mnn0z8uFB/MwSSAi6UrvDPu7iDTVM9c9dEilt79HmjEVfTQbcbefUFd0AYd
-	Zy4A==
+	:cc; bh=MjJPQT/lF2+cJDqAek3kfkfymAz8DCmWUWkk4Kc+C/s=;
+	b=CpT1E8tDmZwN4W+Cu/GIjd1HMzXpl7Lp7IaC4uFM8kMfs/omB0OlHP7bx6f4oAEj94
+	Q7VU0/ID0F3tERCmq9PdEgiVMPnjoYxXBR6u8TPzEQIJDjcBkrMLN5pAyvOR/ZEuh0z0
+	1jltP/xkiV/W5B411CdLbCUiO5eb08+pFSsOiFzLtsh147SRcGjER3mGMNds2N4SqsJ/
+	+tIkBS1aomVeSZGiFKEaMnHZyMKSZgFz2VM4rFf+Fb4uiv/5PD1JfmFMig3F3yFVatUd
+	Vmvrw/3y1zAC3SXXP6MEVP8HmSdq4s7Ep8nM83Rm9z2t9a+tUBGXpJsno4uGUYHQdH/r
+	QfQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=+csuONPt6cFRr0rMM8MMI7qyo1wc1dJepc7dF7w4xQw=;
-	b=Q/yfdVftkZOAtJktEKvN28j5ptJCQvtnru0/gTM7Kwt2tvKZeI9LWTO904jAoZv3NC
-	czuzdFCDkcWLojPZoAKzLNUKGhulVksc/uol7BGpMowzD9S1s1Z1z5AwAEzGfxXoUpq/
-	xTvi6ay+k0OUnXqqPmO4bokhWD2e+goxovpQwhVxG6IqBT3VON0mgeitzAVcWs+9AAG7
-	lLew5doibNvisU0q13rJRAJcffWubcYvbyT/6oauQ2sJ22HZ7dUEevwyeBjaCdI2i06F
-	Hobs7RAoRtekBFixtrrTqIupRDRs4MhULKaLQ093kOEC5qvZFJCKtkh9YUVcIxG0/CMP
-	XUMw==
-X-Gm-Message-State: APjAAAWpGP9UGcUJg4eO/q+VVTFmRoC7OB0kG3nQdvDs5gQXP8H5iFqD
-	lG2voYwsKzHy4MpfeGFNM117QYrmh/TZBEMvCNQ=
-X-Google-Smtp-Source: APXvYqyBAMRnUM8CGmL3AXXznm4Odcy8XHGOv1V3EZ5tD8Mp/HogjI2X9ahWhm3p/Ufs0gKMZGO7v76yTRphymbHc1g=
-X-Received: by 2002:a50:c35b:: with SMTP id q27mr3483197edb.98.1565093814878; 
-	Tue, 06 Aug 2019 05:16:54 -0700 (PDT)
+	bh=MjJPQT/lF2+cJDqAek3kfkfymAz8DCmWUWkk4Kc+C/s=;
+	b=YhBBF7GqLipIcDzcf9mrGdC9Sq96812b7ozJ3VQx+yXyTTI3kkw6VlhTFv9lPrDHKx
+	wZG7NmjQwS7mWNf7BAOboCU36IvXuIPfc93Z75k9iIS2xoHEUnnGwZAKgVhcMBuHfmCK
+	VPKWmxsojYo08P3VfXPagj1HQBnHFQCet4mCqDR5OQjrrdRhIddZUV4xgtKEmJNqehko
+	UUTumM0wKSbq6bdQMZgLXr4dJtCmIOLPJ3c2pEG0wyBSbxag4JAJE+uzK/pwytLjBiBn
+	4n3MoTUBwdkTIfaTsLnbPALo1J3KWq+aaN4qQqQqMSeV9UD1hMCNz/mrKa20GBQOUaH1
+	l+pw==
+X-Gm-Message-State: APjAAAVytavg6ZfvltWW0P6mHB7zzbs689Rg5uTASqEMxAKAS7qUskzl
+	FGDA3+cXo+gyekOuK23xExjbT9pR7ysTBSgIRjM=
+X-Google-Smtp-Source: APXvYqw7ptSBHtmEnxbDSLjKbzYGLrLzTMWbBJoGBS4V8GnjEDgGrb8++qhoTzJ/cKf4KKNA2y34/uNxrtL/TzSI+vU=
+X-Received: by 2002:ab0:70c8:: with SMTP id r8mr1934572ual.89.1565094456871;
+	Tue, 06 Aug 2019 05:27:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1565075067.git.liezhi.yang@windriver.com>
 	<e5519d97e195842c793f688162919b21851d1dcb.1565075067.git.liezhi.yang@windriver.com>
@@ -40,11 +40,12 @@ References: <cover.1565075067.git.liezhi.yang@windriver.com>
 	<CANNYZj8nk8q7VscomyLkaLYcNy-2gH+nwgsKgAO7x59i7uDgHw@mail.gmail.com>
 	<eba25cda-3ca0-039d-45ea-f9a86e80b4f6@intel.com>
 	<CANNYZj-QUcKdw4BygFyfXLSm4L=89XC44u65LNFx2OiiqrQE0Q@mail.gmail.com>
-In-Reply-To: <CANNYZj-QUcKdw4BygFyfXLSm4L=89XC44u65LNFx2OiiqrQE0Q@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 6 Aug 2019 14:16:43 +0200
-Message-ID: <CA+chaQfsQLEcxS9-XVQJT-7PR-JgtZ1cEFMdbJshmYMst6s2Lw@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	<CA+chaQfsQLEcxS9-XVQJT-7PR-JgtZ1cEFMdbJshmYMst6s2Lw@mail.gmail.com>
+In-Reply-To: <CA+chaQfsQLEcxS9-XVQJT-7PR-JgtZ1cEFMdbJshmYMst6s2Lw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 6 Aug 2019 14:27:25 +0200
+Message-ID: <CANNYZj_YSBdctNSqewYy96qofF4A_XkVVWahU0wMw3nBV=q58Q@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] stress-ng: Add bash to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -59,59 +60,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 12:16:54 -0000
-Content-Type: multipart/alternative; boundary="000000000000e0477b058f71cc6e"
+X-List-Received-Date: Tue, 06 Aug 2019 12:27:36 -0000
+Content-Type: multipart/alternative; boundary="00000000000024507b058f71f367"
 
---000000000000e0477b058f71cc6e
+--00000000000024507b058f71f367
 Content-Type: text/plain; charset="UTF-8"
 
-Maybe another case of
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=9217#c6 ?
+Could be, yes. I will next try to untangle the file-rdeps and see why it
+fails if bash hasn't been packaged yet, and passes if it has. I have
+reproduced this on thud, so this is an old problem.
 
-On Tue, Aug 6, 2019 at 1:57 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+Alex
 
-> On Tue, 6 Aug 2019 at 13:18, Ross Burton <ross.burton@intel.com> wrote:
+
+On Tue, 6 Aug 2019 at 14:16, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> Maybe another case of
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=9217#c6 ?
 >
->> > Note that bash-completion files are not executable, and we do not
->> > observe this with other recipes. We might have a false positive here -
->> > can you look at the actual contents of the package please and see why
->> > _qa thinks it needs /bin/bash?
+> On Tue, Aug 6, 2019 at 1:57 PM Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+>
+>> On Tue, 6 Aug 2019 at 13:18, Ross Burton <ross.burton@intel.com> wrote:
 >>
->> Also I don't see this with master.  Do you have some local patches or QA
->> changes?
+>>> > Note that bash-completion files are not executable, and we do not
+>>> > observe this with other recipes. We might have a false positive here -
+>>> > can you look at the actual contents of the package please and see why
+>>> > _qa thinks it needs /bin/bash?
+>>>
+>>> Also I don't see this with master.  Do you have some local patches or QA
+>>> changes?
+>>>
+>>
+>> Actually there is a determinism problem here. I have reproduced it with
+>> master, and the error happens if and only if bash's do_package task has not
+>> yet run. If it has already run, then the package_qa for stress-ng passes
+>> fine. I'll poke at it to see if it's a recent issue.
+>>
+>> Alex
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >>
 >
-> Actually there is a determinism problem here. I have reproduced it with
-> master, and the error happens if and only if bash's do_package task has not
-> yet run. If it has already run, then the package_qa for stress-ng passes
-> fine. I'll poke at it to see if it's a recent issue.
->
-> Alex
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---000000000000e0477b058f71cc6e
+--00000000000024507b058f71f367
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Maybe another case of=C2=A0<a href=3D"https://bugzilla.yoc=
-toproject.org/show_bug.cgi?id=3D9217#c6">https://bugzilla.yoctoproject.org/=
-show_bug.cgi?id=3D9217#c6</a> ?</div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Tue, Aug 6, 2019 at 1:57 PM Alexander Kan=
-avin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
-iv dir=3D"ltr"><div dir=3D"ltr">On Tue, 6 Aug 2019 at 13:18, Ross Burton &l=
-t;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@in=
-tel.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">&gt; Note that bash-completion files are =
-not executable, and we do not <br>
+<div dir=3D"ltr"><div>Could be, yes. I will next try to untangle the file-r=
+deps and see why it fails if bash hasn&#39;t been packaged yet, and passes =
+if it has. I have reproduced this on thud, so this is an old problem.<br></=
+div><div><br></div><div>Alex<br></div><br></div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 6 Aug 2019 at 14:16, Mart=
+in Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+"><div dir=3D"ltr">Maybe another case of=C2=A0<a href=3D"https://bugzilla.y=
+octoproject.org/show_bug.cgi?id=3D9217#c6" target=3D"_blank">https://bugzil=
+la.yoctoproject.org/show_bug.cgi?id=3D9217#c6</a> ?</div><br><div class=3D"=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 6, 2019 at 1=
+:57 PM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" targ=
+et=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Tu=
+e, 6 Aug 2019 at 13:18, Ross Burton &lt;<a href=3D"mailto:ross.burton@intel=
+.com" target=3D"_blank">ross.burton@intel.com</a>&gt; wrote:<br></div><div =
+class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt=
+; Note that bash-completion files are not executable, and we do not <br>
 &gt; observe this with other recipes. We might have a false positive here -=
  <br>
 &gt; can you look at the actual contents of the package please and see why =
@@ -135,5 +154,6 @@ k">Openembedded-core@lists.openembedded.org</a><br>
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
 n/listinfo/openembedded-core</a><br>
 </blockquote></div>
+</blockquote></div>
 
---000000000000e0477b058f71cc6e--
+--00000000000024507b058f71f367--
