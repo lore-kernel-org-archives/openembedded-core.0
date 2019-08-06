@@ -1,49 +1,56 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 641997F3B6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 656AA7F3A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 21:39:53 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id x1so39397048wrr.9
+	Tue,  6 Aug 2019 21:53:37 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id i189so42233370pfg.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Aug 2019 14:39:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=uJEzU7eoA8QUpKZGObM2/nhYocU40WLI4LMjWJgc5vk=;
-	b=ZumUmsaiOksAGTCuoESQUFTSTp7spFkWiGs3eGBiSodsKiroKVFiROmcd0FzwPTS7Z
-	96U0f0HDBz41NM+HvG/Rx/bFn2BcVTGgdB0ByLr2KEZTWuGnLVFiK+43/8s7Lm2G3wyp
-	REFzal8icOLXjYLHgdcX7XtgSm2NooKz2jAF4=
+	Tue, 06 Aug 2019 14:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language;
+	bh=Q/dc3XbSKRbC9mXCpN+qvtINWaDTwCCGrn+L3swfSAQ=;
+	b=sUDwM4u5LRINF5grwGwJj4vbbHlACEBiq8a6HJ+C/rZ4wYk+dMnaaReX7jPtontOb9
+	1QyIrAjWatMtOMbEFNvNzo3msV0PVbMXG7M7I7zMePKWOdiV+s14E6MgzPjYlArGGDw6
+	O3AxvM4FvGU41bhgHHDxDL3wwbzW516TR8csnDPGyww6dCPVGLc5xP4diuxEWr/5Uqk3
+	fOTIXOBR+Xfj6nzxdowWdqdz+aEgUqTNfx6QBZvh38Jujn6YtD6hOfgnHspEllI+WKI6
+	fWXRDe9Azq4fiTiLXhl9A+huzf6N9YoSgFQvSQMMwPS4SAPwsBgbid4sqYtNKc1X4IyS
+	hzLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=uJEzU7eoA8QUpKZGObM2/nhYocU40WLI4LMjWJgc5vk=;
-	b=Dnr2QXA9KBTxBDWzJhJ5L1l4JD0XtqVE/LNVaug9Aq5sQGhYEkA4/GefoLryphjl+L
-	H3arnm2+Jz0MmbzId/1pkS8cZ6e+VoOKDbyvcrrS+Hlli5HxZ2BVmsGCpT6JSvHBRqFf
-	TlfqIq/uqHXznbVeKsqqkMURw+1ZLeJm0RVQSmRCygGxpQ6+sllhvtHom+hIsMeKEv0N
-	QGZ+dhXo0j5ERcCdLB97njLayibSwtjESPppkNHHW7/pwdD+eTbkoKeazoedazxkn3LR
-	LnpZV30lRjSvsAj46uX29+fFktS02EmjMCqWZazJJrqk4l7c7S3eRBrgZMerH5gqDHfV
-	sfrA==
-X-Gm-Message-State: APjAAAVPIxzMbss1+FpzFLSBO8PzWXh81eILqebx7kO9Sxi97RhFOIsX
-	nENfL5Kao32nuyML/YgIGNofBfGIWtA=
-X-Google-Smtp-Source: APXvYqwgwDtLqSnPXPfKGF1rhLJwgDzOym9nJtJ+D0I/PuLcYq+uXYxLeVu7Y4TWs41WWIQ05EioMQ==
-X-Received: by 2002:a5d:6a52:: with SMTP id t18mr6651439wrw.178.1565127593596; 
-	Tue, 06 Aug 2019 14:39:53 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language;
+	bh=Q/dc3XbSKRbC9mXCpN+qvtINWaDTwCCGrn+L3swfSAQ=;
+	b=HK6gO9TL/r8qPyX6PgNQk6qVbMLh/Lkudfutad7tNbMqF6fhOtbnHNgFPHDQnoONal
+	4UwH+MFnHYl8WP1PE6nbTYpXG50fqIYNrJiaq39erOCeDhzRLFneRcTy9h6oeuBYkuoJ
+	USnWGlNbtU+Jd8hmSTEFODtcs65BSw+8/SDZ9+7A+w5WNeMsmy0oAArjqq4bmCaGt4OC
+	F2sHiNOTH7pTtdmPv3MPMExdJ8ePvuWJc7xbrbmQjZfMQ4vrjpxQWrUDE7MENr9gXtnR
+	r0Ot+USCFfYf+AIQYEYFOtLAKE6m8dpAus6LrOIJjVw4m0sgRrLS/uZgYUPl1XlxHcFz
+	nNfQ==
+X-Gm-Message-State: APjAAAWGcMc07lyUzWdWv+TmPS5v033SGLv9IC5donpquoTx3SIkjvcX
+	bT2x2ITReC8fi31hKr6H68UVBBcelic=
+X-Google-Smtp-Source: APXvYqyqg4Qb7TnlSJ1ta6ISDJAmPiLS/tvv7dauWBu4LudNUd9kUDJV/tyJ4243wh8bPFn38uhyNQ==
+X-Received: by 2002:aa7:8d98:: with SMTP id i24mr5921800pfr.199.1565128417916; 
+	Tue, 06 Aug 2019 14:53:37 -0700 (PDT)
+Received: from ?IPv6:2601:646:8500:6bc6::baaf? ([2601:646:8500:6bc6::baaf])
 	by smtp.gmail.com with ESMTPSA id
-	c1sm1389851wmc.40.2019.08.06.14.39.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 06 Aug 2019 14:39:53 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  6 Aug 2019 22:39:51 +0100
-Message-Id: <20190806213951.13098-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	m9sm137148906pgr.24.2019.08.06.14.53.36
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Tue, 06 Aug 2019 14:53:37 -0700 (PDT)
+To: Jason Wessel <jason.wessel@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <20190806211411.5571-1-jason.wessel@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS
+Message-ID: <414f52ec-4fd3-6b42-2ee9-df5e83291743@gmail.com>
+Date: Tue, 6 Aug 2019 14:53:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH] gstreamer: Add fix for glibc 2.30
+In-Reply-To: <20190806211411.5571-1-jason.wessel@windriver.com>
+Subject: Re: [PATCH v2] sqlite3: Fix zlib determinism problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,80 +63,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 21:39:53 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 06 Aug 2019 21:53:37 -0000
+X-Groupsio-MsgNum: 127607
+Content-Type: multipart/mixed; boundary="------------1DBA44D41EFBE5ABD8F21C33"
+Content-Language: en-US
 
-Fix a header overlap/redefinition issue with glibc 2.30.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../gstreamer1.0-plugins-good/headerfix.patch | 43 +++++++++++++++++++
- .../gstreamer1.0-plugins-good_1.16.0.bb       |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/headerfix.patch
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/headerfix.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/headerfix.patch
-new file mode 100644
-index 00000000000..34d25a0a49e
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/headerfix.patch
-@@ -0,0 +1,43 @@
-+Things break with overlapping defines between glib and gstreamer with glibc 2.30.
-+
-+Discussion in the link below, basically internal __ prefixed variables 
-+shouldn't be redefined.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/issues/635]
-+RP 2019/8/6
-+
-+Index: gst-plugins-good-1.16.0/sys/v4l2/ext/types-compat.h
-+===================================================================
-+--- gst-plugins-good-1.16.0.orig/sys/v4l2/ext/types-compat.h
-++++ gst-plugins-good-1.16.0/sys/v4l2/ext/types-compat.h
-+@@ -24,29 +24,6 @@
-+ #ifndef __TYPES_COMPAT_H__
-+ #define __TYPES_COMPAT_H__
-+ 
-+-/* From linux/types.h */
-+-#ifndef __bitwise__
-+-#  ifdef __CHECKER__
-+-#    define __bitwise__ __attribute__((bitwise))
-+-#  else
-+-#    define __bitwise__
-+-#  endif
-+-#endif
-+-
-+-#ifndef __bitwise
-+-#  ifdef __CHECK_ENDIAN__
-+-#    define __bitwise __bitwise__
-+-#  else
-+-#    define __bitwise
-+-#  endif
-+-#endif
-+-
-+-#define __u64 guint64
-+-#define __u32 guint32
-+-#define __u16 guint16
-+-#define __u8 guint8
-+-#define __s64 gint64
-+-#define __s32 gint32
-+-#define __le32 guint32 __bitwise
-++#include <linux/types.h>
-+ 
-+ #endif /* __TYPES_COMPAT_H__ */
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.0.bb
-index ad831ed25ce..5751467db13 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.0.bb
-@@ -4,6 +4,7 @@ SRC_URI = " \
-             http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
-             file://0001-scaletempo-Advertise-interleaved-layout-in-caps-temp.patch \
-             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-+            file://headerfix.patch \
-             "
- 
- SRC_URI[md5sum] = "d1a7b442994d9522418de4af4330e034"
--- 
-2.20.1
+--------------1DBA44D41EFBE5ABD8F21C33
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
+On 8/6/19 2:14 PM, Jason Wessel wrote:
+> sqlite3-native in particular was finding zlib from the host if zlib-dev=
+el
+> was installed. This could lead to races where pseudo-native may or may =
+not
+> fail to build.
+>
+> We don't need/use compressed page support with sqlite so disable the de=
+pendency
+> (it doesn't have a configure option so use a autoconf cache variable).
+>
+> The target binaries were not previously building with zlib, so we will
+> leave the default being zlib turned off, while the host binaries were
+> building with it "occasionally", but not for anything at runtime.
+>
+> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> ---
+>  meta/recipes-support/sqlite/sqlite3.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-sup=
+port/sqlite/sqlite3.inc
+> index daf3db5e9f..2e48f303ee 100644
+> --- a/meta/recipes-support/sqlite/sqlite3.inc
+> +++ b/meta/recipes-support/sqlite/sqlite3.inc
+> @@ -2,6 +2,8 @@ SUMMARY =3D "Embeddable SQL database engine"
+>  HOMEPAGE =3D "http://www.sqlite.org"
+>  SECTION =3D "libs"
+> =20
+> +DEPENDS =3D "zlib-native"
+
+this seems good, maybe make a packageconfig for target piece while here ?=
+
+
+otherwise it gets lost
+
+> +
+>  PE =3D "3"
+> =20
+>  def sqlite_download_version(d):
+
+--------------1DBA44D41EFBE5ABD8F21C33
+Content-Type: application/pgp-keys;
+ name="pEpkey.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="pEpkey.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+=3Dsj8j
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------1DBA44D41EFBE5ABD8F21C33--
