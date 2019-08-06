@@ -1,57 +1,57 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id ACCC57ED64
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 221D47ED64
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 21:54:28 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id u14so42251999pfn.2
+	Tue,  6 Aug 2019 21:55:18 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id u14so42253001pfn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Aug 2019 14:54:30 -0700 (PDT)
+	Tue, 06 Aug 2019 14:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:organization:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language;
-	bh=OFwuXuhifBY0wkLGaCUXwsrzg2p0VR7tk7M0cAFalpU=;
-	b=hOsNhYHg0oOfk11I453jdlOKYU08DIUmBe4xAN/hnbSp1PNTip8kCePK7CMMNn5Msg
-	WY4mmcxE5rFZbuQE7wsCaxsP7ciKFA4P/75aFSRJum2gUTT4YB/xfhTZH4n52k2xQrml
-	qDjrKOJ24zDuk0NBRirtsx4pTRpJvz69cKszDNyXL2sP1uwDlaKw1g7H2Qmr5GmwdZtU
-	v8hUIc0fvVjaUnLtO4joviaZsRbpWoIz4qA9KksyULnzhkmC9+uIJRG3KpN4wDZmSSpl
-	r3471eJj6v0xae5C/J9TrnnpvBZ/GELTxVv+J62HVp4j0F7g+1Oo87lD0ldYQace+ae9
-	tUxw==
+	bh=vD6Zt3kv8d68IGl1OaFmkvfb4OXm3gJzB/fbVzUcb4s=;
+	b=EadVuhCPNumV/W6gsGqCFlf8wCChuDcYGQouFb4jOdPk4ejr8jFWkyiF8hKUkFbkeF
+	vkDsbqzLvIBqA9HMmCO5OoaCU0Xs6L4pn5FVMmbTBCIoysruPngGKioXar0vBIjLop3Q
+	8X6Lt8HNTiAtL+5Lmfv5LieecICYj5vIUwLK16jqev1GTKkytE+sv0hB58E6XbcntqQF
+	r8qIMTYnaCe5JGG5C+Q8VPYJktroqSk6NtZUW7hmxgNpH3l3ecHEtjiMGieu9U/JyfwK
+	eD90wwnFeKlBUyYXbFJYpTzmogJpeZgJU01LtuK/tyyN3x6Gt5E3Ls+OAej4HkGgo3p6
+	Rp9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:organization
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-language;
-	bh=OFwuXuhifBY0wkLGaCUXwsrzg2p0VR7tk7M0cAFalpU=;
-	b=Ov6XCxSPAR+3NAo3g9b/UlF+1vnbFlHGkyzwYye+ryrLI7LmJSElP8cK4GADoRslBb
-	rJhCXCM6rHg/XqbG73DM2XZ59PeXBwnPm+o8TP4YHdfrEudIxmGS38dKfB8soJlkAs1u
-	vi+sZxHpFduP+oHNJbyvZaPhltGO9+VLKPo6IZGA80y4csS6GSmk2K/fw1gdZ8KpLDTN
-	9J8dAc7ybqS0bY6QrqXidayhCmo5Z2m9MB2N9hp8QCOz0wKPsKBpXY/ZxUYT2dGoPYLy
-	maEPNaHXFUOLxgdnAf8D5UZb4bhTjNJCymAXW04Kg0V+oR68HO5kglcnnwTSnvMD0lui
-	aNJA==
-X-Gm-Message-State: APjAAAVFpqdnnFxk/6hJE2XKUI4uuEFR9JMQ5lghbz1LabjYI2d6FkVO
-	aS8s/iOOuT6aN8EAU6p+PdqdJhaoj74=
-X-Google-Smtp-Source: APXvYqwfZalU+efsiBbUpjTIBHnMSOjLwug/7nNbE/nyh9Pt6GKijRwkBwqfysswjQJJlof1r+OqPA==
-X-Received: by 2002:a17:90a:c20e:: with SMTP id
-	e14mr5505103pjt.0.1565128469287; 
-	Tue, 06 Aug 2019 14:54:29 -0700 (PDT)
+	bh=vD6Zt3kv8d68IGl1OaFmkvfb4OXm3gJzB/fbVzUcb4s=;
+	b=iB3NXylo9yTsKi146ZnI28QVfTRMVPcZozLBKibekxZPO0thPEp/PWwv9IP50+jAdZ
+	kd56nDHhPacaj4GeNPw2k1FiFdswvkFM7pUrcP3cdHMIdlNEv4MoCRudqeA/+6ry0XEr
+	MqGL8GjmrzJL76BIPEXZom7BnrfwDRfD1qVUOdfDI5WavNxYNFJ/cXRbpR6Xecl9kQ5r
+	/RaT9WTHMYP4P7AfzxX/GciCmU4upgHVhPWvQLVGDt1XI+4DMF11gUUW1Fodw8KCGiTL
+	NG0JHXO9pW2Nr5wcLGqidj+GtHdRek3F/7Yd4RNaoS90rsdxBpC+yoZhRzRyonJwZDrH
+	7oqw==
+X-Gm-Message-State: APjAAAUSk3GlxvQO/LOrsJGhLi2Ikgw27GcUFY5JN3VD6XFH2+1kL/GP
+	AKq7a+FqXIGwH8ZDIlKESD3oq59+Mio=
+X-Google-Smtp-Source: APXvYqwdNO8W7rIY6krsVooXmSZyWVKZr8r5aCovstw0yx3BIKkOdRLmQ3yQmZw42YeNzSbMpA+Qsg==
+X-Received: by 2002:a17:90a:bf02:: with SMTP id
+	c2mr5266390pjs.73.1565128519736; 
+	Tue, 06 Aug 2019 14:55:19 -0700 (PDT)
 Received: from ?IPv6:2601:646:8500:6bc6::baaf? ([2601:646:8500:6bc6::baaf])
 	by smtp.gmail.com with ESMTPSA id
-	r1sm98852128pfq.100.2019.08.06.14.54.27
+	o128sm94767598pfb.42.2019.08.06.14.55.17
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 06 Aug 2019 14:54:28 -0700 (PDT)
-To: Jason Wessel <jason.wessel@windriver.com>,
+	Tue, 06 Aug 2019 14:55:19 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org
-References: <20190806211608.5801-1-jason.wessel@windriver.com>
+References: <20190806213951.13098-1-richard.purdie@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS
-Message-ID: <9b977851-9d1e-82a9-7909-dde176c0aaa0@gmail.com>
-Date: Tue, 6 Aug 2019 14:54:37 -0700
+Message-ID: <0b374ac5-afff-3f93-1329-8d4bde5fe43f@gmail.com>
+Date: Tue, 6 Aug 2019 14:55:27 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190806211608.5801-1-jason.wessel@windriver.com>
-Subject: Re: [PATCH v3] sqlite3: Fix zlib determinism problem
+In-Reply-To: <20190806213951.13098-1-richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH] gstreamer: Add fix for glibc 2.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,60 +64,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 21:54:28 -0000
-X-Groupsio-MsgNum: 127608
-Content-Type: multipart/mixed; boundary="------------4DC435338F1045EA7EEFAF95"
+X-List-Received-Date: Tue, 06 Aug 2019 21:55:19 -0000
+X-Groupsio-MsgNum: 127609
+Content-Type: multipart/mixed; boundary="------------48E41EB828B1F83D6EC7750B"
 Content-Language: en-US
 
---------------4DC435338F1045EA7EEFAF95
+--------------48E41EB828B1F83D6EC7750B
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 
-On 8/6/19 2:16 PM, Jason Wessel wrote:
-> sqlite3-native in particular was finding zlib from the host if zlib-dev=
-el
-> was installed. This could lead to races where pseudo-native may or may =
-not
-> fail to build.
+On 8/6/19 2:39 PM, Richard Purdie wrote:
+> Fix a header overlap/redefinition issue with glibc 2.30.
 >
-> We don't need/use compressed page support with sqlite so disable the de=
-pendency
-> (it doesn't have a configure option so use a autoconf cache variable).
->
-> The target binaries were not previously building with zlib, so we will
-> leave the default being zlib turned off, while the host binaries were
-> building with it "occasionally", but not for anything at runtime.
-
-
-thanks for doing it this way, can't ask for more.
-
->
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/recipes-support/sqlite/sqlite3.inc | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-sup=
-port/sqlite/sqlite3.inc
-> index daf3db5e9f..7cf23d0447 100644
-> --- a/meta/recipes-support/sqlite/sqlite3.inc
-> +++ b/meta/recipes-support/sqlite/sqlite3.inc
-> @@ -34,6 +34,9 @@ PACKAGECONFIG[json1] =3D "--enable-json1,--disable-js=
-on1"
->  PACKAGECONFIG[rtree] =3D "--enable-rtree,--disable-rtree"
->  PACKAGECONFIG[session] =3D "--enable-session,--disable-session"
->  PACKAGECONFIG[dyn_ext] =3D "--enable-dynamic-extensions,--disable-dyna=
-mic-extensions"
-> +PACKAGECONFIG[zlib] =3D ",,zlib"
-> +
-> +CACHED_CONFIGUREVARS +=3D "${@bb.utils.contains('PACKAGECONFIG', 'zlib=
-', '', 'ac_cv_search_deflate=3Dno',d)}"
-> =20
->  EXTRA_OECONF =3D " \
->      --enable-shared \
+>  .../gstreamer1.0-plugins-good/headerfix.patch | 43 +++++++++++++++++++=
 
---------------4DC435338F1045EA7EEFAF95
+>  .../gstreamer1.0-plugins-good_1.16.0.bb       |  1 +
+>  2 files changed, 44 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plug=
+ins-good/headerfix.patch
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-goo=
+d/headerfix.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
+s-good/headerfix.patch
+> new file mode 100644
+> index 00000000000..34d25a0a49e
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/heade=
+rfix.patch
+> @@ -0,0 +1,43 @@
+> +Things break with overlapping defines between glib and gstreamer with =
+glibc 2.30.
+> +
+> +Discussion in the link below, basically internal __ prefixed variables=
+=20
+> +shouldn't be redefined.
+> +
+
+this fix is good.
+
+
+> +Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/g=
+st-plugins-good/issues/635]
+> +RP 2019/8/6
+> +
+> +Index: gst-plugins-good-1.16.0/sys/v4l2/ext/types-compat.h
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- gst-plugins-good-1.16.0.orig/sys/v4l2/ext/types-compat.h
+> ++++ gst-plugins-good-1.16.0/sys/v4l2/ext/types-compat.h
+> +@@ -24,29 +24,6 @@
+> + #ifndef __TYPES_COMPAT_H__
+> + #define __TYPES_COMPAT_H__
+> +=20
+> +-/* From linux/types.h */
+> +-#ifndef __bitwise__
+> +-#  ifdef __CHECKER__
+> +-#    define __bitwise__ __attribute__((bitwise))
+> +-#  else
+> +-#    define __bitwise__
+> +-#  endif
+> +-#endif
+> +-
+> +-#ifndef __bitwise
+> +-#  ifdef __CHECK_ENDIAN__
+> +-#    define __bitwise __bitwise__
+> +-#  else
+> +-#    define __bitwise
+> +-#  endif
+> +-#endif
+> +-
+> +-#define __u64 guint64
+> +-#define __u32 guint32
+> +-#define __u16 guint16
+> +-#define __u8 guint8
+> +-#define __s64 gint64
+> +-#define __s32 gint32
+> +-#define __le32 guint32 __bitwise
+> ++#include <linux/types.h>
+> +=20
+> + #endif /* __TYPES_COMPAT_H__ */
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-goo=
+d_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good=
+_1.16.0.bb
+> index ad831ed25ce..5751467db13 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.=
+0.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.=
+0.bb
+> @@ -4,6 +4,7 @@ SRC_URI =3D " \
+>              http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-=
+plugins-good-${PV}.tar.xz \
+>              file://0001-scaletempo-Advertise-interleaved-layout-in-cap=
+s-temp.patch \
+>              file://0001-introspection.m4-prefix-pkgconfig-paths-with-P=
+KG_CON.patch \
+> +            file://headerfix.patch \
+>              "
+> =20
+>  SRC_URI[md5sum] =3D "d1a7b442994d9522418de4af4330e034"
+
+--------------48E41EB828B1F83D6EC7750B
 Content-Type: application/pgp-keys;
  name="pEpkey.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -164,4 +214,4 @@ prldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 =3Dsj8j
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------4DC435338F1045EA7EEFAF95--
+--------------48E41EB828B1F83D6EC7750B--
