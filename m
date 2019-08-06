@@ -1,27 +1,29 @@
 Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C60B07F39A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CCD747F398
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 15:39:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x76FdHYj003236
+	Tue,  6 Aug 2019 15:54:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x76Frb5O015345
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 6 Aug 2019 08:39:17 -0700 (PDT)
+	Tue, 6 Aug 2019 08:53:57 -0700
 Received: from [192.168.10.15] (172.25.59.219) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 6 Aug 2019 08:39:17 -0700
+	Tue, 6 Aug 2019 08:53:36 -0700
 From: Jason Wessel <jason.wessel@windriver.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
 References: <20190805163237.106405-1-jason.wessel@windriver.com>
 	<aeeadff58eb8c60f7cf433f22e67b309a9a0d4ca.camel@linuxfoundation.org>
 	<d7376620-d008-a887-d117-9a1afbd52e94@windriver.com>
-Message-ID: <51891b15-569e-dd9c-81b9-5e349cae4c4a@windriver.com>
-Date: Tue, 6 Aug 2019 10:39:16 -0500
+	<51891b15-569e-dd9c-81b9-5e349cae4c4a@windriver.com>
+Message-ID: <37bb8527-4e13-2690-a35a-d9fdb503b2a0@windriver.com>
+Date: Tue, 6 Aug 2019 10:53:35 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <d7376620-d008-a887-d117-9a1afbd52e94@windriver.com>
+In-Reply-To: <51891b15-569e-dd9c-81b9-5e349cae4c4a@windriver.com>
 Subject: Re: [PATCH v3] pseudo: Fix openat() with a symlink pointing to a directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,54 +37,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 15:39:17 -0000
+X-List-Received-Date: Tue, 06 Aug 2019 15:54:34 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/6/19 9:59 AM, Jason Wessel wrote:
-> On 8/6/19 9:20 AM, Richard Purdie wrote:
->> On Mon, 2019-08-05 at 09:32 -0700, Jason Wessel wrote:
->>> While working with ostree disk generation in conjunction with wic, I
->>> found a problem with pseudo where it tried to resolve a symlink when
->>> it shouldn't, based on openat() flags. A C program has been
->>> constructed to test pseudo to show that it is working properly with
->>> the correct behavior around openat().
+On 8/6/19 10:39 AM, Jason Wessel wrote:
+> On 8/6/19 9:59 AM, Jason Wessel wrote:
+>> On 8/6/19 9:20 AM, Richard Purdie wrote:
+>>> On Mon, 2019-08-05 at 09:32 -0700, Jason Wessel wrote:
+>>>> While working with ostree disk generation in conjunction with wic, I
+>>>> found a problem with pseudo where it tried to resolve a symlink when
+>>>> it shouldn't, based on openat() flags. A C program has been
+>>>> constructed to test pseudo to show that it is working properly with
+>>>> the correct behavior around openat().
+>>>>
+>>> [...]
+>>>>
+>>>> Many thanks to Peter Seebach for fixing the problem in the pseudo
+>>>> code
+>>>> to use the same logic which was already there for the
+>>>> AT_SYMLINK_NOFOLLOW.
+>>>>
+>>>> Also updated is the license MD5 checksum since the master branch of
+>>>> pseudo has had the SPDX data updated.
+>>>>
+>>>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>>>> ---
+>>>>     meta/recipes-devtools/pseudo/pseudo.inc    | 2 +-
+>>>>     meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+>>>>     2 files changed, 2 insertions(+), 2 deletions(-)
 >>>
->> [...]
+>>> pseudo-native didn't build on fedora28 or centos7:
 >>>
->>> Many thanks to Peter Seebach for fixing the problem in the pseudo
->>> code
->>> to use the same logic which was already there for the
->>> AT_SYMLINK_NOFOLLOW.
+>>> http://errors.yoctoproject.org/Errors/Latest/?filter=9382629d4bbcd26196c36d31ffdf097b30023150&type=commit&limit=150
 >>>
->>> Also updated is the license MD5 checksum since the master branch of
->>> pseudo has had the SPDX data updated.
+>>> (see the pseudo-native failures).
 >>>
->>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
->>> ---
->>>    meta/recipes-devtools/pseudo/pseudo.inc    | 2 +-
->>>    meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
->>>    2 files changed, 2 insertions(+), 2 deletions(-)
+>>> It looks like an issue on hosts which don't have zlib-devel installed,
 >>
->> pseudo-native didn't build on fedora28 or centos7:
+>>> at a very approximate guess -  I've not been able to look in detail.
+>>>
 >>
->> http://errors.yoctoproject.org/Errors/Latest/?filter=9382629d4bbcd26196c36d31ffdf097b30023150&type=commit&limit=150
+>> I'll try and setup a test, since I can easily run fedora28.   I wonder if we can just use zlib-native to solve it, or if it is a a chicken-egg problem with the early boot strap.
 >>
->> (see the pseudo-native failures).
->>
->> It looks like an issue on hosts which don't have zlib-devel installed,
 > 
->> at a very approximate guess -  I've not been able to look in detail.
->>
+> I cannot duplicate the problem.  It must have to do with the way your particular system is setup.   What is interesting is that the -lz is not actually called on my system, where I most certainly don't have the libz devel package installed.  I am guessing there is a configure failure of some sort?
 > 
-> I'll try and setup a test, since I can easily run fedora28.   I wonder if we can just use zlib-native to solve it, or if it is a a chicken-egg problem with the early boot strap.
+> Do you think on the fedora28 system you could send me the "rpm -q -a" output?
 > 
 
-I cannot duplicate the problem.  It must have to do with the way your particular system is setup.   What is interesting is that the -lz is not actually called on my system, where I most certainly don't have the libz devel package installed.  I am guessing there is a configure failure of some sort?
+I found out where the link flags come from in the pseudo recipe.
 
-Do you think on the fedora28 system you could send me the "rpm -q -a" output?
 
+         for sqlite_link_opt in $(pkg-config sqlite3 --libs --static)
+         do
+             case "$sqlite_link_opt" in
+             -lsqlite3)
+                 ;;
+             -l*)
+                 SQLITE_LDADD="${SQLITE_LDADD} ${sqlite_link_opt}"
+
+
+This implies that your local sqlite3 is perhaps different in some manner.  I am not sure exactly what kind of edge case you have going on with your system.  :-)
+
+Cheers,
 Jason.
-
 
