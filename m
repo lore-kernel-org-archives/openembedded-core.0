@@ -1,59 +1,58 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
-	[209.85.222.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 90BDA7C603
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 498C27F2AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 15:57:05 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id o2so33862789uae.10
+	Tue,  6 Aug 2019 16:03:12 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id d1so9011654pgp.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Aug 2019 08:57:06 -0700 (PDT)
+	Tue, 06 Aug 2019 09:03:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/sDVCmNS28CGlqaFnvwgRPbQpy8nubLWeYa5nu1+6s0=;
-	b=QrtSDlLiAFMq1TZY0lpDI7w4+Kgtm0EtOpSMIJ/Aq/+vWukNYWenxCUTBDyzBeqJAw
-	r0SjBvB12aTbqI5PUPOOaFMyd5n5C2WrieK2xBXxvpuV7AWTWpHuWQNXLbH4oIMjSBFX
-	+geyWKJWAR4gE7oKJmHWJQeBTyltxs+2XKYNxQMb/HBYQa7QimBsx0VuKvehuNq2fqus
-	k+50a/vmQjKTeiJfrDKcgriTUFxa9FtP8SNrncWDC2V/iHVEtaW3CPpigpH/3SBTvEBA
-	bUxL/e3+5IbeYRmWzCnMp+kTCy8WMZfVtFSvw/EMA7rdAhns0jp372T+tx5mi9AeP+zr
-	kDSw==
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language;
+	bh=JHbktv017xAJr4TphxWE+hxfmxIXsivj3kVfZiLlJEk=;
+	b=u8uYvUy2fHE6yaAXIaYVlwJiQZtgZt3lwVcqiChxxif8vZpPyqohqJR49LZxBOSQZH
+	wxevuBsLTIcp6AKH9CVj3IeViPHWybZEPbFAnkmv8FtfR3qekpYxGAVQLrQd8OVTzhu9
+	XvyYIR+EhwT5N/O3ndtOOqfTr/d1PSopTCJM2dujK5zgmxkpECnuwHrPUnQ14btcpu0M
+	2obIcwMp8q3+bYhWjlRveIxDzf3si+n4qE9P4auW2M59NL1uB+K5pKYYRdVazkc1mawR
+	iPyyd7wXjlv5gFPE49Ys0mPZmnL94co8bAQj1mbIbAdYM0/BcsvDrbkabjf/prHJf1mz
+	x8jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=/sDVCmNS28CGlqaFnvwgRPbQpy8nubLWeYa5nu1+6s0=;
-	b=ob1dhjVnzHx7ZG8D6hX7edqOCNYREnjgWljFybq+HiAqBWrV//dgj78MwjcczaZLrj
-	0flO8eX4DE12yvCCR/xYoFde6ON2n+6r01S9H6UkCbcu7f5qHg0brk9OX5j4XD3Jrmvs
-	p+qm01zJvicHU8wTNGzcWcDVj84ntbfulgBkfFAk4PxpINdh5trCLXarHVGm/xjqn+kW
-	wT1ITcY4kG4rpVhDgPc0wlvd7iOh91SxVMrAu0e2mAHxPCssFqTM8pK1LDen4DG+7kWF
-	URR8S7NoJFhW+PyykNnYgNQzoGsLgWQStvLMI1HI+lUdGPyWqFVclHpBhSUfrJHq4vSz
-	9CFQ==
-X-Gm-Message-State: APjAAAV42di9PGrAm5+gif4NAbLAB/a4QV9K1xJEZWGVki+53U4oHjlE
-	Y5COAqn8XeF1XVIDTln0Y6Oe5XgNk9XcR4W/bTI=
-X-Google-Smtp-Source: APXvYqwq3kknfg9RHIb+MAmFk7yIGPpQxR54xyLq93oYmCRusy5kacJ6ljuF7VAlMhMwYlA9buvvc1pR4I5uPVX56gA=
-X-Received: by 2002:ab0:70b1:: with SMTP id q17mr2777933ual.100.1565107026524; 
-	Tue, 06 Aug 2019 08:57:06 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language;
+	bh=JHbktv017xAJr4TphxWE+hxfmxIXsivj3kVfZiLlJEk=;
+	b=AHmxEiYKfn+qFit7rNQ3eBuIGakLQaRUnL8bkaLns2Ls/5GGH1aKqvj6mMIHHUlJzk
+	ka2Kaq19VCqpPInP//rvXbBPDI7oEscqXb/tD1F+zBaoH5xPqGjVDx5tL/tcuop63BO9
+	8INgsrZuZvETGX4kLNkNvFo/LJmp4ct8c03u8OH2Slo/75SIh4hgGcCaBTGp24DLxHzL
+	a/3yrGR56s3piQcPM0K1bzDcCvPwIXbJRlIPltXelLEpI3hgUtorHhE5p1wlyif9TddL
+	4HdkFL3oT739sm/qJEemHxZpLNZX/8Y6YOxhqH3SmfBcHejkKNpFqYtpcgn1T0xz8tR6
+	8zjg==
+X-Gm-Message-State: APjAAAVFZYmX3HFMZQCJLBBdOtYWCg5yWBMvh9YgCy//lixA4enqVz8D
+	cgYkZFdrBj5lyEEzrCN+CsJGMgKMyGI=
+X-Google-Smtp-Source: APXvYqz5RIyu2oubMNYZbQn1TJlheYssYVLI7H77J7YWfZDZOeRd/QaUsYwfIQxiku1TGzd4jfhORw==
+X-Received: by 2002:a17:90a:25c8:: with SMTP id
+	k66mr3954729pje.129.1565107392855; 
+	Tue, 06 Aug 2019 09:03:12 -0700 (PDT)
+Received: from ?IPv6:2601:646:8500:6bc6::baaf? ([2601:646:8500:6bc6::baaf])
+	by smtp.gmail.com with ESMTPSA id
+	q126sm47159846pfb.56.2019.08.06.09.03.12
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Tue, 06 Aug 2019 09:03:12 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20190804000313.34500-1-raj.khem@gmail.com>
+	<542cb1bf478aac542ec319a84fb6c3b4a1be097a.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS
+Message-ID: <04bfdf5f-0026-a541-d842-d225313c37e9@gmail.com>
+Date: Tue, 6 Aug 2019 09:03:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <cover.1565075067.git.liezhi.yang@windriver.com>
-	<e5519d97e195842c793f688162919b21851d1dcb.1565075067.git.liezhi.yang@windriver.com>
-	<4f3b75ada0eae73855b43347a56ea89042ab6aae.camel@linuxfoundation.org>
-	<18287a98-33b5-c788-946e-5b5338c1c204@windriver.com>
-	<CANNYZj8nk8q7VscomyLkaLYcNy-2gH+nwgsKgAO7x59i7uDgHw@mail.gmail.com>
-	<eba25cda-3ca0-039d-45ea-f9a86e80b4f6@intel.com>
-	<CANNYZj-QUcKdw4BygFyfXLSm4L=89XC44u65LNFx2OiiqrQE0Q@mail.gmail.com>
-	<CA+chaQfsQLEcxS9-XVQJT-7PR-JgtZ1cEFMdbJshmYMst6s2Lw@mail.gmail.com>
-	<CANNYZj_YSBdctNSqewYy96qofF4A_XkVVWahU0wMw3nBV=q58Q@mail.gmail.com>
-	<b25b0b717daa6dbeecd61255caf10bc49deb3509.camel@linuxfoundation.org>
-	<CANNYZj9iLsF0fBRCYp+_CbRakizOyN=CJuDdRtZ9OdnZ84rFbA@mail.gmail.com>
-	<CANNYZj_4QNNfHr+9rke06rGDrfh-0C9PwqfnAYrT6urf5k62wA@mail.gmail.com>
-	<837f692b83714ef0ed412288121e817e7790dae3.camel@linuxfoundation.org>
-	<CANNYZj8WgVxSqgih-P=5kgT-+fg1dGwSEqmWkKbn4z22qfE+Qw@mail.gmail.com>
-In-Reply-To: <CANNYZj8WgVxSqgih-P=5kgT-+fg1dGwSEqmWkKbn4z22qfE+Qw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 6 Aug 2019 17:56:55 +0200
-Message-ID: <CANNYZj_o30FVJfwfLr5=uzFMB8NsArq9Mx5W5EMcmGe67N060Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] stress-ng: Add bash to DEPENDS
+In-Reply-To: <542cb1bf478aac542ec319a84fb6c3b4a1be097a.camel@linuxfoundation.org>
+Subject: Re: [PATCH] musl: Update to master tip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,97 +65,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 15:57:05 -0000
-Content-Type: multipart/alternative; boundary="00000000000059fe7e058f74e025"
+X-List-Received-Date: Tue, 06 Aug 2019 16:03:12 -0000
+X-Groupsio-MsgNum: 127584
+Content-Type: multipart/mixed; boundary="------------E2E220D3B206015E381E0B76"
+Content-Language: en-US
 
---00000000000059fe7e058f74e025
-Content-Type: text/plain; charset="UTF-8"
-
-On Tue, 6 Aug 2019 at 16:30, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> On Tue, 6 Aug 2019 at 16:16, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> I partly agree with this. There is:
->>
->> insane.bbclass:do_package_qa[rdeptask] = "do_packagedata"
->>
->> which does help the situation by forcing package_qa after all the
->> runtime dependencies.
->>
->> I suspect the real problem is that it can also see RDEPENDS for things
->> it doesn't rdepend upon...
->>
->> You might want package_prepare_pkgdata() from package_pkgdata called
->> for package_qa's context on a separate directory, then to use that as
->> the pkgdata to resolve against?
->>
->> Note that package_prepare_pkgdata() called for do_package is different
->> than package_prepare_pkgdata() called for do_package_qa as the tasks
->> have different dependencies...
->>
->
-> I am actually inclined to remove the recursive resolver in insane.bbclass.
-> It gives a QA pass to a situation when there is a bash script in A, and the
-> bash runtime dependency is satisfied indirectly through a chain of
-> arbitrary length: A -> bash-completion -> bash. It becomes hard to reason
-> where the dependencies come from; I think any runtime dependencies should
-> be explicitly listed. We may need to fix up a few recipes, but the outcome
-> is a better definition of runtime dependencies.
->
-
-I made a patch for this:
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=akanavin/package-version-updates&id=77bb080eb15de21901c15072898303f2b5275093
-
-Now building oe-core world, to see what kind of fallout it causes.
-
-Alex
-
---00000000000059fe7e058f74e025
-Content-Type: text/html; charset="UTF-8"
+--------------E2E220D3B206015E381E0B76
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 6 Aug 2019 at 16:30, Alexander Ka=
-navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com<=
-/a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Tue, 6 Aug 2=
-019 at 16:16, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoun=
-dation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wr=
-ote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">I partly agree with this. There is:<br>
-<br>
-insane.bbclass:do_package_qa[rdeptask] =3D &quot;do_packagedata&quot;<br>
-<br>
-which does help the situation by forcing package_qa after all the<br>
-runtime dependencies.<br>
-<br>
-I suspect the real problem is that it can also see RDEPENDS for things<br>
-it doesn&#39;t rdepend upon...<br>
-<br>
-You might want package_prepare_pkgdata() from package_pkgdata called<br>
-for package_qa&#39;s context on a separate directory, then to use that as<b=
-r>
-the pkgdata to resolve against?<br>
-<br>
-Note that package_prepare_pkgdata() called for do_package is different<br>
-than package_prepare_pkgdata() called for do_package_qa as the tasks<br>
-have different dependencies...<br></blockquote><div><br></div><div>I am act=
-ually inclined to remove the recursive resolver in insane.bbclass. It gives=
- a QA pass to a situation when there is a bash script in A, and the bash ru=
-ntime dependency is satisfied indirectly through a chain of arbitrary lengt=
-h: A -&gt; bash-completion -&gt; bash. It becomes hard to reason where the =
-dependencies come from; I think any runtime dependencies should be explicit=
-ly listed. We may need to fix up a few recipes, but the outcome is a better=
- definition of runtime dependencies.<br></div></div></div></blockquote><div=
->=C2=A0</div><div>I made a patch for this:</div><div><a href=3D"http://git.=
-yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Dakanavin/package-version=
--updates&amp;id=3D77bb080eb15de21901c15072898303f2b5275093">http://git.yoct=
-oproject.org/cgit.cgi/poky-contrib/commit/?h=3Dakanavin/package-version-upd=
-ates&amp;id=3D77bb080eb15de21901c15072898303f2b5275093</a></div><div><br></=
-div><div>Now building oe-core world, to see what kind of fallout it causes.=
-</div><div><br></div><div>Alex<br></div></div></div>
 
---00000000000059fe7e058f74e025--
+On 8/6/19 3:48 AM, Richard Purdie wrote:
+> On Sat, 2019-08-03 at 17:03 -0700, Khem Raj wrote:
+>> Fix for RISC-V build regression
+>>
+>> 64bit time syscall plumbing
+>>
+>> Changes are here [1]
+>>
+>> [1]=20
+>> https://git.musl-libc.org/cgit/musl/log/?qt=3Drange&q=3D0ce49d0a301b41=
+42741b32773492af90f66ed3ca..6fcb440d91ad972d970984ae3e781d30c0602c9f
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-core/musl/musl_git.bb | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> This didn't pass automated testing for qemux86 or qemux86-64:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/899
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/900
+
+
+seems ssh test failed. I will check
+
+> Cheers,
+>
+> Richard
+>
+
+--------------E2E220D3B206015E381E0B76
+Content-Type: application/pgp-keys;
+ name="pEpkey.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="pEpkey.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+=3Dsj8j
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------E2E220D3B206015E381E0B76--
