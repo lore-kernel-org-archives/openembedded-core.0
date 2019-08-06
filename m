@@ -1,46 +1,60 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 83CEC7F2C5
+Return-Path: <andrew@aj.id.au>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+	[64.147.123.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 73B947F2B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2019 22:42:57 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Aug 2019 15:42:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,350,1559545200"; d="scan'208";a="181805630"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by FMSMGA003.fm.intel.com with ESMTP; 05 Aug 2019 15:42:58 -0700
-Received: from orsmsx153.amr.corp.intel.com (10.22.226.247) by
-	ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server
-	(TLS) id 14.3.439.0; Mon, 5 Aug 2019 15:42:58 -0700
-Received: from orsmsx116.amr.corp.intel.com ([169.254.7.85]) by
-	ORSMSX153.amr.corp.intel.com ([169.254.12.99]) with mapi id
-	14.03.0439.000; Mon, 5 Aug 2019 15:42:58 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Seebs <seebs@seebs.net>, Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH v2] pseudo: Upgrade to latest to fix openat()
-	with a directory symlink [NAK]
-Thread-Index: AQHVSLFamIwzp9G+KEeP09/EGnH90KbnbbGAgAEUsoCAAAsfgIAACdcAgAE7/wCAAB6OgIADOScT
-Date: Mon, 5 Aug 2019 22:42:57 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B64ED7F64C@ORSMSX116.amr.corp.intel.com>
-References: <20190801200354.119252-1-jason.wessel@windriver.com>
-	<8934e4e0-aaf6-5eb6-5d1b-355063bee94a@windriver.com>
-	<20190801185725.139cfa73@seebsdell>
-	<f991e41b-39c6-a088-63aa-07553cae131b@windriver.com>
-	<20190802120733.4a24ca3f@seebsdell>	<20190802124246.27d4beca@seebsdell>
-	<CAMKF1sr-gxJBXUn6OtU=0GtTw=CTLWfFLVWjATB-_k-1NYCP1g@mail.gmail.com>,
-	<20190803092307.486e930d@seebsdell>
-In-Reply-To: <20190803092307.486e930d@seebsdell>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.139]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] pseudo: Upgrade to latest to fix openat() with a directory symlink [NAK]
+	Tue,  6 Aug 2019 01:40:26 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 9AA23594;
+	Mon,  5 Aug 2019 21:40:25 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+	by compute4.internal (MEProxy); Mon, 05 Aug 2019 21:40:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+	mime-version:message-id:in-reply-to:references:date:from:to
+	:subject:content-type; s=fm3; bh=yykas3pi3sS0NitapIk/HfoPLaxiAbj
+	hqmKVwMaHkhY=; b=Uat3zVgqVVTNmTasmlT4cvUehZW2/uPixLgoGnDX+dbZnBQ
+	s0xtv+Lqz2l1+9woVXexGtH6xqIRrzPqe3bWAm6dJ4qMA6qMPrSbTJYSr/50LjZk
+	Zl9PbkSZ0eMQ6VK2Xh/zH6VdCnBipTt8O8B5MA0fBlnBUBZpBCGNZct7wOWAcefV
+	qkhuDOqXfBXzF1xk/etUXyCsNITQmvULKc78sNEw0+hByZBE8sw+9Tws3dCIDaRT
+	8sgXva32c/H4G41sw+iGAYzhzUWVycQ513eT6ffx24tJ7LQaXO2Eo3bjRv119ekY
+	AExKlexir9wXgoqFmHZt5mqAqX1x+Xip3grAxhQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=yykas3
+	pi3sS0NitapIk/HfoPLaxiAbjhqmKVwMaHkhY=; b=oG8bx9W5fWaWNUG3/j3OWj
+	m9hJQou6XxyceREMfUrkkCYOkBDzy2a15ZjoaRxYA0jET9O3bY4KCtZQPdhI12rF
+	RzH63t6gwDDEvhqffYUU3OOBJno8ssTdaIV/5Nt+VC9khGeLx0l7LyP5p6nkkYMW
+	Qh2KA4ORPFivesyNBqzMj/MBDD20EgyfQ9ykTsZdCo9M7lNAuY3sWsrbq+GrG0cv
+	Ii/5gNTgLO0TCa2fE9+KbhA2xo0WqG6kkXSxKzXmSc+1qRRmtPUvUNO1rO3pEQz1
+	nckWiu3lPHouSlIXnTj+uqg6MzYSbZks7kd0vFCYGFnJQ+qtsPCPHnBjt2N9zDmQ
+	==
+X-ME-Sender: <xms:iNpIXf4IWu7af1AQjiWErilQCQOevzfndbkSqtL6cDHY4KQ4fQOywA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddruddtledghedtucetufdoteggodetrfdotf
+	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+	cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+	rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
+	grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
+	rhfuihiivgeptd
+X-ME-Proxy: <xmx:iNpIXeWLfvWErR920Kjol5JAq-XuRLlYYRXVGaZCvhHxsO7K-Vv-Ww>
+	<xmx:iNpIXXSpj5WxgQmKMc5t6ZuEgu6B78aMXHxpK_JuNOHaLyZx0wL6sw>
+	<xmx:iNpIXbezxOvuaBrO5GR8GexEWa8bJuy0S_u0yYBmooBwi9QQ0LGolQ>
+	<xmx:idpIXb5ItPfDRScfksEwYXOojs1qwnOyCNTca301oO6A4fMD8vRjtQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A85A1E00A2; Mon,  5 Aug 2019 21:40:24 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-799-g925e343-fmstable-20190729v1
+Mime-Version: 1.0
+Message-Id: <30ae8ca4-1df7-40c0-a1df-3966760d8aba@www.fastmail.com>
+In-Reply-To: <234b1140-a0b4-1085-756c-2e4ae963870b@intel.com>
+References: <20190805031211.11190-1-andrew@aj.id.au>
+	<234b1140-a0b4-1085-756c-2e4ae963870b@intel.com>
+Date: Tue, 06 Aug 2019 11:10:42 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Ross Burton" <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] dtc: Provide libfdt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,58 +67,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2019 22:42:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 06 Aug 2019 01:40:26 -0000
+Content-Type: text/plain
 
-I can reproduce the problem fairly easily  (and, sadly even with the latest=
- commits as 060058bb29f70b244e685b3c704eb0641b736f73 ). =0A=
-In my case, it seems easy to reproduce if I have 40+ threads running.=0A=
-The reproducer script (below) fails typically within the first 10 iteration=
-s.=0A=
-=0A=
-=0A=
-#!/bin/bash=0A=
-=0A=
-fname=3D'glibc-locale_master_august8'=0A=
-max=3D1000=0A=
-for (( i=3D1; i <=3D $max; i++ ))=0A=
-do=0A=
-    echo "$i/$max  ${fname}_$i.log"=0A=
-    bitbake glibc-locale -c cleanall 2>&1 > /dev/null=0A=
-    bitbake glibc-locale 2>&1 > ${fname}_$i.log=0A=
-     if grep -q "host-user-contaminated" ${fname}_$i.log; then=0A=
-        echo "error !"=0A=
-      exit 2=0A=
-    #else=0A=
-      #rm ${fname}_$i.log=0A=
-    fi=0A=
-=0A=
-done=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Seebs [seebs@seebs.net]=0A=
-Sent: Saturday, August 03, 2019 7:23 AM=0A=
-To: Khem Raj=0A=
-Cc: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH v2] pseudo: Upgrade to latest to fix openat()=
- with a directory symlink [NAK]=0A=
-=0A=
-On Sat, 3 Aug 2019 05:33:46 -0700=0A=
-Khem Raj <raj.khem@gmail.com> wrote:=0A=
-=0A=
-> Will this fix the file ownership issue that we see with Glibc-locale=0A=
-> packages from time to time?=0A=
-=0A=
-I have no idea. Since I haven't got a reliable reproducer for it, I=0A=
-can't test it in a sane way.=0A=
-=0A=
--s=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+
+
+On Tue, 6 Aug 2019, at 02:08, Ross Burton wrote:
+> On 05/08/2019 04:12, Andrew Jeffery wrote:
+> > Applications are appearing that depend on parsing flattened devicetree
+> > in userspace on target devices, e.g. pdbg[1]. Mark dtc as providing
+> > libfdt so application recipes can depend on it.
+> 
+> Other recipes can just depend on dtc to get libftd build.
+
+Alright, lets leave it that way.
+
+Andrew
 
