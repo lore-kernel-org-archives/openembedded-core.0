@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B3B06BF37;
-	Tue,  6 Aug 2019 10:31:43 +0000 (UTC)
+Return-Path: <ross.burton@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 00FFA7E601
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  6 Aug 2019 10:37:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Aug 2019 03:37:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,353,1559545200"; d="scan'208";a="373376366"
+Received: from ambachan-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.33.220])
+	by fmsmga005.fm.intel.com with ESMTP; 06 Aug 2019 03:37:40 -0700
+To: openembedded-core@lists.openembedded.org
+References: <20190805033218.6750-1-anuj.mittal@intel.com>
+	<CAMKF1soxNyT73HsCghDdx4vJSGpwxLLYgf957gnFUSckunrpZw@mail.gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <50ed5cea-6e95-b59d-a059-4da84a61c999@intel.com>
+Date: Tue, 6 Aug 2019 11:37:39 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Tue, 06 Aug 2019 10:31:44 -0000
-Message-ID: <20190806103144.2329.15988@do>
-References: <20190806101720.2721-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190806101720.2721-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2FuaXR5OiB1cGRhdGUgZm9yIG5ldyBiYi5idWlsZC5leGVjX2Z1bmMoKSBiZWhhdmlvdXI=?=
+In-Reply-To: <CAMKF1soxNyT73HsCghDdx4vJSGpwxLLYgf957gnFUSckunrpZw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] pango: upgrade 1.42.4 -> 1.44.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +38,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 10:31:43 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Aug 2019 10:37:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+On 06/08/2019 07:53, Khem Raj wrote:
+> This causes
+> 
+> https://errors.yoctoproject.org/Errors/Details/258300/
 
-Series: sanity: update for new bb.build.exec_func() behaviour
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19115/
-State : failure
+gvtextlayout_pango.c:140:10: error: unknown type name ‘FT_Face’
+           FT_Face face;
+           ^~~~~~~
 
-== Summary ==
+Looks like graphviz was assuming Pango would pull in Freetype headers, 
+and it no longer does by design.  Fix graphviz to include what it needs.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at f03ab9b21c)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Ross
 
