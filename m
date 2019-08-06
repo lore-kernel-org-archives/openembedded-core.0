@@ -1,52 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B2F67ED17
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EA3C7F302
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 10:43:44 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id g17so87387345wrr.5
+	Tue,  6 Aug 2019 10:47:23 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id x15so77708711wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Aug 2019 03:43:45 -0700 (PDT)
+	Tue, 06 Aug 2019 03:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=MCQIMGljigpiXDyitD8POIQ76e/9rsJ1ryPc2qdP3Tc=;
-	b=Xa6GX+vV/7kWBtuKT86VoIyE3EtT6VOoIL+U+Aq1WX7BCAn3B3YTYi/DhO5TL6RBb+
-	tkupFiMqVZH32Drd4CCE1qDj1BX1GN000pFHM98r71ETOMKRRFEMV1kzVWFOc7DfQzI4
-	dw9hoqyLztuJLuvp+j3JdKyMwpmGSuro5vaBQ=
+	bh=hCYhNacaRyPX6p5lJOr+GG2UONhrl/Rl/02hEqyQe54=;
+	b=QhDom4lHtDguxyE8HYXQihayMdO1hptsISceeBgZkP4CNwA+hchQfbIzMCiNJ7pGAr
+	beF+971FHEKoEd2iHxai/uuVWr7dxZxYMiwDB4cR8MpUzEENNCWGHlab8wdVXsogXvcr
+	XzhVwd/IvOmCaopVrFwRz0AzpbZ6fNoFMic38=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=MCQIMGljigpiXDyitD8POIQ76e/9rsJ1ryPc2qdP3Tc=;
-	b=uMbxQWNYZZ7h5+jgF+pcWm7ZJ+H1xlef3Iii9jT0LXRrSzLjrs/3byh98w+8HykFEb
-	Wr3nShYmHzdrEfVskKQgLgOquyDn7iwFu7FEACF40UhxoCL5MBquFwmpeUJN9LeJJrFM
-	NFknkKgW9mhUoKdgTmiygA1uMt75EtSMvypNQdj5phqCnUEFCGB1jniQF1EAQLkx/kVG
-	eG73BxBUrENsyPGgaDNvGVQSFQYaasgZHElsLpP0swnsubA8FnzOTP1ScnGVX2JH92AZ
-	oGbhH1LtE6h1ZYFpoXfsLnY0ROJhuUY0qgIxU9YvMPXKiG+Lu2+rZ2x2Skh00uuMpNLN
-	zcig==
-X-Gm-Message-State: APjAAAW/ek2/C9mUa/q4ZGmxOBJsxyw/j2V7IE/+d//cRw90ZmE5Z42u
-	SEgB2o2N9xTbSQpAOU+nqQukWA==
-X-Google-Smtp-Source: APXvYqyfLnbiV7gVYEQriNnDXSRawfLfJ6mjpGM0IHW26hPWOQ5fcRGJd17WsDdlSndmPqyCCa3XLg==
-X-Received: by 2002:a05:6000:12c3:: with SMTP id
-	l3mr595414wrx.100.1565088225053; 
-	Tue, 06 Aug 2019 03:43:45 -0700 (PDT)
+	bh=hCYhNacaRyPX6p5lJOr+GG2UONhrl/Rl/02hEqyQe54=;
+	b=Pr97vCKZSVUhYWZ1NrsRoC0jwCXiGvBzDJMeOyKpXREdPvgRejwbweMBSCzOGb1agY
+	bn+w+N7JD84vvy3twr/dS9XBVHtiqn+XJtNqrk1nOngBBbAaEJwsGjHYWZoxlsIIr1VT
+	DejQWVWST51M6lmz9aXxi28+wcPa0PZo5Ld5k6LIVjmPah22tpZgD5AGf+VUtkWlShld
+	tf5ZgHmRklOfbRqcBwd8Nr0JVoc75FWbqlh52cQAP9d14tAc0TGP084R07wEn3EaBXdS
+	vfsk4QVshGOpjoSCkFBtI7R7AJjIzTcH2H3hMNsQEaJXN33W7bTyWJlfXzspOZzDIgDk
+	HUzQ==
+X-Gm-Message-State: APjAAAVD65VF/iKS7IylquYZh7d8bkXnXmV69QmSOEMiS+JdiMAVh4xh
+	2BRINO1GKy2mSojxrnGp0iD5sE/zcTY=
+X-Google-Smtp-Source: APXvYqxAvWAR4/X8MTpmg1E6xgSqTc+yWXhWhNDfylR6ESMpUH3csC8eeTfY45bXJfHq9YiBV8ViOQ==
+X-Received: by 2002:a1c:7fc3:: with SMTP id a186mr4305368wmd.151.1565088444537;
+	Tue, 06 Aug 2019 03:47:24 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id e4sm1576643wrh.39.2019.08.06.03.43.44
+	by smtp.gmail.com with ESMTPSA id
+	e6sm87751522wrw.23.2019.08.06.03.47.23
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 06 Aug 2019 03:43:44 -0700 (PDT)
-Message-ID: <4f3b75ada0eae73855b43347a56ea89042ab6aae.camel@linuxfoundation.org>
+	Tue, 06 Aug 2019 03:47:23 -0700 (PDT)
+Message-ID: <0fb7aa39fdcdc39f8a12149005f9b09d04074778.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 06 Aug 2019 11:43:43 +0100
-In-Reply-To: <e5519d97e195842c793f688162919b21851d1dcb.1565075067.git.liezhi.yang@windriver.com>
-References: <cover.1565075067.git.liezhi.yang@windriver.com>
-	<e5519d97e195842c793f688162919b21851d1dcb.1565075067.git.liezhi.yang@windriver.com>
+To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+Date: Tue, 06 Aug 2019 11:47:22 +0100
+In-Reply-To: <1565074499-317606-1-git-send-email-changqing.li@windriver.com>
+References: <1565074499-317606-1-git-send-email-changqing.li@windriver.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] stress-ng: Add bash to DEPENDS
+Subject: Re: [PATCH] go/go-runtime: use update-alternative for zdefaultcc.go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,33 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 10:43:44 -0000
+X-List-Received-Date: Tue, 06 Aug 2019 10:47:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-08-06 at 15:05 +0800, Robert Yang wrote:
-> Fixed:
-> $ bitbake stress-ng bash -ccleansstate && bitbake stress-ng
-> ERROR: stress-ng-0.10.00-r0 do_package_qa: QA Issue: /usr/share/bash-completion/completions/stress-ng contained in package stress-ng-bash-completion requires /bin/bash, but no providers found in RDEPENDS_stress-ng-bash-completion? [file-rdeps]
+On Tue, 2019-08-06 at 14:54 +0800, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
 > 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> fix below error:
+> file /usr/lib64/go/src/cmd/cgo/zdefaultcc.go conflicts between
+> attempted installs of go-dev-1.12.6-r0.core2_64 and go-runtime-dev-
+> 1.12.6-r0.core2_64
+> file /usr/lib64/go/src/cmd/go/internal/cfg/zdefaultcc.go conflicts
+> between attempted installs of go-dev-1.12.6-r0.core2_64 and go-
+> runtime-dev-1.12.6-r0.core2_64
+> 
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
->  meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb b/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb
-> index f7faf97..904eb0c 100644
-> --- a/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb
-> +++ b/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb
-> @@ -11,7 +11,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
->  SRC_URI[md5sum] = "46aa41d37690324ceab4febfcc549018"
->  SRC_URI[sha256sum] = "d09dd2a1aea549e478995bf9be90b38906a4cdf33ea7b245ef9d46aa5213c074"
->  
-> -DEPENDS = "coreutils-native"
-> +DEPENDS = "coreutils-native bash"
+>  meta/recipes-devtools/go/go-runtime_1.12.bb | 6 ++++++
+>  meta/recipes-devtools/go/go_1.12.bb         | 7 +++++++
+>  2 files changed, 13 insertions(+)
 
-Technically you just want to make this an RDEPENDS of the appropriate
-package, which would give some small dependency improvement too.
+It seems odd that both of these packages should provide this, perhaps
+one version should just be deleted?
 
 Cheers,
 
