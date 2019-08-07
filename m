@@ -1,30 +1,47 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id AEE5A7F3B6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+	[209.85.222.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 62C2F7E63A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2019 23:14:24 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Aug 2019 16:14:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,353,1559545200"; d="scan'208";a="202984959"
-Received: from jchan1-mobl1.gar.corp.intel.com (HELO localhost.localdomain)
-	([10.249.68.210])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Aug 2019 16:14:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 07 Aug 2019 11:14:20 +1200
-Message-ID: <3053753.Zs8syfq2pI@localhost.localdomain>
-Organization: Intel Corporation
-In-Reply-To: <CANNYZj83RCwo3mtTkRxnyN45pi4qCg5ifrihWcyhQuk+0arZxA@mail.gmail.com>
-References: <20190423161916.25572-1-alex.kanavin@gmail.com>
-	<8d33f7f60b0fb8394b459ed4c43e9f21d844b269.camel@linuxfoundation.org>
-	<CANNYZj83RCwo3mtTkRxnyN45pi4qCg5ifrihWcyhQuk+0arZxA@mail.gmail.com>
+	Wed,  7 Aug 2019 01:02:53 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id r21so64588850qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Aug 2019 18:02:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=17p1/jYuZ1rka4wnwn+W9TePLQjThx4c28NvkPKrNIQ=;
+	b=cZVXPfSPcHvH66Ur0VjuUoOGBkk9F79Bs8hX+FpMpOBpmKJ7VOuxRuDEATVTXHSK3c
+	DBGDC6ix9B5nWH3MaqhYaVl8+2BU7KyGLRGblPAtITZTAN9Um2ZseiU83VUy6Z9FQpDn
+	CuMYz7wD4bpPiTSjMFtKecrj5f9T5o+3fV5uz597QFAHHS6AozMZwcp8tvdDg75sFYGY
+	pnrjPezTG5es64wMpgkufhpzRCB1W11LxGGL4Mfh5d+vsyxvivKVtP2aK2rx44Uz+Cb/
+	9yF1tnJQVXsJGzNx4Zu/euJ5WWYNJs3C9/NRPP1VPix+FF5azEn2uIjJ/Z9+zcxLHUZk
+	7kMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=17p1/jYuZ1rka4wnwn+W9TePLQjThx4c28NvkPKrNIQ=;
+	b=ohnD4PQ54Hf7glJ/98CTR7jDA7fP7mcgE6R6UzLmRE1enFpnRvD9Y1ONs0LITHPUSR
+	tyd3Yd2RPSAtS5WKsUh7bawE3LsLfTGT8VdR7FdmdG04jC8G4iORWBj2a7qD9wIMAFX0
+	FMYg50r0QKWHbyENgonN1IapQg4lO3aH4wIaGndvhX3mCT/p61k2p4ip9QXRBSrXchmX
+	DS6XSPXtFz6JjWeyb7cSqZu0W5k2xpkdaGWDn0OG5J+MZUw8O3hRFoO9bPIcm55JaYCT
+	EsiHClVd/l1Adg3jTXonGMsURvNjGjgHXNK+MMCI8zgUNFXK00Q4h007YsGTlr7ryaIy
+	4tJQ==
+X-Gm-Message-State: APjAAAUKPj9geSx5fjdUgIN3lP0Ocyw9TNO241mvP/rhvusIB8yBBmy6
+	LzEAp/W7Cpr/4Qbh2ayi2nI/NP/EcvkXSw/U1O4=
+X-Google-Smtp-Source: APXvYqyLjdW3zX/1DbOYAhcgw6ufuOycacy8EMVvPRYhTLsksBeo4PPO+vk2qC3gv2f+6dtUTinbbqkYcMphA4IpqI8=
+X-Received: by 2002:a37:ef14:: with SMTP id j20mr6200736qkk.474.1565139773887; 
+	Tue, 06 Aug 2019 18:02:53 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 5/9] python-setuptools: update to 41.0.1
+References: <20190806114717.6818-1-ross.burton@intel.com>
+In-Reply-To: <20190806114717.6818-1-ross.burton@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 6 Aug 2019 18:02:38 -0700
+Message-ID: <CAMKF1spH3avgvz3NKLnJWSw_-XFViyuRoFbxPuBiTs=1fB7jmQ@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pango: improve ptest pass rate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,68 +54,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2019 23:14:24 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 07 Aug 2019 01:02:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Alex,
+> -RDEPENDS_${PN}-ptest += "liberation-fonts cantarell-fonts"
+> +RDEPENDS_${PN}-ptest += "cantarell-fonts locale-base-en-us"
+>
 
-On Thursday, 25 April 2019 4:20:40 AM NZST Alexander Kanavin wrote:
-> On Wed, 24 Apr 2019 at 18:02, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> > I think this breaks buildhistory.
-> >
-> > The autobuilder runs:
-> >
-> > '/home/pokybuild/yocto-worker/qemuppc/yocto-autobuilder-helper/scripts/collect-results', '/home/pokybuild/yocto-worker/qemuppc/build/build', '/srv/autobuilder/autobuilder.yoctoproject.org/pub/non-release/20190424-4/testresults', 'qemuppc'
-> >
-> > which results in a call like:
-> >
-> > /home/pokybuild/yocto-worker/qemuppc/build/build/../scripts/buildhistory-diff -p /home/pokybuild/yocto-worker/qemuppc/build/build/buildhistory ab-fetchrev
-> >
-> > which results in a comparision between:
-> >
-> >...
-> >
-> > which trips over:
-> >
-> > '/opt/poky/2.7+snapshot/sysroots/i686-pokysdk-linux/usr/lib/python3.7/site-packages/setuptools/script (dev).tmpl'
-> >
-> > and results in:
-> >
-> > Traceback (most recent call last):
-> >   File "/home/pokybuild/yocto-worker/qemuppc/build/build/../scripts/buildhistory-diff", line 139, in <module>
-> >     main()
-> >   File "/home/pokybuild/yocto-worker/qemuppc/build/build/../scripts/buildhistory-diff", line 132, in main
-> >     out = str(chg)
-> >   File "/home/pokybuild/yocto-worker/qemuppc/build/meta/lib/oe/buildhistory_analysis.py", line 67, in __str__
-> >     return self._str_internal(True)
-> >   File "/home/pokybuild/yocto-worker/qemuppc/build/meta/lib/oe/buildhistory_analysis.py", line 133, in _str_internal
-> >     depvera = bb.utils.explode_dep_versions2(self.oldvalue, sort=False)
-> >   File "/home/pokybuild/yocto-worker/qemuppc/build/bitbake/lib/bb/utils.py", line 231, in explode_dep_versions2
-> >     raise VersionStringException('Invalid version specification in "(%s" - invalid or missing operator' % i)
-> >
-> > This doesn't block the upgrade but it does need a bug and for us to
-> > figure out some way of improving bb.utils.explode_dep_versions2 to
-> > handle this better.
-> 
-> It seems as though the parser for package dependency lists is called
-> on a plain file list, which should not be happening at all (as
-> obviously files are allowed to have just about anything in their
-> names). I'll look into it closer.
+this should be
+RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-en-us"
 
-Did you get anywhere with this?
-
-FYI I filed a bug for the issue:
-
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=13467
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
-
+locale-base-en-us
+>  RPROVIDES_${PN} += "pango-modules pango-module-indic-lang \
+>                      pango-module-basic-fc pango-module-arabic-lang"
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
