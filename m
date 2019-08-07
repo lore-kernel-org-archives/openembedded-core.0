@@ -1,23 +1,49 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D697D7F3ED
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
+	[209.85.217.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 377D37F3AE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 07:52:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x777qUHU016568
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 7 Aug 2019 00:52:30 -0700 (PDT)
-Received: from localhost (128.224.162.195) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Wed, 7 Aug 2019 00:52:29 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <liu.ming50@gmail.com>
-Date: Wed, 7 Aug 2019 15:52:27 +0800
-Message-ID: <1565164347-26104-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed,  7 Aug 2019 10:22:57 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id j26so60340046vsn.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Aug 2019 03:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=MOvUR9AUs2IZqhqNQ4dC5emkMLvArt3ZFshh5S6/+hY=;
+	b=bsg9hcQk11Vk5P3wn1a1+h9Q7aU2kVP/LR+paB0TmvBxuY2ij+xcbQFwGTA9CHkKRg
+	dg4vTki+GChq3hEs0jxe1thaHD5c33umSXPnxCJj4aPAe4QGUp049hR2QYhx6A95eX7m
+	gYGmLaXIsNpFHEWLHJGfO3AnpIrane41xTMSKNuNhJDuitzmKAynqJgdClDRQwBezPE0
+	xEdbn7JMEq57L1albg7IVuRU0Ay2MSdJMirSH1xjuexe+R6LvHc6qu7E2AIC7+rYLUGh
+	ptc8BUInONf1o+0PB6Bs+r98NRJm0WR3eFLN4wODB/M01hAy4xGMb7WTeGFXmBx7fbBH
+	K5TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=MOvUR9AUs2IZqhqNQ4dC5emkMLvArt3ZFshh5S6/+hY=;
+	b=sxrWTIjJ7QAbAecKwF4nU634TT+MqKkqrRDvIApkSIaZjw3OEF0k//n+QyhnfMchAh
+	7T0KcmDTNYQEMZv7f8rTa6S1MbmCigZQbP6RqHWiLly6Zd2//UPwFtVeJY9S95XgLKEh
+	RC+k0fy6iDGKwjxmZjkYZ6mys17seENLdnLMH4eA3EVkFBMHDynmAFBJ7srjDE5qPlWZ
+	JPeo44bj46db7kIwltRQxUjGNATin0giN0jfjufyCWXSyFGtLRwU6opKsX9q2cDfHW4s
+	yMPHQm7KhoVb2nmNDEnuEBaBvwst+gNfMINNk7pzrAD/tvM3gHt8p2zQMZZGVkHTF7m2
+	Xn2w==
+X-Gm-Message-State: APjAAAX6lChFqvhpqrpCPVFKked83WdTsKTGmnmfU/KKxM98VrI2aLIZ
+	BIEGfwPHB7OxGAIq4Km8ntRS6zY4t1Njy2/dQU8=
+X-Google-Smtp-Source: APXvYqyo/T51uWt42eKKntreCdrnkoDQYwvQDeURPsjPKdOVCfoi/9Cy2ENIQHUP8P4KHKhgeTqN/El1vY747UhHOYA=
+X-Received: by 2002:a67:e8c3:: with SMTP id y3mr5223641vsn.94.1565173378808;
+	Wed, 07 Aug 2019 03:22:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.195]
-Subject: [PATCH] libx11-compose-data: upgrade 1.6.7 -> 1.6.8
+References: <20190423161916.25572-1-alex.kanavin@gmail.com>
+	<8d33f7f60b0fb8394b459ed4c43e9f21d844b269.camel@linuxfoundation.org>
+	<CANNYZj83RCwo3mtTkRxnyN45pi4qCg5ifrihWcyhQuk+0arZxA@mail.gmail.com>
+	<3053753.Zs8syfq2pI@localhost.localdomain>
+In-Reply-To: <3053753.Zs8syfq2pI@localhost.localdomain>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 7 Aug 2019 12:22:47 +0200
+Message-ID: <CANNYZj9aqA-7uWBNHCYzc1OKtnki1w-P3mGEePG=EsYOEf5kzA@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/9] python-setuptools: update to 41.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,80 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 07:52:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Aug 2019 10:22:58 -0000
+Content-Type: multipart/alternative; boundary="00000000000041833d058f8453b9"
 
-Refresh the patch to fix the do_patch QA warning.
+--00000000000041833d058f8453b9
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- .../libx11-compose-data/0001-Drop-x11-dependencies.patch     | 12 ++++++------
- ...11-compose-data_1.6.7.bb => libx11-compose-data_1.6.8.bb} |  4 ++--
- 2 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libx11-compose-data_1.6.7.bb => libx11-compose-data_1.6.8.bb} (84%)
+On Wed, 7 Aug 2019 at 01:14, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-compose-data/0001-Drop-x11-dependencies.patch b/meta/recipes-graphics/xorg-lib/libx11-compose-data/0001-Drop-x11-dependencies.patch
-index fbd9684..46a53a1 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-compose-data/0001-Drop-x11-dependencies.patch
-+++ b/meta/recipes-graphics/xorg-lib/libx11-compose-data/0001-Drop-x11-dependencies.patch
-@@ -1,4 +1,4 @@
--From a60f5058136aeadceebfccadf606d8210f8d3ca6 Mon Sep 17 00:00:00 2001
-+From e1f9b0b531c6ddb11a85c0664051e2e4efc589fb Mon Sep 17 00:00:00 2001
- From: Ming Liu <ming.liu@toradex.com>
- Date: Sun, 5 May 2019 11:55:14 +0200
- Subject: [PATCH] Drop x11 dependencies
-@@ -11,11 +11,11 @@ Signed-off-by: Ming Liu <ming.liu@toradex.com>
-  1 file changed, 44 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 3090845..d14063f 100644
-+index a5fd706..b42488c 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -66,27 +66,8 @@ fi
-- AC_SUBST(LDFLAGS_FOR_BUILD)
-+@@ -76,27 +76,8 @@ fi
-+ AC_SUBST([EXEEXT_FOR_BUILD])
-  
-  # Checks for pkg-config packages
- -
-@@ -42,7 +42,7 @@ index 3090845..d14063f 100644
-  # Check for dlopen
-  AC_MSG_CHECKING([if run-time linking is supported])
-  AC_SEARCH_LIBS(dlopen,[dl svld])
--@@ -226,30 +207,6 @@ AC_SUBST(XTHREAD_CFLAGS)
-+@@ -237,30 +218,6 @@ AC_SUBST(XTHREAD_CFLAGS)
-  
-  AC_CHECK_FUNC(poll, [AC_DEFINE(USE_POLL, 1, [poll() function is available])], )
-  
-@@ -73,7 +73,7 @@ index 3090845..d14063f 100644
-  AC_ARG_ENABLE(xcms,
-                AS_HELP_STRING([--disable-xcms],
-                  [Disable Xlib support for CMS *EXPERIMENTAL*]),
--@@ -329,7 +286,6 @@ X11_LIBDIR="${libdir}/X11"
-+@@ -340,7 +297,6 @@ X11_LIBDIR="${libdir}/X11"
-  AX_DEFINE_DIR(X11_LIBDIR, X11_LIBDIR, [Location of libX11 library data])
-  AC_SUBST(X11_LIBDIR)
-  
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.7.bb b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-similarity index 84%
-rename from meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.7.bb
-rename to meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-index 9dace70..cabb84e 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.7.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-@@ -11,8 +11,8 @@ require xorg-lib-common.inc
- LICENSE = "MIT & MIT-style & BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
- 
--SRC_URI[md5sum] = "034fdd6cc5393974d88aec6f5bc96162"
--SRC_URI[sha256sum] = "910e9e30efba4ad3672ca277741c2728aebffa7bc526f04dcfa74df2e52a1348"
-+SRC_URI[md5sum] = "c5fa5a86a20e3591bed6c046498d4b8f"
-+SRC_URI[sha256sum] = "b289a845c189e251e0e884cc0f9269bbe97c238df3741e854ec4c17c21e473d5"
- 
- SRC_URI += "file://0001-Drop-x11-dependencies.patch"
- 
--- 
-2.7.4
+>
+> Did you get anywhere with this?
+>
+> FYI I filed a bug for the issue:
+>
+>   https://bugzilla.yoctoproject.org/show_bug.cgi?id=13467
+>
+>
+Yes, it is already fixed in master:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=ac5b7cef596114ec96fcff34a3251ebf959395fd
 
+Alex
 
+--00000000000041833d058f8453b9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 7 Aug 2019 at 01:14, Paul Eggleto=
+n &lt;<a href=3D"mailto:paul.eggleton@linux.intel.com">paul.eggleton@linux.=
+intel.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex"><br>
+Did you get anywhere with this?<br>
+<br>
+FYI I filed a bug for the issue:<br>
+<br>
+=C2=A0 <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13467=
+" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/sh=
+ow_bug.cgi?id=3D13467</a><br>
+<br></blockquote><div><br></div><div>Yes, it is already fixed in master:</d=
+iv><div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?i=
+d=3Dac5b7cef596114ec96fcff34a3251ebf959395fd">http://git.yoctoproject.org/c=
+git/cgit.cgi/poky/commit/?id=3Dac5b7cef596114ec96fcff34a3251ebf959395fd</a>=
+</div><div><br></div><div>Alex<br> </div></div></div>
+
+--00000000000041833d058f8453b9--
