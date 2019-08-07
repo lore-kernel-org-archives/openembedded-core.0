@@ -1,26 +1,30 @@
-Return-Path: <chin.huat.ang@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AAB0B7F45D
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 889097F326
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 05:59:40 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Aug 2019 22:52:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,356,1559545200"; d="scan'208";a="168519898"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga008.jf.intel.com with ESMTP; 06 Aug 2019 22:52:36 -0700
-From: Chin Huat Ang <chin.huat.ang@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed,  7 Aug 2019 13:52:30 +0800
-Message-Id: <1565157150-7729-4-git-send-email-chin.huat.ang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1565157150-7729-1-git-send-email-chin.huat.ang@intel.com>
-References: <1565157150-7729-1-git-send-email-chin.huat.ang@intel.com>
-Subject: [warrior][PATCH 4/4] efibootmgr: Pass correct flags to compiler from pkg-config
+	Wed,  7 Aug 2019 06:38:06 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,356,1559491200"; d="scan'208";a="73130329"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 07 Aug 2019 14:37:48 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 126EF4CDFCDA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Aug 2019 14:37:49 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 7 Aug 2019 14:37:53 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 7 Aug 2019 14:37:06 +0800
+Message-ID: <20190807063706.9115-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 126EF4CDFCDA.A0EE2
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCHv2] gpgme:upgrade 1.13.0 -> 1.13.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,133 +37,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 05:59:41 -0000
+X-List-Received-Date: Wed, 07 Aug 2019 06:38:07 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 
-efivar.h is in usr/include/efirvar directory so it should be
-added to include search path via -I to compiler cmdline to fix
+Refresh the following patch:
+0007-python-Add-variables-to-tests.patch
 
-make[1]: *** No rule to make target 'efivar.h', needed by 'efibootmgr.o'.  Stop.
-| make[1]: *** Waiting for unfinished jobs....
-
-When running clang to generate dependencies -MM -MG -MF it still
-parses the compile unit and complains if certain header is not found
-where as gcc does not do that, hence the compile error is only seen
-when compiling with clang.
-
-(From OE-Core rev: db4fa7e765cb434119d816d86b943eeb62235601)
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 ---
- .../97668ae0bce776a36ea2001dea63d376be8274ac.patch | 83 ++++++++++++++++++++++
- meta/recipes-bsp/efibootmgr/efibootmgr_17.bb       |  1 +
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-bsp/efibootmgr/efibootmgr/97668ae0bce776a36ea2001dea63d376be8274ac.patch
+ .../gpgme/0007-python-Add-variables-to-tests.patch | 24 ++++++++++++----------
+ .../gpgme/{gpgme_1.13.0.bb => gpgme_1.13.1.bb}     |  4 ++--
+ 2 files changed, 15 insertions(+), 13 deletions(-)
+ rename meta/recipes-support/gpgme/{gpgme_1.13.0.bb => gpgme_1.13.1.bb} (96%)
 
-diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr/97668ae0bce776a36ea2001dea63d376be8274ac.patch b/meta/recipes-bsp/efibootmgr/efibootmgr/97668ae0bce776a36ea2001dea63d376be8274ac.patch
-new file mode 100644
-index 0000000..9525ed8
---- /dev/null
-+++ b/meta/recipes-bsp/efibootmgr/efibootmgr/97668ae0bce776a36ea2001dea63d376be8274ac.patch
-@@ -0,0 +1,83 @@
-+From 97668ae0bce776a36ea2001dea63d376be8274ac Mon Sep 17 00:00:00 2001
-+From: Peter Jones <pjones@redhat.com>
-+Date: Wed, 6 Mar 2019 13:08:33 -0500
-+Subject: [PATCH] Make sure PKGS= is propogated into the submake for "make
-+ deps"
-+
-+When we're doing make deps with "$(CC) -MF", gcc and clang have different
-+behavior, both broken in different ways, which we're hitting because of a
-+missing -I argument for libefivar's includes.  On clang, when a header can't
-+be found, it emits a rule with the header as a prerequisite without a path,
-+such as efivar.h here:
-+
-+efibootmgr.o: efibootmgr.c fix_coverity.h efivar.h efiboot.h \
-+  /home/pjones/devel/github.com/efibootmgr/master/src/include/list.h \
-+  /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
-+  /home/pjones/devel/github.com/efibootmgr/master/src/include/unparse_path.h \
-+  /home/pjones/devel/github.com/efibootmgr/master/src/include/efibootmgr.h \
-+  error.h
-+
-+Then the build that utilizes that rule will fail to find the
-+prerequisite and tell you something like:
-+
-+make[1]: *** No rule to make target 'efivar.h', needed by 'efibootmgr.o'.  Stop.
-+make[1]: Leaving directory '/home/pjones/devel/github.com/efibootmgr/master/src'
-+
-+With gcc, when a header can't be found, it emits a rule without that header
-+as a prerequisite, as such (again with efivar.h):
-+
-+efibootmgr.o: efibootmgr.c fix_coverity.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/list.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/unparse_path.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/efibootmgr.h \
-+ error.h
-+
-+And then your build will fail if you haven't adjusted CFLAGS to tell it
-+where to find the header.
-+
-+Both of these would be better just erroring, but at least gcc's doesn't
-+insert a *wrong* dependency.
-+
-+This patch adds "PKGS=efivar efibootmgr popt" for all deps under src/.
-+Technically that's overkill, as efibootmgr itself doesn't need popt, but it
-+doesn't hurt anything to have the extra part there.  The resulting
-+.efibootmgr.d file has the prerequisites expressed correctly:
-+
-+efibootmgr.o: efibootmgr.c fix_coverity.h /usr/include/efivar/efivar.h \
-+ /usr/include/efivar/efiboot.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/list.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/unparse_path.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/efi.h \
-+ /home/pjones/devel/github.com/efibootmgr/master/src/include/efibootmgr.h \
-+ error.h
-+
-+This fixes the issue described in github PR #96
-+
-+Signed-off-by: Peter Jones <pjones@redhat.com>
-+Upstream-Status: Backport [https://github.com/rhboot/efibootmgr/commit/97668ae0bce776a36ea2001dea63d376be8274ac]
-+---
-+ src/Makefile | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/Makefile b/src/Makefile
-+index 258bac1..32fa188 100644
-+--- a/src/Makefile
-++++ b/src/Makefile
-+@@ -31,8 +31,13 @@ efibootdump : PKGS=efivar efiboot popt
-+ efibootnext : $(call objects-of,$(EFIBOOTNEXT_SOURCES))
-+ efibootnext : PKGS=efivar efiboot popt
-+ 
-++deps : PKGS=efivar efiboot popt
-+ deps : $(ALL_SOURCES)
-+-	$(MAKE) -f $(TOPDIR)/Make.deps deps SOURCES="$(ALL_SOURCES)" SUBDIR_CFLAGS="$(SUBDIR_CFLAGS)"
-++	$(MAKE) -f $(TOPDIR)/Make.deps \
-++		SOURCES="$(ALL_SOURCES)" \
-++		SUBDIR_CFLAGS="$(SUBDIR_CFLAGS)" \
-++		PKGS="$(PKGS)" \
-++		deps
-+ 
-+ clean :
-+ 	@rm -rfv *.o *.a *.so $(TARGETS)
-diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb b/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-index 0e5a81e..5d6f200 100644
---- a/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-+++ b/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-@@ -12,6 +12,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+diff --git a/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch b/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch
+index af9ddbf..4c97f63 100644
+--- a/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch
++++ b/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch
+@@ -1,6 +1,6 @@
+-From 317cdf60165d760572a26db317e3d6edb159b04e Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Wed, 17 Oct 2018 23:41:09 +0800
++From 093c88817397425ee4c2333c469467229a46c9e1 Mon Sep 17 00:00:00 2001
++From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
++Date: Mon, 5 Aug 2019 01:00:58 +0900
+ Subject: [PATCH 7/7] python: Add variables to tests
  
- SRC_URI = "git://github.com/rhinstaller/efibootmgr.git;protocol=https \
-            file://0001-remove-extra-decl.patch \
-+           file://97668ae0bce776a36ea2001dea63d376be8274ac.patch \
+ * configure.ac, lang/python/Makefile.am:
+@@ -9,16 +9,18 @@ Subject: [PATCH 7/7] python: Add variables to tests
+ Upstream-Status: Submitted [gnupg-devel@gnupg.org]
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
++Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+ ---
+  configure.ac            | 5 +++++
+  lang/python/Makefile.am | 3 +++
+  2 files changed, 8 insertions(+)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 865bd10..035555a 100644
++index bd85886..b5ae42e 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -535,6 +535,11 @@ AC_ARG_ENABLE(g13-test,
++@@ -533,6 +533,11 @@ AC_ARG_ENABLE(g13-test,
+           run_g13_test=$enableval)
+  AM_CONDITIONAL(RUN_G13_TESTS, test "$run_g13_test" = "yes")
+  
+@@ -31,17 +33,17 @@ index 865bd10..035555a 100644
+  # Checks for header files.
+  AC_CHECK_HEADERS_ONCE([locale.h sys/select.h sys/uio.h argp.h stdint.h
+ diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
+-index ce9a108..0c8cfdc 100644
++index 551deee..0fd555e 100644
+ --- a/lang/python/Makefile.am
+ +++ b/lang/python/Makefile.am
+-@@ -25,7 +25,10 @@ EXTRA_DIST = \
+- 	doc \
+- 	src
++@@ -23,7 +23,10 @@ EXTRA_DIST = \
++ 	gpgme.i \
++ 	helpers.c helpers.h private.h
+  
+++SUBDIRS = . examples doc src
+ +if RUN_LANG_PYTHON_TESTS
+- SUBDIRS = . tests
++ SUBDIRS = . tests examples doc src
+ +endif
+-+
+  
+  .PHONY: prepare
+  prepare: copystamp
+diff --git a/meta/recipes-support/gpgme/gpgme_1.13.0.bb b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
+similarity index 96%
+rename from meta/recipes-support/gpgme/gpgme_1.13.0.bb
+rename to meta/recipes-support/gpgme/gpgme_1.13.1.bb
+index cbd37da..9fc1ae2 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.13.0.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
+@@ -22,8 +22,8 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
+            file://0008-do-not-auto-check-var-PYTHON.patch \
            "
- SRCREV = "e067160ecef8208e1944002e5d50b275733211fb"
  
+-SRC_URI[md5sum] = "e511a0d95c507ab87e713140c82fc7d0"
+-SRC_URI[sha256sum] = "d4b23e47a9e784a63e029338cce0464a82ce0ae4af852886afda410f9e39c630"
++SRC_URI[md5sum] = "198f0a908ec3cd8f0ce9a4f3a4489645"
++SRC_URI[sha256sum] = "c4e30b227682374c23cddc7fdb9324a99694d907e79242a25a4deeedb393be46"
+ 
+ DEPENDS = "libgpg-error libassuan"
+ RDEPENDS_${PN}-cpp += "libstdc++"
 -- 
 2.7.4
+
+
 
 
