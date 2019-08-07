@@ -1,47 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
-	[209.85.222.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 62C2F7E63A
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0101E7E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 01:02:53 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id r21so64588850qke.2
+	Wed,  7 Aug 2019 01:46:26 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,353,1559491200"; d="scan'208";a="73106765"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 07 Aug 2019 09:46:14 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 5221F4CDFCD8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Aug 2019 18:02:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=17p1/jYuZ1rka4wnwn+W9TePLQjThx4c28NvkPKrNIQ=;
-	b=cZVXPfSPcHvH66Ur0VjuUoOGBkk9F79Bs8hX+FpMpOBpmKJ7VOuxRuDEATVTXHSK3c
-	DBGDC6ix9B5nWH3MaqhYaVl8+2BU7KyGLRGblPAtITZTAN9Um2ZseiU83VUy6Z9FQpDn
-	CuMYz7wD4bpPiTSjMFtKecrj5f9T5o+3fV5uz597QFAHHS6AozMZwcp8tvdDg75sFYGY
-	pnrjPezTG5es64wMpgkufhpzRCB1W11LxGGL4Mfh5d+vsyxvivKVtP2aK2rx44Uz+Cb/
-	9yF1tnJQVXsJGzNx4Zu/euJ5WWYNJs3C9/NRPP1VPix+FF5azEn2uIjJ/Z9+zcxLHUZk
-	7kMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=17p1/jYuZ1rka4wnwn+W9TePLQjThx4c28NvkPKrNIQ=;
-	b=ohnD4PQ54Hf7glJ/98CTR7jDA7fP7mcgE6R6UzLmRE1enFpnRvD9Y1ONs0LITHPUSR
-	tyd3Yd2RPSAtS5WKsUh7bawE3LsLfTGT8VdR7FdmdG04jC8G4iORWBj2a7qD9wIMAFX0
-	FMYg50r0QKWHbyENgonN1IapQg4lO3aH4wIaGndvhX3mCT/p61k2p4ip9QXRBSrXchmX
-	DS6XSPXtFz6JjWeyb7cSqZu0W5k2xpkdaGWDn0OG5J+MZUw8O3hRFoO9bPIcm55JaYCT
-	EsiHClVd/l1Adg3jTXonGMsURvNjGjgHXNK+MMCI8zgUNFXK00Q4h007YsGTlr7ryaIy
-	4tJQ==
-X-Gm-Message-State: APjAAAUKPj9geSx5fjdUgIN3lP0Ocyw9TNO241mvP/rhvusIB8yBBmy6
-	LzEAp/W7Cpr/4Qbh2ayi2nI/NP/EcvkXSw/U1O4=
-X-Google-Smtp-Source: APXvYqyLjdW3zX/1DbOYAhcgw6ufuOycacy8EMVvPRYhTLsksBeo4PPO+vk2qC3gv2f+6dtUTinbbqkYcMphA4IpqI8=
-X-Received: by 2002:a37:ef14:: with SMTP id j20mr6200736qkk.474.1565139773887; 
-	Tue, 06 Aug 2019 18:02:53 -0700 (PDT)
+	Wed,  7 Aug 2019 09:46:17 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 7 Aug 2019 09:46:18 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 7 Aug 2019 09:45:35 +0800
+Message-ID: <20190807014535.23718-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190806114717.6818-1-ross.burton@intel.com>
-In-Reply-To: <20190806114717.6818-1-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 6 Aug 2019 18:02:38 -0700
-Message-ID: <CAMKF1spH3avgvz3NKLnJWSw_-XFViyuRoFbxPuBiTs=1fB7jmQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pango: improve ptest pass rate
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 5221F4CDFCD8.AA8CB
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libevent:upgrade 2.1.10 -> 2.1.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,25 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 01:02:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 07 Aug 2019 01:46:27 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-> -RDEPENDS_${PN}-ptest += "liberation-fonts cantarell-fonts"
-> +RDEPENDS_${PN}-ptest += "cantarell-fonts locale-base-en-us"
->
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ .../libevent/{libevent_2.1.10.bb => libevent_2.1.11.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libevent/{libevent_2.1.10.bb => libevent_2.1.11.bb} (88%)
 
-this should be
-RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-en-us"
+diff --git a/meta/recipes-support/libevent/libevent_2.1.10.bb b/meta/recipes-support/libevent/libevent_2.1.11.bb
+similarity index 88%
+rename from meta/recipes-support/libevent/libevent_2.1.10.bb
+rename to meta/recipes-support/libevent/libevent_2.1.11.bb
+index 81ceb1c..1e18f0a 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.10.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.11.bb
+@@ -12,8 +12,8 @@ SRC_URI = " \
+     file://run-ptest \
+ "
+ 
+-SRC_URI[md5sum] = "999caf86f52943af2363bc8077f00167"
+-SRC_URI[sha256sum] = "e864af41a336bb11dab1a23f32993afe963c1f69618bd9292b89ecf6904845b0"
++SRC_URI[md5sum] = "7f35cfe69b82d879111ec0d7b7b1c531"
++SRC_URI[sha256sum] = "a65bac6202ea8c5609fd5c7e480e6d25de467ea1917c08290c521752f147283d"
+ 
+ UPSTREAM_CHECK_URI = "http://libevent.org/"
+ 
+-- 
+2.7.4
 
-locale-base-en-us
->  RPROVIDES_${PN} += "pango-modules pango-module-indic-lang \
->                      pango-module-basic-fc pango-module-arabic-lang"
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
