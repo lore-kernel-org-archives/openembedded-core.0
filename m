@@ -1,30 +1,36 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id EC1EA7F388
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 351297F2EF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 03:08:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,353,1559491200"; d="scan'208";a="73113680"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Aug 2019 11:08:53 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 48F294CDFCE8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 11:08:54 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 7 Aug 2019 11:08:54 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Aug 2019 11:08:12 +0800
-Message-ID: <20190807030812.24605-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Wed,  7 Aug 2019 03:38:55 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Aug 2019 20:38:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,356,1559545200"; d="scan'208";a="174369638"
+Received: from kmsmsx157.gar.corp.intel.com ([172.21.138.134])
+	by fmsmga008.fm.intel.com with ESMTP; 06 Aug 2019 20:38:56 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
+	kmsmsx157.gar.corp.intel.com ([169.254.5.204]) with mapi id
+	14.03.0439.000; Wed, 7 Aug 2019 11:38:55 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "zangrc.fnst@cn.fujitsu.com"
+	<zangrc.fnst@cn.fujitsu.com>
+Thread-Topic: [OE-core]  [PATCH] gpgme:upgrade 1.13.0 -> 1.13.1
+Thread-Index: AQHVTM2JQ2hjAEhRAUCEZzf9/QXnD6bug44A
+Date: Wed, 7 Aug 2019 03:38:54 +0000
+Message-ID: <6f5c5019b52b46842ba98d3a0d67ad9428fabe2f.camel@intel.com>
+References: <20190807030812.24605-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190807030812.24605-1-zangrc.fnst@cn.fujitsu.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.199.133]
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 48F294CDFCE8.AAA88
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] gpgme:upgrade 1.13.0 -> 1.13.1
+Subject: Re: [PATCH] gpgme:upgrade 1.13.0 -> 1.13.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,103 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 03:08:54 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Aug 2019 03:38:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <71AE318A7DADFD44B9043B05B7238FE1@intel.com>
+Content-Transfer-Encoding: base64
 
-From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
-
-Refresh the following patch:
-0007-python-Add-variables-to-tests.patch
-
-Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
----
- .../gpgme/0007-python-Add-variables-to-tests.patch | 27 +++++++++++-----------
- .../gpgme/{gpgme_1.13.0.bb => gpgme_1.13.1.bb}     |  4 ++--
- 2 files changed, 16 insertions(+), 15 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme_1.13.0.bb => gpgme_1.13.1.bb} (96%)
-
-diff --git a/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch b/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch
-index af9ddbf..3c9b5c1 100644
---- a/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0007-python-Add-variables-to-tests.patch
-@@ -1,6 +1,6 @@
--From 317cdf60165d760572a26db317e3d6edb159b04e Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Wed, 17 Oct 2018 23:41:09 +0800
-+From 044b8f442e64801cebb9fd821a46021c89bd4eed Mon Sep 17 00:00:00 2001
-+From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
-+Date: Sun, 4 Aug 2019 21:39:03 +0900
- Subject: [PATCH 7/7] python: Add variables to tests
- 
- * configure.ac, lang/python/Makefile.am:
-@@ -9,16 +9,18 @@ Subject: [PATCH 7/7] python: Add variables to tests
- Upstream-Status: Submitted [gnupg-devel@gnupg.org]
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
-+Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
- ---
-  configure.ac            | 5 +++++
-- lang/python/Makefile.am | 3 +++
-- 2 files changed, 8 insertions(+)
-+ lang/python/Makefile.am | 2 ++
-+ 2 files changed, 7 insertions(+)
- 
- diff --git a/configure.ac b/configure.ac
--index 865bd10..035555a 100644
-+index bd85886..b5ae42e 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -535,6 +535,11 @@ AC_ARG_ENABLE(g13-test,
-+@@ -533,6 +533,11 @@ AC_ARG_ENABLE(g13-test,
-           run_g13_test=$enableval)
-  AM_CONDITIONAL(RUN_G13_TESTS, test "$run_g13_test" = "yes")
-  
-@@ -31,17 +33,16 @@ index 865bd10..035555a 100644
-  # Checks for header files.
-  AC_CHECK_HEADERS_ONCE([locale.h sys/select.h sys/uio.h argp.h stdint.h
- diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
--index ce9a108..0c8cfdc 100644
-+index 551deee..60734d0 100644
- --- a/lang/python/Makefile.am
- +++ b/lang/python/Makefile.am
--@@ -25,7 +25,10 @@ EXTRA_DIST = \
-- 	doc \
-- 	src
-+@@ -23,7 +23,9 @@ EXTRA_DIST = \
-+ 	gpgme.i \
-+ 	helpers.c helpers.h private.h
-  
- +if RUN_LANG_PYTHON_TESTS
-- SUBDIRS = . tests
-+ SUBDIRS = . tests examples doc src
- +endif
--+
-  
-  .PHONY: prepare
-  prepare: copystamp
-diff --git a/meta/recipes-support/gpgme/gpgme_1.13.0.bb b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
-similarity index 96%
-rename from meta/recipes-support/gpgme/gpgme_1.13.0.bb
-rename to meta/recipes-support/gpgme/gpgme_1.13.1.bb
-index cbd37da..9fc1ae2 100644
---- a/meta/recipes-support/gpgme/gpgme_1.13.0.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.13.1.bb
-@@ -22,8 +22,8 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://0008-do-not-auto-check-var-PYTHON.patch \
-           "
- 
--SRC_URI[md5sum] = "e511a0d95c507ab87e713140c82fc7d0"
--SRC_URI[sha256sum] = "d4b23e47a9e784a63e029338cce0464a82ce0ae4af852886afda410f9e39c630"
-+SRC_URI[md5sum] = "198f0a908ec3cd8f0ce9a4f3a4489645"
-+SRC_URI[sha256sum] = "c4e30b227682374c23cddc7fdb9324a99694d907e79242a25a4deeedb393be46"
- 
- DEPENDS = "libgpg-error libassuan"
- RDEPENDS_${PN}-cpp += "libstdc++"
--- 
-2.7.4
-
-
-
+T24gV2VkLCAyMDE5LTA4LTA3IGF0IDExOjA4ICswODAwLCBaYW5nIFJ1b2NoZW4gd3JvdGU6DQo+
+ICBkaWZmIC0tZ2l0IGEvbGFuZy9weXRob24vTWFrZWZpbGUuYW0gYi9sYW5nL3B5dGhvbi9NYWtl
+ZmlsZS5hbQ0KPiAtaW5kZXggY2U5YTEwOC4uMGM4Y2ZkYyAxMDA2NDQNCj4gK2luZGV4IDU1MWRl
+ZWUuLjYwNzM0ZDAgMTAwNjQ0DQo+ICAtLS0gYS9sYW5nL3B5dGhvbi9NYWtlZmlsZS5hbQ0KPiAg
+KysrIGIvbGFuZy9weXRob24vTWFrZWZpbGUuYW0NCj4gLUBAIC0yNSw3ICsyNSwxMCBAQCBFWFRS
+QV9ESVNUID0gXA0KPiAtICAgICAgIGRvYyBcDQo+IC0gICAgICAgc3JjDQo+ICtAQCAtMjMsNyAr
+MjMsOSBAQCBFWFRSQV9ESVNUID0gXA0KPiArICAgICAgIGdwZ21lLmkgXA0KPiArICAgICAgIGhl
+bHBlcnMuYyBoZWxwZXJzLmggcHJpdmF0ZS5oDQo+ICAgDQo+ICAraWYgUlVOX0xBTkdfUFlUSE9O
+X1RFU1RTDQo+IC0gU1VCRElSUyA9IC4gdGVzdHMNCj4gKyBTVUJESVJTID0gLiB0ZXN0cyBleGFt
+cGxlcyBkb2Mgc3JjDQo+ICArZW5kaWYNCg0KVGhpcyB3b3VsZCBub3cgY2F1c2Ugbm90aGluZyBp
+biBhbGwgdGhlc2UgZGlycyB0byBiZSBidWlsdC4gSXMgdGhhdCB0aGUNCmludGVudGlvbiBoZXJl
+Pw0KDQpTaW5jZSB0aGUgb3JpZ2luYWwgaW50ZW50aW9uIG9mIHRoaXMgcGF0Y2ggd2FzIHRvIG5v
+dCBidWlsZCB0aGUgcHl0aG9uDQp0ZXN0cywgcGVyaGFwcyBjaGFuZ2VzIGluIHRoaXMgY29tbWl0
+IG1pZ2h0IGhlbHA6DQoNCmh0dHBzOi8vZ2l0LmdudXBnLm9yZy9jZ2ktYmluL2dpdHdlYi5jZ2k/
+cD1ncGdtZS5naXQ7YT1jb21taXQ7aD0zMGJkMWMwOTc1NDQzNzZmMjU3ZDQyNmQ1ZmViNDcwNmZi
+NWQzYWZkDQoNClRoYW5rcywNCg0KQW51ag0K
 
