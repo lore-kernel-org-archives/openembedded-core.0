@@ -1,29 +1,51 @@
-Return-Path: <ricardo.neri-calderon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E2CE57E8B7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E60F57F344
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 22:02:52 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Aug 2019 13:18:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,358,1559545200"; d="scan'208";a="203318381"
-Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Aug 2019 13:18:47 -0700
-Date: Wed, 7 Aug 2019 13:18:05 -0700
-From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190807201804.GA5857@ranerica-svr.sc.intel.com>
-References: <1565142279-8439-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
-	<6832330c6d1ccc57020c0a2916e8309468b5b196.camel@linuxfoundation.org>
+	Wed,  7 Aug 2019 22:08:28 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id 10so369183wmp.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Aug 2019 15:08:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=RupAKNesQALPiCN84eV8ckIxcKr7kAgg/GoRGZ4g87E=;
+	b=QbIOlbCp+OoA/UuJ7yekeixme/KP9QG9gBv4dGeEoNEc0+Ulk9T6+N85aUbm8snbwN
+	H8wyZkIpkwN8rELYhnBscAe6AXd/cXRPEPLkknWsSubaFW9aOXeLB9ZeA00fIl0rtmuQ
+	RiPcb1Z7rDNDVVf7VXaZdyUxzJ/yn3luhfnOo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=RupAKNesQALPiCN84eV8ckIxcKr7kAgg/GoRGZ4g87E=;
+	b=ZsrXoMb78e2v15fCs4FloE/BO8aTD206cZV6YB6gdgIydi5L2iQBQ7t/jbgm/Xtf8E
+	AcwudLEneCmvn7zyrfUzU1R4DyvBgWYfYZq7EQyPmX4U4MzulieY0BeDk1Hc4J/DdkP/
+	IjGHYvNN9o3W3zl1x/r0UIti153Iqx5pspeMcctF190CAEHELJ5PanV6pD4dlpykTpCP
+	mqzt3F1AhGl1URCltkWR4O9g8AqaRRCyVXa4CkRUz4zE3IwzQI37Q8Pi9pP6Ma15Cw/6
+	As7OGghc8okWxdNqYoKsODgP8nQbOsxGVRMZzhG5J9iXErmlnIECdbJ0jDR4yKmdl3Ub
+	NWug==
+X-Gm-Message-State: APjAAAXQOEFhXB3RpzEs6KuJ+IAH9wcGwkp3RNhgGq00PSp1+1zTCpdR
+	w3vVYTaDi34TLF+hOjf3ifPsrA==
+X-Google-Smtp-Source: APXvYqyTyCfF12X5cO9TBafDxMRRaLEEGPMfup08PTRt13PYw2sPfRHm1+4t/3tR8tP3BtAB5oSjFA==
+X-Received: by 2002:a7b:cf32:: with SMTP id m18mr389649wmg.27.1565215709546;
+	Wed, 07 Aug 2019 15:08:29 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	32sm86364286wrh.76.2019.08.07.15.08.28
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 07 Aug 2019 15:08:28 -0700 (PDT)
+Message-ID: <94b692a828bbf5230f56afbc401bf9d66660283b.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 07 Aug 2019 23:08:27 +0100
+In-Reply-To: <20190807102939.12760-1-alex.kanavin@gmail.com>
+References: <20190807102939.12760-1-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <6832330c6d1ccc57020c0a2916e8309468b5b196.camel@linuxfoundation.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] ovmf: Bump to edk2-stable201905 and add improvements
+Subject: Re: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,87 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 22:02:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 07 Aug 2019 22:08:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 07, 2019 at 07:36:26PM +0100, Richard Purdie wrote:
-> On Tue, 2019-08-06 at 18:44 -0700, Ricardo Neri wrote:
-> > Hi,
-> > 
-> > Fixes [YOCTO #13438]
-> > 
-> > I have implemented this patchset to bump the OVMF recipe to the
-> > latest
-> > stable release of OVMF: edk2-stable201905. I continued Ross Burton's
-> > initial work to update the recipe [1].
-> > 
-> > The majority of the patches we were carrying with the recipe have
-> > been
-> > taken upstream in EDK2 and I have removed them. Plus, EDK2 now adds
-> > openssl as a git submodule and not a patching script. Thus, I removed
-> > support for this script and switched to the gitsm bitbake fetcher.
-> > 
-> > Also, now the EnrollDefaultKeys EFI application requires a separate
-> > Platform Key and first Key Exchange Key certificate instead of an
-> > hard-coded certificate embedded in the application. The hypervisor
-> > shall
-> > pass this certificated to EnrollDefaultKeys via the Type 11 SMBus
-> > table.
-> > I have updated the ovmf recipe to create the needed certificate and
-> > also updated runqemu to provide such certificate when using an OVMF
-> > binary with support for Secure Boot.
-> > 
-> > Lastly, I defined the recipe's PV and took Ross' change to use
-> > python3
-> > from HOSTTOOLS.
+On Wed, 2019-08-07 at 12:29 +0200, Alexander Kanavin wrote:
+> Recursive RDEPENDS resolution requires that all of the dependent
+> recipes' packaging has completed. There is no mechanism to ensure
+> that
+> and therefore races were observed.
 > 
-> Thanks for the patches. I can't get the to apply at all. I know we have
-> problems due to the line endings in ovmf and the mailing list is
-> probably messing them up. Could you share a git tree with the patches
-> in somewhere please?
+> This change effectively requires recipes to list their runtime file
+> dependencies explicitly rather than have them pulled indirectly.
+> This may require a bit of fixing in layers, but should result
+> in a better definition of runtime file dependencies.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/classes/insane.bbclass | 18 ------------------
+>  1 file changed, 18 deletions(-)
 
-Thanks for considering the patches, Richard! You can pull the patches
-from here:
+You might want to have a look at 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/621
+and maybe other pieces of that build yet to finish, not sure...
 
-The following changes since commit 96decf673992b1cd1eebac45a5cd534eef27ebd7:
+Cheers,
 
-  waffle: upgrade 1.5.2 -> 1.6.0 (2019-08-07 16:08:08 +0100)
+Richard
 
-are available in the Git repository at:
-
-  https://github.com/ricardon/openembedded-core.git rneri/ovmf_updates
-
-for you to fetch changes up to e81cf432b29056dda5496a5454fdfb9cc15dc2fa:
-
-  runqemu: Add support to handle EnrollDefaultKeys PK/KEK1 certificate (2019-08-07 13:09:32 -0700)
-
-----------------------------------------------------------------
-Ricardo Neri (5):
-      ovmf: Update to version edk2-stable201905
-      ovmf: Set PV
-      ovmf: Use HOSTTOOLS' python3
-      ovmf: Generate test Platform key and first Key Exchange Key
-      runqemu: Add support to handle EnrollDefaultKeys PK/KEK1 certificate
-
- .../ovmf/0001-BaseTools-header.makefile-add-Wno-stringop-truncatio.patch   |   71 ---
- meta/recipes-core/ovmf/ovmf/0001-ia32-Dont-use-pie.patch                   |   46 --
- .../ovmf/ovmf/0002-BaseTools-header.makefile-add-Wno-restrict.patch        |  102 ---
- .../ovmf/0003-BaseTools-header.makefile-revert-gcc-8-Wno-xxx-optio.patch   |   53 --
- .../ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch    |   33 +-
- .../ovmf/0004-BaseTools-GenVtf-silence-false-stringop-overflow-war.patch   |   66 --
- .../ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch   | 1124 ---------------------------------
- meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch             |   26 +-
- meta/recipes-core/ovmf/ovmf_git.bb                                         |   40 +-
- scripts/runqemu                                                            |   32 +
- 10 files changed, 90 insertions(+), 1503 deletions(-)
- delete mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-header.makefile-add-Wno-stringop-truncatio.patch
- delete mode 100644 meta/recipes-core/ovmf/ovmf/0001-ia32-Dont-use-pie.patch
- delete mode 100644 meta/recipes-core/ovmf/ovmf/0002-BaseTools-header.makefile-add-Wno-restrict.patch
- delete mode 100644 meta/recipes-core/ovmf/ovmf/0003-BaseTools-header.makefile-revert-gcc-8-Wno-xxx-optio.patch
- delete mode 100644 meta/recipes-core/ovmf/ovmf/0004-BaseTools-GenVtf-silence-false-stringop-overflow-war.patch
- delete mode 100644 meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch
-
-Thanks and BR,
-Ricardo
 
