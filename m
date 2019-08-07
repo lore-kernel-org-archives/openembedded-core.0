@@ -1,30 +1,25 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 0101E7E668
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 07 Aug 2019 01:52:11 UTC
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C82427E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 01:46:26 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,353,1559491200"; d="scan'208";a="73106765"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Aug 2019 09:46:14 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 5221F4CDFCD8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 09:46:17 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 7 Aug 2019 09:46:18 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Aug 2019 09:45:35 +0800
-Message-ID: <20190807014535.23718-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 5221F4CDFCD8.AA8CB
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] libevent:upgrade 2.1.10 -> 2.1.11
+	Wed,  7 Aug 2019 01:52:11 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Aug 2019 18:45:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,353,1559545200"; d="scan'208";a="185841484"
+Received: from unknown (HELO luv-build.sc.intel.com) ([172.25.110.25])
+	by orsmga002.jf.intel.com with ESMTP; 06 Aug 2019 18:45:05 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Aug 2019 18:44:34 -0700
+Message-Id: <1565142279-8439-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/5] ovmf: Bump to edk2-stable201905 and add improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 01:46:27 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Aug 2019 01:52:12 -0000
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- .../libevent/{libevent_2.1.10.bb => libevent_2.1.11.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libevent/{libevent_2.1.10.bb => libevent_2.1.11.bb} (88%)
+Hi,
 
-diff --git a/meta/recipes-support/libevent/libevent_2.1.10.bb b/meta/recipes-support/libevent/libevent_2.1.11.bb
-similarity index 88%
-rename from meta/recipes-support/libevent/libevent_2.1.10.bb
-rename to meta/recipes-support/libevent/libevent_2.1.11.bb
-index 81ceb1c..1e18f0a 100644
---- a/meta/recipes-support/libevent/libevent_2.1.10.bb
-+++ b/meta/recipes-support/libevent/libevent_2.1.11.bb
-@@ -12,8 +12,8 @@ SRC_URI = " \
-     file://run-ptest \
- "
- 
--SRC_URI[md5sum] = "999caf86f52943af2363bc8077f00167"
--SRC_URI[sha256sum] = "e864af41a336bb11dab1a23f32993afe963c1f69618bd9292b89ecf6904845b0"
-+SRC_URI[md5sum] = "7f35cfe69b82d879111ec0d7b7b1c531"
-+SRC_URI[sha256sum] = "a65bac6202ea8c5609fd5c7e480e6d25de467ea1917c08290c521752f147283d"
- 
- UPSTREAM_CHECK_URI = "http://libevent.org/"
- 
+Fixes [YOCTO #13438]
+
+I have implemented this patchset to bump the OVMF recipe to the latest
+stable release of OVMF: edk2-stable201905. I continued Ross Burton's
+initial work to update the recipe [1].
+
+The majority of the patches we were carrying with the recipe have been
+taken upstream in EDK2 and I have removed them. Plus, EDK2 now adds
+openssl as a git submodule and not a patching script. Thus, I removed
+support for this script and switched to the gitsm bitbake fetcher.
+
+Also, now the EnrollDefaultKeys EFI application requires a separate
+Platform Key and first Key Exchange Key certificate instead of an
+hard-coded certificate embedded in the application. The hypervisor shall
+pass this certificated to EnrollDefaultKeys via the Type 11 SMBus table.
+I have updated the ovmf recipe to create the needed certificate and
+also updated runqemu to provide such certificate when using an OVMF
+binary with support for Secure Boot.
+
+Lastly, I defined the recipe's PV and took Ross' change to use python3
+from HOSTTOOLS.
+
+Thanks and BR,
+Ricardo
+
+[1]. http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ross/nopy2&id=f95649176b7916116251a092a82618dd08ff1961
+
+Ricardo Neri (5):
+  ovmf: Update to version edk2-stable201905
+  ovmf: Set PV
+  ovmf: use HOSTTOOLS' python3
+  ovmf: Generate test Platform key and first Key Exchange Key
+  runqemu: Add support to handle EnrollDefaultKeys PK/KEK1 certificate
+
+ ....makefile-add-Wno-stringop-truncatio.patch |   71 --
+ .../ovmf/ovmf/0001-ia32-Dont-use-pie.patch    |   46 -
+ ...ols-header.makefile-add-Wno-restrict.patch |  102 --
+ ....makefile-revert-gcc-8-Wno-xxx-optio.patch |   53 -
+ ...ile-adjust-to-build-in-under-bitbake.patch |   33 +-
+ ...-silence-false-stringop-overflow-war.patch |   66 -
+ ...faultKeys-application-for-enrolling-.patch | 1124 -----------------
+ .../ovmf/no-stack-protector-all-archs.patch   |   26 +-
+ meta/recipes-core/ovmf/ovmf_git.bb            |   40 +-
+ scripts/runqemu                               |   32 +
+ 10 files changed, 90 insertions(+), 1503 deletions(-)
+ delete mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-header.makefile-add-Wno-stringop-truncatio.patch
+ delete mode 100644 meta/recipes-core/ovmf/ovmf/0001-ia32-Dont-use-pie.patch
+ delete mode 100644 meta/recipes-core/ovmf/ovmf/0002-BaseTools-header.makefile-add-Wno-restrict.patch
+ delete mode 100644 meta/recipes-core/ovmf/ovmf/0003-BaseTools-header.makefile-revert-gcc-8-Wno-xxx-optio.patch
+ delete mode 100644 meta/recipes-core/ovmf/ovmf/0004-BaseTools-GenVtf-silence-false-stringop-overflow-war.patch
+ delete mode 100644 meta/recipes-core/ovmf/ovmf/0007-OvmfPkg-EnrollDefaultKeys-application-for-enrolling-.patch
+
 -- 
-2.7.4
-
-
+2.20.1
 
 
