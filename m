@@ -1,50 +1,34 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
-	[209.85.128.43])
-	by mail.openembedded.org (Postfix) with ESMTP id ECAF77F45C
+Return-Path: <ross.burton@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 712E17F473
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 10:29:48 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id v15so81285823wml.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Aug 2019 03:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BS4esew3RWVRUex9CRupxjw28vQYOasgcWvZ5Uv/KXo=;
-	b=a45mRyM3zUcrzFU1OPnmwJb11linz9ldoRtZZUvuLywna2m4H1wuE5z1N4bWd0IggZ
-	7swwnw1RZUWaAi0pkEGMIBbUesv7aB05uOD5D04P5iQLkFBzlZe7zi52dTGrKhCJ39Th
-	M6MBi8GSYM7NnufjBwt18eukeC/bXahWVg68MWrlG8/EagaguqBOhaMu9Qe4Ar8sMrBt
-	+tebxMIBeCZ3+uWcO+vAP2MxKV6zSpkuNM7xQX+P0ihtreMYOS0wvMMAkPBCrBoikeb7
-	F0hMq3MHF9o0FK0ZJ/Y0fL4p8jdlao6bEMM3LkJ9MqjY+BEd+YAn0ZZqjUdH021wtIAf
-	HwDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=BS4esew3RWVRUex9CRupxjw28vQYOasgcWvZ5Uv/KXo=;
-	b=U8+nP0CmrLlLkMRZfL/6ICKCYlHzgIiIqiIQvNE30mjwmJTfNHwvenXkZfvXxCBF26
-	bnXl3aYr+IdJAoF0xiKChbxW+k8s0YGy8l0/SzVikWYQb2H+S9+u13L1dVi/SXMJzbbZ
-	spddOUWqnj7OVpqYWWop7N2lJn4XbIzm1Co713uTeBgvZkFwDUAOF+Wu68wJeHE79bTh
-	0rvAaobnXyO7Q2WHXP56fKyqHiPwsgtEP4FqC5hAPd049ZmFzt1GxEPeaYk5iVCcKcxd
-	5iH4Hc1HX6SIHacxLxN8d3jL8B8P/J15SIemxHkm2sjNHcxUaAvNRtmgDNocrxlPdNNS
-	54XA==
-X-Gm-Message-State: APjAAAWZCql6GLAWiOEWBH8meYHT059l+t1f+2mQMoHjFWG19kBxQcNf
-	XBn6IyZjphwsxVrcFjbqM8dHqvl5Jqq0+w==
-X-Google-Smtp-Source: APXvYqydgVlhpahr4zSjF0msSXyXXj6SE3V2doV2M0BiZVG8hEIUs5R6Hiwkv0rjnFpD2g7DRwVPuA==
-X-Received: by 2002:a1c:b146:: with SMTP id a67mr9819893wmf.124.1565173789523; 
-	Wed, 07 Aug 2019 03:29:49 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	o3sm79705336wrs.59.2019.08.07.03.29.48
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 07 Aug 2019 03:29:49 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Wed,  7 Aug 2019 10:49:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Aug 2019 03:49:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,357,1559545200"; d="scan'208";a="185956437"
+Received: from ambachan-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.33.220])
+	by orsmga002.jf.intel.com with ESMTP; 07 Aug 2019 03:49:46 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Aug 2019 12:29:39 +0200
-Message-Id: <20190807102939.12760-7-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190807102939.12760-1-alex.kanavin@gmail.com>
-References: <20190807102939.12760-1-alex.kanavin@gmail.com>
-Subject: [PATCH 7/7] bluez5: correct the python3 runtime dependency
+References: <20190423161916.25572-1-alex.kanavin@gmail.com>
+	<8d33f7f60b0fb8394b459ed4c43e9f21d844b269.camel@linuxfoundation.org>
+	<CANNYZj83RCwo3mtTkRxnyN45pi4qCg5ifrihWcyhQuk+0arZxA@mail.gmail.com>
+	<3053753.Zs8syfq2pI@localhost.localdomain>
+	<CANNYZj9aqA-7uWBNHCYzc1OKtnki1w-P3mGEePG=EsYOEf5kzA@mail.gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <c72db6d1-d0ff-f3b6-fb9f-e1e8c526f9c0@intel.com>
+Date: Wed, 7 Aug 2019 11:49:45 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj9aqA-7uWBNHCYzc1OKtnki1w-P3mGEePG=EsYOEf5kzA@mail.gmail.com>
+Subject: Re: [PATCH 5/9] python-setuptools: update to 41.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,27 +41,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 10:29:50 -0000
+X-List-Received-Date: Wed, 07 Aug 2019 10:49:46 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 07/08/2019 11:22, Alexander Kanavin wrote:
+> On Wed, 7 Aug 2019 at 01:14, Paul Eggleton 
+> <paul.eggleton@linux.intel.com <mailto:paul.eggleton@linux.intel.com>> 
+> wrote:
+> 
+> 
+>     Did you get anywhere with this?
+> 
+>     FYI I filed a bug for the issue:
+> 
+>     https://bugzilla.yoctoproject.org/show_bug.cgi?id=13467
+> 
+> 
+> Yes, it is already fixed in master:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=ac5b7cef596114ec96fcff34a3251ebf959395fd
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 28aaeea418f..bffd174c0a0 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -139,7 +139,7 @@ def get_noinst_tools_paths (d, bb, tools):
- 
- FILES_${PN}-noinst-tools = "${@get_noinst_tools_paths(d, bb, d.getVar('NOINST_TOOLS'))}"
- 
--RDEPENDS_${PN}-testtools += "python3 python3-dbus"
-+RDEPENDS_${PN}-testtools += "python3-core python3-dbus"
- RDEPENDS_${PN}-testtools += "${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'python3-pygobject', '', d)}"
- 
- SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'bluetooth.service', '', d)}"
--- 
-2.17.1
+Good find.  I tried, and failed, to reproduce this in thud.
 
+Ross
 
