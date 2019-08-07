@@ -1,47 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 458257EAC3
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0133E7EAC3
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  7 Aug 2019 10:29:44 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id f17so79424031wme.2
+Received: by mail-wr1-f52.google.com with SMTP id c2so87584839wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Aug 2019 03:29:45 -0700 (PDT)
+	Wed, 07 Aug 2019 03:29:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=bZGD8uhAVOoM+ur6uABzwcAAiWhPzHqGEzom28TnJa0=;
-	b=hBpJ/dbgJdw8b6SK8+8qFPIBTM+1bIe5Y3ebKwxrHq4ouyYIAVdWg4gJm7wzS+v+OX
-	aCKwB+H0VQ+FKUIyoB0eBJ2bfGzTqsGrs6BvG5AtsNJ5FOWIBiCfBmrS8N3EUkCG/a1o
-	9e0Pzay509qIe9qiS/3XqIPYMi87xNjCY/SATHfENjhPXMXsk52JRLQ7HQ7YE0hDxdt6
-	9lL/wfRBiluyPFLAHxe0lgyjXvzwMp9Wq+Ab44ItWGWgn7YnvgGadkwevy5vGHef6YnD
-	vpLw4t1GuFF5Mbq4Qx9gi3UGDv3fKKohbkStmwqHEy8dMEov1SnhVhJXOZ4kIIUyBen3
-	4zWQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=JGW46qANc0tq85JAWb8WEeHJ8rj1eD/29expWeFaAtI=;
+	b=V54bl2dfoJR6/4NqYya225ES7CgB3YllGg4fk6hAsu5rvNd3IgZTDbRV4NW8XlopKg
+	qbpaafeKx6V4VE7ivqbLO0e8clGsPJykxRldd6W3LAQDNA0j9F4RA3dJP+U578yxyn8G
+	Gw1+qr3TrxJGVyQcyAaT4faClBCpq27UhNC/pqQ8ZGZ70k3qd8GhgY7xl0MvhXAlXstY
+	8lAsqe8qE4oWI3a01ydTUzs02YMg593bqvnnAnoyIxOuxQkv6CfV65dlT9W+tKymeWzV
+	OQn3KN7q6k/djzEpJbZDuV8hDJ4giPBEJbfD2yyy5zTxrnB1ulTZhGK3948NMyikY9DO
+	YQMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bZGD8uhAVOoM+ur6uABzwcAAiWhPzHqGEzom28TnJa0=;
-	b=KqDxzR/AgYzjBnfGrZEAJ5YzxchPsQ0M8BnBSWfvVYC9NyoNR8gglEgLA/VOV8zeWO
-	zNAXc1vAP3imCvDn/HmNSy9IY+2NlhbKnmMk3nLSVUHklG+meenVU5gU5U4t6bdDRIlf
-	vp6QN+UafKxHRHt0gjsnPT3cQXUy9+0pLE+5YBX+tO507yxAEbF21In5ve08Z7o+d11G
-	+tyVEkKPrK3kMeMmpcB2oe77D+mp4DXhtU7kQKbI7L5lxoI9jJuFkl7CkcEuJtQlgjGi
-	8IQnKZb8o+mNOiZZGl88WLGQLmqj//OcI1Xozq/gYF9/gbtlEyc/fSm5zT10NFxg8lni
-	QRSQ==
-X-Gm-Message-State: APjAAAV1I6+MjtTrEct+d2cFqtFZ9S8ayTM2xVGvF/yYAYtyhUiIrzn7
-	f67a0ljcItYtyl/HtgJtX7GAw0UkhL+JvA==
-X-Google-Smtp-Source: APXvYqyEyPXoL1rJnRa1MJGki3wGojXO/9l8YB32FVC0bcX8tTsgaY85Sn+MTai18QWd0HR4yxqaAw==
-X-Received: by 2002:a1c:a101:: with SMTP id k1mr10242557wme.98.1565173784703; 
-	Wed, 07 Aug 2019 03:29:44 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=JGW46qANc0tq85JAWb8WEeHJ8rj1eD/29expWeFaAtI=;
+	b=B8h68D40poYsukXwKpLTb/+3sf40IJcP0k/jGZTDrEyBqE2O1RJ48prx9cmcQ4GoTk
+	h6ui5gjXTSMEvqDYuuzZEhyJTSGpdHiO5nu2FZ6Dk0Hvo8yExeVQdlsaA31U30uXIzso
+	dPzsivAEepJy+P1Z5rB/MlPXHbjKGzpyw1Pw8ByM1ecQt7MeovOqLruac1vZsKHDqmcD
+	tPIX+iokAdc4IN1ZY8bOFcUEVnyOTW+nILR0nUcNxfvygVo2ZOFk/LNgPAjd8+WsOFND
+	vmyKtTU1svzboCh75D71liJema8t6s0BDy8tzl1PvVeGyKcSQOYBT6/d9obVzG87sUsh
+	JZ6A==
+X-Gm-Message-State: APjAAAWX4s325MQaLeA5nvmcd/tDhJvknFIeAjwjm32H8E+ia9bgi8Ya
+	DZuSZaUKEXCWfT3ljhcgynjd+WhJDYj1Jg==
+X-Google-Smtp-Source: APXvYqzfIFX8whKa6wGEH8QmST941VDj77KTolpr77Ep13thgALigWRD8+ptWc84CWY4vMKuFiOutg==
+X-Received: by 2002:adf:ce02:: with SMTP id p2mr9365775wrn.111.1565173785433; 
+	Wed, 07 Aug 2019 03:29:45 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	o3sm79705336wrs.59.2019.08.07.03.29.43
+	o3sm79705336wrs.59.2019.08.07.03.29.44
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
 	Wed, 07 Aug 2019 03:29:44 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Aug 2019 12:29:33 +0200
-Message-Id: <20190807102939.12760-1-alex.kanavin@gmail.com>
+Date: Wed,  7 Aug 2019 12:29:34 +0200
+Message-Id: <20190807102939.12760-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
+In-Reply-To: <20190807102939.12760-1-alex.kanavin@gmail.com>
+References: <20190807102939.12760-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/7] stress-ng: add a patch to remove unneeded bash dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,52 +57,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 10:29:44 -0000
-
-Recursive RDEPENDS resolution requires that all of the dependent
-recipes' packaging has completed. There is no mechanism to ensure that
-and therefore races were observed.
-
-This change effectively requires recipes to list their runtime file
-dependencies explicitly rather than have them pulled indirectly.
-This may require a bit of fixing in layers, but should result
-in a better definition of runtime file dependencies.
+X-List-Received-Date: Wed, 07 Aug 2019 10:29:45 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/insane.bbclass | 18 ------------------
- 1 file changed, 18 deletions(-)
+ ...tion-remove-the-shebang-at-the-start.patch | 23 +++++++++++++++++++
+ .../stress-ng/stress-ng_0.10.00.bb            |  1 +
+ 2 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-extended/stress-ng/stress-ng/0001-bash-completion-remove-the-shebang-at-the-start.patch
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 35c4fdb4913..9b886d13805 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -722,25 +722,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                             filerdepends[subkey] = key[13:]
+diff --git a/meta/recipes-extended/stress-ng/stress-ng/0001-bash-completion-remove-the-shebang-at-the-start.patch b/meta/recipes-extended/stress-ng/stress-ng/0001-bash-completion-remove-the-shebang-at-the-start.patch
+new file mode 100644
+index 00000000000..66d99dd885f
+--- /dev/null
++++ b/meta/recipes-extended/stress-ng/stress-ng/0001-bash-completion-remove-the-shebang-at-the-start.patch
+@@ -0,0 +1,23 @@
++From 042147675c7c2ea7dd65b2597f2e350376a710aa Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 6 Aug 2019 17:28:56 +0200
++Subject: [PATCH] bash-completion: remove the shebang at the start
++
++bash completion files do not need to specify that.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ bash-completion/stress-ng | 2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/bash-completion/stress-ng b/bash-completion/stress-ng
++index 8b1421c..7f195be 100755
++--- a/bash-completion/stress-ng
+++++ b/bash-completion/stress-ng
++@@ -1,5 +1,3 @@
++-#!/bin/bash
++-#
++ # stress-ng tab completion for bash.
++ #
++ # Copyright (C) 2019 Canonical
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb b/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb
+index f7faf97e681..e800040c371 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
-             if filerdepends:
--                next = rdepends
-                 done = rdepends[:]
--                # Find all the rdepends on the dependency chain
--                while next:
--                    new = []
--                    for rdep in next:
--                        rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
--                        sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
--                        if not sub_rdeps:
--                            continue
--                        for sub_rdep in bb.utils.explode_deps(sub_rdeps):
--                            if sub_rdep in done:
--                                continue
--                            if oe.packagedata.has_subpkgdata(sub_rdep, d):
--                                # It's a new rdep
--                                done.append(sub_rdep)
--                                new.append(sub_rdep)
--                    next = new
--
-                 # Add the rprovides of itself
-                 if pkg not in done:
-                     done.insert(0, pkg)
+ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
++           file://0001-bash-completion-remove-the-shebang-at-the-start.patch \
+            "
+ SRC_URI[md5sum] = "46aa41d37690324ceab4febfcc549018"
+ SRC_URI[sha256sum] = "d09dd2a1aea549e478995bf9be90b38906a4cdf33ea7b245ef9d46aa5213c074"
 -- 
 2.17.1
 
