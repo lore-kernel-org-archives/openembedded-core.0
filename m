@@ -1,30 +1,26 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 285087F350
+Return-Path: <chin.huat.ang@intel.com>
+X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 07 Aug 2019 05:59:37 UTC
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B7937F445
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 05:50:51 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,356,1559491200"; d="scan'208";a="73124942"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Aug 2019 13:50:33 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8B2104CDFCDA
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2019 13:50:31 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 7 Aug 2019 13:50:32 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Aug 2019 13:49:49 +0800
-Message-ID: <20190807054949.26520-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 8B2104CDFCDA.AA4DF
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] libgudev:upgrade 232 -> 233
+	Wed,  7 Aug 2019 05:59:37 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Aug 2019 22:52:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,356,1559545200"; d="scan'208";a="168519878"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga008.jf.intel.com with ESMTP; 06 Aug 2019 22:52:31 -0700
+From: Chin Huat Ang <chin.huat.ang@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed,  7 Aug 2019 13:52:27 +0800
+Message-Id: <1565157150-7729-1-git-send-email-chin.huat.ang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [warrior][PATCH 1/4] efivar: add
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +33,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 05:50:52 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Aug 2019 05:59:38 -0000
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+From: Ross Burton <ross.burton@intel.com>
+
+This was in meta-oe but EFI is sufficiently wide spread now that we need it in
+core.
+
+The recipe is based on the one in meta-oe but with several updates.
+
+(From OE-Core rev: 53fe0133432f62024850e87456292b044d1280ee)
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-gnome/libgudev/{libgudev_232.bb => libgudev_233.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/libgudev/{libgudev_232.bb => libgudev_233.bb} (74%)
+ meta/conf/distro/include/maintainers.inc       |  1 +
+ meta/recipes-bsp/efivar/efivar/no-werror.patch | 18 +++++++++++++
+ meta/recipes-bsp/efivar/efivar_37.bb           | 37 ++++++++++++++++++++++++++
+ 3 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-bsp/efivar/efivar/no-werror.patch
+ create mode 100644 meta/recipes-bsp/efivar/efivar_37.bb
 
-diff --git a/meta/recipes-gnome/libgudev/libgudev_232.bb b/meta/recipes-gnome/libgudev/libgudev_233.bb
-similarity index 74%
-rename from meta/recipes-gnome/libgudev/libgudev_232.bb
-rename to meta/recipes-gnome/libgudev/libgudev_233.bb
-index 19fe962..a9f6bdd 100644
---- a/meta/recipes-gnome/libgudev/libgudev_232.bb
-+++ b/meta/recipes-gnome/libgudev/libgudev_233.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "GObject wrapper for libudev"
- HOMEPAGE = "https://wiki.gnome.org/Projects/libgudev"
--SRC_URI[archive.sha256sum] = "ee4cb2b9c573cdf354f6ed744f01b111d4b5bed3503ffa956cefff50489c7860"
--SRC_URI[archive.md5sum] = "6914852377156665567abf8a38d89236"
-+SRC_URI[archive.sha256sum] = "587c4970eb23f4e2deee2cb1fb7838c94a78c578f41ce12cac0a3f4a80dabb03"
-+SRC_URI[archive.md5sum] = "d59a317a40aaa02a2226056c0bb4d3e1"
- 
- DEPENDS = "glib-2.0 udev"
- 
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 950b8e8..7d31e4f 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -161,6 +161,7 @@ RECIPE_MAINTAINER_pn-dtc = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-dwarfsrcfiles = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-e2fsprogs = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-ed = "Alexander Kanavin <alex.kanavin@gmail.com>"
++RECIPE_MAINTAINER_pn-efivar = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-eglinfo-fb = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-eglinfo-wayland = "Alexander Kanavin <alex.kanavin@gmail.com>"
+diff --git a/meta/recipes-bsp/efivar/efivar/no-werror.patch b/meta/recipes-bsp/efivar/efivar/no-werror.patch
+new file mode 100644
+index 0000000..50a0b10
+--- /dev/null
++++ b/meta/recipes-bsp/efivar/efivar/no-werror.patch
+@@ -0,0 +1,18 @@
++Don't use -Werror because newer compilers introduce newer warnings.
++
++Upstream-Status: Inappropriate [https://github.com/rhboot/efivar/issues/131]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/gcc.specs b/gcc.specs
++index 45d43d1..1baf11a 100644
++--- a/gcc.specs
+++++ b/gcc.specs
++@@ -2,7 +2,7 @@
++ + -D_GNU_SOURCE
++ 
++ *efivar_cpp_options:
++- -Werror -Wall -std=gnu11 -Wextra
+++ -Wall -std=gnu11 -Wextra
++ 
++ *cpp_options:
++ + %(efivar_cpp_options)
+diff --git a/meta/recipes-bsp/efivar/efivar_37.bb b/meta/recipes-bsp/efivar/efivar_37.bb
+new file mode 100644
+index 0000000..c4254c7
+--- /dev/null
++++ b/meta/recipes-bsp/efivar/efivar_37.bb
+@@ -0,0 +1,37 @@
++SUMMARY = "Tools to manipulate UEFI variables"
++DESCRIPTION = "efivar provides a simple command line interface to the UEFI variable facility"
++HOMEPAGE = "https://github.com/rhboot/efivar"
++
++LICENSE = "LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=6626bb1e20189cfa95f2c508ba286393"
++
++COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
++
++SRC_URI = "git://github.com/rhinstaller/efivar.git \
++           file://no-werror.patch"
++SRCREV = "c1d6b10e1ed4ba2be07f385eae5bceb694478a10"
++
++S = "${WORKDIR}/git"
++
++inherit pkgconfig
++
++export CCLD_FOR_BUILD = "${BUILD_CCLD}"
++
++# Upstream uses --add-needed in gcc.specs which gold doesn't support, so
++# enforce BFD.
++LDFLAGS += "-fuse-ld=bfd"
++
++do_compile_prepend() {
++    # Remove when https://github.com/rhboot/efivar/issues/130 is fixed
++    oe_runmake CFLAGS="${BUILD_CFLAGS}" -C src makeguids
++}
++
++do_install() {
++    oe_runmake install DESTDIR=${D}
++}
++
++BBCLASSEXTEND = "native"
++
++RRECOMMENDS_${PN}_class-target = "kernel-module-efivarfs"
++
++CLEANBROKEN = "1"
 -- 
 2.7.4
-
-
 
 
