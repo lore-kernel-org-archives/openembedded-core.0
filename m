@@ -1,51 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CBFE07F30D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id ED5B76B076
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 18:42:37 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id r3so2175058wrt.3
+	Thu,  8 Aug 2019 19:29:17 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id k10so24282526qtq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2019 11:42:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=Srw9Ep4nlcOGICShVArAFRG7C1sBihdJhST21xdlvi8=;
-	b=Oa5TfU3oIZYJPRAO7yigFGGDDdWKPNag0mlrUi1w1rnhMCjL+qjjA4uSQ9dj8quSGP
-	BtddMOlG+715T3ecdGqkIMDdYBCrhwqYbzz+mWZsAXUxMsP9wG7we1JJR69AdJQj1E2W
-	DP25lfydX+rjtEf4m30fuMGKP+0oI+gIVwl/0=
+	Thu, 08 Aug 2019 12:29:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=IMC9Qansfse7HVOHesm70OQst+TmBd6F35TaAuTkT2A=;
+	b=cd7RnF+roJ2VYPtuNKo7iW0IAXvlvxDn252tIjSnwjsRHO3dDwNfbODbpupYO6pE8v
+	CWo+7lDkyAQPaXAZkMbzRZ+u0nMZMDOyym3qVK+OVN7A8kyF86w5grRF+Dad9j+PSBYw
+	7FFcuPwvf32txGP9JgKbpa8crW/vuLzJHKSlb75ybbvcB9/XZYecM4USNwRkkJH0JOP7
+	JDOOSl9Lu80DZ+y0xNqJczHQ9xJaq/8UadBNlBE+4aXGPGVQrEb7iEwq2zBUn+Z4lnRn
+	W/qOhqn6siLcs9ykReJQgPSKr0WEWrwjXyf3+cgWq0bAgTOjgTCU9TvyXA0NhjEjL9m7
+	HYAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Srw9Ep4nlcOGICShVArAFRG7C1sBihdJhST21xdlvi8=;
-	b=bHkV4/fITx9+4Lv9VUxLHhuHETjBviq+aNsw5fsd56iamefMa6cZdOCcJ1ANvESfzY
-	TUDOwNryYkH4Tt+NtOA9+GbC+AQBL6m7n6s0sFLU00aLj/BfVkgreQ8nVY7sytm01J1g
-	ov4vo41vJTtncuB4d/Oq0Y+617yX3dc7O9Bxls8WcF4yhkk8n5H5EV4L4xYzKBJS/mGo
-	uSFg5csMiRRBC4iN1ItBzx3xxcU1PlLUQamVeFVdXTNUIQKhHmqZgEhGBZzTu/YadNX/
-	TtWSg3iV9eJadPFiTyoC4FIduovDOyu2MkOmqwrGS4DfS4UWVODXhox28Hm7S+Oo6PKc
-	wN+g==
-X-Gm-Message-State: APjAAAUWv9nw5Ab79y5BKkekUbilqSpFeziqiX2JbxjixJuP1BZF+bBC
-	F9f6NWfHDh1kgL7QOdyiLEcSzA==
-X-Google-Smtp-Source: APXvYqwSLbjlusXPkcMskfiKQFnPyBwXtzt8j+1vJOll1lZwPykZIlfISFwwQzobxFgsKnQPbGUnaQ==
-X-Received: by 2002:adf:fd82:: with SMTP id d2mr8255619wrr.194.1565289758513; 
-	Thu, 08 Aug 2019 11:42:38 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r123sm3815192wme.7.2019.08.08.11.42.37
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 08 Aug 2019 11:42:37 -0700 (PDT)
-Message-ID: <572463162f995f87c9bd0d48db6541a34c8dd2a8.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jason Wessel <jason.wessel@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 08 Aug 2019 19:42:36 +0100
-In-Reply-To: <20190808125509.120784-1-jason.wessel@windriver.com>
-References: <20190808125509.120784-1-jason.wessel@windriver.com>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=IMC9Qansfse7HVOHesm70OQst+TmBd6F35TaAuTkT2A=;
+	b=bWJgLSdMgw1zRvku4qXTq12q/9XPAIrkq/vj6uSDG3339PWK/FZ0qwA5pOX1/pkEca
+	oMTtVryLkLtxbJsXA/JRztePUH4tf2KQkAbTgRd+TX1YM8gdOcSONdnAFuTBQQHldkU+
+	aacTzxiI+wz9zpojmW5e+wvku14SqkZcVUEFiU/Puaoe8qX67jR/JnS/CFB7lZPJJIzG
+	zOHxQm4v15MkXQ5J9D/VI3/dIX5qJKq5iKvc2r0bvW2R3LhF7kczVIxFvCUOSbU62gK5
+	byfddHh1d/XszSFsxu2LlM/ryh5x/yJbPjAwII6F2ypWRcxQPEQyLuQFo0pUC73d5gZx
+	BEjA==
+X-Gm-Message-State: APjAAAVVMnuVbriq5otKmqKMHypOpQAJie6z1oVNEPMHcPotkAnaubre
+	z5OlTTWSLibqxvajngkRn5bb7hwUVUszZEcMwWM=
+X-Google-Smtp-Source: APXvYqwdwM8iFW0IVPVh2RIY/CxrTCEEPLWJHbkHZE5xlk+pDUzZzVy6Ks74ZsIMx96ZYIanfdwOoQbddtRZBNfTs8c=
+X-Received: by 2002:ac8:1183:: with SMTP id d3mr14761753qtj.53.1565292558571; 
+	Thu, 08 Aug 2019 12:29:18 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] image_types_wic.bbclass: Copy the .wks and .env files to deploy image dir
+References: <20190807102939.12760-1-alex.kanavin@gmail.com>
+	<94b692a828bbf5230f56afbc401bf9d66660283b.camel@linuxfoundation.org>
+	<CANNYZj-t2TSN4dMpfEgU_k_dDqHRLeqNSYWi-=uUK2BH09-tMA@mail.gmail.com>
+In-Reply-To: <CANNYZj-t2TSN4dMpfEgU_k_dDqHRLeqNSYWi-=uUK2BH09-tMA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 8 Aug 2019 12:29:07 -0700
+Message-ID: <CAMKF1squwmc8-sm+JMM6gU5oyHSKHv7ejRoOokTdb4Nd-SEk2A@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,68 +55,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 18:42:38 -0000
+X-List-Received-Date: Thu, 08 Aug 2019 19:29:18 -0000
+Content-Type: multipart/alternative; boundary="000000000000ec5e51058fa0121e"
+
+--000000000000ec5e51058fa0121e
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-08-08 at 05:55 -0700, Jason Wessel wrote:
-> When using a .wks.in file, the only place that the generated .wks file
-> exists in the tmp/work area.  A copy should be left behind in the
-> deploy directory so that you can easily run the wic tool to
-> re-generate or modify a new image without running bitbake.  Custom
-> .wks.in files can reference any number of bitbake variables, so it is
-> important to save the result.
-> 
-> below is an example of using the generated .wks file in the deploy
-> area.  The full name of my generated .wks file was
-> core-image-minimal-ostree-uboot-ab.wks, but since you usually only
-> have a single .wks file per image you can use a wild card like:
-> 
->   cd tmp*/deploy/images/*
->   wic create --vars . -e core-image-minimal -s -m core-image-minimal-*.wks
-> 
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/classes/image_types_wic.bbclass | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-> index 519aeb1b04..ce94138b3c 100644
-> --- a/meta/classes/image_types_wic.bbclass
-> +++ b/meta/classes/image_types_wic.bbclass
-> @@ -77,6 +77,11 @@ python do_write_wks_template () {
->      wks_file = d.getVar('WKS_FULL_PATH')
->      with open(wks_file, 'w') as f:
->          f.write(template_body)
-> +    f.close()
-> +    # Copy the finalized wks file to the deploy directory for later use
-> +    depdir = d.getVar('DEPLOY_DIR_IMAGE')
-> +    basename = d.getVar('IMAGE_BASENAME')
-> +    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
->  }
+On Thu, Aug 8, 2019 at 8:44 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-Nothing should be writing to DEPLOY_DIR_IMAGE directly as it means its
-not being managed by sstate and won't restore in a build from sstate.
-There is an intermediate directory it should be written to and the
-sstate code will put it into DEPLOY_DIR_IMAGE. For image classes it
-might be IMGDEPLOYDIR but you'd have to check this task/code runs
-between do_image and do_image_complete.
+> On Thu, 8 Aug 2019 at 00:08, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+>
+>> You might want to have a look at
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/621
+>> and maybe other pieces of that build yet to finish, not sure...
+>>
+>
+> I ran bitbake world to check for newly exposed missing dependencies, but
+> gcc-cross-canadian wasn't included in that. Will fix that too now.
+>
 
->  python () {
-> @@ -127,6 +132,10 @@ python do_rootfs_wicenv () {
->              value = d.getVar(var)
->              if value:
->                  envf.write('%s="%s"\n' % (var, value.strip()))
-> +    envf.close()
-> +    # Copy to deploy directory for later use with stand alone wic
-> +    depdir = d.getVar('DEPLOY_DIR_IMAGE')
-> +    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
->  }
+There are several packages in meta-openembedded which are showing these
+errors one that I see is net kit-rusers seems to be failing for wrong
+reason
 
-Same here.
+I will send full list once I am close to computer
 
-Cheers,
+>
+> Alex
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Richard
+--000000000000ec5e51058fa0121e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><div dir=3D"auto"><br></div></div><div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 8, 2019 at 8:44 AM Alexan=
+der Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmai=
+l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"lt=
+r"><div dir=3D"ltr">On Thu, 8 Aug 2019 at 00:08, Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
+rdie@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">You might want to have a=
+ look at <br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/56/build=
+s/621" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
+t.org/typhoon/#/builders/56/builds/621</a><br>
+and maybe other pieces of that build yet to finish, not sure...<br></blockq=
+uote><div><br></div><div>I ran bitbake world to check for newly exposed mis=
+sing dependencies, but gcc-cross-canadian wasn&#39;t included in that. Will=
+ fix that too now.</div></div></div></blockquote><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">There are several packages in meta-openembedded which a=
+re showing these errors one that I see is net kit-rusers seems to be failin=
+g for wrong reason=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
+>I will send full list once I am close to computer=C2=A0</div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><d=
+iv><br></div><div>Alex<br></div></div></div>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
 
+--000000000000ec5e51058fa0121e--
