@@ -1,28 +1,26 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EBB467F2FA
+Return-Path: <jwessel@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BE2847F2E8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 20:17:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x78KHSlW011497
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Aug 2019 13:17:28 -0700 (PDT)
-Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
+	Thu,  8 Aug 2019 20:24:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78KNxfN001132
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Aug 2019 13:24:15 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 8 Aug 2019 13:17:27 -0700
-To: Trevor Gamblin <Trevor.Gamblin@windriver.com>,
-	<openembedded-core@lists.openembedded.org>, Armin Kuster
-	<akuster808@gmail.com>
-References: <1565275147-17250-1-git-send-email-Trevor.Gamblin@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <6ed6a5c2-cf02-e18e-084b-d2bff0ac2b1c@windriver.com>
-Date: Thu, 8 Aug 2019 16:17:26 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Thu, 8 Aug 2019 13:24:02 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 25EEFAA4824;
+	Thu,  8 Aug 2019 13:24:02 -0700 (PDT)
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Aug 2019 13:23:57 -0700
+Message-ID: <20190808202400.60710-1-jason.wessel@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <1565275147-17250-1-git-send-email-Trevor.Gamblin@windriver.com>
-X-Originating-IP: [172.25.44.5]
-Subject: Re: [thud][PATCH] patch: fix CVE-2019-13638
+Subject: [PATCH v2 1/4] image_types_wic.bbclass: Copy the .wks and .env files to deploy image dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,95 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 20:17:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Aug 2019 20:24:30 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 8/8/19 10:39 AM, Trevor Gamblin wrote:
-> From: Trevor Gamblin <trevor.gamblin@windriver.com>
-> 
-> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> ---
->   ...ke-ed-directly-instead-of-using-the-shell.patch | 44 ++++++++++++++++++++++
->   meta/recipes-devtools/patch/patch_2.7.6.bb         |  2 +
->   2 files changed, 46 insertions(+)
->   create mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
-> 
-> diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
-> new file mode 100644
-> index 0000000..f60dfe8
-> --- /dev/null
-> +++ b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
-> @@ -0,0 +1,44 @@
-> +From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17 00:00:00 2001
-> +From: Andreas Gruenbacher <agruen@gnu.org>
-> +Date: Fri, 6 Apr 2018 19:36:15 +0200
-> +Subject: [PATCH] Invoke ed directly instead of using the shell
-> +
-> +* src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
-> +command to avoid quoting vulnerabilities.
-> +
-> +CVE: CVE-2019-13638
-> +Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
-> +Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> +
-> +---
-> + src/pch.c | 6 ++----
-> + 1 file changed, 2 insertions(+), 4 deletions(-)
-> +
-> +
-> +diff --git a/src/pch.c b/src/pch.c
-> +index 4fd5a05..16e001a 100644
-> +--- a/src/pch.c
-> ++++ b/src/pch.c
-> +@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char const *outname,
-> + 	    *outname_needs_removal = true;
-> + 	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
-> + 	  }
-> +-	sprintf (buf, "%s %s%s", editor_program,
-> +-		 verbosity == VERBOSE ? "" : "- ",
-> +-		 outname);
-> + 	fflush (stdout);
-> +
-> + 	pid = fork();
-> +@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char const *outname,
-> + 	else if (pid == 0)
-> + 	  {
-> + 	    dup2 (tmpfd, 0);
-> +-	    execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
-> ++	    assert (outname[0] != '!' && outname[0] != '-');
-> ++	    execlp (editor_program, editor_program, "-", outname, (char  *) NULL);
-> + 	    _exit (2);
-> + 	  }
-> + 	else
-> +--
-> +2.7.4
-> +
-> diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
-> index 85b0db7..8908910 100644
-> --- a/meta/recipes-devtools/patch/patch_2.7.6.bb
-> +++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
-> @@ -6,6 +6,8 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
->               file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch \
->               file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
->               file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
-> +            file://CVE-2019-13636.patch \
-> +            file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
->   "
+When using a .wks.in file, the only place that the generated .wks file
+exists in the tmp/work area.  A copy should be left behind in the
+deploy directory so that you can easily run the wic tool to
+re-generate or modify a new image without running bitbake.  Custom
+.wks.in files can reference any number of bitbake variables, so it is
+important to save the result.
 
-Again, you only added one patch but you changed two lines above.
-I assume this is due to a merge conflict that you incorrectly resolved.
+below is an example of using the generated .wks file in the deploy
+area.  The full name of my generated .wks file was
+core-image-minimal-ostree-uboot-ab.wks, but since you usually only
+have a single .wks file per image you can use a wild card like:
 
-Fix and v3 please.
+  cd tmp*/deploy/images/*
+  wic create --vars . -e core-image-minimal -s -m core-image-minimal-*.wks
 
-../Randy
->   
->   SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
-> 
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/classes/image_types_wic.bbclass | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 519aeb1b04..f350dc2723 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -77,6 +77,11 @@ python do_write_wks_template () {
+     wks_file = d.getVar('WKS_FULL_PATH')
+     with open(wks_file, 'w') as f:
+         f.write(template_body)
++    f.close()
++    # Copy the finalized wks file to the deploy directory for later use
++    depdir = d.getVar('IMGDEPLOYDIR')
++    basename = d.getVar('IMAGE_BASENAME')
++    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
+ }
+ 
+ python () {
+@@ -105,7 +110,7 @@ python () {
+                 # file in process_wks_template as well, so just put it in
+                 # a variable and let the metadata deal with the deps.
+                 d.setVar('_WKS_TEMPLATE', body)
+-                bb.build.addtask('do_write_wks_template', 'do_image_wic', None, d)
++                bb.build.addtask('do_write_wks_template', 'do_image_wic', 'do_image', d)
+         bb.build.addtask('do_image_wic', 'do_image_complete', None, d)
+ }
+ 
+@@ -127,6 +132,10 @@ python do_rootfs_wicenv () {
+             value = d.getVar(var)
+             if value:
+                 envf.write('%s="%s"\n' % (var, value.strip()))
++    envf.close()
++    # Copy .env file to deploy directory for later use with stand alone wic
++    depdir = d.getVar('IMGDEPLOYDIR')
++    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
+ }
+ addtask do_rootfs_wicenv after do_image before do_image_wic
+ do_rootfs_wicenv[vardeps] += "${WICVARS}"
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.21.0
+
 
