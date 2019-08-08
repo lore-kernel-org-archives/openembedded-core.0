@@ -1,28 +1,52 @@
-Return-Path: <jwessel@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF2367F2F0
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+	[209.85.217.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 18ABA7F2F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 20:24:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78KNxfM001132
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  8 Aug 2019 20:27:34 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id m8so64031223vsj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Aug 2019 13:24:15 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 8 Aug 2019 13:24:02 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 2E7EDAA4587;
-	Thu,  8 Aug 2019 13:24:02 -0700 (PDT)
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2019 13:23:58 -0700
-Message-ID: <20190808202400.60710-2-jason.wessel@windriver.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190808202400.60710-1-jason.wessel@windriver.com>
-References: <20190808202400.60710-1-jason.wessel@windriver.com>
+	Thu, 08 Aug 2019 13:27:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=cQU+8gNExfDvdXbOYaa20aHByveE60P/vHUqgRpKTGI=;
+	b=HoKUBMV1vBXYqvXb+gLwVUuwZgccAukTWFXLDeapDxCZOvPGYX3oFKhvQoxCq8qSBA
+	plxM2pUkNCqkUFv34Z3beWAxKk2jQa2EcYYrrB5tsjh3+bqsp0EHTH5uA3TGSsm1VAfd
+	7U/50ZdDanup/YJgoci0LxgACJyRGjdHaDkxOBspL9C4WMdWNbSA+0QidJuawBOXDWxf
+	0z/bTsfRprwkwt4p+vwMh2cQpB6vzxqKNukC1rg7Bk7VT0G+kWKYHiy0MPGduO92Tdbe
+	dUgCEddeSUX2FfuZtowA0g0gY0i1w5ws7C7G84/fnXB91865uasw7Rso/Twa3joo+AXc
+	5h4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=cQU+8gNExfDvdXbOYaa20aHByveE60P/vHUqgRpKTGI=;
+	b=ewP+HBVUpllMo92qAZKl5P2d88nEn546HGKVSj7R1qlqRD5uknvoBKofcJxkpUCrlG
+	F5NSK6pURqqmSR3r2oMlNTrMCnFLTyzLYUH94FeD099J9GVhWMjOev5BLehXHymRxxLY
+	qul0WD/yHY1RKixRO+aApbrVxqGQUkZ5fEo7erpvr/IJtV/fa/RKF+0LfM/UD4nbh7ek
+	2rV+Kp+Bzqr2yzpwpYJPttU0hFJbW091V/ZnG2GftfG3FRVF0xW4KQ1m9tIys1c70Ksy
+	KqCv93q/ImOXOuuzI+wjUAspo0iQAk4yq9MdzGiiGq9H1wOdmBmevoBfnE+bG045pjVl
+	gdWA==
+X-Gm-Message-State: APjAAAUVkDrhJ0Q8Gv9RpjXgn94JsyGiLUqg/fIy81cl7lDVDtK1jgz/
+	QTaNXWytnInsZlEXI0njEB7z+qobpzNISYJZXJsAvw==
+X-Google-Smtp-Source: APXvYqxMkgn9XZ7IAd3F2PIhYwj3AM/QB5iWG3UtgXJOs51sIkk9+x13ZHLd+8dNdr0NKPLRLt0+nn4buN5m6ZwyHoM=
+X-Received: by 2002:a67:8042:: with SMTP id b63mr11652905vsd.23.1565296055948; 
+	Thu, 08 Aug 2019 13:27:35 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2 2/4] wic: Add partition type for msdos partition tables
+References: <1549591052-12688-1-git-send-email-chandana.kalluri@xilinx.com>
+	<3413405.x9v3DxCAyA@localhost.localdomain>
+	<BYAPR02MB6005C04842C60A8C3A4DDF26B9710@BYAPR02MB6005.namprd02.prod.outlook.com>
+	<BYAPR02MB6005A1297BC34875CB9623C0B9D70@BYAPR02MB6005.namprd02.prod.outlook.com>
+In-Reply-To: <BYAPR02MB6005A1297BC34875CB9623C0B9D70@BYAPR02MB6005.namprd02.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 8 Aug 2019 22:27:24 +0200
+Message-ID: <CANNYZj9BTxaV4_2Tojp16ac5d+suXmaLXWEuCeAGzfFNMe0S2w@mail.gmail.com>
+To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Bruce Ashfield <brucea@xilinx.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [master][PATCH] standard.py: Provide an additional option for devtool reset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,187 +59,247 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 20:24:30 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Aug 2019 20:27:35 -0000
+Content-Type: multipart/alternative; boundary="0000000000006218d3058fa0e3c2"
 
-In order to create a msdos partition table disk image that can auto
-expand after the image is copied to an SD card, wic needs the ability
-to have a primary partition as the last entry.  The desired use case
-is to be able to create an A/B update partition image scheme with a
-/var volume that can be auto expanded to the remainder of the SD card
-at run time.
+--0000000000006218d3058fa0e3c2
+Content-Type: text/plain; charset="UTF-8"
 
-The typical .wks file will look similar to the following:
+For what it's worth I am firmly in the camp that finds the non-deletion of
+sources annoying. When I run 'devtool reset', there is never any unsaved
+work left in there, but I am in too much of a hurry to do the extra 'rm' on
+those sources, and so much later (sometimes months later) it has to be done
+just prior to starting work on something else entirely (but with the same
+upstream component).
 
-bootloader --ptable msdos
-part / --source rawcopy --sourceparams="file=u-boot.imx" \
-   --ondisk mmcblk --no-table --align 1 --size 1
-part /boot --source bootimg-partition \
-   --ondisk mmcblk --fstype=vfat --label boot --active --align 4 --size 16
-part / --source rawcopy --sourceparams="file=imx6_boot.otaimg" \
-   --ondisk mmcblk --fstype=ext4 --label otaboot --align 4 --type logical
-part / --source rawcopy --sourceparams="file=imx6.otaimg" \
-   --ondisk mmcblk --fstype=ext4 --label otaroot --align 4 --type logical
-part / --source rawcopy --sourceparams="file=imx6_boot.otaimg" \
-   --ondisk mmcblk --fstype=ext4 --label otaboot_b --align 4 --type logical
-part / --source rawcopy --sourceparams="file=imx6.otaimg" \
-   --ondisk mmcblk --fstype=ext4 --label otaroot_b --align 4 --type logical
-part /var --source rawcopy --sourceparams="file=imx6_var.otaimg" \
-    --ondisk mmcblk --fstype=ext4 --label fluxdata --align 4
-
-Without the patch applied, wic will generate an SD card image that looks like:
-
-Disk boot.img: 890940s
-Sector size (logical/physical): 512B/512B
-Partition Table: msdos
-Disk Flags:
-
-Number  Start    End      Size     Type      File system  Flags
- 1      2056s    48001s   45946s   primary   fat16        lba
- 2      48008s   132467s  84460s   primary   ext4
- 3      132472s  454467s  321996s  primary   ext4
- 4      454471s  890939s  436469s  extended               lba
- 5      454472s  538931s  84460s   logical   ext4
- 6      538936s  860931s  321996s  logical   ext4
- 7      860936s  890939s  30004s   logical   ext4         boot
-
-With the patch applied a primary partition can be created at the end
-of the image which can be expanded to fill the free space on the media
-where the image has been copied, which looks like:
-
-Disk boot.img: 890940s
-Sector size (logical/physical): 512B/512B
-Partition Table: msdos
-Disk Flags:
-
-Number  Start    End      Size     Type      File system  Flags
- 1      2056s    48001s   45946s   primary   fat16        lba
- 2      48007s   860931s  812925s  extended               lba
- 5      48008s   132467s  84460s   logical   ext4
- 6      132472s  454467s  321996s  logical   ext4
- 7      454472s  538931s  84460s   logical   ext4
- 8      538936s  860931s  321996s  logical   ext4
- 3      860936s  890939s  30004s   primary   ext4         boot
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- scripts/lib/wic/ksparser.py              |  2 ++
- scripts/lib/wic/partition.py             |  1 +
- scripts/lib/wic/plugins/imager/direct.py | 37 +++++++++++++++++-------
- 3 files changed, 29 insertions(+), 11 deletions(-)
-
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 3e670033ba..6a643ba3af 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -151,6 +151,8 @@ class KickStart():
-         part.add_argument('--part-name')
-         part.add_argument('--part-type')
-         part.add_argument('--rootfs-dir')
-+        part.add_argument('--type', default='primary',
-+                choices = ('primary', 'logical'))
- 
-         # --size and --fixed-size cannot be specified together; options
-         # ----extra-space and --overhead-factor should also raise a parser
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 01466b258d..f427c8101b 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -50,6 +50,7 @@ class Partition():
-         self.use_uuid = args.use_uuid
-         self.uuid = args.uuid
-         self.fsuuid = args.fsuuid
-+        self.type = args.type
- 
-         self.lineno = lineno
-         self.source_file = ""
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 91fc5e70f6..3ce6ad55b8 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -300,6 +300,10 @@ class PartitionedImage():
-         self.path = path  # Path to the image file
-         self.numpart = 0  # Number of allocated partitions
-         self.realpart = 0 # Number of partitions in the partition table
-+        self.primary_part_num = 0  # Number of primary partitions (msdos)
-+        self.extendedpart = 0      # Create extended partition before this logical partition (msdos)
-+        self.extended_size_sec = 0 # Size of exteded partition (msdos)
-+        self.logical_part_cnt = 0  # Number of total logical paritions (msdos)
-         self.offset = 0   # Offset of next partition (in sectors)
-         self.min_size = 0 # Minimum required disk size to fit
-                           # all partitions (in bytes)
-@@ -391,12 +395,16 @@ class PartitionedImage():
-                 # Skip one sector required for the partitioning scheme overhead
-                 self.offset += overhead
- 
--            if self.realpart > 3 and num_real_partitions > 4:
-+            if self.ptable_format == "msdos":
-+                if self.primary_part_num > 3 or \
-+                   (self.extendedpart == 0 and self.primary_part_num >= 3 and num_real_partitions > 4):
-+                    part.type = 'logical'
-                 # Reserve a sector for EBR for every logical partition
-                 # before alignment is performed.
--                if self.ptable_format == "msdos":
-+                if part.type == 'logical':
-                     self.offset += 1
- 
-+            align_sectors = 0
-             if part.align:
-                 # If not first partition and we do have alignment set we need
-                 # to align the partition.
-@@ -422,18 +430,25 @@ class PartitionedImage():
-             part.start = self.offset
-             self.offset += part.size_sec
- 
--            part.type = 'primary'
-             if not part.no_table:
-                 part.num = self.realpart
-             else:
-                 part.num = 0
- 
--            if self.ptable_format == "msdos":
--                # only count the partitions that are in partition table
--                if num_real_partitions > 4:
--                    if self.realpart > 3:
--                        part.type = 'logical'
--                        part.num = self.realpart + 1
-+            if self.ptable_format == "msdos" and not part.no_table:
-+                if part.type == 'logical':
-+                    self.logical_part_cnt += 1
-+                    part.num = self.logical_part_cnt + 4
-+                    if self.extendedpart == 0:
-+                        # Create extended partition as a primary partition
-+                        self.primary_part_num += 1
-+                        self.extendedpart = part.num
-+                    else:
-+                        self.extended_size_sec += align_sectors
-+                    self.extended_size_sec += part.size_sec + 1
-+                else:
-+                    self.primary_part_num += 1
-+                    part.num = self.primary_part_num
- 
-             logger.debug("Assigned %s to %s%d, sectors range %d-%d size %d "
-                          "sectors (%d bytes).", part.mountpoint, part.disk,
-@@ -483,7 +498,7 @@ class PartitionedImage():
-             if part.num == 0:
-                 continue
- 
--            if self.ptable_format == "msdos" and part.num == 5:
-+            if self.ptable_format == "msdos" and part.num == self.extendedpart:
-                 # Create an extended partition (note: extended
-                 # partition is described in MBR and contains all
-                 # logical partitions). The logical partitions save a
-@@ -497,7 +512,7 @@ class PartitionedImage():
-                 # room for all logical partitions.
-                 self._create_partition(self.path, "extended",
-                                        None, part.start - 1,
--                                       self.offset - part.start + 1)
-+                                       self.extended_size_sec)
- 
-             if part.fstype == "swap":
-                 parted_fs_type = "linux-swap"
--- 
-2.21.0
+Alex
 
 
+On Thu, 8 Aug 2019 at 22:17, Manjukumar Harthikote Matha <
+MANJUKUM@xilinx.com> wrote:
+
+> Hi Paul,
+>
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > <openembedded-core-bounces@lists.openembedded.org> On Behalf Of
+> > Manjukumar Harthikote Matha
+> > Sent: Monday, March 4, 2019 3:27 PM
+> > To: Paul Eggleton <paul.eggleton@linux.intel.com>; openembedded-
+> > core@lists.openembedded.org; Chandana Kalluri <ckalluri@xilinx.com>
+> > Subject: Re: [OE-core] [OE-Core][master][PATCH] standard.py: Provide an
+> > additional option for devtool reset
+> >
+> > Hi Paul,
+> >
+> > > -----Original Message-----
+> > > From: openembedded-core-bounces@lists.openembedded.org
+> > > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > > Paul Eggleton
+> > > Sent: Monday, March 04, 2019 12:17 PM
+> > > To: openembedded-core@lists.openembedded.org; Chandana Kalluri
+> > > <ckalluri@xilinx.com>
+> > > Subject: Re: [OE-core] [OE-Core][master][PATCH] standard.py: Provide
+> > > an additional option for devtool reset
+> > >
+> > > On Friday, 8 February 2019 2:57:32 PM NZDT Sai Hari Chandana Kalluri
+> wrote:
+> > > > The devtool reset command cleans the sysroot for a recipe in
+> workspace.
+> > > > It also removes the append file but leaves the source code as in
+> > > > workspace. The source is not cleaned intentionally and the user has
+> > > > to manually remove it before calling devtool modify again.
+> > > >
+> > > > Provide the user with an option to remove the source code from
+> > > > workspace by adding a flag to the devtool reset command. The
+> > > > --rm-source option for the devtool reset command will also clean the
+> > > > source code from the workspace along with the sysroot and the append
+> file.
+> > > > Ex: devtool reset --rm-source zip or devtool reset -r zip
+> > >
+> > > When I wrote this I made a conscious decision not to delete the
+> > > source, in case the user has unsaved work in the source tree; at least
+> > > then the user has to take an explicit step (an additional rm -rf) in
+> > > order to delete it. You might argue that adding an option is the same
+> > > as that explicit step, but I am still hesitant as you might for
+> > > example pick a previously used command from your command history with
+> > > -r in it and only realise after you've run it that you've just blown
+> away a bunch
+> > of your work.
+> > >
+> > > However, I have received the feedback from a number of people that
+> > > they find it annoying that they have to delete the source themselves
+> > > before being able to run devtool on the recipe again. I'd like to hear
+> > > from the wider community on the following two questions:
+> > >
+> > > 1) Does the convenience of having this kind of option outweigh the
+> > > potential danger of deleting unsaved work?
+> > >
+> > > 2) Are there issues that anyone is experiencing that force you to run
+> > > devtool clean/finish and then re-run devtool modify (or add, or
+> > > upgrade), making this kind of situation come up more frequently? Or is
+> > > it mostly that the source directories end up being left around to
+> stumble over
+> > some time later?
+> >
+> > We have seen source directories end up being left around (taking more
+> disk
+> > space on certain projects), hence a solution to remove it might be
+> optimal. If the
+> > preference is not have "-r" option to avoid command history mistake,
+> then a full
+> > command like devtool reset --rm-source is acceptable as well
+> >
+>
+>
+> Any update on this?  Is there a reason not to merge this feature?
+>
+> Thanks,
+> Manju
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--0000000000006218d3058fa0e3c2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>For what it&#39;s worth I am firmly in the camp that =
+finds the non-deletion of sources annoying. When I run &#39;devtool reset&#=
+39;, there is never any unsaved work left in there, but I am in too much of=
+ a hurry to do the extra &#39;rm&#39; on those sources, and so much later (=
+sometimes months later) it has to be done just prior to starting work on so=
+mething else entirely (but with the same upstream component).</div><div><br=
+></div><div>Alex<br></div><br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Thu, 8 Aug 2019 at 22:17, Manjukumar Harth=
+ikote Matha &lt;<a href=3D"mailto:MANJUKUM@xilinx.com">MANJUKUM@xilinx.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">H=
+i Paul,<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
+rg" target=3D"_blank">openembedded-core-bounces@lists.openembedded.org</a><=
+br>
+&gt; &lt;<a href=3D"mailto:openembedded-core-bounces@lists.openembedded.org=
+" target=3D"_blank">openembedded-core-bounces@lists.openembedded.org</a>&gt=
+; On Behalf Of<br>
+&gt; Manjukumar Harthikote Matha<br>
+&gt; Sent: Monday, March 4, 2019 3:27 PM<br>
+&gt; To: Paul Eggleton &lt;<a href=3D"mailto:paul.eggleton@linux.intel.com"=
+ target=3D"_blank">paul.eggleton@linux.intel.com</a>&gt;; openembedded-<br>
+&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
+lists.openembedded.org</a>; Chandana Kalluri &lt;<a href=3D"mailto:ckalluri=
+@xilinx.com" target=3D"_blank">ckalluri@xilinx.com</a>&gt;<br>
+&gt; Subject: Re: [OE-core] [OE-Core][master][PATCH] standard.py: Provide a=
+n<br>
+&gt; additional option for devtool reset<br>
+&gt; <br>
+&gt; Hi Paul,<br>
+&gt; <br>
+&gt; &gt; -----Original Message-----<br>
+&gt; &gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembed=
+ded.org" target=3D"_blank">openembedded-core-bounces@lists.openembedded.org=
+</a><br>
+&gt; &gt; [mailto:<a href=3D"mailto:openembedded-core-bounces@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core-bounces@lists.openembedded.o=
+rg</a>] On Behalf Of<br>
+&gt; &gt; Paul Eggleton<br>
+&gt; &gt; Sent: Monday, March 04, 2019 12:17 PM<br>
+&gt; &gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" t=
+arget=3D"_blank">openembedded-core@lists.openembedded.org</a>; Chandana Kal=
+luri<br>
+&gt; &gt; &lt;<a href=3D"mailto:ckalluri@xilinx.com" target=3D"_blank">ckal=
+luri@xilinx.com</a>&gt;<br>
+&gt; &gt; Subject: Re: [OE-core] [OE-Core][master][PATCH] standard.py: Prov=
+ide<br>
+&gt; &gt; an additional option for devtool reset<br>
+&gt; &gt;<br>
+&gt; &gt; On Friday, 8 February 2019 2:57:32 PM NZDT Sai Hari Chandana Kall=
+uri wrote:<br>
+&gt; &gt; &gt; The devtool reset command cleans the sysroot for a recipe in=
+ workspace.<br>
+&gt; &gt; &gt; It also removes the append file but leaves the source code a=
+s in<br>
+&gt; &gt; &gt; workspace. The source is not cleaned intentionally and the u=
+ser has<br>
+&gt; &gt; &gt; to manually remove it before calling devtool modify again.<b=
+r>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Provide the user with an option to remove the source code fr=
+om<br>
+&gt; &gt; &gt; workspace by adding a flag to the devtool reset command. The=
+<br>
+&gt; &gt; &gt; --rm-source option for the devtool reset command will also c=
+lean the<br>
+&gt; &gt; &gt; source code from the workspace along with the sysroot and th=
+e append file.<br>
+&gt; &gt; &gt; Ex: devtool reset --rm-source zip or devtool reset -r zip<br=
+>
+&gt; &gt;<br>
+&gt; &gt; When I wrote this I made a conscious decision not to delete the<b=
+r>
+&gt; &gt; source, in case the user has unsaved work in the source tree; at =
+least<br>
+&gt; &gt; then the user has to take an explicit step (an additional rm -rf)=
+ in<br>
+&gt; &gt; order to delete it. You might argue that adding an option is the =
+same<br>
+&gt; &gt; as that explicit step, but I am still hesitant as you might for<b=
+r>
+&gt; &gt; example pick a previously used command from your command history =
+with<br>
+&gt; &gt; -r in it and only realise after you&#39;ve run it that you&#39;ve=
+ just blown away a bunch<br>
+&gt; of your work.<br>
+&gt; &gt;<br>
+&gt; &gt; However, I have received the feedback from a number of people tha=
+t<br>
+&gt; &gt; they find it annoying that they have to delete the source themsel=
+ves<br>
+&gt; &gt; before being able to run devtool on the recipe again. I&#39;d lik=
+e to hear<br>
+&gt; &gt; from the wider community on the following two questions:<br>
+&gt; &gt;<br>
+&gt; &gt; 1) Does the convenience of having this kind of option outweigh th=
+e<br>
+&gt; &gt; potential danger of deleting unsaved work?<br>
+&gt; &gt;<br>
+&gt; &gt; 2) Are there issues that anyone is experiencing that force you to=
+ run<br>
+&gt; &gt; devtool clean/finish and then re-run devtool modify (or add, or<b=
+r>
+&gt; &gt; upgrade), making this kind of situation come up more frequently? =
+Or is<br>
+&gt; &gt; it mostly that the source directories end up being left around to=
+ stumble over<br>
+&gt; some time later?<br>
+&gt; <br>
+&gt; We have seen source directories end up being left around (taking more =
+disk<br>
+&gt; space on certain projects), hence a solution to remove it might be opt=
+imal. If the<br>
+&gt; preference is not have &quot;-r&quot; option to avoid command history =
+mistake, then a full<br>
+&gt; command like devtool reset --rm-source is acceptable as well<br>
+&gt; <br>
+<br>
+<br>
+Any update on this?=C2=A0 Is there a reason not to merge this feature?<br>
+<br>
+Thanks,<br>
+Manju<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--0000000000006218d3058fa0e3c2--
