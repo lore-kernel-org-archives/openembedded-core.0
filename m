@@ -1,23 +1,23 @@
 Return-Path: <Trevor.Gamblin@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E5FCF7F290
+	by mail.openembedded.org (Postfix) with ESMTP id E6EC87F2AB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 14:05:44 +0000 (UTC)
+	Thu,  8 Aug 2019 14:27:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78E4S8j022644
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78EQds0023212
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Aug 2019 07:05:19 -0700
+	Thu, 8 Aug 2019 07:27:00 -0700
 Received: from yow-dellw-ag.wrs.com (128.224.56.115) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Thu, 8 Aug 2019 07:04:54 -0700
+	14.3.468.0; Thu, 8 Aug 2019 07:26:49 -0700
 From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2019 10:04:53 -0400
-Message-ID: <1565273093-16757-1-git-send-email-Trevor.Gamblin@windriver.com>
+Date: Thu, 8 Aug 2019 10:26:48 -0400
+Message-ID: <1565274408-17026-1-git-send-email-Trevor.Gamblin@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH v2] patch: fix CVE-2019-13638
+Subject: [warrior][PATCH v2] patch: fix CVE-2019-13638
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 14:05:45 -0000
+X-List-Received-Date: Thu, 08 Aug 2019 14:27:26 -0000
 Content-Type: text/plain
 
 From: Trevor Gamblin <trevor.gamblin@windriver.com>
@@ -38,8 +38,8 @@ From: Trevor Gamblin <trevor.gamblin@windriver.com>
 Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
  ...ke-ed-directly-instead-of-using-the-shell.patch | 44 ++++++++++++++++++++++
- meta/recipes-devtools/patch/patch_2.7.6.bb         |  1 +
- 2 files changed, 45 insertions(+)
+ meta/recipes-devtools/patch/patch_2.7.6.bb         |  2 +
+ 2 files changed, 46 insertions(+)
  create mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
 
 diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
@@ -93,13 +93,14 @@ index 0000000..f60dfe8
 +2.7.4
 +
 diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
-index 8cf20a3..8908910 100644
+index 85b0db7..8908910 100644
 --- a/meta/recipes-devtools/patch/patch_2.7.6.bb
 +++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
-@@ -7,6 +7,7 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+@@ -6,6 +6,8 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+             file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch \
              file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
              file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
-             file://CVE-2019-13636.patch \
++            file://CVE-2019-13636.patch \
 +            file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
  "
  
