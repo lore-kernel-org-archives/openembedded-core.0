@@ -1,25 +1,27 @@
 Return-Path: <jwessel@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A4D967F349
+	by mail.openembedded.org (Postfix) with ESMTP id A394E7F2A4
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Aug 2019 12:55:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x78CtBmH021329
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x78CtBmI021329
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 8 Aug 2019 05:55:11 -0700 (PDT)
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
 	Thu, 8 Aug 2019 05:55:11 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 51B25AA4823;
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 61FF9AA4825;
 	Thu,  8 Aug 2019 05:55:11 -0700 (PDT)
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2019 05:55:06 -0700
-Message-ID: <20190808125509.120784-1-jason.wessel@windriver.com>
+Date: Thu, 8 Aug 2019 05:55:09 -0700
+Message-ID: <20190808125509.120784-4-jason.wessel@windriver.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190808125509.120784-1-jason.wessel@windriver.com>
+References: <20190808125509.120784-1-jason.wessel@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] image_types_wic.bbclass: Copy the .wks and .env files to deploy image dir
+Subject: [PATCH 4/4] dpkg: Provide update-alternative for start-stop-daemon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +38,58 @@ X-List-Received-Date: Thu, 08 Aug 2019 12:55:10 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-When using a .wks.in file, the only place that the generated .wks file
-exists in the tmp/work area.  A copy should be left behind in the
-deploy directory so that you can easily run the wic tool to
-re-generate or modify a new image without running bitbake.  Custom
-.wks.in files can reference any number of bitbake variables, so it is
-important to save the result.
+When using DISTRO_FEATURE usrmerge, busybox and something that
+requires dpkg-start-stop there is a conflict which prints the
+following error.
 
-below is an example of using the generated .wks file in the deploy
-area.  The full name of my generated .wks file was
-core-image-minimal-ostree-uboot-ab.wks, but since you usually only
-have a single .wks file per image you can use a wild card like:
+===
 
-  cd tmp*/deploy/images/*
-  wic create --vars . -e core-image-minimal -s -m core-image-minimal-*.wks
+ERROR: core-image-minimal-1.0-r1 do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
+then please place them into pkg_postinst_ontarget_${PN} ().
+Deferring to first boot via 'exit 1' is no longer supported.
+Details of the failure are in /build/tmp-glibc/work/intel_x86_64-linux/core-image-minimal/1.0-r1/temp/log.do_rootfs.
+ERROR: core-image-minimal-1.0-r1 do_rootfs: Function failed: do_rootfs
+
+===
+
+Looking at the log file, it shows the problem:
+
+update-alternatives: Error: not linking /build/tmp-glibc/work/intel_x86_64-linux/core-image-minimal/1.0-r1/rootfs/usr/sbin/start-stop-daemon to /usr/bin/busybox.nosuid since /build/tmp-glibc/work/intel_x86_64-linux/core-image-minimal/1.0-r1/rootfs/usr/sbin/start-stop-daemon exists and is not a link
+
+===
+
+The solution is to add an update-alternative to start-stop-daemon for dpkg.
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/image_types_wic.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/recipes-devtools/dpkg/dpkg.inc | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 519aeb1b04..ce94138b3c 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -77,6 +77,11 @@ python do_write_wks_template () {
-     wks_file = d.getVar('WKS_FULL_PATH')
-     with open(wks_file, 'w') as f:
-         f.write(template_body)
-+    f.close()
-+    # Copy the finalized wks file to the deploy directory for later use
-+    depdir = d.getVar('DEPLOY_DIR_IMAGE')
-+    basename = d.getVar('IMAGE_BASENAME')
-+    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
- }
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index fee7a75814..1c3c585d79 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -9,7 +9,7 @@ RDEPENDS_${PN}_class-native = ""
  
- python () {
-@@ -127,6 +132,10 @@ python do_rootfs_wicenv () {
-             value = d.getVar(var)
-             if value:
-                 envf.write('%s="%s"\n' % (var, value.strip()))
-+    envf.close()
-+    # Copy to deploy directory for later use with stand alone wic
-+    depdir = d.getVar('DEPLOY_DIR_IMAGE')
-+    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
- }
- addtask do_rootfs_wicenv after do_image before do_image_wic
- do_rootfs_wicenv[vardeps] += "${WICVARS}"
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
+ 
+-inherit autotools gettext perlnative pkgconfig perl-version
++inherit autotools gettext perlnative pkgconfig perl-version update-alternatives
+ 
+ PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
+ 
+@@ -76,7 +76,10 @@ RDEPENDS_${PN}-perl += "perl-module-carp perl-module-constant \
+ # the bitbake version.
+ #
+ PACKAGES =+ "${PN}-start-stop"
+-FILES_${PN}-start-stop = "${sbindir}/start-stop-daemon"
++FILES_${PN}-start-stop = "${sbindir}/start-stop-daemon.${BPN}"
++ALTERNATIVE_${PN}-start-stop = "start-stop-daemon"
++ALTERNATIVE_LINK_NAME[start-stop-daemon] = "${sbindir}/start-stop-daemon"
++ALTERNATIVE_PRIORITY = "100"
+ 
+ RDEPENDS_${PN} += "${PN}-start-stop"
+ 
 -- 
 2.21.0
 
