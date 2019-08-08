@@ -1,26 +1,49 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D6377F2F5
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 9034C60291
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 16:45:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x78Gjpc5008737
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  8 Aug 2019 17:45:28 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id y17so65128621ljk.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Aug 2019 09:45:51 -0700 (PDT)
-Received: from [192.168.10.15] (172.25.59.219) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 8 Aug 2019 09:45:50 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-References: <20190808125509.120784-1-jason.wessel@windriver.com>
-Message-ID: <e3ea6d0a-082a-f848-986f-8f53c8cb743b@windriver.com>
-Date: Thu, 8 Aug 2019 11:45:49 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190808125509.120784-1-jason.wessel@windriver.com>
-Subject: Re: [PATCH 1/4] image_types_wic.bbclass: Copy the .wks and .env files to deploy image dir
+	Thu, 08 Aug 2019 10:45:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=TJo44fbAt/LuHUfEt/NetizjLDPjI3KABgYBdTj66wI=;
+	b=bvmCpKu/7Tm3xpNkeGqt65OG48yNNCm/e/Q0Lts7sq/zE7aJPg2UNIwowGiVikFdVc
+	/3+sFXUlK0WbbBPMGvgFs8PxbKXPkfqlc8WaMyxZg8KC6ruIhjkhPro/c5jnKiJ7R67v
+	Xam88d+Tt8+6Bsqgj8jzZXz7L7p0xToDjsb67D7nMS+gYUIxQJfCTof2PHMWB8ARn2QS
+	I8ua1TcLMCNcHMIc57+p3U2hP9VXgw0vhoA7WPAm7miyCSa/oBNrXHJ7pUCds5NAIO8g
+	H5/Ja4Kgyjs/c34upzTa1v6ZfrvLtexYgbtFMpTMDuQkMogLaxN+TQ9KRUqpbROex4DD
+	ZEuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=TJo44fbAt/LuHUfEt/NetizjLDPjI3KABgYBdTj66wI=;
+	b=IUBqC/euEe2nyKdrvhR6Krpq3KTts11JunMLD81FFmFuewk6V7+pAC0d4wO+uzh8TH
+	jjaIEUwFQkPdhJ5qFg0Msi5fxfPLF5dvU/w8y3+DSB6wrkbuPZFLk56wf2ORabCqfAIe
+	srgYyDn1UhJcpAmxIT4qByrYT3mIUQGXSYX1bo/Nl/SuD8l+PJD1y0OS0xtbF9l17OP4
+	Wbsvf/ZZDOcRSS+VYEqgQliFWvQEszCHCVrw/nQWhychOKyG1VQBwDT0F6npL+kQ8fYc
+	EGaFOLi90vhQYRs1Z/KFLetVJRm1e5DNphlAswvFZypTSWl6a2nFMx6TbQXDVrmRdVLL
+	nzGQ==
+X-Gm-Message-State: APjAAAVEMRLTgHb7wRpvLDAQICp6Oxxh5eubopoJsuemwSG67sUPcS80
+	+zBR65af5moibt2MWgZlZbDvGzAKypY=
+X-Google-Smtp-Source: APXvYqy9XdFkfFFHQkzO/PA4sz7adPQiaZqOVVADUaXHwQYg2YaQ4KpPzV+3eu568R4H5UAyaNOhFQ==
+X-Received: by 2002:a2e:3a05:: with SMTP id h5mr9100836lja.114.1565286328622; 
+	Thu, 08 Aug 2019 10:45:28 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id d3sm4149334lfj.15.2019.08.08.10.45.27
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 08 Aug 2019 10:45:28 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Aug 2019 19:45:25 +0200
+Message-Id: <20190808174525.4837-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] libinput: update to 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 16:45:50 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Aug 2019 17:45:28 -0000
 
-On 8/8/19 7:55 AM, Jason Wessel wrote:
-> When using a .wks.in file, the only place that the generated .wks file
-> exists in the tmp/work area.  A copy should be left behind in the
-> deploy directory so that you can easily run the wic tool to
-> re-generate or modify a new image without running bitbake.  Custom
-> .wks.in files can reference any number of bitbake variables, so it is
-> important to save the result.
-> 
-> below is an example of using the generated .wks file in the deploy
-> area.  The full name of my generated .wks file was
-> core-image-minimal-ostree-uboot-ab.wks, but since you usually only
-> have a single .wks file per image you can use a wild card like:
-> 
->    cd tmp*/deploy/images/*
->    wic create --vars . -e core-image-minimal -s -m core-image-minimal-*.wks
-> 
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->   meta/classes/image_types_wic.bbclass | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-> index 519aeb1b04..ce94138b3c 100644
-> --- a/meta/classes/image_types_wic.bbclass
-> +++ b/meta/classes/image_types_wic.bbclass
-> @@ -77,6 +77,11 @@ python do_write_wks_template () {
->       wks_file = d.getVar('WKS_FULL_PATH')
->       with open(wks_file, 'w') as f:
->           f.write(template_body)
-> +    f.close()
-> +    # Copy the finalized wks file to the deploy directory for later use
-> +    depdir = d.getVar('DEPLOY_DIR_IMAGE')
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../wayland/{libinput_1.13.4.bb => libinput_1.14.0.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.13.4.bb => libinput_1.14.0.bb} (86%)
 
-This needs a call to "bb.utils.mkdirhier(depdir)" in order to work properly.
-
-I didn't find the problem until using a higher degree of parallelism where the deploy directory might not actually be there to write out the file.  I'll send a v2 after more tests with the rest of the series.  It was all well tested originally on a single server, extended testing found the problem.
-
-
-Cheers,
-Jason.
-
-> +    basename = d.getVar('IMAGE_BASENAME')
-> +    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
->   }
->   
->   python () {
-> @@ -127,6 +132,10 @@ python do_rootfs_wicenv () {
->               value = d.getVar(var)
->               if value:
->                   envf.write('%s="%s"\n' % (var, value.strip()))
-> +    envf.close()
-> +    # Copy to deploy directory for later use with stand alone wic
-> +    depdir = d.getVar('DEPLOY_DIR_IMAGE')
-> +    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
->   }
->   addtask do_rootfs_wicenv after do_image before do_image_wic
->   do_rootfs_wicenv[vardeps] += "${WICVARS}"
-> 
+diff --git a/meta/recipes-graphics/wayland/libinput_1.13.4.bb b/meta/recipes-graphics/wayland/libinput_1.14.0.bb
+similarity index 86%
+rename from meta/recipes-graphics/wayland/libinput_1.13.4.bb
+rename to meta/recipes-graphics/wayland/libinput_1.14.0.bb
+index 73d692573d..d236f3fa08 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.13.4.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.14.0.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1f2ea9ebff3a2c6d458faf58492efb63"
+ DEPENDS = "libevdev udev mtdev"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz"
+-SRC_URI[md5sum] = "9ef817774bb5b4006cba95e34103e82c"
+-SRC_URI[sha256sum] = "d3eb57c714683b117aae29f6c0be76dd46de259f0a48f20cb43b9fa9f2e1401d"
++SRC_URI[md5sum] = "1c33d49fc7985926eab877e3de9c17eb"
++SRC_URI[sha256sum] = "7cb85c24f8920b81bc5360220107e267ab4e0e718704c7690a8c7b03fa14fc67"
+ 
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ 
+-- 
+2.17.1
 
 
