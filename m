@@ -1,27 +1,29 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 469C07F2F0
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DEDA16D561
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 20:09:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x78K9D52011148
+	Thu,  8 Aug 2019 20:17:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78KGefY000962
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Aug 2019 13:09:13 -0700 (PDT)
-Received: from [192.168.10.15] (147.11.117.63) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 8 Aug 2019 13:09:12 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20190808125509.120784-1-jason.wessel@windriver.com>
-	<572463162f995f87c9bd0d48db6541a34c8dd2a8.camel@linuxfoundation.org>
-From: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <2917ac7f-96da-1e57-5f4f-0153d8a5bae4@windriver.com>
-Date: Thu, 8 Aug 2019 15:09:11 -0500
+	Thu, 8 Aug 2019 13:16:50 -0700
+Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 8 Aug 2019 13:16:29 -0700
+To: Trevor Gamblin <Trevor.Gamblin@windriver.com>,
+	<openembedded-core@lists.openembedded.org>, Armin Kuster
+	<akuster808@gmail.com>
+References: <1565274408-17026-1-git-send-email-Trevor.Gamblin@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <81291d61-6a10-620c-df84-5b3f066cca0e@windriver.com>
+Date: Thu, 8 Aug 2019 16:16:28 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <572463162f995f87c9bd0d48db6541a34c8dd2a8.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/4] image_types_wic.bbclass: Copy the .wks and .env files to deploy image dir
+In-Reply-To: <1565274408-17026-1-git-send-email-Trevor.Gamblin@windriver.com>
+X-Originating-IP: [172.25.44.5]
+Subject: Re: [warrior][PATCH v2] patch: fix CVE-2019-13638
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,63 +36,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 20:09:13 -0000
+X-List-Received-Date: Thu, 08 Aug 2019 20:17:16 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On 8/8/19 1:42 PM, Richard Purdie wrote:
-> On Thu, 2019-08-08 at 05:55 -0700, Jason Wessel wrote:
->> When using a .wks.in file, the only place that the generated .wks file
->> exists in the tmp/work area.  A copy should be left behind in the
->> deploy directory so that you can easily run the wic tool to
->> re-generate or modify a new image without running bitbake.  Custom
->> .wks.in files can reference any number of bitbake variables, so it is
->> important to save the result.
->>
->> below is an example of using the generated .wks file in the deploy
->> area.  The full name of my generated .wks file was
->> core-image-minimal-ostree-uboot-ab.wks, but since you usually only
->> have a single .wks file per image you can use a wild card like:
->>
->>    cd tmp*/deploy/images/*
->>    wic create --vars . -e core-image-minimal -s -m core-image-minimal-*.wks
->>
->> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
->> ---
->>   meta/classes/image_types_wic.bbclass | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
->> index 519aeb1b04..ce94138b3c 100644
->> --- a/meta/classes/image_types_wic.bbclass
->> +++ b/meta/classes/image_types_wic.bbclass
->> @@ -77,6 +77,11 @@ python do_write_wks_template () {
->>       wks_file = d.getVar('WKS_FULL_PATH')
->>       with open(wks_file, 'w') as f:
->>           f.write(template_body)
->> +    f.close()
->> +    # Copy the finalized wks file to the deploy directory for later use
->> +    depdir = d.getVar('DEPLOY_DIR_IMAGE')
->> +    basename = d.getVar('IMAGE_BASENAME')
->> +    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
->>   }
+On 8/8/19 10:26 AM, Trevor Gamblin wrote:
+> From: Trevor Gamblin <trevor.gamblin@windriver.com>
 > 
-> Nothing should be writing to DEPLOY_DIR_IMAGE directly as it means its
-> not being managed by sstate and won't restore in a build from sstate.
-> There is an intermediate directory it should be written to and the
-> sstate code will put it into DEPLOY_DIR_IMAGE. For image classes it
-> might be IMGDEPLOYDIR but you'd have to check this task/code runs
-> between do_image and do_image_complete.
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> ---
+>   ...ke-ed-directly-instead-of-using-the-shell.patch | 44 ++++++++++++++++++++++
+>   meta/recipes-devtools/patch/patch_2.7.6.bb         |  2 +
+>   2 files changed, 46 insertions(+)
+>   create mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+> 
+> diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+> new file mode 100644
+> index 0000000..f60dfe8
+> --- /dev/null
+> +++ b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+> @@ -0,0 +1,44 @@
+> +From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17 00:00:00 2001
+> +From: Andreas Gruenbacher <agruen@gnu.org>
+> +Date: Fri, 6 Apr 2018 19:36:15 +0200
+> +Subject: [PATCH] Invoke ed directly instead of using the shell
+> +
+> +* src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
+> +command to avoid quoting vulnerabilities.
+> +
+> +CVE: CVE-2019-13638
+> +Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
+> +Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> +
+> +---
+> + src/pch.c | 6 ++----
+> + 1 file changed, 2 insertions(+), 4 deletions(-)
+> +
+> +
+> +diff --git a/src/pch.c b/src/pch.c
+> +index 4fd5a05..16e001a 100644
+> +--- a/src/pch.c
+> ++++ b/src/pch.c
+> +@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char const *outname,
+> + 	    *outname_needs_removal = true;
+> + 	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
+> + 	  }
+> +-	sprintf (buf, "%s %s%s", editor_program,
+> +-		 verbosity == VERBOSE ? "" : "- ",
+> +-		 outname);
+> + 	fflush (stdout);
+> +
+> + 	pid = fork();
+> +@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char const *outname,
+> + 	else if (pid == 0)
+> + 	  {
+> + 	    dup2 (tmpfd, 0);
+> +-	    execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
+> ++	    assert (outname[0] != '!' && outname[0] != '-');
+> ++	    execlp (editor_program, editor_program, "-", outname, (char  *) NULL);
+> + 	    _exit (2);
+> + 	  }
+> + 	else
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+> index 85b0db7..8908910 100644
+> --- a/meta/recipes-devtools/patch/patch_2.7.6.bb
+> +++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+> @@ -6,6 +6,8 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+>               file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch \
+>               file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
+>               file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
+> +            file://CVE-2019-13636.patch \
+> +            file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
+>   "
+
+Odd, you only added one patch but you changed two lines above.
+I assume this is due to a merge conflict that you incorrectly resolved.
+
+If you apply this commit on warrior, you see:
+
+WARNING: patch-2.7.6-r0 do_fetch: Failed to fetch URL 
+file://CVE-2019-13636.patch, attempting MIRRORS if available
+ERROR: patch-2.7.6-r0 do_fetch: Fetcher failure: Unable to find file 
+file://CVE-2019-13636.patch anywhere. The paths that were searched were:
+
+Fix and v3 please.
+
+../Randy
+>   
+>   SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
 > 
 
 
-Thank you for the pointer.  It works exactly as intended so long as the dependency
-is changed properly, and the correct staging directory is used.
-There is no directory creation required because the do_image() takes care of all
-that.
-
-I'll send v2 of the series, but this this the only patch that changed.
-
-Jason.
+-- 
+# Randy MacLeod
+# Wind River Linux
 
