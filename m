@@ -1,27 +1,23 @@
-Return-Path: <jwessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B75EE7F367
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4444B6BCE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 12:55:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x78CtBmK021329
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Aug 2019 05:55:12 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 8 Aug 2019 05:55:11 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 58308AA26D2;
-	Thu,  8 Aug 2019 05:55:11 -0700 (PDT)
-From: Jason Wessel <jason.wessel@windriver.com>
+	Thu,  8 Aug 2019 12:59:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78CxJ0b020396
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 8 Aug 2019 05:59:30 -0700
+Received: from yow-dellw-ag.wrs.com (128.224.56.115) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 8 Aug 2019 05:59:09 -0700
+From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2019 05:55:07 -0700
-Message-ID: <20190808125509.120784-2-jason.wessel@windriver.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190808125509.120784-1-jason.wessel@windriver.com>
-References: <20190808125509.120784-1-jason.wessel@windriver.com>
+Date: Thu, 8 Aug 2019 08:59:08 -0400
+Message-ID: <1565269148-14827-1-git-send-email-Trevor.Gamblin@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 2/4] wic: Add partition type for msdos partition tables
+Subject: [warrior][PATCH] patch: fix CVE-2019-13638
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,187 +30,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 12:55:11 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 Aug 2019 12:59:55 -0000
 Content-Type: text/plain
 
-In order to create a msdos partition table disk image that can auto
-expand after the image is copied to an SD card, wic needs the ability
-to have a primary partition as the last entry.  The desired use case
-is to be able to create an A/B update partition image scheme with a
-/var volume that can be auto expanded to the remainder of the SD card
-at run time.
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-The typical .wks file will look similar to the following:
-
-bootloader --ptable msdos
-part / --source rawcopy --sourceparams="file=u-boot.imx" \
-   --ondisk mmcblk --no-table --align 1 --size 1
-part /boot --source bootimg-partition \
-   --ondisk mmcblk --fstype=vfat --label boot --active --align 4 --size 16
-part / --source rawcopy --sourceparams="file=imx6_boot.otaimg" \
-   --ondisk mmcblk --fstype=ext4 --label otaboot --align 4 --type logical
-part / --source rawcopy --sourceparams="file=imx6.otaimg" \
-   --ondisk mmcblk --fstype=ext4 --label otaroot --align 4 --type logical
-part / --source rawcopy --sourceparams="file=imx6_boot.otaimg" \
-   --ondisk mmcblk --fstype=ext4 --label otaboot_b --align 4 --type logical
-part / --source rawcopy --sourceparams="file=imx6.otaimg" \
-   --ondisk mmcblk --fstype=ext4 --label otaroot_b --align 4 --type logical
-part /var --source rawcopy --sourceparams="file=imx6_var.otaimg" \
-    --ondisk mmcblk --fstype=ext4 --label fluxdata --align 4
-
-Without the patch applied, wic will generate an SD card image that looks like:
-
-Disk boot.img: 890940s
-Sector size (logical/physical): 512B/512B
-Partition Table: msdos
-Disk Flags:
-
-Number  Start    End      Size     Type      File system  Flags
- 1      2056s    48001s   45946s   primary   fat16        lba
- 2      48008s   132467s  84460s   primary   ext4
- 3      132472s  454467s  321996s  primary   ext4
- 4      454471s  890939s  436469s  extended               lba
- 5      454472s  538931s  84460s   logical   ext4
- 6      538936s  860931s  321996s  logical   ext4
- 7      860936s  890939s  30004s   logical   ext4         boot
-
-With the patch applied a primary partition can be created at the end
-of the image which can be expanded to fill the free space on the media
-where the image has been copied, which looks like:
-
-Disk boot.img: 890940s
-Sector size (logical/physical): 512B/512B
-Partition Table: msdos
-Disk Flags:
-
-Number  Start    End      Size     Type      File system  Flags
- 1      2056s    48001s   45946s   primary   fat16        lba
- 2      48007s   860931s  812925s  extended               lba
- 5      48008s   132467s  84460s   logical   ext4
- 6      132472s  454467s  321996s  logical   ext4
- 7      454472s  538931s  84460s   logical   ext4
- 8      538936s  860931s  321996s  logical   ext4
- 3      860936s  890939s  30004s   primary   ext4         boot
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
- scripts/lib/wic/ksparser.py              |  2 ++
- scripts/lib/wic/partition.py             |  1 +
- scripts/lib/wic/plugins/imager/direct.py | 37 +++++++++++++++++-------
- 3 files changed, 29 insertions(+), 11 deletions(-)
+ ...ke-ed-directly-instead-of-using-the-shell.patch | 44 ++++++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb         |  5 +++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
 
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 3e670033ba..6a643ba3af 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -151,6 +151,8 @@ class KickStart():
-         part.add_argument('--part-name')
-         part.add_argument('--part-type')
-         part.add_argument('--rootfs-dir')
-+        part.add_argument('--type', default='primary',
-+                choices = ('primary', 'logical'))
+diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+new file mode 100644
+index 0000000..9f416e3
+--- /dev/null
++++ b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+@@ -0,0 +1,44 @@
++From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruen@gnu.org>
++Date: Fri, 6 Apr 2018 19:36:15 +0200
++Subject: [PATCH] Invoke ed directly instead of using the shell
++
++* src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
++command to avoid quoting vulnerabilities.
++
+++CVE: CVE-2019-13638
+++Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
+++Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
++
++---
++ src/pch.c | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
++
++
++diff --git a/src/pch.c b/src/pch.c
++index 4fd5a05..16e001a 100644
++--- a/src/pch.c
+++++ b/src/pch.c
++@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char const *outname,
++ 	    *outname_needs_removal = true;
++ 	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
++ 	  }
++-	sprintf (buf, "%s %s%s", editor_program,
++-		 verbosity == VERBOSE ? "" : "- ",
++-		 outname);
++ 	fflush (stdout);
++ 
++ 	pid = fork();
++@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char const *outname,
++ 	else if (pid == 0)
++ 	  {
++ 	    dup2 (tmpfd, 0);
++-	    execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
+++	    assert (outname[0] != '!' && outname[0] != '-');
+++	    execlp (editor_program, editor_program, "-", outname, (char  *) NULL);
++ 	    _exit (2);
++ 	  }
++ 	else
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+index 85b0db7..c82144b 100644
+--- a/meta/recipes-devtools/patch/patch_2.7.6.bb
++++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+@@ -6,6 +6,11 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+             file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch \
+             file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
+             file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
++<<<<<<< HEAD
++=======
++            file://CVE-2019-13636.patch \
++            file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
++>>>>>>> 982b946... patch: fix CVE-2019-13638
+ "
  
-         # --size and --fixed-size cannot be specified together; options
-         # ----extra-space and --overhead-factor should also raise a parser
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 01466b258d..f427c8101b 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -50,6 +50,7 @@ class Partition():
-         self.use_uuid = args.use_uuid
-         self.uuid = args.uuid
-         self.fsuuid = args.fsuuid
-+        self.type = args.type
- 
-         self.lineno = lineno
-         self.source_file = ""
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 91fc5e70f6..3ce6ad55b8 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -300,6 +300,10 @@ class PartitionedImage():
-         self.path = path  # Path to the image file
-         self.numpart = 0  # Number of allocated partitions
-         self.realpart = 0 # Number of partitions in the partition table
-+        self.primary_part_num = 0  # Number of primary partitions (msdos)
-+        self.extendedpart = 0      # Create extended partition before this logical partition (msdos)
-+        self.extended_size_sec = 0 # Size of exteded partition (msdos)
-+        self.logical_part_cnt = 0  # Number of total logical paritions (msdos)
-         self.offset = 0   # Offset of next partition (in sectors)
-         self.min_size = 0 # Minimum required disk size to fit
-                           # all partitions (in bytes)
-@@ -391,12 +395,16 @@ class PartitionedImage():
-                 # Skip one sector required for the partitioning scheme overhead
-                 self.offset += overhead
- 
--            if self.realpart > 3 and num_real_partitions > 4:
-+            if self.ptable_format == "msdos":
-+                if self.primary_part_num > 3 or \
-+                   (self.extendedpart == 0 and self.primary_part_num >= 3 and num_real_partitions > 4):
-+                    part.type = 'logical'
-                 # Reserve a sector for EBR for every logical partition
-                 # before alignment is performed.
--                if self.ptable_format == "msdos":
-+                if part.type == 'logical':
-                     self.offset += 1
- 
-+            align_sectors = 0
-             if part.align:
-                 # If not first partition and we do have alignment set we need
-                 # to align the partition.
-@@ -422,18 +430,25 @@ class PartitionedImage():
-             part.start = self.offset
-             self.offset += part.size_sec
- 
--            part.type = 'primary'
-             if not part.no_table:
-                 part.num = self.realpart
-             else:
-                 part.num = 0
- 
--            if self.ptable_format == "msdos":
--                # only count the partitions that are in partition table
--                if num_real_partitions > 4:
--                    if self.realpart > 3:
--                        part.type = 'logical'
--                        part.num = self.realpart + 1
-+            if self.ptable_format == "msdos" and not part.no_table:
-+                if part.type == 'logical':
-+                    self.logical_part_cnt += 1
-+                    part.num = self.logical_part_cnt + 4
-+                    if self.extendedpart == 0:
-+                        # Create extended partition as a primary partition
-+                        self.primary_part_num += 1
-+                        self.extendedpart = part.num
-+                    else:
-+                        self.extended_size_sec += align_sectors
-+                    self.extended_size_sec += part.size_sec + 1
-+                else:
-+                    self.primary_part_num += 1
-+                    part.num = self.primary_part_num
- 
-             logger.debug("Assigned %s to %s%d, sectors range %d-%d size %d "
-                          "sectors (%d bytes).", part.mountpoint, part.disk,
-@@ -483,7 +498,7 @@ class PartitionedImage():
-             if part.num == 0:
-                 continue
- 
--            if self.ptable_format == "msdos" and part.num == 5:
-+            if self.ptable_format == "msdos" and part.num == self.extendedpart:
-                 # Create an extended partition (note: extended
-                 # partition is described in MBR and contains all
-                 # logical partitions). The logical partitions save a
-@@ -497,7 +512,7 @@ class PartitionedImage():
-                 # room for all logical partitions.
-                 self._create_partition(self.path, "extended",
-                                        None, part.start - 1,
--                                       self.offset - part.start + 1)
-+                                       self.extended_size_sec)
- 
-             if part.fstype == "swap":
-                 parted_fs_type = "linux-swap"
+ SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
 -- 
-2.21.0
+2.7.4
 
 
