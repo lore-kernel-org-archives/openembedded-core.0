@@ -1,23 +1,57 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E6EC87F2AB
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A4AB77F2B1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 14:27:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78EQds0023212
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Aug 2019 07:27:00 -0700
-Received: from yow-dellw-ag.wrs.com (128.224.56.115) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Thu, 8 Aug 2019 07:26:49 -0700
-From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2019 10:26:48 -0400
-Message-ID: <1565274408-17026-1-git-send-email-Trevor.Gamblin@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu,  8 Aug 2019 14:37:05 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id u25so2669697wmc.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Aug 2019 07:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=WldyrAcL0EfKndfZKnGwO/0NcErKkOW0k2DLn3UzFuE=;
+	b=WkdepSoPox2VQSpmKbrc4jyD/RMazsBlz67bV9Ks+qORQjuPkw78Olmd3W7w/xkI9A
+	hM4Cj9cGEUlVxmbf/+IkeRtRw/ayFkKr3DG7oYDjG4mYxn9xXMnrryK/eqWaAzeLsTth
+	zHlUAXNH2HJ1GyasfdkVT/P8J7TmDcjAMXujFrIAP8HyEKhgPO7NqvtKScPrkE2dSXvQ
+	1R4C7/lJj+fFM8+dcf5VzDTUmnqk0fy3RUd8u5ctX4apw0tM9LF+kblKadDXVT28KMUH
+	PxJUmCrLl8IXvVI8iFMjyJp7Xl1ot519FsLi/xjC3ooQ9e4DCCx4/pnm6Q9OXvzaEM2/
+	ebtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=WldyrAcL0EfKndfZKnGwO/0NcErKkOW0k2DLn3UzFuE=;
+	b=lYk4kVGRqc9SvuvP6672s2Gv62boyidK5SyVLK2UcrDUg45J7lX/3qzmojNYOkFZvk
+	DoYtLm8AHT28m4ym01Ex7yay0cPUyomEKUoDDjbwNEOAg7dc3S2d+I4c7JCI9gVKfEPt
+	mY9T6q0VGANvASQ4i1j2mG4DyuR++Biwwz0pqKgFE369qT/Y1VjhS6BO6NHbKXnBWcdK
+	zDS8qxw7uP10BWEnaPUtle7miXFwKPIeAd6l/jOGfZUN768l6wOSrI+G23L0IGGu4MxX
+	+ohcLpE8gGf1Kjyd7B/DPvdafqLNAGbQ/d+cwfKjaE/77V8u9MHBuumzJeG2KHrUHHda
+	Ar6A==
+X-Gm-Message-State: APjAAAUdyhET6i7jQHTxdQvjza67E6BzBqtKAac/vA5azo2awH7FFJRf
+	Cfd+tXcuEf60cOpfpIm5Et4wQRC4
+X-Google-Smtp-Source: APXvYqzhkkFiJtYgDJxrSx7Ph5fF9SJNCmJNVDnLqgbgmsGeWc7QxpNE1EH5SCrVkStBkWHXJvP0+g==
+X-Received: by 2002:a05:600c:23cd:: with SMTP id
+	p13mr4441250wmb.86.1565275026091; 
+	Thu, 08 Aug 2019 07:37:06 -0700 (PDT)
+Received: from bluca-lenovo ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
+	by smtp.gmail.com with ESMTPSA id
+	n9sm144804317wrp.54.2019.08.08.07.37.05
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 08 Aug 2019 07:37:05 -0700 (PDT)
+Message-ID: <9ff85acd1d43d6003ea5fd53e0701a08b3fedfd1.camel@gmail.com>
+From: Luca Boccassi <luca.boccassi@gmail.com>
+To: Jacob Kroon <jacob.kroon@mikrodidakt.se>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 08 Aug 2019 15:37:04 +0100
+In-Reply-To: <81efba6d-0174-370f-778c-c4c6fa434afc@mikrodidakt.se>
+References: <20190805105232.16148-1-luca.boccassi@gmail.com>
+	<20190808135858.4609-1-luca.boccassi@gmail.com>
+	<81efba6d-0174-370f-778c-c4c6fa434afc@mikrodidakt.se>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Subject: [warrior][PATCH v2] patch: fix CVE-2019-13638
+Subject: Re: [PATCH v3] python3-pygobject: move python3-setuptools from RDEPENDS to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,82 +64,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 14:27:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Aug 2019 14:37:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+On Thu, 2019-08-08 at 14:03 +0000, Jacob Kroon wrote:
+> Hi Luca,
+> 
+> On 8/8/19 3:58 PM, 
+> luca.boccassi@gmail.com
+>  wrote:
+> > From: Luca Boccassi <
+> > luca.boccassi@microsoft.com
+> > >
+> > 
+> > python3-setuptools is necessary to build pygobject but not to run
+> > it, as
+> > also documented by the upstream packaging guide:
+> > 
+> > https://gitlab.gnome.org/GNOME/pygobject/blob/master/docs/packagingguide.rst
+> > 
+> > 
+> > Move it to DEPENDS to shrink the runtime dependency chain, as
+> > setuptools
+> > includes scripts to download other packages, which might not be
+> > desired on
+> > a minimal image.
+> > 
+> 
+> This commmit message should be rephrased now.
+> /Jacob
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- ...ke-ed-directly-instead-of-using-the-shell.patch | 44 ++++++++++++++++++++++
- meta/recipes-devtools/patch/patch_2.7.6.bb         |  2 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+Hi,
 
-diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
-new file mode 100644
-index 0000000..f60dfe8
---- /dev/null
-+++ b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
-@@ -0,0 +1,44 @@
-+From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17 00:00:00 2001
-+From: Andreas Gruenbacher <agruen@gnu.org>
-+Date: Fri, 6 Apr 2018 19:36:15 +0200
-+Subject: [PATCH] Invoke ed directly instead of using the shell
-+
-+* src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
-+command to avoid quoting vulnerabilities.
-+
-+CVE: CVE-2019-13638
-+Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+
-+---
-+ src/pch.c | 6 ++----
-+ 1 file changed, 2 insertions(+), 4 deletions(-)
-+
-+
-+diff --git a/src/pch.c b/src/pch.c
-+index 4fd5a05..16e001a 100644
-+--- a/src/pch.c
-++++ b/src/pch.c
-+@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char const *outname,
-+ 	    *outname_needs_removal = true;
-+ 	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
-+ 	  }
-+-	sprintf (buf, "%s %s%s", editor_program,
-+-		 verbosity == VERBOSE ? "" : "- ",
-+-		 outname);
-+ 	fflush (stdout);
-+ 
-+ 	pid = fork();
-+@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char const *outname,
-+ 	else if (pid == 0)
-+ 	  {
-+ 	    dup2 (tmpfd, 0);
-+-	    execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
-++	    assert (outname[0] != '!' && outname[0] != '-');
-++	    execlp (editor_program, editor_program, "-", outname, (char  *) NULL);
-+ 	    _exit (2);
-+ 	  }
-+ 	else
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
-index 85b0db7..8908910 100644
---- a/meta/recipes-devtools/patch/patch_2.7.6.bb
-+++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
-@@ -6,6 +6,8 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-             file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch \
-             file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
-             file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
-+            file://CVE-2019-13636.patch \
-+            file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
- "
- 
- SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
+Yes I realised 0.1 seconds after git send-email completed :-) Already
+sent v4:
+
+https://patchwork.openembedded.org/patch/163798/
+
 -- 
-2.7.4
+Kind regards,
+Luca Boccassi
 
 
