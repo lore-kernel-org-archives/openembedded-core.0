@@ -1,38 +1,52 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A99E7F2F5
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 021827F2F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 11:44:13 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Aug 2019 04:44:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,361,1559545200"; d="scan'208";a="326284248"
-Received: from kmsmsx156.gar.corp.intel.com ([172.21.138.133])
-	by orsmga004.jf.intel.com with ESMTP; 08 Aug 2019 04:44:13 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
-	KMSMSX156.gar.corp.intel.com ([169.254.1.101]) with mapi id
-	14.03.0439.000; Thu, 8 Aug 2019 19:44:12 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "dbaryshkov@gmail.com"
-	<dbaryshkov@gmail.com>
-Thread-Topic: [OE-core] [PATCH] module.bbclass: do not strip packages if
-	modules signing is enabled
-Thread-Index: AQHVTd6YAxEDh31LHUKdmxAmjaDwkA==
-Date: Thu, 8 Aug 2019 11:44:11 +0000
-Message-ID: <1d7e32e5e05a43e18d4b52839a3b2327554c0525.camel@intel.com>
-References: <20190808095725.18596-1-dbaryshkov@gmail.com>
-In-Reply-To: <20190808095725.18596-1-dbaryshkov@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.187.50]
+	Thu,  8 Aug 2019 11:47:11 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id s15so2101580wmj.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Aug 2019 04:47:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=bckWdXqXFZT0iMLhxmq955Ih0yNBxaq33LK9MAPKHiw=;
+	b=nXiuYiNJojhDzGJGpL+Ewlgyfx2Km2vsJA96YVPtj6jKq4FI+kMthKpYg/hpbvboOn
+	TyonZhqDWYCkqnbrA/X/UOIRaUoW94ptKHVy3L4d3aDfo0HlaJOMHHQYpXm1bX8wnzE2
+	KP/gF8v0OZEF0g/aR3EnOMKanhCL5Ar/tgvv76JWZY6CzZH7gRw8ISDBdzOx1cbXkTWe
+	IPqZY84cc3JNqKe3IQBGuZ+C9M6+3YZkzvXC3wZtMOz14MKM3SjJnYnzY79/2pYuMYP1
+	dp37B0stIk9qIPvDl2ppRAAtQbmZfQ8oJAKWVDtDBGmRW/3wOb8NnGZADj/zATZc4F7o
+	2ZAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=bckWdXqXFZT0iMLhxmq955Ih0yNBxaq33LK9MAPKHiw=;
+	b=IGUnq9KLMXcoaOqdhdvl+7kPyguSuIz/9beQAfaVP+VUeDpZzeig682TCVXneG/aPe
+	RfWWlXVaci+Zb+YH0WfWGDOS8IwvNgTmFHCnme+BCkzdr6o+27JGvoX61BEUoK3k5WO9
+	aHsMHyUOSVl4ob2sfBak0oQFZeEP0P9oWLLRR+QOifXRH6u3XvM6pRCD1LFRjB5xIKyZ
+	WjEHQL//dRPfkubeRIUx0AnhBzbwkU/gTXcJO0gC3TMLJ7KRDOkJTfClXBqiyqtwU6u5
+	37AFlHnqrhJTfgv04J8EYzRwVI0PL9g10wMmpCIZMQvlGgjn0OwZrEmV36rMp9KpJStT
+	uBnQ==
+X-Gm-Message-State: APjAAAWE1wjp9vNpr3TAeCdLLMBfHnMykDhK1srvHjnNkb0dagv96DeI
+	N7kqZv31CD/00auUdm340p2mSK5N
+X-Google-Smtp-Source: APXvYqy5hAFmc0pNsPbVFYtzcnP6lY26jIogsaCdPtBZtByIoqSxrMYd5u4upKOe7FGaaf3hQZw/RQ==
+X-Received: by 2002:a1c:9cd1:: with SMTP id f200mr3893412wme.157.1565264832008;
+	Thu, 08 Aug 2019 04:47:12 -0700 (PDT)
+Received: from localhost ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
+	by smtp.gmail.com with ESMTPSA id
+	b5sm77277518wru.69.2019.08.08.04.47.10
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 08 Aug 2019 04:47:10 -0700 (PDT)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Aug 2019 12:47:01 +0100
+Message-Id: <20190808114701.20464-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190805105232.16148-1-luca.boccassi@gmail.com>
+References: <20190805105232.16148-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-Cc: "dmitry_eremin-solenikov@mentor.com" <dmitry_eremin-solenikov@mentor.com>
-Subject: Re: [PATCH] module.bbclass: do not strip packages if modules signing is enabled
+Subject: [PATCH v2] python3-pygobject: move python3-setuptools from RDEPENDS to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,18 +59,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 11:44:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FCB36ADCF057B3468426B81D68C2CA08@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 08 Aug 2019 11:47:12 -0000
+Content-Transfer-Encoding: 8bit
 
-T24gVGh1LCAyMDE5LTA4LTA4IGF0IDEyOjU3ICswMzAwLCBkYmFyeXNoa292QGdtYWlsLmNvbSB3
-cm90ZToNCj4gRnJvbTogRG1pdHJ5IEVyZW1pbi1Tb2xlbmlrb3YgPGRtaXRyeV9lcmVtaW4tc29s
-ZW5pa292QG1lbnRvci5jb20+DQo+IA0KPiBTdHJpcHBpbmcga2VybmVsIG1vZHVsZXMgd2lsbCBh
-bHNvIHJlbW92ZSBzaWduYXR1cmUsIHRodXMgd2UgaGF2ZSB0bw0KPiBpbmhpYml0IHBhY2thZ2Ug
-c3RyaXBpbmcgaW4gY2FzZSBtb2R1bGVzIHNpZ25hdHVyZXMgYXJlIGVuYWJsZWQuDQo+IA0KDQpJ
-c24ndCB0aGlzIGFscmVhZHkgYmVpbmcgdGFrZW4gY2FyZSBvZiBoZXJlOg0KDQpodHRwczovL2dp
-dC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kvcG9reS9jb21taXQvP2lkPThmYzU2ZmFh
-NWQ3NjkyN2Y0MmE0ZTdjY2EyNDE4NTU2ZTIzMTkzOGYNCg0KVGhhbmtzLA0KDQpBbnVqDQo=
+From: Luca Boccassi <luca.boccassi@microsoft.com>
+
+python3-setuptools is necessary to build pygobject but not to run it, as
+also documented by the upstream packaging guide:
+
+https://gitlab.gnome.org/GNOME/pygobject/blob/master/docs/packagingguide.rst
+
+Move it to DEPENDS to shrink the runtime dependency chain, as setuptools
+includes scripts to download other packages, which might not be desired on
+a minimal image.
+
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+v2: use -native suffix as requested during the code review
+
+ meta/recipes-devtools/python/python3-pygobject_3.32.2.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb b/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
+index 05688be603..9e4ce31d8c 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
+ GNOMEBASEBUILDCLASS = "meson"
+ inherit gnomebase distutils3-base gobject-introspection upstream-version-is-even
+ 
+-DEPENDS += "python3 glib-2.0"
++DEPENDS += "python3 python3-setuptools-native glib-2.0"
+ 
+ SRCNAME="pygobject"
+ 
+@@ -27,7 +27,5 @@ PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', [ 'directfb', 'wa
+ # we don't link against python3-pycairo -> RDEPENDS
+ PACKAGECONFIG[cairo] = "-Dpycairo=true,-Dpycairo=false, cairo python3-pycairo, python3-pycairo"
+ 
+-RDEPENDS_${PN} += "python3-setuptools"
+-
+ BBCLASSEXTEND = "native"
+ PACKAGECONFIG_class-native = ""
+-- 
+2.20.1
+
 
