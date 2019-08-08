@@ -1,28 +1,28 @@
 Return-Path: <jwessel@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C015D7F2F2
+	by mail.openembedded.org (Postfix) with ESMTP id C0FEE7F2F6
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Aug 2019 20:24:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78KNxfL001132
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78KNxfK001132
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 8 Aug 2019 13:24:15 -0700
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
 	Thu, 8 Aug 2019 13:24:02 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 31CCDAA4823;
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 3BB1AAA4826;
 	Thu,  8 Aug 2019 13:24:02 -0700 (PDT)
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2019 13:23:59 -0700
-Message-ID: <20190808202400.60710-3-jason.wessel@windriver.com>
+Date: Thu, 8 Aug 2019 13:24:00 -0700
+Message-ID: <20190808202400.60710-4-jason.wessel@windriver.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190808202400.60710-1-jason.wessel@windriver.com>
 References: <20190808202400.60710-1-jason.wessel@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 3/4] wic: Make disk partition size consistently computed
+Subject: [PATCH v2 4/4] dpkg: Provide update-alternative for start-stop-daemon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,68 +39,58 @@ X-List-Received-Date: Thu, 08 Aug 2019 20:24:30 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-When using different root directories with a wks file wic is using the
-value from the original ROOTFS_SIZE which is not correct.  Example:
+When using DISTRO_FEATURE usrmerge, busybox and something that
+requires dpkg-start-stop there is a conflict which prints the
+following error.
 
-Number  Start   End     Size    File system  Name       Flags
- 1      20.5kB  318MB   318MB   fat16        otaefi     legacy_boot, msftdata
- 2      318MB   636MB   318MB   ext4         otaboot
- 3      636MB   1709MB  1074MB  ext4         otaroot
- 4      1709MB  2027MB  318MB   ext4         otaboot_b
- 5      2027MB  3101MB  1074MB  ext4         otaroot_b
- 6      3101MB  5249MB  2147MB  ext4         fluxdata
+===
 
-The partitions 1, 2, and 3 incorrectly inherit the size, instead of using
-a computed size.  With the patch applied it is working properly:
+ERROR: core-image-minimal-1.0-r1 do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
+then please place them into pkg_postinst_ontarget_${PN} ().
+Deferring to first boot via 'exit 1' is no longer supported.
+Details of the failure are in /build/tmp-glibc/work/intel_x86_64-linux/core-image-minimal/1.0-r1/temp/log.do_rootfs.
+ERROR: core-image-minimal-1.0-r1 do_rootfs: Function failed: do_rootfs
 
-Number  Start   End     Size    File system  Name       Flags
- 1      20.5kB  14.5MB  14.5MB  fat16        otaefi     legacy_boot, msftdata
- 2      14.5MB  65.3MB  50.8MB  ext4         otaboot
- 3      65.3MB  1139MB  1074MB  ext4         otaroot
- 4      1139MB  1190MB  50.8MB  ext4         otaboot_b
- 5      1190MB  2264MB  1074MB  ext4         otaroot_b
- 6      2264MB  4411MB  2147MB  ext4         fluxdata
+===
 
-As for the removal of the bb.warn, if the size is not specified, it is
-not something to warn the end user about.  Some of my default images
-make use of the head room + a computed directory size or while generating
-images.
+Looking at the log file, it shows the problem:
+
+update-alternatives: Error: not linking /build/tmp-glibc/work/intel_x86_64-linux/core-image-minimal/1.0-r1/rootfs/usr/sbin/start-stop-daemon to /usr/bin/busybox.nosuid since /build/tmp-glibc/work/intel_x86_64-linux/core-image-minimal/1.0-r1/rootfs/usr/sbin/start-stop-daemon exists and is not a link
+
+===
+
+The solution is to add an update-alternative to start-stop-daemon for dpkg.
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- scripts/lib/wic/partition.py | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ meta/recipes-devtools/dpkg/dpkg.inc | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index f427c8101b..2a71d7b1d6 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -212,19 +212,13 @@ class Partition():
-         if os.path.isfile(rootfs):
-             os.remove(rootfs)
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index fee7a75814..1c3c585d79 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -9,7 +9,7 @@ RDEPENDS_${PN}_class-native = ""
  
--        # Get rootfs size from bitbake variable if it's not set in .ks file
-+        # If size is not specified compute it from the rootfs_dir size
-         if not self.size and real_rootfs:
--            # Bitbake variable ROOTFS_SIZE is calculated in
--            # Image._get_rootfs_size method from meta/lib/oe/image.py
--            # using IMAGE_ROOTFS_SIZE, IMAGE_ROOTFS_ALIGNMENT,
--            # IMAGE_OVERHEAD_FACTOR and IMAGE_ROOTFS_EXTRA_SPACE
--            rsize_bb = get_bitbake_var('ROOTFS_SIZE')
--            if rsize_bb:
--                logger.warning('overhead-factor was specified, but size was not,'
--                               ' so bitbake variables will be used for the size.'
--                               ' In this case both IMAGE_OVERHEAD_FACTOR and '
--                               '--overhead-factor will be applied')
--                self.size = int(round(float(rsize_bb)))
-+            # Use the same logic found in get_rootfs_size()
-+            # from meta/classes/image.bbclass
-+            du_cmd = "du -ks %s" % rootfs_dir
-+            out = exec_cmd(du_cmd)
-+            self.size = int(out.split()[0])
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
  
-         prefix = "ext" if self.fstype.startswith("ext") else self.fstype
-         method = getattr(self, "prepare_rootfs_" + prefix)
+-inherit autotools gettext perlnative pkgconfig perl-version
++inherit autotools gettext perlnative pkgconfig perl-version update-alternatives
+ 
+ PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
+ 
+@@ -76,7 +76,10 @@ RDEPENDS_${PN}-perl += "perl-module-carp perl-module-constant \
+ # the bitbake version.
+ #
+ PACKAGES =+ "${PN}-start-stop"
+-FILES_${PN}-start-stop = "${sbindir}/start-stop-daemon"
++FILES_${PN}-start-stop = "${sbindir}/start-stop-daemon.${BPN}"
++ALTERNATIVE_${PN}-start-stop = "start-stop-daemon"
++ALTERNATIVE_LINK_NAME[start-stop-daemon] = "${sbindir}/start-stop-daemon"
++ALTERNATIVE_PRIORITY = "100"
+ 
+ RDEPENDS_${PN} += "${PN}-start-stop"
+ 
 -- 
 2.21.0
 
