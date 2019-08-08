@@ -1,52 +1,24 @@
-Return-Path: <tim.blechmann@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 74BB27ED56
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 27D067F2A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 12:34:28 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id g17so94749868wrr.5
+	Thu,  8 Aug 2019 12:50:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78CnRnl020184
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2019 05:34:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=0ktJg3ZR/YQoVwKXRQ2PEjpFM9HjXLIpnR8Ua/uha4E=;
-	b=sfQ2pf3HydpXOqIyC/LzeE/GWN5+fZsP/NDs/HX/b9/8IURERhnM8ahhGeX0kbeekr
-	SOGORtk5HZodrsXrJPVwtMxoU6uYe+FerK3u6nNwz3O03U7WjoyqRoVwcsBE1WtWGcwW
-	+OoNe7jPpIsZeauJydCu+NioJmcQqs9Ry5HmuRTn0mWH9qTS2MyObHhIqKeLMxBpjGyP
-	ujWsD42IhfbcGnUdSay4Xj1Bxa7f0m+9xKm5aAnogh08tzzuwJkiK0rV2bOMRduDTV2h
-	9sKR8JaG8vsqzfac1bcup0FJoLLygr/OxU1ClKFyhIRPIckwCFWC3qdddUJKnQKfmC47
-	uqqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=0ktJg3ZR/YQoVwKXRQ2PEjpFM9HjXLIpnR8Ua/uha4E=;
-	b=ST3Q+r2WSMLY94G6iDW2blRVwt0Zr/EDnHOm4rNY7qhkRFILkBX1k/2H9Dt1/BDnuy
-	AK3G3x+CNCUaZ6qZx7ChrXKLVgICm0xJKgyklGvC/ZwWh/N28OVFkUbCEMGrFedq4Agb
-	4Z1KB19+nyWjD6BNdzuTLmbZliz2aNn0TNqDfXqK7b+bHtrd+YJL0OnnIUb5YksKAkoK
-	R4ZM8F20uchEOtA+Wf0xDTkx8r/nr4FwczMPZpBWjabrVGYWKfwhKr3lCMI89Kfs0GEg
-	SNx5vqQpLQJV4ExoaxH3583H06UIuZ+qRe+aj4jUE1D5ioTb0zt994lyppxJF9e9UIlO
-	blLg==
-X-Gm-Message-State: APjAAAVqGrg4gj14qrjtdrg6ofkk8jII3JC7K6GHEdHOQI4AWN+4k4JQ
-	SHd3rsT6s1yvVJiH0OOqsWAYMLPM
-X-Google-Smtp-Source: APXvYqwEwaleVdCPcEDb0aJVEkDKSo1o4rjfZ9qKm8M4XGpv+5BwVOEoLMYOOPkqtVkLwsw01w8bXw==
-X-Received: by 2002:a5d:4e06:: with SMTP id p6mr17412486wrt.336.1565267668829; 
-	Thu, 08 Aug 2019 05:34:28 -0700 (PDT)
-Received: from localhost.localdomain ([115.132.198.120])
-	by smtp.gmail.com with ESMTPSA id
-	o26sm192939088wro.53.2019.08.08.05.34.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 08 Aug 2019 05:34:28 -0700 (PDT)
-From: Tim Blechmann <tim.blechmann@gmail.com>
-X-Google-Original-From: Tim Blechmann <tim@klingt.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2019 20:34:21 +0800
-Message-Id: <20190808123421.12130-1-tim@klingt.org>
-X-Mailer: git-send-email 2.22.0
+	Thu, 8 Aug 2019 05:50:12 -0700
+Received: from yow-dellw-ag.wrs.com (128.224.56.115) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 8 Aug 2019 05:49:37 -0700
+From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Aug 2019 08:49:36 -0400
+Message-ID: <1565268576-14527-1-git-send-email-Trevor.Gamblin@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Cc: Tim Blechmann <tim@klingt.org>
-Subject: [PATCH] package_deb: allow dpkg-deb to be customized via DPKG_BUILDCMD
+Subject: [PATCH] patch: fix CVE-2019-13638
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,47 +31,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 12:34:28 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 Aug 2019 12:50:24 -0000
+Content-Type: text/plain
 
-the command line to invoke `dpkg-deb` is hardcoded. there are certain use
-cases where we want to tweak how debian packages are compiled: e.g. the
-default uses xz compression, which is rather CPU intensive. for local
-builds one might want to pass `-Zgzip -z1` to favor speed over compression
-ratio.
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-we therefore introduce a `DPKG_BUILDCMD` variable which allows downstream
-code to customize how dpkg-deb is executed
-
-Signed-off-by: Tim Blechmann <tim@klingt.org>
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
- meta/classes/package_deb.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ ...ke-ed-directly-instead-of-using-the-shell.patch | 44 ++++++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb         |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 6f81591653..790b26aef2 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -6,6 +6,8 @@ inherit package
- 
- IMAGE_PKGTYPE ?= "deb"
- 
-+DPKG_BUILDCMD ??= "dpkg-deb"
+diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+new file mode 100644
+index 0000000..9f416e3
+--- /dev/null
++++ b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+@@ -0,0 +1,44 @@
++From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruen@gnu.org>
++Date: Fri, 6 Apr 2018 19:36:15 +0200
++Subject: [PATCH] Invoke ed directly instead of using the shell
 +
- DPKG_ARCH ?= "${@debian_arch_map(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'))}"
- DPKG_ARCH[vardepvalue] = "${DPKG_ARCH}"
++* src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
++command to avoid quoting vulnerabilities.
++
+++CVE: CVE-2019-13638
+++Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
+++Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
++
++---
++ src/pch.c | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
++
++
++diff --git a/src/pch.c b/src/pch.c
++index 4fd5a05..16e001a 100644
++--- a/src/pch.c
+++++ b/src/pch.c
++@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char const *outname,
++ 	    *outname_needs_removal = true;
++ 	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
++ 	  }
++-	sprintf (buf, "%s %s%s", editor_program,
++-		 verbosity == VERBOSE ? "" : "- ",
++-		 outname);
++ 	fflush (stdout);
++ 
++ 	pid = fork();
++@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char const *outname,
++ 	else if (pid == 0)
++ 	  {
++ 	    dup2 (tmpfd, 0);
++-	    execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
+++	    assert (outname[0] != '!' && outname[0] != '-');
+++	    execlp (editor_program, editor_program, "-", outname, (char  *) NULL);
++ 	    _exit (2);
++ 	  }
++ 	else
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+index 8cf20a3..8908910 100644
+--- a/meta/recipes-devtools/patch/patch_2.7.6.bb
++++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+@@ -7,6 +7,7 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+             file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
+             file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
+             file://CVE-2019-13636.patch \
++            file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
+ "
  
-@@ -269,7 +271,8 @@ def deb_write_pkg(pkg, d):
-             conffiles.close()
- 
-         os.chdir(basedir)
--        subprocess.check_output("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH"), root, pkgoutdir),
-+        subprocess.check_output("PATH=\"%s\" %s -b %s %s" % (localdata.getVar("PATH"), localdata.getVar("DPKG_BUILDCMD"),
-+                                                             root, pkgoutdir),
-                                 stderr=subprocess.STDOUT,
-                                 shell=True)
- 
+ SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
 -- 
-2.18.0
+2.7.4
 
 
