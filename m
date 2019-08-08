@@ -1,69 +1,30 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-X-Greylist: delayed 900 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 08 Aug 2019 05:15:02 UTC
-Received: from blaine.gmane.org (195-159-176-226.customer.powertech.no
-	[195.159.176.226])
-	by mail.openembedded.org (Postfix) with ESMTP id 506F06C1BE
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ECA767F33A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 05:15:02 +0000 (UTC)
-Received: from list by blaine.gmane.org with local (Exim 4.89)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1hvaWw-000wou-Vl for openembedded-core@lists.openembedded.org;
-	Thu, 08 Aug 2019 07:00:02 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Tim Blechmann <tim@klingt.org>
-Date: Thu, 8 Aug 2019 12:58:33 +0800
-Message-ID: <qiga5r$6omq$1@blaine.gmane.org>
-Mime-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.8.0
-X-Mozilla-News-Host: news://news.gmane.org:119
-Openpgp: preference=signencrypt
-Autocrypt: addr=tim@klingt.org; keydata=
-	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
-	EfM=
-Subject: deb: allow custom dpkg command
+	Thu,  8 Aug 2019 05:36:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x785adQl000032
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 7 Aug 2019 22:36:40 -0700 (PDT)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Wed, 7 Aug 2019 22:36:39 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>, <matt@madison.systems>
+References: <1565074499-317606-1-git-send-email-changqing.li@windriver.com>
+	<0fb7aa39fdcdc39f8a12149005f9b09d04074778.camel@linuxfoundation.org>
+	<36918de5-75f3-b520-2c3d-72c3b9c1ca71@windriver.com>
+	<8c974f0c0f5d98ae66c7add9646c1c840ead7951.camel@linuxfoundation.org>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <ce3c8502-3abc-bb58-0972-513ad85ac2c3@windriver.com>
+Date: Thu, 8 Aug 2019 13:36:35 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <8c974f0c0f5d98ae66c7add9646c1c840ead7951.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.186]
+Subject: Re: [PATCH] go/go-runtime: use update-alternative for zdefaultcc.go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -76,63 +37,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 05:15:02 -0000
-X-Groupsio-MsgNum: 127663
-Content-Type: multipart/mixed; boundary="------------7BD0A9AA0D4F31FB7E377851"
+X-List-Received-Date: Thu, 08 Aug 2019 05:36:40 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
---------------7BD0A9AA0D4F31FB7E377851
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-trying to reduce the turnaround times for local builds, i'm trying to
-find a way to inject `-Zgzip -z1` into the dkpg-deb command line.
+On 8/7/19 10:16 PM, Richard Purdie wrote:
+> On Wed, 2019-08-07 at 10:35 +0800, Changqing Li wrote:
+>> On 8/6/19 6:47 PM, Richard Purdie wrote:
+>>> On Tue, 2019-08-06 at 14:54 +0800, changqing.li@windriver.com
+>>> wrote:
+>>>> From: Changqing Li <changqing.li@windriver.com>
+>>>>
+>>>> fix below error:
+>>>> file /usr/lib64/go/src/cmd/cgo/zdefaultcc.go conflicts between
+>>>> attempted installs of go-dev-1.12.6-r0.core2_64 and go-runtime-
+>>>> dev-
+>>>> 1.12.6-r0.core2_64
+>>>> file /usr/lib64/go/src/cmd/go/internal/cfg/zdefaultcc.go
+>>>> conflicts
+>>>> between attempted installs of go-dev-1.12.6-r0.core2_64 and go-
+>>>> runtime-dev-1.12.6-r0.core2_64
+>>>>
+>>>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>>>> ---
+>>>>    meta/recipes-devtools/go/go-runtime_1.12.bb | 6 ++++++
+>>>>    meta/recipes-devtools/go/go_1.12.bb         | 7 +++++++
+>>>>    2 files changed, 13 insertions(+)
+>>> It seems odd that both of these packages should provide this,
+>>> perhaps
+>>> one version should just be deleted?
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>> These 2 recipes don't have any DEPEND or RDEPEND relationship, so
+>> they
+>> are independent from the point of recipe.
+>>
+>> Make one of dev packages empty seems not proper ?
+> Let me put this another way. What is the difference between these two
+> binaries? When should you use one, when should you use the other? Or
+> are they the same thing?
+>
+> Cheers,
+>
+> Richard
 
-attached patch introduces a `DPKG_BUILDCMD` variable for this purpose.
-(i'm not very familiar with the whole bitbake infrastructure, so i'm
-wondering: do i have to add it to the `vardeps` of do_package_deb?)
+go is for building go compiler,  and go-runtime only contains go 
+standard  runtime library
 
-tia,
-tim
+There are 2 use caes:
 
---------------7BD0A9AA0D4F31FB7E377851
-Content-Type: text/plain; charset=UTF-8; x-mac-type="0"; x-mac-creator="0";
- name="0001-package_deb-allow-dpkg-deb-to-be-customized-via-DPKG.patch"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename*0="0001-package_deb-allow-dpkg-deb-to-be-customized-via-DPKG.pa";
- filename*1="tch"
+1.  on target, user only install go-runtime to provide libstd.so for 
+other go apps.
 
-RnJvbSA2MmQ0OTMwZDMwN2Q1ZDA3ODQ0ODg5MDAxZThhMWMzMTExYjcyYjk4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBUaW0gQmxlY2htYW5uIDx0aW1Aa2xpbmd0Lm9yZz4KRGF0ZTog
-VGh1LCA4IEF1ZyAyMDE5IDA2OjQ4OjU0ICswMjAwClN1YmplY3Q6IFtQQVRDSF0gcGFja2FnZV9k
-ZWI6IGFsbG93IGRwa2ctZGViIHRvIGJlIGN1c3RvbWl6ZWQgdmlhCiBEUEtHX0JVSUxEQ01ECgp0
-aGUgY29tbWFuZCBsaW5lIHRvIGludm9rZSBgZHBrZy1kZWJgIGlzIGhhcmRjb2RlZC4gdGhlcmUg
-YXJlIGNlcnRhaW4gdXNlCmNhc2VzIHdoZXJlIHdlIHdhbnQgdG8gdHdlYWsgaG93IGRlYmlhbiBw
-YWNrYWdlcyBhcmUgY29tcGlsZWQ6IGUuZy4gdGhlCmRlZmF1bHQgdXNlcyB4eiBjb21wcmVzc2lv
-biwgd2hpY2ggaXMgcmF0aGVyIENQVSBpbnRlbnNpdmUuIGZvciBsb2NhbApidWlsZHMgb25lIG1p
-Z2h0IHdhbnQgdG8gcGFzcyBgLVpnemlwIC16MWAgdG8gZmF2b3Igc3BlZWQgb3ZlciBjb21wcmVz
-c2lvbgpyYXRpby4KCndlIHRoZXJlZm9yZSBpbnRyb2R1Y2UgYSBgRFBLR19CVUlMRENNRGAgdmFy
-aWFibGUgd2hpY2ggYWxsb3dzIGRvd25zdHJlYW0KY29kZSB0byBjdXN0b21pemUgaG93IGRwa2ct
-ZGViIGlzIGV4ZWN1dGVkCgpTaWduZWQtb2ZmLWJ5OiBUaW0gQmxlY2htYW5uIDx0aW1Aa2xpbmd0
-Lm9yZz4KLS0tCiBtZXRhL2NsYXNzZXMvcGFja2FnZV9kZWIuYmJjbGFzcyB8IDUgKysrKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQg
-YS9tZXRhL2NsYXNzZXMvcGFja2FnZV9kZWIuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9wYWNrYWdl
-X2RlYi5iYmNsYXNzCmluZGV4IDZmODE1OTE2NTMuLjc5MGIyNmFlZjIgMTAwNjQ0Ci0tLSBhL21l
-dGEvY2xhc3Nlcy9wYWNrYWdlX2RlYi5iYmNsYXNzCisrKyBiL21ldGEvY2xhc3Nlcy9wYWNrYWdl
-X2RlYi5iYmNsYXNzCkBAIC02LDYgKzYsOCBAQCBpbmhlcml0IHBhY2thZ2UKIAogSU1BR0VfUEtH
-VFlQRSA/PSAiZGViIgogCitEUEtHX0JVSUxEQ01EID8/PSAiZHBrZy1kZWIiCisKIERQS0dfQVJD
-SCA/PSAiJHtAZGViaWFuX2FyY2hfbWFwKGQuZ2V0VmFyKCdUQVJHRVRfQVJDSCcpLCBkLmdldFZh
-cignVFVORV9GRUFUVVJFUycpKX0iCiBEUEtHX0FSQ0hbdmFyZGVwdmFsdWVdID0gIiR7RFBLR19B
-UkNIfSIKIApAQCAtMjY5LDcgKzI3MSw4IEBAIGRlZiBkZWJfd3JpdGVfcGtnKHBrZywgZCk6CiAg
-ICAgICAgICAgICBjb25mZmlsZXMuY2xvc2UoKQogCiAgICAgICAgIG9zLmNoZGlyKGJhc2VkaXIp
-Ci0gICAgICAgIHN1YnByb2Nlc3MuY2hlY2tfb3V0cHV0KCJQQVRIPVwiJXNcIiBkcGtnLWRlYiAt
-YiAlcyAlcyIgJSAobG9jYWxkYXRhLmdldFZhcigiUEFUSCIpLCByb290LCBwa2dvdXRkaXIpLAor
-ICAgICAgICBzdWJwcm9jZXNzLmNoZWNrX291dHB1dCgiUEFUSD1cIiVzXCIgJXMgLWIgJXMgJXMi
-ICUgKGxvY2FsZGF0YS5nZXRWYXIoIlBBVEgiKSwgbG9jYWxkYXRhLmdldFZhcigiRFBLR19CVUlM
-RENNRCIpLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHJvb3QsIHBrZ291dGRpciksCiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHN0ZGVycj1zdWJwcm9jZXNzLlNURE9VVCwKICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgc2hlbGw9VHJ1ZSkKIAotLSAKMi4xOC4wCgo=
+2.  on target, user install both go and go-runtime
 
---------------7BD0A9AA0D4F31FB7E377851--
+in my opinion,  only in case2,  install dev pkg is meaningful, so maybe 
+we can remove the conflict
+
+part of files from go-runtime.
+
+
+@Matt,  you have do lots of work related these recipes, could you also 
+give your opinion? Thanks.
+
+>
+>
+>
+-- 
+BRs
+
+Sandy(Li Changqing)
+
+
