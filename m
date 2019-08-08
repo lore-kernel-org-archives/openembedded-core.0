@@ -1,29 +1,55 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 330C77F338
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A34E7F2C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 13:07:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78D7TPL020705
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  8 Aug 2019 13:57:38 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 10so2519454wmp.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Aug 2019 06:07:50 -0700
-Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 8 Aug 2019 06:07:22 -0700
-To: <openembedded-core@lists.openembedded.org>, Trevor Gamblin
-	<trevor.gamblin@windriver.com>
-References: <1565269148-14827-1-git-send-email-Trevor.Gamblin@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <ec3623b8-8c3c-08c0-90b7-2c9e7f5bb543@windriver.com>
-Date: Thu, 8 Aug 2019 09:07:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Thu, 08 Aug 2019 06:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=GClpzs+OV0NXU7TE075uHSSPHoPOUZzyQPajjl/LXFM=;
+	b=ZywNP5uKEDDYT4rzaHj9H/jfQg9ZHhqfwGnG+qdKpYvnobwoewqRly/cgSTg3iGjKr
+	XaLn3UqHs/TA5jDUjAOqVQkv75MzcfdhKV1XyBzC6/1fgeb5ai5ZJy4QR7IFHh6BrwEF
+	V+6rT1u2Y6lZ+WmREeWcp0rg8mUrCfwSQMC06MZHM8UOuCuKhf4E9eIR28yEBINFlv8s
+	9AQ+5CSY+mAh6pRlUToF9N/6ezGrXLQ4UnWCwQRwrqx7hY4e1r4CR3VnO5SQgnT1T0/h
+	LD/BOR32VpqpgMFOJJmFfPC+hayKqYDVQvcY2BvLF9GgSWz7zAV90sNcPNV5ctKRKFjr
+	1Hsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=GClpzs+OV0NXU7TE075uHSSPHoPOUZzyQPajjl/LXFM=;
+	b=TE1Go4QQKDu/ugSQ/6XIkGrjWej62t9aSeMU3QlB/XDZm/oapcqpdoXtJOog282dx2
+	Snd1qxsWl5DKZRhL0/19SC9lwuooeCRmBZFFdcc66bYX71IUzzIj5vLEs0Le10apCZKn
+	p1k+nyZWIV9A/EZrynROXwCB0JUaiNmoyspxcIzspDnyCLSUGNU7lcgGF6c+gcYqv1GK
+	5ujIGR+A8UQ5EMctTaZsi8yJx2Es6eC5aHd6FPWm8eOzzLRgJY2qox0zc58E6C0SewYh
+	mYNWq5Qyvy6JwAt9k2R8G7i6MfQ18iQgWPF4JpjitIZ3/URwpNHcnoWp6ER4+w511i/Z
+	OiGg==
+X-Gm-Message-State: APjAAAXLH3NStam81AbPAYzV9FM4gBqsVgojFnA56546czb81zMvsteD
+	Lgxx3qp3ag8+DHdrLsw0Pd4=
+X-Google-Smtp-Source: APXvYqzKYts1+huthG6VZYA95XQhAbzoj1wDHpQcrmzhHejzd+krKTF600JlRd/tM5yxy7K9Jx2yDg==
+X-Received: by 2002:a7b:c8d4:: with SMTP id f20mr4803608wml.90.1565272659375; 
+	Thu, 08 Aug 2019 06:57:39 -0700 (PDT)
+Received: from bluca-lenovo ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
+	by smtp.gmail.com with ESMTPSA id
+	l15sm8189229wrq.64.2019.08.08.06.57.38
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 08 Aug 2019 06:57:38 -0700 (PDT)
+Message-ID: <f3afb57f910ef0b3d804ac4095d271ad7a2c8e57.camel@gmail.com>
+From: Luca Boccassi <luca.boccassi@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 08 Aug 2019 14:57:37 +0100
+In-Reply-To: <CANNYZj9NOARrMH8Vm1QXMwXzVUu7yTisK2X25jta_3xDCO0HeA@mail.gmail.com>
+References: <20190805105232.16148-1-luca.boccassi@gmail.com>
+	<20190808114701.20464-1-luca.boccassi@gmail.com>
+	<CANNYZj9NOARrMH8Vm1QXMwXzVUu7yTisK2X25jta_3xDCO0HeA@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <1565269148-14827-1-git-send-email-Trevor.Gamblin@windriver.com>
-X-Originating-IP: [172.25.44.5]
-Subject: Re: [warrior][PATCH] patch: fix CVE-2019-13638
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] python3-pygobject: move python3-setuptools from RDEPENDS to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,25 +62,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 13:08:00 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Thu, 08 Aug 2019 13:57:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 8/8/19 8:59 AM, Trevor Gamblin wrote:
->               file://0001-Fix-swapping-fake-lines-in-pch_swap.patch  \
-> +<<<<<<< HEAD
-> +=======
-> +file://CVE-2019-13636.patch  \
-> +file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch  \
-> +>>>>>>> 982b946... patch: fix CVE-2019-13638
->   "
->   
+On Thu, 2019-08-08 at 14:03 +0200, Alexander Kanavin wrote:
+> On Thu, 8 Aug 2019 at 13:47, <luca.boccassi@gmail.com> wrote:
+> > -DEPENDS += "python3 glib-2.0"
+> > +DEPENDS += "python3 python3-setuptools-native glib-2.0"
+> 
+> If this is required, then the build should fail, and it doesn't
+> (neither on the autobuilder, nor in my local setup). Is this really
+> needed? Does the build fail for you?
+> 
+> Alex
 
-Oops. The cherry-pick from master didn't go well.
-Please fix and send a v2.
+Hi,
+
+You are right, it doesn't fail - upstream lists it as optional. I do
+not know enough about this package to know how important it is - so
+I'll send a v3 that just removes the RDEPENDS, which is the one thing I
+cared about.
+
+Thanks!
 
 -- 
-# Randy MacLeod
-# Wind River Linux
+Kind regards,
+Luca Boccassi
+
 
