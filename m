@@ -1,50 +1,52 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 44BD0602D9
+Return-Path: <tim.blechmann@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 74BB27ED56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 12:09:22 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id r1so43992054pfq.12
+	Thu,  8 Aug 2019 12:34:28 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id g17so94749868wrr.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2019 05:09:23 -0700 (PDT)
+	Thu, 08 Aug 2019 05:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=vJ6ANHnAltUi6nGEJRDg5BkN7mbcqQhzIpZ6P+iU+vA=;
-	b=oR2VL09N+32W6HNWeS2eJSoIUv4p4dp2OvWGxLM5rriJqdZnh3ng1zaHjC24u05w/O
-	n8nHYfm7JmcVbzc/5/l8djz9ZetxPbeaFxkHObHS7TV/3uVg0Q0vQFhJ1O+1Gsexlzo9
-	dSY22wmB3r7KgnpecsMJyp/fUcWIvO2xvQ79AapVAleLw6nHIPrQrSUmYLPIJai1N+c4
-	vHuT0dbcj46ATpixGp6P70UbanqQ21UbsmFT8Hj8vJpOJm42qmQ78dxvFJqiiAnddrqJ
-	0EtlFrYIs0HjXEk6d1truav8vb1ea64I9j2vcbqhHlyNG5RMQVC+c3E+A9TBj37UJusA
-	yI6Q==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0ktJg3ZR/YQoVwKXRQ2PEjpFM9HjXLIpnR8Ua/uha4E=;
+	b=sfQ2pf3HydpXOqIyC/LzeE/GWN5+fZsP/NDs/HX/b9/8IURERhnM8ahhGeX0kbeekr
+	SOGORtk5HZodrsXrJPVwtMxoU6uYe+FerK3u6nNwz3O03U7WjoyqRoVwcsBE1WtWGcwW
+	+OoNe7jPpIsZeauJydCu+NioJmcQqs9Ry5HmuRTn0mWH9qTS2MyObHhIqKeLMxBpjGyP
+	ujWsD42IhfbcGnUdSay4Xj1Bxa7f0m+9xKm5aAnogh08tzzuwJkiK0rV2bOMRduDTV2h
+	9sKR8JaG8vsqzfac1bcup0FJoLLygr/OxU1ClKFyhIRPIckwCFWC3qdddUJKnQKfmC47
+	uqqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=vJ6ANHnAltUi6nGEJRDg5BkN7mbcqQhzIpZ6P+iU+vA=;
-	b=OhMycslvwT+EQ+x5x9P6R12r8S8F9innuk2uGZTdvUOwsk+HiCkVem07a+dLdFbdTP
-	LggtweEQP2wDscJjozVpR/BVoJDNereBrIoa5KaI2HQ2XbDVcJlGZ/YdToL3l/v+O7/c
-	w4u6IqMxMq12OYybvy5Vr2CfaXRxOQCWEDkxuRBuviLow/8CZZKNOPc9M3MZOi/Z/OZY
-	piaLU3BF60HRRHXeE9vulhtyDuZn2Vd9YH0OEhI+PCCw0irTRaGwaTD151UsvnS5Fjrf
-	vcxEhb+EgFxio9QRrz24kJT5TvOaIltSjwRzEz2dXAQaz1qipoyN0kG6OrwKWQ1rblhq
-	s/ug==
-X-Gm-Message-State: APjAAAX+fuELpq6FFrSFwp5w/nOnylz6hNyNbO/k9ryxJMdIWuQ9cOcc
-	Lm8jQOIauQALUf23y7lHEy/RtwGlRqZdmzH9goY=
-X-Google-Smtp-Source: APXvYqydB4La8fYffUSOXrE+EH0HzwhuewylhEKBM4SLVRQXlQndopvFNh8fC/4XDZGhOP2tQGtNmzaV6BdcRZSK3go=
-X-Received: by 2002:aa7:9a8a:: with SMTP id w10mr15092974pfi.66.1565266163370; 
-	Thu, 08 Aug 2019 05:09:23 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0ktJg3ZR/YQoVwKXRQ2PEjpFM9HjXLIpnR8Ua/uha4E=;
+	b=ST3Q+r2WSMLY94G6iDW2blRVwt0Zr/EDnHOm4rNY7qhkRFILkBX1k/2H9Dt1/BDnuy
+	AK3G3x+CNCUaZ6qZx7ChrXKLVgICm0xJKgyklGvC/ZwWh/N28OVFkUbCEMGrFedq4Agb
+	4Z1KB19+nyWjD6BNdzuTLmbZliz2aNn0TNqDfXqK7b+bHtrd+YJL0OnnIUb5YksKAkoK
+	R4ZM8F20uchEOtA+Wf0xDTkx8r/nr4FwczMPZpBWjabrVGYWKfwhKr3lCMI89Kfs0GEg
+	SNx5vqQpLQJV4ExoaxH3583H06UIuZ+qRe+aj4jUE1D5ioTb0zt994lyppxJF9e9UIlO
+	blLg==
+X-Gm-Message-State: APjAAAVqGrg4gj14qrjtdrg6ofkk8jII3JC7K6GHEdHOQI4AWN+4k4JQ
+	SHd3rsT6s1yvVJiH0OOqsWAYMLPM
+X-Google-Smtp-Source: APXvYqwEwaleVdCPcEDb0aJVEkDKSo1o4rjfZ9qKm8M4XGpv+5BwVOEoLMYOOPkqtVkLwsw01w8bXw==
+X-Received: by 2002:a5d:4e06:: with SMTP id p6mr17412486wrt.336.1565267668829; 
+	Thu, 08 Aug 2019 05:34:28 -0700 (PDT)
+Received: from localhost.localdomain ([115.132.198.120])
+	by smtp.gmail.com with ESMTPSA id
+	o26sm192939088wro.53.2019.08.08.05.34.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 08 Aug 2019 05:34:28 -0700 (PDT)
+From: Tim Blechmann <tim.blechmann@gmail.com>
+X-Google-Original-From: Tim Blechmann <tim@klingt.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Aug 2019 20:34:21 +0800
+Message-Id: <20190808123421.12130-1-tim@klingt.org>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-References: <20190808095725.18596-1-dbaryshkov@gmail.com>
-	<1d7e32e5e05a43e18d4b52839a3b2327554c0525.camel@intel.com>
-In-Reply-To: <1d7e32e5e05a43e18d4b52839a3b2327554c0525.camel@intel.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Thu, 8 Aug 2019 15:09:11 +0300
-Message-ID: <CALT56yO8Hu6TSgR5QBZXhS7L24EYPygmNSwJ+6N2nF41SFkqnw@mail.gmail.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "dmitry_eremin-solenikov@mentor.com" <dmitry_eremin-solenikov@mentor.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] module.bbclass: do not strip packages if modules signing is enabled
+Cc: Tim Blechmann <tim@klingt.org>
+Subject: [PATCH] package_deb: allow dpkg-deb to be customized via DPKG_BUILDCMD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +59,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 12:09:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 08 Aug 2019 12:34:28 -0000
+Content-Transfer-Encoding: 8bit
 
-=D1=87=D1=82, 8 =D0=B0=D0=B2=D0=B3. 2019 =D0=B3. =D0=B2 14:44, Mittal, Anuj=
- <anuj.mittal@intel.com>:
->
-> On Thu, 2019-08-08 at 12:57 +0300, dbaryshkov@gmail.com wrote:
-> > From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-> >
-> > Stripping kernel modules will also remove signature, thus we have to
-> > inhibit package striping in case modules signatures are enabled.
-> >
->
-> Isn't this already being taken care of here:
->
-> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D8fc56faa5d76=
-927f42a4e7cca2418556e231938f
+the command line to invoke `dpkg-deb` is hardcoded. there are certain use
+cases where we want to tweak how debian packages are compiled: e.g. the
+default uses xz compression, which is rather CPU intensive. for local
+builds one might want to pass `-Zgzip -z1` to favor speed over compression
+ratio.
 
-Hmm, true. I missed that commit.
+we therefore introduce a `DPKG_BUILDCMD` variable which allows downstream
+code to customize how dpkg-deb is executed
 
---=20
-With best wishes
-Dmitry
+Signed-off-by: Tim Blechmann <tim@klingt.org>
+---
+ meta/classes/package_deb.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 6f81591653..790b26aef2 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -6,6 +6,8 @@ inherit package
+ 
+ IMAGE_PKGTYPE ?= "deb"
+ 
++DPKG_BUILDCMD ??= "dpkg-deb"
++
+ DPKG_ARCH ?= "${@debian_arch_map(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'))}"
+ DPKG_ARCH[vardepvalue] = "${DPKG_ARCH}"
+ 
+@@ -269,7 +271,8 @@ def deb_write_pkg(pkg, d):
+             conffiles.close()
+ 
+         os.chdir(basedir)
+-        subprocess.check_output("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH"), root, pkgoutdir),
++        subprocess.check_output("PATH=\"%s\" %s -b %s %s" % (localdata.getVar("PATH"), localdata.getVar("DPKG_BUILDCMD"),
++                                                             root, pkgoutdir),
+                                 stderr=subprocess.STDOUT,
+                                 shell=True)
+ 
+-- 
+2.18.0
+
 
