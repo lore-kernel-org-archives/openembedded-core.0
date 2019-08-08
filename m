@@ -1,50 +1,26 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A311B7F2E4
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D6377F2F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 16:11:59 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id z1so95500006wru.13
+	Thu,  8 Aug 2019 16:45:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x78Gjpc5008737
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2019 09:12:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=VIhe/XpcZxhj5pZINKmS/+/bUksyGdQ5gYzxG54xFmA=;
-	b=qLOMQVOO8PkLtzeEKLxlx065HlQdquc/i8a7PC6N4LCgaedI+FLQ1GhVQ7FsKcOnnH
-	iTrJ+VlTO9xm0WN+1LggcvOeVhPI3rh/uefUfguAuo4mAw4kLpYK81FjFwuTCh0PXbUT
-	btFBuM4MS4kxJkngenrjXKLUR8/6T+MGQOjtcXDq/BWNd3yXG81uIx2Hf3A2NUAE374M
-	NIv0GkfwQvz4eMOmyStHOZacgrfXYyjD/FvqhYDW3QoZfvBspeKo1pkkALTLgsbYTj5I
-	widZCGLWZluyfg5zQr5o+leXwMp4OZ7daUT3SyvfLCPnWRblZsz0WFxEcDv4LnxLHOZR
-	0u9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=VIhe/XpcZxhj5pZINKmS/+/bUksyGdQ5gYzxG54xFmA=;
-	b=PAQJyqNOmSx2k4iwzMI6dQ9CdC+WpyxtDidgcedMP4QVLrFmZiBzDITwHNyXlLzHar
-	JqUoHR+goM/dsr+6efgl1UNKyxzhBMYHIdBcmu1tolfQXUD0Y9MGk9CI328OzpXokPoY
-	lz8o10kYObo4YFbLKdbZjDzXLqnSTMNZ4+58cQ9Q3JrOXX9zUUUBG1JhLPjHaPtjhe/K
-	1DYFwk6QnoPWu+juYSDN15iIXHE+3wyZc6TLGzPYCFfmJpNvnQffsaoN2AWj/SKGb36D
-	NoXC3cOTUSArTNE3gbXyPf5GjCNV73XvzZ9MbryZLq7lERn4Ag5EuXnbho6sRqwN6nST
-	TWgQ==
-X-Gm-Message-State: APjAAAUzG71aMnEGTkfdOHpwAk07j4MxG0WyvvZ2EYrDjfXibFQuZUWU
-	YjHNBRD2uTuwuATBgc5hs+Wmc5x2jgw=
-X-Google-Smtp-Source: APXvYqylKtYR8JAPPynZgDjjpHYRFEDNxfG+p5Gobi/grgrQp1f8WfwIKnVouwmGUKU3y+FE//0UKw==
-X-Received: by 2002:adf:ec8e:: with SMTP id z14mr18721464wrn.269.1565280720277;
-	Thu, 08 Aug 2019 09:12:00 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	i66sm5499876wmi.11.2019.08.08.09.11.59
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 08 Aug 2019 09:11:59 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2019 18:11:50 +0200
-Message-Id: <20190808161150.44877-7-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190808161150.44877-1-alex.kanavin@gmail.com>
-References: <20190808161150.44877-1-alex.kanavin@gmail.com>
-Subject: [PATCH 7/7] python-nose: remove the python 2.x version of the recipe
+	Thu, 8 Aug 2019 09:45:51 -0700 (PDT)
+Received: from [192.168.10.15] (172.25.59.219) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 8 Aug 2019 09:45:50 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+References: <20190808125509.120784-1-jason.wessel@windriver.com>
+Message-ID: <e3ea6d0a-082a-f848-986f-8f53c8cb743b@windriver.com>
+Date: Thu, 8 Aug 2019 11:45:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190808125509.120784-1-jason.wessel@windriver.com>
+Subject: Re: [PATCH 1/4] image_types_wic.bbclass: Copy the .wks and .env files to deploy image dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +33,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 16:11:59 -0000
+X-List-Received-Date: Thu, 08 Aug 2019 16:45:50 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-With removal of python 2.x numpy, nothing needs it anymore.
+On 8/8/19 7:55 AM, Jason Wessel wrote:
+> When using a .wks.in file, the only place that the generated .wks file
+> exists in the tmp/work area.  A copy should be left behind in the
+> deploy directory so that you can easily run the wic tool to
+> re-generate or modify a new image without running bitbake.  Custom
+> .wks.in files can reference any number of bitbake variables, so it is
+> important to save the result.
+> 
+> below is an example of using the generated .wks file in the deploy
+> area.  The full name of my generated .wks file was
+> core-image-minimal-ostree-uboot-ab.wks, but since you usually only
+> have a single .wks file per image you can use a wild card like:
+> 
+>    cd tmp*/deploy/images/*
+>    wic create --vars . -e core-image-minimal -s -m core-image-minimal-*.wks
+> 
+> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> ---
+>   meta/classes/image_types_wic.bbclass | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+> 
+> diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+> index 519aeb1b04..ce94138b3c 100644
+> --- a/meta/classes/image_types_wic.bbclass
+> +++ b/meta/classes/image_types_wic.bbclass
+> @@ -77,6 +77,11 @@ python do_write_wks_template () {
+>       wks_file = d.getVar('WKS_FULL_PATH')
+>       with open(wks_file, 'w') as f:
+>           f.write(template_body)
+> +    f.close()
+> +    # Copy the finalized wks file to the deploy directory for later use
+> +    depdir = d.getVar('DEPLOY_DIR_IMAGE')
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/conf/distro/include/maintainers.inc          | 1 -
- meta/recipes-devtools/python/python-nose_1.3.7.bb | 6 ------
- 2 files changed, 7 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python-nose_1.3.7.bb
+This needs a call to "bb.utils.mkdirhier(depdir)" in order to work properly.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 08fd83d3c4e..a595507948b 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -587,7 +587,6 @@ RECIPE_MAINTAINER_pn-pulseaudio-client-conf-sato = "Tanu Kaskinen <tanuk@iki.fi>
- RECIPE_MAINTAINER_pn-puzzles = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-python = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python-native = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
--RECIPE_MAINTAINER_pn-python-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3 = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-async = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-diff --git a/meta/recipes-devtools/python/python-nose_1.3.7.bb b/meta/recipes-devtools/python/python-nose_1.3.7.bb
-deleted file mode 100644
-index fab609df901..00000000000
---- a/meta/recipes-devtools/python/python-nose_1.3.7.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--inherit setuptools
--require python-nose.inc
--
--do_install_append() {
--    rm ${D}${bindir}/nosetests
--}
--- 
-2.17.1
+I didn't find the problem until using a higher degree of parallelism where the deploy directory might not actually be there to write out the file.  I'll send a v2 after more tests with the rest of the series.  It was all well tested originally on a single server, extended testing found the problem.
+
+
+Cheers,
+Jason.
+
+> +    basename = d.getVar('IMAGE_BASENAME')
+> +    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
+>   }
+>   
+>   python () {
+> @@ -127,6 +132,10 @@ python do_rootfs_wicenv () {
+>               value = d.getVar(var)
+>               if value:
+>                   envf.write('%s="%s"\n' % (var, value.strip()))
+> +    envf.close()
+> +    # Copy to deploy directory for later use with stand alone wic
+> +    depdir = d.getVar('DEPLOY_DIR_IMAGE')
+> +    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
+>   }
+>   addtask do_rootfs_wicenv after do_image before do_image_wic
+>   do_rootfs_wicenv[vardeps] += "${WICVARS}"
+> 
 
 
