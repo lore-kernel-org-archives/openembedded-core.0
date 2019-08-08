@@ -1,51 +1,46 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 43FC179C92
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
+	[209.85.222.45])
+	by mail.openembedded.org (Postfix) with ESMTP id C82497F2F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 09:57:33 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id p197so66329448lfa.2
+	Thu,  8 Aug 2019 10:11:14 +0000 (UTC)
+Received: by mail-ua1-f45.google.com with SMTP id v18so36195972uad.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2019 02:57:34 -0700 (PDT)
+	Thu, 08 Aug 2019 03:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=L1MrfA1r4dNNy0zkFPCixn+wUO/JKn1UcOla1JD/Ezg=;
-	b=gWKAXTOi+kMa9ocZS3bpxcHdwV+yRDG90v3fHkS9SO0dXh7K3hpVO6j5GZnEP3LA8b
-	M6QXEinQjfFlvWbcU174Rasmql4rYCKWGxgSkj+ykfRPL3S/BuRqCayprIXsL9TtE05i
-	rFnXzBzc0TNMB+S1CjM6S/gsDEbKc2uEsU7395QEQ6uBdJV0Le/uUab2V+3CJNnzQ7wH
-	NuHPk8mhXSxY35t4vhOI3tHiF0wfsnv56GmfW3G+7yPu4JtrQ3ZTQq/tkbt9NV8jGDzU
-	qLfDml+Uudk8Q6px/4EepblS0pqQzFaSyWpreayFXtYx5VNNm+gb8T7sq5kqcph6oTdg
-	mWvg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=guVU6PYIDx4n+79PIiAfBX0z4WCYa0Hri2WMvfPVu/A=;
+	b=jnrsAxG92Tg1jUDWxeomr9TqouPqguNADL1YO1wseMM6owgn8RbL/9mccfIbaVvjhr
+	REDAyvBt9fyVD2t6n5cxoz08MdXcmf6RUvrnnAUaxxwLGxZ/HjIJjTQaemZfsnGF66lF
+	QvUhSq2cYvV0yfMad+pS+pj8wR/bM4F0yN+buqXQJnnJW08TdgvxwiIbDAbgrFuiZlqN
+	D7eZQZxfaleTWUothK99kjaqpMi7JT6gIpXVb3JKSA1beEBo2jfEbprtnitF9JLHgThg
+	pKKO3rIcRQK6tWl3GRghjw153rmLbPC2h/GrP6Ok4Qse4RFYxSe1hrcNZJde4mUv/TbR
+	wI0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=L1MrfA1r4dNNy0zkFPCixn+wUO/JKn1UcOla1JD/Ezg=;
-	b=gyG5Q06UVOG4tMwln+aAmlNw26dcs01sfZiDmi6OsyXpcpkXdP7tI/qMq9rwSrXgW2
-	VpCemvy4ZMevo8J/SGAmiDAL1HsR1VNK7zEItn52eOHrREOor2+X6cpceoTORiEGJlUH
-	df2oG9qapqh8TrXrgyTzgjMSCe1MWrLkAhWd0rCqbvMR/vqdo+G9rIuz9cHZ3CaXYk9e
-	m09wPEnDYhas4GvxUQkZuk7zueoIP1vClj1/7IhCdVtsTcWsOjFbppW8i8zWCcJfwl/Z
-	QwrXVMtKn3ODTpxYygVL3nYKv+MUSdqS0hk+r6KovyREJYbHFYUbe1QtFpFMjmUj4qmE
-	alcw==
-X-Gm-Message-State: APjAAAUczRbgvfg3skrwGkgJWLztROV9kbM9wqDF4S3B6Xz7rS+gkFZq
-	E9MLB+9pJy6er/vZh+c8PCs40ZlF
-X-Google-Smtp-Source: APXvYqxPz+cJiJjULOcLdQPQGgTIp1bDrxhnFsVMQLo7RfQ9rNWJLGYBPuvt3d0rv9h/cxayAGuSDA==
-X-Received: by 2002:a19:f819:: with SMTP id a25mr9335335lff.183.1565258253252; 
-	Thu, 08 Aug 2019 02:57:33 -0700 (PDT)
-Received: from localhost.localdomain ([94.25.229.138])
-	by smtp.gmail.com with ESMTPSA id
-	n124sm16853052lfd.46.2019.08.08.02.57.31
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 08 Aug 2019 02:57:32 -0700 (PDT)
-From: dbaryshkov@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2019 12:57:25 +0300
-Message-Id: <20190808095725.18596-1-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=guVU6PYIDx4n+79PIiAfBX0z4WCYa0Hri2WMvfPVu/A=;
+	b=gx79LvV6YsbBJQopIp9GZU31tO3kNm6BWSqDuSX+n20FlVy8/jAoaJdB1Go3RAog3Q
+	YE0jlQ2fviOj+veuyISA7sKpx47dTbrCSxGycFZE8dWyjY5JDGOXbyInMb2rZCcrJzbJ
+	xN8jaluC2uEUwvn8VcaeqQLSloN5Cm5KHPFExKs3U5okpKm7w02nhrIGlCAI14yceGKH
+	IuNeWaBlXtsqqP1XNNxlB4LxT970RMCTxsxzMR4nOqrRqrQLdx/2R4f0MNS2Q0/7LCZj
+	YBp8pYBvcWHq2N6ZQ8ojWVqZssgYZiMWoWVQMe2Ac3ek8bagEvCkxOnCTydz7q5I2MXj
+	oOXw==
+X-Gm-Message-State: APjAAAXK9r5bztCy5+edA3CKWmIBHPN0VkVaR2MSIBrebbUsoSIMixvZ
+	ueiUPGmWeubvzVpVQwlp+Fdleu1whyFpE5ERvcBrMQWK
+X-Google-Smtp-Source: APXvYqwq/nILZey4MW6fXbsECefdVkhws83qOuMM61NIMMn/W0PCXMNMLQ9b5bJ2/Tvmf3Nm4PiShN6r+lnQDMIElEY=
+X-Received: by 2002:ab0:70c8:: with SMTP id r8mr8496275ual.89.1565259075613;
+	Thu, 08 Aug 2019 03:11:15 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH] module.bbclass: do not strip packages if modules signing is enabled
+References: <qiga5r$6omq$1@blaine.gmane.org>
+In-Reply-To: <qiga5r$6omq$1@blaine.gmane.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 8 Aug 2019 12:11:04 +0200
+Message-ID: <CANNYZj_YmdU=hf1bk3RARofZ3D95nAHWJXW9vX2E-VUkUfXFtw@mail.gmail.com>
+To: Tim Blechmann <tim@klingt.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: deb: allow custom dpkg command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +53,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 09:57:33 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 Aug 2019 10:11:15 -0000
+Content-Type: multipart/alternative; boundary="0000000000002ef9e3058f9847f2"
 
-From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+--0000000000002ef9e3058f9847f2
+Content-Type: text/plain; charset="UTF-8"
 
-Stripping kernel modules will also remove signature, thus we have to
-inhibit package striping in case modules signatures are enabled.
+The patch seems ok, but can you resend it directly (instead of sending
+attachments) please? Use 'git send-email'.
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
----
- meta/classes/module.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+Alex
 
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index c0dfa3506133..31d5a2f21adc 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -72,3 +72,6 @@ EXPORT_FUNCTIONS do_compile do_install
- KERNEL_MODULES_META_PACKAGE = "${PN}"
- FILES_${PN} = ""
- ALLOW_EMPTY_${PN} = "1"
-+
-+# Do not strip modules if modules signing is enabled
-+INHIBIT_PACKAGE_STRIP ?= "${@bb.utils.contains('DISTRO_FEATURES', 'modsign', '1', '0', d)}"
--- 
-2.20.1
+On Thu, 8 Aug 2019 at 07:15, Tim Blechmann <tim@klingt.org> wrote:
 
+> trying to reduce the turnaround times for local builds, i'm trying to
+> find a way to inject `-Zgzip -z1` into the dkpg-deb command line.
+>
+> attached patch introduces a `DPKG_BUILDCMD` variable for this purpose.
+> (i'm not very familiar with the whole bitbake infrastructure, so i'm
+> wondering: do i have to add it to the `vardeps` of do_package_deb?)
+>
+> tia,
+> tim
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--0000000000002ef9e3058f9847f2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>The patch seems ok, but can you resend it directly (i=
+nstead of sending attachments) please? Use &#39;git send-email&#39;.</div><=
+div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Thu, 8 Aug 2019 at 07:15, Tim Blechmann=
+ &lt;<a href=3D"mailto:tim@klingt.org">tim@klingt.org</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">trying to reduce the t=
+urnaround times for local builds, i&#39;m trying to<br>
+find a way to inject `-Zgzip -z1` into the dkpg-deb command line.<br>
+<br>
+attached patch introduces a `DPKG_BUILDCMD` variable for this purpose.<br>
+(i&#39;m not very familiar with the whole bitbake infrastructure, so i&#39;=
+m<br>
+wondering: do i have to add it to the `vardeps` of do_package_deb?)<br>
+<br>
+tia,<br>
+tim<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--0000000000002ef9e3058f9847f2--
