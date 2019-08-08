@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E3EA7F27E
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 998167F2E4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 16:11:56 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id c2so92267046wrm.8
+	Thu,  8 Aug 2019 16:11:55 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id p77so4312377wme.0
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 08 Aug 2019 09:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MYcEQD/h4uadGcSJXIIhFf3q7AIa99SoZkF2h3E3COQ=;
-	b=WvpEt5hZbGUmmr7U959hmox4YsMJ9otEgvYRYqvSRvugMhPHzz3VGW6O5lLK0uHpIO
-	3X52y8QQWmxciII2fGNvk4QWfXzmQ2H54R7gQ8DuHAz/SKR/1J1DgbUrXJkUw8Hhe0xT
-	tfsVY1gIhKXTB1FpSNex0/nyjE9yo3N1Ct5fnVEOTAxV4gxKOMN04+ylIUIxcgkzGKjt
-	HV9XxhvyBsurJfEfJtb0L1owbhWRNTIvOQCmilbOyl9qsndoSZ8DnCqLImejn7Y+Nxpy
-	q9otgQYdfFKFVg4Ly1fKGnDt7oNnqGBRL8eUlwnlcm5plprcIMSdWlNNxQj6Czn/FDHa
-	NVrQ==
+	bh=bZGD8uhAVOoM+ur6uABzwcAAiWhPzHqGEzom28TnJa0=;
+	b=nQAgbeinL4/KXMkDKWgkelnjsysfehjdSKKmtv6Aq6BLBQ49sf+EKqjHRDDOmOKFOK
+	3489cDBCR9Wkw2Ss+E33AKX2oBLa+JXhQAHdiolXsotWxMWfjiVDdXYYGIM6ySyerzWf
+	FPYiU3t4BFpyMDNhlKtQtLXOg4JLP7xOZHW2YHDmTfQMvaCf1F5ggdiMtIHKgXukpkH0
+	aL47H/pRk/or+n3I4X+5HWmeYAPo22I0E2LC3K2r2SszyXfu7hpTLFO3mWS/6EkKQ8pz
+	0C5QXM1YGa2N0xHeNmXXS2h5kku5J8trihhq1VTkNCKlAvGDTaQgq+16vx7PKOiXLFbN
+	lyNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=MYcEQD/h4uadGcSJXIIhFf3q7AIa99SoZkF2h3E3COQ=;
-	b=t8iG+tUdY/zjdiHSBnA0Kr9RXlGEdCFkz2Dod0TAEany2az98wuDYz9kqs4dpDzKdy
-	jgflD+0FAK9hEZFXsdKj7tpTy72qL4I8pj65C+H9OvEEVI/UezHXjAxEstZWgbr0gGWT
-	PyohuDFjWNxKyO4JQ76ej/xQwbBRwsWXN5ST/+Q2Mlo8Zwkg/SOFNHiAI4jJX/xrf3h3
-	p8qc90daT3wpyMN2Yg2W04TjCObfQwIrtwMMR35vDH9dcGqZRuja5I6KjAnfKYTG9QJ7
-	/lEgopW8G+Dv6h8AAi6r6q/JlbwztPZdnyh701+eqJZmzxKaAH+KYNk03E91AeYUrzTq
-	lrNA==
-X-Gm-Message-State: APjAAAVDlw4zdRcT65lWJFLRhTN1JpVyen2mMra2LSWuFepAAWSHdn0K
-	IRQaAlAViQ5QSP7mm/elQQP9eCYVmo4=
-X-Google-Smtp-Source: APXvYqyx5erVfwOS1V/YGMkXpk2HRLIvK4A0oaypd5fIzpAtlovZ4wjxSHzyHxP3KRcWuu3bw5dCgg==
-X-Received: by 2002:adf:a348:: with SMTP id d8mr5778028wrb.235.1565280717178; 
-	Thu, 08 Aug 2019 09:11:57 -0700 (PDT)
+	bh=bZGD8uhAVOoM+ur6uABzwcAAiWhPzHqGEzom28TnJa0=;
+	b=mIyqWKA8TPLbGowdh0Ie6yjkmXQIxJ0h/dFb5hVm+eLwe1t48yQwljWvs9en+sDASA
+	cP94YJBorRnPPtrlEgG5QzUEkSQFAdNymECIfreqB4ypptWsgkaSKuxp1ZoCRvCQ3MJe
+	DCcfDGWXTUGY700GzTVqMa/fjPqwyjy974Qjmp6dPl38mL3hA9623XRKEsd0ozbj47lC
+	6x8/BbNemx0CfCWmY0QsKvjUa//w4SJ1hh0UX7+bE/UxWbxWDDlU44T3HdNIzFU83m9Z
+	THam6r3DPdRPsi3Sv6urXmU5iEfkaAdkO3mRY8chPTGLx+Zx5VazM/dqK6tlYGTtNMXr
+	JXvQ==
+X-Gm-Message-State: APjAAAUqgjowRczO4BSs1Rhbo32AkKpViLSJ9qPsl9Nhk/06IEsYFUyp
+	xk1NcQCmsLsHBmaTQCOMcd5J/EhzPKg=
+X-Google-Smtp-Source: APXvYqxylf25Wm6hR5AlHlQjf3iocZi6pv9mEZp2iqzPLB/NBWeK/QQd0/3u4ZUZ+9B6+kBtQ08KvQ==
+X-Received: by 2002:a7b:c649:: with SMTP id q9mr5092048wmk.108.1565280716333; 
+	Thu, 08 Aug 2019 09:11:56 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	i66sm5499876wmi.11.2019.08.08.09.11.56
+	i66sm5499876wmi.11.2019.08.08.09.11.55
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 08 Aug 2019 09:11:56 -0700 (PDT)
+	Thu, 08 Aug 2019 09:11:55 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2019 18:11:46 +0200
-Message-Id: <20190808161150.44877-3-alex.kanavin@gmail.com>
+Date: Thu,  8 Aug 2019 18:11:45 +0200
+Message-Id: <20190808161150.44877-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190808161150.44877-1-alex.kanavin@gmail.com>
 References: <20190808161150.44877-1-alex.kanavin@gmail.com>
-Subject: [PATCH 3/7] maintainers.inc: give python recipes to Oleksandr Kravchuk
+Subject: [PATCH 2/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,87 +59,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 08 Aug 2019 16:11:56 -0000
 
-Derek Straka has been inactive for about a year; Oleksandr
-has been the de facto maintainer meanwhile.
+Recursive RDEPENDS resolution requires that all of the dependent
+recipes' packaging has completed. There is no mechanism to ensure that
+and therefore races were observed.
+
+This change effectively requires recipes to list their runtime file
+dependencies explicitly rather than have them pulled indirectly.
+This may require a bit of fixing in layers, but should result
+in a better definition of runtime file dependencies.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc | 60 ++++++++++++------------
- 1 file changed, 30 insertions(+), 30 deletions(-)
+ meta/classes/insane.bbclass | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4c4446b3b63..5cf9c7a8e80 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -585,38 +585,38 @@ RECIPE_MAINTAINER_pn-ptest-runner = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-pulseaudio = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-pulseaudio-client-conf-sato = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-puzzles = "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-python = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python-native = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python-nose = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python-numpy = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python-scons = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python-scons-native = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python-setuptools = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3 = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-async = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-dbus = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-docutils = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-extras = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-file-utils = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-git = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-gitdb = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-iniparse = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-mako = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-native = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-nose = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-numpy = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-pbr = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-pip = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-pycairo = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-pygments = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-pygobject = "Derek Straka <derek@asterius.io>"
-+RECIPE_MAINTAINER_pn-python = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python-native = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python-numpy = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python-scons = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python-scons-native = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3 = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-async = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-dbus = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-docutils = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-file-utils = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-iniparse = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-mako = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-native = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-numpy = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-pbr = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-pip = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-pycairo = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-pygments = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-pygobject = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-scons = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-scons-native = "Tim Orling <timothy.t.orling@linux.intel.com>"
--RECIPE_MAINTAINER_pn-python3-setuptools = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-six = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-smmap = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-subunit = "Derek Straka <derek@asterius.io>"
--RECIPE_MAINTAINER_pn-python3-testtools = "Derek Straka <derek@asterius.io>"
-+RECIPE_MAINTAINER_pn-python3-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-six = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-smmap = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-subunit = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-testtools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-qemu = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-qemu-helper-native = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-qemu-native = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 35c4fdb4913..9b886d13805 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -722,25 +722,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                             filerdepends[subkey] = key[13:]
+ 
+             if filerdepends:
+-                next = rdepends
+                 done = rdepends[:]
+-                # Find all the rdepends on the dependency chain
+-                while next:
+-                    new = []
+-                    for rdep in next:
+-                        rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
+-                        sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
+-                        if not sub_rdeps:
+-                            continue
+-                        for sub_rdep in bb.utils.explode_deps(sub_rdeps):
+-                            if sub_rdep in done:
+-                                continue
+-                            if oe.packagedata.has_subpkgdata(sub_rdep, d):
+-                                # It's a new rdep
+-                                done.append(sub_rdep)
+-                                new.append(sub_rdep)
+-                    next = new
+-
+                 # Add the rprovides of itself
+                 if pkg not in done:
+                     done.insert(0, pkg)
 -- 
 2.17.1
 
