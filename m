@@ -1,47 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
-	[209.85.221.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BF45C7F32F
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 44BD0602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 12:04:05 +0000 (UTC)
-Received: by mail-vk1-f196.google.com with SMTP id o19so18723924vkb.6
+	Thu,  8 Aug 2019 12:09:22 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id r1so43992054pfq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2019 05:04:07 -0700 (PDT)
+	Thu, 08 Aug 2019 05:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=686BpN2blMRXD22x7YhwmjECil8YaUjFNW5sRQKE4aI=;
-	b=lULV1GW1dV8pRNSa8CcfVyCTGY9HcSD+UROwZWArMqhamsGv9bNcHzLgy9JFNu1iM8
-	h4TV84H5zdZ+cXfEWy5o0h+t1o3Uvh9gKl8GAl3zljv3JcASmH/yw1cfEHn6sepAP5Db
-	Wrl3bee1pit5R1RGSnmVx0CZWDdFhGk6tNUEfaxJQHTYoLuiW+Q1EdMMilHEXoAYDvFk
-	SpluBbnMLLR9PsJNCIZdOUE9f1ZTOADL/7KRyEyyUd4964IAV50fEKHj3WCjPnyjnlAT
-	xNYIvA+hXCLzcUnV8rbCzXWY+OE+83RRFO1NEQWYOs5FKI49n9VdM9Uz1rCdJRzROEjo
-	NXUg==
+	:cc:content-transfer-encoding;
+	bh=vJ6ANHnAltUi6nGEJRDg5BkN7mbcqQhzIpZ6P+iU+vA=;
+	b=oR2VL09N+32W6HNWeS2eJSoIUv4p4dp2OvWGxLM5rriJqdZnh3ng1zaHjC24u05w/O
+	n8nHYfm7JmcVbzc/5/l8djz9ZetxPbeaFxkHObHS7TV/3uVg0Q0vQFhJ1O+1Gsexlzo9
+	dSY22wmB3r7KgnpecsMJyp/fUcWIvO2xvQ79AapVAleLw6nHIPrQrSUmYLPIJai1N+c4
+	vHuT0dbcj46ATpixGp6P70UbanqQ21UbsmFT8Hj8vJpOJm42qmQ78dxvFJqiiAnddrqJ
+	0EtlFrYIs0HjXEk6d1truav8vb1ea64I9j2vcbqhHlyNG5RMQVC+c3E+A9TBj37UJusA
+	yI6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=686BpN2blMRXD22x7YhwmjECil8YaUjFNW5sRQKE4aI=;
-	b=FvXAeCJlWcvMMXzPLvKPUFR5pE7i/c7xbDZK7dXMMwdrh40r5YXhWu16P3E6g1Y6gA
-	g5nD5AYFb1hm4u1CxaS2TScw/kHvb/nKlyL8t29wksbm9NtZ/lVSNaVoEvTlVQ9lFALa
-	Qlx8/WgOega3c4ADxIE0S9aRpzd5aPwGVkmIM8uskXKSnq884myxDGrfsQJeJ+c9Nlay
-	GcM4XlJaLmb9+BQOrc59C6EXJjsQ/hRVndFpiV0Ic+/b9/QFyGfuB2eNppVH1ZQAnBY9
-	cnSYlwXEdLXAX8xTm362GjHUUQWoIHaZA4qA1D+kODsv4rjxj7zBg4UK7nJzX9Rrftev
-	ry3A==
-X-Gm-Message-State: APjAAAUS8q38EkK3fE0yscBEDixRtieN686fx0NJkhHNgHk/6cV+OFeS
-	QfYhdgyRVEygQmv4Y1Hp8HVp313GPJaGX68y8Lo=
-X-Google-Smtp-Source: APXvYqzMzyc6CJyVDo6ZyC+aw7Oq5ipYi6876TRUnFMMmTAswlDEOXBrDJpe2biBI6i7ZPbrhooZS10SjT1caH0iRSo=
-X-Received: by 2002:ac5:cc4d:: with SMTP id l13mr5565107vkm.72.1565265846502; 
-	Thu, 08 Aug 2019 05:04:06 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=vJ6ANHnAltUi6nGEJRDg5BkN7mbcqQhzIpZ6P+iU+vA=;
+	b=OhMycslvwT+EQ+x5x9P6R12r8S8F9innuk2uGZTdvUOwsk+HiCkVem07a+dLdFbdTP
+	LggtweEQP2wDscJjozVpR/BVoJDNereBrIoa5KaI2HQ2XbDVcJlGZ/YdToL3l/v+O7/c
+	w4u6IqMxMq12OYybvy5Vr2CfaXRxOQCWEDkxuRBuviLow/8CZZKNOPc9M3MZOi/Z/OZY
+	piaLU3BF60HRRHXeE9vulhtyDuZn2Vd9YH0OEhI+PCCw0irTRaGwaTD151UsvnS5Fjrf
+	vcxEhb+EgFxio9QRrz24kJT5TvOaIltSjwRzEz2dXAQaz1qipoyN0kG6OrwKWQ1rblhq
+	s/ug==
+X-Gm-Message-State: APjAAAX+fuELpq6FFrSFwp5w/nOnylz6hNyNbO/k9ryxJMdIWuQ9cOcc
+	Lm8jQOIauQALUf23y7lHEy/RtwGlRqZdmzH9goY=
+X-Google-Smtp-Source: APXvYqydB4La8fYffUSOXrE+EH0HzwhuewylhEKBM4SLVRQXlQndopvFNh8fC/4XDZGhOP2tQGtNmzaV6BdcRZSK3go=
+X-Received: by 2002:aa7:9a8a:: with SMTP id w10mr15092974pfi.66.1565266163370; 
+	Thu, 08 Aug 2019 05:09:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190805105232.16148-1-luca.boccassi@gmail.com>
-	<20190808114701.20464-1-luca.boccassi@gmail.com>
-In-Reply-To: <20190808114701.20464-1-luca.boccassi@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 8 Aug 2019 14:03:55 +0200
-Message-ID: <CANNYZj9NOARrMH8Vm1QXMwXzVUu7yTisK2X25jta_3xDCO0HeA@mail.gmail.com>
-To: Luca Boccassi <luca.boccassi@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] python3-pygobject: move python3-setuptools from RDEPENDS to DEPENDS
+References: <20190808095725.18596-1-dbaryshkov@gmail.com>
+	<1d7e32e5e05a43e18d4b52839a3b2327554c0525.camel@intel.com>
+In-Reply-To: <1d7e32e5e05a43e18d4b52839a3b2327554c0525.camel@intel.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Date: Thu, 8 Aug 2019 15:09:11 +0300
+Message-ID: <CALT56yO8Hu6TSgR5QBZXhS7L24EYPygmNSwJ+6N2nF41SFkqnw@mail.gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "dmitry_eremin-solenikov@mentor.com" <dmitry_eremin-solenikov@mentor.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] module.bbclass: do not strip packages if modules signing is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 12:04:06 -0000
-Content-Type: multipart/alternative; boundary="000000000000c287a4058f99da82"
-
---000000000000c287a4058f99da82
+X-List-Received-Date: Thu, 08 Aug 2019 12:09:23 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-On Thu, 8 Aug 2019 at 13:47, <luca.boccassi@gmail.com> wrote:
-
-> -DEPENDS += "python3 glib-2.0"
-> +DEPENDS += "python3 python3-setuptools-native glib-2.0"
->
-
-If this is required, then the build should fail, and it doesn't (neither on
-the autobuilder, nor in my local setup). Is this really needed? Does the
-build fail for you?
-
-Alex
-
---000000000000c287a4058f99da82
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 8 Aug 2019 at 13:47, &lt;<a href=
-=3D"mailto:luca.boccassi@gmail.com">luca.boccassi@gmail.com</a>&gt; wrote:<=
-br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">-DEPENDS +=3D &quot;python3 glib-2.0&quot;<br>
-+DEPENDS +=3D &quot;python3 python3-setuptools-native glib-2.0&quot;<br></b=
-lockquote><div><br></div><div>If this is required, then the build should fa=
-il, and it doesn&#39;t (neither on the autobuilder, nor in my local setup).=
- Is this really needed? Does the build fail for you?<br></div><div><br></di=
-v><div>Alex<br></div></div></div>
+=D1=87=D1=82, 8 =D0=B0=D0=B2=D0=B3. 2019 =D0=B3. =D0=B2 14:44, Mittal, Anuj=
+ <anuj.mittal@intel.com>:
+>
+> On Thu, 2019-08-08 at 12:57 +0300, dbaryshkov@gmail.com wrote:
+> > From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+> >
+> > Stripping kernel modules will also remove signature, thus we have to
+> > inhibit package striping in case modules signatures are enabled.
+> >
+>
+> Isn't this already being taken care of here:
+>
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D8fc56faa5d76=
+927f42a4e7cca2418556e231938f
 
---000000000000c287a4058f99da82--
+Hmm, true. I missed that commit.
+
+--=20
+With best wishes
+Dmitry
+
