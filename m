@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E453B7F38C;
-	Thu,  8 Aug 2019 13:02:28 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Trevor Gamblin <trevor.gamblin@windriver.com>
-Date: Thu, 08 Aug 2019 13:02:30 -0000
-Message-ID: <20190808130230.2334.58248@do>
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 330C77F338
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  8 Aug 2019 13:07:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78D7TPL020705
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Aug 2019 06:07:50 -0700
+Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 8 Aug 2019 06:07:22 -0700
+To: <openembedded-core@lists.openembedded.org>, Trevor Gamblin
+	<trevor.gamblin@windriver.com>
 References: <1565269148-14827-1-git-send-email-Trevor.Gamblin@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <ec3623b8-8c3c-08c0-90b7-2c9e7f5bb543@windriver.com>
+Date: Thu, 8 Aug 2019 09:07:21 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
+MIME-Version: 1.0
 In-Reply-To: <1565269148-14827-1-git-send-email-Trevor.Gamblin@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGF0Y2g6IGZpeCBDVkUtMjAxOS0xMzYzOCAocmV2Mik=?=
+X-Originating-IP: [172.25.44.5]
+Subject: Re: [warrior][PATCH] patch: fix CVE-2019-13638
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 13:02:29 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 08 Aug 2019 13:08:00 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 8/8/19 8:59 AM, Trevor Gamblin wrote:
+>               file://0001-Fix-swapping-fake-lines-in-pch_swap.patch  \
+> +<<<<<<< HEAD
+> +=======
+> +file://CVE-2019-13636.patch  \
+> +file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch  \
+> +>>>>>>> 982b946... patch: fix CVE-2019-13638
+>   "
+>   
 
-Series: patch: fix CVE-2019-13638 (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/19175/
-State : failure
+Oops. The cherry-pick from master didn't go well.
+Please fix and send a v2.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [warrior] patch: fix CVE-2019-13638
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+-- 
+# Randy MacLeod
+# Wind River Linux
 
