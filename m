@@ -1,52 +1,51 @@
 Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 021827F2F4
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B6127F323
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 11:47:11 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id s15so2101580wmj.3
+	Thu,  8 Aug 2019 11:48:23 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id s15so2105286wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2019 04:47:13 -0700 (PDT)
+	Thu, 08 Aug 2019 04:48:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=bckWdXqXFZT0iMLhxmq955Ih0yNBxaq33LK9MAPKHiw=;
-	b=nXiuYiNJojhDzGJGpL+Ewlgyfx2Km2vsJA96YVPtj6jKq4FI+kMthKpYg/hpbvboOn
-	TyonZhqDWYCkqnbrA/X/UOIRaUoW94ptKHVy3L4d3aDfo0HlaJOMHHQYpXm1bX8wnzE2
-	KP/gF8v0OZEF0g/aR3EnOMKanhCL5Ar/tgvv76JWZY6CzZH7gRw8ISDBdzOx1cbXkTWe
-	IPqZY84cc3JNqKe3IQBGuZ+C9M6+3YZkzvXC3wZtMOz14MKM3SjJnYnzY79/2pYuMYP1
-	dp37B0stIk9qIPvDl2ppRAAtQbmZfQ8oJAKWVDtDBGmRW/3wOb8NnGZADj/zATZc4F7o
-	2ZAw==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=TdCD/BrOzjg11EVeI8zVWN0yHVFNNuAtWAlPfINUKfI=;
+	b=WoGAxDKhm6wdulgaRAldTu50ugfL7dypJxTXWdEm++ruhWMB/r/+ZJJBfHcIketM5Z
+	Rdce+VhEdXi/Ey4quyXbKBIyt14ZMl2K8CL+Wj4CyzKk0eWw87Y/G3ch9qLLvHjqwJ0W
+	F1hhUkvWaR46MJGZk0++BaSK53NTyIXCkS58b9N5bc9ggS94U8xyUEeyCvotIsWw/I++
+	r3j5c7W60PPKwtFT4+xu//iGwNlScEEGhL93OcsLrGlSIeCX+ZwajHLhZcWSjZG3r3aZ
+	2O17XtzhiKcZREAg8NR8iG7hc5ADyaklPfEt8yGQhcTA3xDC+yCGPs1/+RIb56nW3N/T
+	LrcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=bckWdXqXFZT0iMLhxmq955Ih0yNBxaq33LK9MAPKHiw=;
-	b=IGUnq9KLMXcoaOqdhdvl+7kPyguSuIz/9beQAfaVP+VUeDpZzeig682TCVXneG/aPe
-	RfWWlXVaci+Zb+YH0WfWGDOS8IwvNgTmFHCnme+BCkzdr6o+27JGvoX61BEUoK3k5WO9
-	aHsMHyUOSVl4ob2sfBak0oQFZeEP0P9oWLLRR+QOifXRH6u3XvM6pRCD1LFRjB5xIKyZ
-	WjEHQL//dRPfkubeRIUx0AnhBzbwkU/gTXcJO0gC3TMLJ7KRDOkJTfClXBqiyqtwU6u5
-	37AFlHnqrhJTfgv04J8EYzRwVI0PL9g10wMmpCIZMQvlGgjn0OwZrEmV36rMp9KpJStT
-	uBnQ==
-X-Gm-Message-State: APjAAAWE1wjp9vNpr3TAeCdLLMBfHnMykDhK1srvHjnNkb0dagv96DeI
-	N7kqZv31CD/00auUdm340p2mSK5N
-X-Google-Smtp-Source: APXvYqy5hAFmc0pNsPbVFYtzcnP6lY26jIogsaCdPtBZtByIoqSxrMYd5u4upKOe7FGaaf3hQZw/RQ==
-X-Received: by 2002:a1c:9cd1:: with SMTP id f200mr3893412wme.157.1565264832008;
-	Thu, 08 Aug 2019 04:47:12 -0700 (PDT)
-Received: from localhost ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
-	by smtp.gmail.com with ESMTPSA id
-	b5sm77277518wru.69.2019.08.08.04.47.10
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=TdCD/BrOzjg11EVeI8zVWN0yHVFNNuAtWAlPfINUKfI=;
+	b=mvCZ7wN2vsTrdjY770qN+x31d0hjehg5OVJOrcGqEQLGmRB2356oIaTkSIbwXkGw2b
+	SiUotQpDqGjK7xa/KML8l2x52G3B7QDRTm2Zxt4rCs6SnGfa5d7ncwcgY/t+dqZ2CP8U
+	qLrwEhmYmenPikoErGxgyhDhWezCePvUucfj525fnWzkkuMZCgzG7g4/paET8fAdnMHm
+	jI3X84Q57ZfaG5OCMs4vvh8x4zyRHcEa0xsD5e/QeqjjIAsf2JDAPFSveux60hQCj+9v
+	Ob/cOSTjOCaXiylB0buviOlx7UGnFMiKOERxCbMKpO+tZIKWN8PY32kVVoCPSDB6J1AH
+	GSCw==
+X-Gm-Message-State: APjAAAUVLR131lserFg7M8hDP7T0XmTRHp9MhUfHLPUvZ1dv1CCzRmVC
+	MlRwWlRNGpHCpIq//2IIKwd2qZmE
+X-Google-Smtp-Source: APXvYqwhqVho5z/zY7Lseo8TeU9GKsfT4/ODMyV+pvCpD/RPX9VjCbfUQIjjSrVBf2qWmGo4FOvNDw==
+X-Received: by 2002:a1c:7304:: with SMTP id d4mr3936753wmb.39.1565264903444;
+	Thu, 08 Aug 2019 04:48:23 -0700 (PDT)
+Received: from bluca-lenovo ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
+	by smtp.gmail.com with ESMTPSA id z7sm2253001wmg.22.2019.08.08.04.48.22
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 08 Aug 2019 04:47:10 -0700 (PDT)
-From: luca.boccassi@gmail.com
+	Thu, 08 Aug 2019 04:48:22 -0700 (PDT)
+Message-ID: <09712a9113c606faf3b96e02cf3f009ef931507c.camel@gmail.com>
+From: Luca Boccassi <luca.boccassi@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2019 12:47:01 +0100
-Message-Id: <20190808114701.20464-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.20.1
+Date: Thu, 08 Aug 2019 12:48:22 +0100
 In-Reply-To: <20190805105232.16148-1-luca.boccassi@gmail.com>
 References: <20190805105232.16148-1-luca.boccassi@gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Subject: [PATCH v2] python3-pygobject: move python3-setuptools from RDEPENDS to DEPENDS
+Subject: Re: [PATCH] python3-pygobject: move python3-setuptools from RDEPENDS to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,49 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 11:47:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 08 Aug 2019 11:48:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+> On 05/08/2019 11:52, luca.boccassi@gmail.com wrote:
+> >   inherit gnomebase distutils3-base gobject-introspection upstream-
+> version-is-even
+> >   
+> > -DEPENDS += "python3 glib-2.0"
+> > +DEPENDS += "python3 python3-setuptools glib-2.0"
+> 
+> If setuptools is a build dependency then surely you mean 
+> python3-setuptools-native.  And if you need python3-setuptools-
+> native, 
+> then just inherit setuptools3 instead of distutils3-base.
+> 
+> Ross
 
-python3-setuptools is necessary to build pygobject but not to run it, as
-also documented by the upstream packaging guide:
+Hi,
 
-https://gitlab.gnome.org/GNOME/pygobject/blob/master/docs/packagingguide.rst
+inheriting setuptools3 does not seem to work, the build fails:
 
-Move it to DEPENDS to shrink the runtime dependency chain, as setuptools
-includes scripts to download other packages, which might not be desired on
-a minimal image.
+2019-08-07T20:29:11.4006600Z [INFO] [10443] | /source/build-
+project/tmp/work/aarch64-project-linux/python3-pygobject/3.28.3-
+r0/recipe-sysroot-native/usr/bin/python3-native/python3: can't open
+file 'setup.py': [Errno 2] No such file or directory
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
-v2: use -native suffix as requested during the code review
+Using the -native suffix works, so sent a v2 doing that.
 
- meta/recipes-devtools/python/python3-pygobject_3.32.2.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Thanks!
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb b/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
-index 05688be603..9e4ce31d8c 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.32.2.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
- GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase distutils3-base gobject-introspection upstream-version-is-even
- 
--DEPENDS += "python3 glib-2.0"
-+DEPENDS += "python3 python3-setuptools-native glib-2.0"
- 
- SRCNAME="pygobject"
- 
-@@ -27,7 +27,5 @@ PACKAGECONFIG ??= "${@bb.utils.contains_any('DISTRO_FEATURES', [ 'directfb', 'wa
- # we don't link against python3-pycairo -> RDEPENDS
- PACKAGECONFIG[cairo] = "-Dpycairo=true,-Dpycairo=false, cairo python3-pycairo, python3-pycairo"
- 
--RDEPENDS_${PN} += "python3-setuptools"
--
- BBCLASSEXTEND = "native"
- PACKAGECONFIG_class-native = ""
 -- 
-2.20.1
+Kind regards,
+Luca Boccassi
 
 
