@@ -1,26 +1,28 @@
 Return-Path: <jwessel@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BE2847F2E8
+	by mail.openembedded.org (Postfix) with ESMTP id C015D7F2F2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  8 Aug 2019 20:24:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78KNxfN001132
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x78KNxfL001132
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 8 Aug 2019 13:24:15 -0700
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
 	Thu, 8 Aug 2019 13:24:02 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 25EEFAA4824;
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 31CCDAA4823;
 	Thu,  8 Aug 2019 13:24:02 -0700 (PDT)
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2019 13:23:57 -0700
-Message-ID: <20190808202400.60710-1-jason.wessel@windriver.com>
+Date: Thu, 8 Aug 2019 13:23:59 -0700
+Message-ID: <20190808202400.60710-3-jason.wessel@windriver.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190808202400.60710-1-jason.wessel@windriver.com>
+References: <20190808202400.60710-1-jason.wessel@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/4] image_types_wic.bbclass: Copy the .wks and .env files to deploy image dir
+Subject: [PATCH v2 3/4] wic: Make disk partition size consistently computed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,62 +39,68 @@ X-List-Received-Date: Thu, 08 Aug 2019 20:24:30 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-When using a .wks.in file, the only place that the generated .wks file
-exists in the tmp/work area.  A copy should be left behind in the
-deploy directory so that you can easily run the wic tool to
-re-generate or modify a new image without running bitbake.  Custom
-.wks.in files can reference any number of bitbake variables, so it is
-important to save the result.
+When using different root directories with a wks file wic is using the
+value from the original ROOTFS_SIZE which is not correct.  Example:
 
-below is an example of using the generated .wks file in the deploy
-area.  The full name of my generated .wks file was
-core-image-minimal-ostree-uboot-ab.wks, but since you usually only
-have a single .wks file per image you can use a wild card like:
+Number  Start   End     Size    File system  Name       Flags
+ 1      20.5kB  318MB   318MB   fat16        otaefi     legacy_boot, msftdata
+ 2      318MB   636MB   318MB   ext4         otaboot
+ 3      636MB   1709MB  1074MB  ext4         otaroot
+ 4      1709MB  2027MB  318MB   ext4         otaboot_b
+ 5      2027MB  3101MB  1074MB  ext4         otaroot_b
+ 6      3101MB  5249MB  2147MB  ext4         fluxdata
 
-  cd tmp*/deploy/images/*
-  wic create --vars . -e core-image-minimal -s -m core-image-minimal-*.wks
+The partitions 1, 2, and 3 incorrectly inherit the size, instead of using
+a computed size.  With the patch applied it is working properly:
+
+Number  Start   End     Size    File system  Name       Flags
+ 1      20.5kB  14.5MB  14.5MB  fat16        otaefi     legacy_boot, msftdata
+ 2      14.5MB  65.3MB  50.8MB  ext4         otaboot
+ 3      65.3MB  1139MB  1074MB  ext4         otaroot
+ 4      1139MB  1190MB  50.8MB  ext4         otaboot_b
+ 5      1190MB  2264MB  1074MB  ext4         otaroot_b
+ 6      2264MB  4411MB  2147MB  ext4         fluxdata
+
+As for the removal of the bb.warn, if the size is not specified, it is
+not something to warn the end user about.  Some of my default images
+make use of the head room + a computed directory size or while generating
+images.
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/image_types_wic.bbclass | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ scripts/lib/wic/partition.py | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 519aeb1b04..f350dc2723 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -77,6 +77,11 @@ python do_write_wks_template () {
-     wks_file = d.getVar('WKS_FULL_PATH')
-     with open(wks_file, 'w') as f:
-         f.write(template_body)
-+    f.close()
-+    # Copy the finalized wks file to the deploy directory for later use
-+    depdir = d.getVar('IMGDEPLOYDIR')
-+    basename = d.getVar('IMAGE_BASENAME')
-+    bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
- }
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index f427c8101b..2a71d7b1d6 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -212,19 +212,13 @@ class Partition():
+         if os.path.isfile(rootfs):
+             os.remove(rootfs)
  
- python () {
-@@ -105,7 +110,7 @@ python () {
-                 # file in process_wks_template as well, so just put it in
-                 # a variable and let the metadata deal with the deps.
-                 d.setVar('_WKS_TEMPLATE', body)
--                bb.build.addtask('do_write_wks_template', 'do_image_wic', None, d)
-+                bb.build.addtask('do_write_wks_template', 'do_image_wic', 'do_image', d)
-         bb.build.addtask('do_image_wic', 'do_image_complete', None, d)
- }
+-        # Get rootfs size from bitbake variable if it's not set in .ks file
++        # If size is not specified compute it from the rootfs_dir size
+         if not self.size and real_rootfs:
+-            # Bitbake variable ROOTFS_SIZE is calculated in
+-            # Image._get_rootfs_size method from meta/lib/oe/image.py
+-            # using IMAGE_ROOTFS_SIZE, IMAGE_ROOTFS_ALIGNMENT,
+-            # IMAGE_OVERHEAD_FACTOR and IMAGE_ROOTFS_EXTRA_SPACE
+-            rsize_bb = get_bitbake_var('ROOTFS_SIZE')
+-            if rsize_bb:
+-                logger.warning('overhead-factor was specified, but size was not,'
+-                               ' so bitbake variables will be used for the size.'
+-                               ' In this case both IMAGE_OVERHEAD_FACTOR and '
+-                               '--overhead-factor will be applied')
+-                self.size = int(round(float(rsize_bb)))
++            # Use the same logic found in get_rootfs_size()
++            # from meta/classes/image.bbclass
++            du_cmd = "du -ks %s" % rootfs_dir
++            out = exec_cmd(du_cmd)
++            self.size = int(out.split()[0])
  
-@@ -127,6 +132,10 @@ python do_rootfs_wicenv () {
-             value = d.getVar(var)
-             if value:
-                 envf.write('%s="%s"\n' % (var, value.strip()))
-+    envf.close()
-+    # Copy .env file to deploy directory for later use with stand alone wic
-+    depdir = d.getVar('IMGDEPLOYDIR')
-+    bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
- }
- addtask do_rootfs_wicenv after do_image before do_image_wic
- do_rootfs_wicenv[vardeps] += "${WICVARS}"
+         prefix = "ext" if self.fstype.startswith("ext") else self.fstype
+         method = getattr(self, "prepare_rootfs_" + prefix)
 -- 
 2.21.0
 
