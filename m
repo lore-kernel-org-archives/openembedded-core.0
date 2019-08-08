@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E84F27F2A4;
-	Thu,  8 Aug 2019 13:02:27 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id E453B7F38C;
+	Thu,  8 Aug 2019 13:02:28 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Trevor Gamblin <trevor.gamblin@windriver.com>
-Date: Thu, 08 Aug 2019 13:02:29 -0000
-Message-ID: <20190808130229.2334.65928@do>
-References: <1565268576-14527-1-git-send-email-Trevor.Gamblin@windriver.com>
+Date: Thu, 08 Aug 2019 13:02:30 -0000
+Message-ID: <20190808130230.2334.58248@do>
+References: <1565269148-14827-1-git-send-email-Trevor.Gamblin@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1565268576-14527-1-git-send-email-Trevor.Gamblin@windriver.com>
+In-Reply-To: <1565269148-14827-1-git-send-email-Trevor.Gamblin@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGF0Y2g6IGZpeCBDVkUtMjAxOS0xMzYzOA==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGF0Y2g6IGZpeCBDVkUtMjAxOS0xMzYzOCAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 13:02:28 -0000
+X-List-Received-Date: Thu, 08 Aug 2019 13:02:29 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: patch: fix CVE-2019-13638
-Revision: 1
+Series: patch: fix CVE-2019-13638 (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/19175/
 State : failure
 
@@ -45,7 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            patch: fix CVE-2019-13638
+* Patch            [warrior] patch: fix CVE-2019-13638
  Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
   Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
 
