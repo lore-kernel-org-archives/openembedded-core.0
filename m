@@ -1,47 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D1A87E553
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 212567E553
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2019 11:15:26 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id t28so91736915lje.9
+	Fri,  9 Aug 2019 11:15:27 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id s19so6578996lfb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Aug 2019 04:15:27 -0700 (PDT)
+	Fri, 09 Aug 2019 04:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=7ab2KbnVsZUsm+qN8p08eu7JdQQImS2cb62e+UyXhyo=;
-	b=FVWFchQ80GD0Tmi/fphYA8t893sZMHLmAteiNbWA5E1J9WI/RjnUr51KnvgZ7egZK3
-	QLQ5eFXD6mG6s2kXcIXY81H0pXguE1goZ/b56aMXWdxIbbZcSdm56xdRaaFWVCysdlwH
-	vGNVBQMVOmxg68FnPINTauRfBA4W8zlYxXtuD/uRmtBoQ/xiikvpUahUuUf1ZaVH1m4d
-	Zv6BtNk5XBo1AJoavmEk5sxbRO+weKObH8HS7sYftd/NqQ6+ad8JrD/6p6naHbYAb7Xz
-	VV5AAoTCtEqYYFO4ipq0CnABB8BXqLF2LErBC5zrLQzo8cNvgHU+PijuLYGWCnzYbt/Z
-	dQxw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=bZGD8uhAVOoM+ur6uABzwcAAiWhPzHqGEzom28TnJa0=;
+	b=GwEOWOCzwh38ESpY8vfrZE0QPNr6DLe3i5f+5gcA+uPoISTibDs/y4Ane9L/1N85CR
+	pGL0nEiLkn3oZ09YpJk/QeAC66qU6hKRYGXSwM/TZO2ordkerB04dkEqx/M4DRi2Scha
+	JAzJQMWhDFqEjAY91JiKdk3z+VXZ1caY95YU2iWSTaq5iex0gMj5yxISKN1NBslQP5xC
+	KZx7+hGde6RM1JcVmWKpHhpJWAIqJs0vV6eniIhhcd39HR5L805ktNZgDZ1pc2bAjpOq
+	5fNljoWdBZEW6ZTk39K5MBC/k2kFkJF0CBbcyqjs0J+jGFDEXUcuTKWBdFzEl3AoUNuR
+	APQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7ab2KbnVsZUsm+qN8p08eu7JdQQImS2cb62e+UyXhyo=;
-	b=hoqDhmMvyJ1R9u+SEG/6k5xBcWITUfIdogwqKtWj1BGABGGDYDDZH+qIbAD6NqLXdU
-	91Vy8ZzUHRXyClL0lVqKQL2edOtYDU6DWThO0z8GFmjMsIEkRvwKnDfvRB5LsQhMm9AG
-	JRFuSV2IwenuePQdlUHYGDfrkR43ypxQLwA0wVCc/dLq1+oLFz7tVzUyzetxmI/iBW4l
-	3zyZrwG1IoPVbVHAtqYhysHKZ0EJeI+OHycGQcn5dGi97CRC5Anl/FegTmbUT/EOWkLx
-	PiPLKbkDixkKmdnqMfflUQ84e1abAfD2muPXYt6JZUEde3ffAT9rZC7Ak06Zv9RnRYNe
-	JJEA==
-X-Gm-Message-State: APjAAAUahJk8RwR2HY05wg6Ap3rp+opDQgsJ0YimZ6xVgMWtmxZBKdZt
-	E258XhZsh/4x/QimdilHp2SyUnoXc0Z+AA==
-X-Google-Smtp-Source: APXvYqzlswkinanIG/WIAvqlJmdYvKvYT6CLxl+jWgzBKmf+x7UjBsLgTd7+SPFsHTV5D1t7DS/wYw==
-X-Received: by 2002:a05:651c:c6:: with SMTP id
-	6mr11252268ljr.127.1565349326507; 
-	Fri, 09 Aug 2019 04:15:26 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=bZGD8uhAVOoM+ur6uABzwcAAiWhPzHqGEzom28TnJa0=;
+	b=YNR9H7fE1czlx4XWwaRtPrJI9mJIRe0mMOh2U6VGD/StQmanL2oGDsVnXrI4ZtMdC1
+	oCbOjuG6qhIlB/Bjq9Ld/VRsnk+qY3Zb+Ipdlcr/dB7GeDbo3sB1z9/V5uyJWGX55lL9
+	3hsDOjhK90giYtuohPUT5abyWHMkIpLLpJujmBqMBHBYNmHol3CViOYqSe4hGVsATqrK
+	Wyf0JaX99HJntlYUkvpcH0jzPHhURh3qJ7qvCdWESVgJgJ+7PV3avtroTZFzo4cJcYii
+	hj9TeV1jb7SI6uRB/SXVq8AkqnyNBobch9XOAHKCMlJNK08+ljt6TymSDS1qGMsNMqfo
+	6kjQ==
+X-Gm-Message-State: APjAAAVU+cFcKXgMcJzCkIFT9JOHl1k5uJXKYuBhLgbAwCQkmLbDhCE6
+	WQqqAKpcCjNrdtxVO4sgQEtEmU02B+enfA==
+X-Google-Smtp-Source: APXvYqxsbsPz/2lU/+6loL/UWgOr+TKhqOyQcq3yjFN1jpWe93y0VtzqI+HFVycfyR2d8298LXnVIg==
+X-Received: by 2002:ac2:46f8:: with SMTP id q24mr12542122lfo.89.1565349327566; 
+	Fri, 09 Aug 2019 04:15:27 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id y5sm19265313ljj.5.2019.08.09.04.15.25
+	by smtp.gmail.com with ESMTPSA id y5sm19265313ljj.5.2019.08.09.04.15.26
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 09 Aug 2019 04:15:25 -0700 (PDT)
+	Fri, 09 Aug 2019 04:15:27 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Aug 2019 13:15:18 +0200
-Message-Id: <20190809111519.54789-1-alex.kanavin@gmail.com>
+Date: Fri,  9 Aug 2019 13:15:19 +0200
+Message-Id: <20190809111519.54789-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] gcc-cross-canadian: add missing runtime dependencies
+In-Reply-To: <20190809111519.54789-1-alex.kanavin@gmail.com>
+References: <20190809111519.54789-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/2] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,31 +56,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2019 11:15:26 -0000
+X-List-Received-Date: Fri, 09 Aug 2019 11:15:27 -0000
 
-The recipe is special in that it does not auto-detect them
-at packaging step (via EXCLUDE_FROM_SHLIBS). With the recursive
-RDEPENDS qa check gone they need to be listed explicitly.
+Recursive RDEPENDS resolution requires that all of the dependent
+recipes' packaging has completed. There is no mechanism to ensure that
+and therefore races were observed.
+
+This change effectively requires recipes to list their runtime file
+dependencies explicitly rather than have them pulled indirectly.
+This may require a bit of fixing in layers, but should result
+in a better definition of runtime file dependencies.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/insane.bbclass | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index 807e47e0ee2..0e626172b5f 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -152,7 +152,8 @@ do_install () {
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 35c4fdb4913..9b886d13805 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -722,25 +722,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                             filerdepends[subkey] = key[13:]
  
- ELFUTILS = "nativesdk-elfutils"
- DEPENDS += "nativesdk-gmp nativesdk-mpfr nativesdk-libmpc ${ELFUTILS} nativesdk-zlib"
--RDEPENDS_${PN} += "nativesdk-mpfr nativesdk-libmpc ${ELFUTILS}"
-+RDEPENDS_${PN} += "nativesdk-mpfr nativesdk-libmpc ${ELFUTILS} nativesdk-glibc nativesdk-libgcc nativesdk-libstdc++ nativesdk-zlib nativesdk-gmp"
-+RDEPENDS_${PN}_remove_sdkmingw32 = "nativesdk-glibc"
- 
- SYSTEMHEADERS = "${target_includedir}/"
- SYSTEMLIBS = "${target_base_libdir}/"
+             if filerdepends:
+-                next = rdepends
+                 done = rdepends[:]
+-                # Find all the rdepends on the dependency chain
+-                while next:
+-                    new = []
+-                    for rdep in next:
+-                        rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
+-                        sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
+-                        if not sub_rdeps:
+-                            continue
+-                        for sub_rdep in bb.utils.explode_deps(sub_rdeps):
+-                            if sub_rdep in done:
+-                                continue
+-                            if oe.packagedata.has_subpkgdata(sub_rdep, d):
+-                                # It's a new rdep
+-                                done.append(sub_rdep)
+-                                new.append(sub_rdep)
+-                    next = new
+-
+                 # Add the rprovides of itself
+                 if pkg not in done:
+                     done.insert(0, pkg)
 -- 
 2.17.1
 
