@@ -1,49 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D9A97ECB9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id C42B37F340
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2019 14:59:20 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id n9so98645649wru.0
+	Fri,  9 Aug 2019 15:19:54 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id l9so96071038qtu.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Aug 2019 07:59:21 -0700 (PDT)
+	Fri, 09 Aug 2019 08:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=gpb4WadaaJ+k4kWd9JWfHWIx7t9kaY39HekiHAyqrEw=;
-	b=OUkdPakezKVYbGAT2Eejff7FGTJMc1DP+YpZgzLFFCaEbuqVvNSJl+pCA/xICcePIy
-	UDIpZ71CWWbDIB7gZSDV+xwJDccBiac7Yl1puUsm3cskySPPNY/1JG2fJuJ0XifOVcYj
-	WA7PXdn65+9XfP/2sQAjq4evqIKhhOIXZPLTmj71roTGcIUU6nyXXaFX3NA5kEMGHimx
-	GkTb/J9V6H8Aw02kVUjGoc49zx9NLFF8EX7A2/VUc/jzavV+sJPMKZGioe7eC4EAH0y+
-	epcs1Xr58PiMPY/hhK2a5twx6emcLzhJR/Iq6PHBmSf+/CDFYhRneC0R+WpkSgJaK0HK
-	1GMQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=M7Qbayrg3abzTUV4wijC+xAhwkrWsea1akWGVMKLOCk=;
+	b=a4rFSHYEuuo7ooOnovjeMKduz2efBWYxmPV/rkzp4tsmgTlq66PFpdUGWb3ICyv7M4
+	tQBmvCmeZeKfSDBV/GT03jaX8pdypq3GzYOskU7taq4HmvqusN4VLqiYq9s4crKA39/z
+	E3mV+2S73VmDozh3JLjKTdfZZY3fnTfICxSOYCBpfNg1u5UG2mTtAeNxpNDNxqXK0s4p
+	kjWQjU625IRoY7mZfH0aPYOpt0EPTyV45DAA+rKvWWVuEGnOqgFKOQ+YNpDGHMOPqg1G
+	FIinne6taHPtEHOUbma4KPmrvNL36q5IrBXu6VX1EYemVu7+R+MOAQ/Dj8SXW1nsLOxr
+	58+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=gpb4WadaaJ+k4kWd9JWfHWIx7t9kaY39HekiHAyqrEw=;
-	b=MfVC37arihMyLIDAqg6/YVK3Rm4zrqT124y0QcQWuQZpzM/uMEaFplSzAYTizuw8s4
-	kgu91IldD+frVw6SkIDcv/9088CdD4Y3Zxhm3/RrwfF9wa+Tf+TuBpEuAs8I7/TTjkMh
-	Bw13c8vrdZ+9FPxlXrTSK3TDm3MPp97jJf/Lpu/aM1jMed+2weAb5O485SI58sgAZNmh
-	n6QuvWAZ9JybwifVP+lLQTIMLs2O78VA/nMEqDFshdVgHabChqtIo/NoQpa2In8NTnQL
-	Fiw6icAKK5Q/rQK1Pun7hUl8O/1WNZvcPJYeMlCv597es94T0sRkPMbYpgTwmh7kUerX
-	dedA==
-X-Gm-Message-State: APjAAAVi+cs8thgrF/Q3LqxYvVmiUM8wsiaXVAja2Fn0IXbLk0fBhOGX
-	BFbqYBCKyP/cNfRYte+dfEvcSw5guFuQ0A==
-X-Google-Smtp-Source: APXvYqxRIthOJbk5+zqigWd0163lj1ilV4GGnkeYm+Evqjv3AoG9wNGWpnerIzyOtnTcd2RGUK1bhA==
-X-Received: by 2002:adf:de8e:: with SMTP id w14mr24370205wrl.79.1565362760895; 
-	Fri, 09 Aug 2019 07:59:20 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id a2sm5159160wmj.9.2019.08.09.07.59.20
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 09 Aug 2019 07:59:20 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Aug 2019 16:59:13 +0200
-Message-Id: <20190809145913.114922-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190809145913.114922-1-alex.kanavin@gmail.com>
-References: <20190809145913.114922-1-alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] mesa: enable glx-tls option in native and nativesdk builds
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=M7Qbayrg3abzTUV4wijC+xAhwkrWsea1akWGVMKLOCk=;
+	b=cUZehaRSDxGHdgFUj8944jhMn67bbP3ySfnAc3RzQP0NiElRF1L8Mgf7n9LSAKwF2I
+	hTHbytPnACKEaKdbO0VYsyT8806J4eP6Y/2x6ndetF9HAB3bZHxrNviDbX18kiaYjQyl
+	cM+5ufQ1YpSWCG/mEPI+QisEP2esM8JXTtuISxOY2La/jfwGcy3/ZZTQfbTBeI6jr//V
+	60SB4w+XqH0PnYrtRkx3jNfeWDEXMwqKPsY/J8hpNBdu1brMGXw53vZVkuWDhqVHYd2K
+	i1PrMuXrLLe2KPDBmXv2hAxSXxhUQPdwhkNCH3/9JUKBjwtFNFNmsir2ZDyyeJv7xN0Y
+	/yDw==
+X-Gm-Message-State: APjAAAXHFv78OoldrUVKoiJ1+m08Dmo21t1D4+ZeCAD60sAdUSDYHKWK
+	zju/r29DHG05/+rGUcniTV2DxOc8AQwEhfeMkng=
+X-Google-Smtp-Source: APXvYqyd1MyqsnyEwfSswRkYxkkvb0/35Vu+6PT2SEOfEnRZHFpa/h0zNlAtdeTO2lKviZWdZ0xM/CMkkrBUp9hLFU0=
+X-Received: by 2002:ac8:1183:: with SMTP id d3mr18422520qtj.53.1565363995378; 
+	Fri, 09 Aug 2019 08:19:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190807102939.12760-1-alex.kanavin@gmail.com>
+	<94b692a828bbf5230f56afbc401bf9d66660283b.camel@linuxfoundation.org>
+	<CANNYZj-t2TSN4dMpfEgU_k_dDqHRLeqNSYWi-=uUK2BH09-tMA@mail.gmail.com>
+	<CAMKF1squwmc8-sm+JMM6gU5oyHSKHv7ejRoOokTdb4Nd-SEk2A@mail.gmail.com>
+	<CAMKF1soSXrDEHu+0v7v052EpCfXwu=+_ysWiwDcd=HY7oaBU8Q@mail.gmail.com>
+	<CANNYZj81jgzZP0VNSbpA6RVh=JDc7748XszNEOJ9Dz+qf+8hmQ@mail.gmail.com>
+In-Reply-To: <CANNYZj81jgzZP0VNSbpA6RVh=JDc7748XszNEOJ9Dz+qf+8hmQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 9 Aug 2019 08:19:29 -0700
+Message-ID: <CAMKF1soHd3dx9FVXiTwaDeBQz55hdFTCdmLRZjKDfAsduqWQ4Q@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2019 14:59:20 -0000
+X-List-Received-Date: Fri, 09 Aug 2019 15:19:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Before meson conversion this was always enabled; now it needs to
-be explicitly switched on.
+On Fri, Aug 9, 2019 at 2:45 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> On Fri, 9 Aug 2019 at 03:34, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> > There are several packages in meta-openembedded which are showing these errors one that I see is net kit-rusers seems to be failing for wrong reason
+>> >
+>> > I will send full list once I am close to computer
+>>
+>> here is full list
+>>
+>> https://errors.yoctoproject.org/Errors/Build/86513/
+>> all do_package_qa are due to this change.
+>
+>
+> There are plenty of recipes in that list that come from oe-core (not meta-oe), and do not show errors on the AB, e.g. glib-2.0:
+>
+> ERROR: QA Issue: /usr/lib/libgio-2.0.so.0.6000.6 contained in package glib-2.0 requires libz.so.1(ZLIB_1.2.2)(64bit), but no providers found in RDEPENDS_glib-2.0? [file-rdeps]
+> ERROR: QA Issue: /usr/lib/libgio-2.0.so.0.6000.6 contained in package glib-2.0 requires libz.so.1()(64bit), but no providers found in RDEPENDS_glib-2.0? [file-rdeps]
+> ERROR: QA Issue: /usr/lib/libglib-2.0.so.0.6000.6 contained in package glib-2.0 requires libpcre.so.1()(64bit), but no providers found in RDEPENDS_glib-2.0? [file-rdeps]
+> ERROR: QA Issue: /usr/lib/libgobject-2.0.so.0.6000.6 contained in package glib-2.0 requires libffi.so.6()(64bit), but no providers found in RDEPENDS_glib-2.0? [file-rdeps]
+>
+> Can I see the configuration where this happened? Might be some other setting that breaks shlib resolution (that was previously unnoticed due to recursive qa RDEPENDS).
+>
 
-This un-breaks the virgl headless test in particular, which regressed
-with the meson conversion (and the test is not currently run on AB
-due to oudated graphics hardware in it).
+a running musl world build did not show this issue but that was
+rebased tree without this fix. I will have to do a new build for glibc
+and see if it was my build system injected behavior. For this patch, I
+would suggest it's tested across multiple layers before it's installed
+to oe-core.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index e99eb39d26e..60d07f536c8 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -54,8 +54,8 @@ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
-                    glx-tls \
- 		   "
--PACKAGECONFIG_class-native ?= "gbm dri egl opengl"
--PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl"
-+PACKAGECONFIG_class-native ?= "gbm dri egl opengl glx-tls"
-+PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl glx-tls"
- 
- PACKAGECONFIG_remove_libc-musl = "glx-tls"
- 
--- 
-2.17.1
-
+> Alex
+>
 
