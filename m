@@ -1,52 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
-	[209.85.222.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C92727F336
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0156C7C85D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2019 16:36:25 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id g11so11121324uak.0
+	Fri,  9 Aug 2019 18:11:53 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id g17so1670245qkk.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Aug 2019 09:36:27 -0700 (PDT)
+	Fri, 09 Aug 2019 11:11:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=aYdjbLbr7pwe+K81WJt7AkToVBpoGz4ST52tj7s2bAw=;
-	b=YBHUcEgMq4hgos+eJM2WYmIWlq2V3IOk5SNKgtoEKRJiTUh1tlckXKcxU54o01ZN/G
-	veuULgNpQRD/PHU56BlHUAc6cbNCLDiTz9mjLtE8I+jQYp62K6PBlJwq0jYSu5VSLIN4
-	uyimQZ/8q1uL5fgYt4Afon094LGBebffhv3gl4FO5tVbgJefYttAWUqYj/xuRNjzpLWG
-	ZKWk1XO6aureGLgBgksXP/nUzm/l2eC+kq/vX/BG1qDdlnKVY9juFa4HepScczeLhBW2
-	lk3DGCBUgVgHoHQu51p25CJTUaTNhX4mIeNzB2u5elToa71qAqhsD36KLMWQ7N4w+Hqn
-	c24A==
+	:cc; bh=jdlV8+Dg8irwvV36uVdcWsERL4iJzgcZwJ5H4lW46A8=;
+	b=dR6tGzd7OX9wMPqjbg4xZHB799y2l0Ekue4PoViVp8XOhyIm1gy6DDgjDz+XeiMtzg
+	RF70KeGIbA13NbIcNDlGPLzrn9GxCzbEG1gNAXtGI6v7tycjQzQKgGq7iMPDOuvcMdQG
+	z9t9a8sjJs4M/LNEie1fEdSEF0oC26bAT/CvbwdL4SFAvZXryzldDYFTqeyqib6Snon8
+	VeAxwkBor4tYRXHB3zZlZhXzmoiRekTXEKARGOJpHb8xtCnuPeoxpDiBPyQJl14DPNxp
+	JB0rFsZiWNR76SKzuzifscsyccRs1kELo8ZT2NHNlMG3At9+fbmjfHDF3SM/xt8V03+y
+	klLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=aYdjbLbr7pwe+K81WJt7AkToVBpoGz4ST52tj7s2bAw=;
-	b=IlnbRRHlWa2vxZvNl+vQnq3gWPQqwXxUQr4NtVJ9Eb8Phjq6K5U1n8/IIABUItiJEW
-	ZkdBn6/oW6+k1VYQgyRrYflzS47lg7kIy5KJmDcasy1CarsNE1GO1u9h49NMgfbjB5GR
-	oFQPd4RsMo83vo9Dkq/VUWNRmN+Jgg3ABhG22yD1Zx5r256qlsDu+NRceBtfLkqRgXKA
-	2XKVwTjMffSEsgro7MeoWu3o4fZNXnOb4W19tMyOpwBgad9uvhuIvi5vG/LiaXSM6qZU
-	Ulm57W8t30CAbKcFC5Gyl2KcAs2QElnA6wxKO9npMg7l/99bKg2a43NRjkQfIlMzKCHu
-	bcVA==
-X-Gm-Message-State: APjAAAXOE46OYu4AVnKI75WlVMoktn/xVssCP97BvAfmHR6ILsiTH2Qu
-	mxIuGfMBYQTy6Rw6oLZq3fOmL7mtFYm9DQ8W6FY=
-X-Google-Smtp-Source: APXvYqyHx59LpCSB/ABuhCUgBhlViIydQC+mcXxrz3GhwN+RXR77G9WWoeeTzR23YtD4I07GWjAplvSXbvb8cNzXThw=
-X-Received: by 2002:ab0:70b1:: with SMTP id q17mr4371306ual.100.1565368586561; 
-	Fri, 09 Aug 2019 09:36:26 -0700 (PDT)
+	bh=jdlV8+Dg8irwvV36uVdcWsERL4iJzgcZwJ5H4lW46A8=;
+	b=mq5VKn3Ed5LvC/NFeECE5aVIbVTdiByJ4YlK2Let5aPlbmHXab29IAy/GYXUBHRZMe
+	eN3aoSQ4MycWVtOTe7OnUWfgs3noM3y4ock9Jf18j4ryatsFrltfH2PdoHTXxkcX65T+
+	tJxLx047qUzvjENn/x5HVC48I1E1T5D6krfxOiynTnR1gHqVLZrqHSt+SWlMsy8unvKx
+	0EGUyJLvwBG+D0RpAgSejtoQLIT1wJ3cJN7t8Jg8c5pYHsi+eCLsSu+KmiulxLXtfBQH
+	rHjvKWqg4jv6CXFBkCMLjnLe5IocpBpAq9Ftg9I0/1iQQfzo9Fi4toGXGcXfqO2XGCNZ
+	kLFQ==
+X-Gm-Message-State: APjAAAVEj+ZDCfRGYu6QwVU7R821vx5otLcwOHuwqyggggbRwe8CBS42
+	taoYuCqCgKAF5Pc9aTLwXbzlRLIndKBss3Y3QEU=
+X-Google-Smtp-Source: APXvYqxDAwPresHqWYv6si1ublJ2MCzA7vqtIFbNcep+VJ16ysOGtSra4oB4UvacBCssMLyTjhntpL3eAKdK0+aA7Uw=
+X-Received: by 2002:a37:a20f:: with SMTP id l15mr19770451qke.212.1565374314381;
+	Fri, 09 Aug 2019 11:11:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190807102939.12760-1-alex.kanavin@gmail.com>
-	<94b692a828bbf5230f56afbc401bf9d66660283b.camel@linuxfoundation.org>
-	<CANNYZj-t2TSN4dMpfEgU_k_dDqHRLeqNSYWi-=uUK2BH09-tMA@mail.gmail.com>
-	<CAMKF1squwmc8-sm+JMM6gU5oyHSKHv7ejRoOokTdb4Nd-SEk2A@mail.gmail.com>
-	<CAMKF1soSXrDEHu+0v7v052EpCfXwu=+_ysWiwDcd=HY7oaBU8Q@mail.gmail.com>
-	<CANNYZj81jgzZP0VNSbpA6RVh=JDc7748XszNEOJ9Dz+qf+8hmQ@mail.gmail.com>
-	<CAMKF1soHd3dx9FVXiTwaDeBQz55hdFTCdmLRZjKDfAsduqWQ4Q@mail.gmail.com>
-In-Reply-To: <CAMKF1soHd3dx9FVXiTwaDeBQz55hdFTCdmLRZjKDfAsduqWQ4Q@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 9 Aug 2019 18:36:15 +0200
-Message-ID: <CANNYZj_o1CxczJGcUeJzoyp9saqYpL4CwZdmbpt6oPW3EZm91Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
+References: <20190808161150.44877-1-alex.kanavin@gmail.com>
+	<20190808161150.44877-5-alex.kanavin@gmail.com>
+In-Reply-To: <20190808161150.44877-5-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 9 Aug 2019 11:11:28 -0700
+Message-ID: <CAMKF1sqbwJiBay7SaQroUspx3RgehPPvRpNdGP=6j5YPDdaBbg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/7] python3-numpy: update to 1.17.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,45 +55,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2019 16:36:26 -0000
-Content-Type: multipart/alternative; boundary="0000000000008b6d83058fb1c6fa"
-
---0000000000008b6d83058fb1c6fa
+X-List-Received-Date: Fri, 09 Aug 2019 18:11:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 9 Aug 2019 at 17:19, Khem Raj <raj.khem@gmail.com> wrote:
+https://errors.yoctoproject.org/Errors/Details/260208/
 
-> a running musl world build did not show this issue but that was
-> rebased tree without this fix. I will have to do a new build for glibc
-> and see if it was my build system injected behavior. For this patch, I
-> would suggest it's tested across multiple layers before it's installed
-> to oe-core.
+On Thu, Aug 8, 2019 at 9:12 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
+> Rebase files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+>
+> License-Update: clarified license for numpy/core/src/multiarray/dragon4.c (it is MIT)
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  ...-and-so-on-for-libraries-by-default-.patch | 47 ++++++++-----------
+>  .../python-numpy/python-numpy.inc             |  8 ++--
+>  ...umpy_1.16.3.bb => python3-numpy_1.17.0.bb} |  0
+>  3 files changed, 24 insertions(+), 31 deletions(-)
+>  rename meta/recipes-devtools/python-numpy/{python3-numpy_1.16.3.bb => python3-numpy_1.17.0.bb} (100%)
+>
+> diff --git a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+> index 8fe0d1a27ee..98a97058312 100644
+> --- a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+> +++ b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+> @@ -1,4 +1,4 @@
+> -From c14554c7e2fff8dd559dfb41e7dd11392c6f85e3 Mon Sep 17 00:00:00 2001
+> +From 672a75c8417ce08db9e31fc415ec445479231d5a Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Thu, 10 Dec 2015 13:20:30 +0200
+>  Subject: [PATCH] Don't search /usr and so on for libraries by default to
+> @@ -10,14 +10,14 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+>  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>
+>  ---
+> - numpy/distutils/system_info.py | 50 ++++------------------------------
+> - 1 file changed, 6 insertions(+), 44 deletions(-)
+> + numpy/distutils/system_info.py | 42 ++++------------------------------
+> + 1 file changed, 5 insertions(+), 37 deletions(-)
+>
+>  diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
+> -index 2424943..bf56a6d 100644
+> +index ba2b1f4..f94dce1 100644
+>  --- a/numpy/distutils/system_info.py
+>  +++ b/numpy/distutils/system_info.py
+> -@@ -274,51 +274,13 @@ if sys.platform == 'win32':
+> +@@ -278,45 +278,13 @@ if sys.platform == 'win32':
+>               add_system_root(os.path.join(conda_dir, 'Library'))
+>
+>   else:
+> @@ -45,31 +45,24 @@ index 2424943..bf56a6d 100644
+>  -            default_x11_include_dirs.extend(['/usr/lib/X11/include',
+>  -                                             '/usr/include/X11'])
+>  -
+> --    import subprocess as sp
+> --    tmp = None
+> --    try:
+> --        # Explicitly open/close file to avoid ResourceWarning when
+> --        # tests are run in debug mode Python 3.
+> --        tmp = open(os.devnull, 'w')
+> --        p = sp.Popen(["gcc", "-print-multiarch"], stdout=sp.PIPE,
+> --                     stderr=tmp)
+> --    except (OSError, DistutilsError):
+> --        # OSError if gcc is not installed, or SandboxViolation (DistutilsError
+> --        # subclass) if an old setuptools bug is triggered (see gh-3160).
+> --        pass
+> --    else:
+> --        triplet = str(p.communicate()[0].decode().strip())
+> --        if p.returncode == 0:
+> --            # gcc supports the "-print-multiarch" option
+> --            default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
+> --            default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
+> --    finally:
+> --        if tmp is not None:
+> --            tmp.close()
+> +-    with open(os.devnull, 'w') as tmp:
+> +-        try:
+> +-            p = subprocess.Popen(["gcc", "-print-multiarch"], stdout=subprocess.PIPE,
+> +-                         stderr=tmp)
+> +-        except (OSError, DistutilsError):
+> +-            # OSError if gcc is not installed, or SandboxViolation (DistutilsError
+> +-            # subclass) if an old setuptools bug is triggered (see gh-3160).
+> +-            pass
+> +-        else:
+> +-            triplet = str(p.communicate()[0].decode().strip())
+> +-            if p.returncode == 0:
+> +-                # gcc supports the "-print-multiarch" option
+> +-                default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
+> +-                default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
+>  +    default_lib_dirs = libpaths(['/deadir/lib'], platform_bits)
+>  +    default_include_dirs = ['/deaddir/include']
+>  +    default_src_dirs = ['.', '/deaddir/src']
+> -+
+> +
+>  +    default_x11_lib_dirs = libpaths(['/deaddir/lib'], platform_bits)
+>  +    default_x11_include_dirs = ['/deaddir/include']
+>
+> diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
+> index 43c3053cd88..c5d2a15ff21 100644
+> --- a/meta/recipes-devtools/python-numpy/python-numpy.inc
+> +++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "A sophisticated Numeric Processing Package for Python"
+>  SECTION = "devel/python"
+> -LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD"
+> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=d26bde5432613cce2334b93985576231"
+> +LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD & MIT"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1a32aba007a415aa8a1c708a0e2b86a1"
+>
+>  SRCNAME = "numpy"
+>
+> @@ -10,8 +10,8 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
+>             file://0001-npy_cpu-Add-riscv-support.patch \
+>             ${CONFIGFILESURI} \
+>             "
+> -SRC_URI[md5sum] = "0886e5b5017f08f2b7a624c0b5931e61"
+> -SRC_URI[sha256sum] = "adf063a3f87ab89393f5eea0eb903293b112fa0a308e8c594a75ffa585d81d4f"
+> +SRC_URI[md5sum] = "c48b2ad785f82cdfe28c907ce35e2a71"
+> +SRC_URI[sha256sum] = "47b7b6145e7ba5918ce26be25999b6d4b35cf9fbfdf46b7da50090ffdb020445"
+>
+>  UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+>  UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+> diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.16.3.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.17.0.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/python-numpy/python3-numpy_1.16.3.bb
+> rename to meta/recipes-devtools/python-numpy/python3-numpy_1.17.0.bb
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-We should certainly at least fix the meta-oe issues, if you can produce a
-list of affected recipes I would  appreciate :)
-(don't really want to start a build of entire meta-oe set here)
-
-Alex
-
---0000000000008b6d83058fb1c6fa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 9 Aug 2019 at 17:19, Khem Raj &lt=
-;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br=
-></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">a running musl world build did not show this issue but that was<=
-br>
-rebased tree without this fix. I will have to do a new build for glibc<br>
-and see if it was my build system injected behavior. For this patch, I<br>
-would suggest it&#39;s tested across multiple layers before it&#39;s instal=
-led<br>
-to oe-core.<br>
-</blockquote><div><br></div><div>We should certainly at least fix the meta-=
-oe issues, if you can produce a list of affected recipes I would=C2=A0 appr=
-eciate :)</div><div>(don&#39;t really want to start a build of entire meta-=
-oe set here)</div><div><br></div><div>Alex<br></div></div></div>
-
---0000000000008b6d83058fb1c6fa--
