@@ -1,49 +1,36 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 212567E553
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id AED0E7C5FC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2019 11:15:27 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id s19so6578996lfb.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Aug 2019 04:15:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=bZGD8uhAVOoM+ur6uABzwcAAiWhPzHqGEzom28TnJa0=;
-	b=GwEOWOCzwh38ESpY8vfrZE0QPNr6DLe3i5f+5gcA+uPoISTibDs/y4Ane9L/1N85CR
-	pGL0nEiLkn3oZ09YpJk/QeAC66qU6hKRYGXSwM/TZO2ordkerB04dkEqx/M4DRi2Scha
-	JAzJQMWhDFqEjAY91JiKdk3z+VXZ1caY95YU2iWSTaq5iex0gMj5yxISKN1NBslQP5xC
-	KZx7+hGde6RM1JcVmWKpHhpJWAIqJs0vV6eniIhhcd39HR5L805ktNZgDZ1pc2bAjpOq
-	5fNljoWdBZEW6ZTk39K5MBC/k2kFkJF0CBbcyqjs0J+jGFDEXUcuTKWBdFzEl3AoUNuR
-	APQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=bZGD8uhAVOoM+ur6uABzwcAAiWhPzHqGEzom28TnJa0=;
-	b=YNR9H7fE1czlx4XWwaRtPrJI9mJIRe0mMOh2U6VGD/StQmanL2oGDsVnXrI4ZtMdC1
-	oCbOjuG6qhIlB/Bjq9Ld/VRsnk+qY3Zb+Ipdlcr/dB7GeDbo3sB1z9/V5uyJWGX55lL9
-	3hsDOjhK90giYtuohPUT5abyWHMkIpLLpJujmBqMBHBYNmHol3CViOYqSe4hGVsATqrK
-	Wyf0JaX99HJntlYUkvpcH0jzPHhURh3qJ7qvCdWESVgJgJ+7PV3avtroTZFzo4cJcYii
-	hj9TeV1jb7SI6uRB/SXVq8AkqnyNBobch9XOAHKCMlJNK08+ljt6TymSDS1qGMsNMqfo
-	6kjQ==
-X-Gm-Message-State: APjAAAVU+cFcKXgMcJzCkIFT9JOHl1k5uJXKYuBhLgbAwCQkmLbDhCE6
-	WQqqAKpcCjNrdtxVO4sgQEtEmU02B+enfA==
-X-Google-Smtp-Source: APXvYqxsbsPz/2lU/+6loL/UWgOr+TKhqOyQcq3yjFN1jpWe93y0VtzqI+HFVycfyR2d8298LXnVIg==
-X-Received: by 2002:ac2:46f8:: with SMTP id q24mr12542122lfo.89.1565349327566; 
-	Fri, 09 Aug 2019 04:15:27 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id y5sm19265313ljj.5.2019.08.09.04.15.26
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 09 Aug 2019 04:15:27 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Aug 2019 13:15:19 +0200
-Message-Id: <20190809111519.54789-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190809111519.54789-1-alex.kanavin@gmail.com>
+	Fri,  9 Aug 2019 11:36:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 464jqw4kztz5p;
+	Fri,  9 Aug 2019 13:36:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1565350588;
+	bh=mEwPOkRTjjbj3XreTmzQ5m8e1PfOQ1WN/J2+sQCtdQM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UZU9igb3Tri4jEjEi+JUFblA6O+i2iataF4iMt+89S6H8rDOb1T7f/f+3Y3gAcfOq
+	BV0f0A9YKi7vZ/sx2IfTVmkV7VByoX0EUYaIybQD8jqK81aRdc3ORK7RUi+D2G5P6O
+	FVyCzAcprKK7cO8SmnmceMHK/2d0WMv1UUo0qWGnXGC2ruaL5G+K80h2t6vMLLCKVi
+	E4JwVAnvt49Q5Bmn4aalrSF8oc9jzeK7/V/062yGFjhwjwALUc+cqkJRbqbm5L+HVR
+	3HdmDoYvJsTvG2RoNLjdSrMJiPqtWz0mOHoPtnX8bH9bAzMYQRngs0fjpuHUEOMo77
+	z/GNRGohQiQr6u9M5AyFLoaz6ReBQRQC1Pr85tyNSsRmYkNNA4DCoCkjhlTcvS43bP
+	xaJ9M67RVGfsRvy+pCealsqKVxwNHChr+xh7RemU0UBw0Z2HrTML6C+QQjWn1hrwhR
+	sB3EjqG3pqlD/AB5fWxU4sUHEpP0zzCT5fcwlQFeBWCndiDXbN6NGRPIXtghqHaAfJ
+	AKh11cuioaVIwJKnScg0/ZEkYvMkbYndLK3NaqnQ1+Hf4ZouoIBmCILXnUd0vttr5W
+	CDyLzPXUrh1UfAdpScFkJ2AbeH5z87MC7vjSvidDTHkifQP9W+0gJSBoEFcwp205qY
+	8Lx+Djc4CAtYatnIJwG5T/ak=
+Date: Fri, 9 Aug 2019 14:36:22 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20190809113622.GA13062@localhost>
 References: <20190809111519.54789-1-alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
+MIME-Version: 1.0
+In-Reply-To: <20190809111519.54789-1-alex.kanavin@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] gcc-cross-canadian: add missing runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2019 11:15:27 -0000
+X-List-Received-Date: Fri, 09 Aug 2019 11:36:28 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Recursive RDEPENDS resolution requires that all of the dependent
-recipes' packaging has completed. There is no mechanism to ensure that
-and therefore races were observed.
+On Fri, Aug 09, 2019 at 01:15:18PM +0200, Alexander Kanavin wrote:
+> The recipe is special in that it does not auto-detect them
+> at packaging step (via EXCLUDE_FROM_SHLIBS). With the recursive
+> RDEPENDS qa check gone they need to be listed explicitly.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> index 807e47e0ee2..0e626172b5f 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> @@ -152,7 +152,8 @@ do_install () {
+>  
+>  ELFUTILS = "nativesdk-elfutils"
+>  DEPENDS += "nativesdk-gmp nativesdk-mpfr nativesdk-libmpc ${ELFUTILS} nativesdk-zlib"
+> -RDEPENDS_${PN} += "nativesdk-mpfr nativesdk-libmpc ${ELFUTILS}"
+> +RDEPENDS_${PN} += "nativesdk-mpfr nativesdk-libmpc ${ELFUTILS} nativesdk-glibc nativesdk-libgcc nativesdk-libstdc++ nativesdk-zlib nativesdk-gmp"
+> +RDEPENDS_${PN}_remove_sdkmingw32 = "nativesdk-glibc"
+>...
 
-This change effectively requires recipes to list their runtime file
-dependencies explicitly rather than have them pulled indirectly.
-This may require a bit of fixing in layers, but should result
-in a better definition of runtime file dependencies.
+These nativesdk-glibc dependencies look wrong for musl builds.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/classes/insane.bbclass | 18 ------------------
- 1 file changed, 18 deletions(-)
+cu
+Adrian
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 35c4fdb4913..9b886d13805 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -722,25 +722,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                             filerdepends[subkey] = key[13:]
- 
-             if filerdepends:
--                next = rdepends
-                 done = rdepends[:]
--                # Find all the rdepends on the dependency chain
--                while next:
--                    new = []
--                    for rdep in next:
--                        rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
--                        sub_rdeps = rdep_data.get("RDEPENDS_" + rdep)
--                        if not sub_rdeps:
--                            continue
--                        for sub_rdep in bb.utils.explode_deps(sub_rdeps):
--                            if sub_rdep in done:
--                                continue
--                            if oe.packagedata.has_subpkgdata(sub_rdep, d):
--                                # It's a new rdep
--                                done.append(sub_rdep)
--                                new.append(sub_rdep)
--                    next = new
--
-                 # Add the rprovides of itself
-                 if pkg not in done:
-                     done.insert(0, pkg)
 -- 
-2.17.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
