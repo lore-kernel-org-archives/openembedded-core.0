@@ -1,34 +1,47 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D242D7ED64
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D1A87E553
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2019 10:07:51 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Aug 2019 03:07:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; d="scan'208";a="350453950"
-Received: from wloh3-mobl.gar.corp.intel.com (HELO localhost.localdomain)
-	([10.249.72.39])
-	by orsmga005.jf.intel.com with ESMTP; 09 Aug 2019 03:07:48 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>,
-	Chandana Kalluri <ckalluri@xilinx.com>
-Date: Fri, 09 Aug 2019 22:06:52 +1200
-Message-ID: <3036117.bn4x3nByaj@localhost.localdomain>
-Organization: Intel Corporation
-In-Reply-To: <CANNYZj9BTxaV4_2Tojp16ac5d+suXmaLXWEuCeAGzfFNMe0S2w@mail.gmail.com>
-References: <1549591052-12688-1-git-send-email-chandana.kalluri@xilinx.com>
-	<BYAPR02MB6005A1297BC34875CB9623C0B9D70@BYAPR02MB6005.namprd02.prod.outlook.com>
-	<CANNYZj9BTxaV4_2Tojp16ac5d+suXmaLXWEuCeAGzfFNMe0S2w@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Bruce Ashfield <brucea@xilinx.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH] standard.py: Provide an additional option for devtool reset
+	Fri,  9 Aug 2019 11:15:26 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id t28so91736915lje.9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Aug 2019 04:15:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=7ab2KbnVsZUsm+qN8p08eu7JdQQImS2cb62e+UyXhyo=;
+	b=FVWFchQ80GD0Tmi/fphYA8t893sZMHLmAteiNbWA5E1J9WI/RjnUr51KnvgZ7egZK3
+	QLQ5eFXD6mG6s2kXcIXY81H0pXguE1goZ/b56aMXWdxIbbZcSdm56xdRaaFWVCysdlwH
+	vGNVBQMVOmxg68FnPINTauRfBA4W8zlYxXtuD/uRmtBoQ/xiikvpUahUuUf1ZaVH1m4d
+	Zv6BtNk5XBo1AJoavmEk5sxbRO+weKObH8HS7sYftd/NqQ6+ad8JrD/6p6naHbYAb7Xz
+	VV5AAoTCtEqYYFO4ipq0CnABB8BXqLF2LErBC5zrLQzo8cNvgHU+PijuLYGWCnzYbt/Z
+	dQxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7ab2KbnVsZUsm+qN8p08eu7JdQQImS2cb62e+UyXhyo=;
+	b=hoqDhmMvyJ1R9u+SEG/6k5xBcWITUfIdogwqKtWj1BGABGGDYDDZH+qIbAD6NqLXdU
+	91Vy8ZzUHRXyClL0lVqKQL2edOtYDU6DWThO0z8GFmjMsIEkRvwKnDfvRB5LsQhMm9AG
+	JRFuSV2IwenuePQdlUHYGDfrkR43ypxQLwA0wVCc/dLq1+oLFz7tVzUyzetxmI/iBW4l
+	3zyZrwG1IoPVbVHAtqYhysHKZ0EJeI+OHycGQcn5dGi97CRC5Anl/FegTmbUT/EOWkLx
+	PiPLKbkDixkKmdnqMfflUQ84e1abAfD2muPXYt6JZUEde3ffAT9rZC7Ak06Zv9RnRYNe
+	JJEA==
+X-Gm-Message-State: APjAAAUahJk8RwR2HY05wg6Ap3rp+opDQgsJ0YimZ6xVgMWtmxZBKdZt
+	E258XhZsh/4x/QimdilHp2SyUnoXc0Z+AA==
+X-Google-Smtp-Source: APXvYqzlswkinanIG/WIAvqlJmdYvKvYT6CLxl+jWgzBKmf+x7UjBsLgTd7+SPFsHTV5D1t7DS/wYw==
+X-Received: by 2002:a05:651c:c6:: with SMTP id
+	6mr11252268ljr.127.1565349326507; 
+	Fri, 09 Aug 2019 04:15:26 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id y5sm19265313ljj.5.2019.08.09.04.15.25
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 09 Aug 2019 04:15:25 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Aug 2019 13:15:18 +0200
+Message-Id: <20190809111519.54789-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] gcc-cross-canadian: add missing runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,41 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2019 10:07:52 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 09 Aug 2019 11:15:26 -0000
 
-On Friday, 9 August 2019 8:27:24 AM NZST Alexander Kanavin wrote:
-> On Thu, 8 Aug 2019 at 22:17, Manjukumar Harthikote Matha <
-> MANJUKUM@xilinx.com> wrote:
-> > Any update on this?  Is there a reason not to merge this feature?
->
-> For what it's worth I am firmly in the camp that finds the non-deletion of
-> sources annoying. When I run 'devtool reset', there is never any unsaved
-> work left in there, but I am in too much of a hurry to do the extra 'rm' on
-> those sources, and so much later (sometimes months later) it has to be done
-> just prior to starting work on something else entirely (but with the same
-> upstream component).
+The recipe is special in that it does not auto-detect them
+at packaging step (via EXCLUDE_FROM_SHLIBS). With the recursive
+RDEPENDS qa check gone they need to be listed explicitly.
 
-My apologies for not acting upon this earlier - I'm coming around to the realisation that most people want this feature and won't blame the tool if they invoke it when they didn't mean to ;)
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Chandana / Manju, overall the patch is good, but could you please make the following revisions:
-
-1) Also add the exact same option to devtool finish (since it's the other path for recipes leaving the workspace)
-
-2) Add some testing in oe-selftest that verifies that:
-(a) it devtool does not delete the source by default (this could be tacked onto an existing test) and 
-(b) that it does delete it with the option specified (could also be tacked onto another existing test if it doesn't adversely affect it).
-
-3) The prefix to the shortlog should be "devtool:" not "standard.py:" - this is a more useful functional area description to help identify what's being changed.
-
-Thanks
-Paul
-
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+index 807e47e0ee2..0e626172b5f 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+@@ -152,7 +152,8 @@ do_install () {
+ 
+ ELFUTILS = "nativesdk-elfutils"
+ DEPENDS += "nativesdk-gmp nativesdk-mpfr nativesdk-libmpc ${ELFUTILS} nativesdk-zlib"
+-RDEPENDS_${PN} += "nativesdk-mpfr nativesdk-libmpc ${ELFUTILS}"
++RDEPENDS_${PN} += "nativesdk-mpfr nativesdk-libmpc ${ELFUTILS} nativesdk-glibc nativesdk-libgcc nativesdk-libstdc++ nativesdk-zlib nativesdk-gmp"
++RDEPENDS_${PN}_remove_sdkmingw32 = "nativesdk-glibc"
+ 
+ SYSTEMHEADERS = "${target_includedir}/"
+ SYSTEMLIBS = "${target_base_libdir}/"
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+2.17.1
 
 
