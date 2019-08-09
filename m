@@ -1,36 +1,49 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 0183C7F2A2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+	[209.85.160.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A3CF77F396
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2019 23:37:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Aug 2019 16:37:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,363,1559545200"; d="scan'208";a="182747668"
-Received: from kmsmsx155.gar.corp.intel.com ([172.21.73.106])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Aug 2019 16:37:01 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.22]) by
-	KMSMSX155.gar.corp.intel.com ([169.254.15.65]) with mapi id
-	14.03.0439.000; Fri, 9 Aug 2019 07:37:01 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"open.source@oleksandr-kravchuk.com" <open.source@oleksandr-kravchuk.com>
-Thread-Topic: [OE-core] [PATCH v2] aspell: update to 0.60.7
-Thread-Index: AQHVTfsoLa4PcWGOjkedkf4QcTWbM6bxYkWA
-Date: Thu, 8 Aug 2019 23:37:00 +0000
-Message-ID: <e9ddc1b3a08e6c6adc17b8b3364b39d364061c4c.camel@intel.com>
-References: <20190808150747.25694-1-oleksandr.kravchuk@pelagicore.com>
-In-Reply-To: <20190808150747.25694-1-oleksandr.kravchuk@pelagicore.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.199.133]
+	Fri,  9 Aug 2019 01:34:48 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id a15so94271635qtn.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Aug 2019 18:34:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=mCH1eBgKpZ81eFLjjmD3VWpnsul10EITnU23iUNtyJ4=;
+	b=YpE4I5T8R14MgIpe56vKcVk6aeGUmuRfRn4QfYfCcEA8P3vBqL6M82kWk0HAJOgWIM
+	EarD/xMECXwQzqeBVt6Fj035XlL0pnKm1Ab21HvLcEe8ic2R0EKb4+FU6GhRNSXr6Gvt
+	QKCFNKu2c1vMztnMTmxaxYo6CA27Rrm3YIMUK+cVcMs1V2uomvMx5ALExZe8snvV9reU
+	eyyvNvDrtttuIfIg/eoudWony8Mr9XivMAAj7UiHQdslIDIsa2HMzaRsV7v1s5HPZzeC
+	hgZQ67NlMLNGjn+LMIe2kRCZy7kolmELez1+SRh2hZU0FRPJbZnlVIBF+0bB8tHWrsr4
+	LMJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=mCH1eBgKpZ81eFLjjmD3VWpnsul10EITnU23iUNtyJ4=;
+	b=knWNTA7NtKCSfJUrRQTNiv0XteslG7VJP7EuqHvUscpjV+wzhM8pUY2syZQAC+zrZk
+	wzWSuT0oiVIVrXMCKLVSqN5WdBG/gOW6YMzUSRbjHroZDJRTB1+gEC8F8YIiIH/at4G0
+	T5mI6ErSfq20cASn6Oe/s5gX4MP5pIossaiaSCp9GZgT5K3Tpt+h2uDfJAHjOhSAI53E
+	ANpMRaiSYpYq8GTCttj9YFysLn2nr7zJsEzxAttUlcVBpmzP9w4raS7wdr15ZSRruJJ7
+	G0tFS3ZFbnZx0lhVowcs0nU9djG7WmMiOGv1IPdet/10rTwoWV/H2/kBeWWVDg1uDP0u
+	5d6g==
+X-Gm-Message-State: APjAAAVPgslgluw6yl9Uo77THstdOMXtOB3wJytHejbgWqice83LV0oi
+	KYqncocGX/7MBxRg9uFMCBCB7OImXzKSxjWXnKo=
+X-Google-Smtp-Source: APXvYqzIENbnj3/M1ApP5GVhzNHd8NuiktiUYyrgH0YFhPlnUv6QcUE+uIb4h1nTo5W87Xmtu76/fvExBYpZV5m7RxU=
+X-Received: by 2002:ad4:4112:: with SMTP id i18mr15914391qvp.175.1565314489273;
+	Thu, 08 Aug 2019 18:34:49 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] aspell: update to 0.60.7
+References: <20190807102939.12760-1-alex.kanavin@gmail.com>
+	<94b692a828bbf5230f56afbc401bf9d66660283b.camel@linuxfoundation.org>
+	<CANNYZj-t2TSN4dMpfEgU_k_dDqHRLeqNSYWi-=uUK2BH09-tMA@mail.gmail.com>
+	<CAMKF1squwmc8-sm+JMM6gU5oyHSKHv7ejRoOokTdb4Nd-SEk2A@mail.gmail.com>
+In-Reply-To: <CAMKF1squwmc8-sm+JMM6gU5oyHSKHv7ejRoOokTdb4Nd-SEk2A@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 8 Aug 2019 18:34:23 -0700
+Message-ID: <CAMKF1soSXrDEHu+0v7v052EpCfXwu=+_ysWiwDcd=HY7oaBU8Q@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,19 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2019 23:37:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8B8ACBAB1F26B3419D15D8C6E4181F58@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 09 Aug 2019 01:34:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-T24gVGh1LCAyMDE5LTA4LTA4IGF0IDE3OjA3ICswMjAwLCBPbGVrc2FuZHIgS3JhdmNodWsgd3Jv
-dGU6DQo+IC0tLSBhL21ldGEtc2VsZnRlc3QvcmVjaXBlcy10ZXN0L2FzcGVsbC9hc3BlbGxfMC4w
-LjAuMS5iYg0KPiArKysgYi9tZXRhLXNlbGZ0ZXN0L3JlY2lwZXMtdGVzdC9hc3BlbGwvYXNwZWxs
-XzAuMC4wLjEuYmINCj4gQEAgLTgsOCArOCw2IEBAIFNFQ1RJT04gPSAiY29uc29sZS91dGlscyIN
-Cj4gIExJQ0VOU0UgPSAiTEdQTHYyIHwgTEdQTHYyLjEiDQo+ICBMSUNfRklMRVNfQ0hLU1VNID0N
-Cj4gImZpbGU6Ly9DT1BZSU5HO21kNT03ZmJjMzM4MzA5YWMzOGZlZmNkNjRiMDRiYjkwM2UzNCIN
-Cj4gIA0KPiAtUFIgPSAicjEiDQo+IC0NCg0KRGlkIHlvdSBtZWFuIHRvIGRlbGV0ZSB0aGlzIGZy
-b20gYXNwZWxsXzAuNjAuNy5iYiB3aGljaCBoYXMgYmVlbg0KdXBncmFkZWQgZnJvbSAwLjYwLjYu
-MSBhbmQgbm90IGZyb20gaGVyZT8NCg0KVGhhbmtzLA0KQW51ag0K
+On Thu, Aug 8, 2019 at 12:29 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+>
+>
+> On Thu, Aug 8, 2019 at 8:44 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>>
+>> On Thu, 8 Aug 2019 at 00:08, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+>>>
+>>> You might want to have a look at
+>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/621
+>>> and maybe other pieces of that build yet to finish, not sure...
+>>
+>>
+>> I ran bitbake world to check for newly exposed missing dependencies, but gcc-cross-canadian wasn't included in that. Will fix that too now.
+>
+>
+> There are several packages in meta-openembedded which are showing these errors one that I see is net kit-rusers seems to be failing for wrong reason
+>
+> I will send full list once I am close to computer
+
+here is full list
+
+https://errors.yoctoproject.org/Errors/Build/86513/
+all do_package_qa are due to this change.
+
+
+
+
+>>
+>> Alex
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
