@@ -1,57 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FAEC6C1D5
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B79847ECB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2019 14:42:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x79EgsE3024123
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 9 Aug 2019 07:42:54 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 9 Aug 2019 07:42:53 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <1549591052-12688-1-git-send-email-chandana.kalluri@xilinx.com>
-	<3413405.x9v3DxCAyA@localhost.localdomain>
-	<BYAPR02MB6005C04842C60A8C3A4DDF26B9710@BYAPR02MB6005.namprd02.prod.outlook.com>
-	<BYAPR02MB6005A1297BC34875CB9623C0B9D70@BYAPR02MB6005.namprd02.prod.outlook.com>
-	<CANNYZj9BTxaV4_2Tojp16ac5d+suXmaLXWEuCeAGzfFNMe0S2w@mail.gmail.com>
-	<da705f5b-0584-f75f-2284-789027dda921@windriver.com>
-	<CANNYZj-au_ktbod45UzCuXCg1zXHPx5pmd+82racnFL9yyDgYw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <836894da-f856-3538-0e8e-044a91fd2887@windriver.com>
-Date: Fri, 9 Aug 2019 09:42:52 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj-au_ktbod45UzCuXCg1zXHPx5pmd+82racnFL9yyDgYw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH] standard.py: Provide an additional option for devtool reset
+	Fri,  9 Aug 2019 14:59:19 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id n9so98645621wru.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Aug 2019 07:59:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=wsY9UugqO+X5kS3st/zxd/FbFzG0Hw3tOQVYK8BFoo8=;
+	b=s4L/0HZnI8QC4SdC29UFp1v0vQA+wPvs2+USVU6vJqZPO/QDPvTe9OO6hr31szcpZV
+	uT4DCeUwCrFAPClJG1M3XRqh5Map1ZL7So5ahyc2OYhZTfWzjDYIiPzuZtgy4yXYMe/Z
+	mLMIbOMa8f7gqNVrTFHngn5b1rGWfLCgVEPFCjrIfIWQ0ucPmJAAcZUQsD0D5w7w3Bq4
+	RfIwYY4K+iC5wTWDJvI8MhzcNjnPdYsmxUlZQbX4YlPpNism/sVse+q9U7eNDhUIYFqe
+	LBgkvHfZ0dxjpcx6naCjhG9GIjMDh6lIUiA6zaMzOeWAqREKRMwLPU7Yt9WB5pJGmN7K
+	by/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wsY9UugqO+X5kS3st/zxd/FbFzG0Hw3tOQVYK8BFoo8=;
+	b=KsA9oHLY0QykRDDAWafb/SzQauTAszHOLztnnj776bE7lJIm7sX5dT4ItNRt8qZ+3C
+	qCYRGPOtZxawmvL+46eKXfIPWnawtpjM4Zp45ZNwfVPCQ+Xc55lS4B89I2I32q91hdOx
+	mzZLAZdnzi41tBiKZKZBjpSl8vEwtTBp8c0Wt5leFrXPon49dNFTMAduoZEUnaIignXU
+	tN6El7g/5zUIIlkwXqnbcbZzV8dpW4zEc4pkvntb3ARf8bDklmtiC/PD+A+lC52aHgNI
+	gZ2FIDw1AEfrR+BS41UWPgNSK1mMaGKoOulxy5rK6QmCoTULe/IdJOPBdG6i2pWCpBPg
+	L08A==
+X-Gm-Message-State: APjAAAWyNZkCPwBq/0VCGUl+ZMs4BWCb+/cHOEQTYNnje/j+T+bUmMH8
+	eUlf9/b6p4sRFv0rDV6NRxpemU8IlXEOxA==
+X-Google-Smtp-Source: APXvYqwAjfFdEZufGbemuBl97c++yCIyeG4ihQ7aDgx1zLLtwQEWNQQRH7GZ47d8QQmouCFY2IxLAA==
+X-Received: by 2002:adf:de10:: with SMTP id b16mr23657413wrm.296.1565362760233;
+	Fri, 09 Aug 2019 07:59:20 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id a2sm5159160wmj.9.2019.08.09.07.59.19
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 09 Aug 2019 07:59:19 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Aug 2019 16:59:12 +0200
+Message-Id: <20190809145913.114922-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] lib/oeqa/utils/qemurunner.py: add runqemuparams after kvm/nographic/snapshot/slirp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,45 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2019 14:42:53 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 09 Aug 2019 14:59:20 -0000
 
-On 8/9/19 3:27 AM, Alexander Kanavin wrote:
-> On Fri, 9 Aug 2019 at 00:00, Mark Hatle <mark.hatle@windriver.com
-> <mailto:mark.hatle@windriver.com>> wrote:
-> 
->     May make sense to follow git as an example..
-> 
->     devtool reset does what it already does..
-> 
->     devtool reset --hard  also does the removal of the existing source.
-> 
->     But I've seen too many people blow away in progress source code without meaning
->     to.  Adding something like the --hard option would make it clear it's going to
->     all go away.
-> 
-> 
-> It might not be a coincidence, but in many years of using git, I do not remember
-> finding 'git reset' useful even once, and I am still not sure what it does
-> exactly. But 'git reset --hard' I use all the time.
+Previously, 'nographic' was set first, and was overriding anything set via runqemuparams.
 
-I use them both myself.  'git reset' puts me back to a specific commit without
-damaging any changes I've made in my source.. then I can re-evaluate and/or
-manipulate them "again".
+Particularly, egl-headless from the virgl headless selftest was overriden,
+which broke the test in non-X environments.
 
-I would expect other development tools to work in a similar way.  Reset me back
-to where I was but don't break things I may have changed.. vs just reset it all
-and lose my local changes.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Since devtool doesn't know if you have any local changes it should default to
-not erasing anything.
-
-My opinion at least
-
---Mark
-
-> Alex
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index b1999fde853..fe8b77d97a6 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -126,7 +126,7 @@ class QemuRunner:
+             env["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
+ 
+         if not launch_cmd:
+-            launch_cmd = 'runqemu %s %s ' % ('snapshot' if discard_writes else '', runqemuparams)
++            launch_cmd = 'runqemu %s' % ('snapshot' if discard_writes else '')
+             if self.use_kvm:
+                 self.logger.debug('Using kvm for runqemu')
+                 launch_cmd += ' kvm'
+@@ -136,7 +136,7 @@ class QemuRunner:
+                 launch_cmd += ' nographic'
+             if self.use_slirp:
+                 launch_cmd += ' slirp'
+-            launch_cmd += ' %s %s' % (self.machine, self.rootfs)
++            launch_cmd += ' %s %s %s' % (runqemuparams, self.machine, self.rootfs)
+ 
+         return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, env=env)
+ 
+-- 
+2.17.1
 
 
