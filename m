@@ -1,48 +1,101 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 0156C7C85D
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2298A6B5C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2019 18:11:53 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id g17so1670245qkk.8
+	Sat, 10 Aug 2019 14:06:00 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id t132so47240935pgb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Aug 2019 11:11:55 -0700 (PDT)
+	Sat, 10 Aug 2019 07:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=jdlV8+Dg8irwvV36uVdcWsERL4iJzgcZwJ5H4lW46A8=;
-	b=dR6tGzd7OX9wMPqjbg4xZHB799y2l0Ekue4PoViVp8XOhyIm1gy6DDgjDz+XeiMtzg
-	RF70KeGIbA13NbIcNDlGPLzrn9GxCzbEG1gNAXtGI6v7tycjQzQKgGq7iMPDOuvcMdQG
-	z9t9a8sjJs4M/LNEie1fEdSEF0oC26bAT/CvbwdL4SFAvZXryzldDYFTqeyqib6Snon8
-	VeAxwkBor4tYRXHB3zZlZhXzmoiRekTXEKARGOJpHb8xtCnuPeoxpDiBPyQJl14DPNxp
-	JB0rFsZiWNR76SKzuzifscsyccRs1kELo8ZT2NHNlMG3At9+fbmjfHDF3SM/xt8V03+y
-	klLg==
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=fKXURtePO5nSjfzQeKlkaZ3h4jZALTPq1DXdrcPPz/8=;
+	b=dOdx1A64ta9GNYHxlj11amNmwSrXdS/dA+RyZtbhEEk1q2oXKmy2F+cLWM7uv5sTnq
+	tN/h3M0mQ/7F59ZtlmfW09FHqF0OrQxOJoNe4uw8+Yt0uz9zumUoGg5p6XonzMDNYVZt
+	zM33HbGK/hVw1UM7+d21JkGVrV6o5aHKs2wMCmcBf4zt9IN5TkE/bQQ9SbhwPWyYCocx
+	tES675gRhg9D3BGRvz2qZhrL2lVBzq18q44duaQaqSc5WNAfGSAJ+LWfzR/1aJpnuG/B
+	UjD+/u7QEYc9inwR/72KgeJr9XVtgLZj5qqiyXJ5SvLPb0j7GMtIfg2T4BpCCz7tST+X
+	w18g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=jdlV8+Dg8irwvV36uVdcWsERL4iJzgcZwJ5H4lW46A8=;
-	b=mq5VKn3Ed5LvC/NFeECE5aVIbVTdiByJ4YlK2Let5aPlbmHXab29IAy/GYXUBHRZMe
-	eN3aoSQ4MycWVtOTe7OnUWfgs3noM3y4ock9Jf18j4ryatsFrltfH2PdoHTXxkcX65T+
-	tJxLx047qUzvjENn/x5HVC48I1E1T5D6krfxOiynTnR1gHqVLZrqHSt+SWlMsy8unvKx
-	0EGUyJLvwBG+D0RpAgSejtoQLIT1wJ3cJN7t8Jg8c5pYHsi+eCLsSu+KmiulxLXtfBQH
-	rHjvKWqg4jv6CXFBkCMLjnLe5IocpBpAq9Ftg9I0/1iQQfzo9Fi4toGXGcXfqO2XGCNZ
-	kLFQ==
-X-Gm-Message-State: APjAAAVEj+ZDCfRGYu6QwVU7R821vx5otLcwOHuwqyggggbRwe8CBS42
-	taoYuCqCgKAF5Pc9aTLwXbzlRLIndKBss3Y3QEU=
-X-Google-Smtp-Source: APXvYqxDAwPresHqWYv6si1ublJ2MCzA7vqtIFbNcep+VJ16ysOGtSra4oB4UvacBCssMLyTjhntpL3eAKdK0+aA7Uw=
-X-Received: by 2002:a37:a20f:: with SMTP id l15mr19770451qke.212.1565374314381;
-	Fri, 09 Aug 2019 11:11:54 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=fKXURtePO5nSjfzQeKlkaZ3h4jZALTPq1DXdrcPPz/8=;
+	b=swd1aMp1Ql8SI/bAhPdF9sn6KZRsj+/3gHWSsxsJ7qPnGVunowc+r1B/3rydinKxLQ
+	xEjtTujCZVdKiBOnp2OlSs/p2yJymGIkEl3qkUKWIl8JBtWVjhD6Qk6YaiZ2/HZS5qsh
+	1XZeRRBTe+7UT5b605q6jMLE+zSS5R5UPLbxUZzmZhjzgeUUS9IzSvr9R+3FmFsSe3oL
+	fYc5ym/1r1CIouAsUB3pKKaEXJ3vV/5CE6IwXF8gg/JqKhfBVNB258eFunkWd60BAZoe
+	IERRubHcoO175BkNmT8OJLNICfz1Y9TkbxsB7WKMTVRGo89lFW1uaNMTsbmBos2+Dr3Q
+	xAeA==
+X-Gm-Message-State: APjAAAWw3VN3myJnO7OjPKnURShHykV+vI2j80MVUYethR8WfpffJjCm
+	8MgrJKHi5UysRqc1r7Ln1lYrpaN3
+X-Google-Smtp-Source: APXvYqz1WiIj2QIQr9fvqy1NPsNZXA8mUb1JGAHeXLT+/bE9Gh+nvYpICtPk9Mw4clbNlyxKOqHiJg==
+X-Received: by 2002:a62:1515:: with SMTP id 21mr10517216pfv.81.1565445960808; 
+	Sat, 10 Aug 2019 07:06:00 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:cd6e:8130:b233:452a?
+	([2601:202:4180:c33:cd6e:8130:b233:452a])
+	by smtp.gmail.com with ESMTPSA id
+	l31sm146035851pgm.63.2019.08.10.07.05.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 10 Aug 2019 07:05:59 -0700 (PDT)
+To: Naveen Saini <naveen.kumar.saini@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20190729074154.26755-1-naveen.kumar.saini@intel.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <310dd611-62f9-673b-bd1b-3aee8d5335ba@gmail.com>
+Date: Sat, 10 Aug 2019 07:05:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190808161150.44877-1-alex.kanavin@gmail.com>
-	<20190808161150.44877-5-alex.kanavin@gmail.com>
-In-Reply-To: <20190808161150.44877-5-alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 9 Aug 2019 11:11:28 -0700
-Message-ID: <CAMKF1sqbwJiBay7SaQroUspx3RgehPPvRpNdGP=6j5YPDdaBbg@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/7] python3-numpy: update to 1.17.0
+In-Reply-To: <20190729074154.26755-1-naveen.kumar.saini@intel.com>
+Subject: Re: [warrior][PATCH] qemu: fix CVE-2018-20815
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,135 +108,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2019 18:11:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 10 Aug 2019 14:06:00 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-https://errors.yoctoproject.org/Errors/Details/260208/
 
-On Thu, Aug 8, 2019 at 9:12 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> Rebase files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
->
-> License-Update: clarified license for numpy/core/src/multiarray/dragon4.c (it is MIT)
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+
+On 7/29/19 12:41 AM, Naveen Saini wrote:
+> Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
 > ---
->  ...-and-so-on-for-libraries-by-default-.patch | 47 ++++++++-----------
->  .../python-numpy/python-numpy.inc             |  8 ++--
->  ...umpy_1.16.3.bb => python3-numpy_1.17.0.bb} |  0
->  3 files changed, 24 insertions(+), 31 deletions(-)
->  rename meta/recipes-devtools/python-numpy/{python3-numpy_1.16.3.bb => python3-numpy_1.17.0.bb} (100%)
+>  meta/recipes-devtools/qemu/qemu.inc           |  1 +
+>  .../qemu/qemu/CVE-2018-20815.patch            | 39 +++++++++++++++++++
+>  2 files changed, 40 insertions(+)
+
+This is causing build failures, see
+https://errors.yoctoproject.org/Errors/Details/260333/
+
+on a multitude of targets: qemuarm64, beaglebone, musl-qemux86-64,
+qemumip64
+
+- armin
+
+
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-20815.patch
 >
-> diff --git a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-> index 8fe0d1a27ee..98a97058312 100644
-> --- a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-> +++ b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-> @@ -1,4 +1,4 @@
-> -From c14554c7e2fff8dd559dfb41e7dd11392c6f85e3 Mon Sep 17 00:00:00 2001
-> +From 672a75c8417ce08db9e31fc415ec445479231d5a Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Thu, 10 Dec 2015 13:20:30 +0200
->  Subject: [PATCH] Don't search /usr and so on for libraries by default to
-> @@ -10,14 +10,14 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
->  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->
->  ---
-> - numpy/distutils/system_info.py | 50 ++++------------------------------
-> - 1 file changed, 6 insertions(+), 44 deletions(-)
-> + numpy/distutils/system_info.py | 42 ++++------------------------------
-> + 1 file changed, 5 insertions(+), 37 deletions(-)
->
->  diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
-> -index 2424943..bf56a6d 100644
-> +index ba2b1f4..f94dce1 100644
->  --- a/numpy/distutils/system_info.py
->  +++ b/numpy/distutils/system_info.py
-> -@@ -274,51 +274,13 @@ if sys.platform == 'win32':
-> +@@ -278,45 +278,13 @@ if sys.platform == 'win32':
->               add_system_root(os.path.join(conda_dir, 'Library'))
->
->   else:
-> @@ -45,31 +45,24 @@ index 2424943..bf56a6d 100644
->  -            default_x11_include_dirs.extend(['/usr/lib/X11/include',
->  -                                             '/usr/include/X11'])
->  -
-> --    import subprocess as sp
-> --    tmp = None
-> --    try:
-> --        # Explicitly open/close file to avoid ResourceWarning when
-> --        # tests are run in debug mode Python 3.
-> --        tmp = open(os.devnull, 'w')
-> --        p = sp.Popen(["gcc", "-print-multiarch"], stdout=sp.PIPE,
-> --                     stderr=tmp)
-> --    except (OSError, DistutilsError):
-> --        # OSError if gcc is not installed, or SandboxViolation (DistutilsError
-> --        # subclass) if an old setuptools bug is triggered (see gh-3160).
-> --        pass
-> --    else:
-> --        triplet = str(p.communicate()[0].decode().strip())
-> --        if p.returncode == 0:
-> --            # gcc supports the "-print-multiarch" option
-> --            default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
-> --            default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
-> --    finally:
-> --        if tmp is not None:
-> --            tmp.close()
-> +-    with open(os.devnull, 'w') as tmp:
-> +-        try:
-> +-            p = subprocess.Popen(["gcc", "-print-multiarch"], stdout=subprocess.PIPE,
-> +-                         stderr=tmp)
-> +-        except (OSError, DistutilsError):
-> +-            # OSError if gcc is not installed, or SandboxViolation (DistutilsError
-> +-            # subclass) if an old setuptools bug is triggered (see gh-3160).
-> +-            pass
-> +-        else:
-> +-            triplet = str(p.communicate()[0].decode().strip())
-> +-            if p.returncode == 0:
-> +-                # gcc supports the "-print-multiarch" option
-> +-                default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
-> +-                default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
->  +    default_lib_dirs = libpaths(['/deadir/lib'], platform_bits)
->  +    default_include_dirs = ['/deaddir/include']
->  +    default_src_dirs = ['.', '/deaddir/src']
-> -+
-> +
->  +    default_x11_lib_dirs = libpaths(['/deaddir/lib'], platform_bits)
->  +    default_x11_include_dirs = ['/deaddir/include']
->
-> diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
-> index 43c3053cd88..c5d2a15ff21 100644
-> --- a/meta/recipes-devtools/python-numpy/python-numpy.inc
-> +++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
-> @@ -1,7 +1,7 @@
->  SUMMARY = "A sophisticated Numeric Processing Package for Python"
->  SECTION = "devel/python"
-> -LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD"
-> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=d26bde5432613cce2334b93985576231"
-> +LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD & MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1a32aba007a415aa8a1c708a0e2b86a1"
->
->  SRCNAME = "numpy"
->
-> @@ -10,8 +10,8 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
->             file://0001-npy_cpu-Add-riscv-support.patch \
->             ${CONFIGFILESURI} \
+> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+> index e503aa866d..4f21bae99c 100644
+> --- a/meta/recipes-devtools/qemu/qemu.inc
+> +++ b/meta/recipes-devtools/qemu/qemu.inc
+> @@ -30,6 +30,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+>             file://0018-fix-CVE-2018-20191.patch \
+>             file://0019-fix-CVE-2018-20216.patch \
+>             file://CVE-2019-3812.patch \
+> +           file://CVE-2018-20815.patch \
 >             "
-> -SRC_URI[md5sum] = "0886e5b5017f08f2b7a624c0b5931e61"
-> -SRC_URI[sha256sum] = "adf063a3f87ab89393f5eea0eb903293b112fa0a308e8c594a75ffa585d81d4f"
-> +SRC_URI[md5sum] = "c48b2ad785f82cdfe28c907ce35e2a71"
-> +SRC_URI[sha256sum] = "47b7b6145e7ba5918ce26be25999b6d4b35cf9fbfdf46b7da50090ffdb020445"
->
->  UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
->  UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
-> diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.16.3.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.17.0.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/python-numpy/python3-numpy_1.16.3.bb
-> rename to meta/recipes-devtools/python-numpy/python3-numpy_1.17.0.bb
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+>  
+> diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-20815.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-20815.patch
+> new file mode 100644
+> index 0000000000..f1fcaaf56d
+> --- /dev/null
+> +++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-20815.patch
+> @@ -0,0 +1,39 @@
+> +From 8bb018af1a7f2b9965f872a4b1121864e73e1b61 Mon Sep 17 00:00:00 2001
+> +From: Peter Maydell <peter.maydell@linaro.org>
+> +Date: Fri, 14 Dec 2018 13:30:52 +0000
+> +Subject: [PATCH] device_tree.c: Don't use load_image()
+> +
+> +The load_image() function is deprecated, as it does not let the
+> +caller specify how large the buffer to read the file into is.
+> +Instead use load_image_size().
+> +
+> +Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> +Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> +Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> +Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> +Reviewed-by: Eric Blake <eblake@redhat.com>
+> +Message-id: 20181130151712.2312-9-peter.maydell@linaro.org
+> +
+> +Upstream-Status: Backport [https://github.com/qemu/qemu/commit/da885fe1ee8b4589047484bd7fa05a4905b52b17]
+> +CVE: CVE-2018-20815
+> +Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+> +---
+> + device_tree.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/device_tree.c b/device_tree.c
+> +index 6d9c9726f6..296278e12a 100644
+> +--- a/device_tree.c
+> ++++ b/device_tree.c
+> +@@ -91,7 +91,7 @@ void *load_device_tree(const char *filename_path, int *sizep)
+> +     /* First allocate space in qemu for device tree */
+> +     fdt = g_malloc0(dt_size);
+> + 
+> +-    dt_file_load_size = load_image(filename_path, fdt);
+> ++    dt_file_load_size = load_image_size(filename_path, fdt, dt_size);
+> +     if (dt_file_load_size < 0) {
+> +         error_report("Unable to open device tree file '%s'",
+> +                      filename_path);
+> +-- 
+> +2.17.1
+> +
+
 
