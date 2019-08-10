@@ -1,47 +1,19 @@
-Return-Path: <roman.stratiienko@globallogic.com>
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
-	[209.85.167.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 7144B7F2E8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Aug 2019 17:18:21 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id c9so71652196lfh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 10 Aug 2019 10:18:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=globallogic.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=qCdS47TlzPfwKL+yk+gQcnSV+0Nwtx+AXxL4nwnPVxA=;
-	b=aN199XrZIClEoCl4dNqCxZZ7TuDlktbYtN/xm5327eEJ6DYcuOz1m4zOvNpLq/YylM
-	mXRq/2Tof73fPmYb9Q2OFALIow38iCnt6sVeSquFGQuPUEj1tWJZ7pGGekmO0RdyCrUa
-	VUWO6iVgQMtI33KAgC+srhVnHlh/790S2PgIcDuvScunGRIfj25B2s7/2bZTKDxMawLW
-	8oFXWhxosv8sPyZHntLL79MkwONuuMBQZ1+UluEbjcZsujCU0jVs89uuxe65ig69eoPZ
-	sPYt6P26BUulnz+3LpiJgONs1YUQkJwLQIRyKrYFTqc0xX6e7xA4lz+7kUOMuzKnsJRX
-	/1GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=qCdS47TlzPfwKL+yk+gQcnSV+0Nwtx+AXxL4nwnPVxA=;
-	b=MNIztBY6LSSYAl6sMaA/0JXzZb9g6waki2KqqEhri31GmqBdV4sMGVLIqc/pz7jm/z
-	k36/MU5CKIfy3ZzWUcr81uB9ufj6qavuGKxh7UdeYAKtRQQt2x8BH3fmNEWi0ZRePo+I
-	jLB/jvmzM6fMLZ0stIs7v5oRDfHE8fUqVb3Gkf4SIeMcOlhxtITDgFmon1CgfF1zdW/E
-	7UyTcLn0F7b+vC2KCmLsb4OqlRz37PAJYgyp89SFCY3S5UFyy0D6q7HMucBiWcwzwz/0
-	yM4QNCC5FVn4FIbRxrReFC5LT9/WyAW388ZSxLCXneZq7lh6UCGTkFF/TX3VzmOsJK6p
-	f2ig==
-X-Gm-Message-State: APjAAAX3Svji9so48rtuKHdYw4nYpp+YPPzX5S73hmINcIUNCECuQPTM
-	wIYq8C4KNfXn83VmCSiN2bvs7XmWNu8=
-X-Google-Smtp-Source: APXvYqxgdg1QfgqmYw6wPLqcOzRxfnrrR9O6vFXF1sDv1ReUQoJdO4LcgDS9tGleIqWPBuHOWKngVQ==
-X-Received: by 2002:ac2:44ac:: with SMTP id c12mr3119797lfm.33.1565457501851; 
-	Sat, 10 Aug 2019 10:18:21 -0700 (PDT)
-Received: from virtualhost-PowerEdge-R810.synapse.com ([195.238.92.107])
-	by smtp.gmail.com with ESMTPSA id q4sm4242858lfn.54.2019.08.10.10.18.20
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 10 Aug 2019 10:18:21 -0700 (PDT)
-From: roman.stratiienko@globallogic.com
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 10 Aug 2019 20:18:14 +0300
-Message-Id: <20190810171814.21034-1-roman.stratiienko@globallogic.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [meta-oe][PATCH] glmark2: Upgrade SRCREV to latest
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 828AD7EB0F;
+	Sat, 10 Aug 2019 17:32:40 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Andrii Bordunov via Openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Sat, 10 Aug 2019 17:32:42 -0000
+Message-ID: <20190810173242.2334.14377@do>
+References: <20190810171814.21034-1-roman.stratiienko@globallogic.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190810171814.21034-1-roman.stratiienko@globallogic.com>
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xtYXJrMjogVXBncmFkZSBTUkNSRVYgdG8gbGF0ZXN0?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +26,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 10 Aug 2019 17:18:21 -0000
+X-List-Received-Date: Sat, 10 Aug 2019 17:32:40 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Roman Stratiienko <roman.stratiienko@globallogic.com>
+== Series Details ==
 
-Fixes QA Issue: /usr/bin/glmark2-es2-drm contained in package glmark2 requires
-libgbm.so, libEGL.so, libGLESv2.so, but no providers found in RDEPENDS_glmark2.
+Series: glmark2: Upgrade SRCREV to latest
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/19212/
+State : failure
 
-Fixes missing libraries listed above at runtime in glmark2-es2-drm.
+== Summary ==
 
-Signed-off-by: Roman Stratiienko <roman.stratiienko@globallogic.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-oe] glmark2: Upgrade SRCREV to latest
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-oe) and send the patch to the indicated list
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 30a2af80f5)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta-oe/recipes-benchmark/glmark2/glmark2_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta-oe/recipes-benchmark/glmark2/glmark2_git.bb b/meta-oe/recipes-benchmark/glmark2/glmark2_git.bb
-index 7ed5cd028..605417634 100644
---- a/meta-oe/recipes-benchmark/glmark2/glmark2_git.bb
-+++ b/meta-oe/recipes-benchmark/glmark2/glmark2_git.bb
-@@ -15,7 +15,7 @@ PV = "20190205+${SRCPV}"
- COMPATIBLE_HOST_rpi  = "${@bb.utils.contains('MACHINE_FEATURES', 'vc4graphics', '.*-linux*', 'null', d)}"
- 
- SRC_URI = "git://github.com/glmark2/glmark2.git;protocol=https"
--SRCREV = "0c90dd48df43a6b0db1d9aabca6298240f4968f7"
-+SRCREV = "c17fd14505f30d9e4dbad276f7aa956fd21a637b"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
