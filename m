@@ -1,45 +1,57 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DFB8F7D711
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D66157D718
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2019 18:12:49 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id 2so70393512vso.8
+	Mon, 12 Aug 2019 18:55:49 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id i18so49949435pgl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2019 11:12:51 -0700 (PDT)
+	Mon, 12 Aug 2019 11:55:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=SLfs5NINNHIh8uP3Gs1wTkxBYeVUvYI0EV7rqbBiwo8=;
-	b=M4NzsY3GcfNUecjyTTu8ft0VzyUD4k9HTHgf/1MZM1x30pQoPUgMQc9Jq2vPDtiNWE
-	dJTbcXTN0RLOgDy7F/3kyZGpjzRGnsNiafiZfNRiYBE0jLwNLfHn8W0uEZdOQEJ/P7s5
-	dCC9dSnBdqZEnf5mAKkiql0VSi0lmZ1g8aX89WtD0zg4Q6rRYL82J6mKM18hbfAT8e6H
-	UbyY4KWPKBaz7vlGiPVIomu9vsHMqX6KDEbhOsjo65h0ep/pZ5OyU9zLVoQeTmnDK9oe
-	ku9H3KvpMKDqmAA8yLNZONRFPjcImHzn4sdvLkZCdDXzdApzTyGmjcIjoblA/0LLmnH0
-	2xHA==
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=LrPA8JS3U7mTi5sr7YTwlJAWpULrj45eDAcQPBB49z4=;
+	b=Z+rQ/700bcMP6iOYbsWkfZeOyFn1X2MbJ8K4Fdz+1AjQFRkKWxfmG2IUUHtP/u29xP
+	ebXnz8RYgAvEvo2ZjDeosbUYhPg6OC631yiatD6euMXvAWw+6UftALrHbYZkvcDAGXvg
+	85b89aCy32dUa08fYeTN0d7Xd5RMm21MvaN3v+ss1smIUkgE1zeDHfjgNm1UHe3tMoRY
+	B33+qvsaarDnBpuVqLfWoFbkmJyTk/Ia4fIGl87QWgwOM92U9akVqtuxeTNpb6A2lErq
+	h8+T1Pemv8eVGgdUg2qzOz5OUQiXqZTKPf9ujN9Iq1qZ0VO/EJtx0ZyTzY6QxX6wmUrn
+	ACng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=SLfs5NINNHIh8uP3Gs1wTkxBYeVUvYI0EV7rqbBiwo8=;
-	b=dLuKG4euwVOuwgPL4brxgv98lQWUlWLEWT/4RCVfTn35AKT/Iq7lvqHArBMFNsmRrp
-	b5aCoJHcLCR05lrfF9okj09ZcJpWKO4zdmfvQVM6TPdB9yI8L9fHMDvAemNI46Ndv8qO
-	YhjzypR19fxcLDodGBiSTD/USXZLvtRyqODx8d7qTYvoiwp3jDqjzZs3S2Bl7TzL1LcG
-	gOyW5eEFEeVfuVMC9gzk7bB1LfqjCdo03865yOSvdqO/tIMbUcgoD9EEESfqs3rM1tZ2
-	uOJcC+1R8g2GAHiBHuB501tvI18J76Z5gCYhV+8Z/f2jqasTR5/CSeEpB86PU6XUJlsB
-	23/w==
-X-Gm-Message-State: APjAAAXtWm9omF0wKE6w5L/rrfJjbRVnXxid9Esl+olhuVJIOliOk0cn
-	IeDJjkXjYi5DGJmqi2l37ZjXgSLBsd7YVKyTywceFA==
-X-Google-Smtp-Source: APXvYqz61dOJbiOgT1owuQwk3MgZQQ5hGxazv3yo06L4wQY3BjEwkH/c+RoeuOPnt/SQaruAUiZbQmcYXcD4kNoIRB4=
-X-Received: by 2002:a67:e2d8:: with SMTP id i24mr4517623vsm.11.1565633570613; 
-	Mon, 12 Aug 2019 11:12:50 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=LrPA8JS3U7mTi5sr7YTwlJAWpULrj45eDAcQPBB49z4=;
+	b=oev+McbeHD/9UyKRVE/1RJ73pi447ZFPExv9frtZ69IJj61se50kY7x2LKTkX3w8bA
+	rDEFrSKOtM/WfFcoMAaOPo3iCuZbW56hCM/chXsVyjySbZS5ldQVBzYjBXqqCAIhVtpR
+	n/hwC+y7Rx0T4RjIJetLM4m9oET4OTofYTtJVscuzO0clOJ4vA/T4O+wyIg2BjpHVKlp
+	HY5hHHQxv/8spF94CklgILvB7cYHTkCYBB5h3CMMV1I3epRKiu9UlXk6sfVu7axkq8O1
+	u1LjqPrmG/Fn1KqJXZnzXNYmkktGfokUaNIEQLI3haLJgGGjVn6Dpg8P7tkkjZiPV8/y
+	TZlw==
+X-Gm-Message-State: APjAAAUKtNaR3ITxtGQHwCZVyEsXelH/43vLgYbyMj/+YSIR2/mGUhBk
+	B/F14595VhR7hJ3KW3+KXN6pt07nFcE=
+X-Google-Smtp-Source: APXvYqwnWsenp24jK6dukZnnxMnNwLpdzABbgLhXAZOwadzAp8yq5CszZJZ3zPXjb4Pz+jT5DaurnQ==
+X-Received: by 2002:a63:724f:: with SMTP id c15mr32036738pgn.257.1565636150199;
+	Mon, 12 Aug 2019 11:55:50 -0700 (PDT)
+Received: from ?IPv6:2601:646:8500:6bc6:ecf5:55f9:1f07:fceb?
+	([2601:646:8500:6bc6:ecf5:55f9:1f07:fceb])
+	by smtp.gmail.com with ESMTPSA id z13sm282971pjn.32.2019.08.12.11.55.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 12 Aug 2019 11:55:49 -0700 (PDT)
+To: Andre McCurdy <armccurdy@gmail.com>
 References: <cover.1534791421.git.raj.khem@gmail.com>
 	<2c5a62b8c4afe40ff2c0fbe2263e9c96d40b63d7.1534791421.git.raj.khem@gmail.com>
-In-Reply-To: <2c5a62b8c4afe40ff2c0fbe2263e9c96d40b63d7.1534791421.git.raj.khem@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 12 Aug 2019 11:12:38 -0700
-Message-ID: <CAJ86T=UNpjZTn4NE1z7QYg5O4LmEihiA=vXF6gKg-8tSPBJ5jA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CAJ86T=UNpjZTn4NE1z7QYg5O4LmEihiA=vXF6gKg-8tSPBJ5jA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <07b03e33-f21a-32a2-8c63-6de2db2724ee@gmail.com>
+Date: Mon, 12 Aug 2019 11:55:48 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=UNpjZTn4NE1z7QYg5O4LmEihiA=vXF6gKg-8tSPBJ5jA@mail.gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 3/5] gdb: Alias rpl_stat to stat() on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,40 +66,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2019 18:12:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 12 Aug 2019 18:55:50 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 20, 2018 at 12:00 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Use CPPFLAGS instead of CFLAGS since there is C++ compiler being used for somefiles
->
-> Fixes
-> gdb/gdbserver/../../../gdb-8.1.1/gdb/gdbserver/../common/common-utils.c:419: undefined reference to `rpl_stat'
-> | collect2: error: ld returned 1 exit status
-> | make[4]: *** [Makefile:414: libinproctrace.so] Error 1
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/gdb/gdb_8.1.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/gdb/gdb_8.1.1.bb b/meta/recipes-devtools/gdb/gdb_8.1.1.bb
-> index 84ab08ce93..c6eac84dd8 100644
-> --- a/meta/recipes-devtools/gdb/gdb_8.1.1.bb
-> +++ b/meta/recipes-devtools/gdb/gdb_8.1.1.bb
-> @@ -26,4 +26,4 @@ EOF
->                 chmod +x ${WORKDIR}/python
->         fi
->  }
-> -CFLAGS_append_libc-musl = " -Drpl_gettimeofday=gettimeofday"
-> +CPPFLAGS_append_libc-musl = " -Drpl_gettimeofday=gettimeofday -Drpl_stat=stat"
+On 8/12/19 11:12 AM, Andre McCurdy wrote:
+> On Mon, Aug 20, 2018 at 12:00 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> Use CPPFLAGS instead of CFLAGS since there is C++ compiler being used for somefiles
+>>
+>> Fixes
+>> gdb/gdbserver/../../../gdb-8.1.1/gdb/gdbserver/../common/common-utils.c:419: undefined reference to `rpl_stat'
+>> | collect2: error: ld returned 1 exit status
+>> | make[4]: *** [Makefile:414: libinproctrace.so] Error 1
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   meta/recipes-devtools/gdb/gdb_8.1.1.bb | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/gdb/gdb_8.1.1.bb b/meta/recipes-devtools/gdb/gdb_8.1.1.bb
+>> index 84ab08ce93..c6eac84dd8 100644
+>> --- a/meta/recipes-devtools/gdb/gdb_8.1.1.bb
+>> +++ b/meta/recipes-devtools/gdb/gdb_8.1.1.bb
+>> @@ -26,4 +26,4 @@ EOF
+>>                  chmod +x ${WORKDIR}/python
+>>          fi
+>>   }
+>> -CFLAGS_append_libc-musl = " -Drpl_gettimeofday=gettimeofday"
+>> +CPPFLAGS_append_libc-musl = " -Drpl_gettimeofday=gettimeofday -Drpl_stat=stat"
+> 
+> rpl_stat() is a wrapper for stat, so by forcefully redefining rpl_stat
+> to stat you create a local stat() function which recurses
+> infinitely... which causes obvious runtime problems (e.g. gdbserver
+> crashes on startup).
+> 
+> Simply removing these additional CPPFLAGS fixes the runtime issues for
+> me (and doesn't trigger the original build failure so presumably
+> something has changed since the patch was originally created...).
+> 
 
-rpl_stat() is a wrapper for stat, so by forcefully redefining rpl_stat
-to stat you create a local stat() function which recurses
-infinitely... which causes obvious runtime problems (e.g. gdbserver
-crashes on startup).
+I think setting CPPFLAGS is not right way and we can not fully remove it
+as well because in this case gnulib does not recognize musl as gnu
+system and detection logic is wrong for musl. So what we should do is
+remove the above CPPFLAGS settings and instead pass the cached values to
+configure
 
-Simply removing these additional CPPFLAGS fixes the runtime issues for
-me (and doesn't trigger the original build failure so presumably
-something has changed since the patch was originally created...).
+CACHED_CONFIGUREVARS += "gl_cv_func_gettimeofday_clobber=no"
+
+for stat issue it has been fixed [1] so we can just drop it.
+
+[1] 
+https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=3c025cfe5efc44eb4dfb03b53dca28e75096dd1e
+
+care to send a patch ?
+
+Thanks
+-Khem
 
