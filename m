@@ -1,29 +1,48 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 291096C4D8
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id AC1D97E584
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2019 13:48:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7CDmUrM000861
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 12 Aug 2019 06:48:30 -0700 (PDT)
-Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 12 Aug 2019 06:48:29 -0700
-To: "Bedel, Alban" <alban.bedel@aerq.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Alexander Kanavin
-	<alex.kanavin@gmail.com>
-References: <20190717141953.8267-1-alban.bedel@aerq.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <1b8fa6dc-f6c2-0acd-9680-218c1a8b21da@windriver.com>
-Date: Mon, 12 Aug 2019 09:48:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190717141953.8267-1-alban.bedel@aerq.com>
-X-Originating-IP: [172.25.44.5]
-Subject: Re: [PATCH] boost: Fix build and enable context and coroutines on aarch64
+	Mon, 12 Aug 2019 13:49:08 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id f72so12211641wmf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Aug 2019 06:49:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=AQm+WNcZ5Yoo1s0O2Jj1632t0SjnfFmBMdstJnad3Ak=;
+	b=aH9sElnMJ3LTGdZxhbsaPfGXyVXKo13b+6PuCURyo7KWXmpaC+5ASh8EtrP2cfTuSw
+	jnXQSfxfYavQhD5q0+K7KDEausjrMuQYRhXnb9otlGnkvzxa/FYuObJs0ObouC/WhH1R
+	xkLZnGLAUWN5NoWNAbp1qAw8aWZI/yuMQY/74//GENs8xdc7xz/sIX4vNZyDE14LULpu
+	G4Do+kmj7FnT4RybE6A/3dZKoypvi/DsaXR00neooyFcmuxQs0TYhWXQlADMrxEG77UV
+	RVQSIC95mWTaUcYINXF+mRSGWzoXczThSB7BfjW+mPcgCyMXXxu1c96ZWlOMjgPZ3GBm
+	2yug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AQm+WNcZ5Yoo1s0O2Jj1632t0SjnfFmBMdstJnad3Ak=;
+	b=lXTsuzIily/mqpaWm4ymAcJ/6bdtyqgXDs6Dr7/ZUHfydMod845G/C2Vxh8A3zGbE0
+	jMa0felT2dS3n2i0QtL5Yr0nAXXQkVrkw6VBWp+lM4yYyafJnY1uEDVkBwn2GC2Jq0TE
+	6TBObhnVWA8mrGp0FT3YYkZLgEhrK3KP58LOvH3uQBUGvJchwG9TJRU+KJK7G/YuHFh5
+	BH9trNY5koNIIWDbedFGrpjsisXCnR02vpEzJg1dj1g2ozxRLeKKcg99n28FDZhKXfI3
+	NDtzYW64zSpibzZK3eLjKDVOB+ecdMlbCu7RrGS787DqeVTRL5q0L7e4v1GRzBe/Ih0A
+	wLzg==
+X-Gm-Message-State: APjAAAVD9hb6hTX78r1n18ED6IPTBXSHsr3dEK4aQI5GwutpMR7w4Zb4
+	FwoxBamObjUZGNYb03ARzJKy5/Pb7fY=
+X-Google-Smtp-Source: APXvYqyEqewZfZ+O2ULgHMD/yQi54FI69EnlMsV81vyc95vVRewjs6NwyqCLRjFKZfD4FtfPgRv2rw==
+X-Received: by 2002:a05:600c:352:: with SMTP id
+	u18mr3577455wmd.141.1565617749136; 
+	Mon, 12 Aug 2019 06:49:09 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	t14sm11932646wrv.12.2019.08.12.06.49.08
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 12 Aug 2019 06:49:08 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Aug 2019 15:49:00 +0200
+Message-Id: <20190812134903.55045-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/4] python-numpy: remove the python 2.x version of the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2019 13:48:35 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Aug 2019 13:49:08 -0000
 
-On 7/17/19 10:20 AM, Bedel, Alban wrote:
-> Like for ARM bjam need some hints about the ABI to properly build on
-> aarch64. While at it also enable context and coroutine as these are
-> supported on aarch64.
-> 
-> Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
-> ---
->   meta/recipes-support/boost/boost.inc | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-> index 9be3717fd6..c2e2cbb352 100644
-> --- a/meta/recipes-support/boost/boost.inc
-> +++ b/meta/recipes-support/boost/boost.inc
-> @@ -33,6 +33,7 @@ BOOST_LIBS_append_x86 = " context coroutine"
->   BOOST_LIBS_append_x86-64 = " context coroutine"
->   BOOST_LIBS_append_powerpc = " context coroutine"
->   BOOST_LIBS_append_arm = " context coroutine"
-> +BOOST_LIBS_append_aarch64 = " context coroutine"
->   # need consistent settings for native builds (x86 override not applied for native)
->   BOOST_LIBS_remove_class-native = " context coroutine"
->   # does not compile
-> @@ -151,6 +152,7 @@ BJAM_OPTS_append_x86-x32 = " abi=x32 address-model=64"
->   
->   # cross compiling for arm fails to detect abi, so provide some help
->   BJAM_OPTS_append_arm = " abi=aapcs architecture=arm"
-> +BJAM_OPTS_append_aarch64 = " abi=aapcs address-model=64 architecture=arm"
->   
->   do_configure() {
->   	cp -f ${S}/boost/config/platform/linux.hpp ${S}/boost/config/platform/linux-gnueabi.hpp
-> 
+The 1.17.0 release of NumPy no longer supports Python 2.x.
 
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/conf/distro/include/maintainers.inc               |  1 -
+ .../python-numpy/python-numpy_1.16.3.bb                | 10 ----------
+ 2 files changed, 11 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
 
-Seems simple enough.
-Does anyone have any concerns about this patch?
-It seems that it was overlooked.
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 5cf9c7a8e80..c713c811ffa 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -588,7 +588,6 @@ RECIPE_MAINTAINER_pn-puzzles = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-python = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python-native = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+-RECIPE_MAINTAINER_pn-python-numpy = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python-scons = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python-scons-native = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+diff --git a/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb b/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
+deleted file mode 100644
+index a1133dad41c..00000000000
+--- a/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-inherit setuptools
+-require python-numpy.inc
+-
+-RDEPENDS_${PN}_class-target_append = " \
+-    ${PYTHON_PN}-subprocess \
+-"
+-
+-do_install_append(){
+-        rm ${D}/${bindir}/f2py
+-}
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.17.1
+
 
