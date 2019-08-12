@@ -1,51 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
-	[209.85.128.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 741366C4DA
+Return-Path: <brgl@bgdev.pl>
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E6CC47C326
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2019 09:07:25 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id f72so11412329wmf.5
+	Mon, 12 Aug 2019 09:09:15 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id q20so3315898otl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2019 02:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HXkHFBdtX073L4jO9gBgYAJLKLpqn3zSCji2zUa8efY=;
-	b=mo80EAjiqURU4z1LTGm1N3aikZn3r9lMRGM5Y+eD1EIed2LfVAhtR9CljnP/jie5JX
-	hLp4YVsSs8UJXsWNFOeTr7RBPrGptHm8P5+kZ1SROBWn5SDrvttTh+ESR51I0auvboh7
-	lAgXN+b9JvC7b8oR4AGqK4kcNk3OVQUs6K4Q2FveXEthoQPD1PZ/ijxl9RYU6ETVCfwi
-	2VOOJqQJJgEJhuwtloXOjBbrA4fSqDTfHFhe+r2u6yPPpYbAQFgFXNgl0w0GnJ7P2RyJ
-	LMRiTeyzXaGa4OVnl5kGShT9ejgrFmuTZF7Fo9VTizUGfeh6L9yq3Zt+fdj0qBbryJN/
-	P4Ew==
+	Mon, 12 Aug 2019 02:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Fm6WcMwagZ2VpKX7jKsabqH/jDRh5iL5Ks4yZG5Uvdg=;
+	b=VTHYmWCGlwEHQlQry6idWgWT0Yx8W5JtyoRYwWtE1TGkS6l8lwynZegZL6gHyXDzQR
+	GTdH2vnaqLJSMA3B8NBLtBazPleTaNZVt91V45K6i9sOulpfu2VS4HmnwDawmzBLbxCd
+	MLHE+fMVsdy8K9ZgjvM7tl6nK3XzmuuKWqPTr+WM/YL1cqFf4iyDUTtsn8y0YyZNGzIN
+	6py1+w7PI8+ZmS+5Hn5rki7CNnEpajm7Hs8UablFUVrL6a48/9WXuoCgDkWGVR1Ybrxg
+	AY50+4mb95wVE58BT3CApPAIYgoPHLKyVPrAsX67QpzmGwklSxx2U+kfOzmdrTIjBOP4
+	JZlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=HXkHFBdtX073L4jO9gBgYAJLKLpqn3zSCji2zUa8efY=;
-	b=E8IQre4poV9/t1t4TN7Sdft9jQd11fdCyCpAC/yEteoOSt+8EHCjcg5FrOlmS8YDZ+
-	lNkfVZtXYZ6uMsg3fgZH7gwKhtu73EhplU7VVxcWkOLIJ8fKnGGrxMlAHifIUFJPlMEX
-	IX31gUoSe0xWntgVDGPaoMSGJyEoUJTrcMJphnviPL0SWKVIpIOO28GbhkacJS8dgCOk
-	nh0lKb6L47+8zWbnBld0afKhQaONruljRpHCynrBJmuKboYQSlseKmNUl2oiBaKW5f5R
-	Fg7svRHEbs3V2ILq7Hh3SeMdYYSk6H4kyNW7bqymlIwhU/qrLH93wmZssTwZH0CWC8GV
-	D23w==
-X-Gm-Message-State: APjAAAWR9jUpZebwKPrY7Hgu6Xag9wOx0HucD4sePdazWnPrLkwdiJVw
-	ItT/QmTvI2ZRmBtuk3IQR/BxUOh3
-X-Google-Smtp-Source: APXvYqzgN3EGO/gAz137Tjj35++ptyuhC3VtcqTp59YYnQ8U40+hn6udvQiM8NQFxJ7chNhsPgibqQ==
-X-Received: by 2002:a7b:c5c2:: with SMTP id n2mr25966839wmk.92.1565600845863; 
-	Mon, 12 Aug 2019 02:07:25 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	h97sm29636781wrh.74.2019.08.12.02.07.25
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Aug 2019 02:07:25 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Aug 2019 09:07:20 +0000
-Message-Id: <20190812090720.815-2-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190812090720.815-1-Martin.Jansa@gmail.com>
-References: <20190812090720.815-1-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] meson: backport fix for builds with -Werror=return-type
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Fm6WcMwagZ2VpKX7jKsabqH/jDRh5iL5Ks4yZG5Uvdg=;
+	b=FoTDPlhmN2uhVOjWqDm4sN8UQAKN7omhNdn3pUKKrL2wcoMD3cnGJa1JXDxulcBAND
+	mWNaRsdb7dOgnmb2KTxnbIjZej20+mNT9iUnqL066LESlOCE25jGzrxvERZmclp1qmyS
+	+IN/r0aQEnlPuaPQnEYm2xSMg0X5XQy7Qzig8a2vIwc1qpEADWKHjDmPdvybosNdBXOm
+	Z40S8l4lQsTMO46pgJQ55Q+eOa6P6vX5kLK4DADD5YJ89WlH3cVJMWRFzXV+CingcUhv
+	d8iGaIk5WdqoWvfn+KVrFERwm/WPzDrBlI0Wf0PXojWFEuBdUkKjZWy8vDH2M8uB3zAK
+	AzRg==
+X-Gm-Message-State: APjAAAXCUjakLT+9hyiNZcQKjWruPAQAiVJEFEDYzFNLja5Hdyz2gNbI
+	kec/lgqGyTYuunzyQ9/+RbbYwinIojRyNGJ4oenIsw==
+X-Google-Smtp-Source: APXvYqzcS0Y8WX8rF7L3UST+kceGVvH9ARzXsbpmHguqlDLChbKd42OLZgoAJpB8+hQ37FcwqLsfLonS1Be2byEkf1U=
+X-Received: by 2002:a5e:9314:: with SMTP id k20mr798969iom.235.1565600956766; 
+	Mon, 12 Aug 2019 02:09:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190730072254.10730-1-brgl@bgdev.pl>
+	<CAMRc=MfE4sO7BAsmFdnQnogdXJ-TpJTkDODgLaxxKoirVVVngA@mail.gmail.com>
+	<f9a2c6d0399f2998821c91386434d88b776283cb.camel@linuxfoundation.org>
+In-Reply-To: <f9a2c6d0399f2998821c91386434d88b776283cb.camel@linuxfoundation.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 12 Aug 2019 11:09:05 +0200
+Message-ID: <CAMRc=MfC5mYMNMJB0gQMdK7sDMdnS_StE6xSCsskE08xfwG0Zw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qemu: fix patch authorship
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,134 +58,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2019 09:07:25 -0000
+X-List-Received-Date: Mon, 12 Aug 2019 09:09:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/meson/meson.inc         |   1 +
- ...rn-statements-that-are-seen-with-Wer.patch | 100 ++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+pon., 12 sie 2019 o 10:51 Richard Purdie
+<richard.purdie@linuxfoundation.org> napisa=C5=82(a):
+>
+> On Mon, 2019-08-12 at 09:01 +0200, Bartosz Golaszewski wrote:
+> > wt., 30 lip 2019 o 09:22 Bartosz Golaszewski <brgl@bgdev.pl>
+> > napisa=C5=82(a):
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > >
+> > > I accidentally changed the patch author when backporting this from
+> > > upstream qemu. This commit restores the original author.
+> > >
+> > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > > ---
+> > >  ...4-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch |
+> > > 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-
+> > > to-handle-variably-sized-SIOCGSTAMP-w.patch b/meta/recipes-
+> > > devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-
+> > > SIOCGSTAMP-w.patch
+> > > index 2feb567f1c..f7939b84bf 100644
+> > > --- a/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-
+> > > handle-variably-sized-SIOCGSTAMP-w.patch
+> > > +++ b/meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-
+> > > handle-variably-sized-SIOCGSTAMP-w.patch
+> > > @@ -1,5 +1,5 @@
+> > >  From 8104018ba4c66e568d2583a3a0ee940851ee7471 Mon Sep 17 00:00:00
+> > > 2001
+> > > -From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > > +From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > >  Date: Tue, 23 Jul 2019 17:50:00 +0200
+> > >  Subject: [PATCH] linux-user: fix to handle variably sized
+> > > SIOCGSTAMP with new
+> > >   kernels
+> > > --
+> > > 2.21.0
+> > >
+> >
+> > Gentle ping.
+>
+> The original patch hadn't merged when this was posted and you were the
+> author of the original submission to us so it was squashed. You can see
+> the correct author in:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D57d702ed5de5717515=
+17568872eda2b5ba9fa8df
+>
+> Cheers,
+>
+> Richard
+>
+>
 
-diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
-index 662368e219..14e5f8a610 100644
---- a/meta/recipes-devtools/meson/meson.inc
-+++ b/meta/recipes-devtools/meson/meson.inc
-@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
-            file://0001-mesonbuild-environment.py-check-environment-for-vari.patch \
-            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
-            file://vala-cross-compile.patch \
-+           file://0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch \
-            "
- SRC_URI[sha256sum] = "f27b7a60f339ba66fe4b8f81f0d1072e090a08eabbd6aa287683b2c2b9dd2d82"
- SRC_URI[md5sum] = "48787e391ec5c052799a3dd491f73909"
-diff --git a/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
-new file mode 100644
-index 0000000000..16c6d90761
---- /dev/null
-+++ b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
-@@ -0,0 +1,100 @@
-+From 15f44be1c7f71cb0a8c6863917acbbc301c621fe Mon Sep 17 00:00:00 2001
-+From: Martin Liska <mliska@suse.cz>
-+Date: Mon, 15 Jul 2019 10:06:17 +0200
-+Subject: [PATCH] Fix missing return statements that are seen with
-+ -Werror=return-type.
-+
-+Error example:
-+
-+Code:
-+
-+        #include <locale.h>
-+        int main () {
-+            /* If it's not defined as a macro, try to use as a symbol */
-+            #ifndef LC_MESSAGES
-+                LC_MESSAGES;
-+            #endif
-+        }
-+Compiler stdout:
-+
-+Compiler stderr:
-+ In file included from /usr/include/locale.h:25,
-+                 from /tmp/tmpep_i4iwg/testfile.c:2:
-+/usr/include/features.h:382:4: warning: #warning _FORTIFY_SOURCE
-+requires compiling with optimization (-O) [-Wcpp]
-+  382 | #  warning _FORTIFY_SOURCE requires compiling with optimization
-+(-O)
-+      |    ^~~~~~~
-+/tmp/tmpep_i4iwg/testfile.c: In function 'main':
-+/tmp/tmpep_i4iwg/testfile.c:8:9: error: control reaches end of non-void
-+function [-Werror=return-type]
-+    8 |         }
-+      |         ^
-+cc1: some warnings being treated as errors
-+
-+Upstream-Status: Backport
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ mesonbuild/compilers/c.py     | 1 +
-+ mesonbuild/compilers/clike.py | 5 +++++
-+ 2 files changed, 6 insertions(+)
-+
-+diff --git a/mesonbuild/compilers/c.py b/mesonbuild/compilers/c.py
-+index 3b58a076..9ef92077 100644
-+--- a/mesonbuild/compilers/c.py
-++++ b/mesonbuild/compilers/c.py
-+@@ -70,6 +70,7 @@ class CCompiler(CLikeCompiler, Compiler):
-+             #ifndef {symbol}
-+                 {symbol};
-+             #endif
-++            return 0;
-+         }}'''
-+         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
-+                              dependencies=dependencies)
-+diff --git a/mesonbuild/compilers/clike.py b/mesonbuild/compilers/clike.py
-+index 83f67591..f9cbeabd 100644
-+--- a/mesonbuild/compilers/clike.py
-++++ b/mesonbuild/compilers/clike.py
-+@@ -375,6 +375,7 @@ class CLikeCompiler:
-+             #ifndef {symbol}
-+                 {symbol};
-+             #endif
-++            return 0;
-+         }}'''
-+         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
-+                              dependencies=dependencies)
-+@@ -554,6 +555,7 @@ class CLikeCompiler:
-+         {prefix}
-+         int main(int argc, char **argv) {{
-+             {type} something;
-++            return 0;
-+         }}'''
-+         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
-+                              dependencies=dependencies)[0]:
-+@@ -589,6 +591,7 @@ class CLikeCompiler:
-+         {prefix}
-+         int main(int argc, char **argv) {{
-+             {type} something;
-++            return 0;
-+         }}'''
-+         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
-+                              dependencies=dependencies)[0]:
-+@@ -667,6 +670,7 @@ class CLikeCompiler:
-+         #include <stdio.h>
-+         int main(int argc, char *argv[]) {{
-+             printf ("{fmt}", {cast} {f}());
-++            return 0;
-+         }}'''.format(**fargs)
-+         res = self.run(code, env, extra_args=extra_args, dependencies=dependencies)
-+         if not res.compiled:
-+@@ -819,6 +823,7 @@ class CLikeCompiler:
-+                 #error "No definition for __builtin_{func} found in the prefix"
-+             #endif
-+         #endif
-++        return 0;
-+         }}'''
-+         return self.links(t.format(**fargs), env, extra_args=extra_args,
-+                           dependencies=dependencies)
-+-- 
-+2.17.1
-+
--- 
-2.17.1
+Cool, I didn't notice it.
 
+Thanks!
+Bart
 
