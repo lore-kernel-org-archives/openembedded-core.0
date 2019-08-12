@@ -1,48 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D5D757F220
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 488047D39B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Aug 2019 16:20:12 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id r6so75367643qkc.0
+	Mon, 12 Aug 2019 01:59:57 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id z3so448836pln.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 11 Aug 2019 09:20:14 -0700 (PDT)
+	Sun, 11 Aug 2019 18:59:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=deYkuTWfS9OR13DrT2Kge43ONr/goZIuZYPgiIXVy+w=;
-	b=gAnULoYfTrqxaB9xYlwwWLE98WYMGJpqxjB5mWUJFW+b3No0eCG8Q7fOWEsEOEvDb2
-	JgAEE1kUAD3jR7M+QMD2g5fGcGzMmxjNNDuOjNbrNLBz+tHHxUeDfynah642pQd2FSGK
-	f5ndaU68fyuoSxOp7AG2VOzXQdM120uvbNwoCgy+7chqYT4MHQfOOgkTSU25XERB3XG/
-	yUlAFPfSRgtcLomK1S75dpWaxt9e1BIzJATlqmSexfS4AXxRhR9yBXpcqcNsuXmLLm3b
-	b0TegvLibnbfTgWs4nkIBw57qtoc7GbSt9Sum4UodhLcfm/KI2D1fjDHM1Q39EsbK5CX
-	SPxw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=wpQAl3zckDcFP9T8tLrhVkmXNeBt7/sbSnyNxtQwdXo=;
+	b=L6dntEuEm43i4VEBoaDKrLWogLXI+csx3i6HmKLuwaF9KOH4VsZn71bFeeV/gQdmco
+	EBjqBL9LLqIWq1DYFk2T+p1jROoOoem5Azokq8OA5oJqdqBC21t4r3OEoKaMt8cKWubC
+	w8Yb4JTZG7+hwd+twDfrwAJk3jVH4aKM1aNZFpYc0rwFt/lO8O6n2hUnp+ztAZ8CoHTR
+	8igsKqpUWkqS4vbVlB7LUBG94eTQ122UKNK+iJsNxgYiQemPFmYiU+uy8hkM3QdGFod7
+	BAfypzDu66HDvPlruEzwwyHvxKJ+0O9tFcEzOWNdOJqGRKb86GvMoOYUIUY/NnR5ne8A
+	seJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=deYkuTWfS9OR13DrT2Kge43ONr/goZIuZYPgiIXVy+w=;
-	b=OKrpkH4lyjeTRcPzdcczvr/NMu4c1KvLU0VSiUjTDFeYt16JNv3tv5W+2f76nco4Xp
-	SmOJOYf4o0gE8vLqPcZ31GO8Xotyd5Sc+XGwhnEwsTgYMmgao1XRi5+QEpvc4F1DaYQA
-	8QBbReujScnVyj7GdH11DHUITAtd/wwRYEoCtTB7mBzP3CQ9TWNgUwG30WfZgfM1qZFH
-	hI3Q3ADD9PT/ayZWKPt/3iOPkP9fyc35aZluJcAxsZTr0hYVbZY6L09qvTXTEAmdDLXN
-	J8hQmerSBGtSPEHG2YEz+Od7uofnCOhTVKgyxlJg77kariF61EqQH8A38rk/Z3EmiWjm
-	C/YA==
-X-Gm-Message-State: APjAAAVxbaE+WlL5tzHOzCev0M1TzrovpnvC7fUeKSZy6/D1si/aon+f
-	2VHAkSA6hVTFpub1ooYWoBkyqbsHKUtPeT8NBjs=
-X-Google-Smtp-Source: APXvYqxF/NRKEhC07xqwq1yMBbuPEuC4WXOXbjUL3Hi3aFHv6aY7kuol+qFK7kYH0kGJiMI2if0SzvpizVtMK9CuJ/E=
-X-Received: by 2002:a37:7083:: with SMTP id l125mr26060847qkc.71.1565540413369;
-	Sun, 11 Aug 2019 09:20:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <AA9B40170ABA1047B45E714CB2B866B706BC13BE@PGSMSX103.gar.corp.intel.com>
-In-Reply-To: <AA9B40170ABA1047B45E714CB2B866B706BC13BE@PGSMSX103.gar.corp.intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=wpQAl3zckDcFP9T8tLrhVkmXNeBt7/sbSnyNxtQwdXo=;
+	b=RoVi9M6vrrE+CgAjd1O3Zbx0KVk3jRdUAwhdN+87yxcYDMFfTtVlG0RvVlfnU0/tkM
+	kwfZ7IxrKjWMCfji6vznqwPNbVmeA1gl3I/4it4bKV3qv7Hhy427t7dhsSGDR4ojYNkM
+	vyFdGB9XbIl67A9PutBWV1SBZ09GoAiHPq66CSavc2JrB07+2YAWMCaCgGwerHGy2uvj
+	d6kHURcy0fvsOQYICFRH4DG5iH2XM02ndUUZUWHwYy5lVMAI6FpHHa02gVRG8jfELBvA
+	8gHPtSH1exvJufy5w/dFjG+eitQULC0SLj8lKD4k0MP9saT/2rkSdm67uUx82HakERTE
+	9GQA==
+X-Gm-Message-State: APjAAAXor9zWF0QP/EjriLRu7et4wnsyHTcdKY7oC+6H8l/71GxFF3Mf
+	uCMDkMOAZiq6feAoKqOEBl5e0ekBw2U=
+X-Google-Smtp-Source: APXvYqz37zdddK9yZWIqpoSraVmTlXDP7HSI7PicLKIMEugbSICZ/aduAb9HhqF6OJ+kskqeurLssg==
+X-Received: by 2002:a17:902:ba81:: with SMTP id
+	k1mr10768614pls.213.1565575197798; 
+	Sun, 11 Aug 2019 18:59:57 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
+	c12sm13859687pfc.22.2019.08.11.18.59.56
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sun, 11 Aug 2019 18:59:57 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 11 Aug 2019 09:19:57 -0700
-Message-ID: <CAMKF1so90EMEMM6qk91mZVRXhRxbDo=N=xmDig8+J1MaVx-NaA@mail.gmail.com>
-To: "Chan, Aaron Chun Yew" <aaron.chun.yew.chan@intel.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-dbus: Add native and native-sdk support
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 11 Aug 2019 18:59:45 -0700
+Message-Id: <20190812015945.40086-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.22.0
+MIME-Version: 1.0
+Subject: [PATCH] oeqa/parselogs: grep for exact errors list keywords
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Aug 2019 16:20:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 12 Aug 2019 01:59:57 -0000
+Content-Transfer-Encoding: 8bit
 
-Hi Richard
+Given grep expression looks for error strings regardless of the
+semantics and this ends up it flagging things like
 
-Can this patch be applied ? there are recipes in meta-oe which are
-waiting for this fix.
+***********************
+Log: /mnt/a/yoe/build/tmp/work/raspberrypi3_64-yoe-linux-musl/yoe-qt5-wayland-image/1.0-r0/target_logs/weston.log
+-----------------------
+Central error:                EGL_KHR_create_context_no_error EGL_KHR_fence_sync
+***********************
 
-On Wed, Jul 24, 2019 at 12:06 AM Chan, Aaron Chun Yew
-<aaron.chun.yew.chan@intel.com> wrote:
->
-> From: Chan, Aaron Chun Yew
-> Sent: Wednesday, July 24, 2019 3:02 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Chan, Aaron Chun Yew <aaron.chun.yew.chan@intel.com>
-> Subject: [meta-oe][PATCH] python3-dbus: Add native and native-sdk support
->
-> From: Aaron Chan <aaron.chun.yew.chan@intel.com>
->
-> Signed-off-by: Aaron Chan <aaron.chun.yew.chan@intel.com>
-> ---
->  meta/recipes-devtools/python/python3-dbus_1.2.8.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-devtools/python/python3-dbus_1.2.8.bb b/meta/recipes-devtools/python/python3-dbus_1.2.8.bb
-> index 923da3c..2fb1eae 100644
-> --- a/meta/recipes-devtools/python/python3-dbus_1.2.8.bb
-> +++ b/meta/recipes-devtools/python/python3-dbus_1.2.8.bb
-> @@ -22,3 +22,5 @@ EXTRA_OECONF += "--disable-documentation"
->  RDEPENDS_${PN} = "python3-io python3-logging python3-stringold python3-threading python3-xml"
->
->  FILES_${PN}-dev += "${libdir}/pkgconfig"
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.7.4
->
+here EGL_KHR_create_context_no_error is an API, therefore the check
+should be tightened a bit so explicitly look for error words so such
+false positives don't show up
+
+This helps in fixing wrong matches e.g. on rpi3 dmesg have strings like
+above
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/lib/oeqa/runtime/cases/parselogs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index eb2ebb1958..19c9c52a0a 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -292,7 +292,7 @@ class ParseLogsTest(OERuntimeTestCase):
+         grepcmd = 'grep '
+         grepcmd += '-Ei "'
+         for error in errors:
+-            grepcmd += error + '|'
++            grepcmd += '\<' + error + '\>' + '|'
+         grepcmd = grepcmd[:-1]
+         grepcmd += '" ' + str(log) + " | grep -Eiv \'"
+ 
+-- 
+2.22.0
+
 
