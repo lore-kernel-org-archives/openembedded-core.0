@@ -1,49 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id D7BAD60234
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 419207E721
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 18:24:23 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id v19so2274617wmj.5
+	Tue, 13 Aug 2019 18:27:39 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id l14so12512297lje.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 11:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=9vMvRrTgMGb2iln3cudVgU/fiA+do6OnqO9i6tYLp6s=;
-	b=Ch8bhYH3c9E/tobD7I9AVj6DFt7KrEu+neeOlMJKSXjumPquY+2W6C18XQy5Xqt8B2
-	P/yojatW76Ii9FUP0xsraLZMqOaZWvhQyX0M95bMc2wcuc71jjlS+uRTUTvLH7JE/8CY
-	fSL16kPMfzFp3eHlQSUDJR6RUqiJOJkZqb8MRunF4vY4L2xK9+PIa6gg0wIKCpSAUJMX
-	6Am1HUaWvf1ilBpvm2aVZ02jJZSx3hT2iwz27GUs/+KLGk8m2UbBiYNejui8AKm2wArp
-	u4IUCZj4bdYY9FxJA80P98WdJ/sa5aA9naGgK/B04Hi/Po1StV5rrh7tNo0nfz2JdqoM
-	3yOA==
+	Tue, 13 Aug 2019 11:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=RinyFrXxUxcJ0Pri7AyhOMl7p8gQ7kovY7SP+N3bnnc=;
+	b=IFAMXWeB3868hS/tWeVklBZgZKd4w0jJ2ktBDJhlu8h1aSa1B5qIPvfeV5VXj9poth
+	DKBK2E0/ZAI7z5d6b5r4sxglUWRJXCaLGkwNgzP7dJA8CysKMCtTfjsHm/DsTm67J/Eg
+	5Bbqp4Sk2bmjdh/3njSM7fiy27OtA72ccgbmu8Y8Cfl2Rv58/e46EBwJWAWgvVe8/vKA
+	ST5SZmJ9w4M2pvGzJqv6rR81pbaBYRBPlOaw5seW5orhwsOhTqSokBbtW+VLIMyFCRM1
+	3F6ZnfFZ/6sbFgPHix/e8Cwd3CGrThVgnQhJOmxXjsuQu8ID6K55BMUEEIUVUu2/GDkm
+	/rLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=9vMvRrTgMGb2iln3cudVgU/fiA+do6OnqO9i6tYLp6s=;
-	b=lYj/R6ZltoJkV468SZRxn+z3g0zaTuEF0mWi+HdGBBMZSHs9Z0CsI2ysZQCChPr8Qd
-	qyBXn4vhu3+RCbj32DEbDgYQVT+1EitqQwlUyU8NIUYkEjmhf6QFVK3QH55qufzBNEyw
-	ScOqz5vv+5SIAYCfn+2+i7yYGuCyaWMPv8/etvcLgz0X48zYajYq8xuovcsCBYNdzghh
-	jM4+Ze0HjyoA2y8LL09s+4vcNjlGmokCvNIQ336F3Reg7lz0E0hRfeiQj23Yk068zSbe
-	6p91e8B5qJfw1tI2lQyMJhV8aPvryw+MeUBdIRgn7C8kzsR3877Xk7p4Xf81lznPRqfZ
-	98Tw==
-X-Gm-Message-State: APjAAAXZMDhLZMOQov1BzoHpYpIWyIiyEUCXzXM39rzhT+WILdmmRmVi
-	rfa82KpA4914kePlegBq9EXr4HLhc6g=
-X-Google-Smtp-Source: APXvYqzOHqTWjxR3ztGOXjJUIdWXaNnvqUfiWpftFl5sgGXSWB4aMI8acMFkSBM1HqWd2HaL6x6Zsw==
-X-Received: by 2002:a1c:544e:: with SMTP id p14mr4334575wmi.4.1565720664453;
-	Tue, 13 Aug 2019 11:24:24 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id c6sm3218230wma.25.2019.08.13.11.24.23
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 13 Aug 2019 11:24:24 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=RinyFrXxUxcJ0Pri7AyhOMl7p8gQ7kovY7SP+N3bnnc=;
+	b=dYZfYRafX6kZo3ptT8pxZ3GR2V3q4hBnzXfpLep4Tv1aa6cxcPZzBEcNGNsLmEsK+B
+	K/pKkJIWM28f9kNvDG2s6ntMgODoiFprxbcQAzHT3woXOsIr7M9+YZNKZracG873qxAX
+	fEBHkWPjjRTttXR4XhtCHZ+CeOHPaC4cTcH0Hgsug2eOW1A76XHYQOeUGwuXpuna2djT
+	NuWbm8Jx50FLpN5jtJrPiHsc3cdUUdlFR2hmOGWyVJCJ9xm/HbsrXK/S9cq4d0vNp5u6
+	Q061CaU+hTcKRe7rI3fmVmyl1tL5kk8aHGCiocwqDhXOfYWUUlYiKXyJRHponlQ4jab/
+	Bhsw==
+X-Gm-Message-State: APjAAAUFMeSs6hr13nboX6QdAT1LErcDTfuvbQLmTp30Od6fZbNt+4GA
+	ifBDTeg4Co4n33zO5kWjE6rhGhFtYUA=
+X-Google-Smtp-Source: APXvYqx27/khz+TJIs5e3+B2YMUKdi50/3gVHuHL+pforTH1JueHXcnZmlg53CAt2Nv8yMtbjcak5g==
+X-Received: by 2002:a2e:8495:: with SMTP id b21mr22136459ljh.149.1565720858838;
+	Tue, 13 Aug 2019 11:27:38 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	r21sm6383562lfi.32.2019.08.13.11.27.38
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 13 Aug 2019 11:27:38 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2019 20:24:14 +0200
-Message-Id: <20190813182414.2952-5-alex.kanavin@gmail.com>
+Date: Tue, 13 Aug 2019 20:27:32 +0200
+Message-Id: <20190813182732.20799-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190813182414.2952-1-alex.kanavin@gmail.com>
-References: <20190813182414.2952-1-alex.kanavin@gmail.com>
-Subject: [PATCH 5/5] ovmf: fix upstream version check
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] xf86-input-libinput: update to 0.29.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,25 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 18:24:24 -0000
+X-List-Received-Date: Tue, 13 Aug 2019 18:27:39 -0000
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...input-libinput_0.28.2.bb => xf86-input-libinput_0.29.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_0.28.2.bb => xf86-input-libinput_0.29.0.bb} (63%)
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 7944ee97d49..b569b593fc2 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -21,6 +21,7 @@ SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=git \
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.28.2.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.29.0.bb
+similarity index 63%
+rename from meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.28.2.bb
+rename to meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.29.0.bb
+index 19123e06c9..f87083e575 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.28.2.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.29.0.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5e6b20ea2ef94a998145f0ea3f788ee0"
  
- PV = "edk2-stable201905"
- SRCREV="20d2e5a125e34fc8501026613a71549b2a1a3e54"
-+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>edk2-stable.*)"
+ DEPENDS += "libinput"
  
- inherit deploy
+-SRC_URI[md5sum] = "b7548bc1d7e82d189205794ff86307af"
+-SRC_URI[sha256sum] = "b8b346962c6b62b8069928c29c0db83b6f544863bf2fc6830f324de841de2820"
++SRC_URI[md5sum] = "d600e8e2e30747b8ce49ec5294ff0ab6"
++SRC_URI[sha256sum] = "c28b56a21754b972db31798e6a4cf4dc9d69208d08f8fe41701a94def5e94bee"
  
+ FILES_${PN} += "${datadir}/X11/xorg.conf.d"
 -- 
 2.17.1
 
