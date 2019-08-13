@@ -1,47 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 374427E4FE
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EB7D67E8B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 12:28:03 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id r9so101364766ljg.5
+	Tue, 13 Aug 2019 13:20:46 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id 190so3819409vsf.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 05:28:04 -0700 (PDT)
+	Tue, 13 Aug 2019 06:20:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8YFLyxd0oit5O/fpd/Bo6FOYhhaubQWJdtcjhm6Dx5o=;
-	b=mFoRX7HXKwDNEVKqcYFCMihQF6d3Ctw42yEv9u+NYoyeRz6Un9r4SfUvEzk+r4z8RN
-	pF8oVxZzNEmMSP5v+eOxuTDQrW+hZ/q1ms1T5bxoicYHQu+zCxqYqS1r6dtxcKice61x
-	8aa4Go6B5COb66UmMxWB+wvlSpuHsfFCFnm8tYfCELDyhLbq/jyuBpS1nI5MxsaKjsvM
-	yvVDTrxOCaAatAA6gcWhCRS2B3QUHz2sDphBEaE7D8By2dfmIUux854Yw/C8u74vEklj
-	S6IPk94BoifN/4ZgchJJtDFeWP/iVMmj6DocD+bGimcrsr9yiFEj22TXMB4CQpdas0mT
-	NI8w==
+	:cc; bh=CyMlT4kcNwAba/bcxfHp7i09WHe+L9g8CHB6Iu7YBPM=;
+	b=I6ASR58vFiA2V1gGIXbHwxyfhkAp/zydJ3w1nTi11AZPMyMYkKuk2qDY5L1kC8oNTp
+	WvZW8asuccrn/zHBULIBEc4NsVr17fubxhyofB2We+0+egEAhIKKphBXkA1EBDhsBvbU
+	J51L1gyeoCO1dy1JFkrK06ObpVvZM5tlA2V8akPP+r5tda1QLgbcrDkHw/1QRif2WrKV
+	vzbs3aX+dv4Vt68AHTjDf7p0/tYqz5v1j6cXfT9syb+dj0D54IRmDa/2I78DG95+BK9s
+	OhzlCyDjH17wJ1McIy6qElSmZ65k8Fmpb2gQi2i7hPlA4MNNEk2zEWAlDeh6wUhAf77Y
+	mOFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=8YFLyxd0oit5O/fpd/Bo6FOYhhaubQWJdtcjhm6Dx5o=;
-	b=HbFqerXZ3a3hl/mvAE9oZYSYyEWA3CbF/5EvblsdhVNKV1yCdfYIMPFjLcu0jsDdb1
-	IsyH5jSv5tRyLlNIQS38ntT/idpezIMKJnG30mFVoAksFKOYGoRA1XAU2vUCbsqAUVTZ
-	Xkfhglc7FL2/fBXDuVUtKmFODReb26bRB08HhHTOXwDGN6gDbW+LT9sLDcfB+oWap7X2
-	RvNPj6ZvlrBZmGJFcc0EtQ6MyqtiFludBEzziJOGHe93zMPeKKbYij++aEIqb8jZycH0
-	W6sDGj8VeS2/qw2KxzCnxjgwZnBJZHvJGRsaeJNslxzYGvRmSXOH6SPXVNviH01efKWd
-	ys2Q==
-X-Gm-Message-State: APjAAAVvbYQ6QF/eOdK7uMtb7gqllFPSgP1Nd1c7nz5uwarq9mQ1OFCL
-	3om3w8tsm+CTGar4qVIZppQlQvow8vZxiq633Mg=
-X-Google-Smtp-Source: APXvYqxZHxcfsYzvF93JKhA2cOqMdFQTTlMe+8XvP0ap8IwhPXS0yMWOCIRxrAeS80E4nBtAmy/Mmm2A82TMoMAQ128=
-X-Received: by 2002:a2e:93c5:: with SMTP id p5mr21276172ljh.79.1565699283470; 
-	Tue, 13 Aug 2019 05:28:03 -0700 (PDT)
+	bh=CyMlT4kcNwAba/bcxfHp7i09WHe+L9g8CHB6Iu7YBPM=;
+	b=WC0+zl/UrGf/Qk6+GmrXXLS7EUfiZfp/LJqF9++1u6oeDeaDwA3ytQoYf6W86OztRQ
+	uIHEjKc1TWGlKauSiAIDlzuh3fPpYs3Ngcs5e45hQg4yyW/vou518ivAQU0AsBhw4mRU
+	fiucdD51Fv/KEUcLJKCJ1PiMTUlw1l7QpvxV9Wli3tSwQP6Y2aoE/jEhnKCeOtWsma3V
+	jPMhEVOAK9slolpKBYcaWTmJIV5vSH1p1fqNr+8YeU5UOeg/MY4+8K8obqfSyLpUloSF
+	+C9aSeNP0Bo5PHNisJC1uKcVKt7do7ZRQYFWbRZ2RE2+DQSnNJgr/l6CoqifLt5Jer0s
+	skAg==
+X-Gm-Message-State: APjAAAXnqJsDTE67YbQUlxVYasKoiQJH+AGtaVNYhN84+IhDj1iHfN+r
+	byWVEQFwGAqYq1ebDFhiMd4mF6ffE692OHEFcPI=
+X-Google-Smtp-Source: APXvYqzX79RJRr89E+qWjz3o/EJnB86tt5aJAPWKWGCvtVlGlMG+KPEpYMx9MVkDxt0PQOikZr4EwDBuXSkUIpT4wqM=
+X-Received: by 2002:a67:62c5:: with SMTP id w188mr9269021vsb.25.1565702447755; 
+	Tue, 13 Aug 2019 06:20:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <1565674414-112937-1-git-send-email-hongzhi.song@windriver.com>
-In-Reply-To: <1565674414-112937-1-git-send-email-hongzhi.song@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 13 Aug 2019 08:27:52 -0400
-Message-ID: <CADkTA4PCeER9wP28NOaUtKEFBLKmqUfda7Cz+M0q2cgp5DiYew@mail.gmail.com>
-To: "Hongzhi.Song" <hongzhi.song@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: cp Documentation/ to sdk kernel
+References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
+	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
+In-Reply-To: <33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 13 Aug 2019 15:20:36 +0200
+Message-ID: <CANNYZj9W_9o2DqFoT1q_xmuFQM=-WUgdJzJu1ViMhpdWHM-8CQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,163 +55,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 12:28:03 -0000
-Content-Type: multipart/alternative; boundary="0000000000009dcf01058ffec5a3"
+X-List-Received-Date: Tue, 13 Aug 2019 13:20:47 -0000
+Content-Type: multipart/alternative; boundary="00000000000038f528058fff82e7"
 
---0000000000009dcf01058ffec5a3
+--00000000000038f528058fff82e7
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 13, 2019 at 1:35 AM Hongzhi.Song <hongzhi.song@windriver.com>
-wrote:
+On Tue, 13 Aug 2019 at 11:04, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> A new patch let kernel source Documentation/Kconfig in top Kconfig
-> So kernel-devsrc should include Documentation/ too.
-> Otherwise "make scripts" will fails.
+> We talked on irc and you pointed at the commit things started to go
+> wrong. Just to summarise things for the benefit of the list, this is
+> some quick testing I did:
 >
-> patch:
-> commit b1663d7e3a7961fc45262fd68a89253f2803036c
-> Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> Date:   Tue Jun 4 09:26:27 2019 -0300
+> "bitbake -p; time bitbake core-image-minimal -n"
 >
->     docs: Kbuild/Makefile: allow check for missing docs at build time
+> 30.0s 6c7c0cefd34067311144a1d4c01986fe0a4aef26
+> 30.6s a0d941c787cf3ef030d190903279d311bc05d752
+> 40.3s 7df31ff36892c2f9c65326b06b4c70
+> 42.2s a0542ed3ff700eca35f9195f743c9e28bcd50f3e
+> 45.4s 9983b07fffd19082abded7c3f15cc77d306dd69c
+> 76.9s master-next
 >
->     While this doesn't make sense for production Kernels, in order to
->     avoid regressions when documents are touched, let's add a
->     check target at the make file.
->
->     Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
->     Signed-off-by: Jonathan Corbet <corbet@lwn.net>
->
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index 5ec5929..a874e06 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -65,7 +65,7 @@ do_install() {
->      )
->
->      # then drop all but the needed Makefiles/Kconfig files
-> -    rm -rf $kerneldir/build/Documentation
-> +    #rm -rf $kerneldir/build/Documentation
+> So basically the original changes showed a 25% hit but the performance
+> of -next is dire.
 >
 
-In the spirit of keeping kernel-devsrc as small as possible (I have another
-patch pending if you really want the full kernel source), this should only
-keep the Documentation/ files that are required to pass the check, not keep
-all of Documentation.
+Sadly with larger sets the performance hit is much worse. I enabled all of
+the layers in meta-oe, and ran this with empty sstate and build directories:
+bitbake -p; time bitbake -n -k world
 
-Bruce
+The outcomes are:
 
+6c7c0cefd34067311144a1d4c01986fe0a4aef26
+12m51,848s
+(this is the baseline; the bulk of the time goes towards going through the
+task list without executing the tasks - the 'spinning task counter" part)
 
+9983b07fffd19082abded7c3f15cc77d306dd69c
+66m29,563s
 
->      rm -rf $kerneldir/build/scripts
->      rm -rf $kerneldir/build/include
->
-> --
-> 2.8.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+So there could be something quadratically-growing going on with these new
+commits :(
 
+I didn't dare to try master-next after seeing above how it hits
+core-image-minimal and master already regressing to over an hour :-(
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Alex
 
---0000000000009dcf01058ffec5a3
+--00000000000038f528058fff82e7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Tue, Aug 13, 2019 at 1:35 AM Hongzhi.Song &lt;<a=
- href=3D"mailto:hongzhi.song@windriver.com">hongzhi.song@windriver.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">A new=
- patch let kernel source Documentation/Kconfig in top Kconfig<br>
-So kernel-devsrc should include Documentation/ too.<br>
-Otherwise &quot;make scripts&quot; will fails.<br>
+<div dir=3D"ltr">On Tue, 13 Aug 2019 at 11:04, Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
+rdie@linuxfoundation.org</a>&gt; wrote:<br><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">We talked on irc and you point=
+ed at the commit things started to go<br>
+wrong. Just to summarise things for the benefit of the list, this is<br>
+some quick testing I did:<br>
 <br>
-patch:<br>
-commit b1663d7e3a7961fc45262fd68a89253f2803036c<br>
-Author: Mauro Carvalho Chehab &lt;<a href=3D"mailto:mchehab%2Bsamsung@kerne=
-l.org" target=3D"_blank">mchehab+samsung@kernel.org</a>&gt;<br>
-Date:=C2=A0 =C2=A0Tue Jun 4 09:26:27 2019 -0300<br>
+&quot;bitbake -p; time bitbake core-image-minimal -n&quot;<br>
 <br>
-=C2=A0 =C2=A0 docs: Kbuild/Makefile: allow check for missing docs at build =
-time<br>
+30.0s 6c7c0cefd34067311144a1d4c01986fe0a4aef26<br>
+30.6s a0d941c787cf3ef030d190903279d311bc05d752<br>
+40.3s 7df31ff36892c2f9c65326b06b4c70 <br>
+42.2s a0542ed3ff700eca35f9195f743c9e28bcd50f3e <br>
+45.4s 9983b07fffd19082abded7c3f15cc77d306dd69c <br>
+76.9s master-next<br>
 <br>
-=C2=A0 =C2=A0 While this doesn&#39;t make sense for production Kernels, in =
-order to<br>
-=C2=A0 =C2=A0 avoid regressions when documents are touched, let&#39;s add a=
-<br>
-=C2=A0 =C2=A0 check target at the make file.<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Mauro Carvalho Chehab &lt;<a href=3D"mailto:mc=
-hehab%2Bsamsung@kernel.org" target=3D"_blank">mchehab+samsung@kernel.org</a=
->&gt;<br>
-=C2=A0 =C2=A0 Signed-off-by: Jonathan Corbet &lt;<a href=3D"mailto:corbet@l=
-wn.net" target=3D"_blank">corbet@lwn.net</a>&gt;<br>
-<br>
-Signed-off-by: Hongzhi.Song &lt;<a href=3D"mailto:hongzhi.song@windriver.co=
-m" target=3D"_blank">hongzhi.song@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" =
-rel=3D"noreferrer" target=3D"_blank">kernel-devsrc.bb</a> b/meta/recipes-ke=
-rnel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"noreferrer" target=3D=
-"_blank">kernel-devsrc.bb</a><br>
-index 5ec5929..a874e06 100644<br>
---- a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"=
-noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
-@@ -65,7 +65,7 @@ do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# then drop all but the needed Makefiles/Kconfig files<=
-br>
--=C2=A0 =C2=A0 rm -rf $kerneldir/build/Documentation<br>
-+=C2=A0 =C2=A0 #rm -rf $kerneldir/build/Documentation<br></blockquote><div>=
-<br></div><div><div class=3D"gmail_default" style=3D"font-size:small">In th=
-e spirit of keeping kernel-devsrc as small as possible (I have another patc=
-h pending if you really want the full kernel source), this should only keep=
- the Documentation/ files that are required to pass the check, not keep all=
- of Documentation.</div><div class=3D"gmail_default" style=3D"font-size:sma=
-ll"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce<=
-/div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-=C2=A0 =C2=A0 =C2=A0rm -rf $kerneldir/build/scripts<br>
-=C2=A0 =C2=A0 =C2=A0rm -rf $kerneldir/build/include<br>
-<br>
--- <br>
-2.8.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
+So basically the original changes showed a 25% hit but the performance<br>
+of -next is dire.<br></blockquote><div><br></div><div>Sadly with larger set=
+s the performance hit is much worse. I enabled all of the layers in meta-oe=
+, and ran this with empty sstate and build directories:<br></div><div></div=
+><div>bitbake -p; time bitbake -n -k world <br></div><div><br></div><div>Th=
+e outcomes are:</div><div></div><div><div dir=3D"ltr"><br></div><div dir=3D=
+"ltr">6c7c0cefd34067311144a1d4c01986fe0a4aef26<br></div><div dir=3D"ltr">12=
+m51,848s</div>(this is the baseline; the bulk of the time goes towards goin=
+g through the task list without executing the tasks - the &#39;spinning tas=
+k counter&quot; part)<br></div><div><br></div><div>9983b07fffd19082abded7c3=
+f15cc77d306dd69c</div><div>66m29,563s</div><div><br></div><div>So there cou=
+ld be something quadratically-growing going on with these new commits :(<br=
+></div><div><br></div><div>I didn&#39;t dare to try master-next after seein=
+g above how it hits core-image-minimal and master already regressing to ove=
+r an hour :-(</div><div><br></div><div>Alex<br> </div></div>
+</div>
 
---0000000000009dcf01058ffec5a3--
+--00000000000038f528058fff82e7--
