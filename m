@@ -1,49 +1,46 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E9227E9CD
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E3FAE6C1C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 19:52:44 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id f9so4138145ljc.13
+	Tue, 13 Aug 2019 20:01:35 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id f9so2039076uaj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 12:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=cj9VXIQJtBOxABE9d/YiWMQe3HLnDRgNmAgNttP4k7U=;
-	b=hdnxj5Uk5j/WX2ZiphEY9tRhTi9UaxWjxH2rF0Nt9BFT9I67X93SxyFS7ckYbsUohK
-	63RC5N/SAlMFXC5bfNklxpgxR/SKF88jM+mp8GV00RHv7oNlNevEltCIgWiib69/BLZ9
-	KO19nPPiFxFrfb0GPlT8m86ldE2NoWtwkofFzfur6o/7M7HnfBxpKJnQvaEVJyNtHcfu
-	ox9hKdCX9yvqhlpgNoe1KNzvrO0a3eP7xziaUrZgvtkO5wWOEKdL1xiaZwAfXEuY9n0P
-	VP2IaMr6NYdhd5kAeXATuIkF9vjWjfsDA8zWKFt9LbXnpp800F+HUxU//GbRtG5Ya/fC
-	WtWg==
+	Tue, 13 Aug 2019 13:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=7KtDOs1foqI8Ep8M+Gg2gTJPX/XgobaZOuJGS/SDOvU=;
+	b=Y+pGnGwiBAX08GVr/a5Dev7hIs7pOZvZKVRFiZxNjfm3jz7Zw9FyuvRa1teU9LPys0
+	3WKrkczR+AZEbnlHZEZEGVh/qhinkLpWnlg741om34LXXaQ1jiypgintcYEtYT0w+voq
+	k/GkouEEyaK+LmqIOth/uq+zpGn+KknlXsGrh0l/1JgcT7a8wXc08PiYt3C722b8QFcE
+	6uFjrCXGRMV8g0JRRT3p22RObo10DEnh+zvCt36/O3H8Yq14rzr2OllU1bi8WO+kAyBP
+	9rnz0PAzr4KTi1vT4WBuZDxBpAspAXnaoEvj8lgTgCseVvxJLhamFejSgtzUYCnfwITp
+	OVVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cj9VXIQJtBOxABE9d/YiWMQe3HLnDRgNmAgNttP4k7U=;
-	b=eTqf9GpdL2/QJ/md6cdNikdpd3YAY8asWSPJ/klbdgNlyGPAwizCKJKfc+6p9sJfZO
-	xTZMdiOlLn6vhagdng3//L5S4Shq4UmcexdBqpmX6cDQGvUB54CrvOs5L8hh7LW8DWlA
-	tIsH4z9bhruLPHjHaFbOi48klVTuzywoX7kmtPL60rmZZY264BHnTw97vAfwcv8DiqTe
-	xklrqxN3U1R3Uf7Xkb6QFAKGYusPWCEfBklB7XrW1ExVmzxD5zdVBOlkU0gJav/bBGkJ
-	xteMa2uscnNrnE1wN/Ma3v/lo4oauwr9bYas7FdLkjzFRQIqFaQy9LBn+7gxcb74PYF4
-	aaiA==
-X-Gm-Message-State: APjAAAUkqNoxFgSUB40ISJeEawodc7GJ7FoKGHbaocYyhGFVtlQklGsS
-	WpfYsvCeJ7aXmRKB+4QcjgiTUF6OWgo=
-X-Google-Smtp-Source: APXvYqzyMdsVy/UWyzbOsTGNPl82ZtWBvhqJwSDizHlT3YHfQXscrjJS79US1Sc2D09clXRj9+SiRg==
-X-Received: by 2002:a2e:9f02:: with SMTP id u2mr7761770ljk.4.1565725964622;
-	Tue, 13 Aug 2019 12:52:44 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	j3sm19789795lfp.34.2019.08.13.12.52.43
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 13 Aug 2019 12:52:43 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2019 21:52:39 +0200
-Message-Id: <20190813195239.30048-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] xrandr: update to 1.5.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=7KtDOs1foqI8Ep8M+Gg2gTJPX/XgobaZOuJGS/SDOvU=;
+	b=eXYAuqkhxjPUuBudDYSfM19aGIH+Jb4HJekNKjP9KtS9n1n4UJ4HRE5/TGjXsPnbaz
+	VARTz6uPNOt362fYWHDQ2G6ohFL3+Hx1uAuvM37nCjBcIAZlwZwawyWzHCSP9C+kMU3h
+	CNDcDvcaMoVTxtUoXqyhfL0ZalyYPPrtSJPBj/YSnjhVZuDjk8lXkYk1Wo38X3NFxveL
+	Mm5F/sqzMBvv+bBlfRBi2OIGXClQvtQSlEFHuBX5Cz0HaQsX98iPWv9G9bcZEMW+YLoh
+	aa5U0RNPDJVnUDlUS2tjs6McU60OAChtnfvFeULpuhVnT1YCRitPgbYDRQ2JWZyVGZYT
+	OBQg==
+X-Gm-Message-State: APjAAAVI1LBu+MLNY0XmCKxlxAkVfeImDJ3MMze0yV3/fxUMifrAvVMN
+	Ngg1Vk8w+ChgyuC+VLoZSAJZnSJQsmV2l+cbWC3GIVse
+X-Google-Smtp-Source: APXvYqxRtVF0583wlTPBultDxFdyS1TKYgsHdXFNm5slf5ehcEFzR6auOE6yNTlIFcZF6wxRB5ZhliF0rSaSHFDL8BY=
+X-Received: by 2002:ab0:30ae:: with SMTP id b14mr2308854uam.22.1565726496722; 
+	Tue, 13 Aug 2019 13:01:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190813195239.30048-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190813195239.30048-1-open.source@oleksandr-kravchuk.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 13 Aug 2019 22:01:25 +0200
+Message-ID: <CANNYZj8iGTPsJ9jJL70o9xfs2JKAikWrxtbmoBB_xQ-ZLMkzqw@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xrandr: update to 1.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +53,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 19:52:46 -0000
+X-List-Received-Date: Tue, 13 Aug 2019 20:01:36 -0000
+Content-Type: multipart/alternative; boundary="000000000000a712de0590051be3"
 
-SRC_URI was moved from xorg-app-common.inc, since it has hardcoded file
-extension (tar.bz2), but upstream stopped publishing tar.bz2 archives
-for newer versions of the packages.
+--000000000000a712de0590051be3
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../xorg-app/{xrandr_1.5.0.bb => xrandr_1.5.1.bb}           | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-app/{xrandr_1.5.0.bb => xrandr_1.5.1.bb} (64%)
+On Tue, 13 Aug 2019 at 21:53, Oleksandr Kravchuk <
+open.source@oleksandr-kravchuk.com> wrote:
 
-diff --git a/meta/recipes-graphics/xorg-app/xrandr_1.5.0.bb b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
-similarity index 64%
-rename from meta/recipes-graphics/xorg-app/xrandr_1.5.0.bb
-rename to meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
-index ea6897948d..6583ea2371 100644
---- a/meta/recipes-graphics/xorg-app/xrandr_1.5.0.bb
-+++ b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
-@@ -11,5 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fe1608bdb33cf8c62a4438f7d34679b3"
- DEPENDS += "libxrandr libxrender"
- PE = "1"
- 
--SRC_URI[md5sum] = "ebffac98021b8f1dc71da0c1918e9b57"
--SRC_URI[sha256sum] = "c1cfd4e1d4d708c031d60801e527abc9b6d34b85f2ffa2cadd21f75ff38151cd"
-+SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
-+
-+SRC_URI[md5sum] = "fe40f7a4fd39dd3a02248d3e0b1972e4"
-+SRC_URI[sha256sum] = "7bc76daf9d72f8aff885efad04ce06b90488a1a169d118dea8a2b661832e8762"
--- 
-2.17.1
+> SRC_URI was moved from xorg-app-common.inc, since it has hardcoded file
+> extension (tar.bz2), but upstream stopped publishing tar.bz2 archives
+> for newer versions of the packages.
+>
 
+Should this be rather fixed in the common include though? I took a brief
+look here:
+https://www.x.org/releases/individual/app/
+and it seems like we can switch to xz for everything or almost everything
+without much pain.
 
+Alex
+
+Alex
+
+--000000000000a712de0590051be3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, 13 Aug 2019 at 21:53, Oleksandr Kravchuk &lt;<a href=3D"mail=
+to:open.source@oleksandr-kravchuk.com">open.source@oleksandr-kravchuk.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">SR=
+C_URI was moved from xorg-app-common.inc, since it has hardcoded file<br>
+extension (tar.bz2), but upstream stopped publishing tar.bz2 archives<br>
+for newer versions of the packages.<br></blockquote><div><br></div><div>Sho=
+uld this be rather fixed in the common include though? I took a brief look =
+here:</div><div><a href=3D"https://www.x.org/releases/individual/app/">http=
+s://www.x.org/releases/individual/app/</a></div><div>and it seems like we c=
+an switch to xz for everything or almost everything without much pain.</div=
+><div><br></div><div>Alex<br></div><div><br></div><div>Alex<br></div></div>=
+</div>
+
+--000000000000a712de0590051be3--
