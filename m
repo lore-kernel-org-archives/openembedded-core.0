@@ -1,49 +1,49 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 419207E721
+Return-Path: <wpage@polysync.io>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E0DC57DE82
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 18:27:39 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id l14so12512297lje.2
+	Tue, 13 Aug 2019 18:37:18 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id i18so51701848pgl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 11:27:40 -0700 (PDT)
+	Tue, 13 Aug 2019 11:37:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	d=polysync-io.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=RinyFrXxUxcJ0Pri7AyhOMl7p8gQ7kovY7SP+N3bnnc=;
-	b=IFAMXWeB3868hS/tWeVklBZgZKd4w0jJ2ktBDJhlu8h1aSa1B5qIPvfeV5VXj9poth
-	DKBK2E0/ZAI7z5d6b5r4sxglUWRJXCaLGkwNgzP7dJA8CysKMCtTfjsHm/DsTm67J/Eg
-	5Bbqp4Sk2bmjdh/3njSM7fiy27OtA72ccgbmu8Y8Cfl2Rv58/e46EBwJWAWgvVe8/vKA
-	ST5SZmJ9w4M2pvGzJqv6rR81pbaBYRBPlOaw5seW5orhwsOhTqSokBbtW+VLIMyFCRM1
-	3F6ZnfFZ/6sbFgPHix/e8Cwd3CGrThVgnQhJOmxXjsuQu8ID6K55BMUEEIUVUu2/GDkm
-	/rLQ==
+	bh=+r6ammVNPvkYgIDytUK4v0t4nDoAB1gmnteOf3m5FlA=;
+	b=hpg5C4BMBpDyYBDmBlalyEPHXkiP1jqmj+hVw3wDGazPkAeiv+uYcYUB7Ezu2yXhiC
+	XEDhGHV2yblWIEdk2X9CPSthPtkEqebWFHfBFY4OpQqStPALz3YNDfSmV5x5tc+mQoU0
+	m/XgMA+pze+lNCSk38yF+JOwiuCbHFJpJkRnJgmmRIuKzjEGP/PZqzJkQCOAzCWtuhc6
+	U+C5u8ApQ5BBFlbYLM9DYAAfJdkQZbt7Hkg3rm7jSyquSbW39TUbhR50XErSbDfW1Fv4
+	04aMUJVIx1a0aMTSi1VvD0Q8o3+uY+eyUpQxSl63QSOaDBq4t97OIHVr6YnUbHzN18Wl
+	G/cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=RinyFrXxUxcJ0Pri7AyhOMl7p8gQ7kovY7SP+N3bnnc=;
-	b=dYZfYRafX6kZo3ptT8pxZ3GR2V3q4hBnzXfpLep4Tv1aa6cxcPZzBEcNGNsLmEsK+B
-	K/pKkJIWM28f9kNvDG2s6ntMgODoiFprxbcQAzHT3woXOsIr7M9+YZNKZracG873qxAX
-	fEBHkWPjjRTttXR4XhtCHZ+CeOHPaC4cTcH0Hgsug2eOW1A76XHYQOeUGwuXpuna2djT
-	NuWbm8Jx50FLpN5jtJrPiHsc3cdUUdlFR2hmOGWyVJCJ9xm/HbsrXK/S9cq4d0vNp5u6
-	Q061CaU+hTcKRe7rI3fmVmyl1tL5kk8aHGCiocwqDhXOfYWUUlYiKXyJRHponlQ4jab/
-	Bhsw==
-X-Gm-Message-State: APjAAAUFMeSs6hr13nboX6QdAT1LErcDTfuvbQLmTp30Od6fZbNt+4GA
-	ifBDTeg4Co4n33zO5kWjE6rhGhFtYUA=
-X-Google-Smtp-Source: APXvYqx27/khz+TJIs5e3+B2YMUKdi50/3gVHuHL+pforTH1JueHXcnZmlg53CAt2Nv8yMtbjcak5g==
-X-Received: by 2002:a2e:8495:: with SMTP id b21mr22136459ljh.149.1565720858838;
-	Tue, 13 Aug 2019 11:27:38 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	r21sm6383562lfi.32.2019.08.13.11.27.38
+	bh=+r6ammVNPvkYgIDytUK4v0t4nDoAB1gmnteOf3m5FlA=;
+	b=gW1lEMCdXZKMbYOzestbqnUPzH9Jl9AcW9OV3wtj4EaEp3jR7EggUmufn6TAHAevg/
+	eiPL96jjkTVwOy6FB1+v8qH834m2lfJ9knC0tQSnfZeXwcqPqUAvqsdbgRgQO65rnJTb
+	5KbUoLjnfPxRA5ED20B+8UhDICzVUfef7ttfS/7ICzYYvUjgXCgrNZ7Z+ltvj1/URjQi
+	kIAQt7+VGfvBSr/Ep3+qwEHVlJR08rL7+ajbEISYAbhMCHpV/qpR8oOz/jo+N/a/yQW2
+	VxBwEA+CeOaMoBjtY4b+3NWHaakxHlylNqIf5MwvOUe2UQktG/bCphbjhPKF5SYOseUe
+	s05g==
+X-Gm-Message-State: APjAAAXjDh6/ZioFH/1s9nBbqWM/vw9jMDYqx+4t89dPuHAxx1WqlkPF
+	m4XFCl9ToFpa6RLNN8gpE3avRoQvIJk=
+X-Google-Smtp-Source: APXvYqyPMEKiTIQwhvdFn7+0H4wtTJQMXttnawk0GU07hXBJtD5TqpaFl3iU3riHxrGqxxbk9YWcPQ==
+X-Received: by 2002:a62:6044:: with SMTP id u65mr41477744pfb.15.1565721439518; 
+	Tue, 13 Aug 2019 11:37:19 -0700 (PDT)
+Received: from vizzini.localdomain ([65.152.8.170])
+	by smtp.googlemail.com with ESMTPSA id
+	g1sm176945928pgg.27.2019.08.13.11.37.18
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 13 Aug 2019 11:27:38 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	Tue, 13 Aug 2019 11:37:18 -0700 (PDT)
+From: Will Page <wpage@polysync.io>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2019 20:27:32 +0200
-Message-Id: <20190813182732.20799-1-open.source@oleksandr-kravchuk.com>
+Date: Tue, 13 Aug 2019 11:37:15 -0700
+Message-Id: <20190813183715.20125-1-wpage@polysync.io>
 X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] xf86-input-libinput: update to 0.29.0
+Cc: Will Page <wpage@polysync.io>
+Subject: [PATCH] uboot: fixes to uboot-extlinux-config attribute values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +56,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 18:27:39 -0000
+X-List-Received-Date: Tue, 13 Aug 2019 18:37:19 -0000
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+The way this class uses overrides to support generation of multiple
+sections is subject to two different issues: 1) labels that conflict
+with existing override names causing the value for the conflicting label
+to be set for all labels, and 2) reusing the override list through each
+iteration, prepending each new label to the list of overrides makes
+earlier labels' value take precedence over later labels, making later
+labels virtually impossible to customize.
+
+The first issue is resolved by removing all label names from overrides
+before iterating over labels.  The second issue is resolved by
+generating a fresh list of overrides with only the current label added.
+
+The current label is also appended to the list of overrides instead of
+prepended, which makes it the highest priority override.  This is
+matches the behavior of devtool-source.bbclass, which similarly
+monkey-patches overrides.
+
+Closes https://bugzilla.yoctoproject.org/show_bug.cgi?id=13469 .
+
+Signed-off-by: Will Page <wpage@polysync.io>
 ---
- ...input-libinput_0.28.2.bb => xf86-input-libinput_0.29.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-libinput_0.28.2.bb => xf86-input-libinput_0.29.0.bb} (63%)
+ meta/classes/uboot-extlinux-config.bbclass | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.28.2.bb b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.29.0.bb
-similarity index 63%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.28.2.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.29.0.bb
-index 19123e06c9..f87083e575 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.28.2.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-libinput_0.29.0.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5e6b20ea2ef94a998145f0ea3f788ee0"
+diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+index b5b1a81dfc..f4bf94be04 100644
+--- a/meta/classes/uboot-extlinux-config.bbclass
++++ b/meta/classes/uboot-extlinux-config.bbclass
+@@ -104,13 +104,16 @@ python do_create_extlinux_config() {
+                 if default:
+                     cfgfile.write('DEFAULT %s\n' % (default))
  
- DEPENDS += "libinput"
+-            for label in labels.split():
++            # Need to deconflict the labels with existing overrides
++            label_overrides = labels.split()
++            default_overrides = localdata.getVar('OVERRIDES').split(':')
++            # We're keeping all the existing overrides that aren't used as a label
++            # an override for that label will be added back in while we're processing that label
++            keep_overrides = list(filter(lambda x: x not in label_overrides, default_overrides))
  
--SRC_URI[md5sum] = "b7548bc1d7e82d189205794ff86307af"
--SRC_URI[sha256sum] = "b8b346962c6b62b8069928c29c0db83b6f544863bf2fc6830f324de841de2820"
-+SRC_URI[md5sum] = "d600e8e2e30747b8ce49ec5294ff0ab6"
-+SRC_URI[sha256sum] = "c28b56a21754b972db31798e6a4cf4dc9d69208d08f8fe41701a94def5e94bee"
+-                overrides = localdata.getVar('OVERRIDES')
+-                if not overrides:
+-                    bb.fatal('OVERRIDES not defined')
++            for label in labels.split():
  
- FILES_${PN} += "${datadir}/X11/xorg.conf.d"
+-                localdata.setVar('OVERRIDES', label + ':' + overrides)
++                localdata.setVar('OVERRIDES', ':'.join(keep_overrides + [label]))
+ 
+                 extlinux_console = localdata.getVar('UBOOT_EXTLINUX_CONSOLE')
+ 
 -- 
 2.17.1
 
