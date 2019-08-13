@@ -1,48 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 822527E830
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B83527D3B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 15:35:54 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id t12so18176150qtp.9
+	Tue, 13 Aug 2019 15:54:07 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id m125so1896752wmm.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 08:35:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=uANeS1i57iKNm8LrdN3QNYNy7slEKAly1RPfM/7EbJM=;
-	b=An6mxLujN2RStU9E6nXdL5+NlBJe/RqCW2QGInqodvpNblWG8TrM6ionLInXzBAxSa
-	GlCZZV+2Xslyqn3c1aNS72ItYnkrXxCcBBSml2yxA7lg6E+xeMOtNt8YKJq3lrJqdp9H
-	4WoBneMvsK92+QUDlwWkhgmZ0EYmAklCKjAQcQBNicIbsLr1NCtMcMhbrKMpICrDsdJp
-	reNPctzBQ0dt6rK/UvLXAaebxVDQuU0pIygK9ZljF68Nr7GrWh0b4hoNA+rbFs6nIvwB
-	g3SoXwhXNUAtvGCbc+purfzRTXLOEZKLeKAcNLYlcRDj9QTJv5QdkFH/+C8xAaIl/mip
-	6gBA==
+	Tue, 13 Aug 2019 08:54:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=7cwEVbbuMJMXhZAvze+EYlPd8ACZvr+YlvcbQC/duVA=;
+	b=HdiYnfXrx9gDhGiDt7/COeE7l7f0NkJcTd9c4pUwAc1bYg6Wa3QoOXhjPS1Gi0trU4
+	5IDcRqhFSX3tDGtlzGjIGsDEV8t9a/d/iVPoTPfpIJPEc+YlhFFBu906RaT6vuZ3sQKf
+	RB4Avf8YfBZY2fc/DP9QCfhjHjx8lXeSppB3Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=uANeS1i57iKNm8LrdN3QNYNy7slEKAly1RPfM/7EbJM=;
-	b=N9Sbk4IW/T5ty1710YH/YWIxR77NBEV1G8AuVIc5Kt0HHYtzPdDa06YSmVEkWnEPdD
-	IphqYge8cBK6Xs3xuE1JZF1OkZSrUUlu0JLSnvr8XGL5v45P+y46V4Hz5w36W0euvqYA
-	uuvftEVv3OQzW53ACVdhHe6G+GPw6EysfPVpFf1YqftZz1a2JmtxygSoZrdAjBBrxQCn
-	fdoM+MdG58u2n9HORP5EtnLaUYtD94oRTRL4rIwmxUTuD4a86ins9EOM2dF/fD3MPfvN
-	OAPiCrMdXRp+bAJG+NEd0tHSogVWbzZpZl3rysunhdwBbC2SCCkBr7iWCJniN6Dp3Gt+
-	lofQ==
-X-Gm-Message-State: APjAAAV565/tQGcTyoSoTdZ+5i+kiHWxB1vfK6FoBlXhgOMQ5SPnvVm0
-	eflOp8iOmO1ljOAPIxBG2M3nXSGyFubO9YA8Vco=
-X-Google-Smtp-Source: APXvYqz+19645zzbdQhuVKc1N9W4wyhG4yvM7p8F+JjtrNj3g9vxezF2hHWBCSyVjjNKxM5EGijUMMOhlUh1RHkTPO4=
-X-Received: by 2002:a0c:c548:: with SMTP id y8mr5979038qvi.68.1565710555062;
-	Tue, 13 Aug 2019 08:35:55 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=7cwEVbbuMJMXhZAvze+EYlPd8ACZvr+YlvcbQC/duVA=;
+	b=H9wi6qgLGNm4oCJodzrpU4ql857cMrPTHELuTYifisWFO9fXvnFlokWA+hCp6J+oRq
+	nPpX2Jve7CMO2PmWaVme+RMOQ0u0QoaamrPQKemlknoOQ0zFMIDqfxCwCNHRBnm9juGJ
+	UhUhwaA1dU/jlX4LSwMxI0F6CFtUj20mDnXvQFfhHLhMN3qehqltSceSWQa70Ql2H6dw
+	fz3LNrilaeg+pR9FsWUftA4J09mPb+5ik21sOkFdSli7oGMhSmfXnnAlId6+WXnE4D+8
+	05qYLDP2pWv1b2EMyqzOxOYgEM9P7R8SPjVLXAQ9aIhSHIWnTJB9nO5hAZugX+zPgut6
+	MMRg==
+X-Gm-Message-State: APjAAAXSWveEQAYwdDk2tKsXmFvFuCZwwXGaMTu1ueGEzPC/eQfuLmAt
+	kBY5lxjKer+ChlVus8xHy5LclQ==
+X-Google-Smtp-Source: APXvYqwA7/dVGpiTB11euF4b1C8UVXg0Ow7rk2EBjP7BKGOTptMtzyxnUzMeMexonU+krGLI7xcXaA==
+X-Received: by 2002:a1c:4383:: with SMTP id q125mr4007529wma.16.1565711648281; 
+	Tue, 13 Aug 2019 08:54:08 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r15sm114826339wrj.68.2019.08.13.08.54.04
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 13 Aug 2019 08:54:07 -0700 (PDT)
+Message-ID: <a726717439704d783b7634cf4843f9c4258290ed.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Khem Raj <raj.khem@gmail.com>, Michael Halstead
+	<mhalstead@linuxfoundation.org>
+Date: Tue, 13 Aug 2019 16:54:02 +0100
+In-Reply-To: <CAMKF1sp7BmgtiMpRBLiFDorbmQePhK2eyH35wreprETK+kPPtg@mail.gmail.com>
 References: <20190812134903.55045-1-alex.kanavin@gmail.com>
 	<20190812134903.55045-2-alex.kanavin@gmail.com>
 	<72c38e8826111b832afe9df09ab350b099918f8b.camel@linuxfoundation.org>
 	<CANNYZj96rpe3di1jNa9d9N79YWE0Ax8_=wcG1kK5Z87H+dDOiA@mail.gmail.com>
 	<ea008eaf-88a9-5551-7e57-fe45973ac6cc@linuxfoundation.org>
-In-Reply-To: <ea008eaf-88a9-5551-7e57-fe45973ac6cc@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 13 Aug 2019 08:35:28 -0700
-Message-ID: <CAMKF1sp7BmgtiMpRBLiFDorbmQePhK2eyH35wreprETK+kPPtg@mail.gmail.com>
-To: Michael Halstead <mhalstead@linuxfoundation.org>
+	<CAMKF1sp7BmgtiMpRBLiFDorbmQePhK2eyH35wreprETK+kPPtg@mail.gmail.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/4] python3-numpy: update to 1.17.0
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -57,41 +64,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 15:35:54 -0000
+X-List-Received-Date: Tue, 13 Aug 2019 15:54:08 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 13, 2019 at 8:34 AM Michael Halstead
-<mhalstead@linuxfoundation.org> wrote:
->
->
-> On 8/13/19 2:54 AM, Alexander Kanavin wrote:
->
-> On Tue, 13 Aug 2019 at 10:34, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
->>
->>
->> This doesn't build on opensuse 42.3:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/907
->>
->> Its numpy-native and looks like it might be the old compiler :(
->
->
-> That version of opensuse went end-of-life about a month ago. We can hold this off until the autobuilder is upgraded.
->
-> Alex
->
-> I'm ready to drop this worker at any time. opensuse-42.3 is still a SANITY_TESTED_DISTRO. Is it fine to go ahead and remove this?
->
+On Tue, 2019-08-13 at 08:35 -0700, Khem Raj wrote:
+> On Tue, Aug 13, 2019 at 8:34 AM Michael Halstead
+> <mhalstead@linuxfoundation.org> wrote:
+> > 
+> > On 8/13/19 2:54 AM, Alexander Kanavin wrote:
+> > 
+> > On Tue, 13 Aug 2019 at 10:34, Richard Purdie <
+> > richard.purdie@linuxfoundation.org> wrote:
+> > > 
+> > > This doesn't build on opensuse 42.3:
+> > > 
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/907
+> > > 
+> > > Its numpy-native and looks like it might be the old compiler :(
+> > 
+> > That version of opensuse went end-of-life about a month ago. We can
+> > hold this off until the autobuilder is upgraded.
+> > 
+> > Alex
+> > 
+> > I'm ready to drop this worker at any time. opensuse-42.3 is still a
+> > SANITY_TESTED_DISTRO. Is it fine to go ahead and remove this?
+> > 
+> 
+> sure, also a patch to drop it from SANITY_TESTED_DISTRO before
+> disconnecting it
 
-sure, also a patch to drop it from SANITY_TESTED_DISTRO before disconnecting it
+Patch queued.
 
-> --
-> Michael Halstead
-> Linux Foundation / SysAdmin
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+
+Richard
+
 
