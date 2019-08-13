@@ -1,57 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B83527D3B7
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+	[209.85.208.170])
+	by mail.openembedded.org (Postfix) with ESMTP id EDF8D60053
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 15:54:07 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id m125so1896752wmm.3
+	Tue, 13 Aug 2019 18:07:53 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id l14so12460901lje.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 08:54:09 -0700 (PDT)
+	Tue, 13 Aug 2019 11:07:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=7cwEVbbuMJMXhZAvze+EYlPd8ACZvr+YlvcbQC/duVA=;
-	b=HdiYnfXrx9gDhGiDt7/COeE7l7f0NkJcTd9c4pUwAc1bYg6Wa3QoOXhjPS1Gi0trU4
-	5IDcRqhFSX3tDGtlzGjIGsDEV8t9a/d/iVPoTPfpIJPEc+YlhFFBu906RaT6vuZ3sQKf
-	RB4Avf8YfBZY2fc/DP9QCfhjHjx8lXeSppB3Q=
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=DsfUbu7Wx01v4poWSs9UOpE84jsWbVVKY3+zBaBA+1I=;
+	b=Men3sdYpzBJYtx2KLsmujbkGvv/fUbXnCL/YgXMJuXJwtca3vhRqrqLd3m2z/WWbNR
+	OZmuYWNYazmfKPMTp8EqKq4IrtO/nsyNFl/PQe9Z8ozSKRzhhr0U7K8zRvrq7gZL94a+
+	1T8usk7AWj1z30c50ttrNLdIO+ORhphfwQeQBgn5/j6psupVu2Rv8XpBU5elP4tb9da7
+	z60AWoIlTLkTWSUXJP2WzTT9sfV57sGuv7d8gSnsUUp0fXEQD/kD8MfBu+MSDm3m4Wwn
+	vwTSEMEy5eZMR25abhNj5QBukVYJUVhWygJ6cptB2/6XJcKNzVvHFVn4btU2C0vRDYs9
+	s79w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=7cwEVbbuMJMXhZAvze+EYlPd8ACZvr+YlvcbQC/duVA=;
-	b=H9wi6qgLGNm4oCJodzrpU4ql857cMrPTHELuTYifisWFO9fXvnFlokWA+hCp6J+oRq
-	nPpX2Jve7CMO2PmWaVme+RMOQ0u0QoaamrPQKemlknoOQ0zFMIDqfxCwCNHRBnm9juGJ
-	UhUhwaA1dU/jlX4LSwMxI0F6CFtUj20mDnXvQFfhHLhMN3qehqltSceSWQa70Ql2H6dw
-	fz3LNrilaeg+pR9FsWUftA4J09mPb+5ik21sOkFdSli7oGMhSmfXnnAlId6+WXnE4D+8
-	05qYLDP2pWv1b2EMyqzOxOYgEM9P7R8SPjVLXAQ9aIhSHIWnTJB9nO5hAZugX+zPgut6
-	MMRg==
-X-Gm-Message-State: APjAAAXSWveEQAYwdDk2tKsXmFvFuCZwwXGaMTu1ueGEzPC/eQfuLmAt
-	kBY5lxjKer+ChlVus8xHy5LclQ==
-X-Google-Smtp-Source: APXvYqwA7/dVGpiTB11euF4b1C8UVXg0Ow7rk2EBjP7BKGOTptMtzyxnUzMeMexonU+krGLI7xcXaA==
-X-Received: by 2002:a1c:4383:: with SMTP id q125mr4007529wma.16.1565711648281; 
-	Tue, 13 Aug 2019 08:54:08 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r15sm114826339wrj.68.2019.08.13.08.54.04
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=DsfUbu7Wx01v4poWSs9UOpE84jsWbVVKY3+zBaBA+1I=;
+	b=psKxHrt8wt5O0kZKz+WSPBc7ikAVKgOt2P4j4Aa/emQ7r0yq9RSW2Nlfkt1vQ+QN/o
+	xTFBf+yr2WnJLYCwX45lzMGPY9uBDE6Xhj9GUnPXNZ0is5GBh1qXmVDAxaed8MHgEzdX
+	y08Qm1pCc99EQ2PRvvMAdA9GDF5G3BP72KyrmRs+EOb99ocnrGkhwe5VtUf7onSCQk94
+	J43XhT+UHyw2NAYgWBG9O73Q7yrXxb8v23ShqZXWU7xAL+phHCze7KzITwMJ95S1NPYx
+	J7J10ia15Jpph7pprlHn15hOSVw5NOcNmcEb2dG1h+v2XObN4UnKZCJyWoIWiJ0Btse2
+	/1Sg==
+X-Gm-Message-State: APjAAAUqkO/PHvhsU0x7lTndc7+kcT/0VznX5BeuBS5BsIn+5M9z14iB
+	+V2+eJibsdfbpOqzztf2P99T8E8/4zw=
+X-Google-Smtp-Source: APXvYqzl92Sw5U/pesfcuYf0vOUtkcjLRmPrtx1tdZQFJxasnPJo+QHSJUMTZnEi5TEECI5FEOPCGw==
+X-Received: by 2002:a2e:93c8:: with SMTP id p8mr22248912ljh.6.1565719673974;
+	Tue, 13 Aug 2019 11:07:53 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	s21sm21880480ljm.28.2019.08.13.11.07.52
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 13 Aug 2019 08:54:07 -0700 (PDT)
-Message-ID: <a726717439704d783b7634cf4843f9c4258290ed.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Khem Raj <raj.khem@gmail.com>, Michael Halstead
-	<mhalstead@linuxfoundation.org>
-Date: Tue, 13 Aug 2019 16:54:02 +0100
-In-Reply-To: <CAMKF1sp7BmgtiMpRBLiFDorbmQePhK2eyH35wreprETK+kPPtg@mail.gmail.com>
-References: <20190812134903.55045-1-alex.kanavin@gmail.com>
-	<20190812134903.55045-2-alex.kanavin@gmail.com>
-	<72c38e8826111b832afe9df09ab350b099918f8b.camel@linuxfoundation.org>
-	<CANNYZj96rpe3di1jNa9d9N79YWE0Ax8_=wcG1kK5Z87H+dDOiA@mail.gmail.com>
-	<ea008eaf-88a9-5551-7e57-fe45973ac6cc@linuxfoundation.org>
-	<CAMKF1sp7BmgtiMpRBLiFDorbmQePhK2eyH35wreprETK+kPPtg@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] python3-numpy: update to 1.17.0
+	Tue, 13 Aug 2019 11:07:53 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Aug 2019 20:07:51 +0200
+Message-Id: <20190813180751.18686-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] python3-git: update to 3.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,41 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 15:54:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 13 Aug 2019 18:07:54 -0000
 
-On Tue, 2019-08-13 at 08:35 -0700, Khem Raj wrote:
-> On Tue, Aug 13, 2019 at 8:34 AM Michael Halstead
-> <mhalstead@linuxfoundation.org> wrote:
-> > 
-> > On 8/13/19 2:54 AM, Alexander Kanavin wrote:
-> > 
-> > On Tue, 13 Aug 2019 at 10:34, Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> > > 
-> > > This doesn't build on opensuse 42.3:
-> > > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/907
-> > > 
-> > > Its numpy-native and looks like it might be the old compiler :(
-> > 
-> > That version of opensuse went end-of-life about a month ago. We can
-> > hold this off until the autobuilder is upgraded.
-> > 
-> > Alex
-> > 
-> > I'm ready to drop this worker at any time. opensuse-42.3 is still a
-> > SANITY_TESTED_DISTRO. Is it fine to go ahead and remove this?
-> > 
-> 
-> sure, also a patch to drop it from SANITY_TESTED_DISTRO before
-> disconnecting it
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../python/{python3-git_2.1.13.bb => python3-git_3.0.0.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_2.1.13.bb => python3-git_3.0.0.bb} (88%)
 
-Patch queued.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/python/python3-git_2.1.13.bb b/meta/recipes-devtools/python/python3-git_3.0.0.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-git_2.1.13.bb
+rename to meta/recipes-devtools/python/python3-git_3.0.0.bb
+index fd6ba50df5..b6c837cdf3 100644
+--- a/meta/recipes-devtools/python/python3-git_2.1.13.bb
++++ b/meta/recipes-devtools/python/python3-git_3.0.0.bb
+@@ -12,8 +12,8 @@ PYPI_PACKAGE = "GitPython"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[md5sum] = "1ecc2d27123418e4c9e5602788c96855"
+-SRC_URI[sha256sum] = "c15c55ff890cd3a6a8330059e80885410a328f645551b55a91d858bfb3eb2573"
++SRC_URI[md5sum] = "9412ae9665fd29328f2afc6df887ae81"
++SRC_URI[sha256sum] = "629867ebf609cef21bb9d849039e281e25963fb7d714a2f6bacc1ecce4800293"
+ 
+ DEPENDS += " ${PYTHON_PN}-gitdb"
+ 
+-- 
+2.17.1
 
 
