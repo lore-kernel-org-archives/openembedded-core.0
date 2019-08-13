@@ -1,36 +1,36 @@
 Return-Path: <bounces+12060237-dea2-openembedded-core=lists.openembedded.org@sendgrid.net>
-X-Greylist: delayed 305 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 13 Aug 2019 22:36:39 UTC
 Received: from o1.f.az.sendgrid.net (o1.f.az.sendgrid.net [208.117.55.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C06375E80
+	by mail.openembedded.org (Postfix) with ESMTP id BF6567E447
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 13 Aug 2019 22:36:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=sendgrid.me; 
-	h=from:to:cc:subject:mime-version:content-type; s=smtpapi; 
-	bh=SvZgrJNqBoZHICcvcDQQTeSkPtg=; b=JYgKvRvKPOvFq9MdbzW8B/xzG9l6a
-	yrW0TL6HdXzHZ7dIrRkbeHBvyo1njifraG6FFEIrOQI3JC/iaBQtIGg9Pn7ss32r
-	043it6i8D+Yu2xNP1UI6O0htaNC7R5g7VJA4BDZI0h+hrAY9n73yE/qGZDxYMlnr
-	7XBTclwSaqRMbQ=
-Received: by filter0129p3las1.sendgrid.net with SMTP id
-	filter0129p3las1-32396-5D533A0A-39
-	2019-08-13 22:30:34.798526509 +0000 UTC m=+1567332.621435828
+	h=from:to:cc:subject:in-reply-to:references:mime-version:content-type; 
+	s=smtpapi; bh=IJgWN6oXrLGTvxwtcuei9Yf0giI=; b=bfh/Ek/Fc5+QMpU4QR
+	LfyKp6HJiwfbAUU6Z//CXA6BN+weOy1mQeKpDQpnxOkeNAU8FRPtDbQDOTsVQf9g
+	MkUuHTyj8bftJn9lNVaVZExzXDReVAVPrNQt8enliWfuBXQCfRZ4TwJv3z7lS4Fi
+	j1TKx2yubmlAFGL8Nf5eeUTQs=
+Received: by filter0098p3las1.sendgrid.net with SMTP id
+	filter0098p3las1-1557-5D533A0B-41
+	2019-08-13 22:30:35.89148463 +0000 UTC m=+1568414.550827792
 Received: from
 	t-keweng-westus2-ubuntu.sthawock52fuzp14qwoa2ht3of.xx.internal.cloudapp.net
 	(unknown [52.143.72.184])
 	by ismtpd0005p1las1.sendgrid.net (SG) with ESMTP id
-	Spemn3zkQoWM9HNgPIvHeA Tue, 13 Aug 2019 22:30:34.728 +0000 (UTC)
+	ykTcIOu1T0GwZkH0P4-Lng Tue, 13 Aug 2019 22:30:35.838 +0000 (UTC)
 From: Kevin Weng <t-keweng@microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2019 22:31:35 +0000 (UTC)
-Message-Id: <20190813223031.40138-1-t-keweng@microsoft.com>
+Date: Tue, 13 Aug 2019 22:31:36 +0000 (UTC)
+Message-Id: <20190813223031.40138-2-t-keweng@microsoft.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190813223031.40138-1-t-keweng@microsoft.com>
+References: <20190813223031.40138-1-t-keweng@microsoft.com>
 MIME-Version: 1.0
-X-SG-EID: NueaD3OYy6TFANBcuSZZzWeqNF8z73veS5dGPAsjLWggnA2yQn0uEn6uw+MVASYbXwb4xHL1lfvezZ
-	uPmA0fqL1799XGhBkXJdN1gFHwv7IcTk+2AoiDYqqtuUjvr4q9EK2VqP0+W0/Vo4TCviRCZT76fgii
-	NI1M3dNBuHlNpTZu4LHyFmSumi4La++fFlvq6aYjZzkzLQRRVWEUQcTGv9W8O/5L1cf2x1HwpzRCoU
-	lOcnLys2pHT/e9udaqaFJN
+X-SG-EID: NueaD3OYy6TFANBcuSZZzWeqNF8z73veS5dGPAsjLWggnA2yQn0uEn6uw+MVASYbUkeOS9t2j32ZHf
+	EDxsbySV+aA0xgji2WkbeYHU0Go5IXBVB51g49q9M4NswBdH6VTNogLtoqTfo0xuhvqCX8AjCTGB5q
+	eQWxGzVyWCiRI2I2BWVE9BhCEiuHfsJkxAHN1JGo6FQrAOWNeJyaoTz6bnNffq6Cao+ZM6XiCOfcOz
+	IbOcVeOUXe9Z++fY0GfHAI
 Cc: Kevin Weng <t-keweng@microsoft.com>
-Subject: [thud][PATCH 1/4] curl: fix CVE-2018-16890 CVE-2019-3822 CVE-2019-3823
+Subject: [thud][PATCH 2/4] dbus: fix CVE-2019-12749
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,431 +44,329 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 13 Aug 2019 22:36:40 -0000
-Content-type: multipart/alternative;
-	boundary="----------=_1565735435-32668-382"
+Content-type: multipart/alternative; boundary="----------=_1565735436-2948-348"
 
-------------=_1565735435-32668-382
+------------=_1565735436-2948-348
 content-transfer-encoding: quoted-printable
 
 Signed-off-by: Kevin Weng <t-keweng@microsoft.com>=0D
 ---=0D
- .../curl/curl/CVE-2018-16890.patch            | 50 +++++++++++++++++=0D
- .../curl/curl/CVE-2019-3822.patch             | 47 ++++++++++++++++=0D
- .../curl/curl/CVE-2019-3823.patch             | 55 +++++++++++++++++++=0D
- meta/recipes-support/curl/curl_7.61.0.bb      |  3 +=0D
- 4 files changed, 155 insertions(+)=0D
- create mode 100644 meta/recipes-support/curl/curl/CVE-2018-16890.patch=0D
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-3822.patch=0D
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-3823.patch=0D
+ .../dbus/dbus/CVE-2019-12749.patch            | 127 ++++++++++++++++++=0D
+ meta/recipes-core/dbus/dbus_1.12.10.bb        |   1 +=0D
+ 2 files changed, 128 insertions(+)=0D
+ create mode 100644 meta/recipes-core/dbus/dbus/CVE-2019-12749.patch=0D
 =0D
-diff --git a/meta/recipes-support/curl/curl/CVE-2018-16890.patch b/meta/rec=
-ipes-support/curl/curl/CVE-2018-16890.patch=0D
+diff --git a/meta/recipes-core/dbus/dbus/CVE-2019-12749.patch b/meta/recipe=
+s-core/dbus/dbus/CVE-2019-12749.patch=0D
 new file mode 100644=0D
-index 0000000000..3776f362bc=0D
+index 0000000000..393c70ca21=0D
 --- /dev/null=0D
-+++ b/meta/recipes-support/curl/curl/CVE-2018-16890.patch=0D
-@@ -0,0 +1,50 @@=0D
-+From 53d3c2f92b4a7561b1006494badf8cf2ef9110c0 Mon Sep 17 00:00:00 2001=0D
-+From: Daniel Stenberg <daniel@haxx.se>=0D
-+Date: Wed, 2 Jan 2019 20:33:08 +0100=0D
-+Subject: [PATCH 1/3] NTLM: fix size check condition for type2 received dat=
-a=0D
++++ b/meta/recipes-core/dbus/dbus/CVE-2019-12749.patch=0D
+@@ -0,0 +1,127 @@=0D
++From f0120c5d97a4cc1b659e86d38f2b1f646ca20ea3 Mon Sep 17 00:00:00 2001=0D
++From: Simon McVittie <smcv@collabora.com>=0D
++Date: Thu, 30 May 2019 12:53:03 +0100=0D
++Subject: [PATCH] auth: Reject DBUS_COOKIE_SHA1 for users other than the se=
+rver=0D
++ owner=0D
 +=0D
-+Bug: https://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIX=
-suYawlW3mAc8KSIVCn7Sr15C6jasXKgfgJg3JjJc2B5tUGp03H07-2B9S6u-2FfoRsGaNA-3D-3=
-D_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2=
-FT1vYL7RdHUXx5bTSyf-2BcHR-2FH99gGD0yxa2eDYEjnkkb2piM5nuT9Okl3ZrJA9sAE-2B5rm=
-YECHdFNdUX0JlH7LDIVejeTQadVG6ba-2FpEkCdCA9gq7zRkLAgdI3PN-2BCxa3dccdSBFpI1pL=
-4M0QWKi8etP4TfG1trESO3T7x1KWt9hdClBaPVmjcfOg0NnZqj3dM=0D
-+Reported-by: Wenxiang Qian=0D
-+CVE-2018-16890=0D
++The DBUS_COOKIE_SHA1 authentication mechanism aims to prove ownership=0D
++of a shared home directory by having the server write a secret "cookie"=0D
++into a .dbus-keyrings subdirectory of the desired identity's home=0D
++directory with 0700 permissions, and having the client prove that it can=
+=0D
++read the cookie. This never actually worked for non-malicious clients in=
+=0D
++the case where server uid !=3D client uid (unless the server and client=0D
++both have privileges, such as Linux CAP_DAC_OVERRIDE or traditional=0D
++Unix uid 0) because an unprivileged server would fail to write out the=0D
++cookie, and an unprivileged client would be unable to read the resulting=
+=0D
++file owned by the server.=0D
++=0D
++Additionally, since dbus 1.7.10 we have checked that ~/.dbus-keyrings=0D
++is owned by the uid of the server (a side-effect of a check added to=0D
++harden our use of XDG_RUNTIME_DIR), further ruling out successful use=0D
++by a non-malicious client with a uid differing from the server's.=0D
++=0D
++Joe Vennix of Apple Information Security discovered that the=0D
++implementation of DBUS_COOKIE_SHA1 was susceptible to a symbolic link=0D
++attack: a malicious client with write access to its own home directory=0D
++could manipulate a ~/.dbus-keyrings symlink to cause the DBusServer to=0D
++read and write in unintended locations. In the worst case this could=0D
++result in the DBusServer reusing a cookie that is known to the=0D
++malicious client, and treating that cookie as evidence that a subsequent=
+=0D
++client connection came from an attacker-chosen uid, allowing=0D
++authentication bypass.=0D
++=0D
++This is mitigated by the fact that by default, the well-known system=0D
++dbus-daemon (since 2003) and the well-known session dbus-daemon (in=0D
++stable releases since dbus 1.10.0 in 2015) only accept the EXTERNAL=0D
++authentication mechanism, and as a result will reject DBUS_COOKIE_SHA1=0D
++at an early stage, before manipulating cookies. As a result, this=0D
++vulnerability only applies to:=0D
++=0D
++* system or session dbus-daemons with non-standard configuration=0D
++* third-party dbus-daemon invocations such as at-spi2-core (although=0D
++  in practice at-spi2-core also only accepts EXTERNAL by default)=0D
++* third-party uses of DBusServer such as the one in Upstart=0D
++=0D
++Avoiding symlink attacks in a portable way is difficult, because APIs=0D
++like openat() and Linux /proc/self/fd are not universally available.=0D
++However, because DBUS_COOKIE_SHA1 already doesn't work in practice for=0D
++a non-matching uid, we can solve this vulnerability in an easier way=0D
++without regressions, by rejecting it early (before looking at=0D
++~/.dbus-keyrings) whenever the requested identity doesn't match the=0D
++identity of the process hosting the DBusServer.=0D
++=0D
++Signed-off-by: Simon McVittie <smcv@collabora.com>=0D
++Closes: https://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxa=
+QIXsqfojzsKaTLrhYk7-2F4AqW4Z0aTTxYxcMGlkfrpmYKZqw1bpnzzdxCB9YO7xZwpTvnA-3D-=
+3D_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-=
+2FJYsjDq1g468dzj84vKE7KK-2FvT22avn5U9YcVt85sTA4tepftll-2Baq3M9eo4YCyUWYrN1r=
+6ngO6VCFpjbtSsyTy3M2aZjBjZUByNmRr5P82a2-2B9TnX56cJhPYCtT6FXlXc2dCWfRTWasb0K=
+OpLKpCVXhIhDvuQ7nNa0EsxdEJ7kWtcgzCwKwWx1dLY5TNGSQo=0D
++Closes: CVE-2019-12749=0D
 +=0D
 +Upstream-Status: Backport=0D
-+[https://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIXsm-2=
-BOxbx-2BokIEd78jiad-2F22EvF-2F5AbNKhGzn8FPX-2FD9Za_TE0Kxc-2FihH-2BEaJFZv0pi=
-OBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTSyf-2BcHR-=
-2FH99gGD0yxa2eDYEjnkkYh8rqSb35IOFzYXlwANJZDcoaGAvdMBQIW66yHB0q840xeh1nsvNy9=
-9-2BeC8OnXMhl6mIja7Rhuos5DP-2FrmBNWuySm6VU5JTOy1kFNvV-2BydqaqtGXpyIgtzWMDkU=
-6Z-2BR0cXTCVLDdCzHe-2Fmc15i6Akd=0D
-+/b780b30d1377adb10bbe774835f49e9b237fb9bb]=0D
++[https://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIXsqfo=
+jzsKaTLrhYk7-2F4AqW4Z0aTTxYxcMGlkfrpmYKZqwxlDxIUuV3NsS4-2FTIcFoyAA-3D-3D_TE=
+0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FJYs=
+jDq1g468dzj84vKE7KK-2FvT22avn5U9YcVt85sTA4DsGTiyJF96mAymOloRHcUgz8RlpJRLz0m=
+RCQGIpkyeNJOMSsOukswlyle2Vi3yd3dZE9iQVjiIMBlkfmayQWQGs1L1DZDjBeWLkroc1PR0vf=
+ccVbvieS1-2B3sMv13f1D0PVmjGiGx6RjIz2ii7j84B=0D
++/47b1a4c41004bf494b87370987b222c934b19016]=0D
 +=0D
-+CVE: CVE-2018-16890=0D
++CVE: CVE-2019-12749=0D
 +=0D
 +Signed-off-by: Kevin Weng <t-keweng@microsoft.com>=0D
 +---=0D
-+ lib/vauth/ntlm.c | 7 ++++---=0D
-+ 1 file changed, 4 insertions(+), 3 deletions(-)=0D
++ dbus/dbus-auth.c | 32 ++++++++++++++++++++++++++++++++=0D
++ 1 file changed, 32 insertions(+)=0D
 +=0D
-+diff --git a/lib/vauth/ntlm.c b/lib/vauth/ntlm.c=0D
-+index cdb8d8f0d..0212756ab 100644=0D
-+--- a/lib/vauth/ntlm.c=0D
-++++ b/lib/vauth/ntlm.c=0D
-+@@ -5,7 +5,7 @@=0D
-+  *                            | (__| |_| |  _ <| |___=0D
-+  *                             \___|\___/|_| \_\_____|=0D
-+  *=0D
-+- * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.=
-=0D
-++ * Copyright (C) 1998 - 2019, Daniel Stenberg, <daniel@haxx.se>, et al.=
-=0D
-+  *=0D
-+  * This software is licensed as described in the file COPYING, which=0D
-+  * you should have received as part of this distribution. The terms=0D
-+@@ -182,10 +182,11 @@ static CURLcode ntlm_decode_type2_target(struct Curl=
-_easy *data,=0D
-+     target_info_len =3D Curl_read16_le(&buffer[40]);=0D
-+     target_info_offset =3D Curl_read32_le(&buffer[44]);=0D
-+     if(target_info_len > 0) {=0D
-+-      if(((target_info_offset + target_info_len) > size) ||=0D
-++      if((target_info_offset >=3D size) ||=0D
-++         ((target_info_offset + target_info_len) > size) ||=0D
-+          (target_info_offset < 48)) {=0D
-+         infof(data, "NTLM handshake failure (bad type-2 message). "=0D
-+-                    "Target Info Offset Len is set incorrect by the peer\=
-n");=0D
-++              "Target Info Offset Len is set incorrect by the peer\n");=
-=0D
-+         return CURLE_BAD_CONTENT_ENCODING;=0D
-+       }=0D
++diff --git a/dbus/dbus-auth.c b/dbus/dbus-auth.c=0D
++index 37d8d4c9..7390a9d5 100644=0D
++--- a/dbus/dbus-auth.c=0D
+++++ b/dbus/dbus-auth.c=0D
++@@ -529,6 +529,7 @@ sha1_handle_first_client_response (DBusAuth         *a=
+uth,=0D
++   DBusString tmp2;=0D
++   dbus_bool_t retval =3D FALSE;=0D
++   DBusError error =3D DBUS_ERROR_INIT;=0D
+++  DBusCredentials *myself =3D NULL;=0D
 + =0D
-+-- =0D
-+2.22.0=0D
-+=0D
-diff --git a/meta/recipes-support/curl/curl/CVE-2019-3822.patch b/meta/reci=
-pes-support/curl/curl/CVE-2019-3822.patch=0D
-new file mode 100644=0D
-index 0000000000..4f612ddd5e=0D
---- /dev/null=0D
-+++ b/meta/recipes-support/curl/curl/CVE-2019-3822.patch=0D
-@@ -0,0 +1,47 @@=0D
-+From 761b51f66c7b1cd2cd6c71b807bfdb6a27c49b30 Mon Sep 17 00:00:00 2001=0D
-+From: Daniel Stenberg <daniel@haxx.se>=0D
-+Date: Thu, 3 Jan 2019 12:59:28 +0100=0D
-+Subject: [PATCH 2/3] ntlm: fix *_type3_message size check to avoid buffer=
-=0D
-+ overflow=0D
-+=0D
-+Bug: https://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIX=
-suYawlW3mAc8KSIVCn7Sr16swIdigko5fNDjNRt0Dh6FfGTpPs9ibM6aBry51kJrnw-3D-3D_TE=
-0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FT1v=
-YL7RdHUXx5bTSyf-2BcHR-2FH99gGD0yxa2eDYEjnkkbJbCzXOiW1odOTtQFdFcpJzsRBVUETMO=
-tLC0B-2BdylXcUavysDy2hajcvoqOZD-2ByPOIoUO2RTyiKiVNqvL52XWE0BudzTX7FaPC6VtNn=
-fkW1p1Uwi1FAOsHmAIdfS0Hk46aZhgWeAHazbigfQ1Wrvpc=0D
-+Reported-by: Wenxiang Qian=0D
-+CVE-2019-3822=0D
-+=0D
-+Upstream-Status: Backport=0D
-+[https://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIXsm-2=
-BOxbx-2BokIEd78jiad-2F22EvF-2F5AbNKhGzn8FPX-2FD9Za_TE0Kxc-2FihH-2BEaJFZv0pi=
-OBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTSyf-2BcHR-=
-2FH99gGD0yxa2eDYEjnkkZyVjLXyu6AfrfslPgZqQqfmT-2FCjlb31qQx-2BPRmMVneLfPjeil2=
--2BTKjDA9s3w3kZFEyRIX6Yy-2B0lQECXSq5tv3xNIDIn46JHgTnKWqkfIQHuY7yT5WYG3E5lOF=
-cZYcsoosqoxeJTKgg9-2BPkTA1v944K=0D
-+/50c9484278c63b958655a717844f0721263939cc]=0D
-+=0D
-+CVE: CVE-2019-3822=0D
-+=0D
-+Signed-off-by: Kevin Weng <t-keweng@microsoft.com>=0D
-+---=0D
-+ lib/vauth/ntlm.c | 11 +++++++----=0D
-+ 1 file changed, 7 insertions(+), 4 deletions(-)=0D
-+=0D
-+diff --git a/lib/vauth/ntlm.c b/lib/vauth/ntlm.c=0D
-+index 0212756ab..3be0403d9 100644=0D
-+--- a/lib/vauth/ntlm.c=0D
-++++ b/lib/vauth/ntlm.c=0D
-+@@ -777,11 +777,14 @@ CURLcode Curl_auth_create_ntlm_type3_message(struct =
-Curl_easy *data,=0D
-+   });=0D
++   _dbus_string_set_length (&auth->challenge, 0);=0D
++   =0D
++@@ -565,6 +566,34 @@ sha1_handle_first_client_response (DBusAuth         *=
+auth,=0D
++       return FALSE;=0D
++     }=0D
 + =0D
-+ #ifdef USE_NTRESPONSES=0D
-+-  if(size < (NTLM_BUFSIZE - ntresplen)) {=0D
-+-    DEBUGASSERT(size =3D=3D (size_t)ntrespoff);=0D
-+-    memcpy(&ntlmbuf[size], ptr_ntresp, ntresplen);=0D
-+-    size +=3D ntresplen;=0D
-++  /* ntresplen + size should not be risking an integer overflow here */=
-=0D
-++  if(ntresplen + size > sizeof(ntlmbuf)) {=0D
-++    failf(data, "incoming NTLM message too big");=0D
-++    return CURLE_OUT_OF_MEMORY;=0D
-+   }=0D
-++  DEBUGASSERT(size =3D=3D (size_t)ntrespoff);=0D
-++  memcpy(&ntlmbuf[size], ptr_ntresp, ntresplen);=0D
-++  size +=3D ntresplen;=0D
-+ =0D
-+   DEBUG_OUT({=0D
-+     fprintf(stderr, "\n   ntresp=3D");=0D
-+-- =0D
-+2.22.0=0D
-+=0D
-diff --git a/meta/recipes-support/curl/curl/CVE-2019-3823.patch b/meta/reci=
-pes-support/curl/curl/CVE-2019-3823.patch=0D
-new file mode 100644=0D
-index 0000000000..194e6e6430=0D
---- /dev/null=0D
-+++ b/meta/recipes-support/curl/curl/CVE-2019-3823.patch=0D
-@@ -0,0 +1,55 @@=0D
-+From 40f6c913f63cdbfa81daa7ac7f1c7415bb99edeb Mon Sep 17 00:00:00 2001=0D
-+From: Daniel Gustafsson <daniel@yesql.se>=0D
-+Date: Sat, 19 Jan 2019 00:42:47 +0100=0D
-+Subject: [PATCH 3/3] smtp: avoid risk of buffer overflow in strtol=0D
-+=0D
-+If the incoming len 5, but the buffer does not have a termination=0D
-+after 5 bytes, the strtol() call may keep reading through the line=0D
-+buffer until is exceeds its boundary. Fix by ensuring that we are=0D
-+using a bounded read with a temporary buffer on the stack.=0D
-+=0D
-+Bug: https://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIX=
-suYawlW3mAc8KSIVCn7Sr17bxD3qQbRJHwN3rEunY9YFM-2FGFwQQ-2BqqtWua0S2Yp0TA-3D-3=
-D_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2=
-FT1vYL7RdHUXx5bTSyf-2BcHR-2FH99gGD0yxa2eDYEjnkkYEinH-2FgcBH7Tq8AaX2KZhuPq-2=
-Fy3RuudDWkzQA9mDGAL1rZ7iXE22kbqnGazRo1W7NbgEx2qaEtnh0kwmXyEvCysVMqQonIlhT9S=
-i5hxh5wcZGaHj8u-2FLtNcXnlYQKQvGtTsNsNRPcgcRixjIil-2BcP2=0D
-+Reported-by: Brian Carpenter (Geeknik Labs)=0D
-+CVE-2019-3823=0D
-+=0D
-+Upstream-Status: Backport=0D
-+[https://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIXsm-2=
-BOxbx-2BokIEd78jiad-2F22EvF-2F5AbNKhGzn8FPX-2FD9Za_TE0Kxc-2FihH-2BEaJFZv0pi=
-OBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTSyf-2BcHR-=
-2FH99gGD0yxa2eDYEjnkkY6vuyp3O3-2B5qsqS-2FksCyApU0viIVT2cbmTaVxEVRuj6OTq95gN=
-M-2ByiZ6IEdpBGf82PXxJQvgJNB-2FX47uHixp2OyDt5VHOQIIh1MIdb5fxbPC-2BcHk0uIz388=
-bT8U1ukdNPZyDlN0V0T0xsOjvHFc-2B2Y=0D
-+/39df4073e5413fcdbb5a38da0c1ce6f1c0ceb484]=0D
-+=0D
-+CVE: CVE-2019-3823=0D
-+=0D
-+Signed-off-by: Kevin Weng <t-keweng@microsoft.com>=0D
-+---=0D
-+ lib/smtp.c | 8 ++++++--=0D
-+ 1 file changed, 6 insertions(+), 2 deletions(-)=0D
-+=0D
-+diff --git a/lib/smtp.c b/lib/smtp.c=0D
-+index ecf10a41a..1b9f92d30 100644=0D
-+--- a/lib/smtp.c=0D
-++++ b/lib/smtp.c=0D
-+@@ -5,7 +5,7 @@=0D
-+  *                            | (__| |_| |  _ <| |___=0D
-+  *                             \___|\___/|_| \_\_____|=0D
-+  *=0D
-+- * Copyright (C) 1998 - 2018, Daniel Stenberg, <daniel@haxx.se>, et al.=
-=0D
-++ * Copyright (C) 1998 - 2019, Daniel Stenberg, <daniel@haxx.se>, et al.=
-=0D
-+  *=0D
-+  * This software is licensed as described in the file COPYING, which=0D
-+  * you should have received as part of this distribution. The terms=0D
-+@@ -207,8 +207,12 @@ static bool smtp_endofresp(struct connectdata *conn, =
-char *line, size_t len,=0D
-+      Section 4. Examples of RFC-4954 but some e-mail servers ignore this =
-and=0D
-+      only send the response code instead as per Section 4.2. */=0D
-+   if(line[3] =3D=3D ' ' || len =3D=3D 5) {=0D
-++    char tmpline[6];=0D
+++  myself =3D _dbus_credentials_new_from_current_process ();=0D
 ++=0D
-+     result =3D TRUE;=0D
-+-    *resp =3D curlx_sltosi(strtol(line, NULL, 10));=0D
-++    memset(tmpline, '\0', sizeof(tmpline));=0D
-++    memcpy(tmpline, line, (len =3D=3D 5 ? 5 : 3));=0D
-++    *resp =3D curlx_sltosi(strtol(tmpline, NULL, 10));=0D
+++  if (myself =3D=3D NULL)=0D
+++    goto out;=0D
+++=0D
+++  if (!_dbus_credentials_same_user (myself, auth->desired_identity))=0D
+++    {=0D
+++      /*=0D
+++       * DBUS_COOKIE_SHA1 is not suitable for authenticating that the=0D
+++       * client is anyone other than the user owning the process=0D
+++       * containing the DBusServer: we probably aren't allowed to write=
+=0D
+++       * to other users' home directories. Even if we can (for example=0D
+++       * uid 0 on traditional Unix or CAP_DAC_OVERRIDE on Linux), we=0D
+++       * must not, because the other user controls their home directory,=
+=0D
+++       * and could carry out symlink attacks to make us read from or=0D
+++       * write to unintended locations. It's difficult to avoid symlink=
+=0D
+++       * attacks in a portable way, so we just don't try. This isn't a=0D
+++       * regression, because DBUS_COOKIE_SHA1 never worked for other=0D
+++       * users anyway.=0D
+++       */=0D
+++      _dbus_verbose ("%s: client tried to authenticate as \"%s\", "=0D
+++                     "but that doesn't match this process",=0D
+++                     DBUS_AUTH_NAME (auth),=0D
+++                     _dbus_string_get_const_data (data));=0D
+++      retval =3D send_rejected (auth);=0D
+++      goto out;=0D
+++    }=0D
+++=0D
++   /* we cache the keyring for speed, so here we drop it if it's the=0D
++    * wrong one. FIXME caching the keyring here is useless since we use=0D
++    * a different DBusAuth for every connection.=0D
++@@ -679,6 +708,9 @@ sha1_handle_first_client_response (DBusAuth         *a=
+uth,=0D
++   _dbus_string_zero (&tmp2);=0D
++   _dbus_string_free (&tmp2);=0D
 + =0D
-+     /* Make sure real server never sends internal value */=0D
-+     if(*resp =3D=3D 1)=0D
+++  if (myself !=3D NULL)=0D
+++    _dbus_credentials_unref (myself);=0D
+++=0D
++   return retval;=0D
++ }=0D
++ =0D
 +-- =0D
 +2.22.0=0D
 +=0D
-diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-suppor=
-t/curl/curl_7.61.0.bb=0D
-index 1027f75e9e..c1e4342df5 100644=0D
---- a/meta/recipes-support/curl/curl_7.61.0.bb=0D
-+++ b/meta/recipes-support/curl/curl_7.61.0.bb=0D
-@@ -13,6 +13,9 @@ SRC_URI =3D "https://u12060237.ct.sendgrid.net/wf/click?u=
-pn=3Da3Po4i5toNpKG6uRFNTh8Mij1UJJ0s7eaefE5fjBvMoK7n3E1d4Vr77hdrxhdo3kHD4zsr=
-mpJIYsuxtLMzY2nQ-3D-3D_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlO=
-tbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTSyf-2BcHR-2FH99gGD0yxa2eDYEjnkkbjw7yBa=
-9AyY8PBCNAv3tBbOXVoV1Ozdj1SBXbDS03uJjc-2F-2B6upP3vSwyusGzF-2BrZEWWVGm8IkzC0=
-A-2BdPnThUkoLPfnkuky8lFD7hq02LAd7fnFQj69S98jxXxCc0RncdWDaW-2F68KnI1wTGPebZr=
-pml \=0D
-            file://CVE-2018-16842.patch \=0D
-            file://CVE-2019-5435.patch \=0D
-            file://CVE-2019-5436.patch \=0D
-+           file://CVE-2018-16890.patch \=0D
-+           file://CVE-2019-3822.patch \=0D
-+           file://CVE-2019-3823.patch \=0D
+diff --git a/meta/recipes-core/dbus/dbus_1.12.10.bb b/meta/recipes-core/dbu=
+s/dbus_1.12.10.bb=0D
+index d71f7f7042..d7ad1d8be4 100644=0D
+--- a/meta/recipes-core/dbus/dbus_1.12.10.bb=0D
++++ b/meta/recipes-core/dbus/dbus_1.12.10.bb=0D
+@@ -16,6 +16,7 @@ SRC_URI =3D "https://u12060237.ct.sendgrid.net/wf/click?u=
+pn=3Da3Po4i5toNpKG6uRFNTh8GIk-2Ba9cxqoglrvIf-2BcUiBkNb-2FDZBz6aTAWHeAlspiXN=
+2haCfj649DMDC1ACDbTPo2FQphlLq0yu53-2Bm3y8uPak-3D_TE0Kxc-2FihH-2BEaJFZv0piOB=
+m40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FJYsjDq1g468dzj84vKE7KK-2FvT=
+22avn5U9YcVt85sTA5HV-2FEeF1mbSSICBSz9tC-2Flj-2FqRph56TjPHs6nsWyG-2B2Fqwi0TN=
+An2dBQ249oYdq0ncwJcjeowYIa8eRTiYrkgEe1ojTk844nVn0t-2FzFuPBCx0SXSU9MKejCZfbG=
+b-2BIFPunpRFwJvaiQAO2VBczDfH-2B \=0D
+            file://tmpdir.patch \=0D
+            file://dbus-1.init \=0D
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \=
+=0D
++		   file://CVE-2019-12749.patch \=0D
  "=0D
  =0D
- SRC_URI[md5sum] =3D "31d0a9f48dc796a7db351898a1e5058a"=0D
+ SRC_URI[md5sum] =3D "c3e12b4206e2a7da39d7cc42567790ef"=0D
 -- =0D
 2.22.0=0D
 
 
-------------=_1565735435-32668-382
+------------=_1565735436-2948-348
 Content-Type: text/html
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 <html><body>
 <h3>Signed-off-by: Kevin Weng &lt;t-keweng@microsoft.com&gt;</h3>
-<pre>.../curl/curl/CVE-2018-16890.patch            | 50 +++++++++++++++++
-.../curl/curl/CVE-2019-3822.patch             | 47 ++++++++++++++++
-.../curl/curl/CVE-2019-3823.patch             | 55 +++++++++++++++++++
-meta/recipes-support/curl/curl_7.61.0.bb      |  3 +
-4 files changed, 155 insertions(+)
-create mode 100644 meta/recipes-support/curl/curl/CVE-2018-16890.patch
-create mode 100644 meta/recipes-support/curl/curl/CVE-2019-3822.patch
-create mode 100644 meta/recipes-support/curl/curl/CVE-2019-3823.patch</pre>
-<p>diff --git a/meta/recipes-support/curl/curl/CVE-2018-16890.patch b/meta/=
-recipes-support/curl/curl/CVE-2018-16890.patch new file mode 100644 index 0=
-000000000..3776f362bc --- /dev/null +++ b/meta/recipes-support/curl/curl/CV=
-E-2018-16890.patch @@ -0,0 +1,50 @@ +From 53d3c2f92b4a7561b1006494badf8cf2e=
-f9110c0 Mon Sep 17 00:00:00 2001 +From: Daniel Stenberg &lt;daniel@haxx.se&=
-gt; +Date: Wed, 2 Jan 2019 20:33:08 +0100 +Subject: [PATCH 1/3] NTLM: fix s=
-ize check condition for type2 received data + +Bug: <a href=3D"https://u120=
-60237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIXsuYawlW3mAc8KSIVCn=
-7Sr15C6jasXKgfgJg3JjJc2B5tUGp03H07-2B9S6u-2FfoRsGaNA-3D-3D_TE0Kxc-2FihH-2BE=
-aJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTSy=
-f-2BcHR-2FH99gGD0yxa2eDYEjnkkZ3q-2B67vtyhjRXye3X5wFj1YopTSAk5Ghi5zGLTSp0R-2=
-BesqjMnZSBIQte-2FKY-2FwgQTg-2FQqDB3i-2BIdjRqTFYWHhWmQLTLv9u3mf-2FFNv-2BigQq=
-kM7KcsUfyc29SOElH5SnNKCZpVtPS-2F8fNlROczCSn5Z8u">https://curl.haxx.se/docs/=
-CVE-2018-16890.html</a> +Reported-by: Wenxiang Qian +CVE-2018-16890 + +Upst=
-ream-Status: Backport +[<a href=3D"https://u12060237.ct.sendgrid.net/wf/cli=
-ck?upn=3DZUEdHBk4v9DOmlXxaQIXsm-2BOxbx-2BokIEd78jiad-2F22EvF-2F5AbNKhGzn8FP=
-X-2FD9Za_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIp=
-o7dsW-2FT1vYL7RdHUXx5bTSyf-2BcHR-2FH99gGD0yxa2eDYEjnkkbfyP9Hb4AT9te9JryfAuI=
-A1BGpUIhQBgDhTQ-2FhwIlJUb9jEhlFXvRJuPqnZcFuWlOi2aUEuGkSAxP6h16UqA68h4LTavtE=
-4TwLnozPPXJxP6v6Ih6A5zS8WEPqSjBL3gPYKE4qdTP41X9n-2BjlWFFxi">https://github.=
-com/curl/curl/commit</a> +/b780b30d1377adb10bbe774835f49e9b237fb9bb] + +CVE=
-: CVE-2018-16890 + +Signed-off-by: Kevin Weng &lt;t-keweng@microsoft.com&gt=
-; +--- + lib/vauth/ntlm.c | 7 ++++--- + 1 file changed, 4 insertions(+), 3 =
-deletions(-) + +diff --git a/lib/vauth/ntlm.c b/lib/vauth/ntlm.c +index cdb=
-8d8f0d..0212756ab 100644 +--- a/lib/vauth/ntlm.c ++++ b/lib/vauth/ntlm.c +@=
-@ -5,7 +5,7 @@ +  *                            | (__| |_| |  _ &lt;| |___ +=
-  *                             \___|\___/|_| \_\_____| +  * +- * Copyright=
- &copy; 1998 &ndash; 2017, Daniel Stenberg, &lt;daniel@haxx.se&gt;, et al. =
-++ * Copyright &copy; 1998 &ndash; 2019, Daniel Stenberg, &lt;daniel@haxx.s=
-e&gt;, et al. +  * +  * This software is licensed as described in the file =
-COPYING, which +  * you should have received as part of this distribution. =
-The terms +@@ -182,10 +182,11 @@ static CURLcode ntlm_decode_type2_target(s=
-truct Curl_easy *data, +     target_info_len =3D Curl_read16_le(&amp;buffer=
-[40]); +     target_info_offset =3D Curl_read32_le(&amp;buffer[44]); +     =
-if(target_info_len &gt; 0) { +-      if(((target_info_offset + target_info_=
-len) &gt; size) || ++      if((target_info_offset &gt;=3D size) || ++      =
-   ((target_info_offset + target_info_len) &gt; size) || +          (target=
-_info_offset &lt; 48)) { +         infof(data, &quot;NTLM handshake failure=
- (bad type-2 message). &quot; +-                    &quot;Target Info Offse=
-t Len is set incorrect by the peer\n&quot;); ++              &quot;Target I=
-nfo Offset Len is set incorrect by the peer\n&quot;); +         return CURL=
-E_BAD_CONTENT_ENCODING; +       } + +-- +2.22.0 + diff --git a/meta/recipes=
--support/curl/curl/CVE-2019-3822.patch b/meta/recipes-support/curl/curl/CVE=
--2019-3822.patch new file mode 100644 index 0000000000..4f612ddd5e --- /dev=
-/null +++ b/meta/recipes-support/curl/curl/CVE-2019-3822.patch @@ -0,0 +1,4=
-7 @@ +From 761b51f66c7b1cd2cd6c71b807bfdb6a27c49b30 Mon Sep 17 00:00:00 200=
-1 +From: Daniel Stenberg &lt;daniel@haxx.se&gt; +Date: Thu, 3 Jan 2019 12:5=
-9:28 +0100 +Subject: [PATCH 2/3] ntlm: fix *_type3_message size check to av=
-oid buffer + overflow + +Bug: <a href=3D"https://u12060237.ct.sendgrid.net/=
-wf/click?upn=3DZUEdHBk4v9DOmlXxaQIXsuYawlW3mAc8KSIVCn7Sr16swIdigko5fNDjNRt0=
-Dh6FfGTpPs9ibM6aBry51kJrnw-3D-3D_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHz=
-eWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTSyf-2BcHR-2FH99gGD0yxa2eDYEj=
-nkkYGziql-2B9pL3R79OqEV4EwDBPfhNzGW2Kj2khXqXBvySHejML2tqsm3n-2Byqs7M98agA15=
-zl3wmWYD2k4Xy3nqLO8yKg-2FG8vr33vz9iwN634IWrpHNe-2BTHJcgMf1-2Bwsxnec5yhfz3Tt=
-wAL2JUtNzAc89">https://curl.haxx.se/docs/CVE-2019-3822.html</a> +Reported-b=
-y: Wenxiang Qian +CVE-2019-3822 + +Upstream-Status: Backport +[<a href=3D"h=
-ttps://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIXsm-2BOx=
-bx-2BokIEd78jiad-2F22EvF-2F5AbNKhGzn8FPX-2FD9Za_TE0Kxc-2FihH-2BEaJFZv0piOBm=
-40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTSyf-2BcHR-2FH=
-99gGD0yxa2eDYEjnkkYtqXAfPxKeCYVZpz9z3vmGmbOcH-2Fphxgb6yEvSk5klvAyOQIx-2FrYQ=
-2nAN1okiWOfghFTAhIrq44lBSFHfarVXkexltyyKjQ-2FbKtwlpHNG7smSGXE4o2MZR9Jfjh7iB=
-ekOVbGLyx7EgEDxYP5aOlBfp">https://github.com/curl/curl/commit</a> +/50c9484=
-278c63b958655a717844f0721263939cc] + +CVE: CVE-2019-3822 + +Signed-off-by: =
-Kevin Weng &lt;t-keweng@microsoft.com&gt; +--- + lib/vauth/ntlm.c | 11 ++++=
-+++---- + 1 file changed, 7 insertions(+), 4 deletions(-) + +diff --git a/l=
-ib/vauth/ntlm.c b/lib/vauth/ntlm.c +index 0212756ab..3be0403d9 100644 +--- =
-a/lib/vauth/ntlm.c ++++ b/lib/vauth/ntlm.c +@@ -777,11 +777,14 @@ CURLcode =
-Curl_auth_create_ntlm_type3_message(struct Curl_easy <strong>data, +   }); =
-+ + #ifdef USE_NTRESPONSES +-  if(size &lt; (NTLM_BUFSIZE &ndash; ntresplen=
-)) { +-    DEBUGASSERT(size =3D=3D (size_t)ntrespoff); +-    memcpy(&amp;nt=
-lmbuf[size], ptr_ntresp, ntresplen); +-    size +=3D ntresplen; ++  /</stro=
-ng> ntresplen + size should not be risking an integer overflow here */ ++  =
-if(ntresplen + size &gt; sizeof(ntlmbuf)) { ++    failf(data, &quot;incomin=
-g NTLM message too big&quot;); ++    return CURLE_OUT_OF_MEMORY; +   } ++  =
-DEBUGASSERT(size =3D=3D (size_t)ntrespoff); ++  memcpy(&amp;ntlmbuf[size], =
-ptr_ntresp, ntresplen); ++  size +=3D ntresplen; + +   DEBUG_OUT({ +     fp=
-rintf(stderr, &quot;\n   ntresp=3D&quot;); +-- +2.22.0 + diff --git a/meta/=
-recipes-support/curl/curl/CVE-2019-3823.patch b/meta/recipes-support/curl/c=
-url/CVE-2019-3823.patch new file mode 100644 index 0000000000..194e6e6430 -=
--- /dev/null +++ b/meta/recipes-support/curl/curl/CVE-2019-3823.patch @@ -0=
-,0 +1,55 @@ +From 40f6c913f63cdbfa81daa7ac7f1c7415bb99edeb Mon Sep 17 00:00=
-:00 2001 +From: Daniel Gustafsson &lt;daniel@yesql.se&gt; +Date: Sat, 19 Ja=
-n 2019 00:42:47 +0100 +Subject: [PATCH 3/3] smtp: avoid risk of buffer over=
-flow in strtol + +If the incoming len 5, but the buffer does not have a ter=
-mination +after 5 bytes, the strtol() call may keep reading through the lin=
-e +buffer until is exceeds its boundary. Fix by ensuring that we are +using=
- a bounded read with a temporary buffer on the stack. + +Bug: <a href=3D"ht=
-tps://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIXsuYawlW3=
-mAc8KSIVCn7Sr17bxD3qQbRJHwN3rEunY9YFM-2FGFwQQ-2BqqtWua0S2Yp0TA-3D-3D_TE0Kxc=
--2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FT1vYL7R=
-dHUXx5bTSyf-2BcHR-2FH99gGD0yxa2eDYEjnkkbuXWq8yA76NLdDMCKi4Nu5OZakSVClfIp1Zp=
-hWmBXTiRG51fUpCm2XxKf8LIT9LkhLsSgy1s3SkXQD7uENB-2FkAaTfDBWqSmtfNY40WPIebHLI=
-ji4b4QWMFszHTJsXO-2BG2X-2FdG0o0UF6UaxtpDS-2BYXG">https://curl.haxx.se/docs/=
-CVE-2019-3823.html</a> +Reported-by: Brian Carpenter (Geeknik Labs) +CVE-20=
-19-3823 + +Upstream-Status: Backport +[<a href=3D"https://u12060237.ct.send=
-grid.net/wf/click?upn=3DZUEdHBk4v9DOmlXxaQIXsm-2BOxbx-2BokIEd78jiad-2F22EvF=
--2F5AbNKhGzn8FPX-2FD9Za_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZl=
-OtbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTSyf-2BcHR-2FH99gGD0yxa2eDYEjnkka3lrOW=
-KES2RhRNheyFy5a9Uj-2Bgs0-2B68XtHbmfc-2F4wp-2FJKOyd-2BtWEubGB5iubDUOoYdXNbBm=
-n0gKTuQbdtDr1q9S-2FqL-2F5s-2Bt-2Bod29utAe53W5mZ2m-2BiAyhjI2fDKtM6DQ4wbp6oxC=
-c5C5jxRr0uGr-2Bm">https://github.com/curl/curl/commit</a> +/39df4073e5413fc=
-dbb5a38da0c1ce6f1c0ceb484] + +CVE: CVE-2019-3823 + +Signed-off-by: Kevin We=
-ng &lt;t-keweng@microsoft.com&gt; +--- + lib/smtp.c | 8 ++++++-- + 1 file c=
-hanged, 6 insertions(+), 2 deletions(-) + +diff --git a/lib/smtp.c b/lib/sm=
-tp.c +index ecf10a41a..1b9f92d30 100644 +--- a/lib/smtp.c ++++ b/lib/smtp.c=
- +@@ -5,7 +5,7 @@ +  *                            | (__| |_| |  _ &lt;| |__=
-_ +  *                             \___|\___/|_| \_\_____| +  * +- * Copyri=
-ght &copy; 1998 &ndash; 2018, Daniel Stenberg, &lt;daniel@haxx.se&gt;, et a=
-l. ++ * Copyright &copy; 1998 &ndash; 2019, Daniel Stenberg, &lt;daniel@hax=
-x.se&gt;, et al. +  * +  * This software is licensed as described in the fi=
-le COPYING, which +  * you should have received as part of this distributio=
-n. The terms +@@ -207,8 +207,12 @@ static bool smtp_endofresp(struct connec=
-tdata <strong>conn, char *line, size_t len, +      Section 4. Examples of R=
-FC-4954 but some e-mail servers ignore this and +      only send the respon=
-se code instead as per Section 4.2. */ +   if(line[3] =3D=3D ' ' || len =3D=
-=3D 5) { ++    char tmpline[6]; ++ +     result =3D TRUE; +-    *resp =3D c=
-urlx_sltosi(strtol(line, NULL, 10)); ++    memset(tmpline, &lsquo;\0&rsquo;=
-, sizeof(tmpline)); ++    memcpy(tmpline, line, (len =3D=3D 5 ? 5 : 3)); ++=
-    *resp =3D curlx_sltosi(strtol(tmpline, NULL, 10)); + +     /</strong> M=
-ake sure real server never sends internal value */ +     if(*resp =3D=3D 1)=
- +-- +2.22.0 + diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta=
-/recipes-support/curl/curl_7.61.0.bb index 1027f75e9e..c1e4342df5 100644 --=
-- a/meta/recipes-support/curl/curl_7.61.0.bb +++ b/meta/recipes-support/cur=
-l/curl_7.61.0.bb @@ -13,6 +13,9 @@ SRC_URI =3D &quot;<a href=3D"https://u12=
-060237.ct.sendgrid.net/wf/click?upn=3Da3Po4i5toNpKG6uRFNTh8Mij1UJJ0s7eaefE5=
-fjBvMpSFvFRqQNhCuPSRxSZtLzB_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsy=
-ZzZlOtbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTSyf-2BcHR-2FH99gGD0yxa2eDYEjnkkZo=
-D1Q-2BmgT4opZq5-2FiFTHajI9w7ddyyjuTK-2ByDmxxVRpu3toZ3MoQ2RZ7-2BlbDPmO25TsPZ=
-ucV9ocAX-2FzRsy2Xji2s4X2mC04o1s7ZLGSSQDOZ18OklrWnj6T79ueMuEjSJhqfEjbHr6bGD-=
-2FqUmdEa86">http://curl.haxx.se/download/curl-$</a>{PV}.tar.bz2 \</p>
-<pre>file://CVE-2018-16842.patch \
-file://CVE-2019-5435.patch \
-file://CVE-2019-5436.patch \</pre>
-<p>+           <a href=3D"file://CVE-2018-16890.patch">file://CVE-2018-1689=
-0.patch</a> \ +           <a href=3D"file://CVE-2019-3822.patch">file://CVE=
--2019-3822.patch</a> \ +           <a href=3D"file://CVE-2019-3823.patch">f=
-ile://CVE-2019-3823.patch</a> \</p>
+<pre>.../dbus/dbus/CVE-2019-12749.patch            | 127 ++++++++++++++++++
+meta/recipes-core/dbus/dbus_1.12.10.bb        |   1 +
+2 files changed, 128 insertions(+)
+create mode 100644 meta/recipes-core/dbus/dbus/CVE-2019-12749.patch</pre>
+<p>diff --git a/meta/recipes-core/dbus/dbus/CVE-2019-12749.patch b/meta/rec=
+ipes-core/dbus/dbus/CVE-2019-12749.patch new file mode 100644 index 0000000=
+000..393c70ca21 --- /dev/null +++ b/meta/recipes-core/dbus/dbus/CVE-2019-12=
+749.patch @@ -0,0 +1,127 @@ +From f0120c5d97a4cc1b659e86d38f2b1f646ca20ea3 =
+Mon Sep 17 00:00:00 2001 +From: Simon McVittie &lt;smcv@collabora.com&gt; +=
+Date: Thu, 30 May 2019 12:53:03 +0100 +Subject: [PATCH] auth: Reject DBUS_C=
+OOKIE_SHA1 for users other than the server + owner + +The DBUS_COOKIE_SHA1 =
+authentication mechanism aims to prove ownership +of a shared home director=
+y by having the server write a secret &ldquo;cookie&rdquo; +into a .dbus-ke=
+yrings subdirectory of the desired identity's home +directory with 0700 per=
+missions, and having the client prove that it can +read the cookie. This ne=
+ver actually worked for non-malicious clients in +the case where server uid=
+ !=3D client uid (unless the server and client +both have privileges, such =
+as Linux CAP_DAC_OVERRIDE or traditional +Unix uid 0) because an unprivileg=
+ed server would fail to write out the +cookie, and an unprivileged client w=
+ould be unable to read the resulting +file owned by the server. + +Addition=
+ally, since dbus 1.7.10 we have checked that ~/.dbus-keyrings +is owned by =
+the uid of the server (a side-effect of a check added to +harden our use of=
+ XDG_RUNTIME_DIR), further ruling out successful use +by a non-malicious cl=
+ient with a uid differing from the server's. + +Joe Vennix of Apple Informa=
+tion Security discovered that the +implementation of DBUS_COOKIE_SHA1 was s=
+usceptible to a symbolic link +attack: a malicious client with write access=
+ to its own home directory +could manipulate a ~/.dbus-keyrings symlink to =
+cause the DBusServer to +read and write in unintended locations. In the wor=
+st case this could +result in the DBusServer reusing a cookie that is known=
+ to the +malicious client, and treating that cookie as evidence that a subs=
+equent +client connection came from an attacker-chosen uid, allowing +authe=
+ntication bypass. + +This is mitigated by the fact that by default, the wel=
+l-known system +dbus-daemon (since 2003) and the well-known session dbus-da=
+emon (in +stable releases since dbus 1.10.0 in 2015) only accept the EXTERN=
+AL +authentication mechanism, and as a result will reject DBUS_COOKIE_SHA1 =
++at an early stage, before manipulating cookies. As a result, this +vulnera=
+bility only applies to: + +* system or session dbus-daemons with non-standa=
+rd configuration +* third-party dbus-daemon invocations such as at-spi2-cor=
+e (although +  in practice at-spi2-core also only accepts EXTERNAL by defau=
+lt) +* third-party uses of DBusServer such as the one in Upstart + +Avoidin=
+g symlink attacks in a portable way is difficult, because APIs +like openat=
+() and Linux /proc/self/fd are not universally available. +However, because=
+ DBUS_COOKIE_SHA1 already doesn't work in practice for +a non-matching uid,=
+ we can solve this vulnerability in an easier way +without regressions, by =
+rejecting it early (before looking at +~/.dbus-keyrings) whenever the reque=
+sted identity doesn't match the +identity of the process hosting the DBusSe=
+rver. + +Signed-off-by: Simon McVittie &lt;smcv@collabora.com&gt; +Closes: =
+<a href=3D"https://u12060237.ct.sendgrid.net/wf/click?upn=3DZUEdHBk4v9DOmlX=
+xaQIXsqfojzsKaTLrhYk7-2F4AqW4Z0aTTxYxcMGlkfrpmYKZqw1bpnzzdxCB9YO7xZwpTvnA-3=
+D-3D_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7ds=
+W-2FJYsjDq1g468dzj84vKE7KK-2FvT22avn5U9YcVt85sTA7Ci94id0JRQk8Th4xIK8bD0jhcW=
+XOjB3I7xt0ISZ-2BK-2BvU-2FuvYtcbIn15FUxv3WsfjSG94GQV64lcAcb6u5pjvWOzA6ei9JZq=
+5P35aDDmFs9ExeWJ2wJjNldwgvdBTDoRJQ15Dxe-2Fbm0ju-2B4Y5eKknE">https://gitlab.=
+freedesktop.org/dbus/dbus/issues/269</a> +Closes: CVE-2019-12749 + +Upstrea=
+m-Status: Backport +[<a href=3D"https://u12060237.ct.sendgrid.net/wf/click?=
+upn=3DZUEdHBk4v9DOmlXxaQIXsqfojzsKaTLrhYk7-2F4AqW4Z0aTTxYxcMGlkfrpmYKZqwxlD=
+xIUuV3NsS4-2FTIcFoyAA-3D-3D_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsy=
+ZzZlOtbMQm4wqVCgNIpo7dsW-2FJYsjDq1g468dzj84vKE7KK-2FvT22avn5U9YcVt85sTA5t2X=
+bPlcsWduP-2BADzAzeEW4GgIrSwGSszbXgZK-2BJy-2B1-2FJoXCBuiQcIATkPelhgyGI54NTfY=
+Gfa3lmtW28UIhwzibz-2F8-2FPaFs-2B6qW6GcOzoFyoZ4OtwwkywGJ7LuGbMuiLAwpNuuxMJ5G=
+y-2Fl-2FBAalHT">https://gitlab.freedesktop.org/dbus/dbus/commit</a> +/47b1a=
+4c41004bf494b87370987b222c934b19016] + +CVE: CVE-2019-12749 + +Signed-off-b=
+y: Kevin Weng &lt;t-keweng@microsoft.com&gt; +--- + dbus/dbus-auth.c | 32 +=
++++++++++++++++++++++++++++++++ + 1 file changed, 32 insertions(+) + +diff =
+--git a/dbus/dbus-auth.c b/dbus/dbus-auth.c +index 37d8d4c9..7390a9d5 10064=
+4 +--- a/dbus/dbus-auth.c ++++ b/dbus/dbus-auth.c +@@ -529,6 +529,7 @@ sha1=
+_handle_first_client_response (DBusAuth         <strong>auth, +   DBusStrin=
+g tmp2; +   dbus_bool_t retval =3D FALSE; +   DBusError error =3D DBUS_ERRO=
+R_INIT; ++  DBusCredentials <strong>myself =3D NULL; + +   _dbus_string_set=
+_length (&amp;auth-&gt;challenge, 0); + +@@ -565,6 +566,34 @@ sha1_handle_f=
+irst_client_response (DBusAuth         *auth, +       return FALSE; +     }=
+ + ++  myself =3D _dbus_credentials_new_from_current_process (); ++ ++  if =
+(myself =3D=3D NULL) ++    goto out; ++ ++  if (!_dbus_credentials_same_use=
+r (myself, auth-&gt;desired_identity)) ++    { ++      /</strong> ++       =
+* DBUS_COOKIE_SHA1 is not suitable for authenticating that the ++       * c=
+lient is anyone other than the user owning the process ++       * containin=
+g the DBusServer: we probably aren't allowed to write ++       * to other u=
+sers' home directories. Even if we can (for example ++       * uid 0 on tra=
+ditional Unix or CAP_DAC_OVERRIDE on Linux), we ++       * must not, becaus=
+e the other user controls their home directory, ++       * and could carry =
+out symlink attacks to make us read from or ++       * write to unintended =
+locations. It's difficult to avoid symlink ++       * attacks in a portable=
+ way, so we just don't try. This isn't a ++       * regression, because DBU=
+S_COOKIE_SHA1 never worked for other ++       * users anyway. ++       */ +=
++      _dbus_verbose (&quot;%s: client tried to authenticate as \&quot;%s\&=
+quot;, &quot; ++                     &ldquo;but that doesn't match this pro=
+cess&rdquo;, ++                     DBUS_AUTH_NAME (auth), ++              =
+       _dbus_string_get_const_data (data)); ++      retval =3D send_rejecte=
+d (auth); ++      goto out; ++    } ++ +   /</strong> we cache the keyring =
+for speed, so here we drop it if it's the +    * wrong one. FIXME caching t=
+he keyring here is useless since we use +    * a different DBusAuth for eve=
+ry connection. +@@ -679,6 +708,9 @@ sha1_handle_first_client_response (DBus=
+Auth         *auth, +   _dbus_string_zero (&amp;tmp2); +   _dbus_string_fre=
+e (&amp;tmp2); + ++  if (myself !=3D NULL) ++    _dbus_credentials_unref (m=
+yself); ++ +   return retval; + } + +-- +2.22.0 + diff --git a/meta/recipes=
+-core/dbus/dbus_1.12.10.bb b/meta/recipes-core/dbus/dbus_1.12.10.bb index d=
+71f7f7042..d7ad1d8be4 100644 --- a/meta/recipes-core/dbus/dbus_1.12.10.bb +=
+++ b/meta/recipes-core/dbus/dbus_1.12.10.bb @@ -16,6 +16,7 @@ SRC_URI =3D &=
+quot;<a href=3D"https://u12060237.ct.sendgrid.net/wf/click?upn=3Da3Po4i5toN=
+pKG6uRFNTh8GIk-2Ba9cxqoglrvIf-2BcUiBkNb-2FDZBz6aTAWHeAlspiXNEPZ4mipCGTcXzx-=
+2FTbdD1JQ-3D-3D_TE0Kxc-2FihH-2BEaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4w=
+qVCgNIpo7dsW-2FJYsjDq1g468dzj84vKE7KK-2FvT22avn5U9YcVt85sTA5fafWiajdjVwoGRj=
+v-2BiI-2Bq6Jx9MUsdKQDdyHIffLLIVU9O4TbO9EHnss64xsCl8IyXPwkX9Kspq9F9R6UFX2py0=
+E4VL25x9fTmQCrjoGAwlPEh698RAcJQWOnoZ5Xn1fPmHIRwQb-2BENSIp74QXyY-2F2">http:/=
+/dbus.freedesktop.org/releases/dbus/dbus-$</a>{PV}.tar.gz \</p>
+<pre>file://tmpdir.patch \
+file://dbus-1.init \
+file://clear-guid_from_server-if-send_negotiate_unix_f.patch \</pre>
+<p>+		   <a href=3D"file://CVE-2019-12749.patch">file://CVE-2019-12749.patc=
+h</a> \</p>
 <pre>"
 
-SRC_URI[md5sum] =3D "31d0a9f48dc796a7db351898a1e5058a"</pre>
+SRC_URI[md5sum] =3D "c3e12b4206e2a7da39d7cc42567790ef"</pre>
 <p>&mdash; 2.22.0</p>
 
 <img src=3D"https://u12060237.ct.sendgrid.net/wf/open?upn=3DTE0Kxc-2FihH-2B=
-EaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FT1vYL7RdHUXx5bTS=
-yf-2BcHR-2FH99gGD0yxa2eDYEjnkkbF3N0T58QoqYjHR-2B4RBBGWvN9Jn2C5umu65lQgGOQDo=
-CQzScGeU89FgWMa6QrgUvPavfyrP9NQ5aAz0JukbRr9UhBQzRkoR8NE8f0erz-2FgQOPY-2BcdK=
-8mNbxmeT7QETM2mK-2F3Yf7-2BfhZ8ghFH1ENUb9" alt=3D"" width=3D"1" height=3D"1"=
- border=3D"0" style=3D"height:1px !important;width:1px !important;border-wi=
-dth:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin-=
-right:0 !important;margin-left:0 !important;padding-top:0 !important;paddin=
-g-bottom:0 !important;padding-right:0 !important;padding-left:0 !important;=
-"/>
+EaJFZv0piOBm40-2F8jB5b-2FHzeWxsyZzZlOtbMQm4wqVCgNIpo7dsW-2FJYsjDq1g468dzj84=
+vKE7KK-2FvT22avn5U9YcVt85sTA4NlAFEYciwro36Z-2F-2F4GlYwLKlJCZgczAl3F65-2Bixa=
+0S4k0-2BIAh5sPfUmJEgeLl5SZt7bjg-2BpF2XHRRvPg5teHBzn-2BzTkhINNrssX5hs8OxfU1e=
+iX4pcqlPP7xOGmO1CUYqVxQmJOc9FOVA9-2F-2BkgmYm" alt=3D"" width=3D"1" height=
+=3D"1" border=3D"0" style=3D"height:1px !important;width:1px !important;bor=
+der-width:0 !important;margin-top:0 !important;margin-bottom:0 !important;m=
+argin-right:0 !important;margin-left:0 !important;padding-top:0 !important;=
+padding-bottom:0 !important;padding-right:0 !important;padding-left:0 !impo=
+rtant;"/>
 </body></html>
 
-------------=_1565735435-32668-382--
+------------=_1565735436-2948-348--
