@@ -1,51 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 40E676C23A
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 12E467E9CD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 08:34:19 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id 31so106978494wrm.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 01:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=miaIxY3YNI3kCTb7zsZiYfc7QCfjkSbRmGcrnWoYWBs=;
-	b=FPJcgD4KMnxoaQ2a0oFrNuyjmzIlNPq75cB69vniHR7IV4qr8xHEFcBuc9A6PCXVxS
-	RHXFbrjENsObx4GiWgaq00V5K3hLUtx3tOR2VKSj8g0PEj9BRHvlT4J2InNIgn6suuk7
-	DTMhc7S7/PhGqaXOfNfhtj8Ivs/64UlusLAWg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=miaIxY3YNI3kCTb7zsZiYfc7QCfjkSbRmGcrnWoYWBs=;
-	b=U4/grrNYWXEBefTZCexPpCcB7qYovBPiSkf1SXcGyVqxgUkK9m2cV6tDBhKbBG4gzU
-	Ht5dB/QAu+dHzQB6V/QzPbjMVENArk/5zltpWDeLwS1ooLrdd3V7pthNnd0i2qlnfxE2
-	YJHCy3ypurClwRemTRyWHyyO0dMy8rwur+OApuX9zXyYGNQmQwAVzFAh5WzCdsSYoBrb
-	TaxBJEe6wBG22OB8ryIvjQaU+hNdcHzEVA2uVh+Psy2TT1wTtEbhkgUjEonpY2rK/wfZ
-	Mh0iAn9vULf2IBhClYSdBu0jDEQZ4bbozZLJ4f/AHojeA+6YRscXaCM0phmIqmzYY69l
-	10BA==
-X-Gm-Message-State: APjAAAWmEaFYdBFSk/gZLKt4TrlXuDMMZJPk9JlIhOK8VjHvJ0EigGod
-	SJZ97TyQuSP3O4IoFTaMP2DPDA==
-X-Google-Smtp-Source: APXvYqxHPg97XoT/0yIF1tK60i2Q/RRW2qAMWTwjnk9erbN++kXFv3DoG/KBWCB2Fl58XzXNlgZs9A==
-X-Received: by 2002:adf:f646:: with SMTP id x6mr47833465wrp.18.1565685259895; 
-	Tue, 13 Aug 2019 01:34:19 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id b26sm759422wmj.14.2019.08.13.01.34.18
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 13 Aug 2019 01:34:19 -0700 (PDT)
-Message-ID: <72c38e8826111b832afe9df09ab350b099918f8b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2019 09:34:17 +0100
-In-Reply-To: <20190812134903.55045-2-alex.kanavin@gmail.com>
-References: <20190812134903.55045-1-alex.kanavin@gmail.com>
-	<20190812134903.55045-2-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	Tue, 13 Aug 2019 08:35:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7D8ZiGw010888
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 13 Aug 2019 01:35:44 -0700 (PDT)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 13 Aug 2019 01:35:43 -0700
+To: Matt Madison <matt@madison.systems>
+References: <1565074499-317606-1-git-send-email-changqing.li@windriver.com>
+	<0fb7aa39fdcdc39f8a12149005f9b09d04074778.camel@linuxfoundation.org>
+	<36918de5-75f3-b520-2c3d-72c3b9c1ca71@windriver.com>
+	<8c974f0c0f5d98ae66c7add9646c1c840ead7951.camel@linuxfoundation.org>
+	<ce3c8502-3abc-bb58-0972-513ad85ac2c3@windriver.com>
+	<CAGgRHJr9FUKcOzEsoU=M47hhU_8sQ2M_xfAyDn=gSNokA124Hg@mail.gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <a0431b9a-d18e-c8e9-2c74-19321e1322e1@windriver.com>
+Date: Tue, 13 Aug 2019 16:35:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/4] python3-numpy: update to 1.17.0
+In-Reply-To: <CAGgRHJr9FUKcOzEsoU=M47hhU_8sQ2M_xfAyDn=gSNokA124Hg@mail.gmail.com>
+X-Originating-IP: [128.224.162.186]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] go/go-runtime: use update-alternative for zdefaultcc.go
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,37 +40,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 08:34:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 13 Aug 2019 08:35:46 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Mon, 2019-08-12 at 15:49 +0200, Alexander Kanavin wrote:
-> Rebase files/0001-Don-t-search-usr-and-so-on-for-libraries-by-
-> default-.patch
-> 
-> License-Update: clarified license for
-> numpy/core/src/multiarray/dragon4.c (it is MIT)
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  ...-and-so-on-for-libraries-by-default-.patch | 47 ++++++++---------
-> --
->  ...up.py-remove-the-detection-of-x86-ta.patch | 32 +++++++++++++
->  .../python-numpy/python-numpy.inc             |  9 ++--
->  ...umpy_1.16.3.bb => python3-numpy_1.17.0.bb} |  0
->  4 files changed, 57 insertions(+), 31 deletions(-)
->  create mode 100644 meta/recipes-devtools/python-numpy/files/0001-
-> numpy-random-setup.py-remove-the-detection-of-x86-ta.patch
->  rename meta/recipes-devtools/python-numpy/{python3-numpy_1.16.3.bb
-> => python3-numpy_1.17.0.bb} (100%)
 
-This doesn't build on opensuse 42.3:
+On 8/8/19 7:56 PM, Matt Madison wrote:
+> On Wed, Aug 7, 2019 at 10:36 PM Changqing Li <changqing.li@windriver.com> wrote:
+>>
+>> On 8/7/19 10:16 PM, Richard Purdie wrote:
+>>> On Wed, 2019-08-07 at 10:35 +0800, Changqing Li wrote:
+>>>> On 8/6/19 6:47 PM, Richard Purdie wrote:
+>>>>> On Tue, 2019-08-06 at 14:54 +0800, changqing.li@windriver.com
+>>>>> wrote:
+>>>>>> From: Changqing Li <changqing.li@windriver.com>
+>>>>>>
+>>>>>> fix below error:
+>>>>>> file /usr/lib64/go/src/cmd/cgo/zdefaultcc.go conflicts between
+>>>>>> attempted installs of go-dev-1.12.6-r0.core2_64 and go-runtime-
+>>>>>> dev-
+>>>>>> 1.12.6-r0.core2_64
+>>>>>> file /usr/lib64/go/src/cmd/go/internal/cfg/zdefaultcc.go
+>>>>>> conflicts
+>>>>>> between attempted installs of go-dev-1.12.6-r0.core2_64 and go-
+>>>>>> runtime-dev-1.12.6-r0.core2_64
+>>>>>>
+>>>>>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>>>>>> ---
+>>>>>>     meta/recipes-devtools/go/go-runtime_1.12.bb | 6 ++++++
+>>>>>>     meta/recipes-devtools/go/go_1.12.bb         | 7 +++++++
+>>>>>>     2 files changed, 13 insertions(+)
+>>>>> It seems odd that both of these packages should provide this,
+>>>>> perhaps
+>>>>> one version should just be deleted?
+>>>>>
+>>>>> Cheers,
+>>>>>
+>>>>> Richard
+>>>> These 2 recipes don't have any DEPEND or RDEPEND relationship, so
+>>>> they
+>>>> are independent from the point of recipe.
+>>>>
+>>>> Make one of dev packages empty seems not proper ?
+>>> Let me put this another way. What is the difference between these two
+>>> binaries? When should you use one, when should you use the other? Or
+>>> are they the same thing?
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>> go is for building go compiler,  and go-runtime only contains go
+>> standard  runtime library
+>>
+>> There are 2 use caes:
+>>
+>> 1.  on target, user only install go-runtime to provide libstd.so for
+>> other go apps.
+>>
+>> 2.  on target, user install both go and go-runtime
+>>
+>> in my opinion,  only in case2,  install dev pkg is meaningful, so maybe
+>> we can remove the conflict
+>>
+>> part of files from go-runtime.
+>>
+>>
+>> @Matt,  you have do lots of work related these recipes, could you also
+>> give your opinion? Thanks.
+> Well, those 'z'-prefixed files are ones that are generated during the
+> build of go to embed default flags for the 'go' and 'cgo' commands to
+> use when they have to call on the C compiler.  They also happen to be
+> generated during the build of go-runtime because go normally doesn't
+> separate its toolchain and runtime builds, whereas we have to for the
+> cross build case. So filtering those files out of the go-runtime-dev
+> package and leaving them in the go-dev package would probably be OK.
+> It's something of an artificial distinction, though.
+>
+> Regards,
+> -Matt
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/907
+Thanks, I will remove these 2 files from go-runtime-dev packages,
 
-Its numpy-native and looks like it might be the old compiler :(
+and send a v2 patch.
 
-Cheers,
 
-Richard
+>
+>>>
+>>>
+>> --
+>> BRs
+>>
+>> Sandy(Li Changqing)
+>>
+-- 
+BRs
+
+Sandy(Li Changqing)
 
 
