@@ -1,47 +1,54 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id A53C060017
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B970D7EB0F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 09:28:57 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id v19so827836wmj.5
+	Tue, 13 Aug 2019 09:48:52 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id v6so71824535vsq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 02:28:58 -0700 (PDT)
+	Tue, 13 Aug 2019 02:48:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=HXkHFBdtX073L4jO9gBgYAJLKLpqn3zSCji2zUa8efY=;
-	b=T1TBiBXFlzyljwIe2VRgnFoYzNE0JDFLNPVgtcF8matVly2icBqAZdOq/vQF4mIAq9
-	at2alfo4KlTDsyb9AlR9wwt6GhXlOPp2+OU+qGkm+A66B9oDwKz3EQHOLO/fvTwG1eD4
-	cD6u8tpoNDTT6YguWdqUdN/xYUtsJW7LJLKX99zExDRJ7AJr3I7lOJbgpwZVOULH1zQl
-	iy/0DQ+zO04nm2Gu50VYNFzPKnfjOAgcOg6U0baAdFs3M3o9EwuVOUwKFiXXMG6HwEPl
-	vuPWr5hTKy1DhOa0zWoUnKARCwnqYgWICWTL1bikrMf1wQ2eJxyxASQ5+t0WBuKPK2pJ
-	XVPw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=U/g4DmsmZYAIgbkvRuyi5Ldwy/GDMDtacxdJscVFQ5g=;
+	b=gaZ8USP1E7o638r2k6NVTgqyi8CSNYzfVW8TC98WRmRBL0OnpEKThuUexdvmoVHunN
+	0/K/S1gBbtOkuVRhkycdXkrCwNM+MXv13z3zXXcOt6yoHmJxNhsH0aYN/O2Pim/EFPFG
+	2a5Q+eUZxFOj6oPPdup7yqzfKLlo60RfBeF9J5ieimki9JV2m2vZCoIc0QTFcHxRO75H
+	BwpVznyHBnoR4vnqWx299Xk7t+SJxPqqUn9zczAem2Pm7UJbeTDrwcxQ0D7OHE4rpx2b
+	9p0NGdZp3XGjnar04Mo4OacnCHVtNsZ/h6khp5sl8eA5QLxvIhTlBypo1EK+AbJ8RLZA
+	iI4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=HXkHFBdtX073L4jO9gBgYAJLKLpqn3zSCji2zUa8efY=;
-	b=FKcO0/RwtLuBl9izXC6/2/ER8fiZjW+PqImZHICszNLytk8nji5dK+yrOeAF6CBULL
-	UEIBeP4xIgUtpJjmkHr7/sBbQhVPc+LyKKSJnHn2sDPuO6g5tz4o9TTbsbGo5Uwzo5FR
-	Jfx9d4wW/cNIH9EOYCD0lNjVC3tyhEzaeAss+Hj8e/8zF9+g9cwRJkpxlR2b07nWBgOo
-	jAys+IzMhXl6/Yd4JmHSCFVbEDjWCKwwF3EBEBr3l4HBI6KY1Tfr5grRvMOs2zP+rkVp
-	2r/OJPyx4w0SmK86yWwu2X+OvwkolQr7Vyq4KJugumQ/LHv4TlyrqidMvEwaq9YzQ9UT
-	udtw==
-X-Gm-Message-State: APjAAAVRJveCZTfZG2I8dxzMSDZiCYut8sS66+xxEjudfmrKWbpGluKO
-	BHQYC/g9V6KJyosn3y0fRjVvLDKD
-X-Google-Smtp-Source: APXvYqw9D9kbmkH+WKOGLSZ7k3Z7Y5im0TgrOEd7HkgDbeyvi/cXgxK2Ih9nKq2iJIMlXQE5eqpjzA==
-X-Received: by 2002:a1c:be11:: with SMTP id o17mr2000257wmf.115.1565688537646; 
-	Tue, 13 Aug 2019 02:28:57 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id x6sm1000460wmf.6.2019.08.13.02.28.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 13 Aug 2019 02:28:56 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2019 09:28:56 +0000
-Message-Id: <20190813092856.1354-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCHv2] meson: backport fix for builds with -Werror=return-type
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=U/g4DmsmZYAIgbkvRuyi5Ldwy/GDMDtacxdJscVFQ5g=;
+	b=YO+mZ9TYy23S/d5CwcNDlExeuTEgd3NcU1BjacD7QLEkOjqSM5yAQsW0BhHF8LGGAC
+	jkNyItQcotCL4ldioNBlJu9okhYWcbNSFSv3Lh0ZalStCyv4QyHeR5BjPBmOJuYV0fRM
+	v7CxIEbyenSNjRak2CRCO2agf6R5yVQW7J7R6tIWIu6Sr1F+QCn8qQxMkZxfuWBKDLsq
+	4rhjio6tM57hCnYc5/mYRZrwT8dkfvbGSzsYPN/Arn376/QymM8XjPTUilHNqdbXAFpW
+	u6nSzYEEwioWHEcv2/lSFtqU1jI1qd1KcjjE5FdEUoEZ1Ttbmwj7/NuP9Zf44++6R/nt
+	7cww==
+X-Gm-Message-State: APjAAAWIs7+EyOezSr30/5qcZle/hhOotgDszfS7W41QZ+biuqRuOljk
+	6VVXtlaShxILMrhQeeZAn5K+tD1aL02yC8Qr+pw=
+X-Google-Smtp-Source: APXvYqxf6AQ/YF/vYZR4TwOzUzNUCTWg30zB/JUAZW4+vIz6iVJ0OFBc9N7jTn2lVF6feV2wquOm4fZ/gd305xt3I3Q=
+X-Received: by 2002:a67:62c5:: with SMTP id w188mr8707798vsb.25.1565689733918; 
+	Tue, 13 Aug 2019 02:48:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190807102939.12760-1-alex.kanavin@gmail.com>
+	<94b692a828bbf5230f56afbc401bf9d66660283b.camel@linuxfoundation.org>
+	<CANNYZj-t2TSN4dMpfEgU_k_dDqHRLeqNSYWi-=uUK2BH09-tMA@mail.gmail.com>
+	<CAMKF1squwmc8-sm+JMM6gU5oyHSKHv7ejRoOokTdb4Nd-SEk2A@mail.gmail.com>
+	<CAMKF1soSXrDEHu+0v7v052EpCfXwu=+_ysWiwDcd=HY7oaBU8Q@mail.gmail.com>
+	<CANNYZj81jgzZP0VNSbpA6RVh=JDc7748XszNEOJ9Dz+qf+8hmQ@mail.gmail.com>
+	<CAMKF1sqRZGqR7pquRdqjfqs0=PAKB_5C2W6p_uwM9uTHZeD2GQ@mail.gmail.com>
+	<CANNYZj9GsfTokbQG0LW4pBiY6tPQ1Dhv8oiED3VZoyNQuzaLJw@mail.gmail.com>
+	<af18d5171f0ee3f44d8bb3396335d5ed2f029157.camel@linuxfoundation.org>
+In-Reply-To: <af18d5171f0ee3f44d8bb3396335d5ed2f029157.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 13 Aug 2019 11:48:42 +0200
+Message-ID: <CANNYZj8j11TyVNSBbxMeH3gcT01tz5QsUdM89ZxrtKhPbU_o8w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,134 +61,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 09:28:58 -0000
+X-List-Received-Date: Tue, 13 Aug 2019 09:48:54 -0000
+Content-Type: multipart/alternative; boundary="0000000000006b3366058ffc8c3b"
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/meson/meson.inc         |   1 +
- ...rn-statements-that-are-seen-with-Wer.patch | 100 ++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+--0000000000006b3366058ffc8c3b
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
-index 662368e219..14e5f8a610 100644
---- a/meta/recipes-devtools/meson/meson.inc
-+++ b/meta/recipes-devtools/meson/meson.inc
-@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
-            file://0001-mesonbuild-environment.py-check-environment-for-vari.patch \
-            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
-            file://vala-cross-compile.patch \
-+           file://0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch \
-            "
- SRC_URI[sha256sum] = "f27b7a60f339ba66fe4b8f81f0d1072e090a08eabbd6aa287683b2c2b9dd2d82"
- SRC_URI[md5sum] = "48787e391ec5c052799a3dd491f73909"
-diff --git a/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
-new file mode 100644
-index 0000000000..16c6d90761
---- /dev/null
-+++ b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
-@@ -0,0 +1,100 @@
-+From 15f44be1c7f71cb0a8c6863917acbbc301c621fe Mon Sep 17 00:00:00 2001
-+From: Martin Liska <mliska@suse.cz>
-+Date: Mon, 15 Jul 2019 10:06:17 +0200
-+Subject: [PATCH] Fix missing return statements that are seen with
-+ -Werror=return-type.
-+
-+Error example:
-+
-+Code:
-+
-+        #include <locale.h>
-+        int main () {
-+            /* If it's not defined as a macro, try to use as a symbol */
-+            #ifndef LC_MESSAGES
-+                LC_MESSAGES;
-+            #endif
-+        }
-+Compiler stdout:
-+
-+Compiler stderr:
-+ In file included from /usr/include/locale.h:25,
-+                 from /tmp/tmpep_i4iwg/testfile.c:2:
-+/usr/include/features.h:382:4: warning: #warning _FORTIFY_SOURCE
-+requires compiling with optimization (-O) [-Wcpp]
-+  382 | #  warning _FORTIFY_SOURCE requires compiling with optimization
-+(-O)
-+      |    ^~~~~~~
-+/tmp/tmpep_i4iwg/testfile.c: In function 'main':
-+/tmp/tmpep_i4iwg/testfile.c:8:9: error: control reaches end of non-void
-+function [-Werror=return-type]
-+    8 |         }
-+      |         ^
-+cc1: some warnings being treated as errors
-+
-+Upstream-Status: Backport
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ mesonbuild/compilers/c.py     | 1 +
-+ mesonbuild/compilers/clike.py | 5 +++++
-+ 2 files changed, 6 insertions(+)
-+
-+diff --git a/mesonbuild/compilers/c.py b/mesonbuild/compilers/c.py
-+index 3b58a076..9ef92077 100644
-+--- a/mesonbuild/compilers/c.py
-++++ b/mesonbuild/compilers/c.py
-+@@ -70,6 +70,7 @@ class CCompiler(CLikeCompiler, Compiler):
-+             #ifndef {symbol}
-+                 {symbol};
-+             #endif
-++            return 0;
-+         }}'''
-+         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
-+                              dependencies=dependencies)
-+diff --git a/mesonbuild/compilers/clike.py b/mesonbuild/compilers/clike.py
-+index 83f67591..f9cbeabd 100644
-+--- a/mesonbuild/compilers/clike.py
-++++ b/mesonbuild/compilers/clike.py
-+@@ -375,6 +375,7 @@ class CLikeCompiler:
-+             #ifndef {symbol}
-+                 {symbol};
-+             #endif
-++            return 0;
-+         }}'''
-+         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
-+                              dependencies=dependencies)
-+@@ -554,6 +555,7 @@ class CLikeCompiler:
-+         {prefix}
-+         int main(int argc, char **argv) {{
-+             {type} something;
-++            return 0;
-+         }}'''
-+         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
-+                              dependencies=dependencies)[0]:
-+@@ -589,6 +591,7 @@ class CLikeCompiler:
-+         {prefix}
-+         int main(int argc, char **argv) {{
-+             {type} something;
-++            return 0;
-+         }}'''
-+         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
-+                              dependencies=dependencies)[0]:
-+@@ -667,6 +670,7 @@ class CLikeCompiler:
-+         #include <stdio.h>
-+         int main(int argc, char *argv[]) {{
-+             printf ("{fmt}", {cast} {f}());
-++            return 0;
-+         }}'''.format(**fargs)
-+         res = self.run(code, env, extra_args=extra_args, dependencies=dependencies)
-+         if not res.compiled:
-+@@ -819,6 +823,7 @@ class CLikeCompiler:
-+                 #error "No definition for __builtin_{func} found in the prefix"
-+             #endif
-+         #endif
-++        return 0;
-+         }}'''
-+         return self.links(t.format(**fargs), env, extra_args=extra_args,
-+                           dependencies=dependencies)
-+-- 
-+2.17.1
-+
--- 
-2.17.1
+On Mon, 12 Aug 2019 at 22:50, <richard.purdie@linuxfoundation.org> wrote:
 
+>
+> > world builds seem to have regressed (preparation time wise) even
+> > without having hash equivalency. Just oe-core is bearable, but adding
+> > meta-oe layers makes it spent many minutes after initializing tasks
+> > but before any tasks actually begin.
+>
+> Is that with master or current master-next?
+>
+> I'm curious if master-next is better or worse...
+>
+> To be honest I'm worrying more about correctness right now.
+>
 
+Certainly. I didn't want to raise this now as you have plenty on your
+plate, but as Khem did, I had to chime in.
+
+This was with master@9983b07fffd19082abded7c3f15cc77d306dd69c.
+
+Alex
+
+--0000000000006b3366058ffc8c3b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 12 Aug 2019 at 22:50, &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
+rdie@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0<br>
+&gt; world builds seem to have regressed (preparation time wise) even<br>
+&gt; without having hash equivalency. Just oe-core is bearable, but adding<=
+br>
+&gt; meta-oe layers makes it spent many minutes after initializing tasks<br=
+>
+&gt; but before any tasks actually begin.<br>
+<br>
+Is that with master or current master-next?<br>
+<br>
+I&#39;m curious if master-next is better or worse...<br>
+<br>
+To be honest I&#39;m worrying more about correctness right now.<br>
+</blockquote><div><br></div><div>Certainly. I didn&#39;t want to raise this=
+ now as you have plenty on your plate, but as Khem did, I had to chime in. =
+<br></div><div><br></div><div>This was with master@9983b07fffd19082abded7c3=
+f15cc77d306dd69c.<br></div><div><br></div><div></div><div>Alex<br></div></d=
+iv></div>
+
+--0000000000006b3366058ffc8c3b--
