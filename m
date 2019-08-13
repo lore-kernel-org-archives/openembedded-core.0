@@ -1,51 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 196497C556
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id CD1F26B50B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2019 23:22:45 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id t14so48440664plr.11
+	Tue, 13 Aug 2019 00:14:34 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id w24so48505462plp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2019 16:22:46 -0700 (PDT)
+	Mon, 12 Aug 2019 17:14:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9PODyxzuVbDjnKE3WdS6foSs4XEcbqkM6OXPQ+DMvyY=;
-	b=A8j4is0bepZqAAC5vjii2+0y1/VNOuHe7Rx+NkWW8g5htTbbMQ2xzoqxpx3DDX09Uz
-	qot7jTygVcUGvAqSrEKtiLzsXDm2ZZ5AyS+TfYQdV/+eKifz1wcwtpw9Vv18jFcS6Lb+
-	usS3DrKrjK+p5J6GESTxXMf5vRxFu633VAwqdiAfvKTSeQIwkDDxvUS9Ztum+at+8TqF
-	HL3nuOzAULOI83YZlHiR1JoMaSJCGOEqlWpl/PDK+DtIyKpHxNBTexGITSuxae5o75Q4
-	IKkneU5U8YJU3L1whuLNlFbtVnN8WYQlREaR8nD0spjPJLs7RSsY6Zi8YjMucS12ZkLw
-	vyQg==
+	h=from:to:subject:date:message-id:mime-version:thread-index
+	:content-language;
+	bh=lVjQykt6tpDqeD98Pp1j1O8g4qybdJGVpGOxXxwFqNM=;
+	b=IdGRjvstLMnoYok1BGZDanEH2zjwA7BNpX/5AevsxohU/qgdrfTfGLWZBXMYIR57Qu
+	lFLQ2SUj1VSFaHABoERnr3KmaJHU3coy3CI/xMCBMlJdoG7GYSS93w3jNdacenOxYfml
+	gToSpa4ymbcXljmKr3OnCdUbC0N2LzTObWniipio1PxDKwMXnQjFOzpEPMe7r8DHFqCp
+	4RjWPIKDH0yrFt8HhR0COJ3B7YdCUSM7rqXLHUASryC3GJP33ac3V8PpTZgZGq/HaBza
+	XK6dHv6faJuX3prAwlXD2dCZgutLI4dP032jiJnTd9B1hce2qosLSkszmT9YjxmObg95
+	5nuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9PODyxzuVbDjnKE3WdS6foSs4XEcbqkM6OXPQ+DMvyY=;
-	b=k5Hlo5yNToxJn3N5QrONytK1vHyRq2lEjAOoC6gbKl8XxVXu//TAqs4DjDZqll5Zxp
-	m5JfsdngDoTrGmSta1gMummdy59ObfGoN7Uujc7ulhsHWl6WgWUBynbt7amnrv+r5DWH
-	C3LgC0kM1xi6A3bZcm4EcunaZ9CioqWMHEZBFU0heJiJ9qzw4nv14qETedTACeZeoL2I
-	X+kU1l1Ea3iMIF6K2N20E6K5otNxSZD+5opAJ8BrfZ0JfUL91ahk0zDMRBBQKzfaEJk6
-	sf3uqorcii+qKSYIHnX3UCM4UPLgstCLyx9McUCkuZO68MPD+cOvhECRy+ahGnU8II/3
-	yECA==
-X-Gm-Message-State: APjAAAUjLs6GPzEcdQyGc+ph7oWzqgd1Ot5QJMibdnnA1tdmhZCxd6ED
-	FaCOPqTqEDZHceXX5GvwJapsV6F6T9c=
-X-Google-Smtp-Source: APXvYqwx+fQck+XzH+VWhC8OaPa0fD4ZJX9p+IhGmxzm2w2+LdUcv9CrnPSuBGHWakYch2Mj0uusVQ==
-X-Received: by 2002:a17:902:bd09:: with SMTP id
-	p9mr10422904pls.96.1565652165651; 
-	Mon, 12 Aug 2019 16:22:45 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	x67sm112048225pfb.21.2019.08.12.16.22.44
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 12 Aug 2019 16:22:44 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Aug 2019 16:22:34 -0700
-Message-Id: <20190812232234.41199-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.22.0
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:thread-index:content-language;
+	bh=lVjQykt6tpDqeD98Pp1j1O8g4qybdJGVpGOxXxwFqNM=;
+	b=QNXvt7gPsLQkcGloWmau7Sosto/oaOUvZiRVXFopMrZiiVV+ZqgsRVqCWl5rAXAFKK
+	PL+siH7DcRHXs+Q6VOheOmNARfv6CCRbrjZeAqGamQBdmHO3Sm85dP7h4IFNvNSl7aeX
+	Jf7F9MOrbVJWKdZdex1dJxlsLAiGxUtyZxJ05G5rTSSmEdERbi08LpGT7lX7Obn99G4E
+	XSmlnZGe6zUX8tlIg72r4LH6jcAyb6S8jUm58bn9jgUW84IUsg2py1mXlJ1Y5dZlUojc
+	MUJc/o8nL/tKu/UOKleCUxp2XXh0SkZbRPalcwdotAvxJIrv8FfOWxjlhftL3GLmX+uv
+	dALg==
+X-Gm-Message-State: APjAAAXfN6q44D5wCigcbyvEdaG0BcM4Z0MOvyBx4yoqgHUqQNKCtGPH
+	dSpJPMG5XxkYYvLvE389R2C2EF1N
+X-Google-Smtp-Source: APXvYqwRXThmHH3QHI/Wp01AV//fsuJnLmsQ7HoBvIgDYZItZj3dBfHbaKMYXA6JaF+DGgt8jpfH8A==
+X-Received: by 2002:a17:902:be12:: with SMTP id
+	r18mr33709263pls.341.1565655275801; 
+	Mon, 12 Aug 2019 17:14:35 -0700 (PDT)
+Received: from sjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+	by smtp.gmail.com with ESMTPSA id
+	p2sm149549197pfb.118.2019.08.12.17.14.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 12 Aug 2019 17:14:35 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 12 Aug 2019 17:14:37 -0700
+Message-ID: <001301d5516c$17d17b20$47747160$@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] gcc-runtime: Move content from gcclibdir into libdir
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJcEISZ8/ArmID5/qF8BcgujNK2Og==
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,73 +60,292 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2019 23:22:46 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 13 Aug 2019 00:14:35 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0014_01D55131.6B73B490"
+Content-Language: en-us
 
-OE does not use the traditional /usr/lib/gcc prefix to store gcc-runtime
-it basically is moved into libdir, however some newer files were
-installed by newer versions of gcc especially libgomp ( omp.h openacc.h )
-into gcclibdir, so we have content in both directories, this confuses
-other tools which are trying to guess the gcc installation and its
-runtime location, since now we have two directories, the tools either
-choose one or other and we get inconsistent behavior, e.g. clang for
-aarch64 uses /usr/lib but same clang for riscv64 chose /usr/lib/gcc
+------=_NextPart_000_0014_01D55131.6B73B490
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-This change ensures that OE ends up with single valid location for gcc
-runtime files
+All,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-runtime.inc    | 5 +++++
- meta/recipes-devtools/gcc/gcc-runtime_8.3.bb | 3 ++-
- meta/recipes-devtools/gcc/gcc-runtime_9.1.bb | 3 ++-
- 3 files changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index a5c2600d7f..ebba774108 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -77,6 +77,11 @@ do_install () {
- 		cd ${B}/${TARGET_SYS}/$d/
- 		oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/$d/ install
- 	done
-+	if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include ]; then
-+		install -d ${D}${libdir}/${TARGET_SYS}/${BINV}/include 
-+		mv ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D}${libdir}/${TARGET_SYS}/${BINV}/include
-+		rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include
-+	fi
- 	rm -rf ${D}${infodir}/libgomp.info ${D}${infodir}/dir
- 	rm -rf ${D}${infodir}/libitm.info ${D}${infodir}/dir
- 	rm -rf ${D}${infodir}/libquadmath.info ${D}${infodir}/dir
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb b/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb
-index a1c7a76d0b..172af4e7e1 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb
-+++ b/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb
-@@ -5,7 +5,8 @@ require gcc-runtime.inc
- EXTRA_OECONF_append_arm = " libat_cv_have_ifunc=no "
  
- FILES_libgomp-dev += "\
--    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/openacc.h \
-+    ${libdir}/${TARGET_SYS}/${BINV}/include/omp.h \
-+    ${libdir}/${TARGET_SYS}/${BINV}/include/openacc.h \
- "
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
  
- # Building with thumb enabled on armv6t fails
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime_9.1.bb b/meta/recipes-devtools/gcc/gcc-runtime_9.1.bb
-index a1c7a76d0b..172af4e7e1 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime_9.1.bb
-+++ b/meta/recipes-devtools/gcc/gcc-runtime_9.1.bb
-@@ -5,7 +5,8 @@ require gcc-runtime.inc
- EXTRA_OECONF_append_arm = " libat_cv_have_ifunc=no "
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
+
  
- FILES_libgomp-dev += "\
--    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/openacc.h \
-+    ${libdir}/${TARGET_SYS}/${BINV}/include/omp.h \
-+    ${libdir}/${TARGET_SYS}/${BINV}/include/openacc.h \
- "
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
  
- # Building with thumb enabled on armv6t fails
--- 
-2.22.0
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 297
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "2.8", "2.9', "2.99" and "Future", the more pressing/urgent
+issues being in "2.8" and then "2.9".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+ 
 
 
+------=_NextPart_000_0014_01D55131.6B73B490
+Content-Type: text/html;
+	boundary="----=_NextPart_000_050F_01D54BBE.89BC34E0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
+xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
+xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
+xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
+xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
+xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
+xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
+xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
+xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
+xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
+xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
+xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
+xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
+xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
+xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
+xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
+xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
+xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
+xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
+xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
+xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
+xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
+xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
+xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
+ xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
+xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
+xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
+xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
+xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
+xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
+xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
+xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
+xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
+xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
+xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
+nature" =
+xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
+" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
+ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
+xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
+ =
+xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
+es" =
+xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
+" =
+xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
+lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
+xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle20
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoPlainText>All,<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
+triage team is starting to try and collect up and classify bugs which a =
+newcomer to the project would be able to work on in a way which means =
+people can find them. They're being listed on the triage page under the =
+appropriate heading:<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>The idea is these bugs should be straight forward =
+for a person to help work on who doesn't have deep experience with the =
+project.&nbsp; If anyone can help, please take ownership of the bug and =
+send patches!&nbsp; If anyone needs help/advice there are people on irc =
+who can likely do so, or some of the more experienced contributors will =
+likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Also, =
+the triage team meets weekly and does its best to handle the bugs =
+reported into the Bugzilla. The number of people attending that meeting =
+has fallen, as have the number of people available to help fix bugs. One =
+of the things we hear users report is they don't know how to help. We =
+(the triage team) are therefore going to start reporting out the =
+currently 297 unassigned or newcomer bugs.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
+hoping people may be able to spare some time now and again to help out =
+with these.&nbsp; Bugs are split into two types, &quot;true bugs&quot; =
+where things don't work as they should and &quot;enhancements&quot; =
+which are features we'd want to add to the system.&nbsp; There are also =
+roughly four different &quot;priority&quot; classes right now, =
+&#8220;2.8&#8221;, &#8220;2.9&#8217;, &quot;2.99&quot; and =
+&quot;Future&quot;, the more pressing/urgent issues being in =
+&quot;2.8&quot; and then &#8220;2.9&#8221;.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
+review this link and if a bug is something you would be able to help =
+with either take ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
+mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
+comer_Bugs</a><o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a><o:p><=
+/o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p>&nbsp;</o:=
+p></span></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_0014_01D55131.6B73B490--
