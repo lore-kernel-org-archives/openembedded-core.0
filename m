@@ -1,52 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
-	[209.85.210.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ED3B37EC5D
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5717A7EC92
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 15:31:35 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id f17so47938062otq.4
+	Wed, 14 Aug 2019 15:31:37 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id k18so51188828otr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 08:31:37 -0700 (PDT)
+	Wed, 14 Aug 2019 08:31:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=194gVzuSbnkP83NB5U6ipaWn0Wprv11flI0CKEk7NO0=;
-	b=cMBu4QHc8E+xfeoB81NkggQD84aUpjKbwVNY7EjmaM5supCZLQ9yIM3dlbSYGFvPaY
-	BrJwmNZ6796siNcVt+mghURprwERe7gx3Ht3mHI43Dtsm/tskh+0hW92DXITwq7sTI7G
-	3p3BBbsN9YevjzNPHJs4DJDvaRcEq3OVBf+OfFPRNnusD+YtIt1h2JmiRdRzH7NkleVP
-	m+/a2oRjbQ+VZZ58Xqe4kZYlUYRd6mzMK39H/PFpTwDtwMI1p1RV3V+KJ1xOssQ0aQOt
-	yED++9tuP9Fwjl9xgkwOjQZJNk/yH5F/gLKfubjAR9czxnYb+1Evv3n3YsKq/LRgP6Ez
-	9fUA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=+iKMQf2/zUF8MVfRBCX9YqpS/SKaNAxabZScHDamfF8=;
+	b=Vu6jvkAiEyiiBXz3qovzNzFIGMJThrpMZvc+/AOpsYjMHTVe3HJbN8KLoZGWId5R9y
+	/ozu3zBzXmBAF9giVN47a023swG6t2aN69I2UxUSe3nZMxarg45CFn4PTaRHUPcgdGnI
+	lNVaHYBHYH9uvRpuf8iUJwLPmON68G7yGt7ZYRpttiT+qmP5ez1lFcdkyhXkz9+aNfjS
+	ak4RHinhR8HC8Kp6NPhyqaJFTzneL2vDabalT8jUwfOf4t3ljhFYWEB070OeQMG6VF72
+	HRpVQilQ11uIs4bHvP2NMN9mOUHqnTGksrhN2+3XlpVKZHqmPrB+Diaa5cHLQXssaKVf
+	HZ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=194gVzuSbnkP83NB5U6ipaWn0Wprv11flI0CKEk7NO0=;
-	b=G6+bRiHlQkn1A6ReuAunrgHrU/+Th0DiXXHBmlDMs2j/X3fVuLBp2xCtpIt+YmW9gu
-	uS9EEuYfuAeJfNSVH/4dEMftMrJdRHuxhs+eTd3UktqBJgjWUmTXwvSTrbtdB0qUjfDk
-	t7iWm0cVbe4l9mxYDl4lWGoAvqaXiiG57hvzEHAPSwAhoNNklEMMQjn3kOlzy6K2sWTT
-	P3/EHK7RWNjFBWWtg4TZ5b1DJ4WKw/Zqk885RcvamDW0CQIHs0+JYYRLZSSJ5GNscWle
-	Ehjye+lAytKnl4yxQjpiuVtx5AsKIOkA6FGxYjdNhA7YpAka2KNlXin5ifdEjA7I1den
-	fxDw==
-X-Gm-Message-State: APjAAAXs18+dzCHioM+MF6aGH9xa+cP9x5vOldhihj2Her3j89FUvXij
-	lmdveWaenkTqxNf6IdqhSHM=
-X-Google-Smtp-Source: APXvYqzOAW0KvxJ6I2u3t6YW2z8KDPEeQ3CBv8hNMCbI+SqnkIwG3p/7Nr6XsatnSvqJUG0iasjH5g==
-X-Received: by 2002:a5e:8e0d:: with SMTP id a13mr571703ion.28.1565796696504;
-	Wed, 14 Aug 2019 08:31:36 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=+iKMQf2/zUF8MVfRBCX9YqpS/SKaNAxabZScHDamfF8=;
+	b=PFchrbHEZYnXNnkQ5UWrJRRH3Z8ud0BQXtUQgssaE0Cu0tna8ATJhz7Q8qdigN9ltY
+	p15xOKrvSD77FPrsCa7NHbikqMaBG1ip5X8O0CtLthAGGCQDFR0YtYqTfawojN5by97g
+	0t5wpV1De//ekx7vNrN3ZCGrePNfJIB66GA7fWd6tS9tgZ+dzOT+RJcHrSY87/4t6hUO
+	nyKUa8PAfwJ11J1ArxWb+Iqjnqhth47B5M28vex9oamsWxGSq76Gu11k9cDali//wshk
+	chkkD6Lf90crddsAINYCSv9IU+tYxEWze5VMfSBa2e5g8CLWTn0hz5pWwcumDKiIsHND
+	AyHQ==
+X-Gm-Message-State: APjAAAWcj7URX+OZ1cJSRTFuCSW78nk3tgkhFMmOJtu1TcpRy1h2TiC8
+	iGY8FCoPhE9J6PXTyGw1d5k=
+X-Google-Smtp-Source: APXvYqwgpwz9Zvrz5bnC703Lsb3EpR9pYO80+F0TTkbfBJxcgpQy7IJ6VeKggj6Cmkgw8hDjnFHg3g==
+X-Received: by 2002:a6b:a12:: with SMTP id z18mr497321ioi.222.1565796698078;
+	Wed, 14 Aug 2019 08:31:38 -0700 (PDT)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.112.251.208])
-	by smtp.gmail.com with ESMTPSA id 8sm224570ion.26.2019.08.14.08.31.34
+	by smtp.gmail.com with ESMTPSA id 8sm224570ion.26.2019.08.14.08.31.36
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 14 Aug 2019 08:31:35 -0700 (PDT)
+	Wed, 14 Aug 2019 08:31:37 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Wed, 14 Aug 2019 11:31:28 -0400
-Message-Id: <cover.1565796002.git.bruce.ashfield@gmail.com>
+Date: Wed, 14 Aug 2019 11:31:29 -0400
+Message-Id: <3a3fd8a7128901ab5fff8de55b789ecd3b633cc6.1565796002.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <cover.1565796002.git.bruce.ashfield@gmail.com>
+References: <cover.1565796002.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/5] kernel-yocto: misc build / config changes
+Subject: [PATCH 1/5] kernel-devsrc: tweak for v5.3+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,51 +61,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2019 15:31:36 -0000
+X-List-Received-Date: Wed, 14 Aug 2019 15:31:37 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Hi all,
+The 5.3 kernel has two changes that require tweaks to the minimal
+kernel-devsrc package.
 
-This pull request is a collection of smaller fixes that I've been collecting
-while I work through the 5.2/5.3 kernel intro, new libc-headers, etc. There's
-no reason to make them wait while I finish that work, so here they are in a
-single branch.
+- 4ce97317f [x86/purgatory: Do not use __builtin_memcpy and __builtin_memset]
 
-There's nothing major here, just a some legwork changes, licensing update
-and a short term workaround for embedded host paths in the kernel binaries.
+  This change removes the need for arch/x86/purgatory/string.c and
+  instead reuses a copy in arch/x86/boot/compressed/, so we can't copy
+  the file anymore. To support older kernels, we make the copy survive
+  the non-existence of the file.
 
-Cheers,
+- b1663d7e [docs: Kbuild/Makefile: allow check for missing docs at build time]
 
-Bruce
+  This change adds the sourceing of Documentation/Kbuild to the top
+  level Kbuild file. So we now leave the copy of Documention/'s Kbuild
+  in the devsrc.
 
-The following changes since commit 88c6be81a5fbed098999fbef5576c5e0bb90cc21:
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  opensbi: handle deploy task under sstate (2019-08-06 11:24:27 +0100)
-
-are available in the Git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (5):
-  kernel-devsrc: tweak for v5.3+
-  kern-tools: Add SPDX license headers to source files
-  linux-yocto: arch/x86/boot: use prefix map to avoid embedded paths
-  kernel-yocto: import security fragments from meta-security
-  kconf_check: tweak CONFIG_ regex
-
- .../kern-tools/kern-tools-native_git.bb        |  4 ++--
- meta/recipes-kernel/linux/kernel-devsrc.bb     |  4 ++--
- .../linux/linux-yocto-rt_4.19.bb               |  2 +-
- .../recipes-kernel/linux/linux-yocto-rt_5.0.bb |  4 ++--
- .../linux/linux-yocto-tiny_4.19.bb             |  2 +-
- .../linux/linux-yocto-tiny_5.0.bb              |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_4.19.bb  |  2 +-
- meta/recipes-kernel/linux/linux-yocto_5.0.bb   | 18 +++++++++---------
- 8 files changed, 21 insertions(+), 21 deletions(-)
-
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 5ec5929735..3900489ac5 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -65,7 +65,6 @@ do_install() {
+     )
+ 
+     # then drop all but the needed Makefiles/Kconfig files
+-    rm -rf $kerneldir/build/Documentation
+     rm -rf $kerneldir/build/scripts
+     rm -rf $kerneldir/build/include
+ 
+@@ -205,11 +204,12 @@ do_install() {
+ 	    cp -a --parents arch/x86/purgatory/sha256.c $kerneldir/build/ 2>/dev/null || :
+ 
+ 	    cp -a --parents arch/x86/purgatory/stack.S $kerneldir/build/
+-	    cp -a --parents arch/x86/purgatory/string.c $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/string.c $kerneldir/build/ 2>/dev/null || :
+ 	    cp -a --parents arch/x86/purgatory/setup-x86_64.S $kerneldir/build/
+ 	    cp -a --parents arch/x86/purgatory/entry64.S $kerneldir/build/
+ 	    cp -a --parents arch/x86/boot/string.h $kerneldir/build/
+ 	    cp -a --parents arch/x86/boot/string.c $kerneldir/build/
++	    cp -a --parents arch/x86/boot/compressed/string.c $kerneldir/build/ 2>/dev/null || :
+ 	    cp -a --parents arch/x86/boot/ctype.h $kerneldir/build/
+ 	fi
+ 
 -- 
 2.19.1
 
