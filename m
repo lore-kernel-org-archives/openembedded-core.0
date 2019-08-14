@@ -1,57 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C37C7D53D
+Return-Path: <mcfrisk@kapsi.fi>
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id A3ADC7E71A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 12:55:34 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id c3so2734626wrd.7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 05:55:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=ycXThJv7v5dG+WNftiFZni/wp9lYqrxsnApiF0obL2E=;
-	b=N3xJTaBEApmsjXxiAK9w6CcSQDCnw9G8bGvZeT47PtqV2/jD7BoD40ecSbJLblIkrl
-	LZAn+qCTd/Q1s9LODflLxTk4GvDQMXOw6+DF6ab3ideuP9wRb1visiIoqNdfF14qd4bs
-	YxHD0LAOfPLb6lPvmHYZ161qSfcdVHc32y8h4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ycXThJv7v5dG+WNftiFZni/wp9lYqrxsnApiF0obL2E=;
-	b=HKyH0TqBpwu8nkoucKXd2Yp1b+qTeOHkUC542DOqYCgbrDGgXDbqx4XUODW1M3X3vd
-	92S+FIm8AHhsgQI0bwgdHjM+YbnHUMPwOu9aMaQQhDR1a8Fk76vF/b6C4Y79xh4aqVRQ
-	YaJ9NYaxkglet9xd/4EjT0ZqsDaygwsZD/TBHcYt/gLqSgFnpV0u6PX4GDCHwGKztpPd
-	7XmgziOIg9I4vgRwift2NmXdLqXU5nw66YNInI+c43iYTfNOT+EYw/yk3iRjgfOXIioF
-	JIdJoVx2dFjl0331cw7A6mRZboNvhfzPxjeKVitgrEMce/KAWgcNXSeIsr32I4lzTeOl
-	EDiA==
-X-Gm-Message-State: APjAAAVCyeNWdLdveQDwkmbahCqrZykKDJP+ysWJ/y7nZBjNmwFWXIA/
-	gJ/hoZStm9MNes7yJ/18cdG+kQ==
-X-Google-Smtp-Source: APXvYqxflQ0R4UPdqB8Te0qqeRBOXHAStJtPvzbatEHYGmc/wc3baXkDJPJqR3JfE/4qGefO8ZDGng==
-X-Received: by 2002:adf:f646:: with SMTP id x6mr55826277wrp.18.1565787335079; 
-	Wed, 14 Aug 2019 05:55:35 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b26sm4840319wmj.14.2019.08.14.05.55.33
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 14 Aug 2019 05:55:34 -0700 (PDT)
-Message-ID: <123708bfcd4646571a59f2d2ddde7a90267833ef.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 14 Aug 2019 13:55:32 +0100
-In-Reply-To: <CANNYZj_7t+dB0FOUjGocHLzACtLquqqGV3R1awiQe=27JwQa3Q@mail.gmail.com>
-References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
-	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
-	<2a106fcffc331009abdb6498ffe8c4f3c99ee80b.camel@linuxfoundation.org>
-	<CANNYZj9HHxJa5NKWU9r09NXgBy8aD0RTkugQ-k6esVNCTVOa6w@mail.gmail.com>
-	<6551fb5303bcc8dbf3a9d55a1aa6a9ecd2baeb13.camel@linuxfoundation.org>
-	<CANNYZj_7t+dB0FOUjGocHLzACtLquqqGV3R1awiQe=27JwQa3Q@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
+	Wed, 14 Aug 2019 12:57:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=4vOAmvlisS5UJ9iWTMLkTcLg8qILprxVQ4sG4ejKUTI=;
+	b=tOyBXtRrsS0e4na74d5fV20pm3
+	1vnGDD3ZmOIUyVHW8/ouxMi4g3zPqjT3AjSKDNQB5ATYp+N5/mB0BM7tVbsOT8eXdj42vkKPOKYng
+	TEqN2nbzfrwlBKJJYmMZgDITE8kxlrLUewZNOx8LdnFTSLc/cdhGFZxEyQgAgEQOX7RDIE2wr28AK
+	k69XZGumZKWZJ6V7uoj/2dVcONpaRS+wiZmFsHCebXzNDY0JCTXqcdcynoASbahifItnWMifMviUI
+	1grdb1I0zAtW8WN1BXH164PzrX9M0xEWYCYTdwK376n75y7O2izLwot6ycPrLC0JOuv4rBqWvrRUf
+	DkRc1JUQ==;
+Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1hxsq1-0003rD-3l; Wed, 14 Aug 2019 15:57:13 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1hxspq-0002Q7-Ue; Wed, 14 Aug 2019 15:57:02 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Aug 2019 15:56:53 +0300
+Message-Id: <1565787413-8109-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-Rspam-Score: 1.2 (+)
+X-Rspam-Report: Action: no action Symbol: ARC_NA(0.00)
+	Symbol: DMARC_POLICY_SOFTFAIL(0.10) Symbol: R_SPF_NEUTRAL(0.00)
+	Symbol: FROM_HAS_DN(0.00) Symbol: TO_DN_SOME(0.00)
+	Symbol: TO_MATCH_ENVRCPT_ALL(0.00) Symbol: MIME_GOOD(-0.10)
+	Symbol: RCVD_TLS_LAST(0.00) Symbol: NEURAL_SPAM(0.00)
+	Symbol: IP_SCORE(-0.09) Symbol: RCPT_COUNT_TWO(0.00)
+	Symbol: MID_CONTAINS_FROM(1.00) Symbol: FORGED_SENDER(0.30)
+	Symbol: R_DKIM_NA(0.00) Symbol: MIME_TRACE(0.00)
+	Symbol: ASN(0.00) Symbol: FROM_NEQ_ENVFROM(0.00)
+	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf neutral
+	Message-ID: 1565787413-8109-1-git-send-email-mikko.rapeli@bmw.de
+X-Rspam-Bar: +
+X-SA-Exim-Connect-IP: 91.232.154.11
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Subject: [PATCH] stress-ng: provide stress
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,72 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2019 12:55:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Aug 2019 12:57:14 -0000
 
-On Wed, 2019-08-14 at 14:08 +0200, Alexander Kanavin wrote:
-> On Wed, 14 Aug 2019 at 13:36, <richard.purdie@linuxfoundation.org>
-> wrote:
-> > On Wed, 2019-08-14 at 13:25 +0200, Alexander Kanavin wrote:
-> > > On Tue, 13 Aug 2019 at 21:18, Richard Purdie <
-> > > richard.purdie@linuxfoundation.org> wrote:
-> > > > I had a glance at the profile output from master-next and the
-> > > > problem
-> > > > wasn't where I thought it would be, it was in the scheduler
-> > code.
-> > > > That
-> > > > is good as those classes are effectively independent of the
-> > other
-> > > > changes and hence are a separate fix.
-> > > > 
-> > > > I've put a patch in -next which takes the above test to 36s
-> > which
-> > > > is
-> > > > close to the older bitbake.
-> > > > 
-> > > > Could be interesting to see how it looks for others and
-> > different
-> > > > workloads.
-> > > 
-> > > I just tried the same test I did yesterday with
-> > > ab56d466452148e5fce330d279d13e2495eceb1f. Unfortunately it
-> > doesn't
-> > > seem to improve things much: bitbake is stuck at "NOTE: Executing
-> > > Tasks" for 15 minutes now.
-> > 
-> > This might sound slightly crazy but can you try commenting out this
-> > line in runqueue.py:
-> > 
-> > logger.debug(2, "Holding off tasks %s" %
-> > pprint.pformat(self.holdoff_tasks))
-> > 
-> > ?
-> 
-> Even crazier is the outcome: it helped! 
+Since stress-ng replaces and is compatible with stress,
+provide stress to be compatible with the old recipe
+and binary packages.
 
-Cool, I think I can explain it.
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+---
+ meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-The holdoff_tasks list can contain a list of nearly all the tasks at
-some points in execution. Even though the debug messages aren't being
-printed on the console, they are being sent over the internal IPC bus
-between the cooker, UI and other event handlers. Obviously for small
-task lists its not a problem, for large ones its multiple 4k chunks
-over pipes which isn't going to be fast.
-
-We have done a lot of optimisation in the past but its all too easy to
-trend on something like this and upset things :/.
-
-> The whole thing completed after 15m49secons (with much of the time
-> going to the empty task spin), that's some 3 minutes slower, but
-> certainly it's usable again.
-
-You followed up mentioning this wasn't with master-next. I think there
-is a patch in -next which will help with the empty task spin so both
-together might get us back to more normal numbers.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb b/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb
+index e800040..64e0928 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.10.00.bb
+@@ -14,6 +14,10 @@ SRC_URI[sha256sum] = "d09dd2a1aea549e478995bf9be90b38906a4cdf33ea7b245ef9d46aa52
+ 
+ DEPENDS = "coreutils-native"
+ 
++PROVIDES = "stress"
++RPROVIDES_${PN} = "stress"
++RPROVIDES_${PN}-dev = "stress-dev"
++
+ inherit bash-completion
+ 
+ do_install() {
+-- 
+1.9.1
 
 
