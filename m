@@ -1,50 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 587837E3BC
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 46A376D548
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 23:49:58 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id l21so52073577pgm.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 16:49:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=hRG/7NEzqLPiUGReWe3y78f+Al+5qIlnpvHRxKxmmhM=;
-	b=AFD5ehlKOzeYFR4zsrJbvM1WaUIf1PiC5OwNmZbRAEx8fhUYKRvLxg58GGG/3OAokJ
-	zGD/t1kjqQeo/3GOrcUs05acL2/2SzxUj8vggn6cmSYUTrcSfAS5OcFTlGktwQ7+iip9
-	xIiwXQ/cXtMs9d7OztgQzKZAJCStPpOYTTGu8yHgeTgAWZ1PhAfTqlJNNi4lX4r/Q/ni
-	UQaSHjYCZVDi13a7OJvS9Nwurg22B1txPJKagKxcyM74OsSMF0QR411jKlU60Y1wP5n5
-	3kRJgXTwu59B5Nxyt1MNtpEpv3iTzMhfIxYdkVNht/uxSlbr+WA2B4IHmnwb+BgpQUNc
-	jjaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=hRG/7NEzqLPiUGReWe3y78f+Al+5qIlnpvHRxKxmmhM=;
-	b=PsqbghH95m+21TPo5xOUu9nO8L0E466swj0Ntt+pUKah86WO200JqOmmXQbPAUOfka
-	4C/iQO6nMmLT86qsSfmqexgFzNTqbqj1YY++vnrwRjuz9qWIz3jcFIikQJLY0D/bLn/v
-	PedIDR5VVuxkmK3qKzoUrKBWIwc8zXFFFSQRZuGUiQOnPwoq8i0exb27JpwlowR+zaHu
-	1zQUHk+/Y4af5WeuSwUZ2QfE81RHxpKVQNzWC8yZCkHJuh9LYG0ftHjCoL5C6oTkRbSc
-	/ruSZVQhS+MmuWARorXyc9Ls6vVsYkwWVPVRty8c0l/vAjMmKuCOlwCcXKahPg6/4wHB
-	+Sow==
-X-Gm-Message-State: APjAAAXkUvWTk2OPWK74LQcppHE7JGAM62gLwx+s4jJoqErApmX7PZJY
-	fPvCEia5XbFFRr6xFSgKCpnyHflTbiE=
-X-Google-Smtp-Source: APXvYqzo5yvxkNmKhOLVHUUsgjTq8jDXLeLtzjSJKSl4tNPe58V3ynV//t29svz30ZwbGt3muqmlkg==
-X-Received: by 2002:a65:41c6:: with SMTP id b6mr36281218pgq.269.1565740198483; 
-	Tue, 13 Aug 2019 16:49:58 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	m4sm129248858pgs.71.2019.08.13.16.49.57
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 13 Aug 2019 16:49:58 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2019 16:49:48 -0700
-Message-Id: <20190813234948.17250-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.22.0
+	Wed, 14 Aug 2019 01:59:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7E1x2s6027830
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 13 Aug 2019 18:59:02 -0700 (PDT)
+Received: from [128.224.162.188] (128.224.162.188) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 13 Aug 2019 18:59:01 -0700
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <1565674414-112937-1-git-send-email-hongzhi.song@windriver.com>
+	<CADkTA4PCeER9wP28NOaUtKEFBLKmqUfda7Cz+M0q2cgp5DiYew@mail.gmail.com>
+From: "Hongzhi, Song" <hongzhi.song@windriver.com>
+Message-ID: <abef39b8-e8b0-db67-70e7-da17666d1056@windriver.com>
+Date: Wed, 14 Aug 2019 09:58:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH] gdb: Do not set musl specific CFLAGS
+In-Reply-To: <CADkTA4PCeER9wP28NOaUtKEFBLKmqUfda7Cz+M0q2cgp5DiYew@mail.gmail.com>
+X-Originating-IP: [128.224.162.188]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-devsrc: cp Documentation/ to sdk kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +36,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 23:49:58 -0000
+X-List-Received-Date: Wed, 14 Aug 2019 01:59:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-These settings are no longer needed because we define
-gl_cv_func_gettimeofday_clobber=no already and stat issue is alrwady
-fixed via [1]
 
-[1] https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=3c025cfe5efc44eb4dfb03b53dca28e75096dd1e
+On 8/13/19 8:27 PM, Bruce Ashfield wrote:
+>
+>
+> On Tue, Aug 13, 2019 at 1:35 AM Hongzhi.Song 
+> <hongzhi.song@windriver.com <mailto:hongzhi.song@windriver.com>> wrote:
+>
+>     A new patch let kernel source Documentation/Kconfig in top Kconfig
+>     So kernel-devsrc should include Documentation/ too.
+>     Otherwise "make scripts" will fails.
+>
+>     patch:
+>     commit b1663d7e3a7961fc45262fd68a89253f2803036c
+>     Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org
+>     <mailto:mchehab%2Bsamsung@kernel.org>>
+>     Date:   Tue Jun 4 09:26:27 2019 -0300
+>
+>         docs: Kbuild/Makefile: allow check for missing docs at build time
+>
+>         While this doesn't make sense for production Kernels, in order to
+>         avoid regressions when documents are touched, let's add a
+>         check target at the make file.
+>
+>         Signed-off-by: Mauro Carvalho Chehab
+>     <mchehab+samsung@kernel.org <mailto:mchehab%2Bsamsung@kernel.org>>
+>         Signed-off-by: Jonathan Corbet <corbet@lwn.net
+>     <mailto:corbet@lwn.net>>
+>
+>     Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com
+>     <mailto:hongzhi.song@windriver.com>>
+>     ---
+>      meta/recipes-kernel/linux/kernel-devsrc.bb
+>     <http://kernel-devsrc.bb> | 2 +-
+>      1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>     diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
+>     <http://kernel-devsrc.bb>
+>     b/meta/recipes-kernel/linux/kernel-devsrc.bb <http://kernel-devsrc.bb>
+>     index 5ec5929..a874e06 100644
+>     --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+>     <http://kernel-devsrc.bb>
+>     +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+>     <http://kernel-devsrc.bb>
+>     @@ -65,7 +65,7 @@ do_install() {
+>          )
+>
+>          # then drop all but the needed Makefiles/Kconfig files
+>     -    rm -rf $kerneldir/build/Documentation
+>     +    #rm -rf $kerneldir/build/Documentation
+>
+>
+> In the spirit of keeping kernel-devsrc as small as possible (I have 
+> another patch pending if you really want the full kernel source), this 
+> should only keep the Documentation/ files that are required to pass 
+> the check, not keep all of Documentation.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gdb/gdb_8.3.bb | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gdb/gdb_8.3.bb b/meta/recipes-devtools/gdb/gdb_8.3.bb
-index c6eac84dd8..d70757a151 100644
---- a/meta/recipes-devtools/gdb/gdb_8.3.bb
-+++ b/meta/recipes-devtools/gdb/gdb_8.3.bb
-@@ -26,4 +26,3 @@ EOF
- 		chmod +x ${WORKDIR}/python
- 	fi
- }
--CPPFLAGS_append_libc-musl = " -Drpl_gettimeofday=gettimeofday -Drpl_stat=stat"
--- 
-2.22.0
+If you have a better patch, I am pleasure to accept it.
 
+Thanks,
+
+--Hongzhi
+
+
+> Bruce
+>
+>          rm -rf $kerneldir/build/scripts
+>          rm -rf $kerneldir/build/include
+>
+>     -- 
+>     2.8.1
+>
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> -- 
+> - Thou shalt not follow the NULL pointer, for chaos and madness await 
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
 
