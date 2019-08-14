@@ -1,49 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 111647EC92
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id ED3B37EC5D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 15:26:19 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id z23so4836147wmf.2
+	Wed, 14 Aug 2019 15:31:35 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id f17so47938062otq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 08:26:21 -0700 (PDT)
+	Wed, 14 Aug 2019 08:31:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=uH/bSzxQ1kq8N8IFhyoB5+EQcXMZtZDlDI/oEglGD2Q=;
-	b=uMaoCcf4wJAHQ0uuDQr+1XMNbcXVAd+jRchqsMSE0/cYyeKVUkgHyiqLzyxdhrGg6/
-	2a6yaaU2YtCc7aAhDeVywyJrKwYNSXo+2m+qSJcz7EghdZLUNyq6Eqr/FaQkt5MBK0Cd
-	K5muilDiGAiENVtbMZAwIoFFzqUpD121L7LJZBai+abXJ8UAkGCD8arhFXvLQaRZJoTk
-	Z+xkisQgfLqn53Z6Yna/ucFjaE+ZfX/wpRbbPQkRaEVxXCI/FNFgIb8lG37sQwDWQGSd
-	RGvdSSG4tACGER30HwlqfBw/j6NpfJI+0sl1C1EP1NBOCNXb24dQwAfPWR8OBkgMAK/g
-	Y1mA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=194gVzuSbnkP83NB5U6ipaWn0Wprv11flI0CKEk7NO0=;
+	b=cMBu4QHc8E+xfeoB81NkggQD84aUpjKbwVNY7EjmaM5supCZLQ9yIM3dlbSYGFvPaY
+	BrJwmNZ6796siNcVt+mghURprwERe7gx3Ht3mHI43Dtsm/tskh+0hW92DXITwq7sTI7G
+	3p3BBbsN9YevjzNPHJs4DJDvaRcEq3OVBf+OfFPRNnusD+YtIt1h2JmiRdRzH7NkleVP
+	m+/a2oRjbQ+VZZ58Xqe4kZYlUYRd6mzMK39H/PFpTwDtwMI1p1RV3V+KJ1xOssQ0aQOt
+	yED++9tuP9Fwjl9xgkwOjQZJNk/yH5F/gLKfubjAR9czxnYb+1Evv3n3YsKq/LRgP6Ez
+	9fUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=uH/bSzxQ1kq8N8IFhyoB5+EQcXMZtZDlDI/oEglGD2Q=;
-	b=FDURPi3JYgxTmv70qVd1r+w01/O+6EWTmu5u7nA8nmLyLkNoihqam93Z2MkXV+Mu2g
-	oEst8mgesybhS18FRLlQ0wTsoDTx2wdzXxIpEWW34JT/zRC/MtD367n0ohrh1cD6zdKc
-	ZqoD/k4ruPKB+/l8xc7Gt2zkKeVA24zooN58x1LseqqE0J+CArNGyG2hmAIOP9M25pDg
-	lW9+UzkAIDHvoY8q71b/RgMTn3Rvq0BpSmlRFwVpbAch+YpJ7o+Et0Xx55klsg2F4H7I
-	D01kxvet8TeKYg8Fd5ezy3IcXI95TE/cgsoYsNcgWp5fg96mS2rBesCpH+aKPJDWjChj
-	hw3A==
-X-Gm-Message-State: APjAAAWsIkLteWt4d0kSJ2d1NTZut4aU2mI7eeh1dkUxtmCg12XdVh1R
-	9cjDNxpgLnecjt6aZVeJ5wZZzz5ixQk=
-X-Google-Smtp-Source: APXvYqwMoAExh+INmxIWYxQbszPmbmcZ0fmIX0R7H6ZjL2jG3+Vha/WGVlYQc1Rmo+G/iQTU+s8mIQ==
-X-Received: by 2002:a1c:1f41:: with SMTP id f62mr9261400wmf.176.1565796380547; 
-	Wed, 14 Aug 2019 08:26:20 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id v12sm66620wrr.87.2019.08.14.08.26.19
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=194gVzuSbnkP83NB5U6ipaWn0Wprv11flI0CKEk7NO0=;
+	b=G6+bRiHlQkn1A6ReuAunrgHrU/+Th0DiXXHBmlDMs2j/X3fVuLBp2xCtpIt+YmW9gu
+	uS9EEuYfuAeJfNSVH/4dEMftMrJdRHuxhs+eTd3UktqBJgjWUmTXwvSTrbtdB0qUjfDk
+	t7iWm0cVbe4l9mxYDl4lWGoAvqaXiiG57hvzEHAPSwAhoNNklEMMQjn3kOlzy6K2sWTT
+	P3/EHK7RWNjFBWWtg4TZ5b1DJ4WKw/Zqk885RcvamDW0CQIHs0+JYYRLZSSJ5GNscWle
+	Ehjye+lAytKnl4yxQjpiuVtx5AsKIOkA6FGxYjdNhA7YpAka2KNlXin5ifdEjA7I1den
+	fxDw==
+X-Gm-Message-State: APjAAAXs18+dzCHioM+MF6aGH9xa+cP9x5vOldhihj2Her3j89FUvXij
+	lmdveWaenkTqxNf6IdqhSHM=
+X-Google-Smtp-Source: APXvYqzOAW0KvxJ6I2u3t6YW2z8KDPEeQ3CBv8hNMCbI+SqnkIwG3p/7Nr6XsatnSvqJUG0iasjH5g==
+X-Received: by 2002:a5e:8e0d:: with SMTP id a13mr571703ion.28.1565796696504;
+	Wed, 14 Aug 2019 08:31:36 -0700 (PDT)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.112.251.208])
+	by smtp.gmail.com with ESMTPSA id 8sm224570ion.26.2019.08.14.08.31.34
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 14 Aug 2019 08:26:19 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Aug 2019 17:26:13 +0200
-Message-Id: <20190814152613.46996-3-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190814152613.46996-1-alex.kanavin@gmail.com>
-References: <20190814152613.46996-1-alex.kanavin@gmail.com>
-Subject: [PATCH 3/3] qemu: switch to '-vga std' emulated hardware from vmware/cirrus for x86/mips
+	Wed, 14 Aug 2019 08:31:35 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 14 Aug 2019 11:31:28 -0400
+Message-Id: <cover.1565796002.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] kernel-yocto: misc build / config changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,102 +59,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2019 15:26:20 -0000
+X-List-Received-Date: Wed, 14 Aug 2019 15:31:36 -0000
+Content-Transfer-Encoding: 8bit
 
-This is the qemu default since qemu 2.2, is generally supported better,
-and is recommended by upstream. It also has already been in use for arm/risc
-and ovmf.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Additional information:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13466
-https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
+Hi all,
 
-'-vga virtio' emulated hardware remains in use when virgl is enabled via a runqemu override.
+This pull request is a collection of smaller fixes that I've been collecting
+while I work through the 5.2/5.3 kernel intro, new libc-headers, etc. There's
+no reason to make them wait while I finish that work, so here they are in a
+single branch.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/conf/machine/include/qemuboot-mips.inc | 2 +-
- meta/conf/machine/include/qemuboot-x86.inc  | 2 +-
- meta/conf/machine/qemux86-64.conf           | 1 +
- meta/conf/machine/qemux86.conf              | 1 +
- scripts/runqemu                             | 6 ------
- 5 files changed, 4 insertions(+), 8 deletions(-)
+There's nothing major here, just a some legwork changes, licensing update
+and a short term workaround for embedded host paths in the kernel binaries.
 
-diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
-index 3a4c8f96f1e..18221dc0a76 100644
---- a/meta/conf/machine/include/qemuboot-mips.inc
-+++ b/meta/conf/machine/include/qemuboot-mips.inc
-@@ -2,7 +2,7 @@
- IMAGE_CLASSES += "qemuboot"
- QB_MACHINE = "-machine malta"
- QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
--QB_OPT_APPEND = "-vga cirrus -show-cursor -usb -device usb-tablet"
-+QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
- QB_SYSTEM_NAME = "qemu-system-${TUNE_ARCH}"
-diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
-index 3931b0f0fb3..495418fa04b 100644
---- a/meta/conf/machine/include/qemuboot-x86.inc
-+++ b/meta/conf/machine/include/qemuboot-x86.inc
-@@ -9,7 +9,7 @@ QB_CPU_KVM_x86-64 = "-cpu core2duo"
- QB_AUDIO_DRV = "alsa"
- QB_AUDIO_OPT = "-soundhw ac97,es1370"
- QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE} oprofile.timer=1 uvesafb.task_timeout=-1"
--QB_OPT_APPEND = "-vga vmware -show-cursor -usb -device usb-tablet"
-+QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
- 
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index 4b50e664e42..7c70dbddf52 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -24,6 +24,7 @@ XSERVER = "xserver-xorg \
-            xf86-video-fbdev \
-            xf86-video-vmware \
-            xf86-video-modesetting \
-+           xf86-video-vesa \
-            xserver-xorg-module-libint10 \
-            "
- 
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index 3832302f07b..8e0da820761 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -24,6 +24,7 @@ XSERVER = "xserver-xorg \
-            xf86-video-fbdev \
-            xf86-video-vmware \
-            xf86-video-modesetting \
-+           xf86-video-vesa \
-            xserver-xorg-module-libint10 \
-            "
- 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index df3c8aad084..8f9a0d7dbb4 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -145,8 +145,6 @@ class BaseConfig(object):
-         # to be added with -drive if=pflash.
-         # Found in the same places as the rootfs, with or without one of
-         # these suffices: qcow2, bin.
--        # Setting one also adds "-vga std" because that is all that
--        # OVMF supports.
-         self.ovmf_bios = []
-         # When enrolling default Secure Boot keys, the hypervisor
-         # must provide the Platform Key and the first Key Exchange Key
-@@ -1280,10 +1278,6 @@ class BaseConfig(object):
-         for ovmf in self.ovmf_bios:
-             format = ovmf.rsplit('.', 1)[-1]
-             self.qemu_opt += ' -drive if=pflash,format=%s,file=%s' % (format, ovmf)
--        if self.ovmf_bios:
--            # OVMF only supports normal VGA, i.e. we need to override a -vga vmware
--            # that gets added for example for normal qemux86.
--            self.qemu_opt += ' -vga std'
- 
-         self.qemu_opt += ' ' + self.qemu_opt_script
- 
+Cheers,
+
+Bruce
+
+The following changes since commit 88c6be81a5fbed098999fbef5576c5e0bb90cc21:
+
+  opensbi: handle deploy task under sstate (2019-08-06 11:24:27 +0100)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  kernel-devsrc: tweak for v5.3+
+  kern-tools: Add SPDX license headers to source files
+  linux-yocto: arch/x86/boot: use prefix map to avoid embedded paths
+  kernel-yocto: import security fragments from meta-security
+  kconf_check: tweak CONFIG_ regex
+
+ .../kern-tools/kern-tools-native_git.bb        |  4 ++--
+ meta/recipes-kernel/linux/kernel-devsrc.bb     |  4 ++--
+ .../linux/linux-yocto-rt_4.19.bb               |  2 +-
+ .../recipes-kernel/linux/linux-yocto-rt_5.0.bb |  4 ++--
+ .../linux/linux-yocto-tiny_4.19.bb             |  2 +-
+ .../linux/linux-yocto-tiny_5.0.bb              |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb  |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb   | 18 +++++++++---------
+ 8 files changed, 21 insertions(+), 21 deletions(-)
+
 -- 
-2.17.1
+2.19.1
 
 
