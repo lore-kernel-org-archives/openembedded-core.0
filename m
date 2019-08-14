@@ -1,38 +1,45 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CF81E7EC95
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F96C7ED64
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 20:27:15 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id v18so40692uad.12
+	Wed, 14 Aug 2019 21:25:27 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id q12so409612wrj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 13:27:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+ctDDZ/LRaRghJY2E45tKG65YruqaBslykYOpXuoJww=;
-	b=rNntUguEmVLhA5+IeRGFEus0CqzPbLe0Mwpm0Kreb6ZCvVnct5Z1npjadQGajwca5j
-	+Q2IJyTdtbch45LwDC4h6GMksjfuYYeHWeSusHx7TiOLOz7qXRg/a6KN/w8lua5Gh3Hx
-	jcNDz1SDADlv1jURJcH1ccRtOfI3b2Xqaqx1poXVplNyBVP/hU0PX4YEMSUb3l+EueGB
-	DvWxEQyl9JaiLEB5kGJp9XE2ReejEiOuoToXhDqLhrDIThDNsev55BuCW8w8bmXuvNhd
-	y0qr2p8Awd35Fqg7P9WDlir3anmDe+yhTD03bKc46lB1mWQX2xCWynYwpo8f1dzxARsk
-	BqeQ==
+	Wed, 14 Aug 2019 14:25:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=pW/4ZzIb9OJldtyteera4b6vOveDruKoTcOsBOJ+uDs=;
+	b=SXelOSYrivWUGGIGpnvoP+D+7s7FQMRoRWCPMSYn3LcQT3Zbg7SxhpdQ0hloJzZ1tF
+	XyGr4A4J0I870MNIySbGwH3Wr36z9B0UGDzZFraLtTkUCBoSPzz4Y9/YlmeXAnYE/+L6
+	JmLOV39wCCWTOvlkJ0oD2FqFxFwTME2g1PPD8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=+ctDDZ/LRaRghJY2E45tKG65YruqaBslykYOpXuoJww=;
-	b=ZeXh1Skqo50zf2UXuFEF+DM4VH4kEINSvIhhknNJwwcwzVCbzkv8lbOUj4PMLImIkj
-	hUWgT1j6jDUq5bbcnLgU10WVc2Soln+uf3PAET7FrnQy4mREKYS5cJ5geEpXPFohqYp5
-	T4P9KOOFrW3GohsniUnrHb4BOKdB4aeXJTFep1GliWDWV3QZZKBU0yactJCoqEw9+oyN
-	d/35Hx/7CY826OcjEn4qrKvPofMiCKfNlUXPaW7xA8Kh06VvGGZkD+J3jTgME3U84vBM
-	HVN/P4lCeIh+IkKWsRLkHbRfdq17YiKbAhT+zcvty43CQA+7SyBalA3mYmNA0xhyCZUR
-	7r0A==
-X-Gm-Message-State: APjAAAXzRe+zhX5z8rnHFEJMudRA0K+sr9paPhkZH9Zc1ZuTTYMVx46b
-	wAazWLTu35MTITxIFs/lROtPGXVwIPuAUqGEppw=
-X-Google-Smtp-Source: APXvYqyjee0Z6M38Ba8FSjA1eOH3Yhq/MvtcFNbP1vj+c7vEHBxmW7wHJGUGSRj44t5+Epxr1V30zaAWPjRutXftB3Y=
-X-Received: by 2002:ab0:e19:: with SMTP id g25mr1295036uak.71.1565814436696;
-	Wed, 14 Aug 2019 13:27:16 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=pW/4ZzIb9OJldtyteera4b6vOveDruKoTcOsBOJ+uDs=;
+	b=KA6qEU5uac5fL9Gw8HEvOV/XzqxKOAnyguh09WX8xEUqBDL3S3RrDBGu+JkiNAJimZ
+	jVaUD4kkTZ1hx1zzFOVo04wVdV9sdkOEFU0eW8ElYu5jQ3p6dH0En5p0NkwF3GcVuxDB
+	oPAI0squdiHG+QSJfFEYEzKTpj5K4TAhWZA/e71pPC7Hu0+VmLF/Uv8e9NQRe2lhcHsd
+	HWaCyJOxXXjDFWeZN7huuLpeNVlOThJalqLNV5jDgksHpVOkHmFXcIrNqrGZJ7y++wcw
+	rJ2ezZ4uiA6mJ9YJg/T6QswQBGzIy+uP9TFBw9roLN+0uXMGyGm1TbR6yI/wWjZris5o
+	+F5g==
+X-Gm-Message-State: APjAAAX12u5uWMfkFsjt8bMAGWUj5rWJrAfRw2L4A0b5ckdj2JH3ean0
+	g1G6CjECwXnHaQlCQdDz5fiiUQ==
+X-Google-Smtp-Source: APXvYqwmq3F9jxEjJlCUFwL91C7ooCgHl+hFrZFcUkdxwvfSzph1nvGCfN31+r0y/MIuzB8HqLmxmA==
+X-Received: by 2002:adf:e6c5:: with SMTP id y5mr1632101wrm.2.1565817928755;
+	Wed, 14 Aug 2019 14:25:28 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id p10sm711187wma.8.2019.08.14.14.25.27
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 14 Aug 2019 14:25:27 -0700 (PDT)
+Message-ID: <f30af5bfdca30721a345f656c6f3762dbb947d25.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 14 Aug 2019 22:25:26 +0100
+In-Reply-To: <CANNYZj_XzB3g55qEe4hYGGCBwPPkg9kwydWQ0jGwRbi8UkJNGw@mail.gmail.com>
 References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
 	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
 	<2a106fcffc331009abdb6498ffe8c4f3c99ee80b.camel@linuxfoundation.org>
@@ -40,11 +47,9 @@ References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
 	<6551fb5303bcc8dbf3a9d55a1aa6a9ecd2baeb13.camel@linuxfoundation.org>
 	<CANNYZj_7t+dB0FOUjGocHLzACtLquqqGV3R1awiQe=27JwQa3Q@mail.gmail.com>
 	<123708bfcd4646571a59f2d2ddde7a90267833ef.camel@linuxfoundation.org>
-In-Reply-To: <123708bfcd4646571a59f2d2ddde7a90267833ef.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 14 Aug 2019 22:27:05 +0200
-Message-ID: <CANNYZj_XzB3g55qEe4hYGGCBwPPkg9kwydWQ0jGwRbi8UkJNGw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CANNYZj_XzB3g55qEe4hYGGCBwPPkg9kwydWQ0jGwRbi8UkJNGw@mail.gmail.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
 Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
@@ -60,46 +65,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2019 20:27:16 -0000
-Content-Type: multipart/alternative; boundary="0000000000004894d20590199505"
-
---0000000000004894d20590199505
+X-List-Received-Date: Wed, 14 Aug 2019 21:25:28 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, 14 Aug 2019 at 14:55, <richard.purdie@linuxfoundation.org> wrote:
+On Wed, 2019-08-14 at 22:27 +0200, Alexander Kanavin wrote:
+> On Wed, 14 Aug 2019 at 14:55, <richard.purdie@linuxfoundation.org>
+> wrote:
+> > You followed up mentioning this wasn't with master-next. I think
+> > there
+> > is a patch in -next which will help with the empty task spin so
+> > both
+> > together might get us back to more normal numbers.
+> > 
+> 
+> As all of these patches are now in master, I re-ran the test with
+> that (209f89ab8ed51ac2867ca8f749336af1ee24ab25), but without
+> including the spinning task part, pressing ctrl-c just as it starts.
+> The outcome is 9m42s, compared to 2m9s for the baseline
+> (6c7c0cefd34067311144a1d4c01986fe0a4aef26). So the worst is fixed,
+> but the slowdown is still noticeable.
 
-> You followed up mentioning this wasn't with master-next. I think there
-> is a patch in -next which will help with the empty task spin so both
-> together might get us back to more normal numbers.
->
+Right, it still definitely needs work. Its a balancing act between
+sorting out the execution bugs in the code and figuring out the
+performance problem.
 
-As all of these patches are now in master, I re-ran the test with that
-(209f89ab8ed51ac2867ca8f749336af1ee24ab25), but without including the
-spinning task part, pressing ctrl-c just as it starts. The outcome is
-9m42s, compared to 2m9s for the baseline
-(6c7c0cefd34067311144a1d4c01986fe0a4aef26).
-So the worst is fixed, but the slowdown is still noticeable.
+If anyone wants to experiment, the way I'd debug this is to run the
+before and after cases with the -P option to bitbake. If you want to
+exit early just make the code return where it prints "Executing tasks"
+or whatever makes sense as Ctrl+C won't write the profile data.
 
-Alex
+You want the profile.log.processed file.
 
---0000000000004894d20590199505
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So save that file with the "before" commit, then save it afterwards and
+look at those files and see where its spending more time.
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, 14 Aug 2019 at 14:55, &lt;<a href=3D"mailto:richard.purdie@l=
-inuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">You followed up menti=
-oning this wasn&#39;t with master-next. I think there<br>
-is a patch in -next which will help with the empty task spin so both<br>
-together might get us back to more normal numbers.<br>
-</blockquote><div><br></div><div>As all of these patches are now in master,=
- I re-ran the test with that (209f89ab8ed51ac2867ca8f749336af1ee24ab25), bu=
-t without including the spinning task part, pressing ctrl-c just as it star=
-ts. The outcome is 9m42s, compared to 2m9s for the baseline (<span class=3D=
-"gmail-im">6c7c0cefd34067311144a1d4c01986fe0a4aef26). So the worst is fixed=
-, but the slowdown is still noticeable.<br></span></div><div></div><div><br=
-></div><div>Alex<br> </div></div></div>
+If someone generates those two files I'll happily take a look, I'm kind
+of used to reading them. There are four sets of output in there, same
+data but different sorting/types, each has its uses.
 
---0000000000004894d20590199505--
+Cheers,
+
+Richard
+
+
