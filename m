@@ -1,53 +1,50 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4718B6079F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FB757E543
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 03:48:31 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id x3so24516229lfn.6
+	Wed, 14 Aug 2019 04:06:51 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id i4so304611qtj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2019 20:48:32 -0700 (PDT)
+	Tue, 13 Aug 2019 21:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=07kvTWbAhDp3LjVPoNvQMmU/JQRFpECJwqsn8rIRHao=;
-	b=HcG/eCVQ2fZcYz73yOJA91XYGbdXggnl2uUT+aw6+sBl2FgTxWIAhmgzQisSzkMDa8
-	PuDTXcLcIq4WhVyTzLhtu1xvvWXR/Vq2vvtoz9GePD3ENUhM3i+6AnFUfGbfNbZjm+qu
-	VgM7UUyKZqzwW8tnDR+/r+TeTjx9FWH92MGiA29Yi4HhT9pQmzXtoBQtMvg7ma5nuqeV
-	1WGRx4DnXZGYA9XlM1ZFtqmM+zzhbkK8hf8YtVZimewUow9MjTPsR5tV7Yv2zf6evWt6
-	yO3xiiHQ1MOH3p9uU0P16verwDN43nWkHHiG96MeQOKc3yZYZPRoewgD0jLZco45Lu81
-	bEKQ==
+	:cc:content-transfer-encoding;
+	bh=CSnKUL/p0vc/vRNF/3G3aFC2Z3kZjS/gqLs/fxpFjBA=;
+	b=Bq66d2TaEI2NsIoUwBDjmNZ2MFwhbBqjKftezA6a50nJh8p+q5tuNLpXTOWOJFsLqZ
+	u1wTkq6SYPqPC1u+6ZoNoHdATzAdqYPxfHrs8GTQy0AwPC9N2AcPDtfQTyMsvZ3kH7kq
+	Zow/c5ltoqCcxDn8CFbW8BivHw8Cj8hz5PNTdl7KEfmrDxOy/OtzntEKhj43VfukX+ZO
+	d3Y7h1hKfV2jPmGNpzWWv55WsGr85fpKtXVQxyHfAo1m4PCM/cAeht2dAb6G3Bt1VItf
+	JU7ixKMBSKmezkYcTTL4l50Nr7F/aSj9uZJsR3uFq0jiJ4aDGqbF/ld44zSr9VgdA/Wq
+	GN9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=07kvTWbAhDp3LjVPoNvQMmU/JQRFpECJwqsn8rIRHao=;
-	b=mRDBpnybO1ZMdC3h1McwzGJWCxrI6WRkBES5ffZ5/71m4oZ8QMnl1jO3HHCOXsntjb
-	5VX1zkhWSJ5Iy9pb3n1tsDJotnk/Q+llTvperMepx9SNcxehxMLkT4XQCQYfwfIRZM0E
-	T8zP66RkMN+0h0fy6YFfVL8J9KtQJodC/7x/KuqgaBYqJS3UAqMnIrVfcM8MWs6fdEpR
-	WmmWdcMUKhUwVQOv7K2OMZMZJc0oCx1P6KXfbCthVRENTYtYT6gmWG6EMVtGLpUIUvEY
-	SjO9KWoxBbQpdX9eYCggK4l0qhVuvRQuk/lOEDGKlK9s6xV5ozlHjAuH/t1vjVdP0FEs
-	Pk1w==
-X-Gm-Message-State: APjAAAV9oqdZ4iYW6/Rcye0trNWLHscF8jgi6jGn+J74qRGUG/ZMHKXL
-	PIZacvTfgOnEZPThiRsZC3qzFJcsUOu3zPatYmI=
-X-Google-Smtp-Source: APXvYqyw9QXKOjdKJmplwFgAiP2eoIzag9SkPY/u+2LtIcJjDC7IL8dNQLBLelwr9cMeh3TAyWBYB50iM4fyXKg/KLc=
-X-Received: by 2002:a19:110:: with SMTP id 16mr24868795lfb.63.1565754511481;
-	Tue, 13 Aug 2019 20:48:31 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=CSnKUL/p0vc/vRNF/3G3aFC2Z3kZjS/gqLs/fxpFjBA=;
+	b=Tv5GxS3h/aBmj2HvxBlhAaIkdVvAvzibfXRt0oic2i6wm6zBfIqxs+usIoGFiNB+yQ
+	Cwqrdwg64eutGufHtQZ/7MVf3NvCrjzlYYvv3HiaHpIElmYykYcMPD/PQu1pR8EuZW4o
+	avTOYGIqcKixeg7BARGElHwvZOUGdFFWG6pXxlSi5S70SZqGilQpf9isjb0OhO9zbsfY
+	9IhwaqpHQOrKloecQu53wxM6rUdJmFfvDeLVAS4VTloTNC2tpORS4OqUAh1L711yQr0d
+	LXWR2cDhV8uRWvRS1mCJv6/Q6xrx+2gJD+ITXO3Rg/+hbPSzGkTvrm48vibAZ6TS/REy
+	Nxrg==
+X-Gm-Message-State: APjAAAW6O/a9QrpQLMpMaZrShIAOl8zsN6Cm+ERSPh8LI2SBBJnXedjx
+	PZmhvbqv1vh9HkpE15/1qBedY0fRKr7twYfgACs=
+X-Google-Smtp-Source: APXvYqyB3M9Sc26T6zVJj7rUaj/2+5TrfzlxwT55V2uoS7kccJvXpnMpQ7UbIaimOagwDFZtK8Y3faOkLUlP7u7XqSE=
+X-Received: by 2002:ac8:6997:: with SMTP id o23mr365766qtq.53.1565755612632;
+	Tue, 13 Aug 2019 21:06:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <1565674414-112937-1-git-send-email-hongzhi.song@windriver.com>
-	<CADkTA4PCeER9wP28NOaUtKEFBLKmqUfda7Cz+M0q2cgp5DiYew@mail.gmail.com>
-	<abef39b8-e8b0-db67-70e7-da17666d1056@windriver.com>
-	<CADkTA4Nwi1sSu-W2asM0SXUEhHE94jAEQcSWoCsW7f9ThWP4Tw@mail.gmail.com>
-	<35a10637-eac6-0142-fc53-2675fb700375@windriver.com>
-	<CADkTA4Pma8h6rk6nnRUAGi2gu8gXVCT0GiTYH7vrYT1OQzJoag@mail.gmail.com>
-	<CADkTA4NHx7S6NekA5hz_rpL0Fb5aaoFDop50o+rQjOZ1hvPbYA@mail.gmail.com>
-In-Reply-To: <CADkTA4NHx7S6NekA5hz_rpL0Fb5aaoFDop50o+rQjOZ1hvPbYA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 13 Aug 2019 23:48:20 -0400
-Message-ID: <CADkTA4MGDvr8CxbkJ99d9_KioN3hYNdE2-ziG95kMzOSaHYNnw@mail.gmail.com>
-To: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: cp Documentation/ to sdk kernel
+References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
+	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
+	<2a106fcffc331009abdb6498ffe8c4f3c99ee80b.camel@linuxfoundation.org>
+In-Reply-To: <2a106fcffc331009abdb6498ffe8c4f3c99ee80b.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 13 Aug 2019 21:06:36 -0700
+Message-ID: <CAMKF1sr-571m1-M8aPN1KnbcFuzBmzqW9jCwXkdcxO_knqAwJw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,226 +57,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2019 03:48:31 -0000
+X-List-Received-Date: Wed, 14 Aug 2019 04:06:52 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 13, 2019 at 11:39 PM Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
+On Tue, Aug 13, 2019 at 12:18 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Tue, Aug 13, 2019 at 11:04 PM Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
+> On Tue, 2019-08-13 at 10:04 +0100, Richard Purdie wrote:
+> > On Mon, 2019-08-12 at 20:26 +0000, Peter Kjellerstedt wrote:
+> > > Comparing that build to a corresponding do-nothing build with Thud,
+> > > the time difference matches those three minutes where I have no
+> > > idea
+> > > what bitbake is doing now that it didn=E2=80=99t need to do before=E2=
+=80=A6
+> > >
+> > > Hopefully these time degradations can be solved, because the
+> > > current
+> > > state of bitbake is barely usable. We also need to look into
+> > > possible
+> > > ways to improve the cooker output when it is running the setscene
+> > > tasks so it makes some kind of sense again.
 > >
+> > We talked on irc and you pointed at the commit things started to go
+> > wrong. Just to summarise things for the benefit of the list, this is
+> > some quick testing I did:
 > >
+> > "bitbake -p; time bitbake core-image-minimal -n"
 > >
-> > On Tue, Aug 13, 2019 at 11:01 PM Hongzhi, Song <hongzhi.song@windriver.com> wrote:
-> >>
-> >>
-> >> On 8/14/19 10:53 AM, Bruce Ashfield wrote:
-> >> >
-> >> >
-> >> > On Tue, Aug 13, 2019 at 9:59 PM Hongzhi, Song
-> >> > <hongzhi.song@windriver.com <mailto:hongzhi.song@windriver.com>> wrote:
-> >> >
-> >> >
-> >> >     On 8/13/19 8:27 PM, Bruce Ashfield wrote:
-> >> >     >
-> >> >     >
-> >> >     > On Tue, Aug 13, 2019 at 1:35 AM Hongzhi.Song
-> >> >     > <hongzhi.song@windriver.com <mailto:hongzhi.song@windriver.com>
-> >> >     <mailto:hongzhi.song@windriver.com
-> >> >     <mailto:hongzhi.song@windriver.com>>> wrote:
-> >> >     >
-> >> >     >     A new patch let kernel source Documentation/Kconfig in top
-> >> >     Kconfig
-> >> >     >     So kernel-devsrc should include Documentation/ too.
-> >> >     >     Otherwise "make scripts" will fails.
-> >> >     >
-> >> >     >     patch:
-> >> >     >     commit b1663d7e3a7961fc45262fd68a89253f2803036c
-> >> >     >     Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org
-> >> >     <mailto:mchehab%2Bsamsung@kernel.org>
-> >> >     >     <mailto:mchehab%2Bsamsung@kernel.org
-> >> >     <mailto:mchehab%252Bsamsung@kernel.org>>>
-> >> >     >     Date:   Tue Jun 4 09:26:27 2019 -0300
-> >> >     >
-> >> >     >         docs: Kbuild/Makefile: allow check for missing docs at
-> >> >     build time
-> >> >     >
-> >> >     >         While this doesn't make sense for production Kernels, in
-> >> >     order to
-> >> >     >         avoid regressions when documents are touched, let's add a
-> >> >     >         check target at the make file.
-> >> >     >
-> >> >     >         Signed-off-by: Mauro Carvalho Chehab
-> >> >     >     <mchehab+samsung@kernel.org
-> >> >     <mailto:mchehab%2Bsamsung@kernel.org>
-> >> >     <mailto:mchehab%2Bsamsung@kernel.org
-> >> >     <mailto:mchehab%252Bsamsung@kernel.org>>>
-> >> >     >         Signed-off-by: Jonathan Corbet <corbet@lwn.net
-> >> >     <mailto:corbet@lwn.net>
-> >> >     >     <mailto:corbet@lwn.net <mailto:corbet@lwn.net>>>
-> >> >     >
-> >> >     >     Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com
-> >> >     <mailto:hongzhi.song@windriver.com>
-> >> >     >     <mailto:hongzhi.song@windriver.com
-> >> >     <mailto:hongzhi.song@windriver.com>>>
-> >> >     >     ---
-> >> >     >      meta/recipes-kernel/linux/kernel-devsrc.bb
-> >> >     <http://kernel-devsrc.bb>
-> >> >     >     <http://kernel-devsrc.bb> | 2 +-
-> >> >     >      1 file changed, 1 insertion(+), 1 deletion(-)
-> >> >     >
-> >> >     >     diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >> >     <http://kernel-devsrc.bb>
-> >> >     >     <http://kernel-devsrc.bb>
-> >> >     >     b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >> >     <http://kernel-devsrc.bb> <http://kernel-devsrc.bb>
-> >> >     >     index 5ec5929..a874e06 100644
-> >> >     >     --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >> >     <http://kernel-devsrc.bb>
-> >> >     >     <http://kernel-devsrc.bb>
-> >> >     >     +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >> >     <http://kernel-devsrc.bb>
-> >> >     >     <http://kernel-devsrc.bb>
-> >> >     >     @@ -65,7 +65,7 @@ do_install() {
-> >> >     >          )
-> >> >     >
-> >> >     >          # then drop all but the needed Makefiles/Kconfig files
-> >> >     >     -    rm -rf $kerneldir/build/Documentation
-> >> >     >     +    #rm -rf $kerneldir/build/Documentation
-> >> >     >
-> >> >     >
-> >> >     > In the spirit of keeping kernel-devsrc as small as possible (I have
-> >> >     > another patch pending if you really want the full kernel
-> >> >     source), this
-> >> >     > should only keep the Documentation/ files that are required to pass
-> >> >     > the check, not keep all of Documentation.
-> >> >
-> >> >
-> >> >     If you have a better patch, I am pleasure to accept it.
-> >> >
-> >> >
-> >> > ???
-> >> >
-> >> > This is where you'd typically do a v2 of the patch after getting a
-> >> > review of a change.
-> >> >
-> >> > But if you are refusing the feedback, then yes, I'll do a version of
-> >> > the patch myself rather than just blindly copying in all of the
-> >> > documentation. I'll submit it myself.
-> >> >
-> >> > RP/Ross, whoever is taking in patches, drop this version, and I'll do
-> >> > my own.
-> >>
-> >>
-> >> I am not very familiar with the kernel-devsrc.bb. I have no objection
-> >> for your decision.
+> > 30.0s 6c7c0cefd34067311144a1d4c01986fe0a4aef26
+> > 30.6s a0d941c787cf3ef030d190903279d311bc05d752
+> > 40.3s 7df31ff36892c2f9c65326b06b4c70
+> > 42.2s a0542ed3ff700eca35f9195f743c9e28bcd50f3e
+> > 45.4s 9983b07fffd19082abded7c3f15cc77d306dd69c
+> > 76.9s master-next
 > >
+> > So basically the original changes showed a 25% hit but the
+> > performance
+> > of -next is dire.
 > >
-> > At a minimum, we shouldn't leave the commented out #rm -rf $kerneldir/build/Documentation, so I can do that and tweak the commit message a bit as well.
+> > This is with no hash equiv server configured.
 > >
-> > Leave it with me, and I'll send it to the list (hopefully tomorrow) to be sure it still solves your problem.
+> > It will vary depending on the target used (numbers with -sato for the
+> > above would be interesting for comparision) and how much was or is in
+> > sstate, they type of sstate mirror configured and so on.
+> >
+> > I really need to focus on getting the new code functioning correctly
+> > before we attempt to optimise but if nobody tests the new code due to
+> > performance problems we have a different issue. We also have a
+> > scaling
+> > problem with the hash server itself I need to fix to stop the
+> > autobuilder throwing weird errors. I'm therefore a bit challenged on
+> > where to start with it all :/.
 >
-> Aha. Now I see what is actually happening. On reading the patch, I
-> thought you were requiring the existence of the *entire* Documentation
-> directory, not just the Kbuild infrastructure that would be triggered
-> if the documentation warning is enabled.
+> I had a glance at the profile output from master-next and the problem
+> wasn't where I thought it would be, it was in the scheduler code. That
+> is good as those classes are effectively independent of the other
+> changes and hence are a separate fix.
 >
-> I still want to change things just a bit, but I'll leave your
-> Signed-off-by on the patch, since it won't be a structural change as I
-> thought.
+> I've put a patch in -next which takes the above test to 36s which is
+> close to the older bitbake.
 >
-> But can you provide me your test steps ? Do you have a tweaked kernel
-> config that is enabling WARN_MISSING_DOCUMENTS and COMPILE_TEST ?
-
-Sorry for all the email. It's late, and I'm sending before reading the code.
-
-I assume it is just 'make scripts' for the test and the missing Kbuild
-is what errors. So no need to follow up.
-
-I'm a bit concerned that if we leave this file in devsrc AND those
-options I mentioned are enabled that we'll run into an error with some
-missing tools or generate a warning.
-
-I'll test both scenarios to make sure everything works.
-
-Bruce
-
+> Could be interesting to see how it looks for others and different
+> workloads.
 >
-> Bruce
->
-> >
-> > Bruce
-> >
-> >>
-> >>
-> >> Thanks,
-> >>
-> >> --Hongzhi
-> >>
-> >>
-> >> >
-> >> > Cheers,
-> >> >
-> >> > Bruce
-> >> >
-> >> >
-> >> >     Thanks,
-> >> >
-> >> >     --Hongzhi
-> >> >
-> >> >
-> >> >     > Bruce
-> >> >     >
-> >> >     >          rm -rf $kerneldir/build/scripts
-> >> >     >          rm -rf $kerneldir/build/include
-> >> >     >
-> >> >     >     --
-> >> >     >     2.8.1
-> >> >     >
-> >> >     >     --
-> >> >     >     _______________________________________________
-> >> >     >     Openembedded-core mailing list
-> >> >     > Openembedded-core@lists.openembedded.org
-> >> >     <mailto:Openembedded-core@lists.openembedded.org>
-> >> >     >     <mailto:Openembedded-core@lists.openembedded.org
-> >> >     <mailto:Openembedded-core@lists.openembedded.org>>
-> >> >     > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >> >     >
-> >> >     >
-> >> >     >
-> >> >     > --
-> >> >     > - Thou shalt not follow the NULL pointer, for chaos and madness
-> >> >     await
-> >> >     > thee at its end
-> >> >     > - "Use the force Harry" - Gandalf, Star Trek II
-> >> >     >
-> >> >
-> >> >
-> >> >
-> >> > --
-> >> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> >> > thee at its end
-> >> > - "Use the force Harry" - Gandalf, Star Trek II
-> >> >
-> >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
 
+will try it tonight
 
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> Cheers,
+>
+> Richard
+>
 
