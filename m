@@ -1,59 +1,56 @@
-Return-Path: <prvs=122729fd1=Mikko.Rapeli@bmw.de>
-Received: from esa9.bmw.c3s2.iphmx.com (esa9.bmw.c3s2.iphmx.com
-	[68.232.133.110])
-	by mail.openembedded.org (Postfix) with ESMTP id D2A116C4CE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C37C7D53D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 12:50:51 +0000 (UTC)
+	Wed, 14 Aug 2019 12:55:34 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id c3so2734626wrd.7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Aug 2019 05:55:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1565787053; x=1597323053;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=nup6Gze4oa6MZjH6zWNMtwHhD2mACT6QMO8BZvGJOts=;
-	b=eKDZ3H5g/5Nw3ReQ81IkbHS0790ovvBEf4IjPi6uo2XAMyHosJuHvVyz
-	5jrh8qfc0aV98Bn3u1S8Z+eEA6y3VxHUPWhinBzouazPswJhViPQ0HABP
-	/r5P+Rkg7DJ4D/AA4dH2dRuCIR4r84K6qLpSxGLbPh+sg8+EOAufThPQU 0=;
-IronPort-SDR: agATpQA20Vm0SZIUfPl8gTxzBh6Y84RdHcgIIoC7ozx2+RZHPthe58FoaXRivdm8cGJdDdGOd+
-	Br2dcYhgyhJhwPgV4gsFUCm3VsM4KVYrRwCaNilgFT9ebSz6ITs2zVvJ+5PFTI1qIVuxiszAd9
-	g7RL6DPrjkBzvZ7myHwOlBxrBmo4HVwgmDomyNwlutdQg2BC25zS9yKxpCTMLeH0np2KuVno4F
-	CyfGI8sxEuJysfzapfWrCnf02JkRoisE8IwEdvJ02A+whac5wVAD+plZcNRWnWZEkghfAsXxyX
-	K20=
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
-	esa9.bmw.c3s2.iphmx.com with ESMTP/TLS; 14 Aug 2019 14:50:38 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw5.muc with ESMTP/TLS;
-	14 Aug 2019 14:50:15 +0200
-Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
-	([160.48.96.46])
-	by esabb2.muc with ESMTP/TLS; 14 Aug 2019 14:50:15 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10j.europe.bmw.corp
-	(160.48.96.46) with Microsoft SMTP Server (TLS;
-	Wed, 14 Aug 2019 14:50:15 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Wed, 14 Aug 2019 14:50:15 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <alex.kanavin@gmail.com>
-Thread-Topic: [OE-core] Long delays with latest bitbake (was: [PATCH 1/7]
-	insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
-Thread-Index: AdVRTDpM70Pk7GnyTXqYsVociWcc2AAWRKoAABV2goAAIcBwAAAAaVqAAAEWWoAAAXmZgA==
-Date: Wed, 14 Aug 2019 12:50:15 +0000
-Message-ID: <20190814125014.GC3459@hiutale>
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=ycXThJv7v5dG+WNftiFZni/wp9lYqrxsnApiF0obL2E=;
+	b=N3xJTaBEApmsjXxiAK9w6CcSQDCnw9G8bGvZeT47PtqV2/jD7BoD40ecSbJLblIkrl
+	LZAn+qCTd/Q1s9LODflLxTk4GvDQMXOw6+DF6ab3ideuP9wRb1visiIoqNdfF14qd4bs
+	YxHD0LAOfPLb6lPvmHYZ161qSfcdVHc32y8h4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=ycXThJv7v5dG+WNftiFZni/wp9lYqrxsnApiF0obL2E=;
+	b=HKyH0TqBpwu8nkoucKXd2Yp1b+qTeOHkUC542DOqYCgbrDGgXDbqx4XUODW1M3X3vd
+	92S+FIm8AHhsgQI0bwgdHjM+YbnHUMPwOu9aMaQQhDR1a8Fk76vF/b6C4Y79xh4aqVRQ
+	YaJ9NYaxkglet9xd/4EjT0ZqsDaygwsZD/TBHcYt/gLqSgFnpV0u6PX4GDCHwGKztpPd
+	7XmgziOIg9I4vgRwift2NmXdLqXU5nw66YNInI+c43iYTfNOT+EYw/yk3iRjgfOXIioF
+	JIdJoVx2dFjl0331cw7A6mRZboNvhfzPxjeKVitgrEMce/KAWgcNXSeIsr32I4lzTeOl
+	EDiA==
+X-Gm-Message-State: APjAAAVCyeNWdLdveQDwkmbahCqrZykKDJP+ysWJ/y7nZBjNmwFWXIA/
+	gJ/hoZStm9MNes7yJ/18cdG+kQ==
+X-Google-Smtp-Source: APXvYqxflQ0R4UPdqB8Te0qqeRBOXHAStJtPvzbatEHYGmc/wc3baXkDJPJqR3JfE/4qGefO8ZDGng==
+X-Received: by 2002:adf:f646:: with SMTP id x6mr55826277wrp.18.1565787335079; 
+	Wed, 14 Aug 2019 05:55:35 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b26sm4840319wmj.14.2019.08.14.05.55.33
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 14 Aug 2019 05:55:34 -0700 (PDT)
+Message-ID: <123708bfcd4646571a59f2d2ddde7a90267833ef.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 14 Aug 2019 13:55:32 +0100
+In-Reply-To: <CANNYZj_7t+dB0FOUjGocHLzACtLquqqGV3R1awiQe=27JwQa3Q@mail.gmail.com>
 References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
 	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
 	<2a106fcffc331009abdb6498ffe8c4f3c99ee80b.camel@linuxfoundation.org>
 	<CANNYZj9HHxJa5NKWU9r09NXgBy8aD0RTkugQ-k6esVNCTVOa6w@mail.gmail.com>
 	<6551fb5303bcc8dbf3a9d55a1aa6a9ecd2baeb13.camel@linuxfoundation.org>
 	<CANNYZj_7t+dB0FOUjGocHLzACtLquqqGV3R1awiQe=27JwQa3Q@mail.gmail.com>
-In-Reply-To: <CANNYZj_7t+dB0FOUjGocHLzACtLquqqGV3R1awiQe=27JwQa3Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.33]
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: peter.kjellerstedt@axis.com, openembedded-core@lists.openembedded.org
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -67,102 +64,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2019 12:50:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8B9FFC010BF5674FA76332397A6B54A5@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 14 Aug 2019 12:55:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 14, 2019 at 02:08:01PM +0200, Alexander Kanavin wrote:
-> On Wed, 14 Aug 2019 at 13:36, <richard.purdie@linuxfoundation.org> wrote:
->=20
+On Wed, 2019-08-14 at 14:08 +0200, Alexander Kanavin wrote:
+> On Wed, 14 Aug 2019 at 13:36, <richard.purdie@linuxfoundation.org>
+> wrote:
 > > On Wed, 2019-08-14 at 13:25 +0200, Alexander Kanavin wrote:
 > > > On Tue, 13 Aug 2019 at 21:18, Richard Purdie <
 > > > richard.purdie@linuxfoundation.org> wrote:
 > > > > I had a glance at the profile output from master-next and the
 > > > > problem
-> > > > wasn't where I thought it would be, it was in the scheduler code.
+> > > > wasn't where I thought it would be, it was in the scheduler
+> > code.
 > > > > That
-> > > > is good as those classes are effectively independent of the other
+> > > > is good as those classes are effectively independent of the
+> > other
 > > > > changes and hence are a separate fix.
-> > > >
-> > > > I've put a patch in -next which takes the above test to 36s which
+> > > > 
+> > > > I've put a patch in -next which takes the above test to 36s
+> > which
 > > > > is
 > > > > close to the older bitbake.
-> > > >
-> > > > Could be interesting to see how it looks for others and different
+> > > > 
+> > > > Could be interesting to see how it looks for others and
+> > different
 > > > > workloads.
-> > >
+> > > 
 > > > I just tried the same test I did yesterday with
-> > > ab56d466452148e5fce330d279d13e2495eceb1f. Unfortunately it doesn't
+> > > ab56d466452148e5fce330d279d13e2495eceb1f. Unfortunately it
+> > doesn't
 > > > seem to improve things much: bitbake is stuck at "NOTE: Executing
 > > > Tasks" for 15 minutes now.
-> >
+> > 
 > > This might sound slightly crazy but can you try commenting out this
 > > line in runqueue.py:
-> >
+> > 
 > > logger.debug(2, "Holding off tasks %s" %
 > > pprint.pformat(self.holdoff_tasks))
-> >
+> > 
 > > ?
-> >
->=20
-> Even crazier is the outcome: it helped! The whole thing completed after
-> 15m49secons (with much of the time going to the empty task spin), that's
-> some 3 minutes slower, but certainly it's usable again.
->=20
-> I have not enabled the hash server at any point.
+> 
+> Even crazier is the outcome: it helped! 
 
-Indeed, commenting that debug statement out removes few minutes of the
-bitbake preparation times.
+Cool, I think I can explain it.
 
-Here is a time stamped output from master branch:
+The holdoff_tasks list can contain a list of nearly all the tasks at
+some points in execution. Even though the debug messages aren't being
+printed on the console, they are being sent over the internal IPC bus
+between the cooker, UI and other event handlers. Obviously for small
+task lists its not a problem, for large ones its multiple 4k chunks
+over pipes which isn't going to be fast.
 
-2019-08-14_14:29:24 =20
-2019-08-14_14:29:35  Initialising tasks...done.
-2019-08-14_14:32:41  Checking sstate mirror object availability...done.
-2019-08-14_14:32:41  Sstate summary: Wanted 436 Found 426 Missed 10 Current=
- 2407 (97% match, 99% complete)
-2019-08-14_14:32:41  NOTE: Executing Tasks
-2019-08-14_14:32:52  NOTE: Setscene tasks completed
+We have done a lot of optimisation in the past but its all too easy to
+trend on something like this and upset things :/.
 
-And with the comment removed:
+> The whole thing completed after 15m49secons (with much of the time
+> going to the empty task spin), that's some 3 minutes slower, but
+> certainly it's usable again.
 
-2019-08-14_14:35:10 =20
-2019-08-14_14:35:21  Initialising tasks...done.
-2019-08-14_14:35:30  Checking sstate mirror object availability...done.
-2019-08-14_14:35:30  Sstate summary: Wanted 436 Found 426 Missed 10 Current=
- 2407 (97% match, 99% complete)
-2019-08-14_14:35:30  NOTE: Executing Tasks
+You followed up mentioning this wasn't with master-next. I think there
+is a patch in -next which will help with the empty task spin so both
+together might get us back to more normal numbers.
 
-And just in case back to master branch state:
+Cheers,
 
-2019-08-14_14:41:32 =20
-2019-08-14_14:41:43  Initialising tasks...done.
-2019-08-14_14:45:02  Checking sstate mirror object availability...done.
-2019-08-14_14:45:02  Sstate summary: Wanted 436 Found 426 Missed 10 Current=
- 2407 (97% match, 99% complete)
-2019-08-14_14:45:02  NOTE: Executing Tasks
+Richard
 
-I did not flush caches in between and I stopped the builds once bitbake sta=
-rted doing stuff, so I think sstate cache was completely buffered in memory
-from file system and IO delays did not affect the timings.
-
-Change to poky was exactly:
-
---- a/bitbake/lib/bb/runqueue.py
-+++ b/bitbake/lib/bb/runqueue.py
-@@ -2216,7 +2216,7 @@ class RunQueueExecute:
-             for dep in self.sqdata.sq_covered_tasks[tid]:
-                 if dep not in self.runq_complete:
-                     self.holdoff_tasks.add(dep)
--        logger.debug(2, "Holding off tasks %s" % pprint.pformat(self.holdo=
-ff_tasks))
-+        # logger.debug(2, "Holding off tasks %s" % pprint.pformat(self.hol=
-doff_tasks))
-=20
-     def process_possible_migrations(self):
-         changes =3D False
-
--Mikko=
 
