@@ -1,45 +1,49 @@
 Return-Path: <prvs=122d025a4=Michael.Ho@bmw.de>
-X-Greylist: delayed 425 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 14 Aug 2019 15:12:25 UTC
-Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com
-	[68.232.139.62])
-	by mail.openembedded.org (Postfix) with ESMTP id A03CB74769
+X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 14 Aug 2019 15:12:29 UTC
+Received: from esa1.bmw.c3s2.iphmx.com (esa1.bmw.c3s2.iphmx.com
+	[68.232.133.201])
+	by mail.openembedded.org (Postfix) with ESMTP id BB8407EC64
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 15:12:25 +0000 (UTC)
+	Wed, 14 Aug 2019 15:12:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1565795547; x=1597331547;
-	h=from:to:subject:date:message-id:mime-version;
-	bh=SXAp8eH40/xnwbAAcqDRg/xTJzE6nQf2XQ5vJfwHHJg=;
-	b=ZI2H9/mCnJ7+S2GrMVE8ajo2m+liqfmdumB6h/WjvqZCSvDC47JGovre
-	B6UzmCyTmK+uSag4U03BRK0yRvFuipmC0ugFviaDvukgxfmLIWrSoDCcw
-	tYJ3rUJnDqY4Fuf3w31pVrVXdK0c71JZqUXT4CTavhFFWwOMD4vzdwi9T g=;
-IronPort-SDR: xyNDjwFHVGJwu8PFZFtZHisJsTXa1ilSz3r9eCnc8nxFRVhCY0r1xpXoYtQYCASo1yTFuzRnWL
-	uihDydeZAV+l5Pc9Mc9I9wX4S/2TLOkhuAK2oatwkBL2RrrZrwYSzfWY6pY/+aAeEqes3tQTmh
-	GMakJfuwwuuG8WzMWuQUtS6DNX7OrTBu5HibxjihKnBY/yRcFnjwJmYYNPdtUmzT1/7EZZIsdf
-	xhMHhIiq7kz50BO+v/Cs1+hHMyIHZt7Hkbz6b7EPwTYeDEARpQHF6LAegq98W53NGPosAII9C/
-	t68=
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
-	esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 14 Aug 2019 17:05:21 +0200
-Received: from esabb5.muc ([160.50.100.47])  by esagw2.muc with ESMTP/TLS;
-	14 Aug 2019 17:05:21 +0200
+	t=1565795552; x=1597331552;
+	h=from:to:cc:subject:date:message-id:in-reply-to:
+	references:mime-version;
+	bh=9i77A1njWImQ+TY4wEcYQl+NBGaz2EvE5s45Pu5cI18=;
+	b=E+B+8x5DMR2TYFI3niYhRPaHihLJ2IAfhiYclb6k4WWQc65k8P2Qky2J
+	8kvS1A1vgvboBYl6Qo7xc5yIZ4za7zekYRwFjbbwkxnKBTUahCWdpi0kt
+	48wl/GPipEfpU74Q6iP1+jo+De4K04WxKDR9TkBEcSjZhqlrUbSvIcDQw Y=;
+IronPort-SDR: 67N9xtn9LGrgI8LB/72JDphMjOBexn/JCxBXBQehxUkscNBicOwbddQu2tTo//nrSlqBKNGtdj
+	8ttybQoCZS7kBPdgJh+LT+wTHZAxWiQy2m9BPGV2JuunahoDJhGVzid+ObOKPksZRfsHLUH8kl
+	9T6mFrdA7g8lHVUEK2xbTf46auqmyJQcF86DcLPWua6U8ul+ZxA8IY9wE64oosU+93Alvq2yUn
+	rYU1SwoNReVcrX0PJkFCclG/mNWVN955zh/DY1VfYC6obxJtGxgBpewpviV6olk5OMcnX+sUCM
+	mcw=
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+	esa1.bmw.c3s2.iphmx.com with ESMTP/TLS; 14 Aug 2019 17:05:24 +0200
+Received: from esabb1.muc ([160.50.100.31])  by esagw5.muc with ESMTP/TLS;
+	14 Aug 2019 17:05:22 +0200
 Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp)
 	([160.48.96.43])
-	by esabb5.muc with ESMTP/TLS; 14 Aug 2019 17:05:20 +0200
+	by esabb1.muc with ESMTP/TLS; 14 Aug 2019 17:05:22 +0200
 Received: from michael-pc.bmw-carit.intra (192.168.221.45) by
 	smucm09k.europe.bmw.corp
 	(160.48.96.43) with Microsoft SMTP Server (TLS;
-	Wed, 14 Aug 2019 17:05:20 +0200
+	Wed, 14 Aug 2019 17:05:22 +0200
 From: Michael Ho <Michael.Ho@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Aug 2019 17:05:14 +0200
-Message-ID: <1565795115-1581-1-git-send-email-Michael.Ho@bmw.de>
+Date: Wed, 14 Aug 2019 17:05:15 +0200
+Message-ID: <1565795115-1581-2-git-send-email-Michael.Ho@bmw.de>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1565795115-1581-1-git-send-email-Michael.Ho@bmw.de>
+References: <1565795115-1581-1-git-send-email-Michael.Ho@bmw.de>
 MIME-Version: 1.0
 X-Originating-IP: [192.168.221.45]
 X-ClientProxiedBy: smucm19k.europe.bmw.corp (160.48.96.83) To
 	smucm09k.europe.bmw.corp (160.48.96.43)
-Subject: cmake find_program and hosttools_dir
+Cc: Michael Ho <Michael.Ho@bmw.de>
+Subject: [PATCH] cmake.bbclass: add HOSTTOOLS_DIR to CMAKE_FIND_ROOT_PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,61 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2019 15:12:26 -0000
+X-List-Received-Date: Wed, 14 Aug 2019 15:12:30 -0000
 Content-Type: text/plain
 
+The find_program command will fail if it is used on a tool that is listed in
+ASSUME_PROVIDED. This is because these tools are in the hosttools directory
+which is not listed in CMAKE_FIND_ROOT_PATH so cmake will not find them.
 
-Hi all,
+Adding the directory HOSTTOOLS_DIR to the CMAKE_FIND_ROOT_PATH variable fixes
+the initial issue of needing to search for tools in ASSUME_PROVIDED.
 
-I wanted to ask what would be a good way to fix an issue with cmake
-find_program and the tools listed in ASSUME_PROVIDED. I checked against the
-Warrior branch and it seems that currently find_program does not search the
-hosttools directory for programs because HOSTTOOLS_DIR is not listed in the
-CMAKE_FIND_ROOT_PATH variable (in cmake.bbclass). This means if you call
-find_program to get the path to the git binary, it will fail to find the
-program. I've attached a minimal recipe and CMakeLists.txt to demonstrate.
+Note that this change alone does not fix the issue because find_program will
+by default only look into the subdirectories bin and usr/bin under the paths
+in CMAKE_FIND_ROOT_PATH to find the programs and the hosttools directory has
+instead the symlinks directly present without these subdirectories.
 
-If you attempt to compile the recipe, you'll see:
-| CMake Error at CMakeLists.txt:6 (message):
-|   No git binary found
+Set CMAKE_PROGRAM_PATH to by default include the root directory so
+find_program can search the hosttools directory without needing the prefix
+directories.
+---
+ meta/classes/cmake.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-If I modify the cmake.bbclass and add this directory to CMAKE_FIND_ROOT_PATH,
-it still fails because by default it wants to only search in the
-subdirectories bin and usr/bin. If I then modify base.bbclass to generate a
-"bin" symlink in the hosttools directory that points back to the hosttools
-directory, it is enough to trick cmake. I also found a second solution where
-if I instead add a default definition to CMAKE_PROGRAM_PATH to include the
-root directory, this works also. I've included this second fix in the patch
-I've sent.
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index d3f0d70..f41eb8d 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -99,11 +99,12 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+ 
+ # only search in the paths provided so cmake doesnt pick
+ # up libraries and tools from the native build machine
+-set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
++set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN} ${HOSTTOOLS_DIR})
+ set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
+ set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
+ set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+ set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
++set( CMAKE_PROGRAM_PATH "/" )
+ 
+ # Use qt.conf settings
+ set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
+-- 
+2.7.4
 
-Is this a good solution or is there something I'm missing here?
-
-Thanks.
-
-Kind regards,
-Michael Ho
-
-$ cat files/CMakeLists.txt
-cmake_minimum_required (VERSION 2.6)
-project (Tutorial)
-
-find_program(HOST_GIT git)
-if(NOT HOST_GIT)
-    message(FATAL_ERROR "No git binary found")
-endif()
-
-$ cat find-git.bb
-SUMMARY = "Example recipe to test find_program and git-native"
-LICENSE = "CLOSED"
-
-DEPENDS = "git-native"
-
-SRC_URI = "file://CMakeLists.txt"
-S = "${WORKDIR}"
-
-inherit cmake
-
-do_install() {
-    :
-}
 
