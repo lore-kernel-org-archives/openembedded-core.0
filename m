@@ -1,58 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F96C7ED64
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id EDD856D6C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 21:25:27 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id q12so409612wrj.12
+	Wed, 14 Aug 2019 22:20:42 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id 31so576820wrm.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 14:25:29 -0700 (PDT)
+	Wed, 14 Aug 2019 15:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=pW/4ZzIb9OJldtyteera4b6vOveDruKoTcOsBOJ+uDs=;
-	b=SXelOSYrivWUGGIGpnvoP+D+7s7FQMRoRWCPMSYn3LcQT3Zbg7SxhpdQ0hloJzZ1tF
-	XyGr4A4J0I870MNIySbGwH3Wr36z9B0UGDzZFraLtTkUCBoSPzz4Y9/YlmeXAnYE/+L6
-	JmLOV39wCCWTOvlkJ0oD2FqFxFwTME2g1PPD8=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=kq58q98y4A8NEnB/hnEqDH8UO/Ej8/vICwXJOoLXh1Y=;
+	b=J8jILi7NY24teIqP31RtDYQOylojHAn1aG+NjAeDjdZQV4WBCNQsHfgDqAl/4yGfMk
+	YFGVcoA53P9h8+XXsa3/rJtwNanUlnKKARUf1M/GhL+yjItwp9xU34gPT3D4b37eCulI
+	AR41BEhl5FgAt10KEm50Qi88OLPrE+uwUNVoQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=pW/4ZzIb9OJldtyteera4b6vOveDruKoTcOsBOJ+uDs=;
-	b=KA6qEU5uac5fL9Gw8HEvOV/XzqxKOAnyguh09WX8xEUqBDL3S3RrDBGu+JkiNAJimZ
-	jVaUD4kkTZ1hx1zzFOVo04wVdV9sdkOEFU0eW8ElYu5jQ3p6dH0En5p0NkwF3GcVuxDB
-	oPAI0squdiHG+QSJfFEYEzKTpj5K4TAhWZA/e71pPC7Hu0+VmLF/Uv8e9NQRe2lhcHsd
-	HWaCyJOxXXjDFWeZN7huuLpeNVlOThJalqLNV5jDgksHpVOkHmFXcIrNqrGZJ7y++wcw
-	rJ2ezZ4uiA6mJ9YJg/T6QswQBGzIy+uP9TFBw9roLN+0uXMGyGm1TbR6yI/wWjZris5o
-	+F5g==
-X-Gm-Message-State: APjAAAX12u5uWMfkFsjt8bMAGWUj5rWJrAfRw2L4A0b5ckdj2JH3ean0
-	g1G6CjECwXnHaQlCQdDz5fiiUQ==
-X-Google-Smtp-Source: APXvYqwmq3F9jxEjJlCUFwL91C7ooCgHl+hFrZFcUkdxwvfSzph1nvGCfN31+r0y/MIuzB8HqLmxmA==
-X-Received: by 2002:adf:e6c5:: with SMTP id y5mr1632101wrm.2.1565817928755;
-	Wed, 14 Aug 2019 14:25:28 -0700 (PDT)
+	bh=kq58q98y4A8NEnB/hnEqDH8UO/Ej8/vICwXJOoLXh1Y=;
+	b=BgzGVuL6L6P+yoEhTDdYVcmbHfhrBd8NWO3Tf8drGVrUxpFufobec5fddoy+nPCjzE
+	o/XsLnc4ppKT14wZ17AJgx+2x0Do9w9f8wY9NPm/ig1vQY+p13bpuZRj3cAubWhtxNWY
+	Lx+l1LU1aPp3ASlHL8+Ytvc/rX9SMWKbLtsXhKD3vRhB8DoH06xlTGrqOQ0Xt+AGkmjv
+	BwfXy1qnS9cSMBRuB1xCcO7qzNuLPPQJQ01Ttnu89NS2LUozJj1UDGMwkUw2TRcOS2hm
+	5/6jcmlHApDwPEN/Whp80v3W97k2nhjej33Z3hQfe5JOJei83u9kDCJ09HMvWSuZR7rj
+	LUAg==
+X-Gm-Message-State: APjAAAVayFwu6QWpB3Y/jREYw/stL0jEOaTkDbgIEgHhZwpjJjsSOuDy
+	tjl4VErEfLwiqVDp+aX5wy+xWQ==
+X-Google-Smtp-Source: APXvYqxTGw91g81v345Tp2BecFB/DHqA82bpGCXsEL+Nmyva2DK5scc2cD15snVGvk5ms1gWkiXo4w==
+X-Received: by 2002:a5d:4a45:: with SMTP id v5mr1747191wrs.108.1565821243533; 
+	Wed, 14 Aug 2019 15:20:43 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id p10sm711187wma.8.2019.08.14.14.25.27
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 14 Aug 2019 14:25:27 -0700 (PDT)
-Message-ID: <f30af5bfdca30721a345f656c6f3762dbb947d25.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 14 Aug 2019 22:25:26 +0100
-In-Reply-To: <CANNYZj_XzB3g55qEe4hYGGCBwPPkg9kwydWQ0jGwRbi8UkJNGw@mail.gmail.com>
-References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
-	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
-	<2a106fcffc331009abdb6498ffe8c4f3c99ee80b.camel@linuxfoundation.org>
-	<CANNYZj9HHxJa5NKWU9r09NXgBy8aD0RTkugQ-k6esVNCTVOa6w@mail.gmail.com>
-	<6551fb5303bcc8dbf3a9d55a1aa6a9ecd2baeb13.camel@linuxfoundation.org>
-	<CANNYZj_7t+dB0FOUjGocHLzACtLquqqGV3R1awiQe=27JwQa3Q@mail.gmail.com>
-	<123708bfcd4646571a59f2d2ddde7a90267833ef.camel@linuxfoundation.org>
-	<CANNYZj_XzB3g55qEe4hYGGCBwPPkg9kwydWQ0jGwRbi8UkJNGw@mail.gmail.com>
+	by smtp.gmail.com with ESMTPSA id
+	c15sm2630295wrb.80.2019.08.14.15.20.42
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 14 Aug 2019 15:20:42 -0700 (PDT)
+Message-ID: <83c8625d33058ccf085ebd2a646aa41519c73625.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 14 Aug 2019 23:20:41 +0100
+In-Reply-To: <20190814152613.46996-1-alex.kanavin@gmail.com>
+References: <20190814152613.46996-1-alex.kanavin@gmail.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
+Subject: Re: [PATCH 1/3] linux-yocto: add drm-bochs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,44 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2019 21:25:28 -0000
+X-List-Received-Date: Wed, 14 Aug 2019 22:20:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-08-14 at 22:27 +0200, Alexander Kanavin wrote:
-> On Wed, 14 Aug 2019 at 14:55, <richard.purdie@linuxfoundation.org>
-> wrote:
-> > You followed up mentioning this wasn't with master-next. I think
-> > there
-> > is a patch in -next which will help with the empty task spin so
-> > both
-> > together might get us back to more normal numbers.
-> > 
+On Wed, 2019-08-14 at 17:26 +0200, Alexander Kanavin wrote:
+> This allows better modesetting support for the '-vga std'
+> emulated hardware provided by Qemu, which we want to
+> standardize on.
 > 
-> As all of these patches are now in master, I re-ran the test with
-> that (209f89ab8ed51ac2867ca8f749336af1ee24ab25), but without
-> including the spinning task part, pressing ctrl-c just as it starts.
-> The outcome is 9m42s, compared to 2m9s for the baseline
-> (6c7c0cefd34067311144a1d4c01986fe0a4aef26). So the worst is fixed,
-> but the slowdown is still noticeable.
+> See here for background:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13466
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto-dev.bb     | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb  | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto_4.19.bb    | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.0.bb     | 2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
 
-Right, it still definitely needs work. Its a balancing act between
-sorting out the execution bugs in the code and figuring out the
-performance problem.
-
-If anyone wants to experiment, the way I'd debug this is to run the
-before and after cases with the -P option to bitbake. If you want to
-exit early just make the code return where it prints "Executing tasks"
-or whatever makes sense as Ctrl+C won't write the profile data.
-
-You want the profile.log.processed file.
-
-So save that file with the "before" commit, then save it afterwards and
-look at those files and see where its spending more time.
-
-If someone generates those two files I'll happily take a look, I'm kind
-of used to reading them. There are four sets of output in there, same
-data but different sorting/types, each has its uses.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/41/builds/929
 
 Cheers,
 
