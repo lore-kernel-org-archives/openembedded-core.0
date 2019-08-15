@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C90747F2A2;
-	Thu, 15 Aug 2019 06:02:29 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 15 Aug 2019 06:02:31 -0000
-Message-ID: <20190815060231.2331.93586@do>
-References: <20190815055655.6759-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190815055655.6759-1-raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltWMl0gdXRpbC1saW51eDogTWFrZSBwYW0gc3BlYy4uLiIgYW5kIDEgbW9yZQ==?=
+Return-Path: <naveen.kumar.saini@intel.com>
+X-Greylist: delayed 428 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 15 Aug 2019 06:58:31 UTC
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B4D97F29A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Aug 2019 06:58:31 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Aug 2019 23:51:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,388,1559545200"; d="scan'208";a="188413946"
+Received: from optimus-prime.png.intel.com ([172.30.199.130])
+	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2019 23:51:24 -0700
+From: Naveen Saini <naveen.kumar.saini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Aug 2019 14:53:43 +0800
+Message-Id: <20190815065343.5291-1-naveen.kumar.saini@intel.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [warrior][PATCH] bitbake.conf: add git-lfs to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2019 06:02:29 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Aug 2019 06:58:32 -0000
 
-== Series Details ==
+This provides git large file storage (lfs) extension.
 
-Series: "[V2] util-linux: Make pam spec..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19285/
-State : failure
+Include git-lfs conditionally. If git-lfs is present on host and repo
+has lfs pointers, then git-lfs will be used. If git-lfs is not present
+on host, it will be ignored.
 
-== Summary ==
+[YOCTO #13198]
 
+(From OE-Core rev: 2968ad8514721ec06e67aaf3fd5ec7b247b3431d)
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line        @@ -47,5 +47,4 @@
-
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/conf/bitbake.conf | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index c996301a8b..c5313ccd19 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -514,6 +514,9 @@ HOSTTOOLS_NONFATAL += "bzr"
+ # Used by ssh fetcher
+ HOSTTOOLS_NONFATAL += "scp"
+ 
++# Link to git-lfs if present
++HOSTTOOLS_NONFATAL += "git-lfs"
++
+ CCACHE ??= ""
+ 
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
+-- 
+2.17.1
 
 
