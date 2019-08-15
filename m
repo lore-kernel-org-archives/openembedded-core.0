@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C1E047F2A2;
-	Thu, 15 Aug 2019 06:02:28 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id C90747F2A2;
+	Thu, 15 Aug 2019 06:02:29 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 15 Aug 2019 06:02:30 -0000
-Message-ID: <20190815060230.2330.91664@do>
-References: <20190815053810.8238-1-raj.khem@gmail.com>
+Date: Thu, 15 Aug 2019 06:02:31 -0000
+Message-ID: <20190815060231.2331.93586@do>
+References: <20190815055655.6759-1-raj.khem@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190815053810.8238-1-raj.khem@gmail.com>
+In-Reply-To: <20190815055655.6759-1-raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInV0aWwtbGludXg6IE1ha2UgcGFtIHNwZWNpZmljIC4uLiIgYW5kIDEgbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltWMl0gdXRpbC1saW51eDogTWFrZSBwYW0gc3BlYy4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,9 +31,9 @@ Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "util-linux: Make pam specific ..." and 1 more
+Series: "[V2] util-linux: Make pam spec..." and 1 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/19284/
+URL   : https://patchwork.openembedded.org/series/19285/
 State : failure
 
 == Summary ==
