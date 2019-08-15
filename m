@@ -1,32 +1,23 @@
-Return-Path: <naveen.kumar.saini@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B17777F2E9
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 74FE67F2E3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2019 07:35:21 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Aug 2019 00:35:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,388,1559545200"; d="scan'208";a="194717230"
-Received: from optimus-prime.png.intel.com (HELO [172.30.199.130])
-	([172.30.199.130])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2019 00:35:22 -0700
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20190815065343.5291-1-naveen.kumar.saini@intel.com>
-	<7128b7d3-78c0-0a66-8e55-65fedeab2dd1@intel.com>
-	<CA+chaQeeS+Ludz64ke19Hr5h1knrvbe769N5vhMQLH7=E_dmbQ@mail.gmail.com>
-From: "Saini, Naveen Kumar" <naveen.kumar.saini@intel.com>
-Message-ID: <3fd5cffc-0bef-6275-a436-c1741afea7ef@intel.com>
-Date: Thu, 15 Aug 2019 15:37:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thu, 15 Aug 2019 08:46:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7F8kjEN005202
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Aug 2019 01:46:45 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 15 Aug 2019 01:46:44 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Aug 2019 04:46:38 -0400
+Message-ID: <20190815084638.124222-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQeeS+Ludz64ke19Hr5h1knrvbe769N5vhMQLH7=E_dmbQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [warrior][PATCH] bitbake.conf: add git-lfs to HOSTTOOLS_NONFATAL
+Subject: [PATCH] webkitgtk: disable gold on mipsn32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,23 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2019 07:35:21 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 15 Aug 2019 08:46:44 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+From: Kai Kang <kai.kang@windriver.com>
 
+Using gold on mipsn32 still fails. It fails to run
 
-On 8/15/19 3:23 PM, Martin Jansa wrote:
-> NAK
-> 
-> Yes, the first part was merged in warrior and is correct.
-> 
-> But this second part isn't good (you don't want git-lfs to sometimes 
-> work and sometimes fail) and that's why it was rejected for master and 
-> _shouldn't_ be merged to warrior. If you have recipes which need 
-> git-lfs, then add it to normal HOSTTOOLS in your builds to make sure 
-> it's always present when needed.
+$ bitbake webkitgtk -c configure
 
-Noted. Thanks.
+with configuration:
+
+MACHINE ?= "qemumips"
+DEFAULTTUNE = "mips64-n32"
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.24.3.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
+index c42c3de69f..0e5ee5ba00 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.24.3.bb
+@@ -88,6 +88,7 @@ EXTRA_OECMAKE_append_armv5 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=OFF "
+ EXTRA_OECMAKE_append_armv4 = " -DENABLE_JIT=OFF "
+ 
++EXTRA_OECMAKE_append_mipsarchn32 = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
+ 
+ # JIT not supported on MIPS either
+-- 
+2.20.0
+
 
