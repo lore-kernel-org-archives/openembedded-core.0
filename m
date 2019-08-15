@@ -1,51 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 712D97CDEB
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+	[209.85.210.179])
+	by mail.openembedded.org (Postfix) with ESMTP id DB1327CDEB
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 15 Aug 2019 05:38:18 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id i2so705415plt.1
+Received: by mail-pf1-f179.google.com with SMTP id c81so801913pfc.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2019 22:38:19 -0700 (PDT)
+	Wed, 14 Aug 2019 22:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=K3F3CRZwhnLt+11OsQ65ScbuyNWiGMPq6M/pZ4BkrNc=;
-	b=N/HEom3umxA4j/qSdvBIjObQY507LpYPBnOZi6FFbMM+fmip1+w0QxVZCOJYxdu2X8
-	LdHNO5f8+KfxT3rHJE9rnu8wjvXUEkdIAQ7m+C8JHP9KeXkeWIT0Osw/1Vnie3U/vy38
-	4IPvUUIfgdwrgc3TYzp29u058p7L4qL57k1tWgwVzZHpKgdAeeBlW5+tHZJS056oBT16
-	+I3+rvy5V/I+4FPeQrubp80UK/caKtOdwPMCSQUCFSH0roRtf5OyLFGUnqydFvN4D2Eg
-	LQ49UL+xeWAm4EUxlXbEfnwvM07gpigLOEsT+x9y+382PsvaOqBUSVctuFmAB/7g/Mm2
-	XfgA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Kj5jre/D0M4Xg0sOBkmY+C8UBQalrUYjIj4/ctnHurY=;
+	b=J+sTnU/44R1NLIDk0SJ23/8+WvxU5TXTNOSeIMYybVi1DWrWQqTDpNbb4CRd54mFcd
+	WRrxMrjIWjiww/Sz72ManuBW8CtlztBV6l5Ny8i1PQ7ZbmTMHQbRpuYXlJB529BfGbWu
+	4qPNbuuCr5Bp/26T7OFs/RxWQa2vOUWXFlyduYqRPLtxzkT7h+2G24P1RJze/SYl5lF0
+	keBUcKn7q15THsDwWW25N6hGFQKySTQ/HZJB1EG/6aoMXHP8EU5efsqaf9LayH8trTZx
+	Z3XhsHJ5cBsmu2VOFZ10zasIqio1VqoY6E6Lpyxhlmx92wEFvetp2AtHjAa/VCZWZCYY
+	NziA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=K3F3CRZwhnLt+11OsQ65ScbuyNWiGMPq6M/pZ4BkrNc=;
-	b=q6sXRcJKMqgREoAe/w2iCZKIJpsPoSB5Q42PhdxArbgAsp5U9a/PFi7xNFNRm+sqRZ
-	NosACL5ipQviWP/LVeoxutUiJfZrhktQ3faHR8uqRz6omIdxL3NorOg59AKAQs/TKve+
-	9zcxxIutOaLx1N1WUAlH6GqRNuRZfcZzz4IGchrnETdR8/ebt+zGayzovA0k1fXVCNd8
-	R2h8gsWURq/Dyr4D04pxY5H+R5z4sPjtILZ8UrRHL7b+4uJ43+DMxuv0mqdCU6iwnKKn
-	8Tu3UlpgsukGXMhkuoQOOOWDtgyNMALxUGQnh3SQ0VP+KXgzZ30UJ8zaJih5Wbfieiin
-	DO3Q==
-X-Gm-Message-State: APjAAAXbc+urWuvU5hA/cH3A8RHiFs+IMYz2I1cbNqxIPihHe8BtfJCF
-	wCJSMMRr26AVwjAvs48nAxxAXKCR9zg=
-X-Google-Smtp-Source: APXvYqzCe9LC/0UDaR1BbCAbecFmUMQzph8azFsZQiZ6H5eMUD2M/AYwOj/AH1nkg/mQvTRiqAtSuA==
-X-Received: by 2002:a17:902:ac87:: with SMTP id
-	h7mr2971401plr.36.1565847498719; 
-	Wed, 14 Aug 2019 22:38:18 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Kj5jre/D0M4Xg0sOBkmY+C8UBQalrUYjIj4/ctnHurY=;
+	b=KN72sr2lD9+0mHOOSVSW5q/ByM+5Bmx28JsXUXPOfyoJn0TajMXvqD/eIhoKPB2ObD
+	AwQRE6Qba72xT3acoMnpleHCFAc2PSUVGNKpPcqkQe/uBzPe8JYkXQ4asHHygXS4gz5b
+	YJTFDPFuIkwZl1ksYbswIQhF/YdG2iw1jD5a8cHep3kEtKkldhuSE0+gJ3wmPqNQvUZM
+	FcT6ahpOAyja3euqWWse8wpiBOVk8OCDmHgrqYU6PRKe8d754rZ7Zuz8ZQ4zhaZ7jIY6
+	OFsyH80++V9YbybkwEP6bHrb9jiIZeXSH58Qpxq8vCyRtb/FZOqINGyFKL9LuTLM2SA7
+	2CBQ==
+X-Gm-Message-State: APjAAAWEhQbSJY1h+vFg/LDC5IXp6smsyesEzYQom8m2RXy8wduj1yHQ
+	6jsiv2l633mUqu79SDKCHvMSJKfXvSQ=
+X-Google-Smtp-Source: APXvYqxcOYm8oTO6+rkrul+Yh+25nh2CTRfb2cx/XcZG3WXnC+x6JcQCUrnWtv4W7BgVj+xh5u04WQ==
+X-Received: by 2002:a63:e948:: with SMTP id q8mr2166973pgj.93.1565847499384;
+	Wed, 14 Aug 2019 22:38:19 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
 	[73.71.176.3])
-	by smtp.gmail.com with ESMTPSA id g8sm1266629pgk.1.2019.08.14.22.38.17
+	by smtp.gmail.com with ESMTPSA id g8sm1266629pgk.1.2019.08.14.22.38.18
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 14 Aug 2019 22:38:18 -0700 (PDT)
+	Wed, 14 Aug 2019 22:38:19 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Aug 2019 22:38:09 -0700
-Message-Id: <20190815053810.8238-1-raj.khem@gmail.com>
+Date: Wed, 14 Aug 2019 22:38:10 -0700
+Message-Id: <20190815053810.8238-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190815053810.8238-1-raj.khem@gmail.com>
+References: <20190815053810.8238-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] util-linux: Make pam specific logic apply to target recipe alone
+Subject: [PATCH 2/2] systemd.bbclass: Limit rm_sysvinit_initddir and rm_systemd_unitdir to target alone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,84 +59,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2019 05:38:18 -0000
+X-List-Received-Date: Thu, 15 Aug 2019 05:38:19 -0000
 Content-Transfer-Encoding: 8bit
 
-This helps with a case where a distro builds one image with systemd and
-another with sysvinit, it ends up recompiling almost everything since
-python3-native gets rebuilt and tracing dependencies with
-bitbake-diffsigs shows that the chain ends at util-linux-native being
-recompiled because distro features now does or does not have 'pam'
+These postfuncs cause native recipes to rebuild when changing system
+init provider between sysvinit and systemd. Some of these native recipes
+are pretty early in dependency chain ( e.g. util-linux ) which can casue
+rebuild of pretty much everything including compiler.
+
+Found with bitbake-diffsigs
 
 Hash for dependent task python/python3_3.7.4.bb:do_prepare_recipe_sysroot:virtual:native:/mnt/a/yoe/sources/openembedded-core/meta/recipes-devt
-ools/python/python3_3.7.4.bb changed from 8befaac4f995aaff3f95d27c9caaf1006f86e1344b02c1ae82f5d12f885f2240 to 2a45fe0cd0d3640a88c4a5c8b1880c4e9
-a089cc7446a91d2a920c1cef6fa916a
+ools/python/python3_3.7.4.bb changed from 2a45fe0cd0d3640a88c4a5c8b1880c4e9a089cc7446a91d2a920c1cef6fa916a to bc2a0921cce50da1b7be3b59a3d8211ec
+2a31262493ffa5909acbb7116fad3bf
     Hash for dependent task util-linux/util-linux_2.34.bb:do_populate_sysroot:virtual:native:/mnt/a/yoe/sources/openembedded-core/meta/recipes-
-core/util-linux/util-linux_2.34.bb changed from 0db292cb2e37d5788bdcf51038b2802d748b719d860aca3a26d7a793b0cf3905 to 15d6e165f025f10c2c455df8a87
-5cafe021eaed4214c793e708d4827a58ca89d
-        Hash for dependent task util-linux/util-linux_2.34.bb:do_install:virtual:native:/mnt/a/yoe/sources/openembedded-core/meta/recipes-core/util-linux/util-linux_2.34.bb changed from 54bb4ee6bdb5c7fc260dabddb4932cb0e554a62cd92aba080a18306291fb470b to e25b1119ce8dd7ca43fbd2db771e04fa
-6ff6b9d701fd78ac6c443224b036ed9f                                                                                                                           basehash changed from 8e8687a866689a697001dedc0a43f478e68e6efe270bd77362f24c6000f9e882 to 62df6610eab9c1b1a17d7132943507641c8538690
-f26186843c86144d4598e64
-            Variable do_install value changed:
+core/util-linux/util-linux_2.34.bb changed from 15d6e165f025f10c2c455df8a875cafe021eaed4214c793e708d4827a58ca89d to 54e542d5da99cacfc9290ef5d27
+9de50bdcb9195f67ae6dfff59fe41d10f7bd2
+        Hash for dependent task util-linux/util-linux_2.34.bb:do_install:virtual:native:/mnt/a/yoe/sources/openembedded-core/meta/recipes-core/
+util-linux/util-linux_2.34.bb changed from e25b1119ce8dd7ca43fbd2db771e04fa6ff6b9d701fd78ac6c443224b036ed9f to bb5b172a83e7edd272402a9dcd80c4e1
+29aa1ecb824c2cfa388086cfed24fef5
+            basehash changed from 62df6610eab9c1b1a17d7132943507641c8538690f26186843c86144d4598e64 to 80471f7c0bded9d1b593da69708b0e0f10882db08
+5e1bf769edb3018e6c744d0
+            Variable rm_sysvinit_initddir value changed:
+            @@ -11,4 +11,4 @@
+                         shutil.rmtree(sysv_initddir)
 
-rm -f ${D}${bindir}/chkdupexe
--   if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
-+   if [ "${@bb.utils.filter('PACKAGECONFIG', 'pam', d)}" ]; then
-        install -d ${D}${sysconfdir}/pam.d
-        install -m 0644 ${WORKDIR}/runuser.pamd ${D}${sysconfdir}/pam.d/runuser
-        install -m 0644 ${WORKDIR}/runuser-l.pamd ${D}${sysconfdir}/pam.d/runuser-l
-@@ -47,5 +47,4 @@
-        rm -f ${D}${base_sbindir}/nologin
-        rm -f ${D}${base_bindir}/kill
-
-    -DISTRO_FEATURES{pam} = Unset
-    PACKAGECONFIG{pam} = Unset
-
-So far it seems this pam conditional code in util-linux is target
-specific and would not apply to native or nativesdk recipes
+             DISTRO_FEATURES{systemd} = Unset
+            -DISTRO_FEATURES{sysvinit} = Set
+            +DISTRO_FEATURES{sysvinit} = Unset
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ meta/classes/systemd.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 84c7012752..5b1b919800 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -190,20 +190,19 @@ do_install () {
- 	echo 'MOUNTALL="-t nonfs,nosmbfs,noncpfs"' > ${D}${sysconfdir}/default/mountall
- 
- 	rm -f ${D}${bindir}/chkdupexe
-+}
- 
--	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
-+do_install_class-target () {
-+	if [ "${@bb.utils.filter('PACKAGECONFIG', 'pam', d)}" ]; then
- 		install -d ${D}${sysconfdir}/pam.d
- 		install -m 0644 ${WORKDIR}/runuser.pamd ${D}${sysconfdir}/pam.d/runuser
- 		install -m 0644 ${WORKDIR}/runuser-l.pamd ${D}${sysconfdir}/pam.d/runuser-l
--	fi
--	if [ "${@bb.utils.filter('PACKAGECONFIG', 'pam', d)}" ]; then
- 		# Required for "su -" aka "su --login" because
- 		# otherwise it uses "other", which has "auth pam_deny.so"
- 		# and thus prevents the operation.
- 		ln -s su ${D}${sysconfdir}/pam.d/su-l
- 	fi
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index d1cb17dc8d..747055b8fa 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -214,7 +214,6 @@ python rm_systemd_unitdir (){
+         if (os.path.exists(systemd_libdir) and not os.listdir(systemd_libdir)):
+             os.rmdir(systemd_libdir)
  }
--
- # nologin causes a conflict with shadow-native
- # kill causes a conflict with coreutils-native (if ${bindir}==${base_bindir})
- do_install_append_class-native () {
-@@ -267,7 +266,7 @@ ALTERNATIVE_${PN}-doc = "\
- blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logger.1 mesg.1 \
- mountpoint.1 nologin.8 rfkill.8 sulogin.8 utmpdump.1 uuid.3 wall.1\
- "
--ALTERNATIVE_${PN}-doc += "${@bb.utils.contains('PACKAGECONFIG', 'pam', 'su.1', '', d)}"
-+ALTERNATIVE_${PN}-doc_append_class-target = "${@bb.utils.contains('PACKAGECONFIG', 'pam', ' su.1', '', d)}"
+-do_install[postfuncs] += "rm_systemd_unitdir "
  
- ALTERNATIVE_LINK_NAME[blkid.8] = "${mandir}/man8/blkid.8"
- ALTERNATIVE_LINK_NAME[eject.1] = "${mandir}/man1/eject.1"
+ python rm_sysvinit_initddir (){
+     import shutil
+@@ -229,4 +228,8 @@ python rm_sysvinit_initddir (){
+         if (os.path.exists(systemd_system_unitdir) and os.listdir(systemd_system_unitdir)):
+             shutil.rmtree(sysv_initddir)
+ }
+-do_install[postfuncs] += "rm_sysvinit_initddir "
++
++do_install[postfuncs] += "${RMINITDIR} "
++RMINITDIR_class-target = " rm_sysvinit_initddir rm_systemd_unitdir "
++RMINITDIR = ""
++
 -- 
 2.22.0
 
