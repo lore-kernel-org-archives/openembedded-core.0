@@ -1,50 +1,56 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ED6A6C0F4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 280396C0F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2019 20:22:39 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id f22so3251925edt.4
+	Thu, 15 Aug 2019 21:09:07 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id z11so3430963wrt.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2019 13:22:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ruklLXBPBk71AkHK5sQjO5oxeZcXe7Mc99dWoiQv5t8=;
-	b=ENPRhD04a0LTsxcOkGzW8Jh+JrrQOzfDPPjrqTbOlXfEdIZi3Px0tD7pMiiSCjyqRF
-	b9GE7tEvsZwRaWTR3SAdvqlgjhUVTqpRCs8H+HgWWBpQuUk5casMx1BCE2RXDgzGTeoQ
-	lNo2k4iDHWuNobS4b/kotksahqCLYlRSSe/CsCS0Me8iBwEn9qSx0Zq1dsxaKg9MaH+h
-	cFoPEtvYj7rOptsJoMbn62d18m0qnLVsTAKgP5jBMcyaFKyOIg17bzFQbfhY8nO930hs
-	WKCQrOj+2CR3dn2Men+EYjyhj3OaygufTY9jPD8Znfx7mSMgkk+eEtJ2cFqg8FNr0GUb
-	Gs8A==
+	Thu, 15 Aug 2019 14:09:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=+/46sTTuc8IMQabmUUqMpWCpUBtwlnFEojvNq3ib+oU=;
+	b=UhwI4H1KVS9vebM6Su1oKQBFxlrQGADjFjGKgk4p8t7RaC48hlUqt0TeGqF3HOjNKH
+	czXbAGqp3OGex7nIwRww5zXGt0G2d61vAu9N/es20ZYkTpFVtBClEsqOFTmNu88KvnKv
+	oEEr0mgPVBI1AaCOzbWbZ5tNgFL6Y5czKAUFM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ruklLXBPBk71AkHK5sQjO5oxeZcXe7Mc99dWoiQv5t8=;
-	b=TrOlLPStsX7PPBXZeAYjX2nTunx4yQa9FMv6S79NWmIUub1vaOOnmqoEYAl6R3Ekqs
-	MiXnW1cjDYijbm2NW2JdkYPZ2Kp6lID+QDNy3l+NF7ZepSgDeVtZG1ro5K4vJjuaQgPZ
-	dX1ftIlO9sKIitzpM+rO+qFWtG4c97jHHprdP+pAeeR2BHDvqeon/g90sJ2Qma/JnTMz
-	e5zptOj+VytuUCoM4oj9JF/l404PW3kAJVWL3umI+SkrQsJ5Nry1xt1ikF/QRQSj5lzH
-	/J+R6LmQGj18tEDbVZU2LXCEy5HfVmVFkWpkJkDMhxo+I5w090YzaA0oKD+rJvEzsYH8
-	85Cw==
-X-Gm-Message-State: APjAAAVfzqqFTw/0JIHmHgP/o84E25287AsYINfPlMZt9OiiR7tEP2uR
-	9subSPJzekhOpyRaPQGRqwpvi/l7HE6Mp2OX27I=
-X-Google-Smtp-Source: APXvYqz+hfQWxznF9C6vsKwdM+NzidaVvtIzXWQ8YrOBdcj5T5tvMi7fBJyieymYS2ZTMaLlGyCsrv3J8gb8h7Z0q3A=
-X-Received: by 2002:a17:906:1105:: with SMTP id
-	h5mr6059751eja.53.1565900559940; 
-	Thu, 15 Aug 2019 13:22:39 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=+/46sTTuc8IMQabmUUqMpWCpUBtwlnFEojvNq3ib+oU=;
+	b=nukBnlDQNEHddygBroC7mi2Ap4GsAQEii+wOH2mPj1rRZRyJBgkGlSSnuMaC2ZXC/G
+	/F0H37tg24yzQS8ulf5Bg3wCuF0zTZYJyP1dntbXI2Zb1luxb4I8M2af2+I++WUhJoq0
+	Qpoosaxqaty+DK2XkaJF2zyMTo4neeXEwcr1XluMuDvD3MojVki8seozCadQuF6qIHW5
+	VMxna6lWT6gRoqHq7rS3NJR5+XGTtDlPppc87BUEihjR2Sp4JUM36b+UtESw2Ms0cZwm
+	Oj9MDocCpssf0FleiaAj5dDXWdamlh01phARyX+PWBQWWREVNApYTAThPZuxplIwbw5n
+	tIAg==
+X-Gm-Message-State: APjAAAW6CZPjQMM5BwQ8o0KjEOtQgUxg3R/YEvPpr29+qz7G+ycJ5JSa
+	5Xa7FRV516DgoRgxU1/LwU/DXA==
+X-Google-Smtp-Source: APXvYqwm4HS2D8FvFYEKpgQK7V7ZvoB0D5EPFjtG+4Rqjlg3kaBMOnexy3L9KMglB8BgWcNTsCOdww==
+X-Received: by 2002:a05:6000:104f:: with SMTP id
+	c15mr6910095wrx.225.1565903347850; 
+	Thu, 15 Aug 2019 14:09:07 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	d16sm2843632wrv.55.2019.08.15.14.09.06
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 15 Aug 2019 14:09:07 -0700 (PDT)
+Message-ID: <b2ae3b8bff8bf0c2f42d588841347ad8b6844ef6.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, "Saini, Naveen Kumar"
+	<naveen.kumar.saini@intel.com>
+Date: Thu, 15 Aug 2019 22:09:06 +0100
+In-Reply-To: <CA+chaQeeS+Ludz64ke19Hr5h1knrvbe769N5vhMQLH7=E_dmbQ@mail.gmail.com>
+References: <20190815065343.5291-1-naveen.kumar.saini@intel.com>
+	<7128b7d3-78c0-0a66-8e55-65fedeab2dd1@intel.com>
+	<CA+chaQeeS+Ludz64ke19Hr5h1knrvbe769N5vhMQLH7=E_dmbQ@mail.gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <20190814152613.46996-1-alex.kanavin@gmail.com>
-	<20190814152613.46996-2-alex.kanavin@gmail.com>
-	<23fcfd39e3626c222c41bda1e40099820d82da92.camel@linuxfoundation.org>
-	<CANNYZj8mODa0BZCFasxTgqu-CZmGYQYh8Kw-8tp8M86dwehs7Q@mail.gmail.com>
-In-Reply-To: <CANNYZj8mODa0BZCFasxTgqu-CZmGYQYh8Kw-8tp8M86dwehs7Q@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 15 Aug 2019 22:22:36 +0200
-Message-ID: <CA+chaQd63NfL=Zp16KYjnCT0h_WKCTsJRAohy3mCw7nQVWkQbg@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] qemuboot.bbclass: increase the default RAM to 512M
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [warrior][PATCH] bitbake.conf: add git-lfs to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,119 +63,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2019 20:22:39 -0000
-Content-Type: multipart/alternative; boundary="000000000000a100df05902da26a"
-
---000000000000a100df05902da26a
+X-List-Received-Date: Thu, 15 Aug 2019 21:09:07 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Maybe we should drop x11 from default DISTRO_FEATURES :)
+On Thu, 2019-08-15 at 09:23 +0200, Martin Jansa wrote:
+> NAK
+> 
+> Yes, the first part was merged in warrior and is correct.
+> 
+> But this second part isn't good (you don't want git-lfs to sometimes
+> work and sometimes fail) and that's why it was rejected for master
+> and _shouldn't_ be merged to warrior. If you have recipes which need
+> git-lfs, then add it to normal HOSTTOOLS in your builds to make sure
+> it's always present when needed.
 
-Will resolve the memory consumption and image size.
+I don't like the patch but it did merge to master.
 
-Well the image size isn't much different, I was just surprised to see
-libx11 being included even in core-image-minimal (because systemd -> dbus
--> libx11: "dbus.do_package" -> "libx11.do_packagedata"), but in the end
-the difference in ext4 was only 2MB (61MB/63MB), caused by following 4
-packages:
-libx11-6 core2-64 1:1.6.8-r0.0
-libxau6 core2-64 1:1.0.9-r0.15
-libxcb1 core2-64 1.13.1-r0.15
-libxdmcp6 core2-64 1:1.1.3-r0.15
+Building a git-lfs-native is a nightmare due to all its dependencies (I
+think its go based?) and there wasn't really any other way to sort it.
 
-so I guess embedded no longer have neither small ram nor small flash.
+Having recipe specific hosttools would be ideal but we don't have that.
+
+Cheers,
+
+Richard
 
 
-
-On Thu, Aug 15, 2019 at 6:20 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> On Wed, 14 Aug 2019 at 18:42, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> I'm not sure I agree with this.
->>
->> We are meant to work on embedded systems and 256MB should be enough to
->> let us bring up X under qemu.
->>
->> I'm fine with some sdk/ptest images having more memory, that makes
->> sense but 256MB not allowing X under qemu seems rather poor.
->>
->
-> I poked a bit more at this. The main difference between vmware emulated
-> hardware and std emulated hardware is that X uses the standard 2D
-> framebuffer interface for the former, and the full 3D stack for the latter
-> (via use of glamor: https://www.freedesktop.org/wiki/Software/Glamor/).
-> The 3D stack (mesa and friends) is what causes the memory usage to swell.
->
-> It is possible to disable this behaviour and enforce framebuffer usage
-> (see 'man modesetting'), and I have verified that the RAM usage drops to
-> similar levels as vmware, but that is not the upstream default; they have
-> more or less obsoleted 2D drivers and are defaulting to 3D rendering
-> nowadays. I'd rather follow that.
->
-> Alex
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000a100df05902da26a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Maybe we should drop x11 from default DISTRO_FEATURES :)<d=
-iv><br></div><div>Will resolve the memory consumption and image size.</div>=
-<div><br></div><div>Well the image size isn&#39;t much different, I was jus=
-t surprised to see libx11 being included even in core-image-minimal (becaus=
-e=C2=A0systemd -&gt; dbus -&gt; libx11: &quot;dbus.do_package&quot; -&gt; &=
-quot;libx11.do_packagedata&quot;), but in the end the difference in ext4 wa=
-s only 2MB (61MB/63MB), caused by following 4 packages:</div><div>libx11-6 =
-core2-64 1:1.6.8-r0.0<br></div><div>libxau6 core2-64 1:1.0.9-r0.15<br>libxc=
-b1 core2-64 1.13.1-r0.15<br>libxdmcp6 core2-64 1:1.1.3-r0.15</div><div><br>=
-</div><div>so I guess embedded no longer have neither small ram nor small f=
-lash.</div><div><br></div><div><br></div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 15, 2019 at 6:20 PM Al=
-exander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_bl=
-ank">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Wed, 14 Aug=
- 2019 at 18:42, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; =
-wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">I&#39;m not sure I agree with this.<br>
-<br>
-We are meant to work on embedded systems and 256MB should be enough to<br>
-let us bring up X under qemu.<br>
-<br>
-I&#39;m fine with some sdk/ptest images having more memory, that makes<br>
-sense but 256MB not allowing X under qemu seems rather poor.<br></blockquot=
-e><div><br></div><div>I poked a bit more at this. The main difference betwe=
-en vmware emulated hardware and std emulated hardware is that X uses the st=
-andard 2D framebuffer interface for the former, and the full 3D stack for t=
-he latter (via use of glamor: <a href=3D"https://www.freedesktop.org/wiki/S=
-oftware/Glamor/" target=3D"_blank">https://www.freedesktop.org/wiki/Softwar=
-e/Glamor/</a>). The 3D stack (mesa and friends) is what causes the memory u=
-sage to swell.<br></div><div><br></div><div>It is possible to disable this =
-behaviour and enforce framebuffer usage (see &#39;man modesetting&#39;), an=
-d I have verified that the RAM usage drops to similar levels as vmware, but=
- that is not the upstream default; they have more or less obsoleted 2D driv=
-ers and are defaulting to 3D rendering nowadays. I&#39;d rather follow that=
-.<br></div><div><br></div><div>Alex<br></div><div><br></div><div><br></div>=
-</div></div>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---000000000000a100df05902da26a--
