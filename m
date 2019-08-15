@@ -1,83 +1,55 @@
-Return-Path: <alban.bedel@aerq.com>
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr140127.outbound.protection.outlook.com [40.107.14.127])
-	by mail.openembedded.org (Postfix) with ESMTP id A07447C5F0
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B71B7F30C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2019 12:37:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=Zis93sn7DUZn9Mj5RGG4tpeIvuqdeP1zdAFSYKNMDCnHaDB/4wIUOxP2tX36NH2iKeUTTIYoqGKai1zVaHRa37ELWB4WZkirz1IO7i1OxsrbPX9bf4Vnl0R8pcfylt6qeZRai/5O7WaAElZhs8WXXaF4yl8tEIURGvUl2UwnP5wNwCpskMvjg+mJP6A76jEbxlqGFjgEXnxZE60Zk2A/JpzptNxAK46aZlw6D/uo8md2UoEoxtTD4/FpIgsCc3m39oGnojTEDuqgPddjSA+uvhkm996T7BhlY03ZIkvYnm+HvxCleTDqZ4qeeanLwfyu92gJpmt0wfNZS5CopT08nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=3AXxYKPNVrisvsg1T6g3bPU6V62GEsJbYsg5yQR35fE=;
-	b=k93M2bqVI+24qPROdu9Y8Fp5mZEzdRvQtIo+TezgxHjE526VLLrzJTAxuXjjmKm+NeflvME5eNDQnGuhz9+EqGEOhw31kLTFPX6xOjKm+iNvihdf4mag3HUgborj1jzQ6c01YxOZbND+6eIaEbuhsOQQiI6Qgjete6NVvjoBr9debTFRcRPl49CUyxqSse9aVnD0UxnlWPdC8hf0FKMFFVltPMVE+6sFnuqht9KWEIWM4Xs5bK34DXajgvDWuMX05yqTemEIBRdwHoL+He/nL/GyU67I5wP83XH5/lzSqHIUgT5A4Vwv9dQNpjmamrU41KaTAd6KO6P1PbrVZKLNtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=aerq.com; dmarc=pass action=none header.from=aerq.com;
-	dkim=pass header.d=aerq.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=l2task.onmicrosoft.com; s=selector1-l2task-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=3AXxYKPNVrisvsg1T6g3bPU6V62GEsJbYsg5yQR35fE=;
-	b=F0PGM9vi42iicRVWPp1tbrZCALTCektdUMlCe0rDg3uoVz1LFtyO23Ui949nI7rvOqKc4OxSGvDIDRTDaiwvV3BHQRkHaahTFDmyNOk46/0lTaIdiucqU+c/WUy45Cm3dVr7W3XZU6/6YdQKmZvqaZfaMKBTffErRp/R4x6pwzM=
-Received: from AM6PR10MB2038.EURPRD10.PROD.OUTLOOK.COM (52.134.115.151) by
-	AM6PR10MB2005.EURPRD10.PROD.OUTLOOK.COM (52.134.114.25) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2157.20; Thu, 15 Aug 2019 12:37:28 +0000
-Received: from AM6PR10MB2038.EURPRD10.PROD.OUTLOOK.COM
-	([fe80::7115:a2ae:b3b5:2fd4]) by
-	AM6PR10MB2038.EURPRD10.PROD.OUTLOOK.COM
-	([fe80::7115:a2ae:b3b5:2fd4%6]) with mapi id 15.20.2178.016;
-	Thu, 15 Aug 2019 12:37:28 +0000
-From: "Bedel, Alban" <alban.bedel@aerq.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [warrior][PATCH] boost: Fix build and enable context and
-	coroutines on aarch64
-Thread-Index: AQHVU2YyxC10bMO8SkWOn9X1DEPVlA==
-Date: Thu, 15 Aug 2019 12:37:28 +0000
-Message-ID: <20190815123713.24133-1-alban.bedel@aerq.com>
-Accept-Language: en-DE, de-DE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: PR0P264CA0142.FRAP264.PROD.OUTLOOK.COM
-	(2603:10a6:100:1a::34) To AM6PR10MB2038.EURPRD10.PROD.OUTLOOK.COM
-	(2603:10a6:209:31::23)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=alban.bedel@aerq.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.20.1
-x-originating-ip: [213.61.153.180]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 28414485-a80d-426e-efaf-08d7217d554d
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(7168020)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:AM6PR10MB2005; 
-x-ms-traffictypediagnostic: AM6PR10MB2005:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6PR10MB2005FCA6234013484EDBA73796AC0@AM6PR10MB2005.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-forefront-prvs: 01304918F3
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(376002)(136003)(366004)(346002)(39840400004)(396003)(199004)(189003)(256004)(476003)(7736002)(26005)(36756003)(81156014)(53936002)(55236004)(486006)(6506007)(2616005)(107886003)(8676002)(81166006)(102836004)(6486002)(6512007)(14444005)(5660300002)(386003)(186003)(6436002)(2906002)(1076003)(52116002)(305945005)(2351001)(14454004)(5640700003)(6116002)(66946007)(508600001)(3846002)(86362001)(316002)(6916009)(8936002)(66446008)(2501003)(66556008)(66476007)(66066001)(71190400001)(99286004)(71200400001)(64756008)(50226002)(25786009)(4326008);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR10MB2005;
-	H:AM6PR10MB2038.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: aerq.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Lyz2II5vywrL/5ZGEBZOok1TnBQ3qNNIplnATAnFk9NGFz2KaNcSK4fNhHZkfYpV/dVU/IqUAUsJ9XEXXtxVNMyeCUsUdXc4FTXLLZWBzACrivN/J8vxmdJvJp+lg9/ciKhtAbKmJtNOWh1hILbv0nccT1TJv+vRiDyPESWDPUhNKqV/r4sYpX/gB+tKqaZkRV14AL/JDUapahcb52VEnABQtRfTOuEAO15AEX0VwP7Uhm9JHPp7rj3W8TO6Hdw0uRxAvC0Fh2n3cG356ZuodLghhD59mDcDzmU9laMn/VbOqctL4j9E/EHmNcC8tLQXkCnv1T6tHP7eD3/qr87iB5Jcq5HkOFvQihrAx2mn+gjaumAL6TTBFzuQMtHT7590L+w9dW0jAtzCzEzZmX2Tto1Ft2E+6qEvCAaL6rXDdc0=
+	Thu, 15 Aug 2019 12:57:06 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id c7so1406678vse.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Aug 2019 05:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3aEZWmCISqQTFLQTEAXrmnRDre5sZJ5HKejpOAEQ3Yw=;
+	b=KmMmDX/li698n12oKyBexhBU85BX73P+JKTAwsJ7FC0neqnhhNT5eadL+T4aENio5g
+	6HIzwzqi2tFKmu9/WMFfBIZRwM3WdE/JkCduysUodLwsMi++LcLsqjfX16hb0awm//K2
+	jYEdw0NayU+/L7YWPz8HQ/2OY2dfZAXeIspqnvfvow2JkbwxExuz5w0X839I/tkkpkZi
+	QM5SNnXPGO4sCCTQBMZwN43C8wE0qW9d1m0AURTt0S+8JTAKT4RqQGh/ddKiOEnXqgjT
+	bS2nneDniPsNL9V3E5Idk7WP+9PqDK6AFk6r677YbBdCHE94xAS0OgoCkBUvONSqeHOW
+	1Trw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3aEZWmCISqQTFLQTEAXrmnRDre5sZJ5HKejpOAEQ3Yw=;
+	b=LObwJOMP0T3elKeLU1NvAxAVb5Z2HGrj/UhcLRh8a9bWu667Pz2VJ5VDIKeZX0MKwi
+	dVQGwxYtYXI1urC5BPmlJpMDacUMWiTx0Zqk3tjHZFfIAlQHXTasXWhYclqtnnPYUSTT
+	/BkAf7CoiZhDZ68IEEMhhJH7kWmvIcwHR5fiwWID3fyYVbN/BfvaiFh9Eu0SPz3MegQn
+	NL2xz2ye4x03XS73Yo8h3ugPFpxLkB+KDi0BVmJTzwJxZdsRZSwiP7TvBBLPqc48v3g5
+	Po/L1YNt0RmtXd1HZl0P1gxzRTxZ5vuvMs54SJeAOQi0LQR2uGGy4S44R8tHz0zrv3ML
+	wW2A==
+X-Gm-Message-State: APjAAAUZMsNZrKgpjLURIciqWdh6zshUHtvIC394pFY3FRcN1buwt77b
+	wDFrXwWItWjLDHDkeKlL0vDztj8qg6hxCfvdKFQ=
+X-Google-Smtp-Source: APXvYqxFvVzsw3a+VPBkM062DUy6SqmReAdiYWgYpjeUaygeTbmZ6wcYdydgvwDcID6db9DuEgmZKvM++YuLY+udglQ=
+X-Received: by 2002:a67:fd66:: with SMTP id h6mr3078954vsa.83.1565873827159;
+	Thu, 15 Aug 2019 05:57:07 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: aerq.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28414485-a80d-426e-efaf-08d7217d554d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2019 12:37:28.3763 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bf24ff3e-ad0a-4c79-a44a-df7092489e22
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DvVqaH1I6kXEfk00v7bqULc8HO911Iom608qFFLWJafQ5CKZDbRPOm41PPHDsrp1aH1ZEWd/4QaGlru8EYTedw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR10MB2005
-Cc: "Bedel, Alban" <alban.bedel@aerq.com>
-Subject: [warrior][PATCH] boost: Fix build and enable context and coroutines on aarch64
+References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
+	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
+	<2a106fcffc331009abdb6498ffe8c4f3c99ee80b.camel@linuxfoundation.org>
+	<CANNYZj9HHxJa5NKWU9r09NXgBy8aD0RTkugQ-k6esVNCTVOa6w@mail.gmail.com>
+	<6551fb5303bcc8dbf3a9d55a1aa6a9ecd2baeb13.camel@linuxfoundation.org>
+	<CANNYZj_7t+dB0FOUjGocHLzACtLquqqGV3R1awiQe=27JwQa3Q@mail.gmail.com>
+	<123708bfcd4646571a59f2d2ddde7a90267833ef.camel@linuxfoundation.org>
+	<CANNYZj_XzB3g55qEe4hYGGCBwPPkg9kwydWQ0jGwRbi8UkJNGw@mail.gmail.com>
+	<f30af5bfdca30721a345f656c6f3762dbb947d25.camel@linuxfoundation.org>
+In-Reply-To: <f30af5bfdca30721a345f656c6f3762dbb947d25.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 15 Aug 2019 14:56:56 +0200
+Message-ID: <CANNYZj_2GJt9=YaSJ8VG4gdEzxgtA+WRaNgknvQWmi6fHvQVBw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -90,46 +62,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2019 12:37:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 15 Aug 2019 12:57:06 -0000
+Content-Type: multipart/alternative; boundary="0000000000003b21830590276949"
+
+--0000000000003b21830590276949
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, 14 Aug 2019 at 23:25, <richard.purdie@linuxfoundation.org> wrote:
+
+> Right, it still definitely needs work. Its a balancing act between
+> sorting out the execution bugs in the code and figuring out the
+> performance problem.
+>
+> If anyone wants to experiment, the way I'd debug this is to run the
+> before and after cases with the -P option to bitbake. If you want to
+> exit early just make the code return where it prints "Executing tasks"
+> or whatever makes sense as Ctrl+C won't write the profile data.
+>
+> You want the profile.log.processed file.
+>
+> So save that file with the "before" commit, then save it afterwards and
+> look at those files and see where its spending more time.
+>
+> If someone generates those two files I'll happily take a look, I'm kind
+> of used to reading them. There are four sets of output in there, same
+> data but different sorting/types, each has its uses.
+>
+
+And here they are (with task spinning included this time):
+http://sensi.org/~ak/tmp/profile.log.processed.before
+http://sensi.org/~ak/tmp/profile.log.processed.after
+
+Hope you find it useful!
+
+Alex
+
+--0000000000003b21830590276949
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Like for ARM bjam need some hints about the ABI to properly build on
-aarch64. While at it also enable context and coroutine as these are
-supported on aarch64.
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 14 Aug 2019 at 23:25, &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+Right, it still definitely needs work. Its a balancing act between<br>
+sorting out the execution bugs in the code and figuring out the<br>
+performance problem.<br>
+<br>
+If anyone wants to experiment, the way I&#39;d debug this is to run the<br>
+before and after cases with the -P option to bitbake. If you want to<br>
+exit early just make the code return where it prints &quot;Executing tasks&=
+quot;<br>
+or whatever makes sense as Ctrl+C won&#39;t write the profile data.<br>
+<br>
+You want the profile.log.processed file.<br>
+<br>
+So save that file with the &quot;before&quot; commit, then save it afterwar=
+ds and<br>
+look at those files and see where its spending more time.<br>
+<br>
+If someone generates those two files I&#39;ll happily take a look, I&#39;m =
+kind<br>
+of used to reading them. There are four sets of output in there, same<br>
+data but different sorting/types, each has its uses.<br></blockquote><div><=
+br></div><div>And here they are (with task spinning included this time):</d=
+iv><div><a href=3D"http://sensi.org/~ak/tmp/profile.log.processed.before">h=
+ttp://sensi.org/~ak/tmp/profile.log.processed.before</a></div><div><a href=
+=3D"http://sensi.org/~ak/tmp/profile.log.processed.after">http://sensi.org/=
+~ak/tmp/profile.log.processed.after</a></div><div><br></div><div>Hope you f=
+ind it useful!</div><div><br></div><div>Alex<br> </div></div></div>
 
-Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
----
- meta/recipes-support/boost/boost.inc | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/bo=
-ost/boost.inc
-index 9be3717fd6..c2e2cbb352 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -33,6 +33,7 @@ BOOST_LIBS_append_x86 =3D " context coroutine"
- BOOST_LIBS_append_x86-64 =3D " context coroutine"
- BOOST_LIBS_append_powerpc =3D " context coroutine"
- BOOST_LIBS_append_arm =3D " context coroutine"
-+BOOST_LIBS_append_aarch64 =3D " context coroutine"
- # need consistent settings for native builds (x86 override not applied for=
- native)
- BOOST_LIBS_remove_class-native =3D " context coroutine"
- # does not compile
-@@ -151,6 +152,7 @@ BJAM_OPTS_append_x86-x32 =3D " abi=3Dx32 address-model=
-=3D64"
-=20
- # cross compiling for arm fails to detect abi, so provide some help
- BJAM_OPTS_append_arm =3D " abi=3Daapcs architecture=3Darm"
-+BJAM_OPTS_append_aarch64 =3D " abi=3Daapcs address-model=3D64 architecture=
-=3Darm"
-=20
- do_configure() {
- 	cp -f ${S}/boost/config/platform/linux.hpp ${S}/boost/config/platform/lin=
-ux-gnueabi.hpp
---=20
-2.20.1
-
-
+--0000000000003b21830590276949--
