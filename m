@@ -1,49 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 04B4F7F304
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F4637F2F9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 15:08:44 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id i4so6400623qtj.8
+	Fri, 16 Aug 2019 15:54:49 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id l2so4467684wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 08:08:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=8iquA0cHVh1SDy+OlSnlvlaPb61Wenu2JkEBUjbZd8Y=;
-	b=pq+SqlTlumPUFqaPxCaAFtKgf0JcJvZZ5BmksGzM6IY7JTfL+lzOaFU5D6otwYx7BA
-	Sl5ST9a2D9NO8g3ZgMn7xwkDjmwbCX+1qgcvY9U9+21phxbd2MQbFW7UgRP+luliSQfL
-	p8ka5Zcrjuu102rQ2ky7qz/f431tKTD5KlP66aPhH34OFzikQ2gZcahG47GbcvZeroW2
-	Iv5141CQZasODKb1uWOj7mYpoCYrm1wB3mjTBOB4LnzXzOzeyBgQahoz/kwmkfbf2Lvj
-	WzIP7e6O1NYT3HxMPvDGsN5vkxQLKDQklUjmZkn9dAPxxU4U4oC0Z0vCNN8kovorTteK
-	VLog==
+	Fri, 16 Aug 2019 08:54:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=nS8SNJKtQsk2FSEJCRKDsLkJeFZP8kf5ZuMC9ZcILS8=;
+	b=TH6s2HV1dbVKxRMhmlfvNr7pWgGHZnfve/JSJtJRekiTs8mMdebloiCOrCBq8ZFu0H
+	8d0gBHT5e+r4FVWFUS0SitleQzvrLoq0n+nz6N/dTJ3mCSR1Hvb2ykj31+eD6w7P0Aaf
+	vK2etBHxcCGEqbbsppoJedh1TlQKYr6YTSHxs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=8iquA0cHVh1SDy+OlSnlvlaPb61Wenu2JkEBUjbZd8Y=;
-	b=N04xo5c7WZ3C6DCrKwQBUv1XcsArNx5/najctJvWMq+1ZojKlpuZSDchtVTSMF48A+
-	FM8a613gIbtCjA4tx9Xb5JHhTbbyBfjSl2huA/6YQC6WRWID7bpXUSAFEnW32ghX/m7h
-	a06cNALJheoP7l195kGKYwH2r5kGd2BYpLmwFpIT7fp4tHUhB6xDIvRcogyl3Dc5b9GX
-	sqRHTu2t8MEXzRlg7rwovD8W9RXh1JLk+WqDcX9vBlj5V1lsiwQPz6n6u/mF/aB/AGJZ
-	fnmluKoK6Yh+dhGirTxvE/rcPZ5bPmTw0LHaCRvVB19bChXc18WJGlNg6ID6sVPo3uEs
-	ElLQ==
-X-Gm-Message-State: APjAAAUqOtHExXbtuah63hdtTikCqz19BLfZwbJ0JlOR8cGo5cq9lNJF
-	rI2Qj43tNSKTFR1zTVaErha7/rRyuigmnB0b65w=
-X-Google-Smtp-Source: APXvYqxL435vgoNlLQ2WuA5lANYVEaFXHQnzVgzEMfMS161XLv6EQ4I1hEiHX2SNC87pO2GKugTBLSLodbwLYoPS3c4=
-X-Received: by 2002:ac8:74d2:: with SMTP id j18mr654398qtr.378.1565968125475; 
-	Fri, 16 Aug 2019 08:08:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190813152835.12578-1-raj.khem@gmail.com>
-	<CA+chaQf6EnDHU=9U6q1a2_p=grcyWoy2epYXP+yaZ--qi0eH4Q@mail.gmail.com>
-In-Reply-To: <CA+chaQf6EnDHU=9U6q1a2_p=grcyWoy2epYXP+yaZ--qi0eH4Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 16 Aug 2019 08:08:18 -0700
-Message-ID: <CAMKF1sqBFvdWb9XxGaUUZpcJh7zrcNkwBRLj7Ga3K35a+Fb2CA@mail.gmail.com>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=nS8SNJKtQsk2FSEJCRKDsLkJeFZP8kf5ZuMC9ZcILS8=;
+	b=Elk6gtPDet3KphHjtZTL27wGovnzpk0ylhWvzvyw/WQ1A3y24ZvZ1KgVeCghj766fZ
+	l6acVBkyxb4+687JxnfAECWGZGDz4n5y1ChRpXxDlXtzM9iJS/erW0TPoeyMmNe3vjo+
+	awHbiljm3E/+YE47Vpng3ukpH8NErP0KVLQwkw3hCzoPNpjXzJY2+YXnf6SVVGkzNB1J
+	vN8t+fr1d7BNTvllonLpvh3jpsRcsS3NSkFTcCntVtTcTqjIBRGMuhncT2XvFMlGrXbx
+	061RLIJMf7P+RnDXsGxoLGfZBzyFWtIo6wuBLDURrzWuSWJzlX+leA560CO60cDiJ4wQ
+	FEPw==
+X-Gm-Message-State: APjAAAUBxSB+PbnrKQ9zM6JfpmXJte+gCmxlUVzbUXqCf0UC1eMnzSM6
+	072l/5/W14D+Ie1qMJremXz6oA==
+X-Google-Smtp-Source: APXvYqwoDEbbW6luOe5SiMaT2E+JWgg1Ip4rvJaz/wFxkjPUNIR/XPnqJ3y12XRGHOwP1NJ2/qslBA==
+X-Received: by 2002:a05:600c:d9:: with SMTP id
+	u25mr8354307wmm.26.1565970890255; 
+	Fri, 16 Aug 2019 08:54:50 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a18sm8124409wrt.18.2019.08.16.08.54.49
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 16 Aug 2019 08:54:49 -0700 (PDT)
+Message-ID: <cad2ebcaf8102857799d0c0a3e921b04348c8515.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
 To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] gcc-runtime: Move content from gcclibdir into libdir
+Date: Fri, 16 Aug 2019 16:54:48 +0100
+In-Reply-To: <CA+chaQdS_QHpe2jmr6Epqc_CBBHTwbtA5beg1rjD4kwMHbhycA@mail.gmail.com>
+References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
+	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
+	<20190815150548.GA1515@jama> <20190816102441.GB1515@jama>
+	<CA+chaQdS_QHpe2jmr6Epqc_CBBHTwbtA5beg1rjD4kwMHbhycA@mail.gmail.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,202 +63,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 15:08:45 -0000
+X-List-Received-Date: Fri, 16 Aug 2019 15:54:49 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 16, 2019 at 5:00 AM Martin Jansa <martin.jansa@gmail.com> wrote=
-:
->
-> Hi,
->
-> I have an app which includes omp.h from gomp, it used to find it without =
-adding any -I for that (with just -fopenmp to enable openmp).
->
-> Now the header file is included in RSS:
-> lib32-recipe-sysroot/usr/lib/arm-oemllib32-linux-gnueabi/9.2.0/include/om=
-p.h
-> but no longer found in default search dirs.
->
-> Is this expected or should gcc be adjusted to search for it automatically=
-?
->
+On Fri, 2019-08-16 at 17:00 +0200, Martin Jansa wrote:
+> > Will try to bump BB_NUMBER_THREADS from 8 to 72.
+> 
+> I've tried to remove icecc.bbclass inherit (because it does things
+> while parsing and RP probably doesn't have it inherited), but that
+> didn't save much time.
+> 
+> All 3 tests were with bitbake
+> 18d4a31fdcec1f0e5d2199d6142f0ce833fca1a7
+> 94m19.081s  8 BB_NUMBER_THREADS and icecc
+> 82m59.574s  8 BB_NUMBER_THREADS no icecc
+> 68m3.556s    72 BB_NUMBER_THREADS no icecc
+> 
+> Still don't know how to get to sub 10min world runs RP was seeing,
+> but at least it's as slow as it was before runqeueu changes (or even
+> a bit faster in lastest master).
 
-It should have adjusted automatically but these headers are searhed
-relative to its own install and not sysroot reelative
-so it might have to be addressed. Does it work with normal (
-non-multilib ) case ?
+Just thinking out loud, other things which can influence timings:
 
-> Looking at the default search paths I see:
->
-> ignoring nonexistent directory "BUILD/work/machine-oemllib32-linux-gnueab=
-i/lib32-component/2.0.0-76-r7/recipe-sysroot-native/usr/bin/arm-oemllib32-l=
-inux-gnueabi/../../lib/arm-oemllib32-linux-gnueabi/gcc/arm-oemllib32-linux-=
-gnueabi/9.2.0/../../../../../arm-oemllib32-linux-gnueabi/include"
-> ignoring nonexistent directory "/not/exist/usr/include/c++/9.2.0"
-> ignoring nonexistent directory "/not/exist/usr/include/c++/9.2.0/arm-oeml=
-lib32-linux-gnueabi"
-> ignoring nonexistent directory "/not/exist/usr/include/c++/9.2.0/backward=
-"
-> ignoring duplicate directory "BUILD/work/machine-oemllib32-linux-gnueabi/=
-lib32-component/2.0.0-76-r7/recipe-sysroot-native/usr/bin/arm-oemllib32-lin=
-ux-gnueabi/../../lib/arm-oemllib32-linux-gnueabi/gcc/../../../lib/arm-oemll=
-ib32-linux-gnueabi/gcc/arm-oemllib32-linux-gnueabi/9.2.0/include"
-> ignoring nonexistent directory "/not/exist/usr/lib/gcc/arm-oemllib32-linu=
-x-gnueabi/9.2.0/include"
-> ignoring nonexistent directory "/not/exist/usr/local/include"
-> ignoring duplicate directory "BUILD/work/machine-oemllib32-linux-gnueabi/=
-lib32-component/2.0.0-76-r7/recipe-sysroot-native/usr/bin/arm-oemllib32-lin=
-ux-gnueabi/../../lib/arm-oemllib32-linux-gnueabi/gcc/../../../lib/arm-oemll=
-ib32-linux-gnueabi/gcc/arm-oemllib32-linux-gnueabi/9.2.0/include-fixed"
-> ignoring nonexistent directory "BUILD/work/machine-oemllib32-linux-gnueab=
-i/lib32-component/2.0.0-76-r7/recipe-sysroot-native/usr/bin/arm-oemllib32-l=
-inux-gnueabi/../../lib/arm-oemllib32-linux-gnueabi/gcc/../../../lib/arm-oem=
-llib32-linux-gnueabi/gcc/arm-oemllib32-linux-gnueabi/9.2.0/../../../../../a=
-rm-oemllib32-linux-gnueabi/include"
-> ignoring nonexistent directory "/not/exist/usr/include"
-> #include "..." search starts here:
-> #include <...> search starts here:
->  BUILD/work/machine-oemllib32-linux-gnueabi/lib32-component/2.0.0-76-r7/r=
-ecipe-sysroot-native/usr/bin/arm-oemllib32-linux-gnueabi/../../lib/arm-oeml=
-lib32-linux-gnueabi/gcc/arm-oemllib32-linux-gnueabi/9.2.0/include
->  BUILD/work/machine-oemllib32-linux-gnueabi/lib32-component/2.0.0-76-r7/r=
-ecipe-sysroot-native/usr/bin/arm-oemllib32-linux-gnueabi/../../lib/arm-oeml=
-lib32-linux-gnueabi/gcc/arm-oemllib32-linux-gnueabi/9.2.0/include-fixed
-> End of search list.
->
-> On Tue, Aug 13, 2019 at 5:29 PM Khem Raj <raj.khem@gmail.com> wrote:
->>
->> OE does not use the traditional /usr/lib/gcc prefix to store gcc-runtime
->> it basically is moved into libdir, however some newer files were
->> installed by newer versions of gcc especially libgomp ( omp.h openacc.h =
-)
->> into gcclibdir, so we have content in both directories, this confuses
->> other tools which are trying to guess the gcc installation and its
->> runtime location, since now we have two directories, the tools either
->> choose one or other and we get inconsistent behavior, e.g. clang for
->> aarch64 uses /usr/lib but same clang for riscv64 chose /usr/lib/gcc
->>
->> This change ensures that OE ends up with single valid location for gcc
->> runtime files
->>
->> Move more common bits into common inc file
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> v2: Divert packaging to use new path in whole recipe
->>
->>  meta/recipes-devtools/gcc/gcc-runtime.inc    | 18 +++++++++++++++---
->>  meta/recipes-devtools/gcc/gcc-runtime_8.3.bb | 10 ----------
->>  meta/recipes-devtools/gcc/gcc-runtime_9.1.bb | 10 ----------
->>  3 files changed, 15 insertions(+), 23 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-de=
-vtools/gcc/gcc-runtime.inc
->> index a5c2600d7f..22c1d78dd1 100644
->> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
->> @@ -17,6 +17,12 @@ EXTRA_OECONF_PATHS =3D "\
->>  EXTRA_OECONF_append_linuxstdbase =3D " --enable-clocale=3Dgnu"
->>  EXTRA_OECONF_append =3D " --cache-file=3D${B}/config.cache"
->>
->> +# Disable ifuncs for libatomic on arm conflicts -march/-mcpu
->> +EXTRA_OECONF_append_arm =3D " libat_cv_have_ifunc=3Dno "
->> +
->> +# Building with thumb enabled on armv6t fails
->> +ARM_INSTRUCTION_SET_armv6 =3D "arm"
->> +
->>  RUNTIMELIBITM =3D "libitm"
->>  RUNTIMELIBITM_arc =3D ""
->>  RUNTIMELIBITM_mipsarch =3D ""
->> @@ -77,6 +83,11 @@ do_install () {
->>                 cd ${B}/${TARGET_SYS}/$d/
->>                 oe_runmake 'DESTDIR=3D${D}' MULTIBUILDTOP=3D${B}/${TARGE=
-T_SYS}/$d/ install
->>         done
->> +       if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include ]; then
->> +               install -d ${D}${libdir}/${TARGET_SYS}/${BINV}/include
->> +               mv ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D=
-}${libdir}/${TARGET_SYS}/${BINV}/include
->> +               rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${=
-TARGET_SYS}/${BINV}/include
->> +       fi
->>         rm -rf ${D}${infodir}/libgomp.info ${D}${infodir}/dir
->>         rm -rf ${D}${infodir}/libitm.info ${D}${infodir}/dir
->>         rm -rf ${D}${infodir}/libquadmath.info ${D}${infodir}/dir
->> @@ -205,7 +216,7 @@ FILES_libssp-dev =3D "\
->>      ${libdir}/libssp*.so \
->>      ${libdir}/libssp*_nonshared.a \
->>      ${libdir}/libssp*.la \
->> -    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/ssp \
->> +    ${libdir}/${TARGET_SYS}/${BINV}/include/ssp \
->>  "
->>  SUMMARY_libssp-dev =3D "GNU stack smashing protection library - develop=
-ment files"
->>  FILES_libssp-staticdev =3D "${libdir}/libssp*.a"
->> @@ -214,7 +225,7 @@ SUMMARY_libssp-staticdev =3D "GNU stack smashing pro=
-tection library - static devel
->>  FILES_libquadmath =3D "${libdir}/libquadmath*.so.*"
->>  SUMMARY_libquadmath =3D "GNU quad-precision math library"
->>  FILES_libquadmath-dev =3D "\
->> -    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/quadmath* \
->> +    ${libdir}/${TARGET_SYS}/${BINV}/include/quadmath* \
->>      ${libdir}/libquadmath*.so \
->>      ${libdir}/libquadmath.la \
->>  "
->> @@ -239,7 +250,8 @@ FILES_libgomp-dev =3D "\
->>      ${libdir}/libgomp*${SOLIBSDEV} \
->>      ${libdir}/libgomp*.la \
->>      ${libdir}/libgomp.spec \
->> -    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
->> +    ${libdir}/${TARGET_SYS}/${BINV}/include/omp.h \
->> +    ${libdir}/${TARGET_SYS}/${BINV}/include/openacc.h \
->>  "
->>  SUMMARY_libgomp-dev =3D "GNU OpenMP parallel programming library - deve=
-lopment files"
->>  FILES_libgomp-staticdev =3D "${libdir}/libgomp*.a"
->> diff --git a/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb b/meta/recipes=
--devtools/gcc/gcc-runtime_8.3.bb
->> index a1c7a76d0b..dd430b57eb 100644
->> --- a/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb
->> +++ b/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb
->> @@ -1,12 +1,2 @@
->>  require recipes-devtools/gcc/gcc-${PV}.inc
->>  require gcc-runtime.inc
->> -
->> -# Disable ifuncs for libatomic on arm conflicts -march/-mcpu
->> -EXTRA_OECONF_append_arm =3D " libat_cv_have_ifunc=3Dno "
->> -
->> -FILES_libgomp-dev +=3D "\
->> -    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/openacc.h \
->> -"
->> -
->> -# Building with thumb enabled on armv6t fails
->> -ARM_INSTRUCTION_SET_armv6 =3D "arm"
->> diff --git a/meta/recipes-devtools/gcc/gcc-runtime_9.1.bb b/meta/recipes=
--devtools/gcc/gcc-runtime_9.1.bb
->> index a1c7a76d0b..dd430b57eb 100644
->> --- a/meta/recipes-devtools/gcc/gcc-runtime_9.1.bb
->> +++ b/meta/recipes-devtools/gcc/gcc-runtime_9.1.bb
->> @@ -1,12 +1,2 @@
->>  require recipes-devtools/gcc/gcc-${PV}.inc
->>  require gcc-runtime.inc
->> -
->> -# Disable ifuncs for libatomic on arm conflicts -march/-mcpu
->> -EXTRA_OECONF_append_arm =3D " libat_cv_have_ifunc=3Dno "
->> -
->> -FILES_libgomp-dev +=3D "\
->> -    ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/openacc.h \
->> -"
->> -
->> -# Building with thumb enabled on armv6t fails
->> -ARM_INSTRUCTION_SET_armv6 =3D "arm"
->> --
->> 2.22.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Is SSTATE_DIR on NFS or local disk?
+Are sstate mirrors configured?
+Is there an existing build or not, if so, how much is valid?
+Underlying filesystem of the build?
+
+Your build seems especially slow at executing through the tasks which
+is effectively a test on how fast the system can fork() and return in
+some ways. It would be interesting to block dry-run on the server side,
+skip the fork and see how the numbers compare.
+
+My build manages some parts of the tasklist faster than others, perhaps
+because there are more "free" tasks to execute at some points in the
+task graph than others.
+
+Also, I have some patches which improve performance a bit which I'm
+still testing.
+
+Cheers,
+
+Richard
+
+
 
