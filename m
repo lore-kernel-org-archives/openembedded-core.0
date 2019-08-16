@@ -1,28 +1,26 @@
 Return-Path: <jwessel@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FB497F37F
+	by mail.openembedded.org (Postfix) with ESMTP id 4EB807F2D5
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Aug 2019 21:06:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7GL5isv024670
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7GL5isw024670
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Aug 2019 14:06:20 -0700
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
 	Fri, 16 Aug 2019 14:06:07 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 88C84AA34AA;
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 81D77AA3BFE;
 	Fri, 16 Aug 2019 14:06:07 -0700 (PDT)
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Aug 2019 14:06:05 -0700
-Message-ID: <20190816210605.62377-2-jason.wessel@windriver.com>
+Date: Fri, 16 Aug 2019 14:06:04 -0700
+Message-ID: <20190816210605.62377-1-jason.wessel@windriver.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190816210605.62377-1-jason.wessel@windriver.com>
-References: <20190816210605.62377-1-jason.wessel@windriver.com>
 MIME-Version: 1.0
-Subject: [RFC PATCH 2/2] libc-package.bbclass: Split locale hard link processing into two parts
+Subject: [RFC PATCH 1/2] cross-localedef-native: Add hardlink resolver from util-linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,71 +37,1422 @@ X-List-Received-Date: Fri, 16 Aug 2019 21:06:30 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-The locale-processing in cross-localedef was proven to be unsafe to
-run in parallel due to the way it tried to make hard links to files
-that could disappear before the link operation was completed.
+The hard link resolver that is built into localedef cannot be run in
+parallel.  It will search sibling directories (which are be processed
+in parallel) and perform a creation of a .tmp file and remove the
+original and move the .tmp file in.  The problem is that if a probe
+occurs a hard link can be requested to the file that is being removed.
+This will lead to a stray copy or potentially, on a loaded system
+cause race condition which pseudo cannot deal with, where it is left
+with a hard link request to a file that no longer exists.  In this
+situation psuedo will inherit the permissions of what ever the target
+inode had to offer.
 
-To avoid corruption of the pseudo database, and create a
-deterministically generated link tree, the operation of the locale
-generation and the hard link resolution have been split into two
-separate parts.  A side effect of this change is that the do_package()
-rule for glibc-locale will be slightly smaller because some of the
-hard links were missed in the past, particularly if you had a lot of
-cpus free to perform the work.
+In short, there are two problems:
 
-Before the patch:
-% du -sk locale-tree
-312524  locale-tree
+  1) You will be left with stray copies when using the hard link
+     resolution that is built in while running in parallel with
+     localedef.
 
-With the patch:
-% du -sk locale-tree
-290772 locale-tree
+  2) When running under pseudo the possibility exists for uid/gid
+     leakage when the source file is removed before the hard link can
+     be completed.
 
-A number of comparisons were performed such as diffing the output,
-cross checking the link references using tar's listing output, and
-comparing against the results with out a parallel build to ensure the
-locale-tree is correct in its final form.
+The solution is to call localedef with --no-hard-links and separately
+process the hardlinks at a later point.  To do this requires the
+inclusion of the hardlink utility found in modern versions of
+util-linux.  Most host systems do not have this, so it will be
+included with the cross-localedef binary.
+
+There are two patches here.  The first imports the raw version of
+hardlink.c and a couple of header files directly from util-linux. The
+second patch applies the fix-ups to make it compile, along with a
+change to recipe to package the new binary.
 
 [YOCTO #11299]
 [YOCTO #12434]
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/libc-package.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ .../glibc/cross-localedef-native_2.30.bb      |    3 +
+ .../glibc/add-cross-localedef-hardlink.patch  | 1115 +++++++++++++++++
+ ...le-separate-from-util-linux-hardlink.patch |  226 ++++
+ 3 files changed, 1344 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/add-cross-localedef-hardlink.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/allow-compile-separate-from-util-linux-hardlink.patch
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index 8859dad566..a66e540884 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -82,6 +82,9 @@ do_collect_bins_from_locale_tree() {
- 	parent=$(dirname ${localedir})
- 	mkdir -p ${PKGD}/$parent
- 	tar -cf - -C $treedir/$parent -p $(basename ${localedir}) | tar -xf - -C ${PKGD}$parent
-+
-+	# Finalize tree by chaning all duplicate files into hard links
-+	cross-localedef-hardlink -c -v ${WORKDIR}/locale-tree
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.30.bb b/meta/recipes-core/glibc/cross-localedef-native_2.30.bb
+index e4923c73d5..29cd43e89a 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.30.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.30.bb
+@@ -30,6 +30,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
+            file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+            file://0024-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
++           file://add-cross-localedef-hardlink.patch \
++           file://allow-compile-separate-from-util-linux-hardlink.patch \
+ "
+ # Makes for a rather long rev (22 characters), but...
+ #
+@@ -43,4 +45,5 @@ CFLAGS += "-fgnu89-inline -std=gnu99 -DIS_IN\(x\)='0'"
+ do_install() {
+ 	install -d ${D}${bindir}
+ 	install -m 0755 ${B}/localedef ${D}${bindir}/cross-localedef
++	install -m 0755 ${B}/cross-localedef-hardlink ${D}${bindir}/cross-localedef-hardlink
  }
- 
- inherit qemu
-@@ -265,7 +268,7 @@ python package_do_split_gconvs () {
-                 bb.error("locale_arch_options not found for target_arch=" + target_arch)
-                 bb.fatal("unknown arch:" + target_arch + " for locale_arch_options")
- 
--            localedef_opts += " --force  --no-archive --prefix=%s \
-+            localedef_opts += " --force --no-hard-links --no-archive --prefix=%s \
-                 --inputfile=%s/%s/i18n/locales/%s --charmap=%s %s/%s" \
-                 % (treedir, treedir, datadir, locale, encoding, outputpath, name)
- 
-@@ -273,7 +276,7 @@ python package_do_split_gconvs () {
-                 (path, i18npath, gconvpath, localedef_opts)
-         else: # earlier slower qemu way 
-             qemu = qemu_target_binary(d) 
--            localedef_opts = "--force --no-archive --prefix=%s \
-+            localedef_opts = "--force --no-hard-links --no-archive --prefix=%s \
-                 --inputfile=%s/i18n/locales/%s --charmap=%s %s" \
-                 % (treedir, datadir, locale, encoding, name)
- 
+diff --git a/meta/recipes-core/glibc/glibc/add-cross-localedef-hardlink.patch b/meta/recipes-core/glibc/glibc/add-cross-localedef-hardlink.patch
+new file mode 100644
+index 0000000000..8471121949
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/add-cross-localedef-hardlink.patch
+@@ -0,0 +1,1115 @@
++---
++ locale/programs/c.h                        |  407 ++++++++++++++++++++++
++ locale/programs/cross-localedef-hardlink.c |  528 +++++++++++++++++++++++++++++
++ locale/programs/xalloc.h                   |  129 +++++++
++ localedef/Makefile.in                      |    8 
++ 4 files changed, 1071 insertions(+), 1 deletion(-)
++
++--- /dev/null
+++++ b/locale/programs/cross-localedef-hardlink.c
++@@ -0,0 +1,528 @@
+++/*
+++ * hardlink - consolidate duplicate files via hardlinks
+++ *
+++ * Copyright (C) 2018 Red Hat, Inc. All rights reserved.
+++ * Written by Jakub Jelinek <jakub@redhat.com>
+++ *
+++ * Copyright (C) 2019 Karel Zak <kzak@redhat.com>
+++ *
+++ * This program is free software; you can redistribute it and/or modify
+++ * it under the terms of the GNU General Public License as published by
+++ * the Free Software Foundation; either version 2 of the License, or
+++ * (at your option) any later version.
+++ *
+++ * This program is distributed in the hope that it would be useful,
+++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ * GNU General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU General Public License along
+++ * with this program; if not, write to the Free Software Foundation, Inc.,
+++ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+++ */
+++#include <sys/types.h>
+++#include <stdlib.h>
+++#include <getopt.h>
+++#include <stdio.h>
+++#include <unistd.h>
+++#include <sys/stat.h>
+++#include <sys/mman.h>
+++#include <string.h>
+++#include <dirent.h>
+++#include <fcntl.h>
+++#include <errno.h>
+++#ifdef HAVE_PCRE
+++# define PCRE2_CODE_UNIT_WIDTH 8
+++# include <pcre2.h>
+++#endif
+++
+++#include "c.h"
+++#include "xalloc.h"
+++#include "nls.h"
+++#include "closestream.h"
+++
+++#define NHASH   (1<<17)  /* Must be a power of 2! */
+++#define NBUF    64
+++
+++struct hardlink_file;
+++
+++struct hardlink_hash {
+++	struct hardlink_hash *next;
+++	struct hardlink_file *chain;
+++	off_t size;
+++	time_t mtime;
+++};
+++
+++struct hardlink_dir {
+++	struct hardlink_dir *next;
+++	char name[];
+++};
+++
+++struct hardlink_file {
+++	struct hardlink_file *next;
+++	ino_t ino;
+++	dev_t dev;
+++	unsigned int cksum;
+++	char name[];
+++};
+++
+++struct hardlink_dynstr {
+++	char *buf;
+++	size_t alloc;
+++};
+++
+++struct hardlink_ctl {
+++	struct hardlink_dir *dirs;
+++	struct hardlink_hash *hps[NHASH];
+++	char iobuf1[BUFSIZ];
+++	char iobuf2[BUFSIZ];
+++	/* summary counters */
+++	unsigned long long ndirs;
+++	unsigned long long nobjects;
+++	unsigned long long nregfiles;
+++	unsigned long long ncomp;
+++	unsigned long long nlinks;
+++	unsigned long long nsaved;
+++	/* current device */
+++	dev_t dev;
+++	/* flags */
+++	unsigned int verbose;
+++	unsigned int
+++		no_link:1,
+++		content_only:1,
+++		force:1;
+++};
+++/* ctl is in global scope due use in atexit() */
+++struct hardlink_ctl global_ctl;
+++
+++__attribute__ ((always_inline))
+++static inline unsigned int hash(off_t size, time_t mtime)
+++{
+++	return (size ^ mtime) & (NHASH - 1);
+++}
+++
+++__attribute__ ((always_inline))
+++static inline int stcmp(struct stat *st1, struct stat *st2, int content_scope)
+++{
+++	if (content_scope)
+++		return st1->st_size != st2->st_size;
+++
+++	return st1->st_mode != st2->st_mode
+++		|| st1->st_uid != st2->st_uid
+++		|| st1->st_gid != st2->st_gid
+++		|| st1->st_size != st2->st_size
+++		|| st1->st_mtime != st2->st_mtime;
+++}
+++
+++static void print_summary(void)
+++{
+++	struct hardlink_ctl const *const ctl = &global_ctl;
+++
+++	if (!ctl->verbose)
+++		return;
+++
+++	if (ctl->verbose > 1 && ctl->nlinks)
+++		fputc('\n', stdout);
+++
+++	printf(_("Directories:   %9lld\n"), ctl->ndirs);
+++	printf(_("Objects:       %9lld\n"), ctl->nobjects);
+++	printf(_("Regular files: %9lld\n"), ctl->nregfiles);
+++	printf(_("Comparisons:   %9lld\n"), ctl->ncomp);
+++	printf(  "%s%9lld\n", (ctl->no_link ?
+++	       _("Would link:    ") :
+++	       _("Linked:        ")), ctl->nlinks);
+++	printf(  "%s %9lld\n", (ctl->no_link ?
+++	       _("Would save:   ") :
+++	       _("Saved:        ")), ctl->nsaved);
+++}
+++
+++static void __attribute__((__noreturn__)) usage(void)
+++{
+++	fputs(USAGE_HEADER, stdout);
+++	printf(_(" %s [options] directory...\n"), program_invocation_short_name);
+++
+++	fputs(USAGE_SEPARATOR, stdout);
+++	puts(_("Consolidate duplicate files using hardlinks."));
+++
+++	fputs(USAGE_OPTIONS, stdout);
+++	puts(_(" -c, --content          compare only contents, ignore permission, etc."));
+++	puts(_(" -n, --dry-run          don't actually link anything"));
+++	puts(_(" -v, --verbose          print summary after hardlinking"));
+++	puts(_(" -vv                    print every hardlinked file and summary"));
+++	puts(_(" -f, --force            force hardlinking across filesystems"));
+++	puts(_(" -x, --exclude <regex>  exclude files matching pattern"));
+++
+++	fputs(USAGE_SEPARATOR, stdout);
+++	printf(USAGE_HELP_OPTIONS(16)); /* char offset to align option descriptions */
+++	printf(USAGE_MAN_TAIL("hardlink(1)"));
+++	exit(EXIT_SUCCESS);
+++}
+++
+++__attribute__ ((always_inline))
+++static inline size_t add2(size_t a, size_t b)
+++{
+++	size_t sum = a + b;
+++
+++	if (sum < a)
+++		errx(EXIT_FAILURE, _("integer overflow"));
+++	return sum;
+++}
+++
+++__attribute__ ((always_inline))
+++static inline size_t add3(size_t a, size_t b, size_t c)
+++{
+++	return add2(add2(a, b), c);
+++}
+++
+++static void growstr(struct hardlink_dynstr *str, size_t newlen)
+++{
+++	if (newlen < str->alloc)
+++		return;
+++	str->buf = xrealloc(str->buf, str->alloc = add2(newlen, 1));
+++}
+++
+++static void process_path(struct hardlink_ctl *ctl, const char *name)
+++{
+++	struct stat st, st2, st3;
+++	const size_t namelen = strlen(name);
+++
+++	ctl->nobjects++;
+++	if (lstat(name, &st))
+++		return;
+++
+++	if (st.st_dev != ctl->dev && !ctl->force) {
+++		if (ctl->dev)
+++			errx(EXIT_FAILURE,
+++			     _("%s is on different filesystem than the rest "
+++			       "(use -f option to override)."), name);
+++		ctl->dev = st.st_dev;
+++	}
+++	if (S_ISDIR(st.st_mode)) {
+++		struct hardlink_dir *dp = xmalloc(add3(sizeof(*dp), namelen, 1));
+++		memcpy(dp->name, name, namelen + 1);
+++		dp->next = ctl->dirs;
+++		ctl->dirs = dp;
+++
+++	} else if (S_ISREG(st.st_mode)) {
+++		int fd, i;
+++		struct hardlink_file *fp, *fp2;
+++		struct hardlink_hash *hp;
+++		const char *n1, *n2;
+++		unsigned int buf[NBUF];
+++		int cksumsize = sizeof(buf);
+++		unsigned int cksum;
+++		time_t mtime = ctl->content_only ? 0 : st.st_mtime;
+++		unsigned int hsh = hash(st.st_size, mtime);
+++		off_t fsize;
+++
+++		ctl->nregfiles++;
+++		if (ctl->verbose > 1)
+++			printf("%s\n", name);
+++
+++		fd = open(name, O_RDONLY);
+++		if (fd < 0)
+++			return;
+++
+++		if ((size_t)st.st_size < sizeof(buf)) {
+++			cksumsize = st.st_size;
+++			memset(((char *)buf) + cksumsize, 0,
+++			       (sizeof(buf) - cksumsize) % sizeof(buf[0]));
+++		}
+++		if (read(fd, buf, cksumsize) != cksumsize) {
+++			close(fd);
+++			return;
+++		}
+++		cksumsize = (cksumsize + sizeof(buf[0]) - 1) / sizeof(buf[0]);
+++		for (i = 0, cksum = 0; i < cksumsize; i++) {
+++			if (cksum + buf[i] < cksum)
+++				cksum += buf[i] + 1;
+++			else
+++				cksum += buf[i];
+++		}
+++		for (hp = ctl->hps[hsh]; hp; hp = hp->next) {
+++			if (hp->size == st.st_size && hp->mtime == mtime)
+++				break;
+++		}
+++		if (!hp) {
+++			hp = xmalloc(sizeof(*hp));
+++			hp->size = st.st_size;
+++			hp->mtime = mtime;
+++			hp->chain = NULL;
+++			hp->next = ctl->hps[hsh];
+++			ctl->hps[hsh] = hp;
+++		}
+++		for (fp = hp->chain; fp; fp = fp->next) {
+++			if (fp->cksum == cksum)
+++				break;
+++		}
+++		for (fp2 = fp; fp2 && fp2->cksum == cksum; fp2 = fp2->next) {
+++			if (fp2->ino == st.st_ino && fp2->dev == st.st_dev) {
+++				close(fd);
+++				return;
+++			}
+++		}
+++		for (fp2 = fp; fp2 && fp2->cksum == cksum; fp2 = fp2->next) {
+++
+++			if (!lstat(fp2->name, &st2) && S_ISREG(st2.st_mode) &&
+++			    !stcmp(&st, &st2, ctl->content_only) &&
+++			    st2.st_ino != st.st_ino &&
+++			    st2.st_dev == st.st_dev) {
+++
+++				int fd2 = open(fp2->name, O_RDONLY);
+++				if (fd2 < 0)
+++					continue;
+++
+++				if (fstat(fd2, &st2) || !S_ISREG(st2.st_mode)
+++				    || st2.st_size == 0) {
+++					close(fd2);
+++					continue;
+++				}
+++				ctl->ncomp++;
+++				lseek(fd, 0, SEEK_SET);
+++
+++				for (fsize = st.st_size; fsize > 0;
+++				     fsize -= (off_t)sizeof(ctl->iobuf1)) {
+++					ssize_t xsz;
+++					ssize_t rsize = fsize > (ssize_t) sizeof(ctl->iobuf1) ?
+++							(ssize_t) sizeof(ctl->iobuf1) : fsize;
+++
+++					if ((xsz = read(fd, ctl->iobuf1, rsize)) != rsize)
+++						warn(_("cannot read %s"), name);
+++					else if ((xsz = read(fd2, ctl->iobuf2, rsize)) != rsize)
+++						warn(_("cannot read %s"), fp2->name);
+++
+++					if (xsz != rsize) {
+++						close(fd);
+++						close(fd2);
+++						return;
+++					}
+++					if (memcmp(ctl->iobuf1, ctl->iobuf2, rsize))
+++						break;
+++				}
+++				close(fd2);
+++				if (fsize > 0)
+++					continue;
+++				if (lstat(name, &st3)) {
+++					warn(_("cannot stat %s"), name);
+++					close(fd);
+++					return;
+++				}
+++				st3.st_atime = st.st_atime;
+++				if (stcmp(&st, &st3, 0)) {
+++					warnx(_("file %s changed underneath us"), name);
+++					close(fd);
+++					return;
+++				}
+++				n1 = fp2->name;
+++				n2 = name;
+++
+++				if (!ctl->no_link) {
+++					const char *suffix =
+++					    ".$$$___cleanit___$$$";
+++					const size_t suffixlen = strlen(suffix);
+++					size_t n2len = strlen(n2);
+++					struct hardlink_dynstr nam2 = { NULL, 0 };
+++
+++					growstr(&nam2, add2(n2len, suffixlen));
+++					memcpy(nam2.buf, n2, n2len);
+++					memcpy(&nam2.buf[n2len], suffix,
+++					       suffixlen + 1);
+++					/* First create a temporary link to n1 under a new name */
+++					if (link(n1, nam2.buf)) {
+++						warn(_("failed to hardlink %s to %s (create temporary link as %s failed)"),
+++							n1, n2, nam2.buf);
+++						free(nam2.buf);
+++						continue;
+++					}
+++					/* Then rename into place over the existing n2 */
+++					if (rename(nam2.buf, n2)) {
+++						warn(_("failed to hardlink %s to %s (rename temporary link to %s failed)"),
+++							n1, n2, n2);
+++						/* Something went wrong, try to remove the now redundant temporary link */
+++						if (unlink(nam2.buf))
+++							warn(_("failed to remove temporary link %s"), nam2.buf);
+++						free(nam2.buf);
+++						continue;
+++					}
+++					free(nam2.buf);
+++				}
+++				ctl->nlinks++;
+++				if (st3.st_nlink > 1) {
+++					/* We actually did not save anything this time, since the link second argument
+++					   had some other links as well.  */
+++					if (ctl->verbose > 1)
+++						printf(_(" %s %s to %s\n"),
+++							(ctl->no_link ? _("Would link") : _("Linked")),
+++							n1, n2);
+++				} else {
+++					ctl->nsaved += ((st.st_size + 4095) / 4096) * 4096;
+++					if (ctl->verbose > 1)
+++						printf(_(" %s %s to %s, %s %jd\n"),
+++							(ctl->no_link ? _("Would link") : _("Linked")),
+++							n1, n2,
+++							(ctl->no_link ? _("would save") : _("saved")),
+++							(intmax_t)st.st_size);
+++				}
+++				close(fd);
+++				return;
+++			}
+++		}
+++		fp2 = xmalloc(add3(sizeof(*fp2), namelen, 1));
+++		close(fd);
+++		fp2->ino = st.st_ino;
+++		fp2->dev = st.st_dev;
+++		fp2->cksum = cksum;
+++		memcpy(fp2->name, name, namelen + 1);
+++
+++		if (fp) {
+++			fp2->next = fp->next;
+++			fp->next = fp2;
+++		} else {
+++			fp2->next = hp->chain;
+++			hp->chain = fp2;
+++		}
+++		return;
+++	}
+++}
+++
+++int main(int argc, char **argv)
+++{
+++	int ch;
+++	int i;
+++#ifdef HAVE_PCRE
+++	int errornumber;
+++	PCRE2_SIZE erroroffset;
+++	pcre2_code *re = NULL;
+++	PCRE2_SPTR exclude_pattern = NULL;
+++	pcre2_match_data *match_data = NULL;
+++#endif
+++	struct hardlink_dynstr nam1 = { NULL, 0 };
+++	struct hardlink_ctl *ctl = &global_ctl;
+++
+++	static const struct option longopts[] = {
+++		{ "content",    no_argument, NULL, 'c' },
+++		{ "dry-run",    no_argument, NULL, 'n' },
+++		{ "exclude",    required_argument, NULL, 'x' },
+++		{ "force",      no_argument, NULL, 'f' },
+++		{ "help",       no_argument, NULL, 'h' },
+++		{ "verbose",    no_argument, NULL, 'v' },
+++		{ "version",    no_argument, NULL, 'V' },
+++		{ NULL, 0, NULL, 0 },
+++	};
+++
+++	setlocale(LC_ALL, "");
+++	bindtextdomain(PACKAGE, LOCALEDIR);
+++	textdomain(PACKAGE);
+++	close_stdout_atexit();
+++
+++	while ((ch = getopt_long(argc, argv, "cnvfx:Vh", longopts, NULL)) != -1) {
+++		switch (ch) {
+++		case 'n':
+++			ctl->no_link = 1;
+++			break;
+++		case 'v':
+++			ctl->verbose++;
+++			break;
+++		case 'c':
+++			ctl->content_only = 1;
+++			break;
+++		case 'f':
+++			ctl->force = 1;
+++			break;
+++		case 'x':
+++#ifdef HAVE_PCRE
+++			exclude_pattern = (PCRE2_SPTR) optarg;
+++#else
+++			errx(EXIT_FAILURE,
+++			     _("option --exclude not supported (built without pcre2)"));
+++#endif
+++			break;
+++		case 'V':
+++			print_version(EXIT_SUCCESS);
+++		case 'h':
+++			usage();
+++		default:
+++			errtryhelp(EXIT_FAILURE);
+++		}
+++	}
+++
+++	if (optind == argc) {
+++		warnx(_("no directory specified"));
+++		errtryhelp(EXIT_FAILURE);
+++	}
+++
+++#ifdef HAVE_PCRE
+++	if (exclude_pattern) {
+++		re = pcre2_compile(exclude_pattern, /* the pattern */
+++				   PCRE2_ZERO_TERMINATED, /* indicates pattern is zero-terminate */
+++				   0, /* default options */
+++				   &errornumber, &erroroffset, NULL); /* use default compile context */
+++		if (!re) {
+++			PCRE2_UCHAR buffer[256];
+++			pcre2_get_error_message(errornumber, buffer,
+++						sizeof(buffer));
+++			errx(EXIT_FAILURE, _("pattern error at offset %d: %s"),
+++				(int)erroroffset, buffer);
+++		}
+++		match_data = pcre2_match_data_create_from_pattern(re, NULL);
+++	}
+++#endif
+++	atexit(print_summary);
+++
+++	for (i = optind; i < argc; i++)
+++		process_path(ctl, argv[i]);
+++
+++	while (ctl->dirs) {
+++		DIR *dh;
+++		struct dirent *di;
+++		struct hardlink_dir *dp = ctl->dirs;
+++		size_t nam1baselen = strlen(dp->name);
+++
+++		ctl->dirs = dp->next;
+++		growstr(&nam1, add2(nam1baselen, 1));
+++		memcpy(nam1.buf, dp->name, nam1baselen);
+++		free(dp);
+++		nam1.buf[nam1baselen++] = '/';
+++		nam1.buf[nam1baselen] = 0;
+++		dh = opendir(nam1.buf);
+++
+++		if (dh == NULL)
+++			continue;
+++		ctl->ndirs++;
+++
+++		while ((di = readdir(dh)) != NULL) {
+++			if (!di->d_name[0])
+++				continue;
+++			if (di->d_name[0] == '.') {
+++				if (!di->d_name[1] || !strcmp(di->d_name, ".."))
+++					continue;
+++			}
+++#ifdef HAVE_PCRE
+++			if (re && pcre2_match(re, /* compiled regex */
+++					      (PCRE2_SPTR) di->d_name, strlen(di->d_name), 0, /* start at offset 0 */
+++					      0, /* default options */
+++					      match_data, /* block for storing the result */
+++					      NULL) /* use default match context */
+++			    >=0) {
+++				if (ctl->verbose) {
+++					nam1.buf[nam1baselen] = 0;
+++					printf(_("Skipping %s%s\n"), nam1.buf, di->d_name);
+++				}
+++				continue;
+++			}
+++#endif
+++			{
+++				size_t subdirlen;
+++				growstr(&nam1,
+++					add2(nam1baselen, subdirlen =
+++					     strlen(di->d_name)));
+++				memcpy(&nam1.buf[nam1baselen], di->d_name,
+++				       add2(subdirlen, 1));
+++			}
+++			process_path(ctl, nam1.buf);
+++		}
+++		closedir(dh);
+++	}
+++
+++	return 0;
+++}
++--- a/localedef/Makefile.in
+++++ b/localedef/Makefile.in
++@@ -40,6 +40,8 @@ WARNFLAGS	= -Wall -Wno-format
++ FULLCC		= $(CC) $(CPPFLAGS) $(CFLAGS) \
++ 		  $(DEFINES) $(INCLUDES) $(WARNFLAGS)
++ 
+++CROSS_LOCALEDEF_HARDLINK_OBJS = cross-localedef-hardlink.o
+++
++ LOCALEDEF_OBJS	= charmap.o charmap-dir.o ld-address.o ld-collate.o \
++ 		  ld-ctype.o ld-identification.o ld-measurement.o \
++ 		  ld-messages.o ld-monetary.o ld-name.o ld-numeric.o \
++@@ -54,11 +56,14 @@ LOCALEDEF_OBJS	= charmap.o charmap-dir.o
++ 		  asprintf.o getdelim.o localedef_extra.o \
++ 		  obstack_printf.o vasprintf.o
++ 
++-all:		localedef$(EXEEXT)
+++all:		localedef$(EXEEXT) cross-localedef-hardlink$(EXEEXT)
++ 
++ localedef$(EXEEXT): $(LOCALEDEF_OBJS)
++ 		$(CC) -o $@ $(LOCALEDEF_OBJS) $(LIBS)
++ 
+++cross-localedef-hardlink$(EXEEXT): $(CROSS_LOCALEDEF_HARDLINK_OBJS)
+++		$(CC) -o $@ $(CROSS_LOCALEDEF_HARDLINK_OBJS) $(LIBS)
+++
++ clean:
++ 		rm -f locale$(EXEEXT) $(LOCALEDEF_OBJS)
++ 
++@@ -77,6 +82,7 @@ clean:
++ %.o: $(srcdir)/%.c
++ 		$(FULLCC) -c -o $@ $<
++ 
+++cross-localedef-hardlink.o: glibc/locale/programs/cross-localedef-hardlink.c
++ charmap.o: glibc/locale/programs/charmap.c
++ charmap-dir.o: glibc/locale/programs/charmap-dir.c
++ ld-address.o: glibc/locale/programs/ld-address.c
++--- /dev/null
+++++ b/locale/programs/c.h
++@@ -0,0 +1,407 @@
+++/*
+++ * Fundamental C definitions.
+++ */
+++
+++#ifndef UTIL_LINUX_C_H
+++#define UTIL_LINUX_C_H
+++
+++#include <limits.h>
+++#include <stddef.h>
+++#include <stdint.h>
+++#include <stdio.h>
+++#include <unistd.h>
+++#include <stdarg.h>
+++#include <stdlib.h>
+++#include <string.h>
+++#include <errno.h>
+++
+++#include <assert.h>
+++
+++#ifdef HAVE_ERR_H
+++# include <err.h>
+++#endif
+++
+++#ifdef HAVE_SYS_SYSMACROS_H
+++# include <sys/sysmacros.h>     /* for major, minor */
+++#endif
+++
+++#ifndef LOGIN_NAME_MAX
+++# define LOGIN_NAME_MAX 256
+++#endif
+++
+++#ifndef NAME_MAX
+++# define NAME_MAX PATH_MAX
+++#endif
+++
+++/*
+++ * __GNUC_PREREQ is deprecated in favour of __has_attribute() and
+++ * __has_feature(). The __has macros are supported by clang and gcc>=5.
+++ */
+++#ifndef __GNUC_PREREQ
+++# if defined __GNUC__ && defined __GNUC_MINOR__
+++#  define __GNUC_PREREQ(maj, min) \
+++	((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+++# else
+++#  define __GNUC_PREREQ(maj, min) 0
+++# endif
+++#endif
+++
+++#ifdef __GNUC__
+++
+++/* &a[0] degrades to a pointer: a different type from an array */
+++# define __must_be_array(a) \
+++	UL_BUILD_BUG_ON_ZERO(__builtin_types_compatible_p(__typeof__(a), __typeof__(&a[0])))
+++
+++# define ignore_result(x) __extension__ ({ \
+++	__typeof__(x) __dummy __attribute__((__unused__)) = (x); (void) __dummy; \
+++})
+++
+++#else /* !__GNUC__ */
+++# define __must_be_array(a)	0
+++# define __attribute__(_arg_)
+++# define ignore_result(x) ((void) (x))
+++#endif /* !__GNUC__ */
+++
+++/*
+++ * It evaluates to 1 if the attribute/feature is supported by the current
+++ * compilation targed. Fallback for old compilers.
+++ */
+++#ifndef __has_attribute
+++  #define __has_attribute(x) 0
+++#endif
+++
+++#ifndef __has_feature
+++  #define __has_feature(x) 0
+++#endif
+++
+++/*
+++ * Function attributes
+++ */
+++#ifndef __ul_alloc_size
+++# if (__has_attribute(alloc_size) && __has_attribute(warn_unused_result)) || __GNUC_PREREQ (4, 3)
+++#  define __ul_alloc_size(s) __attribute__((alloc_size(s), warn_unused_result))
+++# else
+++#  define __ul_alloc_size(s)
+++# endif
+++#endif
+++
+++#ifndef __ul_calloc_size
+++# if (__has_attribute(alloc_size) && __has_attribute(warn_unused_result)) || __GNUC_PREREQ (4, 3)
+++#  define __ul_calloc_size(n, s) __attribute__((alloc_size(n, s), warn_unused_result))
+++# else
+++#  define __ul_calloc_size(n, s)
+++# endif
+++#endif
+++
+++#if __has_attribute(returns_nonnull) || __GNUC_PREREQ (4, 9)
+++# define __ul_returns_nonnull __attribute__((returns_nonnull))
+++#else
+++# define __ul_returns_nonnull
+++#endif
+++
+++/*
+++ * Force a compilation error if condition is true, but also produce a
+++ * result (of value 0 and type size_t), so the expression can be used
+++ * e.g. in a structure initializer (or wherever else comma expressions
+++ * aren't permitted).
+++ */
+++#define UL_BUILD_BUG_ON_ZERO(e) __extension__ (sizeof(struct { int:-!!(e); }))
+++#define BUILD_BUG_ON_NULL(e) ((void *)sizeof(struct { int:-!!(e); }))
+++
+++#ifndef ARRAY_SIZE
+++# define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+++#endif
+++
+++#ifndef PATH_MAX
+++# define PATH_MAX 4096
+++#endif
+++
+++#ifndef TRUE
+++# define TRUE 1
+++#endif
+++
+++#ifndef FALSE
+++# define FALSE 0
+++#endif
+++
+++#ifndef min
+++# define min(x, y) __extension__ ({		\
+++	__typeof__(x) _min1 = (x);		\
+++	__typeof__(y) _min2 = (y);		\
+++	(void) (&_min1 == &_min2);		\
+++	_min1 < _min2 ? _min1 : _min2; })
+++#endif
+++
+++#ifndef max
+++# define max(x, y) __extension__ ({		\
+++	__typeof__(x) _max1 = (x);		\
+++	__typeof__(y) _max2 = (y);		\
+++	(void) (&_max1 == &_max2);		\
+++	_max1 > _max2 ? _max1 : _max2; })
+++#endif
+++
+++#ifndef cmp_numbers
+++# define cmp_numbers(x, y) __extension__ ({	\
+++	__typeof__(x) _a = (x);			\
+++	__typeof__(y) _b = (y);			\
+++	(void) (&_a == &_b);			\
+++	_a == _b ? 0 : _a > _b ? 1 : -1; })
+++#endif
+++
+++#ifndef offsetof
+++#define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
+++#endif
+++
+++/*
+++ * container_of - cast a member of a structure out to the containing structure
+++ * @ptr:	the pointer to the member.
+++ * @type:	the type of the container struct this is embedded in.
+++ * @member:	the name of the member within the struct.
+++ */
+++#ifndef container_of
+++#define container_of(ptr, type, member) __extension__ ({	\
+++	const __typeof__( ((type *)0)->member ) *__mptr = (ptr); \
+++	(type *)( (char *)__mptr - offsetof(type,member) );})
+++#endif
+++
+++#ifndef HAVE_PROGRAM_INVOCATION_SHORT_NAME
+++# ifdef HAVE___PROGNAME
+++extern char *__progname;
+++#  define program_invocation_short_name __progname
+++# else
+++#  ifdef HAVE_GETEXECNAME
+++#   define program_invocation_short_name \
+++		prog_inv_sh_nm_from_file(getexecname(), 0)
+++#  else
+++#   define program_invocation_short_name \
+++		prog_inv_sh_nm_from_file(__FILE__, 1)
+++#  endif
+++static char prog_inv_sh_nm_buf[256];
+++static inline char *
+++prog_inv_sh_nm_from_file(char *f, char stripext)
+++{
+++	char *t;
+++
+++	if ((t = strrchr(f, '/')) != NULL)
+++		t++;
+++	else
+++		t = f;
+++
+++	strncpy(prog_inv_sh_nm_buf, t, sizeof(prog_inv_sh_nm_buf) - 1);
+++	prog_inv_sh_nm_buf[sizeof(prog_inv_sh_nm_buf) - 1] = '\0';
+++
+++	if (stripext && (t = strrchr(prog_inv_sh_nm_buf, '.')) != NULL)
+++		*t = '\0';
+++
+++	return prog_inv_sh_nm_buf;
+++}
+++# endif
+++#endif
+++
+++
+++#ifndef HAVE_ERR_H
+++static inline void
+++errmsg(char doexit, int excode, char adderr, const char *fmt, ...)
+++{
+++	fprintf(stderr, "%s: ", program_invocation_short_name);
+++	if (fmt != NULL) {
+++		va_list argp;
+++		va_start(argp, fmt);
+++		vfprintf(stderr, fmt, argp);
+++		va_end(argp);
+++		if (adderr)
+++			fprintf(stderr, ": ");
+++	}
+++	if (adderr)
+++		fprintf(stderr, "%m");
+++	fprintf(stderr, "\n");
+++	if (doexit)
+++		exit(excode);
+++}
+++
+++#ifndef HAVE_ERR
+++# define err(E, FMT...) errmsg(1, E, 1, FMT)
+++#endif
+++
+++#ifndef HAVE_ERRX
+++# define errx(E, FMT...) errmsg(1, E, 0, FMT)
+++#endif
+++
+++#ifndef HAVE_WARN
+++# define warn(FMT...) errmsg(0, 0, 1, FMT)
+++#endif
+++
+++#ifndef HAVE_WARNX
+++# define warnx(FMT...) errmsg(0, 0, 0, FMT)
+++#endif
+++#endif /* !HAVE_ERR_H */
+++
+++
+++/* Don't use inline function to avoid '#include "nls.h"' in c.h
+++ */
+++#define errtryhelp(eval) __extension__ ({ \
+++	fprintf(stderr, _("Try '%s --help' for more information.\n"), \
+++			program_invocation_short_name); \
+++	exit(eval); \
+++})
+++
+++/* After failed execvp() */
+++#define EX_EXEC_FAILED		126	/* Program located, but not usable. */
+++#define EX_EXEC_ENOENT		127	/* Could not find program to exec.  */
+++#define errexec(name)	err(errno == ENOENT ? EX_EXEC_ENOENT : EX_EXEC_FAILED, \
+++			_("failed to execute %s"), name)
+++
+++
+++static inline __attribute__((const)) int is_power_of_2(unsigned long num)
+++{
+++	return (num != 0 && ((num & (num - 1)) == 0));
+++}
+++
+++#ifndef HAVE_LOFF_T
+++typedef int64_t loff_t;
+++#endif
+++
+++#if !defined(HAVE_DIRFD) && (!defined(HAVE_DECL_DIRFD) || HAVE_DECL_DIRFD == 0) && defined(HAVE_DIR_DD_FD)
+++#include <sys/types.h>
+++#include <dirent.h>
+++static inline int dirfd(DIR *d)
+++{
+++	return d->dd_fd;
+++}
+++#endif
+++
+++/*
+++ * Fallback defines for old versions of glibc
+++ */
+++#include <fcntl.h>
+++
+++#ifdef O_CLOEXEC
+++#define UL_CLOEXECSTR	"e"
+++#else
+++#define UL_CLOEXECSTR	""
+++#endif
+++
+++#ifndef O_CLOEXEC
+++#define O_CLOEXEC 0
+++#endif
+++
+++#ifdef __FreeBSD_kernel__
+++#ifndef F_DUPFD_CLOEXEC
+++#define F_DUPFD_CLOEXEC	17	/* Like F_DUPFD, but FD_CLOEXEC is set */
+++#endif
+++#endif
+++
+++
+++#ifndef AI_ADDRCONFIG
+++#define AI_ADDRCONFIG 0x0020
+++#endif
+++
+++#ifndef IUTF8
+++#define IUTF8 0040000
+++#endif
+++
+++/*
+++ * MAXHOSTNAMELEN replacement
+++ */
+++static inline size_t get_hostname_max(void)
+++{
+++	long len = sysconf(_SC_HOST_NAME_MAX);
+++
+++	if (0 < len)
+++		return len;
+++
+++#ifdef MAXHOSTNAMELEN
+++	return MAXHOSTNAMELEN;
+++#elif HOST_NAME_MAX
+++	return HOST_NAME_MAX;
+++#endif
+++	return 64;
+++}
+++
+++
+++/*
+++ * Constant strings for usage() functions. For more info see
+++ * Documentation/{howto-usage-function.txt,boilerplate.c}
+++ */
+++#define USAGE_HEADER     ("\nUsage:\n")
+++#define USAGE_OPTIONS    ("\nOptions:\n")
+++#define USAGE_FUNCTIONS  ("\nFunctions:\n")
+++#define USAGE_COMMANDS   ("\nCommands:\n")
+++#define USAGE_COLUMNS    ("\nAvailable output columns:\n")
+++#define USAGE_SEPARATOR    "\n"
+++
+++#define USAGE_OPTSTR_HELP     ("display this help")
+++#define USAGE_OPTSTR_VERSION  ("display version")
+++
+++#define USAGE_HELP_OPTIONS(marg_dsc) \
+++		"%-" #marg_dsc "s%s\n" \
+++		"%-" #marg_dsc "s%s\n" \
+++		, " -h, --help",    USAGE_OPTSTR_HELP \
+++		, " -V, --version", USAGE_OPTSTR_VERSION
+++
+++#define USAGE_MAN_TAIL(_man)   ("\nFor more details see %s.\n"), _man
+++
+++#define UTIL_LINUX_VERSION ("%s from %s\n"), program_invocation_short_name, PACKAGE_STRING
+++
+++#define print_version(eval) __extension__ ({ \
+++		printf(UTIL_LINUX_VERSION); \
+++		exit(eval); \
+++})
+++
+++/*
+++ * scanf modifiers for "strings allocation"
+++ */
+++#ifdef HAVE_SCANF_MS_MODIFIER
+++#define UL_SCNsA	"%ms"
+++#elif defined(HAVE_SCANF_AS_MODIFIER)
+++#define UL_SCNsA	"%as"
+++#endif
+++
+++/*
+++ * seek stuff
+++ */
+++#ifndef SEEK_DATA
+++# define SEEK_DATA	3
+++#endif
+++#ifndef SEEK_HOLE
+++# define SEEK_HOLE	4
+++#endif
+++
+++
+++/*
+++ * Macros to convert #define'itions to strings, for example
+++ * #define XYXXY 42
+++ * printf ("%s=%s\n", stringify(XYXXY), stringify_value(XYXXY));
+++ */
+++#define stringify_value(s) stringify(s)
+++#define stringify(s) #s
+++
+++/*
+++ * UL_ASAN_BLACKLIST is a macro to tell AddressSanitizer (a compile-time
+++ * instrumentation shipped with Clang and GCC) to not instrument the
+++ * annotated function.  Furthermore, it will prevent the compiler from
+++ * inlining the function because inlining currently breaks the blacklisting
+++ * mechanism of AddressSanitizer.
+++ */
+++#if __has_feature(address_sanitizer) && __has_attribute(no_sanitize_memory) && __has_attribute(no_sanitize_address)
+++# define UL_ASAN_BLACKLIST __attribute__((noinline)) __attribute__((no_sanitize_memory)) __attribute__((no_sanitize_address))
+++#else
+++# define UL_ASAN_BLACKLIST	/* nothing */
+++#endif
+++
+++/*
+++ * Note that sysconf(_SC_GETPW_R_SIZE_MAX) returns *initial* suggested size for
+++ * pwd buffer and in some cases it is not large enough. See POSIX and
+++ * getpwnam_r man page for more details.
+++ */
+++#define UL_GETPW_BUFSIZ	(16 * 1024)
+++
+++/*
+++ * Darwin or other BSDs may only have MAP_ANON. To get it on Darwin we must
+++ * define _DARWIN_C_SOURCE before including sys/mman.h. We do this in config.h.
+++ */
+++#if !defined MAP_ANONYMOUS && defined MAP_ANON
+++# define MAP_ANONYMOUS  (MAP_ANON)
+++#endif
+++
+++#endif /* UTIL_LINUX_C_H */
++--- /dev/null
+++++ b/locale/programs/xalloc.h
++@@ -0,0 +1,129 @@
+++/*
+++ * Copyright (C) 2010 Davidlohr Bueso <dave@gnu.org>
+++ *
+++ * This file may be redistributed under the terms of the
+++ * GNU Lesser General Public License.
+++ *
+++ * General memory allocation wrappers for malloc, realloc, calloc and strdup
+++ */
+++
+++#ifndef UTIL_LINUX_XALLOC_H
+++#define UTIL_LINUX_XALLOC_H
+++
+++#include <stdlib.h>
+++#include <string.h>
+++
+++#include "c.h"
+++
+++#ifndef XALLOC_EXIT_CODE
+++# define XALLOC_EXIT_CODE EXIT_FAILURE
+++#endif
+++
+++static inline void __attribute__((__noreturn__))
+++__err_oom(const char *file, unsigned int line)
+++{
+++	err(XALLOC_EXIT_CODE, "%s: %u: cannot allocate memory", file, line);
+++}
+++
+++#define err_oom()	__err_oom(__FILE__, __LINE__)
+++
+++static inline __ul_alloc_size(1) __ul_returns_nonnull
+++void *xmalloc(const size_t size)
+++{
+++        void *ret = malloc(size);
+++
+++        if (!ret && size)
+++                err(XALLOC_EXIT_CODE, "cannot allocate %zu bytes", size);
+++        return ret;
+++}
+++
+++static inline __ul_alloc_size(2) __ul_returns_nonnull
+++void *xrealloc(void *ptr, const size_t size)
+++{
+++        void *ret = realloc(ptr, size);
+++
+++        if (!ret && size)
+++                err(XALLOC_EXIT_CODE, "cannot allocate %zu bytes", size);
+++        return ret;
+++}
+++
+++static inline __ul_calloc_size(1, 2) __ul_returns_nonnull
+++void *xcalloc(const size_t nelems, const size_t size)
+++{
+++        void *ret = calloc(nelems, size);
+++
+++        if (!ret && size && nelems)
+++                err(XALLOC_EXIT_CODE, "cannot allocate %zu bytes", size);
+++        return ret;
+++}
+++
+++static inline char __attribute__((warn_unused_result)) __ul_returns_nonnull
+++*xstrdup(const char *str)
+++{
+++        char *ret;
+++
+++        if (!str)
+++                return NULL;
+++
+++        ret = strdup(str);
+++
+++        if (!ret)
+++                err(XALLOC_EXIT_CODE, "cannot duplicate string");
+++        return ret;
+++}
+++
+++static inline char * __attribute__((warn_unused_result)) __ul_returns_nonnull
+++xstrndup(const char *str, size_t size)
+++{
+++        char *ret;
+++
+++        if (!str)
+++                return NULL;
+++
+++        ret = strndup(str, size);
+++
+++        if (!ret)
+++                err(XALLOC_EXIT_CODE, "cannot duplicate string");
+++        return ret;
+++}
+++
+++
+++static inline int __attribute__ ((__format__(printf, 2, 3)))
+++    xasprintf(char **strp, const char *fmt, ...)
+++{
+++	int ret;
+++	va_list args;
+++	va_start(args, fmt);
+++	ret = vasprintf(&(*strp), fmt, args);
+++	va_end(args);
+++	if (ret < 0)
+++		err(XALLOC_EXIT_CODE, "cannot allocate string");
+++	return ret;
+++}
+++
+++static inline int  __attribute__ ((__format__(printf, 2, 0)))
+++xvasprintf(char **strp, const char *fmt, va_list ap)
+++{
+++	int ret = vasprintf(&(*strp), fmt, ap);
+++	if (ret < 0)
+++		err(XALLOC_EXIT_CODE, "cannot allocate string");
+++	return ret;
+++}
+++
+++
+++static inline char * __attribute__((warn_unused_result)) xgethostname(void)
+++{
+++	char *name;
+++	size_t sz = get_hostname_max() + 1;
+++
+++	name = xmalloc(sizeof(char) * sz);
+++
+++	if (gethostname(name, sz) != 0) {
+++		free(name);
+++		return NULL;
+++	}
+++	name[sz - 1] = '\0';
+++	return name;
+++}
+++
+++#endif
+diff --git a/meta/recipes-core/glibc/glibc/allow-compile-separate-from-util-linux-hardlink.patch b/meta/recipes-core/glibc/glibc/allow-compile-separate-from-util-linux-hardlink.patch
+new file mode 100644
+index 0000000000..1148ebfcc7
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/allow-compile-separate-from-util-linux-hardlink.patch
+@@ -0,0 +1,226 @@
++---
++ locale/programs/c.h                        |    2 
++ locale/programs/cross-localedef-hardlink.c |   79 +++++++++++++----------------
++ 2 files changed, 39 insertions(+), 42 deletions(-)
++
++--- a/locale/programs/cross-localedef-hardlink.c
+++++ b/locale/programs/cross-localedef-hardlink.c
++@@ -20,6 +20,8 @@
++  * with this program; if not, write to the Free Software Foundation, Inc.,
++  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++  */
+++
+++#undef HAVE_PCRE
++ #include <sys/types.h>
++ #include <stdlib.h>
++ #include <getopt.h>
++@@ -38,8 +40,8 @@
++ 
++ #include "c.h"
++ #include "xalloc.h"
++-#include "nls.h"
++-#include "closestream.h"
+++//#include "nls.h"
+++//#include "closestream.h"
++ 
++ #define NHASH   (1<<17)  /* Must be a power of 2! */
++ #define NBUF    64
++@@ -124,33 +126,33 @@ static void print_summary(void)
++ 	if (ctl->verbose > 1 && ctl->nlinks)
++ 		fputc('\n', stdout);
++ 
++-	printf(_("Directories:   %9lld\n"), ctl->ndirs);
++-	printf(_("Objects:       %9lld\n"), ctl->nobjects);
++-	printf(_("Regular files: %9lld\n"), ctl->nregfiles);
++-	printf(_("Comparisons:   %9lld\n"), ctl->ncomp);
+++	printf(("Directories:   %9lld\n"), ctl->ndirs);
+++	printf(("Objects:       %9lld\n"), ctl->nobjects);
+++	printf(("Regular files: %9lld\n"), ctl->nregfiles);
+++	printf(("Comparisons:   %9lld\n"), ctl->ncomp);
++ 	printf(  "%s%9lld\n", (ctl->no_link ?
++-	       _("Would link:    ") :
++-	       _("Linked:        ")), ctl->nlinks);
+++	       ("Would link:    ") :
+++	       ("Linked:        ")), ctl->nlinks);
++ 	printf(  "%s %9lld\n", (ctl->no_link ?
++-	       _("Would save:   ") :
++-	       _("Saved:        ")), ctl->nsaved);
+++	       ("Would save:   ") :
+++	       ("Saved:        ")), ctl->nsaved);
++ }
++ 
++ static void __attribute__((__noreturn__)) usage(void)
++ {
++ 	fputs(USAGE_HEADER, stdout);
++-	printf(_(" %s [options] directory...\n"), program_invocation_short_name);
+++	printf((" %s [options] directory...\n"), program_invocation_short_name);
++ 
++ 	fputs(USAGE_SEPARATOR, stdout);
++-	puts(_("Consolidate duplicate files using hardlinks."));
+++	puts(("Consolidate duplicate files using hardlinks."));
++ 
++ 	fputs(USAGE_OPTIONS, stdout);
++-	puts(_(" -c, --content          compare only contents, ignore permission, etc."));
++-	puts(_(" -n, --dry-run          don't actually link anything"));
++-	puts(_(" -v, --verbose          print summary after hardlinking"));
++-	puts(_(" -vv                    print every hardlinked file and summary"));
++-	puts(_(" -f, --force            force hardlinking across filesystems"));
++-	puts(_(" -x, --exclude <regex>  exclude files matching pattern"));
+++	puts((" -c, --content          compare only contents, ignore permission, etc."));
+++	puts((" -n, --dry-run          don't actually link anything"));
+++	puts((" -v, --verbose          print summary after hardlinking"));
+++	puts((" -vv                    print every hardlinked file and summary"));
+++	puts((" -f, --force            force hardlinking across filesystems"));
+++	puts((" -x, --exclude <regex>  exclude files matching pattern"));
++ 
++ 	fputs(USAGE_SEPARATOR, stdout);
++ 	printf(USAGE_HELP_OPTIONS(16)); /* char offset to align option descriptions */
++@@ -164,7 +166,7 @@ static inline size_t add2(size_t a, size
++ 	size_t sum = a + b;
++ 
++ 	if (sum < a)
++-		errx(EXIT_FAILURE, _("integer overflow"));
+++		errx(EXIT_FAILURE, ("integer overflow"));
++ 	return sum;
++ }
++ 
++@@ -193,7 +195,7 @@ static void process_path(struct hardlink
++ 	if (st.st_dev != ctl->dev && !ctl->force) {
++ 		if (ctl->dev)
++ 			errx(EXIT_FAILURE,
++-			     _("%s is on different filesystem than the rest "
+++			     ("%s is on different filesystem than the rest "
++ 			       "(use -f option to override)."), name);
++ 		ctl->dev = st.st_dev;
++ 	}
++@@ -287,9 +289,9 @@ static void process_path(struct hardlink
++ 							(ssize_t) sizeof(ctl->iobuf1) : fsize;
++ 
++ 					if ((xsz = read(fd, ctl->iobuf1, rsize)) != rsize)
++-						warn(_("cannot read %s"), name);
+++						warn(("cannot read %s"), name);
++ 					else if ((xsz = read(fd2, ctl->iobuf2, rsize)) != rsize)
++-						warn(_("cannot read %s"), fp2->name);
+++						warn(("cannot read %s"), fp2->name);
++ 
++ 					if (xsz != rsize) {
++ 						close(fd);
++@@ -303,13 +305,13 @@ static void process_path(struct hardlink
++ 				if (fsize > 0)
++ 					continue;
++ 				if (lstat(name, &st3)) {
++-					warn(_("cannot stat %s"), name);
+++					warn(("cannot stat %s"), name);
++ 					close(fd);
++ 					return;
++ 				}
++ 				st3.st_atime = st.st_atime;
++ 				if (stcmp(&st, &st3, 0)) {
++-					warnx(_("file %s changed underneath us"), name);
+++					warnx(("file %s changed underneath us"), name);
++ 					close(fd);
++ 					return;
++ 				}
++@@ -329,18 +331,18 @@ static void process_path(struct hardlink
++ 					       suffixlen + 1);
++ 					/* First create a temporary link to n1 under a new name */
++ 					if (link(n1, nam2.buf)) {
++-						warn(_("failed to hardlink %s to %s (create temporary link as %s failed)"),
+++						warn(("failed to hardlink %s to %s (create temporary link as %s failed)"),
++ 							n1, n2, nam2.buf);
++ 						free(nam2.buf);
++ 						continue;
++ 					}
++ 					/* Then rename into place over the existing n2 */
++ 					if (rename(nam2.buf, n2)) {
++-						warn(_("failed to hardlink %s to %s (rename temporary link to %s failed)"),
+++						warn(("failed to hardlink %s to %s (rename temporary link to %s failed)"),
++ 							n1, n2, n2);
++ 						/* Something went wrong, try to remove the now redundant temporary link */
++ 						if (unlink(nam2.buf))
++-							warn(_("failed to remove temporary link %s"), nam2.buf);
+++							warn(("failed to remove temporary link %s"), nam2.buf);
++ 						free(nam2.buf);
++ 						continue;
++ 					}
++@@ -351,16 +353,16 @@ static void process_path(struct hardlink
++ 					/* We actually did not save anything this time, since the link second argument
++ 					   had some other links as well.  */
++ 					if (ctl->verbose > 1)
++-						printf(_(" %s %s to %s\n"),
++-							(ctl->no_link ? _("Would link") : _("Linked")),
+++						printf((" %s %s to %s\n"),
+++							(ctl->no_link ? ("Would link") : ("Linked")),
++ 							n1, n2);
++ 				} else {
++ 					ctl->nsaved += ((st.st_size + 4095) / 4096) * 4096;
++ 					if (ctl->verbose > 1)
++-						printf(_(" %s %s to %s, %s %jd\n"),
++-							(ctl->no_link ? _("Would link") : _("Linked")),
+++						printf((" %s %s to %s, %s %jd\n"),
+++							(ctl->no_link ? ("Would link") : ("Linked")),
++ 							n1, n2,
++-							(ctl->no_link ? _("would save") : _("saved")),
+++							(ctl->no_link ? ("would save") : ("saved")),
++ 							(intmax_t)st.st_size);
++ 				}
++ 				close(fd);
++@@ -410,11 +412,6 @@ int main(int argc, char **argv)
++ 		{ NULL, 0, NULL, 0 },
++ 	};
++ 
++-	setlocale(LC_ALL, "");
++-	bindtextdomain(PACKAGE, LOCALEDIR);
++-	textdomain(PACKAGE);
++-	close_stdout_atexit();
++-
++ 	while ((ch = getopt_long(argc, argv, "cnvfx:Vh", longopts, NULL)) != -1) {
++ 		switch (ch) {
++ 		case 'n':
++@@ -434,7 +431,7 @@ int main(int argc, char **argv)
++ 			exclude_pattern = (PCRE2_SPTR) optarg;
++ #else
++ 			errx(EXIT_FAILURE,
++-			     _("option --exclude not supported (built without pcre2)"));
+++			     ("option --exclude not supported (built without pcre2)"));
++ #endif
++ 			break;
++ 		case 'V':
++@@ -447,7 +444,7 @@ int main(int argc, char **argv)
++ 	}
++ 
++ 	if (optind == argc) {
++-		warnx(_("no directory specified"));
+++		warnx(("no directory specified"));
++ 		errtryhelp(EXIT_FAILURE);
++ 	}
++ 
++@@ -461,7 +458,7 @@ int main(int argc, char **argv)
++ 			PCRE2_UCHAR buffer[256];
++ 			pcre2_get_error_message(errornumber, buffer,
++ 						sizeof(buffer));
++-			errx(EXIT_FAILURE, _("pattern error at offset %d: %s"),
+++			errx(EXIT_FAILURE, ("pattern error at offset %d: %s"),
++ 				(int)erroroffset, buffer);
++ 		}
++ 		match_data = pcre2_match_data_create_from_pattern(re, NULL);
++@@ -506,7 +503,7 @@ int main(int argc, char **argv)
++ 			    >=0) {
++ 				if (ctl->verbose) {
++ 					nam1.buf[nam1baselen] = 0;
++-					printf(_("Skipping %s%s\n"), nam1.buf, di->d_name);
+++					printf(("Skipping %s%s\n"), nam1.buf, di->d_name);
++ 				}
++ 				continue;
++ 			}
++--- a/locale/programs/c.h
+++++ b/locale/programs/c.h
++@@ -240,7 +240,7 @@ errmsg(char doexit, int excode, char add
++ /* Don't use inline function to avoid '#include "nls.h"' in c.h
++  */
++ #define errtryhelp(eval) __extension__ ({ \
++-	fprintf(stderr, _("Try '%s --help' for more information.\n"), \
+++	fprintf(stderr, ("Try '%s --help' for more information.\n"), \
++ 			program_invocation_short_name); \
++ 	exit(eval); \
++ })
 -- 
 2.21.0
 
