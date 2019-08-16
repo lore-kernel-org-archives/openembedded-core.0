@@ -1,107 +1,85 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 018796C10F
+Return-Path: <jacob.kroon@mikrodidakt.se>
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr10131.outbound.protection.outlook.com [40.107.1.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A603B7E97A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 03:45:49 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id p3so2243564pgb.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2019 20:45:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=fu4FCQQ+5Tiiog14sqErEGo2up81Z6PXHNHgbMEaFDA=;
-	b=gvey5/10on4JTTfYPIie6tFUsOg4IPD99MMvTqVRDabXDWCsKsyyGcTQEkU2bPznaI
-	NEhX2E1EkcAqswajZ6f67pkKQVnre3yMeSeXi4exgZr7J+Bm6cxYcfdNnLDc4hed6X+U
-	r2gnenlQRFYa2jcz9jc1+OYzTv3uGjvufZwUBKxkL3Kx1xJet1Ui2zkS9I8rOr/x6amr
-	NaerXC3vxkL2zVBBZV2toQli7B+0nFP1SGMILd82rdWpzzFoQc3EAlxipuQEqI24CAMb
-	LjQAyaz0rn7Pe9AdtJ06x15COWkGnRaMX+JAUUBrKjfCwguqvvGEbpJ5lTczKw8em5dm
-	pFtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=fu4FCQQ+5Tiiog14sqErEGo2up81Z6PXHNHgbMEaFDA=;
-	b=n/O02zzFCS5D2ssYDoScXBUFipsakgb7ilp30vWhgmn6dG9NmUsPrWsh2S5y1MTR/7
-	446m2JcSYWZ/8tAVbFjp/pYd4wbUFX+wyzFriDOKKQ3m/Qp4m+LJJDR65Snrh2cwRiiD
-	w+0tvXCAoMchey8QkfoFDnoEgTuRXur7MpE0JZbyt9wq5eFO1R6sGD2RDjdmD2yRlqYQ
-	nnCnzmP1cSYjjO4PLxM+QpDLQ5BaEkJWe5DcgGoOe9zLgHlV3/Kf4+Z3BRGsPwsGxpXh
-	toI3lNDKq7flPU1/L1lQiRHfxRwDFZ+s0dhaszmty415xgmrItE9YUviQ3xcPqwg/LSz
-	XFnA==
-X-Gm-Message-State: APjAAAU6yzw2wDjywHD81lGY1lq4tYI9rdehwwFBKFMddLbmxwhaD8cd
-	30+ahEjFpwcouYAsZRTizlhsoSUf
-X-Google-Smtp-Source: APXvYqze9MkDEwjwr5h1Xlke7AEcwxubBykLLc54jUMQWMQNv4jjquI+MhER9FwAj/u788PJYJSCYg==
-X-Received: by 2002:a63:e213:: with SMTP id q19mr5976170pgh.180.1565927150505; 
-	Thu, 15 Aug 2019 20:45:50 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:b816:6e4b:1727:7819?
-	([2601:202:4180:c33:b816:6e4b:1727:7819])
-	by smtp.gmail.com with ESMTPSA id
-	n128sm4236562pfn.46.2019.08.15.20.45.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 15 Aug 2019 20:45:49 -0700 (PDT)
-To: Andre McCurdy <armccurdy@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20190815065343.5291-1-naveen.kumar.saini@intel.com>
-	<7128b7d3-78c0-0a66-8e55-65fedeab2dd1@intel.com>
-	<CA+chaQeeS+Ludz64ke19Hr5h1knrvbe769N5vhMQLH7=E_dmbQ@mail.gmail.com>
-	<b2ae3b8bff8bf0c2f42d588841347ad8b6844ef6.camel@linuxfoundation.org>
-	<CAJ86T=Ux9UQs3eVJR5NOyZYJMMDtNRHr-Nppq0d5D5JFMryaMw@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <dc6b8ca1-411e-4381-e4da-7907052eca28@gmail.com>
-Date: Thu, 15 Aug 2019 20:45:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=Ux9UQs3eVJR5NOyZYJMMDtNRHr-Nppq0d5D5JFMryaMw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 16 Aug 2019 06:40:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=ZdS6VQwvcdq4R6tqNMUtYsXuL7gylAhFjwsCwV2xSWFmiKlZ8mnI3OA63UXWi3xLYsE7fag+xPSZRsd47NMtVmScaAZkB4PdSQSyd5w4U3HDjo567bVD6iamHHRj2wfzMKMQRmVjDsu2+Mm9ICXnfiihGXQrEVUqo5sJZabfhLjL93XD0UcAeIgszhRA3oLNWngCnnPSsx6BMNboFV26jrDLjLUR2UtF1v7oakAeMkQxBiHN7nE9p5ccRB64/xZus7Fan5OQ4koU4LaNjWaUGmZmRbjUN1n5hGoi/tYCxsvAFlMsmy6GV86vXuLKUazXE0DA8a6WvpjTTN/fxiPxZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=vY2Zu8z42pdMBcJ4d3qJvUFORHbyF0DYG2UlfOpqalQ=;
+	b=EqZ70Emi6ONsGo2RYMhvycP6QIf7zW7jAq6LyJNaG1mXxcplyJxD3mHvi4A+r4WC9eEc9l290xsZ0lph6DFXjEEnNu+wsgDRtdDw2fta6wyJv4IL1/UUAJiIkRsIUWDqAH+Tkbvz2IrHOGbO81O95lf10dv8WfBQCKX9v89RNqASv/8KwpT3CMd2URVXBJp0/9vGVRU+NCunyBeXlfqJCMb7Y355WUMR1rWsI74LMuR+x6BAdDRvLhhqoBRuwa9qNmxLb7ixMT6R7jkQk1B9znq0S8BftqFHgWj5aOFnvamqyKTUoY9r4IZZBOy3H0r3vH7PBlUmABpsOoJLfHa+kA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=mikrodidakt.se; dmarc=pass action=none
+	header.from=mikrodidakt.se; dkim=pass header.d=mikrodidakt.se; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ugglorna.onmicrosoft.com; s=selector1-ugglorna-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=vY2Zu8z42pdMBcJ4d3qJvUFORHbyF0DYG2UlfOpqalQ=;
+	b=TdpHGLoECclX3N+cGS2ehJ+Mg+k7FX0qqi4kuZHQH1+zwXXokKYJ17ZYT42HUPmeH8h01ExgvFjR2xZF08BLlHAcrUW7C5CwRNYTMothcaRhB3S6HUQwfY4qHItm1NYwSXjwtNdscRn1wqMGm+kgq5t/OQkT8q5468ghbsZC4qg=
+Received: from AM6PR08MB3205.eurprd08.prod.outlook.com (52.135.166.20) by
+	AM6PR08MB5029.eurprd08.prod.outlook.com (10.255.123.10) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2157.13; Fri, 16 Aug 2019 06:40:22 +0000
+Received: from AM6PR08MB3205.eurprd08.prod.outlook.com
+	([fe80::20a0:fa68:2f63:5a7a]) by
+	AM6PR08MB3205.eurprd08.prod.outlook.com
+	([fe80::20a0:fa68:2f63:5a7a%7]) with mapi id 15.20.2157.022;
+	Fri, 16 Aug 2019 06:40:22 +0000
+From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+To: Alistair Francis <alistair.francis@wdc.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [warrior][PATCH] bitbake.conf: add git-lfs to HOSTTOOLS_NONFATAL
+Thread-Topic: [OE-core] [PATCH 3/3] qemuriscv64: Specify the firmware as a
+	bios instead of kernel
+Thread-Index: AQHVU/16xmsAy4hhS0+Bjsxujg+h4Q==
+Date: Fri, 16 Aug 2019 06:40:22 +0000
+Message-ID: <f641f2e5-ca75-3580-24ba-b785c17981af@mikrodidakt.se>
+References: <20190815213145.8986-1-alistair.francis@wdc.com>
+	<20190815213145.8986-3-alistair.francis@wdc.com>
+In-Reply-To: <20190815213145.8986-3-alistair.francis@wdc.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0200.eurprd05.prod.outlook.com
+	(2603:10a6:3:f9::24) To AM6PR08MB3205.eurprd08.prod.outlook.com
+	(2603:10a6:209:4a::20)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=jacob.kroon@mikrodidakt.se; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [213.185.29.22]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 899b35d9-4371-438f-7630-08d722149ca2
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+	SRVR:AM6PR08MB5029; 
+x-ms-traffictypediagnostic: AM6PR08MB5029:
+x-microsoft-antispam-prvs: <AM6PR08MB5029657A9F318C5E1C4065FA9BAF0@AM6PR08MB5029.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:109;
+x-forefront-prvs: 0131D22242
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(346002)(376002)(39830400003)(396003)(366004)(136003)(189003)(199004)(6506007)(66476007)(316002)(256004)(66066001)(66556008)(66446008)(64756008)(186003)(66946007)(6486002)(53546011)(26005)(71190400001)(7736002)(53936002)(71200400001)(110136005)(386003)(305945005)(486006)(2501003)(52116002)(508600001)(36756003)(6512007)(3846002)(6116002)(229853002)(102836004)(81156014)(44832011)(476003)(76176011)(6246003)(86362001)(14454004)(8936002)(446003)(11346002)(8676002)(31686004)(2906002)(6436002)(25786009)(31696002)(2616005)(5660300002)(81166006)(99286004);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB5029;
+	H:AM6PR08MB3205.eurprd08.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: mikrodidakt.se does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: RQuHsmp1UbtJJpJComtI5y98NjPlixJtgo95iIeEseoiHnZId3eiKTLxtamNL9w7oT1/acmqBX60XrNKlrmtNyyk6Au+VrccLroe/hFCOYp2d9zpAEZPTqGBtGQizGwmlJgLmBlQkEuHu/3+NQOL16HlHLd+wrO65yOuE52n5FbhP9R6MvyKpGAUY9xef99vEc80mkH5mxNm8uGoBiz/qFu39fktSjeHaF5pknxmE0ZhhecmNMwKUFd0x/1w14DUS2OBI2x3OYaVtcK/oWizuL1Xr7XZ5M+JAyP0YXN8dgUHHquI0IKjuZQl63fNt+VwKbbedOwS9eE/5Q1i+lmRbe+FBDem1326+aFWFxMwpeDrtLQJCcr5qLRdxY1MV7hGfN9AJslUBWj1c7Cqg4+GTqKsuThyUOhK7BRvnggW15w=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: mikrodidakt.se
+X-MS-Exchange-CrossTenant-Network-Message-Id: 899b35d9-4371-438f-7630-08d722149ca2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2019 06:40:22.0946 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4d8b8e37-ad11-4b86-9071-4e3fa1b980be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kMrrj/D3LZRl+fxRKsatBKKm7dfhJMF04OCvYoH/Etdd4/p+GGfPcoVMm1w+u5lkmZW27cXVL0lh/5GCznT+BEGa78Z1VXr8wDJ6iLmMrLg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5029
+Subject: Re: [PATCH 3/3] qemuriscv64: Specify the firmware as a bios instead of kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -114,53 +92,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 03:45:50 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Aug 2019 06:40:24 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <771E5ACEBE39D84C9CF2B58EC40815EC@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-
-
-On 8/15/19 2:31 PM, Andre McCurdy wrote:
-> On Thu, Aug 15, 2019 at 2:09 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Thu, 2019-08-15 at 09:23 +0200, Martin Jansa wrote:
->>> NAK
->>>
->>> Yes, the first part was merged in warrior and is correct.
->>>
->>> But this second part isn't good (you don't want git-lfs to sometimes
->>> work and sometimes fail) and that's why it was rejected for master
->>> and _shouldn't_ be merged to warrior. If you have recipes which need
->>> git-lfs, then add it to normal HOSTTOOLS in your builds to make sure
->>> it's always present when needed.
->> I don't like the patch but it did merge to master.
->>
->> Building a git-lfs-native is a nightmare due to all its dependencies (I
->> think its go based?) and there wasn't really any other way to sort it.
-> Upstream provides generic binaries for at least x86, x86-64 and ARM64:
->
->   https://github.com/git-lfs/git-lfs/releases
->   https://github.com/git-lfs/git-lfs/releases/download/v2.8.0/git-lfs-linux-386-v2.8.0.tar.gz
->   https://github.com/git-lfs/git-lfs/releases/download/v2.8.0/git-lfs-linux-amd64-v2.8.0.tar.gz
->   https://github.com/git-lfs/git-lfs/releases/download/v2.8.0/git-lfs-linux-arm64-v2.8.0.tar.gz
->
-> Would just downloading and installing the official upstream binaries be so bad?
-
-making a big change like this seems to be a no-go for a stable branch.
-
-- armin
->
->> Having recipe specific hosttools would be ideal but we don't have that.
->>
->> Cheers,
->>
->> Richard
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+SGksDQoNCk9uIDgvMTUvMTkgMTE6MzEgUE0sIEFsaXN0YWlyIEZyYW5jaXMgd3JvdGU6DQo+IFNp
+Z25lZC1vZmYtYnk6IEFsaXN0YWlyIEZyYW5jaXMgPGFsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbT4N
+Cj4gLS0tDQo+ICAgbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS9yaXNjdi9xZW11cmlzY3YuaW5j
+IHwgMiArLQ0KPiAgIG1ldGEvY29uZi9tYWNoaW5lL3FlbXVyaXNjdjY0LmNvbmYgICAgICAgICAg
+ICB8IDIgLS0NCj4gICAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzIGRlbGV0aW9u
+cygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS9yaXNjdi9x
+ZW11cmlzY3YuaW5jIGIvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS9yaXNjdi9xZW11cmlzY3Yu
+aW5jDQo+IGluZGV4IDc5N2EyNzY2MGQuLjJlYmQwYTAxZjIgMTAwNjQ0DQo+IC0tLSBhL21ldGEv
+Y29uZi9tYWNoaW5lL2luY2x1ZGUvcmlzY3YvcWVtdXJpc2N2LmluYw0KPiArKysgYi9tZXRhL2Nv
+bmYvbWFjaGluZS9pbmNsdWRlL3Jpc2N2L3FlbXVyaXNjdi5pbmMNCj4gQEAgLTI4LDcgKzI4LDcg
+QEAgVUJPT1RfRU5UUllQT0lOVF9yaXNjdjY0ID0gIjB4ODAyMDAwMDAiDQo+ICAgUUJfS0VSTkVM
+X0NNRExJTkVfQVBQRU5EID0gImVhcmx5Y29uPXNiaSINCj4gICBRQl9NRU0gPSAiLW0gNTEyIg0K
+PiAgIFFCX01BQ0hJTkUgPSAiLW1hY2hpbmUgdmlydCINCj4gLVFCX0RFRkFVTFRfS0VSTkVMID0g
+ImZ3X2p1bXAuZWxmIg0KPiArUUJfREVGQVVMVF9CSU9TID0gImZ3X2p1bXAuZWxmIg0KPiAgIFFC
+X1RBUF9PUFQgPSAiLW5ldGRldiB0YXAsaWQ9bmV0MCxpZm5hbWU9QFRBUEAsc2NyaXB0PW5vLGRv
+d25zY3JpcHQ9bm8iDQo+ICAgUUJfTkVUV09SS19ERVZJQ0UgPSAiLWRldmljZSB2aXJ0aW8tbmV0
+LWRldmljZSxuZXRkZXY9bmV0MCxtYWM9QE1BQ0AiDQo+ICAgUUJfUk9PVEZTX09QVCA9ICItZHJp
+dmUgaWQ9ZGlzazAsZmlsZT1AUk9PVEZTQCxpZj1ub25lLGZvcm1hdD1yYXcgLWRldmljZSB2aXJ0
+aW8tYmxrLWRldmljZSxkcml2ZT1kaXNrMCINCj4gZGlmZiAtLWdpdCBhL21ldGEvY29uZi9tYWNo
+aW5lL3FlbXVyaXNjdjY0LmNvbmYgYi9tZXRhL2NvbmYvbWFjaGluZS9xZW11cmlzY3Y2NC5jb25m
+DQo+IGluZGV4IGRiYThmMDllOTMuLjk5YjQ4YjMwOWIgMTAwNjQ0DQo+IC0tLSBhL21ldGEvY29u
+Zi9tYWNoaW5lL3FlbXVyaXNjdjY0LmNvbmYNCj4gKysrIGIvbWV0YS9jb25mL21hY2hpbmUvcWVt
+dXJpc2N2NjQuY29uZg0KPiBAQCAtNCw4ICs0LDYgQEANCj4NCj4gICByZXF1aXJlIGNvbmYvbWFj
+aGluZS9pbmNsdWRlL3Jpc2N2L3FlbXVyaXNjdi5pbmMNCj4NCj4gLVFCX09QVF9BUFBFTkQgKz0g
+Ii1zaG93LWN1cnNvciAtbW9uaXRvciBudWxsIC1kZXZpY2UgbG9hZGVyLGZpbGU9JHtERVBMT1lf
+RElSX0lNQUdFfS8ke0tFUk5FTF9JTUFHRVRZUEV9LGFkZHI9MHg4MDIwMDAwMCINCj4gLQ0KDQpX
+YXMgaXQgaW50ZW50aW9uYWwgdG8gcmVtb3ZlIHRoZXNlIGxpbmVzIGFzd2VsbCA/IEkgY2FuJ3Qg
+dGVsbCBmcm9tIHRoZQ0KY29tbWl0IG1lc3NhZ2UuDQoNCi9KYWNvYg0KDQo+ICAgRVhUUkFfSU1B
+R0VERVBFTkRTICs9ICJ1LWJvb3QiDQo+ICAgVUJPT1RfTUFDSElORSA9ICJxZW11LXJpc2N2NjRf
+ZGVmY29uZmlnIg0KPiAgIFVCT09UX0VMRiA9ICJ1LWJvb3QiDQo+DQoNCg0KDQpbbWlrcm9kaWRh
+a3RdDQpKYWNvYiBLcm9vbiDigKIgKzQ2IDQ2MzI1MDQwDQoNCm1pa3JvZGlkYWt0LnNlIOKAoiBT
+a2lmZmVydsOkZ2VuIDQ4LCBTRS0yMjQgNzggTFVORCwgU3dlZGVuDQoNCkNvbnN1bHRhbnMgc2lu
+Y2UgMTk4MCDigKIgU1csIEhXLCBFbWJlZGRlZCBTeXN0ZW1zLCBMaW51eA0KDQoNCg==
 
