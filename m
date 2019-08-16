@@ -1,25 +1,54 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B48E7D2FD
+Return-Path: <mattias.hansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 34B5E7F322
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 08:56:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7G8uYWL006330
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 16 Aug 2019 09:13:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 9D1061837B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 01:56:44 -0700
-Received: from localhost (128.224.162.195) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Fri, 16 Aug 2019 01:56:23 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
+	Fri, 16 Aug 2019 11:13:46 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id yGeNloASlUrD
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2019 11:13:45 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id DA729182E5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2019 11:13:45 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BE0951A05C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2019 11:13:45 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B2EDC1A05B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2019 11:13:45 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2019 11:13:45 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id A732126E3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2019 11:13:45 +0200 (CEST)
+Received: from lnxmattihn.se.axis.com (10.0.5.60) by XBOX04.axis.com
+	(10.0.5.18) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Fri, 16 Aug 2019 11:13:45 +0200
+From: Mattias Hansson <mattias.hansson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Aug 2019 16:56:21 +0800
-Message-ID: <1565945781-19433-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Date: Fri, 16 Aug 2019 11:13:29 +0200
+Message-ID: <20190816091329.10359-1-mattihn@axis.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.195]
-Subject: [PATCH] screen: add /etc/screenrc as global config file
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX03.axis.com (10.0.5.17) To XBOX04.axis.com (10.0.5.18)
+X-TM-AS-GCONF: 00
+Cc: Mattias Hansson <mattihn@axis.com>
+Subject: [PATCH] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +61,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 08:56:54 -0000
+X-List-Received-Date: Fri, 16 Aug 2019 09:13:46 -0000
 Content-Type: text/plain
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- meta/recipes-extended/screen/screen_4.6.2.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
+However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
+which sometimes causes a build error when building a recipe that adds
+groups.
 
-diff --git a/meta/recipes-extended/screen/screen_4.6.2.bb b/meta/recipes-extended/screen/screen_4.6.2.bb
-index 24ec751..21b476d 100644
---- a/meta/recipes-extended/screen/screen_4.6.2.bb
-+++ b/meta/recipes-extended/screen/screen_4.6.2.bb
-@@ -35,10 +35,11 @@ inherit autotools texinfo
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[utempter] = "ac_cv_header_utempter_h=yes,ac_cv_header_utempter_h=no,libutempter,"
- 
--EXTRA_OECONF = "--with-pty-mode=0620 --with-pty-group=5 \
-+EXTRA_OECONF = "--with-pty-mode=0620 --with-pty-group=5 --with-sys-screenrc=${sysconfdir}/screenrc \
-                ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
- 
- do_install_append () {
-+	install -D -m 644 ${S}/etc/etcscreenrc ${D}/${sysconfdir}/screenrc
- 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
- 		install -D -m 644 ${WORKDIR}/screen.pam ${D}/${sysconfdir}/pam.d/screen
- 	fi
+This issue only occurs when executing do_prepare_recipe_sysroot for a
+recipe that adds groups before finishing a task that depends on pseudo
+for a recipe that doesn't add groups.
+
+Signed-off-by: Mattias Hansson <mattihn@axis.com>
+---
+ meta/classes/base.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 0c8a4b2862..0576b110c9 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -480,6 +480,7 @@ python () {
+     # If we're building a target package we need to use fakeroot (pseudo)
+     # in order to capture permissions, owners, groups and special files
+     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
++        d.setVarFlag('do_prepare_recipe_sysroot', 'fakeroot', '1')
+         d.setVarFlag('do_unpack', 'umask', '022')
+         d.setVarFlag('do_configure', 'umask', '022')
+         d.setVarFlag('do_compile', 'umask', '022')
 -- 
-2.7.4
+2.11.0
 
 
