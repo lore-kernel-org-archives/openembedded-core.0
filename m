@@ -1,51 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A652C7F2F9
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 530EC7F359
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 16:12:18 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id e8so3495230wme.1
+	Fri, 16 Aug 2019 17:10:09 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id e27so5928732ljb.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 09:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=wntS40sbkT9/GLd7TAoaVCFmQK93+cD//r25o1KjYVI=;
-	b=JEfWuy0uPUl1ZSs4ovf1EnnGhxUZHJZrtRAYpqkYeavMBG0BtSxUBn9hzlzotN21KO
-	57a4e9ncU8Eh2kb5UIN22jsoHQanbTNLxTPQ8BE6/rf6ZgHjGaa16igp429jbAI42lK8
-	Gyw19gJGG0ye2sEq/qG0sSshOltH1j0SKyJdE=
+	Fri, 16 Aug 2019 10:10:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=5IfGGbLtjdYcnbzMv37wuNJYZbAVmCTrMNssnWi1IuE=;
+	b=JtE4rArlrgvCcbODEwQEvnTD4p2RVujr7vSjkJuJf6A2ZFB6X4DFb73K5H4Xvg/Vgx
+	9EK7Gd+vE2MB4JQ2yMJ4vXfTMJLYazNIHohDwtVkG7fGB584rjpj4bkg16/ptWBGVE+1
+	EVH5vF/es0sc+wNHNOS8iAQN+qrXevgYsstkEDpmSxjYQq2IJxWndvGNRWEeUTTEaIq+
+	8+750XPDgYZ65gVCIGwU0S+LBjDU6WaP6el19f1yJ2PZoOV7zxG2ZIPMBmF6XR/Fkfhg
+	4QC2AxS1gGacuIb57FsHJHjD0/xd/xPHUhO4++g3xUxdOuSAE3YTxbZTSn0rduHrcN+p
+	Cr8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=wntS40sbkT9/GLd7TAoaVCFmQK93+cD//r25o1KjYVI=;
-	b=pC2Fy66N99Lg5oJpCPKogyfc1i+bKNWwhexMycq5pA33J00DQO/7ys12jbYF8CWIB/
-	93QRtpG9WYIO0HaMf31gEbXmcp6frVVWEhdqFdVSDh0AoTCDdlRqD/aj5P9CfkbpTliV
-	MXzSG2hH0Onr3hS0H6l5IGAFaV8TLWkj9LCIQ9OQjiVfpscsCWrk3v+29gQ98sfAm6U3
-	cT/e4A7FNEInGT99QWGEO5WpqxEuTSxFC0H+H8sUUQPl2BE4yMmjTDQCc96E0d5XRLJ1
-	v+OeieG3nKN9gFiWPdLP17xxMTPAHBh/O3pcFjLfTtM8+Bv08I274T9Fw2BTMHHD1JMd
-	nw8w==
-X-Gm-Message-State: APjAAAUvv/9xHNuCRQFUVV+W7pwJ5OrHea7oxxYdkoa3LtN27r3hpCEa
-	GVw8d3KmG43exSi2UJ11ztMBz1Savc/Mhg==
-X-Google-Smtp-Source: APXvYqwOYgFN6F0YSoR47jWUsDIVKFWVpTyeXnRX4PCnh+Hqynx6CTLyEbHhd3lou3NwVCw97/Ug2A==
-X-Received: by 2002:a1c:1f41:: with SMTP id f62mr8470852wmf.176.1565971939060; 
-	Fri, 16 Aug 2019 09:12:19 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	e11sm15327243wrc.4.2019.08.16.09.12.18
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 16 Aug 2019 09:12:18 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Aug 2019 17:12:16 +0100
-Message-Id: <20190816161216.24423-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190816161216.24423-1-richard.purdie@linuxfoundation.org>
-References: <20190816161216.24423-1-richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=5IfGGbLtjdYcnbzMv37wuNJYZbAVmCTrMNssnWi1IuE=;
+	b=r9xNDm0/g3wye8BWTNfw7P5fxR2MxnHdtQpWpdLyOQTpNX0Ka2u1nTvzq2f16POgBV
+	ucHOEJbcRwuKZiwNUGpeQcBrbCIMVOZRC9Ixhxexw5mdlI7PwLNPuCLB4hWmlHSVNaxG
+	uiNlfk7ahoq+s3IdBrCMzh3vsL32Uup7Wf8SLN9z15CxEou0Ir/X29yZJd5WV59/Ik1V
+	OKbV8lwp3f7Qc3MSjlygL1PqCXCVIMW7m+rpcYJBkKhoU9nsjP51j84ln0eEIOxDV4PB
+	ny+pNVfPSimEpZxLYzcaDyJf9a6cjaNaTVLqa7RbxNv8Eji4iDznmpZsqyT/KSM3+iuq
+	IMEw==
+X-Gm-Message-State: APjAAAXqw6NiZXClCYJsR8ly4VTwRhbKLJ/tnmDjv5skAF45e/oDiS3A
+	U6Quw+zYkebT5AXFzyi8F8iD+o5QtBX6ItBt51U=
+X-Google-Smtp-Source: APXvYqyW1oyahfi8pHsl2Ql2+oD3si91OGbDMwcI+IHTj4mTnMw1yKUOFkhqn2fAtjr69BkJpKEcmBByP3EI6Py2KlY=
+X-Received: by 2002:a05:651c:c1:: with SMTP id 1mr6165499ljr.119.1565975409852;
+	Fri, 16 Aug 2019 10:10:09 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] package: Fix race between do_package and do_packagedata
+References: <20190815213145.8986-1-alistair.francis@wdc.com>
+	<20190815213145.8986-3-alistair.francis@wdc.com>
+	<f641f2e5-ca75-3580-24ba-b785c17981af@mikrodidakt.se>
+In-Reply-To: <f641f2e5-ca75-3580-24ba-b785c17981af@mikrodidakt.se>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 16 Aug 2019 10:06:14 -0700
+Message-ID: <CAKmqyKM6aCWHptWV72oyWqC60cH4DNqz-D6n6ukRjdpTG0i3XA@mail.gmail.com>
+To: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] qemuriscv64: Specify the firmware as a bios instead of kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +57,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 16:12:19 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 16 Aug 2019 17:10:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-do_package has PKGDESTWORK as a cleandir and do_packagedata has it as an sstate-input
-dir. This means do_package wipes out the directory at both do_package and do_package_setscene.
+On Thu, Aug 15, 2019 at 11:40 PM Jacob Kroon <jacob.kroon@mikrodidakt.se> w=
+rote:
+>
+> Hi,
+>
+> On 8/15/19 11:31 PM, Alistair Francis wrote:
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >   meta/conf/machine/include/riscv/qemuriscv.inc | 2 +-
+> >   meta/conf/machine/qemuriscv64.conf            | 2 --
+> >   2 files changed, 1 insertion(+), 3 deletions(-)
+> >
+> > diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/=
+machine/include/riscv/qemuriscv.inc
+> > index 797a27660d..2ebd0a01f2 100644
+> > --- a/meta/conf/machine/include/riscv/qemuriscv.inc
+> > +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+> > @@ -28,7 +28,7 @@ UBOOT_ENTRYPOINT_riscv64 =3D "0x80200000"
+> >   QB_KERNEL_CMDLINE_APPEND =3D "earlycon=3Dsbi"
+> >   QB_MEM =3D "-m 512"
+> >   QB_MACHINE =3D "-machine virt"
+> > -QB_DEFAULT_KERNEL =3D "fw_jump.elf"
+> > +QB_DEFAULT_BIOS =3D "fw_jump.elf"
+> >   QB_TAP_OPT =3D "-netdev tap,id=3Dnet0,ifname=3D@TAP@,script=3Dno,down=
+script=3Dno"
+> >   QB_NETWORK_DEVICE =3D "-device virtio-net-device,netdev=3Dnet0,mac=3D=
+@MAC@"
+> >   QB_ROOTFS_OPT =3D "-drive id=3Ddisk0,file=3D@ROOTFS@,if=3Dnone,format=
+=3Draw -device virtio-blk-device,drive=3Ddisk0"
+> > diff --git a/meta/conf/machine/qemuriscv64.conf b/meta/conf/machine/qem=
+uriscv64.conf
+> > index dba8f09e93..99b48b309b 100644
+> > --- a/meta/conf/machine/qemuriscv64.conf
+> > +++ b/meta/conf/machine/qemuriscv64.conf
+> > @@ -4,8 +4,6 @@
+> >
+> >   require conf/machine/include/riscv/qemuriscv.inc
+> >
+> > -QB_OPT_APPEND +=3D "-show-cursor -monitor null -device loader,file=3D$=
+{DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE},addr=3D0x80200000"
+> > -
+>
+> Was it intentional to remove these lines aswell ? I can't tell from the
+> commit message.
 
-do_package_setscene and do_packagedata_setscene can run in parallel when installing from
-sstate which means they can wipe out parts of each other leading to interesting
-build failures.
+This was intentional.
 
-We therefore have to add in a hardlink copy so that the directories can work independently
-of each other.
+We used to use:
+ -kernel: Specify the firmware
+ -device (above): Specify the kernel
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/package.bbclass | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Now we can use:
+ -bios: Specify the firmware
+ -kernel: Specify the kernel
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index e67bb5bd97d..114d6559f5e 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -2252,14 +2252,18 @@ python do_package_setscene () {
- }
- addtask do_package_setscene
- 
--do_packagedata () {
--	:
-+# Copy from PKGDESTWORK to tempdirectory as tempdirectory can be cleaned at both
-+# do_package_setscene and do_packagedata_setscene leading to races
-+python do_packagedata () {
-+    src = d.expand("${PKGDESTWORK}")
-+    dest = d.expand("${WORKDIR}/pkgdata-pdata-input")
-+    oe.path.copyhardlinktree(src, dest)
- }
- 
- addtask packagedata before do_build after do_package
- 
- SSTATETASKS += "do_packagedata"
--do_packagedata[sstate-inputdirs] = "${PKGDESTWORK}"
-+do_packagedata[sstate-inputdirs] = "${WORKDIR}/pkgdata-pdata-input"
- do_packagedata[sstate-outputdirs] = "${PKGDATA_DIR}"
- do_packagedata[stamp-extra-info] = "${MACHINE_ARCH}"
- 
--- 
-2.20.1
+So this line isn't required.
 
+Alistair
+
+>
+> /Jacob
+>
+> >   EXTRA_IMAGEDEPENDS +=3D "u-boot"
+> >   UBOOT_MACHINE =3D "qemu-riscv64_defconfig"
+> >   UBOOT_ELF =3D "u-boot"
+> >
+>
+>
+>
+> [mikrodidakt]
+> Jacob Kroon =E2=80=A2 +46 46325040
+>
+> mikrodidakt.se =E2=80=A2 Skifferv=C3=A4gen 48, SE-224 78 LUND, Sweden
+>
+> Consultans since 1980 =E2=80=A2 SW, HW, Embedded Systems, Linux
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
