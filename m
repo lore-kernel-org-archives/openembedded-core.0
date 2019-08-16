@@ -1,51 +1,60 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D55D07F361
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9231A7F340
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 17:17:09 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id z11so2235124wrt.4
+	Fri, 16 Aug 2019 17:22:47 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id v15so4624183wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 10:17:11 -0700 (PDT)
+	Fri, 16 Aug 2019 10:22:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=hBuOsSfbNYyd7IdzqrXeHXmDuurBd585pRL4ZgqTyd4=;
-	b=CLFqcaNkKH3HXxUfeh1rFITlAMwYEdONUleORh+MaSzIMXIxiI9hJsUeifizL6ZZ6e
-	PmwSXxVWMQ9I3r1S1v1b1zU+YGiS6LCXybcBpWf0ABD1O25yMvXKy/lISfo91l8iKDuN
-	dsqPOehC0qgroT0TykXEu3gCIM/iNQuNFKO+MGa+w7CLT+5RTi+1qIgA+DZf9DM40JUj
-	P9toaSiQMtKCZJHp2PnjTsnmqwgTZaqqKGDVSZdNiB9j3QpyCo0VMlTXa1/a/pRpG7zB
-	i2D8vYjDE9Vry+FFmAF3Kx5jQIsRN2zK3KGkl/UMu7sRhACYfG26+KPJwXFQIWvDpwS9
-	201g==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=34ECVtM9Xu9mPwQEVXY2uAF/FRuk7hvzbJEvB0rjMLI=;
+	b=MfbeHY00W1ZOEPgTDtxU3K3VxsD46HPtKcF9PTpaYUzVPPcNvnWWTAi1RriwWbF2Xn
+	rNH/BW45u7oYg1EhmUGJwYSIFnJuKPkvxt9LI6okpzcCpKiveeaMaqh1H5MTXlDniN2H
+	oMuj/au5YAQDFHK165DD4ScKuXRtyksPve+kSuJenCoWlGi5JHOE71NJ6ehazEVOcjBt
+	sjaaw58KsiyB6UXoX0rUsjgDOpbO5d8G8aiD/YxEZkzbgG4sVUBFBnRh2nNnVjBGgLjk
+	/gYhmCTomdc0zOVOFitD121jVrwNnFsMHckw3lN1neBbBoZjTliETC80cc9tiW2XFZpL
+	QgQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=hBuOsSfbNYyd7IdzqrXeHXmDuurBd585pRL4ZgqTyd4=;
-	b=A5zDGXYupfFn19EbhWTqJNZ32jTYbUL8yvWMkyIxgU3JuSX/3CJVuFtrAdm+FW0nc4
-	Z46cZRzo1PoW+vJHBsokpMj1EgjxwzRv9O1AzpKOE/STbLuwmLx0y3UqLh6IyME/+tas
-	Id512QzlbAZdtXu4n3YgGKN4DFn5trsSjO6Bq8bGz3vGWZlXzXTnKk3pJV2g/Os8Vyo1
-	7li1UvtjqbU6qZ1JemJ65OrtSv/Qi8bf6KkMJxy1zpyo9KKXz+c8y807Jw8S678B4TDC
-	dwCznl+bUrivTVg8hgDn5EvQL2H1VtKqK/1zGk3DsawyI3Nr6qzTPOQ8lbrPiJGgEybe
-	bgBQ==
-X-Gm-Message-State: APjAAAV/0T2dY5AH7VjTvKC55+7TfSYNtQ7SK252iF6W1sGF3BYAiN7u
-	JXXFx4Nlnsv4uvbKlZicxXucJ0wh6ls=
-X-Google-Smtp-Source: APXvYqwFRuc1iLnZ7k3u3kO/t3NcCsmf+JpjKqqm3dEBWy2emKKJ01YDhyX3BCYIrIWbKR8aw7T+fA==
-X-Received: by 2002:adf:ab18:: with SMTP id q24mr11269345wrc.354.1565975826306;
-	Fri, 16 Aug 2019 10:17:06 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=34ECVtM9Xu9mPwQEVXY2uAF/FRuk7hvzbJEvB0rjMLI=;
+	b=pDtsGhc1pN+/16w4cTKMknX7lfDCzi//n15Gep9xn/xmLypZV0cVqy8S7HX2Qgbgjm
+	AAIotVBUsbUvT6N46UpHXLHwCkS5UQHu195vItoM4Rhv0Un2JFz860bcI1twaALicfPI
+	OgqkKn7yXXEYQRvPkOz2iXVwlxg7K95jYLLElUGw1TBVRUisr/YhT8cGFywiaHUa/KJr
+	eevZN/HVCL0TjAYQettsuXP1obCmiTGlowqWLy9+sctsjRIt0HTW6lfWOc5J6Oabcb4j
+	77aJSVYZbXmVdRLYSKasU0YrT17nO6Ffe2jNGvac3FMmpcO04ukyQog5SXnym3Z0DVEx
+	kzZw==
+X-Gm-Message-State: APjAAAWtAi90sUjTOYkvhOgfB6+tAviaQb9fAZ7+S1SEn16JpCIq4ALj
+	myktzWunPZs7r2i60/nEuI0=
+X-Google-Smtp-Source: APXvYqyS0N3+jl5Ae4fFhktaYyixM7dIJH2fEbRCYRza9REPC3LtqvmQ5tWS/qdVnb1ShaZAI29eCA==
+X-Received: by 2002:a05:600c:299:: with SMTP id
+	25mr3550191wmk.80.1565976168109; 
+	Fri, 16 Aug 2019 10:22:48 -0700 (PDT)
 Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id m6sm4715521wrq.95.2019.08.16.10.17.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 16 Aug 2019 10:17:05 -0700 (PDT)
+	by smtp.gmail.com with ESMTPSA id
+	q19sm3597411wmc.41.2019.08.16.10.22.47
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 16 Aug 2019 10:22:47 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Aug 2019 17:17:02 +0000
-Message-Id: <271517e2f38dc3eaf372e3bd9966966100e84568.1565973637.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1565973637.git.Martin.Jansa@gmail.com>
-References: <cover.1565973637.git.Martin.Jansa@gmail.com>
-Subject: [RFC][PATCH 6/6] *-artifact-names: include version only in the artifact links
+Date: Fri, 16 Aug 2019 19:22:55 +0200
+To: richard.purdie@linuxfoundation.org
+Message-ID: <20190816172255.GC1515@jama>
+References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
+	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
+	<20190815150548.GA1515@jama> <20190816102441.GB1515@jama>
+	<CA+chaQdS_QHpe2jmr6Epqc_CBBHTwbtA5beg1rjD4kwMHbhycA@mail.gmail.com>
+	<cad2ebcaf8102857799d0c0a3e921b04348c8515.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <cad2ebcaf8102857799d0c0a3e921b04348c8515.camel@linuxfoundation.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,75 +67,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 17:17:10 -0000
+X-List-Received-Date: Fri, 16 Aug 2019 17:22:47 -0000
+X-Groupsio-MsgNum: 127971
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="GPJrCs/72TxItFYR"
+Content-Disposition: inline
 
-* drop ${PKGE}-${PKGV}-${PR} from kernel artifacts names (this is the
-  latest build) and add it only in hardlinks created in do_deploy_links
-  so that we can use PKGR there again (because these links are generally
-  used only by human operators and they don't have their own TASKHASH or
-  the IMAGE_VERSION_SUFFIX might be set to some release name which they
-  do understand
+--GPJrCs/72TxItFYR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* this allows to drop package_get_auto_pr from kernel do_deploy as well,
-  leaving only 2 EXTENDPRAUTO bumps for each kernel build (do_package
-  and do_deploy_links, unfortunatelly these will still have different
-  value, so if you're looking for the exact kernel image in deploy
-  directory based on kernel image package version seen on the device the
-  EXTENDPRAUTO part of PR will be different).
+On Fri, Aug 16, 2019 at 04:54:48PM +0100, richard.purdie@linuxfoundation.or=
+g wrote:
+> On Fri, 2019-08-16 at 17:00 +0200, Martin Jansa wrote:
+> > > Will try to bump BB_NUMBER_THREADS from 8 to 72.
+> >=20
+> > I've tried to remove icecc.bbclass inherit (because it does things
+> > while parsing and RP probably doesn't have it inherited), but that
+> > didn't save much time.
+> >=20
+> > All 3 tests were with bitbake
+> > 18d4a31fdcec1f0e5d2199d6142f0ce833fca1a7
+> > 94m19.081s  8 BB_NUMBER_THREADS and icecc
+> > 82m59.574s  8 BB_NUMBER_THREADS no icecc
+> > 68m3.556s    72 BB_NUMBER_THREADS no icecc
+> >=20
+> > Still don't know how to get to sub 10min world runs RP was seeing,
+> > but at least it's as slow as it was before runqeueu changes (or even
+> > a bit faster in lastest master).
+>=20
+> Just thinking out loud, other things which can influence timings:
+>=20
+> Is SSTATE_DIR on NFS or local disk?
 
-[YOCTO #12937]
+SSTATE_DIR is empty directory on local disk
+/dev/mapper/vg00-jenkins on /jenkins type ext4 (rw,noatime,nobarrier,commit=
+=3D6000,stripe=3D128,data=3Dordered)
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/image-artifact-names.bbclass  | 2 +-
- meta/classes/kernel-artifact-names.bbclass | 7 +------
- meta/classes/kernel.bbclass                | 1 -
- 3 files changed, 2 insertions(+), 8 deletions(-)
+> Are sstate mirrors configured?
 
-diff --git a/meta/classes/image-artifact-names.bbclass b/meta/classes/image-artifact-names.bbclass
-index d5ba035f5a..b23cef22ca 100644
---- a/meta/classes/image-artifact-names.bbclass
-+++ b/meta/classes/image-artifact-names.bbclass
-@@ -3,7 +3,7 @@
- ##################################################################
- 
- IMAGE_BASENAME = "${PN}"
--IMAGE_VERSION_SUFFIX = "-${DATETIME}"
-+IMAGE_VERSION_SUFFIX = "${PKGE}-${PKGV}-${PKGR}-${DATETIME}"
- IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME"
- IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}"
- IMAGE_LINK_NAME = "${IMAGE_NAME}${IMAGE_VERSION_SUFFIX}"
-diff --git a/meta/classes/kernel-artifact-names.bbclass b/meta/classes/kernel-artifact-names.bbclass
-index 41ef6e884d..92e08297cc 100644
---- a/meta/classes/kernel-artifact-names.bbclass
-+++ b/meta/classes/kernel-artifact-names.bbclass
-@@ -6,12 +6,7 @@
- 
- inherit image-artifact-names
- 
--# Intentionally use PR instead of PKGR, because EXTENDPRAUTO included
--# in PKGR will have different value for do_install/do_deploy/do_deploy_links
--# tasks with different TASKHASH, causing multiple EXTENDPRAUTO increments for
--# each kernel build and more importantly preventing do_deploy_links to
--# reference artifacts created do_deploy task
--KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PR}-${MACHINE}"
-+KERNEL_ARTIFACT_NAME ?= "${MACHINE}"
- KERNEL_ARTIFACT_LINK_NAME ?= "${KERNEL_ARTIFACT_NAME}${IMAGE_VERSION_SUFFIX}"
- 
- KERNEL_IMAGE_NAME ?= "${KERNEL_ARTIFACT_NAME}"
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index e41adcbebe..3b8bfd2991 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -700,7 +700,6 @@ kernel_do_deploy() {
- }
- do_deploy[cleandirs] = "${DEPLOYDIR}"
- do_deploy[dirs] = "${DEPLOYDIR} ${B}"
--do_deploy[prefuncs] += "package_get_auto_pr"
- 
- addtask deploy after do_populate_sysroot do_packagedata
- 
--- 
-2.17.1
+None, normally I have SSTATE_MIRRORS over sshfs in this case, but I've
+removed it before any performance testing.
 
+> Is there an existing build or not, if so, how much is valid?
 
+Nothing, I remove whole TMPDIR and cache before each run. Then let it
+recreate the cache before starting the profile:
+bitbake -p; time bitbake world -P -n
+
+> Underlying filesystem of the build?
+
+ext4, everything is pretty much generic Ubuntu 18.04
+
+There is plenty of ram, I'll try to test this from tmpfs as well.
+
+> Your build seems especially slow at executing through the tasks which
+> is effectively a test on how fast the system can fork() and return in
+> some ways. It would be interesting to block dry-run on the server side,
+> skip the fork and see how the numbers compare.
+
+As discussed on IRC, it's slower than yours (8 minutes from 68), but the
+most significant chunk of time is lost somewhere else.
+
+> My build manages some parts of the tasklist faster than others, perhaps
+> because there are more "free" tasks to execute at some points in the
+> task graph than others.
+>=20
+> Also, I have some patches which improve performance a bit which I'm
+> still testing.
+
+Thanks for all the work on this!
+
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--GPJrCs/72TxItFYR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXVbmbgAKCRA3VSO3ZXaA
+HFY6AJ0R2TwB+6pzUzDzgIvdzxKqbK9YTgCgo62ArsRQtVWbpUwQtqNFULlmnWU=
+=nDe2
+-----END PGP SIGNATURE-----
+
+--GPJrCs/72TxItFYR--
