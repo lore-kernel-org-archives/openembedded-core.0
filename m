@@ -1,47 +1,50 @@
 Return-Path: <wesley.lindauer@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D53C7ED64
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+	[209.85.210.182])
+	by mail.openembedded.org (Postfix) with ESMTP id D10697F378
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 19:44:48 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id w16so3620171pfn.7
+	Fri, 16 Aug 2019 19:45:12 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id w26so3596549pfq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 12:44:49 -0700 (PDT)
+	Fri, 16 Aug 2019 12:45:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=7NWWlLw41gMUCfjapu8Px+t5zldTNGcUpeWlqNh77zc=;
-	b=WHwH2MxOxfsBwDhddQXlaCn7TNLRkSiI0WkeYQH2mCJN39GTD2NtGQq5K5wPwCN25f
-	2gR2wyTi0+1JTjY0bV6yOqPh9OV6FzWm+RMGtTID0/O6MVx00JRzrFQen0PxPJRMn1BA
-	nUHuZWRH+z17CUVKM6hkvIClcE0LFKuSqgKg3W1oKAr+Zt2C4udBe82fXAP/JkdYsdxd
-	6F7v78VyHTCbDoaaT3gHPIhX61ML6cyj7C5x5xxBFHOJzVMj2AsKmlpkibj/wneLCPyF
-	1kzsTkDoq0svnta0dlg2UQKdRxHDuMWxxNQRYVRlpgg/IzRVz6PIACPE6QC4z+i8UUev
-	bFWQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=7CtDnSpettIMq64P41VTmGKHp6fBrhyOXdlBxf4gs0o=;
+	b=DrR3JQYwxiv2s1odDTWBWsLJorlTbs0/MBJ+kSzwWu/a6AhoM3aW7JE8y/nmRURtHP
+	pjH38cEv0eWX62vMVxjudAXeEqo6Bis0VltZpEhS76fOhf28gaGVrJZIsXxgHnVUXW36
+	/NsWK61i5DnOHPNKGgyOwCxm0ysGnfqlnBt7Z7gG14hekVCsxaweLrLLjSjx2e5rjyqj
+	AL9a7YKjYWxtKJVXNqDVT1QTGd3wdS7OHZD2nKVzx6besSMhdDu1wE6sbluse7VHODXH
+	ByRftu1HwmVrFAw96If1oo/SzacyC8GugX3nNUrL1fGKPittL7TU27dAoU6xwSM6eFPu
+	CFFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7NWWlLw41gMUCfjapu8Px+t5zldTNGcUpeWlqNh77zc=;
-	b=FoK3WOHOJ/XFPIi0P6XXchU9u671I7rxpLwUT9yyo6Y15dsF8YVV6WKrAzzpKGyqx8
-	m5unHlyEiFq8ZPOGt4sneMmfi/99E0CmbyI8Z9ciMAVy/KRBirCt/QhVJNSGIVlOhSOW
-	DAjkTFTfDo399VazRiuNjimD0S3C3n4gld9HL8pPM4Z6+nyPwcU8t7KemP4vISBpJ40K
-	of3RVNiE0/KB6IS0HBESENhl1pWb44Kz3cpn4j8S/r94fAgR0hMDVh4U/TPXdQCMHcpx
-	MLIPxDODtFOUNUz7mt4WcfT5p7EFzo0apMFGI+UguEmLwGCvfV2cQy/MQcAWiBTCNmJz
-	/fBg==
-X-Gm-Message-State: APjAAAXjjicQwr5HatTDcglc7dhqzM3f2HUO5iAXG6wL+2mYWc60bhf1
-	M6sYVA1gEBjYrAPEVhv4LHjfLMnw
-X-Google-Smtp-Source: APXvYqxJAjyotaXBEoXEtQ0T6Ucutxaz30rjXKVM6OQft/0/lkCk8ddGQVO/pSQgfaI8lck25/4SMw==
-X-Received: by 2002:a63:ec48:: with SMTP id r8mr8737492pgj.387.1565984689163; 
-	Fri, 16 Aug 2019 12:44:49 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=7CtDnSpettIMq64P41VTmGKHp6fBrhyOXdlBxf4gs0o=;
+	b=gbu1SNJ6X0msEqYVIW8XQHZkkR+nT009+p5pTNd+MsPomgQHk/bKXuI7BM4GsGjdPA
+	zWUR1OfkzJR4fH/4qTuDsHfBUeJZXAhzhN0MFPlx4gokWQQpmH5j6M69gwbz+7bmaCuU
+	obAvpiv3rMSXp3xQm1QiEOyt4vhsjVdUZvb4BICbjHaEn9g0W3HADNlNm1xsMxadN9QJ
+	Z097ZmPIy1u+8IuP8is+xEqRS8fKFqCVKGAb74bIKaYqApL5BsdA5aIa6Stm2Tv78YDz
+	/Q2QhOE+442E76hGQMRrnXy9O78O1tNPIkY6MgfhbIF/+QnJvQUqbuUZo+R0xJKDn7yt
+	iTzA==
+X-Gm-Message-State: APjAAAW8/tskn7SCPuTO/81XI280lqO8OgchdnImw+mMAbRLJnnpS3NV
+	AIz+Ex8csJdEtVrQtM+N+oedYnly
+X-Google-Smtp-Source: APXvYqxJVjA6Dwk+rcerZfWyS7ikIODYlVxTM+/A6N0mt3SWjREbWk4qsCuodiMoECrOtdTdypi15A==
+X-Received: by 2002:aa7:818b:: with SMTP id g11mr12533504pfi.122.1565984713901;
+	Fri, 16 Aug 2019 12:45:13 -0700 (PDT)
 Received: from camaro.lpdev.prtdev.lexmark.com ([192.146.101.90])
 	by smtp.gmail.com with ESMTPSA id
-	o35sm5537333pgm.29.2019.08.16.12.44.39
+	o35sm5537333pgm.29.2019.08.16.12.45.11
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 16 Aug 2019 12:44:45 -0700 (PDT)
+	Fri, 16 Aug 2019 12:45:13 -0700 (PDT)
 From: Wes Lindauer <wesley.lindauer@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Aug 2019 15:44:00 -0400
-Message-Id: <20190816194405.12751-1-wesley.lindauer@gmail.com>
+Date: Fri, 16 Aug 2019 15:44:01 -0400
+Message-Id: <20190816194405.12751-2-wesley.lindauer@gmail.com>
 X-Mailer: git-send-email 2.14.5
-Subject: [PATCH 1/6] iw: Fix license field to BSD-2-Clause
+In-Reply-To: <20190816194405.12751-1-wesley.lindauer@gmail.com>
+References: <20190816194405.12751-1-wesley.lindauer@gmail.com>
+Subject: [PATCH 2/6] openssh: Update LICENSE field with missing values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,27 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 19:44:48 -0000
+X-List-Received-Date: Fri, 16 Aug 2019 19:45:12 -0000
 
-Using just "BSD" license implies BSD-3-Clause and this recipe appears to
-be closer to a BSD-2-Clause.
+The LICENSE file states that some code is licensed under BSD, some under
+ISC, and some under MIT. The LICENSE field should reflect all of these.
 ---
- meta/recipes-connectivity/iw/iw_5.0.1.bb | 2 +-
+ meta/recipes-connectivity/openssh/openssh_8.0p1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/iw/iw_5.0.1.bb b/meta/recipes-connectivity/iw/iw_5.0.1.bb
-index e127963513..87b21e668d 100644
---- a/meta/recipes-connectivity/iw/iw_5.0.1.bb
-+++ b/meta/recipes-connectivity/iw/iw_5.0.1.bb
-@@ -4,7 +4,7 @@ wireless devices. It supports almost all new drivers that have been added \
- to the kernel recently. "
- HOMEPAGE = "http://wireless.kernel.org/en/users/Documentation/iw"
- SECTION = "base"
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+index 35cdf71eb3..01eaecd4ec 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+@@ -5,7 +5,7 @@ Ssh (Secure Shell) is a program for logging into a remote machine \
+ and for executing commands on a remote machine."
+ HOMEPAGE = "http://www.openssh.com/"
+ SECTION = "console/network"
 -LICENSE = "BSD"
-+LICENSE = "BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=878618a5c4af25e9b93ef0be1a93f774"
++LICENSE = "BSD & ISC & MIT"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
  
- DEPENDS = "libnl"
+ DEPENDS = "zlib openssl virtual/crypt"
 -- 
 2.14.5
 
