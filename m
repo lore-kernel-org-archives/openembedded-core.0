@@ -1,48 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
-	[209.85.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 08E437DD6C
+Return-Path: <jwessel@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FB497F37F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 20:50:39 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id x4so7542549qts.5
+	Fri, 16 Aug 2019 21:06:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7GL5isv024670
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 13:50:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=XN4qf+AG4USr2c6+ZoSXgmrLo7bbEh8Hr95p20HKm10=;
-	b=Ka4fVpCtwCZXPLRkK+lCP9XvGHoD8PoBVd6DA/U6kko1qNVI0t1Pl1WRD1yfYDSl0a
-	mpimcFG3pdmbi7dQzWBSG6vTPW8lv5DaMG4DKVqlhZSKp5DBPakXkZXbhKYY2MVv2Uvz
-	XDzAFoj7kk5tVqT4ehqDoMuxavqKdK1yv1EToVYjUVPku5sqOPT9dEkzJ82fr7eWw9dM
-	JZioetG2NW8en+JJyITwhPf4vhvz+ArvMxzfJi556YZXYPLIyqXp2LRvV106Ym+RvXjG
-	7BRijfW3aqA3Hf9fcEJS/vVmK76RaD2ljnyUUpx689RrK2v9pJnZQ3gN9CuRebtUc2j7
-	JQaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=XN4qf+AG4USr2c6+ZoSXgmrLo7bbEh8Hr95p20HKm10=;
-	b=U6V260Q9nVfAwzvVSrHZwcs+IT/Sx/cO7AV9eumByn8AL0UXL1oNpvHptoQYQbrxJD
-	5VSvdb2KfYBTS+BSGVam2mCUomdaLlLvptWTUbhmIFYr6ML/kOXf5YEKnkgSyxcpubuK
-	p288zCcGYf0Y76t1xLoOL0OfZbI4zycXltMY1tLh24ZKIvSYy41blUuHtu0cOz4zi5FS
-	1Cb8W4D2JmWX7KcruNIPfV7Bomo20rop7gQIWrtWe7ERi/OAbDtqRPpWy9mxJ/dV2XQm
-	c5x7wO1P1Pk0ejUSnHXK0OU3IPB/BX2Dm+C2v6nXwE6WGIuMf2Cg2Vet4GobQ2mQCnoK
-	z2Zg==
-X-Gm-Message-State: APjAAAUlvriYYl4WZeGe04+msonzCvC1qV0U+raP+4ZBiyiM2PSBx9Yc
-	NZvCNlveU1p9vZ1yUp6RSTwlMbqIhai9YPZ3no4=
-X-Google-Smtp-Source: APXvYqzc/qpM+XAYBaAUmfZR2y1UAHShJakFiyFd4mSN5ecKODyqZMv5EprAO2kg52ewou9XJmGtatmmPLF260Y/FQI=
-X-Received: by 2002:ac8:74d2:: with SMTP id j18mr2067063qtr.378.1565988640583; 
-	Fri, 16 Aug 2019 13:50:40 -0700 (PDT)
+	Fri, 16 Aug 2019 14:06:20 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Fri, 16 Aug 2019 14:06:07 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 88C84AA34AA;
+	Fri, 16 Aug 2019 14:06:07 -0700 (PDT)
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 16 Aug 2019 14:06:05 -0700
+Message-ID: <20190816210605.62377-2-jason.wessel@windriver.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190816210605.62377-1-jason.wessel@windriver.com>
+References: <20190816210605.62377-1-jason.wessel@windriver.com>
 MIME-Version: 1.0
-References: <20190816194405.12751-1-wesley.lindauer@gmail.com>
-	<20190816194405.12751-6-wesley.lindauer@gmail.com>
-In-Reply-To: <20190816194405.12751-6-wesley.lindauer@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 16 Aug 2019 13:50:14 -0700
-Message-ID: <CAMKF1sruqPBcwobNNErkdHKAnP7zT8zda81O2FUP88u=5ZnmVg@mail.gmail.com>
-To: Wes Lindauer <wesley.lindauer@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] xz: Remove GPLv3 license checksum
+Subject: [RFC PATCH 2/2] libc-package.bbclass: Split locale hard link processing into two parts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +35,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 20:50:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 16 Aug 2019 21:06:30 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Fri, Aug 16, 2019 at 12:46 PM Wes Lindauer <wesley.lindauer@gmail.com> wrote:
->
-> Although xz has some files that are GPLv3 licensed, none of them get
-> packaged up, and therefore none of it ends up in the final rootfs. Since
-> there is no GPLv3 code in the final image, we don't want to include it
-> when we collect licenses, as that would give the incorrect impression
-> that the image contains GPLv3 code.
+The locale-processing in cross-localedef was proven to be unsafe to
+run in parallel due to the way it tried to make hard links to files
+that could disappear before the link operation was completed.
 
-We will be distributing this in src packages though. Maybe these files
-should be deleted before the build even starts.
->
-> Also fixes the endline for getopt.c which had a couple of non-license
-> text lines at the bottom.
-> ---
->  meta/recipes-extended/xz/xz_5.2.4.bb | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-extended/xz/xz_5.2.4.bb b/meta/recipes-extended/xz/xz_5.2.4.bb
-> index 791746e1cf..e6725e5f12 100644
-> --- a/meta/recipes-extended/xz/xz_5.2.4.bb
-> +++ b/meta/recipes-extended/xz/xz_5.2.4.bb
-> @@ -17,9 +17,8 @@ LICENSE_liblzma = "PD"
->
->  LIC_FILES_CHKSUM = "file://COPYING;md5=97d554a32881fee0aa283d96e47cb24a \
->                      file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> -                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
->                      file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
-> -                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 \
-> +                    file://lib/getopt.c;endline=21;md5=32575ca1a42c5fa04aac6f08566ddf48 \
->                      "
->
->  SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
-> --
-> 2.14.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+To avoid corruption of the pseudo database, and create a
+deterministically generated link tree, the operation of the locale
+generation and the hard link resolution have been split into two
+separate parts.  A side effect of this change is that the do_package()
+rule for glibc-locale will be slightly smaller because some of the
+hard links were missed in the past, particularly if you had a lot of
+cpus free to perform the work.
+
+Before the patch:
+% du -sk locale-tree
+312524  locale-tree
+
+With the patch:
+% du -sk locale-tree
+290772 locale-tree
+
+A number of comparisons were performed such as diffing the output,
+cross checking the link references using tar's listing output, and
+comparing against the results with out a parallel build to ensure the
+locale-tree is correct in its final form.
+
+[YOCTO #11299]
+[YOCTO #12434]
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/classes/libc-package.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 8859dad566..a66e540884 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -82,6 +82,9 @@ do_collect_bins_from_locale_tree() {
+ 	parent=$(dirname ${localedir})
+ 	mkdir -p ${PKGD}/$parent
+ 	tar -cf - -C $treedir/$parent -p $(basename ${localedir}) | tar -xf - -C ${PKGD}$parent
++
++	# Finalize tree by chaning all duplicate files into hard links
++	cross-localedef-hardlink -c -v ${WORKDIR}/locale-tree
+ }
+ 
+ inherit qemu
+@@ -265,7 +268,7 @@ python package_do_split_gconvs () {
+                 bb.error("locale_arch_options not found for target_arch=" + target_arch)
+                 bb.fatal("unknown arch:" + target_arch + " for locale_arch_options")
+ 
+-            localedef_opts += " --force  --no-archive --prefix=%s \
++            localedef_opts += " --force --no-hard-links --no-archive --prefix=%s \
+                 --inputfile=%s/%s/i18n/locales/%s --charmap=%s %s/%s" \
+                 % (treedir, treedir, datadir, locale, encoding, outputpath, name)
+ 
+@@ -273,7 +276,7 @@ python package_do_split_gconvs () {
+                 (path, i18npath, gconvpath, localedef_opts)
+         else: # earlier slower qemu way 
+             qemu = qemu_target_binary(d) 
+-            localedef_opts = "--force --no-archive --prefix=%s \
++            localedef_opts = "--force --no-hard-links --no-archive --prefix=%s \
+                 --inputfile=%s/i18n/locales/%s --charmap=%s %s" \
+                 % (treedir, datadir, locale, encoding, name)
+ 
+-- 
+2.21.0
+
 
