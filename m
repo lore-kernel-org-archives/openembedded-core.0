@@ -1,18 +1,47 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A34767F36F;
-	Fri, 16 Aug 2019 18:02:18 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 16 Aug 2019 18:02:20 -0000
-Message-ID: <20190816180220.2331.61473@do>
-References: <20190816173301.807-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190816173301.807-1-raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImdjYzogU2VhcmNoIGluIE9FIHNwZWNpZmljIHRhci4uLiIgYW5kIDEgbW9yZQ==?=
+Return-Path: <wesley.lindauer@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D53C7ED64
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2019 19:44:48 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id w16so3620171pfn.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2019 12:44:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=7NWWlLw41gMUCfjapu8Px+t5zldTNGcUpeWlqNh77zc=;
+	b=WHwH2MxOxfsBwDhddQXlaCn7TNLRkSiI0WkeYQH2mCJN39GTD2NtGQq5K5wPwCN25f
+	2gR2wyTi0+1JTjY0bV6yOqPh9OV6FzWm+RMGtTID0/O6MVx00JRzrFQen0PxPJRMn1BA
+	nUHuZWRH+z17CUVKM6hkvIClcE0LFKuSqgKg3W1oKAr+Zt2C4udBe82fXAP/JkdYsdxd
+	6F7v78VyHTCbDoaaT3gHPIhX61ML6cyj7C5x5xxBFHOJzVMj2AsKmlpkibj/wneLCPyF
+	1kzsTkDoq0svnta0dlg2UQKdRxHDuMWxxNQRYVRlpgg/IzRVz6PIACPE6QC4z+i8UUev
+	bFWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7NWWlLw41gMUCfjapu8Px+t5zldTNGcUpeWlqNh77zc=;
+	b=FoK3WOHOJ/XFPIi0P6XXchU9u671I7rxpLwUT9yyo6Y15dsF8YVV6WKrAzzpKGyqx8
+	m5unHlyEiFq8ZPOGt4sneMmfi/99E0CmbyI8Z9ciMAVy/KRBirCt/QhVJNSGIVlOhSOW
+	DAjkTFTfDo399VazRiuNjimD0S3C3n4gld9HL8pPM4Z6+nyPwcU8t7KemP4vISBpJ40K
+	of3RVNiE0/KB6IS0HBESENhl1pWb44Kz3cpn4j8S/r94fAgR0hMDVh4U/TPXdQCMHcpx
+	MLIPxDODtFOUNUz7mt4WcfT5p7EFzo0apMFGI+UguEmLwGCvfV2cQy/MQcAWiBTCNmJz
+	/fBg==
+X-Gm-Message-State: APjAAAXjjicQwr5HatTDcglc7dhqzM3f2HUO5iAXG6wL+2mYWc60bhf1
+	M6sYVA1gEBjYrAPEVhv4LHjfLMnw
+X-Google-Smtp-Source: APXvYqxJAjyotaXBEoXEtQ0T6Ucutxaz30rjXKVM6OQft/0/lkCk8ddGQVO/pSQgfaI8lck25/4SMw==
+X-Received: by 2002:a63:ec48:: with SMTP id r8mr8737492pgj.387.1565984689163; 
+	Fri, 16 Aug 2019 12:44:49 -0700 (PDT)
+Received: from camaro.lpdev.prtdev.lexmark.com ([192.146.101.90])
+	by smtp.gmail.com with ESMTPSA id
+	o35sm5537333pgm.29.2019.08.16.12.44.39
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 16 Aug 2019 12:44:45 -0700 (PDT)
+From: Wes Lindauer <wesley.lindauer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Aug 2019 15:44:00 -0400
+Message-Id: <20190816194405.12751-1-wesley.lindauer@gmail.com>
+X-Mailer: git-send-email 2.14.5
+Subject: [PATCH 1/6] iw: Fix license field to BSD-2-Clause
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +54,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 18:02:18 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Aug 2019 19:44:48 -0000
 
-== Series Details ==
-
-Series: "gcc: Search in OE specific tar..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19322/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 6b36db8365)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Using just "BSD" license implies BSD-3-Clause and this recipe appears to
+be closer to a BSD-2-Clause.
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-connectivity/iw/iw_5.0.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/iw/iw_5.0.1.bb b/meta/recipes-connectivity/iw/iw_5.0.1.bb
+index e127963513..87b21e668d 100644
+--- a/meta/recipes-connectivity/iw/iw_5.0.1.bb
++++ b/meta/recipes-connectivity/iw/iw_5.0.1.bb
+@@ -4,7 +4,7 @@ wireless devices. It supports almost all new drivers that have been added \
+ to the kernel recently. "
+ HOMEPAGE = "http://wireless.kernel.org/en/users/Documentation/iw"
+ SECTION = "base"
+-LICENSE = "BSD"
++LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=878618a5c4af25e9b93ef0be1a93f774"
+ 
+ DEPENDS = "libnl"
+-- 
+2.14.5
 
 
