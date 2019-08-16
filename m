@@ -1,50 +1,48 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 530EC7F359
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E78EA7F34B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 17:10:09 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id e27so5928732ljb.7
+	Fri, 16 Aug 2019 17:16:59 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id l2so4659081wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2019 10:10:10 -0700 (PDT)
+	Fri, 16 Aug 2019 10:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=5IfGGbLtjdYcnbzMv37wuNJYZbAVmCTrMNssnWi1IuE=;
-	b=JtE4rArlrgvCcbODEwQEvnTD4p2RVujr7vSjkJuJf6A2ZFB6X4DFb73K5H4Xvg/Vgx
-	9EK7Gd+vE2MB4JQ2yMJ4vXfTMJLYazNIHohDwtVkG7fGB584rjpj4bkg16/ptWBGVE+1
-	EVH5vF/es0sc+wNHNOS8iAQN+qrXevgYsstkEDpmSxjYQq2IJxWndvGNRWEeUTTEaIq+
-	8+750XPDgYZ65gVCIGwU0S+LBjDU6WaP6el19f1yJ2PZoOV7zxG2ZIPMBmF6XR/Fkfhg
-	4QC2AxS1gGacuIb57FsHJHjD0/xd/xPHUhO4++g3xUxdOuSAE3YTxbZTSn0rduHrcN+p
-	Cr8Q==
+	h=from:to:subject:date:message-id;
+	bh=O4eRTgUosYpVRHbgCbLpOHXWSWphRPJ+JQgVn7wSIN4=;
+	b=vAIPZipGr28z7VWUL30JuQBhI2zJTek4qMrgsn/x3lYvRGT8GmuR7z3Wt6iej3zQOq
+	6hKsthAWQOgaBVP9N1SOyFbaeeiww2ljGOBDtGdGih6vWu1FnqNVRVKHJ8b8dT4hVfFt
+	8RBtauD8zYZzzbIQBJue8chKiNt6uYKiUYg15Xsl07k2fVcV0xkD4Yz7foFjrXeQK3oK
+	Erk6rUsNYaE3zY31J05DDE5LOXNuzHhorC+Gc6meMkaOeoKJ+Of/aFr/iORyW9HEHVYD
+	fvmFwGsxEFCTqxu0802NcxX09kR1aoLzfuIm5vg3tUBfaUZA90gTIlqubKKGNesZZvlK
+	9zSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=5IfGGbLtjdYcnbzMv37wuNJYZbAVmCTrMNssnWi1IuE=;
-	b=r9xNDm0/g3wye8BWTNfw7P5fxR2MxnHdtQpWpdLyOQTpNX0Ka2u1nTvzq2f16POgBV
-	ucHOEJbcRwuKZiwNUGpeQcBrbCIMVOZRC9Ixhxexw5mdlI7PwLNPuCLB4hWmlHSVNaxG
-	uiNlfk7ahoq+s3IdBrCMzh3vsL32Uup7Wf8SLN9z15CxEou0Ir/X29yZJd5WV59/Ik1V
-	OKbV8lwp3f7Qc3MSjlygL1PqCXCVIMW7m+rpcYJBkKhoU9nsjP51j84ln0eEIOxDV4PB
-	ny+pNVfPSimEpZxLYzcaDyJf9a6cjaNaTVLqa7RbxNv8Eji4iDznmpZsqyT/KSM3+iuq
-	IMEw==
-X-Gm-Message-State: APjAAAXqw6NiZXClCYJsR8ly4VTwRhbKLJ/tnmDjv5skAF45e/oDiS3A
-	U6Quw+zYkebT5AXFzyi8F8iD+o5QtBX6ItBt51U=
-X-Google-Smtp-Source: APXvYqyW1oyahfi8pHsl2Ql2+oD3si91OGbDMwcI+IHTj4mTnMw1yKUOFkhqn2fAtjr69BkJpKEcmBByP3EI6Py2KlY=
-X-Received: by 2002:a05:651c:c1:: with SMTP id 1mr6165499ljr.119.1565975409852;
-	Fri, 16 Aug 2019 10:10:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190815213145.8986-1-alistair.francis@wdc.com>
-	<20190815213145.8986-3-alistair.francis@wdc.com>
-	<f641f2e5-ca75-3580-24ba-b785c17981af@mikrodidakt.se>
-In-Reply-To: <f641f2e5-ca75-3580-24ba-b785c17981af@mikrodidakt.se>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 16 Aug 2019 10:06:14 -0700
-Message-ID: <CAKmqyKM6aCWHptWV72oyWqC60cH4DNqz-D6n6ukRjdpTG0i3XA@mail.gmail.com>
-To: Jacob Kroon <jacob.kroon@mikrodidakt.se>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] qemuriscv64: Specify the firmware as a bios instead of kernel
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=O4eRTgUosYpVRHbgCbLpOHXWSWphRPJ+JQgVn7wSIN4=;
+	b=L6hhce0c9zf0jCeW6a6pC2ge1y87nAWEL6JLtUk7lp8iJ627YxgBvzBFoQES0MCJKJ
+	Ka73qxHWWBFWBLMKfDqcBoriJvuBW61TF4WC+cPorut2MYncXL9ojAVIswChZVzw532r
+	tfxDSyy5KGTZUOmyoWzCQtyX4Qo8/LsKneH+gpdnqT0J62NvbVJ5f9CF4unz+gI73xuX
+	LxQRVfy8xU1NjVzkZTR2r/rC1bPlu1V1bDnUWuhV8rDWH8OxSwX0eaQ1H/JTbsccprrx
+	HXdZGT6njIYa0h8JNR4cDaIZC7gAEWpOy63H/yi56j3jA9icpxfkpljLAbiGQnkKuZId
+	+DKQ==
+X-Gm-Message-State: APjAAAWokKLCfE4sl4rQL+1Osu024lr3b2GB8PAmO7rSAYFZdmBvTfUF
+	5U/2YfK/azSkdZaGPY/iRqVMCJSm7Mw=
+X-Google-Smtp-Source: APXvYqzC2gW2PMMYGY6GFr7t7F7IALxIbnceLrJiDsgSriZqBmZ47YrgDCrGGcodyR6bzajVW5YxDw==
+X-Received: by 2002:a1c:4e19:: with SMTP id g25mr3888581wmh.30.1565975819633; 
+	Fri, 16 Aug 2019 10:16:59 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id e3sm7574667wrs.37.2019.08.16.10.16.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 16 Aug 2019 10:16:58 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Aug 2019 17:16:56 +0000
+Message-Id: <cover.1565973637.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [RFC][PATCH 0/6] YOCTO #12937 - Consistent naming scheme for deployed artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,90 +55,268 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 17:10:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 16 Aug 2019 17:17:00 -0000
 
-On Thu, Aug 15, 2019 at 11:40 PM Jacob Kroon <jacob.kroon@mikrodidakt.se> w=
-rote:
->
-> Hi,
->
-> On 8/15/19 11:31 PM, Alistair Francis wrote:
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >   meta/conf/machine/include/riscv/qemuriscv.inc | 2 +-
-> >   meta/conf/machine/qemuriscv64.conf            | 2 --
-> >   2 files changed, 1 insertion(+), 3 deletions(-)
-> >
-> > diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/=
-machine/include/riscv/qemuriscv.inc
-> > index 797a27660d..2ebd0a01f2 100644
-> > --- a/meta/conf/machine/include/riscv/qemuriscv.inc
-> > +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-> > @@ -28,7 +28,7 @@ UBOOT_ENTRYPOINT_riscv64 =3D "0x80200000"
-> >   QB_KERNEL_CMDLINE_APPEND =3D "earlycon=3Dsbi"
-> >   QB_MEM =3D "-m 512"
-> >   QB_MACHINE =3D "-machine virt"
-> > -QB_DEFAULT_KERNEL =3D "fw_jump.elf"
-> > +QB_DEFAULT_BIOS =3D "fw_jump.elf"
-> >   QB_TAP_OPT =3D "-netdev tap,id=3Dnet0,ifname=3D@TAP@,script=3Dno,down=
-script=3Dno"
-> >   QB_NETWORK_DEVICE =3D "-device virtio-net-device,netdev=3Dnet0,mac=3D=
-@MAC@"
-> >   QB_ROOTFS_OPT =3D "-drive id=3Ddisk0,file=3D@ROOTFS@,if=3Dnone,format=
-=3Draw -device virtio-blk-device,drive=3Ddisk0"
-> > diff --git a/meta/conf/machine/qemuriscv64.conf b/meta/conf/machine/qem=
-uriscv64.conf
-> > index dba8f09e93..99b48b309b 100644
-> > --- a/meta/conf/machine/qemuriscv64.conf
-> > +++ b/meta/conf/machine/qemuriscv64.conf
-> > @@ -4,8 +4,6 @@
-> >
-> >   require conf/machine/include/riscv/qemuriscv.inc
-> >
-> > -QB_OPT_APPEND +=3D "-show-cursor -monitor null -device loader,file=3D$=
-{DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE},addr=3D0x80200000"
-> > -
->
-> Was it intentional to remove these lines aswell ? I can't tell from the
-> commit message.
+Let me explain a bit what these changes do for us in LGE.
 
-This was intentional.
+We have jenkins jobs for CI as well for official releases.
 
-We used to use:
- -kernel: Specify the firmware
- -device (above): Specify the kernel
+All built artifacts are moved from jenkins builder to fileserver after
+the build.
 
-Now we can use:
- -bios: Specify the firmware
- -kernel: Specify the kernel
+Each jobs have some identifier which is then included in the filenames
+of all relevant build artifacts, e.g. CI jobs will add e.g. lgsvl-verf-12
+to show where it was created and what build created it (12 is
+BUILD_NUMBER from jenkins, verf is type of build, lgsvl is location).
 
-So this line isn't required.
+To do this you can already use IMAGE_VERSION_SUFFIX variable and add
+this as a suffix to current artifact names. But that has some bad
+limitations.
 
-Alistair
+A) If you keep IMAGE_VERSION_SUFFIX in do_deploy signatures, then
+the artifacts will be rebuilt even when the deploy sstate archive in
+cache is identical except tha filename. We had this for a while, but
+all CI jobs were slow, because of rebuilding kernel every single time.
 
->
-> /Jacob
->
-> >   EXTRA_IMAGEDEPENDS +=3D "u-boot"
-> >   UBOOT_MACHINE =3D "qemu-riscv64_defconfig"
-> >   UBOOT_ELF =3D "u-boot"
-> >
->
->
->
-> [mikrodidakt]
-> Jacob Kroon =E2=80=A2 +46 46325040
->
-> mikrodidakt.se =E2=80=A2 Skifferv=C3=A4gen 48, SE-224 78 LUND, Sweden
->
-> Consultans since 1980 =E2=80=A2 SW, HW, Embedded Systems, Linux
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+B) If you vardepexclude IMAGE_VERSION_SUFFIX from the tasks which use
+it, you get faster CI builds, but with inconsistent artifact names when
+kernel deploy sstate is reused, e.g. image will have lgsvl-verf-12
+but all kernel artifacts will end with lgsvl-verf-11, when the kernel
+do_deploy was reused from previously built sstate-cache
+
+It gets even worse with B) when you have some other tooling (like
+runtime testing farm) which is tasked to flash image and kernel from
+lgsvl-verf-12 and it fails to find kernel image to flash, because it's
+named differently.
+
+C) Using version-less artifacts and just storing them in different
+directories might work better, but then it would make sense to include
+IMAGE_VERSION_SUFFIX in DEPLOY_DIR_IMAGE and remove it from the actual
+files inside (with version-less symlinks pointing to them). But this is
+a bit problematic when the individual images are usually downloaded by
+BFUs over http (and they end with various identically named files for
+which they don't remember from where they came).
+
+So this was the motivation why we have this in webOS.
+
+The difference for you (most people shouldn't even notice):
+
+1) hard links instead of symlinks in DEPLOY_DIR_IMAGE, because now the
+   version is in the *_LINK_* variables and you don't want symlink with
+   version release-1 pointing to file created with release-2 build.
+
+2) do_deploy, do_rootfs can still be reused from sstate, it will restore
+   the version-less artifact and then just quicky add another hardlink with
+   new filename (do_deploy_links task).
+
+3) we're using this for couple years (badly hacked into OE, because we didn't
+   want to overlay all relevant .bbclasses, but still needed to inject do_deploy_links
+   task dependency in multiple places) and the only issue I've noticed was with
+   one our proprietary IMAGE_FSTYPE format which was appending to image file in
+   DEPLOY_DIR_IMAGE if it existed before, instead of overwritting it from scratch -
+   to fix that I've just changed fstype function to remove the file before creating
+   it again.
+
+4) Examples:
+   All show "ls -laih DEPLOY_DIR_IMAGE | sort" to show the symlinks and hardlinks
+
+   TMPDIR is removed between each example, except the e) and f), but sstate-cache
+   is kept in all cases and reused where possible
+
+   MODULE_TARBALL_DEPLOY = "1" is added to local.conf to have more than just 1
+   kernel image as artifact from kernel (e.g. rpi MACHINEs have a lot of them with
+   all the dtds).
+
+a) Current master with default values:
+
+$ ls -laih qemux86-64-master-default/  | sort
+47054849 drwxr-xr-x 13 bitbake bitbake 4.0K Aug 16 16:37 ..
+50735788 -rw-r--r--  1 bitbake bitbake 612K Aug 15 17:16 grub-efi-bootx64.efi
+50735796 drwxr-xr-x  2 bitbake bitbake 4.0K Aug 16 14:23 .
+50741892 -rwxr-xr-x  1 bitbake bitbake  95K Aug 15 17:16 systemd-bootx64.efi
+52067796 -rw-r--r--  1 bitbake bitbake 7.6M Aug 16 14:22 bzImage--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.17-qemux86-64-20190816141126.bin
+52067797 lrwxrwxrwx  1 bitbake bitbake   78 Aug 16 14:22 bzImage-qemux86-64.bin -> bzImage--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.17-qemux86-64-20190816141126.bin
+52067798 lrwxrwxrwx  1 bitbake bitbake   78 Aug 16 14:22 bzImage -> bzImage--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.17-qemux86-64-20190816141126.bin
+52067799 -rw-r--r--  1 bitbake bitbake 7.0M Aug 16 14:22 modules--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.17-qemux86-64-20190816141126.tgz
+52068116 lrwxrwxrwx  1 bitbake bitbake   78 Aug 16 14:22 modules-qemux86-64.tgz -> modules--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.17-qemux86-64-20190816141126.tgz
+52068127 -rw-r--r--  1 bitbake bitbake 1.3K Aug 16 14:23 core-image-minimal-qemux86-64-20190816141126.qemuboot.conf
+52068128 lrwxrwxrwx  1 bitbake bitbake   58 Aug 16 14:23 core-image-minimal-qemux86-64.qemuboot.conf -> core-image-minimal-qemux86-64-20190816141126.qemuboot.conf
+52068136 -rw-r--r--  1 bitbake bitbake 162K Aug 16 14:23 core-image-minimal-qemux86-64-20190816141126.testdata.json
+52068137 lrwxrwxrwx  1 bitbake bitbake   58 Aug 16 14:23 core-image-minimal-qemux86-64.testdata.json -> core-image-minimal-qemux86-64-20190816141126.testdata.json
+52068153 -rw-r--r--  1 bitbake bitbake 2.2K Aug 16 14:23 core-image-minimal-qemux86-64-20190816141126.rootfs.manifest
+52068154 lrwxrwxrwx  1 bitbake bitbake   60 Aug 16 14:23 core-image-minimal-qemux86-64.manifest -> core-image-minimal-qemux86-64-20190816141126.rootfs.manifest
+52068264 -rw-r--r--  1 bitbake bitbake 1.1K Aug 16 14:23 core-image-minimal.env
+52068265 -rw-r--r--  1 bitbake bitbake  61M Aug 16 14:23 core-image-minimal-qemux86-64-20190816141126.rootfs.ext4
+52068271 lrwxrwxrwx  1 bitbake bitbake   56 Aug 16 14:23 core-image-minimal-qemux86-64.ext4 -> core-image-minimal-qemux86-64-20190816141126.rootfs.ext4
+52068272 -rw-r--r--  1 bitbake bitbake  49M Aug 16 14:23 core-image-minimal-qemux86-64-20190816141126.rootfs.wic.vmdk
+52068273 lrwxrwxrwx  1 bitbake bitbake   60 Aug 16 14:23 core-image-minimal-qemux86-64.wic.vmdk -> core-image-minimal-qemux86-64-20190816141126.rootfs.wic.vmdk
+
+b) Current master with IMAGE_VERSION_SUFFIX_forcevariable = "-release-1":
+
+$ ls -laih qemux86-64-master-release-1/ | sort
+47054849 drwxr-xr-x 13 bitbake bitbake 4.0K Aug 16 16:37 ..
+50735791 -rw-r--r--  2 bitbake bitbake 612K Aug 15 17:16 grub-efi-bootx64.efi
+50735798 drwxr-xr-x  2 bitbake bitbake 4.0K Aug 16 16:12 .
+50741895 -rwxr-xr-x  2 bitbake bitbake  95K Aug 15 17:16 systemd-bootx64.efi
+52068085 -rw-r--r--  2 bitbake bitbake 7.6M Aug 16 16:11 bzImage--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.19-qemux86-64-release-1.bin
+52068086 lrwxrwxrwx  2 bitbake bitbake   73 Aug 16 16:11 bzImage-qemux86-64.bin -> bzImage--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.19-qemux86-64-release-1.bin
+52068087 lrwxrwxrwx  2 bitbake bitbake   73 Aug 16 16:11 bzImage -> bzImage--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.19-qemux86-64-release-1.bin
+52068088 -rw-r--r--  2 bitbake bitbake 7.0M Aug 16 16:11 modules--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.19-qemux86-64-release-1.tgz
+52068443 lrwxrwxrwx  2 bitbake bitbake   73 Aug 16 16:11 modules-qemux86-64.tgz -> modules--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.19-qemux86-64-release-1.tgz
+52068450 -rw-r--r--  2 bitbake bitbake 1.3K Aug 16 16:11 core-image-minimal-qemux86-64-release-1.qemuboot.conf
+52068451 lrwxrwxrwx  2 bitbake bitbake   53 Aug 16 16:11 core-image-minimal-qemux86-64.qemuboot.conf -> core-image-minimal-qemux86-64-release-1.qemuboot.conf
+52068471 -rw-r--r--  2 bitbake bitbake 161K Aug 16 16:11 core-image-minimal-qemux86-64-release-1.testdata.json
+52068472 lrwxrwxrwx  2 bitbake bitbake   53 Aug 16 16:11 core-image-minimal-qemux86-64.testdata.json -> core-image-minimal-qemux86-64-release-1.testdata.json
+52068507 -rw-r--r--  2 bitbake bitbake 2.2K Aug 16 16:11 core-image-minimal-qemux86-64-release-1.rootfs.manifest
+52068508 lrwxrwxrwx  2 bitbake bitbake   55 Aug 16 16:11 core-image-minimal-qemux86-64.manifest -> core-image-minimal-qemux86-64-release-1.rootfs.manifest
+52068583 -rw-r--r--  2 bitbake bitbake 1.1K Aug 16 16:11 core-image-minimal.env
+52068584 -rw-r--r--  2 bitbake bitbake  61M Aug 16 16:11 core-image-minimal-qemux86-64-release-1.rootfs.ext4
+52068585 lrwxrwxrwx  2 bitbake bitbake   51 Aug 16 16:11 core-image-minimal-qemux86-64.ext4 -> core-image-minimal-qemux86-64-release-1.rootfs.ext4
+52068586 -rw-r--r--  2 bitbake bitbake  49M Aug 16 16:12 core-image-minimal-qemux86-64-release-1.rootfs.wic.vmdk
+52068596 lrwxrwxrwx  2 bitbake bitbake   55 Aug 16 16:12 core-image-minimal-qemux86-64.wic.vmdk -> core-image-minimal-qemux86-64-release-1.rootfs.wic.vmdk
+
+c) Current master with IMAGE_VERSION_SUFFIX_forcevariable = "-release-2"
+   and IMAGE_INSTALL_append = " zlib" added to force image to be recreated
+   while kernel is still reused from sstate
+
+$ ls -laih qemux86-64-master-release-2/ | sort
+47054849 drwxr-xr-x 13 bitbake bitbake 4.0K Aug 16 16:37 ..
+50735847 -rw-r--r--  1 bitbake bitbake 612K Aug 15 17:16 grub-efi-bootx64.efi
+50735855 drwxr-xr-x  2 bitbake bitbake 4.0K Aug 16 13:25 .
+50742058 -rwxr-xr-x  1 bitbake bitbake  95K Aug 15 17:16 systemd-bootx64.efi
+50886339 -rw-r--r--  1 bitbake bitbake 7.6M Aug 16 13:23 bzImage--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.15-qemux86-64-release-2.bin
+50886340 lrwxrwxrwx  1 bitbake bitbake   73 Aug 16 13:23 bzImage-qemux86-64.bin -> bzImage--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.15-qemux86-64-release-2.bin
+50886341 lrwxrwxrwx  1 bitbake bitbake   73 Aug 16 13:23 bzImage -> bzImage--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.15-qemux86-64-release-2.bin
+50886342 -rw-r--r--  1 bitbake bitbake 7.0M Aug 16 13:23 modules--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.15-qemux86-64-release-2.tgz
+50886345 lrwxrwxrwx  1 bitbake bitbake   73 Aug 16 13:23 modules-qemux86-64.tgz -> modules--5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.15-qemux86-64-release-2.tgz
+51125060 -rw-r--r--  1 bitbake bitbake 161K Aug 16 13:25 core-image-minimal-qemux86-64-release-2.testdata.json
+51125068 lrwxrwxrwx  1 bitbake bitbake   53 Aug 16 13:25 core-image-minimal-qemux86-64.testdata.json -> core-image-minimal-qemux86-64-release-2.testdata.json
+51125069 -rw-r--r--  1 bitbake bitbake 2.2K Aug 16 13:25 core-image-minimal-qemux86-64-release-2.rootfs.manifest
+51125070 lrwxrwxrwx  1 bitbake bitbake   55 Aug 16 13:25 core-image-minimal-qemux86-64.manifest -> core-image-minimal-qemux86-64-release-2.rootfs.manifest
+51125072 -rw-r--r--  1 bitbake bitbake 1.3K Aug 16 13:25 core-image-minimal-qemux86-64-release-2.qemuboot.conf
+51125073 lrwxrwxrwx  1 bitbake bitbake   53 Aug 16 13:25 core-image-minimal-qemux86-64.qemuboot.conf -> core-image-minimal-qemux86-64-release-2.qemuboot.conf
+51125075 -rw-r--r--  1 bitbake bitbake 1.1K Aug 16 13:25 core-image-minimal.env
+51125076 -rw-r--r--  1 bitbake bitbake  61M Aug 16 13:25 core-image-minimal-qemux86-64-release-2.rootfs.ext4
+51125077 lrwxrwxrwx  1 bitbake bitbake   51 Aug 16 13:25 core-image-minimal-qemux86-64.ext4 -> core-image-minimal-qemux86-64-release-2.rootfs.ext4
+51125078 -rw-r--r--  1 bitbake bitbake  49M Aug 16 13:25 core-image-minimal-qemux86-64-release-2.rootfs.wic.vmdk
+51125079 lrwxrwxrwx  1 bitbake bitbake   55 Aug 16 13:25 core-image-minimal-qemux86-64.wic.vmdk -> core-image-minimal-qemux86-64-release-2.rootfs.wic.vmdk
+
+d) With this PR and default values:
+
+$ ls -laih qemux86-64-YOCTO-12937-default/ | sort
+47054849 drwxr-xr-x 13 bitbake bitbake 4.0K Aug 16 16:37 ..
+50735787 -rw-r--r--  1 bitbake bitbake 612K Aug 15 17:16 grub-efi-bootx64.efi
+50735794 drwxr-xr-x  2 bitbake bitbake 4.0K Aug 16 12:45 .
+50741889 -rwxr-xr-x  1 bitbake bitbake  95K Aug 15 17:16 systemd-bootx64.efi
+50878232 -rw-r--r--  2 bitbake bitbake 7.0M Aug 15 18:44 modules-qemux86-64-5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.10-20190816124241.tgz
+50878232 -rw-r--r--  2 bitbake bitbake 7.0M Aug 15 18:44 modules-qemux86-64.tgz
+50878233 -rw-r--r--  2 bitbake bitbake 7.6M Aug 15 18:44 bzImage-qemux86-64-5.0.19+git2+c2e34d9ab2_00638cdd8f-r0.10-20190816124241.bin
+50878233 -rw-r--r--  2 bitbake bitbake 7.6M Aug 15 18:44 bzImage-qemux86-64.bin
+50878239 lrwxrwxrwx  1 bitbake bitbake   22 Aug 15 18:44 bzImage -> bzImage-qemux86-64.bin
+51663342 -rw-r--r--  2 bitbake bitbake 1.3K Aug 16 12:45 core-image-minimal-qemux86-64-1.0-r0-20190816124241.qemuboot.conf
+51663342 -rw-r--r--  2 bitbake bitbake 1.3K Aug 16 12:45 core-image-minimal-qemux86-64.qemuboot.conf
+51663368 -rw-r--r--  2 bitbake bitbake 161K Aug 16 12:45 core-image-minimal-qemux86-64-1.0-r0-20190816124241.testdata.json
+51663368 -rw-r--r--  2 bitbake bitbake 161K Aug 16 12:45 core-image-minimal-qemux86-64.testdata.json
+51663370 -rw-r--r--  2 bitbake bitbake 2.2K Aug 16 12:45 core-image-minimal-qemux86-64-1.0-r0-20190816124241.manifest
+51663370 -rw-r--r--  2 bitbake bitbake 2.2K Aug 16 12:45 core-image-minimal-qemux86-64.rootfs.manifest
+51663546 -rw-r--r--  1 bitbake bitbake 1.1K Aug 16 12:45 core-image-minimal.env
+51663555 -rw-r--r--  2 bitbake bitbake  61M Aug 16 12:45 core-image-minimal-qemux86-64-1.0-r0-20190816124241.ext4
+51663555 -rw-r--r--  2 bitbake bitbake  61M Aug 16 12:45 core-image-minimal-qemux86-64.rootfs.ext4
+51663557 -rw-r--r--  2 bitbake bitbake  49M Aug 16 12:45 core-image-minimal-qemux86-64-1.0-r0-20190816124241.wic.vmdk
+51663557 -rw-r--r--  2 bitbake bitbake  49M Aug 16 12:45 core-image-minimal-qemux86-64.rootfs.wic.vmdk
+
+e) With this PR and IMAGE_VERSION_SUFFIX_forcevariable = "-release-1":
+
+$ ls -laih qemux86-64-YOCTO-12937-release-1/ | sort
+47054849 drwxr-xr-x 13 bitbake bitbake 4.0K Aug 16 16:37 ..
+50735846 -rw-r--r--  1 bitbake bitbake 612K Aug 15 17:16 grub-efi-bootx64.efi
+50735852 drwxr-xr-x  2 bitbake bitbake 4.0K Aug 16 12:59 .
+50742055 -rwxr-xr-x  1 bitbake bitbake  95K Aug 15 17:16 systemd-bootx64.efi
+50878352 -rw-r--r--  2 bitbake bitbake 7.0M Aug 15 18:44 modules-qemux86-64-release-1.tgz
+50878352 -rw-r--r--  2 bitbake bitbake 7.0M Aug 15 18:44 modules-qemux86-64.tgz
+50878353 -rw-r--r--  2 bitbake bitbake 7.6M Aug 15 18:44 bzImage-qemux86-64.bin
+50878353 -rw-r--r--  2 bitbake bitbake 7.6M Aug 15 18:44 bzImage-qemux86-64-release-1.bin
+50878359 lrwxrwxrwx  1 bitbake bitbake   22 Aug 15 18:44 bzImage -> bzImage-qemux86-64.bin
+51665406 -rw-r--r--  2 bitbake bitbake 1.3K Aug 16 12:58 core-image-minimal-qemux86-64.qemuboot.conf
+51665406 -rw-r--r--  2 bitbake bitbake 1.3K Aug 16 12:58 core-image-minimal-qemux86-64-release-1.qemuboot.conf
+51665432 -rw-r--r--  2 bitbake bitbake 161K Aug 16 12:58 core-image-minimal-qemux86-64-release-1.testdata.json
+51665432 -rw-r--r--  2 bitbake bitbake 161K Aug 16 12:58 core-image-minimal-qemux86-64.testdata.json
+51665434 -rw-r--r--  2 bitbake bitbake 2.2K Aug 16 12:58 core-image-minimal-qemux86-64-release-1.manifest
+51665434 -rw-r--r--  2 bitbake bitbake 2.2K Aug 16 12:58 core-image-minimal-qemux86-64.rootfs.manifest
+51665606 -rw-r--r--  1 bitbake bitbake 1.1K Aug 16 12:58 core-image-minimal.env
+51665615 -rw-r--r--  2 bitbake bitbake  61M Aug 16 12:59 core-image-minimal-qemux86-64-release-1.ext4
+51665615 -rw-r--r--  2 bitbake bitbake  61M Aug 16 12:59 core-image-minimal-qemux86-64.rootfs.ext4
+51665617 -rw-r--r--  2 bitbake bitbake  49M Aug 16 12:59 core-image-minimal-qemux86-64-release-1.wic.vmdk
+51665617 -rw-r--r--  2 bitbake bitbake  49M Aug 16 12:59 core-image-minimal-qemux86-64.rootfs.wic.vmdk
+
+f) With this PR and IMAGE_VERSION_SUFFIX_forcevariable = "-release-2"
+   and IMAGE_INSTALL_append = " zlib" added to force image to be recreated
+   while kernel is still reused from sstate
+   In this case I haven't removed TMPDIR between e) and f) to show
+   that kernel artifacts are identical from previous build release-1 and just
+   added another hardlink to the same inode.
+
+$ ls -laih qemux86-64-YOCTO-12937-release-2/ | sort
+47054849 drwxr-xr-x 13 bitbake bitbake 4.0K Aug 16 16:37 ..
+51665409 -rw-r--r--  2 bitbake bitbake 1.3K Aug 16 13:07 core-image-minimal-qemux86-64.qemuboot.conf
+51665409 -rw-r--r--  2 bitbake bitbake 1.3K Aug 16 13:07 core-image-minimal-qemux86-64-release-2.qemuboot.conf
+51665420 -rw-r--r--  2 bitbake bitbake 161K Aug 16 13:07 core-image-minimal-qemux86-64-release-2.testdata.json
+51665420 -rw-r--r--  2 bitbake bitbake 161K Aug 16 13:07 core-image-minimal-qemux86-64.testdata.json
+51665422 -rw-r--r--  2 bitbake bitbake 2.2K Aug 16 13:07 core-image-minimal-qemux86-64-release-2.manifest
+51665422 -rw-r--r--  2 bitbake bitbake 2.2K Aug 16 13:07 core-image-minimal-qemux86-64.rootfs.manifest
+51665583 -rw-r--r--  1 bitbake bitbake 1.1K Aug 16 13:07 core-image-minimal.env
+51665584 -rw-r--r--  2 bitbake bitbake  61M Aug 16 13:07 core-image-minimal-qemux86-64-release-2.ext4
+51665584 -rw-r--r--  2 bitbake bitbake  61M Aug 16 13:07 core-image-minimal-qemux86-64.rootfs.ext4
+51665585 -rw-r--r--  2 bitbake bitbake  49M Aug 16 13:07 core-image-minimal-qemux86-64-release-2.wic.vmdk
+51665585 -rw-r--r--  2 bitbake bitbake  49M Aug 16 13:07 core-image-minimal-qemux86-64.rootfs.wic.vmdk
+51666546 drwxr-xr-x  2 bitbake bitbake 4.0K Aug 16 13:07 .
+51666553 -rw-r--r--  1 bitbake bitbake 612K Aug 15 17:16 grub-efi-bootx64.efi
+51666554 -rwxr-xr-x  1 bitbake bitbake  95K Aug 15 17:16 systemd-bootx64.efi
+51666555 -rw-r--r--  3 bitbake bitbake 7.0M Aug 15 18:44 modules-qemux86-64-release-1.tgz
+51666555 -rw-r--r--  3 bitbake bitbake 7.0M Aug 15 18:44 modules-qemux86-64-release-2.tgz
+51666555 -rw-r--r--  3 bitbake bitbake 7.0M Aug 15 18:44 modules-qemux86-64.tgz
+51666556 -rw-r--r--  3 bitbake bitbake 7.6M Aug 15 18:44 bzImage-qemux86-64.bin
+51666556 -rw-r--r--  3 bitbake bitbake 7.6M Aug 15 18:44 bzImage-qemux86-64-release-1.bin
+51666556 -rw-r--r--  3 bitbake bitbake 7.6M Aug 15 18:44 bzImage-qemux86-64-release-2.bin
+51666557 lrwxrwxrwx  1 bitbake bitbake   22 Aug 15 18:44 bzImage -> bzImage-qemux86-64.bin
+
+The following changes since commit 6b36db836547a23f43c5f97bf3706d7b210c209c:
+
+  libevent: update to 2.1.11 (2019-08-14 17:32:19 +0100)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib jansa/artifacts
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=jansa/artifacts
+
+Martin Jansa (6):
+  image-artifact-names: introduce new bbclass and move some variables
+    into it
+  bitbake.conf, kernel*.bbclass: include IMAGE_VERSION_SUFFIX only in
+    the _LINK_NAME variables and change it to hard link
+  kernel-artifact-names.bbclass: use PR instead of PKGR in
+    KERNEL_ARTIFACT_NAME
+  kernel.bbclass: imageType without {}
+  kernel.bbclass: drop unnecessary package_get_auto_pr for do_install
+  *-artifact-names: include version only in the artifact links
+
+ meta/classes/buildhistory.bbclass          |  2 +
+ meta/classes/cve-check.bbclass             |  4 +-
+ meta/classes/image-artifact-names.bbclass  | 15 +++++++
+ meta/classes/image-live.bbclass            |  2 +-
+ meta/classes/image.bbclass                 | 10 ++---
+ meta/classes/image_types.bbclass           |  9 +---
+ meta/classes/kernel-artifact-names.bbclass | 12 +++++-
+ meta/classes/kernel-devicetree.bbclass     | 21 ++++++++--
+ meta/classes/kernel.bbclass                | 49 +++++++++++++++-------
+ meta/classes/qemuboot.bbclass              |  4 +-
+ meta/classes/rootfs-postcommands.bbclass   |  6 ++-
+ meta/classes/testimage.bbclass             |  2 +
+ meta/conf/bitbake.conf                     |  5 ---
+ 13 files changed, 97 insertions(+), 44 deletions(-)
+ create mode 100644 meta/classes/image-artifact-names.bbclass
+
+-- 
+2.17.1
+
 
