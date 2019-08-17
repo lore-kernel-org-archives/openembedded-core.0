@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 836007F343
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+	[209.85.210.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 464837F333
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 21:21:51 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id k3so4685367pgb.10
+	Sat, 17 Aug 2019 21:21:52 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id d85so4937817pfd.2
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 17 Aug 2019 14:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=uPfNkMPX94VsexmKiPj+aAAe9LRlACXNpjqSBj2M6zA=;
-	b=rvPpXF0CTTSFxSS6ZhgpOCyYzhqyzrxH70kPLvHTdKXBxqev34xAg8WaXIB7eheAuA
-	+I40chnKnk3mq96zcYgEV0yhBfkP//P2tuUzpGZJIo7momzsZX2idBpfRGoSsVeCnUbe
-	064areidcjDJ7tBujskE7oXKU2VIHkazc3fkHjfW06zWc4flFJBjpIGc7Yae9YUuP5d0
-	HoDKnxDmOgKVPaIifPKwSJ7mHHcLxpqgGSXS7NIwJ46eYQ8FETAgNPu1ow2NAUUecB+n
-	4B86Dta/4sRONAPtrLdDm4aa2DcxiIBDFhnwpMWzDmugwLeBdlCcKE+26NPtHo7oElt/
-	LqIA==
+	bh=OPu0GmjsKHBlMV4nV/MrZrlKcL2eTv9WWJTfFpnTNO4=;
+	b=h9dadDev5U7CNPNpsvObjuTTaeCZ2qaqJAOzMiL61fZJkdWcFLy231IUjzj8R0z6zE
+	b5X4x5mfspkoQ+IFVEgf42Wz/ldgFm3tZFf+RCcR+VHO9RSpjMnkk6C/wJolfC6c1a7w
+	vUHhRMXTxhhmpXqPJbBq19QYdAc91Ggibinl8Q6nGxCUOIJtDhTLjDGjTLFfSdQFtEQm
+	zlfGEyMlzVmstu6ZQNLM9uXsxkb3x0oMMGpVZPlmMpTOWRGABV6T9za/EGvjKrCDTdxx
+	ut5/8MdlFHcQsH3W3xIds/ie6J+bCUZXWKWUFs3cYd1iD6BvzM275WD1S8iPn6pvzxd3
+	SliA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=uPfNkMPX94VsexmKiPj+aAAe9LRlACXNpjqSBj2M6zA=;
-	b=GXCSyrOltXGdHJoz+gOwhNPzwdrLOZBapp1j8yn2PVvsWm/+ykkR/NK35p0sReWYmB
-	sn1D/ulPbx8xAg0GTUplycusIgbsNDJAaM/2GVqskQath1L4CZndaCcPuQAkswHqjhWG
-	8h+x1qOwUlw/ayV3PTNgxtULGFdUg7jVtCSzChNBk/Fc8VOarfdPC7dvCAieVsASSEUL
-	AsOvQx8fPzChcP5Cyw4r10zxL4M9gpgKgxQv2s8eKSrEQNlRRe0oeqwHF/LT6zCZvBVA
-	lp1ymC3MqhoyYGA8qdEgSquws01L0Lqjo9HAkNi8MMALLvioIcsxQHiBgBsq6BvuAY/f
-	Ph4g==
-X-Gm-Message-State: APjAAAXbPqaHTUyGkhDV8vzb/XvD7j/JteNBaKUW5+cvASlICWx+ssrE
-	gZfKTcIpIGDyt2vjQAnV/wsO/8eh
-X-Google-Smtp-Source: APXvYqz8z0pmRpV8E+AueKTz5CBMLtR1BZdvYCPVny76QIVRCDhcNQ0QzDShqEthHSN19xhLWjaJlA==
-X-Received: by 2002:a62:8246:: with SMTP id w67mr17588008pfd.226.1566076912688;
-	Sat, 17 Aug 2019 14:21:52 -0700 (PDT)
+	bh=OPu0GmjsKHBlMV4nV/MrZrlKcL2eTv9WWJTfFpnTNO4=;
+	b=BBBdogp2rQLDhSOaJ+gnEpqQA2jNKXPsP95G/tOFzGUquIvraAn+WjN5NLusU9BWCP
+	UDCDYcnwo/poNJJ3X6H5VAf3UmIn6gZmASZYvKzwTv/ODwcuYQ7ZWwNehugcLODOxG00
+	X510TBLzT94fDAICYHPFJeo0weoWjTnl/tg1kmo6v2DNnFHkfaAxxoAmOOaE4U1wqjJx
+	ODiA4NdjPM2YphYArHxK5tFoQT/xYnr8RiEwZlMNvY95vNkkr78el/3n7K3trfcQayr6
+	4IXJMM1joiaQjuwAATA2v0NCS5X1HH5nFb1kwBZJCISyQCA63PG9vaZEiZaVosWKV2qa
+	zU0A==
+X-Gm-Message-State: APjAAAVnYKukUWINT5bVCkfpOSFd16R3fmPyoLR6Mc4fzkoqIoUxZdtq
+	oYq0g3LP/eS89SAR9GvwEv9HwWIj
+X-Google-Smtp-Source: APXvYqwv6cAUvoW62pziRu5fNuzwDnfjsI1UhnZgrZPTe5hycRj4TKcmJlAIoxGB3B3oUrzaz6eKZA==
+X-Received: by 2002:a62:1d11:: with SMTP id d17mr17279406pfd.249.1566076913419;
+	Sat, 17 Aug 2019 14:21:53 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:29d8:851b:cd27:3ce0])
-	by smtp.gmail.com with ESMTPSA id a20sm7261804pjo.0.2019.08.17.14.21.51
+	by smtp.gmail.com with ESMTPSA id a20sm7261804pjo.0.2019.08.17.14.21.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Sat, 17 Aug 2019 14:21:52 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 17 Aug 2019 14:21:39 -0700
-Message-Id: <51f7ecf2259e1fb669cd84c5317cbd8810d731b7.1566076780.git.akuster808@gmail.com>
+Date: Sat, 17 Aug 2019 14:21:40 -0700
+Message-Id: <2cebc7faa10c7ac6f60437658702f7adce3b3a89.1566076780.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1566076780.git.akuster808@gmail.com>
 References: <cover.1566076780.git.akuster808@gmail.com>
-Subject: [thud-next][ 6/8] glib-2.0: fix CVE-2019-13012
+Subject: [thud-next][ 7/8] libcomps: fix CVE-2019-3817
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,83 +58,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Aug 2019 21:21:51 -0000
+X-List-Received-Date: Sat, 17 Aug 2019 21:21:52 -0000
 
 From: Andrii Bordunov via Openembedded-core <openembedded-core@lists.openembedded.org>
 
 Signed-off-by: Kevin Weng <t-keweng@microsoft.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../glib-2.0/glib-2.0/CVE-2019-13012.patch         | 47 ++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb      |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
+ .../libcomps/libcomps/CVE-2019-3817.patch          | 97 ++++++++++++++++++++++
+ meta/recipes-devtools/libcomps/libcomps_git.bb     |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-devtools/libcomps/libcomps/CVE-2019-3817.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
+diff --git a/meta/recipes-devtools/libcomps/libcomps/CVE-2019-3817.patch b/meta/recipes-devtools/libcomps/libcomps/CVE-2019-3817.patch
 new file mode 100644
-index 0000000..29c5d98
+index 0000000..b8cfb3c
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
-@@ -0,0 +1,47 @@
-+From c7f7fd53780f8caebccc903d61ffc21632b46a6c Mon Sep 17 00:00:00 2001
-+From: Matthias Clasen <mclasen@redhat.com>
-+Date: Tue, 22 Jan 2019 13:26:31 -0500
-+Subject: [PATCH] keyfile settings: Use tighter permissions
++++ b/meta/recipes-devtools/libcomps/libcomps/CVE-2019-3817.patch
+@@ -0,0 +1,97 @@
++From cea10cd1f2ef6bb4edaac0c1d46d47bf237c42b8 Mon Sep 17 00:00:00 2001
++From: Riccardo Schirone <rschiron@redhat.com>
++Date: Mon, 21 Jan 2019 18:11:42 +0100
++Subject: [PATCH] Fix UAF in comps_objmrtree_unite function
 +
-+When creating directories, create them with 700 permissions,
-+instead of 777.
-+
-+Closes: #1658
++The added field is not used at all in many places and it is probably the
++left-over of some copy-paste.
 +
 +Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/glib/commit
-+/5e4da714f00f6bfb2ccd6d73d61329c6f3a08429]
++[https://github.com/rpm-software-management/libcomps/commit
++/e3a5d056633677959ad924a51758876d415e7046]
 +
-+CVE: CVE-2019-13012
++CVE: CVE-2019-3817
 +
 +Signed-off-by: Kevin Weng <t-keweng@microsoft.com>
 +---
-+ gio/gkeyfilesettingsbackend.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
++ libcomps/src/comps_mradix.c    | 2 --
++ libcomps/src/comps_objmradix.c | 2 --
++ libcomps/src/comps_objradix.c  | 2 --
++ libcomps/src/comps_radix.c     | 1 -
++ 4 files changed, 7 deletions(-)
 +
-+diff --git a/gio/gkeyfilesettingsbackend.c b/gio/gkeyfilesettingsbackend.c
-+index a37978e83..580a0b0a1 100644
-+--- a/gio/gkeyfilesettingsbackend.c
-++++ b/gio/gkeyfilesettingsbackend.c
-+@@ -89,7 +89,8 @@ g_keyfile_settings_backend_keyfile_write (GKeyfileSettingsBackend *kfsb)
++diff --git a/libcomps/src/comps_mradix.c b/libcomps/src/comps_mradix.c
++index 338cb07..6ceb7c9 100644
++--- a/libcomps/src/comps_mradix.c
+++++ b/libcomps/src/comps_mradix.c
++@@ -177,7 +177,6 @@ void comps_mrtree_unite(COMPS_MRTree *rt1, COMPS_MRTree *rt2) {
++     struct Pair {
++         COMPS_HSList * subnodes;
++         char * key;
++-        char added;
++     } *pair, *parent_pair;
 + 
-+   contents = g_key_file_to_data (kfsb->keyfile, &length, NULL);
-+   g_file_replace_contents (kfsb->file, contents, length, NULL, FALSE,
-+-                           G_FILE_CREATE_REPLACE_DESTINATION,
-++                           G_FILE_CREATE_REPLACE_DESTINATION |
-++                           G_FILE_CREATE_PRIVATE,
-+                            NULL, NULL, NULL);
++     pair = malloc(sizeof(struct Pair));
++@@ -195,7 +194,6 @@ void comps_mrtree_unite(COMPS_MRTree *rt1, COMPS_MRTree *rt2) {
++         parent_pair = (struct Pair*) it->data;
++         free(it);
 + 
-+   compute_checksum (kfsb->digest, contents, length);
-+@@ -640,7 +641,7 @@ g_keyfile_settings_backend_new (const gchar *filename,
++-        pair->added = 0;
++         for (it = tmp_subnodes->first; it != NULL; it=it->next) {
++             pair = malloc(sizeof(struct Pair));
++             pair->subnodes = ((COMPS_MRTreeData*)it->data)->subnodes;
++diff --git a/libcomps/src/comps_objmradix.c b/libcomps/src/comps_objmradix.c
++index 9be6648..8771c89 100644
++--- a/libcomps/src/comps_objmradix.c
+++++ b/libcomps/src/comps_objmradix.c
++@@ -285,7 +285,6 @@ void comps_objmrtree_unite(COMPS_ObjMRTree *rt1, COMPS_ObjMRTree *rt2) {
++     struct Pair {
++         COMPS_HSList * subnodes;
++         char * key;
++-        char added;
++     } *pair, *parent_pair;
 + 
-+   kfsb->file = g_file_new_for_path (filename);
-+   kfsb->dir = g_file_get_parent (kfsb->file);
-+-  g_file_make_directory_with_parents (kfsb->dir, NULL, NULL);
-++  g_mkdir_with_parents (g_file_peek_path (kfsb->dir), 0700);
++     pair = malloc(sizeof(struct Pair));
++@@ -303,7 +302,6 @@ void comps_objmrtree_unite(COMPS_ObjMRTree *rt1, COMPS_ObjMRTree *rt2) {
++         parent_pair = (struct Pair*) it->data;
++         free(it);
 + 
-+   kfsb->file_monitor = g_file_monitor (kfsb->file, 0, NULL, NULL);
-+   kfsb->dir_monitor = g_file_monitor (kfsb->dir, 0, NULL, NULL);
++-        pair->added = 0;
++         for (it = tmp_subnodes->first; it != NULL; it=it->next) {
++             pair = malloc(sizeof(struct Pair));
++             pair->subnodes = ((COMPS_ObjMRTreeData*)it->data)->subnodes;
++diff --git a/libcomps/src/comps_objradix.c b/libcomps/src/comps_objradix.c
++index a790270..0ebaf22 100644
++--- a/libcomps/src/comps_objradix.c
+++++ b/libcomps/src/comps_objradix.c
++@@ -692,7 +692,6 @@ void comps_objrtree_unite(COMPS_ObjRTree *rt1, COMPS_ObjRTree *rt2) {
++     struct Pair {
++         COMPS_HSList * subnodes;
++         char * key;
++-        char added;
++     } *pair, *parent_pair;
++ 
++     pair = malloc(sizeof(struct Pair));
++@@ -711,7 +710,6 @@ void comps_objrtree_unite(COMPS_ObjRTree *rt1, COMPS_ObjRTree *rt2) {
++         //printf("key-part:%s\n", parent_pair->key);
++         free(it);
++ 
++-        //pair->added = 0;
++         for (it = tmp_subnodes->first; it != NULL; it=it->next) {
++             pair = malloc(sizeof(struct Pair));
++             pair->subnodes = ((COMPS_ObjRTreeData*)it->data)->subnodes;
++diff --git a/libcomps/src/comps_radix.c b/libcomps/src/comps_radix.c
++index ada4fda..05dcaf2 100644
++--- a/libcomps/src/comps_radix.c
+++++ b/libcomps/src/comps_radix.c
++@@ -529,7 +529,6 @@ void comps_rtree_unite(COMPS_RTree *rt1, COMPS_RTree *rt2) {
++     struct Pair {
++         COMPS_HSList * subnodes;
++         char * key;
++-        char added;
++     } *pair, *parent_pair;
++ 
++     pair = malloc(sizeof(struct Pair));
 +-- 
 +2.22.0
 +
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
-index f007596..611abd8 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2019-12450.patch \
-            file://CVE-2019-9633_p1.patch \
-            file://CVE-2019-9633_p2.patch \
-+           file://CVE-2019-13012.patch \
+diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
+index e69bf67..b657f33 100644
+--- a/meta/recipes-devtools/libcomps/libcomps_git.bb
++++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
+@@ -6,6 +6,7 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            file://0002-Set-library-installation-path-correctly.patch \
+            file://0001-Make-__comps_objmrtree_all-static-inline.patch \
++           file://CVE-2019-3817.patch \
             "
  
- SRC_URI_append_class-native = " file://relocate-modules.patch"
+ PV = "0.1.8+git${SRCPV}"
 -- 
 2.7.4
 
