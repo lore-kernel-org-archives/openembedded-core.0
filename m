@@ -1,33 +1,63 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F8B67F214
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F55D7CE27
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 17:49:19 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 52F4EE00D79; Sat, 17 Aug 2019 10:49:21 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A2E4AE00E9D
+	Sat, 17 Aug 2019 18:49:53 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id c34so12580261otb.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 10:49:03 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id 9B73E440002
+	Sat, 17 Aug 2019 11:49:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=np89FxdJBx2eiRewQpQ0P7FOKF/trIfGVyTX2i/BQAc=;
+	b=bsO9epzso1xs7v7+Ku1n4/5j2CuKwRPaniOGZVN0XZyksrRob/FAxVJV8JMSnGNq3N
+	jRjoFYxuVbNqBbWfd+t29ZUezhmqAKMVDp42WbZQgtXBv1aMbvDV+EL9jdXE+RrOmJJf
+	ZvtiWYF+1+k2u7cvhMkbgjpXPUJ0cWP/rq0S+fbjR6Aot0wiUtBUHOlIYQiVNt/tofro
+	War4lrN77Zl9c6ljj1PD0XT6ixVRfsoBmevAbovkbeyH+z7SQjaomdZdhOpkLk8cHNgv
+	oCCPyRJmooP27XrcAsUrrAevjyETAhxT3DWpuy5/qsCPpKje8aJwI2v6paMvpK+ObuzY
+	yUMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	:message-id:subject:to:cc;
+	bh=np89FxdJBx2eiRewQpQ0P7FOKF/trIfGVyTX2i/BQAc=;
+	b=Rlv8wXG9LDQjFCEP+HT9e/OXWmDI2D0hp+sRCwtlXXmMMf5HYydXOlWBn3iX+KpQxx
+	34aW7OdvibjptFBwi9isvl15P7oRpAt2aUTFHZrWO5J54Bv/S8HusD+u6bv5EtnNZJEU
+	kHCve5POwCqqsednyrp0mZZX5OC1dW3GweYtMdITX4iWDWlWi1HZr+nJVt1xkDpVFKah
+	LqXxvIo76QIsRp0iGYkEPv2EfhO7+t73l3G0jFJhAm6PEBb0YLHJlGiC0uY26n63KMC4
+	MmFmJ4rOq9qRm//8e8ndNM4CvXMdSajXcUNhspj1s79M7fnEqpW8eutNJPS1hjq3qlB2
+	VShw==
+X-Gm-Message-State: APjAAAX8VPeivUsZGvJrdDlssXmIG/V0pdY/vqfdxTKUMBHAbLm1M6nm
+	HLGYDz40Tc2dt6B7F7UptPgRFb9lITp8/Q==
+X-Google-Smtp-Source: APXvYqww4x9Vsh0x00+fHtdI0QrdPig1JraPlsFDukzwJfs2W/fef4JdQTnwJ7AJiqXzJ59Er5iOkQ==
+X-Received: by 2002:a05:6830:200e:: with SMTP id
+	e14mr11497800otp.245.1566067794587; 
+	Sat, 17 Aug 2019 11:49:54 -0700 (PDT)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com.
+	[209.85.167.178]) by smtp.gmail.com with ESMTPSA id
+	n24sm2580990oie.19.2019.08.17.11.49.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Sat, 17 Aug 2019 11:49:53 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi1-f178.google.com with SMTP id a127so7134830oii.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 10:49:03 -0700 (PDT)
+	Sat, 17 Aug 2019 11:49:53 -0700 (PDT)
+X-Received: by 2002:aca:75c2:: with SMTP id q185mr4979326oic.134.1566067792950;
+	Sat, 17 Aug 2019 11:49:52 -0700 (PDT)
 MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Message-Id: <20190817174903.9B73E440002@auh.yoctoproject.org>
-Date: Sat, 17 Aug 2019 10:49:03 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2019-08-17
+References: <20190817153954.15805-1-otavio@ossystems.com.br>
+	<CANNYZj-RD8zN7o7mX61MuATaO_7NSHY8DXAUR6TuU50M85r7Ag@mail.gmail.com>
+In-Reply-To: <CANNYZj-RD8zN7o7mX61MuATaO_7NSHY8DXAUR6TuU50M85r7Ag@mail.gmail.com>
+Date: Sat, 17 Aug 2019 15:49:39 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoaJt-TH7kg7oiqWTfB6r4gqhZdZezJCW69Zj_y=NpLtQ@mail.gmail.com>
+Message-ID: <CAP9ODKoaJt-TH7kg7oiqWTfB6r4gqhZdZezJCW69Zj_y=NpLtQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] mesa: Upgrade 19.1.1 -> 19.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,142 +70,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Aug 2019 17:49:20 -0000
-Content-Type: multipart/mixed; boundary="===============5886752937682369497=="
+X-List-Received-Date: Sat, 17 Aug 2019 18:49:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---===============5886752937682369497==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+On Sat, Aug 17, 2019 at 1:01 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> On Sat, 17 Aug 2019 at 17:40, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>>
+>> +Subject: [PATCH] Revert "meson: Improve detection of Python when using Meson
+>> + >=0.50."
+>> +Organization: O.S. Systems Software LTDA.
+>> +
+>> +This reverts commit cb3072488cd327155206e92d1ad8eb72a23ab04e.
+>> +
+>> +Upstream-Status: Inappropriate [embedded specific]
+>> +
+>> +-if meson.version().version_compare('>=0.50')
+>> +-  prog_python = import('python').find_installation('python3')
+>> +-else
+>> +-  prog_python = import('python3').find_python()
+>> +-endif
+>> ++prog_python = import('python3').find_python()
+>> + has_mako = run_command(
+>> +   prog_python, '-c',
+>> +   '''
+>
+> If this is broken in meson, shouldn't it be fixed at the source (e.g. meson), rather than patched after the fact back to the 'older pre-0.50 way' in every component that trips over it?
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZChvdGhlciBlcnJvcnMpOiAy
-CiAgICAgICAgZ2NjLXNvdXJjZS04LjMuMCwgOS4yLjAsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
-bC5jb20+CiAgICAgICAgZ2NjLXNvdXJjZS05LjEuMCwgOS4yLjAsIEtoZW0gUmFqIDxyYWoua2hl
-bUBnbWFpbC5jb20+CiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6IDMzCiAgICAgICAgcHVs
-c2VhdWRpbywgMTIuOTkuMiwgVGFudSBLYXNraW5lbiA8dGFudWtAaWtpLmZpPgogICAgICAgIGd0
-ayszLCAzLjI0LjEwLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAg
-IHJ0LXRlc3RzLCAxLjUsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
-PgogICAgICAgIGxpYm1vZHVsZW1kLCAyLjcuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2Fu
-YXZpbkBnbWFpbC5jb20+CiAgICAgICAgYWNsLCAyLjIuNTMsIENoZW4gUWkgPFFpLkNoZW5Ad2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBnbGlkZSwgMC4xMy4zLCBPdGF2aW8gU2FsdmFkb3IgPG90YXZp
-by5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIGF0dHIsIDIuNC40OCwgQ2hlbiBR
-aSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIG1lc2EsIDE5LjEuNCwgT3RhdmlvIFNh
-bHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBsc2Jpbml0
-c2NyaXB0cywgMTAuMDIsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAg
-ICAgZ2V0dGV4dCwgMC4yMC4xLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNv
-bT4KICAgICAgICBod2xhdGRldGVjdCwgMS41LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
-dmluQGdtYWlsLmNvbT4KICAgICAgICB0ZXhpbmZvLCA2LjYsIEFudWogTWl0dGFsIDxhbnVqLm1p
-dHRhbEBpbnRlbC5jb20+CiAgICAgICAgc3F1YXNoZnMtdG9vbHMsIDQuMy1uZXctY29tbWl0cy1h
-dmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAg
-IGVsZnV0aWxzLCAwLjE3NywgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgog
-ICAgICAgIHN5c2tsb2dkLCAxLjYsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAg
-ICAgICBwdXp6bGVzLCAwLjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBBbnVqIE1pdHRhbCA8YW51
-ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGZsZXgsIDIuNi40LCBDaGVuIFFpIDxRaS5DaGVu
-QHdpbmRyaXZlci5jb20+CiAgICAgICAgYnVpbGQtY29tcGFyZSwgMjAxNS4wMi4xMC1uZXctY29t
-bWl0cy1hdmFpbGFibGUsIFBhdWwgRWdnbGV0b24gPHBhdWwuZWdnbGV0b25AbGludXguaW50ZWwu
-Y29tPgogICAgICAgIHNlZCwgNC43LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAg
-ICAgICAgYXB0LCAxLjkuMiwgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+
-CiAgICAgICAgc3lzdmluaXQsIDIuOTUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5j
-b20+CiAgICAgICAgdnVsa2FuLWRlbW9zLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb3Nz
-IEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGdvLWRlcCwgMC41LjQsIE90
-YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAg
-a2JkLCAyLjIuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAg
-ICAgICAgaWZ1cGRvd24sIDAuOC4zNSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNv
-bT4KICAgICAgICBydWJ5LCAyLjYuMywgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNv
-bT4KICAgICAgICBmbGFjLCAxLjMuMywgVGFudSBLYXNraW5lbiA8dGFudWtAaWtpLmZpPgogICAg
-ICAgIHdlc3RvbiwgNi4wLjkyLCBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXNAdGkuY29tPgogICAg
-ICAgIHB5dGhvbjMtbnVtcHksIDEuMTcuMCwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJj
-ZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIGJpbmQsIDkuMTEuOSwgQXJtaW4gS3Vz
-dGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICB2aXJnbHJlbmRlcmVyLCAwLjguMCwg
-QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgaXB1dGls
-cywgczIwMTkwNzA5LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgog
-ICAgICAgIG5mcy11dGlscywgMi40LjEsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2
-ZXIuY29tPgogICAgKiBTdWNjZWVkZWQ6IDI3CiAgICAgICAgbGludXgtZmlybXdhcmUsIDIwMTkw
-NjE4LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFk
-b3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICB2dWxrYW4tdG9vbHMsIDEuMS4xMTQuMCwgQW51
-aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBweXRob24zLXNldHVwdG9v
-bHMsIDQxLjEuMCwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3Jh
-dmNodWsuY29tPgogICAgICAgIG1tYy11dGlscywgMC4xLW5ldy1jb21taXRzLWF2YWlsYWJsZSwg
-QW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBrbXNjdWJlLCBnaXQt
-bmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdkBwc2V1ZG90ZXJt
-aW5hbC5vcmc+CiAgICAgICAgb2Zvbm8sIDEuMzAsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBp
-bnRlbC5jb20+CiAgICAgICAgbGliYnNkLCAwLjEwLjAsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJp
-dmVyLmNvbT4KICAgICAgICB2aW0tdGlueSwgOC4xLjE4NDcsIFRvbSBSaW5pIDx0cmluaUBrb25z
-dWxrby5jb20+CiAgICAgICAgc3VidmVyc2lvbiwgMS4xMi4yLCBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KICAgICAgICBuY3Vyc2VzLCA2LjErMjAx
-OTA4MDMsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBwYW5n
-bywgMS40NC41LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGds
-aWItbmV0d29ya2luZywgMi42MC4zLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29t
-PgogICAgICAgIHB5dGhvbjMtcGlwLCAxOS4yLjIsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5z
-b3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBsaWJkYXp6bGUsIDMuMzIuMywg
-QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgdmltLCA4
-LjEuMTg0NywgVG9tIFJpbmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4KICAgICAgICBkaXN0Y2MsIDMu
-My4zLCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgc3RyZXNz
-LW5nLCAwLjEwLjAxLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAg
-IGd0ay1kb2MsIDEuMzEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
-PgogICAgICAgIHB5dGhvbjMtZ2l0LCAzLjAuMSwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNv
-dXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIGRuZiwgNC4yLjksIEFsZXhhbmRl
-ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGNjYWNoZSwgMy43LjIs
-IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGdudS1jb25m
-aWcsIDIwMTkwNTAxLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55
-YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgcGlnbGl0LCAxLjAtbmV3LWNvbW1pdHMtYXZhaWxh
-YmxlLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGZmbXBlZywg
-NC4yLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBl
-cGlwaGFueSwgMy4zMi40LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4KICAgICAgICBoYXJmYnV6eiwgMi42LjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRl
-bC5jb20+CiAgICAgICAgdmFsYSwgMC40NC43LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
-dmluQGdtYWlsLmNvbT4KICAgICogRmFpbGVkKGRvX2NvbXBpbGUpOiAxOAogICAgICAgIGtleGVj
-LXRvb2xzLCAyLjAuMjAsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAg
-ICAgbGliZG5mLCAwLjM1LjMsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwu
-Y29tPgogICAgICAgIHB5dGhvbi1zZXR1cHRvb2xzLCA0MS4xLjAsIE9sZWtzYW5kciBLcmF2Y2h1
-ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBjcmVhdGVyZXBv
-LWMsIDAuMTUuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAg
-ICAgICAgbGlibnNzLW5pcywgMy4xLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAg
-ICAgIG1rZm9udHNjYWxlLCAxLjIuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNv
-bT4KICAgICAgICBnby1ydW50aW1lLCAxLjEyLjgsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
-b20+CiAgICAgICAgZ28sIDEuMTIuOCwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAg
-ICAgICBzaGFkb3csIDQuNywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAg
-IHB5dGhvbjMtc2NvbnMsIDMuMS4xLCBUaW0gT3JsaW5nIDx0aW1vdGh5LnQub3JsaW5nQGxpbnV4
-LmludGVsLmNvbT4KICAgICAgICBib29zdCwgMS43MC4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
-eC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICB2dWxrYW4tbG9hZGVyLCAxLjEuMTE0LjAsIEFu
-dWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgYWNwaWNhLCAyMDE5MDcw
-MywgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBkZXNrdG9wLWZp
-bGUtdXRpbHMsIDAuMjQsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
-PgogICAgICAgIHByZWxpbmssIDEuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIE1hcmsgSGF0bGUg
-PG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT4KICAgICAgICB2dWxrYW4taGVhZGVycywgMS4xLjEx
-NC4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdudXRscywg
-My42LjksIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgaXcsIDUu
-MywgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlQGdtYWlsLmNvbT4KCiAgICBUT1RBTDog
-YXR0ZW1wdGVkPTgwIHN1Y2NlZWRlZD0yNygzMy43NSUpIGZhaWxlZD01Myg2Ni4yNSUpCgpSZWNp
-cGUgdXBncmFkZSBzdGF0aXN0aWNzIHBlciBNYWludGFpbmVyOgoKICAgIENoYW5naHllb2sgQmFl
-IDxjaGFuZ2h5ZW9rLmJhZTogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0y
-KDEwMC4wMCUpCiAgICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRlbXB0ZWQ9MSBz
-dWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIEFybWluIEt1c3RlciA8YWt1
-c3RlcjgwODogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD00KDEwMC4wMCUp
-CiAgICBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b246IGF0dGVtcHRlZD05IHN1Y2NlZWRlZD0zKDMz
-LjMzJSkgZmFpbGVkPTYoNjYuNjclKQogICAgVGltIE9ybGluZyA8dGltb3RoeS50Lm9ybGluZzog
-YXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBDYXJs
-b3MgUmFmYWVsIEdpYW5pIDxkdjogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFp
-bGVkPTAoMC4wMCUpCiAgICBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXM6IGF0dGVtcHRlZD0xIHN1
-Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgT2xla3NhbmRyIEtyYXZjaHVr
-IDxvcGVuLnNvdXJjZTogYXR0ZW1wdGVkPTUgc3VjY2VlZGVkPTMoNjAuMDAlKSBmYWlsZWQ9Mig0
-MC4wMCUpCiAgICBZaSBaaGFvIDx5aS56aGFvOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MSgxMDAu
-MDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWE6IGF0dGVtcHRl
-ZD0zIHN1Y2NlZWRlZD0yKDY2LjY3JSkgZmFpbGVkPTEoMzMuMzMlKQogICAgQW51aiBNaXR0YWwg
-PGFudWoubWl0dGFsOiBhdHRlbXB0ZWQ9MTAgc3VjY2VlZGVkPTUoNTAuMDAlKSBmYWlsZWQ9NSg1
-MC4wMCUpCiAgICBUb20gUmluaSA8dHJpbmk6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0yKDEwMC4w
-MCUpIGZhaWxlZD0wKDAuMDAlKQogICAgUGF1bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRvbjogYXR0
-ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBSaWNoYXJk
-IFB1cmRpZSA8cmljaGFyZC5wdXJkaWU6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUp
-IGZhaWxlZD0wKDAuMDAlKQogICAgTWFyayBIYXRsZSA8bWFyay5oYXRsZTogYXR0ZW1wdGVkPTEg
-c3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBUYW51IEthc2tpbmVuIDx0
-YW51azogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAg
-ICBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2YWRvcjogYXR0ZW1wdGVkPTQgc3VjY2VlZGVk
-PTEoMjUuMDAlKSBmYWlsZWQ9Myg3NS4wMCUpCiAgICBLaGVtIFJhaiA8cmFqLmtoZW06IGF0dGVt
-cHRlZD01IHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9NSgxMDAuMDAlKQogICAgUm9iZXJ0IFlh
-bmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9NSBzdWNjZWVkZWQ9Mig0MC4wMCUpIGZhaWxlZD0z
-KDYwLjAwJSkKICAgIENoZW4gUWkgPFFpLkNoZW46IGF0dGVtcHRlZD02IHN1Y2NlZWRlZD0wKDAu
-MDAlKSBmYWlsZWQ9NigxMDAuMDAlKQogICAgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZp
-bjogYXR0ZW1wdGVkPTE1IHN1Y2NlZWRlZD02KDQwLjAwJSkgZmFpbGVkPTkoNjAuMDAlKQo=
+I tried but couldn't figure out how to fix it and as I am not a meson
+expect, I preferred to rather revert it and succeed with the upgrade.
 
---===============5886752937682369497==--
+Can you send a patch fixing it?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+
