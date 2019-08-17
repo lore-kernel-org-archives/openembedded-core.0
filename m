@@ -1,41 +1,41 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 88DA77F359
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id BC7FE7CF9E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 15:12:19 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id q4so9425201qtp.1
+	Sat, 17 Aug 2019 15:39:57 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id g17so7235583qkk.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 08:12:20 -0700 (PDT)
+	Sat, 17 Aug 2019 08:39:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:organization:content-transfer-encoding;
-	bh=i6S+peqYcudQr0j8Y5PF3hI65IIpy5+DxyXCDNV9ALg=;
-	b=fSTU1y97uUM8dR978qao7I1sFz40hO3U4I6vrjBNd5FDMvPMWEIeV1mX9YVkxVrU6F
-	Cc2frp19/VQOdgFVJQcasgSBcOjhWWd9eCXFbvcBp0BklOZx3P8LAWoTmLZxakutyRKt
-	xWvza2GhF8N+Mp5QCyG8VwcbgdCp7OuCNApu/B+2xcGwohZzKPTcgTNLu/3FkkCTZpo6
-	JFRrFh5zceGpurHb53ovJKlxWLQWa/L7SH2YZmCCU9XHoLD0+EHPokRpO6iq8eXkAt06
-	AyrhiKZpxJfN7eN1OiGChvMJ2wpr7/sVSFRqR7GjCl+A2JwjPmDs4hCnqd5zpL1qUpCl
-	z5cg==
-X-Gm-Message-State: APjAAAUHIVu2yfGr0T47Tpw1OHAwQH017/Gxe8QGib+Hs+UFyhq2ars4
-	s8rmvPTzbi2SOvYAI545TRCYYBl38e8=
-X-Google-Smtp-Source: APXvYqzjTTg5znEx/fVQ6O33O6ETRpovZHbD66Q6zy7jCXiAe0cvY0/ixhYLbE5DkPWcGNCB6Qxesg==
-X-Received: by 2002:a0c:a9dc:: with SMTP id c28mr5276288qvb.85.1566054739968; 
-	Sat, 17 Aug 2019 08:12:19 -0700 (PDT)
+	bh=83ni80dGZnecgXnofBdOLWwkdJPmHE/pnu3BKZU+7Xg=;
+	b=VJoAqLBHDyZlHLHkcFKJd0bHvQ3DSwEQ+jnD57sV6offFF9j6t1zCi5umOB2AS8JF3
+	CzgrhT4YSjsUBNgJPIF4BAK8gcfMwhGVsQN3rCRDaKLb/JFyFA0pCgCfJxi+XHtDPsh7
+	a10S6uPgULabbWv8Usx6icO//XiKQ/a0aaDARPPRk/lt/AvwgV9yQ8UtIgiN5YvtmrSQ
+	/ILkIHngm9Z7ypOgXYzwRBJAj34muhI28QVWahRn6XxLvebqzpYkBt0aqouvt9LFO/Zc
+	m072r/sqPKqNyiRJrTSDUn8aNsnVgI/813lJfuF5guzAPspl+uY3rEqp/A11jslj/PDu
+	u/xQ==
+X-Gm-Message-State: APjAAAX/HsP7Kdf+MNDDHn8UchwIAYr42D2KaJ084lXy85piHV5oqMJZ
+	rvMXapojqFkOfQ1HvvufV0xA1szBDkc=
+X-Google-Smtp-Source: APXvYqxWlK4a3QlZy7RlZvssGBOe6W9I5UkjS4uaZEDsxBU0uVmBcftfcSIFbEDvgU68mE+1xl99og==
+X-Received: by 2002:a37:444b:: with SMTP id r72mr13465565qka.361.1566056398078;
+	Sat, 17 Aug 2019 08:39:58 -0700 (PDT)
 Received: from localhost ([181.220.83.67]) by smtp.gmail.com with ESMTPSA id
-	o200sm4549968qke.66.2019.08.17.08.12.18
+	p186sm4813981qkc.65.2019.08.17.08.39.56
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 17 Aug 2019 08:12:19 -0700 (PDT)
+	Sat, 17 Aug 2019 08:39:57 -0700 (PDT)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Sat, 17 Aug 2019 12:12:16 -0300
-Message-Id: <20190817151216.15179-1-otavio@ossystems.com.br>
+Date: Sat, 17 Aug 2019 12:39:53 -0300
+Message-Id: <20190817153954.15805-1-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] kmscube: Bump revision to f632b23
+Subject: [PATCH v2] mesa: Upgrade 19.1.1 -> 19.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,32 +48,241 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Aug 2019 15:12:19 -0000
+X-List-Received-Date: Sat, 17 Aug 2019 15:39:58 -0000
 Content-Transfer-Encoding: 8bit
 
-This includes following changes:
+This is a bugfix only set of releases. Check following links for the
+relevant release notes:
 
-f632b23 drm: Find a proper modeset device, is none is provided
+- https://www.mesa3d.org/relnotes/19.1.2.html
+- https://www.mesa3d.org/relnotes/19.1.3.html
+- https://www.mesa3d.org/relnotes/19.1.4.html
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
- meta/recipes-graphics/kmscube/kmscube_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- fix patch headers
 
-diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
-index fd90d20172..2b6837fef6 100644
---- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-+++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-@@ -6,7 +6,7 @@ DEPENDS = "virtual/libgles2 virtual/egl libdrm"
+ ...k-for-all-linux-host_os-combinations.patch | 37 +++++++------------
+ ...on.build-make-TLS-GLX-optional-again.patch | 12 +++---
+ ...Allow-enable-DRI-without-DRI-drivers.patch | 10 ++---
+ ...rove-detection-of-Python-when-using-.patch | 33 +++++++++++++++++
+ .../{mesa-gl_19.1.1.bb => mesa-gl_19.1.4.bb}  |  0
+ .../mesa/{mesa_19.1.1.bb => mesa_19.1.4.bb}   |  5 ++-
+ 6 files changed, 58 insertions(+), 39 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/files/0004-Revert-meson-Improve-detection-of-Python-when-using-.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_19.1.1.bb => mesa-gl_19.1.4.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_19.1.1.bb => mesa_19.1.4.bb} (77%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+index 0064dc643c..9fba5da4b2 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+@@ -1,7 +1,7 @@
+-From da6b9188f29942684d4262f0c6264d09bb6fe7de Mon Sep 17 00:00:00 2001
++From ea966884e39aae9571c038fab55f3c1663d17850 Mon Sep 17 00:00:00 2001
+ From: Fabio Berton <fabio.berton@ossystems.com.br>
+ Date: Wed, 12 Jun 2019 13:40:20 -0300
+-Subject: [PATCH 1/3] meson.build: check for all linux host_os combinations
++Subject: [PATCH] meson.build: check for all linux host_os combinations
+ Organization: O.S. Systems Software LTDA.
  
- LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
+ Make sure that we are also looking for our host_os combinations like
+@@ -13,41 +13,30 @@ Upstream-Status: Pending
  
--SRCREV = "e888ea1d233b2639b87a68e099d18d4e919905df"
-+SRCREV = "f632b23a528ed6b4e1fddd774db005c30ab65568"
- SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https \
-     file://detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch"
- UPSTREAM_CHECK_COMMITS = "1"
+ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+ ---
+- meson.build | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
++ meson.build | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 8ab8a550f56..e11880f2902 100644
++index 567a81afd6f..b33b430aed4 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -34,6 +34,8 @@ cpp = meson.get_compiler('cpp')
+- 
+- null_dep = dependency('', required : false)
+- 
+-+system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'dragonfly'].contains(host_machine.system()) or host_machine.system().startswith('linux')
+-+
+- # Arguments for the preprocessor, put these in a separate array from the C and
+- # C++ (cpp in meson terminology) arguments since they need to be added to the
+- # default arguments for both C and C++.
+-@@ -107,8 +109,6 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
++@@ -107,7 +107,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+  # Only build shared_glapi if at least one OpenGL API is enabled
+  with_shared_glapi = get_option('shared-glapi') and with_any_opengl
+  
+--system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'dragonfly', 'linux'].contains(host_machine.system())
+--
++-system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd', 'dragonfly', 'linux'].contains(host_machine.system())
+++system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'dragonfly'].contains(host_machine.system()) or host_machine.system().startswith('linux')
++ 
+  dri_drivers = get_option('dri-drivers')
+  if dri_drivers.contains('auto')
+-   if system_has_kms_drm
+-@@ -836,7 +836,7 @@ if cc.compiles('int foo(void) __attribute__((__noreturn__));',
++@@ -845,7 +845,7 @@ if cc.compiles('int foo(void) __attribute__((__noreturn__));',
+  endif
+  
+  # TODO: this is very incomplete
+--if ['linux', 'cygwin', 'gnu'].contains(host_machine.system())
+-+if ['cygwin', 'gnu'].contains(host_machine.system()) or host_machine.system().startswith('linux')
++-if ['linux', 'cygwin', 'gnu', 'gnu/kfreebsd'].contains(host_machine.system())
+++if ['cygwin', 'gnu', 'gnu/kfreebsd'].contains(host_machine.system()) or host_machine.system().startswith('linux')
+    pre_args += '-D_GNU_SOURCE'
+  endif
+  
+--- 
+-2.22.0
+-
+diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+index 81454aaa29..641bacf1d9 100644
+--- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
++++ b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+@@ -1,7 +1,7 @@
+-From d31718999797ffc4dd177d14760ef7b8fd95ac2f Mon Sep 17 00:00:00 2001
++From cee8e48c5344124e5d84307cb0c48ee0c9b3e684 Mon Sep 17 00:00:00 2001
+ From: Fabio Berton <fabio.berton@ossystems.com.br>
+ Date: Wed, 12 Jun 2019 14:15:57 -0300
+-Subject: [PATCH 2/3] meson.build: make TLS GLX optional again
++Subject: [PATCH] meson.build: make TLS GLX optional again
+ Organization: O.S. Systems Software LTDA.
+ 
+ This was optional with autotools, and needs to be disabled
+@@ -11,16 +11,17 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+ ---
+  meson.build       | 4 +++-
+  meson_options.txt | 7 +++++++
+  2 files changed, 10 insertions(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index e11880f2902..7a07974ba61 100644
++index b33b430aed4..0e50bb26c0a 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -362,7 +362,9 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless)
++@@ -369,7 +369,9 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
+    endif
+  endif
+  
+@@ -49,6 +50,3 @@ index 1f72faabee8..fcd49efea27 100644
+  option(
+    'I-love-half-baked-turnips',
+    type : 'boolean',
+--- 
+-2.22.0
+-
+diff --git a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+index 0f254a1d91..3458c19199 100644
+--- a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
++++ b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+@@ -1,20 +1,21 @@
+-From 417ff3a03313aa003244990ed5c0188c421e6181 Mon Sep 17 00:00:00 2001
++From f1482e88c2295b9c7288f5b273335a8e18039de8 Mon Sep 17 00:00:00 2001
+ From: Fabio Berton <fabio.berton@ossystems.com.br>
+ Date: Wed, 12 Jun 2019 14:18:31 -0300
+-Subject: [PATCH 3/3] Allow enable DRI without DRI drivers
++Subject: [PATCH] Allow enable DRI without DRI drivers
+ Organization: O.S. Systems Software LTDA.
+ 
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+ ---
+  meson.build       | 2 +-
+  meson_options.txt | 6 ++++++
+  2 files changed, 7 insertions(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 7a07974ba61..5c7cbe38376 100644
++index 0e50bb26c0a..de065c290d6 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -137,7 +137,7 @@ with_dri_r200 = dri_drivers.contains('r200')
+@@ -43,6 +44,3 @@ index fcd49efea27..0529200b3bb 100644
+  option(
+    'dri-drivers',
+    type : 'array',
+--- 
+-2.22.0
+-
+diff --git a/meta/recipes-graphics/mesa/files/0004-Revert-meson-Improve-detection-of-Python-when-using-.patch b/meta/recipes-graphics/mesa/files/0004-Revert-meson-Improve-detection-of-Python-when-using-.patch
+new file mode 100644
+index 0000000000..68d2d8af12
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0004-Revert-meson-Improve-detection-of-Python-when-using-.patch
+@@ -0,0 +1,33 @@
++From 7f1e017ec15fd1fbe91a56770739117bfdeec266 Mon Sep 17 00:00:00 2001
++From: Otavio Salvador <otavio@ossystems.com.br>
++Date: Sat, 17 Aug 2019 11:15:38 -0300
++Subject: [PATCH] Revert "meson: Improve detection of Python when using Meson
++ >=0.50."
++Organization: O.S. Systems Software LTDA.
++
++This reverts commit cb3072488cd327155206e92d1ad8eb72a23ab04e.
++
++Upstream-Status: Inappropriate [embedded specific]
++
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++---
++ meson.build | 6 +-----
++ 1 file changed, 1 insertion(+), 5 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index de065c290d6..88c74c2c715 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -761,11 +761,7 @@ if with_platform_haiku
++   pre_args += '-DHAVE_HAIKU_PLATFORM'
++ endif
++ 
++-if meson.version().version_compare('>=0.50')
++-  prog_python = import('python').find_installation('python3')
++-else
++-  prog_python = import('python3').find_python()
++-endif
+++prog_python = import('python3').find_python()
++ has_mako = run_command(
++   prog_python, '-c',
++   '''
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.1.bb b/meta/recipes-graphics/mesa/mesa-gl_19.1.4.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_19.1.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_19.1.4.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_19.1.1.bb b/meta/recipes-graphics/mesa/mesa_19.1.4.bb
+similarity index 77%
+rename from meta/recipes-graphics/mesa/mesa_19.1.1.bb
+rename to meta/recipes-graphics/mesa/mesa_19.1.4.bb
+index 1a34a6577b..eaeec013ed 100644
+--- a/meta/recipes-graphics/mesa/mesa_19.1.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.1.4.bb
+@@ -4,10 +4,11 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
+            file://0002-meson.build-make-TLS-GLX-optional-again.patch \
+            file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
++	   file://0004-Revert-meson-Improve-detection-of-Python-when-using-.patch \
+            "
+ 
+-SRC_URI[md5sum] = "07cd8cd79de28ec1a374ee3a06e47789"
+-SRC_URI[sha256sum] = "72114b16b4a84373b2acda060fe2bb1d45ea2598efab3ef2d44bdeda74f15581"
++SRC_URI[md5sum] = "90eed05e3239c96ad9e92eb11eb67ada"
++SRC_URI[sha256sum] = "a6d268a7d9edcfd92b6da80f2e34e6e0a7baaa442efbeba2fc66c404943c6bfb"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
 -- 
 2.22.1
 
