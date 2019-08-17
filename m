@@ -1,63 +1,57 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F55D7CE27
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
+	[209.85.167.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E0DB7F270
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 18:49:53 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id c34so12580261otb.7
+	Sat, 17 Aug 2019 19:27:53 +0000 (UTC)
+Received: by mail-oi1-f175.google.com with SMTP id k22so7125594oiw.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 11:49:55 -0700 (PDT)
+	Sat, 17 Aug 2019 12:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=np89FxdJBx2eiRewQpQ0P7FOKF/trIfGVyTX2i/BQAc=;
-	b=bsO9epzso1xs7v7+Ku1n4/5j2CuKwRPaniOGZVN0XZyksrRob/FAxVJV8JMSnGNq3N
-	jRjoFYxuVbNqBbWfd+t29ZUezhmqAKMVDp42WbZQgtXBv1aMbvDV+EL9jdXE+RrOmJJf
-	ZvtiWYF+1+k2u7cvhMkbgjpXPUJ0cWP/rq0S+fbjR6Aot0wiUtBUHOlIYQiVNt/tofro
-	War4lrN77Zl9c6ljj1PD0XT6ixVRfsoBmevAbovkbeyH+z7SQjaomdZdhOpkLk8cHNgv
-	oCCPyRJmooP27XrcAsUrrAevjyETAhxT3DWpuy5/qsCPpKje8aJwI2v6paMvpK+ObuzY
-	yUMQ==
+	h=from:mime-version:date:message-id:subject:to;
+	bh=yK3/lCkJZavE9ueM3B6ffFnS7JaAUFQoR6taxRakrKo=;
+	b=Uao5LdXH0CZtfeuBDuWfedKJblTZH9BJx6Yahzx0XIoEbnLqiFc+vqe/xuaaijHJjh
+	uweJvKwbEyrtjjk1RQ1kZSzJwD5XBlUsSSaa4YT4sdZ7E1n1HAAf2bh65ibexxytW7ct
+	JQdB3DQ/2crXzI4lOB8Z/e36/fx6O0TZCXknJrkiTwmfGO7wS7NkBs/afum8rzXu7QOY
+	yG5Rzn2ITLW663xRnE757QXAF7HxDnjWuTpd8aC7HWMVEWkpD28909pqPESkPdcpkemm
+	COOHPMnFl7Zq+LkNk9Np+bp4Qfbc8TIzwIiL9aSpcLgAK3MMJ3ooC/8SkFZg9VqD/syx
+	6ZlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-	:message-id:subject:to:cc;
-	bh=np89FxdJBx2eiRewQpQ0P7FOKF/trIfGVyTX2i/BQAc=;
-	b=Rlv8wXG9LDQjFCEP+HT9e/OXWmDI2D0hp+sRCwtlXXmMMf5HYydXOlWBn3iX+KpQxx
-	34aW7OdvibjptFBwi9isvl15P7oRpAt2aUTFHZrWO5J54Bv/S8HusD+u6bv5EtnNZJEU
-	kHCve5POwCqqsednyrp0mZZX5OC1dW3GweYtMdITX4iWDWlWi1HZr+nJVt1xkDpVFKah
-	LqXxvIo76QIsRp0iGYkEPv2EfhO7+t73l3G0jFJhAm6PEBb0YLHJlGiC0uY26n63KMC4
-	MmFmJ4rOq9qRm//8e8ndNM4CvXMdSajXcUNhspj1s79M7fnEqpW8eutNJPS1hjq3qlB2
-	VShw==
-X-Gm-Message-State: APjAAAX8VPeivUsZGvJrdDlssXmIG/V0pdY/vqfdxTKUMBHAbLm1M6nm
-	HLGYDz40Tc2dt6B7F7UptPgRFb9lITp8/Q==
-X-Google-Smtp-Source: APXvYqww4x9Vsh0x00+fHtdI0QrdPig1JraPlsFDukzwJfs2W/fef4JdQTnwJ7AJiqXzJ59Er5iOkQ==
-X-Received: by 2002:a05:6830:200e:: with SMTP id
-	e14mr11497800otp.245.1566067794587; 
-	Sat, 17 Aug 2019 11:49:54 -0700 (PDT)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com.
-	[209.85.167.178]) by smtp.gmail.com with ESMTPSA id
-	n24sm2580990oie.19.2019.08.17.11.49.53
+	h=x-gm-message-state:from:mime-version:date:message-id:subject:to;
+	bh=yK3/lCkJZavE9ueM3B6ffFnS7JaAUFQoR6taxRakrKo=;
+	b=Lu4mjfoEKaMAdu8D3xmmejlowm7G3hNY6KGSUKQPQC2txjUEfPdCWt0bP+mYZ4XObX
+	JneMBrBx6H7r4tUNIXOfzr1k82zUCksw4Do3e1ktjuEm4mywMWdQE2/Oe0N5C8ovAMuI
+	aD7R6gQrHuqj6qHuH2a3wE0NlZfs7D8AH5UhfARD4rRIIfZFZbBacn7OQ6LgoVB6OKEk
+	wGyIAGz7BPi1NNW329QGHdgOY4OyF4tEGdW+ig2Lv2U+FY2p9hAcII8qVTkQtK4LDinT
+	gBFZdqsN4BOgW/tG80vLxp/ZPr5lRtMLpHUfk7YkZhDApfLTXVYbV9BCppArq+DWk8nu
+	7LmQ==
+X-Gm-Message-State: APjAAAUF1EExTL1KZx7NI7OOqxjz7VJ9uBNBiUAxTQKdQ0vhht+uwodo
+	hLPY1qZOU9/ymfCcaJGQT3/nE1woWt8eFA==
+X-Google-Smtp-Source: APXvYqxnYTQH1sgfKe4LS4Xjslm4gobzU3AjJannPJZ+UuxtLfz2cG0ONe/56pMum3vfJCIdvO1hGA==
+X-Received: by 2002:aca:bc06:: with SMTP id m6mr8982339oif.114.1566070074105; 
+	Sat, 17 Aug 2019 12:27:54 -0700 (PDT)
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com.
+	[209.85.167.171]) by smtp.gmail.com with ESMTPSA id
+	w21sm3495419oti.52.2019.08.17.12.27.53
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Sat, 17 Aug 2019 11:49:53 -0700 (PDT)
+	Sat, 17 Aug 2019 12:27:53 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi1-f178.google.com with SMTP id a127so7134830oii.2
+Received: by mail-oi1-f171.google.com with SMTP id q10so3625842oij.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 11:49:53 -0700 (PDT)
-X-Received: by 2002:aca:75c2:: with SMTP id q185mr4979326oic.134.1566067792950;
-	Sat, 17 Aug 2019 11:49:52 -0700 (PDT)
+	Sat, 17 Aug 2019 12:27:53 -0700 (PDT)
+X-Received: by 2002:aca:75c2:: with SMTP id q185mr5047864oic.134.1566070072666;
+	Sat, 17 Aug 2019 12:27:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190817153954.15805-1-otavio@ossystems.com.br>
-	<CANNYZj-RD8zN7o7mX61MuATaO_7NSHY8DXAUR6TuU50M85r7Ag@mail.gmail.com>
-In-Reply-To: <CANNYZj-RD8zN7o7mX61MuATaO_7NSHY8DXAUR6TuU50M85r7Ag@mail.gmail.com>
-Date: Sat, 17 Aug 2019 15:49:39 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoaJt-TH7kg7oiqWTfB6r4gqhZdZezJCW69Zj_y=NpLtQ@mail.gmail.com>
-Message-ID: <CAP9ODKoaJt-TH7kg7oiqWTfB6r4gqhZdZezJCW69Zj_y=NpLtQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] mesa: Upgrade 19.1.1 -> 19.1.4
+Date: Sat, 17 Aug 2019 16:27:39 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqnJX-fLme5JUQF8XAHr2hDzJ31auZPQGOUQCehuTb4XA@mail.gmail.com>
+Message-ID: <CAP9ODKqnJX-fLme5JUQF8XAHr2hDzJ31auZPQGOUQCehuTb4XA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Conflict of systemd and sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,38 +64,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Aug 2019 18:49:54 -0000
+X-List-Received-Date: Sat, 17 Aug 2019 19:27:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Aug 17, 2019 at 1:01 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Sat, 17 Aug 2019 at 17:40, Otavio Salvador <otavio@ossystems.com.br> wrote:
->>
->> +Subject: [PATCH] Revert "meson: Improve detection of Python when using Meson
->> + >=0.50."
->> +Organization: O.S. Systems Software LTDA.
->> +
->> +This reverts commit cb3072488cd327155206e92d1ad8eb72a23ab04e.
->> +
->> +Upstream-Status: Inappropriate [embedded specific]
->> +
->> +-if meson.version().version_compare('>=0.50')
->> +-  prog_python = import('python').find_installation('python3')
->> +-else
->> +-  prog_python = import('python3').find_python()
->> +-endif
->> ++prog_python = import('python3').find_python()
->> + has_mako = run_command(
->> +   prog_python, '-c',
->> +   '''
->
-> If this is broken in meson, shouldn't it be fixed at the source (e.g. meson), rather than patched after the fact back to the 'older pre-0.50 way' in every component that trips over it?
+Hello,
 
-I tried but couldn't figure out how to fix it and as I am not a meson
-expect, I preferred to rather revert it and succeed with the upgrade.
+I found a build error at master.
 
-Can you send a patch fixing it?
+Collected errors:
+ * check_data_file_clashes: Package systemd wants to install file
+.../rootfs/sbin/telinit
+        But that file is already provided by package  * sysvinit
+
+Can someone take a look?
 
 -- 
 Otavio Salvador                             O.S. Systems
