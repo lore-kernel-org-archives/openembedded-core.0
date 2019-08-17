@@ -1,57 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
-	[209.85.167.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E0DB7F270
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 31AB7747E7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 19:27:53 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id k22so7125594oiw.11
+	Sat, 17 Aug 2019 21:21:45 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id p3so4689689pgb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 12:27:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:date:message-id:subject:to;
-	bh=yK3/lCkJZavE9ueM3B6ffFnS7JaAUFQoR6taxRakrKo=;
-	b=Uao5LdXH0CZtfeuBDuWfedKJblTZH9BJx6Yahzx0XIoEbnLqiFc+vqe/xuaaijHJjh
-	uweJvKwbEyrtjjk1RQ1kZSzJwD5XBlUsSSaa4YT4sdZ7E1n1HAAf2bh65ibexxytW7ct
-	JQdB3DQ/2crXzI4lOB8Z/e36/fx6O0TZCXknJrkiTwmfGO7wS7NkBs/afum8rzXu7QOY
-	yG5Rzn2ITLW663xRnE757QXAF7HxDnjWuTpd8aC7HWMVEWkpD28909pqPESkPdcpkemm
-	COOHPMnFl7Zq+LkNk9Np+bp4Qfbc8TIzwIiL9aSpcLgAK3MMJ3ooC/8SkFZg9VqD/syx
-	6ZlQ==
+	Sat, 17 Aug 2019 14:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=BUCMV48j96TS/qaPaSD2GUC0wBqhYS+gjPUtL0iL7vg=;
+	b=V7SwaLrFGdE9A6I6b7+PbUDBaCHnWqHIvX2Jrak3am65HcdKSGCH5QrLH02DGEYwiQ
+	G2QPz5mUr4ODHJFFxff28y+zjE9rtrFSjjlOrz46Sj/tL5BTpNLJfNJKMv6Xx9WTLeLv
+	+44cZjMuPWLCPq0xVookwCM47Xb4g6Ee0Z3pBSzZyQeXk8c/CRMBY5uXGJVyylT/vbEJ
+	Uhj598TNHGq2hQEBirrSNkMfJDh6keHup/3gh5MP5ADZXm8cao2H/cKk+i5Cc+5owlgy
+	pZ9maf4r/90tRkPF90W469kPUC/echp3vkIoC4Nz9aK/KGfX9r97rxloExikE350xNbI
+	Bo7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:date:message-id:subject:to;
-	bh=yK3/lCkJZavE9ueM3B6ffFnS7JaAUFQoR6taxRakrKo=;
-	b=Lu4mjfoEKaMAdu8D3xmmejlowm7G3hNY6KGSUKQPQC2txjUEfPdCWt0bP+mYZ4XObX
-	JneMBrBx6H7r4tUNIXOfzr1k82zUCksw4Do3e1ktjuEm4mywMWdQE2/Oe0N5C8ovAMuI
-	aD7R6gQrHuqj6qHuH2a3wE0NlZfs7D8AH5UhfARD4rRIIfZFZbBacn7OQ6LgoVB6OKEk
-	wGyIAGz7BPi1NNW329QGHdgOY4OyF4tEGdW+ig2Lv2U+FY2p9hAcII8qVTkQtK4LDinT
-	gBFZdqsN4BOgW/tG80vLxp/ZPr5lRtMLpHUfk7YkZhDApfLTXVYbV9BCppArq+DWk8nu
-	7LmQ==
-X-Gm-Message-State: APjAAAUF1EExTL1KZx7NI7OOqxjz7VJ9uBNBiUAxTQKdQ0vhht+uwodo
-	hLPY1qZOU9/ymfCcaJGQT3/nE1woWt8eFA==
-X-Google-Smtp-Source: APXvYqxnYTQH1sgfKe4LS4Xjslm4gobzU3AjJannPJZ+UuxtLfz2cG0ONe/56pMum3vfJCIdvO1hGA==
-X-Received: by 2002:aca:bc06:: with SMTP id m6mr8982339oif.114.1566070074105; 
-	Sat, 17 Aug 2019 12:27:54 -0700 (PDT)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com.
-	[209.85.167.171]) by smtp.gmail.com with ESMTPSA id
-	w21sm3495419oti.52.2019.08.17.12.27.53
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=BUCMV48j96TS/qaPaSD2GUC0wBqhYS+gjPUtL0iL7vg=;
+	b=pv/Xw7sgvYwb/owgB8jX621nIL9JyR5It1LTd7nVFBByLhfKyGsLTDARk2k4zjHV+d
+	z6QBxMVDCL++cWwh8XPg5FWFkWM/X6tQ1Ja5WJFZ5t2WouUaqLRUAV3/HiIfKPvEWNnS
+	HjnyAEWQy8PErB3aZ4n5gl+MnPEtyVl5zcwe9OoPHcU9K3VHwyJ7cTgotojHkWIllJXi
+	fhEnjSkJuJ5eqXNhNdhMUHdOXMWcWYctx0RXNoMamL9d1t0iiDHHk8czZukXZNNOCMKg
+	k0nrBXkOn+W4k8iNiW2chhSeD0+z7zl4AwKeEghMMUnd8Cu5OFmBQfWpFiwmjHXl10vm
+	2dww==
+X-Gm-Message-State: APjAAAVNNCGtySiaMSogNZvkk1OxV5JyC+vo7ZQsrNd2wrZMtRwDlzqs
+	9z6YwMuh2GI231qYk9KVwro1HGEl
+X-Google-Smtp-Source: APXvYqx9q9qSh01xpT2Vku0dqJR6LfaEMhOuhrvKin41OUxfsOBRQH7DvuMO6/dM9VKa5z25lAD6bw==
+X-Received: by 2002:a63:784c:: with SMTP id t73mr13849853pgc.268.1566076905970;
+	Sat, 17 Aug 2019 14:21:45 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4180:c33:29d8:851b:cd27:3ce0])
+	by smtp.gmail.com with ESMTPSA id a20sm7261804pjo.0.2019.08.17.14.21.44
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Sat, 17 Aug 2019 12:27:53 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi1-f171.google.com with SMTP id q10so3625842oij.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 17 Aug 2019 12:27:53 -0700 (PDT)
-X-Received: by 2002:aca:75c2:: with SMTP id q185mr5047864oic.134.1566070072666;
-	Sat, 17 Aug 2019 12:27:52 -0700 (PDT)
-MIME-Version: 1.0
-Date: Sat, 17 Aug 2019 16:27:39 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqnJX-fLme5JUQF8XAHr2hDzJ31auZPQGOUQCehuTb4XA@mail.gmail.com>
-Message-ID: <CAP9ODKqnJX-fLme5JUQF8XAHr2hDzJ31auZPQGOUQCehuTb4XA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Conflict of systemd and sysvinit
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 17 Aug 2019 14:21:45 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 17 Aug 2019 14:21:33 -0700
+Message-Id: <cover.1566076780.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [thud-next][ 0/8] Thud-next patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,22 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Aug 2019 19:27:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 17 Aug 2019 21:21:45 -0000
 
-Hello,
+Please have comments back by Monday.
 
-I found a build error at master.
 
-Collected errors:
- * check_data_file_clashes: Package systemd wants to install file
-.../rootfs/sbin/telinit
-        But that file is already provided by package  * sysvinit
+The following changes since commit d3d3f443039b03f1200a14bfe99f985592632018:
 
-Can someone take a look?
+  build-appliance-image: Update to thud head revision (2019-08-01 11:58:11 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/thud-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/thud-next
+
+Alexander Kanavin (1):
+  buildhistory: call a dependency parser only on actual dependency lists
+
+Andrii Bordunov via Openembedded-core (4):
+  curl: fix CVE-2018-16890 CVE-2019-3822 CVE-2019-3823
+  dbus: fix CVE-2019-12749
+  glib-2.0: fix CVE-2019-13012
+  libcomps: fix CVE-2019-3817
+
+Anuj Mittal (2):
+  patch: fix CVE-2019-13636
+  python3: fix CVE-2019-9740
+
+Bartosz Golaszewski (1):
+  qemu: add a patch fixing the native build on newer kernels
+
+ meta/lib/oe/buildhistory_analysis.py               |   2 +-
+ meta/recipes-core/dbus/dbus/CVE-2019-12749.patch   | 127 ++++++++
+ meta/recipes-core/dbus/dbus_1.12.10.bb             |   1 +
+ .../glib-2.0/glib-2.0/CVE-2019-13012.patch         |  47 +++
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb      |   1 +
+ .../libcomps/libcomps/CVE-2019-3817.patch          |  97 ++++++
+ meta/recipes-devtools/libcomps/libcomps_git.bb     |   1 +
+ .../patch/patch/CVE-2019-13636.patch               | 113 +++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb         |   1 +
+ .../python/python3/CVE-2019-9740.patch             | 155 ++++++++++
+ meta/recipes-devtools/python/python3_3.5.6.bb      |   1 +
+ ...error-messages-when-qemi_cpu_kick_thread-.patch |  19 +-
+ ...fix-to-handle-variably-sized-SIOCGSTAMP-w.patch | 336 +++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_3.0.0.bb           |   1 +
+ .../recipes-support/curl/curl/CVE-2018-16890.patch |  50 +++
+ meta/recipes-support/curl/curl/CVE-2019-3822.patch |  47 +++
+ meta/recipes-support/curl/curl/CVE-2019-3823.patch |  55 ++++
+ meta/recipes-support/curl/curl_7.61.0.bb           |   3 +
+ 18 files changed, 1046 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-core/dbus/dbus/CVE-2019-12749.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
+ create mode 100644 meta/recipes-devtools/libcomps/libcomps/CVE-2019-3817.patch
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2019-13636.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-9740.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2018-16890.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-3822.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-3823.patch
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.7.4
+
 
