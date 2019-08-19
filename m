@@ -1,49 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
-	[209.85.217.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A5567BD72
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+	[209.85.208.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B87C17F27E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 11:06:23 +0000 (UTC)
-Received: by mail-vs1-f49.google.com with SMTP id y16so895976vsc.3
+	Mon, 19 Aug 2019 11:21:05 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id u15so1392158ljl.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 04:06:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 19 Aug 2019 04:21:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/B/xv2y5R71LUisxrQRa6nA0BfZTq6AY2VKdVpejqtk=;
-	b=aUSCd0qxASUcpARtEnbldu8OlQTWGQZ05/L3e297mVD9yemmajgp+GcIwtHPVe6/kH
-	lLxWSZS6jR4HEzXqRLYiHKQnAzXKC3LKK5dGuu7MIhFCU2nlh5gY1VCSoLMKI7KHwJIz
-	nkhioMEFPaKIPQxtC7RV5TUTOyzXCW20hySETZCVvx4bCdogRV/79ge+ByZOdB8GUKb8
-	OGG2dI+ci3AwZCwSsQ3nxVtD4RYtzAyzPEXYOfg7xThxacjfHZtNS4qPTifux4l/OQJL
-	NfwQqf6n8mccD4cCmmsYlDM05ZkjHXSYqlIW+4uDH6sv4GoU9HDVmQzUmxe7gaLzaWGq
-	ru8g==
+	:cc; bh=v+7wbRX0HqERHyOa8DGcTgYhNwdb2T8qDVM8i3GBXsk=;
+	b=YD7e3oHQYRE/0+VbVheCLFizbz0RGovjoGMwS+npos0xxFJW+IRpITgvUZ7wK638mv
+	ifPAvqe72h0A3KP9Gw0aV4jiPOKdJSM/Cg0m/LJ3buZY4+k47++er3cbXk+pYkYVQGty
+	qYMM8Tn3r6CqHblyr2HPnnJhMLhxysp1uLQ43bwgId0WVcCNERXVcWrXbUQuu5/kj+QR
+	zYNxPVoBld/TyChiEqkzb4I8JISM3bW8Ulkxz0+6Ay0Tcsrb1R/oPe/lbJl9f5nzcOSj
+	/bnW9YuA8OxpXNpjV9ZFzzGI/DWKOYHqvmdgkcKhJD2tbBoKlkiOrR/UCgagt53nqKal
+	hLjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=/B/xv2y5R71LUisxrQRa6nA0BfZTq6AY2VKdVpejqtk=;
-	b=iYI0KhPCsqJoEKDBlbKvJPlP/JXFS0NHxLIHvT2fIN9S4rg8MaaeKUq/MbgPtBf9yk
-	i/KpX6hsZ7zZCrUkSu88P6ZOnkl404pF32Kv2dQ7TqJHH9JzWe+fA7H3KSArrpxX97kI
-	ecMGG9oO1ocM7Sh/ecDeu4slPeB+PMrtpNSpdfANHR6tKLSL/NhB9vjeW6Z9Ucrd5qjW
-	YneQ3jF/be+NVDK2ld5PxEsQgi/NNw7fkuIv6SscL4h6+wyVr3ATGZS6W6BBAJtU35uQ
-	X5naaMn79Ph+NgPmnkI7stD1KHx/vE7nO/A245udj0AYPOa8JStiuu61Wygv6dGxmCle
-	AsFg==
-X-Gm-Message-State: APjAAAWYAnGWCSmvL1MWT12tkxgMDlGZUo/vbaVPSZ0jlkK2TZ2DyDAm
-	oJzriNDg9EzlJ3GYC1BoQQ7zqWYh3N+fZuXSHjA=
-X-Google-Smtp-Source: APXvYqyW5B3Sk0N5psW/bjzNeoe0Zq+dk8s1gmhMdZDFzctxLmB2iQsdggNm4cp4Ks3SiQ0LfnaR0Koz8z2aWVJVFUE=
-X-Received: by 2002:a67:fd66:: with SMTP id h6mr14080758vsa.83.1566212784018; 
-	Mon, 19 Aug 2019 04:06:24 -0700 (PDT)
+	bh=v+7wbRX0HqERHyOa8DGcTgYhNwdb2T8qDVM8i3GBXsk=;
+	b=K2/lD2cyB4SGWZbgmUXFpfuVdffwHO/aQ2PFDWcSWwi+bGgpI/TFEYwR8NvPCAqluU
+	cldzMs1EVe8iGM6OC19FelRBTAgvm68ntX9Ot3ORKwqU0LUkxLk6OqEOZRxbMTwgGTJD
+	jGSV6e6Ck0snRAkwWDaDdy8qmH281MnRWC/nS70FUaQAk9iEwi+WLlllC2DRQV2LILze
+	fSp4zXmcsC0SywIimd59PbU5DCGdA4Xi5Tcc0IiGb0sQkZDuEZ8ebXnh6m5NsgrG/JJ4
+	0e/dtw7WyK7fV5O6cMpqfPX5+c1Vqld2Gcs7wHvBNInJSN9zeQA8FfZIkaV0Ed6COOXa
+	4vPg==
+X-Gm-Message-State: APjAAAXzcWFgVDe7EsP9XcPkyna/+abGRog5BvKKZnibyyPX7tbz6D7s
+	+gtF84/Xtgth/0sgS4saZZ0dB44nCWrT8FChBUDnbw==
+X-Google-Smtp-Source: APXvYqwv+epqjzP+BZ5qgiyAcngmt5axGQ9gBEuYHB6wOIeAevWZyXbUFILF+5pZnt6Y2wMfw0q980N7h/5w24SxbiY=
+X-Received: by 2002:a2e:8e87:: with SMTP id z7mr6619512ljk.211.1566213666060; 
+	Mon, 19 Aug 2019 04:21:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190817153954.15805-1-otavio@ossystems.com.br>
-	<CANNYZj-RD8zN7o7mX61MuATaO_7NSHY8DXAUR6TuU50M85r7Ag@mail.gmail.com>
-	<CAP9ODKoaJt-TH7kg7oiqWTfB6r4gqhZdZezJCW69Zj_y=NpLtQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKoaJt-TH7kg7oiqWTfB6r4gqhZdZezJCW69Zj_y=NpLtQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 19 Aug 2019 13:06:12 +0200
-Message-ID: <CANNYZj8WUO221KPbbnmehukcrNW8RBN9-y9-vJNtzkCFH6Z64g@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] mesa: Upgrade 19.1.1 -> 19.1.4
+References: <1a542261-a335-db48-e7ce-7c1dda207ff1@balister.org>
+In-Reply-To: <1a542261-a335-db48-e7ce-7c1dda207ff1@balister.org>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Mon, 19 Aug 2019 04:20:57 -0700
+Message-ID: <CAP71WjxFASX0tvkYA2+Bg9M8yquK4GZCWnoiV8xZ2AT04zr3Wg@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: Yocto Project <yocto@yoctoproject.org>, "Volosincu,
+	Andreea S" <andreea.volosincu@windriver.com>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Yocto Project Summit at ELCE Call for Particpation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 11:06:23 -0000
-Content-Type: multipart/alternative; boundary="000000000000a25ac1059076549b"
-
---000000000000a25ac1059076549b
+X-List-Received-Date: Mon, 19 Aug 2019 11:21:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 17 Aug 2019 at 20:49, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+hi Philip,
 
-> I tried but couldn't figure out how to fix it and as I am not a meson
-> expect, I preferred to rather revert it and succeed with the upgrade.
+thanks for sending this out!
+
+On Mon, Aug 19, 2019 at 3:17 AM Philip Balister <philip@balister.org> wrote:
 >
-> Can you send a patch fixing it?
+> At the past few OopenEmbedded developer meetings, people have been
+> asking for more developer and user focused events like a miniconf.
+> Partly based on this feedback, there is a two day event sponsored by the
+> Yocto Project that provides a chance for people to talk about the Yocto
+> Project and OpenEmbedded. The CFP is a bit buried on the page and I like
+> to get it more exposure, so here the direct link:
+
+all information about the Summit is also available here now:
+
+https://wiki.yoctoproject.org/wiki/Yocto_Project_Summit_2019
+
 >
+> https://events.linuxfoundation.org/wp-content/uploads/2019/08/Yocto-Project-Summit-2019-CFP-1.pdf
+>
+> We'd like to see new faces talking. We know there are a lot of good
+> stories out there, that will help lots of people become better users and
+> developers.
+>
+> The link to the event is here:
+>
+> https://events.linuxfoundation.org/events/embedded-linux-conference-europe-2019/program/co-located-events/
+>
+> Follow the path to the Yocto Project Summit. If you are alrady signed up
+> for ELCE, you should be able to update your registration to include the
+> Summit.
+>
+> Philip
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Can you try adding 'python3' to DEPENDS of mesa, and see if that helps
-please?
-
-Alex
-
---000000000000a25ac1059076549b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 17 Aug 2019 at 20:49, Otavio Salv=
-ador &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br">otavio.salvado=
-r@ossystems.com.br</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">I tried but couldn&#39;t figur=
-e out how to fix it and as I am not a meson<br>
-expect, I preferred to rather revert it and succeed with the upgrade.<br>
-<br>
-Can you send a patch fixing it?<br></blockquote><div><br></div><div>Can you=
- try adding &#39;python3&#39; to DEPENDS of mesa, and see if that helps ple=
-ase?</div><div><br></div><div>Alex<br></div></div></div>
-
---000000000000a25ac1059076549b--
