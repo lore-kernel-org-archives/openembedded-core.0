@@ -1,52 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
-	[209.85.215.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EBE07ED4A
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 596F87ED22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 16:43:18 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id n190so1538707pgn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 09:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=mC7ZGWNrZQXXOBbHdt3mn5Y3XpJENHrlSfKIcDDAb48=;
-	b=nhcpUjvtC+xBtZcG9sfFDcCWClPfwvrBKG+NK6wiQUfS+7vSCNAbe5ZyzL1FmAGDaX
-	mxiirxIyZp7PDQCPDW7Kh5vauplrCfFVb6TA8UcP+6QyC8BACRWpVjlgrqQsYlmwgbof
-	xURAggCvYPKFynFJtfSLpU70R0L8V7nzXhFK5Q65+noq749ZYvPIpmn71wIN9b25NcTl
-	q986dD0nuIA+hq9j8wV8n9Na9uLRFsnvCdVplovgpVZTbEifeMH0aW7VBEoTsUNc42ao
-	88ki9inICQNoeT93cZB/ZR7EZLayC+AExUcA4FZKUJ0fdjczNDHlZeYEfw6ycqXutgOR
-	dXTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=mC7ZGWNrZQXXOBbHdt3mn5Y3XpJENHrlSfKIcDDAb48=;
-	b=mAdsw7NULMclLgOdQcl9vxh3qyKmzKQZK45KO6aYDfs6BmKzHnv8CQUeFrkFn7cC+T
-	cfilF8MdFy0aEA8EboTtD9THNOoqtFiTOzi1irSO5Ce1VVQ78lpehBnmfhEAeBXQHjqj
-	7Ctpwg+fHHJIoBl/3Kmr8cXsHy7rlgWweMSjBR53pSS+fUpCnPOMirP113Lopx/1qlov
-	w1dvV7XX8QCirziHQhhkBn7vgzzxvcYOvqeTy3rYTLirrK5W9j9HZdp5aInXb9JHQY7Q
-	4vjdLlDH8d/zORBtjZS4c00TSO6QLG/s1DiMMhR38Kz6eC+/5QMHyXQ6RZfpiPzvo+kX
-	fnQA==
-X-Gm-Message-State: APjAAAWUFLXkQKAsX75sUDtpsyzAnL75d9anaTZSGNnvzsfZft+6hv9O
-	SM0BCVnCctGdvMQd4SOdFXz/G9yuYKo=
-X-Google-Smtp-Source: APXvYqz4ANsJtpoHhOLrRapHtPbG2v4xaO0pWbPVirwgZ94api3aD9iPTPIz7VO8mJD6gsEMZjz5/g==
-X-Received: by 2002:a17:90a:4c:: with SMTP id 12mr20977537pjb.40.1566232999086;
-	Mon, 19 Aug 2019 09:43:19 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	f20sm17462791pgg.56.2019.08.19.09.43.18
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 19 Aug 2019 09:43:18 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Aug 2019 09:42:59 -0700
-Message-Id: <20190819164259.19878-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20190819164259.19878-1-raj.khem@gmail.com>
-References: <20190819164259.19878-1-raj.khem@gmail.com>
+	Mon, 19 Aug 2019 16:47:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7JGlJlJ003903
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 19 Aug 2019 09:47:29 -0700
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Mon, 19 Aug 2019 09:47:08 -0700
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <CAP9ODKqnJX-fLme5JUQF8XAHr2hDzJ31auZPQGOUQCehuTb4XA@mail.gmail.com>
+	<b3e14a93-8d27-c5f4-0895-8122a030d451@windriver.com>
+	<CAP9ODKqWyAG5Zigqcwi7JEgxreaGfSYgBKQG23fhHrHi81QVcQ@mail.gmail.com>
+	<4035859d-d86b-16ff-d40c-b5dbdbf56b71@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <e0fd2cfb-afc3-53d6-c821-b7a3ce05d4d4@windriver.com>
+Date: Mon, 19 Aug 2019 11:47:07 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] opensbi: Disable SECURITY_CFLAGS since it cant link with libssp
+In-Reply-To: <4035859d-d86b-16ff-d40c-b5dbdbf56b71@intel.com>
+Subject: Re: Conflict of systemd and sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,25 +62,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 16:43:18 -0000
+X-List-Received-Date: Mon, 19 Aug 2019 16:47:54 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-bsp/opensbi/opensbi_0.4.bb | 2 ++
- 1 file changed, 2 insertions(+)
+On 8/19/19 11:27 AM, Ross Burton wrote:
+> On 19/08/2019 11:37, Otavio Salvador wrote:
+>> On Sun, Aug 18, 2019 at 11:00 PM Kang Kai <Kai.Kang@windriver.com> wrote:
+>>> On 2019/8/18 上午3:27, Otavio Salvador wrote:
+>>> Would you like to give more detailed steps how the error occurred? And
+>>> what's extra settings in you local.conf please?
+>>
+>> I had sysvinit and systemd enabled.
+> 
+> The autobuilder should be exercising this, so when it's fixed we need to 
+> ensure the AB covers the case Otavio is hitting.
 
-diff --git a/meta/recipes-bsp/opensbi/opensbi_0.4.bb b/meta/recipes-bsp/opensbi/opensbi_0.4.bb
-index 382752895c..b030436688 100644
---- a/meta/recipes-bsp/opensbi/opensbi_0.4.bb
-+++ b/meta/recipes-bsp/opensbi/opensbi_0.4.bb
-@@ -49,3 +49,5 @@ FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_dynamic.*"
- 
- COMPATIBLE_HOST = "(riscv64|riscv32).*"
- INHIBIT_PACKAGE_STRIP = "1"
-+
-+SECURITY_CFLAGS = ""
--- 
-2.22.1
+If they are both enabled what is the expected functionality of the system?
+(which is init, etc...)
+
+--Mark
+
+> Ross
+> 
 
 
