@@ -1,23 +1,23 @@
 Return-Path: <anuj.mittal@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A0B9A7D53D
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 73F4B7F260
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 13:43:23 +0000 (UTC)
+	Mon, 19 Aug 2019 13:47:15 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Aug 2019 06:43:15 -0700
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Aug 2019 06:47:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,405,1559545200"; d="scan'208";a="180369141"
+X-IronPort-AV: E=Sophos;i="5.64,405,1559545200"; d="scan'208";a="168755301"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga003.jf.intel.com with ESMTP; 19 Aug 2019 06:43:14 -0700
+	by orsmga007.jf.intel.com with ESMTP; 19 Aug 2019 06:47:15 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Aug 2019 21:43:11 +0800
-Message-Id: <1566222191-19728-1-git-send-email-anuj.mittal@intel.com>
+Date: Mon, 19 Aug 2019 21:47:08 +0800
+Message-Id: <1566222430-20029-1-git-send-email-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] binutils: fix CVE-2019-14250 CVE-2019-14444
+Subject: [warrior][PATCH 1/3] binutils: fix CVE-2019-14250 CVE-2019-14444
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 13:43:23 -0000
+X-List-Received-Date: Mon, 19 Aug 2019 13:47:15 -0000
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
