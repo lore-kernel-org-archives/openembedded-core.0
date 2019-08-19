@@ -1,64 +1,49 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
-	[209.85.210.45])
-	by mail.openembedded.org (Postfix) with ESMTP id ABA1D6A441
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
+	[209.85.217.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A5567BD72
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 10:37:37 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id b1so1200405otp.6
+	Mon, 19 Aug 2019 11:06:23 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id y16so895976vsc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 03:37:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=oztxYyfWIcW0EAp2JK6tVppYjmepwLAjrtP0KCN8A58=;
-	b=RyzYSU7COrrTN/mtQMkdV2PboqrSn3kYVvjfI5qPwHhiBh7v5ZohpvZD59qz4isQNU
-	4EGwBS/7z9N0USf8fKV+Cq7LRHrH9jv5TzKBeJyvLDKu9K+Rlq9vLkODkKEnHnpoyfnd
-	VlpM1dd2k5EYCIIsIXNS7fdTk7+HBHCAFNmnuE8nKNrHv/Z5KCG9AujSy9BrbIypEijN
-	PfckP6rvVdkbX9je5cbB6B2zvJ+J9IZXVU734KIKANl0X1EM4TeUlIVAZ1zrFKfb2RLo
-	BBjlXuOtRv6dM8Kla3YxBi0IshvElENGRiCt1k6AkdQslOV9diuH7vmO5GWN1tnkND8R
-	zbxw==
+	Mon, 19 Aug 2019 04:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=/B/xv2y5R71LUisxrQRa6nA0BfZTq6AY2VKdVpejqtk=;
+	b=aUSCd0qxASUcpARtEnbldu8OlQTWGQZ05/L3e297mVD9yemmajgp+GcIwtHPVe6/kH
+	lLxWSZS6jR4HEzXqRLYiHKQnAzXKC3LKK5dGuu7MIhFCU2nlh5gY1VCSoLMKI7KHwJIz
+	nkhioMEFPaKIPQxtC7RV5TUTOyzXCW20hySETZCVvx4bCdogRV/79ge+ByZOdB8GUKb8
+	OGG2dI+ci3AwZCwSsQ3nxVtD4RYtzAyzPEXYOfg7xThxacjfHZtNS4qPTifux4l/OQJL
+	NfwQqf6n8mccD4cCmmsYlDM05ZkjHXSYqlIW+4uDH6sv4GoU9HDVmQzUmxe7gaLzaWGq
+	ru8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=oztxYyfWIcW0EAp2JK6tVppYjmepwLAjrtP0KCN8A58=;
-	b=n1GSRFvjnKetyKDE64AYw0bbb2EcLA7OTysn/Wg0EwKxaEJ545CHjTWzS/kVxTws4n
-	oRqAvDtXE5P6KCpED/N22ZHzwENjdxJXAB3dEfNfHaZt0AJ26j4IK4aAN+or/9M1mxLS
-	yqplTLLtrYgO/ihuCzBJu05N0/ZIMDNj4y9aS7kdRpJMy1bqYqXn8tQ8aEUEIV9nKi4P
-	WCwWS3EVLETGcHfQjeJcjTyKeTgL8IOyyMIX945Kzu9ICLCyMqa3xdkETQ7RSrqcj7aG
-	F0hhDi5HI+54gSxHx9VwkDcES5YzbZ2KwU7vtvSbfPQ9ymxIDhjAkOhD0JTeaQiujExa
-	riAg==
-X-Gm-Message-State: APjAAAVsGT1cYxfYkwStyKji1pyFnV1Zq22tncelQ+7jXPN8EX5V4/Rs
-	B82dPH+w7aSEduiGYqBiG0IIlqMhw8kq+Q==
-X-Google-Smtp-Source: APXvYqw1ztBRAEqIcPVdlMegkxOGjeMC8bSHmaP2Ieq5ZC21M1PG135Bu9x3sbJDt6NINFjZ2gfrpA==
-X-Received: by 2002:a05:6830:1143:: with SMTP id
-	x3mr17644438otq.19.1566211058177; 
-	Mon, 19 Aug 2019 03:37:38 -0700 (PDT)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com.
-	[209.85.210.50]) by smtp.gmail.com with ESMTPSA id
-	h25sm2833329oih.22.2019.08.19.03.37.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 19 Aug 2019 03:37:37 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot1-f50.google.com with SMTP id g17so1209605otl.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 03:37:37 -0700 (PDT)
-X-Received: by 2002:a9d:7a42:: with SMTP id z2mr17880823otm.345.1566211056645; 
-	Mon, 19 Aug 2019 03:37:36 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=/B/xv2y5R71LUisxrQRa6nA0BfZTq6AY2VKdVpejqtk=;
+	b=iYI0KhPCsqJoEKDBlbKvJPlP/JXFS0NHxLIHvT2fIN9S4rg8MaaeKUq/MbgPtBf9yk
+	i/KpX6hsZ7zZCrUkSu88P6ZOnkl404pF32Kv2dQ7TqJHH9JzWe+fA7H3KSArrpxX97kI
+	ecMGG9oO1ocM7Sh/ecDeu4slPeB+PMrtpNSpdfANHR6tKLSL/NhB9vjeW6Z9Ucrd5qjW
+	YneQ3jF/be+NVDK2ld5PxEsQgi/NNw7fkuIv6SscL4h6+wyVr3ATGZS6W6BBAJtU35uQ
+	X5naaMn79Ph+NgPmnkI7stD1KHx/vE7nO/A245udj0AYPOa8JStiuu61Wygv6dGxmCle
+	AsFg==
+X-Gm-Message-State: APjAAAWYAnGWCSmvL1MWT12tkxgMDlGZUo/vbaVPSZ0jlkK2TZ2DyDAm
+	oJzriNDg9EzlJ3GYC1BoQQ7zqWYh3N+fZuXSHjA=
+X-Google-Smtp-Source: APXvYqyW5B3Sk0N5psW/bjzNeoe0Zq+dk8s1gmhMdZDFzctxLmB2iQsdggNm4cp4Ks3SiQ0LfnaR0Koz8z2aWVJVFUE=
+X-Received: by 2002:a67:fd66:: with SMTP id h6mr14080758vsa.83.1566212784018; 
+	Mon, 19 Aug 2019 04:06:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAP9ODKqnJX-fLme5JUQF8XAHr2hDzJ31auZPQGOUQCehuTb4XA@mail.gmail.com>
-	<b3e14a93-8d27-c5f4-0895-8122a030d451@windriver.com>
-In-Reply-To: <b3e14a93-8d27-c5f4-0895-8122a030d451@windriver.com>
-Date: Mon, 19 Aug 2019 07:37:23 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqWyAG5Zigqcwi7JEgxreaGfSYgBKQG23fhHrHi81QVcQ@mail.gmail.com>
-Message-ID: <CAP9ODKqWyAG5Zigqcwi7JEgxreaGfSYgBKQG23fhHrHi81QVcQ@mail.gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Conflict of systemd and sysvinit
+References: <20190817153954.15805-1-otavio@ossystems.com.br>
+	<CANNYZj-RD8zN7o7mX61MuATaO_7NSHY8DXAUR6TuU50M85r7Ag@mail.gmail.com>
+	<CAP9ODKoaJt-TH7kg7oiqWTfB6r4gqhZdZezJCW69Zj_y=NpLtQ@mail.gmail.com>
+In-Reply-To: <CAP9ODKoaJt-TH7kg7oiqWTfB6r4gqhZdZezJCW69Zj_y=NpLtQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 19 Aug 2019 13:06:12 +0200
+Message-ID: <CANNYZj8WUO221KPbbnmehukcrNW8RBN9-y9-vJNtzkCFH6Z64g@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] mesa: Upgrade 19.1.1 -> 19.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,19 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 10:37:37 -0000
+X-List-Received-Date: Mon, 19 Aug 2019 11:06:23 -0000
+Content-Type: multipart/alternative; boundary="000000000000a25ac1059076549b"
+
+--000000000000a25ac1059076549b
 Content-Type: text/plain; charset="UTF-8"
+
+On Sat, 17 Aug 2019 at 20:49, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
+
+> I tried but couldn't figure out how to fix it and as I am not a meson
+> expect, I preferred to rather revert it and succeed with the upgrade.
+>
+> Can you send a patch fixing it?
+>
+
+Can you try adding 'python3' to DEPENDS of mesa, and see if that helps
+please?
+
+Alex
+
+--000000000000a25ac1059076549b
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 18, 2019 at 11:00 PM Kang Kai <Kai.Kang@windriver.com> wrote:
-> On 2019/8/18 =E4=B8=8A=E5=8D=883:27, Otavio Salvador wrote:
-> Would you like to give more detailed steps how the error occurred? And
-> what's extra settings in you local.conf please?
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 17 Aug 2019 at 20:49, Otavio Salv=
+ador &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br">otavio.salvado=
+r@ossystems.com.br</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">I tried but couldn&#39;t figur=
+e out how to fix it and as I am not a meson<br>
+expect, I preferred to rather revert it and succeed with the upgrade.<br>
+<br>
+Can you send a patch fixing it?<br></blockquote><div><br></div><div>Can you=
+ try adding &#39;python3&#39; to DEPENDS of mesa, and see if that helps ple=
+ase?</div><div><br></div><div>Alex<br></div></div></div>
 
-I had sysvinit and systemd enabled.
-
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-
+--000000000000a25ac1059076549b--
