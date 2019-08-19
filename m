@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FB187F2B0;
-	Mon, 19 Aug 2019 10:02:23 +0000 (UTC)
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id EFB827F2BC
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Aug 2019 10:17:32 +0000 (UTC)
+Received: (qmail 11538 invoked by uid 1003); 19 Aug 2019 10:17:33 -0000
+Received: from unknown (HELO ?10.8.0.6?) (philip@opensdr.com@73.152.143.112)
+	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
+	19 Aug 2019 10:17:33 -0000
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>
+From: Philip Balister <philip@balister.org>
+Openpgp: preference=signencrypt
+Message-ID: <1a542261-a335-db48-e7ce-7c1dda207ff1@balister.org>
+Date: Mon, 19 Aug 2019 12:17:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Kevin Hao <kexin.hao@windriver.com>
-Date: Mon, 19 Aug 2019 10:02:24 -0000
-Message-ID: <20190819100224.2330.51581@do>
-References: <20190819092715.43954-1-kexin.hao@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190819092715.43954-1-kexin.hao@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHNwbGFzaDogQXZvaWQgbW91bnQgdGhlIHBzcGxhc2ggdG1wZnMgdHdpY2U=?=
+Subject: Yocto Project Summit at ELCE Call for Particpation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 10:02:23 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 19 Aug 2019 10:17:33 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+At the past few OopenEmbedded developer meetings, people have been
+asking for more developer and user focused events like a miniconf.
+Partly based on this feedback, there is a two day event sponsored by the
+Yocto Project that provides a chance for people to talk about the Yocto
+Project and OpenEmbedded. The CFP is a bit buried on the page and I like
+to get it more exposure, so here the direct link:
 
-Series: psplash: Avoid mount the psplash tmpfs twice
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19350/
-State : failure
+https://events.linuxfoundation.org/wp-content/uploads/2019/08/Yocto-Project-Summit-2019-CFP-1.pdf
 
-== Summary ==
+We'd like to see new faces talking. We know there are a lot of good
+stories out there, that will help lots of people become better users and
+developers.
 
+The link to the event is here:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+https://events.linuxfoundation.org/events/embedded-linux-conference-europe-2019/program/co-located-events/
 
+Follow the path to the Yocto Project Summit. If you are alrady signed up
+for ELCE, you should be able to update your registration to include the
+Summit.
 
-
-* Patch            psplash: Avoid mount the psplash tmpfs twice
- Issue             Yocto Project bugzilla tag is not correctly formatted [test_bugzilla_entry_format] 
-  Suggested fix    Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Philip
 
