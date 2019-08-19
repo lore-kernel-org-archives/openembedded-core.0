@@ -1,25 +1,23 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FDAA7F282
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 16B967EC56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 13:47:17 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Aug 2019 06:47:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,405,1559545200"; d="scan'208";a="168755309"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga007.jf.intel.com with ESMTP; 19 Aug 2019 06:47:17 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 19 Aug 2019 21:47:10 +0800
-Message-Id: <1566222430-20029-3-git-send-email-anuj.mittal@intel.com>
+	Mon, 19 Aug 2019 13:56:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7JDuZoi017596
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Aug 2019 06:56:35 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 19 Aug 2019 06:56:35 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Aug 2019 21:56:33 +0800
+Message-ID: <1566222994-21907-1-git-send-email-zhe.he@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1566222430-20029-1-git-send-email-anuj.mittal@intel.com>
-References: <1566222430-20029-1-git-send-email-anuj.mittal@intel.com>
-Subject: [warrior][PATCH 3/3] glib-2.0: fix CVE-2019-13012
+MIME-Version: 1.0
+Subject: [PATCH 1/2] ltp: Fix tgkill03 failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,73 +30,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 13:47:17 -0000
+X-List-Received-Date: Mon, 19 Aug 2019 13:56:38 -0000
+Content-Type: text/plain
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+From: He Zhe <zhe.he@windriver.com>
+
+Backport a patch to fix the followig failure.
+tgkill03.c:94: FAIL: Defunct tid should have failed with ESRCH: SUCCESS
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- .../glib-2.0/glib-2.0/CVE-2019-13012.patch         | 40 ++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb      |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
+ ...kill03-wait-for-defunct-tid-to-get-detach.patch | 75 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20190517.bb          |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
+diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch
 new file mode 100644
-index 0000000..c882cba
+index 0000000..6ea2615
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
-@@ -0,0 +1,40 @@
-+From 9fd6b4b21891adc318784f6a141f40d767b0d73c Mon Sep 17 00:00:00 2001
-+From: Matthias Clasen <mclasen@redhat.com>
-+Date: Tue, 22 Jan 2019 13:26:31 -0500
-+Subject: [PATCH] keyfile settings: Use tighter permissions
++++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch
+@@ -0,0 +1,75 @@
++From e747d0456adc080a1d31fb653bda9dc491795c80 Mon Sep 17 00:00:00 2001
++From: Jan Stancek <jstancek@redhat.com>
++Date: Sun, 16 Jun 2019 11:14:16 +0200
++Subject: [PATCH] syscalls/tgkill03: wait for defunct tid to get detached
 +
-+When creating directories, create them with 700 permissions,
-+instead of 777.
++Case where defunct tid is used has been observed to sporadically fail:
++  tgkill03.c:96: FAIL: Defunct tid should have failed with ESRCH: SUCCESS
 +
-+Closes: #1658
-+CVE: CVE-2019-13012
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/commit/5e4da714f00f6bfb2ccd6d73d61329c6f3a08429]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++glibc __pthread_timedjoin_ex() waits for CLONE_CHILD_CLEARTID to clear tid,
++and then resumes. Kernel clears it (glibc pd->tid) at:
++  do_exit
++    exit_mm
++      mm_release
++        put_user(0, tsk->clear_child_tid);
 +
++but kernel tid is still valid, presumably until:
++  release_task
++    __exit_signal
++      __unhash_process
++        detach_pid
++
++To avoid race wait until /proc/<pid>/task/<tid> disappears.
++
++Signed-off-by: Jan Stancek <jstancek@redhat.com>
++Reviewed-by: Li Wang <liwang@redhat.com>
++Acked-by: Sumit Garg <sumit.garg@linaro.org>
++
++Upstream-Status: Backport
++[https://github.com/linux-test-project/ltp/commit/e747d0456adc080a1d31fb653bda9dc491795c80]
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
 +---
-+ gio/gkeyfilesettingsbackend.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
++ testcases/kernel/syscalls/tgkill/tgkill03.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
 +
-+diff --git a/gio/gkeyfilesettingsbackend.c b/gio/gkeyfilesettingsbackend.c
-+index a37978e..580a0b0 100644
-+--- a/gio/gkeyfilesettingsbackend.c
-++++ b/gio/gkeyfilesettingsbackend.c
-+@@ -89,7 +89,8 @@ g_keyfile_settings_backend_keyfile_write (GKeyfileSettingsBackend *kfsb)
++diff --git a/testcases/kernel/syscalls/tgkill/tgkill03.c b/testcases/kernel/syscalls/tgkill/tgkill03.c
++index f5bbdc5..593a217 100644
++--- a/testcases/kernel/syscalls/tgkill/tgkill03.c
+++++ b/testcases/kernel/syscalls/tgkill/tgkill03.c
++@@ -7,6 +7,7 @@
 + 
-+   contents = g_key_file_to_data (kfsb->keyfile, &length, NULL);
-+   g_file_replace_contents (kfsb->file, contents, length, NULL, FALSE,
-+-                           G_FILE_CREATE_REPLACE_DESTINATION,
-++                           G_FILE_CREATE_REPLACE_DESTINATION |
-++                           G_FILE_CREATE_PRIVATE,
-+                            NULL, NULL, NULL);
++ #include <pthread.h>
++ #include <pwd.h>
+++#include <stdio.h>
++ #include <sys/types.h>
 + 
-+   compute_checksum (kfsb->digest, contents, length);
-+@@ -640,7 +641,7 @@ g_keyfile_settings_backend_new (const gchar *filename,
++ #include "tst_safe_pthread.h"
++@@ -42,6 +43,7 @@ static void setup(void)
++ {
++ 	sigset_t sigusr1;
++ 	pthread_t defunct_thread;
+++	char defunct_tid_path[PATH_MAX];
 + 
-+   kfsb->file = g_file_new_for_path (filename);
-+   kfsb->dir = g_file_get_parent (kfsb->file);
-+-  g_file_make_directory_with_parents (kfsb->dir, NULL, NULL);
-++  g_mkdir_with_parents (g_file_peek_path (kfsb->dir), 0700);
++ 	sigemptyset(&sigusr1);
++ 	sigaddset(&sigusr1, SIGUSR1);
++@@ -55,8 +57,9 @@ static void setup(void)
++ 	TST_CHECKPOINT_WAIT(0);
 + 
-+   kfsb->file_monitor = g_file_monitor (kfsb->file, 0, NULL, NULL);
-+   kfsb->dir_monitor = g_file_monitor (kfsb->dir, 0, NULL, NULL);
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-index 733a2d4..2286d03 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
-            file://0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch \
-            file://glib-meson.cross \
-+           file://CVE-2019-13012.patch \
++ 	SAFE_PTHREAD_CREATE(&defunct_thread, NULL, defunct_thread_func, NULL);
++-
++ 	SAFE_PTHREAD_JOIN(defunct_thread, NULL);
+++	sprintf(defunct_tid_path, "/proc/%d/task/%d", getpid(), defunct_tid);
+++	TST_RETRY_FN_EXP_BACKOFF(access(defunct_tid_path, R_OK), -1, 15);
++ }
++ 
++ static void cleanup(void)
++@@ -108,4 +111,5 @@ static struct tst_test test = {
++ 	.setup = setup,
++ 	.cleanup = cleanup,
++ 	.test = run,
+++	.timeout = 20,
++ };
++-- 
++2.7.4
++
+diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
+index c62f261..f6c7de6 100644
+--- a/meta/recipes-extended/ltp/ltp_20190517.bb
++++ b/meta/recipes-extended/ltp/ltp_20190517.bb
+@@ -43,6 +43,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch \
+            file://0001-Add-configure-time-check-for-getdents-getdents64-API.patch \
+            file://0002-check-for-RES_USE_INET6-during-configure.patch \
++           file://0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch \
             "
  
- SRC_URI_append_class-native = " file://relocate-modules.patch"
+ S = "${WORKDIR}/git"
 -- 
 2.7.4
 
