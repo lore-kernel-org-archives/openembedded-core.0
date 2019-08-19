@@ -1,23 +1,23 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C14F17DFBE
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A0B9A7D53D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 13:34:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7JDYPff002622
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 19 Aug 2019 06:34:25 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 19 Aug 2019 06:34:24 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Mon, 19 Aug 2019 09:33:22 -0400
-Message-ID: <1566221602-123706-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-Subject: [PATCH] systemd: decreasing default RLIMIT_NOFILE on qemu bsp
+	Mon, 19 Aug 2019 13:43:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Aug 2019 06:43:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,405,1559545200"; d="scan'208";a="180369141"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga003.jf.intel.com with ESMTP; 19 Aug 2019 06:43:14 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Aug 2019 21:43:11 +0800
+Message-Id: <1566222191-19728-1-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] binutils: fix CVE-2019-14250 CVE-2019-14444
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,84 +30,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 13:34:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 19 Aug 2019 13:43:23 -0000
 
-Since do_testimage for core-image-sato-sdk has memory limitation (256Mib)
-which caused rpc.statd failed with out of memory.
-[  531.306146] Out of memory: Kill process 193 (rpc.statd) score 200 or sacrifice child
-
-The rpc.statd allocates memory according to RLIMIT_NOFILE,
-so decrease it to 4k to keep sync with sysvinit
-
-After applying the patch, the memory cost is the same with sysvinit
-rpcuser    340  0.0  1.0   3212  2588 ?        Ss   13:20   0:00 /usr/sbin/rpc.statd -F
-root       473  0.0  0.2   3464   496 ?        Ss   13:23   0:00 /usr/sbin/rpc.mountd
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...0001-decreasing-the-default-RLIMIT_NOFILE.patch | 35 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_242.bb           |  4 +++
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-decreasing-the-default-RLIMIT_NOFILE.patch
+ meta/recipes-devtools/binutils/binutils-2.32.inc   |  2 ++
+ .../binutils/binutils/CVE-2019-14250.patch         | 33 ++++++++++++++++++++++
+ .../binutils/binutils/CVE-2019-14444.patch         | 28 ++++++++++++++++++
+ 3 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-decreasing-the-default-RLIMIT_NOFILE.patch b/meta/recipes-core/systemd/systemd/0001-decreasing-the-default-RLIMIT_NOFILE.patch
-new file mode 100644
-index 0000000..fb8e2c9
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-decreasing-the-default-RLIMIT_NOFILE.patch
-@@ -0,0 +1,35 @@
-+From 55c7196163e481c508fa708b9b8f5e7bf2d2f007 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Mon, 19 Aug 2019 07:16:47 -0400
-+Subject: [PATCH] decreasing the default RLIMIT_NOFILE
-+
-+Since do_testimage for core-image-sato-sdk has memory limits (256Mib)
-+which caused rpc.statd failed with out of memory.
-+[  531.306146] Out of memory: Kill process 193 (rpc.statd) score 200 or sacrifice child
-+
-+The rpc.statd allocates memory according to RLIMIT_NOFILE,
-+so decrease it to 4k which keep sync with sysvinit
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 18a7cc5..e30894b 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -79,7 +79,7 @@ conf.set10('HAVE_SYSV_COMPAT', sysvinit_path != '' and sysvrcnd_path != '',
-+ 
-+ conf.set10('BUMP_PROC_SYS_FS_FILE_MAX', get_option('bump-proc-sys-fs-file-max'))
-+ conf.set10('BUMP_PROC_SYS_FS_NR_OPEN',  get_option('bump-proc-sys-fs-nr-open'))
-+-conf.set('HIGH_RLIMIT_NOFILE',          512*1024)
-++conf.set('HIGH_RLIMIT_NOFILE',          4*1024)
-+ 
-+ # join_paths ignores the preceding arguments if an absolute component is
-+ # encountered, so this should canonicalize various paths when they are
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
-index 1953fef..ab15ad2 100644
---- a/meta/recipes-core/systemd/systemd_242.bb
-+++ b/meta/recipes-core/systemd/systemd_242.bb
-@@ -58,6 +58,10 @@ SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-available.pa
-                file://0001-do-not-disable-buffer-in-writing-files.patch \
-                "
+diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
+index 31c24a3..d3c5293 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.32.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
+@@ -50,6 +50,8 @@ SRC_URI = "\
+      file://CVE-2019-9077.patch \
+      file://CVE-2019-9071.patch \
+      file://CVE-2019-12972.patch \
++     file://CVE-2019-14250.patch \
++     file://CVE-2019-14444.patch \
+ "
+ S  = "${WORKDIR}/git"
  
-+SRC_URI_append_qemuall = " \
-+               file://0001-decreasing-the-default-RLIMIT_NOFILE.patch \
-+"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
+new file mode 100644
+index 0000000..c915a83
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
+@@ -0,0 +1,33 @@
++From df78be05daf4eb07f60f50ec1080cb979af32ec0 Mon Sep 17 00:00:00 2001
++From: marxin <marxin@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Tue, 23 Jul 2019 07:33:32 +0000
++Subject: [PATCH] libiberty: Check zero value shstrndx in simple-object-elf.c
 +
- PAM_PLUGINS = " \
-     pam-plugin-unix \
-     pam-plugin-loginuid \
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@273718 138bc75d-0d04-0410-961f-82ee72b054a4
++
++CVE: CVE-2019-14250
++Upstream-Status: Backport [from gcc: https://gcc.gnu.org/viewcvs/gcc?view=revision&revision=273718]
++[Removed Changelog entry]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++diff --git a/libiberty/simple-object-elf.c b/libiberty/simple-object-elf.c
++index 502388991a08..bdee963634d6 100644
++--- a/libiberty/simple-object-elf.c
+++++ b/libiberty/simple-object-elf.c
++@@ -548,7 +548,15 @@ simple_object_elf_match (unsigned char header[SIMPLE_OBJECT_MATCH_HEADER_LEN],
++       XDELETE (eor);
++       return NULL;
++     }
++-
+++  
+++  if (eor->shstrndx == 0)
+++    {
+++      *errmsg = "invalid ELF shstrndx == 0";
+++      *err = 0;
+++      XDELETE (eor);
+++      return NULL;
+++    }
+++  
++   return (void *) eor;
++ }
++ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
+new file mode 100644
+index 0000000..85b9a9f
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
+@@ -0,0 +1,28 @@
++From e17869db99195849826eaaf5d2d0eb2cfdd7a2a7 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 5 Aug 2019 10:40:35 +0100
++Subject: [PATCH] Catch potential integer overflow in readelf when processing
++ corrupt binaries.
++
++	PR 24829
++	* readelf.c (apply_relocations): Catch potential integer overflow
++	whilst checking reloc location against section size.
++
++CVE: CVE-2019-14444
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=e17869db99195849826eaaf5d2d0eb2cfdd7a2a7]
++[Removed Changelog entry]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index b896ad9f406..e785fde43e7 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -13366,7 +13366,7 @@ apply_relocations (Filedata *                 filedata,
++ 	    }
++ 
++ 	  rloc = start + rp->r_offset;
++-	  if ((rloc + reloc_size) > end || (rloc < start))
+++	  if (rloc >= end || (rloc + reloc_size) > end || (rloc < start))
++ 	    {
++ 	      warn (_("skipping invalid relocation offset 0x%lx in section %s\n"),
++ 		    (unsigned long) rp->r_offset,
 -- 
-2.8.1
+2.7.4
 
 
