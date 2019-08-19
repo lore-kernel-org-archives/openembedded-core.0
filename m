@@ -1,52 +1,60 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
-	[209.85.210.172])
-	by mail.openembedded.org (Postfix) with ESMTP id CCCD67DE3D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 06A476B073
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 20:38:28 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id d85so1865829pfd.2
+	Mon, 19 Aug 2019 21:23:39 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id r3so10191175wrt.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2019 13:38:30 -0700 (PDT)
+	Mon, 19 Aug 2019 14:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:content-language
-	:thread-index; bh=TMuHogvs+3e3nS9TLhAkz90KFDu3xyoz0VegQ2ytmwI=;
-	b=U9SS3Y6sE9Nm8rppEdYxHwre0jWTW00H1pHz5QwnGVtkBc0FQcEU67NbmiawOkxXLJ
-	4qgLIy7ecB4yV8RqFnKVaNE5okAqgaYWnGqaCn1o42uD+fItYQn4lO8iunTZnP426Y4N
-	geSlLMFf+0MGWXdLEvixgB1G9qMTpC6UNvhlTRLXZtNmlLfFCUryCKH1k0z+ch5NFd7P
-	q7t/c43B+K1TUyZnu3kOOePgiprfXHy07kMEK5QSvGDwBNKMUnlKozGW/knHN1NK4hFw
-	zvFUW64xkIHO7qKqH4TeYadevjBjD1qW4cRqCCVZGKBcgzblg5vdjs78KYhs8fcEijZD
-	N+nw==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=lZz00X8j8wI3lLmwMuVlV8pQ0kRfChH4gZNCikbqOSE=;
+	b=I8yN1U85T8AyNoAJ8QYJ/ybkzU7NA0eXp4FI2dXmbsVu3guLCvDCZgBfwT3J7sZi3v
+	oPy1+TorCPlAlgB9LA4B6jafSh6B1WBWSIL1icRq63CTfBG7w/698brCUBlObOoRmM/d
+	S2Ud6SrsEHiqZ5w+CG/6YIFH58/w0E8iq6xxKnt/eRTUPobCKcZoj6p9Bp0h59nzXN19
+	XdXa+lvoOzwLoa9UZwY8E02PHfWTaJiV3gFWR69haWCmjDXkzAa6w5FWOrhkncmuj8Yz
+	+LFAS2mrb2jed1/oZ2Dsyc0D8cfLutM6i0jGEp4p86FqehLO25C3w6XBAiuXOG5kXL4r
+	KMfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-language:thread-index;
-	bh=TMuHogvs+3e3nS9TLhAkz90KFDu3xyoz0VegQ2ytmwI=;
-	b=Cn3aK+Zf46fLn906zXpwof2/lyK8IewOKvxswRiNiGShL/eOARoW4UK18A5Tgzq+VC
-	wiQb6cO31Hyhfp7DPgnFAjV18yFmTYjArbTvkPBfKBJX4MSjC3yyVUKxge+lhmZaZHqb
-	wOU6dc2EvvsLLzV7bncWj4Hx0pY4QGJ5uPWa49lOmXqUl6nOmCgKN12rNyEsHoA/9S3O
-	12cPLmtTdzYLThKphjfTanSD8LR+W0RgN/xsjpt/GoNPSxetTW/N3bbcx1TIKReTGj/D
-	KoaEZHWGb2XxzeLmHEqy4yEOnAHzPEgKE2AxXBO2N1ln+tfmlwG5Utk40J62xRoiymho
-	KJEw==
-X-Gm-Message-State: APjAAAVFMl3JEsGgM4IrqCuJAk6+SicMJIxKYhfkNEvk1Stg731JHNo5
-	nJ5Er+ieR5gIQkn9Yo3G1SiKWzbX
-X-Google-Smtp-Source: APXvYqx8LxjV0RzY7iXSrZeE1/QAoMx6F7Wr1D5URA8c1oTjovKWW/Ut/XVzpOoJNW+I8URHM4MmZw==
-X-Received: by 2002:a63:6d8d:: with SMTP id
-	i135mr21452901pgc.303.1566247109616; 
-	Mon, 19 Aug 2019 13:38:29 -0700 (PDT)
-Received: from sjolley (wsip-184-185-163-98.ph.ph.cox.net. [184.185.163.98])
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=lZz00X8j8wI3lLmwMuVlV8pQ0kRfChH4gZNCikbqOSE=;
+	b=efSOTIwSPw4bWmXCdNPU8Bgwq7e+PIF8lIIsleTBqtZkFiT7ADusxsOe31aNFSS6gM
+	B6Un5GjzdIZySJK2/fkCxzjSBHGOpE30vrnV5vMlxY4C72xMuOhWvQkNZJ7eHt1XX/SE
+	gRI5Bfywy8FBh8PPJENeFOGqBxCp3ffis6xJ7ot7+MW5J10g3mexNBAoD0Yb9SFCWs2A
+	43lPO72nYbQVJp/zVtxuXddiDHZe9lvrbW8bKeUXexfxhWagFcmnDc34KIaT3JgUZFhC
+	1J1smj3wgLSuL3enqNNsVj0yNDKHJkPUO0veKVfTbRDa0RtDdBf1PTxAARj8Anm5EZst
+	4n3A==
+X-Gm-Message-State: APjAAAWJsjS+HnaxQ+Z40SqFBb/y9ZAH/DvSb1FKArPqmSKTelemynoi
+	iy4BmHTDlZ7wDIt5ZtjlFmc=
+X-Google-Smtp-Source: APXvYqx/gyM4HdT9r41iAWbnCXTl+QqqxvzmmfwdIhBWRC7YOFT70GvYHqrBo7RZ1o1ICK0M0L3HBg==
+X-Received: by 2002:adf:e444:: with SMTP id t4mr28193900wrm.262.1566249820631; 
+	Mon, 19 Aug 2019 14:23:40 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
 	by smtp.gmail.com with ESMTPSA id
-	x24sm16320427pgl.84.2019.08.19.13.38.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 19 Aug 2019 13:38:29 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 19 Aug 2019 13:38:27 -0700
-Message-ID: <00d901d556ce$0f9851b0$2ec8f510$@gmail.com>
+	16sm21940842wmx.45.2019.08.19.14.23.39
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 19 Aug 2019 14:23:39 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 19 Aug 2019 23:23:39 +0200
+To: richard.purdie@linuxfoundation.org
+Message-ID: <20190819212339.GA1495@jama>
+References: <fcc15178e58e4ef0a8e2cf3047109bd5@xbox06.axis.com>
+	<33bca828a78daaefc32fe497e7f244e3208bc968.camel@linuxfoundation.org>
+	<20190815150548.GA1515@jama> <20190816102441.GB1515@jama>
+	<CA+chaQdS_QHpe2jmr6Epqc_CBBHTwbtA5beg1rjD4kwMHbhycA@mail.gmail.com>
+	<cad2ebcaf8102857799d0c0a3e921b04348c8515.camel@linuxfoundation.org>
+	<20190816172255.GC1515@jama>
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJdfrE3K0BcRiAIzEcWBPvs0zD8eA==
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+In-Reply-To: <20190816172255.GC1515@jama>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Subject: Re: Long delays with latest bitbake (was: [PATCH 1/7] insane.bbclass: in file-rdeps do not look into RDEPENDS recursively)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,290 +67,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 20:38:29 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_00DA_01D55693.633A15F0"
-Content-Language: en-us
+X-List-Received-Date: Mon, 19 Aug 2019 21:23:40 -0000
+X-Groupsio-MsgNum: 128056
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="82I3+IH0IqGh5yIs"
+Content-Disposition: inline
 
-------=_NextPart_000_00DA_01D55693.633A15F0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
- 
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
-
- 
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 297
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "2.8", "2.9', "2.99" and "Future", the more pressing/urgent
-issues being in "2.8" and then "2.9".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com)
-an e-mail with the bug number you would like and I will assign it to you
-(please make sure you have a Bugzilla account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
- 
-
-
-------=_NextPart_000_00DA_01D55693.633A15F0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0014_01D55131.6B73B490";
-	charset="us-ascii"
+--82I3+IH0IqGh5yIs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
-xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
-xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
-xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
-xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
-xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
-xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
-xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
-xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
-xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
-xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
-xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
-xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
-xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
-xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
-xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
-xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
-xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
-xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
-xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
-xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
-xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
-xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
- xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
-xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
-xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
-xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
-xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
-xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
-xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
-xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
-xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
-xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
-xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
-nature" =
-xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
-" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
-ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
-xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
- =
-xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
-es" =
-xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
-" =
-xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
-lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
-xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle20
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoPlainText>All,<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-triage team is starting to try and collect up and classify bugs which a =
-newcomer to the project would be able to work on in a way which means =
-people can find them. They're being listed on the triage page under the =
-appropriate heading:<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
-><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
-class=3DMsoPlainText>The idea is these bugs should be straight forward =
-for a person to help work on who doesn't have deep experience with the =
-project.&nbsp; If anyone can help, please take ownership of the bug and =
-send patches!&nbsp; If anyone needs help/advice there are people on irc =
-who can likely do so, or some of the more experienced contributors will =
-likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Also, =
-the triage team meets weekly and does its best to handle the bugs =
-reported into the Bugzilla. The number of people attending that meeting =
-has fallen, as have the number of people available to help fix bugs. One =
-of the things we hear users report is they don't know how to help. We =
-(the triage team) are therefore going to start reporting out the =
-currently 297 unassigned or newcomer bugs.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
-hoping people may be able to spare some time now and again to help out =
-with these.&nbsp; Bugs are split into two types, &quot;true bugs&quot; =
-where things don't work as they should and &quot;enhancements&quot; =
-which are features we'd want to add to the system.&nbsp; There are also =
-roughly four different &quot;priority&quot; classes right now, =
-&#8220;2.8&#8221;, &#8220;2.9&#8217;, &quot;2.99&quot; and =
-&quot;Future&quot;, the more pressing/urgent issues being in =
-&quot;2.8&quot; and then &#8220;2.9&#8221;.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
-review this link and if a bug is something you would be able to help =
-with either take ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
-mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
-comer_Bugs</a><o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a><o:p><=
-/o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p>&nbsp;</o:=
-p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+On Fri, Aug 16, 2019 at 07:22:55PM +0200, Martin Jansa wrote:
+> On Fri, Aug 16, 2019 at 04:54:48PM +0100, richard.purdie@linuxfoundation.=
+org wrote:
+> > On Fri, 2019-08-16 at 17:00 +0200, Martin Jansa wrote:
+> > > > Will try to bump BB_NUMBER_THREADS from 8 to 72.
+> > >=20
+> > > I've tried to remove icecc.bbclass inherit (because it does things
+> > > while parsing and RP probably doesn't have it inherited), but that
+> > > didn't save much time.
+> > >=20
+> > > All 3 tests were with bitbake
+> > > 18d4a31fdcec1f0e5d2199d6142f0ce833fca1a7
+> > > 94m19.081s  8 BB_NUMBER_THREADS and icecc
+> > > 82m59.574s  8 BB_NUMBER_THREADS no icecc
+> > > 68m3.556s    72 BB_NUMBER_THREADS no icecc
+> > >=20
+> > > Still don't know how to get to sub 10min world runs RP was seeing,
+> > > but at least it's as slow as it was before runqeueu changes (or even
+> > > a bit faster in lastest master).
+> >=20
+> > Just thinking out loud, other things which can influence timings:
+> >=20
+> > Is SSTATE_DIR on NFS or local disk?
+>=20
+> SSTATE_DIR is empty directory on local disk
+> /dev/mapper/vg00-jenkins on /jenkins type ext4 (rw,noatime,nobarrier,comm=
+it=3D6000,stripe=3D128,data=3Dordered)
+>=20
+> > Are sstate mirrors configured?
+>=20
+> None, normally I have SSTATE_MIRRORS over sshfs in this case, but I've
+> removed it before any performance testing.
+>=20
+> > Is there an existing build or not, if so, how much is valid?
+>=20
+> Nothing, I remove whole TMPDIR and cache before each run. Then let it
+> recreate the cache before starting the profile:
+> bitbake -p; time bitbake world -P -n
+>=20
+> > Underlying filesystem of the build?
+>=20
+> ext4, everything is pretty much generic Ubuntu 18.04
+>=20
+> There is plenty of ram, I'll try to test this from tmpfs as well.
 
-------=_NextPart_000_00DA_01D55693.633A15F0--
+I did the same "bitbake -p; time bitbake world -P -n" on the same build wit=
+h thud, warrior and zeus:
+
+thud/profile.log.processed:         2803894450 function calls (2803191143 p=
+rimitive calls) in 3340.784 seconds
+thud/profile-worker.log.processed:         27005515 function calls (2694403=
+0 primitive calls) in 3243.139 seconds
+warrior/profile.log.processed:         2804294486 function calls (280344629=
+6 primitive calls) in 3604.226 seconds
+warrior/profile-worker.log.processed:         27649679 function calls (2759=
+1220 primitive calls) in 3503.772 seconds
+zeus/profile.log.processed:         2327031298 function calls (2326396186 p=
+rimitive calls) in 4433.851 seconds
+zeus/profile-worker.log.processed:         28829453 function calls (2877173=
+0 primitive calls) in 4331.257 seconds
+
+thud/time:real    55m41.595s
+warrior/time:real    60m4.954s
+zeus/time:real    72m23.053s
+
+with multilib disabled I got
+zeus-no-multilib/profile.log.processed:         1232798107 function calls (=
+1232447521 primitive calls) in 1773.164 seconds
+zeus-no-multilib/profile-worker.log.processed:         15561565 function ca=
+lls (15555044 primitive calls) in 1716.234 seconds
+real    29m33.658s
+
+Which seems reasonable as the number of tasks was cut in half.
+
+Let me know if it's worth uploading these profiles somewhere.
+
+Cheers,
+
+> > Your build seems especially slow at executing through the tasks which
+> > is effectively a test on how fast the system can fork() and return in
+> > some ways. It would be interesting to block dry-run on the server side,
+> > skip the fork and see how the numbers compare.
+>=20
+> As discussed on IRC, it's slower than yours (8 minutes from 68), but the
+> most significant chunk of time is lost somewhere else.
+>=20
+> > My build manages some parts of the tasklist faster than others, perhaps
+> > because there are more "free" tasks to execute at some points in the
+> > task graph than others.
+> >=20
+> > Also, I have some patches which improve performance a bit which I'm
+> > still testing.
+>=20
+> Thanks for all the work on this!
+>=20
+> Cheers,
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--82I3+IH0IqGh5yIs
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXVsTWwAKCRA3VSO3ZXaA
+HEcAAJ49mwNPgW+UDuZGTIy1bYvjEpGMxACgp5cMsrUxDxndgQLlSx9O4+vBe+k=
+=pnh5
+-----END PGP SIGNATURE-----
+
+--82I3+IH0IqGh5yIs--
