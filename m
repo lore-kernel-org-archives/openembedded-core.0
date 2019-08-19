@@ -1,18 +1,38 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 01FB27F23C;
-	Mon, 19 Aug 2019 14:02:35 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Anuj Mittal <anuj.mittal@intel.com>
-Date: Mon, 19 Aug 2019 14:02:37 -0000
-Message-ID: <20190819140237.2330.99357@do>
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E54F7F23C
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Aug 2019 14:06:55 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Aug 2019 07:06:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,405,1559545200"; d="scan'208";a="172133410"
+Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
+	by orsmga008.jf.intel.com with ESMTP; 19 Aug 2019 07:06:55 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.232]) by
+	PGSMSX111.gar.corp.intel.com ([169.254.2.22]) with mapi id
+	14.03.0439.000; Mon, 19 Aug 2019 22:06:55 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "akuster808@gmail.com"
+	<akuster808@gmail.com>
+Thread-Topic: =?utf-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt3YXJyaW9yXSBiaW51dGls?=
+	=?utf-8?Q?s:_fix_CVE-20..."_and_2_more?=
+Thread-Index: AQHVVpbZGN6PcmO1wEadkALFRowRYKcB+2sA
+Date: Mon, 19 Aug 2019 14:06:54 +0000
+Message-ID: <2f67056ee823c548c922a2f59709a59807c9afc2.camel@intel.com>
 References: <1566222430-20029-1-git-send-email-anuj.mittal@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1566222430-20029-1-git-send-email-anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt3YXJyaW9yXSBiaW51dGlsczogZml4IENWRS0yMC4uLiIgYW5kIDIgbW9yZQ==?=
+	<20190819140237.2330.99357@do>
+In-Reply-To: <20190819140237.2330.99357@do>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.184.11]
+MIME-Version: 1.0
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJbd2Fycmlvcl0gYmludXRpbHM6IGZpeCBDVkUtMjAuLi4iIGFuZCAyIG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 14:02:36 -0000
+X-List-Received-Date: Mon, 19 Aug 2019 14:06:55 -0000
+Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-ID: <B3971B345B00464AA081DA7C247E214F@intel.com>
+Content-Transfer-Encoding: base64
 
-== Series Details ==
-
-Series: "[warrior] binutils: fix CVE-20..." and 2 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19354/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  warrior (currently at 952bfcc3f4)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+T24gTW9uLCAyMDE5LTA4LTE5IGF0IDE0OjAyICswMDAwLCBQYXRjaHdvcmsgd3JvdGU6DQo+ICog
+SXNzdWUgICAgICAgICAgICAgU2VyaWVzIGRvZXMgbm90IGFwcGx5IG9uIHRvcCBvZiB0YXJnZXQg
+YnJhbmNoDQo+IFt0ZXN0X3Nlcmllc19tZXJnZV9vbl9oZWFkXSANCj4gICBTdWdnZXN0ZWQgZml4
+ICAgIFJlYmFzZSB5b3VyIHNlcmllcyBvbiB0b3Agb2YgdGFyZ2V0ZWQgYnJhbmNoDQo+ICAgVGFy
+Z2V0ZWQgYnJhbmNoICB3YXJyaW9yIChjdXJyZW50bHkgYXQgOTUyYmZjYzNmNCkNCg0KVGhpcyBp
+cyBpbnRlbnRpb25hbC4gVGhlc2UgcGF0Y2hlcyBzaG91bGQgYXBwbHkgY2xlYW5seSBvbiB0b3Ag
+b2YNCmN1cnJlbnQgc3RhYmxlL3dhcnJpb3Itbm11dC4NCg0KVGhhbmtzLA0KDQpBbnVqDQo=
 
