@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AB4DE7E996
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 724057ED46
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 15:32:29 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id g67so3058777wme.1
+	Tue, 20 Aug 2019 15:32:30 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id t16so12854451wra.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 08:32:30 -0700 (PDT)
+	Tue, 20 Aug 2019 08:32:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=InP3ITPvbdzEJW+CWnm53y532f3JjHMN37BtMKHBFeY=;
-	b=JUdp+3FsOE+/5uqKgfqiGAcs4Ijcro4qkxwpIzZwUJ7nK92BMkXQ/g73o8yWcUaoRx
-	ZMSxQxR7vQQX8uANZW6YGd4ZOFcS0IUysbeuL/DWiltK1Fb2+pfMZGS4deieLfk+WM/o
-	ITqvyraG0GsVXqCg3rS8+tlwjCchouLQMmhAzLyII/vTNn7SIcWVXHECq0zp3u4x5v3K
-	/aXZZ0nRaioiSu+w+WUF0UaWWjMLuE6jmCms3Z/GMszuT2wwckTjIvb1z7bMOwOMA6/E
-	PNXW6nDKGYuCcYlSTzb4xTgkiFaJp46R6Lcp2dn1Xodfoql1ZTgSb7sGe1lRLK18+qg9
-	s/TQ==
+	bh=ShguEeeCZl9tbDCeapFLxV7d9uQA8jSXm781hleKs7A=;
+	b=hZ8ZZ6oTcaQ2GHViPGMqml08b5jtkyrNCxNlxH0eNB1m5MKvcCSiWsDF5EjPrsljsL
+	sX1UM+7ECEW2+hYhw5PX0199irhzZ3xNv7kRNYS47QoWzewUaBAv7AfO/8OBJrwY8WU4
+	EXFlbczcAGP57tvW2gvgIz1811CQKT3hy6oY6EctSH49Fz9dbujqxrwMn3ASmOrGzH9e
+	v6oE8xUO89jHeTL3jWzjH1B8N6qYaUj+SDU43rIBEV1lfipGhMuyCiOhobaJ1Tpk3FIv
+	x/myCkG0d6H4r7N3cMt6MW2XdPHy15gNW4qfQaT/VbLvHj65PC7dOa8+WZksppTaRNey
+	CmmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=InP3ITPvbdzEJW+CWnm53y532f3JjHMN37BtMKHBFeY=;
-	b=DQXXrBftkDt72WOfUXefO37h2g/KnQz/0BlyxaU9f6vig40K08URLMK76N/8QFl3Rw
-	WafM7JySU7FyElVrYkizAIwov2HEkcNXu5j1k21WLxcsNex2FurDYvChfy/3qLQj78ts
-	WjIfUnT83pEHRYaERjne8mGtL2wDF4dm/pc59Eih2AMyCtG7SWeT0ARRz5FbsmnwcAxU
-	fz/oCwqSXMWONTTP4a4C/oHBG/IW6YnkQiFyHT+DUZP5pYyU30vGLiHX0gt0waFO8C1G
-	SrulNWVLe8UJqHJ9ppJ4BObHZ4rC0TYTPyd9ORli8jJC7gxegZpqdkGQgrddga78KmPH
-	rbPQ==
-X-Gm-Message-State: APjAAAVBzLvmKdGjgsxd8NF4+punSz+lcK+nv8i9E4w7zQv7zecXyLR2
-	hJbdbxL4IJ0w6WWsJ83Xp5uO8Cqo0X0=
-X-Google-Smtp-Source: APXvYqw+0LzHviNctWHmB7lZQhb1TwEjtKhueXD9G08Um9dUBntRGsUvIWFyaiVupaMQHl5tUfj+SA==
-X-Received: by 2002:a1c:3d03:: with SMTP id k3mr654135wma.138.1566315150071;
-	Tue, 20 Aug 2019 08:32:30 -0700 (PDT)
+	bh=ShguEeeCZl9tbDCeapFLxV7d9uQA8jSXm781hleKs7A=;
+	b=LT2OPhbL+DBkXCxaQ/WjXnl/IXP4+S9pq61MkXIXQOUGYeGrZ7yWKdMZFKS9/xc3LO
+	Y8Ha13g/NRtkl/Srg/Bmu7mVLGjEuMX4a5t4wIemPKwW9n3f0Qt1XKU7x3Lpk/Xmagxi
+	aRjY5S3ccJosi9yhQosoVClaLt5II4u3tdM4BtUJXfzfA7A5E5EXhXtBm57sfIsCmwcF
+	sEj5+KYbpZxu77YN3faELZjgD2CuzeL+/jMLfQHwi1mQTcsKIfE8O3Lif5HlALHz6fOH
+	mw2yynW2D28XF7GwFD7sjPprbGlxAE7oEYOwXfR7WuzzpoMW6dz8nE1M9keBh49qWXi6
+	cUNw==
+X-Gm-Message-State: APjAAAWhA9OaWFeVW90mm/6gc2ZooLPc1d4vxtLxBISibk0t53LHFEGI
+	c19o32hQOYwZmPpJ9lWB3dkKEqLB4I4=
+X-Google-Smtp-Source: APXvYqzcUZsnbvryMZGa4o7OhPNrela/Jr5JNz/4JlSBaQWRLDRUGgEuZgFRqtfKNjFZRrLgnFeXzg==
+X-Received: by 2002:a5d:40cd:: with SMTP id b13mr36642521wrq.236.1566315151020;
+	Tue, 20 Aug 2019 08:32:31 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.29
+	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.30
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 20 Aug 2019 08:32:29 -0700 (PDT)
+	Tue, 20 Aug 2019 08:32:30 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2019 17:32:12 +0200
-Message-Id: <20190820153219.62435-5-alex.kanavin@gmail.com>
+Date: Tue, 20 Aug 2019 17:32:13 +0200
+Message-Id: <20190820153219.62435-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190820153219.62435-1-alex.kanavin@gmail.com>
 References: <20190820153219.62435-1-alex.kanavin@gmail.com>
-Subject: [PATCH 05/12] rt-tests: exclude another development version
+Subject: [PATCH 06/12] libmodulemd: depend on target python at build time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,27 +56,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 15:32:29 -0000
+X-List-Received-Date: Tue, 20 Aug 2019 15:32:30 -0000
+
+meson build system is importing sysconfig, which requires
+having a target confiuguration available.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-rt/rt-tests/rt-tests.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 84a8f67bd45..227eb99b98d 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -3,8 +3,8 @@ SRCREV = "dff174f994f547a5785d32454865f140daacb0f5"
- PE = "1"
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index 9ac7e140ab6..63d3fad6ab4 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -17,7 +17,7 @@ inherit meson gobject-introspection
  
- SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git"
--# 1.2 and 1.3 and 1.4 seem to be development versions
--UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(?!1\.2)(?!1\.3)(?!1\.4)(\d+(\.\d+)+))"
-+# 1.2 to 1.5 seem to be development versions
-+UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(?!1\.[2-5])(\d+(\.\d+)+))"
+ EXTRA_OEMESON = "-Ddeveloper_build=false -Dbuild_api_v1=true -Dbuild_api_v2=true"
  
- S = "${WORKDIR}/git"
+-DEPENDS += "glib-2.0 libyaml glib-2.0-native"
++DEPENDS += "glib-2.0 libyaml glib-2.0-native python3"
+ 
+ BBCLASSEXTEND = "native nativesdk"
  
 -- 
 2.17.1
