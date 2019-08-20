@@ -1,23 +1,38 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 243087E53A
+Return-Path: <prvs=1282fa9f8=Richard.Leitner@skidata.com>
+Received: from mail2.skidata.com (mail2.skidata.com [91.230.2.91])
+	by mail.openembedded.org (Postfix) with ESMTP id 826C36BA11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 07:50:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7K7o1nj025964
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 20 Aug 2019 00:50:01 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 20 Aug 2019 00:50:00 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Tue, 20 Aug 2019 15:49:59 +0800
-Message-ID: <1566287399-2447-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 20 Aug 2019 08:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+	t=1566289158; x=1597825158;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=Wldk6lI2+r8dJQRL5KeQa0PTspzfuFrlcem9+AJg0Nw=;
+	b=AQANfZOGlw17ot39HvKcmyJHSMh6IQQ1a7eSovtd+yrCDZnPeu9AQ8EV
+	mLFWwnFwm5F7t3GXKyN8WcewvwVWyGz5Dx35N42P1N4sbPtIbAtV4cs8g
+	XnvdDzeGTHYyy4Pb4EQvVn6rm4hVoXS4WuTxl+p0KhclyHBNaLVCymAZp
+	6N/dg1z03JA5MPFGHeC5glf/KRN72mAcqS6JDae6/qt0nz4UK9HatGYQL
+	An2LSOftGX7Oya45AdAJ5Mm+GkSyz24YSW/mFpx2iZ+Kms+4nNAKrqj3W
+	GUB2Uc0oShRm308PRUd/i/W1cXyX2Z82IYyAF5bD+/dTCtGibEV9YbJVK A==;
+IronPort-SDR: YGBXWSy4TaTFVmbmLLvTg+Oo+FAi3Ta1rfMchCe0fMmmiW0jsdbYegTFcaOUNwffOELXSc+R52
+	zkEAoxH1jA3kvF21TqfdxkeZf+OMfaVuoYJoof7NflNs64rtSIg1kPR72nfRJlEXcpua5Sr6N9
+	vgWdG8+6GB3L70a5m2UvT2NQzXzy2wIdhek/G7XRbg5w/GJ/58MaC1OSauZYLbX8f177Di9MlQ
+	zhAXko1jEuYjCJcorvZdx2FfIwaFBiewC7/36HTnzmutF9i1u2Kuhx0vroUyDSXo8oYn7MJo6n
+	Ghg=
+X-IronPort-AV: E=Sophos;i="5.64,408,1559512800"; 
+   d="scan'208";a="2294809"
+From: Richard Leitner <richard.leitner@skidata.com>
+To: <akuster808@gmail.com>, <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Aug 2019 10:19:02 +0200
+Message-ID: <20190820081902.12426-1-richard.leitner@skidata.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH] util-linux: fix uuidd failed with /run/uuidd not found
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex5srv.skidata.net (192.168.111.83) To
+	sdex5srv.skidata.net (192.168.111.83)
+Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Subject: [warrior][PATCH v2] dpkg: Use less as pager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,69 +45,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 07:50:01 -0000
+X-List-Received-Date: Tue, 20 Aug 2019 08:19:17 -0000
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-It failed to run uuidd
-...
-root@qemux86-64:~# uuidd
-uuidd: cannot open /run/uuidd/uuidd.pid: No such file or directory
-...
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 
-Create dir /run/uuidd for both of systemd and sysvinit
+Debian traditionaly uses /usr/bin/pager as the system pager, which is a
+link to the user preferred pager. This is a Debianism.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Without this patch:
+
+root@qt5122:~# dpkg -l
+sh: pager: command not found
+dpkg-query: error: showing package list on pager subprocess returned error exit status 127
+
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+CHANGES v2: fix merge conflict
+---
+ meta/recipes-devtools/dpkg/dpkg/pager.patch | 21 +++++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.19.4.bb   |  1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/pager.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 84c7012..90a4750 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -127,6 +127,11 @@ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
- FILES_${PN}-mount = "${sysconfdir}/default/mountall"
- FILES_${PN}-runuser = "${sysconfdir}/pam.d/runuser*"
- FILES_${PN}-su = "${sysconfdir}/pam.d/su-l"
-+FILES_${PN}-uuidd = " \
-+    /etc/tmpfiles.d/uuidd.conf \
-+    /etc/default/volatiles/99_uuidd \
-+"
+diff --git a/meta/recipes-devtools/dpkg/dpkg/pager.patch b/meta/recipes-devtools/dpkg/dpkg/pager.patch
+new file mode 100644
+index 0000000000..e56b9d28af
+--- /dev/null
++++ b/meta/recipes-devtools/dpkg/dpkg/pager.patch
+@@ -0,0 +1,21 @@
++pager: Use less instead of pager
 +
- CONFFILES_${PN}-su = "${sysconfdir}/pam.d/su-l"
- FILES_${PN}-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
-                           ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
-@@ -155,6 +160,12 @@ SYSTEMD_AUTO_ENABLE_${PN}-uuidd = "disable"
- SYSTEMD_SERVICE_${PN}-fstrim = "fstrim.timer fstrim.service"
- SYSTEMD_AUTO_ENABLE_${PN}-fstrim = "disable"
- 
-+pkg_postinst_${PN}-uuidd() {
-+	if [ -z "$D" ] && [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
-+		${sysconfdir}/init.d/populate-volatile.sh update
-+	fi
-+}
++pager is a Debianism. Istead use directly pager.
 +
- do_install () {
- 	# with ccache the timestamps on compiled files may
- 	# end up earlier than on their inputs, this allows
-@@ -202,6 +213,16 @@ do_install () {
- 		# and thus prevents the operation.
- 		ln -s su ${D}${sysconfdir}/pam.d/su-l
- 	fi
++Upstream-Status: Inappropriate [OE-Core integration specific]
 +
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+		install -d ${D}${sysconfdir}/tmpfiles.d
-+		echo "d /run/uuidd 0755 root root - -" > ${D}${sysconfdir}/tmpfiles.d/uuidd.conf
-+	fi
-+
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-+		install -d ${D}${sysconfdir}/default/volatiles
-+		echo "d root root 0755 /run/uuidd none" > ${D}${sysconfdir}/default/volatiles/99_uuidd
-+	fi
- }
- 
- # nologin causes a conflict with shadow-native
++Suggested-by: Burton, Ross <ross.burton@intel.com>
++Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
++diff --git a/lib/dpkg/dpkg.h b/lib/dpkg/dpkg.h
++index 2bb067a..6cbce80 100644
++--- a/lib/dpkg/dpkg.h
+++++ b/lib/dpkg/dpkg.h
++@@ -95,7 +95,7 @@ DPKG_BEGIN_DECLS
++ #define MAXUPDATES         250
++ 
++ #define DEFAULTSHELL        "sh"
++-#define DEFAULTPAGER        "pager"
+++#define DEFAULTPAGER        "less"
++ 
++ #define MD5HASHLEN           32
++ #define MAXTRIGDIRECTIVE     256
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
+index c3dbda77a4..e6083e2219 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
+            file://0006-add-musleabi-to-known-target-tripets.patch \
+            file://0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch \
+            file://0001-dpkg-Support-muslx32-build.patch \
++           file://pager.patch \
+            "
+ SRC_URI_append_class-native = " file://glibc2.5-sync_file_range.patch \
+                                 file://tweak-options-require-tar-1.27.patch \
 -- 
-2.8.1
+2.21.0
 
 
