@@ -1,30 +1,23 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id B525D7EC4B
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 243087E53A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 07:29:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,407,1559491200"; d="scan'208";a="73934392"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Aug 2019 15:29:46 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 9EC554CE03EB
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 15:29:43 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Tue, 20 Aug 2019 15:29:55 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Aug 2019 15:29:08 +0800
-Message-ID: <20190820072908.28603-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Tue, 20 Aug 2019 07:50:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7K7o1nj025964
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 20 Aug 2019 00:50:01 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Tue, 20 Aug 2019 00:50:00 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Tue, 20 Aug 2019 15:49:59 +0800
+Message-ID: <1566287399-2447-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 9EC554CE03EB.AB1A2
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] pango:upgrade 1.44.3 -> 1.44.5
+Subject: [PATCH] util-linux: fix uuidd failed with /run/uuidd not found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +30,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 07:29:48 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 20 Aug 2019 07:50:01 -0000
 Content-Type: text/plain
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+It failed to run uuidd
+...
+root@qemux86-64:~# uuidd
+uuidd: cannot open /run/uuidd/uuidd.pid: No such file or directory
+...
+
+Create dir /run/uuidd for both of systemd and sysvinit
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-graphics/pango/{pango_1.44.3.bb => pango_1.44.5.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/pango/{pango_1.44.3.bb => pango_1.44.5.bb} (90%)
+ meta/recipes-core/util-linux/util-linux.inc | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.44.3.bb b/meta/recipes-graphics/pango/pango_1.44.5.bb
-similarity index 90%
-rename from meta/recipes-graphics/pango/pango_1.44.3.bb
-rename to meta/recipes-graphics/pango/pango_1.44.5.bb
-index 1973c63..448df98 100644
---- a/meta/recipes-graphics/pango/pango_1.44.3.bb
-+++ b/meta/recipes-graphics/pango/pango_1.44.5.bb
-@@ -18,8 +18,8 @@ inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspec
- SRC_URI += "file://run-ptest \
-             "
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 84c7012..90a4750 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -127,6 +127,11 @@ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.la"
+ FILES_${PN}-mount = "${sysconfdir}/default/mountall"
+ FILES_${PN}-runuser = "${sysconfdir}/pam.d/runuser*"
+ FILES_${PN}-su = "${sysconfdir}/pam.d/su-l"
++FILES_${PN}-uuidd = " \
++    /etc/tmpfiles.d/uuidd.conf \
++    /etc/default/volatiles/99_uuidd \
++"
++
+ CONFFILES_${PN}-su = "${sysconfdir}/pam.d/su-l"
+ FILES_${PN}-pylibmount = "${PYTHON_SITEPACKAGES_DIR}/libmount/pylibmount.so \
+                           ${PYTHON_SITEPACKAGES_DIR}/libmount/__init__.* \
+@@ -155,6 +160,12 @@ SYSTEMD_AUTO_ENABLE_${PN}-uuidd = "disable"
+ SYSTEMD_SERVICE_${PN}-fstrim = "fstrim.timer fstrim.service"
+ SYSTEMD_AUTO_ENABLE_${PN}-fstrim = "disable"
  
--SRC_URI[archive.md5sum] = "7f91f1b5883ff848b445ab11ebabcf03"
--SRC_URI[archive.sha256sum] = "290bb100ca5c7025ec3f97332eaf783b76ba1f444110f06ac5ee3285e3e5aece"
-+SRC_URI[archive.md5sum] = "b6bf689e3ce4f46b0fd887b64c850ea1"
-+SRC_URI[archive.sha256sum] = "8527dfcbeedb4390149b6f94620c0fa64e26046ab85042c2a7556438847d7fc1"
++pkg_postinst_${PN}-uuidd() {
++	if [ -z "$D" ] && [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
++		${sysconfdir}/init.d/populate-volatile.sh update
++	fi
++}
++
+ do_install () {
+ 	# with ccache the timestamps on compiled files may
+ 	# end up earlier than on their inputs, this allows
+@@ -202,6 +213,16 @@ do_install () {
+ 		# and thus prevents the operation.
+ 		ln -s su ${D}${sysconfdir}/pam.d/su-l
+ 	fi
++
++	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++		install -d ${D}${sysconfdir}/tmpfiles.d
++		echo "d /run/uuidd 0755 root root - -" > ${D}${sysconfdir}/tmpfiles.d/uuidd.conf
++	fi
++
++	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
++		install -d ${D}${sysconfdir}/default/volatiles
++		echo "d root root 0755 /run/uuidd none" > ${D}${sysconfdir}/default/volatiles/99_uuidd
++	fi
+ }
  
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
- 
+ # nologin causes a conflict with shadow-native
 -- 
-2.7.4
-
-
+2.8.1
 
 
