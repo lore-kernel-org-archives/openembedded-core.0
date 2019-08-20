@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 01C657ECB9
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D63C57EC4C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 20 Aug 2019 15:32:32 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id v15so3019616wml.0
+Received: by mail-wr1-f68.google.com with SMTP id t16so12854614wra.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 08:32:33 -0700 (PDT)
+	Tue, 20 Aug 2019 08:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7ZLmBLuzLarDRYz8MluFtUAxHBhA7Xc6tZy3sMMw7cM=;
-	b=hI+rLHJro7t7ls9XlIvGX/Y4fQz+AP9+IJ9XeFMfJt4KUoP7iZZrn4lX6vxqVXRfw3
-	0OAeOp9119SxDLEMetID177pbcQRzrdRF7/fm0Medubc5mM4e9+0OUyOfIbzFLPhHsuP
-	F1watlTO8NDL0O5NhzaLmcc1o6hxrgkQ0xB3B3ONlIh1togyNN7OsSG8QazMXk2ZobCh
-	6YzKgSoHepI3segxvDK6DrGnxcJ3GiSGLQqg6gTfOlyPP9M0YAlnR0WAiqcndLBWDHK0
-	Do2Qa3UNZBBHL9Ikyvdl5bcgwzJtNGJkZz9EbDYQU6gkJn8cntrCKm4m8EFL2HxWWMP4
-	Vd1A==
+	bh=SKvb/BFc06d1D95sP/YsEzQQq7GANOnJWOw2tH+/pOY=;
+	b=rohnX1rIRX3dgJ8CTi5i6ZviUBJy0JpWrL4JGDqCEGEl7oRkNLFoN3/5mag3aPCM9Z
+	/RCLD2jXoT629MGjqmec8hYnYVMonrp/Fa8Dt020GO7xBZwZt8PQbBehOwXPAhrGVFO2
+	vORpOrv5z7kbv79HDGZ4++pWq+sHG+6YrwRhfWkEZ/pg1njOobEw1AUKc6q0yeKFcjdW
+	ELKgL11VRdmph9RoScSAwhB/kcvonV19gfzyrJAR+CbYTGdrsVLJhzA8vSh+W8K0UvdA
+	FkglGo4HTlcBVrVKq8cdNi1oU0IQyMqHkBrDynff+aCUJRHN1NSJ4i4UWjGPurhGd7Xw
+	oKMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=7ZLmBLuzLarDRYz8MluFtUAxHBhA7Xc6tZy3sMMw7cM=;
-	b=OzYNWAYqUnhmH+O+wf5oX+izAHfKGH93LiMYP6UMnvGmKIhlOvAGDPtjD1rujPjjtG
-	j+IocqF1h/4MPKuUIuG/qsrhDlqZ3kzNOoZHsoyIaXsZ+Wgu9+l0n4s09Y+fmL0CDprW
-	+YJvogt1O0Gxua6yJTh4kFsBBSK8nbRYUwmQSa1u45klL+VpCPV0yZhKgE54eDysFxDF
-	g91QZbpqChmhc1tgXffBGnRhMrVXomR5nQAfB8bMRnB4Dg1BJ9oRrMfnM1xZEQylohVg
-	bE9VGu6Xkyl+CXmnB+P/LR2nMkBh9QRUXj/QhD7oFF3x6kyMb1P1zBPcKAvbjaKr5+lY
-	rqcg==
-X-Gm-Message-State: APjAAAWPSFpcuBH83CAjnFmt7ARBgk1aC0a+/PcKca0gXMDGDaGdmCPb
-	FQVrVLX9crSNwgzcz/l3aNE8gJlF+cQ=
-X-Google-Smtp-Source: APXvYqx1gyCVjF/VqbIpyoIU//MMFwRg5BQEh5W140TfCbk8dPOjxwL1mp0hDtRJTIZXcTSQ4caGMQ==
-X-Received: by 2002:a7b:ce0b:: with SMTP id m11mr610707wmc.151.1566315152557; 
-	Tue, 20 Aug 2019 08:32:32 -0700 (PDT)
+	bh=SKvb/BFc06d1D95sP/YsEzQQq7GANOnJWOw2tH+/pOY=;
+	b=AWUqaUJM/VTlgQcJDXMWh9Y5Jd694oXplF64ndTSxYcAjLWXXQE+J6L2ffdTrC9oDD
+	titKMTdzTtiQXWJB/YDYKDhke1TrLMLCF3FbSPv1rxcPNLD7UqAXV7sIVYIYQo/KNct7
+	R2/916X9JwoRnLz4PNySptKHKFlxEZiE5uc2xKWZelmI3wGEuAjjzEKQDTiJj9pOnRVT
+	zJfj51ZtSj0l/qSsgkgCe4Av6IFdqjE2K6cvzz2Mvg/S6MVTGl8qqeV2P7+xhmxCzgFR
+	22R0Nr6Xi4GF9mluqPnxPBjYdTzMdiMciro5K/Kud7pyJ8oBVo22b4qmFXLAwC0Lbh8O
+	PoEA==
+X-Gm-Message-State: APjAAAXRbzcRrbmAGpOy3OXiZW/wOe4uDDQ8NAkdlwSb5mrLRyI4OJrs
+	RSd+arDwLZDs3CZkyntnZXvGKc8EK5c=
+X-Google-Smtp-Source: APXvYqydaYzR/ZzzaBe90YgcQohE6zQjgmEAt8zdi1rI/t9rXpOJSQzcyU+VuLOSX4f94pD41J4a7g==
+X-Received: by 2002:adf:f3d1:: with SMTP id g17mr34577132wrp.38.1566315153393; 
+	Tue, 20 Aug 2019 08:32:33 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.31
+	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.32
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Tue, 20 Aug 2019 08:32:32 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2019 17:32:15 +0200
-Message-Id: <20190820153219.62435-8-alex.kanavin@gmail.com>
+Date: Tue, 20 Aug 2019 17:32:16 +0200
+Message-Id: <20190820153219.62435-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190820153219.62435-1-alex.kanavin@gmail.com>
 References: <20190820153219.62435-1-alex.kanavin@gmail.com>
-Subject: [PATCH 08/12] gtk-doc: upgrade 1.30 -> 1.31
+Subject: [PATCH 09/12] desktop-file-utils: upgrade 0.23 -> 0.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,79 +58,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 20 Aug 2019 15:32:33 -0000
 
-Drop backported patch.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...rectly-set-permissions-on-file-to-be.patch | 23 -------------------
- .../gtk-doc/files/pkg-config-native.patch     |  2 +-
- .../{gtk-doc_1.30.bb => gtk-doc_1.31.bb}      |  5 ++--
- 3 files changed, 3 insertions(+), 27 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk-doc/files/0001-highlight.py-correctly-set-permissions-on-file-to-be.patch
- rename meta/recipes-gnome/gtk-doc/{gtk-doc_1.30.bb => gtk-doc_1.31.bb} (90%)
+ ...top-file-utils_0.23.bb => desktop-file-utils_0.24.bb} | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/desktop-file-utils/{desktop-file-utils_0.23.bb => desktop-file-utils_0.24.bb} (73%)
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-highlight.py-correctly-set-permissions-on-file-to-be.patch b/meta/recipes-gnome/gtk-doc/files/0001-highlight.py-correctly-set-permissions-on-file-to-be.patch
-deleted file mode 100644
-index bb8f55c41d0..00000000000
---- a/meta/recipes-gnome/gtk-doc/files/0001-highlight.py-correctly-set-permissions-on-file-to-be.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--From 63bc4cd1ce2d918c6566a4e0c7d830713432fc82 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 28 Jun 2019 13:08:24 +0200
--Subject: [PATCH] highlight.py: correctly set permissions on file to be written
--
--Upstream-Status: Backport [https://github.com/GNOME/gtk-doc/commit/12d9a698fb58f3d1a840d3bfc0d15a3a9f57afc1]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- gtkdoc/highlight.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/gtkdoc/highlight.py b/gtkdoc/highlight.py
--index 8f6e470..82e11e8 100644
----- a/gtkdoc/highlight.py
--+++ b/gtkdoc/highlight.py
--@@ -47,6 +47,6 @@ def highlight_code(code, lang='c'):
-- 
-- 
-- def append_style_defs(css_file_name):
---    os.chmod(css_file_name, stat.S_IWRITE)
--+    os.chmod(css_file_name, 0o644)
--     with open(css_file_name, 'at', newline='\n', encoding='utf-8') as css:
--         css.write(HTML_FORMATTER.get_style_defs())
-diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-index 5674a38abd5..8c9bc954420 100644
---- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-@@ -1,4 +1,4 @@
--From 31254fac614bb6ee28cf6fdd514a9563a5d781a8 Mon Sep 17 00:00:00 2001
-+From 9537a7998a220b698b26d926a111bb400ff1ce01 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 5 Sep 2016 22:25:44 +0100
- Subject: [PATCH] Use native pkg-config when looking for gtk-doc.
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.31.bb
-similarity index 90%
-rename from meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb
-rename to meta/recipes-gnome/gtk-doc/gtk-doc_1.31.bb
-index fce03295341..4f97ce06333 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.31.bb
-@@ -18,13 +18,12 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "api-documentation",
- PACKAGECONFIG[working-scripts] = ",,libxslt-native xmlto-native python3-six python3-pygments"
- PACKAGECONFIG[tests] = "--enable-tests,--disable-tests,glib-2.0"
+diff --git a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.23.bb b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.24.bb
+similarity index 73%
+rename from meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.23.bb
+rename to meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.24.bb
+index 6446f47189d..aecba07235c 100644
+--- a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.23.bb
++++ b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.24.bb
+@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://src/validator.c;beginline=4;endline=27;md5=281e1114ee6c486a1a0a4295986b9416"
  
--SRC_URI[archive.md5sum] = "1045ba29ca0693ced2045523407aae4c"
--SRC_URI[archive.sha256sum] = "a4f6448eb838ccd30d76a33b1fd095f81aea361f03b12c7b23df181d21b7069e"
-+SRC_URI[archive.md5sum] = "6239713011369a4fbdc7619350403772"
-+SRC_URI[archive.sha256sum] = "a51687956d0377ac70904d03fdc73c9e116589b4a01453fa92162442b3657011"
- SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
-            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
-            file://conditionaltests.patch \
-            file://no-clobber.patch \
--           file://0001-highlight.py-correctly-set-permissions-on-file-to-be.patch \
-            "
- SRC_URI_append_class-native = " file://pkg-config-native.patch"
+ SRC_URI = "http://freedesktop.org/software/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[md5sum] = "599133d51cc9a41bfec186414906b6f1"
+-SRC_URI[sha256sum] = "6c094031bdec46c9f621708f919084e1cb5294e2c5b1e4c883b3e70cb8903385"
++SRC_URI[md5sum] = "9364b82e14cfcad881161aa7ea5257ae"
++SRC_URI[sha256sum] = "a1de5da60cbdbe91e5c9c10ac9afee6c3deb019e0cee5fdb9a99dddc245f83d9"
  
+ DEPENDS = "glib-2.0"
+ 
+@@ -17,3 +17,8 @@ inherit autotools pkgconfig
+ EXTRA_OECONF += "ac_cv_prog_EMACS=no"
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++do_install_append() {
++        rm -rf ${D}${datadir}/emacs
++}
++
 -- 
 2.17.1
 
