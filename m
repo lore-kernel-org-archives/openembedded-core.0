@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D4C647EC5D
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id AB4DE7E996
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 15:32:28 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t16so12854360wra.6
+	Tue, 20 Aug 2019 15:32:29 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id g67so3058777wme.1
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 20 Aug 2019 08:32:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=VHFiAdNf3GGBhxGkaRN1izNv7a7QvolK8kwVMb8rn9E=;
-	b=syLV7IggT2cB1HfSbV8DYc0177K7hmCSf28aj22M3JIGJeeiGjj4Y4BufuWitofGyi
-	3Q2u47j3AEAqmTla85aaf6++OsUN0CIhfseSw62bWoGvkIG9uRh6pMnFZdZyFA5lxmqG
-	Pyt4hrccMDkBEDxDxKnsXJhsN5z/tj3pvdiNb8guePv7oG1y2bsL8+PyozWz6e0XGn9Z
-	fl5egloo1cG+W8faQL4P8ttVMUTO/QKWRKZmyY9Q08THy3JCzB6fBIW5ZypzTi43zz6z
-	piaK2btt9uDjpda1epdtkyZXl++mP1jgEMdu8sJWWTXEoXox0yogq2Jc5fFoCIpJi2WP
-	hHhw==
+	bh=InP3ITPvbdzEJW+CWnm53y532f3JjHMN37BtMKHBFeY=;
+	b=JUdp+3FsOE+/5uqKgfqiGAcs4Ijcro4qkxwpIzZwUJ7nK92BMkXQ/g73o8yWcUaoRx
+	ZMSxQxR7vQQX8uANZW6YGd4ZOFcS0IUysbeuL/DWiltK1Fb2+pfMZGS4deieLfk+WM/o
+	ITqvyraG0GsVXqCg3rS8+tlwjCchouLQMmhAzLyII/vTNn7SIcWVXHECq0zp3u4x5v3K
+	/aXZZ0nRaioiSu+w+WUF0UaWWjMLuE6jmCms3Z/GMszuT2wwckTjIvb1z7bMOwOMA6/E
+	PNXW6nDKGYuCcYlSTzb4xTgkiFaJp46R6Lcp2dn1Xodfoql1ZTgSb7sGe1lRLK18+qg9
+	s/TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=VHFiAdNf3GGBhxGkaRN1izNv7a7QvolK8kwVMb8rn9E=;
-	b=RyQjkiElYm9kqm4b2xcDzo3mJwDoPU7yoKGKeymrNFpyFqmzYBCSOmDk828B6JUn1v
-	uAtUWmjj+V9BLwGfb3YOFo2JcMuYVCnJ8UpSBvfhRcMCUsBTcG74DCOX+CI4pqaHDY1I
-	Fa74aRbEDm+B4lApdpqCHYGU2BYhoQaMI5JtSFDtim4ukXD+Nyk5SowffU1IHLs3u2JK
-	4q+nZSdYkjcSlfF2BNrfQrap2D4MMK01Cgo+Yt81xMlIp81HYmLn1CjprAENFTSxIW9V
-	sCvyDAj3/uQ91Y5QCsmKLtteWoal+L9faJbeJ4fHSd0C/lYB+gDJCTfklp+WQtNOjd74
-	A1QA==
-X-Gm-Message-State: APjAAAXJNP1CGqMxU6z1LvEDn7riYvGcV89DmRvivj+C18Wv2OioGri4
-	Sr2pJ6l89qIdDtb4WBQ8sxkm39tnCH0=
-X-Google-Smtp-Source: APXvYqxyI0EMYnL/7CVbTcyopdk7VH2OOUAoNKfNEVDypnj1pYKjBYxX9/DYLH5azd/1jhJJCinXsg==
-X-Received: by 2002:a5d:4083:: with SMTP id o3mr22231673wrp.150.1566315149344; 
-	Tue, 20 Aug 2019 08:32:29 -0700 (PDT)
+	bh=InP3ITPvbdzEJW+CWnm53y532f3JjHMN37BtMKHBFeY=;
+	b=DQXXrBftkDt72WOfUXefO37h2g/KnQz/0BlyxaU9f6vig40K08URLMK76N/8QFl3Rw
+	WafM7JySU7FyElVrYkizAIwov2HEkcNXu5j1k21WLxcsNex2FurDYvChfy/3qLQj78ts
+	WjIfUnT83pEHRYaERjne8mGtL2wDF4dm/pc59Eih2AMyCtG7SWeT0ARRz5FbsmnwcAxU
+	fz/oCwqSXMWONTTP4a4C/oHBG/IW6YnkQiFyHT+DUZP5pYyU30vGLiHX0gt0waFO8C1G
+	SrulNWVLe8UJqHJ9ppJ4BObHZ4rC0TYTPyd9ORli8jJC7gxegZpqdkGQgrddga78KmPH
+	rbPQ==
+X-Gm-Message-State: APjAAAVBzLvmKdGjgsxd8NF4+punSz+lcK+nv8i9E4w7zQv7zecXyLR2
+	hJbdbxL4IJ0w6WWsJ83Xp5uO8Cqo0X0=
+X-Google-Smtp-Source: APXvYqw+0LzHviNctWHmB7lZQhb1TwEjtKhueXD9G08Um9dUBntRGsUvIWFyaiVupaMQHl5tUfj+SA==
+X-Received: by 2002:a1c:3d03:: with SMTP id k3mr654135wma.138.1566315150071;
+	Tue, 20 Aug 2019 08:32:30 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.28
+	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.29
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 20 Aug 2019 08:32:28 -0700 (PDT)
+	Tue, 20 Aug 2019 08:32:29 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2019 17:32:11 +0200
-Message-Id: <20190820153219.62435-4-alex.kanavin@gmail.com>
+Date: Tue, 20 Aug 2019 17:32:12 +0200
+Message-Id: <20190820153219.62435-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190820153219.62435-1-alex.kanavin@gmail.com>
 References: <20190820153219.62435-1-alex.kanavin@gmail.com>
-Subject: [PATCH 04/12] python3-numpy: update to 1.17.0
+Subject: [PATCH 05/12] rt-tests: exclude another development version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,164 +58,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 20 Aug 2019 15:32:29 -0000
 
-Rebase files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-
-License-Update: clarified license for numpy/core/src/multiarray/dragon4.c (it is MIT)
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-and-so-on-for-libraries-by-default-.patch | 47 ++++++++-----------
- ...up.py-remove-the-detection-of-x86-ta.patch | 32 +++++++++++++
- .../python-numpy/python-numpy.inc             |  9 ++--
- ...umpy_1.16.3.bb => python3-numpy_1.17.0.bb} |  0
- 4 files changed, 57 insertions(+), 31 deletions(-)
- create mode 100644 meta/recipes-devtools/python-numpy/files/0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch
- rename meta/recipes-devtools/python-numpy/{python3-numpy_1.16.3.bb => python3-numpy_1.17.0.bb} (100%)
+ meta/recipes-rt/rt-tests/rt-tests.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-index 8fe0d1a27ee..98a97058312 100644
---- a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-+++ b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
-@@ -1,4 +1,4 @@
--From c14554c7e2fff8dd559dfb41e7dd11392c6f85e3 Mon Sep 17 00:00:00 2001
-+From 672a75c8417ce08db9e31fc415ec445479231d5a Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 10 Dec 2015 13:20:30 +0200
- Subject: [PATCH] Don't search /usr and so on for libraries by default to
-@@ -10,14 +10,14 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index 84a8f67bd45..227eb99b98d 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -3,8 +3,8 @@ SRCREV = "dff174f994f547a5785d32454865f140daacb0f5"
+ PE = "1"
  
- ---
-- numpy/distutils/system_info.py | 50 ++++------------------------------
-- 1 file changed, 6 insertions(+), 44 deletions(-)
-+ numpy/distutils/system_info.py | 42 ++++------------------------------
-+ 1 file changed, 5 insertions(+), 37 deletions(-)
+ SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git"
+-# 1.2 and 1.3 and 1.4 seem to be development versions
+-UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(?!1\.2)(?!1\.3)(?!1\.4)(\d+(\.\d+)+))"
++# 1.2 to 1.5 seem to be development versions
++UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(?!1\.[2-5])(\d+(\.\d+)+))"
  
- diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
--index 2424943..bf56a6d 100644
-+index ba2b1f4..f94dce1 100644
- --- a/numpy/distutils/system_info.py
- +++ b/numpy/distutils/system_info.py
--@@ -274,51 +274,13 @@ if sys.platform == 'win32':
-+@@ -278,45 +278,13 @@ if sys.platform == 'win32':
-              add_system_root(os.path.join(conda_dir, 'Library'))
-  
-  else:
-@@ -45,31 +45,24 @@ index 2424943..bf56a6d 100644
- -            default_x11_include_dirs.extend(['/usr/lib/X11/include',
- -                                             '/usr/include/X11'])
- -
---    import subprocess as sp
---    tmp = None
---    try:
---        # Explicitly open/close file to avoid ResourceWarning when
---        # tests are run in debug mode Python 3.
---        tmp = open(os.devnull, 'w')
---        p = sp.Popen(["gcc", "-print-multiarch"], stdout=sp.PIPE,
---                     stderr=tmp)
---    except (OSError, DistutilsError):
---        # OSError if gcc is not installed, or SandboxViolation (DistutilsError
---        # subclass) if an old setuptools bug is triggered (see gh-3160).
---        pass
---    else:
---        triplet = str(p.communicate()[0].decode().strip())
---        if p.returncode == 0:
---            # gcc supports the "-print-multiarch" option
---            default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
---            default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
---    finally:
---        if tmp is not None:
---            tmp.close()
-+-    with open(os.devnull, 'w') as tmp:
-+-        try:
-+-            p = subprocess.Popen(["gcc", "-print-multiarch"], stdout=subprocess.PIPE,
-+-                         stderr=tmp)
-+-        except (OSError, DistutilsError):
-+-            # OSError if gcc is not installed, or SandboxViolation (DistutilsError
-+-            # subclass) if an old setuptools bug is triggered (see gh-3160).
-+-            pass
-+-        else:
-+-            triplet = str(p.communicate()[0].decode().strip())
-+-            if p.returncode == 0:
-+-                # gcc supports the "-print-multiarch" option
-+-                default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
-+-                default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
- +    default_lib_dirs = libpaths(['/deadir/lib'], platform_bits)
- +    default_include_dirs = ['/deaddir/include']
- +    default_src_dirs = ['.', '/deaddir/src']
--+
-+ 
- +    default_x11_lib_dirs = libpaths(['/deaddir/lib'], platform_bits)
- +    default_x11_include_dirs = ['/deaddir/include']
-  
-diff --git a/meta/recipes-devtools/python-numpy/files/0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch b/meta/recipes-devtools/python-numpy/files/0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch
-new file mode 100644
-index 00000000000..ebb2a6f9df1
---- /dev/null
-+++ b/meta/recipes-devtools/python-numpy/files/0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch
-@@ -0,0 +1,32 @@
-+From b881e0b2ba9cf1a4aa351a1c1ea90b1e1776ce21 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 12 Aug 2019 15:37:36 +0200
-+Subject: [PATCH] numpy/random/setup.py: remove the detection of x86 targets
-+ via uname()
-+
-+This was badly breaking compilation for ARM targets (and possibly
-+other non-x86 targets); if -msse2 is desirable for x86 builds it has
-+to be passed through another channel.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ numpy/random/setup.py | 5 -----
-+ 1 file changed, 5 deletions(-)
-+
-+diff --git a/numpy/random/setup.py b/numpy/random/setup.py
-+index a1bf3b8..60fb534 100644
-+--- a/numpy/random/setup.py
-++++ b/numpy/random/setup.py
-+@@ -49,11 +49,6 @@ def configuration(parent_package='', top_path=None):
-+     elif not is_msvc:
-+         # Some bit generators require c99
-+         EXTRA_COMPILE_ARGS += ['-std=c99']
-+-        INTEL_LIKE = any([val in k.lower() for k in platform.uname()
-+-                          for val in ('x86', 'i686', 'i386', 'amd64')])
-+-        if INTEL_LIKE:
-+-            # Assumes GCC or GCC-like compiler
-+-            EXTRA_COMPILE_ARGS += ['-msse2']
-+ 
-+     # Use legacy integer variable sizes
-+     LEGACY_DEFS = [('NP_RANDOM_LEGACY', '1')]
-diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
-index 43c3053cd88..98405fee12a 100644
---- a/meta/recipes-devtools/python-numpy/python-numpy.inc
-+++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
-@@ -1,7 +1,7 @@
- SUMMARY = "A sophisticated Numeric Processing Package for Python"
- SECTION = "devel/python"
--LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=d26bde5432613cce2334b93985576231"
-+LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD & MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1a32aba007a415aa8a1c708a0e2b86a1"
+ S = "${WORKDIR}/git"
  
- SRCNAME = "numpy"
- 
-@@ -9,9 +9,10 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            file://0001-npy_cpu-Add-riscv-support.patch \
-            ${CONFIGFILESURI} \
-+           file://0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch \
-            "
--SRC_URI[md5sum] = "0886e5b5017f08f2b7a624c0b5931e61"
--SRC_URI[sha256sum] = "adf063a3f87ab89393f5eea0eb903293b112fa0a308e8c594a75ffa585d81d4f"
-+SRC_URI[md5sum] = "c48b2ad785f82cdfe28c907ce35e2a71"
-+SRC_URI[sha256sum] = "47b7b6145e7ba5918ce26be25999b6d4b35cf9fbfdf46b7da50090ffdb020445"
- 
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.16.3.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.17.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python-numpy/python3-numpy_1.16.3.bb
-rename to meta/recipes-devtools/python-numpy/python3-numpy_1.17.0.bb
 -- 
 2.17.1
 
