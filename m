@@ -1,24 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EC1E87ED59
+Return-Path: <jwessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E5EDB7D711
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 09:06:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7K967cd028109
+	Tue, 20 Aug 2019 13:06:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7KD6nmA015133
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 02:06:22 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 20 Aug 2019 02:06:03 -0700
-From: <kai.kang@windriver.com>
+	Tue, 20 Aug 2019 06:06:49 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 20 Aug 2019 06:06:48 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 9E1F7AA47A0;
+	Tue, 20 Aug 2019 06:06:48 -0700 (PDT)
+From: Jason Wessel <jason.wessel@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Aug 2019 05:05:58 -0400
-Message-ID: <20190820090559.196193-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
+Date: Tue, 20 Aug 2019 06:06:47 -0700
+Message-ID: <20190820130647.118287-1-jason.wessel@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] Workaround for do_populate_sysroot failure
+Subject: [PATCH] Revert "kernel.bbclass: adjust a condition checking"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 09:06:32 -0000
+X-List-Received-Date: Tue, 20 Aug 2019 13:06:48 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+This reverts commit 6676411fccff2d331878e4ca1f9411aafb056a80.
 
-Hi,
+This revert restores the original code and adds a comment.  The commit
+that was reverted broke a number of wic templates and tools which rely
+on the initramfs creation dependency and the case where the
+INITRAMFS_IMAGE_BUNDLE is not set.
 
-The script caused the issue install-sh is identical with the file from
-libtool and automake. Its function should be stable. And I didn't find
-out the root cause, so remove the temporary files explictly as workaround.
+If an end user does not want the INITRAMFS_IMAGE generated, it should
+be set to "".
 
-Kai Kang (1):
-  adwaita-icon-theme: workaround for do_populate_sysroot failure
+[ Issue: LIN1019-1791 ]
 
- meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/classes/kernel.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index bf3674238f..ebcb79a528 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -96,8 +96,10 @@ python __anonymous () {
+         d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
+ 
+     image = d.getVar('INITRAMFS_IMAGE')
+-    image_bundle = d.getVar('INITRAMFS_IMAGE_BUNDLE')
+-    if image and bb.utils.to_boolean(image_bundle, False):
++    # If the INTIRAMFS_IMAGE is set but the INITRAMFS_IMAGE_BUNDLE is set to 0,
++    # the do_bundle_initramfs does nothing, but the INITRAMFS_IMAGE is built
++    # standalone for use by wic and other tools.
++    if image:
+         d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+ 
+     # NOTE: setting INITRAMFS_TASK is for backward compatibility
 -- 
-2.20.0
+2.21.0
 
 
