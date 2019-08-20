@@ -1,30 +1,30 @@
-Return-Path: <yuanc.fnst@cn.fujitsu.com>
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 492317EC64
+	by mail.openembedded.org (Postfix) with ESMTP id 430987EC5D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 05:48:21 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,407,1559491200"; d="scan'208";a="73929182"
+	Tue, 20 Aug 2019 06:00:46 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,407,1559491200"; d="scan'208";a="73929746"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Aug 2019 13:48:19 +0800
+	by heian.cn.fujitsu.com with ESMTP; 20 Aug 2019 14:00:46 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 71A6F4CE03D7
+	by cn.fujitsu.com (Postfix) with ESMTP id 6D32F4CE03D7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 13:48:20 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.21) by
+	Tue, 20 Aug 2019 14:00:47 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Tue, 20 Aug 2019 13:48:31 +0800
-From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+	Server (TLS) id 14.3.439.0; Tue, 20 Aug 2019 14:00:50 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Aug 2019 14:47:41 +0900
-Message-ID: <20190820054741.106747-1-yuanc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.17.2
+Date: Tue, 20 Aug 2019 14:00:10 +0800
+Message-ID: <20190820060010.20247-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.21]
-X-yoursite-MailScanner-ID: 71A6F4CE03D7.AF637
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 6D32F4CE03D7.AA772
 X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: yuanc.fnst@cn.fujitsu.com
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] libnss-nis: upgrade 3.0 -> 3.1
+Subject: [PATCH] libbsd:upgrade 0.9.1 -> 0.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,208 +37,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 05:48:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Aug 2019 06:00:47 -0000
+Content-Type: text/plain; charset="ASCII"
+Content-Transfer-Encoding: 8bit
 
-Remove patch 0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch
-since this is included in 3.1
+-License-Update: Copyright year updated to 2019.
 
-Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+-libbsd/0001-flopen-Add-missing-fcntl.h-include.patch
+  Removed since these are included in 0.10.0.
+
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../recipes-extended/libnss-nis/libnss-nis.bb |   5 +-
- ...is-hosts-Remove-use-of-RES_USE_INET6.patch | 162 ------------------
- 2 files changed, 2 insertions(+), 165 deletions(-)
- delete mode 100644 meta/recipes-extended/libnss-nis/libnss-nis/0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch
+ .../0001-flopen-Add-missing-fcntl.h-include.patch  | 46 ----------------------
+ .../libbsd/{libbsd_0.9.1.bb => libbsd_0.10.0.bb}   |  7 ++--
+ 2 files changed, 3 insertions(+), 50 deletions(-)
+ delete mode 100644 meta/recipes-support/libbsd/libbsd/0001-flopen-Add-missing-fcntl.h-include.patch
+ rename meta/recipes-support/libbsd/{libbsd_0.9.1.bb => libbsd_0.10.0.bb} (83%)
 
-diff --git a/meta/recipes-extended/libnss-nis/libnss-nis.bb b/meta/recipes-extended/libnss-nis/libnss-nis.bb
-index 4fbd4b1f6a..a1d914e871 100644
---- a/meta/recipes-extended/libnss-nis/libnss-nis.bb
-+++ b/meta/recipes-extended/libnss-nis/libnss-nis.bb
-@@ -13,12 +13,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
- DEPENDS += "libtirpc libnsl2"
- 
--PV = "3.0+git${SRCPV}"
-+PV = "3.1+git${SRCPV}"
- 
--SRCREV = "d4aea48657a8e90d7922574b8021ee03915a36cb"
-+SRCREV = "062f31999b35393abf7595cb89dfc9590d5a42ad"
- 
- SRC_URI = "git://github.com/thkukuk/libnss_nis \
--           file://0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch \
-           "
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-extended/libnss-nis/libnss-nis/0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch b/meta/recipes-extended/libnss-nis/libnss-nis/0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch
+diff --git a/meta/recipes-support/libbsd/libbsd/0001-flopen-Add-missing-fcntl.h-include.patch b/meta/recipes-support/libbsd/libbsd/0001-flopen-Add-missing-fcntl.h-include.patch
 deleted file mode 100644
-index 348c8c94b6..0000000000
---- a/meta/recipes-extended/libnss-nis/libnss-nis/0001-nis-hosts-Remove-use-of-RES_USE_INET6.patch
+index 8abb876..0000000
+--- a/meta/recipes-support/libbsd/libbsd/0001-flopen-Add-missing-fcntl.h-include.patch
 +++ /dev/null
-@@ -1,162 +0,0 @@
--From e41ddbd89a4bb042ac00469fa5880ba584c25c05 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 25 Jul 2019 12:10:56 -0700
--Subject: [PATCH] nis-hosts: Remove use of RES_USE_INET6
+@@ -1,46 +0,0 @@
+-From 13c32916b4baab58d93940d57fea9ff0777f1931 Mon Sep 17 00:00:00 2001
+-From: Baruch Siach <baruch@tkos.co.il>
+-Date: Tue, 5 Jun 2018 19:21:46 +0300
+-Subject: [PATCH] flopen: Add missing <fcntl.h> include
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
 -
--Upstream glibc dropped it starting glibc 2.30
--see
--https://sourceware.org/git/?p=glibc.git;a=commit;h=3f8b44be0a658266adff5ece1e4bc3ce097a5dbe
+-Commit 993828d84ee (Add flopenat() function from FreeBSD) dropped the
+-fcntl.h header. This breaks the build with musl libc:
 -
--Fixes issue #6
+-flopen.c: In function ‘vflopenat’:
+-flopen.c:60:14: error: ‘O_CREAT’ undeclared (first use in this function)
+-  if (flags & O_CREAT) {
+-              ^~~~~~~
 -
--Upstream-Status: Submitted [https://github.com/thkukuk/libnss_nis/pull/7]
+-Restore the fcntl.h header include to fix the build.
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Fixes: commit 993828d84eed0468c6c15b2818e534e6b134b8e4
+-Submitted-also-by: parazyd <parazyd@dyne.org>
+-Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+-Signed-off-by: Guillem Jover <guillem@hadrons.org>
+-
+-Upstream-Status: Backport
+-[https://gitlab.freedesktop.org/libbsd/libbsd/commit/13c32916b4baab58d93940d57fea9ff0777f1931]
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ----
-- src/nis-hosts.c | 55 ++++++++++++-------------------------------------
-- 1 file changed, 13 insertions(+), 42 deletions(-)
+- src/flopen.c | 1 +
+- 1 file changed, 1 insertion(+)
 -
--diff --git a/src/nis-hosts.c b/src/nis-hosts.c
--index 307b46e..bd3c4ad 100644
----- a/src/nis-hosts.c
--+++ b/src/nis-hosts.c
--@@ -35,15 +35,12 @@
-- #include "libc-lock.h"
-- #include "nss-nis.h"
+-diff --git a/src/flopen.c b/src/flopen.c
+-index b9972c9..ff20d07 100644
+---- a/src/flopen.c
+-+++ b/src/flopen.c
+-@@ -32,6 +32,7 @@
+- #include <sys/stat.h>
 - 
---/* Get implementation for some internal functions. */
---#include "mapv4v6addr.h"
---
-- #define ENTNAME         hostent
-- #define DATABASE        "hosts"
-- #define NEED_H_ERRNO
+- #include <errno.h>
+-+#include <fcntl.h>
+- #include <stdarg.h>
+- #include <unistd.h>
 - 
---#define EXTRA_ARGS      , af, flags
---#define EXTRA_ARGS_DECL , int af, int flags
--+#define EXTRA_ARGS      , af
--+#define EXTRA_ARGS_DECL , int af
-- 
-- #define ENTDATA hostent_data
-- struct hostent_data
--@@ -67,19 +64,8 @@ LINE_PARSER
--    /* Parse address.  */
--    if (af != AF_INET6 && inet_pton (AF_INET, addr, entdata->host_addr) > 0)
--      {
---       assert ((flags & AI_V4MAPPED) == 0 || af != AF_UNSPEC);
---       if (flags & AI_V4MAPPED)
---	 {
---	   map_v4v6_address ((char *) entdata->host_addr,
---			     (char *) entdata->host_addr);
---	   result->h_addrtype = AF_INET6;
---	   result->h_length = IN6ADDRSZ;
---	 }
---       else
---	 {
---	   result->h_addrtype = AF_INET;
---	   result->h_length = INADDRSZ;
---	 }
--+       result->h_addrtype = AF_INET;
--+       result->h_length = INADDRSZ;
--      }
--    else if (af != AF_INET
-- 	    && inet_pton (AF_INET6, addr, entdata->host_addr) > 0)
--@@ -134,7 +120,7 @@ strong_alias (_nss_nis_sethostent, _nss_nis_endhostent)
-- static enum nss_status
-- internal_nis_gethostent_r (struct hostent *host, char *buffer,
-- 			   size_t buflen, int *errnop, int *h_errnop,
---			   int af, int flags)
--+			   int af)
-- {
--   char *domain;
--   if (yp_get_default_domain (&domain))
--@@ -203,7 +189,7 @@ internal_nis_gethostent_r (struct hostent *host, char *buffer,
-- 	++p;
--       free (result);
-- 
---      parse_res = parse_line (p, host, data, buflen, errnop, af, flags);
--+      parse_res = parse_line (p, host, data, buflen, errnop, af);
--       if (parse_res == -1)
-- 	{
-- 	  free (outkey);
--@@ -232,8 +218,7 @@ _nss_nis_gethostent_r (struct hostent *host, char *buffer, size_t buflen,
--   __libc_lock_lock (lock);
-- 
--   status = internal_nis_gethostent_r (host, buffer, buflen, errnop, h_errnop,
---			((_res.options & RES_USE_INET6) ? AF_INET6 : AF_INET),
---			((_res.options & RES_USE_INET6) ? AI_V4MAPPED : 0 ));
--+			AF_INET);
-- 
--   __libc_lock_unlock (lock);
-- 
--@@ -244,7 +229,7 @@ _nss_nis_gethostent_r (struct hostent *host, char *buffer, size_t buflen,
-- static enum nss_status
-- internal_gethostbyname2_r (const char *name, int af, struct hostent *host,
-- 			   char *buffer, size_t buflen, int *errnop,
---			   int *h_errnop, int flags)
--+			   int *h_errnop)
-- {
--   uintptr_t pad = -(uintptr_t) buffer % __alignof__ (struct parser_data);
--   buffer += pad;
--@@ -318,7 +303,7 @@ internal_gethostbyname2_r (const char *name, int af, struct hostent *host,
--     ++p;
--   free (result);
-- 
---  int parse_res = parse_line (p, host, data, buflen, errnop, af, flags);
--+  int parse_res = parse_line (p, host, data, buflen, errnop, af);
-- 
--   if (parse_res < 1 || host->h_addrtype != af)
--     {
--@@ -351,8 +336,7 @@ _nss_nis_gethostbyname2_r (const char *name, int af, struct hostent *host,
--     }
-- 
--   return internal_gethostbyname2_r (name, af, host, buffer, buflen, errnop,
---				    h_errnop,
---			((_res.options & RES_USE_INET6) ? AI_V4MAPPED : 0));
--+				    h_errnop);
-- }
-- 
-- 
--@@ -360,18 +344,8 @@ enum nss_status
-- _nss_nis_gethostbyname_r (const char *name, struct hostent *host, char *buffer,
-- 			  size_t buflen, int *errnop, int *h_errnop)
-- {
---  if (_res.options & RES_USE_INET6)
---    {
---      enum nss_status status;
---
---      status = internal_gethostbyname2_r (name, AF_INET6, host, buffer, buflen,
---					  errnop, h_errnop, AI_V4MAPPED);
---      if (status == NSS_STATUS_SUCCESS)
---	return status;
---    }
---
--   return internal_gethostbyname2_r (name, AF_INET, host, buffer, buflen,
---				    errnop, h_errnop, 0);
--+				    errnop, h_errnop);
-- }
-- 
-- 
--@@ -433,9 +407,7 @@ _nss_nis_gethostbyaddr_r (const void *addr, socklen_t addrlen, int af,
--     ++p;
--   free (result);
-- 
---  int parse_res = parse_line (p, host, data, buflen, errnop, af,
---			      ((_res.options & RES_USE_INET6)
---			       ? AI_V4MAPPED : 0));
--+  int parse_res = parse_line (p, host, data, buflen, errnop, af);
--   if (parse_res < 1)
--     {
--       if (parse_res == -1)
--@@ -532,8 +504,7 @@ _nss_nis_gethostbyname4_r (const char *name, struct gaih_addrtuple **pat,
--   buflen -= pad;
-- 
--   struct hostent host;
---  int parse_res = parse_line (result, &host, data, buflen, errnop, AF_UNSPEC,
---			      0);
--+  int parse_res = parse_line (result, &host, data, buflen, errnop, AF_UNSPEC);
--   if (parse_res < 1)
--     {
--       if (parse_res == -1)
 --- 
--2.22.0
+-2.7.4
 -
+diff --git a/meta/recipes-support/libbsd/libbsd_0.9.1.bb b/meta/recipes-support/libbsd/libbsd_0.10.0.bb
+similarity index 83%
+rename from meta/recipes-support/libbsd/libbsd_0.9.1.bb
+rename to meta/recipes-support/libbsd/libbsd_0.10.0.bb
+index 2b75cdf..d6b4bd1 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.9.1.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.10.0.bb
+@@ -28,16 +28,15 @@ HOMEPAGE = "http://libbsd.freedesktop.org/wiki/"
+ # License: public-domain
+ # License: public-domain-Colin-Plumb
+ LICENSE = "BSD-4-Clause & ISC & PD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=b552602fda69e34c753d26de383f33c5"
++LIC_FILES_CHKSUM = "file://COPYING;md5=2120be0173469a06ed185b688e0e1ae0"
+ SECTION = "libs"
+ 
+ SRC_URI = " \
+     http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+-    file://0001-flopen-Add-missing-fcntl.h-include.patch \
+ "
+ 
+-SRC_URI[md5sum] = "a74b80c4143afa032c90226a4518fffe"
+-SRC_URI[sha256sum] = "56d835742327d69faccd16955a60b6dcf30684a8da518c4eca0ac713b9e0a7a4"
++SRC_URI[md5sum] = "ead96d240d02faa5b921c0aa50c812b5"
++SRC_URI[sha256sum] = "34b8adc726883d0e85b3118fa13605e179a62b31ba51f676136ecb2d0bc1a887"
+ 
+ inherit autotools pkgconfig
+ 
 -- 
-2.17.1
+2.7.4
 
 
 
