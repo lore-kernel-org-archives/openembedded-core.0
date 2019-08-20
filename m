@@ -1,49 +1,39 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2621F7ECA6
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id E7C667EB0F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 15:32:35 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id k2so12866166wrq.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 08:32:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=5frn8ZoY026V3xwRZq7flUQgF0nsm5wzJ5Rm1UzmAHI=;
-	b=T+z/71Muh54PK2c1H1ASFEiTZIGqbPKKIN/o2WNc5pqJytKUhWDG9OR+QVl4Uokr5w
-	Gdu9GhbNYKdxIjzgx+yCfP/obgeZDGgjJELeerf+kogwOZC2w0T62ZlNWoKL73lbVTEh
-	2gCbia4YwUiCgJ75SeS5vuZ0DllJUxiOoyWroU/sSu9NoClyKTT5EEJE+YTbHchy8Yat
-	AWuVThGm2AfdZDLrHlFUARKr8brHmxV9iKOfPjtUnClprjGmvYMKUN3rrbCBxWGsUGgJ
-	VnYvOKu23jHLzkoCwJhuHynAJYgIBvZgEjXwAMz8VoIc12LyMISyobZRvWSGK2qaMm6J
-	Im2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=5frn8ZoY026V3xwRZq7flUQgF0nsm5wzJ5Rm1UzmAHI=;
-	b=GppMtzHeWPU5eGy0Z9KwxHBkpxUY8wXem+cZUiPDRWQ8W6LP5H534julgHzrDpvdrj
-	ILeG6m9u4jEOLA7+Eo2zvJwUUaGnpkVn1qVhBKKe2/N5B0p1MzZSOb2vJNwtVRp4jiPc
-	N3HCSfrCxwo2TjPjjgH6LQACjD2RGCzGWygmRgaR0uLLzM9fyNn+fy5ni0WFmMW1zpSQ
-	gesltOpw7GHMu+x2RtTW34pjl4beTP/2WrWwj+Gmh3KKfCnGkbQtfK2j+ljV1+LVzeMx
-	nbClsLxTR9QO4pIaI9IROntAtwQkdcUsoB90aDACJ4b8NT1ohWtEuOBsnZ4PeZ1ddV6D
-	u/dQ==
-X-Gm-Message-State: APjAAAU7Tsi/ux4nGVGwjqBTWohy8juCvCPIdUu3q0G4PtEqJ/YjX9Q8
-	MAiNSueXqcFaiJFAepPSwogLxx2QKik=
-X-Google-Smtp-Source: APXvYqwwl1lJSCwYBGeFEx/gb/nUrPQmlnvCI61iW0SRohBldyJrKR5xA06jYN0qiN6Hjg5LPtCDBQ==
-X-Received: by 2002:a5d:4644:: with SMTP id j4mr34249006wrs.146.1566315155669; 
-	Tue, 20 Aug 2019 08:32:35 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.35
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 20 Aug 2019 08:32:35 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2019 17:32:19 +0200
-Message-Id: <20190820153219.62435-12-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190820153219.62435-1-alex.kanavin@gmail.com>
-References: <20190820153219.62435-1-alex.kanavin@gmail.com>
-Subject: [PATCH 12/12] epiphany: upgrade 3.32.3 -> 3.32.4
+	Tue, 20 Aug 2019 16:38:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46Cc1c3vtNz3P;
+	Tue, 20 Aug 2019 18:38:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1566319126;
+	bh=K82zcPt0CjDHkO782gQgsClQCAe31Jdz3kS/55fB6Nw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K7kNKSuII0NhcjByJWAmM6cI+QZ4+89/4NkyTJZ+xXEXaoclBSZGGe4M/ot6cvv9Z
+	Fh2odyTOUcN/5ZZ9S88R3pCh/z+pIUF4iKx0Y/TpWiDC8Lxc+yPAR/4FL0hem6X2M4
+	j9fSP2JxM05GvU39NdgWPTPnbD0Nr+gr20gSFLKT8zP4/jivXSVtEEPsfs9hYMaUYv
+	Lxtjsn7peTAuLrdiaLRajWfoTe4kP4na6E0DTxXRWlq9FouThVtWjxp2WQZp6LIV2E
+	RVFneLPy8R+OyWQOU3R/WfPzdIhjVctJro/GVWcTzZufPaScRkEkujMLx5ZdbUwmub
+	0cAt7lk11KuJonpL+sgr2hHFgYZ6nH1o/PEz++lpeTDl1JmQkxkjUWe3uVnNZTUQUP
+	i9U7Kp59zW190y9uhlkbZPNp9UUAmbwaiIZtSWwRJU+mZ92WKDwruaunoI6QktUsFO
+	m7NiMRx4drpl6Jsj7sGpsxnyWkN/dyTawAIA4c1UuG7GSXJ+ySYMqZFOxWI0RCF6mE
+	e7uC8tEct+oDfQ57nPIFVwqqER7w9hOjzecGVpd58CZERR0V25Eg2CSkdr5+BBaMPB
+	uqCxanwH0bckjMwtlaA18/gqH+zBx5eeajiUVwWpnXFjXf8pyWt+3TyYWAaXycyswP
+	lXVS7mBENwlLoSMM4a1uC6SE=
+Date: Tue, 20 Aug 2019 19:38:41 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Mark Hatle <mark.hatle@windriver.com>
+Message-ID: <20190820163841.GA24268@localhost>
+References: <1566221602-123706-1-git-send-email-hongxu.jia@windriver.com>
+	<CANNYZj9y6uP-=iSDLj=wQ-LTuAgBTsHL7F84eiCSs8=aycjZMg@mail.gmail.com>
+	<28dbc362015c3cbae5b8550e8636e74802afbfc3.camel@linuxfoundation.org>
+	<4cbf8a7b-f0b2-9a16-6a91-bead26ecef50@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <4cbf8a7b-f0b2-9a16-6a91-bead26ecef50@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: decreasing default RLIMIT_NOFILE on qemu bsp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +46,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 15:32:35 -0000
+X-List-Received-Date: Tue, 20 Aug 2019 16:38:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../epiphany/{epiphany_3.32.3.bb => epiphany_3.32.4.bb}       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.32.3.bb => epiphany_3.32.4.bb} (84%)
+On Tue, Aug 20, 2019 at 08:46:53AM -0500, Mark Hatle wrote:
+> On 8/19/19 9:55 AM, richard.purdie@linuxfoundation.org wrote:
+> > On Mon, 2019-08-19 at 16:01 +0200, Alexander Kanavin wrote:
+> >> Should the limit be simply raised? The 256M setup is crumbling on
+> >> several fronts (runtime tests, modernisation of X, various non-x86
+> >> qemu targets). Adding per-image/target exceptions, custom non-
+> >> upstreamable patches, or sticking to deprecated configurations isn't
+> >> the right thing to do, I think.
+> > 
+> > What kind of devices/uses are we meant to be targeting?
+> > 
+> > I believe OE is suited to optimised used cases where constraints on
+> > size and performance are quite likely and supported.
+> > 
+> > This is *exactly* the kind of thing we should be exploring and
+> > supporting. systemd is not designed for some of the systems we target.
+> > Changing some of its configuration shouldn't be a surprise.
+> > 
+> > Having NFS taking up half the available memory doesn't make sense,
+> > particularly when the sysvinit limits have worked for us for years. I
+> > therefore appreciate Hongxu figuring out what the difference was and I
+> > believe we should change this to something more suited for our target
+> > audience, unless someone can explain why this is a bad idea.
+> > 
+> > Similarly, forcing everyone to full GL stacks under qemu simply is not
+> > acceptable. For example I might have a single container type image
+> > which I want to load/test under qemu. Forcing such usage to require
+> > 512MB memory for what could be a headless system also isn't right and
+> > will just frustrate users. Users need to be able to access headless or
+> > 2D configurations of it.
+> 
+> Looking at what my customers are doing, I completely agree.  I look at the
+> design criteria for my customer's devices and I'm seeing 256MB as -very- common.
+>  More happens, but it's rare still.  (But I have some customers with GB of ram,
+> but that is usually to support their application, but the base system!)
+> 
+> (Note, I do have customers -with- graphics requirements [X11] that are in the
+> 128/256 MB ram ranges.  In most cases OpenGL is something they would like, but I
+> don't believe it's a hard requirement for them.)
+> 
+> I do still have many customers with 128 MB of ram requirements.  So it's
+> important for us to set a reasonable baseline (256MB).  So going under this
+> requires 'work', but I think that is acceptable.
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.32.4.bb
-similarity index 84%
-rename from meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.32.4.bb
-index de1b6e2f84f..44af469942b 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.32.4.bb
-@@ -13,8 +13,8 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-            "
--SRC_URI[archive.md5sum] = "c4976507bf3de69f27a050ad09531f5a"
--SRC_URI[archive.sha256sum] = "3ccb6859a43b839b714aa425cb185056f1e8604adbaab6a1bc179d1ba641a33f"
-+SRC_URI[archive.md5sum] = "6a5eada8a3870ab4d0fcd5168559776f"
-+SRC_URI[archive.sha256sum] = "c9a828578301af77ac9f3d3ce253b02f9f3a1561840cc8d74dd5645f92d0a995"
- 
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+There is also a certain disconnect between these numbers and the 
+constant pain for everyone of keeping everything building with
+musl for small size gain.
+
+128 MB RAM and 16 MB flash would be a configuration where I would not 
+worry about size enough to consider glibc a problem.
+
+Is there real-world demand for running X11 with musl?
+
+Is there a CI setup ensuring that disk and RAM usage of relevant
+musl setups don't regress - which might be more than the gains
+of musl compared to glibc?
+
+> --Mark
+
+cu
+Adrian
+
 -- 
-2.17.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
