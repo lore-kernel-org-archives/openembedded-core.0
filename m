@@ -1,39 +1,23 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id E7C667EB0F
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 619AC7EB14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 16:38:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46Cc1c3vtNz3P;
-	Tue, 20 Aug 2019 18:38:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1566319126;
-	bh=K82zcPt0CjDHkO782gQgsClQCAe31Jdz3kS/55fB6Nw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K7kNKSuII0NhcjByJWAmM6cI+QZ4+89/4NkyTJZ+xXEXaoclBSZGGe4M/ot6cvv9Z
-	Fh2odyTOUcN/5ZZ9S88R3pCh/z+pIUF4iKx0Y/TpWiDC8Lxc+yPAR/4FL0hem6X2M4
-	j9fSP2JxM05GvU39NdgWPTPnbD0Nr+gr20gSFLKT8zP4/jivXSVtEEPsfs9hYMaUYv
-	Lxtjsn7peTAuLrdiaLRajWfoTe4kP4na6E0DTxXRWlq9FouThVtWjxp2WQZp6LIV2E
-	RVFneLPy8R+OyWQOU3R/WfPzdIhjVctJro/GVWcTzZufPaScRkEkujMLx5ZdbUwmub
-	0cAt7lk11KuJonpL+sgr2hHFgYZ6nH1o/PEz++lpeTDl1JmQkxkjUWe3uVnNZTUQUP
-	i9U7Kp59zW190y9uhlkbZPNp9UUAmbwaiIZtSWwRJU+mZ92WKDwruaunoI6QktUsFO
-	m7NiMRx4drpl6Jsj7sGpsxnyWkN/dyTawAIA4c1UuG7GSXJ+ySYMqZFOxWI0RCF6mE
-	e7uC8tEct+oDfQ57nPIFVwqqER7w9hOjzecGVpd58CZERR0V25Eg2CSkdr5+BBaMPB
-	uqCxanwH0bckjMwtlaA18/gqH+zBx5eeajiUVwWpnXFjXf8pyWt+3TyYWAaXycyswP
-	lXVS7mBENwlLoSMM4a1uC6SE=
-Date: Tue, 20 Aug 2019 19:38:41 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20190820163841.GA24268@localhost>
-References: <1566221602-123706-1-git-send-email-hongxu.jia@windriver.com>
-	<CANNYZj9y6uP-=iSDLj=wQ-LTuAgBTsHL7F84eiCSs8=aycjZMg@mail.gmail.com>
-	<28dbc362015c3cbae5b8550e8636e74802afbfc3.camel@linuxfoundation.org>
-	<4cbf8a7b-f0b2-9a16-6a91-bead26ecef50@windriver.com>
+	Tue, 20 Aug 2019 17:52:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7KHqfNO028712
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 20 Aug 2019 10:52:42 -0700 (PDT)
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 20 Aug 2019 10:52:41 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Tue, 20 Aug 2019 13:52:39 -0400
+Message-ID: <20190820175239.19769-1-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <4cbf8a7b-f0b2-9a16-6a91-bead26ecef50@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: decreasing default RLIMIT_NOFILE on qemu bsp
+Subject: [PATCH] sdkext: use simpler kernel module for devtool test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,77 +30,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 16:38:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 20 Aug 2019 17:52:42 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Aug 20, 2019 at 08:46:53AM -0500, Mark Hatle wrote:
-> On 8/19/19 9:55 AM, richard.purdie@linuxfoundation.org wrote:
-> > On Mon, 2019-08-19 at 16:01 +0200, Alexander Kanavin wrote:
-> >> Should the limit be simply raised? The 256M setup is crumbling on
-> >> several fronts (runtime tests, modernisation of X, various non-x86
-> >> qemu targets). Adding per-image/target exceptions, custom non-
-> >> upstreamable patches, or sticking to deprecated configurations isn't
-> >> the right thing to do, I think.
-> > 
-> > What kind of devices/uses are we meant to be targeting?
-> > 
-> > I believe OE is suited to optimised used cases where constraints on
-> > size and performance are quite likely and supported.
-> > 
-> > This is *exactly* the kind of thing we should be exploring and
-> > supporting. systemd is not designed for some of the systems we target.
-> > Changing some of its configuration shouldn't be a surprise.
-> > 
-> > Having NFS taking up half the available memory doesn't make sense,
-> > particularly when the sysvinit limits have worked for us for years. I
-> > therefore appreciate Hongxu figuring out what the difference was and I
-> > believe we should change this to something more suited for our target
-> > audience, unless someone can explain why this is a bad idea.
-> > 
-> > Similarly, forcing everyone to full GL stacks under qemu simply is not
-> > acceptable. For example I might have a single container type image
-> > which I want to load/test under qemu. Forcing such usage to require
-> > 512MB memory for what could be a headless system also isn't right and
-> > will just frustrate users. Users need to be able to access headless or
-> > 2D configurations of it.
-> 
-> Looking at what my customers are doing, I completely agree.  I look at the
-> design criteria for my customer's devices and I'm seeing 256MB as -very- common.
->  More happens, but it's rare still.  (But I have some customers with GB of ram,
-> but that is usually to support their application, but the base system!)
-> 
-> (Note, I do have customers -with- graphics requirements [X11] that are in the
-> 128/256 MB ram ranges.  In most cases OpenGL is something they would like, but I
-> don't believe it's a hard requirement for them.)
-> 
-> I do still have many customers with 128 MB of ram requirements.  So it's
-> important for us to set a reasonable baseline (256MB).  So going under this
-> requires 'work', but I think that is acceptable.
+The current devtool test for the building of an out-of-tree kernel
+module uses something which requires several "high order" kconfigs to
+be set. This results in the test failing, not for expected reasons,
+but rather because it depends on specific kernel configuration.
 
-There is also a certain disconnect between these numbers and the 
-constant pain for everyone of keeping everything building with
-musl for small size gain.
+You will get error messages such as
 
-128 MB RAM and 16 MB flash would be a configuration where I would not 
-worry about size enough to consider glibc a problem.
+  ERROR: "video_ioctl2"
+  [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-driver/v4l2loopback.ko]
+  undefined!
+  ERROR: "video_unregister_device"
+  [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-driver/v4l2loopback.ko]
+  undefined!
 
-Is there real-world demand for running X11 with musl?
+Using a simpler hello-world kernel module example will only require
+that CONFIG_MODULE is enabled, thus avoiding a false positive.
 
-Is there a CI setup ensuring that disk and RAM usage of relevant
-musl setups don't regress - which might be more than the gains
-of musl compared to glibc?
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
 
-> --Mark
+Richard, it is unclear if I need to match this change in
+meta/lib/oeqa/manual/crops.json. Please let me know and I
+send a V2 which does this. I am not fond of pointing at
+my own github but it was the best option to ensure it will
+exist and not be messed with.
 
-cu
-Adrian
+ meta/lib/oeqa/sdkext/cases/devtool.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py b/meta/lib/oeqa/sdkext/cases/devtool.py
+index 5a02add764..fad98fbb36 100644
+--- a/meta/lib/oeqa/sdkext/cases/devtool.py
++++ b/meta/lib/oeqa/sdkext/cases/devtool.py
+@@ -73,8 +73,8 @@ class DevtoolTest(OESDKExtTestCase):
+             self._run('devtool reset %s' % recipe)
+ 
+     def test_devtool_kernelmodule(self):
+-        docfile = 'https://github.com/umlaeute/v4l2loopback.git'
+-        recipe = 'v4l2loopback-driver'
++        docfile = 'https://github.com/masselstine/kernel-module-hello-world.git'
++        recipe = 'kernel-module-hello-world'
+         self._run('devtool add %s %s' % (recipe, docfile) )
+         try:
+             self._run('devtool build %s' % recipe)
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.21.0
 
 
