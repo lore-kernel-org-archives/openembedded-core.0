@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 149607EB92
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D4C647EC5D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 15:32:27 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id o4so3018749wmh.2
+	Tue, 20 Aug 2019 15:32:28 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id t16so12854360wra.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 08:32:29 -0700 (PDT)
+	Tue, 20 Aug 2019 08:32:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=awMJZbI7eMrHcD6d6alLzcm3tsW9qRDpzqfx4mrLLH8=;
-	b=ZwBm8Jc7pO/qbcZU7UYCj/tShU9xNRcNb+6cYdeE3ku2YK/J62Uwi0vv4bD66KbzWE
-	26tYuiLWKxHGdBFTs6YZ1OmacKivJ1tPEPPT0cKKEEz4XsGjndWF6/N2OXDvzbmsppRP
-	zHXrUf1FYjNw98zsAVcZ7rWxMHjQeBbCoAWYyrPvuDDtrnOFzdbxfoG6JoubhxV6bwj9
-	oJhJrarIKgEsAgVzvkO1AD66bsOwW0dHQAlrzMgy1oK6CPhVvTI9FgGNC7Yn4eS2g+ty
-	sMXRpzAkB/PJJNe5gYecjAbR6QcvggD+gKNR7ieutF+YVE/BLogt6u/fkntUIsFHImNI
-	kUAQ==
+	bh=VHFiAdNf3GGBhxGkaRN1izNv7a7QvolK8kwVMb8rn9E=;
+	b=syLV7IggT2cB1HfSbV8DYc0177K7hmCSf28aj22M3JIGJeeiGjj4Y4BufuWitofGyi
+	3Q2u47j3AEAqmTla85aaf6++OsUN0CIhfseSw62bWoGvkIG9uRh6pMnFZdZyFA5lxmqG
+	Pyt4hrccMDkBEDxDxKnsXJhsN5z/tj3pvdiNb8guePv7oG1y2bsL8+PyozWz6e0XGn9Z
+	fl5egloo1cG+W8faQL4P8ttVMUTO/QKWRKZmyY9Q08THy3JCzB6fBIW5ZypzTi43zz6z
+	piaK2btt9uDjpda1epdtkyZXl++mP1jgEMdu8sJWWTXEoXox0yogq2Jc5fFoCIpJi2WP
+	hHhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=awMJZbI7eMrHcD6d6alLzcm3tsW9qRDpzqfx4mrLLH8=;
-	b=Amlx9acCHRSJmwi5Fy1T/hTLSyYE8R1CbS0D7+ab1+xzkO5AMV1ePIDZ0JvcICq1qo
-	PiUnI+xpEYyMdXweRq3Y3jTNeRxhh1W+Q/mERIa/WrlxDk1BefxGY9tlSfyFr4aLLAi/
-	JGhshsrZL/RHu3YQIT4JceiJq7mliYETxATZKSGgS4I7r+5XqWmP7bU3RO7Pa5/zwfK3
-	mPE1bVZlq2uKwn5SurlvyvFEFOAGSYQaIPGBBnt9Dbc2vqmDTRLimu6p+T1BzK+WwY2/
-	IBnspGB1yZGpYs5hegWjej/cuGLQc8hCSNjIpnbeNSBoWMDwJFgmsD3u5r7ntHLzHw7p
-	r1aw==
-X-Gm-Message-State: APjAAAW/l/ZK+oyg7L/M82C7cVfMARGmNonChHfT/oyvwi3U3X2FkTan
-	HJSBWz4sTEwmJJDRUi1KXpSOQS8pMOY=
-X-Google-Smtp-Source: APXvYqwxo0+2v4Q90SaAf0SLyE3H81Gj64Ba+mdJoY5oF4nnvDjucquU783K6N/3nNv1QqBBRw1BzA==
-X-Received: by 2002:a1c:9a4b:: with SMTP id c72mr629693wme.102.1566315148598; 
-	Tue, 20 Aug 2019 08:32:28 -0700 (PDT)
+	bh=VHFiAdNf3GGBhxGkaRN1izNv7a7QvolK8kwVMb8rn9E=;
+	b=RyQjkiElYm9kqm4b2xcDzo3mJwDoPU7yoKGKeymrNFpyFqmzYBCSOmDk828B6JUn1v
+	uAtUWmjj+V9BLwGfb3YOFo2JcMuYVCnJ8UpSBvfhRcMCUsBTcG74DCOX+CI4pqaHDY1I
+	Fa74aRbEDm+B4lApdpqCHYGU2BYhoQaMI5JtSFDtim4ukXD+Nyk5SowffU1IHLs3u2JK
+	4q+nZSdYkjcSlfF2BNrfQrap2D4MMK01Cgo+Yt81xMlIp81HYmLn1CjprAENFTSxIW9V
+	sCvyDAj3/uQ91Y5QCsmKLtteWoal+L9faJbeJ4fHSd0C/lYB+gDJCTfklp+WQtNOjd74
+	A1QA==
+X-Gm-Message-State: APjAAAXJNP1CGqMxU6z1LvEDn7riYvGcV89DmRvivj+C18Wv2OioGri4
+	Sr2pJ6l89qIdDtb4WBQ8sxkm39tnCH0=
+X-Google-Smtp-Source: APXvYqxyI0EMYnL/7CVbTcyopdk7VH2OOUAoNKfNEVDypnj1pYKjBYxX9/DYLH5azd/1jhJJCinXsg==
+X-Received: by 2002:a5d:4083:: with SMTP id o3mr22231673wrp.150.1566315149344; 
+	Tue, 20 Aug 2019 08:32:29 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.27
+	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.28
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Tue, 20 Aug 2019 08:32:28 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2019 17:32:10 +0200
-Message-Id: <20190820153219.62435-3-alex.kanavin@gmail.com>
+Date: Tue, 20 Aug 2019 17:32:11 +0200
+Message-Id: <20190820153219.62435-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190820153219.62435-1-alex.kanavin@gmail.com>
 References: <20190820153219.62435-1-alex.kanavin@gmail.com>
-Subject: [PATCH 03/12] images: use 512M of RAM in qemu if 'opengl" is in DISTRO_FEATURES
+Subject: [PATCH 04/12] python3-numpy: update to 1.17.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,64 +56,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 15:32:28 -0000
+X-List-Received-Date: Tue, 20 Aug 2019 15:32:29 -0000
 
-256M was found to be no longer sufficient, as the X server fails to
-start with the modesetting driver and 3D enabled.
+Rebase files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
 
-Only images that actually include X11 are adjusted.
-
+License-Update: clarified license for numpy/core/src/multiarray/dragon4.c (it is MIT)
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-core/images/build-appliance-image_15.0.0.bb | 2 ++
- meta/recipes-graphics/images/core-image-clutter.bb       | 2 ++
- meta/recipes-graphics/images/core-image-x11.bb           | 2 ++
- meta/recipes-sato/images/core-image-sato.bb              | 2 ++
- 4 files changed, 8 insertions(+)
+ ...-and-so-on-for-libraries-by-default-.patch | 47 ++++++++-----------
+ ...up.py-remove-the-detection-of-x86-ta.patch | 32 +++++++++++++
+ .../python-numpy/python-numpy.inc             |  9 ++--
+ ...umpy_1.16.3.bb => python3-numpy_1.17.0.bb} |  0
+ 4 files changed, 57 insertions(+), 31 deletions(-)
+ create mode 100644 meta/recipes-devtools/python-numpy/files/0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch
+ rename meta/recipes-devtools/python-numpy/{python3-numpy_1.16.3.bb => python3-numpy_1.17.0.bb} (100%)
 
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-index e9cac98c572..3f1b1c7a5ee 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -11,6 +11,8 @@ IMAGE_INSTALL = "packagegroup-core-boot packagegroup-core-ssh-openssh packagegro
+diff --git a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+index 8fe0d1a27ee..98a97058312 100644
+--- a/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
++++ b/meta/recipes-devtools/python-numpy/files/0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch
+@@ -1,4 +1,4 @@
+-From c14554c7e2fff8dd559dfb41e7dd11392c6f85e3 Mon Sep 17 00:00:00 2001
++From 672a75c8417ce08db9e31fc415ec445479231d5a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 10 Dec 2015 13:20:30 +0200
+ Subject: [PATCH] Don't search /usr and so on for libraries by default to
+@@ -10,14 +10,14 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
  
- IMAGE_FEATURES += "x11-base package-management splash"
+ ---
+- numpy/distutils/system_info.py | 50 ++++------------------------------
+- 1 file changed, 6 insertions(+), 44 deletions(-)
++ numpy/distutils/system_info.py | 42 ++++------------------------------
++ 1 file changed, 5 insertions(+), 37 deletions(-)
  
-+QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
+ diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
+-index 2424943..bf56a6d 100644
++index ba2b1f4..f94dce1 100644
+ --- a/numpy/distutils/system_info.py
+ +++ b/numpy/distutils/system_info.py
+-@@ -274,51 +274,13 @@ if sys.platform == 'win32':
++@@ -278,45 +278,13 @@ if sys.platform == 'win32':
+              add_system_root(os.path.join(conda_dir, 'Library'))
+  
+  else:
+@@ -45,31 +45,24 @@ index 2424943..bf56a6d 100644
+ -            default_x11_include_dirs.extend(['/usr/lib/X11/include',
+ -                                             '/usr/include/X11'])
+ -
+--    import subprocess as sp
+--    tmp = None
+--    try:
+--        # Explicitly open/close file to avoid ResourceWarning when
+--        # tests are run in debug mode Python 3.
+--        tmp = open(os.devnull, 'w')
+--        p = sp.Popen(["gcc", "-print-multiarch"], stdout=sp.PIPE,
+--                     stderr=tmp)
+--    except (OSError, DistutilsError):
+--        # OSError if gcc is not installed, or SandboxViolation (DistutilsError
+--        # subclass) if an old setuptools bug is triggered (see gh-3160).
+--        pass
+--    else:
+--        triplet = str(p.communicate()[0].decode().strip())
+--        if p.returncode == 0:
+--            # gcc supports the "-print-multiarch" option
+--            default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
+--            default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
+--    finally:
+--        if tmp is not None:
+--            tmp.close()
++-    with open(os.devnull, 'w') as tmp:
++-        try:
++-            p = subprocess.Popen(["gcc", "-print-multiarch"], stdout=subprocess.PIPE,
++-                         stderr=tmp)
++-        except (OSError, DistutilsError):
++-            # OSError if gcc is not installed, or SandboxViolation (DistutilsError
++-            # subclass) if an old setuptools bug is triggered (see gh-3160).
++-            pass
++-        else:
++-            triplet = str(p.communicate()[0].decode().strip())
++-            if p.returncode == 0:
++-                # gcc supports the "-print-multiarch" option
++-                default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
++-                default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
+ +    default_lib_dirs = libpaths(['/deadir/lib'], platform_bits)
+ +    default_include_dirs = ['/deaddir/include']
+ +    default_src_dirs = ['.', '/deaddir/src']
+-+
++ 
+ +    default_x11_lib_dirs = libpaths(['/deaddir/lib'], platform_bits)
+ +    default_x11_include_dirs = ['/deaddir/include']
+  
+diff --git a/meta/recipes-devtools/python-numpy/files/0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch b/meta/recipes-devtools/python-numpy/files/0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch
+new file mode 100644
+index 00000000000..ebb2a6f9df1
+--- /dev/null
++++ b/meta/recipes-devtools/python-numpy/files/0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch
+@@ -0,0 +1,32 @@
++From b881e0b2ba9cf1a4aa351a1c1ea90b1e1776ce21 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 12 Aug 2019 15:37:36 +0200
++Subject: [PATCH] numpy/random/setup.py: remove the detection of x86 targets
++ via uname()
 +
- # Ensure there's enough space to do a core-image-sato build, with rm_work enabled
- IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
- 
-diff --git a/meta/recipes-graphics/images/core-image-clutter.bb b/meta/recipes-graphics/images/core-image-clutter.bb
-index b0f25cf1b14..a594461022f 100644
---- a/meta/recipes-graphics/images/core-image-clutter.bb
-+++ b/meta/recipes-graphics/images/core-image-clutter.bb
-@@ -11,3 +11,5 @@ IMAGE_INSTALL = "\
-     "
- 
- inherit core-image
++This was badly breaking compilation for ARM targets (and possibly
++other non-x86 targets); if -msse2 is desirable for x86 builds it has
++to be passed through another channel.
 +
-+QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
-diff --git a/meta/recipes-graphics/images/core-image-x11.bb b/meta/recipes-graphics/images/core-image-x11.bb
-index 8455bb8caec..cd5374949d5 100644
---- a/meta/recipes-graphics/images/core-image-x11.bb
-+++ b/meta/recipes-graphics/images/core-image-x11.bb
-@@ -7,3 +7,5 @@ LICENSE = "MIT"
- inherit core-image distro_features_check
- 
- REQUIRED_DISTRO_FEATURES = "x11"
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ numpy/random/setup.py | 5 -----
++ 1 file changed, 5 deletions(-)
 +
-+QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
-diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-index b8979502856..878e0eaa8d2 100644
---- a/meta/recipes-sato/images/core-image-sato.bb
-+++ b/meta/recipes-sato/images/core-image-sato.bb
-@@ -10,3 +10,5 @@ inherit core-image
++diff --git a/numpy/random/setup.py b/numpy/random/setup.py
++index a1bf3b8..60fb534 100644
++--- a/numpy/random/setup.py
+++++ b/numpy/random/setup.py
++@@ -49,11 +49,6 @@ def configuration(parent_package='', top_path=None):
++     elif not is_msvc:
++         # Some bit generators require c99
++         EXTRA_COMPILE_ARGS += ['-std=c99']
++-        INTEL_LIKE = any([val in k.lower() for k in platform.uname()
++-                          for val in ('x86', 'i686', 'i386', 'amd64')])
++-        if INTEL_LIKE:
++-            # Assumes GCC or GCC-like compiler
++-            EXTRA_COMPILE_ARGS += ['-msse2']
++ 
++     # Use legacy integer variable sizes
++     LEGACY_DEFS = [('NP_RANDOM_LEGACY', '1')]
+diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
+index 43c3053cd88..98405fee12a 100644
+--- a/meta/recipes-devtools/python-numpy/python-numpy.inc
++++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
+@@ -1,7 +1,7 @@
+ SUMMARY = "A sophisticated Numeric Processing Package for Python"
+ SECTION = "devel/python"
+-LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=d26bde5432613cce2334b93985576231"
++LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF & Apache-2.0 & BSD & MIT"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1a32aba007a415aa8a1c708a0e2b86a1"
  
- TOOLCHAIN_HOST_TASK_append = " nativesdk-intltool nativesdk-glib-2.0"
- TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-intltool nativesdk-glib-2.0"
-+
-+QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
+ SRCNAME = "numpy"
+ 
+@@ -9,9 +9,10 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+            file://0001-npy_cpu-Add-riscv-support.patch \
+            ${CONFIGFILESURI} \
++           file://0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch \
+            "
+-SRC_URI[md5sum] = "0886e5b5017f08f2b7a624c0b5931e61"
+-SRC_URI[sha256sum] = "adf063a3f87ab89393f5eea0eb903293b112fa0a308e8c594a75ffa585d81d4f"
++SRC_URI[md5sum] = "c48b2ad785f82cdfe28c907ce35e2a71"
++SRC_URI[sha256sum] = "47b7b6145e7ba5918ce26be25999b6d4b35cf9fbfdf46b7da50090ffdb020445"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.16.3.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.17.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python-numpy/python3-numpy_1.16.3.bb
+rename to meta/recipes-devtools/python-numpy/python3-numpy_1.17.0.bb
 -- 
 2.17.1
 
