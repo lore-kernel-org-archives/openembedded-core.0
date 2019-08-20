@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 724057ED46
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B5917ECB9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 15:32:30 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id t16so12854451wra.6
+	Tue, 20 Aug 2019 15:32:31 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id j16so12853452wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 08:32:31 -0700 (PDT)
+	Tue, 20 Aug 2019 08:32:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ShguEeeCZl9tbDCeapFLxV7d9uQA8jSXm781hleKs7A=;
-	b=hZ8ZZ6oTcaQ2GHViPGMqml08b5jtkyrNCxNlxH0eNB1m5MKvcCSiWsDF5EjPrsljsL
-	sX1UM+7ECEW2+hYhw5PX0199irhzZ3xNv7kRNYS47QoWzewUaBAv7AfO/8OBJrwY8WU4
-	EXFlbczcAGP57tvW2gvgIz1811CQKT3hy6oY6EctSH49Fz9dbujqxrwMn3ASmOrGzH9e
-	v6oE8xUO89jHeTL3jWzjH1B8N6qYaUj+SDU43rIBEV1lfipGhMuyCiOhobaJ1Tpk3FIv
-	x/myCkG0d6H4r7N3cMt6MW2XdPHy15gNW4qfQaT/VbLvHj65PC7dOa8+WZksppTaRNey
-	CmmA==
+	bh=XY6wa1GMJZ7ujs26QRulR5KAXbCPGzDnNvK4z/m2gXI=;
+	b=fpcl06w1cFX5UiKf4bA6tfBmxhUTQ43nDnuV6XbQInkFtKPGsbooBwJ2G1SnfzFOMa
+	+hzyv2v/oChSzWvVY0agSfY8iLs1qFXwkXnarBTf0moQ9/qv48W59FkA4Pq9u0qzc1vs
+	p6BanYzc5xeUdRTM6sZm73ARTH+dwPT43tKQiqgkWbSFzH49ZwzYCCUI8ZRuIRCYyFfF
+	fYQdOaxB+Oa6lswGMKQGNhaw9XFtzbmg/9hZi3tJT6byGfBG87EoAyVARhzUHqcLWoD3
+	eUSEGYYAO5yx+YSPZ/fPB3iE5g5JYGSBPNU1vtZsC9LOqZLkUQEBiWcs6QEAyNb5qVMp
+	CxgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ShguEeeCZl9tbDCeapFLxV7d9uQA8jSXm781hleKs7A=;
-	b=LT2OPhbL+DBkXCxaQ/WjXnl/IXP4+S9pq61MkXIXQOUGYeGrZ7yWKdMZFKS9/xc3LO
-	Y8Ha13g/NRtkl/Srg/Bmu7mVLGjEuMX4a5t4wIemPKwW9n3f0Qt1XKU7x3Lpk/Xmagxi
-	aRjY5S3ccJosi9yhQosoVClaLt5II4u3tdM4BtUJXfzfA7A5E5EXhXtBm57sfIsCmwcF
-	sEj5+KYbpZxu77YN3faELZjgD2CuzeL+/jMLfQHwi1mQTcsKIfE8O3Lif5HlALHz6fOH
-	mw2yynW2D28XF7GwFD7sjPprbGlxAE7oEYOwXfR7WuzzpoMW6dz8nE1M9keBh49qWXi6
-	cUNw==
-X-Gm-Message-State: APjAAAWhA9OaWFeVW90mm/6gc2ZooLPc1d4vxtLxBISibk0t53LHFEGI
-	c19o32hQOYwZmPpJ9lWB3dkKEqLB4I4=
-X-Google-Smtp-Source: APXvYqzcUZsnbvryMZGa4o7OhPNrela/Jr5JNz/4JlSBaQWRLDRUGgEuZgFRqtfKNjFZRrLgnFeXzg==
-X-Received: by 2002:a5d:40cd:: with SMTP id b13mr36642521wrq.236.1566315151020;
+	bh=XY6wa1GMJZ7ujs26QRulR5KAXbCPGzDnNvK4z/m2gXI=;
+	b=ptDhJDrcJ1B0Z9REtjBabgUXUkU1J0P0EQ18TvPECuiCfUe3Y66otdwlh20Dlphm7h
+	K1gEkgt1RBd87+9/hSktTND/Y69xKxyKmTaRLgQONqw55GA7dM/b6iHjWrptgKsiwYcc
+	2dRRpJm+j0ueN7rRxV07KYxGvatJyrxDoX5jzWO9qVmmQ+jQa81AfywK6rr5kA+MaAcC
+	ATDB6uTKIzuappKZSu2XDya7S1y6yDUxdMHffU/7feOhh6az5DgOfUgwOR1+yw0YAnRH
+	5ueHljIwOKMLQpfxjQqZ6D5ugtnY3O4vnByUsjiJDcLiJfWr8V6zUAcFzDYCJZuchSoB
+	de1g==
+X-Gm-Message-State: APjAAAVJnI74or5DZ3kWDXK8LtXU3UGmY6QZ1wijEG0BNIohGKP0b5UX
+	hAyH9lvecvWCbhvgqhDJb/MOs7/FUEA=
+X-Google-Smtp-Source: APXvYqxz/ZhKHGGOGgZAFVHZIrr7f+gtcVFBbLpdnDfPvmZ+ziuFwNb6Y/sjeXKf6iGbFhPgkCA1Tw==
+X-Received: by 2002:adf:e887:: with SMTP id d7mr34803548wrm.282.1566315151846; 
 	Tue, 20 Aug 2019 08:32:31 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.30
+	by smtp.gmail.com with ESMTPSA id 6sm466700wmf.23.2019.08.20.08.32.31
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 20 Aug 2019 08:32:30 -0700 (PDT)
+	Tue, 20 Aug 2019 08:32:31 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2019 17:32:13 +0200
-Message-Id: <20190820153219.62435-6-alex.kanavin@gmail.com>
+Date: Tue, 20 Aug 2019 17:32:14 +0200
+Message-Id: <20190820153219.62435-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190820153219.62435-1-alex.kanavin@gmail.com>
 References: <20190820153219.62435-1-alex.kanavin@gmail.com>
-Subject: [PATCH 06/12] libmodulemd: depend on target python at build time
+Subject: [PATCH 07/12] createrepo-c: upgrade 0.14.3 -> 0.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 15:32:30 -0000
+X-List-Received-Date: Tue, 20 Aug 2019 15:32:32 -0000
 
-meson build system is importing sysconfig, which requires
-having a target confiuguration available.
+Disable delta-rpm, which oe-core does not use.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../{createrepo-c_0.14.3.bb => createrepo-c_0.15.0.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.14.3.bb => createrepo-c_0.15.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-index 9ac7e140ab6..63d3fad6ab4 100644
---- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-+++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-@@ -17,7 +17,7 @@ inherit meson gobject-introspection
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.14.3.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.14.3.bb
+rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.15.0.bb
+index 22b9f3d3b14..ae0a35da847 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.14.3.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.0.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            "
  
- EXTRA_OEMESON = "-Ddeveloper_build=false -Dbuild_api_v1=true -Dbuild_api_v2=true"
+-SRCREV = "de9d8337885d953baae501cce75decc11d5468dd"
++SRCREV = "2077ba104eae04bb819e9e0c906c8c835b62e7a6"
  
--DEPENDS += "glib-2.0 libyaml glib-2.0-native"
-+DEPENDS += "glib-2.0 libyaml glib-2.0-native python3"
+ S = "${WORKDIR}/git"
+ 
+@@ -17,7 +17,7 @@ DEPENDS_append_class-native = " file-replacement-native"
+ 
+ inherit cmake pkgconfig bash-completion distutils3-base
+ 
+-EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 -DWITH_ZCHUNK=OFF"
++EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIRED=3 -DWITH_ZCHUNK=OFF -DENABLE_DRPM=OFF"
  
  BBCLASSEXTEND = "native nativesdk"
  
