@@ -1,51 +1,51 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E379C7ED5A
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 58F0F7ED4A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 09:04:43 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id f72so1907575wmf.5
+	Tue, 20 Aug 2019 09:04:42 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id r3so11563561wrt.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 02:04:45 -0700 (PDT)
+	Tue, 20 Aug 2019 02:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=cd/gu3PzbQroZmo45TBgLsv9cizxzfK6lkEN2iwLWBM=;
-	b=H19L4zhZVvD7plxNsJQxvvxmGD+tiug3tv/5zEuv+Vw/zSM0ARIHC4zRs+mwohpZ/W
-	+WeEYBpgWd2ubK/oz5f65nLFdavKn4vZh0Qp/rkefg4HmFPxLhouPuoyYZI1D3qjICNU
-	m/6wQDywVbkvoVPxVw/rn06RmIjoOPrufDnltIW7BmZkZvGyfrj6BJjU2MUZaX8xJCsV
-	obbc4sh9BbHLPL4DE6Be4ycXfclJsMPnMQ8nSDcUicKxzbN8EUuGURP6BvuOyrHL3BfH
-	mpHy/KJd9FP8MeNOmLVD8+K2ZTZ0CZHT+mRn329Co/USEMpGEquFmiuOzopkQCjBtLas
-	TUKw==
+	bh=NjdEgLJbYmsMT5mMbDtPvAMVXpRAEqyD6hTQB5/S7S0=;
+	b=nyEYXA8jQo4LlgxggbYZEu1XJUSam6SCaBhY/9muJwSr4F04v+VHthyxZJwzWWfkM5
+	H72XBxQraxsf8AEND+U8nm5lFYZBE+oDSKKy2pgyLMMxcEuukLPp5T76sKixN53Drx6c
+	xXllIGj0KIizxa2XYtEXTObDeFalpRvo39U0uZw12/5VhlWB6vgwutp5a0KSrvPEeOog
+	u55kSrU69B+fIr5Q5sC3nShmHFO1o/HJTDpb1lyqV8/8ItoE+4Cc9pOkHX73B/VQ8nk6
+	emmWvnOPWeRARJkfpa6Zu1TtkY3xQX7GV3G1cowYWsUMYD0BsJN8aQE411C1MqBUH7++
+	lTvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=cd/gu3PzbQroZmo45TBgLsv9cizxzfK6lkEN2iwLWBM=;
-	b=e2y3uf907CQydyma1oYuSP8BXRbc7lesuyIxxCRFYg+cZe4nwIVADv2KamFvmOP4i9
-	jyVzrM/ST/zQOj+JolNhGXxOw02aLZbr/b2t8Sd8UfH0xL5SaSJRBHLvFekPGk0nKCTS
-	zlXln/Y39Ia8FEtOAJv704mWW8n6lCbwf7d0WejT5Gyr+0kW17yP6v482Wu+UwcYREEW
-	rYfjllyqSlpG/mtwNS+B8lrtXW3dnIsPB3Pj7PEQOqxElKNzGZHIEzTsykA8m4+Yb7mC
-	aTd/qJzYeN5B3a4w/KDDQBF0NrKqiUV3o8fj4aEekmTBlWBFOxqodQy0bC2fGV5HLLdv
-	DDeg==
-X-Gm-Message-State: APjAAAUoTRRFl9ztmJOIs+c6M11IsbMSjm3FKQWab9L41oJQ9hhCU7Rs
-	vCAGSXEeDk35EJaVAXQyqQiIRt+EgCk=
-X-Google-Smtp-Source: APXvYqw/JKOCrR8yK3Gn6gmYKq+VMehsfWKoPz4J0S1piL9eps+xeowezuABgcOn/m0FGZIZw+rOQA==
-X-Received: by 2002:a1c:7c06:: with SMTP id x6mr25114049wmc.133.1566291884256; 
-	Tue, 20 Aug 2019 02:04:44 -0700 (PDT)
+	bh=NjdEgLJbYmsMT5mMbDtPvAMVXpRAEqyD6hTQB5/S7S0=;
+	b=PO6X+ZMiC6HE8sDCCnThkXyR0t4qmk+kpnzZPrSz0qZLbl3MOvcSgTdLgWeVDo/7Uq
+	IOUhHPbjsR2KYRmmnUGO/QZSWomq51pzdgIkbwiYGyRrsV1C/rxb9qFgQEyS/uyhP5Hc
+	pRIdTlOBo13TZV8/DSk/2rTghrXD81BDGTU4vdJ4mXfrnbz5FCR2ky9iDbOV4prMng5m
+	X8kBKDECG0tA1iMqcgHTqAhw23Db48w83doGEYVlJmmM0/5gZD3qdbkSu41QaCWxE1OV
+	UbXD6HUPEZLjIcy24Rhzi2A4SyWbe/teeewojLihc2Zi0t0L0slcc7e1+EDNqbAiI5pM
+	r32w==
+X-Gm-Message-State: APjAAAXJS7nN/BeduUCM6ekrYAXVSEqwjWNq31V3js/aPmSd6SWIya2P
+	+zMJ6dNKiunsBSSc12W+k6wJSHBihcQ=
+X-Google-Smtp-Source: APXvYqxt04lnDUOG6KA2W/drNZa6GclEpH3rt4TwEA8GOlk05/FYmKUEMbOJTpw+GFi1o/ZjW4+FjQ==
+X-Received: by 2002:adf:dcc6:: with SMTP id x6mr32946251wrm.322.1566291883130; 
+	Tue, 20 Aug 2019 02:04:43 -0700 (PDT)
 Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
 	by smtp.gmail.com with ESMTPSA id
-	a141sm2603610wmd.0.2019.08.20.02.04.43
+	t19sm15100310wmi.29.2019.08.20.02.04.42
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 20 Aug 2019 02:04:43 -0700 (PDT)
+	Tue, 20 Aug 2019 02:04:42 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2019 09:04:42 +0000
-Message-Id: <20190820090442.20-3-Martin.Jansa@gmail.com>
+Date: Tue, 20 Aug 2019 09:04:41 +0000
+Message-Id: <20190820090442.20-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190820090442.20-1-Martin.Jansa@gmail.com>
 References: <20190820090442.20-1-Martin.Jansa@gmail.com>
-Subject: [warrior][PATCH 3/3] powertop: import a fix from buildroot
+Subject: [warrior][PATCH 2/3] meson: backport fix for builds with -Werror=return-type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,89 +60,115 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 20 Aug 2019 09:04:44 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
-
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../0001-wakeup_xxx.h-include-limits.h.patch  | 55 +++++++++++++++++++
- meta/recipes-kernel/powertop/powertop_2.10.bb |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
+ meta/recipes-devtools/meson/meson.inc         |  1 +
+ ...rn-statements-that-are-seen-with-Wer.patch | 84 +++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
 
-diff --git a/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch b/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index 2d18f72c0c..bfe9851e94 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://cross-prop-default.patch \
+            file://many-cross.patch \
+            file://cross-libdir.patch \
++           file://0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch \
+            "
+ SRC_URI[sha256sum] = "ef9f14326ec1e30d3ba1a26df0f92826ede5a79255ad723af78a2691c37109fd"
+ SRC_URI[md5sum] = "0267b0871266056184c484792572c682"
+diff --git a/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
 new file mode 100644
-index 0000000000..7bfca8abfd
+index 0000000000..1f22755e17
 --- /dev/null
-+++ b/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
-@@ -0,0 +1,55 @@
-+From 4c24fdd8e0a42359df7308155b2d43c28a5e02fd Mon Sep 17 00:00:00 2001
-+From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-+Date: Mon, 20 May 2019 20:25:00 +0200
-+Subject: [PATCH] wakeup_xxx.h: include limits.h
++++ b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+@@ -0,0 +1,84 @@
++From 7e83cf1edac2a57c08ebb1ce7f21c2a539d5c300 Mon Sep 17 00:00:00 2001
++From: Martin Liska <mliska@suse.cz>
++Date: Mon, 15 Jul 2019 10:06:17 +0200
++Subject: [PATCH] Fix missing return statements that are seen with
++ -Werror=return-type.
 +
-+limits.h must be included to define PATH_MAX otherwise build will fail
-+on:
++Error example:
 +
-+In file included from wakeup/wakeup_ethernet.cpp:45:0:
-+wakeup/wakeup_ethernet.h:35:16: error: 'PATH_MAX' was not declared in this scope
-+  char eth_path[PATH_MAX];
++Code:
 +
-+In file included from wakeup/wakeup_usb.cpp:45:0:
-+wakeup/wakeup_usb.h:35:16: error: 'PATH_MAX' was not declared in this scope
-+  char usb_path[PATH_MAX];
++        #include <locale.h>
++        int main () {
++            /* If it's not defined as a macro, try to use as a symbol */
++            #ifndef LC_MESSAGES
++                LC_MESSAGES;
++            #endif
++        }
++Compiler stdout:
 +
-+Fixes:
-+ - http://autobuild.buildroot.org/results/a0b3337cf4a827e6566f8b15b6bb180f0dcef7a3
++Compiler stderr:
++ In file included from /usr/include/locale.h:25,
++                 from /tmp/tmpep_i4iwg/testfile.c:2:
++/usr/include/features.h:382:4: warning: #warning _FORTIFY_SOURCE requires compiling with optimization (-O) [-Wcpp]
++  382 | #  warning _FORTIFY_SOURCE requires compiling with optimization (-O)
++      |    ^~~~~~~
++/tmp/tmpep_i4iwg/testfile.c: In function 'main':
++/tmp/tmpep_i4iwg/testfile.c:8:9: error: control reaches end of non-void function [-Werror=return-type]
++    8 |         }
++      |         ^
++cc1: some warnings being treated as errors
 +
-+Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
++Upstream-Status: Backport
 +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+Upstream-Status: Submitted [https://lists.01.org/pipermail/powertop/2019-May/002052.html]
 +---
-+ src/wakeup/wakeup_ethernet.h | 1 +
-+ src/wakeup/wakeup_usb.h      | 1 +
-+ 2 files changed, 2 insertions(+)
++ mesonbuild/compilers/c.py | 5 +++++
++ 1 file changed, 5 insertions(+)
 +
-+diff --git a/src/wakeup/wakeup_ethernet.h b/src/wakeup/wakeup_ethernet.h
-+index 682bf95..e0fa628 100644
-+--- a/src/wakeup/wakeup_ethernet.h
-++++ b/src/wakeup/wakeup_ethernet.h
-+@@ -25,6 +25,7 @@
-+ #ifndef _INCLUDE_GUARD_ETHERNET_WAKEUP_H
-+ #define _INCLUDE_GUARD_ETHERNET_WAKEUP_H
-+ 
-++#include <limits.h>
-+ #include <vector>
-+ 
-+ #include "wakeup.h"
-+diff --git a/src/wakeup/wakeup_usb.h b/src/wakeup/wakeup_usb.h
-+index f7a1f7e..15898e3 100644
-+--- a/src/wakeup/wakeup_usb.h
-++++ b/src/wakeup/wakeup_usb.h
-+@@ -25,6 +25,7 @@
-+ #ifndef _INCLUDE_GUARD_USB_WAKEUP_H
-+ #define _INCLUDE_GUARD_USB_WAKEUP_H
-+ 
-++#include <limits.h>
-+ #include <vector>
-+ 
-+ #include "wakeup.h"
++diff --git a/mesonbuild/compilers/c.py b/mesonbuild/compilers/c.py
++index b0096459..69cf84a4 100644
++--- a/mesonbuild/compilers/c.py
+++++ b/mesonbuild/compilers/c.py
++@@ -387,6 +387,7 @@ class CCompiler(Compiler):
++             #ifndef {symbol}
++                 {symbol};
++             #endif
+++            return 0;
++         }}'''
++         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
++                              dependencies=dependencies)
++@@ -563,6 +564,7 @@ class CCompiler(Compiler):
++         {prefix}
++         int main(int argc, char **argv) {{
++             {type} something;
+++            return 0;
++         }}'''
++         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
++                              dependencies=dependencies):
++@@ -598,6 +600,7 @@ class CCompiler(Compiler):
++         {prefix}
++         int main(int argc, char **argv) {{
++             {type} something;
+++            return 0;
++         }}'''
++         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
++                              dependencies=dependencies):
++@@ -672,6 +675,7 @@ class CCompiler(Compiler):
++         #include <stdio.h>
++         int main(int argc, char *argv[]) {{
++             printf ("{fmt}", {cast} {f}());
+++            return 0;
++         }}'''.format(**fargs)
++         res = self.run(code, env, extra_args=extra_args, dependencies=dependencies)
++         if not res.compiled:
++@@ -823,6 +827,7 @@ class CCompiler(Compiler):
++                 #error "No definition for __builtin_{func} found in the prefix"
++             #endif
++         #endif
+++        return 0;
++         }}'''
++         return self.links(t.format(**fargs), env, extra_args=extra_args,
++                           dependencies=dependencies)
 +-- 
-+2.20.1
++2.17.1
 +
-diff --git a/meta/recipes-kernel/powertop/powertop_2.10.bb b/meta/recipes-kernel/powertop/powertop_2.10.bb
-index d943ba9f6e..5be8d23111 100644
---- a/meta/recipes-kernel/powertop/powertop_2.10.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.10.bb
-@@ -7,6 +7,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
- 
- SRC_URI = "http://01.org/sites/default/files/downloads/powertop-v${PV}.tar.gz \
-+    file://0001-wakeup_xxx.h-include-limits.h.patch \
- "
- 
- SRC_URI[md5sum] = "a69bd55901cf919cc564187402ea2c9c"
 -- 
 2.17.1
 
