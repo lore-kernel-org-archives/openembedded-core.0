@@ -1,46 +1,54 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 760E0745BF
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 115646022F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 14:14:26 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id e8so2514524wme.1
+	Tue, 20 Aug 2019 14:50:27 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id c2so2869289plz.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2019 07:14:27 -0700 (PDT)
+	Tue, 20 Aug 2019 07:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=kCgbqx0mDTSo/y0VMN7S+oBvocr13n9LAKPU9sW407M=;
-	b=Yww3RLK0Gfh3MNDaqKOnAdoBz7WRftR/QzClagaIYDs8cU8S4Ve9dy0IJW3MiTyqkQ
-	0lsJX7Qx5weKjamneNacTWwLiX5n/jC6fl+8Tn2eUy/2CNCY5soBDmvgRIJ7kZEk4ltG
-	Cgo2IX878Gkhmvi42Md4Sv3EX1A0jQgmUhVRrQh5dAJ4ZJexvWn/IcwUzn3uw9hPgWCC
-	OhGzGa2WM1EUie5CUKN7wa7QFtDOkBan1Oq7fPmaGJl/engCh0tRVmNNuQpOlPlYJUNv
-	jtgaHYEuXXGG2NCkwOxZMQ+6ObA2weDlobl+tfu5IdiARgmfFV0Zcha2zOGCZNNJJQtB
-	qmkg==
+	h=from:to:cc:subject:date:keywords:message-id:mime-version
+	:content-language:thread-index;
+	bh=HJHxF8znV1MhLF/ucAo8y9090zBCthLs7CAAeRano/o=;
+	b=TbOaJGk4rwrKTT+2bO0qcT1joiq6zgClG3NOaZ2NsL8nBSQUYwcbRkF7WngAmpGFEC
+	LRCYXElCtvIfHz02wFB39KaZ6vCo1fLypwQ0kQdRpYAbAc9kU8yXm1jNg/EH9C0+OQB5
+	V/ZPyFp1lnn1KY+tY72OyhbFHBwugUUeYX1wh/9B0K+AcN1pX8Kf538g3Mx16Mv8jRGV
+	12ht2lay+xbeS/QM6OR/23HJGJXxrMKG7C7SpyUEMAo69pnf9fpjLuqbVj033AxMiUVQ
+	B+urupHHZpk8r7xRFSPLw+buslQU7aGwiKdKiAp9xgK0T5lMQ+KHXt3H0lazv4ESQnWq
+	ka8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=kCgbqx0mDTSo/y0VMN7S+oBvocr13n9LAKPU9sW407M=;
-	b=fQE3Y6xeAIKZ4lFNsUePFQRwOj2bltRfwb9ViOGgYz1XhZTDCl2ornZwh2vrVwWoOs
-	kYKxn53ZF8Dxji5+i/Bq/3dpIVQyLb4t53xG0Ui0CBSWgnNb4YBuQvd4S10LIXZlpx/e
-	8xE79EjxfTnEqbAtvNunS0Yptz+3AbOR6DcxARzIKeIZsFM3nJpikhDw40mNklqS/pSL
-	GWHqX6Ckngtki8Do6MO1SBVP0InhQ6zqdxqg+qv7lNphWVoxn1qHFHV0YVdexGF4KNht
-	KDekHSZMGmcgLJMJ55YpUaCMkpgtkH6yNDxrOGXkJtoTYhwQV2xBmRcNLZhirGwogDHD
-	JR3g==
-X-Gm-Message-State: APjAAAVKzZ7Rrndon1+m4PkcnF6rWgr24l75RZ+DlSBiW0UqbbVTV2DW
-	K6ckutCsSUJKT596LUhFAB+is3NmAKsN3d93VuY=
-X-Google-Smtp-Source: APXvYqw/tjlQElmr3dHjtb3rPUafz8azNLhmklkHzMkFMjWMuTHXcVr1fGKLJaeUdwK1LdjJbPTYArKoUdBACQVxfms=
-X-Received: by 2002:a1c:18a:: with SMTP id 132mr224376wmb.15.1566310467049;
-	Tue, 20 Aug 2019 07:14:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:keywords:message-id
+	:mime-version:content-language:thread-index;
+	bh=HJHxF8znV1MhLF/ucAo8y9090zBCthLs7CAAeRano/o=;
+	b=nlJDNgMPbOd0Pi4htFZwD+g2aa98/BsrstS+4rJlzbTULQ1siJFBQcnbhAn6mGe5hx
+	+HTf4X0ggxzPvfoVuoBlN6L5q5i60+GagBMe2nzTSj0AISLhKpFX5Mu5lGGEDM782KNv
+	F3pL1oJzcE/Hd4/V3titBiUTMGdPMuoSGSnuoLgj5UldlIWA93qZd4N1lWnqwZZ/Xxen
+	LUzfJA9cjyosDqvA6H40aAlyNhm5Is2rnZ+qKBoQs2hGYIN38RMg3OPikNUPojyum8eq
+	KH140/vaMbV6bDkvmfZ1m3N7/fiaWorFCbPQF6fM7TmDzElY5a/Q6y6oruWUNBsByd46
+	RiWg==
+X-Gm-Message-State: APjAAAVQR0y2MFWnjN83/UFYlc9mkMBrS4TdwQtMFlYMx9iH/sDiqw1R
+	l62yY6t7j1FyWABvSPmDI6w=
+X-Google-Smtp-Source: APXvYqzmUlcFMwGExEcBOkHtL8CukXU5rCRW0BdO3kFcNiLmrmCzzdhqznRVhzDRXQ8Tz7xNe1f0vA==
+X-Received: by 2002:a17:902:fa5:: with SMTP id
+	34mr28973435plz.285.1566312629058; 
+	Tue, 20 Aug 2019 07:50:29 -0700 (PDT)
+Received: from sjolley (wsip-184-185-163-98.ph.ph.cox.net. [184.185.163.98])
+	by smtp.gmail.com with ESMTPSA id bt18sm189196pjb.1.2019.08.20.07.50.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 20 Aug 2019 07:50:28 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Aug 2019 07:50:28 -0700
+Keywords: Yocto PM Work
+Message-ID: <018e01d55766$9c7bafd0$d5730f70$@gmail.com>
 MIME-Version: 1.0
-References: <20190820090442.20-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20190820090442.20-1-Martin.Jansa@gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 20 Aug 2019 07:14:14 -0700
-Message-ID: <CAJdd5Gb9L8KQnzGzJT0Dt_O6iU-PXfKJ-BEh_OMYOZ5gqrUm-A@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [warrior][PATCH 1/3] icecc.bbclass: catch subprocess.CalledProcessError
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdVXZaDvIGlvYzFaQg2VNrq/Z7fEWA==
+Cc: Lieu.Ta@windriver.com
+Subject: Yocto Project Status WW34'19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,565 +61,1500 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2019 14:14:27 -0000
-Content-Type: multipart/alternative; boundary="000000000000ff1e2e05908d123a"
+X-List-Received-Date: Tue, 20 Aug 2019 14:50:28 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_018F_01D5572B.F01FBE00"
+Content-Language: en-us
 
---000000000000ff1e2e05908d123a
-Content-Type: text/plain; charset="UTF-8"
+------=_NextPart_000_018F_01D5572B.F01FBE00
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Looks like "readlink -f" is failing. Can you try to capture the output and
-figure out why?
+Current Dev Position: YP 2.8 M3
 
-On Tue, Aug 20, 2019, 2:04 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+Next Deadline: YP 2.8 Milestone M3 Cutoff (Feature Freeze) Aug 25, 2019
 
-> * this might be related to:
->   commit d2fcaeb153fdc3f8d7143ea823139f1537055ff1
->   Author: Douglas Royds <douglas.royds@taitradio.com>
->   Date:   Thu Dec 20 11:59:47 2018 +1300
->
->     icecc: Don't generate recipe-sysroot symlinks at recipe-parsing time
->
-> * it's still a bit unclear when and why this happends, but I'm seeing
->   random tasks sometimes failing with:
->
-> WARNING: Exception during build_dependencies for set_icecc_env
-> WARNING: Error during finalise of
-> /build/meta-oe/meta-python/recipes-devtools/python/
-> python-markupsafe_1.0.bb
-> ERROR: Traceback (most recent call last):
->   File "/build/bitbake/lib/bb/data_smart.py", line 411, in expandWithRefs
->     s = __expand_python_regexp__.sub(varparse.python_sub, s)
->   File "/build/bitbake/lib/bb/data_smart.py", line 136, in python_sub
->     value = utils.better_eval(codeobj, DataContext(self.d), {'d' : self.d})
->   File "/build/bitbake/lib/bb/utils.py", line 421, in better_eval
->     return eval(source, ctx, locals)
->   File "Var <set_icecc_env>", line 1, in <module>
->   File "/build/oe-core/meta/classes/icecc.bbclass", line 287, in
-> icecc_get_and_check_tool
->     link_path = icecc_get_tool_link(t, d)
->   File "/build/oe-core/meta/classes/icecc.bbclass", line 246, in
-> icecc_get_tool_link
->     return subprocess.check_output("readlink -f %s" % tool,
-> shell=True).decode("utf-8")[:-1]
->   File "/usr/lib/python3.6/subprocess.py", line 336, in check_output
->     **kwargs).stdout
->   File "/usr/lib/python3.6/subprocess.py", line 418, in run
->     output=stdout, stderr=stderr)
-> subprocess.CalledProcessError: Command 'readlink -f
-> /build/BUILD/work/qemux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-g++'
-> returned non-zero exit status 1.
->
-> The above exception was the direct cause of the following exception:
->
-> Traceback (most recent call last):
->   File "/build/bitbake/bin/bitbake-worker", line 239, in child
->     the_data = bb_cache.loadDataFull(fn, appends)
->   File "/build/bitbake/lib/bb/cache.py", line 327, in loadDataFull
->     bb_data = self.load_bbfile(virtualfn, appends, virtonly=True)
->   File "/build/bitbake/lib/bb/cache.py", line 340, in load_bbfile
->     datastores = parse_recipe(bb_data, bbfile, appends, mc)
->   File "/build/bitbake/lib/bb/cache.py", line 303, in parse_recipe
->     bb_data = bb.parse.handle(bbfile, bb_data)
->   File "/build/bitbake/lib/bb/parse/__init__.py", line 107, in handle
->     return h['handle'](fn, data, include)
->   File "/build/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 142, in
-> handle
->     return ast.multi_finalize(fn, d)
->   File "/build/bitbake/lib/bb/parse/ast.py", line 386, in multi_finalize
->     finalize(fn, d)
->   File "/build/bitbake/lib/bb/parse/ast.py", line 351, in finalize
->     bb.parse.siggen.finalise(fn, d, variant)
->   File "/build/bitbake/lib/bb/siggen.py", line 147, in finalise
->     taskdeps = self._build_data(fn, d)
->   File "/build/bitbake/lib/bb/siggen.py", line 118, in _build_data
->     tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d)
->   File "/build/bitbake/lib/bb/data.py", line 388, in generate_dependencies
->     deps[dep], values[dep] = build_dependencies(dep, keys, shelldeps,
-> varflagsexcl, d)
->   File "/build/bitbake/lib/bb/data.py", line 317, in build_dependencies
->     value, parsedvar = d.getVarFlag(key, "_content", False, retparser=True)
->   File "/build/bitbake/lib/bb/data_smart.py", line 802, in getVarFlag
->     parser = self.expandWithRefs(value, cachename)
->   File "/build/bitbake/lib/bb/data_smart.py", line 424, in expandWithRefs
->     raise ExpansionError(varname, s, exc).with_traceback(tb) from exc
->   File "/build/bitbake/lib/bb/data_smart.py", line 411, in expandWithRefs
->     s = __expand_python_regexp__.sub(varparse.python_sub, s)
->   File "/build/bitbake/lib/bb/data_smart.py", line 136, in python_sub
->     value = utils.better_eval(codeobj, DataContext(self.d), {'d' : self.d})
->   File "/build/bitbake/lib/bb/utils.py", line 421, in better_eval
->     return eval(source, ctx, locals)
->   File "Var <set_icecc_env>", line 1, in <module>
->   File "/build/oe-core/meta/classes/icecc.bbclass", line 287, in
-> icecc_get_and_check_tool
->     link_path = icecc_get_tool_link(t, d)
->   File "/build/oe-core/meta/classes/icecc.bbclass", line 246, in
-> icecc_get_tool_link
->     return subprocess.check_output("readlink -f %s" % tool,
-> shell=True).decode("utf-8")[:-1]
->   File "/usr/lib/python3.6/subprocess.py", line 336, in check_output
->     **kwargs).stdout
->   File "/usr/lib/python3.6/subprocess.py", line 418, in run
->     output=stdout, stderr=stderr)
-> bb.data_smart.ExpansionError: Failure expanding variable set_icecc_env,
-> expression was     if [ "${@use_icecc(bb, d)}" = "no" ]
->     then
->         return
->     fi
->     ICECC_VERSION="${@icecc_version(bb, d)}"
->     if [ "x${ICECC_VERSION}" = "x" ]
->     then
->         bbwarn "Cannot use icecc: could not get ICECC_VERSION"
->         return
->     fi
->
->     ICE_PATH="${@icecc_path(bb, d)}"
->     if [ "x${ICE_PATH}" = "x" ]
->     then
->         bbwarn "Cannot use icecc: could not get ICE_PATH"
->         return
->     fi
->
->     ICECC_BIN="${@get_icecc(d)}"
->     if [ -z "${ICECC_BIN}" ]; then
->         bbwarn "Cannot use icecc: icecc binary not found"
->         return
->     fi
->     if [ -z "$(which patchelf patchelf-uninative)" ]; then
->         bbwarn "Cannot use icecc: patchelf not found"
->         return
->     fi
->
->     # Create symlinks to icecc in the recipe-sysroot directory
->     mkdir -p ${ICE_PATH}
->     if [ -n "${KERNEL_CC}" ]; then
->         compilers="${@get_cross_kernel_cc(bb,d)}"
->     else
->         compilers="x86_64-oe-linux-gcc x86_64-oe-linux-g++"
->     fi
->     for compiler in $compilers; do
->         ln -sf ${ICECC_BIN} ${ICE_PATH}/$compiler
->     done
->
->     ICECC_CC="${@icecc_get_and_check_tool(bb, d, "gcc")}"
->     ICECC_CXX="${@icecc_get_and_check_tool(bb, d, "g++")}"
->     # cannot use icecc_get_and_check_tool here because it assumes as
-> without target_sys prefix
->     ICECC_WHICH_AS="${@bb.utils.which(os.getenv('PATH'), 'as')}"
->     if [ ! -x "${ICECC_CC}" -o ! -x "${ICECC_CXX}" ]
->     then
->         bbwarn "Cannot use icecc: could not get ICECC_CC or ICECC_CXX"
->         return
->     fi
->
->     ICE_VERSION=`$ICECC_CC -dumpversion`
->     ICECC_VERSION=`echo ${ICECC_VERSION} | sed -e "s/@VERSION@
-> /$ICE_VERSION/g"`
->     if [ ! -x
-> "/build/BUILD/work/qemux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/icecc-create-env"
-> ]
->     then
->         bbwarn "Cannot use icecc: invalid ICECC_ENV_EXEC"
->         return
->     fi
->
->     ICECC_AS="`${ICECC_CC} -print-prog-name=as`"
->     # for target recipes should return something like:
->     #
-> /OE/tmp-eglibc/sysroots/x86_64-linux/usr/libexec/arm920tt-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.8.2/as
->     # and just "as" for native, if it returns "as" in current directory
-> (for whatever reason) use "as" from PATH
->     if [ "`dirname "${ICECC_AS}"`" = "." ]
->     then
->         ICECC_AS="${ICECC_WHICH_AS}"
->     fi
->
->     if [ ! -f "${ICECC_VERSION}.done" ]
->     then
->         mkdir -p "`dirname "${ICECC_VERSION}"`"
->
->         # the ICECC_VERSION generation step must be locked by a mutex
->         # in order to prevent race conditions
->         if flock -n "${ICECC_VERSION}.lock" \
->
-> /build/BUILD/work/qemux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/icecc-create-env
-> "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}"
->         then
->             touch "${ICECC_VERSION}.done"
->         elif ! wait_for_file "${ICECC_VERSION}.done" 30
->         then
->             # locking failed so wait for ${ICECC_VERSION}.done to appear
->             bbwarn "Timeout waiting for ${ICECC_VERSION}.done"
->             return
->         fi
->     fi
->
->     # Don't let ccache find the icecream compiler links that have been
-> created, otherwise
->     # it can end up invoking icecream recursively.
->     export CCACHE_PATH="$PATH"
->     export CCACHE_DISABLE="1"
->
->     export ICECC_VERSION ICECC_CC ICECC_CXX
->     export PATH="$ICE_PATH:$PATH"
->
->     bbnote "Using icecc path: $ICE_PATH"
->     bbnote "Using icecc tarball: $ICECC_VERSION"
->  which triggered exception CalledProcessError: Command 'readlink -f
-> /build/BUILD/work/qemux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-g++'
-> returned non-zero exit status 1.
->
-> ERROR: Task
-> (virtual:multilib:lib32:/build/meta-oe/meta-python/recipes-devtools/python/python-markupsafe_1.0.bb:do_patch)
-> failed with exit code '1'
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/icecc.bbclass | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-> index edb0e10434..63d8b4dfee 100644
-> --- a/meta/classes/icecc.bbclass
-> +++ b/meta/classes/icecc.bbclass
-> @@ -243,7 +243,11 @@ def icecc_get_external_tool(bb, d, tool):
->
->  def icecc_get_tool_link(tool, d):
->      import subprocess
-> -    return subprocess.check_output("readlink -f %s" % tool,
-> shell=True).decode("utf-8")[:-1]
-> +    try:
-> +        return subprocess.check_output("readlink -f %s" % tool,
-> shell=True).decode("utf-8")[:-1]
-> +    except subprocess.CalledProcessError as e:
-> +        bb.note("icecc: one of the tools probably disappeared during
-> recipe parsing, cmd readlink -f %s returned %d:\n%s" % (tool, e.returncode,
-> e.output.decode("utf-8")))
-> +        return tool
->
->  def icecc_get_path_tool(tool, d):
->      # This is a little ugly, but we want to make sure we add an actual
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+ 
 
---000000000000ff1e2e05908d123a
-Content-Type: text/html; charset="UTF-8"
+SWAT Team Rotation:
+
+*	SWAT lead is currently: Chen
+*	SWAT team rotation: Chen -> Anuj on Aug. 23, 2019
+*	SWAT team rotation: Anuj -> Armin on Aug. 30, 2019
+*	 <https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team>
+https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+
+ 
+
+Next Team Meetings:
+
+*	Bug Triage meeting Thursday August 22nd at 7:30am PDT (
+<https://zoom.us/j/454367603> https://zoom.us/j/454367603)
+*	Monthly Project Meeting Tuesday Sept. 3rd at 8am PDT (
+<https://zoom.us/j/990892712> https://zoom.us/j/990892712) 
+*	Twitch - Next event is Tuesday Sept. 10th at 8am PDT (
+<https://www.twitch.tv/yocto_project> https://www.twitch.tv/yocto_project)
+
+ 
+
+Key Status/Updates:
+
+*	YP 2.6.3 has been released.
+*	This release which was 2.8 will now become 3.0.
+*	The sstate hash equivalency continues to have challenges:
+
+*	performance of the hash server is not able to scale to the
+autibuilder's load
+*	there are some bugs in the code the autobuilder continues to expose
+*	we have cases where its not 100% clear what the correct behaviour
+should be
+*	test cases are proving to be problematic to write in a maintainable
+way
+
+*	On a more positive note, some of the key performance issues were
+identified and fixed so performance doesn't regress for usage without hash
+equivalence. Several corruption issues and other key fixes to runqueue also
+merged.
+*	Jason Wessel finally tracked down our mystery glibc-locale bug,
+which was not a pseudo issue. Thanks and kudos to Jason!
+*	General patch merging is currently delayed along with patch feedback
+due to the hash equivalence issues and lack of bandwidth to progress
+everything at once.
+*	We still need to make a decision on systemd or sysvinit defaults as
+the init system.
+*	We are a week away from the 3.0 feature freeze.
+
+ 
+
+Planned Releases for YP 3.0 {2.8}:
+
+*	M3 Cutoff (Feature Freeze) 25th Aug
+*	M3 Release 6th Sept
+*	M4 Cutoff 30th Sept - this will be YP 3.0.
+*	YP 3.0 {2.8 (M4)} Final Release 25th Oct
+
+ 
+
+Planned upcoming dot releases:
+
+*	YP 2.7.2 (Warrior) is planned for after YP 3.0 release.
+*	YP 2.6.4 (Thud) is planned for after YP 2.7.2  release.
+
+ 
+
+Tracking Metrics:
+
+*	WDD 2495 (last week 2482) (
+<https://wiki.yoctoproject.org/charts/combo.html>
+https://wiki.yoctoproject.org/charts/combo.html)
+*	Poky Patch Metrics  
+
+*	Total patches found: 1491 (last week 1489)
+*	Patches in the Pending State: 616 (41%) [last week 617 (41%)]
+
+ 
+
+Key Status Links for YP:
+
+ <https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.8_Status>
+https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.8_Status
+
+ <https://wiki.yoctoproject.org/wiki/Yocto_2.8_Schedule>
+https://wiki.yoctoproject.org/wiki/Yocto_2.8_Schedule
+
+ <https://wiki.yoctoproject.org/wiki/Yocto_2.8_Features>
+https://wiki.yoctoproject.org/wiki/Yocto_2.8_Features
+
+ 
+
+The Yocto Project's technical governance is through its Technical Steering
+Committee, more information is available at:
+
+ <https://wiki.yoctoproject.org/wiki/TSC>
+https://wiki.yoctoproject.org/wiki/TSC
+
+ 
+
+The Status reports are now stored on the wiki at:
+<https://wiki.yoctoproject.org/wiki/Weekly_Status>
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+ 
+
+[If anyone has suggestions for other information you'd like to see on this
+weekly status update, let us know!]
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Project Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_018F_01D5572B.F01FBE00
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0115_01D551AC.08CBDAE0";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Looks like &quot;readlink -f&quot; is failing. Can you tr=
-y to capture the output and figure out why?</div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 20, 2019, 2:04 AM Ma=
-rtin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">* this might be=
- related to:<br>
-=C2=A0 commit d2fcaeb153fdc3f8d7143ea823139f1537055ff1<br>
-=C2=A0 Author: Douglas Royds &lt;<a href=3D"mailto:douglas.royds@taitradio.=
-com" target=3D"_blank" rel=3D"noreferrer">douglas.royds@taitradio.com</a>&g=
-t;<br>
-=C2=A0 Date:=C2=A0 =C2=A0Thu Dec 20 11:59:47 2018 +1300<br>
-<br>
-=C2=A0 =C2=A0 icecc: Don&#39;t generate recipe-sysroot symlinks at recipe-p=
-arsing time<br>
-<br>
-* it&#39;s still a bit unclear when and why this happends, but I&#39;m seei=
-ng<br>
-=C2=A0 random tasks sometimes failing with:<br>
-<br>
-WARNING: Exception during build_dependencies for set_icecc_env<br>
-WARNING: Error during finalise of /build/meta-oe/meta-python/recipes-devtoo=
-ls/python/<a href=3D"http://python-markupsafe_1.0.bb" rel=3D"noreferrer nor=
-eferrer" target=3D"_blank">python-markupsafe_1.0.bb</a><br>
-ERROR: Traceback (most recent call last):<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/data_smart.py&quot;, line 411, in e=
-xpandWithRefs<br>
-=C2=A0 =C2=A0 s =3D __expand_python_regexp__.sub(varparse.python_sub, s)<br=
->
-=C2=A0 File &quot;/build/bitbake/lib/bb/data_smart.py&quot;, line 136, in p=
-ython_sub<br>
-=C2=A0 =C2=A0 value =3D utils.better_eval(codeobj, DataContext(self.d), {&#=
-39;d&#39; : self.d})<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/utils.py&quot;, line 421, in better=
-_eval<br>
-=C2=A0 =C2=A0 return eval(source, ctx, locals)<br>
-=C2=A0 File &quot;Var &lt;set_icecc_env&gt;&quot;, line 1, in &lt;module&gt=
-;<br>
-=C2=A0 File &quot;/build/oe-core/meta/classes/icecc.bbclass&quot;, line 287=
-, in icecc_get_and_check_tool<br>
-=C2=A0 =C2=A0 link_path =3D icecc_get_tool_link(t, d)<br>
-=C2=A0 File &quot;/build/oe-core/meta/classes/icecc.bbclass&quot;, line 246=
-, in icecc_get_tool_link<br>
-=C2=A0 =C2=A0 return subprocess.check_output(&quot;readlink -f %s&quot; % t=
-ool, shell=3DTrue).decode(&quot;utf-8&quot;)[:-1]<br>
-=C2=A0 File &quot;/usr/lib/python3.6/subprocess.py&quot;, line 336, in chec=
-k_output<br>
-=C2=A0 =C2=A0 **kwargs).stdout<br>
-=C2=A0 File &quot;/usr/lib/python3.6/subprocess.py&quot;, line 418, in run<=
-br>
-=C2=A0 =C2=A0 output=3Dstdout, stderr=3Dstderr)<br>
-subprocess.CalledProcessError: Command &#39;readlink -f /build/BUILD/work/q=
-emux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/x86_=
-64-oe-linux/x86_64-oe-linux-g++&#39; returned non-zero exit status 1.<br>
-<br>
-The above exception was the direct cause of the following exception:<br>
-<br>
-Traceback (most recent call last):<br>
-=C2=A0 File &quot;/build/bitbake/bin/bitbake-worker&quot;, line 239, in chi=
-ld<br>
-=C2=A0 =C2=A0 the_data =3D bb_cache.loadDataFull(fn, appends)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/cache.py&quot;, line 327, in loadDa=
-taFull<br>
-=C2=A0 =C2=A0 bb_data =3D self.load_bbfile(virtualfn, appends, virtonly=3DT=
-rue)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/cache.py&quot;, line 340, in load_b=
-bfile<br>
-=C2=A0 =C2=A0 datastores =3D parse_recipe(bb_data, bbfile, appends, mc)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/cache.py&quot;, line 303, in parse_=
-recipe<br>
-=C2=A0 =C2=A0 bb_data =3D bb.parse.handle(bbfile, bb_data)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/parse/__init__.py&quot;, line 107, =
-in handle<br>
-=C2=A0 =C2=A0 return h[&#39;handle&#39;](fn, data, include)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/parse/parse_py/BBHandler.py&quot;, =
-line 142, in handle<br>
-=C2=A0 =C2=A0 return ast.multi_finalize(fn, d)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/parse/ast.py&quot;, line 386, in mu=
-lti_finalize<br>
-=C2=A0 =C2=A0 finalize(fn, d)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/parse/ast.py&quot;, line 351, in fi=
-nalize<br>
-=C2=A0 =C2=A0 bb.parse.siggen.finalise(fn, d, variant)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/siggen.py&quot;, line 147, in final=
-ise<br>
-=C2=A0 =C2=A0 taskdeps =3D self._build_data(fn, d)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/siggen.py&quot;, line 118, in _buil=
-d_data<br>
-=C2=A0 =C2=A0 tasklist, gendeps, lookupcache =3D bb.data.generate_dependenc=
-ies(d)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/data.py&quot;, line 388, in generat=
-e_dependencies<br>
-=C2=A0 =C2=A0 deps[dep], values[dep] =3D build_dependencies(dep, keys, shel=
-ldeps, varflagsexcl, d)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/data.py&quot;, line 317, in build_d=
-ependencies<br>
-=C2=A0 =C2=A0 value, parsedvar =3D d.getVarFlag(key, &quot;_content&quot;, =
-False, retparser=3DTrue)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/data_smart.py&quot;, line 802, in g=
-etVarFlag<br>
-=C2=A0 =C2=A0 parser =3D self.expandWithRefs(value, cachename)<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/data_smart.py&quot;, line 424, in e=
-xpandWithRefs<br>
-=C2=A0 =C2=A0 raise ExpansionError(varname, s, exc).with_traceback(tb) from=
- exc<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/data_smart.py&quot;, line 411, in e=
-xpandWithRefs<br>
-=C2=A0 =C2=A0 s =3D __expand_python_regexp__.sub(varparse.python_sub, s)<br=
->
-=C2=A0 File &quot;/build/bitbake/lib/bb/data_smart.py&quot;, line 136, in p=
-ython_sub<br>
-=C2=A0 =C2=A0 value =3D utils.better_eval(codeobj, DataContext(self.d), {&#=
-39;d&#39; : self.d})<br>
-=C2=A0 File &quot;/build/bitbake/lib/bb/utils.py&quot;, line 421, in better=
-_eval<br>
-=C2=A0 =C2=A0 return eval(source, ctx, locals)<br>
-=C2=A0 File &quot;Var &lt;set_icecc_env&gt;&quot;, line 1, in &lt;module&gt=
-;<br>
-=C2=A0 File &quot;/build/oe-core/meta/classes/icecc.bbclass&quot;, line 287=
-, in icecc_get_and_check_tool<br>
-=C2=A0 =C2=A0 link_path =3D icecc_get_tool_link(t, d)<br>
-=C2=A0 File &quot;/build/oe-core/meta/classes/icecc.bbclass&quot;, line 246=
-, in icecc_get_tool_link<br>
-=C2=A0 =C2=A0 return subprocess.check_output(&quot;readlink -f %s&quot; % t=
-ool, shell=3DTrue).decode(&quot;utf-8&quot;)[:-1]<br>
-=C2=A0 File &quot;/usr/lib/python3.6/subprocess.py&quot;, line 336, in chec=
-k_output<br>
-=C2=A0 =C2=A0 **kwargs).stdout<br>
-=C2=A0 File &quot;/usr/lib/python3.6/subprocess.py&quot;, line 418, in run<=
-br>
-=C2=A0 =C2=A0 output=3Dstdout, stderr=3Dstderr)<br>
-bb.data_smart.ExpansionError: Failure expanding variable set_icecc_env, exp=
-ression was=C2=A0 =C2=A0 =C2=A0if [ &quot;${@use_icecc(bb, d)}&quot; =3D &q=
-uot;no&quot; ]<br>
-=C2=A0 =C2=A0 then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-=C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 ICECC_VERSION=3D&quot;${@icecc_version(bb, d)}&quot;<br>
-=C2=A0 =C2=A0 if [ &quot;x${ICECC_VERSION}&quot; =3D &quot;x&quot; ]<br>
-=C2=A0 =C2=A0 then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &quot;Cannot use icecc: could not get IC=
-ECC_VERSION&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-=C2=A0 =C2=A0 fi<br>
-<br>
-=C2=A0 =C2=A0 ICE_PATH=3D&quot;${@icecc_path(bb, d)}&quot;<br>
-=C2=A0 =C2=A0 if [ &quot;x${ICE_PATH}&quot; =3D &quot;x&quot; ]<br>
-=C2=A0 =C2=A0 then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &quot;Cannot use icecc: could not get IC=
-E_PATH&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-=C2=A0 =C2=A0 fi<br>
-<br>
-=C2=A0 =C2=A0 ICECC_BIN=3D&quot;${@get_icecc(d)}&quot;<br>
-=C2=A0 =C2=A0 if [ -z &quot;${ICECC_BIN}&quot; ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &quot;Cannot use icecc: icecc binary not=
- found&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-=C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 if [ -z &quot;$(which patchelf patchelf-uninative)&quot; ]; t=
-hen<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &quot;Cannot use icecc: patchelf not fou=
-nd&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-=C2=A0 =C2=A0 fi<br>
-<br>
-=C2=A0 =C2=A0 # Create symlinks to icecc in the recipe-sysroot directory<br=
->
-=C2=A0 =C2=A0 mkdir -p ${ICE_PATH}<br>
-=C2=A0 =C2=A0 if [ -n &quot;${KERNEL_CC}&quot; ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 compilers=3D&quot;${@get_cross_kernel_cc(bb,d)}=
-&quot;<br>
-=C2=A0 =C2=A0 else<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 compilers=3D&quot;x86_64-oe-linux-gcc x86_64-oe=
--linux-g++&quot;<br>
-=C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 for compiler in $compilers; do<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${ICECC_BIN} ${ICE_PATH}/$compiler<br>
-=C2=A0 =C2=A0 done<br>
-<br>
-=C2=A0 =C2=A0 ICECC_CC=3D&quot;${@icecc_get_and_check_tool(bb, d, &quot;gcc=
-&quot;)}&quot;<br>
-=C2=A0 =C2=A0 ICECC_CXX=3D&quot;${@icecc_get_and_check_tool(bb, d, &quot;g+=
-+&quot;)}&quot;<br>
-=C2=A0 =C2=A0 # cannot use icecc_get_and_check_tool here because it assumes=
- as without target_sys prefix<br>
-=C2=A0 =C2=A0 ICECC_WHICH_AS=3D&quot;${@bb.utils.which(os.getenv(&#39;PATH&=
-#39;), &#39;as&#39;)}&quot;<br>
-=C2=A0 =C2=A0 if [ ! -x &quot;${ICECC_CC}&quot; -o ! -x &quot;${ICECC_CXX}&=
-quot; ]<br>
-=C2=A0 =C2=A0 then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &quot;Cannot use icecc: could not get IC=
-ECC_CC or ICECC_CXX&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-=C2=A0 =C2=A0 fi<br>
-<br>
-=C2=A0 =C2=A0 ICE_VERSION=3D`$ICECC_CC -dumpversion`<br>
-=C2=A0 =C2=A0 ICECC_VERSION=3D`echo ${ICECC_VERSION} | sed -e &quot;s/@VERS=
-ION@/$ICE_VERSION/g&quot;`<br>
-=C2=A0 =C2=A0 if [ ! -x &quot;/build/BUILD/work/qemux86-oe-linux/python-mar=
-kupsafe/1.0-r0/recipe-sysroot-native/usr/bin/icecc-create-env&quot; ]<br>
-=C2=A0 =C2=A0 then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &quot;Cannot use icecc: invalid ICECC_EN=
-V_EXEC&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-=C2=A0 =C2=A0 fi<br>
-<br>
-=C2=A0 =C2=A0 ICECC_AS=3D&quot;`${ICECC_CC} -print-prog-name=3Das`&quot;<br=
->
-=C2=A0 =C2=A0 # for target recipes should return something like:<br>
-=C2=A0 =C2=A0 # /OE/tmp-eglibc/sysroots/x86_64-linux/usr/libexec/arm920tt-o=
-e-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.8.2/as<br>
-=C2=A0 =C2=A0 # and just &quot;as&quot; for native, if it returns &quot;as&=
-quot; in current directory (for whatever reason) use &quot;as&quot; from PA=
-TH<br>
-=C2=A0 =C2=A0 if [ &quot;`dirname &quot;${ICECC_AS}&quot;`&quot; =3D &quot;=
-.&quot; ]<br>
-=C2=A0 =C2=A0 then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ICECC_AS=3D&quot;${ICECC_WHICH_AS}&quot;<br>
-=C2=A0 =C2=A0 fi<br>
-<br>
-=C2=A0 =C2=A0 if [ ! -f &quot;${ICECC_VERSION}.done&quot; ]<br>
-=C2=A0 =C2=A0 then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p &quot;`dirname &quot;${ICECC_VERSION}&=
-quot;`&quot;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # the ICECC_VERSION generation step must be loc=
-ked by a mutex<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # in order to prevent race conditions<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if flock -n &quot;${ICECC_VERSION}.lock&quot; \=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /build/BUILD/work/qemux86-oe-linu=
-x/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/icecc-create-env=
-=C2=A0 &quot;${ICECC_CC}&quot; &quot;${ICECC_CXX}&quot; &quot;${ICECC_AS}&q=
-uot; &quot;${ICECC_VERSION}&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 touch &quot;${ICECC_VERSION}.done=
-&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif ! wait_for_file &quot;${ICECC_VERSION}.don=
-e&quot; 30<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # locking failed so wait for ${IC=
-ECC_VERSION}.done to appear<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbwarn &quot;Timeout waiting for =
-${ICECC_VERSION}.done&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 fi<br>
-<br>
-=C2=A0 =C2=A0 # Don&#39;t let ccache find the icecream compiler links that =
-have been created, otherwise<br>
-=C2=A0 =C2=A0 # it can end up invoking icecream recursively.<br>
-=C2=A0 =C2=A0 export CCACHE_PATH=3D&quot;$PATH&quot;<br>
-=C2=A0 =C2=A0 export CCACHE_DISABLE=3D&quot;1&quot;<br>
-<br>
-=C2=A0 =C2=A0 export ICECC_VERSION ICECC_CC ICECC_CXX<br>
-=C2=A0 =C2=A0 export PATH=3D&quot;$ICE_PATH:$PATH&quot;<br>
-<br>
-=C2=A0 =C2=A0 bbnote &quot;Using icecc path: $ICE_PATH&quot;<br>
-=C2=A0 =C2=A0 bbnote &quot;Using icecc tarball: $ICECC_VERSION&quot;<br>
-=C2=A0which triggered exception CalledProcessError: Command &#39;readlink -=
-f /build/BUILD/work/qemux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroo=
-t-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-g++&#39; returned non-zero=
- exit status 1.<br>
-<br>
-ERROR: Task (virtual:multilib:lib32:/build/meta-oe/meta-python/recipes-devt=
-ools/python/python-markupsafe_1.0.bb:do_patch) failed with exit code &#39;1=
-&#39;<br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" t=
-arget=3D"_blank" rel=3D"noreferrer">Martin.Jansa@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/icecc.bbclass | 6 +++++-<br>
-=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass<br>
-index edb0e10434..63d8b4dfee 100644<br>
---- a/meta/classes/icecc.bbclass<br>
-+++ b/meta/classes/icecc.bbclass<br>
-@@ -243,7 +243,11 @@ def icecc_get_external_tool(bb, d, tool):<br>
-<br>
-=C2=A0def icecc_get_tool_link(tool, d):<br>
-=C2=A0 =C2=A0 =C2=A0import subprocess<br>
--=C2=A0 =C2=A0 return subprocess.check_output(&quot;readlink -f %s&quot; % =
-tool, shell=3DTrue).decode(&quot;utf-8&quot;)[:-1]<br>
-+=C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return subprocess.check_output(&quot;readlink =
--f %s&quot; % tool, shell=3DTrue).decode(&quot;utf-8&quot;)[:-1]<br>
-+=C2=A0 =C2=A0 except subprocess.CalledProcessError as e:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;icecc: one of the tools probably=
- disappeared during recipe parsing, cmd readlink -f %s returned %d:\n%s&quo=
-t; % (tool, e.returncode, e.output.decode(&quot;utf-8&quot;)))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return tool<br>
-<br>
-=C2=A0def icecc_get_path_tool(tool, d):<br>
-=C2=A0 =C2=A0 =C2=A0# This is a little ugly, but we want to make sure we ad=
-d an actual<br>
--- <br>
-2.17.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
-.org/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div>
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
+xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
+xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
+xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
+xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
+xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
+xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
+xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
+xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
+xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
+xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
+xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
+xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
+xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
+xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
+xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
+xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
+xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
+xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
+xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
+xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
+xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
+xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
+xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
+ xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
+xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
+xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
+xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
+xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
+xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
+xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
+xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
+xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
+xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
+xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
+nature" =
+xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
+" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
+ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
+xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
+ =
+xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
+es" =
+xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
+" =
+xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
+lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
+xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:108551640;
+	mso-list-template-ids:-827667036;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:125583201;
+	mso-list-template-ids:1842276800;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:191380157;
+	mso-list-template-ids:1374981156;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:318585598;
+	mso-list-template-ids:-890186914;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l3:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4
+	{mso-list-id:634719374;
+	mso-list-template-ids:-1616055826;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l4:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5
+	{mso-list-id:855269941;
+	mso-list-template-ids:-1080815022;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l5:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l5:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6
+	{mso-list-id:1138299557;
+	mso-list-template-ids:228365970;}
+@list l6:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l6:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l6:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7
+	{mso-list-id:1456481847;
+	mso-list-template-ids:-1840216746;}
+@list l7:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l7:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l7:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8
+	{mso-list-id:1779906187;
+	mso-list-template-ids:1054659962;}
+@list l8:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l8:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l8:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9
+	{mso-list-id:1906187485;
+	mso-list-template-ids:205847464;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l9:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l9:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10
+	{mso-list-id:1915163154;
+	mso-list-template-ids:-1089299624;}
+@list l10:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l10:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l10:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l10:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11
+	{mso-list-id:1927376843;
+	mso-list-template-ids:-126852350;}
+@list l11:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l11:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l11:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l11:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12
+	{mso-list-id:1959753795;
+	mso-list-template-ids:-778555412;}
+@list l12:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l12:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l12:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l12:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
+Position: YP 2.8 M3</span><o:p></o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: YP =
+2.8 Milestone M3 Cutoff (Feature Freeze) Aug 25, =
+2019</span><o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>SWAT Team =
+Rotation:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li class=3DMsoNormal style=3D'color:black;mso-list:l6 =
+level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>SWAT lead is currently: =
+Chen<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l6 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>SWAT team rotation: Chen -&gt; =
+Anuj on Aug. 23, 2019<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l6 level1 =
+lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>SWAT team rotation: Anuj -&gt; =
+Armin on Aug. 30, 2019<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l6 level1 =
+lfo8;vertical-align:baseline'><span style=3D'font-family:Consolas'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team"=
+><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Yocto_Build_Fa=
+ilure_Swat_Team</span></a><o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Team =
+Meetings:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li class=3DMsoNormal style=3D'color:black;mso-list:l11 =
+level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Bug Triage meeting Thursday =
+August 22nd at 7:30am PDT (<a href=3D"https://zoom.us/j/454367603"><span =
+style=3D'font-size:10.0pt;color:#1155CC'>https://zoom.us/j/454367603</spa=
+n></a>)<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l11 level1 =
+lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Monthly Project Meeting Tuesday =
+Sept. 3rd at 8am PDT (<a href=3D"https://zoom.us/j/990892712"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/990892712)</span></a>&nbsp;<o:p=
+></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l11 level1 =
+lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Twitch - Next event is Tuesday =
+Sept. 10th at 8am PDT (<a =
+href=3D"https://www.twitch.tv/yocto_project"><span =
+style=3D'color:#1155CC'>https://www.twitch.tv/yocto_project</span></a>)<o=
+:p></o:p></span></li></ul><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Key =
+Status/Updates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li class=3DMsoNormal style=3D'color:black;mso-list:l8 =
+level1 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.6.3 has been =
+released.<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>This release which was 2.8 will =
+now become 3.0.<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>The sstate hash equivalency =
+continues to have challenges:<o:p></o:p></span></li><ul =
+style=3D'margin-top:0in' type=3Dcircle><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level2 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>performance of the hash server =
+is not able to scale to the autibuilder&#8217;s =
+load<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level2 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>there are some bugs in the code =
+the autobuilder continues to expose<o:p></o:p></span></li><li =
+class=3DMsoNormal style=3D'color:black;mso-list:l8 level2 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>we have cases where its not =
+100% clear what the correct behaviour should =
+be<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level2 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>test cases are proving to be =
+problematic to write in a maintainable =
+way<o:p></o:p></span></li></ul><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>On a more positive note, some =
+of the key performance issues were identified and fixed so performance =
+doesn&#8217;t regress for usage without hash equivalence. Several =
+corruption issues and other key fixes to runqueue also =
+merged.<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Jason Wessel finally tracked =
+down our mystery glibc-locale bug, which was not a pseudo issue. Thanks =
+and kudos to Jason!<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>General patch merging is =
+currently delayed along with patch feedback due to the hash equivalence =
+issues and lack of bandwidth to progress everything at =
+once.<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We still need to make a =
+decision on systemd or sysvinit defaults as the init =
+system.<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l8 level1 =
+lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We are a week away from the 3.0 =
+feature freeze.<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Planned Releases =
+for YP 3.0 {2.8}:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li class=3DMsoNormal style=3D'color:black;mso-list:l5 =
+level1 lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>M3 Cutoff (Feature Freeze) 25th =
+Aug<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l5 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>M3 Release 6th =
+Sept<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l5 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>M4 Cutoff 30th Sept - this will =
+be YP 3.0.<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l5 level1 =
+lfo11;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.0 {2.8 (M4)} Final Release =
+25th Oct<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Planned upcoming =
+dot releases:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li class=3DMsoNormal style=3D'color:black;mso-list:l2 =
+level1 lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7.2 (Warrior) is planned =
+for after YP 3.0 release.<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l2 level1 =
+lfo12;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.6.4 (Thud) is planned for =
+after YP 2.7.2&nbsp; release.<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
+Metrics:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li class=3DMsoNormal style=3D'color:black;mso-list:l7 =
+level1 lfo13;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>WDD 2495 (last week =
+2482)</span><span style=3D'font-family:Consolas'> (</span><span =
+style=3D'font-family:"Arial",sans-serif'><a =
+href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
+span></a></span><span style=3D'font-family:Consolas'>)</span><span =
+style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
+class=3DMsoNormal style=3D'color:black;mso-list:l7 level1 =
+lfo13;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Poky Patch =
+Metrics&nbsp;&nbsp;</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
+style=3D'margin-top:0in' type=3Dcircle><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l7 level2 =
+lfo13;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Total patches found: 1491 (last =
+week 1489)<o:p></o:p></span></li><li class=3DMsoNormal =
+style=3D'color:black;mso-list:l7 level2 =
+lfo13;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
+616 (41%) [last week 617 (41%)]</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li></ul></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Key Status Links =
+for YP:</span><o:p></o:p></p><p class=3DMsoNormal><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.8_Status"><sp=
+an =
+style=3D'font-family:Consolas;color:#1155CC'>https://wiki.yoctoproject.or=
+g/wiki/Yocto_Project_v2.8_Status</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Yocto_2.8_Schedule"><span =
+style=3D'font-family:Consolas;color:#1155CC'>https://wiki.yoctoproject.or=
+g/wiki/Yocto_2.8_Schedule</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Yocto_2.8_Features"><span =
+style=3D'font-family:Consolas;color:#1155CC'>https://wiki.yoctoproject.or=
+g/wiki/Yocto_2.8_Features</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Yocto =
+Project&#8217;s technical governance is through its Technical Steering =
+Committee, more information is available at:</span><o:p></o:p></p><p =
+class=3DMsoNormal><a =
+href=3D"https://wiki.yoctoproject.org/wiki/TSC"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/TSC</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
+are now stored on the wiki at: </span><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
+suggestions for other information you&#8217;d like to see on this weekly =
+status update, let us know!]</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Project Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
---000000000000ff1e2e05908d123a--
+------=_NextPart_000_018F_01D5572B.F01FBE00--
