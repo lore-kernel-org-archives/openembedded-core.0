@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id EF75C7E993;
-	Wed, 21 Aug 2019 02:02:10 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id D91E97ECAD;
+	Wed, 21 Aug 2019 02:02:11 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Anuj Mittal <anuj.mittal@intel.com>
-Date: Wed, 21 Aug 2019 02:02:12 -0000
-Message-ID: <20190821020212.2329.16194@do>
-References: <20190821014445.13664-1-anuj.mittal@intel.com>
+Date: Wed, 21 Aug 2019 02:02:13 -0000
+Message-ID: <20190821020213.2331.51115@do>
+References: <20190821015818.18971-1-anuj.mittal@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190821014445.13664-1-anuj.mittal@intel.com>
+In-Reply-To: <20190821015818.18971-1-anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGF0Y2g6IGJhY2twb3J0IGZpeGVz?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt3YXJyaW9yXSByc3luYzogZml4IENWRXMgZm9yIC4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2019 02:02:11 -0000
+X-List-Received-Date: Wed, 21 Aug 2019 02:02:12 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: patch: backport fixes
+Series: "[warrior] rsync: fix CVEs for ..." and 2 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/19379/
+URL   : https://patchwork.openembedded.org/series/19380/
 State : failure
 
 == Summary ==
@@ -45,7 +45,11 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            patch: backport fixes
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  warrior (currently at 952bfcc3f4)
+
+* Patch            [warrior,3/3] patch: backport fixes
  Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
   Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
 
