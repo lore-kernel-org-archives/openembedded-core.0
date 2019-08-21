@@ -1,51 +1,55 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 42FA07D40E
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D8FB7E46D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 20:57:42 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id u16so3345308wrr.0
+	Wed, 21 Aug 2019 21:01:58 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p77so5604556wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 13:57:43 -0700 (PDT)
+	Wed, 21 Aug 2019 14:02:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=gJE64gPwC9zN3FukteL4+dmDNeljUtWhURF2mXvEygY=;
-	b=iD14HI0V5xWh5GFcZaTK2DixdzMZqkE5741e/exHXenLs63UZsIERWFRXQknUtJ7Qb
-	9jg4sXpAbn7oU2UaiF0j774AfXEkL10Cw38YLHbO4zoVjd+Xf98B522/J+DCKjZ2159/
-	WznELx5Xp958ZgpqMnsqWY4qGpOhBL4m6tcuk=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=gYzhyyqbAE3iycCT/6wOXObDW88A+IH9xkmD4fr2v3o=;
+	b=OGsGNwIEgKmsaGdo9CtJJ95ATTXc/MRdklLNqDJWo79CmpEGb/8OTEIl82sEGLZnLi
+	3uYFjKdZN+im12aMDCe9Ly6kjs7pygOewcEnYCyAnBmSNqQFjQV7PU0bvxYEg5RmS9Jj
+	629pzVvzp/UiP/4jiXJ7Kml0fgOo5zHzwveEc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=gJE64gPwC9zN3FukteL4+dmDNeljUtWhURF2mXvEygY=;
-	b=M3j+BfwiZ1dZCV7Dq8UCXAMZaxOh3umPv5kINunTokrj1IsH3B/HV1QIT67flvAWO/
-	Kx6NgbdAXjhijjPfMw0gh7ioGYV6W+oRwXvL5Pie4WBBDWqfjK25CyfvybprpENxSYaA
-	vTntpp3ncBaDFh7xI4cjAps8MJOw19Rwo7t7HaD+ZD3aeGXRZaAydozhUVz24yW8yW3T
-	l49FUG4Fu/412l0xQk7KDswSYbPGrxw7RrIvHxexiocQSRd4lHmWND7oZoLRPQjBbayn
-	j1s4HqXKTuNj/czLSh1rylgDehcBdy3bputcjzb4787WhEyoJspqN8w+W7SJuvH68Scp
-	KxPA==
-X-Gm-Message-State: APjAAAVncH5yCO9WWPEzcBFZbJ9P1ypRpcTsqGSiLyXRfY3nhlufEqdw
-	lwY8zuP65TadLlw81oiozADoqA==
-X-Google-Smtp-Source: APXvYqwLjoZOAYUcsyGv1I0+strP1RmpRnrgoG6X/i0j/C8D5tNf9H7qIg9Y035fU8M4ejQCBytEiA==
-X-Received: by 2002:adf:ea89:: with SMTP id s9mr44697722wrm.76.1566421062903; 
-	Wed, 21 Aug 2019 13:57:42 -0700 (PDT)
+	bh=gYzhyyqbAE3iycCT/6wOXObDW88A+IH9xkmD4fr2v3o=;
+	b=tSDPxff599xVMgp0XOmurA0pquDKOUzDeAME2mPgOSsfgle4oikbEgcrexDn+ZSiKq
+	G+a8Bc3y05Y/wai6BoXC7Ta/1oF1/9nzIJMsgF0NTAE2zoUTKqiWjWQkBx+1hExq1F92
+	ZREorzTGY0bTl6Z/A2DNPgyoU/VHy0UWXizBdkZBP2zy5iBQ9WX14KYctaTt8IfWJtE8
+	83mYRrbGNdP1AsiLt4nndru++6evWiZMd+Y7UPWkoq5I59AlfgymFhS50s/lRTto5Z4Z
+	fabaKk5F+Bs9dtjOV5oczTGCiyz2JCXQ/T5j5ZhhAZPcnS2mAhZ1KQRZAI2SxwxCCNlZ
+	2Bmw==
+X-Gm-Message-State: APjAAAUBIJUiCwMWRqEPIRnDMEeTgpiGV2lbFJYfnwXjPrULCQGfDdzG
+	FKghQlFGzDpDYLdOdCK9VMLmIA==
+X-Google-Smtp-Source: APXvYqy+JY79OEBV4nM4Os6GwPCMbvTjmXVg0aW6MPsN4cZ7pbYRR892Zti8D73TFHNjo1+nwEGSgQ==
+X-Received: by 2002:a7b:cd0f:: with SMTP id f15mr2238187wmj.86.1566421319717; 
+	Wed, 21 Aug 2019 14:01:59 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	e3sm29855248wrs.37.2019.08.21.13.57.41
+	by smtp.gmail.com with ESMTPSA id w5sm764623wmm.43.2019.08.21.14.01.58
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 21 Aug 2019 13:57:41 -0700 (PDT)
-Message-ID: <e6423f026434414f58509f3acec443d1cd681dfa.camel@linuxfoundation.org>
+	Wed, 21 Aug 2019 14:01:59 -0700 (PDT)
+Message-ID: <9eb7ad288430f6ce1f35e185bda4db135e8b2772.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Asselstine <mark.asselstine@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 21 Aug 2019 21:57:40 +0100
-In-Reply-To: <20190820175239.19769-1-mark.asselstine@windriver.com>
-References: <20190820175239.19769-1-mark.asselstine@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Mark Hatle
+	<mark.hatle@windriver.com>
+Date: Wed, 21 Aug 2019 22:01:57 +0100
+In-Reply-To: <CANNYZj-G7CvxTSX=L8tDm87xoa=u6cuJ+7s1nbvydtPc+GOmNw@mail.gmail.com>
+References: <1566221602-123706-1-git-send-email-hongxu.jia@windriver.com>
+	<CANNYZj9y6uP-=iSDLj=wQ-LTuAgBTsHL7F84eiCSs8=aycjZMg@mail.gmail.com>
+	<28dbc362015c3cbae5b8550e8636e74802afbfc3.camel@linuxfoundation.org>
+	<4cbf8a7b-f0b2-9a16-6a91-bead26ecef50@windriver.com>
+	<CANNYZj-G7CvxTSX=L8tDm87xoa=u6cuJ+7s1nbvydtPc+GOmNw@mail.gmail.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH] sdkext: use simpler kernel module for devtool test
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: decreasing default RLIMIT_NOFILE on qemu bsp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,50 +62,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2019 20:57:42 -0000
+X-List-Received-Date: Wed, 21 Aug 2019 21:01:59 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-08-20 at 13:52 -0400, Mark Asselstine wrote:
-> The current devtool test for the building of an out-of-tree kernel
-> module uses something which requires several "high order" kconfigs to
-> be set. This results in the test failing, not for expected reasons,
-> but rather because it depends on specific kernel configuration.
+On Tue, 2019-08-20 at 22:20 +0200, Alexander Kanavin wrote:
+> On Tue, 20 Aug 2019 at 15:46, Mark Hatle <mark.hatle@windriver.com>
+> wrote:
+> > Looking at what my customers are doing, I completely agree.  I look
+> > at the
+> > design criteria for my customer's devices and I'm seeing 256MB as
+> > -very- common.
+> >  More happens, but it's rare still.  (But I have some customers
+> > with GB of ram,
+> > but that is usually to support their application, but the base
+> > system!)
+> > 
+> > (Note, I do have customers -with- graphics requirements [X11] that
+> > are in the
+> > 128/256 MB ram ranges.  In most cases OpenGL is something they
+> > would like, but I
+> > don't believe it's a hard requirement for them.)
+> > 
+> > I do still have many customers with 128 MB of ram requirements.  So
+> > it's
+> > important for us to set a reasonable baseline (256MB).  So going
+> > under this
+> > requires 'work', but I think that is acceptable.
 > 
-> You will get error messages such as
-> 
->   ERROR: "video_ioctl2"
->   [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-
-> driver/v4l2loopback.ko]
->   undefined!
->   ERROR: "video_unregister_device"
->   [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-
-> driver/v4l2loopback.ko]
->   undefined!
-> 
-> Using a simpler hello-world kernel module example will only require
-> that CONFIG_MODULE is enabled, thus avoiding a false positive.
-> 
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
-> 
-> Richard, it is unclear if I need to match this change in
-> meta/lib/oeqa/manual/crops.json.
+> For contrast, in the kind of system I am helping to develop
+> everything is measured in gigabytes. RAM should be in the ballpark of
+> 10Gb. Disk storage maybe 10x that. OpenGL is at the foundation of
+> display output and isn't optional in any way. There's basically every
+> connectivity option enabled, multiple cameras, touchscreens and
+> whatnot. The whole thing will eventually look not that far from iOS
+> in terms of UI and capabilities and containerized 3rd party apps
+> (except it *also* needs to support multiple screens and multiple
+> users). And yes, it's all pulled together through bitbake and a zoo
+> of layers, images and target configurations. Yocto is able to target
+> cases like this, which is amazing - hopefully this clears up a bit
+> where I am coming from in this, even if it's a 'minority' position.
 
-Those are manual tests for crops. They probably do also need this
-change as it would make them more reliable if/as anyone every automates
-them, or runs them manually.
+I don't think its a minority and there are people who have both kinds
+of system, sometimes in the same build.
 
->  Please let me know and I
-> send a V2 which does this. I am not fond of pointing at
-> my own github but it was the best option to ensure it will
-> exist and not be messed with.
-
-The best option may be to put that repo onto git.yoctoproject.org?
+We just need to be mindful we have a spectrum of target users and low
+RAM is one part of that matrix. I want the project to support the
+larger use cases too.
 
 Cheers,
 
 Richard
+
 
 
 
