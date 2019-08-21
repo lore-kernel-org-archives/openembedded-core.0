@@ -1,33 +1,52 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id D638F6B5C5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail.openembedded.org (Postfix) with ESMTP id E93C57C2F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 10:58:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46D4QV4xBwz3P
+	Wed, 21 Aug 2019 10:59:00 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id k2so1612159wrq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 12:58:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1566385106;
-	bh=lzp8oFMjaYvDEE1cjEX0qTkrflgVJH23lmDL4/ukcG8=;
-	h=From:To:Subject:Date:From;
-	b=lwwtHeh24i1WgAzOFQ+9IPiCrx5wV7QEaGELQCOA/mDMuzDE4gRH0ltA4g0kmx8k0
-	2dfRFivljNtb6Oee6+Ppq69ntWNyr9/5ord4EY2gSTozBtZKGqXsiaCiHAU8iMWo0d
-	XSsfHUI4UA9vstrZF8uAM4CdK4G/Eo3B+gn5UuNOvNk593AbcUyQHZfKsiATabaHnQ
-	qU356OAz+O7JcWUIxR4Evpqj+29fxia7CecJNjsyJFlgXra+8qSvkVA5Rc1H0bFaFC
-	HXyid7tw8M54/+mxe5UxUVw282ovM71l9UFNazMCsQW2/s2Zmvfi9O+G/xf2R19nqK
-	804dxwWcKaTFsO1AkvpKea+EwOHGZO0cRiIWD0f67k7Pw1SuTM057gr99NgP/Jspkg
-	THBNYMNA+1QcxlFp4EKhEddOGuWPQhpUqHukACaFJYIAusTDpi6C8V01nioL74B1uE
-	4oyDPDKY20Sy3YKkGlba6kEz//4doxI3AKf/nu/H4oAXtQIRqMmlGPqNqvaCjCI2lS
-	xErVJGM2cMajBOaubyiahCcM7O+GdG3X6bmyYzxVfmw0cF9NJWJiixBE8EnauLziOI
-	T80o4kmkf/lKz4ij4Vv0sd33pKxQSKEk7cImkqug0e3tUoTITc/R/rx7PMDS84I6cO
-	Wd1Ie5gjiBlY2bTCC5cx7k/w=
-From: Adrian Bunk <bunk@stusta.de>
+	Wed, 21 Aug 2019 03:59:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZQJl5bT9SlcHQ+2+oUneMy4RaPsZVzsJ0B+UlxfFlOw=;
+	b=zjLE1japRtDj2s7KIyOfT8XrJ4zncYMMb70ysTgjTBhQnE8Jhgg545Mzu/E7CuMSLd
+	uAYSD8s8o0aXuGPURuzzKQQq8f/hfFBPBSPJPEiE3Bj614TxHUBxdPAn82mJYnfshPWC
+	K9NXZ9oUSHxoSqMqU9Dd2s+dmYeycAkpBe8fs8COR/Bz+0BXaVifxIYLHyqRUvDf1cX4
+	9LOYYGYzLrN3zaWIhkY8VK/wQJ7GXFe4rYDwcWwFvh4eeYAiSl5FLLb/PqK1FMGTofAg
+	BgVLqhbEdys57vWUzXf2SKIjnrDSWIqLtt/GOcCkmK+oDVtrb/mF3HA9zmkN8eD2ZD5G
+	rgJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZQJl5bT9SlcHQ+2+oUneMy4RaPsZVzsJ0B+UlxfFlOw=;
+	b=h2Y1XGSAvPfOuC1gEYsFobUxTQLOEBIqe3TFP7TguVIYkQOYLK4P21p597Swjm5ezn
+	l2DItwVZY5WjCipmEOLdQd+Jp4nd9MdzpOiRL9VrMeaAthIUeYu/Akhm6xHh+7AXHqJd
+	AI89glnBQ6TLuUHHIdkQ13NCjaXSh+bsUyhUXjvZxb5AHifdussz1d6rL9w5p8f5ghL1
+	ub5S92G69e6ZkcWvj3oJXFVQmvXW/Vd8q474e1wNiz0eLdLqLJaY8xxlLQV6sH17kL7a
+	aNi/6biXVT1RcUqvreyGqHaoRGxiPq6OEuwUSbH+v9w2tdR396iyqFMVW62QCLA21V42
+	XV6w==
+X-Gm-Message-State: APjAAAXcA18mHX6h0chNl1fIQaTOexTbAmNMS6WpokvR0owSWErZwYPJ
+	FBlo4f04XDTRpkwkpTtNAgZXDi/qZ3c=
+X-Google-Smtp-Source: APXvYqyb2DjXOudd7nH49H+c5/dDVNQtQPiexMKbUowz+bpZCld/OPu1ePijoP/GnHXowzNAzRgFmA==
+X-Received: by 2002:adf:e8c3:: with SMTP id k3mr28461600wrn.8.1566385141305;
+	Wed, 21 Aug 2019 03:59:01 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	m23sm3680438wml.41.2019.08.21.03.58.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 21 Aug 2019 03:59:00 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Aug 2019 13:58:25 +0300
-Message-Id: <20190821105825.23219-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] btrfs-tools: Add a PACKAGECONFIG for zstd
+Date: Wed, 21 Aug 2019 11:58:58 +0100
+Message-Id: <20190821105858.5487-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] systemd: add PACKAGECONFIG for gnu-efi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,28 +59,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2019 10:58:27 -0000
+X-List-Received-Date: Wed, 21 Aug 2019 10:59:01 -0000
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Add a PACKAGECONFIG for gnu-efi, by default the meson.build looks explicitly in
+/usr/include and /usr/lib for gnu-efi, and if it is present on the host the
+build will fail.
+
+[ YOCTO #13487 ]
+
+Original patch by Chin Huat Ang.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_242.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb
-index 138ec749e7..647516cf92 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb
-@@ -24,7 +24,8 @@ inherit autotools-brokensep pkgconfig manpages distutils3-base
- CLEANBROKEN = "1"
- 
- PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
--EXTRA_OECONF = " --disable-zstd"
-+PACKAGECONFIG[zstd] = "--enable-zstd,--disable-zstd,zstd"
-+
- EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
- EXTRA_PYTHON_CFLAGS = "${DEBUG_PREFIX_MAP}"
- EXTRA_PYTHON_CFLAGS_class-native = ""
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 6992062cef0..b368ca8a2c4 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -126,6 +126,7 @@ PACKAGECONFIG[coredump] = "-Dcoredump=true,-Dcoredump=false"
+ PACKAGECONFIG[cryptsetup] = "-Dlibcryptsetup=true,-Dlibcryptsetup=false,cryptsetup"
+ PACKAGECONFIG[dbus] = "-Ddbus=true,-Ddbus=false,dbus"
+ PACKAGECONFIG[efi] = "-Defi=true,-Defi=false"
++PACKAGECONFIG[gnu-efi] = "-Dgnu-efi=true -Defi-libdir=${STAGING_LIBDIR} -Defi-includedir=${STAGING_INCDIR}/efi,-Dgnu-efi=false,gnu-efi"
+ PACKAGECONFIG[elfutils] = "-Delfutils=true,-Delfutils=false,elfutils"
+ PACKAGECONFIG[firstboot] = "-Dfirstboot=true,-Dfirstboot=false"
+ # Sign the journal for anti-tampering
 -- 
-2.17.1
+2.20.1
 
 
