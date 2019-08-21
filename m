@@ -1,24 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 787B37C377
+	by mail.openembedded.org (Postfix) with ESMTP id A85767E98F
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 21 Aug 2019 01:58:24 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
 	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Aug 2019 18:58:24 -0700
+	20 Aug 2019 18:58:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,410,1559545200"; d="scan'208";a="178365470"
+X-IronPort-AV: E=Sophos;i="5.64,410,1559545200"; d="scan'208";a="178365474"
 Received: from anmitta2-mobl1.png.intel.com ([172.30.199.133])
-	by fmsmga008.fm.intel.com with ESMTP; 20 Aug 2019 18:58:23 -0700
+	by fmsmga008.fm.intel.com with ESMTP; 20 Aug 2019 18:58:24 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Aug 2019 09:58:16 +0800
-Message-Id: <20190821015818.18971-1-anuj.mittal@intel.com>
+Date: Wed, 21 Aug 2019 09:58:17 +0800
+Message-Id: <20190821015818.18971-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190821015818.18971-1-anuj.mittal@intel.com>
+References: <20190821015818.18971-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [warrior][PATCH 1/3] rsync: fix CVEs for included zlib
+Subject: [warrior][PATCH 2/3] patch: fix CVE-2019-13638
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,459 +36,80 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 21 Aug 2019 01:58:24 -0000
 Content-Transfer-Encoding: 8bit
 
-rsync includes its own copy of zlib and doesn't recommend linking with
-the system version [1].
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-Import CVE fixes that impact zlib version 1.2.8 [2] that is currently used
-by rsync.
+(From OE-Core rev: b59b1222b3f73f982286222a583de09c661dc781)
 
-[1] https://git.samba.org/rsync.git/?p=rsync.git;a=blob;f=zlib/README.rsync
-[2] https://nvd.nist.gov/vuln/search/results?form_type=Advanced&cves=on&cpe_version=cpe%3a%2fa%3agnu%3azlib%3a1.2.8
-
-(From OE-Core rev: a55fbb4cb489853dfb0b4553f6e187c3f3633f48)
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../rsync/files/CVE-2016-9840.patch           |  75 ++++++
- .../rsync/files/CVE-2016-9841.patch           | 228 ++++++++++++++++++
- .../rsync/files/CVE-2016-9842.patch           |  33 +++
- .../rsync/files/CVE-2016-9843.patch           |  53 ++++
- meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   4 +
- 5 files changed, 393 insertions(+)
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
+ ...-directly-instead-of-using-the-shell.patch | 44 +++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb    |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9840.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
+diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
 new file mode 100644
-index 0000000000..7581887790
+index 0000000000..f60dfe879a
 --- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
-@@ -0,0 +1,75 @@
-+From 6a043145ca6e9c55184013841a67b2fef87e44c0 Mon Sep 17 00:00:00 2001
-+From: Mark Adler <madler@alumni.caltech.edu>
-+Date: Wed, 21 Sep 2016 23:35:50 -0700
-+Subject: [PATCH] Remove offset pointer optimization in inftrees.c.
++++ b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+@@ -0,0 +1,44 @@
++From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruen@gnu.org>
++Date: Fri, 6 Apr 2018 19:36:15 +0200
++Subject: [PATCH] Invoke ed directly instead of using the shell
 +
-+inftrees.c was subtracting an offset from a pointer to an array,
-+in order to provide a pointer that allowed indexing starting at
-+the offset. This is not compliant with the C standard, for which
-+the behavior of a pointer decremented before its allocated memory
-+is undefined. Per the recommendation of a security audit of the
-+zlib code by Trail of Bits and TrustInSoft, in support of the
-+Mozilla Foundation, this tiny optimization was removed, in order
-+to avoid the possibility of undefined behavior.
++* src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
++command to avoid quoting vulnerabilities.
 +
-+CVE: CVE-2016-9840
-+Upstream-Status: Backport
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++CVE: CVE-2019-13638
++Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
++Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
++
 +---
-+ inftrees.c | 18 ++++++++----------
-+ 1 file changed, 8 insertions(+), 10 deletions(-)
++ src/pch.c | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
 +
-+diff --git a/zlib/inftrees.c b/zlib/inftrees.c
-+index 22fcd666..0d2670d5 100644
-+--- a/zlib/inftrees.c
-++++ b/zlib/inftrees.c
-+@@ -54,7 +54,7 @@ unsigned short FAR *work;
-+     code FAR *next;             /* next available space in table */
-+     const unsigned short FAR *base;     /* base value table to use */
-+     const unsigned short FAR *extra;    /* extra bits table to use */
-+-    int end;                    /* use base and extra for symbol > end */
-++    unsigned match;             /* use base and extra for symbol >= match */
-+     unsigned short count[MAXBITS+1];    /* number of codes of each length */
-+     unsigned short offs[MAXBITS+1];     /* offsets in table for each length */
-+     static const unsigned short lbase[31] = { /* Length codes 257..285 base */
-+@@ -181,19 +181,17 @@ unsigned short FAR *work;
-+     switch (type) {
-+     case CODES:
-+         base = extra = work;    /* dummy value--not used */
-+-        end = 19;
-++        match = 20;
-+         break;
-+     case LENS:
-+         base = lbase;
-+-        base -= 257;
-+         extra = lext;
-+-        extra -= 257;
-+-        end = 256;
-++        match = 257;
-+         break;
-+     default:            /* DISTS */
-+         base = dbase;
-+         extra = dext;
-+-        end = -1;
-++        match = 0;
-+     }
++
++diff --git a/src/pch.c b/src/pch.c
++index 4fd5a05..16e001a 100644
++--- a/src/pch.c
+++++ b/src/pch.c
++@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char const *outname,
++ 	    *outname_needs_removal = true;
++ 	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
++ 	  }
++-	sprintf (buf, "%s %s%s", editor_program,
++-		 verbosity == VERBOSE ? "" : "- ",
++-		 outname);
++ 	fflush (stdout);
 + 
-+     /* initialize state for loop */
-+@@ -216,13 +214,13 @@ unsigned short FAR *work;
-+     for (;;) {
-+         /* create table entry */
-+         here.bits = (unsigned char)(len - drop);
-+-        if ((int)(work[sym]) < end) {
-++        if (work[sym] + 1 < match) {
-+             here.op = (unsigned char)0;
-+             here.val = work[sym];
-+         }
-+-        else if ((int)(work[sym]) > end) {
-+-            here.op = (unsigned char)(extra[work[sym]]);
-+-            here.val = base[work[sym]];
-++        else if (work[sym] >= match) {
-++            here.op = (unsigned char)(extra[work[sym] - match]);
-++            here.val = base[work[sym] - match];
-+         }
-+         else {
-+             here.op = (unsigned char)(32 + 64);         /* end of block */
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9841.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
-new file mode 100644
-index 0000000000..3942176de5
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
-@@ -0,0 +1,228 @@
-+From 9aaec95e82117c1cb0f9624264c3618fc380cecb Mon Sep 17 00:00:00 2001
-+From: Mark Adler <madler@alumni.caltech.edu>
-+Date: Wed, 21 Sep 2016 22:25:21 -0700
-+Subject: [PATCH] Use post-increment only in inffast.c.
++ 	pid = fork();
++@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char const *outname,
++ 	else if (pid == 0)
++ 	  {
++ 	    dup2 (tmpfd, 0);
++-	    execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
+++	    assert (outname[0] != '!' && outname[0] != '-');
+++	    execlp (editor_program, editor_program, "-", outname, (char  *) NULL);
++ 	    _exit (2);
++ 	  }
++ 	else
++-- 
++2.7.4
 +
-+An old inffast.c optimization turns out to not be optimal anymore
-+with modern compilers, and furthermore was not compliant with the
-+C standard, for which decrementing a pointer before its allocated
-+memory is undefined. Per the recommendation of a security audit of
-+the zlib code by Trail of Bits and TrustInSoft, in support of the
-+Mozilla Foundation, this "optimization" was removed, in order to
-+avoid the possibility of undefined behavior.
-+
-+CVE: CVE-2016-9841
-+Upstream-Status: Backport
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ zlib/inffast.c | 81 +++++++++++++++++++++----------------------------------
-+ 1 file changed, 31 insertions(+), 50 deletions(-)
-+
-+diff --git a/zlib/inffast.c b/zlib/inffast.c
-+index bda59ceb..f0d163db 100644
-+--- a/zlib/inffast.c
-++++ b/zlib/inffast.c
-+@@ -10,25 +10,6 @@
-+ 
-+ #ifndef ASMINF
-+ 
-+-/* Allow machine dependent optimization for post-increment or pre-increment.
-+-   Based on testing to date,
-+-   Pre-increment preferred for:
-+-   - PowerPC G3 (Adler)
-+-   - MIPS R5000 (Randers-Pehrson)
-+-   Post-increment preferred for:
-+-   - none
-+-   No measurable difference:
-+-   - Pentium III (Anderson)
-+-   - M68060 (Nikl)
-+- */
-+-#ifdef POSTINC
-+-#  define OFF 0
-+-#  define PUP(a) *(a)++
-+-#else
-+-#  define OFF 1
-+-#  define PUP(a) *++(a)
-+-#endif
-+-
-+ /*
-+    Decode literal, length, and distance codes and write out the resulting
-+    literal and match bytes until either not enough input or output is
-+@@ -96,9 +77,9 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
-+ 
-+     /* copy state to local variables */
-+     state = (struct inflate_state FAR *)strm->state;
-+-    in = strm->next_in - OFF;
-++    in = strm->next_in;
-+     last = in + (strm->avail_in - 5);
-+-    out = strm->next_out - OFF;
-++    out = strm->next_out;
-+     beg = out - (start - strm->avail_out);
-+     end = out + (strm->avail_out - 257);
-+ #ifdef INFLATE_STRICT
-+@@ -119,9 +100,9 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
-+        input data or output space */
-+     do {
-+         if (bits < 15) {
-+-            hold += (unsigned long)(PUP(in)) << bits;
-++            hold += (unsigned long)(*in++) << bits;
-+             bits += 8;
-+-            hold += (unsigned long)(PUP(in)) << bits;
-++            hold += (unsigned long)(*in++) << bits;
-+             bits += 8;
-+         }
-+         here = lcode[hold & lmask];
-+@@ -134,14 +115,14 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
-+             Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
-+                     "inflate:         literal '%c'\n" :
-+                     "inflate:         literal 0x%02x\n", here.val));
-+-            PUP(out) = (unsigned char)(here.val);
-++            *out++ = (unsigned char)(here.val);
-+         }
-+         else if (op & 16) {                     /* length base */
-+             len = (unsigned)(here.val);
-+             op &= 15;                           /* number of extra bits */
-+             if (op) {
-+                 if (bits < op) {
-+-                    hold += (unsigned long)(PUP(in)) << bits;
-++                    hold += (unsigned long)(*in++) << bits;
-+                     bits += 8;
-+                 }
-+                 len += (unsigned)hold & ((1U << op) - 1);
-+@@ -150,9 +131,9 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
-+             }
-+             Tracevv((stderr, "inflate:         length %u\n", len));
-+             if (bits < 15) {
-+-                hold += (unsigned long)(PUP(in)) << bits;
-++                hold += (unsigned long)(*in++) << bits;
-+                 bits += 8;
-+-                hold += (unsigned long)(PUP(in)) << bits;
-++                hold += (unsigned long)(*in++) << bits;
-+                 bits += 8;
-+             }
-+             here = dcode[hold & dmask];
-+@@ -165,10 +146,10 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
-+                 dist = (unsigned)(here.val);
-+                 op &= 15;                       /* number of extra bits */
-+                 if (bits < op) {
-+-                    hold += (unsigned long)(PUP(in)) << bits;
-++                    hold += (unsigned long)(*in++) << bits;
-+                     bits += 8;
-+                     if (bits < op) {
-+-                        hold += (unsigned long)(PUP(in)) << bits;
-++                        hold += (unsigned long)(*in++) << bits;
-+                         bits += 8;
-+                     }
-+                 }
-+@@ -196,30 +177,30 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
-+ #ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
-+                         if (len <= op - whave) {
-+                             do {
-+-                                PUP(out) = 0;
-++                                *out++ = 0;
-+                             } while (--len);
-+                             continue;
-+                         }
-+                         len -= op - whave;
-+                         do {
-+-                            PUP(out) = 0;
-++                            *out++ = 0;
-+                         } while (--op > whave);
-+                         if (op == 0) {
-+                             from = out - dist;
-+                             do {
-+-                                PUP(out) = PUP(from);
-++                                *out++ = *from++;
-+                             } while (--len);
-+                             continue;
-+                         }
-+ #endif
-+                     }
-+-                    from = window - OFF;
-++                    from = window;
-+                     if (wnext == 0) {           /* very common case */
-+                         from += wsize - op;
-+                         if (op < len) {         /* some from window */
-+                             len -= op;
-+                             do {
-+-                                PUP(out) = PUP(from);
-++                                *out++ = *from++;
-+                             } while (--op);
-+                             from = out - dist;  /* rest from output */
-+                         }
-+@@ -230,14 +211,14 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
-+                         if (op < len) {         /* some from end of window */
-+                             len -= op;
-+                             do {
-+-                                PUP(out) = PUP(from);
-++                                *out++ = *from++;
-+                             } while (--op);
-+-                            from = window - OFF;
-++                            from = window;
-+                             if (wnext < len) {  /* some from start of window */
-+                                 op = wnext;
-+                                 len -= op;
-+                                 do {
-+-                                    PUP(out) = PUP(from);
-++                                    *out++ = *from++;
-+                                 } while (--op);
-+                                 from = out - dist;      /* rest from output */
-+                             }
-+@@ -248,35 +229,35 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
-+                         if (op < len) {         /* some from window */
-+                             len -= op;
-+                             do {
-+-                                PUP(out) = PUP(from);
-++                                *out++ = *from++;
-+                             } while (--op);
-+                             from = out - dist;  /* rest from output */
-+                         }
-+                     }
-+                     while (len > 2) {
-+-                        PUP(out) = PUP(from);
-+-                        PUP(out) = PUP(from);
-+-                        PUP(out) = PUP(from);
-++                        *out++ = *from++;
-++                        *out++ = *from++;
-++                        *out++ = *from++;
-+                         len -= 3;
-+                     }
-+                     if (len) {
-+-                        PUP(out) = PUP(from);
-++                        *out++ = *from++;
-+                         if (len > 1)
-+-                            PUP(out) = PUP(from);
-++                            *out++ = *from++;
-+                     }
-+                 }
-+                 else {
-+                     from = out - dist;          /* copy direct from output */
-+                     do {                        /* minimum length is three */
-+-                        PUP(out) = PUP(from);
-+-                        PUP(out) = PUP(from);
-+-                        PUP(out) = PUP(from);
-++                        *out++ = *from++;
-++                        *out++ = *from++;
-++                        *out++ = *from++;
-+                         len -= 3;
-+                     } while (len > 2);
-+                     if (len) {
-+-                        PUP(out) = PUP(from);
-++                        *out++ = *from++;
-+                         if (len > 1)
-+-                            PUP(out) = PUP(from);
-++                            *out++ = *from++;
-+                     }
-+                 }
-+             }
-+@@ -313,8 +294,8 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
-+     hold &= (1U << bits) - 1;
-+ 
-+     /* update state and return */
-+-    strm->next_in = in + OFF;
-+-    strm->next_out = out + OFF;
-++    strm->next_in = in;
-++    strm->next_out = out;
-+     strm->avail_in = (unsigned)(in < last ? 5 + (last - in) : 5 - (in - last));
-+     strm->avail_out = (unsigned)(out < end ?
-+                                  257 + (end - out) : 257 - (out - end));
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9842.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
-new file mode 100644
-index 0000000000..810d8a3fdb
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
-@@ -0,0 +1,33 @@
-+From e54e1299404101a5a9d0cf5e45512b543967f958 Mon Sep 17 00:00:00 2001
-+From: Mark Adler <madler@alumni.caltech.edu>
-+Date: Sat, 5 Sep 2015 17:45:55 -0700
-+Subject: [PATCH] Avoid shifts of negative values inflateMark().
-+
-+The C standard says that bit shifts of negative integers is
-+undefined.  This casts to unsigned values to assure a known
-+result.
-+
-+CVE: CVE-2016-9842
-+Upstream-Status: Backport
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ inflate.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/zlib/inflate.c b/zlib/inflate.c
-+index 2889e3a0..a7184167 100644
-+--- a/zlib/inflate.c
-++++ b/zlib/inflate.c
-+@@ -1506,9 +1506,10 @@ z_streamp strm;
-+ {
-+     struct inflate_state FAR *state;
-+ 
-+-    if (strm == Z_NULL || strm->state == Z_NULL) return -1L << 16;
-++    if (strm == Z_NULL || strm->state == Z_NULL)
-++        return (long)(((unsigned long)0 - 1) << 16);
-+     state = (struct inflate_state FAR *)strm->state;
-+-    return ((long)(state->back) << 16) +
-++    return (long)(((unsigned long)((long)state->back)) << 16) +
-+         (state->mode == COPY ? state->length :
-+             (state->mode == MATCH ? state->was - state->length : 0));
-+ }
-diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9843.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
-new file mode 100644
-index 0000000000..ea2e42fe76
---- /dev/null
-+++ b/meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
-@@ -0,0 +1,53 @@
-+From d1d577490c15a0c6862473d7576352a9f18ef811 Mon Sep 17 00:00:00 2001
-+From: Mark Adler <madler@alumni.caltech.edu>
-+Date: Wed, 28 Sep 2016 20:20:25 -0700
-+Subject: [PATCH] Avoid pre-decrement of pointer in big-endian CRC calculation.
-+
-+There was a small optimization for PowerPCs to pre-increment a
-+pointer when accessing a word, instead of post-incrementing. This
-+required prefacing the loop with a decrement of the pointer,
-+possibly pointing before the object passed. This is not compliant
-+with the C standard, for which decrementing a pointer before its
-+allocated memory is undefined. When tested on a modern PowerPC
-+with a modern compiler, the optimization no longer has any effect.
-+Due to all that, and per the recommendation of a security audit of
-+the zlib code by Trail of Bits and TrustInSoft, in support of the
-+Mozilla Foundation, this "optimization" was removed, in order to
-+avoid the possibility of undefined behavior.
-+
-+CVE: CVE-2016-9843
-+Upstream-Status: Backport
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ crc32.c | 4 +---
-+ 1 file changed, 1 insertion(+), 3 deletions(-)
-+
-+diff --git a/zlib/crc32.c b/zlib/crc32.c
-+index 979a7190..05733f4e 100644
-+--- a/zlib/crc32.c
-++++ b/zlib/crc32.c
-+@@ -278,7 +278,7 @@ local unsigned long crc32_little(crc, buf, len)
-+ }
-+ 
-+ /* ========================================================================= */
-+-#define DOBIG4 c ^= *++buf4; \
-++#define DOBIG4 c ^= *buf4++; \
-+         c = crc_table[4][c & 0xff] ^ crc_table[5][(c >> 8) & 0xff] ^ \
-+             crc_table[6][(c >> 16) & 0xff] ^ crc_table[7][c >> 24]
-+ #define DOBIG32 DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4
-+@@ -300,7 +300,6 @@ local unsigned long crc32_big(crc, buf, len)
-+     }
-+ 
-+     buf4 = (const z_crc_t FAR *)(const void FAR *)buf;
-+-    buf4--;
-+     while (len >= 32) {
-+         DOBIG32;
-+         len -= 32;
-+@@ -309,7 +308,6 @@ local unsigned long crc32_big(crc, buf, len)
-+         DOBIG4;
-+         len -= 4;
-+     }
-+-    buf4++;
-+     buf = (const unsigned char FAR *)buf4;
-+ 
-+     if (len) do {
-diff --git a/meta/recipes-devtools/rsync/rsync_3.1.3.bb b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
-index 29cb231f36..ffb1d061c0 100644
---- a/meta/recipes-devtools/rsync/rsync_3.1.3.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
-@@ -11,6 +11,10 @@ DEPENDS = "popt"
- SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://rsyncd.conf \
-            file://makefile-no-rebuild.patch \
-+           file://CVE-2016-9840.patch \
-+           file://CVE-2016-9841.patch \
-+           file://CVE-2016-9842.patch \
-+           file://CVE-2016-9843.patch \
+diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+index 8cf20a3597..8908910f74 100644
+--- a/meta/recipes-devtools/patch/patch_2.7.6.bb
++++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+@@ -7,6 +7,7 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+             file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
+             file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
+             file://CVE-2019-13636.patch \
++            file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
  "
  
- SRC_URI[md5sum] = "1581a588fde9d89f6bc6201e8129afaf"
+ SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
 -- 
 2.21.0
 
