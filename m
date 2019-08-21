@@ -1,50 +1,33 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
-	[209.85.208.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CF417D200
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id D638F6B5C5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 10:26:10 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id x18so1645510ljh.1
+	Wed, 21 Aug 2019 10:58:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46D4QV4xBwz3P
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 03:26:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=uqOM2G+RFG5gQt5f4y+QfSogVJXBzCnRLfacbddr0q4=;
-	b=qL2kJCU8cjlQAFXkApXWMfwXqNTELAiXDwccUuj8xhkFj8XrSztZtN4pokTdQJVpKR
-	N17cS5uuyDbEyDBbm0pLLpRPEqq1Wqmesr0rqglbLXW9gDttUIw4SN2SMapMOAENn8++
-	XuAFPyZPLGANObuMtH7tCGNYHazKPgp2rk8tKn/0ARB9+jsG35pWX1YGnI2U9uDHgMRF
-	9at/aibGaxwrbUismC6c6XvpMCmH0R4rnFn70hLioNddi7gUU85tIBXdquBC2tBoS1ky
-	739lg1u8BqxXYMxoLtLOlGTsdgDENq53wmMF5sN/Ujkoma/Mz2Xr8xXWSNbFN2rdSOor
-	XzLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=uqOM2G+RFG5gQt5f4y+QfSogVJXBzCnRLfacbddr0q4=;
-	b=FnXT4BzAQFptAQu4gLEv3cMVgfqYU5o/hm8bPOmbxyPVz69X4zjBBnrm0VAHtFqPFE
-	BDvnvlS7gzqgv2XFJjWO1oKs7Z0fJvKzn13CUQb4uQtu2WzS1UObCffc91PI8sxnca+z
-	UEeOBkB3gfm04jFoaCQS9kSYZEfA2tT/sHiPX+5HF2Qhrr+bYVPCUXEZtHL0DdsJaJA7
-	8njYKjkvR6IE4FHc3eD159FFTaruHkTWymUbHcgt5orRT21g0mXap+VpFc4/5lNmu0U4
-	CXtrUn6l3eNked08wBGKCZ+j2fcIChHPKhjEozQZ72fzjmPiOUMSI+wr8rTWzHAsXAb5
-	xDVw==
-X-Gm-Message-State: APjAAAUfTsh0SBkuoYsvyGgF14sRqS7wV8jepEARzbVMdKiSz4II+iJi
-	Gy/T+Lj7zZvehicbBYcknUlarBY9
-X-Google-Smtp-Source: APXvYqzPNR0oX3xHUXhcIWS0EOO9le61lGqqJ99hGOfJtHSg7Jsud6R79je73YGCprpLkhPCU9JgQA==
-X-Received: by 2002:a2e:9bc1:: with SMTP id w1mr17974006ljj.168.1566383170418; 
-	Wed, 21 Aug 2019 03:26:10 -0700 (PDT)
-Received: from manatarms-greyskull.lan.mikrodidakt.se ([213.185.29.22])
-	by smtp.gmail.com with ESMTPSA id
-	y66sm3237541lje.61.2019.08.21.03.26.08
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 21 Aug 2019 03:26:09 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
+	Wed, 21 Aug 2019 12:58:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1566385106;
+	bh=lzp8oFMjaYvDEE1cjEX0qTkrflgVJH23lmDL4/ukcG8=;
+	h=From:To:Subject:Date:From;
+	b=lwwtHeh24i1WgAzOFQ+9IPiCrx5wV7QEaGELQCOA/mDMuzDE4gRH0ltA4g0kmx8k0
+	2dfRFivljNtb6Oee6+Ppq69ntWNyr9/5ord4EY2gSTozBtZKGqXsiaCiHAU8iMWo0d
+	XSsfHUI4UA9vstrZF8uAM4CdK4G/Eo3B+gn5UuNOvNk593AbcUyQHZfKsiATabaHnQ
+	qU356OAz+O7JcWUIxR4Evpqj+29fxia7CecJNjsyJFlgXra+8qSvkVA5Rc1H0bFaFC
+	HXyid7tw8M54/+mxe5UxUVw282ovM71l9UFNazMCsQW2/s2Zmvfi9O+G/xf2R19nqK
+	804dxwWcKaTFsO1AkvpKea+EwOHGZO0cRiIWD0f67k7Pw1SuTM057gr99NgP/Jspkg
+	THBNYMNA+1QcxlFp4EKhEddOGuWPQhpUqHukACaFJYIAusTDpi6C8V01nioL74B1uE
+	4oyDPDKY20Sy3YKkGlba6kEz//4doxI3AKf/nu/H4oAXtQIRqMmlGPqNqvaCjCI2lS
+	xErVJGM2cMajBOaubyiahCcM7O+GdG3X6bmyYzxVfmw0cF9NJWJiixBE8EnauLziOI
+	T80o4kmkf/lKz4ij4Vv0sd33pKxQSKEk7cImkqug0e3tUoTITc/R/rx7PMDS84I6cO
+	Wd1Ie5gjiBlY2bTCC5cx7k/w=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Aug 2019 12:25:53 +0200
-Message-Id: <20190821102553.17770-1-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Subject: [PATCHv2] initscripts: remove warnings on read-only-rootfs (again)
+Date: Wed, 21 Aug 2019 13:58:25 +0300
+Message-Id: <20190821105825.23219-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] btrfs-tools: Add a PACKAGECONFIG for zstd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,59 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2019 10:26:10 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Aug 2019 10:58:27 -0000
 
-From: Martin Hundebøll <martin@geanix.com>
-
-When the populate-volatile.sh initscript tests if a configured symlink
-is already in place, it uses readlink with the '-f' (follow) option:
-
-> [ "$(readlink -f $source)" = "$dest" ]
-
-If the test fails, it proceeds to delete the exisiting folder/file, and
-create the configured symlink.
-
-However, the '-f' option to readlink makes it follow symlinks pointing
-at symlinks. If the $dest argument is a symlink, the above test fails,
-and warnings are printed due to changing a read-only rootfs.
-
-This is the case for /tmp, and /etc/resolv.conf:
-> /tmp -> /var/tmp -> /var/volatile/tmp
-> /etc/resolv.conf -> /var/run/resolv.conf -> /run/resolv.conf
-
-Fix the warnings by removing the '-f' option, so that the test matches
-the configuration.
-
-[ YOCTO #10814 ]
-
-Signed-off-by: Martin Hundebøll <martin@geanix.com>
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
+ meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-v2:
- * Added my own signed-off-by tag
- * Added reference to YOCTO #10814
- * Original patch: https://patchwork.openembedded.org/patch/152602/
-
- .../initscripts/initscripts-1.0/populate-volatile.sh            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-index 6f965a6870..1c525b71bd 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-@@ -80,7 +80,7 @@ mk_dir() {
- link_file() {
- 	EXEC="
- 	if [ -L \"$2\" ]; then
--		[ \"\$(readlink -f \"$2\")\" != \"$1\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; };
-+		[ \"\$(readlink \"$2\")\" != \"$1\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; };
- 	elif [ -d \"$2\" ]; then
- 		if awk '\$2 == \"$2\" {exit 1}' /proc/mounts; then
- 			cp -a $2/* $1 2>/dev/null;
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb
+index 138ec749e7..647516cf92 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb
+@@ -24,7 +24,8 @@ inherit autotools-brokensep pkgconfig manpages distutils3-base
+ CLEANBROKEN = "1"
+ 
+ PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
+-EXTRA_OECONF = " --disable-zstd"
++PACKAGECONFIG[zstd] = "--enable-zstd,--disable-zstd,zstd"
++
+ EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
+ EXTRA_PYTHON_CFLAGS = "${DEBUG_PREFIX_MAP}"
+ EXTRA_PYTHON_CFLAGS_class-native = ""
 -- 
-2.21.0
+2.17.1
 
 
