@@ -1,24 +1,24 @@
 Return-Path: <anuj.mittal@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D06017E97A
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 787B37C377
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 01:44:47 +0000 (UTC)
+	Wed, 21 Aug 2019 01:58:24 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Aug 2019 18:44:48 -0700
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Aug 2019 18:58:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,410,1559545200"; d="scan'208";a="180878979"
+X-IronPort-AV: E=Sophos;i="5.64,410,1559545200"; d="scan'208";a="178365470"
 Received: from anmitta2-mobl1.png.intel.com ([172.30.199.133])
-	by orsmga003.jf.intel.com with ESMTP; 20 Aug 2019 18:44:47 -0700
+	by fmsmga008.fm.intel.com with ESMTP; 20 Aug 2019 18:58:23 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Aug 2019 09:44:45 +0800
-Message-Id: <20190821014445.13664-1-anuj.mittal@intel.com>
+Date: Wed, 21 Aug 2019 09:58:16 +0800
+Message-Id: <20190821015818.18971-1-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH] patch: backport fixes
+Subject: [warrior][PATCH 1/3] rsync: fix CVEs for included zlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,222 +31,462 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2019 01:44:48 -0000
+X-List-Received-Date: Wed, 21 Aug 2019 01:58:24 -0000
 Content-Transfer-Encoding: 8bit
 
-The original fix for CVE-2018-1000156 was incomplete. Backport more
-fixes done later for a complete fix.
+rsync includes its own copy of zlib and doesn't recommend linking with
+the system version [1].
 
-Also see:
-https://savannah.gnu.org/bugs/index.php?53820
+Import CVE fixes that impact zlib version 1.2.8 [2] that is currently used
+by rsync.
+
+[1] https://git.samba.org/rsync.git/?p=rsync.git;a=blob;f=zlib/README.rsync
+[2] https://nvd.nist.gov/vuln/search/results?form_type=Advanced&cves=on&cpe_version=cpe%3a%2fa%3agnu%3azlib%3a1.2.8
+
+(From OE-Core rev: a55fbb4cb489853dfb0b4553f6e187c3f3633f48)
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...porary-file-on-failed-ed-style-patch.patch | 93 +++++++++++++++++++
- ...mporary-file-on-failed-multi-file-ed.patch | 80 ++++++++++++++++
- meta/recipes-devtools/patch/patch_2.7.6.bb    |  2 +
- 3 files changed, 175 insertions(+)
- create mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
- create mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
+ .../rsync/files/CVE-2016-9840.patch           |  75 ++++++
+ .../rsync/files/CVE-2016-9841.patch           | 228 ++++++++++++++++++
+ .../rsync/files/CVE-2016-9842.patch           |  33 +++
+ .../rsync/files/CVE-2016-9843.patch           |  53 ++++
+ meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   4 +
+ 5 files changed, 393 insertions(+)
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
+ create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
 
-diff --git a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9840.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
 new file mode 100644
-index 0000000000..9891526e4e
+index 0000000000..7581887790
 --- /dev/null
-+++ b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
-@@ -0,0 +1,93 @@
-+From 7f770b9c20da1a192dad8cb572a6391f2773285a Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Thu, 3 May 2018 14:31:55 +0200
-+Subject: [PATCH 1/2] Don't leak temporary file on failed ed-style patch
++++ b/meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
+@@ -0,0 +1,75 @@
++From 6a043145ca6e9c55184013841a67b2fef87e44c0 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Wed, 21 Sep 2016 23:35:50 -0700
++Subject: [PATCH] Remove offset pointer optimization in inftrees.c.
 +
-+Now that we write ed-style patches to a temporary file before we
-+apply them, we need to ensure that the temporary file is removed
-+before we leave, even on fatal error.
++inftrees.c was subtracting an offset from a pointer to an array,
++in order to provide a pointer that allowed indexing starting at
++the offset. This is not compliant with the C standard, for which
++the behavior of a pointer decremented before its allocated memory
++is undefined. Per the recommendation of a security audit of the
++zlib code by Trail of Bits and TrustInSoft, in support of the
++Mozilla Foundation, this tiny optimization was removed, in order
++to avoid the possibility of undefined behavior.
 +
-+* src/pch.c (do_ed_script): Use global TMPEDNAME instead of local
-+  tmpname. Don't unlink the file directly, instead tag it for removal
-+  at exit time.
-+* src/patch.c (cleanup): Unlink TMPEDNAME at exit.
-+
-+This closes bug #53820:
-+https://savannah.gnu.org/bugs/index.php?53820
-+
-+Fixes: 123eaff0d5d1 ("Fix arbitrary command execution in ed-style patches (CVE-2018-1000156)")
-+
-+Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=19599883ffb6a450d2884f081f8ecf68edbed7ee]
++CVE: CVE-2016-9840
++Upstream-Status: Backport
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ src/common.h |  2 ++
-+ src/pch.c    | 12 +++++-------
-+ 2 files changed, 7 insertions(+), 7 deletions(-)
++ inftrees.c | 18 ++++++++----------
++ 1 file changed, 8 insertions(+), 10 deletions(-)
 +
-+diff --git a/src/common.h b/src/common.h
-+index ec50b40..22238b5 100644
-+--- a/src/common.h
-++++ b/src/common.h
-+@@ -94,10 +94,12 @@ XTERN char const *origsuff;
-+ XTERN char const * TMPINNAME;
-+ XTERN char const * TMPOUTNAME;
-+ XTERN char const * TMPPATNAME;
-++XTERN char const * TMPEDNAME;
-+ 
-+ XTERN bool TMPINNAME_needs_removal;
-+ XTERN bool TMPOUTNAME_needs_removal;
-+ XTERN bool TMPPATNAME_needs_removal;
-++XTERN bool TMPEDNAME_needs_removal;
-+ 
-+ #ifdef DEBUGGING
-+ XTERN int debug;
-+diff --git a/src/pch.c b/src/pch.c
-+index 16e001a..c1a62cf 100644
-+--- a/src/pch.c
-++++ b/src/pch.c
-+@@ -2392,7 +2392,6 @@ do_ed_script (char const *inname, char const *outname,
-+     file_offset beginning_of_this_line;
-+     size_t chars_read;
-+     FILE *tmpfp = 0;
-+-    char const *tmpname;
-+     int tmpfd;
-+     pid_t pid;
-+ 
-+@@ -2404,12 +2403,13 @@ do_ed_script (char const *inname, char const *outname,
-+ 	   invalid commands and treats the next line as a new command, which
-+ 	   can lead to arbitrary command execution.  */
-+ 
-+-	tmpfd = make_tempfile (&tmpname, 'e', NULL, O_RDWR | O_BINARY, 0);
-++	tmpfd = make_tempfile (&TMPEDNAME, 'e', NULL, O_RDWR | O_BINARY, 0);
-+ 	if (tmpfd == -1)
-+-	  pfatal ("Can't create temporary file %s", quotearg (tmpname));
-++        pfatal ("Can't create temporary file %s", quotearg (TMPEDNAME));
-++        TMPEDNAME_needs_removal = true;
-+ 	tmpfp = fdopen (tmpfd, "w+b");
-+ 	if (! tmpfp)
-+-	  pfatal ("Can't open stream for file %s", quotearg (tmpname));
-++        pfatal ("Can't open stream for file %s", quotearg (TMPEDNAME));
-+       }
-+ 
-+     for (;;) {
-+@@ -2449,8 +2449,7 @@ do_ed_script (char const *inname, char const *outname,
-+       write_fatal ();
-+ 
-+     if (lseek (tmpfd, 0, SEEK_SET) == -1)
-+-      pfatal ("Can't rewind to the beginning of file %s", quotearg (tmpname));
-+-
-++        pfatal ("Can't rewind to the beginning of file %s", quotearg (TMPEDNAME));
-+     if (! dry_run && ! skip_rest_of_patch) {
-+ 	int exclusive = *outname_needs_removal ? 0 : O_EXCL;
-+ 	*outname_needs_removal = true;
-+@@ -2482,7 +2481,6 @@ do_ed_script (char const *inname, char const *outname,
++diff --git a/zlib/inftrees.c b/zlib/inftrees.c
++index 22fcd666..0d2670d5 100644
++--- a/zlib/inftrees.c
+++++ b/zlib/inftrees.c
++@@ -54,7 +54,7 @@ unsigned short FAR *work;
++     code FAR *next;             /* next available space in table */
++     const unsigned short FAR *base;     /* base value table to use */
++     const unsigned short FAR *extra;    /* extra bits table to use */
++-    int end;                    /* use base and extra for symbol > end */
+++    unsigned match;             /* use base and extra for symbol >= match */
++     unsigned short count[MAXBITS+1];    /* number of codes of each length */
++     unsigned short offs[MAXBITS+1];     /* offsets in table for each length */
++     static const unsigned short lbase[31] = { /* Length codes 257..285 base */
++@@ -181,19 +181,17 @@ unsigned short FAR *work;
++     switch (type) {
++     case CODES:
++         base = extra = work;    /* dummy value--not used */
++-        end = 19;
+++        match = 20;
++         break;
++     case LENS:
++         base = lbase;
++-        base -= 257;
++         extra = lext;
++-        extra -= 257;
++-        end = 256;
+++        match = 257;
++         break;
++     default:            /* DISTS */
++         base = dbase;
++         extra = dext;
++-        end = -1;
+++        match = 0;
 +     }
 + 
-+     fclose (tmpfp);
-+-    safe_unlink (tmpname);
-+ 
-+     if (ofp)
-+       {
-+-- 
-+2.17.0
-+
-diff --git a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
++     /* initialize state for loop */
++@@ -216,13 +214,13 @@ unsigned short FAR *work;
++     for (;;) {
++         /* create table entry */
++         here.bits = (unsigned char)(len - drop);
++-        if ((int)(work[sym]) < end) {
+++        if (work[sym] + 1 < match) {
++             here.op = (unsigned char)0;
++             here.val = work[sym];
++         }
++-        else if ((int)(work[sym]) > end) {
++-            here.op = (unsigned char)(extra[work[sym]]);
++-            here.val = base[work[sym]];
+++        else if (work[sym] >= match) {
+++            here.op = (unsigned char)(extra[work[sym] - match]);
+++            here.val = base[work[sym] - match];
++         }
++         else {
++             here.op = (unsigned char)(32 + 64);         /* end of block */
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9841.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
 new file mode 100644
-index 0000000000..d6a219a1b1
+index 0000000000..3942176de5
 --- /dev/null
-+++ b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
-@@ -0,0 +1,80 @@
-+From 369dcccdfa6336e5a873d6d63705cfbe04c55727 Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Mon, 7 May 2018 15:14:45 +0200
-+Subject: Don't leak temporary file on failed multi-file ed-style patch
++++ b/meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
+@@ -0,0 +1,228 @@
++From 9aaec95e82117c1cb0f9624264c3618fc380cecb Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Wed, 21 Sep 2016 22:25:21 -0700
++Subject: [PATCH] Use post-increment only in inffast.c.
 +
-+The previous fix worked fine with single-file ed-style patches, but
-+would still leak temporary files in the case of multi-file ed-style
-+patch. Fix that case as well, and extend the test case to check for
-+it.
++An old inffast.c optimization turns out to not be optimal anymore
++with modern compilers, and furthermore was not compliant with the
++C standard, for which decrementing a pointer before its allocated
++memory is undefined. Per the recommendation of a security audit of
++the zlib code by Trail of Bits and TrustInSoft, in support of the
++Mozilla Foundation, this "optimization" was removed, in order to
++avoid the possibility of undefined behavior.
 +
-+* src/patch.c (main): Unlink TMPEDNAME if needed before moving to
-+  the next file in a patch.
-+
-+This closes bug #53820:
-+https://savannah.gnu.org/bugs/index.php?53820
-+
-+Fixes: 123eaff0d5d1 ("Fix arbitrary command execution in ed-style patches (CVE-2018-1000156)")
-+Fixes: 19599883ffb6 ("Don't leak temporary file on failed ed-style patch")
-+
-+Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=369dcccdfa6336e5a873d6d63705cfbe04c55727]
++CVE: CVE-2016-9841
++Upstream-Status: Backport
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ src/patch.c    |  1 +
-+ tests/ed-style | 31 +++++++++++++++++++++++++++++++
-+ 2 files changed, 32 insertions(+)
++ zlib/inffast.c | 81 +++++++++++++++++++++----------------------------------
++ 1 file changed, 31 insertions(+), 50 deletions(-)
 +
-+diff --git a/src/patch.c b/src/patch.c
-+index 9146597..81c7a02 100644
-+--- a/src/patch.c
-++++ b/src/patch.c
-+@@ -236,6 +236,7 @@ main (int argc, char **argv)
-+ 	    }
-+ 	  remove_if_needed (TMPOUTNAME, &TMPOUTNAME_needs_removal);
-+ 	}
-++      remove_if_needed (TMPEDNAME, &TMPEDNAME_needs_removal);
++diff --git a/zlib/inffast.c b/zlib/inffast.c
++index bda59ceb..f0d163db 100644
++--- a/zlib/inffast.c
+++++ b/zlib/inffast.c
++@@ -10,25 +10,6 @@
 + 
-+       if (! skip_rest_of_patch && ! file_type)
-+ 	{
-+diff --git a/tests/ed-style b/tests/ed-style
-+index 6b6ef9d..504e6e5 100644
-+--- a/tests/ed-style
-++++ b/tests/ed-style
-+@@ -38,3 +38,34 @@ EOF
-+ check 'cat foo' <<EOF
-+ foo
-+ EOF
-++
-++# Test the case where one ed-style patch modifies several files
-++
-++cat > ed3.diff <<EOF
-++--- foo
-+++++ foo
-++1c
-++bar
-++.
-++--- baz
-+++++ baz
-++0a
-++baz
-++.
-++EOF
-++
-++# Apparently we can't create a file with such a patch, while it works fine
-++# when the file name is provided on the command line
-++cat > baz <<EOF
-++EOF
-++
-++check 'patch -e -i ed3.diff' <<EOF
-++EOF
-++
-++check 'cat foo' <<EOF
-++bar
-++EOF
-++
-++check 'cat baz' <<EOF
-++baz
-++EOF
-+-- 
-+cgit v1.0-41-gc330
++ #ifndef ASMINF
++ 
++-/* Allow machine dependent optimization for post-increment or pre-increment.
++-   Based on testing to date,
++-   Pre-increment preferred for:
++-   - PowerPC G3 (Adler)
++-   - MIPS R5000 (Randers-Pehrson)
++-   Post-increment preferred for:
++-   - none
++-   No measurable difference:
++-   - Pentium III (Anderson)
++-   - M68060 (Nikl)
++- */
++-#ifdef POSTINC
++-#  define OFF 0
++-#  define PUP(a) *(a)++
++-#else
++-#  define OFF 1
++-#  define PUP(a) *++(a)
++-#endif
++-
++ /*
++    Decode literal, length, and distance codes and write out the resulting
++    literal and match bytes until either not enough input or output is
++@@ -96,9 +77,9 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++ 
++     /* copy state to local variables */
++     state = (struct inflate_state FAR *)strm->state;
++-    in = strm->next_in - OFF;
+++    in = strm->next_in;
++     last = in + (strm->avail_in - 5);
++-    out = strm->next_out - OFF;
+++    out = strm->next_out;
++     beg = out - (start - strm->avail_out);
++     end = out + (strm->avail_out - 257);
++ #ifdef INFLATE_STRICT
++@@ -119,9 +100,9 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++        input data or output space */
++     do {
++         if (bits < 15) {
++-            hold += (unsigned long)(PUP(in)) << bits;
+++            hold += (unsigned long)(*in++) << bits;
++             bits += 8;
++-            hold += (unsigned long)(PUP(in)) << bits;
+++            hold += (unsigned long)(*in++) << bits;
++             bits += 8;
++         }
++         here = lcode[hold & lmask];
++@@ -134,14 +115,14 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++             Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
++                     "inflate:         literal '%c'\n" :
++                     "inflate:         literal 0x%02x\n", here.val));
++-            PUP(out) = (unsigned char)(here.val);
+++            *out++ = (unsigned char)(here.val);
++         }
++         else if (op & 16) {                     /* length base */
++             len = (unsigned)(here.val);
++             op &= 15;                           /* number of extra bits */
++             if (op) {
++                 if (bits < op) {
++-                    hold += (unsigned long)(PUP(in)) << bits;
+++                    hold += (unsigned long)(*in++) << bits;
++                     bits += 8;
++                 }
++                 len += (unsigned)hold & ((1U << op) - 1);
++@@ -150,9 +131,9 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++             }
++             Tracevv((stderr, "inflate:         length %u\n", len));
++             if (bits < 15) {
++-                hold += (unsigned long)(PUP(in)) << bits;
+++                hold += (unsigned long)(*in++) << bits;
++                 bits += 8;
++-                hold += (unsigned long)(PUP(in)) << bits;
+++                hold += (unsigned long)(*in++) << bits;
++                 bits += 8;
++             }
++             here = dcode[hold & dmask];
++@@ -165,10 +146,10 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++                 dist = (unsigned)(here.val);
++                 op &= 15;                       /* number of extra bits */
++                 if (bits < op) {
++-                    hold += (unsigned long)(PUP(in)) << bits;
+++                    hold += (unsigned long)(*in++) << bits;
++                     bits += 8;
++                     if (bits < op) {
++-                        hold += (unsigned long)(PUP(in)) << bits;
+++                        hold += (unsigned long)(*in++) << bits;
++                         bits += 8;
++                     }
++                 }
++@@ -196,30 +177,30 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++ #ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
++                         if (len <= op - whave) {
++                             do {
++-                                PUP(out) = 0;
+++                                *out++ = 0;
++                             } while (--len);
++                             continue;
++                         }
++                         len -= op - whave;
++                         do {
++-                            PUP(out) = 0;
+++                            *out++ = 0;
++                         } while (--op > whave);
++                         if (op == 0) {
++                             from = out - dist;
++                             do {
++-                                PUP(out) = PUP(from);
+++                                *out++ = *from++;
++                             } while (--len);
++                             continue;
++                         }
++ #endif
++                     }
++-                    from = window - OFF;
+++                    from = window;
++                     if (wnext == 0) {           /* very common case */
++                         from += wsize - op;
++                         if (op < len) {         /* some from window */
++                             len -= op;
++                             do {
++-                                PUP(out) = PUP(from);
+++                                *out++ = *from++;
++                             } while (--op);
++                             from = out - dist;  /* rest from output */
++                         }
++@@ -230,14 +211,14 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++                         if (op < len) {         /* some from end of window */
++                             len -= op;
++                             do {
++-                                PUP(out) = PUP(from);
+++                                *out++ = *from++;
++                             } while (--op);
++-                            from = window - OFF;
+++                            from = window;
++                             if (wnext < len) {  /* some from start of window */
++                                 op = wnext;
++                                 len -= op;
++                                 do {
++-                                    PUP(out) = PUP(from);
+++                                    *out++ = *from++;
++                                 } while (--op);
++                                 from = out - dist;      /* rest from output */
++                             }
++@@ -248,35 +229,35 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++                         if (op < len) {         /* some from window */
++                             len -= op;
++                             do {
++-                                PUP(out) = PUP(from);
+++                                *out++ = *from++;
++                             } while (--op);
++                             from = out - dist;  /* rest from output */
++                         }
++                     }
++                     while (len > 2) {
++-                        PUP(out) = PUP(from);
++-                        PUP(out) = PUP(from);
++-                        PUP(out) = PUP(from);
+++                        *out++ = *from++;
+++                        *out++ = *from++;
+++                        *out++ = *from++;
++                         len -= 3;
++                     }
++                     if (len) {
++-                        PUP(out) = PUP(from);
+++                        *out++ = *from++;
++                         if (len > 1)
++-                            PUP(out) = PUP(from);
+++                            *out++ = *from++;
++                     }
++                 }
++                 else {
++                     from = out - dist;          /* copy direct from output */
++                     do {                        /* minimum length is three */
++-                        PUP(out) = PUP(from);
++-                        PUP(out) = PUP(from);
++-                        PUP(out) = PUP(from);
+++                        *out++ = *from++;
+++                        *out++ = *from++;
+++                        *out++ = *from++;
++                         len -= 3;
++                     } while (len > 2);
++                     if (len) {
++-                        PUP(out) = PUP(from);
+++                        *out++ = *from++;
++                         if (len > 1)
++-                            PUP(out) = PUP(from);
+++                            *out++ = *from++;
++                     }
++                 }
++             }
++@@ -313,8 +294,8 @@ unsigned start;         /* inflate()'s starting value for strm->avail_out */
++     hold &= (1U << bits) - 1;
++ 
++     /* update state and return */
++-    strm->next_in = in + OFF;
++-    strm->next_out = out + OFF;
+++    strm->next_in = in;
+++    strm->next_out = out;
++     strm->avail_in = (unsigned)(in < last ? 5 + (last - in) : 5 - (in - last));
++     strm->avail_out = (unsigned)(out < end ?
++                                  257 + (end - out) : 257 - (out - end));
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9842.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
+new file mode 100644
+index 0000000000..810d8a3fdb
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
+@@ -0,0 +1,33 @@
++From e54e1299404101a5a9d0cf5e45512b543967f958 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Sat, 5 Sep 2015 17:45:55 -0700
++Subject: [PATCH] Avoid shifts of negative values inflateMark().
 +
-diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
-index 8908910f74..5d7f55f8dc 100644
---- a/meta/recipes-devtools/patch/patch_2.7.6.bb
-+++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
-@@ -8,6 +8,8 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-             file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
-             file://CVE-2019-13636.patch \
-             file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
-+            file://0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch \
-+            file://0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch \
++The C standard says that bit shifts of negative integers is
++undefined.  This casts to unsigned values to assure a known
++result.
++
++CVE: CVE-2016-9842
++Upstream-Status: Backport
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ inflate.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/zlib/inflate.c b/zlib/inflate.c
++index 2889e3a0..a7184167 100644
++--- a/zlib/inflate.c
+++++ b/zlib/inflate.c
++@@ -1506,9 +1506,10 @@ z_streamp strm;
++ {
++     struct inflate_state FAR *state;
++ 
++-    if (strm == Z_NULL || strm->state == Z_NULL) return -1L << 16;
+++    if (strm == Z_NULL || strm->state == Z_NULL)
+++        return (long)(((unsigned long)0 - 1) << 16);
++     state = (struct inflate_state FAR *)strm->state;
++-    return ((long)(state->back) << 16) +
+++    return (long)(((unsigned long)((long)state->back)) << 16) +
++         (state->mode == COPY ? state->length :
++             (state->mode == MATCH ? state->was - state->length : 0));
++ }
+diff --git a/meta/recipes-devtools/rsync/files/CVE-2016-9843.patch b/meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
+new file mode 100644
+index 0000000000..ea2e42fe76
+--- /dev/null
++++ b/meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
+@@ -0,0 +1,53 @@
++From d1d577490c15a0c6862473d7576352a9f18ef811 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Wed, 28 Sep 2016 20:20:25 -0700
++Subject: [PATCH] Avoid pre-decrement of pointer in big-endian CRC calculation.
++
++There was a small optimization for PowerPCs to pre-increment a
++pointer when accessing a word, instead of post-incrementing. This
++required prefacing the loop with a decrement of the pointer,
++possibly pointing before the object passed. This is not compliant
++with the C standard, for which decrementing a pointer before its
++allocated memory is undefined. When tested on a modern PowerPC
++with a modern compiler, the optimization no longer has any effect.
++Due to all that, and per the recommendation of a security audit of
++the zlib code by Trail of Bits and TrustInSoft, in support of the
++Mozilla Foundation, this "optimization" was removed, in order to
++avoid the possibility of undefined behavior.
++
++CVE: CVE-2016-9843
++Upstream-Status: Backport
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ crc32.c | 4 +---
++ 1 file changed, 1 insertion(+), 3 deletions(-)
++
++diff --git a/zlib/crc32.c b/zlib/crc32.c
++index 979a7190..05733f4e 100644
++--- a/zlib/crc32.c
+++++ b/zlib/crc32.c
++@@ -278,7 +278,7 @@ local unsigned long crc32_little(crc, buf, len)
++ }
++ 
++ /* ========================================================================= */
++-#define DOBIG4 c ^= *++buf4; \
+++#define DOBIG4 c ^= *buf4++; \
++         c = crc_table[4][c & 0xff] ^ crc_table[5][(c >> 8) & 0xff] ^ \
++             crc_table[6][(c >> 16) & 0xff] ^ crc_table[7][c >> 24]
++ #define DOBIG32 DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4
++@@ -300,7 +300,6 @@ local unsigned long crc32_big(crc, buf, len)
++     }
++ 
++     buf4 = (const z_crc_t FAR *)(const void FAR *)buf;
++-    buf4--;
++     while (len >= 32) {
++         DOBIG32;
++         len -= 32;
++@@ -309,7 +308,6 @@ local unsigned long crc32_big(crc, buf, len)
++         DOBIG4;
++         len -= 4;
++     }
++-    buf4++;
++     buf = (const unsigned char FAR *)buf4;
++ 
++     if (len) do {
+diff --git a/meta/recipes-devtools/rsync/rsync_3.1.3.bb b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+index 29cb231f36..ffb1d061c0 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.1.3.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+@@ -11,6 +11,10 @@ DEPENDS = "popt"
+ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://rsyncd.conf \
+            file://makefile-no-rebuild.patch \
++           file://CVE-2016-9840.patch \
++           file://CVE-2016-9841.patch \
++           file://CVE-2016-9842.patch \
++           file://CVE-2016-9843.patch \
  "
  
- SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
+ SRC_URI[md5sum] = "1581a588fde9d89f6bc6201e8129afaf"
 -- 
 2.21.0
 
