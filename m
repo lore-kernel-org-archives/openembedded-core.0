@@ -1,50 +1,25 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
-	[209.85.208.175])
-	by mail.openembedded.org (Postfix) with ESMTP id CB5BE7E3B6
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CA8187E447
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 19:02:48 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id e24so3153831ljg.11
+	Wed, 21 Aug 2019 20:01:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7LK1SHs014048
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 12:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=7AFNN9EKaBj56ktldtDgBU+N2VYKO2QD6zG4mGXsPCI=;
-	b=RIgvep52wrwQSX0yt0Hq5zRhJTR2s9UorRY5nvcJYhvdFubWdstm4M3CpQMxRTGP0X
-	FSQQWosuNX0qEGNYyBUZ9+dAxzJlKhyKkXn3402+JGpZ8BMroXlbGiZ4IZizamYaIBLO
-	S6Q/pPAgmA/GwJoPNui2CUe5DRpDIIbnIcN1i++EXgoWyWREm9RJPGKSDiLJ7se+RQ0z
-	SyxVM5prhGgbkNyvPNhjFGQAhM1Rp7PMneXidtinfPLwTyQx5CsjOwTqKOkUX4EM6Zgv
-	SFpR3VXOCyZSHJ9xB50fthmvJ48SNdNYu/4IiiHC8ukzmsWgb/+R3WrvrJAnM1XHzQw1
-	x4UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7AFNN9EKaBj56ktldtDgBU+N2VYKO2QD6zG4mGXsPCI=;
-	b=ikzEExd4mnMBjV37gsfYGXjEjl8z3qA44VuC1beejDV7rq2vQJWU2s6hxMJqn09tl1
-	0JKR/Ux6p+sjM6wB7UfUEKbcpRm4miZPzdPUrBZwFZAWSf0PGlxbQUMHy68VbMenqOpA
-	1AxP0mF9YJlOHlFlwRzK/ci5pinx4O56Mlb1Cn1twfbzO8y3egiMdExu47Zj0RTOghDj
-	lNgU9tpndVrvot3wvVqPelo2lsZnj5EvhIC40TXbAw8vMDq8bqXtoT6XH8++SJSDKR1p
-	iDYvrOMA2ngvXo8jNSAUgRhLmSPGHA77+W2qyxWze2TlJ8CsFDzaCtyjuyKcg7CrXK9m
-	qANA==
-X-Gm-Message-State: APjAAAWr/3MXySUW31B1/43yvkwUSJ0qZMO33O4lc4hlBN0geThTTS2h
-	xGFFQc1YqkJvRNI3ENzZO5JzeWIsmn4=
-X-Google-Smtp-Source: APXvYqzIyNqouNkP8eINScjx9vRwSZc2Qm6JP33dRhyf1Lh6HDr4HMwe/tQQreMV1tOboyqizfYjNw==
-X-Received: by 2002:a2e:9597:: with SMTP id w23mr19091411ljh.147.1566414168378;
-	Wed, 21 Aug 2019 12:02:48 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	x137sm3543213lff.23.2019.08.21.12.02.47
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 21 Aug 2019 12:02:47 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Aug 2019 21:02:44 +0200
-Message-Id: <20190821190244.7461-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] python-setuptools: update to 41.2.0
+	Wed, 21 Aug 2019 13:01:28 -0700 (PDT)
+Received: from yow-dellw-ag.wrs.com (128.224.56.115) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 21 Aug 2019 13:01:28 -0700
+From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 21 Aug 2019 16:01:06 -0400
+Message-ID: <1566417666-22515-2-git-send-email-Trevor.Gamblin@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1566417666-22515-1-git-send-email-Trevor.Gamblin@windriver.com>
+References: <1566417666-22515-1-git-send-email-Trevor.Gamblin@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/2] quilt: added less to RDEPENDS list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2019 19:02:49 -0000
+X-List-Received-Date: Wed, 21 Aug 2019 20:01:27 -0000
+Content-Type: text/plain
 
-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+The quilt "series" option relies on "less -R", but
+BusyBox's implementation of less does not provide -R. It
+could be determined how to enable it in busybox's recipe,
+but given the use case it likely isn't needed.
+
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
- ...ython-setuptools_41.1.0.bb => python-setuptools_41.2.0.bb} | 0
- ...hon3-setuptools_41.1.0.bb => python3-setuptools_41.2.0.bb} | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-setuptools_41.1.0.bb => python-setuptools_41.2.0.bb} (100%)
- rename meta/recipes-devtools/python/{python3-setuptools_41.1.0.bb => python3-setuptools_41.2.0.bb} (100%)
+ meta/recipes-devtools/quilt/quilt.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index c806589dba..322197eed8 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -10,8 +10,8 @@ inherit pypi
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index dcba62c..433e9b4 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -78,7 +78,7 @@ FILES_guards = "${bindir}/guards"
+ FILES_${PN}-doc = "${mandir}/man1/quilt.1 ${docdir}/${BPN}"
+ FILES_guards-doc = "${mandir}/man1/guards.1"
  
- SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+-RDEPENDS_${PN} = "bash patch diffstat bzip2 util-linux"
++RDEPENDS_${PN} = "bash patch diffstat bzip2 util-linux less"
+ RDEPENDS_${PN}_class-native = "diffstat-native patch-native bzip2-native"
  
--SRC_URI[md5sum] = "f26bbb3201c42ef37fb8d184cb85234d"
--SRC_URI[sha256sum] = "c519b84c299911fd94ef47e3de4fe678c254aefc5cdf8a9b12e4cdc8cc3744a8"
-+SRC_URI[md5sum] = "a3470ce184da33f0fa6c9f44f6221bc0"
-+SRC_URI[sha256sum] = "66b86bbae7cc7ac2e867f52dc08a6bd064d938bac59dfec71b9b565dd36d6012"
- 
- DEPENDS += "${PYTHON_PN}"
- 
-diff --git a/meta/recipes-devtools/python/python-setuptools_41.1.0.bb b/meta/recipes-devtools/python/python-setuptools_41.2.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-setuptools_41.1.0.bb
-rename to meta/recipes-devtools/python/python-setuptools_41.2.0.bb
-diff --git a/meta/recipes-devtools/python/python3-setuptools_41.1.0.bb b/meta/recipes-devtools/python/python3-setuptools_41.2.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_41.1.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools_41.2.0.bb
+ RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
 -- 
-2.17.1
+2.7.4
 
 
