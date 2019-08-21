@@ -1,24 +1,51 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF5D27E52D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 42FA07D40E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 20:01:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7LK1H77015996
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 21 Aug 2019 20:57:42 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id u16so3345308wrr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 13:01:27 -0700
-Received: from yow-dellw-ag.wrs.com (128.224.56.115) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 21 Aug 2019 13:01:07 -0700
-From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Aug 2019 16:01:05 -0400
-Message-ID: <1566417666-22515-1-git-send-email-Trevor.Gamblin@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 21 Aug 2019 13:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=gJE64gPwC9zN3FukteL4+dmDNeljUtWhURF2mXvEygY=;
+	b=iD14HI0V5xWh5GFcZaTK2DixdzMZqkE5741e/exHXenLs63UZsIERWFRXQknUtJ7Qb
+	9jg4sXpAbn7oU2UaiF0j774AfXEkL10Cw38YLHbO4zoVjd+Xf98B522/J+DCKjZ2159/
+	WznELx5Xp958ZgpqMnsqWY4qGpOhBL4m6tcuk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=gJE64gPwC9zN3FukteL4+dmDNeljUtWhURF2mXvEygY=;
+	b=M3j+BfwiZ1dZCV7Dq8UCXAMZaxOh3umPv5kINunTokrj1IsH3B/HV1QIT67flvAWO/
+	Kx6NgbdAXjhijjPfMw0gh7ioGYV6W+oRwXvL5Pie4WBBDWqfjK25CyfvybprpENxSYaA
+	vTntpp3ncBaDFh7xI4cjAps8MJOw19Rwo7t7HaD+ZD3aeGXRZaAydozhUVz24yW8yW3T
+	l49FUG4Fu/412l0xQk7KDswSYbPGrxw7RrIvHxexiocQSRd4lHmWND7oZoLRPQjBbayn
+	j1s4HqXKTuNj/czLSh1rylgDehcBdy3bputcjzb4787WhEyoJspqN8w+W7SJuvH68Scp
+	KxPA==
+X-Gm-Message-State: APjAAAVncH5yCO9WWPEzcBFZbJ9P1ypRpcTsqGSiLyXRfY3nhlufEqdw
+	lwY8zuP65TadLlw81oiozADoqA==
+X-Google-Smtp-Source: APXvYqwLjoZOAYUcsyGv1I0+strP1RmpRnrgoG6X/i0j/C8D5tNf9H7qIg9Y035fU8M4ejQCBytEiA==
+X-Received: by 2002:adf:ea89:: with SMTP id s9mr44697722wrm.76.1566421062903; 
+	Wed, 21 Aug 2019 13:57:42 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	e3sm29855248wrs.37.2019.08.21.13.57.41
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 21 Aug 2019 13:57:41 -0700 (PDT)
+Message-ID: <e6423f026434414f58509f3acec443d1cd681dfa.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Asselstine <mark.asselstine@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 21 Aug 2019 21:57:40 +0100
+In-Reply-To: <20190820175239.19769-1-mark.asselstine@windriver.com>
+References: <20190820175239.19769-1-mark.asselstine@windriver.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH 1/2] quilt: Export missing QUILT_PC variable in ptest Makefile
+Subject: Re: [PATCH] sdkext: use simpler kernel module for devtool test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +58,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2019 20:01:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 21 Aug 2019 20:57:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+On Tue, 2019-08-20 at 13:52 -0400, Mark Asselstine wrote:
+> The current devtool test for the building of an out-of-tree kernel
+> module uses something which requires several "high order" kconfigs to
+> be set. This results in the test failing, not for expected reasons,
+> but rather because it depends on specific kernel configuration.
+> 
+> You will get error messages such as
+> 
+>   ERROR: "video_ioctl2"
+>   [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-
+> driver/v4l2loopback.ko]
+>   undefined!
+>   ERROR: "video_unregister_device"
+>   [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-
+> driver/v4l2loopback.ko]
+>   undefined!
+> 
+> Using a simpler hello-world kernel module example will only require
+> that CONFIG_MODULE is enabled, thus avoiding a false positive.
+> 
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+> 
+> Richard, it is unclear if I need to match this change in
+> meta/lib/oeqa/manual/crops.json.
 
-The quilt ptest uses a custom Makefile to implement the
-"make check" rule, but the ptest Makefile does not export
-the value QUILT_PC, which is user-settable and normally
-defaults to ".pc". This causes failures e.g. import.test
-with "rm -rf patches/ %{QUILT_PC}/", evaluating to
-"rm -rf patches/ /" if the variable is not set by the
-Makefile.
+Those are manual tests for crops. They probably do also need this
+change as it would make them more reliable if/as anyone every automates
+them, or runs them manually.
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- meta/recipes-devtools/quilt/quilt/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+>  Please let me know and I
+> send a V2 which does this. I am not fond of pointing at
+> my own github but it was the best option to ensure it will
+> exist and not be messed with.
 
-diff --git a/meta/recipes-devtools/quilt/quilt/Makefile b/meta/recipes-devtools/quilt/quilt/Makefile
-index 7b3ac8a..1f6cd24 100644
---- a/meta/recipes-devtools/quilt/quilt/Makefile
-+++ b/meta/recipes-devtools/quilt/quilt/Makefile
-@@ -2,7 +2,8 @@ PATH :=         $(CURDIR)/bin:$(CURDIR)/compat:$(PATH)
- QUILT_DIR :=    $(CURDIR)/quilt
- QUILTRC :=      $(CURDIR)/test/test.quiltrc
- export QUILT_DIR QUILTRC
--CHECK_ENV := P=patches/; _P=../patches/; export P _P
-+CHECK_ENV := P=patches/; _P=../patches/; export P _P;
-+CHECK_ENV += QUILT_PC=.pc; export QUILT_PC
- -include test/.depend
- 
- check-% : test/%.test
--- 
-2.7.4
+The best option may be to put that repo onto git.yoctoproject.org?
+
+Cheers,
+
+Richard
+
 
 
