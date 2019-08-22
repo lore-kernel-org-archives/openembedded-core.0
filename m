@@ -1,40 +1,47 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 71D317ED57
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id AB1307ED22
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 04:12:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Aug 2019 21:11:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,415,1559545200"; d="scan'208";a="178708908"
-Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
-	by fmsmga008.fm.intel.com with ESMTP; 21 Aug 2019 21:11:51 -0700
-Received: from pgsmsx109.gar.corp.intel.com (10.221.44.109) by
-	PGSMSX111.gar.corp.intel.com (10.108.55.200) with Microsoft SMTP Server
-	(TLS) id 14.3.439.0; Thu, 22 Aug 2019 12:11:50 +0800
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.232]) by
-	PGSMSX109.gar.corp.intel.com ([169.254.14.101]) with mapi id
-	14.03.0439.000; Thu, 22 Aug 2019 12:11:49 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>, "martin.jansa@gmail.com"
-	<martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [PATCH V2] gcc-runtime: Move content from gcclibdir
-	into libdir
-Thread-Index: AQHVVCpb5BujuS3p10qY7zAg3xxZhab9Wm0AgAi2kQA=
-Date: Thu, 22 Aug 2019 04:11:48 +0000
-Message-ID: <7d45802126aa811e2c309761979ed0452f0a1d0a.camel@intel.com>
+	Thu, 22 Aug 2019 04:41:04 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id v38so6096499qtb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Aug 2019 21:41:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=LTt9gBv6SoeOH0ST7oEKjYcdipdDwQekhDK+ibh6qwA=;
+	b=tUeUCdxeArgQ3AB433zccg+f8ZWvyQKeYIzsZageOrXenlvDaG0BawMaEGiQhoIC4B
+	zVSuMb7cYO0m70qLph7qneKWpeV6upuAnAUAWHrY8NPvEGqfdrfw1FGuNR6wH6AOjtDq
+	t9t7si5nnLDW8CtN1fKhypibbmjAOs5xQdA7d8ojVDOk07XvLKKUmTb42GpCoyeXg1ih
+	WmCzTWO4P6yk7HJjzs3VHE2F1gUdU3eXNfwcIGPzfHIOKBpI5u9uLANA/rWb948evcib
+	c+RTfdpN0lMX6VNx0icG2SBLqGd/8zmpBmhgeN0qHxjJxqYfFUGNkjHUSltx1d229BQI
+	mEcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=LTt9gBv6SoeOH0ST7oEKjYcdipdDwQekhDK+ibh6qwA=;
+	b=i+U10atnHRFiuUF8z4Nwu44wcOGfsWkmb02IbvGZj0PyBNNX2sR4Wh7HhZaL3FsMsT
+	bgQD+tpkNXNTJ6sF9C4OiFtEn8ggbvZ8aN/aaB0lSydw8pMbjAnYsvtWCw6qGVKcsGhS
+	6wrA0F5iWie4C4NsTz/muSYwV6s0lqXpYgsgYNfVQjUth8wyTq2IBEMF7HwK2XMEsFmg
+	KJlcU/dnM5jSMfIc/M3iCgaAR4KjbeoGtMB8L6p3Dip+DZ6GM+1AWmzk+KIfct3y9SiD
+	eH6BFKSEgYrkHG6vViiPEBQz/YVUbSwXhf1S7QS1sNviGCEKZEgtPRFno1aN3mUk3jSg
+	NbNA==
+X-Gm-Message-State: APjAAAUAJtb9FvZJUhj6BV4a8gzPV6FcGVOeT99uDkcduwcZTPROH6mk
+	JtkejUOGxfqeChoQIrXauDDVSh430U8/fwnXi0Y=
+X-Google-Smtp-Source: APXvYqxvmmRtYV+2mTHkBJu//vgrYkkwl6fzuKhEJty/eFk/W+lAVQPvxjWyBnj/LwfYqm4dH6WdvTxaXhi+xcQVwhc=
+X-Received: by 2002:ac8:6997:: with SMTP id o23mr34775307qtq.53.1566448865275; 
+	Wed, 21 Aug 2019 21:41:05 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190813152835.12578-1-raj.khem@gmail.com>
 	<CA+chaQf6EnDHU=9U6q1a2_p=grcyWoy2epYXP+yaZ--qi0eH4Q@mail.gmail.com>
 	<CAMKF1sqBFvdWb9XxGaUUZpcJh7zrcNkwBRLj7Ga3K35a+Fb2CA@mail.gmail.com>
-In-Reply-To: <CAMKF1sqBFvdWb9XxGaUUZpcJh7zrcNkwBRLj7Ga3K35a+Fb2CA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.183.104]
-MIME-Version: 1.0
+	<7d45802126aa811e2c309761979ed0452f0a1d0a.camel@intel.com>
+In-Reply-To: <7d45802126aa811e2c309761979ed0452f0a1d0a.camel@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 21 Aug 2019 21:40:39 -0700
+Message-ID: <CAMKF1sooEv4r0Rb7HPi3QngYKK45XXa--2BojUOKzmp6XvWPKQ@mail.gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH V2] gcc-runtime: Move content from gcclibdir into libdir
@@ -50,31 +57,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 04:12:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2FEA5802FA4739469EDD621BAC342758@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 22 Aug 2019 04:41:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-T24gRnJpLCAyMDE5LTA4LTE2IGF0IDA4OjA4IC0wNzAwLCBLaGVtIFJhaiB3cm90ZToNCj4gT24g
-RnJpLCBBdWcgMTYsIDIwMTkgYXQgNTowMCBBTSBNYXJ0aW4gSmFuc2EgPG1hcnRpbi5qYW5zYUBn
-bWFpbC5jb20+DQo+IHdyb3RlOg0KPiA+IEhpLA0KPiA+IA0KPiA+IEkgaGF2ZSBhbiBhcHAgd2hp
-Y2ggaW5jbHVkZXMgb21wLmggZnJvbSBnb21wLCBpdCB1c2VkIHRvIGZpbmQgaXQNCj4gPiB3aXRo
-b3V0IGFkZGluZyBhbnkgLUkgZm9yIHRoYXQgKHdpdGgganVzdCAtZm9wZW5tcCB0byBlbmFibGUN
-Cj4gPiBvcGVubXApLg0KPiA+IA0KPiA+IE5vdyB0aGUgaGVhZGVyIGZpbGUgaXMgaW5jbHVkZWQg
-aW4gUlNTOg0KPiA+IGxpYjMyLXJlY2lwZS1zeXNyb290L3Vzci9saWIvYXJtLW9lbWxsaWIzMi1s
-aW51eC0NCj4gPiBnbnVlYWJpLzkuMi4wL2luY2x1ZGUvb21wLmgNCj4gPiBidXQgbm8gbG9uZ2Vy
-IGZvdW5kIGluIGRlZmF1bHQgc2VhcmNoIGRpcnMuDQo+ID4gDQo+ID4gSXMgdGhpcyBleHBlY3Rl
-ZCBvciBzaG91bGQgZ2NjIGJlIGFkanVzdGVkIHRvIHNlYXJjaCBmb3IgaXQNCj4gPiBhdXRvbWF0
-aWNhbGx5Pw0KPiA+IA0KPiANCj4gSXQgc2hvdWxkIGhhdmUgYWRqdXN0ZWQgYXV0b21hdGljYWxs
-eSBidXQgdGhlc2UgaGVhZGVycyBhcmUgc2VhcmhlZA0KPiByZWxhdGl2ZSB0byBpdHMgb3duIGlu
-c3RhbGwgYW5kIG5vdCBzeXNyb290IHJlZWxhdGl2ZQ0KPiBzbyBpdCBtaWdodCBoYXZlIHRvIGJl
-IGFkZHJlc3NlZC4gRG9lcyBpdCB3b3JrIHdpdGggbm9ybWFsICgNCj4gbm9uLW11bHRpbGliICkg
-Y2FzZSA/DQoNCkl0J3Mgbm90IHdvcmtpbmcgZm9yIG1lIGFzIHdlbGwuIEl0J3MgZWFzeSB0byBy
-ZXByb2R1Y2Ugd2hlbiB1c2luZw0KZmluZF9wYWNrYWdlKE9wZW5NUCkgd2l0aCBjbWFrZS4NCg0K
-VGhlIHNlYXJjaCBwYXRocyBhbHNvIGRvbid0IGxpc3QgdGhpcyBuZXcgcGF0aCBhbmQgYXJlIGxv
-b2tpbmcgZm9yDQpoZWFkZXJzIGluIG9sZCBvbmUuIFdvdWxkIHRoZSBwYXRoIGluIHBhdGNoICIw
-MDIwLUVuc3VyZS10YXJnZXQtZ2NjLQ0KaGVhZGVycy1jYW4tYmUtaW5jbHVkZWQucGF0Y2giIGhh
-dmUgdG8gYmUgYWRqdXN0ZWQgYXMgd2VsbCB0byBpbmNsdWRlDQp0aGlzIG5ldyBsb2NhdGlvbj8N
-Cg0KVGhhbmtzLA0KDQpBbnVqDQo=
+On Wed, Aug 21, 2019 at 9:11 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Fri, 2019-08-16 at 08:08 -0700, Khem Raj wrote:
+> > On Fri, Aug 16, 2019 at 5:00 AM Martin Jansa <martin.jansa@gmail.com>
+> > wrote:
+> > > Hi,
+> > >
+> > > I have an app which includes omp.h from gomp, it used to find it
+> > > without adding any -I for that (with just -fopenmp to enable
+> > > openmp).
+> > >
+> > > Now the header file is included in RSS:
+> > > lib32-recipe-sysroot/usr/lib/arm-oemllib32-linux-
+> > > gnueabi/9.2.0/include/omp.h
+> > > but no longer found in default search dirs.
+> > >
+> > > Is this expected or should gcc be adjusted to search for it
+> > > automatically?
+> > >
+> >
+> > It should have adjusted automatically but these headers are searhed
+> > relative to its own install and not sysroot reelative
+> > so it might have to be addressed. Does it work with normal (
+> > non-multilib ) case ?
+>
+> It's not working for me as well. It's easy to reproduce when using
+> find_package(OpenMP) with cmake.
+>
+> The search paths also don't list this new path and are looking for
+> headers in old one. Would the path in patch "0020-Ensure-target-gcc-
+> headers-can-be-included.patch" have to be adjusted as well to include
+> this new location?
+>
+
+there is patch posted already to fix this
+https://patchwork.openembedded.org/patch/164057/
+
+> Thanks,
+>
+> Anuj
 
