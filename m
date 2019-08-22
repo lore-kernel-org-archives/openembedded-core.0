@@ -1,48 +1,43 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
-	[209.85.222.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0922C7E773
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 71D317ED57
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 03:35:11 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id w7so1518257uao.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 20:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9Vk85v04XyhqWcDdvRu09FKrLlagT1c4exB19zsJ5WE=;
-	b=oe/Oxq0nGr/ICGQ6er3ECzSZ6g022h4MfSoLKSCPo+PQtJIXS6H/o5ErXu0El6RbQ4
-	Wj/MLJV67I0RcoyGD5e+MNCz49Bze7RyHLeOjfZ/6pAWoS2GcmWKcJ/BE4BxzzywUG73
-	kZ+jwQgWPnYLnfE4l+XnJeVxwX93vhaHcvQ4KxJGAQBp4Vac7eenQGJBhODkmYIwkrww
-	4nU7W9U2pFydLXnDZay6OcbQjupbI23a2oq5RtABjmPrnU/V5VD05Uuz29CKDJuEj339
-	KmAa3xyzGgyEx2HY1TlfO35kVkT2RARjoBrex0t/nIHg3NWJNIVqqG61oDnsT7Rciyko
-	17Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9Vk85v04XyhqWcDdvRu09FKrLlagT1c4exB19zsJ5WE=;
-	b=nbXu8T90Oxq5ky7kCsKAvSsvN6D/6/LuIrYBK4kDwOkz3d89L8/yUrmY+S4/PCmp4l
-	1sFVQI2/eYByQbPyHu8IAPsz6iygH7kWl4Zutnl+ZxwEaut+h4zxwgT8qarizcuKWOq0
-	mhU8cdc6mPGzrnTQuTZS7ewPUqfLWa7sXD0jO0T0Z0CGRM2alc7q5/EDYp6PIP13RwTW
-	hxtvw1cJ2U3+fjPV4UNisitwFOrrntPWHUwl8mk+i9U98df0IDW8g/JK5esOI/yO0nAt
-	PoKHT36McJzL7lc4y5GkLNgeSkk8mTPdQcRf+kqGEdRSDwHpYN1Q84g+i6EqB7Lfnfji
-	a6pA==
-X-Gm-Message-State: APjAAAVy9Vx7CJ77a38WF5xcKwx9LiB3PNk8COgnZIN+V3ume7bXL1Tv
-	cF3vtCzHQn2Qk5z2EdB0nzAKSj1/iD33JmTI1D0=
-X-Google-Smtp-Source: APXvYqzVM9s72xDOV96bCIJMxlsAysa7S1sJmLD07o/wsCGjC1b2YUK6RmUNFjiYJCW/0JVNiojepCLRUXuzE40c1Yg=
-X-Received: by 2002:ab0:3384:: with SMTP id y4mr4483529uap.106.1566444912635; 
-	Wed, 21 Aug 2019 20:35:12 -0700 (PDT)
+	Thu, 22 Aug 2019 04:12:01 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Aug 2019 21:11:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,415,1559545200"; d="scan'208";a="178708908"
+Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
+	by fmsmga008.fm.intel.com with ESMTP; 21 Aug 2019 21:11:51 -0700
+Received: from pgsmsx109.gar.corp.intel.com (10.221.44.109) by
+	PGSMSX111.gar.corp.intel.com (10.108.55.200) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Thu, 22 Aug 2019 12:11:50 +0800
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.232]) by
+	PGSMSX109.gar.corp.intel.com ([169.254.14.101]) with mapi id
+	14.03.0439.000; Thu, 22 Aug 2019 12:11:49 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>, "martin.jansa@gmail.com"
+	<martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH V2] gcc-runtime: Move content from gcclibdir
+	into libdir
+Thread-Index: AQHVVCpb5BujuS3p10qY7zAg3xxZhab9Wm0AgAi2kQA=
+Date: Thu, 22 Aug 2019 04:11:48 +0000
+Message-ID: <7d45802126aa811e2c309761979ed0452f0a1d0a.camel@intel.com>
+References: <20190813152835.12578-1-raj.khem@gmail.com>
+	<CA+chaQf6EnDHU=9U6q1a2_p=grcyWoy2epYXP+yaZ--qi0eH4Q@mail.gmail.com>
+	<CAMKF1sqBFvdWb9XxGaUUZpcJh7zrcNkwBRLj7Ga3K35a+Fb2CA@mail.gmail.com>
+In-Reply-To: <CAMKF1sqBFvdWb9XxGaUUZpcJh7zrcNkwBRLj7Ga3K35a+Fb2CA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.183.104]
 MIME-Version: 1.0
-References: <1566417666-22515-1-git-send-email-Trevor.Gamblin@windriver.com>
-	<1566417666-22515-2-git-send-email-Trevor.Gamblin@windriver.com>
-	<aed232e0-f899-bf56-d040-a7a671d3bee3@windriver.com>
-In-Reply-To: <aed232e0-f899-bf56-d040-a7a671d3bee3@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 21 Aug 2019 20:35:01 -0700
-Message-ID: <CAJ86T=VEZx1Hc-Xr-yz2FAhbbYws1=y0jjhv9iQ4joJqu7ptOw@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] quilt: added less to RDEPENDS list
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] gcc-runtime: Move content from gcclibdir into libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,100 +50,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 03:35:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 22 Aug 2019 04:12:01 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2FEA5802FA4739469EDD621BAC342758@intel.com>
+Content-Transfer-Encoding: base64
 
-On Wed, Aug 21, 2019 at 7:43 PM Randy MacLeod
-<randy.macleod@windriver.com> wrote:
->
-> Re: [OE-core] [PATCH 2/2] quilt: added less to RDEPENDS list
->
-> s/added/add/
->
-> When in Rome:
-> $ cd .../oe-core
-> $ git log --oneline -10000 | grep -i add | wc -l
-> 1376
->
-> $ git log --oneline -10000 | grep -i added | wc -l
-> 19
->
-> On 8/21/19 4:01 PM, Trevor Gamblin wrote:
-> > From: Trevor Gamblin <trevor.gamblin@windriver.com>
-> >
-> > The quilt "series" option relies on "less -R", but > BusyBox's implementation of less does not provide -R. It
-> > could be determined how to enable it in busybox's recipe,
-> > but given the use case it likely isn't needed.
->
-> That statement could be misleading, try:
->
-> The quilt "series" option relies on "less -R" but since
-> that option is not enabled by busybox in oe-core by default
-> so hard-code the dependency on 'less'.
-
-Still sounds awkward. Try:
-
-  The quilt "series" option relies on "less -R" but, since that option
-is not enabled by busybox in oe-core by default, hard-code the
-dependency on 'less'.
-
-Or:
-
-  The quilt "series" option relies on "less -R". That option is not
-enabled by busybox in oe-core by default so hard-code the dependency
-on 'less'.
-
->  From 'man less':
->     -r or --raw-control-chars
->        Causes "raw" control characters to be displayed. ...
->     -R or --RAW-CONTROL-CHARS
->        Like -r, but only ANSI "color" escape sequences are
->        output in "raw" form.  ...
->
-> In 2018, BusyBox's less added:
->     8528d3d4f less: optional support of -R
-> but it is not enable by default for oe-core. While we could
-> enable the option, all known use-cases involve larger, more
-> developer-oriented recipes such as quilt or man pages.
->
-> ---
->
-> I maintain that we need to resist adding one more wafer-thin
-> 200 byte config to our default busybox config to avoid bloat
-> over the years. We wouldn't want the busybox package to burst!
->
-> ../Randy
->
->  > could be determined how to enable it in busybox's recipe,
->  > but given the use case it likely isn't needed.
-> >
-> > Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> > ---
-> >   meta/recipes-devtools/quilt/quilt.inc | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
-> > index dcba62c..433e9b4 100644
-> > --- a/meta/recipes-devtools/quilt/quilt.inc
-> > +++ b/meta/recipes-devtools/quilt/quilt.inc
-> > @@ -78,7 +78,7 @@ FILES_guards = "${bindir}/guards"
-> >   FILES_${PN}-doc = "${mandir}/man1/quilt.1 ${docdir}/${BPN}"
-> >   FILES_guards-doc = "${mandir}/man1/guards.1"
-> >
-> > -RDEPENDS_${PN} = "bash patch diffstat bzip2 util-linux"
-> > +RDEPENDS_${PN} = "bash patch diffstat bzip2 util-linux less"
-> >   RDEPENDS_${PN}_class-native = "diffstat-native patch-native bzip2-native"
-> >
-> >   RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
-> >
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+T24gRnJpLCAyMDE5LTA4LTE2IGF0IDA4OjA4IC0wNzAwLCBLaGVtIFJhaiB3cm90ZToNCj4gT24g
+RnJpLCBBdWcgMTYsIDIwMTkgYXQgNTowMCBBTSBNYXJ0aW4gSmFuc2EgPG1hcnRpbi5qYW5zYUBn
+bWFpbC5jb20+DQo+IHdyb3RlOg0KPiA+IEhpLA0KPiA+IA0KPiA+IEkgaGF2ZSBhbiBhcHAgd2hp
+Y2ggaW5jbHVkZXMgb21wLmggZnJvbSBnb21wLCBpdCB1c2VkIHRvIGZpbmQgaXQNCj4gPiB3aXRo
+b3V0IGFkZGluZyBhbnkgLUkgZm9yIHRoYXQgKHdpdGgganVzdCAtZm9wZW5tcCB0byBlbmFibGUN
+Cj4gPiBvcGVubXApLg0KPiA+IA0KPiA+IE5vdyB0aGUgaGVhZGVyIGZpbGUgaXMgaW5jbHVkZWQg
+aW4gUlNTOg0KPiA+IGxpYjMyLXJlY2lwZS1zeXNyb290L3Vzci9saWIvYXJtLW9lbWxsaWIzMi1s
+aW51eC0NCj4gPiBnbnVlYWJpLzkuMi4wL2luY2x1ZGUvb21wLmgNCj4gPiBidXQgbm8gbG9uZ2Vy
+IGZvdW5kIGluIGRlZmF1bHQgc2VhcmNoIGRpcnMuDQo+ID4gDQo+ID4gSXMgdGhpcyBleHBlY3Rl
+ZCBvciBzaG91bGQgZ2NjIGJlIGFkanVzdGVkIHRvIHNlYXJjaCBmb3IgaXQNCj4gPiBhdXRvbWF0
+aWNhbGx5Pw0KPiA+IA0KPiANCj4gSXQgc2hvdWxkIGhhdmUgYWRqdXN0ZWQgYXV0b21hdGljYWxs
+eSBidXQgdGhlc2UgaGVhZGVycyBhcmUgc2VhcmhlZA0KPiByZWxhdGl2ZSB0byBpdHMgb3duIGlu
+c3RhbGwgYW5kIG5vdCBzeXNyb290IHJlZWxhdGl2ZQ0KPiBzbyBpdCBtaWdodCBoYXZlIHRvIGJl
+IGFkZHJlc3NlZC4gRG9lcyBpdCB3b3JrIHdpdGggbm9ybWFsICgNCj4gbm9uLW11bHRpbGliICkg
+Y2FzZSA/DQoNCkl0J3Mgbm90IHdvcmtpbmcgZm9yIG1lIGFzIHdlbGwuIEl0J3MgZWFzeSB0byBy
+ZXByb2R1Y2Ugd2hlbiB1c2luZw0KZmluZF9wYWNrYWdlKE9wZW5NUCkgd2l0aCBjbWFrZS4NCg0K
+VGhlIHNlYXJjaCBwYXRocyBhbHNvIGRvbid0IGxpc3QgdGhpcyBuZXcgcGF0aCBhbmQgYXJlIGxv
+b2tpbmcgZm9yDQpoZWFkZXJzIGluIG9sZCBvbmUuIFdvdWxkIHRoZSBwYXRoIGluIHBhdGNoICIw
+MDIwLUVuc3VyZS10YXJnZXQtZ2NjLQ0KaGVhZGVycy1jYW4tYmUtaW5jbHVkZWQucGF0Y2giIGhh
+dmUgdG8gYmUgYWRqdXN0ZWQgYXMgd2VsbCB0byBpbmNsdWRlDQp0aGlzIG5ldyBsb2NhdGlvbj8N
+Cg0KVGhhbmtzLA0KDQpBbnVqDQo=
 
