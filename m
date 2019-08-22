@@ -1,24 +1,24 @@
 Return-Path: <Trevor.Gamblin@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 04ED97F21A
+	by mail.openembedded.org (Postfix) with ESMTP id 28C317F2F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 18:52:46 +0000 (UTC)
+	Thu, 22 Aug 2019 18:55:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7MIpuWP025696
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7MIsPV2025859
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 11:52:37 -0700
+	Thu, 22 Aug 2019 11:55:02 -0700
 Received: from yow-dellw-ag.wrs.com (128.224.56.115) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Thu, 22 Aug 2019 11:52:04 -0700
+	14.3.468.0; Thu, 22 Aug 2019 11:54:50 -0700
 From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Aug 2019 14:52:04 -0400
-Message-ID: <1566499924-12897-1-git-send-email-Trevor.Gamblin@windriver.com>
+Date: Thu, 22 Aug 2019 14:54:49 -0400
+Message-ID: <1566500089-12962-1-git-send-email-Trevor.Gamblin@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] lighttpd: lighttpd: drop hard-coded lua version in PACKAGECONFIG
+Subject: [PATCH v2] lighttpd: drop hard-coded lua version in PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 18:52:47 -0000
+X-List-Received-Date: Thu, 22 Aug 2019 18:55:11 -0000
 Content-Type: text/plain
 
 From: Trevor Gamblin <trevor.gamblin@windriver.com>
