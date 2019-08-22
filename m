@@ -1,37 +1,18 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id AC5B67F26C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 17:01:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46DrQf5Mmgz3P;
-	Thu, 22 Aug 2019 19:01:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1566493276;
-	bh=7HwxKBiGxaZAuho4jWsDoHaUrFSXftu94TV/vCkuLsw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aHrmLdmMmj6+pedyx/cQXYcAUJ+MHMDxj73qpFOEUgkjeQP1PbqLuTrrr08XwAZDw
-	sN7Oz01ANH69nYesRbLKUswXeD0NwNwvxLRj0iT7A607TZFleM88e/6YVZTqnbXvYR
-	G+/BacTYOh/ydbEutifirXG1Dok32z1+2OMdtAn35NLNgS7rORvMgbymiwjeEaYY9z
-	RnhsR9jggqYakRUvnjpI/KRXaDWaUOBkn2olcSUoVMZ6Y0+scLJa4X37tu3FAhTH0+
-	PogAMTUORV3nbjdg0zlMy21Qjqbk0/yE2W+MePOmODhWiPVgDk4ViMbUpIPYnxfpFd
-	cTiy95n1SEmfbUdwxzcLenb0F3xHd1DU6z7zr5m3KSa9l2STmqurCt/sAfpKmpQ4P9
-	lBKk1agq7zG6tLlvNDEfZiZS/mKbnYnA0J3DYfVAJ2ondiGASzc1nHZgb0AkcA/eZe
-	fpf1M1r3SsTosR7Mc5mrrz4mu0Tr8gAZJMKvubnAZbTuPLS2VmZNs+YlDyYj7fgZwp
-	/h7UZuQFoeqqoI9p6/sPl4jwNCFLWJovawviSaJKopFF/JLEw8Grby3U3XPX1wjvwd
-	/ljh1+4Gf+9MUTjl+mURkTaj/D0xtQPfR4fwmzmvlKuJneivAEzOvVnL3J+wXo2GFj
-	jhfN/LjJbM7OOJOSUki4xxWk=
-Date: Thu, 22 Aug 2019 20:01:11 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20190822170111.GA2069@localhost>
-References: <1566438018-16251-1-git-send-email-hongxu.jia@windriver.com>
-	<1566438018-16251-3-git-send-email-hongxu.jia@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 169BB7F295;
+	Thu, 22 Aug 2019 17:02:21 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1566438018-16251-3-git-send-email-hongxu.jia@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: =?utf-8?q?Maxime_Roussin-B=C3=A9langer?= <maxime.roussinbelanger@gmail.com>
+Date: Thu, 22 Aug 2019 17:02:22 -0000
+Message-ID: <20190822170222.2330.42983@do>
+References: <20190822164414.1488-1-maxime.roussinbelanger@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190822164414.1488-1-maxime.roussinbelanger@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] elfutils: 0.176 -> 0.177
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGliZWRpdDogQWRkIG5hdGl2ZSBhbmQgbmF0aXZlc2RrIHRvIEJCQ0xBU1NFWFRFTkQ=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +25,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 17:01:16 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 22 Aug 2019 17:02:21 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 22, 2019 at 09:40:18AM +0800, Hongxu Jia wrote:
-> - Update Debian patches
->   http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.176-1.debian.tar.xz
-> 
-> - Rebase Debian patches to 0.177
->   debian/hppa_backend.diff
->   debian/mips_backend.diff
->   debian/arm_backend.diff
->   debian/mips_readelf_w.patch
->   debian/testsuite-ignore-elflint.diff
->   debian/mips_cfi.patch
->...
->  ...1-fix-compile-failure-with-debian-patches.patch |  48 ++++++++
->...
->  .../elfutils/files/debian/hppa_backend.diff        |  57 +++++----
->  .../elfutils/files/debian/hurd_path.patch          |  17 +--
->...
->  .../elfutils/files/debian/kfreebsd_path.patch      |  13 +-
->...
->  .../elfutils/files/debian/mips_cfi.patch           | 131 +++++++++++++++++++++
->...
+== Series Details ==
 
-Why are we following Debian patches in a package with active upstream?
+Series: libedit: Add native and nativesdk to BBCLASSEXTEND
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/19421/
+State : failure
 
-cu
-Adrian
+== Summary ==
 
--- 
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     openembedded-devel@lists.openembedded.org [http://git.openembedded.org/meta-openembedded/]
+  Patch's path:    meta-oe/recipes-devtools/libedit/libedit_20180525-3.1.bb
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  thud (currently at d3d3f44303)
+
+* Patch            [thud] libedit: Add native and nativesdk to BBCLASSEXTEND
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
