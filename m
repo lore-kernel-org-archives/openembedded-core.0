@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 327C77F276;
-	Thu, 22 Aug 2019 08:32:41 +0000 (UTC)
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 901637F270
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2019 12:29:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7MCT6Kb025859
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2019 05:29:06 -0700 (PDT)
+Received: from yow-dellw-ag.wrs.com (128.224.56.115) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 22 Aug 2019 05:29:06 -0700
+From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Aug 2019 08:29:04 -0400
+Message-ID: <1566476945-27499-1-git-send-email-Trevor.Gamblin@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: mazliana.mohamad@intel.com
-Date: Thu, 22 Aug 2019 08:32:42 -0000
-Message-ID: <20190822083242.2334.10067@do>
-References: <1566461738-29240-1-git-send-email-mazliana.mohamad@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1566461738-29240-1-git-send-email-mazliana.mohamad@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb2VxYS9rZXJuZWxkZXZlbG9wbWVudDogQWJsZSB0byBhcHBseSBhIHNpbmdsZSBwYXRjaCB0byB0aGUgTGludXgga2VybmVsIHNvdXJjZQ==?=
+Subject: [PATCH v2 1/2] quilt: Export QUILT_PC variable in ptest Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 08:32:41 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Aug 2019 12:29:05 -0000
+Content-Type: text/plain
 
-== Series Details ==
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-Series: oeqa/kerneldevelopment: Able to apply a single patch to the Linux kernel source
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19411/
-State : failure
+The quilt ptest uses a custom Makefile to implement the
+"make check" rule, but the ptest Makefile does not export
+the variable QUILT_PC, which is user-settable and normally
+defaults to ".pc". This causes failures e.g. import.test
+with "rm -rf patches/ %{QUILT_PC}/", evaluating to
+"rm -rf patches/ /" if the variable is not set by the
+Makefile.
 
-== Summary ==
+These ptests broke in:
+  73d6034f6b quilt: update to 0.66
+when the upstream quilt developers enabled users to specify
+their own QUILT_PC string.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Errors in your Python code were encountered [test_pylint] 
-  Suggested fix    Correct the lines introduced by your patch
-  Output           Please, fix the listed issues:
-                   meta/lib/oeqa/selftest/cases/kerneldevelopment.py does not exist
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/quilt/quilt/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/quilt/quilt/Makefile b/meta/recipes-devtools/quilt/quilt/Makefile
+index 7b3ac8a..1f6cd24 100644
+--- a/meta/recipes-devtools/quilt/quilt/Makefile
++++ b/meta/recipes-devtools/quilt/quilt/Makefile
+@@ -2,7 +2,8 @@ PATH :=         $(CURDIR)/bin:$(CURDIR)/compat:$(PATH)
+ QUILT_DIR :=    $(CURDIR)/quilt
+ QUILTRC :=      $(CURDIR)/test/test.quiltrc
+ export QUILT_DIR QUILTRC
+-CHECK_ENV := P=patches/; _P=../patches/; export P _P
++CHECK_ENV := P=patches/; _P=../patches/; export P _P;
++CHECK_ENV += QUILT_PC=.pc; export QUILT_PC
+ -include test/.depend
+ 
+ check-% : test/%.test
+-- 
+2.7.4
 
 
