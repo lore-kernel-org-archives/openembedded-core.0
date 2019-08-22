@@ -1,29 +1,29 @@
 Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AE287E97A
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 894967DDAA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 02:43:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7M2hdKT020142
+	Thu, 22 Aug 2019 03:00:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7M2xnLh025751
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 19:43:39 -0700 (PDT)
+	Wed, 21 Aug 2019 20:00:00 -0700
 Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 21 Aug 2019 19:43:38 -0700
+	Wed, 21 Aug 2019 19:59:39 -0700
 To: Trevor Gamblin <Trevor.Gamblin@windriver.com>,
 	<openembedded-core@lists.openembedded.org>
 References: <1566417666-22515-1-git-send-email-Trevor.Gamblin@windriver.com>
-	<1566417666-22515-2-git-send-email-Trevor.Gamblin@windriver.com>
 From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <aed232e0-f899-bf56-d040-a7a671d3bee3@windriver.com>
-Date: Wed, 21 Aug 2019 22:43:37 -0400
+Message-ID: <ad31f9c1-2fcf-bffe-3695-e52d13868434@windriver.com>
+Date: Wed, 21 Aug 2019 22:59:37 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1566417666-22515-2-git-send-email-Trevor.Gamblin@windriver.com>
+In-Reply-To: <1566417666-22515-1-git-send-email-Trevor.Gamblin@windriver.com>
 X-Originating-IP: [172.25.44.5]
-Subject: Re: [PATCH 2/2] quilt: added less to RDEPENDS list
+Subject: Re: [PATCH 1/2] quilt: Export missing QUILT_PC variable in ptest Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,78 +36,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 02:43:38 -0000
+X-List-Received-Date: Thu, 22 Aug 2019 03:00:09 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-Re: [OE-core] [PATCH 2/2] quilt: added less to RDEPENDS list
-
-s/added/add/
-
-When in Rome:
-$ cd .../oe-core
-$ git log --oneline -10000 | grep -i add | wc -l
-1376
-
-$ git log --oneline -10000 | grep -i added | wc -l
-19
+    quilt: Export missing QUILT_PC variable in ptest Makefile
+is over the 50 character suggested short summary limit:
+    quilt: Export QUILT_PC variable in ptest Makefile
+works. :)
 
 On 8/21/19 4:01 PM, Trevor Gamblin wrote:
 > From: Trevor Gamblin <trevor.gamblin@windriver.com>
 > 
-> The quilt "series" option relies on "less -R", but > BusyBox's implementation of less does not provide -R. It
-> could be determined how to enable it in busybox's recipe,
-> but given the use case it likely isn't needed.
+> The quilt ptest uses a custom Makefile to implement the
+> "make check" rule, but the ptest Makefile does not export
+> the value QUILT_PC, which is user-settable and normally
+s/value/variable/
+> defaults to ".pc". This causes failures e.g. import.test
+> with "rm -rf patches/ %{QUILT_PC}/", evaluating to
+> "rm -rf patches/ /" if the variable is not set by the
+> Makefile. 
 
-That statement could be misleading, try:
+Add that:
 
-The quilt "series" option relies on "less -R" but since
-that option is not enabled by busybox in oe-core by default
-so hard-code the dependency on 'less'.
-
- From 'man less':
-    -r or --raw-control-chars
-       Causes "raw" control characters to be displayed. ...
-    -R or --RAW-CONTROL-CHARS
-       Like -r, but only ANSI "color" escape sequences are
-       output in "raw" form.  ...
-
-In 2018, BusyBox's less added:
-    8528d3d4f less: optional support of -R
-but it is not enable by default for oe-core. While we could
-enable the option, all known use-cases involve larger, more
-developer-oriented recipes such as quilt or man pages.
-
----
-
-I maintain that we need to resist adding one more wafer-thin
-200 byte config to our default busybox config to avoid bloat
-over the years. We wouldn't want the busybox package to burst!
+These ptests broke in:
+   73d6034f6b quilt: update to 0.66
+when the upstream quilt developers enabled users to specify
+their own QUILT_PC string.
 
 ../Randy
 
- > could be determined how to enable it in busybox's recipe,
- > but given the use case it likely isn't needed.
+
 > 
 > Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 > ---
->   meta/recipes-devtools/quilt/quilt.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   meta/recipes-devtools/quilt/quilt/Makefile | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
-> index dcba62c..433e9b4 100644
-> --- a/meta/recipes-devtools/quilt/quilt.inc
-> +++ b/meta/recipes-devtools/quilt/quilt.inc
-> @@ -78,7 +78,7 @@ FILES_guards = "${bindir}/guards"
->   FILES_${PN}-doc = "${mandir}/man1/quilt.1 ${docdir}/${BPN}"
->   FILES_guards-doc = "${mandir}/man1/guards.1"
+> diff --git a/meta/recipes-devtools/quilt/quilt/Makefile b/meta/recipes-devtools/quilt/quilt/Makefile
+> index 7b3ac8a..1f6cd24 100644
+> --- a/meta/recipes-devtools/quilt/quilt/Makefile
+> +++ b/meta/recipes-devtools/quilt/quilt/Makefile
+> @@ -2,7 +2,8 @@ PATH :=         $(CURDIR)/bin:$(CURDIR)/compat:$(PATH)
+>   QUILT_DIR :=    $(CURDIR)/quilt
+>   QUILTRC :=      $(CURDIR)/test/test.quiltrc
+>   export QUILT_DIR QUILTRC
+> -CHECK_ENV := P=patches/; _P=../patches/; export P _P
+> +CHECK_ENV := P=patches/; _P=../patches/; export P _P;
+> +CHECK_ENV += QUILT_PC=.pc; export QUILT_PC
+>   -include test/.depend
 >   
-> -RDEPENDS_${PN} = "bash patch diffstat bzip2 util-linux"
-> +RDEPENDS_${PN} = "bash patch diffstat bzip2 util-linux less"
->   RDEPENDS_${PN}_class-native = "diffstat-native patch-native bzip2-native"
->   
->   RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
+>   check-% : test/%.test
 > 
 
 
