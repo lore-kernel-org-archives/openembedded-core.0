@@ -1,24 +1,54 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CE0A6069C
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+	[209.85.208.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E932B6C3AA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 15:57:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7MFuFFT014490
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 22 Aug 2019 08:56:51 -0700
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 22 Aug 2019 08:56:20 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Aug 2019 11:56:16 -0400
-Message-ID: <20190822155616.35046-1-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.21.0
+	Thu, 22 Aug 2019 16:10:21 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id t50so8723969edd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2019 09:10:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:from:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=kvsrvh6DOraRiCNzTmR/TkgETz89/gDf9z3tMArdCuY=;
+	b=QP5th4V2WdbjDrinQiaSlvqgQ8IMXHFEjBEKx8XWm94D11k/Hr92IahRe0fqcDHqPo
+	XVeRjpD4QK6yLgJfRePAxsT2t3s9Uv52XM8IlyIvfegy1DXLPELqcmxsR1WofQNTx8PX
+	543dClMUTX53dKCNlyxFj03LskBKVoNTb+FFwATMeBkZismk6w4Y47HDDMsv4cRmgcbP
+	eH+B3ZzjG4HUgOE7setE80mFNfCoi2jENTrIUEEQHzIpE4euUdmZ6olJnPJJ/g1EK0LX
+	HKOUfzQ13Ahl2KOKJ/V1RSDLWFW7h4CJm+73F1c9e6HY5yclEk4rlXaZEYr/GNaYcSiD
+	5xuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=kvsrvh6DOraRiCNzTmR/TkgETz89/gDf9z3tMArdCuY=;
+	b=YsA59/U80k7+JXMxFEqqMZBn0FbDaQTHDwu1KHj84bmfX8TsJi0hboWfCHMM8irw11
+	aD4by/9XJ1oIGsEDib8PoUCwofxD06NiTHPzB309VYG7FIB1j8snkuZ6KpLtJmLXDy+a
+	nd6n305qs1c7utIOB9JKjGHr44twaUaZWC6/SGhrdoVUD11x1SYF1KRMSB/bOW18Fz+q
+	3xb0s9dnY4glsvHR1ZEFforkv5dynJSiQ2gOW+/kF6vjvDCZ1/V9nEp2KDlD7WEpvkjH
+	Z3nySCExVH0OYlEgR1LRXtmKQtDobyhxela8XIFy6IBwWnbQZcPsMFk1DGUQW4dAOhWI
+	HOag==
+X-Gm-Message-State: APjAAAWdiPptzO0SMgN4IvjW8pLna46PT6rQsUT/hm/i3fzFySp1RbgV
+	X/EgbLxD5LqGMS7AHNe/hr1N8lu8
+X-Google-Smtp-Source: APXvYqykx5mJpLq9EtGylB55IvR1Y+tRA6SqkeBRd7BuAvP64N56S5FOBlu4WRHZWOKKqth3BMM4HQ==
+X-Received: by 2002:a17:906:505:: with SMTP id j5mr4174eja.261.1566490222357; 
+	Thu, 22 Aug 2019 09:10:22 -0700 (PDT)
+Received: from [192.168.10.117] (37-247-29-68.customers.ownit.se.
+	[37.247.29.68])
+	by smtp.gmail.com with ESMTPSA id e6sm1772750eds.91.2019.08.22.09.10.19
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Thu, 22 Aug 2019 09:10:19 -0700 (PDT)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org, Qi.Chen@windriver.com
+References: <20190821102553.17770-1-jacob.kroon@gmail.com>
+Message-ID: <a0590f69-36f1-8770-7ee1-f55194502e31@gmail.com>
+Date: Thu, 22 Aug 2019 18:10:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH][V2] sdkext: use simpler kernel module for devtool test
+In-Reply-To: <20190821102553.17770-1-jacob.kroon@gmail.com>
+Subject: Re: [PATCHv2] initscripts: remove warnings on read-only-rootfs (again)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,90 +61,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 15:57:16 -0000
+X-List-Received-Date: Thu, 22 Aug 2019 16:10:22 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-The current devtool test for the building of an out-of-tree kernel
-module uses something which requires several "high order" kconfigs to
-be set. This results in the test failing, not for expected reasons,
-but rather because it depends on specific kernel configuration.
+On 8/21/19 12:25 PM, Jacob Kroon wrote:
+> From: Martin Hundebøll <martin@geanix.com>
+> 
+> When the populate-volatile.sh initscript tests if a configured symlink
+> is already in place, it uses readlink with the '-f' (follow) option:
+> 
+>> [ "$(readlink -f $source)" = "$dest" ]
+> 
+> If the test fails, it proceeds to delete the exisiting folder/file, and
+> create the configured symlink.
+> 
+> However, the '-f' option to readlink makes it follow symlinks pointing
+> at symlinks. If the $dest argument is a symlink, the above test fails,
+> and warnings are printed due to changing a read-only rootfs.
+> 
+> This is the case for /tmp, and /etc/resolv.conf:
+>> /tmp -> /var/tmp -> /var/volatile/tmp
+>> /etc/resolv.conf -> /var/run/resolv.conf -> /run/resolv.conf
+> 
+> Fix the warnings by removing the '-f' option, so that the test matches
+> the configuration.
+> 
+> [ YOCTO #10814 ]
+> 
+> Signed-off-by: Martin Hundebøll <martin@geanix.com>
+> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+> ---
+> 
+> v2:
+>   * Added my own signed-off-by tag
+>   * Added reference to YOCTO #10814
+>   * Original patch: https://patchwork.openembedded.org/patch/152602/
+> 
+>   .../initscripts/initscripts-1.0/populate-volatile.sh            | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> index 6f965a6870..1c525b71bd 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+> @@ -80,7 +80,7 @@ mk_dir() {
+>   link_file() {
+>   	EXEC="
+>   	if [ -L \"$2\" ]; then
+> -		[ \"\$(readlink -f \"$2\")\" != \"$1\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; };
+> +		[ \"\$(readlink \"$2\")\" != \"$1\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; };
+>   	elif [ -d \"$2\" ]; then
+>   		if awk '\$2 == \"$2\" {exit 1}' /proc/mounts; then
+>   			cp -a $2/* $1 2>/dev/null;
+> 
 
-You will get error messages such as
+Hi Chen,
 
-  ERROR: "video_ioctl2"
-  [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-driver/v4l2loopback.ko]
-  undefined!
-  ERROR: "video_unregister_device"
-  [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-driver/v4l2loopback.ko]
-  undefined!
+Can I ask you to review the patch above ?
+Having spent some time staring at the change and reading up on intended 
+behaviour, I think the patch is correct.
 
-Using a simpler hello-world kernel module example will only require
-that CONFIG_MODULE is enabled, thus avoiding a false positive.
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
-
-**V2**
- - also updated the CROPS manual test json file
-   (I have no idea how to run this so untested but this is a straight
-    substition)
- - continue to use github until we can move the sample to somewhere
-   like git.yoctoproject.org
-
- meta/lib/oeqa/manual/crops.json       | 12 ++++++------
- meta/lib/oeqa/sdkext/cases/devtool.py |  4 ++--
- 2 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/meta/lib/oeqa/manual/crops.json b/meta/lib/oeqa/manual/crops.json
-index 1cf3c8f30c..071d35b661 100644
---- a/meta/lib/oeqa/manual/crops.json
-+++ b/meta/lib/oeqa/manual/crops.json
-@@ -234,16 +234,16 @@
-                     "expected_results": "this should output the directory of the devtool script and it should be within the sdk workdir you are working in.   \n\n"
-                 },
-                 "5": {
--                    "action": "devtool add v4l2loopback-driver  https://github.com/umlaeute/v4l2loopback.git   \n\n",
--                    "expected_results": "This should automatically create the recipe v4l2loopback-driver.bb under <crops-esdk-workdir-workspace>/recipes/v4l2loopback-driver/v4l2loopback-driver.bb "
-+                    "action": "devtool add kernel-module-hello-world  https://github.com/masselstine/kernel-module-hello-world.git   \n\n",
-+                    "expected_results": "This should automatically create the recipe kernel-module-hello-world.bb under <crops-esdk-workdir-workspace>/recipes/kernel-module-hello-world/kernel-module-hello-world.bb "
-                 },
-                 "6": {
--                    "action": "devtool build v4l2loopback-driver   \n\n",
-+                    "action": "devtool build kernel-module-hello-world   \n\n",
-                     "expected_results": "This should compile an image   \n\n"
-                 },
-                 "7": {
--                    "action": "devtool reset v4l2loopback-driver   ",
--                    "expected_results": "This cleans sysroot of the v4l2loopback-driver recipe, but it leaves the source tree intact. meaning it does not erase."
-+                    "action": "devtool reset kernel-module-hello-world   ",
-+                    "expected_results": "This cleans sysroot of the kernel-module-hello-world recipe, but it leaves the source tree intact. meaning it does not erase."
-                 }
-             },
-             "summary": "sdkext_devtool_kernelmodule"
-@@ -291,4 +291,4 @@
-             "summary": "sdkext_recipes_for_nodejs"
-         }
-     }
--]
-\ No newline at end of file
-+]
-diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py b/meta/lib/oeqa/sdkext/cases/devtool.py
-index 5a02add764..fad98fbb36 100644
---- a/meta/lib/oeqa/sdkext/cases/devtool.py
-+++ b/meta/lib/oeqa/sdkext/cases/devtool.py
-@@ -73,8 +73,8 @@ class DevtoolTest(OESDKExtTestCase):
-             self._run('devtool reset %s' % recipe)
- 
-     def test_devtool_kernelmodule(self):
--        docfile = 'https://github.com/umlaeute/v4l2loopback.git'
--        recipe = 'v4l2loopback-driver'
-+        docfile = 'https://github.com/masselstine/kernel-module-hello-world.git'
-+        recipe = 'kernel-module-hello-world'
-         self._run('devtool add %s %s' % (recipe, docfile) )
-         try:
-             self._run('devtool build %s' % recipe)
--- 
-2.21.0
-
+Thanks,
+Jacob
 
