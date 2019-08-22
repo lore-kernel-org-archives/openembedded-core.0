@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E57197E668;
-	Thu, 22 Aug 2019 02:02:38 +0000 (UTC)
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F25C17E45D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2019 02:07:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7M27Xcj021123
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 21 Aug 2019 19:07:33 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 21 Aug 2019 19:07:32 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <ross.burton@intel.com>
+Date: Thu, 22 Aug 2019 10:07:29 +0800
+Message-ID: <1566439650-17423-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20190822020240.2334.69764@do>
+References: <20190822020240.2334.69764@do>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Thu, 22 Aug 2019 02:02:40 -0000
-Message-ID: <20190822020240.2334.69764@do>
-References: <1566438018-16251-1-git-send-email-hongxu.jia@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1566438018-16251-1-git-send-email-hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImRpc3RjYzogdXBncmFkZSAzLjMuMiAtPiAzLjMuMy4uLiIgYW5kIDIgbW9yZQ==?=
+Subject: [PATCH V2 1/3] distcc: upgrade 3.3.2 -> 3.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 02:02:39 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-== Series Details ==
-
-Series: "distcc: upgrade 3.3.2 -> 3.3.3..." and 2 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19402/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [1/3] distcc: upgrade 3.3.2 -> 3.3.3
- Issue             Invalid author <auh@auh.yoctoproject.org> in commit message [test_non_auh_upgrade] 
-  Suggested fix    Resend the series with a valid patch's author
-
-* Patch            [1/3] distcc: upgrade 3.3.2 -> 3.3.3
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
+X-List-Received-Date: Thu, 22 Aug 2019 02:07:33 -0000
+Content-Type: text/plain
 
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/distcc/{distcc_3.3.2.bb => distcc_3.3.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/distcc/{distcc_3.3.2.bb => distcc_3.3.3.bb} (98%)
+
+diff --git a/meta/recipes-devtools/distcc/distcc_3.3.2.bb b/meta/recipes-devtools/distcc/distcc_3.3.3.bb
+similarity index 98%
+rename from meta/recipes-devtools/distcc/distcc_3.3.2.bb
+rename to meta/recipes-devtools/distcc/distcc_3.3.3.bb
+index a93604b..7942deb 100644
+--- a/meta/recipes-devtools/distcc/distcc_3.3.2.bb
++++ b/meta/recipes-devtools/distcc/distcc_3.3.3.bb
+@@ -20,7 +20,7 @@ SRC_URI = "git://github.com/distcc/distcc.git \
+            file://distccmon-gnome.desktop \
+            file://distcc \
+            file://distcc.service"
+-SRCREV = "8600f0857dac55ea393dc11a860948692d215fc8"
++SRCREV = "4cde9bcfbda589abd842e3bbc652ce369085eaae"
+ S = "${WORKDIR}/git"
+ 
+ inherit autotools pkgconfig update-rc.d useradd systemd
+-- 
+2.7.4
 
 
