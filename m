@@ -1,50 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AB1307ED22
+Return-Path: <mazliana.mohamad@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 21A547E265
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 04:41:04 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id v38so6096499qtb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2019 21:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=LTt9gBv6SoeOH0ST7oEKjYcdipdDwQekhDK+ibh6qwA=;
-	b=tUeUCdxeArgQ3AB433zccg+f8ZWvyQKeYIzsZageOrXenlvDaG0BawMaEGiQhoIC4B
-	zVSuMb7cYO0m70qLph7qneKWpeV6upuAnAUAWHrY8NPvEGqfdrfw1FGuNR6wH6AOjtDq
-	t9t7si5nnLDW8CtN1fKhypibbmjAOs5xQdA7d8ojVDOk07XvLKKUmTb42GpCoyeXg1ih
-	WmCzTWO4P6yk7HJjzs3VHE2F1gUdU3eXNfwcIGPzfHIOKBpI5u9uLANA/rWb948evcib
-	c+RTfdpN0lMX6VNx0icG2SBLqGd/8zmpBmhgeN0qHxjJxqYfFUGNkjHUSltx1d229BQI
-	mEcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=LTt9gBv6SoeOH0ST7oEKjYcdipdDwQekhDK+ibh6qwA=;
-	b=i+U10atnHRFiuUF8z4Nwu44wcOGfsWkmb02IbvGZj0PyBNNX2sR4Wh7HhZaL3FsMsT
-	bgQD+tpkNXNTJ6sF9C4OiFtEn8ggbvZ8aN/aaB0lSydw8pMbjAnYsvtWCw6qGVKcsGhS
-	6wrA0F5iWie4C4NsTz/muSYwV6s0lqXpYgsgYNfVQjUth8wyTq2IBEMF7HwK2XMEsFmg
-	KJlcU/dnM5jSMfIc/M3iCgaAR4KjbeoGtMB8L6p3Dip+DZ6GM+1AWmzk+KIfct3y9SiD
-	eH6BFKSEgYrkHG6vViiPEBQz/YVUbSwXhf1S7QS1sNviGCEKZEgtPRFno1aN3mUk3jSg
-	NbNA==
-X-Gm-Message-State: APjAAAUAJtb9FvZJUhj6BV4a8gzPV6FcGVOeT99uDkcduwcZTPROH6mk
-	JtkejUOGxfqeChoQIrXauDDVSh430U8/fwnXi0Y=
-X-Google-Smtp-Source: APXvYqxvmmRtYV+2mTHkBJu//vgrYkkwl6fzuKhEJty/eFk/W+lAVQPvxjWyBnj/LwfYqm4dH6WdvTxaXhi+xcQVwhc=
-X-Received: by 2002:ac8:6997:: with SMTP id o23mr34775307qtq.53.1566448865275; 
-	Wed, 21 Aug 2019 21:41:05 -0700 (PDT)
+	Thu, 22 Aug 2019 08:15:42 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Aug 2019 01:15:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,416,1559545200"; d="scan'208";a="178759532"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga008.fm.intel.com with ESMTP; 22 Aug 2019 01:15:41 -0700
+From: mazliana.mohamad@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Aug 2019 16:15:38 +0800
+Message-Id: <1566461738-29240-1-git-send-email-mazliana.mohamad@intel.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190813152835.12578-1-raj.khem@gmail.com>
-	<CA+chaQf6EnDHU=9U6q1a2_p=grcyWoy2epYXP+yaZ--qi0eH4Q@mail.gmail.com>
-	<CAMKF1sqBFvdWb9XxGaUUZpcJh7zrcNkwBRLj7Ga3K35a+Fb2CA@mail.gmail.com>
-	<7d45802126aa811e2c309761979ed0452f0a1d0a.camel@intel.com>
-In-Reply-To: <7d45802126aa811e2c309761979ed0452f0a1d0a.camel@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 21 Aug 2019 21:40:39 -0700
-Message-ID: <CAMKF1sooEv4r0Rb7HPi3QngYKK45XXa--2BojUOKzmp6XvWPKQ@mail.gmail.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] gcc-runtime: Move content from gcclibdir into libdir
+Subject: [PATCH] oeqa/kerneldevelopment: Able to apply a single patch to the Linux kernel source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,47 +31,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 04:41:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 22 Aug 2019 08:15:43 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 21, 2019 at 9:11 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
->
-> On Fri, 2019-08-16 at 08:08 -0700, Khem Raj wrote:
-> > On Fri, Aug 16, 2019 at 5:00 AM Martin Jansa <martin.jansa@gmail.com>
-> > wrote:
-> > > Hi,
-> > >
-> > > I have an app which includes omp.h from gomp, it used to find it
-> > > without adding any -I for that (with just -fopenmp to enable
-> > > openmp).
-> > >
-> > > Now the header file is included in RSS:
-> > > lib32-recipe-sysroot/usr/lib/arm-oemllib32-linux-
-> > > gnueabi/9.2.0/include/omp.h
-> > > but no longer found in default search dirs.
-> > >
-> > > Is this expected or should gcc be adjusted to search for it
-> > > automatically?
-> > >
-> >
-> > It should have adjusted automatically but these headers are searhed
-> > relative to its own install and not sysroot reelative
-> > so it might have to be addressed. Does it work with normal (
-> > non-multilib ) case ?
->
-> It's not working for me as well. It's easy to reproduce when using
-> find_package(OpenMP) with cmake.
->
-> The search paths also don't list this new path and are looking for
-> headers in old one. Would the path in patch "0020-Ensure-target-gcc-
-> headers-can-be-included.patch" have to be adjusted as well to include
-> this new location?
->
+From: Mazliana <mazliana.mohamad@intel.com>
 
-there is patch posted already to fix this
-https://patchwork.openembedded.org/patch/164057/
+Purpose of kernel development is basically to customize our
+own recipes kernel by reused existing recipes.
+ 
+This is an initiative of automating manual kernel development
+test cases. Applying a single patch to the Linux kernel source
+is one of the manual test cases of kernel development.
 
-> Thanks,
->
-> Anuj
+Objective of this test is as a developer we can make changes of
+a file in kernel source and able to apply a single patch to
+the kernel source.
+ 
+ref:https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases
+
+Signed-off-by: Mazliana <mazliana.mohamad@intel.com
+---
+ meta/lib/oeqa/selftest/cases/kerneldevelopment.py | 65 +++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/kerneldevelopment.py
+
+diff --git a/meta/lib/oeqa/selftest/cases/kerneldevelopment.py b/meta/lib/oeqa/selftest/cases/kerneldevelopment.py
+new file mode 100644
+index 0000000..15cef40
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/kerneldevelopment.py
+@@ -0,0 +1,65 @@
++import os
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, runCmd, get_bb_var
++from oeqa.utils.git import GitRepo, GitError
++
++class KernelDev(OESelftestTestCase):
++
++    @classmethod 
++    def setUpClass(cls):
++        super(KernelDev, cls).setUpClass()
++        # Create the recipe directory structure inside the created layer
++        cls.layername = 'meta-kerneltest'
++        runCmd('bitbake-layers create-layer %s' %cls.layername)
++        runCmd('mkdir -p %s/recipes-kernel/linux/linux-yocto' %cls.layername)
++        cls.recipes_linuxyocto_dir=os.path.join(cls.builddir, cls.layername, 'recipes-kernel', 'linux', 'linux-yocto')
++        cls.recipeskernel_dir=os.path.dirname(cls.recipes_linuxyocto_dir)
++        runCmd('bitbake-layers add-layer %s' %cls.layername)
++        
++    @classmethod
++    def tearDownClass(cls):
++        runCmd('bitbake-layers remove-layer %s' %cls.layername, ignore_status=True)
++        runCmd('rm -rf %s' %cls.layername)
++        super(KernelDev, cls).tearDownClass()
++        
++    def setUp(self):
++        super(KernelDev, self).setUp()
++        self.set_machine_config('MACHINE = "%s"\n' %'qemux86-64')
++        
++    def test_apply_patches(self):
++        """
++        Summary:     Able to apply a single patch to the Linux kernel source
++        Expected:    The README file should exist and the patch changes should be 
++                     displayed at the end of the file. 
++        Product:     Kernel Development
++        Author:      Yeoh Ee Peng <ee.peng.yeoh@intel.com>
++        AutomatedBy: Mazliana Mohamad <mazliana.mohamad@intel.com>
++        """
++        runCmd('bitbake virtual/kernel -c patch')
++        kernel_source = get_bb_var('STAGING_KERNEL_DIR')
++        readme = os.path.join(kernel_source,'README')
++        
++        # This test step adds modified file 'README' to git and creates a 
++        # patch file '0001-KERNEL_DEV_TEST_CASE.patch' at the same location as file
++        patch_content = 'This is a test to apply a patch to the kernel'
++        runCmd('echo %s >> %s' %(patch_content,readme))
++        repo=GitRepo('%s' %kernel_source,is_topdir=True)
++        repo.run_cmd('add %s'%readme)
++        repo.run_cmd(['commit', '-m', 'KERNEL_DEV_TEST_CASE'])
++        repo.run_cmd(['format-patch', '-1'])
++        patch_name = '0001-KERNEL_DEV_TEST_CASE.patch'
++        patchpath = os.path.join(kernel_source, patch_name)
++        runCmd('mv %s %s' %(patchpath, self.recipes_linuxyocto_dir))
++        runCmd('rm %s ' %readme)
++        self.assertFalse(os.path.exists(readme))
++        
++        recipe_append = os.path.join(self.recipeskernel_dir,'linux-yocto_%.bbappend')
++        with open(recipe_append, 'w+') as fh:
++            fh.write('SRC_URI += "file://%s"\n' %patch_name)
++            fh.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"')
++        
++        runCmd('bitbake virtual/kernel -c cleansstate')  
++        runCmd('bitbake virtual/kernel -c patch')
++        self.assertTrue(os.path.exists(readme))  
++        result = runCmd('tail -n 1 %s' %readme)
++        self.assertEqual(result.output, patch_content)
+\ No newline at end of file
+-- 
+2.7.4
+
 
