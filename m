@@ -1,54 +1,49 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
-	[209.85.208.41])
-	by mail.openembedded.org (Postfix) with ESMTP id E932B6C3AA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AB577C7A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 16:10:21 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id t50so8723969edd.2
+	Thu, 22 Aug 2019 16:20:13 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id t16so5998177wra.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 09:10:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:from:to:cc:references:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=kvsrvh6DOraRiCNzTmR/TkgETz89/gDf9z3tMArdCuY=;
-	b=QP5th4V2WdbjDrinQiaSlvqgQ8IMXHFEjBEKx8XWm94D11k/Hr92IahRe0fqcDHqPo
-	XVeRjpD4QK6yLgJfRePAxsT2t3s9Uv52XM8IlyIvfegy1DXLPELqcmxsR1WofQNTx8PX
-	543dClMUTX53dKCNlyxFj03LskBKVoNTb+FFwATMeBkZismk6w4Y47HDDMsv4cRmgcbP
-	eH+B3ZzjG4HUgOE7setE80mFNfCoi2jENTrIUEEQHzIpE4euUdmZ6olJnPJJ/g1EK0LX
-	HKOUfzQ13Ahl2KOKJ/V1RSDLWFW7h4CJm+73F1c9e6HY5yclEk4rlXaZEYr/GNaYcSiD
-	5xuQ==
+	Thu, 22 Aug 2019 09:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=JOW1cgM6FoCm5tzG3d/OX1LQQEBYMhlqCFfJXQeh52Q=;
+	b=UdAKwmpDC9mOSXQA4x7rUPvm+ak5NQ11AbK9OlB3TN6/FUm6tEt0mWQ13W9vnhTGGt
+	sl1dqX7FZ8s+ooCBviN917RKlfVxCpDQw22t5ujCzeIatTU+7yu4q+6pJjdLeaDClQmb
+	n4FN9LSYUaI0TmWg23PKdsdBXPGpELpMaoong=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=kvsrvh6DOraRiCNzTmR/TkgETz89/gDf9z3tMArdCuY=;
-	b=YsA59/U80k7+JXMxFEqqMZBn0FbDaQTHDwu1KHj84bmfX8TsJi0hboWfCHMM8irw11
-	aD4by/9XJ1oIGsEDib8PoUCwofxD06NiTHPzB309VYG7FIB1j8snkuZ6KpLtJmLXDy+a
-	nd6n305qs1c7utIOB9JKjGHr44twaUaZWC6/SGhrdoVUD11x1SYF1KRMSB/bOW18Fz+q
-	3xb0s9dnY4glsvHR1ZEFforkv5dynJSiQ2gOW+/kF6vjvDCZ1/V9nEp2KDlD7WEpvkjH
-	Z3nySCExVH0OYlEgR1LRXtmKQtDobyhxela8XIFy6IBwWnbQZcPsMFk1DGUQW4dAOhWI
-	HOag==
-X-Gm-Message-State: APjAAAWdiPptzO0SMgN4IvjW8pLna46PT6rQsUT/hm/i3fzFySp1RbgV
-	X/EgbLxD5LqGMS7AHNe/hr1N8lu8
-X-Google-Smtp-Source: APXvYqykx5mJpLq9EtGylB55IvR1Y+tRA6SqkeBRd7BuAvP64N56S5FOBlu4WRHZWOKKqth3BMM4HQ==
-X-Received: by 2002:a17:906:505:: with SMTP id j5mr4174eja.261.1566490222357; 
-	Thu, 22 Aug 2019 09:10:22 -0700 (PDT)
-Received: from [192.168.10.117] (37-247-29-68.customers.ownit.se.
-	[37.247.29.68])
-	by smtp.gmail.com with ESMTPSA id e6sm1772750eds.91.2019.08.22.09.10.19
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 22 Aug 2019 09:10:19 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org, Qi.Chen@windriver.com
-References: <20190821102553.17770-1-jacob.kroon@gmail.com>
-Message-ID: <a0590f69-36f1-8770-7ee1-f55194502e31@gmail.com>
-Date: Thu, 22 Aug 2019 18:10:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=JOW1cgM6FoCm5tzG3d/OX1LQQEBYMhlqCFfJXQeh52Q=;
+	b=JtlR76P2BoiixtGD+YcXDVq+HnAPL7UkpZFSTqiEgo5q3CQyDBS4ftDlUWntV4yBN5
+	V1uo8CU/bBmElITbBo4q2KNMAcwesvmL7Vi3O0E3ovDJMwwO1R8+Or3yu28Z507EjDay
+	m56Ep3Aifg6pqT1spKk8GkyMdviNYhm1qwXxVjBNIYdvOvFvcXlLQtq/CPnwviUGvByE
+	Ep+PSE3P0k2sq8vw4XrjR6HZ0c8adPlBvNBgtLqNve1+zg4LKfbmcSDsOCDu8kFeOLW3
+	1au8fTXx8RWRSQ1YSun53MHNkHaX14lG+4+xebcQseHfUGfF1cCIEoZhrL0z722RByEG
+	3tzQ==
+X-Gm-Message-State: APjAAAWTcYqH4xrxTVfy9VPaBh/2H9GOI/oiWz1F3xIjwkiK//B7CFHl
+	cQhELf6fjqCw0SnEUbsXolP43jmbWHb1wA==
+X-Google-Smtp-Source: APXvYqxi+XX6c7PtsZ6UeliXaTStNDrQmbaOPDLi14HxJd+Olq3lMZZKSNUdgj8g2rOocqe5Nf8XIA==
+X-Received: by 2002:adf:f48d:: with SMTP id l13mr51083756wro.190.1566490814329;
+	Thu, 22 Aug 2019 09:20:14 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	k124sm11465867wmk.47.2019.08.22.09.20.13
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 22 Aug 2019 09:20:13 -0700 (PDT)
+Message-ID: <7f3ba0cee887064b4716353f31bcd2e64b1ce291.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, Joshua
+	Watt <jpewhacker@gmail.com>
+Date: Thu, 22 Aug 2019 17:20:12 +0100
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <20190821102553.17770-1-jacob.kroon@gmail.com>
-Subject: Re: [PATCHv2] initscripts: remove warnings on read-only-rootfs (again)
+Subject: Hash Equiv Server experiment results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,68 +56,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 16:10:22 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 22 Aug 2019 16:20:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 8/21/19 12:25 PM, Jacob Kroon wrote:
-> From: Martin Hundebøll <martin@geanix.com>
-> 
-> When the populate-volatile.sh initscript tests if a configured symlink
-> is already in place, it uses readlink with the '-f' (follow) option:
-> 
->> [ "$(readlink -f $source)" = "$dest" ]
-> 
-> If the test fails, it proceeds to delete the exisiting folder/file, and
-> create the configured symlink.
-> 
-> However, the '-f' option to readlink makes it follow symlinks pointing
-> at symlinks. If the $dest argument is a symlink, the above test fails,
-> and warnings are printed due to changing a read-only rootfs.
-> 
-> This is the case for /tmp, and /etc/resolv.conf:
->> /tmp -> /var/tmp -> /var/volatile/tmp
->> /etc/resolv.conf -> /var/run/resolv.conf -> /run/resolv.conf
-> 
-> Fix the warnings by removing the '-f' option, so that the test matches
-> the configuration.
-> 
-> [ YOCTO #10814 ]
-> 
-> Signed-off-by: Martin Hundebøll <martin@geanix.com>
-> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-> ---
-> 
-> v2:
->   * Added my own signed-off-by tag
->   * Added reference to YOCTO #10814
->   * Original patch: https://patchwork.openembedded.org/patch/152602/
-> 
->   .../initscripts/initscripts-1.0/populate-volatile.sh            | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-> index 6f965a6870..1c525b71bd 100755
-> --- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-> +++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-> @@ -80,7 +80,7 @@ mk_dir() {
->   link_file() {
->   	EXEC="
->   	if [ -L \"$2\" ]; then
-> -		[ \"\$(readlink -f \"$2\")\" != \"$1\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; };
-> +		[ \"\$(readlink \"$2\")\" != \"$1\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; };
->   	elif [ -d \"$2\" ]; then
->   		if awk '\$2 == \"$2\" {exit 1}' /proc/mounts; then
->   			cp -a $2/* $1 2>/dev/null;
-> 
+I wanted to summarise what my local tests with the hash server
+concluded.
 
-Hi Chen,
+a) the opendb() changes I made in:
+   http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ca04aaf7b51e3ee2bb04da970d5f20f2c9982cb8
+   broke things as the database is opened for each request. I have 
+   local patches to fix that but it only helps by about 10%.
 
-Can I ask you to review the patch above ?
-Having spent some time staring at the change and reading up on intended 
-behaviour, I think the patch is correct.
+b) the overhead from the separate receive and handling threads is not 
+   worth the overhead:
+   http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d40d7e43856f176c45cf515644b5f211c708e237
+   This probably halves throughput.
 
-Thanks,
-Jacob
+c) I moved the database writes to their own thread with a queue but it 
+   doesn't seem to help much other than allowing other threads to 
+   handle requests in parallel.
+
+d) the ThreadedMixin regresses performance further and is the worst 
+   change I've tested.
+
+e) Using ThreadPoolExecutor along the lines of:
+   self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=10)
+   self.executor.submit(self.process_request_thread, request, client_address)
+   doesn't help speed. Its faster then ThreadedMixin but slower than no threads.
+
+f) The profile data I have suggests we spend a lot of time in TCP/HTTP 
+   header overhead and connection setup which confirms Joshua's 
+   thoughts.
+
+g) The most optimal setup is therefore the original server with no 
+   threading.
+
+h) The autobuilder would need to cope with 9000*40 requests in under a 
+   minute, preferably faster. The current server does not have 
+   anywhere near that speed.
+
+My conclusion based on this is that we need to rewrite the way runqueue
+makes the hash computations, perhaps seeding the cache in advance so we
+minimise the number of single calls. We can make one query for all 9000
+entries to the server on a single connection/request, or batch in
+blocks of 1000 or similar.
+
+The other option would be a custom server/protocol but I think what
+we're using is fine, we just need to change how.
+
+I have some profiling code for the hashserver but its doing profiling
+per thread so doesn't integrate well until we decide what form the
+codebase should have. Simpler is looking to perform better.
+
+I haven't had a chance to work on these patches, nor will I over the
+next few days as I'm taking a break but I think I know what we need to
+do now.
+
+Cheers,
+
+Richard
+
+
 
