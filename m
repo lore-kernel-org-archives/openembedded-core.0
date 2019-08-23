@@ -1,49 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
-	[209.85.215.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DBD027F39D
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 206537F37A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 20:52:54 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id m3so6373898pgv.13
+	Fri, 23 Aug 2019 20:52:56 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id s11so1299712pfe.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 13:52:56 -0700 (PDT)
+	Fri, 23 Aug 2019 13:52:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=JM0x+FKE965Df9jFsov2wqH7X14xDjvOtQ5+E8OlC6A=;
-	b=jC5p+cRzk7pWrbx91B8c9lrdQsrizv4fUGqY9W+jviFEun06d24QJXBRQ3iGaXP2gS
-	1ZEx3BWtgzWzCsU5H/8T99K23ck7RLyAr9pfzNdJx2OSayeWhrIZOgi9td1kjfysSXq1
-	/IOjBuHhlwYXTeP6ozWHOsMnpbPmUwlJ0E87cjfGYKe1378d8ZB9T55k2OBG/3hE/I51
-	ll5QkkwKINZf4Pp3Bk1qV4UHRb5TkZ9LjgZY/j3mPvGFH07qNFhXoM0yVME43yLWMLUn
-	rwGyIgr9TIIJKQ4D7Vz6xfC8nGWQnUfXEN6JOYHUNSVaV+qt95Bao7Ao0HGqQYQYEO0L
-	wcyQ==
+	bh=JDUXwdfimvLz8cK+WRXh5bdFu7vqePl0bsArrG3AXV0=;
+	b=NOfDudkR0/K8MKZRnEzmyhxMU5t0q+T0URGhHmkU3LF0LoVBiqPTJNcENkXRI89Brk
+	nCi2gEIu04DmJpZUb5iDcpWj5oAU+AVfjzvsg1Fo8s5wmR/qHZjsvXaKI4X+wV86eNo+
+	73+iGSnJEPpqo0IFQ+5oAmmd12hlPoV6lk3RbUyjKah1J0QPKaZTQZ6zOHq5V8FraLGm
+	KePCf3/Y4VYtWXmXBX8b6lonMcl8YfGCbscHrNmSg8oxPByUe3gbHC8yWZRbsCJqNsrJ
+	4398E8oFdMl+1gjU3zqKSDaDPIrupzGasKvgFJNv7Gt3HIeKEk0v/7fb3Nmn9AuN8GH0
+	WtIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=JM0x+FKE965Df9jFsov2wqH7X14xDjvOtQ5+E8OlC6A=;
-	b=SampZSxAdQcR0YMTbs5BFaH4rDHVKuUgzQG7tNhuBErqgKzlNPLFgZWGTeY70GqGxk
-	cCJMIurA7VVeXX4px/MNdoDLofolRrDlQjxZtk2wiZgKuaBWk/ENPXoCYxlL+CDf5ek0
-	JI98rpYD5+7/BOyChhdyIz5h3+n19cxaEJWfOs948rh1rqOTyAdPh7R0K3p2CFVS/Ro0
-	N1QTZ6jjM5Hpd1b5dBqlwfhSsiS1E8SZwIXbUxf/3F60kC5Z+6/jU4vOg+XgT3nI4o88
-	bKR3mWOXhgzqUCWLsQDxOGAwFjvedLs1TSuHKOKVCDxfPJvF6GpmGb6NM0aNQQki5N33
-	zpZw==
-X-Gm-Message-State: APjAAAXCHB2Mx8qx0x1Y6r7bZMLuVrZpdZ502nJ1THzEiL3joj8Vyz8S
-	t/P0mNxGDbHt+X46d5zUwtc2F/Gj
-X-Google-Smtp-Source: APXvYqwcSjaRVSXHA2mF0sgN8CPF9x7SL/XnEsWP0j5voofX2YDKRUZmRUrO3YodkkuKzscfiiGivg==
-X-Received: by 2002:aa7:8753:: with SMTP id g19mr7444897pfo.249.1566593575899; 
-	Fri, 23 Aug 2019 13:52:55 -0700 (PDT)
+	bh=JDUXwdfimvLz8cK+WRXh5bdFu7vqePl0bsArrG3AXV0=;
+	b=HzDw+j3Gl5r1d0i+G8p8OC9Y6hdgTE+zSV9EnLJcI+m8X/9M74r4wl97Sdw21eHbr7
+	0X5RvGv/npoupQFBZwK22zRl+/DrP4uq43LcpQfNuvhyQ16ZSwPLhSH94CDAfrHehNRH
+	kMzkTxOPofyWOdzOopOfAwUaYAPvsBqngPim6owmgleeYbiLH9ZIpzCOI1N7TbgOiVd/
+	iQXq3biqtiFJUH90BleMSef5Z7f34vkQtNKkmKKvD07a6cISb4ToKDd/lBupHNK0kvso
+	k7aJx8L/UPVOrfAFvcp3fcozHsbIbAW/jIkKHsNPHZ8yg6wRmCKPc5Dk3ExpJd4gnjBO
+	9qMg==
+X-Gm-Message-State: APjAAAU/Ggb9LD2QyjbOd5pF4bDy4TEn/cqFA6hIwfUjNHJG3nsYy1ml
+	iTcqlGl3LOKzntFqpcvyERuwTbws
+X-Google-Smtp-Source: APXvYqw6ZGu1pVpHjHt4GzOVc0faq0l9CSIF2aZHon/EAN29xnIGSr5WCAm/8OYmOLiLhODIsQASPA==
+X-Received: by 2002:a63:7d49:: with SMTP id m9mr5798125pgn.161.1566593577907; 
+	Fri, 23 Aug 2019 13:52:57 -0700 (PDT)
 Received: from localhost.localdomain ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id h9sm2688314pgh.51.2019.08.23.13.52.55
+	by smtp.gmail.com with ESMTPSA id h9sm2688314pgh.51.2019.08.23.13.52.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 23 Aug 2019 13:52:55 -0700 (PDT)
+	Fri, 23 Aug 2019 13:52:57 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2019 13:51:39 -0700
-Message-Id: <1566593504-21918-8-git-send-email-armccurdy@gmail.com>
+Date: Fri, 23 Aug 2019 13:51:40 -0700
+Message-Id: <1566593504-21918-9-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
 References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 08/13] base-files: nsswitch.conf is glibc specific
+Subject: [PATCH 09/13] glibc: drop obsolete packaging of glibc libnsl libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 20:52:55 -0000
+X-List-Received-Date: Fri, 23 Aug 2019 20:52:57 -0000
+
+Packaging rules were left behind when libnsl was removed:
+
+  https://git.openembedded.org/openembedded-core/commit/?id=9dc9983901cec364ea57a72b9da1a0396b60663a
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 4b4027f..2b1f217 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -129,7 +129,6 @@ do_install () {
- 	install -m 0644 ${WORKDIR}/shells ${D}${sysconfdir}/shells
- 	install -m 0755 ${WORKDIR}/share/dot.profile ${D}${sysconfdir}/skel/.profile
- 	install -m 0755 ${WORKDIR}/share/dot.bashrc ${D}${sysconfdir}/skel/.bashrc
--	install -m 0644 ${WORKDIR}/nsswitch.conf ${D}${sysconfdir}/nsswitch.conf
- 	install -m 0644 ${WORKDIR}/host.conf ${D}${sysconfdir}/host.conf
- 	install -m 0644 ${WORKDIR}/motd ${D}${sysconfdir}/motd
- 
-@@ -142,6 +141,10 @@ do_install () {
- 	fi
- }
- 
-+do_install_append_libc-glibc () {
-+	install -m 0644 ${WORKDIR}/nsswitch.conf ${D}${sysconfdir}/nsswitch.conf
-+}
-+
- DISTRO_VERSION[vardepsexclude] += "DATE"
- do_install_basefilesissue () {
- 	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index f796876..a0df267 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -14,7 +14,7 @@ RPROVIDES_glibc-extra-nss = "eglibc-extra-nss"
+ RPROVIDES_glibc-thread-db = "eglibc-thread-db"
+ RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
+ RPROVIDES_${PN}-dbg = "eglibc-dbg"
+-libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
++libc_baselibs = "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
+ ARCH_DYNAMIC_LOADER = ""
+ # The aarch64 ABI says the dynamic linker -must- be
+ # /lib/ld-linux-aarch64{,_be}.so.1. With usrmerge, that may mean that
 -- 
 1.9.1
 
