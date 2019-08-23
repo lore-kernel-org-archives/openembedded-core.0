@@ -1,51 +1,51 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D9817F324
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id F37537F331
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 06:01:42 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t16so7486177wra.6
+	Fri, 23 Aug 2019 06:01:43 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id k1so7758319wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 23:01:44 -0700 (PDT)
+	Thu, 22 Aug 2019 23:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=XMO7A68KBNAEL+c3DwVvfyWzFgSoN3Rs5Fs5taNPzPc=;
-	b=jWOIl4VgOJKfcoWGTnfvaIeYgasJ2nl/tsHVg2mhgj5kwuu+IUoyqlGO2fiHO7LcZK
-	00lS4rDIFki6D36qTV/J0rWGufeVX/yMVlwljpQcCEjB8MgWX8l44SDX4qbR0f1f03t8
-	0FEKg+tLcSWC5vjBlGrDWjkHugy+tkW1kLfJrWoN1eSgF2iD4uBvNp2ifvNE6rVuUvts
-	pU0WZRQft32xfbZj6K+HCUgGF3gn8h4X7pWWFxP/vqOjQEap0eAmSGVM5O4r0VjxD8Y+
-	4BJ8MEPK4USXEUREE+2/jzBtRuj+9wAaSHuNy8KlH1iBtainSl19Qz8AGDByHbZVXj9t
-	Ah2Q==
+	bh=XhNJbalNHCvuKRwUzG+WAc/B4brQVo8BdrB4e2IiVUA=;
+	b=Qdiy4RjS/xtfbs3k6qL4xjqu3a2l9KrEO3JfbKfeLDDTEXjt22Cs14ie1NTgI4zWrB
+	2DquEnwI58H4HoibCNFgIu0JecNJeIMfzl0ppsbFiBF8HfY4GK2j1twwjdOPirS8p306
+	vJXcJZZLBod+x2CCBsmc9kQbPpRZti4JmcBGwssQ3Ui0dTCFIpKEWvO3nTYEXfBB6mZ/
+	hu53w5eFD3iQlcCpKKz4aphah+QnDCvC2JP1hj1kIS5PukKxQbai1Vm0/wRRq8ro5lq8
+	yPjuV2I/krqZyV7n4mHeHbTEJekuZof0NnwfdCFJMs+b7A+I5NhIszyowJTPCCfn8Jpv
+	ADig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=XMO7A68KBNAEL+c3DwVvfyWzFgSoN3Rs5Fs5taNPzPc=;
-	b=ZpNGG/L0hza9In5QEfYvw3a0NrZNhMByOASmM45CimsPNE4sXGpYmr0G2jEPDS6xfg
-	rz42vTz70v9XAKsbbXciZnPmT4HFfR5oZywxEJmJY4e6NEtDZ0Aegzdn/+Un7rTl0Aok
-	/Y8MZK+0Kidfpw8yxdHx9wKxCE28BmqkAWvpnypX71iyOMAGsQfRS/RqEftKQjwYNjJ4
-	BJjvNWQGd0esO9s+klHZ1n2MQto4/p5qOpOFSoltagO3VdOG2r50ZRiPB6BsQ7yuKLj+
-	rCGI1DMBLda06TFxt+301+iIkbpUm/oiLHOe4gKb0R4OoYTY31PtoQAsNr0fDGIhF93R
-	EG0w==
-X-Gm-Message-State: APjAAAW0BvKUKelgMAug2tEoTCl5/9GvjnwA3SqvKIjXX456YqW7lMcb
-	cGgLDvph5xahkpuuuR5jI79ez+4oYLA=
-X-Google-Smtp-Source: APXvYqyqYNtzbO8144+8rmnrC6s0keZjSb7cgLWz5RspQjPAbm5z/i678mz7l1H+ir0YwDs6U6/+nQ==
-X-Received: by 2002:a5d:470c:: with SMTP id y12mr2872469wrq.136.1566540103462; 
-	Thu, 22 Aug 2019 23:01:43 -0700 (PDT)
+	bh=XhNJbalNHCvuKRwUzG+WAc/B4brQVo8BdrB4e2IiVUA=;
+	b=qmU3jhiW/BIUYaOkalBzxiq+cvNmh/njTtLvRXK6QIbIjqI/mVJUJIQw1wm9TZXFhv
+	eODW+TrQfwArRPdmHq+oNS0PsLyvFFKygJV1BWKXBcNqWuP4v3NR19yM4alrcop7g5Ha
+	tS4BlcrPMflU63SdRCRQ74Bcf8RoD1kW4eLpo6IwbG+EvxzVPkoZnYyRCnjB9pR1naBZ
+	/lG5sSoYfCx7PjJYKHy9vlZpC2OjeXccdnSTEF7zwGKLNZcqZXrt6yDNhV8fsnrP+voh
+	G1dk2Le7mg0pGL/QMik8dTfloLIjHsaROtfw9pfeanHmwgKivaLaKRSAdFaBUq++8gRd
+	tRew==
+X-Gm-Message-State: APjAAAUDf6f6hJtCF6mWoxx9r5FsZiq5myw29Vl6YBszylXvr4KfnLZw
+	Y4BimdIZC2xOOSeBFsbdo+ANTGLSAY0=
+X-Google-Smtp-Source: APXvYqxzju20DkAEKumHaaRP5k37HxTT2Lg3OCOkuZpTUxXtvIBcUuJ5E8hhCuGqa+cvcl9+1TNuTg==
+X-Received: by 2002:a1c:356:: with SMTP id 83mr3084726wmd.40.1566540104530;
+	Thu, 22 Aug 2019 23:01:44 -0700 (PDT)
 Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id o8sm3885226wma.1.2019.08.22.23.01.42
+	by smtp.gmail.com with ESMTPSA id e6sm1859889wrw.35.2019.08.22.23.01.43
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 22 Aug 2019 23:01:42 -0700 (PDT)
+	Thu, 22 Aug 2019 23:01:44 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2019 06:01:33 +0000
-Message-Id: <c3be3cec770701553f35cb7d813af246ff4e934a.1566540028.git.Martin.Jansa@gmail.com>
+Date: Fri, 23 Aug 2019 06:01:34 +0000
+Message-Id: <4de3662e8e4bbe5e25641d513d73d2a38d98d92a.1566540028.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1566540028.git.Martin.Jansa@gmail.com>
 References: <cover.1566540028.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 4/6] kernel.bbclass: imageType without {}
+Subject: [PATCH 5/6] kernel.bbclass: drop unnecessary package_get_auto_pr for do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +58,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 06:01:43 -0000
+X-List-Received-Date: Fri, 23 Aug 2019 06:01:44 -0000
 
-* just to make sure it looks like bash variable not bitbake variable in
-  run.do_* scripts
+* do_install doesn't use whole "version" as do_deploy does, e.g.
+  ${PKGE}-${PKGV}-${PKGR}-${MACHINE}
+  it installs only the files with only ${KERNEL_VERSION} in filename or
+  path, so it doesn't need expanded AUTOINC value in PKGV nor
+  EXPANDPRAUTO in PKGR like do_deploy does
+
+* it was introduced in
+  http://git.openembedded.org/openembedded-core/commit/?id=1392f959cb8cd50b5a4492899e54f3ed68ef56d7
+  but it's not clear why it was needed back then, but doesn't seem to be
+  useful at all currently, only causes multiple EXTENDPRAUTO bumps every
+  time different linux-yocto is being built.
+
+* There are currently 4 EXTENDPRAUTO bumps during each build as shown in
+  prserv:
+
+  $ sqlite3 cache/prserv.sqlite3
+    SQLite version 3.27.2 2019-02-25 16:06:06
+    Enter ".help" for usage hints.
+    sqlite> select * from PRMAIN_nohist where version like 'linux-yocto-dev%';
+    linux-yocto-dev-4.19+gitAUTOINC+57b791cb9f_122d468967-r0|qemux86|20601304a6e4fa0b7ac13fa1262040c976c862d177077799dc15492215fa51df|0
+    linux-yocto-dev-4.19+gitAUTOINC+57b791cb9f_122d468967-r0|qemux86|2820d331b7eba5165943bc016a1c274d42e7605e24244873b15cc1c9c6f657e2|1
+    linux-yocto-dev-4.19+gitAUTOINC+57b791cb9f_122d468967-r0|qemux86|4f29da98c268aa5bf1c4767bb2bb157fc6077b1d76dfd434028b18bf3252e0c0|2
+    linux-yocto-dev-4.19+gitAUTOINC+57b791cb9f_122d468967-r0|qemux86|23d8d17b23bc6db1dd7f0f30086f0ec6ade2b2180e787a78d89b6e43b8c4fad6|3
+    linux-yocto-dev-5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0|qemux86|2a23d8783f794b3e79b438889ec60661ca635f9ec09d0519176a31d832377f1c|0
+    linux-yocto-dev-5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0|qemux86|dafc2a636e7e18357b7efbf99981af45234105c3f46b056edfd2142d5a5d4993|1
+    linux-yocto-dev-5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0|qemux86|09798369f303700fb8d42550d959e310a05fb4573b71646df51acc00d3a6fe89|2
+    linux-yocto-dev-5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0|qemux86|dab07eb869034df28be59ae13914989ab88bdca5a9a9362ca96b4eb38180afd7|3
+
+  the TASKHASHes correspond to do_install, do_package, do_deploy, do_deploy_links tasks:
+  $ ls tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_*sigdata*{2a23d8783f794b3e79b438889ec60661ca635f9ec09d0519176a31d832377f1c,dafc2a636e7e18357b7efbf99981af45234105c3f46b056edfd2142d5a5d4993,09798369f303700fb8d42550d959e310a05fb4573b71646df51acc00d3a6fe89,dab07eb869034df28be59ae13914989ab88bdca5a9a9362ca96b4eb38180afd7}*
+    tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_install.sigdata.2a23d8783f794b3e79b438889ec60661ca635f9ec09d0519176a31d832377f1c
+    tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_package.sigdata.dafc2a636e7e18357b7efbf99981af45234105c3f46b056edfd2142d5a5d4993
+    tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_deploy.sigdata.09798369f303700fb8d42550d959e310a05fb4573b71646df51acc00d3a6fe89
+    tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_deploy_links.sigdata.dab07eb869034df28be59ae13914989ab88bdca5a9a9362ca96b4eb38180afd7
 
 [YOCTO #12937]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/kernel.bbclass | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/classes/kernel.bbclass | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index bd7f7131a4..8046a69d83 100644
+index 8046a69d83..df203d2b4f 100644
 --- a/meta/classes/kernel.bbclass
 +++ b/meta/classes/kernel.bbclass
-@@ -371,9 +371,9 @@ kernel_do_install() {
- 	install -d ${D}/${KERNEL_IMAGEDEST}
- 	install -d ${D}/boot
- 	for imageType in ${KERNEL_IMAGETYPES} ; do
--		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
-+		install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
- 		if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
--			ln -sf ${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
-+			ln -sf $imageType-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/$imageType
- 		fi
- 	done
- 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
-@@ -681,8 +681,8 @@ kernel_do_deploy() {
- 	fi
- 
- 	for imageType in ${KERNEL_IMAGETYPES} ; do
--		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} $deployDir/${imageType}-${KERNEL_IMAGE_NAME}.bin
--		ln -sf ${imageType}-${KERNEL_IMAGE_NAME}.bin $deployDir/${imageType}
-+		install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType $deployDir/$imageType-${KERNEL_IMAGE_NAME}.bin
-+		ln -sf $imageType-${KERNEL_IMAGE_NAME}.bin $deployDir/$imageType
- 	done
- 
- 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-@@ -695,7 +695,7 @@ kernel_do_deploy() {
- 			if [ "$imageType" = "fitImage" ] ; then
- 				continue
- 			fi
--			install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}.initramfs $deployDir/${imageType}-${INITRAMFS_NAME}.bin
-+			install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType.initramfs $deployDir/$imageType-${INITRAMFS_NAME}.bin
- 		done
- 	fi
+@@ -383,7 +383,6 @@ kernel_do_install() {
+ 	install -d ${D}${sysconfdir}/modules-load.d
+ 	install -d ${D}${sysconfdir}/modprobe.d
  }
-@@ -713,7 +713,7 @@ kernel_do_deploy_links() {
- 	fi
+-do_install[prefuncs] += "package_get_auto_pr"
  
- 	for imageType in ${KERNEL_IMAGETYPES} ; do
--		ln -vf $deployDir/${imageType}-${KERNEL_IMAGE_NAME}.bin $deployDir/${imageType}-${KERNEL_IMAGE_LINK_NAME}.bin
-+		ln -vf $deployDir/$imageType-${KERNEL_IMAGE_NAME}.bin $deployDir/$imageType-${KERNEL_IMAGE_LINK_NAME}.bin
- 	done
- 
- 	if [ ${MODULE_TARBALL_DEPLOY} = "1" -a -f $deployDir/modules-${MODULE_TARBALL_NAME}.tgz ] ; then
-@@ -725,7 +725,7 @@ kernel_do_deploy_links() {
- 			if [ "$imageType" = "fitImage" ] ; then
- 				continue
- 			fi
--			ln -vf $deployDir/${imageType}-${INITRAMFS_NAME}.bin $deployDir/${imageType}-${INITRAMFS_LINK_NAME}.bin
-+			ln -vf $deployDir/$imageType-${INITRAMFS_NAME}.bin $deployDir/$imageType-${INITRAMFS_LINK_NAME}.bin
- 		done
- 	fi
- }
+ # Must be ran no earlier than after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
+ do_kernel_version_sanity_check() {
 -- 
 2.17.1
 
