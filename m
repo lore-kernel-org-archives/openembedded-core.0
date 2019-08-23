@@ -1,47 +1,28 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
-	[209.85.217.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AF317F2B1
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BB807F2B6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 19:52:54 +0000 (UTC)
-Received: by mail-vs1-f43.google.com with SMTP id q16so4696741vsm.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 12:52:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dlnXny7rD+nDncLPxwpPBo0vHGWbfFzsq+ojjIl00nw=;
-	b=Hn/MqN5lbVKioL5JkCnfkyiZLkRiIODp2xaFTusM28k777eiAfUWvpYTYCFXQH1gKX
-	dGBRXsH9NH78Bf6vI6Ongn4satuwuqOM799Na4MPcuDJj1C7QfUDG5uXjfNC0g96sVvD
-	LYs7fqU1jNBr+9YUKtCQVcgn8go+Iv2OB7XFFSmAWS4S06AoVyu/21ZRkZ8tI6cINnTv
-	R6MzQFiKzh73iyUt535mcE/3QCWNCJ2BIxR46t8lNdGfU8Cb/xqQckNfBhBArnXu9NB1
-	KHC+5Cl6zuys6yRzZ4K6cvEkuKZ6JSFalr/WRULMOgZjs1OV0nKB7dHXpQ2nLmnxV7ko
-	IuXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=dlnXny7rD+nDncLPxwpPBo0vHGWbfFzsq+ojjIl00nw=;
-	b=XtxBP/mExKt8yWv+wavWpnfZr4fcEnwHtc5BRa8OrMgoVZfTyY3PYRgyAUfJTc8FUG
-	3RMIhQ8rQkl+RbT8xqneqIyRCqWxCTbT00yrmCK39ZyaJu+Pc1Cp7vOy527uTd+0t6Ig
-	FkYEeYvXnEz1lP5TJMe5kLGB2jb98gGxSlc25AKvQG0zhNvLKlyew+rG2nUDcPFsAu92
-	Y1xqVKPproVWAZ5Qv041v3jnW5shHYNCU0QySYERcTP67xA+i0zYULCst71a5bYQECgc
-	wVU1j/ZZF2bLex2EEGoQkBvl8glZOwKXWuMy6N4vDX5qZO6TG3PRYGgYJ4g/QFEUsuzk
-	6IzQ==
-X-Gm-Message-State: APjAAAXAL57OtA8A3dOJRwo3OuSYf392gsIFHu6pEGjNpxaCvWhnqXlg
-	T90epU3v8/Du0/j9sfqshsKtPIC2nw9s0YT08+A=
-X-Google-Smtp-Source: APXvYqwo/KoVs78K4efhDxqYcFP9CKeZCMb54vBSQGuUYJ2gCF/MvTMWU/NTS8+gf7Bhl/eUomKZrYBRsYAe/9KXBpA=
-X-Received: by 2002:a67:1c87:: with SMTP id c129mr574164vsc.23.1566503575058; 
-	Thu, 22 Aug 2019 12:52:55 -0700 (PDT)
+	Fri, 23 Aug 2019 01:27:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7N1RdX9012318
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 22 Aug 2019 18:27:39 -0700 (PDT)
+Received: from [128.224.162.157] (128.224.162.157) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 22 Aug 2019 18:27:26 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+References: <1566438018-16251-1-git-send-email-hongxu.jia@windriver.com>
+	<1566438018-16251-3-git-send-email-hongxu.jia@windriver.com>
+	<c23770674c0d20493ba564fe32a4503d78571480.camel@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <6323a64a-4573-1abc-9157-ed631f3e0436@windriver.com>
+Date: Fri, 23 Aug 2019 09:27:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <a01c66d2-4603-5633-9b3e-6180ba8c904d@windriver.com>
-In-Reply-To: <a01c66d2-4603-5633-9b3e-6180ba8c904d@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 22 Aug 2019 21:52:43 +0200
-Message-ID: <CANNYZj9nmZqD2C3zN7RVNQS3d8U0j0unO2fTpgzGmEwaBxgt1Q@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: boost 1.69 -> 1.71 upgrade for 3.0?
+In-Reply-To: <c23770674c0d20493ba564fe32a4503d78571480.camel@linuxfoundation.org>
+Subject: Re: [PATCH 3/3] elfutils: 0.176 -> 0.177
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,61 +35,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2019 19:52:54 -0000
-Content-Type: multipart/alternative; boundary="000000000000217cb30590ba0932"
+X-List-Received-Date: Fri, 23 Aug 2019 01:27:45 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---000000000000217cb30590ba0932
-Content-Type: text/plain; charset="UTF-8"
+On 8/22/19 9:27 PM, Richard Purdie wrote:
+> On Thu, 2019-08-22 at 09:40 +0800, Hongxu Jia wrote:
+>> - Update Debian patches
+>>    
+>> http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.176-1.debian.tar.xz
+>>
+>> - Rebase Debian patches to 0.177
+>>    debian/hppa_backend.diff
+>>    debian/mips_backend.diff
+>>    debian/arm_backend.diff
+>>    debian/mips_readelf_w.patch
+>>    debian/testsuite-ignore-elflint.diff
+>>    debian/mips_cfi.patch
+>>
+>> - Fix build failure while applying debian patches
+>>    0001-fix-compile-failure-with-debian-patches.patch
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   .../{elfutils_0.176.bb => elfutils_0.177.bb}       |   8 +-
+>>   ...ferences-between-mips-machine-identifiers.patch |  12 +-
+>>   ...1-fix-compile-failure-with-debian-patches.patch |  48 ++++++++
+>>   ...-support-for-mips64-abis-in-mips_retval.c.patch |  13 +-
+>>   .../0003-Add-mips-n64-relocation-format-hack.patch |  60 +++++-----
+>>   .../elfutils/files/debian/arm_backend.diff         |  39 +++---
+>>   .../elfutils/files/debian/disable_werror.patch     |  19 +--
+>>   .../elfutils/files/debian/hppa_backend.diff        |  57 +++++----
+>>   .../elfutils/files/debian/hurd_path.patch          |  17 +--
+>>   .../elfutils/files/debian/ignore_strmerge.diff     |  15 +--
+>>   .../elfutils/files/debian/kfreebsd_path.patch      |  13 +-
+>>   .../elfutils/files/debian/mips_backend.diff        |  42 ++++---
+>>   .../elfutils/files/debian/mips_cfi.patch           | 131
+>> +++++++++++++++++++++
+>>   .../elfutils/files/debian/mips_readelf_w.patch     |  22 ++--
+>>   .../files/debian/testsuite-ignore-elflint.diff     |  22 ++--
+>>   15 files changed, 340 insertions(+), 178 deletions(-)
+>>   rename meta/recipes-devtools/elfutils/{elfutils_0.176.bb =>
+>> elfutils_0.177.bb} (95%)
+>>   create mode 100644 meta/recipes-devtools/elfutils/files/debian/0001-
+>> fix-compile-failure-with-debian-patches.patch
+>>   create mode 100644 meta/recipes-
+>> devtools/elfutils/files/debian/mips_cfi.patch
+> I think the musl patches need refreshing as there are warnings:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/962
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/963
 
-On Thu, 22 Aug 2019 at 21:20, Randy MacLeod <randy.macleod@windriver.com>
-wrote:
+Sorry, I forget to do it, v2 incoming
 
-> I'm checking if you have done any work on upgrading the
-> boost recipe? Trevor will work on it if you haven't started.
-> He's relatively new to YP so depending on how easy the
-> update is he might bail or need help or take a while.
+//Hongxu
+
+
+> Cheers,
+>
+> Richard
 >
 
-I made a preliminary update to 1.70, but I had to hold it back because
-there is a significant regression in do_install(). Bjam spins the CPU at
-100% for many minutes, while making glacial progress with the installation.
-I couldn't figure out what is it doing, and so decided to wait and see if
-things get better with 1.71 (also all the major desktop distros are at
-various older versions still, so the upstream is probably oblivious to the
-problem).
 
-The patch is here, so you can first check if you see the same problem, and
-then if 1.71 helps:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akanavin/package-version-updates-later&id=39bcdb4184a9108561249d5a89b69a9250ff686d
-
-Alex
-
---000000000000217cb30590ba0932
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 22 Aug 2019 at 21:20, Randy MacLeod &lt;<a href=3D"mailto:ra=
-ndy.macleod@windriver.com">randy.macleod@windriver.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">I&#39;m checking if y=
-ou have done any work on upgrading the<br>
-boost recipe? Trevor will work on it if you haven&#39;t started.<br>
-He&#39;s relatively new to YP so depending on how easy the<br>
-update is he might bail or need help or take a while.<br>
-</blockquote><div><br></div><div>I made a preliminary update to 1.70, but I=
- had to hold it back because there is a significant regression in do_instal=
-l(). Bjam spins the CPU at 100% for many minutes, while making glacial prog=
-ress with the installation. I couldn&#39;t figure out what is it doing, and=
- so decided to wait and see if things get better with 1.71 (also all the ma=
-jor desktop distros are at various older versions still, so the upstream is=
- probably oblivious to the problem).</div><div><br></div><div>The patch is =
-here, so you can first check if you see the same problem, and then if 1.71 =
-helps:</div><div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky-=
-contrib/commit/?h=3Dakanavin/package-version-updates-later&amp;id=3D39bcdb4=
-184a9108561249d5a89b69a9250ff686d">http://git.yoctoproject.org/cgit/cgit.cg=
-i/poky-contrib/commit/?h=3Dakanavin/package-version-updates-later&amp;id=3D=
-39bcdb4184a9108561249d5a89b69a9250ff686d</a></div><div><br></div><div>Alex<=
-br></div></div></div>
-
---000000000000217cb30590ba0932--
