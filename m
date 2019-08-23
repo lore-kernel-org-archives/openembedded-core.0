@@ -1,28 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F1D607F2B6
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 891397F26C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 01:28:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7N1SD1B023179
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 22 Aug 2019 18:28:14 -0700 (PDT)
-Received: from [128.224.162.157] (128.224.162.157) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 22 Aug 2019 18:28:12 -0700
-To: Adrian Bunk <bunk@stusta.de>
-References: <1566438018-16251-1-git-send-email-hongxu.jia@windriver.com>
-	<1566438018-16251-3-git-send-email-hongxu.jia@windriver.com>
-	<20190822170111.GA2069@localhost>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <e73ede01-3f54-232c-a97a-db4890527a7f@windriver.com>
-Date: Fri, 23 Aug 2019 09:28:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Fri, 23 Aug 2019 01:56:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7N1tJRA021109
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2019 18:56:06 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 22 Aug 2019 18:55:46 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Aug 2019 09:55:45 +0800
+Message-ID: <1566525345-269093-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20190822170111.GA2069@localhost>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] elfutils: 0.176 -> 0.177
+Subject: [PATCH] libedit: fix failed to get history
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 01:28:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 23 Aug 2019 01:56:15 -0000
+Content-Type: text/plain
 
-On 8/23/19 1:01 AM, Adrian Bunk wrote:
-> On Thu, Aug 22, 2019 at 09:40:18AM +0800, Hongxu Jia wrote:
->> - Update Debian patches
->>    http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.176-1.debian.tar.xz
->>
->> - Rebase Debian patches to 0.177
->>    debian/hppa_backend.diff
->>    debian/mips_backend.diff
->>    debian/arm_backend.diff
->>    debian/mips_readelf_w.patch
->>    debian/testsuite-ignore-elflint.diff
->>    debian/mips_cfi.patch
->> ...
->>   ...1-fix-compile-failure-with-debian-patches.patch |  48 ++++++++
->> ...
->>   .../elfutils/files/debian/hppa_backend.diff        |  57 +++++----
->>   .../elfutils/files/debian/hurd_path.patch          |  17 +--
->> ...
->>   .../elfutils/files/debian/kfreebsd_path.patch      |  13 +-
->> ...
->>   .../elfutils/files/debian/mips_cfi.patch           | 131 +++++++++++++++++++++
->> ...
-> Why are we following Debian patches in a package with active upstream?
+From: Changqing Li <changqing.li@windriver.com>
 
-I am afraid no, we need to rebase them (0.176) to 0.177
+Reproduce steps:
+run fileman under examples, history command not work,
+nothing is output.
 
-//Hongxu
+Fix by increase history_offset when add history, if not,
+it will make current history event not align with offset,
+and cannot get history correctly.
 
-> cu
-> Adrian
->
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../0001-readline.c-fix-cannot-get-history.patch   | 34 ++++++++++++++++++++++
+ .../libedit/libedit_20190324-3.1.bb                |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/libedit/libedit/0001-readline.c-fix-cannot-get-history.patch
+
+diff --git a/meta/recipes-devtools/libedit/libedit/0001-readline.c-fix-cannot-get-history.patch b/meta/recipes-devtools/libedit/libedit/0001-readline.c-fix-cannot-get-history.patch
+new file mode 100644
+index 0000000..7e54ac9
+--- /dev/null
++++ b/meta/recipes-devtools/libedit/libedit/0001-readline.c-fix-cannot-get-history.patch
+@@ -0,0 +1,34 @@
++From ef1fa9bef497d9491a51017f3cad0135a23bb0b4 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Tue, 20 Aug 2019 17:33:15 +0800
++Subject: [PATCH] readline.c: fix cannot get history
++
++if history_offset not increate when add history,
++it will make current history event not align with offset,
++and cannot get history correctly.
++
++Upstream-Status: Submitted [tech-userlevel@NetBSD.org] 
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ src/readline.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/src/readline.c b/src/readline.c
++index 43ac5bd..54b0548 100644
++--- a/src/readline.c
+++++ b/src/readline.c
++@@ -1476,7 +1476,10 @@ add_history(const char *line)
++ 	if (ev.num == history_length)
++ 		history_base++;
++ 	else
+++        {
+++                history_offset++;
++ 		history_length = ev.num;
+++        }
++ 	return 0;
++ }
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb b/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb
+index 6a599eb..8585541 100644
+--- a/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb
++++ b/meta/recipes-devtools/libedit/libedit_20190324-3.1.bb
+@@ -14,6 +14,7 @@ inherit autotools
+ FETCHCMD_wget += "-U bitbake"
+ SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
+            file://stdc-predef.patch \
++           file://0001-readline.c-fix-cannot-get-history.patch \
+           "
+ SRC_URI[md5sum] = "bec755c8044ad84b752dfe49a0b371d8"
+ SRC_URI[sha256sum] = "ac8f0f51c1cf65492e4d1e3ed2be360bda41e54633444666422fbf393bba1bae"
+-- 
+2.7.4
 
 
