@@ -1,47 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 575B77F37D
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id C95307F386
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 20:52:34 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id 4so6200721pld.10
+	Fri, 23 Aug 2019 20:52:40 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id 4so6200918pld.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 13:52:35 -0700 (PDT)
+	Fri, 23 Aug 2019 13:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=E6DQYFtNdYu7xqop8XQ8L9n5/Ol10JvfYUIpzq50A08=;
-	b=gOHzRYRv278pesmjixXF6pEiT9soxRSzbLRk+6WYrJLwrR1aAVgRXswELZI16sRbES
-	7CAcKTEGLXTZm2OcjzbosZHFBJEKEeGo8ZT9si3+w9OaXpx9mkDkXEGSBD5xNQwJAoX7
-	2W9ua59VbDkfJGdbe8V3zTu/+rfr6GpuvVX62tKQk0meNla68LSD2R5jdU4hCQKoFDK/
-	EMgM2bkKOvF2TLtjpZA6vGeCvN1Ct1OvbvKvZ/CVo2x0bsFEOcSuTz+9EQGR09/W+Fwf
-	7jevgZE5BUbKNnHoEN2Nvkg3cwul3sbJ/vDntYTniDv3q5aEvX9FpU7aCj7rCUKSsfZr
-	OmIg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=XonVjlK/H1SybxyfvQL5NRKNLwTKJIBTUMyU1fiB+HA=;
+	b=ZkNiIZE3wITELgFCYjO/S3JCDYkNGDrM0YZZ62g94UXfIoZYECT6ACrm+YNiuHDMul
+	+6J4cb1ng6DKTpptKrhsGNei8FOenwvAbf2StXZVgIXTmFjOXb6QlzDMqEEDvKPv7Dwc
+	PuvXQn+M/jescED1/qRWBr3u6aF+aqG4WEuSqBrcZ2UbjVTrNqNxwcmwA/XZMTQ8OBKr
+	DSB76h1zuZx948R2uOVQOwp/vRBPd7ToDwVq80MfLxJq7CgGCKmbRjAFg8c6i2ggCZCF
+	kbHWVPeABKDU1bgz6SYFeSiFDBtE7E7YwZq5GaL5LdjRU7A+PvI7gYqq59Ext3UEGwch
+	NBYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=E6DQYFtNdYu7xqop8XQ8L9n5/Ol10JvfYUIpzq50A08=;
-	b=ICio114aDlEtjTDxqV0TyAM1cT1QhUO24bgt5oqOgrqtrop2h+XEBi/nkERGBoeQJz
-	RzwpG1jWwPP47udOuEWNRe00H5vcBpZ0FsMQARzRDkp7TN12Q9Em5qTf+HHVzX8JSb4C
-	gOVHA2DjD1E8BMyxKn/KK2JaHsK5BMm7VQC95wM7hCQQ7CNPhTh60griF1RY8pe9GbZT
-	/UHYYybBSs4SDXl+a0TNwQuDMNEbVEYOsQ/akM4n6iWGIdi66yh2yZZweqdX1XJy7baJ
-	78OwZNPB3YnMmxiUpIG24BClAF1jlQiH3VoaOSu+BYS2k19+rBg6NyN/8D6T1mWI5igT
-	REGw==
-X-Gm-Message-State: APjAAAWVvMinIus2HvogAIwjFP0ETsEZcPa3MqdERzHR3KIA9OWhSLmO
-	4Z8hSj/9tdzY0lIPEweQ/jGjpZjc
-X-Google-Smtp-Source: APXvYqxyMoGDQi8f85YyFc3pPmj3a7263BbDQH9X2F+w6i2LB2weXB7uwh00gJXcGETO5fAxyMpo8A==
-X-Received: by 2002:a17:902:8204:: with SMTP id
-	x4mr6826414pln.37.1566593555024; 
-	Fri, 23 Aug 2019 13:52:35 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=XonVjlK/H1SybxyfvQL5NRKNLwTKJIBTUMyU1fiB+HA=;
+	b=J9SCNIb57CxfGMAZ9AAwUdJF9F+a9LKicgN33QrPWF+hxSmgNIwWNgT3jV0sXmf4j8
+	0u6uLwRzHgtOKx/1zHT3S7hYdBnLOs/jmehq/mvfdlIZiahs2iK0bO0waTA7Ew++kDdC
+	x7k6Rzrt50d3vPDlDRsxwbTcU109FFKh4mcNsj118SaXwcyZQoqW/Ey1LTox1fX6GGY0
+	xAwNJNf6RQLgRqk78HUbc/iDmcxMyNWE6QU2MG4Oba7KuS9547QYTwIK+yYDTsu7g0eu
+	Eb+vbQUSWgdw5wVEIztJ7vW3kVUb/UBhgZ+9QUR+u9fDxNcsF3L3ZKPOsi3WeTQ5LJ75
+	NQ+Q==
+X-Gm-Message-State: APjAAAXx8Ppm0GHtvy6W0UkJAdHd9cZX846mW9pkplMQEcdcz9a8R7Gu
+	y8DhFdaTQUdPy4b7WFIMoZBLAcg7
+X-Google-Smtp-Source: APXvYqwkEj/OpiaORyDpIFJtJBY0WQ8ldtFmquJaVkt8PePXGEhfymlttTi7MiUO9P2iU25RWRYFBw==
+X-Received: by 2002:a17:902:fe06:: with SMTP id
+	g6mr6879201plj.265.1566593561822; 
+	Fri, 23 Aug 2019 13:52:41 -0700 (PDT)
 Received: from localhost.localdomain ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id h9sm2688314pgh.51.2019.08.23.13.52.34
+	by smtp.gmail.com with ESMTPSA id h9sm2688314pgh.51.2019.08.23.13.52.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 23 Aug 2019 13:52:34 -0700 (PDT)
+	Fri, 23 Aug 2019 13:52:41 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2019 13:51:32 -0700
-Message-Id: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
+Date: Fri, 23 Aug 2019 13:51:33 -0700
+Message-Id: <1566593504-21918-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 01/13] bitbake.conf: drop FETCHCMD, GITDIR, etc fetcher over-rides
+In-Reply-To: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
+References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
+Subject: [PATCH 02/13] tune-arm1136jf-s.inc: add hardfloat support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 20:52:34 -0000
-
-This completes cleanup originally proposed in 2012:
-
-  http://lists.openembedded.org/pipermail/openembedded-core/2012-July/064224.html
-
-Current versions of bitbake have "sane" default fetcher commands
-so it's no longer necessary for bitbake.conf to over-ride them.
+X-List-Received-Date: Fri, 23 Aug 2019 20:52:40 -0000
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/conf/bitbake.conf | 12 ------------
- 1 file changed, 12 deletions(-)
+ meta/conf/machine/include/tune-arm1136jf-s.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 1311e6b..a0a7f49 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -360,12 +360,6 @@ CACHE = "${TMPDIR}/cache${@['', '/' + str(d.getVar('MACHINE'))][bool(d.getVar('M
- # The persistent cache should be shared by all builds
- PERSISTENT_DIR = "${TOPDIR}/cache"
- LOG_DIR = "${TMPDIR}/log"
--CO_DIR = "${DL_DIR}"
--CVSDIR = "${CO_DIR}/cvs"
--SVNDIR = "${CO_DIR}/svn"
--GITDIR = "${CO_DIR}/git2"
--BZRDIR = "${CO_DIR}/bzr"
--HGDIR = "${CO_DIR}/hg"
+diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
+index d883eba..b25995d 100644
+--- a/meta/conf/machine/include/tune-arm1136jf-s.inc
++++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
+@@ -6,8 +6,11 @@ TUNEVALID[arm1136jfs] = "Enable arm1136jfs specific processor optimizations"
+ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mcpu=arm1136jf-s', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', 'armv6:', '' ,d)}"
  
- STAMPS_DIR ?= "${TMPDIR}/stamps"
- STAMP = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
-@@ -676,12 +670,6 @@ SRC_URI[vardepsexclude] += "\
- #  export DEBIAN_MIRROR = "http://ftp.de.debian.org/debian/pool"
- #     into your local.conf
- 
--FETCHCMD_svn = "/usr/bin/env svn --non-interactive --trust-server-cert"
--FETCHCMD_cvs = "/usr/bin/env cvs"
--FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 --passive-ftp --no-check-certificate"
--FETCHCMD_bzr = "/usr/bin/env bzr"
--FETCHCMD_hg = "/usr/bin/env hg"
--
- SRCDATE = "${DATE}"
- SRCREV ??= "INVALID"
- AUTOREV = "${@bb.fetch2.get_autorev(d)}"
+-AVAILTUNES += "arm1136jfs"
++AVAILTUNES += "arm1136jfs arm1136jfshf"
+ ARMPKGARCH_tune-arm1136jfs = "arm1136jfs"
++ARMPKGARCH_tune-arm1136jfshf = "arm1136jfs"
+ # mcpu is used so don't use armv6 as we don't want march
+ TUNE_FEATURES_tune-arm1136jfs = "arm arm1136jfs"
++TUNE_FEATURES_tune-arm1136jfshf = "${TUNE_FEATURES_tune-arm1136jfs} callconvention-hard"
+ PACKAGE_EXTRA_ARCHS_tune-arm1136jfs = "${PACKAGE_EXTRA_ARCHS_tune-armv6} arm1136jfs-vfp"
++PACKAGE_EXTRA_ARCHS_tune-arm1136jfshf = "${PACKAGE_EXTRA_ARCHS_tune-armv6hf} arm1136jfshf-vfp"
 -- 
 1.9.1
 
