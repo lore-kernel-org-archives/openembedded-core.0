@@ -1,23 +1,24 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EE157F333
+Return-Path: <mazliana.mohamad@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A28067F32E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 07:26:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7N7QalV016748
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 00:26:36 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Fri, 23 Aug 2019 00:26:29 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Aug 2019 15:26:28 +0800
-Message-ID: <1566545188-273512-1-git-send-email-zhe.he@windriver.com>
+	Fri, 23 Aug 2019 07:40:57 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Aug 2019 19:29:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,419,1559545200"; d="scan'208";a="379551666"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga006.fm.intel.com with ESMTP; 22 Aug 2019 19:29:22 -0700
+From: mazliana.mohamad@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Aug 2019 10:29:18 +0800
+Message-Id: <1566527358-49642-1-git-send-email-mazliana.mohamad@intel.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] ltp: syscalls: rt_sigwaitinfo01: Fix failure for MIPS arches
+Subject: [PATCH v3] oeqa/kerneldevelopment: Able to apply a single patch to the Linux kernel source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,90 +31,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 07:26:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Aug 2019 07:40:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: He Zhe <zhe.he@windriver.com>
+From: Mazliana <mazliana.mohamad@intel.com>
 
-Add a patch to fix the following failure.
-rt_sigtimedwait01    1  TFAIL  :  .../sigwaitinfo01.c:58: test_empty_set
-(.../sigwaitinfo01.c: 148): Unexpected failure:
-TEST_ERRNO=EINVAL(22): Invalid argument
+Purpose of kernel development is basically to customize our
+own recipes kernel by reused existing recipes.
+ 
+This is an initiative of automating manual kernel development
+test cases. Applying a single patch to the Linux kernel source
+is one of the manual test cases of kernel development.
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+Objective of this test is as a developer we can make changes of
+a file in kernel source and able to apply a single patch to
+the kernel source.
+ 
+ref:https://wiki.yoctoproject.org/wiki/Kernel_Development_Test_Cases
+
+Signed-off-by: Mazliana <mazliana.mohamad@intel.com>
 ---
- ..._sigwaitinfo01-Fix-failure-for-MIPS-arche.patch | 49 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190517.bb          |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch
+ meta/lib/oeqa/selftest/cases/kerneldevelopment.py | 67 +++++++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/kerneldevelopment.py
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch
+diff --git a/meta/lib/oeqa/selftest/cases/kerneldevelopment.py b/meta/lib/oeqa/selftest/cases/kerneldevelopment.py
 new file mode 100644
-index 0000000..9a0df74
+index 0000000..a61876e
 --- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch
-@@ -0,0 +1,49 @@
-+From b4193bc3fdeb278abc54944b4773ffa45ee432af Mon Sep 17 00:00:00 2001
-+From: He Zhe <zhe.he@windriver.com>
-+Date: Fri, 23 Aug 2019 14:34:43 +0800
-+Subject: [LTP] [PATCH] syscalls: rt_sigwaitinfo01: Fix failure for MIPS arches
++++ b/meta/lib/oeqa/selftest/cases/kerneldevelopment.py
+@@ -0,0 +1,67 @@
++import os
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import runCmd, get_bb_var
++from oeqa.utils.git import GitRepo
 +
-+rt_sigtimedwait01 fails as follow on MIPS arches
-+rt_sigtimedwait01    1  TFAIL  :  .../sigwaitinfo01.c:58: test_empty_set
-+(.../sigwaitinfo01.c: 148): Unexpected failure:
-+TEST_ERRNO=EINVAL(22): Invalid argument
++class KernelDev(OESelftestTestCase):
 +
-+As this case purposely bypasses glibc, it should align with the size of kernel
-+definition of sigset_t which is different from other arches.
-+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/mips/include/uapi/asm/signal.h#n15
++    @classmethod
++    def setUpClass(cls):
++        super(KernelDev, cls).setUpClass()
++        # Create the recipe directory structure inside the created layer
++        cls.layername = 'meta-kerneltest'
++        runCmd('bitbake-layers create-layer %s' % cls.layername)
++        runCmd('mkdir -p %s/recipes-kernel/linux/linux-yocto' % cls.layername)
++        cls.recipes_linuxyocto_dir = os.path.join \
++            (cls.builddir, cls.layername, 'recipes-kernel', 'linux', 'linux-yocto')
++        cls.recipeskernel_dir = os.path.dirname(cls.recipes_linuxyocto_dir)
++        runCmd('bitbake-layers add-layer %s' % cls.layername)
 +
-+This patch adds specific case for MIPS.
++    @classmethod
++    def tearDownClass(cls):
++        runCmd('bitbake-layers remove-layer %s' % cls.layername, ignore_status=True)
++        runCmd('rm -rf %s' % cls.layername)
++        super(KernelDev, cls).tearDownClass()
 +
-+Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-August/013313.html]
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c | 13 ++++++++++---
-+ 1 file changed, 10 insertions(+), 3 deletions(-)
++    def setUp(self):
++        super(KernelDev, self).setUp()
++        self.set_machine_config('MACHINE = "qemux86-64"\n')
 +
-+diff --git a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
-+index 5a32ce1..5c2fa99 100644
-+--- a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
-++++ b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
-+@@ -128,9 +128,16 @@ static int my_sigtimedwait(const sigset_t * set, siginfo_t * info,
-+ static int my_rt_sigtimedwait(const sigset_t * set, siginfo_t * info,
-+ 			      struct timespec *timeout)
-+ {
-+-
-+-	/* The last argument is (number_of_signals)/(bits_per_byte), which are 64 and 8, resp. */
-+-	return ltp_syscall(__NR_rt_sigtimedwait, set, info, timeout, 8);
-++	/* The last argument is (number_of_signals)/(bits_per_byte), which are 64 and 8, resp,
-++	 * except for MIPS which are 128 and 8, resp.
-++	 */
-++	return ltp_syscall(__NR_rt_sigtimedwait, set, info, timeout,
-++#ifdef __mips__
-++		16
-++#else
-++		8
-++#endif
-++		);
-+ }
-+ #endif
-+ 
-+-- 
-+2.7.4
++    def test_apply_patches(self):
++        """
++        Summary:     Able to apply a single patch to the Linux kernel source
++        Expected:    The README file should exist and the patch changes should be
++                     displayed at the end of the file.
++        Product:     Kernel Development
++        Author:      Yeoh Ee Peng <ee.peng.yeoh@intel.com>
++        AutomatedBy: Mazliana Mohamad <mazliana.mohamad@intel.com>
++        """
++        runCmd('bitbake virtual/kernel -c patch')
++        kernel_source = get_bb_var('STAGING_KERNEL_DIR')
++        readme = os.path.join(kernel_source, 'README')
 +
-diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
-index b0e2f96..14c1219 100644
---- a/meta/recipes-extended/ltp/ltp_20190517.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190517.bb
-@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0002-check-for-RES_USE_INET6-during-configure.patch \
-            file://0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch \
-            file://0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch \
-+           file://0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch \
-            "
- 
- S = "${WORKDIR}/git"
++        # This test step adds modified file 'README' to git and creates a
++        # patch file '0001-KERNEL_DEV_TEST_CASE.patch' at the same location as file
++        patch_content = 'This is a test to apply a patch to the kernel'
++        with open(readme, 'a+') as f:
++            f.write(patch_content)
++        repo = GitRepo('%s' % kernel_source, is_topdir=True)
++        repo.run_cmd('add %s' % readme)
++        repo.run_cmd(['commit', '-m', 'KERNEL_DEV_TEST_CASE'])
++        repo.run_cmd(['format-patch', '-1'])
++        patch_name = '0001-KERNEL_DEV_TEST_CASE.patch'
++        patchpath = os.path.join(kernel_source, patch_name)
++        runCmd('mv %s %s' % (patchpath, self.recipes_linuxyocto_dir))
++        runCmd('rm %s ' % readme)
++        self.assertFalse(os.path.exists(readme))
++
++        recipe_append = os.path.join(self.recipeskernel_dir, 'linux-yocto_%.bbappend')
++        with open(recipe_append, 'w+') as fh:
++            fh.write('SRC_URI += "file://%s"\n' % patch_name)
++            fh.write('FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"')
++
++        runCmd('bitbake virtual/kernel -c clean')
++        runCmd('bitbake virtual/kernel -c patch')
++        self.assertTrue(os.path.exists(readme))
++        result = runCmd('tail -n 1 %s' % readme)
++        self.assertEqual(result.output, patch_content)
 -- 
 2.7.4
 
