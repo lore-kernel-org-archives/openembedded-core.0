@@ -1,24 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D78E7F31E
+	by mail.openembedded.org (Postfix) with ESMTP id A60B27F362
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 08:20:27 +0000 (UTC)
+	Fri, 23 Aug 2019 08:57:07 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7N8JgTV013436
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7N8u1ZR015352
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 01:20:19 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 23 Aug 2019 01:19:48 -0700
-From: <kai.kang@windriver.com>
+	Fri, 23 Aug 2019 01:56:58 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Fri, 23 Aug 2019 01:56:30 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Aug 2019 04:19:45 -0400
-Message-ID: <20190823081945.49883-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
+Date: Fri, 23 Aug 2019 16:56:29 +0800
+Message-ID: <20190823085629.13633-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: [PATCH] libwacom: add recipe
+Subject: [PATCH] bind: fix build with python3 PACKAGECONFIG enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 08:20:28 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 23 Aug 2019 08:57:08 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+If the PACKAGECONFIG item, python3, is enabled, we get the following
+QA issue when multilib is enabled.
 
-Package libinput has a package config 'libwacom'. When it is set,
-package libwacom is required. So add the recipe of libwacom.
+  ERROR: bind-9.11.5-P4-r0 do_package: QA Issue: bind: Files/directories were installed but not shipped in any package:
+  /usr/lib
+  /usr/lib/python3.7
+  /usr/lib/python3.7/site-packages
+  /usr/lib/python3.7/site-packages/isc-2.0-py3.7.egg-info
+  /usr/lib/python3.7/site-packages/isc
+  /usr/lib/python3.7/site-packages/isc/policy.py
+  [snip]
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+The thing is, when --with-python is specified with a path instead of 'yes',
+the --with-python-install-dir is in fact ignored.
+
+Fix this issue by specifying the correct arguments.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-graphics/libwacom/libwacom_0.33.bb | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
- create mode 100644 meta/recipes-graphics/libwacom/libwacom_0.33.bb
+ meta/recipes-connectivity/bind/bind_9.11.5-P4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/libwacom/libwacom_0.33.bb b/meta/recipes-graphics/libwacom/libwacom_0.33.bb
-new file mode 100644
-index 0000000000..deb2922216
---- /dev/null
-+++ b/meta/recipes-graphics/libwacom/libwacom_0.33.bb
-@@ -0,0 +1,15 @@
-+DESCRIPTION = "libwacom is a library to identify wacom tablets and their model-specific features."
-+HOMEPAGE = "https://github.com/linuxwacom/libwacom/wiki"
-+SECTION = "libs"
-+
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=40a21fffb367c82f39fd91a3b137c36e"
-+
-+DEPENDS = "libgudev"
-+
-+SRC_URI = "git://github.com/linuxwacom/libwacom.git;protocol=https"
-+SRCREV = "87cc710e21a6220e267dd08936bbec2932aa3658"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools pkgconfig
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+index 93c406f778..69b1174073 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+@@ -39,7 +39,7 @@ PACKAGECONFIG[httpstats] = "--with-libxml2=${STAGING_DIR_HOST}${prefix},--withou
+ PACKAGECONFIG[readline] = "--with-readline=-lreadline,,readline"
+ PACKAGECONFIG[libedit] = "--with-readline=-ledit,,libedit"
+ PACKAGECONFIG[urandom] = "--with-randomdev=/dev/urandom,--with-randomdev=/dev/random,,"
+-PACKAGECONFIG[python3] = "--with-python=${PYTHON} --with-python-install-dir=${D}/${PYTHON_SITEPACKAGES_DIR} , --without-python, python3-ply-native,"
++PACKAGECONFIG[python3] = "--with-python=yes --with-python-install-dir=${PYTHON_SITEPACKAGES_DIR} , --without-python, python3-ply-native,"
+ 
+ ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
+ EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
 -- 
-2.20.0
+2.17.1
 
 
