@@ -1,57 +1,52 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A53CF7F37A
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+	[209.85.222.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 19C8B7F369
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 15:20:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id A9133182C5
+	Fri, 23 Aug 2019 16:39:23 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id p13so8668598qkg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 17:20:20 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id o0XHsmcs_t1j
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 17:20:19 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id CAA8B183CF
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 17:20:19 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A46C01E087
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 17:20:19 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 970691E086
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 17:20:19 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 17:20:19 +0200 (CEST)
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by seth.se.axis.com (Postfix) with ESMTP id 8AB20725
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 17:20:19 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x7NFKJZw024228
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 17:20:19 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x7NFKJo0024227
-	for openembedded-core@lists.openembedded.org;
-	Fri, 23 Aug 2019 17:20:19 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Fri, 23 Aug 2019 09:39:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version:organization
+	:content-transfer-encoding;
+	bh=QxaBPw9/3ZGmdzgXjPfnOXWmJWB1XN5vBziNyjpk6QQ=;
+	b=NAZdrO50a8J48V16hzE7gq0Wkpecy48HgsU+6elSKjhfFD/P0aT6f3YqcA1TddHfjO
+	pxI3hIrt0haHjC/q6TX4qE3glMyG0wAyErj+lCWgEQxyOr2XyzUybtSZkt8Q5POoGpeh
+	h82lHX7xea08yJAjbjI2EZXYYE+yzMaEmaF873/M0xyvRwyVbVZjWqjEW+ZRBhIkjKOo
+	ClPjaFe05r5QnR21/b6uGaDy8eZQJzHDXKJvkMs4zguDZg9IRPLxol/Z2cpE3RcPhncb
+	MP6VL6L2dnzmg9jqux+xQawEkRBdUcj8hQVi20rHRL2yR3j0Y43a7ijjpOb9rydO4Faq
+	l/aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=QxaBPw9/3ZGmdzgXjPfnOXWmJWB1XN5vBziNyjpk6QQ=;
+	b=Gzv13XsGtyodDIUDJ+pJic/Z8Z3vgUniuY6A5Fj/mY+rY4GGjNLSFBGg5hQzHUPOJC
+	N0DuaZnnrZsJ1xI2+rJRoJx3pCOerv/hDUBMi5GKY4ZS1OrXRLj3AvVzTzMDM+BTc9rZ
+	oYbWV57bxrFlLCG6OEpgeJ5PnYJn7Mvq7f14qOyQe3fo1qNnu2JwlgSgEaD9OJIzHSFV
+	JvY0HwipZTNIKdk61bgJUCAWxIyPJSQtsF2T6VD72dl0m+mWR3OnuFdvZos4bpM5x4T1
+	5chshuUhlAvwrV+8AMW925wKC8zYcXWbZOlB+cf8PEdw6Z5Afo47anxa++O2XgWN+yY1
+	Uxuw==
+X-Gm-Message-State: APjAAAWvYrUApvbl4r3zeAKBd5RUsr8GVGPkducds79ixNNcvZNpEOq+
+	MRdAd5J8iJUtXWJjE7EsBaRnKc5w9k9wMw==
+X-Google-Smtp-Source: APXvYqzUIUm//UFK+bPoyqw4kyChCpJLMAZfIpv0xvN3zq0fyIr8va2EcgHF5dcRWfDmJ395dxZSpQ==
+X-Received: by 2002:a37:a013:: with SMTP id j19mr5031252qke.401.1566578364807; 
+	Fri, 23 Aug 2019 09:39:24 -0700 (PDT)
+Received: from centrium.lab.ossystems ([181.220.83.67])
+	by smtp.gmail.com with ESMTPSA id 6sm1722633qkp.82.2019.08.23.09.39.22
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 23 Aug 2019 09:39:24 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2019 17:20:16 +0200
-Message-Id: <20190823152016.24179-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
+Date: Fri, 23 Aug 2019 13:39:06 -0300
+Message-Id: <20190823163906.20144-1-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [PATCHv2] libffi: Make it build for MIPS o32
+Organization: O.S. Systems Software LTDA.
+Cc: "Bedel, Alban" <alban.bedel@aerq.com>
+Subject: [warrior][PATCH] rng-tools: start rngd early in the boot process again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,77 +59,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 15:20:22 -0000
+X-List-Received-Date: Fri, 23 Aug 2019 16:39:24 -0000
 Content-Transfer-Encoding: 8bit
 
-This solves the following errors:
+From: "Bedel, Alban" <alban.bedel@aerq.com>
 
-  src/mips/o32.S: Assembler messages:
-  src/mips/o32.S:286: Error: opcode not supported on this processor:
-    mips32r2 (mips32r2) `s.d $f12,((16*4)-10*4)($fp)'
-  src/mips/o32.S:287: Error: opcode not supported on this processor:
-    mips32r2 (mips32r2) `s.d $f14,((16*4)-8*4)($fp)'
+It do make sense to start rngd early in the boot process because
+otherwise we would need to track every service that might need entropy
+and explicitly configure it to start after rngd.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+When used with systemd rngd blocked the shutdown process because it
+simply missed the proper unit configuration. As the systemd
+documentation explains, when using DefaultDependencies=no one also
+have to explicitly configure the unit to properly stop at some point.
+This is normaly achieved by having Before=shutdown.target and
+Conflicts=shutdown.target set for the unit.
+
+To have rngd started early again we reverte the changes done to
+rngd.service in commit edf7606822 (rng-tools: fix rngd blocks system
+shutdown). To have it properly stopped on shutdown we also add
+Before=shutdown.target and Conflicts=shutdown.target.
+
+Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a74e7df33e2c8ab2152e3217c0a5df3f65971713)
 ---
+ meta/recipes-support/rng-tools/rng-tools/rngd.service | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-PATCHv2: Add Signed-off-by to the patch file.
-
- ...-missed-ifndef-for-__mips_soft_float.patch | 31 +++++++++++++++++++
- meta/recipes-support/libffi/libffi_3.3~rc0.bb |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/libffi/libffi/0001-Fixed-missed-ifndef-for-__mips_soft_float.patch
-
-diff --git a/meta/recipes-support/libffi/libffi/0001-Fixed-missed-ifndef-for-__mips_soft_float.patch b/meta/recipes-support/libffi/libffi/0001-Fixed-missed-ifndef-for-__mips_soft_float.patch
-new file mode 100644
-index 0000000000..00a30a3554
---- /dev/null
-+++ b/meta/recipes-support/libffi/libffi/0001-Fixed-missed-ifndef-for-__mips_soft_float.patch
-@@ -0,0 +1,31 @@
-+From 4149a7627a998731cc246d3f58a36808745d04c8 Mon Sep 17 00:00:00 2001
-+From: Carl Hurd <carl@Carls-MacBook-Pro.local>
-+Date: Wed, 18 Jul 2018 09:04:32 -0400
-+Subject: [PATCH] Fixed missed #ifndef for __mips_soft_float
-+
-+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+---
-+Upstream-Status: Submitted [https://github.com/libffi/libffi/pull/442]
-+
-+ src/mips/o32.S | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/mips/o32.S b/src/mips/o32.S
-+index 44e74cb..799139b 100644
-+--- a/src/mips/o32.S
-++++ b/src/mips/o32.S
-+@@ -282,9 +282,11 @@ $LCFI12:
-+ 	li	$13, 1		# FFI_O32
-+ 	bne	$16, $13, 1f	# Skip fp save if FFI_O32_SOFT_FLOAT
-+ 	
-++#ifndef __mips_soft_float
-+ 	# Store all possible float/double registers.
-+ 	s.d	$f12, FA_0_0_OFF2($fp)
-+ 	s.d	$f14, FA_1_0_OFF2($fp)
-++#endif
-+ 1:
-+ 	# prepare arguments for ffi_closure_mips_inner_O32
-+ 	REG_L	a0, 4($15)	 # cif 
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-support/libffi/libffi_3.3~rc0.bb b/meta/recipes-support/libffi/libffi_3.3~rc0.bb
-index dadde0b2a0..3e2845546e 100644
---- a/meta/recipes-support/libffi/libffi_3.3~rc0.bb
-+++ b/meta/recipes-support/libffi/libffi_3.3~rc0.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3610bb17683a0089ed64055416b2ae1b"
+diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+index f0355db14fc..5c8253b5fba 100644
+--- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
++++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+@@ -2,7 +2,8 @@
+ Description=Hardware RNG Entropy Gatherer Daemon
+ DefaultDependencies=no
+ After=systemd-udev-settle.service
+-Before=sysinit.target
++Before=sysinit.target shutdown.target
++Conflicts=shutdown.target
  
- SRC_URI = "https://github.com/libffi/libffi/releases/download/v3.3-rc0/libffi-3.3-rc0.tar.gz \
-            file://not-win32.patch \
-+           file://0001-Fixed-missed-ifndef-for-__mips_soft_float.patch \
-            "
- SRC_URI[md5sum] = "8d2a82a78faf10a5e53c27d986e8f04e"
- SRC_URI[sha256sum] = "403d67aabf1c05157855ea2b1d9950263fb6316536c8c333f5b9ab1eb2f20ecf"
+ [Service]
+ ExecStart=@SBINDIR@/rngd -f -r /dev/hwrng
 -- 
-2.21.0
+2.20.1
 
 
