@@ -1,49 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
-	[209.85.210.176])
-	by mail.openembedded.org (Postfix) with ESMTP id D9F987F391
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id BBF397F39E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 20:52:50 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id i30so7226199pfk.9
+	Fri, 23 Aug 2019 20:52:52 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id c2so6206159plz.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 13:52:52 -0700 (PDT)
+	Fri, 23 Aug 2019 13:52:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0vSUL4BWv0DKhs9m6kjJWR8AjrGbuT0aqonjAaWlI8I=;
-	b=gqw/GNIgUu/rnAhz6rv7LWthY7SAx7KRznaCzMCqBXqd62JkK2czAjPRgzey6OqznT
-	uM9JOeaTHdQOlbTf38xQZaF3qhhSzKx4BBQJhrfY6dNzrDW0ton0L7hw13W6a5t4sR4n
-	sDEXrnbO9XV9oPpNCCuwmUztvGQ9HJJel9jNxK1b+bBeWXR+WqpC7QgJi1NG3PsOhVSW
-	onwPBN6l5Ba8rNLNbQygPe2OppqQyTjBsPAjyQ2ANkSC6eW3MKhapP7HYO9Wfw9OKQmf
-	xryEChICdGpJ9yWF9PgLcE6Ao+UPp03S7lVidQuXMShnWGEAY/lllEu274oxaiIsVVxX
-	jktg==
+	bh=VFiIQResaEOgGAa/V0RLDOcEBRmVNY4IWfSscwEEO6U=;
+	b=GzZG8j5ea/kmQer3eJDBv+tSC5fT6B8OZBCaqAP8BciQZLzuABW3zBq/h59WNQn8iF
+	8Xi7ndBCJImrTjifKjROBU6i8fQokpq6jNj7ijOSAGvDk5HsncRN0LaR9re6z1TcXOFw
+	tC9DABqjyXKKjR/Uj9Ump7cnW+ItIjwEqcH6Q4hU02GFSYMtsxjHe0Usk83xq+LUAkit
+	3jevQpulZwsS4lAwm5LIWdho8rS9O266Xy6d+GW0sAozV3mmZVRtUrFdxinLeubsff/0
+	EUORF1BcoiqfkmGtXLaIqhZt48PELRqKqRC0M3lRciBUPIEyH2WwopNzBK7j8DwlPpbe
+	aQww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=0vSUL4BWv0DKhs9m6kjJWR8AjrGbuT0aqonjAaWlI8I=;
-	b=G0tKXMgI8AS+jqtrRgnP+//wGbc+iQwc58Q6crI7d4YfgT/vVsKF/Ck6cKq+QQmhtm
-	xP50hHgcJwxw3IZV1QiMhOXFJI6f6EtU3TyIt3XKPVIz5Dh0+9ujqNhYhjrlWpFZhdFc
-	EefckvKGIeoloXwnEPCRZFY7pfYXEtjIoe0A9JWXcz/67vnjoUcdSI/wtcAx0pT84Wl/
-	pSHuEY4X4kRqPxrMYUatQmC82q9VK5hQuF/Ar2Uaw+172ogGX1V5lNbIuZbxjmBSSLdr
-	2Qge668Gt57qyrNOxmPBc9L4W337FGoyGytE3oWtrTC++fkmhJJD8ZCLTYjVSL+9Vl8D
-	j97A==
-X-Gm-Message-State: APjAAAVEk0g5Trff+4rU/bZoTEjV6wbwIpaToath9sBGuqcKMCPcjxri
-	Cp6JK0V3DYUFHaTnKSsizWpueEGw
-X-Google-Smtp-Source: APXvYqzW5v4vrYsayxkqziujDqLEc/6ZFl9vXWpLg6dDN9cpknPgg4YQKuIx/fOfHN1f3PKy8kdfFw==
-X-Received: by 2002:a65:6713:: with SMTP id u19mr5243621pgf.403.1566593571794; 
-	Fri, 23 Aug 2019 13:52:51 -0700 (PDT)
+	bh=VFiIQResaEOgGAa/V0RLDOcEBRmVNY4IWfSscwEEO6U=;
+	b=Ydl5gRPildg7PjynNNtRcfIbBlPQYvygXIp2LOgxLSciy3u+2T6kfBsSNkuY4PRByr
+	nGdk+lHk/aWmKPTO5k+EJeO/tp6DUM9SnGaXEHQc4jX2P43dvH1mDv6VOQb5VmCUETyK
+	vDrSnFZhpax1BPUmZR5RQLlSi7Jhem7ibH9Yti0/lpOIihgIzAiCcrOXd6WRUeVSAifu
+	AMYO9CAFs1rvgvspXYoZHo2o0PadKPpUEdUIXLk5soqeiQIKmrPCoUGTk7YQ2QFoZFvD
+	rylXnN1FmTbIp6vQomuyvZx1n7ICnC68+pyJqphkuHy03+5kyxzw1OafGuNtagnT+5JK
+	Qe0Q==
+X-Gm-Message-State: APjAAAU+pa5SHo5gmf1SZGloaHX/OwlrPyCJYWBU/U/lyNSLEEhKOON4
+	LmcakY92GfOB2pN1uM0YXPvVgVO7
+X-Google-Smtp-Source: APXvYqxbzspQW+p88ZcPqipb5qdL46FMqqk1q+vUoEEHOMWt0X+6i3FrK/YGbQkyj1Qq4EsluGDyCg==
+X-Received: by 2002:a17:902:3064:: with SMTP id
+	u91mr6631931plb.244.1566593573814; 
+	Fri, 23 Aug 2019 13:52:53 -0700 (PDT)
 Received: from localhost.localdomain ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id h9sm2688314pgh.51.2019.08.23.13.52.51
+	by smtp.gmail.com with ESMTPSA id h9sm2688314pgh.51.2019.08.23.13.52.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 23 Aug 2019 13:52:51 -0700 (PDT)
+	Fri, 23 Aug 2019 13:52:53 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2019 13:51:37 -0700
-Message-Id: <1566593504-21918-6-git-send-email-armccurdy@gmail.com>
+Date: Fri, 23 Aug 2019 13:51:38 -0700
+Message-Id: <1566593504-21918-7-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
 References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 06/13] packagegroup-core-boot: drop duplicate MACHINE_ESSENTIAL_EXTRA_RDEPENDS, etc
+Subject: [PATCH 07/13] rootfs-postcommands.bbclass: add inittab tweak to read_only_rootfs_hook()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 20:52:51 -0000
+X-List-Received-Date: Fri, 23 Aug 2019 20:52:52 -0000
 
-Default values for MACHINE_ESSENTIAL_EXTRA_RDEPENDS and
-MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS are set from bitbake.conf and so
-don't need to be duplicated in the packagegroup-core-boot recipe.
+It's not clear that we actually need to call mount -o remount,XX from
+the busybox-inittab inittab at all, but as we currently do, let's
+respect read-only-rootfs in IMAGE_FEATURES and not remount / as rw.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 6 ------
- 1 file changed, 6 deletions(-)
+ meta/classes/rootfs-postcommands.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index 3a2f50f..abbee14 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -10,12 +10,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 6cec23e..fc33816 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -95,6 +95,11 @@ read_only_rootfs_hook () {
+ 		sed -i -e '/^[#[:space:]]*\/dev\/root/{s/defaults/ro/;s/\([[:space:]]*[[:digit:]]\)\([[:space:]]*\)[[:digit:]]$/\1\20/}' ${IMAGE_ROOTFS}/etc/fstab
+ 	fi
  
- inherit packagegroup
- 
--#
--# Set by the machine configuration with packages essential for device bootup
--#
--MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
--MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
--
- # Distro can override the following VIRTUAL-RUNTIME providers:
- VIRTUAL-RUNTIME_dev_manager ?= "udev"
- VIRTUAL-RUNTIME_keymaps ?= "keymaps"
++	# Tweak the "mount -o remount,rw /" command in busybox-inittab inittab
++	if [ -f ${IMAGE_ROOTFS}/etc/inittab ]; then
++		sed -i 's|/bin/mount -o remount,rw /|/bin/mount -o remount,ro /|' ${IMAGE_ROOTFS}/etc/inittab
++	fi
++
+ 	# If we're using openssh and the /etc/ssh directory has no pre-generated keys,
+ 	# we should configure openssh to use the configuration file /etc/ssh/sshd_config_readonly
+ 	# and the keys under /var/run/ssh.
 -- 
 1.9.1
 
