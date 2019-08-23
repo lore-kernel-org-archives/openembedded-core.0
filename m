@@ -1,51 +1,51 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id F37537F331
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F1CB7F333
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 06:01:43 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id k1so7758319wmi.1
+	Fri, 23 Aug 2019 06:01:44 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id j16so7468271wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2019 23:01:45 -0700 (PDT)
+	Thu, 22 Aug 2019 23:01:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=XhNJbalNHCvuKRwUzG+WAc/B4brQVo8BdrB4e2IiVUA=;
-	b=Qdiy4RjS/xtfbs3k6qL4xjqu3a2l9KrEO3JfbKfeLDDTEXjt22Cs14ie1NTgI4zWrB
-	2DquEnwI58H4HoibCNFgIu0JecNJeIMfzl0ppsbFiBF8HfY4GK2j1twwjdOPirS8p306
-	vJXcJZZLBod+x2CCBsmc9kQbPpRZti4JmcBGwssQ3Ui0dTCFIpKEWvO3nTYEXfBB6mZ/
-	hu53w5eFD3iQlcCpKKz4aphah+QnDCvC2JP1hj1kIS5PukKxQbai1Vm0/wRRq8ro5lq8
-	yPjuV2I/krqZyV7n4mHeHbTEJekuZof0NnwfdCFJMs+b7A+I5NhIszyowJTPCCfn8Jpv
-	ADig==
+	bh=r/xXzXVM91TBKvLh4/bgq1GvosMkUlq7EDuKHJDny7c=;
+	b=fth3Q0bU2Av/KQd0ZxDbsh/Twl5YpeAvxZr7mlfBm3auYvm5QOT66D5JMSWqOe36gZ
+	rJTgh6wczjNFvcxOmwV1pYtA6Yeb19sIkUR9WM+kGMpIgcIjFt+NfPf/jXHZH+qWuoWo
+	cNGmIhmkpcO/J+1lj4yxvMrrz6GwKmote6lBYTV8TQbx9inW/WCQ3jtgrc36rj6jgl6m
+	RxNCJ800tmqRDuwMlK7nlmRdxsjzaliIWH2v5ZELfsllpxF+mDavAr6FfgFIpDCewJnc
+	5drxyp0AWd7HT6JdIy1/2Q2phb6uq5Fl9apW1lR91EHjuv4N6+I4w7DYscJQqog1JTi5
+	PxNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=XhNJbalNHCvuKRwUzG+WAc/B4brQVo8BdrB4e2IiVUA=;
-	b=qmU3jhiW/BIUYaOkalBzxiq+cvNmh/njTtLvRXK6QIbIjqI/mVJUJIQw1wm9TZXFhv
-	eODW+TrQfwArRPdmHq+oNS0PsLyvFFKygJV1BWKXBcNqWuP4v3NR19yM4alrcop7g5Ha
-	tS4BlcrPMflU63SdRCRQ74Bcf8RoD1kW4eLpo6IwbG+EvxzVPkoZnYyRCnjB9pR1naBZ
-	/lG5sSoYfCx7PjJYKHy9vlZpC2OjeXccdnSTEF7zwGKLNZcqZXrt6yDNhV8fsnrP+voh
-	G1dk2Le7mg0pGL/QMik8dTfloLIjHsaROtfw9pfeanHmwgKivaLaKRSAdFaBUq++8gRd
-	tRew==
-X-Gm-Message-State: APjAAAUDf6f6hJtCF6mWoxx9r5FsZiq5myw29Vl6YBszylXvr4KfnLZw
-	Y4BimdIZC2xOOSeBFsbdo+ANTGLSAY0=
-X-Google-Smtp-Source: APXvYqxzju20DkAEKumHaaRP5k37HxTT2Lg3OCOkuZpTUxXtvIBcUuJ5E8hhCuGqa+cvcl9+1TNuTg==
-X-Received: by 2002:a1c:356:: with SMTP id 83mr3084726wmd.40.1566540104530;
-	Thu, 22 Aug 2019 23:01:44 -0700 (PDT)
+	bh=r/xXzXVM91TBKvLh4/bgq1GvosMkUlq7EDuKHJDny7c=;
+	b=AgCdtgJkhPeBkPzG1gvsOB99pIzDvQ0cAKD5rqNqsF24xosTEGRUMcImJqo9adIAvs
+	NfCNUe7tST6aL6NdBkgxoVKCBr080TWWUBtfbnPVfYmmSVqSHERqCUBhwSsb8AWkRHwh
+	18t2gECtSuVakvfSEN2VsLumOEDIgy3LGHF9ZN2V12hQXjBVJ8VuU7txkvk48gmf7pFx
+	yvurK+gocO+esBSvBQCc/QoQWXZbKwPEySuBUwUjIpzEsmLToYLBlMQWk7mbja1glmuK
+	5F3RNi7uoplH5Zqozn6My8G7Uf7BstVokogy6bNyUP2/fkqVD1wn0a6STrLSStAFWIzd
+	BCcw==
+X-Gm-Message-State: APjAAAW0sOsJmsesIls0Jb8WjTvq1drVVa0e7ZcMMN+bOXzcgW0wRJ9y
+	TeoxA0UTONYMtycZgJp++3hzndLgy/I=
+X-Google-Smtp-Source: APXvYqxpQZKpL/ktGU1lOnWcb3hcUH4WDX0IzUNQYJkPlAwEx6HZtuHNmbrpZFOVdxWo/8DYs/So3w==
+X-Received: by 2002:adf:e74c:: with SMTP id c12mr2786640wrn.173.1566540105581; 
+	Thu, 22 Aug 2019 23:01:45 -0700 (PDT)
 Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id e6sm1859889wrw.35.2019.08.22.23.01.43
+	by smtp.gmail.com with ESMTPSA id s2sm1405743wrp.32.2019.08.22.23.01.44
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 22 Aug 2019 23:01:44 -0700 (PDT)
+	Thu, 22 Aug 2019 23:01:45 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2019 06:01:34 +0000
-Message-Id: <4de3662e8e4bbe5e25641d513d73d2a38d98d92a.1566540028.git.Martin.Jansa@gmail.com>
+Date: Fri, 23 Aug 2019 06:01:35 +0000
+Message-Id: <1f174f8a97519bda49cec0a5711a3d6503ad7b72.1566540028.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1566540028.git.Martin.Jansa@gmail.com>
 References: <cover.1566540028.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 5/6] kernel.bbclass: drop unnecessary package_get_auto_pr for do_install
+Subject: [PATCH 6/6] *-artifact-names: include version only in the artifact links
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,62 +58,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 06:01:44 -0000
+X-List-Received-Date: Fri, 23 Aug 2019 06:01:45 -0000
 
-* do_install doesn't use whole "version" as do_deploy does, e.g.
-  ${PKGE}-${PKGV}-${PKGR}-${MACHINE}
-  it installs only the files with only ${KERNEL_VERSION} in filename or
-  path, so it doesn't need expanded AUTOINC value in PKGV nor
-  EXPANDPRAUTO in PKGR like do_deploy does
+* drop ${PKGE}-${PKGV}-${PR} from kernel artifacts names (this is the
+  latest build) and add it only in hardlinks created in do_deploy_links
+  so that we can use PKGR there again (because these links are generally
+  used only by human operators and they don't have their own TASKHASH or
+  the IMAGE_VERSION_SUFFIX might be set to some release name which they
+  do understand
 
-* it was introduced in
-  http://git.openembedded.org/openembedded-core/commit/?id=1392f959cb8cd50b5a4492899e54f3ed68ef56d7
-  but it's not clear why it was needed back then, but doesn't seem to be
-  useful at all currently, only causes multiple EXTENDPRAUTO bumps every
-  time different linux-yocto is being built.
-
-* There are currently 4 EXTENDPRAUTO bumps during each build as shown in
-  prserv:
-
-  $ sqlite3 cache/prserv.sqlite3
-    SQLite version 3.27.2 2019-02-25 16:06:06
-    Enter ".help" for usage hints.
-    sqlite> select * from PRMAIN_nohist where version like 'linux-yocto-dev%';
-    linux-yocto-dev-4.19+gitAUTOINC+57b791cb9f_122d468967-r0|qemux86|20601304a6e4fa0b7ac13fa1262040c976c862d177077799dc15492215fa51df|0
-    linux-yocto-dev-4.19+gitAUTOINC+57b791cb9f_122d468967-r0|qemux86|2820d331b7eba5165943bc016a1c274d42e7605e24244873b15cc1c9c6f657e2|1
-    linux-yocto-dev-4.19+gitAUTOINC+57b791cb9f_122d468967-r0|qemux86|4f29da98c268aa5bf1c4767bb2bb157fc6077b1d76dfd434028b18bf3252e0c0|2
-    linux-yocto-dev-4.19+gitAUTOINC+57b791cb9f_122d468967-r0|qemux86|23d8d17b23bc6db1dd7f0f30086f0ec6ade2b2180e787a78d89b6e43b8c4fad6|3
-    linux-yocto-dev-5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0|qemux86|2a23d8783f794b3e79b438889ec60661ca635f9ec09d0519176a31d832377f1c|0
-    linux-yocto-dev-5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0|qemux86|dafc2a636e7e18357b7efbf99981af45234105c3f46b056edfd2142d5a5d4993|1
-    linux-yocto-dev-5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0|qemux86|09798369f303700fb8d42550d959e310a05fb4573b71646df51acc00d3a6fe89|2
-    linux-yocto-dev-5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0|qemux86|dab07eb869034df28be59ae13914989ab88bdca5a9a9362ca96b4eb38180afd7|3
-
-  the TASKHASHes correspond to do_install, do_package, do_deploy, do_deploy_links tasks:
-  $ ls tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_*sigdata*{2a23d8783f794b3e79b438889ec60661ca635f9ec09d0519176a31d832377f1c,dafc2a636e7e18357b7efbf99981af45234105c3f46b056edfd2142d5a5d4993,09798369f303700fb8d42550d959e310a05fb4573b71646df51acc00d3a6fe89,dab07eb869034df28be59ae13914989ab88bdca5a9a9362ca96b4eb38180afd7}*
-    tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_install.sigdata.2a23d8783f794b3e79b438889ec60661ca635f9ec09d0519176a31d832377f1c
-    tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_package.sigdata.dafc2a636e7e18357b7efbf99981af45234105c3f46b056edfd2142d5a5d4993
-    tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_deploy.sigdata.09798369f303700fb8d42550d959e310a05fb4573b71646df51acc00d3a6fe89
-    tmp-glibc/stamps/qemux86-webos-linux/linux-yocto-dev/5.0~rc6+gitAUTOINC+e721b5d6ab_8b7d7ef74a-r0.do_deploy_links.sigdata.dab07eb869034df28be59ae13914989ab88bdca5a9a9362ca96b4eb38180afd7
+* this allows to drop package_get_auto_pr from kernel do_deploy as well,
+  leaving only 2 EXTENDPRAUTO bumps for each kernel build (do_package
+  and do_deploy_links, unfortunatelly these will still have different
+  value, so if you're looking for the exact kernel image in deploy
+  directory based on kernel image package version seen on the device the
+  EXTENDPRAUTO part of PR will be different).
 
 [YOCTO #12937]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/kernel.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/image-artifact-names.bbclass  | 2 +-
+ meta/classes/kernel-artifact-names.bbclass | 7 +------
+ meta/classes/kernel.bbclass                | 1 -
+ 3 files changed, 2 insertions(+), 8 deletions(-)
 
+diff --git a/meta/classes/image-artifact-names.bbclass b/meta/classes/image-artifact-names.bbclass
+index d5ba035f5a..b23cef22ca 100644
+--- a/meta/classes/image-artifact-names.bbclass
++++ b/meta/classes/image-artifact-names.bbclass
+@@ -3,7 +3,7 @@
+ ##################################################################
+ 
+ IMAGE_BASENAME = "${PN}"
+-IMAGE_VERSION_SUFFIX = "-${DATETIME}"
++IMAGE_VERSION_SUFFIX = "${PKGE}-${PKGV}-${PKGR}-${DATETIME}"
+ IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME"
+ IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}"
+ IMAGE_LINK_NAME = "${IMAGE_NAME}${IMAGE_VERSION_SUFFIX}"
+diff --git a/meta/classes/kernel-artifact-names.bbclass b/meta/classes/kernel-artifact-names.bbclass
+index 41ef6e884d..92e08297cc 100644
+--- a/meta/classes/kernel-artifact-names.bbclass
++++ b/meta/classes/kernel-artifact-names.bbclass
+@@ -6,12 +6,7 @@
+ 
+ inherit image-artifact-names
+ 
+-# Intentionally use PR instead of PKGR, because EXTENDPRAUTO included
+-# in PKGR will have different value for do_install/do_deploy/do_deploy_links
+-# tasks with different TASKHASH, causing multiple EXTENDPRAUTO increments for
+-# each kernel build and more importantly preventing do_deploy_links to
+-# reference artifacts created do_deploy task
+-KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PR}-${MACHINE}"
++KERNEL_ARTIFACT_NAME ?= "${MACHINE}"
+ KERNEL_ARTIFACT_LINK_NAME ?= "${KERNEL_ARTIFACT_NAME}${IMAGE_VERSION_SUFFIX}"
+ 
+ KERNEL_IMAGE_NAME ?= "${KERNEL_ARTIFACT_NAME}"
 diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 8046a69d83..df203d2b4f 100644
+index df203d2b4f..3a3400da87 100644
 --- a/meta/classes/kernel.bbclass
 +++ b/meta/classes/kernel.bbclass
-@@ -383,7 +383,6 @@ kernel_do_install() {
- 	install -d ${D}${sysconfdir}/modules-load.d
- 	install -d ${D}${sysconfdir}/modprobe.d
+@@ -700,7 +700,6 @@ kernel_do_deploy() {
  }
--do_install[prefuncs] += "package_get_auto_pr"
+ do_deploy[cleandirs] = "${DEPLOYDIR}"
+ do_deploy[dirs] = "${DEPLOYDIR} ${B}"
+-do_deploy[prefuncs] += "package_get_auto_pr"
  
- # Must be ran no earlier than after do_kernel_checkout or else Makefile won't be in ${S}/Makefile
- do_kernel_version_sanity_check() {
+ addtask deploy after do_populate_sysroot do_packagedata
+ 
 -- 
 2.17.1
 
