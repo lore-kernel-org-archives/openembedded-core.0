@@ -1,46 +1,48 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
-	[209.85.221.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 673887ECC7
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C5A197F32C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 10:21:18 +0000 (UTC)
-Received: by mail-vk1-f177.google.com with SMTP id b204so2283020vka.7
+	Fri, 23 Aug 2019 10:34:30 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id c7so5897777vse.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 03:21:19 -0700 (PDT)
+	Fri, 23 Aug 2019 03:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Q2QW2ghDmDzUcV3GmW9puQBcp2JNJu9NObWpOucLlJY=;
-	b=pukutCt5PAEFclywBpPppttC7gLhztoNbVG3dgIq/T1Zd7ZW0ux8V7/7NX6GONOOqr
-	EwGna+4nUAgNqPvp7cGkBa1+gsV19yKJyK3oZYumjGiE+EXu7N3YYCoEYPGSa7SKTEW1
-	RvbJS/IoTD0qzvUR5vU9tU1VOibnOR7Jc32+pwr9Gnp6VLM11e+Go5/cj58trfwY1l+f
-	f0F2uRqiIa03ey0QQNV8ve6VvdWf72WbzYWz1zCk1JsWeEbo60skVYrBVcjV3/V4kjls
-	6HuCrYmii7vQJabhYMjfTPA3VtuP3qisknexZMa8Z5ztRs3D3jmHDlqNPLY3G/YHyqQI
-	/OxQ==
+	:cc; bh=EGDXTroHyH7icswH8HWHmO4OA4cr2lXYF/yqFzVyZdE=;
+	b=mCPsvBnXRUWcjc1sM6bZbM6X2LOjV/kz2mcLm/wsYjkDPDZ3/+u5BfCjOHCFfUes/T
+	1OQ/PW0zgxuMUca4ohgdzjJqkfd6pStX8bD/fvHHGiXn9vSqeP4qpJ66i947Gw3TzRf8
+	MvsDRSdxVQSn5wmfJA+/oESeEdz4TUFiKpl2ncQjz5GWOKevKR7ikT5m4WxDpR0vn89J
+	muir50pP/X42u5jKmaDClNYRm3nwMZpqknuKITJG/zbVnnyJpIRHiQdK/mXv30AyeIAz
+	t3OAEYRK81rI6pOSUKh8+NgX9VEeM6DXUg38HOITjzmRsaSApCsBkv76GiPhXl80k97U
+	B8Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Q2QW2ghDmDzUcV3GmW9puQBcp2JNJu9NObWpOucLlJY=;
-	b=PR2kWbSBjH1zJw2oTPEDqsluC095Fkdkzm1C3B/a4q9bEhGr3EcNBVaZoKAI1kmhqA
-	htIoeKZn2o/Q7uktprM59aM8gVdY3S0jVO+2ZgxdHp7lfcVgCwU9ef57pr143OY5YKFR
-	ciaj5zECElpjurPdwXaGxlHwklvrWAFxrn0cy8JxVll289wDscoQsbiIvY5LF9JhA1P/
-	+Vx9YMftq9+1URooPU9VzXBFKIx5BkRopI14jwDLTzvG0aseFV2ZubYdYokHd8KgcJBu
-	73rhcETKmeuEf+CnBtcBbPeYsg6BVZ1LFXFuQr9vqjm1BUuieBDX2lXY9lvXcXziYol9
-	NG0w==
-X-Gm-Message-State: APjAAAVEBPs43SV9RyM+E0LMdfOlZvNar5ddHmUykkoi4PJTxfBv4Ao/
-	aYmQwpX1Ml1+OVGDmQz4cnuo6ID5ZTr5r35K6v8=
-X-Google-Smtp-Source: APXvYqwZDfrTHZNH8a890JzvRIbuBNLbR/Hn7Ww9k25GaST4Xnam664g24gIypJGAOYpD+HyxsFjf1IsSuQSh5tiVZY=
-X-Received: by 2002:a1f:ec41:: with SMTP id k62mr2029548vkh.32.1566555679159; 
-	Fri, 23 Aug 2019 03:21:19 -0700 (PDT)
+	bh=EGDXTroHyH7icswH8HWHmO4OA4cr2lXYF/yqFzVyZdE=;
+	b=CBM7vfJNGlXJN9n9p3V/rnb17joMopqBqrTuhkMJIUf+4GTJ8rM4diXCbacXkLO46R
+	A9cS0QbePDN1dLTcFSrOqkkd9crxVMibyRTljBoVG5GAZa6rI+H3ycqX9PZvsnr777N7
+	Izx4ugfyNmfJLlG4OfmQ9+P/285oKPlUxlYWM7Z1k8sGV1g+nK4qgKzi3F5eQ3MoCXlZ
+	/nE7/FACLR2jscMilTQIGt6CKP/L1VoReo5F9qKzafhmmJUBl9KB+vWlOhqHCfuXgPA2
+	m/F15IabRkTN0kIb/freKirJTLGhF8XEruBUkCn6OwwvQR5JlzYWM+A2NQSLq+hnnYBX
+	aMcg==
+X-Gm-Message-State: APjAAAXpp2ZtpJjnZMR2jhwcUI6vcd579L/BHFMfby2HghP7M2FLw5LR
+	8ec8e9hcdkN0giWuGUjFuJ7AyW4Fioi21SnIDmQ=
+X-Google-Smtp-Source: APXvYqzmT2AFuI5oNGc5WSicwF6o0vd0lBI9e4t4Bs/z7BjAC+zUuCUSatckkvVLOX1C/pVQi7oSWsmRjg36jfIiT2U=
+X-Received: by 2002:a67:1c87:: with SMTP id c129mr2264172vsc.23.1566556471542; 
+	Fri, 23 Aug 2019 03:34:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190823081945.49883-1-kai.kang@windriver.com>
-In-Reply-To: <20190823081945.49883-1-kai.kang@windriver.com>
+References: <20190820153219.62435-1-alex.kanavin@gmail.com>
+	<20190820153219.62435-2-alex.kanavin@gmail.com>
+	<a1afd589e5a20fa0fa780b2290e75caedbbf17d8.camel@linuxfoundation.org>
+In-Reply-To: <a1afd589e5a20fa0fa780b2290e75caedbbf17d8.camel@linuxfoundation.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 23 Aug 2019 12:21:07 +0200
-Message-ID: <CANNYZj8S5kUL_=nXEQtEcrGM8W174gUx7b-0pJ15edbPG4ej5w@mail.gmail.com>
-To: Kai Kang <kai.kang@windriver.com>
+Date: Fri, 23 Aug 2019 12:34:20 +0200
+Message-ID: <CANNYZj8nUsruTu4W5O4ACr-QAr26mAbhRb=Ta5PBbJqGJRyo4Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libwacom: add recipe
+Subject: Re: [PATCH 02/12] qemu: switch to '-vga std' emulated hardware from vmware/cirrus for x86/mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,34 +55,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 10:21:18 -0000
-Content-Type: multipart/alternative; boundary="000000000000c6fe130590c62a50"
+X-List-Received-Date: Fri, 23 Aug 2019 10:34:31 -0000
+Content-Type: multipart/alternative; boundary="00000000000001cb3e0590c65a8a"
 
---000000000000c6fe130590c62a50
+--00000000000001cb3e0590c65a8a
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 23 Aug 2019 at 10:20, <kai.kang@windriver.com> wrote:
+On Fri, 23 Aug 2019 at 11:13, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> Package libinput has a package config 'libwacom'. When it is set,
-> package libwacom is required. So add the recipe of libwacom.
+> The patches in master-next had some failures:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/636
+>
+> I think but am not 100% sure it could from this patch?
 >
 
-This recipe probably needs to go to meta-oe? Why oe-core?
+Yes, at least two of those are direct X11 failures (X server crash on x32;
+X refusing to start if mesa is built with llvmpipe in step8 of qa-extras2).
+I'll try to look into them.
 
 Alex
 
---000000000000c6fe130590c62a50
+--00000000000001cb3e0590c65a8a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 23 Aug 2019 at 10:20, &lt;<a href=
-=3D"mailto:kai.kang@windriver.com">kai.kang@windriver.com</a>&gt; wrote:<br=
-></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Package libinput has a package config &#39;libwacom&#39;. When i=
-t is set,<br>
-package libwacom is required. So add the recipe of libwacom.<br></blockquot=
-e><div><br></div><div>This recipe probably needs to go to meta-oe? Why oe-c=
-ore?</div><div><br></div><div>Alex<br></div></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 23 Aug 2019 at 11:13, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">The patches in master-next =
+had some failures:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/85/build=
+s/636" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
+t.org/typhoon/#/builders/85/builds/636</a><br>
+<br>
+I think but am not 100% sure it could from this patch?<br></blockquote><div=
+><br></div><div>Yes, at least two of those are direct X11 failures (X serve=
+r crash on x32; X refusing to start if mesa is built with llvmpipe in step8=
+ of qa-extras2). I&#39;ll try to look into them.</div><div><br></div><div>A=
+lex<br></div></div></div>
 
---000000000000c6fe130590c62a50--
+--00000000000001cb3e0590c65a8a--
