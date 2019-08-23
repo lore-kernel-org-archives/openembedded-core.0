@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CB5E47F31F;
-	Fri, 23 Aug 2019 08:02:40 +0000 (UTC)
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D78E7F31E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2019 08:20:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7N8JgTV013436
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2019 01:20:19 -0700
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Fri, 23 Aug 2019 01:19:48 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Aug 2019 04:19:45 -0400
+Message-ID: <20190823081945.49883-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: mazliana.mohamad@intel.com
-Date: Fri, 23 Aug 2019 08:02:42 -0000
-Message-ID: <20190823080242.2330.90138@do>
-References: <1566527358-49642-1-git-send-email-mazliana.mohamad@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1566527358-49642-1-git-send-email-mazliana.mohamad@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb2VxYS9rZXJuZWxkZXZlbG9wbWVudDogQWJsZSB0byBhcHBseSBhIHNpbmdsZSBwYXRjaCB0byB0aGUgTGludXgga2VybmVsIHNvdXJjZSAocmV2Myk=?=
+Subject: [PATCH] libwacom: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 08:02:40 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Aug 2019 08:20:28 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
+From: Kai Kang <kai.kang@windriver.com>
 
-Series: oeqa/kerneldevelopment: Able to apply a single patch to the Linux kernel source (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/19411/
-State : failure
+Package libinput has a package config 'libwacom'. When it is set,
+package libwacom is required. So add the recipe of libwacom.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Errors in your Python code were encountered [test_pylint] 
-  Suggested fix    Correct the lines introduced by your patch
-  Output           Please, fix the listed issues:
-                   meta/lib/oeqa/selftest/cases/kerneldevelopment.py does not exist
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-graphics/libwacom/libwacom_0.33.bb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 meta/recipes-graphics/libwacom/libwacom_0.33.bb
+
+diff --git a/meta/recipes-graphics/libwacom/libwacom_0.33.bb b/meta/recipes-graphics/libwacom/libwacom_0.33.bb
+new file mode 100644
+index 0000000000..deb2922216
+--- /dev/null
++++ b/meta/recipes-graphics/libwacom/libwacom_0.33.bb
+@@ -0,0 +1,15 @@
++DESCRIPTION = "libwacom is a library to identify wacom tablets and their model-specific features."
++HOMEPAGE = "https://github.com/linuxwacom/libwacom/wiki"
++SECTION = "libs"
++
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=40a21fffb367c82f39fd91a3b137c36e"
++
++DEPENDS = "libgudev"
++
++SRC_URI = "git://github.com/linuxwacom/libwacom.git;protocol=https"
++SRCREV = "87cc710e21a6220e267dd08936bbec2932aa3658"
++
++S = "${WORKDIR}/git"
++
++inherit autotools pkgconfig
+-- 
+2.20.0
 
 
