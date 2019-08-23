@@ -1,47 +1,29 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
-	[209.85.217.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 74FCB7DDAA
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A6657F376
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 18:11:32 +0000 (UTC)
-Received: by mail-vs1-f52.google.com with SMTP id m18so4248775vsr.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2019 11:11:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=zRBkno0FfWWceCv/hupGDIT3SPXy7lQW6tS9HN0oZlg=;
-	b=hFwGayJ6YRqZprAsxBe3Q1hXStZDwqrTLmsdPwa3YRSYw3ehR1zBZY8RYIcIMeBz5b
-	lhwlx1FPMdZ1Vmd//kJsiuUB4J3el5DRQB9DbSRKmnzG7nN34ciBNIzy3Dcv/AEs/+8X
-	BNpZqEuMbl7r/EhfpD95Lwboh9e8uxVNCpCyM/kEl0eZkapPkCcvgtzEYZ2hAcxyEZrY
-	yYTFFjbJSvHE+vCSGV8OzPnsLccvzu426AqEfsT9OBV7oCPdauDo4iyCkYC3megtpPEk
-	uBb2MIlBVC6RODMh9cr+yNsY1weljltTkAha2LY2TmwySedXMPz1fyZlQqwZtBzF6EU+
-	0aJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=zRBkno0FfWWceCv/hupGDIT3SPXy7lQW6tS9HN0oZlg=;
-	b=Hd73f97THB+z38DR82hIoPQMdJSjl2PyFR6VrZkuBbU5swz8/sKreLy6ckoUmD6jJk
-	s2gNBc/q6AbmG/MtbyvAfotsrn7csyGp1BygDgMbI4zlCDg0SHYLkJ6m+TgYgDr4zjB+
-	Qjd96ny1XRsuLPt3RR2SQ2ewR43Qw7l/egcuaHcNVe2F3WdCwdQva6topyjru8dV6PsX
-	8pzSLgAM4nzUsAtHX+AQNM6KTIkuOtDd6co7fWQF8GxLow8/7EVRf6dAuJHXCUs20q9S
-	uqKGKEs6cZBGAKl0Fq3/3iSdqAuABw6anE22mC96mWXyijSDODigQMWqlUpriYp6TtWg
-	LV/A==
-X-Gm-Message-State: APjAAAWKNn3OopaQ/dRgoeMEZSSJGO/ehj81pArVxv1ySYsEfmNjRia9
-	FDUVrjPXT1yB5jHgT51cY6Kdf1TnSqwXpbxCB98=
-X-Google-Smtp-Source: APXvYqzkSaKWysCWPZfQ6X+d9RfVAQ87dZIpbRcsuya5kqp4OujStpdcVm3X3rXv24Bbctl/7F9uKMHIuzu+XaIlDuk=
-X-Received: by 2002:a67:ec50:: with SMTP id z16mr3429040vso.137.1566583893249; 
-	Fri, 23 Aug 2019 11:11:33 -0700 (PDT)
+	Fri, 23 Aug 2019 19:47:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7NJkC0J024452
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 23 Aug 2019 12:46:49 -0700
+Received: from [128.224.56.218] (128.224.56.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Fri, 23 Aug 2019 12:46:17 -0700
+To: Randy MacLeod <randy.macleod@windriver.com>,
+	<openembedded-core@lists.openembedded.org>, Armin Kuster
+	<akuster808@gmail.com>
+References: <1565274408-17026-1-git-send-email-Trevor.Gamblin@windriver.com>
+	<81291d61-6a10-620c-df84-5b3f066cca0e@windriver.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <0f2047b0-099a-7620-c7ac-bbd82a50c35f@windriver.com>
+Date: Fri, 23 Aug 2019 15:46:16 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <CAMZdPi_2=mFZFgwzUVis4BE7P3C4boOZmVB6_eYeLCaT0wLJaA@mail.gmail.com>
-In-Reply-To: <CAMZdPi_2=mFZFgwzUVis4BE7P3C4boOZmVB6_eYeLCaT0wLJaA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 23 Aug 2019 11:11:22 -0700
-Message-ID: <CAJ86T=XwwjSZR6oNdXCr=bvbOKw5trKWJ=na4=_+83vXXJo6Bw@mail.gmail.com>
-To: Loic Poulain <loic.poulain@linaro.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Automatic prebuilt management
+In-Reply-To: <81291d61-6a10-620c-df84-5b3f066cca0e@windriver.com>
+Subject: Re: [warrior][PATCH v2] patch: fix CVE-2019-13638
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,54 +36,357 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2019 18:11:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 23 Aug 2019 19:47:15 -0000
+Content-Type: multipart/alternative;
+	boundary="------------5AD182AE06A9670506B76A7B"
+Content-Language: en-US
 
-On Mon, Aug 5, 2019 at 9:06 AM Loic Poulain <loic.poulain@linaro.org> wrote=
-:
-> Say a company works with an OE internal tree, with open-source and closed=
--source packages. The company wants to release the tree so that its custome=
-rs can fully customize the images/distro. The closed sources being only ava=
-ilable internally, the company has to generate and handle prebuilt binaries=
- for proprietary packages. Ideally, with a unified public/internal OE tree =
-(same recipes for internal/public build).
+--------------5AD182AE06A9670506B76A7B
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+
+
+On 8/8/19 4:16 PM, Randy MacLeod wrote:
+> On 8/8/19 10:26 AM, Trevor Gamblin wrote:
+>> From: Trevor Gamblin <trevor.gamblin@windriver.com>
+>>
+>> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+>> ---
+>>   ...ke-ed-directly-instead-of-using-the-shell.patch | 44 
+>> ++++++++++++++++++++++
+>>   meta/recipes-devtools/patch/patch_2.7.6.bb         |  2 +
+>>   2 files changed, 46 insertions(+)
+>>   create mode 100644 
+>> meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+>>
+>> diff --git 
+>> a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch 
+>> b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch 
+>>
+>> new file mode 100644
+>> index 0000000..f60dfe8
+>> --- /dev/null
+>> +++ 
+>> b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+>> @@ -0,0 +1,44 @@
+>> +From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17 00:00:00 2001
+>> +From: Andreas Gruenbacher <agruen@gnu.org>
+>> +Date: Fri, 6 Apr 2018 19:36:15 +0200
+>> +Subject: [PATCH] Invoke ed directly instead of using the shell
+>> +
+>> +* src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
+>> +command to avoid quoting vulnerabilities.
+>> +
+>> +CVE: CVE-2019-13638
+>> +Upstream-Status: 
+>> Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
+>> +Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+>> +
+>> +---
+>> + src/pch.c | 6 ++----
+>> + 1 file changed, 2 insertions(+), 4 deletions(-)
+>> +
+>> +
+>> +diff --git a/src/pch.c b/src/pch.c
+>> +index 4fd5a05..16e001a 100644
+>> +--- a/src/pch.c
+>> ++++ b/src/pch.c
+>> +@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char const 
+>> *outname,
+>> +         *outname_needs_removal = true;
+>> +         copy_file (inname, outname, 0, exclusive, instat.st_mode, 
+>> true);
+>> +       }
+>> +-    sprintf (buf, "%s %s%s", editor_program,
+>> +-         verbosity == VERBOSE ? "" : "- ",
+>> +-         outname);
+>> +     fflush (stdout);
+>> +
+>> +     pid = fork();
+>> +@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char const 
+>> *outname,
+>> +     else if (pid == 0)
+>> +       {
+>> +         dup2 (tmpfd, 0);
+>> +-        execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
+>> ++        assert (outname[0] != '!' && outname[0] != '-');
+>> ++        execlp (editor_program, editor_program, "-", outname, 
+>> (char  *) NULL);
+>> +         _exit (2);
+>> +       }
+>> +     else
+>> +--
+>> +2.7.4
+>> +
+>> diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb 
+>> b/meta/recipes-devtools/patch/patch_2.7.6.bb
+>> index 85b0db7..8908910 100644
+>> --- a/meta/recipes-devtools/patch/patch_2.7.6.bb
+>> +++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+>> @@ -6,6 +6,8 @@ SRC_URI += 
+>> "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+>> file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch \
+>> file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
+>> file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
+>> +            file://CVE-2019-13636.patch \
+>> + file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
+>>   "
 >
-> This question is actually similar to an older thread:
-> https://marc.info/?l=3Dopenembedded-core&m=3D146779329804683
-
-That very old thread was also referenced recently in a follow up where
-I shared a later solution, see:
-
-  http://lists.openembedded.org/pipermail/openembedded-core/2019-July/28489=
-6.html
-
-> I started to work on this and added a 'generate-prebuilt' class which gen=
-erates a tarball of ${D} in deploy/prebuilts after do_install task. Symmetr=
-ically, It's also possible to create an 'install-prebuilt' class which bypa=
-sses do_fetch, do_unpack, ..., do_install with noexec flag and instead unco=
-mpresses a previously generated prebuilt tarball into ${D} and continue nor=
-mally. But I would like something smarter, e.g. first trying to check if th=
-e SRC_URI is available, if not switching on using the prebuilt package if a=
-vailable (e.g. in a DIR_PREBUILT)...
+> Odd, you only added one patch but you changed two lines above.
+> I assume this is due to a merge conflict that you incorrectly resolved.
 >
-> Before going further is there already an existing solution for that? do y=
-ou have any recommendation on the easier/best way to achieve this?
+> If you apply this commit on warrior, you see:
+>
+> WARNING: patch-2.7.6-r0 do_fetch: Failed to fetch URL 
+> file://CVE-2019-13636.patch, attempting MIRRORS if available
+> ERROR: patch-2.7.6-r0 do_fetch: Fetcher failure: Unable to find file 
+> file://CVE-2019-13636.patch anywhere. The paths that were searched were:
+>
+> Fix and v3 please.
 
-I did initially try the approach of having a single recipe which can
-automatically support both building from source and extracting a
-prebuilts tar file, but that (for me anyway) turned out to be a dead
-end. Building from source requires build dependencies and config
-options but extracting a prebuilt tar file does not, so the two end up
-sharing very little... so 90% of the recipe ends up being conditional
-on which mode it's running in. The solution I ended up with (see link
-above) was for the class which creates the prebuilt tar file to also
-create a dedicated mini recipe to extract it.
+Patches are currently under review for both warrior 
+<https://patchwork.openembedded.org/patch/163490/> and thud 
+<https://patchwork.openembedded.org/patch/163495/> to add 
+CVE-2019-13636. Would it be better to hold off on submitting my patch 
+for CVE-2019-13638 to those branches, until the line
 
-From my experience however an equally hard part of the problem is the
-distribution of prebuilts. It starts off easy (you share a tar file
-via email or an ftp site and the receiver manually copies to their
-downloads directory...) but that doesn't scale if you need to make
-regular updates. My solution is discussed a little more in the thread
-linked to above.
+             file://CVE-2019-13636.patch \
 
+is incorporated as part of those?
+
+>
+> ../Randy
+>>     SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
+>>
+>
+>
+
+--------------5AD182AE06A9670506B76A7B
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 8/8/19 4:16 PM, Randy MacLeod wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:81291d61-6a10-620c-df84-5b3f066cca0e@windriver.com">On
+      8/8/19 10:26 AM, Trevor Gamblin wrote:
+      <br>
+      <blockquote type="cite">From: Trevor Gamblin
+        <a class="moz-txt-link-rfc2396E" href="mailto:trevor.gamblin@windriver.com">&lt;trevor.gamblin@windriver.com&gt;</a>
+        <br>
+        <br>
+        Signed-off-by: Trevor Gamblin
+        <a class="moz-txt-link-rfc2396E" href="mailto:trevor.gamblin@windriver.com">&lt;trevor.gamblin@windriver.com&gt;</a>
+        <br>
+        ---
+        <br>
+          ...ke-ed-directly-instead-of-using-the-shell.patch | 44
+        ++++++++++++++++++++++
+        <br>
+          meta/recipes-devtools/patch/patch_2.7.6.bb         |  2 +
+        <br>
+          2 files changed, 46 insertions(+)
+        <br>
+          create mode 100644
+meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch<br>
+        <br>
+        diff --git
+a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+        <br>
+        new file mode 100644
+        <br>
+        index 0000000..f60dfe8
+        <br>
+        --- /dev/null
+        <br>
+        +++
+b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch<br>
+        @@ -0,0 +1,44 @@
+        <br>
+        +From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17
+        00:00:00 2001
+        <br>
+        +From: Andreas Gruenbacher <a class="moz-txt-link-rfc2396E" href="mailto:agruen@gnu.org">&lt;agruen@gnu.org&gt;</a>
+        <br>
+        +Date: Fri, 6 Apr 2018 19:36:15 +0200
+        <br>
+        +Subject: [PATCH] Invoke ed directly instead of using the shell
+        <br>
+        +
+        <br>
+        +* src/pch.c (do_ed_script): Invoke ed directly instead of using
+        a shell
+        <br>
+        +command to avoid quoting vulnerabilities.
+        <br>
+        +
+        <br>
+        +CVE: CVE-2019-13638
+        <br>
+        +Upstream-Status:
+Backport[<a class="moz-txt-link-freetext" href="https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0">https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0</a>]<br>
+        +Signed-off-by: Trevor Gamblin
+        <a class="moz-txt-link-rfc2396E" href="mailto:trevor.gamblin@windriver.com">&lt;trevor.gamblin@windriver.com&gt;</a>
+        <br>
+        +
+        <br>
+        +---
+        <br>
+        + src/pch.c | 6 ++----
+        <br>
+        + 1 file changed, 2 insertions(+), 4 deletions(-)
+        <br>
+        +
+        <br>
+        +
+        <br>
+        +diff --git a/src/pch.c b/src/pch.c
+        <br>
+        +index 4fd5a05..16e001a 100644
+        <br>
+        +--- a/src/pch.c
+        <br>
+        ++++ b/src/pch.c
+        <br>
+        +@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char
+        const *outname,
+        <br>
+        +         *outname_needs_removal = true;
+        <br>
+        +         copy_file (inname, outname, 0, exclusive,
+        instat.st_mode, true);
+        <br>
+        +       }
+        <br>
+        +-    sprintf (buf, "%s %s%s", editor_program,
+        <br>
+        +-         verbosity == VERBOSE ? "" : "- ",
+        <br>
+        +-         outname);
+        <br>
+        +     fflush (stdout);
+        <br>
+        +
+        <br>
+        +     pid = fork();
+        <br>
+        +@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char
+        const *outname,
+        <br>
+        +     else if (pid == 0)
+        <br>
+        +       {
+        <br>
+        +         dup2 (tmpfd, 0);
+        <br>
+        +-        execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
+        <br>
+        ++        assert (outname[0] != '!' &amp;&amp; outname[0] !=
+        '-');
+        <br>
+        ++        execlp (editor_program, editor_program, "-", outname,
+        (char  *) NULL);
+        <br>
+        +         _exit (2);
+        <br>
+        +       }
+        <br>
+        +     else
+        <br>
+        +--
+        <br>
+        +2.7.4
+        <br>
+        +
+        <br>
+        diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb
+        b/meta/recipes-devtools/patch/patch_2.7.6.bb
+        <br>
+        index 85b0db7..8908910 100644
+        <br>
+        --- a/meta/recipes-devtools/patch/patch_2.7.6.bb
+        <br>
+        +++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+        <br>
+        @@ -6,6 +6,8 @@ SRC_URI +=
+        "<a class="moz-txt-link-freetext" href="file://0001-Unset-need_charset_alias-when-building-for-musl.patch">file://0001-Unset-need_charset_alias-when-building-for-musl.patch</a>
+        \
+        <br>
+                     
+        <a class="moz-txt-link-freetext" href="file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch">file://0003-Allow-input-files-to-be-missing-for-ed-style-patches.patch</a>
+        \
+        <br>
+                     
+        <a class="moz-txt-link-freetext" href="file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch">file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch</a>
+        \
+        <br>
+                     
+        <a class="moz-txt-link-freetext" href="file://0001-Fix-swapping-fake-lines-in-pch_swap.patch">file://0001-Fix-swapping-fake-lines-in-pch_swap.patch</a> \
+        <br>
+        +            <a class="moz-txt-link-freetext" href="file://CVE-2019-13636.patch">file://CVE-2019-13636.patch</a> \
+        <br>
+        +           
+        <a class="moz-txt-link-freetext" href="file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch">file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch</a>
+        \
+        <br>
+          "
+        <br>
+      </blockquote>
+      <br>
+      Odd, you only added one patch but you changed two lines above.
+      <br>
+      I assume this is due to a merge conflict that you incorrectly
+      resolved.
+      <br>
+      <br>
+      If you apply this commit on warrior, you see:
+      <br>
+      <br>
+      WARNING: patch-2.7.6-r0 do_fetch: Failed to fetch URL
+      <a class="moz-txt-link-freetext" href="file://CVE-2019-13636.patch">file://CVE-2019-13636.patch</a>, attempting MIRRORS if available
+      <br>
+      ERROR: patch-2.7.6-r0 do_fetch: Fetcher failure: Unable to find
+      file <a class="moz-txt-link-freetext" href="file://CVE-2019-13636.patch">file://CVE-2019-13636.patch</a> anywhere. The paths that were
+      searched were:
+      <br>
+      <br>
+      Fix and v3 please.
+      <br>
+    </blockquote>
+    <p>Patches are currently under review for both <a
+        moz-do-not-send="true"
+        href="https://patchwork.openembedded.org/patch/163490/">warrior</a>
+      and <a moz-do-not-send="true"
+        href="https://patchwork.openembedded.org/patch/163495/">thud</a>
+      to add CVE-2019-13636. Would it be better to hold off on
+      submitting my patch for CVE-2019-13638 to those branches, until
+      the line</p>
+    <p>            <a class="moz-txt-link-freetext" href="file://CVE-2019-13636.patch">file://CVE-2019-13636.patch</a> \ <br>
+    </p>
+    <p>is incorporated as part of those?<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:81291d61-6a10-620c-df84-5b3f066cca0e@windriver.com">
+      <br>
+      ../Randy
+      <br>
+      <blockquote type="cite">    SRC_URI[md5sum] =
+        "4c68cee989d83c87b00a3860bcd05600"
+        <br>
+        <br>
+      </blockquote>
+      <br>
+      <br>
+    </blockquote>
+  </body>
+</html>
+
+--------------5AD182AE06A9670506B76A7B--
