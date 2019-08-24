@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E5F0C7ECB9
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D1677ECB9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2019 16:50:01 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id u190so10994599qkh.5
+	Sat, 24 Aug 2019 16:55:42 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id d79so10923870qke.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2019 09:50:03 -0700 (PDT)
+	Sat, 24 Aug 2019 09:55:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=SmJS1gfNi+/iZ6Xwe88266lGsKULF4N+L1TSnqXTVkI=;
-	b=GKRgztVmWqLvlwehwcYMyP56HaxowjaThv/991wqGDpWt6++x788Z/sQrEKyhvc9WP
-	XtgKtOblddl+vhmKcYQId1M4J7YZdlJ7qbdvyFMoSdouyp9VaQzNWdJihvs8oy3MJ+NL
-	yzahmBE9N8kDDw7o32Psas4ID3QZV3JanzeLCuDofz4Szp0w57ATvmMIrdFRjSc/qgl3
-	OLZYDVfORGXGDMvL7PXOTH7ay9QYl9vS9TQFC/Si/rdRHVzXMv0AVfsB0ni+83Hmdj0U
-	Y/svBVXyd/vRII1iN5d5pZ9szk77iP/ZlNCr9a2A1a3q99PVP0bZy47OAb4BMrVc0F/f
-	fDxg==
+	:cc; bh=OHhiVLhj9I0Yh6G84SGJuzZowYAc7TciooIzoOsAbWs=;
+	b=MVx4KIUOQfTGd0SrTFKU/DfeC2MsILIwftpAv3lG7mHkpQkq/BUkR0qNUrCexlpHeD
+	Z9gIUD+fYBWpYU4RslJMLFS7FlysvLJP3fqGYQx2xioSo/hmQd8T4RfjV9TTYKfzmml1
+	b3owyS+jP/IoWv9gK/9fVsBhE5O72PKDbQbvQlCQX+8UVoEon/Cgb6m90NzSflk6aQ/M
+	Cgw9B0hgQprElHzGeNjFl158Ja9DrGlPo/hysA5vU2bfGSyocMuY8KSOyyZ2OMCIzKMv
+	ptCtRv1pRKaxccp52A1uOPEXjJaAmryNE/zCcBPmN0c8MJ4r8HmgcDKTf0XKiHWvztDJ
+	rUtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=SmJS1gfNi+/iZ6Xwe88266lGsKULF4N+L1TSnqXTVkI=;
-	b=Qhjb4NNomqTFIhQhBa/dqQPnvHU7IPjVl0XIV3/j2V7dXvCaK/3wUQTdA/Dgf4q7cz
-	kUBgPuhkn+JZslpkBUYx8CdlAKwMOYDm8Z9CbwRlsCLz88EpwzpfIQFuT5ryrBXkHu0d
-	bvNZBf5LsOp2Lw3+fE88XCWATQ2O/WvQ45W/pCqk/lmeREDHKHA794v5kYCEmScbpfRJ
-	lof539J8YozwbmbumpOyGEyFWhrba3cpd+XWRPBfQMDCJ0L/xXBml+tub2bewEvDnI7d
-	pqeLCECqyEU/qjHEh6An76eDbD2+BcNCp1HQyv7Gz3psoQmjdINV/pQzXOGNxZkiyfXl
-	TcOQ==
-X-Gm-Message-State: APjAAAUcwAOH6cKFYs+Keh0GPskVlGUgWhZIxr9Ats/v7yypVlw9lOi6
-	NRhLStX87KrcwFDCZQwLYtX6gE91mo0D0u7pXFs=
-X-Google-Smtp-Source: APXvYqzm5Nbr2C79rgedc2S9vvAwj5zsydYm+/azkIuSvFh27tgO6wESFW79Ngg3h1AnIV2PBGX09a3F110DyDbyKxM=
-X-Received: by 2002:a37:ef1a:: with SMTP id j26mr9804805qkk.474.1566665402289; 
-	Sat, 24 Aug 2019 09:50:02 -0700 (PDT)
+	bh=OHhiVLhj9I0Yh6G84SGJuzZowYAc7TciooIzoOsAbWs=;
+	b=fc55cSXuJLxKbOsEAWRMfMruRgJtEjUVU6cR7TsuaS5wC2nD/QKdW+BWV6/VbP50aQ
+	rHAGyVW19vViKOdhO6k2EsVUXMXxH91PcIP2xEfp/Inc4/fLsEipGcYUDu3/Om0s/1oa
+	dE73aFzUaZcoWq+3Ak43gppVxEsao9fDEHO9bY/ckoUQKxvrjHtaqpoPjwjRlk3IDjJE
+	3q3DKMsfdyyDI2vbVc4/hvAZTEEqPWybONzjH9eLdhObARDO9YaYFVFsoJVNdkrwFp87
+	FPLVxVAeiGr4LBl8GBLHdS+cS/36r5NE3UcrWQ/r/wPn2osO1Wn2D9jOHSMWfC+/PkBl
+	kzpQ==
+X-Gm-Message-State: APjAAAVR1KgNufdq/eJ92vZvIK19CmXvQufEJBAvOSZU3GWjap99AzVD
+	DX0CFvGDDT0HkZyix4bEE3IjMyOiyM7zSnWllAI=
+X-Google-Smtp-Source: APXvYqxch0+AQjsqcrPBRa18uI2k5OoPAyaNc8Wf+e8yyZgO9rnTWAboWaBCFxKckxDGYcwmfzWDUkKyfW5X7H7Bg78=
+X-Received: by 2002:a37:b481:: with SMTP id d123mr9230083qkf.71.1566665743106; 
+	Sat, 24 Aug 2019 09:55:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
-	<1566593504-21918-12-git-send-email-armccurdy@gmail.com>
-In-Reply-To: <1566593504-21918-12-git-send-email-armccurdy@gmail.com>
+	<1566593504-21918-11-git-send-email-armccurdy@gmail.com>
+In-Reply-To: <1566593504-21918-11-git-send-email-armccurdy@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 24 Aug 2019 09:49:35 -0700
-Message-ID: <CAMKF1spy5ni8O3stP=mFZWK8bjLzwwY1HUHfd+asACXX10Md5g@mail.gmail.com>
+Date: Sat, 24 Aug 2019 09:55:17 -0700
+Message-ID: <CAMKF1sqv7sLvUf15w+DxcQnMWoiUqjfef6b-9mnJWfb0MQ1nFQ@mail.gmail.com>
 To: Andre McCurdy <armccurdy@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 12/13] sqlite3: make CFLAGS consistent across native, nativesdk and target cases
+Subject: Re: [PATCH 11/13] dropbear: don't create invalid symlinks if ssh, scp, etc are disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Aug 2019 16:50:02 -0000
+X-List-Received-Date: Sat, 24 Aug 2019 16:55:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Fri, Aug 23, 2019 at 1:54 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 >
-> The previous simplification:
->
->   https://git.openembedded.org/openembedded-core/commit/?id=604777acfc54d285f315b622bd147ed02d55d6fd
->
-> looked OK but didn't actually work as expected. The native and
-> nativesdk classes re-set CFLAGS after the += has been applied and
-> so any modifications made via += are lost. Use _append instead.
->
-
-Not a question for this patch but the original patch which attemped to
-unify patches for native nativesdk and target recipes. In my opinion
-native and nativesdk and native particularly should be compiled with
-default options and flags as much as possible, unless necessary
-is this needed in this case?
-
 > Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 > ---
->  meta/recipes-support/sqlite/sqlite3.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  meta/recipes-core/dropbear/dropbear.inc | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-> index 7cf23d0..044af5e 100644
-> --- a/meta/recipes-support/sqlite/sqlite3.inc
-> +++ b/meta/recipes-support/sqlite/sqlite3.inc
-> @@ -47,10 +47,10 @@ EXTRA_OECONF = " \
->  CFLAGS_append = " -fPIC"
+> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+> index dcbda74..7269888 100644
+> --- a/meta/recipes-core/dropbear/dropbear.inc
+> +++ b/meta/recipes-core/dropbear/dropbear.inc
+> @@ -70,8 +70,13 @@ do_install() {
+>         install -m 0644 ${WORKDIR}/dropbear.default ${D}${sysconfdir}/default/dropbear
 >
->  # pread() is in POSIX.1-2001 so any reasonable system must surely support it
-> -CFLAGS += "-DUSE_PREAD"
-> +CFLAGS_append = " -DUSE_PREAD"
+>         install -m 0755 dropbearmulti ${D}${sbindir}/
+> -       ln -s ${sbindir}/dropbearmulti ${D}${bindir}/dbclient
 >
->  # Provide column meta-data API
-> -CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
-> +CFLAGS_append = " -DSQLITE_ENABLE_COLUMN_METADATA"
+> +       for i in ${BINCOMMANDS}
+> +       do
+> +               # ssh and scp symlinks are created by update-alternatives
+> +               if [ $i = ssh ] || [ $i = scp ]; then continue; fi
+> +               ln -s ${sbindir}/dropbearmulti ${D}${bindir}/$i
+> +       done
+>         for i in ${SBINCOMMANDS}
+>         do
+>                 ln -s ./dropbearmulti ${D}${sbindir}/$i
+> @@ -101,7 +106,7 @@ do_install() {
+>  inherit update-alternatives
 >
->  PACKAGES = "lib${BPN} lib${BPN}-dev lib${BPN}-doc ${PN}-dbg lib${BPN}-staticdev ${PN}"
+>  ALTERNATIVE_PRIORITY = "20"
+> -ALTERNATIVE_${PN} = "scp ssh"
+> +ALTERNATIVE_${PN} = "${@bb.utils.filter('BINCOMMANDS', 'scp ssh', d)}"
+
+This perhaps is better done via packageconfig maybe. {S}BINCOMMANDS
+could be turned into packageconfig logic and
+
 >
+>  ALTERNATIVE_TARGET = "${sbindir}/dropbearmulti"
+>
+> @@ -113,3 +118,5 @@ pkg_postrm_append_${PN} () {
+>          rm ${sysconfdir}/dropbear/dropbear_dss_host_key
+>    fi
+>  }
+> +
+> +FILES_${PN} += "${bindir}"
 > --
 > 1.9.1
 >
