@@ -1,48 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D7BFF7F2ED
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id AB94A7F335
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2019 17:21:38 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id y26so14302555qto.4
+	Sat, 24 Aug 2019 17:23:34 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id b11so14245266qtp.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2019 10:21:40 -0700 (PDT)
+	Sat, 24 Aug 2019 10:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=UwcfEgfh2ompGQ5dK/0Cy5fqzBMsX7Rbbk6DnzMoui4=;
-	b=N18Ux92dpzYMtBrHD2tIVC8d358M9BpGGP3Ia5Trtjs5SBUPFC8r1mlYbPgUJm9o9p
-	kO2vPBwG0PqX3F/FlV2d0g7qJELWDFly0aN9qIBCIExVY8cuJ785qdGHqYM7zgmQJT8t
-	DR6CRErcf6LDzbPKigmOY2O93mRkINI3MXBT+EgRpWgmxaQtOQZeu/jVBIY1q4qxLSIl
-	LRHu8NLvf83WY+Bcfs7xHp1uRhNevKfAPFpeZxNL586y5xXgtWDhqrXRs7Bk5+Wxh+1F
-	u08jp6tjrikRALdEGcB0ryW19t5Y1ODTJu22aqCKQ+jpf2X6cKMMs935KQ/CecOFxCmw
-	yW3w==
+	:cc; bh=v3dQgXxPjwGtUuBqZG10OPSXv0xe8FyhnzKhqV9gB8k=;
+	b=IAp1AXjub8T28KD6MBJHLueO5al5j4nTM8fiIL+UNAOOTtrD0prqSr8UijBLVJSrt3
+	Y7Xqai+QrRQh532ny+aUlQYicHYS0aFSEBE6UG8yfI/zTu01SDW3ajqPKbAiFdEWXWYo
+	2v0iRbi8w+JOsrYht7GywjLAKnCRJxKkppMMZOTsDq5CMCKj9NKnP8o6z4LQUSDWN1CJ
+	sulLQLbQMLcfC9/kROHSDfrIQlYv7oIfQUN/LC2bjfcwjtAbcyvDT6tmsvrWUKwRkqvz
+	IQR5jjoJnSaOht4VW1AiTksaROBCH9XeebvlOme2SNiYFnq6fIJPHJ8USmxKnYLLK/ME
+	lRrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=UwcfEgfh2ompGQ5dK/0Cy5fqzBMsX7Rbbk6DnzMoui4=;
-	b=sIft35JLGvXm4GEV4hEwq4gTg6Uc30VcmGqycv0ckCLCifulfV18XlFHJEdyhngck7
-	HKF++hZe82v+QpaslpoUYfGo4/du5Qv3nHrr+xAKC/6Cij5zJlh00du1lHnEO9kvulZ3
-	32YHvkGhaRMdbRTob06AFlZJnw4v/m8K6niPnRC8vUkBAlpXELcpW46RJohP+AVbnFpT
-	7WrQdyK+U/a2nNteTOJ/OcaNmsfj8vhQ+DFVKHAjkIS9bnD5OxEBIhjNuFHYTgLwxDJm
-	GqftF+E3664qSMGaTqSxt3sboqbFQqKEFfE8yWO/nSGs3D8bEVyt5zwcQf23qhxoTzCj
-	+oGA==
-X-Gm-Message-State: APjAAAUT0WIeYAanBVZiiSP4UltmchvBUPN3ycJIozTCmYeVtMBS0/sc
-	pK/nWwaQ5SpOTwJQmEbkvJbTSG5zN+Gtrxt8nq0=
-X-Google-Smtp-Source: APXvYqwbCdMkH11O0ichk59ZJMIQnPlCoSpaLliflV5QMW/ItzIbobcnBXwoMVIukmhUSwdwX5SsOSk5YKmrT02P5aw=
-X-Received: by 2002:ac8:7445:: with SMTP id h5mr7117599qtr.53.1566667299402;
-	Sat, 24 Aug 2019 10:21:39 -0700 (PDT)
+	bh=v3dQgXxPjwGtUuBqZG10OPSXv0xe8FyhnzKhqV9gB8k=;
+	b=lOs+qAdNo/t7H9qX5ZKLdIEklh3fO0Tjiumcx0tZBo45w4frXn2wPUwKPTG1GOEgtD
+	bnS++vhBs2XztTBlotChrHbwjoO0BYU7JQgzm380WcxUgp1jEriEc2rqVzfabMLTR6EJ
+	ibvpZB6cWZ/wssyUFEJJ2AsuINI03eaubm+Uav3EWFzJr5GMtzKFWjJgOIDSf15ubzmk
+	I2Op7l732X0Sb9JwT8U1f1w5SAvgpz0Whepgoih9aRPQMWZQ0sFMH2soDg7LPMp+E1FM
+	jUncV9tRwIWfmDqXJv8F+B1+3ZauaGTYgpfxOV70/5M9Zm/K0eeBOu2DZGNKRqkawM0M
+	ROrQ==
+X-Gm-Message-State: APjAAAWwZNk+IaCJQom/UwzAkZHE397B6X6JHs8KG7XvPLTPBl8lcOKi
+	WaxoVVOkPM/LoJxA2F6hjwv9qhHQ819Fk7ydXH4t01fd
+X-Google-Smtp-Source: APXvYqz2DkcpoYbLpO1jsEJpHaVpx/0vPvWQwunM8uxoQBc/gMLmhgrTMv7rSPBThQ0jpXVreQ+MQZubVTWzcdB2gUc=
+X-Received: by 2002:ac8:d4c:: with SMTP id r12mr10232900qti.88.1566667415399; 
+	Sat, 24 Aug 2019 10:23:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
-	<1566593504-21918-3-git-send-email-armccurdy@gmail.com>
-In-Reply-To: <1566593504-21918-3-git-send-email-armccurdy@gmail.com>
+References: <20190823203823.4373-1-changhyeok.bae@gmail.com>
+In-Reply-To: <20190823203823.4373-1-changhyeok.bae@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 24 Aug 2019 10:21:12 -0700
-Message-ID: <CAMKF1sp-HU_LZ-EsUn4neh8sjwXjVyoyqYmWdT-VmcMxqmv4SQ@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
+Date: Sat, 24 Aug 2019 10:23:09 -0700
+Message-ID: <CAMKF1spODthDdJisbg4OYCqBNXDa+kTEu1S9yHas5uSvdfWGww@mail.gmail.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/13] tune-arm1176jz-s.inc: add support for arm1176jz-s CPU specific tuning
+Subject: Re: [PATCH] iw: upgrade to 5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +54,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Aug 2019 17:21:39 -0000
+X-List-Received-Date: Sat, 24 Aug 2019 17:23:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 23, 2019 at 1:53 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+On Fri, Aug 23, 2019 at 1:38 PM Changhyeok Bae <changhyeok.bae@gmail.com> wrote:
 >
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> Separated build dir doesn't work because Makefile points out source dir.
+>
+
+this would be a regression in Makefile, maybe it should be fixed there and
+also sent upstream as well
+
+> Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
 > ---
->  meta/conf/machine/include/tune-arm1176jz-s.inc | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->  create mode 100644 meta/conf/machine/include/tune-arm1176jz-s.inc
+>  meta/recipes-connectivity/iw/{iw_5.0.1.bb => iw_5.3.bb} | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>  rename meta/recipes-connectivity/iw/{iw_5.0.1.bb => iw_5.3.bb} (83%)
 >
-> diff --git a/meta/conf/machine/include/tune-arm1176jz-s.inc b/meta/conf/machine/include/tune-arm1176jz-s.inc
-> new file mode 100644
-> index 0000000..c741e80
-> --- /dev/null
-> +++ b/meta/conf/machine/include/tune-arm1176jz-s.inc
-> @@ -0,0 +1,17 @@
-> +DEFAULTTUNE ?= "arm1176jzs"
-> +
-> +require conf/machine/include/arm/arch-armv6.inc
-> +
-> +TUNEVALID[arm1176jzs] = "Enable arm1176jzs specific processor optimizations"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1176jzs', ' -mcpu=arm1176jz-s', '', d)}"
-> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'arm1176jzs', 'armv6:', '' ,d)}"
-> +
-> +AVAILTUNES += "arm1176jzs"
-> +ARMPKGARCH_tune-arm1176jzs = "arm1176jzs"
-> +TUNE_FEATURES_tune-arm1176jzs = "arm thumb arm1176jzs"
-> +PACKAGE_EXTRA_ARCHS_tune-arm1176jzs = "${PACKAGE_EXTRA_ARCHS_tune-armv6tb-novfp} arm1176jzs arm1176jzst"
-> +
-> +AVAILTUNES += "arm1176jzs-be"
-> +ARMPKGARCH_tune-arm1176jzs-be = "${ARMPKGARCH_tune-arm1176jzs}"
-> +TUNE_FEATURES_tune-arm1176jzs-be = "${TUNE_FEATURES_tune-arm1176jzs} bigendian"
-> +PACKAGE_EXTRA_ARCHS_tune-arm1176jzs-be = "${PACKAGE_EXTRA_ARCHS_tune-armv6tb-novfp} arm1176jzsb arm1176jzstb"
-
-There is vfp variant of arm1176jzs has well
- ARM1176JZF-S, this processor includes a Vector Floating-Point (VFP)
-coprocessor.
-
+> diff --git a/meta/recipes-connectivity/iw/iw_5.0.1.bb b/meta/recipes-connectivity/iw/iw_5.3.bb
+> similarity index 83%
+> rename from meta/recipes-connectivity/iw/iw_5.0.1.bb
+> rename to meta/recipes-connectivity/iw/iw_5.3.bb
+> index 87b21e668d..f7f13f5a30 100644
+> --- a/meta/recipes-connectivity/iw/iw_5.0.1.bb
+> +++ b/meta/recipes-connectivity/iw/iw_5.3.bb
+> @@ -14,8 +14,8 @@ SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
+>             file://separate-objdir.patch \
+>  "
+>
+> -SRC_URI[md5sum] = "a0a17ab1b20132c716bba9a4f9974ba6"
+> -SRC_URI[sha256sum] = "36fc7592dde7bec934df83cd53ef1f2c08ceec5cd58d07eb8f71cc6e8464013c"
+> +SRC_URI[md5sum] = "6d4d1c0ee34f3a7bda0e6aafcd7aaf31"
+> +SRC_URI[sha256sum] = "175abbfce86348c0b70e778c13a94c0bfc9abc7a506d2bd608261583aeedf64a"
+>
+>  inherit pkgconfig
+>
+> @@ -26,7 +26,6 @@ EXTRA_OEMAKE = "\
+>      'SBINDIR=${sbindir}' \
+>      'MANDIR=${mandir}' \
+>  "
+> -B = "${WORKDIR}/build"
+>
+>  do_install() {
+>      oe_runmake 'DESTDIR=${D}' install
 > --
-> 1.9.1
+> 2.23.0
 >
 > --
 > _______________________________________________
