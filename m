@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
-	[209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A6BB7ECB9
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D7BFF7F2ED
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2019 17:01:10 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id i4so14203888qtj.8
+	Sat, 24 Aug 2019 17:21:38 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id y26so14302555qto.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2019 10:01:12 -0700 (PDT)
+	Sat, 24 Aug 2019 10:21:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=f6mfC6vaAfbuJrOfJkT+Fa7cWGmySfnvXe3+aCPDLV8=;
-	b=eOmw4ZSnKfZudG5dRE0Z2T6Lf7uZvOFeuDI/06YdiruQCNStcohuUVSpElZjuZkeDG
-	NDBPkKOt4ITzd1bxguKIxmMsJGeTmxx13x3I0yPSeSTgvhNXwLIUO+DtxzL3g84PJzuf
-	xcMsw2KnEvLvP06YJ2dFNHP5QRoqsTIkGI7lzlkK7fOwahA6XKsDqm3ENXkxSMHSqiaB
-	+n8c2TunuupbTRpncRc5iwEw7xzPPynmasbtQzxu7qq9jBte7C5PuQCLQOnGjVs7aGxc
-	2nGJoyvrCSgpNTOVf51LBpV9mMK2Wv81mPHX9C8b04A4wShlRKw6jmTO7NI1We/Ztc5p
-	YcuA==
+	:cc; bh=UwcfEgfh2ompGQ5dK/0Cy5fqzBMsX7Rbbk6DnzMoui4=;
+	b=N18Ux92dpzYMtBrHD2tIVC8d358M9BpGGP3Ia5Trtjs5SBUPFC8r1mlYbPgUJm9o9p
+	kO2vPBwG0PqX3F/FlV2d0g7qJELWDFly0aN9qIBCIExVY8cuJ785qdGHqYM7zgmQJT8t
+	DR6CRErcf6LDzbPKigmOY2O93mRkINI3MXBT+EgRpWgmxaQtOQZeu/jVBIY1q4qxLSIl
+	LRHu8NLvf83WY+Bcfs7xHp1uRhNevKfAPFpeZxNL586y5xXgtWDhqrXRs7Bk5+Wxh+1F
+	u08jp6tjrikRALdEGcB0ryW19t5Y1ODTJu22aqCKQ+jpf2X6cKMMs935KQ/CecOFxCmw
+	yW3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=f6mfC6vaAfbuJrOfJkT+Fa7cWGmySfnvXe3+aCPDLV8=;
-	b=jVljYPZ4d13jMQTlgmF7PCtizLwFXQco+F5yJ/hl05/F0WKXQA9oC8uH8EYZznhnaX
-	xfgbZhTVfGD8X40oKvQustFPesioL+0/Md+KDUmCljm2uC1jKkZ2RE6bnwmXZnFNPRrX
-	o+Kpjln+POqcJr6Dmkdl51YTMfNP3mA579e38sxeV10cPF+zK6EhYuMKztrv40oBfTKL
-	3+4v5fejNM+h2G9HWtxdV+fM9aJqaDmUGUyR7OrKezIdoqU0UeQb720vGcY4M/oq7jIq
-	ke0JwQ9d0TU/RSRHE7V9uHaVy07y254qID5jPHJ5HKNyMNHElUsBkGYbsq5F8MPdYfyu
-	B/FQ==
-X-Gm-Message-State: APjAAAUj1sw3d93N2F2z1ZpKlM6If2dtwjzNlG1CbdgHevT9iBhL+JNf
-	5QhFaEShxx4svqTvoMbrPz+w5nOUCIGvwN9EZK8=
-X-Google-Smtp-Source: APXvYqznS/8pCtP/jsnNk9lzkUJNcqV+fD/onIQxyGAiOu9vjOa1Vt6+EaxxOkspr1ueC9V3NNf4WpjZ3Y4ueO1Lcuw=
-X-Received: by 2002:a0c:e485:: with SMTP id n5mr8926035qvl.175.1566666071274; 
-	Sat, 24 Aug 2019 10:01:11 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=UwcfEgfh2ompGQ5dK/0Cy5fqzBMsX7Rbbk6DnzMoui4=;
+	b=sIft35JLGvXm4GEV4hEwq4gTg6Uc30VcmGqycv0ckCLCifulfV18XlFHJEdyhngck7
+	HKF++hZe82v+QpaslpoUYfGo4/du5Qv3nHrr+xAKC/6Cij5zJlh00du1lHnEO9kvulZ3
+	32YHvkGhaRMdbRTob06AFlZJnw4v/m8K6niPnRC8vUkBAlpXELcpW46RJohP+AVbnFpT
+	7WrQdyK+U/a2nNteTOJ/OcaNmsfj8vhQ+DFVKHAjkIS9bnD5OxEBIhjNuFHYTgLwxDJm
+	GqftF+E3664qSMGaTqSxt3sboqbFQqKEFfE8yWO/nSGs3D8bEVyt5zwcQf23qhxoTzCj
+	+oGA==
+X-Gm-Message-State: APjAAAUT0WIeYAanBVZiiSP4UltmchvBUPN3ycJIozTCmYeVtMBS0/sc
+	pK/nWwaQ5SpOTwJQmEbkvJbTSG5zN+Gtrxt8nq0=
+X-Google-Smtp-Source: APXvYqwbCdMkH11O0ichk59ZJMIQnPlCoSpaLliflV5QMW/ItzIbobcnBXwoMVIukmhUSwdwX5SsOSk5YKmrT02P5aw=
+X-Received: by 2002:ac8:7445:: with SMTP id h5mr7117599qtr.53.1566667299402;
+	Sat, 24 Aug 2019 10:21:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
-	<1566593504-21918-9-git-send-email-armccurdy@gmail.com>
-In-Reply-To: <1566593504-21918-9-git-send-email-armccurdy@gmail.com>
+	<1566593504-21918-3-git-send-email-armccurdy@gmail.com>
+In-Reply-To: <1566593504-21918-3-git-send-email-armccurdy@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 24 Aug 2019 10:00:45 -0700
-Message-ID: <CAMKF1sqvdfRaA-iTEtNzS9NFXybcP_zzvP4nyt+x075Zp8G2Dg@mail.gmail.com>
+Date: Sat, 24 Aug 2019 10:21:12 -0700
+Message-ID: <CAMKF1sp-HU_LZ-EsUn4neh8sjwXjVyoyqYmWdT-VmcMxqmv4SQ@mail.gmail.com>
 To: Andre McCurdy <armccurdy@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 09/13] glibc: drop obsolete packaging of glibc libnsl libs
+Subject: Re: [PATCH 03/13] tune-arm1176jz-s.inc: add support for arm1176jz-s CPU specific tuning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,62 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Aug 2019 17:01:10 -0000
+X-List-Received-Date: Sat, 24 Aug 2019 17:21:39 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
 On Fri, Aug 23, 2019 at 1:53 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 >
-> Packaging rules were left behind when libnsl was removed:
->
->   https://git.openembedded.org/openembedded-core/commit/?id=3D9dc9983901c=
-ec364ea57a72b9da1a0396b60663a
->
-
-this was due to other versions of glibc using the same header file in
-other toolchain layers e.g.
-IIRC meta-linaro, but it might not be needed however double check please
-
 > Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 > ---
->  meta/recipes-core/glibc/glibc-package.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/conf/machine/include/tune-arm1176jz-s.inc | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>  create mode 100644 meta/conf/machine/include/tune-arm1176jz-s.inc
 >
-> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-cor=
-e/glibc/glibc-package.inc
-> index f796876..a0df267 100644
-> --- a/meta/recipes-core/glibc/glibc-package.inc
-> +++ b/meta/recipes-core/glibc/glibc-package.inc
-> @@ -14,7 +14,7 @@ RPROVIDES_glibc-extra-nss =3D "eglibc-extra-nss"
->  RPROVIDES_glibc-thread-db =3D "eglibc-thread-db"
->  RPROVIDES_${PN}-pcprofile =3D "eglibc-pcprofile"
->  RPROVIDES_${PN}-dbg =3D "eglibc-dbg"
-> -libc_baselibs =3D "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${b=
-ase_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so=
- ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.=
-so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_l=
-ibdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so =
-${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/lib=
-nsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${ba=
-se_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libd=
-ir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libns=
-s_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libd=
-ir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*=
-.so.* ${base_libdir}/libBrokenLocale-*.so"
-> +libc_baselibs =3D "${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${b=
-ase_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so=
- ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.=
-so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_l=
-ibdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so =
-${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/lib=
-nss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_comp=
-at*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* =
-${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/li=
-bdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libd=
-ir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
->  ARCH_DYNAMIC_LOADER =3D ""
->  # The aarch64 ABI says the dynamic linker -must- be
->  # /lib/ld-linux-aarch64{,_be}.so.1. With usrmerge, that may mean that
+> diff --git a/meta/conf/machine/include/tune-arm1176jz-s.inc b/meta/conf/machine/include/tune-arm1176jz-s.inc
+> new file mode 100644
+> index 0000000..c741e80
+> --- /dev/null
+> +++ b/meta/conf/machine/include/tune-arm1176jz-s.inc
+> @@ -0,0 +1,17 @@
+> +DEFAULTTUNE ?= "arm1176jzs"
+> +
+> +require conf/machine/include/arm/arch-armv6.inc
+> +
+> +TUNEVALID[arm1176jzs] = "Enable arm1176jzs specific processor optimizations"
+> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1176jzs', ' -mcpu=arm1176jz-s', '', d)}"
+> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'arm1176jzs', 'armv6:', '' ,d)}"
+> +
+> +AVAILTUNES += "arm1176jzs"
+> +ARMPKGARCH_tune-arm1176jzs = "arm1176jzs"
+> +TUNE_FEATURES_tune-arm1176jzs = "arm thumb arm1176jzs"
+> +PACKAGE_EXTRA_ARCHS_tune-arm1176jzs = "${PACKAGE_EXTRA_ARCHS_tune-armv6tb-novfp} arm1176jzs arm1176jzst"
+> +
+> +AVAILTUNES += "arm1176jzs-be"
+> +ARMPKGARCH_tune-arm1176jzs-be = "${ARMPKGARCH_tune-arm1176jzs}"
+> +TUNE_FEATURES_tune-arm1176jzs-be = "${TUNE_FEATURES_tune-arm1176jzs} bigendian"
+> +PACKAGE_EXTRA_ARCHS_tune-arm1176jzs-be = "${PACKAGE_EXTRA_ARCHS_tune-armv6tb-novfp} arm1176jzsb arm1176jzstb"
+
+There is vfp variant of arm1176jzs has well
+ ARM1176JZF-S, this processor includes a Vector Floating-Point (VFP)
+coprocessor.
+
 > --
 > 1.9.1
 >
