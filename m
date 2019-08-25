@@ -1,46 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
-	[209.85.160.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 12CF97D53D
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+	[209.85.167.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B558731B1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2019 22:37:36 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id k13so14632220qtm.12
+	Sun, 25 Aug 2019 02:56:25 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id x3so9804751lfn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2019 15:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=i4CWzGEECDKlpslsB3gZ1QRMIwHhMOfKUiT83wUUwSg=;
-	b=Nq2Wl1weZINieSsnHl+LhozoeKh6yvtuNryZrPjUjNPkl5UXTkvNVVT7uVlA92Z1JN
-	zrezMxYCimJiuhhhaZcSZutTZF9gZuPO4jYJitDouoCA1W2srdeKwuxINz2MfZE4JO8n
-	yspQhf+vy8fMmBWeqzo1ZW+0koY03Y8jn2s/cHq66a5ztfC9aMkaxUQad3VC8vwwQFIU
-	kM5NKrd4Q3IUoRbM0cvMAnxZpP2XzMksNLC7/iBcUoB7BpTzNVJYdhcUM9NBDOPGPrIM
-	5kh0plxHzdjNOHA4GfQwCR3GEXjDZJD7hiMJ0e7PV8wxSlbblpzyVvFzrSpSENhpHNzT
-	KjTQ==
+	Sat, 24 Aug 2019 19:56:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=CXiulHw98wG1B2wqsjMi+ZoBM1ZGESQr6ovZVSpNVmw=;
+	b=sNoYD/r5Iu2CWW6MLXlRjeEJN9Lv3KiwI8lSB7qcTPGMlRsE43XGBz8+hTdDLHBHJs
+	o9X6J0BMcjY/yYSPvykhJaKGEeHMuaCvDToulv4Tm17fSTB6ngkQPUMIhEbOmQPWmX23
+	G10kJs7EAaEmDJ+RA0svDxP/B+OUnYRRfv9KfQI/ZaJA60INpK7xUYOdTwnQUJN/1sqf
+	BsF9MhSHqMwdNP6MtEncA7af9rWE/XoYZ/rB5aSr8Gb2yfzaWXUJGAvfseHIT9U7X9re
+	swMPydNLrEkyB+xf7pPH2ITtNB8wkH4avOiAXdYBdbmTydD705PQgFHOIz8alS6HNxPm
+	uUiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=i4CWzGEECDKlpslsB3gZ1QRMIwHhMOfKUiT83wUUwSg=;
-	b=oGoKHrzEuScGK4F9v2eeyApEaRfIA4B3gU8CVtwhoOmX9FOGQtwqY+dwvs/t+pLtP2
-	siMQ9bJeeoqGVpC1vgpcIg5puZpyyp1EDpR9YLb0HlqbgNPn9LRf4Q9bPB2veOAhZcxf
-	FHNwF80yzDotwJ68bL8v7n3+JLVx3ylGg5qPEOA8vRswr7qcSx6K0DxpWjiy5PN/yS79
-	3Bpk0AUpcnak7G/96eylgJDZ6Ei7WAA2iS0/9WAKpiXdm1b22dATFokq0imJ0KbJG5is
-	1ghiJ8g3BNhH5hShwzHyJARGsygTmwNDV4vlZyFHeFYsXnUeQo4W4HsLUqhB3RCT3Qas
-	cZAQ==
-X-Gm-Message-State: APjAAAWavaSTHqGyOOVPoGh0LjgNaWeu5+jT6oG8Lz3pl1MdclFzyKgd
-	qm2a1K7B1tgOMVVgFermZJ3BKOa55SdZk/SAW2Zh5Q==
-X-Google-Smtp-Source: APXvYqxB6BOjMkDs8wv0mqYJs8MozOzxdTtDKuzxng5FY9lUis6cOAZhhfErN9dYZkSLzxzP8i0IKYjYCzuV5jic+hw=
-X-Received: by 2002:a0c:e485:: with SMTP id n5mr9961861qvl.175.1566686257709; 
-	Sat, 24 Aug 2019 15:37:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <1566499924-12897-1-git-send-email-Trevor.Gamblin@windriver.com>
-In-Reply-To: <1566499924-12897-1-git-send-email-Trevor.Gamblin@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 24 Aug 2019 15:37:27 -0700
-Message-ID: <CAMKF1sq-ruMp6OyiSWFOydPg=Sy6XUKyZFzU-FiwWcwRbzo1dg@mail.gmail.com>
-To: Trevor Gamblin <Trevor.Gamblin@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lighttpd: lighttpd: drop hard-coded lua version in PACKAGECONFIG
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=CXiulHw98wG1B2wqsjMi+ZoBM1ZGESQr6ovZVSpNVmw=;
+	b=P8Nrt9YekfcKaue+GuFZ7RZOreIBjbkRP3gf/B//S27xTsqFzdcrK0n/dq6cBbGC/n
+	Nc9eBLgLpd1pActaeI7yAM8LezHjgsfkFWQdWKhnYL+czawh7eFjcqToGZjbVqjlSOy+
+	Kv3Z7ZCxo1tVVYSi87fSGNZEpnJVHggVjs1g2gRTsVn+56r5B1XsJpPr2e3Jayvh0pxb
+	+hQUu4ptF+agOnOXa53+kg51tat8toxNeMT1iA6nH4ReJzFX5opqbw/sWJ9iBi67gz1B
+	LELxedcWbM41WVBMrY4UZspoxuaJwi7AuAPl8B6dY/vM1WjsJNcSWDujg86wiFvelh19
+	I1Aw==
+X-Gm-Message-State: APjAAAWZMp/huHNPR+y/d6zjknIpSMGmVMbWYqA6Erm1uZEmPhKeGDKs
+	71dirtCnWtYteryjNVO/AjMJ+tnGffU=
+X-Google-Smtp-Source: APXvYqyFd4zwy6U7xUVkItxJ1p2LecAu2/5AEOy1ek/8ey2FsORSuwNNLqtrpFzD9lpbhJkMbhJ50g==
+X-Received: by 2002:a19:9111:: with SMTP id t17mr1931433lfd.113.1566701786117; 
+	Sat, 24 Aug 2019 19:56:26 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id t8sm1395581ljg.70.2019.08.24.19.56.25
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 24 Aug 2019 19:56:25 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Aug 2019 04:56:22 +0200
+Message-Id: <20190825025622.24465-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] nftables: update to 0.9.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,138 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Aug 2019 22:37:37 -0000
-Content-Type: multipart/alternative; boundary="000000000000dd86d40590e49132"
+X-List-Received-Date: Sun, 25 Aug 2019 02:56:26 -0000
 
---000000000000dd86d40590e49132
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../nftables/{nftables_0.9.1.bb => nftables_0.9.2.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta-networking/recipes-filter/nftables/{nftables_0.9.1.bb => nftables_0.9.2.bb} (85%)
 
-On Thu, Aug 22, 2019 at 11:53 AM Trevor Gamblin <
-Trevor.Gamblin@windriver.com> wrote:
+diff --git a/meta-networking/recipes-filter/nftables/nftables_0.9.1.bb b/meta-networking/recipes-filter/nftables/nftables_0.9.2.bb
+similarity index 85%
+rename from meta-networking/recipes-filter/nftables/nftables_0.9.1.bb
+rename to meta-networking/recipes-filter/nftables/nftables_0.9.2.bb
+index 9d0da33e3..98e8050b8 100644
+--- a/meta-networking/recipes-filter/nftables/nftables_0.9.1.bb
++++ b/meta-networking/recipes-filter/nftables/nftables_0.9.2.bb
+@@ -8,8 +8,8 @@ DEPENDS = "libmnl libnftnl readline gmp bison-native"
+ UPSTREAM_CHECK_URI = "https://www.netfilter.org/projects/nftables/files/"
+ 
+ SRC_URI = "http://www.netfilter.org/projects/nftables/files/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "e2facbcad6c5d9bd87a0bf5081a31522"
+-SRC_URI[sha256sum] = "ead3bb68ed540bfbb87a96f2b69c3d65ab0c2a0c3f6e739a395c09377d1b4fce"
++SRC_URI[md5sum] = "dfe130724d7c998eb26b56447e932899"
++SRC_URI[sha256sum] = "5cb66180143e6bfc774f4eb316206d40ac1cb6df269a90882404cbf7165513f5"
+ 
+ inherit autotools manpages pkgconfig
+ 
+-- 
+2.17.1
 
-> From: Trevor Gamblin <trevor.gamblin@windriver.com>
->
-> When building lighttpd with PACKAGECONFIG_append_pn-lighttpd = "lua" in
-> local.conf,
-> bitbake gives the following error:
->
-> ERROR: Nothing PROVIDES 'lua5.1' (but
-> /home/tgamblin/build/oe-core/meta/recipes-extended/lighttpd/
-> lighttpd_1.4.54.bb DEPENDS on or otherwise requires it)
-> NOTE: Runtime target 'lighttpd' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['lighttpd', 'lua5.1']
->
-> Removing the "5.1" from the PACKAGECONFIG line in lighttpd_1.4.54.bb
-> fixes the issue.
 
-
-Does it run fine with lua > 5.1 ?
-
->
->
-> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> ---
->  meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb
-> b/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb
-> index ba1a2c5..72990d0 100644
-> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb
-> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb
-> @@ -44,7 +44,7 @@ PACKAGECONFIG[webdav-props] =
-> "--with-webdav-props,--without-webdav-props,libxml
->  PACKAGECONFIG[webdav-locks] =
-> "--with-webdav-locks,--without-webdav-locks,util-linux"
->  PACKAGECONFIG[gdbm] = "--with-gdbm,--without-gdbm,gdbm"
->  PACKAGECONFIG[memcache] =
-> "--with-memcached,--without-memcached,libmemcached"
-> -PACKAGECONFIG[lua] = "--with-lua,--without-lua,lua5.1"
-> +PACKAGECONFIG[lua] = "--with-lua,--without-lua,lua"
->
->  EXTRA_OECONF += "--enable-lfs"
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000dd86d40590e49132
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Aug 22, 2019 at 11:53 AM Trevor Gamblin &lt;<a href=
-=3D"mailto:Trevor.Gamblin@windriver.com">Trevor.Gamblin@windriver.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">From: Trevor Gamblin &lt;=
-<a href=3D"mailto:trevor.gamblin@windriver.com" target=3D"_blank">trevor.ga=
-mblin@windriver.com</a>&gt;<br>
-<br>
-When building lighttpd with PACKAGECONFIG_append_pn-lighttpd =3D &quot;lua&=
-quot; in local.conf,<br>
-bitbake gives the following error:<br>
-<br>
-ERROR: Nothing PROVIDES &#39;lua5.1&#39; (but /home/tgamblin/build/oe-core/=
-meta/recipes-extended/lighttpd/<a href=3D"http://lighttpd_1.4.54.bb" rel=3D=
-"noreferrer" target=3D"_blank">lighttpd_1.4.54.bb</a> DEPENDS on or otherwi=
-se requires it)<br>
-NOTE: Runtime target &#39;lighttpd&#39; is unbuildable, removing...<br>
-Missing or unbuildable dependency chain was: [&#39;lighttpd&#39;, &#39;lua5=
-.1&#39;]<br>
-<br>
-Removing the &quot;5.1&quot; from the PACKAGECONFIG line in <a href=3D"http=
-://lighttpd_1.4.54.bb" rel=3D"noreferrer" target=3D"_blank">lighttpd_1.4.54=
-.bb</a> fixes the issue.</blockquote><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Does it run fine with lua &gt; 5.1 ?</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex"><br>
-<br>
-Signed-off-by: Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windrive=
-r.com" target=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-extended/lighttpd/<a href=3D"http://lighttpd_1.4.54.bb" =
-rel=3D"noreferrer" target=3D"_blank">lighttpd_1.4.54.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-extended/lighttpd/<a href=3D"http://lighttpd_1.4.=
-54.bb" rel=3D"noreferrer" target=3D"_blank">lighttpd_1.4.54.bb</a> b/meta/r=
-ecipes-extended/lighttpd/<a href=3D"http://lighttpd_1.4.54.bb" rel=3D"noref=
-errer" target=3D"_blank">lighttpd_1.4.54.bb</a><br>
-index ba1a2c5..72990d0 100644<br>
---- a/meta/recipes-extended/lighttpd/<a href=3D"http://lighttpd_1.4.54.bb" =
-rel=3D"noreferrer" target=3D"_blank">lighttpd_1.4.54.bb</a><br>
-+++ b/meta/recipes-extended/lighttpd/<a href=3D"http://lighttpd_1.4.54.bb" =
-rel=3D"noreferrer" target=3D"_blank">lighttpd_1.4.54.bb</a><br>
-@@ -44,7 +44,7 @@ PACKAGECONFIG[webdav-props] =3D &quot;--with-webdav-props=
-,--without-webdav-props,libxml<br>
-=C2=A0PACKAGECONFIG[webdav-locks] =3D &quot;--with-webdav-locks,--without-w=
-ebdav-locks,util-linux&quot;<br>
-=C2=A0PACKAGECONFIG[gdbm] =3D &quot;--with-gdbm,--without-gdbm,gdbm&quot;<b=
-r>
-=C2=A0PACKAGECONFIG[memcache] =3D &quot;--with-memcached,--without-memcache=
-d,libmemcached&quot;<br>
--PACKAGECONFIG[lua] =3D &quot;--with-lua,--without-lua,lua5.1&quot;<br>
-+PACKAGECONFIG[lua] =3D &quot;--with-lua,--without-lua,lua&quot;<br>
-<br>
-=C2=A0EXTRA_OECONF +=3D &quot;--enable-lfs&quot;<br>
-<br>
--- <br>
-2.7.4<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---000000000000dd86d40590e49132--
