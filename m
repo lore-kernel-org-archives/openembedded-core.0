@@ -1,36 +1,18 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id BAEE17F64D
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Aug 2019 17:23:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46Ghmg2l35z29
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Aug 2019 19:23:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1566753795;
-	bh=Lm/LTgW1z2C5i1b/GDuqoVx+PCiDWUX50tFu+b9Pxp0=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=kckuNzqETAFxtP/oDGMHOttQHq979tdLA+2GESqYwDJV780/M8A4YFgj9oPkduNZl
-	p8nV2YrurKRAhl3reKlNQE0u4UHLBrjcjyDhh+3eyxhLMVnzdNEbcoXrogIy7GImSE
-	Z8ltma0559mMb8a/hCUtRn52lPlqQCzU4lfcJtdYWpqkRP0ZJAxHUCTMeKKkoN0KeE
-	qbPGchEPjz9L2NC3bDsIYPfHXEz5ai6CwuRNZOJvrkiFF5ipeZkmCGoDBUZz9SqGBC
-	p3ij9dAw19s6IMNH2TvOsOQoSHq2sX8H9EHEz7uPZfaa+zcDnA0ulJV0CFXzeQs7w9
-	6DZmgovg7u+STpqGMRGTJC3pxfkjAI8JwT32egXjqKiyZt6226abpOTG89SNt0zFiM
-	MLVHhTOr2F4N0qO7wuZH1Jzgmxf6M3Uufl0zTQWt3jU6qPJ8LDtj6+E/xR+c3Ix1m5
-	fEamp4HI08dLujEEKJ+Hyw+fn3IT9BlnA7qN9qM9TGHhyULGqXwafsVj01xOk0LtIv
-	riIf3PfOORN2VgB32SjGitY6rVZ135ESAmoIIq893IvuyS1NDJ7pKMAYckM4UP7IEc
-	IiPH2Eh6gZb0xIauvoOVnoDSXMhz17LpJBqKO53+kcPXmH044ajhkOGxD97n5ewC/Y
-	aHQUNhuxylvV9iHy13+7hayI=
-Date: Sun, 25 Aug 2019 20:23:13 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20190825172313.GA32283@localhost>
-References: <20190825172116.23759-3-bunk@stusta.de>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2958E7F656;
+	Sun, 25 Aug 2019 17:33:20 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Sun, 25 Aug 2019 17:33:22 -0000
+Message-ID: <20190825173322.2329.79904@do>
+References: <20190825172116.23759-3-bunk@stusta.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
 In-Reply-To: <20190825172116.23759-3-bunk@stusta.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Subject: Re: [PATCH] Remove LSB support bits
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIExTQiBzdXBwb3J0IGJpdHM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,20 +25,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Aug 2019 17:23:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sun, 25 Aug 2019 17:33:21 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Please ignore this patch, wrong list.
+== Series Details ==
 
-cu
-Adrian
+Series: Remove LSB support bits
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/19468/
+State : failure
 
--- 
+== Summary ==
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     poky@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/poky/]
+  Patch's path:    meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 64f9fd2a1e)
+
+* Patch            Remove LSB support bits
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
