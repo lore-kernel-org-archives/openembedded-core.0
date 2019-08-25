@@ -1,18 +1,33 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C2D10731B1;
-	Sun, 25 Aug 2019 03:02:21 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Date: Sun, 25 Aug 2019 03:02:23 -0000
-Message-ID: <20190825030223.2331.58324@do>
-References: <20190825025622.24465-1-open.source@oleksandr-kravchuk.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190825025622.24465-1-open.source@oleksandr-kravchuk.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbmZ0YWJsZXM6IHVwZGF0ZSB0byAwLjkuMg==?=
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 9246C7F648
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 25 Aug 2019 17:21:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46GhkP4q8Sz29
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 25 Aug 2019 19:21:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1566753677;
+	bh=R8UqMCtNjnTulPXKarhGap1iDbxlPCbkzLCtSFd/fv8=;
+	h=From:To:Subject:Date:From;
+	b=Lqo4b0p2G58KLDYFeoEsJId7ZvkWvxms8MDzbaJLpLe7hXoPjeIKQsGxjgEqdvdPu
+	5cOW0QTx0lGM9thr+XcuJMxw2grDQPM9IJIzNLRR031o3tgqZkZcScDCzRhHO1IkJ0
+	JQHnwd61fbVBcLwjkxy5WSS3IAfwE9g285QWQX4oj4gqK9uv44o04TRQB/ZJeIywLm
+	4H7azMcLA/WQazl8oiGHG5grO6fDRtaWmTBmVZG3wKNKtogFvy05YLMGlCV5yzSQ0e
+	m0hVPmyzHSJGVaEA0rnHcAwGovm8/ifDqpc8rx55zuR33/HxkV5tjDXHTMZtwBb4/5
+	Ip13mzOFv0OsX69SWHOSRU5G2K96AyHZcrEIGICxPmtLYgYB35c4AOw3Y+eUO9Raor
+	Gy7y2XELrNOnY8oouJlLzp/VURwDt94f1oX1wHVtt4fYAALPmxrRw5VDUUOyTNJTgC
+	tW1OVCfuQ99ygZlLLi+7xSwzhgwh95WBnFugi5fYi2X5SgNjixsZfVdnqasawm8UHe
+	4xMRKwTMUKGypMvK9GYUMwSy7QgbvGLKISRwmXzx4gcApQRwbtZ/GvNDYWUL76DG5v
+	qMzSFJGK2nrl/gsC2pVm2o48oGF8w6y94abTwocMuNMglGjscL3LcgpCQvCWbD3Fye
+	0qVCaAz2RaYffgEKpXupJOaU=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 25 Aug 2019 20:21:14 +0300
+Message-Id: <20190825172116.23759-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] python: Remove PYTHONLSBOPTS that hasn't been set for some time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +40,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Aug 2019 03:02:21 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 25 Aug 2019 17:21:17 -0000
 
-== Series Details ==
-
-Series: nftables: update to 0.9.2
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19463/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     openembedded-devel@lists.openembedded.org [http://git.openembedded.org/meta-openembedded/]
-  Patch's path:    meta-networking/recipes-filter/nftables/nftables_0.9.1.bb
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 64f9fd2a1e)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/python/python.inc | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 70481002bb..1462b779e9 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -37,7 +37,6 @@ EXTRA_OECONF = "\
+   --enable-shared \
+   --enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)} \
+   ac_cv_header_bluetooth_bluetooth_h=no ac_cv_header_bluetooth_h=no \
+-  ${PYTHONLSBOPTS} \
+ "
+ 
+ do_configure_prepend() {
+-- 
+2.17.1
 
 
