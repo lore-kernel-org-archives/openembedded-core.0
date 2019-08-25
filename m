@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2958E7F656;
-	Sun, 25 Aug 2019 17:33:20 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 755FE7F65D;
+	Sun, 25 Aug 2019 17:33:22 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Adrian Bunk <bunk@stusta.de>
-Date: Sun, 25 Aug 2019 17:33:22 -0000
-Message-ID: <20190825173322.2329.79904@do>
-References: <20190825172116.23759-3-bunk@stusta.de>
+Date: Sun, 25 Aug 2019 17:33:24 -0000
+Message-ID: <20190825173324.2334.8423@do>
+References: <20190825172116.23759-2-bunk@stusta.de>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190825172116.23759-3-bunk@stusta.de>
+In-Reply-To: <20190825172116.23759-2-bunk@stusta.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIExTQiBzdXBwb3J0IGJpdHM=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIExTQiBzdXBwb3J0?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Aug 2019 17:33:21 -0000
+X-List-Received-Date: Sun, 25 Aug 2019 17:33:22 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Remove LSB support bits
+Series: Remove LSB support
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/19468/
+URL   : https://patchwork.openembedded.org/series/19469/
 State : failure
 
 == Summary ==
@@ -45,16 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     poky@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/poky/]
-  Patch's path:    meta-poky/conf/distro/include/poky-distro-alt-test-config.inc
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 64f9fd2a1e)
-
-* Patch            Remove LSB support bits
+* Patch            Remove LSB support
  Issue             Shortlog does not follow expected format [test_shortlog_format] 
   Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
