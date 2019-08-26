@@ -1,48 +1,48 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
-	[209.85.217.43])
-	by mail.openembedded.org (Postfix) with ESMTP id CCA1B7CFA4
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 433A87EB41
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2019 14:17:44 +0000 (UTC)
-Received: by mail-vs1-f43.google.com with SMTP id q16so11055461vsm.2
+	Mon, 26 Aug 2019 14:26:38 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p74so15670171wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2019 07:17:46 -0700 (PDT)
+	Mon, 26 Aug 2019 07:26:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=AHiAnJkGBtwDXVFiMWhbfcDDIdzasiaonByGmGoKNEM=;
-	b=IXWUXi7aOL3msa+bjZvOuH7J8U6QSXZPtlgnYWbLUNzprQhzUYV+bfZU/ek2l2AwNO
-	zuXpUcbOlReA/SzhwxvNeeZZ0/ZHB2QFNjMexe6By+0OlkXWLi6nKJOz0ElWHiaR+w4A
-	rQMDpnvA21W7HODNQxV7o3dIUPG3pLL1fE+0wB8YwL7hxw/id5Y6zgMu7YHF37IUFDcM
-	2VTkrYy6PGRcaL4wY+y8drNzuvyROGF/xDgdHiomOScuoaM7HL/DO9t5sGhU+ceViTTR
-	SKETHSw4uaTxB3QmDtAhLE+bXKN17LHkL88Emj7UHu+AVNQJJjcq30vv6+ic9DMn7i71
-	jmNA==
+	h=from:to:cc:subject:date:message-id;
+	bh=igyAVlsNJgZnUJpV6LOdi1ghsmuo4uE/570ZgYzvOr8=;
+	b=GIBQTtAi41LX34vc4m3A2lWvizbVgsfE+K9krXlASuqEzo1hi8gRIQ9NK1MtSJj1ph
+	hkDTnG+KLelr4WpDlDhqRMGvuH3lc7mbVoRR77fATcSNIHY4dlR12sjuVnrbqS2JbFsC
+	jFsoulX6JEXX5+ZANirjazIqiygWbOq7kIq7VIhwgwtRf9CJ3TATFOd5dJN8tWUc43kf
+	tEtGeygMHZthhjlx3nV8vLhH2bSshbXGs+687Q3dA1NO+v6xvUhzvail9UVCTpmdR3QO
+	Xyt7MXz2Cgh+xfaxMi55Fex842IxoMVV9Fyuee70PheEvsKOpAUOe5WpLEdfsasaishB
+	p/FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=AHiAnJkGBtwDXVFiMWhbfcDDIdzasiaonByGmGoKNEM=;
-	b=LH1o9HzZCaWyJ4vbSAfpVkIZYoQPCmqSiLOKJ4q/C/qdrQsQT7YgM/9fhBoQP6Tx1B
-	EfT0Evn4s1nPiG1yDJc4geRCn3LUCibyrUV6VaSrnxncQu3xgARqdramq93ilbJ54hxO
-	h0mmI2nw7G6UjBYrstLgMJHSsNEW56BvGsQmk4lb8YWwpw2hbEkq/fTQA7jQSYyR0K6k
-	y7EFEcPhrtbZPauxKQp5/QQRaFklyGA6T826sh/qlMtN/W0KX8nnIoPWT4kadQf7YE0z
-	xVXkm1VijFMsi/oSLS4P2zf89/Ktezz7etqlW9aa/vdYcNC+q5iaaFxOs2Y9XG3few/g
-	WtKA==
-X-Gm-Message-State: APjAAAXzr/+QcYNWSFnUApnIC3lQuVydqYaaN8t00myiFDKJn4LPmsHX
-	QIqpnRfOfTX14zOoUCES9+9u17GJnIosMuure83L5haN
-X-Google-Smtp-Source: APXvYqw+7deYWcz2LQ7mGsZ2XMxb7DLowb3dwvNy+0eyPyYqTYr5obpQD1T/eYFXXEA88qnNaTRoVFbx4wFoJheGqZc=
-X-Received: by 2002:a67:62c5:: with SMTP id w188mr10414560vsb.25.1566829065529;
-	Mon, 26 Aug 2019 07:17:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <a01c66d2-4603-5633-9b3e-6180ba8c904d@windriver.com>
-	<86a7eb4c-1097-1534-58b1-0ee61f16133f@gin.de>
-In-Reply-To: <86a7eb4c-1097-1534-58b1-0ee61f16133f@gin.de>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=igyAVlsNJgZnUJpV6LOdi1ghsmuo4uE/570ZgYzvOr8=;
+	b=mlr2XyFhJ+N8ETsyQ0LPsDQ2k1pPqvzaD39dRqoKAQQM4jiLxsgzyUxe5qsCcXCHQv
+	rVLKI9uRFqTCNnllCXIvQS/eQtSsAUuKO2zkP3asS8g7LESyzfQg2NVEL5gBZ2daHfkS
+	W9zFooDNvn6Q9BK5+/KxAT2uNCVmrgKP5BuRtVDK/rcyBK4Nj1KLtb2n++iIETk7uAuA
+	FD79cNqn7ByHllSNFQrHtIk3AiVuwinrnLvRxN/lMxHlVhZag2oW+udtdqJrHq+jEJ9E
+	48cO1utKvZVsTQVT6S1T+hwR3MFGd1cPwSna4DGPmsV7f/DXPL8fezNE9giZHfyH5DgD
+	oqGg==
+X-Gm-Message-State: APjAAAW0Ightw3YZfDsrFhTHLYRDwQQXe/UWVEvsToqyHs2KhOBvv2/D
+	Umw4hqoNwuEK1mRMA6IRJOm83yNXNco=
+X-Google-Smtp-Source: APXvYqzonfpiigRCZhveUAroPcsFpirJjrjJ31objLeAvqscfRgbGpCZ2O1lkDlcj8paWm8SBOERZA==
+X-Received: by 2002:a05:600c:21ca:: with SMTP id
+	x10mr22456151wmj.112.1566829598307; 
+	Mon, 26 Aug 2019 07:26:38 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	m23sm14040445wml.41.2019.08.26.07.26.37
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 26 Aug 2019 07:26:37 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Aug 2019 16:17:33 +0200
-Message-ID: <CANNYZj-cMhE4S2LGHpWKiZiFWOTeaOuPYKmW1Bdc1FtSu9XGYg@mail.gmail.com>
-To: Daniel Klauer <daniel.klauer@gin.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: boost 1.69 -> 1.71 upgrade for 3.0?
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Aug 2019 16:26:28 +0200
+Message-Id: <20190826142628.26288-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] boost: update to 1.71.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +55,276 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2019 14:17:45 -0000
-Content-Type: multipart/alternative; boundary="000000000000dfeef5059105d152"
+X-List-Received-Date: Mon, 26 Aug 2019 14:26:38 -0000
 
---000000000000dfeef5059105d152
-Content-Type: text/plain; charset="UTF-8"
+Some notes:
+- bjam bootstrap scripts were changed, and the patch for that had to be
+  adjusted. tools/build/src/engine/build.sh now supports an --debug option
+  which the bjam-native recipe can use to get the debug build of b2.
+- a related patch was added to address a speed regression with the debug
+  version of bjam
+- gcc.jam patch had to be refreshed because boost added more "cpu-flags"
+  lines.
+- since 1.70.0, boost includes new cmake config files which are packaged
+  in ${PN}-dev now so they make it into the SDK. (although 1.71.0 is needed
+  to fix some bugs in them)
 
-On Mon, 26 Aug 2019 at 11:21, Daniel Klauer <daniel.klauer@gin.de> wrote:
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...native_1.69.0.bb => bjam-native_1.71.0.bb} |  7 +--
+ .../{boost-1.69.0.inc => boost-1.71.0.inc}    |  6 +--
+ meta/recipes-support/boost/boost.inc          |  2 +-
+ ...h-instruction-set-flags-we-do-that-o.patch | 15 ++++--
+ .../{boost_1.69.0.bb => boost_1.71.0.bb}      |  0
+ .../0001-Build-debug-version-of-bjam.patch    | 38 ++++++++++++++
+ ....sh-use-DNDEBUG-also-in-debug-builds.patch | 27 ++++++++++
+ .../files/bjam-native-build-bjam.debug.patch  | 50 -------------------
+ 8 files changed, 83 insertions(+), 62 deletions(-)
+ rename meta/recipes-support/boost/{bjam-native_1.69.0.bb => bjam-native_1.71.0.bb} (57%)
+ rename meta/recipes-support/boost/{boost-1.69.0.inc => boost-1.71.0.inc} (77%)
+ rename meta/recipes-support/boost/{boost_1.69.0.bb => boost_1.71.0.bb} (100%)
+ create mode 100644 meta/recipes-support/boost/files/0001-Build-debug-version-of-bjam.patch
+ create mode 100644 meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch
+ delete mode 100644 meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
 
-> On 22.08.19 21:19, Randy MacLeod wrote:
-> > I'm checking if you have done any work on upgrading the
-> > boost recipe?
-> Not long ago I've looked at updating the boost recipe to 1.71.0-beta1
-> (when 1.71.0 wasn't released yet) because of some bugs encountered with
-> 1.69.0 (and 1.70.0 being buggy too). See the attached patch (it is based
-> on poky warrior).
->
-> It was not trivial due to changes to bjam bootstrap scripts, but I got
-> it working. I'd be interested in updating it to the final 1.71.0 too,
-> including backporting to warrior.
->
+diff --git a/meta/recipes-support/boost/bjam-native_1.69.0.bb b/meta/recipes-support/boost/bjam-native_1.71.0.bb
+similarity index 57%
+rename from meta/recipes-support/boost/bjam-native_1.69.0.bb
+rename to meta/recipes-support/boost/bjam-native_1.71.0.bb
+index 94f96e62d8f..d843eb038cb 100644
+--- a/meta/recipes-support/boost/bjam-native_1.69.0.bb
++++ b/meta/recipes-support/boost/bjam-native_1.71.0.bb
+@@ -5,8 +5,9 @@ SECTION = "devel"
+ 
+ inherit native
+ 
+-SRC_URI += "file://bjam-native-build-bjam.debug.patch \
+-"
++SRC_URI += "file://0001-Build-debug-version-of-bjam.patch \
++            file://0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch \
++           "
+ 
+ do_compile() {
+     ./bootstrap.sh --with-toolset=gcc
+@@ -15,5 +16,5 @@ do_compile() {
+ do_install() {
+     install -d ${D}${bindir}/
+     # install unstripped version for bjam
+-    install -c -m 755 bjam.debug ${D}${bindir}/bjam
++    install -c -m 755 b2 ${D}${bindir}/bjam
+ }
+diff --git a/meta/recipes-support/boost/boost-1.69.0.inc b/meta/recipes-support/boost/boost-1.71.0.inc
+similarity index 77%
+rename from meta/recipes-support/boost/boost-1.69.0.inc
+rename to meta/recipes-support/boost/boost-1.71.0.inc
+index 923436b1e0d..7164d0f1c57 100644
+--- a/meta/recipes-support/boost/boost-1.69.0.inc
++++ b/meta/recipes-support/boost/boost-1.71.0.inc
+@@ -11,9 +11,9 @@ BOOST_VER = "${@"_".join(d.getVar("PV").split("."))}"
+ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/boost/boost/${PV}/${BOOST_P}.tar.bz2"
+-SRC_URI[md5sum] = "a1332494397bf48332cb152abfefcec2"
+-SRC_URI[sha256sum] = "8f32d4617390d1c2d16f26a27ab60d97807b35440d45891fa340fc2648b04406"
++SRC_URI = "https://dl.bintray.com/boostorg/release/${PV}/source/${BOOST_P}.tar.bz2"
++SRC_URI[md5sum] = "4cdf9b5c2dc01fb2b7b733d5af30e558"
++SRC_URI[sha256sum] = "d73a8da01e8bf8c7eda40b4c84915071a8c8a0df4a6734537ddde4a8580524ee"
+ 
+ UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
+ UPSTREAM_CHECK_REGEX = "boostorg/release/(?P<pver>.*)/source/"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index f385541653c..e15dce4e1d3 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -83,7 +83,7 @@ FILES_boost-test = "${libdir}/libboost_prg_exec_monitor*.so.* \
+ 
+ # -dev last to pick up the remaining stuff
+ PACKAGES += "${PN}-dev ${PN}-staticdev"
+-FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so"
++FILES_${PN}-dev = "${includedir} ${libdir}/libboost_*.so ${libdir}/cmake"
+ FILES_${PN}-staticdev = "${libdir}/libboost_*.a"
+ 
+ # "boost" is a metapackage which pulls in all boost librabries
+diff --git a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
+index 8944cb37b4d..68d6e6417fa 100644
+--- a/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
++++ b/meta/recipes-support/boost/boost/0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
+@@ -1,4 +1,4 @@
+-From 3e4eb02eb5951058bc6f8dffbf049eb189df8291 Mon Sep 17 00:00:00 2001
++From f4d3fad43d67808d71325ba0df1457555b9a0086 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 18 Dec 2018 15:42:57 +0100
+ Subject: [PATCH] Don't set up arch/instruction-set flags, we do that ourselves
+@@ -6,15 +6,16 @@ Subject: [PATCH] Don't set up arch/instruction-set flags, we do that ourselves
+ Upstream-Status: Inappropriate
+ Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+- tools/build/src/tools/gcc.jam | 128 ----------------------------------
+- 1 file changed, 128 deletions(-)
++ tools/build/src/tools/gcc.jam | 132 ----------------------------------
++ 1 file changed, 132 deletions(-)
+ 
+ diff --git a/tools/build/src/tools/gcc.jam b/tools/build/src/tools/gcc.jam
+-index c57c773f..28618fb1 100644
++index b9bb9cf2a..c7e3cf3fe 100644
+ --- a/tools/build/src/tools/gcc.jam
+ +++ b/tools/build/src/tools/gcc.jam
+-@@ -1152,131 +1152,3 @@ local rule cpu-flags ( toolset variable : architecture : instruction-set + :
++@@ -1180,135 +1180,3 @@ local rule cpu-flags ( toolset variable : architecture : instruction-set + :
+          <architecture>$(architecture)/<instruction-set>$(instruction-set)
+          : $(values) ;
+  }
+@@ -144,5 +145,9 @@ index c57c773f..28618fb1 100644
+ -cpu-flags gcc OPTIONS : power : rios2 : -mcpu=rios2 ;
+ -cpu-flags gcc OPTIONS : power : rsc : -mcpu=rsc ;
+ -cpu-flags gcc OPTIONS : power : rs64a : -mcpu=rs64 ;
++-cpu-flags gcc OPTIONS : s390x : z196 : -march=z196 ;
++-cpu-flags gcc OPTIONS : s390x : zEC12 : -march=zEC12 ;
++-cpu-flags gcc OPTIONS : s390x : z13 : -march=z13 ;
++-cpu-flags gcc OPTIONS : s390x : z14 : -march=z14 ;
+ -# AIX variant of RS/6000 & PowerPC
+ -toolset.flags gcc AROPTIONS <address-model>64/<target-os>aix : "-X64" ;
+diff --git a/meta/recipes-support/boost/boost_1.69.0.bb b/meta/recipes-support/boost/boost_1.71.0.bb
+similarity index 100%
+rename from meta/recipes-support/boost/boost_1.69.0.bb
+rename to meta/recipes-support/boost/boost_1.71.0.bb
+diff --git a/meta/recipes-support/boost/files/0001-Build-debug-version-of-bjam.patch b/meta/recipes-support/boost/files/0001-Build-debug-version-of-bjam.patch
+new file mode 100644
+index 00000000000..c6dcee915e5
+--- /dev/null
++++ b/meta/recipes-support/boost/files/0001-Build-debug-version-of-bjam.patch
+@@ -0,0 +1,38 @@
++From 19c117c3d1388654da484e26afb3fb6c3e4181a9 Mon Sep 17 00:00:00 2001
++From: Daniel Klauer <daniel.klauer@gin.de>
++Date: Tue, 30 Jul 2019 11:39:09 +0200
++Subject: [PATCH] Build debug version of bjam
++
++bjam is stripped by default, this causes QA warning while stripping it
++from do_populate_sysroot():
++
++  WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
++    from bjam-native was already stripped, \
++    this will prevent future debugging!
++
++The JAM scripts allow to build unstripped version with '--debug'. Just
++build and install the bjam.debug to stop bjam from being stripped in
++compile step.
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ bootstrap.sh | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bootstrap.sh b/bootstrap.sh
++index ca0b08d58..87f38dcf2 100755
++--- a/bootstrap.sh
+++++ b/bootstrap.sh
++@@ -223,7 +223,7 @@ rm -f config.log
++ if test "x$BJAM" = x; then
++   $ECHO -n "Building Boost.Build engine with toolset $TOOLSET... "
++   pwd=`pwd`
++-  (cd "$my_dir/tools/build/src/engine" && ./build.sh "$TOOLSET") > bootstrap.log 2>&1
+++  (cd "$my_dir/tools/build/src/engine" && ./build.sh "$TOOLSET" --debug) > bootstrap.log 2>&1
++   if [ $? -ne 0 ]; then
++       echo
++       echo "Failed to build Boost.Build build engine" 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch b/meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch
+new file mode 100644
+index 00000000000..4c6ef2ed841
+--- /dev/null
++++ b/meta/recipes-support/boost/files/0001-build.sh-use-DNDEBUG-also-in-debug-builds.patch
+@@ -0,0 +1,27 @@
++From 2afd025997a57794ce24e07e914b461dfea6ba5f Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 26 Aug 2019 16:04:16 +0200
++Subject: [PATCH] build.sh: use -DNDEBUG also in debug builds
++
++Without it, there is a significant performance regression
++when running 'bjam install'.
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ tools/build/src/engine/build.sh | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tools/build/src/engine/build.sh b/tools/build/src/engine/build.sh
++index a1e4cd335..64e0a4c80 100755
++--- a/tools/build/src/engine/build.sh
+++++ b/tools/build/src/engine/build.sh
++@@ -436,7 +436,7 @@ case $B2_OS in
++     ;;
++ esac
++ 
++-if check_debug_build "$@" ; then B2_CXXFLAGS="${B2_CXXFLAGS_DEBUG}"
+++if check_debug_build "$@" ; then B2_CXXFLAGS="${B2_CXXFLAGS_DEBUG} -DNDEBUG"
++ else B2_CXXFLAGS="${B2_CXXFLAGS_RELEASE} -DNDEBUG"
++ fi
++ echo_run ${B2_CXX} ${CXXFLAGS} ${B2_CXXFLAGS} ${B2_SOURCES} -o b2
+diff --git a/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch b/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
+deleted file mode 100644
+index 9f8b7eac0a4..00000000000
+--- a/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 619ada314ab26c0c9cbfe5702cd9c0caa8f6415a Mon Sep 17 00:00:00 2001
+-From: Wenzong Fan <wenzong.fan@windriver.com>
+-Date: Mon, 3 Aug 2015 17:12:33 +0800
+-Subject: [PATCH] bjam-native: build bjam.debug
+-
+-bjam is stripped by default, this causes QA warning while stripping it
+-from do_populate_sysroot():
+-
+-  WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
+-    from bjam-native was already stripped, \
+-    this will prevent future debugging!
+-
+-The JAM scripts allow to build unstripped version with '--debug'. Just
+-build and install the bjam.debug to stop bjam from being stripped in
+-compile step.
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+----
+- bootstrap.sh                    | 1 +
+- tools/build/src/engine/build.sh | 2 +-
+- 2 files changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/bootstrap.sh b/bootstrap.sh
+-index 98cf88b..54690aa 100755
+---- a/bootstrap.sh
+-+++ b/bootstrap.sh
+-@@ -228,6 +228,7 @@ if test "x$BJAM" = x; then
+-   echo "tools/build/src/engine/$arch/b2"
+-   cp "$BJAM" .
+-   cp "$my_dir/tools/build/src/engine/$arch/bjam" .
+-+  cp "$my_dir/tools/build/src/engine/${arch}.debug/bjam" bjam.debug
+- 
+- fi
+- 
+-diff --git a/tools/build/src/engine/build.sh b/tools/build/src/engine/build.sh
+-index 6dbc706..c69fdc7 100755
+---- a/tools/build/src/engine/build.sh
+-+++ b/tools/build/src/engine/build.sh
+-@@ -312,5 +312,5 @@ if test -x "./bootstrap/jam0" ; then
+-     if test "${BJAM_UPDATE}" != "update" ; then
+-         echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@" clean
+-     fi
+--    echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@"
+-+    echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@" --debug
+- fi
+--- 
+-1.9.1
+-
+-- 
+2.17.1
 
-Thanks, I have integrated most of your patch into mine, and will send it to
-the list in a moment.
 
-Alex
-
---000000000000dfeef5059105d152
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 26 Aug 2019 at 11:21, Daniel Klau=
-er &lt;<a href=3D"mailto:daniel.klauer@gin.de">daniel.klauer@gin.de</a>&gt;=
- wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On 22.08.19 21:19, Randy MacLeod wrote:<br>
-&gt; I&#39;m checking if you have done any work on upgrading the<br>
-&gt; boost recipe?<br>
-Not long ago I&#39;ve looked at updating the boost recipe to 1.71.0-beta1<b=
-r>
-(when 1.71.0 wasn&#39;t released yet) because of some bugs encountered with=
-<br>
-1.69.0 (and 1.70.0 being buggy too). See the attached patch (it is based<br=
->
-on poky warrior).<br>
-<br>
-It was not trivial due to changes to bjam bootstrap scripts, but I got<br>
-it working. I&#39;d be interested in updating it to the final 1.71.0 too,<b=
-r>
-including backporting to warrior.<br></blockquote><div><br></div><div>Thank=
-s, I have integrated most of your patch into mine, and will send it to the =
-list in a moment. <br></div><div><br></div><div>Alex<br></div></div></div>
-
---000000000000dfeef5059105d152--
