@@ -1,37 +1,40 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C77B26B07E
+Return-Path: <janklare@gmail.com>
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+	[209.85.208.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 464376BC7A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 13:56:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46Hr4p2sPWz3J;
-	Tue, 27 Aug 2019 15:56:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1566914170;
-	bh=FlyZuDWlRIusLcab71WaMs65KfBOui3YS646YVMx7Tc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F6x9k8YiTrj5loBPMtJmIbsV4eZwruLvqeieOiB+1ruxaelyiVK0n3gWsKcjJZjDU
-	xDDist0TZ49fA4l036SbSizx+AIzBRNhagmeS7Jug/g7pbbMBtu85qOGO2sJIA2f43
-	eMHTHmCkDRy2rDFMZUD1hj/tBh4dHrvhPVHmMYcJf+G1rKMLIDyrxwyax1jyQkqGzq
-	bOLWyCP/lgwDX0F1lJvokLXZxdLrjDPLqFKJq0USNt4kErKKvhiJoxKbz8eGxORUNj
-	+5FhoGf/2QmsqpvE12ZTakek10tsI4nMIJrXpzxtDKSthWQtG+DXJKIJvjz+c673Qk
-	bsRI1irkRY6COiKg/dr8mlf44TnUwZ0KpP09uOSVS8SkZJQBQEAmgMajqwUAx5kdf+
-	JowTOwmt4TsDEH6rFC7Gt2q1L/YpP7cCf3XracHE4txMZSylPagE33dv5yoLevdFMX
-	46kNrOj2BI/y5HegQhCQcvTjtWSQ5ehEqq6RI/0DWzRXVDNLkNF8g8baOTGDYA5GlO
-	37wXsvHTKm75UCjdTvdNBFkur1x4iuMa9OO7a03qjgMIQdTcwNPzAyvZY+kk3uZ3gx
-	ZCLcAxrXgFzdfVM8wlpcMhCvnoxod/R9JFWlOX7qee/B1C4bMA5/mZLT7mlmfG0HND
-	S2Tqn0EV9Y5C0YaZWUo+nEww=
-Date: Tue, 27 Aug 2019 16:56:08 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20190827135608.GA19259@localhost>
-References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
-	<1566593504-21918-9-git-send-email-armccurdy@gmail.com>
+	Tue, 27 Aug 2019 14:10:05 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id r12so31596870edo.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Aug 2019 07:10:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ly2gZWF0NHUcUzYQrk0Et9yV4ukB+jdI8HIJSPZ6QcM=;
+	b=MZhAHi5Y1QIlO11YKSjGCPG3eq9AC/VRq3M7c23COOpHBWlbf2htFoM0rs0ow863fH
+	zMQbWgseSBdfO9D5vA6KQs46+DxARZIq2Ctx7gigSoi6OYE2jsJWNdPrvkxQMUSs/0k5
+	nlCuv8xF8n9d3LH01vWfSUsa39a0fPXSBj9LzeGXAqaKvkmOdutCfB1/IPe6du5xY8Gc
+	azSfaKke69vFoRdY44z135vUk0JNn/VZMQ6pfBgMKs//Qd6UDrIk46Bg0KUKh1TQ2/RI
+	kzsJC7WvikGEFZw2YPJZGW4Ms6qimkLpptNHJeuI4QTLua9452YIzW7/oSLhSCVe1Tpe
+	5Ylg==
+X-Gm-Message-State: APjAAAXAt6muIrJm2sHwDmpEQp4Zy3FQ5ZDxcb6OTpGCsojD75C143NB
+	DFeUqlIRDBh8uxtMsLBB55hjiU3k
+X-Google-Smtp-Source: APXvYqwLdcnaxMtFrfQKcIsmiJ1VAT77WMn6ShDo1JbcZOoMs+g5hmMQiH/ANigYSou7bHScDdwiuQ==
+X-Received: by 2002:a17:906:4048:: with SMTP id
+	y8mr22010371ejj.35.1566915005852; 
+	Tue, 27 Aug 2019 07:10:05 -0700 (PDT)
+Received: from localhost.localdomain ([185.27.182.30])
+	by smtp.gmail.com with ESMTPSA id j2sm3809885ejj.34.2019.08.27.07.10.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 27 Aug 2019 07:10:05 -0700 (PDT)
+From: Jan Klare <jan.klare@bisdn.de>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Aug 2019 16:10:02 +0200
+Message-Id: <20190827141002.32302-1-jan.klare@bisdn.de>
+X-Mailer: git-send-email 2.20.1 (Apple Git-117)
 MIME-Version: 1.0
-In-Reply-To: <1566593504-21918-9-git-send-email-armccurdy@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 09/13] glibc: drop obsolete packaging of glibc libnsl libs
+Subject: [PATCH] update SRCREV for systemd v241-stable branch to latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +47,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 13:56:12 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 27 Aug 2019 14:10:06 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 23, 2019 at 01:51:40PM -0700, Andre McCurdy wrote:
-> Packaging rules were left behind when libnsl was removed:
->...
+* this update allows to pull in the latest backports that have been
+applied to systemd v241-stable
 
-How has this change been tested?
+Signed-off-by: Jan Klare <jan.klare@bisdn.de>
+---
+ meta/recipes-core/systemd/systemd.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ERROR: glibc-2.30-r0 do_package: QA Issue: glibc: Files/directories were installed but not shipped in any package:
-  /lib/libnsl-2.30.so
-  /lib/libnsl.so.1
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-glibc: 2 installed and not shipped files. [installed-vs-shipped]
-ERROR: glibc-2.30-r0 do_package: Fatal QA errors found, failing task.
-
-
-cu
-Adrian
-
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 5bd88ed6ed..2b9c291959 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "c1f8ff8d0de7e303b8004b02a0a47d4cc103a7f8"
++SRCREV = "511646b8ac5c82f210b16920044465756913d238"
+ SRCBRANCH = "v241-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.20.1 (Apple Git-117)
 
 
