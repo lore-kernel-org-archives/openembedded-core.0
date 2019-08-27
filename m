@@ -1,51 +1,52 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
-	[209.85.166.51])
-	by mail.openembedded.org (Postfix) with ESMTP id AE5616C230
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B143A7E3AA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 12:45:51 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id b10so36892570ioj.2
+	Tue, 27 Aug 2019 12:46:21 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id x4so45794716iog.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 05:45:52 -0700 (PDT)
+	Tue, 27 Aug 2019 05:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=wdb3YwCGKxVKwuDjT9qA+txx2ZCKMZPzpAZ6aY6Ca/8=;
-	b=SYe+JrtH48KLdLkbWnh1rr4K2al4Xr5UivESvyxRyL0A3opjFmpJN0v/R2m9aFcwy8
-	0IbvKddhru9NSf5YtUtW3gUnWRrgD1mWFpl71RJ3495yA/ogAEypzS9gA7oTZIGe5Okx
-	66b6DBUU+lyjYRnzzo3RAI48+FbPu8NPM3PtgOcU0VWzmQrHRLFC/8xlvU1YtvVVJU6z
-	czqBp4SJfIpRgAjoNX8M+pGjCwN/PARgvsYIF+au6sRCYmNghjegF4kxvQXRksYeQ+Dp
-	oQC0SVWqOSL8SnljXXemm7GFDJNeqjlUqA07r+dnbUZCZ3Upa/iRdbVNBqz9/js4zRu1
-	TxvA==
+	bh=fCji6+UU0PoCg4/GdYjmd7RYv+ab04EbNXNMDs8qkrc=;
+	b=iquepltJbve6kG4gDVLa6PwflM7qB4vRZJK1WZrBGA708Hlygj4uoMem5gR2GcdIFQ
+	E7OO2xxzhS870IrrNd1cZEPS4/XenlPHC1LhYsRdNCKrU1c2ijXZzQYkGh5NqPDF7UST
+	x8ESACZX09B79SMlzbiRuwa7eDJJQDYN1Yj6z2hHAjhWmKYEJyn/lb0dANUmJE64fIPa
+	f8yyv0rTj6lm5WW9wk6gaIz5ybnqtvIoqBzPQEMR8avK0Zvm7nxTyGZ5XqA7QYb/G/NE
+	J7FrKQrEUQ4hl1XOanveipJ//Tu3ik1L7T7SWu6UQ3mxbELno+r3DLhj3LhVgr/A8v3+
+	D2WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=wdb3YwCGKxVKwuDjT9qA+txx2ZCKMZPzpAZ6aY6Ca/8=;
-	b=HtJzBOl6Ie1DtgUNb5/NcHFyUQJH7ygODChnShKa335bw9NDzEPotMBatXG3Xc60Sb
-	JKqDhsHccoe1JL22nEGrk4BsUxUViukd7KDVZHeGOjjInBoEiW6Xwd8/od0rT5Bb6Sl5
-	y/NhRc7u6lkCZTHFCC2kaEkMTzX9bE2Pdf+fewmAQso/QmMAV95DNA45XDwOsyjbYbTp
-	87AGrM+Xwy9khX60xz3RCbh+mjAUJzneV+QO9TwRfl2/WOuKxrtRWXVoEYwLyEC6I0Mn
-	YK8GQkCA24zqVjOzbga5mr4pSYTkQLYR3pIEg6WLzZM3h8dshA+hyzIOyml59f2D6MmZ
-	eEkg==
-X-Gm-Message-State: APjAAAWJ/PZ/dcXZzMu500ZbiIiv1nl8wlwEz1yKopVhj45g7OnpLM10
-	YOaoUb2Xr49FF7pS+1Nzl2V7jZNd
-X-Google-Smtp-Source: APXvYqwVrOYfyJe1lQt3wdXnqeyTI+s4gdW2bmKB2LWjSyyAho2PcrcGSzdsM2VWuP1bgy56gKrtfA==
-X-Received: by 2002:a6b:7217:: with SMTP id n23mr31699122ioc.194.1566909952244;
-	Tue, 27 Aug 2019 05:45:52 -0700 (PDT)
+	bh=fCji6+UU0PoCg4/GdYjmd7RYv+ab04EbNXNMDs8qkrc=;
+	b=SEbQGcXTkAbiil+qfe9vRF/ZOxhnbpuANzoPYGwc5CxvW6oHmmZBv8BPxRjC7sh80l
+	Jgv3rE5EQquHHeAP/FV0+NLhtLx9iJvMCEDkA2kJ9UuZH+Drv+q8mNgvLANKORpY1ByL
+	GQg06M0C9E2yU3K8eC3gt3hYNeH13YpQ5E5UM4BGhaHGeEh/uU2HzBV1H8WbZF1E2pq4
+	BzQ6TKuzInCAU1n6E/tLLtfK6/0crBlUAOKIQH3kTvNnuRza9uVPVTOCGcnba8gJIT/z
+	GiOVNNQTBEr4zDRuGHSFO3j3ktkrg4dpbbOqPd8bWzJxCv2soFxdJBpwM8PiYDnhS9ev
+	SxFA==
+X-Gm-Message-State: APjAAAWfYQ1IeVK39+5mj11SaUhoY6rbwnA8ah8oMytheAVQs98aReWA
+	H/zQ2F27cV1vnNOcaByK1c8diYLC
+X-Google-Smtp-Source: APXvYqyXSTu/EnMuZEoUWGPpY3UoBnQdFWwLPl8/F3qfIik3G9G6T9NTvWRYlFiJtzuvwvNaWSG23w==
+X-Received: by 2002:a05:6638:3a9:: with SMTP id
+	z9mr22214925jap.62.1566909982393; 
+	Tue, 27 Aug 2019 05:46:22 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	v23sm11478083ioh.58.2019.08.27.05.45.51
+	n203sm12955070iod.28.2019.08.27.05.46.21
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 05:45:51 -0700 (PDT)
+	Tue, 27 Aug 2019 05:46:21 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2019 07:45:46 -0500
-Message-Id: <20190827124546.18114-1-JPEWhacker@gmail.com>
+Date: Tue, 27 Aug 2019 07:46:17 -0500
+Message-Id: <20190827124617.18207-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH] glibc: Fix locale DEPENDS
+Subject: [PATCH] openssl: Fix documentation DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 12:45:51 -0000
+X-List-Received-Date: Tue, 27 Aug 2019 12:46:21 -0000
 Content-Transfer-Encoding: 8bit
 
-gettext is required to generate the glibc locales in do_compile. If not
-present, glibc will skip the generation which isn't reproducible.
+perl is required to generate the OpenSSL documentation, and therefore
+should be present at do_compile. If not, OpenSSL will skip the
+documentation generation, which isn't reproducible
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-core/glibc/glibc.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl_1.1.1c.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index 252fd56c13c..f1a6ae2a245 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -6,7 +6,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}gcc libgcc-initial linux-libc-headers"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+index 75159ac725c..da15bc22a7a 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+@@ -10,6 +10,8 @@ LICENSE = "openssl"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d343e62fc9c833710bbbed25f27364c8"
  
- PROVIDES = "virtual/libc"
- PROVIDES += "virtual/libintl virtual/libiconv"
--inherit autotools texinfo distro_features_check systemd
-+inherit autotools texinfo distro_features_check systemd gettext
+ DEPENDS = "hostperl-runtime-native"
++# Perl is required to generate documentation
++DEPENDS_append_class-target = " perl-native"
  
- LEAD_SONAME = "libc.so"
- 
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://run-ptest \
 -- 
 2.21.0
 
