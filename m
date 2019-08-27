@@ -1,40 +1,40 @@
 Return-Path: <janklare@gmail.com>
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
-	[209.85.221.51])
-	by mail.openembedded.org (Postfix) with ESMTP id AFDDD79B57
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E3FB7E98F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 14:35:18 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id k2so19079749wrq.2
+	Tue, 27 Aug 2019 14:52:07 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id v15so3442879wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 07:35:20 -0700 (PDT)
+	Tue, 27 Aug 2019 07:52:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=yD0fxtGgr8UdEUTyMIe96KSKOrkS6XpJgkeaBQoe6Tk=;
-	b=Kga8f70Yl5DHR7DVxfOJowm+G6crmunkDbgxpJEQqxAuThUlzVw2a5AtGe+Q0mzF0s
-	bLkME2eAyZCdnysohOIztUZMb9O6mjJsRaf/MPeNb/qPxfYRs+z1EZXhUN7ZgsmmPjye
-	p+HKXFzibYYkLIePzIjqjFvSTFXIRPv8B4vh4gy8sFx2p1+0uRrYhSOiD53L2z3XbPQm
-	FKyubga1Cfqz1BvcLF9x5ItAp8j1LvWB5vk6lFw+/YtP5e0WRZsWBTyqo8bEOY7vFysd
-	R+lLaCckQDlWxzkGKvo+0HhMWroP6K3WJSyQ+uHMCQWqvZ61EAuy1hvDup04C9f9pLk0
-	qbCg==
-X-Gm-Message-State: APjAAAVKqTz47SHDCgo3i+P86OVC1vApilD09NnIRrEU9E/VRXKZGMI1
-	49Z82FaYNC/IbLfnof0+2MCqcLlq
-X-Google-Smtp-Source: APXvYqxa0nV/31hFwUOpgGAIQn066Xvq59fm47f/qK/XKY9z6si5u11m3iYBRQiw9qC2dqT35TRUiQ==
-X-Received: by 2002:a5d:42c1:: with SMTP id t1mr29301082wrr.344.1566916519169; 
-	Tue, 27 Aug 2019 07:35:19 -0700 (PDT)
+	bh=2JjDcXAGShID+1m+niWYyYIY8TNNi68hf5vnEPxAIVA=;
+	b=FpclEU3Jkn3g2HHkS12zZWRPtwGVlnDmQDL/1NGbuqjWIfBIFY7uOwqEBpDK2cswEi
+	FcHZiszsHK6qSWIUzZtWt0Gj7NduwnpHlmZNS6ckaMP4Ti2d7ka97ULMZN5YTJYpdAWv
+	8gWNWbTLWdRO8EWDFRrN+vGfO+pCFHIvHRZvP9U2Z5e0F3Z+roh4ZpC2gM1ACTxgojnv
+	CElxORWd5Ru/rbT2Z5Gqkp/H6UoYJMde/x34LVfkl+NprL739HCEWQmOTcd9bvHTj0/Y
+	5UibnThj07L0pY/uhQj8MzxkbUCo2OLs6WzI+uWq+2vAwJHjCMF4enzwT/Z5VsxgSyCu
+	wOMA==
+X-Gm-Message-State: APjAAAV8Y+kCAP88sbG9wFaVtcdU0+qMq+pWo+8KhRsTsUFh0uZkpX4N
+	dVUvtf+pdgPadOPEG/xa/F3qn72+
+X-Google-Smtp-Source: APXvYqxyY3tyLg+0v0fUuFOR3nVZBiR7V7bJzezgt7cUsZew0LMXhVKGirK+PlVxDRmsv7mXCN7LLw==
+X-Received: by 2002:a1c:2d87:: with SMTP id
+	t129mr28586324wmt.157.1566917527684; 
+	Tue, 27 Aug 2019 07:52:07 -0700 (PDT)
 Received: from localhost.localdomain ([185.27.182.30])
-	by smtp.gmail.com with ESMTPSA id
-	g14sm26799465wrb.38.2019.08.27.07.35.17
+	by smtp.gmail.com with ESMTPSA id 74sm4393373wma.15.2019.08.27.07.52.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 27 Aug 2019 07:35:18 -0700 (PDT)
+	Tue, 27 Aug 2019 07:52:06 -0700 (PDT)
 From: Jan Klare <jan.klare@bisdn.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2019 16:35:04 +0200
-Message-Id: <20190827143504.32479-1-jan.klare@bisdn.de>
+Date: Tue, 27 Aug 2019 16:52:04 +0200
+Message-Id: <20190827145204.32598-1-jan.klare@bisdn.de>
 X-Mailer: git-send-email 2.20.1 (Apple Git-117)
 MIME-Version: 1.0
-Subject: [warrior][PATCH v2] update SRCREV for systemd v241-stable branch to latest
+Subject: [warrior][PATCH v3] systemd: update SRCREV for systemd v241-stable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,11 +47,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 14:35:19 -0000
+X-List-Received-Date: Tue, 27 Aug 2019 14:52:07 -0000
 Content-Transfer-Encoding: 8bit
 
-This update allows to pull in the latest backports that have been
-applied to systemd v241-stable
+Currently systemd 241 does break for kernels 5.2+ with the error described here:
+* https://github.com/systemd/systemd/issues/12784
+
+The issue has been fixed in master and will be fixed in the release 243. The
+necessary patches have been backported to systemd/systemd-stable in the branch
+v241-stable, but currently in warrior an old version of that branch is pulled
+in. 
+
+This patch updates the SRCREV to the latest commit from that branch and
+therefore pulls in the needed fix to run systemd 241 on 5.2+ kernels.
 
 Signed-off-by: Jan Klare <jan.klare@bisdn.de>
 ---
