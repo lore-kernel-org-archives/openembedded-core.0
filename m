@@ -1,52 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 26A717E45D
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A7317E71A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 15:55:49 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id j16so19329049wrr.8
+	Tue, 27 Aug 2019 15:56:31 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id e8so2729833wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 08:55:50 -0700 (PDT)
+	Tue, 27 Aug 2019 08:56:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=1HnU0HxC97XmbdgYVE4l9ndZK6/dI4nXN5jg8FIb9Uc=;
-	b=X/JgwEmL+Ooq4ULCNeW5zQt9mDeMfxC7MQYiiadGn0GwfS0ltb0zZ3cG/+pEybwjLD
-	3OMyIfqWsarw/wOaO+PAwGoonMM2fQ4tOe6LIg3zDAzqMwBG/BozUBx0E48yrHh3Hcln
-	nw0FP+Zc+LfWlOpOlNoPW6Edc498JzjflANbo=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=WEc4gKxOsq3EVAaS2PT8/86j4aVRCza7r95kC8HILbs=;
+	b=I9TWPY9AXoNyDoyeeEVpIpltcXf5OxQTgSOTutRKSI1LsuxHEl0iFjoKTxbYUE9Ly4
+	jkv6IGgklt+361BDSPQ1/pQk08Ieu8yD/wqOM/JcjEGOBsC6welddI0cAmsgluV/YxPS
+	WTVvZ/3iHdbCrv2eFhRCDrFQDHu8X6kSHASTw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=1HnU0HxC97XmbdgYVE4l9ndZK6/dI4nXN5jg8FIb9Uc=;
-	b=R9WdewBGDTslNblgvvV2g/sBwvdNCYk2/kCqva7Akn4etDaj+mMh0bGc9SOSy60hu1
-	yHk6Zh+3g9K4vHcp5hqqsTZ/PjbsDqX+yJwDCo0qDxx+8TBzco7XLGmsjCSq3OcdK1Os
-	DszCn91+i1J3jhbvFa7KAvVEQ8vtr9bKc5FuTfuNzgThWaA9//ei27gEPHDTtJxMm6ef
-	+V8jgLxmqIzTwOSH7QUVaRWIvifOPUylcDpy2SFx+eO3h++paKPEjjyj8fv0RUptaHus
-	gOY7grdG9RFVtG3oBOfXpvWSurVwvf9oV9fSad1WFW5HUncNWR++GluxrBGsF/KRbL/r
-	RqtQ==
-X-Gm-Message-State: APjAAAUd6iN8Uo2jjehmGsDf6/lgGsBvD8GSp8hn18eah1T8j566+sW1
-	ta1tbF26oAUs2PR01uYSM4ko5g==
-X-Google-Smtp-Source: APXvYqw5qjF6+4xzNQ1gAyAd1/MFhLnTEdpDlAvJkzog2EPLpxQAFOe7a/lF6jgIo1MI+9xIQGUX6A==
-X-Received: by 2002:a5d:698f:: with SMTP id g15mr31723041wru.310.1566921349904;
-	Tue, 27 Aug 2019 08:55:49 -0700 (PDT)
+	bh=WEc4gKxOsq3EVAaS2PT8/86j4aVRCza7r95kC8HILbs=;
+	b=XfUgyb8EHKiJU5TbkZ4G+hPRajOLcOPFaQiO02gVp9W8kLqWQIc+N99ZjfUIkm2K2M
+	FLaUcB90TSsQgszBeGw6Je56ffhPgoLQk2W2oL4hbRAFaoEZZdezvYsRNsQ+Ja03KHQb
+	X4LhCCDutm6V5b4FiMArEtM+ncV8qiqSenpiP5vIR0fO1xK5ia8BOiTkpX22QTCUJ5ZH
+	ydKF9EBdJNbKh2H0USM8j3IbJqXU0bhOKxFKL/ksuK4QrgTT0QZfm9fzZZLLZk9BFwi3
+	0KWKQEvBEstPmdGds28689eQvCW96Kw+eg03Xv/oQg0Pn96kygwZ10kYGihyvuqM2E3h
+	o6kA==
+X-Gm-Message-State: APjAAAUjwm/dieUO23K75Xn8kys+UiSzLSilMhNb6uHpyVqqY27PPMcw
+	HbNewmunWXUTkXSZE23BRbY3gA==
+X-Google-Smtp-Source: APXvYqzHGNXuIpwcrSdGVKjJm/WvVQUDk9CLIIoTh+2joj94ymOE+Kd6wtG/oWK997OpVrPGf2OhYw==
+X-Received: by 2002:a7b:c453:: with SMTP id l19mr28634296wmi.106.1566921392614;
+	Tue, 27 Aug 2019 08:56:32 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 2sm28127412wrg.83.2019.08.27.08.55.48
+	by smtp.gmail.com with ESMTPSA id
+	p69sm4825603wme.36.2019.08.27.08.56.31
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 08:55:49 -0700 (PDT)
-Message-ID: <1fefb859d786e7ff8ee9a57bd58e4c7d94f28dd5.camel@linuxfoundation.org>
+	Tue, 27 Aug 2019 08:56:32 -0700 (PDT)
+Message-ID: <e8a4362684b1f664344132261b6458396c711842.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>, Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 27 Aug 2019 16:55:48 +0100
-In-Reply-To: <20190827135608.GA19259@localhost>
-References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
-	<1566593504-21918-9-git-send-email-armccurdy@gmail.com>
-	<20190827135608.GA19259@localhost>
+To: zhe.he@windriver.com, openembedded-core@lists.openembedded.org
+Date: Tue, 27 Aug 2019 16:56:31 +0100
+In-Reply-To: <1566880686-191373-1-git-send-email-zhe.he@windriver.com>
+References: <1566880686-191373-1-git-send-email-zhe.he@windriver.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 09/13] glibc: drop obsolete packaging of glibc libnsl libs
+Subject: Re: [PATCH] ltp: cve/meltdown.c: Fix kernel symbol finding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 15:55:49 -0000
+X-List-Received-Date: Tue, 27 Aug 2019 15:56:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-08-27 at 16:56 +0300, Adrian Bunk wrote:
-> On Fri, Aug 23, 2019 at 01:51:40PM -0700, Andre McCurdy wrote:
-> > Packaging rules were left behind when libnsl was removed:
-> > ...
+On Tue, 2019-08-27 at 12:38 +0800, zhe.he@windriver.com wrote:
+> From: He Zhe <zhe.he@windriver.com>
 > 
-> How has this change been tested?
+> Backport a patch to fix the following error.
+> safe_file_ops.c:219: BROK: Expected 3 conversions got 2 at
+> meltdown.c:272
 > 
-> ERROR: glibc-2.30-r0 do_package: QA Issue: glibc: Files/directories
-> were installed but not shipped in any package:
->   /lib/libnsl-2.30.so
->   /lib/libnsl.so.1
-> Please set FILES such that these items are packaged. Alternatively if
-> they are unneeded, avoid installing them or delete them within
-> do_install.
-> glibc: 2 installed and not shipped files. [installed-vs-shipped]
-> ERROR: glibc-2.30-r0 do_package: Fatal QA errors found, failing task.
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+>  ...-cve-meltdown.c-Fix-kernel-symbol-finding.patch | 83
+> ++++++++++++++++++++++
+>  meta/recipes-extended/ltp/ltp_20190517.bb          |  1 +
+>  2 files changed, 84 insertions(+)
+>  create mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-
+> meltdown.c-Fix-kernel-symbol-finding.patch
 
-Showed up on the autobuilder too:
+Patch doesn't apply, how was this tested?
 
 https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/981/steps/8/logs/step1b
 
 Cheers,
 
 Richard
-
 
 
