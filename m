@@ -1,52 +1,46 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
-	[209.85.166.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 30B927EADD
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E4BA7D5C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 19:34:21 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id b10so932335ioj.2
+	Tue, 27 Aug 2019 20:57:40 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id j25so363873vsq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 12:34:22 -0700 (PDT)
+	Tue, 27 Aug 2019 13:57:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=r4qDbWRl2PkcRZjqCWJBdLz6zormTj0BSbhpd22RrXM=;
-	b=dO/5A6uWud/thhNrPLJXGX+t7gNlOdD//UJkl8pBt3RQ6a6Q0fOAxiZ4NnjiJ508OR
-	ms2bEuSuKrx5oqMF76ST6VbUEQUXJ+fgHS9e1tKX1v63C5hQ9COSEsgHgcNIM363uWjf
-	psXujcjRbXwGoKaGnMrY3egNpw62Rl5Pk7z6dLmKQofGGtapikJqQmX5pdIw1juKPP9O
-	owyLwckXWLhPZWqyXRQvoHwl8UV7sfQIjKdrRyKdc6qtUqeGCH88TNa0HlygVrA244jO
-	Hx4H/8QKoC2qgkOYpFvPWLwgzQ8QZUle2WvafS3YsxNP+5YLMxKn2e5bZlVucsvV+geO
-	fg1g==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=T/hTSmNDuDRWoHyN3szA7dXZ6UGtwzRzggOJQSkGG3A=;
+	b=ZNhdUN/tkOLOwXIHA9e2Zaf5N9IUxsNFiV6YEnXESBKtvagQdpP82oRW2DFaFqLIBX
+	ildQNCWhtOTsO/srwPrxYIRXAoJ8Led/egcZi9d8hIDUh9Dy+PuxjZ9WRzwX1SDMkImw
+	xogKHma/A2fkGJDEGPF4qWApwFLFNcUjj45ie52b6n83EJfq3QCCHqahfhIwA0sJPQCa
+	QbOblAGxQMeosHPoDLB0bsUVyol+lJYYHj2xilOaYypCmKvnN0j5T2D24zzHi8yAV3P9
+	dQn1McfPJtSvh1z7vJV3UJAFqHD35WegAoc/GDI8xMpBsAlmFrHZJOqWAF8Fbx24jLQd
+	tqgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=r4qDbWRl2PkcRZjqCWJBdLz6zormTj0BSbhpd22RrXM=;
-	b=f17eoFscLEge+8MFm96c3yxWyaukkDXtoAYC1BPcryZSDpdysV2qHOUnmbkW2OdbfQ
-	YsW2RkU+FRrTqhbRW3+LEDsk0j32SWQl2neytcJ1Tbg1bVxHM67213nIqP02LBACpnx7
-	ViZLNI7CGpMBqwc4mSTBiS+uJlq/+Bb2DYGdyP9pl9lwK0fUwbvnScH1vxyUalbNMGkJ
-	fNwor89QGbEyJNkcMeyBhOA1ysS7qCPdnUYqLsgoG/18nbPdyd/rCtVRpA8If4dCvZUK
-	aaOsR04vAH/YoYx6rGXEvM6kYIgmhQK7xDQq3YdSgM39ELIwhOb7kFG5cqO7G3i99J6c
-	Ssjw==
-X-Gm-Message-State: APjAAAWhu45fgBM9YoFti8PYkpQtIGLbEh3xhZUHuSpvsjj0cYSMttcl
-	UckWSiCCNhv6EbVzaQhHr1OnEw9h
-X-Google-Smtp-Source: APXvYqy+qUO2ClBwm5vW/zWf9hmbd73T6wajPf4GXClvLevbbj0jXj0ZLk0pHrhgBhrQ8dhvreBlaw==
-X-Received: by 2002:a02:69d1:: with SMTP id e200mr485071jac.138.1566934462078; 
-	Tue, 27 Aug 2019 12:34:22 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id 8sm47288ion.26.2019.08.27.12.34.20
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 12:34:21 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2019 14:33:49 -0500
-Message-Id: <20190827193349.23254-6-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190827193349.23254-1-JPEWhacker@gmail.com>
-References: <20190827193349.23254-1-JPEWhacker@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=T/hTSmNDuDRWoHyN3szA7dXZ6UGtwzRzggOJQSkGG3A=;
+	b=QFyJUapn2COj3mlnjsSlWeYZuhvJYUv8IwBqx/38ge6WD5mRLUIey0IYXF+4UKnNIa
+	8dxxSUx+Xh4adpp7A/JGuzmd5cByyN68V6hN3Fg2rkza3uZD9iGGrygGSi8JJgNgREsl
+	3e6vEInE8hCJOJqOWw4WHFTmIrLH+W5qK0r90mNCXVaCmouFGlFvoCFq4syVjKGNNXUr
+	vzLLUQPXbS5Bqr0noWmH/c62tduFCkMK7Evjdj8U5jKj5PlAYtYtAs9p9XpOH9IQWNZe
+	6go9DTRx59+fIF2lMvHA+pUvRJ+Yd21vLCz/J+P3MAjqBIVuyNTlhFsETars0o+lCKsr
+	/jpA==
+X-Gm-Message-State: APjAAAUZzeNDxR98aqrWnrV+1flzpidZeu/EVj4pfwmDTbXok1yijh7K
+	xmfcHGiqCXhdafJgAao5N6uUD7AJF3x2vRXu4+s=
+X-Google-Smtp-Source: APXvYqxc9qITqRwSE8+Bl7MMXEHcG5w0W2tX3leSbNZeutwI/c/1cni+jlGEu5bPa9mN24CnwzknnegdLta0hh2TSCQ=
+X-Received: by 2002:a67:ec50:: with SMTP id z16mr357159vso.137.1566939460965; 
+	Tue, 27 Aug 2019 13:57:40 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 5/5] oeqa: Enable reproducible build test
+References: <20190321123042.2947-1-ross.burton@intel.com>
+In-Reply-To: <20190321123042.2947-1-ross.burton@intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 27 Aug 2019 13:57:29 -0700
+Message-ID: <CAJ86T=VdYKJ_Z0SvmRZYMoh3GfHk0kTMUVPAxZK6X3WcwAu+LQ@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] insane: improve license checksumming logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,29 +53,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 19:34:21 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 27 Aug 2019 20:57:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-[YOCTO #13323]
+On Thu, Mar 21, 2019 at 5:30 AM Ross Burton <ross.burton@intel.com> wrote:
+>
+> Instead of opening files as bytes and battling decoding to UTF-8 which can throw
+> exceptions, open directly as strings and replace invalid codepoints.  This
+> handles licenses in encodings which are not UTF-8 but are based on ASCII much
+> better.
+>
+> Also instead of extracting the license lines, writing them to a file, and then
+> hashing the file, hash the lines directly.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oeqa/selftest/cases/reproducible.py | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index ebfa88fbc55..c6cc0b7d0eb 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -120,7 +120,6 @@ class ReproducibleTests(OESelftestTestCase):
-         self.extras['reproducible']['files'].setdefault(package_class, {})[name] = [
-                 {'reference': p.reference, 'test': p.test} for p in packages]
- 
--    @unittest.skip("Reproducible builds do not yet pass")
-     def test_reproducible_builds(self):
-         capture_vars = ['DEPLOY_DIR_' + c.upper() for c in self.package_classes]
- 
--- 
-2.21.0
-
+This change seems to cause a regression in the debug output generated
+if LIC_FILES_CHKSUM is wrong. If endline is set incorrectly to include
+an empty line beyond the end of the intended license text then that
+empty line will no longer be shown between the "vvv" and "^^^" lines
+in the debug output... even though the extra line is included in the
+md5 calculation.
 
