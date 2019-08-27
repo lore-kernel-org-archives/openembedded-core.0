@@ -1,24 +1,33 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 27C1A6C42C
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id E9FCA7CEF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 04:38:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7R4cIV4009332
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 27 Aug 2019 05:52:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46HdL9640yz3J
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2019 21:38:28 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 26 Aug 2019 21:38:07 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Aug 2019 12:38:06 +0800
-Message-ID: <1566880686-191373-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] ltp: cve/meltdown.c: Fix kernel symbol finding
+	Tue, 27 Aug 2019 07:52:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1566885122;
+	bh=qlLh/DDg0sqPA66ad39KgLrUn9cNQ7sg4oUey78IBOw=;
+	h=From:To:Subject:Date:From;
+	b=QfkNVFY53wFEaHfw2GgeIISOEnA6nmXvjqV328EAKiAZFVYm1mZDSLTCdK8ONscv0
+	s6JwcRR1txxOd3F9A7d4BNTc4D971ZQdOqtNSiXr/D4Nm9aYEtUhunJh+ajrXYV74z
+	RGC9H2V+teib9SHlnirIa2GFEjCL0MYxVo6mlmFVocyvOLhVj/NKL3+AfAFRwk1Hhg
+	nkRg5gKHK7O1+R2vhSsvy+U61wqwvDAv45qHwGWlPH4SMMg2Ws2Z3LxsZaZn+OXMY+
+	B1YKOQGPiLtDOV8Xs2czXu2LnQKdMQyo8xyjwL/jDSunCRZxTkCBt7oYIOlw87JHtH
+	sAX+zNz3FlE1M/C9y9GWscOowIvN9PI5eKlGXKIAHIdFe3Xe+aKag0T6P16nYEaaBR
+	xkPemNCxrLQR7x/TpjrMxL8Njdst8e1LLcCne7GHawW+7bzDiFawnBPmTZBHz2Hwta
+	lOF8xSWTP6mFzK2EgBgNjFrYgUHTz97qWaRdrOWorP5Vp1R72rFMUQWxQNf86WUyn8
+	RFAxGDTJNVCjOmoOaUvyghhCO92u9qNGF0+wOPeiPMTD4ZdH6l9uF/vRO68JRSUred
+	8sZ0P0F8fr2QD6L0z7/UeLIjS+MKH6wu4Rp7PZvt1hvwehYASRJ/RhMFjor9NEPen/
+	W2FuFYhIEtZZuXYdnydHrDus=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Aug 2019 08:51:56 +0300
+Message-Id: <20190827055200.3690-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] help2man: Upgrade 1.47.10 -> 1.47.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,123 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 04:38:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Aug 2019 05:52:02 -0000
 
-From: He Zhe <zhe.he@windriver.com>
-
-Backport a patch to fix the following error.
-safe_file_ops.c:219: BROK: Expected 3 conversions got 2 at meltdown.c:272
-
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...-cve-meltdown.c-Fix-kernel-symbol-finding.patch | 83 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190517.bb          |  1 +
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
+ ...{help2man-native_1.47.10.bb => help2man-native_1.47.11.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/help2man/{help2man-native_1.47.10.bb => help2man-native_1.47.11.bb} (79%)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch b/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
-new file mode 100644
-index 0000000..c639c40
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
-@@ -0,0 +1,83 @@
-+From c2049b5c874bc071f8185bffb5fd7dcb042d9ec8 Mon Sep 17 00:00:00 2001
-+From: He Zhe <zhe.he@windriver.com>
-+Date: Wed, 21 Aug 2019 16:27:24 +0800
-+Subject: [PATCH] cve/meltdown.c: Fix kernel symbol finding
-+
-+meltdown case fails as below.
-+safe_file_ops.c:219: BROK: Expected 3 conversions got 2 at meltdown.c:272
-+
-+find_kernel_symbol is defined to try twice with each of /proc/kallsyms and
-+/boot/System.map-%s. Currently if the symbol is not found in /proc/kallsyms,
-+when kernel option CONFIG_KALLSYMS_ALL is disabled, it would stop the case
-+immediately due to SAFE_FILE_LINES_SCANF.
-+
-+This patch turns to use FILE_LINES_SCANF to give find_kernel_symbol second
-+chance.
-+
-+[jstancek] Fix also condition introduced in 7709d2ae92ea, even if
-+           /proc/kallsyms is disabled, we still want to try System.map.
-+
-+Upstream-Status: Backport                                                        
-+[https://github.com/linux-test-project/ltp/commit/c2049b5c874bc071f8185bffb5fd7dcb042d9ec8]
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+Signed-off-by: Jan Stancek <jstancek@redhat.com>
-+---
-+ testcases/cve/meltdown.c | 18 ++++++++++--------
-+ 1 file changed, 10 insertions(+), 8 deletions(-)
-+
-+diff --git a/testcases/cve/meltdown.c b/testcases/cve/meltdown.c
-+index f78c38b..863f1a9 100644
-+--- a/testcases/cve/meltdown.c
-++++ b/testcases/cve/meltdown.c
-+@@ -253,9 +253,15 @@ find_symbol_in_file(const char *filename, const char *symname)
-+ 	int ret, read;
-+ 	char fmt[strlen(symname) + 64];
-+ 
-++	tst_res(TINFO, "Looking for %s in %s", symname, filename);
-++	if (access(filename, F_OK) == -1) {
-++		tst_res(TINFO, "%s not available", filename);
-++		return 0;
-++	}
-++
-+ 	sprintf(fmt, "%%lx %%c %s%%c", symname);
-+ 
-+-	ret = SAFE_FILE_LINES_SCANF(filename, fmt, &addr, &type, &read);
-++	ret = FILE_LINES_SCANF(filename, fmt, &addr, &type, &read);
-+ 	if (ret)
-+ 		return 0;
-+ 
-+@@ -269,20 +275,13 @@ find_kernel_symbol(const char *name)
-+ 	struct utsname utsname;
-+ 	unsigned long addr;
-+ 
-+-	if (access("/proc/kallsyms", F_OK) == -1)
-+-		tst_brk(TCONF, "/proc/kallsyms not enabled");
-+-
-+ 	addr = find_symbol_in_file("/proc/kallsyms", name);
-+ 	if (addr)
-+ 		return addr;
-+ 
-+-	tst_res(TINFO, "not found '%s' in /proc/kallsyms", name);
-+ 	if (uname(&utsname) < 0)
-+ 		tst_brk(TBROK | TERRNO, "uname");
-+-
-+ 	sprintf(systemmap, "/boot/System.map-%s", utsname.release);
-+-
-+-	tst_res(TINFO, "looking in '%s'\n", systemmap);
-+ 	addr = find_symbol_in_file(systemmap, name);
-+ 	return addr;
-+ }
-+@@ -297,6 +296,9 @@ static void setup(void)
-+ 	saved_cmdline_addr = find_kernel_symbol("saved_command_line");
-+ 	tst_res(TINFO, "&saved_command_line == 0x%lx", saved_cmdline_addr);
-+ 
-++	if (!saved_cmdline_addr)
-++		tst_brk(TCONF, "saved_command_line not found");
-++
-+ 	spec_fd = SAFE_OPEN("/proc/cmdline", O_RDONLY);
-+ 
-+ 	memset(target_array, 1, sizeof(target_array));
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
-index b0e2f96..76c45f0 100644
---- a/meta/recipes-extended/ltp/ltp_20190517.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190517.bb
-@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0002-check-for-RES_USE_INET6-during-configure.patch \
-            file://0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch \
-            file://0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch \
-+           file://0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch \
-            "
+diff --git a/meta/recipes-devtools/help2man/help2man-native_1.47.10.bb b/meta/recipes-devtools/help2man/help2man-native_1.47.11.bb
+similarity index 79%
+rename from meta/recipes-devtools/help2man/help2man-native_1.47.10.bb
+rename to meta/recipes-devtools/help2man/help2man-native_1.47.11.bb
+index 5feaeea139..a60e851897 100644
+--- a/meta/recipes-devtools/help2man/help2man-native_1.47.10.bb
++++ b/meta/recipes-devtools/help2man/help2man-native_1.47.11.bb
+@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "autoconf-native automake-native"
  
- S = "${WORKDIR}/git"
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "0d70833650a552e0af742882ba84f2ee"
+-SRC_URI[sha256sum] = "f371cbfd63f879065422b58fa6b81e21870cd791ef6e11d4528608204aa4dcfb"
++SRC_URI[md5sum] = "dd322adcaede5bd5eaed075ff8971bc1"
++SRC_URI[sha256sum] = "5985b257f86304c8791842c0c807a37541d0d6807ee973000cf8a3fe6ad47b88"
+ 
+ inherit autotools native
+ 
 -- 
-2.7.4
+2.17.1
 
 
