@@ -1,40 +1,52 @@
-Return-Path: <janklare@gmail.com>
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
-	[209.85.208.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 464376BC7A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id EDE807E993
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 14:10:05 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id r12so31596870edo.5
+	Tue, 27 Aug 2019 14:18:49 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id g67so3257649wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 07:10:06 -0700 (PDT)
+	Tue, 27 Aug 2019 07:18:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=dcExEu0C/jgSCgJSZXCVFJtJ6sMvGHVL7BhidC/HWDg=;
+	b=U7Xzh07vIK4UVGDJb2aJpkXBIKC6K+vT9AOnfND6PIiaEkK7JRBG32KaS4FLni0rGb
+	YlsN9eBagaGBHTw6Ek3PQaKwc/AbMjfJs0lvHJ4AfxUpVDOPRJ1CyceiXValCd+tN4Y2
+	2mQglCOm2i8hevJONtF5Py6T8ivDosN6RKoi4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ly2gZWF0NHUcUzYQrk0Et9yV4ukB+jdI8HIJSPZ6QcM=;
-	b=MZhAHi5Y1QIlO11YKSjGCPG3eq9AC/VRq3M7c23COOpHBWlbf2htFoM0rs0ow863fH
-	zMQbWgseSBdfO9D5vA6KQs46+DxARZIq2Ctx7gigSoi6OYE2jsJWNdPrvkxQMUSs/0k5
-	nlCuv8xF8n9d3LH01vWfSUsa39a0fPXSBj9LzeGXAqaKvkmOdutCfB1/IPe6du5xY8Gc
-	azSfaKke69vFoRdY44z135vUk0JNn/VZMQ6pfBgMKs//Qd6UDrIk46Bg0KUKh1TQ2/RI
-	kzsJC7WvikGEFZw2YPJZGW4Ms6qimkLpptNHJeuI4QTLua9452YIzW7/oSLhSCVe1Tpe
-	5Ylg==
-X-Gm-Message-State: APjAAAXAt6muIrJm2sHwDmpEQp4Zy3FQ5ZDxcb6OTpGCsojD75C143NB
-	DFeUqlIRDBh8uxtMsLBB55hjiU3k
-X-Google-Smtp-Source: APXvYqwLdcnaxMtFrfQKcIsmiJ1VAT77WMn6ShDo1JbcZOoMs+g5hmMQiH/ANigYSou7bHScDdwiuQ==
-X-Received: by 2002:a17:906:4048:: with SMTP id
-	y8mr22010371ejj.35.1566915005852; 
-	Tue, 27 Aug 2019 07:10:05 -0700 (PDT)
-Received: from localhost.localdomain ([185.27.182.30])
-	by smtp.gmail.com with ESMTPSA id j2sm3809885ejj.34.2019.08.27.07.10.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 27 Aug 2019 07:10:05 -0700 (PDT)
-From: Jan Klare <jan.klare@bisdn.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2019 16:10:02 +0200
-Message-Id: <20190827141002.32302-1-jan.klare@bisdn.de>
-X-Mailer: git-send-email 2.20.1 (Apple Git-117)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=dcExEu0C/jgSCgJSZXCVFJtJ6sMvGHVL7BhidC/HWDg=;
+	b=c8208G7iQwaKTVRkwoHiqr6ouRLsLg28jpgaJfbG7GNfRJvZPmBGR0KAZBKn9Uvldm
+	mXd+CapTKkx2sn3/P6/MyXBf26NSpIITNQlIc1W0TsS/3O9uWd/gZLzommdYKjQJwgx1
+	FpYkys8/R76Xt42OxLeZHu8VR6f1BaH4Vm0gvWIhIMfLxn1sSV8GFUgecfuELRHKYyzN
+	Qqdwf7G3Yk7yJcBBUbtz6dJ8bxHvVRhd2LAodBtamPTsrpAF8mvObsdU8I8G/CQz78o7
+	60wPMkb31ZXHGfuTOS79FnvNEqs66AZkFzyhOfxmxO5iuCCo63FFsunltDau6LhAcsCm
+	KsQQ==
+X-Gm-Message-State: APjAAAVEamogy2Z6zfqrnbUHwC5+S4+/KjHMhhgzXTzGbCsUTESYOe7D
+	Nx0FzCZK2ZiwUmVvYArdjwt9HzJSb2Ymcg==
+X-Google-Smtp-Source: APXvYqz6getOONPTZptdQvjfOJG7teZ6BCOMOKuRP77fkiAHiENyUo9mbyvvIKlXx1EGOoOFFuY0HQ==
+X-Received: by 2002:a7b:c954:: with SMTP id i20mr29584298wml.169.1566915530422;
+	Tue, 27 Aug 2019 07:18:50 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a141sm4717797wmd.0.2019.08.27.07.18.49
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 27 Aug 2019 07:18:49 -0700 (PDT)
+Message-ID: <f9f38015ad533c2df644492e149f5ae93d7463ac.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Date: Tue, 27 Aug 2019 15:18:47 +0100
+In-Reply-To: <20190827132105.GA17139@localhost>
+References: <20190826053238.28912-1-zangrc.fnst@cn.fujitsu.com>
+	<20190827132105.GA17139@localhost>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH] update SRCREV for systemd v241-stable branch to latest
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] libxcrypt:upgrade 4.4.6 -> 4.4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,31 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 14:10:06 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 27 Aug 2019 14:18:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* this update allows to pull in the latest backports that have been
-applied to systemd v241-stable
+On Tue, 2019-08-27 at 16:21 +0300, Adrian Bunk wrote:
+> On Mon, Aug 26, 2019 at 01:32:38PM +0800, Zang Ruochen wrote:
+> > -License-Update: Many individual files are under other
+> > licenses,update their information.
+> > 
+> > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> > ---
+> >  .../libxcrypt/{libxcrypt_4.4.6.bb =>
+> > libxcrypt_4.4.7.bb}            | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >  rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.6.bb =>
+> > libxcrypt_4.4.7.bb} (86%)
+> > ...
+> 
+> You also have to rename libxcrypt-compat_4.4.6.bb
 
-Signed-off-by: Jan Klare <jan.klare@bisdn.de>
----
- meta/recipes-core/systemd/systemd.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Right, this just failed on the autobuilder and makes me wonder how it
+was tested as it doesn't parse :/.
 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 5bd88ed6ed..2b9c291959 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
- 
--SRCREV = "c1f8ff8d0de7e303b8004b02a0a47d4cc103a7f8"
-+SRCREV = "511646b8ac5c82f210b16920044465756913d238"
- SRCBRANCH = "v241-stable"
- SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
- 
--- 
-2.20.1 (Apple Git-117)
+Cheers,
+
+Richard
 
 
