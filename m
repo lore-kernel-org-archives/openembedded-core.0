@@ -1,33 +1,31 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B8F197E553
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B22C7E53D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 05:52:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46HdLC3PzKz63
+	Tue, 27 Aug 2019 07:21:13 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,436,1559491200"; d="scan'208,217";a="74332965"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 27 Aug 2019 15:21:13 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id B5B504CE0881
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 07:52:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1566885123;
-	bh=opOoyFrtmhu1i/e7YkJ1rxdGs97R31sUlZjyA7vxp5I=;
-	h=From:To:Subject:Date:From;
-	b=s5FQLAFd3h0+v2J4mATSTj7s7ahWAyU3pD8gmbxWg0goQ5S1Db68gqkjM73IzPSxH
-	I01QHi9zHr8pfk24BM6uKoQd6e65noaxZ9qUYJ3hwJ9XHhSBlMYl858/Du19NaJ/7V
-	0i1f0MUl7NXY7FN1stIJIbIu+FZJfP7SKnilxWVfgYNABbTDrU8T1WiVHBxwf5xiyG
-	ahFyBADiyBpcndVpzYJ7gMwR4f9w2pxj8Vz5BManFPfKVFWfWqQy1jc7SlJ4Eu9F6b
-	wViyjLWQElswB4nDG4+v9C3+NG11kvVQyuNpSPvYkLFjvJQ7116TFQI2LS19YQvzuX
-	LOK+x8MGrI5bzRm8z2pEHgE2DG+dPSkdBPXzzcVYaAXq7ur3AJSUigEfN0lDakHYWZ
-	1UNBIpDLQAQMLr2PQrQmOpnlufbM1f3OKkjf153NsaOYrrC2WzTj/FQhb+3n7ooVqb
-	wkYFR4IP4C6BWj09WHzcn36FnKTmVvXc2B/70zmqDUEEaWlVbWQnkYBuAWpXw0PXBE
-	eDgbwMFqJN1YN0A7XMFXRWmx9mDYWRqoxsTEUk4UJEErC2YfWSkE0u8WvjGLydmJzA
-	oMAaPaPy8xombErGRyGLyvAI2T3c8tTVXyOkiejYlPVOWsQQHq83yBmcPOVckKhnVA
-	0WtC10KOV0tPxVTp2LEXDQNo=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2019 08:52:00 +0300
-Message-Id: <20190827055200.3690-5-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] world-broken.inc: Remove
+	Tue, 27 Aug 2019 15:21:06 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server id 14.3.439.0; Tue, 27 Aug 2019 15:21:14 +0800
+From: zang <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <a4df475b-9291-1d3d-43d5-c0c01b8b9806@cn.fujitsu.com>
+Date: Tue, 27 Aug 2019 15:20:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: B5B504CE0881.A3F5B
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Consultation about the issue of archiver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,125 +38,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 05:52:03 -0000
+X-List-Received-Date: Tue, 27 Aug 2019 07:21:14 -0000
+Content-Type: multipart/alternative;
+	boundary="------------6370927E5052F2DF66FC15F6"
+Content-Language: en-US
 
-Move still required entries as COMPATIBLE_HOST_libc-musl = 'null'
-to individual recipes.
+--------------6370927E5052F2DF66FC15F6
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This also gives users a proper error message when trying to build
-a known non-building package.
+hello:
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/conf/distro/defaultsetup.conf           |  1 -
- meta/conf/distro/include/world-broken.inc    | 27 --------------------
- meta/recipes-devtools/prelink/prelink_git.bb |  3 +++
- meta/recipes-devtools/pseudo/pseudo_git.bb   |  2 ++
- meta/recipes-devtools/qemu/qemu_4.1.0.bb     |  4 +++
- meta/recipes-rt/rt-tests/rt-tests_1.1.bb     |  4 +++
- 6 files changed, 13 insertions(+), 28 deletions(-)
- delete mode 100644 meta/conf/distro/include/world-broken.inc
+Recently, when I enabled the archiver.bbclass, I found that some 
+packages could not generate the srpm package. The reason is that it 
+returned in the function copyleft_should_include() in the file 
+archiver.bbclass.
 
-diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-index 9b1ee20aaa..66fd246526 100644
---- a/meta/conf/distro/defaultsetup.conf
-+++ b/meta/conf/distro/defaultsetup.conf
-@@ -1,7 +1,6 @@
- include conf/distro/include/default-providers.inc
- include conf/distro/include/default-versions.inc
- include conf/distro/include/default-distrovars.inc
--include conf/distro/include/world-broken.inc
- include conf/distro/include/maintainers.inc
- 
- TCMODE ?= "default"
-diff --git a/meta/conf/distro/include/world-broken.inc b/meta/conf/distro/include/world-broken.inc
-deleted file mode 100644
-index 42cacfdf2e..0000000000
---- a/meta/conf/distro/include/world-broken.inc
-+++ /dev/null
-@@ -1,27 +0,0 @@
--#
--# Exclude known broken packages
--#
--
--# rt-tests needs PI mutex support in libc
--EXCLUDE_FROM_WORLD_pn-rt-tests_libc-musl = "1"
--
--# error: use of undeclared identifier '_STAT_VER'
--EXCLUDE_FROM_WORLD_pn-pseudo_libc-musl = "1"
--
--# error: error.h: No such file or directory
--EXCLUDE_FROM_WORLD_pn-prelink_libc-musl = "1"
--
--# error: obstack.h: No such file or directory
--EXCLUDE_FROM_WORLD_pn-systemtap_libc-musl = "1"
--EXCLUDE_FROM_WORLD_pn-systemtap-uprobes_libc-musl = "1"
--
--# error: a parameter list without types is only allowed in a function definition
--#            void (*_function)(sigval_t);
--EXCLUDE_FROM_WORLD_pn-qemu_libc-musl = "1"
--
--# error: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Werror=format=]
--#   snprintf(buf, size, "%s", strerror_r(err, sbuf, sizeof(sbuf)));
--EXCLUDE_FROM_WORLD_pn-perf_libc-musl = "1"
--
--# error: 'RTLD_NEXT' was not declared in this scope
--EXCLUDE_FROM_WORLD_pn-gcc-sanitizers_libc-musl = "1"
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index b1261d5942..f0946de2cc 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -36,6 +36,9 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink_sta
- "
- UPSTREAM_CHECK_COMMITS = "1"
- 
-+# error: error.h: No such file or directory
-+COMPATIBLE_HOST_libc-musl = 'null'
-+
- TARGET_OS_ORIG := "${TARGET_OS}"
- OVERRIDES_append = ":${TARGET_OS_ORIG}"
- 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 6cf711e4c2..9d2e349087 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -12,3 +12,5 @@ SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
-+# error: use of undeclared identifier '_STAT_VER'
-+COMPATIBLE_HOST_libc-musl = 'null'
-diff --git a/meta/recipes-devtools/qemu/qemu_4.1.0.bb b/meta/recipes-devtools/qemu/qemu_4.1.0.bb
-index 76776098d0..f0c1daabe1 100644
---- a/meta/recipes-devtools/qemu/qemu_4.1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_4.1.0.bb
-@@ -2,6 +2,10 @@ BBCLASSEXTEND = "nativesdk"
- 
- require qemu.inc
- 
-+# error: a parameter list without types is only allowed in a function definition
-+#            void (*_function)(sigval_t);
-+COMPATIBLE_HOST_libc-musl = 'null'
-+
- DEPENDS = "glib-2.0 zlib pixman bison-native"
- 
- RDEPENDS_${PN}_class-target += "bash"
-diff --git a/meta/recipes-rt/rt-tests/rt-tests_1.1.bb b/meta/recipes-rt/rt-tests/rt-tests_1.1.bb
-index b673cd784f..5aa0aa10c3 100644
---- a/meta/recipes-rt/rt-tests/rt-tests_1.1.bb
-+++ b/meta/recipes-rt/rt-tests/rt-tests_1.1.bb
-@@ -14,6 +14,10 @@ SRC_URI += " \
-             file://run-ptest \
-             file://rt_bmark.py \
-            "
-+
-+# rt-tests needs PI mutex support in libc
-+COMPATIBLE_HOST_libc-musl = 'null'
-+
- # Do not install hwlatdetect
- EXTRA_OEMAKE += "PYLIB=''"
- 
--- 
-2.17.1
+|    included, reason = copyleft_should_include(d)
+|    if not included:
+|        bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
+|        /*return from here*/
+|        return
+|    else:
+|        bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
+
+Why do you want to make a license judgment on the package?
+I hope someone can answer it, thank you very much.
+The following is my local.conf:
+
+| ...
+| INHERIT += "archiver"
+| ARCHIVER_MODE[srpm] = "1"
+| ARCHIVER_MODE[src] = "original"
+| ...
+
+e.g. When I use the following 
+command,tmp/work/core2-64-poky-linux/openssl/1.1.1c-r0/deploy-sources/ 
+is empty.
+
+| bitbake -f -c deploy_archives openssl
 
 
+
+--------------6370927E5052F2DF66FC15F6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>hello:</p>
+    <p>Recently, when I enabled the archiver.bbclass, I found that some
+      packages could not generate the srpm package. The reason is that
+      it returned in the function copyleft_should_include() in the file
+      archiver.bbclass. <br>
+    </p>
+    |    included, reason = copyleft_should_include(d)<br>
+    |    if not included:<br>
+    |        bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))<br>
+    |        /*return from here*/<br>
+    |        return                              <br>
+    |    else:<br>
+    |        bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
+    <p>Why do you want to make a license judgment on the package?<br>
+      I hope someone can answer it, thank you very much.<br>
+      The following is my local.conf:</p>
+    <font size="+2"><span style="color: rgb(29, 28, 29); font-family:
+        Slack-Lato, appleLogo, sans-serif; font-size: 15px; font-style:
+        normal; font-variant-ligatures: common-ligatures;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: left; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        background-color: rgb(255, 255, 255); text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">| ...</span></font><br>
+    <font size="+2"><span style="color: rgb(29, 28, 29); font-family:
+        Slack-Lato, appleLogo, sans-serif; font-size: 15px; font-style:
+        normal; font-variant-ligatures: common-ligatures;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: left; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        background-color: rgb(255, 255, 255); text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">| INHERIT += "archiver"</span><span
+        style="color: rgb(29, 28, 29); font-family: Slack-Lato,
+        appleLogo, sans-serif; font-size: 15px; font-style: normal;
+        font-variant-ligatures: common-ligatures; font-variant-caps:
+        normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+        text-align: left; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+        255); text-decoration-style: initial; text-decoration-color:
+        initial; display: inline !important; float: none;"></span></font><br>
+    <font size="+2"><span style="color: rgb(29, 28, 29); font-family:
+        Slack-Lato, appleLogo, sans-serif; font-size: 15px; font-style:
+        normal; font-variant-ligatures: common-ligatures;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: left; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        background-color: rgb(255, 255, 255); text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">| ARCHIVER_MODE[srpm] = "1"</span></font><br>
+    <font size="+2"><span style="color: rgb(29, 28, 29); font-family:
+        Slack-Lato, appleLogo, sans-serif; font-size: 15px; font-style:
+        normal; font-variant-ligatures: common-ligatures;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: left; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        background-color: rgb(255, 255, 255); text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">| ARCHIVER_MODE[src] = "original"</span></font><br>
+    <font size="+2"><span style="color: rgb(29, 28, 29); font-family:
+        Slack-Lato, appleLogo, sans-serif; font-size: 15px; font-style:
+        normal; font-variant-ligatures: common-ligatures;
+        font-variant-caps: normal; font-weight: 400; letter-spacing:
+        normal; orphans: 2; text-align: left; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        background-color: rgb(255, 255, 255); text-decoration-style:
+        initial; text-decoration-color: initial; display: inline
+        !important; float: none;">| ...<br>
+      </span></font>
+    <p>e.g. When I use the following
+      command,tmp/work/core2-64-poky-linux/openssl/1.1.1c-r0/deploy-sources/
+      is empty.</p>
+    <span style="color: rgb(29, 28, 29); font-family: Slack-Lato,
+      appleLogo, sans-serif; font-size: 15px; font-style: normal;
+      font-variant-ligatures: common-ligatures; font-variant-caps:
+      normal; font-weight: 400; letter-spacing: normal; orphans: 2;
+      text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(248, 248,
+      248); text-decoration-style: initial; text-decoration-color:
+      initial; display: inline !important; float: none;">| bitbake -f -c
+      deploy_archives openssl</span>
+  </body>
+</html>
+
+--------------6370927E5052F2DF66FC15F6--
