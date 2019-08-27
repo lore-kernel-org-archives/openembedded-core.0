@@ -1,56 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 306CC7ECF9
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AD007EC66
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 16:41:36 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id v15so3819605wml.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 09:41:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=j3ZAQidn9yg1MP3ThbPcAAKihazoWP0WCnOaCuifY6U=;
-	b=R4cLRmp1iCOD58C2N7lhdGdv8f9WlB3yM4BcWROm+geT8uMhyxIV+zy/heUxFR4R0K
-	Po2+Y+7gKvPBsS0yHwu8Jt4j2lH8Q/qC52byzyux9WCmry2di/490dHaNSp5FNQ5sExX
-	gwdtv/GIS4DCQLoP4oM5Lm9zxpJPloqmoyn8s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=j3ZAQidn9yg1MP3ThbPcAAKihazoWP0WCnOaCuifY6U=;
-	b=TpXi6kZC4tIGOw7B4f/yBy9YX174lnLdQOvkBShmcMkz8cVjafE/96cmqt3hdLkjX2
-	yDx7App84qsN1WJ7Smrg8Z03gcfXHq9EJYbkYkOl3J0lZywIBWrC+VVYPGN216SOKPSr
-	Y0b2jg81+ouI1PaPoQfNpU8Rr5r3BsjWv3RTCXLpuBDNlTPvcfiSHcRV7SiQyE2KSExc
-	WObYDl9Jkg4uX0Djo5SSlRwCC8JNHthPCht4SSKctOZMHuX5JBtBbWU7poWgbsN+dCEX
-	xH3/pObWa6POk0IuB2o0h/tSQ/zcHLTN4mmTCAxGk9WJAwdVCeZtoIxG1Nh2TAqPBjxi
-	Bf1w==
-X-Gm-Message-State: APjAAAU/3Ns+J1h7Bej2Ery+RYYZnnmsZvBsnYeS9E2kAQTK3PmBPA9u
-	C9e2ZVSVrv7e6dKAa5W5K+Yhuw==
-X-Google-Smtp-Source: APXvYqya/Qr+ffvyIMNggquyQpis42mztiX6M+DTVaBR+1378EFku/lzupTwcHUZtHWGk/1Y66uUdQ==
-X-Received: by 2002:a1c:9889:: with SMTP id a131mr12656969wme.22.1566924096841;
-	Tue, 27 Aug 2019 09:41:36 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id f7sm20698253wrf.8.2019.08.27.09.41.35
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 09:41:36 -0700 (PDT)
-Message-ID: <287a87d493bfea06b4f8dafbb219f0d390646d0f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Joshua Watt
-	<jpewhacker@gmail.com>
-Date: Tue, 27 Aug 2019 17:41:34 +0100
-In-Reply-To: <CANNYZj92UK7HsdezbX_X3mWRrasUbTLfDMhnxLf_paRDuzmFZQ@mail.gmail.com>
-References: <20190827124617.18207-1-JPEWhacker@gmail.com>
-	<CANNYZj_zr9+LbbGfhtd46pnUBYgpSW5LL5pE_fuvhxwne6yPrA@mail.gmail.com>
-	<de80b1e5-dc0e-cabc-409a-0c8c84bc8ef2@gmail.com>
-	<CANNYZj95TRH_+XELYLHGaBrg5gFfgOrpV+pvL5EjfQiXXWavEA@mail.gmail.com>
-	<9a4134dd-dbf3-929f-379b-4ea8e3e098ee@gmail.com>
-	<CANNYZj92UK7HsdezbX_X3mWRrasUbTLfDMhnxLf_paRDuzmFZQ@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	Tue, 27 Aug 2019 17:12:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7RHBh9K029201
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Aug 2019 10:11:54 -0700
+Received: from [128.224.56.214] (128.224.56.214) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 27 Aug 2019 10:11:33 -0700
+To: Jan Klare <jan.klare@bisdn.de>
+References: <20190827145204.32598-1-jan.klare@bisdn.de>
+	<f9d5a79f-8555-f4bf-976b-b773300f24f7@windriver.com>
+	<281DDBDF-325B-4A54-9759-EDABED3B0888@bisdn.de>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <afb0751f-2c79-e598-7ba0-288cc1e47acd@windriver.com>
+Date: Tue, 27 Aug 2019 13:11:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: Fix documentation DEPENDS
+In-Reply-To: <281DDBDF-325B-4A54-9759-EDABED3B0888@bisdn.de>
+X-Originating-IP: [128.224.56.214]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [warrior][PATCH v3] systemd: update SRCREV for systemd v241-stable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,28 +37,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 16:41:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Aug 2019 17:12:39 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2019-08-27 at 18:16 +0200, Alexander Kanavin wrote:
-> On Tue, 27 Aug 2019 at 18:12, Joshua Watt <jpewhacker@gmail.com>
-> wrote:
-> > It's not populated just once. Any task can add things to the RSS as
-> > the 
-> > build progresses. However, the RSS is only cleaned out at one
-> > specific 
-> > point early in the build, which I can't recall ATM.
+On 8/27/19 12:15 PM, Jan Klare wrote:
+> Hi,
 > 
-> Can you point me to a specific example of tasks adding things to RSS
-> please? I'm fairly sure I haven't seen this happen yet, so would
-> like  to know the mechanism and use cases.
+> Thanks for all the initial help and the quick followup review. I 
+> successfully build systemd for the patched SRCREV for all the platforms 
+> you mentioned, should I post something of the output or some proof 
+> somewhere?
 
-It definitely does happen. An easy example is quilt-native for
-do_patch. Another would be file-native or rpm-native for do_package.
+No, that usually would be fine.
+We trust you and the automated builders will verify that things work as 
+well. :)
 
-Cheers,
+But...
 
-Richard
+In this case I just realized that my oneline build-all was wrong;
+you need:
 
+$ for i in `ls ../../oe-core.git/meta/conf/machine | \
+             grep qemu | sed -e 's/\.conf//'`; \
+  do \
+     MACHINE=$i bitbake systemd && \
+     touch sd-okay-$i || \
+     touch sd-fail-$i; \
+  done
+
+
+I had left off the setting of the MACHINE variable. Sorry about that.
+Can you re-run the test after removing the sd-* files?
+
+../Randy
+
+> 
+> Cheers,
+> Jan
+> 
+>> On 27. Aug 2019, at 17:14, Randy MacLeod <randy.macleod@windriver.com 
+>> <mailto:randy.macleod@windriver.com>> wrote:
+>>
+>> On 8/27/19 10:52 AM, Jan Klare wrote:
+>>> Currently systemd 241 does break for kernels 5.2+ with the error 
+>>> described here:
+>>> * https://github.com/systemd/systemd/issues/12784
+>>> The issue has been fixed in master and will be fixed in the release 
+>>> 243. The
+>>> necessary patches have been backported to systemd/systemd-stable in 
+>>> the branch
+>>> v241-stable, but currently in warrior an old version of that branch 
+>>> is pulled
+>>> in.
+>>> This patch updates the SRCREV to the latest commit from that branch and
+>>> therefore pulls in the needed fix to run systemd 241 on 5.2+ kernels.
+>>> Signed-off-by: Jan Klare <jan.klare@bisdn.de <mailto:jan.klare@bisdn.de>>
+>>> ---
+>>>  meta/recipes-core/systemd/systemd.inc | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>> diff --git a/meta/recipes-core/systemd/systemd.inc 
+>>> b/meta/recipes-core/systemd/systemd.inc
+>>> index 5bd88ed6ed..2b9c291959 100644
+>>> --- a/meta/recipes-core/systemd/systemd.inc
+>>> +++ b/meta/recipes-core/systemd/systemd.inc
+>>> @@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+>>>  LIC_FILES_CHKSUM = 
+>>> "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+>>> file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+>>>  -SRCREV = "c1f8ff8d0de7e303b8004b02a0a47d4cc103a7f8"
+>>> +SRCREV = "511646b8ac5c82f210b16920044465756913d238"
+>>>  SRCBRANCH = "v241-stable"
+>>>  SRC_URI = 
+>>> "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+>>>
+>>
+>> That's a better log since it explains your motivation.
+>>
+>> We don't require it but if you send something like this commit again,
+>> it would be good to analyze the commit logs, like this (but likely
+>> without the tutorial flavour):
+>>
+>> $ cd .../systemd-stable.git
+>> $ git checkout v241-stable
+>> $ git pull
+>> $ git log --oneline c1f8ff8d0de7..511646b8ac5c | wc -l
+>> 157
+>>
+>> The patches are almost all (1) are cherry-picked back from master to 
+>> fix bugs. The four commits (2) that are not cherry-picks,
+>> are:
+>>
+>> A revert of something that does not belong in stable,
+>> A customized fix for stable,
+>> A bug fix
+>> A merge commit
+>>
+>> I was talking with Jan on IRC and he said that he had built
+>> and tested this update for his target (agema-ag7648 switch).
+>> I've asked Jan to build for all qemus so hopefully that goes well.
+>>
+>> Looks good to me.
+>>
+>> ../Randy
+>>
+>>
+>> [1]
+>>
+>> $ git log --oneline \
+>>  --grep="cherry picked from commit" c1f8ff8d0de7..511646b8ac5c  | wc -l
+>> 153
+>>
+>> $ git log --oneline c1f8ff8d0de7..511646b8ac5c | wc -l
+>> 157
+>>
+>>
+>> [2]
+>>
+>> $ git log --oneline --grep="cherry picked from commit" \
+>>   --invert-grep c1f8ff8d0de7..511646b8ac5c
+>>
+>> 099c5e4f5f Revert "meson: stop creating enablement symlinks
+>>           in /etc during installation"
+>> dc903ec516 Enable RestrictSUIDSGID=yes for our services
+>>           with DynamicUser=yes
+>> ce52d60450 fstab-generator: use DefaultDependencies=no for
+>>           /sysroot mounts
+>> 35387ea7e1 Merge pull request #48 from
+>>           yuwata/v241-stable-dbus-and-timedated
+>>
+>>
+>> --
+>> # Randy MacLeod
+>> # Wind River Linux
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org 
+>> <mailto:Openembedded-core@lists.openembedded.org>
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
 
