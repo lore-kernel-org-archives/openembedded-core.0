@@ -1,47 +1,60 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com
-	[209.85.222.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D047D7E71A
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 562A07E71A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 16:10:03 +0000 (UTC)
-Received: by mail-ua1-f44.google.com with SMTP id k7so7182535uao.6
+	Tue, 27 Aug 2019 16:12:18 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id x4so47451750iog.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 09:10:05 -0700 (PDT)
+	Tue, 27 Aug 2019 09:12:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pem/Jq4vjG+0rAfnBBR0NMHXYJbyo5m2m17plsaj+5c=;
-	b=MoB5ahwNhM1zD5AY8wast+mVE2oHgM1QDAIegKcPm7Y4gIQd49rys/rELNK88UC0VA
-	/QN9QvbE+M5O7gbCduGQNN4gLVDfjZH8DuV57sWaP6k8Hvcu85QOpmdmTHgHLKO5hXpM
-	8iDUadRJ0MdhXBJUlvjmxeLieXf1m5tKrRp6eJQVdeWLvzUmEeFpaU0YikG+ynFxHuqI
-	OnBrgMTSkBSd4/hQVzRTRmuRa2I44ZBLNSplLElL+AZYykUgJmXsGG71Unxc8OHgRMK0
-	9RCSXh9BX8DK2Lvcd+mQKEfzonMtJYDTci2fmBmWISngyhEYxqiN0Bkvkrrd0yhVOcxJ
-	4XJA==
+	h=from:subject:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=GYfzjZnUlvS43lToGmzmQrGZZAlZegWslGx1zmS9WWk=;
+	b=YJmm4Lc6qfbunX7aTXI5FNzXJOFRL6RWM+WI28Q4Pj62G+Vmf29ccnA089zIv383jD
+	w8wmFE9ZsCq5Esq7C0fiC+6cxR3w8MonKzs5Xz52I0aWRl2xsbAesK+xbbdUkHmeQaNu
+	hKtxHZgCXPdeBC+aKv868bTv5soEX5GWG2Bd1s7uLwelNAJxwKLainnYlNZ16tM2VB5F
+	QJxnjk8JA/7aNdFtX8CPkGDnm0qD0sRe9LuQGUH/tejd8fwRnBuJucfPfX6MvxKqsU4a
+	VFcAbhBEeK2sz+A/cmtBJsEeYyjB4IYF+O4tODpxvYmyEIvdxAORzY2EBhSEVutUSPVY
+	PuAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pem/Jq4vjG+0rAfnBBR0NMHXYJbyo5m2m17plsaj+5c=;
-	b=UtwB+tq6jahPIxHIOEEzNzptEEi2mRGihWQs+5GYGNFcakraP5p36usJWLdxObA9pc
-	sTf5ooIDzG6I0n73hRLvgEA+u9whucKJWQdMje1fhXleVkwZj0HfnEkD8dE24uvS/0+i
-	byevWs0FI+r2bxFP+AmNbcr6aWYlESD0j7tEzfuRS6ARm68qR7Jx1nuk/x4RSbX4pMA+
-	QwVZaU/OjELoEXm8bf6FMNz0S9yVgErr41fgk1gfUmNoeh+RuN7xl3XNShhSdPkYZaBP
-	sruIUw7uFLmROW8ebv1Qf+XtxMIGpnYj2V1sF3n/I+7J+kPLJecmaN5wg6gck4641RTn
-	UfXw==
-X-Gm-Message-State: APjAAAWteM5F+eowqIcw1N++n52AzhxUAi185TWzGmBpS+wYgmVmdP/9
-	Hzhi8N3bjPi91DK3zEN6IVvG1vs6Un8Rq0q3uZM=
-X-Google-Smtp-Source: APXvYqwPfc0SkHAncI5JhKiyf8jUzdzetobH89omXsjRd97lHM7LAH6SKFLQmG9FcAPr6dUZVFQBv55DzpiDoNYv1a8=
-X-Received: by 2002:ab0:810:: with SMTP id a16mr11148876uaf.93.1566922204681; 
-	Tue, 27 Aug 2019 09:10:04 -0700 (PDT)
+	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=GYfzjZnUlvS43lToGmzmQrGZZAlZegWslGx1zmS9WWk=;
+	b=ZkS/Q11NT1KkzAiGaiiY06+LISIeIVWaRbV+HweTTha1E52Nh/8URkXIjIQWLv0LUw
+	AlASGPX+5cz7FNLCZk4lkNUy58ryu3Jmr9b9GrxXzw7tXi7tZwtEFz5qTfjsWJbAncas
+	Cct44ryrYAEpOHTJNpJYqFTOQ1aO9A26phbzUE9vCw6MiKOwfMWE/soX5NMMxuPUI8Uk
+	5A7Zg+Nacl/+x08CJTKjmpw37jPOrGHcDufsijPl/xIKAT1EfhFBcTpa4UDfiED10ALE
+	lQ9w5VKwtlJizP57N6x4km0rb8QRgGFYLAuGxAjzQ1J0WkMP7WsITZ0dDMSyiz0Qpkkg
+	woXw==
+X-Gm-Message-State: APjAAAUzhAl1O5vFtt305NurbJdp1hAduGx6LUKIg8XsQskQyCXqGjps
+	uwf6GyJa2f87Ie/9KTinpbJ9lnZU
+X-Google-Smtp-Source: APXvYqyfuZL8Zw/85yppScKovVUIQVJ07CJFKr9BEJ0MAMurUfe9LLGDfHBZSPGbXKm4rktep0eYRg==
+X-Received: by 2002:a05:6638:1e5:: with SMTP id
+	t5mr23885975jaq.79.1566922338953; 
+	Tue, 27 Aug 2019 09:12:18 -0700 (PDT)
+Received: from [10.30.197.57] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	t2sm29986906iod.81.2019.08.27.09.12.17
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 27 Aug 2019 09:12:18 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20190827124617.18207-1-JPEWhacker@gmail.com>
+	<CANNYZj_zr9+LbbGfhtd46pnUBYgpSW5LL5pE_fuvhxwne6yPrA@mail.gmail.com>
+	<de80b1e5-dc0e-cabc-409a-0c8c84bc8ef2@gmail.com>
+	<CANNYZj95TRH_+XELYLHGaBrg5gFfgOrpV+pvL5EjfQiXXWavEA@mail.gmail.com>
+Message-ID: <9a4134dd-dbf3-929f-379b-4ea8e3e098ee@gmail.com>
+Date: Tue, 27 Aug 2019 11:12:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190827155425.105260-1-alex.kanavin@gmail.com>
-	<9c9a1aec-e57b-cd2c-0538-4e65679f5fac@windriver.com>
-In-Reply-To: <9c9a1aec-e57b-cd2c-0538-4e65679f5fac@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 27 Aug 2019 18:09:53 +0200
-Message-ID: <CANNYZj9kDcwbY2qdjZ-WNP0ALBM-EYToUpE_59AtzRKD5Z++xQ@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+In-Reply-To: <CANNYZj95TRH_+XELYLHGaBrg5gFfgOrpV+pvL5EjfQiXXWavEA@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rpm: resolve a host contamination issue for mono packaging
+Subject: Re: [PATCH] openssl: Fix documentation DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,49 +67,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 16:10:04 -0000
-Content-Type: multipart/alternative; boundary="000000000000669a7505911b81c8"
+X-List-Received-Date: Tue, 27 Aug 2019 16:12:18 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---000000000000669a7505911b81c8
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 27 Aug 2019 at 18:01, Mark Hatle <mark.hatle@windriver.com> wrote:
-
-> Instead of hacking with with different names that (shouldn't or) don't
-> exist..
-> It would be better to just disable the mono-find-* wouldn't it?
+On 8/27/19 8:25 AM, Alexander Kanavin wrote:
+> On Tue, 27 Aug 2019 at 15:08, Joshua Watt <jpewhacker@gmail.com 
+> <mailto:jpewhacker@gmail.com>> wrote:
 >
-> If that is the case..
+>     RSS doesn't clear out the sysroots if it goes back and executes
+>     previous
+>     tasks as part of a rebuild. As such, if perl gets added by a later
+>     task,
+>     then bitbake goes back and re-executes the task (I don't remember
+>     exactly which one... do_configure maybe?), perl may be present
+>     when it
+>     wasn't before.
 >
-> In the fileattrs/mono.attr directory, just remove mono.attr or comment out
-> all
-> of the lines.
 >
+> I am still not understanding. The sysroot is populated once before 
+> anything in configure/compile/install/package executes. How would perl 
+> then magically appear later on in the sysroot?
 
-The upcoming rpm 4.15 does exactly that (remove mono.attr and dependent
-files altogether), so maybe it's not worth the time to improve this patch.
+It's not populated just once. Any task can add things to the RSS as the 
+build progresses. However, the RSS is only cleaned out at one specific 
+point early in the build, which I can't recall ATM.
 
-Alex
+>
+> Alex
 
---000000000000669a7505911b81c8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 27 Aug 2019 at 18:01, Mark Hatle =
-&lt;<a href=3D"mailto:mark.hatle@windriver.com">mark.hatle@windriver.com</a=
->&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">Instead of hacking with with different names that (=
-shouldn&#39;t or) don&#39;t exist..<br>
-It would be better to just disable the mono-find-* wouldn&#39;t it?<br>
-<br>
-If that is the case..<br>
-<br>
-In the fileattrs/mono.attr directory, just remove mono.attr or comment out =
-all<br>
-of the lines.<br></blockquote><div><br></div><div>The upcoming rpm 4.15 doe=
-s exactly that (remove mono.attr and dependent files altogether), so maybe =
-it&#39;s not worth the time to improve this patch.</div><div><br></div><div=
->Alex<br></div></div></div>
-
---000000000000669a7505911b81c8--
