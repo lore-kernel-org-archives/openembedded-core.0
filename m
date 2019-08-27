@@ -1,23 +1,18 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1231D7E730
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 14:29:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7RET4iH025869
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 07:29:05 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 27 Aug 2019 07:29:04 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Aug 2019 22:29:03 +0800
-Message-ID: <1566916143-116155-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 789616C102;
+	Tue, 27 Aug 2019 14:32:45 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] qemu: Fix build failure with packageconfig libcurl
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Jan Klare <jan.klare@bisdn.de>
+Date: Tue, 27 Aug 2019 14:32:47 -0000
+Message-ID: <20190827143247.2329.78627@do>
+References: <20190827141002.32302-1-jan.klare@bisdn.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190827141002.32302-1-jan.klare@bisdn.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdXBkYXRlIFNSQ1JFViBmb3Igc3lzdGVtZCB2MjQxLXN0YWJsZSBicmFuY2ggdG8gbGF0ZXN0?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,36 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 14:29:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Aug 2019 14:32:45 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: He Zhe <zhe.he@windriver.com>
+== Series Details ==
 
-ERROR: Nothing PROVIDES 'libcurl' (but
-/build/layers/oe-core/meta/recipes-kernel/perf/perf.bb DEPENDS on or otherwise
-requires it).
+Series: update SRCREV for systemd v241-stable branch to latest
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/19505/
+State : failure
 
-The name of build dependency of packageconfig libcurl should be curl.
+== Summary ==
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 64f9fd2a1e)
+
+* Patch            update SRCREV for systemd v241-stable branch to latest
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-devtools/qemu/qemu.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index d2dd2bc..ad46d18 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -131,7 +131,7 @@ PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen,xen-libxenstore xen-libxenc
- PACKAGECONFIG[vnc-sasl] = "--enable-vnc --enable-vnc-sasl,--disable-vnc-sasl,cyrus-sasl,"
- PACKAGECONFIG[vnc-jpeg] = "--enable-vnc --enable-vnc-jpeg,--disable-vnc-jpeg,jpeg,"
- PACKAGECONFIG[vnc-png] = "--enable-vnc --enable-vnc-png,--disable-vnc-png,libpng,"
--PACKAGECONFIG[libcurl] = "--enable-curl,--disable-curl,libcurl,"
-+PACKAGECONFIG[libcurl] = "--enable-curl,--disable-curl,curl,"
- PACKAGECONFIG[nss] = "--enable-smartcard,--disable-smartcard,nss,"
- PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses,"
- PACKAGECONFIG[gtk+] = "--enable-gtk,--disable-gtk,gtk+3 gettext-native"
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
