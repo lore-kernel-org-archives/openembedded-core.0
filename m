@@ -1,30 +1,49 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AD007EC66
+Return-Path: <wesley.lindauer@gmail.com>
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com
+	[209.85.221.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8566A6B436
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 17:12:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7RHBh9K029201
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Aug 2019 10:11:54 -0700
-Received: from [128.224.56.214] (128.224.56.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 27 Aug 2019 10:11:33 -0700
-To: Jan Klare <jan.klare@bisdn.de>
-References: <20190827145204.32598-1-jan.klare@bisdn.de>
-	<f9d5a79f-8555-f4bf-976b-b773300f24f7@windriver.com>
-	<281DDBDF-325B-4A54-9759-EDABED3B0888@bisdn.de>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <afb0751f-2c79-e598-7ba0-288cc1e47acd@windriver.com>
-Date: Tue, 27 Aug 2019 13:11:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Tue, 27 Aug 2019 17:34:24 +0000 (UTC)
+Received: by mail-vk1-f181.google.com with SMTP id w20so5049vkd.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Aug 2019 10:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=qeUDzqlFiwQgkWZl3fl3Fop5cE3eBBgcaOZvpDxQwJk=;
+	b=mUX63PP3jozT148gCuWLJacyZeApSV0ZqdfkEMBGrKXOfRKVoeki0KUTrZN03mqoT/
+	IOQZCuZX1PN9EppKzMi8le22Zir/lswty0fWPaNXLufMJPTGJd6aOm2C26KlsQlDsWVX
+	raGh1g70fUqYC9T+uaVb1uoj2EqaqZ3XfaG68+LeLO1r8b+MDfk9g1oA0gnhkfCutcew
+	5M+74nnx15WReiE4v9dJWXYSFZVgUoaCAw4sTiZ4PdD0euoeSEAORzft9p9rQpjnXZzC
+	F2saPv4MERZOEObxtgiiAgft2jRn6iKReaDk3PnoHxn7wZ5/roqW/7QQpZucsybh4kfl
+	AzcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=qeUDzqlFiwQgkWZl3fl3Fop5cE3eBBgcaOZvpDxQwJk=;
+	b=lWE1iTjYgakJY/kKfU+QRxjfuTakWQ3wU4hWBWcXbVK4K7zOakij6d46ddEPibPYGS
+	ixss27smsM9cwfqujrQ4qUtVg/4NsG04pgmEWW0V0bAzUkiDUopsU89iPBA8tKbKitIs
+	hye66MvinKaWsW0KgUD39hbEoxLn/0I2hcV52OpIUdzrFoTCp+kLBHmfs/a1TyoXfjb0
+	ppHvtLosrkVYyXpsUL23tXf2NJNrDiI4GyapZmwwuGuAjkM3g1UBJk+/b+lReSfM+YvA
+	/HMXGJ2sCWMY/GzaKJnXTgOlnoiFsdzrOHeJwjyp9hCFPM3KTutq07jJ/rW80qydqfxS
+	WUuA==
+X-Gm-Message-State: APjAAAWudE9Hi+LxSmYbKEdulrB6LhC7HtwBKtaen3KxuXcgcakOiqrH
+	6XfPgah/mwgSEXLiJ20OB6jdlxFltoYS9Esmndc=
+X-Google-Smtp-Source: APXvYqyvqjuAONmQJsPUCwH0g7208LMbeoROqKv036v29YhtfrFluL8Xojv1tCopAh5a+IT7dyKFLvLHT7mQcEmneeM=
+X-Received: by 2002:a1f:7383:: with SMTP id o125mr45844vkc.18.1566927265450;
+	Tue, 27 Aug 2019 10:34:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <281DDBDF-325B-4A54-9759-EDABED3B0888@bisdn.de>
-X-Originating-IP: [128.224.56.214]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [warrior][PATCH v3] systemd: update SRCREV for systemd v241-stable
+References: <20190816194405.12751-1-wesley.lindauer@gmail.com>
+	<20190816194405.12751-6-wesley.lindauer@gmail.com>
+	<CAMKF1sruqPBcwobNNErkdHKAnP7zT8zda81O2FUP88u=5ZnmVg@mail.gmail.com>
+In-Reply-To: <CAMKF1sruqPBcwobNNErkdHKAnP7zT8zda81O2FUP88u=5ZnmVg@mail.gmail.com>
+From: Wes Lindauer <wesley.lindauer@gmail.com>
+Date: Tue, 27 Aug 2019 13:34:14 -0400
+Message-ID: <CALBQxSuz79WGNBgLET5X8-Wf02HjAiwx1HbaGmbUzKL1qv0Ymg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] xz: Remove GPLv3 license checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,150 +56,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 17:12:39 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 27 Aug 2019 17:34:25 -0000
+Content-Type: multipart/alternative; boundary="0000000000000bcda705911cafdd"
 
-On 8/27/19 12:15 PM, Jan Klare wrote:
-> Hi,
-> 
-> Thanks for all the initial help and the quick followup review. I 
-> successfully build systemd for the patched SRCREV for all the platforms 
-> you mentioned, should I post something of the output or some proof 
-> somewhere?
+--0000000000000bcda705911cafdd
+Content-Type: text/plain; charset="UTF-8"
 
-No, that usually would be fine.
-We trust you and the automated builders will verify that things work as 
-well. :)
+Yes, I see that could be a valid concern. Is this a sign that poky needs
+per-package LIC_FILES_CHKSUM variables the same way each package can set
+different LICENSE values? I would like to continue to use Yocto to collect
+licenses for compliance reasons, but in this case I am getting an incorrect
+license file in my image. In my configuration, I am placing "GPLv3" in
+INCOMPATIBLE_LICENSES. Is there any way to use this information at rootfs
+time to exclude GPLv3 licenses from being collected? Do you have any
+recommendations for how I should proceed with collecting accurate licenses
+in my image?
 
-But...
+Thanks for your help,
+Wes L
 
-In this case I just realized that my oneline build-all was wrong;
-you need:
+On Fri, Aug 16, 2019 at 4:50 PM Khem Raj <raj.khem@gmail.com> wrote:
 
-$ for i in `ls ../../oe-core.git/meta/conf/machine | \
-             grep qemu | sed -e 's/\.conf//'`; \
-  do \
-     MACHINE=$i bitbake systemd && \
-     touch sd-okay-$i || \
-     touch sd-fail-$i; \
-  done
+> On Fri, Aug 16, 2019 at 12:46 PM Wes Lindauer <wesley.lindauer@gmail.com>
+> wrote:
+> >
+> > Although xz has some files that are GPLv3 licensed, none of them get
+> > packaged up, and therefore none of it ends up in the final rootfs. Since
+> > there is no GPLv3 code in the final image, we don't want to include it
+> > when we collect licenses, as that would give the incorrect impression
+> > that the image contains GPLv3 code.
+>
+> We will be distributing this in src packages though. Maybe these files
+> should be deleted before the build even starts.
+> >
+> > Also fixes the endline for getopt.c which had a couple of non-license
+> > text lines at the bottom.
+> > ---
+> >  meta/recipes-extended/xz/xz_5.2.4.bb | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-extended/xz/xz_5.2.4.bb
+> b/meta/recipes-extended/xz/xz_5.2.4.bb
+> > index 791746e1cf..e6725e5f12 100644
+> > --- a/meta/recipes-extended/xz/xz_5.2.4.bb
+> > +++ b/meta/recipes-extended/xz/xz_5.2.4.bb
+> > @@ -17,9 +17,8 @@ LICENSE_liblzma = "PD"
+> >
+> >  LIC_FILES_CHKSUM = "file://COPYING;md5=97d554a32881fee0aa283d96e47cb24a
+> \
+> >
+> file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+> > -
+> file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+> >
+> file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
+> > -
+> file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 \
+> > +
+> file://lib/getopt.c;endline=21;md5=32575ca1a42c5fa04aac6f08566ddf48 \
+> >                      "
+> >
+> >  SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
+> > --
+> > 2.14.5
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--0000000000000bcda705911cafdd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I had left off the setting of the MACHINE variable. Sorry about that.
-Can you re-run the test after removing the sd-* files?
+<div dir=3D"ltr"><div>Yes, I see that could be a valid concern. Is this a s=
+ign that poky needs per-package LIC_FILES_CHKSUM variables the same way eac=
+h package can set different LICENSE values? I would like to continue to use=
+ Yocto to collect licenses for compliance reasons, but in this case I am ge=
+tting an incorrect license file in my image. In my configuration, I am plac=
+ing &quot;GPLv3&quot; in INCOMPATIBLE_LICENSES. Is there any way to use thi=
+s information at rootfs time to exclude GPLv3 licenses from being collected=
+? Do you have any recommendations for how I should proceed with collecting =
+accurate licenses in my image?</div><div><br></div><div>Thanks for your hel=
+p,</div><div>Wes L<br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, Aug 16, 2019 at 4:50 PM Khem Raj &lt;=
+<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, Aug 16, 201=
+9 at 12:46 PM Wes Lindauer &lt;<a href=3D"mailto:wesley.lindauer@gmail.com"=
+ target=3D"_blank">wesley.lindauer@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Although xz has some files that are GPLv3 licensed, none of them get<b=
+r>
+&gt; packaged up, and therefore none of it ends up in the final rootfs. Sin=
+ce<br>
+&gt; there is no GPLv3 code in the final image, we don&#39;t want to includ=
+e it<br>
+&gt; when we collect licenses, as that would give the incorrect impression<=
+br>
+&gt; that the image contains GPLv3 code.<br>
+<br>
+We will be distributing this in src packages though. Maybe these files<br>
+should be deleted before the build even starts.<br>
+&gt;<br>
+&gt; Also fixes the endline for getopt.c which had a couple of non-license<=
+br>
+&gt; text lines at the bottom.<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-extended/xz/<a href=3D"http://xz_5.2.4.bb" rel=3D"n=
+oreferrer" target=3D"_blank">xz_5.2.4.bb</a> | 3 +--<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-extended/xz/<a href=3D"http://xz_5.2.4.bb" r=
+el=3D"noreferrer" target=3D"_blank">xz_5.2.4.bb</a> b/meta/recipes-extended=
+/xz/<a href=3D"http://xz_5.2.4.bb" rel=3D"noreferrer" target=3D"_blank">xz_=
+5.2.4.bb</a><br>
+&gt; index 791746e1cf..e6725e5f12 100644<br>
+&gt; --- a/meta/recipes-extended/xz/<a href=3D"http://xz_5.2.4.bb" rel=3D"n=
+oreferrer" target=3D"_blank">xz_5.2.4.bb</a><br>
+&gt; +++ b/meta/recipes-extended/xz/<a href=3D"http://xz_5.2.4.bb" rel=3D"n=
+oreferrer" target=3D"_blank">xz_5.2.4.bb</a><br>
+&gt; @@ -17,9 +17,8 @@ LICENSE_liblzma =3D &quot;PD&quot;<br>
+&gt;<br>
+&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D97d554a32881fee0=
+aa283d96e47cb24a \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 file://COPYING.GPLv2;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ file://COPYING.GPLv3;md5=3Dd32239bcb673463ab874e80d47fae504 \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 file://COPYING.LGPLv2.1;md5=3D4fbd65380cdd255951079008b364516c \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ file://lib/getopt.c;endline=3D23;md5=3D2069b0ee710572c03bb3114e4532cd84 \<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ file://lib/getopt.c;endline=3D21;md5=3D32575ca1a42c5fa04aac6f08566ddf48 \<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 &quot;<br>
+&gt;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"http://tukaani.org/xz/xz-$%7BPV%7D.=
+tar.gz" rel=3D"noreferrer" target=3D"_blank">http://tukaani.org/xz/xz-${PV}=
+.tar.gz</a>&quot;<br>
+&gt; --<br>
+&gt; 2.14.5<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-../Randy
-
-> 
-> Cheers,
-> Jan
-> 
->> On 27. Aug 2019, at 17:14, Randy MacLeod <randy.macleod@windriver.com 
->> <mailto:randy.macleod@windriver.com>> wrote:
->>
->> On 8/27/19 10:52 AM, Jan Klare wrote:
->>> Currently systemd 241 does break for kernels 5.2+ with the error 
->>> described here:
->>> * https://github.com/systemd/systemd/issues/12784
->>> The issue has been fixed in master and will be fixed in the release 
->>> 243. The
->>> necessary patches have been backported to systemd/systemd-stable in 
->>> the branch
->>> v241-stable, but currently in warrior an old version of that branch 
->>> is pulled
->>> in.
->>> This patch updates the SRCREV to the latest commit from that branch and
->>> therefore pulls in the needed fix to run systemd 241 on 5.2+ kernels.
->>> Signed-off-by: Jan Klare <jan.klare@bisdn.de <mailto:jan.klare@bisdn.de>>
->>> ---
->>>  meta/recipes-core/systemd/systemd.inc | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>> diff --git a/meta/recipes-core/systemd/systemd.inc 
->>> b/meta/recipes-core/systemd/systemd.inc
->>> index 5bd88ed6ed..2b9c291959 100644
->>> --- a/meta/recipes-core/systemd/systemd.inc
->>> +++ b/meta/recipes-core/systemd/systemd.inc
->>> @@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
->>>  LIC_FILES_CHKSUM = 
->>> "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
->>> file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
->>>  -SRCREV = "c1f8ff8d0de7e303b8004b02a0a47d4cc103a7f8"
->>> +SRCREV = "511646b8ac5c82f210b16920044465756913d238"
->>>  SRCBRANCH = "v241-stable"
->>>  SRC_URI = 
->>> "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
->>>
->>
->> That's a better log since it explains your motivation.
->>
->> We don't require it but if you send something like this commit again,
->> it would be good to analyze the commit logs, like this (but likely
->> without the tutorial flavour):
->>
->> $ cd .../systemd-stable.git
->> $ git checkout v241-stable
->> $ git pull
->> $ git log --oneline c1f8ff8d0de7..511646b8ac5c | wc -l
->> 157
->>
->> The patches are almost all (1) are cherry-picked back from master to 
->> fix bugs. The four commits (2) that are not cherry-picks,
->> are:
->>
->> A revert of something that does not belong in stable,
->> A customized fix for stable,
->> A bug fix
->> A merge commit
->>
->> I was talking with Jan on IRC and he said that he had built
->> and tested this update for his target (agema-ag7648 switch).
->> I've asked Jan to build for all qemus so hopefully that goes well.
->>
->> Looks good to me.
->>
->> ../Randy
->>
->>
->> [1]
->>
->> $ git log --oneline \
->>  --grep="cherry picked from commit" c1f8ff8d0de7..511646b8ac5c  | wc -l
->> 153
->>
->> $ git log --oneline c1f8ff8d0de7..511646b8ac5c | wc -l
->> 157
->>
->>
->> [2]
->>
->> $ git log --oneline --grep="cherry picked from commit" \
->>   --invert-grep c1f8ff8d0de7..511646b8ac5c
->>
->> 099c5e4f5f Revert "meson: stop creating enablement symlinks
->>           in /etc during installation"
->> dc903ec516 Enable RestrictSUIDSGID=yes for our services
->>           with DynamicUser=yes
->> ce52d60450 fstab-generator: use DefaultDependencies=no for
->>           /sysroot mounts
->> 35387ea7e1 Merge pull request #48 from
->>           yuwata/v241-stable-dbus-and-timedated
->>
->>
->> --
->> # Randy MacLeod
->> # Wind River Linux
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org 
->> <mailto:Openembedded-core@lists.openembedded.org>
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
+--0000000000000bcda705911cafdd--
