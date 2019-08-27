@@ -1,48 +1,37 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
-	[209.85.217.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CECC7E08E
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C77B26B07E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 13:25:42 +0000 (UTC)
-Received: by mail-vs1-f46.google.com with SMTP id j25so13393875vsq.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 06:25:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=DbVKc7yYFsAdf75E0WuBFwpQxbTIkH1iwKgGKT1cH3c=;
-	b=lNuLLeCgCh9qm7rT8QQAbrsznprGEotTiYo3RPEjtEcth0hkzlB9UOuGE1jiV+RCL6
-	9U8d9V4vWBXB2MNOF4ltPEYPwZogeHUEZiB1L+Okqjb4/oej47ZhCfIyptKKHUXoehgs
-	UgOK/7kHLufBqhAQzA5oWCi5T1CqD646qVfJilu3vuPmr38Pt4vz67auHWrWSKHt1aGC
-	mNV/AVj7EoStV7VmPB5pFC7g/drntqIICg0abGlrKErMpZ1cCk2gPtIpBxvpmEsLLuM+
-	lkGu9hVRL4OdFT0KOvDy8n9/VV7s1mHoPzL/+nKblU6lUDOzedQhhbjEEW+CeFLkXTOa
-	P0Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=DbVKc7yYFsAdf75E0WuBFwpQxbTIkH1iwKgGKT1cH3c=;
-	b=i/Fxtee6x0eVV5LCOK8LUFCFQZde0dLYgkXqtMTz1yjtJxXaphIMZ/PI2lKBVdeBvj
-	UpzEeYz6qcxqxWMMizB5TZVrnS+9c1awmuhAH9Yf8IJw5l4m4goYaLrX+Bedk+2Rn0Ay
-	skdiRrqTUNgezBr6zilXgVw0616v3sa9IeaREu97XYNMfAPNkrK9Q7S1Hdj8Re7Eym+M
-	iqIW7av9MgY7h3Z28Ge3bEKG94Q/7JQD92nvhHNtQNlkVjrTvdm4VJYOudLaczoTgsc6
-	i2YXYfvLFL2O4pzRGS9CTYQM0d0fkSEQlicYzFX1+PcLHoBZiGaOOvIavhUhxhVxCz6r
-	szrw==
-X-Gm-Message-State: APjAAAWE7AB7Y6n7o/73cOuYYUkbqIMvF5gHDfOG1nHmvAqAmBCPtrMW
-	bhVo5WYyFKOe6eO9Xt/Ok3ei6ipQarHzfU7L/Ak=
-X-Google-Smtp-Source: APXvYqzzOqGrXNXRgFXoZXGcu1HP5VLf07vq+dyVyJairojrEeiES3S6xzrgV5vKLUKWhFqnmImUfKsh4Y9ld8QFUKU=
-X-Received: by 2002:a67:347:: with SMTP id 68mr13659207vsd.35.1566912343298;
-	Tue, 27 Aug 2019 06:25:43 -0700 (PDT)
+	Tue, 27 Aug 2019 13:56:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46Hr4p2sPWz3J;
+	Tue, 27 Aug 2019 15:56:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1566914170;
+	bh=FlyZuDWlRIusLcab71WaMs65KfBOui3YS646YVMx7Tc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F6x9k8YiTrj5loBPMtJmIbsV4eZwruLvqeieOiB+1ruxaelyiVK0n3gWsKcjJZjDU
+	xDDist0TZ49fA4l036SbSizx+AIzBRNhagmeS7Jug/g7pbbMBtu85qOGO2sJIA2f43
+	eMHTHmCkDRy2rDFMZUD1hj/tBh4dHrvhPVHmMYcJf+G1rKMLIDyrxwyax1jyQkqGzq
+	bOLWyCP/lgwDX0F1lJvokLXZxdLrjDPLqFKJq0USNt4kErKKvhiJoxKbz8eGxORUNj
+	+5FhoGf/2QmsqpvE12ZTakek10tsI4nMIJrXpzxtDKSthWQtG+DXJKIJvjz+c673Qk
+	bsRI1irkRY6COiKg/dr8mlf44TnUwZ0KpP09uOSVS8SkZJQBQEAmgMajqwUAx5kdf+
+	JowTOwmt4TsDEH6rFC7Gt2q1L/YpP7cCf3XracHE4txMZSylPagE33dv5yoLevdFMX
+	46kNrOj2BI/y5HegQhCQcvTjtWSQ5ehEqq6RI/0DWzRXVDNLkNF8g8baOTGDYA5GlO
+	37wXsvHTKm75UCjdTvdNBFkur1x4iuMa9OO7a03qjgMIQdTcwNPzAyvZY+kk3uZ3gx
+	ZCLcAxrXgFzdfVM8wlpcMhCvnoxod/R9JFWlOX7qee/B1C4bMA5/mZLT7mlmfG0HND
+	S2Tqn0EV9Y5C0YaZWUo+nEww=
+Date: Tue, 27 Aug 2019 16:56:08 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20190827135608.GA19259@localhost>
+References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
+	<1566593504-21918-9-git-send-email-armccurdy@gmail.com>
 MIME-Version: 1.0
-References: <20190827124617.18207-1-JPEWhacker@gmail.com>
-	<CANNYZj_zr9+LbbGfhtd46pnUBYgpSW5LL5pE_fuvhxwne6yPrA@mail.gmail.com>
-	<de80b1e5-dc0e-cabc-409a-0c8c84bc8ef2@gmail.com>
-In-Reply-To: <de80b1e5-dc0e-cabc-409a-0c8c84bc8ef2@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 27 Aug 2019 15:25:32 +0200
-Message-ID: <CANNYZj95TRH_+XELYLHGaBrg5gFfgOrpV+pvL5EjfQiXXWavEA@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: Fix documentation DEPENDS
+In-Reply-To: <1566593504-21918-9-git-send-email-armccurdy@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 09/13] glibc: drop obsolete packaging of glibc libnsl libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 13:25:42 -0000
-Content-Type: multipart/alternative; boundary="0000000000009dd7e0059119351e"
+X-List-Received-Date: Tue, 27 Aug 2019 13:56:12 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---0000000000009dd7e0059119351e
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Aug 23, 2019 at 01:51:40PM -0700, Andre McCurdy wrote:
+> Packaging rules were left behind when libnsl was removed:
+>...
 
-On Tue, 27 Aug 2019 at 15:08, Joshua Watt <jpewhacker@gmail.com> wrote:
+How has this change been tested?
 
-> RSS doesn't clear out the sysroots if it goes back and executes previous
-> tasks as part of a rebuild. As such, if perl gets added by a later task,
-> then bitbake goes back and re-executes the task (I don't remember
-> exactly which one... do_configure maybe?), perl may be present when it
-> wasn't before.
->
+ERROR: glibc-2.30-r0 do_package: QA Issue: glibc: Files/directories were installed but not shipped in any package:
+  /lib/libnsl-2.30.so
+  /lib/libnsl.so.1
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+glibc: 2 installed and not shipped files. [installed-vs-shipped]
+ERROR: glibc-2.30-r0 do_package: Fatal QA errors found, failing task.
 
-I am still not understanding. The sysroot is populated once before anything
-in configure/compile/install/package executes. How would perl then
-magically appear later on in the sysroot?
 
-Alex
+cu
+Adrian
 
---0000000000009dd7e0059119351e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 27 Aug 2019 at 15:08, Joshua Watt=
- &lt;<a href=3D"mailto:jpewhacker@gmail.com">jpewhacker@gmail.com</a>&gt; w=
-rote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">RSS doesn&#39;t clear out the sysroots if it goes back and=
- executes previous <br>
-tasks as part of a rebuild. As such, if perl gets added by a later task, <b=
-r>
-then bitbake goes back and re-executes the task (I don&#39;t remember <br>
-exactly which one... do_configure maybe?), perl may be present when it <br>
-wasn&#39;t before.<br></blockquote><div><br></div><div>I am still not under=
-standing. The sysroot is populated once before anything in configure/compil=
-e/install/package executes. How would perl then magically appear later on i=
-n the sysroot?</div><div><br></div><div>Alex<br></div></div></div>
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
---0000000000009dd7e0059119351e--
+
