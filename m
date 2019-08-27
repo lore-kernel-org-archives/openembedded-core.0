@@ -1,56 +1,50 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D98C77D5BE
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+	[209.85.166.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D75E7DD44
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 18:28:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7RIQvL8031261
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Aug 2019 11:27:32 -0700
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 27 Aug 2019 11:27:06 -0700
-To: Adrian Bunk <bunk@stusta.de>, Khem Raj <raj.khem@gmail.com>
-References: <20190816194405.12751-1-wesley.lindauer@gmail.com>
-	<20190816194405.12751-6-wesley.lindauer@gmail.com>
-	<CAMKF1sruqPBcwobNNErkdHKAnP7zT8zda81O2FUP88u=5ZnmVg@mail.gmail.com>
-	<20190827180449.GA29638@localhost>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <5fc12556-a817-e312-e1ed-60878a97d78c@windriver.com>
-Date: Tue, 27 Aug 2019 13:27:05 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.8.0
+	Tue, 27 Aug 2019 19:34:16 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id q12so303972iog.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Aug 2019 12:34:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MlRExbvL+7L0L3f/XGkJ8co5V3iBtQMVGJApA1tcO4Y=;
+	b=tRq/4zzUln28ai+GMO2OpoqniGmnzX3787zyIAcNiH1Th5EYAVZFth09dwv2pmXjuR
+	2RFMDBQGZvoMCqSp0dTIBkj0brUyyEpGgW/y80rbCb7+50rMkXux6RhDOGaSqOj/+B32
+	z36+jJK3TizXoL5Gt+MbwMM5E3GQ/aYTENwM1gMYTkDsoo8MzeC9SWa6d9418Uts/fRr
+	Jtyv2E+T5M2gk81ajwEVvYG+cSIZcqJhSVjQIZUq0O2vL7uxcpxgcT7NUNCbUNOIYm4Z
+	J5t2w0ahF/5E4Gqcne7QobhdXfYxYtWapmiYHni3W2BtiAZ3osde3bT4wgjKf9NzoTAI
+	4bkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MlRExbvL+7L0L3f/XGkJ8co5V3iBtQMVGJApA1tcO4Y=;
+	b=EpngkXssq6/cOA/MmFHRa7D07IKyoM4Vy+Mil57jo30jUvhkvyWGdEb3Wg6M7Pw0Xi
+	spLhzbwVXiQtbw6KF9jdQb+ZIb/Mbw/oqbRcycUy3oh0ktmGdUJxoo3lYxn3FTsGrm+l
+	FgFsPDFBSx+ooFF/Jpt8C+016XJFbJ6Vrb2DdHoR+qUD1wsNQp57fVSsorI3RIUI8OtH
+	RQTAtGKg87u4kVbSQqZ3G/SrSDQl+2diSSU9rbY0f5aPsW+MZZ4usc+9JP7fK6LqZXy7
+	WTEGm3j9hT99JQ65aToOorExvHtdNuFP8sHG9pjSVFC9JnF4B33fkxKFmyPCxn4uRQOq
+	3KHQ==
+X-Gm-Message-State: APjAAAXt9P7e/TAUF+qEuN7LNoRODuYyuFKtmq0IFk/VohNlNWtuEKPA
+	LT+w/99ozSkqilHvg9xBuv09WvxT
+X-Google-Smtp-Source: APXvYqxKbPoV2lJB6rVxExMiGqi5Wd3pmPz810vSUNhh5xRZk64oqtWG+ldwPxExXW1UO8oLZymFJA==
+X-Received: by 2002:a5d:9d49:: with SMTP id k9mr33587833iok.106.1566934456821; 
+	Tue, 27 Aug 2019 12:34:16 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id 8sm47288ion.26.2019.08.27.12.34.15
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 27 Aug 2019 12:34:15 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 27 Aug 2019 14:33:44 -0500
+Message-Id: <20190827193349.23254-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190827180449.GA29638@localhost>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] xz: Remove GPLv3 license checksum
+Subject: [PATCH 0/5] Enable Reproducible OEQA Tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,67 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 18:28:18 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+X-List-Received-Date: Tue, 27 Aug 2019 19:34:16 -0000
 Content-Transfer-Encoding: 8bit
 
-On 8/27/19 1:04 PM, Adrian Bunk wrote:
-> On Fri, Aug 16, 2019 at 01:50:14PM -0700, Khem Raj wrote:
->> On Fri, Aug 16, 2019 at 12:46 PM Wes Lindauer <wesley.lindauer@gmail.com> wrote:
->>>
->>> Although xz has some files that are GPLv3 licensed, none of them get
->>> packaged up, and therefore none of it ends up in the final rootfs. Since
->>> there is no GPLv3 code in the final image, we don't want to include it
->>> when we collect licenses, as that would give the incorrect impression
->>> that the image contains GPLv3 code.
->>
->> We will be distributing this in src packages though. Maybe these files
->> should be deleted before the build even starts.
-> 
-> OE does licence tracking on binary packages, not on source packages.
+Enables the OEQA test for reproducible builds, and reporting of the
+results using resulttool
 
-It tracks -both-.  Since MOST recipes and binary packages agree, people don't
-often know this.
+[YOCTO #13323]
 
-LICENSE is the -recipe source license-.  Nothing more nothing less.  It
-typically does NOT include the license of things used to build the software
-(such as makefiles, autoconf fragments, etc), but must include the license of
-any sources that are or may be used to construct binaries.
+Joshua Watt (5):
+  oeqa: reproducible: Cleanup reproducible build
+  oeqa: reproducible: Use subTest for packages
+  oeqa: Set LD_LIBRARY_PATH when executing native commands
+  oeqa: reproducible: Record packages in test results
+  oeqa: Enable reproducible build test
 
-LICENSE_<package> is automatically defined as LICENSE.  If a binary package has
-a difference license (which must ALWAYS be a subset of the recipe LICENSE), then
-it can be specified independently.
+ meta/lib/oeqa/selftest/cases/reproducible.py | 43 ++++++++++++++------
+ meta/lib/oeqa/utils/commands.py              |  3 ++
+ 2 files changed, 33 insertions(+), 13 deletions(-)
 
-See sysfsutils as an example:
-
-LICENSE = "GPLv2 & LGPLv2.1"
-LICENSE_${PN} = "GPLv2"
-LICENSE_libsysfs = "LGPLv2.1"
-
-recipe is made of of source code consisting of GPLv2 and LGPLv2.1.
-
-The LICENSE_${PN} is expected to be GPLv2, while the LICENSE_libsysfs is
-expected to be LGPLv2.1.
-
-
-The LIC_FILES_CHKSUM is supposed to represent the -recipe- source license.  If
-the component is used to build the binaries, then it needs to be listed (but
-only has to be listed once).
-
-If the component MIGHT be used, it needs to be listed.
-
-If the component will NOT be used, then it should not be listed (and it's
-advised to remove it from the source to avoid accidental usage...)
-
---Mark
-
-
-> There are recipes that build binary packages with different licences 
-> from the same sources.
-> 
-> cu
-> Adrian
-> 
+-- 
+2.21.0
 
 
