@@ -1,50 +1,52 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
-	[209.85.166.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D75E7DD44
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
+	[209.85.166.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 57C447DD44
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 19:34:16 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id q12so303972iog.4
+	Tue, 27 Aug 2019 19:34:17 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id z3so955990iog.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 12:34:17 -0700 (PDT)
+	Tue, 27 Aug 2019 12:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=MlRExbvL+7L0L3f/XGkJ8co5V3iBtQMVGJApA1tcO4Y=;
-	b=tRq/4zzUln28ai+GMO2OpoqniGmnzX3787zyIAcNiH1Th5EYAVZFth09dwv2pmXjuR
-	2RFMDBQGZvoMCqSp0dTIBkj0brUyyEpGgW/y80rbCb7+50rMkXux6RhDOGaSqOj/+B32
-	z36+jJK3TizXoL5Gt+MbwMM5E3GQ/aYTENwM1gMYTkDsoo8MzeC9SWa6d9418Uts/fRr
-	Jtyv2E+T5M2gk81ajwEVvYG+cSIZcqJhSVjQIZUq0O2vL7uxcpxgcT7NUNCbUNOIYm4Z
-	J5t2w0ahF/5E4Gqcne7QobhdXfYxYtWapmiYHni3W2BtiAZ3osde3bT4wgjKf9NzoTAI
-	4bkQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=n3b/ilaR9b7g2kKFfvuk0c0J5FbOg5ueEuJmZEZV7AU=;
+	b=iFfsOXaHoP5x6CQX6vLQClxiDY2AOXo/dWO6+/kTUuPp4woXknE8L+fsXrHApfm5Y/
+	sZk7TtqpE71ul8uYzA/CmOAc+XDyVYhSODSsy221iI72GtDIn4nJ56PfF2SuYje4Nwcc
+	gMZznGVvBOSGaf/cWwsYsFaZaq++/aVZ6YFj3jJQK8AQA3whMM6oPBm/DsNVUYoUz+5G
+	2VmDaHiJsLPVXmlveWBT51az9vMIxeAMPF4OcOa55bfP7DdheIpQnJKFyGu6BqcOX/HP
+	iShnAVPUIIH7hQF39F04IoK2/YQ4JP/iqiF4HJVt2ddJrVk+EYBooFqUJqNTc5xYrqbF
+	esTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=MlRExbvL+7L0L3f/XGkJ8co5V3iBtQMVGJApA1tcO4Y=;
-	b=EpngkXssq6/cOA/MmFHRa7D07IKyoM4Vy+Mil57jo30jUvhkvyWGdEb3Wg6M7Pw0Xi
-	spLhzbwVXiQtbw6KF9jdQb+ZIb/Mbw/oqbRcycUy3oh0ktmGdUJxoo3lYxn3FTsGrm+l
-	FgFsPDFBSx+ooFF/Jpt8C+016XJFbJ6Vrb2DdHoR+qUD1wsNQp57fVSsorI3RIUI8OtH
-	RQTAtGKg87u4kVbSQqZ3G/SrSDQl+2diSSU9rbY0f5aPsW+MZZ4usc+9JP7fK6LqZXy7
-	WTEGm3j9hT99JQ65aToOorExvHtdNuFP8sHG9pjSVFC9JnF4B33fkxKFmyPCxn4uRQOq
-	3KHQ==
-X-Gm-Message-State: APjAAAXt9P7e/TAUF+qEuN7LNoRODuYyuFKtmq0IFk/VohNlNWtuEKPA
-	LT+w/99ozSkqilHvg9xBuv09WvxT
-X-Google-Smtp-Source: APXvYqxKbPoV2lJB6rVxExMiGqi5Wd3pmPz810vSUNhh5xRZk64oqtWG+ldwPxExXW1UO8oLZymFJA==
-X-Received: by 2002:a5d:9d49:: with SMTP id k9mr33587833iok.106.1566934456821; 
-	Tue, 27 Aug 2019 12:34:16 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=n3b/ilaR9b7g2kKFfvuk0c0J5FbOg5ueEuJmZEZV7AU=;
+	b=KCBd9huh39aCD7A9z60LUk/44RhkGLZadVMTKMrcAuMYr72xXSm16tGSEqp3LotDQG
+	A72M0wgI0WCr5lxw72dr/cO/9qq6FOJ+T43+DKwZBTSCck/54Ije5xlLvboXQXX/PLlR
+	SelDAB7pioHXK3WgDAhy4l3RnYugaayOYEdNABaCqO+3EtwNQ1iPo/bQzC+TpwCFXOGV
+	DsTka5b7tcuyjCovEeTOKSBWE0OhKtWQtCrcSC2Lna6gv4JO2FN/Rf1nv2QQkJb+ipFb
+	B8cOGXBEVe8d3Ny5wGLfb7rmwlYfJRgV+wAORvi8CdmVfYRpnoXundHsOT8hQ3kip1+U
+	XGGg==
+X-Gm-Message-State: APjAAAVrW10Yce85PteHLb1tVB2DgeIMIWkKpvhp7bQ+v9yJsSfl8T89
+	clQ/RNGi+IQ0M9XsbAdIow9suow8
+X-Google-Smtp-Source: APXvYqye3ODZKwNEQQr6hwduWdrP4uW7EBJyNds8ZA4UgT4ul/4qOXs6uG0jJo8PlyTqIShr2guM5A==
+X-Received: by 2002:a02:a595:: with SMTP id b21mr527145jam.28.1566934457912;
+	Tue, 27 Aug 2019 12:34:17 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id 8sm47288ion.26.2019.08.27.12.34.15
+	by smtp.gmail.com with ESMTPSA id 8sm47288ion.26.2019.08.27.12.34.16
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 12:34:15 -0700 (PDT)
+	Tue, 27 Aug 2019 12:34:17 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2019 14:33:44 -0500
-Message-Id: <20190827193349.23254-1-JPEWhacker@gmail.com>
+Date: Tue, 27 Aug 2019 14:33:45 -0500
+Message-Id: <20190827193349.23254-2-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190827193349.23254-1-JPEWhacker@gmail.com>
+References: <20190827193349.23254-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/5] Enable Reproducible OEQA Tests
+Subject: [PATCH 1/5] oeqa: reproducible: Cleanup reproducible build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,25 +59,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 19:34:16 -0000
+X-List-Received-Date: Tue, 27 Aug 2019 19:34:17 -0000
 Content-Transfer-Encoding: 8bit
 
-Enables the OEQA test for reproducible builds, and reporting of the
-results using resulttool
+Cleans up the output from the reproducible build before building to
+ensure consistent results. Note that the output put is purposely left
+after around after the build so that non-reproducible packages can be
+diffed.
 
-[YOCTO #13323]
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/reproducible.py | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-Joshua Watt (5):
-  oeqa: reproducible: Cleanup reproducible build
-  oeqa: reproducible: Use subTest for packages
-  oeqa: Set LD_LIBRARY_PATH when executing native commands
-  oeqa: reproducible: Record packages in test results
-  oeqa: Enable reproducible build test
-
- meta/lib/oeqa/selftest/cases/reproducible.py | 43 ++++++++++++++------
- meta/lib/oeqa/utils/commands.py              |  3 ++
- 2 files changed, 33 insertions(+), 13 deletions(-)
-
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 6dc83d28474..74d94fb20dd 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -132,16 +132,23 @@ class ReproducibleTests(OESelftestTestCase):
+         bitbake("diffutils-native -c addto_recipe_sysroot")
+         diffutils_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "diffutils-native")
+ 
++        reproducible_tmp = os.path.join(self.topdir, 'reproducible', 'tmp')
++        if os.path.exists(reproducible_tmp):
++            bb.utils.remove(reproducible_tmp)
++
+         # Perform another build. This build should *not* share sstate or pull
+         # from any mirrors, but sharing a DL_DIR is fine
+-        self.write_config(textwrap.dedent('''\
+-            TMPDIR = "${TOPDIR}/reproducible/tmp"
++        self.write_config((textwrap.dedent('''\
++            TMPDIR = "%s"
+             SSTATE_DIR = "${TMPDIR}/sstate"
+             SSTATE_MIRROR = ""
+-            ''') + common_config)
++            ''') % reproducible_tmp) + common_config)
+         vars_test = get_bb_vars(capture_vars)
+         bitbake(' '.join(self.images))
+ 
++        # NOTE: The temp directory from the reproducible build is purposely
++        # kept after the build so it can be diffed for debugging.
++
+         for c in self.package_classes:
+             package_class = 'package_' + c
+ 
 -- 
 2.21.0
 
