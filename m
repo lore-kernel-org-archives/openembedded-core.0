@@ -1,46 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C213B6BA9D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 26A717E45D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 15:54:30 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id y8so19323271wrn.10
+	Tue, 27 Aug 2019 15:55:49 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id j16so19329049wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 08:54:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Lzqxda7GL84q1yFGabgACCE6kwGATWvDBW9gh5bppkM=;
-	b=Q4ZtqKfgmsTDNJzJmJzxHUpiuH36vWA8FDm81bdHQ0Y9XJLzPxuC+g4GTffZ+dfdE0
-	99NTZKd9Dai57UEV1Cnc6cwPBlyuy1zEY8x+pqIW5grWOxZvZ6wo8rEzzJUAPvYKdzxZ
-	vnqQAoivYmOM9zyDPwHGsBxN2wfbOnMJUSZhweLWnmTrpJQKWZnrHuTwnlGfFGFBQmH9
-	4NPpaM9+tHZPUkGiPP4yYIyNRnaIOPfaeMaKidqw4gKHgECNIrRmaEPX9e/0qksfNQlw
-	ddX72GVRYhkujrtd/rpTGm3Nz8AHcTI0MrNYw735Pe1MJ2Dbhe0mcOSJCSWM5lUZyRXf
-	XDTA==
+	Tue, 27 Aug 2019 08:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=1HnU0HxC97XmbdgYVE4l9ndZK6/dI4nXN5jg8FIb9Uc=;
+	b=X/JgwEmL+Ooq4ULCNeW5zQt9mDeMfxC7MQYiiadGn0GwfS0ltb0zZ3cG/+pEybwjLD
+	3OMyIfqWsarw/wOaO+PAwGoonMM2fQ4tOe6LIg3zDAzqMwBG/BozUBx0E48yrHh3Hcln
+	nw0FP+Zc+LfWlOpOlNoPW6Edc498JzjflANbo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Lzqxda7GL84q1yFGabgACCE6kwGATWvDBW9gh5bppkM=;
-	b=lBJvpIihyHzz5MaMXHAavVkIyuymmYqfY53OLJDYp8vDGj/Keb8hV0+tJW7OYPzabt
-	rgOv1Jqz2a7pmPAj6Egw9uL3dviGlXhQpaLsQ+F1HlS2Xp0BTlmiI0vFQA3TpN+1S8cB
-	s7SRVUo4AGFTbqdlvYoHxQVOrW3wi1aSj1A2ItRVet2M21xaSNQYUM7y/7vFdB7rkJup
-	uJaBw/qV1yP1gTrECFUd3WkYyNdjAo/sOjelqKGbtW40HzgrAHYLiY+ResB4QPgdUM4a
-	4AQDRwdita7AQwc08aUuFhHL+MV7vtMZsom3QhLYNnDrIVRa2Rb6besgqtbgAl/DVEAh
-	GU4g==
-X-Gm-Message-State: APjAAAWSVBSifUTiECctSVS2i1ecQNlaofz4K911TFpVVdeS+jJf5FPp
-	22LH2qsKy1unyWNQNldAUbAAKLL8
-X-Google-Smtp-Source: APXvYqz0EnHKyJuVyyIly1j3aeXgCCNov9uE143TeDTJjJboopN983adu9UH4qWaedS6n6ZD4ljSbg==
-X-Received: by 2002:a5d:4ecf:: with SMTP id s15mr30964695wrv.49.1566921271178; 
-	Tue, 27 Aug 2019 08:54:31 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id 2sm4258753wmz.16.2019.08.27.08.54.29
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=1HnU0HxC97XmbdgYVE4l9ndZK6/dI4nXN5jg8FIb9Uc=;
+	b=R9WdewBGDTslNblgvvV2g/sBwvdNCYk2/kCqva7Akn4etDaj+mMh0bGc9SOSy60hu1
+	yHk6Zh+3g9K4vHcp5hqqsTZ/PjbsDqX+yJwDCo0qDxx+8TBzco7XLGmsjCSq3OcdK1Os
+	DszCn91+i1J3jhbvFa7KAvVEQ8vtr9bKc5FuTfuNzgThWaA9//ei27gEPHDTtJxMm6ef
+	+V8jgLxmqIzTwOSH7QUVaRWIvifOPUylcDpy2SFx+eO3h++paKPEjjyj8fv0RUptaHus
+	gOY7grdG9RFVtG3oBOfXpvWSurVwvf9oV9fSad1WFW5HUncNWR++GluxrBGsF/KRbL/r
+	RqtQ==
+X-Gm-Message-State: APjAAAUd6iN8Uo2jjehmGsDf6/lgGsBvD8GSp8hn18eah1T8j566+sW1
+	ta1tbF26oAUs2PR01uYSM4ko5g==
+X-Google-Smtp-Source: APXvYqw5qjF6+4xzNQ1gAyAd1/MFhLnTEdpDlAvJkzog2EPLpxQAFOe7a/lF6jgIo1MI+9xIQGUX6A==
+X-Received: by 2002:a5d:698f:: with SMTP id g15mr31723041wru.310.1566921349904;
+	Tue, 27 Aug 2019 08:55:49 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 2sm28127412wrg.83.2019.08.27.08.55.48
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 08:54:30 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2019 17:54:25 +0200
-Message-Id: <20190827155425.105260-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] rpm: resolve a host contamination issue for mono packaging
+	Tue, 27 Aug 2019 08:55:49 -0700 (PDT)
+Message-ID: <1fefb859d786e7ff8ee9a57bd58e4c7d94f28dd5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 27 Aug 2019 16:55:48 +0100
+In-Reply-To: <20190827135608.GA19259@localhost>
+References: <1566593504-21918-1-git-send-email-armccurdy@gmail.com>
+	<1566593504-21918-9-git-send-email-armccurdy@gmail.com>
+	<20190827135608.GA19259@localhost>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 09/13] glibc: drop obsolete packaging of glibc libnsl libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,92 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 15:54:31 -0000
+X-List-Received-Date: Tue, 27 Aug 2019 15:55:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...es-requires-do-not-use-monodis-from-.patch | 58 +++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+On Tue, 2019-08-27 at 16:56 +0300, Adrian Bunk wrote:
+> On Fri, Aug 23, 2019 at 01:51:40PM -0700, Andre McCurdy wrote:
+> > Packaging rules were left behind when libnsl was removed:
+> > ...
+> 
+> How has this change been tested?
+> 
+> ERROR: glibc-2.30-r0 do_package: QA Issue: glibc: Files/directories
+> were installed but not shipped in any package:
+>   /lib/libnsl-2.30.so
+>   /lib/libnsl.so.1
+> Please set FILES such that these items are packaged. Alternatively if
+> they are unneeded, avoid installing them or delete them within
+> do_install.
+> glibc: 2 installed and not shipped files. [installed-vs-shipped]
+> ERROR: glibc-2.30-r0 do_package: Fatal QA errors found, failing task.
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch b/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-new file mode 100644
-index 00000000000..24aa4c7ffff
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-@@ -0,0 +1,58 @@
-+From 43fbc3f53302a395463e8450ac81c53f623eec3f Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 27 Aug 2019 17:42:34 +0200
-+Subject: [PATCH] mono-find-provides/requires: do not use monodis from the host
-+
-+There was a host contamination issue here: if monodis was installed
-+on the host, do_package would use that to resolve dependencies
-+of mono libraries (and often fail in that). Without monodis,
-+no dependencies are resolved, which is seemingly how things
-+are supposed to work.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ scripts/mono-find-provides | 8 ++++----
-+ scripts/mono-find-requires | 8 ++++----
-+ 2 files changed, 8 insertions(+), 8 deletions(-)
-+
-+diff --git a/scripts/mono-find-provides b/scripts/mono-find-provides
-+index 9348457d3..b28872ffb 100644
-+--- a/scripts/mono-find-provides
-++++ b/scripts/mono-find-provides
-+@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep -E "\\.(exe|dll)\$"))
-+ build_bindir="$2/usr/bin"
-+ build_libdir="$2$3"
-+ 
-+-if [ -x $build_bindir/monodis ]; then
-+-    monodis="$build_bindir/monodis"
-++if [ -x $build_bindir/monodis.bogus ]; then
-++    monodis="$build_bindir/monodis.bogus"
-+     export LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-+-elif [ -x /usr/bin/monodis ]; then
-+-    monodis="/usr/bin/monodis"
-++elif [ -x /usr/bin/monodis.bogus ]; then
-++    monodis="/usr/bin/monodis.bogus"
-+ else
-+     exit 0;
-+ fi
-+diff --git a/scripts/mono-find-requires b/scripts/mono-find-requires
-+index ea58cae48..d270169e1 100644
-+--- a/scripts/mono-find-requires
-++++ b/scripts/mono-find-requires
-+@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep -E "\\.(exe|dll)\$"))
-+ build_bindir="$2/usr/bin"
-+ build_libdir="$2$3"
-+ 
-+-if [ -x $build_bindir/monodis ]; then
-+-    monodis="$build_bindir/monodis"
-++if [ -x $build_bindir/monodis.bogus ]; then
-++    monodis="$build_bindir/monodis.bogus"
-+     export LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-+-elif [ -x /usr/bin/monodis ]; then
-+-    monodis="/usr/bin/monodis"
-++elif [ -x /usr/bin/monodis.bogus ]; then
-++    monodis="/usr/bin/monodis.bogus"
-+ else
-+     exit 0;
-+ fi
-diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-index 063f4269a57..c37330eb4c6 100644
---- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-@@ -41,6 +41,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
-            file://0001-perl-disable-auto-reqs.patch \
-            file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
-            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-+           file://0001-mono-find-provides-requires-do-not-use-monodis-from-.patch \
-            "
- 
- PE = "1"
--- 
-2.17.1
+Showed up on the autobuilder too:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/981/steps/8/logs/step1b
+
+Cheers,
+
+Richard
+
 
 
