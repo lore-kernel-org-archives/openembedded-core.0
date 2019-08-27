@@ -1,51 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 486267E45D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com
+	[209.85.222.44])
+	by mail.openembedded.org (Postfix) with ESMTP id D047D7E71A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 16:01:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7RG0tDZ027240
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 27 Aug 2019 16:10:03 +0000 (UTC)
+Received: by mail-ua1-f44.google.com with SMTP id k7so7182535uao.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 09:01:10 -0700
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 27 Aug 2019 09:00:55 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <20190827155425.105260-1-alex.kanavin@gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <9c9a1aec-e57b-cd2c-0538-4e65679f5fac@windriver.com>
-Date: Tue, 27 Aug 2019 11:00:54 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.8.0
+	Tue, 27 Aug 2019 09:10:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=pem/Jq4vjG+0rAfnBBR0NMHXYJbyo5m2m17plsaj+5c=;
+	b=MoB5ahwNhM1zD5AY8wast+mVE2oHgM1QDAIegKcPm7Y4gIQd49rys/rELNK88UC0VA
+	/QN9QvbE+M5O7gbCduGQNN4gLVDfjZH8DuV57sWaP6k8Hvcu85QOpmdmTHgHLKO5hXpM
+	8iDUadRJ0MdhXBJUlvjmxeLieXf1m5tKrRp6eJQVdeWLvzUmEeFpaU0YikG+ynFxHuqI
+	OnBrgMTSkBSd4/hQVzRTRmuRa2I44ZBLNSplLElL+AZYykUgJmXsGG71Unxc8OHgRMK0
+	9RCSXh9BX8DK2Lvcd+mQKEfzonMtJYDTci2fmBmWISngyhEYxqiN0Bkvkrrd0yhVOcxJ
+	4XJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=pem/Jq4vjG+0rAfnBBR0NMHXYJbyo5m2m17plsaj+5c=;
+	b=UtwB+tq6jahPIxHIOEEzNzptEEi2mRGihWQs+5GYGNFcakraP5p36usJWLdxObA9pc
+	sTf5ooIDzG6I0n73hRLvgEA+u9whucKJWQdMje1fhXleVkwZj0HfnEkD8dE24uvS/0+i
+	byevWs0FI+r2bxFP+AmNbcr6aWYlESD0j7tEzfuRS6ARm68qR7Jx1nuk/x4RSbX4pMA+
+	QwVZaU/OjELoEXm8bf6FMNz0S9yVgErr41fgk1gfUmNoeh+RuN7xl3XNShhSdPkYZaBP
+	sruIUw7uFLmROW8ebv1Qf+XtxMIGpnYj2V1sF3n/I+7J+kPLJecmaN5wg6gck4641RTn
+	UfXw==
+X-Gm-Message-State: APjAAAWteM5F+eowqIcw1N++n52AzhxUAi185TWzGmBpS+wYgmVmdP/9
+	Hzhi8N3bjPi91DK3zEN6IVvG1vs6Un8Rq0q3uZM=
+X-Google-Smtp-Source: APXvYqwPfc0SkHAncI5JhKiyf8jUzdzetobH89omXsjRd97lHM7LAH6SKFLQmG9FcAPr6dUZVFQBv55DzpiDoNYv1a8=
+X-Received: by 2002:ab0:810:: with SMTP id a16mr11148876uaf.93.1566922204681; 
+	Tue, 27 Aug 2019 09:10:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190827155425.105260-1-alex.kanavin@gmail.com>
+References: <20190827155425.105260-1-alex.kanavin@gmail.com>
+	<9c9a1aec-e57b-cd2c-0538-4e65679f5fac@windriver.com>
+In-Reply-To: <9c9a1aec-e57b-cd2c-0538-4e65679f5fac@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 27 Aug 2019 18:09:53 +0200
+Message-ID: <CANNYZj9kDcwbY2qdjZ-WNP0ALBM-EYToUpE_59AtzRKD5Z++xQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] rpm: resolve a host contamination issue for mono packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,105 +54,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 16:01:20 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Aug 2019 16:10:04 -0000
+Content-Type: multipart/alternative; boundary="000000000000669a7505911b81c8"
 
-On 8/27/19 10:54 AM, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  ...es-requires-do-not-use-monodis-from-.patch | 58 +++++++++++++++++++
->  meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |  1 +
->  2 files changed, 59 insertions(+)
->  create mode 100644 meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+--000000000000669a7505911b81c8
+Content-Type: text/plain; charset="UTF-8"
 
-Instead of hacking with with different names that (shouldn't or) don't exist..
-It would be better to just disable the mono-find-* wouldn't it?
+On Tue, 27 Aug 2019 at 18:01, Mark Hatle <mark.hatle@windriver.com> wrote:
 
-If that is the case..
+> Instead of hacking with with different names that (shouldn't or) don't
+> exist..
+> It would be better to just disable the mono-find-* wouldn't it?
+>
+> If that is the case..
+>
+> In the fileattrs/mono.attr directory, just remove mono.attr or comment out
+> all
+> of the lines.
+>
 
-In the fileattrs/mono.attr directory, just remove mono.attr or comment out all
-of the lines.
+The upcoming rpm 4.15 does exactly that (remove mono.attr and dependent
+files altogether), so maybe it's not worth the time to improve this patch.
 
---Mark
+Alex
 
-> diff --git a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch b/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-> new file mode 100644
-> index 00000000000..24aa4c7ffff
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-> @@ -0,0 +1,58 @@
-> +From 43fbc3f53302a395463e8450ac81c53f623eec3f Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Tue, 27 Aug 2019 17:42:34 +0200
-> +Subject: [PATCH] mono-find-provides/requires: do not use monodis from the host
-> +
-> +There was a host contamination issue here: if monodis was installed
-> +on the host, do_package would use that to resolve dependencies
-> +of mono libraries (and often fail in that). Without monodis,
-> +no dependencies are resolved, which is seemingly how things
-> +are supposed to work.
-> +
-> +Upstream-Status: Inappropriate [oe-core specific]
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +---
-> + scripts/mono-find-provides | 8 ++++----
-> + scripts/mono-find-requires | 8 ++++----
-> + 2 files changed, 8 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/scripts/mono-find-provides b/scripts/mono-find-provides
-> +index 9348457d3..b28872ffb 100644
-> +--- a/scripts/mono-find-provides
-> ++++ b/scripts/mono-find-provides
-> +@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep -E "\\.(exe|dll)\$"))
-> + build_bindir="$2/usr/bin"
-> + build_libdir="$2$3"
-> + 
-> +-if [ -x $build_bindir/monodis ]; then
-> +-    monodis="$build_bindir/monodis"
-> ++if [ -x $build_bindir/monodis.bogus ]; then
-> ++    monodis="$build_bindir/monodis.bogus"
-> +     export LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-> +-elif [ -x /usr/bin/monodis ]; then
-> +-    monodis="/usr/bin/monodis"
-> ++elif [ -x /usr/bin/monodis.bogus ]; then
-> ++    monodis="/usr/bin/monodis.bogus"
-> + else
-> +     exit 0;
-> + fi
-> +diff --git a/scripts/mono-find-requires b/scripts/mono-find-requires
-> +index ea58cae48..d270169e1 100644
-> +--- a/scripts/mono-find-requires
-> ++++ b/scripts/mono-find-requires
-> +@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep -E "\\.(exe|dll)\$"))
-> + build_bindir="$2/usr/bin"
-> + build_libdir="$2$3"
-> + 
-> +-if [ -x $build_bindir/monodis ]; then
-> +-    monodis="$build_bindir/monodis"
-> ++if [ -x $build_bindir/monodis.bogus ]; then
-> ++    monodis="$build_bindir/monodis.bogus"
-> +     export LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-> +-elif [ -x /usr/bin/monodis ]; then
-> +-    monodis="/usr/bin/monodis"
-> ++elif [ -x /usr/bin/monodis.bogus ]; then
-> ++    monodis="/usr/bin/monodis.bogus"
-> + else
-> +     exit 0;
-> + fi
-> diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-> index 063f4269a57..c37330eb4c6 100644
-> --- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-> @@ -41,6 +41,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
->             file://0001-perl-disable-auto-reqs.patch \
->             file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
->             file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-> +           file://0001-mono-find-provides-requires-do-not-use-monodis-from-.patch \
->             "
->  
->  PE = "1"
-> 
+--000000000000669a7505911b81c8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 27 Aug 2019 at 18:01, Mark Hatle =
+&lt;<a href=3D"mailto:mark.hatle@windriver.com">mark.hatle@windriver.com</a=
+>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">Instead of hacking with with different names that (=
+shouldn&#39;t or) don&#39;t exist..<br>
+It would be better to just disable the mono-find-* wouldn&#39;t it?<br>
+<br>
+If that is the case..<br>
+<br>
+In the fileattrs/mono.attr directory, just remove mono.attr or comment out =
+all<br>
+of the lines.<br></blockquote><div><br></div><div>The upcoming rpm 4.15 doe=
+s exactly that (remove mono.attr and dependent files altogether), so maybe =
+it&#39;s not worth the time to improve this patch.</div><div><br></div><div=
+>Alex<br></div></div></div>
 
+--000000000000669a7505911b81c8--
