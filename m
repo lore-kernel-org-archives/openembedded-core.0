@@ -1,61 +1,29 @@
-Return-Path: <paul@betafive.co.uk>
-X-Greylist: delayed 551 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 27 Aug 2019 08:27:26 UTC
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
-	[66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id F0B327D68F
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 40AC57DEC2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 08:27:26 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 56F0921CBA;
-	Tue, 27 Aug 2019 04:18:15 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-	by compute1.internal (MEProxy); Tue, 27 Aug 2019 04:18:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=mime-version:message-id:in-reply-to:references:date:from:to
-	:subject:content-type; s=fm2; bh=vGHqM0gy1yZHipA2METQIqFUKzyPR1c
-	KCZCKCglFd8o=; b=NxOz//lRQFVIdlJK0zQoN0njXS/mRpC4oLo/wDmXMvt9fPG
-	Tyw9as0yNwl9YnyNCDFZG4pxLtiErjNF7JSDOaOFOOPEeKKe7KV0qKfY8e4LBAYk
-	fjQoqArql75t4ZmzOZkTWXGYxSbI/r96JJhIvgarLu9XusECIhPkpKPxTxlZkqWh
-	kng/oJW0QWD4tWw15yYPwh+SDDliqY7JZS8dR8k6zs9wfyi8+E/EXwjtPgd5Z4Wa
-	Ca1anL93d82r62SnrEPLlHskyljXuTa0UxRXPt9jb73f/+KL83ht4aOh/d7EzFa7
-	NGSxDnrBrPVyo7r905YUyDF7+mFelhodrRMGXiQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=vGHqM0
-	gy1yZHipA2METQIqFUKzyPR1cKCZCKCglFd8o=; b=lDUqfJpml3uG4Q/hdi6HQI
-	S8dDzp23Hukk1+KBNQcjkEbd8Bt4ABZUSWeAPFzWKec7hXtz3JQPNNcGG1KBp2/A
-	wAKWKACT+LPvUyNENq/0m80lUfvM0B3XatyauznETNatlAKDd2YP1iIGjaSkcgOJ
-	bpYl6T4vM+4TulQgF+zPv+k6ATlEgWpbHAkzUhuGrxibqyPJpCGhqdHVbrcE4Tcc
-	E5ggofXFBAeYQkmbGZby+i24iEo4Oy9CYawoIu66xrRxgCgPgt2FEUKLGn5uMDf4
-	nZANBnCEoYWyEFfeb2chkbkQl1JDWIfGkzTfVplC2X6AksY2TSMoMu//41Oj7kXg
-	==
-X-ME-Sender: <xms:RudkXdyD4ZftqDZ_Y9hdk7ZkC-qALgCGJ0_0tCr2ABVeLpkAluI6xg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudehiedgtdduucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-	cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfrrghu
-	lhcuuegrrhhkvghrfdcuoehprghulhessggvthgrfhhivhgvrdgtohdruhhkqeenucfrrg
-	hrrghmpehmrghilhhfrhhomhepphgruhhlsegsvghtrghfihhvvgdrtghordhukhenucev
-	lhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:RudkXRjCcT9crj1hEFbI4B2D250dyZtIjNjBnVD5PUYl9ivemdUvnQ>
-	<xmx:RudkXSUhnLdPD31gRFN1k-VbSpPhpDWi4Dpl3ZCy3POHc5FQFTObkg>
-	<xmx:RudkXT1kXCYrROPcg6JrpCnIlguUNcebhaPNitGv5RJOJbtfEQtiOg>
-	<xmx:R-dkXS_BaDkgMUQ3GyXK0p8b7jri9wLXCQnavzwwpXj26PgTtWZuiA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id D1C60E00AE; Tue, 27 Aug 2019 04:18:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-139-g73fcb67-fmstable-20190826v1
-Mime-Version: 1.0
-Message-Id: <0dd74dca-9147-4a57-b565-6998cc62e40b@www.fastmail.com>
-In-Reply-To: <a4df475b-9291-1d3d-43d5-c0c01b8b9806@cn.fujitsu.com>
-References: <a4df475b-9291-1d3d-43d5-c0c01b8b9806@cn.fujitsu.com>
-Date: Tue, 27 Aug 2019 09:17:54 +0100
-From: "Paul Barker" <paul@betafive.co.uk>
-To: zang <zangrc.fnst@cn.fujitsu.com>,
-	"OE Core" <openembedded-core@lists.openembedded.org>
-Subject: Re: Consultation about the issue of archiver
+	Tue, 27 Aug 2019 09:44:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7R9i7b6007188
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Aug 2019 02:44:07 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 27 Aug 2019 02:44:07 -0700
+To: Hongxu Jia <hongxu.jia@windriver.com>,
+	<openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <armccurdy@gmail.com>,
+	<alex.kanavin@gmail.com>
+References: <CAJ86T=WtuV46YbMMcGigKRrsvTNTtgWWdNLDp2P27-Zx6Rn+Yw@mail.gmail.com>
+	<1566279918-9733-1-git-send-email-hongxu.jia@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <7210fb6d-563e-497c-a25b-bc53ffe15954@windriver.com>
+Date: Tue, 27 Aug 2019 17:43:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <1566279918-9733-1-git-send-email-hongxu.jia@windriver.com>
+Subject: Re: [PATCH V3] nfs-utils: decrease RLIMIT_NOFILE to 4k for systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,49 +36,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 08:27:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 27 Aug 2019 09:44:08 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Tue, 27 Aug 2019, at 08:21, zang wrote:
-> hello:
-> 
-> Recently, when I enabled the archiver.bbclass, I found that some 
-> packages could not generate the srpm package. The reason is that it 
-> returned in the function copyleft_should_include() in the file 
-> archiver.bbclass. 
-> 
->  | included, reason = copyleft_should_include(d)
->  | if not included:
->  | bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
->  | /*return from here*/
->  | return 
->  | else:
->  | bb.debug(1, 'archiver: %s is included: %s' % (pn, reason)) 
-> Why do you want to make a license judgment on the package?
->  I hope someone can answer it, thank you very much.
->  The following is my local.conf:
-> 
-> | ...
-> | INHERIT += "archiver"
-> | ARCHIVER_MODE[srpm] = "1"
-> | ARCHIVER_MODE[src] = "original"
-> | ...
-> e.g. When I use the following 
-> command,tmp/work/core2-64-poky-linux/openssl/1.1.1c-r0/deploy-sources/ 
-> is empty.
-> 
-> | bitbake -f -c deploy_archives openssl 
+On 2019/8/20 下午1:45, Hongxu Jia wrote:
+> On systemd, it set RLIMIT_NOFILE to 512k, since do_testimage
+> for core-image-sato-sdk has memory limitation (256Mib) which
+> caused rpc.statd failed with out of memory.
+> [  531.306146] Out of memory: Kill process 193 (rpc.statd) score 200 or sacrifice child
+>
+> The rpc.statd and rpc.mountd allocates memory according to
+> RLIMIT_NOFILE, so decrease it to 4k to keep sync with sysvinit
 
-The flexibility of the archiver class is a real advantage, you just need to configure it via the variables used by the copyleft_filter class. To capture everything except 'CLOSED' and 'Proprietary' recipes I have the following set:
+Hi Richard,
 
-    COPYLEFT_LICENSE_INCLUDE = "*"
-
-Give that a try and let me know if it works for you.
+This patch could fix the test_image failure with systemd. Would like to 
+try systemd as default init manager on yocto build again
+to check whether any more blocking issues?
 
 Thanks,
+Kai
+
+
+>
+> After applying the patch, the memory cost is the same with sysvinit:
+>
+> root@qemux86-64:~# systemctl status nfs-statd
+> * nfs-statd.service - NFS status monitor for NFSv2/3 locking.
+>     Loaded: loaded (/lib/systemd/system/nfs-statd.service; enabled; vendor preset: enabled)
+>     Active: active (running) since Tue 2019-08-20 03:16:18 UTC; 3min 26s ago
+>   Main PID: 343 (rpc.statd)
+>      Tasks: 1 (limit: 271)
+>     Memory: 1.0M
+>
+> root@qemux86-64:~# systemctl status nfs-mountd
+> * nfs-mountd.service - NFS Mount Daemon
+>     Loaded: loaded (/etc/systemd/system/nfs-mountd.service; enabled; vendor preset: enabled)
+>     Active: active (running) since Tue 2019-08-20 03:19:01 UTC; 1min 21s ago
+>   Main PID: 451 (rpc.mountd)
+>      Tasks: 1 (limit: 271)
+>     Memory: 736.0K
+>
+> Suggested-by: Chen Qi <qi.chen@windriver.com>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service | 1 +
+>   meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service  | 1 +
+>   meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb           | 4 ++++
+>   3 files changed, 6 insertions(+)
+>
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
+> index 3c3a802..c01415d 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
+> @@ -11,6 +11,7 @@ ConditionPathExists=@SYSCONFDIR@/exports
+>   [Service]
+>   EnvironmentFile=-@SYSCONFDIR@/nfs-utils.conf
+>   ExecStart=@SBINDIR@/rpc.mountd -F $MOUNTD_OPTS
+> +LimitNOFILE=@HIGH_RLIMIT_NOFILE@
+>   
+>   [Install]
+>   WantedBy=multi-user.target
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
+> index 6e196b8..4fa64e1 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
+> @@ -8,6 +8,7 @@ After=network.target nss-lookup.target rpcbind.service
+>   [Service]
+>   EnvironmentFile=-@SYSCONFDIR@/nfs-utils.conf
+>   ExecStart=@SBINDIR@/rpc.statd -F $STATD_OPTS
+> +LimitNOFILE=@HIGH_RLIMIT_NOFILE@
+>   
+>   [Install]
+>   WantedBy=multi-user.target
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
+> index ac4437b..28f9898 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
+> @@ -119,6 +119,9 @@ do_compile_prepend() {
+>   	make clean
+>   }
+>   
+> +# Works on systemd only
+> +HIGH_RLIMIT_NOFILE ??= "4096"
+> +
+>   do_install_append () {
+>   	install -d ${D}${sysconfdir}/init.d
+>   	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
+> @@ -133,6 +136,7 @@ do_install_append () {
+>   	install -m 0644 ${WORKDIR}/nfs-statd.service ${D}${systemd_unitdir}/system/
+>   	sed -i -e 's,@SBINDIR@,${sbindir},g' \
+>   		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+> +		-e 's,@HIGH_RLIMIT_NOFILE@,${HIGH_RLIMIT_NOFILE},g' \
+>   		${D}${systemd_unitdir}/system/*.service
+>   	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+>   	    install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/
+
 
 -- 
-Paul Barker
-Managing Director & Principal Engineer
-Beta Five Ltd
+Kai Kang
+
 
