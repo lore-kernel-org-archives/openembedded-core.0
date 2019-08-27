@@ -1,56 +1,36 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 862167E3BC
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id B82BF6BC7A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 13:08:48 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id t6so46130212ios.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 06:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:cc:references:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=00Bwuea7bNt9h17DdNnFn+MRTYh6Ywlls+fsNatXSGg=;
-	b=mjGMFA52vaQUWs8313RiBxcpEyTtvlHeGRYXcAT96NFPapk+NTXtC+mKkeC1QV+Edw
-	/w41MyLR1x8ds5qk+qb764JUlf6IZNug+qX61wXFxQQoYSgIxVP6WPDyjeQ2lnSmQefk
-	49w6CRlWfCkvPjHrOOs7DFOMTXUesuKhtVvTgDi4m5aSMYC3izuvlqW0qPm2+Q8NmvyL
-	d4wBKht3LSNwP8he94oyARmOxMcWrIkHrDbgf/1nMHU32xeLN4NDsTmoYWsjq/1RYMuj
-	KZOkoA4Y7NwGUEwsawHO9zvqpBLEdP2aL8yDwWv2hoj+mVrwg3/vGhX4/I/5tbpvBFPm
-	oE3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=00Bwuea7bNt9h17DdNnFn+MRTYh6Ywlls+fsNatXSGg=;
-	b=UqY+Go60wRABLjvEyy1oOzUoz6U3vq6SSYAqe8L4ZV5+4SUKvxMqPmFqHoiukpsSRE
-	mZtJJ1IsUBbt8VbX4zIixGfTD+fIAYE4Q6gGaS9bSsNc8NAnM/EuPsQGioPsEyHw/3nU
-	xSD+ukqjJ2bHJDUYLGxXKumbHB5ypfSGP0ElepdpHicwHCEjWRCvv0ByZ9kKOZU53yo/
-	0rL+3YFGB2ymDPRznVK4SITOAdod9pbAiYRhGXZtDQlMrw0unYQXq3mv4xZxr5vtwEs6
-	q86M829gefaON2wo1ou3Fa8a138lqoDCSAKptUQMqwpkAc6SwOyb+tF1vLFmSzs0p+5N
-	tcLw==
-X-Gm-Message-State: APjAAAVBtgjuTxN+F8rmmEUtaQPIBycwjfldM6bvnplH3wXkizToDlpj
-	4lyA8x6w4NrWLA7ttSfRmK2YApfh
-X-Google-Smtp-Source: APXvYqwTfnKtYdOYRjYN+jX/Lv5C/MznJJVkompzCymCtibJ3J05OQ/imN6VFRI08zUaZpWFd3E2eQ==
-X-Received: by 2002:a02:a703:: with SMTP id k3mr21910735jam.12.1566911328821; 
-	Tue, 27 Aug 2019 06:08:48 -0700 (PDT)
-Received: from [10.30.197.57] ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id h9sm14266512ior.9.2019.08.27.06.08.47
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 27 Aug 2019 06:08:47 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20190827124617.18207-1-JPEWhacker@gmail.com>
-	<CANNYZj_zr9+LbbGfhtd46pnUBYgpSW5LL5pE_fuvhxwne6yPrA@mail.gmail.com>
-Message-ID: <de80b1e5-dc0e-cabc-409a-0c8c84bc8ef2@gmail.com>
-Date: Tue, 27 Aug 2019 08:08:47 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Tue, 27 Aug 2019 13:21:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46HqJM3HZ9z3J;
+	Tue, 27 Aug 2019 15:21:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1566912067;
+	bh=jRrGSNfQPNJTHgiz/F0lA3lbWRC1v0cl9HspKHDVXwA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G/kFRp6q2x+MZpEnUXUpJtnVVZpaH/u9Dbnn+pd1VBYN2xcm656t2+G5mpgmLas3j
+	vMhA/lOERFWujjRgA2u8MD74dq1ij9I2Fi2ElE6+GRB1IxNJ/tzQY2r3GDifxJ66ui
+	xNKg7Ee0S0AUtCJQAidI/4hN7TpIsHei4VFTYISYx7m/CFXfGGGFPi8kZEAG1Rm1JE
+	33nOGQyEnloKuLZonWJ7OI5vRPDy8f1W/kY3QS36O8rTY0pK21ryTeFYX3po64V+8N
+	1+1SzdF5ZGRYti48RweFwUhT4Xm1B+I0PCnhxpTIeP6+ctorGeX3WLLBbfuQxv2YY1
+	t1evscpA/43nHp/sBLVV3ZL1DlxKEbIcEtv9vvCVp1BwsdjaD0F93V+0obaAYt2fkS
+	IRzYqephBZrMnhZb8+eJT87AnpznjyOoeIqpTXCOl6HBM6n68O8vgtzpSXSnrxBV2Q
+	lUncW97oPq6vYTtrE6oF3w/6PIToUfV5hQjdPnNqUMnzsYvJqtdzJs0xtQndGtVQvp
+	CIuT29yaboZXMkbbh4ujOkJFgfc/DzJDBw10FQ6XhbZ4zUSUDPHA4RFtPY19L5ombC
+	AN/teWZaTBjNyPTNEFk0A4D13tMtnLiNs0IT9TmX1N5GNGXgtBuzNIAuLvRn6R/YfY
+	3bX0LQdrrHe5PKUbkL86nBpA=
+Date: Tue, 27 Aug 2019 16:21:05 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Message-ID: <20190827132105.GA17139@localhost>
+References: <20190826053238.28912-1-zangrc.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_zr9+LbbGfhtd46pnUBYgpSW5LL5pE_fuvhxwne6yPrA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: Fix documentation DEPENDS
+In-Reply-To: <20190826053238.28912-1-zangrc.fnst@cn.fujitsu.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] libxcrypt:upgrade 4.4.6 -> 4.4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,38 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 13:08:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 27 Aug 2019 13:21:08 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 8/27/19 7:56 AM, Alexander Kanavin wrote:
-> On Tue, 27 Aug 2019 at 14:46, Joshua Watt <jpewhacker@gmail.com 
-> <mailto:jpewhacker@gmail.com>> wrote:
->
->     perl is required to generate the OpenSSL documentation, and therefore
->     should be present at do_compile. If not, OpenSSL will skip the
->     documentation generation, which isn't reproducible
->
->
-> I'm not sure I follow you. If perl is present, documentation is 
-> generated. If perl is not present, documentation is not generated. 
-> Where is the non-reproducibility in this?
+On Mon, Aug 26, 2019 at 01:32:38PM +0800, Zang Ruochen wrote:
+> -License-Update: Many individual files are under other licenses,update their information.
+> 
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> ---
+>  .../libxcrypt/{libxcrypt_4.4.6.bb => libxcrypt_4.4.7.bb}            | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>  rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.6.bb => libxcrypt_4.4.7.bb} (86%)
+>...
 
-RSS doesn't clear out the sysroots if it goes back and executes previous 
-tasks as part of a rebuild. As such, if perl gets added by a later task, 
-then bitbake goes back and re-executes the task (I don't remember 
-exactly which one... do_configure maybe?), perl may be present when it 
-wasn't before.
+You also have to rename libxcrypt-compat_4.4.6.bb
 
-This is generally true of all RSS dependencies, and until it gets 
-resolved the best we can say for reproducible builds is that two builds 
-from stratch without sstate can be binary identical. It will have to be 
-resolved eventually, but my current plan is to do the reproducible build 
-test as two clean builds for now so if there is a lot of push back we 
-can drop it.
+cu
+Adrian
 
+-- 
 
->
-> Alex
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
