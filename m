@@ -1,44 +1,54 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
-	[209.85.217.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CD857D711
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 862167E3BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 12:56:30 +0000 (UTC)
-Received: by mail-vs1-f49.google.com with SMTP id b20so13385130vso.1
+	Tue, 27 Aug 2019 13:08:48 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id t6so46130212ios.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 05:56:32 -0700 (PDT)
+	Tue, 27 Aug 2019 06:08:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TNErAWccmJj3gr59Givw+oYnzQEMFLtdAjKLl61ifak=;
-	b=H6Db1byrR+Ft0SV0QldaKl+DD73cL9fmYghzYHLYPBiX0602zjkJ7T/Ux8vtnapB01
-	KcSMXVNAXl80gaMHlDpbInHKA5Jtwvfs2oE0001U/SK9khUPbnAAYNe4q3BU7e6akg1b
-	qgEKNRI9q2LHWUFx4DgUXl04429gVU2UUNY3/HYVjcEEnnwz11SiIE2JkLDrzCCtkdsb
-	JHWQHjZrRh72b7II68l7wPQvSmP/up9OfWL/cOF38jBGbOWNaxBWlueDyT/dwGrfcBcf
-	F4bEmWCHBRwBAQ8ZwriG3abS+ai5Wjpt5SB/D+gXlF3sWRV1BXajEE58NR5kE0h8/OqX
-	I7Vw==
+	h=from:subject:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=00Bwuea7bNt9h17DdNnFn+MRTYh6Ywlls+fsNatXSGg=;
+	b=mjGMFA52vaQUWs8313RiBxcpEyTtvlHeGRYXcAT96NFPapk+NTXtC+mKkeC1QV+Edw
+	/w41MyLR1x8ds5qk+qb764JUlf6IZNug+qX61wXFxQQoYSgIxVP6WPDyjeQ2lnSmQefk
+	49w6CRlWfCkvPjHrOOs7DFOMTXUesuKhtVvTgDi4m5aSMYC3izuvlqW0qPm2+Q8NmvyL
+	d4wBKht3LSNwP8he94oyARmOxMcWrIkHrDbgf/1nMHU32xeLN4NDsTmoYWsjq/1RYMuj
+	KZOkoA4Y7NwGUEwsawHO9zvqpBLEdP2aL8yDwWv2hoj+mVrwg3/vGhX4/I/5tbpvBFPm
+	oE3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=TNErAWccmJj3gr59Givw+oYnzQEMFLtdAjKLl61ifak=;
-	b=LtjAZ7bMrhkzs04yVJwQP7SAI06VxeM+TxaM/tHs5/jdT6s836Whj0c+oWmsmXwa/I
-	0wi3q0MkI/1jPnpBthaXXw5ytURUnuYj6E4HAHnfsN5yOQ233G8F19aQQ7wdzBLBV3Cu
-	W0WtW9EEeUsH36zz1l0m2l4enLLsdo2sr9Ei6w9agV9v8GTJHWPWfYH+Z5Q9WPHvDo2+
-	ibO73MS0T8zQEZaf/sInqHM/saEloAdW/taGHHyKnkd/6BAEquDSPKL94pe078KYePJT
-	FG0e2XOr3oTGOaa5I0aPacAMwX2q2zJefBVfB15nd6BcAqH/w0lF6bB/aHoXAE5zw0J1
-	8ahg==
-X-Gm-Message-State: APjAAAUWqv9H06uKnNU5OMsamaANtRipXMUbKdrGT261V0bCwe43zebW
-	YYrNlpT9m1tPLBvtjOt9Yu0Ry4uWQnYLDNP9raA=
-X-Google-Smtp-Source: APXvYqwoxhkZkQtwHcY0q+4Uk38QJHd7OU6gXgEvKNxnHCAji1TJdWXRoYmoRz8ZI58ursqe3GUDdn02r/6pj2XUtgw=
-X-Received: by 2002:a67:e45a:: with SMTP id n26mr13160726vsm.94.1566910591623; 
-	Tue, 27 Aug 2019 05:56:31 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=00Bwuea7bNt9h17DdNnFn+MRTYh6Ywlls+fsNatXSGg=;
+	b=UqY+Go60wRABLjvEyy1oOzUoz6U3vq6SSYAqe8L4ZV5+4SUKvxMqPmFqHoiukpsSRE
+	mZtJJ1IsUBbt8VbX4zIixGfTD+fIAYE4Q6gGaS9bSsNc8NAnM/EuPsQGioPsEyHw/3nU
+	xSD+ukqjJ2bHJDUYLGxXKumbHB5ypfSGP0ElepdpHicwHCEjWRCvv0ByZ9kKOZU53yo/
+	0rL+3YFGB2ymDPRznVK4SITOAdod9pbAiYRhGXZtDQlMrw0unYQXq3mv4xZxr5vtwEs6
+	q86M829gefaON2wo1ou3Fa8a138lqoDCSAKptUQMqwpkAc6SwOyb+tF1vLFmSzs0p+5N
+	tcLw==
+X-Gm-Message-State: APjAAAVBtgjuTxN+F8rmmEUtaQPIBycwjfldM6bvnplH3wXkizToDlpj
+	4lyA8x6w4NrWLA7ttSfRmK2YApfh
+X-Google-Smtp-Source: APXvYqwTfnKtYdOYRjYN+jX/Lv5C/MznJJVkompzCymCtibJ3J05OQ/imN6VFRI08zUaZpWFd3E2eQ==
+X-Received: by 2002:a02:a703:: with SMTP id k3mr21910735jam.12.1566911328821; 
+	Tue, 27 Aug 2019 06:08:48 -0700 (PDT)
+Received: from [10.30.197.57] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id h9sm14266512ior.9.2019.08.27.06.08.47
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 27 Aug 2019 06:08:47 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 References: <20190827124617.18207-1-JPEWhacker@gmail.com>
-In-Reply-To: <20190827124617.18207-1-JPEWhacker@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 27 Aug 2019 14:56:20 +0200
-Message-ID: <CANNYZj_zr9+LbbGfhtd46pnUBYgpSW5LL5pE_fuvhxwne6yPrA@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
+	<CANNYZj_zr9+LbbGfhtd46pnUBYgpSW5LL5pE_fuvhxwne6yPrA@mail.gmail.com>
+Message-ID: <de80b1e5-dc0e-cabc-409a-0c8c84bc8ef2@gmail.com>
+Date: Tue, 27 Aug 2019 08:08:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj_zr9+LbbGfhtd46pnUBYgpSW5LL5pE_fuvhxwne6yPrA@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] openssl: Fix documentation DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,40 +63,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2019 12:56:30 -0000
-Content-Type: multipart/alternative; boundary="00000000000035654f059118cddd"
+X-List-Received-Date: Tue, 27 Aug 2019 13:08:48 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---00000000000035654f059118cddd
-Content-Type: text/plain; charset="UTF-8"
-
-On Tue, 27 Aug 2019 at 14:46, Joshua Watt <jpewhacker@gmail.com> wrote:
-
-> perl is required to generate the OpenSSL documentation, and therefore
-> should be present at do_compile. If not, OpenSSL will skip the
-> documentation generation, which isn't reproducible
+On 8/27/19 7:56 AM, Alexander Kanavin wrote:
+> On Tue, 27 Aug 2019 at 14:46, Joshua Watt <jpewhacker@gmail.com 
+> <mailto:jpewhacker@gmail.com>> wrote:
 >
+>     perl is required to generate the OpenSSL documentation, and therefore
+>     should be present at do_compile. If not, OpenSSL will skip the
+>     documentation generation, which isn't reproducible
+>
+>
+> I'm not sure I follow you. If perl is present, documentation is 
+> generated. If perl is not present, documentation is not generated. 
+> Where is the non-reproducibility in this?
 
-I'm not sure I follow you. If perl is present, documentation is generated.
-If perl is not present, documentation is not generated. Where is the
-non-reproducibility in this?
+RSS doesn't clear out the sysroots if it goes back and executes previous 
+tasks as part of a rebuild. As such, if perl gets added by a later task, 
+then bitbake goes back and re-executes the task (I don't remember 
+exactly which one... do_configure maybe?), perl may be present when it 
+wasn't before.
 
-Alex
+This is generally true of all RSS dependencies, and until it gets 
+resolved the best we can say for reproducible builds is that two builds 
+from stratch without sstate can be binary identical. It will have to be 
+resolved eventually, but my current plan is to do the reproducible build 
+test as two clean builds for now so if there is a lot of push back we 
+can drop it.
 
---00000000000035654f059118cddd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Tue, 27 Aug 2019 at 14:46, Joshua Watt &lt;<a href=3D"mailto:jpew=
-hacker@gmail.com">jpewhacker@gmail.com</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">perl is required to generate the Open=
-SSL documentation, and therefore<br>
-should be present at do_compile. If not, OpenSSL will skip the<br>
-documentation generation, which isn&#39;t reproducible<br></blockquote><div=
-><br></div><div>I&#39;m not sure I follow you. If perl is present, document=
-ation is generated. If perl is not present, documentation is not generated.=
- Where is the non-reproducibility in this?</div><div><br></div><div>Alex<br=
-></div></div></div>
+>
+> Alex
 
---00000000000035654f059118cddd--
