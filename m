@@ -1,52 +1,52 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
-	[209.85.166.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C14DC7E97A
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+	[209.85.166.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 30B927EADD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 19:34:19 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id e20so834825iob.9
+	Tue, 27 Aug 2019 19:34:21 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id b10so932335ioj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 12:34:21 -0700 (PDT)
+	Tue, 27 Aug 2019 12:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=PgjmE+7fy177iYqm6T0xCPwCXswirMjicUQX9qrCZ2M=;
-	b=lhGfrWjXtEiiQETUIvWlxgH4uUTqJ0wrNBo24w/WrfgZ6i8rfy4XOkyEvFPXA4egQQ
-	ZaWmt4AOtlhzBC5kb3FR9/WE0Ec4ce97c77JDHe04AhgJ7hO27EJga7coLLmLDfdyOui
-	74HCgAU7yIFkb3a/PNFf4bQ41ngWiCxkDAekpzNmD4H1wtShhkiX8wzTUTwE0Mr8ofZE
-	NYlCpbgqoRMmdp7mEj4YgGK5rA5pgy5+yMkUPwypzc4vwiU71T0/F1nj7Qcx56c1FDfx
-	1EsmWM+VgrefyciiKkrOdal9/ZVD5OBT1BltS+yoHrtLh2gcPBvgEJ00kN46OPv1imiT
-	SIcQ==
+	bh=r4qDbWRl2PkcRZjqCWJBdLz6zormTj0BSbhpd22RrXM=;
+	b=dO/5A6uWud/thhNrPLJXGX+t7gNlOdD//UJkl8pBt3RQ6a6Q0fOAxiZ4NnjiJ508OR
+	ms2bEuSuKrx5oqMF76ST6VbUEQUXJ+fgHS9e1tKX1v63C5hQ9COSEsgHgcNIM363uWjf
+	psXujcjRbXwGoKaGnMrY3egNpw62Rl5Pk7z6dLmKQofGGtapikJqQmX5pdIw1juKPP9O
+	owyLwckXWLhPZWqyXRQvoHwl8UV7sfQIjKdrRyKdc6qtUqeGCH88TNa0HlygVrA244jO
+	Hx4H/8QKoC2qgkOYpFvPWLwgzQ8QZUle2WvafS3YsxNP+5YLMxKn2e5bZlVucsvV+geO
+	fg1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=PgjmE+7fy177iYqm6T0xCPwCXswirMjicUQX9qrCZ2M=;
-	b=dneo8lsUA7+jNU4OdfUedbk/ojiJAF7ZUq4T9Hl6K7lxYDgJwQ75aqxXMfBe8Lj7Zj
-	BMVKCXlHr8+f9kZGuhH7cnZHBdP7NRldj/r+68EcY98Qy41rZiNsHe/JgRVirv6us3bc
-	nDy2D7sejA7GOCRsk6wlo//6I0seD+J0TZ6hF0pxkBvI6fn+J5MaeTvUGp3bbzmsurS2
-	jX4mu/hIIf2pnXPcUubA37g7PZTjF1Wzkv0lAomDQsQlH4FesSkQNF6upK7FbEK+i7JZ
-	DN0S5yWfCPZwawywqPfXf9pEt1bJ2dfiIBwRHEJrixyKzalX6QGKVcuVYPVziLKN+FsP
-	h/wQ==
-X-Gm-Message-State: APjAAAUNuWsRUhC3yuA4/cQuDB8aQUfV9A6elnp+0RPSHT2xrPLdeTFP
-	sD6cWW7HyyXB3rhQZ5PbbzzMBttz
-X-Google-Smtp-Source: APXvYqysmObXEY+ZMviEcYIu9vPcxMKUVx0VTp+uNNyDT+4Z2L6zKnfuGiz7dmAfrk+VznbiyMIUTw==
-X-Received: by 2002:a6b:3943:: with SMTP id g64mr25498430ioa.225.1566934460690;
-	Tue, 27 Aug 2019 12:34:20 -0700 (PDT)
+	bh=r4qDbWRl2PkcRZjqCWJBdLz6zormTj0BSbhpd22RrXM=;
+	b=f17eoFscLEge+8MFm96c3yxWyaukkDXtoAYC1BPcryZSDpdysV2qHOUnmbkW2OdbfQ
+	YsW2RkU+FRrTqhbRW3+LEDsk0j32SWQl2neytcJ1Tbg1bVxHM67213nIqP02LBACpnx7
+	ViZLNI7CGpMBqwc4mSTBiS+uJlq/+Bb2DYGdyP9pl9lwK0fUwbvnScH1vxyUalbNMGkJ
+	fNwor89QGbEyJNkcMeyBhOA1ysS7qCPdnUYqLsgoG/18nbPdyd/rCtVRpA8If4dCvZUK
+	aaOsR04vAH/YoYx6rGXEvM6kYIgmhQK7xDQq3YdSgM39ELIwhOb7kFG5cqO7G3i99J6c
+	Ssjw==
+X-Gm-Message-State: APjAAAWhu45fgBM9YoFti8PYkpQtIGLbEh3xhZUHuSpvsjj0cYSMttcl
+	UckWSiCCNhv6EbVzaQhHr1OnEw9h
+X-Google-Smtp-Source: APXvYqy+qUO2ClBwm5vW/zWf9hmbd73T6wajPf4GXClvLevbbj0jXj0ZLk0pHrhgBhrQ8dhvreBlaw==
+X-Received: by 2002:a02:69d1:: with SMTP id e200mr485071jac.138.1566934462078; 
+	Tue, 27 Aug 2019 12:34:22 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id 8sm47288ion.26.2019.08.27.12.34.19
+	by smtp.gmail.com with ESMTPSA id 8sm47288ion.26.2019.08.27.12.34.20
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 12:34:20 -0700 (PDT)
+	Tue, 27 Aug 2019 12:34:21 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2019 14:33:48 -0500
-Message-Id: <20190827193349.23254-5-JPEWhacker@gmail.com>
+Date: Tue, 27 Aug 2019 14:33:49 -0500
+Message-Id: <20190827193349.23254-6-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190827193349.23254-1-JPEWhacker@gmail.com>
 References: <20190827193349.23254-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/5] oeqa: reproducible: Record packages in test results
+Subject: [PATCH 5/5] oeqa: Enable reproducible build test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,59 +62,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 27 Aug 2019 19:34:21 -0000
 Content-Transfer-Encoding: 8bit
 
-Records the results of the reproducibility analysis in the JSON test
-results file. This makes it easier to do post-test analysis on the
-packages.
-
-[YOCTO #13324]
+[YOCTO #13323]
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/lib/oeqa/selftest/cases/reproducible.py | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 2b8b4e9e88e..ebfa88fbc55 100644
+index ebfa88fbc55..c6cc0b7d0eb 100644
 --- a/meta/lib/oeqa/selftest/cases/reproducible.py
 +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -8,6 +8,7 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars
- import functools
- import multiprocessing
- import textwrap
-+import json
- import unittest
+@@ -120,7 +120,6 @@ class ReproducibleTests(OESelftestTestCase):
+         self.extras['reproducible']['files'].setdefault(package_class, {})[name] = [
+                 {'reference': p.reference, 'test': p.test} for p in packages]
  
- MISSING = 'MISSING'
-@@ -86,6 +87,7 @@ class ReproducibleTests(OESelftestTestCase):
-         self.extras = self.tc.extraresults
- 
-         self.extras.setdefault('reproducible.rawlogs', {})['log'] = ''
-+        self.extras.setdefault('reproducible', {}).setdefault('files', {})
- 
-     def append_to_log(self, msg):
-         self.extras['reproducible.rawlogs']['log'] += msg
-@@ -114,6 +116,10 @@ class ReproducibleTests(OESelftestTestCase):
-         result.sort()
-         return result
- 
-+    def write_package_list(self, package_class, name, packages):
-+        self.extras['reproducible']['files'].setdefault(package_class, {})[name] = [
-+                {'reference': p.reference, 'test': p.test} for p in packages]
-+
-     @unittest.skip("Reproducible builds do not yet pass")
+-    @unittest.skip("Reproducible builds do not yet pass")
      def test_reproducible_builds(self):
          capture_vars = ['DEPLOY_DIR_' + c.upper() for c in self.package_classes]
-@@ -162,6 +168,10 @@ class ReproducibleTests(OESelftestTestCase):
  
-                 self.append_to_log('\n'.join("%s: %s" % (r.status, r.test) for r in result.total))
- 
-+                self.write_package_list(package_class, 'missing', result.missing)
-+                self.write_package_list(package_class, 'different', result.different)
-+                self.write_package_list(package_class, 'same', result.same)
-+
-                 if result.missing or result.different:
-                     self.fail("The following %s packages are missing or different: %s" %
-                             (c, ' '.join(r.test for r in (result.missing + result.different))))
 -- 
 2.21.0
 
