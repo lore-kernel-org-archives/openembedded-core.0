@@ -1,48 +1,51 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A166F7F289
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CA52E7F289
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 20:11:53 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id h27so616797lfp.2
+	Wed, 28 Aug 2019 20:12:16 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id z1so1013298wru.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 13:11:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=biyEx+LEkEXYagaci+NBlp7dzcOD8ObVKuuab/dyI4c=;
-	b=EA+xNuGKprM/R1OlvZwGNDHEquJIsmwn88I6i4SBUs8fy3w8s6ALStFgdIPgnS17pK
-	sh1dFmH6hiku+QvkaWeAbBKT8keFMm0RA68OLUD7GPubcH4A1rBWfAuMoMNohvDrE0km
-	OKnBqvrCfsGMZXebXY9zjf/rPP6EHQzEB6zJ/qSTmRzc9CCQWTFp1r+R9UNJ8M5kCi6o
-	OPH3Jt730RkOjW8i+k8AaqswP5Hb5+eaWWQEho1zXLyDVjHsVDXauXhPJyO+D/D8fmuz
-	QfiDUkn/FekKyCEzwpwQZ99BsD9mOAatU4zvZWKtVPcQfFCjK7fjdpM2G+L7Vf/roeSV
-	VIWg==
+	Wed, 28 Aug 2019 13:12:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=68hqoAEwCLr6kxc1hMTDpf+CMOardhJsZrIw/kSngAo=;
+	b=BLQTxUTicvvYONMFYpUHVmz6XKDMy8PqpXs3rvDw5Isq5jK0M7Cn8l7bB2DtN/XoHo
+	jFM3zDBS7EWP8bX0fEU3Bxo2HkrnHSdqfstgjbUvKPuTwqdv9Fti61eYX6togRCZjcAf
+	w8ZMU1CtPq3J52HP7SZCulI7QflO+8WPrUVds=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=biyEx+LEkEXYagaci+NBlp7dzcOD8ObVKuuab/dyI4c=;
-	b=jPnxqbgCwEb1F+QC0+12cDA5xZ+GKkjpONK58lVK1Hs+WEy2Sn/awCx/1bRrLa9UoY
-	IK+7tBHX4RI+M4tSAyikmuXyhzKE3BeES5CmdLQeD5OQnNVGjmaiT/eroV++Tmxg1w35
-	Uue1pN8e316unENjgfy/UsYpZELiPycVfsn4V60nWoCmjMFq7oiiMQ9OEbyHgjcYRwhu
-	oo71AzHAs33k7ZOIt29Qi64MsOEvhxr9C+WSozWTlk2ScXRUoNN512DO6bo1mFisRi+1
-	y1SG94ioN1UaYXfiE5EPZlUmDOejB0K7Puyr54OZGale1VsObY645u6fuYZlu4ztdsfd
-	16RA==
-X-Gm-Message-State: APjAAAVofSA8IHGvLzuIon3qbAd20UWJH/54lCY4h/agSSm8hVVvfVuj
-	zMVLK16+8oQpUgOnUlO6SAp9qxdlawFSj1Fy9b4=
-X-Google-Smtp-Source: APXvYqxH2S/NZhlgJH6nBVG1IPaHwh8HMU3fcQUz3TxDG/CVqUCYC9H9J+MZ6ddbNUfqmaFGPMxufna1rnKQIrLWp5I=
-X-Received: by 2002:a19:428f:: with SMTP id p137mr3783178lfa.149.1567023114087;
-	Wed, 28 Aug 2019 13:11:54 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=68hqoAEwCLr6kxc1hMTDpf+CMOardhJsZrIw/kSngAo=;
+	b=K+0nSq2htWb8sseG7DuWkLFnqczShVub67QACYMjJ34t+ZZybvrFLv3FgbyebV8l6+
+	NB0YNiWCMVKvhqete5b9DpyrP6dG0R93ZeRiMBHPVYuhKVop32K10JI6ekvSkPVdWxM0
+	CWaPdSJKdbV5QPgeo+Y4ucZ0vYpQvPGOL0NPKnLJyVmaM/rNOPUnLrthR4s72Ah5A6J/
+	nVMNSidLPyiWZFAY3AhLotE55NcIO+u3/R6UOGtZB3KDHCBKcdF5c2qZOMegQTNwerig
+	+QkY6i5y9Puke2AAxY5+Ai445pgu5/NXQEQc4WruYPi9J8bt8O6KvUEqpgZz7/noL5XC
+	XwJA==
+X-Gm-Message-State: APjAAAVb/pWrSlevPomxobcLrpc4zwRFUZ5O3PdcMSdgZW7ZSfr9HJLc
+	eJjvFjd3bmZtb7qKRZ1vCYRUyg==
+X-Google-Smtp-Source: APXvYqywlvGT3qzi2Y320rEYcMikdwmM3CiD1UoNk6TDZmj6pUWmzLA3mPD+VuWBSzhvMTi7hq/b3g==
+X-Received: by 2002:adf:e30e:: with SMTP id b14mr6937942wrj.168.1567023137525; 
+	Wed, 28 Aug 2019 13:12:17 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id m7sm670149wmi.18.2019.08.28.13.12.16
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 28 Aug 2019 13:12:16 -0700 (PDT)
+Message-ID: <d37172d226a0570d66859adf37c18b3212d6e4bf.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Adrian Bunk <bunk@stusta.de>, bruce.ashfield@gmail.com
+Date: Wed, 28 Aug 2019 21:12:15 +0100
+In-Reply-To: <20190828200536.GD3044@localhost>
 References: <cover.1567019771.git.bruce.ashfield@gmail.com>
 	<4f7fa357480ec0139aa809bed4a12c9aa7622d60.1567019771.git.bruce.ashfield@gmail.com>
 	<20190828200536.GD3044@localhost>
-In-Reply-To: <20190828200536.GD3044@localhost>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 28 Aug 2019 16:11:43 -0400
-Message-ID: <CADkTA4MBTDFUam5xvwvc0KKO+fX7ZfmBYtoe6_ZdrnspJok7Rw@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 4/8] kernel-devsrc: remove python2 dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,46 +59,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 20:11:54 -0000
+X-List-Received-Date: Wed, 28 Aug 2019 20:12:17 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 28, 2019 at 4:05 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Wed, Aug 28, 2019 at 03:28:38PM -0400, bruce.ashfield@gmail.com wrote:
+On Wed, 2019-08-28 at 23:05 +0300, Adrian Bunk wrote:
+> On Wed, Aug 28, 2019 at 03:28:38PM -0400, bruce.ashfield@gmail.com
+> wrote:
 > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
+> > 
 > > Witht the approaching EOL of python2, the kernel packages need to
 > > be updated to depend on python3.
-> >...
->
-> Yocto 3.0 ships and supports Python 2.7, so there is no urgent need for
+> > ...
+> 
+> Yocto 3.0 ships and supports Python 2.7, so there is no urgent need
+> for 
 > last-minute Python 2 -> 3 changes.
 
-Actually, there is.
+Removal of 2.X dependencies where we can was an objective of 3.0 and
+2.X is EOL and will expire in the lifetime of 3.0. I'd say this is
+therefore quite in keeping with that...
 
-This was discussed in detail on the yocto dev call, Richard is waiting
-for these changes. In particular, since the support window for this
-release goes out past the EOL, and one of the stretch goals was a
-python2 free image. There's zero risk to these, and no reason to sit
-on them.
+Cheers,
 
-Bruce
+Richard
 
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
