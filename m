@@ -1,44 +1,44 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
-	[209.85.221.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 690627ED5C
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A2587ECB9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 06:59:41 +0000 (UTC)
-Received: by mail-vk1-f169.google.com with SMTP id b11so391338vkk.10
+	Wed, 28 Aug 2019 07:55:49 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id y16so1265287vsc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 23:59:42 -0700 (PDT)
+	Wed, 28 Aug 2019 00:55:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=IWC27cPpAzaeDxI/2YvLQahw1c2trag5sq8FPjgSL0c=;
-	b=CwgULaQIUKlJNSAf4C0dOeeNtYTFNNQkKnbYBmDWmmNgv5wQl5bqBiC1x1yTo/bT82
-	Hrvd56c5Xkgdab5a82vfODNl/5uk/n2tG916IJ+euTsBv/Ja3d1gwS3cT1ifQLJlOiEq
-	+029W/epbk4nGMIrfBpomqY7IorXWWLp66PV+ofCYq5DtN5ZbsFBv/GVtawRzZi1FM2i
-	1oVrPj3xrI7F2ZmyNrk57P5cr7kEhwimY9L5kfeX+lffu2rZGNBkSxcMj1/2dvZ/535W
-	a3YHt+B1/Ac4cFmPr5OQ9emXLsmkB/ucGBC8TbfeObkVN3QKVNdBf/eZFYpxzMtA3BWb
-	8RQQ==
+	:cc; bh=xcElhZob33p5nCOd4MiKzgivXUsi/qLLQ2xooC+GwxQ=;
+	b=VuKYiY60GrxDqA8jVY0Rb4N+Kncr9u8EMHbwT/0RK6cwVB0/TD8QH2/ck0rXn7ONi1
+	xosiwKNeJxIGqWTJa/vBBBz7lcxwAYGssTariV83myk+l9azV0D8DEdEXYcze59n0UmF
+	kzvwEwEtV1blD0ifvmZwOMhvxbkGhMSrNgdPVX/l8zdGS/utzhyP8xgt4ziPRmdKyq7q
+	WnDd8li7bU1eY8R3/Q0XYC2F/SNeLcgBXoGcYiSkh2SteKqbJcPFVp3Ury6oeDJG7gfm
+	CZsQFVB6HvwyNgChdS+4DXRoziTEii01hQ+R96BVI+H0tfc9N4aCNmoDHfeUGzsmxCmp
+	yhEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=IWC27cPpAzaeDxI/2YvLQahw1c2trag5sq8FPjgSL0c=;
-	b=XuNcoqyYofISr8UjFpoLuQgpPhjltoWk+a0Z1ldhFcF9Mt3NyGScfIr7GwZuHL4p4o
-	jaDGYn6A8d0EKvQpgNjoviXQ1xbv2yOgmAwg/DoDqyjFalSdT86PX4WxTGRdzQ6OUqju
-	gErkT228Vboa0ClGEE5jo/i0vDQmEvsl9v/LzulPkDvG4HwY5CoQfr7XW+2G1BcOqjTv
-	2uRic9Dd8qVa2ffAFwAz7ybsIW1zklLjOMLtENG7X9h66M+/odRf8864Y6gpfwvvAg4G
-	k86Ul0AoMBcyxtMGB3iUEyDWb8Dw5innJYKwA2JqTlC39zOf0imif4/0uQLKKeW1qtoR
-	rGqA==
-X-Gm-Message-State: APjAAAVTNaz+kQoG+9rT83eUCjCft9Se42ebb2XDVCP6cuY6req1BnFP
-	k6e7EUtg46DjM9yCJnnHJjeqPI+SXdZPrt1Mkn8=
-X-Google-Smtp-Source: APXvYqzgl797+kTuAbzHimngvjGgvEda+kemXr75Nghftti1xDa03P6L2uOvQxxDcUQ7myALmghGzhgxZYI7ouHwgbQ=
-X-Received: by 2002:a1f:a5d8:: with SMTP id o207mr1447475vke.12.1566975582344; 
-	Tue, 27 Aug 2019 23:59:42 -0700 (PDT)
+	bh=xcElhZob33p5nCOd4MiKzgivXUsi/qLLQ2xooC+GwxQ=;
+	b=NWd4QasNyzoBCQ/NwZ7GRhgwuQoKlj508ITOiiBZBFvYUOm/uxMCHHB/DGWf3qzpDq
+	fQn77lIhthYvgX/r99O9G4hwMeZl9+c6AiDtZPNqzA+Q5d46MmcghL1yeWlwIspvcxYC
+	XDgsnLWV5WQlfRnOWbntHIpr4yD3z6swylkVDedOd1QKoPnvRSJ+SiXlekLQY3fDJI3K
+	g3xfcO/Ykr5ZTWhdoKoDdjMmJy7sjf3OLixd2QrztAPXhsqyo3zScu/jO5mmOqD4ESBO
+	9gAHTATB7z6B1ME1uvNN7RwdVne4jbE1vtMh7AA6oRZZsKiqnPOjfGAfU53jfZhwM3BF
+	2nTw==
+X-Gm-Message-State: APjAAAVWDr3UB5/DMPZlUE+JypA45rDtD1ThYnPj0vrsw5V7cldqVpVL
+	HSiKmX+zeISILKKsH1QjACeb3eLa6548qhufpUuBOg==
+X-Google-Smtp-Source: APXvYqxEsJGzLnPu8ZzHL23epfG/zlGDtxMNHowP5Sqtdya6V8vxUXc0fWEx6ZCOtqdlBrqBiSxGVksD+8NcW2GCSLY=
+X-Received: by 2002:a67:62c5:: with SMTP id w188mr1597112vsb.25.1566978950472; 
+	Wed, 28 Aug 2019 00:55:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190828054629.6735-1-shohei.maruyama@cybertrust.co.jp>
 	<20190828054629.6735-2-shohei.maruyama@cybertrust.co.jp>
 In-Reply-To: <20190828054629.6735-2-shohei.maruyama@cybertrust.co.jp>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 28 Aug 2019 08:59:31 +0200
-Message-ID: <CANNYZj9Cp8M2_WYs6_GS+hN=spQ_TQFzAHTJA1c_+54kcdodqQ@mail.gmail.com>
+Date: Wed, 28 Aug 2019 09:55:38 +0200
+Message-ID: <CANNYZj_ceHF7bYCDpZE+FzG7fO6LXwQzfrWDBZ3s=2XOerxgVw@mail.gmail.com>
 To: shohei.maruyama@cybertrust.co.jp
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2 2/2] runqemu: Fix guest has not initialized error
@@ -54,10 +54,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 06:59:41 -0000
-Content-Type: multipart/alternative; boundary="000000000000f519e0059127ee28"
+X-List-Received-Date: Wed, 28 Aug 2019 07:55:49 -0000
+Content-Type: multipart/alternative; boundary="000000000000b6a8d7059128b78a"
 
---000000000000f519e0059127ee28
+--000000000000b6a8d7059128b78a
 Content-Type: text/plain; charset="UTF-8"
 
 On Wed, 28 Aug 2019 at 07:46, <shohei.maruyama@cybertrust.co.jp> wrote:
@@ -68,12 +68,21 @@ On Wed, 28 Aug 2019 at 07:46, <shohei.maruyama@cybertrust.co.jp> wrote:
 > +                self.qemu_opt_script += ' -device virtio-gpu-pci'
 >
 
-We would prefer to use standard vga, and enable virtio only for virgl
-usage. Can you please look into what the issue is here?
+This also needs:
+a)  '-display gtk, gl=off' should be added explicitly - it is the default
+now, but may not be in future qemu versions;
+b) the option should be named 'gtk-virtio', as it is important which
+emulated video card it is using;
+c) the option should be documented at the beginning of runqemu script;
+d) like in the previous patch, please first look into why '-vga virtio'
+does not work for you;
+e) also, if you can, please get to the reason why standard vga does not
+work either. It should be working on all qemu variants.
 
+Thanks,
 Alex
 
---000000000000f519e0059127ee28
+--000000000000b6a8d7059128b78a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -87,9 +96,18 @@ display because of it.<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif arg =3D=3D &#39;gtk&#39;:<b=
 r>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.qemu_opt_scri=
-pt +=3D &#39; -device virtio-gpu-pci&#39;<br></blockquote><div><br></div><d=
-iv>We would prefer to use standard vga, and enable virtio only for virgl us=
-age. Can you please look into what the issue is here?</div><div><br></div><=
-div>Alex<br></div></div></div>
+pt +=3D &#39; -device virtio-gpu-pci&#39;<br></blockquote><div><br></div>Th=
+is also needs:</div><div class=3D"gmail_quote">a)=C2=A0 &#39;-display gtk, =
+gl=3Doff&#39; should be added explicitly - it is the default now, but may n=
+ot be in future qemu versions;</div><div class=3D"gmail_quote">b) the optio=
+n should be named &#39;gtk-virtio&#39;, as it is important which emulated v=
+ideo card it is using;</div><div class=3D"gmail_quote">c) the option should=
+ be documented at the beginning of runqemu script;</div><div class=3D"gmail=
+_quote">d) like in the previous patch, please first look into why &#39;-vga=
+ virtio&#39; does not work for you;</div><div class=3D"gmail_quote">e) also=
+, if you can, please get to the reason why standard vga does not work eithe=
+r. It should be working on all qemu variants.<br></div><div class=3D"gmail_=
+quote"><br></div><div class=3D"gmail_quote">Thanks,<br></div><div class=3D"=
+gmail_quote">Alex<br></div></div>
 
---000000000000f519e0059127ee28--
+--000000000000b6a8d7059128b78a--
