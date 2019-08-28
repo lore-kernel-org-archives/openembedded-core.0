@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
 	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 611177F27C
+	by mail.openembedded.org (Postfix) with ESMTP id 6F2757F27C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 19:28:50 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id b10so1944174ioj.2
+	Wed, 28 Aug 2019 19:28:52 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id x4so1780148iog.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 12:28:51 -0700 (PDT)
+	Wed, 28 Aug 2019 12:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=jZB5GdDCgtnn3pafk/yZeCxLmy5Xkzwe4YABtaqM7ng=;
-	b=s6kmnH2BYnAR04je94H2IcnPU0JayxnO1BE4UV3AB6pnVKgSv0txgZZNrXMcbWMZaA
-	Wz1Chrh8B6138BlrYa3/uAUDI5Lo09erWgG+0PVxyItf9QGtKpPj/WTXkZG3cXJsnef9
-	lxInK9d64FPeZWLo4gR05UhYiABOHkOHJIS5ocStsbv9IU61Vjmq/UqV7N/H9u3FS7Ak
-	P/fEYPIb5MtVo26w82d2cZTcMUAKCLeYzjpcpfBtJH1zFal1pUo5upxxOB8O+pX18C8a
-	sHvxGw8V7sZuM0ecUq+I84hh74y6tvR1N7JzgW8q1BJc9mGh/97iP0NzUHdmxdpxc+pO
-	AAlw==
+	bh=0VSViakQXDI0Ssm+alWXfJauXL1MZSxMBdra+Qw549Q=;
+	b=cisWVX5vLE4hQBz9z6g4tpZ118MVhhVrKF43fMUge3gEz6fFFaJoMzV3hIr1xcXYxy
+	ZbjPY7dMfHdbBMaVGF4MADbT7ZjP3yQUA1oiKcsIS+z8xEMGW5v6NV9Iq1J8RF3+qEY4
+	QTouYvSX+F8SJaqxX5BEA9I7f1KeR4SPOI4+BsI3sgZe3ipvLJV90Cd5JEHiNns274vY
+	8kZP50KD//p3z/lvWgSNW+9Z7RPTPR36gUMcgJY7AjOFDeQ6TYs1/P2vTI+TeYp2wlFH
+	/hziSgnXHDHCrMzEzlzWHjzwgD96RKuPyCBD3u0Goajx4jmy8xWqFkMe23PzcIlzOjlm
+	Ax3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=jZB5GdDCgtnn3pafk/yZeCxLmy5Xkzwe4YABtaqM7ng=;
-	b=dlpqUk/NCQcLQ0QPYeqIhRNdvRMbpO7eqeqfsBkit8hMTbD0OXrq1TNKT21Qq7r/02
-	D7cD0wRjhGwuc55eef3oE+K4DQUGqVb9Rz9dgtlvIS2TwZCR2RCxpysRDXkN1tTYYhnd
-	Lhc9LUWzI5q0gt9F+Y7iZfMVA6JUR8OEL8WEf+Qdx2+8UpXNHUdhOq0qb8w3s6nds5v/
-	s80loNcTpoMgN5DQiPEXkDGxtRdDcSQrDsjz7C/eA6IYkxblOhWMm5gjer3lcLrcBI+e
-	6oGz2vWG4CO/64C6ZSEuglnJjt74JZ20ujRkeHLEBTfflm9mcCUaV7aHDTBPe+EU0kFj
-	ul8w==
-X-Gm-Message-State: APjAAAUpD8c8zVHzotVOdS88gAa6oNOdo1o0NWhamO2wqzoXGAJAPIz2
-	qh+BwUfFwy74BRq69saQxcU=
-X-Google-Smtp-Source: APXvYqy734rCmDL9Aevo6wUpP35ELs1T98gQMOxz04P4WdMO15e2OFtWEYgWrJaegsbZ6TDEeM8Yvw==
-X-Received: by 2002:a5e:de0d:: with SMTP id e13mr6299995iok.144.1567020531418; 
-	Wed, 28 Aug 2019 12:28:51 -0700 (PDT)
+	bh=0VSViakQXDI0Ssm+alWXfJauXL1MZSxMBdra+Qw549Q=;
+	b=lDutaT+smQjxiCjI8I6grqD07FwKBBo36BYiVlLT3FQppt52bkSRzM7L2OJlra77iF
+	DEI0HzQ91yj/bBSTynGcVQ4qyn1CZCGVGOUdjeLlwWcJaVcKj0u3Ncsb+PGsGbxyPy/F
+	FE92ddm6AcJDm4gBnxS7Ii8c/QBlih+yvhhBCYIVIApsHzmOn/cq6fEcVQMGWmYI0Tpg
+	K30V+UzoBBsZOipkKFbPigzGSJdPC1k2cYrET7kDGzoLvSeqUiU55D48fU/6zDR5c3oY
+	sLSZdBBbxbdeioMOvDQTPRmevHK6bNrqsKyUmb5ljSiuVH25toa7Ta/xxF1XvgrHCW8p
+	fCLw==
+X-Gm-Message-State: APjAAAUNj14wmdQTWpsH75LWTHDLl48c2eCDS9JvaPlMQIwZ+tk4JC0G
+	522UOVshn+UT3Z1RVQv2E0/+n33uLA0=
+X-Google-Smtp-Source: APXvYqwE6BVCk1tMgt8lgbTchEMl2XqUkP+EBHVG0bWB1cX9SMVfuHjPfBOz708fCIAjal6TkPoKww==
+X-Received: by 2002:a5e:9515:: with SMTP id r21mr6525981ioj.257.1567020533388; 
+	Wed, 28 Aug 2019 12:28:53 -0700 (PDT)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.112.251.208])
-	by smtp.gmail.com with ESMTPSA id d6sm4454375iod.17.2019.08.28.12.28.49
+	by smtp.gmail.com with ESMTPSA id d6sm4454375iod.17.2019.08.28.12.28.51
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 28 Aug 2019 12:28:49 -0700 (PDT)
+	Wed, 28 Aug 2019 12:28:51 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Wed, 28 Aug 2019 15:28:37 -0400
-Message-Id: <2791b8b82e1f03d8497d4faaa6f5fce79f99227c.1567019771.git.bruce.ashfield@gmail.com>
+Date: Wed, 28 Aug 2019 15:28:38 -0400
+Message-Id: <4f7fa357480ec0139aa809bed4a12c9aa7622d60.1567019771.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1567019771.git.bruce.ashfield@gmail.com>
 References: <cover.1567019771.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/8] bluez5: fix build against libc-headers 5.2+
+Subject: [PATCH 4/8] kernel-devsrc: remove python2 dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,116 +61,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 19:28:51 -0000
+X-List-Received-Date: Wed, 28 Aug 2019 19:28:52 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Backporting the following upstream commit to fix the build against
-kernel 5.2+ headers:
+Witht the approaching EOL of python2, the kernel packages need to
+be updated to depend on python3.
 
-[
-   Subject: [PATCH] tools: Fix build after y2038 changes in glibc
+The core kernel scripts are now python3 safe, making the RDEPENDS
+change relatively simple.
 
-   The 32-bit SIOCGSTAMP has been deprecated. Use the deprecated name
-   to fix the build.
-]
+but
 
-Upstream-Status: backport commit f36f71f60b1e68c0f12e615b9b128d089ec3dd19
+There are some scripts that are captured in the devsrc files that
+are not used, but reference /usr/bin/python. The python3 package
+does not provide /usr/bin/python so any package managers with
+automatic dependency detection will fail to assemble a rootfs due
+to the missing intepreter.
+
+We could drop the scripts from the source capture, but that
+risks dropping something that we need in certain operations and
+we'd miss when they are updated in tree to explicitly call python3
+(since they won't be revisited often). Light testing shows that the
+scripts do run with python3, so rather than removing them, we change
+the interpreter once they are copied, and automatic dependency
+detection won't cause us rootfs assembly issues.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...x-build-after-y2038-changes-in-glibc.patch | 68 +++++++++++++++++++
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-tools-Fix-build-after-y2038-changes-in-glibc.patch
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index bffd174c0a..6c79ed0606 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -57,6 +57,7 @@ SRC_URI = "\
-     file://0001-Makefile.am-Fix-a-race-issue-for-tools.patch \
-     file://CVE-2018-10910.patch \
-     file://gcc9-fixes.patch \
-+    file://0001-tools-Fix-build-after-y2038-changes-in-glibc.patch \
- "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 3900489ac5..e17c0ea0ab 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -240,6 +240,15 @@ do_install() {
+     # Copy .config to include/config/auto.conf so "make prepare" is unnecessary.
+     cp $kerneldir/build/.config $kerneldir/build/include/config/auto.conf
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tools-Fix-build-after-y2038-changes-in-glibc.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tools-Fix-build-after-y2038-changes-in-glibc.patch
-new file mode 100644
-index 0000000000..9ca20ae53b
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tools-Fix-build-after-y2038-changes-in-glibc.patch
-@@ -0,0 +1,68 @@
-+From f36f71f60b1e68c0f12e615b9b128d089ec3dd19 Mon Sep 17 00:00:00 2001
-+From: Bastien Nocera <hadess@hadess.net>
-+Date: Fri, 7 Jun 2019 09:51:33 +0200
-+Subject: [PATCH] tools: Fix build after y2038 changes in glibc
++    # make the scripts python3 safe. We won't be running these, and if they are
++    # left as /usr/bin/python rootfs assembly will fail, since we only have python3
++    # in the RDEPENDS (and the python3 package does not include /usr/bin/python)
++    for ss in $(find $kerneldir/build/scripts -type f -name '*'); do
++	sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "$ss"
++	sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "$ss"
++	sed -i 's,/usr/bin/python,/usr/bin/env python3,' "$ss"
++    done
 +
-+The 32-bit SIOCGSTAMP has been deprecated. Use the deprecated name
-+to fix the build.
-+
-+Upstream-Status: backport commit f36f71f60b1e68c0f12e615b9b128d089ec3dd19
-+
-+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-+
-+---
-+ tools/l2test.c | 6 +++++-
-+ tools/rctest.c | 6 +++++-
-+ 2 files changed, 10 insertions(+), 2 deletions(-)
-+
-+diff --git a/tools/l2test.c b/tools/l2test.c
-+index e755ac881..e787c2ce2 100644
-+--- a/tools/l2test.c
-++++ b/tools/l2test.c
-+@@ -55,6 +55,10 @@
-+ #define BREDR_DEFAULT_PSM	0x1011
-+ #define LE_DEFAULT_PSM		0x0080
-+ 
-++#ifndef SIOCGSTAMP_OLD
-++#define SIOCGSTAMP_OLD SIOCGSTAMP
-++#endif
-++
-+ /* Test modes */
-+ enum {
-+ 	SEND,
-+@@ -907,7 +911,7 @@ static void recv_mode(int sk)
-+ 			if (timestamp) {
-+ 				struct timeval tv;
-+ 
-+-				if (ioctl(sk, SIOCGSTAMP, &tv) < 0) {
-++				if (ioctl(sk, SIOCGSTAMP_OLD, &tv) < 0) {
-+ 					timestamp = 0;
-+ 					memset(ts, 0, sizeof(ts));
-+ 				} else {
-+diff --git a/tools/rctest.c b/tools/rctest.c
-+index 94490f462..bc8ed875d 100644
-+--- a/tools/rctest.c
-++++ b/tools/rctest.c
-+@@ -50,6 +50,10 @@
-+ 
-+ #include "src/shared/util.h"
-+ 
-++#ifndef SIOCGSTAMP_OLD
-++#define SIOCGSTAMP_OLD SIOCGSTAMP
-++#endif
-++
-+ /* Test modes */
-+ enum {
-+ 	SEND,
-+@@ -505,7 +509,7 @@ static void recv_mode(int sk)
-+ 			if (timestamp) {
-+ 				struct timeval tv;
-+ 
-+-				if (ioctl(sk, SIOCGSTAMP, &tv) < 0) {
-++				if (ioctl(sk, SIOCGSTAMP_OLD, &tv) < 0) {
-+ 					timestamp = 0;
-+ 					memset(ts, 0, sizeof(ts));
-+ 				} else {
-+-- 
-+2.19.1
-+
+     chown -R root:root ${D}
+ }
+ 
+@@ -249,7 +258,7 @@ do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+ FILES_${PN} = "${KERNEL_BUILD_ROOT} ${KERNEL_SRC_PATH}"
+ FILES_${PN}-dbg += "${KERNEL_BUILD_ROOT}*/build/scripts/*/.debug/*"
+ 
+-RDEPENDS_${PN} = "bc python flex bison ${TCLIBC}-utils"
++RDEPENDS_${PN} = "bc python3 flex bison ${TCLIBC}-utils"
+ # 4.15+ needs these next two RDEPENDS
+ RDEPENDS_${PN} += "openssl-dev util-linux"
+ # and x86 needs a bit more for 4.15+
 -- 
 2.19.1
 
