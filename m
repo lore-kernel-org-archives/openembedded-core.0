@@ -1,52 +1,55 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id EC2197F26A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D3BF47F2DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 22:06:15 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id t14so1054564lji.4
+	Wed, 28 Aug 2019 22:24:51 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id n2so300552wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 15:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=h150ZsGQWJgDTkCcKQk4i/e5fFRw0XsEfTz4PTlBFL0=;
-	b=qOnEBKyRetSw/YiQE6wjCfbv+BiouQqsMPeBmnYwFC54AcHKZtykK09HmSrSrKSVq9
-	liZm6s/IiI+0A73cS42e6lGLl0T5FfuzZYJ9hLjsn69jFQoOSLiUpI0KK8JrU7NlIOih
-	7ndd4tHGlgAa5vvlhtHkFqQzRqccDd6KXwIiz9pMfnsSRDEsM4EzLreQeYnV4UEQgJBI
-	BlTFEeJhJVDiLjd74Op/HvyLKdS70gGyqVNBGJ4iaWdBD74oApGovx/EfURAHOeKTT2v
-	4AS2D3kZamTrsXioMn5nCKoBAtuT/Xk1lSG43LvtBnGmg/+SkA/iMWSmINrJcBEnI8lU
-	sGug==
+	Wed, 28 Aug 2019 15:24:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=q9MBILs2Qk/pNm5jJeYlr2HEa6J+NBu1EyXROxcFyhU=;
+	b=CHsmXNa0uXqNAlZAYR4tK5RKN6ob7dUE1exRwq9idtZ/+pWt0TQc+jR0q4WvW2s91Z
+	w8FohAttmsGGOPQS+CARCUNCD79/hKxHVBYRZ5vVH/z4F1cUfIVb3yQrgRctwv1Da6sm
+	ggy+L/UXjgcGNCtmpdLa1Be28NDxEgUAecVr0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=h150ZsGQWJgDTkCcKQk4i/e5fFRw0XsEfTz4PTlBFL0=;
-	b=QB8edFh6nGy75TFq35PF5qTtVtEufytE3HkSxcm/pOTUyRZx84IKKe5CHSY0bsk2E3
-	Yp8AUtFcvCx44ONI2IVV3zyAAh9fOJHeJ83fWiU6m/IfrsaPsouHoAkEibSQ7G+nBmZR
-	Gpjp2NoOV1dnM8lmIp3th6/OOTDsAi2Fc77+TYhFT5V4Px2xMtQd1gYx19zKUw/K8IXY
-	jTv/lgel+YTyUhFhquS+Z1HEylg2yXXKIVuNoBDb6pnZmsQNL9kZ0v9S8gmpx9Jq29dt
-	UO4Yf3ebuDhIjCUUpprPuBct/9syhGj5jcqryvrGXs7jngr8VMCzkR/wPiPQt/Uqyx/a
-	JDCQ==
-X-Gm-Message-State: APjAAAVYdu/BRCkVSkEEm4VwMlaxtrauoKmuc3m8Hu1wBr05hQx3uKxK
-	4xBNVDtNJEFcPmARD9OLX8FQ13b+HdD5J/a4co1jmDz0
-X-Google-Smtp-Source: APXvYqzdG0I1zf3zRDvOgDSZfPr8OYz0NHjYx3DXUqozXO+S5hQtwbafbpfji+sIN8VMs1uWFnVanndft/SHUkx74Vw=
-X-Received: by 2002:a05:651c:1111:: with SMTP id
-	d17mr3233489ljo.87.1567029976231; 
-	Wed, 28 Aug 2019 15:06:16 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=q9MBILs2Qk/pNm5jJeYlr2HEa6J+NBu1EyXROxcFyhU=;
+	b=tWoIhPelOwKgjkYLxAFqnA6w2M8+BM+g/HpoRTofmcGOP1TWWa/N+sceuq/OlLmLxC
+	KpJ22sWBmQgNFKa1J2pZykqRbtVK4ho+UYWdFUqX0sI0sHOL5sm/Wzb28s/z/v07hSjm
+	be4m3T+zIqerxgIpxTdvdC0ejZ6IeC+dFUvpdeqSLfxBf+qzDd5cBEMdCuDLAIfiX+m6
+	Y9TgWASRhCHYegmrATqv3j6+o4PRk1PzGsPV4x55bEQjFQobdqRcjWIVh9XumzJ5rL4/
+	fi+2EaobD1ONlNmxWY8I+li4NsV+jnIkFeATv+xA5rHFred1VoD6xGHMApN/DU9pO616
+	zJFw==
+X-Gm-Message-State: APjAAAXYf2y4MiFnarNo1XMFsHSc/7dH6no9zuzN+2M+//stkKpdfEnc
+	lU1OyMkAWy6jVa0AGP0F3VHmpg==
+X-Google-Smtp-Source: APXvYqyxzfMppEdwVNlNHW5wlKs1KuOjTF5eRj+fXhJ6siklKeg7AYuGrB9ecT4EoOQ/fUTGGSqVAQ==
+X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr7853252wmj.25.1567031092500; 
+	Wed, 28 Aug 2019 15:24:52 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	k124sm521831wmk.47.2019.08.28.15.24.51
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 28 Aug 2019 15:24:51 -0700 (PDT)
+Message-ID: <e4a348d856248ad0c339925066a3ac34e6c77214.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Jason Wessel <jason.wessel@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 28 Aug 2019 23:24:49 +0100
+In-Reply-To: <f4465a3a-87fc-3233-9add-8655a2c10ed1@windriver.com>
+References: <20190821002750.52062-1-jason.wessel@windriver.com>
+	<0f501dcaee763d8d33152fbd82af53385b8d0dc9.camel@linuxfoundation.org>
+	<1bd6ab16-628d-2326-d6c3-c6097d7ba698@windriver.com>
+	<fa27a4877d9dd0668e23873e02f8bd90bdf93ac0.camel@linuxfoundation.org>
+	<f4465a3a-87fc-3233-9add-8655a2c10ed1@windriver.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <cover.1567019771.git.bruce.ashfield@gmail.com>
-	<4f7fa357480ec0139aa809bed4a12c9aa7622d60.1567019771.git.bruce.ashfield@gmail.com>
-	<20190828200536.GD3044@localhost>
-	<CADkTA4MBTDFUam5xvwvc0KKO+fX7ZfmBYtoe6_ZdrnspJok7Rw@mail.gmail.com>
-	<20190828215810.GF3044@localhost>
-In-Reply-To: <20190828215810.GF3044@localhost>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 28 Aug 2019 18:06:04 -0400
-Message-ID: <CADkTA4NbtkgR2LrZC+Srtn-BC+6q=7HQH9S7tbJ3H4u7=HQm7w@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] kernel-devsrc: remove python2 dependency
+Subject: Re: [PATCH] serial-getty@.service: Allow device to fast fail if it does not exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +62,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 22:06:16 -0000
+X-List-Received-Date: Wed, 28 Aug 2019 22:24:52 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 28, 2019 at 5:58 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Wed, Aug 28, 2019 at 04:11:43PM -0400, Bruce Ashfield wrote:
-> >...
-> > There's zero risk to these, and no reason to sit on them.
->
-> What range of LTS kernels is covered by the "zero risk"?
+On Wed, 2019-08-28 at 15:24 -0500, Jason Wessel wrote:
+> On 8/27/19 7:15 PM, richard.purdie@linuxfoundation.org wrote:
+> > On Tue, 2019-08-27 at 19:03 -0500, Jason Wessel wrote:
+> > > On 8/27/19 5:58 PM, Richard Purdie wrote:
+> > > > Hi Jason,
+> > > > Somehow this change is responsible for this build failure:
+> > > > 
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/976
+> > > > 
+> > > > (steps 5c and 7c so failure during testimage).
+> > > > 
+> > > > I have bisected it to this change, I haven't looked into why.
+> > > 
+> > > Thanks for tracking it down.   I am sure how to try an duplicate
+> > > this.  I clicked around to try and find out a bit about what it
+> > > is
+> > > running for these phases of the build but it is not very obvious.
+> > > 
+> > > Is there a local.conf I can try along with what ever commands it
+> > > ran?
+> > 
+> > The configuration its using is shown in
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/978/steps/8/logs/stdio
+> > for each step.
+> > 
+> 
+> I tried the configuration on my system but it seems to work fine, see
+> below.   Is there a way to get complete log file of the boot on the
+> broken host?  I am also curious if it fails every time or not.
+> 
+> /home/pokybuild/yocto-worker/qa-
+> extras2/build/build/tmp/work/qemux86_64-poky-linux/core-image-
+> sato/1.0-r0/testimage/qemu_boot_log.20190827200002
 
-It has nothing to do with LTS kernels.
+If we'd got this straight after the build then yes but its been
+recycled now.
+
+It did seem to fail repeatedly when I tested it. I'd probably have to
+add the patch back and retest again to get the log.
+
+> I am not sure it will tell us anything further or not, but it
+> certainly looks like the system didn't boot correctly in the first
+> place.
+
+It does seem like a boot issue somehow...
+
+The test case one the autobuilder seems simple enough, systemd boot
+alone with no sysvinit.
 
 Cheers,
 
-Bruce
+Richard
 
->
-> > Bruce
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
