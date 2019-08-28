@@ -1,16 +1,16 @@
 Return-Path: <shohei.maruyama@cybertrust.co.jp>
-Received: from JPN01-OS2-obe.outbound.protection.outlook.com
-	(mail-eopbgr1410131.outbound.protection.outlook.com [40.107.141.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 1419E7D3B7
+Received: from JPN01-TY1-obe.outbound.protection.outlook.com
+	(mail-eopbgr1400128.outbound.protection.outlook.com [40.107.140.128])
+	by mail.openembedded.org (Postfix) with ESMTP id 130D26C1D5
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 28 Aug 2019 05:45:49 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=Bi7qE4nKXDbeGhcG4jTnORAZlYj2BGc8eihSsbTYXE4n3ODpxaZYaWp1EscVwtkjsZyFMG4eIfVf+u2kZ+3D7NRcyFqfckC2uVDNDDt0QUTIjBR7gv3Uh9TVc44qzW0as5wY19Saw9EwiqmC3Ho7ZzlgLQlz81wXsS01RbEtEgoGyWjfIyvH3iqyQBsI7ebFf4Hi2mGMDpk4VU0q9+GoT9tZSaQoL/FV9b2nsxfL4s5RXSUKpbZ8Lh5khqVuJm9smA1sia8TPbxHv++oMjdTPY9Hi+/t/Yut92i1Ua9174aFIPNM79N+IUfKWgURDwevHBe7SkE7vQvP4vzz7tIwnQ==
+	b=AHucLo8cDQe94WNfwnSXhuJN44yVvGM5dI+28W6DfmxYSj4OzRIBI73tHsTkpBpYJK+AJbDPPuUM9qtI/cWhVld0pIe66dA9c+1Jk/MAeS3Fw63GsKNqWlmOa4AUX30grwledOqDPT0mR9sT05WJOIZ4qEm1kK1bcGroTM9zDknVM50XThOKuyJEwbMD0aQdsDWTlf/2W7VzsXIEP0a6aQQAFJIv8YsZZZGNVRAtMAwDL0b1xrgg0gquzVGMga+5bw1AOhNqcpD7qUgi9uzjaCBoCvcnB53p/ThG91FGQ3MN4EennY3jeyqOoSpMAwJX3UZ5n5pHUH+aAtAkn22tFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
 	s=arcselector9901;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=dL/IOSZs7w5V4SZ4YdB1z+MVxLtNC9g9zzZ6uO5Jepo=;
-	b=DVf/1WS7/WsGsp/BAZPoUkbprjugAKF6iXhOk2aiYxiX+5mzET778UhLcsm0QGe4CqzdNsWseLj/+YrvorubF8lEWjYSBCB2+OqbpEijYkCFjYjXym2/GIvbi5ItZ7IDmEGhlcKjaH9BX1oOWNuIDdl4F1+WVKsBnXvcvS//HYUGDIZUKd3o4C36R1WPpmadWmBOqSBICPbUmC9PjREymCOL2XhQgmh/73jpiYdJVOoKeiqIkluWj6R1aDSLD5HqSqZ2d4/QorIEuEf5QFtW9d4EQyGNZ1x4SMNlg4/UJDTqCmdh4+35s1rW9rdkzEpDV/tUJ4oaHdbQPSLdvvU/Nw==
+	bh=ujeEdBO1F9LQvBQB6qIT/dHAd0Z3lw4fB9qAo9kTv8M=;
+	b=ibHBT2AkFiden8uGqN6hoD4om4+opNQ2CZofR0Saqtzcua8DdSmhYvFmuhZgtWRkzezdfqNf+lm709l86SfceSb4OXW9AQOQvwgAQfX1NTgPbeDouPqoOJo4xeeKQEMFLrAeNkke7L3neK2FLWXbvhuDZTXX+NtKwlNYVW6A+MQcfNrgZIuupb8o9HKInyCsPEJzdQtRkumfaFtLiSoxROlXdxkKOaPciJDjDgffAIKUpJ6u1tGvpmfZ9AQPSOIW0oAd++j8k1MZr7Owhq0lm6FOZuL1bnMdA8IkcDF4EnTW1ynxsHpsn8PkwBWVL7maNghZli6tX4sbfom8Tg2j9Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 	smtp.mailfrom=cybertrust.co.jp; dmarc=pass action=none
 	header.from=cybertrust.co.jp; dkim=pass header.d=cybertrust.co.jp;
@@ -18,25 +18,26 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intra01.onmicrosoft.com; s=selector2-intra01-onmicrosoft-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=dL/IOSZs7w5V4SZ4YdB1z+MVxLtNC9g9zzZ6uO5Jepo=;
-	b=i6HIIEcQSmn0JzYAvsbNCUTxPjXmt9H2+4cOTvaHu+GIR7LgsfrPWMtakEIqEYy4BsOe5k/nGiZJIr+9NFoF326vrS3EFwyr7SkBITiMWSpkg334NwMfoaMPd76jR7lrFEO966oHNEF9ijHrVLVr15wsOYxauOU4NMlkSYsSjmk=
+	bh=ujeEdBO1F9LQvBQB6qIT/dHAd0Z3lw4fB9qAo9kTv8M=;
+	b=y57rqFgZfXQmlHZj85l0tQCwMS5aXLBQgTEvi/3osX7k8NQuR4SAa8Y6A2+5paiqY4t/yvh3TQFEPDI11m74ayktyjT8xgo4LUmSd1ImK5OTW6aSNvFuAVhj0UOfbOkb+15WoiUv4ko0sCk5Ym/mYLIAdiiccPGSC8Q5vSP3Xyc=
 Received: from TYAPR01MB3007.jpnprd01.prod.outlook.com (20.177.101.86) by
-	TYAPR01MB2704.jpnprd01.prod.outlook.com (20.177.103.148) with Microsoft
+	TYAPR01MB4240.jpnprd01.prod.outlook.com (20.178.140.148) with Microsoft
 	SMTP
 	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2199.19; Wed, 28 Aug 2019 05:45:46 +0000
+	15.20.2199.20; Wed, 28 Aug 2019 05:45:49 +0000
 Received: from TYAPR01MB3007.jpnprd01.prod.outlook.com
 	([fe80::6869:1670:e5fc:4dcb]) by
 	TYAPR01MB3007.jpnprd01.prod.outlook.com
 	([fe80::6869:1670:e5fc:4dcb%7]) with mapi id 15.20.2199.021;
-	Wed, 28 Aug 2019 05:45:46 +0000
+	Wed, 28 Aug 2019 05:45:49 +0000
 From: <shohei.maruyama@cybertrust.co.jp>
 To: <openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2 1/2] runqemu: Change to use -device virtio-gpu-pci
-	instead of -vga virtio
-Thread-Index: AQHVXWPWjNHOdkTmj0+83Qen0fZtFA==
-Date: Wed, 28 Aug 2019 05:45:46 +0000
-Message-ID: <20190828054629.6735-1-shohei.maruyama@cybertrust.co.jp>
+Thread-Topic: [PATCH v2 2/2] runqemu: Fix guest has not initialized error
+Thread-Index: AQHVXWPYB41kAkGfY0+mSDJC5lqwkQ==
+Date: Wed, 28 Aug 2019 05:45:49 +0000
+Message-ID: <20190828054629.6735-2-shohei.maruyama@cybertrust.co.jp>
+References: <20190828054629.6735-1-shohei.maruyama@cybertrust.co.jp>
+In-Reply-To: <20190828054629.6735-1-shohei.maruyama@cybertrust.co.jp>
 Accept-Language: ja-JP, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -49,35 +50,35 @@ authentication-results: spf=none (sender IP is )
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [219.123.27.194]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6a23d036-2f27-4307-8a7c-08d72b7af96b
+x-ms-office365-filtering-correlation-id: 29cda573-0f1c-441b-df74-08d72b7afad5
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
 	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
-	SRVR:TYAPR01MB2704; 
-x-ms-traffictypediagnostic: TYAPR01MB2704:
+	SRVR:TYAPR01MB4240; 
+x-ms-traffictypediagnostic: TYAPR01MB4240:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB2704F3589C2E9C1A6B6C9EC7D6A30@TYAPR01MB2704.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1728;
+x-microsoft-antispam-prvs: <TYAPR01MB42403D951C026EA3A53E97EFD6A30@TYAPR01MB4240.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
 x-forefront-prvs: 014304E855
 x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(4636009)(376002)(136003)(346002)(396003)(366004)(39860400002)(189003)(199004)(102836004)(305945005)(7736002)(316002)(186003)(71190400001)(71200400001)(5660300002)(2351001)(52116002)(8936002)(8676002)(256004)(99286004)(36756003)(26005)(2906002)(81156014)(81166006)(1076003)(6506007)(3846002)(6116002)(5640700003)(6436002)(86362001)(386003)(6486002)(2501003)(6512007)(478600001)(107886003)(53936002)(25786009)(6916009)(50226002)(476003)(46636005)(4326008)(64756008)(66446008)(66556008)(2616005)(66066001)(14454004)(486006)(66476007)(66946007);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:TYAPR01MB2704;
+	SFS:(10019020)(4636009)(39860400002)(136003)(396003)(346002)(366004)(376002)(189003)(199004)(6436002)(53936002)(5660300002)(66946007)(66476007)(66556008)(64756008)(107886003)(8676002)(66066001)(6512007)(66446008)(2351001)(256004)(14444005)(2501003)(46636005)(2906002)(99286004)(5640700003)(102836004)(476003)(486006)(2616005)(86362001)(11346002)(186003)(446003)(6506007)(1076003)(6486002)(26005)(316002)(386003)(36756003)(76176011)(14454004)(8936002)(25786009)(305945005)(71200400001)(4326008)(7736002)(478600001)(81156014)(6916009)(71190400001)(50226002)(52116002)(81166006)(3846002)(6116002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:TYAPR01MB4240;
 	H:TYAPR01MB3007.jpnprd01.prod.outlook.com; FPR:; SPF:None;
 	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: cybertrust.co.jp does not
 	designate permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 6+CUg86NpmpWaWHMwbiszPbaBF79uT2O6SLtKbeE79jL8W51CorxGFpinLjhwUAtKf9uOCzeTWQtZ7lZUK63hzIsHShPiGboPoaiLJk6XoEi0KqWYcp0CTfXcmTgPgPvdDhHiuotDzzjEEbRvLBc6vWdUn5NaubKuR5IRF05mGpY8FGNJtHyb6daYbJpPe5Xf3S4qrvSWfindVGCR7ADM9KOjW0V1l3gXNOKTutWfN8ZfVFf98yF2cmt4iWJV5r1KT3odejsJ4vyoliIVYkKVKbA2s1DtcCdVNvefJsnD8viAANL8XolYHqrCm7h7AcGg03F0KA4fdZvNAHP2HJwqm9McMU38unARIJu/yvPdKQ5DJTAH1wTGERPuMcWaHv1vgMRjw6mR/elKZgXA9yYa4calS0dR+B1pxbGw+iux7c=
+x-microsoft-antispam-message-info: 5TueWx/2QOnWC8z5YojLedksMldOctWkKdQfYpjQIJZZpD2deqqg58GoUq5bXHoyzBwpzQRCo1eUAmwOh7/1K8/RMd46VOkae13RpyuYyOiFGLXL2bilLe7xIrYjyBwCkCtJhmplH2Kiyt3JRVHGCJfxnSDNl20zlOOPUU6ZnOBVg1GP4KqDrV9dp4OhHGwmbT3bMq2K9ekn6ViQcUGPbX/GCD3JTvCX3MFTErvKg72aT9m6HaynTdedDGFuTVxt26XOtH27LvTGc25wpvjrlE7RaDIRmLDS2btD1qQNYRL586RGdCXavKKjiQjgQ1Rs6v74BBy4sjtfzi/bUsVMErkCIfWPDFKhmHza6KecLhV2fZiyUn8T6WEo/UEgakZZdtLzfFzek3LCLmCc2NkkGBrbr2a2CAeIB4JkHtS14To=
 MIME-Version: 1.0
 X-OriginatorOrg: cybertrust.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a23d036-2f27-4307-8a7c-08d72b7af96b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2019 05:45:46.7932 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29cda573-0f1c-441b-df74-08d72b7afad5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2019 05:45:49.1978 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72cc4624-32b4-4dab-b80a-8563e559bd82
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: L9k/kY0D7hG7MjcosOIUy5OoXvHkKUrNggSRb6p0eH9FwBR8ytHNFKYas2fKBqcwrhnojAKMLA1tX+ete5Anwtkd1Im+Rm6MViOv6fyNt9S1afvY9oaCNU4K1UXS9BOA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2704
-Subject: [PATCH v2 1/2] runqemu: Change to use -device virtio-gpu-pci instead of -vga virtio
+X-MS-Exchange-CrossTenant-userprincipalname: GTSHr0XQ/SzRoG8huht1KJ5HZRxe7JNtwhTvcSYATBQ7dogaiGakpkhfuXQfthuA0ua5puFpf3II2VixLO4NWnpYqzjXSrgjAHEApLihFoqkGe29rBDdBUOlh0j+GAt/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4240
+Subject: [PATCH v2 2/2] runqemu: Fix guest has not initialized error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -95,46 +96,46 @@ Content-Language: en-US
 Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: quoted-printable
 
-If using qemu-system-aarch64 or qemu-system-arm with the options, an error
-occured as follows:
-
-  qemu-system-aarch64: Virtio VGA not available
-
-this commit fixes the error by using -device virtio-gpu-pci instead of
--vga virtio.
+By default qemu use -device VGA,edid=3Don but in some case cannot use
+display because of it.
 
 Signed-off-by: Shohei Maruyama <shohei.maruyama@cybertrust.co.jp>
 ---
- scripts/runqemu | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/conf/machine/qemuarm64.conf | 2 +-
+ scripts/runqemu                  | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64=
+.conf
+index 5c8aac1511..2c6d4dfc98 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -17,7 +17,7 @@ QB_CPU =3D "-cpu cortex-a57"
+ # Standard Serial console
+ QB_KERNEL_CMDLINE_APPEND =3D "console=3DttyAMA0"
+ # For graphics to work we need to define the VGA device as well as the nec=
+essary USB devices
+-QB_OPT_APPEND =3D "-show-cursor -device VGA,edid=3Don"
++QB_OPT_APPEND =3D "-show-cursor"
+ QB_OPT_APPEND +=3D "-device qemu-xhci -device usb-tablet -device usb-kbd"
+ # Add the 'virtio-rng-pci' device otherwise the guest may run out of entro=
+py
+ QB_OPT_APPEND +=3D "-object rng-random,filename=3D/dev/urandom,id=3Drng0 -=
+device virtio-rng-pci,rng=3Drng0"
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 19fd521cd9..28ecee97a7 100755
+index 28ecee97a7..d4ff5b9eb9 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -398,11 +398,11 @@ class BaseConfig(object):
+@@ -397,6 +397,8 @@ class BaseConfig(object):
+                 self.kernel_cmdline_script +=3D ' console=3DttyS0'
              elif arg =3D=3D 'sdl':
                  self.qemu_opt_script +=3D ' -display sdl'
++            elif arg =3D=3D 'gtk':
++                self.qemu_opt_script +=3D ' -device virtio-gpu-pci'
              elif arg =3D=3D 'gtk-gl':
--                self.qemu_opt_script +=3D ' -vga virtio -display gtk,gl=3D=
-on'
-+                self.qemu_opt_script +=3D ' -device virtio-gpu-pci,virgl=
+                 self.qemu_opt_script +=3D ' -device virtio-gpu-pci,virgl=
 =3Don -display gtk,gl=3Don'
              elif arg =3D=3D 'gtk-gl-es':
--                self.qemu_opt_script +=3D ' -vga virtio -display gtk,gl=3D=
-es'
-+                self.qemu_opt_script +=3D ' -device virtio-gpu-pci,virgl=
-=3Don -display gtk,gl=3Des'
-             elif arg =3D=3D 'egl-headless':
--                self.qemu_opt_script +=3D ' -vga virtio -display egl-headl=
-ess'
-+                self.qemu_opt_script +=3D ' -device virtio-gpu-pci,virgl=
-=3Don -display egl-headless'
-                 # As runqemu can be run within bitbake (when using testima=
-ge, for example),
-                 # we need to ensure that we run host pkg-config, and that =
-it does not
-                 # get mis-directed to native build paths set by bitbake.
 --=20
 2.23.0
 
