@@ -1,47 +1,40 @@
-Return-Path: <wesley.lindauer@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C7AE7F277
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E7FB7F275
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 21:38:28 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id j5so2572705ioj.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 14:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=bigSN5HY3Wurb/pG0r6pdDOo5/QMf/0b4oQpKtq6RkM=;
-	b=Te6ZDtsLfS/KXyEVKRaigFW/cIvha3lXyibiKNowPvmZiSMcUvwEki64/D/KOkdAva
-	xzhbNupurjPYL1s4Am7BKaXqlKXLzj1QAdSVXZCsip6nyJRpNHaKlovFz7QJvQa0oX75
-	H+uuCI8v9wM3hPeZGE/bG1ssQjImJTgkzVAqQKl92Xt/606HKSyQ5PTuR2xzY7zfRZjU
-	6lTaY1J4K5mWoH0a0NAMre22+ArV9OHviCtqFbUw9mw3tj0tCsBa5zlQk67CA9ia/Db6
-	PYfczdH0FlU08h/G16GxhfLDcqRWpj8kQY8r6x3u4xeQUCB8j8b4nNuEc4qrWImLw8cp
-	Nzqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bigSN5HY3Wurb/pG0r6pdDOo5/QMf/0b4oQpKtq6RkM=;
-	b=fTxJ0COLE7y36tlMOR8emJN79onOYILsQcxjsmHtRI9IFzADuhvVHSOhwm4S0gMemY
-	Sl9Ojef8iCRS/lCxBCeyaSgko9IRq6dT4hkUWSXlzgthJrvUoo2Jr6r4dhafj2aKorSm
-	3mAV3XN2qFJ1F8QBOTvgv4K51baE5EWQvHsrKFB1XMNVnfEP4/ApM12pBdJCY7VZNosP
-	Ikwp2Fl/l0bzGusNlfOK3g3/yqjNV08tTHSeYewH1FDpU1Zjy1DFb/PxAStsnl4EtSHc
-	ivK7pmwPG5XDxvkq4PhDAnmOLxxCHobbZX4SaPtD5h4Px6maYy+98csIvf2Vr3DbTKST
-	hvjQ==
-X-Gm-Message-State: APjAAAVZ9ck5I8wYsmbb+8I4uH6ijEwtp4V4zxtdm9HHzG7N4HOu3v2X
-	ad3SlCxbLqBXizg/V/XjBVG4hJOz
-X-Google-Smtp-Source: APXvYqzVJvGg6hJQ1Tr2XMmdLjs4inHHaYbnEe2VH5TVja0sXmXj5rT4pGmox880jtFCR3feSeMe7w==
-X-Received: by 2002:a02:ad15:: with SMTP id s21mr7008986jan.47.1567028309153; 
-	Wed, 28 Aug 2019 14:38:29 -0700 (PDT)
-Received: from camaro.lpdev.prtdev.lexmark.com
-	([2600:380:a567:6b29:2544:4610:ce6f:e297])
-	by smtp.gmail.com with ESMTPSA id q74sm287422iod.72.2019.08.28.14.38.27
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 28 Aug 2019 14:38:28 -0700 (PDT)
-From: Wes Lindauer <wesley.lindauer@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Aug 2019 17:38:14 -0400
-Message-Id: <20190828213814.5204-1-wesley.lindauer@gmail.com>
-X-Mailer: git-send-email 2.14.5
-Subject: [PATCH] bitbake: cooker: Ensure bbappends are found in stable order
+	Wed, 28 Aug 2019 21:58:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46JfkX15S9zSK;
+	Wed, 28 Aug 2019 23:58:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1567029492;
+	bh=f3exIu+9/ydqIaxMih/NZm7plFvkCG3e9eHwbJ/8gpY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e6jFyC0y69CLhADZX3sAfRmYDx0bb4w5+wO40panwoT5NjSfhZ2uOzSDcmcRzbQO/
+	2i08cDLuFFSwOaZdqJWKDEFD6O6UqEKaLgEZSxa8webfm/Dc7A5x1Sf/EtZcO1IzSX
+	oHQpg8NTAccS44m6l/CtgKLjhMwu0RXVv+xPfrFWJJ3L4aqDEECf9yOnzPsIpxtleB
+	0oVBlONjrEcFoOI/dmlYpGBqmA2WWa0C8KcwBtihJe+tcHu7tUcYGhEc68Uds0E6oZ
+	z4Mnxpr1avMooupSJb7fdUY82egOSiAfGQc0pm4fYnnJlvE7RhsGye5L0kcefVbqEh
+	eWVakleN6EJbAltgU+SDclEtj6hL5d6SKQVJ146fqSFvFgGBmf/ZKnVmbZ5lEbdpxm
+	FVaOtVaqGsvphhSLEcxhlkjofIWMjbBXQ5nqF226UQGlNqztPOTyE3QtPrfme/tWPf
+	DbT826Dyj9FE6NujFcKfoImCnEOp2cPjIni4uBTm0l62ZpCS2iTD5L3Tl5751zdZGc
+	5qLgBtdL52LlImhk6+EPUZvATX+I8p7SewY3NeJXWfmw4q3tiShK2qaJlEPVV9u9+R
+	RyuDraXNsq48B/fYE3QFXFlRPfRKKr3xOfF6KF4j12FuqRUnFtiu7Zwmk8+ZMWWgLM
+	0TJ3g4eR3C1Iwapzi9Dy8T9o=
+Date: Thu, 29 Aug 2019 00:58:10 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Message-ID: <20190828215810.GF3044@localhost>
+References: <cover.1567019771.git.bruce.ashfield@gmail.com>
+	<4f7fa357480ec0139aa809bed4a12c9aa7622d60.1567019771.git.bruce.ashfield@gmail.com>
+	<20190828200536.GD3044@localhost>
+	<CADkTA4MBTDFUam5xvwvc0KKO+fX7ZfmBYtoe6_ZdrnspJok7Rw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4MBTDFUam5xvwvc0KKO+fX7ZfmBYtoe6_ZdrnspJok7Rw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/8] kernel-devsrc: remove python2 dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +47,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 21:38:28 -0000
+X-List-Received-Date: Wed, 28 Aug 2019 21:58:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Thanks to wildcards in bbappend filenames, it's possible to have
-multiple bbappends that apply to the same recipe in the same directory.
-In order to get sstate hits between different workspaces, we want to
-apply those bbappend files in a consistent order.  Since readdir()
-returns files in a non-deterministic order between workspaces (based on
-inode number and/or time of creation), we'll need to sort its result in
-order to have any consistency.
+On Wed, Aug 28, 2019 at 04:11:43PM -0400, Bruce Ashfield wrote:
+>...
+> There's zero risk to these, and no reason to sit on them.
 
-Signed-off-by: Wes Lindauer <wesley.lindauer@gmail.com>
----
- bitbake/lib/bb/cooker.py | 1 +
- 1 file changed, 1 insertion(+)
+What range of LTS kernels is covered by the "zero risk"?
 
-diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
-index 0607fcc708..a9ee142aa5 100644
---- a/bitbake/lib/bb/cooker.py
-+++ b/bitbake/lib/bb/cooker.py
-@@ -1869,6 +1869,7 @@ class CookerCollectFiles(object):
-             (bbappend, filename) = b
-             if (bbappend == f) or ('%' in bbappend and bbappend.startswith(f[:bbappend.index('%')])):
-                 filelist.append(filename)
-+        filelist.sort()
-         return filelist
- 
-     def collection_priorities(self, pkgfns, d):
+> Bruce
+
+cu
+Adrian
+
 -- 
-2.14.5
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
