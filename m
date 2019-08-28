@@ -1,29 +1,46 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 67BCA7F281
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+	[209.85.208.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 928277F295
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 20:24:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7SKOoV9008967
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 28 Aug 2019 13:24:50 -0700 (PDT)
-Received: from [192.168.10.15] (172.25.59.220) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 28 Aug 2019 13:24:49 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20190821002750.52062-1-jason.wessel@windriver.com>
-	<0f501dcaee763d8d33152fbd82af53385b8d0dc9.camel@linuxfoundation.org>
-	<1bd6ab16-628d-2326-d6c3-c6097d7ba698@windriver.com>
-	<fa27a4877d9dd0668e23873e02f8bd90bdf93ac0.camel@linuxfoundation.org>
-From: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <f4465a3a-87fc-3233-9add-8655a2c10ed1@windriver.com>
-Date: Wed, 28 Aug 2019 15:24:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <fa27a4877d9dd0668e23873e02f8bd90bdf93ac0.camel@linuxfoundation.org>
-Subject: Re: [PATCH] serial-getty@.service: Allow device to fast fail if it does not exist
+	Wed, 28 Aug 2019 20:50:27 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id f9so821926ljc.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Aug 2019 13:50:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=8wSTtUoUSDOyX0eyTwQM3N1jruBwVo1THwEUB4Y9+tk=;
+	b=Rb4L/ks6pUq7XpY0TxQmpNiLPjKfYrXNMHN0mxT3a6ny17fjs95BAEIEsB9X9VaRua
+	+eDZAEgVZtTTq/BRk0RcYOId2m/f3cYGhZkqgvmLGcKo/1Z9JBEs0p8CVJbGjm0+P0XY
+	Txi2CfdXBpZyDP+lzO3qNV/HG9ggndCciqYxvwmBvf7jt5H4koneoTcKtLe+/EaugDOq
+	rlzqWmj0HbNuESM0wW1oSgbKSxA3BWa1Pepr6JuSef1uCUzDHCNRRm0zErk1Scw5bgYA
+	L0vvDecCtN5JsedimfVJATjVVY+isTs+10tLbWC2DBCJobibsHq8M1d8HnJsYXvmrcP7
+	LxIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8wSTtUoUSDOyX0eyTwQM3N1jruBwVo1THwEUB4Y9+tk=;
+	b=aTPfMsnRgCtYV/mDlCsVUS+RASHWiZf6vIK2CuQdi9Za91Oz9OxCRLC3kw1XilTssB
+	NIGsBf3J7l4hx/Po0lawbZhznPMpWZiTQCE5VNfmwTVvODKCGQMTCJIzWYA7b1Gto+n/
+	b8ip2RUrWOybj0MsGcsphg2lZwOi+NP/CaDutb9XCvT+iVglANL9oPi7W7Z3BFU451Rv
+	lzzWOZFUZiIbyeGeyivrmWcVJTjV8E5OjaPm1GU+2y6pLVJMEGMlvbWs9a70eIVmQSas
+	kMuOtpgvwDkVmcTJ0f7fEPvGnxpcvhoMFGec0WEYXnIDHPeZK+biSbWtXUcbvTUpMnjT
+	1FQw==
+X-Gm-Message-State: APjAAAWLGoSj3ilh3Ks6Nr4JNbjV/VLtI5WF1QXXTPE0sKkuAe0YiLQl
+	MyJgprbT/5ASP8TMb+sPl6O0jLOn
+X-Google-Smtp-Source: APXvYqyLXMxJSPYWG6Rr/VNdlfFlm8GMoUCry4iH9OuEHlTl2vv63JhCugQZrw5APWiKvltHNDOVsA==
+X-Received: by 2002:a2e:3a05:: with SMTP id h5mr3251503lja.135.1567025427493; 
+	Wed, 28 Aug 2019 13:50:27 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id y8sm50725ljn.65.2019.08.28.13.50.26
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 28 Aug 2019 13:50:26 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Aug 2019 22:50:16 +0200
+Message-Id: <20190828205016.2551-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] ltp: move from python 2.x to python 3.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,139 +53,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 20:24:53 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Aug 2019 20:50:28 -0000
 
-On 8/27/19 7:15 PM, richard.purdie@linuxfoundation.org wrote:
-> On Tue, 2019-08-27 at 19:03 -0500, Jason Wessel wrote:
->>
->> On 8/27/19 5:58 PM, Richard Purdie wrote:
->>> Hi Jason,
->>> Somehow this change is responsible for this build failure:
->>>
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/976
->>>
->>> (steps 5c and 7c so failure during testimage).
->>>
->>> I have bisected it to this change, I haven't looked into why.
->>
->> Thanks for tracking it down.   I am sure how to try an duplicate
->> this.  I clicked around to try and find out a bit about what it is
->> running for these phases of the build but it is not very obvious.
->>
->> Is there a local.conf I can try along with what ever commands it ran?
-> 
-> The configuration its using is shown in
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/978/steps/8/logs/stdio
-> for each step.
-> 
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...thon3-everywhere-to-run-python-scrip.patch | 161 ++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20190517.bb     |   3 +-
+ 2 files changed, 163 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
 
+diff --git a/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch b/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
+new file mode 100644
+index 00000000000..f4f87f38ab7
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
+@@ -0,0 +1,161 @@
++From 0463d793566772a606255957915f99d166d5740c Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 28 Aug 2019 18:30:23 +0200
++Subject: [PATCH] testcases: use python3 everywhere to run python scripts
++
++The scripts themselves have #!/usr/bin/python3 in them,
++so I trust they are already py3-compatible.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ testcases/kernel/power_management/runpwtests05.sh  |  2 +-
++ .../power_management/runpwtests_exclusive01.sh     |  2 +-
++ .../power_management/runpwtests_exclusive02.sh     |  2 +-
++ .../power_management/runpwtests_exclusive03.sh     |  2 +-
++ .../power_management/runpwtests_exclusive04.sh     |  2 +-
++ .../power_management/runpwtests_exclusive05.sh     |  2 +-
++ testcases/network/nfsv4/acl/runtest                | 14 +++++++-------
++ testcases/realtime/func/pi-tests/run_auto.sh       |  6 +++---
++ 8 files changed, 16 insertions(+), 16 deletions(-)
++
++diff --git a/testcases/kernel/power_management/runpwtests05.sh b/testcases/kernel/power_management/runpwtests05.sh
++index 8a7d0f6e0..43e234d01 100755
++--- a/testcases/kernel/power_management/runpwtests05.sh
+++++ b/testcases/kernel/power_management/runpwtests05.sh
++@@ -35,7 +35,7 @@ else
++ 	max_sched_smt=1
++ fi
++ 
++-tst_test_cmds python
+++tst_test_cmds python3
++ 
++ if ! grep sched_debug -qw /proc/cmdline ; then
++ 	tst_brkm TCONF "Kernel cmdline parameter 'sched_debug' needed," \
++diff --git a/testcases/kernel/power_management/runpwtests_exclusive01.sh b/testcases/kernel/power_management/runpwtests_exclusive01.sh
++index ec78319e2..9fefcbf6e 100755
++--- a/testcases/kernel/power_management/runpwtests_exclusive01.sh
+++++ b/testcases/kernel/power_management/runpwtests_exclusive01.sh
++@@ -35,7 +35,7 @@ else
++ 	max_sched_smt=1
++ fi
++ 
++-tst_test_cmds python
+++tst_test_cmds python3
++ 
++ hyper_threaded=$(is_hyper_threaded)
++ multi_socket=$(is_multi_socket)
++diff --git a/testcases/kernel/power_management/runpwtests_exclusive02.sh b/testcases/kernel/power_management/runpwtests_exclusive02.sh
++index e107fce35..2cd0ecb05 100755
++--- a/testcases/kernel/power_management/runpwtests_exclusive02.sh
+++++ b/testcases/kernel/power_management/runpwtests_exclusive02.sh
++@@ -33,7 +33,7 @@ else
++ 	max_sched_smt=1
++ fi
++ 
++-tst_test_cmds python
+++tst_test_cmds python3
++ 
++ hyper_threaded=$(is_hyper_threaded)
++ multi_socket=$(is_multi_socket)
++diff --git a/testcases/kernel/power_management/runpwtests_exclusive03.sh b/testcases/kernel/power_management/runpwtests_exclusive03.sh
++index 490344bb3..ab3a5d11d 100755
++--- a/testcases/kernel/power_management/runpwtests_exclusive03.sh
+++++ b/testcases/kernel/power_management/runpwtests_exclusive03.sh
++@@ -35,7 +35,7 @@ else
++ 	max_sched_smt=1
++ fi
++ 
++-tst_test_cmds python
+++tst_test_cmds python3
++ 
++ hyper_threaded=$(is_hyper_threaded)
++ multi_socket=$(is_multi_socket)
++diff --git a/testcases/kernel/power_management/runpwtests_exclusive04.sh b/testcases/kernel/power_management/runpwtests_exclusive04.sh
++index 978ca02ae..438ef603f 100755
++--- a/testcases/kernel/power_management/runpwtests_exclusive04.sh
+++++ b/testcases/kernel/power_management/runpwtests_exclusive04.sh
++@@ -27,7 +27,7 @@ export TST_TOTAL=2
++ # Checking test environment
++ check_kervel_arch
++ 
++-tst_test_cmds python
+++tst_test_cmds python3
++ 
++ hyper_threaded=$(is_hyper_threaded)
++ multi_socket=$(is_multi_socket)
++diff --git a/testcases/kernel/power_management/runpwtests_exclusive05.sh b/testcases/kernel/power_management/runpwtests_exclusive05.sh
++index a0dad5834..3a9afdbf2 100755
++--- a/testcases/kernel/power_management/runpwtests_exclusive05.sh
+++++ b/testcases/kernel/power_management/runpwtests_exclusive05.sh
++@@ -35,7 +35,7 @@ else
++ 	max_sched_smt=1
++ fi
++ 
++-tst_test_cmds python
+++tst_test_cmds python3
++ 
++ hyper_threaded=$(is_hyper_threaded)
++ multi_socket=$(is_multi_socket)
++diff --git a/testcases/network/nfsv4/acl/runtest b/testcases/network/nfsv4/acl/runtest
++index d2e1b4c49..a859e85bc 100755
++--- a/testcases/network/nfsv4/acl/runtest
+++++ b/testcases/network/nfsv4/acl/runtest
++@@ -22,7 +22,7 @@ do
++ done
++ 
++ #  creation of users on the remote machine (removed only at the end of the tests)
++-rsh -n $REMOTEHOST python $PWD/create_users.py -u 50 -g 50
+++rsh -n $REMOTEHOST python3 $PWD/create_users.py -u 50 -g 50
++ 
++ echo "Starting ACL testing"
++ 
++@@ -51,19 +51,19 @@ echo "Basic tests finished"
++ 
++ echo "LONG ACL TEST"
++ echo "creating necessary users and groups"
++-python create_users.py -u 50 -g 50
+++python3 create_users.py -u 50 -g 50
++ echo "creating necessary users and groups on the remote host"
++ mkdir $NFSMNTDIR/lacl-testdir
++-python test_long_acl.py -l $MAXLENGTH -p $NFSMNTDIR/lacl-testdir
+++python3 test_long_acl.py -l $MAXLENGTH -p $NFSMNTDIR/lacl-testdir
++ rm -rf $NFSMNTDIR/lacl-testdir
++ echo "Long ACL test OK with $MAXLENGTH entries"
++ echo "ACL STRESSING TEST"
++-python setacl_stress.py -n 100 -u $USER_NB -g $GRP_NB -f $FILE_NB -p $NFSMNTDIR
+++python3 setacl_stress.py -n 100 -u $USER_NB -g $GRP_NB -f $FILE_NB -p $NFSMNTDIR
++ 
++ # remove local an remote users
++-python cleanusers.py
++-python cleangroups.py
++-rsh -n $REMOTEHOST python $PWD/cleanusers.py
+++python3 cleanusers.py
+++python3 cleangroups.py
+++rsh -n $REMOTEHOST python3 $PWD/cleanusers.py
++ 
++ echo "Test OK"
++ 
++diff --git a/testcases/realtime/func/pi-tests/run_auto.sh b/testcases/realtime/func/pi-tests/run_auto.sh
++index d13026049..277988568 100755
++--- a/testcases/realtime/func/pi-tests/run_auto.sh
+++++ b/testcases/realtime/func/pi-tests/run_auto.sh
++@@ -15,15 +15,15 @@ $SCRIPTS_DIR/run_c_files.sh $profile testpi-0
++ 
++ export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-1.log"
++ $SCRIPTS_DIR/run_c_files.sh $profile testpi-1
++-PYTHONPATH=../../  python parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
+++PYTHONPATH=../../  python3 parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
++ 
++ export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-2.log"
++ $SCRIPTS_DIR/run_c_files.sh $profile testpi-2
++-PYTHONPATH=../../  python parse-testpi2.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
+++PYTHONPATH=../../  python3 parse-testpi2.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
++ 
++ export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-4.log"
++ $SCRIPTS_DIR/run_c_files.sh $profile testpi-4
++-PYTHONPATH=../../  python parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
+++PYTHONPATH=../../  python3 parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
++ 
++ 
++ export LOG_FILE=""
+diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
+index b0e2f969c7a..3826ea8560d 100644
+--- a/meta/recipes-extended/ltp/ltp_20190517.bb
++++ b/meta/recipes-extended/ltp/ltp_20190517.bb
+@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0002-check-for-RES_USE_INET6-during-configure.patch \
+            file://0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch \
+            file://0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch \
++           file://0001-testcases-use-python3-everywhere-to-run-python-scrip.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+@@ -96,7 +97,7 @@ RDEPENDS_${PN} = "\
+     libaio \
+     logrotate \
+     perl \
+-    python-core \
++    python3-core \
+     procps \
+     quota \
+     unzip \
+-- 
+2.17.1
 
-I tried the configuration on my system but it seems to work fine, see below.   Is there a way to get complete log file of the boot on the broken host?  I am also curious if it fails every time or not.
-
-/home/pokybuild/yocto-worker/qa-extras2/build/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r0/testimage/qemu_boot_log.20190827200002
-
-I am not sure it will tell us anything further or not, but it certainly looks like the system didn't boot correctly in the first place.
-
-
-Jason.
-
-
-----
-
-
-Initialising tasks: 100% |###############################################################################################
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 90 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-Started HTTPService on 128.224.149.46:38317
-Test requires apt to be installed
-Stopped HTTPService on 128.224.149.46:38317
-Test requires autoconf to be installed
-Test requires gtk+3 to be installed
-Test requires autoconf to be installed
-Started HTTPService on 128.224.149.46:32961
-Stopped HTTPService on 128.224.149.46:32961
-Test requires gcc to be installed
-Test requires g++ to be installed
-Test requires g++ to be installed
-Test requires make to be installed
-Test requires python3-pygobject to be installed
-Test requires gcc to be installed
-Test requires ldd to be installed
-Test requires logrotate to be installed
-Test case logrotate.LogrotateTest.test_2_logrotate depends on logrotate.LogrotateTest.test_1_logrotate_setup but it didn'
-Not appropiate for systemd image
-Test requires opkg to be installed
-Test requires pam to be in DISTRO_FEATURES
-Test requires ptest-runner to be installed
-Test requires systemtap to be installed
-Startup finished in 3.840s (kernel) + 2.157s (userspace) = 5.998s.
-RESULTS:
-RESULTS - connman.ConnmanTest.test_connmand_help: PASSED (0.11s)
-RESULTS - connman.ConnmanTest.test_connmand_running: PASSED (0.11s)
-RESULTS - date.DateTest.test_date: PASSED (0.63s)
-RESULTS - df.DfTest.test_df: PASSED (0.11s)
-RESULTS - dnf.DnfBasicTest.test_dnf_help: PASSED (0.78s)
-RESULTS - dnf.DnfBasicTest.test_dnf_history: PASSED (0.44s)
-RESULTS - dnf.DnfBasicTest.test_dnf_info: PASSED (0.37s)
-RESULTS - dnf.DnfBasicTest.test_dnf_search: PASSED (0.35s)
-RESULTS - dnf.DnfBasicTest.test_dnf_version: PASSED (0.32s)
-RESULTS - dnf.DnfRepoTest.test_dnf_exclude: PASSED (5.03s)
-RESULTS - dnf.DnfRepoTest.test_dnf_install: PASSED (0.78s)
-RESULTS - dnf.DnfRepoTest.test_dnf_install_dependency: PASSED (1.77s)
-RESULTS - dnf.DnfRepoTest.test_dnf_install_from_disk: PASSED (1.97s)
-RESULTS - dnf.DnfRepoTest.test_dnf_install_from_http: PASSED (1.52s)
-RESULTS - dnf.DnfRepoTest.test_dnf_installroot: PASSED (6.91s)
-RESULTS - dnf.DnfRepoTest.test_dnf_makecache: PASSED (0.42s)
-RESULTS - dnf.DnfRepoTest.test_dnf_reinstall: PASSED (0.61s)
-RESULTS - dnf.DnfRepoTest.test_dnf_repoinfo: PASSED (0.35s)
-RESULTS - oe_syslog.SyslogTest.test_syslog_running: PASSED (0.12s)
-RESULTS - oe_syslog.SyslogTestConfig.test_syslog_logger: PASSED (1.21s)
-RESULTS - oe_syslog.SyslogTestConfig.test_syslog_restart: PASSED (0.21s)
-RESULTS - parselogs.ParseLogsTest.test_parselogs: PASSED (1.91s)
-RESULTS - perl.PerlTest.test_perl_works: PASSED (0.11s)
-RESULTS - ping.PingTest.test_ping: PASSED (0.06s)
-RESULTS - python.PythonTest.test_python3: PASSED (0.12s)
-RESULTS - rpm.RpmBasicTest.test_rpm_help: PASSED (0.11s)
-RESULTS - rpm.RpmBasicTest.test_rpm_query: PASSED (0.18s)
-RESULTS - rpm.RpmBasicTest.test_rpm_query_nonroot: PASSED (0.89s)
-RESULTS - rpm.RpmInstallRemoveTest.test_check_rpm_install_removal_log_file_size: PASSED (3.54s)
-RESULTS - rpm.RpmInstallRemoveTest.test_rpm_install: PASSED (0.37s)
-RESULTS - rpm.RpmInstallRemoveTest.test_rpm_remove: PASSED (0.15s)
-RESULTS - scp.ScpTest.test_scp_file: PASSED (0.41s)
-RESULTS - ssh.SSHTest.test_ssh: PASSED (0.51s)
-RESULTS - systemd.SystemdBasicTests.test_systemd_basic: PASSED (0.12s)
-RESULTS - systemd.SystemdBasicTests.test_systemd_failed: PASSED (0.21s)
-RESULTS - systemd.SystemdBasicTests.test_systemd_list: PASSED (0.44s)
-RESULTS - systemd.SystemdJournalTests.test_systemd_boot_time: PASSED (0.11s)
-RESULTS - systemd.SystemdJournalTests.test_systemd_journal: PASSED (0.12s)
-RESULTS - systemd.SystemdServiceTests.test_systemd_disable_enable: PASSED (0.68s)
-RESULTS - systemd.SystemdServiceTests.test_systemd_status: PASSED (0.11s)
-RESULTS - systemd.SystemdServiceTests.test_systemd_stop_start: PASSED (0.45s)
-RESULTS - xorg.XorgTest.test_xorg_running: PASSED (0.20s)
-RESULTS - apt.AptRepoTest.test_apt_install_from_repo: SKIPPED (0.00s)
-RESULTS - buildcpio.BuildCpioTest.test_cpio: SKIPPED (0.00s)
-RESULTS - buildgalculator.GalculatorTest.test_galculator: SKIPPED (0.00s)
-RESULTS - buildlzip.BuildLzipTest.test_lzip: SKIPPED (0.00s)
-RESULTS - gcc.GccCompileTest.test_gcc_compile: SKIPPED (0.00s)
-RESULTS - gcc.GccCompileTest.test_gpp2_compile: SKIPPED (0.00s)
-RESULTS - gcc.GccCompileTest.test_gpp_compile: SKIPPED (0.00s)
-RESULTS - gcc.GccCompileTest.test_make: SKIPPED (0.00s)
-RESULTS - gi.GObjectIntrospectionTest.test_python: SKIPPED (0.00s)
-RESULTS - kernelmodule.KernelModuleTest.test_kernel_module: SKIPPED (0.00s)
-RESULTS - ldd.LddTest.test_ldd: SKIPPED (0.00s)
-RESULTS - logrotate.LogrotateTest.test_1_logrotate_setup: SKIPPED (0.00s)
-RESULTS - logrotate.LogrotateTest.test_2_logrotate: SKIPPED (0.00s)
-RESULTS - oe_syslog.SyslogTestConfig.test_syslog_startup_config: SKIPPED (0.00s)
-RESULTS - opkg.OpkgRepoTest.test_opkg_install_from_repo: SKIPPED (0.00s)
-RESULTS - pam.PamBasicTest.test_pam: SKIPPED (0.00s)
-RESULTS - ptest.PtestRunnerTest.test_ptestrunner: SKIPPED (0.00s)
-RESULTS - stap.StapTest.test_stap: SKIPPED (0.00s)
-SUMMARY:
-core-image-sato () - Ran 60 tests in 35.370s
-core-image-sato - OK - All required tests passed (successes=42, skipped=18, failures=0, errors=0)
-NOTE: Tasks Summary: Attempted 731 tasks of which 730 didn't need to be rerun and all succeeded.
 
