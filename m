@@ -1,50 +1,52 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
-	[209.85.208.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 665867F291
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
+	[209.85.166.54])
+	by mail.openembedded.org (Postfix) with ESMTP id B887B7F291
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 20:06:45 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id e27so751399ljb.7
+	Wed, 28 Aug 2019 20:10:27 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id n197so159927iod.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 13:06:46 -0700 (PDT)
+	Wed, 28 Aug 2019 13:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+TLm7fiNyd7k6JeDPTB2zPikU8UrrcBV+RYOzjiWdnY=;
-	b=CZqt9y7SrEgXhhoA5dnBu2UzhTxwuUJxibzZWyCoudvXPqkV5SZmvW4VCpZw4Bqv72
-	cjgqr8H4URcpwFod3lfXBBirAWg7VUN0ToKbEZr+CVyrYbe8x8Jf+0D6xxIWfZVJb5q8
-	MlO74Tj8nVbwo43UZvDUefA2BspFTzMUNHu4Z886bK7yYhZ1Zx8gn6KqPoP0+siw0Ltt
-	VqIeYpRZ9bYrAjd4SegJBi8JOrVtHq/mv//V2UBGTULuOpQNaBOx2gKFj+yImPQvJ/W4
-	6bKpmM5jhpVXS89T7q3lP6wVpcaLPjXLOw7+48tgb/RIz3dcyY46aWPV/CT5umTK7rJR
-	KHCw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=n2nOnWtV5mP6i5n1W1BzNZ8kEVNnJ/V8R+TfK/ZD9io=;
+	b=SNzf4NS/MV9P5dHcRIr/5H28QPkV+5eX5jT4JWL7nZPcmVu3LRtBmSOz/kWQtF5c6r
+	zHw/1j+Dmz8Rxt9ihtAqTAsmJ9n8S4qshanqOPDLS19P3/3GVh42buj1R2BiD+YX5Pgq
+	x/AGEU19uzp33dV07iOb7VPkZ75u8ekkFFJvqj8HYujCx5xrpma/Ae0WirTax+d6u32X
+	fMCrntU5DPVPh9U1Z2v4TIsRxhIWkRB4X+sB9ARtwfZuYzznhdfN7aFhGucUsGIuPn84
+	/hD4MpckJUUBaSvcwpC4nw0eSGl5kpbo3v22YGiQlaZuitqKNKVttjZDZ6j1NEG/DuzK
+	0OZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=+TLm7fiNyd7k6JeDPTB2zPikU8UrrcBV+RYOzjiWdnY=;
-	b=jskUYOExfXvEkwHmNdw5UmRkG+sMemXlhd+1JHbvS39gLpOm4Ls44fxB2yEIg/eOgx
-	C96hP5nD7MfYMMAfh0Jk0oNPPGPQZ3fRz+VxfBuLMXQ0ECQ81Y7VbgYckLKhwJe7ogVJ
-	KlQp/rvVUG6DYmKUAQaBpx/znA2EY6PRhK9zoMzPr9hRvAy2OH0Mj88mqfY8rYNMIkwG
-	m48wClfw7HkgT+Ighk4L0vLqYrrF8+XIspPRDevfGqk7QRfFLvXRGyp84L4DihtUvZpn
-	nM5aBdD+NA7n4eSe6JF704y1yoLJ+TZ0wLM9XPNDL6s6mxmD+knyntEnl82Pj8XbixJ+
-	lceA==
-X-Gm-Message-State: APjAAAWgn3wn6KX9Eomzw3dtEqQEU7U+jYsm5BgBtIfTcEenbEnSmGtu
-	KysxnEwYrnXwZXhMzNNQccK4c7If4NhnFzgS5lg=
-X-Google-Smtp-Source: APXvYqxKKF3Fx5pV8ItVkpoXWR6nNGGU1ccsoLQoJq368WfTRnc9/MWhsb7ughU/U6b8tBD3nHvOps+p765JfM/lU2o=
-X-Received: by 2002:a05:651c:1036:: with SMTP id
-	w22mr3022085ljm.79.1567022805654; 
-	Wed, 28 Aug 2019 13:06:45 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=n2nOnWtV5mP6i5n1W1BzNZ8kEVNnJ/V8R+TfK/ZD9io=;
+	b=mLzxQJGS0FWGM/+xrhnm5q/UjCdGdn1RXRlUy40ZSf0Fc1Ij3R99aQxVk4riWfZnZb
+	vWE3IK61f3oVtt3znBJ0MB2q2q4og0ywClYb3uoQxtDrUDfhOSS27OUC51A76zGgKq2N
+	l80Y5Zuq+3u/zsIwHVyBfIh3dv1GK8GF8JYQlEzHNmiFCbgdm7nvG5pZqmZL1bzSFfGX
+	F/UPDSWu0fCVw30gTZoE7pGfBG227PEHh8WQags1KpgH3HoT91ma/uOq73ZBZ6BMWf6L
+	V0o/5B5NOAzRRp3N6ksCs48Mc7ftvS59pUMW6gM3vExGMvHdiTIMlyj6chBSpTHs7AXw
+	fRpg==
+X-Gm-Message-State: APjAAAVoPl52azp/y0GN7xkcKmhKephBSL8VDCdWcLmCExwA1wCXC9R8
+	oRCFdkZZta5GOjq2LmFJQks=
+X-Google-Smtp-Source: APXvYqzoDwEmZ8J0dDHzPi2gtF/RJ181nxMH55cSmoll+esNaApv3Wu8rXRuh4mdignCpeztEMeRtg==
+X-Received: by 2002:a02:a492:: with SMTP id d18mr6551394jam.27.1567023028260; 
+	Wed, 28 Aug 2019 13:10:28 -0700 (PDT)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.112.251.208])
+	by smtp.gmail.com with ESMTPSA id s4sm56386iop.25.2019.08.28.13.10.26
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 28 Aug 2019 13:10:27 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 28 Aug 2019 16:10:25 -0400
+Message-Id: <20190828201025.35999-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <cover.1567019771.git.bruce.ashfield@gmail.com>
-	<2b7778d3ad843f67d5e844902a16af93a9e5c6d3.1567019771.git.bruce.ashfield@gmail.com>
-	<20190828200051.GC3044@localhost>
-In-Reply-To: <20190828200051.GC3044@localhost>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 28 Aug 2019 16:06:34 -0400
-Message-ID: <CADkTA4M_47y=sz_=TQiddP2zKmhh7tDb3P3j_PWcq-UF5-E3ew@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/8] linux-yocto: introduce 5.2 recipes
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] linux-yocto: introduce 5.2 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,46 +59,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 20:06:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 28 Aug 2019 20:10:28 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 28, 2019 at 4:00 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Wed, Aug 28, 2019 at 03:28:36PM -0400, bruce.ashfield@gmail.com wrote:
-> >...
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/linux/files/0001-foo.patch
-> > @@ -0,0 +1,25 @@
-> > +From 9ddc5e377434e28f1f3c74c9be011b0c9dfb1de4 Mon Sep 17 00:00:00 2001
-> > +From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > +Date: Fri, 1 Mar 2019 10:09:43 -0500
-> > +Subject: [PATCH] foo
-> >...
->
-> Debug change that leaked into the submission,
-> or missing proper patch description?
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Damnit. I scanned right over that :D
+Introducing the 5.2 linux-yocto reference kernels. 5.0 is EOL and will
+be removed, leaving 4.19 (LTS) and 5.2 as the reference kernels.
 
-Thanks for the catch..
+This has been build/boot tested on all qemu architectures for
+core-image-kernel-dev, and graphics tesed via core-image-sato. No
+blocking issues have been found.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+
+v2: dropped the bogus "foo.patch" which crept in during the git add.
 
 Bruce
 
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
+ .../linux/linux-yocto-rt_5.2.bb               | 44 +++++++++++++++
+ .../linux/linux-yocto-tiny_5.2.bb             | 32 +++++++++++
+ meta/recipes-kernel/linux/linux-yocto_5.2.bb  | 54 +++++++++++++++++++
+ 3 files changed, 130 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.2.bb
 
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+new file mode 100644
+index 0000000000..b4376b431d
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+@@ -0,0 +1,44 @@
++KBRANCH ?= "v5.2/standard/preempt-rt/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# Skip processing of this recipe if it is not explicitly specified as the
++# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
++# to build multiple virtual/kernel providers, e.g. as dependency of
++# core-image-rt-sdk, core-image-rt.
++python () {
++    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
++}
++
++SRCREV_machine ?= "ea07aa34bed4e662fe374d04d50b6ddb9882bb19"
++SRCREV_meta ?= "b53e99257175fd6f41f31e5ebec46c1bd11076b8"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
++
++LINUX_VERSION ?= "5.2.10"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++LINUX_KERNEL_TYPE = "preempt-rt"
++
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
++
++KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+new file mode 100644
+index 0000000000..f55e607b97
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+@@ -0,0 +1,32 @@
++KBRANCH ?= "v5.2/standard/tiny/base"
++KBRANCH_qemuarm  ?= "v5.2/standard/tiny/arm-versatile-926ejs"
++
++LINUX_KERNEL_TYPE = "tiny"
++KCONFIG_MODE = "--allnoconfig"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++LINUX_VERSION ?= "5.2.10"
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++SRCREV_machine_qemuarm ?= "ab7b49b196280d4289f18c35cf6ea534f364d104"
++SRCREV_machine ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_meta ?= "b53e99257175fd6f41f31e5ebec46c1bd11076b8"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
++
++COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
++
++# Functionality flags
++KERNEL_FEATURES = ""
++
++KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.2.bb b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+new file mode 100644
+index 0000000000..d873a1f2b3
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+@@ -0,0 +1,54 @@
++KBRANCH ?= "v5.2/standard/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# board specific branches
++KBRANCH_qemuarm  ?= "v5.2/standard/arm-versatile-926ejs"
++KBRANCH_qemuarm64 ?= "v5.2/standard/qemuarm64"
++KBRANCH_qemumips ?= "v5.2/standard/mti-malta32"
++KBRANCH_qemuppc  ?= "v5.2/standard/qemuppc"
++KBRANCH_qemuriscv64  ?= "v5.2/standard/base"
++KBRANCH_qemux86  ?= "v5.2/standard/base"
++KBRANCH_qemux86-64 ?= "v5.2/standard/base"
++KBRANCH_qemumips64 ?= "v5.2/standard/mti-malta64"
++
++SRCREV_machine_qemuarm ?= "97808f75eb3a63e9df6101b628720d06d656d79c"
++SRCREV_machine_qemuarm64 ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_machine_qemumips ?= "c9fd15c35d77ca0c0a3e815df8284e2e99cabe8c"
++SRCREV_machine_qemuppc ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_machine_qemuriscv64 ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
++SRCREV_machine_qemux86 ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_machine_qemux86-64 ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_machine_qemumips64 ?= "7a4b7a5518fb27bff55d4f5632e515289dc3fbb6"
++SRCREV_machine ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_meta ?= "b53e99257175fd6f41f31e5ebec46c1bd11076b8"
++
++# remap qemuarm to qemuarma15 for the 5.2 kernel
++# KMACHINE_qemuarm ?= "qemuarma15"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++LINUX_VERSION ?= "5.2.10"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
++
++COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
++KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.19.1
+
 
