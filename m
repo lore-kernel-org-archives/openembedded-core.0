@@ -1,24 +1,46 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E7A07ED59
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id EC57B7D58A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 06:25:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7S6PEZc016789
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 28 Aug 2019 06:54:42 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id 62so1163557vsl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 23:25:30 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 27 Aug 2019 23:25:12 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Aug 2019 14:25:10 +0800
-Message-ID: <1566973510-225469-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 27 Aug 2019 23:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=FYZ0R4riObt7o64tNJjhurnxvx5aScr0JPKDEumwk2M=;
+	b=qwnEx5JFi7xkOZMDXSBaNyOjDMn47ZFbwnNRfNMOcXOoSx05AjPTnjbPj5pjzFa7fY
+	sd9ao/I6jZ73D5QdBunHDmS8QaKXE0ga2EWVnI50sl5FhdH5q+d6i1k3yYfKXr+AFO4Y
+	lg5K8/YrUzAay4DFKWiyQBTUd0NorU0n9RXR14/ddW8gnpoBvJtAVaMemLLQQuKJftGM
+	eRaKmGPPXgyRk36YOj5C6IOZLuxFlU93cRFJ1CBRDEQovfJ8tOygWbm09Zxrk7NQSxm1
+	PQ0GrYkVqw4x+9VSAnfyhspzz5JPJShVpsDYzIdP6NzVC67Awuq6bcbrE35jVuPGVXkg
+	aX2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=FYZ0R4riObt7o64tNJjhurnxvx5aScr0JPKDEumwk2M=;
+	b=Pk6/qVYf9Rmfbq/laKXq35L+kTc6kG9GOR8nDR/3RgdhUzrVxlG1CRtDnadDijS51N
+	Z5UYDXalNkkkYKV2SkdWpisxISpgU3pqJe6UAWilaksqdoKCekXr70p0YGZnYq2y/yRW
+	ucCxn7/221jEnvQSbUroDBmhHFrJYy1YmxUGJLzb3iH593gzEdcUxhWOCk9FLh+aCYph
+	/XaxNktK4xXdawDz1gYb422vb6qyB6DbFyQ7ajcPNC2cLjpBZrVdThVKA1CSFYjZDsKA
+	QE+20cdEEmG7Xqmg5baGwOBw1wGgHhsIpaA0dlRPGwnwKdvrdVLQYnZLrCeEBDd82udO
+	CGcA==
+X-Gm-Message-State: APjAAAVPe8ewe/0476TtqVCK7S0dpOZ5migCaHDxkU+gDOTqoM+Zj3CH
+	opSj263nK+b++9LzfAfRyvEhathGNdXQmhASoQOUBg==
+X-Google-Smtp-Source: APXvYqx0pODdGv1D3CW7vAssnDbbzw8yXy71uCYDSoXxLRsYZF2mZQPlguhpcPREcKi3Tliza5BQgfzfaNa1fudXo/Y=
+X-Received: by 2002:a67:62c5:: with SMTP id w188mr1497590vsb.25.1566975283865; 
+	Tue, 27 Aug 2019 23:54:43 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2] ltp: cve/meltdown.c: Fix kernel symbol finding
+References: <20190828043639.9942-1-shohei.maruyama@cybertrust.co.jp>
+In-Reply-To: <20190828043639.9942-1-shohei.maruyama@cybertrust.co.jp>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 28 Aug 2019 08:54:32 +0200
+Message-ID: <CANNYZj80wCXerLr-L0zDuG3sShD52snqmG83ySN8cZXXUzT9PQ@mail.gmail.com>
+To: shohei.maruyama@cybertrust.co.jp
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu: Change to use -device virtio-gpu-pci instead of -vga virtio
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,123 +53,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 06:25:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Aug 2019 06:54:43 -0000
+Content-Type: multipart/alternative; boundary="0000000000002aabee059127dd9b"
 
-From: He Zhe <zhe.he@windriver.com>
+--0000000000002aabee059127dd9b
+Content-Type: text/plain; charset="UTF-8"
 
-Backport a patch to fix the following error.
-safe_file_ops.c:219: BROK: Expected 3 conversions got 2 at meltdown.c:272
+On Wed, 28 Aug 2019 at 06:36, <shohei.maruyama@cybertrust.co.jp> wrote:
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
-v2: Adjust context based on top of ltp in oe-core
+> If using qemu-system-aarch64 or qemu-system-arm with the options, an error
+> occured as follows:
+>
+>   qemu-system-aarch64: Virtio VGA not available
+>
+> this commit fixes the error to use -device virtio-gpu-pci instead of
+> -vga virtio.
+>
 
- ...-cve-meltdown.c-Fix-kernel-symbol-finding.patch | 81 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190517.bb          |  1 +
- 2 files changed, 82 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
+Can you please look into why that error happens on arm, but not on x86?
+-vga virtio is the officially documented option, so I would rather use that
+everywhere.
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch b/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
-new file mode 100644
-index 0000000..94f6f5a
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
-@@ -0,0 +1,81 @@
-+From fbeda82f440a0098be42dd668cbc47212a86ab48 Mon Sep 17 00:00:00 2001
-+From: He Zhe <zhe.he@windriver.com>
-+Date: Wed, 21 Aug 2019 16:27:24 +0800
-+Subject: [PATCH] cve/meltdown.c: Fix kernel symbol finding
-+
-+meltdown case fails as below.
-+safe_file_ops.c:219: BROK: Expected 3 conversions got 2 at meltdown.c:272
-+
-+find_kernel_symbol is defined to try twice with each of /proc/kallsyms and
-+/boot/System.map-%s. Currently if the symbol is not found in /proc/kallsyms,
-+when kernel option CONFIG_KALLSYMS_ALL is disabled, it would stop the case
-+immediately due to SAFE_FILE_LINES_SCANF.
-+
-+This patch turns to use FILE_LINES_SCANF to give find_kernel_symbol second
-+chance.
-+
-+[jstancek] Fix also condition introduced in 7709d2ae92ea, even if
-+           /proc/kallsyms is disabled, we still want to try System.map.
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+Signed-off-by: Jan Stancek <jstancek@redhat.com>
-+
-+Upstream-Status: Backport
-+[https://github.com/linux-test-project/ltp/commit/c2049b5c874bc071f8185bffb5fd7dcb042d9ec8]
-+
-+Remove the hunk for upstream 7709d2ae92ea ("cve/meltdown.c: abort the test if kallsyms was not enabled")
-+that has been covered by this patch.
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ testcases/cve/meltdown.c | 13 ++++++++++---
-+ 1 file changed, 10 insertions(+), 3 deletions(-)
-+
-+diff --git a/testcases/cve/meltdown.c b/testcases/cve/meltdown.c
-+index a53ea9b..22651a6 100644
-+--- a/testcases/cve/meltdown.c
-++++ b/testcases/cve/meltdown.c
-+@@ -267,9 +267,15 @@ find_symbol_in_file(const char *filename, const char *symname)
-+ 	int ret, read;
-+ 	char fmt[strlen(symname) + 64];
-+ 
-++	tst_res(TINFO, "Looking for %s in %s", symname, filename);
-++	if (access(filename, F_OK) == -1) {
-++		tst_res(TINFO, "%s not available", filename);
-++		return 0;
-++	}
-++
-+ 	sprintf(fmt, "%%lx %%c %s%%c", symname);
-+ 
-+-	ret = SAFE_FILE_LINES_SCANF(filename, fmt, &addr, &type, &read);
-++	ret = FILE_LINES_SCANF(filename, fmt, &addr, &type, &read);
-+ 	if (ret)
-+ 		return 0;
-+ 
-+@@ -287,13 +293,11 @@ find_kernel_symbol(const char *name)
-+ 	if (addr)
-+ 		return addr;
-+ 
-+-	tst_res(TINFO, "not found '%s' in /proc/kallsyms", name);
-+ 	if (uname(&utsname) < 0)
-+ 		tst_brk(TBROK | TERRNO, "uname");
-+ 
-+ 	sprintf(systemmap, "/boot/System.map-%s", utsname.release);
-+ 
-+-	tst_res(TINFO, "looking in '%s'\n", systemmap);
-+ 	addr = find_symbol_in_file(systemmap, name);
-+ 	return addr;
-+ }
-+@@ -308,6 +312,9 @@ static void setup(void)
-+ 	saved_cmdline_addr = find_kernel_symbol("saved_command_line");
-+ 	tst_res(TINFO, "&saved_command_line == 0x%lx", saved_cmdline_addr);
-+ 
-++	if (!saved_cmdline_addr)
-++		tst_brk(TCONF, "saved_command_line not found");
-++
-+ 	spec_fd = SAFE_OPEN("/proc/cmdline", O_RDONLY);
-+ 
-+ 	memset(target_array, 1, sizeof(target_array));
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
-index b0e2f96..76c45f0 100644
---- a/meta/recipes-extended/ltp/ltp_20190517.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190517.bb
-@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0002-check-for-RES_USE_INET6-during-configure.patch \
-            file://0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch \
-            file://0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch \
-+           file://0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.7.4
+Alex
 
+--0000000000002aabee059127dd9b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 28 Aug 2019 at 06:36, &lt;<a href=
+=3D"mailto:shohei.maruyama@cybertrust.co.jp">shohei.maruyama@cybertrust.co.=
+jp</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">If using qemu-system-aarch64 or qemu-system-ar=
+m with the options, an error<br>
+occured as follows:<br>
+<br>
+=C2=A0 qemu-system-aarch64: Virtio VGA not available<br>
+<br>
+this commit fixes the error to use -device virtio-gpu-pci instead of<br>
+-vga virtio.<br></blockquote><div><br></div><div>Can you please look into w=
+hy that error happens on arm, but not on x86? -vga virtio is the officially=
+ documented option, so I would rather use that everywhere.</div><div><br></=
+div><div>Alex<br></div></div></div>
+
+--0000000000002aabee059127dd9b--
