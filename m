@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
-	[209.85.166.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 672AA7F289
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
+	[209.85.166.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 93B9D7F27C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 19:28:46 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id b10so1943772ioj.2
+	Wed, 28 Aug 2019 19:28:48 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id p12so1904209iog.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 12:28:47 -0700 (PDT)
+	Wed, 28 Aug 2019 12:28:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=32MtKpyC2n2HDZwsvci4tGc3hsynupKeaSTljvKHUuM=;
-	b=gqkSc9L9P/1J3f39tHDJrLKAf/fwQnZky3kyiafUvdzId7m+pD5aBSDBChS3/qOSx6
-	lj9VMKLW9AxMFDBAq72YntgEFLyCq41TCLxtFim/z2e2EacIU4yQKgBBMRBYgclpEVio
-	XEpJet5WKx9/Td0OPj9PCZz096PqDPAfY/6U/ZTThuMd4pIl0BajDhigWE7Z2XzeEu4H
-	D3uYN1JGli3R83P6HxPDcMgrimT3h8n/jiw3sIT3Y+gHBiVSzjzNv8XIuq3zxHdiSfrw
-	4EKFUJqf/MTa8FfXvuNodtt20A84b/ts9h+iuHi1ggRqK2/CxrqkAuj2iPEvyFpEG708
-	AGRg==
+	bh=BDbRSWFHZosR1/3Hy49X5gqVq6R/dg564ypt5cCoK/8=;
+	b=J83L9au/N4IYIc9yWL8lye1QZmryS4JAC8jOcydH2xnC2svY6FSMoJAHzwWN/+h6GW
+	8U9jUcL92Tc6s6zEBDCJ0TyD6qDwM9XKQtXbeJ3jeCsHYZHOKHFwYVMVmAAXjMcEVrpl
+	9sqPMtbtUl9+h42yL4L8DPEvRz2Uv8EwnNUC5qN6EUR3l7Q+QBILOmYRgVpVYqEgA6lu
+	IaxChAcSLLjno/b1HhaLxiIeAW2O29vRALZhTBiT+aPEO4IgoYJkIiAtx5k8fq1+MBb7
+	uUKOGbiCq+X+y17VO8U5zwlY9OsHhAVeJRlbu03wQE7Yh3Pn82V2HgoebjsssihLt9uH
+	PcrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=32MtKpyC2n2HDZwsvci4tGc3hsynupKeaSTljvKHUuM=;
-	b=fBuc5ldrmM7QCXQxN+eK2wwXsInUM1kQqJ8afTURlpdUsqQxq3MBGk2BJaEbPgG61M
-	w1AaWbYTig2LXQROgeXvbwqRxhEOb57CTNfTYJgFzMojAD3ZpCeZxkE6j4s7Ovuju737
-	8xQE5AGTXyuM+D6Zp4RJD3K191EJ40V3gzfdSE58EiFZD6/tpZceYLkPxau19xmKZxSM
-	llIFyhD4vRDbajt0Fq5jL6tMwF13SSPOCubaBC1zk6bwoquSGpRheAvEd3qSJCRVHv9P
-	lecXCN5OMqBgMqRjTy/ba0qHYY24nltMP0YYbzwD15LEjq9aMcDkRJCR3PxjOuXwQxmB
-	Z59w==
-X-Gm-Message-State: APjAAAUQlmlCkX830uA9jxBwHdqea/+8W8JlprIhhTaRMb9IefYrynUu
-	Dih8H8lqvBt+L0THRbIjUok=
-X-Google-Smtp-Source: APXvYqxckyYKyssuz4pgqG022HazBBq/lN3SqKy0ekdy4zqjiDi5oxfLwn2W/HX2RB4zxq0KrArr7g==
-X-Received: by 2002:a5e:9e4c:: with SMTP id j12mr3639975ioq.13.1567020527340; 
-	Wed, 28 Aug 2019 12:28:47 -0700 (PDT)
+	bh=BDbRSWFHZosR1/3Hy49X5gqVq6R/dg564ypt5cCoK/8=;
+	b=occx1R/JmkU0AogeAi+YZz4VMAqiAI6TD5iIS5twfZlukVsm/Xj5ShMxqX5N3K2BK+
+	qS3TkvyepGgeoyipzkM81L1spy/VhwWLzRXicTt2CeWAaE1j1GQxuNW/eIXXkXXRyHkZ
+	asl7l7r8bsprHxlgDHcTBuw5gDcNJ8UJm7uq8v5CnOrg93ih+0HyUJ7TXUQZAyFD7U5o
+	EIYYUoeVuguL7+PSDN5BTiI7VgtZ6cHBTBlEBNCykEfOqMkYBpEmlVh/7eszGZXnKOAT
+	rev0vEHAIQqQF6o6LzLpR820YCuDuorb2hsmfn70PP5nSbq+050uxmC0oeg9aYolbAbw
+	Jt1g==
+X-Gm-Message-State: APjAAAV2o6G9Q7MbYJonemCxMZG/WFEa8ChN7jCyuTONaehgFSlSUX+z
+	Y2HwAuaCuuzgotv5Lrfs5eTUBFDtKso=
+X-Google-Smtp-Source: APXvYqwmSKpkXcbK1LeMKlOL1pLjqiOrgxsi1uUS9Eg2C2bcgBNLfEoeDzJQndTXrMZXU1oAbpQr5A==
+X-Received: by 2002:a5e:db0a:: with SMTP id q10mr6213404iop.58.1567020529337; 
+	Wed, 28 Aug 2019 12:28:49 -0700 (PDT)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.112.251.208])
-	by smtp.gmail.com with ESMTPSA id d6sm4454375iod.17.2019.08.28.12.28.45
+	by smtp.gmail.com with ESMTPSA id d6sm4454375iod.17.2019.08.28.12.28.47
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 28 Aug 2019 12:28:45 -0700 (PDT)
+	Wed, 28 Aug 2019 12:28:47 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Wed, 28 Aug 2019 15:28:35 -0400
-Message-Id: <fd567c0678a39026a8f8d5ac2db19c9e173cb7c0.1567019771.git.bruce.ashfield@gmail.com>
+Date: Wed, 28 Aug 2019 15:28:36 -0400
+Message-Id: <2b7778d3ad843f67d5e844902a16af93a9e5c6d3.1567019771.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1567019771.git.bruce.ashfield@gmail.com>
 References: <cover.1567019771.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/8] linux-libc-headers: update to v5.2 headers
+Subject: [PATCH 2/8] linux-yocto: introduce 5.2 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,122 +61,209 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 19:28:46 -0000
+X-List-Received-Date: Wed, 28 Aug 2019 19:28:48 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-We drop the patch 0001-arm64-sve-uapi-asm-ptrace.h-should-not-depend-on-uap.patch
-since it was a backport and is already part of the 5.2 headers
+Introducing the 5.2 linux-yocto reference kernels. 5.0 is EOL and will
+be removed, leaving 4.19 (LTS) and 5.2 as the reference kernels.
+
+This has been build/boot tested on all qemu architectures for
+core-image-kernel-dev, and graphics tesed via core-image-sato. No
+blockin issues have been found.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/conf/distro/include/tcmode-default.inc   |  2 +-
- ...sm-ptrace.h-should-not-depend-on-uap.patch | 62 -------------------
- ...aders_5.0.bb => linux-libc-headers_5.2.bb} |  5 +-
- 3 files changed, 3 insertions(+), 66 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-arm64-sve-uapi-asm-ptrace.h-should-not-depend-on-uap.patch
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_5.0.bb => linux-libc-headers_5.2.bb} (75%)
+ .../recipes-kernel/linux/files/0001-foo.patch | 25 +++++++++
+ .../linux/linux-yocto-rt_5.2.bb               | 44 +++++++++++++++
+ .../linux/linux-yocto-tiny_5.2.bb             | 32 +++++++++++
+ meta/recipes-kernel/linux/linux-yocto_5.2.bb  | 54 +++++++++++++++++++
+ 4 files changed, 155 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/files/0001-foo.patch
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.2.bb
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index c89b8e012d..5c28386c4f 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -23,7 +23,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.32%"
- GDBVERSION ?= "8.3%"
- GLIBCVERSION ?= "2.30%"
--LINUXLIBCVERSION ?= "5.0%"
-+LINUXLIBCVERSION ?= "5.2%"
- QEMUVERSION ?= "4.1%"
- GOVERSION ?= "1.12%"
- # This can not use wildcards like 8.0.% since it is also used in mesa to denote
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-arm64-sve-uapi-asm-ptrace.h-should-not-depend-on-uap.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-arm64-sve-uapi-asm-ptrace.h-should-not-depend-on-uap.patch
-deleted file mode 100644
-index 5ea46e9590..0000000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-arm64-sve-uapi-asm-ptrace.h-should-not-depend-on-uap.patch
-+++ /dev/null
-@@ -1,62 +0,0 @@
--From 35341ca0614ab13e1ef34ad4f29a39e15ef31fa8 Mon Sep 17 00:00:00 2001
--From: Anisse Astier <aastier@freebox.fr>
--Date: Mon, 17 Jun 2019 15:22:22 +0200
--Subject: [PATCH] arm64/sve: <uapi/asm/ptrace.h> should not depend on
-- <uapi/linux/prctl.h>
--
--Pulling linux/prctl.h into asm/ptrace.h in the arm64 UAPI headers causes
--userspace build issues for any program (e.g. strace and qemu) that
--includes both <sys/prctl.h> and <linux/ptrace.h> when using musl libc:
--
--  | error: redefinition of 'struct prctl_mm_map'
--  |  struct prctl_mm_map {
--
--See https://github.com/foundriesio/meta-lmp/commit/6d4a106e191b5d79c41b9ac78fd321316d3013c0
--for a public example of people working around this issue.
--
--Although it's a bit grotty, fix this breakage by duplicating the prctl
--constant definitions. Since these are part of the kernel ABI, they
--cannot be changed in future and so it's not the end of the world to have
--them open-coded.
--
--Fixes: 43d4da2c45b2 ("arm64/sve: ptrace and ELF coredump support")
--
--Upstream-Status: Backport [https://github.com/torvalds/linux/commit/35341ca0614ab13e1ef34ad4f29a39e15ef31fa8]
--Cc: stable@vger.kernel.org
--Acked-by: Dave Martin <Dave.Martin@arm.com>
--Signed-off-by: Anisse Astier <aastier@freebox.fr>
--Signed-off-by: Will Deacon <will.deacon@arm.com>
-----
-- arch/arm64/include/uapi/asm/ptrace.h | 8 +++-----
-- 1 file changed, 3 insertions(+), 5 deletions(-)
--
--diff --git a/arch/arm64/include/uapi/asm/ptrace.h b/arch/arm64/include/uapi/asm/ptrace.h
--index 97c53203150b..e932284993d4 100644
----- a/arch/arm64/include/uapi/asm/ptrace.h
--+++ b/arch/arm64/include/uapi/asm/ptrace.h
--@@ -65,8 +65,6 @@
-- 
-- #ifndef __ASSEMBLY__
-- 
---#include <linux/prctl.h>
---
-- /*
--  * User structures for general purpose, floating point and debug registers.
--  */
--@@ -113,10 +111,10 @@ struct user_sve_header {
-- 
-- /*
--  * Common SVE_PT_* flags:
--- * These must be kept in sync with prctl interface in <linux/ptrace.h>
--+ * These must be kept in sync with prctl interface in <linux/prctl.h>
--  */
---#define SVE_PT_VL_INHERIT		(PR_SVE_VL_INHERIT >> 16)
---#define SVE_PT_VL_ONEXEC		(PR_SVE_SET_VL_ONEXEC >> 16)
--+#define SVE_PT_VL_INHERIT		((1 << 17) /* PR_SVE_VL_INHERIT */ >> 16)
--+#define SVE_PT_VL_ONEXEC		((1 << 18) /* PR_SVE_SET_VL_ONEXEC */ >> 16)
-- 
-- 
-- /*
---- 
--2.22.0
--
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.0.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.2.bb
-similarity index 75%
-rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.0.bb
-rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.2.bb
-index 473688d95f..9d18df76c6 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.0.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.2.bb
-@@ -12,8 +12,7 @@ SRC_URI_append_libc-musl = "\
- SRC_URI_append = "\
-     file://0001-scripts-Use-fixed-input-and-output-files-instead-of-.patch \
-     file://0001-kbuild-install_headers.sh-Strip-_UAPI-from-if-define.patch \
--    file://0001-arm64-sve-uapi-asm-ptrace.h-should-not-depend-on-uap.patch \
- "
- 
--SRC_URI[md5sum] = "7381ce8aac80a01448e065ce795c19c0"
--SRC_URI[sha256sum] = "437b141a6499159f5a7282d5eb4b2be055f8e862ccce44d7464e8759c31a2e43"
-+SRC_URI[md5sum] = "ddf994de00d7b18395886dd9b30b9262"
-+SRC_URI[sha256sum] = "54ad66f672e1a831b574f5e704e8a05f1e6180a8245d4bdd811208a6cb0ac1e7"
+diff --git a/meta/recipes-kernel/linux/files/0001-foo.patch b/meta/recipes-kernel/linux/files/0001-foo.patch
+new file mode 100644
+index 0000000000..0cd4578f33
+--- /dev/null
++++ b/meta/recipes-kernel/linux/files/0001-foo.patch
+@@ -0,0 +1,25 @@
++From 9ddc5e377434e28f1f3c74c9be011b0c9dfb1de4 Mon Sep 17 00:00:00 2001
++From: Bruce Ashfield <bruce.ashfield@gmail.com>
++Date: Fri, 1 Mar 2019 10:09:43 -0500
++Subject: [PATCH] foo
++
++Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
++---
++ bsp/common-pc-64/common-pc-64-cpu.cfg | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bsp/common-pc-64/common-pc-64-cpu.cfg b/bsp/common-pc-64/common-pc-64-cpu.cfg
++index 8dced733815..63bc167cf6f 100644
++--- a/bsp/common-pc-64/common-pc-64-cpu.cfg
+++++ b/bsp/common-pc-64/common-pc-64-cpu.cfg
++@@ -12,6 +12,6 @@
++ #.........................................................................
++ 
++ CONFIG_MCORE2=y
++-CONFIG_IA32_EMULATION=y
+++#CONFIG_IA32_EMULATION is not set
++ CONFIG_NR_CPUS=24
++ CONFIG_PM=y
++-- 
++2.19.1
++
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+new file mode 100644
+index 0000000000..b4376b431d
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+@@ -0,0 +1,44 @@
++KBRANCH ?= "v5.2/standard/preempt-rt/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# Skip processing of this recipe if it is not explicitly specified as the
++# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
++# to build multiple virtual/kernel providers, e.g. as dependency of
++# core-image-rt-sdk, core-image-rt.
++python () {
++    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
++}
++
++SRCREV_machine ?= "ea07aa34bed4e662fe374d04d50b6ddb9882bb19"
++SRCREV_meta ?= "b53e99257175fd6f41f31e5ebec46c1bd11076b8"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
++
++LINUX_VERSION ?= "5.2.10"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++LINUX_KERNEL_TYPE = "preempt-rt"
++
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
++
++KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+new file mode 100644
+index 0000000000..f55e607b97
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+@@ -0,0 +1,32 @@
++KBRANCH ?= "v5.2/standard/tiny/base"
++KBRANCH_qemuarm  ?= "v5.2/standard/tiny/arm-versatile-926ejs"
++
++LINUX_KERNEL_TYPE = "tiny"
++KCONFIG_MODE = "--allnoconfig"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++LINUX_VERSION ?= "5.2.10"
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++SRCREV_machine_qemuarm ?= "ab7b49b196280d4289f18c35cf6ea534f364d104"
++SRCREV_machine ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_meta ?= "b53e99257175fd6f41f31e5ebec46c1bd11076b8"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
++
++COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
++
++# Functionality flags
++KERNEL_FEATURES = ""
++
++KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.2.bb b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+new file mode 100644
+index 0000000000..d873a1f2b3
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+@@ -0,0 +1,54 @@
++KBRANCH ?= "v5.2/standard/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# board specific branches
++KBRANCH_qemuarm  ?= "v5.2/standard/arm-versatile-926ejs"
++KBRANCH_qemuarm64 ?= "v5.2/standard/qemuarm64"
++KBRANCH_qemumips ?= "v5.2/standard/mti-malta32"
++KBRANCH_qemuppc  ?= "v5.2/standard/qemuppc"
++KBRANCH_qemuriscv64  ?= "v5.2/standard/base"
++KBRANCH_qemux86  ?= "v5.2/standard/base"
++KBRANCH_qemux86-64 ?= "v5.2/standard/base"
++KBRANCH_qemumips64 ?= "v5.2/standard/mti-malta64"
++
++SRCREV_machine_qemuarm ?= "97808f75eb3a63e9df6101b628720d06d656d79c"
++SRCREV_machine_qemuarm64 ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_machine_qemumips ?= "c9fd15c35d77ca0c0a3e815df8284e2e99cabe8c"
++SRCREV_machine_qemuppc ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_machine_qemuriscv64 ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
++SRCREV_machine_qemux86 ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_machine_qemux86-64 ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_machine_qemumips64 ?= "7a4b7a5518fb27bff55d4f5632e515289dc3fbb6"
++SRCREV_machine ?= "77c28ea0e55cabb0b22b47d4eb2cc94b0940dfe6"
++SRCREV_meta ?= "b53e99257175fd6f41f31e5ebec46c1bd11076b8"
++
++# remap qemuarm to qemuarma15 for the 5.2 kernel
++# KMACHINE_qemuarm ?= "qemuarma15"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
++LINUX_VERSION ?= "5.2.10"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
++
++COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
++KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
 -- 
 2.19.1
 
