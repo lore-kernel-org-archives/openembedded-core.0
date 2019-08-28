@@ -1,51 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 13C737EC40
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A53F7EDF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 15:10:49 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id t9so424865wmi.5
+	Wed, 28 Aug 2019 15:24:47 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id t6so489109wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 08:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=279kLPBSFg6PHTezZQkPq//TCfEH/CcFuQyX/C7LAzk=;
-	b=RisE+msK1nHIMZYe0LOkbg5MmJrRUxHeQ6B066B8byqyG80FfxpSMUfo/ijN2oZ5Qn
-	M5j2fwW4o1v2djb4Xe/yPVfF4Zw2f3DBv2rO/mLrc02Fr6/aXT2AMQwdIwzwzm+6uCYB
-	G3lyoymE4N1IkZzOiLJICr/iCpBz7F/HQEnXo=
+	Wed, 28 Aug 2019 08:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=R+E+ZdSZjeNmQWiJgFxXoPzvXaX9/KABWLmaLwrL3cs=;
+	b=T2MY0mbrTZ/v0ntZfr3kI3ilQMDsjtnOSn/e4rdGfW7c6xcyBFGSdzMCJM7U6Pv7wX
+	HfEUByuqQBmy4tAhUHmqWs2yWibNpNkROU5D7oh4QqGgyLJP95BJJIgjPQ4m71KXKLxc
+	ew3CoU/VjVCEco92cKC4QOJqfmxVBq0cses14cWdVlqQcGRjTkCz4m5aQpa1CnCnnjwO
+	pNexejW5hiOFdrr5x2nuOagA8Q/pL98FW7BpO9wRLGF0cdzPSivYLXOfA1WwUikD2WaH
+	U60VLvh9QIIDQLQLQMXWlU2EVMCbO7eRCwHHMqJ4LLjoSUvLJWSkei/qxKqNzB2C1e9y
+	CG3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=279kLPBSFg6PHTezZQkPq//TCfEH/CcFuQyX/C7LAzk=;
-	b=UERefW1IiCFH8f1jx91O77tqxJc2m5dYxMnZ/D2wbuzLb+cVJmg54bAHaWafwJBUSK
-	AMkB18wBMInCW4KT7Bz7jmohLOSodlyHTCnchNWbIOxp6L4ocYAphfk55VyDljDyAxRj
-	ktzCwI/yxC+Gu3IbnW6C/DT20G8TeOiYR6QrkejxGDY8dwjt9VaHhA54H7Hr/bj8kcFf
-	MPy1BcQImYAlVk2GLPUGhbRh1gwoLOVkkLK/efbcCANSPzd5Af9q9DGBt8TU4cBGmr4A
-	CyD1kUVo9On+D29H7yU6mOQB7a+T/MidaXZ/oMrGotMsRR34r592gn+JjkXHCFYdPc7w
-	Kbcg==
-X-Gm-Message-State: APjAAAU1/ckeUVR4f4dFxrXdBnej2FEFHWuzvKqDxmgfG446un7+mNYV
-	0kWYgSFfOYSLLnRaubEekDFuAQ==
-X-Google-Smtp-Source: APXvYqy9FPGgd0TymOHcEYfqilz/5pRHNcTMFbCFnJC6QUOXrRYFUU0onuvO8ovkmuEJp/ED65C+vQ==
-X-Received: by 2002:a05:600c:22c6:: with SMTP id 6mr5502296wmg.5.1567005050651;
-	Wed, 28 Aug 2019 08:10:50 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id p7sm3221091wmh.38.2019.08.28.08.10.49
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=R+E+ZdSZjeNmQWiJgFxXoPzvXaX9/KABWLmaLwrL3cs=;
+	b=RbkdrkPYckCpZPstG1J6ucdNkRM8U7J2WWeDYWOl2lj4fkHKeLnAloI2Qq2VJAh2Oj
+	B2IZvCpEmALPv4LL01hXWw8LRHBHLInkqeZCPnn7h7VQO4hZD/2ALSafjsL9jGgBHJ5r
+	Zb0Q3YYD6ignmP2HdFL6CYiz3zzq4CEMVATcV6sEIJNNvebG+r6yvWApp+ma7Zx4qr3l
+	IlsV+TmxSs4vK+3B50NlXgjx+V2kZQzqXHdyUNtc/FDzkJjHjcGuNIbIazBdQL8P4RYN
+	ZOAJ8W0czE0aDYS21mAObczQP0kDSkIt5wgKz8umhxyf1S/wUDpUeuznAPdp2DUpfxOX
+	Yo5w==
+X-Gm-Message-State: APjAAAUcFcrYNMr6d/uFnYHuOiJHrX80gNmvr2lhZNoYa0AKd18KS412
+	ot01mhReIWvr0IlHrXFpJ6GxyaMR
+X-Google-Smtp-Source: APXvYqwJGuDFj/wECz8V0KOmXmrUFZuE4bvb3udhtXRd33VoVXxTVqDbTUzn3x07qYeTUZ1j8U2OXw==
+X-Received: by 2002:a05:600c:21d3:: with SMTP id
+	x19mr5442736wmj.45.1567005887919; 
+	Wed, 28 Aug 2019 08:24:47 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id w5sm2207074wmm.43.2019.08.28.08.24.47
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 28 Aug 2019 08:10:50 -0700 (PDT)
-Message-ID: <f32703c17e6bba01a1584f056c85f1530f32238e.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Nathan Rossi <nathan@nathanrossi.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 28 Aug 2019 16:10:48 +0100
-In-Reply-To: <20190828050629.6392-1-nathan@nathanrossi.com>
-References: <20190828050629.6392-0-nathan@nathanrossi.com>
-	<20190828050629.6392-1-nathan@nathanrossi.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/11] binutils: Add do_check task for executing binutils test suite
+	Wed, 28 Aug 2019 08:24:47 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Aug 2019 17:24:38 +0200
+Message-Id: <20190828152440.70861-2-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190828152440.70861-1-alex.kanavin@gmail.com>
+References: <20190828152440.70861-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/4] qemu: set default RAM to 256M for all machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,74 +57,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 15:10:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Aug 2019 15:24:47 -0000
 
-On Wed, 2019-08-28 at 05:06 +0000, Nathan Rossi wrote:
-> Create the do_check task to the binutils-cross include. This task can
-> be
-> used to execute the binutils test suite for the cross target
-> binutils.
-> By default this executes all the check targets of the binutils
-> Makefile,
-> this can however be changed by setting MAKE_CHECK_TARGETS to the
-> desired
-> test suite target (e.g. check-gas).
-> 
-> The binutils test suites do not require any target execution, as such
-> the check target can be run without QEMU or a target device. However
-> since the binutils tests do rely on a C compiler there is dependence
-> on
-> both gcc and libc in order to run the tests.
-> 
-> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+There was a discussion about what amount of RAM is appropriate for a
+default; the outcome was that for now it is still 256M. Some qemu machine
+definitions have however set this to 512M so for the sake of
+treating all architectures fairly, they are reset back to 256M.
 
-Looking at this a bit further we have a problem with gcc-cross and
-binutils-cross.
+Also runqemu is adjusted to use 256M if QB_MEM is not set at all.
 
-The trouble is we extracted all "target" dependencies away from the
-cross recipes. This means we build *-cross once per target arch but the
-runtime pieces are build once per target tune.
+http://lists.openembedded.org/pipermail/openembedded-core/2019-August/285900.html
 
-The tests are very much target tune specific so shouldn't be in the
-cross recipes.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/conf/machine/include/qemuboot-mips.inc   | 1 -
+ meta/conf/machine/include/riscv/qemuriscv.inc | 1 -
+ meta/conf/machine/qemuarm.conf                | 1 -
+ meta/conf/machine/qemuarm64.conf              | 1 -
+ scripts/runqemu                               | 4 ++--
+ 5 files changed, 2 insertions(+), 6 deletions(-)
 
-This is going to cause worlds of pain when we switch between machines
-that use the same arch but different tunes and the sysroot has files
-from a previous different tune.
-
-I suspect this will manifest itself should we run the signature checks
-but there real underlying problem here people will run into that we'll
-have to solve before this can merge.
-
-There is a secondary issue later in the series with adding the test
-results to "selftest".
-
-On the autobuilder we run "selftest" once and assume its machine
-independent. These results clearly aren't. This gives problems for both
-running the tests and processing the results.
-
-Equally, "cross" toolchain tests aren't really "runtime" but are
-machine/target specific. FWIW, injecting the test results the way you
-are doing is good and the right thing to do but I think we may need a
-different class of test, or we inject them as a special case of runtime
-test, or runtime ptest (a cross runtime ptest result?).
-
-I'm happy to try and help figure out how to address some of this if I
-can help somehow. I am conscious the release deadlines are pressing too
-:(.
-
-Cheers,
-
-Richard
-
-
-
-
-
-
-
-
+diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
+index a5f9ed821f4..1c2b532b482 100644
+--- a/meta/conf/machine/include/qemuboot-mips.inc
++++ b/meta/conf/machine/include/qemuboot-mips.inc
+@@ -1,6 +1,5 @@
+ # For runqemu
+ IMAGE_CLASSES += "qemuboot"
+-QB_MEM = "-m 256"
+ QB_MACHINE = "-machine malta"
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
+ QB_OPT_APPEND = "-vga cirrus -show-cursor -usb -device usb-tablet"
+diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
+index f1cb62818b7..952779e98e8 100644
+--- a/meta/conf/machine/include/riscv/qemuriscv.inc
++++ b/meta/conf/machine/include/riscv/qemuriscv.inc
+@@ -24,7 +24,6 @@ UBOOT_ENTRYPOINT_riscv64 = "0x80200000"
+ 
+ # qemuboot options
+ QB_KERNEL_CMDLINE_APPEND = "earlycon=sbi"
+-QB_MEM = "-m 512"
+ QB_MACHINE = "-machine virt"
+ QB_DEFAULT_BIOS = "fw_jump.elf"
+ QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index 0a2c9953125..26f40b14194 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -11,7 +11,6 @@ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+ 
+ # For runqemu
+ QB_SYSTEM_NAME = "qemu-system-arm"
+-QB_MEM = "-m 512"
+ QB_MACHINE = "-machine virt"
+ QB_CPU = "-cpu cortex-a15"
+ # Standard Serial console
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index 353ac927d94..ec2a887bddf 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -11,7 +11,6 @@ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+ 
+ # For runqemu
+ QB_SYSTEM_NAME = "qemu-system-aarch64"
+-QB_MEM = "-m 512"
+ QB_MACHINE = "-machine virt"
+ QB_CPU = "-cpu cortex-a57"
+ QB_CPU_KVM = "-cpu host"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index e9b83737cbf..7705b2b60e3 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -755,8 +755,8 @@ class BaseConfig(object):
+         if s:
+             self.set('QB_MEM', '-m %s' % s.group(1))
+         elif not self.get('QB_MEM'):
+-            logger.info('QB_MEM is not set, use 512M by default')
+-            self.set('QB_MEM', '-m 512')
++            logger.info('QB_MEM is not set, use 256M by default')
++            self.set('QB_MEM', '-m 256')
+ 
+         # Check and remove M or m suffix
+         qb_mem = self.get('QB_MEM')
+-- 
+2.17.1
 
 
