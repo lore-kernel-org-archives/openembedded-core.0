@@ -1,84 +1,28 @@
-Return-Path: <shohei.maruyama@cybertrust.co.jp>
-Received: from JPN01-TY1-obe.outbound.protection.outlook.com
-	(mail-eopbgr1400128.outbound.protection.outlook.com [40.107.140.128])
-	by mail.openembedded.org (Postfix) with ESMTP id 130D26C1D5
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 66BAE7ED48
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 05:45:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=AHucLo8cDQe94WNfwnSXhuJN44yVvGM5dI+28W6DfmxYSj4OzRIBI73tHsTkpBpYJK+AJbDPPuUM9qtI/cWhVld0pIe66dA9c+1Jk/MAeS3Fw63GsKNqWlmOa4AUX30grwledOqDPT0mR9sT05WJOIZ4qEm1kK1bcGroTM9zDknVM50XThOKuyJEwbMD0aQdsDWTlf/2W7VzsXIEP0a6aQQAFJIv8YsZZZGNVRAtMAwDL0b1xrgg0gquzVGMga+5bw1AOhNqcpD7qUgi9uzjaCBoCvcnB53p/ThG91FGQ3MN4EennY3jeyqOoSpMAwJX3UZ5n5pHUH+aAtAkn22tFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=ujeEdBO1F9LQvBQB6qIT/dHAd0Z3lw4fB9qAo9kTv8M=;
-	b=ibHBT2AkFiden8uGqN6hoD4om4+opNQ2CZofR0Saqtzcua8DdSmhYvFmuhZgtWRkzezdfqNf+lm709l86SfceSb4OXW9AQOQvwgAQfX1NTgPbeDouPqoOJo4xeeKQEMFLrAeNkke7L3neK2FLWXbvhuDZTXX+NtKwlNYVW6A+MQcfNrgZIuupb8o9HKInyCsPEJzdQtRkumfaFtLiSoxROlXdxkKOaPciJDjDgffAIKUpJ6u1tGvpmfZ9AQPSOIW0oAd++j8k1MZr7Owhq0lm6FOZuL1bnMdA8IkcDF4EnTW1ynxsHpsn8PkwBWVL7maNghZli6tX4sbfom8Tg2j9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=cybertrust.co.jp; dmarc=pass action=none
-	header.from=cybertrust.co.jp; dkim=pass header.d=cybertrust.co.jp;
-	arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intra01.onmicrosoft.com; s=selector2-intra01-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=ujeEdBO1F9LQvBQB6qIT/dHAd0Z3lw4fB9qAo9kTv8M=;
-	b=y57rqFgZfXQmlHZj85l0tQCwMS5aXLBQgTEvi/3osX7k8NQuR4SAa8Y6A2+5paiqY4t/yvh3TQFEPDI11m74ayktyjT8xgo4LUmSd1ImK5OTW6aSNvFuAVhj0UOfbOkb+15WoiUv4ko0sCk5Ym/mYLIAdiiccPGSC8Q5vSP3Xyc=
-Received: from TYAPR01MB3007.jpnprd01.prod.outlook.com (20.177.101.86) by
-	TYAPR01MB4240.jpnprd01.prod.outlook.com (20.178.140.148) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2199.20; Wed, 28 Aug 2019 05:45:49 +0000
-Received: from TYAPR01MB3007.jpnprd01.prod.outlook.com
-	([fe80::6869:1670:e5fc:4dcb]) by
-	TYAPR01MB3007.jpnprd01.prod.outlook.com
-	([fe80::6869:1670:e5fc:4dcb%7]) with mapi id 15.20.2199.021;
-	Wed, 28 Aug 2019 05:45:49 +0000
-From: <shohei.maruyama@cybertrust.co.jp>
-To: <openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2 2/2] runqemu: Fix guest has not initialized error
-Thread-Index: AQHVXWPYB41kAkGfY0+mSDJC5lqwkQ==
-Date: Wed, 28 Aug 2019 05:45:49 +0000
-Message-ID: <20190828054629.6735-2-shohei.maruyama@cybertrust.co.jp>
-References: <20190828054629.6735-1-shohei.maruyama@cybertrust.co.jp>
-In-Reply-To: <20190828054629.6735-1-shohei.maruyama@cybertrust.co.jp>
-Accept-Language: ja-JP, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: TYAPR01CA0180.jpnprd01.prod.outlook.com
-	(2603:1096:404:ba::24) To TYAPR01MB3007.jpnprd01.prod.outlook.com
-	(2603:1096:404:7f::22)
-x-mailer: git-send-email 2.23.0
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=shohei.maruyama@cybertrust.co.jp; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [219.123.27.194]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 29cda573-0f1c-441b-df74-08d72b7afad5
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
-	SRVR:TYAPR01MB4240; 
-x-ms-traffictypediagnostic: TYAPR01MB4240:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB42403D951C026EA3A53E97EFD6A30@TYAPR01MB4240.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 014304E855
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(4636009)(39860400002)(136003)(396003)(346002)(366004)(376002)(189003)(199004)(6436002)(53936002)(5660300002)(66946007)(66476007)(66556008)(64756008)(107886003)(8676002)(66066001)(6512007)(66446008)(2351001)(256004)(14444005)(2501003)(46636005)(2906002)(99286004)(5640700003)(102836004)(476003)(486006)(2616005)(86362001)(11346002)(186003)(446003)(6506007)(1076003)(6486002)(26005)(316002)(386003)(36756003)(76176011)(14454004)(8936002)(25786009)(305945005)(71200400001)(4326008)(7736002)(478600001)(81156014)(6916009)(71190400001)(50226002)(52116002)(81166006)(3846002)(6116002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:TYAPR01MB4240;
-	H:TYAPR01MB3007.jpnprd01.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: cybertrust.co.jp does not
-	designate permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 5TueWx/2QOnWC8z5YojLedksMldOctWkKdQfYpjQIJZZpD2deqqg58GoUq5bXHoyzBwpzQRCo1eUAmwOh7/1K8/RMd46VOkae13RpyuYyOiFGLXL2bilLe7xIrYjyBwCkCtJhmplH2Kiyt3JRVHGCJfxnSDNl20zlOOPUU6ZnOBVg1GP4KqDrV9dp4OhHGwmbT3bMq2K9ekn6ViQcUGPbX/GCD3JTvCX3MFTErvKg72aT9m6HaynTdedDGFuTVxt26XOtH27LvTGc25wpvjrlE7RaDIRmLDS2btD1qQNYRL586RGdCXavKKjiQjgQ1Rs6v74BBy4sjtfzi/bUsVMErkCIfWPDFKhmHza6KecLhV2fZiyUn8T6WEo/UEgakZZdtLzfFzek3LCLmCc2NkkGBrbr2a2CAeIB4JkHtS14To=
+	Wed, 28 Aug 2019 06:23:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7S6NI2K027605
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Aug 2019 23:23:18 -0700 (PDT)
+Received: from [128.224.162.221] (128.224.162.221) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 27 Aug 2019 23:23:18 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <1566880686-191373-1-git-send-email-zhe.he@windriver.com>
+	<e8a4362684b1f664344132261b6458396c711842.camel@linuxfoundation.org>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <9a138601-38f7-25cd-ea9c-12f28cdd11bc@windriver.com>
+Date: Wed, 28 Aug 2019 14:23:15 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: cybertrust.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29cda573-0f1c-441b-df74-08d72b7afad5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2019 05:45:49.1978 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72cc4624-32b4-4dab-b80a-8563e559bd82
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GTSHr0XQ/SzRoG8huht1KJ5HZRxe7JNtwhTvcSYATBQ7dogaiGakpkhfuXQfthuA0ua5puFpf3II2VixLO4NWnpYqzjXSrgjAHEApLihFoqkGe29rBDdBUOlh0j+GAt/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4240
-Subject: [PATCH v2 2/2] runqemu: Fix guest has not initialized error
+In-Reply-To: <e8a4362684b1f664344132261b6458396c711842.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.221]
+Subject: Re: [PATCH] ltp: cve/meltdown.c: Fix kernel symbol finding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -91,52 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 05:45:50 -0000
+X-List-Received-Date: Wed, 28 Aug 2019 06:23:19 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
 
-By default qemu use -device VGA,edid=3Don but in some case cannot use
-display because of it.
 
-Signed-off-by: Shohei Maruyama <shohei.maruyama@cybertrust.co.jp>
----
- meta/conf/machine/qemuarm64.conf | 2 +-
- scripts/runqemu                  | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64=
-.conf
-index 5c8aac1511..2c6d4dfc98 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -17,7 +17,7 @@ QB_CPU =3D "-cpu cortex-a57"
- # Standard Serial console
- QB_KERNEL_CMDLINE_APPEND =3D "console=3DttyAMA0"
- # For graphics to work we need to define the VGA device as well as the nec=
-essary USB devices
--QB_OPT_APPEND =3D "-show-cursor -device VGA,edid=3Don"
-+QB_OPT_APPEND =3D "-show-cursor"
- QB_OPT_APPEND +=3D "-device qemu-xhci -device usb-tablet -device usb-kbd"
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entro=
-py
- QB_OPT_APPEND +=3D "-object rng-random,filename=3D/dev/urandom,id=3Drng0 -=
-device virtio-rng-pci,rng=3Drng0"
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 28ecee97a7..d4ff5b9eb9 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -397,6 +397,8 @@ class BaseConfig(object):
-                 self.kernel_cmdline_script +=3D ' console=3DttyS0'
-             elif arg =3D=3D 'sdl':
-                 self.qemu_opt_script +=3D ' -display sdl'
-+            elif arg =3D=3D 'gtk':
-+                self.qemu_opt_script +=3D ' -device virtio-gpu-pci'
-             elif arg =3D=3D 'gtk-gl':
-                 self.qemu_opt_script +=3D ' -device virtio-gpu-pci,virgl=
-=3Don -display gtk,gl=3Don'
-             elif arg =3D=3D 'gtk-gl-es':
---=20
-2.23.0
+On 8/27/19 11:56 PM, Richard Purdie wrote:
+> On Tue, 2019-08-27 at 12:38 +0800, zhe.he@windriver.com wrote:
+>> From: He Zhe <zhe.he@windriver.com>
+>>
+>> Backport a patch to fix the following error.
+>> safe_file_ops.c:219: BROK: Expected 3 conversions got 2 at
+>> meltdown.c:272
+>>
+>> Signed-off-by: He Zhe <zhe.he@windriver.com>
+>> ---
+>>  ...-cve-meltdown.c-Fix-kernel-symbol-finding.patch | 83
+>> ++++++++++++++++++++++
+>>  meta/recipes-extended/ltp/ltp_20190517.bb          |  1 +
+>>  2 files changed, 84 insertions(+)
+>>  create mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-
+>> meltdown.c-Fix-kernel-symbol-finding.patch
+> Patch doesn't apply, how was this tested?
+
+Sorry, my test environment messed up with upstream ltp.
+v2 will be sent.
+
+Zhe
+
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/981/steps/8/logs/step1b
+>
+> Cheers,
+>
+> Richard
+>
+>
 
 
