@@ -1,46 +1,45 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
 	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D3BF47F2DC
+	by mail.openembedded.org (Postfix) with ESMTP id 8BF3A7F2B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 22:24:51 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id n2so300552wmk.4
+	Wed, 28 Aug 2019 22:41:23 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id n2so332260wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 15:24:53 -0700 (PDT)
+	Wed, 28 Aug 2019 15:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=q9MBILs2Qk/pNm5jJeYlr2HEa6J+NBu1EyXROxcFyhU=;
-	b=CHsmXNa0uXqNAlZAYR4tK5RKN6ob7dUE1exRwq9idtZ/+pWt0TQc+jR0q4WvW2s91Z
-	w8FohAttmsGGOPQS+CARCUNCD79/hKxHVBYRZ5vVH/z4F1cUfIVb3yQrgRctwv1Da6sm
-	ggy+L/UXjgcGNCtmpdLa1Be28NDxEgUAecVr0=
+	bh=LXBS+kfWLMbcJDF0DYoBadp+gsncUGw3PbtLIRTkrx4=;
+	b=XwYAyYu/6HIEeNxh7yToljFbB6VoFC/9Serm2IWwdtvk7qb3vp8O0e0kiYqQJhBdWD
+	ALZqjun7SFi0GAhyk0DtR/GJtYmib2bigikSrNWZ5iZFw52VsToWQ8Eocj/g3rwOyo8Q
+	gqE723FCWJHkN3SRIj58ehOnZxNjrFzO46xuM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=q9MBILs2Qk/pNm5jJeYlr2HEa6J+NBu1EyXROxcFyhU=;
-	b=tWoIhPelOwKgjkYLxAFqnA6w2M8+BM+g/HpoRTofmcGOP1TWWa/N+sceuq/OlLmLxC
-	KpJ22sWBmQgNFKa1J2pZykqRbtVK4ho+UYWdFUqX0sI0sHOL5sm/Wzb28s/z/v07hSjm
-	be4m3T+zIqerxgIpxTdvdC0ejZ6IeC+dFUvpdeqSLfxBf+qzDd5cBEMdCuDLAIfiX+m6
-	Y9TgWASRhCHYegmrATqv3j6+o4PRk1PzGsPV4x55bEQjFQobdqRcjWIVh9XumzJ5rL4/
-	fi+2EaobD1ONlNmxWY8I+li4NsV+jnIkFeATv+xA5rHFred1VoD6xGHMApN/DU9pO616
-	zJFw==
-X-Gm-Message-State: APjAAAXYf2y4MiFnarNo1XMFsHSc/7dH6no9zuzN+2M+//stkKpdfEnc
-	lU1OyMkAWy6jVa0AGP0F3VHmpg==
-X-Google-Smtp-Source: APXvYqyxzfMppEdwVNlNHW5wlKs1KuOjTF5eRj+fXhJ6siklKeg7AYuGrB9ecT4EoOQ/fUTGGSqVAQ==
-X-Received: by 2002:a7b:c3d0:: with SMTP id t16mr7853252wmj.25.1567031092500; 
-	Wed, 28 Aug 2019 15:24:52 -0700 (PDT)
+	bh=LXBS+kfWLMbcJDF0DYoBadp+gsncUGw3PbtLIRTkrx4=;
+	b=PbeufWXVu4sMmFJe3VZe6/t3cOzgf1xhqKyFzJNQSHdOzRe5EsDf8BYTbo7PxVChsY
+	9CQJDAcYqZRnrJepQ7DNLfVoSVPmkPh9ehlzqcC2M0YxZFbFKCtdwts9PpBoZIlhGP8V
+	7iZfbOKgiPtO5DX3Cl9+MbZpa9SLzW6YQpzuKuHP21tbI2PhJyBVCywj8O1Nv9gp6Gtq
+	k64tm9VFheF8mqFal7utxYJsJfrMjuVMkrE5yfvG1/ETzpq29j2P/dQN/H3E+G/Axf/X
+	0oh3TD/3N/+FnjM83+MGOxEO3mSQfPIIkPs8uNuOKwD4IHcSJqExSKwDgHsM0mb+aU8J
+	0nDg==
+X-Gm-Message-State: APjAAAWuQimwUJ9B9C/DJFAC4/5pr/b0LDral1Zm0e3TIBq6tiBVdNki
+	IkS/cs2hLg7yFiGc7/7LYCg4dA==
+X-Google-Smtp-Source: APXvYqy2lmDViYK/bhuaoC3CaC8fdUKqd0EA8flu9ZgiUbNtctlE6UFAri0fj4jfWO8U76Kkdk7hag==
+X-Received: by 2002:a7b:c745:: with SMTP id w5mr7289675wmk.21.1567032084410;
+	Wed, 28 Aug 2019 15:41:24 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	k124sm521831wmk.47.2019.08.28.15.24.51
+	by smtp.gmail.com with ESMTPSA id i93sm817362wri.57.2019.08.28.15.41.23
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 28 Aug 2019 15:24:51 -0700 (PDT)
-Message-ID: <e4a348d856248ad0c339925066a3ac34e6c77214.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
+	Wed, 28 Aug 2019 15:41:23 -0700 (PDT)
+Message-ID: <e125a759ceaca090562af688aad68eaec89f7da2.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Jason Wessel <jason.wessel@windriver.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Wed, 28 Aug 2019 23:24:49 +0100
+Date: Wed, 28 Aug 2019 23:41:22 +0100
 In-Reply-To: <f4465a3a-87fc-3233-9add-8655a2c10ed1@windriver.com>
 References: <20190821002750.52062-1-jason.wessel@windriver.com>
 	<0f501dcaee763d8d33152fbd82af53385b8d0dc9.camel@linuxfoundation.org>
@@ -62,7 +61,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 22:24:52 -0000
+X-List-Received-Date: Wed, 28 Aug 2019 22:41:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -99,21 +98,13 @@ On Wed, 2019-08-28 at 15:24 -0500, Jason Wessel wrote:
 > /home/pokybuild/yocto-worker/qa-
 > extras2/build/build/tmp/work/qemux86_64-poky-linux/core-image-
 > sato/1.0-r0/testimage/qemu_boot_log.20190827200002
-
-If we'd got this straight after the build then yes but its been
-recycled now.
-
-It did seem to fail repeatedly when I tested it. I'd probably have to
-add the patch back and retest again to get the log.
-
+> 
 > I am not sure it will tell us anything further or not, but it
 > certainly looks like the system didn't boot correctly in the first
 > place.
 
-It does seem like a boot issue somehow...
-
-The test case one the autobuilder seems simple enough, systemd boot
-alone with no sysvinit.
+I've rerun it as 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/983
 
 Cheers,
 
