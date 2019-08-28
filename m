@@ -1,52 +1,53 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 84A546BE2D
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E73A96BE2D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 05:07:12 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id q139so860014pfc.13
+	Wed, 28 Aug 2019 05:07:17 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id go14so649047plb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 22:07:13 -0700 (PDT)
+	Tue, 27 Aug 2019 22:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=TIb+eMfUEVVHuPiUrgeJw0GbmP7xwo3Stgq7LhooQ4s=;
-	b=ZP9waFkWrgkWcoBSGBI1IqytOPZOsLOCwv1kADuEcnwN7QWY/jHIzl+sWfhpKOv2/1
-	F67S5oDwY36m7zdMly6Y24sadCn8t3Gd5kQ6H2kdoivskC8qDiQEb1opphaltQGzpqIX
-	VZyWWS3f50QJg3nK1jM9hKqQV1h4uyy1GA+m93UXLDW5atB4RgN1j7b9C0cFnYq46N98
-	zJLizcMTIifEI9u5qr6FcSfmZB2ulLqCOIrjNHLNIPF9dgnoQhgF8/PwaQvdnXQTpSAq
-	APPQYzjwUV/MuLbYflnnYw32V1NVxC0feMuuBlZ5Cx17dAXQTB28AWENEafif/YbaUoy
-	ZUlw==
+	bh=d6Zv5V09WeVXP5KekjmO1Ln32Yw1eyXk3VtN7lEafoA=;
+	b=btauquQF3jSCVeUaVVG6llhT6sTbSXK41nED/nseF4FD2i8FRYHmniU/gr5U8mjRjK
+	tCKwJVh8RNpXaYBKBj4iku3Ob0C9D2l10Uvino8D4psXtMrfxGme0i49jfVyTegJDbhn
+	uPwQ2YYjc/I6L9Hrd9RUlGqRid1YDuHSvXQx2XNKEWtBdm6mimexJEVUI8LLAXZ07Fa1
+	axCYw2k8sPsOglIflHvMfQeFToMO5zvgFaqkI3euIS4K9mTFwoRaG2dLn2F8etbqKI0o
+	P3WP+xeUnYEK9/k8aqWT9cZUTTVt0egprAcCtEx7FLtHidy0P2Xy7YUvUxOt6KB8Z7B3
+	Z9gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=TIb+eMfUEVVHuPiUrgeJw0GbmP7xwo3Stgq7LhooQ4s=;
-	b=BBbGYIm86wHcRAqyIHiDNgWtPvH1VpBBxfVzfkDF7iqOLkMikhrI7M9Km9GSeLsQvE
-	IxqZrne1ME1/1nc5TR+mQT5UvaAJOMKMr2u9q8VKwehATN+uCx7+EZd+0krVfR2X71Ly
-	zYXYAJd0omQGhjNpsTqS5KS5P9i757keishbdGzwVHTlCHVDW+Q4AkjYcQrzubuhcJrx
-	sF4uD4lmfsODXR+82SstEu8xaCSET3r6rRQ7PIBLNeULQ+tj/JaI+4KDlFIHe80yT/MJ
-	KyzIrkq5LzmHYtWl2+OYH9fJVbUJPyXYxHU8jXB7E6Fk6dQzib0tHFqviNVufooOdowu
-	dIDA==
-X-Gm-Message-State: APjAAAULWm85BWJYRkn/AxvT5ANCf2hBvy1S1GMOdwsdBAjXXbJlWTEr
-	aGGz+uAsWMrNZwDp47n2hUMi2w==
-X-Google-Smtp-Source: APXvYqxtnIvHdQu+hyxbDDRkpItqK9N12P2bGedHOO90/RRtcJ6RIpwQvHBanABHwk34RKalgC3Sdw==
-X-Received: by 2002:aa7:9e04:: with SMTP id y4mr2562675pfq.18.1566968833512;
-	Tue, 27 Aug 2019 22:07:13 -0700 (PDT)
+	bh=d6Zv5V09WeVXP5KekjmO1Ln32Yw1eyXk3VtN7lEafoA=;
+	b=VtKzhR/pU5E/Ma4ONKyeU/SnEwQNS6+c1rdQ6PlhWozjSnwzpIuHLOMT/iRmNfpEhQ
+	ffuBP2/SOwR02SnCFI5A3T+YqOP1n9QhWhWHnFFsw69uXtEGC/12HDvLVJQ2SRjnVak8
+	PsgMUj8icjSFgXTTbN8kNEGqUjBLlcK2WODuwNH8MnX5HnNkAfTOO+4Q2duCpQzKLF9L
+	TiDLWoeuZdalcN0xnUjt24Wag2ScT7iDwTUy9enTNFRuurEHkjm5Qpac2jhfogR5/tWT
+	V/55qfehwlTfF4C55obSD+mgGUYHH9ire9V8VYhMEE3/47Sw4kYnRQL4lOwB9iJtPJHC
+	NCPw==
+X-Gm-Message-State: APjAAAXB3pMROv3a/vm+MCotNeDSgzdF1CU3XIXnZtDQBgDdQonBN0Cb
+	4x828OCxBv25skvNURfeSGJJtA==
+X-Google-Smtp-Source: APXvYqz/npdY/SAvzg1N5VPBSXB1o4C9qrgcZcOQcu/kgyh9pUZWCK8RKDmzmPecSdsdXQ7JmsihyQ==
+X-Received: by 2002:a17:902:e311:: with SMTP id
+	cg17mr2391903plb.183.1566968838852; 
+	Tue, 27 Aug 2019 22:07:18 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	65sm927440pgf.30.2019.08.27.22.07.10
+	d189sm1186415pfd.165.2019.08.27.22.07.16
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 22:07:12 -0700 (PDT)
+	Tue, 27 Aug 2019 22:07:18 -0700 (PDT)
 Date: Wed, 28 Aug 2019 05:06:29 +0000
-Message-Id: <20190828050629.6392-6-nathan@nathanrossi.com>
+Message-Id: <20190828050629.6392-7-nathan@nathanrossi.com>
 In-Reply-To: <20190828050629.6392-0-nathan@nathanrossi.com>
 References: <20190828050629.6392-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 6/11] binutils: Fix mips patch which changes default emulation
+Subject: [PATCH 7/11] oeqa/selftest/binutils: Create selftest case for binutils test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,55 +60,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 05:07:12 -0000
+X-List-Received-Date: Wed, 28 Aug 2019 05:07:18 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-The patch incorrectly removes 'mips_elf32_ntrad_le_vec' from the
-'targ_selvecs' replacing it with duplicate entries for
-'mips_elf32_ntrad_be_vec'. Correct this so that the default binutils can
-still handle 'mips_elf32_ntrad_le_vec' binaries.
+Create a oeqa selftest test case to execute the binutils test suites and
+report the results. The results are populated into the extraresults
+variable of the test case which are written to testresults.json for
+resulttool to analyse.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- .../0010-Change-default-emulation-for-mips64-linux.patch         | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/selftest/cases/binutils.py | 95 ++++++++++++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/binutils.py
 
-diff --git a/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch b/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch
-index ba5e4c2ce5..5f4ac72f48 100644
---- a/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch
-+++ b/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch
-@@ -1,4 +1,4 @@
--From d540e95d05cd7c4b8924ac7b257c14ae0105d0ab Mon Sep 17 00:00:00 2001
-+From 958a49749b772660d3bafb80748829cba6bed065 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 2 Mar 2015 01:44:14 +0000
- Subject: [PATCH 10/15] Change default emulation for mips64*-*-linux
-@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  2 files changed, 8 insertions(+), 8 deletions(-)
- 
- diff --git a/bfd/config.bfd b/bfd/config.bfd
--index 0e1ddb659c..cc65547588 100644
-+index 0e1ddb659c..d4f50f0a8d 100644
- --- a/bfd/config.bfd
- +++ b/bfd/config.bfd
- @@ -919,12 +919,12 @@ case "${targ}" in
-@@ -30,7 +30,7 @@ index 0e1ddb659c..cc65547588 100644
- -    targ_defvec=mips_elf32_ntrad_be_vec
- -    targ_selvecs="mips_elf32_ntrad_le_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_be_vec mips_elf64_trad_le_vec"
- +    targ_defvec=mips_elf64_trad_be_vec
--+    targ_selvecs="mips_elf32_ntrad_be_vec mips_elf32_ntrad_be_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_le_vec"
-++    targ_selvecs="mips_elf32_ntrad_be_vec mips_elf32_ntrad_le_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_le_vec"
-      ;;
-    mips*el-*-linux*)
-      targ_defvec=mips_elf32_trad_le_vec
-@@ -54,6 +54,3 @@ index beba17ef51..917be6f8eb 100644
-  			targ_extra_libpath=$targ_extra_emuls ;;
-  mips*el-*-linux-*)	targ_emul=elf32ltsmip
-  			targ_extra_emuls="elf32btsmip elf32ltsmipn32 elf64ltsmip elf32btsmipn32 elf64btsmip"
---- 
--2.20.1
--
+diff --git a/meta/lib/oeqa/selftest/cases/binutils.py b/meta/lib/oeqa/selftest/cases/binutils.py
+new file mode 100644
+index 0000000000..5cb7e106ac
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/binutils.py
+@@ -0,0 +1,95 @@
++# SPDX-License-Identifier: MIT
++import os
++import sys
++import re
++import logging
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
++
++def parse_values(content, gold = False):
++    suffix = ": " if not gold else " "
++    for i in content:
++        for v in ["PASS", "FAIL", "XPASS", "XFAIL", "UNRESOLVED", "UNSUPPORTED", "UNTESTED", "ERROR", "WARNING"]:
++            if i.startswith(v + suffix):
++                name = i[len(v) + len(suffix):].strip()
++                if v == "FAIL" and gold: # clean off exit status on gold
++                    name = name.split(" (exit status:")[0]
++                yield name, v
++                break
++
++class BinutilsCrossSelfTest(OESelftestTestCase):
++    @classmethod
++    def setUpClass(cls):
++        super().setUpClass()
++        if not hasattr(cls.tc, "extraresults"):
++            cls.tc.extraresults = {}
++
++    def test_binutils(self):
++        self.run_binutils("binutils")
++
++    def test_gas(self):
++        self.run_binutils("gas")
++
++    def test_ld(self):
++        self.run_binutils("ld")
++
++    def test_gold(self):
++        self.run_binutils("gold")
++
++    def test_libiberty(self):
++        self.run_binutils("libiberty")
++
++    def run_binutils(self, suite):
++        features = []
++        features.append('MAKE_CHECK_TARGETS = "check-{0}"'.format(suite))
++        self.write_config("\n".join(features))
++
++        tune_arch = get_bb_var("TUNE_ARCH")
++        recipe = "binutils-cross-{0}".format(tune_arch)
++        bb_vars = get_bb_vars(["B", "TARGET_SYS", "T"], recipe)
++        builddir, target_sys, tdir = bb_vars["B"], bb_vars["TARGET_SYS"], bb_vars["T"]
++
++        bitbake("{0} -c check".format(recipe))
++
++        failed = 0
++        def add_result(test, result):
++            nonlocal failed
++            self.tc.extraresults["binutils.{}.{}".format(suite, test)] = {"status" : result}
++            if result == "FAIL":
++                self.logger.info("failed: '{}'".format(test))
++                failed += 1
++
++        if suite in ["binutils", "gas", "ld"]:
++            sumspath = os.path.join(builddir, suite, "{0}.sum".format(suite))
++            if not os.path.exists(sumspath):
++                sumspath = os.path.join(builddir, suite, "testsuite", "{0}.sum".format(suite))
++            with open(sumspath, "r") as f:
++                for test, result in parse_values(f):
++                    add_result(test, result)
++        elif suite in ["gold"]:
++            # gold tests are not dejagnu, so no sums file
++            logspath = os.path.join(builddir, suite, "testsuite")
++            if os.path.exists(logspath):
++                for t in os.listdir(logspath):
++                    if not t.endswith(".log") or t == "test-suite.log":
++                        continue
++                    with open(os.path.join(logspath, t), "r") as f:
++                        for test, result in parse_values(f, gold = True):
++                            add_result(test, result)
++            else:
++                self.skipTest("Target does not use {0}".format(suite))
++        elif suite in ["libiberty"]:
++            # libiberty tests are not dejagnu, no sums or log files
++            logpath = os.path.join(tdir, "log.do_check")
++            if os.path.exists(logpath):
++                with open(logpath, "r") as f:
++                    logdata = f.read()
++                m = re.search(r"entering directory\s+'[^\r\n]+?libiberty/testsuite'.*?$(.*?)" +
++                    "^[^\r\n]+?leaving directory\s+'[^\r\n]+?libiberty/testsuite'.*?$",
++                    logdata, re.DOTALL | re.MULTILINE | re.IGNORECASE)
++                if m is not None:
++                    for test, result in parse_values(m.group(1).splitlines()):
++                        add_result(test, result)
++
++        self.assertEqual(failed, 0)
++
 ---
 2.23.0.rc1
 
