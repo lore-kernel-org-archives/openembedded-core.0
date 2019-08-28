@@ -1,47 +1,23 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
-	[209.85.222.68])
-	by mail.openembedded.org (Postfix) with ESMTP id F0A947F168
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 84C8F7F26A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 18:13:20 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id s25so291139uap.7
+	Wed, 28 Aug 2019 18:22:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7SIMl12008056
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 11:13:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2u907weMQZ2OJ0es41QOLU6O3LKHK/mWxFxD6XccLXw=;
-	b=VkY5VWVl9Qslg4YP+vqRod4IFuD7g1Zq+A20lUiRxw7peEV2LKiCaLUFd3ox31PXgs
-	WF5wez/KiqWWQdjh2weug6d+LXAF0kcbXuKSl93FaV7r6nZXqqRDi4TbRpMRo/uCEuST
-	4EX7ebYybRI54c3pATS5Th7ilMUK7vQ5KYKr3dPvh7Rsmho9EQKInEDCiFqKEmtocgzR
-	5bjHUgz5rrwQtT2PeXwdUBIsNgbRpb3UkfwruecRrYWvI4PSTchk0TQPEZfnYndEd3rp
-	Jg2RvTJC2V9TuLjmHl6DnojuFd3GfWShB3Gakb/tr/lvhHJj86DtgcHSpVounNey5X4e
-	zr6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=2u907weMQZ2OJ0es41QOLU6O3LKHK/mWxFxD6XccLXw=;
-	b=ZoRSF/kv4HTSUMHGQQ8El1ltPi0N6eaAGKxhjjowDUfN4Ya0YGbncyUrhvDXP63jQs
-	fPEQTM/MKlHmKcoD6X3RNJGwt+G7OnvCgGSX0wy8yiiWBJJj4HfH6HF+dtKBDlUxJuaR
-	5D44WglMfki+qc+2PjWcedPsdsz+/ATJvkQlQ19n1TseGPcrM3tVKAKg8WkOkrzJDQkc
-	qZ+cJxgMH317dvtF92+8AGv/Xk5+TDCYEQuoKFvsdVMUABh/M0T1jTNP6189XjF/jEK8
-	jaymqDVEKWZ0Ijap3dzi0jIkksrHkkZAZU5G/KxbGbPD3T/W8rG1+t7U/wjoKkx4pWTt
-	yFjw==
-X-Gm-Message-State: APjAAAUWO/Vx1SKM8efie85kP+gvk55LX9f9+KgG4bM7tCQY8RLAF1QM
-	US0YkmskdS7dJ2Csu5BKM1/4dFmu2/ZHPY/aOEk=
-X-Google-Smtp-Source: APXvYqwECTKmng4bgS3JBmWN5oXeeBV2uKTwh2wrBV+2EQX5tZ7Idbpxp4W8PBEwZfrXEC42Y8K2tLokfBWpy396PIo=
-X-Received: by 2002:a9f:224f:: with SMTP id 73mr2667776uad.48.1567016001661;
-	Wed, 28 Aug 2019 11:13:21 -0700 (PDT)
+	Wed, 28 Aug 2019 11:22:47 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 28 Aug 2019 11:22:46 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Aug 2019 14:22:46 -0400
+Message-ID: <20190828182246.146276-1-mark.hatle@windriver.com>
+X-Mailer: git-send-email 2.16.0.rc2
 MIME-Version: 1.0
-References: <20190828092115.12773-1-christophe.priouzeau@st.com>
-In-Reply-To: <20190828092115.12773-1-christophe.priouzeau@st.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 28 Aug 2019 11:13:10 -0700
-Message-ID: <CAJ86T=Vzs2X4icDoVdsysWNMeb9gB5B1reMfE8CsZTLBCf5AMg@mail.gmail.com>
-To: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] common-licenses: update BSD-2-CLAUSE license text
+Subject: [PATCH] yocto-check-layer: Allow any case for README file detection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,24 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 18:13:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 28 Aug 2019 18:22:47 -0000
+Content-Type: text/plain
 
-On Wed, Aug 28, 2019 at 3:05 AM Christophe PRIOUZEAU
-<christophe.priouzeau@st.com> wrote:
->
-> Using the generic BSD-2-CLAUSE license as specified on
-> https://opensource.org/licenses/BSD-2-Clause
+It's become more commone for files to be named "readme" or "Readme" on github servers
+in recent time.  So adjust the scanning to allow any mix of case.
 
-Fixing these kind of issues has been discussed before. I think the
-consensus was that a wider ranging cleanup is needed. The thread
-starts here:
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ scripts/lib/checklayer/cases/common.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  http://lists.openembedded.org/pipermail/openembedded-core/2018-June/270475.html
+diff --git a/scripts/lib/checklayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
+index 8ffe028..b82304e 100644
+--- a/scripts/lib/checklayer/cases/common.py
++++ b/scripts/lib/checklayer/cases/common.py
+@@ -12,7 +12,7 @@ from checklayer.case import OECheckLayerTestCase
+ class CommonCheckLayer(OECheckLayerTestCase):
+     def test_readme(self):
+         # The top-level README file may have a suffix (like README.rst or README.txt).
+-        readme_files = glob.glob(os.path.join(self.tc.layer['path'], 'README*'))
++        readme_files = glob.glob(os.path.join(self.tc.layer['path'], '[Rr][Ee][Aa][Dd][Mm][Ee]*'))
+         self.assertTrue(len(readme_files) > 0,
+                         msg="Layer doesn't contains README file.")
+ 
+-- 
+1.8.3.1
 
-> Signed-off-by: Christophe Priouzeau <christophe.priouzeau@st.com>
-> ---
->  meta/files/common-licenses/BSD-2-Clause | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
->
 
