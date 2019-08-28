@@ -1,47 +1,27 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A2587ECB9
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CB4E77EC9B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 07:55:49 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id y16so1265287vsc.3
+	Wed, 28 Aug 2019 08:47:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7S8lV0u017529
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 00:55:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xcElhZob33p5nCOd4MiKzgivXUsi/qLLQ2xooC+GwxQ=;
-	b=VuKYiY60GrxDqA8jVY0Rb4N+Kncr9u8EMHbwT/0RK6cwVB0/TD8QH2/ck0rXn7ONi1
-	xosiwKNeJxIGqWTJa/vBBBz7lcxwAYGssTariV83myk+l9azV0D8DEdEXYcze59n0UmF
-	kzvwEwEtV1blD0ifvmZwOMhvxbkGhMSrNgdPVX/l8zdGS/utzhyP8xgt4ziPRmdKyq7q
-	WnDd8li7bU1eY8R3/Q0XYC2F/SNeLcgBXoGcYiSkh2SteKqbJcPFVp3Ury6oeDJG7gfm
-	CZsQFVB6HvwyNgChdS+4DXRoziTEii01hQ+R96BVI+H0tfc9N4aCNmoDHfeUGzsmxCmp
-	yhEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xcElhZob33p5nCOd4MiKzgivXUsi/qLLQ2xooC+GwxQ=;
-	b=NWd4QasNyzoBCQ/NwZ7GRhgwuQoKlj508ITOiiBZBFvYUOm/uxMCHHB/DGWf3qzpDq
-	fQn77lIhthYvgX/r99O9G4hwMeZl9+c6AiDtZPNqzA+Q5d46MmcghL1yeWlwIspvcxYC
-	XDgsnLWV5WQlfRnOWbntHIpr4yD3z6swylkVDedOd1QKoPnvRSJ+SiXlekLQY3fDJI3K
-	g3xfcO/Ykr5ZTWhdoKoDdjMmJy7sjf3OLixd2QrztAPXhsqyo3zScu/jO5mmOqD4ESBO
-	9gAHTATB7z6B1ME1uvNN7RwdVne4jbE1vtMh7AA6oRZZsKiqnPOjfGAfU53jfZhwM3BF
-	2nTw==
-X-Gm-Message-State: APjAAAVWDr3UB5/DMPZlUE+JypA45rDtD1ThYnPj0vrsw5V7cldqVpVL
-	HSiKmX+zeISILKKsH1QjACeb3eLa6548qhufpUuBOg==
-X-Google-Smtp-Source: APXvYqxEsJGzLnPu8ZzHL23epfG/zlGDtxMNHowP5Sqtdya6V8vxUXc0fWEx6ZCOtqdlBrqBiSxGVksD+8NcW2GCSLY=
-X-Received: by 2002:a67:62c5:: with SMTP id w188mr1597112vsb.25.1566978950472; 
-	Wed, 28 Aug 2019 00:55:50 -0700 (PDT)
+	Wed, 28 Aug 2019 01:47:31 -0700 (PDT)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Wed, 28 Aug 2019 01:47:31 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1566184948-97753-1-git-send-email-changqing.li@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <55061e6b-3692-fe81-7ecf-be8c629d956e@windriver.com>
+Date: Wed, 28 Aug 2019 16:47:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190828054629.6735-1-shohei.maruyama@cybertrust.co.jp>
-	<20190828054629.6735-2-shohei.maruyama@cybertrust.co.jp>
-In-Reply-To: <20190828054629.6735-2-shohei.maruyama@cybertrust.co.jp>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 28 Aug 2019 09:55:38 +0200
-Message-ID: <CANNYZj_ceHF7bYCDpZE+FzG7fO6LXwQzfrWDBZ3s=2XOerxgVw@mail.gmail.com>
-To: shohei.maruyama@cybertrust.co.jp
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] runqemu: Fix guest has not initialized error
+In-Reply-To: <1566184948-97753-1-git-send-email-changqing.li@windriver.com>
+X-Originating-IP: [128.224.162.186]
+Subject: Re: [PATCH] populate_sdk: fix populate_sdk failed error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,60 +34,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 07:55:49 -0000
-Content-Type: multipart/alternative; boundary="000000000000b6a8d7059128b78a"
+X-List-Received-Date: Wed, 28 Aug 2019 08:47:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---000000000000b6a8d7059128b78a
-Content-Type: text/plain; charset="UTF-8"
+ping
 
-On Wed, 28 Aug 2019 at 07:46, <shohei.maruyama@cybertrust.co.jp> wrote:
-
-> By default qemu use -device VGA,edid=on but in some case cannot use
-> display because of it.
-> +            elif arg == 'gtk':
-> +                self.qemu_opt_script += ' -device virtio-gpu-pci'
+On 8/19/19 11:22 AM, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
 >
+> Configuration:
+> IMAGE_INSTALL_append = " bash"
+>
+> require conf/multilib.conf
+> MULTILIBS = "multilib:lib32"
+> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+>
+> Reproduce cmd:
+> bitbake core-image-minimal -c populate_sdk
+>
+> Error info:
+> --> Finished dependency resolution
+> Error:
+>   Problem: package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target conflicts with /bin/sh provided by bash-5.0-r0.core2_64
+>    - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target conflicts with bash provided by bash-5.0-r0.core2_64
+>    - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target conflicts with /bin/bash provided by bash-5.0-r0.core2_64
+>    - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target obsoletes bash provided by bash-5.0-r0.core2_64
+>    - cannot install the best candidate for the job
+>    - conflicting requests
+>
+> when do_populate_sdk, package target-sdk-provides-dummy provides
+> dummy /bin/sh, ... and package bash also provides this, we append
+> dummy arch sdk-provides-dummy-target to the end of ALL_MULTILIB_PACKAGE_ARCHS,
+> then reverted sdk-provides-dummy-target to the first arch
+> for dnf config  etc/dnf/vars/arch to make it high priority.
+>
+> when multilib is enabled, below statement will not work as expected.
+> ALL_MULTILIB_PACKAGE_ARCHS = "${@all_multilib_tune_values(d, 'PACKAGE_ARCHS')}"
+>
+> Eg:
+> For lib32 variant, PACKAGE_ARCHS is:
+> all any noarch x86 qemux86_64 sdk-provides-dummy-target
+>
+> For lib64 variant, PACKAGE_ARCHS is:
+> all any noarch x86_64 core2-64 qemux86_64 sdk-provides-dummy-target
+>
+> Then:
+> ALL_MULTILIB_PACKAGE_ARCHS will be
+> x86 qemux86_64 sdk-provides-dummy-target x86_64 core2-64
+>
+> Fixed by append sdk-provides-dummy-target during do_populate_sdk
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>   meta/classes/populate_sdk_base.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index 59920a5..3362656 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -21,7 +21,6 @@ def complementary_globs(featurevar, d):
+>   SDKIMAGE_FEATURES ??= "dev-pkgs dbg-pkgs src-pkgs ${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'doc-pkgs', '', d)}"
+>   SDKIMAGE_INSTALL_COMPLEMENTARY = '${@complementary_globs("SDKIMAGE_FEATURES", d)}'
+>   
+> -PACKAGE_ARCHS_append_task-populate-sdk = " sdk-provides-dummy-target"
+>   SDK_PACKAGE_ARCHS += "sdk-provides-dummy-${SDKPKGSUFFIX}"
+>   
+>   # List of locales to install, or "all" for all of them, or unset for none.
+> @@ -130,6 +129,7 @@ def populate_sdk_common(d):
+>       inst_pkgs = (d.getVar("PACKAGE_INSTALL") or "").split()
+>       inst_attempt_pkgs = (d.getVar("PACKAGE_INSTALL_ATTEMPTONLY") or "").split()
+>   
+> +    d.appendVar('ALL_MULTILIB_PACKAGE_ARCHS', ' sdk-provides-dummy-target')
+>       d.setVar('PACKAGE_INSTALL_ORIG', ' '.join(inst_pkgs))
+>       d.setVar('PACKAGE_INSTALL_ATTEMPTONLY', ' '.join(inst_attempt_pkgs))
+>   
 
-This also needs:
-a)  '-display gtk, gl=off' should be added explicitly - it is the default
-now, but may not be in future qemu versions;
-b) the option should be named 'gtk-virtio', as it is important which
-emulated video card it is using;
-c) the option should be documented at the beginning of runqemu script;
-d) like in the previous patch, please first look into why '-vga virtio'
-does not work for you;
-e) also, if you can, please get to the reason why standard vga does not
-work either. It should be working on all qemu variants.
+-- 
+BRs
 
-Thanks,
-Alex
+Sandy(Li Changqing)
 
---000000000000b6a8d7059128b78a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 28 Aug 2019 at 07:46, &lt;<a href=
-=3D"mailto:shohei.maruyama@cybertrust.co.jp">shohei.maruyama@cybertrust.co.=
-jp</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">By default qemu use -device VGA,edid=3Don but =
-in some case cannot use<br>
-display because of it.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 elif arg =3D=3D &#39;gtk&#39;:<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.qemu_opt_scri=
-pt +=3D &#39; -device virtio-gpu-pci&#39;<br></blockquote><div><br></div>Th=
-is also needs:</div><div class=3D"gmail_quote">a)=C2=A0 &#39;-display gtk, =
-gl=3Doff&#39; should be added explicitly - it is the default now, but may n=
-ot be in future qemu versions;</div><div class=3D"gmail_quote">b) the optio=
-n should be named &#39;gtk-virtio&#39;, as it is important which emulated v=
-ideo card it is using;</div><div class=3D"gmail_quote">c) the option should=
- be documented at the beginning of runqemu script;</div><div class=3D"gmail=
-_quote">d) like in the previous patch, please first look into why &#39;-vga=
- virtio&#39; does not work for you;</div><div class=3D"gmail_quote">e) also=
-, if you can, please get to the reason why standard vga does not work eithe=
-r. It should be working on all qemu variants.<br></div><div class=3D"gmail_=
-quote"><br></div><div class=3D"gmail_quote">Thanks,<br></div><div class=3D"=
-gmail_quote">Alex<br></div></div>
-
---000000000000b6a8d7059128b78a--
