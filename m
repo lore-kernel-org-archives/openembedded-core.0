@@ -1,21 +1,37 @@
-Return-Path: <jan.klare@bisdn.de>
-Received: from mx.bisdn.de (mx.bisdn.de [185.27.182.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B0777E686
+Return-Path: <Daniel.Klauer@gin.de>
+X-Greylist: delayed 978 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 28 Aug 2019 11:58:31 UTC
+Received: from good-out-35.clustermail.de (good-out-35.clustermail.de
+	[212.223.166.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DF4A7DD6A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 10:41:05 +0000 (UTC)
-Received: from [172.16.250.196] (unknown [172.16.250.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx.bisdn.de (Postfix) with ESMTPSA id 0EA42A46C6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 12:41:06 +0200 (CEST)
-From: Jan Klare <jan.klare@bisdn.de>
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Message-Id: <0CF8F3B7-B1AA-48A8-96CC-F38FBC3CB96A@bisdn.de>
-Date: Wed, 28 Aug 2019 12:41:05 +0200
-To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.3445.104.11)
-Subject: Re: [v2] systemd: Fix interface bring-up on kernels >= 5.2
+	Wed, 28 Aug 2019 11:58:31 +0000 (UTC)
+Received: from [10.0.0.8] (helo=frontend.clustermail.de)
+	by smtpout-03.clustermail.de with esmtp (Exim 4.92)
+	(envelope-from <Daniel.Klauer@gin.de>) id 1i2wL2-0007aq-4A
+	for openembedded-core@lists.openembedded.org;
+	Wed, 28 Aug 2019 13:42:13 +0200
+Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
+	by frontend.clustermail.de with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
+	(envelope-from <Daniel.Klauer@gin.de>) id 1i2wL2-0005DN-1t
+	for openembedded-core@lists.openembedded.org;
+	Wed, 28 Aug 2019 13:42:08 +0200
+Received: from daniel-desktop.gin-domain.local (10.160.138.39) by
+	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Wed, 28 Aug 2019 13:42:07 +0200
+From: Daniel Klauer <daniel.klauer@gin.de>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 28 Aug 2019 13:41:31 +0200
+Message-ID: <20190828114131.10340-2-daniel.klauer@gin.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190828114131.10340-1-daniel.klauer@gin.de>
+References: <20190828114131.10340-1-daniel.klauer@gin.de>
+MIME-Version: 1.0
+X-Originating-IP: [10.160.138.39]
+X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
+	Win2012-02.gin-domain.local (192.168.1.12)
+Subject: [PATCH 2/2] deploy.bbclass: Clean DEPLOYDIR before do_deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,90 +44,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 10:41:05 -0000
-X-Groupsio-MsgNum: 128337
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_F238DE0A-48FD-4D9D-AC03-A4EBA5D9B96C";
-	protocol="application/pgp-signature"; micalg=pgp-sha256
+X-List-Received-Date: Wed, 28 Aug 2019 11:58:31 -0000
+Content-Type: text/plain
 
---Apple-Mail=_F238DE0A-48FD-4D9D-AC03-A4EBA5D9B96C
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_090F2561-00E2-49BC-9B47-899AC462F288"
+It seems convenient for do_deploy to clean up ${DEPLOYDIR} (its output
+directory) before running, just like do_install cleans up ${D} before
+running. This way we can be sure that a recipe's do_deploy output is not
+accidentally contaminated by previously existing files in DEPLOYDIR in
+case of incremental builds.
 
---Apple-Mail=_090F2561-00E2-49BC-9B47-899AC462F288
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+All recipes using deploy.bbclass (grep -r 'inherit .*deploy') in poky,
+meta-openembedded and meta-freescale look to me like they either benefit
+from this or are at least not affected negatively by it. The only exception
+I've noticed was uboot-sign.bbclass, which was however fixed by the
+previous patch.
 
-Hi,
+I tested this by running "bitbake virtual/kernel u-boot":
+1. on patched, but clean poky source tree
+2. after adding "touch ${DEPLOYDIR}/foo-${PN}" to linux-yocto's/u-boot's
+   do_deploy, to manually trigger an incremental build of do_deploy only.
+3. after removing the modifications again.
+The foo-${PN} files existed in tmp/deploy/images/qemux86-64 after step 2,
+and not anymore after step 3, as expected. Thus the cleandirs still works.
 
-I think this patch is not needed anymore since both patches have already =
-been backported to the latest stable version of systemd v242. To include =
-these patches in the yocto builds we need to update the SRCREV to the =
-latest commit in the v242-stable branch of systemd/systemd-stable =
-(07f0549ffe3413f0e78b656dd34d64681cbd8f00).
+Signed-off-by: Daniel Klauer <daniel.klauer@gin.de>
+---
+ meta/classes/deploy.bbclass            | 1 +
+ meta/classes/kernel.bbclass            | 2 --
+ meta/recipes-core/meta/signing-keys.bb | 2 --
+ meta/recipes-core/ovmf/ovmf_git.bb     | 1 -
+ 4 files changed, 1 insertion(+), 5 deletions(-)
 
-https://github.com/systemd/systemd-stable/tree/v242-stable =
-<https://github.com/systemd/systemd-stable/tree/v242-stable>
+diff --git a/meta/classes/deploy.bbclass b/meta/classes/deploy.bbclass
+index 6d52908783..737c26122b 100644
+--- a/meta/classes/deploy.bbclass
++++ b/meta/classes/deploy.bbclass
+@@ -8,4 +8,5 @@ python do_deploy_setscene () {
+ }
+ addtask do_deploy_setscene
+ do_deploy[dirs] = "${DEPLOYDIR} ${B}"
++do_deploy[cleandirs] = "${DEPLOYDIR}"
+ do_deploy[stamp-extra-info] = "${MACHINE_ARCH}"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index bf3674238f..aa339ace7e 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -706,8 +706,6 @@ kernel_do_deploy() {
+ 		done
+ 	fi
+ }
+-do_deploy[cleandirs] = "${DEPLOYDIR}"
+-do_deploy[dirs] = "${DEPLOYDIR} ${B}"
+ do_deploy[prefuncs] += "package_get_auto_pr"
+ 
+ addtask deploy after do_populate_sysroot do_packagedata
+diff --git a/meta/recipes-core/meta/signing-keys.bb b/meta/recipes-core/meta/signing-keys.bb
+index 1e1c7e3459..5bab94aa36 100644
+--- a/meta/recipes-core/meta/signing-keys.bb
++++ b/meta/recipes-core/meta/signing-keys.bb
+@@ -67,8 +67,6 @@ do_deploy () {
+     fi
+ }
+ do_deploy[sstate-outputdirs] = "${DEPLOY_DIR_RPM}"
+-# cleandirs should possibly be in deploy.bbclass but we need it
+-do_deploy[cleandirs] = "${DEPLOYDIR}"
+ # clear stamp-extra-info since MACHINE_ARCH is normally put there by
+ # deploy.bbclass
+ do_deploy[stamp-extra-info] = ""
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index b569b593fc..2c804381ee 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -223,7 +223,6 @@ do_deploy[depends] += "${DEPLOYDEP}"
+ 
+ do_deploy() {
+ }
+-do_deploy[cleandirs] = "${DEPLOYDIR}"
+ do_deploy_class-target() {
+     # For use with "runqemu ovmf".
+     for i in \
+-- 
+2.17.1
 
-The same is done here https://patchwork.openembedded.org/series/19508/ =
-<https://patchwork.openembedded.org/series/19508/> for systemd =
-v241-stable.
 
-Cheers,
-Jan
-
---Apple-Mail=_090F2561-00E2-49BC-9B47-899AC462F288
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><div =
-class=3D"">Hi,</div><div class=3D""><br class=3D""></div><div class=3D"">I=
- think this patch is not needed anymore since both patches have already =
-been backported to the latest stable version of systemd v242. To include =
-these patches in the yocto builds we need to update the SRCREV to the =
-latest commit in the v242-stable branch of systemd/systemd-stable (<span =
-style=3D"caret-color: rgb(36, 41, 46); color: rgb(36, 41, 46); =
-font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, =
-Menlo, monospace; background-color: rgb(255, 255, 255);" =
-class=3D"">07f0549ffe3413f0e78b656dd34d64681cbd8f00</span>).</div><div =
-class=3D""><br class=3D""></div><a =
-href=3D"https://github.com/systemd/systemd-stable/tree/v242-stable" =
-class=3D"">https://github.com/systemd/systemd-stable/tree/v242-stable</a><=
-div class=3D""><br class=3D""></div><div class=3D"">The same is done =
-here&nbsp;<a href=3D"https://patchwork.openembedded.org/series/19508/" =
-class=3D"">https://patchwork.openembedded.org/series/19508/</a>&nbsp;for =
-systemd v241-stable.</div><div class=3D""><br class=3D""></div><div =
-class=3D"">Cheers,</div><div class=3D"">Jan</div></body></html>=
-
---Apple-Mail=_090F2561-00E2-49BC-9B47-899AC462F288--
-
---Apple-Mail=_F238DE0A-48FD-4D9D-AC03-A4EBA5D9B96C
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEt80lub3VhefUQEYIB81h/G0bP5IFAl1mWkEACgkQB81h/G0b
-P5KEmhAAmlmjT1rzBSoxrekHoJUBvgqVJNVm7fy2IBc+JCeGNEQmBkPaemtyIqeT
-jI52W4PD5Vjt2vsQvZqgZCoUp6ayN1lWEr87Gnc7pZNxzISPrNsfSmrUcKDRkaeI
-sKT0na2QbaKsrnCUsMW47EplSh509E2EFCFcPnvq7D1HL892ExXs5Nfy23t5HSBg
-fxiO05Wj4ItQTiHJskhXhHmVS+UjlFHUYB1+TaE50XIs0ntW/+Hk8jYXGqdf48vz
-Sg5nUam3TO4PP8pbYtyf7XPVZ250YWk2s3+tCRAFuQAcnCt5V+LguviWsJNRjX2P
-PGi+zhBKFP4IvOlg8D60SxgIuyB7CliPbDxZ9LUsH5N7B9b/1PEq8qBEgggVtYco
-FTze/igQHiZPG2J695RnRg3r87+qz/xDkLwGCnVK3twogfZ5LvIAgiMe2QlZabaT
-LZhQ9yHqMnqJ52Ng2/y6pmMfYkf9Mzvizvajrv7IYQnVxKtQtXpIsGTqVNNdUfpy
-6Gyr3GsjCsrCW40g3jIFU0J8sJwfRONCGRYeBbNy+Rx1gQVcC1FayV4Wfr+mPD6v
-9iXQSXsMLgEt6Ydx30QfQDUERamq6q4lWp/NAgYFaLH8o9Nxgfp1lOYTVAX+us7E
-Nat+Vi6qp3uqIuZTW821ArLoqjcxDapClJlvUzyBm3MW3WUEWGI=
-=Wpyx
------END PGP SIGNATURE-----
-
---Apple-Mail=_F238DE0A-48FD-4D9D-AC03-A4EBA5D9B96C--
