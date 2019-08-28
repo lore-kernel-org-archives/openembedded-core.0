@@ -1,52 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D6277E995
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 736717EC5D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 00:15:10 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id e16so574523wro.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 17:15:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=PUKlRpQIQFFCsOzH0qiY1gONrw76aN9aW2jo7VdKFlw=;
-	b=URObEkE3f/wC/jfcoQe+j9h07UCTh8HRMp6TZuQAhzI56PlEjrb30TvgwRcEanNUlV
-	gI5PBvt3UC1Vft7t1ZcUnQQ4/3u9+2RWNH4DlHg6T+lYlcL7+co9c6Ajmf5il6YaL95l
-	OeEUKjMBbYBD4taaTdKESgBlhugzWlB685cWQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=PUKlRpQIQFFCsOzH0qiY1gONrw76aN9aW2jo7VdKFlw=;
-	b=VOqNpZPgKzBdYHL5a/D2kcsb1DuFbnTWhVer/Y/p/F8nRe592ZLeJ6w28xxWQLEalO
-	uTZRWUjBE5mP2PUoAo3gd7yr1qMSifAF7XQG8IbhNgLZVmSr+WIdoOsMAXOBwlXAxp71
-	b5wov3TGYYAfoJzjmxpPa0gDNJQnOiMNEsbc7yNe2FHskBYPUqXPW0RR/DEpTl8nFC9N
-	EqNwEVgJqEoxJ8AphfFvZMdsW22kHZSxQWi3jioSvGIz30KfeQmprWUTWdCrmFy0wRus
-	4QLQWjoShle/NUzeuuFIYwnKqtI2YtompQ6rnd/QsfXuuWcXlE5HuCDLZ0DzuIeDXjTl
-	iTXg==
-X-Gm-Message-State: APjAAAXos3ScR734CRw0UQR3+MnXxUaBwHAZFX2aMumL5RFfL2g/grsT
-	q5G+L8HZ/adRmSQwYJ4P36r4Kw==
-X-Google-Smtp-Source: APXvYqweuKKiMNA6ay2lAcUMoJYlstRy8OZ4j7XoouNlYLFI0Rug6Jg8+61Ry/Pm3QIPEIdhUR8apA==
-X-Received: by 2002:adf:f008:: with SMTP id j8mr669866wro.129.1566951311034;
-	Tue, 27 Aug 2019 17:15:11 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id i30sm880331wmb.20.2019.08.27.17.15.09
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 17:15:10 -0700 (PDT)
-Message-ID: <fa27a4877d9dd0668e23873e02f8bd90bdf93ac0.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Jason Wessel <jason.wessel@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 28 Aug 2019 01:15:08 +0100
-In-Reply-To: <1bd6ab16-628d-2326-d6c3-c6097d7ba698@windriver.com>
-References: <20190821002750.52062-1-jason.wessel@windriver.com>
-	<0f501dcaee763d8d33152fbd82af53385b8d0dc9.camel@linuxfoundation.org>
-	<1bd6ab16-628d-2326-d6c3-c6097d7ba698@windriver.com>
-User-Agent: Evolution 3.32.2-1 
+	Wed, 28 Aug 2019 01:31:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7S1UmgI009283
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Aug 2019 18:30:58 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 27 Aug 2019 18:30:37 -0700
+To: <richard.purdie@linuxfoundation.org>, Hongxu Jia
+	<hongxu.jia@windriver.com>,
+	<openembedded-core@lists.openembedded.org>, <armccurdy@gmail.com>,
+	<alex.kanavin@gmail.com>
+References: <CAJ86T=WtuV46YbMMcGigKRrsvTNTtgWWdNLDp2P27-Zx6Rn+Yw@mail.gmail.com>
+	<1566279918-9733-1-git-send-email-hongxu.jia@windriver.com>
+	<7210fb6d-563e-497c-a25b-bc53ffe15954@windriver.com>
+	<dbf4f8583c8616bdc437c37cc68a0f76e98d608f.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <84d55359-1e84-688f-553b-0d0cdc175e35@windriver.com>
+Date: Wed, 28 Aug 2019 09:29:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] serial-getty@.service: Allow device to fast fail if it does not exist
+In-Reply-To: <dbf4f8583c8616bdc437c37cc68a0f76e98d608f.camel@linuxfoundation.org>
+Subject: Re: [PATCH V3] nfs-utils: decrease RLIMIT_NOFILE to 4k for systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +39,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 00:15:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Aug 2019 01:31:41 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Tue, 2019-08-27 at 19:03 -0500, Jason Wessel wrote:
-> 
-> On 8/27/19 5:58 PM, Richard Purdie wrote:
-> > Hi Jason,
-> > Somehow this change is responsible for this build failure:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/976
-> > 
-> > (steps 5c and 7c so failure during testimage).
-> > 
-> > I have bisected it to this change, I haven't looked into why.
-> 
-> Thanks for tracking it down.   I am sure how to try an duplicate
-> this.  I clicked around to try and find out a bit about what it is
-> running for these phases of the build but it is not very obvious.
-> 
-> Is there a local.conf I can try along with what ever commands it ran?
+On 2019/8/28 上午7:29, richard.purdie@linuxfoundation.org wrote:
+> On Tue, 2019-08-27 at 17:43 +0800, Kang Kai wrote:
+>> Hi Richard,
+>>
+>> This patch could fix the test_image failure with systemd. Would like
+>> to
+>> try systemd as default init manager on yocto build again
+>> to check whether any more blocking issues?
+>
+> There is at least one issue:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/67/builds/967
+>
+> Please monitor this build which should show up any other issues:
 
-The configuration its using is shown in 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/978/steps/8/logs/stdio
-for each step.
+Got it. Thanks.
 
-Cheers,
 
-Richard
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/645
+>
+> (master-next was looking green other than this change).
+
+It fails with libedit-native do fetch errors. I'll check it but it seems 
+not systemd related at first sight.
+
+Regards,
+Kai
+
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+-- 
+Kai Kang
 
 
