@@ -1,52 +1,53 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 781D37E6B3
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+	[209.85.210.172])
+	by mail.openembedded.org (Postfix) with ESMTP id C303F7ED76
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 05:07:28 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id u17so742595pgi.6
+	Wed, 28 Aug 2019 05:07:33 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id d85so895822pfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2019 22:07:29 -0700 (PDT)
+	Tue, 27 Aug 2019 22:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=E4XHCEMIaHG3Ck4lBr5kGkFZi7r4vggScC/aq9VmSHo=;
-	b=BmmbsX02n5t71oYlemllJ8Ata58TNQLF9pF85+f7Gkb5tWhV3LderB8S0AkDKcxyzT
-	jUQTd/jbgMpi4JSPpynMnkSvUgnyApczCeQeXd8eMmw3Pe10hwtK/2k9HNDvsuUBlQWy
-	k1QUHHZvIGs38TYBmK6yg3hRnbV1gQBGZw3eyo+WHJNcKzC1+D5CpBJNEqf5OX3zF050
-	vILeWVmTCl7WN9juFck/9CIx1jVyt0nVOl8QGdjjycjHTRqhMHkEdRcDRK3fnqcGX/Ch
-	EVITktUzy34LqJSV6gQ2zLj6b+D2M7BAVSMaEumCjrSBLapNLNGcowrl28Rfd6rV/n3k
-	otVA==
+	bh=6yxn/6BnCmcuP8CKRUp2Fd8tn30hFlJ7SrqTWHNwVxA=;
+	b=MaW4mOrwr4GYTzzFIAd+Cpeianq/LAphc8Vot52NbFUH8tfe1b+trUA5uT4yiXtAnI
+	NXXgcwalR6HrqK6AU8Xly2tbR5xJTSx90hdzO3o1XlgqYPxfO1UvFZm0JMNxjVHIv6eP
+	wHYgfvWCjutqVpB4ASni1CMYOPtQRgRafSqY1mVy6720YzcMbjusdX4zYuCDBot1t4Y+
+	s1rYwWlF3K0MX4PTF4OMElwfMtM/qwk6hL6ObfYO1tTlClzmV8mPg4f/y91Izz1qoImh
+	kGLR8s4f44a0a+pKX81Shnp2OcVdHvBp8xTPgRJ9PLUcRqDOoTvKZjDsQugRu0EXkoAZ
+	ApJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=E4XHCEMIaHG3Ck4lBr5kGkFZi7r4vggScC/aq9VmSHo=;
-	b=n2ESCsM0XFJL8b4jaic3QYGTf7yM3n9rOXeSsf+G2YeALdfAqdgGjZ+kNkGWS9ZdbH
-	S/6YFfVySi8jGHQmpICx+hJ5uEyjeRXWzN2FgtCNAiMd1EN/NGud558RUlcU+0pLwCmX
-	IjkwgPGvPTy9nYQjNGp2U+9CIEaqhGkmFsrL8zmzMFeF70T6Grk4EHX0OXLBHEZX1ElA
-	ABl81kLiRZHB2w5BSZEf5PSq0+aXH/UaS7f4fjPoUuD86QMakkJkaaNv4bbq4x5cOxGk
-	3lpyROvvJynw2aeymJK9xR/AR1d6ddYFl6+6RSbL5X9zZf0szwWVOlvifng19zpF83rB
-	x/vQ==
-X-Gm-Message-State: APjAAAU0noPSmnmnQRomQfukVzNyyXWLZQi0G2eOdUFjMjWxrc4Wrnpf
-	4mKw74lrL0KDi+06WVVZOmeCNA==
-X-Google-Smtp-Source: APXvYqxYUq8Zdu727giVj5jLPRzjzeyoRa75rIAfgak14wkSPafHPzp9Uul3ezUcocPfcHiFF6PGFA==
-X-Received: by 2002:a65:6096:: with SMTP id t22mr1928534pgu.204.1566968849443; 
-	Tue, 27 Aug 2019 22:07:29 -0700 (PDT)
+	bh=6yxn/6BnCmcuP8CKRUp2Fd8tn30hFlJ7SrqTWHNwVxA=;
+	b=gL9bXe/uOJ0FGR1kkBpYSSIt1BZ+ED1u9BModNUpKhNws3tK/sbYrqxuGUfdF2grN5
+	UQF13tJN/B6e33aICVeG1DtVS+3LODbKR3+KxkkzuIjakbM/wTdPVpCsGptPTjfbdiKm
+	bUyt7KyCb9eH6gzLN325J11VpaxUGF8F02D64L6mjew0XBXAv0BZPu72jlNIT8I403lR
+	cCtAqpgfHll8QvOGJwUanyKmPRBxa+nby1aWN5/zykQhPmKnesb1sPo9QhMRvfalCObD
+	XBn0yDqs8OacWk+14yZxZetz5g+J+JQrl80NBdbO4AfWCC352hVL5hgZvNr6gmuHEWyp
+	sRdw==
+X-Gm-Message-State: APjAAAVxc+od021EYDZKluVN+vdxstQhcBt8+/G5phu2aiU2nwr5x3FZ
+	AFAND9zzSoYYZx/qVAvxwPpXZA==
+X-Google-Smtp-Source: APXvYqzBO4j4ygL9dtCPbC8rWmeSBbhlIOc2fyeFUOKrsCJDSwz1TKV+s34QjSkSSItk1vyke2S7RA==
+X-Received: by 2002:a17:90a:2764:: with SMTP id
+	o91mr2369038pje.57.1566968854847; 
+	Tue, 27 Aug 2019 22:07:34 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	5sm960435pgh.93.2019.08.27.22.07.26
+	g11sm1490741pfk.187.2019.08.27.22.07.32
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 27 Aug 2019 22:07:28 -0700 (PDT)
+	Tue, 27 Aug 2019 22:07:34 -0700 (PDT)
 Date: Wed, 28 Aug 2019 05:06:29 +0000
-Message-Id: <20190828050629.6392-9-nathan@nathanrossi.com>
+Message-Id: <20190828050629.6392-10-nathan@nathanrossi.com>
 In-Reply-To: <20190828050629.6392-0-nathan@nathanrossi.com>
 References: <20190828050629.6392-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 9/11] oeqa/utils/nfs: Add unfs_server function to setup a userspace NFS server
+Subject: [PATCH 10/11] oeqa/selftest/glibc: Create selftest case for glibc test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,89 +60,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2019 05:07:28 -0000
+X-List-Received-Date: Wed, 28 Aug 2019 05:07:33 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Add a nfs module into oeqa utils. This module provides unfs_server which
-allows a test case to build unfs3-native and setup the unfs server on a
-target directory of the host. This directory is then shared and can be
-mounted by the host or a target device attached to the host (e.g. qemu
-via tap or slirp). The nfs server is setup over UDP and automatically
-assigns user privileged ports. The function provides the UDP ports for
-the server as part of a returned python contextmanager which handles
-cleanup of the server process on completion or exception.
+Create a oeqa selftest test case to execute the glibc test suite and
+report the results. The results are populated into the extraresults
+variable of the test case which are written to testresults.json for
+resulttool to analyse.
 
-Also add a 'udp' arg to get_free_port to get a free UDP port.
-
-Note: unfs3 still requires the host to have rpcbind or portmap running.
+An additional subclass is created to separate the execution with qemu
+linux-user and qemu system. The GlibcSelfTestSystemEmulated test case
+handles setup of the target image, setup of and NFS server as well as
+execution with runqemu.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/lib/oeqa/utils/network.py |  4 ++--
- meta/lib/oeqa/utils/nfs.py     | 39 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+), 2 deletions(-)
- create mode 100644 meta/lib/oeqa/utils/nfs.py
+ meta/lib/oeqa/selftest/cases/glibc.py | 91 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/glibc.py
 
-diff --git a/meta/lib/oeqa/utils/network.py b/meta/lib/oeqa/utils/network.py
-index 59cbbc4f1b..59d01723a1 100644
---- a/meta/lib/oeqa/utils/network.py
-+++ b/meta/lib/oeqa/utils/network.py
-@@ -4,8 +4,8 @@
- 
- import socket
- 
--def get_free_port():
--    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-+def get_free_port(udp = False):
-+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM if not udp else socket.SOCK_DGRAM)
-     s.bind(('', 0))
-     addr = s.getsockname()
-     s.close()
-diff --git a/meta/lib/oeqa/utils/nfs.py b/meta/lib/oeqa/utils/nfs.py
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
 new file mode 100644
-index 0000000000..a37686c914
+index 0000000000..5252ebb1b5
 --- /dev/null
-+++ b/meta/lib/oeqa/utils/nfs.py
-@@ -0,0 +1,39 @@
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -0,0 +1,91 @@
 +# SPDX-License-Identifier: MIT
 +import os
-+import sys
-+import tempfile
 +import contextlib
-+import socket
-+from oeqa.utils.commands import bitbake, get_bb_var, Command
-+from oeqa.utils.network import get_free_port
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
++from oeqa.utils.nfs import unfs_server
 +
-+@contextlib.contextmanager
-+def unfs_server(directory, logger = None):
-+    unfs_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "unfs3-native")
-+    if not os.path.exists(os.path.join(unfs_sysroot, "usr", "bin", "unfsd")):
-+        # build native tool
-+        bitbake("unfs3-native -c addto_recipe_sysroot")
++def parse_values(content):
++    for i in content:
++        for v in ["PASS", "FAIL", "XPASS", "XFAIL", "UNRESOLVED", "UNSUPPORTED", "UNTESTED", "ERROR", "WARNING"]:
++            if i.startswith(v + ": "):
++                yield i[len(v) + 2:].strip(), v
++                break
 +
-+    exports = None
-+    cmd = None
-+    try:
-+        # create the exports file
-+        with tempfile.NamedTemporaryFile(delete = False) as exports:
-+            exports.write("{0} (rw,no_root_squash,no_all_squash,insecure)\n".format(directory).encode())
++class GlibcSelfTest(OESelftestTestCase):
++    @classmethod
++    def setUpClass(cls):
++        super().setUpClass()
++        if not hasattr(cls.tc, "extraresults"):
++            cls.tc.extraresults = {}
 +
-+        # find some ports for the server
-+        nfsport, mountport = get_free_port(udp = True), get_free_port(udp = True)
++    def test_glibc(self):
++        self.glibc_run_check()
 +
-+        nenv = dict(os.environ)
-+        nenv['PATH'] = "{0}/sbin:{0}/usr/sbin:{0}/usr/bin:".format(unfs_sysroot) + nenv.get('PATH', '')
-+        cmd = Command(["unfsd", "-d", "-p", "-N", "-e", exports.name, "-n", str(nfsport), "-m", str(mountport)],
-+                bg = True, env = nenv, output_log = logger)
-+        cmd.run()
-+        yield nfsport, mountport
-+    finally:
-+        if cmd is not None:
-+            cmd.stop()
-+        if exports is not None:
-+            # clean up exports file
-+            os.unlink(exports.name)
++    def glibc_run_check(self, ssh = None):
++        # configure ssh target
++        features = []
++        if ssh is not None:
++            features.append('BUILD_TEST_TARGET = "ssh"')
++            features.append('BUILD_TEST_HOST = "{0}"'.format(ssh))
++            features.append('BUILD_TEST_HOST_USER = "root"')
++            features.append('BUILD_TEST_HOST_PORT = "22"')
++            # force single threaded test execution
++            features.append('EGLIBCPARALLELISM_task-check_pn-glibc-testsuite = "PARALLELMFLAGS="-j1""')
++        self.write_config("\n".join(features))
++
++        bitbake("glibc-testsuite -c check")
++
++        builddir = get_bb_var("B", "glibc-testsuite")
++
++        failed = 0
++        with open(os.path.join(builddir, "tests.sum"), "r") as f:
++            for test, result in parse_values(f):
++                self.tc.extraresults["{}.{}".format(type(self).__name__, test)] = {"status" : result}
++                if result == "FAIL":
++                    self.logger.info("failed: '{}'".format(test))
++                    failed += 1
++        self.assertEqual(failed, 0)
++
++class GlibcSelfTestSystemEmulated(GlibcSelfTest):
++    default_installed_packages = [
++        "glibc-charmaps",
++        "libgcc",
++        "libstdc++",
++        "libatomic",
++        "libgomp",
++        "python3",
++        "python3-pexpect",
++        "nfs-utils",
++        ]
++
++    def glibc_run_check(self):
++        with contextlib.ExitStack() as s:
++            # use the base work dir, as the nfs mount, since the recipe directory may not exist
++            tmpdir = get_bb_var("BASE_WORKDIR")
++            nfsport, mountport = s.enter_context(unfs_server(tmpdir))
++
++            # build core-image-minimal with required packages
++            features = []
++            features.append('IMAGE_FEATURES += "ssh-server-openssh"')
++            features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(self.default_installed_packages)))
++            self.write_config("\n".join(features))
++            bitbake("core-image-minimal")
++
++            # start runqemu
++            qemu = s.enter_context(runqemu("core-image-minimal", runqemuparams = "nographic"))
++
++            # validate that SSH is working
++            status, _ = qemu.run("uname")
++            self.assertEqual(status, 0)
++
++            # setup nfs mount
++            if qemu.run("mkdir -p \"{0}\"".format(tmpdir))[0] != 0:
++                raise Exception("Failed to setup NFS mount directory on target")
++            mountcmd = "mount -o noac,nfsvers=3,port={0},udp,mountport={1} \"{2}:{3}\" \"{3}\"".format(nfsport, mountport, qemu.server_ip, tmpdir)
++            status, output = qemu.run(mountcmd)
++            if status != 0:
++                raise Exception("Failed to setup NFS mount on target ({})".format(repr(output)))
++
++            super().glibc_run_check(ssh = qemu.ip)
 +
 ---
 2.23.0.rc1
