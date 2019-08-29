@@ -1,23 +1,26 @@
 Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 537807ED62
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E96017ED62
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 13:15:51 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7TDFq9R019604
+	Thu, 29 Aug 2019 13:16:22 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7TDG3gD030552
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 06:15:52 -0700 (PDT)
+	Thu, 29 Aug 2019 06:16:14 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Thu, 29 Aug 2019 06:15:52 -0700
+	14.3.468.0; Thu, 29 Aug 2019 06:15:53 -0700
 From: <zhe.he@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Aug 2019 21:15:49 +0800
-Message-ID: <1567084550-93704-1-git-send-email-zhe.he@windriver.com>
+Date: Thu, 29 Aug 2019 21:15:50 +0800
+Message-ID: <1567084550-93704-2-git-send-email-zhe.he@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1567084550-93704-1-git-send-email-zhe.he@windriver.com>
+References: <1567084550-93704-1-git-send-email-zhe.he@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] qemu: Add pkg-config handling for libgcrypt
+Subject: [PATCH 2/2] qemu: Fix dependency of PACKAGECONFIG libcurl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,137 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 13:15:51 -0000
+X-List-Received-Date: Thu, 29 Aug 2019 13:16:23 -0000
 Content-Type: text/plain
 
 From: He Zhe <zhe.he@windriver.com>
 
-When PACKAGECONFIG libgcrypt is enabled, we would get the following error.
+When PACKAGECONFIG libcurl is enabled, we would get the following build failure.
+ERROR: Nothing PROVIDES 'libcurl' (but perf.bb DEPENDS on or otherwise requires it). Close matches:
 
-ERROR: /usr/bin/libgcrypt-config should not be used, use an alternative such as pkg-config
-
-In oe-core, libgcrypt has been turned to be configured with pkg-config instead
-of libgcrypt-config, but qemu configure script does not contain pkg-config
-related part for libgcrypt to handle it.
+The dependency should be curl.
 
 Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc                |  1 +
- ...ure-Add-pkg-config-handling-for-libgcrypt.patch | 93 ++++++++++++++++++++++
- 2 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0010-configure-Add-pkg-config-handling-for-libgcrypt.patch
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index d2dd2bc..3eeba6e 100644
+index 3eeba6e..241f9db 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -22,6 +22,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0007-apic-fixup-fallthrough-to-PIC.patch \
-            file://0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
-            file://0009-Fix-webkitgtk-builds.patch \
-+           file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/0010-configure-Add-pkg-config-handling-for-libgcrypt.patch b/meta/recipes-devtools/qemu/qemu/0010-configure-Add-pkg-config-handling-for-libgcrypt.patch
-new file mode 100644
-index 0000000..a8ab7da
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0010-configure-Add-pkg-config-handling-for-libgcrypt.patch
-@@ -0,0 +1,93 @@
-+From 5214dd4461f2090ef0965b4d2518f49927d61cbc Mon Sep 17 00:00:00 2001
-+From: He Zhe <zhe.he@windriver.com>
-+Date: Wed, 28 Aug 2019 19:56:28 +0800
-+Subject: [Qemu-devel] [PATCH] configure: Add pkg-config handling for libgcrypt
-+
-+libgcrypt may also be controlled by pkg-config, this patch adds pkg-config
-+handling for libgcrypt.
-+
-+Upstream-Status: Denied [https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg06333.html]
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ configure | 48 ++++++++++++++++++++++++++++++++++++++++--------
-+ 1 file changed, 40 insertions(+), 8 deletions(-)
-+
-+diff --git a/configure b/configure
-+index e44e454..0f362a7 100755
-+--- a/configure
-++++ b/configure
-+@@ -2875,6 +2875,30 @@ has_libgcrypt() {
-+     return 0
-+ }
-+ 
-++has_libgcrypt_pkgconfig() {
-++    if ! has $pkg_config ; then
-++        return 1
-++    fi
-++
-++    if ! $pkg_config --list-all | grep libgcrypt > /dev/null 2>&1 ; then
-++        return 1
-++    fi
-++
-++    if test -n "$cross_prefix" ; then
-++        host=$($pkg_config --variable=host libgcrypt)
-++        if test "${host%-gnu}-" != "${cross_prefix%-gnu}" ; then
-++            print_error "host($host) does not match cross_prefix($cross_prefix)"
-++            return 1
-++        fi
-++    fi
-++
-++    if ! $pkg_config --atleast-version=1.5.0 libgcrypt ; then
-++        print_error "libgcrypt version is $($pkg_config --modversion libgcrypt)"
-++        return 1
-++    fi
-++
-++    return 0
-++}
-+ 
-+ if test "$nettle" != "no"; then
-+     pass="no"
-+@@ -2902,7 +2926,14 @@ fi
-+ 
-+ if test "$gcrypt" != "no"; then
-+     pass="no"
-+-    if has_libgcrypt; then
-++    if has_libgcrypt_pkgconfig; then
-++        gcrypt_cflags=$($pkg_config --cflags libgcrypt)
-++        if test "$static" = "yes" ; then
-++            gcrypt_libs=$($pkg_config --libs --static libgcrypt)
-++        else
-++            gcrypt_libs=$($pkg_config --libs libgcrypt)
-++        fi
-++    elif has_libgcrypt; then
-+         gcrypt_cflags=$(libgcrypt-config --cflags)
-+         gcrypt_libs=$(libgcrypt-config --libs)
-+         # Debian has removed -lgpg-error from libgcrypt-config
-+@@ -2912,15 +2943,16 @@ if test "$gcrypt" != "no"; then
-+         then
-+             gcrypt_libs="$gcrypt_libs -lgpg-error"
-+         fi
-++    fi
-+ 
-+-        # Link test to make sure the given libraries work (e.g for static).
-+-        write_c_skeleton
-+-        if compile_prog "" "$gcrypt_libs" ; then
-+-            LIBS="$gcrypt_libs $LIBS"
-+-            QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
-+-            pass="yes"
-+-        fi
-++    # Link test to make sure the given libraries work (e.g for static).
-++    write_c_skeleton
-++    if compile_prog "" "$gcrypt_libs" ; then
-++	    LIBS="$gcrypt_libs $LIBS"
-++	    QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
-++	    pass="yes"
-+     fi
-++
-+     if test "$pass" = "yes"; then
-+         gcrypt="yes"
-+         cat > $TMPC << EOF
-+-- 
-+2.7.4
-+
+@@ -132,7 +132,7 @@ PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen,xen-libxenstore xen-libxenc
+ PACKAGECONFIG[vnc-sasl] = "--enable-vnc --enable-vnc-sasl,--disable-vnc-sasl,cyrus-sasl,"
+ PACKAGECONFIG[vnc-jpeg] = "--enable-vnc --enable-vnc-jpeg,--disable-vnc-jpeg,jpeg,"
+ PACKAGECONFIG[vnc-png] = "--enable-vnc --enable-vnc-png,--disable-vnc-png,libpng,"
+-PACKAGECONFIG[libcurl] = "--enable-curl,--disable-curl,libcurl,"
++PACKAGECONFIG[libcurl] = "--enable-curl,--disable-curl,curl,"
+ PACKAGECONFIG[nss] = "--enable-smartcard,--disable-smartcard,nss,"
+ PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses,"
+ PACKAGECONFIG[gtk+] = "--enable-gtk,--disable-gtk,gtk+3 gettext-native"
 -- 
 2.7.4
 
