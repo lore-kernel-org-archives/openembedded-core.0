@@ -1,53 +1,49 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A676A7F2F1
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DE5A7ECB9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 01:08:47 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id l1so1299901lji.12
+	Thu, 29 Aug 2019 01:45:30 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id x3so1402007lji.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2019 18:08:48 -0700 (PDT)
+	Wed, 28 Aug 2019 18:45:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ndIH12B53nk0uKuYFl3o5mb4q6hwR5C+Td1/vMJi6h8=;
-	b=o0tAkXEvO6R0e8ycO1vw/00/oTWC+cs68KPpcd2eGZQj2G1tvp843PT38qzS2a8awa
-	q+Tg2QMdtNmVzBE7DuYfFJsxUtngV5vULk7S1q47RerSiKrJLT5ozxY2vI1Jld9KoIxG
-	adX87LhCR7Mk1WXObTZooaxklUKUf3d9lt4kXcqCkP3oP81z+HxPApY/ugGKY5Lx6kxf
-	a1jCvtgd1D6Cu4iIe+KhKs6rSbc+fHSI1A3FO6Ag4TE2+8xm0RxYhNWnAqHUQlJWO+Bm
-	kd0pA0jzM/FMPpWqO+BthNSuOwg4uLxh396DxBdTu2EMElJC5vBSkv02Ko5xCH+t503p
-	eCIw==
+	:cc; bh=Ifh6fr0ESjO3z2GB2zzzXJRB3PX8zzYhCEoRoyK2N+Q=;
+	b=n+BJMTXyY2EWw+qgJZ/nZntM3ai2xi9RKKftw+JQ7B+uToyhXW1UbBrlzcpSjzoV17
+	5C1dHG8e8CC6CUG5W+dc35IW90Bzlbm87tf9xImi1O4l9fVSsmm0Z+/+/hprBXd1C4tm
+	fJa+EELSgJB1+zoHPp23yu5P0pxM8+EBmCzBH0YR3Z+CQ17uASTO/dWtJdsVON93GA2Q
+	hVa5S9AL+ZciY5IEft4dnvgCSktIA9Eqg122gxK52tCag1ykRU1aOci4WjWpd1n42Yyg
+	gpRj7abEkQuPak8e5FWl+2hwUlToY6Rnt1yDkTLCny9wCvEMwIjv2gZqSr8R2uxeJ37g
+	phwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=ndIH12B53nk0uKuYFl3o5mb4q6hwR5C+Td1/vMJi6h8=;
-	b=DQvsQWg4yQe8ECYZ9faVxwwizdbt1FcDGdxO0n2+FTb2D5tfiW9tAP3RBjTRStbJx1
-	Qc0Ye9fq0NaTsLsyXEPcqh7N4AmzXU+9WWc7Sqo1SKD403rUN/4+r4j0g2ERRwWVzqMg
-	Fwc+23yEX958TPXw6HipEXS9IOMJarz7eq7ZACtIcx90xXTnk0p5Oz9Rj89eOB06BjaM
-	HtVUY9SDFf2SUTm65Oq6GZbXvFeqvsBWMFQsm0y/SSNHv6qP7jZxK1NdiVML5UqqzzUg
-	fPdDvy6y7JNGXs1g6LvxnV1UP5rA+c343s+yLiH/JIe0w1gZ30LK/QoEGnHdgKehUYhy
-	5HFw==
-X-Gm-Message-State: APjAAAVHjK7cXIcSY6gNAd1OeiOX2EwK2zxmVcEU03oeLATspncsPZXB
-	3ha8zC8oP1gHbG6jjhkSqfMEyCVoCLtYkMf90AM=
-X-Google-Smtp-Source: APXvYqz48qZbGhDv5b/IwmY6ueJVhzL3W4i+svCEJ6ncS1YeOrDhYDS5vHS6BdAbLgzRzB2MrASlhJAiM8IvxPwBBeo=
-X-Received: by 2002:a2e:9214:: with SMTP id k20mr3491306ljg.232.1567040927838; 
-	Wed, 28 Aug 2019 18:08:47 -0700 (PDT)
+	bh=Ifh6fr0ESjO3z2GB2zzzXJRB3PX8zzYhCEoRoyK2N+Q=;
+	b=nmFVL67H5cByRSSzDKV7cMuv9lFbpou7JnQ3zd2JskU2GT3w5uTakjdlE0WXatrG72
+	1i6ICbFjdvF5FhPHOWz+1B8vU7gvuf62acs1RjPrtHi/v8sp2X7Jx8FDJp9/Ea5sqg7/
+	Z9QW61KoGObzdgixobj6+QDN7ZhwCcfADKd3k9So3DyBiRzXExkggygL7oiFi1/Ot4p7
+	+lFjmHxU3nud8lFeToxOn3vG8dcoayByvXHwoulw8xcEDJxBX7fTYJ1zGCGEox5+QPRR
+	YvofeF43kgS+RHfzZP9tBeU1I/qFRVTaCwYSQeT7cNLlBtqF/7r7ywquzSTOMUdnA39C
+	zL6g==
+X-Gm-Message-State: APjAAAVHkbIxxWErEfVBuJqt9tzl8pPk7+hE+24xzLKp9luCYTn55bSL
+	5ImRAKSTXml96ABrREig6ts3pIck4C4Xd3dkY03OMppa
+X-Google-Smtp-Source: APXvYqzjXz3+QrMiilTyIzePND3f8XwSKkHUSGk9J25BKdC6Xt7TkKEaBtzl3NFPLScSuCsDiMwgILx2S0aZsn5VEGM=
+X-Received: by 2002:a2e:9214:: with SMTP id k20mr3552797ljg.232.1567043130721; 
+	Wed, 28 Aug 2019 18:45:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1567019771.git.bruce.ashfield@gmail.com>
-	<c1bffa0ef4621c96d200e8ed14fd818d97b41677.1567019771.git.bruce.ashfield@gmail.com>
-	<8664f9ff7f4a8463b16d3d17d213ad3375798ea8.camel@intel.com>
-	<CADkTA4O_39fPJYD1DmiVVUL4GguyjqYG6VUct330GtzDnSezow@mail.gmail.com>
-	<390a239da98f0f9013f9d32726354958620baf68.camel@intel.com>
-	<CADkTA4Mg-wtkuyik8yEm=jMDO+VPq934oOocUnLN1sgo_vapAg@mail.gmail.com>
-	<CADkTA4OgaPUwvN4h=+095DDgn6gUgFjwGH2kipC+Uh+DbVSDdQ@mail.gmail.com>
-In-Reply-To: <CADkTA4OgaPUwvN4h=+095DDgn6gUgFjwGH2kipC+Uh+DbVSDdQ@mail.gmail.com>
+	<1d17bdc6ed17c0aa0680c7bcfbeb6f37a8d9cb8c.1567019771.git.bruce.ashfield@gmail.com>
+	<CADkTA4NjewFLyHM5W4+cC2ZGpwZecRQgvz_7Xhxe-Fd0UCHZiA@mail.gmail.com>
+In-Reply-To: <CADkTA4NjewFLyHM5W4+cC2ZGpwZecRQgvz_7Xhxe-Fd0UCHZiA@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 28 Aug 2019 21:08:36 -0400
-Message-ID: <CADkTA4M0rRD6XFhoe0V5bwraAAS6zbMB2L34ZBQTKMACUCe7ew@mail.gmail.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Date: Wed, 28 Aug 2019 21:45:19 -0400
+Message-ID: <CADkTA4PWSpM_GDf2yYOVFbRNkVKfQMCs2SL4B0SUD4QnwZ5MLw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/8] perf: change dependencies on python to python3
+Subject: Re: [PATCH 6/8] perf: v5.3+ build fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,87 +56,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 01:08:48 -0000
+X-List-Received-Date: Thu, 29 Aug 2019 01:45:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 28, 2019 at 8:27 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+On Wed, Aug 28, 2019 at 8:32 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 >
-> On Wed, Aug 28, 2019 at 8:24 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> On Wed, Aug 28, 2019 at 3:28 PM <bruce.ashfield@gmail.com> wrote:
 > >
-> > On Wed, Aug 28, 2019 at 8:18 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
-> > >
-> > > On Wed, 2019-08-28 at 20:13 -0400, Bruce Ashfield wrote:
-> > > > > On Wed, Aug 28, 2019 at 8:01 PM Mittal, Anuj <anuj.mittal@intel.com>
-> > > > wrote:
-> > > > This is causing failure for 5.0 kernels probably because the attr.py
-> > > > > python -> python3 changes are not there ...
-> > > > >
-> > > > > ERROR: perf-1.0-r9 do_package_qa: QA Issue: /usr/libexec/perf-
-> > > > > core/tests/attr.py contained in package perf-tests requires
-> > > > > /usr/bin/python, but no providers found in RDEPENDS_perf-tests?
-> > > > > [file-
-> > > > > rdeps]
-> > > > > ERROR: perf-1.0-r9 do_package_qa: QA run found fatal errors. Please
-> > > > > consider fixing them.
-> > > > > ERROR: Logfile of failure stored in: /home/pokybuild/yocto-
-> > > > > worker/genericx86/build/build/tmp/work/genericx86-poky-
-> > > > > linux/perf/1.0-
-> > > > > r9/temp/log.do_package_qa.36284
-> > > > > NOTE: recipe perf-1.0-r9: task do_package_qa: Failed
-> > > > >
-> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/975/steps/8/logs/step1b
-> > > > ote:
-> > > unfortunately, I can only cover the active kernels in master with any
-> > > certainty, and I already have a patch to drop 5.0, so I didn't
-> > > > trigger
-> > > this.
-> > > I can spin a patch for 5.0 and make sure it is version proofed a ibt,
-> > > but if anyone else has issues with <insert version here>, they'll
-> > > > need
-> > > > >
-> > > > unfortunately, I can only cover the active kernels in master with any
-> > >
-> > > Can we cover at least the kernels in OE-Core master right now affected
-> > > by this change? So 4.19 as well ...
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
 > >
-> > Consider 5.0 to be not there. It is going to be deleted in about a
-> > day. My hands are very full, so I'm not able to spend much time on it
-> > at the moment.
+> > In the 5.3+ perf builds, there are multiple unistd.h files that need
+> > to be kept in sync. So not only do we update one, we update both to
+> > ensure that libc-headers and the perf build are in sync.
 > >
-> > 4.19 did work in my earlier testing, but I will have a look ASAP
-> > (probably next week, since my cycles are largely spoken for at the
-> > moment).
+> > perf checks some key files itself to be sure they are in sync, and
+> > bits.h can be out of sync. There's no build error that results with
+> > bits.h at the moment, but we still make sure they are in sync to
+> > avoid the configure/compile warning.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >  meta/recipes-kernel/perf/perf.bb | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+> > index 8ac8e7c308..58543c73d8 100644
+> > --- a/meta/recipes-kernel/perf/perf.bb
+> > +++ b/meta/recipes-kernel/perf/perf.bb
+> > @@ -241,6 +241,10 @@ do_configure_prepend () {
+> >      # unistd.h can be out of sync between libc-headers and the captured version in the perf source
+> >      # so we copy it from the sysroot unistd.h to the perf unistd.h
+> >      install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
+> > +    install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/include/uapi/asm-generic/unistd.h
+> > +
 >
-> .. but I will visually check 4.19 for any other scripts that reference
-> just 'python' visually and make sure my tests are broad enough. It is
-> more builder and boot cycles that I don't have easily accessible. It
-> shouldn't be too hard to make the fixes generic and broad enough to
-> cover it.
+> I just realized this may not be safe across all the kernel versions.
+> I'll submit a new version (if required), after I've tested my python3
+> changes to perf.
 
-I retract that statement. I was able to jiggle things and testing on
-4.19 is no big deal. I'll send a v2 that covers 4.19/5.0/5.2/5.3-rc
-testing shortly.
+I've tested this across 4.19 -> 5.3 and didn't find any issues. So it
+should be safe and I won't send a v2.
 
 Bruce
 
 >
+> Cheers,
+>
 > Bruce
 >
+> > +    # bits.h can have the same issuen as unistd.h, so we make the tools variant take precedence
+> > +    install -D -m0644 ${S}/tools/include/linux/bits.h ${S}/include/linux/bits.h
+> >  }
 > >
-> > Bruce
-> >
-> > >
-> > > Thanks,
-> > >
-> > > Anuj
-> >
-> >
-> >
+> >  python do_package_prepend() {
 > > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
->
+> > 2.19.1
+> >
 >
 >
 > --
