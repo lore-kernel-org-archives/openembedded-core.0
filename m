@@ -1,30 +1,38 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id DD93C7F2F1
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
+	[209.85.221.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 100B47F2ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 12:53:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46K2c14S10z2Y;
-	Thu, 29 Aug 2019 14:53:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1567083233;
-	bh=stXR41hxmu1edLp9SC0D9MNV5sdFQUVqgMNPWsAnDQc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JGUlHRVsQQWroJuczOgplu7H8yrVB9BolIlI3BcnkpJNilGN1vkucH3F7wQ6CQD6Q
-	21qZ72qgsDUNoQwdWh4lfeCfwk1Fib6RrbtEaV6efZnLrXC2zhSnNEe+Vs+SRPaQYb
-	LHEeZzl0O/tEcIiqTVpIwkT+GROwREF4FqqbesV4+vBApWiHeAzlqI0Kt05dT/YI+y
-	sHbS63blZN74yTNnS9SrWVGTALPGAthjE6AWpf4gEIVA3+vSNxR0vl6wDONSLGlwoh
-	lkseGV5p2n69/2F/KW74wT0U+4zPl8hwqwIOzQP7gHysMs0lz48ZI+heYTM62LB39A
-	eb0xAPrRU5EBcVJksqj76T51UZlARKdlBvkMQz6F2a1hg2PgKFi7FYx3mzbFZ8YlRC
-	pi21Aop7eObaK1qVa3GU2is/GbkezW6LTUtQapqYr0db4ABsI8/30ef9ESOS6KjSYT
-	05QgT3EICeVLOUrmu2VxiJsBC7m34F0YZPtd84UvBsxwvDjTJ8egjVA6K1KCCkN1NK
-	PjcmXBr7NuJt3E8uAESNjAnqwGB8j4Vf3w8/aNdD16Lsta75cJo7pjdaV2ybiRDJmU
-	u8D22eF1E/eYDct8DSyINhPlxlgF+n6MCFKZXllj6VpzGNfbvfvBBGuq/XfaCCs5Nq
-	wd+vgERZQ+qOYGUXgf/RFJMI=
-Date: Thu, 29 Aug 2019 15:53:51 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Message-ID: <20190829125351.GB32705@localhost>
+	Thu, 29 Aug 2019 13:00:27 +0000 (UTC)
+Received: by mail-vk1-f195.google.com with SMTP id h192so760104vka.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Aug 2019 06:00:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=+mL51l59ikePlb6HUwDnrIiAcCFx5paiy7GJozxrDEU=;
+	b=XgkWIdDCWaeuE1QI7QpnVOog4o1AEPyNhN6FZ33Ykh+jwvtJG2B5D5718w/QChIrpn
+	MerKmFikAm5DoiOUj88dBS4Po/gYYaJ2EQBiC8s1zr0barEwcqptjWCECidVCDegV0CZ
+	yW98eqPGqLdL/b+1hjkeBhXJmzwWYrbHZxeGyRHlwtSvReWu4XRzZPUBleNYBSu/ozfv
+	e3POnSL5w2xJBuqztJcMpjKAeLHAqCEcvlaiSk2HtmnhgUNNbvYtOapXoNJrk6M1ycDg
+	f5PFBmgbkVzEMgZvmkiqFbEPRA4mugso+2TKop0Dd14gI1e3paFCcAD2skAV7AH2jMTi
+	isvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=+mL51l59ikePlb6HUwDnrIiAcCFx5paiy7GJozxrDEU=;
+	b=WR+L2AsQd2e7W/C7mb02TLyQxQWKf69Ha4DZaHFFyW7dqYTThO07df/F1a2gkAK3cy
+	SWqOjpOJ9vfX5KMbvUdbYuj039JmlA6N4snnmpkdKipgspebRPUhPsxiHTPbv3wr+ekr
+	J+WhZauxzx0e8X3d/qso3zcMcEDbpPvhSFl4L4Wozh4Ac5Gr9qBRGJeILRGj10fpz8oh
+	rx1eIXrOZrQo89wCbkSbWokIFMdzzr0yq974oDS+X1p+XRPcVGtXG4koPcK8wCPJqf+y
+	6VtY1zsha1CcvclPwT3e/K3buhPNiwRNTj+JNT/O6z70Itg2UuhrUYvBgh6Z5fvYSi7x
+	XyfA==
+X-Gm-Message-State: APjAAAVTXTyEimOGETm+VJ9vzP+TvQ05U5qA+QtigQsKfCyZyiyw4hSp
+	frMZ7H5KEDFdbqbT0B/yf9AilsJauKjN3UySKHI=
+X-Google-Smtp-Source: APXvYqzVxKvsfHPlUMeRVGdmZj/nKaIgTIOGWxKqXqMvMEYjWJFNZtAMwvjdGYSk2K/xD7ccaJq5bT1Zg3JxmiK8fAs=
+X-Received: by 2002:ac5:cc4d:: with SMTP id l13mr4856634vkm.72.1567083628982; 
+	Thu, 29 Aug 2019 06:00:28 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.1567019771.git.bruce.ashfield@gmail.com>
 	<4f7fa357480ec0139aa809bed4a12c9aa7622d60.1567019771.git.bruce.ashfield@gmail.com>
 	<20190828200536.GD3044@localhost>
@@ -33,9 +41,12 @@ References: <cover.1567019771.git.bruce.ashfield@gmail.com>
 	<CADkTA4NbtkgR2LrZC+Srtn-BC+6q=7HQH9S7tbJ3H4u7=HQm7w@mail.gmail.com>
 	<20190829063158.GG3044@localhost>
 	<CADkTA4NXYy0jnZg6=S_W=3znH9M1hidYw8MDwqOqQCGESq8p=g@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4NXYy0jnZg6=S_W=3znH9M1hidYw8MDwqOqQCGESq8p=g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+	<20190829125351.GB32705@localhost>
+In-Reply-To: <20190829125351.GB32705@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 29 Aug 2019 15:00:17 +0200
+Message-ID: <CANNYZj9fyZ_Us1gFy7KvS4Gw41ztNDCmt5bn=ARAX16h7pEETQ@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 4/8] kernel-devsrc: remove python2 dependency
@@ -51,50 +62,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 12:53:54 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 29 Aug 2019 13:00:28 -0000
+Content-Type: multipart/alternative; boundary="00000000000009f4ca05914117bd"
 
-On Thu, Aug 29, 2019 at 08:23:58AM -0400, Bruce Ashfield wrote:
-> On Thu, Aug 29, 2019 at 2:32 AM Adrian Bunk <bunk@stusta.de> wrote:
-> >
-> > On Wed, Aug 28, 2019 at 06:06:04PM -0400, Bruce Ashfield wrote:
-> > > On Wed, Aug 28, 2019 at 5:58 PM Adrian Bunk <bunk@stusta.de> wrote:
-> > > >
-> > > > On Wed, Aug 28, 2019 at 04:11:43PM -0400, Bruce Ashfield wrote:
-> > > > >...
-> > > > > There's zero risk to these, and no reason to sit on them.
-> > > >
-> > > > What range of LTS kernels is covered by the "zero risk"?
-> > >
-> > > It has nothing to do with LTS kernels.
->...
-> > How do your changes interact with a BSP layer that provides
-> > the upstream maintained LTS kernel 4.4?
-> 
-> As mentioned in other parts of the threads, we test against the
-> reference kernel's in master. Other versions can either bbappend, or
-> send patches. That's unfortunately how it has to be.
+--00000000000009f4ca05914117bd
+Content-Type: text/plain; charset="UTF-8"
 
-It is an unexpected meaning of "zero risk" when this excludes 
-breakages with kernels other than the ones in master.
+On Thu, 29 Aug 2019 at 14:54, Adrian Bunk <bunk@stusta.de> wrote:
 
-One of the non-python changes to perf blew up the build for me even when 
-trying with a kernel that is only a few months behind on the 4.19 branch,
-so there's some patches for me to send next month.
+>
+> It is an unexpected meaning of "zero risk" when this excludes
+> breakages with kernels other than the ones in master.
+>
+> One of the non-python changes to perf blew up the build for me even when
+> trying with a kernel that is only a few months behind on the 4.19 branch,
+> so there's some patches for me to send next month.
+>
 
-> Cheers,
-> 
-> Bruce
+This is part and parcel of using the master branch with various 'other'
+layers. Things can and do break in those other layers, and have to be fixed
+after the fact of the breaking changes landing in master. If this is not
+acceptable, then stable branches are far more conservative.
 
-cu
-Adrian
+Alex
 
--- 
+--00000000000009f4ca05914117bd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 29 Aug 2019 at 14:54, Adrian Bunk=
+ &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
+iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><br>
+It is an unexpected meaning of &quot;zero risk&quot; when this excludes <br=
+>
+breakages with kernels other than the ones in master.<br>
+<br>
+One of the non-python changes to perf blew up the build for me even when <b=
+r>
+trying with a kernel that is only a few months behind on the 4.19 branch,<b=
+r>
+so there&#39;s some patches for me to send next month.<br></blockquote><div=
+><br></div><div>This is part and parcel of using the master branch with var=
+ious &#39;other&#39; layers. Things can and do break in those other layers,=
+ and have to be fixed after the fact of the breaking changes landing in mas=
+ter. If this is not acceptable, then stable branches are far more conservat=
+ive.</div><div><br></div><div>Alex<br></div></div></div>
 
-
+--00000000000009f4ca05914117bd--
