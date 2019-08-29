@@ -1,51 +1,51 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ADC3A7F333
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+	[209.85.166.47])
+	by mail.openembedded.org (Postfix) with ESMTP id A50D57F333
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 15:31:17 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id n19so2835109lfe.13
+	Thu, 29 Aug 2019 15:31:20 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id n197so5765694iod.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 08:31:19 -0700 (PDT)
+	Thu, 29 Aug 2019 08:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pDhRWi2VGQUeMiRGpT4BPss7yzBFn3RqvKMRhsMK+ho=;
-	b=mXY7d8nnxOVvlrNYVqlq4FVqzwbj5NUtWJhgwFXWkHmJhzn3Cu2iYv7drgUAJDaMxE
-	ArenEJPGJI7InTtvMF723OU6uBnHxX1+nmWeGn2K3/liegq3I/xQHg9EqlEdVgqn3yoD
-	dWJpHQl1TYB3T5kwmAbcD/P9Un19tY7iDrxM4BBCG5nQer5ShL1i5o4VahusIFJoVEwt
-	/laRqYtsqMu0tm2x1/lGMTmmjnF7iAqZ7GLZgQofd+FZBgGrXjHvdlxSXTYP9oqwkS/b
-	ufS8rYJ/FSHcSmj4T5ddWeSfl5S3jM2FTCQE9Or5Q1ckq3ISGImrrI7nni0Cok4wKCmV
-	C72A==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=dU/QHQ+gt4/9zMv4PbPHtbjrqLxpEmjTf67sV5nnXf4=;
+	b=KvWGtQb6l0ed68QGHnbOSJ1WdrhG3ZpqMlCG6Af8VBz5evmaP80poeuwe/XkoSnSWL
+	wzmzI2MmLhUV/mM7m5g9PWyImPGnL84jZ+FH+wFeILsikoElREp8Xjwa1Rk+htLWn9JI
+	Iue3wjhptmaXejiU2iTHrjUdrimX83YCKf6Cgis4+k19i29TObnQnAmzolmuuEXm82tl
+	DLjqLgmPFoaOeY68p/g93XtiyIBVgaCEU6Tln4ZFllWP/b3QkPf2Ep52U7xEzhaNf3oE
+	9OGFGTmZisyX9BlB82MB9mUzO+7p/tZvBBX9+xCQuGE+qRX8r4FqcJywy+NI8ATRXeKh
+	gqQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pDhRWi2VGQUeMiRGpT4BPss7yzBFn3RqvKMRhsMK+ho=;
-	b=ZsKFDd07QduBiTX8ruPpdhaPjGQoQZHP3PD4JQfgdiH5RPSebR09WKnCxjvEscuZrI
-	uLkMz+j5QMKyXhAgjcpwRVlawnElIQWvJZI9rKgxifIyhmlSgpejFriBiY9L/lg042vC
-	M62Blw6MuDbdOSRZIxaH2GRIxxxaxFZflWGCifWiDBQXBNju6pYw2fcHThJzF5B0vNUZ
-	/ODuiS5TJ0jikhrxZ5nBR3PxJcqO+ngRMXI2UkHczGFYKpbo3hgn+1l2bAvvLk+wONNd
-	uiD9/HlR34iitEDcxydv23x834N96Gpd+eL4T16j5LWklLqkIT8iX8D34dcEqdYxA5b1
-	48/g==
-X-Gm-Message-State: APjAAAUSJJQStp7ZhdB4MPfgBY15ycHWN+PQgzUCw7FcvD4HPHUDTB4T
-	PCdh3WvGg1RZbNTjPlxz7DWxsiDVDV+nKi7D9yI=
-X-Google-Smtp-Source: APXvYqx/UnFtTHGNb5BdbjTH/duXWD46WoI9BbF7pGxsYsP07njO5rqYnzKNxbzQ4Mgg73lKqFlBu4yGHWO5k9qj6Y0=
-X-Received: by 2002:a19:428f:: with SMTP id p137mr6735886lfa.149.1567092678054;
-	Thu, 29 Aug 2019 08:31:18 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=dU/QHQ+gt4/9zMv4PbPHtbjrqLxpEmjTf67sV5nnXf4=;
+	b=YnjPucKdUbc/Oujfm79q3DUuqwds1TtZOAbbTpYoDUYebc8sRx8HsJ62lMWXzVinG/
+	reW/UnbB/5wFLTMeUPGYGlRST3J/uGI+ajSyM82QjAEBPzPDJlAVmUIl3A3HnDmAg0En
+	xMktlBaeCQnpQan7mJq+uRYotk9VIwqcKhq6PGog9HkXQlTpApveBNsKQn2aEHC0IGqE
+	AAB4KJVsF25cvskbKby+k0fdzDuqK15YvR0gC6/zIw4VuZu/3y9q559sH0YNdMgzvLWG
+	zv0TAXyI7j2KE/lJFLgpU7flVkuPKTsFHgu/zQnwZtard3Dv/eYE278wxr8ZCNbZhU2P
+	5Avw==
+X-Gm-Message-State: APjAAAXVKOLW+BZ8dP1AB03ZftCqSttKZ7vGJCXxqxIhHAtJFRURokiC
+	Nb7+2fKceXAv+yykVd4YKMaSKFc0
+X-Google-Smtp-Source: APXvYqwD/L0wp+j7LTaEH3gsZvYikS915iDbCWDSKK53FVWyNqzqW/pl4vxE/sGtflwN/lQ8HeyPyQ==
+X-Received: by 2002:a5d:9746:: with SMTP id c6mr10540544ioo.235.1567092681322; 
+	Thu, 29 Aug 2019 08:31:21 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	n22sm3531892iob.37.2019.08.29.08.31.20
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 29 Aug 2019 08:31:20 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Aug 2019 10:31:06 -0500
+Message-Id: <20190829153106.21571-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <cover.1565796002.git.bruce.ashfield@gmail.com>
-	<28547fae8ada44e4f2383f02bd1d8e0f3ce96b52.camel@linuxfoundation.org>
-	<CADkTA4MHrS0y7Movz5JSmrFc9dSKCEdOxOwV=dCteNnktibNCg@mail.gmail.com>
-	<CADkTA4ONrm_Xtr9Mcdj359m5xqFqzKTzN8bB=VnRn2PKRxP+Wg@mail.gmail.com>
-	<20190829152736.GA4696@joraj-alpa>
-In-Reply-To: <20190829152736.GA4696@joraj-alpa>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 29 Aug 2019 11:31:06 -0400
-Message-ID: <CADkTA4PybRmDHYumSEjULoaiXKDL9H4oXv6H7jOQv4VfsbOk1g@mail.gmail.com>
-To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] kernel-yocto: misc build / config changes
+Subject: [PATCH] oeqa: reproducible: Do two clean builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,78 +58,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 15:31:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 29 Aug 2019 15:31:20 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 29, 2019 at 11:28 AM Jonathan Rajotte-Julien
-<jonathan.rajotte-julien@efficios.com> wrote:
->
-> >
-> > FWIW: lttng-ust builds fine for me with the 5.2 kernel + 5.2 headers,
-> > it is one of the things I build and test as part of
-> > core-image-kernel-dev.
->
-> Even on ppc?
->
+Perform two clean builds without sstate instead of one partial rebuild
+with sstate and one clean build without. There are some classes of
+reproducibility issues that this solves, and while we would like to
+resolve them in the long term the direction to do so is not currently
+clear.
 
-yup. I build all arches for core-image-kernel-dev, which includes all of lttng.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/reproducible.py | 48 ++++++++++++--------
+ 1 file changed, 28 insertions(+), 20 deletions(-)
 
-Bruce
-
-> It seems related to the y2038 safe socket merge
-> (a98dc6aee784a5daf84a4781dcf02feab9ad5999) from the kernel but from the
-> code I cannot find a reason why SO_SNDTIMEO would be missing. The powerpc
-> socket header relies on the generic one for proper backward definition of
-> SO_SNDTIMEO:
->
->  #define SO_SNDTIMEO (sizeof(time_t) == sizeof(__kernel_long_t) ? SO_SNDTIMEO_OLD : SO_SNDTIMEO_NEW)
->
-> Not sure what is going on here.
->
->
-> > I just rebuilt it here this morning and didn't see any errors.
->
-> >
-> > > >
-> > > > qemuarm is erroring due to /dev/fb0 disappearing, which is probably kernel?
-> > > >
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/975
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/976
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/986
-> > > >
-> > > > and we also have an unintended side effect multilib build failure:
-> > > >
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/995
-> > > >
-> > > > which might be due to changed dependencies, I need to check into that one further.
-> > > >
-> > > > Cheers,
-> > > >
-> > > > Richard
-> > > >
-> > > >
-> > >
-> > >
-> > > --
-> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > > thee at its end
-> > > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
->
-> --
-> Jonathan Rajotte-Julien
-> EfficiOS
-
-
-
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index c6cc0b7d0eb..b3bbb70158b 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -123,45 +123,53 @@ class ReproducibleTests(OESelftestTestCase):
+     def test_reproducible_builds(self):
+         capture_vars = ['DEPLOY_DIR_' + c.upper() for c in self.package_classes]
+ 
++        # Build native utilities
++        self.write_config('')
++        bitbake("diffutils-native -c addto_recipe_sysroot")
++        diffutils_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "diffutils-native")
++
++        # Reproducible builds should not pull from sstate or mirrors, but
++        # sharing DL_DIR is fine
+         common_config = textwrap.dedent('''\
+             INHERIT += "reproducible_build"
+             PACKAGE_CLASSES = "%s"
++            SSTATE_DIR = "${TMPDIR}/sstate"
++            SSTATE_MIRROR = ""
+             ''') % (' '.join('package_%s' % c for c in self.package_classes))
+ 
+-        # Do an initial build. It's acceptable for this build to use sstate
+-        self.write_config(common_config)
+-        vars_reference = get_bb_vars(capture_vars)
+-        bitbake(' '.join(self.images))
++        # Perform a build.
++        reproducibleA_tmp = os.path.join(self.topdir, 'reproducibleA', 'tmp')
++        if os.path.exists(reproducibleA_tmp):
++            bb.utils.remove(reproducibleA_tmp, recurse=True)
+ 
+-        # Build native utilities
+-        bitbake("diffutils-native -c addto_recipe_sysroot")
+-        diffutils_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "diffutils-native")
++        self.write_config((textwrap.dedent('''\
++            TMPDIR = "%s"
++            ''') % reproducibleA_tmp) + common_config)
++        vars_A = get_bb_vars(capture_vars)
++        bitbake(' '.join(self.images))
+ 
+-        reproducible_tmp = os.path.join(self.topdir, 'reproducible', 'tmp')
+-        if os.path.exists(reproducible_tmp):
+-            bb.utils.remove(reproducible_tmp, recurse=True)
++        # Perform another build.
++        reproducibleB_tmp = os.path.join(self.topdir, 'reproducibleB', 'tmp')
++        if os.path.exists(reproducibleB_tmp):
++            bb.utils.remove(reproducibleB_tmp, recurse=True)
+ 
+-        # Perform another build. This build should *not* share sstate or pull
+-        # from any mirrors, but sharing a DL_DIR is fine
+         self.write_config((textwrap.dedent('''\
+             TMPDIR = "%s"
+-            SSTATE_DIR = "${TMPDIR}/sstate"
+-            SSTATE_MIRROR = ""
+-            ''') % reproducible_tmp) + common_config)
+-        vars_test = get_bb_vars(capture_vars)
++            ''') % reproducibleB_tmp) + common_config)
++        vars_B = get_bb_vars(capture_vars)
+         bitbake(' '.join(self.images))
+ 
+-        # NOTE: The temp directory from the reproducible build is purposely
++        # NOTE: The temp directories from the reproducible build are purposely
+         # kept after the build so it can be diffed for debugging.
+ 
+         for c in self.package_classes:
+             with self.subTest(package_class=c):
+                 package_class = 'package_' + c
+ 
+-                deploy_reference = vars_reference['DEPLOY_DIR_' + c.upper()]
+-                deploy_test = vars_test['DEPLOY_DIR_' + c.upper()]
++                deploy_A = vars_A['DEPLOY_DIR_' + c.upper()]
++                deploy_B = vars_B['DEPLOY_DIR_' + c.upper()]
+ 
+-                result = self.compare_packages(deploy_reference, deploy_test, diffutils_sysroot)
++                result = self.compare_packages(deploy_A, deploy_B, diffutils_sysroot)
+ 
+                 self.logger.info('Reproducibility summary for %s: %s' % (c, result))
+ 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.21.0
+
 
