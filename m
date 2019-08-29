@@ -1,52 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B36A67E66A
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 43F0B7E584
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 09:29:50 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id y19so2692599wrd.3
+	Thu, 29 Aug 2019 10:09:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46JyyZ467sz2Y
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 02:29:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=9CgJguwyrRpGY24FD+Bn5qk6Gd3sUmr8+Nket3GXmRk=;
-	b=WyCcXRuYk7zs5X4/zPmNzhPr4/t+5tIyuw1TQMVLMuse6XyyiIFbiZ/EixyknmdItI
-	UOVW6e1fx3FtIRyHnuj+FPgd4waRgiRfHFheI8XUH4m1SKGOVlf9rIEEhUvgrz7sf4mt
-	k/UBrYZUSEFbw69qy07ZzrbCxLmqJMCBECaOU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=9CgJguwyrRpGY24FD+Bn5qk6Gd3sUmr8+Nket3GXmRk=;
-	b=e+6r+lLkvbpm9FG60fOfEjo8QtC3kLXHhsH012N9G2YCLHWIYy1eGJShwwFM7m+Zdb
-	hZeGe13srCF42KRhEiCdx0JdHXfeJp8+Zdq7FrZp3vOb/oFN58ZFpYbvi3Xvxo2jl8og
-	9nwjD6A9vh1FdTcc916ylR4lxBuyaOMt8YfhUfyk9kwg/4Jg79e3yaCCkm1/efQHEzRs
-	9NTaJRzY85sk4mppxltRUGEY63qw7FmIz2LLWJjkhvQ8PtK3Lvm+O4HxUxtshqu68xrT
-	Sj4zm/pAAnxsLofvDhbeROP34M53YxrlMnkJZP2R/LrwBHmIArkDUTRm5TSw1YR3XZj2
-	CbFQ==
-X-Gm-Message-State: APjAAAWjuELf1hy4BcV+Zd/hI85LTnA4muC0flU1soOZURCRaQhu+Xib
-	0PgAom0D3Aj2uRr70hkNMlLMeA==
-X-Google-Smtp-Source: APXvYqzxABOBq3eWAM68fybdlgKeJKGleSKDifrNmhSc7mZhSWlKjIYy4M137OeNgLztXQ+iQTplyg==
-X-Received: by 2002:adf:ed8d:: with SMTP id c13mr10068637wro.106.1567070991384;
-	Thu, 29 Aug 2019 02:29:51 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n12sm2560976wmc.24.2019.08.29.02.29.50
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 29 Aug 2019 02:29:50 -0700 (PDT)
-Message-ID: <28547fae8ada44e4f2383f02bd1d8e0f3ce96b52.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: bruce.ashfield@gmail.com, Jonathan Rajotte
-	<jonathan.rajotte-julien@efficios.com>
-Date: Thu, 29 Aug 2019 10:29:49 +0100
-In-Reply-To: <cover.1565796002.git.bruce.ashfield@gmail.com>
-References: <cover.1565796002.git.bruce.ashfield@gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] kernel-yocto: misc build / config changes
+	Thu, 29 Aug 2019 12:09:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1567073382;
+	bh=y59uvejm5axaHBAI6PRkMST2A4OK3bTVmVU4lRLrN9g=;
+	h=From:To:Subject:Date:From;
+	b=Vl84d66GKKlQBq9jwKgBXnMS5tWDfJqB5RTEiN5+gKhz5dEikO6xOkyHBPvFnYK8W
+	9KXjku2927ZHDCiCjciKI/bQ6R8uiRXGH0rPAl8r/6KI842rUK2jSN2aUe/fgJ8pYd
+	H4aIwProBQ5SP/CKhf5sXe5VWDMauU5Qq2xTxnqBeJsnDZZ01ovkBNmEDQghtyoDDI
+	BKqiCsFwHxzCp9W5gNzn9Y+IR+snm4U52ghNAO+xefCuP+v2yYp86/XVJxrMJ0DZ1T
+	9ZGeKjgkW07nJU/6lY/UgPA0n5GE/j9a8Wqm0vevKspE6vxpdhb/PXa2wfpKLSoMXE
+	2IFZ+YvXHvvtXlqhX8n4zD+2lEdZnYpnurFeYYB5Dxf7r7xoqifetq8KgRWsVTGqPN
+	wpD6Jbi4sLN+7XQ5qkJnrGUHUjvZt4Ybj+PVv4538Sh/9NN/XEZ3JF/VVQp7aqcCEl
+	CXGaqL0uHKoPgk1yAAYrZyptz0UVjGpUoDHvqxjoJjLftoc3nfHRNNa/dlzVFx9r2S
+	DXF7HJxWLLNR74wWYzzP7tGhobyuRyzaPmHR5KDdl5+84dD32gVwexD3T0VkEMwyKy
+	tAQniY96QNUMN8S7z/B3vGrCMapKivyxoa70uBKgHoLlU1YtFi/fEC1C+FKztD5YPK
+	UYKU83XA3UZfC0A3fFRBtpQY=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Aug 2019 13:09:41 +0300
+Message-Id: <20190829100941.12733-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] libxcrypt: Fix the build with -Os
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,84 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 09:29:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Aug 2019 10:09:42 -0000
 
-On Wed, 2019-08-14 at 11:31 -0400, bruce.ashfield@gmail.com wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> 
-> Hi all,
-> 
-> This pull request is a collection of smaller fixes that I've been
-> collecting
-> while I work through the 5.2/5.3 kernel intro, new libc-headers, etc.
-> There's
-> no reason to make them wait while I finish that work, so here they
-> are in a
-> single branch.
-> 
-> There's nothing major here, just a some legwork changes, licensing
-> update
-> and a short term workaround for embedded host paths in the kernel
-> binaries.
+| In file included from ../git/lib/alg-des.c:66:
+| ../git/lib/alg-des.c: In function '_crypt_des_set_key':
+| ../git/lib/byteorder.h:24:1: error: inlining failed in call to 'be32_to_cpu': call is unlikely and code size would grow [-Werror=inline]
+|  be32_to_cpu (const unsigned char *buf)
+|  ^~~~~~~~~~~
+| ../git/lib/alg-des.c:81:13: note: called from here
+|    rawkey1 = be32_to_cpu (&key[4]);
+|              ^~~~~~~~~~~~~~~~~~~~~
 
-There appear to be a few issues with the new headers. ppc looks to have
-particular issues:
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-core/libxcrypt/libxcrypt_4.4.6.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/70/builds/976
-
-eudev:
-
-util.lo ../../../eudev-3.2.8/src/shared/sysctl-util.c
-| ../../../eudev-3.2.8/src/shared/log.c: In function 'create_log_socket':
-| ../../../eudev-3.2.8/src/shared/log.c:123:43: error: 'SO_SNDTIMEO' undeclared (first use in this function); did you mean 'SO_TXTIME'?
-|   123 |         (void) setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
-|       |                                           ^~~~~~~~~~~
-|       |                                           SO_TXTIME
-| ../../../eudev-3.2.8/src/shared/log.c:123:43: note: each undeclared identifier is reported only once for each function it appears in
-
-neard:
-
-../neard-0.16/plugins/p2p.c: In function 'p2p_connect_blocking':
-../neard-0.16/plugins/p2p.c:324:33: error: 'SO_RCVTIMEO' undeclared (first use in this function); did you mean 'SO_RCVTIMEO_OLD'?
-  324 |  if (setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout,
-      |                                 ^~~~~~~~~~~
-      |                                 SO_RCVTIMEO_OLD
-../neard-0.16/plugins/p2p.c:324:33: note: each undeclared identifier is reported only once for each function it appears in
-../neard-0.16/plugins/p2p.c:328:33: error: 'SO_SNDTIMEO' undeclared (first use in this function); did you mean 'SO_TXTIME'?
-  328 |  if (setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout,
-      |                                 ^~~~~~~~~~~
-      |                                 SO_TXTIME
-../neard-0.16/plugins/p2p.c: In function 'p2p_connect':
-../neard-0.16/plugins/p2p.c:555:33: error: 'SO_RCVTIMEO' undeclared (first use in this function); did you mean 'SO_RCVTIMEO_OLD'?
-  555 |  if (setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout,
-      |                                 ^~~~~~~~~~~
-      |                                 SO_RCVTIMEO_OLD
-../neard-0.16/plugins/p2p.c:559:33: error: 'SO_SNDTIMEO' undeclared (first use in this function); did you mean 'SO_TXTIME'?
-  559 |  if (setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout,
-      |                                 ^~~~~~~~~~~
-      |                                 SO_TXTIME
-Makefile:1973: recipe for target 'plugins/src_neard-p2p.o' failed
-make[1]: *** [plugins/src_neard-p2p.o] Error 1
-
-and errors from lttng-ust (cc'd Jonathan).
-
-qemuarm is erroring due to /dev/fb0 disappearing, which is probably kernel?
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/975
-https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/976
-https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/986
-
-and we also have an unintended side effect multilib build failure:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/995
-
-which might be due to changed dependencies, I need to check into that one further.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.6.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.6.bb
+index 893f5e7379..5270e58c2b 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt_4.4.6.bb
++++ b/meta/recipes-core/libxcrypt/libxcrypt_4.4.6.bb
+@@ -26,8 +26,8 @@ FILES_${PN} = "${libdir}/libcrypt*.so.* \
+ S = "${WORKDIR}/git"
+ 
+ BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
+-TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir} -Wno-error=missing-attributes"
+-CPPFLAGS_append_class-nativesdk = " -Wno-error=missing-attributes"
++TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir} -Wno-error"
++CPPFLAGS_append_class-nativesdk = " -Wno-error"
+ 
+ API = "--disable-obsolete-api"
+ EXTRA_OECONF += "${API}"
+-- 
+2.17.1
 
 
