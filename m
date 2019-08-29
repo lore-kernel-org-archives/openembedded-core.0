@@ -1,36 +1,39 @@
-Return-Path: <Daniel.Klauer@gin.de>
-Received: from good-out-30.clustermail.de (good-out-30.clustermail.de
-	[212.223.161.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FBED7D2FD
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D4DA17E468
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 09:05:31 +0000 (UTC)
-Received: from [10.0.0.16] (helo=frontend.clustermail.de)
-	by smtpout-02.clustermail.de with esmtp (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>)
-	id 1i3GMv-00057U-BT; Thu, 29 Aug 2019 11:05:31 +0200
-Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
-	by frontend.clustermail.de with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>)
-	id 1i3GMv-0001qi-9Y; Thu, 29 Aug 2019 11:05:25 +0200
-Received: from [10.160.138.39] (10.160.138.39) by Win2012-02.gin-domain.local
-	(192.168.1.12) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Thu, 29 Aug 2019 11:05:24 +0200
-References: <e90a6dec179ce0b8d20b6181b724df5ff6351da4.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-From: Daniel Klauer <daniel.klauer@gin.de>
-Message-ID: <a43ec955-3565-0db1-baa5-0f7f268c8a0b@gin.de>
-Date: Thu, 29 Aug 2019 11:05:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Thu, 29 Aug 2019 09:17:06 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Aug 2019 02:17:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,442,1559545200"; d="scan'208";a="356395540"
+Received: from pgsmsx103.gar.corp.intel.com ([10.221.44.82])
+	by orsmga005.jf.intel.com with ESMTP; 29 Aug 2019 02:17:06 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.232]) by
+	PGSMSX103.gar.corp.intel.com ([169.254.2.25]) with mapi id
+	14.03.0439.000; Thu, 29 Aug 2019 17:17:03 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
+	"akuster808@gmail.com" <akuster808@gmail.com>
+Thread-Topic: [OE-core] [PATCH 1/5] kernel-devsrc: tweak for v5.3+
+Thread-Index: AQHVUrVw/zgdwcBqJ0WG3yKphxMuUqcRaYEA
+Date: Thu, 29 Aug 2019 09:17:02 +0000
+Message-ID: <b132395fc39af7592af4a4d1c5d8bc25ccf7a31a.camel@intel.com>
+References: <cover.1565796002.git.bruce.ashfield@gmail.com>
+	<3a3fd8a7128901ab5fff8de55b789ecd3b633cc6.1565796002.git.bruce.ashfield@gmail.com>
+In-Reply-To: <3a3fd8a7128901ab5fff8de55b789ecd3b633cc6.1565796002.git.bruce.ashfield@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.162.95]
 MIME-Version: 1.0
-In-Reply-To: <e90a6dec179ce0b8d20b6181b724df5ff6351da4.camel@linuxfoundation.org>
-X-Originating-IP: [10.160.138.39]
-X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
-	Win2012-02.gin-domain.local (192.168.1.12)
-Cc: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] uboot-sign: Refactor do_deploy prefunc to do_deploy_prepend
+Subject: Re: [PATCH 1/5] kernel-devsrc: tweak for v5.3+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,35 +46,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 09:05:31 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 29 Aug 2019 09:17:06 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <988AE2E38DBC2D4FB8CC7FE7FD95C1C1@intel.com>
+Content-Transfer-Encoding: base64
 
-> That commit message isn't correct.
->
-> It removes cleandirs for the prefunc at the start of the prefunc and
-> cleandirs for the main function at the start of that main function.
-
-Oh ok, so the prefuncs/postfuncs can have their own [cleandirs], that's
-interesting.
-
-How about the following (trying to find a good way to explain it):
-
------
-When inherited by the u-boot recipe (UBOOT_PN), uboot-sign.bbclass adds
-a concat_dtb step, which places additional files into ${DEPLOYDIR}
-before do_deploy.
-
-The use of prefuncs for this prevents us from adding
-  do_deploy[cleandirs] = "${DEPLOYDIR}"
-because that would remove the files produced by the prefunc.
-(Each of prefuncs/task/postfuncs functions has their own cleandirs, and
-each function's cleandirs are removed at the start of that function.)
-
-Thus, it seems good to make concat_dtb a part of do_deploy, such that it
-runs after removal of do_deploy's cleandirs. As before, care is taken to
-not interfere with the kernel's do_deploy definition, since concat_dtb
-was only needed for u-boot.
------
+T24gV2VkLCAyMDE5LTA4LTE0IGF0IDExOjMxIC0wNDAwLCBicnVjZS5hc2hmaWVsZEBnbWFpbC5j
+b20gd3JvdGU6DQo+IEZyb206IEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVsZEBnbWFpbC5j
+b20+DQo+IA0KPiBUaGUgNS4zIGtlcm5lbCBoYXMgdHdvIGNoYW5nZXMgdGhhdCByZXF1aXJlIHR3
+ZWFrcyB0byB0aGUgbWluaW1hbA0KPiBrZXJuZWwtZGV2c3JjIHBhY2thZ2UuDQo+IA0KPiAtIDRj
+ZTk3MzE3ZiBbeDg2L3B1cmdhdG9yeTogRG8gbm90IHVzZSBfX2J1aWx0aW5fbWVtY3B5IGFuZA0K
+PiBfX2J1aWx0aW5fbWVtc2V0XQ0KPiANCj4gICBUaGlzIGNoYW5nZSByZW1vdmVzIHRoZSBuZWVk
+IGZvciBhcmNoL3g4Ni9wdXJnYXRvcnkvc3RyaW5nLmMgYW5kDQo+ICAgaW5zdGVhZCByZXVzZXMg
+YSBjb3B5IGluIGFyY2gveDg2L2Jvb3QvY29tcHJlc3NlZC8sIHNvIHdlIGNhbid0DQo+IGNvcHkN
+Cj4gICB0aGUgZmlsZSBhbnltb3JlLiBUbyBzdXBwb3J0IG9sZGVyIGtlcm5lbHMsIHdlIG1ha2Ug
+dGhlIGNvcHkNCj4gc3Vydml2ZQ0KPiAgIHRoZSBub24tZXhpc3RlbmNlIG9mIHRoZSBmaWxlLg0K
+PiANCg0KVGhpcyBjaGFuZ2Ugd2FzIG1lcmdlZCBpbiA0LjE5IHN0YWJsZSBrZXJuZWwgYXMgd2Vs
+bC4gQ2FuIHRoaXMgYmUNCm1lcmdlZCBpbiBvdXIgc3RhYmxlIGJyYW5jaGVzIGFzIHdlbGwgcGxl
+YXNlPw0KDQpodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9z
+dGFibGUvbGludXguZ2l0L2NvbW1pdC8/aD1saW51eC00LjE5LnkmaWQ9ZTBkMjYyYTU3ZmM3NDFh
+OWIzNjJlNDU4YzcxNGUzN2E3N2RkYjYyZA0KDQpUaGFua3MsDQoNCkFudWoNCg==
 
