@@ -1,44 +1,46 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
-	[209.85.221.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2857D7F2A2
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 592E97F2A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 12:39:03 +0000 (UTC)
-Received: by mail-vk1-f196.google.com with SMTP id b184so745507vkh.2
+	Thu, 29 Aug 2019 12:41:53 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id x3so2885899lji.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 05:39:04 -0700 (PDT)
+	Thu, 29 Aug 2019 05:41:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PO+DpkLFSEmKGbdl+QbxIzB+nYYo6tXAPiR6S+bMs+o=;
-	b=nhJk62PkyNLyAN2W4/MgUFuaoTZG+VT1mWVqRRznHAKAZYNY2YA2jqa8WJzdvRJQmJ
-	3bgSqpiWgFqDg7vzyX5yKT+RP4TycfBULBS2bFXYDLfd2530M4JOc4E6i3IjxuD+BP8n
-	4H0F/aqCJS4qNJ7t8QWrnmp5XMUCDpmg3KFufhSse5kRQTt+QDwCkewKaikjjldeLhu3
-	whXJv+o5gBZnTNRAO8QIQklJjj/QysoGWHXWUJZXFxKZL4WaOp8DVoRjQX+IKB14uIoz
-	yMn99gqbHLwaMJiRA01j5FRMvU/CV2Sh4JzditFo1zxbdpvmlMyUYgjIDbNRu5Of3Y5a
-	IQcA==
+	:cc; bh=LxjByv6LzIbD5vzOifvhOQCSnuNXRIldlnj2H9CQRD4=;
+	b=WrPOk1ZbmE5uCdqKN16qgXMX/vq610BWcpcthCAHNh5pxBspf/WEFdwHu3PlO7ZU19
+	5mIVnnYdWk95OH26pmHey2YO+t7yHKqb9tSESAExR2mCncUTtu4SJ7JzSSKcURkKCdUI
+	5Ws0IEmQ87W5mgnxXXcuK2MOUzX85jvjp7IDvaonOAYa0yGGFkD4t8Xe3qGEBeCXGtJk
+	bABwUH3309ELHvmZnlwQyeh9BMcVylzVk7B13YngMOchzF+0UDwLrEMCKIdDUWWflFQf
+	7DbpZa7BamqRtT8JQCc6R/lh9hAqKxeO9woET9tb4ZteQH0PCKSuHnq+mW291ah6zIFG
+	zRtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=PO+DpkLFSEmKGbdl+QbxIzB+nYYo6tXAPiR6S+bMs+o=;
-	b=SDzDdIJSaAPhfTM3bExv2ARlsFt2yG+qCUpA7BKxTbQY1O+OYYqnzl5vOmBnvxMoFO
-	xNKvcbQwnbKFYxgbkRM27BeGgoSI5CRazDAUTS0LxhnXDWNmIwcA2HohpK+EKYYWLbSk
-	CgreS6Xdx8lxJkMaqXiDovwYCqKZ3YiHbylrdE2I2CSlgE8TFylY6lpy6fnq3xLHX3Ox
-	RN358COsb3i3h+U68ACaqXgmqaWy1t6kSBkJ+Wajr0lGeSFiE+R62VN2vYLha/5+y9AP
-	/MzmF8HPS++8uObONcg1ckbFhVZrH33uu1GxvSJy5YTAflRh1slmKyVTEQbFUcH2Dd6r
-	DFTg==
-X-Gm-Message-State: APjAAAUpQxa3dRLg+DA4W7ZgHdI3B8SWjPrVCpPtkSuLcef5MiWGSBmY
-	rbFC4bd4fpZFvTX3K2tJpBJXFIzKP3ikCb9miTo=
-X-Google-Smtp-Source: APXvYqyY5O6890pIdJphzeQAOtu0n367HR+JaUPHa8FGhTuSZgb8xZp2Vh4p1kxv9N18M4JC5bUAVa0rWsF8P7Rx/s4=
-X-Received: by 2002:ac5:c290:: with SMTP id h16mr4946695vkk.59.1567082343955; 
-	Thu, 29 Aug 2019 05:39:03 -0700 (PDT)
+	bh=LxjByv6LzIbD5vzOifvhOQCSnuNXRIldlnj2H9CQRD4=;
+	b=l/v+pU8/4YVsxdsQU7QPHN+bBhhO9fK1VnLR79HdcyGW6kGx/BCvv1lWe3jocg4B1T
+	frl0CXBGXhBqW/8BHqrrhWCfnOCF7R68qipv4ESrleNUT2wWq584MYiDD56wk3AFDlj2
+	nHeaKqlhZZFgQyJf0hl9CuUbYKcCLZeM0B9uijZ8X8Tl65IkD3B5d+ALIYHa3rAhBLSo
+	Rq0poKItXXpetRQ8f4t2bNUPU0GzZbh4bjattUfnAVGHzI/mz6vY1OiDsV9K1CkOplVb
+	qdIeNtyZg6Wa/REPErLFX3hB7y6fOdO6taRcJ75GcikuTECiUEy2m63SBZAxMTKMAshK
+	Ning==
+X-Gm-Message-State: APjAAAX3HK0b8Ljx+qpC5Tyu2akdRfZBhodS6S8yYVCuByW4RI7MDpRb
+	wG2vy7oocCSeSuaDxvk8MLdowojrkoltqmrZb9Y=
+X-Google-Smtp-Source: APXvYqz/gGqSVoMI35GpwOgZGhJXFUV/UsBPsyimBT16f7e6FansXSXbyZcFkhwnJNypJmjg2Pbm8i+/uq7dOQvOAUQ=
+X-Received: by 2002:a05:651c:1111:: with SMTP id
+	d17mr5135038ljo.87.1567082513818; 
+	Thu, 29 Aug 2019 05:41:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190828201025.35999-1-bruce.ashfield@gmail.com>
-In-Reply-To: <20190828201025.35999-1-bruce.ashfield@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 29 Aug 2019 14:38:52 +0200
-Message-ID: <CANNYZj-tU58835fwd0+YXMY=nfjo-AqbU+M4MCA=odJMm2+xKA@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+	<CANNYZj-tU58835fwd0+YXMY=nfjo-AqbU+M4MCA=odJMm2+xKA@mail.gmail.com>
+In-Reply-To: <CANNYZj-tU58835fwd0+YXMY=nfjo-AqbU+M4MCA=odJMm2+xKA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 29 Aug 2019 08:41:42 -0400
+Message-ID: <CADkTA4PmwZ_Vb4SKn_aBKhZkjj=vp72O+WgRVmq5h+kL8FZ0yw@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] linux-yocto: introduce 5.2 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,46 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 12:39:03 -0000
-Content-Type: multipart/alternative; boundary="000000000000720143059140caa0"
-
---000000000000720143059140caa0
+X-List-Received-Date: Thu, 29 Aug 2019 12:41:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 28 Aug 2019 at 22:10, <bruce.ashfield@gmail.com> wrote:
-
-> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
-> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+On Thu, Aug 29, 2019 at 8:39 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
+> On Wed, 28 Aug 2019 at 22:10, <bruce.ashfield@gmail.com> wrote:
+>>
+>> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+>> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>
+>
+> The new kernels are missing the drm-bochs tweaks done recently to previous kernels:
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master&id=0e0589f81a66f92519e1fbb0d0ab6db22e0e591e
+>
+> Perhaps we should put them into a common include?
 
-The new kernels are missing the drm-bochs tweaks done recently to previous
-kernels:
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master&id=0e0589f81a66f92519e1fbb0d0ab6db22e0e591e
+We could, but I just made my new recipes and completely forgot (human
+error). That was the only window that it could happen and there's no
+way it would happen again.
 
-Perhaps we should put them into a common include?
+Thanks for pointing that out, I'll update the recipes and send them
+out with my next version. After everything settled, I can look into
+moving them to a feature include.
 
-Alex
+Bruce
 
---000000000000720143059140caa0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>
+> Alex
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 28 Aug 2019 at 22:10, &lt;<a href=
-=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt; wrote=
-:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">+KERNEL_FEATURES_append_qemuall=3D&quot; cfg/virtio.scc&quot;<=
-br>
-+KERNEL_FEATURES_append_qemux86=3D&quot; cfg/sound.scc cfg/paravirt_kvm.scc=
-&quot;<br>
-+KERNEL_FEATURES_append_qemux86-64=3D&quot; cfg/sound.scc cfg/paravirt_kvm.=
-scc&quot;<br></blockquote><div><br></div><div>The new kernels are missing t=
-he drm-bochs tweaks done recently to previous kernels:</div><a href=3D"http=
-://git.yoctoproject.org/cgit.cgi/poky/commit/?h=3Dmaster&amp;id=3D0e0589f81=
-a66f92519e1fbb0d0ab6db22e0e591e">http://git.yoctoproject.org/cgit.cgi/poky/=
-commit/?h=3Dmaster&amp;id=3D0e0589f81a66f92519e1fbb0d0ab6db22e0e591e</a></d=
-iv><div class=3D"gmail_quote"><br><div>Perhaps we should put them into a co=
-mmon include?</div><div><br></div><div>Alex<br></div></div></div>
 
---000000000000720143059140caa0--
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
