@@ -1,54 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E3F5C7F2ED
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 537807ED62
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 13:00:59 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id t9so3764136wmi.5
+	Thu, 29 Aug 2019 13:15:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7TDFq9R019604
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 06:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=PksmBxm6Sk/BGJTWRkP34nvt2eaiV9NhwECzhkwz4xw=;
-	b=Fh06Eg764fMOOu/YbCdcQF9WXko3XdW5p+1PS/fY1ZNOZKA0X/rZ58DwXxHLEUI7gR
-	o/YSEk+POZcmEVPOuEBCa5vMSxH+sbB8qnTvUFGjHP5W/7bXDLf3WRC0MyCS0FbDAlaM
-	jSXsii6CNLvKPme1DHeXjxQA3SWd9D6YdAbeE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=PksmBxm6Sk/BGJTWRkP34nvt2eaiV9NhwECzhkwz4xw=;
-	b=ldjlcZxPVwXFMfqxgYhAwp5rJz6/SphioU6fH7POPG4834DqOB8LKV/OOM6HAKMr4p
-	7x+u0Omok6ozqKJo1UjyIGl0KwykeibcDfZVyH6EEgasZDW/zzVw9WnnW0X8xD2j3yVh
-	J0t+08N100FTfo+zS4Q2yBWVKxc9cWOH2ybxCPxLSG/rnrjKmjhMuI5G9T1u9dJshLbW
-	DyX+F3K29vbn13FpMVAPZc+jGJ2b8QovfI5cEYXJi1WopnT5YlUGo3/T0qFhSi6QP7JY
-	dnhjQsIOkXFB3P1RUg/mXuEwwepCZHW7JRVo+nfvTanl1T0wGpxbaj2xBIE8vXde6LG2
-	9oUw==
-X-Gm-Message-State: APjAAAVRaLGSFllgN51KHezHMZxHYTf6x1x34Ikbb6yVRatqpLGzFRnM
-	UILSMKMvrxjCBHrv+9lEFuQXkw==
-X-Google-Smtp-Source: APXvYqw4lxLayyIOTtYSKzqiIFfmcdiUSoFXrKe/o/HLSTm3QkI68RuMGTM6b/9TITl28yNJhaCMHw==
-X-Received: by 2002:a05:600c:2111:: with SMTP id
-	u17mr12034999wml.64.1567083660487; 
-	Thu, 29 Aug 2019 06:01:00 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r190sm3533609wmf.0.2019.08.29.06.00.59
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 29 Aug 2019 06:00:59 -0700 (PDT)
-Message-ID: <8d8cedd858a086ac4ab39f59e4a7b479b2337de9.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Daniel Klauer <daniel.klauer@gin.de>
-Date: Thu, 29 Aug 2019 14:00:58 +0100
-In-Reply-To: <a43ec955-3565-0db1-baa5-0f7f268c8a0b@gin.de>
-References: <e90a6dec179ce0b8d20b6181b724df5ff6351da4.camel@linuxfoundation.org>
-	<a43ec955-3565-0db1-baa5-0f7f268c8a0b@gin.de>
-User-Agent: Evolution 3.32.2-1 
+	Thu, 29 Aug 2019 06:15:52 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 29 Aug 2019 06:15:52 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Aug 2019 21:15:49 +0800
+Message-ID: <1567084550-93704-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] uboot-sign: Refactor do_deploy prefunc to do_deploy_prepend
+Subject: [PATCH 1/2] qemu: Add pkg-config handling for libgcrypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,44 +30,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 13:01:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 29 Aug 2019 13:15:51 -0000
+Content-Type: text/plain
 
-On Thu, 2019-08-29 at 11:05 +0200, Daniel Klauer wrote:
-> > That commit message isn't correct.
-> > 
-> > It removes cleandirs for the prefunc at the start of the prefunc and
-> > cleandirs for the main function at the start of that main function.
-> 
-> Oh ok, so the prefuncs/postfuncs can have their own [cleandirs], that's
-> interesting.
-> 
-> How about the following (trying to find a good way to explain it):
+From: He Zhe <zhe.he@windriver.com>
 
-Yes, that sounds fine. The bit in brackets probably isn't needed.
+When PACKAGECONFIG libgcrypt is enabled, we would get the following error.
 
-Cheers,
+ERROR: /usr/bin/libgcrypt-config should not be used, use an alternative such as pkg-config
 
-Richard
+In oe-core, libgcrypt has been turned to be configured with pkg-config instead
+of libgcrypt-config, but qemu configure script does not contain pkg-config
+related part for libgcrypt to handle it.
 
-> 
-> -----
-> When inherited by the u-boot recipe (UBOOT_PN), uboot-sign.bbclass adds
-> a concat_dtb step, which places additional files into ${DEPLOYDIR}
-> before do_deploy.
-> 
-> The use of prefuncs for this prevents us from adding
->   do_deploy[cleandirs] = "${DEPLOYDIR}"
-> because that would remove the files produced by the prefunc.
-> (Each of prefuncs/task/postfuncs functions has their own cleandirs, and
-> each function's cleandirs are removed at the start of that function.)
-> 
-> Thus, it seems good to make concat_dtb a part of do_deploy, such that it
-> runs after removal of do_deploy's cleandirs. As before, care is taken to
-> not interfere with the kernel's do_deploy definition, since concat_dtb
-> was only needed for u-boot.
-> -----
-> 
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc                |  1 +
+ ...ure-Add-pkg-config-handling-for-libgcrypt.patch | 93 ++++++++++++++++++++++
+ 2 files changed, 94 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0010-configure-Add-pkg-config-handling-for-libgcrypt.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index d2dd2bc..3eeba6e 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -22,6 +22,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0007-apic-fixup-fallthrough-to-PIC.patch \
+            file://0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
+            file://0009-Fix-webkitgtk-builds.patch \
++           file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/0010-configure-Add-pkg-config-handling-for-libgcrypt.patch b/meta/recipes-devtools/qemu/qemu/0010-configure-Add-pkg-config-handling-for-libgcrypt.patch
+new file mode 100644
+index 0000000..a8ab7da
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0010-configure-Add-pkg-config-handling-for-libgcrypt.patch
+@@ -0,0 +1,93 @@
++From 5214dd4461f2090ef0965b4d2518f49927d61cbc Mon Sep 17 00:00:00 2001
++From: He Zhe <zhe.he@windriver.com>
++Date: Wed, 28 Aug 2019 19:56:28 +0800
++Subject: [Qemu-devel] [PATCH] configure: Add pkg-config handling for libgcrypt
++
++libgcrypt may also be controlled by pkg-config, this patch adds pkg-config
++handling for libgcrypt.
++
++Upstream-Status: Denied [https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg06333.html]
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ configure | 48 ++++++++++++++++++++++++++++++++++++++++--------
++ 1 file changed, 40 insertions(+), 8 deletions(-)
++
++diff --git a/configure b/configure
++index e44e454..0f362a7 100755
++--- a/configure
+++++ b/configure
++@@ -2875,6 +2875,30 @@ has_libgcrypt() {
++     return 0
++ }
++ 
+++has_libgcrypt_pkgconfig() {
+++    if ! has $pkg_config ; then
+++        return 1
+++    fi
+++
+++    if ! $pkg_config --list-all | grep libgcrypt > /dev/null 2>&1 ; then
+++        return 1
+++    fi
+++
+++    if test -n "$cross_prefix" ; then
+++        host=$($pkg_config --variable=host libgcrypt)
+++        if test "${host%-gnu}-" != "${cross_prefix%-gnu}" ; then
+++            print_error "host($host) does not match cross_prefix($cross_prefix)"
+++            return 1
+++        fi
+++    fi
+++
+++    if ! $pkg_config --atleast-version=1.5.0 libgcrypt ; then
+++        print_error "libgcrypt version is $($pkg_config --modversion libgcrypt)"
+++        return 1
+++    fi
+++
+++    return 0
+++}
++ 
++ if test "$nettle" != "no"; then
++     pass="no"
++@@ -2902,7 +2926,14 @@ fi
++ 
++ if test "$gcrypt" != "no"; then
++     pass="no"
++-    if has_libgcrypt; then
+++    if has_libgcrypt_pkgconfig; then
+++        gcrypt_cflags=$($pkg_config --cflags libgcrypt)
+++        if test "$static" = "yes" ; then
+++            gcrypt_libs=$($pkg_config --libs --static libgcrypt)
+++        else
+++            gcrypt_libs=$($pkg_config --libs libgcrypt)
+++        fi
+++    elif has_libgcrypt; then
++         gcrypt_cflags=$(libgcrypt-config --cflags)
++         gcrypt_libs=$(libgcrypt-config --libs)
++         # Debian has removed -lgpg-error from libgcrypt-config
++@@ -2912,15 +2943,16 @@ if test "$gcrypt" != "no"; then
++         then
++             gcrypt_libs="$gcrypt_libs -lgpg-error"
++         fi
+++    fi
++ 
++-        # Link test to make sure the given libraries work (e.g for static).
++-        write_c_skeleton
++-        if compile_prog "" "$gcrypt_libs" ; then
++-            LIBS="$gcrypt_libs $LIBS"
++-            QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
++-            pass="yes"
++-        fi
+++    # Link test to make sure the given libraries work (e.g for static).
+++    write_c_skeleton
+++    if compile_prog "" "$gcrypt_libs" ; then
+++	    LIBS="$gcrypt_libs $LIBS"
+++	    QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
+++	    pass="yes"
++     fi
+++
++     if test "$pass" = "yes"; then
++         gcrypt="yes"
++         cat > $TMPC << EOF
++-- 
++2.7.4
++
+-- 
+2.7.4
 
 
