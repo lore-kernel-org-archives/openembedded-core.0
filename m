@@ -1,51 +1,33 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
-	[209.85.166.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A50D57F333
+Return-Path: <Daniel.Klauer@gin.de>
+Received: from good-out-33.clustermail.de (good-out-33.clustermail.de
+	[212.223.166.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 359057F333
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 15:31:20 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id n197so5765694iod.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 08:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=dU/QHQ+gt4/9zMv4PbPHtbjrqLxpEmjTf67sV5nnXf4=;
-	b=KvWGtQb6l0ed68QGHnbOSJ1WdrhG3ZpqMlCG6Af8VBz5evmaP80poeuwe/XkoSnSWL
-	wzmzI2MmLhUV/mM7m5g9PWyImPGnL84jZ+FH+wFeILsikoElREp8Xjwa1Rk+htLWn9JI
-	Iue3wjhptmaXejiU2iTHrjUdrimX83YCKf6Cgis4+k19i29TObnQnAmzolmuuEXm82tl
-	DLjqLgmPFoaOeY68p/g93XtiyIBVgaCEU6Tln4ZFllWP/b3QkPf2Ep52U7xEzhaNf3oE
-	9OGFGTmZisyX9BlB82MB9mUzO+7p/tZvBBX9+xCQuGE+qRX8r4FqcJywy+NI8ATRXeKh
-	gqQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=dU/QHQ+gt4/9zMv4PbPHtbjrqLxpEmjTf67sV5nnXf4=;
-	b=YnjPucKdUbc/Oujfm79q3DUuqwds1TtZOAbbTpYoDUYebc8sRx8HsJ62lMWXzVinG/
-	reW/UnbB/5wFLTMeUPGYGlRST3J/uGI+ajSyM82QjAEBPzPDJlAVmUIl3A3HnDmAg0En
-	xMktlBaeCQnpQan7mJq+uRYotk9VIwqcKhq6PGog9HkXQlTpApveBNsKQn2aEHC0IGqE
-	AAB4KJVsF25cvskbKby+k0fdzDuqK15YvR0gC6/zIw4VuZu/3y9q559sH0YNdMgzvLWG
-	zv0TAXyI7j2KE/lJFLgpU7flVkuPKTsFHgu/zQnwZtard3Dv/eYE278wxr8ZCNbZhU2P
-	5Avw==
-X-Gm-Message-State: APjAAAXVKOLW+BZ8dP1AB03ZftCqSttKZ7vGJCXxqxIhHAtJFRURokiC
-	Nb7+2fKceXAv+yykVd4YKMaSKFc0
-X-Google-Smtp-Source: APXvYqwD/L0wp+j7LTaEH3gsZvYikS915iDbCWDSKK53FVWyNqzqW/pl4vxE/sGtflwN/lQ8HeyPyQ==
-X-Received: by 2002:a5d:9746:: with SMTP id c6mr10540544ioo.235.1567092681322; 
-	Thu, 29 Aug 2019 08:31:21 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	n22sm3531892iob.37.2019.08.29.08.31.20
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 29 Aug 2019 08:31:20 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2019 10:31:06 -0500
-Message-Id: <20190829153106.21571-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Thu, 29 Aug 2019 15:32:20 +0000 (UTC)
+Received: from [10.0.0.1] (helo=frontend.clustermail.de)
+	by smtpout-03.clustermail.de with esmtp (Exim 4.92)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1i3MPH-0003g3-5S; Thu, 29 Aug 2019 17:32:20 +0200
+Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
+	by frontend.clustermail.de with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
+	(envelope-from <Daniel.Klauer@gin.de>)
+	id 1i3MPH-0004JR-3B; Thu, 29 Aug 2019 17:32:15 +0200
+Received: from daniel-desktop.gin-domain.local (10.160.138.39) by
+	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Thu, 29 Aug 2019 17:32:14 +0200
+From: Daniel Klauer <daniel.klauer@gin.de>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Aug 2019 17:31:33 +0200
+Message-ID: <20190829153133.29702-1-daniel.klauer@gin.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <8d8cedd858a086ac4ab39f59e4a7b479b2337de9.camel@linuxfoundation.org>
+References: <8d8cedd858a086ac4ab39f59e4a7b479b2337de9.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH] oeqa: reproducible: Do two clean builds
+X-Originating-IP: [10.160.138.39]
+X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
+	Win2012-02.gin-domain.local (192.168.1.12)
+Subject: [PATCH v2 1/2] uboot-sign: Refactor do_deploy prefunc to do_deploy_prepend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,99 +40,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 15:31:20 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 29 Aug 2019 15:32:20 -0000
+Content-Type: text/plain
 
-Perform two clean builds without sstate instead of one partial rebuild
-with sstate and one clean build without. There are some classes of
-reproducibility issues that this solves, and while we would like to
-resolve them in the long term the direction to do so is not currently
-clear.
+When inherited by the u-boot recipe (UBOOT_PN), uboot-sign.bbclass adds
+a concat_dtb step, which places additional files into ${DEPLOYDIR}
+before do_deploy.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+The use of prefuncs for this prevents us from adding
+  do_deploy[cleandirs] = "${DEPLOYDIR}"
+because that would remove the files produced by the prefunc.
+
+Thus, it seems good to make concat_dtb a part of do_deploy, such that it
+runs after removal of do_deploy's cleandirs. As before, care is taken to
+not interfere with the kernel's do_deploy definition, since concat_dtb
+was only needed for u-boot.
+
+I tested this with poky, putting the following in local.conf:
+  UBOOT_SIGN_ENABLE = "1"
+  KERNEL_CLASSES = " kernel-fitimage "
+  KERNEL_IMAGETYPE = "fitImage"
+and then doing
+  bitbake core-image-minimal
+  bitbake u-boot
+It built successfully and concat_dtb was still called.
+
+Signed-off-by: Daniel Klauer <daniel.klauer@gin.de>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 48 ++++++++++++--------
- 1 file changed, 28 insertions(+), 20 deletions(-)
+ meta/classes/uboot-sign.bbclass | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index c6cc0b7d0eb..b3bbb70158b 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -123,45 +123,53 @@ class ReproducibleTests(OESelftestTestCase):
-     def test_reproducible_builds(self):
-         capture_vars = ['DEPLOY_DIR_' + c.upper() for c in self.package_classes]
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 982ed46d01..713196df41 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -117,15 +117,16 @@ do_install_append() {
+ 	fi
+ }
  
-+        # Build native utilities
-+        self.write_config('')
-+        bitbake("diffutils-native -c addto_recipe_sysroot")
-+        diffutils_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "diffutils-native")
++do_deploy_prepend_pn-${UBOOT_PN}() {
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a -n "${UBOOT_DTB_BINARY}" ]; then
++		concat_dtb
++	fi
++}
 +
-+        # Reproducible builds should not pull from sstate or mirrors, but
-+        # sharing DL_DIR is fine
-         common_config = textwrap.dedent('''\
-             INHERIT += "reproducible_build"
-             PACKAGE_CLASSES = "%s"
-+            SSTATE_DIR = "${TMPDIR}/sstate"
-+            SSTATE_MIRROR = ""
-             ''') % (' '.join('package_%s' % c for c in self.package_classes))
+ python () {
+     if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') == d.getVar('UBOOT_PN') and d.getVar('UBOOT_DTB_BINARY'):
+         kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
  
--        # Do an initial build. It's acceptable for this build to use sstate
--        self.write_config(common_config)
--        vars_reference = get_bb_vars(capture_vars)
--        bitbake(' '.join(self.images))
-+        # Perform a build.
-+        reproducibleA_tmp = os.path.join(self.topdir, 'reproducibleA', 'tmp')
-+        if os.path.exists(reproducibleA_tmp):
-+            bb.utils.remove(reproducibleA_tmp, recurse=True)
- 
--        # Build native utilities
--        bitbake("diffutils-native -c addto_recipe_sysroot")
--        diffutils_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "diffutils-native")
-+        self.write_config((textwrap.dedent('''\
-+            TMPDIR = "%s"
-+            ''') % reproducibleA_tmp) + common_config)
-+        vars_A = get_bb_vars(capture_vars)
-+        bitbake(' '.join(self.images))
- 
--        reproducible_tmp = os.path.join(self.topdir, 'reproducible', 'tmp')
--        if os.path.exists(reproducible_tmp):
--            bb.utils.remove(reproducible_tmp, recurse=True)
-+        # Perform another build.
-+        reproducibleB_tmp = os.path.join(self.topdir, 'reproducibleB', 'tmp')
-+        if os.path.exists(reproducibleB_tmp):
-+            bb.utils.remove(reproducibleB_tmp, recurse=True)
- 
--        # Perform another build. This build should *not* share sstate or pull
--        # from any mirrors, but sharing a DL_DIR is fine
-         self.write_config((textwrap.dedent('''\
-             TMPDIR = "%s"
--            SSTATE_DIR = "${TMPDIR}/sstate"
--            SSTATE_MIRROR = ""
--            ''') % reproducible_tmp) + common_config)
--        vars_test = get_bb_vars(capture_vars)
-+            ''') % reproducibleB_tmp) + common_config)
-+        vars_B = get_bb_vars(capture_vars)
-         bitbake(' '.join(self.images))
- 
--        # NOTE: The temp directory from the reproducible build is purposely
-+        # NOTE: The temp directories from the reproducible build are purposely
-         # kept after the build so it can be diffed for debugging.
- 
-         for c in self.package_classes:
-             with self.subTest(package_class=c):
-                 package_class = 'package_' + c
- 
--                deploy_reference = vars_reference['DEPLOY_DIR_' + c.upper()]
--                deploy_test = vars_test['DEPLOY_DIR_' + c.upper()]
-+                deploy_A = vars_A['DEPLOY_DIR_' + c.upper()]
-+                deploy_B = vars_B['DEPLOY_DIR_' + c.upper()]
- 
--                result = self.compare_packages(deploy_reference, deploy_test, diffutils_sysroot)
-+                result = self.compare_packages(deploy_A, deploy_B, diffutils_sysroot)
- 
-                 self.logger.info('Reproducibility summary for %s: %s' % (c, result))
- 
+         # Make "bitbake u-boot -cdeploy" deploys the signed u-boot.dtb
+         d.appendVarFlag('do_deploy', 'depends', ' %s:do_deploy' % kernel_pn)
+-
+-        # kernerl's do_deploy is a litle special, so we can't use
+-        # do_deploy_append, otherwise it would override
+-        # kernel_do_deploy.
+-        d.appendVarFlag('do_deploy', 'prefuncs', ' concat_dtb')
+ }
 -- 
-2.21.0
+2.17.1
 
 
