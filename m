@@ -1,55 +1,54 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
-	[209.85.221.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 100B47F2ED
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E3F5C7F2ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 13:00:27 +0000 (UTC)
-Received: by mail-vk1-f195.google.com with SMTP id h192so760104vka.1
+	Thu, 29 Aug 2019 13:00:59 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id t9so3764136wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 06:00:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+mL51l59ikePlb6HUwDnrIiAcCFx5paiy7GJozxrDEU=;
-	b=XgkWIdDCWaeuE1QI7QpnVOog4o1AEPyNhN6FZ33Ykh+jwvtJG2B5D5718w/QChIrpn
-	MerKmFikAm5DoiOUj88dBS4Po/gYYaJ2EQBiC8s1zr0barEwcqptjWCECidVCDegV0CZ
-	yW98eqPGqLdL/b+1hjkeBhXJmzwWYrbHZxeGyRHlwtSvReWu4XRzZPUBleNYBSu/ozfv
-	e3POnSL5w2xJBuqztJcMpjKAeLHAqCEcvlaiSk2HtmnhgUNNbvYtOapXoNJrk6M1ycDg
-	f5PFBmgbkVzEMgZvmkiqFbEPRA4mugso+2TKop0Dd14gI1e3paFCcAD2skAV7AH2jMTi
-	isvw==
+	Thu, 29 Aug 2019 06:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=PksmBxm6Sk/BGJTWRkP34nvt2eaiV9NhwECzhkwz4xw=;
+	b=Fh06Eg764fMOOu/YbCdcQF9WXko3XdW5p+1PS/fY1ZNOZKA0X/rZ58DwXxHLEUI7gR
+	o/YSEk+POZcmEVPOuEBCa5vMSxH+sbB8qnTvUFGjHP5W/7bXDLf3WRC0MyCS0FbDAlaM
+	jSXsii6CNLvKPme1DHeXjxQA3SWd9D6YdAbeE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=+mL51l59ikePlb6HUwDnrIiAcCFx5paiy7GJozxrDEU=;
-	b=WR+L2AsQd2e7W/C7mb02TLyQxQWKf69Ha4DZaHFFyW7dqYTThO07df/F1a2gkAK3cy
-	SWqOjpOJ9vfX5KMbvUdbYuj039JmlA6N4snnmpkdKipgspebRPUhPsxiHTPbv3wr+ekr
-	J+WhZauxzx0e8X3d/qso3zcMcEDbpPvhSFl4L4Wozh4Ac5Gr9qBRGJeILRGj10fpz8oh
-	rx1eIXrOZrQo89wCbkSbWokIFMdzzr0yq974oDS+X1p+XRPcVGtXG4koPcK8wCPJqf+y
-	6VtY1zsha1CcvclPwT3e/K3buhPNiwRNTj+JNT/O6z70Itg2UuhrUYvBgh6Z5fvYSi7x
-	XyfA==
-X-Gm-Message-State: APjAAAVTXTyEimOGETm+VJ9vzP+TvQ05U5qA+QtigQsKfCyZyiyw4hSp
-	frMZ7H5KEDFdbqbT0B/yf9AilsJauKjN3UySKHI=
-X-Google-Smtp-Source: APXvYqzVxKvsfHPlUMeRVGdmZj/nKaIgTIOGWxKqXqMvMEYjWJFNZtAMwvjdGYSk2K/xD7ccaJq5bT1Zg3JxmiK8fAs=
-X-Received: by 2002:ac5:cc4d:: with SMTP id l13mr4856634vkm.72.1567083628982; 
-	Thu, 29 Aug 2019 06:00:28 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=PksmBxm6Sk/BGJTWRkP34nvt2eaiV9NhwECzhkwz4xw=;
+	b=ldjlcZxPVwXFMfqxgYhAwp5rJz6/SphioU6fH7POPG4834DqOB8LKV/OOM6HAKMr4p
+	7x+u0Omok6ozqKJo1UjyIGl0KwykeibcDfZVyH6EEgasZDW/zzVw9WnnW0X8xD2j3yVh
+	J0t+08N100FTfo+zS4Q2yBWVKxc9cWOH2ybxCPxLSG/rnrjKmjhMuI5G9T1u9dJshLbW
+	DyX+F3K29vbn13FpMVAPZc+jGJ2b8QovfI5cEYXJi1WopnT5YlUGo3/T0qFhSi6QP7JY
+	dnhjQsIOkXFB3P1RUg/mXuEwwepCZHW7JRVo+nfvTanl1T0wGpxbaj2xBIE8vXde6LG2
+	9oUw==
+X-Gm-Message-State: APjAAAVRaLGSFllgN51KHezHMZxHYTf6x1x34Ikbb6yVRatqpLGzFRnM
+	UILSMKMvrxjCBHrv+9lEFuQXkw==
+X-Google-Smtp-Source: APXvYqw4lxLayyIOTtYSKzqiIFfmcdiUSoFXrKe/o/HLSTm3QkI68RuMGTM6b/9TITl28yNJhaCMHw==
+X-Received: by 2002:a05:600c:2111:: with SMTP id
+	u17mr12034999wml.64.1567083660487; 
+	Thu, 29 Aug 2019 06:01:00 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r190sm3533609wmf.0.2019.08.29.06.00.59
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 29 Aug 2019 06:00:59 -0700 (PDT)
+Message-ID: <8d8cedd858a086ac4ab39f59e4a7b479b2337de9.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Daniel Klauer <daniel.klauer@gin.de>
+Date: Thu, 29 Aug 2019 14:00:58 +0100
+In-Reply-To: <a43ec955-3565-0db1-baa5-0f7f268c8a0b@gin.de>
+References: <e90a6dec179ce0b8d20b6181b724df5ff6351da4.camel@linuxfoundation.org>
+	<a43ec955-3565-0db1-baa5-0f7f268c8a0b@gin.de>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <cover.1567019771.git.bruce.ashfield@gmail.com>
-	<4f7fa357480ec0139aa809bed4a12c9aa7622d60.1567019771.git.bruce.ashfield@gmail.com>
-	<20190828200536.GD3044@localhost>
-	<CADkTA4MBTDFUam5xvwvc0KKO+fX7ZfmBYtoe6_ZdrnspJok7Rw@mail.gmail.com>
-	<20190828215810.GF3044@localhost>
-	<CADkTA4NbtkgR2LrZC+Srtn-BC+6q=7HQH9S7tbJ3H4u7=HQm7w@mail.gmail.com>
-	<20190829063158.GG3044@localhost>
-	<CADkTA4NXYy0jnZg6=S_W=3znH9M1hidYw8MDwqOqQCGESq8p=g@mail.gmail.com>
-	<20190829125351.GB32705@localhost>
-In-Reply-To: <20190829125351.GB32705@localhost>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 29 Aug 2019 15:00:17 +0200
-Message-ID: <CANNYZj9fyZ_Us1gFy7KvS4Gw41ztNDCmt5bn=ARAX16h7pEETQ@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] kernel-devsrc: remove python2 dependency
+Subject: Re: [PATCH 1/2] uboot-sign: Refactor do_deploy prefunc to do_deploy_prepend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,52 +61,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 13:00:28 -0000
-Content-Type: multipart/alternative; boundary="00000000000009f4ca05914117bd"
-
---00000000000009f4ca05914117bd
+X-List-Received-Date: Thu, 29 Aug 2019 13:01:00 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, 29 Aug 2019 at 14:54, Adrian Bunk <bunk@stusta.de> wrote:
+On Thu, 2019-08-29 at 11:05 +0200, Daniel Klauer wrote:
+> > That commit message isn't correct.
+> > 
+> > It removes cleandirs for the prefunc at the start of the prefunc and
+> > cleandirs for the main function at the start of that main function.
+> 
+> Oh ok, so the prefuncs/postfuncs can have their own [cleandirs], that's
+> interesting.
+> 
+> How about the following (trying to find a good way to explain it):
 
->
-> It is an unexpected meaning of "zero risk" when this excludes
-> breakages with kernels other than the ones in master.
->
-> One of the non-python changes to perf blew up the build for me even when
-> trying with a kernel that is only a few months behind on the 4.19 branch,
-> so there's some patches for me to send next month.
->
+Yes, that sounds fine. The bit in brackets probably isn't needed.
 
-This is part and parcel of using the master branch with various 'other'
-layers. Things can and do break in those other layers, and have to be fixed
-after the fact of the breaking changes landing in master. If this is not
-acceptable, then stable branches are far more conservative.
+Cheers,
 
-Alex
+Richard
 
---00000000000009f4ca05914117bd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> 
+> -----
+> When inherited by the u-boot recipe (UBOOT_PN), uboot-sign.bbclass adds
+> a concat_dtb step, which places additional files into ${DEPLOYDIR}
+> before do_deploy.
+> 
+> The use of prefuncs for this prevents us from adding
+>   do_deploy[cleandirs] = "${DEPLOYDIR}"
+> because that would remove the files produced by the prefunc.
+> (Each of prefuncs/task/postfuncs functions has their own cleandirs, and
+> each function's cleandirs are removed at the start of that function.)
+> 
+> Thus, it seems good to make concat_dtb a part of do_deploy, such that it
+> runs after removal of do_deploy's cleandirs. As before, care is taken to
+> not interfere with the kernel's do_deploy definition, since concat_dtb
+> was only needed for u-boot.
+> -----
+> 
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 29 Aug 2019 at 14:54, Adrian Bunk=
- &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
-iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex"><br>
-It is an unexpected meaning of &quot;zero risk&quot; when this excludes <br=
->
-breakages with kernels other than the ones in master.<br>
-<br>
-One of the non-python changes to perf blew up the build for me even when <b=
-r>
-trying with a kernel that is only a few months behind on the 4.19 branch,<b=
-r>
-so there&#39;s some patches for me to send next month.<br></blockquote><div=
-><br></div><div>This is part and parcel of using the master branch with var=
-ious &#39;other&#39; layers. Things can and do break in those other layers,=
- and have to be fixed after the fact of the breaking changes landing in mas=
-ter. If this is not acceptable, then stable branches are far more conservat=
-ive.</div><div><br></div><div>Alex<br></div></div></div>
 
---00000000000009f4ca05914117bd--
