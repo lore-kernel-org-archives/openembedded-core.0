@@ -1,26 +1,46 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A1207F31A
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+	[209.85.217.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 33E3F7F308
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 08:08:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7T88xl9017959
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 29 Aug 2019 01:08:59 -0700 (PDT)
-Received: from [128.224.162.195] (128.224.162.195) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Thu, 29 Aug 2019 01:08:58 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20190828205016.2551-1-alex.kanavin@gmail.com>
-From: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <421232e8-39e7-7256-59c5-4a49b5307795@windriver.com>
-Date: Thu, 29 Aug 2019 16:08:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Thu, 29 Aug 2019 08:28:55 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id q16so1874559vsm.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Aug 2019 01:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=xnLTOlTIgTPD1SCJGTRpwk0IYb+jritZp7S9Ssh69l8=;
+	b=pI31IgI21WhI2L73SWYXprxqHOHw8lktmYh08U6fd0sw1VtoEejzBJnUkGiBNDmVXx
+	7AdduL/vtZJCY89B1Vz73M5hxdiv7FKZQtEhRItOotsUfTjp9/soOwlzYFDQKGKiaGiK
+	SmP16rR+Ni7cGoZ0EZlLmePArDxJNHJf8rU8PXtzZxyVW1IMXRnB/tnGmu6YwIu2ZwC8
+	tok2VX8LiDR37J2YRGex4ytKu2rJ2rp5alT4IHrfacyMv25gq9vDNZds/KXa4k9nMdQk
+	TCpvJ1XcaONr0z74R5YiQJ7w4kmqsfdIhdaAwA9TF251snGl4fHRy/1bMc5IR77ks7UW
+	TWQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=xnLTOlTIgTPD1SCJGTRpwk0IYb+jritZp7S9Ssh69l8=;
+	b=Z2XHVxMLCDXqNSOSEL7gQ1bATYpCH+KJHBuLNt5VIe4mfW/477ypHeyZYnoYX6gLjE
+	A4q53maqLKoUUJ2w2VCrEMEKKss4YuYzTFpEJe95e7LbKbjP0yWmLttFwSDx8rV8K1If
+	Ds8zzy8li2RJPTiq5pp3V9Ch8pjHHLTob0FY52GsHbMEDu09y4oV4qrzdAWX9qrY/xJO
+	1pLzdKB9MEiSIqtHT2I52wwnOheNSapdM/wyQFFlOhgigDPilX6zW9tZtK7GjS5z9RmS
+	+qSfl4Nzs/wthRTPsHjungVDC9hP671BqF1dAfibWs6kQrhPMXXMHXV07PbG9OhSnv/e
+	WtuA==
+X-Gm-Message-State: APjAAAXGQ2itjUDUZm+hZBq4ltElhXf+tvJAIbRyHnLwvHH3GKN0epIl
+	2qTbnqRR5MryfknW+RAqBiX91i+n6AERB9bkvMc=
+X-Google-Smtp-Source: APXvYqy1ZJoyx417YgtDeOeP+Ej9nUfPLtkujJs3sAe4qbGy7uGb/4hNGpsureUw5jF+ckaWyapkg6nHk895ceiut/A=
+X-Received: by 2002:a67:e45a:: with SMTP id n26mr4687198vsm.94.1567067336272; 
+	Thu, 29 Aug 2019 01:28:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190828205016.2551-1-alex.kanavin@gmail.com>
-X-Originating-IP: [128.224.162.195]
+References: <20190828205016.2551-1-alex.kanavin@gmail.com>
+	<421232e8-39e7-7256-59c5-4a49b5307795@windriver.com>
+In-Reply-To: <421232e8-39e7-7256-59c5-4a49b5307795@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 29 Aug 2019 10:28:45 +0200
+Message-ID: <CANNYZj-Vs5dX3ePGHawGWR=O8=QpfVeKnx3LDnogf0QgB=3sCA@mail.gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] ltp: move from python 2.x to python 3.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,219 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 08:08:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 29 Aug 2019 08:28:56 -0000
+Content-Type: multipart/alternative; boundary="000000000000eaee3c05913d4b47"
 
-Hi Alexander,
+--000000000000eaee3c05913d4b47
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, 29 Aug 2019 at 10:09, Yi Zhao <yi.zhao@windriver.com> wrote:
 
-On 8/29/19 4:50 AM, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->   ...thon3-everywhere-to-run-python-scrip.patch | 161 ++++++++++++++++++
->   meta/recipes-extended/ltp/ltp_20190517.bb     |   3 +-
->   2 files changed, 163 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
 >
-> diff --git a/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch b/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
-> new file mode 100644
-> index 00000000000..f4f87f38ab7
-> --- /dev/null
-> +++ b/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
-> @@ -0,0 +1,161 @@
-> +From 0463d793566772a606255957915f99d166d5740c Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Wed, 28 Aug 2019 18:30:23 +0200
-> +Subject: [PATCH] testcases: use python3 everywhere to run python scripts
-> +
-> +The scripts themselves have #!/usr/bin/python3 in them,
-> +so I trust they are already py3-compatible.
-> +
-> +Upstream-Status: Pending
+> I had sent a similar patch to upstream and it had been merged. You could
+> backport it.
+>
 
+Thanks, I think we can simply remove my patch when ltp is updated.
 
-I had sent a similar patch to upstream and it had been merged. You could 
-backport it.
+Alex
 
-https://github.com/linux-test-project/ltp/commit/fc606bf2a9fdd356c593cc7b37217cae18100ffc
+--000000000000eaee3c05913d4b47
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 29 Aug 2019 at 10:09, Yi Zhao &lt=
+;<a href=3D"mailto:yi.zhao@windriver.com">yi.zhao@windriver.com</a>&gt; wro=
+te:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex"><br>
+I had sent a similar patch to upstream and it had been merged. You could <b=
+r>
+backport it.<br></blockquote><div><br></div><div>Thanks, I think we can sim=
+ply remove my patch when ltp is updated.</div><div><br></div><div>Alex<br><=
+/div></div></div>
 
-//Yi
-
-
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +---
-> + testcases/kernel/power_management/runpwtests05.sh  |  2 +-
-> + .../power_management/runpwtests_exclusive01.sh     |  2 +-
-> + .../power_management/runpwtests_exclusive02.sh     |  2 +-
-> + .../power_management/runpwtests_exclusive03.sh     |  2 +-
-> + .../power_management/runpwtests_exclusive04.sh     |  2 +-
-> + .../power_management/runpwtests_exclusive05.sh     |  2 +-
-> + testcases/network/nfsv4/acl/runtest                | 14 +++++++-------
-> + testcases/realtime/func/pi-tests/run_auto.sh       |  6 +++---
-> + 8 files changed, 16 insertions(+), 16 deletions(-)
-> +
-> +diff --git a/testcases/kernel/power_management/runpwtests05.sh b/testcases/kernel/power_management/runpwtests05.sh
-> +index 8a7d0f6e0..43e234d01 100755
-> +--- a/testcases/kernel/power_management/runpwtests05.sh
-> ++++ b/testcases/kernel/power_management/runpwtests05.sh
-> +@@ -35,7 +35,7 @@ else
-> + 	max_sched_smt=1
-> + fi
-> +
-> +-tst_test_cmds python
-> ++tst_test_cmds python3
-> +
-> + if ! grep sched_debug -qw /proc/cmdline ; then
-> + 	tst_brkm TCONF "Kernel cmdline parameter 'sched_debug' needed," \
-> +diff --git a/testcases/kernel/power_management/runpwtests_exclusive01.sh b/testcases/kernel/power_management/runpwtests_exclusive01.sh
-> +index ec78319e2..9fefcbf6e 100755
-> +--- a/testcases/kernel/power_management/runpwtests_exclusive01.sh
-> ++++ b/testcases/kernel/power_management/runpwtests_exclusive01.sh
-> +@@ -35,7 +35,7 @@ else
-> + 	max_sched_smt=1
-> + fi
-> +
-> +-tst_test_cmds python
-> ++tst_test_cmds python3
-> +
-> + hyper_threaded=$(is_hyper_threaded)
-> + multi_socket=$(is_multi_socket)
-> +diff --git a/testcases/kernel/power_management/runpwtests_exclusive02.sh b/testcases/kernel/power_management/runpwtests_exclusive02.sh
-> +index e107fce35..2cd0ecb05 100755
-> +--- a/testcases/kernel/power_management/runpwtests_exclusive02.sh
-> ++++ b/testcases/kernel/power_management/runpwtests_exclusive02.sh
-> +@@ -33,7 +33,7 @@ else
-> + 	max_sched_smt=1
-> + fi
-> +
-> +-tst_test_cmds python
-> ++tst_test_cmds python3
-> +
-> + hyper_threaded=$(is_hyper_threaded)
-> + multi_socket=$(is_multi_socket)
-> +diff --git a/testcases/kernel/power_management/runpwtests_exclusive03.sh b/testcases/kernel/power_management/runpwtests_exclusive03.sh
-> +index 490344bb3..ab3a5d11d 100755
-> +--- a/testcases/kernel/power_management/runpwtests_exclusive03.sh
-> ++++ b/testcases/kernel/power_management/runpwtests_exclusive03.sh
-> +@@ -35,7 +35,7 @@ else
-> + 	max_sched_smt=1
-> + fi
-> +
-> +-tst_test_cmds python
-> ++tst_test_cmds python3
-> +
-> + hyper_threaded=$(is_hyper_threaded)
-> + multi_socket=$(is_multi_socket)
-> +diff --git a/testcases/kernel/power_management/runpwtests_exclusive04.sh b/testcases/kernel/power_management/runpwtests_exclusive04.sh
-> +index 978ca02ae..438ef603f 100755
-> +--- a/testcases/kernel/power_management/runpwtests_exclusive04.sh
-> ++++ b/testcases/kernel/power_management/runpwtests_exclusive04.sh
-> +@@ -27,7 +27,7 @@ export TST_TOTAL=2
-> + # Checking test environment
-> + check_kervel_arch
-> +
-> +-tst_test_cmds python
-> ++tst_test_cmds python3
-> +
-> + hyper_threaded=$(is_hyper_threaded)
-> + multi_socket=$(is_multi_socket)
-> +diff --git a/testcases/kernel/power_management/runpwtests_exclusive05.sh b/testcases/kernel/power_management/runpwtests_exclusive05.sh
-> +index a0dad5834..3a9afdbf2 100755
-> +--- a/testcases/kernel/power_management/runpwtests_exclusive05.sh
-> ++++ b/testcases/kernel/power_management/runpwtests_exclusive05.sh
-> +@@ -35,7 +35,7 @@ else
-> + 	max_sched_smt=1
-> + fi
-> +
-> +-tst_test_cmds python
-> ++tst_test_cmds python3
-> +
-> + hyper_threaded=$(is_hyper_threaded)
-> + multi_socket=$(is_multi_socket)
-> +diff --git a/testcases/network/nfsv4/acl/runtest b/testcases/network/nfsv4/acl/runtest
-> +index d2e1b4c49..a859e85bc 100755
-> +--- a/testcases/network/nfsv4/acl/runtest
-> ++++ b/testcases/network/nfsv4/acl/runtest
-> +@@ -22,7 +22,7 @@ do
-> + done
-> +
-> + #  creation of users on the remote machine (removed only at the end of the tests)
-> +-rsh -n $REMOTEHOST python $PWD/create_users.py -u 50 -g 50
-> ++rsh -n $REMOTEHOST python3 $PWD/create_users.py -u 50 -g 50
-> +
-> + echo "Starting ACL testing"
-> +
-> +@@ -51,19 +51,19 @@ echo "Basic tests finished"
-> +
-> + echo "LONG ACL TEST"
-> + echo "creating necessary users and groups"
-> +-python create_users.py -u 50 -g 50
-> ++python3 create_users.py -u 50 -g 50
-> + echo "creating necessary users and groups on the remote host"
-> + mkdir $NFSMNTDIR/lacl-testdir
-> +-python test_long_acl.py -l $MAXLENGTH -p $NFSMNTDIR/lacl-testdir
-> ++python3 test_long_acl.py -l $MAXLENGTH -p $NFSMNTDIR/lacl-testdir
-> + rm -rf $NFSMNTDIR/lacl-testdir
-> + echo "Long ACL test OK with $MAXLENGTH entries"
-> + echo "ACL STRESSING TEST"
-> +-python setacl_stress.py -n 100 -u $USER_NB -g $GRP_NB -f $FILE_NB -p $NFSMNTDIR
-> ++python3 setacl_stress.py -n 100 -u $USER_NB -g $GRP_NB -f $FILE_NB -p $NFSMNTDIR
-> +
-> + # remove local an remote users
-> +-python cleanusers.py
-> +-python cleangroups.py
-> +-rsh -n $REMOTEHOST python $PWD/cleanusers.py
-> ++python3 cleanusers.py
-> ++python3 cleangroups.py
-> ++rsh -n $REMOTEHOST python3 $PWD/cleanusers.py
-> +
-> + echo "Test OK"
-> +
-> +diff --git a/testcases/realtime/func/pi-tests/run_auto.sh b/testcases/realtime/func/pi-tests/run_auto.sh
-> +index d13026049..277988568 100755
-> +--- a/testcases/realtime/func/pi-tests/run_auto.sh
-> ++++ b/testcases/realtime/func/pi-tests/run_auto.sh
-> +@@ -15,15 +15,15 @@ $SCRIPTS_DIR/run_c_files.sh $profile testpi-0
-> +
-> + export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-1.log"
-> + $SCRIPTS_DIR/run_c_files.sh $profile testpi-1
-> +-PYTHONPATH=../../  python parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
-> ++PYTHONPATH=../../  python3 parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
-> +
-> + export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-2.log"
-> + $SCRIPTS_DIR/run_c_files.sh $profile testpi-2
-> +-PYTHONPATH=../../  python parse-testpi2.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
-> ++PYTHONPATH=../../  python3 parse-testpi2.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
-> +
-> + export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-4.log"
-> + $SCRIPTS_DIR/run_c_files.sh $profile testpi-4
-> +-PYTHONPATH=../../  python parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
-> ++PYTHONPATH=../../  python3 parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
-> +
-> +
-> + export LOG_FILE=""
-> diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
-> index b0e2f969c7a..3826ea8560d 100644
-> --- a/meta/recipes-extended/ltp/ltp_20190517.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20190517.bb
-> @@ -45,6 +45,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
->              file://0002-check-for-RES_USE_INET6-during-configure.patch \
->              file://0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch \
->              file://0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch \
-> +           file://0001-testcases-use-python3-everywhere-to-run-python-scrip.patch \
->              "
->   
->   S = "${WORKDIR}/git"
-> @@ -96,7 +97,7 @@ RDEPENDS_${PN} = "\
->       libaio \
->       logrotate \
->       perl \
-> -    python-core \
-> +    python3-core \
->       procps \
->       quota \
->       unzip \
-
+--000000000000eaee3c05913d4b47--
