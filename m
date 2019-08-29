@@ -1,49 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E3417F2E8
+Return-Path: <jwessel@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B41FC7F302
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 13:35:14 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id t9so3891797wmi.5
+	Thu, 29 Aug 2019 14:01:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7TE0hhR031496
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 06:35:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=YweFgK0TQFM1WQ7rCLtwq/39cyq814TQKGqLzeBnWC4=;
-	b=gBgAfEqKKRLcGjyFPSi8ZjXGnRW8bdf5AmAZdnWA3eJV8oLcIS9gu/0tHD/VdehvQu
-	np49JSirvCRKcRvOLmaCsHJRQYSz6AfcWfBE4FYsMeMERHszpTYA4ulL0WUTdCxZcXC6
-	ZTZI7zok5NNydWXNUW5NsSxhdR4CljhoQwlQI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=YweFgK0TQFM1WQ7rCLtwq/39cyq814TQKGqLzeBnWC4=;
-	b=ezF1fsd0SVqR4MgHrWJwfPycM7yk3df7cz0OldlZFm/njA16/Y9jvksaNon09zlnM1
-	0smJZfIuvxcSPtyZZ1OjYnr9K86aXhcSJm3gy0kixFLdwpjqIFmg5QU51BneYVYZjXIn
-	cU3SKoIlXopj0AzXZXVDgZpRflkx8eO+BEOiD57ZUFSADAWO0ZA41HPi2fpYqUpQ6xUY
-	YWwrF4Nv44Cozozj+P4dS2yFmAYWoviomwLZzlbiBZqep2OYUKPTXc2YSgubQv+JUbPf
-	PB63V1xP3SLTZ+UJ0+CEsDL3V7xG5EIqb37f6A8cOU+cDVVw/VUBsFnunwSRCefa01j+
-	khug==
-X-Gm-Message-State: APjAAAWvXBFQKzTdA4oUHWr2/24nGtRsY4kWaaeq3+6Tb9ggqCpbvk9T
-	kdU11usVHv5Q1bcI+lt/zKI2TUOhobgSvA==
-X-Google-Smtp-Source: APXvYqxaxeamxFMBTeLRdusUNtplwRvvVNEZsu45+Pe+uELXkajzXeF8qQyJBKNnZ0aptvA8J8eZMA==
-X-Received: by 2002:a7b:cc02:: with SMTP id f2mr10900865wmh.92.1567085715271; 
-	Thu, 29 Aug 2019 06:35:15 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a6sm2691136wmj.15.2019.08.29.06.35.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 29 Aug 2019 06:35:14 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2019 14:35:13 +0100
-Message-Id: <20190829133513.12417-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	Thu, 29 Aug 2019 07:00:53 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 29 Aug 2019 07:00:32 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id F0482AA3B8E;
+	Thu, 29 Aug 2019 07:00:32 -0700 (PDT)
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Aug 2019 07:00:31 -0700
+Message-ID: <20190829140031.68135-1-jason.wessel@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH] ca-certificates: Fix reproducibilty and multilib issue
+Subject: [PATCH v2] serial-getty@.service: Allow device to fast fail if it does not exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 13:35:15 -0000
+X-List-Received-Date: Thu, 29 Aug 2019 14:01:07 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This command was dependent on the order of files on the disk and for multilib builds
-could result in:
+Some BSPs use a USB serial port which may or may not actually be
+plugged all the time.  It is quite useful to have a USB serial port
+have a getty running but it does not make sense to wait for it for 90
+seconds before completing the system startup if it might never get
+plugged in.  The typical example is that a USB serial device might
+only need to be plugged in when debugging, upgrading, or initially
+configuring a device.
 
-Error: Transaction check error:
-  file /etc/ca-certificates.conf conflicts between attempted installs of ca-certificates-20190110-r0.core2_32 and lib64-ca-certificates-20190110-r0.x86_64
+This change is somewhat subtle.  Systemd uses the "BindsTo" directive
+to ensure existence of the device in order to start the service as
+well as to terminate the service if the device goes away.  The "After"
+directive makes that same relationship stronger.  When used together
+this has the undesired side effect that systemd will wait until its
+internal time out value of 90 seconds for the device to come on line
+before executing a fail operation or letting other tasks and groups
+continue.  This is certainly the kind of behavior we want for a disk,
+but not for serial ports in general.
 
-Sorting the file makes things deterministic.
+The "BindsTo" directive is replaced by the combination of the "PartOf"
+and the "ConditionPathExists" directives.  The "After" directive is
+unchanged because that will wait for the udev rules to process.  The
+"PartOf" directive will issue a stop to the getty service if the
+device goes away, similar to the "BindsTo" directive.  The
+"ConditionPathExists" is what allows the service to fail fast vs
+waiting for the timeout.  When a USB device is not plugged in at boot
+you would find a message in the system journal like:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+    systemd[1]: Condition check resulted in Serial Getty on \
+                 ttyUSB0 being skipped.
+
+If you want to observe the problem with qemu, it is easy to replicate.
+Simply add the following line to your local.conf for a x86-64 qemu
+build.
+
+    SERIAL_CONSOLES="115200;ttyS0 115200;ttyUSB0"
+
+Login right after the system boots and observe:
+
+   root@qemux86-64:~# systemctl list-jobs |cat
+   JOB UNIT                                 TYPE  STATE
+     1 multi-user.target                    start waiting
+    69 serial-getty@ttyUSB0.service         start waiting
+    64 getty.target                         start waiting
+    71 dev-ttyUSB0.device                   start running
+    62 systemd-update-utmp-runlevel.service start waiting
+
+   5 jobs listed.
+
+You can see above that the dev-ttyUSB0.device will block for 1min 30
+seconds.  While that might not be a problem for this reference build.
+It is certainly a problem for images that have software watchdogs that
+verify the system booted up all the way to systemd completion in less
+than 90 seconds.
+
+This other nice effect of this change is that the fast fail device
+extend to additional serial ports that may not exist on ARM BSPs or
+that might be configured in or out by the dtb files on different
+boards.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- .../recipes-support/ca-certificates/ca-certificates_20190110.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../systemd/systemd-serialgetty/serial-getty@.service          | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-index efd9eaa71e4..7d87da10bb5 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-@@ -53,7 +53,7 @@ do_install () {
-         echo "# Lines starting with ! will remove certificate on next update"
-         echo "#"
-         find ${D}${datadir}/ca-certificates -type f -name '*.crt' | \
--            sed 's,^${D}${datadir}/ca-certificates/,,'
-+            sed 's,^${D}${datadir}/ca-certificates/,,' | sort
-     } >${D}${sysconfdir}/ca-certificates.conf
- }
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+index e8b027e97d..15af16a9f8 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
++++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+@@ -9,7 +9,8 @@
+ Description=Serial Getty on %I
+ Documentation=man:agetty(8) man:systemd-getty-generator(8)
+ Documentation=http://0pointer.de/blog/projects/serial-console.html
+-BindsTo=dev-%i.device
++PartOf=dev-%i.device
++ConditionPathExists=/dev/%i
+ After=dev-%i.device systemd-user-sessions.service plymouth-quit-wait.service
+ After=rc-local.service
  
 -- 
-2.20.1
+2.21.0
 
 
