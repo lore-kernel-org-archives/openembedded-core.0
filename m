@@ -1,33 +1,52 @@
-Return-Path: <Daniel.Klauer@gin.de>
-Received: from good-out-33.clustermail.de (good-out-33.clustermail.de
-	[212.223.166.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 359057F333
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 46F987F2F6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 15:32:20 +0000 (UTC)
-Received: from [10.0.0.1] (helo=frontend.clustermail.de)
-	by smtpout-03.clustermail.de with esmtp (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>)
-	id 1i3MPH-0003g3-5S; Thu, 29 Aug 2019 17:32:20 +0200
-Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
-	by frontend.clustermail.de with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>)
-	id 1i3MPH-0004JR-3B; Thu, 29 Aug 2019 17:32:15 +0200
-Received: from daniel-desktop.gin-domain.local (10.160.138.39) by
-	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Thu, 29 Aug 2019 17:32:14 +0200
-From: Daniel Klauer <daniel.klauer@gin.de>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Aug 2019 17:31:33 +0200
-Message-ID: <20190829153133.29702-1-daniel.klauer@gin.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <8d8cedd858a086ac4ab39f59e4a7b479b2337de9.camel@linuxfoundation.org>
-References: <8d8cedd858a086ac4ab39f59e4a7b479b2337de9.camel@linuxfoundation.org>
+	Thu, 29 Aug 2019 15:33:07 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id x3so3481242lji.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Aug 2019 08:33:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=UfA1Lg5p+Sfa/HxHFHAUGYfiVet1rEjUzExJDcC41xo=;
+	b=RbgiuzWLyY54jgeaQwBpYZrOc95q+kkdjMVG7e8w3VZEBUaSAmUCxhLkac0EuYBD+5
+	KXMId1Wayqtf7jXpMKx+Ubq2n3LCjcMogoUFNMc2muhWXlLfmyZTzYxa20kr0RS0/LG0
+	NdhGlVzgfVy8enCWfKbG1MKPmaHMCJx3Rnr5zzlwuFkDoWZ2V3K2sINwMqsSAOeWsz1n
+	icsYyB1mP7L93Uoxh0U/ZO3tfKsmA0g/xz2Wh3EZbhflVEZyE9tV9Qc4p69LnEuu9X1x
+	loWbhTrz9aq7pockiNTeBf+8PX2kNMOixJmV6nApNa4NqtwLKv5cnRD6+mIqMPojn0R1
+	hvbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=UfA1Lg5p+Sfa/HxHFHAUGYfiVet1rEjUzExJDcC41xo=;
+	b=a6Tr9GHzMdR/brBEYgTfqIVvW0PEEQJmXsofZMR/r9js4wPn7apr1O0xnvOoiAa54x
+	0kPmogf2rwrYQdw9sSgMeIuD2V3u/Dzt6buJvfZED591edIEcABUP9N2V1C/YAG9Dgf4
+	n1X9Z8noKhp9Cy4NiRYAxbR+dreRQ5aDSgSQEu0QvE5Zza4QZPsVcqfgfOPSHWMhR4uB
+	pZ/sp9nwe9jBhdd5S2gQmOFW0Bw7XHXJHTmUrxp3371lAOM+Uj1pqnArLZbn9Oz/OOhi
+	r+2Y9cgatVo+2vi1X9yQtPBndKzU0Vy2uHxOKrEFvQ8MOt2fTV0xk2ct/5CqEJBDAstQ
+	MfBg==
+X-Gm-Message-State: APjAAAWZEWvn3pPj423upWbv6eiUy7mM8BE8nR5upk9AeYfQHJV82d1l
+	fbPoBJvivE0B6+p+yjzSeXvPa9we5qObvV21Ytg=
+X-Google-Smtp-Source: APXvYqzxcsqxe8o42LaHalmZqbUHfPV9iu67DEYiZIljoI6PD5kKClAKpk7brpI4BZPVYyKDc6X8+Ig0YVsdlOk0+sY=
+X-Received: by 2002:a2e:b048:: with SMTP id d8mr6054620ljl.118.1567092787776; 
+	Thu, 29 Aug 2019 08:33:07 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.160.138.39]
-X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
-	Win2012-02.gin-domain.local (192.168.1.12)
-Subject: [PATCH v2 1/2] uboot-sign: Refactor do_deploy prefunc to do_deploy_prepend
+References: <cover.1565796002.git.bruce.ashfield@gmail.com>
+	<28547fae8ada44e4f2383f02bd1d8e0f3ce96b52.camel@linuxfoundation.org>
+	<CADkTA4MHrS0y7Movz5JSmrFc9dSKCEdOxOwV=dCteNnktibNCg@mail.gmail.com>
+	<CADkTA4ONrm_Xtr9Mcdj359m5xqFqzKTzN8bB=VnRn2PKRxP+Wg@mail.gmail.com>
+	<20190829152736.GA4696@joraj-alpa>
+	<CADkTA4PybRmDHYumSEjULoaiXKDL9H4oXv6H7jOQv4VfsbOk1g@mail.gmail.com>
+In-Reply-To: <CADkTA4PybRmDHYumSEjULoaiXKDL9H4oXv6H7jOQv4VfsbOk1g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 29 Aug 2019 11:32:56 -0400
+Message-ID: <CADkTA4Mf9u09J=M5xZx518va22xwUDqr=E4Xyq9jn2S2LLPevw@mail.gmail.com>
+To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] kernel-yocto: misc build / config changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,63 +59,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 15:32:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Aug 2019 15:33:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-When inherited by the u-boot recipe (UBOOT_PN), uboot-sign.bbclass adds
-a concat_dtb step, which places additional files into ${DEPLOYDIR}
-before do_deploy.
+On Thu, Aug 29, 2019 at 11:31 AM Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+>
+> On Thu, Aug 29, 2019 at 11:28 AM Jonathan Rajotte-Julien
+> <jonathan.rajotte-julien@efficios.com> wrote:
+> >
+> > >
+> > > FWIW: lttng-ust builds fine for me with the 5.2 kernel + 5.2 headers,
+> > > it is one of the things I build and test as part of
+> > > core-image-kernel-dev.
+> >
+> > Even on ppc?
+> >
+>
+> yup. I build all arches for core-image-kernel-dev, which includes all of lttng.
 
-The use of prefuncs for this prevents us from adding
-  do_deploy[cleandirs] = "${DEPLOYDIR}"
-because that would remove the files produced by the prefunc.
+but I've recently switched to RP's master-next branch, so hopefully a
+difference in the configs will pop out.
 
-Thus, it seems good to make concat_dtb a part of do_deploy, such that it
-runs after removal of do_deploy's cleandirs. As before, care is taken to
-not interfere with the kernel's do_deploy definition, since concat_dtb
-was only needed for u-boot.
+Bruce
 
-I tested this with poky, putting the following in local.conf:
-  UBOOT_SIGN_ENABLE = "1"
-  KERNEL_CLASSES = " kernel-fitimage "
-  KERNEL_IMAGETYPE = "fitImage"
-and then doing
-  bitbake core-image-minimal
-  bitbake u-boot
-It built successfully and concat_dtb was still called.
+>
+> Bruce
+>
+> > It seems related to the y2038 safe socket merge
+> > (a98dc6aee784a5daf84a4781dcf02feab9ad5999) from the kernel but from the
+> > code I cannot find a reason why SO_SNDTIMEO would be missing. The powerpc
+> > socket header relies on the generic one for proper backward definition of
+> > SO_SNDTIMEO:
+> >
+> >  #define SO_SNDTIMEO (sizeof(time_t) == sizeof(__kernel_long_t) ? SO_SNDTIMEO_OLD : SO_SNDTIMEO_NEW)
+> >
+> > Not sure what is going on here.
+> >
+> >
+> > > I just rebuilt it here this morning and didn't see any errors.
+> >
+> > >
+> > > > >
+> > > > > qemuarm is erroring due to /dev/fb0 disappearing, which is probably kernel?
+> > > > >
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/975
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/976
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/986
+> > > > >
+> > > > > and we also have an unintended side effect multilib build failure:
+> > > > >
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/995
+> > > > >
+> > > > > which might be due to changed dependencies, I need to check into that one further.
+> > > > >
+> > > > > Cheers,
+> > > > >
+> > > > > Richard
+> > > > >
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > > > thee at its end
+> > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > >
+> > >
+> > >
+> > > --
+> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > > thee at its end
+> > > - "Use the force Harry" - Gandalf, Star Trek II
+> >
+> > --
+> > Jonathan Rajotte-Julien
+> > EfficiOS
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 
-Signed-off-by: Daniel Klauer <daniel.klauer@gin.de>
----
- meta/classes/uboot-sign.bbclass | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index 982ed46d01..713196df41 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -117,15 +117,16 @@ do_install_append() {
- 	fi
- }
- 
-+do_deploy_prepend_pn-${UBOOT_PN}() {
-+	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a -n "${UBOOT_DTB_BINARY}" ]; then
-+		concat_dtb
-+	fi
-+}
-+
- python () {
-     if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') == d.getVar('UBOOT_PN') and d.getVar('UBOOT_DTB_BINARY'):
-         kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
- 
-         # Make "bitbake u-boot -cdeploy" deploys the signed u-boot.dtb
-         d.appendVarFlag('do_deploy', 'depends', ' %s:do_deploy' % kernel_pn)
--
--        # kernerl's do_deploy is a litle special, so we can't use
--        # do_deploy_append, otherwise it would override
--        # kernel_do_deploy.
--        d.appendVarFlag('do_deploy', 'prefuncs', ' concat_dtb')
- }
+
 -- 
-2.17.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
