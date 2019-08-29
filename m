@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 615BC7F3B7
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DDFE79B57
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 22:50:34 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id u13so3791602lfm.9
+	Thu, 29 Aug 2019 22:59:51 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id e24so4613428ljg.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 15:50:35 -0700 (PDT)
+	Thu, 29 Aug 2019 15:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=sBAmspkkE3bA879QtDydXAGQ2xDE4wdtMSfCzPiLCWk=;
-	b=AYHbi138h+xTqDQKCuk8RhZnK2/ix2Dt+tD6JJznFt3s5w6a64SkNzUIZPlhopES8Z
-	qHoaUMTzgcHIgJxqfTY1FitQXqZPl9C9+b1j8EDNBcWLoo5dU66y/m3msZuw0lITGQIJ
-	PBNBaCTivOMkKplLlEn1EkWZ5YxGwAH/I3vqmJLeDZ2FuVO7XOT5gKzEuGS0aMk32VNK
-	2Zh7wEUmSBF4PmibdF5FMLs61IsR6FvL+OhzLw/LKP4IWDUQF9J6/EyV3JHnqM+ReFsj
-	iBtUO1t3jMfxj/M0Q31nS7fOu9sCH0Km2XVKqNkzglmj6eY3lEPSCeUZ07iCJK+7PCIS
-	nKyw==
+	bh=hi76ygTz76PtL6FgYLovbYxuB9FYvXe8vWlj//EwpyY=;
+	b=G6G0Y6J7xd5OZMuuCzq80r3Jc9iq2sxrlZCVpD7v/Qgwp3fqLGW0yffQS8nWDekrq7
+	EzD18sK1439HAxKoY539rjXKyng0Xtd/OF3W4wDJ/Fndqq2VgdVE8zRWGeBF8Z20kiUk
+	+LUEALSQJOJdMuwtwcnSx8/oWtg7ZGDWn3sDJZ9gjNXNYJItSwNuq8GNmctjpvOSCB13
+	nBn6VvwA4/Vi1TOg+MHvm6f+5zNpmk+LIl25hciAy+aybpqcf8mcZRu/+uLlNW6XiCUX
+	gHiOUCilQtAa5PISGCb1D3FqS2iHwg7N638CZ5x/FcNpTYvmq0b7kcJmGcSyv6yFLAbr
+	DxQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=sBAmspkkE3bA879QtDydXAGQ2xDE4wdtMSfCzPiLCWk=;
-	b=tJfmGMXd4DjLwxnueE0e0Jt/WDSsRbc/YOj3h0oQJ7OosYHlAwPuAXm3pkzlrdwULB
-	BxpdKy8H3bAIUrREqg5JU4wpxu3xUIyY8ZonrQiN2HHg0BuhH2LES/k+cA2qPTsa4mc4
-	skx8FKde+gfFxSSloCQJFw5TJY1E1HXHoJTaxSBaXs9DM3w2FVLIUbfZszTfKo3ZhOMi
-	tp+Qw6ODgxNWkO/3DgZlhubaCjS8RwzgCQAjbaVHoqzaCEAirqYmCW2/AOLHpCpsOijG
-	drrcgiljeW49dSTaQJ7URbxkOrUneSbhxAiPhngs9AInSXpf5ib73DY6u+gwIUCNqJdJ
-	hVNQ==
-X-Gm-Message-State: APjAAAXAELb+LS+44M1PqJk+kRJ9vIVMYiAxqGlwPunyQX7YgxJ9MD2n
-	4c5IkT0MVLisTjpmyBviM64pvBnlKPQ=
-X-Google-Smtp-Source: APXvYqxGSdYagUJSQY4J5Ct/WjMJtBY4dE6lsshrabdAK72tg8jYXuhPXlpgPqtfIHfDm6uDRw3gyA==
-X-Received: by 2002:ac2:52b6:: with SMTP id r22mr7805941lfm.19.1567119034775; 
-	Thu, 29 Aug 2019 15:50:34 -0700 (PDT)
+	bh=hi76ygTz76PtL6FgYLovbYxuB9FYvXe8vWlj//EwpyY=;
+	b=TgLAtQnxEe13WXnOkxpe8KUlzy0Ubk06azkdbyEmTckIse15cU3dsyhnMzsIHS41YV
+	QsiNxk0J3aLLyCnZTP1vkRgtQL1Ss1/KJV0BGa/sVf/HfKwgxbXZD+kBuiETzfKB5yuy
+	jHOmwrW4vkdG48eXXMz5XLjLX/TFBL86PyM6aEy868m9Bpi3XKIiDFW3rov86df3qv2b
+	8YeKKe53DCRplb7PwaweyPJFqxnVsSK+l3iG8sztArsWpKGhdCNniOpXcooMC0xdvYsg
+	399vinYgAASOy7Rv97JK2s9ud8zYyu72uHZKiwuv1xFK/v6lZTF446f2misO9HkJkQVw
+	bzWw==
+X-Gm-Message-State: APjAAAX8F7WcpgZCZBxwzAsoeq3eGkQr2Oi7+qMB0X1hOzLCY/IfMuuF
+	J3834S4p8yFeI3jkxRF9IaevLYaE1rY=
+X-Google-Smtp-Source: APXvYqyGQu7FwjALuWBzcl7jkeyh30VAEAPs/3+kTzne0v4WlOO54c6UGAyvjoxnwlTc2v+MfAGazw==
+X-Received: by 2002:a2e:9b0c:: with SMTP id u12mr6886215lji.239.1567119591665; 
+	Thu, 29 Aug 2019 15:59:51 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id u11sm580878lfu.47.2019.08.29.15.50.33
+	by smtp.gmail.com with ESMTPSA id z128sm593169lfa.1.2019.08.29.15.59.50
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 29 Aug 2019 15:50:34 -0700 (PDT)
+	Thu, 29 Aug 2019 15:59:51 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Aug 2019 00:50:32 +0200
-Message-Id: <20190829225032.30698-1-open.source@oleksandr-kravchuk.com>
+Date: Fri, 30 Aug 2019 00:59:49 +0200
+Message-Id: <20190829225949.5884-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] libevdev: update to 1.8.0
+Subject: [PATCH] ell: update to 0.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 22:50:34 -0000
+X-List-Received-Date: Thu, 29 Aug 2019 22:59:51 -0000
+
+Changelog:
+- Fix issue with DHCP and T1 timeout handling.
+- Fix issue with escape characters in peer identity string.
+- Add support for setting peer certificate's subject CN mask.
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../libevdev/{libevdev_1.7.0.bb => libevdev_1.8.0.bb}        | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libevdev/{libevdev_1.7.0.bb => libevdev_1.8.0.bb} (74%)
+ meta/recipes-core/ell/{ell_0.21.bb => ell_0.22.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.21.bb => ell_0.22.bb} (83%)
 
-diff --git a/meta/recipes-support/libevdev/libevdev_1.7.0.bb b/meta/recipes-support/libevdev/libevdev_1.8.0.bb
-similarity index 74%
-rename from meta/recipes-support/libevdev/libevdev_1.7.0.bb
-rename to meta/recipes-support/libevdev/libevdev_1.8.0.bb
-index abd6f386b8..84274987d7 100644
---- a/meta/recipes-support/libevdev/libevdev_1.7.0.bb
-+++ b/meta/recipes-support/libevdev/libevdev_1.8.0.bb
-@@ -7,8 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=75aae0d38feea6fda97ca381cb9132eb \
-                     file://libevdev/libevdev.h;endline=21;md5=7ff4f0b5113252c2f1a828e0bbad98d1"
- 
- SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz"
--
--SRC_URI[md5sum] = "fabe87d8d7d7f7cdb4a26e5dc99fc517"
--SRC_URI[sha256sum] = "11dbe1f2b1d03a51f3e9a196757a75c3a999042ce34cf1fdc00a2363e5a2e369"
-+SRC_URI[md5sum] = "879631080be18526737e33b63d848039"
-+SRC_URI[sha256sum] = "20d3cae4efd277f485abdf8f2a7c46588e539998b5a08c2c4d368218379d4211"
- 
+diff --git a/meta/recipes-core/ell/ell_0.21.bb b/meta/recipes-core/ell/ell_0.22.bb
+similarity index 83%
+rename from meta/recipes-core/ell/ell_0.21.bb
+rename to meta/recipes-core/ell/ell_0.22.bb
+index 487fbccab5..b3942fc30e 100644
+--- a/meta/recipes-core/ell/ell_0.21.bb
++++ b/meta/recipes-core/ell/ell_0.22.bb
+@@ -14,8 +14,8 @@ DEPENDS = "dbus"
  inherit autotools pkgconfig
+ 
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "f94f8c812b0426b0c30b651fa5142dd9"
+-SRC_URI[sha256sum] = "a0db4e3057ba41035637354b6af2aa4c74f83509e0c3e563d682df9d72eaff17"
++SRC_URI[md5sum] = "a4e7d74404f11e71775b89f53a8f1c33"
++SRC_URI[sha256sum] = "3c1d6d997e17dfcbe4ebcd1331d9a7be5c64f2f0a0813bc223790e570d8da2e3"
+ 
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
 -- 
 2.17.1
 
