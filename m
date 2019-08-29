@@ -1,49 +1,46 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 221E77F31C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
+	[209.85.221.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2857D7F2A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 12:27:53 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id e24so2809460ljg.11
+	Thu, 29 Aug 2019 12:39:03 +0000 (UTC)
+Received: by mail-vk1-f196.google.com with SMTP id b184so745507vkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 05:27:55 -0700 (PDT)
+	Thu, 29 Aug 2019 05:39:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dJ1JdoFW8Dk+KqyXCX3VF8oanlXWwJe/7vZHSjrtFoM=;
-	b=o70USdV7WXs5x7IS4Uzu/djDu+Vuh2gvmyTuY1/8WJjQmsC+37eXQt6HglE6qcB/8A
-	dG7WiWzCgKM1u/ZnMCSpxLTAox6Fk6RdYXMeQ/Vd9PfFZFHTBBSqNni70EQd8glSfbkF
-	OPkd0mVXYih46/FqDFQTDQ4Awhm+KpthsNxQkDM9n9AivJk2waQaE5PQJsr9cfUpmoyF
-	0HhpKG7IWRvfsydpg+UI9q54T0aY2tB0/0O+fL5ijKvkyGcumEaOmtf7yz1YC5Ya8M0k
-	i5qfLFQSY00+kLywdxE/5Zi72+XYgBEafKBCPnKhIZHCIoH2iHYDZODb7oXW3VIVA94L
-	ZXvg==
+	:cc; bh=PO+DpkLFSEmKGbdl+QbxIzB+nYYo6tXAPiR6S+bMs+o=;
+	b=nhJk62PkyNLyAN2W4/MgUFuaoTZG+VT1mWVqRRznHAKAZYNY2YA2jqa8WJzdvRJQmJ
+	3bgSqpiWgFqDg7vzyX5yKT+RP4TycfBULBS2bFXYDLfd2530M4JOc4E6i3IjxuD+BP8n
+	4H0F/aqCJS4qNJ7t8QWrnmp5XMUCDpmg3KFufhSse5kRQTt+QDwCkewKaikjjldeLhu3
+	whXJv+o5gBZnTNRAO8QIQklJjj/QysoGWHXWUJZXFxKZL4WaOp8DVoRjQX+IKB14uIoz
+	yMn99gqbHLwaMJiRA01j5FRMvU/CV2Sh4JzditFo1zxbdpvmlMyUYgjIDbNRu5Of3Y5a
+	IQcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=dJ1JdoFW8Dk+KqyXCX3VF8oanlXWwJe/7vZHSjrtFoM=;
-	b=It0c2ut1EfywPT0Mv/NsHWWIRVujxRRYl3ih+fgPd2yPT/ZfBQcNI+QLnWp0iKMCay
-	LolKIwr3JQAU8qZRsS4cDUU0aqQ3uFrQKGxZ2wE5MVTp4BJVX5DNjqAYCN/6lrzUR10X
-	ToI3/RZMiZNvmzSTUUIsah4U98rZce3cbu7XvugSEZ89/auiunqA6beoC2xlZxGswEMj
-	bsfKzifaVqiTzsbF2ufnWrd00ZAvO+73r5IWoH5ARwpSWQjQiKC5W062QKWWgvCo0UAZ
-	hCLaPzKhYHH6lEkdwsrBlTxXy7lVYK2uc81qaNlI+KhCS4lywK9Pt7w43XfsXPoZsYU/
-	Ci/Q==
-X-Gm-Message-State: APjAAAVlRi95CcxA5paZxD2sdt24moFnuzjTVEcHCeO7cDm6AxS7RBXW
-	QMED/9eyMMOQNoR2bccnyQtKyfHDa0Q+bpogHlgECc5d
-X-Google-Smtp-Source: APXvYqzzCnlsNMCyM4JcBsATP9kSCoEjX3hRjvwIRJUA8BaVg9jhX8JKVD/FX/20qMGuE9BPycBYGwyU/amhPZ8n0yo=
-X-Received: by 2002:a2e:9214:: with SMTP id k20mr4995433ljg.232.1567081674503; 
-	Thu, 29 Aug 2019 05:27:54 -0700 (PDT)
+	bh=PO+DpkLFSEmKGbdl+QbxIzB+nYYo6tXAPiR6S+bMs+o=;
+	b=SDzDdIJSaAPhfTM3bExv2ARlsFt2yG+qCUpA7BKxTbQY1O+OYYqnzl5vOmBnvxMoFO
+	xNKvcbQwnbKFYxgbkRM27BeGgoSI5CRazDAUTS0LxhnXDWNmIwcA2HohpK+EKYYWLbSk
+	CgreS6Xdx8lxJkMaqXiDovwYCqKZ3YiHbylrdE2I2CSlgE8TFylY6lpy6fnq3xLHX3Ox
+	RN358COsb3i3h+U68ACaqXgmqaWy1t6kSBkJ+Wajr0lGeSFiE+R62VN2vYLha/5+y9AP
+	/MzmF8HPS++8uObONcg1ckbFhVZrH33uu1GxvSJy5YTAflRh1slmKyVTEQbFUcH2Dd6r
+	DFTg==
+X-Gm-Message-State: APjAAAUpQxa3dRLg+DA4W7ZgHdI3B8SWjPrVCpPtkSuLcef5MiWGSBmY
+	rbFC4bd4fpZFvTX3K2tJpBJXFIzKP3ikCb9miTo=
+X-Google-Smtp-Source: APXvYqyY5O6890pIdJphzeQAOtu0n367HR+JaUPHa8FGhTuSZgb8xZp2Vh4p1kxv9N18M4JC5bUAVa0rWsF8P7Rx/s4=
+X-Received: by 2002:ac5:c290:: with SMTP id h16mr4946695vkk.59.1567082343955; 
+	Thu, 29 Aug 2019 05:39:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1565796002.git.bruce.ashfield@gmail.com>
-	<3a3fd8a7128901ab5fff8de55b789ecd3b633cc6.1565796002.git.bruce.ashfield@gmail.com>
-	<b132395fc39af7592af4a4d1c5d8bc25ccf7a31a.camel@intel.com>
-In-Reply-To: <b132395fc39af7592af4a4d1c5d8bc25ccf7a31a.camel@intel.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 29 Aug 2019 08:27:43 -0400
-Message-ID: <CADkTA4PdkcioYX4Va7ohMapxBPpAr5nirUM+mg3Uno6JroW3Yg@mail.gmail.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] kernel-devsrc: tweak for v5.3+
+References: <20190828201025.35999-1-bruce.ashfield@gmail.com>
+In-Reply-To: <20190828201025.35999-1-bruce.ashfield@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 29 Aug 2019 14:38:52 +0200
+Message-ID: <CANNYZj-tU58835fwd0+YXMY=nfjo-AqbU+M4MCA=odJMm2+xKA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] linux-yocto: introduce 5.2 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,51 +53,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 12:27:54 -0000
+X-List-Received-Date: Thu, 29 Aug 2019 12:39:03 -0000
+Content-Type: multipart/alternative; boundary="000000000000720143059140caa0"
+
+--000000000000720143059140caa0
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Aug 29, 2019 at 5:17 AM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+On Wed, 28 Aug 2019 at 22:10, <bruce.ashfield@gmail.com> wrote:
+
+> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
 >
-> On Wed, 2019-08-14 at 11:31 -0400, bruce.ashfield@gmail.com wrote:
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > The 5.3 kernel has two changes that require tweaks to the minimal
-> > kernel-devsrc package.
-> >
-> > - 4ce97317f [x86/purgatory: Do not use __builtin_memcpy and
-> > __builtin_memset]
-> >
-> >   This change removes the need for arch/x86/purgatory/string.c and
-> >   instead reuses a copy in arch/x86/boot/compressed/, so we can't
-> > copy
-> >   the file anymore. To support older kernels, we make the copy
-> > survive
-> >   the non-existence of the file.
-> >
->
-> This change was merged in 4.19 stable kernel as well. Can this be
-> merged in our stable branches as well please?
 
-It already is (just not pushed), I just wasn't doing -stable updates
-along with 5.2 intro .. there's only so many things I can debug and
-regression test at one time. Hopefully I'll get through the 5.2 work
-soon and finish the rest of my queue.
+The new kernels are missing the drm-bochs tweaks done recently to previous
+kernels:
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master&id=0e0589f81a66f92519e1fbb0d0ab6db22e0e591e
 
-Cheers,
+Perhaps we should put them into a common include?
 
-Bruce
+Alex
 
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-4.19.y&id=e0d262a57fc741a9b362e458c714e37a77ddb62d
->
-> Thanks,
->
-> Anuj
+--000000000000720143059140caa0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 28 Aug 2019 at 22:10, &lt;<a href=
+=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt; wrote=
+:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">+KERNEL_FEATURES_append_qemuall=3D&quot; cfg/virtio.scc&quot;<=
+br>
++KERNEL_FEATURES_append_qemux86=3D&quot; cfg/sound.scc cfg/paravirt_kvm.scc=
+&quot;<br>
++KERNEL_FEATURES_append_qemux86-64=3D&quot; cfg/sound.scc cfg/paravirt_kvm.=
+scc&quot;<br></blockquote><div><br></div><div>The new kernels are missing t=
+he drm-bochs tweaks done recently to previous kernels:</div><a href=3D"http=
+://git.yoctoproject.org/cgit.cgi/poky/commit/?h=3Dmaster&amp;id=3D0e0589f81=
+a66f92519e1fbb0d0ab6db22e0e591e">http://git.yoctoproject.org/cgit.cgi/poky/=
+commit/?h=3Dmaster&amp;id=3D0e0589f81a66f92519e1fbb0d0ab6db22e0e591e</a></d=
+iv><div class=3D"gmail_quote"><br><div>Perhaps we should put them into a co=
+mmon include?</div><div><br></div><div>Alex<br></div></div></div>
 
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
+--000000000000720143059140caa0--
