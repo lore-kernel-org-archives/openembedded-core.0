@@ -1,49 +1,87 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DDFE79B57
+Return-Path: <shohei.maruyama@cybertrust.co.jp>
+Received: from JPN01-OS2-obe.outbound.protection.outlook.com
+	(mail-eopbgr1410100.outbound.protection.outlook.com [40.107.141.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 808027F395
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 22:59:51 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id e24so4613428ljg.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 15:59:52 -0700 (PDT)
+	Fri, 30 Aug 2019 00:09:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=KJ4PXAnylBKecc9B9eZpL1ocE4m17aKaeMV4ceFoiGio38vfVZWwiduzIXa/gmU0K3lK/EHKopVKu5+ohVb5dxMX4f0naMCKFiHxIrcM90GgYVpCWXfgtrqU0OHG8NA4TAYzHOYc+34SnQdCNQESnuOTy6lfkjowWFQB/Aqst814Y5T9HaUrghvPu5YFTWZHuKT7FpD2cyF5c3eTo7znglQ6ISkmiYIX7+bx3V1Ema5u1LgcTC4Cq+XAHfRBIcE8NDOP604CBeh7bdC3vkR3YJ0JAjqkPCzQURo7VZYaK64wphU429x3bm7/iW+Q/BWz2TGGmUTJLGsJuOV/YUsY2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=52WlinTQ6Hc+z+/PBJIvlNWAumnF6xCmGMN8EkZ7Rd0=;
+	b=Mi1hlsCdgRCs8DEAeAWFuNio1nVVimVJZrc26MlMbZFfupXYiYhj6yzgNhavi1/XNzjfuujIsUi5DJ5OiV9n9b0iiqIhtEVnhDwzvA7mdfyF8TgkJXmXOurBzuJGKBYvumG3LdD8mcRXj2cKAj2Jy6Io5kKDNQS+zwXyYY6PSki6li/TxSdjSJ+6Avr/tGXC0vkwiY3ewP1iM0j34SDPIf1xbrSXGK0wOtV/QbrTWri8zEtFOnuUq3iXjEGBwT6w5nOc6q/dShKoAi7OUi94CtUZVheOxBbZGl0Y61UAj/z4+weaB3ae/QritPM/zcTmArUZKsowgGS0Ne9cNytn9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=cybertrust.co.jp; dmarc=pass action=none
+	header.from=cybertrust.co.jp; dkim=pass header.d=cybertrust.co.jp;
+	arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=hi76ygTz76PtL6FgYLovbYxuB9FYvXe8vWlj//EwpyY=;
-	b=G6G0Y6J7xd5OZMuuCzq80r3Jc9iq2sxrlZCVpD7v/Qgwp3fqLGW0yffQS8nWDekrq7
-	EzD18sK1439HAxKoY539rjXKyng0Xtd/OF3W4wDJ/Fndqq2VgdVE8zRWGeBF8Z20kiUk
-	+LUEALSQJOJdMuwtwcnSx8/oWtg7ZGDWn3sDJZ9gjNXNYJItSwNuq8GNmctjpvOSCB13
-	nBn6VvwA4/Vi1TOg+MHvm6f+5zNpmk+LIl25hciAy+aybpqcf8mcZRu/+uLlNW6XiCUX
-	gHiOUCilQtAa5PISGCb1D3FqS2iHwg7N638CZ5x/FcNpTYvmq0b7kcJmGcSyv6yFLAbr
-	DxQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hi76ygTz76PtL6FgYLovbYxuB9FYvXe8vWlj//EwpyY=;
-	b=TgLAtQnxEe13WXnOkxpe8KUlzy0Ubk06azkdbyEmTckIse15cU3dsyhnMzsIHS41YV
-	QsiNxk0J3aLLyCnZTP1vkRgtQL1Ss1/KJV0BGa/sVf/HfKwgxbXZD+kBuiETzfKB5yuy
-	jHOmwrW4vkdG48eXXMz5XLjLX/TFBL86PyM6aEy868m9Bpi3XKIiDFW3rov86df3qv2b
-	8YeKKe53DCRplb7PwaweyPJFqxnVsSK+l3iG8sztArsWpKGhdCNniOpXcooMC0xdvYsg
-	399vinYgAASOy7Rv97JK2s9ud8zYyu72uHZKiwuv1xFK/v6lZTF446f2misO9HkJkQVw
-	bzWw==
-X-Gm-Message-State: APjAAAX8F7WcpgZCZBxwzAsoeq3eGkQr2Oi7+qMB0X1hOzLCY/IfMuuF
-	J3834S4p8yFeI3jkxRF9IaevLYaE1rY=
-X-Google-Smtp-Source: APXvYqyGQu7FwjALuWBzcl7jkeyh30VAEAPs/3+kTzne0v4WlOO54c6UGAyvjoxnwlTc2v+MfAGazw==
-X-Received: by 2002:a2e:9b0c:: with SMTP id u12mr6886215lji.239.1567119591665; 
-	Thu, 29 Aug 2019 15:59:51 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id z128sm593169lfa.1.2019.08.29.15.59.50
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 29 Aug 2019 15:59:51 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Aug 2019 00:59:49 +0200
-Message-Id: <20190829225949.5884-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] ell: update to 0.22
+	d=intra01.onmicrosoft.com; s=selector2-intra01-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=52WlinTQ6Hc+z+/PBJIvlNWAumnF6xCmGMN8EkZ7Rd0=;
+	b=rIuVV6dA3rzeejcl3oi3dJdm6mLXOGJo9rtcBHYsUhzmcamDvpaH29pZBOVyF7ADqAB5VM0S/uV0wDakT5EbaJPwUYBikRA2DR5tV8zJT8POe3wCfAZ1VsQzEI0TMJEx7Rxwhw60WbCwPbXGnqcXyZ+medZWogh6Phd3KvflTek=
+Received: from TYAPR01MB3007.jpnprd01.prod.outlook.com (20.177.101.86) by
+	TYAPR01MB3280.jpnprd01.prod.outlook.com (20.177.102.205) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2199.20; Fri, 30 Aug 2019 00:09:19 +0000
+Received: from TYAPR01MB3007.jpnprd01.prod.outlook.com
+	([fe80::6869:1670:e5fc:4dcb]) by
+	TYAPR01MB3007.jpnprd01.prod.outlook.com
+	([fe80::6869:1670:e5fc:4dcb%7]) with mapi id 15.20.2220.013;
+	Fri, 30 Aug 2019 00:09:18 +0000
+From: <shohei.maruyama@cybertrust.co.jp>
+To: <alex.kanavin@gmail.com>
+Thread-Topic: [OE-core] [PATCH] runqemu: Change to use -device virtio-gpu-pci
+	instead of -vga virtio
+Thread-Index: AQHVXVoWmuBzOh7eKkaLDyGL/I4T8g==
+Date: Fri, 30 Aug 2019 00:09:18 +0000
+Message-ID: <f632b8d9d293b54fe63b308dea7684333e409456.camel@cybertrust.co.jp>
+References: <20190828043639.9942-1-shohei.maruyama@cybertrust.co.jp>
+	<CANNYZj80wCXerLr-L0zDuG3sShD52snqmG83ySN8cZXXUzT9PQ@mail.gmail.com>
+In-Reply-To: <CANNYZj80wCXerLr-L0zDuG3sShD52snqmG83ySN8cZXXUzT9PQ@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: TYAPR03CA0009.apcprd03.prod.outlook.com
+	(2603:1096:404:14::21) To TYAPR01MB3007.jpnprd01.prod.outlook.com
+	(2603:1096:404:7f::22)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=shohei.maruyama@cybertrust.co.jp; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [219.123.27.194]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d1d96308-050e-4145-3e46-08d72cde4d3c
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+	SRVR:TYAPR01MB3280; 
+x-ms-traffictypediagnostic: TYAPR01MB3280:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <TYAPR01MB3280D1C0F37B4A26FA7BC334D6BD0@TYAPR01MB3280.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0145758B1D
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(4636009)(366004)(136003)(396003)(39860400002)(346002)(376002)(199004)(189003)(2906002)(53936002)(6116002)(8936002)(118296001)(66066001)(8676002)(36756003)(446003)(71190400001)(52116002)(316002)(256004)(476003)(81156014)(486006)(76176011)(81166006)(11346002)(71200400001)(26005)(102836004)(6486002)(386003)(6506007)(6916009)(99286004)(86362001)(186003)(2616005)(6246003)(66476007)(478600001)(46636005)(6436002)(6306002)(6512007)(229853002)(5660300002)(14454004)(3846002)(305945005)(64756008)(66556008)(66946007)(4326008)(25786009)(966005)(7736002)(4744005)(66446008);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:TYAPR01MB3280;
+	H:TYAPR01MB3007.jpnprd01.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: cybertrust.co.jp does not
+	designate permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: ROKFGeN/KK7QjjKmsP600pLjVEBCTmh1iNYmoQjS2Pc95YzgdJvwcUOifMw4y6FCP97XY1VdUIYyN3Ld3Van8yO5QKX++VJKz+kkseFAwo1xXVdWMvU5w5IvpxWIUn7bLyA0VEFQ7EUixmqfwHzVR/H2tzUWdERmqNNx45pzmqWO88myXrrX8j2YdR+PAIveV4AsLoPRL4Q3lDiiy0Hv3rAPmWD9YAvv+slsu59D+csZChZbXZHz3IcNWboqqUGjueVFs3TsUSnMtvS8lpGKXQuHv8AvsbtcZyBdgL6e/xiWR6JX2tsTuHBExH2FE6+qFFMx2J6XQLb0bZPuisCYOokwOJRpTuA1Pgj7IRADyhnlBJ1F1H+XcHPf4yyeJQQsLVzh6317aWeZ+uJRelCy2HZ5eI0ehnxmPghJ+PrSfsc=
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: cybertrust.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1d96308-050e-4145-3e46-08d72cde4d3c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2019 00:09:18.8388 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72cc4624-32b4-4dab-b80a-8563e559bd82
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2chhv5hQmW74UVJIU8c/sCeuta/F+4EZvgZOXVxsGoydwprfLMpSlTPstIlQ5u8fslcWsCWHoyQFICh+Wuzv9Xr6FWzYm860MgJKHL2ZKWzbLezjrZhJUeVsJtBXu/rY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3280
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] runqemu: Change to use -device virtio-gpu-pci instead of -vga virtio
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +94,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2019 22:59:51 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 00:09:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8269BDD4C6A18448B7FBF5F6317ABE3B@jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-Changelog:
-- Fix issue with DHCP and T1 timeout handling.
-- Fix issue with escape characters in peer identity string.
-- Add support for setting peer certificate's subject CN mask.
-
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-core/ell/{ell_0.21.bb => ell_0.22.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/ell/{ell_0.21.bb => ell_0.22.bb} (83%)
-
-diff --git a/meta/recipes-core/ell/ell_0.21.bb b/meta/recipes-core/ell/ell_0.22.bb
-similarity index 83%
-rename from meta/recipes-core/ell/ell_0.21.bb
-rename to meta/recipes-core/ell/ell_0.22.bb
-index 487fbccab5..b3942fc30e 100644
---- a/meta/recipes-core/ell/ell_0.21.bb
-+++ b/meta/recipes-core/ell/ell_0.22.bb
-@@ -14,8 +14,8 @@ DEPENDS = "dbus"
- inherit autotools pkgconfig
- 
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "f94f8c812b0426b0c30b651fa5142dd9"
--SRC_URI[sha256sum] = "a0db4e3057ba41035637354b6af2aa4c74f83509e0c3e563d682df9d72eaff17"
-+SRC_URI[md5sum] = "a4e7d74404f11e71775b89f53a8f1c33"
-+SRC_URI[sha256sum] = "3c1d6d997e17dfcbe4ebcd1331d9a7be5c64f2f0a0813bc223790e570d8da2e3"
- 
- do_configure_prepend () {
-     mkdir -p ${S}/build-aux
--- 
-2.17.1
-
+PiBDYW4geW91IHBsZWFzZSBsb29rIGludG8gd2h5IHRoYXQgZXJyb3IgaGFwcGVucyBvbiBhcm0s
+IGJ1dCBub3Qgb24NCj4geDg2PyAtdmdhIHZpcnRpbyBpcyB0aGUgb2ZmaWNpYWxseSBkb2N1bWVu
+dGVkIG9wdGlvbiwgc28gSSB3b3VsZA0KPiByYXRoZXIgdXNlIHRoYXQgZXZlcnl3aGVyZS4NCg0K
+QWNjb2RpbmcgdG8gDQpodHRwczovL3dpa2kucWVtdS5vcmcvRG9jdW1lbnRhdGlvbi9QbGF0Zm9y
+bXMvQVJNI3ZpcnRfbWFjaGluZV9ncmFwaGljcw0KLCB3ZSBzaG91bGQgdXNlICctZGV2aWNlIHZp
+cnRpby1ncHUtcGNpJyBpZiBnaXZlbiAnLU0gdmlydCcgdG8gcWVtdS0NCnN5c3RlbS1hYXJjaDY0
+IG9yIHFlbXUtc3lzdGVtLWFybS4NCg0KT24gV2VkLCAyMDE5LTA4LTI4IGF0IDA4OjU0ICswMjAw
+LCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90ZToNCj4gT24gV2VkLCAyOCBBdWcgMjAxOSBhdCAwNjoz
+NiwgPHNob2hlaS5tYXJ1eWFtYUBjeWJlcnRydXN0LmNvLmpwPg0KPiB3cm90ZToNCj4gPiBJZiB1
+c2luZyBxZW11LXN5c3RlbS1hYXJjaDY0IG9yIHFlbXUtc3lzdGVtLWFybSB3aXRoIHRoZSBvcHRp
+b25zLA0KPiA+IGFuIGVycm9yDQo+ID4gb2NjdXJlZCBhcyBmb2xsb3dzOg0KPiA+IA0KPiA+ICAg
+cWVtdS1zeXN0ZW0tYWFyY2g2NDogVmlydGlvIFZHQSBub3QgYXZhaWxhYmxlDQo+ID4gDQo+ID4g
+dGhpcyBjb21taXQgZml4ZXMgdGhlIGVycm9yIHRvIHVzZSAtZGV2aWNlIHZpcnRpby1ncHUtcGNp
+IGluc3RlYWQNCj4gPiBvZg0KPiA+IC12Z2EgdmlydGlvLg0KPiANCj4gQ2FuIHlvdSBwbGVhc2Ug
+bG9vayBpbnRvIHdoeSB0aGF0IGVycm9yIGhhcHBlbnMgb24gYXJtLCBidXQgbm90IG9uDQo+IHg4
+Nj8gLXZnYSB2aXJ0aW8gaXMgdGhlIG9mZmljaWFsbHkgZG9jdW1lbnRlZCBvcHRpb24sIHNvIEkg
+d291bGQNCj4gcmF0aGVyIHVzZSB0aGF0IGV2ZXJ5d2hlcmUuDQo+IA0KPiBBbGV4DQoNCg==
 
