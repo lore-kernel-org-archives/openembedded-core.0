@@ -1,49 +1,47 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CD8D7997D
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B2866B073
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 12:33:34 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id x20so4602279vsx.13
+	Fri, 30 Aug 2019 12:50:04 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id j16so6844225wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 05:33:35 -0700 (PDT)
+	Fri, 30 Aug 2019 05:50:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RJl0vhRqvYsXS3VTPQoYpa96PTfpwDDTkxy0c+aGuw4=;
-	b=oPSye4+DBF/VU+YbjvXKwKkjsmZbLH6WvvGhZ5YrmhFSgW1uN5krUNyaEkFN//wz5C
-	6KYcwhz0qu9ziHNjhLB/xWAVsWeNGOkaN5X7n0FOjdM1c62YVKbccLKV7c2S48kPK2+i
-	VCz2e2Kh64F1fumZPL3otD/+j9rX4Kw03F0Q20mu/63LLTHjuU7Eo91LrqxhxaKW9yxY
-	+kAufR9CgYxMiVOjenEJAlUaMJZR8Rln7S+b63f/qYdbjfvUZ4hIlz5Frv5W180hAxqO
-	WaaEIALMAGRFy6kBWD0A0KYaUqXYLrVU9/bUhdJ3pLWiFdNkVSB7e4NeSaqw80CqL5us
-	3WdA==
+	h=from:to:subject:date:message-id;
+	bh=utN9Ak+fiVCpK6WBa8Jdoxc6le/6hf2ozF08+oiWXoc=;
+	b=MFNKpYQbzkJzfjxsty1WeP2febKRstodquu/zPYLjRKRN6QDVeqTf5IlYjVtTeKcOn
+	+QDaY05J+Z/x5OwXUnPs36ZVJsbxrnBjyDiScif0A9YVqU1jDTfmHprfT0Wp4VhVBGcA
+	u4sjJIDqriMUoy1SzFRO0dH3PsEM00tLC5AktQmXZtACW01UroKVOHqnCPPxQg6zYMJo
+	TbXp9raJuPITEmYj7djOdpHu5WLLpy5HlO5sMqUYLmoYrokpGBPLDRPnjedANVCAQH3e
+	tSYl0xLxxA6Y5qj3rs4rruINKHSQXYhui0VAK5PTl+so2r1EK0CbUrQpIe6RViz9WGE7
+	mccg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=RJl0vhRqvYsXS3VTPQoYpa96PTfpwDDTkxy0c+aGuw4=;
-	b=NbFSF4aQJnj2a2jLnoVx5zwJSxyD0N8GqLREWYg1t7v0xIqaVSfEgwe628zwTQ/GmV
-	HYCvMp8RfCQitPrHV1LChPQw3ypzsebAmHrzHMnaDSEktTlTY2bh5bn3SXW/YsnRpVag
-	keLdbjfP5AUH9ffaYLjUCdqrzp7Ou1/FCI6oDor/onPkgCZCz0E0mv4enmA4dAHDr/GL
-	mMCO6OkwiNT+EY0CDtQJOjoHldh6IphKmgD1D1mJYNej/g9MRNmXmEkpzjxYFCWXo3gG
-	DhGTDpkTqX5vEHndbDXt3TNcRpQaspaSlzDkIyxfzv+EF4/ac91H1EiCuiTgeAJ7yJuf
-	07iQ==
-X-Gm-Message-State: APjAAAXtqMEs4qmsL0f4T+pnBo9UpYKvXfgsyORFzpNXjmY1HzM/I2PN
-	bQ9JkX1D+nYZLZcC8R4mZW3GdyzdulWvc5weycklLw==
-X-Google-Smtp-Source: APXvYqy+B91avCicYzoFxTkERqAGu/kj2Dt5S4ELtSPZkpU0vIQO05gnnzi94e3cZ6wY4j2cNsH6Fx5bOW+SIZOsgFI=
-X-Received: by 2002:a67:fd66:: with SMTP id h6mr8723255vsa.83.1567168415375;
-	Fri, 30 Aug 2019 05:33:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190828043639.9942-1-shohei.maruyama@cybertrust.co.jp>
-	<CANNYZj80wCXerLr-L0zDuG3sShD52snqmG83ySN8cZXXUzT9PQ@mail.gmail.com>
-	<f632b8d9d293b54fe63b308dea7684333e409456.camel@cybertrust.co.jp>
-	<CANNYZj8Epz2FCE85HBL+uxDPVDMh7Gjr+vQUvN+GBfk_T--5kw@mail.gmail.com>
-In-Reply-To: <CANNYZj8Epz2FCE85HBL+uxDPVDMh7Gjr+vQUvN+GBfk_T--5kw@mail.gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=utN9Ak+fiVCpK6WBa8Jdoxc6le/6hf2ozF08+oiWXoc=;
+	b=EaycRsbpl1g67RlUi6SYuf6TpunzJkBKSIlCx4QYpLhp+oCqabUqsJ5FfoOL9sdVG7
+	npACQeor7k2KiRlWSZQhRXRq1EO11xfoUoNHc+DibMXz3ZExLvPtk0tRyTTooq9ZKgsQ
+	AzYlwjAqG5j6LUIOT8n+mjBStDIn3c4AmXYvR6cSZqTeodBOpeZb63iHSfvrm7yLGGfq
+	z/MUFJVyaMCUyS+xY8KB2mTrUrofNmljf5VJmpQ/5DaKz3tOKcK9GAb8mJ6Q0BtPgFf3
+	bC2Ka/3neYgxKCavgfqDRqE5WWE+EebkkMsCcGKyhP7+I/d7iM4RmAPKiaSybeBXd3eg
+	9ZfQ==
+X-Gm-Message-State: APjAAAUErns41v/05R2LUKkdKRIyV6y9p4OtywT+ooy+dIVbkEPtcY7r
+	TOKJTBmt/0xQ8nMA1fVRKDtpGHoM
+X-Google-Smtp-Source: APXvYqzOuww7bPjjQZrexsDLragWtoLp8ioa/Zf0mAQNQPWWriqwLbFRG8iukr9HvfO7I1TPpZLB9Q==
+X-Received: by 2002:adf:e7c4:: with SMTP id e4mr15333629wrn.62.1567169404846; 
+	Fri, 30 Aug 2019 05:50:04 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id d1sm6307481wrs.71.2019.08.30.05.50.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 30 Aug 2019 05:50:04 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 30 Aug 2019 14:33:24 +0200
-Message-ID: <CANNYZj9hiMorPrJoF2GHiysO=3pLBv8oo6sPtyezqU8J8_uQBA@mail.gmail.com>
-To: shohei.maruyama@cybertrust.co.jp
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu: Change to use -device virtio-gpu-pci instead of -vga virtio
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Aug 2019 14:49:45 +0200
+Message-Id: <cover.1567169002.git.alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 00/13] (almost) the last batch of py2 dependencies removal and a few other items
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,81 +54,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 12:33:34 -0000
-Content-Type: multipart/alternative; boundary="000000000000b3a633059154d445"
+X-List-Received-Date: Fri, 30 Aug 2019 12:50:04 -0000
 
---000000000000b3a633059154d445
-Content-Type: text/plain; charset="UTF-8"
+The reason to send this as a formal pull request is that one of the patches
+removed a blob, and I am not sure if that can be handled via emails.
 
-On Fri, 30 Aug 2019 at 13:38, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+With this patchset and Bruce's kernel python2->3 work, the only two
+things in oe-core that still need a python2 binary at build time are u-boot and
+python 2.x itself. At runtime py2 dependencies are entirely eliminated.
 
-> On Fri, 30 Aug 2019 at 02:09, <shohei.maruyama@cybertrust.co.jp> wrote:
->
->> > Can you please look into why that error happens on arm, but not on
->> > x86? -vga virtio is the officially documented option, so I would
->> > rather use that everywhere.
->>
->> Accoding to
->> https://wiki.qemu.org/Documentation/Platforms/ARM#virt_machine_graphics
->> , we should use '-device virtio-gpu-pci' if given '-M virt' to qemu-
->> system-aarch64 or qemu-system-arm.
->>
->
-> Thanks, I didn't know that the lists of supported graphical hardware
-> differ between various machines.
->
-> The patch makes sense then, I will test that it doesn't cause regressions
-> on x86 with virgl and add it to my patchset.\
->
+The following changes since commit ba6a568512d46d49173998a7fb15cd8ee3302551:
 
-Unfortunately it does regress. The system crashes on boot. So this needs to
-be addressed first.
+  ca-certificates: Fix reproducibilty and multilib issue (2019-08-29 17:12:34 +0100)
 
-You can reproduce via 'oe-selftest -r
-runtime_test.TestImage.test_testimage_virgl_gtk'.
+are available in the Git repository at:
 
-You probably should create an arm-specific qemuboot config file that suits
-your usecase rather than try to tweak runqemu script to change settings
-after the fact.
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
 
-Alex
+Alexander Kanavin (13):
+  rpm: resolve a host contamination issue for mono packaging
+  qemu: set default RAM to 256M for all machines
+  qemu: switch to '-vga std' emulated hardware from vmware/cirrus for
+    x86/mips
+  mesa: disable gallium swrast driver on x86 x32
+  ltp: move from python 2.x to python 3.x
+  ca-certificates: use python 3 for builds
+  libpsl: use python 3 during builds
+  pseudo: use python 3 during builds
+  llvm: use python 3 during builds
+  virglrenderer: update 0.7.0 -> 0.8.0
+  eglinfo: remove the recipe
+  webkitgtk: use Python 3 for builds
+  webkitgtk: update 2.24.3 -> 2.24.4
 
---000000000000b3a633059154d445
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ meta/conf/machine/include/qemuboot-mips.inc   |   3 +-
+ meta/conf/machine/include/qemuboot-x86.inc    |   2 +-
+ meta/conf/machine/include/riscv/qemuriscv.inc |   1 -
+ meta/conf/machine/qemuarm.conf                |   1 -
+ meta/conf/machine/qemuarm64.conf              |   1 -
+ meta/conf/machine/qemux86-64.conf             |   6 +-
+ meta/conf/machine/qemux86.conf                |   1 +
+ meta/lib/oeqa/runtime/cases/parselogs.py      |   4 +
+ meta/recipes-devtools/llvm/llvm_git.bb        |   2 +-
+ ...001-maketables-wrappers-use-Python-3.patch |  34 ++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
+ ...es-requires-do-not-use-monodis-from-.patch |  58 ++++++
+ meta/recipes-devtools/rpm/rpm_4.14.2.1.bb     |   1 +
+ ...thon3-everywhere-to-run-python-scrip.patch | 161 +++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20190517.bb     |   3 +-
+ .../eglinfo/eglinfo-fb_1.0.0.bb               |   7 -
+ .../eglinfo/eglinfo-wayland_1.0.0.bb          |  13 --
+ .../eglinfo/eglinfo-x11_1.0.0.bb              |  13 --
+ meta/recipes-graphics/eglinfo/eglinfo.inc     |  38 ----
+ ...INCDIR-to-searchpath-for-egl-headers.patch |  33 ----
+ ...01-Check-for-libegl-using-pkg-config.patch |  36 ----
+ meta/recipes-graphics/eglinfo/files/waf       | 169 ------------------
+ meta/recipes-graphics/mesa/mesa.inc           |   3 +
+ ...efile.am-explicitly-link-with-libdrm.patch |  31 ----
+ .../0001-vtest-add-missing-includes.patch     |  38 ----
+ ...nderer_0.7.0.bb => virglrenderer_0.8.0.bb} |   4 +-
+ ...tings-so-that-gtkdoc-generation-work.patch |  10 +-
+ ...uild-failure-https-bugs.webkit.org-s.patch |  33 ----
+ ...ebkitgtk_2.24.3.bb => webkitgtk_2.24.4.bb} |   7 +-
+ .../0001-certdata2pem.py-use-python3.patch    |  37 ++++
+ .../ca-certificates_20190110.bb               |   1 +
+ ...-PYTHON-when-invoking-psl-make-dafsa.patch |  50 ++++++
+ meta/recipes-support/libpsl/libpsl_0.21.0.bb  |   1 +
+ scripts/runqemu                               |  10 +-
+ 34 files changed, 373 insertions(+), 440 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
+ delete mode 100644 meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb
+ delete mode 100644 meta/recipes-graphics/eglinfo/eglinfo-wayland_1.0.0.bb
+ delete mode 100644 meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
+ delete mode 100644 meta/recipes-graphics/eglinfo/eglinfo.inc
+ delete mode 100644 meta/recipes-graphics/eglinfo/files/0001-Add-STAGING_INCDIR-to-searchpath-for-egl-headers.patch
+ delete mode 100644 meta/recipes-graphics/eglinfo/files/0001-Check-for-libegl-using-pkg-config.patch
+ delete mode 100755 meta/recipes-graphics/eglinfo/files/waf
+ delete mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-Makefile.am-explicitly-link-with-libdrm.patch
+ delete mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-add-missing-includes.patch
+ rename meta/recipes-graphics/virglrenderer/{virglrenderer_0.7.0.bb => virglrenderer_0.8.0.bb} (76%)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Unreviewed-fix-build-failure-https-bugs.webkit.org-s.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.24.3.bb => webkitgtk_2.24.4.bb} (95%)
+ create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-certdata2pem.py-use-python3.patch
+ create mode 100644 meta/recipes-support/libpsl/libpsl/0001-Makefile.am-use-PYTHON-when-invoking-psl-make-dafsa.patch
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 30 Aug 2019 at 13:38, Alexander K=
-anavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex=
-.kanavin@gmail.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"l=
-tr">On Fri, 30 Aug 2019 at 02:09, &lt;<a href=3D"mailto:shohei.maruyama@cyb=
-ertrust.co.jp" target=3D"_blank">shohei.maruyama@cybertrust.co.jp</a>&gt; w=
-rote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">&gt; Can you please look into why that error happens on ar=
-m, but not on<br>
-&gt; x86? -vga virtio is the officially documented option, so I would<br>
-&gt; rather use that everywhere.<br>
-<br>
-Accoding to <br>
-<a href=3D"https://wiki.qemu.org/Documentation/Platforms/ARM#virt_machine_g=
-raphics" rel=3D"noreferrer" target=3D"_blank">https://wiki.qemu.org/Documen=
-tation/Platforms/ARM#virt_machine_graphics</a><br>
-, we should use &#39;-device virtio-gpu-pci&#39; if given &#39;-M virt&#39;=
- to qemu-<br>
-system-aarch64 or qemu-system-arm.<br></blockquote><div><br></div><div>Than=
-ks, I didn&#39;t know that the lists of supported graphical hardware differ=
- between various machines.</div><div><br></div><div>The patch makes sense t=
-hen, I will test that it doesn&#39;t cause regressions on x86 with virgl an=
-d add it to my patchset.\</div></div></div></blockquote><div><br></div><div=
->Unfortunately it does regress. The system crashes on boot. So this needs t=
-o be addressed first.</div><div><br></div><div>You can reproduce via &#39;o=
-e-selftest -r runtime_test.TestImage.test_testimage_virgl_gtk&#39;.</div><d=
-iv><br></div><div>You probably should create an arm-specific qemuboot confi=
-g file that suits your usecase rather than try to tweak runqemu script to c=
-hange settings after the fact.<br></div><div><br></div><div>Alex<br></div><=
-/div></div>
+-- 
+2.17.1
 
---000000000000b3a633059154d445--
+
