@@ -1,59 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 228D67DD6A
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C79C37F44F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 14:39:10 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id o184so7704504wme.3
+	Fri, 30 Aug 2019 14:41:02 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id g11so2399777uak.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 07:39:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=4LM/fIrfGflnL/V+qHZWGCTgFWMxZ3iY8QOU5C8PBqo=;
-	b=MYMQkHzz04WN36+nIYY8gvKNGbqXpMyClxfiiGnHlUMc8I5GKCZbtMV/ranyS0SWl8
-	qvlifBgarmrqxU8UdwVFdWViceJyiX3SemWWVhlD/bAvkaRaz4YMALFR7v3i3DOvWxEh
-	oLV3eO8m3qNtzE1NDz8MjIXhBuDwlmCzkKQj8=
+	Fri, 30 Aug 2019 07:41:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=aUH5jE5ieIlns8RAULK13fg6mneHXtL2b+HMM2vIOx0=;
+	b=PjjCaVaMJXpifo21p0KPfnYErchChOVfsT7QPQca9te8WVUPkmi42ss69qDLjZ+lJM
+	qI8Lqqs/9MiPWOVE5XQJF8MGGbWCAWypdvfjcsmraVb6YlY4t1te05tsrE8NSOatKnlM
+	SIpsN3XMdyUatAmhACOwQRQuMQrTqDK7loXVo2xmpxK+xJfCEYGiKSL8iti/GOWWq8b7
+	tL+Y/0/PQ4GV7Qo/V3/k/EQuwzK0r8x9ngNZcaLQ5su/zeSIT98UjLJ8chsCja/KHIHD
+	K07B/KG9NYcbPnylG/8KdlH9VaYreuobtMJcCvABTwiunWyKmpaw1ljBOn4QzXYUEuLp
+	DOkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=4LM/fIrfGflnL/V+qHZWGCTgFWMxZ3iY8QOU5C8PBqo=;
-	b=XvgtNmrZgc6RM/AF75evpuFTOKN9kz+hyODQHF0wNfDHUaXYfKioH5+l8pgNJkapm7
-	5Kek6gghpYXEeeP5zrNPUlPYQul9Nj7ppns/Pcv9fZjK7BFG9lr3o69/0R/fSPX5daxX
-	1Q1JxUYes7mh+OxK0Xffn7B0L2BBnwIZzIwVg8MkbbsE6rsvJjTfk2iPA6pIL0h+rwqr
-	ij7dpYy2xvlN/zs6hZBqGdO0PZ2M0Pq7NQBIUtMW7SB/UD1mJRtFxX5zEehxJYOgi0v/
-	wx7L9JPeF0gm4oQhLMiAgnznhtE+FNppu2jQnIexKxNmqp/p/WxeC4kXfXaH/oG1Wkje
-	WSgA==
-X-Gm-Message-State: APjAAAVHGcxxLyy/Ud0PYOAX5CFn2eJfRhq1SgJ8P7HcX3fYR+a+63lW
-	rx+SJWw4HTjtgqqrZTgGtTFUXg==
-X-Google-Smtp-Source: APXvYqyPGoZ7dA0YCKolv6giAEjzexiV99VFmvr1iBr830OQqLtRkfts460+E/LIM5SguLIdJoqS3Q==
-X-Received: by 2002:a1c:5451:: with SMTP id p17mr13660564wmi.103.1567175951546;
-	Fri, 30 Aug 2019 07:39:11 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t203sm1611555wmf.42.2019.08.30.07.39.09
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 30 Aug 2019 07:39:10 -0700 (PDT)
-Message-ID: <9996bc502efa90a0dfc7d3cfc9612b3ff4faf907.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Jonathan Rajotte-Julien
-	<jonathan.rajotte-julien@efficios.com>, Khem Raj <raj.khem@gmail.com>
-Date: Fri, 30 Aug 2019 15:39:08 +0100
-In-Reply-To: <CADkTA4Mf9u09J=M5xZx518va22xwUDqr=E4Xyq9jn2S2LLPevw@mail.gmail.com>
-References: <cover.1565796002.git.bruce.ashfield@gmail.com>
-	<28547fae8ada44e4f2383f02bd1d8e0f3ce96b52.camel@linuxfoundation.org>
-	<CADkTA4MHrS0y7Movz5JSmrFc9dSKCEdOxOwV=dCteNnktibNCg@mail.gmail.com>
-	<CADkTA4ONrm_Xtr9Mcdj359m5xqFqzKTzN8bB=VnRn2PKRxP+Wg@mail.gmail.com>
-	<20190829152736.GA4696@joraj-alpa>
-	<CADkTA4PybRmDHYumSEjULoaiXKDL9H4oXv6H7jOQv4VfsbOk1g@mail.gmail.com>
-	<CADkTA4Mf9u09J=M5xZx518va22xwUDqr=E4Xyq9jn2S2LLPevw@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=aUH5jE5ieIlns8RAULK13fg6mneHXtL2b+HMM2vIOx0=;
+	b=OrUs36t/tkHHqWvpLfdvuz0Z/z8JT6fucBSSUaKFX9lnQ2eIvJLH1FjOH9M01kbMbU
+	N9nvXlIUs95XITi0OAdBpD5kVR0daqj3wdOEJbxbNUTdYrh28/DDsse/COQCERxjLFn+
+	fWo7ZDSHqUT61pgl4p4VFqxMPScLZmj11OOOzyGqPu34XFXYSFJZhT/R9kQ06v+3/XSm
+	SDmf3JtJqw9v+tCIi2gKSytUzob9P1EC1c/x+NOMgd1hHvwI/JNG1n/OR0iPT9K1Ipnw
+	0/OkHA+wAmtkUG1n8kM1wIRj5ImajYPiO2iLxG6c7rtuETuzMogAdNBqsaWngMcWoteV
+	8/0Q==
+X-Gm-Message-State: APjAAAV/aIeYTzBFDHoaW6LkPcpaaQvXaRQexvGZdKwx0N6N4LvIWkau
+	13jA+CaV23VS8gjnrkZ8y6TCtAe5PT139M4AhKM=
+X-Google-Smtp-Source: APXvYqyF/2yqibKObWBbzwdpAOab2caTOaq/GPajg4XWjXwcK+crnbnJj5ZE4wZVeOsgQiMePoJ0icfSUCEU8oNiV0s=
+X-Received: by 2002:ab0:2b13:: with SMTP id e19mr7464152uar.81.1567176063375; 
+	Fri, 30 Aug 2019 07:41:03 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] kernel-yocto: misc build / config changes
+References: <CAHtQpK5qiC-i-nouQjbk-CToV-Z-jbN-vKZ7Zk0DOtwQC3SUYQ@mail.gmail.com>
+In-Reply-To: <CAHtQpK5qiC-i-nouQjbk-CToV-Z-jbN-vKZ7Zk0DOtwQC3SUYQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 30 Aug 2019 07:40:51 -0700
+Message-ID: <CAJ86T=Wz=CpQsZgo4C62RUOGAyWVcJe5OZqX_eQFEbbdZkkjWw@mail.gmail.com>
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: FETCHCMD drop breaks build when append is used (from patch b259bd31eb)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,88 +53,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 14:39:11 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 14:41:02 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2019-08-29 at 11:32 -0400, Bruce Ashfield wrote:
-> On Thu, Aug 29, 2019 at 11:31 AM Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
-> > On Thu, Aug 29, 2019 at 11:28 AM Jonathan Rajotte-Julien
-> > <jonathan.rajotte-julien@efficios.com> wrote:
-> > > > FWIW: lttng-ust builds fine for me with the 5.2 kernel + 5.2
-> > > > headers,
-> > > > it is one of the things I build and test as part of
-> > > > core-image-kernel-dev.
-> > >=20
-> > > Even on ppc?
-> > >=20
-> >=20
-> > yup. I build all arches for core-image-kernel-dev, which includes
-> > all of lttng.
->=20
-> but I've recently switched to RP's master-next branch, so hopefully a
-> difference in the configs will pop out.
+On Fri, Aug 30, 2019 at 3:08 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+>
+> Hello Andre,
+>
+> I've just pulled the master and experienced a build failure during
+> fetching of updated recipe's source tarballs.
+>
+> The reason for this being that defaults for FETCHCMD has been dropped
+> with your patch b259bd31eb from the series. Once defaults are removed
+> and appends are used - the FETCHCMD gets defined to the value listed
+> in append, which normally does not contain a command itself rather
+> than necessary additional parameters (like user/passwd if working with
+> local pre-mirror servers).
 
-I'll post here about what I'm finding. eudev fails since SO_SNDTIMEO
-isn't defined. This comes from asm-generic/socket.h which asm/socket.h
-include.
+I think for the specific case of usernames and passwords the advice
+would be to put them in .netrc etc rather than trying to append to the
+fetcher command lines (but mainly for security reasons rather than
+this issue).
 
-richard@jet:work/ppce300c3-poky-linux/eudev/3.2.8-r0/build/src/shared$ /med=
-ia/build1/poky/build/tmp/work/ppce300c3-poky-linux/eudev/3.2.8-r0/recipe-sy=
-sroot-native/usr/bin/powerpc-poky-linux/powerpc-poky-linux-gcc -m32 -mhard-=
-float -mcpu=3De300c3 -fstack-protector-strong -D_FORTIFY_SOURCE=3D2 -Wforma=
-t -Wformat-security -Werror=3Dformat-security --sysroot=3D/media/build1/pok=
-y/build/tmp/work/ppce300c3-poky-linux/eudev/3.2.8-r0/recipe-sysroot -DHAVE_=
-CONFIG_H -I. -I../../../eudev-3.2.8/src/shared -I../.. -DUDEV_ROOT_RUN=3D\"=
-/run\" -include ../../config.h -O2 -pipe -g -feliminate-unused-debug-types =
--fmacro-prefix-map=3D/media/build1/poky/build/tmp/work/ppce300c3-poky-linux=
-/eudev/3.2.8-r0=3D/usr/src/debug/eudev/3.2.8-r0 -fdebug-prefix-map=3D/media=
-/build1/poky/build/tmp/work/ppce300c3-poky-linux/eudev/3.2.8-r0=3D/usr/src/=
-debug/eudev/3.2.8-r0 -fdebug-prefix-map=3D/media/build1/poky/build/tmp/work=
-/ppce300c3-poky-linux/eudev/3.2.8-r0/recipe-sysroot=3D -fdebug-prefix-map=
-=3D/media/build1/poky/build/tmp/work/ppce300c3-poky-linux/eudev/3.2.8-r0/re=
-cipe-sysroot-native=3D -c ../../../eudev-3.2.8/src/shared/log.c  -fPIC -DPI=
-C -o .libs/log.o
-../../../eudev-3.2.8/src/shared/log.c: In function 'create_log_socket':
-../../../eudev-3.2.8/src/shared/log.c:128:43: error: 'SO_SNDTIMEO' undeclar=
-ed (first use in this function); did you mean 'SO_TXTIME'?
-  128 |         (void) setsockopt(fd, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(=
-tv));
-      |                                           ^~~~~~~~~~~
-      |                                           SO_TXTIME
+> This patch would also break several other recipes which are using
+> appends to FETCHCMD, for example for FETCHCMD_wget the libedit would
+> fail since it appends the wget to use different User-Agent.
+>
+> I've copied Raj here since he introduced this recipe in the form it is
+> and would definitely break.
+>
+> Can you please have a look at this and advise on how one can continue
+> to use the FETCHCMD appends for the future?
 
-The file:
-ppce300c3-poky-linux/eudev/3.2.8-r0/recipe-sysroot/usr/include/asm-generic/=
-socket.h
-isn't included.
+One answer could be that modifications of the fetcher command lines
+should be done by completely defining them rather than appending. I'm
+not sure how reasonable that is though.
 
-if I put:
+In the end the approach to fixing this depends on whether appending to
+the default fetcher commands is considered valid usage or not... and I
+don't know the answer to that.
 
-#include <asm-generic/socket.h>
-
-at the top of log.c it will build, everything else doesn't.
-
-Debugging with gcc -e shows its including a different 'interesting' file.
-
-My build has a=20
-build/tmp/work/ppce300c3-poky-linux/eudev/3.2.8-r0/recipe-sysroot-native/us=
-r/lib/powerpc-poky-linux/gcc/powerpc-poky-linux/9.2.0/include-fixed/asm-gen=
-eric/socket.h
-which looks totally wrong when I compare it to the real asm-generic/socket.=
-h.
-
-Why this is in the toolchain I don't know and I'll have to investigate furt=
-her.
-
-I worry it depends on which MACHINE you have set when you build gcc-cross-p=
-owerpc.
-
-So we have some progress/a lead but more to be done.
-
-Cheers,
-
-Richard
-
-
+> For now, I've defined the FETCHCMD_wget in my local.conf but I do not
+> believe that this is the general way everyone should follow if they
+> would need to append fetcher commands...
+>
+> Thanks a lot!
+>
+> --
+> Regards,
+> Andrey.
 
