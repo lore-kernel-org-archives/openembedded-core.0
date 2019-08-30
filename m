@@ -1,35 +1,23 @@
-Return-Path: <Daniel.Klauer@gin.de>
-Received: from good-out-27.clustermail.de (good-out-27.clustermail.de
-	[212.223.161.2])
-	by mail.openembedded.org (Postfix) with ESMTP id C6D797F2F6
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C9B9A7F2F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 07:26:43 +0000 (UTC)
-Received: from [10.0.0.10] (helo=frontend.clustermail.de)
-	by smtpout-02.clustermail.de with esmtp (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>) id 1i3bIs-00080n-O7
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Aug 2019 09:26:44 +0200
-Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
-	by frontend.clustermail.de with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92)
-	(envelope-from <Daniel.Klauer@gin.de>) id 1i3bIs-00052B-MW
-	for openembedded-core@lists.openembedded.org;
-	Fri, 30 Aug 2019 09:26:38 +0200
-Received: from daniel-desktop.gin-domain.local (10.160.138.39) by
-	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Fri, 30 Aug 2019 09:26:38 +0200
-From: Daniel Klauer <daniel.klauer@gin.de>
+	Fri, 30 Aug 2019 07:37:50 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7U7bpq5015574
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2019 00:37:51 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Fri, 30 Aug 2019 00:37:51 -0700
+From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Aug 2019 09:24:21 +0200
-Message-ID: <20190830072421.4586-1-daniel.klauer@gin.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190729123142.2332.94789@do>
-References: <20190729123142.2332.94789@do>
+Date: Fri, 30 Aug 2019 15:37:46 +0800
+Message-ID: <1567150670-252374-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Originating-IP: [10.160.138.39]
-X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
-	Win2012-02.gin-domain.local (192.168.1.12)
-Subject: [PATCH v2] image.bbclass: Fix debug output for rootfs size
+Subject: [PATCH] avahi-ui: support usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,30 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 07:26:44 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 07:37:50 -0000
 Content-Type: text/plain
 
-The debug output showed the wrong variable.
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Daniel Klauer <daniel.klauer@gin.de>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/avahi/avahi-ui_0.7.bb | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 7fa4ff20bd..f4633da3d5 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -526,7 +526,7 @@ def get_rootfs_size(d):
-     base_size = size_kb * overhead_factor
-     bb.debug(1, '%f = %d * %f' % (base_size, size_kb, overhead_factor))
-     base_size2 = max(base_size, rootfs_req_size) + rootfs_extra_space
--    bb.debug(1, '%f = max(%f, %d)[%f] + %d' % (base_size2, base_size, rootfs_req_size, max(base_size, rootfs_req_size), overhead_factor))
-+    bb.debug(1, '%f = max(%f, %d)[%f] + %d' % (base_size2, base_size, rootfs_req_size, max(base_size, rootfs_req_size), rootfs_extra_space))
+diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
+index a77653b..1c6e46a 100644
+--- a/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
++++ b/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
+@@ -20,7 +20,13 @@ FILES_avahi-discover = "${datadir}/applications/avahi-discover.desktop \
  
-     base_size = base_size2
-     if base_size != int(base_size):
+ do_install_append () {
+ 	rm ${D}${sysconfdir} -rf
+-	rm ${D}${base_libdir} -rf
++	if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','true','false',d)}; then
++               if [ "${nonarch_base_libdir}" != "${base_libdir}" ];then
++                   rm ${D}${nonarch_base_libdir} -rf
++               fi
++        else
++		rm ${D}${base_libdir} -rf
++        fi
+ 	rm ${D}${systemd_unitdir} -rf
+ 	# The ${systemd_unitdir} is /lib/systemd, so we need rmdir /lib,
+ 	# but not ${base_libdir} here. And the /lib may not exist
 -- 
-2.17.1
+2.7.4
 
 
