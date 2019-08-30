@@ -1,26 +1,52 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AE41D7F3A2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B5D687E6AC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 07:38:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7U7c4N7003839
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 30 Aug 2019 08:39:43 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id l2so6542144wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 00:38:14 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Fri, 30 Aug 2019 00:37:54 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Aug 2019 15:37:48 +0800
-Message-ID: <1567150670-252374-3-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1567150670-252374-1-git-send-email-changqing.li@windriver.com>
-References: <1567150670-252374-1-git-send-email-changqing.li@windriver.com>
+	Fri, 30 Aug 2019 01:39:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=i0l/0IpUi39g4ppMn0a7HAKKVvTqMBBn8fZCdUYpyV4=;
+	b=bbN8hHbnHX1KWv+vTM2KOKju6sdgHX5Y/Z7WyJ0AAmFdtsJmE0YebRq7ggScTReDwW
+	O7k7PhhvT8xACobF3l7EVXgLmzbNXH/w8+NL7hbUg2RPn0GZ2Ss2rlKffTt8mky5Xu61
+	lSg5rA+fckpM8S3R+Z4viE/5teBQ9FGpCv4OA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=i0l/0IpUi39g4ppMn0a7HAKKVvTqMBBn8fZCdUYpyV4=;
+	b=hO7B4X3uf7sGB4wXQfgK7pBAZdDP2EOYlHwCn4Z4aMAX9dOvaLxx66/irSZe9mpIN6
+	txNO4z/TNtNpGf8TrU0msQWsW44teotRiLvAf/J1P62yUikL4l9QlIwUgtrYjPhkgWpt
+	K+heBpn7ZVwW0BHjywJK94p+vE8JxaG9UncYwkL0w2xr5ysauyLvEQyuTwuAu5UP7mdj
+	dMIM9+UQ/H511vcZg79CyRtkzzvCcQtgC6Scokq9PgQFGAJHKlrVTuM1yuY9F5z7LIkO
+	4DAbA2/sh3TduXTal0qcQSOcyfTnanhWvMWy11LUbEChDRPzSKiauNsH5JVyYV28319c
+	+U7A==
+X-Gm-Message-State: APjAAAUjtV80CCuZWvDuh2YI+2HICoz4+eQ9/qlidEb7cbgrXJ3nhtAk
+	eLj8oHFKWGL9mV6V+QgJbJuyB4BZEWgumg==
+X-Google-Smtp-Source: APXvYqzteQIunwXQ8DPBiM3FEhlboR9+abw0frPlXFsZKn3yvVlz3GL7lLjhFxxWFopemtjXuOhTjw==
+X-Received: by 2002:a7b:c4d5:: with SMTP id g21mr16971275wmk.149.1567154384098;
+	Fri, 30 Aug 2019 01:39:44 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	j17sm3877515wru.24.2019.08.30.01.39.42
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 30 Aug 2019 01:39:43 -0700 (PDT)
+Message-ID: <3ddea138c43dbf7b4f586124e901562f61e210b5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>, Adrian Bunk <bunk@stusta.de>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 30 Aug 2019 09:39:37 +0100
+In-Reply-To: <3023c089-61bf-dfc0-bc7e-1a5864febcb9@windriver.com>
+References: <20190825172116.23759-2-bunk@stusta.de>
+	<3023c089-61bf-dfc0-bc7e-1a5864febcb9@windriver.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH] dnf.py: support test dnf installroot when enable usrmerge
+Subject: Re: [PATCH] Remove LSB support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,76 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 07:38:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Aug 2019 08:39:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+On Fri, 2019-08-30 at 11:04 +0800, Robert Yang wrote:
+> Hi Adrian,
+> 
+> On 8/26/19 1:21 AM, Adrian Bunk wrote:
+> > The only part with some (marginal) usage is lsb_release,
+> > which is split from the lsb package into an own lsb-release
+> > package.
+> > 
+> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> > ---
+> > https://github.com/AdrianBunk/meta-lsb contains a preliminary
+> 
+> Do you have a plan to move it to git.yoctoproject.org or
+> git.openembedded.org, 
+> please?
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/lib/oeqa/runtime/cases/dnf.py | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+I'm happy to have it on git.yoctoproject.org but we need a
+maintainer...
 
-diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
-index 629b9af..6507066 100644
---- a/meta/lib/oeqa/runtime/cases/dnf.py
-+++ b/meta/lib/oeqa/runtime/cases/dnf.py
-@@ -9,7 +9,7 @@ from oeqa.utils.httpserver import HTTPService
- 
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
--from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
-+from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature, skipIfInDataVar
- from oeqa.runtime.decorator.package import OEHasPackage
- 
- class DnfTest(OERuntimeTestCase):
-@@ -116,6 +116,7 @@ class DnfRepoTest(DnfTest):
-         self.dnf_with_repo('reinstall -y run-postinsts-dev')
- 
-     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
-+    @skipIfNotDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when not enable usrmerge')
-     def test_dnf_installroot(self):
-         rootpath = '/home/root/chroot/test'
-         #Copy necessary files to avoid errors with not yet installed tools on
-@@ -141,6 +142,37 @@ class DnfRepoTest(DnfTest):
-         self.assertEqual(0, status, output)
- 
-     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
-+    @skipIfInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when enable usrmege')
-+    def test_dnf_installroot_usrmerge(self):
-+        rootpath = '/home/root/chroot/test'
-+        #Copy necessary files to avoid errors with not yet installed tools on
-+        #installroot directory.
-+        self.target.run('mkdir -p %s/etc' % rootpath, 1500)
-+        self.target.run('mkdir -p %s/usr/bin %s/usr/sbin' % (rootpath, rootpath), 1500)
-+        self.target.run('ln -sf -r %s/usr/bin %s/bin'  % (rootpath, rootpath), 1500)
-+        self.target.run('ln -sf -r %s/usr/sbin %s/sbin'  % (rootpath, rootpath), 1500)
-+        self.target.run('mkdir -p %s/dev' % rootpath, 1500)
-+        #Handle different architectures lib dirs
-+        self.target.run('mkdir -p %s/usr/lib' % rootpath, 1500)
-+        self.target.run('mkdir -p %s/usr/libx32' % rootpath, 1500)
-+        self.target.run('mkdir -p %s/usr/lib64' % rootpath, 1500)
-+        self.target.run('cp /lib/libtinfo.so.5 %s/usr/lib' % rootpath, 1500)
-+        self.target.run('cp /libx32/libtinfo.so.5 %s/usr/libx32' % rootpath, 1500)
-+        self.target.run('cp /lib64/libtinfo.so.5 %s/usr/lib64' % rootpath, 1500)
-+        self.target.run('ln -ef -r %s/lib %s/usr/lib' % (rootpath,rootpath), 1500)
-+        self.target.run('ln -ef -r %s/libx32 %s/usr/libx32' % (rootpath,rootpath), 1500)
-+        self.target.run('ln -ef -r %s/lib64 %s/usr/lib64' % (rootpath,rootpath), 1500)
-+        self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
-+        self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
-+        self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
-+        self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
-+        self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox run-postinsts' % rootpath)
-+        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
-+        self.assertEqual(0, status, output)
-+        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
-+        self.assertEqual(0, status, output)
-+
-+    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
-     def test_dnf_exclude(self):
-         excludepkg = 'curl-dev'
-         self.dnf_with_repo('install -y curl*')
--- 
-2.7.4
+Cheers,
+
+Richard
 
 
