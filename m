@@ -1,37 +1,25 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C94F57ECF9
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E99A7CE86
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 05:01:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46KS4j4tkDz28;
-	Fri, 30 Aug 2019 07:01:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1567141301;
-	bh=964fnVfEYpEL3dwD8bHt3rilFmp32ak7a3LYfb1N7NE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GvLU0p4o362p6PyH+cb5SjCS69bCs/xgfIkTsdCIYEUxtSIgKvvUbFDHNtU757uDZ
-	5+EXZ8CHYYLCtTjGFa1wAp+P2k9S6+CbJhOFa1Dpo8OWhXYU2PpTPupluvZTe6k4OG
-	2eMe7ReLRvgT8mnO0bnlAjNS20gISm5RdiMhCM6ms3PKC+DXisw9384HY/MszVjTEw
-	g2EawfF82J4y1TOJQSWeOyfCfJqc+zSjn3fniHZvJyKmcvEVJ1lrqyBC+oCs53t38y
-	ohZAcg4HKivEy/vWtUawyR/M7M2w9U9Y1pfXRr2LlvQbRjaLyYnzXL0qS/FMYHUlEg
-	PdnrcE1WXTkTw0EPLpXiq61KZ64MsFLPGgXEaxIcsydJ6hPZYnHoQhEu4jeqsucBrW
-	9z8yz8YT01KgsruZg4ZXf0pCTMPWc0wHYvK4rbicnYhIGFIflkkTHbQLnTuKL9qm3l
-	UrC63oV0Vs9uybWBqw28skwIpkAfslYJlU5cDrLa52xCRq4h6Zq8G6ornEsndUH5g6
-	3j8mQM4kL24tliE/EYVnWz15Lofx7mvgUec8I4NuFeN/WXxdl2uX1cnngS/gditE6p
-	vqWuDsMBH1BRyvitcUmrInhGL5SZT1RLjSoJ1FYBh/KcVOjeZ9kBWb/35YfBaaOjsc
-	zoYMStfwNKsnQnscck/tMv8o=
-Date: Fri, 30 Aug 2019 08:01:38 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20190830050138.GE24691@localhost>
-References: <20190825172116.23759-2-bunk@stusta.de>
-	<3023c089-61bf-dfc0-bc7e-1a5864febcb9@windriver.com>
+	Fri, 30 Aug 2019 05:26:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7U5QRnF000468
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Aug 2019 22:26:38 -0700
+Received: from localhost (128.224.162.195) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Thu, 29 Aug 2019 22:26:16 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Aug 2019 13:26:14 +0800
+Message-ID: <1567142774-26174-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <3023c089-61bf-dfc0-bc7e-1a5864febcb9@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Remove LSB support
+X-Originating-IP: [128.224.162.195]
+Subject: [PATCH] libbsd: upgrade 0.9.1 -> 0.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +32,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 05:01:42 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 30 Aug 2019 05:26:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 30, 2019 at 11:04:52AM +0800, Robert Yang wrote:
-> Hi Adrian,
+License-Update: copyright years updated.
 
-Hi Robert,
+Drop the backport patch.
 
-> On 8/26/19 1:21 AM, Adrian Bunk wrote:
-> > The only part with some (marginal) usage is lsb_release,
-> > which is split from the lsb package into an own lsb-release
-> > package.
-> >
-> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> > ---
-> > https://github.com/AdrianBunk/meta-lsb contains a preliminary
->
-> Do you have a plan to move it to git.yoctoproject.org or
-> git.openembedded.org, please?
->
-> // Robert
->
-> > meta-lsb layer, looking for a maintainer.
->...                ^^^^^^^^^^^^^^^^^^^^^^^^
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ .../0001-flopen-Add-missing-fcntl.h-include.patch  | 46 ----------------------
+ .../libbsd/{libbsd_0.9.1.bb => libbsd_0.10.0.bb}   | 11 ++----
+ 2 files changed, 4 insertions(+), 53 deletions(-)
+ delete mode 100644 meta/recipes-support/libbsd/libbsd/0001-flopen-Add-missing-fcntl.h-include.patch
+ rename meta/recipes-support/libbsd/{libbsd_0.9.1.bb => libbsd_0.10.0.bb} (79%)
 
-I am hoping that someone who has an actual interest in LSB will
-adopt it, and then it's not up to me where it will be hosted.
-
-If you are interested, feel free to adopt it and host it
-wherever you want.
-
-cu
-Adrian
-
+diff --git a/meta/recipes-support/libbsd/libbsd/0001-flopen-Add-missing-fcntl.h-include.patch b/meta/recipes-support/libbsd/libbsd/0001-flopen-Add-missing-fcntl.h-include.patch
+deleted file mode 100644
+index 8abb876..0000000
+--- a/meta/recipes-support/libbsd/libbsd/0001-flopen-Add-missing-fcntl.h-include.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 13c32916b4baab58d93940d57fea9ff0777f1931 Mon Sep 17 00:00:00 2001
+-From: Baruch Siach <baruch@tkos.co.il>
+-Date: Tue, 5 Jun 2018 19:21:46 +0300
+-Subject: [PATCH] flopen: Add missing <fcntl.h> include
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Commit 993828d84ee (Add flopenat() function from FreeBSD) dropped the
+-fcntl.h header. This breaks the build with musl libc:
+-
+-flopen.c: In function ‘vflopenat’:
+-flopen.c:60:14: error: ‘O_CREAT’ undeclared (first use in this function)
+-  if (flags & O_CREAT) {
+-              ^~~~~~~
+-
+-Restore the fcntl.h header include to fix the build.
+-
+-Fixes: commit 993828d84eed0468c6c15b2818e534e6b134b8e4
+-Submitted-also-by: parazyd <parazyd@dyne.org>
+-Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+-Signed-off-by: Guillem Jover <guillem@hadrons.org>
+-
+-Upstream-Status: Backport
+-[https://gitlab.freedesktop.org/libbsd/libbsd/commit/13c32916b4baab58d93940d57fea9ff0777f1931]
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- src/flopen.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/flopen.c b/src/flopen.c
+-index b9972c9..ff20d07 100644
+---- a/src/flopen.c
+-+++ b/src/flopen.c
+-@@ -32,6 +32,7 @@
+- #include <sys/stat.h>
+- 
+- #include <errno.h>
+-+#include <fcntl.h>
+- #include <stdarg.h>
+- #include <unistd.h>
+- 
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-support/libbsd/libbsd_0.9.1.bb b/meta/recipes-support/libbsd/libbsd_0.10.0.bb
+similarity index 79%
+rename from meta/recipes-support/libbsd/libbsd_0.9.1.bb
+rename to meta/recipes-support/libbsd/libbsd_0.10.0.bb
+index 2b75cdf..eaf244a 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.9.1.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.10.0.bb
+@@ -28,16 +28,13 @@ HOMEPAGE = "http://libbsd.freedesktop.org/wiki/"
+ # License: public-domain
+ # License: public-domain-Colin-Plumb
+ LICENSE = "BSD-4-Clause & ISC & PD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=b552602fda69e34c753d26de383f33c5"
++LIC_FILES_CHKSUM = "file://COPYING;md5=2120be0173469a06ed185b688e0e1ae0"
+ SECTION = "libs"
+ 
+-SRC_URI = " \
+-    http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+-    file://0001-flopen-Add-missing-fcntl.h-include.patch \
+-"
++SRC_URI = "http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "a74b80c4143afa032c90226a4518fffe"
+-SRC_URI[sha256sum] = "56d835742327d69faccd16955a60b6dcf30684a8da518c4eca0ac713b9e0a7a4"
++SRC_URI[md5sum] = "ead96d240d02faa5b921c0aa50c812b5"
++SRC_URI[sha256sum] = "34b8adc726883d0e85b3118fa13605e179a62b31ba51f676136ecb2d0bc1a887"
+ 
+ inherit autotools pkgconfig
+ 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.7.4
 
 
