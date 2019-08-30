@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 35D5D7D251;
-	Fri, 30 Aug 2019 09:02:57 +0000 (UTC)
+Return-Path: <yuanc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 72BDD7D251
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2019 09:03:46 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,446,1559491200"; d="scan'208";a="74578351"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 30 Aug 2019 17:03:46 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 6EB9F4CE089C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2019 17:03:42 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.21) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Fri, 30 Aug 2019 17:03:45 +0800
+From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 30 Aug 2019 18:03:26 +0900
+Message-ID: <20190830090326.19091-1-yuanc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hongzhi.Song <hongzhi.song@windriver.com>
-Date: Fri, 30 Aug 2019 09:02:58 -0000
-Message-ID: <20190830090258.2332.90141@do>
-References: <1567154741-251463-1-git-send-email-hongzhi.song@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1567154741-251463-1-git-send-email-hongzhi.song@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGF5ZXIuY29uZjogYWRkIG9wZW5lbWJlZGRlZC1sYXllciB0byBMQVlFUkRFUEVORFM=?=
+X-Originating-IP: [10.167.225.21]
+X-yoursite-MailScanner-ID: 6EB9F4CE089C.A1364
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: yuanc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] man-db: upgrade 2.8.6.1 -> 2.8.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 09:02:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Aug 2019 09:03:46 -0000
+Content-Type: text/plain
 
-== Series Details ==
-
-Series: layer.conf: add openembedded-layer to LAYERDEPENDS
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19589/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [meta-realtime] layer.conf: add openembedded-layer to LAYERDEPENDS
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-realtime) and send the patch to the indicated list
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at c8f329fc56)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../man-db/{man-db_2.8.6.1.bb => man-db_2.8.7.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/man-db/{man-db_2.8.6.1.bb => man-db_2.8.7.bb} (92%)
+
+diff --git a/meta/recipes-extended/man-db/man-db_2.8.6.1.bb b/meta/recipes-extended/man-db/man-db_2.8.7.bb
+similarity index 92%
+rename from meta/recipes-extended/man-db/man-db_2.8.6.1.bb
+rename to meta/recipes-extended/man-db/man-db_2.8.7.bb
+index ec9eb8385b..bdf340ae74 100644
+--- a/meta/recipes-extended/man-db/man-db_2.8.6.1.bb
++++ b/meta/recipes-extended/man-db/man-db_2.8.7.bb
+@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://docs/COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343
+ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
+            file://99_mandb \
+            file://man_db.conf-avoid-multilib-install-file-conflict.patch"
+-SRC_URI[md5sum] = "22e82fe1127f4ca95de7100168a927d1"
+-SRC_URI[sha256sum] = "2c77a2bb9dbf06f72417a6f63063e204888a22a5020ff77334d304d55f813a28"
++SRC_URI[md5sum] = "ec0b23c8314a1654c4d059b2c18ce43d"
++SRC_URI[sha256sum] = "b9cd5bb996305d08bfe9e1114edc30b4c97be807093b88af8033ed1cf9beb326"
+ 
+ DEPENDS = "libpipeline gdbm groff-native base-passwd"
+ RDEPENDS_${PN} += "base-passwd"
+-- 
+2.17.1
+
+
 
 
