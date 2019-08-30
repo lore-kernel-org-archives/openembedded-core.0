@@ -1,54 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id BAA7D7EC92
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 871B860720
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 16:45:56 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id v15so8066002wml.0
+	Fri, 30 Aug 2019 16:49:38 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id n2so6743149wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 09:45:58 -0700 (PDT)
+	Fri, 30 Aug 2019 09:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=tvVD1zOQtLOEJyipCSTztp8IVjPvdjB6ntiUVDcew+A=;
-	b=Nh4t4Q9Xz9zUC+RTJmE9x2viwuLgjBwdVintvBL/e4X90at3QU1eJsMi5HD1hWEI8F
-	8MzkWgLEtac6cF87d5tLkUB5ADvHz4RI9rmNHwixc0UWA1t3R4sYN+spWl0h/CPA1MnP
-	E9IAfYGWbFHj4SoBVchfqmFRwR5jtHb7aiMeQ=
+	bh=uqim+k0xrQatkAfOpZyNXohVkT6YLhKFlCede10tVMA=;
+	b=fYUEUOHkR66nurAnOcwaNDh2xzGrC49tGg/yG6fTgTO7An4ORMqW00x3GEqcss0EoH
+	mBBkdpdh9owA+qnbYaS3dtyGtslFZ/sJKrpOEj4RcYfqYe1fsKZ22N9X4oBZEkD8mQre
+	HoD2KIdnBNsAvsC+Yv4+h2ta/nRArrxmXLt2I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tvVD1zOQtLOEJyipCSTztp8IVjPvdjB6ntiUVDcew+A=;
-	b=YAd4m09u76u18ELxoiuJU48Yp0O3+ohpnSRDKsLqqi493oP99vI5NrwT9+dAE1HfBO
-	HbzekfrLF07XrT7Lq7PzsDDscSVwre0mLEjZFZEdg3KkSeIHW5/whhdc28iIvnFdo8hE
-	wpnfFwsvxDMUbLHPrk+maP+xX3e1suzRwbMEI05Tw0mXByo9NfCwCsiyWfjU/BAh0g41
-	yL4TPQeR7zqDVm6JP7XDk7jend9pTJyk+wYMkXoYwsKNGlRRWflhqUQDwM0/kyE1xutA
-	3DBc5EQcW7rtX90fEJhalGJ+raReQW6lks3yPBUCfbW3X6swosxEt16XpuFlNMr0nXja
-	d/fQ==
-X-Gm-Message-State: APjAAAVWHasFme/lU6B6EdYA+JS4jmbV7Kdx/SFQYZu6rRy+t8W3JR4y
-	02KsweME7WOwzrLr/AxD4DaufA==
-X-Google-Smtp-Source: APXvYqzho13Qmsz+gcrgVJCuwa26pAtLd/bhSoaC06/HI+W7s8o+8YTn5ZAPd55PW0DBKjnm03TxSA==
-X-Received: by 2002:a05:600c:2245:: with SMTP id
-	a5mr19698799wmm.121.1567183557373; 
-	Fri, 30 Aug 2019 09:45:57 -0700 (PDT)
+	bh=uqim+k0xrQatkAfOpZyNXohVkT6YLhKFlCede10tVMA=;
+	b=C9qazPmO2lDf3qOipMbIHoBrYyp1L8gGccy0R8e4Q0IDY52nsmJPwJ/RWFu8aC7d2t
+	5pjesmypi/dchKaddk1TnIQ8kAOUefQE17KWlloON8fcvS5L3U4QN0s8Q8I8ibQ8KPFV
+	qzZ0NBwynwqxZMum5xDdT6m1o6mSxS2LzPQD443Jkc0MEUSSWUVq57AkyIBizVE+IU57
+	oZBP9EbqdoBtj3aTTbeJUa/cJWUjCkyxhoQAVaHWQgttwC/uJmQYBOwNZRwl/XquK153
+	7TXA6DX/Rd1jD8tjuCS/ZWAozl9Mmwek/4bqxBRwTHgPglvG90nysuplw2NurDuAbVqs
+	txng==
+X-Gm-Message-State: APjAAAUfHDvGCOS9Zrus6t3246+W+Vlw6fp5dnM2Gfwc1eQj4pwVCe/f
+	cV3YqbLLZpQSEU86h1dkft0XYYRzXAQAzw==
+X-Google-Smtp-Source: APXvYqwHoCFuILtAewZ+vwcjxKnIVc5fPZSNDleeIe/mwM8hz6WJIYq9rWWG3waKjPMy+UcOQk7Mcw==
+X-Received: by 2002:a1c:1b14:: with SMTP id b20mr7102974wmb.122.1567183779287; 
+	Fri, 30 Aug 2019 09:49:39 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h32sm4792640wrh.62.2019.08.30.09.45.55
+	t19sm6870165wmi.29.2019.08.30.09.49.37
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 30 Aug 2019 09:45:56 -0700 (PDT)
-Message-ID: <c4e3f69a53cbc0a6e93970e3b4699447041e2aff.camel@linuxfoundation.org>
+	Fri, 30 Aug 2019 09:49:38 -0700 (PDT)
+Message-ID: <289f14f3a89bf12fef9d830cd0579a06bf5514a8.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Loic Poulain <loic.poulain@linaro.org>, Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 30 Aug 2019 17:45:54 +0100
-In-Reply-To: <CAMZdPi_bvV1Lcg_V3U1HpA_tH1AzWtpa0YMRg4MsNEgsOzApiQ@mail.gmail.com>
-References: <CAMZdPi_2=mFZFgwzUVis4BE7P3C4boOZmVB6_eYeLCaT0wLJaA@mail.gmail.com>
-	<CAJ86T=XwwjSZR6oNdXCr=bvbOKw5trKWJ=na4=_+83vXXJo6Bw@mail.gmail.com>
-	<CAMZdPi_bvV1Lcg_V3U1HpA_tH1AzWtpa0YMRg4MsNEgsOzApiQ@mail.gmail.com>
+To: Mattias Hansson <mattias.hansson@axis.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 30 Aug 2019 17:49:33 +0100
+In-Reply-To: <20190816091329.10359-1-mattihn@axis.com>
+References: <20190816091329.10359-1-mattihn@axis.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: Automatic prebuilt management
+Cc: Mattias Hansson <mattihn@axis.com>
+Subject: Re: [PATCH] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,86 +59,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 16:45:57 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 16:49:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-08-30 at 18:27 +0200, Loic Poulain wrote:
-> HI Andre,
+On Fri, 2019-08-16 at 11:13 +0200, Mattias Hansson wrote:
+> do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
+> However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
+> which sometimes causes a build error when building a recipe that adds
+> groups.
 > 
-> On Fri, 23 Aug 2019 at 20:11, Andre McCurdy <armccurdy@gmail.com>
-> wrote:
-> > On Mon, Aug 5, 2019 at 9:06 AM Loic Poulain <
-> > loic.poulain@linaro.org> wrote:
-> > > Say a company works with an OE internal tree, with open-source
-> > and closed-source packages. The company wants to release the tree
-> > so that its customers can fully customize the images/distro. The
-> > closed sources being only available internally, the company has to
-> > generate and handle prebuilt binaries for proprietary packages.
-> > Ideally, with a unified public/internal OE tree (same recipes for
-> > internal/public build).
-> > >
-> > > This question is actually similar to an older thread:
-> > > https://marc.info/?l=openembedded-core&m=146779329804683
-> > 
-> > That very old thread was also referenced recently in a follow up
-> > where
-> > I shared a later solution, see:
-> > 
-> >   
-> > http://lists.openembedded.org/pipermail/openembedded-core/2019-July/284896.html
+> This issue only occurs when executing do_prepare_recipe_sysroot for a
+> recipe that adds groups before finishing a task that depends on pseudo
+> for a recipe that doesn't add groups.
 > 
-> Thanks, I missed that one.
+> Signed-off-by: Mattias Hansson <mattihn@axis.com>
+> ---
+>  meta/classes/base.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> > 
-> > > I started to work on this and added a 'generate-prebuilt' class
-> > which generates a tarball of ${D} in deploy/prebuilts after
-> > do_install task. Symmetrically, It's also possible to create an
-> > 'install-prebuilt' class which bypasses do_fetch, do_unpack, ...,
-> > do_install with noexec flag and instead uncompresses a previously
-> > generated prebuilt tarball into ${D} and continue normally. But I
-> > would like something smarter, e.g. first trying to check if the
-> > SRC_URI is available, if not switching on using the prebuilt
-> > package if available (e.g. in a DIR_PREBUILT)...
-> > >
-> > > Before going further is there already an existing solution for
-> > that? do you have any recommendation on the easier/best way to
-> > achieve this?
-> > 
-> > I did initially try the approach of having a single recipe which
-> > can
-> > automatically support both building from source and extracting a
-> > prebuilts tar file, but that (for me anyway) turned out to be a
-> > dead
-> > end. Building from source requires build dependencies and config
-> > options but extracting a prebuilt tar file does not, so the two end
-> > up
-> > sharing very little... so 90% of the recipe ends up being
-> > conditional
-> > on which mode it's running in. The solution I ended up with (see
-> > link
-> > above) was for the class which creates the prebuilt tar file to
-> > also
-> > create a dedicated mini recipe to extract it. 
-> > From my experience however an equally hard part of the problem is
-> > the
-> > distribution of prebuilts. It starts off easy (you share a tar file
-> > via email or an ftp site and the receiver manually copies to their
-> > downloads directory...) but that doesn't scale if you need to make
-> > regular updates.
-> 
-> Very good point. maybe having binaries also in a repo could help a
-> bit (e.g. using git LFS).
->  
-> > My solution is discussed a little more in the thread
-> > linked to above.
-> 
-> Your solution is interesting and I'll probably jump on the thread
-> with more questions.
-> Having an upstream solution part of oe-core would be nice though.
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 0c8a4b2862..0576b110c9 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -480,6 +480,7 @@ python () {
+>      # If we're building a target package we need to use fakeroot (pseudo)
+>      # in order to capture permissions, owners, groups and special files
+>      if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
+> +        d.setVarFlag('do_prepare_recipe_sysroot', 'fakeroot', '1')
+>          d.setVarFlag('do_unpack', 'umask', '022')
+>          d.setVarFlag('do_configure', 'umask', '022')
+>          d.setVarFlag('do_compile', 'umask', '022')
 
-We'd be happy to have one, it will take someone to propose something
-suitably general purpose that others can use along with tests.
+This basically forces all target recipes prepare-recipe sysroot to run
+under pseudo "just in case", with all the performance overhead that
+entails. prepare_recipe_sysroot does a lot of file accesses so this is
+significant. It will also increase the pseudo database sizes
+everywhere.
+
+We'll need to find a better way to handle this I'm afraid.
 
 Cheers,
 
