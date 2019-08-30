@@ -1,30 +1,24 @@
-Return-Path: <yuanc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 72BDD7D251
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A9237F3EF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 09:03:46 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,446,1559491200"; d="scan'208";a="74578351"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 30 Aug 2019 17:03:46 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 6EB9F4CE089C
+	Fri, 30 Aug 2019 09:33:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7U9XxeV004400
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 17:03:42 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.21) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Fri, 30 Aug 2019 17:03:45 +0800
-From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+	Fri, 30 Aug 2019 02:33:59 -0700 (PDT)
+Received: from localhost (128.224.162.195) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Fri, 30 Aug 2019 02:33:58 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Aug 2019 18:03:26 +0900
-Message-ID: <20190830090326.19091-1-yuanc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.17.2
+Date: Fri, 30 Aug 2019 17:33:56 +0800
+Message-ID: <1567157636-12184-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.21]
-X-yoursite-MailScanner-ID: 6EB9F4CE089C.A1364
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: yuanc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] man-db: upgrade 2.8.6.1 -> 2.8.7
+X-Originating-IP: [128.224.162.195]
+Subject: [PATCH] nfs-utils: fix nfsidmap compile error with gcc9 when enable PACKAGECONFIG[nfsv4]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +31,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 09:03:46 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 09:33:58 -0000
 Content-Type: text/plain
 
-Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+Fixes:
+nfsidmap.c:404:4: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
+  404 |    xlog_warn(usage, progname);
+      |    ^~~~~~~~~
+nfsidmap.c:436:3: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
+  436 |   xlog_warn(usage, progname);
+      |   ^~~~~~~~~
+nfsidmap.c:454:23: error: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'key_serial_t' {aka 'int'} [-Werror=format=]
+  454 |   xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
+      |                     ~~^
+      |                       |
+      |                       long unsigned int
+      |                     %x
+  455 |    key, type, value, timeout);
+      |    ~~~
+      |    |
+      |    key_serial_t {aka int}
+nfsidmap.c:454:54: error: format '%ld' expects argument of type 'long
+int', but argument 5 has type 'int' [-Werror=format=]
+  454 |   xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
+      |                                                    ~~^
+      |                                                      |
+      |                                                      long int
+      |                                                    %d
+  455 |    key, type, value, timeout);
+      |                      ~~~~~~~
+      |                      |
+      |                      int
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../man-db/{man-db_2.8.6.1.bb => man-db_2.8.7.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/man-db/{man-db_2.8.6.1.bb => man-db_2.8.7.bb} (92%)
+ ...x-compile-error-with-Werror-format-2-and-.patch | 87 ++++++++++++++++++++++
+ .../nfs-utils/nfs-utils_2.3.3.bb                   |  5 +-
+ 2 files changed, 90 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch
 
-diff --git a/meta/recipes-extended/man-db/man-db_2.8.6.1.bb b/meta/recipes-extended/man-db/man-db_2.8.7.bb
-similarity index 92%
-rename from meta/recipes-extended/man-db/man-db_2.8.6.1.bb
-rename to meta/recipes-extended/man-db/man-db_2.8.7.bb
-index ec9eb8385b..bdf340ae74 100644
---- a/meta/recipes-extended/man-db/man-db_2.8.6.1.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.8.7.bb
-@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://docs/COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343
- SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
-            file://99_mandb \
-            file://man_db.conf-avoid-multilib-install-file-conflict.patch"
--SRC_URI[md5sum] = "22e82fe1127f4ca95de7100168a927d1"
--SRC_URI[sha256sum] = "2c77a2bb9dbf06f72417a6f63063e204888a22a5020ff77334d304d55f813a28"
-+SRC_URI[md5sum] = "ec0b23c8314a1654c4d059b2c18ce43d"
-+SRC_URI[sha256sum] = "b9cd5bb996305d08bfe9e1114edc30b4c97be807093b88af8033ed1cf9beb326"
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch
+new file mode 100644
+index 0000000..711942e
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch
+@@ -0,0 +1,87 @@
++From 37a007d01e901fd88829ccfce74ffdfca353f071 Mon Sep 17 00:00:00 2001
++From: Yi Zhao <yi.zhao@windriver.com>
++Date: Fri, 30 Aug 2019 16:01:16 +0800
++Subject: [PATCH] nfsidmap: fix compile error with -Werror=format=2 and
++ -Werror=format-nonliteral
++
++Fixes:
++nfsidmap.c:404:4: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
++  404 |    xlog_warn(usage, progname);
++      |    ^~~~~~~~~
++nfsidmap.c:436:3: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
++  436 |   xlog_warn(usage, progname);
++      |   ^~~~~~~~~
++nfsidmap.c:454:23: error: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'key_serial_t' {aka 'int'} [-Werror=format=]
++  454 |   xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
++      |                     ~~^
++      |                       |
++      |                       long unsigned int
++      |                     %x
++  455 |    key, type, value, timeout);
++      |    ~~~
++      |    |
++      |    key_serial_t {aka int}
++nfsidmap.c:454:54: error: format '%ld' expects argument of type 'long
++int', but argument 5 has type 'int' [-Werror=format=]
++  454 |   xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
++      |                                                    ~~^
++      |                                                      |
++      |                                                      long int
++      |                                                    %d
++  455 |    key, type, value, timeout);
++      |                      ~~~~~~~
++      |                      |
++      |                      int
++
++Upstream-Status: Pending
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ utils/nfsidmap/nfsidmap.c | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/utils/nfsidmap/nfsidmap.c b/utils/nfsidmap/nfsidmap.c
++index d3967a3..2052b9b 100644
++--- a/utils/nfsidmap/nfsidmap.c
+++++ b/utils/nfsidmap/nfsidmap.c
++@@ -18,7 +18,7 @@
++ #include "xcommon.h"
++ 
++ int verbose = 0;
++-char *usage = "Usage: %s [-vh] [-c || [-u|-g|-r key] || -d || -l || [-t timeout] key desc]";
+++char *usage = "[-vh] [-c || [-u|-g|-r key] || -d || -l || [-t timeout] key desc]";
++ 
++ #define MAX_ID_LEN   11
++ #define IDMAP_NAMESZ 128
++@@ -401,7 +401,7 @@ int main(int argc, char **argv)
++ 			break;
++ 		case 'h':
++ 		default:
++-			xlog_warn(usage, progname);
+++			xlog_warn("Usage: %s %s", progname, usage);
++ 			exit(opt == 'h' ? 0 : 1);
++ 		}
++ 	}
++@@ -433,7 +433,7 @@ int main(int argc, char **argv)
++ 	xlog_stderr(verbose);
++ 	if ((argc - optind) != 2) {
++ 		xlog_warn("Bad arg count. Check /etc/request-key.conf");
++-		xlog_warn(usage, progname);
+++		xlog_warn("Usage: %s %s", progname, usage);
++ 		return EXIT_FAILURE;
++ 	}
++ 
++@@ -451,8 +451,8 @@ int main(int argc, char **argv)
++ 		return EXIT_FAILURE;
++ 	}
++ 	if (verbose) {
++-		xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
++-			key, type, value, timeout);
+++		xlog_warn("key: 0x%x type: %s value: %s timeout %d",
+++			(unsigned int)key, type, value, timeout);
++ 	}
++ 
++ 	/* Become a possesor of the to-be-instantiated key to set the key's timeout */
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
+index 28f9898..e68703f 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
+@@ -35,6 +35,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-Makefile.am-update-the-path-of-libnfs.a.patch \
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
++           file://0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch \
+ "
+ SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
+ SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
+@@ -77,7 +78,7 @@ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wr
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ # libdevmapper is available in meta-oe
+ PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper"
+-# keyutils is available in meta-security
++# keyutils is available in meta-oe
+ PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils"
  
- DEPENDS = "libpipeline gdbm groff-native base-passwd"
- RDEPENDS_${PN} += "base-passwd"
+ PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
+@@ -103,7 +104,7 @@ FILES_${PN}-mount = "${base_sbindir}/*mount.nfs*"
+ FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
+ RDEPENDS_${PN}-stats = "python3-core"
+ 
+-FILES_${PN} += "${systemd_unitdir}"
++FILES_${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/"
+ 
+ do_configure_prepend() {
+         sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
 -- 
-2.17.1
-
-
+2.7.4
 
 
