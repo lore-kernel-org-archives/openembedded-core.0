@@ -1,52 +1,56 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B5D687E6AC
+Return-Path: <mattias.hansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DD537E6AC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 08:39:43 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id l2so6542144wmg.0
+	Fri, 30 Aug 2019 08:40:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id E556418563
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 01:39:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=i0l/0IpUi39g4ppMn0a7HAKKVvTqMBBn8fZCdUYpyV4=;
-	b=bbN8hHbnHX1KWv+vTM2KOKju6sdgHX5Y/Z7WyJ0AAmFdtsJmE0YebRq7ggScTReDwW
-	O7k7PhhvT8xACobF3l7EVXgLmzbNXH/w8+NL7hbUg2RPn0GZ2Ss2rlKffTt8mky5Xu61
-	lSg5rA+fckpM8S3R+Z4viE/5teBQ9FGpCv4OA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=i0l/0IpUi39g4ppMn0a7HAKKVvTqMBBn8fZCdUYpyV4=;
-	b=hO7B4X3uf7sGB4wXQfgK7pBAZdDP2EOYlHwCn4Z4aMAX9dOvaLxx66/irSZe9mpIN6
-	txNO4z/TNtNpGf8TrU0msQWsW44teotRiLvAf/J1P62yUikL4l9QlIwUgtrYjPhkgWpt
-	K+heBpn7ZVwW0BHjywJK94p+vE8JxaG9UncYwkL0w2xr5ysauyLvEQyuTwuAu5UP7mdj
-	dMIM9+UQ/H511vcZg79CyRtkzzvCcQtgC6Scokq9PgQFGAJHKlrVTuM1yuY9F5z7LIkO
-	4DAbA2/sh3TduXTal0qcQSOcyfTnanhWvMWy11LUbEChDRPzSKiauNsH5JVyYV28319c
-	+U7A==
-X-Gm-Message-State: APjAAAUjtV80CCuZWvDuh2YI+2HICoz4+eQ9/qlidEb7cbgrXJ3nhtAk
-	eLj8oHFKWGL9mV6V+QgJbJuyB4BZEWgumg==
-X-Google-Smtp-Source: APXvYqzteQIunwXQ8DPBiM3FEhlboR9+abw0frPlXFsZKn3yvVlz3GL7lLjhFxxWFopemtjXuOhTjw==
-X-Received: by 2002:a7b:c4d5:: with SMTP id g21mr16971275wmk.149.1567154384098;
-	Fri, 30 Aug 2019 01:39:44 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j17sm3877515wru.24.2019.08.30.01.39.42
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 30 Aug 2019 01:39:43 -0700 (PDT)
-Message-ID: <3ddea138c43dbf7b4f586124e901562f61e210b5.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, Adrian Bunk <bunk@stusta.de>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 30 Aug 2019 09:39:37 +0100
-In-Reply-To: <3023c089-61bf-dfc0-bc7e-1a5864febcb9@windriver.com>
-References: <20190825172116.23759-2-bunk@stusta.de>
-	<3023c089-61bf-dfc0-bc7e-1a5864febcb9@windriver.com>
-User-Agent: Evolution 3.32.2-1 
+	Fri, 30 Aug 2019 10:40:42 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id yiKREzJNJMWO
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2019 10:40:30 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id B6C6E1856D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2019 10:40:30 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A179F1E075
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2019 10:40:30 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 95A9F1E072
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2019 10:40:30 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2019 10:40:30 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id 8917226E3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2019 10:40:30 +0200 (CEST)
+Received: from axis.com (10.0.5.60) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Fri, 30 Aug 2019 10:40:30 +0200
+Date: Fri, 30 Aug 2019 10:40:29 +0200
+From: Mattias Hansson <mattias.hansson@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20190830084029.i3mfvnzs7m4ltba7@axis.com>
+References: <20190816091329.10359-1-mattihn@axis.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] Remove LSB support
+In-Reply-To: <20190816091329.10359-1-mattihn@axis.com>
+User-Agent: NeoMutt/20180716
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX04.axis.com (10.0.5.18) To XBOX04.axis.com (10.0.5.18)
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +63,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 08:39:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Aug 2019 08:40:42 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On Fri, 2019-08-30 at 11:04 +0800, Robert Yang wrote:
-> Hi Adrian,
+On Fri, Aug 16, 2019 at 11:13:29AM +0200, Mattias Hansson wrote:
+> do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
+> However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
+> which sometimes causes a build error when building a recipe that adds
+> groups.
 > 
-> On 8/26/19 1:21 AM, Adrian Bunk wrote:
-> > The only part with some (marginal) usage is lsb_release,
-> > which is split from the lsb package into an own lsb-release
-> > package.
-> > 
-> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> > ---
-> > https://github.com/AdrianBunk/meta-lsb contains a preliminary
+> This issue only occurs when executing do_prepare_recipe_sysroot for a
+> recipe that adds groups before finishing a task that depends on pseudo
+> for a recipe that doesn't add groups.
 > 
-> Do you have a plan to move it to git.yoctoproject.org or
-> git.openembedded.org, 
-> please?
+> Signed-off-by: Mattias Hansson <mattihn@axis.com>
+> ---
+>  meta/classes/base.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 0c8a4b2862..0576b110c9 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -480,6 +480,7 @@ python () {
+>      # If we're building a target package we need to use fakeroot (pseudo)
+>      # in order to capture permissions, owners, groups and special files
+>      if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
+> +        d.setVarFlag('do_prepare_recipe_sysroot', 'fakeroot', '1')
+>          d.setVarFlag('do_unpack', 'umask', '022')
+>          d.setVarFlag('do_configure', 'umask', '022')
+>          d.setVarFlag('do_compile', 'umask', '022')
+> -- 
+> 2.11.0
+> 
 
-I'm happy to have it on git.yoctoproject.org but we need a
-maintainer...
+Ping. Just a friendly reminder for someone to take a look at this.
 
-Cheers,
-
-Richard
-
+/Mattias
 
