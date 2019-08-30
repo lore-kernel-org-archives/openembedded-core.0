@@ -1,52 +1,38 @@
-Return-Path: <maxime.roussinbelanger@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 40F566C1C4
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F1E77CBE3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 01:08:20 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id z4so5925953qtc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2019 18:08:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=G8TOC6dhmcWL6oyGDDpCfQY5UKjT/3tF7m5KCj0zumw=;
-	b=tVC4BWa0aaPkHmDVbXfh/F49JwAZW3kwASRI0c3wxHd2fEZ2JvsVRrzHYfTPk6mTYV
-	A3aHvlxvxvsCnd0hRpCYj+4CWP18FSCweIv91J2vDzbcg55laX5wdydDK6c1gkDLfjrH
-	uvmOzHwGv/GAhF6/C6gs4H9K/pe38KhxgislfvFz6vTK75rojwtJRKSdVZ5sxU9HBPFq
-	KZ6SZGz9pcnDKYQVns/zyq1YlICU0Rr3gKkqSKFjKmMlmkWRIqZiYORFn6YLZI70fFMv
-	+sD+/ZHCx3KhF+sGv3URdSX2AoYrHLGvW5Ne1D0gN0Ch4ASKN/FFXbckjj1oziB/kU46
-	lfgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=G8TOC6dhmcWL6oyGDDpCfQY5UKjT/3tF7m5KCj0zumw=;
-	b=OV9vp5ehZYzr3D3sBCpKZLcIRwOYeylvpq9CZ4nCrZSUCWBsj9Y8Z/ID4wO6nvaZpc
-	9QnFTDDSaOA+CWbf+dzTkawVIQ65J1r9xD55zokFR9FgK6tsfAbCcAXxND1lu+uOWZvh
-	geUPOGxGX7Oi5nLCFKCsNJD8qRO0dAToRejDp483Umwxl27ZOtOLIBxZD4X7WlUrCF11
-	L6LWQDQykg8zJ36Vq5KDijJq2UQF3vaQs3Pybyr0+05g9OqzjusK0LgRxN08yMvRzL8L
-	/bjE7NPL4VU0pNEX8KFAO4Qo+9znADrP+X/PQgjRBZf7bkgsSjSYLki9IpAbwL7k04RX
-	dBAQ==
-X-Gm-Message-State: APjAAAXdiGPtka5rCPU3Fqrn5eXMrGhOiMr+yl8P5EEEmoJv3XAohyzj
-	7/nrCPevmEFzNcVaQygd5kPBWs3WLgU=
-X-Google-Smtp-Source: APXvYqzh0XQOzPzitYh1wBkBm3FWAsK3BP8FdOc5mKd4pwwKvDQPIN7zTqITP0xgMIv2UGf4XC31dQ==
-X-Received: by 2002:ac8:31cc:: with SMTP id i12mr13148574qte.170.1567127300398;
-	Thu, 29 Aug 2019 18:08:20 -0700 (PDT)
-Received: from mbedesk.Sonatest.net
-	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
-	[174.94.156.236]) by smtp.gmail.com with ESMTPSA id
-	y204sm2562654qka.54.2019.08.29.18.08.19
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 29 Aug 2019 18:08:19 -0700 (PDT)
-From: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
-	<maxime.roussinbelanger@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2019 21:08:01 -0400
-Message-Id: <20190830010801.2496-1-maxime.roussinbelanger@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Fri, 30 Aug 2019 01:55:32 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Aug 2019 18:55:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,445,1559545200"; d="scan'208";a="183657992"
+Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
+	by orsmga003.jf.intel.com with ESMTP; 29 Aug 2019 18:55:31 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.232]) by
+	PGSMSX105.gar.corp.intel.com ([169.254.4.133]) with mapi id
+	14.03.0439.000; Fri, 30 Aug 2019 09:55:30 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
+	<alex.kanavin@gmail.com>
+Thread-Topic: [OE-core] [PATCH 3/4] qemu: switch to '-vga std' emulated
+	hardware from vmware/cirrus for x86/mips
+Thread-Index: AQHVXtX/r7Dcyo0SPke8YRdMxrbc4g==
+Date: Fri, 30 Aug 2019 01:55:29 +0000
+Message-ID: <48b10fe5d26221da2cb169a0ec968dc7bff082c7.camel@intel.com>
+References: <20190828152440.70861-1-alex.kanavin@gmail.com>
+	<20190828152440.70861-3-alex.kanavin@gmail.com>
+In-Reply-To: <20190828152440.70861-3-alex.kanavin@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.199.133]
 MIME-Version: 1.0
-Subject: [PATCH] meta: add missing descriptions and homepage in bsp
+Subject: Re: [PATCH 3/4] qemu: switch to '-vga std' emulated hardware from vmware/cirrus for x86/mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,88 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 01:08:20 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 30 Aug 2019 01:55:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9E683E36DE761A4685F6EF1F3361A009@intel.com>
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
----
- meta/recipes-bsp/acpid/acpid.inc              | 5 +++++
- meta/recipes-bsp/formfactor/formfactor_0.0.bb | 3 +++
- meta/recipes-bsp/grub/grub-bootconf_1.00.bb   | 5 +++++
- meta/recipes-bsp/u-boot/u-boot-common.inc     | 4 ++++
- meta/recipes-bsp/usbinit/usbinit.bb           | 4 ++++
- 5 files changed, 21 insertions(+)
-
-diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/acpid.inc
-index 766ed4f89e..ee9f2c0ece 100644
---- a/meta/recipes-bsp/acpid/acpid.inc
-+++ b/meta/recipes-bsp/acpid/acpid.inc
-@@ -1,4 +1,9 @@
- SUMMARY = "A daemon for delivering ACPI events"
-+DESCRIPTION = "In recent linux kernels, the /proc/acpi/event interface has \
-+been deprecated. The same information (and more) is available via netlink \
-+(a way for the kernel to communicate with userspace that is usually used \
-+for networking) and the input layer (mouse, keyboard, power button, etc...). \
-+This version of acpid supports netlink and the input layer."
- HOMEPAGE = "http://sourceforge.net/projects/acpid2"
- BUGTRACKER = "http://sourceforge.net/p/acpid2/tickets/?source=navbar"
- SECTION = "base"
-diff --git a/meta/recipes-bsp/formfactor/formfactor_0.0.bb b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-index 53cf1cf774..919fb1fbba 100644
---- a/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-+++ b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
-@@ -1,4 +1,7 @@
- SUMMARY = "Device formfactor information"
-+DESCRIPTION = "A formfactor configuration file provides information about the /
-+target hardware for which the image is being built and information that the /
-+build system cannot obtain from other sources such as the kernel."
- SECTION = "base"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-diff --git a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-index 750f8c808a..57e0eddb67 100644
---- a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-+++ b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
-@@ -1,6 +1,11 @@
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- SUMMARY = "Basic grub.cfg for use in EFI systems"
-+DESCRIPTION = "The grub.cfg file contains Bash-like code and a list of installed \
-+kernels in an array ordered by sequence of installation. For example, if you \
-+have four installed kernels, the most recent kernel will be at index 0, the \
-+previous kernel will be at index 1, and the oldest kernel will be index 3."
-+HOMEPAGE = "https://www.gnu.org/software/grub/manual/grub/grub.html#Configuration"
- 
- RPROVIDES_${PN} += "virtual/grub-bootconf"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index ad043dbcde..a056eae8ce 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -1,4 +1,8 @@
- HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
-+DESCRIPTION = "U-Boot, a boot loader for Embedded boards based on PowerPC, \
-+ARM, MIPS and several other processors, which can be installed in a boot \
-+ROM and used to initialize and test the hardware or to download and run \
-+application code."
- SECTION = "bootloaders"
- DEPENDS += "flex-native bison-native"
- 
-diff --git a/meta/recipes-bsp/usbinit/usbinit.bb b/meta/recipes-bsp/usbinit/usbinit.bb
-index aba44b4068..c93f5faee5 100644
---- a/meta/recipes-bsp/usbinit/usbinit.bb
-+++ b/meta/recipes-bsp/usbinit/usbinit.bb
-@@ -1,4 +1,8 @@
- SUMMARY = "Initscript for enabling USB gadget Ethernet"
-+DESCRIPTION = "This module allows ethernet emulation over USB, allowing for /
-+all sorts of nifty things like SSH and NFS in one go plus charging over the /
-+same wire, at higher speeds than most Wifi connections."
-+HOMEPAGE = "http://linux-sunxi.org/USB_Gadget/Ethernet"
- 
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
--- 
-2.20.1
-
+SGkgQWxleCwNCg0KT24gV2VkLCAyMDE5LTA4LTI4IGF0IDE3OjI0ICswMjAwLCBBbGV4YW5kZXIg
+S2FuYXZpbiB3cm90ZToNCi4uLiANCj4gZGlmZiAtLWdpdCBhL21ldGEvY29uZi9tYWNoaW5lL3Fl
+bXVhcm02NC5jb25mDQo+IGIvbWV0YS9jb25mL21hY2hpbmUvcWVtdWFybTY0LmNvbmYNCj4gaW5k
+ZXggZWMyYTg4N2JkZGYuLjA1ZjBlZTVlNjZmIDEwMDY0NA0KPiAtLS0gYS9tZXRhL2NvbmYvbWFj
+aGluZS9xZW11YXJtNjQuY29uZg0KPiArKysgYi9tZXRhL2NvbmYvbWFjaGluZS9xZW11YXJtNjQu
+Y29uZg0KPiBAQCAtMTcsNyArMTcsNyBAQCBRQl9DUFVfS1ZNID0gIi1jcHUgaG9zdCINCj4gICMg
+U3RhbmRhcmQgU2VyaWFsIGNvbnNvbGUNCj4gIFFCX0tFUk5FTF9DTURMSU5FX0FQUEVORCA9ICJj
+b25zb2xlPXR0eUFNQTAiDQo+ICAjIEZvciBncmFwaGljcyB0byB3b3JrIHdlIG5lZWQgdG8gZGVm
+aW5lIHRoZSBWR0EgZGV2aWNlIGFzIHdlbGwgYXMNCj4gdGhlIG5lY2Vzc2FyeSBVU0IgZGV2aWNl
+cw0KPiAtUUJfT1BUX0FQUEVORCA9ICItc2hvdy1jdXJzb3IgLWRldmljZSBWR0EsZWRpZD1vbiIN
+Cj4gK1FCX09QVF9BUFBFTkQgPSAiLXNob3ctY3Vyc29yIg0KDQpXYXMgdGhpcyBpbnRlbnRpb25h
+bD8gVGhpcyBpcyByZXZlcnRpbmcgYW4gZWFybGllciBmaXg6DQoNCmh0dHBzOi8vZ2l0LnlvY3Rv
+cHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC9tZXRhL2NvbmYvbWFjaGluZS9x
+ZW11YXJtNjQuY29uZj9oPW1hc3Rlci1uZXh0JmlkPWIxODFiZjkyZTJiYzUxYTgwODQ3OGMxMmZl
+NjIxNzdkOTY2ZjJhODUNCg0KaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQu
+Y2dpL3Bva3kvY29tbWl0L21ldGEvY29uZi9tYWNoaW5lL3FlbXVhcm02NC5jb25mP2g9bWFzdGVy
+LW5leHQmaWQ9ZmYzNWI2YzU3YTM4MGNhNGRjMTU4YzUxMDRhNjEzN2Y4ZmFlYTVjZA0KDQpJJ20g
+bm90IHN1cmUgaWYgdGhpcyBpcyB0aGUgcmVhc29uIGJ1dCBtYXN0ZXItbmV4dCBidWlsZCBpcyBh
+bHNvDQpzaG93aW5nIHByb2JsZW1zIHdoZW4gcnVubmluZyBYIHdpdGggcWVtdWFybToNCg0KaHR0
+cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy8zOC9i
+dWlsZHMvOTc4L3N0ZXBzLzgvbG9ncy9zdGVwMWMNCg0KLi4uDQoNCj4gZGlmZiAtLWdpdCBhL21l
+dGEvbGliL29lcWEvcnVudGltZS9jYXNlcy9wYXJzZWxvZ3MucHkNCj4gYi9tZXRhL2xpYi9vZXFh
+L3J1bnRpbWUvY2FzZXMvcGFyc2Vsb2dzLnB5DQo+IGluZGV4IDE5YzljNTJhMGE5Li4wMDAyNzMw
+ZDQ2ZiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9saWIvb2VxYS9ydW50aW1lL2Nhc2VzL3BhcnNlbG9n
+cy5weQ0KPiArKysgYi9tZXRhL2xpYi9vZXFhL3J1bnRpbWUvY2FzZXMvcGFyc2Vsb2dzLnB5DQo+
+IEBAIC01NSw3ICs1NSwxMSBAQCBjb21tb25fZXJyb3JzID0gWw0KPiAgICAgICJGYWlsZWQgdG8g
+cmVhZCAvdmFyL2xpYi9uZnMvc3RhdGQvc3RhdGU6IFN1Y2Nlc3MiLA0KPiAgICAgICJlcnJvciBy
+ZXRyeSB0aW1lLW91dCA9IiwNCj4gICAgICAibG9naW5kOiBjYW5ub3Qgc2V0dXAgc3lzdGVtZC1s
+b2dpbmQgaGVscGVyICgtNjEpLCB1c2luZyBsZWdhY3kNCj4gZmFsbGJhY2siLA0KPiAtICAgICJF
+cnJvciBjaGFuZ2luZyBuZXQgaW50ZXJmYWNlIG5hbWUgJ2V0aDAnIHRvICINCj4gKyAgICAiRXJy
+b3IgY2hhbmdpbmcgbmV0IGludGVyZmFjZSBuYW1lICdldGgwJyB0byAiLA0KPiArICAgICJtb2Rl
+c2V0KDApOiBGYWlsZWQgdG8gaW5pdGlhbGl6ZSB0aGUgRFJJMiBleHRlbnNpb24iLA0KPiArICAg
+ICJ1dmVzYWZiOiBjYW5ub3QgcmVzZXJ2ZSB2aWRlbyBtZW1vcnkgYXQiLA0KPiArICAgICJ1dmVz
+YWZiOiBwcm9iZSBvZiB1dmVzYWZiLjAgZmFpbGVkIHdpdGggZXJyb3IiLA0KPiArICAgICJnbGFt
+b3IgaW5pdGlhbGl6YXRpb24gZmFpbGVkIg0KPiAgICAgIF0NCj4gIA0KDQpwYXJzZWxvZ3MgdGVz
+dCBpcyB1c2VkIG5vdCBvbmx5IGZvciBxZW11IGJ1dCBmb3Igb3RoZXIgTUFDSElORVMgYXMgd2Vs
+bA0KaW5jbHVkaW5nIGdlbmVyaWN4ODYgb24gYWN0dWFsIGhhcmR3YXJlIHdoZXJlIGdsYW1vciBp
+bml0aWFsaXphdGlvbg0KZXJyb3IgbWlnaHQgbmVlZCBsb29raW5nIGludG8uIFBlcmhhcHMgdGhp
+cyBzaG91bGQgYmUgYWRkZWQgdG8gcWVtdQ0Kc3BlY2lmaWMgcGFydHMgb2YgdGhpcyB0ZXN0IG9u
+bHk/DQoNClRoYW5rcywNCg0KQW51ag0K
 
