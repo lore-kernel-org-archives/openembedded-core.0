@@ -1,24 +1,44 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A9237F3EF
+Return-Path: <andrey.z@gmail.com>
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 5248572EB7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 09:33:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x7U9XxeV004400
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 30 Aug 2019 10:08:46 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id d16so6842735wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 02:33:59 -0700 (PDT)
-Received: from localhost (128.224.162.195) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Fri, 30 Aug 2019 02:33:58 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Aug 2019 17:33:56 +0800
-Message-ID: <1567157636-12184-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Fri, 30 Aug 2019 03:08:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=LGO2efQO4CUaC5/Sf3PYJWp6GX88W/zWJ14JHSUQVmE=;
+	b=Qsvj/XIG95ZWc3XbNC1LMDDDKeSnuOdmmca/15yQuEFkr+nGdMBosdQeGgq4s3VXbc
+	D1k4hZyBGJQcl2jWHjNbTWQ28DucBWtWa5WCEmNbbVh1ig2B+WzmWfFqTa4Tvld7ql7e
+	t4vUapHcgI4xXzypSQApdPCEn2QFhjresgJF8lFb9gf7qdSoT40uxkSfcjFx9/gs3/ys
+	uBTAMXG7+QlrmsPO/gGZhro2emawdCvhAC9XsLslHZFcUqZ2O/XmcoczDDVu8GgW3vM+
+	ItC0APARQFj7nvmiTfbQ3j6SHsk5muiQ5Xwn4Ucs2EtHQFbmmW5MLnaWHA7m8i5MTKYR
+	2t5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=LGO2efQO4CUaC5/Sf3PYJWp6GX88W/zWJ14JHSUQVmE=;
+	b=a7DuV7apeM3lqBdAn+n8bo5hpaG3dIEg9u7qPfDo/n5XiQZWlJZNRXj7+izLmhpEg1
+	iW+Qxiwlh5eImMayPRmD6bZ2ZA5DG3eTQmUdhNIwowMjVFUlbvvgwNLFh59PgEZY11K1
+	yNLHkriJmAPG+C/7Cjxn+M1bzE48yKN0hGrJ0uXwsEXLGHj6NcZE8vzhj3a283RlL9fD
+	cQo0BewVn4VqGyPhOGysYaMsH2HnqSbWoKTg3YsrcPsYY3EhJDOqCI5vUzDdXfYoLkHi
+	lEkwv+j9ATtqAeSyGgJ4ScNsScgJO3ZCXtoHaxRd0ctjtpd+RUBeMqCgxZlVh4l0fZdA
+	f/Pg==
+X-Gm-Message-State: APjAAAVEnlplpO0Hx+PeazlPslTS5FVWWxxN+nfa6bUQ4yjEAtjbCm1N
+	xl/Pj4WpesrZ4jQHMo3x7v3n/PqJ5YhgC1bsdZw=
+X-Google-Smtp-Source: APXvYqwzqtOL96RrqZumjBUnN7hZor4Sl/UWPMNgldfp/LrCCi4NBtb7DCPfSOcX3bkon070xFRNuKSUTnHAHaXLRGo=
+X-Received: by 2002:a05:600c:40f:: with SMTP id
+	q15mr17748144wmb.88.1567159726793; 
+	Fri, 30 Aug 2019 03:08:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.195]
-Subject: [PATCH] nfs-utils: fix nfsidmap compile error with gcc9 when enable PACKAGECONFIG[nfsv4]
+From: Andrey Zhizhikin <andrey.z@gmail.com>
+Date: Fri, 30 Aug 2019 12:08:36 +0200
+Message-ID: <CAHtQpK5qiC-i-nouQjbk-CToV-Z-jbN-vKZ7Zk0DOtwQC3SUYQ@mail.gmail.com>
+To: armccurdy@gmail.com, raj.khem@gmail.com, 
+	openembedded-core@lists.openembedded.org
+Subject: FETCHCMD drop breaks build when append is used (from patch b259bd31eb)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,169 +51,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 09:33:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Aug 2019 10:08:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Fixes:
-nfsidmap.c:404:4: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
-  404 |    xlog_warn(usage, progname);
-      |    ^~~~~~~~~
-nfsidmap.c:436:3: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
-  436 |   xlog_warn(usage, progname);
-      |   ^~~~~~~~~
-nfsidmap.c:454:23: error: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'key_serial_t' {aka 'int'} [-Werror=format=]
-  454 |   xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
-      |                     ~~^
-      |                       |
-      |                       long unsigned int
-      |                     %x
-  455 |    key, type, value, timeout);
-      |    ~~~
-      |    |
-      |    key_serial_t {aka int}
-nfsidmap.c:454:54: error: format '%ld' expects argument of type 'long
-int', but argument 5 has type 'int' [-Werror=format=]
-  454 |   xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
-      |                                                    ~~^
-      |                                                      |
-      |                                                      long int
-      |                                                    %d
-  455 |    key, type, value, timeout);
-      |                      ~~~~~~~
-      |                      |
-      |                      int
+Hello Andre,
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- ...x-compile-error-with-Werror-format-2-and-.patch | 87 ++++++++++++++++++++++
- .../nfs-utils/nfs-utils_2.3.3.bb                   |  5 +-
- 2 files changed, 90 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch
+I've just pulled the master and experienced a build failure during
+fetching of updated recipe's source tarballs.
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch
-new file mode 100644
-index 0000000..711942e
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch
-@@ -0,0 +1,87 @@
-+From 37a007d01e901fd88829ccfce74ffdfca353f071 Mon Sep 17 00:00:00 2001
-+From: Yi Zhao <yi.zhao@windriver.com>
-+Date: Fri, 30 Aug 2019 16:01:16 +0800
-+Subject: [PATCH] nfsidmap: fix compile error with -Werror=format=2 and
-+ -Werror=format-nonliteral
-+
-+Fixes:
-+nfsidmap.c:404:4: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
-+  404 |    xlog_warn(usage, progname);
-+      |    ^~~~~~~~~
-+nfsidmap.c:436:3: error: format not a string literal, argument types not checked [-Werror=format-nonliteral]
-+  436 |   xlog_warn(usage, progname);
-+      |   ^~~~~~~~~
-+nfsidmap.c:454:23: error: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'key_serial_t' {aka 'int'} [-Werror=format=]
-+  454 |   xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
-+      |                     ~~^
-+      |                       |
-+      |                       long unsigned int
-+      |                     %x
-+  455 |    key, type, value, timeout);
-+      |    ~~~
-+      |    |
-+      |    key_serial_t {aka int}
-+nfsidmap.c:454:54: error: format '%ld' expects argument of type 'long
-+int', but argument 5 has type 'int' [-Werror=format=]
-+  454 |   xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
-+      |                                                    ~~^
-+      |                                                      |
-+      |                                                      long int
-+      |                                                    %d
-+  455 |    key, type, value, timeout);
-+      |                      ~~~~~~~
-+      |                      |
-+      |                      int
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ utils/nfsidmap/nfsidmap.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/utils/nfsidmap/nfsidmap.c b/utils/nfsidmap/nfsidmap.c
-+index d3967a3..2052b9b 100644
-+--- a/utils/nfsidmap/nfsidmap.c
-++++ b/utils/nfsidmap/nfsidmap.c
-+@@ -18,7 +18,7 @@
-+ #include "xcommon.h"
-+ 
-+ int verbose = 0;
-+-char *usage = "Usage: %s [-vh] [-c || [-u|-g|-r key] || -d || -l || [-t timeout] key desc]";
-++char *usage = "[-vh] [-c || [-u|-g|-r key] || -d || -l || [-t timeout] key desc]";
-+ 
-+ #define MAX_ID_LEN   11
-+ #define IDMAP_NAMESZ 128
-+@@ -401,7 +401,7 @@ int main(int argc, char **argv)
-+ 			break;
-+ 		case 'h':
-+ 		default:
-+-			xlog_warn(usage, progname);
-++			xlog_warn("Usage: %s %s", progname, usage);
-+ 			exit(opt == 'h' ? 0 : 1);
-+ 		}
-+ 	}
-+@@ -433,7 +433,7 @@ int main(int argc, char **argv)
-+ 	xlog_stderr(verbose);
-+ 	if ((argc - optind) != 2) {
-+ 		xlog_warn("Bad arg count. Check /etc/request-key.conf");
-+-		xlog_warn(usage, progname);
-++		xlog_warn("Usage: %s %s", progname, usage);
-+ 		return EXIT_FAILURE;
-+ 	}
-+ 
-+@@ -451,8 +451,8 @@ int main(int argc, char **argv)
-+ 		return EXIT_FAILURE;
-+ 	}
-+ 	if (verbose) {
-+-		xlog_warn("key: 0x%lx type: %s value: %s timeout %ld",
-+-			key, type, value, timeout);
-++		xlog_warn("key: 0x%x type: %s value: %s timeout %d",
-++			(unsigned int)key, type, value, timeout);
-+ 	}
-+ 
-+ 	/* Become a possesor of the to-be-instantiated key to set the key's timeout */
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-index 28f9898..e68703f 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.3.3.bb
-@@ -35,6 +35,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://0001-Makefile.am-update-the-path-of-libnfs.a.patch \
-            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
-            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
-+           file://0001-nfsidmap-fix-compile-error-with-Werror-format-2-and-.patch \
- "
- SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
- SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
-@@ -77,7 +78,7 @@ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wr
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
- # libdevmapper is available in meta-oe
- PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper"
--# keyutils is available in meta-security
-+# keyutils is available in meta-oe
- PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils"
- 
- PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
-@@ -103,7 +104,7 @@ FILES_${PN}-mount = "${base_sbindir}/*mount.nfs*"
- FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
- RDEPENDS_${PN}-stats = "python3-core"
- 
--FILES_${PN} += "${systemd_unitdir}"
-+FILES_${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/"
- 
- do_configure_prepend() {
-         sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
+The reason for this being that defaults for FETCHCMD has been dropped
+with your patch b259bd31eb from the series. Once defaults are removed
+and appends are used - the FETCHCMD gets defined to the value listed
+in append, which normally does not contain a command itself rather
+than necessary additional parameters (like user/passwd if working with
+local pre-mirror servers).
+
+This patch would also break several other recipes which are using
+appends to FETCHCMD, for example for FETCHCMD_wget the libedit would
+fail since it appends the wget to use different User-Agent.
+
+I've copied Raj here since he introduced this recipe in the form it is
+and would definitely break.
+
+Can you please have a look at this and advise on how one can continue
+to use the FETCHCMD appends for the future?
+
+For now, I've defined the FETCHCMD_wget in my local.conf but I do not
+believe that this is the general way everyone should follow if they
+would need to append fetcher commands...
+
+Thanks a lot!
+
 -- 
-2.7.4
-
+Regards,
+Andrey.
 
