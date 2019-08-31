@@ -1,52 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 1801D7DDAA
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B52D87DDAA
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 31 Aug 2019 05:23:26 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id q21so843928pfn.11
+Received: by mail-pl1-f194.google.com with SMTP id o3so4243432plb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2019 22:23:27 -0700 (PDT)
+	Fri, 30 Aug 2019 22:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=YJJkWPXGycbqGiAdDkGJfTBceWdeayu6n+473LCtgvM=;
-	b=XPLNlpfJwZZbNUWk8yJtuJtVpUKMIiCO0cXb93C/besMqcs2KOa9LO0fmLhIWQRg6s
-	+xHGWLOK8i2+i+x4Sw1rjzmPi0IBvYve4Id5wUSVkeeacJeuFIC0tb9S5PKoQyl7O2XZ
-	lDeIeF4B/IcmmMFQCFsSTB3ySUnD2kRFjZzkkT14g9I7j8yPgsXEj8Of/5/gSJ5/+8ok
-	HhE9iJ7DhpUtpdmbQ8W84p8/Zty1NDKmxaeqW+49yzuvwqQyiRcGwU1DyasAvDCYQ1Xx
-	6Hkz+rLbd2bH+tRDux1qNl3JfGDBKPxVE/PYokYIePhg3jowVY+KtteOEBNrTut5/82O
-	42Hw==
+	bh=Oih8fyY0tJfCNxXY88xRO9dFNcGaPxPMjyUw/HSrCyw=;
+	b=kgCOqAmn1XnVI0PS9GaQWKlmCVqY3jv/ZIQ1ktEpNsqzxBvANPyBqkXPZz/M1YgOCA
+	UQ4GB3akofxbMD/qAkIryttLEQqOIN469Svwb9DTTU1SS2OQ8nZCjVtehhMxbIfgtj6Z
+	uBjgKnlOQI1sWBFVOZlIFdrh9m7+AiH0FIZV2pRVICzrrUF7eFZjpaBZl4mJqAbOa45y
+	r5FJGYe7VZmsxRghtWcvJiPVUEPQJxKThU5HlkYbYNTQ9OM7/uu28YQUGwT0xy0iG0Yz
+	ROyT7iUF32GkcNNfVMUssOLAMXFW59SbkKJ7ec+jFrQEJQjKhaxK78f1hCBpzRQ88hrM
+	Eghg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=YJJkWPXGycbqGiAdDkGJfTBceWdeayu6n+473LCtgvM=;
-	b=MTjnR0lRMbz/1vh41CjV1kibzGcUdsxbRL5F7GYhDCXRhhL1oYepK99w/UL0tvrt/M
-	+2WLmvHoZuz81sijapuIFSOkSVcymHXytueNWn6z/kkyaF2dxVru9dMNm9bBUnLbKGog
-	+cy0fq8Gm4AvqfcFNDsAws5yP+HD4riNwiTMhMnAGKyLtFKJ27n+v9WbDFfj0FFa6xXf
-	BvXAXXXZVVCXbprt5k3+nvknbEE3Jijrw/8/qfydRyTPU2ruq2C1ZjZBnjCxXqtPNiBF
-	0Y9xoyBJMuASWqLryIBzD/tc7B2okzDNx7pX9iHvdJJ+4YWGyPgoumAv3fVt/1sGjiTr
-	K5ww==
-X-Gm-Message-State: APjAAAWY8+OS9DUaBv2a09U7x/1rSWg4j9dwDRTbDixXVOI013ps7DdP
-	2DFZB2hBqkn9f6RAex5Go3heHDhnUk8=
-X-Google-Smtp-Source: APXvYqxiVPneo82VAD6XXRn0Q0ZzA2S1IXPTaa3yidBTXScWXkwn7AoCRgMcvCI2YfXHEXbHcBy6YA==
-X-Received: by 2002:a63:7b4d:: with SMTP id k13mr15487356pgn.182.1567229006594;
-	Fri, 30 Aug 2019 22:23:26 -0700 (PDT)
+	bh=Oih8fyY0tJfCNxXY88xRO9dFNcGaPxPMjyUw/HSrCyw=;
+	b=TLUEk28mJFYjkkT713WKfvnPtWv66+m5ijzj8N3q+2xvvxxmnNf4Cl3eNwPc47xSgk
+	SZONefLzD7Spf6o3xz+P5WCy98Awadhtuu05uz82cz/6qecZTqd2OBQreh2lnyI2WMju
+	9NYTX+1M0EFfUX8TjJ7oiX9gPRELBU13bjLgDvDaQJ+6OU+7kLliyhNuRPVLz2JKS/Dk
+	BpYWAKc2mIYs0AoIP5KMhNxHnqmQZ+GozrF4ljm9ugkQm0IWTOfx/54pUdMxnCDkFSVY
+	sf7l2otcuxusL/LgfQzkZDTTtnzRMEOehFwBzhZnqZlGX+VYHtwMIANW5BKQ+5g2SIAb
+	KlwA==
+X-Gm-Message-State: APjAAAX01zE242evc9dS8hiU5Pq7Zutm71vJpsty8UoSlspMg94FSebX
+	k07wkgNMixMCpWux3dFH16PX5aaTbZ0=
+X-Google-Smtp-Source: APXvYqww625cesEIOtGo4ASwwd4Y0gYXB7xHijVtZdeFZEZ01tF6tg3ZZiCgyMMfwSdWQg2+exlVPw==
+X-Received: by 2002:a17:902:ab86:: with SMTP id f6mr522049plr.15.1567229007411;
+	Fri, 30 Aug 2019 22:23:27 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
 	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	131sm6493221pge.37.2019.08.30.22.23.25
+	131sm6493221pge.37.2019.08.30.22.23.26
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 30 Aug 2019 22:23:26 -0700 (PDT)
+	Fri, 30 Aug 2019 22:23:27 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Aug 2019 22:23:12 -0700
-Message-Id: <20190831052314.19974-2-raj.khem@gmail.com>
+Date: Fri, 30 Aug 2019 22:23:13 -0700
+Message-Id: <20190831052314.19974-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190831052314.19974-1-raj.khem@gmail.com>
 References: <20190831052314.19974-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] tune-riscv: Drop littleendian and introduce bigendian tune
+Subject: [PATCH 3/4] gcc: Move STANDARD_STARTFILE_PREFIX_1 and STANDARD_STARTFILE_PREFIX_2 back to gcc.c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,39 +62,96 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 31 Aug 2019 05:23:26 -0000
 Content-Transfer-Encoding: 8bit
 
-Default riscv is little-endian moreover most of other arches define
-bigendian as tune and treats absense as litteendian, this make risc-v
-fall in line
+when compiling for ppc64, build emits additional
+STANDARD_STARTFILE_PREFIX_1 and STANDARD_STARTFILE_PREFIX_2 into
+gcc/defaults.h which is not conditional because it really want to
+override others with this new value, but it ends up with two definitions
+since it gets emitted _after_ the definition this patch moves to
+default.h and ends up in duplicate defines.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/machine/include/riscv/tune-riscv.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ ...e-target-gcc-headers-can-be-included.patch | 47 +------------------
+ 1 file changed, 2 insertions(+), 45 deletions(-)
 
-diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
-index 1e3a1081e0..25d0463492 100644
---- a/meta/conf/machine/include/riscv/tune-riscv.inc
-+++ b/meta/conf/machine/include/riscv/tune-riscv.inc
-@@ -3,16 +3,16 @@ require conf/machine/include/riscv/arch-riscv.inc
- TUNEVALID[riscv64] = "Enable 64-bit RISC-V optimizations"
- TUNEVALID[riscv32] = "Enable 32-bit RISC-V optimizations"
+diff --git a/meta/recipes-devtools/gcc/gcc-9.2/0019-Ensure-target-gcc-headers-can-be-included.patch b/meta/recipes-devtools/gcc/gcc-9.2/0019-Ensure-target-gcc-headers-can-be-included.patch
+index af0ea5c60a..53f9e99d07 100644
+--- a/meta/recipes-devtools/gcc/gcc-9.2/0019-Ensure-target-gcc-headers-can-be-included.patch
++++ b/meta/recipes-devtools/gcc/gcc-9.2/0019-Ensure-target-gcc-headers-can-be-included.patch
+@@ -22,8 +22,6 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  gcc/gcc.c        | 7 -------
+  4 files changed, 15 insertions(+), 7 deletions(-)
  
--TUNEVALID[littleendian] = "Little endian mode"
-+TUNEVALID[bigendian] = "Big endian mode"
- 
- AVAILTUNES += "riscv64 riscv32"
- 
--TUNE_FEATURES_tune-riscv64 = "riscv64 littleendian"
-+TUNE_FEATURES_tune-riscv64 = "riscv64"
- TUNE_ARCH_tune-riscv64 = "riscv64"
- TUNE_PKGARCH_tune-riscv64 = "riscv64"
- PACKAGE_EXTRA_ARCHS_tune-riscv64 = "riscv64"
- 
--TUNE_FEATURES_tune-riscv32 = "riscv32 littleendian"
-+TUNE_FEATURES_tune-riscv32 = "riscv32"
- TUNE_ARCH_tune-riscv32 = "riscv32"
- TUNE_PKGARCH_tune-riscv32 = "riscv32"
- PACKAGE_EXTRA_ARCHS_tune-riscv32 = "riscv32"
+-diff --git a/gcc/Makefile.in b/gcc/Makefile.in
+-index 0064a282488..98d1488171f 100644
+ --- a/gcc/Makefile.in
+ +++ b/gcc/Makefile.in
+ @@ -618,6 +618,7 @@ libexecdir = @libexecdir@
+@@ -34,7 +32,7 @@ index 0064a282488..98d1488171f 100644
+  # Directory in which the compiler finds executables
+  libexecsubdir = $(libexecdir)/gcc/$(real_target_noncanonical)/$(version)$(accel_dir_suffix)
+  # Directory in which all plugin resources are installed
+-@@ -2866,6 +2867,7 @@ CFLAGS-intl.o += -DLOCALEDIR=\"$(localedir)\"
++@@ -2866,6 +2867,7 @@ CFLAGS-intl.o += -DLOCALEDIR=\"$(localed
+  
+  PREPROCESSOR_DEFINES = \
+    -DGCC_INCLUDE_DIR=\"$(libsubdir)/include\" \
+@@ -42,11 +40,9 @@ index 0064a282488..98d1488171f 100644
+    -DFIXED_INCLUDE_DIR=\"$(libsubdir)/include-fixed\" \
+    -DGPLUSPLUS_INCLUDE_DIR=\"$(gcc_gxx_include_dir)\" \
+    -DGPLUSPLUS_INCLUDE_DIR_ADD_SYSROOT=$(gcc_gxx_include_dir_add_sysroot) \
+-diff --git a/gcc/cppdefault.c b/gcc/cppdefault.c
+-index c4796385643..980e2bd47a7 100644
+ --- a/gcc/cppdefault.c
+ +++ b/gcc/cppdefault.c
+-@@ -59,6 +59,10 @@ const struct default_include cpp_include_defaults[]
++@@ -59,6 +59,10 @@ const struct default_include cpp_include
+      /* This is the dir for gcc's private headers.  */
+      { GCC_INCLUDE_DIR, "GCC", 0, 0, 0, 0 },
+  #endif
+@@ -57,42 +53,3 @@ index c4796385643..980e2bd47a7 100644
+  #ifdef LOCAL_INCLUDE_DIR
+      /* /usr/local/include comes before the fixincluded header files.  */
+      { LOCAL_INCLUDE_DIR, 0, 0, 1, 1, 2 },
+-diff --git a/gcc/defaults.h b/gcc/defaults.h
+-index b7534256119..41ca579b267 100644
+---- a/gcc/defaults.h
+-+++ b/gcc/defaults.h
+-@@ -1459,4 +1459,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+- #define DWARF_GNAT_ENCODINGS_DEFAULT DWARF_GNAT_ENCODINGS_GDB
+- #endif
+- 
+-+/* Default prefixes to attach to command names.  */
+-+
+-+#ifndef STANDARD_STARTFILE_PREFIX_1
+-+#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
+-+#endif
+-+#ifndef STANDARD_STARTFILE_PREFIX_2
+-+#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
+-+#endif
+-+
+- #endif  /* ! GCC_DEFAULTS_H */
+-diff --git a/gcc/gcc.c b/gcc/gcc.c
+-index 4e7c45b268c..1a3704b2763 100644
+---- a/gcc/gcc.c
+-+++ b/gcc/gcc.c
+-@@ -1470,13 +1470,6 @@ static const char *gcc_libexec_prefix;
+- 
+- /* Default prefixes to attach to command names.  */
+- 
+--#ifndef STANDARD_STARTFILE_PREFIX_1
+--#define STANDARD_STARTFILE_PREFIX_1 "/lib/"
+--#endif
+--#ifndef STANDARD_STARTFILE_PREFIX_2
+--#define STANDARD_STARTFILE_PREFIX_2 "/usr/lib/"
+--#endif
+--
+- #ifdef CROSS_DIRECTORY_STRUCTURE  /* Don't use these prefixes for a cross compiler.  */
+- #undef MD_EXEC_PREFIX
+- #undef MD_STARTFILE_PREFIX
+--- 
+-2.22.1
+-
 -- 
 2.23.0
 
