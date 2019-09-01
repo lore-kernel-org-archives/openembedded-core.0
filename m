@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D01957F285
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D347A7F285
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 14:36:24 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id w11so5446404plp.5
+	Sun,  1 Sep 2019 14:36:25 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id x15so5929722pgg.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2019 07:36:26 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ihUS+oBu7VDTAy10gUw66WsSq+vQG6TR08rEcVGAJ8g=;
-	b=m8Wd9MYZJ7Do3GzL6CHhLDBpDkmYwxnDIx7VM3YUPE5GMu8bJN5trrHCN6BiAnM3Kg
-	vzUykvtZUSp6RhePq83L+RULMOJXvZmw3k4vEF5hr0KxQb5Y1U0X1sLxCCUuQss4tLch
-	Z5L4R+g4HpOQ0OflM/DVY/ofFTSOFezqUJhCH+5TGaq+popWkxoARQ83SIsJJWLyd/+W
-	2bZq1tLCmp2dUkclwXVxOc01OoYPrIyCHSIFQ0A5+pJQA3qoFNqsprKoDXvn1kHgp09A
-	IJ96w0dVgUiVL9A+z9qnCHm5aj3xZM6YZwtdxU2pL7qeTPLBwFwIQ5Y1nqnfG6RnC+YS
-	QtQw==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=J8tzaqytppEc6hNQ1t1ObtN1ks1g8ME/G1Xwh+gUkB8=;
+	b=XgVRzKHywsnqJ53CgeYUvaCfMqancbjehY+mq+uoI4IhFcbEDNQTAjPh/hmzFyUc9+
+	nS/wM75wmGKxOQpdEsmYzTAnUhnJHUKQfD2aFtiNGR38zpy+z3tEC9bCYm3dQ8tMZFoW
+	fcB8/lDuXJ0xWckNM89STdESnaMDnNqPjBxAvJ/sOT582Nv66v8JOM/kXoxlEkkTyVwT
+	b/+pVKIi9oSSws1C+fbhtNRBRtV5n2bjHwsbQPWXzv9FnF0XKk0N0QBACzMuGDGubwdx
+	3MQu2ABhDM8gO3P/O41VKUH7A/o9XOfLeDtvaJeRbMQYZD7gom8O6a62rmQLoEb6vsCM
+	LnUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ihUS+oBu7VDTAy10gUw66WsSq+vQG6TR08rEcVGAJ8g=;
-	b=AzheHsmCx22j4bPrHpfG8ZqcuogrAUBoxwR2a6HcKDH4wMcZ7TAcJelZ5GsQZxtO/X
-	NCsQ7f4xCrDyXWiCDLstq77sanTPVTOAg3q/C1Uiy74HDOHUWJpHihwv8VSvYOZAWzrP
-	2Boy3jRGjrnxAkVvu8ULiXNkmXu9w0+MSXwgwV5ApDE0WaiIPGM7PEYsBJ7vDQI7J0BB
-	eWaNJQJIpbgVDFbTP676Zql7eRrIqv0TO9CEAKRdPN4b6yPjw9U0azQ8XVupf0tkXdsK
-	tJgZUH0XWiAcR+6h6Yzf5T5rYJbmy8Gno1hguIy7mKWfIM/SLOD+D6IyGoxlSW/n4pa1
-	PlEQ==
-X-Gm-Message-State: APjAAAVbSrAhiBUcCxRDU81xv2ev9zAq47eHErQAspfWKduzfIBsjchX
-	8Zqc0SliKOfn0yPHTLa1InFnwMdy
-X-Google-Smtp-Source: APXvYqxgFf+m9Essm03gDgfYdn+KGkxPyYqUtDGyYwbtALeYzMEKeQoUqqu/8sksb3VSB79SdIUhPg==
-X-Received: by 2002:a17:902:b583:: with SMTP id
-	a3mr2134028pls.52.1567348585582; 
-	Sun, 01 Sep 2019 07:36:25 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=J8tzaqytppEc6hNQ1t1ObtN1ks1g8ME/G1Xwh+gUkB8=;
+	b=D4sp1zZ2vneJWIiWh2j3ZIzAJ3+kq4/2VP/244YHGU0bRnlgpBMQkY23rKGVi2uI6q
+	OcmBGM0iPzWGuNdxNOnDEVayFpT73cdaoNJLzaJQkijX6p62/FW58jonpYkx7A9Q5Kbw
+	eInejGd3ymWouL+YrUSGQjfeLBRPwGJDooTI9/HmrNdKIsTdA7+TGL8DSk22tE+me59E
+	BO04TYtIqkbyhl1Zgod2lojMVDVJZ8mO3jP1VcVYeoiooHTYOO9z0QzfaN6pCfhJYOmw
+	UrtVtFVSRfocHSONPA98HU1N9yrmRBEBUx2qf8CSuyrGSrCI+J3/Dv4p6I3AxasyBHYp
+	YpPA==
+X-Gm-Message-State: APjAAAW8VZcRAohfbNlN3dFe4Ew6m2KaINQaJO44I+g1Ne0VeI68mtkJ
+	eZ0WBcm0CYQjnn3EYJ+LqPRWrMTb
+X-Google-Smtp-Source: APXvYqxHyF4waD+p/Dq3nv7cguXZNlBv6LWLBnxW0zx/q3iTpaHa6eX3LRgKibkpltqQWhmWKTCSDQ==
+X-Received: by 2002:aa7:9ae7:: with SMTP id y7mr8836095pfp.246.1567348586671; 
+	Sun, 01 Sep 2019 07:36:26 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:1d53:5246:e59:bfe9])
 	by smtp.gmail.com with ESMTPSA id
-	s16sm15911381pfs.6.2019.09.01.07.36.24
+	s16sm15911381pfs.6.2019.09.01.07.36.25
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 01 Sep 2019 07:36:24 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:26 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 07:35:38 -0700
-Message-Id: <cover.1567348433.git.akuster808@gmail.com>
+Date: Sun,  1 Sep 2019 07:35:39 -0700
+Message-Id: <a2caaefa7d21fd455d5cfa61656403fc57df7098.1567348433.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [warrior 00/43] Patch review
+In-Reply-To: <cover.1567348433.git.akuster808@gmail.com>
+References: <cover.1567348433.git.akuster808@gmail.com>
+Subject: [warrior 01/43] binutils: fix CVE-2019-12972 CVE-2019-9071
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,222 +60,262 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 01 Sep 2019 14:36:25 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Please have feedback by Tuesday
+From: Anuj Mittal <anuj.mittal@intel.com>
 
-The following changes since commit 952bfcc3f4b9ee5ba584da0f991f95e80654355a:
+(From OE-Core rev: 093f0914f261a27d58ecba9c1e9d3b78a35af012)
 
-  curl: fix CVE-2019-5435 CVE-2019-5436 (2019-07-29 10:25:01 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/warrior-nmut
-  http://cgit.openembedded.org//log/?h=stable/warrior-nmut
-
-Alex Kiernan (1):
-  systemd: Backport OpenSSL BUF_MEM fix
-
-Anuj Mittal (14):
-  binutils: fix CVE-2019-12972 CVE-2019-9071
-  binutils: CVE-2019-9070 is same as CVE-2019-9071
-  python: fix CVE-2019-9740
-  libxslt: fix CVE-2019-13117 CVE-2019-13118
-  glibc: CVE-2018-20796 is same as CVE-2019-9169
-  libsdl: CVE fixes
-  gstreamer1.0-vaapi: backport jpeg encode/decode fixes
-  patch: fix CVE-2019-13636
-  python3: fix CVE-2019-9740
-  rsync: fix CVEs for included zlib
-  patch: backport fixes
-  binutils: fix CVE-2019-14250 CVE-2019-14444
-  pango: fix CVE-2019-1010238
-  glib-2.0: fix CVE-2019-13012
-
-Armin Kuster (2):
-  qemu: fix CVE-2018-20815
-  gcc-8.3: Security fix for CVE-2019-14250
-
-Bartosz Golaszewski (1):
-  qemu: add a patch fixing the native build on newer kernels
-
-Bedel, Alban (2):
-  rng-tools: fix very long shutdown delay with systemd
-  boost: Fix build and enable context and coroutines on aarch64
-
-Bruce Ashfield (2):
-  linux-yocto/4.19: update to 4.19.57 and -rt22
-  linux-yocto/4.19: update to v4.19.61
-
-Fabio Berton (1):
-  mesa: Update 19.0.1 -> 19.0.8
-
-Jason Wessel (5):
-  psmisc: Fix dependency for USE_NLS=no
-  glibc: Fix multilibs + usrmerge builds
-  glibc-locale: Fix build error with PACKAGE_NO_GCONV = "1"
-  glibc/glibc-locale: Fix do_stash_locale to work with usrmerge and
-    multilibs
-  glibc / glibc-locale: Fix stash_locale determinism problems
-
-Joël Esponde (1):
-  package.bbclass: fix directories setuid and setgid bits
-
-Martin Jansa (3):
-  icecc.bbclass: catch subprocess.CalledProcessError
-  meson: backport fix for builds with -Werror=return-type
-  powertop: import a fix from buildroot
-
-Nathan Rossi (1):
-  binutils: Fix mips patch which changes default emulation
-
-Naveen Saini (1):
-  ghostscript: fix CVE-2019-3839
-
-Ricardo Ribalda Delgado (1):
-  dpkg: Use less as pager
-
-Richard Purdie (1):
-  package: Improve determinism
-
-Ross Burton (4):
-  libid3tag: handle unknown encodings (CVE-2017-11550)
-  libid3tag: CVE-2017-11551 is the same as CVE-2004-2779
-  tiff: fix CVE-2019-6128
-  tiff: fix CVE-2019-7663
-
-Trevor Gamblin (1):
-  patch: fix CVE-2019-13638
-
-Zhixiong Chi (2):
-  gcc: reduce the variables in symtab
-  gcc: CVE-2018-12886
-
- meta/classes/icecc.bbclass                         |   6 +-
- meta/classes/package.bbclass                       |   5 +-
- meta/lib/oe/package.py                             |   2 +-
- .../glib-2.0/glib-2.0/CVE-2019-13012.patch         |  40 +
- meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb      |   1 +
- meta/recipes-core/glibc/glibc-locale.inc           |   3 +
- meta/recipes-core/glibc/glibc-package.inc          |  61 +-
- meta/recipes-core/glibc/glibc/CVE-2019-9169.patch  |   1 +
- meta/recipes-core/glibc/glibc_2.29.bb              |   1 -
- ...lved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch |  41 ++
- meta/recipes-core/systemd/systemd_241.bb           |   1 +
- meta/recipes-devtools/binutils/binutils-2.32.inc   |   4 +
- ...Change-default-emulation-for-mips64-linux.patch |   9 +-
- .../binutils/binutils/CVE-2019-12972.patch         |  51 ++
- .../binutils/binutils/CVE-2019-14250.patch         |  33 +
- .../binutils/binutils/CVE-2019-14444.patch         |  28 +
- .../binutils/binutils/CVE-2019-9071.patch          | 165 +++++
- meta/recipes-devtools/dpkg/dpkg/pager.patch        |  21 +
- meta/recipes-devtools/dpkg/dpkg_1.19.4.bb          |   1 +
- meta/recipes-devtools/gcc/gcc-8.3.inc              |   3 +
- .../gcc/gcc-8.3/0042-PR-debug-86964.patch          |  94 +++
- ...vent-spilling-of-stack-protector-guard-s-.patch | 813 +++++++++++++++++++++
- .../gcc/gcc-8.3/CVE-2019-14250.patch               |  44 ++
- meta/recipes-devtools/meson/meson.inc              |   1 +
- ...-return-statements-that-are-seen-with-Wer.patch |  84 +++
- ...k-temporary-file-on-failed-ed-style-patch.patch |  93 +++
- ...ak-temporary-file-on-failed-multi-file-ed.patch |  80 ++
- ...ke-ed-directly-instead-of-using-the-shell.patch |  44 ++
- .../patch/patch/CVE-2019-13636.patch               | 113 +++
- meta/recipes-devtools/patch/patch_2.7.6.bb         |   4 +
- .../python/python/CVE-2019-9740.patch              | 215 ++++++
- .../python/python3/CVE-2019-9740.patch             | 151 ++++
- meta/recipes-devtools/python/python3_3.7.2.bb      |   1 +
- meta/recipes-devtools/python/python_2.7.16.bb      |   1 +
- meta/recipes-devtools/qemu/qemu.inc                |   2 +
- ...fix-to-handle-variably-sized-SIOCGSTAMP-w.patch | 339 +++++++++
- .../qemu/qemu/CVE-2018-20815.patch                 |  38 +
- .../rsync/files/CVE-2016-9840.patch                |  75 ++
- .../rsync/files/CVE-2016-9841.patch                | 228 ++++++
- .../rsync/files/CVE-2016-9842.patch                |  33 +
- .../rsync/files/CVE-2016-9843.patch                |  53 ++
- meta/recipes-devtools/rsync/rsync_3.1.3.bb         |   4 +
- .../ghostscript/CVE-2019-3839-0008.patch           | 440 +++++++++++
- .../ghostscript/ghostscript_9.26.bb                |   1 +
- meta/recipes-extended/psmisc/psmisc.inc            |   2 +-
- .../libsdl/libsdl-1.2.15/CVE-2019-7572.patch       | 114 +++
- .../libsdl/libsdl-1.2.15/CVE-2019-7574.patch       |  68 ++
- .../libsdl/libsdl-1.2.15/CVE-2019-7575.patch       |  81 ++
- .../libsdl/libsdl-1.2.15/CVE-2019-7576.patch       |  80 ++
- .../libsdl/libsdl-1.2.15/CVE-2019-7577.patch       | 123 ++++
- .../libsdl/libsdl-1.2.15/CVE-2019-7578.patch       |  64 ++
- .../libsdl/libsdl-1.2.15/CVE-2019-7635.patch       |  63 ++
- .../libsdl/libsdl-1.2.15/CVE-2019-7637.patch       | 192 +++++
- .../libsdl/libsdl-1.2.15/CVE-2019-7638.patch       |  38 +
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |   9 +
- .../mesa/{mesa-gl_19.0.1.bb => mesa-gl_19.0.8.bb}  |   0
- .../mesa/{mesa_19.0.1.bb => mesa_19.0.8.bb}        |   4 +-
- .../pango/pango/CVE-2019-1010238.patch             |  38 +
- meta/recipes-graphics/pango/pango_1.42.4.bb        |   4 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |   6 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |   8 +-
- meta/recipes-kernel/linux/linux-yocto_4.19.bb      |  20 +-
- .../0001-wakeup_xxx.h-include-limits.h.patch       |  55 ++
- meta/recipes-kernel/powertop/powertop_2.10.bb      |   1 +
- ...der-release-VA-buffers-after-vaEndPicture.patch |  45 ++
- ...ibs-encoder-jpeg-set-component-id-and-Tqi.patch |  65 ++
- .../gstreamer/gstreamer1.0-vaapi_1.14.4.bb         |   2 +
- .../libid3tag/libid3tag/10_utf16.patch             |   1 +
- .../libid3tag/libid3tag/unknown-encoding.patch     |  39 +
- .../libid3tag/libid3tag_0.15.1b.bb                 |   1 +
- .../libtiff/tiff/CVE-2019-6128.patch               |  52 ++
- .../libtiff/tiff/CVE-2019-7663.patch               |  77 ++
- meta/recipes-multimedia/libtiff/tiff_4.0.10.bb     |   3 +-
- meta/recipes-support/boost/boost.inc               |   2 +
- .../libxslt/files/CVE-2019-13117.patch             |  33 +
- .../libxslt/files/CVE-2019-13118.patch             |  76 ++
- meta/recipes-support/libxslt/libxslt_1.1.33.bb     |   2 +
- .../rng-tools/rng-tools/rngd.service               |   3 +-
- 78 files changed, 4742 insertions(+), 57 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.32.inc   |   2 +
+ .../binutils/binutils/CVE-2019-12972.patch         |  51 +++++++
+ .../binutils/binutils/CVE-2019-9071.patch          | 164 +++++++++++++++++++++
+ 3 files changed, 217 insertions(+)
  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9071.patch
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/pager.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0042-PR-debug-86964.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
- create mode 100644 meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
- create mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
- create mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
- create mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
- create mode 100644 meta/recipes-devtools/patch/patch/CVE-2019-13636.patch
- create mode 100644 meta/recipes-devtools/python/python/CVE-2019-9740.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-9740.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-20815.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9840.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9841.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9842.patch
- create mode 100644 meta/recipes-devtools/rsync/files/CVE-2016-9843.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3839-0008.patch
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/CVE-2019-7572.patch
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/CVE-2019-7574.patch
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/CVE-2019-7575.patch
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/CVE-2019-7576.patch
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/CVE-2019-7577.patch
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/CVE-2019-7578.patch
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/CVE-2019-7635.patch
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/CVE-2019-7637.patch
- create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/CVE-2019-7638.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_19.0.1.bb => mesa-gl_19.0.8.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_19.0.1.bb => mesa_19.0.8.bb} (85%)
- create mode 100644 meta/recipes-graphics/pango/pango/CVE-2019-1010238.patch
- create mode 100644 meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch
- create mode 100644 meta/recipes-multimedia/libid3tag/libid3tag/unknown-encoding.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-6128.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-7663.patch
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-13117.patch
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-13118.patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
+index 49e6827..31c24a3 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.32.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
+@@ -48,6 +48,8 @@ SRC_URI = "\
+      file://CVE-2019-9075.patch \
+      file://CVE-2019-9076.patch \
+      file://CVE-2019-9077.patch \
++     file://CVE-2019-9071.patch \
++     file://CVE-2019-12972.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch
+new file mode 100644
+index 0000000..07d1d65
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch
+@@ -0,0 +1,51 @@
++From 30bcc01478433a1cb05b36dc5c4beef7d2c89b5b Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Fri, 21 Jun 2019 11:51:38 +0930
++Subject: [PATCH] PR24689, string table corruption
++
++The testcase in the PR had a e_shstrndx section of type SHT_GROUP.
++hdr->contents were initialized by setup_group rather than being read
++from the file, thus last byte was not zero and string dereference ran
++off the end of the buffer.
++
++	PR 24689
++	* elfcode.h (elf_object_p): Check type of e_shstrndx section.
++
++Upstream-Status: Backport
++CVE: CVE-2019-12972
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ bfd/ChangeLog | 5 +++++
++ bfd/elfcode.h | 3 ++-
++ 2 files changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/bfd/ChangeLog b/bfd/ChangeLog
++index 91f09e6346..e66fb40a2c 100644
++--- a/bfd/ChangeLog
+++++ b/bfd/ChangeLog
++@@ -1,3 +1,8 @@
+++2019-06-21  Alan Modra  <amodra@gmail.com>
+++
+++	PR 24689
+++	* elfcode.h (elf_object_p): Check type of e_shstrndx section.
+++
++ 2019-02-20  Alan Modra  <amodra@gmail.com>
++ 
++ 	PR 24236
++diff --git a/bfd/elfcode.h b/bfd/elfcode.h
++index ec5ea766de..a35a629087 100644
++--- a/bfd/elfcode.h
+++++ b/bfd/elfcode.h
++@@ -755,7 +755,8 @@ elf_object_p (bfd *abfd)
++   /* A further sanity check.  */
++   if (i_ehdrp->e_shnum != 0)
++     {
++-      if (i_ehdrp->e_shstrndx >= elf_numsections (abfd))
+++      if (i_ehdrp->e_shstrndx >= elf_numsections (abfd)
+++	  || i_shdrp[i_ehdrp->e_shstrndx].sh_type != SHT_STRTAB)
++ 	{
++ 	  /* PR 2257:
++ 	     We used to just goto got_wrong_format_error here
++-- 
++2.20.1
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-9071.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-9071.patch
+new file mode 100644
+index 0000000..26f4809
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-9071.patch
+@@ -0,0 +1,164 @@
++From c1202057eb9161a86af27d867703235fee7b7555 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Wed, 10 Apr 2019 15:49:36 +0100
++Subject: [PATCH] Pull in patch for libiberty that fixes a stack exhaustion bug
++ when demangling a pathalogically constructed mangled name.
++
++	PR 89394
++	* cp-demangle.c (cplus_demangle_fill_name): Reject negative
++	lengths.
++	(d_count_templates_scopes): Replace num_templates and num_scopes
++	parameters with a struct d_print_info pointer parameter.  Adjust
++	body of the function accordingly.  Add recursion counter and check
++	that the recursion limit is not reached.
++	(d_print_init): Pass dpi parameter to d_count_templates_scopes.
++	Reset recursion counter afterwards, unless the recursion limit was
++	reached.
++
++CVE: CVE-2019-9071
++Upstream-Status: Backport
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ ChangeLog               | 16 ++++++++++++++
++ libiberty/cp-demangle.c | 48 ++++++++++++++++++++++-------------------
++ 2 files changed, 42 insertions(+), 22 deletions(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index cd631a15b6..4df3aaa62c 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,19 @@
+++2019-04-10  Nick Clifton  <nickc@redhat.com>
+++
+++	* libiberty: Sync with gcc.  Bring in:
+++	2019-04-10  Nick Clifton  <nickc@redhat.com>
+++
+++	PR 89394
+++	* cp-demangle.c (cplus_demangle_fill_name): Reject negative
+++	lengths.
+++	(d_count_templates_scopes): Replace num_templates and num_scopes
+++	parameters with a struct d_print_info pointer parameter.  Adjust
+++	body of the function accordingly.  Add recursion counter and check
+++	that the recursion limit is not reached.
+++	(d_print_init): Pass dpi parameter to d_count_templates_scopes.
+++	Reset recursion counter afterwards, unless the recursion limit was
+++	reached.
+++
++ 2018-06-24  Nick Clifton  <nickc@redhat.com>
++ 
++ 	2.32 branch created.
++diff --git a/libiberty/cp-demangle.c b/libiberty/cp-demangle.c
++index b34b485692..779b4e763a 100644
++--- a/libiberty/cp-demangle.c
+++++ b/libiberty/cp-demangle.c
++@@ -861,7 +861,7 @@ CP_STATIC_IF_GLIBCPP_V3
++ int
++ cplus_demangle_fill_name (struct demangle_component *p, const char *s, int len)
++ {
++-  if (p == NULL || s == NULL || len == 0)
+++  if (p == NULL || s == NULL || len <= 0)
++     return 0;
++   p->d_printing = 0;
++   p->type = DEMANGLE_COMPONENT_NAME;
++@@ -4061,7 +4061,7 @@ d_growable_string_callback_adapter (const char *s, size_t l, void *opaque)
++    are larger than the actual numbers encountered.  */
++ 
++ static void
++-d_count_templates_scopes (int *num_templates, int *num_scopes,
+++d_count_templates_scopes (struct d_print_info *dpi,
++ 			  const struct demangle_component *dc)
++ {
++   if (dc == NULL)
++@@ -4081,13 +4081,13 @@ d_count_templates_scopes (int *num_templates, int *num_scopes,
++       break;
++ 
++     case DEMANGLE_COMPONENT_TEMPLATE:
++-      (*num_templates)++;
+++      dpi->num_copy_templates++;
++       goto recurse_left_right;
++ 
++     case DEMANGLE_COMPONENT_REFERENCE:
++     case DEMANGLE_COMPONENT_RVALUE_REFERENCE:
++       if (d_left (dc)->type == DEMANGLE_COMPONENT_TEMPLATE_PARAM)
++-	(*num_scopes)++;
+++	dpi->num_saved_scopes++;
++       goto recurse_left_right;
++ 
++     case DEMANGLE_COMPONENT_QUAL_NAME:
++@@ -4152,42 +4152,42 @@ d_count_templates_scopes (int *num_templates, int *num_scopes,
++     case DEMANGLE_COMPONENT_TAGGED_NAME:
++     case DEMANGLE_COMPONENT_CLONE:
++     recurse_left_right:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				d_left (dc));
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				d_right (dc));
+++      /* PR 89394 - Check for too much recursion.  */
+++      if (dpi->recursion > DEMANGLE_RECURSION_LIMIT)
+++	/* FIXME: There ought to be a way to report to the
+++	   user that the recursion limit has been reached.  */
+++	return;
+++
+++      ++ dpi->recursion;
+++      d_count_templates_scopes (dpi, d_left (dc));
+++      d_count_templates_scopes (dpi, d_right (dc));
+++      -- dpi->recursion;
++       break;
++ 
++     case DEMANGLE_COMPONENT_CTOR:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				dc->u.s_ctor.name);
+++      d_count_templates_scopes (dpi, dc->u.s_ctor.name);
++       break;
++ 
++     case DEMANGLE_COMPONENT_DTOR:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				dc->u.s_dtor.name);
+++      d_count_templates_scopes (dpi, dc->u.s_dtor.name);
++       break;
++ 
++     case DEMANGLE_COMPONENT_EXTENDED_OPERATOR:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				dc->u.s_extended_operator.name);
+++      d_count_templates_scopes (dpi, dc->u.s_extended_operator.name);
++       break;
++ 
++     case DEMANGLE_COMPONENT_FIXED_TYPE:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-                                dc->u.s_fixed.length);
+++      d_count_templates_scopes (dpi, dc->u.s_fixed.length);
++       break;
++ 
++     case DEMANGLE_COMPONENT_GLOBAL_CONSTRUCTORS:
++     case DEMANGLE_COMPONENT_GLOBAL_DESTRUCTORS:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				d_left (dc));
+++      d_count_templates_scopes (dpi, d_left (dc));
++       break;
++ 
++     case DEMANGLE_COMPONENT_LAMBDA:
++     case DEMANGLE_COMPONENT_DEFAULT_ARG:
++-      d_count_templates_scopes (num_templates, num_scopes,
++-				dc->u.s_unary_num.sub);
+++      d_count_templates_scopes (dpi, dc->u.s_unary_num.sub);
++       break;
++     }
++ }
++@@ -4222,8 +4222,12 @@ d_print_init (struct d_print_info *dpi, demangle_callbackref callback,
++   dpi->next_copy_template = 0;
++   dpi->num_copy_templates = 0;
++ 
++-  d_count_templates_scopes (&dpi->num_copy_templates,
++-			    &dpi->num_saved_scopes, dc);
+++  d_count_templates_scopes (dpi, dc);
+++  /* If we did not reach the recursion limit, then reset the
+++     current recursion value back to 0, so that we can print
+++     the templates.  */
+++  if (dpi->recursion < DEMANGLE_RECURSION_LIMIT)
+++    dpi->recursion = 0;
++   dpi->num_copy_templates *= dpi->num_saved_scopes;
++ 
++   dpi->current_template = NULL;
++-- 
++2.20.1
++
 -- 
 2.7.4
 
