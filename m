@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
-	[209.85.210.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 958317F469
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+	[209.85.210.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B59547F461
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 14:36:49 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id 205so4924272pfw.2
+	Sun,  1 Sep 2019 14:36:50 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id q21so2337142pfn.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2019 07:36:51 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=MMWDv0uoopLviqWRqMrkPTByEkYY21bhkCQDH9w9D8M=;
-	b=ueTBz8XX9YydMw37ESwWIb5hN8idV8eVXTcmStmqjDNaVJPTUX+65Icmh/UijdhDCX
-	8AvIrO3y48VV564VHY+su5Foga/1P/Qo6ltabB9t7zmIl9jVF/QrLnfLjHk7OlxZ6pBv
-	m860GJq+trSRu1vs67+pdFPRWnuGUUMZ8BFk1rWu1lupBvD6xlFMusuLEpfGyAUAnSUS
-	ODwClsr0XtB6RRELbGWtHdsZKslquZHlPf+35Ew7gkwfzgfscdpaunZ4stwQOFC4g+yu
-	zjEP4OhwMUFQx3rAbbZE7TGadVWZ7K8SiprznRDbC4Rua1FuhhmNGHCsSz2vGzPTn5kl
-	MkoQ==
+	bh=6q1p4soLpqtY2/pk7tvelqvoGcASdrwCcVySwz/JDsc=;
+	b=GtvXAbPPZmOGg43RV3bY0s/N2wXiAbrIphrUra5M7lnAeQSENbf4EymJP2ByL4x6K8
+	KNaf/HoFJtWLJ0SIb2jmILni1+vpzjgNrHWTtvGSEyPxjsf23R9H9nxTghhoshRawtuH
+	vdhyfQg4RLWJct5ZNSpLZi2QqclC77LkPiX7w+8Ikxel4XyeimmrFeI2FX0+AJrYYIPH
+	/8wAoq12bmmY1jRal7xGCYUYcPqlC2YfoIxO3R9qabiO9LrBOu6qU5BZ5QAEJgtTGJ3Z
+	bOVUawzxeT8cXiG7QB/adDiscr1QSBne1iL6QMe4A8GSzmZDFhU6LoXsd7VYiWRVcgXT
+	x97Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=MMWDv0uoopLviqWRqMrkPTByEkYY21bhkCQDH9w9D8M=;
-	b=d00EojwxqdDDZpVggAlQgBNU3BCSZsCF62oUrOOk0DAKNTnzzL6NWIGR++EnYOBmn2
-	gJFSEq+I29kdmT+AnfiaFXKVcaSHY/UTDRG49ceBvuG5fupfSn5cES+WkzpXaojbqE/4
-	tBKiwHzPX78G0S7vCdIhDGf6LCu+r3NxBV/+tmIDWSIEkmzEYdpu0AhDEV1mYN51k9RV
-	lcedLOdJht/N+GK0mrYJaWvUPFqmXgLsoDSBbDhWfbSvnlXMZ/aM2ybxhcG7hUnNC7QH
-	R6/0ch83nd+saaarfQcIA6Ck1+RP+FfAZiXMmUoQCEh9tQ0QPIeH34mh4gVnEp+9AtYY
-	LsBw==
-X-Gm-Message-State: APjAAAU44QK0XTUAmV1vASi/urQTjQ93m0zTYmS4GMk9f+sdCvYMF6sh
-	qGfTUXrmq3Y2PnEdZNqdkwTe1t2q
-X-Google-Smtp-Source: APXvYqy+nA4aHr1PTZZyoklpya/QiIRlP1fwX4t197BMiHBYwlv9ngR7kpSJU+4ZvlZo1UoeUMCgYg==
-X-Received: by 2002:a62:ce0e:: with SMTP id y14mr29615955pfg.73.1567348610699; 
-	Sun, 01 Sep 2019 07:36:50 -0700 (PDT)
+	bh=6q1p4soLpqtY2/pk7tvelqvoGcASdrwCcVySwz/JDsc=;
+	b=iGh0YzyOBXMsZEcsQHldtPOlpaH9Om/eMZ5y40ejg7kFJcHn55yQWGzG8zwt+WFJ95
+	4voqwXeEtT22D83Mas7cPmrNVw1N0huyvV30Wqr0zH+kBEm7QbFM+vYG2GIPOjaigrGQ
+	3c4Vhtl3lGh9OfhLXsqJFoqFv9SWNUwkHAp+JNP+MjkJUGlSmPH8nBtI2K3hsakztEBI
+	TJDmUeiSh6Hmy+HbnVv+gdU5htlDjRttjOZmhFPP7HzGj2pYNXZbWIli3wlCoDQLhN2g
+	0qBcHZkM8lt/McUJBx61Ac/f7Pd34Xi4x9M+0pgjz6wJib+alzK3tssndylLOO6dOPSq
+	YwzA==
+X-Gm-Message-State: APjAAAVeSP/hfK6g9MvUuKwTt5Ci8S6RFWuRgj56CVK4PTBb6Mm5TYlO
+	Uxr1NRIHTzc21EeRZvom4ah6vfNK
+X-Google-Smtp-Source: APXvYqwhjymGcm830zZVYplMlnPS3r1s1JPESAm/fxMmnATc7HfQG1Lz0Q0nfI1Sy0kiNsB0KnebZA==
+X-Received: by 2002:a62:e401:: with SMTP id r1mr30458536pfh.193.1567348611706; 
+	Sun, 01 Sep 2019 07:36:51 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:1d53:5246:e59:bfe9])
 	by smtp.gmail.com with ESMTPSA id
 	s16sm15911381pfs.6.2019.09.01.07.36.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 01 Sep 2019 07:36:50 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:51 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 07:36:05 -0700
-Message-Id: <555b0642579c00c41bc3daab9cef08452f9834d5.1567348433.git.akuster808@gmail.com>
+Date: Sun,  1 Sep 2019 07:36:06 -0700
+Message-Id: <12f9689cba740da6b8c7d9292c74c3992c2e18f2.1567348433.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1567348433.git.akuster808@gmail.com>
 References: <cover.1567348433.git.akuster808@gmail.com>
-Subject: [warrior 27/43] patch: fix CVE-2019-13638
+Subject: [warrior 28/43] patch: backport fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,80 +59,221 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 14:36:49 -0000
+X-List-Received-Date: Sun, 01 Sep 2019 14:36:51 -0000
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
 
-(From OE-Core rev: b59b1222b3f73f982286222a583de09c661dc781)
+The original fix for CVE-2018-1000156 was incomplete. Backport more
+fixes done later for a complete fix.
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Also see:
+https://savannah.gnu.org/bugs/index.php?53820
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...ke-ed-directly-instead-of-using-the-shell.patch | 44 ++++++++++++++++++++++
- meta/recipes-devtools/patch/patch_2.7.6.bb         |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+ ...k-temporary-file-on-failed-ed-style-patch.patch | 93 ++++++++++++++++++++++
+ ...ak-temporary-file-on-failed-multi-file-ed.patch | 80 +++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb         |  2 +
+ 3 files changed, 175 insertions(+)
+ create mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
+ create mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
 
-diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+diff --git a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
 new file mode 100644
-index 0000000..f60dfe8
+index 0000000..9891526
 --- /dev/null
-+++ b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
-@@ -0,0 +1,44 @@
-+From 3fcd042d26d70856e826a42b5f93dc4854d80bf0 Mon Sep 17 00:00:00 2001
-+From: Andreas Gruenbacher <agruen@gnu.org>
-+Date: Fri, 6 Apr 2018 19:36:15 +0200
-+Subject: [PATCH] Invoke ed directly instead of using the shell
++++ b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
+@@ -0,0 +1,93 @@
++From 7f770b9c20da1a192dad8cb572a6391f2773285a Mon Sep 17 00:00:00 2001
++From: Jean Delvare <jdelvare@suse.de>
++Date: Thu, 3 May 2018 14:31:55 +0200
++Subject: [PATCH 1/2] Don't leak temporary file on failed ed-style patch
 +
-+* src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
-+command to avoid quoting vulnerabilities.
++Now that we write ed-style patches to a temporary file before we
++apply them, we need to ensure that the temporary file is removed
++before we leave, even on fatal error.
 +
-+CVE: CVE-2019-13638
-+Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
++* src/pch.c (do_ed_script): Use global TMPEDNAME instead of local
++  tmpname. Don't unlink the file directly, instead tag it for removal
++  at exit time.
++* src/patch.c (cleanup): Unlink TMPEDNAME at exit.
 +
++This closes bug #53820:
++https://savannah.gnu.org/bugs/index.php?53820
++
++Fixes: 123eaff0d5d1 ("Fix arbitrary command execution in ed-style patches (CVE-2018-1000156)")
++
++Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=19599883ffb6a450d2884f081f8ecf68edbed7ee]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ src/pch.c | 6 ++----
-+ 1 file changed, 2 insertions(+), 4 deletions(-)
++ src/common.h |  2 ++
++ src/pch.c    | 12 +++++-------
++ 2 files changed, 7 insertions(+), 7 deletions(-)
 +
-+
++diff --git a/src/common.h b/src/common.h
++index ec50b40..22238b5 100644
++--- a/src/common.h
+++++ b/src/common.h
++@@ -94,10 +94,12 @@ XTERN char const *origsuff;
++ XTERN char const * TMPINNAME;
++ XTERN char const * TMPOUTNAME;
++ XTERN char const * TMPPATNAME;
+++XTERN char const * TMPEDNAME;
++ 
++ XTERN bool TMPINNAME_needs_removal;
++ XTERN bool TMPOUTNAME_needs_removal;
++ XTERN bool TMPPATNAME_needs_removal;
+++XTERN bool TMPEDNAME_needs_removal;
++ 
++ #ifdef DEBUGGING
++ XTERN int debug;
 +diff --git a/src/pch.c b/src/pch.c
-+index 4fd5a05..16e001a 100644
++index 16e001a..c1a62cf 100644
 +--- a/src/pch.c
 ++++ b/src/pch.c
-+@@ -2459,9 +2459,6 @@ do_ed_script (char const *inname, char const *outname,
-+ 	    *outname_needs_removal = true;
-+ 	    copy_file (inname, outname, 0, exclusive, instat.st_mode, true);
-+ 	  }
-+-	sprintf (buf, "%s %s%s", editor_program,
-+-		 verbosity == VERBOSE ? "" : "- ",
-+-		 outname);
-+ 	fflush (stdout);
++@@ -2392,7 +2392,6 @@ do_ed_script (char const *inname, char const *outname,
++     file_offset beginning_of_this_line;
++     size_t chars_read;
++     FILE *tmpfp = 0;
++-    char const *tmpname;
++     int tmpfd;
++     pid_t pid;
 + 
-+ 	pid = fork();
-+@@ -2470,7 +2467,8 @@ do_ed_script (char const *inname, char const *outname,
-+ 	else if (pid == 0)
-+ 	  {
-+ 	    dup2 (tmpfd, 0);
-+-	    execl ("/bin/sh", "sh", "-c", buf, (char *) 0);
-++	    assert (outname[0] != '!' && outname[0] != '-');
-++	    execlp (editor_program, editor_program, "-", outname, (char  *) NULL);
-+ 	    _exit (2);
-+ 	  }
-+ 	else
++@@ -2404,12 +2403,13 @@ do_ed_script (char const *inname, char const *outname,
++ 	   invalid commands and treats the next line as a new command, which
++ 	   can lead to arbitrary command execution.  */
++ 
++-	tmpfd = make_tempfile (&tmpname, 'e', NULL, O_RDWR | O_BINARY, 0);
+++	tmpfd = make_tempfile (&TMPEDNAME, 'e', NULL, O_RDWR | O_BINARY, 0);
++ 	if (tmpfd == -1)
++-	  pfatal ("Can't create temporary file %s", quotearg (tmpname));
+++        pfatal ("Can't create temporary file %s", quotearg (TMPEDNAME));
+++        TMPEDNAME_needs_removal = true;
++ 	tmpfp = fdopen (tmpfd, "w+b");
++ 	if (! tmpfp)
++-	  pfatal ("Can't open stream for file %s", quotearg (tmpname));
+++        pfatal ("Can't open stream for file %s", quotearg (TMPEDNAME));
++       }
++ 
++     for (;;) {
++@@ -2449,8 +2449,7 @@ do_ed_script (char const *inname, char const *outname,
++       write_fatal ();
++ 
++     if (lseek (tmpfd, 0, SEEK_SET) == -1)
++-      pfatal ("Can't rewind to the beginning of file %s", quotearg (tmpname));
++-
+++        pfatal ("Can't rewind to the beginning of file %s", quotearg (TMPEDNAME));
++     if (! dry_run && ! skip_rest_of_patch) {
++ 	int exclusive = *outname_needs_removal ? 0 : O_EXCL;
++ 	*outname_needs_removal = true;
++@@ -2482,7 +2481,6 @@ do_ed_script (char const *inname, char const *outname,
++     }
++ 
++     fclose (tmpfp);
++-    safe_unlink (tmpname);
++ 
++     if (ofp)
++       {
 +-- 
-+2.7.4
++2.17.0
++
+diff --git a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
+new file mode 100644
+index 0000000..d6a219a
+--- /dev/null
++++ b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
+@@ -0,0 +1,80 @@
++From 369dcccdfa6336e5a873d6d63705cfbe04c55727 Mon Sep 17 00:00:00 2001
++From: Jean Delvare <jdelvare@suse.de>
++Date: Mon, 7 May 2018 15:14:45 +0200
++Subject: Don't leak temporary file on failed multi-file ed-style patch
++
++The previous fix worked fine with single-file ed-style patches, but
++would still leak temporary files in the case of multi-file ed-style
++patch. Fix that case as well, and extend the test case to check for
++it.
++
++* src/patch.c (main): Unlink TMPEDNAME if needed before moving to
++  the next file in a patch.
++
++This closes bug #53820:
++https://savannah.gnu.org/bugs/index.php?53820
++
++Fixes: 123eaff0d5d1 ("Fix arbitrary command execution in ed-style patches (CVE-2018-1000156)")
++Fixes: 19599883ffb6 ("Don't leak temporary file on failed ed-style patch")
++
++Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=369dcccdfa6336e5a873d6d63705cfbe04c55727]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ src/patch.c    |  1 +
++ tests/ed-style | 31 +++++++++++++++++++++++++++++++
++ 2 files changed, 32 insertions(+)
++
++diff --git a/src/patch.c b/src/patch.c
++index 9146597..81c7a02 100644
++--- a/src/patch.c
+++++ b/src/patch.c
++@@ -236,6 +236,7 @@ main (int argc, char **argv)
++ 	    }
++ 	  remove_if_needed (TMPOUTNAME, &TMPOUTNAME_needs_removal);
++ 	}
+++      remove_if_needed (TMPEDNAME, &TMPEDNAME_needs_removal);
++ 
++       if (! skip_rest_of_patch && ! file_type)
++ 	{
++diff --git a/tests/ed-style b/tests/ed-style
++index 6b6ef9d..504e6e5 100644
++--- a/tests/ed-style
+++++ b/tests/ed-style
++@@ -38,3 +38,34 @@ EOF
++ check 'cat foo' <<EOF
++ foo
++ EOF
+++
+++# Test the case where one ed-style patch modifies several files
+++
+++cat > ed3.diff <<EOF
+++--- foo
++++++ foo
+++1c
+++bar
+++.
+++--- baz
++++++ baz
+++0a
+++baz
+++.
+++EOF
+++
+++# Apparently we can't create a file with such a patch, while it works fine
+++# when the file name is provided on the command line
+++cat > baz <<EOF
+++EOF
+++
+++check 'patch -e -i ed3.diff' <<EOF
+++EOF
+++
+++check 'cat foo' <<EOF
+++bar
+++EOF
+++
+++check 'cat baz' <<EOF
+++baz
+++EOF
++-- 
++cgit v1.0-41-gc330
 +
 diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
-index 8cf20a3..8908910 100644
+index 8908910..5d7f55f 100644
 --- a/meta/recipes-devtools/patch/patch_2.7.6.bb
 +++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
-@@ -7,6 +7,7 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-             file://0004-Fix-arbitrary-command-execution-in-ed-style-patches-.patch \
+@@ -8,6 +8,8 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
              file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
              file://CVE-2019-13636.patch \
-+            file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
+             file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
++            file://0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch \
++            file://0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch \
  "
  
  SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
