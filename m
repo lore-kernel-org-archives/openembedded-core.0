@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
-	[209.85.210.181])
-	by mail.openembedded.org (Postfix) with ESMTP id BEE7F7F49D
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 732947F44E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 14:36:52 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id v12so7370980pfn.10
+	Sun,  1 Sep 2019 14:36:53 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id x3so272133plr.12
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 01 Sep 2019 07:36:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ms7ZLmcoJhg77w8VzvLGHlAkkgZUab688X+vV3LHlnU=;
-	b=d7a7vSvhckOveOVFI1p4rK2UlLDqdQlT1a3zgSM1JXTGeaFpPLCwr6n5Gcuh8OrkBa
-	rBRH7GujryOQvzTOim/4eorqzUmHOMRyI5d3RFR6H47J66t/b4Ud7YtP6yePHMjZZ+jq
-	Ee9uV9OotIr+bs4WU/DqcMMwwyhmLjzYoi6myqlW6gW3vvhnYvt7osm2XTxRn15a9IHE
-	jlZot8o+30ktdIC0FhVpEThdvWl0s0kqGQ7U+BUCmeqyGu8WGYI1O3efCA29z88hKa/L
-	JVboW03MFRmMAdfGwL/36OXS9d4h3W5ITSaZYLvl+3Qu6GSUiFmvFoRHWExF2qbJIY/G
-	zD8g==
+	bh=h7xN7jUkQ8j6D1rvWE0FXlYb/vqkmhGp5/D/pKScyGA=;
+	b=V86fD/TVna5W16mjpU4mt17RDojbMGmO8FXXHEBgZ8hNyZGnSW+wnLM78GoOB7Lswa
+	Zm9MvYb88rzG4Et1GCdqYs0gC81ZLFaWnhjIK5aTfx0blM5FmjevB9yQ0l+ezubkXby6
+	zf+EIB7frQLzTW+ro00A+VHK13SqjIQckx98hGnY/wDs5KhRLU0zb4Tk88A1EzquELV4
+	1L+dczc0iT5utrus9lzt/1aic73/GWqrYVo6TaC/bD1eHG+3qv7wMvEtBua/+pWFjxxs
+	CzXfUaDdBbTLBB6jH6PPluSHw25k40sBIB2QfAPvnfOdq/RE7yZM7N1fs7lZyMR460Im
+	UwTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=ms7ZLmcoJhg77w8VzvLGHlAkkgZUab688X+vV3LHlnU=;
-	b=nmw5FXiDJmb6Zy4nA6MkVHtWiDz0EPoiFXuxpoR21A7oP4+v7xxap3K/9ttCoYgxI6
-	MTW3LoHaUV1rnGWpTh4DZs/OE1/d2k5EqIX70j3weeT/ALbZ78FFjD7llH9uCb5eJE5L
-	bh14OyXDFQq28fMJrRp8E8R7uCrIrUd5jOyEdtp1tGrgJcGAP81iSSUODGrmCU/ta+sC
-	R8dN48OYVU4fnSGTzACBmd0aiyhXsXxA9nTHoFfqaWmt5XRRiMDTFXOc6Jd8AjhACW/q
-	0Yx46vLhOIJGMll/sufntPQQgRltpwnzsWLs65g+S0+oANiTzKTJQPsqMfi3wgAvN6jg
-	DrJw==
-X-Gm-Message-State: APjAAAVI3SRocCNQ8g/yfNiHOHxvVZTPFTAkWLvxSxNx9OjPYFelaFsl
-	YWiGVr52052/1obA5eKffP2J1Hxw
-X-Google-Smtp-Source: APXvYqxCxdFQPc9hw3xVfGDHijIIFwvnqo5pBQJgFpcEflaP7EefNXke5m6irt1hjoe0iVsWLn64uw==
-X-Received: by 2002:a05:6a00:8e:: with SMTP id
-	c14mr28641014pfj.241.1567348613666; 
-	Sun, 01 Sep 2019 07:36:53 -0700 (PDT)
+	bh=h7xN7jUkQ8j6D1rvWE0FXlYb/vqkmhGp5/D/pKScyGA=;
+	b=Ab5EHppFDDQD8doVMF2zVQXEK7USOXEbTIi48rS6bGIxYiszUd+oM9lNY5CtDPAaHv
+	t7UYsuAPvORIV3sZgxgyS+46YHrdsT60N4YgYkRBjfBAta+SOyqAcdJsmVkA/b+ku4Ni
+	eebOeoZ3bSNfYOdeG7ZroF4tZ0oHEvLqqldyB34ZtNNJSyC6YA/isZv8toVAFZOhvyTh
+	DOHrX7oOP8ryTacPjPATSLDN1g5xUYBKQ38jvFraopaJdRVdVjvqhFTsyGX3oSQIfAVq
+	VD70qILO+HearAtsAgx7M00yGiR1lGtrOCtdNK9V3JC7hRJ0L/aeeELZkdQzIL0ygYT/
+	4B6Q==
+X-Gm-Message-State: APjAAAUGIpT+3GMiDM+z8g2G3QMELFGxwEd/wHp+Ryp31jPUbU+RRYUk
+	o8w8oGF+KXh5zrstSUVBsELaBzRw
+X-Google-Smtp-Source: APXvYqwUIomNLLS0aNS48ttaYgNpw0D+Uei/DuSrnlpQAkhJaGWvGuQOMTmyw9QW8o4XIkNinYs5ig==
+X-Received: by 2002:a17:902:1c7:: with SMTP id
+	b65mr25037269plb.313.1567348614485; 
+	Sun, 01 Sep 2019 07:36:54 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:1d53:5246:e59:bfe9])
 	by smtp.gmail.com with ESMTPSA id
-	s16sm15911381pfs.6.2019.09.01.07.36.52
+	s16sm15911381pfs.6.2019.09.01.07.36.53
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 01 Sep 2019 07:36:52 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:54 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 07:36:08 -0700
-Message-Id: <4e4c7c20791995c220febe78f2623c5f647e231d.1567348433.git.akuster808@gmail.com>
+Date: Sun,  1 Sep 2019 07:36:09 -0700
+Message-Id: <30f9e2e69712ad9f09f330ca001058db936876aa.1567348433.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1567348433.git.akuster808@gmail.com>
 References: <cover.1567348433.git.akuster808@gmail.com>
-Subject: [warrior 30/43] icecc.bbclass: catch subprocess.CalledProcessError
+Subject: [warrior 31/43] meson: backport fix for builds with -Werror=return-type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,203 +64,116 @@ X-List-Received-Date: Sun, 01 Sep 2019 14:36:53 -0000
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-* this might be related to:
-  commit d2fcaeb153fdc3f8d7143ea823139f1537055ff1
-  Author: Douglas Royds <douglas.royds@taitradio.com>
-  Date:   Thu Dec 20 11:59:47 2018 +1300
-
-    icecc: Don't generate recipe-sysroot symlinks at recipe-parsing time
-
-* it's still a bit unclear when and why this happends, but I'm seeing
-  random tasks sometimes failing with:
-
-WARNING: Exception during build_dependencies for set_icecc_env
-WARNING: Error during finalise of /build/meta-oe/meta-python/recipes-devtools/python/python-markupsafe_1.0.bb
-ERROR: Traceback (most recent call last):
-  File "/build/bitbake/lib/bb/data_smart.py", line 411, in expandWithRefs
-    s = __expand_python_regexp__.sub(varparse.python_sub, s)
-  File "/build/bitbake/lib/bb/data_smart.py", line 136, in python_sub
-    value = utils.better_eval(codeobj, DataContext(self.d), {'d' : self.d})
-  File "/build/bitbake/lib/bb/utils.py", line 421, in better_eval
-    return eval(source, ctx, locals)
-  File "Var <set_icecc_env>", line 1, in <module>
-  File "/build/oe-core/meta/classes/icecc.bbclass", line 287, in icecc_get_and_check_tool
-    link_path = icecc_get_tool_link(t, d)
-  File "/build/oe-core/meta/classes/icecc.bbclass", line 246, in icecc_get_tool_link
-    return subprocess.check_output("readlink -f %s" % tool, shell=True).decode("utf-8")[:-1]
-  File "/usr/lib/python3.6/subprocess.py", line 336, in check_output
-    **kwargs).stdout
-  File "/usr/lib/python3.6/subprocess.py", line 418, in run
-    output=stdout, stderr=stderr)
-subprocess.CalledProcessError: Command 'readlink -f /build/BUILD/work/qemux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-g++' returned non-zero exit status 1.
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/build/bitbake/bin/bitbake-worker", line 239, in child
-    the_data = bb_cache.loadDataFull(fn, appends)
-  File "/build/bitbake/lib/bb/cache.py", line 327, in loadDataFull
-    bb_data = self.load_bbfile(virtualfn, appends, virtonly=True)
-  File "/build/bitbake/lib/bb/cache.py", line 340, in load_bbfile
-    datastores = parse_recipe(bb_data, bbfile, appends, mc)
-  File "/build/bitbake/lib/bb/cache.py", line 303, in parse_recipe
-    bb_data = bb.parse.handle(bbfile, bb_data)
-  File "/build/bitbake/lib/bb/parse/__init__.py", line 107, in handle
-    return h['handle'](fn, data, include)
-  File "/build/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 142, in handle
-    return ast.multi_finalize(fn, d)
-  File "/build/bitbake/lib/bb/parse/ast.py", line 386, in multi_finalize
-    finalize(fn, d)
-  File "/build/bitbake/lib/bb/parse/ast.py", line 351, in finalize
-    bb.parse.siggen.finalise(fn, d, variant)
-  File "/build/bitbake/lib/bb/siggen.py", line 147, in finalise
-    taskdeps = self._build_data(fn, d)
-  File "/build/bitbake/lib/bb/siggen.py", line 118, in _build_data
-    tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d)
-  File "/build/bitbake/lib/bb/data.py", line 388, in generate_dependencies
-    deps[dep], values[dep] = build_dependencies(dep, keys, shelldeps, varflagsexcl, d)
-  File "/build/bitbake/lib/bb/data.py", line 317, in build_dependencies
-    value, parsedvar = d.getVarFlag(key, "_content", False, retparser=True)
-  File "/build/bitbake/lib/bb/data_smart.py", line 802, in getVarFlag
-    parser = self.expandWithRefs(value, cachename)
-  File "/build/bitbake/lib/bb/data_smart.py", line 424, in expandWithRefs
-    raise ExpansionError(varname, s, exc).with_traceback(tb) from exc
-  File "/build/bitbake/lib/bb/data_smart.py", line 411, in expandWithRefs
-    s = __expand_python_regexp__.sub(varparse.python_sub, s)
-  File "/build/bitbake/lib/bb/data_smart.py", line 136, in python_sub
-    value = utils.better_eval(codeobj, DataContext(self.d), {'d' : self.d})
-  File "/build/bitbake/lib/bb/utils.py", line 421, in better_eval
-    return eval(source, ctx, locals)
-  File "Var <set_icecc_env>", line 1, in <module>
-  File "/build/oe-core/meta/classes/icecc.bbclass", line 287, in icecc_get_and_check_tool
-    link_path = icecc_get_tool_link(t, d)
-  File "/build/oe-core/meta/classes/icecc.bbclass", line 246, in icecc_get_tool_link
-    return subprocess.check_output("readlink -f %s" % tool, shell=True).decode("utf-8")[:-1]
-  File "/usr/lib/python3.6/subprocess.py", line 336, in check_output
-    **kwargs).stdout
-  File "/usr/lib/python3.6/subprocess.py", line 418, in run
-    output=stdout, stderr=stderr)
-bb.data_smart.ExpansionError: Failure expanding variable set_icecc_env, expression was     if [ "${@use_icecc(bb, d)}" = "no" ]
-    then
-        return
-    fi
-    ICECC_VERSION="${@icecc_version(bb, d)}"
-    if [ "x${ICECC_VERSION}" = "x" ]
-    then
-        bbwarn "Cannot use icecc: could not get ICECC_VERSION"
-        return
-    fi
-
-    ICE_PATH="${@icecc_path(bb, d)}"
-    if [ "x${ICE_PATH}" = "x" ]
-    then
-        bbwarn "Cannot use icecc: could not get ICE_PATH"
-        return
-    fi
-
-    ICECC_BIN="${@get_icecc(d)}"
-    if [ -z "${ICECC_BIN}" ]; then
-        bbwarn "Cannot use icecc: icecc binary not found"
-        return
-    fi
-    if [ -z "$(which patchelf patchelf-uninative)" ]; then
-        bbwarn "Cannot use icecc: patchelf not found"
-        return
-    fi
-
-    # Create symlinks to icecc in the recipe-sysroot directory
-    mkdir -p ${ICE_PATH}
-    if [ -n "${KERNEL_CC}" ]; then
-        compilers="${@get_cross_kernel_cc(bb,d)}"
-    else
-        compilers="x86_64-oe-linux-gcc x86_64-oe-linux-g++"
-    fi
-    for compiler in $compilers; do
-        ln -sf ${ICECC_BIN} ${ICE_PATH}/$compiler
-    done
-
-    ICECC_CC="${@icecc_get_and_check_tool(bb, d, "gcc")}"
-    ICECC_CXX="${@icecc_get_and_check_tool(bb, d, "g++")}"
-    # cannot use icecc_get_and_check_tool here because it assumes as without target_sys prefix
-    ICECC_WHICH_AS="${@bb.utils.which(os.getenv('PATH'), 'as')}"
-    if [ ! -x "${ICECC_CC}" -o ! -x "${ICECC_CXX}" ]
-    then
-        bbwarn "Cannot use icecc: could not get ICECC_CC or ICECC_CXX"
-        return
-    fi
-
-    ICE_VERSION=`$ICECC_CC -dumpversion`
-    ICECC_VERSION=`echo ${ICECC_VERSION} | sed -e "s/@VERSION@/$ICE_VERSION/g"`
-    if [ ! -x "/build/BUILD/work/qemux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/icecc-create-env" ]
-    then
-        bbwarn "Cannot use icecc: invalid ICECC_ENV_EXEC"
-        return
-    fi
-
-    ICECC_AS="`${ICECC_CC} -print-prog-name=as`"
-    # for target recipes should return something like:
-    # /OE/tmp-eglibc/sysroots/x86_64-linux/usr/libexec/arm920tt-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.8.2/as
-    # and just "as" for native, if it returns "as" in current directory (for whatever reason) use "as" from PATH
-    if [ "`dirname "${ICECC_AS}"`" = "." ]
-    then
-        ICECC_AS="${ICECC_WHICH_AS}"
-    fi
-
-    if [ ! -f "${ICECC_VERSION}.done" ]
-    then
-        mkdir -p "`dirname "${ICECC_VERSION}"`"
-
-        # the ICECC_VERSION generation step must be locked by a mutex
-        # in order to prevent race conditions
-        if flock -n "${ICECC_VERSION}.lock" \
-            /build/BUILD/work/qemux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/icecc-create-env  "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}"
-        then
-            touch "${ICECC_VERSION}.done"
-        elif ! wait_for_file "${ICECC_VERSION}.done" 30
-        then
-            # locking failed so wait for ${ICECC_VERSION}.done to appear
-            bbwarn "Timeout waiting for ${ICECC_VERSION}.done"
-            return
-        fi
-    fi
-
-    # Don't let ccache find the icecream compiler links that have been created, otherwise
-    # it can end up invoking icecream recursively.
-    export CCACHE_PATH="$PATH"
-    export CCACHE_DISABLE="1"
-
-    export ICECC_VERSION ICECC_CC ICECC_CXX
-    export PATH="$ICE_PATH:$PATH"
-
-    bbnote "Using icecc path: $ICE_PATH"
-    bbnote "Using icecc tarball: $ICECC_VERSION"
- which triggered exception CalledProcessError: Command 'readlink -f /build/BUILD/work/qemux86-oe-linux/python-markupsafe/1.0-r0/recipe-sysroot-native/usr/bin/x86_64-oe-linux/x86_64-oe-linux-g++' returned non-zero exit status 1.
-
-ERROR: Task (virtual:multilib:lib32:/build/meta-oe/meta-python/recipes-devtools/python/python-markupsafe_1.0.bb:do_patch) failed with exit code '1'
-
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/icecc.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/meson/meson.inc              |  1 +
+ ...-return-statements-that-are-seen-with-Wer.patch | 84 ++++++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index edb0e10..63d8b4d 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -243,7 +243,11 @@ def icecc_get_external_tool(bb, d, tool):
- 
- def icecc_get_tool_link(tool, d):
-     import subprocess
--    return subprocess.check_output("readlink -f %s" % tool, shell=True).decode("utf-8")[:-1]
-+    try:
-+        return subprocess.check_output("readlink -f %s" % tool, shell=True).decode("utf-8")[:-1]
-+    except subprocess.CalledProcessError as e:
-+        bb.note("icecc: one of the tools probably disappeared during recipe parsing, cmd readlink -f %s returned %d:\n%s" % (tool, e.returncode, e.output.decode("utf-8")))
-+        return tool
- 
- def icecc_get_path_tool(tool, d):
-     # This is a little ugly, but we want to make sure we add an actual
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index 2d18f72..bfe9851 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://cross-prop-default.patch \
+            file://many-cross.patch \
+            file://cross-libdir.patch \
++           file://0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch \
+            "
+ SRC_URI[sha256sum] = "ef9f14326ec1e30d3ba1a26df0f92826ede5a79255ad723af78a2691c37109fd"
+ SRC_URI[md5sum] = "0267b0871266056184c484792572c682"
+diff --git a/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+new file mode 100644
+index 0000000..1f22755
+--- /dev/null
++++ b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+@@ -0,0 +1,84 @@
++From 7e83cf1edac2a57c08ebb1ce7f21c2a539d5c300 Mon Sep 17 00:00:00 2001
++From: Martin Liska <mliska@suse.cz>
++Date: Mon, 15 Jul 2019 10:06:17 +0200
++Subject: [PATCH] Fix missing return statements that are seen with
++ -Werror=return-type.
++
++Error example:
++
++Code:
++
++        #include <locale.h>
++        int main () {
++            /* If it's not defined as a macro, try to use as a symbol */
++            #ifndef LC_MESSAGES
++                LC_MESSAGES;
++            #endif
++        }
++Compiler stdout:
++
++Compiler stderr:
++ In file included from /usr/include/locale.h:25,
++                 from /tmp/tmpep_i4iwg/testfile.c:2:
++/usr/include/features.h:382:4: warning: #warning _FORTIFY_SOURCE requires compiling with optimization (-O) [-Wcpp]
++  382 | #  warning _FORTIFY_SOURCE requires compiling with optimization (-O)
++      |    ^~~~~~~
++/tmp/tmpep_i4iwg/testfile.c: In function 'main':
++/tmp/tmpep_i4iwg/testfile.c:8:9: error: control reaches end of non-void function [-Werror=return-type]
++    8 |         }
++      |         ^
++cc1: some warnings being treated as errors
++
++Upstream-Status: Backport
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ mesonbuild/compilers/c.py | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/mesonbuild/compilers/c.py b/mesonbuild/compilers/c.py
++index b0096459..69cf84a4 100644
++--- a/mesonbuild/compilers/c.py
+++++ b/mesonbuild/compilers/c.py
++@@ -387,6 +387,7 @@ class CCompiler(Compiler):
++             #ifndef {symbol}
++                 {symbol};
++             #endif
+++            return 0;
++         }}'''
++         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
++                              dependencies=dependencies)
++@@ -563,6 +564,7 @@ class CCompiler(Compiler):
++         {prefix}
++         int main(int argc, char **argv) {{
++             {type} something;
+++            return 0;
++         }}'''
++         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
++                              dependencies=dependencies):
++@@ -598,6 +600,7 @@ class CCompiler(Compiler):
++         {prefix}
++         int main(int argc, char **argv) {{
++             {type} something;
+++            return 0;
++         }}'''
++         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
++                              dependencies=dependencies):
++@@ -672,6 +675,7 @@ class CCompiler(Compiler):
++         #include <stdio.h>
++         int main(int argc, char *argv[]) {{
++             printf ("{fmt}", {cast} {f}());
+++            return 0;
++         }}'''.format(**fargs)
++         res = self.run(code, env, extra_args=extra_args, dependencies=dependencies)
++         if not res.compiled:
++@@ -823,6 +827,7 @@ class CCompiler(Compiler):
++                 #error "No definition for __builtin_{func} found in the prefix"
++             #endif
++         #endif
+++        return 0;
++         }}'''
++         return self.links(t.format(**fargs), env, extra_args=extra_args,
++                           dependencies=dependencies)
++-- 
++2.17.1
++
 -- 
 2.7.4
 
