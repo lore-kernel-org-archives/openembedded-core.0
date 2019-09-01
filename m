@@ -1,46 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
-	[209.85.208.176])
-	by mail.openembedded.org (Postfix) with ESMTP id D79216C226
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+	[209.85.208.169])
+	by mail.openembedded.org (Postfix) with ESMTP id A90E96C226
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 09:39:54 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id j16so4024698ljg.6
+	Sun,  1 Sep 2019 09:39:55 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id f9so10139148ljc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2019 02:39:56 -0700 (PDT)
+	Sun, 01 Sep 2019 02:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=2zqMFln2nhx/ZPEyOTFDrWYskoRv/tT8Bip/nbqGVUI=;
-	b=HWvauKvXEEdV/YIRHlgcda3po5Y5hKgOhydJAlakBB3zP4MjFjrTFaFYcWmxphGRrs
-	AVe/nG0k3XRSsnY+1vmvO2nago3cpCvjY27nm92P9wYqaEXNt4AJXyQYlp1VasW+IxLY
-	Ac4PBkuHUlT76uIJW2mz5mgmBqU4399cNlK1Tl9z0wQ+54YxDa2yZfTk21KznozwV5Dv
-	3vf3U6uIooOUEqfP5f8G9pbHLir5vMDcUm8tXDUoEi7+bVjuET/DGwmibvvpuKiYiKbo
-	bAulpmgRoYMwWL/qv6aL7y/l/VQvrelO0I/HLa2H+Gml/hg64B6yvCu90bimMVeKsQwx
-	Aghw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=hDy6AYI/b9EoXIaHCAzxnHn0rvVvEnlNVoxcn4IMrR4=;
+	b=vSmQhV7btruKOyYzgCzEzN4IqYvCp+DdAqzeMZLeAWrqWRowULpZzeB+ARggu2gdoY
+	7W+mYw6SZxMlinMmXV43apQ1LYeCadONZQCX18sdSQSy+1I0tWVhJZ4GKZewAzaWq+2+
+	1ao8y2v5rBtI86CF23PaUT41WCTmIoTZO6dwOg9ZuA/TE2HAcAbBUMCPaAGVibHBgNR2
+	2FfRK6Nt5FA6L1/grxzykyIfnvr/xXm6gL7FI6rxKWLYOCIu0rodsA31JcsnaSxFtJFB
+	AEw4yQArApTzBioYRqS58yWf7fzkNWrP144W+cnhuBwfvlbyHeCE2HXNKIeAjCM+QylK
+	RGoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2zqMFln2nhx/ZPEyOTFDrWYskoRv/tT8Bip/nbqGVUI=;
-	b=fkg3XdG1m5EgJ+aJ9OvQelc8pjOKZVQoyCLuUc+HeWnFWbHl3+L9hvDgwybFt+7ei7
-	XcvrBZhrSOIjquX28tXU1/hjHUUwiVIX2UTj5JxurnUWQnoMwfalNJrnD3lEkrD01F+b
-	w5QWl9S6rlALL+UrgvLU2SOxUP5jLrq7NkkPuNzVj0L3jCLfHGB9Qu15/Situf5BVDub
-	lfnv3WAEwznMhNJV5j85bTFlhzubEngjcY/cfh2JMoTgIy/1RjLonpbaZDgDqOxQAc2k
-	Wns5F8XZ4w98HBa2+tSnOXCckDT1DCEARp9bIjV23Oklv+cMxgvTMeHLFM1TEsjC6Uii
-	9dPg==
-X-Gm-Message-State: APjAAAUQYdpd20/bBugNIBZi0SGECRylMaR4USbXoFsZ3Y6XO2lwvxzV
-	0yFk8LHNOQvkMthGyRwhhMMvRMxD
-X-Google-Smtp-Source: APXvYqzfHoueueNTr/5fu5bacO4tCVRfr1ynHM8kLkiku8j1sTrYGQguRED7nhoki3ymwW4Uj8Vbgg==
-X-Received: by 2002:a2e:2c09:: with SMTP id s9mr13346017ljs.222.1567330795157; 
-	Sun, 01 Sep 2019 02:39:55 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=hDy6AYI/b9EoXIaHCAzxnHn0rvVvEnlNVoxcn4IMrR4=;
+	b=AmK3CtQeost+99eG+l0g4TQOCtemC5WWgFKHxUjTPTAnwuj/3mM8RVWsH3PQ079EEp
+	7pTgse6KwEzEF0Pq4cyoTKSrVGP+8pLFQAVFs9HWtUV+xA/+1Rzv4soJlyX1Dioo/Vrs
+	HmRJMB7TMgc6Oq8MRsBq9UigF4Ig3/DctHFF80V2V0oP/I1uqi00KftKm2tOM8SRK99r
+	+obQYEYDORYp2irXPqnrQbV1WVCLTSG8gqmVLMOrPRvXm0rlHSAEkiwn1js3194r9cbR
+	TD4HWXOmYPtte6vosKhDGCDhXdmXTZmi91aK3LpmbczKlb5geZf8Pnz0YsA9cJVFwcoW
+	2Gaw==
+X-Gm-Message-State: APjAAAUZD/FF+dFibnavbOFG06J017TijUWLOYGOXL/0/0003tMyGiOH
+	fim8r4fv8Mx+09ywHTWr4sX+jZg2
+X-Google-Smtp-Source: APXvYqyFbQ7F8avYUsDY5vQCh0RRI38caIigQyhyQmJciZq40YUV0onaPrTtLyfUiVu7yOgGD4Fspg==
+X-Received: by 2002:a2e:3e18:: with SMTP id l24mr13527621lja.67.1567330796054; 
+	Sun, 01 Sep 2019 02:39:56 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id w1sm1926434lfe.67.2019.09.01.02.39.54
+	by smtp.gmail.com with ESMTPSA id w1sm1926434lfe.67.2019.09.01.02.39.55
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 01 Sep 2019 02:39:54 -0700 (PDT)
+	Sun, 01 Sep 2019 02:39:55 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 11:39:46 +0200
-Message-Id: <20190901093947.95524-1-alex.kanavin@gmail.com>
+Date: Sun,  1 Sep 2019 11:39:47 +0200
+Message-Id: <20190901093947.95524-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] default-providers.inc: set mesa as the provider for native virtual/libgl
+In-Reply-To: <20190901093947.95524-1-alex.kanavin@gmail.com>
+References: <20190901093947.95524-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/2] libepoxy: enable x11 PACKAGECONFIG for native/nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,28 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 09:39:55 -0000
+X-List-Received-Date: Sun, 01 Sep 2019 09:39:56 -0000
 
-native libepoxy and libsdl2 require this to be set, when they
-have the respective opengl features enabled.
+This is needed to enable virgl support in qemu with SDL frontend
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/distro/include/default-providers.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 8f4d44d884c..189dd8fe400 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -5,6 +5,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
- PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
- PREFERRED_PROVIDER_virtual/egl ?= "mesa"
- PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
-+PREFERRED_PROVIDER_virtual/libgl-native ?= "mesa-native"
- PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
- PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
- PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+index dd706a96063..c8d1650c637 100644
+--- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
++++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+@@ -23,8 +23,8 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} egl"
+ 
+ EXTRA_OEMESON += "-Dtests=false"
+ 
+-PACKAGECONFIG_class-native = "egl"
+-PACKAGECONFIG_class-nativesdk = "egl"
++PACKAGECONFIG_class-native = "egl x11"
++PACKAGECONFIG_class-nativesdk = "egl x11"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
 2.17.1
 
