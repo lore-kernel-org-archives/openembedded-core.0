@@ -1,52 +1,46 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C48267F4F6
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 164427F43E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 14:37:03 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id n4so5949801pgv.2
+	Sun,  1 Sep 2019 15:24:29 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id j16so11493771wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2019 07:37:05 -0700 (PDT)
+	Sun, 01 Sep 2019 08:24:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=qTeGTUYJFAxnTEn35ceW/LtkqKkiVHdbomGRuRV+ofA=;
-	b=SJcaBwHLJzyrJGtWallMPUYwZDdplnQeb/O6HZSKkTW1cvQA7Xn7PYabJOqNTgDPND
-	O4Bs6DbZ4v97B6YfI85uDAp0c6jhLAbI8FPmCHEy+xsRfGSpBwdBjdrkBNpLTgzeAcjC
-	CNyTLTE96BD0STRLEXaQaspaLB78xqzTfMVDKsi54pxQQvfrZeghAWHRxLc0e5rp0zQt
-	sPf1c4iXRZxa/ModB8Som0x37ZJDudZgJdQKK3JkuWiR7gx2AU7yzCiaYCpZz/77Wv2s
-	PqsNpgpFE2NzaKmTq7mScE7O3hQcd/lQBq0M1TQnoRER8+LXCQ+imWhVhlFj0yVn2/GH
-	L5vQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=MMHrB2j4Xiy1IWRTCKAE1DGs52/miKB6th9buvk3Z1A=;
+	b=qdFXxCtRcMCCda60pucNlcxIplRldWQWdLLcVaomvajzUdHNQnaa++4SgS9qrUS1LT
+	mRqnHFATZMHV19m3ValvmktSXMIZSQCvvnN1vMcKqpLMMtYl1qO5eFGVGiZDpe0JGExm
+	HaU72hsFuYxmmXyY+5qL9v4jZAIEPDG26aqZmeu4riTfJbGPWqTXWRbPllyCymzxB30Z
+	5j066yYSXveVvmz71X7uLSJ4xQCPKphB/3rsJy9TGvcwTd4iRZvhh9ZoesxJ3HQZ4/0D
+	X+Epd7ncAIeeoJfRSKnkx3vCzfrExU2+YSiCJJX17Rg5kT1/UWnMat7vZ/yjT/ruvejL
+	vy3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=qTeGTUYJFAxnTEn35ceW/LtkqKkiVHdbomGRuRV+ofA=;
-	b=UAemSl5TiGV6e8+CNTAgohlkPODxHcRyxFJWqBEfF6sfJTROklvDwa4+C8O1heovEo
-	TNsQLkMT8gplRe1PV6z8/oHLNqfPPRRDR49djPu+UzgQxdj55uvKqG3tG8LisUpw5qGJ
-	KcQod4xznY2egsq9+9wLFddjzggUegfGESn2sF9dfnOvy+agTlADuX/MwAbCEKuJbYoI
-	BhaRL6qq/NxCMFVMXCQzu9tN8Qoxzg/NZBenaASvoBfmcr1kC/R8Dom2ykcMGHBSxzLG
-	eBLzNON6iZwZ4gRXn1Ihouo/YVZ1lrej7SPrSDV8hME3SJkaOoZo8nre8BEzaHw0CkmQ
-	4cvA==
-X-Gm-Message-State: APjAAAXXz+hJX9ExaYSmrut/reuVXg0ZD9gN9HZeEM9vZKJuFtStd/Am
-	IrlgltKbsMdWKgozui2w3IV2KDkx
-X-Google-Smtp-Source: APXvYqy+aPaR3wRekg/tWRi99V0qEJ/pLv3gmKrd78/CUJoHNMfsJN7TByyAyZJBIw/icQF3H1Cvqw==
-X-Received: by 2002:a65:64cf:: with SMTP id t15mr20843610pgv.88.1567348624738; 
-	Sun, 01 Sep 2019 07:37:04 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:c33:1d53:5246:e59:bfe9])
-	by smtp.gmail.com with ESMTPSA id
-	s16sm15911381pfs.6.2019.09.01.07.37.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 01 Sep 2019 07:37:04 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MMHrB2j4Xiy1IWRTCKAE1DGs52/miKB6th9buvk3Z1A=;
+	b=IGZMfEGQ59/VfdPZWBbvRWvH6U78tgLcrDPf0n1k66OB6GLAZacakjyETvdYpHU29m
+	autALi8O1sVdk6q0GtHGw0yDXw6FZ5KmPZaJWAzQzsc8YLcg/g/mSn3ehtKjEJ/UoNky
+	8oOOXBxIexu7u8JVvG+cYYsippZe6YMRT0X9iqu6MdwvL4GAU+2W3NpbYSsaCSfPpqq8
+	HICr8x90dTnCaK+AYAgdk2U+f7+KOAKRMZhYvMOS2tlIRE24Vv5d/lFvD2fU6VKuq88e
+	B4Jh5FEEqVQOHOFeDurrYPxSIwEcVr+23s+cXQajs9kZRS3/qsyOIesiOcuKvcFuiUm8
+	+LqA==
+X-Gm-Message-State: APjAAAWCVf1SfNUugu/p1qpOsCSQl7eUTyuTH50aAVfk+AqGR8O0mfEM
+	9O/+9XUjuRc+wHJAtU7T7b4zSsuo
+X-Google-Smtp-Source: APXvYqz8LuD7c74OADnvOsgfzWV1iaR8erlIjBesdZ8k/mUU/RDsgokrQpP7AkPr02c1ms9XzBAlVQ==
+X-Received: by 2002:adf:e44d:: with SMTP id t13mr24534630wrm.240.1567351470377;
+	Sun, 01 Sep 2019 08:24:30 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id c9sm9403598wrv.40.2019.09.01.08.24.29
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 01 Sep 2019 08:24:29 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 07:36:21 -0700
-Message-Id: <c9eb2ed8d37be4fd4f06edc54a4845a908f72166.1567348433.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1567348433.git.akuster808@gmail.com>
-References: <cover.1567348433.git.akuster808@gmail.com>
-Subject: [warrior 43/43] gcc-8.3: Security fix for CVE-2019-14250
+Date: Sun,  1 Sep 2019 17:24:24 +0200
+Message-Id: <20190901152425.100061-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] default-providers.inc: set mesa as the provider for native(sdk) virtual/libgl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,83 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 14:37:04 -0000
+X-List-Received-Date: Sun, 01 Sep 2019 15:24:30 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+native/nativesdk libepoxy and libsdl2 require this to be set, when they
+have the respective opengl features enabled.
 
-Affects < 9.2
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
- .../gcc/gcc-8.3/CVE-2019-14250.patch               | 44 ++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
+ meta/conf/distro/include/default-providers.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
-index dce85a2..80f716a 100644
---- a/meta/recipes-devtools/gcc/gcc-8.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
-@@ -74,6 +74,7 @@ SRC_URI = "\
-            file://0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch \
-            file://0042-PR-debug-86964.patch \
-            file://0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch \
-+           file://CVE-2019-14250.patch \
- "
- SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
- SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch b/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
-new file mode 100644
-index 0000000..e327684
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
-@@ -0,0 +1,44 @@
-+From a4f1b58eb48b349a5f353bc69c30be553506d33b Mon Sep 17 00:00:00 2001
-+From: rguenth <rguenth@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 25 Jul 2019 10:48:26 +0000
-+Subject: [PATCH] 2019-07-25  Richard Biener  <rguenther@suse.de>
-+
-+	PR lto/90924
-+	Backport from mainline
-+	2019-07-12  Ren Kimura  <rkx1209dev@gmail.com>
-+
-+	* simple-object-elf.c (simple_object_elf_match): Check zero value
-+	shstrndx.
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-8-branch@273794 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport
-+Affectes: <  9.2
-+CVE: CVE-2019-14250
-+Dropped changelog
-+Signed-off-by: Armin Kuster <Akustre@mvista.com>
-+
-+---
-+ libiberty/simple-object-elf.c | 8 ++++++++
-+ 2 files changed, 17 insertions(+)
-+
-+Index: gcc-8.2.0/libiberty/simple-object-elf.c
-+===================================================================
-+--- gcc-8.2.0.orig/libiberty/simple-object-elf.c
-++++ gcc-8.2.0/libiberty/simple-object-elf.c
-+@@ -549,6 +549,14 @@ simple_object_elf_match (unsigned char h
-+       return NULL;
-+     }
-+ 
-++  if (eor->shstrndx == 0)
-++    {
-++      *errmsg = "invalid ELF shstrndx == 0";
-++      *err = 0;
-++      XDELETE (eor);
-++      return NULL;
-++    }
-++
-+   return (void *) eor;
-+ }
-+ 
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 8f4d44d884c..ea88bd4876a 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -5,6 +5,8 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/egl ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
++PREFERRED_PROVIDER_virtual/libgl-native ?= "mesa-native"
++PREFERRED_PROVIDER_virtual/nativesdk-libgl ?= "nativesdk-mesa"
+ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
 -- 
-2.7.4
+2.17.1
 
 
