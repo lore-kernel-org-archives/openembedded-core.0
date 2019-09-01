@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
-	[209.85.210.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 200A77F4C0
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 09CD07F454
 	for <openembedded-core@lists.openembedded.org>;
 	Sun,  1 Sep 2019 14:36:54 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id s12so376461pfe.6
+Received: by mail-pl1-f171.google.com with SMTP id o3so5389875plb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2019 07:36:55 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=TrpdWb1svT/GT5UoPd8rJIJSNpLmarPck42ruYQW/l0=;
-	b=Tw4Mh7Kq9VqnjWrxW3j/g4YbrvB7qXLLio3vHZtJiYMAgZoeb1YHMvc2FTpxx2zQPU
-	Ez0yUHKrnIgFpxPowLvQpToKWeKsXEAkHfzzj3maIwTwgsx8KPkhq4etskzytrbY9Hjq
-	uNUJqg4zwj2XMcLObYbKhZZwQ67LnqgrfnHEhdpyHBRrvKl2UjoI+caSnSEzZzLI3uM/
-	YmVPfqz7J/xNOcwKCQ02eEqvUHs3HGy8tJ7njJcLuhtwc1XtZV7EhwLYedv9R/Rt/USC
-	PXTPhxY8AgEPpB0nWSKqYkGs37+BOaFY8690bwJ+npzPHjNkf4kEBFJW20mILzVVZQS1
-	3dOw==
+	bh=DJ3l99r2lq/DyWg02EX9klMGXtH156vmg1vqqqjvp6k=;
+	b=g/x6Fx+OZXw8d9IDqm8ULfDe8d/uPIiHfQOUwutPUql3dp+an/ZbUwxch7V81YIJTR
+	84WU0d1Y8cZtCpm92ihJ1VrhzvdkgGes/2v054S0/xWMuyW0nOHpd9YEJNwzAi8EJt2b
+	wv1Y+MuuTpTx5NmabtD9x3CI/YeXZXcnnwu8FIcnc2B0sCOxb+vsVBwzF9RQgtH5xeMq
+	0eGQEL0VGdB+mbXqCnIWKUIgRpiVGo+kta8ZZstytnozsurUt9E0YmGtJKq61AOD5aaE
+	Qkmo0FgpSOezMg2CAviqeIdr8XzTHS1+IBDwL29pICZxkV2oA0DQlCP4cMSOo26xhttl
+	1SLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=TrpdWb1svT/GT5UoPd8rJIJSNpLmarPck42ruYQW/l0=;
-	b=dhARFpaGvfP/O6er4EsFtL8qkrXi43hKG752DSNMekkPKq8ViGHgcfBkFo7eQDI/fY
-	uLIt6WOwLcd8piGMrb2w2vSh4xawms+1v1cjY+/2t49i3JOGdbV4DVmwkmgD/+IYJ99B
-	56J92lFyGiHDwqvdrSYASCZS4veOi4I++Ge4mBdwCWomCc88IhlrAV52nouBAl3kUyxd
-	UnuMtLG3jb+qBI057+XC4LSzGV66imM217gw+Uy5VIphmlUaevSv71rxyexxXKG5Yy8E
-	X9+rooZ6eiSbJJtQuBIn7vUyhKYOzj8NFqo4JJO4po1kxHR1zY0QRx/iir3mzTqsTdrG
-	oYsQ==
-X-Gm-Message-State: APjAAAXxkg2J12vfT1O0D60sWkXe620qxjDxx+TIaISyamnIsn7/B32V
-	1pjShPK80eiixhQXwTAkDN8975I0
-X-Google-Smtp-Source: APXvYqwMjiU2Ew2Fh6c9GE6x4nfOIlRnUNdt/TDBPsEj/vpplCZ+D17dX7nk9hm9g+tUlhDH0t8FDA==
-X-Received: by 2002:a62:641:: with SMTP id 62mr29145201pfg.55.1567348615206;
-	Sun, 01 Sep 2019 07:36:55 -0700 (PDT)
+	bh=DJ3l99r2lq/DyWg02EX9klMGXtH156vmg1vqqqjvp6k=;
+	b=JST2CxAaxk2pEhaS2z7yfmFWrWwRkXrTImBXFyuaHeeUTskaqZjIp2v8GKyqsom0hJ
+	a2Upy9oShnYPM8E41dXhZXQbJFMW6EL20hXIzJJc0OY+79r8hun/vYQTRRIkFg1dwzgC
+	gSwIK+vhU/1AVvM2aEvArPhuOHAGQkiMyTU8dFOEgDyBoqijI16/aF6kxh00yBypel3j
+	oZsYAq875PJLLLkmLrcPl5VzC9gnJrUrJ3n8Kl//vAky0n4isbs8el1h8g2SnhUnjh/T
+	IIjOc0mCHaWL4dLhgRsgNM51RQ28B5xUwmMeDJhTDFZnFuj5PykARxyi4Ak7NeySVI08
+	1HZw==
+X-Gm-Message-State: APjAAAW775nwlPWRKOCK5BX8xbhd9XLUAd1QBpMO5jD4NV84FBuHiUg0
+	cCOmfACMi3JvDchRzRsMbirFVRcj
+X-Google-Smtp-Source: APXvYqwsc6NegLX/Y/csw6YG5bbVksgYxpIW/o2v8pDGN9aICMikKloiFLGSnCqAT0ZhSXX0r1fOAw==
+X-Received: by 2002:a17:902:7792:: with SMTP id
+	o18mr9248248pll.73.1567348616031; 
+	Sun, 01 Sep 2019 07:36:56 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:1d53:5246:e59:bfe9])
 	by smtp.gmail.com with ESMTPSA id
-	s16sm15911381pfs.6.2019.09.01.07.36.54
+	s16sm15911381pfs.6.2019.09.01.07.36.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 01 Sep 2019 07:36:54 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:55 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 07:36:10 -0700
-Message-Id: <449e5f1672e11fc11c1ec52825402cdab589a69b.1567348433.git.akuster808@gmail.com>
+Date: Sun,  1 Sep 2019 07:36:11 -0700
+Message-Id: <e4b1731aef7b7b1d547e95c57790d7457c8c3f41.1567348433.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1567348433.git.akuster808@gmail.com>
 References: <cover.1567348433.git.akuster808@gmail.com>
-Subject: [warrior 32/43] powertop: import a fix from buildroot
+Subject: [warrior 33/43] binutils: fix CVE-2019-14250 CVE-2019-14444
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,92 +60,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 14:36:54 -0000
+X-List-Received-Date: Sun, 01 Sep 2019 14:36:55 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../0001-wakeup_xxx.h-include-limits.h.patch       | 55 ++++++++++++++++++++++
- meta/recipes-kernel/powertop/powertop_2.10.bb      |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
+ meta/recipes-devtools/binutils/binutils-2.32.inc   |  2 ++
+ .../binutils/binutils/CVE-2019-14250.patch         | 33 ++++++++++++++++++++++
+ .../binutils/binutils/CVE-2019-14444.patch         | 28 ++++++++++++++++++
+ 3 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
 
-diff --git a/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch b/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
-new file mode 100644
-index 0000000..7bfca8a
---- /dev/null
-+++ b/meta/recipes-kernel/powertop/powertop/0001-wakeup_xxx.h-include-limits.h.patch
-@@ -0,0 +1,55 @@
-+From 4c24fdd8e0a42359df7308155b2d43c28a5e02fd Mon Sep 17 00:00:00 2001
-+From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-+Date: Mon, 20 May 2019 20:25:00 +0200
-+Subject: [PATCH] wakeup_xxx.h: include limits.h
-+
-+limits.h must be included to define PATH_MAX otherwise build will fail
-+on:
-+
-+In file included from wakeup/wakeup_ethernet.cpp:45:0:
-+wakeup/wakeup_ethernet.h:35:16: error: 'PATH_MAX' was not declared in this scope
-+  char eth_path[PATH_MAX];
-+
-+In file included from wakeup/wakeup_usb.cpp:45:0:
-+wakeup/wakeup_usb.h:35:16: error: 'PATH_MAX' was not declared in this scope
-+  char usb_path[PATH_MAX];
-+
-+Fixes:
-+ - http://autobuild.buildroot.org/results/a0b3337cf4a827e6566f8b15b6bb180f0dcef7a3
-+
-+Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+Upstream-Status: Submitted [https://lists.01.org/pipermail/powertop/2019-May/002052.html]
-+---
-+ src/wakeup/wakeup_ethernet.h | 1 +
-+ src/wakeup/wakeup_usb.h      | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+diff --git a/src/wakeup/wakeup_ethernet.h b/src/wakeup/wakeup_ethernet.h
-+index 682bf95..e0fa628 100644
-+--- a/src/wakeup/wakeup_ethernet.h
-++++ b/src/wakeup/wakeup_ethernet.h
-+@@ -25,6 +25,7 @@
-+ #ifndef _INCLUDE_GUARD_ETHERNET_WAKEUP_H
-+ #define _INCLUDE_GUARD_ETHERNET_WAKEUP_H
-+ 
-++#include <limits.h>
-+ #include <vector>
-+ 
-+ #include "wakeup.h"
-+diff --git a/src/wakeup/wakeup_usb.h b/src/wakeup/wakeup_usb.h
-+index f7a1f7e..15898e3 100644
-+--- a/src/wakeup/wakeup_usb.h
-++++ b/src/wakeup/wakeup_usb.h
-+@@ -25,6 +25,7 @@
-+ #ifndef _INCLUDE_GUARD_USB_WAKEUP_H
-+ #define _INCLUDE_GUARD_USB_WAKEUP_H
-+ 
-++#include <limits.h>
-+ #include <vector>
-+ 
-+ #include "wakeup.h"
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-kernel/powertop/powertop_2.10.bb b/meta/recipes-kernel/powertop/powertop_2.10.bb
-index d943ba9..5be8d23 100644
---- a/meta/recipes-kernel/powertop/powertop_2.10.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.10.bb
-@@ -7,6 +7,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
- 
- SRC_URI = "http://01.org/sites/default/files/downloads/powertop-v${PV}.tar.gz \
-+    file://0001-wakeup_xxx.h-include-limits.h.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
+index 31c24a3..d3c5293 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.32.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
+@@ -50,6 +50,8 @@ SRC_URI = "\
+      file://CVE-2019-9077.patch \
+      file://CVE-2019-9071.patch \
+      file://CVE-2019-12972.patch \
++     file://CVE-2019-14250.patch \
++     file://CVE-2019-14444.patch \
  "
+ S  = "${WORKDIR}/git"
  
- SRC_URI[md5sum] = "a69bd55901cf919cc564187402ea2c9c"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
+new file mode 100644
+index 0000000..c915a83
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
+@@ -0,0 +1,33 @@
++From df78be05daf4eb07f60f50ec1080cb979af32ec0 Mon Sep 17 00:00:00 2001
++From: marxin <marxin@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Tue, 23 Jul 2019 07:33:32 +0000
++Subject: [PATCH] libiberty: Check zero value shstrndx in simple-object-elf.c
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@273718 138bc75d-0d04-0410-961f-82ee72b054a4
++
++CVE: CVE-2019-14250
++Upstream-Status: Backport [from gcc: https://gcc.gnu.org/viewcvs/gcc?view=revision&revision=273718]
++[Removed Changelog entry]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++diff --git a/libiberty/simple-object-elf.c b/libiberty/simple-object-elf.c
++index 502388991a08..bdee963634d6 100644
++--- a/libiberty/simple-object-elf.c
+++++ b/libiberty/simple-object-elf.c
++@@ -548,7 +548,15 @@ simple_object_elf_match (unsigned char header[SIMPLE_OBJECT_MATCH_HEADER_LEN],
++       XDELETE (eor);
++       return NULL;
++     }
++-
+++  
+++  if (eor->shstrndx == 0)
+++    {
+++      *errmsg = "invalid ELF shstrndx == 0";
+++      *err = 0;
+++      XDELETE (eor);
+++      return NULL;
+++    }
+++  
++   return (void *) eor;
++ }
++ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
+new file mode 100644
+index 0000000..85b9a9f
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
+@@ -0,0 +1,28 @@
++From e17869db99195849826eaaf5d2d0eb2cfdd7a2a7 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 5 Aug 2019 10:40:35 +0100
++Subject: [PATCH] Catch potential integer overflow in readelf when processing
++ corrupt binaries.
++
++	PR 24829
++	* readelf.c (apply_relocations): Catch potential integer overflow
++	whilst checking reloc location against section size.
++
++CVE: CVE-2019-14444
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=e17869db99195849826eaaf5d2d0eb2cfdd7a2a7]
++[Removed Changelog entry]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index b896ad9f406..e785fde43e7 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -13366,7 +13366,7 @@ apply_relocations (Filedata *                 filedata,
++ 	    }
++ 
++ 	  rloc = start + rp->r_offset;
++-	  if ((rloc + reloc_size) > end || (rloc < start))
+++	  if (rloc >= end || (rloc + reloc_size) > end || (rloc < start))
++ 	    {
++ 	      warn (_("skipping invalid relocation offset 0x%lx in section %s\n"),
++ 		    (unsigned long) rp->r_offset,
 -- 
 2.7.4
 
