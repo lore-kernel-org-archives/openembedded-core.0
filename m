@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id A66197F42F
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 587F17F4DE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 14:36:57 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id h3so5413448pls.7
+	Sun,  1 Sep 2019 14:36:59 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id f19so5422264plr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2019 07:36:59 -0700 (PDT)
+	Sun, 01 Sep 2019 07:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=b3tXmkp17R3LNThBymIjT+VYu/509/T1bQEmGi2mgtI=;
-	b=HuYEVE3LmtGSqMV1un7HA2fK1QbCpudI7lsBhnnXZ9E77TD+jI1Oft2R30kMZXnK1n
-	4QoKaRGSiQR/D7in5oF8/XpYqS7XdXpYEGQzWReSTTQLR3/wODR3tYQN4QP6ca+3pChE
-	S08E9RQc2swaiUgL4mpMwuXnile97p+9Xk73J0Hyfu+ILAJvgDBeYhrWs2+xoOw/A13e
-	kNHRcjdCoc95ByJ/AXtY1oU2i07OU2UTld+c7s783dLCUfJ7tpdp9gV2K2GVAulPn34z
-	cSO7pAJpzM8bvF1YQ8LxpbsT3hEJWoXIN1tMjP4l4B7m9wRpATvpk9GGoyMpjIfMQcKG
-	buIA==
+	bh=Uano9L6dFqJKf3pju8F/uToOnR952Jv6xKacuwmVa9M=;
+	b=nECuyektZee7MNdKA9BcXp3l/S1lcqQPtJ/2ePK2TC2JEiuh/+YJ3uxy6u8G5Kflvr
+	48zBTlaeH4JDjOzIhToxq6Zg6KAaHmB/oJyxL9U7Vi5fx67ZF+LoWY4DwDUVLwvl9dUg
+	NXPPvRK9Cg3DmpzzvwpaoCjH9v8lV+MyQQJX5c1me5u2tjODPW25skqsZtXh1Ljy68do
+	SZ+k6TrtvczIc0OYWpGBhgIGW9qemka/R67hjH2nUbOXQnR6mxyZaHO2PRh7AgxZupcp
+	XaPluytrnx8Pt3CQqEi7zpovWttDsfo2yEVzIZ/8VVpjzEbUFfrCpFxvqQyhIa1TpHRe
+	Puiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=b3tXmkp17R3LNThBymIjT+VYu/509/T1bQEmGi2mgtI=;
-	b=iODON19UPGK74jILlGSS8gKRaRNd7hurceesZ9kogktTCp03PSDryKWGTOIBoimnxe
-	f0wmMQh3GQPFQWX7dJs9PvXklx3f+tSsn2pMsDLl18i5hw8ITznmuaJUOmGNcVt/85Ve
-	/HzZJMHZ07WNXgT8bR34mNt6dn3kAdGd8BJn9gBUDvX7NqVsK1EEJNNyIg0bSFVmdxcT
-	GgqmSGOkCK0gdVEWAVHySihqGsv2zBXuwM8afzAcI3OFaETgped2A8WpPB3HiITmwZNu
-	XNKUdjo7ZKXF1c9UGOwpc3kZKSzvr5hP4MjRqjm9/0wl7Irik1SuVDbIPho7bEBlOk+m
-	1wEg==
-X-Gm-Message-State: APjAAAUk4o4d5uQ7XppAhPs/RGwKXA5UXDBxhuvE0fka+xjYjqU8cwrB
-	zugmqr2gA4UkXDtdngxEn0K58OGN
-X-Google-Smtp-Source: APXvYqwnHKH6q0qqbuqM03It0bvrikLXkU6VK8CxPBbwgxEE4xwQitTzjWagdhNQjn11JZVpRgBoMQ==
-X-Received: by 2002:a17:902:9b90:: with SMTP id
-	y16mr25157198plp.17.1567348618694; 
-	Sun, 01 Sep 2019 07:36:58 -0700 (PDT)
+	bh=Uano9L6dFqJKf3pju8F/uToOnR952Jv6xKacuwmVa9M=;
+	b=QlocP134IR+KakSohTz6YtK0lrxXeG/2GuCJ64nJ7bj7di3rUZGdOUZOthCxDHmsyb
+	gSVR3Q5imtlEL64lbpWgtUOpHimhs1UELKcB+02jSNayKRDqhQAFB+I7RdE3q/2V5xdO
+	h8WHwMT7+8f9xs9uA0q4aIMQa7q1GQV3x9vglY7WqZPH4Tvhb6WRBqrjZNmeOrQX3XOV
+	/25LVndAajQ+n1ri5Aob//7Psf9PeNS37hZGPXm3G8vN5KEOIxwwQUdP6Z3mJNMVr6KU
+	w3pA6uPwA/RERZ7WN1401IUSVyw46IdZy4I1gtWSPj8iPyhN/82qXsJXEVSOai6TXb9b
+	zkQg==
+X-Gm-Message-State: APjAAAUaRi6qBs3SDF+8xMAGx1raYJjx4D30aJoKE5KkeKjfeRsa5w62
+	hLMR656ikZT4xl5vMMIMu5wkYs4j
+X-Google-Smtp-Source: APXvYqxVix5K2ncbW0VqQ+5V+pNwHjCKZZTW3ymPy4s02UH1+6eYqQGPMEq4bP8dXHk1biYX0wzSHQ==
+X-Received: by 2002:a17:902:9889:: with SMTP id
+	s9mr25926038plp.100.1567348620313; 
+	Sun, 01 Sep 2019 07:37:00 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:1d53:5246:e59:bfe9])
 	by smtp.gmail.com with ESMTPSA id
-	s16sm15911381pfs.6.2019.09.01.07.36.57
+	s16sm15911381pfs.6.2019.09.01.07.36.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 01 Sep 2019 07:36:58 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:59 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 07:36:14 -0700
-Message-Id: <630a455f83940d66b9dc01682955748998e98dfc.1567348433.git.akuster808@gmail.com>
+Date: Sun,  1 Sep 2019 07:36:16 -0700
+Message-Id: <a4929cddea9b7aa923350f3aecbfac5a929c78c4.1567348433.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1567348433.git.akuster808@gmail.com>
 References: <cover.1567348433.git.akuster808@gmail.com>
-Subject: [warrior 36/43] gcc: reduce the variables in symtab
+Subject: [warrior 38/43] binutils: Fix mips patch which changes default emulation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,138 +60,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 14:36:57 -0000
+X-List-Received-Date: Sun, 01 Sep 2019 14:37:00 -0000
 
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
 
-Backport the patch from upstream:
-https://github.com/gcc-mirror/gcc.git [commit beb921e]
-https://gcc.gnu.org/viewcvs/gcc?view=revision&revision=269925
+The patch incorrectly removes 'mips_elf32_ntrad_le_vec' from the
+'targ_selvecs' replacing it with duplicate entries for
+'mips_elf32_ntrad_be_vec'. Correct this so that the default binutils can
+still handle 'mips_elf32_ntrad_le_vec' binaries.
 
-Add the premark_used_variables function, meanwhile do not mark
-not premarked external variables in prune_unused_types_walk.
-
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
- .../gcc/gcc-8.3/0042-PR-debug-86964.patch          | 94 ++++++++++++++++++++++
- 2 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0042-PR-debug-86964.patch
+ .../0010-Change-default-emulation-for-mips64-linux.patch         | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
-index a64f48a..7925337 100644
---- a/meta/recipes-devtools/gcc/gcc-8.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
-@@ -72,6 +72,7 @@ SRC_URI = "\
-            file://0039-riscv-Disable-multilib-for-OE.patch \
-            file://0040-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
-            file://0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch \
-+           file://0042-PR-debug-86964.patch \
- "
- SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
- SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3/0042-PR-debug-86964.patch b/meta/recipes-devtools/gcc/gcc-8.3/0042-PR-debug-86964.patch
-new file mode 100644
-index 0000000..d9b5d39
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-8.3/0042-PR-debug-86964.patch
-@@ -0,0 +1,94 @@
-+From beb921e1106b5bcbb0c6e2be84b241327e2ffc51 Mon Sep 17 00:00:00 2001
-+From: law <law@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Mon, 25 Mar 2019 21:19:09 +0000
-+Subject: [PATCH] 	PR debug/86964 	* dwarf2out.c
-+ (premark_used_variables): New function. 	(prune_unused_types_walk): Do
-+ not mark not premarked external 	variables. 	(prune_unused_types):
-+ Call premark_used_variables.
-+
-+	* gcc.dg/debug/dwarf2/pr86964.c: New testcase.
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@269925 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ gcc/ChangeLog                               |  8 ++++++
-+ gcc/dwarf2out.c                             | 32 +++++++++++++++++++++
-+ 2 files changed, 40 insertions(+)
-+
-+diff --git a/gcc/ChangeLog b/gcc/ChangeLog
-+index 2075480ca2b..cdce539ac6f 100644
-+--- a/gcc/ChangeLog
-++++ b/gcc/ChangeLog
-+@@ -1,3 +1,11 @@
-++2019-03-25  Johan Karlsson <johan.karlsson@enea.com>
-++
-++	PR debug/86964
-++	* dwarf2out.c (premark_used_variables): New function.
-++	(prune_unused_types_walk): Do not mark not premarked external
-++	variables.
-++	(prune_unused_types): Call premark_used_variables.
-++
-+ 2019-02-22  Release Manager
-+ 
-+ 	* GCC 8.3.0 released.
-+diff --git a/gcc/dwarf2out.c b/gcc/dwarf2out.c
-+index ae8bdee9981..b9a624e1ac7 100644
-+--- a/gcc/dwarf2out.c
-++++ b/gcc/dwarf2out.c
-+@@ -22658,6 +22658,21 @@ premark_types_used_by_global_vars (void)
-+       ->traverse<void *, premark_types_used_by_global_vars_helper> (NULL);
-+ }
-+ 
-++/* Mark all variables used by the symtab as perennial.  */
-++
-++static void
-++premark_used_variables (void)
-++{
-++  /* Mark DIEs in the symtab as used.  */
-++  varpool_node *var;
-++  FOR_EACH_VARIABLE (var)
-++    {
-++      dw_die_ref die = lookup_decl_die (var->decl);
-++      if (die)
-++	die->die_perennial_p = 1;
-++    }
-++}
-++
-+ /* Generate a DW_TAG_call_site DIE in function DECL under SUBR_DIE
-+    for CA_LOC call arg loc node.  */
-+ 
-+@@ -29264,6 +29279,19 @@ prune_unused_types_walk (dw_die_ref die)
-+ 
-+       return;
-+ 
-++    case DW_TAG_variable:
-++      if (flag_debug_only_used_symbols)
-++	{
-++	  if (die->die_perennial_p)
-++	    break;
-++
-++	  /* premark_used_variables marks external variables --- don't mark
-++	     them here.  */
-++	  if (get_AT (die, DW_AT_external))
-++	    return;
-++	}
-++      /* FALLTHROUGH */
-++
-+     default:
-+       /* Mark everything else.  */
-+       break;
-+@@ -29390,6 +29418,10 @@ prune_unused_types (void)
-+   /* Mark types that are used in global variables.  */
-+   premark_types_used_by_global_vars ();
-+ 
-++  /* Mark variables used in the symtab.  */
-++  if (flag_debug_only_used_symbols)
-++    premark_used_variables ();
-++
-+   /* Set the mark on nodes that are actually used.  */
-+   prune_unused_types_walk (comp_unit_die ());
-+   for (node = limbo_die_list; node; node = node->next)
-+-- 
-+2.21.0
+diff --git a/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch b/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch
+index ba5e4c2..5f4ac72 100644
+--- a/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch
++++ b/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch
+@@ -1,4 +1,4 @@
+-From d540e95d05cd7c4b8924ac7b257c14ae0105d0ab Mon Sep 17 00:00:00 2001
++From 958a49749b772660d3bafb80748829cba6bed065 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 2 Mar 2015 01:44:14 +0000
+ Subject: [PATCH 10/15] Change default emulation for mips64*-*-linux
+@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 8 insertions(+), 8 deletions(-)
+ 
+ diff --git a/bfd/config.bfd b/bfd/config.bfd
+-index 0e1ddb659c..cc65547588 100644
++index 0e1ddb659c..d4f50f0a8d 100644
+ --- a/bfd/config.bfd
+ +++ b/bfd/config.bfd
+ @@ -919,12 +919,12 @@ case "${targ}" in
+@@ -30,7 +30,7 @@ index 0e1ddb659c..cc65547588 100644
+ -    targ_defvec=mips_elf32_ntrad_be_vec
+ -    targ_selvecs="mips_elf32_ntrad_le_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_be_vec mips_elf64_trad_le_vec"
+ +    targ_defvec=mips_elf64_trad_be_vec
+-+    targ_selvecs="mips_elf32_ntrad_be_vec mips_elf32_ntrad_be_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_le_vec"
+++    targ_selvecs="mips_elf32_ntrad_be_vec mips_elf32_ntrad_le_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_le_vec"
+      ;;
+    mips*el-*-linux*)
+      targ_defvec=mips_elf32_trad_le_vec
+@@ -54,6 +54,3 @@ index beba17ef51..917be6f8eb 100644
+  			targ_extra_libpath=$targ_extra_emuls ;;
+  mips*el-*-linux-*)	targ_emul=elf32ltsmip
+  			targ_extra_emuls="elf32btsmip elf32ltsmipn32 elf64ltsmip elf32btsmipn32 elf64btsmip"
+--- 
+-2.20.1
+-
 -- 
 2.7.4
 
