@@ -1,102 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 813167F402
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FE477ED2F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 17:07:15 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id n190so6061607pgn.0
+	Sun,  1 Sep 2019 20:36:43 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id q19so3632963wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2019 10:07:17 -0700 (PDT)
+	Sun, 01 Sep 2019 13:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=Vq/Cnq2agOgAlAp6BFXkZqHuhc6QIF3+RRLAuB8aO18=;
-	b=MAPXx8/MvJatzWkdtrjYy306kiNL6uZLGBDSlpb+xe2hyLwDSl489puN3Sb23ADvSc
-	7x52ee8bvAJLtJSD0e4torr0HBDLlPZybCjj1tHpGHrnmtkPouR62YJPq2T59NIr/ncy
-	E0mYUznC0UKUtqWk+6MGJVvWyeg1oZFTZt16RQ9+VJAW4Rv7B+Dg13OUQsKDFX+LxBdO
-	7MwFwikMNGDxwrHdKvvIu6UretZQzZu2HzfCixCNYZ4L5CXywC0inx8eXitgYALYussX
-	IUlv8RAxELlrugLUJi2+RkFkBTS64FKr5iPQULNdqyYzsiunUfsTqXec+566y62PQPLy
-	sQ3g==
+	h=from:to:subject:date:message-id;
+	bh=pAD2erBRuQy8cdK/sKBuAwfEY3ltNOQlJ1hN8J0By8s=;
+	b=Qtfe8qJ695e6SW5VL/p9vpEk1KP3z3ETJxP+0kS+7EegUefLTrwlTEiSGZkcx31mkj
+	lGQgIq/TiNTq1ghCVz3pciNgSnYsZLMivr4lKbaYXIPXGZJGyyE1uvMjnJMPSzBLTGmQ
+	0prq1V7fvrKXwsYG3a6cKOz8cWidnVjzjllT79C45AgH+nX15AjjJk/CSXzwf8VwvNrh
+	Cx5hHmem0z0MkN3fePvBj7YU5nrTBT+XCTz1jF19xG3CQdquYkoSGEp+tbkfDX7uOJsw
+	BoJswB1rj6Tq98lknZZU5QJoap/3lFNDVp3dDcUON0lxA2/vFiq0y1KAMVW1/Qqa7sQN
+	t/kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=Vq/Cnq2agOgAlAp6BFXkZqHuhc6QIF3+RRLAuB8aO18=;
-	b=qkJRbGOr57WNHKjxbDUMbkvxvA6Cs5iC+iLBYWCUiezhJeRIFHfvoL9eYb8Bvrglt/
-	Ly3S+Fvl0LPYzzrFB2+kT258gqrItyF3gAzkwDGZYgLvCBveT+yfdEWGEDedWOabFInd
-	5OY8WmdkXwJs9jJmxoq8ua4qGqQEO7zerO2sfYxBTd114Vx1xcugO5BeuRps7zK4TEGW
-	gEGLhF1Eo7fl7UtRBu1hKKsp02kb0ECScJIEktRDl9iF6A+EBI5+qrsvi7tcxa80La12
-	Nznrnsxuctr/vd4BKZlm/BLVdcuCoYJw4c52x1Y5tJSatQLTUm/f321KyL79wTdT+exT
-	hfTA==
-X-Gm-Message-State: APjAAAUOB1+Tc8tUDxjNhoIU9qY148X0g4JGG7/5E8KdwpDYmEb/Mpyd
-	BBhnDnp/wOi/bnmDxJA3BPNc7Lp3
-X-Google-Smtp-Source: APXvYqwZxXtEddPE4d+YlH1U6MenxcthoiwoiPC11buvZgesPJ1amE/F1N7xuYXM8qqHwDbXUyLXjQ==
-X-Received: by 2002:a62:524a:: with SMTP id g71mr1430136pfb.154.1567357636298; 
-	Sun, 01 Sep 2019 10:07:16 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:1d53:5246:e59:bfe9?
-	([2601:202:4180:c33:1d53:5246:e59:bfe9])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=pAD2erBRuQy8cdK/sKBuAwfEY3ltNOQlJ1hN8J0By8s=;
+	b=M7licEN1h9ErnFCU+HelYRVSxnUHGNf/MpRjwwc19TiP9Qw3lD5gCdTYUKo/vW+ctT
+	J8DCppVRozbO8wtyvRkP6e8s8vyRO3Z4HMS9wTHms9AT3zyMwvQH14NSvL3IrSJX76nX
+	TJPEkMOOzPAfr7liFazV+rXa0vLWEmBfp+RHEVv7g8wzADJrNogpjsZa0/SrwOwLgjDo
+	6iapoDEtGFuh4u3gNzs9+S6bWVqdxZUDmIR0pGX0URuTg3/qAOLdBlhLP9ybR6TQzCl1
+	viaSotTWIHfxGx0GYrgGYoN6zoxmhOKOqRXWxpOyIz0M0aUAIm1+Fqo4vTkw2imNhmQo
+	CHGg==
+X-Gm-Message-State: APjAAAWYKYadGXRuKjweCwE/jd9PC1mkjffEnwANLNMC2dSbSFt5gBCB
+	ZcZYAvcS7GAXHvoEHcMc7bZV7BcY
+X-Google-Smtp-Source: APXvYqzf/6i0IYVxev7evPEnipNkVxyWeC7O43NTM1/XKu8s42LMSv5JLr2f3vFIlMwlzRIDBWZ51A==
+X-Received: by 2002:a1c:ca09:: with SMTP id a9mr31045815wmg.43.1567370203637; 
+	Sun, 01 Sep 2019 13:36:43 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	185sm14780242pfd.125.2019.09.01.10.07.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 01 Sep 2019 10:07:15 -0700 (PDT)
-To: Adrian Bunk <bunk@stusta.de>
-References: <20190831211549.23729-1-akuster808@gmail.com>
-	<20190901140542.GA11574@localhost>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <9b09243d-86b7-b358-e0be-c41f8acbcd47@gmail.com>
-Date: Sun, 1 Sep 2019 10:07:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190901140542.GA11574@localhost>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc-9.2: Security fix for CVE-2019-14250
+	f6sm25876192wrh.30.2019.09.01.13.36.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 01 Sep 2019 13:36:42 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  1 Sep 2019 22:36:30 +0200
+Message-Id: <cover.1567369258.git.alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 0/5] virgl: add SDL support and enable by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,23 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 17:07:16 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sun, 01 Sep 2019 20:36:43 -0000
 
+This patchset adds two enhancements to qemu virgl support (which is
+a virtualized accelerated 3D graphics support for the qemu guests):
 
+1. SDL qemu frontend now comes with virgl fully enabled and working
+(over ssh X11 forwarding as well!), so using the gtk frontend
+is no longer necessary. 'oe-selftest' is adjusted to test both
+frontends.
 
-On 9/1/19 7:05 AM, Adrian Bunk wrote:
-> thud and zeus are providing 2 gcc versions each that need fixing.
-That is a true statement. What are you expecting?
+2. virgl itself is enabled by default in qemu, when 'opengl' is in
+DISTRO_FEATURES. This pulls in a few components during build (particularly,
+libdrm, virglrenderer and a special minimal configuration of mesa-native).
+I tested the impact on build times: it is about 25-30 seconds on a 16 core
+machine. 'bitbake core-image-minimal' goes from 26m45 to 27m13.
 
-- armin
+Gtk qemu frontend remains disabled by default, as it adds more to the build times.
 
+The following changes since commit 270bd86740a080fb56d932a5c0eb70d6ce2a2b3c:
 
->
-> cu
-> Adrian
->
+  libepoxy: enable x11 PACKAGECONFIG for native/nativesdk (2019-09-01 17:08:18 +0200)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/qemu-split-virgl-gtk
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/qemu-split-virgl-gtk
+
+Alexander Kanavin (5):
+  bitbake.conf: propagate 'opengl' DISTRO_FEATURE to native/nativesdk
+    from target
+  libsdl2: enable opengl option for native/nativesdk, subject to
+    'opengl' in DISTRO_FEATURES
+  qemu: enable virglrenderer and glx options subject to 'opengl'
+    DISTRO_FEATURE
+  runqemu: add options that enable virgl with the SDL frontend
+  oe-selftest: extend virgl gtk test to also check the SDL option
+
+ meta/conf/bitbake.conf                        |  4 +--
+ meta/lib/oeqa/selftest/cases/runtime_test.py  | 29 ++++++++++---------
+ .../qemu/qemu-system-native_4.1.0.bb          |  4 ++-
+ meta/recipes-devtools/qemu/qemu_4.1.0.bb      |  5 +++-
+ meta/recipes-gnome/gtk+/gtk+3.inc             |  2 ++
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb   |  2 ++
+ .../libepoxy/libepoxy_1.5.3.bb                |  2 --
+ .../libsdl2/libsdl2_2.0.10.bb                 |  4 +--
+ .../virglrenderer/virglrenderer_0.8.0.bb      |  2 --
+ scripts/runqemu                               | 15 ++++++++--
+ 10 files changed, 43 insertions(+), 26 deletions(-)
+
+-- 
+2.17.1
 
 
