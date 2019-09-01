@@ -1,49 +1,102 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 81B4B7F43E
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 813167F402
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 15:24:30 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id h7so10166938wrt.13
+	Sun,  1 Sep 2019 17:07:15 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id n190so6061607pgn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2019 08:24:31 -0700 (PDT)
+	Sun, 01 Sep 2019 10:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=hDy6AYI/b9EoXIaHCAzxnHn0rvVvEnlNVoxcn4IMrR4=;
-	b=KyusyX+Wg+/lbaByq/bhVK0ZWs3kP/jgpAWBeUMwho0F51xlu75OkXSUp+Odjvmpcv
-	h0xJcI4YRtX68BOCzAgpUubeMjYpCKwb3SGmh1+8OGa9DpwAHnTTWmGMF52AUfehz0fM
-	zniYk7sl6UlKyI/9R5AZEHY8OgXm7ZKuqXq158JySH9aGar3v+y9kOj6WwkUk7GXHNm/
-	SLxj8xERn+SFUgjmGPkcFUE7cVkdhmM+xRW4KnBtSKhkOG96VOXsDZ5gH4o3zoXZkZKa
-	1clz0p4QgSXmXDucNEnJzhJHBQWENTF+IVqlFmpMO0BcY7zJmoD9lNN5CC8NBfGr2lZj
-	IjaA==
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=Vq/Cnq2agOgAlAp6BFXkZqHuhc6QIF3+RRLAuB8aO18=;
+	b=MAPXx8/MvJatzWkdtrjYy306kiNL6uZLGBDSlpb+xe2hyLwDSl489puN3Sb23ADvSc
+	7x52ee8bvAJLtJSD0e4torr0HBDLlPZybCjj1tHpGHrnmtkPouR62YJPq2T59NIr/ncy
+	E0mYUznC0UKUtqWk+6MGJVvWyeg1oZFTZt16RQ9+VJAW4Rv7B+Dg13OUQsKDFX+LxBdO
+	7MwFwikMNGDxwrHdKvvIu6UretZQzZu2HzfCixCNYZ4L5CXywC0inx8eXitgYALYussX
+	IUlv8RAxELlrugLUJi2+RkFkBTS64FKr5iPQULNdqyYzsiunUfsTqXec+566y62PQPLy
+	sQ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=hDy6AYI/b9EoXIaHCAzxnHn0rvVvEnlNVoxcn4IMrR4=;
-	b=ZfUslkxfwaHucAECtpMrEPST3A67Q7OK5haKqJtEAPRp4jGx/saZzRYciHkfUeyFS2
-	3oxaJQWQzSq81BRnw8g7zeUzcrZloH0PHwmBGcdkVMmnGkGaOJO89/hjVnsnVHTcMV9a
-	0Qjmjk0lFvrtfOaYao+OuMPmi1UUnlhjH19lbfn3TfwnKRjWqEfSoORPW/PgrUOsHxB+
-	yilapkl3uJtx8/8JJVdsb7od8+mFmkPAQBetpwiI00u5KT2fnSo3RamLGEI+8KCSr4vn
-	LjbWPb7Pw6DbXQrLH/etD/LLxY5mZdPZLxHYj8ZcJFYlbEVe26NE5r5U6q/winpRAPUP
-	YdnA==
-X-Gm-Message-State: APjAAAUPpdZ7VcEQ+DK8EcNibk1MmOgg4OMWq3FLWDEmKIm8Y5kFxQUb
-	gPm0zridlqVD59P2nmahx8Q6L8w1
-X-Google-Smtp-Source: APXvYqwj7G/T9nAJookE2d08UFiLppxv9/nz1Qdxi1V5oH2E3D9/pHpnM8EhomxonPAahTYzrucLJA==
-X-Received: by 2002:a5d:5642:: with SMTP id j2mr6371080wrw.345.1567351471117; 
-	Sun, 01 Sep 2019 08:24:31 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id c9sm9403598wrv.40.2019.09.01.08.24.30
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 01 Sep 2019 08:24:30 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 17:24:25 +0200
-Message-Id: <20190901152425.100061-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190901152425.100061-1-alex.kanavin@gmail.com>
-References: <20190901152425.100061-1-alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] libepoxy: enable x11 PACKAGECONFIG for native/nativesdk
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=Vq/Cnq2agOgAlAp6BFXkZqHuhc6QIF3+RRLAuB8aO18=;
+	b=qkJRbGOr57WNHKjxbDUMbkvxvA6Cs5iC+iLBYWCUiezhJeRIFHfvoL9eYb8Bvrglt/
+	Ly3S+Fvl0LPYzzrFB2+kT258gqrItyF3gAzkwDGZYgLvCBveT+yfdEWGEDedWOabFInd
+	5OY8WmdkXwJs9jJmxoq8ua4qGqQEO7zerO2sfYxBTd114Vx1xcugO5BeuRps7zK4TEGW
+	gEGLhF1Eo7fl7UtRBu1hKKsp02kb0ECScJIEktRDl9iF6A+EBI5+qrsvi7tcxa80La12
+	Nznrnsxuctr/vd4BKZlm/BLVdcuCoYJw4c52x1Y5tJSatQLTUm/f321KyL79wTdT+exT
+	hfTA==
+X-Gm-Message-State: APjAAAUOB1+Tc8tUDxjNhoIU9qY148X0g4JGG7/5E8KdwpDYmEb/Mpyd
+	BBhnDnp/wOi/bnmDxJA3BPNc7Lp3
+X-Google-Smtp-Source: APXvYqwZxXtEddPE4d+YlH1U6MenxcthoiwoiPC11buvZgesPJ1amE/F1N7xuYXM8qqHwDbXUyLXjQ==
+X-Received: by 2002:a62:524a:: with SMTP id g71mr1430136pfb.154.1567357636298; 
+	Sun, 01 Sep 2019 10:07:16 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:1d53:5246:e59:bfe9?
+	([2601:202:4180:c33:1d53:5246:e59:bfe9])
+	by smtp.gmail.com with ESMTPSA id
+	185sm14780242pfd.125.2019.09.01.10.07.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 01 Sep 2019 10:07:15 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>
+References: <20190831211549.23729-1-akuster808@gmail.com>
+	<20190901140542.GA11574@localhost>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <9b09243d-86b7-b358-e0be-c41f8acbcd47@gmail.com>
+Date: Sun, 1 Sep 2019 10:07:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190901140542.GA11574@localhost>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc-9.2: Security fix for CVE-2019-14250
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +109,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 15:24:30 -0000
+X-List-Received-Date: Sun, 01 Sep 2019 17:07:16 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-This is needed to enable virgl support in qemu with SDL frontend
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
-index dd706a96063..c8d1650c637 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
-+++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
-@@ -23,8 +23,8 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} egl"
- 
- EXTRA_OEMESON += "-Dtests=false"
- 
--PACKAGECONFIG_class-native = "egl"
--PACKAGECONFIG_class-nativesdk = "egl"
-+PACKAGECONFIG_class-native = "egl x11"
-+PACKAGECONFIG_class-nativesdk = "egl x11"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--- 
-2.17.1
+On 9/1/19 7:05 AM, Adrian Bunk wrote:
+> thud and zeus are providing 2 gcc versions each that need fixing.
+That is a true statement. What are you expecting?
+
+- armin
+
+
+>
+> cu
+> Adrian
+>
 
 
