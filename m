@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 587F17F4DE
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+	[209.85.210.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 71DB27F4E3
 	for <openembedded-core@lists.openembedded.org>;
 	Sun,  1 Sep 2019 14:36:59 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id f19so5422264plr.3
+Received: by mail-pf1-f176.google.com with SMTP id y22so1741663pfr.3
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 01 Sep 2019 07:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Uano9L6dFqJKf3pju8F/uToOnR952Jv6xKacuwmVa9M=;
-	b=nECuyektZee7MNdKA9BcXp3l/S1lcqQPtJ/2ePK2TC2JEiuh/+YJ3uxy6u8G5Kflvr
-	48zBTlaeH4JDjOzIhToxq6Zg6KAaHmB/oJyxL9U7Vi5fx67ZF+LoWY4DwDUVLwvl9dUg
-	NXPPvRK9Cg3DmpzzvwpaoCjH9v8lV+MyQQJX5c1me5u2tjODPW25skqsZtXh1Ljy68do
-	SZ+k6TrtvczIc0OYWpGBhgIGW9qemka/R67hjH2nUbOXQnR6mxyZaHO2PRh7AgxZupcp
-	XaPluytrnx8Pt3CQqEi7zpovWttDsfo2yEVzIZ/8VVpjzEbUFfrCpFxvqQyhIa1TpHRe
-	Puiw==
+	bh=0H2P2libZAISZPVwuHYYNyyDG7JUl0Lk3ZLe6FxkcHw=;
+	b=CcDTxxnn4tUPT9r6eVOMufFnxwKx2HD7D0261koXeQpEqhT8XiYKAOfraOfW/jJ8bs
+	4U60vGnojpwgDzJnN0pmzavu068p8nTemo0ublqHMUOwgGDybGl2325h6/O1N87Ix/gk
+	Lcb8Ky+CiIsD8pR+I7icPwI+f4cBEM1yXyGbR9nkQnTk645+lYusGi5x/4oCfgN5C6Cf
+	9eFPhDU5icKXniGtUA7YqlTauG4kV52LuRSFOls2qnhZEUJr1IJP0rgwVVgsLKoRtWZN
+	RoSZlZx1u2B184akJvHT6dgWGUP4F8W31Ul1TkzCT7ydsJzacGk/1WAPqqHA5uWiGmtI
+	DITw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Uano9L6dFqJKf3pju8F/uToOnR952Jv6xKacuwmVa9M=;
-	b=QlocP134IR+KakSohTz6YtK0lrxXeG/2GuCJ64nJ7bj7di3rUZGdOUZOthCxDHmsyb
-	gSVR3Q5imtlEL64lbpWgtUOpHimhs1UELKcB+02jSNayKRDqhQAFB+I7RdE3q/2V5xdO
-	h8WHwMT7+8f9xs9uA0q4aIMQa7q1GQV3x9vglY7WqZPH4Tvhb6WRBqrjZNmeOrQX3XOV
-	/25LVndAajQ+n1ri5Aob//7Psf9PeNS37hZGPXm3G8vN5KEOIxwwQUdP6Z3mJNMVr6KU
-	w3pA6uPwA/RERZ7WN1401IUSVyw46IdZy4I1gtWSPj8iPyhN/82qXsJXEVSOai6TXb9b
-	zkQg==
-X-Gm-Message-State: APjAAAUaRi6qBs3SDF+8xMAGx1raYJjx4D30aJoKE5KkeKjfeRsa5w62
-	hLMR656ikZT4xl5vMMIMu5wkYs4j
-X-Google-Smtp-Source: APXvYqxVix5K2ncbW0VqQ+5V+pNwHjCKZZTW3ymPy4s02UH1+6eYqQGPMEq4bP8dXHk1biYX0wzSHQ==
-X-Received: by 2002:a17:902:9889:: with SMTP id
-	s9mr25926038plp.100.1567348620313; 
-	Sun, 01 Sep 2019 07:37:00 -0700 (PDT)
+	bh=0H2P2libZAISZPVwuHYYNyyDG7JUl0Lk3ZLe6FxkcHw=;
+	b=LEGJXs3teHf1CVQGsN5zHWUAE8fR8X7jRQIFOHS2gJw05kL7GFtjyTNLbN6PhIxt5K
+	UTWsXfbDIuxOfnQvpM9jBTJXjhSFGMHqp2QXkEq12r0TuZ9rvikrNEBFFXaKYT+/mvaM
+	vpBuZyVgs2zXfkwerv1vV0J5dMFkocLsSafKytmOnn6VvdAMXgHuQYAL2XJdxpo+bHLr
+	uYuACXH3UQNbsSf2+WJ7c6haTSeWmOffKKquvNYu7Rs+m2BfySyNV885LtSqOik8tuIV
+	/hSrDL2PTRi1f6/lhdnucLm7btKWJel+m/TQHHn/psDAxG2thP/Tgugyk1XODSLHfKl/
+	m85g==
+X-Gm-Message-State: APjAAAVbkaeNQExyi9u+Vbn16LanUWJMYyK416p18QVSF3Z2OGnCIree
+	L4c3/0Gs7Egf+Fb3hfHGgTjwdhpF
+X-Google-Smtp-Source: APXvYqwNJP1wU5ALii+ZmNZPLHcM+JoTXrHjUzFyX3zFP0R7B4UUq1XJebn+WFIt0+R6SbnLQEXgiQ==
+X-Received: by 2002:a17:90a:37a7:: with SMTP id
+	v36mr8289706pjb.3.1567348619585; 
+	Sun, 01 Sep 2019 07:36:59 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:1d53:5246:e59:bfe9])
 	by smtp.gmail.com with ESMTPSA id
-	s16sm15911381pfs.6.2019.09.01.07.36.59
+	s16sm15911381pfs.6.2019.09.01.07.36.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Sun, 01 Sep 2019 07:36:59 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 07:36:16 -0700
-Message-Id: <a4929cddea9b7aa923350f3aecbfac5a929c78c4.1567348433.git.akuster808@gmail.com>
+Date: Sun,  1 Sep 2019 07:36:15 -0700
+Message-Id: <cbfd3c3fe63cbaafe5c30cf890ececb56f9a979c.1567348433.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1567348433.git.akuster808@gmail.com>
 References: <cover.1567348433.git.akuster808@gmail.com>
-Subject: [warrior 38/43] binutils: Fix mips patch which changes default emulation
+Subject: [warrior 37/43] gcc: CVE-2018-12886
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,55 +62,852 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 01 Sep 2019 14:37:00 -0000
 
-From: Nathan Rossi <nathan@nathanrossi.com>
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
 
-The patch incorrectly removes 'mips_elf32_ntrad_le_vec' from the
-'targ_selvecs' replacing it with duplicate entries for
-'mips_elf32_ntrad_be_vec'. Correct this so that the default binutils can
-still handle 'mips_elf32_ntrad_le_vec' binaries.
+Backprot CVE patch from the upstream:
+https://github.com/gcc-mirror/gcc.git [commit f98495d]
+https://nvd.nist.gov/vuln/detail/CVE-2018-12886
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../0010-Change-default-emulation-for-mips64-linux.patch         | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/gcc/gcc-8.3.inc              |   1 +
+ ...vent-spilling-of-stack-protector-guard-s-.patch | 813 +++++++++++++++++++++
+ 2 files changed, 814 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch b/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch
-index ba5e4c2..5f4ac72 100644
---- a/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch
-+++ b/meta/recipes-devtools/binutils/binutils/0010-Change-default-emulation-for-mips64-linux.patch
-@@ -1,4 +1,4 @@
--From d540e95d05cd7c4b8924ac7b257c14ae0105d0ab Mon Sep 17 00:00:00 2001
-+From 958a49749b772660d3bafb80748829cba6bed065 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 2 Mar 2015 01:44:14 +0000
- Subject: [PATCH 10/15] Change default emulation for mips64*-*-linux
-@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  2 files changed, 8 insertions(+), 8 deletions(-)
- 
- diff --git a/bfd/config.bfd b/bfd/config.bfd
--index 0e1ddb659c..cc65547588 100644
-+index 0e1ddb659c..d4f50f0a8d 100644
- --- a/bfd/config.bfd
- +++ b/bfd/config.bfd
- @@ -919,12 +919,12 @@ case "${targ}" in
-@@ -30,7 +30,7 @@ index 0e1ddb659c..cc65547588 100644
- -    targ_defvec=mips_elf32_ntrad_be_vec
- -    targ_selvecs="mips_elf32_ntrad_le_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_be_vec mips_elf64_trad_le_vec"
- +    targ_defvec=mips_elf64_trad_be_vec
--+    targ_selvecs="mips_elf32_ntrad_be_vec mips_elf32_ntrad_be_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_le_vec"
-++    targ_selvecs="mips_elf32_ntrad_be_vec mips_elf32_ntrad_le_vec mips_elf32_trad_be_vec mips_elf32_trad_le_vec mips_elf64_trad_le_vec"
-      ;;
-    mips*el-*-linux*)
-      targ_defvec=mips_elf32_trad_le_vec
-@@ -54,6 +54,3 @@ index beba17ef51..917be6f8eb 100644
-  			targ_extra_libpath=$targ_extra_emuls ;;
-  mips*el-*-linux-*)	targ_emul=elf32ltsmip
-  			targ_extra_emuls="elf32btsmip elf32ltsmipn32 elf64ltsmip elf32btsmipn32 elf64btsmip"
---- 
--2.20.1
--
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
+index 7925337..dce85a2 100644
+--- a/meta/recipes-devtools/gcc/gcc-8.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
+@@ -73,6 +73,7 @@ SRC_URI = "\
+            file://0040-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
+            file://0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch \
+            file://0042-PR-debug-86964.patch \
++           file://0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch \
+ "
+ SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
+ SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3/0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch b/meta/recipes-devtools/gcc/gcc-8.3/0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch
+new file mode 100644
+index 0000000..f15207f
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-8.3/0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch
+@@ -0,0 +1,813 @@
++From f98495d90ba66f67fe922a4b9229ea787041c418 Mon Sep 17 00:00:00 2001
++From: thopre01 <thopre01@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Thu, 22 Nov 2018 14:46:17 +0000
++Subject: [PATCH] PR85434: Prevent spilling of stack protector guard's address
++ on ARM
++
++In case of high register pressure in PIC mode, address of the stack
++protector's guard can be spilled on ARM targets as shown in PR85434,
++thus allowing an attacker to control what the canary would be compared
++against. ARM does lack stack_protect_set and stack_protect_test insn
++patterns, defining them does not help as the address is expanded
++regularly and the patterns only deal with the copy and test of the
++guard with the canary.
++
++This problem does not occur for x86 targets because the PIC access and
++the test can be done in the same instruction. Aarch64 is exempt too
++because PIC access insn pattern are mov of UNSPEC which prevents it from
++the second access in the epilogue being CSEd in cse_local pass with the
++first access in the prologue.
++
++The approach followed here is to create new "combined" set and test
++standard pattern names that take the unexpanded guard and do the set or
++test. This allows the target to use an opaque pattern (eg. using UNSPEC)
++to hide the individual instructions being generated to the compiler and
++split the pattern into generic load, compare and branch instruction
++after register allocator, therefore avoiding any spilling. This is here
++implemented for the ARM targets. For targets not implementing these new
++standard pattern names, the existing stack_protect_set and
++stack_protect_test pattern names are used.
++
++To be able to split PIC access after register allocation, the functions
++had to be augmented to force a new PIC register load and to control
++which register it loads into. This is because sharing the PIC register
++between prologue and epilogue could lead to spilling due to CSE again
++which an attacker could use to control what the canary gets compared
++against.
++
++2018-11-22  Thomas Preud'homme  <thomas.preudhomme@linaro.org>
++
++    gcc/
++    PR target/85434
++    * target-insns.def (stack_protect_combined_set): Define new standard
++    pattern name.
++    (stack_protect_combined_test): Likewise.
++    * cfgexpand.c (stack_protect_prologue): Try new
++    stack_protect_combined_set pattern first.
++    * function.c (stack_protect_epilogue): Try new
++    stack_protect_combined_test pattern first.
++    * config/arm/arm.c (require_pic_register): Add pic_reg and compute_now
++    parameters to control which register to use as PIC register and force
++    reloading PIC register respectively.  Insert in the stream of insns if
++    possible.
++    (legitimize_pic_address): Expose above new parameters in prototype and
++    adapt recursive calls accordingly.  Use pic_reg if non null instead of
++    cached one.
++    (arm_load_pic_register): Add pic_reg parameter and use it if non null.
++    (arm_legitimize_address): Adapt to new legitimize_pic_address
++    prototype.
++    (thumb_legitimize_address): Likewise.
++    (arm_emit_call_insn): Adapt to require_pic_register prototype change.
++    (arm_expand_prologue): Adapt to arm_load_pic_register prototype change.
++    (thumb1_expand_prologue): Likewise.
++    * config/arm/arm-protos.h (legitimize_pic_address): Adapt to prototype
++    change.
++    (arm_load_pic_register): Likewise.
++    * config/arm/predicated.md (guard_addr_operand): New predicate.
++    (guard_operand): New predicate.
++    * config/arm/arm.md (movsi expander): Adapt to legitimize_pic_address
++    prototype change.
++    (builtin_setjmp_receiver expander): Adapt to thumb1_expand_prologue
++    prototype change.
++    (stack_protect_combined_set): New expander..
++    (stack_protect_combined_set_insn): New insn_and_split pattern.
++    (stack_protect_set_insn): New insn pattern.
++    (stack_protect_combined_test): New expander.
++    (stack_protect_combined_test_insn): New insn_and_split pattern.
++    (arm_stack_protect_test_insn): New insn pattern.
++    * config/arm/thumb1.md (thumb1_stack_protect_test_insn): New insn pattern.
++    * config/arm/unspecs.md (UNSPEC_SP_SET): New unspec.
++    (UNSPEC_SP_TEST): Likewise.
++    * doc/md.texi (stack_protect_combined_set): Document new standard
++    pattern name.
++    (stack_protect_set): Clarify that the operand for guard's address is
++    legal.
++    (stack_protect_combined_test): Document new standard pattern name.
++    (stack_protect_test): Clarify that the operand for guard's address is
++    legal.
++
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@266379 138bc75d-0d04-0410-961f-82ee72b054a4
++
++Upstream-Status: Backport
++CVE: CVE-2018-12886
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ gcc/ChangeLog                          |  49 ++++++
++ gcc/cfgexpand.c                        |  17 +++
++ gcc/config/arm/arm-protos.h            |   4 +-
++ gcc/config/arm/arm.c                   |  87 ++++++++---
++ gcc/config/arm/arm.md                  | 163 +++++++++++++++++++-
++ gcc/config/arm/predicates.md           |  17 +++
++ gcc/config/arm/thumb1.md               |  13 ++
++ gcc/config/arm/unspecs.md              |   3 +
++ gcc/doc/md.texi                        |  55 ++++++-
++ gcc/function.c                         |  32 +++-
++ gcc/target-insns.def                   |   2 +
++ 11 files changed, 399 insertions(+), 43 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.target/arm/pr85434.c
++
++diff --git a/gcc/ChangeLog b/gcc/ChangeLog
++index e2ebfd34214..fa41e7112e0 100644
++--- a/gcc/ChangeLog
+++++ b/gcc/ChangeLog
++@@ -1537,6 +1537,55 @@
++ 	* config/arm/neon.md (movv4hf, movv8hf): Refactored to..
++ 	(mov<mov>): ..this and enable unconditionally.
++ 
+++2018-11-22  Thomas Preud'homme  <thomas.preudhomme@linaro.org>
+++
+++	* target-insns.def (stack_protect_combined_set): Define new standard
+++	pattern name.
+++	(stack_protect_combined_test): Likewise.
+++	* cfgexpand.c (stack_protect_prologue): Try new
+++	stack_protect_combined_set pattern first.
+++	* function.c (stack_protect_epilogue): Try new
+++	stack_protect_combined_test pattern first.
+++	* config/arm/arm.c (require_pic_register): Add pic_reg and compute_now
+++	parameters to control which register to use as PIC register and force
+++	reloading PIC register respectively.  Insert in the stream of insns if
+++	possible.
+++	(legitimize_pic_address): Expose above new parameters in prototype and
+++	adapt recursive calls accordingly.  Use pic_reg if non null instead of
+++	cached one.
+++	(arm_load_pic_register): Add pic_reg parameter and use it if non null.
+++	(arm_legitimize_address): Adapt to new legitimize_pic_address
+++	prototype.
+++	(thumb_legitimize_address): Likewise.
+++	(arm_emit_call_insn): Adapt to require_pic_register prototype change.
+++	(arm_expand_prologue): Adapt to arm_load_pic_register prototype change.
+++	(thumb1_expand_prologue): Likewise.
+++	* config/arm/arm-protos.h (legitimize_pic_address): Adapt to prototype
+++	change.
+++	(arm_load_pic_register): Likewise.
+++	* config/arm/predicated.md (guard_addr_operand): New predicate.
+++	(guard_operand): New predicate.
+++	* config/arm/arm.md (movsi expander): Adapt to legitimize_pic_address
+++	prototype change.
+++	(builtin_setjmp_receiver expander): Adapt to thumb1_expand_prologue
+++	prototype change.
+++	(stack_protect_combined_set): New expander..
+++	(stack_protect_combined_set_insn): New insn_and_split pattern.
+++	(stack_protect_set_insn): New insn pattern.
+++	(stack_protect_combined_test): New expander.
+++	(stack_protect_combined_test_insn): New insn_and_split pattern.
+++	(arm_stack_protect_test_insn): New insn pattern.
+++	* config/arm/thumb1.md (thumb1_stack_protect_test_insn): New insn pattern.
+++	* config/arm/unspecs.md (UNSPEC_SP_SET): New unspec.
+++	(UNSPEC_SP_TEST): Likewise.
+++	* doc/md.texi (stack_protect_combined_set): Document new standard
+++	pattern name.
+++	(stack_protect_set): Clarify that the operand for guard's address is
+++	legal.
+++	(stack_protect_combined_test): Document new standard pattern name.
+++	(stack_protect_test): Clarify that the operand for guard's address is
+++	legal.
+++
++ 2018-11-22  Uros Bizjak  <ubizjak@gmail.com>
++ 
++ 	Backport from mainline
++diff --git a/gcc/cfgexpand.c b/gcc/cfgexpand.c
++index 8fa392fcd8a..21bdcdaeaa3 100644
++--- a/gcc/cfgexpand.c
+++++ b/gcc/cfgexpand.c
++@@ -6185,6 +6185,23 @@ stack_protect_prologue (void)
++   rtx x, y;
++ 
++   x = expand_normal (crtl->stack_protect_guard);
+++
+++  if (targetm.have_stack_protect_combined_set () && guard_decl)
+++    {
+++      gcc_assert (DECL_P (guard_decl));
+++      y = DECL_RTL (guard_decl);
+++
+++      /* Allow the target to compute address of Y and copy it to X without
+++	 leaking Y into a register.  This combined address + copy pattern
+++	 allows the target to prevent spilling of any intermediate results by
+++	 splitting it after register allocator.  */
+++      if (rtx_insn *insn = targetm.gen_stack_protect_combined_set (x, y))
+++	{
+++	  emit_insn (insn);
+++	  return;
+++	}
+++    }
+++
++   if (guard_decl)
++     y = expand_normal (guard_decl);
++   else
++diff --git a/gcc/config/arm/arm-protos.h b/gcc/config/arm/arm-protos.h
++index 8d6d2395b84..00f5f16ed02 100644
++--- a/gcc/config/arm/arm-protos.h
+++++ b/gcc/config/arm/arm-protos.h
++@@ -28,7 +28,7 @@ extern enum unwind_info_type arm_except_unwind_info (struct gcc_options *);
++ extern int use_return_insn (int, rtx);
++ extern bool use_simple_return_p (void);
++ extern enum reg_class arm_regno_class (int);
++-extern void arm_load_pic_register (unsigned long);
+++extern void arm_load_pic_register (unsigned long, rtx);
++ extern int arm_volatile_func (void);
++ extern void arm_expand_prologue (void);
++ extern void arm_expand_epilogue (bool);
++@@ -69,7 +69,7 @@ extern int const_ok_for_dimode_op (HOST_WIDE_INT, enum rtx_code);
++ extern int arm_split_constant (RTX_CODE, machine_mode, rtx,
++ 			       HOST_WIDE_INT, rtx, rtx, int);
++ extern int legitimate_pic_operand_p (rtx);
++-extern rtx legitimize_pic_address (rtx, machine_mode, rtx);
+++extern rtx legitimize_pic_address (rtx, machine_mode, rtx, rtx, bool);
++ extern rtx legitimize_tls_address (rtx, rtx);
++ extern bool arm_legitimate_address_p (machine_mode, rtx, bool);
++ extern int arm_legitimate_address_outer_p (machine_mode, rtx, RTX_CODE, int);
++diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
++index 8393f0b87f3..12417de5102 100644
++--- a/gcc/config/arm/arm.c
+++++ b/gcc/config/arm/arm.c
++@@ -7379,21 +7379,34 @@ legitimate_pic_operand_p (rtx x)
++   return 1;
++ }
++ 
++-/* Record that the current function needs a PIC register.  Initialize
++-   cfun->machine->pic_reg if we have not already done so.  */
+++/* Record that the current function needs a PIC register.  If PIC_REG is null,
+++   a new pseudo is allocated as PIC register, otherwise PIC_REG is used.  In
+++   both case cfun->machine->pic_reg is initialized if we have not already done
+++   so.  COMPUTE_NOW decide whether and where to set the PIC register.  If true,
+++   PIC register is reloaded in the current position of the instruction stream
+++   irregardless of whether it was loaded before.  Otherwise, it is only loaded
+++   if not already done so (crtl->uses_pic_offset_table is null).  Note that
+++   nonnull PIC_REG is only supported iff COMPUTE_NOW is true and null PIC_REG
+++   is only supported iff COMPUTE_NOW is false.  */
++ 
++ static void
++-require_pic_register (void)
+++require_pic_register (rtx pic_reg, bool compute_now)
++ {
+++  gcc_assert (compute_now == (pic_reg != NULL_RTX));
+++
++   /* A lot of the logic here is made obscure by the fact that this
++      routine gets called as part of the rtx cost estimation process.
++      We don't want those calls to affect any assumptions about the real
++      function; and further, we can't call entry_of_function() until we
++      start the real expansion process.  */
++-  if (!crtl->uses_pic_offset_table)
+++  if (!crtl->uses_pic_offset_table || compute_now)
++     {
++-      gcc_assert (can_create_pseudo_p ());
+++      gcc_assert (can_create_pseudo_p ()
+++		  || (pic_reg != NULL_RTX
+++		      && REG_P (pic_reg)
+++		      && GET_MODE (pic_reg) == Pmode));
++       if (arm_pic_register != INVALID_REGNUM
+++	  && !compute_now
++ 	  && !(TARGET_THUMB1 && arm_pic_register > LAST_LO_REGNUM))
++ 	{
++ 	  if (!cfun->machine->pic_reg)
++@@ -7409,8 +7422,10 @@ require_pic_register (void)
++ 	{
++ 	  rtx_insn *seq, *insn;
++ 
+++	  if (pic_reg == NULL_RTX)
+++	    pic_reg = gen_reg_rtx (Pmode);
++ 	  if (!cfun->machine->pic_reg)
++-	    cfun->machine->pic_reg = gen_reg_rtx (Pmode);
+++	    cfun->machine->pic_reg = pic_reg;
++ 
++ 	  /* Play games to avoid marking the function as needing pic
++ 	     if we are being called as part of the cost-estimation
++@@ -7421,11 +7436,12 @@ require_pic_register (void)
++ 	      start_sequence ();
++ 
++ 	      if (TARGET_THUMB1 && arm_pic_register != INVALID_REGNUM
++-		  && arm_pic_register > LAST_LO_REGNUM)
+++		  && arm_pic_register > LAST_LO_REGNUM
+++		  && !compute_now)
++ 		emit_move_insn (cfun->machine->pic_reg,
++ 				gen_rtx_REG (Pmode, arm_pic_register));
++ 	      else
++-		arm_load_pic_register (0UL);
+++		arm_load_pic_register (0UL, pic_reg);
++ 
++ 	      seq = get_insns ();
++ 	      end_sequence ();
++@@ -7438,16 +7454,33 @@ require_pic_register (void)
++ 	         we can't yet emit instructions directly in the final
++ 		 insn stream.  Queue the insns on the entry edge, they will
++ 		 be committed after everything else is expanded.  */
++-	      insert_insn_on_edge (seq,
++-				   single_succ_edge (ENTRY_BLOCK_PTR_FOR_FN (cfun)));
+++	      if (currently_expanding_to_rtl)
+++		insert_insn_on_edge (seq,
+++				     single_succ_edge
+++				     (ENTRY_BLOCK_PTR_FOR_FN (cfun)));
+++	      else
+++		emit_insn (seq);
++ 	    }
++ 	}
++     }
++ }
++ 
+++/* Legitimize PIC load to ORIG into REG.  If REG is NULL, a new pseudo is
+++   created to hold the result of the load.  If not NULL, PIC_REG indicates
+++   which register to use as PIC register, otherwise it is decided by register
+++   allocator.  COMPUTE_NOW forces the PIC register to be loaded at the current
+++   location in the instruction stream, irregardless of whether it was loaded
+++   previously.  Note that nonnull PIC_REG is only supported iff COMPUTE_NOW is
+++   true and null PIC_REG is only supported iff COMPUTE_NOW is false.
+++
+++   Returns the register REG into which the PIC load is performed.  */
+++
++ rtx
++-legitimize_pic_address (rtx orig, machine_mode mode, rtx reg)
+++legitimize_pic_address (rtx orig, machine_mode mode, rtx reg, rtx pic_reg,
+++			bool compute_now)
++ {
+++  gcc_assert (compute_now == (pic_reg != NULL_RTX));
+++
++   if (GET_CODE (orig) == SYMBOL_REF
++       || GET_CODE (orig) == LABEL_REF)
++     {
++@@ -7480,9 +7513,12 @@ legitimize_pic_address (rtx orig, machine_mode mode, rtx reg)
++ 	  rtx mem;
++ 
++ 	  /* If this function doesn't have a pic register, create one now.  */
++-	  require_pic_register ();
+++	  require_pic_register (pic_reg, compute_now);
+++
+++	  if (pic_reg == NULL_RTX)
+++	    pic_reg = cfun->machine->pic_reg;
++ 
++-	  pat = gen_calculate_pic_address (reg, cfun->machine->pic_reg, orig);
+++	  pat = gen_calculate_pic_address (reg, pic_reg, orig);
++ 
++ 	  /* Make the MEM as close to a constant as possible.  */
++ 	  mem = SET_SRC (pat);
++@@ -7531,9 +7567,11 @@ legitimize_pic_address (rtx orig, machine_mode mode, rtx reg)
++ 
++       gcc_assert (GET_CODE (XEXP (orig, 0)) == PLUS);
++ 
++-      base = legitimize_pic_address (XEXP (XEXP (orig, 0), 0), Pmode, reg);
+++      base = legitimize_pic_address (XEXP (XEXP (orig, 0), 0), Pmode, reg,
+++				     pic_reg, compute_now);
++       offset = legitimize_pic_address (XEXP (XEXP (orig, 0), 1), Pmode,
++-				       base == reg ? 0 : reg);
+++				       base == reg ? 0 : reg, pic_reg,
+++				       compute_now);
++ 
++       if (CONST_INT_P (offset))
++ 	{
++@@ -7633,16 +7671,17 @@ static GTY(()) int pic_labelno;
++    low register.  */
++ 
++ void
++-arm_load_pic_register (unsigned long saved_regs ATTRIBUTE_UNUSED)
+++arm_load_pic_register (unsigned long saved_regs ATTRIBUTE_UNUSED, rtx pic_reg)
++ {
++-  rtx l1, labelno, pic_tmp, pic_rtx, pic_reg;
+++  rtx l1, labelno, pic_tmp, pic_rtx;
++ 
++   if (crtl->uses_pic_offset_table == 0 || TARGET_SINGLE_PIC_BASE)
++     return;
++ 
++   gcc_assert (flag_pic);
++ 
++-  pic_reg = cfun->machine->pic_reg;
+++  if (pic_reg == NULL_RTX)
+++    pic_reg = cfun->machine->pic_reg;
++   if (TARGET_VXWORKS_RTP)
++     {
++       pic_rtx = gen_rtx_SYMBOL_REF (Pmode, VXWORKS_GOTT_BASE);
++@@ -8718,7 +8757,8 @@ arm_legitimize_address (rtx x, rtx orig_x, machine_mode mode)
++     {
++       /* We need to find and carefully transform any SYMBOL and LABEL
++ 	 references; so go back to the original address expression.  */
++-      rtx new_x = legitimize_pic_address (orig_x, mode, NULL_RTX);
+++      rtx new_x = legitimize_pic_address (orig_x, mode, NULL_RTX, NULL_RTX,
+++					  false /*compute_now*/);
++ 
++       if (new_x != orig_x)
++ 	x = new_x;
++@@ -8786,7 +8826,8 @@ thumb_legitimize_address (rtx x, rtx orig_x, machine_mode mode)
++     {
++       /* We need to find and carefully transform any SYMBOL and LABEL
++ 	 references; so go back to the original address expression.  */
++-      rtx new_x = legitimize_pic_address (orig_x, mode, NULL_RTX);
+++      rtx new_x = legitimize_pic_address (orig_x, mode, NULL_RTX, NULL_RTX,
+++					  false /*compute_now*/);
++ 
++       if (new_x != orig_x)
++ 	x = new_x;
++@@ -18074,7 +18115,7 @@ arm_emit_call_insn (rtx pat, rtx addr, bool sibcall)
++ 	  ? !targetm.binds_local_p (SYMBOL_REF_DECL (addr))
++ 	  : !SYMBOL_REF_LOCAL_P (addr)))
++     {
++-      require_pic_register ();
+++      require_pic_register (NULL_RTX, false /*compute_now*/);
++       use_reg (&CALL_INSN_FUNCTION_USAGE (insn), cfun->machine->pic_reg);
++     }
++ 
++@@ -22006,7 +22047,7 @@ arm_expand_prologue (void)
++       mask &= THUMB2_WORK_REGS;
++       if (!IS_NESTED (func_type))
++ 	mask |= (1 << IP_REGNUM);
++-      arm_load_pic_register (mask);
+++      arm_load_pic_register (mask, NULL_RTX);
++     }
++ 
++   /* If we are profiling, make sure no instructions are scheduled before
++@@ -25237,7 +25278,7 @@ thumb1_expand_prologue (void)
++   /* Load the pic register before setting the frame pointer,
++      so we can use r7 as a temporary work register.  */
++   if (flag_pic && arm_pic_register != INVALID_REGNUM)
++-    arm_load_pic_register (live_regs_mask);
+++    arm_load_pic_register (live_regs_mask, NULL_RTX);
++ 
++   if (!frame_pointer_needed && CALLER_INTERWORKING_SLOT_SIZE > 0)
++     emit_move_insn (gen_rtx_REG (Pmode, ARM_HARD_FRAME_POINTER_REGNUM),
++diff --git a/gcc/config/arm/arm.md b/gcc/config/arm/arm.md
++index c8dc9474b1b..f6196e93168 100644
++--- a/gcc/config/arm/arm.md
+++++ b/gcc/config/arm/arm.md
++@@ -6021,7 +6021,8 @@
++       operands[1] = legitimize_pic_address (operands[1], SImode,
++ 					    (!can_create_pseudo_p ()
++ 					     ? operands[0]
++-					     : 0));
+++					     : NULL_RTX), NULL_RTX,
+++					    false /*compute_now*/);
++   }
++   "
++ )
++@@ -6309,7 +6310,7 @@
++   /* r3 is clobbered by set/longjmp, so we can use it as a scratch
++      register.  */
++   if (arm_pic_register != INVALID_REGNUM)
++-    arm_load_pic_register (1UL << 3);
+++    arm_load_pic_register (1UL << 3, NULL_RTX);
++   DONE;
++ }")
++ 
++@@ -8634,6 +8635,164 @@
++    (set_attr "conds" "clob")]
++ )
++ 
+++;; Named patterns for stack smashing protection.
+++(define_expand "stack_protect_combined_set"
+++  [(parallel
+++     [(set (match_operand:SI 0 "memory_operand" "")
+++	   (unspec:SI [(match_operand:SI 1 "guard_operand" "")]
+++		      UNSPEC_SP_SET))
+++      (clobber (match_scratch:SI 2 ""))
+++      (clobber (match_scratch:SI 3 ""))])]
+++  ""
+++  ""
+++)
+++
+++;; Use a separate insn from the above expand to be able to have the mem outside
+++;; the operand #1 when register allocation comes. This is needed to avoid LRA
+++;; try to reload the guard since we need to control how PIC access is done in
+++;; the -fpic/-fPIC case (see COMPUTE_NOW parameter when calling
+++;; legitimize_pic_address ()).
+++(define_insn_and_split "*stack_protect_combined_set_insn"
+++  [(set (match_operand:SI 0 "memory_operand" "=m,m")
+++	(unspec:SI [(mem:SI (match_operand:SI 1 "guard_addr_operand" "X,X"))]
+++		   UNSPEC_SP_SET))
+++   (clobber (match_scratch:SI 2 "=&l,&r"))
+++   (clobber (match_scratch:SI 3 "=&l,&r"))]
+++  ""
+++  "#"
+++  "reload_completed"
+++  [(parallel [(set (match_dup 0) (unspec:SI [(mem:SI (match_dup 2))]
+++					    UNSPEC_SP_SET))
+++	      (clobber (match_dup 2))])]
+++  "
+++{
+++  if (flag_pic)
+++    {
+++      /* Forces recomputing of GOT base now.  */
+++      legitimize_pic_address (operands[1], SImode, operands[2], operands[3],
+++			      true /*compute_now*/);
+++    }
+++  else
+++    {
+++      if (address_operand (operands[1], SImode))
+++	operands[2] = operands[1];
+++      else
+++	{
+++	  rtx mem = XEXP (force_const_mem (SImode, operands[1]), 0);
+++	  emit_move_insn (operands[2], mem);
+++	}
+++    }
+++}"
+++  [(set_attr "arch" "t1,32")]
+++)
+++
+++(define_insn "*stack_protect_set_insn"
+++  [(set (match_operand:SI 0 "memory_operand" "=m,m")
+++	(unspec:SI [(mem:SI (match_operand:SI 1 "register_operand" "+&l,&r"))]
+++	 UNSPEC_SP_SET))
+++   (clobber (match_dup 1))]
+++  ""
+++  "@
+++   ldr\\t%1, [%1]\;str\\t%1, %0\;movs\t%1,#0
+++   ldr\\t%1, [%1]\;str\\t%1, %0\;mov\t%1,#0"
+++  [(set_attr "length" "8,12")
+++   (set_attr "conds" "clob,nocond")
+++   (set_attr "type" "multiple")
+++   (set_attr "arch" "t1,32")]
+++)
+++
+++(define_expand "stack_protect_combined_test"
+++  [(parallel
+++     [(set (pc)
+++	   (if_then_else
+++		(eq (match_operand:SI 0 "memory_operand" "")
+++		    (unspec:SI [(match_operand:SI 1 "guard_operand" "")]
+++			       UNSPEC_SP_TEST))
+++		(label_ref (match_operand 2))
+++		(pc)))
+++      (clobber (match_scratch:SI 3 ""))
+++      (clobber (match_scratch:SI 4 ""))
+++      (clobber (reg:CC CC_REGNUM))])]
+++  ""
+++  ""
+++)
+++
+++;; Use a separate insn from the above expand to be able to have the mem outside
+++;; the operand #1 when register allocation comes. This is needed to avoid LRA
+++;; try to reload the guard since we need to control how PIC access is done in
+++;; the -fpic/-fPIC case (see COMPUTE_NOW parameter when calling
+++;; legitimize_pic_address ()).
+++(define_insn_and_split "*stack_protect_combined_test_insn"
+++  [(set (pc)
+++	(if_then_else
+++		(eq (match_operand:SI 0 "memory_operand" "m,m")
+++		    (unspec:SI [(mem:SI (match_operand:SI 1 "guard_addr_operand" "X,X"))]
+++			       UNSPEC_SP_TEST))
+++		(label_ref (match_operand 2))
+++		(pc)))
+++   (clobber (match_scratch:SI 3 "=&l,&r"))
+++   (clobber (match_scratch:SI 4 "=&l,&r"))
+++   (clobber (reg:CC CC_REGNUM))]
+++  ""
+++  "#"
+++  "reload_completed"
+++  [(const_int 0)]
+++{
+++  rtx eq;
+++
+++  if (flag_pic)
+++    {
+++      /* Forces recomputing of GOT base now.  */
+++      legitimize_pic_address (operands[1], SImode, operands[3], operands[4],
+++			      true /*compute_now*/);
+++    }
+++  else
+++    {
+++      if (address_operand (operands[1], SImode))
+++	operands[3] = operands[1];
+++      else
+++	{
+++	  rtx mem = XEXP (force_const_mem (SImode, operands[1]), 0);
+++	  emit_move_insn (operands[3], mem);
+++	}
+++    }
+++  if (TARGET_32BIT)
+++    {
+++      emit_insn (gen_arm_stack_protect_test_insn (operands[4], operands[0],
+++						  operands[3]));
+++      rtx cc_reg = gen_rtx_REG (CC_Zmode, CC_REGNUM);
+++      eq = gen_rtx_EQ (CC_Zmode, cc_reg, const0_rtx);
+++      emit_jump_insn (gen_arm_cond_branch (operands[2], eq, cc_reg));
+++    }
+++  else
+++    {
+++      emit_insn (gen_thumb1_stack_protect_test_insn (operands[4], operands[0],
+++						     operands[3]));
+++      eq = gen_rtx_EQ (VOIDmode, operands[4], const0_rtx);
+++      emit_jump_insn (gen_cbranchsi4 (eq, operands[4], const0_rtx,
+++				      operands[2]));
+++    }
+++  DONE;
+++}
+++  [(set_attr "arch" "t1,32")]
+++)
+++
+++(define_insn "arm_stack_protect_test_insn"
+++  [(set (reg:CC_Z CC_REGNUM)
+++	(compare:CC_Z (unspec:SI [(match_operand:SI 1 "memory_operand" "m,m")
+++				  (mem:SI (match_operand:SI 2 "register_operand" "+l,r"))]
+++				 UNSPEC_SP_TEST)
+++		      (const_int 0)))
+++   (clobber (match_operand:SI 0 "register_operand" "=&l,&r"))
+++   (clobber (match_dup 2))]
+++  "TARGET_32BIT"
+++  "ldr\t%0, [%2]\;ldr\t%2, %1\;eors\t%0, %2, %0"
+++  [(set_attr "length" "8,12")
+++   (set_attr "conds" "set")
+++   (set_attr "type" "multiple")
+++   (set_attr "arch" "t,32")]
+++)
+++
++ (define_expand "casesi"
++   [(match_operand:SI 0 "s_register_operand" "")	; index to jump on
++    (match_operand:SI 1 "const_int_operand" "")	; lower bound
++diff --git a/gcc/config/arm/predicates.md b/gcc/config/arm/predicates.md
++index 7e198f9bce4..69718ee9c7a 100644
++--- a/gcc/config/arm/predicates.md
+++++ b/gcc/config/arm/predicates.md
++@@ -31,6 +31,23 @@
++ 	      || REGNO_REG_CLASS (REGNO (op)) != NO_REGS));
++ })
++ 
+++; Predicate for stack protector guard's address in
+++; stack_protect_combined_set_insn and stack_protect_combined_test_insn patterns
+++(define_predicate "guard_addr_operand"
+++  (match_test "true")
+++{
+++  return (CONSTANT_ADDRESS_P (op)
+++	  || !targetm.cannot_force_const_mem (mode, op));
+++})
+++
+++; Predicate for stack protector guard in stack_protect_combined_set and
+++; stack_protect_combined_test patterns
+++(define_predicate "guard_operand"
+++  (match_code "mem")
+++{
+++  return guard_addr_operand (XEXP (op, 0), mode);
+++})
+++
++ (define_predicate "imm_for_neon_inv_logic_operand"
++   (match_code "const_vector")
++ {
++diff --git a/gcc/config/arm/thumb1.md b/gcc/config/arm/thumb1.md
++index 19dcdbcdd73..cd199c9c529 100644
++--- a/gcc/config/arm/thumb1.md
+++++ b/gcc/config/arm/thumb1.md
++@@ -1962,4 +1962,17 @@
++   }"
++   [(set_attr "type" "mov_reg")]
++ )
+++
+++(define_insn "thumb1_stack_protect_test_insn"
+++  [(set (match_operand:SI 0 "register_operand" "=&l")
+++	(unspec:SI [(match_operand:SI 1 "memory_operand" "m")
+++		    (mem:SI (match_operand:SI 2 "register_operand" "+l"))]
+++	 UNSPEC_SP_TEST))
+++   (clobber (match_dup 2))]
+++  "TARGET_THUMB1"
+++  "ldr\t%0, [%2]\;ldr\t%2, %1\;eors\t%0, %2, %0"
+++  [(set_attr "length" "8")
+++   (set_attr "conds" "set")
+++   (set_attr "type" "multiple")]
+++)
++ 
++diff --git a/gcc/config/arm/unspecs.md b/gcc/config/arm/unspecs.md
++index 19416736ef9..8f9dbcb08dc 100644
++--- a/gcc/config/arm/unspecs.md
+++++ b/gcc/config/arm/unspecs.md
++@@ -86,6 +86,9 @@
++   UNSPEC_PROBE_STACK    ; Probe stack memory reference
++   UNSPEC_NONSECURE_MEM	; Represent non-secure memory in ARMv8-M with
++ 			; security extension
+++  UNSPEC_SP_SET		; Represent the setting of stack protector's canary
+++  UNSPEC_SP_TEST	; Represent the testing of stack protector's canary
+++			; against the guard.
++ ])
++ 
++ (define_c_enum "unspec" [
++diff --git a/gcc/doc/md.texi b/gcc/doc/md.texi
++index 295fc1f1143..895309b2f3c 100644
++--- a/gcc/doc/md.texi
+++++ b/gcc/doc/md.texi
++@@ -7450,22 +7450,61 @@ builtins.
++ The get/set patterns have a single output/input operand respectively,
++ with @var{mode} intended to be @code{Pmode}.
++ 
+++@cindex @code{stack_protect_combined_set} instruction pattern
+++@item @samp{stack_protect_combined_set}
+++This pattern, if defined, moves a @code{ptr_mode} value from an address
+++whose declaration RTX is given in operand 1 to the memory in operand 0
+++without leaving the value in a register afterward.  If several
+++instructions are needed by the target to perform the operation (eg. to
+++load the address from a GOT entry then load the @code{ptr_mode} value
+++and finally store it), it is the backend's responsibility to ensure no
+++intermediate result gets spilled.  This is to avoid leaking the value
+++some place that an attacker might use to rewrite the stack guard slot
+++after having clobbered it.
+++
+++If this pattern is not defined, then the address declaration is
+++expanded first in the standard way and a @code{stack_protect_set}
+++pattern is then generated to move the value from that address to the
+++address in operand 0.
+++
++ @cindex @code{stack_protect_set} instruction pattern
++ @item @samp{stack_protect_set}
++-This pattern, if defined, moves a @code{ptr_mode} value from the memory
++-in operand 1 to the memory in operand 0 without leaving the value in
++-a register afterward.  This is to avoid leaking the value some place
++-that an attacker might use to rewrite the stack guard slot after
++-having clobbered it.
+++This pattern, if defined, moves a @code{ptr_mode} value from the valid
+++memory location in operand 1 to the memory in operand 0 without leaving
+++the value in a register afterward.  This is to avoid leaking the value
+++some place that an attacker might use to rewrite the stack guard slot
+++after having clobbered it.
+++
+++Note: on targets where the addressing modes do not allow to load
+++directly from stack guard address, the address is expanded in a standard
+++way first which could cause some spills.
++ 
++ If this pattern is not defined, then a plain move pattern is generated.
++ 
+++@cindex @code{stack_protect_combined_test} instruction pattern
+++@item @samp{stack_protect_combined_test}
+++This pattern, if defined, compares a @code{ptr_mode} value from an
+++address whose declaration RTX is given in operand 1 with the memory in
+++operand 0 without leaving the value in a register afterward and
+++branches to operand 2 if the values were equal.  If several
+++instructions are needed by the target to perform the operation (eg. to
+++load the address from a GOT entry then load the @code{ptr_mode} value
+++and finally store it), it is the backend's responsibility to ensure no
+++intermediate result gets spilled.  This is to avoid leaking the value
+++some place that an attacker might use to rewrite the stack guard slot
+++after having clobbered it.
+++
+++If this pattern is not defined, then the address declaration is
+++expanded first in the standard way and a @code{stack_protect_test}
+++pattern is then generated to compare the value from that address to the
+++value at the memory in operand 0.
+++
++ @cindex @code{stack_protect_test} instruction pattern
++ @item @samp{stack_protect_test}
++ This pattern, if defined, compares a @code{ptr_mode} value from the
++-memory in operand 1 with the memory in operand 0 without leaving the
++-value in a register afterward and branches to operand 2 if the values
++-were equal.
+++valid memory location in operand 1 with the memory in operand 0 without
+++leaving the value in a register afterward and branches to operand 2 if
+++the values were equal.
++ 
++ If this pattern is not defined, then a plain compare pattern and
++ conditional branch pattern is used.
++diff --git a/gcc/function.c b/gcc/function.c
++index 85a5d9f43f7..69523c1d723 100644
++--- a/gcc/function.c
+++++ b/gcc/function.c
++@@ -4937,18 +4937,34 @@ stack_protect_epilogue (void)
++   tree guard_decl = targetm.stack_protect_guard ();
++   rtx_code_label *label = gen_label_rtx ();
++   rtx x, y;
++-  rtx_insn *seq;
+++  rtx_insn *seq = NULL;
++ 
++   x = expand_normal (crtl->stack_protect_guard);
++-  if (guard_decl)
++-    y = expand_normal (guard_decl);
+++
+++  if (targetm.have_stack_protect_combined_test () && guard_decl)
+++    {
+++      gcc_assert (DECL_P (guard_decl));
+++      y = DECL_RTL (guard_decl);
+++      /* Allow the target to compute address of Y and compare it with X without
+++	 leaking Y into a register.  This combined address + compare pattern
+++	 allows the target to prevent spilling of any intermediate results by
+++	 splitting it after register allocator.  */
+++      seq = targetm.gen_stack_protect_combined_test (x, y, label);
+++    }
++   else
++-    y = const0_rtx;
+++    {
+++      if (guard_decl)
+++	y = expand_normal (guard_decl);
+++      else
+++	y = const0_rtx;
+++
+++      /* Allow the target to compare Y with X without leaking either into
+++	 a register.  */
+++      if (targetm.have_stack_protect_test ())
+++	seq = targetm.gen_stack_protect_test (x, y, label);
+++    }
++ 
++-  /* Allow the target to compare Y with X without leaking either into
++-     a register.  */
++-  if (targetm.have_stack_protect_test ()
++-      && ((seq = targetm.gen_stack_protect_test (x, y, label)) != NULL_RTX))
+++  if (seq)
++     emit_insn (seq);
++   else
++     emit_cmp_and_jump_insns (x, y, EQ, NULL_RTX, ptr_mode, 1, label);
++diff --git a/gcc/target-insns.def b/gcc/target-insns.def
++index 9a552c3d11c..d39889b3522 100644
++--- a/gcc/target-insns.def
+++++ b/gcc/target-insns.def
++@@ -96,7 +96,9 @@ DEF_TARGET_INSN (sibcall_value, (rtx x0, rtx x1, rtx opt2, rtx opt3,
++ DEF_TARGET_INSN (simple_return, (void))
++ DEF_TARGET_INSN (split_stack_prologue, (void))
++ DEF_TARGET_INSN (split_stack_space_check, (rtx x0, rtx x1))
+++DEF_TARGET_INSN (stack_protect_combined_set, (rtx x0, rtx x1))
++ DEF_TARGET_INSN (stack_protect_set, (rtx x0, rtx x1))
+++DEF_TARGET_INSN (stack_protect_combined_test, (rtx x0, rtx x1, rtx x2))
++ DEF_TARGET_INSN (stack_protect_test, (rtx x0, rtx x1, rtx x2))
++ DEF_TARGET_INSN (store_multiple, (rtx x0, rtx x1, rtx x2))
++ DEF_TARGET_INSN (tablejump, (rtx x0, rtx x1))
++-- 
++2.21.0
 -- 
 2.7.4
 
