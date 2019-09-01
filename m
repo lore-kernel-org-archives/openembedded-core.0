@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 00F107F421
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id BBC477F421
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 14:36:31 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id y9so7380418pfl.4
+	Sun,  1 Sep 2019 14:36:32 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id n4so5949459pgv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2019 07:36:33 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=hnT581ksGjvHz3tiL++Grc54cuBUBtoclFnz+7uX0dY=;
-	b=qOoxvYaGtTxlMHWDSDgGp5bc/NHz1uZ6ZFs8f7O7lU8cHaBU+/zukY/mxNrkE5VDxe
-	og94TeHwkvKdZnkkupt05MM+gapZlnjLDxXuDX/dbvjOrfmKQzH4O7GHOSznGwLSwc+i
-	sPD4udxeaGlxWI+wTEqOea0eDmtdnBpKOznETmCTaf5tzEdQlCkxtELFNa6SknoRQ6la
-	6ccF4U2H4EJLaJ0qjwk/2NImhr1w9SBb5+Aj2eGqKCCT7goR7xDE5EjFSSzJ2iQh5N2Y
-	oTUUpN/DzNg/RvgDkY7O2OQMRW/YuBJuTbyENAmG0XSUcydNqTsGbitPmBCETYrLrH2z
-	gwMg==
+	bh=3pIZnIk0lHetOo/VGL1JT/6O03AleRFQfmhuCRz4bmk=;
+	b=ir7LNd/rAOxktD3BcX5R2CxTgdnyagVYtamriTKEZbGB7BB4bXtWixum+1t5c9YxeR
+	pBPaeA/v1mYCbfRarRlCkBjussJVt2wkXwM01YPN7QJtZ6bEJmOk6nG8jvimO2+7dEzE
+	ut12YkZWl9D/Br6TmzxpVbcFyPItnXxjFRQMEM3MF18SaEWWHMKvzxPaoU5rW3Om992K
+	04Cy9KE6Zk235qfwuPGIkvT/haqDPeqAsNS3mfizSyN1P3F+dNneJAH20KlAZ/LtHZOU
+	2doqeJABXo15Ovl2ZaAoDgQp8LdjwQyIUr5FCygLu9xxJHOES7NjnAOl0wzdI8VycJRy
+	sklQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=hnT581ksGjvHz3tiL++Grc54cuBUBtoclFnz+7uX0dY=;
-	b=aqJCYMcmhBzaMdYxXXsJCa2Vm/YM6qZBbNhgeEd+xmQQFAUQ9i0VoZ7xlCMJRLRvDe
-	teZfK/+HMMTG10DT4PkH32uW5poiiPW0bXh7OJr3g9oumniu92lw5Dv4zekLiwRU9QGk
-	7evyacIFxQbk5mqTiEFCWl75ua4k8JfRyWokjTzQhOzp50MI0OblTv0pxTcgjuOrYamn
-	IjRkzVXZKDJXIwP8niGvwXVg+KYHm4M8oCDIgdxBh3xBdNOLxSmj2N+9ooX6GLxpQUGN
-	0ZWSpBQ/4G1zYjAlE4DdxDjVlKl5m6dSPbo7Wkjxgs2EomFpOHDgQB85s2vOdTlDZaXE
-	uiZg==
-X-Gm-Message-State: APjAAAXMQNgxiXYfLOvpJLmV2AsU5cHK7dddaKhQ7ZxIhzuT8Gv5HhKd
-	y19/KLaZbB1NCjvgM2C9eyIpWL7G
-X-Google-Smtp-Source: APXvYqxFb02lOwJvP45SxA9Bi9zuO4XDKMKtqEmTTxJdEuklhPac/B1s4a4YrD8V9V5FV780vfAXGQ==
-X-Received: by 2002:a17:90a:3462:: with SMTP id
-	o89mr3850970pjb.2.1567348592859; 
-	Sun, 01 Sep 2019 07:36:32 -0700 (PDT)
+	bh=3pIZnIk0lHetOo/VGL1JT/6O03AleRFQfmhuCRz4bmk=;
+	b=CrKf8elp5VqPwPX6xpmInq9aTznhl/n9JRr8mBi1C/S8u6iFBJ3rZgWQlA7v3k2308
+	ozDkreI3aXMCXSWlNJVH9ZJooWRDmkYECYbzPwJEKAxHCZVDmraP319JUpQ0kzuPSij+
+	8pGmwHjqxqUzhu0W1kbild6S/r5PPpxggvVAz06QKFnJ22RlqQYkV6L0VH5z05bB2/MG
+	47DN1jEyKwLLaZ71tj6U8miLhUQbBBbDQvqYcm/bJajFZ7y+tnz7Try5bSAEMHTw05HU
+	x/o14GrBPibaCBkFF4AWW+/U46Mkhzu5denazmBYgiuHV+eX15gBQnXLcA6aUFK0rozp
+	bOgg==
+X-Gm-Message-State: APjAAAUq8On/E8FpLn123jQ9jz+/RZF+9hBhHflLZRUkqeO72EoSH6MV
+	aNht3ZMkKPHeR8V5ucWuuQ/O8bXn
+X-Google-Smtp-Source: APXvYqyIPh4Hb9kka/sfSE+KPBtKvE0naHtJbgvHyT/gF/UR1qiIMnSFHR7gGRI+C2wrxBx7F0Z+JQ==
+X-Received: by 2002:aa7:957a:: with SMTP id x26mr25821132pfq.16.1567348593606; 
+	Sun, 01 Sep 2019 07:36:33 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:1d53:5246:e59:bfe9])
 	by smtp.gmail.com with ESMTPSA id
-	s16sm15911381pfs.6.2019.09.01.07.36.31
+	s16sm15911381pfs.6.2019.09.01.07.36.32
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 01 Sep 2019 07:36:32 -0700 (PDT)
+	Sun, 01 Sep 2019 07:36:33 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 07:35:46 -0700
-Message-Id: <d449e28bb9d7749e0abd759086b5f58d68af0ab4.1567348433.git.akuster808@gmail.com>
+Date: Sun,  1 Sep 2019 07:35:47 -0700
+Message-Id: <d451c37e5f5765440efd77e4c7b0951875f03b33.1567348433.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1567348433.git.akuster808@gmail.com>
 References: <cover.1567348433.git.akuster808@gmail.com>
-Subject: [warrior 08/43] tiff: fix CVE-2019-6128
+Subject: [warrior 09/43] tiff: fix CVE-2019-7663
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,89 +63,114 @@ X-List-Received-Date: Sun, 01 Sep 2019 14:36:32 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-(From OE-Core rev: 7293e417dd9bdd04fe0fec177a76c9286234ed46)
+(From OE-Core rev: d06d6910d1ec9374bb15e02809e64e81198731b6)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../libtiff/tiff/CVE-2019-6128.patch               | 52 ++++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.10.bb     |  2 +-
- 2 files changed, 53 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-6128.patch
+ .../libtiff/tiff/CVE-2019-7663.patch               | 77 ++++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.10.bb     |  3 +-
+ 2 files changed, 79 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-7663.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2019-6128.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-6128.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2019-7663.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-7663.patch
 new file mode 100644
-index 0000000..6f1fd4d
+index 0000000..f244fb2
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-6128.patch
-@@ -0,0 +1,52 @@
-+CVE: CVE-2019-6128
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-7663.patch
+@@ -0,0 +1,77 @@
++CVE: CVE-2019-7663
 +Upstream-Status: Backport
 +Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+From 0c74a9f49b8d7a36b17b54a7428b3526d20f88a8 Mon Sep 17 00:00:00 2001
-+From: Scott Gayou <github.scott@gmail.com>
-+Date: Wed, 23 Jan 2019 15:03:53 -0500
-+Subject: [PATCH] Fix for simple memory leak that was assigned CVE-2019-6128.
++From c6fc6c1fa895024c86285c58efd6424cf8078f32 Mon Sep 17 00:00:00 2001
++From: Thomas Bernard <miniupnp@free.fr>
++Date: Mon, 11 Feb 2019 10:05:33 +0100
++Subject: [PATCH 1/2] check that (Tile Width)*(Samples/Pixel) do no overflow
 +
-+pal2rgb failed to free memory on a few errors. This was reported
-+here: http://bugzilla.maptools.org/show_bug.cgi?id=2836.
++fixes bug 2833
 +---
-+ tools/pal2rgb.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
++ tools/tiffcp.c | 8 +++++++-
++ 1 file changed, 7 insertions(+), 1 deletion(-)
 +
-+diff --git a/tools/pal2rgb.c b/tools/pal2rgb.c
-+index 01d8502ec..9492f1cf1 100644
-+--- a/tools/pal2rgb.c
-++++ b/tools/pal2rgb.c
-+@@ -118,12 +118,14 @@ main(int argc, char* argv[])
-+ 	    shortv != PHOTOMETRIC_PALETTE) {
-+ 		fprintf(stderr, "%s: Expecting a palette image.\n",
-+ 		    argv[optind]);
-++		(void) TIFFClose(in);
-+ 		return (-1);
-+ 	}
-+ 	if (!TIFFGetField(in, TIFFTAG_COLORMAP, &rmap, &gmap, &bmap)) {
-+ 		fprintf(stderr,
-+ 		    "%s: No colormap (not a valid palette image).\n",
-+ 		    argv[optind]);
-++		(void) TIFFClose(in);
-+ 		return (-1);
-+ 	}
-+ 	bitspersample = 0;
-+@@ -131,11 +133,14 @@ main(int argc, char* argv[])
-+ 	if (bitspersample != 8) {
-+ 		fprintf(stderr, "%s: Sorry, can only handle 8-bit images.\n",
-+ 		    argv[optind]);
-++		(void) TIFFClose(in);
-+ 		return (-1);
-+ 	}
-+ 	out = TIFFOpen(argv[optind+1], "w");
-+-	if (out == NULL)
-++	if (out == NULL) {
-++		(void) TIFFClose(in);
-+ 		return (-2);
++diff --git a/tools/tiffcp.c b/tools/tiffcp.c
++index 2f406e2d..f0ee2c02 100644
++--- a/tools/tiffcp.c
+++++ b/tools/tiffcp.c
++@@ -1408,7 +1408,7 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
++ 	int status = 1;
++ 	uint32 imagew = TIFFRasterScanlineSize(in);
++ 	uint32 tilew = TIFFTileRowSize(in);
++-	int iskew  = imagew - tilew*spp;
+++	int iskew;
++ 	tsize_t tilesize = TIFFTileSize(in);
++ 	tdata_t tilebuf;
++ 	uint8* bufp = (uint8*) buf;
++@@ -1416,6 +1416,12 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
++ 	uint32 row;
++ 	uint16 bps = 0, bytes_per_sample;
++ 
+++	if (spp > (0x7fffffff / tilew))
+++	{
+++		TIFFError(TIFFFileName(in), "Error, cannot handle that much samples per tile row (Tile Width * Samples/Pixel)");
+++		return 0;
 ++	}
-+ 	cpTags(in, out);
-+ 	TIFFGetField(in, TIFFTAG_IMAGEWIDTH, &imagewidth);
-+ 	TIFFGetField(in, TIFFTAG_IMAGELENGTH, &imagelength);
+++	iskew = imagew - tilew*spp;
++ 	tilebuf = _TIFFmalloc(tilesize);
++ 	if (tilebuf == 0)
++ 		return 0;
 +-- 
-+2.21.0
++2.20.1
++
++
++From da6454aa80b9bb3154dfab4e8b21637de47531e0 Mon Sep 17 00:00:00 2001
++From: Thomas Bernard <miniupnp@free.fr>
++Date: Mon, 11 Feb 2019 21:42:03 +0100
++Subject: [PATCH 2/2] tiffcp.c: use INT_MAX
++
++---
++ tools/tiffcp.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/tools/tiffcp.c b/tools/tiffcp.c
++index f0ee2c02..8c81aa4f 100644
++--- a/tools/tiffcp.c
+++++ b/tools/tiffcp.c
++@@ -41,6 +41,7 @@
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <string.h>
+++#include <limits.h>
++ 
++ #include <ctype.h>
++ 
++@@ -1416,7 +1417,7 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
++ 	uint32 row;
++ 	uint16 bps = 0, bytes_per_sample;
++ 
++-	if (spp > (0x7fffffff / tilew))
+++	if (spp > (INT_MAX / tilew))
++ 	{
++ 		TIFFError(TIFFFileName(in), "Error, cannot handle that much samples per tile row (Tile Width * Samples/Pixel)");
++ 		return 0;
++-- 
++2.20.1
++
 diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
-index 152fa81..a82d744 100644
+index a82d744..8e3e227 100644
 --- a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
 +++ b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
-@@ -6,8 +6,8 @@ CVE_PRODUCT = "libtiff"
+@@ -6,7 +6,8 @@ CVE_PRODUCT = "libtiff"
  
  SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
             file://libtool2.patch \
-+           file://CVE-2019-6128.patch"
+-           file://CVE-2019-6128.patch"
++           file://CVE-2019-6128.patch \
++           file://CVE-2019-7663.patch \
             "
--
  SRC_URI[md5sum] = "114192d7ebe537912a2b97408832e7fd"
  SRC_URI[sha256sum] = "2c52d11ccaf767457db0c46795d9c7d1a8d8f76f68b0b800a3dfe45786b996e4"
- 
 -- 
 2.7.4
 
