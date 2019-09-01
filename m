@@ -1,49 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 99EBC7C665
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EB597F4C7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Aug 2019 21:15:51 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id y8so4890384plr.12
+	Sun,  1 Sep 2019 00:01:35 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id h3so4967259pls.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Aug 2019 14:15:52 -0700 (PDT)
+	Sat, 31 Aug 2019 17:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=Dbga17Km7y9+uGK9CeCSFbIBfFqBFzBCSQwOpW6rFBc=;
-	b=Ggpa2WOm1TPnFeKG2ASXq1+7Xl6GUwODf6dNXmZEOo6cZXEr4GdD28Fusi5BXhwquD
-	+29G+rYc6fXh56nbgyTvAh7LytJ7+ebL76cTQD1tvq7ov2cchjIqnQZPcP7MkfsTlWdW
-	Jm2l7T6YExJlAYLgrLRnWMQ4JhEuH9G3h7HNoH+9zSFbB1kiZmuKBoNdGD1GKuyalIwO
-	A3AFj06cdfQocmDRneBy4lTLVxu9466R1zJs7/t6MVD291IIDk9dXLsggIJ1UxWEqouB
-	4bYOa0CbzTWjzDRsrb9Yqs6H2Pz+/F0Xu1dzXD643jKWTAfnpDAAIsDZi7Ro56MiqETj
-	SFcA==
+	bh=0gZ4b+aq453K2ywi9dLvJjloKVzas53sRc2M3jfZkZ4=;
+	b=KZk0LduVdWkg26Cp4CzxouRy7Y5nqRqoZErwJew9QQLGDkwDCGHbukaxnpM4Mb51GS
+	NM+NY/2Ba2c1Yly5OrbUjK40zRBfY+peIsv3oesDSygQfWSp2skOUdPCcqimQvkHrL4f
+	+do71D7fWbnMhJCfLxN3+4nMRKXfLTL/fvbhU3wOGnN/2imer/FBJIImsK0mZRlQkV2V
+	ea/V18ixxeIMWEWXdrX+HAuyaFQnJvXh41rIg8/cq4onH3EWDwyeKN8TNMFISg+XCm+F
+	i6yO1v+EMMX8HLvYK3oxnfzk5V7OV39N9X0xmiYtVOHGCv9gToLU6smW4+6btEGisL82
+	s2EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Dbga17Km7y9+uGK9CeCSFbIBfFqBFzBCSQwOpW6rFBc=;
-	b=J0bt+Br9dUaL6j2k+kgADTkp2EBjUyd6ZsZlQ3w0skVYIi2S+sz8qUBlrNelB6ScrE
-	XTXtYu2H1p2w4Yy1kPn1gNq2/aiNUXS0hUeP7sptJImndvORAh++zDEsSmOfkWGAw/h8
-	2U1GBwZsAHAwuC8EY6uy17bDDji/jQDKYDygW26P7faQbWfaLKWdJlm+G+v4/w+69jCv
-	TpDTuiSGjVZzEIe5cChzwYitpbizl0jTmlEGhh/DW5gTwY9rl/gmNLTmMXbItIfgTlS1
-	MXbC8pLw8iFlok3QG+qA5R6vvG5yC5Cs6nF/OoC7sSKGKgHu9wUbx3oMnHjm0wkrVaOz
-	4ciw==
-X-Gm-Message-State: APjAAAWtMyvy6My6F+R78fASeaxbrkgqhyvZfub3+jR3Vpokf91zUNes
-	59Vv7+wVFcvHPxsgLBXe+66Q6CCG
-X-Google-Smtp-Source: APXvYqwT9zoAAmxLeWCn4tnSv9dj39Z/ctQNbUkva9VZYVldSui7lU1rxWgLikiaVvhaKPAbM/sHwQ==
-X-Received: by 2002:a17:902:7449:: with SMTP id
-	e9mr21165362plt.242.1567286152431; 
-	Sat, 31 Aug 2019 14:15:52 -0700 (PDT)
-Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
-	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
-	o35sm8031031pgm.29.2019.08.31.14.15.51
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 31 Aug 2019 14:15:51 -0700 (PDT)
+	bh=0gZ4b+aq453K2ywi9dLvJjloKVzas53sRc2M3jfZkZ4=;
+	b=PjbW46oubLLdjEZKRU0rG6NRzS8IiVrGNDSk77B6trfUEM/zhtF3RKjFCu4HuGEkLw
+	dDOWTGaxL//MZ+gBQCY+yLrRHYlP92wfd5Z2JX6z/JZd0hlcOgrviQ/dWVvHd5+alyiI
+	CUFimZWwqmSKS0Rvod+JMEPAAtBLU54q2ox7l9kzvZS0tn96vXUDP7zznpuC9eaHfQSf
+	nmzjfGRnZ2V78VyUoO193OeP9DEzacKWdmGzlVmdyJPvDzM0usTKexfTSMOP36Ubx6PV
+	Y41+VxPAeFPvroOGlA5wiK99en3AgAz7RgNUofguNgSertbvHtzPP2VnC8mfvz4PLeB2
+	n2Rw==
+X-Gm-Message-State: APjAAAXEEgrl5H76TK1IBOMGl6t0E0bNcrnFluKiB6QDfPHqa0xMKX8m
+	sO0rUnSFi8mj0rUNfknzVJlA7GKu
+X-Google-Smtp-Source: APXvYqzNrzGQ2OFtz25hbelviSYYsl6n3oGglURiOl1qNMpHeZO/B7Hwd428rs41YPMS9gDKUPRDaA==
+X-Received: by 2002:a17:902:7047:: with SMTP id
+	h7mr2206937plt.275.1567296096192; 
+	Sat, 31 Aug 2019 17:01:36 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:8107:6109:754a:f033])
+	by smtp.gmail.com with ESMTPSA id
+	j128sm5650388pfg.51.2019.08.31.17.01.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 31 Aug 2019 17:01:35 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 31 Aug 2019 14:15:49 -0700
-Message-Id: <20190831211549.23729-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Armin Kuster <Akuster@mvista.com>
-Subject: [PATCH] gcc-9.2: Security fix for CVE-2019-14250
+Date: Sat, 31 Aug 2019 17:01:33 -0700
+Message-Id: <1567296093-14471-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [thud][PATCH] binutils: Security fix for CVE-2019-12972
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,81 +57,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Aug 2019 21:15:51 -0000
+X-List-Received-Date: Sun, 01 Sep 2019 00:01:35 -0000
 
-Affects: <= 9.2
+From: Armin Kuster <akuster@mvista.com>
 
-Signed-off-by: Armin Kuster <Akuster@mvista.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Source: git://sourceware.org / binutils-gdb.git
+MR: 98770
+Type: Security Fix
+Disposition: Backport from https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=890f750a3b053532a4b839a2dd6243076de12031
+ChangeID: 7ced6bffbe01cbeadf50177eb332eef514baa19c
+Description:
+
+Fixes CVE-2019-12972
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-devtools/gcc/gcc-9.2.inc         |  1 +
- .../gcc/gcc-9.2/CVE-2019-14250.patch          | 44 +++++++++++++++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-14250.patch
+ meta/recipes-devtools/binutils/binutils-2.31.inc   |  1 +
+ .../binutils/binutils/CVE-2019-12972.patch         | 39 ++++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-9.2.inc b/meta/recipes-devtools/gcc/gcc-9.2.inc
-index 1c3e200dab..01d3bf0f32 100644
---- a/meta/recipes-devtools/gcc/gcc-9.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-9.2.inc
-@@ -64,6 +64,7 @@ SRC_URI = "\
-            file://0034-fix-segmentation-fault-in-precompiled-header-generat.patch \
-            file://0035-Fix-for-testsuite-failure.patch \
-            file://0036-Re-introduce-spe-commandline-options.patch \
-+           file://CVE-2019-14250.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc b/meta/recipes-devtools/binutils/binutils-2.31.inc
+index 247f779..865fa10 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.31.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
+@@ -47,6 +47,7 @@ SRC_URI = "\
+      file://CVE-2018-18606.patch \
+      file://CVE-2018-18607.patch \
+      file://CVE-2019-14444.patch \
++     file://CVE-2019-8457.patch \
  "
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- SRC_URI[md5sum] = "3818ad8600447f05349098232c2ddc78"
-diff --git a/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-14250.patch b/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-14250.patch
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch
 new file mode 100644
-index 0000000000..65ea34558a
+index 0000000..3e95b92
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-14250.patch
-@@ -0,0 +1,44 @@
-+From 517b211a3d78366ca8d5929f580e8ca72fd2c004 Mon Sep 17 00:00:00 2001
-+From: rguenth <rguenth@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 25 Jul 2019 10:46:54 +0000
-+Subject: [PATCH] 2019-07-25  Richard Biener  <rguenther@suse.de>
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-12972.patch
+@@ -0,0 +1,39 @@
++From 890f750a3b053532a4b839a2dd6243076de12031 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Fri, 21 Jun 2019 11:51:38 +0930
++Subject: [PATCH] PR24689, string table corruption
 +
-+	PR lto/90924
-+	Backport from mainline
-+	2019-07-12  Ren Kimura  <rkx1209dev@gmail.com>
++The testcase in the PR had a e_shstrndx section of type SHT_GROUP.
++hdr->contents were initialized by setup_group rather than being read
++from the file, thus last byte was not zero and string dereference ran
++off the end of the buffer.
 +
-+	* simple-object-elf.c (simple_object_elf_match): Check zero value
-+	shstrndx.
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-9-branch@273793 138bc75d-0d04-0410-961f-82ee72b054a4
++	PR 24689
++	* elfcode.h (elf_object_p): Check type of e_shstrndx section.
 +
 +Upstream-Status: Backport
-+Affectes: <  9.2
-+CVE: CVE-2019-14250
-+Dropped changelog
-+Signed-off-by: Armin Kuster <Akustre@mvista.com>
++https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=890f750a3b053532a4b839a2dd6243076de12031
 +
++CVE: CVE-2019-12972
++Affects: <= 2.23.0
++Dropped Changelog
++Signed-off-by Armin Kuster <akuster@mvista.com>
 +---
-+ libiberty/simple-object-elf.c | 8 ++++++++
-+ 2 files changed, 17 insertions(+)
++ bfd/ChangeLog | 5 +++++
++ bfd/elfcode.h | 3 ++-
++ 2 files changed, 7 insertions(+), 1 deletion(-)
 +
-+Index: gcc-9.2.0/libiberty/simple-object-elf.c
++Index: git/bfd/elfcode.h
 +===================================================================
-+--- gcc-9.2.0.orig/libiberty/simple-object-elf.c
-++++ gcc-9.2.0/libiberty/simple-object-elf.c
-+@@ -557,6 +557,14 @@ simple_object_elf_match (unsigned char h
-+       return NULL;
-+     }
-+ 
-++  if (eor->shstrndx == 0)
-++    {
-++      *errmsg = "invalid ELF shstrndx == 0";
-++      *err = 0;
-++      XDELETE (eor);
-++      return NULL;
-++    }
-++
-+   return (void *) eor;
-+ }
-+ 
++--- git.orig/bfd/elfcode.h
+++++ git/bfd/elfcode.h
++@@ -747,7 +747,8 @@ elf_object_p (bfd *abfd)
++   /* A further sanity check.  */
++   if (i_ehdrp->e_shnum != 0)
++     {
++-      if (i_ehdrp->e_shstrndx >= elf_numsections (abfd))
+++      if (i_ehdrp->e_shstrndx >= elf_numsections (abfd)
+++	  || i_shdrp[i_ehdrp->e_shstrndx].sh_type != SHT_STRTAB)
++ 	{
++ 	  /* PR 2257:
++ 	     We used to just goto got_wrong_format_error here
 -- 
-2.17.1
+2.7.4
 
 
