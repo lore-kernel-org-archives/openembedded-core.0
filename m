@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id AD8997F48D;
-	Sun,  1 Sep 2019 00:32:23 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id B90A27F48D;
+	Sun,  1 Sep 2019 00:32:24 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Armin Kuster <akuster808@gmail.com>
-Date: Sun, 01 Sep 2019 00:32:25 -0000
-Message-ID: <20190901003225.2330.91853@do>
-References: <1567296093-14471-1-git-send-email-akuster808@gmail.com>
+Date: Sun, 01 Sep 2019 00:32:26 -0000
+Message-ID: <20190901003226.2334.69466@do>
+References: <1567296487-14903-1-git-send-email-akuster808@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1567296093-14471-1-git-send-email-akuster808@gmail.com>
+In-Reply-To: <1567296487-14903-1-git-send-email-akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IFNlY3VyaXR5IGZpeCBmb3IgQ1ZFLTIwMTktMTI5NzI=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IFNlY3VyaXR5IGZpeCBmb3IgQ1ZFLTIwMTktMTI5NzIgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 00:32:23 -0000
+X-List-Received-Date: Sun, 01 Sep 2019 00:32:24 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: binutils: Security fix for CVE-2019-12972
-Revision: 1
+Series: binutils: Security fix for CVE-2019-12972 (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/19614/
 State : failure
 
