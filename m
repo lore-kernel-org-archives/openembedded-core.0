@@ -1,52 +1,46 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CEFA7EC9B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+	[209.85.208.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D79216C226
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2019 05:54:11 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id y91so927889ede.9
+	Sun,  1 Sep 2019 09:39:54 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id j16so4024698ljg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Aug 2019 22:54:12 -0700 (PDT)
+	Sun, 01 Sep 2019 02:39:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=0YSBa8HQ1xpEbOGqC4hlj/jopomeuhOcSlqXJ1lj5pw=;
-	b=pKDhAegQ7Rh9D0iL8EkTho+gcITHaHHvrIR0RHLVOz2/8r6J89HBTSDptWF1Va2xPz
-	jBYRgXmes/tk9zEs1CBxHX/nQEuYQ4x9uiKh4bI3PWHOWxtHPsS65JValWxpCMjMjTjv
-	0D8s/qqrSA3hXRFdcht3jG1F5ZqZ6pSPV3a58NqSe4SC28CAQXCPVz9OMR9x1fUWom13
-	qPHFd+pB5Ja8QfMcSM55d0xXxoyuXTAN2m+OeAVvOFaQx+CVHsdpeSZYkYwGD6Tp1ZvH
-	Rc/D0I6daGil8rt3y/P2SaqThspjJ6NtCbIpp6hTVwmTJ9u3fbZqpjpw14gaaiXBQ6or
-	RbTA==
+	h=from:to:cc:subject:date:message-id;
+	bh=2zqMFln2nhx/ZPEyOTFDrWYskoRv/tT8Bip/nbqGVUI=;
+	b=HWvauKvXEEdV/YIRHlgcda3po5Y5hKgOhydJAlakBB3zP4MjFjrTFaFYcWmxphGRrs
+	AVe/nG0k3XRSsnY+1vmvO2nago3cpCvjY27nm92P9wYqaEXNt4AJXyQYlp1VasW+IxLY
+	Ac4PBkuHUlT76uIJW2mz5mgmBqU4399cNlK1Tl9z0wQ+54YxDa2yZfTk21KznozwV5Dv
+	3vf3U6uIooOUEqfP5f8G9pbHLir5vMDcUm8tXDUoEi7+bVjuET/DGwmibvvpuKiYiKbo
+	bAulpmgRoYMwWL/qv6aL7y/l/VQvrelO0I/HLa2H+Gml/hg64B6yvCu90bimMVeKsQwx
+	Aghw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=0YSBa8HQ1xpEbOGqC4hlj/jopomeuhOcSlqXJ1lj5pw=;
-	b=FE7m+FLE7AenvHeaMXLOzr2c9q+evCWlYGsdaZk57bgNuY7U0Ma8Ff+eOk6dD6jUsR
-	sXa8xeD16cQqYxTHCuwpvyAJ6Q8iHMJmh7SnKMjtsv0M5LpNu+gyINFZ1UYwsyRUMekk
-	KwuCUmX14o7gdzyMfPSVutQ57TwL0vH0b7/vRP66GYCdo6Ud2EJWZoxMMrykL06+2/vI
-	qbUgPerc74d5+EPKowtP7/J2Y8AZp0SFObgAwaMKvWehieVBTgw5qQPDJX8umoXBtyjK
-	deM9A8aDz/1qaryppn9ZIZAKT+gb4fWqGEjvgpraRKJ/w5j/eMC1gIUNG2pRViVWe1yZ
-	8llQ==
-X-Gm-Message-State: APjAAAV0pqLcZWkh8DvhdRkltw78D/RDU+F6kyuKELKaoKp6FoY2aSRZ
-	yvBKZujhSZCd9EW6Inx/dORKDBu3
-X-Google-Smtp-Source: APXvYqwxxgauKWUHKHwUEzeSaL0IOjbPBqqkAzJboaMUC3XNU2EqV1ljoNBD0tuaE+LZGgs4kjGlew==
-X-Received: by 2002:a17:907:10c2:: with SMTP id
-	rv2mr6573189ejb.305.1567317251738; 
-	Sat, 31 Aug 2019 22:54:11 -0700 (PDT)
-Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
-	[37.247.29.68])
-	by smtp.gmail.com with ESMTPSA id x17sm451549ejw.36.2019.08.31.22.54.09
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2zqMFln2nhx/ZPEyOTFDrWYskoRv/tT8Bip/nbqGVUI=;
+	b=fkg3XdG1m5EgJ+aJ9OvQelc8pjOKZVQoyCLuUc+HeWnFWbHl3+L9hvDgwybFt+7ei7
+	XcvrBZhrSOIjquX28tXU1/hjHUUwiVIX2UTj5JxurnUWQnoMwfalNJrnD3lEkrD01F+b
+	w5QWl9S6rlALL+UrgvLU2SOxUP5jLrq7NkkPuNzVj0L3jCLfHGB9Qu15/Situf5BVDub
+	lfnv3WAEwznMhNJV5j85bTFlhzubEngjcY/cfh2JMoTgIy/1RjLonpbaZDgDqOxQAc2k
+	Wns5F8XZ4w98HBa2+tSnOXCckDT1DCEARp9bIjV23Oklv+cMxgvTMeHLFM1TEsjC6Uii
+	9dPg==
+X-Gm-Message-State: APjAAAUQYdpd20/bBugNIBZi0SGECRylMaR4USbXoFsZ3Y6XO2lwvxzV
+	0yFk8LHNOQvkMthGyRwhhMMvRMxD
+X-Google-Smtp-Source: APXvYqzfHoueueNTr/5fu5bacO4tCVRfr1ynHM8kLkiku8j1sTrYGQguRED7nhoki3ymwW4Uj8Vbgg==
+X-Received: by 2002:a2e:2c09:: with SMTP id s9mr13346017ljs.222.1567330795157; 
+	Sun, 01 Sep 2019 02:39:55 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id w1sm1926434lfe.67.2019.09.01.02.39.54
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 31 Aug 2019 22:54:10 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
+	Sun, 01 Sep 2019 02:39:54 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Sep 2019 07:53:56 +0200
-Message-Id: <20190901055356.13669-1-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Subject: [PATCH] rm_work: Remove redundant 'after' in addtask statement
+Date: Sun,  1 Sep 2019 11:39:46 +0200
+Message-Id: <20190901093947.95524-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] default-providers.inc: set mesa as the provider for native virtual/libgl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 05:54:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 01 Sep 2019 09:39:55 -0000
 
-Introduced in commit b3de5d5795767a4b8c331fa5040166e7e410eeec.
+native libepoxy and libsdl2 require this to be set, when they
+have the respective opengl features enabled.
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/rm_work.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/default-providers.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-I considered adding a warning to bitbake when the 'after'/'before'
-groups are empty, but decided not to, thinking it might be useful to be
-able to pass variables that could potentially evaluate to nothing.
-
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index c478f4a187..a6bd3f719f 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -121,7 +121,7 @@ do_rm_work_all () {
- }
- do_rm_work_all[recrdeptask] = "do_rm_work"
- do_rm_work_all[noexec] = "1"
--addtask rm_work_all after before do_build
-+addtask rm_work_all before do_build
- 
- do_populate_sdk[postfuncs] += "rm_work_populatesdk"
- rm_work_populatesdk () {
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 8f4d44d884c..189dd8fe400 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -5,6 +5,7 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/xserver-xf86 ?= "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/egl ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
++PREFERRED_PROVIDER_virtual/libgl-native ?= "mesa-native"
+ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
 -- 
-2.21.0
+2.17.1
 
 
