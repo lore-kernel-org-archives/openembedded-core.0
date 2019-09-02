@@ -1,50 +1,23 @@
-Return-Path: <jun.nie@linaro.org>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 25E466C0EB
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EB787F381
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2019 09:36:26 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id f12so10423758iog.12
+	Mon,  2 Sep 2019 09:42:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x829gBxt025380
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Sep 2019 02:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=SSx5qNf+470Pu2keT8el3SATT4YRdh8uhRzOa+7Pbz8=;
-	b=ZYSamssFV54oEIejONIHEru6dnzhJqCUuVvKCsSKsJvnw/p7SUbxUkcYWzMN0mFx8A
-	wGez508zGTJLMc27VTqW4lPZ0LvWaRDE0YIyPpkdq9IyuyAzMvldbEL0NwPOwPzw92LR
-	Ua26jBnUzBLOzf37FRLUKwXoReDvw2YmT0curnWl9KFpXy8jvTjme3D8oFC+GNWXyKDQ
-	Ub5qWcHPhnw/OMrSyMlgKMjWjNPIOImNI68Zspf/MzwVQBZK697YhQ5ljOV0/27+gYrl
-	GTFbgVuMjLA2Bz7ndzPjJtJsg6PjVPmI813CcKVCwzh3HlWa5qHEViNE39J5GuTOi4kP
-	wrkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:content-transfer-encoding;
-	bh=SSx5qNf+470Pu2keT8el3SATT4YRdh8uhRzOa+7Pbz8=;
-	b=GE6dl3VlxbA/nJKBINBwg0oqUXGyv1z9RxOEnxbj+5MJjaAyolEbLj/o+yqe2HRTe5
-	VI42X8kzf0+slx+31dqebTTZjcsChPzlAARTZZBszW6Ubj64g+BI92ZkVdC0mDajwpfE
-	UcfI71Ipt2PM7iHlu8LEHokP+xOQnNzJU6tMYsUU4PENDvP3bx+Mt33PqBrUrTpLEKwi
-	aXduR4tCTMyLnVTbTyoeTolAlBJVB0SOZ9jNR5Jsnx6LD09NhjDsb0fOIWy1H9unK784
-	lgQJzT4OPLtrwXGT5BgF5ATLGPdHD0TJmW3hnyzC1sKSar0usIR0eFeh1wQnX5VXMidf
-	QZlw==
-X-Gm-Message-State: APjAAAXbxoL6bm3KUXdSueGohbgvJOvzHZ6NnHMl8ClRbof/OCe7UEmP
-	pltZ2sh/QHDxyLT8Go3WH48ndabKgqFBntwHeZG6AA==
-X-Google-Smtp-Source: APXvYqwoieLiCeXEhK1bIk1xtkVX9mdCiS1et8ishLai6iHo1aMe0kUm5ov1DilliJ10cwGpztH8mVJb8eAdT8RKhWM=
-X-Received: by 2002:a02:c00c:: with SMTP id y12mr30421109jai.65.1567416987973; 
-	Mon, 02 Sep 2019 02:36:27 -0700 (PDT)
+	Mon, 2 Sep 2019 02:42:11 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 2 Sep 2019 02:42:10 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Sep 2019 17:42:09 +0800
+Message-ID: <1567417329-325366-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <1562742656-23568-1-git-send-email-jun.nie@linaro.org>
-	<CABymUCPLLTVttUUPqCaOKY2etK+8BL_bHsC63TH-wYCPE3Pd+g@mail.gmail.com>
-	<CABymUCNYpjiSBSb9rupZ80AXiRXMnBiZxMbLgay8sU=S19s8Mg@mail.gmail.com>
-In-Reply-To: <CABymUCNYpjiSBSb9rupZ80AXiRXMnBiZxMbLgay8sU=S19s8Mg@mail.gmail.com>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Mon, 2 Sep 2019 17:36:16 +0800
-Message-ID: <CABymUCPiMy5XQxf81NLdpysNDcjnKo1U6gLqhy0p5G2FF7raeg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	liezhi.yang@windriver.com, andreas.obergschwandtner@skidata.com, 
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel-fitimage: uboot-sign: fix missing signature
+Subject: [PATCH V2] dnf.py: support usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +30,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2019 09:36:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 02 Sep 2019 09:42:10 -0000
+Content-Type: text/plain
 
-Hi Richard,
+From: Changqing Li <changqing.li@windriver.com>
 
-Any concern on cherry-pick this patch to warrior-dev branch?
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/lib/oeqa/runtime/cases/dnf.py | 34 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
 
-Regards,
-Jun
->
-> Jun Nie <jun.nie@linaro.org> =E4=BA=8E2019=E5=B9=B47=E6=9C=8825=E6=97=A5=
-=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=884:26=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > Jun Nie <jun.nie@linaro.org> =E4=BA=8E2019=E5=B9=B47=E6=9C=8810=E6=97=
-=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=883:11=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > u-boot.bin with dtb & signature should be placed in ${B} so that
-> > > it can be deployed by u-boot as expected. Otherwise, the version
-> > > without signature is installed.
-> > >
-> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> >
-> > Hi Richard,
-> >
-> > Could you also help to cherry pick this patch to warrior branch?
-> >
-> > Thanks!
-> > Jun
+diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
+index 629b9af..9a5308f 100644
+--- a/meta/lib/oeqa/runtime/cases/dnf.py
++++ b/meta/lib/oeqa/runtime/cases/dnf.py
+@@ -9,7 +9,7 @@ from oeqa.utils.httpserver import HTTPService
+ 
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
+-from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
++from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature, skipIfInDataVar, skipIfNotInDataVar
+ from oeqa.runtime.decorator.package import OEHasPackage
+ 
+ class DnfTest(OERuntimeTestCase):
+@@ -116,6 +116,7 @@ class DnfRepoTest(DnfTest):
+         self.dnf_with_repo('reinstall -y run-postinsts-dev')
+ 
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
++    @skipIfInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when not enable usrmerge')
+     def test_dnf_installroot(self):
+         rootpath = '/home/root/chroot/test'
+         #Copy necessary files to avoid errors with not yet installed tools on
+@@ -141,6 +142,37 @@ class DnfRepoTest(DnfTest):
+         self.assertEqual(0, status, output)
+ 
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
++    @skipIfNotInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when enable usrmege')
++    def test_dnf_installroot_usrmerge(self):
++        rootpath = '/home/root/chroot/test'
++        #Copy necessary files to avoid errors with not yet installed tools on
++        #installroot directory.
++        self.target.run('mkdir -p %s/etc' % rootpath, 1500)
++        self.target.run('mkdir -p %s/usr/bin %s/usr/sbin' % (rootpath, rootpath), 1500)
++        self.target.run('ln -sf -r %s/usr/bin %s/bin'  % (rootpath, rootpath), 1500)
++        self.target.run('ln -sf -r %s/usr/sbin %s/sbin'  % (rootpath, rootpath), 1500)
++        self.target.run('mkdir -p %s/dev' % rootpath, 1500)
++        #Handle different architectures lib dirs
++        self.target.run('mkdir -p %s/usr/lib' % rootpath, 1500)
++        self.target.run('mkdir -p %s/usr/libx32' % rootpath, 1500)
++        self.target.run('mkdir -p %s/usr/lib64' % rootpath, 1500)
++        self.target.run('cp /lib/libtinfo.so.5 %s/usr/lib' % rootpath, 1500)
++        self.target.run('cp /libx32/libtinfo.so.5 %s/usr/libx32' % rootpath, 1500)
++        self.target.run('cp /lib64/libtinfo.so.5 %s/usr/lib64' % rootpath, 1500)
++        self.target.run('ln -ef -r %s/lib %s/usr/lib' % (rootpath,rootpath), 1500)
++        self.target.run('ln -ef -r %s/libx32 %s/usr/libx32' % (rootpath,rootpath), 1500)
++        self.target.run('ln -ef -r %s/lib64 %s/usr/lib64' % (rootpath,rootpath), 1500)
++        self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
++        self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
++        self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
++        self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
++        self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox run-postinsts' % rootpath)
++        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
++        self.assertEqual(0, status, output)
++        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
++        self.assertEqual(0, status, output)
++
++    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+     def test_dnf_exclude(self):
+         excludepkg = 'curl-dev'
+         self.dnf_with_repo('install -y curl*')
+-- 
+2.7.4
+
 
