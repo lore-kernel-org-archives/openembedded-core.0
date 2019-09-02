@@ -1,46 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com
-	[209.85.221.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C94B7F365
+Return-Path: <jun.nie@linaro.org>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 25E466C0EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2019 08:12:29 +0000 (UTC)
-Received: by mail-vk1-f181.google.com with SMTP id q186so1495565vkb.0
+	Mon,  2 Sep 2019 09:36:26 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id f12so10423758iog.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Sep 2019 01:12:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 02 Sep 2019 02:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7uPtm8huthV9vDsvTWSOY+2c/31u+I5dHXn1c2GnANA=;
-	b=bVmzbDdcimfRbq8IMU4awbzsSPSOS83JaYF+X8f1zwOmA6NDdJim4v00QSV/bGs45S
-	5uWrL9YBciE+0crwI0XI38jJu4XzYtcq9cMjMWVmEBHcqlMpQc0/4DPuELBjgVHgFg17
-	BqoBQdLsXwFNEF73AkparfFW4+7nFJJzp4u6fFHRR8y0bGk+PYLiJr+qHHXWN1jp9/Go
-	1RyjlAmEECbZWXXqe9RQWtreOY6xCGCInxvPyxKNA60SNazok1NZ69zHN3yIFo1flzMM
-	lCQbPx3rr136OWvgYhHjmim10aniyvRLxXBzdaBLa++338AeHSJX3Cx84X4KR+Wj5Z2c
-	8Tnw==
+	:content-transfer-encoding;
+	bh=SSx5qNf+470Pu2keT8el3SATT4YRdh8uhRzOa+7Pbz8=;
+	b=ZYSamssFV54oEIejONIHEru6dnzhJqCUuVvKCsSKsJvnw/p7SUbxUkcYWzMN0mFx8A
+	wGez508zGTJLMc27VTqW4lPZ0LvWaRDE0YIyPpkdq9IyuyAzMvldbEL0NwPOwPzw92LR
+	Ua26jBnUzBLOzf37FRLUKwXoReDvw2YmT0curnWl9KFpXy8jvTjme3D8oFC+GNWXyKDQ
+	Ub5qWcHPhnw/OMrSyMlgKMjWjNPIOImNI68Zspf/MzwVQBZK697YhQ5ljOV0/27+gYrl
+	GTFbgVuMjLA2Bz7ndzPjJtJsg6PjVPmI813CcKVCwzh3HlWa5qHEViNE39J5GuTOi4kP
+	wrkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7uPtm8huthV9vDsvTWSOY+2c/31u+I5dHXn1c2GnANA=;
-	b=QMjKCsH01Mi4Au3vzLNC3LpVKxwWSCa5tUqk7bYzp+YbFVdLq2rvs03KGO9nklz93G
-	W8BZDPDJAw8T5oQEsuSmm+nmmkUBnk0Z3qxW9fZ60Zy8UCn/Hi1buS/DW3qm/APoIfMU
-	D3ZmM+wU5poMn3mGBjtkW/Se8ZXNIjuvVxTl7T4B8uXy+lg4uLjPBtIhuUub7BmSu0Ce
-	eRBd0uyQ46K0MIcyxbTnazJvPTmi6jE5/R5CEk00R30MOx6b6uxMuPzDplmpXlTVfSwh
-	4+ifFrQ+E7Tca2a6FEm5l9E0c7RYhFVVvM0jUnW0OmUxkRSsdSiJaa/VLlZvw2XcTWV1
-	Mnqw==
-X-Gm-Message-State: APjAAAXRVJwcdNM2DVtACzThzxRAWddOtEvcKCl3YPBwQ6gX3vPtlp0x
-	vdLZzOcIDHt0J+PSOir7YcLvuSvVQT4HUXEH9fw=
-X-Google-Smtp-Source: APXvYqxHQc885VA0okmewsgWSYwfKaAhufELIXZKhZg5H4YySI2CybbgscAq57LwqwELdc1baIJVx7uPvFAuWPM3j3o=
-X-Received: by 2002:a1f:6681:: with SMTP id a123mr6445210vkc.81.1567411950294; 
-	Mon, 02 Sep 2019 01:12:30 -0700 (PDT)
+	:message-id:subject:to:content-transfer-encoding;
+	bh=SSx5qNf+470Pu2keT8el3SATT4YRdh8uhRzOa+7Pbz8=;
+	b=GE6dl3VlxbA/nJKBINBwg0oqUXGyv1z9RxOEnxbj+5MJjaAyolEbLj/o+yqe2HRTe5
+	VI42X8kzf0+slx+31dqebTTZjcsChPzlAARTZZBszW6Ubj64g+BI92ZkVdC0mDajwpfE
+	UcfI71Ipt2PM7iHlu8LEHokP+xOQnNzJU6tMYsUU4PENDvP3bx+Mt33PqBrUrTpLEKwi
+	aXduR4tCTMyLnVTbTyoeTolAlBJVB0SOZ9jNR5Jsnx6LD09NhjDsb0fOIWy1H9unK784
+	lgQJzT4OPLtrwXGT5BgF5ATLGPdHD0TJmW3hnyzC1sKSar0usIR0eFeh1wQnX5VXMidf
+	QZlw==
+X-Gm-Message-State: APjAAAXbxoL6bm3KUXdSueGohbgvJOvzHZ6NnHMl8ClRbof/OCe7UEmP
+	pltZ2sh/QHDxyLT8Go3WH48ndabKgqFBntwHeZG6AA==
+X-Google-Smtp-Source: APXvYqwoieLiCeXEhK1bIk1xtkVX9mdCiS1et8ishLai6iHo1aMe0kUm5ov1DilliJ10cwGpztH8mVJb8eAdT8RKhWM=
+X-Received: by 2002:a02:c00c:: with SMTP id y12mr30421109jai.65.1567416987973; 
+	Mon, 02 Sep 2019 02:36:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <1567386885-110297-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1567386885-110297-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 2 Sep 2019 10:12:18 +0200
-Message-ID: <CANNYZj93Trq7+ytueYA9QDa=o2HjtJJRCADcUW-dqJML3+u+DA@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta-environment: make rpm and dnf work in toolchain
+References: <1562742656-23568-1-git-send-email-jun.nie@linaro.org>
+	<CABymUCPLLTVttUUPqCaOKY2etK+8BL_bHsC63TH-wYCPE3Pd+g@mail.gmail.com>
+	<CABymUCNYpjiSBSb9rupZ80AXiRXMnBiZxMbLgay8sU=S19s8Mg@mail.gmail.com>
+In-Reply-To: <CABymUCNYpjiSBSb9rupZ80AXiRXMnBiZxMbLgay8sU=S19s8Mg@mail.gmail.com>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Mon, 2 Sep 2019 17:36:16 +0800
+Message-ID: <CABymUCPiMy5XQxf81NLdpysNDcjnKo1U6gLqhy0p5G2FF7raeg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	liezhi.yang@windriver.com, andreas.obergschwandtner@skidata.com, 
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel-fitimage: uboot-sign: fix missing signature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,83 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2019 08:12:29 -0000
-Content-Type: multipart/alternative; boundary="000000000000839a0205918d8894"
-
---000000000000839a0205918d8894
+X-List-Received-Date: Mon, 02 Sep 2019 09:36:27 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-On Mon, 2 Sep 2019 at 03:16, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
-
-> We need to configure dnf and rpm to use and make it compatible with
-> package architecture from yocto build system.
-> +
-> +    mkdir -p ${D}/${SDKTARGETSYSROOT}/etc/rpm
-> +    echo "arch_compat: ${MACHINE_ARCH}: ${PACKAGE_ARCHS}" >
-> ${D}/${SDKTARGETSYSROOT}/etc/rpmrc
-> +    sed -i 's/-nativesdk//g' ${D}/${SDKTARGETSYSROOT}/etc/rpmrc
-> +    sed -i 's/-/_/' ${D}/${SDKTARGETSYSROOT}/etc/rpmrc
-> +    echo "${MACHINE_ARCH}-pc-linux" >
-> ${D}/${SDKTARGETSYSROOT}/etc/rpm/platform
-> +
-> +    mkdir -p ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars
-> +    echo "${DEFAULTTUNE}:${MACHINE_ARCH}:${TARGET_ARCH}" >
-> ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars/arch
-> +    sed -i 's/-/_/' ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars/arch
->
-
-This does not seem like the right place to me to adjust the settings. I
-think (not sure; never tried it) that the right technique is in the
-nativesdk-meson recipe:
-
-    install -d ${D}${SDKPATHNATIVE}/post-relocate-setup.d
-    install -m 0755 ${WORKDIR}/meson-setup.py
-${D}${SDKPATHNATIVE}/post-relocate-setup.d/
-
-    # We need to wrap the real meson with a thin env setup wrapper.
-    mv ${D}${bindir}/meson ${D}${bindir}/meson.real
-    install -m 0755 ${WORKDIR}/meson-wrapper ${D}${bindir}/meson
-
-Alex
-
---000000000000839a0205918d8894
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 2 Sep 2019 at 03:16, Zheng Ruoqin=
- &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zheng=
-rq.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><div dir=3D"ltr"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">We need =
-to configure dnf and rpm to use and make it compatible with package archite=
-cture from yocto build system.<br>
-+<br>
-+=C2=A0 =C2=A0 mkdir -p ${D}/${SDKTARGETSYSROOT}/etc/rpm<br>
-+=C2=A0 =C2=A0 echo &quot;arch_compat: ${MACHINE_ARCH}: ${PACKAGE_ARCHS}&qu=
-ot; &gt; ${D}/${SDKTARGETSYSROOT}/etc/rpmrc<br>
-+=C2=A0 =C2=A0 sed -i &#39;s/-nativesdk//g&#39; ${D}/${SDKTARGETSYSROOT}/et=
-c/rpmrc<br>
-+=C2=A0 =C2=A0 sed -i &#39;s/-/_/&#39; ${D}/${SDKTARGETSYSROOT}/etc/rpmrc<b=
-r>
-+=C2=A0 =C2=A0 echo &quot;${MACHINE_ARCH}-pc-linux&quot; &gt; ${D}/${SDKTAR=
-GETSYSROOT}/etc/rpm/platform<br>
-+<br>
-+=C2=A0 =C2=A0 mkdir -p ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars<br>
-+=C2=A0 =C2=A0 echo &quot;${DEFAULTTUNE}:${MACHINE_ARCH}:${TARGET_ARCH}&quo=
-t; &gt; ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars/arch<br>
-+=C2=A0 =C2=A0 sed -i &#39;s/-/_/&#39; ${D}/${SDKTARGETSYSROOT}/etc/dnf/var=
-s/arch<br></blockquote><br></div><div class=3D"gmail_quote">This does not s=
-eem like the right place to me to adjust the settings. I think (not sure; n=
-ever tried it) that the right technique is in the nativesdk-meson recipe:</=
-div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">=C2=A0 =
-=C2=A0 install -d ${D}${SDKPATHNATIVE}/post-relocate-setup.d<br>=C2=A0 =C2=
-=A0 install -m 0755 ${WORKDIR}/meson-setup.py ${D}${SDKPATHNATIVE}/post-rel=
-ocate-setup.d/<br><br>=C2=A0 =C2=A0 # We need to wrap the real meson with a=
- thin env setup wrapper.<br>=C2=A0 =C2=A0 mv ${D}${bindir}/meson ${D}${bind=
-ir}/meson.real<br>=C2=A0 =C2=A0 install -m 0755 ${WORKDIR}/meson-wrapper ${=
-D}${bindir}/meson</div><div class=3D"gmail_quote"><br></div><div class=3D"g=
-mail_quote">Alex<br> </div></div>
-</div>
+Hi Richard,
 
---000000000000839a0205918d8894--
+Any concern on cherry-pick this patch to warrior-dev branch?
+
+Regards,
+Jun
+>
+> Jun Nie <jun.nie@linaro.org> =E4=BA=8E2019=E5=B9=B47=E6=9C=8825=E6=97=A5=
+=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=884:26=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > Jun Nie <jun.nie@linaro.org> =E4=BA=8E2019=E5=B9=B47=E6=9C=8810=E6=97=
+=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=883:11=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > u-boot.bin with dtb & signature should be placed in ${B} so that
+> > > it can be deployed by u-boot as expected. Otherwise, the version
+> > > without signature is installed.
+> > >
+> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> >
+> > Hi Richard,
+> >
+> > Could you also help to cherry pick this patch to warrior branch?
+> >
+> > Thanks!
+> > Jun
+
