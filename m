@@ -1,102 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
-	[209.85.210.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 11B0F7D3A6
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 07FB57F2AE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2019 19:59:19 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id b13so2791010pfo.8
+	Mon,  2 Sep 2019 20:38:00 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id d3so6962329plr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Sep 2019 12:59:21 -0700 (PDT)
+	Mon, 02 Sep 2019 13:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=ssW6gWuW/K/EVUD27SXLoAWKn3o2ypnnmu+SgEQH+YU=;
-	b=QgoDM4g/LkOdhPO+jHUrjgAgHi3rLC/9acrxEPt2pAHJ4q5tiimN21RUlqCc2WEYjb
-	lpNdpomNKvI1ksBsHPGK9yqpbPRwqIhSCRdK+ddH4BE0IAMDxIu5A/IPhkGjY8eDlnzC
-	N114kFcD99y/VoLUMKdddHVsOIFn+S2uAOMWUOkjGtML73B/QyaqwMZaNitUaeyZ1j+9
-	FSPy5BmqdHZu9UCPtKSk+24VGXg6HN8cEX+VITjwWmAFBmj788dq4sqpSwdNe5M+BUuD
-	Xtq3LhYVW1Nv4Ve3x+7/G7t3jOvOGx3jtxuZGprPznmAWTB6QLvs7QNG93IK5nN+l7c8
-	IH9g==
+	h=from:to:cc:subject:date:message-id;
+	bh=xdtr+QIWv/So0yu4kjrEvZkS2nb07vW/113MrKZpLi0=;
+	b=dyoT/kLLxhbd0VSH4I2xCfa2YfUPchQxQwLPSl2ejdQxE5KN46qqxgP/ReMrCsVLQz
+	RIIzL4d/GHLL7HGgGz8fW1JRiQtFNXFiHvrBxjEz4QDwrSf3D8QGCnSAX63Klt45U5vT
+	IMeUAeMY9MYJemJMa1kkJMhfbbgLeEulCl9KuxFNt9jiyGwbZEBP/L16dr31SO99pzb5
+	y0gUrkK4FbSINgTqfFByjew5uKvfqLQzXlu1wMMnO2n04bZWEdm5PbbZAxlrKOl2abzw
+	+AEbQW0+n6H/hwY9K29LM++ZSEc3Wi25HTOkpVnKsp0noZtZgl1M5Gvl/rPAHrrcRyN1
+	051g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language;
-	bh=ssW6gWuW/K/EVUD27SXLoAWKn3o2ypnnmu+SgEQH+YU=;
-	b=c5s+riGzeSi+Dw1jKCvAsc1fHZ+5CpFNO+WpnY/faQHbFEGDuJ1erPFbkYGIFK4gOA
-	GM7uhwB6nEe2DpeI2wjHrbKhuH1lmmxOZl3noIJHT+689SJ+CpTlhX9ydPPngkOqfcym
-	SYAn3TxXj3BiWAIBlaH/bam1HeGp0TlG4kL3NGUt5dYIyaBcO2Cvj4NuQ3d88RAVLsBf
-	f4i/8sMrsF72E8UCh8TjUFR9/tjFpyjSHNKRP4ZENm5XE2u+cNqczi+schblpF2YL86k
-	1cnsqnQtuuMyMMicXi5X0Tzq/ItzluzEhZnXOzcf+M57M8vFnTaioX4rR+P4Zw6f7jCh
-	pfSQ==
-X-Gm-Message-State: APjAAAUpnCfRLhOuwW9qY94bNJAKv1wCIMW86cSYmo3fFOWybMnruDJj
-	1sGL5LrujacEXxnt5d/HJzb3aCZ2
-X-Google-Smtp-Source: APXvYqwUdvoPw+F0ITY46RdVuC6IbRMFcjMKc97GWM5L/6q3iCbMcgt/oZxnsdkT4eWni2liFoxpbQ==
-X-Received: by 2002:a65:64cf:: with SMTP id t15mr26079395pgv.88.1567454360745; 
-	Mon, 02 Sep 2019 12:59:20 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:8d1e:9a6d:fc3a:2e51?
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=xdtr+QIWv/So0yu4kjrEvZkS2nb07vW/113MrKZpLi0=;
+	b=R6U4XC9f8bTecSQkw8/F0LQDVXhlW6HhLuWe0jMr5tjzzywFVK26paWv/eCh+X2bSc
+	y5bTtB2/xvTqMPDaFi4uR/RprBnxNsVa12D0DfdJDOTLqWqPaZ5MRYdDBs/3kS3H4Wh9
+	RinXkzNezvOP15UX04E6ITYtZZfrQewrprMtGX9WqkI1AB5TP78Ob7SvkS8M6dqqLdgT
+	F66IGqZuOAXsmFbLQeP4Vcz43fCv4c99ifKCkYT4t7VaJIkq5kJZTTfPnqwuLVC0ZAeC
+	zgwO7RKap05O3HIhLEc9dTQR3OOgHr5tl4uZNlftuu5mgaptov0mGyjdcRmJS7bNISS6
+	o5FA==
+X-Gm-Message-State: APjAAAVJh/O9/oiddPAjX+lU1mWUS463X92P6OsfvZM8UfP4rVb1iFsy
+	cMqmoO1P0eXMXb9pNCQXJvmyRsQl
+X-Google-Smtp-Source: APXvYqx/bRUIaASLj+KjLx0UxMYeU8ZrnoGE6Lfhx6hIU/AySF8AnalqNwOu6j3yNYS2sO0q6foAuw==
+X-Received: by 2002:a17:902:aa02:: with SMTP id
+	be2mr6162269plb.172.1567456681065; 
+	Mon, 02 Sep 2019 13:38:01 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:8d1e:9a6d:fc3a:2e51])
 	by smtp.gmail.com with ESMTPSA id
-	d15sm8462998pfo.52.2019.09.02.12.59.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Sep 2019 12:59:20 -0700 (PDT)
-To: Benjamin Esquivel <code@esquibits.com>
-References: <mail.5d6d308e.05fc.29fd19260c1acb5c@storage.wm.amazon.com>
-	<0101016cf285adb9-e8e509b0-b86d-42cd-adff-7e6d52c82f63-000000@us-west-2.amazonses.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	mQINBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
-	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
-	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
-	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
-	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
-	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
-	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
-	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
-	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
-	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABtCFha3VzdGVyODA4
-	IDxha3VzdGVyODA4QGdtYWlsLmNvbT6JAj0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
-	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
-	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
-	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
-	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
-	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
-	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
-	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
-	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
-	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
-	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
-	oRoyDxC5Ag0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
-	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
-	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
-	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
-	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
-	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
-	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
-	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
-	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
-	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAGJAiUEGAEI
-	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
-	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
-	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
-	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
-	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
-	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
-	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
-	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
-	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
-	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
-	8CS2NxU=
-Message-ID: <7fb4b133-147f-4761-b3b1-43106a2fd68c@gmail.com>
-Date: Mon, 2 Sep 2019 12:59:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <0101016cf285adb9-e8e509b0-b86d-42cd-adff-7e6d52c82f63-000000@us-west-2.amazonses.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: qemu-native fix for latest kernel update
+	h22sm13193472pfo.8.2019.09.02.13.38.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 02 Sep 2019 13:38:00 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Sep 2019 13:37:59 -0700
+Message-Id: <1567456679-2385-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH] gcc-8.3: Security fix for CVE-2019-14250
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,88 +57,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2019 19:59:20 -0000
-Content-Type: multipart/alternative;
-	boundary="------------222D5FEF4A74F937C3F0CDCB"
-Content-Language: en-US
+X-List-Received-Date: Mon, 02 Sep 2019 20:38:01 -0000
 
---------------222D5FEF4A74F937C3F0CDCB
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+From: Armin Kuster <akuster@mvista.com>
 
-Benjamin,
+Affects < 9.2
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
+ .../gcc/gcc-8.3/CVE-2019-14250.patch               | 44 ++++++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
+
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
+index 1781ff5..4b0d6f2 100644
+--- a/meta/recipes-devtools/gcc/gcc-8.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
+@@ -73,6 +73,7 @@ SRC_URI = "\
+            file://0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch \
+            file://0042-PR-debug-86964.patch \
+            file://0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch \
++           file://CVE-2019-14250.patch \
+ "
+ SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
+ SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch b/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
+new file mode 100644
+index 0000000..e327684
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
+@@ -0,0 +1,44 @@
++From a4f1b58eb48b349a5f353bc69c30be553506d33b Mon Sep 17 00:00:00 2001
++From: rguenth <rguenth@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Thu, 25 Jul 2019 10:48:26 +0000
++Subject: [PATCH] 2019-07-25  Richard Biener  <rguenther@suse.de>
++
++	PR lto/90924
++	Backport from mainline
++	2019-07-12  Ren Kimura  <rkx1209dev@gmail.com>
++
++	* simple-object-elf.c (simple_object_elf_match): Check zero value
++	shstrndx.
++
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-8-branch@273794 138bc75d-0d04-0410-961f-82ee72b054a4
++
++Upstream-Status: Backport
++Affectes: <  9.2
++CVE: CVE-2019-14250
++Dropped changelog
++Signed-off-by: Armin Kuster <Akustre@mvista.com>
++
++---
++ libiberty/simple-object-elf.c | 8 ++++++++
++ 2 files changed, 17 insertions(+)
++
++Index: gcc-8.2.0/libiberty/simple-object-elf.c
++===================================================================
++--- gcc-8.2.0.orig/libiberty/simple-object-elf.c
+++++ gcc-8.2.0/libiberty/simple-object-elf.c
++@@ -549,6 +549,14 @@ simple_object_elf_match (unsigned char h
++       return NULL;
++     }
++ 
+++  if (eor->shstrndx == 0)
+++    {
+++      *errmsg = "invalid ELF shstrndx == 0";
+++      *err = 0;
+++      XDELETE (eor);
+++      return NULL;
+++    }
+++
++   return (void *) eor;
++ }
++ 
+-- 
+2.7.4
 
 
-
-On 9/2/19 8:09 AM, Benjamin Esquivel wrote:
-> qemu-native fix for latest kernel update
->
-> Thanks Armin for sending the fix for the latest kernel updates, my
-> build strangely started failing about a week or 2 ago after the latest
-> dnf update.
->
-
-Glad it fixed your issue.
-
-Thanks for the feedback.
-
-- armin
->
->  
->
-> Regards,
->
->  
->
-> Benjamin
->
-
-
---------------222D5FEF4A74F937C3F0CDCB
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    Benjamin,<br>
-    <br>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 9/2/19 8:09 AM, Benjamin Esquivel
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:0101016cf285adb9-e8e509b0-b86d-42cd-adff-7e6d52c82f63-000000@us-west-2.amazonses.com">
-      <meta name="Generator" content="Amazon WorkMail v3.0-4482">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>qemu-native fix for latest kernel update</title>
-      <p style="margin: 0px; font-family: Arial, Tahoma, Helvetica,
-        sans-serif; font-size: small;">Thanks Armin for sending the fix
-        for the latest kernel updates, my build strangely started
-        failing about a week or 2 ago after the latest dnf update.</p>
-    </blockquote>
-    <br>
-    Glad it fixed your issue.<br>
-    <br>
-    Thanks for the feedback.<br>
-    <br>
-    - armin<br>
-    <blockquote type="cite"
-cite="mid:0101016cf285adb9-e8e509b0-b86d-42cd-adff-7e6d52c82f63-000000@us-west-2.amazonses.com">
-      <p style="margin: 0px; font-family: Arial, Tahoma, Helvetica,
-        sans-serif; font-size: small;"> </p>
-      <p style="margin: 0px; font-family: Arial, Tahoma, Helvetica,
-        sans-serif; font-size: small;">Regards,</p>
-      <p style="margin: 0px; font-family: Arial, Tahoma, Helvetica,
-        sans-serif; font-size: small;"> </p>
-      <p style="margin: 0px; font-family: Arial, Tahoma, Helvetica,
-        sans-serif; font-size: small;">Benjamin</p>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------222D5FEF4A74F937C3F0CDCB--
