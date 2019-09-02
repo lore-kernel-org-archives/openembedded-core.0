@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 230B57F3B3;
-	Sun,  1 Sep 2019 21:02:31 +0000 (UTC)
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 542047F343
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Sep 2019 01:15:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,457,1559491200"; d="scan'208";a="74674504"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 02 Sep 2019 09:15:29 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id F2E214CE14E4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Sep 2019 09:15:29 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 2 Sep 2019 09:15:34 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Sep 2019 09:14:45 +0800
+Message-ID: <1567386885-110297-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 01 Sep 2019 21:02:32 -0000
-Message-ID: <20190901210232.2330.14378@do>
-References: <cover.1567369258.git.alex.kanavin@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1567369258.git.alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdmlyZ2w6IGFkZCBTREwgc3VwcG9ydCBhbmQgZW5hYmxlIGJ5IGRlZmF1bHQ=?=
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: F2E214CE14E4.A947A
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] meta-environment: make rpm and dnf work in toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 21:02:31 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Sep 2019 01:15:49 -0000
+Content-Type: text/plain
 
-== Series Details ==
+We need to configure dnf and rpm to use and make it compatible with package architecture from yocto build system.
 
-Series: virgl: add SDL support and enable by default
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19621/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at e3c32de13e)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-core/meta/meta-environment.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index da1230bead..3b25dcc8d0 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -62,6 +62,16 @@ create_sdk_files() {
+ do_install() {
+     install -d ${D}/${SDKPATH}
+     install -m 0644 -t ${D}/${SDKPATH} ${SDK_OUTPUT}/${SDKPATH}/*
++
++    mkdir -p ${D}/${SDKTARGETSYSROOT}/etc/rpm
++    echo "arch_compat: ${MACHINE_ARCH}: ${PACKAGE_ARCHS}" > ${D}/${SDKTARGETSYSROOT}/etc/rpmrc
++    sed -i 's/-nativesdk//g' ${D}/${SDKTARGETSYSROOT}/etc/rpmrc
++    sed -i 's/-/_/' ${D}/${SDKTARGETSYSROOT}/etc/rpmrc
++    echo "${MACHINE_ARCH}-pc-linux" > ${D}/${SDKTARGETSYSROOT}/etc/rpm/platform
++
++    mkdir -p ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars
++    echo "${DEFAULTTUNE}:${MACHINE_ARCH}:${TARGET_ARCH}" > ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars/arch
++    sed -i 's/-/_/' ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars/arch
+ }
+ 
+ PN = "meta-environment-${MACHINE}"
+-- 
+2.17.1
+
+
 
 
