@@ -1,38 +1,23 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C70F37D391
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 688817E721
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2019 12:40:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46MV6G23wsz4V;
-	Mon,  2 Sep 2019 14:40:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1567428006;
-	bh=RsgPKed7/3Hw8d/21fLkI68mTACiunOUIYxOc6Q7stE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DR8Dfc7nJ2IqHooSYYGD7hSD+2vovD1F42VE+JAifqcrl633fCsvZp/rtNgtWjQz8
-	fh+8r6eLGxPFis0sf1PqwTlcIOszokzVXC0KoHJ4f/ci5Jqi2FPI4r7btUc3ZpeLJC
-	puEDzCicOezlVRKtbo+RPtUAYzFecN4MbBKwDwANGc4ibFTvmuVFbmSmlQLPvoTa71
-	BYKDBzvceT3Eq1EaFgf72cDZ3wJTguEsc0Z8p1meUihLR5z4kWvfBopcLShpYM3WEc
-	CGmN2eF48Txo/q2eCBwboVCB/EzQLXmCkPHH5y0kRDcZOicoLhaeqvlct3gZbl0eG/
-	WdcxSYc/kdS3peWYh4zfKNDXN8OOEM1exX7ToNme0im9oDXDYvHwykKn/1vQ1cz1eF
-	zCl6G+RGP5umwwbURQi+YaP3zVMoKCUP4pmq3it1gu8llRgO2ecXgI6zS1mdrwsHZs
-	Gq9YnOh+w+sjDLDgNlop160j2o54niJYBcILszGTh9idMvhg1K+qRcg+pebHIIg0qc
-	Sq48O7KkeEuTYh5LxjgCrd4Yvmu2TfHrj9/Pq2L4ZHjMQYHDcmEqxYLM7olO1AouU9
-	6/QC61oyxwksvwgnGb8WNMey2owrS9e1HD+GPicICaBn8eMqKtLWfX9QKCiFVu8eh5
-	z4jo25BSdTfIRxJ2ykFjavZs=
-Date: Mon, 2 Sep 2019 15:40:03 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20190902124003.GA8291@localhost>
-References: <20190831211549.23729-1-akuster808@gmail.com>
-	<20190901140542.GA11574@localhost>
-	<9b09243d-86b7-b358-e0be-c41f8acbcd47@gmail.com>
+	Mon,  2 Sep 2019 13:17:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x82DHZX2014074
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Sep 2019 06:17:35 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Mon, 2 Sep 2019 06:17:34 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Sep 2019 09:16:59 -0400
+Message-ID: <20190902131659.144977-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-In-Reply-To: <9b09243d-86b7-b358-e0be-c41f8acbcd47@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc-9.2: Security fix for CVE-2019-14250
+Subject: [PATCH] systemd: provides ${base_sbindir}/udevadm for backward compatible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,37 +30,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2019 12:40:07 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 02 Sep 2019 13:17:34 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Sun, Sep 01, 2019 at 10:07:13AM -0700, akuster808 wrote:
-> 
-> 
-> On 9/1/19 7:05 AM, Adrian Bunk wrote:
-> > thud and zeus are providing 2 gcc versions each that need fixing.
-> That is a true statement. What are you expecting?
+From: Kai Kang <kai.kang@windriver.com>
 
-The other versions also being fixed?
+Create link file ${base_sbindir}/udevadm for backward compatible that
+some existing udev rules require it. eudev has the link file already.
 
-gcc-8 being fixed in warrior before it gets fixed in master would be
-the wrong order, and would introduce a security regression in master.
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_242.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-The code should be nearly identical in warrior and master, so fixing
-this also in gcc-8 in master should be trivial.
-
-Fixing gcc-7 in thud would be a bonus.
-
-> - armin
-
-cu
-Adrian
-
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 6fbb854886..55661cdf7a 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -281,6 +281,9 @@ do_install() {
+ 		fi
+ 	fi
+ 
++	# create link for existing udev rules
++	ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
++
+ 	# duplicate udevadm for postinst script
+ 	install -d ${D}${libexecdir}
+ 	ln ${D}${base_bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
+@@ -598,6 +601,7 @@ FILES_udev += "${base_sbindir}/udevd \
+                ${systemd_unitdir}/system/*udev* \
+                ${systemd_unitdir}/system/*.wants/*udev* \
+                ${base_bindir}/udevadm \
++               ${base_sbindir}/udevadm \
+                ${libexecdir}/${MLPREFIX}udevadm \
+                ${datadir}/bash-completion/completions/udevadm \
+               "
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.20.0
 
 
