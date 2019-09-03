@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 382787DE4B
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B3E897F35B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 11:19:18 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id g7so17078502wrx.2
+	Tue,  3 Sep 2019 11:19:22 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id j16so17038656wrr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2019 04:19:19 -0700 (PDT)
+	Tue, 03 Sep 2019 04:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=SL7HW8EW4Qlkn7Zlon/vAf9qc07jK45ogF+0LSRGz70=;
-	b=DVI/fnMw6va1ZEIp7ekU7Ai8vUKEpI/vZf3SRBkQ8b1HZdbu/XwfYTUWkOoNGIiBB0
-	F80L/r5DEPQoU21ZUPYCjAMFL6mwlO9/duqNySQtDJ9ACunWdhvCqSmzU66ouhoUxaOi
-	sOGFSUiUqFHdOznGlmAUsx/lhzQuqYA5GjZRDWK5cLd0MWxU2BSqVUuaNdMPH65zI8Kx
-	+p/tkdD3YoOPyNBvWBGY+/dxDxy5P7qCZeh670SdLoKV1YPbr1rdthnygMCx2+9r/FIg
-	2mWFK7mxlrvX3nO3Cybcr/85qCgldFFMR3L2RAY1Xuz7f5ibTUAuetnpz6FsBAEOGOi9
-	sHMA==
+	bh=74JsdhOlokErAPSalH8T+nIj0BBScNzln7v4urgM01c=;
+	b=XtTMc4kDDz7deO9kZ1/h9i8TAKNWh3nMU0ilJoulqyNyv4BdRs2EPWQkea1zRMrjuf
+	nqQ+M4uy+2Gfmfftct0tcfXBRnugs/0uB48fHizMTXxBHNrbb0v1YxHBVmJWFyblxjao
+	S2z5J0Muy+AcvniY2Q4A1Jm1mEbgumeU82wUEHxh5vGtgiQi+Iuk+CqDT5/MinnCh2qT
+	YbH20imSwdmTYF5puTGVKluDlxS6EIezcl4Sim672YvPaKGerwRKG2AL7laSs976WslA
+	eFGbju8UgNymVeBH5GFEmFmiTJGrlm/tMxcOA2kyrbFJvIj03t0k3JaYEHEwPkXHToU5
+	i33g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=SL7HW8EW4Qlkn7Zlon/vAf9qc07jK45ogF+0LSRGz70=;
-	b=aAJzc0fvgZTX9hEuTKrQn6XVndfxrC9Am4CwtHCDkXlmhlvxNk+9nBGNaH2epwvfWQ
-	AKudpUGJr6f1Eujpjlpi14r2D0C/Pj4YduINE3bAk+gHXTMnf56J09/trrGTHhaIufca
-	FCUQ1mJPt3hESBm1MKw54MEkGoSEDslf4ShFeCYvhd/Z+6t9Du+rQMagGRUCk+1n6iCa
-	3AtNV+Pp5LDGqI+bR2aBKhPvmC90b96GNsCUayWSsh/owc3bjWy9EEVvoDDwxU4Sr6+c
-	0cCXSv1V8mX9312FnnDVlEZvOGITNOCNnaujo0aL/wyQfu0rM57jkCoaWkrCKe2jDRlP
-	lZDA==
-X-Gm-Message-State: APjAAAVFlGuUVUpG9b/XovqFqIyW0j09jlNwc/lfum20Ra2n1JHRvx5T
-	EsVU7ktGNq0HQknk2PwLx84EeR5pI9k=
-X-Google-Smtp-Source: APXvYqzwTRYRYUts6JVmUSbwkKTPdl/Bw9d8lkqCCP7pzi1jq4+lpIM6YghhoiNM2TLsEu5O6dbM9w==
-X-Received: by 2002:adf:f505:: with SMTP id q5mr25210044wro.242.1567509558816; 
-	Tue, 03 Sep 2019 04:19:18 -0700 (PDT)
+	bh=74JsdhOlokErAPSalH8T+nIj0BBScNzln7v4urgM01c=;
+	b=ttnvYq983Bt8VJJ4zt6wClfTUuzCezqWAxBrrLhk8EXABiuilGhVoav1tqqklsxz8E
+	dr36lTotHUZEv5y/2XzGr1Ym92XxGvuV/PWXqDRyhnDJTDs02eTB5bEY2lZPPMUB5v5s
+	L+33tf4uf8SccoRG6alQPBZOcxRGJ4LzGhNmadR0PXogXYoo7Twsea5YHoDTqH4oR1tb
+	YRwG5TXgBL73JNDUS/pMNidEOG0UVuSUXb3Bt3whA4LZmPPC/LRIGwDbIyUSnGt3SsCH
+	L2xXpSDVGMXNXmDQC8xH6oT/U288WyRKFaVp4m0dCENIOBYpPcyEzHOAwB9JXdOJPftN
+	nWEA==
+X-Gm-Message-State: APjAAAWLGxp8ktYEnMPTn3dNPwO2VG5na8utAhpTaUnnvKflq7gku3uv
+	N67CmU3Ysn9M3OTX3wbiQxHYS8QE/T8=
+X-Google-Smtp-Source: APXvYqyM1gRHZI0tdyvxL6OL5tUKAalBQ+rGt9BB2Db2AuAXgYJQRiIA0HtZODAiZ720+OLCIuIICA==
+X-Received: by 2002:a5d:5606:: with SMTP id l6mr15003148wrv.108.1567509563150; 
+	Tue, 03 Sep 2019 04:19:23 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	u68sm27358471wmu.12.2019.09.03.04.19.17
+	r1sm19747161wro.13.2019.09.03.04.19.22
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Sep 2019 04:19:17 -0700 (PDT)
+	Tue, 03 Sep 2019 04:19:22 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Sep 2019 12:19:15 +0100
-Message-Id: <20190903111915.15803-1-ross.burton@intel.com>
+Date: Tue,  3 Sep 2019 12:19:21 +0100
+Message-Id: <20190903111921.15867-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] libnl: upgrade to 3.5.0
+Subject: [PATCH] libnl: don't patch libnl-3.0.pc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,86 +59,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 11:19:19 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 11:19:22 -0000
 Content-Transfer-Encoding: 8bit
 
-Drop the musl workaround, as upstream has solved this correctly now.
+This patch originally came from oe-classic in 2010 with the comment "fix pc file
+so that it actually links to the support libraries".  If an application wants to
+link to the support libraries then it should be using the relevant .pc files to
+do so.
+
+oe-core builds successfully with this patch removed and other distributions
+don't carry it, so drop the patch.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...fix-libnl-3.4.0-musl-compile-problem.patch | 38 -------------------
- .../libnl/{libnl_3.4.0.bb => libnl_3.5.0.bb}  |  5 +--
- 2 files changed, 2 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-support/libnl/libnl/0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch
- rename meta/recipes-support/libnl/{libnl_3.4.0.bb => libnl_3.5.0.bb} (87%)
+ .../libnl/libnl/fix-pc-file.patch               | 17 -----------------
+ meta/recipes-support/libnl/libnl_3.5.0.bb       |  9 +++------
+ 2 files changed, 3 insertions(+), 23 deletions(-)
+ delete mode 100644 meta/recipes-support/libnl/libnl/fix-pc-file.patch
 
-diff --git a/meta/recipes-support/libnl/libnl/0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch b/meta/recipes-support/libnl/libnl/0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch
+diff --git a/meta/recipes-support/libnl/libnl/fix-pc-file.patch b/meta/recipes-support/libnl/libnl/fix-pc-file.patch
 deleted file mode 100644
-index b20a2996234..00000000000
---- a/meta/recipes-support/libnl/libnl/0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch
+index fe8b833a1ce..00000000000
+--- a/meta/recipes-support/libnl/libnl/fix-pc-file.patch
 +++ /dev/null
-@@ -1,38 +0,0 @@
--Subject: [PATCH] fix libnl-3.4.0 musl compile problem  
--Avoid in6_addr redefinition
--
+@@ -1,17 +0,0 @@
 -Upstream-Status: Pending
 -
--Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-----
-- include/linux-private/linux/if_bridge.h | 1 -
-- include/linux-private/linux/ipv6.h      | 1 -
-- 2 files changed, 2 deletions(-)
+-Some packages are asking only for libnl-2.0, but expects to get also
+-libnl-genl, libnl-nf libnl-route, easiest way to fix them is here.
 -
--diff --git a/include/linux-private/linux/if_bridge.h b/include/linux-private/linux/if_bridge.h
--index f24050b..8f7490c 100644
----- a/include/linux-private/linux/if_bridge.h
--+++ b/include/linux-private/linux/if_bridge.h
--@@ -15,7 +15,6 @@
-- 
-- #include <linux/types.h>
-- #include <linux/if_ether.h>
---#include <linux/in6.h>
-- 
-- #define SYSFS_BRIDGE_ATTR	"bridge"
-- #define SYSFS_BRIDGE_FDB	"brforward"
--diff --git a/include/linux-private/linux/ipv6.h b/include/linux-private/linux/ipv6.h
--index e05e684..f16349d 100644
----- a/include/linux-private/linux/ipv6.h
--+++ b/include/linux-private/linux/ipv6.h
--@@ -2,7 +2,6 @@
-- #define _IPV6_H
-- 
-- #include <asm/byteorder.h>
---#include <linux/in6.h>
-- 
-- /* The latest drafts declared increase in minimal mtu up to 1280. */
-- 
---- 
--2.7.4
--
-diff --git a/meta/recipes-support/libnl/libnl_3.4.0.bb b/meta/recipes-support/libnl/libnl_3.5.0.bb
-similarity index 87%
-rename from meta/recipes-support/libnl/libnl_3.4.0.bb
-rename to meta/recipes-support/libnl/libnl_3.5.0.bb
-index 90dc644be4a..e6a225af525 100644
---- a/meta/recipes-support/libnl/libnl_3.4.0.bb
+-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+-Index: libnl-3.2.14/libnl-3.0.pc.in
+-===================================================================
+---- libnl-3.2.14.orig/libnl-3.0.pc.in
+-+++ libnl-3.2.14/libnl-3.0.pc.in
+-@@ -6,5 +6,5 @@ includedir=@includedir@
+- Name: libnl
+- Description: Convenience library for netlink sockets
+- Version: @PACKAGE_VERSION@
+--Libs: -L${libdir} -lnl-@MAJ_VERSION@
+-+Libs: -L${libdir} -lnl-@MAJ_VERSION@ -lnl-genl-@MAJ_VERSION@ -lnl-nf-@MAJ_VERSION@ -lnl-route-@MAJ_VERSION@
+- Cflags: -I${includedir}/libnl@MAJ_VERSION@
+diff --git a/meta/recipes-support/libnl/libnl_3.5.0.bb b/meta/recipes-support/libnl/libnl_3.5.0.bb
+index e6a225af525..c0609c4d900 100644
+--- a/meta/recipes-support/libnl/libnl_3.5.0.bb
 +++ b/meta/recipes-support/libnl/libnl_3.5.0.bb
-@@ -11,13 +11,12 @@ DEPENDS = "flex-native bison-native"
+@@ -9,15 +9,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
-            file://fix-pc-file.patch \
--           file://0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch \
- "
+ DEPENDS = "flex-native bison-native"
  
- UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
+-SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
+-           file://fix-pc-file.patch \
+-"
+-
+-UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
+-
++SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz"
+ SRC_URI[md5sum] = "74ba57b1b1d6f9f92268aa8141d8e8e4"
+ SRC_URI[sha256sum] = "352133ec9545da76f77e70ccb48c9d7e5324d67f6474744647a7ed382b5e05fa"
  
--SRC_URI[md5sum] = "8f71910c03db363b41e2ea62057a4311"
--SRC_URI[sha256sum] = "b7287637ae71c6db6f89e1422c995f0407ff2fe50cecd61a312b6a9b0921f5bf"
-+SRC_URI[md5sum] = "74ba57b1b1d6f9f92268aa8141d8e8e4"
-+SRC_URI[sha256sum] = "352133ec9545da76f77e70ccb48c9d7e5324d67f6474744647a7ed382b5e05fa"
- 
++UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
++
  inherit autotools pkgconfig
  
+ FILES_${PN} = "${libdir}/libnl-3.so.* \
 -- 
 2.20.1
 
