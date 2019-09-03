@@ -1,53 +1,53 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E0397F2B1
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BB367F2E8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 16:57:49 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id b24so11185098pfp.1
+	Tue,  3 Sep 2019 16:57:55 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id t11so2057537plo.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2019 09:57:51 -0700 (PDT)
+	Tue, 03 Sep 2019 09:57:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=BEUFEdxl91e7z2VA7L5I+2DUqKJdfspjyXVd9KAT7Gk=;
-	b=HZ3YCo+fZY88ZxHmdRvivFJLwEdrw8WYg6l+RfXvOmZBLo/hpVD214hOPq9MdLnte7
-	K0b/k3v/6D6dNQBkHa9kLSB0U3nizABTrwLCgSRe74A0VHb8N+o1LHAAy3Q1Zm6wKw6W
-	auaUQlZSymB/iqJYYiF1c7mD98s90dmqF143ndy7ArQvXs1NMvtbd7yHaWcvNtkDuDIT
-	M93SbRmYrvrSWZFs8RNVGfYB2bBCBQ65Jor89UCYKrQ5ALjveBk5gpR120ZRtS307FcR
-	hXXuRuJWuU87XVFzHbXxKjSgP8oj6ZhvKAKwDqOZtQ7ONACQV/s6ZJRRcAAuL+fDj2wo
-	JL8Q==
+	bh=p6YurIwcDimlq+YWdlgzbmktt301II7siC40Vd0rqD0=;
+	b=jjQ5WL9xkED+gJ6enN2RSWzUCIGoihk5P+ZZnns60qq5PjR1EJykmNr9S+KcL3uPhz
+	mKN1/R75nLdEBKDzO5HSekq+um25FHtOzuGgKkKP7KPrtyIYgJ0Ge6lovvfBD/hEvGMD
+	Gz4GQ4YuixHKDoaTTvt8qtQhs/RXfW0/LJA+hE5CBrclY4sIIIFLsf9345S9jdtIf3yT
+	w93O2JWMgv5lNHyNsAvspLoEkvgyQyGEKjYW7uZMeClwCRfWUj9CJP6m7GSjpaQgKrkL
+	LNTJ7QrnLQgVVqoqzWOmLgv9kUq6IucSfFdFycL+oLdc5Z0lH6VQT7Ycf/4OGDeRNXjI
+	Ib9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=BEUFEdxl91e7z2VA7L5I+2DUqKJdfspjyXVd9KAT7Gk=;
-	b=li8wYqJSn/WjZlmjhUKVXxfY7lZCQu2yWseeeR5exgfrT8l86VyoggGX3oPmw/Qkv7
-	QQ3l1IV/wITCTHPFnvPUpCHTs9SlkDfIaHCuYo85bagrqj0F0VkJsoDEqYAc3wYZgmk4
-	g6jtOizOHb1ej6Vl5dsO/U+rWRIAyp7FDITYG6IAHWUDZCGwehsDdN1Tcg1UMb0fWgP/
-	4oBciCn16lyJGE+dkQYK9hNGgr+Nun3kWcxbd8KrMLCG+DGnddzm7m9HMcihKxV2gdC+
-	St+na2X9zwJdl0ZAM0rZjnQwDRELcYroYX+PgsoQHOEUFXys/P6jVePiV5rwJNER+QTc
-	tHvA==
-X-Gm-Message-State: APjAAAXSl0m93XYi6yhH0UBKFd+MH8EjUEBywgZ7QGDQPg8bBwQQYxHu
-	z3lO/R63WLbFb650S2PolY+4ogQFt//Icg==
-X-Google-Smtp-Source: APXvYqz5laRBPwlzaTzgl7tIVvn7RCkJdFJACQIQv0WZLrtxP8Vo1bCyRmp7YRbXWnplvf41xVMhUg==
-X-Received: by 2002:a63:6097:: with SMTP id
-	u145mr29443343pgb.227.1567529870761; 
-	Tue, 03 Sep 2019 09:57:50 -0700 (PDT)
+	bh=p6YurIwcDimlq+YWdlgzbmktt301II7siC40Vd0rqD0=;
+	b=YKjXcsUjNfpfInUtms+VzmJjWNYbCBKokxNkT3hlf92ZaDANe8l3hGPTYWlnvrxo7z
+	SbajZmAAyUD8k+1q2qOAulFf7LLocPDhqKyM8vQOoduNnFJqZHTfLg42WWAZABZAksnV
+	VMpQ5uWM/kGBrdmTJhpVl55cPqDmpqsFiPvLddNnnml6wBX55FZxlayCHYTZJ2cIf9XA
+	5MJ3Tfu+XNWjlbJ6Dky9f5+E15Lm3w0QYbronKj2O4DLRl34Wstvsq4VTpBZ68zaxip5
+	yDQcLU86KMyjomo7Dl0tzqDiRjkuyPKus++kQaXIdkdM3bYr6o+tG9KQz5SskgqREyuj
+	pX1w==
+X-Gm-Message-State: APjAAAWK8qCeEUpAhVr3n4Lqs0aIfPaRESxSdgCAW3Liiw+y6db/x/Ne
+	K/x6beiMuH28fwQVV3gHYQmmzEqnVGXHew==
+X-Google-Smtp-Source: APXvYqysZM2VTS9lECcgF97fjdAqTZRCezqysCN13bS95kYhABVZR1K9sX2dysz49jMvLQxO7SDnnw==
+X-Received: by 2002:a17:902:a01:: with SMTP id
+	1mr37186211plo.278.1567529875826; 
+	Tue, 03 Sep 2019 09:57:55 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	s5sm96799pjo.26.2019.09.03.09.57.48
+	w20sm24945849pfn.72.2019.09.03.09.57.53
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Sep 2019 09:57:50 -0700 (PDT)
+	Tue, 03 Sep 2019 09:57:55 -0700 (PDT)
 Date: Tue, 03 Sep 2019 16:56:41 +0000
-Message-Id: <20190903165641.16597-6-nathan@nathanrossi.com>
+Message-Id: <20190903165641.16597-7-nathan@nathanrossi.com>
 In-Reply-To: <20190903165641.16597-0-nathan@nathanrossi.com>
 References: <20190903165641.16597-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH v2 06/12] oeqa/core/tests: Skip test_fail_duplicated_module
+Subject: [PATCH v2 07/12] oeqa/core/tests: Fix test_data module tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,34 +60,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 16:57:50 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 16:57:55 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-At some point the modules in tests/cases/loader/invalid/ were removed,
-this test relied on having tests/cases/loader/invalid/oetag.py to
-trigger a ImportError in the loader module. Skip this test.
+These two tests relied on the context containing the results information.
+This was moved into the OETestResults class.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
 Changes in v2:
 - New
 ---
- meta/lib/oeqa/core/tests/test_loader.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oeqa/core/tests/test_data.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/tests/test_loader.py b/meta/lib/oeqa/core/tests/test_loader.py
-index 519ba96091..e73c91b141 100755
---- a/meta/lib/oeqa/core/tests/test_loader.py
-+++ b/meta/lib/oeqa/core/tests/test_loader.py
-@@ -40,6 +40,7 @@ class TestLoader(TestBase):
-             result = True if expect in str(e) else False
-             self.assertTrue(result, msg=msg)
+diff --git a/meta/lib/oeqa/core/tests/test_data.py b/meta/lib/oeqa/core/tests/test_data.py
+index 50811bb381..ac74098b78 100755
+--- a/meta/lib/oeqa/core/tests/test_data.py
++++ b/meta/lib/oeqa/core/tests/test_data.py
+@@ -22,8 +22,9 @@ class TestData(TestBase):
+         expectedException = "oeqa.core.exception.OEQAMissingVariable"
  
-+    @unittest.skip("invalid directory is missing oetag.py")
-     def test_fail_duplicated_module(self):
-         cases_path = self.cases_path
-         invalid_path = os.path.join(cases_path, 'loader', 'invalid')
+         tc = self._testLoader(modules=self.modules)
+-        self.assertEqual(False, tc.runTests().wasSuccessful())
+-        for test, data in tc.errors:
++        results = tc.runTests()
++        self.assertFalse(results.wasSuccessful())
++        for test, data in results.errors:
+             expect = False
+             if expectedException in data:
+                 expect = True
+@@ -35,8 +36,9 @@ class TestData(TestBase):
+         d = {'IMAGE' : 'core-image-sato', 'ARCH' : 'arm'}
+ 
+         tc = self._testLoader(d=d, modules=self.modules)
+-        self.assertEqual(False, tc.runTests().wasSuccessful())
+-        for test, data in tc.failures:
++        results = tc.runTests()
++        self.assertFalse(results.wasSuccessful())
++        for test, data in results.failures:
+             expect = False
+             if expectedError in data:
+                 expect = True
 ---
 2.23.0.rc1
 
