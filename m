@@ -1,52 +1,52 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ACE67F2B7
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 67E437F298
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 16:58:15 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id b24so11185803pfp.1
+	Tue,  3 Sep 2019 16:58:21 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id x15so9465133pgg.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2019 09:58:17 -0700 (PDT)
+	Tue, 03 Sep 2019 09:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=+iezMvTnQVaq+i0ehknHOn6HoEEYzYMIJbd5YE43Jo0=;
-	b=JWLKAoGQTsFSp035EqG25HsoAI9+eqcZvyPaCMsZ0g745hslnTDwokVAMyFBOc7Y+w
-	xCVSH0CatHo4M1piNcu86vqpS8fMdkzb5BCqiNJpUE+TV6/74xV6bmSP2EmjsVTBumMM
-	zJBbZSyuS6565ZfzU5whNQ+LpzxYDUXkw5STqGmh03+OSOmZuhc+JOP7BJXue9u8Zvg+
-	XcsqDx1jZUWuCXjjItccLtlh2q/II2hi7kizGqkgncpe0Ig3B89Rzro3WB3m7USe641H
-	j/Wxy/q5ZjkDoNyGsSSC3xjZAMZi5CpDD9s23/1S1UQVKIYuxnEP0tFd6/M0Z0oO2xOX
-	l1Gg==
+	bh=IZiGOC4ItMg6+/KO1K1kXtwKtQsQfKHjDdM3GSkpuTQ=;
+	b=jWU9UQUCTOVoHUE0+pJvwXsaZmubdzKyEeGtP7HetYv5YiPqRjaHWYUkgy3exzlxcF
+	7Awc81mFrDOo2IO01Sgt7s3Ib3YiN7ZtO5wkKogYrHParQyKUNghKWpCJb//BlOXTJIc
+	T0oYAPFzywwFZLR7HjcBHPXvJ+CTOKTKCu0iWCLlFYv3NxDQ++t3220D684Ch1IATUOc
+	jbT7tPJ/O3VrM+hu7DhdGS1DQKpSb+K8sZqvkTfzld0LPFYB2aLUntkF+tLIKKhRSDjS
+	t5ZQzuMpikKik+bZc8994V0PN28yncvUpR2AZCfil4mwJNcDTDmPKCZx1NwQRNMVvmxb
+	0sOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=+iezMvTnQVaq+i0ehknHOn6HoEEYzYMIJbd5YE43Jo0=;
-	b=th8nnQdnuk++stxOuIpgZizMV7JTQ6duksnCCb3hkPNSWQHqLSsrRXD5D/m1OSGDLg
-	V7gt6l5DAjx/xFCDH4WYY8RVgVpNZmpr5YX+qsX4XfaDHq+SEJkGnVy6xLKRvo4hH+Uj
-	nHgk4spki0mjQSzjOhFVsTUP2hjdXxMyjwmvRFXmTlwakYMJZWCKcaRLCTItrGVhIB33
-	rxD910m26pL6kmb9f2HmRyQIw22XP8a/JPerzA/yVjGMA6EKLbDkdnd43mWSciY2lC/k
-	klvg3W92t4edLAopSR3czFVkA1A4RyEZF6aRVcZgJ+EMZyPYapCz2rLfpw6PueiA0uB3
-	eu7w==
-X-Gm-Message-State: APjAAAXIC5RtjZYhoJ+go4VBL8q3op8ln6ObtJM2gWNjUiazUEaj/PXb
-	++hWjNbSRPCbeLH8sbGNaJcXaubBqePS3g==
-X-Google-Smtp-Source: APXvYqxbWmD/hFI9pypsbE7dKhSphXk1iWiQADSL9u4S99fhB5D7ZBk4LeQViG7M7cH3WtcChRykhw==
-X-Received: by 2002:a17:90a:804c:: with SMTP id e12mr260775pjw.3.1567529896619;
-	Tue, 03 Sep 2019 09:58:16 -0700 (PDT)
+	bh=IZiGOC4ItMg6+/KO1K1kXtwKtQsQfKHjDdM3GSkpuTQ=;
+	b=kes05mPsekZYgCwl2ihvdHx7G5+jaupw6o32q0ecs9rreiAwupyyb5jrKye3O5xPpo
+	QbRXv9IUxL3dPQuciibusUYDyrVeD2axc/FVsGOHuzkqQOU2nlMliibzbi28ummayiDe
+	aZ7561TIUWa+FSUTwLbPn5uZQdQfZGk17mdM7/KCFJXTIisSonfMAAi0GAEsqI/Ki7jE
+	HAlNnsHCRKygqRzQ5+uyapX+nN/wxgJSjfmUX7AYiUteVC6p7XbHbvDZQCIyrb2HYMle
+	8+8Lf8htPIoNqoFJaVQt7Pbj7OsLkkjcorNT9WrhlndAp2Xq+BjNy4g9TG+XRUflMLQf
+	k4Pw==
+X-Gm-Message-State: APjAAAXFvjbcEk+vcwTKazwNZDwHZjj3rlPmOh3uJvmHDtK6YYZBr/R+
+	es4cgZZFZG3bcQTxCgICGcK8tPlN7qXZxQ==
+X-Google-Smtp-Source: APXvYqziv1fyNZIKfdkdfMNzivvL3BS8Ud0jo2sYKuGN1/O+OY5hW1yplpYJ7uYR4ozRgAZfSeJQDA==
+X-Received: by 2002:a63:2a08:: with SMTP id q8mr30833356pgq.415.1567529901992; 
+	Tue, 03 Sep 2019 09:58:21 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	j5sm15225230pgp.59.2019.09.03.09.58.14
+	m19sm76646pjv.9.2019.09.03.09.58.19
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Sep 2019 09:58:15 -0700 (PDT)
+	Tue, 03 Sep 2019 09:58:21 -0700 (PDT)
 Date: Tue, 03 Sep 2019 16:56:41 +0000
-Message-Id: <20190903165641.16597-11-nathan@nathanrossi.com>
+Message-Id: <20190903165641.16597-12-nathan@nathanrossi.com>
 In-Reply-To: <20190903165641.16597-0-nathan@nathanrossi.com>
 References: <20190903165641.16597-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH v2 11/12] oeqa/selftest/gcc: Create selftest case for gcc test suite
+Subject: [PATCH v2 12/12] oeqa/selftest/glibc: Create selftest case for glibc test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,43 +59,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 16:58:16 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 16:58:21 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Create a oeqa selftest test case to execute the gcc test suites and
+Create a oeqa selftest test case to execute the glibc test suite and
 report the results. The results are populated into the extraresults
 variable of the test case which are written to testresults.json for
 resulttool to analyse.
 
 An additional subclass is created to separate the execution with qemu
-linux-user and qemu system. The GccSelfTestSystemEmulated test case
-handles setup of the target image as well as execution with runqemu.
+linux-user and qemu system. The GlibcSelfTestSystemEmulated test case
+handles setup of the target image, setup of and NFS server as well as
+execution with runqemu.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
-Changed in v2:
-- Change to using only gcc-runtime recipe and associated check targets
-- Remove gxx/g++ testcase, this is part of the "check-gcc" target
+Changes in v2:
 - Populate test results as ptestresults
 - Rename BUILD_TEST_* to TOOLCHAIN_TEST_*
 - Mark tests with 'machine' tag
 ---
- meta/lib/oeqa/selftest/cases/gcc.py | 111 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 111 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/gcc.py
+ meta/lib/oeqa/selftest/cases/glibc.py | 97 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 97 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/glibc.py
 
-diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
 new file mode 100644
-index 0000000000..0ad6e21d6b
+index 0000000000..f836367094
 --- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/gcc.py
-@@ -0,0 +1,111 @@
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -0,0 +1,97 @@
 +# SPDX-License-Identifier: MIT
 +import os
++import contextlib
 +from oeqa.core.decorator import OETestTag
 +from oeqa.selftest.case import OESelftestTestCase
 +from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
++from oeqa.utils.nfs import unfs_server
 +
 +def parse_values(content):
 +    for i in content:
@@ -105,7 +106,7 @@ index 0000000000..0ad6e21d6b
 +                break
 +
 +@OETestTag("machine")
-+class GccSelfTest(OESelftestTestCase):
++class GlibcSelfTest(OESelftestTestCase):
 +    @classmethod
 +    def setUpClass(cls):
 +        super().setUpClass()
@@ -115,92 +116,76 @@ index 0000000000..0ad6e21d6b
 +        if "ptestresult.sections" not in cls.tc.extraresults:
 +            cls.tc.extraresults["ptestresult.sections"] = {}
 +
-+    def gcc_runtime_check_skip(self, suite):
-+        targets = get_bb_var("RUNTIMETARGET", "gcc-runtime").split()
-+        if suite not in targets:
-+            self.skipTest("Target does not use {0}".format(suite))
++    def test_glibc(self):
++        self.glibc_run_check()
 +
-+    def test_cross_gcc(self):
-+        self.gcc_run_check("gcc", "g++")
-+
-+    def test_libatomic(self):
-+        self.gcc_run_check("libatomic")
-+
-+    def test_libgomp(self):
-+        self.gcc_run_check("libgomp")
-+
-+    def test_libstdcxx(self):
-+        self.gcc_run_check("libstdc++-v3")
-+
-+    def test_libssp(self):
-+        self.gcc_runtime_check_skip("libssp")
-+        self.gcc_run_check("libssp")
-+
-+    def test_libitm(self):
-+        self.gcc_runtime_check_skip("libitm")
-+        self.gcc_run_check("libitm")
-+
-+    def gcc_run_check(self, *suites, ssh = None):
-+        targets = set()
-+        for s in suites:
-+            if s in ["gcc", "g++"]:
-+                targets.add("check-gcc")
-+            else:
-+                targets.add("check-target-{}".format(s))
-+
++    def glibc_run_check(self, ssh = None):
 +        # configure ssh target
 +        features = []
-+        features.append('MAKE_CHECK_TARGETS = "{0}"'.format(" ".join(targets)))
 +        if ssh is not None:
 +            features.append('TOOLCHAIN_TEST_TARGET = "ssh"')
 +            features.append('TOOLCHAIN_TEST_HOST = "{0}"'.format(ssh))
 +            features.append('TOOLCHAIN_TEST_HOST_USER = "root"')
 +            features.append('TOOLCHAIN_TEST_HOST_PORT = "22"')
++            # force single threaded test execution
++            features.append('EGLIBCPARALLELISM_task-check_pn-glibc-testsuite = "PARALLELMFLAGS="-j1""')
 +        self.write_config("\n".join(features))
 +
-+        recipe = "gcc-runtime"
-+        bitbake("{} -c check".format(recipe))
++        bitbake("glibc-testsuite -c check")
 +
-+        bb_vars = get_bb_vars(["B", "TARGET_SYS"], recipe)
-+        builddir, target_sys = bb_vars["B"], bb_vars["TARGET_SYS"]
++        builddir = get_bb_var("B", "glibc-testsuite")
 +
 +        failed = 0
-+        for suite in suites:
-+            sumspath = os.path.join(builddir, "gcc", "testsuite", suite, "{0}.sum".format(suite))
-+            if not os.path.exists(sumspath): # check in target dirs
-+                sumspath = os.path.join(builddir, target_sys, suite, "testsuite", "{0}.sum".format(suite))
-+            if not os.path.exists(sumspath): # handle libstdc++-v3 -> libstdc++
-+                sumspath = os.path.join(builddir, target_sys, suite, "testsuite", "{0}.sum".format(suite.split("-")[0]))
-+
-+            ptestsuite = "gcc-{}".format(suite) if suite != "gcc" else suite
-+            self.tc.extraresults["ptestresult.sections"][ptestsuite] = {}
-+            with open(sumspath, "r") as f:
-+                for test, result in parse_values(f):
-+                    self.tc.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
-+                    if result == "FAIL":
-+                        self.logger.info("failed: '{}'".format(test))
-+                        failed += 1
-+
++        self.tc.extraresults["ptestresult.sections"]["glibc"] = {}
++        with open(os.path.join(builddir, "tests.sum"), "r") as f:
++            for test, result in parse_values(f):
++                self.tc.extraresults["ptestresult.glibc.{}".format(test)] = {"status" : result}
++                if result == "FAIL":
++                    self.logger.info("failed: '{}'".format(test))
++                    failed += 1
 +        self.assertEqual(failed, 0)
 +
-+class GccSelfTestSystemEmulated(GccSelfTest):
-+    default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp"]
++class GlibcSelfTestSystemEmulated(GlibcSelfTest):
++    default_installed_packages = [
++        "glibc-charmaps",
++        "libgcc",
++        "libstdc++",
++        "libatomic",
++        "libgomp",
++        "python3",
++        "python3-pexpect",
++        "nfs-utils",
++        ]
 +
-+    def gcc_run_check(self, *args, **kwargs):
-+        # build core-image-minimal with required packages
-+        features = []
-+        features.append('IMAGE_FEATURES += "ssh-server-openssh"')
-+        features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(self.default_installed_packages)))
-+        self.write_config("\n".join(features))
-+        bitbake("core-image-minimal")
++    def glibc_run_check(self):
++        with contextlib.ExitStack() as s:
++            # use the base work dir, as the nfs mount, since the recipe directory may not exist
++            tmpdir = get_bb_var("BASE_WORKDIR")
++            nfsport, mountport = s.enter_context(unfs_server(tmpdir))
 +
-+        # wrap the execution with a qemu instance
-+        with runqemu("core-image-minimal", runqemuparams = "nographic") as qemu:
++            # build core-image-minimal with required packages
++            features = []
++            features.append('IMAGE_FEATURES += "ssh-server-openssh"')
++            features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(self.default_installed_packages)))
++            self.write_config("\n".join(features))
++            bitbake("core-image-minimal")
++
++            # start runqemu
++            qemu = s.enter_context(runqemu("core-image-minimal", runqemuparams = "nographic"))
++
 +            # validate that SSH is working
 +            status, _ = qemu.run("uname")
 +            self.assertEqual(status, 0)
 +
-+            return super().gcc_run_check(*args, **kwargs, ssh = qemu.ip)
++            # setup nfs mount
++            if qemu.run("mkdir -p \"{0}\"".format(tmpdir))[0] != 0:
++                raise Exception("Failed to setup NFS mount directory on target")
++            mountcmd = "mount -o noac,nfsvers=3,port={0},udp,mountport={1} \"{2}:{3}\" \"{3}\"".format(nfsport, mountport, qemu.server_ip, tmpdir)
++            status, output = qemu.run(mountcmd)
++            if status != 0:
++                raise Exception("Failed to setup NFS mount on target ({})".format(repr(output)))
++
++            super().glibc_run_check(ssh = qemu.ip)
 +
 ---
 2.23.0.rc1
