@@ -1,48 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8031E7DD70
+Return-Path: <joraj@efficios.com>
+X-Greylist: delayed 558 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 03 Sep 2019 21:02:54 UTC
+Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 34B6E7F2AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 21:02:05 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id g207so929312wmg.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2019 14:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:user-agent:mime-version;
-	bh=TBKodlq8CL69TnUeBmuAFEqWs9oHn5kYHEpC+mLB6C0=;
-	b=YkIn8cISDYJXNvDoXrSo4MLJ9T4qY9kmPY0y5tFn6ncr1ULe/jlQ3aevynX76+4Nlh
-	eHeX++2WYfls5oQoJ2s1Ly2jQktzHAbE01IyqEHsESoUnYTmngcP+GLIBiKuJc48bnPa
-	wAijiNUhPtKCY8ihC0/I5dO5A/OpsIwLlv6vs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version;
-	bh=TBKodlq8CL69TnUeBmuAFEqWs9oHn5kYHEpC+mLB6C0=;
-	b=gVo1VQbb01tbnslrY+dHFvfYwkKvCWmx5Qr2ilT2/RQ2tdImWvy0xU2ET0JGoxkItE
-	gtIrK68Thm8NywuOr7p5h5l1l4U6DwRWpcjjCMJPyODCvoL+JgeNl19qskLXEOA0ziAs
-	3v24MnKWCNnxwEwHM1bQuA4tjSeugIkHfTESm46jNSNChajkohe+owxXu8PPV5QppW00
-	yBguuL3tIbmCqYdCEz9gK/w0IP4AMAOtuScSOJ4h2IZTsZ092PYXPA3UnR2y+w/hQUDm
-	10L6xf51PDTiK9jjEWb/ewRrEwpd5AE2Jejmdt3LrGGRKY8iFYdvIuY5JGRMcWkijz/i
-	MWKg==
-X-Gm-Message-State: APjAAAWLr5yoGhBqD6K4GwG9cRRO31zprjwAleKiFKJrLLc5gSZqQm5k
-	Co8CI+gaZQXFARBRIv7wcjoTDZ8aaTuwWQ==
-X-Google-Smtp-Source: APXvYqyAiV61CIClADZ5sv6K81huqRi4y2ujqWIsznxEW+27tv3aKtfd2GcmzZ46odfa6Y3yD2dWxw==
-X-Received: by 2002:a1c:f009:: with SMTP id a9mr1446318wmb.151.1567544525825; 
-	Tue, 03 Sep 2019 14:02:05 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y13sm18154441wrg.8.2019.09.03.14.02.04
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Sep 2019 14:02:05 -0700 (PDT)
-Message-ID: <5f8b6847cd6de8130d04167624c4a61a74519bac.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org, Yocto discussion list
-	<yocto@yoctoproject.org>
-Date: Tue, 03 Sep 2019 22:02:03 +0100
-User-Agent: Evolution 3.32.2-1 
+	Tue,  3 Sep 2019 21:02:54 +0000 (UTC)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id A962E2B54D2;
+	Tue,  3 Sep 2019 16:53:37 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+	with ESMTP id lHbnm71kf2pL; Tue,  3 Sep 2019 16:53:36 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id 690782B54CB;
+	Tue,  3 Sep 2019 16:53:36 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 690782B54CB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1567544016;
+	bh=bfX8/yqva5b0T0NXUn0eYLBGDrdJULEFIt5pvXKoqyw=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=eUoCjT5rY25qabTN/2QAYRqfxjCw70vvp+rHHu+lw1lACBssWhZe8BgM2rLmY289m
+	YK3RDjYPDZyXGyZpg63xhWaa9qhr+r1JtFRpx6ui0ziZY5fbrQJmObZN8DG+GnkhW3
+	MMjPxENncDMHsUTRt4WzmIZJr4cuhwjs5MN1ssTFBQgX8wesbBQPN3lwO9LDouMb/k
+	6EAlzfML7ImLCkPozgmQZC9R4peBCbdhPKgtFtQ0ebulCLHxaN97Ji9kt//DfnCQuL
+	zcsM4sIcCJpKtkMVkbhm9E4t2AJ3Qdjxz2LkecW38a8cMkX6hvem13TeaGATWzo0X2
+	G8x/GwJ+Bp/oA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+	with ESMTP id 6Y9cDxIP8ACJ; Tue,  3 Sep 2019 16:53:36 -0400 (EDT)
+Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
+	by mail.efficios.com (Postfix) with ESMTP id 4483C2B54C1;
+	Tue,  3 Sep 2019 16:53:36 -0400 (EDT)
+Date: Tue, 3 Sep 2019 16:53:36 -0400 (EDT)
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: zhe he <zhe.he@windriver.com>
+Message-ID: <1774382209.769.1567544016190.JavaMail.zimbra@efficios.com>
+In-Reply-To: <1567480164-343138-1-git-send-email-zhe.he@windriver.com>
+References: <1567480164-343138-1-git-send-email-zhe.he@windriver.com>
 MIME-Version: 1.0
-Subject: =?UTF-8?B?WW9jdG8gUHJvamVjdCBTdGF0dXMgV1czNuKAmTE5?=
+X-Originating-IP: [167.114.142.138]
+X-Mailer: Zimbra 8.8.15_GA_3829 (ZimbraWebClient - GC76 (Linux)/8.8.15_GA_3829)
+Thread-Topic: lttng: babeltrace: Fix negative clock offset
+Thread-Index: 1qgg+E2TnQi/vk9vknAe64wqiftvug==
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lttng: babeltrace: Fix negative clock offset
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,529 +58,962 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 21:02:06 -0000
-Content-Type: multipart/alternative; boundary="=-nzJM+BIdpUSR4vgtkVAn"
+X-List-Received-Date: Tue, 03 Sep 2019 21:02:54 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---=-nzJM+BIdpUSR4vgtkVAn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Hi,
 
-Current Dev Position: YP 2.8 M4 Feature FreezeNext Deadline: YP 3.0
-Final Release 25th Oct
-SWAT Team Rotation:SWAT lead is currently: ArminSWAT team rotation:
-Armin -> Paul on Sept. 6, 2019SWAT team rotation: Paul -> Ross on Sept.
-13, 2019
-https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
-Next Team Meetings:Bug Triage meeting Thursday Sept 5th at 7:30am PDT (
-https://zoom.us/j/454367603)Monthly Project Meeting Tuesday Sept. 3rd
-at 8am PDT (https://zoom.us/j/990892712) Twitch - Next event is Tuesday
-Sept. 10th at 8am PDT (https://www.twitch.tv/yocto_project)
-Key Status/Updates:We’re now in feature freeze for 3.0 and working on
-bug fixing for final releaseSeveral key 3.0 changes have now merged:5.2
-linux-libc-kernel-headers5.2 kernel recipesRemoval of LSB and poky-lsb
-and replacement with alt config testingPatches have significantly
-reduced the dependency on python2Reproducible builds are now being
-tested for core-image-minimalThere are the following changes still
-under discussion/testing:Systemd vs. sysvinit defaults (maybe for the
-poky alternative configuration tests)Making 5.2 the default kernel for
-qemu (has regressions, see below)Hashserv performance issue
-resolutionFinal configuration of hash equivalencytoolchain testsuite
-patch seriesThe sstate hash equivalency continues to have challenges:we
-need to rework the client/server communication to scale to the
-autobuilderthere are some bugs in the code the autobuilder continues to
-exposewe have cases where its not 100% clear what the correct behaviour
-should betest cases are proving to be problematic to write in a
-maintainable wayPatch merging is roughly up to date againWe have
-several significant problematic bugs that are being worked on:5.2 stap
-build issue on qemuarm5.2 kprobes error message (qemuarm64,
-qemumips64)qemumips machine hangIf anyone has any status items for the
-project they’d like to add to the weekly reports, please email
-Richard+Stephen.
-Planned Releases for YP 3.0 {2.8}:M3 Release 6th SeptM4 Cutoff 30th
-Sept - this will be YP 3.0.YP 3.0 {2.8 (M4)} Final Release 25th Oct
-Planned upcoming dot releases:YP 2.7.2 (Warrior) is planned for after
-YP 3.0 release.YP 2.6.4 (Thud) is planned for after YP 2.7.2  release.
-Tracking Metrics:WDD 2413 (last week 2485) (
-https://wiki.yoctoproject.org/charts/combo.html)Poky Patch
-Metrics  Total patches found: 1470 (last week 1474)Patches in the
-Pending State: 611 (42%) [last week 613 (41%)]
-Key Status Links for YP:
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.8_Statushttps://wiki.yoctoproject.org/wiki/Yocto_2.8_Schedulehttps://wiki.yoctoproject.org/wiki/Yocto_2.8_Features
-The Yocto Project’s technical governance is through its Technical
-Steering Committee, more information is available at:
-https://wiki.yoctoproject.org/wiki/TSC
-The Status reports are now stored on the wiki at: 
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-[If anyone has suggestions for other information you’d like to see on
-this weekly status update, let us know!]
+This patch breaks the API of stable-1.5. It is clearly mentioned in the commit message:
 
+ It introduces API-breaking changes in the C and Python APIs, since we
+ need to be able to return negative time values, which were previously
+ used as errors (-1ULL).
 
+You can have it in your layer but it should never be upstreamed to yocto/oe in any case for the stable 1.5 branch of babeltrace.
 
---=-nzJM+BIdpUSR4vgtkVAn
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+The change you are referencing (61cf588beae752e5ddfc60b6b5310f769ac9e852) is queued to be in Babeltrace 2.0.0.
 
-<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
-r;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
-pt;" id=3D"docs-internal-guid-903f53e5-7fff-e30b-026f-7e78755a9f86"><span s=
-tyle=3D"font-family: Arial; font-size: 11pt; white-space: pre-wrap; backgro=
-und-color: transparent;">Current Dev Position: YP 2.8 M4 Feature Freeze</sp=
-an></p><pre><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-=
-bottom:0pt;"><span style=3D"font-size: 11pt; font-family: Arial; background=
--color: transparent; font-variant-ligatures: normal; font-variant-east-asia=
-n: normal; font-variant-position: normal; vertical-align: baseline; white-s=
-pace: pre-wrap;">Next Deadline: YP 3.0 Final Release 25th Oct</span></p><br=
-><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;=
-"><span style=3D"font-size: 11pt; font-family: Arial; background-color: tra=
-nsparent; font-variant-ligatures: normal; font-variant-east-asian: normal; =
-font-variant-position: normal; vertical-align: baseline; white-space: pre-w=
-rap;">SWAT Team Rotation:</span></p><ul style=3D"margin-top:0;margin-bottom=
-:0;"><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-=
-family: Arial; background-color: transparent; font-variant-ligatures: norma=
-l; font-variant-east-asian: normal; font-variant-position: normal; vertical=
--align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;=
-margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: trans=
-parent; font-variant-ligatures: normal; font-variant-east-asian: normal; fo=
-nt-variant-position: normal; vertical-align: baseline; white-space: pre-wra=
-p;">SWAT lead is currently: Armin</span></p></li><li dir=3D"ltr" style=3D"l=
-ist-style-type: disc; font-size: 11pt; font-family: Arial; background-color=
-: transparent; font-variant-ligatures: normal; font-variant-east-asian: nor=
-mal; font-variant-position: normal; vertical-align: baseline;"><p dir=3D"lt=
-r" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=
-=3D"font-size: 11pt; background-color: transparent; font-variant-ligatures:=
- normal; font-variant-east-asian: normal; font-variant-position: normal; ve=
-rtical-align: baseline; white-space: pre-wrap;">SWAT team rotation: Armin -=
-&gt; Paul on Sept. 6, 2019</span></p></li><li dir=3D"ltr" style=3D"list-sty=
-le-type: disc; font-size: 11pt; font-family: Arial; background-color: trans=
-parent; font-variant-ligatures: normal; font-variant-east-asian: normal; fo=
-nt-variant-position: normal; vertical-align: baseline;"><p dir=3D"ltr" styl=
-e=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"fon=
-t-size: 11pt; background-color: transparent; font-variant-ligatures: normal=
-; font-variant-east-asian: normal; font-variant-position: normal; vertical-=
-align: baseline; white-space: pre-wrap;">SWAT team rotation: Paul -&gt; Ros=
-s on Sept. 13, 2019</span></p></li><li dir=3D"ltr" style=3D"list-style-type=
-: disc; font-size: 11pt; font-family: Consolas, sans-serif; background-colo=
-r: transparent; font-variant-ligatures: normal; font-variant-east-asian: no=
-rmal; font-variant-position: normal; vertical-align: baseline;"><p dir=3D"l=
-tr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><a href=3D=
-"https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team" style=3D=
-"text-decoration:none;"><span style=3D"font-size: 11pt; color: rgb(17, 85, =
-204); background-color: transparent; font-variant-ligatures: normal; font-v=
-ariant-east-asian: normal; font-variant-position: normal; text-decoration: =
-underline; text-decoration-skip: none; vertical-align: baseline; white-spac=
-e: pre-wrap;">https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_T=
-eam</span></a></p></li></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;ma=
-rgin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; font-famil=
-y: Arial; background-color: transparent; font-variant-ligatures: normal; fo=
-nt-variant-east-asian: normal; font-variant-position: normal; vertical-alig=
-n: baseline; white-space: pre-wrap;">Next Team Meetings:</span></p><ul styl=
-e=3D"margin-top:0;margin-bottom:0;"><li dir=3D"ltr" style=3D"list-style-typ=
-e: disc; font-size: 11pt; font-family: Arial; background-color: transparent=
-; font-variant-ligatures: normal; font-variant-east-asian: normal; font-var=
-iant-position: normal; vertical-align: baseline;"><p dir=3D"ltr" style=3D"l=
-ine-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size=
-: 11pt; background-color: transparent; font-variant-ligatures: normal; font=
--variant-east-asian: normal; font-variant-position: normal; vertical-align:=
- baseline; white-space: pre-wrap;">Bug Triage meeting Thursday Sept 5th at =
-7:30am PDT (</span><a href=3D"https://zoom.us/j/454367603" style=3D"text-de=
-coration:none;"><span style=3D"font-size: 10pt; color: rgb(17, 85, 204); ba=
-ckground-color: transparent; font-variant-ligatures: normal; font-variant-e=
-ast-asian: normal; font-variant-position: normal; text-decoration: underlin=
-e; text-decoration-skip: none; vertical-align: baseline; white-space: pre-w=
-rap;">https://zoom.us/j/454367603</span></a><span style=3D"font-size: 11pt;=
- background-color: transparent; font-variant-ligatures: normal; font-varian=
-t-east-asian: normal; font-variant-position: normal; vertical-align: baseli=
-ne; white-space: pre-wrap;">)</span></p></li><li dir=3D"ltr" style=3D"list-=
-style-type: disc; font-size: 11pt; font-family: Arial; background-color: tr=
-ansparent; font-variant-ligatures: normal; font-variant-east-asian: normal;=
- font-variant-position: normal; vertical-align: baseline;"><p dir=3D"ltr" s=
-tyle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"=
-font-size: 11pt; background-color: transparent; font-variant-ligatures: nor=
-mal; font-variant-east-asian: normal; font-variant-position: normal; vertic=
-al-align: baseline; white-space: pre-wrap;">Monthly Project Meeting Tuesday=
- Sept. 3rd at 8am PDT (</span><a href=3D"https://zoom.us/j/990892712" style=
-=3D"text-decoration:none;"><span style=3D"font-size: 11pt; color: rgb(17, 8=
-5, 204); background-color: transparent; font-variant-ligatures: normal; fon=
-t-variant-east-asian: normal; font-variant-position: normal; text-decoratio=
-n: underline; text-decoration-skip: none; vertical-align: baseline; white-s=
-pace: pre-wrap;">https://zoom.us/j/990892712)</span></a><span style=3D"font=
--size: 11pt; background-color: transparent; font-variant-ligatures: normal;=
- font-variant-east-asian: normal; font-variant-position: normal; vertical-a=
-lign: baseline; white-space: pre-wrap;">&nbsp;</span></p></li><li dir=3D"lt=
-r" style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial; bac=
-kground-color: transparent; font-variant-ligatures: normal; font-variant-ea=
-st-asian: normal; font-variant-position: normal; vertical-align: baseline;"=
-><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;=
-"><span style=3D"font-size: 11pt; background-color: transparent; font-varia=
-nt-ligatures: normal; font-variant-east-asian: normal; font-variant-positio=
-n: normal; vertical-align: baseline; white-space: pre-wrap;">Twitch - Next =
-event is Tuesday Sept. 10th at 8am PDT (</span><a href=3D"https://www.twitc=
-h.tv/yocto_project" style=3D"text-decoration:none;"><span style=3D"font-siz=
-e: 11pt; color: rgb(17, 85, 204); background-color: transparent; font-varia=
-nt-ligatures: normal; font-variant-east-asian: normal; font-variant-positio=
-n: normal; text-decoration: underline; text-decoration-skip: none; vertical=
--align: baseline; white-space: pre-wrap;">https://www.twitch.tv/yocto_proje=
-ct</span></a><span style=3D"font-size: 11pt; background-color: transparent;=
- font-variant-ligatures: normal; font-variant-east-asian: normal; font-vari=
-ant-position: normal; vertical-align: baseline; white-space: pre-wrap;">)</=
-span></p></li></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:=
-0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; font-family: Arial;=
- background-color: transparent; font-variant-ligatures: normal; font-varian=
-t-east-asian: normal; font-variant-position: normal; vertical-align: baseli=
-ne; white-space: pre-wrap;">Key Status/Updates:</span></p><ul style=3D"marg=
-in-top:0;margin-bottom:0;"><li dir=3D"ltr" style=3D"list-style-type: disc; =
-font-size: 11pt; font-family: Arial; background-color: transparent; font-va=
-riant-ligatures: normal; font-variant-east-asian: normal; font-variant-posi=
-tion: normal; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-heigh=
-t:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; b=
-ackground-color: transparent; font-variant-ligatures: normal; font-variant-=
-east-asian: normal; font-variant-position: normal; vertical-align: baseline=
-; white-space: pre-wrap;">We=E2=80=99re now in feature freeze for 3.0 and w=
-orking on bug fixing for final release</span></p></li><li dir=3D"ltr" style=
-=3D"list-style-type: disc; font-size: 11pt; font-family: Arial; background-=
-color: transparent; font-variant-ligatures: normal; font-variant-east-asian=
-: normal; font-variant-position: normal; vertical-align: baseline;"><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span=
- style=3D"font-size: 11pt; background-color: transparent; font-variant-liga=
-tures: normal; font-variant-east-asian: normal; font-variant-position: norm=
-al; vertical-align: baseline; white-space: pre-wrap;">Several key 3.0 chang=
-es have now merged:</span></p></li><ul style=3D"margin-top:0;margin-bottom:=
-0;"><li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt; font=
--family: Arial; background-color: transparent; font-variant-ligatures: norm=
-al; font-variant-east-asian: normal; font-variant-position: normal; vertica=
-l-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt=
-;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: tran=
-sparent; font-variant-ligatures: normal; font-variant-east-asian: normal; f=
-ont-variant-position: normal; vertical-align: baseline; white-space: pre-wr=
-ap;">5.2 linux-libc-kernel-headers</span></p></li><li dir=3D"ltr" style=3D"=
-list-style-type: circle; font-size: 11pt; font-family: Arial; background-co=
-lor: transparent; font-variant-ligatures: normal; font-variant-east-asian: =
-normal; font-variant-position: normal; vertical-align: baseline;"><p dir=3D=
-"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span st=
-yle=3D"font-size: 11pt; background-color: transparent; font-variant-ligatur=
-es: normal; font-variant-east-asian: normal; font-variant-position: normal;=
- vertical-align: baseline; white-space: pre-wrap;">5.2 kernel recipes</span=
-></p></li><li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt=
-; font-family: Arial; background-color: transparent; font-variant-ligatures=
-: normal; font-variant-east-asian: normal; font-variant-position: normal; v=
-ertical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-t=
-op:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color=
-: transparent; font-variant-ligatures: normal; font-variant-east-asian: nor=
-mal; font-variant-position: normal; vertical-align: baseline; white-space: =
-pre-wrap;">Removal of LSB and poky-lsb and replacement with alt config test=
-ing</span></p></li><li dir=3D"ltr" style=3D"list-style-type: circle; font-s=
-ize: 11pt; font-family: Arial; background-color: transparent; font-variant-=
-ligatures: normal; font-variant-east-asian: normal; font-variant-position: =
-normal; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38=
-;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; backgro=
-und-color: transparent; font-variant-ligatures: normal; font-variant-east-a=
-sian: normal; font-variant-position: normal; vertical-align: baseline; whit=
-e-space: pre-wrap;">Patches have significantly reduced the dependency on py=
-thon2</span></p></li><li dir=3D"ltr" style=3D"list-style-type: circle; font=
--size: 11pt; font-family: Arial; background-color: transparent; font-varian=
-t-ligatures: normal; font-variant-east-asian: normal; font-variant-position=
-: normal; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; backg=
-round-color: transparent; font-variant-ligatures: normal; font-variant-east=
--asian: normal; font-variant-position: normal; vertical-align: baseline; wh=
-ite-space: pre-wrap;">Reproducible builds are now being tested for core-ima=
-ge-minimal</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type: di=
-sc; font-size: 11pt; font-family: Arial; background-color: transparent; fon=
-t-variant-ligatures: normal; font-variant-east-asian: normal; font-variant-=
-position: normal; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-h=
-eight:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11p=
-t; background-color: transparent; font-variant-ligatures: normal; font-vari=
-ant-east-asian: normal; font-variant-position: normal; vertical-align: base=
-line; white-space: pre-wrap;">There are the following changes still under d=
-iscussion/testing:</span></p></li><ul style=3D"margin-top:0;margin-bottom:0=
-;"><li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt; font-=
-family: Arial; background-color: transparent; font-variant-ligatures: norma=
-l; font-variant-east-asian: normal; font-variant-position: normal; vertical=
--align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;=
-margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: trans=
-parent; font-variant-ligatures: normal; font-variant-east-asian: normal; fo=
-nt-variant-position: normal; vertical-align: baseline; white-space: pre-wra=
-p;">Systemd vs. sysvinit defaults (maybe for the poky alternative configura=
-tion tests)</span></p></li><li dir=3D"ltr" style=3D"list-style-type: circle=
-; font-size: 11pt; font-family: Arial; background-color: transparent; font-=
-variant-ligatures: normal; font-variant-east-asian: normal; font-variant-po=
-sition: normal; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-hei=
-ght:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt;=
- background-color: transparent; font-variant-ligatures: normal; font-varian=
-t-east-asian: normal; font-variant-position: normal; vertical-align: baseli=
-ne; white-space: pre-wrap;">Making 5.2 the default kernel for qemu (has reg=
-ressions, see below)</span></p></li><li dir=3D"ltr" style=3D"list-style-typ=
-e: circle; font-size: 11pt; font-family: Arial; background-color: transpare=
-nt; font-variant-ligatures: normal; font-variant-east-asian: normal; font-v=
-ariant-position: normal; vertical-align: baseline;"><p dir=3D"ltr" style=3D=
-"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-si=
-ze: 11pt; background-color: transparent; font-variant-ligatures: normal; fo=
-nt-variant-east-asian: normal; font-variant-position: normal; vertical-alig=
-n: baseline; white-space: pre-wrap;">Hashserv performance issue resolution<=
-/span></p></li><li dir=3D"ltr" style=3D"list-style-type: circle; font-size:=
- 11pt; font-family: Arial; background-color: transparent; font-variant-liga=
-tures: normal; font-variant-east-asian: normal; font-variant-position: norm=
-al; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;mar=
-gin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-=
-color: transparent; font-variant-ligatures: normal; font-variant-east-asian=
-: normal; font-variant-position: normal; vertical-align: baseline; white-sp=
-ace: pre-wrap;">Final configuration of hash equivalency</span></p></li><li =
-dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt; font-family:=
- Arial; background-color: transparent; font-variant-ligatures: normal; font=
--variant-east-asian: normal; font-variant-position: normal; vertical-align:=
- baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-=
-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: transparent;=
- font-variant-ligatures: normal; font-variant-east-asian: normal; font-vari=
-ant-position: normal; vertical-align: baseline; white-space: pre-wrap;">too=
-lchain testsuite patch series</span></p></li></ul><li dir=3D"ltr" style=3D"=
-list-style-type: disc; font-size: 11pt; font-family: Arial; background-colo=
-r: transparent; font-variant-ligatures: normal; font-variant-east-asian: no=
-rmal; font-variant-position: normal; vertical-align: baseline;"><p dir=3D"l=
-tr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span styl=
-e=3D"font-size: 11pt; background-color: transparent; font-variant-ligatures=
-: normal; font-variant-east-asian: normal; font-variant-position: normal; v=
-ertical-align: baseline; white-space: pre-wrap;">The sstate hash equivalenc=
-y continues to have challenges:</span></p></li><ul style=3D"margin-top:0;ma=
-rgin-bottom:0;"><li dir=3D"ltr" style=3D"list-style-type: circle; font-size=
-: 11pt; font-family: Arial; background-color: transparent; font-variant-lig=
-atures: normal; font-variant-east-asian: normal; font-variant-position: nor=
-mal; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;ma=
-rgin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background=
--color: transparent; font-variant-ligatures: normal; font-variant-east-asia=
-n: normal; font-variant-position: normal; vertical-align: baseline; white-s=
-pace: pre-wrap;">we need to rework the client/server communication to scale=
- to the autobuilder</span></p></li><li dir=3D"ltr" style=3D"list-style-type=
-: circle; font-size: 11pt; font-family: Arial; background-color: transparen=
-t; font-variant-ligatures: normal; font-variant-east-asian: normal; font-va=
-riant-position: normal; vertical-align: baseline;"><p dir=3D"ltr" style=3D"=
-line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-siz=
-e: 11pt; background-color: transparent; font-variant-ligatures: normal; fon=
-t-variant-east-asian: normal; font-variant-position: normal; vertical-align=
-: baseline; white-space: pre-wrap;">there are some bugs in the code the aut=
-obuilder continues to expose</span></p></li><li dir=3D"ltr" style=3D"list-s=
-tyle-type: circle; font-size: 11pt; font-family: Arial; background-color: t=
-ransparent; font-variant-ligatures: normal; font-variant-east-asian: normal=
-; font-variant-position: normal; vertical-align: baseline;"><p dir=3D"ltr" =
-style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D=
-"font-size: 11pt; background-color: transparent; font-variant-ligatures: no=
-rmal; font-variant-east-asian: normal; font-variant-position: normal; verti=
-cal-align: baseline; white-space: pre-wrap;">we have cases where its not 10=
-0% clear what the correct behaviour should be</span></p></li><li dir=3D"ltr=
-" style=3D"list-style-type: circle; font-size: 11pt; font-family: Arial; ba=
-ckground-color: transparent; font-variant-ligatures: normal; font-variant-e=
-ast-asian: normal; font-variant-position: normal; vertical-align: baseline;=
-"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt=
-;"><span style=3D"font-size: 11pt; background-color: transparent; font-vari=
-ant-ligatures: normal; font-variant-east-asian: normal; font-variant-positi=
-on: normal; vertical-align: baseline; white-space: pre-wrap;">test cases ar=
-e proving to be problematic to write in a maintainable way</span></p></li><=
-/ul><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-f=
-amily: Arial; background-color: transparent; font-variant-ligatures: normal=
-; font-variant-east-asian: normal; font-variant-position: normal; vertical-=
-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
-argin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: transp=
-arent; font-variant-ligatures: normal; font-variant-east-asian: normal; fon=
-t-variant-position: normal; vertical-align: baseline; white-space: pre-wrap=
-;">Patch merging is roughly up to date again</span></p></li><li dir=3D"ltr"=
- style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial; backg=
-round-color: transparent; font-variant-ligatures: normal; font-variant-east=
--asian: normal; font-variant-position: normal; vertical-align: baseline;"><=
-p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;">=
-<span style=3D"font-size: 11pt; background-color: transparent; font-variant=
--ligatures: normal; font-variant-east-asian: normal; font-variant-position:=
- normal; vertical-align: baseline; white-space: pre-wrap;">We have several =
-significant problematic bugs that are being worked on:</span></p></li><ul s=
-tyle=3D"margin-top:0;margin-bottom:0;"><li dir=3D"ltr" style=3D"list-style-=
-type: circle; font-size: 11pt; font-family: Arial; background-color: transp=
-arent; font-variant-ligatures: normal; font-variant-east-asian: normal; fon=
-t-variant-position: normal; vertical-align: baseline;"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font=
--size: 11pt; background-color: transparent; font-variant-ligatures: normal;=
- font-variant-east-asian: normal; font-variant-position: normal; vertical-a=
-lign: baseline; white-space: pre-wrap;">5.2 stap build issue on qemuarm</sp=
-an></p></li><li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11=
-pt; font-family: Arial; background-color: transparent; font-variant-ligatur=
-es: normal; font-variant-east-asian: normal; font-variant-position: normal;=
- vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin=
--top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-col=
-or: transparent; font-variant-ligatures: normal; font-variant-east-asian: n=
-ormal; font-variant-position: normal; vertical-align: baseline; white-space=
-: pre-wrap;">5.2 kprobes error message (qemuarm64, qemumips64)</span></p></=
-li><li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt; font-=
-family: Arial; background-color: transparent; font-variant-ligatures: norma=
-l; font-variant-east-asian: normal; font-variant-position: normal; vertical=
--align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;=
-margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: trans=
-parent; font-variant-ligatures: normal; font-variant-east-asian: normal; fo=
-nt-variant-position: normal; vertical-align: baseline; white-space: pre-wra=
-p;">qemumips machine hang</span></p></li></ul><li dir=3D"ltr" style=3D"list=
--style-type: disc; font-size: 11pt; font-family: Arial; background-color: t=
-ransparent; font-variant-ligatures: normal; font-variant-east-asian: normal=
-; font-variant-position: normal; vertical-align: baseline;"><p dir=3D"ltr" =
-style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D=
-"font-size: 11pt; background-color: transparent; font-variant-ligatures: no=
-rmal; font-variant-east-asian: normal; font-variant-position: normal; verti=
-cal-align: baseline; white-space: pre-wrap;">If anyone has any status items=
- for the project they=E2=80=99d like to add to the weekly reports, please e=
-mail Richard+Stephen.</span></p></li></ul><br><p dir=3D"ltr" style=3D"line-=
-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11=
-pt; font-family: Arial; background-color: transparent; font-variant-ligatur=
-es: normal; font-variant-east-asian: normal; font-variant-position: normal;=
- vertical-align: baseline; white-space: pre-wrap;">Planned Releases for YP =
-3.0 {2.8}:</span></p><ul style=3D"margin-top:0;margin-bottom:0;"><li dir=3D=
-"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial; =
-background-color: transparent; font-variant-ligatures: normal; font-variant=
--east-asian: normal; font-variant-position: normal; vertical-align: baselin=
-e;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
-pt;"><span style=3D"font-size: 11pt; background-color: transparent; font-va=
-riant-ligatures: normal; font-variant-east-asian: normal; font-variant-posi=
-tion: normal; vertical-align: baseline; white-space: pre-wrap;">M3 Release =
-6th Sept</span></p></li><li dir=3D"ltr" style=3D"list-style-type: disc; fon=
-t-size: 11pt; font-family: Arial; background-color: transparent; font-varia=
-nt-ligatures: normal; font-variant-east-asian: normal; font-variant-positio=
-n: normal; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1=
-.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; back=
-ground-color: transparent; font-variant-ligatures: normal; font-variant-eas=
-t-asian: normal; font-variant-position: normal; vertical-align: baseline; w=
-hite-space: pre-wrap;">M4 Cutoff 30th Sept - this will be YP 3.0.</span></p=
-></li><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font=
--family: Arial; background-color: transparent; font-variant-ligatures: norm=
-al; font-variant-east-asian: normal; font-variant-position: normal; vertica=
-l-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt=
-;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: tran=
-sparent; font-variant-ligatures: normal; font-variant-east-asian: normal; f=
-ont-variant-position: normal; vertical-align: baseline; white-space: pre-wr=
-ap;">YP 3.0 {2.8 (M4)} Final Release 25th Oct</span></p></li></ul><br><p di=
-r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><spa=
-n style=3D"font-size: 11pt; font-family: Arial; background-color: transpare=
-nt; font-variant-ligatures: normal; font-variant-east-asian: normal; font-v=
-ariant-position: normal; vertical-align: baseline; white-space: pre-wrap;">=
-Planned upcoming dot releases:</span></p><ul style=3D"margin-top:0;margin-b=
-ottom:0;"><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; =
-font-family: Arial; background-color: transparent; font-variant-ligatures: =
-normal; font-variant-east-asian: normal; font-variant-position: normal; ver=
-tical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top=
-:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: =
-transparent; font-variant-ligatures: normal; font-variant-east-asian: norma=
-l; font-variant-position: normal; vertical-align: baseline; white-space: pr=
-e-wrap;">YP 2.7.2 (Warrior) is planned for after YP 3.0 release.</span></p>=
-</li><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-=
-family: Arial; background-color: transparent; font-variant-ligatures: norma=
-l; font-variant-east-asian: normal; font-variant-position: normal; vertical=
--align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;=
-margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: trans=
-parent; font-variant-ligatures: normal; font-variant-east-asian: normal; fo=
-nt-variant-position: normal; vertical-align: baseline; white-space: pre-wra=
-p;">YP 2.6.4 (Thud) is planned for after YP 2.7.2&nbsp; release.</span></p>=
-</li></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margi=
-n-bottom:0pt;"><span style=3D"font-size: 11pt; font-family: Arial; backgrou=
-nd-color: transparent; font-variant-ligatures: normal; font-variant-east-as=
-ian: normal; font-variant-position: normal; vertical-align: baseline; white=
--space: pre-wrap;">Tracking Metrics:</span></p><ul style=3D"margin-top:0;ma=
-rgin-bottom:0;"><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: =
-11pt; font-family: Arial; background-color: transparent; font-variant-ligat=
-ures: normal; font-variant-east-asian: normal; font-variant-position: norma=
-l; vertical-align: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;marg=
-in-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-c=
-olor: transparent; font-variant-ligatures: normal; font-variant-east-asian:=
- normal; font-variant-position: normal; vertical-align: baseline; white-spa=
-ce: pre-wrap;">WDD 2413 (last week 2485)</span><span style=3D"font-size: 11=
-pt; font-family: Consolas, sans-serif; background-color: transparent; font-=
-variant-ligatures: normal; font-variant-east-asian: normal; font-variant-po=
-sition: normal; vertical-align: baseline; white-space: pre-wrap;"> (</span>=
-<a href=3D"https://wiki.yoctoproject.org/charts/combo.html" style=3D"text-d=
-ecoration:none;"><span style=3D"font-size: 11pt; color: rgb(17, 85, 204); b=
-ackground-color: transparent; font-variant-ligatures: normal; font-variant-=
-east-asian: normal; font-variant-position: normal; text-decoration: underli=
-ne; text-decoration-skip: none; vertical-align: baseline; white-space: pre-=
-wrap;">https://wiki.yoctoproject.org/charts/combo.html</span></a><span styl=
-e=3D"font-size: 11pt; font-family: Consolas, sans-serif; background-color: =
-transparent; font-variant-ligatures: normal; font-variant-east-asian: norma=
-l; font-variant-position: normal; vertical-align: baseline; white-space: pr=
-e-wrap;">)</span></p></li><li dir=3D"ltr" style=3D"list-style-type: disc; f=
-ont-size: 11pt; font-family: Consolas, sans-serif; background-color: transp=
-arent; font-variant-ligatures: normal; font-variant-east-asian: normal; fon=
-t-variant-position: normal; vertical-align: baseline;"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font=
--size: 11pt; font-family: Arial; background-color: transparent; font-varian=
-t-ligatures: normal; font-variant-east-asian: normal; font-variant-position=
-: normal; vertical-align: baseline; white-space: pre-wrap;">Poky Patch Metr=
-ics&nbsp;&nbsp;</span></p></li><ul style=3D"margin-top:0;margin-bottom:0;">=
-<li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt; font-fam=
-ily: Arial; background-color: transparent; font-variant-ligatures: normal; =
-font-variant-east-asian: normal; font-variant-position: normal; vertical-al=
-ign: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;mar=
-gin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: transpar=
-ent; font-variant-ligatures: normal; font-variant-east-asian: normal; font-=
-variant-position: normal; vertical-align: baseline; white-space: pre-wrap;"=
->Total patches found: 1470 (last week 1474)</span></p></li><li dir=3D"ltr" =
-style=3D"list-style-type: circle; font-size: 11pt; font-family: Consolas, s=
-ans-serif; background-color: transparent; font-variant-ligatures: normal; f=
-ont-variant-east-asian: normal; font-variant-position: normal; vertical-ali=
-gn: baseline;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;marg=
-in-bottom:0pt;"><span style=3D"font-size: 11pt; font-family: Arial; backgro=
-und-color: transparent; font-variant-ligatures: normal; font-variant-east-a=
-sian: normal; font-variant-position: normal; vertical-align: baseline; whit=
-e-space: pre-wrap;">Patches in the Pending State: 611 (42%) [last week 613 =
-(41%)]</span></p></li></ul></ul><br><p dir=3D"ltr" style=3D"line-height:1.3=
-8;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; font-f=
-amily: Arial; background-color: transparent; font-variant-ligatures: normal=
-; font-variant-east-asian: normal; font-variant-position: normal; vertical-=
-align: baseline; white-space: pre-wrap;">Key Status Links for YP:</span></p=
-><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;=
-"><a href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.8_Status" =
-style=3D"text-decoration:none;"><span style=3D"font-size: 11pt; font-family=
-: Consolas, sans-serif; color: rgb(17, 85, 204); background-color: transpar=
-ent; font-variant-ligatures: normal; font-variant-east-asian: normal; font-=
-variant-position: normal; text-decoration: underline; text-decoration-skip:=
- none; vertical-align: baseline; white-space: pre-wrap;">https://wiki.yocto=
-project.org/wiki/Yocto_Project_v2.8_Status</span></a></p><p dir=3D"ltr" sty=
-le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><a href=3D"https:=
-//wiki.yoctoproject.org/wiki/Yocto_2.8_Schedule" style=3D"text-decoration:n=
-one;"><span style=3D"font-size: 11pt; font-family: Consolas, sans-serif; co=
-lor: rgb(17, 85, 204); background-color: transparent; font-variant-ligature=
-s: normal; font-variant-east-asian: normal; font-variant-position: normal; =
-text-decoration: underline; text-decoration-skip: none; vertical-align: bas=
-eline; white-space: pre-wrap;">https://wiki.yoctoproject.org/wiki/Yocto_2.8=
-_Schedule</span></a></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top=
-:0pt;margin-bottom:0pt;"><a href=3D"https://wiki.yoctoproject.org/wiki/Yoct=
-o_2.8_Features" style=3D"text-decoration:none;"><span style=3D"font-size: 1=
-1pt; font-family: Consolas, sans-serif; color: rgb(17, 85, 204); background=
--color: transparent; font-variant-ligatures: normal; font-variant-east-asia=
-n: normal; font-variant-position: normal; text-decoration: underline; text-=
-decoration-skip: none; vertical-align: baseline; white-space: pre-wrap;">ht=
-tps://wiki.yoctoproject.org/wiki/Yocto_2.8_Features</span></a></p><br><p di=
-r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><spa=
-n style=3D"font-size: 11pt; font-family: Arial; background-color: transpare=
-nt; font-variant-ligatures: normal; font-variant-east-asian: normal; font-v=
-ariant-position: normal; vertical-align: baseline; white-space: pre-wrap;">=
-The Yocto Project=E2=80=99s technical governance is through its Technical S=
-teering Committee, more information is available at:</span></p><p dir=3D"lt=
-r" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><a href=3D"=
-https://wiki.yoctoproject.org/wiki/TSC" style=3D"text-decoration:none;"><sp=
-an style=3D"font-size: 11pt; font-family: Arial; color: rgb(17, 85, 204); b=
-ackground-color: transparent; font-variant-ligatures: normal; font-variant-=
-east-asian: normal; font-variant-position: normal; text-decoration: underli=
-ne; text-decoration-skip: none; vertical-align: baseline; white-space: pre-=
-wrap;">https://wiki.yoctoproject.org/wiki/TSC</span></a></p><br><p dir=3D"l=
-tr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span styl=
-e=3D"font-size: 11pt; font-family: Arial; background-color: transparent; fo=
-nt-variant-ligatures: normal; font-variant-east-asian: normal; font-variant=
--position: normal; vertical-align: baseline; white-space: pre-wrap;">The St=
-atus reports are now stored on the wiki at: </span><a href=3D"https://wiki.=
-yoctoproject.org/wiki/Weekly_Status" style=3D"text-decoration:none;"><span =
-style=3D"font-size: 11pt; font-family: Arial; color: rgb(17, 85, 204); back=
-ground-color: transparent; font-variant-ligatures: normal; font-variant-eas=
-t-asian: normal; font-variant-position: normal; text-decoration: underline;=
- text-decoration-skip: none; vertical-align: baseline; white-space: pre-wra=
-p;">https://wiki.yoctoproject.org/wiki/Weekly_Status</span></a></p><br><p d=
-ir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><sp=
-an style=3D"font-size: 11pt; font-family: Arial; background-color: transpar=
-ent; font-variant-ligatures: normal; font-variant-east-asian: normal; font-=
-variant-position: normal; vertical-align: baseline; white-space: pre-wrap;"=
->[If anyone has suggestions for other information you=E2=80=99d like to see=
- on this weekly status update, let us know!]</span></p><br></pre><div></div=
->
-</body></html>
+Richard: as part of the lttng/babeltrace team I advice against using this patch in OE.
 
---=-nzJM+BIdpUSR4vgtkVAn--
+Cheers
+
+----- Original Message -----
+> From: "zhe he" <zhe.he@windriver.com>
+> To: "openembedded-core" <openembedded-core@lists.openembedded.org>
+> Sent: Monday, September 2, 2019 11:09:24 PM
+> Subject: [OE-core] [PATCH] lttng: babeltrace: Fix negative clock offset
+
+> From: He Zhe <zhe.he@windriver.com>
+> 
+> Backport a patch to fix negative clock offset with the following errors, when
+> when using lttng to view traces.
+> [error] ctf_clock_declaration_visit: unexpected unary expression for clock
+> offset
+> [error] ctf_visitor_construct_metadata: clock declaration error
+> [error] Error in CTF metadata constructor -22
+> 
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+> meta/recipes-kernel/lttng/babeltrace_1.5.7.bb      |   4 +-
+> ...andle-negative-time-and-offset-from-Epoch.patch | 853 +++++++++++++++++++++
+> 2 files changed, 856 insertions(+), 1 deletion(-)
+> create mode 100644
+> meta/recipes-kernel/lttng/files/0001-Handle-negative-time-and-offset-from-Epoch.patch
+> 
+> diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.7.bb
+> b/meta/recipes-kernel/lttng/babeltrace_1.5.7.bb
+> index 05ef6d0..4b9343d 100644
+> --- a/meta/recipes-kernel/lttng/babeltrace_1.5.7.bb
+> +++ b/meta/recipes-kernel/lttng/babeltrace_1.5.7.bb
+> @@ -7,7 +7,9 @@ LIC_FILES_CHKSUM =
+> "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
+> 
+> DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
+> 
+> -SRC_URI =
+> "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-1.5"
+> +SRC_URI =
+> "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-1.5 \
+> +           file://0001-Handle-negative-time-and-offset-from-Epoch.patch \
+> +          "
+> SRCREV = "d4014aeef4b89a4aaab1af42d7b0d143d62da0ff"
+> UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)$"
+> 
+> diff --git
+> a/meta/recipes-kernel/lttng/files/0001-Handle-negative-time-and-offset-from-Epoch.patch
+> b/meta/recipes-kernel/lttng/files/0001-Handle-negative-time-and-offset-from-Epoch.patch
+> new file mode 100644
+> index 0000000..f93fea7
+> --- /dev/null
+> +++
+> b/meta/recipes-kernel/lttng/files/0001-Handle-negative-time-and-offset-from-Epoch.patch
+> @@ -0,0 +1,853 @@
+> +From d6480f9dc6a6f6536da6c3df59006ba67ef0f622 Mon Sep 17 00:00:00 2001
+> +From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> +Date: Wed, 14 Aug 2019 13:24:31 +0800
+> +Subject: [PATCH] Handle negative time and offset from Epoch
+> +
+> +Handle cases where a trace have a negative offset from Epoch.
+> +If Epoch is arbitrary (e.g. embedded system starting at 0, without any
+> +network access), the "0" can be used as correlation point between
+> +various components, and some components could start before the
+> +correlation point. Therefore, especially in traces where the time is
+> +meant to be shown in nanoseconds or cycles from the correlation point,
+> +it also makes sense to have a negative time value.
+> +
+> +It introduces API-breaking changes in the C and Python APIs, since we
+> +need to be able to return negative time values, which were previously
+> +used as errors (-1ULL).
+> +
+> +The --offset and --offset-ns command line parameters can now take
+> +negative offset (seconds and nanoseconds) values too.
+> +
+> +The [sec.ns] format is used as fallback so we don't attempt to pass
+> +a negative time value to POSIX time-formatting APIs.
+> +
+> +This also fixes an inaccurate return value in an error path of
+> +bt_ctf_event_populate_event_header().
+> +
+> +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers at efficios.com>
+> +
+> +Upstream-Status: Backport[61cf588beae752e5ddfc60b6b5310f769ac9e852]
+> +
+> +Signed-off-by: He Zhe <zhe.he@windriver.com>
+> +---
+> + converter/babeltrace.c                             |   4 +-
+> + formats/ctf-text/ctf-text.c                        |   2 +-
+> + formats/ctf/ctf.c                                  | 115 +++++++++++++++------
+> + formats/ctf/events-private.h                       |  11 +-
+> + formats/ctf/events.c                               |  11 +-
+> + .../ctf/metadata/ctf-visitor-generate-io-struct.c  |   2 +-
+> + include/babeltrace/babeltrace-internal.h           |   8 +-
+> + include/babeltrace/clock-internal.h                |   2 +-
+> + include/babeltrace/ctf-ir/clock-internal.h         |   2 +-
+> + include/babeltrace/ctf/events.h                    |   8 +-
+> + include/babeltrace/ctf/types.h                     |   6 +-
+> + include/babeltrace/format.h                        |  10 +-
+> + include/babeltrace/trace-handle-internal.h         |   8 +-
+> + include/babeltrace/trace-handle.h                  |  25 +++--
+> + lib/context.c                                      |  44 +++++---
+> + lib/trace-handle.c                                 |  40 +++----
+> + tests/lib/test_ctf_writer.c                        |   6 +-
+> + tests/lib/test_seek.c                              |  26 ++---
+> + 18 files changed, 209 insertions(+), 121 deletions(-)
+> +
+> +diff --git a/converter/babeltrace.c b/converter/babeltrace.c
+> +index ef783ed..2ac1617 100644
+> +--- a/converter/babeltrace.c
+> ++++ b/converter/babeltrace.c
+> +@@ -375,7 +375,7 @@ static int parse_options(int argc, char **argv)
+> + 				goto end;
+> + 			}
+> + 			errno = 0;
+> +-			opt_clock_offset = strtoull(str, &endptr, 0);
+> ++			opt_clock_offset = strtoll(str, &endptr, 0);
+> + 			if (*endptr != '\0' || str == endptr || errno != 0) {
+> + 				fprintf(stderr, "[error] Incorrect --clock-offset argument: %s\n", str);
+> + 				ret = -EINVAL;
+> +@@ -400,7 +400,7 @@ static int parse_options(int argc, char **argv)
+> + 				goto end;
+> + 			}
+> + 			errno = 0;
+> +-			opt_clock_offset_ns = strtoull(str, &endptr, 0);
+> ++			opt_clock_offset_ns = strtoll(str, &endptr, 0);
+> + 			if (*endptr != '\0' || str == endptr || errno != 0) {
+> + 				fprintf(stderr, "[error] Incorrect --clock-offset-ns argument: %s\n",
+> str);
+> + 				ret = -EINVAL;
+> +diff --git a/formats/ctf-text/ctf-text.c b/formats/ctf-text/ctf-text.c
+> +index 16f156d..e001a54 100644
+> +--- a/formats/ctf-text/ctf-text.c
+> ++++ b/formats/ctf-text/ctf-text.c
+> +@@ -43,7 +43,7 @@
+> + #include <unistd.h>
+> + #include <stdlib.h>
+> +
+> +-#define NSEC_PER_SEC 1000000000ULL
+> ++#define NSEC_PER_SEC 1000000000LL
+> +
+> + int opt_all_field_names,
+> + 	opt_scope_field_names,
+> +diff --git a/formats/ctf/ctf.c b/formats/ctf/ctf.c
+> +index 980ebc9..f2d4c64 100644
+> +--- a/formats/ctf/ctf.c
+> ++++ b/formats/ctf/ctf.c
+> +@@ -70,7 +70,7 @@
+> +  */
+> + #define WRITE_PACKET_LEN	(getpagesize() * 8 * CHAR_BIT)
+> +
+> +-#define NSEC_PER_SEC 1000000000ULL
+> ++#define NSEC_PER_SEC 1000000000LL
+> +
+> + #define INDEX_PATH "./index/%s.idx"
+> +
+> +@@ -79,8 +79,8 @@ int opt_clock_cycles,
+> + 	opt_clock_date,
+> + 	opt_clock_gmt;
+> +
+> +-uint64_t opt_clock_offset;
+> +-uint64_t opt_clock_offset_ns;
+> ++int64_t opt_clock_offset;
+> ++int64_t opt_clock_offset_ns;
+> +
+> + extern int yydebug;
+> + char *opt_debug_info_dir;
+> +@@ -114,11 +114,13 @@ void ctf_set_handle(struct bt_trace_descriptor
+> *descriptor,
+> + static
+> + int ctf_close_trace(struct bt_trace_descriptor *descriptor);
+> + static
+> +-uint64_t ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
+> +-		struct bt_trace_handle *handle, enum bt_clock_type type);
+> ++int ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
+> ++               struct bt_trace_handle *handle, enum bt_clock_type type,
+> ++               int64_t *timestamp);
+> + static
+> +-uint64_t ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
+> +-		struct bt_trace_handle *handle, enum bt_clock_type type);
+> ++int ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
+> ++               struct bt_trace_handle *handle, enum bt_clock_type type,
+> ++               int64_t *timestamp);
+> + static
+> + int ctf_convert_index_timestamp(struct bt_trace_descriptor *tdp);
+> +
+> +@@ -167,17 +169,20 @@ void bt_ctf_hook(void)
+> + }
+> +
+> + static
+> +-uint64_t ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
+> +-		struct bt_trace_handle *handle, enum bt_clock_type type)
+> ++int ctf_timestamp_begin(struct bt_trace_descriptor *descriptor,
+> ++               struct bt_trace_handle *handle, enum bt_clock_type type,
+> ++               int64_t *timestamp)
+> + {
+> + 	struct ctf_trace *tin;
+> +-	uint64_t begin = ULLONG_MAX;
+> +-	int i, j;
+> ++        int64_t begin = LLONG_MAX;
+> ++        int i, j, ret;
+> +
+> + 	tin = container_of(descriptor, struct ctf_trace, parent);
+> +
+> +-	if (!tin)
+> ++        if (!tin || !timestamp) {
+> ++                ret = -EINVAL;
+> + 		goto error;
+> ++	}
+> +
+> + 	/* for each stream_class */
+> + 	for (i = 0; i < tin->streams->len; i++) {
+> +@@ -198,8 +203,10 @@ uint64_t ctf_timestamp_begin(struct bt_trace_descriptor
+> *descriptor,
+> + 					parent);
+> + 			stream_pos = &cfs->pos;
+> +
+> +-			if (!stream_pos->packet_index)
+> ++                        if (!stream_pos->packet_index) {
+> ++                                ret = -EINVAL;
+> + 				goto error;
+> ++			}
+> +
+> + 			if (stream_pos->packet_index->len <= 0)
+> + 				continue;
+> +@@ -214,29 +221,38 @@ uint64_t ctf_timestamp_begin(struct bt_trace_descriptor
+> *descriptor,
+> + 				if (index->ts_cycles.timestamp_begin < begin)
+> + 					begin = index->ts_cycles.timestamp_begin;
+> + 			} else {
+> ++				ret = -EINVAL;
+> + 				goto error;
+> + 			}
+> + 		}
+> + 	}
+> +
+> +-	return begin;
+> ++        if (begin == LLONG_MAX) {
+> ++                ret = -ENOENT;
+> ++                goto error;
+> ++        }
+> ++        *timestamp = begin;
+> ++        return 0;
+> +
+> + error:
+> +-	return -1ULL;
+> ++	return ret;
+> + }
+> +
+> + static
+> +-uint64_t ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
+> +-		struct bt_trace_handle *handle, enum bt_clock_type type)
+> ++int ctf_timestamp_end(struct bt_trace_descriptor *descriptor,
+> ++               struct bt_trace_handle *handle, enum bt_clock_type type,
+> ++               int64_t *timestamp)
+> + {
+> + 	struct ctf_trace *tin;
+> +-	uint64_t end = 0;
+> +-	int i, j;
+> ++        int64_t end = LLONG_MIN;
+> ++        int i, j, ret;
+> +
+> + 	tin = container_of(descriptor, struct ctf_trace, parent);
+> +
+> +-	if (!tin)
+> ++        if (!tin || !timestamp) {
+> ++                ret = -EINVAL;
+> + 		goto error;
+> ++	}
+> +
+> + 	/* for each stream_class */
+> + 	for (i = 0; i < tin->streams->len; i++) {
+> +@@ -257,8 +273,10 @@ uint64_t ctf_timestamp_end(struct bt_trace_descriptor
+> *descriptor,
+> + 					parent);
+> + 			stream_pos = &cfs->pos;
+> +
+> +-			if (!stream_pos->packet_index)
+> ++                        if (!stream_pos->packet_index) {
+> ++                                ret = -EINVAL;
+> + 				goto error;
+> ++			}
+> +
+> + 			if (stream_pos->packet_index->len <= 0)
+> + 				continue;
+> +@@ -273,15 +291,21 @@ uint64_t ctf_timestamp_end(struct bt_trace_descriptor
+> *descriptor,
+> + 				if (index->ts_cycles.timestamp_end > end)
+> + 					end = index->ts_cycles.timestamp_end;
+> + 			} else {
+> ++				ret = -EINVAL;
+> + 				goto error;
+> + 			}
+> + 		}
+> + 	}
+> +
+> +-	return end;
+> ++        if (end == LLONG_MIN) {
+> ++                ret = -ENOENT;
+> ++                goto error;
+> ++        }
+> ++        *timestamp = end;
+> ++        return 0;
+> +
+> + error:
+> +-	return -1ULL;
+> ++	return ret;
+> + }
+> +
+> + /*
+> +@@ -328,7 +352,9 @@ void ctf_print_timestamp_real(FILE *fp,
+> + 			struct ctf_stream_definition *stream,
+> + 			uint64_t timestamp)
+> + {
+> +-	uint64_t ts_sec = 0, ts_nsec;
+> ++        int64_t ts_sec = 0, ts_nsec;
+> ++        uint64_t ts_sec_abs, ts_nsec_abs;
+> ++        bool is_negative;
+> +
+> + 	ts_nsec = timestamp;
+> +
+> +@@ -341,9 +367,40 @@ void ctf_print_timestamp_real(FILE *fp,
+> + 	ts_sec += ts_nsec / NSEC_PER_SEC;
+> + 	ts_nsec = ts_nsec % NSEC_PER_SEC;
+> +
+> ++        if (ts_sec >= 0 && ts_nsec >= 0) {
+> ++                is_negative = false;
+> ++                ts_sec_abs = ts_sec;
+> ++                ts_nsec_abs = ts_nsec;
+> ++        } else if (ts_sec > 0 && ts_nsec < 0) {
+> ++                is_negative = false;
+> ++                ts_sec_abs = ts_sec - 1;
+> ++                ts_nsec_abs = NSEC_PER_SEC + ts_nsec;
+> ++        } else if (ts_sec == 0 && ts_nsec < 0) {
+> ++                is_negative = true;
+> ++                ts_sec_abs = ts_sec;
+> ++                ts_nsec_abs = -ts_nsec;
+> ++        } else if (ts_sec < 0 && ts_nsec > 0) {
+> ++                is_negative = true;
+> ++                ts_sec_abs = -(ts_sec + 1);
+> ++                ts_nsec_abs = NSEC_PER_SEC - ts_nsec;
+> ++        } else if (ts_sec < 0 && ts_nsec == 0) {
+> ++                is_negative = true;
+> ++                ts_sec_abs = -ts_sec;
+> ++                ts_nsec_abs = ts_nsec;
+> ++        } else {        /* (ts_sec < 0 && ts_nsec < 0) */
+> ++                is_negative = true;
+> ++                ts_sec_abs = -ts_sec;
+> ++                ts_nsec_abs = -ts_nsec;
+> ++        }
+> ++
+> + 	if (!opt_clock_seconds) {
+> + 		struct tm tm;
+> +-		time_t time_s = (time_t) ts_sec;
+> ++                time_t time_s = (time_t) ts_sec_abs;
+> ++
+> ++                if (is_negative) {
+> ++                        fprintf(stderr, "[warning] Fallback to [sec.ns] for
+> printing negative time value. Use --clock-seconds.\n");
+> ++                        goto seconds;
+> ++                }
+> +
+> + 		if (!opt_clock_gmt) {
+> + 			struct tm *res;
+> +@@ -377,12 +434,12 @@ void ctf_print_timestamp_real(FILE *fp,
+> + 		}
+> + 		/* Print time in HH:MM:SS.ns */
+> + 		fprintf(fp, "%02d:%02d:%02d.%09" PRIu64,
+> +-			tm.tm_hour, tm.tm_min, tm.tm_sec, ts_nsec);
+> ++			tm.tm_hour, tm.tm_min, tm.tm_sec, ts_nsec_abs);
+> + 		goto end;
+> + 	}
+> + seconds:
+> +-	fprintf(fp, "%3" PRIu64 ".%09" PRIu64,
+> +-		ts_sec, ts_nsec);
+> ++        fprintf(fp, "%s%" PRId64 ".%09" PRIu64,
+> ++                is_negative ? "-" : "", ts_sec_abs, ts_nsec_abs);
+> +
+> + end:
+> + 	return;
+> +@@ -401,7 +458,7 @@ void ctf_print_timestamp_cycles(FILE *fp,
+> +
+> + void ctf_print_timestamp(FILE *fp,
+> + 		struct ctf_stream_definition *stream,
+> +-		uint64_t timestamp)
+> ++		int64_t timestamp)
+> + {
+> + 	if (opt_clock_cycles) {
+> + 		ctf_print_timestamp_cycles(fp, stream, timestamp);
+> +diff --git a/formats/ctf/events-private.h b/formats/ctf/events-private.h
+> +index 9bea75d..8acdcfa 100644
+> +--- a/formats/ctf/events-private.h
+> ++++ b/formats/ctf/events-private.h
+> +@@ -35,20 +35,19 @@
+> + #include <babeltrace/clock-internal.h>
+> +
+> + static inline
+> +-uint64_t ctf_get_real_timestamp(struct ctf_stream_definition *stream,
+> +-			uint64_t timestamp)
+> ++int64_t ctf_get_real_timestamp(struct ctf_stream_definition *stream,
+> ++                       uint64_t ts_cycles)
+> + {
+> +-	uint64_t ts_nsec;
+> ++	int64_t ts_nsec;
+> + 	struct ctf_trace *trace = stream->stream_class->trace;
+> + 	struct trace_collection *tc = trace->parent.collection;
+> +-	uint64_t tc_offset;
+> ++	int64_t tc_offset;
+> +
+> + 	if (tc->clock_use_offset_avg)
+> + 		tc_offset = tc->single_clock_offset_avg;
+> + 	else
+> + 		tc_offset = clock_offset_ns(trace->parent.single_clock);
+> +-
+> +-	ts_nsec = clock_cycles_to_ns(stream->current_clock, timestamp);
+> ++	ts_nsec = clock_cycles_to_ns(stream->current_clock, ts_cycles);
+> + 	ts_nsec += tc_offset;	/* Add offset */
+> + 	return ts_nsec;
+> + }
+> +diff --git a/formats/ctf/events.c b/formats/ctf/events.c
+> +index bd195b9..010b937 100644
+> +--- a/formats/ctf/events.c
+> ++++ b/formats/ctf/events.c
+> +@@ -315,18 +315,19 @@ int bt_ctf_event_get_handle_id(const struct bt_ctf_event
+> *ctf_event)
+> + 	return ret;
+> + }
+> +
+> +-uint64_t bt_ctf_get_timestamp(const struct bt_ctf_event *ctf_event)
+> ++int bt_ctf_get_timestamp(const struct bt_ctf_event *ctf_event, int64_t
+> *timestamp)
+> + {
+> + 	const struct ctf_event_definition *event;
+> +
+> +-	if (!ctf_event)
+> +-		return -1ULL;
+> ++        if (!ctf_event || !timestamp)
+> ++                return -1;
+> +
+> + 	event = ctf_event->parent;
+> + 	if (event && event->stream->has_timestamp)
+> +-		return event->stream->real_timestamp;
+> ++		*timestamp = event->stream->real_timestamp;
+> + 	else
+> +-		return -1ULL;
+> ++		return -1;
+> ++	return 0;
+> + }
+> +
+> + uint64_t bt_ctf_get_cycles(const struct bt_ctf_event *ctf_event)
+> +diff --git a/formats/ctf/metadata/ctf-visitor-generate-io-struct.c
+> b/formats/ctf/metadata/ctf-visitor-generate-io-struct.c
+> +index 8d348d6..036bb26 100644
+> +--- a/formats/ctf/metadata/ctf-visitor-generate-io-struct.c
+> ++++ b/formats/ctf/metadata/ctf-visitor-generate-io-struct.c
+> +@@ -217,9 +217,9 @@ int get_unary_signed(struct bt_list_head *head, int64_t
+> *value)
+> + 	struct ctf_node *node;
+> + 	int i = 0;
+> +
+> ++
+> + 	bt_list_for_each_entry(node, head, siblings) {
+> + 		if (node->type != NODE_UNARY_EXPRESSION
+> +-				|| node->u.unary_expression.type != UNARY_UNSIGNED_CONSTANT
+> + 				|| (node->u.unary_expression.type != UNARY_UNSIGNED_CONSTANT &&
+> node->u.unary_expression.type != UNARY_SIGNED_CONSTANT)
+> + 				|| node->u.unary_expression.link != UNARY_LINK_UNKNOWN
+> + 				|| i != 0)
+> +diff --git a/include/babeltrace/babeltrace-internal.h
+> b/include/babeltrace/babeltrace-internal.h
+> +index 6f8e200..3e137e4 100644
+> +--- a/include/babeltrace/babeltrace-internal.h
+> ++++ b/include/babeltrace/babeltrace-internal.h
+> +@@ -178,8 +178,8 @@ struct trace_collection {
+> + 	GPtrArray *array;	/* struct bt_trace_descriptor */
+> + 	GHashTable *clocks;	/* struct ctf_clock */
+> +
+> +-	uint64_t single_clock_offset_avg;
+> +-	uint64_t offset_first;
+> ++	int64_t single_clock_offset_avg;
+> ++	int64_t offset_first;
+> + 	int64_t delta_offset_first_sum;
+> + 	int offset_nr;
+> + 	int clock_use_offset_avg;
+> +@@ -208,8 +208,8 @@ extern int opt_all_field_names,
+> + 	opt_clock_force_correlate,
+> + 	opt_debug_info_full_path;
+> +
+> +-extern uint64_t opt_clock_offset;
+> +-extern uint64_t opt_clock_offset_ns;
+> ++extern int64_t opt_clock_offset;
+> ++extern int64_t opt_clock_offset_ns;
+> + extern int babeltrace_ctf_console_output;
+> + extern char *opt_debug_info_dir;
+> + extern char *opt_debug_info_target_prefix;
+> +diff --git a/include/babeltrace/clock-internal.h
+> b/include/babeltrace/clock-internal.h
+> +index cd6bdba..86954b7 100644
+> +--- a/include/babeltrace/clock-internal.h
+> ++++ b/include/babeltrace/clock-internal.h
+> +@@ -49,7 +49,7 @@ uint64_t clock_cycles_to_ns(struct ctf_clock *clock, uint64_t
+> cycles)
+> +  * mantissa.
+> +  */
+> + static inline
+> +-uint64_t clock_offset_ns(struct ctf_clock *clock)
+> ++int64_t clock_offset_ns(struct ctf_clock *clock)
+> + {
+> + 	return clock->offset_s * 1000000000ULL
+> + 			+ clock_cycles_to_ns(clock, clock->offset);
+> +diff --git a/include/babeltrace/ctf-ir/clock-internal.h
+> b/include/babeltrace/ctf-ir/clock-internal.h
+> +index 7567770..f1e896b 100644
+> +--- a/include/babeltrace/ctf-ir/clock-internal.h
+> ++++ b/include/babeltrace/ctf-ir/clock-internal.h
+> +@@ -42,7 +42,7 @@ struct bt_ctf_clock {
+> + 	uint64_t precision;
+> + 	int64_t offset_s;	/* Offset in seconds */
+> + 	int64_t offset;		/* Offset in ticks */
+> +-	uint64_t value;		/* Current clock value */
+> ++	int64_t value;		/* Current clock value */
+> + 	uuid_t uuid;
+> + 	int uuid_set;
+> + 	int absolute;
+> +diff --git a/include/babeltrace/ctf/events.h b/include/babeltrace/ctf/events.h
+> +index c81d885..15830a3 100644
+> +--- a/include/babeltrace/ctf/events.h
+> ++++ b/include/babeltrace/ctf/events.h
+> +@@ -109,10 +109,12 @@ const char *bt_ctf_event_name(const struct bt_ctf_event
+> *event);
+> + uint64_t bt_ctf_get_cycles(const struct bt_ctf_event *event);
+> +
+> + /*
+> +- * bt_ctf_get_timestamp: returns the timestamp of the event offsetted
+> +- * with the system clock source (in ns) or -1ULL on error
+> ++ * bt_ctf_get_timestamp: get the timestamp of the event offsetted
+> ++ * with the system clock source (in ns) in *timestamp.
+> ++ *
+> ++ * Return 0 on success, or -1ULL on error.
+> +  */
+> +-uint64_t bt_ctf_get_timestamp(const struct bt_ctf_event *event);
+> ++int bt_ctf_get_timestamp(const struct bt_ctf_event *event, int64_t
+> *timestamp);
+> +
+> + /*
+> +  * bt_ctf_get_field_list: obtain the list of fields for compound type
+> +diff --git a/include/babeltrace/ctf/types.h b/include/babeltrace/ctf/types.h
+> +index 0bc003c..4b626b3 100644
+> +--- a/include/babeltrace/ctf/types.h
+> ++++ b/include/babeltrace/ctf/types.h
+> +@@ -46,8 +46,8 @@
+> + struct bt_stream_callbacks;
+> +
+> + struct packet_index_time {
+> +-	uint64_t timestamp_begin;
+> +-	uint64_t timestamp_end;
+> ++	int64_t timestamp_begin;
+> ++	int64_t timestamp_end;
+> + };
+> +
+> + struct packet_index {
+> +@@ -253,7 +253,7 @@ int ctf_pos_get_event(struct ctf_stream_pos *pos)
+> + }
+> +
+> + void ctf_print_timestamp(FILE *fp, struct ctf_stream_definition *stream,
+> +-			uint64_t timestamp);
+> ++			int64_t timestamp);
+> + int ctf_append_trace_metadata(struct bt_trace_descriptor *tdp,
+> + 			FILE *metadata_fp);
+> + void ctf_print_discarded_lost(FILE *fp, struct ctf_stream_definition *stream);
+> +diff --git a/include/babeltrace/format.h b/include/babeltrace/format.h
+> +index dea8e0e..bf33a23 100644
+> +--- a/include/babeltrace/format.h
+> ++++ b/include/babeltrace/format.h
+> +@@ -73,10 +73,12 @@ struct bt_format {
+> + 			struct bt_context *ctx);
+> + 	void (*set_handle)(struct bt_trace_descriptor *descriptor,
+> + 			struct bt_trace_handle *handle);
+> +-	uint64_t (*timestamp_begin)(struct bt_trace_descriptor *descriptor,
+> +-			struct bt_trace_handle *handle, enum bt_clock_type type);
+> +-	uint64_t (*timestamp_end)(struct bt_trace_descriptor *descriptor,
+> +-			struct bt_trace_handle *handle, enum bt_clock_type type);
+> ++        int (*timestamp_begin)(struct bt_trace_descriptor *descriptor,
+> ++                        struct bt_trace_handle *handle, enum bt_clock_type
+> type,
+> ++                        int64_t *timestamp);
+> ++        int (*timestamp_end)(struct bt_trace_descriptor *descriptor,
+> ++                        struct bt_trace_handle *handle, enum bt_clock_type
+> type,
+> ++                        int64_t *timestamp);
+> + 	int (*convert_index_timestamp)(struct bt_trace_descriptor *descriptor);
+> + };
+> +
+> +diff --git a/include/babeltrace/trace-handle-internal.h
+> b/include/babeltrace/trace-handle-internal.h
+> +index 5e9c1c6..924c730 100644
+> +--- a/include/babeltrace/trace-handle-internal.h
+> ++++ b/include/babeltrace/trace-handle-internal.h
+> +@@ -46,10 +46,10 @@ struct bt_trace_handle {
+> + 	struct bt_trace_descriptor *td;
+> + 	struct bt_format *format;
+> + 	char path[PATH_MAX];
+> +-	uint64_t real_timestamp_begin;
+> +-	uint64_t real_timestamp_end;
+> +-	uint64_t cycles_timestamp_begin;
+> +-	uint64_t cycles_timestamp_end;
+> ++	int64_t real_timestamp_begin;
+> ++	int64_t real_timestamp_end;
+> ++	int64_t cycles_timestamp_begin;
+> ++	int64_t cycles_timestamp_end;
+> + };
+> +
+> + /*
+> +diff --git a/include/babeltrace/trace-handle.h
+> b/include/babeltrace/trace-handle.h
+> +index 96e4a81..f6d7af8 100644
+> +--- a/include/babeltrace/trace-handle.h
+> ++++ b/include/babeltrace/trace-handle.h
+> +@@ -53,20 +53,25 @@ struct bt_ctf_event;
+> + const char *bt_trace_handle_get_path(struct bt_context *ctx, int handle_id);
+> +
+> + /*
+> +- * bt_trace_handle_get_timestamp_begin : returns the creation time (in
+> +- * nanoseconds or cycles depending on type) of the buffers of a trace
+> +- * or -1ULL on error.
+> ++ * bt_trace_handle_get_timestamp_begin : get the creation time (in
+> ++ * nanoseconds or cycles depending on type) of the buffers of a trace.
+> ++ *
+> ++ * Returns 0 on success, -1 on error.
+> +  */
+> +-uint64_t bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
+> +-		int handle_id, enum bt_clock_type type);
+> ++int bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
+> ++                int handle_id, enum bt_clock_type type,
+> ++                int64_t *timestamp);
+> +
+> + /*
+> +- * bt_trace_handle_get_timestamp_end : returns the destruction timestamp
+> +- * (in nanoseconds or cycles depending on type) of the buffers of a trace
+> +- * or -1ULL on error.
+> ++ * bt_trace_handle_get_timestamp_end : get the destruction time
+> ++ * (in nanoseconds or cycles depending on type) of the buffers of a
+> ++ * trace.
+> ++ *
+> ++ * Returns 0 on success, -1 on error.
+> +  */
+> +-uint64_t bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
+> +-		int handle_id, enum bt_clock_type type);
+> ++int bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
+> ++               int handle_id, enum bt_clock_type type,
+> ++               int64_t *timestamp);
+> +
+> + /*
+> +  * bt_ctf_event_get_handle_id : get the handle id associated with an event
+> +diff --git a/lib/context.c b/lib/context.c
+> +index 87901b3..34a1bc8 100644
+> +--- a/lib/context.c
+> ++++ b/lib/context.c
+> +@@ -139,18 +139,38 @@ int bt_context_add_trace(struct bt_context *ctx, const
+> char *path,
+> + 			goto error_collection_del;
+> + 	}
+> +
+> +-	if (fmt->timestamp_begin)
+> +-		handle->real_timestamp_begin = fmt->timestamp_begin(td,
+> +-				handle, BT_CLOCK_REAL);
+> +-	if (fmt->timestamp_end)
+> +-		handle->real_timestamp_end = fmt->timestamp_end(td, handle,
+> +-				BT_CLOCK_REAL);
+> +-	if (fmt->timestamp_begin)
+> +-		handle->cycles_timestamp_begin = fmt->timestamp_begin(td,
+> +-				handle, BT_CLOCK_CYCLES);
+> +-	if (fmt->timestamp_end)
+> +-		handle->cycles_timestamp_end = fmt->timestamp_end(td, handle,
+> +-				BT_CLOCK_CYCLES);
+> ++        if (fmt->timestamp_begin) {
+> ++                ret = fmt->timestamp_begin(td, handle, BT_CLOCK_REAL,
+> ++                                &handle->real_timestamp_begin);
+> ++                if (ret < 0 && ret != -ENOENT) {
+> ++                        ret = -1;
+> ++                        goto error_collection_del;
+> ++                }
+> ++        }
+> ++        if (fmt->timestamp_end) {
+> ++                ret = fmt->timestamp_end(td, handle, BT_CLOCK_REAL,
+> ++                                &handle->real_timestamp_end);
+> ++                if (ret < 0 && ret != -ENOENT) {
+> ++                        ret = -1;
+> ++                        goto error_collection_del;
+> ++                }
+> ++        }
+> ++        if (fmt->timestamp_begin) {
+> ++                ret = fmt->timestamp_begin(td, handle, BT_CLOCK_CYCLES,
+> ++                                &handle->cycles_timestamp_begin);
+> ++                if (ret < 0 && ret != -ENOENT) {
+> ++                        ret = -1;
+> ++                        goto error_collection_del;
+> ++                }
+> ++        }
+> ++        if (fmt->timestamp_end) {
+> ++                ret = fmt->timestamp_end(td, handle, BT_CLOCK_CYCLES,
+> ++                                &handle->cycles_timestamp_end);
+> ++                if (ret < 0 && ret != -ENOENT) {
+> ++                        ret = -1;
+> ++                        goto error_collection_del;
+> ++                }
+> ++        }
+> +
+> + 	/* Add new handle to container */
+> + 	g_hash_table_insert(ctx->trace_handles,
+> +diff --git a/lib/trace-handle.c b/lib/trace-handle.c
+> +index d5b906a..0fa7494 100644
+> +--- a/lib/trace-handle.c
+> ++++ b/lib/trace-handle.c
+> +@@ -66,54 +66,56 @@ const char *bt_trace_handle_get_path(struct bt_context
+> *ctx, int handle_id)
+> + 	return handle->path;
+> + }
+> +
+> +-uint64_t bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
+> +-		int handle_id, enum bt_clock_type type)
+> ++int bt_trace_handle_get_timestamp_begin(struct bt_context *ctx,
+> ++               int handle_id, enum bt_clock_type type,
+> ++               int64_t *timestamp)
+> + {
+> + 	struct bt_trace_handle *handle;
+> +-	uint64_t ret;
+> +-
+> +-	if (!ctx)
+> +-		return -1ULL;
+> ++	int ret = 0;
+> ++
+> ++        if (!ctx || !timestamp)
+> ++                return -1;
+> +
+> + 	handle = g_hash_table_lookup(ctx->trace_handles,
+> + 			(gpointer) (unsigned long) handle_id);
+> + 	if (!handle) {
+> +-		ret = -1ULL;
+> ++		ret = -1;
+> + 		goto end;
+> + 	}
+> + 	if (type == BT_CLOCK_REAL) {
+> +-		ret = handle->real_timestamp_begin;
+> ++		*timestamp = handle->real_timestamp_begin;
+> + 	} else if (type == BT_CLOCK_CYCLES) {
+> +-		ret = handle->cycles_timestamp_begin;
+> ++		*timestamp = handle->cycles_timestamp_begin;
+> + 	} else {
+> +-		ret = -1ULL;
+> ++		ret = -1;
+> + 	}
+> +
+> + end:
+> + 	return ret;
+> + }
+> +
+> +-uint64_t bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
+> +-		int handle_id, enum bt_clock_type type)
+> ++int bt_trace_handle_get_timestamp_end(struct bt_context *ctx,
+> ++               int handle_id, enum bt_clock_type type,
+> ++               int64_t *timestamp)
+> + {
+> + 	struct bt_trace_handle *handle;
+> +-	uint64_t ret;
+> ++	int ret = 0;
+> +
+> +-	if (!ctx)
+> +-		return -1ULL;
+> ++        if (!ctx || !timestamp)
+> ++                return -1;
+> +
+> + 	handle = g_hash_table_lookup(ctx->trace_handles,
+> + 			(gpointer) (unsigned long) handle_id);
+> + 	if (!handle) {
+> +-		ret = -1ULL;
+> ++		ret = -1;
+> + 		goto end;
+> + 	}
+> + 	if (type == BT_CLOCK_REAL) {
+> +-		ret = handle->real_timestamp_end;
+> ++		*timestamp = handle->real_timestamp_end;
+> + 	} else if (type == BT_CLOCK_CYCLES) {
+> +-		ret = handle->cycles_timestamp_end;
+> ++		*timestamp = handle->cycles_timestamp_end;
+> + 	} else {
+> +-		ret = -1ULL;
+> ++		ret = -1;
+> + 	}
+> +
+> + end:
+> +diff --git a/tests/lib/test_ctf_writer.c b/tests/lib/test_ctf_writer.c
+> +index 53613c9..29d76df 100644
+> +--- a/tests/lib/test_ctf_writer.c
+> ++++ b/tests/lib/test_ctf_writer.c
+> +@@ -45,7 +45,7 @@
+> + #define SEQUENCE_TEST_LENGTH 10
+> + #define PACKET_RESIZE_TEST_LENGTH 100000
+> +
+> +-static uint64_t current_time;
+> ++static int64_t current_time;
+> +
+> + void validate_metadata(char *parser_path, char *metadata_path)
+> + {
+> +@@ -695,8 +695,8 @@ int main(int argc, char **argv)
+> + 	const char *clock_name = "test_clock";
+> + 	const char *clock_description = "This is a test clock";
+> + 	const uint64_t frequency = 1000000000;
+> +-	const uint64_t offset_s = 1351530929945824323;
+> +-	const uint64_t offset = 1234567;
+> ++	const int64_t offset_s = 1351530929945824323;
+> ++	const int64_t offset = 1234567;
+> + 	const uint64_t precision = 10;
+> + 	char *metadata_string;
+> + 	struct bt_ctf_writer *writer;
+> +diff --git a/tests/lib/test_seek.c b/tests/lib/test_seek.c
+> +index 3c78e8a..81a72a2 100644
+> +--- a/tests/lib/test_seek.c
+> ++++ b/tests/lib/test_seek.c
+> +@@ -33,7 +33,7 @@
+> + #include <tap/tap.h>
+> + #include "common.h"
+> +
+> +-#define NR_TESTS	29
+> ++#define NR_TESTS	36
+> +
+> + void run_seek_begin(char *path, uint64_t expected_begin)
+> + {
+> +@@ -42,8 +42,8 @@ void run_seek_begin(char *path, uint64_t expected_begin)
+> + 	struct bt_ctf_event *event;
+> + 	struct bt_iter_pos newpos;
+> + 	int ret;
+> +-	uint64_t timestamp_begin;
+> +-	uint64_t timestamp_seek_begin;
+> ++	int64_t timestamp_begin;
+> ++	int64_t timestamp_seek_begin;
+> + 	unsigned int nr_seek_begin_test;
+> +
+> + 	nr_seek_begin_test = 5;
+> +@@ -67,7 +67,7 @@ void run_seek_begin(char *path, uint64_t expected_begin)
+> + 	ok(event, "Event valid");
+> +
+> + 	/* Validate that the first timestamp is right */
+> +-	timestamp_begin = bt_ctf_get_timestamp(event);
+> ++	ok1(bt_ctf_get_timestamp(event, &timestamp_begin) == 0);
+> +
+> + 	ok1(timestamp_begin == expected_begin);
+> +
+> +@@ -81,7 +81,7 @@ void run_seek_begin(char *path, uint64_t expected_begin)
+> +
+> + 	ok(event, "Event valid");
+> +
+> +-	timestamp_seek_begin = bt_ctf_get_timestamp(event);
+> ++	ok1(bt_ctf_get_timestamp(event, &timestamp_seek_begin) == 0);
+> +
+> + 	ok1(timestamp_begin == timestamp_seek_begin);
+> +
+> +@@ -96,7 +96,7 @@ void run_seek_last(char *path, uint64_t expected_last)
+> + 	struct bt_ctf_event *event;
+> + 	struct bt_iter_pos newpos;
+> + 	int ret;
+> +-	uint64_t timestamp_last;
+> ++	int64_t timestamp_last;
+> + 	unsigned int nr_seek_last_tests;
+> +
+> + 	nr_seek_last_tests = 6;
+> +@@ -129,7 +129,7 @@ void run_seek_last(char *path, uint64_t expected_last)
+> +
+> + 	ok(event, "Event valid at last position");
+> +
+> +-	timestamp_last = bt_ctf_get_timestamp(event);
+> ++	ok1(bt_ctf_get_timestamp(event, &timestamp_last) == 0);
+> +
+> + 	ok1(timestamp_last == expected_last);
+> +
+> +@@ -152,7 +152,7 @@ void run_seek_time_at_last(char *path, uint64_t
+> expected_last)
+> + 	struct bt_ctf_event *event;
+> + 	struct bt_iter_pos newpos;
+> + 	int ret;
+> +-	uint64_t timestamp_last;
+> ++	int64_t timestamp_last;
+> + 	unsigned int nr_seek_time_at_last_tests;
+> +
+> + 	nr_seek_time_at_last_tests = 6;
+> +@@ -188,7 +188,7 @@ void run_seek_time_at_last(char *path, uint64_t
+> expected_last)
+> +
+> + 	ok(event, "Event valid at last position");
+> +
+> +-	timestamp_last = bt_ctf_get_timestamp(event);
+> ++	ok1(bt_ctf_get_timestamp(event, &timestamp_last) == 0);
+> +
+> + 	ok1(timestamp_last == expected_last);
+> +
+> +@@ -213,7 +213,7 @@ void run_seek_cycles(char *path,
+> + 	struct bt_ctf_event *event;
+> + 	struct bt_iter_pos newpos;
+> + 	int ret;
+> +-	uint64_t timestamp;
+> ++	int64_t timestamp;
+> +
+> + 	unsigned int nr_seek_cycles_tests;
+> +
+> +@@ -247,7 +247,7 @@ void run_seek_cycles(char *path,
+> +
+> + 	ok(event, "Event valid at last position");
+> +
+> +-	timestamp = bt_ctf_get_timestamp(event);
+> ++	ok1(bt_ctf_get_timestamp(event, &timestamp) == 0);
+> +
+> + 	ok1(timestamp == expected_last);
+> +
+> +@@ -270,7 +270,7 @@ void run_seek_cycles(char *path,
+> +
+> + 	ok(event, "Event valid at first position");
+> +
+> +-	timestamp = bt_ctf_get_timestamp(event);
+> ++	ok1(bt_ctf_get_timestamp(event, &timestamp) == 0);
+> +
+> + 	ok1(timestamp == expected_begin);
+> +
+> +@@ -284,7 +284,7 @@ void run_seek_cycles(char *path,
+> +
+> + 	ok(event, "Event valid at last position");
+> +
+> +-	timestamp = bt_ctf_get_timestamp(event);
+> ++	ok1(bt_ctf_get_timestamp(event, &timestamp) == 0);
+> +
+> + 	ok1(timestamp == expected_last);
+> +
+> +--
+> +2.7.4
+> +
+> --
+> 2.7.4
+> 
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
