@@ -1,53 +1,53 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EED87F2DD
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id C713B7F2B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 16:58:05 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id b10so3067078plr.4
+	Tue,  3 Sep 2019 16:58:10 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id p3so9458315pgb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2019 09:58:07 -0700 (PDT)
+	Tue, 03 Sep 2019 09:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=FcHPaQ6nuvQUTH5VycQagQ0curYwbXNcXF2YOIKEW+c=;
-	b=TsiHlSBMnweY+oxfJwgBDK76LkCMeFXR5iYOW9QzXnPgAySI8zoZHsogTb2nJVDVp0
-	WPBO41UvnkhLPh/0grvug6KAwI5C6v1d4Nw0oMclc211GVp+cwSZ+UkGmO1R78poMfJr
-	ykbwbMoOBsy7JS97tHcdJjSw20f1ZsDll5ge9/AGspea+Z+IgcVhSytk/oe/puRci5tD
-	NvPUeuQeeROnbhVB80u2k3562tRSI53i/TPjrpekyfVHvCfETzGdO5c1/tJmg6HGhb7j
-	LrZJt0Og3xmpIjayNTmWTolhRgV4LPBlINNU8nZXTwQBOgFAEOSC40wJjSZ64aU+s/wA
-	wUQg==
+	bh=qRKwrdEmqk9aJ/8Yt6nI496DKxnRc/S0dWyrePV+pJs=;
+	b=bDi+TaKeBUr40iMtyBVwFbg1Xgx78VqfWFVGTiwRoO2+B7cLilXZAXghTVr8MpLTvr
+	57FwFNvD8jU2FT3IZ2asIwlhBkgqkFnsOPfEuSRiKU0hFuVu8nMsgZU49Hs/pdxNaUdP
+	+X3IWhwOugzbjExAdSP2RHpHTX1w5fo9i5zGe+VhC8J12WtusDbTgN+moEG3/R3L2F9R
+	VNVefuj9v9R2popS7l7XmJNx6NryXfFHUBmIirFxFskIuPwkXXQpQT+1Hl231K89kD3H
+	RY8Qy85hbIr61//Jtzbu8PJkM9+PdiiDT9h0c/yzanWfBXUA0vCAfCAQtX7v6kGbId9k
+	Bo+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=FcHPaQ6nuvQUTH5VycQagQ0curYwbXNcXF2YOIKEW+c=;
-	b=V5BzdJy5N1pYSBhi+68/No0UtldkC0mokxdII0yH4XXuC9UxPb8+SLFJCrl3UthV1W
-	GrzPwKIORiON9vPKcnjrdgtzFUjaUCjiyusL0p9EGP7FmABUd3h2uliwh31PQed+AbY9
-	Ukxk2xZJ+cwYYda8FFsdrO+PK6H4r2TQzDSz1aVE7rRuSjVnoK4lSyOLg+uYqmzkb41Y
-	3DMqoC6sSMG2K3fvyfa8nMlJJBLgSbx2SEeMZTnCaFqqWVQ/H6uVHtlrTTByBO8YcwTV
-	eTNJmk3Ezeuw4gQU0fKZ4BwsqkUuQA9UrkaIOe6lOWwhZdI1HVdGalAXiR8UfCI1RWml
-	/AmQ==
-X-Gm-Message-State: APjAAAXVooRDbrvikfYaCCpABE1q0kXyyD5eTdUGbRIOfMv5tHwjuAet
-	yoZyZ/gmEAa3MMypkrkWe3+1g7PoQkSdWQ==
-X-Google-Smtp-Source: APXvYqxMjW4gGfq9U4K2IqGTS/OJgk+D47kRDhsLysegxTWL7quEXoAINWP+3RwX7IJv4sFks8bnZQ==
-X-Received: by 2002:a17:902:1ab:: with SMTP id
-	b40mr36234344plb.136.1567529886335; 
-	Tue, 03 Sep 2019 09:58:06 -0700 (PDT)
+	bh=qRKwrdEmqk9aJ/8Yt6nI496DKxnRc/S0dWyrePV+pJs=;
+	b=oT0Bj88rJUUbHEE4Rh/kujdruweW+J/vO05mEhy1xKBeZ0L4ldum0r/PSp3mWa/MCR
+	7EswU9hLDeQ3xg6rAwWOopqaZsQtAs89paypmSxIjWIyTtwYozxgb60biIfX2u15t9Df
+	YpcLgS+KCanYsCZI7g4U34jWag4w0QqTxc4/3Du2CDaT+/hlYxXMyvZThSnRGDmDm8Wu
+	mRAztyY8sYSnoqcWaVp4DvcreH/3AjHG18WVtpITTTIfJrpMsVpK183LY1wrYYz5Nkvw
+	Np+3nTexhl985W666LF8D+xASqTKuO/WFtlMF/cLDktqCAyl+fkLUVqbOK9bXCwzESF4
+	h/zA==
+X-Gm-Message-State: APjAAAX9YDAunWRsTvDnS867/UJlEx71ZQ5BBfRsH5ffQZX6Wwlzw6Hi
+	uD+lW9R/sareTvay8BK5PgC7wq0YhLH/QQ==
+X-Google-Smtp-Source: APXvYqwpyRyzUWixCzMIxiQHcJL34uVyY3c5kOrJB9wWjm3XdhhKJXD6p8ME2+usRUqCKiGgeume6A==
+X-Received: by 2002:a62:5f83:: with SMTP id
+	t125mr12647190pfb.125.1567529891504; 
+	Tue, 03 Sep 2019 09:58:11 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	s5sm97589pjo.26.2019.09.03.09.58.03
+	s5sm97889pjo.26.2019.09.03.09.58.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Sep 2019 09:58:05 -0700 (PDT)
+	Tue, 03 Sep 2019 09:58:10 -0700 (PDT)
 Date: Tue, 03 Sep 2019 16:56:41 +0000
-Message-Id: <20190903165641.16597-9-nathan@nathanrossi.com>
+Message-Id: <20190903165641.16597-10-nathan@nathanrossi.com>
 In-Reply-To: <20190903165641.16597-0-nathan@nathanrossi.com>
 References: <20190903165641.16597-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH v2 09/12] oeqa/selftest: Add test run filtering based on test tags
+Subject: [PATCH v2 10/12] oeqa/selftest/binutils: Create selftest case for binutils test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +60,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 16:58:05 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 16:58:10 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Add '--run-only-tags' for running tests which match any of the provided
-tags, and '--run-exclude-tags' for running all tests except those that
-have any of the provided tags.
+Create a oeqa selftest test case to execute the binutils test suites and
+report the results. The results are populated into the extraresults
+variable of the test case which are written to testresults.json for
+resulttool to analyse.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
 Changes in v2:
-- New
+- Update to use binutils-cross-testsuite and CHECK_TARGETS
+- Drop gold and libiberty test cases (and result parsing code)
+- Populate test results as ptestresults
+- Mark tests with 'machine' tag
 ---
- meta/lib/oeqa/selftest/context.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/lib/oeqa/selftest/cases/binutils.py | 64 ++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/binutils.py
 
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index d279994ddf..47de08e3f2 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -61,6 +61,12 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         group.add_argument('-r', '--run-tests', required=False, action='store',
-                 nargs='+', dest="run_tests", default=None,
-                 help='Select what tests to run (modules, classes or test methods). Format should be: <module>.<class>.<test_method>')
-+        group.add_argument('-t', '--run-only-tags', action='store',
-+                nargs='+', dest="run_only_tags", default=None,
-+                help='Run all (unhidden) tests which match any of the specified tags.')
-+        group.add_argument('-T', '--run-exclude-tags', action='store',
-+                nargs='+', dest="run_exclude_tags", default=None,
-+                help='Run all (unhidden) tests excluding any that match any of the specified tags.')
- 
-         group.add_argument('-m', '--list-modules', required=False,
-                 action="store_true", default=False,
-@@ -149,6 +155,11 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         copyfile(self.tc_kwargs['init']['config_paths']['bblayers'], 
-                 self.tc_kwargs['init']['config_paths']['bblayers_backup'])
- 
-+        if args.run_only_tags:
-+            self.tc_kwargs['load']['tags_filter'] = lambda tags: not tags or not any(tag in args.run_only_tags for tag in tags)
-+        if args.run_exclude_tags:
-+            self.tc_kwargs['load']['tags_filter'] = lambda tags: any(tag in args.run_exclude_tags for tag in tags)
+diff --git a/meta/lib/oeqa/selftest/cases/binutils.py b/meta/lib/oeqa/selftest/cases/binutils.py
+new file mode 100644
+index 0000000000..4edee09390
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/binutils.py
+@@ -0,0 +1,64 @@
++# SPDX-License-Identifier: MIT
++import os
++import sys
++import re
++import logging
++from oeqa.core.decorator import OETestTag
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
 +
-         self.tc_kwargs['run']['skips'] = args.skips
-         self.tc_kwargs['run']['processes'] = args.processes
- 
++def parse_values(content):
++    for i in content:
++        for v in ["PASS", "FAIL", "XPASS", "XFAIL", "UNRESOLVED", "UNSUPPORTED", "UNTESTED", "ERROR", "WARNING"]:
++            if i.startswith(v + ": "):
++                yield i[len(v) + 2:].strip(), v
++                break
++
++@OETestTag("machine")
++class BinutilsCrossSelfTest(OESelftestTestCase):
++    @classmethod
++    def setUpClass(cls):
++        super().setUpClass()
++        if not hasattr(cls.tc, "extraresults"):
++            cls.tc.extraresults = {}
++
++        if "ptestresult.sections" not in cls.tc.extraresults:
++            cls.tc.extraresults["ptestresult.sections"] = {}
++
++    def test_binutils(self):
++        self.run_binutils("binutils")
++
++    def test_gas(self):
++        self.run_binutils("gas")
++
++    def test_ld(self):
++        self.run_binutils("ld")
++
++    def run_binutils(self, suite):
++        features = []
++        features.append('CHECK_TARGETS = "{0}"'.format(suite))
++        self.write_config("\n".join(features))
++
++        recipe = "binutils-cross-testsuite"
++        bb_vars = get_bb_vars(["B", "TARGET_SYS", "T"], recipe)
++        builddir, target_sys, tdir = bb_vars["B"], bb_vars["TARGET_SYS"], bb_vars["T"]
++
++        bitbake("{0} -c check".format(recipe))
++
++        ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
++        self.tc.extraresults["ptestresult.sections"][ptestsuite] = {}
++
++        sumspath = os.path.join(builddir, suite, "{0}.sum".format(suite))
++        if not os.path.exists(sumspath):
++            sumspath = os.path.join(builddir, suite, "testsuite", "{0}.sum".format(suite))
++
++        failed = 0
++        with open(sumspath, "r") as f:
++            for test, result in parse_values(f):
++                self.tc.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
++                if result == "FAIL":
++                    self.logger.info("failed: '{}'".format(test))
++                    failed += 1
++
++        self.assertEqual(failed, 0)
++
 ---
 2.23.0.rc1
 
