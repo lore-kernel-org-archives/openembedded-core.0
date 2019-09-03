@@ -1,104 +1,45 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 31F287F29F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
+	[209.85.217.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 22BD76010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 15:41:23 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id p3so9346922pgb.9
+	Tue,  3 Sep 2019 15:46:11 +0000 (UTC)
+Received: by mail-vs1-f53.google.com with SMTP id m22so3058926vsl.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2019 08:41:24 -0700 (PDT)
+	Tue, 03 Sep 2019 08:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=VebcFSmDgfmZLYSer4YcgbNkI17KSaEiFsXvi2r+5Do=;
-	b=azWGkSulsUGFQYMmPI1SNPpj43ylDSVaL40KSdu0ETcI0TPxUTfT8+G446rMwcSlE9
-	bYtJZP6kaQO3ZqWe9qfr6uzC2Sf7oJxGr6LBu+ib0MIRzwZJx8YKOkHPjBTxhI2GDZps
-	36ecceUCwCzgd7aMGWaL7/EhVTFbKQ66F0L+VllhtxH6OwZ2vh5uOZbf2uWtsTbeRjgR
-	oIKYmyLS8rIgG1fLVKYCQMb4CMtTvrElxrFz7ThBgXRRtEejUA7tAAREASm4/g29S6Hk
-	d2XWUx+/SkSPHq/RKfoWY0oR45/E/ekU44MYKAMqkOdEQDcAcPKBKWiQQSL9w5eTeQn/
-	tdHw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=jwkIT8KjjXsK0xPihPUNjdGb+vnsl2nBV2wbeMl3/nA=;
+	b=hq4/ZypI7HiEMSBqjS2NvBiTmXzbbaV6ToeqK8oPK3OoENUtN70OwvTfSH4foOKjGE
+	/TVaBa6vskiddPieFTx3Ke/uCdq2o6uA8eF7Io+VOE+otE+ZE+a0HPDFvcGzoBu95sNs
+	Er//vLrsiVJ0/YS4JdQq3ozrdwwp3sR+2PJ9FEQMhmywe3TBkrQKANa6j6iEdYAe8Ii1
+	Ml0fswRSZN8ItM9ezq2IoIKt/ezCgG+Fh3qSwapoykxkHC7udw6gK+F717TadKwJv6BS
+	KN5HDaiYhhzMGHIa9ksxJBHu16FNqmFWksuef5s75qrQTOyu0yJkIY264X80ESFhjP1w
+	+Wyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=VebcFSmDgfmZLYSer4YcgbNkI17KSaEiFsXvi2r+5Do=;
-	b=ugFIOT6reV1U6IBB8z+RbGkieMtfVuNzF3UfvRdE602IHqQIw4YZfROUdMv2BRRgZu
-	OKqDQCQCZQXmUQvp7fbKbI6MHkOZ7DikfQ7Sr5paAwsiB8txIh4TJQqFD0fNKFoDvEXN
-	iIdvF6RXBd+Hkx2kVf3c/MZE6NVhRdcSCLIec7tl2crKWzaQZ+mNbu/rDNUNyJFoB400
-	4TL931ob8hbannSVIe6FxRrm5Rq2wtwfIHl18PZGOrW16Qh1m1J0mJE7S3iwRCibVquJ
-	dKdlPZ3Gwoa4nUUnceRllTWKE9Z+O3hGh+RR6dUFP78NqihaDy684b27Ux07FdvAZzJs
-	lfmw==
-X-Gm-Message-State: APjAAAW466vmw6Otyxgh80R0vdcwUodRm/Oulcr4pMiU5VW/8P5FFJgS
-	VVAWJ7Fmu5njU8ixz8dF7tVOLv1+
-X-Google-Smtp-Source: APXvYqyfPeL62D3wuOSKa75fwOUgBi8FF11YQrvcEB5P5FM/Apx0msk+hhBas6/VUOxWa+BD54MZ3Q==
-X-Received: by 2002:a17:90a:6788:: with SMTP id o8mr700921pjj.19.1567525283856;
-	Tue, 03 Sep 2019 08:41:23 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:7901:9fbe:6d35:e8ad?
-	([2601:202:4180:c33:7901:9fbe:6d35:e8ad])
-	by smtp.gmail.com with ESMTPSA id q3sm21426389pfn.4.2019.09.03.08.41.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Sep 2019 08:41:23 -0700 (PDT)
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <5f601d9d33b2868c3962194eb23ccf5e23722110.camel@linuxfoundation.org>
-	<537223ac-6a63-d502-5491-026d99df6323@gmail.com>
-	<CADkTA4PBxODvdH=pnpTxrqJG_PcJnfpzgD7PhCU8kORUQskCHA@mail.gmail.com>
-	<CADkTA4NE070JrH-JQKsOJKD=Fj8VEUNiWQDKnO+Acvrp76muTg@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <c87bfb01-df5e-3aa8-0442-c53b597ad4d2@gmail.com>
-Date: Tue, 3 Sep 2019 08:41:22 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=jwkIT8KjjXsK0xPihPUNjdGb+vnsl2nBV2wbeMl3/nA=;
+	b=CLfNfND1Twfk2NS1o3d5tsqmuw0qmSI5atXrNxa2ACXUyBS0ilI2mcnDjh6in+TzdS
+	/8VyJoQZEI4p5cRPSWgOv7S17v28B/JtcnsG68oEaDgQEODsOpPH0b0eorm+1BMgrU+n
+	XqfB3A1BsnlEjSpvOmJGDQd3qRJCOb0/b0foqXGYmfqWnrrWNoNdUHlHV7GehHF2F42m
+	MjVPEaRdiZIdNUWgclLOxf+LESu24ABnPArjoCEjn3uWh+9dlchlFQHBNFJIVZDDCscL
+	4UwzSBqah9dAJqJXMy/IN7i19KP5/Hj59m3sh0PYe5QJkHucvMBODYSC11DoA6tXH98j
+	fm4A==
+X-Gm-Message-State: APjAAAXftAHd5FdWLXomXxmrie1Cphj0abqKf454cgAvdJuT12Jf6M2D
+	utYsbRqm5h/a94Bpy0nzvTt5KTmxqryvJzUtfdsIPN/P
+X-Google-Smtp-Source: APXvYqw1apaPj64I68pOq4HpUVh4fdT3UNO1PjfJT9kL9wH3r2At7ce3Y8SaP5zG/e/rqiw1qKbyhmhfgvIh2knS0kI=
+X-Received: by 2002:a67:2c43:: with SMTP id s64mr8850352vss.94.1567525572823; 
+	Tue, 03 Sep 2019 08:46:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4NE070JrH-JQKsOJKD=Fj8VEUNiWQDKnO+Acvrp76muTg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Summary of M3 status
+References: <20190903152942.69625-1-alex.kanavin@gmail.com>
+In-Reply-To: <20190903152942.69625-1-alex.kanavin@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 3 Sep 2019 17:46:01 +0200
+Message-ID: <CANNYZj8z_3qhvAsvC8j+kMRbb-cTssHHdCZo7Q=hs+Ywt=LdBg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package.bbclass: add PRIVATE_LIBS_ALL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -111,440 +52,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 15:41:23 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 03 Sep 2019 15:46:12 -0000
+Content-Type: multipart/alternative; boundary="000000000000f1dd860591a7fcc8"
 
+--000000000000f1dd860591a7fcc8
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, 3 Sep 2019 at 17:29, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-On 9/3/19 8:36 AM, Bruce Ashfield wrote:
-> On Tue, Sep 3, 2019 at 11:15 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->> On Tue, Sep 3, 2019 at 11:09 AM akuster808 <akuster808@gmail.com> wrote:
->>>
->>>
->>> On 9/3/19 1:10 AM, Richard Purdie wrote:
->>>> I'm going to summarise the current state as it will help people see the
->>>> set of issues we have. We have three issues blocking the current patch
->>>> queue and kernel uprev, spread over four machines and five autobuilder
->>>> targets:
->>>>
->>>> qemumips64:
->>>>
->>>>   https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/987
->>>>
->>>>   RESULTS - parselogs.ParseLogsTest.test_parselogs: FAILED (1.97s)
->>>>
->>>>   Central error: [    1.689184] kprobes: failed to populate blacklist: -22
->>>>   [happens 5.2 kernel only]
->>>>
->>>> qemumips:
->>>>
->>>>   qemu machine locks up:
->>>>
->>>>   https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/982
->>>>
->>>>   (happens with 5.0 and 5.2 kernels and qemu 4.0 and 4.1 and is in
->>>>    master. Not sure of the original cause)
->>>>
->>>> qemuarm64:
->>>>
->>>>   Central error: [    1.816386] kprobes: failed to populate blacklist: -22
->>>>
->>>>   RESULTS - parselogs.ParseLogsTest.test_parselogs: FAILED (1.11s)
->>>>
->>>>   https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/329
->>>>   https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/985
->>>>   [happens 5.2 kernel only]
->>>>
->>>> qemuarm:
->>>>
->>>>   https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/990
->>>>   https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/989
->>>>
->>>>   See compile failure for stap.StapTest.test_stap below.
->>>>   [happens 5.2 kernel only]
->>> there are about 3  5.2 kernel patches sitting on systemtap master.
->>>
->>> I will give it a shot
->> Sounds good.  If possible, can you send them to the linux-yocto
->> mailing list as kernel patches (if they work) .. versus doing a
->> linux-yocto_5.2 SRC_URI update with patches, since it is harder for me
->> to integrate them to the tree itself if they are sent that way.
-> .. that is of course if they are kernel patches. I haven't had enough
-> coffee yet today.
-me neither. I should have said systemtap has 3 patches on master to
-address issues with the 5.2 kernel.
-
--armin
+> PRIVATE_LIBS is used to exclude 'private' libraries from getting added to
+> automatic runtime dependency resolution. That variable has to list
+> all libraries by name which becomes a maintenance issue if the list
+> of such libraries frequently changes, or is very large.
 >
-> Bruce
->
->> Bruce
->>
->>> - armin
->>>> The qemumips issue is of particular concern.
->>>>
->>>> Also needed to sort out M3 are:
->>>>
->>>>  * toolchain tests nrossi is working on
->>>>  * resolution to the hashserv scaling problem
->>>>  * bug fixing for the hash equiv code
->>>>
->>>> Cheers,
->>>>
->>>> Richard
->>>>
->>>> stap.StapTest.test_stap failure:
->>>>
->>>>
->>>> WARNING: Kernel function symbol table missing [man warning::symbols]
->>>> In file included from /usr/share/systemtap/runtime/linux/runtime.h:214,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> /usr/share/systemtap/runtime/linux/access_process_vm.h: In function '__access_process_vm_':
->>>> /usr/share/systemtap/runtime/linux/access_process_vm.h:28:8: error: implicit declaration of function 'get_task_mm'; did you mean 'get_task_comm'? [-Werror=implicit-function-declaration]
->>>>    28 |   mm = get_task_mm (tsk);
->>>>       |        ^~~~~~~~~~~
->>>>       |        get_task_comm
->>>> /usr/share/systemtap/runtime/linux/access_process_vm.h:28:6: error: assignment to 'struct mm_struct *' from 'int' makes pointer from integer without a cast [-Werror=int-conversion]
->>>>    28 |   mm = get_task_mm (tsk);
->>>>       |      ^
->>>> /usr/share/systemtap/runtime/linux/access_process_vm.h:51:61: error: passing argument 6 of 'get_user_pages_remote' makes pointer from integer without a cast [-Werror=int-conversion]
->>>>    51 |       ret = get_user_pages_remote (tsk, mm, addr, 1, write, 1, &page, &vma);
->>>>       |                                                             ^
->>>>       |                                                             |
->>>>       |                                                             int
->>>> In file included from ./include/linux/kallsyms.h:12,
->>>>                  from ./include/linux/ftrace.h:11,
->>>>                  from ./include/linux/kprobes.h:29,
->>>>                  from /usr/share/systemtap/runtime/linux/runtime.h:21,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> ./include/linux/mm.h:1592:46: note: expected 'struct page **' but argument is of type 'int'
->>>>  1592 |        unsigned int gup_flags, struct page **pages,
->>>>       |                                ~~~~~~~~~~~~~~^~~~~
->>>> In file included from /usr/share/systemtap/runtime/linux/runtime.h:214,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> /usr/share/systemtap/runtime/linux/access_process_vm.h:51:64: error: passing argument 7 of 'get_user_pages_remote' from incompatible pointer type [-Werror=incompatible-pointer-types]
->>>>    51 |       ret = get_user_pages_remote (tsk, mm, addr, 1, write, 1, &page, &vma);
->>>>       |                                                                ^~~~~
->>>>       |                                                                |
->>>>       |                                                                struct page **
->>>> In file included from ./include/linux/kallsyms.h:12,
->>>>                  from ./include/linux/ftrace.h:11,
->>>>                  from ./include/linux/kprobes.h:29,
->>>>                  from /usr/share/systemtap/runtime/linux/runtime.h:21,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> ./include/linux/mm.h:1593:32: note: expected 'struct vm_area_struct **' but argument is of type 'struct page **'
->>>>  1593 |        struct vm_area_struct **vmas, int *locked);
->>>>       |        ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
->>>> In file included from /usr/share/systemtap/runtime/linux/runtime.h:214,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> /usr/share/systemtap/runtime/linux/access_process_vm.h:51:71: error: passing argument 8 of 'get_user_pages_remote' from incompatible pointer type [-Werror=incompatible-pointer-types]
->>>>    51 |       ret = get_user_pages_remote (tsk, mm, addr, 1, write, 1, &page, &vma);
->>>>       |                                                                       ^~~~
->>>>       |                                                                       |
->>>>       |                                                                       struct vm_area_struct **
->>>> In file included from ./include/linux/kallsyms.h:12,
->>>>                  from ./include/linux/ftrace.h:11,
->>>>                  from ./include/linux/kprobes.h:29,
->>>>                  from /usr/share/systemtap/runtime/linux/runtime.h:21,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> ./include/linux/mm.h:1593:43: note: expected 'int *' but argument is of type 'struct vm_area_struct **'
->>>>  1593 |        struct vm_area_struct **vmas, int *locked);
->>>>       |                                      ~~~~~^~~~~~
->>>> In file included from /usr/share/systemtap/runtime/linux/runtime.h:214,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> /usr/share/systemtap/runtime/linux/access_process_vm.h:88:3: error: implicit declaration of function 'mmput' [-Werror=implicit-function-declaration]
->>>>    88 |   mmput (mm);
->>>>       |   ^~~~~
->>>> In file included from /usr/share/systemtap/runtime/linux/runtime.h:217,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> /usr/share/systemtap/runtime/linux/alloc.c: In function '_stp_alloc_percpu':
->>>> /usr/share/systemtap/runtime/linux/alloc.c:456:8: error: too few arguments to function '__alloc_percpu'
->>>>   456 |  ret = __alloc_percpu(size);
->>>>       |        ^~~~~~~~~~~~~~
->>>> In file included from ./include/linux/topology.h:34,
->>>>                  from ./include/linux/gfp.h:9,
->>>>                  from /usr/share/systemtap/runtime/linux/runtime_defines.h:20,
->>>>                  from /usr/share/systemtap/runtime/runtime_defines.h:8,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:11:
->>>> ./include/linux/percpu.h:135:23: note: declared here
->>>>   135 | extern void __percpu *__alloc_percpu(size_t size, size_t align);
->>>>       |                       ^~~~~~~~~~~~~~
->>>> In file included from /usr/share/systemtap/runtime/linux/../regs.c:20,
->>>>                  from /usr/share/systemtap/runtime/linux/runtime.h:222,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> /usr/share/systemtap/runtime/linux/../linux/regs.c: In function '_stp_print_regs':
->>>> /usr/share/systemtap/runtime/linux/../linux/regs.c:261:15: error: implicit declaration of function 'get_ds'; did you mean 'get_fs'? [-Werror=implicit-function-declaration]
->>>>   261 |   get_fs() == get_ds() ? "kernel" : "user");
->>>>       |               ^~~~~~
->>>>       |               get_fs
->>>> In file included from /usr/share/systemtap/runtime/linux/runtime.h:244,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> /usr/share/systemtap/runtime/linux/addr-map.c: In function 'lookup_bad_addr':
->>>> /usr/share/systemtap/runtime/linux/addr-map.c:63:63: error: macro "access_ok" passed 3 arguments, but takes just 2
->>>>    63 |       || (in_task() && !stp_access_ok(type, (void *)addr, size))
->>>>       |                                                               ^
->>>> In file included from ./include/linux/uaccess.h:11,
->>>>                  from /usr/share/systemtap/runtime/addr-map.h:17,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> ./arch/arm/include/asm/uaccess.h:280: note: macro "access_ok" defined here
->>>>   280 | #define access_ok(addr, size) (__range_ok(addr, size) == 0)
->>>>       |
->>>> In file included from /usr/share/systemtap/runtime/linux/runtime.h:244,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:26,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> /usr/share/systemtap/runtime/linux/addr-map.c:41:30: error: 'access_ok' undeclared (first use in this function)
->>>>    41 | #define stp_access_ok(x,y,z) access_ok(x,y,z)
->>>>       |                              ^~~~~~~~~
->>>> /usr/share/systemtap/runtime/linux/addr-map.c:63:25: note: in expansion of macro 'stp_access_ok'
->>>>    63 |       || (in_task() && !stp_access_ok(type, (void *)addr, size))
->>>>       |                         ^~~~~~~~~~~~~
->>>> /usr/share/systemtap/runtime/linux/addr-map.c:41:30: note: each undeclared identifier is reported only once for each function it appears in
->>>>    41 | #define stp_access_ok(x,y,z) access_ok(x,y,z)
->>>>       |                              ^~~~~~~~~
->>>> /usr/share/systemtap/runtime/linux/addr-map.c:63:25: note: in expansion of macro 'stp_access_ok'
->>>>    63 |       || (in_task() && !stp_access_ok(type, (void *)addr, size))
->>>>       |                         ^~~~~~~~~~~~~
->>>> In file included from /usr/share/systemtap/runtime/transport/transport.c:23,
->>>>                  from /usr/share/systemtap/runtime/linux/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/runtime_context.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:56:
->>>> /usr/share/systemtap/runtime/transport/../uidgid_compatibility.h: At top level:
->>>> /usr/share/systemtap/runtime/transport/../uidgid_compatibility.h:16: error: "KUIDT_INIT" redefined [-Werror]
->>>>    16 | #define KUIDT_INIT(value) ((uid_t) value)
->>>>       |
->>>> In file included from ./include/linux/ipc.h:6,
->>>>                  from ./include/uapi/linux/sem.h:5,
->>>>                  from ./include/linux/sem.h:5,
->>>>                  from ./include/linux/sched.h:15,
->>>>                  from ./include/linux/uaccess.h:5,
->>>>                  from /usr/share/systemtap/runtime/addr-map.h:17,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> ./include/linux/uidgid.h:30: note: this is the location of the previous definition
->>>>    30 | #define KUIDT_INIT(value) (kuid_t){ value }
->>>>       |
->>>> In file included from /usr/share/systemtap/runtime/transport/transport.c:23,
->>>>                  from /usr/share/systemtap/runtime/linux/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/runtime_context.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:56:
->>>> /usr/share/systemtap/runtime/transport/../uidgid_compatibility.h:17: error: "KGIDT_INIT" redefined [-Werror]
->>>>    17 | #define KGIDT_INIT(value) ((gid_t) value)
->>>>       |
->>>> In file included from ./include/linux/ipc.h:6,
->>>>                  from ./include/uapi/linux/sem.h:5,
->>>>                  from ./include/linux/sem.h:5,
->>>>                  from ./include/linux/sched.h:15,
->>>>                  from ./include/linux/uaccess.h:5,
->>>>                  from /usr/share/systemtap/runtime/addr-map.h:17,
->>>>                  from /usr/share/systemtap/runtime/runtime.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:26:
->>>> ./include/linux/uidgid.h:31: note: this is the location of the previous definition
->>>>    31 | #define KGIDT_INIT(value) (kgid_t){ value }
->>>>       |
->>>> In file included from /usr/share/systemtap/runtime/transport/transport.c:23,
->>>>                  from /usr/share/systemtap/runtime/linux/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/runtime_context.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:56:
->>>> /usr/share/systemtap/runtime/transport/relay_v2.c: In function '__stp_relay_create_buf_file_callback':
->>>> /usr/share/systemtap/runtime/transport/../uidgid_compatibility.h:16:27: error: incompatible types when assigning to type 'kuid_t' {aka 'struct <anonymous>'} from type 'unsigned int'
->>>>    16 | #define KUIDT_INIT(value) ((uid_t) value)
->>>>       |                           ^
->>>> /usr/share/systemtap/runtime/transport/relay_v2.c:249:26: note: in expansion of macro 'KUIDT_INIT'
->>>>   249 |   file->d_inode->i_uid = KUIDT_INIT(_stp_uid);
->>>>       |                          ^~~~~~~~~~
->>>> /usr/share/systemtap/runtime/transport/../uidgid_compatibility.h:17:27: error: incompatible types when assigning to type 'kgid_t' {aka 'struct <anonymous>'} from type 'unsigned int'
->>>>    17 | #define KGIDT_INIT(value) ((gid_t) value)
->>>>       |                           ^
->>>> /usr/share/systemtap/runtime/transport/relay_v2.c:250:26: note: in expansion of macro 'KGIDT_INIT'
->>>>   250 |   file->d_inode->i_gid = KGIDT_INIT(_stp_gid);
->>>>       |                          ^~~~~~~~~~
->>>> In file included from /usr/share/systemtap/runtime/transport/transport.c:65,
->>>>                  from /usr/share/systemtap/runtime/linux/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/runtime_context.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:56:
->>>> /usr/share/systemtap/runtime/transport/relay_v2.c: At top level:
->>>> /usr/share/systemtap/runtime/transport/relay_v2.c:257:21: error: initialization of 'struct dentry * (*)(const char *, struct dentry *, umode_t,  struct rchan_buf *, int *)' {aka 'struct dentry * (*)(const char *, struct dentry *, short unsigned int,  struct rchan_buf *, int *)'} from incompatible pointer type 'struct dentry * (*)(const char *, struct dentry *, int,  struct rchan_buf *, int *)' [-Werror=incompatible-pointer-types]
->>>>   257 |  .create_buf_file = __stp_relay_create_buf_file_callback,
->>>>       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>>> /usr/share/systemtap/runtime/transport/relay_v2.c:257:21: note: (near initialization for '__stp_relay_callbacks.create_buf_file')
->>>> In file included from /usr/share/systemtap/runtime/transport/transport.c:23,
->>>>                  from /usr/share/systemtap/runtime/linux/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/runtime_context.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:56:
->>>> /usr/share/systemtap/runtime/transport/debugfs.c: In function '_stp_register_ctl_channel_fs':
->>>> /usr/share/systemtap/runtime/transport/../uidgid_compatibility.h:16:27: error: incompatible types when assigning to type 'kuid_t' {aka 'struct <anonymous>'} from type 'unsigned int'
->>>>    16 | #define KUIDT_INIT(value) ((uid_t) value)
->>>>       |                           ^
->>>> /usr/share/systemtap/runtime/transport/debugfs.c:52:34: note: in expansion of macro 'KUIDT_INIT'
->>>>    52 |  _stp_cmd_file->d_inode->i_uid = KUIDT_INIT(_stp_uid);
->>>>       |                                  ^~~~~~~~~~
->>>> /usr/share/systemtap/runtime/transport/../uidgid_compatibility.h:17:27: error: incompatible types when assigning to type 'kgid_t' {aka 'struct <anonymous>'} from type 'unsigned int'
->>>>    17 | #define KGIDT_INIT(value) ((gid_t) value)
->>>>       |                           ^
->>>> /usr/share/systemtap/runtime/transport/debugfs.c:53:34: note: in expansion of macro 'KGIDT_INIT'
->>>>    53 |  _stp_cmd_file->d_inode->i_gid = KGIDT_INIT(_stp_gid);
->>>>       |                                  ^~~~~~~~~~
->>>> In file included from /usr/share/systemtap/runtime/linux/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/runtime_context.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:56:
->>>> /usr/share/systemtap/runtime/transport/transport.c: In function '_stp_lock_inode':
->>>> /usr/share/systemtap/runtime/transport/transport.c:507:19: error: 'struct inode' has no member named 'i_mutex'
->>>>   507 |  mutex_lock(&inode->i_mutex);
->>>>       |                   ^~
->>>> /usr/share/systemtap/runtime/transport/transport.c: In function '_stp_unlock_inode':
->>>> /usr/share/systemtap/runtime/transport/transport.c:520:21: error: 'struct inode' has no member named 'i_mutex'
->>>>   520 |  mutex_unlock(&inode->i_mutex);
->>>>       |                     ^~
->>>> In file included from ./include/asm-generic/bug.h:18,
->>>>                  from ./arch/arm/include/asm/bug.h:60,
->>>>                  from ./include/linux/bug.h:5,
->>>>                  from ./include/linux/mmdebug.h:5,
->>>>                  from ./include/linux/gfp.h:5,
->>>>                  from /usr/share/systemtap/runtime/linux/runtime_defines.h:20,
->>>>                  from /usr/share/systemtap/runtime/runtime_defines.h:8,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:11:
->>>> /usr/share/systemtap/runtime/transport/transport.c: In function '_stp_get_root_dir':
->>>> /usr/share/systemtap/runtime/transport/transport.c:603:32: error: 'struct hlist_head' has no member named 'next'
->>>>   603 |   sb = list_entry(fs->fs_supers.next, struct super_block,
->>>>       |                                ^
->>>> ./include/linux/kernel.h:970:26: note: in definition of macro 'container_of'
->>>>   970 |  void *__mptr = (void *)(ptr);     \
->>>>       |                          ^~~
->>>> /usr/share/systemtap/runtime/transport/transport.c:603:8: note: in expansion of macro 'list_entry'
->>>>   603 |   sb = list_entry(fs->fs_supers.next, struct super_block,
->>>>       |        ^~~~~~~~~~
->>>> In file included from ./include/uapi/linux/swab.h:6,
->>>>                  from ./include/linux/swab.h:5,
->>>>                  from ./arch/arm/include/asm/opcodes.h:86,
->>>>                  from ./arch/arm/include/asm/bug.h:7,
->>>>                  from ./include/linux/bug.h:5,
->>>>                  from ./include/linux/mmdebug.h:5,
->>>>                  from ./include/linux/gfp.h:5,
->>>>                  from /usr/share/systemtap/runtime/linux/runtime_defines.h:20,
->>>>                  from /usr/share/systemtap/runtime/runtime_defines.h:8,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:11:
->>>> /usr/share/systemtap/runtime/transport/transport.c:603:32: error: 'struct hlist_head' has no member named 'next'
->>>>   603 |   sb = list_entry(fs->fs_supers.next, struct super_block,
->>>>       |                                ^
->>>> ./include/linux/compiler.h:325:9: note: in definition of macro '__compiletime_assert'
->>>>   325 |   if (!(condition))     \
->>>>       |         ^~~~~~~~~
->>>> ./include/linux/compiler.h:345:2: note: in expansion of macro '_compiletime_assert'
->>>>   345 |  _compiletime_assert(condition, msg, __compiletime_assert_, __LINE__)
->>>>       |  ^~~~~~~~~~~~~~~~~~~
->>>> ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
->>>>    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->>>>       |                                     ^~~~~~~~~~~~~~~~~~
->>>> ./include/linux/kernel.h:971:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->>>>   971 |  BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) && \
->>>>       |  ^~~~~~~~~~~~~~~~
->>>> ./include/linux/kernel.h:971:20: note: in expansion of macro '__same_type'
->>>>   971 |  BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) && \
->>>>       |                    ^~~~~~~~~~~
->>>> ./include/linux/list.h:465:2: note: in expansion of macro 'container_of'
->>>>   465 |  container_of(ptr, type, member)
->>>>       |  ^~~~~~~~~~~~
->>>> /usr/share/systemtap/runtime/transport/transport.c:603:8: note: in expansion of macro 'list_entry'
->>>>   603 |   sb = list_entry(fs->fs_supers.next, struct super_block,
->>>>       |        ^~~~~~~~~~
->>>> /usr/share/systemtap/runtime/transport/transport.c:603:32: error: 'struct hlist_head' has no member named 'next'
->>>>   603 |   sb = list_entry(fs->fs_supers.next, struct super_block,
->>>>       |                                ^
->>>> ./include/linux/compiler.h:325:9: note: in definition of macro '__compiletime_assert'
->>>>   325 |   if (!(condition))     \
->>>>       |         ^~~~~~~~~
->>>> ./include/linux/compiler.h:345:2: note: in expansion of macro '_compiletime_assert'
->>>>   345 |  _compiletime_assert(condition, msg, __compiletime_assert_, __LINE__)
->>>>       |  ^~~~~~~~~~~~~~~~~~~
->>>> ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
->>>>    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->>>>       |                                     ^~~~~~~~~~~~~~~~~~
->>>> ./include/linux/kernel.h:971:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
->>>>   971 |  BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) && \
->>>>       |  ^~~~~~~~~~~~~~~~
->>>> ./include/linux/kernel.h:972:6: note: in expansion of macro '__same_type'
->>>>   972 |     !__same_type(*(ptr), void),   \
->>>>       |      ^~~~~~~~~~~
->>>> ./include/linux/list.h:465:2: note: in expansion of macro 'container_of'
->>>>   465 |  container_of(ptr, type, member)
->>>>       |  ^~~~~~~~~~~~
->>>> /usr/share/systemtap/runtime/transport/transport.c:603:8: note: in expansion of macro 'list_entry'
->>>>   603 |   sb = list_entry(fs->fs_supers.next, struct super_block,
->>>>       |        ^~~~~~~~~~
->>>> In file included from /usr/share/systemtap/runtime/print.c:17,
->>>>                  from /usr/share/systemtap/runtime/runtime_context.h:22,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:56:
->>>> /usr/share/systemtap/runtime/linux/print.c: In function '_stp_print_kernel_info':
->>>> /usr/share/systemtap/runtime/linux/print.c:215:20: error: 'struct module' has no member named 'module_core'
->>>>   215 |         THIS_MODULE->module_core,
->>>>       |                    ^~
->>>> /usr/share/systemtap/runtime/linux/print.c:216:37: error: 'struct module' has no member named 'core_size'
->>>>   216 |         (unsigned long) (THIS_MODULE->core_size - THIS_MODULE->core_text_size)/1024,
->>>>       |                                     ^~
->>>> /usr/share/systemtap/runtime/linux/print.c:216:62: error: 'struct module' has no member named 'core_text_size'
->>>>   216 |         (unsigned long) (THIS_MODULE->core_size - THIS_MODULE->core_text_size)/1024,
->>>>       |                                                              ^~
->>>> /usr/share/systemtap/runtime/linux/print.c:217:44: error: 'struct module' has no member named 'core_text_size'
->>>>   217 |                (unsigned long) (THIS_MODULE->core_text_size)/1024,
->>>>       |                                            ^~
->>>> In file included from /usr/share/systemtap/runtime/timer.h:17,
->>>>                  from /tmp/stapgYOLtD/stap_19208_src.c:70:
->>>> /tmp/stapgYOLtD/stap_19208_src.c: In function 'module_refresh_timer_cb':
->>>> /usr/share/systemtap/runtime/linux/timer.h:41:56: error: 'struct hrtimer' has no member named 'expires'
->>>>    41 | #define hrtimer_set_expires(timer, time) (void)((timer)->expires = (time))
->>>>       |                                                        ^~
->>>> /tmp/stapgYOLtD/stap_19208_src.c:78:3: note: in expansion of macro 'hrtimer_set_expires'
->>>>    78 |   hrtimer_set_expires(timer,
->>>>       |   ^~~~~~~~~~~~~~~~~~~
->>>> /usr/share/systemtap/runtime/linux/timer.h:40:44: error: 'struct hrtimer' has no member named 'expires'
->>>>    40 | #define hrtimer_get_expires(timer) ((timer)->expires)
->>>>       |                                            ^~
->>>> /usr/share/systemtap/runtime/linux/timer.h:41:69: note: in definition of macro 'hrtimer_set_expires'
->>>>    41 | #define hrtimer_set_expires(timer, time) (void)((timer)->expires = (time))
->>>>       |                                                                     ^~~~
->>>> /tmp/stapgYOLtD/stap_19208_src.c:79:5: note: in expansion of macro 'ktime_add'
->>>>    79 |     ktime_add(hrtimer_get_expires(timer),
->>>>       |     ^~~~~~~~~
->>>> /tmp/stapgYOLtD/stap_19208_src.c:79:15: note: in expansion of macro 'hrtimer_get_expires'
->>>>    79 |     ktime_add(hrtimer_get_expires(timer),
->>>>       |               ^~~~~~~~~~~~~~~~~~~
->>>> cc1: all warnings being treated as errors
->>>> make[1]: *** [scripts/Makefile.build:278: /tmp/stapgYOLtD/stap_19208_src.o] Error 1
->>>> make: *** [Makefile:1597: _module_/tmp/stapgYOLtD] Error 2
->>>> WARNING: kbuild exited with status: 2
->>>> Pass 4: compilation failed.  [man error::pass4]
->>>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->> --
->> - Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
->
+> PRIVATE_LIBS_ALL allows declaring all libraries private, either
+> for a specific target package (e.g. -ptest), or for all packages
+> produced by a recipe.
 >
 
+Please discard this, we can use fnmatch.fnmatch(*filename*, *pattern*) to
+simply allow wildcards in PRIVATE_LIBS. I will make another patch.
 
+Alex
+
+--000000000000f1dd860591a7fcc8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 3 Sep 2019 at 17:29, Alexander Ka=
+navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com<=
+/a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">PRIVATE_LIBS is used to exclude &#39;private&#39;=
+ libraries from getting added to<br>
+automatic runtime dependency resolution. That variable has to list<br>
+all libraries by name which becomes a maintenance issue if the list<br>
+of such libraries frequently changes, or is very large.<br>
+<br>
+PRIVATE_LIBS_ALL allows declaring all libraries private, either<br>
+for a specific target package (e.g. -ptest), or for all packages<br>
+produced by a recipe.<br></blockquote><div><br></div><div>Please discard th=
+is, we can use <code class=3D"gmail-descclassname">fnmatch.</code><code cla=
+ss=3D"gmail-descname">fnmatch</code><span class=3D"gmail-sig-paren">(</span=
+><em>filename</em>, <em>pattern</em><span class=3D"gmail-sig-paren">) to si=
+mply allow wildcards in PRIVATE_LIBS. I will make another patch.<br></span>=
+</div><div><span class=3D"gmail-sig-paren"><br></span></div><div><span clas=
+s=3D"gmail-sig-paren">Alex<br></span> </div></div></div>
+
+--000000000000f1dd860591a7fcc8--
