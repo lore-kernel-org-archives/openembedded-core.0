@@ -1,27 +1,27 @@
 Return-Path: <henning.schild@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D2027F318
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 701477F323
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  3 Sep 2019 13:43:52 +0000 (UTC)
 Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x83Dhq24011569
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id x83Dhq65021726
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 3 Sep 2019 15:43:52 +0200
 Received: from md1za8fc.ad001.siemens.net ([139.25.69.169])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x83DhpL5008645;
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x83DhpL7008645;
 	Tue, 3 Sep 2019 15:43:52 +0200
 From: Henning Schild <henning.schild@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Sep 2019 15:43:48 +0200
-Message-Id: <20190903134350.21512-5-henning.schild@siemens.com>
+Date: Tue,  3 Sep 2019 15:43:50 +0200
+Message-Id: <20190903134350.21512-7-henning.schild@siemens.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190903134350.21512-1-henning.schild@siemens.com>
 References: <20190903134350.21512-1-henning.schild@siemens.com>
 MIME-Version: 1.0
 Cc: Jan Kiszka <jan.kiszka@siemens.com>,
 	Henning Schild <henning.schild@siemens.com>
-Subject: [PATCHv2 4/6] oe-git-proxy: disable shell pathname expansion for the whole script
+Subject: [PATCHv2 6/6] oe-git-proxy: fix dash "Bad substitution"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +39,36 @@ Content-Transfer-Encoding: 8bit
 
 From: Henning Schild <henning.schild@siemens.com>
 
-This truly fixes the issue that cbc148d5d93d5f3531434fee7b234a16196b3088
-wanted to solve, without breaking the iteration over multiple entries.
+The script claims it works with dash, make sure that is actually the
+case.
 
 Signed-off-by: Henning Schild <henning.schild@siemens.com>
 ---
- scripts/oe-git-proxy | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/oe-git-proxy | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
-index 10e6560da4..9eeef45dcf 100755
+index 2cb995f43c..aa9b9dc9a9 100755
 --- a/scripts/oe-git-proxy
 +++ b/scripts/oe-git-proxy
-@@ -19,6 +19,9 @@
- # AUTHORS
- # Darren Hart <dvhart@linux.intel.com>
+@@ -64,7 +64,7 @@ ipv4_val() {
+ 	IP="$1"
+ 	SHIFT=24
+ 	VAL=0
+-	for B in ${IP//./ }; do
++	for B in $( echo "$IP" | tr '.' ' ' ); do
+ 		VAL=$(($VAL+$(($B<<$SHIFT))))
+ 		SHIFT=$(($SHIFT-8))
+ 	done
+@@ -137,7 +137,7 @@ if [ -z "$ALL_PROXY" ]; then
+ fi
  
-+# disable pathname expansion, NO_PROXY fields could start with "*" or be it
-+set -f
-+
- if [ $# -lt 2 -o "$1" = '--help' -o "$1" = '-h' ] ; then
-     echo 'oe-git-proxy: error: the following arguments are required: host port'
-     echo 'Usage: oe-git-proxy host port'
+ # Connect directly to hosts in NO_PROXY
+-for H in ${NO_PROXY//,/ }; do
++for H in $( echo "$NO_PROXY" | tr ',' ' ' ); do
+ 	if match_host $1 $H; then
+ 		exec $SOCAT STDIO $METHOD
+ 	fi
 -- 
 2.21.0
 
