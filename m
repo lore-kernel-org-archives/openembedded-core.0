@@ -1,58 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FA547F2B1
+Return-Path: <drew.moseley@northern.tech>
+Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com
+	[209.85.219.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D7D77F2B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 21:21:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id D057118403;
-	Tue,  3 Sep 2019 23:21:09 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id iDWitrw-lvZg; Tue,  3 Sep 2019 23:21:07 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 7E1B118440;
-	Tue,  3 Sep 2019 23:21:07 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2E4431E094;
-	Tue,  3 Sep 2019 23:21:06 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 21E361E093;
-	Tue,  3 Sep 2019 23:21:06 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue,  3 Sep 2019 23:21:06 +0200 (CEST)
-Received: from xbox05.axis.com (xbox05.axis.com [10.0.15.175])
-	by thoth.se.axis.com (Postfix) with ESMTP id 15324CBC;
-	Tue,  3 Sep 2019 23:21:06 +0200 (CEST)
-Received: from XBOX04.axis.com (10.0.5.18) by xbox05.axis.com (10.0.15.175)
-	with Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Tue, 3 Sep 2019 23:21:05 +0200
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1395.000; Tue, 3 Sep 2019 23:21:05 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "liu.ming50@gmail.com" <liu.ming50@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core]  [PATCH] iputils: fix a usrmerge build issue
-Thread-Index: AQHVYjbLHFixKxaCVE+8PaVO0Sc5MKcadTXQ
-Date: Tue, 3 Sep 2019 21:21:05 +0000
-Message-ID: <125d803667e745e3abe576316672be12@XBOX04.axis.com>
-References: <1567501308-20950-1-git-send-email-liu.ming50@gmail.com>
-In-Reply-To: <1567501308-20950-1-git-send-email-liu.ming50@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "stefan.agner@toradex.com" <stefan.agner@toradex.com>
-Subject: Re: [PATCH] iputils: fix a usrmerge build issue
+	Tue,  3 Sep 2019 21:21:30 +0000 (UTC)
+Received: by mail-yb1-f196.google.com with SMTP id t5so6496033ybt.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Sep 2019 14:21:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=northern.tech; s=google; h=from:to:subject:date:message-id;
+	bh=P/qYAaTqOOAR+2rLPtXSvqJcBiY9wy4ZHclGwddxlrM=;
+	b=m0Dq7JKGS/AeVFyFLlfANUAxlZ2PM8FaJNt1+p0f65sOOvOHVclcj+yvVfSBcMNzoU
+	Sk1O7f3+Stuf8zB8NuVa4HvZgnVdLIvmm1y32PYXx07k+jlJiSNoeu3DaSYWF+2biN+z
+	GHfRHSQ7p28Yv9/ajdDerckzswII9Xk/KH3gCp+XQPQy3Ysq2PhX9Fwh+JDw7hvBWk4t
+	je7M23V1JXIgKb+nUhtBehQWAhGcCrCHMVc/4mnW9PzysbASFARsvlIUcyoOK9zsDdLy
+	FyQroGCm081b2b21qp0jvVlsgCIASjtviZH5fih7lVp70Wg0TAvEYPaNciRf2xIldsLE
+	sqgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=P/qYAaTqOOAR+2rLPtXSvqJcBiY9wy4ZHclGwddxlrM=;
+	b=Z84AcmrxmH9z2lDTgYWd7KXlUlU42n6zB0yLIRqx995hd0W7Wyl7TiZddmK8mlfCpf
+	31RIygn8Kug4Xke7gOutmwpGUiSIRyM94NL+jKt/QiHfacq9X5hsrITnycF8NQQKmSmS
+	cN/sv1EDjcN0LSirv/1hwGHuhERd+og31hIc74J8yOdLo/6hqeoubTFMDqV39hOEW1Qr
+	MaUd2rgIwrkmHaMYvYVGvysoH3mxDofUSF9jfErJSzJrglYUkes9eRiyH4h1n5+WbRYz
+	Zw9bQOEGV7LayyAwwViiMZ7xXCd2i9k0mV+fUjQquyvxYPSEKyGwkZEMXOa9LIjJFVKt
+	kYmA==
+X-Gm-Message-State: APjAAAXWoR0vhk+/Z/NoCy3FgZsQBprEeGDHRuNIcTNpIDgc26WSM3S2
+	vjOiSrAwJCFfO3ppMsr+9Ey4VKNgLlg5xw==
+X-Google-Smtp-Source: APXvYqzITBvaA6E6SckvfHdqpp/zjMdDX8EjCij71SnLh2Cn4kvOCS0Za7tFMUHf7woQRaonCE5kIg==
+X-Received: by 2002:a25:d143:: with SMTP id i64mr25764325ybg.111.1567545690524;
+	Tue, 03 Sep 2019 14:21:30 -0700 (PDT)
+Received: from tobago.home.moseleynet.net (user-24-236-82-253.knology.net.
+	[24.236.82.253]) by smtp.googlemail.com with ESMTPSA id
+	y11sm2735452ywd.84.2019.09.03.14.21.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 03 Sep 2019 14:21:29 -0700 (PDT)
+From: drew.moseley@northern.tech
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Sep 2019 17:21:25 -0400
+Message-Id: <20190903212125.25405-1-drew.moseley@northern.tech>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] runqemu: Fix typo in help text.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,70 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 21:21:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 03 Sep 2019 21:21:30 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of liu.ming50@gmail.com
-> Sent: den 3 september 2019 11:02
-> To: openembedded-core@lists.openembedded.org
-> Cc: stefan.agner@toradex.com; Ming Liu <liu.ming50@gmail.com>
-> Subject: [OE-core] [PATCH] iputils: fix a usrmerge build issue
->=20
-> From: Ming Liu <liu.ming50@gmail.com>
->=20
-> Fix a following build issue when usrmerge is enabled:
-> | WARNING: iputils-s20190709-r0 do_package: iputils: alternative target
-> (/usr/bin/ping or /usr/bin/ping.iputils) does not exist, skipping...
-> | WARNING: iputils-s20190709-r0 do_package: iputils: NOT adding
-> alternative provide /usr/bin/ping: /usr/bin/ping.iputils does not exist
-> | ERROR: iputils-s20190709-r0 do_package: QA Issue: iputils:
-> Files/directories were installed but not shipped in any package:
-> |  /bin/tracepath
-> |  /bin/ping
-> |  /bin/arping
-> |  /bin/traceroute6
-> |  /bin/tftpd
-> |  /bin/clockdiff
-> |  /sbin/rdisc
-> |  /sbin/rarpd
-> |  /sbin/ninfod
->=20
-> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> ---
->  meta/recipes-extended/iputils/iputils_s20190709.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb
-> b/meta/recipes-extended/iputils/iputils_s20190709.bb
-> index 34a6c68..ea7e6e3 100644
-> --- a/meta/recipes-extended/iputils/iputils_s20190709.bb
-> +++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
-> @@ -28,7 +28,7 @@ PACKAGECONFIG[docs] =3D "-DBUILD_HTML_MANS=3Dtrue -
-> DBUILD_MANS=3Dtrue,-DBUILD_HTML_MAN
->=20
->  inherit meson update-alternatives
->=20
-> -EXTRA_OEMESON +=3D "--prefix=3D/"
-> +EXTRA_OEMESON +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', =
-'', '--prefix=3D/', d)}"
+From: Drew Moseley <drew.moseley@northern.tech>
 
-This should be better:
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-EXTRA_OEMESON +=3D "--prefix=3D${root_prefix}/"
-
-(and yes, the / after ${root_prefix} is needed in this case or meson=20
-will complain about --prefix having to be an absolute path in case=20
-${root_prefix} is empty, which it is when usrmerge is not set.)
-
->  ALTERNATIVE_PRIORITY =3D "100"
->=20
-> --
-> 2.7.4
-
-//Peter
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 4079f2b17d..44128b118b 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -83,7 +83,7 @@ of the following environment variables (in any order):
+   bootparams=<xyz> - specify custom kernel parameters during boot
+   help, -h, --help: print this text
+   -d, --debug: Enable debug output
+-  -q, --quite: Hide most output except error messages
++  -q, --quiet: Hide most output except error messages
+ 
+ Examples:
+   runqemu
+-- 
+2.17.1
 
 
