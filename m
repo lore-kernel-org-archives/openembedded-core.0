@@ -1,52 +1,30 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 67E437F298
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 24A747F2B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 16:58:21 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id x15so9465133pgg.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2019 09:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:in-reply-to:references:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=IZiGOC4ItMg6+/KO1K1kXtwKtQsQfKHjDdM3GSkpuTQ=;
-	b=jWU9UQUCTOVoHUE0+pJvwXsaZmubdzKyEeGtP7HetYv5YiPqRjaHWYUkgy3exzlxcF
-	7Awc81mFrDOo2IO01Sgt7s3Ib3YiN7ZtO5wkKogYrHParQyKUNghKWpCJb//BlOXTJIc
-	T0oYAPFzywwFZLR7HjcBHPXvJ+CTOKTKCu0iWCLlFYv3NxDQ++t3220D684Ch1IATUOc
-	jbT7tPJ/O3VrM+hu7DhdGS1DQKpSb+K8sZqvkTfzld0LPFYB2aLUntkF+tLIKKhRSDjS
-	t5ZQzuMpikKik+bZc8994V0PN28yncvUpR2AZCfil4mwJNcDTDmPKCZx1NwQRNMVvmxb
-	0sOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
-	:cc:subject:content-transfer-encoding:mime-version;
-	bh=IZiGOC4ItMg6+/KO1K1kXtwKtQsQfKHjDdM3GSkpuTQ=;
-	b=kes05mPsekZYgCwl2ihvdHx7G5+jaupw6o32q0ecs9rreiAwupyyb5jrKye3O5xPpo
-	QbRXv9IUxL3dPQuciibusUYDyrVeD2axc/FVsGOHuzkqQOU2nlMliibzbi28ummayiDe
-	aZ7561TIUWa+FSUTwLbPn5uZQdQfZGk17mdM7/KCFJXTIisSonfMAAi0GAEsqI/Ki7jE
-	HAlNnsHCRKygqRzQ5+uyapX+nN/wxgJSjfmUX7AYiUteVC6p7XbHbvDZQCIyrb2HYMle
-	8+8Lf8htPIoNqoFJaVQt7Pbj7OsLkkjcorNT9WrhlndAp2Xq+BjNy4g9TG+XRUflMLQf
-	k4Pw==
-X-Gm-Message-State: APjAAAXFvjbcEk+vcwTKazwNZDwHZjj3rlPmOh3uJvmHDtK6YYZBr/R+
-	es4cgZZFZG3bcQTxCgICGcK8tPlN7qXZxQ==
-X-Google-Smtp-Source: APXvYqziv1fyNZIKfdkdfMNzivvL3BS8Ud0jo2sYKuGN1/O+OY5hW1yplpYJ7uYR4ozRgAZfSeJQDA==
-X-Received: by 2002:a63:2a08:: with SMTP id q8mr30833356pgq.415.1567529901992; 
-	Tue, 03 Sep 2019 09:58:21 -0700 (PDT)
-Received: from [127.0.1.1] ([101.184.76.229])
-	by smtp.gmail.com with UTF8SMTPSA id
-	m19sm76646pjv.9.2019.09.03.09.58.19
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Sep 2019 09:58:21 -0700 (PDT)
-Date: Tue, 03 Sep 2019 16:56:41 +0000
-Message-Id: <20190903165641.16597-12-nathan@nathanrossi.com>
-In-Reply-To: <20190903165641.16597-0-nathan@nathanrossi.com>
-References: <20190903165641.16597-0-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
+	Tue,  3 Sep 2019 18:10:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x83IA5Bf028238
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Sep 2019 11:10:15 -0700
+Received: from [128.224.56.214] (128.224.56.214) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 3 Sep 2019 11:09:54 -0700
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>,
+	<maxime.roussinbelanger@gmail.com>
+References: <20190830010801.2496-1-maxime.roussinbelanger@gmail.com>
+	<25fa496f-ad5b-2943-7794-11e55656f37b@intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <b2313edd-4555-8290-e0b7-73e59926fac2@windriver.com>
+Date: Tue, 3 Sep 2019 14:09:53 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH v2 12/12] oeqa/selftest/glibc: Create selftest case for glibc test suite
+In-Reply-To: <25fa496f-ad5b-2943-7794-11e55656f37b@intel.com>
+X-Originating-IP: [128.224.56.214]
+Subject: Re: [PATCH] meta: add missing descriptions and homepage in bsp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,134 +37,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 16:58:21 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 03 Sep 2019 18:10:58 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
 
-Create a oeqa selftest test case to execute the glibc test suite and
-report the results. The results are populated into the extraresults
-variable of the test case which are written to testresults.json for
-resulttool to analyse.
+On 9/3/19 11:00 AM, Ross Burton wrote:
+> On 30/08/2019 02:08, Maxime Roussin-Bélanger wrote:
+>> +DESCRIPTION = "In recent linux kernels, the /proc/acpi/event 
+>> interface has \
+>> +been deprecated. The same information (and more) is available via 
+>> netlink \
+>> +(a way for the kernel to communicate with userspace that is usually 
+>> used \
+>> +for networking) and the input layer (mouse, keyboard, power button, 
+>> etc...). \
+>> +This version of acpid supports netlink and the input layer."
+>
+> This is not a meaningful description of acpid.
 
-An additional subclass is created to separate the execution with qemu
-linux-user and qemu system. The GlibcSelfTestSystemEmulated test case
-handles setup of the target image, setup of and NFS server as well as
-execution with runqemu.
+Hi Maxime,
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
-Changes in v2:
-- Populate test results as ptestresults
-- Rename BUILD_TEST_* to TOOLCHAIN_TEST_*
-- Mark tests with 'machine' tag
----
- meta/lib/oeqa/selftest/cases/glibc.py | 97 +++++++++++++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/glibc.py
+Thanks for staring on this work.
 
-diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
-new file mode 100644
-index 0000000000..f836367094
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/glibc.py
-@@ -0,0 +1,97 @@
-+# SPDX-License-Identifier: MIT
-+import os
-+import contextlib
-+from oeqa.core.decorator import OETestTag
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
-+from oeqa.utils.nfs import unfs_server
-+
-+def parse_values(content):
-+    for i in content:
-+        for v in ["PASS", "FAIL", "XPASS", "XFAIL", "UNRESOLVED", "UNSUPPORTED", "UNTESTED", "ERROR", "WARNING"]:
-+            if i.startswith(v + ": "):
-+                yield i[len(v) + 2:].strip(), v
-+                break
-+
-+@OETestTag("machine")
-+class GlibcSelfTest(OESelftestTestCase):
-+    @classmethod
-+    def setUpClass(cls):
-+        super().setUpClass()
-+        if not hasattr(cls.tc, "extraresults"):
-+            cls.tc.extraresults = {}
-+
-+        if "ptestresult.sections" not in cls.tc.extraresults:
-+            cls.tc.extraresults["ptestresult.sections"] = {}
-+
-+    def test_glibc(self):
-+        self.glibc_run_check()
-+
-+    def glibc_run_check(self, ssh = None):
-+        # configure ssh target
-+        features = []
-+        if ssh is not None:
-+            features.append('TOOLCHAIN_TEST_TARGET = "ssh"')
-+            features.append('TOOLCHAIN_TEST_HOST = "{0}"'.format(ssh))
-+            features.append('TOOLCHAIN_TEST_HOST_USER = "root"')
-+            features.append('TOOLCHAIN_TEST_HOST_PORT = "22"')
-+            # force single threaded test execution
-+            features.append('EGLIBCPARALLELISM_task-check_pn-glibc-testsuite = "PARALLELMFLAGS="-j1""')
-+        self.write_config("\n".join(features))
-+
-+        bitbake("glibc-testsuite -c check")
-+
-+        builddir = get_bb_var("B", "glibc-testsuite")
-+
-+        failed = 0
-+        self.tc.extraresults["ptestresult.sections"]["glibc"] = {}
-+        with open(os.path.join(builddir, "tests.sum"), "r") as f:
-+            for test, result in parse_values(f):
-+                self.tc.extraresults["ptestresult.glibc.{}".format(test)] = {"status" : result}
-+                if result == "FAIL":
-+                    self.logger.info("failed: '{}'".format(test))
-+                    failed += 1
-+        self.assertEqual(failed, 0)
-+
-+class GlibcSelfTestSystemEmulated(GlibcSelfTest):
-+    default_installed_packages = [
-+        "glibc-charmaps",
-+        "libgcc",
-+        "libstdc++",
-+        "libatomic",
-+        "libgomp",
-+        "python3",
-+        "python3-pexpect",
-+        "nfs-utils",
-+        ]
-+
-+    def glibc_run_check(self):
-+        with contextlib.ExitStack() as s:
-+            # use the base work dir, as the nfs mount, since the recipe directory may not exist
-+            tmpdir = get_bb_var("BASE_WORKDIR")
-+            nfsport, mountport = s.enter_context(unfs_server(tmpdir))
-+
-+            # build core-image-minimal with required packages
-+            features = []
-+            features.append('IMAGE_FEATURES += "ssh-server-openssh"')
-+            features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(self.default_installed_packages)))
-+            self.write_config("\n".join(features))
-+            bitbake("core-image-minimal")
-+
-+            # start runqemu
-+            qemu = s.enter_context(runqemu("core-image-minimal", runqemuparams = "nographic"))
-+
-+            # validate that SSH is working
-+            status, _ = qemu.run("uname")
-+            self.assertEqual(status, 0)
-+
-+            # setup nfs mount
-+            if qemu.run("mkdir -p \"{0}\"".format(tmpdir))[0] != 0:
-+                raise Exception("Failed to setup NFS mount directory on target")
-+            mountcmd = "mount -o noac,nfsvers=3,port={0},udp,mountport={1} \"{2}:{3}\" \"{3}\"".format(nfsport, mountport, qemu.server_ip, tmpdir)
-+            status, output = qemu.run(mountcmd)
-+            if status != 0:
-+                raise Exception("Failed to setup NFS mount on target ({})".format(repr(output)))
-+
-+            super().glibc_run_check(ssh = qemu.ip)
-+
----
-2.23.0.rc1
+
+People often just copy info from another distro as a starting or even 
+ending point.
+
+ From my ubu-19.04 system is below (1).
+
+
+You can also look the package info for several distros using:
+
+   https://pkgs.org/download/acpid
+
+I think the Debian-based distro and SUSE distros tend to have good short 
+and long
+
+summaries but I've only looked briefly at the acpid one.
+
+
+Please take a look, let us know if you have any questions and send a v2 
+if not.
+
+Thanks,
+
+../Randy
+
+
+[1]
+
+$ apt show acpid
+Package: acpid
+Version: 1:2.0.31-1ubuntu2
+Priority: optional
+Section: admin
+Origin: Ubuntu
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Debian Acpi Team 
+<pkg-acpi-devel@lists.alioth.debian.org>
+Bugs: https://bugs.launchpad.net/ubuntu/+filebug
+Installed-Size: 145 kB
+Depends: libc6 (>= 2.27), lsb-base (>= 3.2-14), kmod
+Homepage: http://sourceforge.net/projects/acpid2/
+Task: ubuntu-desktop-minimal, ubuntu-desktop, kubuntu-desktop, 
+xubuntu-core, xubuntu-desktop, lubuntu-desktop, 
+ubuntustudio-desktop-core, ubuntustudio-desktop, ubuntukylin-desktop, 
+ubuntu-mate-core, ubuntu-mate-desktop, ubuntu-budgie-desktop
+Supported: 9m
+Download-Size: 37.3 kB
+APT-Manual-Installed: no
+APT-Sources: http://ca.archive.ubuntu.com/ubuntu disco/main amd64 Packages
+Description: Advanced Configuration and Power Interface event daemon
+  Modern computers support the Advanced Configuration and Power 
+Interface (ACPI)
+  to allow intelligent power management on your system and to query 
+battery and
+  configuration status.
+  .
+  ACPID is a completely flexible, totally extensible daemon for delivering
+  ACPI events. It listens on netlink interface (or on the deprecated file
+  /proc/acpi/event), and when an event occurs, executes programs to 
+handle the
+  event. The programs it executes are configured through a set of 
+configuration
+  files, which can be dropped into place by packages or by the admin.
+
+
+>
+>> +DESCRIPTION = "The grub.cfg file contains Bash-like code and a list 
+>> of installed \
+>> +kernels in an array ordered by sequence of installation. For 
+>> example, if you \
+>> +have four installed kernels, the most recent kernel will be at index 
+>> 0, the \
+>> +previous kernel will be at index 1, and the oldest kernel will be 
+>> index 3."
+>
+> This reads more as documentation than description.
+>
+> Ross
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
+
 
