@@ -1,58 +1,28 @@
-Return-Path: <prvs=14209d993=Mikko.Rapeli@bmw.de>
-Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
-	[68.232.139.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 86A0A7F2FD
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FB60606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 05:50:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1567489848; x=1599025848;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=udEHiHE0n536KfSvcdvVq3C3MTyt35exlHoL2V6NvcI=;
-	b=SqnjfxDh2VpxJYYSsuOKtwdmDu5NIVacBu4eGtsBEmd7H8JHy51mpcsW
-	JKOfCMUtroGlv5NRzcejnxlBQY+uXGT+5GoTXOO0KC3aGetMl92Rfcv+u
-	keiWWDQY2/u/7WKNkjg+lqer4yPpaZa2t2xb1BJpEiW59SGO5nqQ75RiI o=;
-IronPort-SDR: 2pFlXi/IUADGvAoAN+P2NR3cQCociG+yRexKukm4fFwcpmfdV0zFo4bhlYLGl0luvFhp19u+JB
-	aSmnvzIk7JNZ87BsbI5ZknteDAx2FrfL+xAxLGucjbBXKilmHq+Doxyu3NUY2RPAuwQW36Sj7A
-	Itnp0w+1/ijQXljY7K9OtvdgJE+1OSwady9Uy9HeLxD3oOBHDgeKRw7f0N5m+L3Q8j82+XHQun
-	G8kwudNzd3KOicoVY5TCvEXnYPOYTl2cHJY+h44wtUgAN+hMNk/nGj3dYOt3o70BYCLmiWo6Xw
-	BBQ=
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
-	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 03 Sep 2019 07:50:21 +0200
-Received: from esabb5.muc ([160.50.100.47])  by esagw3.muc with ESMTP/TLS;
-	03 Sep 2019 07:50:20 +0200
-Received: from smucm10m.bmwgroup.net (HELO smucm10m.europe.bmw.corp)
-	([160.48.96.49])
-	by esabb5.muc with ESMTP/TLS; 03 Sep 2019 07:50:20 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10m.europe.bmw.corp
-	(160.48.96.49) with Microsoft SMTP Server (TLS;
-	Tue, 3 Sep 2019 07:50:19 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Tue, 3 Sep 2019 07:50:19 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <akuster808@gmail.com>
-Thread-Topic: [OE-core] [PATCH] gcc-9.2: Security fix for CVE-2019-14250
-Thread-Index: AQHVYEFTMP2p0XpqaEien6/lxkeWracWuqQAgAAyt4CAAUewgIAAlOoAgACK8IA=
-Date: Tue, 3 Sep 2019 05:50:19 +0000
-Message-ID: <20190903055019.GC7889@hiutale>
-References: <20190831211549.23729-1-akuster808@gmail.com>
-	<20190901140542.GA11574@localhost>
-	<9b09243d-86b7-b358-e0be-c41f8acbcd47@gmail.com>
-	<20190902124003.GA8291@localhost>
-	<438c075e-9284-0eac-5aa0-9599d5c8dffe@gmail.com>
-In-Reply-To: <438c075e-9284-0eac-5aa0-9599d5c8dffe@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.38]
+	Tue,  3 Sep 2019 07:56:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x837ttgw012289
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 3 Sep 2019 00:56:07 -0700
+Received: from [128.224.162.221] (128.224.162.221) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 3 Sep 2019 00:55:44 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1566545188-273512-1-git-send-email-zhe.he@windriver.com>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <bb110de5-6c32-f845-1915-ad815adfcce2@windriver.com>
+Date: Tue, 3 Sep 2019 15:55:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org, bunk@stusta.de
-Subject: Re: [PATCH] gcc-9.2: Security fix for CVE-2019-14250
+In-Reply-To: <1566545188-273512-1-git-send-email-zhe.he@windriver.com>
+X-Originating-IP: [128.224.162.221]
+Subject: Re: [PATCH] ltp: syscalls: rt_sigwaitinfo01: Fix failure for MIPS arches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,72 +35,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 05:50:47 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 07:56:16 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <145F80EC216DB64C9FC3A304D0389A52@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 02, 2019 at 02:33:02PM -0700, akuster808 wrote:
->=20
->=20
-> On 9/2/19 5:40 AM, Adrian Bunk wrote:
-> > On Sun, Sep 01, 2019 at 10:07:13AM -0700, akuster808 wrote:
-> >>
-> >> On 9/1/19 7:05 AM, Adrian Bunk wrote:
-> >>> thud and zeus are providing 2 gcc versions each that need fixing.
-> >> That is a true statement. What are you expecting?
-> > The other versions also being fixed?
-> >
-> > gcc-8 being fixed in warrior before it gets fixed in master would be
-> > the wrong order, and would introduce a security regression in master.
-> sent a patch. hope it is what is meant by the above.
->=20
-> >
-> > The code should be nearly identical in warrior and master, so fixing
-> > this also in gcc-8 in master should be trivial.
-> >
-> > Fixing gcc-7 in thud would be a bonus.
+Kindly ping.
 
-FWIW, gcc-7-branch of https://github.com/gcc-mirror/gcc.git has this fix al=
-ready.
+Zhe
 
--Mikko
+On 8/23/19 3:26 PM, zhe.he@windriver.com wrote:
+> From: He Zhe <zhe.he@windriver.com>
+>
+> Add a patch to fix the following failure.
+> rt_sigtimedwait01    1  TFAIL  :  .../sigwaitinfo01.c:58: test_empty_set
+> (.../sigwaitinfo01.c: 148): Unexpected failure:
+> TEST_ERRNO=EINVAL(22): Invalid argument
+>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+>  ..._sigwaitinfo01-Fix-failure-for-MIPS-arche.patch | 49 ++++++++++++++++++++++
+>  meta/recipes-extended/ltp/ltp_20190517.bb          |  1 +
+>  2 files changed, 50 insertions(+)
+>  create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch
+>
+> diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch
+> new file mode 100644
+> index 0000000..9a0df74
+> --- /dev/null
+> +++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch
+> @@ -0,0 +1,49 @@
+> +From b4193bc3fdeb278abc54944b4773ffa45ee432af Mon Sep 17 00:00:00 2001
+> +From: He Zhe <zhe.he@windriver.com>
+> +Date: Fri, 23 Aug 2019 14:34:43 +0800
+> +Subject: [LTP] [PATCH] syscalls: rt_sigwaitinfo01: Fix failure for MIPS arches
+> +
+> +rt_sigtimedwait01 fails as follow on MIPS arches
+> +rt_sigtimedwait01    1  TFAIL  :  .../sigwaitinfo01.c:58: test_empty_set
+> +(.../sigwaitinfo01.c: 148): Unexpected failure:
+> +TEST_ERRNO=EINVAL(22): Invalid argument
+> +
+> +As this case purposely bypasses glibc, it should align with the size of kernel
+> +definition of sigset_t which is different from other arches.
+> +https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/mips/include/uapi/asm/signal.h#n15
+> +
+> +This patch adds specific case for MIPS.
+> +
+> +Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-August/013313.html]
+> +Signed-off-by: He Zhe <zhe.he@windriver.com>
+> +---
+> + testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c | 13 ++++++++++---
+> + 1 file changed, 10 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
+> +index 5a32ce1..5c2fa99 100644
+> +--- a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
+> ++++ b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
+> +@@ -128,9 +128,16 @@ static int my_sigtimedwait(const sigset_t * set, siginfo_t * info,
+> + static int my_rt_sigtimedwait(const sigset_t * set, siginfo_t * info,
+> + 			      struct timespec *timeout)
+> + {
+> +-
+> +-	/* The last argument is (number_of_signals)/(bits_per_byte), which are 64 and 8, resp. */
+> +-	return ltp_syscall(__NR_rt_sigtimedwait, set, info, timeout, 8);
+> ++	/* The last argument is (number_of_signals)/(bits_per_byte), which are 64 and 8, resp,
+> ++	 * except for MIPS which are 128 and 8, resp.
+> ++	 */
+> ++	return ltp_syscall(__NR_rt_sigtimedwait, set, info, timeout,
+> ++#ifdef __mips__
+> ++		16
+> ++#else
+> ++		8
+> ++#endif
+> ++		);
+> + }
+> + #endif
+> + 
+> +-- 
+> +2.7.4
+> +
+> diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
+> index b0e2f96..14c1219 100644
+> --- a/meta/recipes-extended/ltp/ltp_20190517.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20190517.bb
+> @@ -45,6 +45,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+>             file://0002-check-for-RES_USE_INET6-during-configure.patch \
+>             file://0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch \
+>             file://0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch \
+> +           file://0001-syscalls-rt_sigwaitinfo01-Fix-failure-for-MIPS-arche.patch \
+>             "
+>  
+>  S = "${WORKDIR}/git"
 
-commit 740d8b3baeea47cd5407be1752c5159223f77042
-Author:     rguenth <rguenth@138bc75d-0d04-0410-961f-82ee72b054a4>
-AuthorDate: Thu Jul 25 10:50:47 2019 +0000
-Commit:     rguenth <rguenth@138bc75d-0d04-0410-961f-82ee72b054a4>
-CommitDate: Thu Jul 25 10:50:47 2019 +0000
-
-    2019-07-25  Richard Biener  <rguenther@suse.de>
-   =20
-        PR lto/90924
-        Backport from mainline
-        2019-07-12  Ren Kimura  <rkx1209dev@gmail.com>
-   =20
-        * simple-object-elf.c (simple_object_elf_match): Check zero value
-        shstrndx.
-   =20
-   =20
-    git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-7-branch@273795 =
-138bc75d-0d04-0410-961f-82ee72b054a4
-
-diff --git a/libiberty/ChangeLog b/libiberty/ChangeLog
-index b785e71..0ecdec0 100644
---- a/libiberty/ChangeLog
-+++ b/libiberty/ChangeLog
-@@ -1,3 +1,12 @@
-+2019-07-25  Richard Biener  <rguenther@suse.de>
-+
-+       PR lto/90924
-+       Backport from mainline
-+       2019-07-12  Ren Kimura  <rkx1209dev@gmail.com>
-+
-+       * simple-object-elf.c (simple_object_elf_match): Check zero value
-+       shstrndx.
-+
- 2018-12-06  Release Manager
-=20
-        * GCC 7.4.0 released.
 
