@@ -1,46 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BA2FC7F298
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id BDC7F606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 16:32:46 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id r195so199828wme.2
+	Tue,  3 Sep 2019 16:57:03 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id w11so8174060plp.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2019 09:32:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=lvCbOSFjAScv3CjyvW5kdqFfVo4Kbjd9aReNQGTkpNQ=;
-	b=BI1yusEkgg8FuqAkR/8dPGI9VJwDqQS0awogykkyMa1anMCiPi4gDSQK0stdLmVC2X
-	GXB4QIJW2g+/2wIAG8Jvhqlpj7v2hUVIKJnQ2XERlxLY4zRU5lwB6RBY64EyIBJEHM1K
-	Kxh4+4OQzX1/dsPF9aaXjSg5kZX7XkACkiqOk07RPV3NKuDcBdywqAgAcav8605MiUL4
-	EKi2aeaZOT9OzPzeJMVTXGn6pK2ceQfMqixtKY52jEfcJ5IHbspy+i94t6tL0cpNkFbI
-	SuFd54UHTG0sVG4ZpfyZcZxEBo3vVfC8d4ES6nhcW3P3RQY5jacjKiT2jZ3xZ6z3T8M3
-	6WfQ==
+	Tue, 03 Sep 2019 09:57:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:content-transfer-encoding
+	:mime-version; bh=WzKIjKcG7adfnqEuZk55KLEqPTXF1xvlgVMjORhejJo=;
+	b=aEDFFG1MRr8c+JMyOiRH74XwlSz3qH248eQ8Z4QCxUYUi8trnI0gd/6ISsy6/vaybw
+	c+ole/60SaKbd1m/ggd2rWKH4kkVZ9xorglqRpmtO2xQ0aH87BIc+1UAzOvWL0hEWpHh
+	VSJExYxubcgTqiSZbHwlCFEYZCrdZJcTtAsOfGct+KDHhqaJZSojhuOMwt9FqXxC/FyO
+	lKgsDMm28YKSG/5i1qwPNdrSFQrS4vuyleT5A7ULtiPt0ubDCeI/TXW0NLtL0VM5kcmc
+	fZTST/KuruIlQRnX0sxIeL3RXBfvKLK2uclFk3b470Uu2tPAR4p7RH0INIm3otABVkPj
+	yxUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=lvCbOSFjAScv3CjyvW5kdqFfVo4Kbjd9aReNQGTkpNQ=;
-	b=LRd+nCKwI6/cj7yYf1jzo9cWxzwUgKuAa81teCh8aRUXzPevZcKy57tFXqNJsYAIbs
-	+KrytwSqTdZjZVWFcVbulMJQ/W+ia7hLNYECqH3wXoxFLhSmJTkxi2EVufNbtl9p+ZEJ
-	MliEZTHMopRhtZt8wLq9Ez0FvMgtUe8Tzy0Ax9tQJf0LXSSBK+YXQ4FFHFoq5GKsxqtl
-	fQpxCDIH4s6KRlqmGUwhfsWhkj1FdolLPPAlLPLVDYYbRwFLOAfT6Kf8eQupt+1MMjJQ
-	TOX4xt+XO+2yU9afy3FKqSyPtc5jNaPF+SpJxuUCyNdfsgf3A0I/tQFA99kamrAZD0AM
-	D0hA==
-X-Gm-Message-State: APjAAAW/nbuBAoXH2XckamN59bDi4ieSn+B1wNmSqjLe54UMjDEgxAzo
-	4GoVMG/olPzDUTB4rBbEIE273r3L
-X-Google-Smtp-Source: APXvYqxn9q4/mZ68xteF5GO9xiEPKMcV8hX9/a+DBW5cX/RWSAgB/fe5Sai85jwAyhUhS6n44szUqw==
-X-Received: by 2002:a7b:c922:: with SMTP id h2mr181887wml.63.1567528366899;
-	Tue, 03 Sep 2019 09:32:46 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id c132sm74372wme.27.2019.09.03.09.32.45
+	h=x-gm-message-state:date:message-id:from:to:cc:subject
+	:content-transfer-encoding:mime-version;
+	bh=WzKIjKcG7adfnqEuZk55KLEqPTXF1xvlgVMjORhejJo=;
+	b=GxKiVGlLPoZZWLfEYkxM4XmxGRVbrWoKK7vzcUkR9AAvuXvwuPRAOLYbrDHmqUgrQ/
+	2Yc72mU9rOf5ZtFB/QmdDj2jL5mcDV0Hcc8bokQoR+E1bBnlL4q2knFmZ0zWtqHhiDqn
+	vQjviqDl2CPs5FT+Kgrtf67CIwPpiH4UP9DZfll6zr6LEQbDwiUlzckd6D0b050/EqzM
+	cM351fEYfMRDI6MFOFvQpiy79hNa6QXx3cC+b2i8/NqUHhjNZGMpAEpfsOLkBpSkK3Kr
+	Fi4NwHpJsnWEXjXS/HO/GXT6qnaWTDip4XG4b1GGlcMRzGQRjL7AU83f8zlOFIbdZH6v
+	bGiw==
+X-Gm-Message-State: APjAAAXsqChCIYz9IW3bTNmTKtXMRYvKHRBZCKSZBEa0wpiHs3/6Mk5s
+	VMxe44obuubkJXtnCk8ucAo64FLdIekLFA==
+X-Google-Smtp-Source: APXvYqx/vTV7Oq7CEeG6THEurYgOo2/sBKL96mN5sgY7dpFgFuL4S5UEx99Utp7oE8xqBzIIo+UCsw==
+X-Received: by 2002:a17:902:9b83:: with SMTP id
+	y3mr3414598plp.143.1567529824497; 
+	Tue, 03 Sep 2019 09:57:04 -0700 (PDT)
+Received: from [127.0.1.1] ([101.184.76.229])
+	by smtp.gmail.com with UTF8SMTPSA id
+	t5sm83587pjw.15.2019.09.03.09.57.01
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Sep 2019 09:32:46 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Tue, 03 Sep 2019 09:57:03 -0700 (PDT)
+Date: Tue, 03 Sep 2019 16:56:41 +0000
+Message-Id: <20190903165641.16597-0-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Sep 2019 18:32:41 +0200
-Message-Id: <20190903163241.87739-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] package.bbclass: allow shell-style wildcards in PRIVATE_LIBS
+MIME-Version: 1.0
+Subject: [PATCH v2 00/12] Add gnu testsuite execution for OEQA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,46 +57,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 16:32:47 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 16:57:04 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-PRIVATE_LIBS is used to exclude 'private' libraries from getting added to
-automatic runtime dependency resolution. This variable currently has to list
-all libraries by name, which becomes a maintenance issue if the list
-of such libraries frequently changes, or is very large.
+This series adds support to execute the gnu test suites for binutils,
+gcc and glibc. With the intention for enabling automated test running of
+these test suites within the OEQA framework such that they can be
+executed by the Yocto Autobuilder.
 
-This change allows using shell-style wildcards in the variable, similar
-to how FILES lists what gets packaged.
+The test suites covered need significant resources or build artifacts
+such that running them on the target is undesirable which rules out the
+use of ptest. Because of this the test suites can be run on the build
+host and call out to the target for execution (via ssh or using qemu
+usermode).
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+The following implementation adds a do_check task to gcc-runtime, and
+creates recipes for binutils and glibc in order to execute the test
+suite on the build host. For binutils the reason for a separate recipe
+is due to test suite dependence on target libraries (libgcc, glibc) and
+the issues associated with a -cross recipe depending on target
+libraries. For glibc the reason for a recipe is due to the dependency
+chain (libgcc -> glibc -> libgcc-initial) and the test suite dependence
+on libgcc.
+
+Target execution is another important issue specifically since target
+execution is slow to extremely slow depending on the physical or
+emulated target performance. In order to provide faster execution
+performance qemu linux-user is implemented alongside qemu system
+emulation (via ssh+nfs). In initial testing qemu linux user vs qemu
+system emulation provided performance gains of between 10x to 60x whilst
+initially having small pass/fail differences. Further work as covered in
+this series reduces the pass/fail differences for gcc/gcc-runtime close
+to 0, which can be further reduced by marking known failures with test
+result filtering.
+
+However glibc is more strict with its expectations of CPU implementation
+as well as syscall behaviour. Additionally glibc expects to be able to
+execute OS tools such as 'sh' and 'echo' of which is not easy to provide
+in the recipe-sysroot (bindir is not populated into the sysroot). As
+such correct test results for glibc rely on execution with qemu system
+emulation or on a physical target. This series however still includes
+qemu user execution for glibc which can be useful (especially on slow
+targets) assuming the known failing tests are excluded.
+
+This series also introduces some OEQA test cases which cover running the
+test suites. The test cases are split into binutils, gcc and glibc.
+Individual test cases provide execution of the sub-suites of tests
+within each target. For example binutils has binutils, gas and ld and
+suites which can each be executed independently.
+
+The test cases populate the individual test suite test cases into
+testresults similar to ptestresults so that resulttool can analyse them.
+Filtering of the failed test cases where expected failures occur is not
+included in this series.
+
+The OEQA test cases implement execution on qemu linux user by default.
+Subclasses implement qemu system emulation setup and configuration for
+running the tests.
+
+Changes in v2:
+- Dropped merged patches from series:
+  - scripts/lib/resulttool/report.py: Add more result types
+  - oeqa/utils/nfs: Add unfs_server function to setup a userspace NFS server
+  - binutils: Fix mips patch which changes default emulation
+- Added dejagnu recipe to oe-core, imported from meta-oe
+- Changes from binutils-cross to binutils-cross-testsuite recipe
+- Dropped gold and libiberty test suite execution
+- Changes from gcc-cross to only gcc-runtime for gcc/g++ tests
+- BUILD_TEST_* to TOOLCHAIN_TEST_*
+- New changes to oeqa/core for tagging tests, and patches to fix up
+  broken tests in the oeqa/core testsuite
+- New changes to oeqa/selftest for '--run-only-tags' and
+  '--run-exclude-tags'
+- Changes to new selftest tests to populate results like ptestresults
+- Mark new selftest tests with 'machine' tag
 ---
- meta/classes/package.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 114d6559f5e..aa8451ffe8b 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1646,7 +1646,8 @@ python package_do_shlibs() {
-                 prov = (this_soname, ldir, pkgver)
-                 if not prov in sonames:
-                     # if library is private (only used by package) then do not build shlib for it
--                    if not private_libs or this_soname not in private_libs:
-+                    import fnmatch
-+                    if not private_libs or len([i for i in private_libs if fnmatch.fnmatch(this_soname, i)]) == 0:
-                         sonames.add(prov)
-                 if libdir_re.match(os.path.dirname(file)):
-                     needs_ldconfig = True
-@@ -1829,7 +1830,8 @@ python package_do_shlibs() {
-             # /opt/abc/lib/libfoo.so.1 and contains /usr/bin/abc depending on system library libfoo.so.1
-             # but skipping it is still better alternative than providing own
-             # version and then adding runtime dependency for the same system library
--            if private_libs and n[0] in private_libs:
-+            import fnmatch
-+            if private_libs and len([i for i in private_libs if fnmatch.fnmatch(n[0], i)]) > 0:
-                 bb.debug(2, '%s: Dependency %s covered by PRIVATE_LIBS' % (pkg, n[0]))
-                 continue
-             if n[0] in shlib_provider.keys():
--- 
-2.17.1
+Nathan Rossi (12):
+  dejagnu: Add dejagnu for binutils/gcc test suites
+  binutils-cross-testsuite: Create recipe for test suite execution
+  gcc-runtime: Add do_check task for executing gcc test suites
+  gcc-common.inc: Process staging fixme with correct target/native
+    sysroot
+  glibc-testsuite: Create a recipe to implement glibc test suite
+  oeqa/core/tests: Skip test_fail_duplicated_module
+  oeqa/core/tests: Fix test_data module tests
+  oeqa/core: Rework OETestTag and remove unused OETestFilter
+  oeqa/selftest: Add test run filtering based on test tags
+  oeqa/selftest/binutils: Create selftest case for binutils test suite
+  oeqa/selftest/gcc: Create selftest case for gcc test suite
+  oeqa/selftest/glibc: Create selftest case for glibc test suite
 
+ meta/lib/oeqa/core/context.py                 |   4 +-
+ meta/lib/oeqa/core/decorator/__init__.py      |  20 ++--
+ meta/lib/oeqa/core/decorator/oetag.py         |  27 -----
+ meta/lib/oeqa/core/loader.py                  |  61 +++-------
+ meta/lib/oeqa/core/tests/cases/data.py        |   2 +-
+ meta/lib/oeqa/core/tests/cases/oetag.py       |  21 +++-
+ meta/lib/oeqa/core/tests/common.py            |   4 +-
+ meta/lib/oeqa/core/tests/test_data.py         |  10 +-
+ meta/lib/oeqa/core/tests/test_decorators.py   |  77 +++++++-----
+ meta/lib/oeqa/core/tests/test_loader.py       |  26 +---
+ meta/lib/oeqa/selftest/cases/binutils.py      |  64 ++++++++++
+ meta/lib/oeqa/selftest/cases/gcc.py           | 111 ++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/glibc.py         |  97 +++++++++++++++
+ meta/lib/oeqa/selftest/context.py             |  11 ++
+ .../glibc/glibc-testsuite_2.30.bb             |  51 ++++++++
+ .../glibc/glibc/check-test-wrapper            |  71 +++++++++++
+ .../binutils/binutils-cross-testsuite_2.32.bb |  83 +++++++++++++
+ .../recipes-devtools/dejagnu/dejagnu_1.6.2.bb |  15 +++
+ meta/recipes-devtools/gcc/gcc-common.inc      |   2 +-
+ meta/recipes-devtools/gcc/gcc-runtime.inc     |  42 +++++++
+ meta/recipes-devtools/gcc/gcc-testsuite.inc   | 106 +++++++++++++++++
+ 21 files changed, 762 insertions(+), 143 deletions(-)
+ delete mode 100644 meta/lib/oeqa/core/decorator/oetag.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/binutils.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/gcc.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/glibc.py
+ create mode 100644 meta/recipes-core/glibc/glibc-testsuite_2.30.bb
+ create mode 100644 meta/recipes-core/glibc/glibc/check-test-wrapper
+ create mode 100644 meta/recipes-devtools/binutils/binutils-cross-testsuite_2.32.bb
+ create mode 100644 meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
+ create mode 100644 meta/recipes-devtools/gcc/gcc-testsuite.inc
+---
+2.23.0.rc1
 
