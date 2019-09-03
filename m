@@ -1,27 +1,26 @@
 Return-Path: <henning.schild@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 955797F369
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id CB32F7F35F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2019 12:22:34 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x83CMZlC024817
+	Tue,  3 Sep 2019 12:24:28 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id x83COTNN031162
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Sep 2019 14:22:35 +0200
+	Tue, 3 Sep 2019 14:24:29 +0200
 Received: from md1za8fc.ad001.siemens.net ([139.25.69.169])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id x83CMYKZ002171;
-	Tue, 3 Sep 2019 14:22:35 +0200
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x83COTL8014075;
+	Tue, 3 Sep 2019 14:24:29 +0200
+Date: Tue, 3 Sep 2019 14:24:27 +0200
 From: Henning Schild <henning.schild@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Sep 2019 14:22:23 +0200
-Message-Id: <20190903122224.18634-5-henning.schild@siemens.com>
-X-Mailer: git-send-email 2.21.0
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20190903142427.5080fc71@md1za8fc.ad001.siemens.net>
 In-Reply-To: <20190903122224.18634-1-henning.schild@siemens.com>
 References: <20190903122224.18634-1-henning.schild@siemens.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Cc: Jan Kiszka <jan.kiszka@siemens.com>,
-	Henning Schild <henning.schild@siemens.com>
-Subject: [PATCH 5/6] oe-git-proxy: NO_PROXY suffix matching without wildcard for match_host
+Cc: Jan Kiszka <jan.kiszka@siemens.com>
+Subject: Re: [PATCH 1/6] oe-git-proxy: allow setting SOCAT from outside
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 12:22:36 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Sep 2019 12:24:29 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Henning Schild <henning.schild@siemens.com>
+This series fixes several issues in oe-git-proxy, mostly related to
+matching NO_PROXY entries.
 
-NO_PROXY can also contain just suffixes that do not start with a "*". We
-failed to match those so far. Just add an extra "*" to also match those
-suffixes. If one was there we get "**" which does not hurt.
+Patch 2 introduces a test that will actually fail until all other
+patches are applied. If that is a problem and every commit should be
+testable, Patch2 needs to be moved to then end.
 
-Signed-off-by: Henning Schild <henning.schild@siemens.com>
----
- scripts/oe-git-proxy | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Let me know what you think
 
-diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
-index 2f65f0c482..8f7b26c15e 100755
---- a/scripts/oe-git-proxy
-+++ b/scripts/oe-git-proxy
-@@ -104,7 +104,7 @@ match_host() {
- 	HOST=$1
- 	GLOB=$2
- 
--	if [ -z "${HOST%%$GLOB}" ]; then
-+	if [ -z "${HOST%%*$GLOB}" ]; then
- 		return 0
- 	fi
- 
--- 
-2.21.0
+Henning
+
+Am Tue, 3 Sep 2019 14:22:19 +0200
+schrieb Henning Schild <henning.schild@siemens.com>:
+
+> From: Henning Schild <henning.schild@siemens.com>
+> 
+> This allows to write selftests where we can mock the real socat.
+> 
+> Signed-off-by: Henning Schild <henning.schild@siemens.com>
+> ---
+>  scripts/oe-git-proxy | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
+> index bb2ed2a46e..8499a99a71 100755
+> --- a/scripts/oe-git-proxy
+> +++ b/scripts/oe-git-proxy
+> @@ -41,10 +41,12 @@ if [ $# -lt 2 -o "$1" = '--help' -o "$1" =
+> '-h' ] ; then fi
+>  
+>  # Locate the netcat binary
+> -SOCAT=$(which socat 2>/dev/null)
+> -if [ $? -ne 0 ]; then
+> -	echo "ERROR: socat binary not in PATH" 1>&2
+> -	exit 1
+> +if [ -z "$SOCAT" ]; then
+> +	SOCAT=$(which socat 2>/dev/null)
+> +	if [ $? -ne 0 ]; then
+> +		echo "ERROR: socat binary not in PATH" 1>&2
+> +		exit 1
+> +	fi
+>  fi
+>  METHOD=""
+>  
 
 
