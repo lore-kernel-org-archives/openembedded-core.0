@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DD26A7F36D;
-	Tue,  3 Sep 2019 11:32:25 +0000 (UTC)
+Return-Path: <henning.schild@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E82D7F358
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Sep 2019 12:22:33 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id x83CMYpB003210
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 3 Sep 2019 14:22:34 +0200
+Received: from md1za8fc.ad001.siemens.net ([139.25.69.169])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id x83CMYKV002171;
+	Tue, 3 Sep 2019 14:22:34 +0200
+From: Henning Schild <henning.schild@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Sep 2019 14:22:19 +0200
+Message-Id: <20190903122224.18634-1-henning.schild@siemens.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Tue, 03 Sep 2019 11:32:27 -0000
-Message-ID: <20190903113227.2330.90829@do>
-References: <20190903111921.15867-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190903111921.15867-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlibmw6IGRvbid0IHBhdGNoIGxpYm5sLTMuMC5wYw==?=
+Cc: Jan Kiszka <jan.kiszka@siemens.com>,
+	Henning Schild <henning.schild@siemens.com>
+Subject: [PATCH 1/6] oe-git-proxy: allow setting SOCAT from outside
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 11:32:26 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Sep 2019 12:22:34 -0000
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+From: Henning Schild <henning.schild@siemens.com>
 
-Series: libnl: don't patch libnl-3.0.pc
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19665/
-State : failure
+This allows to write selftests where we can mock the real socat.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at aa36510ebe)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Henning Schild <henning.schild@siemens.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ scripts/oe-git-proxy | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/oe-git-proxy b/scripts/oe-git-proxy
+index bb2ed2a46e..8499a99a71 100755
+--- a/scripts/oe-git-proxy
++++ b/scripts/oe-git-proxy
+@@ -41,10 +41,12 @@ if [ $# -lt 2 -o "$1" = '--help' -o "$1" = '-h' ] ; then
+ fi
+ 
+ # Locate the netcat binary
+-SOCAT=$(which socat 2>/dev/null)
+-if [ $? -ne 0 ]; then
+-	echo "ERROR: socat binary not in PATH" 1>&2
+-	exit 1
++if [ -z "$SOCAT" ]; then
++	SOCAT=$(which socat 2>/dev/null)
++	if [ $? -ne 0 ]; then
++		echo "ERROR: socat binary not in PATH" 1>&2
++		exit 1
++	fi
+ fi
+ METHOD=""
+ 
+-- 
+2.21.0
 
 
