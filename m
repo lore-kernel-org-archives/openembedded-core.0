@@ -1,50 +1,60 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 12DA67F261
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id ADE2A7F260
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 18:49:35 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id n4so11728061pgv.2
+	Wed,  4 Sep 2019 18:50:36 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id y8so22369510wrn.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 11:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=vMdwW2u4jhBF4rqYJDoOwyQ/NfCfyVA4/pg4S0RDz8U=;
-	b=UvzuYxfKhMMLTEz0F4hqKV6EQjXCqWVxmatigG4tKcI+Qv9XmKBylcZ7aWZkmOoFHA
-	AurMJgCrxhh7KI8IQ7Ja0MuzP5/jL3kjBgSE/x+ST+4I8hSq+/CuHbrYl0A7Sk3iVfI/
-	KumQECYvhtdYzyb4GjsOzTQkYU2SYhXcnCO1Cbv7XYOJdWA96NHwV2P+sETXp1hKfHM8
-	//wLqDSPZa8BQ8az7+LoLFaMp0gwNZ5PSFUEyp0MOAw0VyLAHAwtOJTGc8e/2sG5vuy0
-	QkRP44V0au0cajf4LPBMBiIpTKfQrblXXbsJcfVmfN1aWgmrL9pPqma2EjXpOpj3FvUt
-	WjBw==
+	Wed, 04 Sep 2019 11:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=ubg8a1jwtHM3os3/+w0y8DaaCfNcpfFSACBUrWUZiHo=;
+	b=OYs/vekelag4mKBstyFfwMx8xqpUIYJUDwBQNnlEpM1PxC+ElTn2Mji409LjO5fkou
+	aNHeciShG3N6e9RKBJGfsSFbC8sOeBSMII+m1tP5JNB0VwNjqtrA/TAKWavW4CCZJA0l
+	D1PM+yS00+uw/oVz4nnFj+WK95BdMnJAzGyIc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=vMdwW2u4jhBF4rqYJDoOwyQ/NfCfyVA4/pg4S0RDz8U=;
-	b=j4rPXDQXF8zZKJnCp1ZtuM0IaNz9Yj6hOyTNtqNCKatrHKEADe/r/nhtZ++swsOGzC
-	LOfxEtq8qnfrYrMwvKqHaDi12S0ouUC9Efg1aYb+qITWOAX1AXgAyANZyYUuItiwB26i
-	61DV8kYD3j5uTTaC2Pnju7V4WxLXV/aE219ypz6XufaT4jhqm0te1CXvDzk3AyENKyr1
-	RNQi18EgfHUU3zaFHitZ3T4Z656c1y5dcSwpDh/hjSUSYh/1RMwS0wYpKHyk1NqsHvXO
-	ovzrZstV/FZRHDPdLQN0d2C6V1cLpUQnoCdbL7k0Yzw9yVQM6bAgrE6oTf4BJObUjelf
-	Nzwg==
-X-Gm-Message-State: APjAAAW8u5qOOfUlnveRg6WyOIyrOByTHYenZ0qIZe1d2/nlWIxxMwOl
-	Yk/JBujuqxjzWCGoKpRmZRvsPUMMSlw=
-X-Google-Smtp-Source: APXvYqxUkn9kuqP2Iji9LPW6CzMNU0OEQWjJvLVpj/BD6hWadx+SybPvp7Oez99QxiTHw92yKp8T2w==
-X-Received: by 2002:a63:7d05:: with SMTP id y5mr36689687pgc.425.1567622976382; 
-	Wed, 04 Sep 2019 11:49:36 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	196sm13947695pfz.99.2019.09.04.11.49.35
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=ubg8a1jwtHM3os3/+w0y8DaaCfNcpfFSACBUrWUZiHo=;
+	b=Lkgi/dUpSxFbU4sBVZjbuehyEpF2ki3IpN7tYQgWjonlZKiRKvY3iwQzRZMUQUXozG
+	ZM7QsRKdz5sloR8F+cHkbeFT5e/flNSnTnPIkEwruhm1a9YagUoPLhqWmywhkfZROxrQ
+	bUwJY/WxLkdrQ0XXR8n1WL06KFLWHr7I8LLz5kiwO42gVlkeZGnxGYf9WoBbCicWIiUi
+	Z4WPO/aYU2/0fm+aDY6DLuzY52tLxHBOZ7D20qeOl0LYmjUKCZpaJslwmcBnYLwMNS58
+	Ql7LO8BO89WCUYfzoDoinnvh1JgUVR9OCo06jTsZQPl9rgSRgDmLB5cYR2eNBsLN27tj
+	yj7A==
+X-Gm-Message-State: APjAAAXuD0ygI2MeSW/nFGsXdsUK5jFhK0LDDxYyW/R5oYuVGtjjHarU
+	8ncrRlXIxMh3o+183+9oFK2tdg==
+X-Google-Smtp-Source: APXvYqyvGyvnu4g9WCwov5jEb268rFhhrSUKfRleplObp1QuQuxm6r63XWtNuqIWQJfiy4bg0JHo0Q==
+X-Received: by 2002:a5d:5005:: with SMTP id e5mr34644278wrt.79.1567623037475; 
+	Wed, 04 Sep 2019 11:50:37 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	t25sm2840638wmj.29.2019.09.04.11.50.36
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Sep 2019 11:49:35 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Sep 2019 11:49:28 -0700
-Message-Id: <20190904184928.8414-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
+	Wed, 04 Sep 2019 11:50:36 -0700 (PDT)
+Message-ID: <0f8a4a800e70afe1eef8875571dbb50e1dc8f865.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>, Wes Lindauer
+	<wesley.lindauer@gmail.com>
+Date: Wed, 04 Sep 2019 19:50:35 +0100
+In-Reply-To: <32b3f42b-2ff1-79c8-2777-b9a788190969@windriver.com>
+References: <20190816194405.12751-1-wesley.lindauer@gmail.com>
+	<20190816194405.12751-6-wesley.lindauer@gmail.com>
+	<CAMKF1sruqPBcwobNNErkdHKAnP7zT8zda81O2FUP88u=5ZnmVg@mail.gmail.com>
+	<20190827180449.GA29638@localhost>
+	<5fc12556-a817-e312-e1ed-60878a97d78c@windriver.com>
+	<CALBQxSsXuM+926J=A=2R=X7xPSz4htuFk3pKrJ3Zpj1uK0AXDw@mail.gmail.com>
+	<32b3f42b-2ff1-79c8-2777-b9a788190969@windriver.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH V2] python3native, pythonnative: export PYTHON_LIBRARY and PYTHON_INCLUDE_DIR
+Cc: Adrian Bunk <bunk@stusta.de>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] xz: Remove GPLv3 license checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,76 +67,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 18:49:36 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Sep 2019 18:50:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-packages can use
+On Wed, 2019-09-04 at 08:07 -0400, Mark Hatle wrote:
+> On 9/3/19 1:59 PM, Wes Lindauer wrote:
+> > Mark,
+> > 
+> > In reference to "It typically does NOT include the license of
+> > things used to
+> > build the software (such as makefiles, autoconf fragments, etc)".
+> > Since the only file that is licensed under GPLv3 is a M4 macro,
+> > does that mean
+> > the current patch is still valid? Shouldn't the GPLv3 license be
+> > removed from
+> > this recipe?
+> 
+> Unless the M4 file is generating/injecting code into the build(very
+> few I've
+> seen do this), then I would say it's not under GPLv3 at all.  (And I
+> wouldn't
+> have included GPLv3 in the LICENSE statement.)
+> 
+> But we need more consensus then just me saying so.
+> 
+> This may be a good question for the OE-TSC to ensure that we have
+> clarification
+> on this issue, and it's not just me saying I think one way or
+> another.
 
-find_package(PythonInterp REQUIRED)
-find_package(PythonLibs REQUIRED)
+Not sure it needs to go to the TSC, we just need a patch which clearly
+says why the LICENSE statement is incorrect. I don't think the original
+patch in the series was clear about why GPLv3 didn't apply but if the
+commit message is improved, its probably fine.
 
-while we control PYTHON pointing to native py3 the libs and include
-directories will then point to build host version, which can result in
-unexpected combination and if we are lucky we get errors if its quite
-different e.g. py2 libs/includes and py3 executable
+Cheers,
 
-This variable can be then used to export PYTHON_LIBRARY and
-PYTHON_INCLUDE_DIR so that above find_packages can work correctly
-
-see [1] for how it happens in cmake
-
-LLDB uses it see [2]
-
-[1] https://github.com/Kitware/CMake/blob/master/Modules/FindPythonLibs.cmake
-[2] https://github.com/llvm/llvm-project/blob/master/lldb/cmake/modules/LLDBConfig.cmake#L226
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Use PYTHON_DIR variable
-
- meta/classes/python3native.bbclass | 8 ++++++++
- meta/classes/pythonnative.bbclass  | 8 ++++++++
- 2 files changed, 16 insertions(+)
-
-diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3native.bbclass
-index a3acaf61bb..768302488b 100644
---- a/meta/classes/python3native.bbclass
-+++ b/meta/classes/python3native.bbclass
-@@ -9,6 +9,14 @@ DEPENDS_append = " python3-native "
- export STAGING_INCDIR
- export STAGING_LIBDIR
- 
-+# Packages can use
-+# find_package(PythonInterp REQUIRED)
-+# find_package(PythonLibs REQUIRED)
-+# which ends up using libs/includes from build host
-+# Therefore pre-empt that effort
-+export PYTHON_LIBRARY="${STAGING_LIBDIR}/${PYTHON_DIR}"
-+export PYTHON_INCLUDE_DIR="${STAGING_INCDIR}/${PYTHON_DIR}"
-+
- export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
- 
- # suppress host user's site-packages dirs.
-diff --git a/meta/classes/pythonnative.bbclass b/meta/classes/pythonnative.bbclass
-index ae6600cd15..604423b80e 100644
---- a/meta/classes/pythonnative.bbclass
-+++ b/meta/classes/pythonnative.bbclass
-@@ -12,6 +12,14 @@ DEPENDS_append = " python-native "
- export STAGING_INCDIR
- export STAGING_LIBDIR
- 
-+# Packages can use
-+# find_package(PythonInterp REQUIRED)
-+# find_package(PythonLibs REQUIRED)
-+# which ends up using libs/includes from build host
-+# Therefore pre-empt that effort
-+export PYTHON_LIBRARY="${STAGING_LIBDIR}/${PYTHON_DIR}"
-+export PYTHON_INCLUDE_DIR="${STAGING_INCDIR}/${PYTHON_DIR}"
-+
- # suppress host user's site-packages dirs.
- export PYTHONNOUSERSITE = "1"
- 
--- 
-2.23.0
+Richard
 
 
