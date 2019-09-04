@@ -1,53 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E32A60685
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 9883A7D076
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 17:12:02 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p13so4713206wmh.1
+	Wed,  4 Sep 2019 18:10:23 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id 4so8106446pgm.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 10:12:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
+	Wed, 04 Sep 2019 11:10:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=s0Uh36HV6lGRd4N25K2dNaJkOsqqNOnUAVLd0zzDrS8=;
-	b=xFIzjL09OjWnpdzWYy/Zp9olshUDcN/GMru1kRMlxekIFsiBBrlKlVgwUhBg1oroEs
-	0xfPiyD1G3i6YwYp8YleVQaJbA/RPtQRkUflU+8J0Pzcvk5GR5CJmBxmOCBTZeqKBV7O
-	s9BfSLo54XJyuuF1mnyiICTEJ+J6wGiUVVeFQVqS/rGpA/KmJFfAaL0h/RgvKKxZN6IZ
-	acq0f9r6ru1WP5603hr1/ol5a2Z9xmgne97WlMeYitpLMqsZv1JZhCoriyK1jrHoL6JZ
-	TfVXh6lWd5ibQPSQU8qo8w5sKnv6LsYMUGDY3gU1aAnlyPCr+rPVkgdGwmnWxkeealLu
-	WXfA==
+	bh=9qR8JZz8nWU3oFttPqNafOFgVELBuYkgH5dxadE8lGE=;
+	b=mG2d16lBho8YTnCWyutsamIXCtP0Ht+/QO81xkEdWbu3zVVm6jj1XM3I05DN7DZ5QJ
+	EBrAFPg1PtDiFsmZWZjhEbZEriph6ZfbQKVZ1oOz0wpJadiNUzfY581W+DTIHevsGjvQ
+	/A/P9NqT9DykAdYUg/uvfFQQ5XeOx4JdlfFScyzZWENXbKwNcjYfyasoNL6imlkJESi7
+	rcv0wBoeaMw8/arl0RbrLYuO6t9LB5y/AqMr4yM/FBBsqjK/zxib/TdwlEyKmVd7f65f
+	0gTprXxT9KOXaOJ5JVk1qt6puVmZbqs8EsX9YnTAF2m+MFP/2sepFYKEX/goef6T6EP3
+	649w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=s0Uh36HV6lGRd4N25K2dNaJkOsqqNOnUAVLd0zzDrS8=;
-	b=jPSFi6GW0LcENA5nVOM+gSStc9mNoki+ccIxKp6SeH4Ry9zRnzYmWOvOKIAGR1sXoP
-	sFidws8yuZ3WUU8w9XOXqfHhkMIX0kyczcYZFtRnQAZG0LrNrWp+NX0ydiMzFqRORSFY
-	+eROI3HxHCnx74l0Aobg46vnv8T5P97CpGmIrSdZwYja1bmql31Ww55nmj91sLp0na0g
-	mxRkMlXJ6OdUXaYOtGaQurpHJGOB8DVWfqtH3Bmi7q6EFboOSu39xF0z/bKKPdWPhc8+
-	mhZOzXupQNfa3U8uDBhv6Blvzio7R9bwrcPGC1qn0CH/MWObfWaNeOZr5a4fHEB5WNxt
-	X7aQ==
-X-Gm-Message-State: APjAAAUNMhH1eR7HLtIym+uwOpmBguZOXvl4cY88dJK8KuZiBn0V+lIG
-	Z2xCGCN9RGuqbkUDigls40iYP/5e0KI=
-X-Google-Smtp-Source: APXvYqy0NBhZl+mv09xaN+6q/+rkkXvtFrdu3kAWqNffMyb0fXruOfz8KgnHLJJa/v4ZnQbFjtAEzA==
-X-Received: by 2002:a05:600c:285:: with SMTP id
-	5mr5760477wmk.161.1567617123251; 
-	Wed, 04 Sep 2019 10:12:03 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	q15sm4031639wrg.65.2019.09.04.10.12.01
-	for <openembedded-core@lists.openembedded.org>
+	bh=9qR8JZz8nWU3oFttPqNafOFgVELBuYkgH5dxadE8lGE=;
+	b=F0xHPKx7TbI+MmJgmW8PrXgtLHX9wfoVrnP42cA++YjGxSOLeGrcwhhGeA8NCqzCHZ
+	gYlsFwzF9vTkolzOO6SW4oJoiexUvelYcv2ceV+I1wSjS0z96qiWJ5vr4fp8ISt973PP
+	6phcbUF6rsHr5upDwLL8PlaXe2Y/VUeP3LipIE30s4xzhaQnK2s7amYPU/dTiKUzuyYS
+	b4v+OYVDEZdPIpP7lL0ER3+rK8sFPrqFZb5OlZM+1o4NwOeH6q117w0gVsG5Lc9KlWwh
+	eUzGvagSKwvquZveZd6acUzKjbVZaX0Gp/zSv1sM3bQQG29vQW2r+uInKFI+PAia2WmE
+	1ttw==
+X-Gm-Message-State: APjAAAX5RNi4PLkdYN0kIsDy0OYyq+/CEVnd2dshABsV03waCRZw1Hmc
+	Xnr/zyDHC9uwb10UZvs2irmz8fxq4u0=
+X-Google-Smtp-Source: APXvYqx+xHBpHcQs1Afj22k/4/HpNO+1ibMMpDHUWX4GwjeJcOBhfbx51eiPoUEH/xiiyFzH6n4C5w==
+X-Received: by 2002:a63:c304:: with SMTP id c4mr35719162pgd.126.1567620623876; 
+	Wed, 04 Sep 2019 11:10:23 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
+	i9sm18764688pgg.38.2019.09.04.11.10.23
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Sep 2019 10:12:01 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 04 Sep 2019 11:10:23 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Sep 2019 18:11:58 +0100
-Message-Id: <20190904171158.29525-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+Date: Wed,  4 Sep 2019 11:10:08 -0700
+Message-Id: <20190904181009.8374-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH] harfbuzz: upgrade to 2.6.1
+Subject: [PATCH 1/2] python3: Expose PYTHON_BINABI in global config metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,58 +57,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 17:12:03 -0000
+X-List-Received-Date: Wed, 04 Sep 2019 18:10:23 -0000
 Content-Transfer-Encoding: 8bit
 
-Add a (disabled) PACKAGECONFIG for Graphite2.
+packages can use
 
-Update the license checksum for hb-ucd.cc, which for some reason was
-checksumming the entire file and not just the license header.
+find_package(PythonInterp REQUIRED)
+find_package(PythonLibs REQUIRED)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+while we control PYTHON pointing to native py3 the libs and include
+directories will then point to build host version, which can result in
+unexpected combination and if we are lucky we get errors if its quite
+different e.g. py2 libs/includes and py3 executable
+
+This variable can be then used to export PYTHON_LIBRARY and
+PYTHON_INCLUDE_DIR so that above find_packages can work correctly
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../harfbuzz/{harfbuzz_2.5.3.bb => harfbuzz_2.6.1.bb}     | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.5.3.bb => harfbuzz_2.6.1.bb} (76%)
+ meta/conf/distro/include/tcmode-default.inc   | 3 +++
+ meta/recipes-devtools/python/python3_3.7.4.bb | 1 -
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.5.3.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-similarity index 76%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.5.3.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-index a90ff522554..b0f565b9b07 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.5.3.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-@@ -5,25 +5,25 @@ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=HarfBuzz"
- SECTION = "libs"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e11f5c3149cdec4bb309babb020b32b9 \
--                    file://src/hb-ucd.cc;md5=343f1797944de49ab2b5f5cf3126d3f2"
-+                    file://src/hb-ucd.cc;beginline=1;endline=15;md5=29d4dcb6410429195df67efe3382d8bc"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 5c28386c4f..bcc5a14d4a 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -30,6 +30,9 @@ GOVERSION ?= "1.12%"
+ # llvm version being used, so always bump it with llvm recipe version bump
+ LLVMVERSION ?= "8.0.1"
  
- DEPENDS = "glib-2.0 cairo fontconfig freetype"
++# This should be bumped when python3 recipe's MIN_VER is bumped e.g. 3.7 -> 3.8
++PYTHON_BINABI = "3.7m"
++
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-initial-${TARGET_ARCH} ?= "${GCCVERSION}"
+diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
+index 80c9b2919e..b2014e2bcf 100644
+--- a/meta/recipes-devtools/python/python3_3.7.4.bb
++++ b/meta/recipes-devtools/python/python3_3.7.4.bb
+@@ -47,7 +47,6 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ CVE_PRODUCT = "python"
  
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.xz"
--SRC_URI[md5sum] = "29a310e74a90b4e4f6d62f3e74a571e5"
--SRC_URI[sha256sum] = "fed00dc797b7ba3ca943225f0a854baaed4c1640fff8a31d455cd3b5caec855c"
-+SRC_URI[md5sum] = "89b758a2eb14d56a94406cf914b62388"
-+SRC_URI[sha256sum] = "c651fb3faaa338aeb280726837c2384064cdc17ef40539228d88a1260960844f"
+ PYTHON_MAJMIN = "3.7"
+-PYTHON_BINABI = "${PYTHON_MAJMIN}m"
  
- inherit autotools pkgconfig lib_package gtk-doc
+ S = "${WORKDIR}/Python-${PV}"
  
- PACKAGECONFIG ??= "icu"
- PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
-+PACKAGECONFIG[graphite] = "--with-graphite2,--without-graphite2,graphite2"
- 
- EXTRA_OECONF = " \
-     --with-cairo \
-     --with-fontconfig \
-     --with-freetype \
-     --with-glib \
--    --without-graphite2 \
- "
- 
- PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
 -- 
-2.20.1
+2.23.0
 
 
