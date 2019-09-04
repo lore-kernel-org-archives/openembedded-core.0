@@ -1,38 +1,52 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id A9AD67F2E8
+Return-Path: <maxime.roussinbelanger@gmail.com>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 979157F2E8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 01:43:54 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,465,1559491200"; d="scan'208,217";a="74790904"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 04 Sep 2019 09:43:54 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 005BC4CE14E4;
-	Wed,  4 Sep 2019 09:43:51 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0439.000; Wed, 4 Sep 2019 09:43:51 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Thread-Topic: [OE-core] [PATCH] meta-environment: make rpm and dnf work in
-	toolchain
-Thread-Index: AQHVYSvs1wTXXemyyE6tYa9eY+tj26cXg9EAgAM+DuA=
-Date: Wed, 4 Sep 2019 01:43:59 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6D581@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1567386885-110297-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CANNYZj93Trq7+ytueYA9QDa=o2HjtJJRCADcUW-dqJML3+u+DA@mail.gmail.com>
-In-Reply-To: <CANNYZj93Trq7+ytueYA9QDa=o2HjtJJRCADcUW-dqJML3+u+DA@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.35]
+	Wed,  4 Sep 2019 01:57:09 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id z67so5269246qkb.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Sep 2019 18:57:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=R9t7hMDi3aofnJvQFYgyS43MVMlMA4jERqPaXD1vxsI=;
+	b=XL3kBtuBWXOS30fnYy0PTNG+bxmv9C0kQmVUvi8xlt8Yb458WQFXwZcDWGRfs/+GF9
+	xp4z7mcWGtgMvTk1ViFrwHpwyRxfk3n41nM47Hkpo4tzEYpKBu/4x4VYZb/ReHSkhpBL
+	jnqzN6SgZRNlIPKfnEh5sv+6DgKTixjGxiMLG+iQEOvNU5v0qkt04bDzN/dnfMR+heoa
+	PBIxQQ8TC0A0psbuUimB2dFm7EBCQx8qnFOB8fiPLw8xnO/FZqe8hj8Vx1b+JXRGbgst
+	B4HskWTYppW1LnylrGtigYxQ9h/KBrUANjpV8/QX1d0HinS+waFolyOrMPYfydbyIeuQ
+	K6XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=R9t7hMDi3aofnJvQFYgyS43MVMlMA4jERqPaXD1vxsI=;
+	b=liC4lqoKZi3WuG0lcZpjvh5SGjPD3tQoUpO2jBOFO+8vdXN+8A48erhO2r8EIutAkY
+	QHVV1Z7jJ7gZcFcITN39Hh3i4Q7GcPpuOw9Ag/giyV30Xr4SRgjJLaj7N9+Rp7ZEYYWy
+	SlARvLEgWs/6m5b8nxLS6x6fGJCSEaG0zjLELLXbcM4bxi1pV/tkNaXvzv/Z6ukRO4wo
+	gYie9N4OKgJiJ/iLj/dx4GWFtnEMa+hbO33b7R2Fx+fclPPboyFnn9Iex9f/wLZJJ1eU
+	NivwLQuwHuO1ZQQwsrGDYKwDqv/ldh3px3Z+qoEOMzVFsmshMR4DLSLlUm7DPZcAiUoX
+	gtqA==
+X-Gm-Message-State: APjAAAU9Y9wTDSRjEIbOSsHDImUUrLk5z6qPmGCc49L+qy+HJrEuMGUb
+	5/h5Nsm27AsV5xbt4SG2eLMkAJEF4dc=
+X-Google-Smtp-Source: APXvYqywyTkZ0dOJcyPBe/g7ogmXolqsSsY33d2vVD17spATq/r4UtjRNiA9W7NnPJ5cLGHj52/+QQ==
+X-Received: by 2002:a37:b383:: with SMTP id c125mr43008qkf.268.1567562230171; 
+	Tue, 03 Sep 2019 18:57:10 -0700 (PDT)
+Received: from mbedesk.Sonatest.net
+	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
+	[174.94.156.236])
+	by smtp.gmail.com with ESMTPSA id o9sm9171625qtr.71.2019.09.03.18.57.09
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 03 Sep 2019 18:57:09 -0700 (PDT)
+From: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
+	<maxime.roussinbelanger@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Sep 2019 21:56:57 -0400
+Message-Id: <20190904015657.20094-1-maxime.roussinbelanger@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 005BC4CE14E4.A8152
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta-environment: make rpm and dnf work in toolchain
+Subject: [PATCH v2] meta: add missing descriptions and homepage in bsp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,223 +59,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 01:43:55 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_33D4DBCAC5F2D74E96B07F6E7632BF73B5B6D581G08CNEXMBPEKD01_"
+X-List-Received-Date: Wed, 04 Sep 2019 01:57:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---_000_33D4DBCAC5F2D74E96B07F6E7632BF73B5B6D581G08CNEXMBPEKD01_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
+---
+Changes in v2:
+	- Rewrite acpid description to be more meaningful
+	- Change grub-bootconf description
+	
+ meta/recipes-bsp/acpid/acpid.inc              | 6 ++++++
+ meta/recipes-bsp/formfactor/formfactor_0.0.bb | 3 +++
+ meta/recipes-bsp/grub/grub-bootconf_1.00.bb   | 3 +++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     | 4 ++++
+ meta/recipes-bsp/usbinit/usbinit.bb           | 4 ++++
+ 5 files changed, 20 insertions(+)
 
-SGkgQWxleA0KDQpUaGFuayB5b3UgZm9yIHlvdXIgYWR2aWNlIGFuZCBJIGhh
-dmUgYSBxdWVzdGlvbi4NCg0KMTotPiBUaGlzIGRvZXMgbm90IHNlZW0gbGlr
-ZSB0aGUgcmlnaHQgcGxhY2UgdG8gbWUgdG8gYWRqdXN0IHRoZSBzZXR0aW5n
-cy4NCg0KV2VsbCwgZGlkIHlvdSBtZWFuIHRoYXQgSSBzaG91bGRu4oCZdCBh
-ZGp1c3QgdGhlIHNldHRpbmdzIGluIG1ldGEtZW52aXJvbm1lbnQgcmVjaXBl
-LCBpbnN0ZWFkIG9mIGl0LCBhZGp1c3QgdGhlIHNldHRpbmdzIGluIHRoZSBu
-YXRpdmVzZGstbWVzb24gcmVjaXBlPw0KDQoNCi0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQpaaGVuZyBSdW9x
-aW4NCk5hbmppbmcgRnVqaXRzdSBOYW5kYSBTb2Z0d2FyZSBUZWNoLiBDby4s
-IEx0ZC4oRk5TVCkNCg0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gW21haWx0
-bzphbGV4LmthbmF2aW5AZ21haWwuY29tXQ0KU2VudDogTW9uZGF5LCBTZXB0
-ZW1iZXIgMDIsIDIwMTkgNDoxMiBQTQ0KVG86IFpoZW5nLCBSdW9xaW4v6YOR
-IOiLpemSpiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPg0KQ2M6IE9F
-LWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gbWV0YS1lbnZp
-cm9ubWVudDogbWFrZSBycG0gYW5kIGRuZiB3b3JrIGluIHRvb2xjaGFpbg0K
-DQpPbiBNb24sIDIgU2VwIDIwMTkgYXQgMDM6MTYsIFpoZW5nIFJ1b3FpbiA8
-emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPG1haWx0bzp6aGVuZ3JxLmZu
-c3RAY24uZnVqaXRzdS5jb20+PiB3cm90ZToNCldlIG5lZWQgdG8gY29uZmln
-dXJlIGRuZiBhbmQgcnBtIHRvIHVzZSBhbmQgbWFrZSBpdCBjb21wYXRpYmxl
-IHdpdGggcGFja2FnZSBhcmNoaXRlY3R1cmUgZnJvbSB5b2N0byBidWlsZCBz
-eXN0ZW0uDQorDQorICAgIG1rZGlyIC1wICR7RH0vJHtTREtUQVJHRVRTWVNS
-T09UfS9ldGMvcnBtDQorICAgIGVjaG8gImFyY2hfY29tcGF0OiAke01BQ0hJ
-TkVfQVJDSH06ICR7UEFDS0FHRV9BUkNIU30iID4gJHtEfS8ke1NES1RBUkdF
-VFNZU1JPT1R9L2V0Yy9ycG1yYw0KKyAgICBzZWQgLWkgJ3MvLW5hdGl2ZXNk
-ay8vZycgJHtEfS8ke1NES1RBUkdFVFNZU1JPT1R9L2V0Yy9ycG1yYw0KKyAg
-ICBzZWQgLWkgJ3MvLS9fLycgJHtEfS8ke1NES1RBUkdFVFNZU1JPT1R9L2V0
-Yy9ycG1yYw0KKyAgICBlY2hvICIke01BQ0hJTkVfQVJDSH0tcGMtbGludXgi
-ID4gJHtEfS8ke1NES1RBUkdFVFNZU1JPT1R9L2V0Yy9ycG0vcGxhdGZvcm0N
-CisNCisgICAgbWtkaXIgLXAgJHtEfS8ke1NES1RBUkdFVFNZU1JPT1R9L2V0
-Yy9kbmYvdmFycw0KKyAgICBlY2hvICIke0RFRkFVTFRUVU5FfToke01BQ0hJ
-TkVfQVJDSH06JHtUQVJHRVRfQVJDSH0iID4gJHtEfS8ke1NES1RBUkdFVFNZ
-U1JPT1R9L2V0Yy9kbmYvdmFycy9hcmNoDQorICAgIHNlZCAtaSAncy8tL18v
-JyAke0R9LyR7U0RLVEFSR0VUU1lTUk9PVH0vZXRjL2RuZi92YXJzL2FyY2gN
-Cg0KVGhpcyBkb2VzIG5vdCBzZWVtIGxpa2UgdGhlIHJpZ2h0IHBsYWNlIHRv
-IG1lIHRvIGFkanVzdCB0aGUgc2V0dGluZ3MuIEkgdGhpbmsgKG5vdCBzdXJl
-OyBuZXZlciB0cmllZCBpdCkgdGhhdCB0aGUgcmlnaHQgdGVjaG5pcXVlIGlz
-IGluIHRoZSBuYXRpdmVzZGstbWVzb24gcmVjaXBlOg0KDQogICAgaW5zdGFs
-bCAtZCAke0R9JHtTREtQQVRITkFUSVZFfS9wb3N0LXJlbG9jYXRlLXNldHVw
-LmQNCiAgICBpbnN0YWxsIC1tIDA3NTUgJHtXT1JLRElSfS9tZXNvbi1zZXR1
-cC5weSAke0R9JHtTREtQQVRITkFUSVZFfS9wb3N0LXJlbG9jYXRlLXNldHVw
-LmQvDQoNCiAgICAjIFdlIG5lZWQgdG8gd3JhcCB0aGUgcmVhbCBtZXNvbiB3
-aXRoIGEgdGhpbiBlbnYgc2V0dXAgd3JhcHBlci4NCiAgICBtdiAke0R9JHti
-aW5kaXJ9L21lc29uICR7RH0ke2JpbmRpcn0vbWVzb24ucmVhbA0KICAgIGlu
-c3RhbGwgLW0gMDc1NSAke1dPUktESVJ9L21lc29uLXdyYXBwZXIgJHtEfSR7
-YmluZGlyfS9tZXNvbg0KDQpBbGV4DQoKCg==
+diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/acpid.inc
+index 766ed4f89e..1e43e7a9db 100644
+--- a/meta/recipes-bsp/acpid/acpid.inc
++++ b/meta/recipes-bsp/acpid/acpid.inc
+@@ -1,4 +1,10 @@
+ SUMMARY = "A daemon for delivering ACPI events"
++DESCRIPTION = "ACPID is a completely flexible, totally extensible daemon for \
++delivering ACPI events. It listens on netlink interface (or on the \
++deprecated file /proc/acpi/event), and when an event occurs, executes programs \
++to handle the event. The programs it executes are configured through a set of \
++configuration files, which can be dropped into place by packages or by the \
++admin."
+ HOMEPAGE = "http://sourceforge.net/projects/acpid2"
+ BUGTRACKER = "http://sourceforge.net/p/acpid2/tickets/?source=navbar"
+ SECTION = "base"
+diff --git a/meta/recipes-bsp/formfactor/formfactor_0.0.bb b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
+index 53cf1cf774..919fb1fbba 100644
+--- a/meta/recipes-bsp/formfactor/formfactor_0.0.bb
++++ b/meta/recipes-bsp/formfactor/formfactor_0.0.bb
+@@ -1,4 +1,7 @@
+ SUMMARY = "Device formfactor information"
++DESCRIPTION = "A formfactor configuration file provides information about the /
++target hardware for which the image is being built and information that the /
++build system cannot obtain from other sources such as the kernel."
+ SECTION = "base"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
+index 750f8c808a..9d5dab9aa8 100644
+--- a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
++++ b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
+@@ -1,6 +1,9 @@
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ SUMMARY = "Basic grub.cfg for use in EFI systems"
++DESCRIPTION = "Grub might require different configuration file for \
++different machines."
++HOMEPAGE = "https://www.gnu.org/software/grub/manual/grub/grub.html#Configuration"
+ 
+ RPROVIDES_${PN} += "virtual/grub-bootconf"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index ad043dbcde..a056eae8ce 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -1,4 +1,8 @@
+ HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
++DESCRIPTION = "U-Boot, a boot loader for Embedded boards based on PowerPC, \
++ARM, MIPS and several other processors, which can be installed in a boot \
++ROM and used to initialize and test the hardware or to download and run \
++application code."
+ SECTION = "bootloaders"
+ DEPENDS += "flex-native bison-native"
+ 
+diff --git a/meta/recipes-bsp/usbinit/usbinit.bb b/meta/recipes-bsp/usbinit/usbinit.bb
+index aba44b4068..c93f5faee5 100644
+--- a/meta/recipes-bsp/usbinit/usbinit.bb
++++ b/meta/recipes-bsp/usbinit/usbinit.bb
+@@ -1,4 +1,8 @@
+ SUMMARY = "Initscript for enabling USB gadget Ethernet"
++DESCRIPTION = "This module allows ethernet emulation over USB, allowing for /
++all sorts of nifty things like SSH and NFS in one go plus charging over the /
++same wire, at higher speeds than most Wifi connections."
++HOMEPAGE = "http://linux-sunxi.org/USB_Gadget/Ethernet"
+ 
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+-- 
+2.20.1
 
---_000_33D4DBCAC5F2D74E96B07F6E7632BF73B5B6D581G08CNEXMBPEKD01_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
-IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
-ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
-Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
-bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
-cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
-IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
-Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
-b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
-Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
-YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
-fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
-CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
-Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
-IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
-i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
-dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
-bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
-b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
-OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29I
-eXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJs
-dWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQs
-IHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9y
-aXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5k
-ZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBl
-OnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
-LXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7
-bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNh
-bGlicmkiLHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3Np
-emU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgOTAuMHB0IDcy
-LjBwdCA5MC4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRT
-ZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1s
-Pg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAy
-NiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48
-eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAg
-djpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94
-bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIg
-bGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3Jk
-U2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmIj5IaSBBbGV4PG86cD48L286cD48L3NwYW4+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
-ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
-LXNlcmlmIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPlRo
-YW5rIHlvdSBmb3IgeW91ciBhZHZpY2UgYW5kIEkgaGF2ZSBhIHF1ZXN0aW9u
-LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+PG86cD4mbmJzcDs8L286
-cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OyxzYW5zLXNlcmlmIj4xOi0mZ3Q7IFRoaXMgZG9lcyBub3Qgc2Vl
-bSBsaWtlIHRoZSByaWdodCBwbGFjZSB0byBtZSB0byBhZGp1c3QgdGhlIHNl
-dHRpbmdzLg0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj48bzpwPiZu
-YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
-dDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPldlbGwsIGRpZCB5b3UgbWVh
-biB0aGF0IEkgc2hvdWxkbuKAmXQgYWRqdXN0IHRoZSBzZXR0aW5ncyBpbiBt
-ZXRhLWVudmlyb25tZW50IHJlY2lwZSwgaW5zdGVhZCBvZiBpdCwgYWRqdXN0
-IHRoZSBzZXR0aW5ncyBpbiB0aGUgbmF0aXZlc2RrLW1lc29uIHJlY2lwZT88
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
-dDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssc2Fucy1zZXJpZiI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
-ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
-LXNlcmlmIj4tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+Wmhl
-bmcgUnVvcWluPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5OYW5qaW5n
-IEZ1aml0c3UgTmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1Qp
-PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxv
-OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRl
-cjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzow
-Y20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVy
-Om5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6
-My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gQWxleGFuZGVyIEthbmF2
-aW4gW21haWx0bzphbGV4LmthbmF2aW5AZ21haWwuY29tXQ0KPGJyPg0KPGI+
-U2VudDo8L2I+IE1vbmRheSwgU2VwdGVtYmVyIDAyLCAyMDE5IDQ6MTIgUE08
-YnI+DQo8Yj5Ubzo8L2I+IFpoZW5nLCBSdW9xaW4vPC9zcGFuPjxzcGFuIGxh
-bmc9IlpILUNOIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTrlrovkvZMiPumDkTwvc3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmIj4NCjwvc3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIg
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65a6L5L2TIj7o
-i6XpkqY8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
-dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gJmx0
-O3poZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbSZndDs8YnI+DQo8Yj5DYzo8
-L2I+IE9FLWNvcmUgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0Ut
-Y29yZV0gW1BBVENIXSBtZXRhLWVudmlyb25tZW50OiBtYWtlIHJwbSBhbmQg
-ZG5mIHdvcmsgaW4gdG9vbGNoYWluPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5i
-c3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj5PbiBNb24sIDIgU2VwIDIwMTkgYXQgMDM6MTYsIFpoZW5nIFJ1b3Fp
-biAmbHQ7PGEgaHJlZj0ibWFpbHRvOnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1
-LmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnpoZW5ncnEuZm5zdEBjbi5mdWppdHN1
-LmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPGRpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTti
-b3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBj
-bSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBj
-bSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5XZSBuZWVkIHRvIGNvbmZpZ3Vy
-ZSBkbmYgYW5kIHJwbSB0byB1c2UgYW5kIG1ha2UgaXQgY29tcGF0aWJsZSB3
-aXRoIHBhY2thZ2UgYXJjaGl0ZWN0dXJlIGZyb20geW9jdG8gYnVpbGQgc3lz
-dGVtLjxicj4NCiYjNDM7PGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7IG1rZGly
-IC1wICR7RH0vJHtTREtUQVJHRVRTWVNST09UfS9ldGMvcnBtPGJyPg0KJiM0
-MzsmbmJzcDsgJm5ic3A7IGVjaG8gJnF1b3Q7YXJjaF9jb21wYXQ6ICR7TUFD
-SElORV9BUkNIfTogJHtQQUNLQUdFX0FSQ0hTfSZxdW90OyAmZ3Q7ICR7RH0v
-JHtTREtUQVJHRVRTWVNST09UfS9ldGMvcnBtcmM8YnI+DQomIzQzOyZuYnNw
-OyAmbmJzcDsgc2VkIC1pICdzLy1uYXRpdmVzZGsvL2cnICR7RH0vJHtTREtU
-QVJHRVRTWVNST09UfS9ldGMvcnBtcmM8YnI+DQomIzQzOyZuYnNwOyAmbmJz
-cDsgc2VkIC1pICdzLy0vXy8nICR7RH0vJHtTREtUQVJHRVRTWVNST09UfS9l
-dGMvcnBtcmM8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgZWNobyAmcXVvdDsk
-e01BQ0hJTkVfQVJDSH0tcGMtbGludXgmcXVvdDsgJmd0OyAke0R9LyR7U0RL
-VEFSR0VUU1lTUk9PVH0vZXRjL3JwbS9wbGF0Zm9ybTxicj4NCiYjNDM7PGJy
-Pg0KJiM0MzsmbmJzcDsgJm5ic3A7IG1rZGlyIC1wICR7RH0vJHtTREtUQVJH
-RVRTWVNST09UfS9ldGMvZG5mL3ZhcnM8YnI+DQomIzQzOyZuYnNwOyAmbmJz
-cDsgZWNobyAmcXVvdDske0RFRkFVTFRUVU5FfToke01BQ0hJTkVfQVJDSH06
-JHtUQVJHRVRfQVJDSH0mcXVvdDsgJmd0OyAke0R9LyR7U0RLVEFSR0VUU1lT
-Uk9PVH0vZXRjL2RuZi92YXJzL2FyY2g8YnI+DQomIzQzOyZuYnNwOyAmbmJz
-cDsgc2VkIC1pICdzLy0vXy8nICR7RH0vJHtTREtUQVJHRVRTWVNST09UfS9l
-dGMvZG5mL3ZhcnMvYXJjaDxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3Rl
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+
-DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGlzIGRv
-ZXMgbm90IHNlZW0gbGlrZSB0aGUgcmlnaHQgcGxhY2UgdG8gbWUgdG8gYWRq
-dXN0IHRoZSBzZXR0aW5ncy4gSSB0aGluayAobm90IHN1cmU7IG5ldmVyIHRy
-aWVkIGl0KSB0aGF0IHRoZSByaWdodCB0ZWNobmlxdWUgaXMgaW4gdGhlIG5h
-dGl2ZXNkay1tZXNvbiByZWNpcGU6PG86cD48L286cD48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZu
-YnNwOyAmbmJzcDsgaW5zdGFsbCAtZCAke0R9JHtTREtQQVRITkFUSVZFfS9w
-b3N0LXJlbG9jYXRlLXNldHVwLmQ8YnI+DQombmJzcDsgJm5ic3A7IGluc3Rh
-bGwgLW0gMDc1NSAke1dPUktESVJ9L21lc29uLXNldHVwLnB5ICR7RH0ke1NE
-S1BBVEhOQVRJVkV9L3Bvc3QtcmVsb2NhdGUtc2V0dXAuZC88YnI+DQo8YnI+
-DQombmJzcDsgJm5ic3A7ICMgV2UgbmVlZCB0byB3cmFwIHRoZSByZWFsIG1l
-c29uIHdpdGggYSB0aGluIGVudiBzZXR1cCB3cmFwcGVyLjxicj4NCiZuYnNw
-OyAmbmJzcDsgbXYgJHtEfSR7YmluZGlyfS9tZXNvbiAke0R9JHtiaW5kaXJ9
-L21lc29uLnJlYWw8YnI+DQombmJzcDsgJm5ic3A7IGluc3RhbGwgLW0gMDc1
-NSAke1dPUktESVJ9L21lc29uLXdyYXBwZXIgJHtEfSR7YmluZGlyfS9tZXNv
-bjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5BbGV4PG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5
-Pg0KPC9odG1sPg0K
-
---_000_33D4DBCAC5F2D74E96B07F6E7632BF73B5B6D581G08CNEXMBPEKD01_--
