@@ -1,49 +1,33 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E7417C86A
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id ABF937F282
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 12:34:46 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id u16so21095249wrr.0
+	Wed,  4 Sep 2019 12:52:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46NkHs1Q2pz56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 05:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TEdt1/NbaQGfNku4R9xBSf8OyKt/wrh4SVlHq0Pe4+8=;
-	b=YzwV7bvKiqFKtRnDLdeoHk6BuchmPxiaqqkQWd4Dt8nzWAohXUpzfQtr/p4qNo8xAA
-	4KPzIFPQlyJthV4MPim/pOQrhfLxgi1uMnSUYnMx5/GpyCaxl4Pac1frv3zbm01Dd0Fa
-	Nz5Sn69Hy9R3a03btPQs3ks1yQ3z1UnHmlYXQOa8SGsldJtRmiJlIil1XBn5AljYavE4
-	q/Z83BGRtQ2RaVaQb+Dz7shSu7aE55rHOVdzH4uKBHq+CKiLEH+05kI/c+jcYlo/GJ3O
-	yJrEtXM58JwTR/7WJ5R/LZyg3KQrzua7JEFpjptvJh2v9jpTGmjQEe8XsLZHf+CCqXMd
-	M8sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=TEdt1/NbaQGfNku4R9xBSf8OyKt/wrh4SVlHq0Pe4+8=;
-	b=WY9l04jjipEErMmhGUfX8IMkwdGQVLRlr5AJZeolD43EUPUJydnSs71Iz+6FsiZPfV
-	7bLqakqG5RButATQOcFGeQUjxNqnFDNI/vDAY5s1QWQkiU6bmbfdz/jY16XIGtfXVwws
-	BtNVA7iZiP7+GzxYcRBLrisDc92TYlnRTEHw/8ASlPnfFzNxGkH7sdrcgAifOgjfPeUC
-	TAfAMlWI18+FOXFj2dHKieggOP9HoRy/9pWLcQel+QaQkty0kB4C12AfmlgmxCguwNW9
-	EIywvtDJ2RpDLvUWWDNY2fb5t6qX2IV1Ic0eB0jf5pzVjrq1DtZM99DW6zyJwj58pBv1
-	sRaA==
-X-Gm-Message-State: APjAAAUyErgRlFfF2XHfhcxYkXDu+RTTSYYju9vd3OsGNQxKxVCuCKDW
-	xZxMuo8zqqbhenCIEm0idNfgSAf68wUo34UPGno=
-X-Google-Smtp-Source: APXvYqxaMpxsCkEdbHDz+iY+omv2yPrOY1toGboGhXUYZGOKNvQJx2DY2BKXppLnWA1YRwZYKmutU25lCwOMqTab1vU=
-X-Received: by 2002:a5d:448a:: with SMTP id j10mr17508139wrq.82.1567600487468; 
-	Wed, 04 Sep 2019 05:34:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190904014322.96351-1-hongzhi.song@windriver.com>
-	<CADkTA4NipOoQ6qWThig_-hRS5W-QwXNv4Vc9=VSv2yA9sCWxmQ@mail.gmail.com>
-	<b92e2a4e-1f37-1c89-4316-80c91ddc1b0f@windriver.com>
-In-Reply-To: <b92e2a4e-1f37-1c89-4316-80c91ddc1b0f@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 4 Sep 2019 08:34:35 -0400
-Message-ID: <CADkTA4PLrV7w-4muqS6nh4OBdRsqXfg3sJud+L6taQPkmT8NFA@mail.gmail.com>
-To: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: copy mmiowb.h and modpost from ${B} of kernel
+	Wed,  4 Sep 2019 14:52:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1567601561;
+	bh=lCOghGCkDxgTacMGqUoFg82TOhA10x5Gy67ECS5723E=;
+	h=From:To:Subject:Date:From;
+	b=rAOm4YISPNzT81Y5tHX6qjpvL3Pxq6futz/7op8VUrmf4pmZ9jC1jLh0Tt+EsIucR
+	QvDJ2ZNCxPy7DPWkA3eNObVB7M9Ljjq2JVBhp0ROHryXe+DD5TWPYjvaHKoECdGzhk
+	oB21M0CLMO1KdvbxVDiqmFN1nTqd40vMB4JOTysMPOkDL4i6El88d4oqHWZSex6w82
+	YuWwcGXPf331Tj3WJ5wH3V4MgZ8EtsPMeG3+jescbfsJtO/jeXYn2Zo/2CEkUfpl31
+	LIR35PJD8hSpASdX2r98GDLKJtjm6QNZvr73vtad5vzZq6G8D4WuyG1o9vsJ6XC4H8
+	P4IM5VJyeKBVy7w5EsKmdvB8EtODeDPWicJk1dPqWwY8fXFNW1bz1lBbr/n5Qxb+zE
+	pRHrgLaSHaal3v7pdAk7oqsTD8VtO2/1uANXdcH849lBUmoTDxAoyvYS07ykM1jPdZ
+	uoKVvXugFX+LuD9tMznid+aRPDxDmH9lBwJ46Hh9jUbpdTtW8Ka32/Tlehl6HsTvdW
+	HZBGDudC80EDRLlS/Ouy/ThI02+p/iY71h8Iy0Kn5fC/cmY/Z1Dq+FWVytANqVudDx
+	g919mJNfDV0dOLUaG9fvkDdCGMHuLosg6lHqSxy/jso2u8cnMhPcWoo5QlWn6JvpAO
+	J/d8i9UjzUIwQXT1YUr2c/I4=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Sep 2019 15:52:40 +0300
+Message-Id: <20190904125240.5672-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] systemd: Update to the latest 242 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,156 +40,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 12:34:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 04 Sep 2019 12:52:42 -0000
 
-On Wed, Sep 4, 2019 at 6:07 AM Hongzhi, Song <hongzhi.song@windriver.com> wrote:
->
->
-> On 9/4/19 11:55 AM, Bruce Ashfield wrote:
-> > On Tue, Sep 3, 2019 at 9:43 PM Hongzhi.Song <hongzhi.song@windriver.com> wrote:
-> >> There are two errors when compile an out of tree kernel module
-> >> using sdk:
-> >>
-> > This is not universally true. Can you expand on what kernel version
-> > and architectures you are building ? I'm able to build kernel modules
-> > across all the arches I'm currently testing, so I'd like to capture
-> > your exact config in the long log. Neither is the autobuilder showing
-> > any errors.
->
-> Hi Bruce,
->
->
-> kernel version: 5.0.19
->
-> git clone poky
->
-> echo  TOOLCHAIN_HOST_TASK_append = " nativesdk-openssl-dev
-> nativesdk-bison nativesdk-flex"
->           TOOLCHAIN_TARGET_TASK_append = " python-dev kernel-dev
-> kernel-devsrc")
->
->           >> conf/local.conf
->
-> Other config is default.
->
->
-> bitbake core-image-minimal &&  bitbake core-image-minimal -c populate_sdk
->
-> ./tmp/deploy/sdk/xxx.sh
->
-> cd ${Your SDK path}/sysroots/xxx/usr/src/kernel
->
-> make scripts
->
-> Then you can build yourself module. And you will meet missing some head
-> files and scripts/mod/modpost.
->
->
-> I test qemux86-64 and qemuarm.
->
-> Both of above arch miss different head files, which all of them
-> generated in ${B}/arch/${ARCH}/include/generated/asm
->
-> (qemux86-64 needs asm/early_ioremap.h and asm/mmiowb.h
->
-> qemuarm needs asm/bitsperlong.h)
->
->
-> >
-> >> 1. "In file included from ./include/linux/seqlock.h:36:0,
-> >>                   from ./include/linux/time.h:6,
-> >>                   from ./include/linux/stat.h:19,
-> >>                   from ./include/linux/module.h:10,
-> >>                   from kernel-module/char.c:1:
-> >> ./include/linux/spinlock.h:60:10: fatal error: asm/mmiowb.h: No such
-> >> file or directory"
-> >>
-> >> mmiowb.h is generated to ${B}/arch/${ARCH}/include/generated/asm/.
-> >>
-> >> And there is only generated/ under ${B}/arch/${ARCH}/include/,
-> >> so I copy whole ${B}/arch/${ARCH}/include/ to $kerneldir/build/
-> >> in case of other files under generated/ is needed in the future.
-> >>
-> >> 2. "/bin/sh: scripts/mod/modpost: No such file or directory"
-> >>
-> >> Copy above files or directory to $kerneldir/build/ fix the errors.
-> >>
-> >> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> >> ---
-> >>   meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
-> >>   1 file changed, 6 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >> index 3900489..feff9f1 100644
-> >> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >> @@ -80,6 +80,12 @@ do_install() {
-> >>
-> >>          cp .config $kerneldir/build
-> >>
-> >> +       if [ -d arch/${ARCH}/include ]; then
-> >> +           cp -a --parents arch/${ARCH}/include $kerneldir/build/
-> >> +       fi
-> > Just copy the files you need, not the entire directory.
->
->
-> Just as explained above, exactly speaking I think include/generated is
-> necessary.
+Remove patch for issue fixed upstream.
 
-It shouldn't be. The point of what we include in devsrc is that it can
-regenerate all these files either on target, or the SDK.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-core/systemd/systemd.inc         |  2 +-
+ ...Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch | 41 -------------------
+ meta/recipes-core/systemd/systemd_242.bb      |  1 -
+ 3 files changed, 1 insertion(+), 43 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
 
->
-> ps: only generated/ under include/.
->
->
->
-> >
-> >> +
-> >> +       cp --parents scripts/mod/modpost $kerneldir/build/
-> > We shouldn't be copying binaries or scripts. They are regenerated on target.
-> >
-> > Bruce
->
->
-> But scripts/mod/modpost is needed when compile a module by sdk.
-
-yes, that is expected. But 'make scripts prepare' should be recreating
-them. Is that not working for you ?
-
-We can't copy the binaries, since you'll get QA errors depending on
-your host/target arch combination.
-
-Bruce
-
->
-> Otherwise it will show error info:
->
-> "
->
-> /bin/sh: scripts/mod/modpost: No such file or directory
-> scripts/Makefile.modpost:92: recipe for target '__modpost' failed
->
-> "
->
->
-> --Hongzhi
->
-> >
-> >> +
-> >>          # This scripts copy blow up QA, so for now, we require a more
-> >>          # complex 'make scripts' to restore these, versus copying them
-> >>          # here. Left as a reference to indicate that we know the scripts must
-> >> --
-> >> 2.8.1
-> >>
-> >
-
-
-
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 491361ccca..1912715617 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "07f0549ffe3413f0e78b656dd34d64681cbd8f00"
++SRCREV = "f875dced33462641e1fb7875d2f9a8cd8e8c2fcc"
+ SRCBRANCH = "v242-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ 
+diff --git a/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch b/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
+deleted file mode 100644
+index f0ae1db60d..0000000000
+--- a/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 18bddeaaf225d5becfc10cd2c6a1d037c90574a2 Mon Sep 17 00:00:00 2001
+-From: Tomas Mraz <tmraz@fedoraproject.org>
+-Date: Tue, 11 Jun 2019 15:10:21 +0200
+-Subject: [PATCH] resolved: Fix incorrect use of OpenSSL BUF_MEM
+-
+-Fixes: #12763
+-Upstream-Status: Backport [Not yet released]
+-  https://github.com/systemd/systemd/commit/18bddeaaf225d5becfc10cd2c6a1d037c90574a2
+-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+----
+- src/resolve/resolved-dnstls-openssl.c | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/resolve/resolved-dnstls-openssl.c b/src/resolve/resolved-dnstls-openssl.c
+-index f269e4d6487f..5d9223007581 100644
+---- a/src/resolve/resolved-dnstls-openssl.c
+-+++ b/src/resolve/resolved-dnstls-openssl.c
+-@@ -6,6 +6,7 @@
+- 
+- #include <openssl/bio.h>
+- #include <openssl/err.h>
+-+#include <string.h>
+- 
+- #include "io-util.h"
+- #include "resolved-dns-stream.h"
+-@@ -34,9 +35,11 @@ static int dnstls_flush_write_buffer(DnsStream *stream) {
+-                         return ss;
+-                 } else {
+-                         stream->dnstls_data.write_buffer->length -= ss;
+--                        stream->dnstls_data.write_buffer->data += ss;
+- 
+-                         if (stream->dnstls_data.write_buffer->length > 0) {
+-+                                memmove(stream->dnstls_data.write_buffer->data,
+-+                                        stream->dnstls_data.write_buffer->data + ss,
+-+                                        stream->dnstls_data.write_buffer->length);
+-                                 stream->dnstls_events |= EPOLLOUT;
+-                                 return -EAGAIN;
+-                         }
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 6fbb854886..04cd9a2864 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -23,7 +23,6 @@ SRC_URI += "file://touchscreen.rules \
+            file://0004-rules-whitelist-hd-devices.patch \
+            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
+            file://99-default.preset \
+-           file://0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch \
+            "
+ 
+ # patches needed by musl
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
+
 
