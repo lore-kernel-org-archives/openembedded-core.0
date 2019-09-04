@@ -1,47 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 22FEA7F214
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D1057CF1B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 18:41:59 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id x134so10441472qkb.0
+	Wed,  4 Sep 2019 18:49:20 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id 30so11425284wrk.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 11:42:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=qp75G6dkts/IAH9Zq1NgGjSH79yvhyWC4TaoHF6xY/4=;
-	b=DOcUR4GB64pzR3D6TDxGV5b80lq5tACWRYb+Xfo1Frq3kQcXX8AzAxoYyy2CiQn5l1
-	GO4M5dmF/B3QhWcyJjblBALlroNiSkK+ZoVvodezMW6g8AuCxYRM2JD6cZzE0b8e11X3
-	W69V0O7YDjqjQNUcSfMie6BFZjzZXqoELZY4S8CGZW/V7JPj8z4eIecVPMkMzI9LnKr+
-	yksKggoazhq1h4QEUHqVMcXuWbQDJkOKhE0FzHV+mj7lAQEkw8FvzPpSN5SvAwQDcBNl
-	jUM4RKEOSInBHaSU9g4pPQWRX/JrHkbZxY98bv1G+/Tosi5Zwb6QY73JZkSb6SB47rWw
-	1Kig==
+	Wed, 04 Sep 2019 11:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=UnOTXw7Ih55WGJAPLp1XWJMo84Oii3E07Jy0q1nwowA=;
+	b=TIksE1zRPkMu9tXIrOdllCJjZ9Bpb0kXqLKu38NEAiFdtOIjVxzpd3FjSZwV/9UeBZ
+	Fa+hvzBCen5Huwv4ktGW4o5RFjWLMq4lvT8qDzFDSdy4a8/dL0Pr6C00kDWUYnTWQ7SA
+	DLPe9bZXeP2NQqwNQ6e7wUdO2IRto22KHOHvs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=qp75G6dkts/IAH9Zq1NgGjSH79yvhyWC4TaoHF6xY/4=;
-	b=MKHVusWORXgUIY+Qf7tQeMN8yEG6FXKaWj6Vs59kYVjjr3XnvnzlWhW6CdP0RFJGHL
-	BxvzEGRzDxbZiG97mNuYpupgwXh+d12t9nkASjEZhLNx+bFJkdsaAtmWRg7JO4IiTsNp
-	9RObRf1cXZPCRatg8lYBNZXDzkrynIZQHNHIAE4wxT9QjMi+Q27fNzN0hr4pKDN47R4F
-	qw6TmtRmu96kbUEB8X0hJe3TF5YNIy4YWTkl68BEXoenCaVFDXItcddbG6+b3FXw+N8R
-	/Zvvk42kWUtGxqFmoEBNyyWi7ApmTNUTVXpFOTt7YiTx8nWHrj+NMz1K2Eu/Y6fiX7Nx
-	WM0Q==
-X-Gm-Message-State: APjAAAU8bR2oKSjjs6Yw67Wv7rSJSQEgclGEcoLPsiKqnVEZcwqh6O4t
-	RRkpx7TQbzPxX1LcuUkJIdVUNG2Eml+pvxPJRUQ=
-X-Google-Smtp-Source: APXvYqyThbHZW+PHmCZvB+D7SS136KGGvdawpL8t3CqPobCqFsgNIdhdcJKya+t4C2xnAjLA+Vr6wXNUsWoeOegst7k=
-X-Received: by 2002:a05:620a:1466:: with SMTP id
-	j6mr21901436qkl.9.1567622520518; 
-	Wed, 04 Sep 2019 11:42:00 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=UnOTXw7Ih55WGJAPLp1XWJMo84Oii3E07Jy0q1nwowA=;
+	b=azlSpwVvzgkxEFkBLfJvw5vJ76wKy+ATXpVQpNHnkeTmKoc9L1WqekmIOBZ/NeLGwL
+	lukahoGfyIEG7LCuZVFi8CLldJSpG/DQk7EQECPn1H09igZSQZcWNTXeod3DH9qrUfhu
+	QtKniDTCByddUwrSvuMN/hAV5dtB7cF+qf+drilsjoExJeNZYo6CMHu6NvgBoSgLm/QV
+	/LV8AaVFSx7Px76lOHcqwFyPzolDK+KDOq7fMW4wt276jUaAsA2KGhhqk8JBovrKDFbg
+	5N3wwAbURQ7MQ4x2781JTv0St5yuFeF/87HX7vFctsFOTUOwsmvZF6Z4iBZDKsOXbc0P
+	T2ZQ==
+X-Gm-Message-State: APjAAAVboaGxXePOagMYfhEdaC0h2Z2QdGiVP46ns13wZjLydS6JrLmP
+	GitPo5jVLxhVyUUGBiL7NS6D8w==
+X-Google-Smtp-Source: APXvYqz95oUilNZ0YSW2k/AbRoAuImoM9qqVaA/HBQHy7cesofExEZ4b160l/mOxLXcRbZg8OHNf2g==
+X-Received: by 2002:a5d:568c:: with SMTP id f12mr35970680wrv.248.1567622960918;
+	Wed, 04 Sep 2019 11:49:20 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id y3sm3904192wra.88.2019.09.04.11.49.19
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 04 Sep 2019 11:49:20 -0700 (PDT)
+Message-ID: <9c7b636db80cad1b2d9a29b287d1e0500aadf668.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 04 Sep 2019 19:49:19 +0100
+In-Reply-To: <20190904181009.8374-1-raj.khem@gmail.com>
 References: <20190904181009.8374-1-raj.khem@gmail.com>
-	<CANNYZj-P2egu6X8-kVFKnNk_NHk6Z6Pme8BQZfh=AbCq-NJggw@mail.gmail.com>
-In-Reply-To: <CANNYZj-P2egu6X8-kVFKnNk_NHk6Z6Pme8BQZfh=AbCq-NJggw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 4 Sep 2019 11:41:33 -0700
-Message-ID: <CAMKF1sqz9qj7q-7wLMTmM-szgra2-PM_ym0_rFd8GPWQhD+ORA@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
 Subject: Re: [PATCH 1/2] python3: Expose PYTHON_BINABI in global config metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -55,27 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 18:42:00 -0000
+X-List-Received-Date: Wed, 04 Sep 2019 18:49:20 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 4, 2019 at 11:15 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Wed, 4 Sep 2019 at 20:10, Khem Raj <raj.khem@gmail.com> wrote:
->>
->>  # llvm version being used, so always bump it with llvm recipe version bump
->>  LLVMVERSION ?= "8.0.1"
->>
->> +# This should be bumped when python3 recipe's MIN_VER is bumped e.g. 3.7 -> 3.8
->> +PYTHON_BINABI = "3.7m"
->> +
->
->
-> This is already set in python3-dir.bbclass, so please use the values from there.
->
+On Wed, 2019-09-04 at 11:10 -0700, Khem Raj wrote:
+> packages can use
+> 
+> find_package(PythonInterp REQUIRED)
+> find_package(PythonLibs REQUIRED)
+> 
+> while we control PYTHON pointing to native py3 the libs and include
+> directories will then point to build host version, which can result
+> in
+> unexpected combination and if we are lucky we get errors if its quite
+> different e.g. py2 libs/includes and py3 executable
+> 
+> This variable can be then used to export PYTHON_LIBRARY and
+> PYTHON_INCLUDE_DIR so that above find_packages can work correctly
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/distro/include/tcmode-default.inc   | 3 +++
+>  meta/recipes-devtools/python/python3_3.7.4.bb | 1 -
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 
-hmm thanks somehow I missed it. I guess defining then in terms of the
-values from python3-dir and python-dir should be good.
+Putting this into the global namespace seems like a really bad idea.
+Can we not use a class like Alex mentions? I thought we already had
+one?
 
-> Alex
+Cheers,
+
+Richard
+
 
