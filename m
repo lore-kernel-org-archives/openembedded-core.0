@@ -1,27 +1,52 @@
-Return-Path: <quentin.schulz@streamunlimited.com>
-X-Greylist: delayed 2386 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 04 Sep 2019 08:12:26 UTC
-Received: from bsmtp8.bon.at (bsmtp8.bon.at [213.33.87.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E41D87F289
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C0387F290
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 08:12:26 +0000 (UTC)
-Received: from bsmtp.bon.at (unknown [192.168.181.101])
-	by bsmtp8.bon.at (Postfix) with ESMTPS id 46NbBf4SKHz62SX
+	Wed,  4 Sep 2019 08:15:12 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id n10so2508959wmj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 09:32:42 +0200 (CEST)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTPSA id 46NbBd04T8z5tlG;
-	Wed,  4 Sep 2019 09:32:40 +0200 (CEST)
-Date: Wed, 4 Sep 2019 09:32:39 +0200
-From: Quentin Schulz <quentin.schulz@streamunlimited.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20190904073239.rlk6spusid6m2zbd@qschulz>
-References: <20190903163241.87739-1-alex.kanavin@gmail.com>
+	Wed, 04 Sep 2019 01:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=MWiB08CiP9voxGu10t1eBQWM5kqYcY4r26mm0Ukv6Ys=;
+	b=iGWgGUIq3fEKTd2viyrzb+gwnUmkDblsia4SDTX/jSKVPmZAsndxHGFwavidzYsRoT
+	ah57E7JIApnUF/YFFqziY0iDhJ05ADBVxp3VtOx041mnczWoH7vQhwjtpi/30yxSZ0/+
+	4VCe5w1VS/+kPy28QikSrmiBTJHiIqZcTZAOA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=MWiB08CiP9voxGu10t1eBQWM5kqYcY4r26mm0Ukv6Ys=;
+	b=kCr2E1I8wfNWfC3RtsMZae2TesnZYrMXXf4tN+sVk5MGtvyEZFmj+BmLS5fMC9k9Wl
+	6hbHmawMWjl8iG5UGRspTRkX5r//g7gsZPb7Xri8iTcnUaSmWlj0l7x7GauJiBMzvBZi
+	sCGjamP1p0WB1CP+BjHW5y6AuomU06SV6Ce4BKKzIYlfuqidsPx5QY9xbM1I66TykWGo
+	dUz1RPSMFEnTJ+U7ctthQKUxue/2qReVT1qnrGoCoEl5BvMGrRuBYLjQUF5KnUax0R9K
+	HVIeNL2NKwA/ggT0KxZF6BaQgtfk29IPMQqHa3HTKNgKJg0E5UKjmxmWSdjNTtJH1UJX
+	70uQ==
+X-Gm-Message-State: APjAAAWPxGZewe50uD0vmAhCxjn50Bg7SMB0mNY3yIk3DogDhglX8UvM
+	sPS5DJ08LnVSgLQWfx19MXM08A==
+X-Google-Smtp-Source: APXvYqy1oPB4FZ0Ew+dpUY10Wn0q4qvT0WD9z2+/KD6Z4iiiBnVF6lugPovJLXYfa9EsV/VKCHDHbA==
+X-Received: by 2002:a1c:e008:: with SMTP id x8mr3130452wmg.85.1567584913071;
+	Wed, 04 Sep 2019 01:15:13 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	g24sm28663284wrb.35.2019.09.04.01.15.11
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 04 Sep 2019 01:15:12 -0700 (PDT)
+Message-ID: <413ea6ab6c76a8a532b7d28303b54fe61f12cd99.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Changqing Li <changqing.li@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 04 Sep 2019 09:15:11 +0100
+In-Reply-To: <ef8f2598-6a4b-7087-2375-beac482e3924@windriver.com>
+References: <1567485996-351404-1-git-send-email-changqing.li@windriver.com>
+	<ef8f2598-6a4b-7087-2375-beac482e3924@windriver.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <20190903163241.87739-1-alex.kanavin@gmail.com>
-User-Agent: NeoMutt/20180716
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] package.bbclass: allow shell-style wildcards in PRIVATE_LIBS
+Subject: Re: [PATCH V3] dnf.py: installroot support usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,73 +59,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 08:12:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 04 Sep 2019 08:15:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Alexander,
-
-On Tue, Sep 03, 2019 at 06:32:41PM +0200, Alexander Kanavin wrote:
-> PRIVATE_LIBS is used to exclude 'private' libraries from getting added to
-> automatic runtime dependency resolution. This variable currently has to list
-> all libraries by name, which becomes a maintenance issue if the list
-> of such libraries frequently changes, or is very large.
+On Wed, 2019-09-04 at 16:04 +0800, Changqing Li wrote:
+> Ping
+> Test with/without  usrmege feature passed.
+> With usrmerge:
+> NOTE: test_dnf_installroot (dnf.DnfRepoTest)
+> DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to
+> skip the test
+> NOTE:  ... skipped 'Test run when not enable usrmerge'
+> Test run when not enable usrmerge
+> NOTE: test_dnf_installroot_usrmerge (dnf.DnfRepoTest)
+> DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to run
+> the test
+> DEBUG: [Running]$ ssh -l root -o UserKnownHostsFile=/dev/null -o
+> StrictHostKeyChecking=no -o LogLevel=ERROR 192.168.7.16 export
+> PATH=/usr/sbin:/sbin:/usr/bin:/bin; mkdir -p
+> /home/root/chroot/test/etc
+> ....
 > 
-> This change allows using shell-style wildcards in the variable, similar
-> to how FILES lists what gets packaged.
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/classes/package.bbclass | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 114d6559f5e..aa8451ffe8b 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1646,7 +1646,8 @@ python package_do_shlibs() {
->                  prov = (this_soname, ldir, pkgver)
->                  if not prov in sonames:
->                      # if library is private (only used by package) then do not build shlib for it
-> -                    if not private_libs or this_soname not in private_libs:
-> +                    import fnmatch
-> +                    if not private_libs or len([i for i in private_libs if fnmatch.fnmatch(this_soname, i)]) == 0:
+> Without usrmerge:
+> NOTE: test_dnf_installroot (dnf.DnfRepoTest)
+> DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to
+> skip the test
+> DEBUG: [Running]$ ssh -l root -o UserKnownHostsFile=/dev/null -o
+> StrictHostKeyChecking=no -o LogLevel=ERROR 192.168.7.10 export
+> PATH=/usr/sbin:/sbin:/usr/bin:/bin; mkdir -p
+> /home/root/chroot/test/etc
+> DEBUG: time: 1567404974.8490767, endtime: 1567406474.8424258
+> DEBUG: [Command returned '0' after 0.13 seconds]
+> DEBUG: Command: mkdir -p /home/root/chroot/test/etc
+> Output:  
+> ...
+> NOTE:  ... ok
+> NOTE: test_dnf_installroot_usrmerge (dnf.DnfRepoTest)
+> DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to run
+> the test
+> NOTE:  ... skipped 'Test run when enable usrmege'
+> Test run when enable usrmege
 
-We only need to know if this_soname is matching one of the patterns, we
-don't need to check for each and every pattern.
+In a previous version of this patch, it introduced a failure in the
+parselogs test as an error was generated into the logs. I haven't
+tested the new version of the patch, was that issue addressed?
 
-Something like:
+Cheers,
 
-for pattern in private_libs:
-	if fnmatch.fnmatch(this_soname, pattern)]) == 0:
-		sonames.add(prov)
-		break
+Richard
 
-would be possible?
 
-AFAICT, private_libs is either the content of PRIVATE_LIBS_PN or
-PRIVATE_LIBS or "" then passed to .split(). This should be safe for the
-forloop without a check.
-
->                          sonames.add(prov)
->                  if libdir_re.match(os.path.dirname(file)):
->                      needs_ldconfig = True
-> @@ -1829,7 +1830,8 @@ python package_do_shlibs() {
->              # /opt/abc/lib/libfoo.so.1 and contains /usr/bin/abc depending on system library libfoo.so.1
->              # but skipping it is still better alternative than providing own
->              # version and then adding runtime dependency for the same system library
-> -            if private_libs and n[0] in private_libs:
-> +            import fnmatch
-> +            if private_libs and len([i for i in private_libs if fnmatch.fnmatch(n[0], i)]) > 0:
-
-Same here?
-
-Just a suggestion :)
-
-BR,
-Quentin
--- 
-StreamUnlimited Engineering GmbH
-High Tech Campus Vienna, Gutheil-Schoder-Gasse 10, 1100 Vienna, Austria
-quentin.schulz@streamunlimited.com, www.streamunlimited.com
 
