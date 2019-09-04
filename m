@@ -1,49 +1,47 @@
-Return-Path: <vijaikumar.kanagarajan@gmail.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id C01817C79F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
+	[209.85.221.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ACDB7F2B5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 10:01:49 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id g207so2582484wmg.5
+	Wed,  4 Sep 2019 10:04:51 +0000 (UTC)
+Received: by mail-vk1-f196.google.com with SMTP id h192so4235664vka.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 03:01:51 -0700 (PDT)
+	Wed, 04 Sep 2019 03:04:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Qjj6zRskp9aARWJoeZdb3fEXBpn92DHiAF2KGIwWnVY=;
-	b=YRyOqPtyI9OMWyC+z/7fRnoGUQS4YsxJYD4mPxHFtPWP/dTb1lX8tZuCz6dWR7kKgL
-	8NtXQZMkQ2VUSOWJx4cGe2MAwe7Lf2LJzkEQc3YtCswEpNeLOVLS345wMrq6Q3xNN7Am
-	I2zCFqZKtOCzqYQsO6CxpF1Djx+wn7FDMDuZ7dlnj7ZOa4O2KTegClFWY16m+E3r6zXB
-	qhMKyg/56FnPkLzXl0adA4VBRlY2YOT2RLEwkRUD1Tr1xxmSF5dPKmGht0zN0jVZixwv
-	PydxJtESOWDw/kz+cEPC4TXTzd57NxtXyYJ+AwLMeeFBQb4qdCL0io+s60XAsY/yiuIr
-	X0OQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=MvwR9n+WYpV9GDvf+49Espe7JuT43pTYu6Vy7i8EEG8=;
+	b=KuKIJdnd95BPHDGCHya+w3G8ZKj9RbyLe0JRv03fd66Q/X00VWEDnvErteDSu3UKSH
+	uYeBMcbKpGZ4LzKK7P0og7U+ioT/OW501g0Q/QMob4swBA2XHyd+FJkb8sRGbosgBxIq
+	ke4VOhZRr2zdnY8GbrpSdetQqJxoa4mrX/JmHkBwJ3NihaBhcJlTIBieAkuOBEhADQrn
+	xkGyxx6I5lcaMXezOaJssvKmUBOF1D/V5c/2eY9Pf+5tpJAbdb9O2gVLnGs3HwslSAgl
+	fOXGoOuQS8oBzA0C4hePRxumVVMwWE8+rXh0b2s0MvpmPQWkuEjY4pGvihozOJ7JoxtC
+	mT0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Qjj6zRskp9aARWJoeZdb3fEXBpn92DHiAF2KGIwWnVY=;
-	b=h0f4tMnq2Up3AjuMDOgUJRxiV/KGJ5J0Gn/aN4y5phhW4HF8mqZCU1i0PlWTtFMLut
-	RiSgSJi2cAA36sOCMTkvQ/v0ptei5ZdYig6R/i8qPgaRbrnv2qaRY+6oY3OAgupP9560
-	BoL8p8xe33AKY7BBXmPs6mH5frLaM6JjadwpM1QtX2f/Lyf396sL4UrXpl3x7WnRY/gv
-	YTVIfHIvXGt0r32PdROeId+53lHLLTTxXAtiyh2ig15L2tGNz2jZbzJB67UqCe1HhMdt
-	cho6aKe4O7+miFP7ufmA5fpzjoqDsQnnjknma7By2GLLTz64OOMTDc9HukqKT/rYamzX
-	FJPQ==
-X-Gm-Message-State: APjAAAVa4jTZYFNuvKKlsoCVYUm3MiXA8c7TwTQg+3jTgJGmUQSh12Gc
-	+zuCXZJ724SQJnvWhiS/88511uBNULU=
-X-Google-Smtp-Source: APXvYqz8O6+hEtcy8pnAwkXvMUFzYfIQT5XFvLerKpeiyIOCLe6aLVW37ko4v3DZjtou2Je+00eeoQ==
-X-Received: by 2002:a7b:c059:: with SMTP id u25mr3581502wmc.140.1567591310218; 
-	Wed, 04 Sep 2019 03:01:50 -0700 (PDT)
-Received: from chikyu.mgc.mentorg.com (nat-sch.mentorg.com. [139.181.36.34])
-	by smtp.gmail.com with ESMTPSA id
-	o14sm54162255wrg.64.2019.09.04.03.01.48
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Sep 2019 03:01:49 -0700 (PDT)
-From: vijaikumar.kanagarajan@gmail.com
-X-Google-Original-From: Vijaikumar_Kangarajan@mentor.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Sep 2019 15:31:42 +0530
-Message-Id: <20190904100142.27034-1-Vijaikumar_Kangarajan@mentor.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Vijai Kumar K <Vijaikumar_Kanagarajan@mentor.com>
-Subject: [PATCH] lib/oe/gpg_sign.py: Remove unwanted import
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=MvwR9n+WYpV9GDvf+49Espe7JuT43pTYu6Vy7i8EEG8=;
+	b=D3op8DGEmxp3HNiUAXR8z3YpQci4G32Wud7DeUA2AkIvSTQJwFP2XtJdK6f8L/AAG8
+	2Q0mVtvCFa5jOEumo3LxIo9HYniCIYpQkERPTJ+gOvUDkXnU+DfZwbC0R9dx3YgjC1BL
+	FfZJwye6IdLFjA/C7JTn8/bBZO+nZkT7C1A8fFGEc9LXhyHy70OQxFDiFgNqUdMksjMH
+	92nyXc69bksXsjgNp9uEko6tPGp11g+mFuSqIK64HSfs2D6lb+sQWkF1lJcUIn1RiRec
+	2t3Rn5OAG/BM/PcMzRYUZXhhiyQlbuq2RLpbe8ER7dLLoezOvo7nZbWpDFaSwEQwoMvD
+	6vMg==
+X-Gm-Message-State: APjAAAWgWSRpDKil8E6/jjKZVY4CuwbhabiL1WLPQaA3BeWkXdFDLciO
+	RQiYuZ7piiFMTv5BKIgLGhVm3RiiH+db1yjUVqJgXA==
+X-Google-Smtp-Source: APXvYqzN1yfjj148Eca6Ce5Fjg6xvBJEHNEa/4Oanv8r5TeHfNKBhbtCuUwOcpQ2WISmV4tMobDggtDfQI1s+QUSx+w=
+X-Received: by 2002:ac5:ce9d:: with SMTP id 29mr5256689vke.72.1567591491926;
+	Wed, 04 Sep 2019 03:04:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190903163241.87739-1-alex.kanavin@gmail.com>
+	<20190904073239.rlk6spusid6m2zbd@qschulz>
+In-Reply-To: <20190904073239.rlk6spusid6m2zbd@qschulz>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 4 Sep 2019 12:04:40 +0200
+Message-ID: <CANNYZj-uTxW=4pn6mJiwomBT91f3DUZ_+YbM0N5WPsuAyaU-TA@mail.gmail.com>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package.bbclass: allow shell-style wildcards in PRIVATE_LIBS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +54,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 10:01:50 -0000
+X-List-Received-Date: Wed, 04 Sep 2019 10:04:51 -0000
+Content-Type: multipart/alternative; boundary="00000000000007812a0591b756f6"
 
-From: Vijai Kumar K <Vijaikumar_Kanagarajan@mentor.com>
+--00000000000007812a0591b756f6
+Content-Type: text/plain; charset="UTF-8"
 
-Remove unwanted import of oe.utils.
+On Wed, 4 Sep 2019 at 09:32, Quentin Schulz <
+quentin.schulz@streamunlimited.com> wrote:
 
-Signed-off-by: Vijai Kumar K <Vijaikumar_Kanagarajan@mentor.com>
----
- meta/lib/oe/gpg_sign.py | 1 -
- 1 file changed, 1 deletion(-)
+> >                      # if library is private (only used by package) then
+> do not build shlib for it
+> > -                    if not private_libs or this_soname not in
+> private_libs:
+> > +                    import fnmatch
+> > +                    if not private_libs or len([i for i in private_libs
+> if fnmatch.fnmatch(this_soname, i)]) == 0:
+>
+> We only need to know if this_soname is matching one of the patterns, we
+> don't need to check for each and every pattern.
+>
+> Something like:
+>
+> for pattern in private_libs:
+>         if fnmatch.fnmatch(this_soname, pattern)]) == 0:
+>                 sonames.add(prov)
+>                 break
+>
+> would be possible?
+>
 
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index d7624804d5..7634d7ef1d 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -6,7 +6,6 @@
- import os
- 
- import bb
--import oe.utils
- import subprocess
- import shlex
- 
--- 
-2.17.1
+Yes, although there should only be very few patterns, and most of the time
+just one: *.so*. Not worth it I'd say. There are other spots in do_package
+which truly slow down things and could use a bit of optimization.
 
+Alex
 
+--00000000000007812a0591b756f6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 4 Sep 2019 at 09:32, Quentin Schu=
+lz &lt;<a href=3D"mailto:quentin.schulz@streamunlimited.com">quentin.schulz=
+@streamunlimited.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">&gt;=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # if library is privat=
+e (only used by package) then do not build shlib for it<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if not private_libs or this_soname not in private_libs:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ import fnmatch<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ if not private_libs or len([i for i in private_libs if fnmatch.fnmatch(thi=
+s_soname, i)]) =3D=3D 0:<br>
+<br>
+We only need to know if this_soname is matching one of the patterns, we<br>
+don&#39;t need to check for each and every pattern.<br>
+<br>
+Something like:<br>
+<br>
+for pattern in private_libs:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if fnmatch.fnmatch(this_soname, pattern)]) =3D=
+=3D 0:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sonames.add(prov)<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
+<br>
+would be possible?<br></blockquote><div><br></div>Yes, although there shoul=
+d only be very few patterns, and most of the time just one: *.so*. Not wort=
+h it I&#39;d say. There are other spots in do_package which truly slow down=
+ things and could use a bit of optimization.<br></div><div class=3D"gmail_q=
+uote"><br></div><div class=3D"gmail_quote">Alex<br></div></div>
+
+--00000000000007812a0591b756f6--
