@@ -1,50 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 9883A7D076
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+	[209.85.210.171])
+	by mail.openembedded.org (Postfix) with ESMTP id E8DD27F22D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 18:10:23 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id 4so8106446pgm.12
+	Wed,  4 Sep 2019 18:10:24 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id h195so7192883pfe.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 11:10:25 -0700 (PDT)
+	Wed, 04 Sep 2019 11:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9qR8JZz8nWU3oFttPqNafOFgVELBuYkgH5dxadE8lGE=;
-	b=mG2d16lBho8YTnCWyutsamIXCtP0Ht+/QO81xkEdWbu3zVVm6jj1XM3I05DN7DZ5QJ
-	EBrAFPg1PtDiFsmZWZjhEbZEriph6ZfbQKVZ1oOz0wpJadiNUzfY581W+DTIHevsGjvQ
-	/A/P9NqT9DykAdYUg/uvfFQQ5XeOx4JdlfFScyzZWENXbKwNcjYfyasoNL6imlkJESi7
-	rcv0wBoeaMw8/arl0RbrLYuO6t9LB5y/AqMr4yM/FBBsqjK/zxib/TdwlEyKmVd7f65f
-	0gTprXxT9KOXaOJ5JVk1qt6puVmZbqs8EsX9YnTAF2m+MFP/2sepFYKEX/goef6T6EP3
-	649w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Ocdpli9FrHsVpdhi0O6w8zl6unT0eJuML9+qGCFMfsU=;
+	b=vINHhAk6x63GDsjU28kmsceprvc9vIDiuDR8/bjIzlcCUlkXXMjYFpS1hxeCOAlIu+
+	W4LZkfDXxlh4dJhUZcuo1ER65pcKvuYQBrm/4kSk7kOTzohp36UcJWt2NMbFT8F2iP0d
+	6eWAfGyY4ShwfWq3pomSXCG5z3GQOV04ZuOfLuCFgXYyAL1eJj150aasnR731+0bwUkJ
+	aGeZYYw+T9gOyQWH0VZNWt+0Zx1+kwoXtUO1ZqL0w058e2yf4/FlNUQFkDd3BpfRnbEy
+	4HvdkMRKlbqvqloJf8/HwEGwVQOqitOqr7wltZt7O3Lq7k3Fvl7yznCjmCf8wevCJvfq
+	efRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9qR8JZz8nWU3oFttPqNafOFgVELBuYkgH5dxadE8lGE=;
-	b=F0xHPKx7TbI+MmJgmW8PrXgtLHX9wfoVrnP42cA++YjGxSOLeGrcwhhGeA8NCqzCHZ
-	gYlsFwzF9vTkolzOO6SW4oJoiexUvelYcv2ceV+I1wSjS0z96qiWJ5vr4fp8ISt973PP
-	6phcbUF6rsHr5upDwLL8PlaXe2Y/VUeP3LipIE30s4xzhaQnK2s7amYPU/dTiKUzuyYS
-	b4v+OYVDEZdPIpP7lL0ER3+rK8sFPrqFZb5OlZM+1o4NwOeH6q117w0gVsG5Lc9KlWwh
-	eUzGvagSKwvquZveZd6acUzKjbVZaX0Gp/zSv1sM3bQQG29vQW2r+uInKFI+PAia2WmE
-	1ttw==
-X-Gm-Message-State: APjAAAX5RNi4PLkdYN0kIsDy0OYyq+/CEVnd2dshABsV03waCRZw1Hmc
-	Xnr/zyDHC9uwb10UZvs2irmz8fxq4u0=
-X-Google-Smtp-Source: APXvYqx+xHBpHcQs1Afj22k/4/HpNO+1ibMMpDHUWX4GwjeJcOBhfbx51eiPoUEH/xiiyFzH6n4C5w==
-X-Received: by 2002:a63:c304:: with SMTP id c4mr35719162pgd.126.1567620623876; 
-	Wed, 04 Sep 2019 11:10:23 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Ocdpli9FrHsVpdhi0O6w8zl6unT0eJuML9+qGCFMfsU=;
+	b=b7IomYVZWwIV2m+TA3scFnJ0Yvzb35/zZc8sNbHVBii8Kb982XcjShlLKrho+ZaUZH
+	yJS9fnGxTgmt3o8DTDCKCYArjIsyJJpjOCUSPa9x7duGb1fT9up3BPqIdDUgB3AtBmks
+	D2iqnpa/E8krqch/zPZKxdNSBtzDBr2teEUM3UMwDmkqmcTGAj/Opjmhy2PzZxenSQC4
+	RFK4OPuxkhLUNPfRS5kqhrAtFXOytF8EqPMc8pX8JLaMuzu+GeJzjKsSG2eolo26oHO6
+	REbv0K5GuuvDKAGGMAC9ADw9HvJJ42zI/g5JGGIG5PAYxr8EMTzLImnMWQ8cfgx25LRX
+	yszQ==
+X-Gm-Message-State: APjAAAV0h+nqPNsmYcdUXQ7YmljEXhIfBq5GUKl8MC6AF3/CBSOPs8Kp
+	8NpPIJWNUvfB9zbZVmt50ZTunl9Dq14=
+X-Google-Smtp-Source: APXvYqyMwTgUf9K/Yfosm2NGdoT+2sDVcmjHQbgbBIvTHtuFTMSQuidaLWIYzQ5N7rszI2gSjVBjgQ==
+X-Received: by 2002:a65:5342:: with SMTP id w2mr35842308pgr.261.1567620625634; 
+	Wed, 04 Sep 2019 11:10:25 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
 	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	i9sm18764688pgg.38.2019.09.04.11.10.23
+	i9sm18764688pgg.38.2019.09.04.11.10.24
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Sep 2019 11:10:23 -0700 (PDT)
+	Wed, 04 Sep 2019 11:10:24 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Sep 2019 11:10:08 -0700
-Message-Id: <20190904181009.8374-1-raj.khem@gmail.com>
+Date: Wed,  4 Sep 2019 11:10:09 -0700
+Message-Id: <20190904181009.8374-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190904181009.8374-1-raj.khem@gmail.com>
+References: <20190904181009.8374-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] python3: Expose PYTHON_BINABI in global config metadata
+Subject: [PATCH 2/2] python3native: export PYTHON_LIBRARY and PYTHON_INCLUDE_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,54 +59,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 18:10:23 -0000
+X-List-Received-Date: Wed, 04 Sep 2019 18:10:25 -0000
 Content-Transfer-Encoding: 8bit
-
-packages can use
-
-find_package(PythonInterp REQUIRED)
-find_package(PythonLibs REQUIRED)
-
-while we control PYTHON pointing to native py3 the libs and include
-directories will then point to build host version, which can result in
-unexpected combination and if we are lucky we get errors if its quite
-different e.g. py2 libs/includes and py3 executable
-
-This variable can be then used to export PYTHON_LIBRARY and
-PYTHON_INCLUDE_DIR so that above find_packages can work correctly
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/tcmode-default.inc   | 3 +++
- meta/recipes-devtools/python/python3_3.7.4.bb | 1 -
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/classes/python3native.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 5c28386c4f..bcc5a14d4a 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -30,6 +30,9 @@ GOVERSION ?= "1.12%"
- # llvm version being used, so always bump it with llvm recipe version bump
- LLVMVERSION ?= "8.0.1"
+diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3native.bbclass
+index a3acaf61bb..b056378f69 100644
+--- a/meta/classes/python3native.bbclass
++++ b/meta/classes/python3native.bbclass
+@@ -9,6 +9,9 @@ DEPENDS_append = " python3-native "
+ export STAGING_INCDIR
+ export STAGING_LIBDIR
  
-+# This should be bumped when python3 recipe's MIN_VER is bumped e.g. 3.7 -> 3.8
-+PYTHON_BINABI = "3.7m"
++export PYTHON_LIBRARY="${STAGING_LIBDIR}/${PYTHON_BINABI}"
++export PYTHON_INCLUDE_DIR="${STAGING_INCDIR}/${PYTHON_BINABI}"
 +
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross-initial-${TARGET_ARCH} ?= "${GCCVERSION}"
-diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
-index 80c9b2919e..b2014e2bcf 100644
---- a/meta/recipes-devtools/python/python3_3.7.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.4.bb
-@@ -47,7 +47,6 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
- CVE_PRODUCT = "python"
+ export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
  
- PYTHON_MAJMIN = "3.7"
--PYTHON_BINABI = "${PYTHON_MAJMIN}m"
- 
- S = "${WORKDIR}/Python-${PV}"
- 
+ # suppress host user's site-packages dirs.
 -- 
 2.23.0
 
