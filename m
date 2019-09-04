@@ -1,105 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D0C727E555
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 25B5E7F2DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 03:19:33 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id x3so3755768plr.12
+	Wed,  4 Sep 2019 03:56:02 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id a4so3148002ljk.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2019 20:19:35 -0700 (PDT)
+	Tue, 03 Sep 2019 20:56:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=v8bNa+y1RWCBIqFBV7P9v2DJgsttV5pbbLRFDM6pi/U=;
-	b=Z7CLbJ6Cv78xTcDHLsVsYxS+TFiU/FW6w7Vvt5awtvSDFR2dQom7XH1wcQYY4lSXmj
-	Ga989eht+rzOFZibyZrS5Zue0kBW6/edPxPmnxlhewwKFrQwBXQ5Az459P7rUMayqBI8
-	aQXM7lAIQe0uh5Z+4eCQjAElti3fwrgauu94oPRO1R7J/c9VasycepAykLyXa3yUorRm
-	Dw6irTAehjwdGHMDzEH3pMJK15YugFiU2C7ceI1abNMCK678nDukB+LorF8VEZ5/j4XM
-	Pjgeto7PMDoq1bEen1T5/yypJUWY6S7ZajIftQVYJxohrnDXgIqHroiCjmFvBz9AuGF1
-	A7Lw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=1ChiYA40yPa2W+dTQUXO+be2n65g+ub0NYEyz0haQCE=;
+	b=fpCggpoQ3CDpxxOefiawk8kF7AqKb2YCPlFbe6BXhC8sOgcHw6O2nIFenRHo+JtY6k
+	wal4WS5L/WOR9XBWH6Zbeoat5qBpLQPllUGulhdUWpX6UQj4kMBePLhT/dxbyZC/Hdfc
+	Dyd5L1aY7zZJ08rpGC4hXqjSzq+hjOg16wgDPf5GGi4gB3smP6cWqoe7LfHaRVppHIM/
+	/Z2ecoPfTTi0fr/heApFlIfsVHNVkqPl9UpJbObWyMBc1EiWQZdhZUSL9kQITETkNV5B
+	kAbchkn65Y1FXkHEuyZ4mjLUrtU+IEXVMlZv9OJjviOyziYK4MkQOtAkAB9fkvFOiRE2
+	8ITg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=v8bNa+y1RWCBIqFBV7P9v2DJgsttV5pbbLRFDM6pi/U=;
-	b=F/3K4NH0DFla8DWEHGzcy2KOCT1gpPsi5wDWiL76sX7xWODp00Lzn0Khhu7fzjbQlD
-	AGGm4BKBFfcrUBFJghzPHGvwiXxfL/wESReNPXfiFuzmEymmhv8dy/PoQ99p1svxffpL
-	iy6aq9B846jUbDTe+J2RG37SVQmIiBQ2vtXoYT0vOWnqq4iD1x7aYbGp8qyjsumVpGlq
-	CcjJlD0fRrgoULnJUo+YGivqfJ5QBmvkpBYBCAUAZnFYt82Xjpng5YJx/qAXNEI74Tid
-	ld3yS2dgUL6jx58FpSaRho9o16zotuzBsjPX5XGMpnORPlCEagAtQieYHgJ43k9/ZlEI
-	gD4Q==
-X-Gm-Message-State: APjAAAXcgqEfUF7/BYaZoEIjLLMOmODaWZqHwwpJKZ8FbhW4QcEDprHr
-	pTiMndWLTHtucVcCklJZZlhkA6yy
-X-Google-Smtp-Source: APXvYqwi8WQg1qWg7la+yTqVBRbLUOO3uimFXVYcW1rl4qH/FEKWpt0z/4P/qGa/KM4o/gnfKklXYw==
-X-Received: by 2002:a17:902:465:: with SMTP id
-	92mr11014367ple.65.1567567174726; 
-	Tue, 03 Sep 2019 20:19:34 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:7901:9fbe:6d35:e8ad?
-	([2601:202:4180:c33:7901:9fbe:6d35:e8ad])
-	by smtp.gmail.com with ESMTPSA id
-	e192sm18006886pfh.83.2019.09.03.20.19.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 03 Sep 2019 20:19:34 -0700 (PDT)
-To: Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-	Philip Balister <philip@balister.org>
-References: <CAB=otbSH85m0WnBj0Q2z9Bj2ZGwzGzcM74-GuaXtt6PeReP60Q@mail.gmail.com>
-	<3f13cb86-a12b-aba7-e8a1-517f25ba7f1e@balister.org>
-	<CAB=otbStRoA_SXcVe+PHcifHqqryyrbMMxCmkTjT3r61X3prTQ@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	mQINBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
-	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
-	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
-	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
-	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
-	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
-	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
-	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
-	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
-	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABtCFha3VzdGVyODA4
-	IDxha3VzdGVyODA4QGdtYWlsLmNvbT6JAj0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
-	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
-	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
-	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
-	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
-	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
-	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
-	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
-	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
-	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
-	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
-	oRoyDxC5Ag0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
-	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
-	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
-	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
-	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
-	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
-	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
-	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
-	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
-	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAGJAiUEGAEI
-	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
-	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
-	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
-	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
-	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
-	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
-	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
-	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
-	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
-	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
-	8CS2NxU=
-Message-ID: <7b344446-c15c-d18a-77ce-0edafe0462b3@gmail.com>
-Date: Tue, 3 Sep 2019 20:19:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=1ChiYA40yPa2W+dTQUXO+be2n65g+ub0NYEyz0haQCE=;
+	b=btH6DENh3LdlxQ6pluZxaMTH2M1/6z/Fj3Z3m9PJz68Iku3KUcvm6mvTouGb8JdNRN
+	Cy2CgZB3jw6tzWs2kJ3iG8naowTN2Y4NgUtd40eiuNcL3VSN4nBBwAQuDzTkJ4g92yyQ
+	lqMcNXozDc8fdmPSkw9Bv4jRX0g+GZa2QtHhjHIbBgo3YVTR0nvcBsiaSic/NDWfnr/t
+	n5FnG056IroKRjj1ebQ8PHwQ6UffzYTd3etEzyBaOSiAQSxPwtAn4dSehdLmJgAnbZun
+	sIab9EqIRFIgnXmLp7+ZivoSMoK5dyG0sMGKAL0qs3giKnYDkHZykk+C+cXgibnBaovg
+	2VLw==
+X-Gm-Message-State: APjAAAWZTJsXQItYdhDqvShun4tcvrKVW6DM7PwQLw6PgQG/xMcHbxrP
+	zlfu1XWN+o1WnVTma27VG+o3A8X1LYtlY0006WvwOVCn
+X-Google-Smtp-Source: APXvYqxPlYKSRVY6T0z75md1rNHpYphi2ujv01wlP28U4CMK9LoJHLlCzcQqOkaySgBFKCmzaWfKqcScZfzSxDrlEZg=
+X-Received: by 2002:a2e:9214:: with SMTP id k20mr5356607ljg.232.1567569363307; 
+	Tue, 03 Sep 2019 20:56:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAB=otbStRoA_SXcVe+PHcifHqqryyrbMMxCmkTjT3r61X3prTQ@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OEDEM 2019
+References: <20190904014322.96351-1-hongzhi.song@windriver.com>
+In-Reply-To: <20190904014322.96351-1-hongzhi.song@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 3 Sep 2019 23:55:52 -0400
+Message-ID: <CADkTA4NipOoQ6qWThig_-hRS5W-QwXNv4Vc9=VSv2yA9sCWxmQ@mail.gmail.com>
+To: "Hongzhi.Song" <hongzhi.song@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-devsrc: copy mmiowb.h and modpost from ${B} of kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -112,48 +54,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 03:19:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 04 Sep 2019 03:56:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 9/3/19 8:37 AM, Ruslan Bilovol wrote:
-> Hi Philip,
+On Tue, Sep 3, 2019 at 9:43 PM Hongzhi.Song <hongzhi.song@windriver.com> wrote:
 >
-> I can see now this event in the list of ELCE co-located events.
-> Is day 2 track track 2 (Yocto Project and OE maintainers meeting)
-> restricted to attend to mainatainers only, or regular OE developers
-> can also join?
-Anyone can signup.  This is related to the Yocto summit email that got
-sent out a few weeks ago.
-
-- armin
-
+> There are two errors when compile an out of tree kernel module
+> using sdk:
 >
-> Thanks,
-> Ruslan
->
-> On Tue, Jul 30, 2019 at 8:33 PM Philip Balister <philip@balister.org> wrote:
->> We are working with the Yocto Project on a two day Summit event. This
->> should implement part of the ideas from the the last couple of developer
->> meetings.
->>
->> Philip
->>
->> On 07/30/2019 12:58 PM, Ruslan Bilovol wrote:
->>> Hi all,
->>>
->>> Is there any plan to hold an OpenEmbedded developer meting
->>> in Lyon, France around this year's ELCE 2019 (October 28-30)?
->>>
->>> I see that OEDEM 2019 page isn't created yet and I didn't find
->>> any news in mailing lists yet:
->>> https://www.openembedded.org/wiki/OEDEM_2019
->>>
->>> Thanks,
->>> Ruslan
->>>
 
+This is not universally true. Can you expand on what kernel version
+and architectures you are building ? I'm able to build kernel modules
+across all the arches I'm currently testing, so I'd like to capture
+your exact config in the long log. Neither is the autobuilder showing
+any errors.
+
+> 1. "In file included from ./include/linux/seqlock.h:36:0,
+>                  from ./include/linux/time.h:6,
+>                  from ./include/linux/stat.h:19,
+>                  from ./include/linux/module.h:10,
+>                  from kernel-module/char.c:1:
+> ./include/linux/spinlock.h:60:10: fatal error: asm/mmiowb.h: No such
+> file or directory"
+>
+> mmiowb.h is generated to ${B}/arch/${ARCH}/include/generated/asm/.
+>
+> And there is only generated/ under ${B}/arch/${ARCH}/include/,
+> so I copy whole ${B}/arch/${ARCH}/include/ to $kerneldir/build/
+> in case of other files under generated/ is needed in the future.
+>
+> 2. "/bin/sh: scripts/mod/modpost: No such file or directory"
+>
+> Copy above files or directory to $kerneldir/build/ fix the errors.
+>
+> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> index 3900489..feff9f1 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -80,6 +80,12 @@ do_install() {
+>
+>         cp .config $kerneldir/build
+>
+> +       if [ -d arch/${ARCH}/include ]; then
+> +           cp -a --parents arch/${ARCH}/include $kerneldir/build/
+> +       fi
+
+Just copy the files you need, not the entire directory.
+
+> +
+> +       cp --parents scripts/mod/modpost $kerneldir/build/
+
+We shouldn't be copying binaries or scripts. They are regenerated on target.
+
+Bruce
+
+> +
+>         # This scripts copy blow up QA, so for now, we require a more
+>         # complex 'make scripts' to restore these, versus copying them
+>         # here. Left as a reference to indicate that we know the scripts must
+> --
+> 2.8.1
+>
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
