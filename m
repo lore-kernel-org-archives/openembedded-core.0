@@ -1,26 +1,37 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0393D7F26A
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 38B3F7EC66
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 11:30:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x84BUSWK021941
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Sep 2019 04:30:49 -0700
-Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 4 Sep 2019 04:30:22 -0700
-To: <openembedded-core@lists.openembedded.org>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <23e322ef-6d65-0497-bd61-ee1be720a565@windriver.com>
-Date: Wed, 4 Sep 2019 07:30:21 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Wed,  4 Sep 2019 11:56:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46Nj362rjLz56;
+	Wed,  4 Sep 2019 13:56:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1567598195;
+	bh=fsKj9jmamTlT+wzcf/jxvyRjXEkEg9w6rpnJzhlf7m0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YGOmtlWncbNZvlyiS26k6+QG+xLF5SCrjtmWcIDtPihy16t/qWR2o2BjumP6cxM59
+	v6++TG/rLYPkx/o2m9hMpu79MTDrzzrvd2FqfqFdqDjbvRJS/DQlnXsBiHpbgT+swv
+	mWZHmsxrakioJV2PUP94DiXGm9BH4kXGml1dsyduLvs/zAlpX+AzN8Pb6JuB1Fw6jj
+	7kw1u6iBIDOUvcJxrxRzqv91jlaswGboff4xJuX1Jp0Y8TUkKjVtfSjJktQQzNmM3i
+	3Vd9DbAtV5BYJNzUe/M3C6FReEAa371cOnq2jEQ1M+KOEf2OKibIHangG9pO7Tv4nn
+	x85i/6BJ5VIEaFnX20SSvpbzS+63wceOExrexLr+kl9wWw6J3AgX3xlp7c9Cb44oeb
+	AM7ych9+vARQPOs2Xhb8kS+RGcznz/23DsSKoXLX8RRZnYnScZppVPMdhuh9E730g4
+	O+4QGg59m4mRrbCh3vxE6Q+y2KIjubazsOgqDthv8JgMiK2K+FWv9nj88ZoxI6Mqug
+	eDWQw4U+VRkvwo4mK6WI8ocqQf20SMh27TI/hR9e43vJeu9RAo+POUIhFM9uoqWSFo
+	purKDrgTpKcm4NQLCJ31nz+IhpcyFHz+GNMZB8ltEmBTGXc7v3/UhV25+kgNcbJG7+
+	DHMblOE+cffnYBOHUEXAMOdE=
+Date: Wed, 4 Sep 2019 14:56:32 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Armin Kuster <akuster808@gmail.com>
+Message-ID: <20190904115632.GA17900@localhost>
+References: <cover.1567348433.git.akuster808@gmail.com>
+	<d000f85c4dfa791e2e764c9d6126bcc13baea01c.1567348433.git.akuster808@gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [172.25.44.5]
-Subject: systemd 243 update - not happening for 3.0...
+In-Reply-To: <d000f85c4dfa791e2e764c9d6126bcc13baea01c.1567348433.git.akuster808@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [warrior 18/43] systemd: Backport OpenSSL BUF_MEM fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,17 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 11:30:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Sep 2019 11:56:36 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On the YP tech call yesterday, I had suggested that someone at WR
-might work on the systemd-243 update this week. It turns out that other
-activities have higher priority so it will have to be done by someone
-else to make the 3.0-M3 cut-off. If that doesn't happen we'll get
-to it after 3.0, I expect.
+Please drop this one, see
+https://github.com/systemd/systemd/pull/12802
+
+cu
+Adrian
+
 -- 
-# Randy MacLeod
-# Wind River Linux
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
