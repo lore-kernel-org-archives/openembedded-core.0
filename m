@@ -1,51 +1,104 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
-	[209.85.221.193])
-	by mail.openembedded.org (Postfix) with ESMTP id AB35B7F28F
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E0BE17F292
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 15:08:54 +0000 (UTC)
-Received: by mail-vk1-f193.google.com with SMTP id j5so103206vkn.6
+	Wed,  4 Sep 2019 15:22:32 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id 4so9713574pld.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 08:08:56 -0700 (PDT)
+	Wed, 04 Sep 2019 08:22:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=6mNkHCDtHkkJv1UxjnDbZlPZjkPZyqPMOM/xLulMk1A=;
-	b=hIfjMkiTkL6UxC68NLzE0d58jMFPMLlppQUdM0DGYkdTulHhG9/GfP9a2bp2irAqxr
-	ImWpqMB1yuBAW5SmFq3mwXKJq6xg9e8X8ppvxO4pEKFjHR5hhLh+XHBfIfUuZL8PghMN
-	ELJnysMyRTDaGXHf7ZqRbTzakCt8uTueSFlXV5uftP/9lCX2bqiBU/b3znfu+kFbt4Km
-	5A1bEN58oQRuW5951FNnI9e6BN1/uBbt+oaV73hnjY7iHyIj+T7BwT6NvyDkm2zctP+3
-	8XonKxGl9JJ9bkkKPdg9hc3wzXR0wSRiy9TIHWmM4sd5skMcQGwwKBzJICFKDno1e0tL
-	tcHA==
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=f5zsjY6CN1o1mmopFu50MfA2Ie/+yHz3i1VJl1Z7A28=;
+	b=X/8w7f9umK7r99vt5GWX3x80fYVrsndWglZjcW67JNtDcJNc+QZVAcC5TQyNup/m/2
+	IXNaWv/BTShVIoYV9NAjPCy5uNP1nBootp1PbvC1c5I77X0vZI3kTlXX4w5jPPasjuGE
+	cuRh+UcfkeNnLUJQ3Htszi/apDPjU1eMLhjKRavamd+2OJnotnmf9dZe5kVVVln9IWvE
+	F/9Z2yeVnY0r0btLDnOB2oRu8ioH1TkeA0YyygzilRTKhV4TVipX2RSGK3MnUAiJ+QNc
+	nfQoTQ7UGMtr+bKUMB8nUrUx04TLX2P02E9vaFLFOcBz0qM9TtPcpHNnh1IaEM5/6UbX
+	93pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=6mNkHCDtHkkJv1UxjnDbZlPZjkPZyqPMOM/xLulMk1A=;
-	b=BRF18Jy7axEXUI56NZM8RKduudaV4vOXSWXf5+SMZZvqBW4dQRKc/YYLz8WsW2EsIS
-	vU+at+vTopzmZXovMj5eHKjFBdhbHyxvbA60cFk4hWZtro9v96d2+qPUdvKj3wvnGk1u
-	w6m5Zkcu/QWgoB6yCJswXCNi3/rSXpRhFWdqsyfOUIjhXMBfyFbyTc/HehmAsdC7b/UN
-	505QX3SoPhYmn5lnaMDRX+U7IWPjK/47f+FWQN54GAsIXee6l1KXnaZRBzT21jPbBeA1
-	qI1y3cutkFXAEGkLTiQbxEBFE1NAezfx25V2DWa0oQ4G085Hr0iSUCVEOMacOObEx3fm
-	r9Ng==
-X-Gm-Message-State: APjAAAXh/xJPgWKney5xWsLXrfMV5oFKqFhci7yQ9K9h7oaiZUaA4yWE
-	kzPb3vmlUcTvnpbEDW9R0APjm1X1Acf/7PLeMD4=
-X-Google-Smtp-Source: APXvYqzTQVVXZCqn5POTFZDTI0yHxRYs7Iq6hds4dtwJgDfPFBy3EiW8PV+umcHRDENm58Gz4YT7c14NMlVnooh/dkI=
-X-Received: by 2002:a1f:a5d8:: with SMTP id o207mr19547087vke.12.1567609735544;
-	Wed, 04 Sep 2019 08:08:55 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=f5zsjY6CN1o1mmopFu50MfA2Ie/+yHz3i1VJl1Z7A28=;
+	b=MkmANUZe4w0M2IkzKglLali243FROoJf2lqRMdaAv+PUCh+5KeMvZ0iItcUh5MRw3j
+	9uncR+G6riNfB4VJYuDAPOiyK9ra4hGPBztuLOnMqM9hacBj2gw11O2jWSUPPSE/TNMW
+	THYvl52P/4NcZmw9HR1GItJgyfUR9kuk8Fa7GXn1EAF34JLvunbu8OunGf3/8DEFHTq9
+	hIQu3O6iRBlyWPTNYeAcpZNNZAQu1e88YwTA5kzH5qdTuXg7JOWXBAqKSgEodf7i2Ncv
+	b5uW7lBXnyfEC7Okx7IyrBhigZ+Hqj7BI/2fBtLJDUUraJ3kwFXVUiSNmrJ0n+7Ouotv
+	irmg==
+X-Gm-Message-State: APjAAAU70d5x00jTRtBfQpkWm67IHc1b5H1zTDkS4z9hVrE2DoFsjQoJ
+	bKcadPsA03XTkCqb4fAYXHo8yl82
+X-Google-Smtp-Source: APXvYqybFOUnwo6AQaWn778xOIkiAc5C3cHrYoutTubFeAZwQ22/YqoJm4kanU4XN7yC44xeGyKIXg==
+X-Received: by 2002:a17:902:248:: with SMTP id
+	66mr41722679plc.19.1567610552607; 
+	Wed, 04 Sep 2019 08:22:32 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:7901:9fbe:6d35:e8ad?
+	([2601:202:4180:c33:7901:9fbe:6d35:e8ad])
+	by smtp.gmail.com with ESMTPSA id
+	k31sm6561865pjb.14.2019.09.04.08.22.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Sep 2019 08:22:31 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>
+References: <cover.1567348433.git.akuster808@gmail.com>
+	<d000f85c4dfa791e2e764c9d6126bcc13baea01c.1567348433.git.akuster808@gmail.com>
+	<20190904115632.GA17900@localhost>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <5c0fcda0-3986-6e78-dca3-6d5da5780084@gmail.com>
+Date: Wed, 4 Sep 2019 08:22:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190903163241.87739-1-alex.kanavin@gmail.com>
-	<20190904073239.rlk6spusid6m2zbd@qschulz>
-	<CANNYZj_ZFESLDrUxU9XjjdTQXEp-awnq+-EJEavE32SqJOZSXA@mail.gmail.com>
-	<20190904125538.c6f6mz6cwcz56ebr@qschulz>
-	<CANNYZj_N9hz-mwKPofSUY7Lrf-L9B2Ep+z1sbCcL9wdhtBP0Gw@mail.gmail.com>
-	<20190904145724.w7tv6oorinwuxdhb@qschulz>
-In-Reply-To: <20190904145724.w7tv6oorinwuxdhb@qschulz>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Sep 2019 17:08:44 +0200
-Message-ID: <CANNYZj9o57VKzCH_yDwXKGEm6zzMLBebjkc+e8K7FSuVbvNLyg@mail.gmail.com>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package.bbclass: allow shell-style wildcards in PRIVATE_LIBS
+In-Reply-To: <20190904115632.GA17900@localhost>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [warrior 18/43] systemd: Backport OpenSSL BUF_MEM fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +111,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 15:08:54 -0000
-Content-Type: multipart/alternative; boundary="0000000000006f01620591bb9593"
+X-List-Received-Date: Wed, 04 Sep 2019 15:22:33 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---0000000000006f01620591bb9593
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 4 Sep 2019 at 16:57, Quentin Schulz <
-quentin.schulz@streamunlimited.com> wrote:
 
-> > the original code is not adding any lines at all while yours adds eight
-> so
-> > I'd just keep the patch as it is.
-> >
+On 9/4/19 4:56 AM, Adrian Bunk wrote:
+> Please drop this one, see
+> https://github.com/systemd/systemd/pull/12802
+
+got it. Dropped.
+
+Thanks,
+Armin
 >
-> Added lines vs added execution time.
+> cu
+> Adrian
 >
 
-I am fairly certain do_package spends the bulk of its time elsewhere, so
-you are really optimizing the wrong spot here :)
 
-Alex
-
---0000000000006f01620591bb9593
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 4 Sep 2019 at 16:57, Quentin Schu=
-lz &lt;<a href=3D"mailto:quentin.schulz@streamunlimited.com">quentin.schulz=
-@streamunlimited.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">&gt; the original code is no=
-t adding any lines at all while yours adds eight so<br>
-&gt; I&#39;d just keep the patch as it is.<br>
-&gt; <br>
-<br>
-Added lines vs added execution time.<br></blockquote><div><br></div><div>I =
-am fairly certain do_package spends the bulk of its time elsewhere, so you =
-are really optimizing the wrong spot here :)</div><div><br></div><div>Alex<=
-br></div></div></div>
-
---0000000000006f01620591bb9593--
