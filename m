@@ -1,52 +1,18 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D9F87F27C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 14:23:45 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id x15so11340821pgg.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 07:23:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:in-reply-to:references:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=lgZsC47RVhRU2VXuEndKN55BRqoVcf+2kTnwx5k2XRg=;
-	b=VdvWJyssMLtzOgF4GOyBVW8VDWvPASdl+c9/GPV2bcpRpXH1NWFQ+4tyLAj394luGR
-	5HGhcbbuVZF0P/XALePyWJK8jOu9Yd377tMp4eRA44SnLX1hOhmwlcvRu0zmNIFopzVR
-	rcNAeTGzfFR5OJE15MlX/ohjj4q6hWNpiAwx71zjZPjYMIzusLfeTPSGApFgZw/Z3iw5
-	Rze34wTEbU+wwxDGAHeQBlnzgTNRFdKMfBhcMFM9NmP2bjIj7PN+ZoYRS+ltNgk8mI1T
-	81IGPF9xj6rZazSbgF9umNRpT18rWDovKED4R9p0ZqfpNPxfm693ihmHL+Qds9tleCcM
-	EnSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
-	:cc:subject:content-transfer-encoding:mime-version;
-	bh=lgZsC47RVhRU2VXuEndKN55BRqoVcf+2kTnwx5k2XRg=;
-	b=X+r2ahLTZW/Ngmohs42MI6mvtsb5opwbsqTKJox20Ow4vVPXdyxTkgq2hfFACu9u/l
-	VP3XpIwiXPNev2r9aBOiDcGFpUvd5JLUeGv8VpIRe6bGh3iVV79dxNtMNjfSTrM+W9Fj
-	dradWsCqnP1lmUTS0/ZRyL0rf5XWQfFNFLFOWxuhK6iVRyxSs2DvDxlBHLVvGGIcMWxI
-	zcGx1zqQoxAzfkMuss/kIWcW1XAWxgFLx+klpLbD7AjZwl8+Y5WTXhEHiDqn8h1XWtDV
-	rvQ6gwMoQ7yF0PMk91dineGTewj5VeeZAC/jYKbC+8XQo4S7R/qK3nOJ2gPSknQzVz6C
-	G/5Q==
-X-Gm-Message-State: APjAAAXg/lGPnl2zOPg4Xe/VZMEuEBCymJFxmztltkFi1KkUVFT2Wv+n
-	KWR65VVpMNShcKAF5SvWLCSBFQ+dcoAtMA==
-X-Google-Smtp-Source: APXvYqz3ZOIpyycIFvr8EF94m6exjPf8pM5Nd6pamy7qKpj6y0MdTJV9wO53kYsbLsaimRc4YNaNrg==
-X-Received: by 2002:a63:b102:: with SMTP id r2mr34737468pgf.370.1567607026185; 
-	Wed, 04 Sep 2019 07:23:46 -0700 (PDT)
-Received: from [127.0.1.1] ([101.184.76.229])
-	by smtp.gmail.com with UTF8SMTPSA id
-	k15sm9424961pfk.168.2019.09.04.07.23.44
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Sep 2019 07:23:45 -0700 (PDT)
-Date: Wed, 04 Sep 2019 14:23:23 +0000
-Message-Id: <20190904142323.21781-4-nathan@nathanrossi.com>
-In-Reply-To: <20190904142323.21781-1-nathan@nathanrossi.com>
-References: <20190904142323.21781-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id EBB9D7F265;
+	Wed,  4 Sep 2019 14:32:28 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 4/4] oeqa/selftest: Toolchain tests suffix "-user" for qemu usermode results
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Nathan Rossi <nathan@nathanrossi.com>
+Date: Wed, 04 Sep 2019 14:32:30 -0000
+Message-ID: <20190904143230.2332.48471@do>
+References: <20190904142323.21781-1-nathan@nathanrossi.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190904142323.21781-1-nathan@nathanrossi.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm9lcWEvc2VsZnRlc3QvY2FzZXMvZ2xpYmMucHk6IC4uLiIgYW5kIDMgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,49 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 14:23:45 -0000
+X-List-Received-Date: Wed, 04 Sep 2019 14:32:29 -0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Suffix the ptestresults suite with "-user" for tests that are executing
-against usermode qemu.
+== Series Details ==
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+Series: "oeqa/selftest/cases/glibc.py: ..." and 3 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/19688/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at aa36510ebe)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/selftest/cases/gcc.py   | 1 +
- meta/lib/oeqa/selftest/cases/glibc.py | 5 +++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
-diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
-index 4f7ffdcb2a..ef85df5e36 100644
---- a/meta/lib/oeqa/selftest/cases/gcc.py
-+++ b/meta/lib/oeqa/selftest/cases/gcc.py
-@@ -79,6 +79,7 @@ class GccSelfTest(OESelftestTestCase):
-                 sumspath = os.path.join(builddir, target_sys, suite, "testsuite", "{0}.sum".format(suite.split("-")[0]))
- 
-             ptestsuite = "gcc-{}".format(suite) if suite != "gcc" else suite
-+            ptestsuite = ptestsuite + "-user" if ssh is None else ptestsuite
-             self.tc.extraresults["ptestresult.sections"][ptestsuite] = {}
-             with open(sumspath, "r") as f:
-                 for test, result in parse_values(f):
-diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
-index 7992ea6bf2..4d0c13131b 100644
---- a/meta/lib/oeqa/selftest/cases/glibc.py
-+++ b/meta/lib/oeqa/selftest/cases/glibc.py
-@@ -43,10 +43,11 @@ class GlibcSelfTest(OESelftestTestCase):
- 
-         builddir = get_bb_var("B", "glibc-testsuite")
- 
--        self.tc.extraresults["ptestresult.sections"]["glibc"] = {}
-+        ptestsuite = "glibc-user" if ssh is None else "glibc"
-+        self.tc.extraresults["ptestresult.sections"][ptestsuite] = {}
-         with open(os.path.join(builddir, "tests.sum"), "r") as f:
-             for test, result in parse_values(f):
--                self.tc.extraresults["ptestresult.glibc.{}".format(test)] = {"status" : result}
-+                self.tc.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
- 
- class GlibcSelfTestSystemEmulated(GlibcSelfTest):
-     default_installed_packages = [
----
-2.23.0.rc1
 
