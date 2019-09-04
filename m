@@ -1,48 +1,57 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 803FC7F304
+Return-Path: <dzagorui@cisco.com>
+X-Greylist: delayed 425 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 04 Sep 2019 10:48:53 UTC
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ECED7F284
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 10:14:10 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id w195so10715773vsw.11
+	Wed,  4 Sep 2019 10:48:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=652; q=dns/txt; s=iport;
+	t=1567594135; x=1568803735; h=from:to:subject:date:message-id:
+	content-transfer-encoding:mime-version;
+	bh=++KxDKDmxdjB+bPbVJH+bu0U4PagAsexlzo/5deIvTo=;
+	b=Dqq4Adq6eR5DQFowFAx1n+FOQU7l5aUq7JmG8MfXbexjKRk7tz5R6hbR
+	gKf4RmasKApAd0NAi/aB9Emh/adWcAeiWVkDzWP6BAm8W6I7zQcd6z+pz
+	dRhsRNJpUirgyHZAr+0KnLBbDC4iu9hlgRRhjfbFA9cekSyZ78rprmZoh g=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0ANAACUlG9d/51dJa1lGwEBAQEDAQE?=
+	=?us-ascii?q?BBwMBAQGBUwYBAQELAYIXbYEFKgqMM4ZvmymBewkBAQEMAQEbFAEBhnMjNAk?=
+	=?us-ascii?q?OAgMBAgIDAQEEAQEBAgEGBG2FLwuGXAGBACcEE4MiAYIKqyiFSoR+gTQBi3c?=
+	=?us-ascii?q?YgUA/hGGEDYYaBJVLllYKHYIChnSNXAwbgiSWRQGNd5hMAhEVgTAgOIFYcBW?=
+	=?us-ascii?q?DJwlHEBSQE0IxjTOBMYEjAQE?=
+X-IronPort-AV: E=Sophos;i="5.64,466,1559520000"; d="scan'208";a="330467731"
+Received: from rcdn-core-6.cisco.com ([173.37.93.157])
+	by alln-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	04 Sep 2019 10:41:49 +0000
+Received: from XCH-RTP-003.cisco.com (xch-rtp-003.cisco.com [64.101.220.143])
+	by rcdn-core-6.cisco.com (8.15.2/8.15.2) with ESMTPS id
+	x84Afnpl017732
+	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 03:14:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=6lXkp+SpMimagjZ2EkgLTVj5CFOjijK/6GQAFrOHj6Y=;
-	b=O0d/s21uqKijhXal9SIL/d0vm7Hf3kdAbDvp9c2PTbMWQYSZN3c7lZP4rvrzR6BXQR
-	ySiQi9M8ee/I6MhNa47Atmu4LHcWWm+LZ343DX+AhKZzS2E3fcvTyfCLIMgLYG5CgbFB
-	srN6nJER5MhHk+rsnOHT/lSmOB3qS3MsSvrZDYiTO0991fzejImv+ikReFMwit5PKSrc
-	SmBtSQJg9gkPX0PpKiLwtzs2VhGQPUvTh+oY7AxtswqEVXik6qGPB5LPYiDLspfHd7Ec
-	oCWqhoDPKnIqsuS/Vz5T6St+TpsDRT58WKZXmWZKafbuKv4RJf8RmatlhhQXO3Z6HMFo
-	vMtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=6lXkp+SpMimagjZ2EkgLTVj5CFOjijK/6GQAFrOHj6Y=;
-	b=fwNaa+zubR5NQ8fWlyR/9BXR7R888kZx//qdaBQoJCEaTimtXoFmT+yxD/InJgEmLQ
-	5XQ+TWDqjeDMNGFucUt27LFa6y5Enm0bkQShxuM3mRGAGx9qJzC0tTyqLqC/8Pc110Ku
-	6X1Hvcl1BTEFq1Mh0W2cP5E/mx9FDmQuVVjNiUDIsTiVhdytzKP0XcfMBo6yujR7eq8V
-	HJfguMFAI3W6qgk4Og6hVmBuUWUPcszO2bDTTLSth7PniuvKtBUZ9XPtxxUs3hAUvVRn
-	VUC8tO7zlprgs1pc2e2e++BwWt5dkSanaXYJrTQmVMdmW1lCUj0BTTIHCd15PrGC8Av8
-	An7w==
-X-Gm-Message-State: APjAAAXNxp+tns7bkrQGNwuEtq2MZysSavVcHptshr9iNZA79HVP2wx2
-	8oF5HqahUGDYqqoGEM+VF9xRxSHa/LALzKcoaMXyQQ==
-X-Google-Smtp-Source: APXvYqy5wXENiJ1h/Gwz+hq15fHw8utP4YwtKETfkg04mSVyYkoLkoJYEmVaY/i6+iWpWtmekiDne3Wg/tGzl9MO16g=
-X-Received: by 2002:a67:7087:: with SMTP id l129mr4499818vsc.83.1567592051418; 
-	Wed, 04 Sep 2019 03:14:11 -0700 (PDT)
+	Wed, 4 Sep 2019 10:41:49 GMT
+Received: from xch-rtp-004.cisco.com (64.101.220.144) by XCH-RTP-003.cisco.com
+	(64.101.220.143) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+	Wed, 4 Sep 2019 06:41:48 -0400
+Received: from xch-rtp-004.cisco.com ([64.101.220.144]) by
+	XCH-RTP-004.cisco.com ([64.101.220.144]) with mapi id 15.00.1473.003;
+	Wed, 4 Sep 2019 06:41:48 -0400
+From: "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC@Cisco)" <dzagorui@cisco.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] gzip: add nativesdk support
+Thread-Index: AQHVYw1aELT+f76HykisLUjU3Zo2oQ==
+Date: Wed, 4 Sep 2019 10:41:48 +0000
+Message-ID: <20190904104144.3530-1-dzagorui@cisco.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.63.15.140]
 MIME-Version: 1.0
-References: <1567386885-110297-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CANNYZj93Trq7+ytueYA9QDa=o2HjtJJRCADcUW-dqJML3+u+DA@mail.gmail.com>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6D581@G08CNEXMBPEKD01.g08.fujitsu.local>
-In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6D581@G08CNEXMBPEKD01.g08.fujitsu.local>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Sep 2019 12:14:00 +0200
-Message-ID: <CANNYZj-hR7EV+qYcmrTbtcagmNKyc22xA3BBe3qTS-jPvpa1qw@mail.gmail.com>
-To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta-environment: make rpm and dnf work in toolchain
+X-Outbound-SMTP-Client: 64.101.220.143, xch-rtp-003.cisco.com
+X-Outbound-Node: rcdn-core-6.cisco.com
+Subject: [PATCH] gzip: add nativesdk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,73 +64,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 10:14:10 -0000
-Content-Type: multipart/alternative; boundary="00000000000060ae3e0591b77728"
-
---00000000000060ae3e0591b77728
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 04 Sep 2019 10:48:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 4 Sep 2019 at 03:44, Zheng, Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
+Signed-off-by: Denys Zagorui <dzagorui@cisco.com>
+---
+ meta/recipes-extended/gzip/gzip_1.10.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Thank you for your advice and I have a question.
->
->
->
-> 1:-> This does not seem like the right place to me to adjust the settings=
-.
->
->
->
-> Well, did you mean that I shouldn=E2=80=99t adjust the settings in
-> meta-environment recipe, instead of it, adjust the settings in the
-> nativesdk-meson recipe?
->
+diff --git a/meta/recipes-extended/gzip/gzip_1.10.bb b/meta/recipes-extende=
+d/gzip/gzip_1.10.bb
+index 5ab99d0b1d..50dad7bf58 100644
+--- a/meta/recipes-extended/gzip/gzip_1.10.bb
++++ b/meta/recipes-extended/gzip/gzip_1.10.bb
+@@ -14,7 +14,7 @@ PROVIDES_append_class-native =3D " gzip-replacement-nativ=
+e"
+=20
+ RDEPENDS_${PN}-ptest +=3D "make perl perl-ptest grep diffutils"
+=20
+-BBCLASSEXTEND =3D "native"
++BBCLASSEXTEND =3D "native nativesdk"
+=20
+ inherit ptest
+=20
+--=20
+2.11.0
 
-What I mean is that you take nativesdk-meson recipe as an example of how to
-do special configuration for nativesdk, and do similar adjustments to
-dnf/rpm recipes. Specifically, the wrapper can set up environment
-variables, and the script in post-relocate-setup.d/ can  write
-configuration files.
-
-Alex
-
---00000000000060ae3e0591b77728
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 4 Sep 2019 at 03:44, Zheng, Ruoqi=
-n &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fujits=
-u.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-
-
-
-
-
-<div lang=3D"EN-US">
-<div class=3D"gmail-m_8175029106250075370WordSection1"><span style=3D"font-=
-size:11pt;font-family:&quot;Calibri&quot;,sans-serif">Thank you for your ad=
-vice and I have a question.</span>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">1:-&gt; This does not seem like the right place to me=
- to adjust the settings.
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">Well, did you mean that I shouldn=E2=80=99t adjust th=
-e settings in meta-environment recipe, instead of it, adjust the settings i=
-n the nativesdk-meson recipe?<u></u><u></u></span></p>
-</div></div></blockquote><div><br></div><div>What I mean is that you take n=
-ativesdk-meson recipe as an example of how to do special configuration for =
-nativesdk, and do similar adjustments to dnf/rpm recipes. Specifically, the=
- wrapper can set up environment variables, and the script in post-relocate-=
-setup.d/ can=C2=A0 write configuration files.</div><div><br></div><div>Alex=
-<br></div></div></div>
-
---00000000000060ae3e0591b77728--
