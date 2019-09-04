@@ -1,29 +1,23 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BBBE57F288
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B98CD7F2AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 08:36:21 +0000 (UTC)
+	Wed,  4 Sep 2019 08:57:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x848aMjR006805
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 4 Sep 2019 01:36:22 -0700 (PDT)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Wed, 4 Sep 2019 01:36:21 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1567485996-351404-1-git-send-email-changqing.li@windriver.com>
-	<ef8f2598-6a4b-7087-2375-beac482e3924@windriver.com>
-	<413ea6ab6c76a8a532b7d28303b54fe61f12cd99.camel@linuxfoundation.org>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <761df36a-5ea2-4b07-3e78-a0b5a4276908@windriver.com>
-Date: Wed, 4 Sep 2019 16:36:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x848v2SF015010
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Sep 2019 01:57:02 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 4 Sep 2019 01:57:02 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Sep 2019 04:56:58 -0400
+Message-ID: <20190904085659.30305-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-In-Reply-To: <413ea6ab6c76a8a532b7d28303b54fe61f12cd99.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.186]
-Subject: Re: [PATCH V3] dnf.py: installroot support usrmerge
+Subject: [PATCH 1/2] cups: redefine CUPS_SERVERBIN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,72 +30,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 08:36:21 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 04 Sep 2019 08:57:01 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 
+From: Kai Kang <kai.kang@windriver.com>
 
-On 9/4/19 4:15 PM, Richard Purdie wrote:
-> On Wed, 2019-09-04 at 16:04 +0800, Changqing Li wrote:
->> Ping
->> Test with/without  usrmege feature passed.
->> With usrmerge:
->> NOTE: test_dnf_installroot (dnf.DnfRepoTest)
->> DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to
->> skip the test
->> NOTE:  ... skipped 'Test run when not enable usrmerge'
->> Test run when not enable usrmerge
->> NOTE: test_dnf_installroot_usrmerge (dnf.DnfRepoTest)
->> DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to run
->> the test
->> DEBUG: [Running]$ ssh -l root -o UserKnownHostsFile=/dev/null -o
->> StrictHostKeyChecking=no -o LogLevel=ERROR 192.168.7.16 export
->> PATH=/usr/sbin:/sbin:/usr/bin:/bin; mkdir -p
->> /home/root/chroot/test/etc
->> ....
->>
->> Without usrmerge:
->> NOTE: test_dnf_installroot (dnf.DnfRepoTest)
->> DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to
->> skip the test
->> DEBUG: [Running]$ ssh -l root -o UserKnownHostsFile=/dev/null -o
->> StrictHostKeyChecking=no -o LogLevel=ERROR 192.168.7.10 export
->> PATH=/usr/sbin:/sbin:/usr/bin:/bin; mkdir -p
->> /home/root/chroot/test/etc
->> DEBUG: time: 1567404974.8490767, endtime: 1567406474.8424258
->> DEBUG: [Command returned '0' after 0.13 seconds]
->> DEBUG: Command: mkdir -p /home/root/chroot/test/etc
->> Output:
->> ...
->> NOTE:  ... ok
->> NOTE: test_dnf_installroot_usrmerge (dnf.DnfRepoTest)
->> DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to run
->> the test
->> NOTE:  ... skipped 'Test run when enable usrmege'
->> Test run when enable usrmege
-> In a previous version of this patch, it introduced a failure in the
-> parselogs test as an error was generated into the logs. I haven't
-> tested the new version of the patch, was that issue addressed?
->
-> Cheers,
->
-> Richard
+Redefine CUPS_SERVERBIN to "$libexecdir/cups" for cups which solves file
+confliction when multilib is enabled.
 
-I didn't met failure in test_parselog during test,  the whole testimage 
-is passed.
+| Error: Transaction check error:
+|   file /lib/systemd/system/org.cups.cups-lpd@.service conflicts between
+    attempted installs of cups-2.2.11-r0.core2_64 and lib32-cups-2.2.11-r0.core2_32
 
-Could you help to send me the link of the failure test if the new 
-version still
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-extended/cups/cups.inc                  |  2 +-
+ meta/recipes-extended/cups/cups/cups_serverbin.patch | 10 ++++++++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-met test_parselog failure? Thanks.
-
->
->
->
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 46fb2dded3..e303f3424d 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -67,7 +67,7 @@ do_install () {
+ 
+ 	# Remove /var/run from package as cupsd will populate it on startup
+ 	rm -fr ${D}/${localstatedir}/run
+-	rmdir ${D}/${libdir}/${BPN}/driver
++	rmdir ${D}/${libexecdir}/${BPN}/driver
+ 
+ 	# Fix the pam configuration file permissions
+ 	if ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'true', 'false', d)}; then
+diff --git a/meta/recipes-extended/cups/cups/cups_serverbin.patch b/meta/recipes-extended/cups/cups/cups_serverbin.patch
+index f7b44a7bc1..85c6af1071 100644
+--- a/meta/recipes-extended/cups/cups/cups_serverbin.patch
++++ b/meta/recipes-extended/cups/cups/cups_serverbin.patch
+@@ -4,6 +4,12 @@ e.g. ppc64 where base libdir is lib64 this does not go well
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Upstream-Status: Inappropriate [OE config specific]
+ 
++Update on 20190904:
++Redefine CUPS_SERVERBIN to "$libexecdir/cups" which solves file confliction
++when multilib is enabled.
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
+ Index: cups-1.4.6/config-scripts/cups-directories.m4
+ ===================================================================
+ --- cups-1.4.6.orig/config-scripts/cups-directories.m4	2009-04-12 16:04:51.000000000 -0700
+@@ -13,7 +19,7 @@ Index: cups-1.4.6/config-scripts/cups-directories.m4
+  		# All others
+  		INSTALL_SYSV="install-sysv"
+ -		CUPS_SERVERBIN="$exec_prefix/lib/cups"
+-+		CUPS_SERVERBIN="$libdir/cups"
+++		CUPS_SERVERBIN="$libexecdir/cups"
+  		;;
+  esac
+  
+@@ -26,7 +32,7 @@ Index: cups-1.4.6/configure
+  		# All others
+  		INSTALL_SYSV="install-sysv"
+ -		CUPS_SERVERBIN="$exec_prefix/lib/cups"
+-+		CUPS_SERVERBIN="$libdir/cups"
+++		CUPS_SERVERBIN="$libexecdir/cups"
+  		;;
+  esac
+  
 -- 
-BRs
-
-Sandy(Li Changqing)
+2.20.0
 
 
