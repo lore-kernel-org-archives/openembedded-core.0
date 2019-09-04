@@ -1,26 +1,49 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF6FA7F2FD
+Return-Path: <vijaikumar.kanagarajan@gmail.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id C01817C79F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 09:36:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x849aDZJ018967
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  4 Sep 2019 10:01:49 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id g207so2582484wmg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Sep 2019 02:36:23 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 4 Sep 2019 02:36:02 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Sep 2019 05:35:54 -0400
-Message-ID: <20190904093555.59494-3-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20190904093555.59494-1-kai.kang@windriver.com>
-References: <20190904093555.59494-1-kai.kang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v2 2/3] texinfo: fix multilib file confliction
+	Wed, 04 Sep 2019 03:01:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Qjj6zRskp9aARWJoeZdb3fEXBpn92DHiAF2KGIwWnVY=;
+	b=YRyOqPtyI9OMWyC+z/7fRnoGUQS4YsxJYD4mPxHFtPWP/dTb1lX8tZuCz6dWR7kKgL
+	8NtXQZMkQ2VUSOWJx4cGe2MAwe7Lf2LJzkEQc3YtCswEpNeLOVLS345wMrq6Q3xNN7Am
+	I2zCFqZKtOCzqYQsO6CxpF1Djx+wn7FDMDuZ7dlnj7ZOa4O2KTegClFWY16m+E3r6zXB
+	qhMKyg/56FnPkLzXl0adA4VBRlY2YOT2RLEwkRUD1Tr1xxmSF5dPKmGht0zN0jVZixwv
+	PydxJtESOWDw/kz+cEPC4TXTzd57NxtXyYJ+AwLMeeFBQb4qdCL0io+s60XAsY/yiuIr
+	X0OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Qjj6zRskp9aARWJoeZdb3fEXBpn92DHiAF2KGIwWnVY=;
+	b=h0f4tMnq2Up3AjuMDOgUJRxiV/KGJ5J0Gn/aN4y5phhW4HF8mqZCU1i0PlWTtFMLut
+	RiSgSJi2cAA36sOCMTkvQ/v0ptei5ZdYig6R/i8qPgaRbrnv2qaRY+6oY3OAgupP9560
+	BoL8p8xe33AKY7BBXmPs6mH5frLaM6JjadwpM1QtX2f/Lyf396sL4UrXpl3x7WnRY/gv
+	YTVIfHIvXGt0r32PdROeId+53lHLLTTxXAtiyh2ig15L2tGNz2jZbzJB67UqCe1HhMdt
+	cho6aKe4O7+miFP7ufmA5fpzjoqDsQnnjknma7By2GLLTz64OOMTDc9HukqKT/rYamzX
+	FJPQ==
+X-Gm-Message-State: APjAAAVa4jTZYFNuvKKlsoCVYUm3MiXA8c7TwTQg+3jTgJGmUQSh12Gc
+	+zuCXZJ724SQJnvWhiS/88511uBNULU=
+X-Google-Smtp-Source: APXvYqz8O6+hEtcy8pnAwkXvMUFzYfIQT5XFvLerKpeiyIOCLe6aLVW37ko4v3DZjtou2Je+00eeoQ==
+X-Received: by 2002:a7b:c059:: with SMTP id u25mr3581502wmc.140.1567591310218; 
+	Wed, 04 Sep 2019 03:01:50 -0700 (PDT)
+Received: from chikyu.mgc.mentorg.com (nat-sch.mentorg.com. [139.181.36.34])
+	by smtp.gmail.com with ESMTPSA id
+	o14sm54162255wrg.64.2019.09.04.03.01.48
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 04 Sep 2019 03:01:49 -0700 (PDT)
+From: vijaikumar.kanagarajan@gmail.com
+X-Google-Original-From: Vijaikumar_Kangarajan@mentor.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Sep 2019 15:31:42 +0530
+Message-Id: <20190904100142.27034-1-Vijaikumar_Kangarajan@mentor.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Vijai Kumar K <Vijaikumar_Kanagarajan@mentor.com>
+Subject: [PATCH] lib/oe/gpg_sign.py: Remove unwanted import
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 09:36:32 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Sep 2019 10:01:50 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Vijai Kumar K <Vijaikumar_Kanagarajan@mentor.com>
 
-Inherit multilib_script to fix file confliction when mutlilib enabled.
+Remove unwanted import of oe.utils.
 
-| Error: Transaction check error:
-|   file /usr/bin/texi2any conflicts between attempted installs of
-    lib32-texinfo-6.5-r0.core2_32 and texinfo-6.5-r0.core2_64
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Vijai Kumar K <Vijaikumar_Kanagarajan@mentor.com>
 ---
- meta/recipes-extended/texinfo/texinfo_6.5.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oe/gpg_sign.py | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-extended/texinfo/texinfo_6.5.bb b/meta/recipes-extended/texinfo/texinfo_6.5.bb
-index f966457f88..50eae77ad0 100644
---- a/meta/recipes-extended/texinfo/texinfo_6.5.bb
-+++ b/meta/recipes-extended/texinfo/texinfo_6.5.bb
-@@ -42,7 +42,9 @@ SRC_URI[sha256sum] = "d34272e4042c46186ddcd66bd5d980c0ca14ff734444686ccf8131f6ec
+diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+index d7624804d5..7634d7ef1d 100644
+--- a/meta/lib/oe/gpg_sign.py
++++ b/meta/lib/oe/gpg_sign.py
+@@ -6,7 +6,6 @@
+ import os
  
- tex_texinfo = "texmf/tex/texinfo"
- 
--inherit gettext autotools
-+inherit gettext autotools multilib_script
-+
-+MULTILIB_SCRIPTS = "${PN}:${bindir}/texi2any"
- 
- EXTRA_AUTORECONF += "-I ${S}/gnulib/m4"
+ import bb
+-import oe.utils
+ import subprocess
+ import shlex
  
 -- 
-2.20.0
+2.17.1
 
 
