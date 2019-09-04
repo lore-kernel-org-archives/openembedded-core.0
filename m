@@ -1,57 +1,49 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6249F60116
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E7417C86A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 12:08:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x84C80Sq011118
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 4 Sep 2019 05:08:01 -0700 (PDT)
-Received: from soho-mhatle-m.corp.ad.wrs.com (128.224.60.50) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 4 Sep 2019 05:07:59 -0700
-To: Wes Lindauer <wesley.lindauer@gmail.com>
-References: <20190816194405.12751-1-wesley.lindauer@gmail.com>
-	<20190816194405.12751-6-wesley.lindauer@gmail.com>
-	<CAMKF1sruqPBcwobNNErkdHKAnP7zT8zda81O2FUP88u=5ZnmVg@mail.gmail.com>
-	<20190827180449.GA29638@localhost>
-	<5fc12556-a817-e312-e1ed-60878a97d78c@windriver.com>
-	<CALBQxSsXuM+926J=A=2R=X7xPSz4htuFk3pKrJ3Zpj1uK0AXDw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <32b3f42b-2ff1-79c8-2777-b9a788190969@windriver.com>
-Date: Wed, 4 Sep 2019 08:07:58 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.8.0
+	Wed,  4 Sep 2019 12:34:46 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id u16so21095249wrr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Sep 2019 05:34:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=TEdt1/NbaQGfNku4R9xBSf8OyKt/wrh4SVlHq0Pe4+8=;
+	b=YzwV7bvKiqFKtRnDLdeoHk6BuchmPxiaqqkQWd4Dt8nzWAohXUpzfQtr/p4qNo8xAA
+	4KPzIFPQlyJthV4MPim/pOQrhfLxgi1uMnSUYnMx5/GpyCaxl4Pac1frv3zbm01Dd0Fa
+	Nz5Sn69Hy9R3a03btPQs3ks1yQ3z1UnHmlYXQOa8SGsldJtRmiJlIil1XBn5AljYavE4
+	q/Z83BGRtQ2RaVaQb+Dz7shSu7aE55rHOVdzH4uKBHq+CKiLEH+05kI/c+jcYlo/GJ3O
+	yJrEtXM58JwTR/7WJ5R/LZyg3KQrzua7JEFpjptvJh2v9jpTGmjQEe8XsLZHf+CCqXMd
+	M8sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=TEdt1/NbaQGfNku4R9xBSf8OyKt/wrh4SVlHq0Pe4+8=;
+	b=WY9l04jjipEErMmhGUfX8IMkwdGQVLRlr5AJZeolD43EUPUJydnSs71Iz+6FsiZPfV
+	7bLqakqG5RButATQOcFGeQUjxNqnFDNI/vDAY5s1QWQkiU6bmbfdz/jY16XIGtfXVwws
+	BtNVA7iZiP7+GzxYcRBLrisDc92TYlnRTEHw/8ASlPnfFzNxGkH7sdrcgAifOgjfPeUC
+	TAfAMlWI18+FOXFj2dHKieggOP9HoRy/9pWLcQel+QaQkty0kB4C12AfmlgmxCguwNW9
+	EIywvtDJ2RpDLvUWWDNY2fb5t6qX2IV1Ic0eB0jf5pzVjrq1DtZM99DW6zyJwj58pBv1
+	sRaA==
+X-Gm-Message-State: APjAAAUyErgRlFfF2XHfhcxYkXDu+RTTSYYju9vd3OsGNQxKxVCuCKDW
+	xZxMuo8zqqbhenCIEm0idNfgSAf68wUo34UPGno=
+X-Google-Smtp-Source: APXvYqxaMpxsCkEdbHDz+iY+omv2yPrOY1toGboGhXUYZGOKNvQJx2DY2BKXppLnWA1YRwZYKmutU25lCwOMqTab1vU=
+X-Received: by 2002:a5d:448a:: with SMTP id j10mr17508139wrq.82.1567600487468; 
+	Wed, 04 Sep 2019 05:34:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CALBQxSsXuM+926J=A=2R=X7xPSz4htuFk3pKrJ3Zpj1uK0AXDw@mail.gmail.com>
+References: <20190904014322.96351-1-hongzhi.song@windriver.com>
+	<CADkTA4NipOoQ6qWThig_-hRS5W-QwXNv4Vc9=VSv2yA9sCWxmQ@mail.gmail.com>
+	<b92e2a4e-1f37-1c89-4316-80c91ddc1b0f@windriver.com>
+In-Reply-To: <b92e2a4e-1f37-1c89-4316-80c91ddc1b0f@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 4 Sep 2019 08:34:35 -0400
+Message-ID: <CADkTA4PLrV7w-4muqS6nh4OBdRsqXfg3sJud+L6taQPkmT8NFA@mail.gmail.com>
+To: "Hongzhi, Song" <hongzhi.song@windriver.com>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH 6/6] xz: Remove GPLv3 license checksum
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-devsrc: copy mmiowb.h and modpost from ${B} of kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,101 +56,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 12:08:08 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Sep 2019 12:34:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/3/19 1:59 PM, Wes Lindauer wrote:
-> Mark,
-> 
-> In reference to "It typically does NOT include the license of things used to
-> build the software (such as makefiles, autoconf fragments, etc)".
-> Since the only file that is licensed under GPLv3 is a M4 macro, does that mean
-> the current patch is still valid? Shouldn't the GPLv3 license be removed from
-> this recipe?
+On Wed, Sep 4, 2019 at 6:07 AM Hongzhi, Song <hongzhi.song@windriver.com> wrote:
+>
+>
+> On 9/4/19 11:55 AM, Bruce Ashfield wrote:
+> > On Tue, Sep 3, 2019 at 9:43 PM Hongzhi.Song <hongzhi.song@windriver.com> wrote:
+> >> There are two errors when compile an out of tree kernel module
+> >> using sdk:
+> >>
+> > This is not universally true. Can you expand on what kernel version
+> > and architectures you are building ? I'm able to build kernel modules
+> > across all the arches I'm currently testing, so I'd like to capture
+> > your exact config in the long log. Neither is the autobuilder showing
+> > any errors.
+>
+> Hi Bruce,
+>
+>
+> kernel version: 5.0.19
+>
+> git clone poky
+>
+> echo  TOOLCHAIN_HOST_TASK_append = " nativesdk-openssl-dev
+> nativesdk-bison nativesdk-flex"
+>           TOOLCHAIN_TARGET_TASK_append = " python-dev kernel-dev
+> kernel-devsrc")
+>
+>           >> conf/local.conf
+>
+> Other config is default.
+>
+>
+> bitbake core-image-minimal &&  bitbake core-image-minimal -c populate_sdk
+>
+> ./tmp/deploy/sdk/xxx.sh
+>
+> cd ${Your SDK path}/sysroots/xxx/usr/src/kernel
+>
+> make scripts
+>
+> Then you can build yourself module. And you will meet missing some head
+> files and scripts/mod/modpost.
+>
+>
+> I test qemux86-64 and qemuarm.
+>
+> Both of above arch miss different head files, which all of them
+> generated in ${B}/arch/${ARCH}/include/generated/asm
+>
+> (qemux86-64 needs asm/early_ioremap.h and asm/mmiowb.h
+>
+> qemuarm needs asm/bitsperlong.h)
+>
+>
+> >
+> >> 1. "In file included from ./include/linux/seqlock.h:36:0,
+> >>                   from ./include/linux/time.h:6,
+> >>                   from ./include/linux/stat.h:19,
+> >>                   from ./include/linux/module.h:10,
+> >>                   from kernel-module/char.c:1:
+> >> ./include/linux/spinlock.h:60:10: fatal error: asm/mmiowb.h: No such
+> >> file or directory"
+> >>
+> >> mmiowb.h is generated to ${B}/arch/${ARCH}/include/generated/asm/.
+> >>
+> >> And there is only generated/ under ${B}/arch/${ARCH}/include/,
+> >> so I copy whole ${B}/arch/${ARCH}/include/ to $kerneldir/build/
+> >> in case of other files under generated/ is needed in the future.
+> >>
+> >> 2. "/bin/sh: scripts/mod/modpost: No such file or directory"
+> >>
+> >> Copy above files or directory to $kerneldir/build/ fix the errors.
+> >>
+> >> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> >> ---
+> >>   meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
+> >>   1 file changed, 6 insertions(+)
+> >>
+> >> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> >> index 3900489..feff9f1 100644
+> >> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> >> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> >> @@ -80,6 +80,12 @@ do_install() {
+> >>
+> >>          cp .config $kerneldir/build
+> >>
+> >> +       if [ -d arch/${ARCH}/include ]; then
+> >> +           cp -a --parents arch/${ARCH}/include $kerneldir/build/
+> >> +       fi
+> > Just copy the files you need, not the entire directory.
+>
+>
+> Just as explained above, exactly speaking I think include/generated is
+> necessary.
 
-Unless the M4 file is generating/injecting code into the build(very few I've
-seen do this), then I would say it's not under GPLv3 at all.  (And I wouldn't
-have included GPLv3 in the LICENSE statement.)
+It shouldn't be. The point of what we include in devsrc is that it can
+regenerate all these files either on target, or the SDK.
 
-But we need more consensus then just me saying so.
+>
+> ps: only generated/ under include/.
+>
+>
+>
+> >
+> >> +
+> >> +       cp --parents scripts/mod/modpost $kerneldir/build/
+> > We shouldn't be copying binaries or scripts. They are regenerated on target.
+> >
+> > Bruce
+>
+>
+> But scripts/mod/modpost is needed when compile a module by sdk.
 
-This may be a good question for the OE-TSC to ensure that we have clarification
-on this issue, and it's not just me saying I think one way or another.
+yes, that is expected. But 'make scripts prepare' should be recreating
+them. Is that not working for you ?
 
---Mark
+We can't copy the binaries, since you'll get QA errors depending on
+your host/target arch combination.
 
-> Wes L
-> 
-> On Tue, Aug 27, 2019 at 2:28 PM Mark Hatle <mark.hatle@windriver.com
-> <mailto:mark.hatle@windriver.com>> wrote:
-> 
->     On 8/27/19 1:04 PM, Adrian Bunk wrote:
->     > On Fri, Aug 16, 2019 at 01:50:14PM -0700, Khem Raj wrote:
->     >> On Fri, Aug 16, 2019 at 12:46 PM Wes Lindauer <wesley.lindauer@gmail.com
->     <mailto:wesley.lindauer@gmail.com>> wrote:
->     >>>
->     >>> Although xz has some files that are GPLv3 licensed, none of them get
->     >>> packaged up, and therefore none of it ends up in the final rootfs. Since
->     >>> there is no GPLv3 code in the final image, we don't want to include it
->     >>> when we collect licenses, as that would give the incorrect impression
->     >>> that the image contains GPLv3 code.
->     >>
->     >> We will be distributing this in src packages though. Maybe these files
->     >> should be deleted before the build even starts.
->     >
->     > OE does licence tracking on binary packages, not on source packages.
-> 
->     It tracks -both-.  Since MOST recipes and binary packages agree, people don't
->     often know this.
-> 
->     LICENSE is the -recipe source license-.  Nothing more nothing less.  It
->     typically does NOT include the license of things used to build the software
->     (such as makefiles, autoconf fragments, etc), but must include the license of
->     any sources that are or may be used to construct binaries.
-> 
->     LICENSE_<package> is automatically defined as LICENSE.  If a binary package has
->     a difference license (which must ALWAYS be a subset of the recipe LICENSE), then
->     it can be specified independently.
-> 
->     See sysfsutils as an example:
-> 
->     LICENSE = "GPLv2 & LGPLv2.1"
->     LICENSE_${PN} = "GPLv2"
->     LICENSE_libsysfs = "LGPLv2.1"
-> 
->     recipe is made of of source code consisting of GPLv2 and LGPLv2.1.
-> 
->     The LICENSE_${PN} is expected to be GPLv2, while the LICENSE_libsysfs is
->     expected to be LGPLv2.1.
-> 
-> 
->     The LIC_FILES_CHKSUM is supposed to represent the -recipe- source license.  If
->     the component is used to build the binaries, then it needs to be listed (but
->     only has to be listed once).
-> 
->     If the component MIGHT be used, it needs to be listed.
-> 
->     If the component will NOT be used, then it should not be listed (and it's
->     advised to remove it from the source to avoid accidental usage...)
-> 
->     --Mark
-> 
-> 
->     > There are recipes that build binary packages with different licences
->     > from the same sources.
->     >
->     > cu
->     > Adrian
->     >
-> 
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+Bruce
 
+>
+> Otherwise it will show error info:
+>
+> "
+>
+> /bin/sh: scripts/mod/modpost: No such file or directory
+> scripts/Makefile.modpost:92: recipe for target '__modpost' failed
+>
+> "
+>
+>
+> --Hongzhi
+>
+> >
+> >> +
+> >>          # This scripts copy blow up QA, so for now, we require a more
+> >>          # complex 'make scripts' to restore these, versus copying them
+> >>          # here. Left as a reference to indicate that we know the scripts must
+> >> --
+> >> 2.8.1
+> >>
+> >
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
