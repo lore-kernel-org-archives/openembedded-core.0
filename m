@@ -1,53 +1,52 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A97F37F27D
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D9F87F27C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 14:23:40 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id l21so11349147pgm.3
+	Wed,  4 Sep 2019 14:23:45 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id x15so11340821pgg.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 07:23:42 -0700 (PDT)
+	Wed, 04 Sep 2019 07:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=kKjZGz91rQv1oALJ4sj1G7zqzS+cknQqFxmWasXSB2o=;
-	b=aq6rKsRM+npXponlXu7r2imfiITIqBGKpA70uNj2jreTK1B6aUEauv3tiy9jFi8njR
-	+YS6wYkm9VKYPiHfkWhvGtZKCqoac3awY8SxDONb9a3Vs/UZ74ptdY6wAenTQTgUuzB7
-	oP/ofCC61DHBTFILmKiWbHEU9aRlmgkqYPSXeSTg6ZEtGD5REjVqNJ2I+k2xhn7/5ICZ
-	F7CPP7kIi4INfpB4JDyXLHXgXIN1z09oFta0tY4dubm+swEDb8saYh0Vc8Du/IUEEGnR
-	1XixLA212BMk+sgnQ1WY/hVeD6Pr4gyyWZ2dIRIU3Ja0hHBKI4BMGlKcUe2OBdqFqj4F
-	j8fA==
+	bh=lgZsC47RVhRU2VXuEndKN55BRqoVcf+2kTnwx5k2XRg=;
+	b=VdvWJyssMLtzOgF4GOyBVW8VDWvPASdl+c9/GPV2bcpRpXH1NWFQ+4tyLAj394luGR
+	5HGhcbbuVZF0P/XALePyWJK8jOu9Yd377tMp4eRA44SnLX1hOhmwlcvRu0zmNIFopzVR
+	rcNAeTGzfFR5OJE15MlX/ohjj4q6hWNpiAwx71zjZPjYMIzusLfeTPSGApFgZw/Z3iw5
+	Rze34wTEbU+wwxDGAHeQBlnzgTNRFdKMfBhcMFM9NmP2bjIj7PN+ZoYRS+ltNgk8mI1T
+	81IGPF9xj6rZazSbgF9umNRpT18rWDovKED4R9p0ZqfpNPxfm693ihmHL+Qds9tleCcM
+	EnSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=kKjZGz91rQv1oALJ4sj1G7zqzS+cknQqFxmWasXSB2o=;
-	b=oSZP6YUQsH5PP81hzqTzXr1yFJ9HydEqxmqS+zR6Op1AQ3JdVvJhdu2MpgAp9ZFoF3
-	d7wgiry4xWZzf9gDIfV2Tph0i4BMCyEa1sJp/kQHWNQZB/dmM0Y0RtXnwIVAJBgAQqyR
-	19r0rynDb653ttfrNC6GFIoW1V07KjLedkALjbI1X99n1/Jb+vXIrQvjPYib42l/Gxdr
-	Z4GRH+/OqLbq97j7IwJkgWrGiKBlGll8AJR/bZoBmsBxUiYRMCGk+zw+GE+sgVxBoPgP
-	JuAhRoDkfZYxs4GmowqrLChGlEVsI6BEAerV4KsxDZn8qE5eDvN08Wlj72NZeILuE3um
-	n/1w==
-X-Gm-Message-State: APjAAAXaQZ1qOVeKWQjTIenaOEso2foRrSJQTRDEQK3vTtxqq6ZUR1L6
-	qLKz1lIJNP1zUXFwGjFkPdMYVXqwwP79BA==
-X-Google-Smtp-Source: APXvYqzegQyJk0awtCPOZbYKCSZmtSzcOKCaTA0sqhWVyOdoWVSsdVuRsUOJ6t4ynBlyd21M71HF7g==
-X-Received: by 2002:a17:90a:f98e:: with SMTP id
-	cq14mr5334533pjb.43.1567607021754; 
-	Wed, 04 Sep 2019 07:23:41 -0700 (PDT)
+	bh=lgZsC47RVhRU2VXuEndKN55BRqoVcf+2kTnwx5k2XRg=;
+	b=X+r2ahLTZW/Ngmohs42MI6mvtsb5opwbsqTKJox20Ow4vVPXdyxTkgq2hfFACu9u/l
+	VP3XpIwiXPNev2r9aBOiDcGFpUvd5JLUeGv8VpIRe6bGh3iVV79dxNtMNjfSTrM+W9Fj
+	dradWsCqnP1lmUTS0/ZRyL0rf5XWQfFNFLFOWxuhK6iVRyxSs2DvDxlBHLVvGGIcMWxI
+	zcGx1zqQoxAzfkMuss/kIWcW1XAWxgFLx+klpLbD7AjZwl8+Y5WTXhEHiDqn8h1XWtDV
+	rvQ6gwMoQ7yF0PMk91dineGTewj5VeeZAC/jYKbC+8XQo4S7R/qK3nOJ2gPSknQzVz6C
+	G/5Q==
+X-Gm-Message-State: APjAAAXg/lGPnl2zOPg4Xe/VZMEuEBCymJFxmztltkFi1KkUVFT2Wv+n
+	KWR65VVpMNShcKAF5SvWLCSBFQ+dcoAtMA==
+X-Google-Smtp-Source: APXvYqz3ZOIpyycIFvr8EF94m6exjPf8pM5Nd6pamy7qKpj6y0MdTJV9wO53kYsbLsaimRc4YNaNrg==
+X-Received: by 2002:a63:b102:: with SMTP id r2mr34737468pgf.370.1567607026185; 
+	Wed, 04 Sep 2019 07:23:46 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	e192sm22243985pfh.83.2019.09.04.07.23.39
+	k15sm9424961pfk.168.2019.09.04.07.23.44
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Sep 2019 07:23:41 -0700 (PDT)
+	Wed, 04 Sep 2019 07:23:45 -0700 (PDT)
 Date: Wed, 04 Sep 2019 14:23:23 +0000
-Message-Id: <20190904142323.21781-3-nathan@nathanrossi.com>
+Message-Id: <20190904142323.21781-4-nathan@nathanrossi.com>
 In-Reply-To: <20190904142323.21781-1-nathan@nathanrossi.com>
 References: <20190904142323.21781-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 3/4] maintainers.inc: Add entries for toolchain related recipes
+Subject: [PATCH 4/4] oeqa/selftest: Toolchain tests suffix "-user" for qemu usermode results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,48 +59,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 14:23:40 -0000
+X-List-Received-Date: Wed, 04 Sep 2019 14:23:45 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Add entries for the added toolchain related recipes including
-binutils-cross-testsuite and glibc-testsuite setting the maintainer as
-Khem to match existing definitions. Also and entry for dejagnu setting
-Nathan Rossi as the maintainer.
+Suffix the ptestresults suite with "-user" for tests that are executing
+against usermode qemu.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/conf/distro/include/maintainers.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/selftest/cases/gcc.py   | 1 +
+ meta/lib/oeqa/selftest/cases/glibc.py | 5 +++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 0757230b1a..aaae55ac86 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -66,6 +66,7 @@ RECIPE_MAINTAINER_pn-bind = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-binutils = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-binutils-cross-${TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER_pn-binutils-cross-testsuite = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-binutils-crosssdk-${SDK_SYS} = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-bison = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-bjam-native = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -142,6 +143,7 @@ RECIPE_MAINTAINER_pn-dbus-glib = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-dbus-test = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-dbus-wait = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-debianutils = "Yi Zhao <yi.zhao@windriver.com>"
-+RECIPE_MAINTAINER_pn-dejagnu = "Nathan Rossi <nathan@nathanrossi.com>"
- RECIPE_MAINTAINER_pn-depmodwrapper-cross = "Mark Hatle <mark.hatle@windriver.com>"
- RECIPE_MAINTAINER_pn-desktop-file-utils = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-dhcp = "Hongxu Jia <hongxu.jia@windriver.com>"
-@@ -219,6 +221,7 @@ RECIPE_MAINTAINER_pn-glibc-initial = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glibc-locale = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glibc-mtrace = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER_pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glide = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER_pn-gmp = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-gnome-desktop-testing = "Ross Burton <ross.burton@intel.com>"
+diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
+index 4f7ffdcb2a..ef85df5e36 100644
+--- a/meta/lib/oeqa/selftest/cases/gcc.py
++++ b/meta/lib/oeqa/selftest/cases/gcc.py
+@@ -79,6 +79,7 @@ class GccSelfTest(OESelftestTestCase):
+                 sumspath = os.path.join(builddir, target_sys, suite, "testsuite", "{0}.sum".format(suite.split("-")[0]))
+ 
+             ptestsuite = "gcc-{}".format(suite) if suite != "gcc" else suite
++            ptestsuite = ptestsuite + "-user" if ssh is None else ptestsuite
+             self.tc.extraresults["ptestresult.sections"][ptestsuite] = {}
+             with open(sumspath, "r") as f:
+                 for test, result in parse_values(f):
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
+index 7992ea6bf2..4d0c13131b 100644
+--- a/meta/lib/oeqa/selftest/cases/glibc.py
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -43,10 +43,11 @@ class GlibcSelfTest(OESelftestTestCase):
+ 
+         builddir = get_bb_var("B", "glibc-testsuite")
+ 
+-        self.tc.extraresults["ptestresult.sections"]["glibc"] = {}
++        ptestsuite = "glibc-user" if ssh is None else "glibc"
++        self.tc.extraresults["ptestresult.sections"][ptestsuite] = {}
+         with open(os.path.join(builddir, "tests.sum"), "r") as f:
+             for test, result in parse_values(f):
+-                self.tc.extraresults["ptestresult.glibc.{}".format(test)] = {"status" : result}
++                self.tc.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
+ 
+ class GlibcSelfTestSystemEmulated(GlibcSelfTest):
+     default_installed_packages = [
 ---
 2.23.0.rc1
 
