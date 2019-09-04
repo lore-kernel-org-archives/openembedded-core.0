@@ -1,25 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 749547D70B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BF6FA7F2FD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 09:36:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x849aOQm020460
+	Wed,  4 Sep 2019 09:36:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x849aDZJ018967
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Sep 2019 02:36:24 -0700 (PDT)
+	Wed, 4 Sep 2019 02:36:23 -0700
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 4 Sep 2019 02:36:24 -0700
+	Wed, 4 Sep 2019 02:36:02 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Sep 2019 05:35:55 -0400
-Message-ID: <20190904093555.59494-4-kai.kang@windriver.com>
+Date: Wed, 4 Sep 2019 05:35:54 -0400
+Message-ID: <20190904093555.59494-3-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.20.0
 In-Reply-To: <20190904093555.59494-1-kai.kang@windriver.com>
 References: <20190904093555.59494-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 3/3] sysstat: 12.1.3 -> 12.1.6
+Subject: [PATCH v2 2/3] texinfo: fix multilib file confliction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,61 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 09:36:23 -0000
+X-List-Received-Date: Wed, 04 Sep 2019 09:36:32 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Update sysstat from 12.1.3 to 12.1.6.
+Inherit multilib_script to fix file confliction when mutlilib enabled.
 
-* make sa_lib_dir refer to ${libexecdir}/sa to fix conflictions when
-  multilib is enabled
+| Error: Transaction check error:
+|   file /usr/bin/texi2any conflicts between attempted installs of
+    lib32-texinfo-6.5-r0.core2_32 and texinfo-6.5-r0.core2_64
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-extended/sysstat/sysstat.inc                     | 4 ++--
- .../sysstat/{sysstat_12.1.3.bb => sysstat_12.1.6.bb}          | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/sysstat/{sysstat_12.1.3.bb => sysstat_12.1.6.bb} (53%)
+ meta/recipes-extended/texinfo/texinfo_6.5.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 592cbf4574..5a7d2114ca 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://sebastien.godard.pagesperso-orange.fr/"
- LICENSE = "GPLv2+"
- SECTION = "console/utils"
+diff --git a/meta/recipes-extended/texinfo/texinfo_6.5.bb b/meta/recipes-extended/texinfo/texinfo_6.5.bb
+index f966457f88..50eae77ad0 100644
+--- a/meta/recipes-extended/texinfo/texinfo_6.5.bb
++++ b/meta/recipes-extended/texinfo/texinfo_6.5.bb
+@@ -42,7 +42,9 @@ SRC_URI[sha256sum] = "d34272e4042c46186ddcd66bd5d980c0ca14ff734444686ccf8131f6ec
  
--SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.xz \
-+SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/${BP}.tar.xz \
-            file://99_sysstat \
-            file://sysstat.service \
-           "
-@@ -29,7 +29,7 @@ SYSTEMD_SERVICE_${PN} = "sysstat.service"
- SYSTEMD_AUTO_ENABLE = "enable"
+ tex_texinfo = "texmf/tex/texinfo"
  
- do_configure_prepend() {
--    export sa_lib_dir=${libdir}/sa
-+    export sa_lib_dir=${libexecdir}/sa
- }
+-inherit gettext autotools
++inherit gettext autotools multilib_script
++
++MULTILIB_SCRIPTS = "${PN}:${bindir}/texi2any"
  
- do_install() {
-diff --git a/meta/recipes-extended/sysstat/sysstat_12.1.3.bb b/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-similarity index 53%
-rename from meta/recipes-extended/sysstat/sysstat_12.1.3.bb
-rename to meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-index 5daf3f45f5..8cf8c36d9b 100644
---- a/meta/recipes-extended/sysstat/sysstat_12.1.3.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ EXTRA_AUTORECONF += "-I ${S}/gnulib/m4"
  
- SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
- 
--SRC_URI[md5sum] = "0f9b73f60aba6fd49de346bc384902c3"
--SRC_URI[sha256sum] = "55498bf82755ba9fed3e7df61fd26f8f50dd3e7b3b229c731029a4c8ab51a1aa"
-+SRC_URI[md5sum] = "d8e3bbb9c873dd370f6d33664e326570"
-+SRC_URI[sha256sum] = "f752f3c406153a6fc446496f1102872505ace3f0931d975c1d664c81ec09f129"
 -- 
 2.20.0
 
