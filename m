@@ -1,104 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E0BE17F292
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F6587F281
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 15:22:32 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id 4so9713574pld.10
+	Wed,  4 Sep 2019 15:35:45 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id t12so24846135qtp.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 08:22:34 -0700 (PDT)
+	Wed, 04 Sep 2019 08:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=f5zsjY6CN1o1mmopFu50MfA2Ie/+yHz3i1VJl1Z7A28=;
-	b=X/8w7f9umK7r99vt5GWX3x80fYVrsndWglZjcW67JNtDcJNc+QZVAcC5TQyNup/m/2
-	IXNaWv/BTShVIoYV9NAjPCy5uNP1nBootp1PbvC1c5I77X0vZI3kTlXX4w5jPPasjuGE
-	cuRh+UcfkeNnLUJQ3Htszi/apDPjU1eMLhjKRavamd+2OJnotnmf9dZe5kVVVln9IWvE
-	F/9Z2yeVnY0r0btLDnOB2oRu8ioH1TkeA0YyygzilRTKhV4TVipX2RSGK3MnUAiJ+QNc
-	nfQoTQ7UGMtr+bKUMB8nUrUx04TLX2P02E9vaFLFOcBz0qM9TtPcpHNnh1IaEM5/6UbX
-	93pg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3yIxrYwl2x3u6qLue6B1ly+zwLLij9k1YXqteWNkNSU=;
+	b=lbVhF9FGlVuTjbiOq/x0F1BmsNP39tG9UE+xWRO2ycp/I8RZQI76cpWFRyU17pQPX9
+	AGt7tCJlLGT2aRshjEsifznQrHm6txg18tW7J2yrCO789C1yqVTz54DCoyS7boDSdud8
+	YML04c5RzlQ6FLuQLccEREa/GCfgiR0FmRmxlyxLX3hIavnWokVS5Zyjne32CfuTaTXA
+	rCMeaTy/qXhItjRa4gxoyJIS+pO7l++2sUMiB2okllNTJC1vaLZhmfGIqzAbVdRwF5Xg
+	Ts6sYq4pWAcce30a7dCYXyWqP5FZ37vxlx4feELyZ8o0Lu1fDUP2YIMcCnyVBlcwh+QB
+	NBRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=f5zsjY6CN1o1mmopFu50MfA2Ie/+yHz3i1VJl1Z7A28=;
-	b=MkmANUZe4w0M2IkzKglLali243FROoJf2lqRMdaAv+PUCh+5KeMvZ0iItcUh5MRw3j
-	9uncR+G6riNfB4VJYuDAPOiyK9ra4hGPBztuLOnMqM9hacBj2gw11O2jWSUPPSE/TNMW
-	THYvl52P/4NcZmw9HR1GItJgyfUR9kuk8Fa7GXn1EAF34JLvunbu8OunGf3/8DEFHTq9
-	hIQu3O6iRBlyWPTNYeAcpZNNZAQu1e88YwTA5kzH5qdTuXg7JOWXBAqKSgEodf7i2Ncv
-	b5uW7lBXnyfEC7Okx7IyrBhigZ+Hqj7BI/2fBtLJDUUraJ3kwFXVUiSNmrJ0n+7Ouotv
-	irmg==
-X-Gm-Message-State: APjAAAU70d5x00jTRtBfQpkWm67IHc1b5H1zTDkS4z9hVrE2DoFsjQoJ
-	bKcadPsA03XTkCqb4fAYXHo8yl82
-X-Google-Smtp-Source: APXvYqybFOUnwo6AQaWn778xOIkiAc5C3cHrYoutTubFeAZwQ22/YqoJm4kanU4XN7yC44xeGyKIXg==
-X-Received: by 2002:a17:902:248:: with SMTP id
-	66mr41722679plc.19.1567610552607; 
-	Wed, 04 Sep 2019 08:22:32 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:7901:9fbe:6d35:e8ad?
-	([2601:202:4180:c33:7901:9fbe:6d35:e8ad])
-	by smtp.gmail.com with ESMTPSA id
-	k31sm6561865pjb.14.2019.09.04.08.22.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Sep 2019 08:22:31 -0700 (PDT)
-To: Adrian Bunk <bunk@stusta.de>
-References: <cover.1567348433.git.akuster808@gmail.com>
-	<d000f85c4dfa791e2e764c9d6126bcc13baea01c.1567348433.git.akuster808@gmail.com>
-	<20190904115632.GA17900@localhost>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	mQINBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
-	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
-	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
-	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
-	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
-	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
-	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
-	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
-	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
-	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABtCFha3VzdGVyODA4
-	IDxha3VzdGVyODA4QGdtYWlsLmNvbT6JAj0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
-	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
-	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
-	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
-	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
-	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
-	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
-	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
-	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
-	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
-	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
-	oRoyDxC5Ag0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
-	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
-	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
-	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
-	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
-	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
-	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
-	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
-	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
-	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAGJAiUEGAEI
-	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
-	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
-	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
-	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
-	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
-	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
-	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
-	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
-	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
-	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
-	8CS2NxU=
-Message-ID: <5c0fcda0-3986-6e78-dca3-6d5da5780084@gmail.com>
-Date: Wed, 4 Sep 2019 08:22:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3yIxrYwl2x3u6qLue6B1ly+zwLLij9k1YXqteWNkNSU=;
+	b=TvOPsYfP90y7DTqeHJZZ2DGh4sqe+t3rNFtLj6pTUPpBLZkWXOaj1PUJY2SgQFqTsZ
+	8SbnhW0Uis/VmR8+5o6DD/BAvos8mXhqRfncza5vlW5rXcNyli2mlpHcfg0wK3wgpxUy
+	HXbILlE9zIDBf9OHQykayw/JQfSYYytoj4AjJDa/fCnez/j+b3Kz98uJ6ab4lbjNAaYu
+	fSwGmBjI+Sdh1iKZ7B5W4zvFNljMFQtMm+7L7x76BNVYkbe+c25ZNIwUnupy4gc48LDm
+	9bBa7u9oKzOMtLA+XlZA2uy9SAgyvO5AFKLlH7jMcmdmD2ba42WpbbgsEfWRxsJM9gSt
+	mOOg==
+X-Gm-Message-State: APjAAAU3gOtlyvfSnFbFeadnczjbQa1SLGXz1qQDLhXVR4T9J+y/9qif
+	TpnOOEzp40Ma7g7l8UJqbaDiQiLumd1ft8x/DoM=
+X-Google-Smtp-Source: APXvYqyH1TTG/ssGTPnsSTsX8fb9R+j7lzCl06YskbLSuBD76ld4cCzuapBeM2OWp5pzdIYejbzjqiqdLXUISUw/158=
+X-Received: by 2002:ac8:460d:: with SMTP id p13mr31534591qtn.378.1567611345719;
+	Wed, 04 Sep 2019 08:35:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190904115632.GA17900@localhost>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [warrior 18/43] systemd: Backport OpenSSL BUF_MEM fix
+References: <20190903165641.16597-0-nathan@nathanrossi.com>
+	<20190903165641.16597-5-nathan@nathanrossi.com>
+In-Reply-To: <20190903165641.16597-5-nathan@nathanrossi.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 4 Sep 2019 08:35:19 -0700
+Message-ID: <CAMKF1sqXzdqonKURbZh9Xkw_f+V1Do_CmzXEatYRY9CLD7TgFA@mail.gmail.com>
+To: Nathan Rossi <nathan@nathanrossi.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 05/12] glibc-testsuite: Create a recipe to implement glibc test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -111,24 +55,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 15:22:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 04 Sep 2019 15:35:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+https://errors.yoctoproject.org/Errors/Details/268225/
 
+so  I guess we need TOOLCHAIN = "gcc" set for this
 
-On 9/4/19 4:56 AM, Adrian Bunk wrote:
-> Please drop this one, see
-> https://github.com/systemd/systemd/pull/12802
-
-got it. Dropped.
-
-Thanks,
-Armin
+On Tue, Sep 3, 2019 at 9:57 AM Nathan Rossi <nathan@nathanrossi.com> wrote:
 >
-> cu
-> Adrian
+> A recipe needs to be created for the test suite due to the dependency
+> chain between libgcc -> glibc -> libgcc-initial, and the requirements of
+> the test suite to have libgcc for compilation and execution.
 >
-
+> The glibc test suite does not use dejagnu like the gcc test suites do.
+> Instead a test wrapper script is used along with the assumed dependency
+> of having the same filesystem available on build host and target. For
+> qemu linux-user the same filesystem is inherently available, for remote
+> targets NFS is used. Separate test wrapper scripts are created for qemu
+> linux-user or ssh targets, with the same TOOLCHAIN_TEST_* variables used for
+> configuration.
+>
+> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> ---
+> Changes in v2:
+> - Renamed BUILD_TEST_* to TOOLCHAIN_TEST_*
+> ---
+>  meta/recipes-core/glibc/glibc-testsuite_2.30.bb  | 51 +++++++++++++++++
+>  meta/recipes-core/glibc/glibc/check-test-wrapper | 71 ++++++++++++++++++++++++
+>  2 files changed, 122 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc-testsuite_2.30.bb
+>  create mode 100644 meta/recipes-core/glibc/glibc/check-test-wrapper
+>
+> diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.30.bb b/meta/recipes-core/glibc/glibc-testsuite_2.30.bb
+> new file mode 100644
+> index 0000000000..88764d9e2b
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc-testsuite_2.30.bb
+> @@ -0,0 +1,51 @@
+> +require glibc_${PV}.bb
+> +
+> +# handle PN differences
+> +FILESEXTRAPATHS_prepend := "${THISDIR}/glibc:"
+> +
+> +# strip provides
+> +PROVIDES = ""
+> +# setup depends
+> +INHIBIT_DEFAULT_DEPS = ""
+> +
+> +DEPENDS += "glibc-locale libgcc gcc-runtime"
+> +
+> +# remove the initial depends
+> +DEPENDS_remove = "libgcc-initial"
+> +
+> +inherit qemu
+> +
+> +SRC_URI += "file://check-test-wrapper"
+> +
+> +DEPENDS += "${@'qemu-native' if d.getVar('TOOLCHAIN_TEST_TARGET') == 'user' else ''}"
+> +
+> +TOOLCHAIN_TEST_TARGET ??= "user"
+> +TOOLCHAIN_TEST_HOST ??= "localhost"
+> +TOOLCHAIN_TEST_HOST_USER ??= "root"
+> +TOOLCHAIN_TEST_HOST_PORT ??= "2222"
+> +
+> +do_check[dirs] += "${B}"
+> +do_check[nostamp] = "1"
+> +do_check () {
+> +    chmod 0755 ${WORKDIR}/check-test-wrapper
+> +
+> +    # clean out previous test results
+> +    oe_runmake tests-clean
+> +    # makefiles don't clean entirely (and also sometimes fails due to too many args)
+> +    find ${B} -type f -name "*.out" -delete
+> +    find ${B} -type f -name "*.test-result" -delete
+> +    find ${B}/catgets -name "*.cat" -delete
+> +    find ${B}/conform -name "symlist-*" -delete
+> +    [ ! -e ${B}/timezone/testdata ] || rm -rf ${B}/timezone/testdata
+> +
+> +    oe_runmake -i \
+> +        QEMU_SYSROOT="${RECIPE_SYSROOT}" \
+> +        QEMU_OPTIONS="${@qemu_target_binary(d)} ${QEMU_OPTIONS}" \
+> +        SSH_HOST="${TOOLCHAIN_TEST_HOST}" \
+> +        SSH_HOST_USER="${TOOLCHAIN_TEST_HOST_USER}" \
+> +        SSH_HOST_PORT="${TOOLCHAIN_TEST_HOST_PORT}" \
+> +        test-wrapper="${WORKDIR}/check-test-wrapper ${TOOLCHAIN_TEST_TARGET}" \
+> +        check
+> +}
+> +addtask do_check after do_compile
+> +
+> diff --git a/meta/recipes-core/glibc/glibc/check-test-wrapper b/meta/recipes-core/glibc/glibc/check-test-wrapper
+> new file mode 100644
+> index 0000000000..f8e04e02d2
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/check-test-wrapper
+> @@ -0,0 +1,71 @@
+> +#!/usr/bin/env python3
+> +import sys
+> +import os
+> +import subprocess
+> +
+> +env = os.environ.copy()
+> +args = sys.argv[1:]
+> +targettype = args.pop(0)
+> +
+> +if targettype == "user":
+> +    qemuargs = os.environ.get("QEMU_OPTIONS", "").split()
+> +    if not os.path.exists(qemuargs[0]):
+> +        # ensure qemu args has a valid absolute path
+> +        for i in os.environ.get("PATH", "").split(":"):
+> +            if os.path.exists(os.path.join(i, qemuargs[0])):
+> +                qemuargs[0] = os.path.join(i, qemuargs[0])
+> +                break
+> +    sysroot = os.environ.get("QEMU_SYSROOT", None)
+> +    if not sysroot:
+> +        sys.exit(-1)
+> +    libpaths = [sysroot + "/usr/lib", sysroot + "/lib"]
+> +
+> +    if args[0] == "env":
+> +        args.pop(0)
+> +        if len(args) == 0:
+> +            args = ["env"]
+> +        else:
+> +            # process options
+> +            while args[0].startswith("-"):
+> +                opt = args.pop(0).lstrip("-")
+> +                if "i" in opt:
+> +                    env.clear()
+> +            # process environment vars
+> +            while "=" in args[0]:
+> +                key, val = args.pop(0).split("=", 1)
+> +                if key == "LD_LIBRARY_PATH":
+> +                    libpaths += val.split(":")
+> +                else:
+> +                    env[key] = val
+> +    if args[0] == "cp":
+> +        # ignore copies, the filesystem is the same
+> +        sys.exit(0)
+> +
+> +    qemuargs += ["-L", sysroot]
+> +    qemuargs += ["-E", "LD_LIBRARY_PATH={}".format(":".join(libpaths))]
+> +    command = qemuargs + args
+> +elif targettype == "ssh":
+> +    host = os.environ.get("SSH_HOST", None)
+> +    user = os.environ.get("SSH_HOST_USER", None)
+> +    port = os.environ.get("SSH_HOST_PORT", None)
+> +
+> +    command = ["ssh", "-o", "UserKnownHostsFile=/dev/null", "-o", "StrictHostKeyChecking=no"]
+> +    if port:
+> +        command += ["-p", str(port)]
+> +    if not host:
+> +        sys.exit(-1)
+> +    command += ["{}@{}".format(user, host) if user else host]
+> +
+> +    # wrap and replace quotes for correct transformation on ssh
+> +    wrapped = " ".join(["'{0}'".format(i.replace("'", r"'\''")) for i in ["cd", os.getcwd()]]) + "; "
+> +    wrapped += " ".join(["'{0}'".format(i.replace("'", r"'\''")) for i in args])
+> +    command += ["sh", "-c", "\"{}\"".format(wrapped)]
+> +else:
+> +    sys.exit(-1)
+> +
+> +try:
+> +    r = subprocess.run(command, timeout = 1800, env = env)
+> +    sys.exit(r.returncode)
+> +except subprocess.TimeoutExpired:
+> +    sys.exit(-1)
+> +
+> ---
+> 2.23.0.rc1
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
