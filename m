@@ -1,55 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0993E7F2A8
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BF0387F289
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 08:02:24 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id j16so20141662wrr.8
+	Wed,  4 Sep 2019 08:04:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8484bW9006265
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 01:02:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=TAuJ0abaM258Etc9JZsw7P8rYzFUkxErtnBVgdhRfYo=;
-	b=T1Rv7+jRBvMjLlDkbO2NThutu8nr0nRPH6j3cyt2VzjP7DGi/aOFRndFPtRJHygohI
-	nCIQJp6DFhZKAJ5Md0+fGQQRAUf9jnBPKnqvkQ2kfP18wy+6csX3f8q9axr5UodM1H8b
-	yYFt86auflWJjqD2z/a/tAlPh1zJ2JJXrmpXg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=TAuJ0abaM258Etc9JZsw7P8rYzFUkxErtnBVgdhRfYo=;
-	b=fpvHFFqwuz0qUO7RfAcpEr9e7Yjq/4En6LiDoxhO0k1Zv9ev3hVICrv6SVRNCTIXUa
-	M1tx8uxuXAdIK53oWQ00NqoQr8ndE4qgZYzP9mWuo0z19l/NBeMJyAXPV1NxT+Peqtvl
-	yqFedRhmgWRjHZQE5OsKS7jfzqlzgb5NFhOaPEq7yPQXNxQd1zLJiA0u6ymNgmUt5S9F
-	C/YyKBBVQH4Kkd8mc4ahoQdwsuxzfTyrsK3/Rd4ij6Ek6/IwLxQ1kGYrkAV+e6m2epLe
-	Gf0J4+brQkxyvJtnmw7se9zqv8Pi2qyl9JulUNyc9wS/4zV3MKsXqQ55FZjWMDzLMDn8
-	3Smw==
-X-Gm-Message-State: APjAAAWafDYbgpOSLgK4yaZB66Ss90VWykRJ6mRwEe2EmK/pzcSOyhrh
-	JS5LLgkFK++okukipq/ohP27Pw==
-X-Google-Smtp-Source: APXvYqyGERm/CRCmQPUBCil24BH1jwCanKjKGGZnLVxVyU93NnFdIyy+7iXCge7iQ+BdQ9n9c3Wuvw==
-X-Received: by 2002:adf:f801:: with SMTP id s1mr1907133wrp.320.1567584145721; 
-	Wed, 04 Sep 2019 01:02:25 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	d12sm2146014wme.33.2019.09.04.01.02.23
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Sep 2019 01:02:25 -0700 (PDT)
-Message-ID: <bb4ead501ecf2e767837336bebf7ea35fc19bc9a.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: akuster808 <akuster808@gmail.com>, Bruce Ashfield
-	<bruce.ashfield@gmail.com>
-Date: Wed, 04 Sep 2019 09:02:20 +0100
-In-Reply-To: <49a3113a-5d8b-8eac-c678-4c138654ea35@gmail.com>
-References: <5f601d9d33b2868c3962194eb23ccf5e23722110.camel@linuxfoundation.org>
-	<CADkTA4P8bJsJWweh_3JfKs-R=D-Jbp=Mc1mz3f6Gm7pGdFXZbQ@mail.gmail.com>
-	<49a3113a-5d8b-8eac-c678-4c138654ea35@gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	Wed, 4 Sep 2019 01:04:37 -0700 (PDT)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Wed, 4 Sep 2019 01:04:37 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1567485996-351404-1-git-send-email-changqing.li@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <ef8f2598-6a4b-7087-2375-beac482e3924@windriver.com>
+Date: Wed, 4 Sep 2019 16:04:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Summary of M3 status
+In-Reply-To: <1567485996-351404-1-git-send-email-changqing.li@windriver.com>
+X-Originating-IP: [128.224.162.186]
+Subject: Re: [PATCH V3] dnf.py: installroot support usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,85 +34,268 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 08:02:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Sep 2019 08:04:36 -0000
+Content-Type: multipart/alternative;
+	boundary="------------E6DBBDD5D078117833C5CD48"
+Content-Language: en-US
 
-On Tue, 2019-09-03 at 19:59 -0700, akuster808 wrote:
-> 
-> On 9/3/19 5:39 AM, Bruce Ashfield wrote:
-> > On Tue, Sep 3, 2019 at 4:10 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > I'm going to summarise the current state as it will help people
-> > > see the
-> > > set of issues we have. We have three issues blocking the current
-> > > patch
-> > > queue and kernel uprev, spread over four machines and five
-> > > autobuilder
-> > > targets:
-> > > 
-> > > qemumips64:
-> > > 
-> > >   
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/987
-> > > 
-> > >   RESULTS - parselogs.ParseLogsTest.test_parselogs: FAILED
-> > > (1.97s)
-> > > 
-> > >   Central error: [    1.689184] kprobes: failed to populate
-> > > blacklist: -22
-> > >   [happens 5.2 kernel only]
-> > I'll have a look at the kprobes log. Could just be something we
-> > need
-> > to whitelist, but I'll root cause it.
-> > 
-> > > qemumips:
-> > > 
-> > >   qemu machine locks up:
-> > > 
-> > >   
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/982
-> > > 
-> > >   (happens with 5.0 and 5.2 kernels and qemu 4.0 and 4.1 and is
-> > > in
-> > >    master. Not sure of the original cause)
-> > > 
-> > > qemuarm64:
-> > > 
-> > >   Central error: [    1.816386] kprobes: failed to populate
-> > > blacklist: -22
-> > > 
-> > >   RESULTS - parselogs.ParseLogsTest.test_parselogs: FAILED
-> > > (1.11s)
-> > > 
-> > >   
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/329
-> > >   
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/985
-> > >   [happens 5.2 kernel only]
-> > > 
-> > > qemuarm:
-> > > 
-> > >   
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/990
-> > >   
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/989
-> > > 
-> > >   See compile failure for stap.StapTest.test_stap below.
-> > >   [happens 5.2 kernel only]
-> > And I can look at this one as well.
-> > 
-> > If anyone gets to them first, let me know!
-> 
-> There is a patch under test in master-next. I just noticed it. Guess
-> it
-> means some got to it before either of us.
+--------------E6DBBDD5D078117833C5CD48
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-It means we had autobuilder time so I tried the obvious fix. It didn't
-help and the problem remains, help very much appreciated.
+Ping
 
-Cheers,
+Test with/without  usrmege feature passed.
 
-Richard
+With usrmerge:
+
+*NOTE: test_dnf_installroot (dnf.DnfRepoTest)
+DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to skip 
+the test
+NOTE:  ... skipped 'Test run when not enable usrmerge'
+Test run when not enable usrmerge
+NOTE: test_dnf_installroot_usrmerge (dnf.DnfRepoTest)
+DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to run 
+the test
+DEBUG: [Running]$ ssh -l root -o UserKnownHostsFile=/dev/null -o 
+StrictHostKeyChecking=no -o LogLevel=ERROR 192.168.7.16 export 
+PATH=/usr/sbin:/sbin:/usr/bin:/bin; mkdir -p /home/root/chroot/test/etc
+....*
 
 
+Without usrmerge:
+
+*NOTE: test_dnf_installroot (dnf.DnfRepoTest)**
+**DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to skip 
+the test**
+**DEBUG: [Running]$ ssh -l root -o UserKnownHostsFile=/dev/null -o 
+StrictHostKeyChecking=no -o LogLevel=ERROR 192.168.7.10 export 
+PATH=/usr/sbin:/sbin:/usr/bin:/bin; mkdir -p /home/root/chroot/test/etc**
+**DEBUG: time: 1567404974.8490767, endtime: 1567406474.8424258**
+**DEBUG: [Command returned '0' after 0.13 seconds]**
+**DEBUG: Command: mkdir -p /home/root/chroot/test/etc**
+**Output: **
+**...*
+
+*NOTE:  ... ok**
+**NOTE: test_dnf_installroot_usrmerge (dnf.DnfRepoTest)**
+**DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge' to run 
+the test**
+**NOTE:  ... skipped 'Test run when enable usrmege'**
+**Test run when enable usrmege*
+
+
+
+On 9/3/19 12:46 PM, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>   meta/lib/oeqa/runtime/cases/dnf.py | 34 +++++++++++++++++++++++++++++++++-
+>   1 file changed, 33 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
+> index 629b9af..80cc86a 100644
+> --- a/meta/lib/oeqa/runtime/cases/dnf.py
+> +++ b/meta/lib/oeqa/runtime/cases/dnf.py
+> @@ -9,7 +9,7 @@ from oeqa.utils.httpserver import HTTPService
+>   
+>   from oeqa.runtime.case import OERuntimeTestCase
+>   from oeqa.core.decorator.depends import OETestDepends
+> -from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
+> +from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature, skipIfInDataVar, skipIfNotInDataVar
+>   from oeqa.runtime.decorator.package import OEHasPackage
+>   
+>   class DnfTest(OERuntimeTestCase):
+> @@ -116,6 +116,7 @@ class DnfRepoTest(DnfTest):
+>           self.dnf_with_repo('reinstall -y run-postinsts-dev')
+>   
+>       @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+> +    @skipIfInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when not enable usrmerge')
+>       def test_dnf_installroot(self):
+>           rootpath = '/home/root/chroot/test'
+>           #Copy necessary files to avoid errors with not yet installed tools on
+> @@ -141,6 +142,37 @@ class DnfRepoTest(DnfTest):
+>           self.assertEqual(0, status, output)
+>   
+>       @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+> +    @skipIfNotInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when enable usrmege')
+> +    def test_dnf_installroot_usrmerge(self):
+> +        rootpath = '/home/root/chroot/test'
+> +        #Copy necessary files to avoid errors with not yet installed tools on
+> +        #installroot directory.
+> +        self.target.run('mkdir -p %s/etc' % rootpath, 1500)
+> +        self.target.run('mkdir -p %s/usr/bin %s/usr/sbin' % (rootpath, rootpath), 1500)
+> +        self.target.run('ln -sf -r %s/usr/bin %s/bin'  % (rootpath, rootpath), 1500)
+> +        self.target.run('ln -sf -r %s/usr/sbin %s/sbin'  % (rootpath, rootpath), 1500)
+> +        self.target.run('mkdir -p %s/dev' % rootpath, 1500)
+> +        #Handle different architectures lib dirs
+> +        self.target.run('mkdir -p %s/usr/lib' % rootpath, 1500)
+> +        self.target.run('mkdir -p %s/usr/libx32' % rootpath, 1500)
+> +        self.target.run('mkdir -p %s/usr/lib64' % rootpath, 1500)
+> +        self.target.run('cp /lib/libtinfo.so.5 %s/usr/lib' % rootpath, 1500)
+> +        self.target.run('cp /libx32/libtinfo.so.5 %s/usr/libx32' % rootpath, 1500)
+> +        self.target.run('cp /lib64/libtinfo.so.5 %s/usr/lib64' % rootpath, 1500)
+> +        self.target.run('ln -sf -r %s/lib %s/usr/lib' % (rootpath,rootpath), 1500)
+> +        self.target.run('ln -sf -r %s/libx32 %s/usr/libx32' % (rootpath,rootpath), 1500)
+> +        self.target.run('ln -sf -r %s/lib64 %s/usr/lib64' % (rootpath,rootpath), 1500)
+> +        self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
+> +        self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
+> +        self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
+> +        self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
+> +        self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox run-postinsts' % rootpath)
+> +        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
+> +        self.assertEqual(0, status, output)
+> +        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
+> +        self.assertEqual(0, status, output)
+> +
+> +    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+>       def test_dnf_exclude(self):
+>           excludepkg = 'curl-dev'
+>           self.dnf_with_repo('install -y curl*')
+
+-- 
+BRs
+
+Sandy(Li Changqing)
+
+
+--------------E6DBBDD5D078117833C5CD48
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>Ping<br>
+    </p>
+    <p>Test with/without  usrmege feature passed.<br>
+    </p>
+    <p>With usrmerge:</p>
+    <p><b>NOTE: test_dnf_installroot (dnf.DnfRepoTest)<br>
+        DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge'
+        to skip the test<br>
+        NOTE:  ... skipped 'Test run when not enable usrmerge'<br>
+        Test run when not enable usrmerge<br>
+        NOTE: test_dnf_installroot_usrmerge (dnf.DnfRepoTest)<br>
+        DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge'
+        to run the test<br>
+        DEBUG: [Running]$ ssh -l root -o UserKnownHostsFile=/dev/null -o
+        StrictHostKeyChecking=no -o LogLevel=ERROR 192.168.7.16 export
+        PATH=/usr/sbin:/sbin:/usr/bin:/bin; mkdir -p
+        /home/root/chroot/test/etc<br>
+        ....</b></p>
+    <p><br>
+    </p>
+    <p>Without usrmerge:</p>
+    <p><b>NOTE: test_dnf_installroot (dnf.DnfRepoTest)</b><b><br>
+      </b><b>DEBUG: Checking if 'DISTRO_FEATURES' value contains
+        'usrmerge' to skip the test</b><b><br>
+      </b><b>DEBUG: [Running]$ ssh -l root -o
+        UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o
+        LogLevel=ERROR 192.168.7.10 export
+        PATH=/usr/sbin:/sbin:/usr/bin:/bin; mkdir -p
+        /home/root/chroot/test/etc</b><b><br>
+      </b><b>DEBUG: time: 1567404974.8490767, endtime:
+        1567406474.8424258</b><b><br>
+      </b><b>DEBUG: [Command returned '0' after 0.13 seconds]</b><b><br>
+      </b><b>DEBUG: Command: mkdir -p /home/root/chroot/test/etc</b><b><br>
+      </b><b>Output:  </b><b><br>
+      </b><b>...</b></p>
+    <p><b>NOTE:  ... ok</b><b><br>
+      </b><b>
+        NOTE: test_dnf_installroot_usrmerge (dnf.DnfRepoTest)</b><b><br>
+      </b><b>
+        DEBUG: Checking if 'DISTRO_FEATURES' value contains 'usrmerge'
+        to run the test</b><b><br>
+      </b><b>
+        NOTE:  ... skipped 'Test run when enable usrmege'</b><b><br>
+      </b><b>
+        Test run when enable usrmege</b></p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 9/3/19 12:46 PM,
+      <a class="moz-txt-link-abbreviated" href="mailto:changqing.li@windriver.com">changqing.li@windriver.com</a> wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:1567485996-351404-1-git-send-email-changqing.li@windriver.com">
+      <pre class="moz-quote-pre" wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
+
+Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
+---
+ meta/lib/oeqa/runtime/cases/dnf.py | 34 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
+index 629b9af..80cc86a 100644
+--- a/meta/lib/oeqa/runtime/cases/dnf.py
++++ b/meta/lib/oeqa/runtime/cases/dnf.py
+@@ -9,7 +9,7 @@ from oeqa.utils.httpserver import HTTPService
+ 
+ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
+-from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
++from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature, skipIfInDataVar, skipIfNotInDataVar
+ from oeqa.runtime.decorator.package import OEHasPackage
+ 
+ class DnfTest(OERuntimeTestCase):
+@@ -116,6 +116,7 @@ class DnfRepoTest(DnfTest):
+         self.dnf_with_repo('reinstall -y run-postinsts-dev')
+ 
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
++    @skipIfInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when not enable usrmerge')
+     def test_dnf_installroot(self):
+         rootpath = '/home/root/chroot/test'
+         #Copy necessary files to avoid errors with not yet installed tools on
+@@ -141,6 +142,37 @@ class DnfRepoTest(DnfTest):
+         self.assertEqual(0, status, output)
+ 
+     @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
++    @skipIfNotInDataVar('DISTRO_FEATURES', 'usrmerge', 'Test run when enable usrmege')
++    def test_dnf_installroot_usrmerge(self):
++        rootpath = '/home/root/chroot/test'
++        #Copy necessary files to avoid errors with not yet installed tools on
++        #installroot directory.
++        self.target.run('mkdir -p %s/etc' % rootpath, 1500)
++        self.target.run('mkdir -p %s/usr/bin %s/usr/sbin' % (rootpath, rootpath), 1500)
++        self.target.run('ln -sf -r %s/usr/bin %s/bin'  % (rootpath, rootpath), 1500)
++        self.target.run('ln -sf -r %s/usr/sbin %s/sbin'  % (rootpath, rootpath), 1500)
++        self.target.run('mkdir -p %s/dev' % rootpath, 1500)
++        #Handle different architectures lib dirs
++        self.target.run('mkdir -p %s/usr/lib' % rootpath, 1500)
++        self.target.run('mkdir -p %s/usr/libx32' % rootpath, 1500)
++        self.target.run('mkdir -p %s/usr/lib64' % rootpath, 1500)
++        self.target.run('cp /lib/libtinfo.so.5 %s/usr/lib' % rootpath, 1500)
++        self.target.run('cp /libx32/libtinfo.so.5 %s/usr/libx32' % rootpath, 1500)
++        self.target.run('cp /lib64/libtinfo.so.5 %s/usr/lib64' % rootpath, 1500)
++        self.target.run('ln -sf -r %s/lib %s/usr/lib' % (rootpath,rootpath), 1500)
++        self.target.run('ln -sf -r %s/libx32 %s/usr/libx32' % (rootpath,rootpath), 1500)
++        self.target.run('ln -sf -r %s/lib64 %s/usr/lib64' % (rootpath,rootpath), 1500)
++        self.target.run('cp -r /etc/rpm %s/etc' % rootpath, 1500)
++        self.target.run('cp -r /etc/dnf %s/etc' % rootpath, 1500)
++        self.target.run('cp /bin/sh %s/bin' % rootpath, 1500)
++        self.target.run('mount -o bind /dev %s/dev/' % rootpath, 1500)
++        self.dnf_with_repo('install --installroot=%s -v -y --rpmverbosity=debug busybox run-postinsts' % rootpath)
++        status, output = self.target.run('test -e %s/var/cache/dnf' % rootpath, 1500)
++        self.assertEqual(0, status, output)
++        status, output = self.target.run('test -e %s/bin/busybox' % rootpath, 1500)
++        self.assertEqual(0, status, output)
++
++    @OETestDepends(['dnf.DnfRepoTest.test_dnf_makecache'])
+     def test_dnf_exclude(self):
+         excludepkg = 'curl-dev'
+         self.dnf_with_repo('install -y curl*')
+</pre>
+    </blockquote>
+    <pre class="moz-signature" cols="72">-- 
+BRs
+
+Sandy(Li Changqing)</pre>
+  </body>
+</html>
+
+--------------E6DBBDD5D078117833C5CD48--
