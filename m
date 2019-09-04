@@ -1,47 +1,29 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
-	[209.85.221.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3ACDB7F2B5
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DFCB07C79F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 10:04:51 +0000 (UTC)
-Received: by mail-vk1-f196.google.com with SMTP id h192so4235664vka.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 03:04:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MvwR9n+WYpV9GDvf+49Espe7JuT43pTYu6Vy7i8EEG8=;
-	b=KuKIJdnd95BPHDGCHya+w3G8ZKj9RbyLe0JRv03fd66Q/X00VWEDnvErteDSu3UKSH
-	uYeBMcbKpGZ4LzKK7P0og7U+ioT/OW501g0Q/QMob4swBA2XHyd+FJkb8sRGbosgBxIq
-	ke4VOhZRr2zdnY8GbrpSdetQqJxoa4mrX/JmHkBwJ3NihaBhcJlTIBieAkuOBEhADQrn
-	xkGyxx6I5lcaMXezOaJssvKmUBOF1D/V5c/2eY9Pf+5tpJAbdb9O2gVLnGs3HwslSAgl
-	fOXGoOuQS8oBzA0C4hePRxumVVMwWE8+rXh0b2s0MvpmPQWkuEjY4pGvihozOJ7JoxtC
-	mT0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=MvwR9n+WYpV9GDvf+49Espe7JuT43pTYu6Vy7i8EEG8=;
-	b=D3op8DGEmxp3HNiUAXR8z3YpQci4G32Wud7DeUA2AkIvSTQJwFP2XtJdK6f8L/AAG8
-	2Q0mVtvCFa5jOEumo3LxIo9HYniCIYpQkERPTJ+gOvUDkXnU+DfZwbC0R9dx3YgjC1BL
-	FfZJwye6IdLFjA/C7JTn8/bBZO+nZkT7C1A8fFGEc9LXhyHy70OQxFDiFgNqUdMksjMH
-	92nyXc69bksXsjgNp9uEko6tPGp11g+mFuSqIK64HSfs2D6lb+sQWkF1lJcUIn1RiRec
-	2t3Rn5OAG/BM/PcMzRYUZXhhiyQlbuq2RLpbe8ER7dLLoezOvo7nZbWpDFaSwEQwoMvD
-	6vMg==
-X-Gm-Message-State: APjAAAWgWSRpDKil8E6/jjKZVY4CuwbhabiL1WLPQaA3BeWkXdFDLciO
-	RQiYuZ7piiFMTv5BKIgLGhVm3RiiH+db1yjUVqJgXA==
-X-Google-Smtp-Source: APXvYqzN1yfjj148Eca6Ce5Fjg6xvBJEHNEa/4Oanv8r5TeHfNKBhbtCuUwOcpQ2WISmV4tMobDggtDfQI1s+QUSx+w=
-X-Received: by 2002:ac5:ce9d:: with SMTP id 29mr5256689vke.72.1567591491926;
-	Wed, 04 Sep 2019 03:04:51 -0700 (PDT)
+	Wed,  4 Sep 2019 10:07:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x84A76K2007584
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 4 Sep 2019 03:07:06 -0700 (PDT)
+Received: from [128.224.162.188] (128.224.162.188) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Wed, 4 Sep 2019 03:07:06 -0700
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <20190904014322.96351-1-hongzhi.song@windriver.com>
+	<CADkTA4NipOoQ6qWThig_-hRS5W-QwXNv4Vc9=VSv2yA9sCWxmQ@mail.gmail.com>
+From: "Hongzhi, Song" <hongzhi.song@windriver.com>
+Message-ID: <b92e2a4e-1f37-1c89-4316-80c91ddc1b0f@windriver.com>
+Date: Wed, 4 Sep 2019 18:07:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190903163241.87739-1-alex.kanavin@gmail.com>
-	<20190904073239.rlk6spusid6m2zbd@qschulz>
-In-Reply-To: <20190904073239.rlk6spusid6m2zbd@qschulz>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Sep 2019 12:04:40 +0200
-Message-ID: <CANNYZj-uTxW=4pn6mJiwomBT91f3DUZ_+YbM0N5WPsuAyaU-TA@mail.gmail.com>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package.bbclass: allow shell-style wildcards in PRIVATE_LIBS
+In-Reply-To: <CADkTA4NipOoQ6qWThig_-hRS5W-QwXNv4Vc9=VSv2yA9sCWxmQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.188]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-devsrc: copy mmiowb.h and modpost from ${B} of kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,77 +36,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 10:04:51 -0000
-Content-Type: multipart/alternative; boundary="00000000000007812a0591b756f6"
+X-List-Received-Date: Wed, 04 Sep 2019 10:07:07 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---00000000000007812a0591b756f6
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 4 Sep 2019 at 09:32, Quentin Schulz <
-quentin.schulz@streamunlimited.com> wrote:
+On 9/4/19 11:55 AM, Bruce Ashfield wrote:
+> On Tue, Sep 3, 2019 at 9:43 PM Hongzhi.Song <hongzhi.song@windriver.com> wrote:
+>> There are two errors when compile an out of tree kernel module
+>> using sdk:
+>>
+> This is not universally true. Can you expand on what kernel version
+> and architectures you are building ? I'm able to build kernel modules
+> across all the arches I'm currently testing, so I'd like to capture
+> your exact config in the long log. Neither is the autobuilder showing
+> any errors.
 
-> >                      # if library is private (only used by package) then
-> do not build shlib for it
-> > -                    if not private_libs or this_soname not in
-> private_libs:
-> > +                    import fnmatch
-> > +                    if not private_libs or len([i for i in private_libs
-> if fnmatch.fnmatch(this_soname, i)]) == 0:
+Hi Bruce,
+
+
+kernel version: 5.0.19
+
+git clone poky
+
+echo  TOOLCHAIN_HOST_TASK_append = " nativesdk-openssl-dev 
+nativesdk-bison nativesdk-flex"
+          TOOLCHAIN_TARGET_TASK_append = " python-dev kernel-dev 
+kernel-devsrc")
+
+          >> conf/local.conf
+
+Other config is default.
+
+
+bitbake core-image-minimal &&  bitbake core-image-minimal -c populate_sdk
+
+./tmp/deploy/sdk/xxx.sh
+
+cd ${Your SDK path}/sysroots/xxx/usr/src/kernel
+
+make scripts
+
+Then you can build yourself module. And you will meet missing some head 
+files and scripts/mod/modpost.
+
+
+I test qemux86-64 and qemuarm.
+
+Both of above arch miss different head files, which all of them 
+generated in ${B}/arch/${ARCH}/include/generated/asm
+
+(qemux86-64 needs asm/early_ioremap.h and asm/mmiowb.h
+
+qemuarm needs asm/bitsperlong.h)
+
+
 >
-> We only need to know if this_soname is matching one of the patterns, we
-> don't need to check for each and every pattern.
+>> 1. "In file included from ./include/linux/seqlock.h:36:0,
+>>                   from ./include/linux/time.h:6,
+>>                   from ./include/linux/stat.h:19,
+>>                   from ./include/linux/module.h:10,
+>>                   from kernel-module/char.c:1:
+>> ./include/linux/spinlock.h:60:10: fatal error: asm/mmiowb.h: No such
+>> file or directory"
+>>
+>> mmiowb.h is generated to ${B}/arch/${ARCH}/include/generated/asm/.
+>>
+>> And there is only generated/ under ${B}/arch/${ARCH}/include/,
+>> so I copy whole ${B}/arch/${ARCH}/include/ to $kerneldir/build/
+>> in case of other files under generated/ is needed in the future.
+>>
+>> 2. "/bin/sh: scripts/mod/modpost: No such file or directory"
+>>
+>> Copy above files or directory to $kerneldir/build/ fix the errors.
+>>
+>> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+>> ---
+>>   meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+>> index 3900489..feff9f1 100644
+>> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+>> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+>> @@ -80,6 +80,12 @@ do_install() {
+>>
+>>          cp .config $kerneldir/build
+>>
+>> +       if [ -d arch/${ARCH}/include ]; then
+>> +           cp -a --parents arch/${ARCH}/include $kerneldir/build/
+>> +       fi
+> Just copy the files you need, not the entire directory.
+
+
+Just as explained above, exactly speaking I think include/generated is 
+necessary.
+
+ps: only generated/ under include/.
+
+
+
 >
-> Something like:
+>> +
+>> +       cp --parents scripts/mod/modpost $kerneldir/build/
+> We shouldn't be copying binaries or scripts. They are regenerated on target.
 >
-> for pattern in private_libs:
->         if fnmatch.fnmatch(this_soname, pattern)]) == 0:
->                 sonames.add(prov)
->                 break
+> Bruce
+
+
+But scripts/mod/modpost is needed when compile a module by sdk.
+
+Otherwise it will show error info:
+
+"
+
+/bin/sh: scripts/mod/modpost: No such file or directory
+scripts/Makefile.modpost:92: recipe for target '__modpost' failed
+
+"
+
+
+--Hongzhi
+
 >
-> would be possible?
+>> +
+>>          # This scripts copy blow up QA, so for now, we require a more
+>>          # complex 'make scripts' to restore these, versus copying them
+>>          # here. Left as a reference to indicate that we know the scripts must
+>> --
+>> 2.8.1
+>>
 >
 
-Yes, although there should only be very few patterns, and most of the time
-just one: *.so*. Not worth it I'd say. There are other spots in do_package
-which truly slow down things and could use a bit of optimization.
-
-Alex
-
---00000000000007812a0591b756f6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 4 Sep 2019 at 09:32, Quentin Schu=
-lz &lt;<a href=3D"mailto:quentin.schulz@streamunlimited.com">quentin.schulz=
-@streamunlimited.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">&gt;=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # if library is privat=
-e (only used by package) then do not build shlib for it<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- if not private_libs or this_soname not in private_libs:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- import fnmatch<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- if not private_libs or len([i for i in private_libs if fnmatch.fnmatch(thi=
-s_soname, i)]) =3D=3D 0:<br>
-<br>
-We only need to know if this_soname is matching one of the patterns, we<br>
-don&#39;t need to check for each and every pattern.<br>
-<br>
-Something like:<br>
-<br>
-for pattern in private_libs:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if fnmatch.fnmatch(this_soname, pattern)]) =3D=
-=3D 0:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sonames.add(prov)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
-<br>
-would be possible?<br></blockquote><div><br></div>Yes, although there shoul=
-d only be very few patterns, and most of the time just one: *.so*. Not wort=
-h it I&#39;d say. There are other spots in do_package which truly slow down=
- things and could use a bit of optimization.<br></div><div class=3D"gmail_q=
-uote"><br></div><div class=3D"gmail_quote">Alex<br></div></div>
-
---00000000000007812a0591b756f6--
