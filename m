@@ -1,47 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
-	[209.85.217.67])
-	by mail.openembedded.org (Postfix) with ESMTP id F3E167F21A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 22FEA7F214
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2019 18:17:08 +0000 (UTC)
-Received: by mail-vs1-f67.google.com with SMTP id b123so2571958vsb.5
+	Wed,  4 Sep 2019 18:41:59 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id x134so10441472qkb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2019 11:17:10 -0700 (PDT)
+	Wed, 04 Sep 2019 11:42:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=XLRXr+0FipnizdpImKMDZFk1e5P7BRjnHYa+emvXCoE=;
-	b=FrTwIeBrEc2fCKDkagyloTkFAvZVL+tOdFz1xj07yv0Fxq5wVUBjQDKakm4uHTg2Tg
-	bYyK7WtviW3QovS0yZ8aaVUNdEkwsLYlWdOJzSAgA5KWBg3uyfB0NY+Rofyhz0TI52o8
-	6IQVx0+OJEJXIxntThz2h821b6jasA2mcKddRvXufNnaNSCKkb1unzZCTArxVJTIsPK6
-	n8Qr2yPAKYBbV5qDDjdISFgamsuicUb/3IjhdO9NepB9JCwTNL9Bt55lMt5xPXkVoXjy
-	wii63PV1enFawauPtgiOFWumAXTcJ6Rz/0IDg16xV3xhoUJHZk7TPIy9zqZpCYr49RGn
-	wN2w==
+	:cc; bh=qp75G6dkts/IAH9Zq1NgGjSH79yvhyWC4TaoHF6xY/4=;
+	b=DOcUR4GB64pzR3D6TDxGV5b80lq5tACWRYb+Xfo1Frq3kQcXX8AzAxoYyy2CiQn5l1
+	GO4M5dmF/B3QhWcyJjblBALlroNiSkK+ZoVvodezMW6g8AuCxYRM2JD6cZzE0b8e11X3
+	W69V0O7YDjqjQNUcSfMie6BFZjzZXqoELZY4S8CGZW/V7JPj8z4eIecVPMkMzI9LnKr+
+	yksKggoazhq1h4QEUHqVMcXuWbQDJkOKhE0FzHV+mj7lAQEkw8FvzPpSN5SvAwQDcBNl
+	jUM4RKEOSInBHaSU9g4pPQWRX/JrHkbZxY98bv1G+/Tosi5Zwb6QY73JZkSb6SB47rWw
+	1Kig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=XLRXr+0FipnizdpImKMDZFk1e5P7BRjnHYa+emvXCoE=;
-	b=b1B3eHgpq463NDh8nwVJKWkUmFHwjdu0ybQ4YDwt4Bd213U6jsecNMPnaOvQ4O0J65
-	2kOUrujVbHfTG70j+6YKtaz/4hhiNF8n6kH2hmOvJTRp/aVPFWfOImwy7kl/05il5zLd
-	fSijPb4m4jffoTvwy84spS7EDk6q8NrKVMcDwMmNxMNVNhmdY97jyq1LSWSHeY16Fq+G
-	onSTqbawSumbmBIry7Hc/R5TzkCrKKzjpK/xr9Cyv5/BuN1MVfIY5Fz6caEb4c/Ac/Mo
-	nI3jx9eq4+z9l3Aop0JSCakmVc6XZd1B30xEX4RTpJQblaOS0zzKpv+BnNZEBWWuT4c8
-	3pDw==
-X-Gm-Message-State: APjAAAXP3yJe0D2fq/XGiTvvtmV7svOyIlNaOCPpLOApb4RKUxJTClGm
-	dJN53/5hv/GwhPP8obl44uKbkgMjge3hsYbLfQc=
-X-Google-Smtp-Source: APXvYqytB+2KnwuOt/L2MjKqSVKKcOkxTGvOE2AyB0JzWh4HEyVAdoh2L8vKOv1icteZLfMrsQfuxjreNR/I+yuVW70=
-X-Received: by 2002:a67:1c87:: with SMTP id c129mr23478526vsc.23.1567621030045;
-	Wed, 04 Sep 2019 11:17:10 -0700 (PDT)
+	bh=qp75G6dkts/IAH9Zq1NgGjSH79yvhyWC4TaoHF6xY/4=;
+	b=MKHVusWORXgUIY+Qf7tQeMN8yEG6FXKaWj6Vs59kYVjjr3XnvnzlWhW6CdP0RFJGHL
+	BxvzEGRzDxbZiG97mNuYpupgwXh+d12t9nkASjEZhLNx+bFJkdsaAtmWRg7JO4IiTsNp
+	9RObRf1cXZPCRatg8lYBNZXDzkrynIZQHNHIAE4wxT9QjMi+Q27fNzN0hr4pKDN47R4F
+	qw6TmtRmu96kbUEB8X0hJe3TF5YNIy4YWTkl68BEXoenCaVFDXItcddbG6+b3FXw+N8R
+	/Zvvk42kWUtGxqFmoEBNyyWi7ApmTNUTVXpFOTt7YiTx8nWHrj+NMz1K2Eu/Y6fiX7Nx
+	WM0Q==
+X-Gm-Message-State: APjAAAU8bR2oKSjjs6Yw67Wv7rSJSQEgclGEcoLPsiKqnVEZcwqh6O4t
+	RRkpx7TQbzPxX1LcuUkJIdVUNG2Eml+pvxPJRUQ=
+X-Google-Smtp-Source: APXvYqyThbHZW+PHmCZvB+D7SS136KGGvdawpL8t3CqPobCqFsgNIdhdcJKya+t4C2xnAjLA+Vr6wXNUsWoeOegst7k=
+X-Received: by 2002:a05:620a:1466:: with SMTP id
+	j6mr21901436qkl.9.1567622520518; 
+	Wed, 04 Sep 2019 11:42:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190904181009.8374-1-raj.khem@gmail.com>
-	<20190904181009.8374-2-raj.khem@gmail.com>
-In-Reply-To: <20190904181009.8374-2-raj.khem@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Sep 2019 20:16:58 +0200
-Message-ID: <CANNYZj9k5pyYnXj5gnrazMV6WBjJvKOQsGr_cD7rY3-Z-k2wMg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CANNYZj-P2egu6X8-kVFKnNk_NHk6Z6Pme8BQZfh=AbCq-NJggw@mail.gmail.com>
+In-Reply-To: <CANNYZj-P2egu6X8-kVFKnNk_NHk6Z6Pme8BQZfh=AbCq-NJggw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 4 Sep 2019 11:41:33 -0700
+Message-ID: <CAMKF1sqz9qj7q-7wLMTmM-szgra2-PM_ym0_rFd8GPWQhD+ORA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] python3native: export PYTHON_LIBRARY and PYTHON_INCLUDE_DIR
+Subject: Re: [PATCH 1/2] python3: Expose PYTHON_BINABI in global config metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +55,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2019 18:17:09 -0000
-Content-Type: multipart/alternative; boundary="000000000000a36c0f0591be3657"
-
---000000000000a36c0f0591be3657
+X-List-Received-Date: Wed, 04 Sep 2019 18:42:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 4 Sep 2019 at 20:10, Khem Raj <raj.khem@gmail.com> wrote:
-
-> +export PYTHON_LIBRARY="${STAGING_LIBDIR}/${PYTHON_BINABI}"
-> +export PYTHON_INCLUDE_DIR="${STAGING_INCDIR}/${PYTHON_BINABI}
+On Wed, Sep 4, 2019 at 11:15 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> On Wed, 4 Sep 2019 at 20:10, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>  # llvm version being used, so always bump it with llvm recipe version bump
+>>  LLVMVERSION ?= "8.0.1"
+>>
+>> +# This should be bumped when python3 recipe's MIN_VER is bumped e.g. 3.7 -> 3.8
+>> +PYTHON_BINABI = "3.7m"
+>> +
+>
+>
+> This is already set in python3-dir.bbclass, so please use the values from there.
 >
 
-You need to explain why this is needed. Where are these variables used?
+hmm thanks somehow I missed it. I guess defining then in terms of the
+values from python3-dir and python-dir should be good.
 
-Also, python3-dir.bbclass already has all the needed settings, so please
-use it.
+> Alex
 
-Alex
-
---000000000000a36c0f0591be3657
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 4 Sep 2019 at 20:10, Khem Raj &lt=
-;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br=
-></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">+export PYTHON_LIBRARY=3D&quot;${STAGING_LIBDIR}/${PYTHON_BINABI=
-}&quot;<br>
-+export PYTHON_INCLUDE_DIR=3D&quot;${STAGING_INCDIR}/${PYTHON_BINABI}<br></=
-blockquote><div><br></div><div>You need to explain why this is needed. Wher=
-e are these variables used?</div><div><br></div><div> Also, python3-dir.bbc=
-lass already has all the needed settings, so please use it.</div><div><br><=
-/div><div>Alex<br></div></div></div>
-
---000000000000a36c0f0591be3657--
