@@ -1,46 +1,49 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
-	[209.85.208.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 926097F2D9
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CC717F2DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 14:43:03 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id x18so2810714ljh.1
+	Thu,  5 Sep 2019 15:19:14 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id s12so1964445pfe.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2019 07:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=RUoc/DBCNDNi17GmrdvvhvWNd1H1hLCH1HIoLAzqTvI=;
-	b=v9zjetsZSFkMFc8saQ70dkJgZqiic0gSYB4QiyhuWWg/ZyOMpT71lGqnhClV5AoOpS
-	zt3y+e9/6uBWR6GYtmG/ZVMPxeoJJVEI7lYjI3tvQC7R37MeKpmp4s6hrLdVznljPXRz
-	b15zBtA0oQmIXGEyImkUR5nKz40G7zYoy3ZqfFlDtYr6mKqrZawsRdbodgL5cKvTewQs
-	KMWaghkJKeUhy+H78bOX90w7JXyB/WUWHlsc/1pu3P9BuYiMo3RyKqJvnfJsHCXi3YH7
-	M7P/U9251ZaY7uGd7+pJ/ylEskY9GbXKxXy3BeOQj/5+r+MoPGOBLm6e2TM8aJ9ZaflK
-	iAvg==
+	Thu, 05 Sep 2019 08:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Mz3oPDLTuzvFOB3kmyx8whAnhguc8jGalugXkHoNf/s=;
+	b=vRCNmpa48sx4tW1Ew2Yo4IdlTfQk+sdDHJ1vDJp8N9MrmOWWGYgBmBBnBglHnCH3Vv
+	VmeBggYwKWwauzCKzVbYdwTWQWP7xkXqgATUBPmD6CfDDHnx93cH2+gxM0SKHdQVRw2D
+	BJFOqxFB/M2opxBlZLArpzx36l0f6UcmX5jPdXqaqW2PwA+UiVOzikTeASfdhCiLmmTf
+	t9HBvTIIvAWyN2U04xpvSBWT0vGblB+1iq/bfvqXmrVgc1PxNqjT4c3AApKLyw4n2cfL
+	UKIBEvuMB4fp28vumw4Jr2pL0+GKHBUAmgDqUhXt7zU7g844+pmA8Nk9uckiAKBLKKQb
+	fzLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=RUoc/DBCNDNi17GmrdvvhvWNd1H1hLCH1HIoLAzqTvI=;
-	b=dYM9PTPnLeFTmTbi5IOR5uNl9OTI3X/rxi+DRWn0hcYefPDwkEO3D0zrZrRGXcG0nL
-	ecuEE7OodOntZpotgo2xmttUGHSlxgyrL7zLopiTHlqaxTnHeCIoEZkPxMz05fvPLOi2
-	AAZW97Q4kLNvmBEWge4fHC1N1yT8WgKh4ohUNXJ6Fg8juuZbAEHR9mpCoFmHjWxSQQRR
-	98b8NnQGFB9z6T/cz6rqJ+EBjusrKpowY+Fo0IvYzeQUCes94X4mFN6NQYiGDbsWL4B2
-	UNwc2Kf/4KlABgzdiUbVPJG4n1OJBYY1NXtF6USPRF54xOh73CjvuHDup2OW96zMNiVl
-	8w8A==
-X-Gm-Message-State: APjAAAXbyGu5Q8S+n3VjDYVcSnCbvR5DwFMnUzHOzTrBsWbNQKnuBsgR
-	ZCrdLRFIhVtvkVvIyLiwi6PAXVjjiCx+3CfixYWgtgdj/GQ=
-X-Google-Smtp-Source: APXvYqzF3Otx2nqXhPfGWlbmvOyPBdzy1GZrful0UwUWP6kLnqWbxgVlZmgR0PB8jwlqWZA7kKZXHUpz/HaPkRpickI=
-X-Received: by 2002:a2e:91c6:: with SMTP id u6mr2395079ljg.112.1567694583401; 
-	Thu, 05 Sep 2019 07:43:03 -0700 (PDT)
-MIME-Version: 1.0
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 5 Sep 2019 16:42:52 +0200
-Message-ID: <CAP71WjxBhq4=rvMN5DWAamV5sE-nCenqFxLdPRYNA3st2Y0Z4Q@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: make-mod-scripts question
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Mz3oPDLTuzvFOB3kmyx8whAnhguc8jGalugXkHoNf/s=;
+	b=goN5m5E0c1VLUR9jn9QWnWtnTwwtvuZmJjF9VAHjGS94bfHDHBy1k/WHq0VgBsru1P
+	Chqlyoie12gW+c/N6I/SmjLzgfwcVvrYFdtM4E7ejW+CZ1n+Tbqcf+t6O85ex5lOhLbT
+	W6s2yJMA4ATanArrU71ysC3B+71/0PGQho1rp1xBIYzQNXbxB1/EVWSMigAIGkC4Y7sW
+	E8dPjl4VC05Y7ygvunI/zm47jqY2tH7eKu2uuE427wumKFnGbFeAm3ehT8DErN+yEIeQ
+	uTPSzgr2328RYBCiNhbYE8gwMXOeLvtH7eHz2m8aqOCUms8JWMndf3A7xU3B7Yn5+l1k
+	SWJQ==
+X-Gm-Message-State: APjAAAWlKp3tt6Mw2n5Ir2Sc5IqvwkrOFzgYVN7zCaplkcUvEUZHRDPn
+	bNSuWPGa0BweoG3vRERQsyGeTRMt
+X-Google-Smtp-Source: APXvYqxrsqiPHQwDXbvC83B2R5dC7Nh2jpw+RvWB1o6l8S72rsrl6FjVie5IwzPg19rMUYrEc7ay9Q==
+X-Received: by 2002:a62:ed04:: with SMTP id u4mr4451164pfh.220.1567696755096; 
+	Thu, 05 Sep 2019 08:19:15 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:811a:fbd5:24bc:2160])
+	by smtp.gmail.com with ESMTPSA id
+	o129sm3125712pfg.1.2019.09.05.08.19.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 05 Sep 2019 08:19:13 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Sep 2019 08:19:09 -0700
+Message-Id: <1567696751-26950-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [thud][PATCH 1/3] bind: update to latest LTS 9.11.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,63 +56,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 14:43:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 Sep 2019 15:19:14 -0000
 
-hi,
+From: Armin Kuster <akuster@mvista.com>
 
-I was looking into a build issue today, related to signing an external
-kernel module. My build failed when calling the kernel utility
-sign-file, the error was that libcrypto.so was not found.
+Source: bind.org
+MR: 99750
+Type: Security Fix
+Disposition: Backport from bind.org
+ChangeID: bca5c436229f1b8c7e8eb3e45fc6188ffdb5e224
+Description:
 
-Looking a bit more into that, I realized that make-mod-scripts will
-built some kernel utilities, including scripts/sign-file which link
-against libcrypto, however we 'copy' sign-file into
-STAGING_KERNEL_BUILDDIR.
+includes:
+CVE-2018-5738
 
-Later on, when my own recipe uses sign-file from
-STAGING_KERNEL_BUILDDIR, it still requires the libcrypto.so file which
-is in the make-mod-scripts per recipe sysroot. So basically my recipe
-needs a binary from STAGING_KERNEL_BUILDDIR and a shared library from
-another recipe sysroot. That looks wrong to me.
+drop patch for CVE-2018-5740 now included in update
 
-My problem is fixed by adding a dependency on make-mod-scripts, it
-still feels wrong to reply on another recipe sysroot , doesn't it go
-against the whole idea of per recipe sysroot?
+see: https://ftp.isc.org/isc/bind9/9.11.5/RELEASE-NOTES-bind-9.11.5.html
 
-Here is the sign-file in the kernel shared workdir:
+Add RECIPE_NO_UPDATE_REASON for lts
 
-$ find tmp-glibc -name sign-file
-tmp-glibc/work-shared/open-q-212a-homehub/kernel-build-artifacts/scripts/si=
-gn-file
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[Also includes CVE-2018-5740]
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../bind/bind/CVE-2018-5740.patch                  | 72 ----------------------
+ .../bind/{bind_9.11.4.bb => bind_9.11.5.bb}        |  6 +-
+ 2 files changed, 3 insertions(+), 75 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch
+ rename meta/recipes-connectivity/bind/{bind_9.11.4.bb => bind_9.11.5.bb} (96%)
 
-And here we can see the dependency against make-mod-scripts sysroot:
-$ ldd tmp-glibc/work-shared/open-q-212a-homehub/kernel-build-artifacts/scri=
-pts/sign-file
-        linux-vdso.so.1 =3D>  (0x00007fff8299d000)
-        libcrypto.so.1.1 =3D>
-/local/mnt2/workspace2/ndec/le.um.3.4.1/build-wlan/tmp-glibc/work/open_q_21=
-2a_homehub-oe-linux-gnueabi/make-mod-scripts/1.0-r0/recipe-sysroot-native/u=
-sr/lib/libcrypto.so.1.1
-(0x00007fcb2247d000)
-        libc.so.6 =3D> /lib/x86_64-linux-gnu/libc.so.6 (0x00007fcb220b3000)
-        libdl.so.2 =3D> /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fcb21eaf00=
-0)
-        libpthread.so.0 =3D> /lib/x86_64-linux-gnu/libpthread.so.0
-(0x00007fcb21c92000)
-        /lib64/ld-linux-x86-64.so.2 (0x00007fcb2293c000)
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch b/meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch
+deleted file mode 100644
+index 7a2ba7e..0000000
+--- a/meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch
++++ /dev/null
+@@ -1,72 +0,0 @@
+-Upstream-Status: Backport [https://ftp.isc.org/isc/bind9/9.11.4-P1/patches/CVE-2018-5740]
+-
+-CVE: CVE-2018-5740
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+-
+-diff --git a/CHANGES b/CHANGES
+-index 750b600..3d8d655 100644
+---- a/CHANGES
+-+++ b/CHANGES
+-@@ -1,3 +1,9 @@
+-+	--- 9.11.4-P1 released ---
+-+
+-+4997.	[security]	named could crash during recursive processing
+-+			of DNAME records when "deny-answer-aliases" was
+-+			in use. (CVE-2018-5740) [GL #387]
+-+
+- 	--- 9.11.4 released ---
+- 
+- 	--- 9.11.4rc2 released ---
+-diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
+-index 8f674a2..41d1385 100644
+---- a/lib/dns/resolver.c
+-+++ b/lib/dns/resolver.c
+-@@ -6318,6 +6318,7 @@ is_answertarget_allowed(fetchctx_t *fctx, dns_name_t *qname, dns_name_t *rname,
+- 	unsigned int nlabels;
+- 	dns_fixedname_t fixed;
+- 	dns_name_t prefix;
+-+	int order;
+- 
+- 	REQUIRE(rdataset != NULL);
+- 	REQUIRE(rdataset->type == dns_rdatatype_cname ||
+-@@ -6340,17 +6341,25 @@ is_answertarget_allowed(fetchctx_t *fctx, dns_name_t *qname, dns_name_t *rname,
+- 		tname = &cname.cname;
+- 		break;
+- 	case dns_rdatatype_dname:
+-+		if (dns_name_fullcompare(qname, rname, &order, &nlabels) !=
+-+		    dns_namereln_subdomain)
+-+		{
+-+			return (ISC_TRUE);
+-+		}
+- 		result = dns_rdata_tostruct(&rdata, &dname, NULL);
+- 		RUNTIME_CHECK(result == ISC_R_SUCCESS);
+- 		dns_name_init(&prefix, NULL);
+- 		tname = dns_fixedname_initname(&fixed);
+--		nlabels = dns_name_countlabels(qname) -
+--			  dns_name_countlabels(rname);
+-+		nlabels = dns_name_countlabels(rname);
+- 		dns_name_split(qname, nlabels, &prefix, NULL);
+- 		result = dns_name_concatenate(&prefix, &dname.dname, tname,
+- 					      NULL);
+--		if (result == DNS_R_NAMETOOLONG)
+-+		if (result == DNS_R_NAMETOOLONG) {
+-+			if (chainingp != NULL) {
+-+				*chainingp = ISC_TRUE;
+-+			}
+- 			return (ISC_TRUE);
+-+		}
+- 		RUNTIME_CHECK(result == ISC_R_SUCCESS);
+- 		break;
+- 	default:
+-@@ -7071,7 +7080,9 @@ answer_response(fetchctx_t *fctx) {
+- 		}
+- 		if ((ardataset->type == dns_rdatatype_cname ||
+- 		     ardataset->type == dns_rdatatype_dname) &&
+--		     !is_answertarget_allowed(fctx, qname, aname, ardataset,
+-+		    type != ardataset->type &&
+-+		    type != dns_rdatatype_any &&
+-+		    !is_answertarget_allowed(fctx, qname, aname, ardataset,
+- 					      NULL))
+- 		{
+- 			return (DNS_R_SERVFAIL);
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.11.5.bb
+similarity index 96%
+rename from meta/recipes-connectivity/bind/bind_9.11.4.bb
+rename to meta/recipes-connectivity/bind/bind_9.11.5.bb
+index cb4a21a..21e979f 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.5.bb
+@@ -20,14 +20,14 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+-           file://CVE-2018-5740.patch \
+ "
+ 
+-SRC_URI[md5sum] = "9b4834d78f30cdb796ce437262272a36"
+-SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745279617"
++SRC_URI[md5sum] = "17a0d02102117c9a221e857cf2cc8157"
++SRC_URI[sha256sum] = "a4cae11dad954bdd4eb592178f875bfec09fcc7e29fe0f6b7a4e5b5c6bc61322"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
++RECIPE_NO_UPDATE_REASON = "9.11 is LTS 2021"
+ 
+ inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
+ 
+-- 
+2.7.4
 
-or like that:
-$ strings tmp-glibc/work-shared/open-q-212a-homehub/kernel-build-artifacts/=
-scripts/sign-file
-| grep tmp-glib
-/local/mnt2/workspace2/ndec/le.um.3.4.1/build-wlan/tmp-glibc/work/open_q_21=
-2a_homehub-oe-linux-gnueabi/make-mod-scripts/1.0-r0/recipe-sysroot-native/u=
-sr/lib:/local/mnt2/workspace2/ndec/le.um.3.4.1/build-wlan/tmp-glibc/work/op=
-en_q_212a_homehub-oe-linux-gnueabi/make-mod-scripts/1.0-r0/recipe-sysroot-n=
-ative/lib
-
-cheers
-nico
 
