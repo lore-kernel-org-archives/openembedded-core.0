@@ -1,30 +1,30 @@
 Return-Path: <zangrc.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D4787F214
+	by mail.openembedded.org (Postfix) with ESMTP id 13B967F217
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 06:17:49 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,469,1559491200"; d="scan'208";a="74875492"
+	Thu,  5 Sep 2019 07:12:45 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,469,1559491200"; d="scan'208";a="74877702"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 05 Sep 2019 14:17:39 +0800
+	by heian.cn.fujitsu.com with ESMTP; 05 Sep 2019 15:12:43 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 91C354CE14E6
+	by cn.fujitsu.com (Postfix) with ESMTP id 969314CE14EB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 14:17:37 +0800 (CST)
+	Thu,  5 Sep 2019 15:12:44 +0800 (CST)
 Received: from localhost.local (10.167.225.40) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Thu, 5 Sep 2019 14:17:40 +0800
+	Server (TLS) id 14.3.439.0; Thu, 5 Sep 2019 15:12:47 +0800
 From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Sep 2019 14:17:05 +0800
-Message-ID: <20190905061705.15613-1-zangrc.fnst@cn.fujitsu.com>
+Date: Thu, 5 Sep 2019 15:12:12 +0800
+Message-ID: <20190905071212.17295-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 91C354CE14E6.A9658
+X-yoursite-MailScanner-ID: 969314CE14EB.ABE22
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] dtc:upgrade 1.5.0 -> 1.5.1
+Subject: [PATCH] meson:upgrade 0.51.1 -> 0.51.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +37,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 06:17:50 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 07:12:46 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
--License-Update:
--file://GPL : Updated mailing address.
--file://libfdt/libfdt.h : Removed part of the copyright description of this file.
+-meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+Removed since this is included in 0.51.2.
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-kernel/dtc/dtc_1.5.0.bb | 10 ----------
- meta/recipes-kernel/dtc/dtc_1.5.1.bb | 10 ++++++++++
- 2 files changed, 10 insertions(+), 10 deletions(-)
- delete mode 100644 meta/recipes-kernel/dtc/dtc_1.5.0.bb
- create mode 100644 meta/recipes-kernel/dtc/dtc_1.5.1.bb
+ meta/recipes-devtools/meson/meson.inc              |   5 +-
+ ...-return-statements-that-are-seen-with-Wer.patch | 100 ---------------------
+ .../meson/{meson_0.51.1.bb => meson_0.51.2.bb}     |   0
+ 3 files changed, 2 insertions(+), 103 deletions(-)
+ delete mode 100644 meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+ rename meta/recipes-devtools/meson/{meson_0.51.1.bb => meson_0.51.2.bb} (100%)
 
-diff --git a/meta/recipes-kernel/dtc/dtc_1.5.0.bb b/meta/recipes-kernel/dtc/dtc_1.5.0.bb
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index 14e5f8a..6de109d 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -16,10 +16,9 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://0001-mesonbuild-environment.py-check-environment-for-vari.patch \
+            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
+            file://vala-cross-compile.patch \
+-           file://0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch \
+            "
+-SRC_URI[sha256sum] = "f27b7a60f339ba66fe4b8f81f0d1072e090a08eabbd6aa287683b2c2b9dd2d82"
+-SRC_URI[md5sum] = "48787e391ec5c052799a3dd491f73909"
++SRC_URI[sha256sum] = "23688f0fc90be623d98e80e1defeea92bbb7103bf9336a5f5b9865d36e892d76"
++SRC_URI[md5sum] = "d46c4a8e3cfd27f90e2c6fe4a69e574b"
+ 
+ SRC_URI_append_class-native = " \
+     file://0001-Make-CPU-family-warnings-fatal.patch \
+diff --git a/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
 deleted file mode 100644
-index a9c1317..0000000
---- a/meta/recipes-kernel/dtc/dtc_1.5.0.bb
+index 16c6d90..0000000
+--- a/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
 +++ /dev/null
-@@ -1,10 +0,0 @@
--require dtc.inc
+@@ -1,100 +0,0 @@
+-From 15f44be1c7f71cb0a8c6863917acbbc301c621fe Mon Sep 17 00:00:00 2001
+-From: Martin Liska <mliska@suse.cz>
+-Date: Mon, 15 Jul 2019 10:06:17 +0200
+-Subject: [PATCH] Fix missing return statements that are seen with
+- -Werror=return-type.
 -
--LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
--		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
+-Error example:
 -
--SRCREV = "d37f6b20107e952064e3f77e9d6915a9c09d10a6"
+-Code:
 -
--S = "${WORKDIR}/git"
+-        #include <locale.h>
+-        int main () {
+-            /* If it's not defined as a macro, try to use as a symbol */
+-            #ifndef LC_MESSAGES
+-                LC_MESSAGES;
+-            #endif
+-        }
+-Compiler stdout:
 -
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-kernel/dtc/dtc_1.5.1.bb b/meta/recipes-kernel/dtc/dtc_1.5.1.bb
-new file mode 100644
-index 0000000..9df8a06
---- /dev/null
-+++ b/meta/recipes-kernel/dtc/dtc_1.5.1.bb
-@@ -0,0 +1,10 @@
-+require dtc.inc
-+
-+LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+		    file://libfdt/libfdt.h;beginline=4;endline=7;md5=05bb357cfb75cae7d2b01d2ee8d76407"
-+
-+SRCREV = "60e0db3d65a1218b0d5a29474e769f28a18e3ca6"
-+
-+S = "${WORKDIR}/git"
-+
-+BBCLASSEXTEND = "native nativesdk"
+-Compiler stderr:
+- In file included from /usr/include/locale.h:25,
+-                 from /tmp/tmpep_i4iwg/testfile.c:2:
+-/usr/include/features.h:382:4: warning: #warning _FORTIFY_SOURCE
+-requires compiling with optimization (-O) [-Wcpp]
+-  382 | #  warning _FORTIFY_SOURCE requires compiling with optimization
+-(-O)
+-      |    ^~~~~~~
+-/tmp/tmpep_i4iwg/testfile.c: In function 'main':
+-/tmp/tmpep_i4iwg/testfile.c:8:9: error: control reaches end of non-void
+-function [-Werror=return-type]
+-    8 |         }
+-      |         ^
+-cc1: some warnings being treated as errors
+-
+-Upstream-Status: Backport
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+- mesonbuild/compilers/c.py     | 1 +
+- mesonbuild/compilers/clike.py | 5 +++++
+- 2 files changed, 6 insertions(+)
+-
+-diff --git a/mesonbuild/compilers/c.py b/mesonbuild/compilers/c.py
+-index 3b58a076..9ef92077 100644
+---- a/mesonbuild/compilers/c.py
+-+++ b/mesonbuild/compilers/c.py
+-@@ -70,6 +70,7 @@ class CCompiler(CLikeCompiler, Compiler):
+-             #ifndef {symbol}
+-                 {symbol};
+-             #endif
+-+            return 0;
+-         }}'''
+-         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
+-                              dependencies=dependencies)
+-diff --git a/mesonbuild/compilers/clike.py b/mesonbuild/compilers/clike.py
+-index 83f67591..f9cbeabd 100644
+---- a/mesonbuild/compilers/clike.py
+-+++ b/mesonbuild/compilers/clike.py
+-@@ -375,6 +375,7 @@ class CLikeCompiler:
+-             #ifndef {symbol}
+-                 {symbol};
+-             #endif
+-+            return 0;
+-         }}'''
+-         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
+-                              dependencies=dependencies)
+-@@ -554,6 +555,7 @@ class CLikeCompiler:
+-         {prefix}
+-         int main(int argc, char **argv) {{
+-             {type} something;
+-+            return 0;
+-         }}'''
+-         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
+-                              dependencies=dependencies)[0]:
+-@@ -589,6 +591,7 @@ class CLikeCompiler:
+-         {prefix}
+-         int main(int argc, char **argv) {{
+-             {type} something;
+-+            return 0;
+-         }}'''
+-         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
+-                              dependencies=dependencies)[0]:
+-@@ -667,6 +670,7 @@ class CLikeCompiler:
+-         #include <stdio.h>
+-         int main(int argc, char *argv[]) {{
+-             printf ("{fmt}", {cast} {f}());
+-+            return 0;
+-         }}'''.format(**fargs)
+-         res = self.run(code, env, extra_args=extra_args, dependencies=dependencies)
+-         if not res.compiled:
+-@@ -819,6 +823,7 @@ class CLikeCompiler:
+-                 #error "No definition for __builtin_{func} found in the prefix"
+-             #endif
+-         #endif
+-+        return 0;
+-         }}'''
+-         return self.links(t.format(**fargs), env, extra_args=extra_args,
+-                           dependencies=dependencies)
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/meson/meson_0.51.1.bb b/meta/recipes-devtools/meson/meson_0.51.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/meson_0.51.1.bb
+rename to meta/recipes-devtools/meson/meson_0.51.2.bb
 -- 
 2.7.4
 
