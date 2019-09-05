@@ -1,50 +1,69 @@
-Return-Path: <diego.rondini@kynetics.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F2AD7CF88
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C21187D771
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 09:31:10 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id w13so1870581wru.7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2019 02:31:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kynetics-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=1EYOAIRVwyNpusZmcqbf9DVyzB9mQc3XCFjN/BaUg88=;
-	b=RIJhVQI0qkIgC3SxDzKV3Ba1uz8L0ssV6g+hr7HZSnpI+/f7dMU3bG5F4Q/tQfeRah
-	xBoO57fgu9ki1rxNdEICMsi+vyCJ1uBtciG6sJ1Cl+5Y16K7bTE28mALGzhFfzvZc1e0
-	1ha8+ZSQxtZBVkfzQICiSisjLZZn40K53AyXV7uKuv1hBzOFLVnDZL8JpqACzXjjGUQZ
-	D6oiPaOMiw5R+9agX3bWxYYC4ttEmf+F4BEIrEovn70XMEYi8VVH4TrN1/nEKHjhi12Z
-	ycYI4uGRs/esQN2FI5RRFEptwHQcM7miDj5X5eKrHj9XEg8yTz32Z36CkrlHITXN57Tn
-	u+Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1EYOAIRVwyNpusZmcqbf9DVyzB9mQc3XCFjN/BaUg88=;
-	b=Arra2lFfo6wHLKM7sFlXpAxq0N/qgIjWsujYz0jfd7vgFQhneXQZIgTGtMXaSjZIES
-	hbMOs3VU8By3xr1i3DZjKd0lbjR6l2Dfn6emes5PVGOF5DJiJCg7iOfrLA6uyCuN/L+p
-	89ZMtv0lrz8Zc+/wcE3MwXhJVYL0vxvd82s+ncYTJZ5jhFN0YundcNsXg3ZYmP1pKVjd
-	Syt+pNl1axaIjXwqIDtQZk3cx0oLQp4jU1Va2M0nUncK3bfSzGyP6ISEGD4dUjF9OQpa
-	IY4xPVTd7XFks4duEAVWv66pCmG5xQb39MO2tIokZXXC4P81qSJzUu+S46SZAijASogb
-	lYaA==
-X-Gm-Message-State: APjAAAULBOttCPjRNIKNsLTLPmqz2ziNa93ZrMuRBxQZX3Ddopy1hAf5
-	jAMnNVgdQWkM4R+e5HU2e5GokftkTIuisbvpcx0=
-X-Google-Smtp-Source: APXvYqw6XGYG7vw3uaqIwzH03OBlT73Truy30jYznoLuIdAgHL02VBWA5+kjTSAWswFNIv9wG0qaAg==
-X-Received: by 2002:a5d:49c7:: with SMTP id t7mr997959wrs.229.1567675870636;
-	Thu, 05 Sep 2019 02:31:10 -0700 (PDT)
-Received: from ip-172-31-11-87.eu-west-1.compute.internal
-	(ec2-18-202-30-185.eu-west-1.compute.amazonaws.com. [18.202.30.185])
-	by smtp.gmail.com with ESMTPSA id s9sm1041157wme.36.2019.09.05.02.31.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Sep 2019 02:31:09 -0700 (PDT)
-From: Diego Rondini <diego.rondini@kynetics.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2019 09:31:01 +0000
-Message-Id: <1567675861-18282-1-git-send-email-diego.rondini@kynetics.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Jack Mitchell <jack@embed.me.uk>,
-	Diego Rondini <diego.rondini@kynetics.com>
-Subject: [PATCH] iptables: add systemd helper unit to load/restore rules
+	Thu,  5 Sep 2019 09:35:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 41BDD1849F;
+	Thu,  5 Sep 2019 11:35:24 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id tY1cziEiJMwK; Thu,  5 Sep 2019 11:35:22 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id C66421848E;
+	Thu,  5 Sep 2019 11:35:22 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B13471E079;
+	Thu,  5 Sep 2019 11:35:22 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A54981E074;
+	Thu,  5 Sep 2019 11:35:22 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Thu,  5 Sep 2019 11:35:22 +0200 (CEST)
+Received: from xbox05.axis.com (xbox05.axis.com [10.0.15.175])
+	by seth.se.axis.com (Postfix) with ESMTP id 9931B2AAD;
+	Thu,  5 Sep 2019 11:35:22 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by xbox05.axis.com (10.0.15.175)
+	with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Thu, 5 Sep 2019 11:35:22 +0200
+Received: from xbox06.axis.com (10.0.15.176) by xbox12.axis.com (10.0.5.26)
+	with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Thu, 5 Sep 2019 11:35:22 +0200
+Received: from xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35]) by
+	xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35%12]) with mapi id
+	15.00.1395.000; Thu, 5 Sep 2019 11:35:22 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Adrian Bunk <bunk@stusta.de>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH 6/6] xz: Remove GPLv3 license checksum
+Thread-Index: AQHVVGtGe/REnsSq10qeamEBbv4fgab+HgoAgBEbbYCAAAY5gIALCXKAgAEfSACAAHB9gIAAEa2AgAEE7jA=
+Date: Thu, 5 Sep 2019 09:35:21 +0000
+Message-ID: <d1c08de542c74d4bba64143d50013891@xbox06.axis.com>
+References: <20190816194405.12751-1-wesley.lindauer@gmail.com>
+	<20190816194405.12751-6-wesley.lindauer@gmail.com>
+	<CAMKF1sruqPBcwobNNErkdHKAnP7zT8zda81O2FUP88u=5ZnmVg@mail.gmail.com>
+	<20190827180449.GA29638@localhost>
+	<5fc12556-a817-e312-e1ed-60878a97d78c@windriver.com>
+	<CALBQxSsXuM+926J=A=2R=X7xPSz4htuFk3pKrJ3Zpj1uK0AXDw@mail.gmail.com>
+	<32b3f42b-2ff1-79c8-2777-b9a788190969@windriver.com>
+	<0f8a4a800e70afe1eef8875571dbb50e1dc8f865.camel@linuxfoundation.org>
+	<20190904195351.GA21155@localhost>
+In-Reply-To: <20190904195351.GA21155@localhost>
+Accept-Language: en-US, sv-FI
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] xz: Remove GPLv3 license checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,96 +76,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 09:31:10 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 09:35:24 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jack Mitchell <jack@embed.me.uk>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Adrian Bunk
+> Sent: den 4 september 2019 21:54
+> To: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Patches and discussions about the oe-core layer <openembedded-
+> core@lists.openembedded.org>
+> Subject: Re: [OE-core] [PATCH 6/6] xz: Remove GPLv3 license checksum
+>=20
+> On Wed, Sep 04, 2019 at 07:50:35PM +0100, Richard Purdie wrote:
+> > On Wed, 2019-09-04 at 08:07 -0400, Mark Hatle wrote:
+> > > On 9/3/19 1:59 PM, Wes Lindauer wrote:
+> > > > Mark,
+> > > >
+> > > > In reference to "It typically does NOT include the license of
+> > > > things used to
+> > > > build the software (such as makefiles, autoconf fragments, etc)".
+> > > > Since the only file that is licensed under GPLv3 is a M4 macro,
+> > > > does that mean
+> > > > the current patch is still valid? Shouldn't the GPLv3 license be
+> > > > removed from
+> > > > this recipe?
+> > >
+> > > Unless the M4 file is generating/injecting code into the build(very
+> > > few I've
+> > > seen do this), then I would say it's not under GPLv3 at all.  (And
+> I
+> > > wouldn't
+> > > have included GPLv3 in the LICENSE statement.)
+> > >
+> > > But we need more consensus then just me saying so.
+> > >
+> > > This may be a good question for the OE-TSC to ensure that we have
+> > > clarification
+> > > on this issue, and it's not just me saying I think one way or
+> > > another.
+> >
+> > Not sure it needs to go to the TSC, we just need a patch which
+> clearly
+> > says why the LICENSE statement is incorrect. I don't think the
+> original
+> > patch in the series was clear about why GPLv3 didn't apply but if the
+> > commit message is improved, its probably fine.
+>=20
+> I am getting more and more confused about both the patch and the
+> semantics of LICENSE.
+>=20
+> The status quo in the recipe is:
+>=20
+> <--  snip  ->
+>=20
+> # The source includes bits of PD, GPLv2, GPLv3, LGPLv2.1+, but the only
+> file
+> # which is GPLv3 is an m4 macro which isn't shipped in any of our
+> packages,
+> # and the LGPL bits are under lib/, which appears to be used for
+> libgnu, which
+> # appears to be used for DOS builds. So we're left with GPLv2+ and PD.
+> LICENSE =3D "GPLv2+ & GPL-3.0-with-autoconf-exception & LGPLv2.1+ & PD"
+> LICENSE_${PN} =3D "GPLv2+"
+> LICENSE_${PN}-dev =3D "GPLv2+"
+> LICENSE_${PN}-staticdev =3D "GPLv2+"
+> LICENSE_${PN}-doc =3D "GPLv2+"
+> LICENSE_${PN}-dbg =3D "GPLv2+"
+> LICENSE_${PN}-locale =3D "GPLv2+"
+> LICENSE_liblzma =3D "PD"
+>=20
+> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D97d554a32881fee0aa283d96e47cb2=
+4a \
+>=20
+> file://COPYING.GPLv2;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+>=20
+> file://COPYING.GPLv3;md5=3Dd32239bcb673463ab874e80d47fae504 \
+>=20
+> file://COPYING.LGPLv2.1;md5=3D4fbd65380cdd255951079008b364516c \
+>=20
+> file://lib/getopt.c;endline=3D23;md5=3D2069b0ee710572c03bb3114e4532cd84 \
+>                     "
+>=20
+> <--  snip  -->
+>=20
+> My confusion about the patch is that it removes COPYING.GPLv3 from
+> LIC_FILES_CHKSUM but keeps GPL-3.0-with-autoconf-exception in LICENSE.
+>=20
+> My confusion about the semantics of LICENSE is that I fail to find a
+> clear statement in the documentation that the legal meaning of LICENSE
+> in OE is what Mark claims it would be. Is this just Marks personal
+> opinion on what should be done, or is this undocumented tribal
+> knowledge, or is the exact semantics of LICENSE documented
+> somewhere in a language that lawyers understand?
+>=20
+> My guess for the latter would be "undocumented tribal knowledge",
+> and clarification is required what is actually correct or incorrect
+> here. And I think this is also what Mark was asking for.
+>=20
+> > Cheers,
+> >
+> > Richard
+>=20
+> cu
+> Adrian
 
-There is currently no way to automatically load iptables rules in OE.
-Add a systemd unit file to automatically load rules on network
-connection. This is cribbed from the way ArchLinux handles iptables with
-some minor modifications for OE.
-New rules can be generated directly on the target using:
-Good documentation for writing rules offline is lacking, but the basics
-are explained here:
-https://unix.stackexchange.com/q/400163/49405
+Another thing that complicates this further is related to gathering and=20
+distributing the license information. E.g., if one uses COPY_LIC_DIR =3D "1=
+"=20
+to automatically include all the license information for all packages=20
+installed in the image, this will include everything listed in=20
+LIC_FILES_CHKSUM regardless of which packages were installed. I.e., even=20
+if only liblzma (which is PD) is installed from xz, all of the GPL=20
+license texts will be installed in /usr/share/common-licenses/xz...
 
-Signed-off-by: Jack Mitchell <jack@embed.me.uk>
-Signed-off-by: Diego Rondini <diego.rondini@kynetics.com>
----
-Original patch has been posted 3 years ago, but never got approved. I'm posting
-a rebased patch, including the changes requested in the comments.
-https://patchwork.openembedded.org/patch/131285/
-
- meta/recipes-extended/iptables/iptables/iptables.rules  |  0
- .../recipes-extended/iptables/iptables/iptables.service | 13 +++++++++++++
- meta/recipes-extended/iptables/iptables_1.8.3.bb        | 17 ++++++++++++++++-
- 3 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/iptables/iptables/iptables.rules
- create mode 100644 meta/recipes-extended/iptables/iptables/iptables.service
-
-diff --git a/meta/recipes-extended/iptables/iptables/iptables.rules b/meta/recipes-extended/iptables/iptables/iptables.rules
-new file mode 100644
-index 0000000..e69de29
-diff --git a/meta/recipes-extended/iptables/iptables/iptables.service b/meta/recipes-extended/iptables/iptables/iptables.service
-new file mode 100644
-index 0000000..041316e
---- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/iptables.service
-@@ -0,0 +1,13 @@
-+[Unit]
-+Description=Packet Filtering Framework
-+Before=network-pre.target
-+Wants=network-pre.target
-+
-+[Service]
-+Type=oneshot
-+ExecStart=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
-+ExecReload=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
-+RemainAfterExit=yes
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/iptables/iptables_1.8.3.bb b/meta/recipes-extended/iptables/iptables_1.8.3.bb
-index 6ac3fc6..ff9fcb1 100644
---- a/meta/recipes-extended/iptables/iptables_1.8.3.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.8.3.bb
-@@ -10,12 +10,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
- SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
-+           file://iptables.service \
-+           file://iptables.rules \
- "
- 
- SRC_URI[md5sum] = "29de711d15c040c402cf3038c69ff513"
- SRC_URI[sha256sum] = "a23cac034181206b4545f4e7e730e76e08b5f3dd78771ba9645a6756de9cdd80"
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig systemd
- 
- EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR}"
- 
-@@ -56,6 +58,19 @@ INSANE_SKIP_${PN}-module-xt-ct = "dev-so"
- 
- ALLOW_EMPTY_${PN}-modules = "1"
- 
-+do_install_append() {
-+
-+        install -d ${D}${sysconfdir}/iptables
-+        install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
-+
-+        install -d ${D}${systemd_system_unitdir}
-+        install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_system_unitdir}
-+
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/iptables.service
-+}
-+
-+SYSTEMD_SERVICE_${PN} = "iptables.service"
-+
- RDEPENDS_${PN} = "${PN}-module-xt-standard"
- RRECOMMENDS_${PN} = " \
-     ${PN}-modules \
--- 
-2.7.4
+//Peter
 
 
