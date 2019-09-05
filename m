@@ -1,32 +1,18 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 6736C7F2E4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 17:19:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46PS994RLDz3S;
-	Thu,  5 Sep 2019 19:19:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1567703966;
-	bh=n4J9Ql6ZUibdf9M0byKtsajiWsiEEtUPJkVXVSWFz9M=;
-	h=From:To:Cc:Subject:Date:From;
-	b=U5ckwVUHRtd6aZVYVqV2IXYgzmc/U5hJc+Mq5XnTub/gEghqJGLpvqWVSG4sO56oQ
-	DtJt9ruB1tQS26ivmFFMAWcBeg7mMb2NhWUnPmtxjaYmLFx04gIfR1hcW0S8EK43rM
-	mDSs8XAQExrhBn9Kln08a+bJ+JcPf2NnXPijxo8miUeKhx+BulcGvh6l3DVd4hZiaU
-	U+HfxX+UUJP2dmqXDxiZdlu89QBVzuBxbodL9L6M8rNiaV+vBW/oVFQrhe7D3IC3ZU
-	NE+yIPiyju/OEKMU4yr6+sDJ/r1mvI/656TNle4h3lP8rTEjmVtbrKlRRZkQeM8qJf
-	letfCXTV4JJ8kTx1kfzRQv/U1JyeoWMe2qlKRMB57I6GCv2htpnQaH+eQtNop/8aE8
-	9CrGQ2iQR79q1Wdh+1ha+916YD3KLumVEoLJbfKn00CYrBu5Fvtj5w8aUmaInexDCE
-	WBY9IM9VtCUHPKuIl8zc7zJDGv1iZzHbZtEZhhQ7TyarsgovRrYM7b69e6G0S99B5l
-	H6hp+jiULBJW4GMX/HYene1vsr6Rne8YANLmCIWpnEK6ZDEnd1M/PpF2a2vJQNa+Ac
-	0Eg9yKTYuX59JpgcSlL5Fu7oWh3EwkUEYtqEAW67wOVB73CudxT3K1HwgEiwa5IlQM
-	7Szr6jYr4r/BEBmotUYg/pr0=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2019 20:19:24 +0300
-Message-Id: <20190905171924.26806-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] Remove leftovers from the eglinfo removal
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BE667F050;
+	Thu,  5 Sep 2019 17:31:56 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Thu, 05 Sep 2019 17:31:57 -0000
+Message-ID: <20190905173157.2331.33826@do>
+References: <20190905171924.26806-1-bunk@stusta.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190905171924.26806-1-bunk@stusta.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIGxlZnRvdmVycyBmcm9tIHRoZSBlZ2xpbmZvIHJlbW92YWw=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,42 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 17:19:26 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 17:31:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+== Series Details ==
+
+Series: Remove leftovers from the eglinfo removal
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/19735/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            Remove leftovers from the eglinfo removal
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/conf/distro/include/distro_alias.inc | 2 --
- meta/conf/distro/include/maintainers.inc  | 3 ---
- 2 files changed, 5 deletions(-)
-
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index 7ab3b12cd5..e314642b9c 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -77,8 +77,6 @@ DISTRO_PN_ALIAS_pn-docbook-xml-dtd4-native = "Ubuntu=docbook-xml Fedora=docbook-
- DISTRO_PN_ALIAS_pn-docbook-xsl-stylesheets = "Fedora=docbook-xsl-stylesheets Opensuse=docbook-xsl-stylesheets"
- DISTRO_PN_ALIAS_pn-dropbear = "Debian=dropbear Ubuntu=dropbear"
- DISTRO_PN_ALIAS_pn-dtc = "Fedora=dtc Ubuntu=dtc"
--DISTRO_PN_ALIAS_pn-eglinfo-fb = "OE-Core"
--DISTRO_PN_ALIAS_pn-eglinfo-x11 = "OE-Core"
- DISTRO_PN_ALIAS_pn-encodings = "Ubuntu=xfonts-encodings Mandriva=x11-font-encodings Debian=xfonts-encodings"
- DISTRO_PN_ALIAS_pn-font-alias = "Fedora=xorg-x11-fonts-base Mandriva=x11-font-alias Meego=xorg-x11-fonts"
- DISTRO_PN_ALIAS_pn-font-util = "Meego=xorg-x11-font-utils Fedora=xorg-x11-font-utils Ubuntu=xfonts-utils Mandriva=x11-font-util Debian=xfonts-utils"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 566641a895..5f21f98b2b 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -165,9 +165,6 @@ RECIPE_MAINTAINER_pn-e2fsprogs = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-ed = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-efivar = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-efibootmgr = "Ross Burton <ross.burton@intel.com>"
--RECIPE_MAINTAINER_pn-eglinfo-fb = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-eglinfo-wayland = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-ell = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-enchant = "Anuj Mittal <anuj.mittal@intel.com>"
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
