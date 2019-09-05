@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BE667F050;
-	Thu,  5 Sep 2019 17:31:56 +0000 (UTC)
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 933517F2DC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  5 Sep 2019 17:55:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x85Ht4Qx004211
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 5 Sep 2019 10:55:14 -0700
+Received: from yow-masselst-lx1.localnet (128.224.60.192) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 5 Sep 2019 10:54:53 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 5 Sep 2019 13:54:52 -0400
+Message-ID: <25701351.g1SN1yf5Qq@yow-masselst-lx1>
+Organization: Wind River
+In-Reply-To: <20190822155616.35046-1-mark.asselstine@windriver.com>
+References: <20190822155616.35046-1-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Thu, 05 Sep 2019 17:31:57 -0000
-Message-ID: <20190905173157.2331.33826@do>
-References: <20190905171924.26806-1-bunk@stusta.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190905171924.26806-1-bunk@stusta.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIGxlZnRvdmVycyBmcm9tIHRoZSBlZ2xpbmZvIHJlbW92YWw=?=
+Subject: Re: [PATCH][V2] sdkext: use simpler kernel module for devtool test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +32,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 17:31:56 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Sep 2019 17:55:39 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-== Series Details ==
+On Thursday, August 22, 2019 11:56:16 A.M. EDT Mark Asselstine wrote:
+> The current devtool test for the building of an out-of-tree kernel
+> module uses something which requires several "high order" kconfigs to
+> be set. This results in the test failing, not for expected reasons,
+> but rather because it depends on specific kernel configuration.
+> 
+> You will get error messages such as
+> 
+>   ERROR: "video_ioctl2"
+>  
+> [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-driver/v4l2loopback.k
+> o] undefined!
+>   ERROR: "video_unregister_device"
+>  
+> [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-driver/v4l2loopback.k
+> o] undefined!
+> 
+> Using a simpler hello-world kernel module example will only require
+> that CONFIG_MODULE is enabled, thus avoiding a false positive.
+> 
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+> 
+> **V2**
+>  - also updated the CROPS manual test json file
+>    (I have no idea how to run this so untested but this is a straight
+>     substition)
+>  - continue to use github until we can move the sample to somewhere
+>    like git.yoctoproject.org
 
-Series: Remove leftovers from the eglinfo removal
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19735/
-State : failure
+Richard, are you thinking we need to figure out the git.yoctoproject.org repo 
+before we can move ahead with merging this?
 
-== Summary ==
+MarkA
+
+> 
+>  meta/lib/oeqa/manual/crops.json       | 12 ++++++------
+>  meta/lib/oeqa/sdkext/cases/devtool.py |  4 ++--
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/manual/crops.json
+> b/meta/lib/oeqa/manual/crops.json index 1cf3c8f30c..071d35b661 100644
+> --- a/meta/lib/oeqa/manual/crops.json
+> +++ b/meta/lib/oeqa/manual/crops.json
+> @@ -234,16 +234,16 @@
+>                      "expected_results": "this should output the directory
+> of the devtool script and it should be within the sdk workdir you are
+> working in.   \n\n" },
+>                  "5": {
+> -                    "action": "devtool add v4l2loopback-driver 
+> https://github.com/umlaeute/v4l2loopback.git   \n\n", -                   
+> "expected_results": "This should automatically create the recipe
+> v4l2loopback-driver.bb under
+> <crops-esdk-workdir-workspace>/recipes/v4l2loopback-driver/v4l2loopback-dri
+> ver.bb " +                    "action": "devtool add
+> kernel-module-hello-world 
+> https://github.com/masselstine/kernel-module-hello-world.git   \n\n", +    
+>                "expected_results": "This should automatically create the
+> recipe kernel-module-hello-world.bb under
+> <crops-esdk-workdir-workspace>/recipes/kernel-module-hello-world/kernel-mod
+> ule-hello-world.bb " },
+>                  "6": {
+> -                    "action": "devtool build v4l2loopback-driver   \n\n",
+> +                    "action": "devtool build kernel-module-hello-world  
+> \n\n", "expected_results": "This should compile an image   \n\n" },
+>                  "7": {
+> -                    "action": "devtool reset v4l2loopback-driver   ",
+> -                    "expected_results": "This cleans sysroot of the
+> v4l2loopback-driver recipe, but it leaves the source tree intact. meaning
+> it does not erase." +                    "action": "devtool reset
+> kernel-module-hello-world   ", +                    "expected_results":
+> "This cleans sysroot of the kernel-module-hello-world recipe, but it leaves
+> the source tree intact. meaning it does not erase." }
+>              },
+>              "summary": "sdkext_devtool_kernelmodule"
+> @@ -291,4 +291,4 @@
+>              "summary": "sdkext_recipes_for_nodejs"
+>          }
+>      }
+> -]
+> \ No newline at end of file
+> +]
+> diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py
+> b/meta/lib/oeqa/sdkext/cases/devtool.py index 5a02add764..fad98fbb36 100644
+> --- a/meta/lib/oeqa/sdkext/cases/devtool.py
+> +++ b/meta/lib/oeqa/sdkext/cases/devtool.py
+> @@ -73,8 +73,8 @@ class DevtoolTest(OESDKExtTestCase):
+>              self._run('devtool reset %s' % recipe)
+> 
+>      def test_devtool_kernelmodule(self):
+> -        docfile = 'https://github.com/umlaeute/v4l2loopback.git'
+> -        recipe = 'v4l2loopback-driver'
+> +        docfile =
+> 'https://github.com/masselstine/kernel-module-hello-world.git' +       
+> recipe = 'kernel-module-hello-world'
+>          self._run('devtool add %s %s' % (recipe, docfile) )
+>          try:
+>              self._run('devtool build %s' % recipe)
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
 
-
-
-* Patch            Remove leftovers from the eglinfo removal
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
