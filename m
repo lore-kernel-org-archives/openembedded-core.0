@@ -1,51 +1,23 @@
-Return-Path: <diego.rondini@kynetics.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C0247F168
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 734BB7DD6E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 09:35:42 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id r195so2095979wme.2
+	Thu,  5 Sep 2019 11:19:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x85BJDS1026306
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2019 02:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kynetics-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=b7sOEjYeDhGfr7F7WYpj9xkonDcpbPwk+iCPMy0Yjfo=;
-	b=XzcfAC7G38weP3h3xPF525sTPNnBLJ6fd/B2sGpSrlY4/Auyyi1U+cLdfvIxvvMWif
-	8RfDEG6KmIKGQkYBKdZBHU4VucdeSho+2KixnlDCkCQxv9dOIu8L8Xi8BfAvXdeePXhi
-	F15Ne5ZT0ETZ8GPPBg686A+Ay2dB3VxNfcqujNUi3Zm6fYj6GG7f0T2Q5wPMZprDgw5g
-	0wgnmSF1qzJHjk17IRw/037/BDr0XOF9YZpLJGBvoaCVuiqnOvFuFGTRb+akppXe5xrs
-	oGu15H3rCW/xompQkceEyH4Luib+DBqiDVG6c3I4n1uKByERz0KkQTMvlVJmBNiUGDHB
-	EteQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=b7sOEjYeDhGfr7F7WYpj9xkonDcpbPwk+iCPMy0Yjfo=;
-	b=SmUgUQk4x9pxT4klRuXJRVtShGcjadEteT2qcmc2mkO2GH980XtwK5ZW33xjEGINqP
-	lCpRW+Im5Wwyr2Ge/20DzWjUWeN4F0IkeMu5SFqjsx6DA0rtzpzFLGi1o8w+MYx5n9Y0
-	4mskpB56F869J1ceLfc+JE+AfnZGFb/GriremOIjVnMFRYzFKORJmxDZAiEc9sHAV29E
-	uTgCqyz8MZVt+sGxeyZuQhyljWbvVq6Y2DD9JBIfJKfzEIt09q5tSM1ECZq/hxS05I25
-	IHkuII+KzQIK9nJCH2s7ciXsyk++kUP8s9WfMkpWmV6b1ZIFnqkS7tJknNkbNTgkYTKS
-	8cFg==
-X-Gm-Message-State: APjAAAXWAjnWsjjeJ5HTg6+cpNx8g1JwEYnoUCB0VEQFPk78ij5A7PwS
-	SSqEC8V+azcTUDY5UZNR4S2KEEnu9twz7mH0rtQ=
-X-Google-Smtp-Source: APXvYqzFKsk45tEt2TVt357PSPf0mbZwTH0MON9EMPM3P4IbgC8VbDQaP4ucjH8aDejNHnWisM7A3g==
-X-Received: by 2002:a1c:f607:: with SMTP id w7mr2195510wmc.84.1567676142881;
-	Thu, 05 Sep 2019 02:35:42 -0700 (PDT)
-Received: from ip-172-31-11-87.eu-west-1.compute.internal
-	(ec2-18-202-30-185.eu-west-1.compute.amazonaws.com. [18.202.30.185])
-	by smtp.gmail.com with ESMTPSA id
-	e15sm1331836wrj.74.2019.09.05.02.35.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Sep 2019 02:35:42 -0700 (PDT)
-From: Diego Rondini <diego.rondini@kynetics.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2019 09:35:37 +0000
-Message-Id: <1567676137-18355-1-git-send-email-diego.rondini@kynetics.com>
+	Thu, 5 Sep 2019 04:19:13 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 5 Sep 2019 04:19:12 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 5 Sep 2019 19:19:11 +0800
+Message-ID: <1567682351-87682-1-git-send-email-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.7.4
-Cc: Jack Mitchell <jack@embed.me.uk>,
-	Diego Rondini <diego.rondini@kynetics.com>
-Subject: [PATCH v2] iptables: add systemd helper unit to load/restore rules
+MIME-Version: 1.0
+Subject: [PATCH] mdadm: fix do_package failed when changed local.conf but not cleaned
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,98 +30,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 09:35:42 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 11:19:13 -0000
+Content-Type: text/plain
 
-From: Jack Mitchell <jack@embed.me.uk>
+From: Changqing Li <changqing.li@windriver.com>
 
-There is currently no way to automatically load iptables rules in OE.
-Add a systemd unit file to automatically load rules on network
-connection. This is cribbed from the way ArchLinux handles iptables with
-some minor modifications for OE.
-New rules can be generated directly on the target using:
-# iptables-save -f /etc/iptables/iptables.rules
-Good documentation for writing rules offline is lacking, but the basics
-are explained here:
-https://unix.stackexchange.com/q/400163/49405
+reproduce steps:
+1. add DISTRO_FEATURE_append = 'usrmerge' in local.conf
+2. bitbake mdadm --success
+3. remove DISTRO_FEATURE_append = 'usrmerge' from local.conf
+4. bitbake mdadm  -- failed when do_package
 
-Signed-off-by: Jack Mitchell <jack@embed.me.uk>
-Signed-off-by: Diego Rondini <diego.rondini@kynetics.com>
+it is not proper to change source Makefile during do_compile by sed,
+change to add patch for it.
+
+[YOCTO: #13493]
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
-Changes in v2: fixed missing line about rules generation on target.
+ .../mdadm/files/0001-mdadm-support-usrmerge.patch  | 46 ++++++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.1.bb           |  7 ++--
+ 2 files changed, 50 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
 
-Original patch has been posted 3 years ago, but never got approved. I'm posting
-a rebased patch, including the changes requested in the comments.
-https://patchwork.openembedded.org/patch/131285/
-
- meta/recipes-extended/iptables/iptables/iptables.rules  |  0
- .../recipes-extended/iptables/iptables/iptables.service | 13 +++++++++++++
- meta/recipes-extended/iptables/iptables_1.8.3.bb        | 17 ++++++++++++++++-
- 3 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/iptables/iptables/iptables.rules
- create mode 100644 meta/recipes-extended/iptables/iptables/iptables.service
-
-diff --git a/meta/recipes-extended/iptables/iptables/iptables.rules b/meta/recipes-extended/iptables/iptables/iptables.rules
+diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
 new file mode 100644
-index 0000000..e69de29
-diff --git a/meta/recipes-extended/iptables/iptables/iptables.service b/meta/recipes-extended/iptables/iptables/iptables.service
-new file mode 100644
-index 0000000..041316e
+index 0000000..f1aa119
 --- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/iptables.service
-@@ -0,0 +1,13 @@
-+[Unit]
-+Description=Packet Filtering Framework
-+Before=network-pre.target
-+Wants=network-pre.target
++++ b/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
+@@ -0,0 +1,46 @@
++From 2c7ccea05d7cf9dde48d735faa511d1b06c14878 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 5 Sep 2019 18:03:11 +0800
++Subject: [PATCH] mdadm: support usrmerge
 +
-+[Service]
-+Type=oneshot
-+ExecStart=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
-+ExecReload=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
-+RemainAfterExit=yes
++Upstream-Status: Inappropriate[oe-specific]
 +
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/iptables/iptables_1.8.3.bb b/meta/recipes-extended/iptables/iptables_1.8.3.bb
-index 6ac3fc6..ff9fcb1 100644
---- a/meta/recipes-extended/iptables/iptables_1.8.3.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.8.3.bb
-@@ -10,12 +10,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
- SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
-+           file://iptables.service \
-+           file://iptables.rules \
- "
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ Makefile | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index 4839001..466e960 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -88,7 +88,7 @@ MAP_PATH = $(MAP_DIR)/$(MAP_FILE)
++ MDMON_DIR = $(RUN_DIR)
++ # place for autoreplace cookies
++ FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
++-SYSTEMD_DIR=/lib/systemd/system
+++SYSTEMD_DIR=${SYSTEMD_UNITDIR}/system
++ LIB_DIR=/usr/libexec/mdadm
++ 
++ COROSYNC:=$(shell [ -f $(SYSROOT)/usr/include/corosync/cmap.h ] || echo -DNO_COROSYNC)
++@@ -120,7 +120,7 @@ LDLIBS=-ldl
++ 
++ INSTALL = /usr/bin/install
++ DESTDIR =
++-BINDIR  = /sbin
+++BINDIR  = ${BASE_SBINDIR}
++ MANDIR  = /usr/share/man
++ MAN4DIR = $(MANDIR)/man4
++ MAN5DIR = $(MANDIR)/man5
++@@ -128,7 +128,7 @@ MAN8DIR = $(MANDIR)/man8
++ 
++ UDEVDIR := $(shell $(PKG_CONFIG) --variable=udevdir udev 2>/dev/null)
++ ifndef UDEVDIR
++- UDEVDIR = /lib/udev
+++ UDEVDIR = ${NONARCH_BASE_LIBDIR}/udev
++ endif
++ 
++ ifeq (,$(findstring s,$(MAKEFLAGS)))
++-- 
++2.7.4
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 74c94f6..efeb09d 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -22,6 +22,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+ 	   file://mdadm.init \
+ 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
+            file://include_sysmacros.patch \
++           ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','file://0001-mdadm-support-usrmerge.patch','',d)} \
+            "
+ SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
+ SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+@@ -41,13 +42,13 @@ CFLAGS_append_powerpc64 = ' -D__SANE_USERSPACE_TYPES__'
+ CFLAGS_append_mipsarchn64 = ' -D__SANE_USERSPACE_TYPES__'
+ CFLAGS_append_mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
  
- SRC_URI[md5sum] = "29de711d15c040c402cf3038c69ff513"
- SRC_URI[sha256sum] = "a23cac034181206b4545f4e7e730e76e08b5f3dd78771ba9645a6756de9cdd80"
+-EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
++EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}" BASE_SBINDIR="${base_sbindir}" \
++                NONARCH_BASE_LIBDIR="${nonarch_base_libdir}" \
++                SYSTEMD_UNITDIR="${systemd_unitdir}"'
  
--inherit autotools pkgconfig
-+inherit autotools pkgconfig systemd
+ DEBUG_OPTIMIZATION_append = " -Wno-error"
  
- EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR}"
+ do_compile() {
+-	# Point to right sbindir
+-	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" -e "s;SYSTEMD_DIR=/lib/systemd/system;SYSTEMD_DIR=${systemd_unitdir}/system;" ${S}/Makefile
+ 	oe_runmake SYSROOT="${STAGING_DIR_TARGET}"
+ }
  
-@@ -56,6 +58,19 @@ INSANE_SKIP_${PN}-module-xt-ct = "dev-so"
- 
- ALLOW_EMPTY_${PN}-modules = "1"
- 
-+do_install_append() {
-+
-+        install -d ${D}${sysconfdir}/iptables
-+        install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
-+
-+        install -d ${D}${systemd_system_unitdir}
-+        install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_system_unitdir}
-+
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/iptables.service
-+}
-+
-+SYSTEMD_SERVICE_${PN} = "iptables.service"
-+
- RDEPENDS_${PN} = "${PN}-module-xt-standard"
- RRECOMMENDS_${PN} = " \
-     ${PN}-modules \
 -- 
 2.7.4
 
