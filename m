@@ -1,52 +1,58 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 75EED7F2A2
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FC8B7F2A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 13:44:35 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id q10so1808749pfl.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2019 06:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:in-reply-to:references:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=WGm8AAGOR405jD60Rev3AdK3g5E4NFKfhbbeHzKBqyc=;
-	b=Ngnza7nLQ3tRY9C/yitryrycCiHr7/PweL9+9kTNow1SBZh1Le570dvidrGUOCObmp
-	TL0CbkNLGPYhcKFxN5G+ZzdKxYXuEb/764I03PZBUBJpq+DbUpBRznvVYe1IVkBwgRWm
-	BX3jPQUHcDt/oJp6/K/IN25YslCP1KeC2SV3Jje0wxAEGxFVQB2yDws8Ol5HvTVZfWG2
-	kpPTyiqNuqAKVFcKj99xZk7qVzEUL2ghlP0iYEhHO6l2ImDCinVU3LAXbYOQaGAgwFQx
-	plVHNdAthUyIH+HFQeygm844Y3JguehwMN16vM1BEy/KkHaBqWgc2aJJDSQasndNnf60
-	IOvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
-	:cc:subject:content-transfer-encoding:mime-version;
-	bh=WGm8AAGOR405jD60Rev3AdK3g5E4NFKfhbbeHzKBqyc=;
-	b=rBy7Edr5pW9oO6Kr9NffGwHSGXrMnVKbfK7PFpQrbl3XoME3u7NIGCai0jT39WGEMe
-	BZq6JLAYfZytmnDIuOjDDmuiuE3G7tLOdpNOHzke8NVlKWeJGdFNrBHkLLqWchvQnaKr
-	uJKowOAHt5uLqEMmnE1KhGO5BpnxZysi5Ufsow+aZ/1M3inHCOMKYoNNYay1mcze6yFa
-	UpTdeNI84tCSXQWn49ztTz322MjBdcRjpvFXMn62uL8VO4jmvjHiyvArHts+8pl2Pytm
-	Hap8JBDtjpZ1ygBUD1hwCdk7CRzkZhDKchfe7w61jKGT66gjViY3pdywhYu8cfAfBAPh
-	DOhg==
-X-Gm-Message-State: APjAAAXz0e3cBvRj3WnrXVd0nljH8fzHyZq5hu7/y+iYzjJzhfeK4dnc
-	fvtUjEQFKjVdDt6uEpHBp4CB43EjXzK6Hw==
-X-Google-Smtp-Source: APXvYqwS5hKkSXf//Ol63Q8sTBYW6EeniiPAcfZyBawp7pyF4qEeUd/5iTjbvEMAfrknxOPRTdKI2w==
-X-Received: by 2002:a62:ee0a:: with SMTP id e10mr3946852pfi.197.1567691076063; 
-	Thu, 05 Sep 2019 06:44:36 -0700 (PDT)
-Received: from [127.0.1.1] ([101.184.76.229])
-	by smtp.gmail.com with UTF8SMTPSA id
-	2sm6385628pfa.43.2019.09.05.06.44.34
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Sep 2019 06:44:35 -0700 (PDT)
-Date: Thu, 05 Sep 2019 13:44:15 +0000
-Message-Id: <20190905134415.26785-3-nathan@nathanrossi.com>
-In-Reply-To: <20190905134415.26785-1-nathan@nathanrossi.com>
-References: <20190905134415.26785-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
+	Thu,  5 Sep 2019 13:53:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 0831718487;
+	Thu,  5 Sep 2019 15:53:53 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id MPskD4ybXStR; Thu,  5 Sep 2019 15:53:48 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 92E2518508;
+	Thu,  5 Sep 2019 15:53:48 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3C7C61E0DD;
+	Thu,  5 Sep 2019 15:53:48 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 309E91E0DF;
+	Thu,  5 Sep 2019 15:53:48 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Thu,  5 Sep 2019 15:53:48 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id 24DBA2858;
+	Thu,  5 Sep 2019 15:53:48 +0200 (CEST)
+Received: from xbox06.axis.com (10.0.15.176) by XBOX02.axis.com (10.0.5.16)
+	with Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 5 Sep 2019 15:53:47 +0200
+Received: from xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35]) by
+	xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35%12]) with mapi id
+	15.00.1395.000; Thu, 5 Sep 2019 15:53:47 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "changqing.li@windriver.com" <changqing.li@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] mdadm: fix do_package failed when changed
+	local.conf but not cleaned
+Thread-Index: AQHVY9vTsXtoEVNc90y9dMMTzrKRgacdGj+Q
+Date: Thu, 5 Sep 2019 13:53:47 +0000
+Message-ID: <7e606b1fc76248459bdcc7b3d365ebcc@xbox06.axis.com>
+References: <1567682351-87682-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1567682351-87682-1-git-send-email-changqing.li@windriver.com>
+Accept-Language: en-US, sv-FI
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH 3/3] oe-selftest: Implement console 'keepalive' output
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] mdadm: fix do_package failed when changed	local.conf but not cleaned
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,91 +65,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 13:44:35 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 05 Sep 2019 13:53:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Similar to bitbake, implement a 'keepalive' output to the console to
-ensure CI systems do not kill the process. The default timeout for
-bitbake is 5000s.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of
+> changqing.li@windriver.com
+> Sent: den 5 september 2019 13:19
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] mdadm: fix do_package failed when changed
+> local.conf but not cleaned
+>=20
+> From: Changqing Li <changqing.li@windriver.com>
+>=20
+> reproduce steps:
+> 1. add DISTRO_FEATURE_append =3D 'usrmerge' in local.conf
+> 2. bitbake mdadm --success
+> 3. remove DISTRO_FEATURE_append =3D 'usrmerge' from local.conf
+> 4. bitbake mdadm  -- failed when do_package
+>=20
+> it is not proper to change source Makefile during do_compile by sed,
+> change to add patch for it.
+>=20
+> [YOCTO: #13493]
+>=20
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  .../mdadm/files/0001-mdadm-support-usrmerge.patch  | 46
+> ++++++++++++++++++++++
+>  meta/recipes-extended/mdadm/mdadm_4.1.bb           |  7 ++--
+>  2 files changed, 50 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-
+> support-usrmerge.patch
+>=20
+> diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-support-
+> usrmerge.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-support-
+> usrmerge.patch
+> new file mode 100644
+> index 0000000..f1aa119
+> --- /dev/null
+> +++ b/meta/recipes-extended/mdadm/files/0001-mdadm-support-
+> usrmerge.patch
+> @@ -0,0 +1,46 @@
+> +From 2c7ccea05d7cf9dde48d735faa511d1b06c14878 Mon Sep 17 00:00:00 2001
+> +From: Changqing Li <changqing.li@windriver.com>
+> +Date: Thu, 5 Sep 2019 18:03:11 +0800
+> +Subject: [PATCH] mdadm: support usrmerge
+> +
+> +Upstream-Status: Inappropriate[oe-specific]
+> +
+> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> +---
+> + Makefile | 6 +++---
+> + 1 file changed, 3 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index 4839001..466e960 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+> +@@ -88,7 +88,7 @@ MAP_PATH =3D $(MAP_DIR)/$(MAP_FILE)
+> + MDMON_DIR =3D $(RUN_DIR)
+> + # place for autoreplace cookies
+> + FAILED_SLOTS_DIR =3D $(RUN_DIR)/failed-slots
+> +-SYSTEMD_DIR=3D/lib/systemd/system
+> ++SYSTEMD_DIR=3D${SYSTEMD_UNITDIR}/system
+> + LIB_DIR=3D/usr/libexec/mdadm
+> +
+> + COROSYNC:=3D$(shell [ -f $(SYSROOT)/usr/include/corosync/cmap.h ] ||
+> echo -DNO_COROSYNC)
+> +@@ -120,7 +120,7 @@ LDLIBS=3D-ldl
+> +
+> + INSTALL =3D /usr/bin/install
+> + DESTDIR =3D
+> +-BINDIR  =3D /sbin
+> ++BINDIR  =3D ${BASE_SBINDIR}
+> + MANDIR  =3D /usr/share/man
+> + MAN4DIR =3D $(MANDIR)/man4
+> + MAN5DIR =3D $(MANDIR)/man5
+> +@@ -128,7 +128,7 @@ MAN8DIR =3D $(MANDIR)/man8
+> +
+> + UDEVDIR :=3D $(shell $(PKG_CONFIG) --variable=3Dudevdir udev 2>/dev/nul=
+l)
+> + ifndef UDEVDIR
+> +- UDEVDIR =3D /lib/udev
+> ++ UDEVDIR =3D ${NONARCH_BASE_LIBDIR}/udev
+> + endif
+> +
+> + ifeq (,$(findstring s,$(MAKEFLAGS)))
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-
+> extended/mdadm/mdadm_4.1.bb
+> index 74c94f6..efeb09d 100644
+> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
+> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+> @@ -22,6 +22,7 @@ SRC_URI =3D
+> "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+>  	   file://mdadm.init \
+>  	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.pat=
+ch \
+>             file://include_sysmacros.patch \
+> +           ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','file://000=
+1-mdadm-support-usrmerge.patch','',d)} \
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
- scripts/lib/scriptutils.py | 43 +++++++++++++++++++++++++++++++++++++++++--
- scripts/oe-selftest        |  2 +-
- 2 files changed, 42 insertions(+), 3 deletions(-)
+Since the patch will work regardless of whether usrmerge is enabled=20
+or not, I think it is better to always apply it. The same goes for=20
+the corresponding path for bootchart2.
 
-diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-index e7e7021c24..c573dc7f67 100644
---- a/scripts/lib/scriptutils.py
-+++ b/scripts/lib/scriptutils.py
-@@ -16,12 +16,51 @@ import string
- import subprocess
- import sys
- import tempfile
-+import threading
- import importlib
- from importlib import machinery
- 
--def logger_create(name, stream=None):
-+class KeepAliveStreamHandler(logging.StreamHandler):
-+    def __init__(self, keepalive=True, **kwargs):
-+        super().__init__(**kwargs)
-+        if keepalive is True:
-+            keepalive = 5000 # default timeout
-+        self._timeout = threading.Condition()
-+        self._stop = False
-+
-+        # background thread waits on condition, if the condition does not
-+        # happen emit a keep alive message
-+        def thread():
-+            while not self._stop:
-+                with self._timeout:
-+                    if not self._timeout.wait(keepalive):
-+                        self.emit(logging.LogRecord("keepalive", logging.INFO,
-+                            None, None, "Keepalive message", None, None))
-+
-+        self._thread = threading.Thread(target = thread, daemon = True)
-+        self._thread.start()
-+
-+    def close(self):
-+        # mark the thread to stop and notify it
-+        self._stop = True
-+        with self._timeout:
-+            self._timeout.notify()
-+        # wait for it to join
-+        self._thread.join()
-+        super().close()
-+
-+    def emit(self, record):
-+        super().emit(record)
-+        # trigger timer reset
-+        with self._timeout:
-+            self._timeout.notify()
-+
-+def logger_create(name, stream=None, keepalive=None):
-     logger = logging.getLogger(name)
--    loggerhandler = logging.StreamHandler(stream=stream)
-+    if keepalive is not None:
-+        loggerhandler = KeepAliveStreamHandler(stream=stream, keepalive=keepalive)
-+    else:
-+        loggerhandler = logging.StreamHandler(stream=stream)
-     loggerhandler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
-     logger.addHandler(loggerhandler)
-     logger.setLevel(logging.INFO)
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 57662b2f75..18ac0f5869 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -33,7 +33,7 @@ scriptpath.add_bitbake_lib_path()
- from oeqa.utils import load_test_components
- from oeqa.core.exception import OEQAPreRun
- 
--logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout)
-+logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout, keepalive=True)
- 
- def main():
-     description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
----
-2.23.0.rc1
+>             "
+>  SRC_URI[md5sum] =3D "51bf3651bd73a06c413a2f964f299598"
+>  SRC_URI[sha256sum] =3D "ab7688842908d3583a704d491956f31324c3a5fc9f6a0465=
+3cb75d19f1934f4a"
+> @@ -41,13 +42,13 @@ CFLAGS_append_powerpc64 =3D ' -D__SANE_USERSPACE_TYPE=
+S__'
+>  CFLAGS_append_mipsarchn64 =3D ' -D__SANE_USERSPACE_TYPES__'
+>  CFLAGS_append_mipsarchn32 =3D ' -D__SANE_USERSPACE_TYPES__'
+>=20
+> -EXTRA_OEMAKE =3D 'CHECK_RUN_DIR=3D0 CXFLAGS=3D"${CFLAGS}"'
+> +EXTRA_OEMAKE =3D 'CHECK_RUN_DIR=3D0 CXFLAGS=3D"${CFLAGS}" BASE_SBINDIR=
+=3D"${base_sbindir}" \
+> +                NONARCH_BASE_LIBDIR=3D"${nonarch_base_libdir}" \
+> +                SYSTEMD_UNITDIR=3D"${systemd_unitdir}"'
+>=20
+>  DEBUG_OPTIMIZATION_append =3D " -Wno-error"
+>=20
+>  do_compile() {
+> -	# Point to right sbindir
+> -	sed -i -e "s;BINDIR  =3D /sbin;BINDIR =3D $base_sbindir;" -e "s;UDEVDIR=
+ =3D /lib;UDEVDIR =3D $nonarch_base_libdir;" -e "s;SYSTEMD_DIR=3D/lib/syste=
+md/system;SYSTEMD_DIR=3D${systemd_unitdir}/system;" ${S}/Makefile
+>  	oe_runmake SYSROOT=3D"${STAGING_DIR_TARGET}"
+>  }
+>=20
+> --
+> 2.7.4
+
+//Peter
+
 
