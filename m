@@ -1,49 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CC717F2DC
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+	[209.85.210.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CFB57F2E2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 15:19:14 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id s12so1964445pfe.6
+	Thu,  5 Sep 2019 15:19:15 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id q21so1947121pfn.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2019 08:19:15 -0700 (PDT)
+	Thu, 05 Sep 2019 08:19:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Mz3oPDLTuzvFOB3kmyx8whAnhguc8jGalugXkHoNf/s=;
-	b=vRCNmpa48sx4tW1Ew2Yo4IdlTfQk+sdDHJ1vDJp8N9MrmOWWGYgBmBBnBglHnCH3Vv
-	VmeBggYwKWwauzCKzVbYdwTWQWP7xkXqgATUBPmD6CfDDHnx93cH2+gxM0SKHdQVRw2D
-	BJFOqxFB/M2opxBlZLArpzx36l0f6UcmX5jPdXqaqW2PwA+UiVOzikTeASfdhCiLmmTf
-	t9HBvTIIvAWyN2U04xpvSBWT0vGblB+1iq/bfvqXmrVgc1PxNqjT4c3AApKLyw4n2cfL
-	UKIBEvuMB4fp28vumw4Jr2pL0+GKHBUAmgDqUhXt7zU7g844+pmA8Nk9uckiAKBLKKQb
-	fzLA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=KIypmHm8Z54QEM2fpfii5FzVMtjCWIOvJGaoicL6sH4=;
+	b=QM5PMz/YFS+OmE7sjCy0gQP8ni1akEV56m2/jCGVmcWLTrwY+pDY4yOBHVw/GNF3Tk
+	E1VolbwJJk1mJ7DvfDsuM4/vnn4dQumeAAkJRJKm1DJOnaIsmln0XGN7sOgefGdkLV7j
+	MId3ewdT59SXYKvOiGMwVWgtQPgNK4g7ApRX1D2xnCAIcAwagvPUABHGksaDI4qabfhs
+	J2sG4EM2d17GM/iwGp0WW1/EJCMKi83JyeKeYaTtUSdwsANeoRcMOf+oL0MVdlo271Wd
+	M7a4dpsFOuHRhVuYxA/KEBl1HI0vpW9LryVC4YRX38aSZHjHri1Sz1IAYgsX0CbZsMOA
+	yoeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Mz3oPDLTuzvFOB3kmyx8whAnhguc8jGalugXkHoNf/s=;
-	b=goN5m5E0c1VLUR9jn9QWnWtnTwwtvuZmJjF9VAHjGS94bfHDHBy1k/WHq0VgBsru1P
-	Chqlyoie12gW+c/N6I/SmjLzgfwcVvrYFdtM4E7ejW+CZ1n+Tbqcf+t6O85ex5lOhLbT
-	W6s2yJMA4ATanArrU71ysC3B+71/0PGQho1rp1xBIYzQNXbxB1/EVWSMigAIGkC4Y7sW
-	E8dPjl4VC05Y7ygvunI/zm47jqY2tH7eKu2uuE427wumKFnGbFeAm3ehT8DErN+yEIeQ
-	uTPSzgr2328RYBCiNhbYE8gwMXOeLvtH7eHz2m8aqOCUms8JWMndf3A7xU3B7Yn5+l1k
-	SWJQ==
-X-Gm-Message-State: APjAAAWlKp3tt6Mw2n5Ir2Sc5IqvwkrOFzgYVN7zCaplkcUvEUZHRDPn
-	bNSuWPGa0BweoG3vRERQsyGeTRMt
-X-Google-Smtp-Source: APXvYqxrsqiPHQwDXbvC83B2R5dC7Nh2jpw+RvWB1o6l8S72rsrl6FjVie5IwzPg19rMUYrEc7ay9Q==
-X-Received: by 2002:a62:ed04:: with SMTP id u4mr4451164pfh.220.1567696755096; 
-	Thu, 05 Sep 2019 08:19:15 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=KIypmHm8Z54QEM2fpfii5FzVMtjCWIOvJGaoicL6sH4=;
+	b=nrY06NHSS23uaPBXgmQ6hDkuyxh8sA75q2sfxOd4xl1amOyfdWfOrsKFs1FYA+rm9P
+	vYhACo8v1Pr9heDMtXx8CbHPoX5Bh2Ux/d3/toPB+l/BJqdELECVE6/7nuqPdfy0dcMc
+	BU6C2Dnj9aIaEcznSP0u+gcQ+KcSIJFwfgdxQhLsMqr92dR/CmkJDFQXHeM2c3pTyzoA
+	iZU+sDugH0rjKU8NUtznXgQ9dk/Udu3EBW+w4HTbxkKCrQRuIX97Ba4EOUPQwgsDFNQI
+	UAeVQhGPLgawFZPQdv5VwWhzdDvl+9dbGnA+0iVm3yGWMAmZtYD9A9P7w/6kljylaOIE
+	h3eg==
+X-Gm-Message-State: APjAAAWJIrWChsHVV0NKy2KeEMMYEOWgDlh+vKBQyTyYQ96LYtYAszpO
+	Z7JfU2vUpVoQJ9ZPcm9jwk9qw1dr
+X-Google-Smtp-Source: APXvYqxbds2Up5eQZYu8JHkuhT49b9xtN6CtL/sp20Njsba+7brylo5+qjfWHdjdUUjxxIUU6pe4PQ==
+X-Received: by 2002:a63:2bd2:: with SMTP id r201mr3589802pgr.193.1567696756155;
+	Thu, 05 Sep 2019 08:19:16 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:811a:fbd5:24bc:2160])
 	by smtp.gmail.com with ESMTPSA id
-	o129sm3125712pfg.1.2019.09.05.08.19.12
+	o129sm3125712pfg.1.2019.09.05.08.19.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Sep 2019 08:19:13 -0700 (PDT)
+	Thu, 05 Sep 2019 08:19:15 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2019 08:19:09 -0700
-Message-Id: <1567696751-26950-1-git-send-email-akuster808@gmail.com>
+Date: Thu,  5 Sep 2019 08:19:10 -0700
+Message-Id: <1567696751-26950-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [thud][PATCH 1/3] bind: update to latest LTS 9.11.5
+In-Reply-To: <1567696751-26950-1-git-send-email-akuster808@gmail.com>
+References: <1567696751-26950-1-git-send-email-akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>, Adrian Bunk <bunk@stusta.de>
+Subject: [thud][PATCH 2/3] bind: upgrade 9.11.5 -> 9.11.5-P4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,140 +59,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 15:19:14 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 15:19:15 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+From: Adrian Bunk <bunk@stusta.de>
 
-Source: bind.org
-MR: 99750
+Source: OE.org
+MR: 99751, 99752, 99753
 Type: Security Fix
-Disposition: Backport from bind.org
-ChangeID: bca5c436229f1b8c7e8eb3e45fc6188ffdb5e224
+Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-connectivity/bind?h=warrior&id=5d286da0fbe1a7ded2f84eec990e49d221bdeab4
+ChangeID: ce3719ea11bd03af3baeca51a22115badf84be01
 Description:
 
-includes:
-CVE-2018-5738
+Bugfix-only compared to 9.11.5, mostly CVE fixes.
 
-drop patch for CVE-2018-5740 now included in update
+COPYRIGHT checksum changed due to 2018 -> 2019.
 
-see: https://ftp.isc.org/isc/bind9/9.11.5/RELEASE-NOTES-bind-9.11.5.html
-
-Add RECIPE_NO_UPDATE_REASON for lts
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[Also includes CVE-2018-5740]
+[Included cves:
+CVE-2018-5744
+CVE-2018-5745
+CVE-2019-6465
+]
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../bind/bind/CVE-2018-5740.patch                  | 72 ----------------------
- .../bind/{bind_9.11.4.bb => bind_9.11.5.bb}        |  6 +-
- 2 files changed, 3 insertions(+), 75 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch
- rename meta/recipes-connectivity/bind/{bind_9.11.4.bb => bind_9.11.5.bb} (96%)
+ .../recipes-connectivity/bind/{bind_9.11.5.bb => bind_9.11.5-P4.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.11.5.bb => bind_9.11.5-P4.bb} (96%)
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch b/meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch
-deleted file mode 100644
-index 7a2ba7e..0000000
---- a/meta/recipes-connectivity/bind/bind/CVE-2018-5740.patch
-+++ /dev/null
-@@ -1,72 +0,0 @@
--Upstream-Status: Backport [https://ftp.isc.org/isc/bind9/9.11.4-P1/patches/CVE-2018-5740]
--
--CVE: CVE-2018-5740
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
--
--diff --git a/CHANGES b/CHANGES
--index 750b600..3d8d655 100644
----- a/CHANGES
--+++ b/CHANGES
--@@ -1,3 +1,9 @@
--+	--- 9.11.4-P1 released ---
--+
--+4997.	[security]	named could crash during recursive processing
--+			of DNAME records when "deny-answer-aliases" was
--+			in use. (CVE-2018-5740) [GL #387]
--+
-- 	--- 9.11.4 released ---
-- 
-- 	--- 9.11.4rc2 released ---
--diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
--index 8f674a2..41d1385 100644
----- a/lib/dns/resolver.c
--+++ b/lib/dns/resolver.c
--@@ -6318,6 +6318,7 @@ is_answertarget_allowed(fetchctx_t *fctx, dns_name_t *qname, dns_name_t *rname,
-- 	unsigned int nlabels;
-- 	dns_fixedname_t fixed;
-- 	dns_name_t prefix;
--+	int order;
-- 
-- 	REQUIRE(rdataset != NULL);
-- 	REQUIRE(rdataset->type == dns_rdatatype_cname ||
--@@ -6340,17 +6341,25 @@ is_answertarget_allowed(fetchctx_t *fctx, dns_name_t *qname, dns_name_t *rname,
-- 		tname = &cname.cname;
-- 		break;
-- 	case dns_rdatatype_dname:
--+		if (dns_name_fullcompare(qname, rname, &order, &nlabels) !=
--+		    dns_namereln_subdomain)
--+		{
--+			return (ISC_TRUE);
--+		}
-- 		result = dns_rdata_tostruct(&rdata, &dname, NULL);
-- 		RUNTIME_CHECK(result == ISC_R_SUCCESS);
-- 		dns_name_init(&prefix, NULL);
-- 		tname = dns_fixedname_initname(&fixed);
---		nlabels = dns_name_countlabels(qname) -
---			  dns_name_countlabels(rname);
--+		nlabels = dns_name_countlabels(rname);
-- 		dns_name_split(qname, nlabels, &prefix, NULL);
-- 		result = dns_name_concatenate(&prefix, &dname.dname, tname,
-- 					      NULL);
---		if (result == DNS_R_NAMETOOLONG)
--+		if (result == DNS_R_NAMETOOLONG) {
--+			if (chainingp != NULL) {
--+				*chainingp = ISC_TRUE;
--+			}
-- 			return (ISC_TRUE);
--+		}
-- 		RUNTIME_CHECK(result == ISC_R_SUCCESS);
-- 		break;
-- 	default:
--@@ -7071,7 +7080,9 @@ answer_response(fetchctx_t *fctx) {
-- 		}
-- 		if ((ardataset->type == dns_rdatatype_cname ||
-- 		     ardataset->type == dns_rdatatype_dname) &&
---		     !is_answertarget_allowed(fctx, qname, aname, ardataset,
--+		    type != ardataset->type &&
--+		    type != dns_rdatatype_any &&
--+		    !is_answertarget_allowed(fctx, qname, aname, ardataset,
-- 					      NULL))
-- 		{
-- 			return (DNS_R_SERVFAIL);
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.4.bb b/meta/recipes-connectivity/bind/bind_9.11.5.bb
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.5.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
 similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.11.4.bb
-rename to meta/recipes-connectivity/bind/bind_9.11.5.bb
-index cb4a21a..21e979f 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.5.bb
-@@ -20,14 +20,14 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
-            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+rename from meta/recipes-connectivity/bind/bind_9.11.5.bb
+rename to meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+index 21e979f..432bad0 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
+ SECTION = "console/network"
+ 
+ LICENSE = "ISC & BSD"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=6ba7c9fe0c888a943c79c93e6de744fb"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8f17f64e47e83b60cd920a1e4b54419e"
+ 
+ DEPENDS = "openssl libcap zlib"
+ 
+@@ -22,8 +22,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
             file://0001-avoid-start-failure-with-bind-user.patch \
--           file://CVE-2018-5740.patch \
  "
  
--SRC_URI[md5sum] = "9b4834d78f30cdb796ce437262272a36"
--SRC_URI[sha256sum] = "595070b031f869f8939656b5a5d11b121211967f15f6afeafa895df745279617"
-+SRC_URI[md5sum] = "17a0d02102117c9a221e857cf2cc8157"
-+SRC_URI[sha256sum] = "a4cae11dad954bdd4eb592178f875bfec09fcc7e29fe0f6b7a4e5b5c6bc61322"
+-SRC_URI[md5sum] = "17a0d02102117c9a221e857cf2cc8157"
+-SRC_URI[sha256sum] = "a4cae11dad954bdd4eb592178f875bfec09fcc7e29fe0f6b7a4e5b5c6bc61322"
++SRC_URI[md5sum] = "8ddab4b61fa4516fe404679c74e37960"
++SRC_URI[sha256sum] = "7e8c08192bcbaeb6e9f2391a70e67583b027b90e8c4bc1605da6eb126edde434"
  
  UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
  UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
-+RECIPE_NO_UPDATE_REASON = "9.11 is LTS 2021"
- 
- inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
- 
 -- 
 2.7.4
 
