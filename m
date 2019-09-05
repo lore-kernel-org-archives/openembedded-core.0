@@ -1,52 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 789BC7EFB8
+Return-Path: <ross.burton@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 268E97E093
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 21:27:55 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id y135so5907340wmc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2019 14:27:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=maOH19nGDS7hP71dffMvE+cFTZrkSQhdVfBj70Rzlao=;
-	b=NmwI7E1KNvQyM/k6+KWYFklPIhTVFkz7aZIYXY2oXeEdItvEgsRLLPEvNVt/vZx/fj
-	OZzSsI4vBvHAqJcD6ZHX/JXy7BN7SWjtUefzbzBGlv3b0ytifvMYsMB8vGIgJqJ2LO37
-	JHMmt915j41JuBDah0a6WXKMjwCXvQu2rNarE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=maOH19nGDS7hP71dffMvE+cFTZrkSQhdVfBj70Rzlao=;
-	b=rGxOJf5Lc57HAcXx6U9mIT0VHkgNnMWNA/JC3oXBjU2VWSQ6STXsyCD6Ir7rqRrG30
-	sFbi8wYlZZVIUnS81EbjO1UyCogRMih/6MulMlbEtSVu42F9B04ecT44x0n1hj+plBSy
-	l6nar/p6wPgCO2Ju1c1akaAkIKPZvl1cS8nX/DADTR5yAJ1gFUuX/u4+e2ILSXA71erO
-	5oPDGluRzz6j1LLUmluEYIooD/0W72uvdKciFAo20MnhU6a13cj0/gj1koMCG4MDyLZ+
-	HS6b9VTJTltSZpvlcE5/RZwEbPSDIVvSNxJkDFVZaPXt4boxAe5e/VLMCp8DhMNk1AET
-	WpwQ==
-X-Gm-Message-State: APjAAAWW9YDqnUDjuCnXsJiMj7iygtfsD7ufD28cHObxyGuoa7DOoiWN
-	+TmK9eSBR33zRiIFBhQFwj6avQ==
-X-Google-Smtp-Source: APXvYqwzfrrD/CgGrS27IBtqx0v+iRwPtW+x+Z/93sxXbby+70Ji4Yg32UeOI/ay8oSdpd6fvqTH+A==
-X-Received: by 2002:a7b:c3c6:: with SMTP id t6mr4544015wmj.5.1567718875810;
-	Thu, 05 Sep 2019 14:27:55 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id v2sm6305451wmf.18.2019.09.05.14.27.54
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Sep 2019 14:27:55 -0700 (PDT)
-Message-ID: <ed991280f92d2eaf14dadb912d86cd88601b2284.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Mark Asselstine <mark.asselstine@windriver.com>, 
-	openembedded-core@lists.openembedded.org, Michael Halstead
-	<mhalstead@linuxfoundation.org>
-Date: Thu, 05 Sep 2019 22:27:53 +0100
-In-Reply-To: <25701351.g1SN1yf5Qq@yow-masselst-lx1>
-References: <20190822155616.35046-1-mark.asselstine@windriver.com>
-	<25701351.g1SN1yf5Qq@yow-masselst-lx1>
-User-Agent: Evolution 3.32.2-1 
+	Thu,  5 Sep 2019 21:52:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Sep 2019 14:52:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,471,1559545200"; d="scan'208";a="182952805"
+Received: from oakcakay-mobl2.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.38.52])
+	by fmsmga008.fm.intel.com with ESMTP; 05 Sep 2019 14:52:26 -0700
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>,
+	openembedded-core@lists.openembedded.org
+References: <20190905071212.17295-1-zangrc.fnst@cn.fujitsu.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <35ae4149-5a47-2d88-914d-c1e8e6250d24@intel.com>
+Date: Thu, 5 Sep 2019 22:52:27 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: Re: [PATCH][V2] sdkext: use simpler kernel module for devtool test
+In-Reply-To: <20190905071212.17295-1-zangrc.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] meson:upgrade 0.51.1 -> 0.51.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,68 +38,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 21:27:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 05 Sep 2019 21:52:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-09-05 at 13:54 -0400, Mark Asselstine wrote:
-> On Thursday, August 22, 2019 11:56:16 A.M. EDT Mark Asselstine wrote:
-> > The current devtool test for the building of an out-of-tree kernel
-> > module uses something which requires several "high order" kconfigs
-> > to
-> > be set. This results in the test failing, not for expected reasons,
-> > but rather because it depends on specific kernel configuration.
-> > 
-> > You will get error messages such as
-> > 
-> >   ERROR: "video_ioctl2"
-> >  
-> > [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-
-> > driver/v4l2loopback.k
-> > o] undefined!
-> >   ERROR: "video_unregister_device"
-> >  
-> > [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-
-> > driver/v4l2loopback.k
-> > o] undefined!
-> > 
-> > Using a simpler hello-world kernel module example will only require
-> > that CONFIG_MODULE is enabled, thus avoiding a false positive.
-> > 
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> > 
-> > **V2**
-> >  - also updated the CROPS manual test json file
-> >    (I have no idea how to run this so untested but this is a
-> > straight
-> >     substition)
-> >  - continue to use github until we can move the sample to somewhere
-> >    like git.yoctoproject.org
-> 
-> Richard, are you thinking we need to figure out the
-> git.yoctoproject.org repo 
-> before we can move ahead with merging this?
+On 05/09/2019 08:12, Zang Ruochen wrote:
+> -meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+> Removed since this is included in 0.51.2.
 
-I would like to fix that, yes. I could ask Michael for help but I do
-have access to sort it myself too.
+This doesn't touch nativesdk-meson, so the build fails with checksum 
+failures.
 
-I'm also trying to sort out a few other issues before -next can merge.
-
-Since I'm failing to get to it,
-
-Michael,
-
-Could you clone:
-
-https://github.com/masselstine/kernel-module-hello-world.git 
-
-onto git.yp.org as a new repo and give write access to it for Mark,
-myself, Bruce and Ross please?
-
-Cheers,
-
-Richard
-
+Ross
 
 
