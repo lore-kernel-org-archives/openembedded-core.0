@@ -1,49 +1,53 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B4CB97F2EA
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+	[209.85.208.177])
+	by mail.openembedded.org (Postfix) with ESMTP id EE5A87F301
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 15:51:56 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id q27so2439761lfo.10
+	Thu,  5 Sep 2019 15:51:58 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id t14so3042278lji.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2019 08:51:57 -0700 (PDT)
+	Thu, 05 Sep 2019 08:51:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=cybfLNu7ywQAI4jFN40Qjnxn/PDXODNepCUY8B6qTnA=;
-	b=imtSeQPB3UZYkQDzUOAAvQmjW8xijH2OdZ94SIc/wZ2nKt6cDqkZMg3yvqEVE2PGbO
-	jF0hV2q37jY1dbRpskiKz09hs4+WhLscSZ5wsZAHnOLLjPCSGFsfTvXx9mQUeUT+t/LN
-	vEkIN7imqctL+w9R7MFw6jTSzF41tEHy6iH6qmenUKUDQCazNQbkZRMZQWqG7gGYXoQj
-	UWt987BcmcL1jXMSl0G6gCqjN5q38zeNlfKsRDLHOZ24DXO4x60sPaa2I/GEjhKYFjBN
-	7zNS644vcBFVLhdN5Gp2cfdlhQM4Ca7ajhUfn1AAT4ZxETUHnf+UbbHGTP775bpNzq6l
-	oc+Q==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=3jBR72MWb1I9CnFQilhu+bb8iSRtb5+8U83iNoqaMqk=;
+	b=TWN2f5tW3jCldn6ZmOr/aNxbHkyhPj7vAVgBLtnzC/v14S3pY8TtQqIedzpT98/CZF
+	KRl5I3fbe5MKueuiPxkYFw1gHkvSpdUS/QDvIm4S7fWjPvlRX4T9h/1v0mq2jMZFg4xH
+	DoKmq7Umsb498Zqq1koLxTt0O/aQoGkLIpMjChKcUBjeBs7vaKcL2m7XvR6XGYYMnPQc
+	vVf9RbeeIl/JB/2gM1oPTqRHRMrCxffrpshzkWpXAHEjPCYUaR1KjtbZ0VsCSgtBA8xZ
+	sGBmHbHw00Ko/DIMOZoWS3E6Uqz3pJVTPckOVsnN1eTkG9e+DIrGS9wd+SlqsL8zCE4n
+	5F0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cybfLNu7ywQAI4jFN40Qjnxn/PDXODNepCUY8B6qTnA=;
-	b=jLvWa4YIp6/cnWimFRCBYO8yYMMzchwDjLLyRyz7Q5OmozdfU64ZWynFk9SrMGOAW+
-	UK/brdapIU1pEeaH6Hdf5V6KRN+Y6CVIWZbHpOvQ0Tno5rgRvQZcA0DSptm9nC4274HQ
-	jaIiTBfdwMN7T4zca/95SZoPAZmralyEMTNu3TyT5O8QARVUkqAwom/MlSTj7JVFE5AL
-	OgG4aL6F2VMt+0fmwgv7EArgaouiXPXMPdQKH+3mUw0U9MS2IDGKpeEFdbvuykVKHe5/
-	7Pe/jVjQgwaSK1jmScc5k2MiaTCnCeUqKfTFfoPTJmH/S9TyVupeX4HKJBrI2r0hhBMO
-	b/FQ==
-X-Gm-Message-State: APjAAAUfRvjT1n/6Z7nWxNuA/GL+cTcpwzOYokjBH4xdREcnqpPo7Py/
-	V+BR8/3usPYBSrJlUAwhV6s/zmTggS8=
-X-Google-Smtp-Source: APXvYqyRmOB/WNfI3EzNAkhYBxIGYBqZzxJhY+hc8/fFqZwZ2Dxwln7fU4hsVMuVdEGf9A9bUT6djg==
-X-Received: by 2002:ac2:51ce:: with SMTP id u14mr2671039lfm.72.1567698716914; 
-	Thu, 05 Sep 2019 08:51:56 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=3jBR72MWb1I9CnFQilhu+bb8iSRtb5+8U83iNoqaMqk=;
+	b=IcAJ4CUXD4Mqv+wBK715hXxGUVy/4aY0xe+ax0nHSmlRqPetcAN/BIDI6OAgb7qE+C
+	ChWpjf1iQOnxnCDi6yAPPQjbuqttyvP1S6DbaYSnFJ3eyyIOGImlndhUOnbmcUfdnAbB
+	3PqaUhhRDCCdIlOiP39uswWDq0kE7fPnQSSeE8NwTpUtyU/XIwPnBC7IBAGg8qIeilRl
+	8BwfbAAYPLxsPIK4Y8SRPwU82ZGYKaO6U1fdoZW4Hx07O21Lu8LHoiDSFwyqcmPnIktG
+	6MNE2Epfypl3hIQMYBtW0AiP9miaH7mSDWEhW7PUQ4YWGvVc/xESI3DITc1UWNScJtzj
+	cCsw==
+X-Gm-Message-State: APjAAAV5RmqZ2mnY9Yi/XCSQr856pB3HLmMOdXdnfV9x3iEYIJ46q8ZA
+	o0C6xzsR2ARiNheYRq93OMl6Rz1JZSo=
+X-Google-Smtp-Source: APXvYqxwZeO3kmcutXEF401FiSKI7iX0C2uSE07XjTvq/ZMxv/xMtZr1D7QO5842tU0hbM6j/B/I9Q==
+X-Received: by 2002:a05:651c:113c:: with SMTP id
+	e28mr2170160ljo.184.1567698718497; 
+	Thu, 05 Sep 2019 08:51:58 -0700 (PDT)
 Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se.
 	[213.89.0.115])
-	by smtp.gmail.com with ESMTPSA id h21sm439530ljg.34.2019.09.05.08.51.56
+	by smtp.gmail.com with ESMTPSA id h21sm439530ljg.34.2019.09.05.08.51.57
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Sep 2019 08:51:56 -0700 (PDT)
+	Thu, 05 Sep 2019 08:51:58 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2019 17:51:51 +0200
-Message-Id: <20190905155153.30625-1-open.source@oleksandr-kravchuk.com>
+Date: Thu,  5 Sep 2019 17:51:52 +0200
+Message-Id: <20190905155153.30625-2-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190905155153.30625-1-open.source@oleksandr-kravchuk.com>
+References: <20190905155153.30625-1-open.source@oleksandr-kravchuk.com>
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH 1/3] python3-dbus: update to 1.2.10
+Subject: [PATCH 2/3] python3-pbr: update to 5.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +60,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 15:51:57 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 15:51:59 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../{python3-dbus_1.2.8.bb => python3-dbus_1.2.10.bb}     | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/python/{python3-dbus_1.2.8.bb => python3-dbus_1.2.10.bb} (82%)
+ meta/recipes-devtools/python/python3-pbr_5.4.2.bb | 5 -----
+ meta/recipes-devtools/python/python3-pbr_5.4.3.bb | 5 +++++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-pbr_5.4.2.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pbr_5.4.3.bb
 
-diff --git a/meta/recipes-devtools/python/python3-dbus_1.2.8.bb b/meta/recipes-devtools/python/python3-dbus_1.2.10.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-dbus_1.2.8.bb
-rename to meta/recipes-devtools/python/python3-dbus_1.2.10.bb
-index 2fb1eae96c..71d24ee1a0 100644
---- a/meta/recipes-devtools/python/python3-dbus_1.2.8.bb
-+++ b/meta/recipes-devtools/python/python3-dbus_1.2.10.bb
-@@ -5,11 +5,10 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b03240518994df6d8c974675675e5ca4"
- DEPENDS = "expat dbus glib-2.0 virtual/libintl"
- 
--SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz \
--"
-+SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz"
-+SRC_URI[md5sum] = "5d21d5ae6423f0e41caa3400af44edac"
-+SRC_URI[sha256sum] = "d4332bbd4a0054fa4010b259c293b84d461bbd9d7a8ef528157d151c0398d886"
- 
--SRC_URI[md5sum] = "7379db774c10904f27e7e2743d90fb43"
--SRC_URI[sha256sum] = "abf12bbb765e300bf8e2a1b2f32f85949eab06998dbda127952c31cb63957b6f"
- S = "${WORKDIR}/dbus-python-${PV}"
- 
- inherit distutils3-base autotools pkgconfig
-@@ -18,7 +17,6 @@ inherit distutils3-base autotools pkgconfig
- # change to use PACKAGECONFIG when python3-sphinx is added to oe-core
- EXTRA_OECONF += "--disable-documentation"
- 
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.2.bb b/meta/recipes-devtools/python/python3-pbr_5.4.2.bb
+deleted file mode 100644
+index d59e744e61..0000000000
+--- a/meta/recipes-devtools/python/python3-pbr_5.4.2.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-inherit setuptools3
+-require python-pbr.inc
 -
- RDEPENDS_${PN} = "python3-io python3-logging python3-stringold python3-threading python3-xml"
- 
- FILES_${PN}-dev += "${libdir}/pkgconfig"
+-SRC_URI[md5sum] = "ea90e1118a0132da752d45e68d10b2b8"
+-SRC_URI[sha256sum] = "9b321c204a88d8ab5082699469f52cc94c5da45c51f114113d01b3d993c24cdf"
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.3.bb b/meta/recipes-devtools/python/python3-pbr_5.4.3.bb
+new file mode 100644
+index 0000000000..e7835e7a97
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pbr_5.4.3.bb
+@@ -0,0 +1,5 @@
++inherit setuptools3
++require python-pbr.inc
++
++SRC_URI[md5sum] = "477d2aa285ad97250a172b199f4060b7"
++SRC_URI[sha256sum] = "2c8e420cd4ed4cec4e7999ee47409e876af575d4c35a45840d59e8b5f3155ab8"
 -- 
 2.17.1
 
