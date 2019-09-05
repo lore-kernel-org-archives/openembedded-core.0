@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1731D7CE86;
-	Thu,  5 Sep 2019 11:32:27 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 1F92A7D68F;
+	Thu,  5 Sep 2019 11:32:28 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: changqing.li@windriver.com
-Date: Thu, 05 Sep 2019 11:32:28 -0000
-Message-ID: <20190905113228.2334.53307@do>
-References: <1567682351-87682-1-git-send-email-changqing.li@windriver.com>
+Date: Thu, 05 Sep 2019 11:32:29 -0000
+Message-ID: <20190905113229.2332.18746@do>
+References: <1567682360-87742-1-git-send-email-changqing.li@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1567682351-87682-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1567682360-87742-1-git-send-email-changqing.li@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWRhZG06IGZpeCBkb19wYWNrYWdlIGZhaWxlZCB3aGVuIGNoYW5nZWQgbG9jYWwuY29uZiBidXQgbm90IGNsZWFuZWQ=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYm9vdGNoYXJ0Mjogc3dpdGNoIHRvIGFkZCBwYXRjaCBmcm9tIGNoYW5nZSBzb3VyY2UgaW4gZG9faW5zdGFsbA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 11:32:27 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 11:32:28 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: mdadm: fix do_package failed when changed local.conf but not cleaned
+Series: bootchart2: switch to add patch from change source in do_install
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/19720/
+URL   : https://patchwork.openembedded.org/series/19721/
 State : failure
 
 == Summary ==
@@ -45,7 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            mdadm: fix do_package failed when changed local.conf but not cleaned
+* Patch            bootchart2: switch to add patch from change source in do_install
  Issue             Yocto Project bugzilla tag is not correctly formatted [test_bugzilla_entry_format] 
   Suggested fix    Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"
 
