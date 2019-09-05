@@ -1,25 +1,29 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <Randy.MacLeod@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 933517F2DC
+	by mail.openembedded.org (Postfix) with ESMTP id 184E07F2AE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 17:55:39 +0000 (UTC)
+	Thu,  5 Sep 2019 18:24:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x85Ht4Qx004211
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x85INSfC004976
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 5 Sep 2019 10:55:14 -0700
-Received: from yow-masselst-lx1.localnet (128.224.60.192) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Thu, 5 Sep 2019 10:54:53 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Sep 2019 13:54:52 -0400
-Message-ID: <25701351.g1SN1yf5Qq@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <20190822155616.35046-1-mark.asselstine@windriver.com>
-References: <20190822155616.35046-1-mark.asselstine@windriver.com>
+	Thu, 5 Sep 2019 11:23:38 -0700
+Received: from [128.224.56.214] (128.224.56.214) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 5 Sep 2019 11:23:17 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Peiran Hong
+	<peiran.hong@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <20190905153846.11226-1-peiran.hong@windriver.com>
+	<e492d6be1e469026e7132b3a6c78c2775c2eeca6.camel@linuxfoundation.org>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <8b46625d-8e49-4e41-c153-a7fd8f544bd1@windriver.com>
+Date: Thu, 5 Sep 2019 14:23:16 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: Re: [PATCH][V2] sdkext: use simpler kernel module for devtool test
+In-Reply-To: <e492d6be1e469026e7132b3a6c78c2775c2eeca6.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.56.214]
+Subject: Re: [PATCH] diffutils: Add valgrind to support ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,110 +36,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 17:55:39 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 05 Sep 2019 18:24:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Thursday, August 22, 2019 11:56:16 A.M. EDT Mark Asselstine wrote:
-> The current devtool test for the building of an out-of-tree kernel
-> module uses something which requires several "high order" kconfigs to
-> be set. This results in the test failing, not for expected reasons,
-> but rather because it depends on specific kernel configuration.
+On 9/5/19 12:57 PM, Richard Purdie wrote:
+> On Thu, 2019-09-05 at 11:38 -0400, Peiran Hong wrote:
+>> From: Peiran Hong <Peiran.Hong@windriver.com>
+>>
+>> The test "strip-trailing-cr" for diffutils package is skipped since
+>> it requires
+>> valgrind to run. This commit adds valgrind to the run-time dependency
+>> of
+>> the recipe for diffutils.
+>>
+>> Signed-off-by: Peiran Hong <Peiran.Hong@windriver.com>
+>> ---
+>>   meta/recipes-extended/diffutils/diffutils_3.7.bb | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/diffutils/diffutils_3.7.bb
+>> b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+>> index 7daeee3513..2d763633b6 100644
+>> --- a/meta/recipes-extended/diffutils/diffutils_3.7.bb
+>> +++ b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+>> @@ -17,7 +17,9 @@ acpaths = "-I ./m4"
+>>   
+>>   inherit ptest
+>>   
+>> -RDEPENDS_${PN}-ptest += "make"
+>> +# Include valgrind since the test "strip-trailing-cr" requires it to
+>> run, although
+>> +# valgrind is a heavy package for diffutils
+>> +RDEPENDS_${PN}-ptest += "make valgrind"
 > 
-> You will get error messages such as
-> 
->   ERROR: "video_ioctl2"
->  
-> [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-driver/v4l2loopback.k
-> o] undefined!
->   ERROR: "video_unregister_device"
->  
-> [.../1.0-r5/testsdkext/workspace/sources/v4l2loopback-driver/v4l2loopback.k
-> o] undefined!
-> 
-> Using a simpler hello-world kernel module example will only require
-> that CONFIG_MODULE is enabled, thus avoiding a false positive.
-> 
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
-> 
-> **V2**
->  - also updated the CROPS manual test json file
->    (I have no idea how to run this so untested but this is a straight
->     substition)
->  - continue to use github until we can move the sample to somewhere
->    like git.yoctoproject.org
+> This effectively means "bitbake diffutils" now requires valgrind to
+> build before it. I'm not sure its worth doing that for a single test?
 
-Richard, are you thinking we need to figure out the git.yoctoproject.org repo 
-before we can move ahead with merging this?
+I was on the fence as well but I thought we'd ask devs on the list by
+sending the patch.
 
-MarkA
+Peiran,
+
+Please send a v2 that SKIPs the test.
+
+../Randy
 
 > 
->  meta/lib/oeqa/manual/crops.json       | 12 ++++++------
->  meta/lib/oeqa/sdkext/cases/devtool.py |  4 ++--
->  2 files changed, 8 insertions(+), 8 deletions(-)
+> Cheers,
 > 
-> diff --git a/meta/lib/oeqa/manual/crops.json
-> b/meta/lib/oeqa/manual/crops.json index 1cf3c8f30c..071d35b661 100644
-> --- a/meta/lib/oeqa/manual/crops.json
-> +++ b/meta/lib/oeqa/manual/crops.json
-> @@ -234,16 +234,16 @@
->                      "expected_results": "this should output the directory
-> of the devtool script and it should be within the sdk workdir you are
-> working in.   \n\n" },
->                  "5": {
-> -                    "action": "devtool add v4l2loopback-driver 
-> https://github.com/umlaeute/v4l2loopback.git   \n\n", -                   
-> "expected_results": "This should automatically create the recipe
-> v4l2loopback-driver.bb under
-> <crops-esdk-workdir-workspace>/recipes/v4l2loopback-driver/v4l2loopback-dri
-> ver.bb " +                    "action": "devtool add
-> kernel-module-hello-world 
-> https://github.com/masselstine/kernel-module-hello-world.git   \n\n", +    
->                "expected_results": "This should automatically create the
-> recipe kernel-module-hello-world.bb under
-> <crops-esdk-workdir-workspace>/recipes/kernel-module-hello-world/kernel-mod
-> ule-hello-world.bb " },
->                  "6": {
-> -                    "action": "devtool build v4l2loopback-driver   \n\n",
-> +                    "action": "devtool build kernel-module-hello-world  
-> \n\n", "expected_results": "This should compile an image   \n\n" },
->                  "7": {
-> -                    "action": "devtool reset v4l2loopback-driver   ",
-> -                    "expected_results": "This cleans sysroot of the
-> v4l2loopback-driver recipe, but it leaves the source tree intact. meaning
-> it does not erase." +                    "action": "devtool reset
-> kernel-module-hello-world   ", +                    "expected_results":
-> "This cleans sysroot of the kernel-module-hello-world recipe, but it leaves
-> the source tree intact. meaning it does not erase." }
->              },
->              "summary": "sdkext_devtool_kernelmodule"
-> @@ -291,4 +291,4 @@
->              "summary": "sdkext_recipes_for_nodejs"
->          }
->      }
-> -]
-> \ No newline at end of file
-> +]
-> diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py
-> b/meta/lib/oeqa/sdkext/cases/devtool.py index 5a02add764..fad98fbb36 100644
-> --- a/meta/lib/oeqa/sdkext/cases/devtool.py
-> +++ b/meta/lib/oeqa/sdkext/cases/devtool.py
-> @@ -73,8 +73,8 @@ class DevtoolTest(OESDKExtTestCase):
->              self._run('devtool reset %s' % recipe)
+> Richard
 > 
->      def test_devtool_kernelmodule(self):
-> -        docfile = 'https://github.com/umlaeute/v4l2loopback.git'
-> -        recipe = 'v4l2loopback-driver'
-> +        docfile =
-> 'https://github.com/masselstine/kernel-module-hello-world.git' +       
-> recipe = 'kernel-module-hello-world'
->          self._run('devtool add %s %s' % (recipe, docfile) )
->          try:
->              self._run('devtool build %s' % recipe)
 
 
-
-
+-- 
+# Randy MacLeod
+# Wind River Linux
 
