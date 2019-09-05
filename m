@@ -1,52 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 4220F7F2D9
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 878AB7F2F6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2019 15:56:25 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id h7so2394650wrw.8
+	Thu,  5 Sep 2019 16:42:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x85Gg7DN001959
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2019 08:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=rlWqG6aDc2WWUzaul8hfFpltXu3afehSMPCFUzR5OL0=;
-	b=b8Ksr81gYpHXivrdf57OB5D5hpQrCsYeSv/OcwKVDtJqcH6EJCo25EXB0N3pq1hZxC
-	wul9eCmxCGcjz7V+STjrG5bSB/7GvR7z3oBq7vGKHe66OV+zRxvvuN9aFEVB4PSAiaf0
-	JiRS0nP2QYMi9jVEGUcGXJInZASBHkz06U8RRGHvEahsZjC5DdTQe7uHp7D70SJtApiA
-	+er1H+/cu+tvPbphukYPcCEtCJo2N/YCWKe0tDXCG3XMdo0ppSg7y9w3H5bNwPk7Z1Kr
-	Dh8WZKFWKD7V8/INEOhTQEyTuS0eyKOUk8TD8lpID9F5wI7U/KLq+rdxzB4BlSsjp/ow
-	LnLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=rlWqG6aDc2WWUzaul8hfFpltXu3afehSMPCFUzR5OL0=;
-	b=eZdpvdlShJ7gBV4AMcHRiDxjwNTf1OiRH9/Hk/NfopqTyzjX5Gt/8LmmrHlf7e7COY
-	Rri0Q0DBS0vJAjOcLYW/b41aitDFPDq3S/OW9qIT0iXw88FK0uiKlPlJZIdwzpIcIw6i
-	eLuFO/wWIWOgdWA2tHlDAzzTZBLVRRl36EKNUh95MV53wt8MO89KO/lLEUXK4fQgxg22
-	Q0SCEZ2SVjKTFy6O8i9YBYuTMFPO01u43lfr5TbnxPIR7N8lGvcB2N7SQY+NKKBIQBe7
-	4LbXiC+2UpTvHZ0WtRS05o7Fzw3Smm02LTKpxOjLrJSxkFr2hEMbvJeSoLSLx3/8qK1W
-	iI6A==
-X-Gm-Message-State: APjAAAX5SHtKEwjR58RtjuQqWu5eC3HdAaBFi8yRqENBAqfuinzPqC99
-	M5yOOHxMyAJI0tjq4F6Ndw3U3405+SY=
-X-Google-Smtp-Source: APXvYqwbIvmPdTlzEnIQg0X8+oPGvJKbULKXW4xQx2hDIITI+dbXaZw9gqNE+wXk5ga1avcWYIIr8w==
-X-Received: by 2002:a5d:5612:: with SMTP id l18mr3287367wrv.177.1567698985650; 
-	Thu, 05 Sep 2019 08:56:25 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e20sm1861797wrc.34.2019.09.05.08.56.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Sep 2019 08:56:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2019 16:56:20 +0100
-Message-Id: <20190905155620.24610-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	Thu, 5 Sep 2019 09:42:17 -0700
+Received: from [128.224.56.214] (128.224.56.214) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 5 Sep 2019 09:41:56 -0700
+To: Peiran Hong <peiran.hong@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190905153846.11226-1-peiran.hong@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <1704b70d-4336-f2e5-18bd-e7d7916ae7dc@windriver.com>
+Date: Thu, 5 Sep 2019 12:41:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH] core-image-sato: don't use 512MB in qemumips
+In-Reply-To: <20190905153846.11226-1-peiran.hong@windriver.com>
+X-Originating-IP: [128.224.56.214]
+Subject: Re: [PATCH] diffutils: Add valgrind to support ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,29 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 15:56:25 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 05 Sep 2019 16:42:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-qemumips doesn't appear to work well with 512MB of RAM and randomly hangs.  As
-the bump to 512MB was primarily motivated by the memory needs of virtualised GL
-which doesn't work in qemumips currently, drop the memory back to 256MB for
-qemumips.
+On 9/5/19 11:38 AM, Peiran Hong wrote:
+> From: Peiran Hong <Peiran.Hong@windriver.com>
+Drop this line please.
+Was there some documentation that suggested it was required?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-sato/images/core-image-sato.bb | 1 +
- 1 file changed, 1 insertion(+)
+Otherwise looks fine so please send a v2.
 
-diff --git a/meta/recipes-sato/images/core-image-sato.bb b/meta/recipes-sato/images/core-image-sato.bb
-index 878e0eaa8d2..673106eb6d3 100644
---- a/meta/recipes-sato/images/core-image-sato.bb
-+++ b/meta/recipes-sato/images/core-image-sato.bb
-@@ -12,3 +12,4 @@ TOOLCHAIN_HOST_TASK_append = " nativesdk-intltool nativesdk-glib-2.0"
- TOOLCHAIN_HOST_TASK_remove_task-populate-sdk-ext = " nativesdk-intltool nativesdk-glib-2.0"
- 
- QB_MEM = '${@bb.utils.contains("DISTRO_FEATURES", "opengl", "-m 512", "-m 256", d)}'
-+QB_MEM_qemumips = "-m 256"
+../Randy
+> 
+> The test "strip-trailing-cr" for diffutils package is skipped since it requires
+> valgrind to run. This commit adds valgrind to the run-time dependency of
+> the recipe for diffutils.
+> 
+> Signed-off-by: Peiran Hong <Peiran.Hong@windriver.com>
+> ---
+>   meta/recipes-extended/diffutils/diffutils_3.7.bb | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-extended/diffutils/diffutils_3.7.bb b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+> index 7daeee3513..2d763633b6 100644
+> --- a/meta/recipes-extended/diffutils/diffutils_3.7.bb
+> +++ b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+> @@ -17,7 +17,9 @@ acpaths = "-I ./m4"
+>   
+>   inherit ptest
+>   
+> -RDEPENDS_${PN}-ptest += "make"
+> +# Include valgrind since the test "strip-trailing-cr" requires it to run, although
+> +# valgrind is a heavy package for diffutils
+> +RDEPENDS_${PN}-ptest += "make valgrind"
+>   
+>   do_install_ptest() {
+>   	t=${D}${PTEST_PATH}
+> 
+
+
 -- 
-2.20.1
-
+# Randy MacLeod
+# Wind River Linux
 
