@@ -1,49 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D22D7F402
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
+	[209.85.160.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 010F97F402
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 14:28:24 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id o11so5780638qkg.8
+	Fri,  6 Sep 2019 14:30:44 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id k10so7274190qth.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2019 07:28:26 -0700 (PDT)
+	Fri, 06 Sep 2019 07:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5SvhVotDUURqK9nTfNTzCRmFP4dzfn1vG2Qog85Ykkg=;
-	b=e9TBIexIG6e9nYzkgt97EuAMfKuBas0TxJ3mwOjwnFZU/v8Qo8VUZ4AhhaB95UtuHL
-	3lCh+GhCu4aMMzj8kWIadC9lPJtHL2j0H8dXzcDSFbcsvM+JsVYEzQ6uX9JgAXPrn733
-	kZFiXvjwc+REVcdlaip3SKaeXHMsXKtO8Rs9UM6dKwNSTbt8MdQfQzjLyCkD95H29r54
-	Le1UzkFSIxjaW68ZPRhahoo1ELAsYHlgsgX8aq09URlJaHvMBJp+sso7TpyqMOJSpkWy
-	vqYYQQcclLrgCbH/dpdHkV7iNBNSJCjSC1miTwiecJAn+b2P5z1u0WE9a59vSQuUBbbM
-	wHMw==
+	:cc; bh=bUiTivA+CJn6jA8l8CAU542dQn9gSCux5UGuQNLthD8=;
+	b=VbXDyGDT1Zj59nHHRFfKt77O98aNbkZ180ctQeEZr+DovqVkBbZ2kSyw481VZZerLJ
+	sEMAy5VRF1l06Be6Oe4Jn8vIQD6aSd6jjQEBKMzxMaBVztTrBfLCim9W84u6ZfYHU516
+	fhhtr92B6pdZBLySCJwbHoi0O/xjZGrOqUGVcDERsRRjLJ1xRhzcFo+lnq+auNBrFFWu
+	+RMFWTCpvyxBspNXPUqxKxpZzqXYWygVnEcXUaI2nWr+GORg1RCt39Re3rKNVhm3VqOJ
+	DdZ85aVDp+JJXCA+yt/T4rIyA/3V3UMI44MUQmCND5ktrLp6KlYQXStk4wyt85ZVCFM/
+	tlQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=5SvhVotDUURqK9nTfNTzCRmFP4dzfn1vG2Qog85Ykkg=;
-	b=POxMXV2GF5U/c+C18a/v+t9UIDUUQPasboZvCuLONgqx1h4NDAfLMu4bsu6KDgNtWT
-	ESNe/CEvwH1LQoqfU0EJxGg96k2QQ3Hh9I/rriDQvA5IspbF2+DLr/sOCrPCnsZERBr/
-	O1vVByD1eSfHCrzwxbh1fjX8qBjKWcd4FTgzLXvZol/VUyZaJuDEqdkIxtBsiOWDgYkm
-	QRvP4Q3eI3bmshn7/Q4PTh0jbvUMYhp2+HU98MvjylRzePsmp5Si1a5ssEK8S7sHKDus
-	PfWYB2aZNboIKy0vkyV/lsa2cAjjLt9Hu1VuTQgrdmEPBqrtEZZtXB+7tCajTgHy8V3P
-	Vl7Q==
-X-Gm-Message-State: APjAAAUrxgAqa+JXnh/dJZOVZuA8/mH/LLqCBcWBQ6Op0EvYiu3uuBcw
-	zgMCcXRIv4CgH7z6croJcfhci5m2kAoe+N5RE1E=
-X-Google-Smtp-Source: APXvYqy5u8acvEBbX8zyhInzXr0XubfUPkxSIxVkBYo0r6ZVbwZvfGNFGfvZId6wBuQ1v1QQfkHk65+S80xIxh0KUNU=
-X-Received: by 2002:a37:b002:: with SMTP id z2mr8602205qke.71.1567780105318;
-	Fri, 06 Sep 2019 07:28:25 -0700 (PDT)
+	bh=bUiTivA+CJn6jA8l8CAU542dQn9gSCux5UGuQNLthD8=;
+	b=UyCug0MMetNU9bYAVDgWPy6lRFLDIjlnov0ujJh4WMp+20unXl805sahVI8YnvJDDC
+	vtPOrWnFUu7DTXLgEStWwqSD1oEB+tsM+PoC3QXT27Qd/21fkJCn2OivkGoi+rG6faD0
+	+hPRW7DzS3bqCTsQ994chv9rT/AWKlgN+z6rOWRHlpxYskcYIHf+kYLOy7PDJrvCGSvR
+	hsExIsfnrYY/2eL4rQUnDdcKiztXzMObDWw2O2ISd9JuZSVV6vSOKUdUhSpRiW/BHMtj
+	q+2nu5xqSKwiwOKaXk66LrPDoWhuEA9DnK/fAzOrwRa56YeQnNQzLWU19yqHYnWa+oMF
+	64Ww==
+X-Gm-Message-State: APjAAAVt4DCa7nKBOsWaZZn3dY9qT85xEa0KGgF8g4ctkahc4SfHLe8w
+	5HIezChSOA8WdYl4dApupAE/q20R+vvSIS/nwkk=
+X-Google-Smtp-Source: APXvYqw6MAjydx3tJxd8P//glgmT1dFlfqCcXiagALtj5rO8eBgwM96BuwGO4Lxwmby0Yuhdcg7L1Bmq4kZrQ84ZEOM=
+X-Received: by 2002:ac8:d4c:: with SMTP id r12mr9200855qti.88.1567780244503;
+	Fri, 06 Sep 2019 07:30:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190906072347.31616-1-richard.purdie@linuxfoundation.org>
-	<20190906072347.31616-2-richard.purdie@linuxfoundation.org>
-	<CAMKF1so5hDAtGESfwjCNNGJtnikskPqQg2rFsTKdxYh-g9QXAQ@mail.gmail.com>
-	<8ac92297f48538afe156290f1e60b80abf00f1dd.camel@linuxfoundation.org>
-In-Reply-To: <8ac92297f48538afe156290f1e60b80abf00f1dd.camel@linuxfoundation.org>
+References: <20190906140443.30110-1-Trevor.Gamblin@windriver.com>
+In-Reply-To: <20190906140443.30110-1-Trevor.Gamblin@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 6 Sep 2019 07:28:14 -0700
-Message-ID: <CAMKF1spJ-=S9YzNSP8ber6hZH7pu+PFjMQQ_3o5goGQX+CKxeA@mail.gmail.com>
-To: richard.purdie@linuxfoundation.org
+Date: Fri, 6 Sep 2019 07:30:34 -0700
+Message-ID: <CAMKF1sqBun_F03kqsN3W0pKLBzKsRLLjXrFsGR0C9FBeey5w8g@mail.gmail.com>
+To: Trevor Gamblin <Trevor.Gamblin@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] gcc-cross: Fix header file corruption problems
+Subject: Re: [PATCH] libevent: add granularity to ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,125 +53,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 14:28:24 -0000
-Content-Type: multipart/alternative; boundary="00000000000043778f0591e3403a"
+X-List-Received-Date: Fri, 06 Sep 2019 14:30:45 -0000
+Content-Type: multipart/alternative; boundary="0000000000008f42450591e3485a"
 
---00000000000043778f0591e3403a
+--0000000000008f42450591e3485a
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 6, 2019 at 7:23 AM <richard.purdie@linuxfoundation.org> wrote:
+On Fri, Sep 6, 2019 at 7:04 AM Trevor Gamblin <Trevor.Gamblin@windriver.com>
+wrote:
 
-> On Fri, 2019-09-06 at 07:15 -0700, Khem Raj wrote:
-> >
-> >
-> > On Fri, Sep 6, 2019 at 12:24 AM Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> > > gcc's makefile can move files, replacing with the contents
-> > > "timestamp". This
-> > > corrupts the headers and breaks things like the gcc testsuite.
-> > >
-> > > Add in a fix to ensure the headers are not corrupted through their
-> > > hardlink copies.
-> > >
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > ---
-> > >  meta/recipes-devtools/gcc/gcc-cross.inc | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc
-> > > b/meta/recipes-devtools/gcc/gcc-cross.inc
-> > > index e417b898734..95af6d89a9d 100644
-> > > --- a/meta/recipes-devtools/gcc/gcc-cross.inc
-> > > +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-> > > @@ -212,6 +212,9 @@ do_gcc_stash_builddir[cleandirs] =3D
-> > > "${BUILDDIRSTASH}"
-> > >  do_gcc_stash_builddir () {
-> > >         dest=3D${BUILDDIRSTASH}
-> > >         hardlinkdir . $dest
-> > > +       # Makefile does move-if-change which can end up with
-> > > 'timestamp' as file contents so break links to those files
-> > > +       rm $dest/gcc/include/*.h
-> > > +       cp gcc/include/*.h $dest/gcc/include/
-> > >  }
-> >
-> > I think we moved them outside gcc dir isn=E2=80=99t it
+> From: Trevor Gamblin <trevor.gamblin@windriver.com>
 >
-> Not sure I follow? I think the patch is correct?
+> The libevent ptest used to report only a global pass or a fail result.
+> Count individual PASS, FAIL, SKIP results. The SKIP results now
+> include tests that are disabled in the libevent code.
+>
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> ---
+>  .../libevent/libevent/run-ptest               | 34 ++++++++++++-------
+>  1 file changed, 22 insertions(+), 12 deletions(-)
+>
+> diff --git a/meta/recipes-support/libevent/libevent/run-ptest
+> b/meta/recipes-support/libevent/libevent/run-ptest
+> index 0241851c70..b7d945246f 100644
+> --- a/meta/recipes-support/libevent/libevent/run-ptest
+> +++ b/meta/recipes-support/libevent/libevent/run-ptest
+> @@ -1,18 +1,28 @@
+>  #!/bin/sh
+>
+> -fail=0
+> +# run-ptest - 'ptest' test infrastructure shell script that
+> +#   wraps the libevent test scripts
+> +#
+> +# Trevor Gamblin <trevor.gamblin@windriver.com>
+> +###############################################################
+
++LIBEVENTLIB=/usr/lib/libevent
 >
 
-Yeah I think patch is fine since I was wondering about files from
-gcc-runtime which got move
+Do we need to account for multilib here ?
 
++LOG="${LIBEVENTLIB}/ptest/libevent_ptest_$(date +%Y%m%d-%H%M%S).log"
+> +
+> +cd ${LIBEVENTLIB}/ptest
+> +
+>  for test in ./test/*
+>  do
+> -       $test
+> -       if [ $? -ne 0 ]
+> -       then
+> -               fail=1
+> -       fi
+> +    $test 2>&1|tee -a ${LOG}
+>  done
 >
-> Cheers,
+> -if [ $fail -eq 0 ]
+> -then
+> -       echo "PASS: libevent"
+> -else
+> -       echo "FAIL: libevent"
+> -fi
+> +passed=`grep OK ${LOG}|wc -l`
+> +failed=`grep FAILED ${LOG}|wc -l`
+> +skipped=`grep -E 'DISABLED|SKIPPED' ${LOG}|wc -l`
+> +all=$((passed + failed + skipped))
+> +
+> +(   echo "=== Test Summary ==="
+> +    echo "TOTAL: ${all}"
+> +    echo "PASSED: ${passed}"
+> +    echo "FAILED: ${failed}"
+> +    echo "SKIPPED: ${skipped}"
+> +) | tee -a ${LOG}
+> --
+> 2.21.0
 >
-> Richard
->
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---00000000000043778f0591e3403a
+--0000000000008f42450591e3485a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Sep 6, 2019 at 7:23 AM &lt;<a href=3D"mailto:richar=
-d.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">On Fri, 2019-09-06 at 07:15 -0=
-700, Khem Raj wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Fri, Sep 6, 2019 at 12:24 AM Richard Purdie &lt;<br>
-&gt; <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
-">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; gcc&#39;s makefile can move files, replacing with the contents<br=
->
-&gt; &gt; &quot;timestamp&quot;. This<br>
-&gt; &gt; corrupts the headers and breaks things like the gcc testsuite.<br=
->
-&gt; &gt; <br>
-&gt; &gt; Add in a fix to ensure the headers are not corrupted through thei=
-r<br>
-&gt; &gt; hardlink copies.<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
-e@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org=
-</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 meta/recipes-devtools/gcc/gcc-cross.inc | 3 +++<br>
-&gt; &gt;=C2=A0 1 file changed, 3 insertions(+)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc<br>
-&gt; &gt; b/meta/recipes-devtools/gcc/gcc-cross.inc<br>
-&gt; &gt; index e417b898734..95af6d89a9d 100644<br>
-&gt; &gt; --- a/meta/recipes-devtools/gcc/gcc-cross.inc<br>
-&gt; &gt; +++ b/meta/recipes-devtools/gcc/gcc-cross.inc<br>
-&gt; &gt; @@ -212,6 +212,9 @@ do_gcc_stash_builddir[cleandirs] =3D<br>
-&gt; &gt; &quot;${BUILDDIRSTASH}&quot;<br>
-&gt; &gt;=C2=A0 do_gcc_stash_builddir () {<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dest=3D${BUILDDIRSTASH}<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0hardlinkdir . $dest<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Makefile does move-if-change which =
-can end up with<br>
-&gt; &gt; &#39;timestamp&#39; as file contents so break links to those file=
-s<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm $dest/gcc/include/*.h<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp gcc/include/*.h $dest/gcc/include/=
+=3D"gmail_attr">On Fri, Sep 6, 2019 at 7:04 AM Trevor Gamblin &lt;<a href=
+=3D"mailto:Trevor.Gamblin@windriver.com">Trevor.Gamblin@windriver.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">From: Trevor Gamblin &lt;=
+<a href=3D"mailto:trevor.gamblin@windriver.com" target=3D"_blank">trevor.ga=
+mblin@windriver.com</a>&gt;<br>
 <br>
-&gt; &gt;=C2=A0 }<br>
-&gt; <br>
-&gt; I think we moved them outside gcc dir isn=E2=80=99t it <br>
+The libevent ptest used to report only a global pass or a fail result.<br>
+Count individual PASS, FAIL, SKIP results. The SKIP results now<br>
+include tests that are disabled in the libevent code.<br>
 <br>
-Not sure I follow? I think the patch is correct?<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yeah I think pat=
-ch is fine since I was wondering about files from gcc-runtime which got mov=
-e=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><br>
-Cheers,<br>
+Signed-off-by: Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windrive=
+r.com" target=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../libevent/libevent/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 34 ++++++++++++-------<br>
+=C2=A01 file changed, 22 insertions(+), 12 deletions(-)<br>
 <br>
-Richard<br>
+diff --git a/meta/recipes-support/libevent/libevent/run-ptest b/meta/recipe=
+s-support/libevent/libevent/run-ptest<br>
+index 0241851c70..b7d945246f 100644<br>
+--- a/meta/recipes-support/libevent/libevent/run-ptest<br>
++++ b/meta/recipes-support/libevent/libevent/run-ptest<br>
+@@ -1,18 +1,28 @@<br>
+=C2=A0#!/bin/sh<br>
 <br>
+-fail=3D0<br>
++# run-ptest - &#39;ptest&#39; test infrastructure shell script that<br>
++#=C2=A0 =C2=A0wraps the libevent test scripts <br>
++#<br>
++# Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windriver.com" targe=
+t=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
++###############################################################</blockquot=
+e><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">+LIBEVENTLIB=3D/usr/lib/libevent<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Do we need to ac=
+count for multilib here ?</div><div dir=3D"auto"><br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">+LOG=3D&quot;${LIBEVENTLIB}/ptest/libevent_ptest_$(date +%Y%=
+m%d-%H%M%S).log&quot;<br>
++<br>
++cd ${LIBEVENTLIB}/ptest <br>
++<br>
+=C2=A0for test in ./test/*<br>
+=C2=A0do<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0$test<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ $? -ne 0 ]<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fail=3D1<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++=C2=A0 =C2=A0 $test 2&gt;&amp;1|tee -a ${LOG}<br>
+=C2=A0done<br>
+<br>
+-if [ $fail -eq 0 ]<br>
+-then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;PASS: libevent&quot;<br>
+-else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;FAIL: libevent&quot;<br>
+-fi<br>
++passed=3D`grep OK ${LOG}|wc -l`<br>
++failed=3D`grep FAILED ${LOG}|wc -l`<br>
++skipped=3D`grep -E &#39;DISABLED|SKIPPED&#39; ${LOG}|wc -l`<br>
++all=3D$((passed + failed + skipped))<br>
++<br>
++(=C2=A0 =C2=A0echo &quot;=3D=3D=3D Test Summary =3D=3D=3D&quot;<br>
++=C2=A0 =C2=A0 echo &quot;TOTAL: ${all}&quot;<br>
++=C2=A0 =C2=A0 echo &quot;PASSED: ${passed}&quot;<br>
++=C2=A0 =C2=A0 echo &quot;FAILED: ${failed}&quot;<br>
++=C2=A0 =C2=A0 echo &quot;SKIPPED: ${skipped}&quot;<br>
++) | tee -a ${LOG}<br>
+-- <br>
+2.21.0<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
 </blockquote></div></div>
 
---00000000000043778f0591e3403a--
+--0000000000008f42450591e3485a--
