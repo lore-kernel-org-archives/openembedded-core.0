@@ -1,23 +1,23 @@
 Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 93D357F2DC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 736AE7F2FD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 03:37:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x863bSfi007894
+	Fri,  6 Sep 2019 03:37:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x863bfsl008679
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Sep 2019 20:37:28 -0700 (PDT)
+	Thu, 5 Sep 2019 20:37:41 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Thu, 5 Sep 2019 20:37:27 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 5 Sep 2019 20:37:40 -0700
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Sep 2019 11:37:26 +0800
-Message-ID: <1567741046-137800-1-git-send-email-changqing.li@windriver.com>
+Date: Fri, 6 Sep 2019 11:37:38 +0800
+Message-ID: <1567741059-137869-1-git-send-email-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH V2] bootchart2: switch to add patch from change source in do_install
+Subject: [PATCH 1/2] mdadm: fix do_package failed when changed local.conf but not cleaned
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,98 +30,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 03:37:27 -0000
+X-List-Received-Date: Fri, 06 Sep 2019 03:37:40 -0000
 Content-Type: text/plain
 
 From: Changqing Li <changqing.li@windriver.com>
 
-it is not proper change source in do_install, it will make
-source not updated even local.conf have change the DISTRO_FEATURES
+reproduce steps:
+1. add DISTRO_FEATURE_append = 'usrmerge' in local.conf
+2. bitbake mdadm --success
+3. remove DISTRO_FEATURE_append = 'usrmerge' from local.conf
+4. bitbake mdadm  -- failed when do_package
+
+it is not proper to change source Makefile during do_install by sed,
+change to add patch for it.
 
 [YOCTO #13493]
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../0001-bootchart2-support-usrmerge.patch         | 37 ++++++++++++++++++++++
- .../bootchart2/bootchart2_0.14.8.bb                |  7 ++--
- 2 files changed, 40 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/bootchart2/bootchart2/0001-bootchart2-support-usrmerge.patch
+ .../mdadm/files/0001-mdadm-support-usrmerge.patch  | 46 ++++++++++++++++++++++
+ meta/recipes-extended/mdadm/mdadm_4.1.bb           |  7 ++--
+ 2 files changed, 50 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
 
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2/0001-bootchart2-support-usrmerge.patch b/meta/recipes-devtools/bootchart2/bootchart2/0001-bootchart2-support-usrmerge.patch
+diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
 new file mode 100644
-index 0000000..8ee6723
+index 0000000..f1aa119
 --- /dev/null
-+++ b/meta/recipes-devtools/bootchart2/bootchart2/0001-bootchart2-support-usrmerge.patch
-@@ -0,0 +1,37 @@
-+From b6d1a1ff2de363b1b76c8c70f77ae56a4e4d4b56 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
+@@ -0,0 +1,46 @@
++From 2c7ccea05d7cf9dde48d735faa511d1b06c14878 Mon Sep 17 00:00:00 2001
 +From: Changqing Li <changqing.li@windriver.com>
-+Date: Thu, 5 Sep 2019 18:37:31 +0800
-+Subject: [PATCH] bootchart2: support usrmerge
++Date: Thu, 5 Sep 2019 18:03:11 +0800
++Subject: [PATCH] mdadm: support usrmerge
 +
 +Upstream-Status: Inappropriate[oe-specific]
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ Makefile | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ Makefile | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
 +
 +diff --git a/Makefile b/Makefile
-+index 1cc2974..f988904 100644
++index 4839001..466e960 100644
 +--- a/Makefile
 ++++ b/Makefile
-+@@ -36,7 +36,7 @@ endif
-+ PY_SITEDIR ?= $(PY_LIBDIR)/site-packages
-+ LIBC_A_PATH = /usr$(LIBDIR)
-+ # Always lib, even on systems that otherwise use lib64
-+-SYSTEMD_UNIT_DIR = $(EARLY_PREFIX)/lib/systemd/system
-++SYSTEMD_UNIT_DIR ?= $(EARLY_PREFIX)/lib/systemd/system
-+ COLLECTOR = \
-+ 	collector/collector.o \
-+ 	collector/output.o \
-+@@ -99,7 +99,7 @@ install-chroot:
-+ 	install -d $(DESTDIR)$(PKGLIBDIR)/tmpfs
++@@ -88,7 +88,7 @@ MAP_PATH = $(MAP_DIR)/$(MAP_FILE)
++ MDMON_DIR = $(RUN_DIR)
++ # place for autoreplace cookies
++ FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
++-SYSTEMD_DIR=/lib/systemd/system
+++SYSTEMD_DIR=${SYSTEMD_UNITDIR}/system
++ LIB_DIR=/usr/libexec/mdadm
 + 
-+ install-collector: all install-chroot
-+-	install -m 755 -D bootchartd $(DESTDIR)$(EARLY_PREFIX)/sbin/$(PROGRAM_PREFIX)bootchartd$(PROGRAM_SUFFIX)
-++	install -m 755 -D bootchartd $(DESTDIR)${BASE_SBINDIR}/$(PROGRAM_PREFIX)bootchartd$(PROGRAM_SUFFIX)
-+ 	install -m 644 -D bootchartd.conf $(DESTDIR)/etc/$(PROGRAM_PREFIX)bootchartd$(PROGRAM_SUFFIX).conf
-+ 	install -m 755 -D bootchart-collector $(DESTDIR)$(PKGLIBDIR)/$(PROGRAM_PREFIX)bootchart$(PROGRAM_SUFFIX)-collector
++ COROSYNC:=$(shell [ -f $(SYSROOT)/usr/include/corosync/cmap.h ] || echo -DNO_COROSYNC)
++@@ -120,7 +120,7 @@ LDLIBS=-ldl
 + 
++ INSTALL = /usr/bin/install
++ DESTDIR =
++-BINDIR  = /sbin
+++BINDIR  = ${BASE_SBINDIR}
++ MANDIR  = /usr/share/man
++ MAN4DIR = $(MANDIR)/man4
++ MAN5DIR = $(MANDIR)/man5
++@@ -128,7 +128,7 @@ MAN8DIR = $(MANDIR)/man8
++ 
++ UDEVDIR := $(shell $(PKG_CONFIG) --variable=udevdir udev 2>/dev/null)
++ ifndef UDEVDIR
++- UDEVDIR = /lib/udev
+++ UDEVDIR = ${NONARCH_BASE_LIBDIR}/udev
++ endif
++ 
++ ifeq (,$(findstring s,$(MAKEFLAGS)))
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-index 465cdd9..a938b2d 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb
-@@ -93,6 +93,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- SRC_URI = "git://github.com/xrmx/bootchart.git \
-            file://bootchartd_stop.sh \
-            file://0001-collector-Allocate-space-on-heap-for-chunks.patch \
-+           file://0001-bootchart2-support-usrmerge.patch \
-           "
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 74c94f6..86c73ab 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -22,6 +22,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+ 	   file://mdadm.init \
+ 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
+            file://include_sysmacros.patch \
++           file://0001-mdadm-support-usrmerge.patch \
+            "
+ SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
+ SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+@@ -41,13 +42,13 @@ CFLAGS_append_powerpc64 = ' -D__SANE_USERSPACE_TYPES__'
+ CFLAGS_append_mipsarchn64 = ' -D__SANE_USERSPACE_TYPES__'
+ CFLAGS_append_mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
  
- S = "${WORKDIR}/git"
-@@ -114,6 +115,8 @@ UPDATERCPN = "bootchartd-stop-initscript"
- INITSCRIPT_NAME = "bootchartd_stop.sh"
- INITSCRIPT_PARAMS = "start 99 2 3 4 5 ."
+-EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
++EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}" BASE_SBINDIR="${base_sbindir}" \
++                NONARCH_BASE_LIBDIR="${nonarch_base_libdir}" \
++                SYSTEMD_UNITDIR="${systemd_unitdir}"'
  
-+EXTRA_OEMAKE = 'BASE_SBINDIR="${base_sbindir}"'
-+
- do_compile_prepend () {
-     export PY_LIBDIR="${libdir}/${PYTHON_DIR}"
-     export BINDIR="${bindir}"
-@@ -121,10 +124,6 @@ do_compile_prepend () {
+ DEBUG_OPTIMIZATION_append = " -Wno-error"
+ 
+ do_compile() {
+-	# Point to right sbindir
+-	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" -e "s;SYSTEMD_DIR=/lib/systemd/system;SYSTEMD_DIR=${systemd_unitdir}/system;" ${S}/Makefile
+ 	oe_runmake SYSROOT="${STAGING_DIR_TARGET}"
  }
  
- do_install () {
--    if ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','true','false',d)}; then
--        sed -i -e "s;install -m 755 -D bootchartd \$(DESTDIR)\$(EARLY_PREFIX)/sbin/;install -m 755 -D bootchartd \$(DESTDIR)/usr/sbin/;g" ${B}/Makefile
--    fi
--    sed -i -e "s;SYSTEMD_UNIT_DIR =; SYSTEMD_UNIT_DIR ?=;g" ${B}/Makefile
-     install -d ${D}${sysconfdir} # needed for -native
-     export PY_LIBDIR="${libdir}/${PYTHON_DIR}"
-     export BINDIR="${bindir}"
 -- 
 2.7.4
 
