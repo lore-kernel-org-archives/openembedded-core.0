@@ -1,53 +1,30 @@
-Return-Path: <prvs=14556ee86=Mikko.Rapeli@bmw.de>
-Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
-	[68.232.139.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 18CC97F21A
+Return-Path: <ross.burton@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 71F267CE22
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 08:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1567756969; x=1599292969;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=TiLt/Pmp7rj7XRs7J6YTmA6QPWL7PL3ej/3HnwzCg3w=;
-	b=PAuy+/PD157qWnSfzGmKzNS/uQHQV445m+8c4wK4wI7MELjDnLqCJXHN
-	AVttgiRqR1ZGKQz55qc7iigUTOJG1A5cWOr6HZkJGBS23QK2fdoC+3GEr
-	EIUVI2F4pUePyaQBfCWi/tqZbU6Dbw+I2On60b1nM4uurOAh0K9ACA6TY I=;
-IronPort-SDR: UW0mzMoTYYfPuGH6YpGxHc/3EerLrgLNGk8GdHS9YHwn8i6pwIFKOG3uSTL9BiesXF38ZrQV5h
-	nauu64Tid2eiTsiv+BTaxqoHvhmQfsrEX6te6rUseq7IQZ9XFc6qVBpwWPg9ptjcvz3evSPHpM
-	DTkf+2hC3sodHp6ol7FWrS0tiIUQ9hv13uBJo2zAo4oJMThI5ZFjadbDL0xhvqO3W/3A+675+p
-	AB+wVeHJCM7Gr1De3Zol97JYgVUCwmAxbCILjimsaMvkJcnxIANhi0l4vZuTCrzajHjhNGoKOh
-	eno=
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
-	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 06 Sep 2019 10:02:46 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw3.muc with ESMTP/TLS;
-	06 Sep 2019 10:02:44 +0200
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb2.muc with ESMTP/TLS; 06 Sep 2019 10:02:44 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Fri, 6 Sep 2019 10:02:44 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Fri, 6 Sep 2019 10:02:44 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] systemd: ensure reproducible builds by clearly
-	exposing the time epoch support
-Thread-Index: AQHVZIl26Qp36vankES4uB2+wLaIJA==
-Date: Fri, 6 Sep 2019 08:02:44 +0000
-Message-ID: <20190906080244.GQ3040@hiutale>
+	Fri,  6 Sep 2019 09:03:15 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Sep 2019 02:03:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,472,1559545200"; d="scan'208";a="267303272"
+Received: from fwan32-mobl1.gar.corp.intel.com (HELO blackadder.local)
+	([10.252.38.244])
+	by orsmga001.jf.intel.com with ESMTP; 06 Sep 2019 02:03:15 -0700
+To: Mikko.Rapeli@bmw.de
 References: <20190905230706.31765-1-ross.burton@intel.com>
-In-Reply-To: <20190905230706.31765-1-ross.burton@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.41]
+	<20190906080244.GQ3040@hiutale>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <08bbe1da-daa8-cd05-b684-befb79353dbb@intel.com>
+Date: Fri, 6 Sep 2019 10:03:14 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190906080244.GQ3040@hiutale>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] systemd: ensure reproducible builds by clearly exposing the time epoch support
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -62,96 +39,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 08:02:47 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4E7ADD74E852F248A1397355C3A3E029@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 06 Sep 2019 09:03:15 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 06, 2019 at 12:07:06AM +0100, Ross Burton wrote:
-> systemd has the ability to check the time on boot and if it's earlier tha=
-n an
-> epoch determined at build time, set the time to that epoch.  This is usef=
-ul for
-> systems where the system time is January 1st 1970 (because the unix times=
-tamp
-> was 0 at boot) as then at least the time is reset to something approximat=
-ing the
-> right year at least.
->=20
-> By default systemd uses the mtime of the NEWS file, which is static for t=
-arballs
-> and corresponds to the time the release was made, but for git checkouts t=
-his is
-> simply the time do_unpack() was executed.  Thus, rebuilding systemd will =
-cause
-> this embedded timestamp to change.
->=20
-> Remove the PACKAGECONFIG time-epoch which has the logic reversed: enablin=
-g
-> time-epoch will set the epoch to the unix timestamp 0).  Replace with
-> set-time-epoch with the following semantics:
->=20
-> - When disabled, the time epoch is set to 0 (1st January 1970), so there =
-is no
->   time manipulation on boot.
->=20
-> - When enabled, if reproducible builds are configured by setting
->   SOURCE_DATE_EPOCH then that timestamp is used for the time epoch.  If
->   reproducible builds are not configured then the timestamp of NEWS (thus=
- the
->   build time) is used.
->=20
-> The set-time-epoch flag is enabled by default.
->=20
-> [ YOCTO #13473 ]
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-core/systemd/systemd_242.bb | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core=
-/systemd/systemd_242.bb
-> index 6bbe388b1f9..2c101cbbb4a 100644
-> --- a/meta/recipes-core/systemd/systemd_242.bb
-> +++ b/meta/recipes-core/systemd/systemd_242.bb
-> @@ -83,6 +83,7 @@ PACKAGECONFIG ??=3D " \
->      quotacheck \
->      randomseed \
->      resolved \
-> +    set-time-epoch \
+On 06/09/2019 09:02, Mikko.Rapeli@bmw.de wrote:
+> Could this be enabled automatically when local.conf has INHERIT += "reproducible_build" ?
 
-Could this be enabled automatically when local.conf has INHERIT +=3D "repro=
-ducible_build" ?
+The default behaviour is to respect that if enabled, otherwise use the 
+upstream default of the build time.  If the recipe followed the 
+reproducble_build inherit then if a user wants reproducible builds but 
+doesn't want the epoch then they won't be able to disable it (after all, 
+an epoch of 0 is reproducible).
 
--Mikko
-
->      smack \
->      sysusers \
->      timedated \
-> @@ -166,7 +167,12 @@ PACKAGECONFIG[seccomp] =3D "-Dseccomp=3Dtrue,-Dsecco=
-mp=3Dfalse,libseccomp"
->  PACKAGECONFIG[selinux] =3D "-Dselinux=3Dtrue,-Dselinux=3Dfalse,libselinu=
-x,initscripts-sushell"
->  PACKAGECONFIG[smack] =3D "-Dsmack=3Dtrue,-Dsmack=3Dfalse"
->  PACKAGECONFIG[sysusers] =3D "-Dsysusers=3Dtrue,-Dsysusers=3Dfalse"
-> -PACKAGECONFIG[time-epoch] =3D "-Dtime-epoch=3D0,,"
-> +# When enabled use reproducble build timestamp if set as time epoch,
-> +# or build time if not. When disabled, time epoch is unset.
-> +def build_epoch(d):
-> +    epoch =3D d.getVar('SOURCE_DATE_EPOCH') or "-1"
-> +    return '-Dtime-epoch=3D%d' % int(epoch)
-> +PACKAGECONFIG[set-time-epoch] =3D "${@build_epoch(d)},-Dtime-epoch=3D0"
->  PACKAGECONFIG[timedated] =3D "-Dtimedated=3Dtrue,-Dtimedated=3Dfalse"
->  PACKAGECONFIG[timesyncd] =3D "-Dtimesyncd=3Dtrue,-Dtimesyncd=3Dfalse"
->  PACKAGECONFIG[usrmerge] =3D "-Dsplit-usr=3Dfalse,-Dsplit-usr=3Dtrue"
-> --=20
-> 2.20.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+Ross
 
