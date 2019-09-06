@@ -1,27 +1,36 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 086B57F427
+Return-Path: <Peiran.Hong@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A32317F427
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 15:10:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x86FAEum018752
+	Fri,  6 Sep 2019 15:18:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x86FHYg5002181
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 6 Sep 2019 08:10:14 -0700 (PDT)
-Received: from [128.224.56.218] (128.224.56.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Fri, 6 Sep 2019 08:10:13 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Fri, 6 Sep 2019 08:17:44 -0700
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.159]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0468.000;
+	Fri, 6 Sep 2019 08:17:23 -0700
+From: "Hong, Peiran" <Peiran.Hong@windriver.com>
+To: "MacLeod, Randy" <Randy.MacLeod@windriver.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <20190906140443.30110-1-Trevor.Gamblin@windriver.com>
-	<d1e5a94c07b6298a2c5d5041de7910e935eea06d.camel@linuxfoundation.org>
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-Message-ID: <9f2cad3d-cf89-d9da-025c-ea3e5168b5e2@windriver.com>
-Date: Fri, 6 Sep 2019 11:10:12 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+Thread-Topic: [OE-core] [OE-Core][PATCH] diffutils: Add valgrind to support
+	ptest
+Thread-Index: AQHVZAAIF9hrxUhjB0GrZZg5B6ikoacdw0IAgAAYDwCAAOQH9A==
+Date: Fri, 6 Sep 2019 15:17:22 +0000
+Message-ID: <D6CF5EA73090234FBEF8BD7F2B0E4575E2DA3F@ALA-MBD.corp.ad.wrs.com>
+References: <20190905153846.11226-1-peiran.hong@windriver.com>
+	<e492d6be1e469026e7132b3a6c78c2775c2eeca6.camel@linuxfoundation.org>,
+	<8b46625d-8e49-4e41-c153-a7fd8f544bd1@windriver.com>
+In-Reply-To: <8b46625d-8e49-4e41-c153-a7fd8f544bd1@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.140.226]
 MIME-Version: 1.0
-In-Reply-To: <d1e5a94c07b6298a2c5d5041de7910e935eea06d.camel@linuxfoundation.org>
-Subject: Re: [PATCH] libevent: add granularity to ptest
+Subject: Re: [PATCH] diffutils: Add valgrind to support ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,229 +43,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 15:10:14 -0000
-Content-Type: multipart/alternative;
-	boundary="------------241BB08507ACAEF1AC928958"
+X-List-Received-Date: Fri, 06 Sep 2019 15:18:09 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
---------------241BB08507ACAEF1AC928958
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 9/6/19 10:26 AM, Richard Purdie wrote:
+________________________________________
+From: MacLeod, Randy
+Sent: Thursday, September 05, 2019 14:23
+To: Richard Purdie; Hong, Peiran; openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [OE-Core][PATCH] diffutils: Add valgrind to support =
+ptest
 
-> On Fri, 2019-09-06 at 10:04 -0400, Trevor Gamblin wrote:
->> From: Trevor Gamblin <trevor.gamblin@windriver.com>
+On 9/5/19 12:57 PM, Richard Purdie wrote:
+> On Thu, 2019-09-05 at 11:38 -0400, Peiran Hong wrote:
+>> From: Peiran Hong <Peiran.Hong@windriver.com>
 >>
->> The libevent ptest used to report only a global pass or a fail
->> result.
->> Count individual PASS, FAIL, SKIP results. The SKIP results now
->> include tests that are disabled in the libevent code.
+>> The test "strip-trailing-cr" for diffutils package is skipped since
+>> it requires
+>> valgrind to run. This commit adds valgrind to the run-time dependency
+>> of
+>> the recipe for diffutils.
 >>
->> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+>> Signed-off-by: Peiran Hong <Peiran.Hong@windriver.com>
 >> ---
->>   .../libevent/libevent/run-ptest               | 34 ++++++++++++-----
->> --
->>   1 file changed, 22 insertions(+), 12 deletions(-)
+>>   meta/recipes-extended/diffutils/diffutils_3.7.bb | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
 >>
->> diff --git a/meta/recipes-support/libevent/libevent/run-ptest
->> b/meta/recipes-support/libevent/libevent/run-ptest
->> index 0241851c70..b7d945246f 100644
->> --- a/meta/recipes-support/libevent/libevent/run-ptest
->> +++ b/meta/recipes-support/libevent/libevent/run-ptest
->> @@ -1,18 +1,28 @@
->>   #!/bin/sh
->>   
->> -fail=0
->> +# run-ptest - 'ptest' test infrastructure shell script that
->> +#   wraps the libevent test scripts
->> +#
->> +# Trevor Gamblin <trevor.gamblin@windriver.com>
->> +###############################################################
->> +LIBEVENTLIB=/usr/lib/libevent
->> +LOG="${LIBEVENTLIB}/ptest/libevent_ptest_$(date +%Y%m%d-%H%M%S).log"
->> +
->> +cd ${LIBEVENTLIB}/ptest
->> +
->>   for test in ./test/*
->>   do
->> -	$test
->> -	if [ $? -ne 0 ]
->> -	then
->> -		fail=1
->> -	fi
->> +    $test 2>&1|tee -a ${LOG}
->>   done
->>   
->> -if [ $fail -eq 0 ]
->> -then
->> -	echo "PASS: libevent"
->> -else
->> -	echo "FAIL: libevent"
->> -fi
->> +passed=`grep OK ${LOG}|wc -l`
->> +failed=`grep FAILED ${LOG}|wc -l`
->> +skipped=`grep -E 'DISABLED|SKIPPED' ${LOG}|wc -l`
->> +all=$((passed + failed + skipped))
->> +
->> +(   echo "=== Test Summary ==="
->> +    echo "TOTAL: ${all}"
->> +    echo "PASSED: ${passed}"
->> +    echo "FAILED: ${failed}"
->> +    echo "SKIPPED: ${skipped}"
->> +) | tee -a ${LOG}
-> Does this work correctly such that ptest-runner picks up the individual
-> test pass/fail results? I thought the tests would need individual
-> pass/fail lines for that to work?
+>> diff --git a/meta/recipes-extended/diffutils/diffutils_3.7.bb
+>> b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+>> index 7daeee3513..2d763633b6 100644
+>> --- a/meta/recipes-extended/diffutils/diffutils_3.7.bb
+>> +++ b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+>> @@ -17,7 +17,9 @@ acpaths =3D "-I ./m4"
+>>
+>>   inherit ptest
+>>
+>> -RDEPENDS_${PN}-ptest +=3D "make"
+>> +# Include valgrind since the test "strip-trailing-cr" requires it to
+>> run, although
+>> +# valgrind is a heavy package for diffutils
+>> +RDEPENDS_${PN}-ptest +=3D "make valgrind"
+>
+> This effectively means "bitbake diffutils" now requires valgrind to
+> build before it. I'm not sure its worth doing that for a single test?
+
+I was on the fence as well but I thought we'd ask devs on the list by
+sending the patch.
+
+Peiran,
+
+Please send a v2 that SKIPs the test.
+
+../Randy
+
 >
 > Cheers,
 >
 > Richard
 >
->
-They do have individual pass/fail results in the ptest-runner output, 
-but those don't match up with the pass/fail usually provided by ptest, 
-so the log is parsed for OK/FAILED/SKIPPED/DISABLED and translated. 
-Example output:
 
-|write_cb: write 12
-write_cb: write -1
-=== Test Summary ===
-TOTAL: 316
-PASSED: 300
-FAILED: 0
-SKIPPED: 16
-DURATION: 87
-END: /usr/lib/libevent/ptest
-2019-09-06T14:50
-STOP: ptest-runner|
+I took valgrind out of the recipe, but there is another test "large-subopt"
+that requires perl, which is also a dependency of valgrind. Here is some
+information of the size and packages of core-image-minimal with and without=
+ valgrind and perl FYI.
 
-Compare with the last log from autobuilder 
-(https://autobuilder.yocto.io/pub/non-release/20190829-10/testresults/qemux86-64-ptest/libevent.log):
+Without both:
+  Image size: 61776 KiB
 
-|write_cb: write 12||
-||write_cb: write -1||
-||FAIL: libevent||
-||DURATION: 116|
+With valgrind:
+  Image size: 125248 KiB
+  Extra packages:
+    36392 KiB     libc6-dbg
+    23265 KiB     valgrind
+    3293  KiB     perl
+    39    KiB     perl-module-config-heavy
 
-||I'm working on a v2 to address multilib - I'll add the example output 
-to the commit as well.
+With perl:
+  Image size: 65160 KiB
+  Extra packages:
+    3293  KiB     perl
+    39    KiB     perl-module-config-heavy
 
 
---------------241BB08507ACAEF1AC928958
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Adding only perl to the recipe seems fine to me.
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>On 9/6/19 10:26 AM, Richard Purdie wrote:<br>
-    </p>
-    <blockquote type="cite"
-cite="mid:d1e5a94c07b6298a2c5d5041de7910e935eea06d.camel@linuxfoundation.org">
-      <pre class="moz-quote-pre" wrap="">On Fri, 2019-09-06 at 10:04 -0400, Trevor Gamblin wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">From: Trevor Gamblin <a class="moz-txt-link-rfc2396E" href="mailto:trevor.gamblin@windriver.com">&lt;trevor.gamblin@windriver.com&gt;</a>
+Peiran
 
-The libevent ptest used to report only a global pass or a fail
-result.
-Count individual PASS, FAIL, SKIP results. The SKIP results now
-include tests that are disabled in the libevent code.
-
-Signed-off-by: Trevor Gamblin <a class="moz-txt-link-rfc2396E" href="mailto:trevor.gamblin@windriver.com">&lt;trevor.gamblin@windriver.com&gt;</a>
----
- .../libevent/libevent/run-ptest               | 34 ++++++++++++-----
 --
- 1 file changed, 22 insertions(+), 12 deletions(-)
+# Randy MacLeod
+# Wind River Linux
 
-diff --git a/meta/recipes-support/libevent/libevent/run-ptest
-b/meta/recipes-support/libevent/libevent/run-ptest
-index 0241851c70..b7d945246f 100644
---- a/meta/recipes-support/libevent/libevent/run-ptest
-+++ b/meta/recipes-support/libevent/libevent/run-ptest
-@@ -1,18 +1,28 @@
- #!/bin/sh
- 
--fail=0
-+# run-ptest - 'ptest' test infrastructure shell script that
-+#   wraps the libevent test scripts 
-+#
-+# Trevor Gamblin <a class="moz-txt-link-rfc2396E" href="mailto:trevor.gamblin@windriver.com">&lt;trevor.gamblin@windriver.com&gt;</a>
-+###############################################################
-+LIBEVENTLIB=/usr/lib/libevent
-+LOG="${LIBEVENTLIB}/ptest/libevent_ptest_$(date +%Y%m%d-%H%M%S).log"
-+
-+cd ${LIBEVENTLIB}/ptest 
-+
- for test in ./test/*
- do
--	$test
--	if [ $? -ne 0 ]
--	then
--		fail=1
--	fi
-+    $test 2&gt;&amp;1|tee -a ${LOG}
- done
- 
--if [ $fail -eq 0 ]
--then
--	echo "PASS: libevent"
--else
--	echo "FAIL: libevent"
--fi
-+passed=`grep OK ${LOG}|wc -l`
-+failed=`grep FAILED ${LOG}|wc -l`
-+skipped=`grep -E 'DISABLED|SKIPPED' ${LOG}|wc -l`
-+all=$((passed + failed + skipped))
-+
-+(   echo "=== Test Summary ==="
-+    echo "TOTAL: ${all}"
-+    echo "PASSED: ${passed}"
-+    echo "FAILED: ${failed}"
-+    echo "SKIPPED: ${skipped}"
-+) | tee -a ${LOG}
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Does this work correctly such that ptest-runner picks up the individual
-test pass/fail results? I thought the tests would need individual
-pass/fail lines for that to work?
-
-Cheers,
-
-Richard
-
-
-</pre>
-    </blockquote>
-    <p>They do have individual pass/fail results in the ptest-runner
-      output, but those don't match up with the pass/fail usually
-      provided by ptest, so the log is parsed for
-      OK/FAILED/SKIPPED/DISABLED and translated. Example output:</p>
-    <code>write_cb: write 12<br>
-      write_cb: write -1<br>
-      === Test Summary ===<br>
-      TOTAL: 316<br>
-      PASSED: 300<br>
-      FAILED: 0<br>
-      SKIPPED: 16<br>
-      DURATION: 87<br>
-      END: /usr/lib/libevent/ptest<br>
-      2019-09-06T14:50<br>
-      STOP: ptest-runner</code><br>
-    <p>Compare with the last log from autobuilder
-(<a class="moz-txt-link-freetext" href="https://autobuilder.yocto.io/pub/non-release/20190829-10/testresults/qemux86-64-ptest/libevent.log">https://autobuilder.yocto.io/pub/non-release/20190829-10/testresults/qemux86-64-ptest/libevent.log</a>):</p>
-    <p><code>write_cb: write 12</code><code><br>
-      </code><code>write_cb: write -1</code><code><br>
-      </code><code>FAIL: libevent</code><code><br>
-      </code><code>DURATION: 116</code></p>
-    <p><code></code>I'm working on a v2 to address multilib - I'll add
-      the example output to the commit as well.<br>
-    </p>
-  </body>
-</html>
-
---------------241BB08507ACAEF1AC928958--
