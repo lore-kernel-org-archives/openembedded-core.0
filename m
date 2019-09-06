@@ -1,50 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
-	[209.85.210.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 823547F284
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
+	[209.85.217.46])
+	by mail.openembedded.org (Postfix) with ESMTP id CF7127F420
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 20:25:59 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id w22so5314310pfi.9
+	Fri,  6 Sep 2019 20:33:33 +0000 (UTC)
+Received: by mail-vs1-f46.google.com with SMTP id s3so4901020vsi.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2019 13:26:00 -0700 (PDT)
+	Fri, 06 Sep 2019 13:33:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=2sD8QkTwVODnztVOeb6wrUxwXz3La9J8IuUOxATSKto=;
-	b=onlVMfP93Rb/4g3KuFHowtxHOusMqTAlxjlq7E+F3hy3GZlgTM9aRJteEEOTsPFlDV
-	qGTQiU+cRrH+2w7nPaV5xpM8e9RTs1WukPpQ76Sio7C37VBeOrf1D0glsIvkdoNln9qp
-	7PfksMK7pJJfcvvPHYhHDbPusjWZb95w3t7DMdfFkZ6ZgEcPmSR1yEtLK0ILHvPuT5qv
-	tkUksMZqJma65jfitFnkcdtY/NrjcNZJM/mWu+ywKSsrJGP1LbKyDwSfA3peWEuTDcXk
-	Z+aOc4KHHJ+Syr6JpQ7qp/firgFEcf2khzNt7Q8Y8R3/jo8vzTI76BjR2K75at+oy2ra
-	uxqQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=WxNS5Ayc0L/3R+y5Gl8V8Lw3nQviiM1oEHILASZtWWA=;
+	b=hM0EaWMD8B+s1sRRdGTGfKKrBzakQuxLjwgWLkkPkr5ick+TYZ/pkEy+ACgjTz4T5q
+	e6XfB4bCp4IBC9RVXHnQo5zkE16Hm+njsoSmEgqkmowO+y57XqcN2SJAq1tBdS7h2b7P
+	LEuyXfdpPA43W5PQLagnJluRAF1UeOg5MafmG5zOf3py4zgDYw/rVvk+kaRosJmOmaEo
+	9Ui7nxXNfoe7th6++SCA7rb6wIoXjTGvv3LUHyWuAeQd+0pHCET1+p/R4O1M75HpK6gY
+	1itovLGBRVE+FxAV6zTwQphQ15EOCY6rsBVOo+rf4kCtcoG6ABb2R+QjPL0eudS+8cPD
+	I2uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=2sD8QkTwVODnztVOeb6wrUxwXz3La9J8IuUOxATSKto=;
-	b=sTFZQrkaD8iyk8x4hAfIoEO2ZE1g9s7s4UnEfkIFy0we8+QkblrgFDOcxaZ/Vc6X19
-	hpy8l50KEUfE7wppNkKHFAKX7u1Tv443p0xS5R0V6agwXLwG1WjOATE6Mg6VJ+UCjz8C
-	ifSmtep10hJdvUmyvXZWqkmAs+5rXLJPT2B3kkmwbYpcLVmXxlVkEyIh0zbGdtmltW8T
-	eEEsQi5E4a/JLXWKY1y4uIGlu/bs2jClohIyFWMme3uovtZTbxWVPChuAyaAZUoW7ZUD
-	x7hhau0SpM2YZDe837Q2kwgG1sqmHd2r3cExVyNPLON8Elz97nycfdOGMK+k4szQnPvM
-	DL7Q==
-X-Gm-Message-State: APjAAAVvlj82E8O6ozfSG2CnbkNHx5PFibEryIcwP1Uh0N7POIK0+BnT
-	AqaV/hKrdNwq6Iopd2u20/9qy5hJge4=
-X-Google-Smtp-Source: APXvYqycVwGolBoI9auTfSeF3nRzyNFngbyKSLKanIt1OrxMbOB72K6ms377m/GerXU0QfpEct6hWQ==
-X-Received: by 2002:a62:3c1:: with SMTP id 184mr6936624pfd.209.1567801559813; 
-	Fri, 06 Sep 2019 13:25:59 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	a186sm5945889pge.0.2019.09.06.13.25.58
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Sep 2019 13:25:59 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Sep 2019 13:25:51 -0700
-Message-Id: <20190906202551.10981-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=WxNS5Ayc0L/3R+y5Gl8V8Lw3nQviiM1oEHILASZtWWA=;
+	b=CbiniHApLCD3shhT7DluxDFbObmSK8iIOftwePx5Ugu2REwiWwYo6VQlHH4s7nlEEK
+	mhjpamyLLTCCGUQ/3GASYcpR81O4kVMrafnCjb97Ol9w3y0bIRDnE0qCxtdTIaV2PHKV
+	X7IAY+9ZTmzlk9Wlnv8FcsMSPhDpnwuP8V7SXB81LeYmsMjyskEaOhAFAFLnrVEj8/uK
+	abt/LuXGqLOOkY0mEEG9/8znQnHbF+IpKiPV4AQ4A3Zz8ZzjZL3djcreulteJgoeO1+m
+	iVPjNsEzGG/DCqBykp9xKfrZgxaAlTtc/ywqKhfwqAuR0l472grcKTxeTj+NrGw4FRq+
+	J3CQ==
+X-Gm-Message-State: APjAAAUL9z6BoyAPYanlLQOtZ4OjFlWD1kCOPDBikqiTB+2N5nMW7p4l
+	1MnjQQhmPc1DyG9EyK1pG7qtYuHdERtxLOsFKD0zqNFX
+X-Google-Smtp-Source: APXvYqx1AtAqvIXR+Ym4ZgnsDqqG6tHOouk6pFerEOb7c7DascpM/tDtrd3IWVb4QWddABFV1OEDF67T+++1pKhb8ZU=
+X-Received: by 2002:a67:1c87:: with SMTP id c129mr6674610vsc.23.1567802014629; 
+	Fri, 06 Sep 2019 13:33:34 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] oeqa: Recognise svlogd as another logger
+References: <20190906184727.552-1-fabio.berton@ossystems.com.br>
+	<CANNYZj8jseQc9Lnt8r1SuDdh4q_xUJy5FkpUukpLzUbVn5vW2g@mail.gmail.com>
+	<CAP9ODKp8Bmss=NcsPYMgCqKAoKDpPSrCKzA7Tm8FoNOM8tSejA@mail.gmail.com>
+In-Reply-To: <CAP9ODKp8Bmss=NcsPYMgCqKAoKDpPSrCKzA7Tm8FoNOM8tSejA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 6 Sep 2019 22:33:22 +0200
+Message-ID: <CANNYZj-N7zt57Gcbfj=0E-dunRwDQSLUfyQ3cpt=8AFHHjVS-A@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: Upgrade 19.1.1 -> 19.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +56,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 20:25:59 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 06 Sep 2019 20:33:34 -0000
+Content-Type: multipart/alternative; boundary="0000000000002906700591e85afa"
 
-This is provided by runit which another init system like systemd,
-sysvinit, this lets oeqa run on systems which are using runit
+--0000000000002906700591e85afa
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/lib/oeqa/runtime/cases/oe_syslog.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 6 Sep 2019 at 22:12, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
 
-diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-index 3a8271a53a..f3c2bedbaf 100644
---- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-@@ -17,7 +17,7 @@ class SyslogTest(OERuntimeTestCase):
-         msg = "Failed to execute %s" % self.tc.target_cmds['ps']
-         self.assertEqual(status, 0, msg=msg)
-         msg = "No syslog daemon process; %s output:\n%s" % (self.tc.target_cmds['ps'], output)
--        hasdaemon = "syslogd" in output or "syslog-ng" in output
-+        hasdaemon = "syslogd" in output or "syslog-ng" in output or "svlogd" in output
-         self.assertTrue(hasdaemon, msg=msg)
- 
- class SyslogTestConfig(OERuntimeTestCase):
--- 
-2.23.0
+> > As I had previously suggested... can you try adding 'python3' to DEPENDS
+> of mesa, and see if that helps please? I think that would allow avoiding
+> this patch altogether.
+>
+> Why a new build dependency if this works just fine?
+>
 
+1. Less patches is always better than more patches, especially if they are
+non-upstreamable.
 
+2. The patch reverts to something that meson has deprecated and will likely
+remove in the future.
+https://github.com/mesonbuild/meson/blob/master/docs/markdown/Python-3-module.md
+
+3. Meson's currently supported way of detecting python does in fact rely on
+python's target configuration being available, as it picks up settings from
+it. I had fixed a similar issue elsewhere recently.
+
+Alex
+
+--0000000000002906700591e85afa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 6 Sep 2019 at 22:12, Otavio Salva=
+dor &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br">otavio.salvador=
+@ossystems.com.br</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">&gt; As I had previously sugges=
+ted... can you try adding &#39;python3&#39; to DEPENDS of mesa, and see if =
+that helps please? I think that would allow avoiding this patch altogether.=
+<br>
+<br>
+Why a new build dependency if this works just fine?<br></blockquote><div><b=
+r></div><div>1. Less patches is always better than more patches, especially=
+ if they are non-upstreamable. <br></div><div><br></div><div>2. The patch r=
+everts to something that meson has deprecated and will likely remove in the=
+ future.</div><div><a href=3D"https://github.com/mesonbuild/meson/blob/mast=
+er/docs/markdown/Python-3-module.md">https://github.com/mesonbuild/meson/bl=
+ob/master/docs/markdown/Python-3-module.md</a></div><div><br></div><div>3. =
+Meson&#39;s currently supported way of detecting python does in fact rely o=
+n python&#39;s target configuration being available, as it picks up setting=
+s from it. I had fixed a similar issue elsewhere recently.<br></div><br><di=
+v>Alex<br></div><div><br></div></div></div>
+
+--0000000000002906700591e85afa--
