@@ -1,49 +1,27 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C275D7F3E7
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D6C397F3DC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 12:52:17 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id u13so4923100lfm.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2019 05:52:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=alu0ygKCZGA/r7l7daQV/hnwuroc15GsBrzDlyM8tCw=;
-	b=hlHkh8BOSxHitfeD2D34VHF8fbo+ZENiqz/fPWyzy3UTTiGUjLIcL5dbth6cErTA0H
-	Iu1xhjn9V7m6fXsF8L6aSi/4J49x0vBRd1TIcHq5dvelb16c4K+UVygO+HRKFbiJDRMP
-	dly2qMsxwrrG6Hl4oNJXPNfAOiEnpkt56p4p/ocYOSY9bRnXxAE+1LDR2m8DDGFmfz/z
-	PEBRJItE5rv2D3fZTIfhO6TduNxjk0tV8tNcfWhXUgt0p1vPE7/PDbOp1TImAmWQ3Z9j
-	hvnJTbMlj0E36KKwIAduQlOKtMQrzshAwAA1twxXrD9GTNJHzdOHYEew8bXupF7z0R6h
-	Yu8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=alu0ygKCZGA/r7l7daQV/hnwuroc15GsBrzDlyM8tCw=;
-	b=RGEkdrolPb3ZgAzkjs5UyjZeF6otCAacB7fs5aZS+lAHAsHLn9gXIRU65lyZCx1ipd
-	OR2nCzSnDZ/QzrSPB8pOnPyvBMF9AVz9YWYGSn5PxvxNqXmG7aXfQtLRHFMOqfFnxvXA
-	zzQPkhZt8MD+bvaUuHA0zVkhXTnP0ePdmzFs1/bDqriGIsK2R9Q7J0t2LCXzE+DuJogk
-	MRz4hJR6UUrF2fzEAdCa/GqkS+9pj/g5Vec/BhitHlqbSLsQzxuEwp7FPTQEJWo/SmRL
-	0O3Mi/pwF3MfUvT/CiM55Vmj9FwLRQRTIgizKzt2XkaV0aHUkTuyMKtCI3JZTeoplAPL
-	RwaA==
-X-Gm-Message-State: APjAAAUNPwoaNA1bCopIIfbQyeU7XahfKAogt/3nnrkgLI7XGLkIpGwm
-	72vdCJWd+nclxA2br4csJMuCVkLGbAhZfSsi0XfQkRIG
-X-Google-Smtp-Source: APXvYqxG5aj9Fx+6SRNmlGmC1qp4TChEYpMoQtTlS2VyPYY1DZVYrcID5Pwo8roJmaCpPNBf14mn3GlQ9KHU6KXaCX8=
-X-Received: by 2002:a19:428f:: with SMTP id p137mr6315064lfa.149.1567774338168;
-	Fri, 06 Sep 2019 05:52:18 -0700 (PDT)
+	Fri,  6 Sep 2019 13:40:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x86Derbr022662
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 6 Sep 2019 06:40:54 -0700 (PDT)
+Received: from yow-masselst-lx1.localnet (128.224.60.192) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Fri, 6 Sep 2019 06:40:53 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 6 Sep 2019 09:40:52 -0400
+Message-ID: <2836292.ZHCZ8s5Y3I@yow-masselst-lx1>
+Organization: Wind River
+In-Reply-To: <8df1bb0c9e27121ec35c2e003fab2d498a09df1b.camel@linuxfoundation.org>
+References: <20190822155616.35046-1-mark.asselstine@windriver.com>
+	<c20767b7-a549-5075-20a0-ac115bbc1bbd@linuxfoundation.org>
+	<8df1bb0c9e27121ec35c2e003fab2d498a09df1b.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20190906072347.31616-1-richard.purdie@linuxfoundation.org>
-	<CADkTA4OFwO91cmwrvrTeHWHLF2iEz_JrxU=WODARQsiBqCSSHQ@mail.gmail.com>
-	<3d3dc2514bd632d216550b3b42308abfdfbb46a8.camel@linuxfoundation.org>
-In-Reply-To: <3d3dc2514bd632d216550b3b42308abfdfbb46a8.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 6 Sep 2019 08:52:07 -0400
-Message-ID: <CADkTA4MQ3xdrcED6==Ha=gbcON0hpabann6g=trM5d7FgkQPng@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] systemtap: Test latest and greatest for 5.2 kernel
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][V2] sdkext: use simpler kernel module for devtool test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,54 +34,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 12:52:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 06 Sep 2019 13:40:55 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Sep 6, 2019 at 8:43 AM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2019-09-06 at 08:24 -0400, Bruce Ashfield wrote:
-> > On Fri, Sep 6, 2019 at 3:24 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > Systemtap has issues with the 5.2 kernel which are fixed in master,
-> > > we helped
-> > > debug and submitted some of the patches. Update to a git version
-> > > which includes
-> > > all the fixes.
-> >
-> > And I can confirm that I can now run the stap test on all the arches
-> > with 5.2.
->
-> Cool. I also got a few more systemtap patches accepted upstream so we
-> can clean up the patches there a bit.
+On Friday, September 6, 2019 6:56:26 A.M. EDT 
+richard.purdie@linuxfoundation.org wrote:
+> On Thu, 2019-09-05 at 17:10 -0700, Michael Halstead wrote:
+> > On 9/5/19 2:27 PM, richard.purdie@linuxfoundation.org wrote:
+> > > On Thu, 2019-09-05 at 13:54 -0400, Mark Asselstine wrote:
+> > > > Richard, are you thinking we need to figure out the
+> > > > git.yoctoproject.org repo
+> > > > before we can move ahead with merging this?
+> > > 
+> > > I would like to fix that, yes. I could ask Michael for help but I
+> > > do
+> > > have access to sort it myself too.
+> > > 
+> > > I'm also trying to sort out a few other issues before -next can
+> > > merge.
+> > > 
+> > > Since I'm failing to get to it,
+> > > 
+> > > Michael,
+> > > 
+> > > Could you clone:
+> > > 
+> > > https://github.com/masselstine/kernel-module-hello-world.git
+> > > 
+> > > onto git.yp.org as a new repo and give write access to it for Mark,
+> > > myself, Bruce and Ross please?
+> > 
+> > This repo is ready at
+> > git@push.yoctoproject.org:kernel-module-hello-world for the four of
+> > you.
+> > 
+> > It is available read-only for anyone at,
+> > 
+> > git://git.yoctoproject.org/kernel-module-hello-world
+> > 
+> > and
+> > 
+> > https://git.yoctoproject.org/git/pokykernel-module-hello-world
+> 
+> Thanks Michael.
+> 
+> Mark: I tweaked your patch and its now merged (avoiding the typo
+> above!)
 
-We will soon declare you a systemtap expert ;)
+Great, thanks Michael and RP for following through on this.
 
->
-> >
-> > I'll send the rest of my 5.2 queue in a few hours (the removal of
-> > 5.0,
-> > and setting 5.2 as default where needed). I just want to run a few
-> > more tests before sending.
->
-> I actually merged my patch to poky which changed the default FWIW since
-> it made it though the autobuilder...
+MarkA
 
-No worries. I'll make sure to check master and master-next before
-sending anything! That really just leaves me with the 5.0 removal, so
-I'll double check for lingering references to it and send the patch
-along.
-
-Bruce
-
->
+> 
 > Cheers,
->
+> 
 > Richard
->
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+
+
 
