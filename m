@@ -1,53 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
 	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B4BC7F322
+	by mail.openembedded.org (Postfix) with ESMTP id 46EC67F2EA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 09:49:13 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id r195so6341109wme.2
+	Fri,  6 Sep 2019 10:22:15 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id t17so5917873wmi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2019 02:49:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=rTtC6MDubYPpp+d01xcNhmQvzrXviMn2mLEJ1G/Qvkw=;
-	b=Ni/XmDiEol8Fj3mJY01x/Ldit7zYVCsKCmUnaHG615tWQ1nQ5fiiapUOX/BgCKJioa
-	Pruuq7/TNQp6WlbqfnONWePoEjEEk38H6qB1M8+E9pnGC/MmmzL7Pt8UIyIluH8mCIXC
-	K2QvjDZisgmQEGYC57+PNeK/13mJpejwV4oqg=
+	Fri, 06 Sep 2019 03:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=lvCbOSFjAScv3CjyvW5kdqFfVo4Kbjd9aReNQGTkpNQ=;
+	b=CRS/xvoELKUN28XA6LdRk/oMuYRuN5u277LUB197k8hhSYWj+ErZLlSaJVINQGqbY7
+	pUgGH6Fl9cXKY3VvJeLKeTt5QpmDKk41iidk2w7HcDq01uq6CcO2z+5yxlHBMqUCr/Iy
+	FMzcAmMfNieEQ5JrB5xZKSQ0tgk4zrQ0yeULbjUtXK+ZBJY4BkDrsXKLyHryHb0VpGQP
+	e7h20YXDyLVYaHhuRcR8A4m5Qne7xtEqBOYovnh19A+ZY+mHMCuYTqg4IU8vOw0SY1l9
+	RrnsrBpQrDqDJb9neNsDGiA77Vz0yVWvK5NssR4fKdaZPYspb8IpWtcLWOBsv+XSKdOG
+	/hzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=rTtC6MDubYPpp+d01xcNhmQvzrXviMn2mLEJ1G/Qvkw=;
-	b=id6Jq7GQg4+kjH2KL4fsZl3vs051PHMqLLWsxZQ4G7VkalEoKeZ7YLc1QkJy6uxhgo
-	vqgOfIM5m1idv0AXZGbM/KsGEUAffip5ejSu4rNBN1bGw7H0JZlh0WhUzt7A9z+abq/V
-	ptZM+bs7vSNbkKcX0SzkuTS44ZYQrSK7Cdkn0NlmkT5pvCf1xCSw4K53wcjamyot4Km7
-	3qVjoVR9Jyr3j1JfLN7yncVUsOaQfzW78R9JCM3/Ji1VsemBFY668pcnVWsUoQZo3ojU
-	3Sri2HJvlYPLyPUuPYhQ3ISf/05n2DBVAJiPL/v5HQ3FqL7v9074S4ux3r8t36BrCEmC
-	kDcg==
-X-Gm-Message-State: APjAAAW2Uq/ZWvppJzpGbKHaYUi60+7zhs9lA4BDQkmBC5AwoG64//CA
-	m3xpCaAvyIwbYu+5kDId9+wu6Q==
-X-Google-Smtp-Source: APXvYqweHbeif820GeYn8T0cMkxPD+N9y3x//uP82OotzsfSyy1wsXNb63drQfRs/BcN16Df7JClLw==
-X-Received: by 2002:a05:600c:22c9:: with SMTP id
-	9mr6708164wmg.133.1567763354427; 
-	Fri, 06 Sep 2019 02:49:14 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	p19sm4477870wmg.31.2019.09.06.02.49.13
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=lvCbOSFjAScv3CjyvW5kdqFfVo4Kbjd9aReNQGTkpNQ=;
+	b=QhY7GsjEGUiCyfPo73HkzqblF1SdVo0YSm6J+cDaoGy0XAtqyPgUfq6BAgecJ1GjlU
+	RElc3UxRMZ4jRRfP+/1NqgxKqTvCUi29/NsCNIe/56QuIUPyUoEaHahalppReCXIKMWr
+	mPccmZEP9CcpSk5CmYQBtztXo0UC6pCSfu/6dSpNwFImF2YmZNvg/WZyTOLKU6HmiWxV
+	WU1s3x2LRAAJyDu12Pzeb/n1dbsUSATsrs3Uk5vRRia3MIazO92ej00lBqI5lyF47XY6
+	bODRX5dtZwr9376QVA5q0zzoGqrm//qI+QBHuV4Pr8kksT75I38mFewQ3eBhCdYAgZao
+	jUJA==
+X-Gm-Message-State: APjAAAUW+4v6HOuSlBua6TxbTg1boyAl0Sd+qYz2qzJZff8M2ENEbCaN
+	IIvg7yx8uv7IeG1I/UDqIb+6nssk
+X-Google-Smtp-Source: APXvYqyqUKyj/rdXU0UwXsOCmB5Ob/S804p7XxgRoFABV/+Xopql+AdAeXEk//hIlrtas4A7r24m1Q==
+X-Received: by 2002:a05:600c:228a:: with SMTP id
+	10mr7002291wmf.62.1567765335726; 
+	Fri, 06 Sep 2019 03:22:15 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id h2sm8328144wrb.31.2019.09.06.03.22.14
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Sep 2019 02:49:13 -0700 (PDT)
-Message-ID: <e4f98f46bf6430a9ada9b2ef796e45dfc1f7cbcc.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>, 
-	openembedded-core@lists.openembedded.org, Nathan Rossi
-	<nathan@nathanrossi.com>
-Date: Fri, 06 Sep 2019 10:49:12 +0100
-In-Reply-To: <20190905135444.16261-1-JPEWhacker@gmail.com>
-References: <20190905135444.16261-1-JPEWhacker@gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Subject: Re: [PATCH] resulttool: Add reproducible log extraction
+	Fri, 06 Sep 2019 03:22:14 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Sep 2019 12:22:09 +0200
+Message-Id: <20190906102209.74968-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] package.bbclass: allow shell-style wildcards in PRIVATE_LIBS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,66 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 09:49:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Sep 2019 10:22:15 -0000
 
-On Thu, 2019-09-05 at 08:54 -0500, Joshua Watt wrote:
-> Adds an argument to the log subcommand to extract the raw logs from
-> the
-> reproducible selftest.
-> 
-> To prevent ambiguity, the "--raw" argument has been renamed
-> "--raw-ptest", although the old "--raw" argument is kept around for
-> compatibility.
-> 
-> [YOCTO #13324]
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  scripts/lib/resulttool/log.py | 33 ++++++++++++++++++++++++++++++---
->  1 file changed, 30 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/lib/resulttool/log.py
-> b/scripts/lib/resulttool/log.py
-> index 25c3396717e..2352c767d91 100644
-> --- a/scripts/lib/resulttool/log.py
-> +++ b/scripts/lib/resulttool/log.py
-> @@ -16,6 +16,16 @@ def show_ptest(result, ptest, logger):
->      print("ptest '%s' not found" % ptest)
->      return 1
->  
-> +def show_reproducible(result, reproducible, logger):
-> +    try:
-> +        print(result['reproducible'][reproducible]['diffoscope.text'
-> ])
-> +        return 0
-> +
-> +    except KeyError:
-> +        print("reproducible '%s' not found" % reproducible)
-> +        return 1
-> +
-> +
->  def log(args, logger):
->      results = resultutils.load_resultsdata(args.source)
->  
-> @@ -40,17 +50,28 @@ def log(args, logger):
->                          with open(dest, 'w') as f:
->                              f.write(ptest['log'])
-> 
+PRIVATE_LIBS is used to exclude 'private' libraries from getting added to
+automatic runtime dependency resolution. This variable currently has to list
+all libraries by name, which becomes a maintenance issue if the list
+of such libraries frequently changes, or is very large.
 
-You might want to consider this in autobuilder context:
+This change allows using shell-style wildcards in the variable, similar
+to how FILES lists what gets packaged.
 
-http://git.yoctoproject.org/cgit.cgi/yocto-autobuilder-helper/tree/scripts/generate-testresult-index.py#n121
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/classes/package.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Since the indexer could extract reproducible logs as well as ptest
-ones.
-
-Nathan: We probably need to think about the new testsuite pieces in
-this context too...
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 114d6559f5e..aa8451ffe8b 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1646,7 +1646,8 @@ python package_do_shlibs() {
+                 prov = (this_soname, ldir, pkgver)
+                 if not prov in sonames:
+                     # if library is private (only used by package) then do not build shlib for it
+-                    if not private_libs or this_soname not in private_libs:
++                    import fnmatch
++                    if not private_libs or len([i for i in private_libs if fnmatch.fnmatch(this_soname, i)]) == 0:
+                         sonames.add(prov)
+                 if libdir_re.match(os.path.dirname(file)):
+                     needs_ldconfig = True
+@@ -1829,7 +1830,8 @@ python package_do_shlibs() {
+             # /opt/abc/lib/libfoo.so.1 and contains /usr/bin/abc depending on system library libfoo.so.1
+             # but skipping it is still better alternative than providing own
+             # version and then adding runtime dependency for the same system library
+-            if private_libs and n[0] in private_libs:
++            import fnmatch
++            if private_libs and len([i for i in private_libs if fnmatch.fnmatch(n[0], i)]) > 0:
+                 bb.debug(2, '%s: Dependency %s covered by PRIVATE_LIBS' % (pkg, n[0]))
+                 continue
+             if n[0] in shlib_provider.keys():
+-- 
+2.17.1
 
 
