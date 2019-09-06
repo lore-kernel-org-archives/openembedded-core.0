@@ -1,26 +1,40 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FEE07F2DE
+Return-Path: <sean@geanix.com>
+X-Greylist: delayed 484 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 06 Sep 2019 05:59:10 UTC
+Received: from first.geanix.com (first.geanix.com [116.203.34.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 068757F308
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 03:38:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x863brYj016920
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Sep 2019 20:38:03 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Thu, 5 Sep 2019 20:37:42 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Sep 2019 11:37:39 +0800
-Message-ID: <1567741059-137869-2-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1567741059-137869-1-git-send-email-changqing.li@windriver.com>
-References: <1567741059-137869-1-git-send-email-changqing.li@windriver.com>
+	Fri,  6 Sep 2019 05:59:10 +0000 (UTC)
+Received: from [192.168.100.95] (unknown [95.138.208.137])
+	by first.geanix.com (Postfix) with ESMTPSA id 1532563709;
+	Fri,  6 Sep 2019 05:50:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
+	t=1567749049; bh=Y/MFUBqJ+g/cbvkCM5OvHqIGqYnxCc6s53n5fqNP8FM=;
+	h=Subject:To:References:From:Date:In-Reply-To;
+	b=HTdruNIhrkPbEsBm4xSlbDIptN3lqrvUiR+hC8vUZENEnflYnj8SYBwT0W7TuMkS9
+	oYsKGFO62m42fKVtMuuwJ3OSpn9arQJH+FefTq83zD/3ciUxjPzxnFhN4KJcuihSg1
+	e03iP3Btmg3R2Wkx07yNbM3Bk8MZK554t/QeSNyCDvF41poW60Q/FQXyXLf6/SeMtN
+	eEpBHePHlNHASd7BY/Kb4eBn15lNZTWPnDpj69RLlhgHddCiDjwHPUUFpuaLG0jWxo
+	yKIq/2M7fU8PGFseyzuIccY7WPGDLiofDsHCJzVtWwZCkTLOcHoab76sVDiIjjNC3k
+	o6RW7iiB9Wr9g==
+To: Khem Raj <raj.khem@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Armin Kuster <akuster808@gmail.com>
+References: <20190831142252.7204-1-raj.khem@gmail.com>
+	<CAMKF1spmWGzRPyih6uZsDmZj4Rwb0s_uwLOaDJuVGxyvtbS-jw@mail.gmail.com>
+From: Sean Nyekjaer <sean@geanix.com>
+Message-ID: <540dfb8b-f256-3983-a61e-ca4cc833c6d5@geanix.com>
+Date: Fri, 6 Sep 2019 07:50:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] mdadm: skip timeout testcase 11spare-migration
+In-Reply-To: <CAMKF1spmWGzRPyih6uZsDmZj4Rwb0s_uwLOaDJuVGxyvtbS-jw@mail.gmail.com>
+X-Spam-Status: No, score=-3.1 required=4.0 tests=ALL_TRUSTED,BAYES_00,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,URIBL_BLOCKED
+	autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on 77834cc0481d
+Subject: Re: [PATCH] libgpg-error: Fix build with gawk 5.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,84 +47,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 03:38:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Sep 2019 05:59:11 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
 
-[YOCTO #13368]
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../0001-mdadm-skip-test-11spare-migration.patch   | 43 ++++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb           |  2 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-skip-test-11spare-migration.patch
+On 04/09/2019 01.50, Khem Raj wrote:
+> Can we cherry-pick this patch to warrior and thud, please ?
 
-diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-skip-test-11spare-migration.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-skip-test-11spare-migration.patch
-new file mode 100644
-index 0000000..3a192cc
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-mdadm-skip-test-11spare-migration.patch
-@@ -0,0 +1,43 @@
-+From 1b83afa7c3121f819e72ea74883f8b6d61d6548e Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Fri, 6 Sep 2019 10:59:02 +0800
-+Subject: [PATCH] mdadm: skip test 11spare-migration
-+
-+11spare-migration is a test series to check mdadm Monitor migrates spares
-+according to rules in /etc/mdadm.conf defined by POLICY lines.
-+
-+[snip]
-+for scan in no yes; do
-+       for platform in 1.2 imsm; do
-+               try
-+       done
-+done
-+[snip]
-+
-+"try" includes near 20 sub testcase, so there are nearly 80 subcases need to run,
-+so it will take long time than ptest-runner timeout limit, skip it as workaround.
-+
-+Upstream-Status: Inappropriate[oe-specific]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ test | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/test b/test
-+index 711a3c7..880dd1d 100755
-+--- a/test
-++++ b/test
-+@@ -272,6 +272,9 @@ main() {
-+ 	else
-+ 		for script in $testdir/$prefix $testdir/$prefix*[^~]
-+ 		do
-++			if [ $script == "$testdir/11spare-migration" ];then
-++				continue
-++			fi
-+ 			do_test $script
-+ 		done
-+ 	fi
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 86c73ab..8b6e227 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -23,7 +23,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
- 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
-            file://include_sysmacros.patch \
-            file://0001-mdadm-support-usrmerge.patch \
-+           file://0001-mdadm-skip-test-11spare-migration.patch \
-            "
-+
- SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
- SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
- 
--- 
-2.7.4
+Hi
 
+For thud that uses a older version af libgpg-error, and the patch 
+doesn't apply :-)
+Should I update the patch for thud and resend?
+
+/Sean
 
