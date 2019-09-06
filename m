@@ -1,53 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 81B3C7F44F
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0302E7F44E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 14:23:56 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id p13so7351140wmh.1
+	Fri,  6 Sep 2019 14:26:06 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id k2so6721457wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2019 07:23:57 -0700 (PDT)
+	Fri, 06 Sep 2019 07:26:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=wAFHBg/4ZFpVJtBWgL+NwWid3WFE0rMpumyDS2akX3o=;
-	b=UdJ3GTEKdshy0N2xqMwqXDzREyPNSwtptY+bkKCloZpAHLFmeWZldXqmaJ8Txxi4T5
-	F7JwyNZkSE55AO63YXPfofXMOvoCe4KgjHJjI2R+2wnFuMctEG0GeFgXsVWlx6yT3yor
-	plL2KU+DpIzmRYV7B7btj+uqmp9nTMWfM6v9Q=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=/+k7leRE8f3Joz/P5kRV6cveIbH88z3uiZwaJTkkgxY=;
+	b=Qc4c0lMXcJjtXtqBL9adt3amuFQg7jf767YbPGV2jdww5dCBGzABFxKFx4i5GH77q0
+	/tCAZ+ZLURbgNdszBFr7WVvCp8iQ96uttPyH7inW6XQoaIQnmIfFAqGwQTdlPHq8mHXk
+	xkvPHYYdo1fOXjcV5cVV/Keb8v1DFscnRbILo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=wAFHBg/4ZFpVJtBWgL+NwWid3WFE0rMpumyDS2akX3o=;
-	b=PKX+j0wXn9kPCKvrKHMV/KHn1RF5/9hqxGNnR9YQce5asyooe7O3hwWlu6SP7QvLta
-	WxEC3UskVXAPjHzcAV3K2dQDRrVOwH031R277z94hld7mF2+U5Sz5kf8FHDpVgN15acD
-	nSv0YTfjSYsWnVo18yrgcspYfd5cRnZ0uZe6NeFy5tUeOknbVX64ZCq0A954UzXeNaXg
-	BCloQC/+sOwMC6h2unEt8zan4UDfIVmRRK4kqCCE27wGpmbHa2yq/scgQBPVaHYa6uU2
-	fqdEnrJd5/xPRfHbKxc2djn9fKDFsNPAx0ehUZrXqBAtm0sGz7iyGN/CXKGGiUHFsdnp
-	FbqQ==
-X-Gm-Message-State: APjAAAWLDuKGn2bJXfLuLCDP+u3n5S992g6ozh0vl7sKfDp00BSuwcio
-	tbqKaxHWwYwNv31GC7uhZ3ttSw==
-X-Google-Smtp-Source: APXvYqz1YQKV6qDNr3mTT5RqPD6j8rLGJ+HqASZGwJYFxn2nBVdIrgTmSys7BjzCm2e4QN2Za/pQrQ==
-X-Received: by 2002:a1c:a003:: with SMTP id j3mr7445452wme.42.1567779837187;
-	Fri, 06 Sep 2019 07:23:57 -0700 (PDT)
+	bh=/+k7leRE8f3Joz/P5kRV6cveIbH88z3uiZwaJTkkgxY=;
+	b=ExxNl2ErK1qCtEwpZEM5UvyHNYmA0DrKOGBt0nEhcKEHe1lnQ7Ly1qkMmUC7m1TGbd
+	1H0+ggYnvz+EG5zvTdFCsDWacL1tOiCpv4rLvmj35hYiYqPHY+Re+uZj0urtNH8KY+wP
+	PPHQvyiGrKJtUwYSxdG3BdV+vJkNSLddrljiv3x9XEnv/StQZdHt3q/9axbBeqSRGl6W
+	es3jBJC9nJ+uHVnyJOU/xZnQJDKkR4uaU61ymLT+WbBMn8Hem3CONBUCHdA4buY9N80y
+	nnPX1YQv6qFJoYitzrxtT675wZzr0yn2N7eL/fj5t9EWEBFZxAydgrpsh2lWr3DzRqE7
+	emxA==
+X-Gm-Message-State: APjAAAWh1Zwi4eQDAvcM54VZh2jjFRBgWlp6gwdNq0qf3rzWxML/aIYW
+	WZIM9bM7Aq4cO496Neyn5kaYl+pQ+NwTPg==
+X-Google-Smtp-Source: APXvYqxZxlce4zSxpN8XHIW3cDiHrUShehXP6zZPyu9xVvr1Vhoh/F0g4kvldytqJaHiM9bvxis0Jg==
+X-Received: by 2002:a1c:a984:: with SMTP id s126mr7933745wme.26.1567779967504; 
+	Fri, 06 Sep 2019 07:26:07 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h12sm5737677wrp.51.2019.09.06.07.23.56
+	by smtp.gmail.com with ESMTPSA id f75sm5886751wmf.2.2019.09.06.07.26.06
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Sep 2019 07:23:56 -0700 (PDT)
-Message-ID: <8ac92297f48538afe156290f1e60b80abf00f1dd.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 06 Sep 2019 15:23:55 +0100
-In-Reply-To: <CAMKF1so5hDAtGESfwjCNNGJtnikskPqQg2rFsTKdxYh-g9QXAQ@mail.gmail.com>
-References: <20190906072347.31616-1-richard.purdie@linuxfoundation.org>
-	<20190906072347.31616-2-richard.purdie@linuxfoundation.org>
-	<CAMKF1so5hDAtGESfwjCNNGJtnikskPqQg2rFsTKdxYh-g9QXAQ@mail.gmail.com>
+	Fri, 06 Sep 2019 07:26:06 -0700 (PDT)
+Message-ID: <d1e5a94c07b6298a2c5d5041de7910e935eea06d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Trevor Gamblin <Trevor.Gamblin@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 06 Sep 2019 15:26:03 +0100
+In-Reply-To: <20190906140443.30110-1-Trevor.Gamblin@windriver.com>
+References: <20190906140443.30110-1-Trevor.Gamblin@windriver.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] gcc-cross: Fix header file corruption problems
+Subject: Re: [PATCH] libevent: add granularity to ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +57,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 14:23:56 -0000
+X-List-Received-Date: Fri, 06 Sep 2019 14:26:07 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-09-06 at 07:15 -0700, Khem Raj wrote:
+On Fri, 2019-09-06 at 10:04 -0400, Trevor Gamblin wrote:
+> From: Trevor Gamblin <trevor.gamblin@windriver.com>
 > 
+> The libevent ptest used to report only a global pass or a fail
+> result.
+> Count individual PASS, FAIL, SKIP results. The SKIP results now
+> include tests that are disabled in the libevent code.
 > 
-> On Fri, Sep 6, 2019 at 12:24 AM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > gcc's makefile can move files, replacing with the contents
-> > "timestamp". This
-> > corrupts the headers and breaks things like the gcc testsuite.
-> > 
-> > Add in a fix to ensure the headers are not corrupted through their
-> > hardlink copies.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  meta/recipes-devtools/gcc/gcc-cross.inc | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc
-> > b/meta/recipes-devtools/gcc/gcc-cross.inc
-> > index e417b898734..95af6d89a9d 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-cross.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-> > @@ -212,6 +212,9 @@ do_gcc_stash_builddir[cleandirs] =
-> > "${BUILDDIRSTASH}"
-> >  do_gcc_stash_builddir () {
-> >         dest=${BUILDDIRSTASH}
-> >         hardlinkdir . $dest
-> > +       # Makefile does move-if-change which can end up with
-> > 'timestamp' as file contents so break links to those files
-> > +       rm $dest/gcc/include/*.h
-> > +       cp gcc/include/*.h $dest/gcc/include/
-> >  }
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> ---
+>  .../libevent/libevent/run-ptest               | 34 ++++++++++++-----
+> --
+>  1 file changed, 22 insertions(+), 12 deletions(-)
 > 
-> I think we moved them outside gcc dir isn’t it 
+> diff --git a/meta/recipes-support/libevent/libevent/run-ptest
+> b/meta/recipes-support/libevent/libevent/run-ptest
+> index 0241851c70..b7d945246f 100644
+> --- a/meta/recipes-support/libevent/libevent/run-ptest
+> +++ b/meta/recipes-support/libevent/libevent/run-ptest
+> @@ -1,18 +1,28 @@
+>  #!/bin/sh
+>  
+> -fail=0
+> +# run-ptest - 'ptest' test infrastructure shell script that
+> +#   wraps the libevent test scripts 
+> +#
+> +# Trevor Gamblin <trevor.gamblin@windriver.com>
+> +###############################################################
+> +LIBEVENTLIB=/usr/lib/libevent
+> +LOG="${LIBEVENTLIB}/ptest/libevent_ptest_$(date +%Y%m%d-%H%M%S).log"
+> +
+> +cd ${LIBEVENTLIB}/ptest 
+> +
+>  for test in ./test/*
+>  do
+> -	$test
+> -	if [ $? -ne 0 ]
+> -	then
+> -		fail=1
+> -	fi
+> +    $test 2>&1|tee -a ${LOG}
+>  done
+>  
+> -if [ $fail -eq 0 ]
+> -then
+> -	echo "PASS: libevent"
+> -else
+> -	echo "FAIL: libevent"
+> -fi
+> +passed=`grep OK ${LOG}|wc -l`
+> +failed=`grep FAILED ${LOG}|wc -l`
+> +skipped=`grep -E 'DISABLED|SKIPPED' ${LOG}|wc -l`
+> +all=$((passed + failed + skipped))
+> +
+> +(   echo "=== Test Summary ==="
+> +    echo "TOTAL: ${all}"
+> +    echo "PASSED: ${passed}"
+> +    echo "FAILED: ${failed}"
+> +    echo "SKIPPED: ${skipped}"
+> +) | tee -a ${LOG}
 
-Not sure I follow? I think the patch is correct?
+Does this work correctly such that ptest-runner picks up the individual
+test pass/fail results? I thought the tests would need individual
+pass/fail lines for that to work?
 
 Cheers,
 
 Richard
+
 
 
