@@ -1,31 +1,48 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B8396C3A9
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+	[209.85.208.48])
+	by mail.openembedded.org (Postfix) with ESMTP id A1B827C7A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 03:10:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x863AIbG006333
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 5 Sep 2019 20:10:19 -0700 (PDT)
-Received: from [128.224.162.188] (128.224.162.188) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Thu, 5 Sep 2019 20:10:18 -0700
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <20190904014322.96351-1-hongzhi.song@windriver.com>
-	<CADkTA4NipOoQ6qWThig_-hRS5W-QwXNv4Vc9=VSv2yA9sCWxmQ@mail.gmail.com>
-	<b92e2a4e-1f37-1c89-4316-80c91ddc1b0f@windriver.com>
-	<CADkTA4PLrV7w-4muqS6nh4OBdRsqXfg3sJud+L6taQPkmT8NFA@mail.gmail.com>
-From: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Message-ID: <ee438438-7885-2b12-666d-0b026166b97d@windriver.com>
-Date: Fri, 6 Sep 2019 11:10:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4PLrV7w-4muqS6nh4OBdRsqXfg3sJud+L6taQPkmT8NFA@mail.gmail.com>
-X-Originating-IP: [128.224.162.188]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: copy mmiowb.h and modpost from ${B} of kernel
+	Fri,  6 Sep 2019 03:35:28 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id s49so4999462edb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Sep 2019 20:35:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=C0V08yQPNPSetC3eqTS3oHrkJCSl07NoMq5XkmDGAh4=;
+	b=R2ZYa4F3Egz1nfDGstty4ppDFzgglMGSASIvOJYeedyGanlzibiLruBclGc8KS8SpR
+	cOzmLzhTwUEDtj82k8ZvIicZJPiL4aJPbhnX1M7eZx9WzLxx7f1PBRszO2VHzY+IzaJb
+	+SwYujcR1Xo8ZW9cR/Dn/z7vP7+ZkL2H/rDrJvKJhbnFawmEDdL/i+Ym+NAIRpkHAdM3
+	Z2id9ijjtGL9YMdfaddUrDMRuZfaqIbJlEmhUuSYMQMdEAnNctE6DekIq3OTzy2fhGS/
+	WnmqrpvO2I/Cq0Ey5sFPXJCRE0pQBbXb7F2ttTtvqMkYP7tMLPUkUpA1WcnEayYZ6Uea
+	PROQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=C0V08yQPNPSetC3eqTS3oHrkJCSl07NoMq5XkmDGAh4=;
+	b=d6RHa/oALvkIfRsXUj7h1yiNxQ+COBwj/3k9uYld+apoFY69DoenJdZ7fp4R0sb1H1
+	OxJFXYPlLNSqzZYrrf3j6FMW+ThPuGIx55ZnkqYh70X3x4UUtDkk9ARZDR0YZdOhAvED
+	e4zviDNJOSTqfJtx4eA2KvBHafWwi5WdWpd7DAluYgcQXl8TDl2nb3knCZ1LLACOj4JP
+	GAKH1qHVIj/H52F2+FEsJD9UB/mNMD54ejaP/ZyetnTGyiisg8AEgdJZcRYCSNPpZttA
+	pM54RW5FUvTCA5f1AYoJaH4+3h2qhCkfe9atNxrHam2ZuvKi1vHThw4hmzW09RnmwPSs
+	kmCw==
+X-Gm-Message-State: APjAAAXLzta9WOBa/g5OqkBdb2ZI8hY+tSiyr0CKq3odN9q9PX+/s4GB
+	3YMGoCcFzIkvTJ1zr77SrlwIQn+tlIs=
+X-Google-Smtp-Source: APXvYqxcrA7p3uKQVIFX3PmKIHDMUhCpl7l4dpOjBNZ/BjY76wOGkQ7jR6O5juqg2nyDZTWAtJm2ug==
+X-Received: by 2002:a17:906:eddd:: with SMTP id
+	sb29mr5691039ejb.278.1567740929135; 
+	Thu, 05 Sep 2019 20:35:29 -0700 (PDT)
+Received: from peterliu-Precision-7530.toradex.int ([27.191.200.184])
+	by smtp.gmail.com with ESMTPSA id w11sm413555eji.2.2019.09.05.20.35.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 05 Sep 2019 20:35:28 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Sep 2019 11:35:19 +0800
+Message-Id: <1567740920-13805-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: stefan.agner@toradex.com, Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH V2] weston: uprev to 7.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,155 +55,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 03:10:19 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 06 Sep 2019 03:35:28 -0000
 
+From: Ming Liu <liu.ming50@gmail.com>
 
-On 9/4/19 8:34 PM, Bruce Ashfield wrote:
-> On Wed, Sep 4, 2019 at 6:07 AM Hongzhi, Song <hongzhi.song@windriver.com> wrote:
->>
->> On 9/4/19 11:55 AM, Bruce Ashfield wrote:
->>> On Tue, Sep 3, 2019 at 9:43 PM Hongzhi.Song <hongzhi.song@windriver.com> wrote:
->>>> There are two errors when compile an out of tree kernel module
->>>> using sdk:
->>>>
->>> This is not universally true. Can you expand on what kernel version
->>> and architectures you are building ? I'm able to build kernel modules
->>> across all the arches I'm currently testing, so I'd like to capture
->>> your exact config in the long log. Neither is the autobuilder showing
->>> any errors.
->> Hi Bruce,
->>
->>
->> kernel version: 5.0.19
->>
->> git clone poky
->>
->> echo  TOOLCHAIN_HOST_TASK_append = " nativesdk-openssl-dev
->> nativesdk-bison nativesdk-flex"
->>            TOOLCHAIN_TARGET_TASK_append = " python-dev kernel-dev
->> kernel-devsrc")
->>
->>            >> conf/local.conf
->>
->> Other config is default.
->>
->>
->> bitbake core-image-minimal &&  bitbake core-image-minimal -c populate_sdk
->>
->> ./tmp/deploy/sdk/xxx.sh
->>
->> cd ${Your SDK path}/sysroots/xxx/usr/src/kernel
->>
->> make scripts
->>
->> Then you can build yourself module. And you will meet missing some head
->> files and scripts/mod/modpost.
->>
->>
->> I test qemux86-64 and qemuarm.
->>
->> Both of above arch miss different head files, which all of them
->> generated in ${B}/arch/${ARCH}/include/generated/asm
->>
->> (qemux86-64 needs asm/early_ioremap.h and asm/mmiowb.h
->>
->> qemuarm needs asm/bitsperlong.h)
->>
->>
->>>> 1. "In file included from ./include/linux/seqlock.h:36:0,
->>>>                    from ./include/linux/time.h:6,
->>>>                    from ./include/linux/stat.h:19,
->>>>                    from ./include/linux/module.h:10,
->>>>                    from kernel-module/char.c:1:
->>>> ./include/linux/spinlock.h:60:10: fatal error: asm/mmiowb.h: No such
->>>> file or directory"
->>>>
->>>> mmiowb.h is generated to ${B}/arch/${ARCH}/include/generated/asm/.
->>>>
->>>> And there is only generated/ under ${B}/arch/${ARCH}/include/,
->>>> so I copy whole ${B}/arch/${ARCH}/include/ to $kerneldir/build/
->>>> in case of other files under generated/ is needed in the future.
->>>>
->>>> 2. "/bin/sh: scripts/mod/modpost: No such file or directory"
->>>>
->>>> Copy above files or directory to $kerneldir/build/ fix the errors.
->>>>
->>>> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
->>>> ---
->>>>    meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
->>>>    1 file changed, 6 insertions(+)
->>>>
->>>> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
->>>> index 3900489..feff9f1 100644
->>>> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
->>>> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
->>>> @@ -80,6 +80,12 @@ do_install() {
->>>>
->>>>           cp .config $kerneldir/build
->>>>
->>>> +       if [ -d arch/${ARCH}/include ]; then
->>>> +           cp -a --parents arch/${ARCH}/include $kerneldir/build/
->>>> +       fi
->>> Just copy the files you need, not the entire directory.
->>
->> Just as explained above, exactly speaking I think include/generated is
->> necessary.
-> It shouldn't be. The point of what we include in devsrc is that it can
-> regenerate all these files either on target, or the SDK.
->
->> ps: only generated/ under include/.
->>
->>
->>
->>>> +
->>>> +       cp --parents scripts/mod/modpost $kerneldir/build/
->>> We shouldn't be copying binaries or scripts. They are regenerated on target.
->>>
->>> Bruce
->>
->> But scripts/mod/modpost is needed when compile a module by sdk.
-> yes, that is expected. But 'make scripts prepare' should be recreating
-> them. Is that not working for you ?
+Changes in V2:
 
+1 Fix a musl build issue pointed out by Ross Burton, thanks Ross for the testing.
 
-Even without this patch, 'make scripts prepare' works.
+Ming Liu (1):
+  weston: uprev to 7.0.0
 
-So 2.7doc maybe need to be update, because 2.6doc uses 'make scripts'.
+ .../wayland/weston/0001-make-error-portable.patch  | 80 ----------------------
+ ...ch-Provide-a-default-version-that-doesn-t.patch | 47 +++++++------
+ .../wayland/{weston_6.0.1.bb => weston_7.0.0.bb}   |  7 +-
+ 3 files changed, 28 insertions(+), 106 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+ rename meta/recipes-graphics/wayland/{weston_6.0.1.bb => weston_7.0.0.bb} (95%)
 
-https://www.yoctoproject.org/docs/2.6/mega-manual/mega-manual.html#building-out-of-tree-modules-on-the-target
+-- 
+2.7.4
 
-
---Hongzhi
-
-
->
-> We can't copy the binaries, since you'll get QA errors depending on
-> your host/target arch combination.
->
-> Bruce
->
->> Otherwise it will show error info:
->>
->> "
->>
->> /bin/sh: scripts/mod/modpost: No such file or directory
->> scripts/Makefile.modpost:92: recipe for target '__modpost' failed
->>
->> "
->>
->>
->> --Hongzhi
->>
->>>> +
->>>>           # This scripts copy blow up QA, so for now, we require a more
->>>>           # complex 'make scripts' to restore these, versus copying them
->>>>           # here. Left as a reference to indicate that we know the scripts must
->>>> --
->>>> 2.8.1
->>>>
->
->
 
