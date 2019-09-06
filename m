@@ -1,29 +1,30 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 219DE7F2E7
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 35DC47DFBE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 01:19:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x861JmAh007374
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 5 Sep 2019 18:19:49 -0700 (PDT)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Thu, 5 Sep 2019 18:19:47 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1567682351-87682-1-git-send-email-changqing.li@windriver.com>
-	<7e606b1fc76248459bdcc7b3d365ebcc@xbox06.axis.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <19811182-132f-0f87-9730-b7e88262eed0@windriver.com>
-Date: Fri, 6 Sep 2019 09:19:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Fri,  6 Sep 2019 02:04:23 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,471,1559491200"; d="scan'208";a="74917080"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Sep 2019 10:04:23 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 19EBB4CE0871
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Sep 2019 10:04:18 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Fri, 6 Sep 2019 10:04:22 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Sep 2019 10:03:46 +0800
+Message-ID: <20190906020346.12842-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <7e606b1fc76248459bdcc7b3d365ebcc@xbox06.axis.com>
-X-Originating-IP: [128.224.162.186]
-Subject: Re: [PATCH] mdadm: fix do_package failed when changed local.conf but not cleaned
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 19EBB4CE0871.A9E2D
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCHv2] meson:upgrade 0.51.1 -> 0.51.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,144 +37,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 01:19:56 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 06 Sep 2019 02:04:24 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 
+-meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+Removed since this is included in 0.51.2.
 
-On 9/5/19 9:53 PM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-bounces@lists.openembedded.org> On Behalf Of
->> changqing.li@windriver.com
->> Sent: den 5 september 2019 13:19
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH] mdadm: fix do_package failed when changed
->> local.conf but not cleaned
->>
->> From: Changqing Li <changqing.li@windriver.com>
->>
->> reproduce steps:
->> 1. add DISTRO_FEATURE_append = 'usrmerge' in local.conf
->> 2. bitbake mdadm --success
->> 3. remove DISTRO_FEATURE_append = 'usrmerge' from local.conf
->> 4. bitbake mdadm  -- failed when do_package
->>
->> it is not proper to change source Makefile during do_compile by sed,
->> change to add patch for it.
->>
->> [YOCTO: #13493]
->>
->> Signed-off-by: Changqing Li <changqing.li@windriver.com>
->> ---
->>   .../mdadm/files/0001-mdadm-support-usrmerge.patch  | 46
->> ++++++++++++++++++++++
->>   meta/recipes-extended/mdadm/mdadm_4.1.bb           |  7 ++--
->>   2 files changed, 50 insertions(+), 3 deletions(-)
->>   create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-
->> support-usrmerge.patch
->>
->> diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-support-
->> usrmerge.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-support-
->> usrmerge.patch
->> new file mode 100644
->> index 0000000..f1aa119
->> --- /dev/null
->> +++ b/meta/recipes-extended/mdadm/files/0001-mdadm-support-
->> usrmerge.patch
->> @@ -0,0 +1,46 @@
->> +From 2c7ccea05d7cf9dde48d735faa511d1b06c14878 Mon Sep 17 00:00:00 2001
->> +From: Changqing Li <changqing.li@windriver.com>
->> +Date: Thu, 5 Sep 2019 18:03:11 +0800
->> +Subject: [PATCH] mdadm: support usrmerge
->> +
->> +Upstream-Status: Inappropriate[oe-specific]
->> +
->> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
->> +---
->> + Makefile | 6 +++---
->> + 1 file changed, 3 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/Makefile b/Makefile
->> +index 4839001..466e960 100644
->> +--- a/Makefile
->> ++++ b/Makefile
->> +@@ -88,7 +88,7 @@ MAP_PATH = $(MAP_DIR)/$(MAP_FILE)
->> + MDMON_DIR = $(RUN_DIR)
->> + # place for autoreplace cookies
->> + FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
->> +-SYSTEMD_DIR=/lib/systemd/system
->> ++SYSTEMD_DIR=${SYSTEMD_UNITDIR}/system
->> + LIB_DIR=/usr/libexec/mdadm
->> +
->> + COROSYNC:=$(shell [ -f $(SYSROOT)/usr/include/corosync/cmap.h ] ||
->> echo -DNO_COROSYNC)
->> +@@ -120,7 +120,7 @@ LDLIBS=-ldl
->> +
->> + INSTALL = /usr/bin/install
->> + DESTDIR =
->> +-BINDIR  = /sbin
->> ++BINDIR  = ${BASE_SBINDIR}
->> + MANDIR  = /usr/share/man
->> + MAN4DIR = $(MANDIR)/man4
->> + MAN5DIR = $(MANDIR)/man5
->> +@@ -128,7 +128,7 @@ MAN8DIR = $(MANDIR)/man8
->> +
->> + UDEVDIR := $(shell $(PKG_CONFIG) --variable=udevdir udev 2>/dev/null)
->> + ifndef UDEVDIR
->> +- UDEVDIR = /lib/udev
->> ++ UDEVDIR = ${NONARCH_BASE_LIBDIR}/udev
->> + endif
->> +
->> + ifeq (,$(findstring s,$(MAKEFLAGS)))
->> +--
->> +2.7.4
->> +
->> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-
->> extended/mdadm/mdadm_4.1.bb
->> index 74c94f6..efeb09d 100644
->> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
->> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
->> @@ -22,6 +22,7 @@ SRC_URI =
->> "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
->>   	   file://mdadm.init \
->>   	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
->>              file://include_sysmacros.patch \
->> +           ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','file://0001-mdadm-support-usrmerge.patch','',d)} \
-> Since the patch will work regardless of whether usrmerge is enabled
-> or not, I think it is better to always apply it. The same goes for
-> the corresponding path for bootchart2.
-yes,  I will send V2 as recommanded.
->
->>              "
->>   SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
->>   SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
->> @@ -41,13 +42,13 @@ CFLAGS_append_powerpc64 = ' -D__SANE_USERSPACE_TYPES__'
->>   CFLAGS_append_mipsarchn64 = ' -D__SANE_USERSPACE_TYPES__'
->>   CFLAGS_append_mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
->>
->> -EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
->> +EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}" BASE_SBINDIR="${base_sbindir}" \
->> +                NONARCH_BASE_LIBDIR="${nonarch_base_libdir}" \
->> +                SYSTEMD_UNITDIR="${systemd_unitdir}"'
->>
->>   DEBUG_OPTIMIZATION_append = " -Wno-error"
->>
->>   do_compile() {
->> -	# Point to right sbindir
->> -	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" -e "s;SYSTEMD_DIR=/lib/systemd/system;SYSTEMD_DIR=${systemd_unitdir}/system;" ${S}/Makefile
->>   	oe_runmake SYSROOT="${STAGING_DIR_TARGET}"
->>   }
->>
->> --
->> 2.7.4
-> //Peter
->
->
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ meta/recipes-devtools/meson/meson.inc              |   5 +-
+ ...-return-statements-that-are-seen-with-Wer.patch | 100 ---------------------
+ .../meson/{meson_0.51.1.bb => meson_0.51.2.bb}     |   0
+ ...k-meson_0.51.1.bb => nativesdk-meson_0.51.2.bb} |   0
+ 4 files changed, 2 insertions(+), 103 deletions(-)
+ delete mode 100644 meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+ rename meta/recipes-devtools/meson/{meson_0.51.1.bb => meson_0.51.2.bb} (100%)
+ rename meta/recipes-devtools/meson/{nativesdk-meson_0.51.1.bb => nativesdk-meson_0.51.2.bb} (100%)
+
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index 14e5f8a..6de109d 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -16,10 +16,9 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://0001-mesonbuild-environment.py-check-environment-for-vari.patch \
+            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
+            file://vala-cross-compile.patch \
+-           file://0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch \
+            "
+-SRC_URI[sha256sum] = "f27b7a60f339ba66fe4b8f81f0d1072e090a08eabbd6aa287683b2c2b9dd2d82"
+-SRC_URI[md5sum] = "48787e391ec5c052799a3dd491f73909"
++SRC_URI[sha256sum] = "23688f0fc90be623d98e80e1defeea92bbb7103bf9336a5f5b9865d36e892d76"
++SRC_URI[md5sum] = "d46c4a8e3cfd27f90e2c6fe4a69e574b"
+ 
+ SRC_URI_append_class-native = " \
+     file://0001-Make-CPU-family-warnings-fatal.patch \
+diff --git a/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch b/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
+deleted file mode 100644
+index 16c6d90..0000000
+--- a/meta/recipes-devtools/meson/meson/0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch
++++ /dev/null
+@@ -1,100 +0,0 @@
+-From 15f44be1c7f71cb0a8c6863917acbbc301c621fe Mon Sep 17 00:00:00 2001
+-From: Martin Liska <mliska@suse.cz>
+-Date: Mon, 15 Jul 2019 10:06:17 +0200
+-Subject: [PATCH] Fix missing return statements that are seen with
+- -Werror=return-type.
+-
+-Error example:
+-
+-Code:
+-
+-        #include <locale.h>
+-        int main () {
+-            /* If it's not defined as a macro, try to use as a symbol */
+-            #ifndef LC_MESSAGES
+-                LC_MESSAGES;
+-            #endif
+-        }
+-Compiler stdout:
+-
+-Compiler stderr:
+- In file included from /usr/include/locale.h:25,
+-                 from /tmp/tmpep_i4iwg/testfile.c:2:
+-/usr/include/features.h:382:4: warning: #warning _FORTIFY_SOURCE
+-requires compiling with optimization (-O) [-Wcpp]
+-  382 | #  warning _FORTIFY_SOURCE requires compiling with optimization
+-(-O)
+-      |    ^~~~~~~
+-/tmp/tmpep_i4iwg/testfile.c: In function 'main':
+-/tmp/tmpep_i4iwg/testfile.c:8:9: error: control reaches end of non-void
+-function [-Werror=return-type]
+-    8 |         }
+-      |         ^
+-cc1: some warnings being treated as errors
+-
+-Upstream-Status: Backport
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+- mesonbuild/compilers/c.py     | 1 +
+- mesonbuild/compilers/clike.py | 5 +++++
+- 2 files changed, 6 insertions(+)
+-
+-diff --git a/mesonbuild/compilers/c.py b/mesonbuild/compilers/c.py
+-index 3b58a076..9ef92077 100644
+---- a/mesonbuild/compilers/c.py
+-+++ b/mesonbuild/compilers/c.py
+-@@ -70,6 +70,7 @@ class CCompiler(CLikeCompiler, Compiler):
+-             #ifndef {symbol}
+-                 {symbol};
+-             #endif
+-+            return 0;
+-         }}'''
+-         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
+-                              dependencies=dependencies)
+-diff --git a/mesonbuild/compilers/clike.py b/mesonbuild/compilers/clike.py
+-index 83f67591..f9cbeabd 100644
+---- a/mesonbuild/compilers/clike.py
+-+++ b/mesonbuild/compilers/clike.py
+-@@ -375,6 +375,7 @@ class CLikeCompiler:
+-             #ifndef {symbol}
+-                 {symbol};
+-             #endif
+-+            return 0;
+-         }}'''
+-         return self.compiles(t.format(**fargs), env, extra_args=extra_args,
+-                              dependencies=dependencies)
+-@@ -554,6 +555,7 @@ class CLikeCompiler:
+-         {prefix}
+-         int main(int argc, char **argv) {{
+-             {type} something;
+-+            return 0;
+-         }}'''
+-         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
+-                              dependencies=dependencies)[0]:
+-@@ -589,6 +591,7 @@ class CLikeCompiler:
+-         {prefix}
+-         int main(int argc, char **argv) {{
+-             {type} something;
+-+            return 0;
+-         }}'''
+-         if not self.compiles(t.format(**fargs), env, extra_args=extra_args,
+-                              dependencies=dependencies)[0]:
+-@@ -667,6 +670,7 @@ class CLikeCompiler:
+-         #include <stdio.h>
+-         int main(int argc, char *argv[]) {{
+-             printf ("{fmt}", {cast} {f}());
+-+            return 0;
+-         }}'''.format(**fargs)
+-         res = self.run(code, env, extra_args=extra_args, dependencies=dependencies)
+-         if not res.compiled:
+-@@ -819,6 +823,7 @@ class CLikeCompiler:
+-                 #error "No definition for __builtin_{func} found in the prefix"
+-             #endif
+-         #endif
+-+        return 0;
+-         }}'''
+-         return self.links(t.format(**fargs), env, extra_args=extra_args,
+-                           dependencies=dependencies)
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/meson/meson_0.51.1.bb b/meta/recipes-devtools/meson/meson_0.51.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/meson_0.51.1.bb
+rename to meta/recipes-devtools/meson/meson_0.51.2.bb
+diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.51.1.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.51.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/nativesdk-meson_0.51.1.bb
+rename to meta/recipes-devtools/meson/nativesdk-meson_0.51.2.bb
 -- 
-BRs
+2.7.4
 
-Sandy(Li Changqing)
+
 
 
