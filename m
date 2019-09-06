@@ -1,30 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id C0F587F433
+Return-Path: <rbilovol@cisco.com>
+X-Greylist: delayed 429 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 06 Sep 2019 16:07:11 UTC
+Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 93F4A6BCDC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 16:06:18 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Sep 2019 09:06:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,473,1559545200"; d="scan'208";a="185819888"
-Received: from fwan32-mobl1.gar.corp.intel.com (HELO blackadder.local)
-	([10.252.38.244])
-	by orsmga003.jf.intel.com with ESMTP; 06 Sep 2019 09:06:12 -0700
-To: openembedded-core@lists.openembedded.org
-References: <20190817143634.2403-1-otavio@ossystems.com.br>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <e54864ed-5af5-58b3-4ffe-6d38f531057b@intel.com>
-Date: Fri, 6 Sep 2019 17:06:10 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+	Fri,  6 Sep 2019 16:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=642; q=dns/txt; s=iport;
+	t=1567786033; x=1568995633;
+	h=subject:to:references:from:message-id:date:mime-version:
+	in-reply-to:content-transfer-encoding;
+	bh=GzSiVlgCe4v9uEwcAmwE4sUQSLNBCf7j3xNc3MNunr4=;
+	b=eCCBBtyTICYHvwRWsEOhxFPch0sOJLr/PnVJeYgWXr58ua+baEz3uOA4
+	phHCmNZ8W3c5W3bwkNI9twzZ7Hxg6elpxvqFeHjXOeSlLX2/ybtrUIDrg
+	9msNZtBiXxovbmcgyNXZ/GT+AVI9M39zguQFRZAY1tLcHE+bwyROxVAI+ s=;
+X-IronPort-AV: E=Sophos;i="5.64,473,1559520000"; d="scan'208";a="16397436"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
+	([173.38.203.22])
+	by aer-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	06 Sep 2019 16:00:03 +0000
+Received: from [10.63.15.136] ([10.63.15.136]) (authenticated bits=0)
+	by aer-core-2.cisco.com (8.15.2/8.15.2) with ESMTPSA id x86G02gR009861
+	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 6 Sep 2019 16:00:03 GMT
+To: Ross Burton <ross.burton@intel.com>, "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC@Cisco)" <dzagorui@cisco.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20190904104144.3530-1-dzagorui@cisco.com>
+	<91c7e151-9b37-9017-365c-a0fb3a0402fa@intel.com>
+From: Ruslan Bilovol <rbilovol@cisco.com>
+Message-ID: <f71a860b-2b01-41db-786f-ffd56876483b@cisco.com>
+Date: Fri, 6 Sep 2019 19:00:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190817143634.2403-1-otavio@ossystems.com.br>
-Subject: Re: [PATCH] mesa: Upgrade 19.1.1 -> 19.1.4
+In-Reply-To: <91c7e151-9b37-9017-365c-a0fb3a0402fa@intel.com>
+X-Authenticated-User: rbilovol
+X-Outbound-SMTP-Client: 10.63.15.136, [10.63.15.136]
+X-Outbound-Node: aer-core-2.cisco.com
+Subject: Re: [PATCH] gzip: add nativesdk support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,21 +49,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 16:06:18 -0000
+X-List-Received-Date: Fri, 06 Sep 2019 16:07:12 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On 17/08/2019 15:36, Otavio Salvador wrote:
-> +-if meson.version().version_compare('>=0.50')
-> +-  prog_python = import('python').find_installation('python3')
-> +-else
-> +-  prog_python = import('python3').find_python()
-> +-endif
-> ++prog_python = import('python3').find_python()
+On 9/4/19 2:01 PM, Ross Burton wrote:
+> On 04/09/2019 11:41, Denys Zagorui -X (dzagorui - GLOBALLOGIC INC at 
+> Cisco) via Openembedded-core wrote:
+>> Signed-off-by: Denys Zagorui <dzagorui@cisco.com>
+> 
+> Can you check your mailer configuration, as the From: is the mailing 
+> list, not your email address.  This means the patch doesn't get your 
+> authorship.
 
-Why are we reverting an upstream commit?  No explanation, no 
-upstream-status, no signed-off-by.
+This is OE mailing list specific issue, we can't fix it unfortunately.
 
-Ross
+This was discussed multiple times before:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-March/280394.html
+
+Richard, do you have any updates on this issue?
+
+Thanks,
+Ruslan
 
