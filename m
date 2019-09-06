@@ -1,50 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id ADAF17F440
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BAD287F442
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 21:48:15 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id r17so8293301wme.0
+	Fri,  6 Sep 2019 21:50:56 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id k2so7885150wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2019 14:48:16 -0700 (PDT)
+	Fri, 06 Sep 2019 14:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=vWFROlJi4N7HbM+5R0Ko5vzhRDXb+Nr6UZIZdkXkVbg=;
-	b=NVg8hWeQo1cfLelSyoMhqTE0KaiInAm+ieRslYXCy3aC9jk/TFIa/JnL4nNOGRO3JQ
-	zTjMYd24YMSTUHTDG6cPijsrTSUYgg6ligefwl1lIi0NJRsV1ndYjQz+lBCiz5LpBcph
-	Y+sEDCIsqOeb7uojuEfLNln9qnPj7pvgvF57M=
+	bh=4h/wB4YGzmzdP3bHhd86PVoY21SYPsI0dXRylyI/ZuI=;
+	b=hz+61r176s0PzT4vZBFvGuyuD+o51mH/eRiTeha1GlEj3r+OnpgbyP+RSpQ+gDZQz4
+	gs13z8NNZW0ih6cybUbcm+ZLX8YyscOXgC3KlnAOcWX9iWo3TYgXu7dC3cZesaMQR1Wr
+	7/vfhefni1Is6fShSX6rRCzCo9tmb6Nzql9uI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=vWFROlJi4N7HbM+5R0Ko5vzhRDXb+Nr6UZIZdkXkVbg=;
-	b=JyhiSDchWE/rGQLfSgFu/81KoTpHFIlnmUBZHUVR6SEiM+32JEBuqB5OeZBoJjf3Jy
-	pkrkVixYIPd89sRkY8KjleKzQTbMhGO541UAryBIU9AK7G4s7BDcla7ByiQfZQ/0JEi0
-	MmicynGV0bW3uw+TJJ7oagofdD4ZGkpVo1hR3qWbNY0Rqz/Rl21V0brvxh30WdMO1F8H
-	QuPj38x79b7zP18CoG0Gd1OfsLi0Q6o3mdBoojBPp2mfKj6ba4Tc0g1D7F6GEtIUc47n
-	3aUNlT2hqO3rZPgUZfQa/02Yfy1Bkb48MYRsYtZA8rl75HG4xG87OERH/ENG7SGPP8CN
-	PbOw==
-X-Gm-Message-State: APjAAAWvGGco7/QoF/L2DE2rA1KNesNZIby2praKni7NYLo1SVNqrcKn
-	Pp44dHxOn7aLHQUCOFckFDnnvA==
-X-Google-Smtp-Source: APXvYqyve9b9PjJY59rN5yYs0jZyiK9CjO9b8cwNyGbRv5cfleltlokywhXNPcrW6HO9WofqoqP0Dw==
-X-Received: by 2002:a1c:b745:: with SMTP id h66mr8789343wmf.70.1567806496323; 
-	Fri, 06 Sep 2019 14:48:16 -0700 (PDT)
+	bh=4h/wB4YGzmzdP3bHhd86PVoY21SYPsI0dXRylyI/ZuI=;
+	b=pPnsTevGTgephtYljMzWppuOAGAVm3m41BbwyfxMKAmwxOSkXP+PvbL1IcO868GHtH
+	j35Ns36fAJ3Kzju/YMazZKbaHf83M2iD65U1Pn499srwH0jAKVNFAC+X5gOfvPyQRIv/
+	1KHgi73xJFbekrx66KwMXHFXkFdcb46Fbnk0szHsldYaBU5Qh/SRSLNZfaDV59hF8b2Q
+	TdCE6u2DNBVLm8icBfoftgQPQT6bkDuDaIyAwBy2j/3tfCGbHCEucYbpfm3bQTDQjk4s
+	2XXll0g/c/BJdWnYHpfd93O57Hf2YFHaguVe+khvxVDiDvcBW+AGnBjsaGz1TPDLwPDV
+	5lug==
+X-Gm-Message-State: APjAAAXHJySvbNF/DVojjIU1LduuiTPYSJI3khJk7RbMK9AVEyvlSK/U
+	gfTf8LEmA1Wz8AAfUEpegsJIFw==
+X-Google-Smtp-Source: APXvYqwWHFR/N7BxPkqk0TFx9SAEmyR94eYqEfn59Wo/MhqjRTff1lbfR3TT12iF7cMCVm2PGmar2A==
+X-Received: by 2002:a1c:110:: with SMTP id 16mr9324440wmb.88.1567806657423;
+	Fri, 06 Sep 2019 14:50:57 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h2sm10730764wrb.31.2019.09.06.14.48.15
+	by smtp.gmail.com with ESMTPSA id q5sm398278wmq.3.2019.09.06.14.50.56
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Sep 2019 14:48:15 -0700 (PDT)
-Message-ID: <3f394af5d0dcaabf8465b5a53ce9c2c7b3d07e54.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
-Date: Fri, 06 Sep 2019 22:48:14 +0100
-In-Reply-To: <1567741059-137869-1-git-send-email-changqing.li@windriver.com>
-References: <1567741059-137869-1-git-send-email-changqing.li@windriver.com>
+	Fri, 06 Sep 2019 14:50:56 -0700 (PDT)
+Message-ID: <24bfa19f1db61860978894ae958aec938bd91ee1.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Randy MacLeod <randy.macleod@windriver.com>, Changqing Li
+	<changqing.li@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 06 Sep 2019 22:50:55 +0100
+In-Reply-To: <c48b2c01-d4b1-c0cf-54b1-4c8a00af9ea1@windriver.com>
+References: <1567485996-351404-1-git-send-email-changqing.li@windriver.com>
+	<ef8f2598-6a4b-7087-2375-beac482e3924@windriver.com>
+	<413ea6ab6c76a8a532b7d28303b54fe61f12cd99.camel@linuxfoundation.org>
+	<761df36a-5ea2-4b07-3e78-a0b5a4276908@windriver.com>
+	<c48b2c01-d4b1-c0cf-54b1-4c8a00af9ea1@windriver.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] mdadm: fix do_package failed when changed local.conf but not cleaned
+Subject: Re: [PATCH V3] dnf.py: installroot support usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +61,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 21:48:16 -0000
+X-List-Received-Date: Fri, 06 Sep 2019 21:50:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-09-06 at 11:37 +0800, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
+On Thu, 2019-09-05 at 14:25 -0400, Randy MacLeod wrote:
+> On 9/4/19 4:36 AM, Changqing Li wrote:
+> > I didn't met failure in test_parselog during test,  the whole 
+> > testimage is passed.
+> > 
+> > Could you help to send me the link of the failure test if the new 
+> > version still
+> > 
+> > met test_parselog failure? Thanks.
 > 
-> reproduce steps:
-> 1. add DISTRO_FEATURE_append = 'usrmerge' in local.conf
-> 2. bitbake mdadm --success
-> 3. remove DISTRO_FEATURE_append = 'usrmerge' from local.conf
-> 4. bitbake mdadm  -- failed when do_package
+> Sandy,
 > 
-> it is not proper to change source Makefile during do_install by sed,
-> change to add patch for it.
+> Richard shouldn't have to do that since many people have such
+> requests and
 > 
-> [YOCTO #13493]
+> if he helped everyone he would (and has in the past) spend/t too
+> much 
+> time helping people.
 > 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> We should be able to setup the autobuilder locally to reproduce the
+> problem.
+> 
+> 
+> Also during the YP bug review call, someone suggested that you check
+> if the
+> 
+> dnf install tests are running in a deterministic order. If they are
+> not, 
+> then that
+> 
+> might explain why the AB sees the problem but you do not.
 
-This somehow seems to break:
+It wasn't clear if the issue was fixed in the revised patch or not so I
+did include this in the last round of tests and those passed. I
+therefore suspect whatever the issue was did get fixed in the v3.
 
-oe-selftest -r devtool.DevtoolModifyTests.test_devtool_buildclean
-and
-oe-selftest -r devtool.DevtoolModifyTests.test_devtool_modify
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/694
+Of course a different patch failed (mdadm) so I've replied about that
+one separately (I've confirmed which patch it was manually, it did
+reproduce).
 
 Cheers,
 
 Richard
-
 
 
