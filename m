@@ -1,40 +1,49 @@
-Return-Path: <sean@geanix.com>
-X-Greylist: delayed 484 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 06 Sep 2019 05:59:10 UTC
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 068757F308
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id D12BE7F35F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 05:59:10 +0000 (UTC)
-Received: from [192.168.100.95] (unknown [95.138.208.137])
-	by first.geanix.com (Postfix) with ESMTPSA id 1532563709;
-	Fri,  6 Sep 2019 05:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1567749049; bh=Y/MFUBqJ+g/cbvkCM5OvHqIGqYnxCc6s53n5fqNP8FM=;
-	h=Subject:To:References:From:Date:In-Reply-To;
-	b=HTdruNIhrkPbEsBm4xSlbDIptN3lqrvUiR+hC8vUZENEnflYnj8SYBwT0W7TuMkS9
-	oYsKGFO62m42fKVtMuuwJ3OSpn9arQJH+FefTq83zD/3ciUxjPzxnFhN4KJcuihSg1
-	e03iP3Btmg3R2Wkx07yNbM3Bk8MZK554t/QeSNyCDvF41poW60Q/FQXyXLf6/SeMtN
-	eEpBHePHlNHASd7BY/Kb4eBn15lNZTWPnDpj69RLlhgHddCiDjwHPUUFpuaLG0jWxo
-	yKIq/2M7fU8PGFseyzuIccY7WPGDLiofDsHCJzVtWwZCkTLOcHoab76sVDiIjjNC3k
-	o6RW7iiB9Wr9g==
-To: Khem Raj <raj.khem@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Armin Kuster <akuster808@gmail.com>
-References: <20190831142252.7204-1-raj.khem@gmail.com>
-	<CAMKF1spmWGzRPyih6uZsDmZj4Rwb0s_uwLOaDJuVGxyvtbS-jw@mail.gmail.com>
-From: Sean Nyekjaer <sean@geanix.com>
-Message-ID: <540dfb8b-f256-3983-a61e-ca4cc833c6d5@geanix.com>
-Date: Fri, 6 Sep 2019 07:50:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.0
+	Fri,  6 Sep 2019 07:23:50 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id i1so4822106wro.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Sep 2019 00:23:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ol9vogNjTKsxitmrlFrk9z5NRu//uDzA3ACua2RilQc=;
+	b=QsV3ThzE/SpucZdgy//+4mwNUEC+kHCUeFEyiPr+D2J00zfXvtcql5eblgPDmheQb8
+	nJLACeHQWolOLxmKgdGRQcrhVcR5q7GlXjUoPmSmUCef5gDTcJFzaNaqpNr+UZGQTbYV
+	UeGd3tNDuqY0CWtpHHDeECNUAT6rPuRWKLXMM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ol9vogNjTKsxitmrlFrk9z5NRu//uDzA3ACua2RilQc=;
+	b=nQzl5qYLahegii+ps3Xeie8fpYAjzVOrN8QV4u/drqvUvMZYKge9G/rtgH/E3Vex23
+	li96Y5OeGuplq7T2GCE1q0a3DEqfs0ZDmz6He5pBD25FCQzo7Wf5Dbd2KCvxsNpjBEiR
+	AIohiYfhPKi9uYf5WACe6bCVY1WIPxpnSLuZWHezxAJNtPnS/YPiTVW0zIZbO28yOWvd
+	QLTvEXhQx+HRsBnbrVDd9dePfyHoXkpBiCeLuKap4g5EvJ5BfSto4vIovaJZk3rfoSic
+	1HIhcsdoAi8KmTVNeS/A8TgNQTcITgMQhFVEGq/c+lkwdatQ0BIirCL50QoV+MWyRxKX
+	OoEw==
+X-Gm-Message-State: APjAAAXNQeCyDutrEPevXYhw6OfxerFM55DtBzXZWoJRSUpdd7qsLBHK
+	RdLEBQ1IFyCVdQbmozu6Juo4uM/Yd6vP4Q==
+X-Google-Smtp-Source: APXvYqzZg2P1hgP/YB3owBAs4+OBsp0EQma9iVvdv2Y98QFM18R1U4MyDvrEk7+U45+3T+rr/ZskGQ==
+X-Received: by 2002:a5d:6ac8:: with SMTP id u8mr5805092wrw.104.1567754631078; 
+	Fri, 06 Sep 2019 00:23:51 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b15sm4777951wmb.28.2019.09.06.00.23.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 06 Sep 2019 00:23:50 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Sep 2019 08:23:46 +0100
+Message-Id: <20190906072347.31616-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spmWGzRPyih6uZsDmZj4Rwb0s_uwLOaDJuVGxyvtbS-jw@mail.gmail.com>
-X-Spam-Status: No, score=-3.1 required=4.0 tests=ALL_TRUSTED,BAYES_00,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,URIBL_BLOCKED
-	autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on 77834cc0481d
-Subject: Re: [PATCH] libgpg-error: Fix build with gawk 5.x
+Subject: [PATCH 1/2] systemtap: Test latest and greatest for 5.2 kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,21 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 05:59:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US-large
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Sep 2019 07:23:51 -0000
+Content-Transfer-Encoding: 8bit
 
+Systemtap has issues with the 5.2 kernel which are fixed in master, we helped
+debug and submitted some of the patches. Update to a git version which includes
+all the fixes.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 04/09/2019 01.50, Khem Raj wrote:
-> Can we cherry-pick this patch to warrior and thud, please ?
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index c5348b3204b..f16f851e610 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,7 +1,7 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "984d6d1696ed06626b07cb65ab55d6ae0ece1131"
+-PV = "4.1"
++SRCREV = "a25199c9580b9b66424c494d3bf39c4d1b7e1f7b"
++PV = "4.1+git${SRCPV}"
+ 
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://configure-allow-to-disable-libvirt.patch \
+-- 
+2.20.1
 
-Hi
-
-For thud that uses a older version af libgpg-error, and the patch 
-doesn't apply :-)
-Should I update the patch for thud and resend?
-
-/Sean
 
