@@ -1,24 +1,26 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
+Return-Path: <phong@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DB477EFD3
+	by mail.openembedded.org (Postfix) with ESMTP id DFD747F3AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 18:52:29 +0000 (UTC)
+	Fri,  6 Sep 2019 19:00:05 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x86IqAHQ008390
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x86IxkHF008508
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Sep 2019 11:52:20 -0700
+	Fri, 6 Sep 2019 11:59:56 -0700
 Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 6 Sep 2019 11:51:59 -0700
-From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+	Fri, 6 Sep 2019 11:59:36 -0700
+Received: by yow-lpggp3.wrs.com (Postfix, from userid 21010)	id CEF3520476;
+	Fri,  6 Sep 2019 14:59:35 -0400 (EDT)
+From: Peiran Hong <peiran.hong@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Sep 2019 14:51:59 -0400
-Message-ID: <20190906185159.4923-1-Trevor.Gamblin@windriver.com>
+Date: Fri, 6 Sep 2019 14:59:23 -0400
+Message-ID: <20190906185923.14998-1-peiran.hong@windriver.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH v2] libevent: add granularity to ptest log
+Subject: [PATCH v2] diffutils: Added perl to support ptest & Skipped one test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,100 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 18:52:29 -0000
+X-List-Received-Date: Fri, 06 Sep 2019 19:00:11 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+From: Peiran Hong <Peiran.Hong@windriver.com>
 
-The libevent ptest used to report only a global pass or a fail result.
-Count individual PASS, FAIL, SKIP results. The SKIP results now
-include tests that are disabled in the libevent code.
+Added perl to the run-time dependency of the recipe for diffutils since
+it is required by the test "large-subpot".
+The test "strip-trailing-cr" is skipped since it requires valgrind to
+work, but valgrind is considered too heavy-weight for diffutils package.
 
-libevent's ptest output did not comply with the automake-style output
-"result: testname", and reported a FAIL status at the end of the test
-run if any of the libevent tests failed. This patch makes the log
-consistent with the automake style:
-
-    PASS: http/cancel_by_host_no_ns
-    PASS: http/cancel_inactive_server
-    PASS: http/cancel_by_host_no_ns_inactive_server
-    SKIPPED: http/cancel_by_host_server_timeout
-    SKIPPED: http/cancel_server_timeout
-
-and provides a summary as follows:
-
-    === Test Summary ===
-    TOTAL: 316
-    PASSED: 300
-    FAILED: 0
-    SKIPPED: 16
-    DURATION: 87
-    END: /usr/lib/libevent/ptest
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Signed-off-by: Peiran Hong <peiran.hong@windriver.com>
 ---
- .../libevent/libevent/run-ptest               | 34 ++++++++++++-------
- .../libevent/libevent_2.1.11.bb               |  3 ++
- 2 files changed, 25 insertions(+), 12 deletions(-)
+ ...001-Skip-strip-trailing-cr-test-case.patch | 28 +++++++++++++++++++
+ .../diffutils/diffutils_3.7.bb                |  3 +-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch
 
-diff --git a/meta/recipes-support/libevent/libevent/run-ptest b/meta/recipes-support/libevent/libevent/run-ptest
-index 0241851c70..080806dea9 100644
---- a/meta/recipes-support/libevent/libevent/run-ptest
-+++ b/meta/recipes-support/libevent/libevent/run-ptest
-@@ -1,18 +1,28 @@
- #!/bin/sh
+diff --git a/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch b/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch
+new file mode 100644
+index 0000000000..c2ba93285f
+--- /dev/null
++++ b/meta/recipes-extended/diffutils/diffutils/0001-Skip-strip-trailing-cr-test-case.patch
+@@ -0,0 +1,28 @@
++From d725a2d855377e5cab1b636380c3bd86b711c54a Mon Sep 17 00:00:00 2001
++From: Peiran Hong <peiran.hong@windriver.com>
++Date: Thu, 5 Sep 2019 15:42:22 -0400
++Subject: [PATCH] Skip strip-trailing-cr test case
++
++---
++ tests/Makefile.am | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 83a7c9d..04d51b5 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -21,8 +21,10 @@ TESTS = \
++   stdin \
++   strcoll-0-names \
++   filename-quoting \
++-  strip-trailing-cr \
++   colors
+++# Skipping this test since it requires valgrind
+++# and thus is too heavy for diffutils package
+++# strip-trailing-cr
++ 
++ XFAIL_TESTS = large-subopt
++ 
++-- 
++2.21.0
++
+diff --git a/meta/recipes-extended/diffutils/diffutils_3.7.bb b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+index 7daeee3513..8111ae6065 100644
+--- a/meta/recipes-extended/diffutils/diffutils_3.7.bb
++++ b/meta/recipes-extended/diffutils/diffutils_3.7.bb
+@@ -5,6 +5,7 @@ require diffutils.inc
  
--fail=0
-+# run-ptest - 'ptest' test infrastructure shell script that
-+#   wraps the libevent test scripts 
-+#
-+# Trevor Gamblin <trevor.gamblin@windriver.com>
-+###############################################################
-+LIBEVENTLIB=@libdir@/libevent
-+LOG="${LIBEVENTLIB}/ptest/libevent_ptest_$(date +%Y%m%d-%H%M%S).log"
-+
-+cd ${LIBEVENTLIB}/ptest 
-+
- for test in ./test/*
- do
--	$test
--	if [ $? -ne 0 ]
--	then
--		fail=1
--	fi
-+    $test 2>&1| sed -e '/OK/ s/^/PASS: / ; /FAILED/ s/^/FAIL: / ; /SKIPPED/ s/^/SKIP: / ; /DISABLED/ s/^/SKIP: /' | cut -f1,2 -d ':' | tee -a ${LOG}
- done
+ SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
+            file://run-ptest \
++           file://0001-Skip-strip-trailing-cr-test-case.patch \
+ "
  
--if [ $fail -eq 0 ]
--then
--	echo "PASS: libevent"
--else
--	echo "FAIL: libevent"
--fi
-+passed=`grep PASS ${LOG}|wc -l`
-+failed=`grep FAIL ${LOG}|wc -l`
-+skipped=`grep -E SKIP ${LOG}|wc -l`
-+all=$((passed + failed + skipped))
-+
-+(   echo "=== Test Summary ==="
-+    echo "TOTAL: ${all}"
-+    echo "PASSED: ${passed}"
-+    echo "FAILED: ${failed}"
-+    echo "SKIPPED: ${skipped}"
-+) | tee -a ${LOG}
-diff --git a/meta/recipes-support/libevent/libevent_2.1.11.bb b/meta/recipes-support/libevent/libevent_2.1.11.bb
-index 1e18f0ab2c..f005ab8bda 100644
---- a/meta/recipes-support/libevent/libevent_2.1.11.bb
-+++ b/meta/recipes-support/libevent/libevent_2.1.11.bb
-@@ -43,4 +43,7 @@ do_install_ptest() {
- 	do
- 		install -m 0755 $file ${D}${PTEST_PATH}/test
- 	done
-+        
-+        # handle multilib
-+        sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
- }
+ SRC_URI[md5sum] = "4824adc0e95dbbf11dfbdfaad6a1e461"
+@@ -17,7 +18,7 @@ acpaths = "-I ./m4"
+ 
+ inherit ptest
+ 
+-RDEPENDS_${PN}-ptest += "make"
++RDEPENDS_${PN}-ptest += "make perl"
+ 
+ do_install_ptest() {
+ 	t=${D}${PTEST_PATH}
 -- 
 2.21.0
 
