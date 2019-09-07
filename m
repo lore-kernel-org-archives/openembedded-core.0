@@ -1,52 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
-	[209.85.215.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 46ADE7D2E6
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D7AE7D2E6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Sep 2019 18:30:30 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id n4so5379512pgv.2
+	Sat,  7 Sep 2019 18:31:41 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id v11so11047692qto.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Sep 2019 11:30:31 -0700 (PDT)
+	Sat, 07 Sep 2019 11:31:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=5v4Gwch4nPFaMMAqkIkofEo3rAvIY41hrZUzb6OtgHM=;
-	b=kb4AMSIUcxrxSDHZERr+V7qmhnOQf9feRclzsAEssfCnVyoy2spX4hnQWuyQSJkpLt
-	VyMM2pHdUuxd9Mo5lz2eqIIng1Ry6tDLmLanKuFk+Sc9OAknhAGtu2dOPBfpCN6Pg0CR
-	dkDXLTKsaPED6zblWfGuBIOgAGDJCWEYlJlsJodsHKbdU7VUSj+r1WKLDk9swqtiF8vK
-	u8Pw3dWFrOOzy3M+/OBl4123v9pnlCtk9ZAkFiXpz/asjqRfjYqkLWtR0zvB8BGCmsQ4
-	SGVZxSiRRGNEC12dkXnHz4tP4XAZ1Mb2cc6Vj1aeAFPKXf1egJDgQKQ0PlmP/scuUUGQ
-	N+zA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=la/ujBeUPSeqd9wPy0A+Ga95epzO5foqCHSNP74jwZ8=;
+	b=S2YbEcBl07jWfw6uYcN0ZlT7g3+yUTwoBWXL/yrsKBI4C5UN+87kF3HydS12COwYmQ
+	fv6+4vxz1BuCsKpItjy5IU538S19hsxcd4N1X2eQ8x220hO7iM8tOH4zqUDEsKUJlSHe
+	2gw9VmaNg/wutcjUpj/1MxZOlibXCXZzUJPQEC05I26tTljRyZ7NdEZXtn27hqZVqfAr
+	0I1X6EVQuZTrgX53XeeEqnx1UvrCuUnapOEsUsCcFbu9NJvVLV/5Xp1kD+CHgAlCZZXz
+	JUPjhN+AhqRVJ20z3n+fjrk/I9O4/ZAYA1QxASUHcggsC8CRxGSMYbFJ5VS+vbMJU2W4
+	EKQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=5v4Gwch4nPFaMMAqkIkofEo3rAvIY41hrZUzb6OtgHM=;
-	b=mM8o4l/FP5cO4IV+4YeqgClfmu+rAVt3AdccS78P7roOIsTe+kKwrzt9VDQN0JEXfR
-	il1OIYYgJWYz68mU7A9oSuNFZ0WHlOZRSXMMQJsaFYkGTkiCtQYGe1eLwa2ltk05kEkS
-	BwNdRpcA7UiDr/YPhEE0itbpYafYQNdjblix2aAra81XHRg+TMyHUBCB17M83PxC/+Q8
-	/06eXgsouAjSOC55u/nOCguXymuPZ4rim64hBUqaqSyrUsFRxQDlMkj5OJL5M+J32yws
-	sHrxH/wTRwDk3xEEEcE0xE1DdnWJgGIL77ueqthIIMnOWiElWvjDbuu5S4m/sK3MQUJo
-	7POw==
-X-Gm-Message-State: APjAAAWpC4ErunkuSVPUiuYPfAKrOLmjNTqvzL37hxklFl7ew9NUo+wZ
-	XBAh4cWaNNbLUxZ+PINuIxrQh4ATucY=
-X-Google-Smtp-Source: APXvYqy13oFqVoyzDsKg7716jvlwXSWAmC+9pVtc1U52asi1Yb3G/ZZwcCxfbWaxcYNKajcDBico1Q==
-X-Received: by 2002:a63:195f:: with SMTP id 31mr13905065pgz.225.1567881031032; 
-	Sat, 07 Sep 2019 11:30:31 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	f23sm9807085pfn.22.2019.09.07.11.30.30
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Sep 2019 11:30:30 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  7 Sep 2019 11:30:22 -0700
-Message-Id: <20190907183022.6811-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190907183022.6811-1-raj.khem@gmail.com>
-References: <20190907183022.6811-1-raj.khem@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=la/ujBeUPSeqd9wPy0A+Ga95epzO5foqCHSNP74jwZ8=;
+	b=OyvDfgP4vrmNIyfHavzvhwzJn/xseGBdtssw0aOkBeBZOc2QzTVelBpEzkFuV6mQk1
+	hxGAn3UrqkGzYGoznkQvpV7mRtuf3ka4oC98/Zwp4uPHyMel5+cgScQ/lzav29eZyCRI
+	bdLdh+hPdrl3/bXY+Ln6eqedkxRAOGhUfTAVc6vFiVMf3mdCYwtnQDS5Qyi/eoZyqcaP
+	F/7JGHyuCVkZqY0bqIbGgE434oxs8o6F0C+ZwIlkUzWD+3CNVyX7d9FXNMjP0zjC7vu+
+	1enDxEHfF9KmjS8UzF/W/xEO90d33I/Y5FDKft2DG13L2xEQgAvWPNqZD5C7GNMntxyQ
+	6hqQ==
+X-Gm-Message-State: APjAAAVoa0ar5ffiyTfxkeEKDjd1qM1LQMpFCh2f7tYRiopTtHBseQGc
+	/P50d6ULLOe9th+e51Ej9WY7EOuuQ9GwiMpTovIOEgWm
+X-Google-Smtp-Source: APXvYqw7K1fDwH8Vgzzg22/oHcHvgNRYsLNvbHZK2ojWLWZB3hGjBT8IuLx9aNPvTqddANSeIvc7zzZk0HXcMsirQpY=
+X-Received: by 2002:ac8:7445:: with SMTP id h5mr15467727qtr.53.1567881101900; 
+	Sat, 07 Sep 2019 11:31:41 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] python3-manifest.json: Fix typo in summary
+References: <20190907183022.6811-1-raj.khem@gmail.com>
+In-Reply-To: <20190907183022.6811-1-raj.khem@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 7 Sep 2019 11:31:16 -0700
+Message-ID: <CAMKF1srGD__59cc-Jj9BebvyQWBWjidfcPNsuRoNVy-Skv6c0g@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oeqa: Recognise svlogd as another logger
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,28 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Sep 2019 18:30:31 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 07 Sep 2019 18:31:41 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/python/python3/python3-manifest.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+this has been applied, ignore it
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index ec28c2dbb4..8e94305af7 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -115,7 +115,7 @@
-         "cached": []
-     },
-     "asyncio": {
--        "summary": "Python Asynchronous I/",
-+        "summary": "Python Asynchronous I/O",
-         "rdepends": [
-             "core",
-             "io",
--- 
-2.23.0
-
+On Sat, Sep 7, 2019 at 11:30 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> This is provided by runit which another init system like systemd,
+> sysvinit, this lets oeqa run on systems which are using runit
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/lib/oeqa/runtime/cases/oe_syslog.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
+> index 3a8271a53a..f3c2bedbaf 100644
+> --- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
+> +++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
+> @@ -17,7 +17,7 @@ class SyslogTest(OERuntimeTestCase):
+>          msg = "Failed to execute %s" % self.tc.target_cmds['ps']
+>          self.assertEqual(status, 0, msg=msg)
+>          msg = "No syslog daemon process; %s output:\n%s" % (self.tc.target_cmds['ps'], output)
+> -        hasdaemon = "syslogd" in output or "syslog-ng" in output
+> +        hasdaemon = "syslogd" in output or "syslog-ng" in output or "svlogd" in output
+>          self.assertTrue(hasdaemon, msg=msg)
+>
+>  class SyslogTestConfig(OERuntimeTestCase):
+> --
+> 2.23.0
+>
 
