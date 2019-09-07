@@ -1,52 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 423926D74B
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 934267F46A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Sep 2019 12:11:14 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q17so4417128wrx.10
+	Sat,  7 Sep 2019 12:55:17 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id x3so4456089plr.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Sep 2019 05:11:15 -0700 (PDT)
+	Sat, 07 Sep 2019 05:55:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=IbTpqU+fDcXTFRCCq1Mhud6rFcfN5X7eSeYD89UUAJQ=;
-	b=FQkmqWTLnG4nRRG+pLvkxInqXdNLpzr6LIoxqnRa2ESYCAYh1fldeUBXdlAP9Wv7fU
-	4qQL+Hq3SuyafUNZLwW0GA6aZdjr73Ra4QoR0ijPKUOzmJbcuuGqPF8z2LGvccQEdH4R
-	rtOB4+Hbo+bpEIgk1Ptbi7jMeJm8m9TPy6e9s=
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:content-transfer-encoding
+	:mime-version; bh=8XV+po39LPJk0k0yUlkq94BqcVItL0noml3yV+9MOno=;
+	b=SetWJsSNRchaL0giCxKHKw1Z731zN4VV1LrlsPZDGvzFCLBNTTIUnqVn1FtK2GvSGO
+	2/nM2wCsqCYJWgIny3YqiuE7FvtHc+o5K8YO47FxScNUobMpf3ARraD8mL1oKkCvyal1
+	lD7MdAeWkZEgHUE0/nj1HYwLIUZi/CjDR2ijiFamq5PD/jGYshdNWfyK5pyXFf0qvddQ
+	wBcwh7/pRBV6a2I/2GgIBNHIrSFnS0JXKOXcZSjPrZ121PlA51QKMUDWIjX+NX0PgS+g
+	9B8G/gf+Y3Hgd9MM/mZkBKxCYD/cc7cPxxSjAO2S2bkXbx47rbGWIo1ii4zxpKDSvqrY
+	joKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=IbTpqU+fDcXTFRCCq1Mhud6rFcfN5X7eSeYD89UUAJQ=;
-	b=unCBWKPO+RvBBTLZEA6ZC8hnyY31D0utBlP2Bzf7Zz8gdluRgNybn9ic+QcEBkhsac
-	XVoj2TFsz22/i4XJiKicvcVs01FY++uDtmJ0/Wvz45XXqpPZw+AmsH1DpztPSBc4MWa8
-	etqqtNMwzgSxMnaHHXE9tnBehyn0zO4m4/klqr/YpvI8ftabUqCk3EQfADhWFGDJ7rS6
-	2/vYByY/0wBRyT78N5gOUS+BW3QNkV3UE0niZcKt7qoLrCwOQJIbvXAAXSOJC6CYGb2M
-	r76xmaem/fpYbH1bNBa3vm1Y8aAgtfjyJKg4w1zSM3AoeIndzGzo9ZpOxY3sYd/D+VrL
-	4Xng==
-X-Gm-Message-State: APjAAAUVCD9LFcY2MCnQ5pSxdjHQNQyH1fEP428g13ZEUC8Zj4laBMu/
-	Qwt+XysIoDvG6MjL8CgYpcBoEHwJ5SJFLQ==
-X-Google-Smtp-Source: APXvYqx688jZw3/lAvBIpJtoQZlUrM3av1NzRodOU5qjLJ4ishEbIAK5S1q4nKmEDa23rWUnK+6c5A==
-X-Received: by 2002:a05:6000:152:: with SMTP id
-	r18mr994416wrx.153.1567858274894; 
-	Sat, 07 Sep 2019 05:11:14 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u83sm15614165wme.0.2019.09.07.05.11.13
+	h=x-gm-message-state:date:message-id:from:to:cc:subject
+	:content-transfer-encoding:mime-version;
+	bh=8XV+po39LPJk0k0yUlkq94BqcVItL0noml3yV+9MOno=;
+	b=CvJhKHxZ2VcAlL3iHSNslKYGM/GNdkKhg9PVFKDPQEGLKAR1fsSu9uk6PUcFhYZxSl
+	T2rfKjRUCeBPFz8DAIMX4ug5eRppCoP0Gl7vFBj5nKaXZKMIl5Y7PSdLiHGVlpA0TBwE
+	Qfa9ZqahE+Hsh3Dcc7NrVoNoerzqbYSmZ6dWsSc75k1E2xdEsQI9cyhU0JhHrYfqifiN
+	Cn8J4MDkQjjFQm3m3UoRljhbjpl8knNDXGeJtavQXlZGDhbT1I7yq3h3SuhhSzSfCI7e
+	teQGEEYMVAf8NbeYLhdJwQnHAEhe3ktjGppMCdCpKAjrCZybjMsdWkhEPTAIFrUtwpz3
+	pZHw==
+X-Gm-Message-State: APjAAAUM3dyuJTDp3Lr42maXLUhXarJSGo5XaonNx2ZRqhshh2HCfb3U
+	2RXz2L0jIBajwoM0TwLkcElfTAqrOjoi2g==
+X-Google-Smtp-Source: APXvYqyHa7Spc1nNkqVuFOYSTaRPZi0lUVyrfXuVba+lNRp7XrFvJW8pfRGoN65zxjhD+aXY188d6g==
+X-Received: by 2002:a17:902:bd4a:: with SMTP id
+	b10mr14221975plx.219.1567860918083; 
+	Sat, 07 Sep 2019 05:55:18 -0700 (PDT)
+Received: from [127.0.1.1] ([101.184.76.229])
+	by smtp.gmail.com with UTF8SMTPSA id
+	c125sm13034931pfa.107.2019.09.07.05.55.15
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Sep 2019 05:11:14 -0700 (PDT)
-Message-ID: <0ba5d758a811e64fe594e655f4eecfdee5ceb4a9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Gamblin <Trevor.Gamblin@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 07 Sep 2019 13:11:13 +0100
-In-Reply-To: <20190906185159.4923-1-Trevor.Gamblin@windriver.com>
-References: <20190906185159.4923-1-Trevor.Gamblin@windriver.com>
-User-Agent: Evolution 3.32.2-1 
+	Sat, 07 Sep 2019 05:55:17 -0700 (PDT)
+Date: Sat, 07 Sep 2019 12:55:06 +0000
+Message-Id: <20190907125506.17536-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] libevent: add granularity to ptest log
+Subject: [PATCH 1/7] oeqa/core/runner.py: Fix OETestTag listing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,48 +57,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Sep 2019 12:11:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 07 Sep 2019 12:55:17 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2019-09-06 at 14:51 -0400, Trevor Gamblin wrote:
-> From: Trevor Gamblin <trevor.gamblin@windriver.com>
-> 
-> The libevent ptest used to report only a global pass or a fail
-> result.
-> Count individual PASS, FAIL, SKIP results. The SKIP results now
-> include tests that are disabled in the libevent code.
-> 
-> libevent's ptest output did not comply with the automake-style output
-> "result: testname", and reported a FAIL status at the end of the test
-> run if any of the libevent tests failed. This patch makes the log
-> consistent with the automake style:
-> 
->     PASS: http/cancel_by_host_no_ns
->     PASS: http/cancel_inactive_server
->     PASS: http/cancel_by_host_no_ns_inactive_server
->     SKIPPED: http/cancel_by_host_server_timeout
->     SKIPPED: http/cancel_server_timeout
-> 
-> and provides a summary as follows:
-> 
->     === Test Summary ===
->     TOTAL: 316
->     PASSED: 300
->     FAILED: 0
->     SKIPPED: 16
->     DURATION: 87
->     END: /usr/lib/libevent/ptest
-> 
-> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Use the __oeqa_testtags attribute added by OETestTag and display no, one
+or more tags separated by a comma. Also change the formatting of the
+output so that the list of tests is formatted as "<test> (<tags>)" and
+remove the table header for "id" (it is no longer available).
 
-Thanks for this, it is a definite improvement on what was there before.
-Results from the autobuilder run:
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/lib/oeqa/core/runner.py | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-https://autobuilder.yocto.io/pub/non-release/20190907-4/testresults/testresult-report.txt
-
-Cheers,
-
-Richard
-
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index 930620ea19..63a8bae93f 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -205,23 +205,20 @@ class OETestRunner(_TestRunner):
+                 self._walked_cases = self._walked_cases + 1
+ 
+     def _list_tests_name(self, suite):
+-        from oeqa.core.decorator.oetag import OETestTag
+-
+         self._walked_cases = 0
+ 
+         def _list_cases(logger, case):
+-            oetag = None
+-
+-            if hasattr(case, 'decorators'):
+-                for d in case.decorators:
+-                    if isinstance(d, OETestTag):
+-                        oetag = d.oetag
+-
+-            logger.info("%s\t\t%s" % (oetag, case.id()))
++            oetags = []
++            if hasattr(case, '__oeqa_testtags'):
++                oetags = getattr(case, '__oeqa_testtags')
++            if oetags:
++                logger.info("%s (%s)" % (case.id(), ",".join(oetags)))
++            else:
++                logger.info("%s" % (case.id()))
+ 
+         self.tc.logger.info("Listing all available tests:")
+         self._walked_cases = 0
+-        self.tc.logger.info("id\ttag\t\ttest")
++        self.tc.logger.info("test (tags)")
+         self.tc.logger.info("-" * 80)
+         self._walk_suite(suite, _list_cases)
+         self.tc.logger.info("-" * 80)
+---
+2.23.0.rc1
 
