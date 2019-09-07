@@ -1,54 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BAD287F442
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 423926D74B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2019 21:50:56 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id k2so7885150wmj.4
+	Sat,  7 Sep 2019 12:11:14 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q17so4417128wrx.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2019 14:50:58 -0700 (PDT)
+	Sat, 07 Sep 2019 05:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=4h/wB4YGzmzdP3bHhd86PVoY21SYPsI0dXRylyI/ZuI=;
-	b=hz+61r176s0PzT4vZBFvGuyuD+o51mH/eRiTeha1GlEj3r+OnpgbyP+RSpQ+gDZQz4
-	gs13z8NNZW0ih6cybUbcm+ZLX8YyscOXgC3KlnAOcWX9iWo3TYgXu7dC3cZesaMQR1Wr
-	7/vfhefni1Is6fShSX6rRCzCo9tmb6Nzql9uI=
+	bh=IbTpqU+fDcXTFRCCq1Mhud6rFcfN5X7eSeYD89UUAJQ=;
+	b=FQkmqWTLnG4nRRG+pLvkxInqXdNLpzr6LIoxqnRa2ESYCAYh1fldeUBXdlAP9Wv7fU
+	4qQL+Hq3SuyafUNZLwW0GA6aZdjr73Ra4QoR0ijPKUOzmJbcuuGqPF8z2LGvccQEdH4R
+	rtOB4+Hbo+bpEIgk1Ptbi7jMeJm8m9TPy6e9s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=4h/wB4YGzmzdP3bHhd86PVoY21SYPsI0dXRylyI/ZuI=;
-	b=pPnsTevGTgephtYljMzWppuOAGAVm3m41BbwyfxMKAmwxOSkXP+PvbL1IcO868GHtH
-	j35Ns36fAJ3Kzju/YMazZKbaHf83M2iD65U1Pn499srwH0jAKVNFAC+X5gOfvPyQRIv/
-	1KHgi73xJFbekrx66KwMXHFXkFdcb46Fbnk0szHsldYaBU5Qh/SRSLNZfaDV59hF8b2Q
-	TdCE6u2DNBVLm8icBfoftgQPQT6bkDuDaIyAwBy2j/3tfCGbHCEucYbpfm3bQTDQjk4s
-	2XXll0g/c/BJdWnYHpfd93O57Hf2YFHaguVe+khvxVDiDvcBW+AGnBjsaGz1TPDLwPDV
-	5lug==
-X-Gm-Message-State: APjAAAXHJySvbNF/DVojjIU1LduuiTPYSJI3khJk7RbMK9AVEyvlSK/U
-	gfTf8LEmA1Wz8AAfUEpegsJIFw==
-X-Google-Smtp-Source: APXvYqwWHFR/N7BxPkqk0TFx9SAEmyR94eYqEfn59Wo/MhqjRTff1lbfR3TT12iF7cMCVm2PGmar2A==
-X-Received: by 2002:a1c:110:: with SMTP id 16mr9324440wmb.88.1567806657423;
-	Fri, 06 Sep 2019 14:50:57 -0700 (PDT)
+	bh=IbTpqU+fDcXTFRCCq1Mhud6rFcfN5X7eSeYD89UUAJQ=;
+	b=unCBWKPO+RvBBTLZEA6ZC8hnyY31D0utBlP2Bzf7Zz8gdluRgNybn9ic+QcEBkhsac
+	XVoj2TFsz22/i4XJiKicvcVs01FY++uDtmJ0/Wvz45XXqpPZw+AmsH1DpztPSBc4MWa8
+	etqqtNMwzgSxMnaHHXE9tnBehyn0zO4m4/klqr/YpvI8ftabUqCk3EQfADhWFGDJ7rS6
+	2/vYByY/0wBRyT78N5gOUS+BW3QNkV3UE0niZcKt7qoLrCwOQJIbvXAAXSOJC6CYGb2M
+	r76xmaem/fpYbH1bNBa3vm1Y8aAgtfjyJKg4w1zSM3AoeIndzGzo9ZpOxY3sYd/D+VrL
+	4Xng==
+X-Gm-Message-State: APjAAAUVCD9LFcY2MCnQ5pSxdjHQNQyH1fEP428g13ZEUC8Zj4laBMu/
+	Qwt+XysIoDvG6MjL8CgYpcBoEHwJ5SJFLQ==
+X-Google-Smtp-Source: APXvYqx688jZw3/lAvBIpJtoQZlUrM3av1NzRodOU5qjLJ4ishEbIAK5S1q4nKmEDa23rWUnK+6c5A==
+X-Received: by 2002:a05:6000:152:: with SMTP id
+	r18mr994416wrx.153.1567858274894; 
+	Sat, 07 Sep 2019 05:11:14 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id q5sm398278wmq.3.2019.09.06.14.50.56
+	by smtp.gmail.com with ESMTPSA id
+	u83sm15614165wme.0.2019.09.07.05.11.13
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Sep 2019 14:50:56 -0700 (PDT)
-Message-ID: <24bfa19f1db61860978894ae958aec938bd91ee1.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Randy MacLeod <randy.macleod@windriver.com>, Changqing Li
-	<changqing.li@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 06 Sep 2019 22:50:55 +0100
-In-Reply-To: <c48b2c01-d4b1-c0cf-54b1-4c8a00af9ea1@windriver.com>
-References: <1567485996-351404-1-git-send-email-changqing.li@windriver.com>
-	<ef8f2598-6a4b-7087-2375-beac482e3924@windriver.com>
-	<413ea6ab6c76a8a532b7d28303b54fe61f12cd99.camel@linuxfoundation.org>
-	<761df36a-5ea2-4b07-3e78-a0b5a4276908@windriver.com>
-	<c48b2c01-d4b1-c0cf-54b1-4c8a00af9ea1@windriver.com>
+	Sat, 07 Sep 2019 05:11:14 -0700 (PDT)
+Message-ID: <0ba5d758a811e64fe594e655f4eecfdee5ceb4a9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Trevor Gamblin <Trevor.Gamblin@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 07 Sep 2019 13:11:13 +0100
+In-Reply-To: <20190906185159.4923-1-Trevor.Gamblin@windriver.com>
+References: <20190906185159.4923-1-Trevor.Gamblin@windriver.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH V3] dnf.py: installroot support usrmerge
+Subject: Re: [PATCH v2] libevent: add granularity to ptest log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,49 +59,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 21:50:57 -0000
+X-List-Received-Date: Sat, 07 Sep 2019 12:11:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-09-05 at 14:25 -0400, Randy MacLeod wrote:
-> On 9/4/19 4:36 AM, Changqing Li wrote:
-> > I didn't met failure in test_parselog during test,  the whole 
-> > testimage is passed.
-> > 
-> > Could you help to send me the link of the failure test if the new 
-> > version still
-> > 
-> > met test_parselog failure? Thanks.
+On Fri, 2019-09-06 at 14:51 -0400, Trevor Gamblin wrote:
+> From: Trevor Gamblin <trevor.gamblin@windriver.com>
 > 
-> Sandy,
+> The libevent ptest used to report only a global pass or a fail
+> result.
+> Count individual PASS, FAIL, SKIP results. The SKIP results now
+> include tests that are disabled in the libevent code.
 > 
-> Richard shouldn't have to do that since many people have such
-> requests and
+> libevent's ptest output did not comply with the automake-style output
+> "result: testname", and reported a FAIL status at the end of the test
+> run if any of the libevent tests failed. This patch makes the log
+> consistent with the automake style:
 > 
-> if he helped everyone he would (and has in the past) spend/t too
-> much 
-> time helping people.
+>     PASS: http/cancel_by_host_no_ns
+>     PASS: http/cancel_inactive_server
+>     PASS: http/cancel_by_host_no_ns_inactive_server
+>     SKIPPED: http/cancel_by_host_server_timeout
+>     SKIPPED: http/cancel_server_timeout
 > 
-> We should be able to setup the autobuilder locally to reproduce the
-> problem.
+> and provides a summary as follows:
 > 
+>     === Test Summary ===
+>     TOTAL: 316
+>     PASSED: 300
+>     FAILED: 0
+>     SKIPPED: 16
+>     DURATION: 87
+>     END: /usr/lib/libevent/ptest
 > 
-> Also during the YP bug review call, someone suggested that you check
-> if the
-> 
-> dnf install tests are running in a deterministic order. If they are
-> not, 
-> then that
-> 
-> might explain why the AB sees the problem but you do not.
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-It wasn't clear if the issue was fixed in the revised patch or not so I
-did include this in the last round of tests and those passed. I
-therefore suspect whatever the issue was did get fixed in the v3.
+Thanks for this, it is a definite improvement on what was there before.
+Results from the autobuilder run:
 
-Of course a different patch failed (mdadm) so I've replied about that
-one separately (I've confirmed which patch it was manually, it did
-reproduce).
+https://autobuilder.yocto.io/pub/non-release/20190907-4/testresults/testresult-report.txt
 
 Cheers,
 
