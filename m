@@ -1,34 +1,50 @@
-Return-Path: <sean@geanix.com>
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 53B237DDA2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 201887E08D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Sep 2019 17:31:26 +0000 (UTC)
-Received: from zen.localdomain (unknown [85.184.140.241])
-	by first.geanix.com (Postfix) with ESMTPSA id 1063E63DFB;
-	Sun,  8 Sep 2019 17:31:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1567963862; bh=OqQ6ogfh8+PuiVGWFfbJjGWau3OSKhEAHFd1Qz6Q+q8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jwahPI7vCj06de1mzbgvrtNFKOOWfDlhiiZWt7NINToxoc4bW3U4y8uY7yVBL9Nce
-	dTSDWgc1R3Q4dAwnoRU1tqE1eUcGnvwaBzJ5+EiP9JzEXGSMRHKn04A26CTxVP8P/X
-	wzp1WHpaM3PYLa94ZbL9TWU2tYqiqn8XYTgAmSwU96qAdtgNR3yU8d2KfGt3zMSuGB
-	V9pOkI7kbPQaizEmJ0jcddcgSQPZrkr09NcqZNFOFK6oRJ+xF/5kQ/JkCs19pXlIXB
-	HwYHLoNEc4b2AziwOnWz0W6MouS5Mk1AtUuxLppzFpbBZsBTFFWvxeXMNRaOJJbfIQ
-	azS86+9neuBvg==
-From: Sean Nyekjaer <sean@geanix.com>
-To: openembedded-core@lists.openembedded.org,
-	akuster808@gmail.com
-Date: Sun,  8 Sep 2019 19:31:17 +0200
-Message-Id: <20190908173117.101506-2-sean@geanix.com>
+	Sun,  8 Sep 2019 23:23:38 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id x127so7983451pfb.7
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 08 Sep 2019 16:23:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4/Q9dDwZdr2/MAVVDxToMfAQ8KOpv+pr7eqF/HQl5O8=;
+	b=smMzfQ8bHCIM8NPMmtdvhIrdXHCk/O/HIyJdUKtirFn2sqAU2QnbWgnoNsgZZyKAgS
+	ACMEaMv8F960/JzeqpPli8NK4k5KkjODVCU5KKGu/k//SBUfyFAtoX3vHO+apwpV4qrB
+	raMh5TAgGWba2etFtJrEtKfPFxUd9Y7jMPXDcTx9Lne3MnqFR+fVrxiPCVRYNxfdYyxy
+	dAlr/dutdGOYQ5hdKQOAPGCi8rwNNA7Qby4m30dhch3NZ0hGZKGmAlX5C0DOvxmSaqEy
+	wskYi5Q1t02g3uPGT0FE7+FmCb1BJ5Wy4Gp0ay2Vh1a8TTLGQxjzbCQzmYuwxxO05gS8
+	dy1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4/Q9dDwZdr2/MAVVDxToMfAQ8KOpv+pr7eqF/HQl5O8=;
+	b=f2OMQABY+vNyY/qc4UoSMDbDuxqBHTwdoVK3rKz1Z1FFgyEOweHpMZ+ZZSq4sGDCsd
+	Q4bX9r9/+2piJV5SrEaWJyRHkzoJFSGdtkGeJqGWwcHYfPky6iKnA8F4lKPr8yeIR79O
+	tOF6yOb5y1QM4KNb6BZBCFInU2V4wQVxPsRNpa6QQedp7+IOR+41gkDyZiS8u102umow
+	tN1hWCRpeqJM/IXXEZ336VME8KTrrfUeCYmylcTnH343rQtAp+FY6+R8wFhJC0ybfAeo
+	0Yu+ubndXUynFu9+67F/2EfzcQWCYGLnrDw/f5ALJklbvcVDqJi3490mFNO9+x5h8c7g
+	a3VA==
+X-Gm-Message-State: APjAAAUyLKPV0bxQ95RcpEfIx1Omwn7x6ZzAJExWss8jiibQNmKzOI0t
+	YaABezBtu44nevRZvkQM7Q3FHnB70X4=
+X-Google-Smtp-Source: APXvYqzf3bgsKzDVYjL8ua7Icrm/lOnqx2A2endfNq6xPzEmo77UuKvsDGxYlBdcryF7K0df+voCLw==
+X-Received: by 2002:a63:4042:: with SMTP id n63mr18346306pga.75.1567985019481; 
+	Sun, 08 Sep 2019 16:23:39 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
+	d10sm14414153pfh.8.2019.09.08.16.23.38
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 08 Sep 2019 16:23:38 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  8 Sep 2019 16:23:31 -0700
+Message-Id: <20190908232331.2295-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <CAMKF1spJ4scwiMq5eNVCg-6dBk5VfozN6DwosoNHxKgE37pSHQ@mail.gmail.com>
-References: <20190908173117.101506-1-sean@geanix.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=4.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, DKIM_VALID_EF, UNPARSEABLE_RELAY,
-	URIBL_BLOCKED autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on 77834cc0481d
-Subject: [warrior][PATCH] libgpg-error: Fix build with gawk 5.x
+Subject: [PATCH] elfutils: Fix build on ppc/musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,196 +57,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Sep 2019 17:31:26 -0000
+X-List-Received-Date: Sun, 08 Sep 2019 23:23:39 -0000
 Content-Transfer-Encoding: 8bit
 
-Based on poky master, but for version 1.35
+musl relies on the pt_regs definitions from kernel ptrace headers
 
-Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libgpg-error-1.35-gawk5-support.patch     | 160 ++++++++++++++++++
- .../libgpg-error/libgpg-error_1.35.bb         |   1 +
- 2 files changed, 161 insertions(+)
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
+ .../elfutils/elfutils_0.176.bb                |  1 +
+ ...cliude-asm-ptrace.h-for-pt_regs-defi.patch | 32 +++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+index d98457e3f9..fe810282bc 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+@@ -29,6 +29,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://debian/disable_werror.patch \
+            file://debian/testsuite-ignore-elflint.diff \
+            file://0001-skip-the-test-when-gcc-not-deployed.patch \
++           file://0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch \
+            file://run-ptest \
+            file://ptest.patch \
+            "
+diff --git a/meta/recipes-devtools/elfutils/files/0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch b/meta/recipes-devtools/elfutils/files/0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch
 new file mode 100644
-index 0000000000..bbb38a60ca
+index 0000000000..3303333c45
 --- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
-@@ -0,0 +1,160 @@
-+From 37069826e497d6af01e3e48fe5d2220ae7f85449 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Mon, 15 Apr 2019 15:10:44 +0900
-+Subject: [PATCH] awk: Prepare for Gawk 5.0.
++++ b/meta/recipes-devtools/elfutils/files/0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch
+@@ -0,0 +1,32 @@
++From 2e2232d0935bf8ef6e66ebffba3be68a73b5b3e5 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 8 Sep 2019 15:57:59 -0700
++Subject: [PATCH] ppc_initreg.c: Incliude asm/ptrace.h for pt_regs definition
 +
-+* src/Makefile.am: Use pkg_namespace (instead of namespace).
-+* src/mkerrnos.awk: Likewise.
-+* lang/cl/mkerrcodes.awk: Don't escape # in regexp.
-+* src/mkerrcodes.awk, src/mkerrcodes1.awk, src/mkerrcodes2.awk: Ditto.
++Fixes
++| ../../elfutils-0.176/backends/ppc_initreg.c:79:22: error: field 'r' has incomplete type
++|       struct pt_regs r;
++|                      ^
 +
-+--
++Upstream-Status: Pending
 +
-+In Gawk 5.0, regexp routines are replaced by Gnulib implementation,
-+which only allows escaping specific characters.
-+
-+GnuPG-bug-id: 4459
-+Reported-by: Marius Schamschula
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+Upstream-Status: Backport [https://dev.gnupg.org/T4459]
-+(cherry picked from commit 7865041c77f4f7005282f10f9b6666b19072fbdf)
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ lang/cl/mkerrcodes.awk |  2 +-
-+ src/Makefile.am        |  2 +-
-+ src/mkerrcodes.awk     |  2 +-
-+ src/mkerrcodes1.awk    |  2 +-
-+ src/mkerrcodes2.awk    |  2 +-
-+ src/mkerrnos.awk       |  2 +-
-+ src/mkstrtable.awk     | 10 +++++-----
-+ 7 files changed, 11 insertions(+), 11 deletions(-)
++ backends/ppc_initreg.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/lang/cl/mkerrcodes.awk b/lang/cl/mkerrcodes.awk
-+index ae29043..9a1fc18 100644
-+--- a/lang/cl/mkerrcodes.awk
-++++ b/lang/cl/mkerrcodes.awk
-+@@ -122,7 +122,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 42998e4..0ceac9f 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -281,7 +281,7 @@ code-from-errno.h: mkerrcodes Makefile
-+ 
-+ errnos-sym.h: Makefile mkstrtable.awk errnos.in
-+ 	$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
-+-		-v prefix=GPG_ERR_ -v namespace=errnos_ \
-++		-v prefix=GPG_ERR_ -v pkg_namespace=errnos_ \
-+ 		$(srcdir)/errnos.in >$@
-+ 
-+ 
-+diff --git a/src/mkerrcodes.awk b/src/mkerrcodes.awk
-+index 46d436c..e9c857c 100644
-+--- a/src/mkerrcodes.awk
-++++ b/src/mkerrcodes.awk
-+@@ -85,7 +85,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkerrcodes1.awk b/src/mkerrcodes1.awk
-+index a771a73..4578e29 100644
-+--- a/src/mkerrcodes1.awk
-++++ b/src/mkerrcodes1.awk
-+@@ -81,7 +81,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkerrcodes2.awk b/src/mkerrcodes2.awk
-+index ea58503..188f7a4 100644
-+--- a/src/mkerrcodes2.awk
-++++ b/src/mkerrcodes2.awk
-+@@ -91,7 +91,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkerrnos.awk b/src/mkerrnos.awk
-+index f79df66..15b1aad 100644
-+--- a/src/mkerrnos.awk
-++++ b/src/mkerrnos.awk
-+@@ -83,7 +83,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkstrtable.awk b/src/mkstrtable.awk
-+index c9de9c1..285e45f 100644
-+--- a/src/mkstrtable.awk
-++++ b/src/mkstrtable.awk
-+@@ -77,7 +77,7 @@
-+ #
-+ # The variable prefix can be used to prepend a string to each message.
-+ #
-+-# The variable namespace can be used to prepend a string to each
-++# The variable pkg_namespace can be used to prepend a string to each
-+ # variable and macro name.
-+ 
-+ BEGIN {
-+@@ -102,7 +102,7 @@ header {
-+       print "/* The purpose of this complex string table is to produce";
-+       print "   optimal code with a minimum of relocations.  */";
-+       print "";
-+-      print "static const char " namespace "msgstr[] = ";
-++      print "static const char " pkg_namespace "msgstr[] = ";
-+       header = 0;
-+     }
-+   else
-+@@ -110,7 +110,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+@@ -150,7 +150,7 @@ END {
-+   else
-+     print "  gettext_noop (\"" last_msgstr "\");";
-+   print "";
-+-  print "static const int " namespace "msgidx[] =";
-++  print "static const int " pkg_namespace "msgidx[] =";
-+   print "  {";
-+   for (i = 0; i < coded_msgs; i++)
-+     print "    " pos[i] ",";
-+@@ -158,7 +158,7 @@ END {
-+   print "  };";
-+   print "";
-+   print "static GPG_ERR_INLINE int";
-+-  print namespace "msgidxof (int code)";
-++  print pkg_namespace "msgidxof (int code)";
-+   print "{";
-+   print "  return (0 ? 0";
++diff --git a/backends/ppc_initreg.c b/backends/ppc_initreg.c
++index 0e0d359..e5cca7e 100644
++--- a/backends/ppc_initreg.c
+++++ b/backends/ppc_initreg.c
++@@ -33,6 +33,7 @@
++ #include <stdlib.h>
++ #if defined(__powerpc__) && defined(__linux__)
++ # include <sys/ptrace.h>
+++# include <asm/ptrace.h>
++ # include <sys/user.h>
++ #endif
 + 
 +-- 
 +2.23.0
 +
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
-index 57ac143fd5..37c298e151 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
-@@ -14,6 +14,7 @@ SECTION = "libs"
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
-+           file://libgpg-error-1.35-gawk5-support.patch \
- 	  "
- 
- SRC_URI[md5sum] = "2808a9e044f883f7554c5ba6a380b711"
 -- 
 2.23.0
 
