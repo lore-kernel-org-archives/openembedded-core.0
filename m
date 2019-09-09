@@ -1,36 +1,47 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A96B7E963
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com
+	[209.85.222.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B0EF7E963
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2019 11:08:26 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,484,1559491200"; d="scan'208";a="75168704"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 09 Sep 2019 19:08:27 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id F01334CE03E8
+	Mon,  9 Sep 2019 11:17:14 +0000 (UTC)
+Received: by mail-ua1-f43.google.com with SMTP id u18so4144077uap.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2019 19:08:16 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0439.000; Mon, 9 Sep 2019 19:08:27 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH] rpm: make rpm work in toolchain.
-Thread-Index: AQHVZv17+2mi7TQ9WEel4heN/cUtPqcjLR+g
-Date: Mon, 9 Sep 2019 11:08:27 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E17B@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1568026619-117196-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1568026619-117196-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.35]
+	Mon, 09 Sep 2019 04:17:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=69N4K75oZ5qddMh6ldbjnP0L3k89z2JsrhZkfamsHRc=;
+	b=LaoUBCsr8gZzN2fkU1C34V1mMnxqjwHrXp5HaYI4+R/EvmYP55OIh/g1lX3S6ir4z0
+	+FQ+ZNa1zGg534Aq/FEBopJ62jTP3UbEm7Ajx9mze+RmIl7TrEUxqhEIEBHhWpxnKXKc
+	oLbfcgk/Hof3x4N5Q1xM0UPH0LOWKs1UlO/SUxxm7UKf1MTG5KTxwi1KAtnv4A6DGq+N
+	XIIW8G1D2SqLw56IlV27OGGjzCptTayBbHmsTFBtZa8JpMjXtUjAmG+MSCJPIic0E7Gd
+	OCjZUJSIE8mFtknpg/Xcme37DV6WJOYCE0MzglsfmH1A1d6vQN+QdWmuNW+ONRFl0cw8
+	DJ9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=69N4K75oZ5qddMh6ldbjnP0L3k89z2JsrhZkfamsHRc=;
+	b=OLtZCwmuFtKUrkPoHr6JhqZYcqfEaMbTpUbq5LsWmo1bclvmfjk0OyEY6oD3s0aEc5
+	/XWXJJFS+T2lASTq35yl3FN/gUrfYyfyczWD0vHeI3z8+KDAkjsYVuHmrs2Pj5frXAsT
+	itP0s9fxxx00zVHobGF/GR+GCZFGwlK1+OCu/pfdDBCV4Zd3OwmdTgACFzfckuEIDBJp
+	N2x96TOalCq4FzWO97U29nBBqEnD7W2RfYJM/K/iR4+6tqvGlHJO9LmDZowSa2aUD4ZQ
+	MaNNBkS7ATimMcYJh8nhVzFBplHtJjTsp8b5PvOKMNOiE9+0h2yiezUOj8GPyrBLUxHU
+	vbNg==
+X-Gm-Message-State: APjAAAWjty7ILhl+71EjYWjdB2LOxTgw8uFpFA6ZlDj5tvjRm6LmwQjD
+	22kXPRWWgEn5EH19+0BsN57aDE6wY+2kmD7U8yI=
+X-Google-Smtp-Source: APXvYqxhFzoezRQTaFrlXOcH7bct1z+pKoCnJmgEIxoscC82rGtcKHcw9YrW3hVPEJl8FGGRv5eMOk/Hp/1UeSa+wiw=
+X-Received: by 2002:ab0:7097:: with SMTP id m23mr10443479ual.89.1568027835905; 
+	Mon, 09 Sep 2019 04:17:15 -0700 (PDT)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: F01334CE03E8.AB4D9
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
+References: <1568026619-117196-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E17B@G08CNEXMBPEKD01.g08.fujitsu.local>
+In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E17B@G08CNEXMBPEKD01.g08.fujitsu.local>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 9 Sep 2019 13:17:04 +0200
+Message-ID: <CANNYZj82T4xpV+QywFF8=QYU3TVNercWX2MyGce7RdyGtFWhBA@mail.gmail.com>
+To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] rpm: make rpm work in toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,77 +55,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 11:08:28 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 09 Sep 2019 11:17:15 -0000
+Content-Type: multipart/alternative; boundary="000000000000283a8405921cee85"
 
-SGkgQWxleA0KDQpJJ2QgbGlrZSB0byBleHBsYWluIHRoZSBwYXRoICR7U0RL
-VEFSR0VUU1lTUk9PVH0gaW4gdGhpcyBwYXRjaC4NCg0KQXMgeW91IHNlZSwg
-JHtTREtUQVJHRVRTWVNST09UfSBmb3IgeDg2XzY0IGlzIC9vcHQvcG9reS8y
-Ljcrc25hcHNob3Qvc3lzcm9vdHMvY29yZTItNjQtcG9reXNkay1saW51eC4N
-Cg0KSSBtYWtlIGl0IGJlY2F1c2UgY29uZmlnIGZpbGUgaW4gaG9zdC1zeXNy
-b290IGFzIC9vcHQvcG9reS8yLjcrc25hcHNob3Qvc3lzcm9vdHMveDg2XzY0
-LXBva3lzZGstbGludXggIHdpbGwgYmUgY292ZXJlZCBieSBhbm90aGVyIEFS
-Q0guDQpGb3IgZXhhbXBsZSwgZmlyc3QgaW5zdGFsbCBTREsgZm9yIHg4Nl82
-NCwgYW5kIG5leHQgaW5zdGFsbCBTREsgZm9yIHg4NiwgYXMgaG9zdC1zeXNy
-b290IGlzIHNhbWUsIHRoZSBzYW1lIGNvbmZpZyBmaWxlIHdpbGwgYmUgY292
-ZXJlZC4gSW4gdGhhdCBjYXNlIGNvbmZpZyBzZXR0aW5ncyBmb3IgeDg2XzY0
-IHdpbGwgYmUgaW5lZmZpY2FjeS4NCg0KVG8gcmVzb2x2ZSB0aGF0IHByb2Js
-ZW0sIEkgcHV0IGNvbmZpZyBmaWxlIGluIHRhcmdldC1zeXNyb290IGxpa2Ug
-L29wdC9wb2t5LzIuNytzbmFwc2hvdC9zeXNyb290cy9jb3JlMi02NC1wb2t5
-LWxpbnV4LiBBcyBlYWNoIEFSQ0ggaGFzIGl0cyBvd24gdGFyZ2V0LXN5c3Jv
-b3QsIGNvbmZpZyBmaWxlIHdpbGwgbm90IGJlIGNvdmVyZWQuDQoNCi0tDQot
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3UgTmFuZGEgU29m
-dHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjogTm8uNiBXZW56
-aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5hbmppbmcsIDIx
-MDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24uZnVqaXN0dS5j
-b20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
-IFpoZW5nLCBSdW9xaW4v1qMgyPTH1Q0KPiBTZW50OiBNb25kYXksIFNlcHRl
-bWJlciAwOSwgMjAxOSA2OjU3IFBNDQo+IFRvOiBvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IENjOiBaaGVuZywgUnVvcWlu
-L9ajIMj0x9UgPHpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbT4NCj4gU3Vi
-amVjdDogW09FLWNvcmVdW1BBVENIXSBycG06IG1ha2UgcnBtIHdvcmsgaW4g
-dG9vbGNoYWluLg0KPiANCj4gV2UgbmVlZCB0byBjb25maWd1cmUgcnBtIHRv
-IHVzZSBwYWNrYWdlIGFyY2hpdGVjdHVyZSBmcm9tIHlvY3RvIGJ1aWxkIHN5
-c3RlbS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8emhl
-bmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPg0KPiAtLS0NCj4gIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9ycG0vcnBtXzQuMTQuMi4xLmJiIHwgMTUgKysrKysr
-KysrKysrKysrDQo+ICAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygr
-KQ0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9y
-cG0vcnBtXzQuMTQuMi4xLmJiIGIvbWV0YS9yZWNpcGVzLQ0KPiBkZXZ0b29s
-cy9ycG0vcnBtXzQuMTQuMi4xLmJiDQo+IGluZGV4IDA2M2Y0MjY5YTUuLmFm
-OGUxNDRmOTYgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9ycG0vcnBtXzQuMTQuMi4xLmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9ycG0vcnBtXzQuMTQuMi4xLmJiDQo+IEBAIC0xMDIsNiArMTAy
-LDkgQEAgZG9faW5zdGFsbF9hcHBlbmRfY2xhc3MtbmF0aXZlKCkgew0KPiAg
-ICAgICAgICBkb25lDQo+ICB9DQo+IA0KPiArUkVBTF9NVUxUSU1BQ0hfVEFS
-R0VUX1NZUyA9ICIke1RVTkVfUEtHQVJDSH0ke1RBUkdFVF9WRU5ET1J9LQ0K
-PiAke1RBUkdFVF9PU30iDQo+ICtTREtUQVJHRVRTWVNST09UID0NCj4gIiR7
-U0RLUEFUSH0vc3lzcm9vdHMvJHtSRUFMX01VTFRJTUFDSF9UQVJHRVRfU1lT
-fSINCj4gKw0KPiAgZG9faW5zdGFsbF9hcHBlbmRfY2xhc3MtbmF0aXZlc2Rr
-KCkgew0KPiAgICAgICAgICBmb3IgdG9vbCBpbiAke1dSQVBQRVJfVE9PTFN9
-OyBkbw0KPiAgICAgICAgICAgICAgICAgIGNyZWF0ZV93cmFwcGVyICR7RH0k
-dG9vbCBcIEBAIC0xMTIsNiArMTE1LDE2IEBADQo+IGRvX2luc3RhbGxfYXBw
-ZW5kX2NsYXNzLW5hdGl2ZXNkaygpIHsNCj4gICAgICAgICAgZG9uZQ0KPiAN
-Cj4gICAgICAgICAgcm0gLXJmICR7RH0vdmFyDQo+ICsgICAgICAgIGluc3Rh
-bGwgLWQgJHtEfS8ke1NES1RBUkdFVFNZU1JPT1R9L2V0Yy9ycG0NCj4gKw0K
-PiArICAgIGNhdCA+JHtEfS8ke1NES1RBUkdFVFNZU1JPT1R9L2V0Yy9ycG1y
-YyA8PEVPRg0KPiArYXJjaF9jb21wYXQ6ICR7TUFDSElORV9BUkNIfTogJHtQ
-QUNLQUdFX0FSQ0hTfSBFT0YNCj4gKyAgICAgICAgc2VkIC1pICdzLy1uYXRp
-dmVzZGsvL2cnICR7RH0vJHtTREtUQVJHRVRTWVNST09UfS9ldGMvcnBtcmMN
-Cj4gKyAgICAgICAgc2VkIC1pICdzLy0vXy8nICR7RH0vJHtTREtUQVJHRVRT
-WVNST09UfS9ldGMvcnBtcmMNCj4gKyAgICBjYXQgPiR7RH0vJHtTREtUQVJH
-RVRTWVNST09UfS9ldGMvcnBtL3BsYXRmb3JtIDw8RU9GDQo+ICske01BQ0hJ
-TkVfQVJDSH0tcGMtbGludXggRU9GDQo+ICB9DQo+IA0KPiAgIyBScG0ncyBt
-YWtlIGluc3RhbGwgY3JlYXRlcyB2YXIvdG1wIHdoaWNoIGNsYXNoZXMgd2l0
-aCBiYXNlLWZpbGVzIHBhY2thZ2luZw0KPiBAQCAtMTMzLDYgKzE0Niw4IEBA
-IEZJTEVTXyR7UE59ICs9ICIke2xpYmRpcn0vcnBtLXBsdWdpbnMvKi5zbyBc
-DQo+IA0KPiAgRklMRVNfJHtQTn0tZGV2ICs9ICIke2xpYmRpcn0vcnBtLXBs
-dWdpbnMvKi5sYSBcDQo+ICAgICAgICAgICAgICAgICAgICAgICINCj4gK0ZJ
-TEVTXyR7UE59X2FwcGVuZF9jbGFzcy1uYXRpdmVzZGsgKz0gIiR7U0RLVEFS
-R0VUU1lTUk9PVH0iDQo+ICsNCj4gDQo+ICBQQUNLQUdFUyArPSAicHl0aG9u
-My1ycG0iDQo+ICBQUk9WSURFUyArPSAicHl0aG9uMy1ycG0iDQo+IC0tDQo+
-IDIuMTcuMQ0KDQoKCg==
+--000000000000283a8405921cee85
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, 9 Sep 2019 at 13:08, Zheng, Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+wrote:
+
+> I'd like to explain the path ${SDKTARGETSYSROOT} in this patch.
+>
+> As you see, ${SDKTARGETSYSROOT} for x86_64 is
+> /opt/poky/2.7+snapshot/sysroots/core2-64-pokysdk-linux.
+>
+> I make it because config file in host-sysroot as
+> /opt/poky/2.7+snapshot/sysroots/x86_64-pokysdk-linux  will be covered by
+> another ARCH.
+> For example, first install SDK for x86_64, and next install SDK for x86,
+> as host-sysroot is same, the same config file will be covered. In that case
+> config settings for x86_64 will be inefficacy.
+>
+> To resolve that problem, I put config file in target-sysroot like
+> /opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux. As each ARCH has its
+> own target-sysroot, config file will not be covered.
+>
+
+I see, thanks. Can you add this information to the patch please?
+
+Alex
+
+--000000000000283a8405921cee85
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 9 Sep 2019 at 13:08, Zheng, Ruoqi=
+n &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fujits=
+u.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">I&#39;d like to explain the path ${SDKTARG=
+ETSYSROOT} in this patch.<br>
+<br>
+As you see, ${SDKTARGETSYSROOT} for x86_64 is /opt/poky/2.7+snapshot/sysroo=
+ts/core2-64-pokysdk-linux.<br>
+<br>
+I make it because config file in host-sysroot as /opt/poky/2.7+snapshot/sys=
+roots/x86_64-pokysdk-linux=C2=A0 will be covered by another ARCH.<br>
+For example, first install SDK for x86_64, and next install SDK for x86, as=
+ host-sysroot is same, the same config file will be covered. In that case c=
+onfig settings for x86_64 will be inefficacy.<br>
+<br>
+To resolve that problem, I put config file in target-sysroot like /opt/poky=
+/2.7+snapshot/sysroots/core2-64-poky-linux. As each ARCH has its own target=
+-sysroot, config file will not be covered.<br></blockquote><div><br></div><=
+div>I see, thanks. Can you add this information to the patch please?</div><=
+div><br></div><div>Alex<br></div></div></div>
+
+--000000000000283a8405921cee85--
