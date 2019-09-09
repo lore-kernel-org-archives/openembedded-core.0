@@ -1,46 +1,47 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com
-	[209.85.222.53])
-	by mail.openembedded.org (Postfix) with ESMTP id DCEEA7F2DC
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+	[209.85.208.174])
+	by mail.openembedded.org (Postfix) with ESMTP id BFA4A7F362
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2019 20:58:01 +0000 (UTC)
-Received: by mail-ua1-f53.google.com with SMTP id w12so4808877uam.8
+	Mon,  9 Sep 2019 21:01:58 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id 7so14154956ljw.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Sep 2019 13:58:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 09 Sep 2019 14:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=b8ZLHIaSYJrwT2JvHWgsHsxo7kxvrtdJqxSobakmrlc=;
-	b=kp/arKiWpu3k7M8WRqi3UaRYRnKq4KUa/iDJ9JJSeXYsZqtyv4LWSZ4/0ZGiKxh5Gf
-	izdn+wkxlsDnk4K6gXrLXJd+LPVaM48to6VpCkHgyRs5aWq0PezB1OUbmwtuSNzZkdHr
-	CvOjVDSUpI1lf0CLBrZ3uZscwnqbp+QpJmqN7qTpOvtZQbwpKvMyBAsoP0Qe6KL0P8Tb
-	2IIAxjFDltKeKK9fhTvU4v1UtH03Pg38GRMUm+TNAjjihfoXKuLjp45z0PzVUdkTBOBm
-	RQEJBTKCZabodQ9+RkegwHOZpU4aKIkBc1jfEbtltbsAveHZGWlo9Ag3f2sHeFyQQOBS
-	QmVQ==
+	:cc; bh=N605P5HakFAz1itxAH0FokTAV8vT0c78/9B0MRm91NM=;
+	b=DLaMHsZ4PPVCcYmPjch/9aO5bzqCulKTzp4iLoog4zFN96YaKQlYgd+1quroqo2Oqh
+	lXqaWFs44/avTFr6TOE2wa1tDZi1s/k6zWAzMUFWha47r1WH7Ldynu9gAYuGrrMDUrdm
+	ljlhkS4+SJG/PoVG8Q+lALoWnIJ3TpxE1dUYgiL2/gRMX3HdpO6uuKGK5Zxwin6kEFoH
+	Ko+f1DDnav0gluZ3ExQl9AsEnROl5R71U214zBc9GrPu5/29uKQMB6AkyFM5+502kLl0
+	b1yJ+WopIoNdKano5PfiDyQTHHtjwuKg8LLhqkB4ZzNFDfIGILm7e5n6AcKP29e3Ficd
+	IAdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=b8ZLHIaSYJrwT2JvHWgsHsxo7kxvrtdJqxSobakmrlc=;
-	b=c/JSJtAUNe6dSFx8QGUKR2rKtebc2KOY+xWPA/T98VSrbVd/vkZ8DBxOUlIwPGnjm6
-	pGkcs4xHNmNxRKskDhSRk/fe2CdtmLueLISdqf3FBmdTU2aWD1kbvvCexVdNvQyoEWLX
-	YPG0RV+ECrUAdigvKPATgytUDc67wGCTm4L5eOWLBmewH8V9bGVmEQBkvKRIQ5xutImR
-	4I1cn2FGUbLTkzNDBTE8AgtdrcIME08X+yC+ingGvah5Be83JcMTBiAU1yoiPlwtnJAm
-	JH9FRCkz/Bhs09voM1YGtD3zdGcBw4kcxi2pKOlQM86M476YRLvQi/TDwx04xaBCAnLI
-	c5DQ==
-X-Gm-Message-State: APjAAAUaPyimn3odvCuegLdnLhR+5g1eR/Y8Ib7tNESuRh+n4QQ3aJl5
-	j4n7I4wOYUX8rulxGUwANfB0uPLEwoZp+UROPNw=
-X-Google-Smtp-Source: APXvYqybqRCE1Tx2PaZ8qtxoVnWREq8LOsHh4VcNb4wOox8nJ9TpMJ1QatyMl6Wx+0hvqpdQ51CwoPWqFTSKNzRB4oA=
-X-Received: by 2002:ab0:60d3:: with SMTP id g19mr3618065uam.81.1568062682762; 
-	Mon, 09 Sep 2019 13:58:02 -0700 (PDT)
+	bh=N605P5HakFAz1itxAH0FokTAV8vT0c78/9B0MRm91NM=;
+	b=hi83m1vhAHi6t0WYPNkggFx1xWq1tq6qR8EXT54Bn1k+5/sn/0SobZqlykzMmcne2o
+	LkDEtInv8cy6pi6IOSbmu3sNlj5zlXZPX0CE1EG/CNojy3+1yAwDo+PkMDb4H0LuGQZJ
+	2Ha9Vq++sDzH3LdARWq/0nwQlybnMqGVKSUeDR3Nism37/NxtGe/Efxu28UZb8SZq6ZI
+	G5Fu4Ft1Ji3Ipz5hff7+jI/Ek8pl9phIQfMcPfw5zBCAc15rI3YGPzE1R97aAXH+CMKA
+	Pj9gkwaNIi9+135TMIgDSJ8lXg8OtXPMnJo6wig5iN1DEsOJ3cLbEG9QiSU7/iPaFmd5
+	vBMA==
+X-Gm-Message-State: APjAAAXThPbkgpP3cycXSLb+hvXeReJ2suLXuPTu3bQJr88u/9m0sW4w
+	27cmglkRGQ6W3ywCoJ9OrnlXRpwHXcVFxqU8Y0Fm2g==
+X-Google-Smtp-Source: APXvYqy02jBPo4GB9t05jQwc2bVAk6klWbltakoT8TbhXWg9XxSille8UV85fOdNjn2YA4WYnJstXhb9EQQYHUZalcA=
+X-Received: by 2002:a2e:990d:: with SMTP id v13mr10517424lji.146.1568062919205;
+	Mon, 09 Sep 2019 14:01:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAP71WjxBhq4=rvMN5DWAamV5sE-nCenqFxLdPRYNA3st2Y0Z4Q@mail.gmail.com>
 	<CADkTA4NXHjo=2daFtRbZAheunsNO-OCeVqZGQ=9ZW+1Fjqe1+Q@mail.gmail.com>
 	<CAP71WjwuAbAd=h3WdW=Ku8EaFPx1=z8P2jvbWA6yvAHsGuFPkw@mail.gmail.com>
-In-Reply-To: <CAP71WjwuAbAd=h3WdW=Ku8EaFPx1=z8P2jvbWA6yvAHsGuFPkw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 9 Sep 2019 13:57:51 -0700
-Message-ID: <CAJ86T=V5kkimWLjU59kJuCECaNutn6__5zY3qvawbHvxhjbTww@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+	<CAJ86T=V5kkimWLjU59kJuCECaNutn6__5zY3qvawbHvxhjbTww@mail.gmail.com>
+In-Reply-To: <CAJ86T=V5kkimWLjU59kJuCECaNutn6__5zY3qvawbHvxhjbTww@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Mon, 9 Sep 2019 23:01:47 +0200
+Message-ID: <CAP71WjymYyhhV8xSekAp5tkywmZ2SUzLPqqidBM+CWa0S8z90A@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: make-mod-scripts question
@@ -56,20 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 20:58:02 -0000
+X-List-Received-Date: Mon, 09 Sep 2019 21:01:59 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 9, 2019 at 1:25 PM Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
+On Mon, Sep 9, 2019 at 10:58 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 >
-> If this reasoning is correct that means that kernel signing + external
-> module is broken. Note that I am working out of Thud for now, i am
-> sending this email for now to get some feedback, and will try to
-> reproduce without all our custom layers and with master.
+> On Mon, Sep 9, 2019 at 1:25 PM Nicolas Dechesne
+> <nicolas.dechesne@linaro.org> wrote:
+> >
+> > If this reasoning is correct that means that kernel signing + external
+> > module is broken. Note that I am working out of Thud for now, i am
+> > sending this email for now to get some feedback, and will try to
+> > reproduce without all our custom layers and with master.
+> >
+> > Should we deploy the keys/certificates in the kernel recipe instead of
+> > adding them in STAGING_KERNEL_DIR? Would that be enough?
 >
-> Should we deploy the keys/certificates in the kernel recipe instead of
-> adding them in STAGING_KERNEL_DIR? Would that be enough?
+> Maybe even better would be to have the module signing key provided by
+> a separate recipe and not rely on the kernel to auto generate it?
 
-Maybe even better would be to have the module signing key provided by
-a separate recipe and not rely on the kernel to auto generate it?
+that would create some serious patching in the kernel makefiles (and
+maintenance burden), no? since the keys are embedded in the kernel
+image.
 
