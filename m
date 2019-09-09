@@ -1,34 +1,34 @@
 Return-Path: <sean@geanix.com>
 Received: from first.geanix.com (first.geanix.com [116.203.34.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A80A79980
+	by mail.openembedded.org (Postfix) with ESMTP id 1D2BD79980
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2019 18:29:16 +0000 (UTC)
+	Mon,  9 Sep 2019 18:29:18 +0000 (UTC)
 Received: from zen.localdomain (unknown [85.184.140.241])
-	by first.geanix.com (Postfix) with ESMTPSA id DED046258A;
-	Mon,  9 Sep 2019 18:28:47 +0000 (UTC)
+	by first.geanix.com (Postfix) with ESMTPSA id 0E62764300;
+	Mon,  9 Sep 2019 18:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1568053728; bh=ff756xRGMf/0e9dhN0GdtayzPhcEuEtuiHf/HNmia4s=;
+	t=1568053729; bh=1akEpArNGScMpECx84fXUCBipNz6YN0HzMmAgmlJ+1E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bB0GbYbgRuixfUc1iVI2i8Ghtd8SjCMwa7EML7gyc0qpvu0kfAsCw7I59pGUeq1Kh
-	/vegRUixU0rojoKx/GSGifn0Bcoc4nPyGKj2YWc15eCG4Y2LqPACzIts6ZIRjkKjMr
-	uS6TBbVRc0hwB0GRPONCJ2QyQhnaRQHKMRpaM8sl8pH/U16lbaEC8xM02tLYoyx8+8
-	bYKp8mqfqvR9ioIUVJwkQwlMJtXBt8xeGBCfn0ehn2/CD1Wmfiepb9vdby6hzKQ95n
-	KFQVYLuSJdq4tnMlcd4n58NWWB86GW9YJqqjwW828MNHcj4PObnovPBvktRE+qTSzv
-	cB3QU/S7Bl9YQ==
+	b=loKDsCH9pRSP3cwn1Rub2Ut4k96Gc+8cA2u/iWrMfLBSmy4HBe8no82ZAoPxbEldC
+	sg2vHbYyKBpAig9TCd1CqZf/f1LVVJZxQliarTrI/E7OY5vONdOs+TaMe0X65y63ds
+	XN0sOhrUz5yo5q3yHfOXc2VN5Nu1x4fPAc6B8YExl6QD8UZ7z1yszvJ/LBBc11UWI2
+	UYEeKPZemklqxsibMCxql7XyNm2cp5PBeO/WWTwSXdP3VgOz79HOVNFHDl4VGq4PHm
+	lXoXSYzl9lrZixHtJRqYmIKvS/5mzf/1OOBh3x5VJ9EJXkkW8BECemkxx5tvFQt6R3
+	e4m8G+R7zPo7Q==
 From: Sean Nyekjaer <sean@geanix.com>
 To: openembedded-core@lists.openembedded.org,
 	akuster808@gmail.com
-Date: Mon,  9 Sep 2019 20:29:12 +0200
-Message-Id: <20190909182913.4070-1-sean@geanix.com>
+Date: Mon,  9 Sep 2019 20:29:13 +0200
+Message-Id: <20190909182913.4070-2-sean@geanix.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <0caae0af-496f-98e3-1fba-a6ee727d5630@gmail.com>
-References: 
+References: <20190909182913.4070-1-sean@geanix.com>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-2.1 required=4.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, DKIM_VALID_EF, UNPARSEABLE_RELAY,
 	URIBL_BLOCKED autolearn=disabled version=3.4.2
 X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on 77834cc0481d
-Subject: [thud][PATCH v2] libgpg-error: Fix build with gawk 5.x
+Subject: [warrior][PATCH v2] libgpg-error: Fix build with gawk 5.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,23 +41,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 18:29:17 -0000
+X-List-Received-Date: Mon, 09 Sep 2019 18:29:18 -0000
 Content-Transfer-Encoding: 8bit
 
-Based on poky master, but for version 1.32
+Based on poky master, but for version 1.35
 
 Signed-off-by: Sean Nyekjaer <sean@geanix.com>
 ---
- .../libgpg-error-1.32-gawk5-support.patch     | 161 ++++++++++++++++++
- .../libgpg-error/libgpg-error_1.32.bb         |   1 +
+ .../libgpg-error-1.35-gawk5-support.patch     | 161 ++++++++++++++++++
+ .../libgpg-error/libgpg-error_1.35.bb         |   1 +
  2 files changed, 162 insertions(+)
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.32-gawk5-support.patch
+ create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.32-gawk5-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.32-gawk5-support.patch
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
 new file mode 100644
 index 0000000000..dc3d558e24
 --- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.32-gawk5-support.patch
++++ b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
 @@ -0,0 +1,161 @@
 +Upstream-Status: Backport [https://dev.gnupg.org/T4459]
 +Signed-off-by: Sean Nyekjaer <sean@geanix.com>
@@ -220,18 +220,18 @@ index 0000000000..dc3d558e24
 +-- 
 +2.23.0
 +
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-index e552001cb6..aae5c7c844 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.32.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
+index 57ac143fd5..37c298e151 100644
+--- a/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
++++ b/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
+@@ -14,6 +14,7 @@ SECTION = "libs"
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
             file://pkgconfig.patch \
-            file://0001-syscfg-Support-ARC-CPUs-and-simplify-aliasing-table.patch \
-            file://0002-syscfg-Add-support-for-arc-unknown-linux-gnu.patch \
-+           file://libgpg-error-1.32-gawk5-support.patch \
++           file://libgpg-error-1.35-gawk5-support.patch \
  	  "
- SRC_URI[md5sum] = "ef3d928a5a453fa701ecc3bb22be1c64"
- SRC_URI[sha256sum] = "c345c5e73cc2332f8d50db84a2280abfb1d8f6d4f1858b9daa30404db44540ca"
+ 
+ SRC_URI[md5sum] = "2808a9e044f883f7554c5ba6a380b711"
 -- 
 2.23.0
 
