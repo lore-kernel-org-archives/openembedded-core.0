@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 18C4D7DD72;
-	Mon,  9 Sep 2019 03:32:00 +0000 (UTC)
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B486F7F223
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Sep 2019 05:32:34 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,483,1559491200"; d="scan'208";a="75151096"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 09 Sep 2019 13:32:34 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id D5A1F4CE03FD
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Sep 2019 13:32:25 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 9 Sep 2019 13:32:31 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 9 Sep 2019 13:32:00 +0800
+Message-ID: <20190909053200.9118-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 09 Sep 2019 03:32:01 -0000
-Message-ID: <20190909033201.2334.53104@do>
-References: <20190909031607.1806186-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190909031607.1806186-1-raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uM25hdGl2ZSwgcHl0aG9ubmF0aXZlOiBTZXBhcmF0ZSBkZWZpbml0aW9uIGFuZCBleHBvcnQgb2YgUFlUSE9OX0xJQlJBUlkgYW5kIFBZVEhPTl9JTkNMVURFX0RJUg==?=
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: D5A1F4CE03FD.AB558
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] btrfs-tools:upgrade 5.2.1 -> 5.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 03:32:00 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Sep 2019 05:32:35 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
-
-Series: python3native, pythonnative: Separate definition and export of PYTHON_LIBRARY and PYTHON_INCLUDE_DIR
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/19781/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            python3native, pythonnative: Separate definition and export of PYTHON_LIBRARY and PYTHON_INCLUDE_DIR
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 100 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../btrfs-tools/{btrfs-tools_5.2.1.bb => btrfs-tools_5.2.2.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.2.1.bb => btrfs-tools_5.2.2.bb} (97%)
+
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.2.bb
+similarity index 97%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.2.bb
+index a364cf5..6b73c01 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.2.bb
+@@ -14,7 +14,7 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl"
+ DEPENDS_append_class-target = " udev"
+ RDEPENDS_${PN} = "libgcc"
+ 
+-SRCREV = "9a85732d8beaae4b80cab98bb3355660389c1d36"
++SRCREV = "55a8c9626fb906c20c3206f8fd39b9a8fb259b79"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-- 
+2.7.4
+
+
 
 
