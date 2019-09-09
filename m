@@ -1,50 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 201887E08D
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 004697E71B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Sep 2019 23:23:38 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id x127so7983451pfb.7
+	Mon,  9 Sep 2019 01:24:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x891OOr2019102
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Sep 2019 16:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4/Q9dDwZdr2/MAVVDxToMfAQ8KOpv+pr7eqF/HQl5O8=;
-	b=smMzfQ8bHCIM8NPMmtdvhIrdXHCk/O/HIyJdUKtirFn2sqAU2QnbWgnoNsgZZyKAgS
-	ACMEaMv8F960/JzeqpPli8NK4k5KkjODVCU5KKGu/k//SBUfyFAtoX3vHO+apwpV4qrB
-	raMh5TAgGWba2etFtJrEtKfPFxUd9Y7jMPXDcTx9Lne3MnqFR+fVrxiPCVRYNxfdYyxy
-	dAlr/dutdGOYQ5hdKQOAPGCi8rwNNA7Qby4m30dhch3NZ0hGZKGmAlX5C0DOvxmSaqEy
-	wskYi5Q1t02g3uPGT0FE7+FmCb1BJ5Wy4Gp0ay2Vh1a8TTLGQxjzbCQzmYuwxxO05gS8
-	dy1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4/Q9dDwZdr2/MAVVDxToMfAQ8KOpv+pr7eqF/HQl5O8=;
-	b=f2OMQABY+vNyY/qc4UoSMDbDuxqBHTwdoVK3rKz1Z1FFgyEOweHpMZ+ZZSq4sGDCsd
-	Q4bX9r9/+2piJV5SrEaWJyRHkzoJFSGdtkGeJqGWwcHYfPky6iKnA8F4lKPr8yeIR79O
-	tOF6yOb5y1QM4KNb6BZBCFInU2V4wQVxPsRNpa6QQedp7+IOR+41gkDyZiS8u102umow
-	tN1hWCRpeqJM/IXXEZ336VME8KTrrfUeCYmylcTnH343rQtAp+FY6+R8wFhJC0ybfAeo
-	0Yu+ubndXUynFu9+67F/2EfzcQWCYGLnrDw/f5ALJklbvcVDqJi3490mFNO9+x5h8c7g
-	a3VA==
-X-Gm-Message-State: APjAAAUyLKPV0bxQ95RcpEfIx1Omwn7x6ZzAJExWss8jiibQNmKzOI0t
-	YaABezBtu44nevRZvkQM7Q3FHnB70X4=
-X-Google-Smtp-Source: APXvYqzf3bgsKzDVYjL8ua7Icrm/lOnqx2A2endfNq6xPzEmo77UuKvsDGxYlBdcryF7K0df+voCLw==
-X-Received: by 2002:a63:4042:: with SMTP id n63mr18346306pga.75.1567985019481; 
-	Sun, 08 Sep 2019 16:23:39 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	d10sm14414153pfh.8.2019.09.08.16.23.38
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 08 Sep 2019 16:23:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Sep 2019 16:23:31 -0700
-Message-Id: <20190908232331.2295-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
+	Sun, 8 Sep 2019 18:24:35 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Sun, 8 Sep 2019 18:24:13 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <20190902131659.144977-1-kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <ef56a966-8f31-3f82-f84a-7d9514176748@windriver.com>
+Date: Mon, 9 Sep 2019 09:22:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH] elfutils: Fix build on ppc/musl
+In-Reply-To: <20190902131659.144977-1-kai.kang@windriver.com>
+Subject: Re: [PATCH] systemd: provides ${base_sbindir}/udevadm for backward compatible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,69 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Sep 2019 23:23:39 -0000
+X-List-Received-Date: Mon, 09 Sep 2019 01:24:45 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-musl relies on the pt_regs definitions from kernel ptrace headers
+On 2019/9/2 下午9:16, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Create link file ${base_sbindir}/udevadm for backward compatible that
+> some existing udev rules require it. eudev has the link file already.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../elfutils/elfutils_0.176.bb                |  1 +
- ...cliude-asm-ptrace.h-for-pt_regs-defi.patch | 32 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch
+Ping.
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-index d98457e3f9..fe810282bc 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-@@ -29,6 +29,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://debian/disable_werror.patch \
-            file://debian/testsuite-ignore-elflint.diff \
-            file://0001-skip-the-test-when-gcc-not-deployed.patch \
-+           file://0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch \
-            file://run-ptest \
-            file://ptest.patch \
-            "
-diff --git a/meta/recipes-devtools/elfutils/files/0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch b/meta/recipes-devtools/elfutils/files/0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch
-new file mode 100644
-index 0000000000..3303333c45
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/0001-ppc_initreg.c-Incliude-asm-ptrace.h-for-pt_regs-defi.patch
-@@ -0,0 +1,32 @@
-+From 2e2232d0935bf8ef6e66ebffba3be68a73b5b3e5 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 8 Sep 2019 15:57:59 -0700
-+Subject: [PATCH] ppc_initreg.c: Incliude asm/ptrace.h for pt_regs definition
-+
-+Fixes
-+| ../../elfutils-0.176/backends/ppc_initreg.c:79:22: error: field 'r' has incomplete type
-+|       struct pt_regs r;
-+|                      ^
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ backends/ppc_initreg.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/backends/ppc_initreg.c b/backends/ppc_initreg.c
-+index 0e0d359..e5cca7e 100644
-+--- a/backends/ppc_initreg.c
-++++ b/backends/ppc_initreg.c
-+@@ -33,6 +33,7 @@
-+ #include <stdlib.h>
-+ #if defined(__powerpc__) && defined(__linux__)
-+ # include <sys/ptrace.h>
-++# include <asm/ptrace.h>
-+ # include <sys/user.h>
-+ #endif
-+ 
-+-- 
-+2.23.0
-+
+
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/recipes-core/systemd/systemd_242.bb | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+> index 6fbb854886..55661cdf7a 100644
+> --- a/meta/recipes-core/systemd/systemd_242.bb
+> +++ b/meta/recipes-core/systemd/systemd_242.bb
+> @@ -281,6 +281,9 @@ do_install() {
+>   		fi
+>   	fi
+>   
+> +	# create link for existing udev rules
+> +	ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
+> +
+>   	# duplicate udevadm for postinst script
+>   	install -d ${D}${libexecdir}
+>   	ln ${D}${base_bindir}/udevadm ${D}${libexecdir}/${MLPREFIX}udevadm
+> @@ -598,6 +601,7 @@ FILES_udev += "${base_sbindir}/udevd \
+>                  ${systemd_unitdir}/system/*udev* \
+>                  ${systemd_unitdir}/system/*.wants/*udev* \
+>                  ${base_bindir}/udevadm \
+> +               ${base_sbindir}/udevadm \
+>                  ${libexecdir}/${MLPREFIX}udevadm \
+>                  ${datadir}/bash-completion/completions/udevadm \
+>                 "
+
+
 -- 
-2.23.0
+Kai Kang
 
 
