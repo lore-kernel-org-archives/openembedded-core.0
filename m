@@ -1,34 +1,48 @@
-Return-Path: <sean@geanix.com>
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D2BD79980
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
+	[209.85.217.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 25D987F37D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2019 18:29:18 +0000 (UTC)
-Received: from zen.localdomain (unknown [85.184.140.241])
-	by first.geanix.com (Postfix) with ESMTPSA id 0E62764300;
-	Mon,  9 Sep 2019 18:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1568053729; bh=1akEpArNGScMpECx84fXUCBipNz6YN0HzMmAgmlJ+1E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=loKDsCH9pRSP3cwn1Rub2Ut4k96Gc+8cA2u/iWrMfLBSmy4HBe8no82ZAoPxbEldC
-	sg2vHbYyKBpAig9TCd1CqZf/f1LVVJZxQliarTrI/E7OY5vONdOs+TaMe0X65y63ds
-	XN0sOhrUz5yo5q3yHfOXc2VN5Nu1x4fPAc6B8YExl6QD8UZ7z1yszvJ/LBBc11UWI2
-	UYEeKPZemklqxsibMCxql7XyNm2cp5PBeO/WWTwSXdP3VgOz79HOVNFHDl4VGq4PHm
-	lXoXSYzl9lrZixHtJRqYmIKvS/5mzf/1OOBh3x5VJ9EJXkkW8BECemkxx5tvFQt6R3
-	e4m8G+R7zPo7Q==
-From: Sean Nyekjaer <sean@geanix.com>
-To: openembedded-core@lists.openembedded.org,
-	akuster808@gmail.com
-Date: Mon,  9 Sep 2019 20:29:13 +0200
-Message-Id: <20190909182913.4070-2-sean@geanix.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <0caae0af-496f-98e3-1fba-a6ee727d5630@gmail.com>
-References: <20190909182913.4070-1-sean@geanix.com>
+	Mon,  9 Sep 2019 18:41:34 +0000 (UTC)
+Received: by mail-vs1-f46.google.com with SMTP id m22so9463402vsl.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Sep 2019 11:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Kafgjug94NrcuLUwuPVqbRUJM7MReuE8ebR23AVMTfY=;
+	b=d9JMkZhMeMpSCUILF3ELKBqq3P8QSsw7JBcpzrYX6x2OBX3DlhbFlFbRWTq/5AtjeG
+	A8IbPlOmkTGuDHW84WPqVEA7ESxepLCneh3U4maVkQGIJKg611GtFklBZKKGQxKVYY7w
+	9yPM2KxAYr3m/90amLJTfDiH044UBzf6npsbreYES7sYveFlYIAKLQxoOXZyQmtl+i3g
+	9XBhnm0MlFjDPzTF+CdJV9JKrSsfR8xSw3damMGyQG9O/aqD7NdMQlPLtcAcCYCpWUa/
+	KmFmeHm8Qnv+AmaHiRwxB6Sf0LlFZbpjgT1f3+qC0xM1wsEoYV80knBzHvvHYcqksh5C
+	iD/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Kafgjug94NrcuLUwuPVqbRUJM7MReuE8ebR23AVMTfY=;
+	b=lYW783y85yF64BNHLl/qOtRPrXLpCfYV0D3nnd3vgg0/W/Tl0o9xDEYpTX8cKzRQFr
+	bMpn3eKJJIYvg1RpROVEOXBN0a6Lxfjc5B3tKGWMVqUQIUGXXv1y8h36ZOrKRW3FS1ww
+	FN8JpkhvzRxXoF3nkabtiABZcJ71pdYnpDqmhfEZv02UDTZFZDDvu7nT/BV5TmF7Lq+T
+	RfSPFfsJxzn8nItr4WdPypowJeYFsEg0J4v8Otjr7QdEBx0OGACHq6SfuXoMY5dPOs+B
+	8lJlArMdVRtowddBIQGbTk/7RSi2ztnQ7qs13yvb5GXmCRn8YrCT5Ql2Qwg+GToR5MI/
+	SbOw==
+X-Gm-Message-State: APjAAAWu2jk7DpjqegFoM9Lc78fst/bjeV+Yz4vezKy27aCtZQIEwKKU
+	OELc4Aoy7VdAN6/zfnyzd3Wa0CExGYbHE4/fQ2k=
+X-Google-Smtp-Source: APXvYqzb0XfUM8HCk2YwabWeOzv2NI4TByIxY1MKLz9bLIS8b4ihivu/O5EYF6EUp9FSQjmx9pr0wCjd/zSGO9mRvR8=
+X-Received: by 2002:a67:2c43:: with SMTP id s64mr13069386vss.94.1568054495865; 
+	Mon, 09 Sep 2019 11:41:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=4.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, DKIM_VALID_EF, UNPARSEABLE_RELAY,
-	URIBL_BLOCKED autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on 77834cc0481d
-Subject: [warrior][PATCH v2] libgpg-error: Fix build with gawk 5.x
+References: <20190906184727.552-1-fabio.berton@ossystems.com.br>
+	<CANNYZj8jseQc9Lnt8r1SuDdh4q_xUJy5FkpUukpLzUbVn5vW2g@mail.gmail.com>
+	<a74c7fb7-451c-094a-36a3-49b62c66d742@intel.com>
+In-Reply-To: <a74c7fb7-451c-094a-36a3-49b62c66d742@intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 9 Sep 2019 20:41:23 +0200
+Message-ID: <CANNYZj-2tw_kkoj7OqwhbBggFE7dvZ7dv0FhmsVuA2vOWQBf-A@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: Upgrade 19.1.1 -> 19.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,198 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 18:29:18 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 09 Sep 2019 18:41:35 -0000
+Content-Type: multipart/alternative; boundary="00000000000036f039059223237c"
 
-Based on poky master, but for version 1.35
+--00000000000036f039059223237c
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Sean Nyekjaer <sean@geanix.com>
----
- .../libgpg-error-1.35-gawk5-support.patch     | 161 ++++++++++++++++++
- .../libgpg-error/libgpg-error_1.35.bb         |   1 +
- 2 files changed, 162 insertions(+)
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
+On Mon, 9 Sep 2019 at 18:49, Ross Burton <ross.burton@intel.com> wrote:
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
-new file mode 100644
-index 0000000000..dc3d558e24
---- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
-@@ -0,0 +1,161 @@
-+Upstream-Status: Backport [https://dev.gnupg.org/T4459]
-+Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-+
-+From 37069826e497d6af01e3e48fe5d2220ae7f85449 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Mon, 15 Apr 2019 15:10:44 +0900
-+Subject: [PATCH] awk: Prepare for Gawk 5.0.
-+
-+* src/Makefile.am: Use pkg_namespace (instead of namespace).
-+* src/mkerrnos.awk: Likewise.
-+* lang/cl/mkerrcodes.awk: Don't escape # in regexp.
-+* src/mkerrcodes.awk, src/mkerrcodes1.awk, src/mkerrcodes2.awk: Ditto.
-+
-+--
-+
-+In Gawk 5.0, regexp routines are replaced by Gnulib implementation,
-+which only allows escaping specific characters.
-+
-+GnuPG-bug-id: 4459
-+Reported-by: Marius Schamschula
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+---
-+ lang/cl/mkerrcodes.awk |  2 +-
-+ src/Makefile.am        |  2 +-
-+ src/mkerrcodes.awk     |  2 +-
-+ src/mkerrcodes1.awk    |  2 +-
-+ src/mkerrcodes2.awk    |  2 +-
-+ src/mkerrnos.awk       |  2 +-
-+ src/mkstrtable.awk     | 10 +++++-----
-+ 7 files changed, 11 insertions(+), 11 deletions(-)
-+
-+diff --git a/lang/cl/mkerrcodes.awk b/lang/cl/mkerrcodes.awk
-+index ae29043..9a1fc18 100644
-+--- a/lang/cl/mkerrcodes.awk
-++++ b/lang/cl/mkerrcodes.awk
-+@@ -122,7 +122,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 42998e4..0ceac9f 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -281,7 +281,7 @@ code-from-errno.h: mkerrcodes Makefile
-+ 
-+ errnos-sym.h: Makefile mkstrtable.awk errnos.in
-+ 	$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
-+-		-v prefix=GPG_ERR_ -v namespace=errnos_ \
-++		-v prefix=GPG_ERR_ -v pkg_namespace=errnos_ \
-+ 		$(srcdir)/errnos.in >$@
-+ 
-+ 
-+diff --git a/src/mkerrcodes.awk b/src/mkerrcodes.awk
-+index 46d436c..e9c857c 100644
-+--- a/src/mkerrcodes.awk
-++++ b/src/mkerrcodes.awk
-+@@ -85,7 +85,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkerrcodes1.awk b/src/mkerrcodes1.awk
-+index a771a73..4578e29 100644
-+--- a/src/mkerrcodes1.awk
-++++ b/src/mkerrcodes1.awk
-+@@ -81,7 +81,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkerrcodes2.awk b/src/mkerrcodes2.awk
-+index ea58503..188f7a4 100644
-+--- a/src/mkerrcodes2.awk
-++++ b/src/mkerrcodes2.awk
-+@@ -91,7 +91,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkerrnos.awk b/src/mkerrnos.awk
-+index f79df66..15b1aad 100644
-+--- a/src/mkerrnos.awk
-++++ b/src/mkerrnos.awk
-+@@ -83,7 +83,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkstrtable.awk b/src/mkstrtable.awk
-+index c9de9c1..285e45f 100644
-+--- a/src/mkstrtable.awk
-++++ b/src/mkstrtable.awk
-+@@ -77,7 +77,7 @@
-+ #
-+ # The variable prefix can be used to prepend a string to each message.
-+ #
-+-# The variable namespace can be used to prepend a string to each
-++# The variable pkg_namespace can be used to prepend a string to each
-+ # variable and macro name.
-+ 
-+ BEGIN {
-+@@ -102,7 +102,7 @@ header {
-+       print "/* The purpose of this complex string table is to produce";
-+       print "   optimal code with a minimum of relocations.  */";
-+       print "";
-+-      print "static const char " namespace "msgstr[] = ";
-++      print "static const char " pkg_namespace "msgstr[] = ";
-+       header = 0;
-+     }
-+   else
-+@@ -110,7 +110,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+@@ -150,7 +150,7 @@ END {
-+   else
-+     print "  gettext_noop (\"" last_msgstr "\");";
-+   print "";
-+-  print "static const int " namespace "msgidx[] =";
-++  print "static const int " pkg_namespace "msgidx[] =";
-+   print "  {";
-+   for (i = 0; i < coded_msgs; i++)
-+     print "    " pos[i] ",";
-+@@ -158,7 +158,7 @@ END {
-+   print "  };";
-+   print "";
-+   print "static GPG_ERR_INLINE int";
-+-  print namespace "msgidxof (int code)";
-++  print pkg_namespace "msgidxof (int code)";
-+   print "{";
-+   print "  return (0 ? 0";
-+ 
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
-index 57ac143fd5..37c298e151 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
-@@ -14,6 +14,7 @@ SECTION = "libs"
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
-+           file://libgpg-error-1.35-gawk5-support.patch \
- 	  "
- 
- SRC_URI[md5sum] = "2808a9e044f883f7554c5ba6a380b711"
--- 
-2.23.0
+> > As I had previously suggested... can you try adding 'python3' to DEPENDS
+> > of mesa, and see if that helps please? I think that would allow avoiding
+> > this patch altogether.
+>
+> So why does Meson need *target* Python to be present when building Mesa?
+>
 
+Because mesa does this:
 
+prog_python = import('python').find_installation('python3')
+
+and find_installation() method of meson does not merely look for the native
+python binary, it runs the binary with a meson-supplied python script
+designed to obtain all sorts of information, including target-specific
+things that we patch native python to report. If the target python
+installation is not present in sysroot, the script will fail, and meson
+will declare that 'there is no valid installation of python on your system'.
+
+Alex
+
+--00000000000036f039059223237c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 9 Sep 2019 at 18:49, Ross Burton =
+&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@=
+intel.com</a>&gt; wrote:<br></div><div dir=3D"ltr"><div class=3D"gmail_quot=
+e"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; As I had previous=
+ly suggested... can you try adding &#39;python3&#39; to DEPENDS <br>
+&gt; of mesa, and see if that helps please? I think that would allow avoidi=
+ng <br>
+&gt; this patch altogether.<br>
+<br>
+So why does Meson need *target* Python to be present when building Mesa?<br=
+></blockquote><div><br></div><div>Because mesa does this:</div><div><br></d=
+iv><div>prog_python =3D import(&#39;python&#39;).find_installation(&#39;pyt=
+hon3&#39;)</div><div><br></div><div>and find_installation() method of meson=
+ does not merely look for the native python binary, it runs the binary with=
+ a meson-supplied python script designed to obtain all sorts of information=
+, including target-specific things that we patch native python to report. I=
+f the target python installation is not present in sysroot, the script will=
+ fail, and meson will declare that &#39;there is no valid installation of p=
+ython on your system&#39;.<br></div><div><br></div><div>Alex<br> </div></di=
+v></div>
+</div>
+
+--00000000000036f039059223237c--
