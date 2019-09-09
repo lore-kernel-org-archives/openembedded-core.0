@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
-	[209.85.210.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F77F7E502
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CDD27F387
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2019 02:33:34 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id y22so8196661pfr.3
+	Mon,  9 Sep 2019 03:16:15 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id x127so8233315pfb.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Sep 2019 19:33:35 -0700 (PDT)
+	Sun, 08 Sep 2019 20:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=oufakECOSinH3aLK+D9L6oaYWFeFJKJSaheduPrYEKs=;
-	b=Sp6tk342jzna2dPu78jwUCKdgZLVxS3a5Rw17JqTvnzEKjKD5dYWnY3Qc9btZLvJ1r
-	eFbbrrvwXWCE9dS6Obj6MwnibUcDHb38RLBcw4O+h5T6iJMqTYTUvanRciBIVlqnSIw4
-	8mvQNXvpX0AGcjioarZ2KybwSohj3IBQx8Mf2+jSCrLI9/mC1ccTG8JvwmBjV/1Lne7S
-	GwMOqDX56ZdGXvbID31Ah9Q1Ik2SCd/fDDocMqeGn3hBc3PdckCVEQ258AOqMnAkyvVC
-	snfabekGh/z9zld+vviKlzNF1QUGHL1d4oUFw1JD5LHA8LhbaYcnkF2f9yrxRagoxXqZ
-	qldw==
+	bh=6hUN0g8fkk1r6QcwTc7EdRryUbZ219CUjLXWlMt0Vsk=;
+	b=YzTBAOa5l5k4XDyIAz1H4mJdeUhpQ698GRr6pZmexPt97y9YRsAshnOuZ2d/p8wgrq
+	BnX8x/2wFoJmE+03/9OBJlx++TLkPFGh1fpWuDHYf+O8GnIhvx9no/F+pKaagvAi9wFc
+	E7wWvIkuysHYu8+3RkFfM01xnF7Mp2WZa35UNzlvo/unuHJH4cfZfpSL6qHjR+7sa9NK
+	xe4/H6OdMvv4sLZhzsAu1HMkZjS0wLHItiDBPmGfM4Zf7tqZlLRTlkqdTN/Cuhy6DuZJ
+	V33IKrVEoWdeX5UQekijUW3ZIyC0PkDtyhRTyB62yeGbfX5ursL2QSBt6391oQpM1+13
+	aNcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=oufakECOSinH3aLK+D9L6oaYWFeFJKJSaheduPrYEKs=;
-	b=elVa3HiK9dZlxB9KoWd+nk3katHYXpr7oVYJR6U4Jpu2Uis4HE6eik9w8vDyaw8D4j
-	Q2a7j/NgaM+NaH6HA7Zptf9sF9fRPFHXIk1ojJCoa1h70CG0ucw8Xwr9p2RahHBxnRy2
-	gX39PHNMQi3nM1WxmpWThnQ3q/x04l22IdKIoLl9/EoKESZwIXmRgZ/KvqG7Yu5WKmu1
-	q1nizHzhl9HWUGbIJTwW1EwzzBfoCN1vNjbZfya8mJm0HdiOnB7DjN3Gt0VyxpTiytwY
-	RIIKKNCAelAok3jDgreon9riJwJlM17WTdOlatM9Ciz6TyosWQNWU4b/OeRbjh4sXDFp
-	d6aw==
-X-Gm-Message-State: APjAAAXF/W1/EGo0DxR+w1z/AkUzu7LK4zz9Aklj4PBMBfnlaMHZ31sz
-	Ib7xsY2PwhvNWFGuH+8ES9+j+vgIAdU=
-X-Google-Smtp-Source: APXvYqxRI2yQOLSvfvswomVUr2PmObefmBkxttysCC1nu+90mz1YAQvbLyX65t3WdlxsaqjbxAOzEg==
-X-Received: by 2002:a17:90a:340d:: with SMTP id
-	o13mr22568376pjb.19.1567996414911; 
-	Sun, 08 Sep 2019 19:33:34 -0700 (PDT)
+	bh=6hUN0g8fkk1r6QcwTc7EdRryUbZ219CUjLXWlMt0Vsk=;
+	b=Tur8uDoUK7pNLGRlaM4p2uX2GVykW3QRjVr4O59+dobwEx5opqdG7W04dVg+oQAqUm
+	PskIxXNennXWk06LGi5oFc3IIF3QBHKPLiuTOSLZjCrbU8bEwOFbbv7FgPT9upcn3zLz
+	J4F81Y7tdl/OfWjodzYNgKjLe/265JeOfVuH26l+n1dkDVoWjmD3WhNj+N/7irvEKrnx
+	N5KtDvR9kk5I69E5hhCQ7AGwXZiT+nI6fKQkNrC/MpB9+t/PQFts5YrAECasK8iaXTMV
+	8rsdMWIsncRVS3Vape8d56kjCbjiwWTCu4/njkL0jNLTOvW5p8Wll4BhUPQ+ZDhOZqt4
+	W+xQ==
+X-Gm-Message-State: APjAAAWS1BFS8mYgpmuRek7u6u5RkrPsT1qBKa2mzt32WMJwY2XjWzMM
+	ffuDgOx0WWTrFZKOYZw+CqlrHvpqJt4=
+X-Google-Smtp-Source: APXvYqyoLWwNXG1B1IUvOErSJuGQi7ASBekE+frLSOX3nddojrTU0rV1h9PBc9vsad/78HYsu5ARjg==
+X-Received: by 2002:a62:aa0e:: with SMTP id e14mr26094451pff.182.1567998975886;
+	Sun, 08 Sep 2019 20:16:15 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	d10sm14645284pfh.8.2019.09.08.19.33.34
+	[73.71.176.3])
+	by smtp.gmail.com with ESMTPSA id g8sm11097212pgk.1.2019.09.08.20.16.15
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 08 Sep 2019 19:33:34 -0700 (PDT)
+	Sun, 08 Sep 2019 20:16:15 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Sep 2019 19:33:26 -0700
-Message-Id: <20190909023326.1742188-1-raj.khem@gmail.com>
+Date: Sun,  8 Sep 2019 20:16:07 -0700
+Message-Id: <20190909031607.1806186-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH] ptrace: Drop ptrace aid for musl/ppc
+Subject: [PATCH] python3native, pythonnative: Separate definition and export of PYTHON_LIBRARY and PYTHON_INCLUDE_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,67 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 02:33:34 -0000
+X-List-Received-Date: Mon, 09 Sep 2019 03:16:15 -0000
 Content-Transfer-Encoding: 8bit
 
-This has been fixed and is no longer needed
+This helps recipes where they need to explicitly pass the variable and
+does not entertain the ones from environment
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...sing-non-glibc-libc-implementation-o.patch | 31 -------------------
- meta/recipes-devtools/strace/strace_5.2.bb    |  1 -
- 2 files changed, 32 deletions(-)
- delete mode 100644 meta/recipes-devtools/strace/strace/0001-Fix-build-when-using-non-glibc-libc-implementation-o.patch
+ meta/classes/python3native.bbclass | 6 ++++--
+ meta/classes/pythonnative.bbclass  | 6 ++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-Fix-build-when-using-non-glibc-libc-implementation-o.patch b/meta/recipes-devtools/strace/strace/0001-Fix-build-when-using-non-glibc-libc-implementation-o.patch
-deleted file mode 100644
-index fb5f72529f..0000000000
---- a/meta/recipes-devtools/strace/strace/0001-Fix-build-when-using-non-glibc-libc-implementation-o.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From af1fdce78bff4343f3c84ea118abdc3c739fc646 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 30 Apr 2016 16:23:56 +0000
--Subject: [PATCH] Fix build when using non-glibc libc implementation on ppc
--
--glibc includes the kernel header into its own header for macros
--musl does not
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- ptrace.h | 8 +++++++-
-- 1 file changed, 7 insertions(+), 1 deletion(-)
--
----- a/ptrace.h
--+++ b/ptrace.h
--@@ -30,7 +30,13 @@
-- #  define ptrace_peeksiginfo_args XXX_ptrace_peeksiginfo_args
-- # endif
-- 
--+#if defined(POWERPC) && !defined(__GLIBC__)
--+#define pt_regs uapi_pt_regs
--+#endif
-- # include <linux/ptrace.h>
--+#if defined(POWERPC) && !defined(__GLIBC__)
--+# undef pt_regs
--+#endif
-- 
-- # ifdef HAVE_STRUCT_IA64_FPREG
-- #  undef ia64_fpreg
-diff --git a/meta/recipes-devtools/strace/strace_5.2.bb b/meta/recipes-devtools/strace/strace_5.2.bb
-index 8367bf1a4f..a16c3b8598 100644
---- a/meta/recipes-devtools/strace/strace_5.2.bb
-+++ b/meta/recipes-devtools/strace/strace_5.2.bb
-@@ -10,7 +10,6 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://update-gawk-paths.patch \
-            file://Makefile-ptest.patch \
-            file://run-ptest \
--           file://0001-Fix-build-when-using-non-glibc-libc-implementation-o.patch \
-            file://mips-SIGEMT.patch \
-            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-            file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
+diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3native.bbclass
+index d98fb4c758..bed04bd941 100644
+--- a/meta/classes/python3native.bbclass
++++ b/meta/classes/python3native.bbclass
+@@ -14,8 +14,8 @@ export STAGING_LIBDIR
+ # find_package(PythonLibs REQUIRED)
+ # which ends up using libs/includes from build host
+ # Therefore pre-empt that effort
+-export PYTHON_LIBRARY="${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
+-export PYTHON_INCLUDE_DIR="${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
++PYTHON_LIBRARY="${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
++PYTHON_INCLUDE_DIR="${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
+ 
+ export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
+ 
+@@ -24,3 +24,5 @@ export PYTHONNOUSERSITE = "1"
+ 
+ # autoconf macros will use their internal default preference otherwise
+ export PYTHON
++export PYTHON_LIBRARY
++export PYTHON_INCLUDE_DIR
+diff --git a/meta/classes/pythonnative.bbclass b/meta/classes/pythonnative.bbclass
+index 0e9019d1e2..5fa42aaeff 100644
+--- a/meta/classes/pythonnative.bbclass
++++ b/meta/classes/pythonnative.bbclass
+@@ -17,11 +17,13 @@ export STAGING_LIBDIR
+ # find_package(PythonLibs REQUIRED)
+ # which ends up using libs/includes from build host
+ # Therefore pre-empt that effort
+-export PYTHON_LIBRARY="${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
+-export PYTHON_INCLUDE_DIR="${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
++PYTHON_LIBRARY="${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
++PYTHON_INCLUDE_DIR="${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
+ 
+ # suppress host user's site-packages dirs.
+ export PYTHONNOUSERSITE = "1"
+ 
+ # autoconf macros will use their internal default preference otherwise
+ export PYTHON
++export PYTHON_LIBRARY
++export PYTHON_INCLUDE_DIR
 -- 
 2.23.0
 
