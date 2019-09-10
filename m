@@ -1,53 +1,53 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 36B3F7F346
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E06A7F395
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 12:41:30 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id f19so8543164plr.3
+	Tue, 10 Sep 2019 12:41:35 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id bd8so8542835plb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 05:41:31 -0700 (PDT)
+	Tue, 10 Sep 2019 05:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=wiyplDhKz9WUdV4JGBJbe8cLMQSmuREO1j5BIFy8/AI=;
-	b=M21QHC+x/adylm6PnFLd4Fse1pn6AVUdIeBCyGBB8b4lE3CD+2w5wDVziYbg7P6pVY
-	/U3jutsURmoDKoLyyH10sJ+/K2p9tTeX7OFNNQZo4uKsma0hhvzKwh4NTbcdRa2lEjeS
-	uCXdKfnIAganJuXusvA9LpvWSwtRYKacxLpwxeedgSOVuwK0AXXn5cf7wM0LI7A9qf2F
-	L9eeUhL48U8XoJ5jdPzYx5dbCoEClGnUOAX27T4y8oqmKyyh8VO9537X6ChvAeGrqoNR
-	gZy9U/lNTZygjD2M0yosHxBmG4gUjXoc/+kqU/FERZENMjAqJRZgM9oTo39lli4tedgs
-	/9BQ==
+	bh=eQB133spgqAcqh5zgtph+y3OpkLGAUWt5ri8O/7e0AU=;
+	b=E/f3NNrWAuuu3OsWXebseqgRjTnK2R5J468VnJ2DE8RfTsVp3QJrVsy3PeJ0SpNdQq
+	CUsdpMTuDS1jDT0RSdp2fbppsNn/0EoESjcXiZbDC8qEjCvmW3GAbTUdQkyab0d5/OCx
+	LjCq38mjkyOq79P+jvRYmoGklbHM4Bz2ivALY3dMDIRqjy86qVIBxzc98u8iparQZerh
+	wDUv/C4bLG0dGHYpYMusUl5YBf6szxAGFaZQY+N0fg4OfXw0oopEWrivmEFmq3wKYyVs
+	H6axRJiA8PI9utPhZpYUI1tCr08Jj9TLRvdbvV36F8PeNBrfs/Ztizt8U9Adu3ZE9NAS
+	VPEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=wiyplDhKz9WUdV4JGBJbe8cLMQSmuREO1j5BIFy8/AI=;
-	b=IO98fPME7Sbify0HbucKv4T+CbLgl42niV8gBV5jcL2rCouIpUNxfvXUKptkw6MTJV
-	whsRlToEgZfhwIINdNwkhMLgrI38uuz8Ym7mcJCxDb6znoE39DS1ksz8n6gXhMYwaJV8
-	WRwmMoGJkRq8XP9SJQ/RexG8mGF7H06uuKnatDzemLT0GLI7uzdagixF6OcZh/XSR7JB
-	dsxaIfU3oPvFT0BUpQoh4t/XJ7P176dSRKRZO5+cHGO7BaEm/n1bD5ARAopHWgBdrOpZ
-	eFQRqE+tPoMCmjwY9H3KbneYFKYsdnYSjVl/BG//ZxSBQslFZNqoPKbvGjb4lLGStweE
-	j6lQ==
-X-Gm-Message-State: APjAAAVzPUeDjTiNlBNlgPMnr1BD88eop45HG+j1XBc7UWbufpt2pT8r
-	5Ljo52pqtCmtEM2E6amNJSxmEw==
-X-Google-Smtp-Source: APXvYqwv3KjcalW91iYMi3+QKZSlBv9UTAO2GjAo0sa48rmOExR3U2f82GUFhgIJ79ngPa3cf91F0A==
-X-Received: by 2002:a17:902:b605:: with SMTP id
-	b5mr31113709pls.103.1568119291198; 
-	Tue, 10 Sep 2019 05:41:31 -0700 (PDT)
+	bh=eQB133spgqAcqh5zgtph+y3OpkLGAUWt5ri8O/7e0AU=;
+	b=WkXn6LCfdMgMo6t+WYqvK4ClgTTnfOte4PqDXrC/CS6aRjNJRRsNsJsuZkqoWFwgeq
+	yftI9XInHIvEM0ujUer3ECLenC9pgBwPnyjX/Mv9ygi7FDW7jo2lPXKFwR+vgChR5jen
+	YGevI2ZaoZGXKW9tve4GFofqWTO/VKlahsnpqPXfvsV67wdFUyi98v84uwN8yPji3eCV
+	xdsN0Vkth72ZnRR/I6v5CzdKZXfjZ0lafw8JMqK6gehFal777T9QLecKgwjlG6jl2BfH
+	uHMqDgbQx1if9jIu+2s4OLBIKFz2mNSBMaH/f34CkNWk91erGHD3YwW5vxy5xLj8UYVo
+	4nPQ==
+X-Gm-Message-State: APjAAAX1wMrWLjfhbVx6Zv84B+KPQY4m6OSVS4HDM24RsPshJGJ/3F98
+	ORdgb32E5BKeSTmVuZLyhKrrqQ==
+X-Google-Smtp-Source: APXvYqw/+jCNY3MokqDE9+3z0Q8BE4oqUkfKv8eGrLobtAIsXGReHu6QR1SFjzQzsquVKDIoMhblfQ==
+X-Received: by 2002:a17:902:74c3:: with SMTP id
+	f3mr31470481plt.325.1568119296222; 
+	Tue, 10 Sep 2019 05:41:36 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	h4sm19876695pfg.159.2019.09.10.05.41.28
+	d18sm20624082pgi.40.2019.09.10.05.41.33
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Sep 2019 05:41:30 -0700 (PDT)
+	Tue, 10 Sep 2019 05:41:35 -0700 (PDT)
 Date: Tue, 10 Sep 2019 12:40:59 +0000
-Message-Id: <20190910124059.3908-5-nathan@nathanrossi.com>
+Message-Id: <20190910124059.3908-6-nathan@nathanrossi.com>
 In-Reply-To: <20190910124059.3908-1-nathan@nathanrossi.com>
 References: <20190910124059.3908-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 5/6] oeqa/core/case.py: Add OEPTestResultTestCase for ptestresult helpers
+Subject: [PATCH 6/6] oeqa/selftest: Rework toolchain tests to use OEPTestResultTestCase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,133 +60,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 12:41:30 -0000
+X-List-Received-Date: Tue, 10 Sep 2019 12:41:35 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Add the OEPTestResultTestCase class as a mix-in class to provide helper
-functions for interacting with ptestresults within the extraresults
-object generated by the test case.
-
-This class also provides default compression of log text and log files.
-
-Also add support to resulttool for decoding/decompressing log files
-embedded in the test results.
+Use OEPTestResultTestCase to collect results and add logfile collection
+and compression.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/lib/oeqa/core/case.py    | 49 +++++++++++++++++++++++++++++++++++++++++++
- scripts/lib/resulttool/log.py | 12 ++++++++++-
- 2 files changed, 60 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/binutils.py | 11 ++++++-----
+ meta/lib/oeqa/selftest/cases/gcc.py      |  8 ++++----
+ meta/lib/oeqa/selftest/cases/glibc.py    |  7 ++++---
+ 3 files changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
-index aca144e9dc..180635ac6c 100644
---- a/meta/lib/oeqa/core/case.py
-+++ b/meta/lib/oeqa/core/case.py
-@@ -4,6 +4,8 @@
+diff --git a/meta/lib/oeqa/selftest/cases/binutils.py b/meta/lib/oeqa/selftest/cases/binutils.py
+index 9bc752040f..821f52f5a8 100644
+--- a/meta/lib/oeqa/selftest/cases/binutils.py
++++ b/meta/lib/oeqa/selftest/cases/binutils.py
+@@ -4,6 +4,7 @@ import sys
+ import re
+ import logging
+ from oeqa.core.decorator import OETestTag
++from oeqa.core.case import OEPTestResultTestCase
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
+ 
+@@ -15,7 +16,7 @@ def parse_values(content):
+                 break
+ 
+ @OETestTag("toolchain-user", "toolchain-system")
+-class BinutilsCrossSelfTest(OESelftestTestCase):
++class BinutilsCrossSelfTest(OESelftestTestCase, OEPTestResultTestCase):
+     def test_binutils(self):
+         self.run_binutils("binutils")
+ 
+@@ -36,14 +37,14 @@ class BinutilsCrossSelfTest(OESelftestTestCase):
+ 
+         bitbake("{0} -c check".format(recipe))
+ 
+-        ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
+-        self.extraresults = {"ptestresult.sections" : {ptestsuite : {}}}
+-
+         sumspath = os.path.join(builddir, suite, "{0}.sum".format(suite))
+         if not os.path.exists(sumspath):
+             sumspath = os.path.join(builddir, suite, "testsuite", "{0}.sum".format(suite))
++        logpath = os.path.splitext(sumspath)[0] + ".log"
+ 
++        ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
++        self.ptest_section(ptestsuite, logfile = logpath)
+         with open(sumspath, "r") as f:
+             for test, result in parse_values(f):
+-                self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
++                self.ptest_result(ptestsuite, test, result)
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
+index 2c25b5904c..6daa8d9e15 100644
+--- a/meta/lib/oeqa/selftest/cases/gcc.py
++++ b/meta/lib/oeqa/selftest/cases/gcc.py
+@@ -1,6 +1,7 @@
  # SPDX-License-Identifier: MIT
- #
- 
-+import base64
-+import zlib
- import unittest
- 
- from oeqa.core.exception import OEQAMissingVariable
-@@ -49,3 +51,50 @@ class OETestCase(unittest.TestCase):
-         for d in self.decorators:
-             d.tearDownDecorator()
-         self.tearDownMethod()
-+
-+class OEPTestResultTestCase:
-+    """
-+    Mix-in class to provide functions to make interacting with extraresults for
-+    the purposes of storing ptestresult data.
-+    """
-+    @staticmethod
-+    def _compress_log(log):
-+        logdata = log.encode("utf-8")
-+        logdata = zlib.compress(logdata)
-+        logdata = base64.b64encode(logdata).decode("utf-8")
-+        return {"compressed" : logdata}
-+
-+    def ptest_rawlog(self, log):
-+        if not hasattr(self, "extraresults"):
-+            self.extraresults = {"ptestresult.sections" : {}}
-+        self.extraresults["ptestresult.rawlogs"] = {"log" : self._compress_log(log)}
-+
-+    def ptest_section(self, section, duration = None, log = None, logfile = None, exitcode = None):
-+        if not hasattr(self, "extraresults"):
-+            self.extraresults = {"ptestresult.sections" : {}}
-+
-+        sections = self.extraresults.get("ptestresult.sections")
-+        if section not in sections:
-+            sections[section] = {}
-+
-+        if log is not None:
-+            sections[section]["log"] = self._compress_log(log)
-+        elif logfile is not None:
-+            with open(logfile, "r") as f:
-+                sections[section]["log"] = self._compress_log(f.read())
-+
-+        if duration is not None:
-+            sections[section]["duration"] = duration
-+        if exitcode is not None:
-+            sections[section]["exitcode"] = exitcode
-+
-+    def ptest_result(self, section, test, result):
-+        if not hasattr(self, "extraresults"):
-+            self.extraresults = {"ptestresult.sections" : {}}
-+
-+        sections = self.extraresults.get("ptestresult.sections")
-+        if section not in sections:
-+            sections[section] = {}
-+        resultname = "ptestresult.{}.{}".format(section, test)
-+        self.extraresults[resultname] = {"status" : result}
-+
-diff --git a/scripts/lib/resulttool/log.py b/scripts/lib/resulttool/log.py
-index 2352c767d9..99663772a3 100644
---- a/scripts/lib/resulttool/log.py
-+++ b/scripts/lib/resulttool/log.py
-@@ -5,6 +5,8 @@
- # SPDX-License-Identifier: GPL-2.0-only
- #
  import os
-+import base64
-+import zlib
- import resulttool.resultutils as resultutils
+ from oeqa.core.decorator import OETestTag
++from oeqa.core.case import OEPTestResultTestCase
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
  
- def show_ptest(result, ptest, logger):
-@@ -25,6 +27,9 @@ def show_reproducible(result, reproducible, logger):
-         print("reproducible '%s' not found" % reproducible)
-         return 1
+@@ -11,7 +12,7 @@ def parse_values(content):
+                 yield i[len(v) + 2:].strip(), v
+                 break
  
-+def decode_compressed_log(logdata):
-+    data = base64.b64decode(logdata.encode("utf-8"))
-+    return zlib.decompress(data).decode("utf-8")
+-class GccSelfTestBase(OESelftestTestCase):
++class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+     def check_skip(self, suite):
+         targets = get_bb_var("RUNTIMETARGET", "gcc-runtime").split()
+         if suite not in targets:
+@@ -41,7 +42,6 @@ class GccSelfTestBase(OESelftestTestCase):
+         bb_vars = get_bb_vars(["B", "TARGET_SYS"], recipe)
+         builddir, target_sys = bb_vars["B"], bb_vars["TARGET_SYS"]
  
- def log(args, logger):
-     results = resultutils.load_resultsdata(args.source)
-@@ -39,6 +44,7 @@ def log(args, logger):
-             if 'ptestresult.sections' in r:
-                 for name, ptest in r['ptestresult.sections'].items():
-                     if 'log' in ptest:
-+                        logdata = ptest['log']
-                         dest_dir = args.dump_ptest
-                         if args.prepend_run:
-                             dest_dir = os.path.join(dest_dir, run_name)
-@@ -48,7 +54,11 @@ def log(args, logger):
-                         dest = os.path.join(dest_dir, '%s.log' % name)
-                         print(dest)
-                         with open(dest, 'w') as f:
--                            f.write(ptest['log'])
-+                            if isinstance(logdata, str):
-+                                f.write(logdata)
-+                            elif isinstance(logdata, dict):
-+                                if "compressed" in logdata:
-+                                    f.write(decode_compressed_log(logdata.get("compressed")))
+-        self.extraresults = {"ptestresult.sections" : {}}
+         for suite in suites:
+             sumspath = os.path.join(builddir, "gcc", "testsuite", suite, "{0}.sum".format(suite))
+             if not os.path.exists(sumspath): # check in target dirs
+@@ -51,10 +51,10 @@ class GccSelfTestBase(OESelftestTestCase):
  
-         if args.raw_ptest:
-             if 'ptestresult.rawlogs' in r:
+             ptestsuite = "gcc-{}".format(suite) if suite != "gcc" else suite
+             ptestsuite = ptestsuite + "-user" if ssh is None else ptestsuite
+-            self.extraresults["ptestresult.sections"][ptestsuite] = {}
++            self.ptest_section(ptestsuite, logfile = logpath)
+             with open(sumspath, "r") as f:
+                 for test, result in parse_values(f):
+-                    self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
++                    self.ptest_result(ptestsuite, test, result)
+ 
+     def run_check_emulated(self, *args, **kwargs):
+         # build core-image-minimal with required packages
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
+index 2e42485dd6..c687f6ef93 100644
+--- a/meta/lib/oeqa/selftest/cases/glibc.py
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -2,6 +2,7 @@
+ import os
+ import contextlib
+ from oeqa.core.decorator import OETestTag
++from oeqa.core.case import OEPTestResultTestCase
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
+ from oeqa.utils.nfs import unfs_server
+@@ -13,7 +14,7 @@ def parse_values(content):
+                 yield i[len(v) + 2:].strip(), v
+                 break
+ 
+-class GlibcSelfTestBase(OESelftestTestCase):
++class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+     def run_check(self, ssh = None):
+         # configure ssh target
+         features = []
+@@ -31,10 +32,10 @@ class GlibcSelfTestBase(OESelftestTestCase):
+         builddir = get_bb_var("B", "glibc-testsuite")
+ 
+         ptestsuite = "glibc-user" if ssh is None else "glibc"
+-        self.extraresults = {"ptestresult.sections" : {ptestsuite : {}}}
++        self.ptest_section(ptestsuite)
+         with open(os.path.join(builddir, "tests.sum"), "r") as f:
+             for test, result in parse_values(f):
+-                self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
++                self.ptest_result(ptestsuite, test, result)
+ 
+     def run_check_emulated(self):
+         with contextlib.ExitStack() as s:
 ---
 2.23.0.rc1
 
