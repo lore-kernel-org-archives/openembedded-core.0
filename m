@@ -1,25 +1,26 @@
 Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D7C47F36C
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 655E87E467
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 21:41:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8ALfdc0000195
+	Tue, 10 Sep 2019 21:42:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8ALfoEZ025614
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 14:41:39 -0700 (PDT)
+	Tue, 10 Sep 2019 14:42:00 -0700
 Received: from fidler.wrs.com (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 10 Sep 2019 14:41:38 -0700
+	Tue, 10 Sep 2019 14:41:39 -0700
 From: Randy MacLeod <Randy.MacLeod@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Sep 2019 17:41:34 -0400
-Message-ID: <20190910214136.22971-2-Randy.MacLeod@windriver.com>
+Date: Tue, 10 Sep 2019 17:41:35 -0400
+Message-ID: <20190910214136.22971-3-Randy.MacLeod@windriver.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190910214136.22971-1-Randy.MacLeod@windriver.com>
 References: <20190910214136.22971-1-Randy.MacLeod@windriver.com>
 MIME-Version: 1.0
-Subject: [v2 2/4] valgrind: make a few more ptests pass
+Subject: [v2 3/4] valgrind: ptest improvements to run-ptest and more
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,98 +33,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 21:41:39 -0000
+X-List-Received-Date: Tue, 10 Sep 2019 21:42:09 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Adjust two memcheck vgtest files to deal with relative paths
-that are in test executables when cross-compiling.
-Add libgomp to enable OpenMP tests.
-Add the bz2 executable for memcheck/tests/vcpu_bz2.
+Make some changes to the run-ptest script:
+  - after main tests run integrity check like the pkg Makefile.
+  - aesthetic and ordering changes
+
+Add the .in_place directory and its contents which allows valgrind
+to be run in-place thereby enabling the gdbserver_tests to
+complete rather than hang. Unfortunately directory paths embedded
+in binaries still cause many of these test to fail.
+
+Add the exp-sgcheck tests.
+
+With core-image-minimal on qemux86-64/kvm:
+Recipe         | Passed      | Failed   | Skipped   | Time(s)
+before         | 648         | 12       | 60        | 1541
+after          | 662         | 20       | 38        | 1429
+ppc-no-gdbserv | 415         | 196      | 34        | 10689
+
+Since fewer tests timeout, the overall time has decreased.
+With core-image-sato on qemux86-64/kvm the results are now
+the same as core-image-minimal.
+
+qemuppc/arm64 runs result in the oom-killer eventually running since
+some processes do not terminate properly and accumulate as defunct
+processes in memory. Without the gdbserver_tests, the tests
+complete without defunct process or the oom-killer running for
+ppc but not for arm64.
 
 Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
- ...ust-path-filter-for-2-memcheck-tests.patch | 40 +++++++++++++++++++
- .../valgrind/valgrind_3.15.0.bb               |  5 ++-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-adjust-path-filter-for-2-memcheck-tests.patch
+ .../valgrind/valgrind/run-ptest               | 27 ++++++++++---
+ .../valgrind/valgrind_3.15.0.bb               | 38 ++++++++++++-------
+ 2 files changed, 47 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-adjust-path-filter-for-2-memcheck-tests.patch b/meta/recipes-devtools/valgrind/valgrind/0001-adjust-path-filter-for-2-memcheck-tests.patch
-new file mode 100644
-index 0000000000..4bc4bb086c
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-adjust-path-filter-for-2-memcheck-tests.patch
-@@ -0,0 +1,40 @@
-+From bf63e35c3036e6040c8cfecabc7160b1f36b0591 Mon Sep 17 00:00:00 2001
-+From: Randy MacLeod <Randy.MacLeod@windriver.com>
-+Date: Wed, 28 Aug 2019 12:31:15 -0400
-+Subject: [PATCH] adjust path filter for 2 memcheck tests
+diff --git a/meta/recipes-devtools/valgrind/valgrind/run-ptest b/meta/recipes-devtools/valgrind/valgrind/run-ptest
+index 447d33c8cb..5b3ad2a2ed 100755
+--- a/meta/recipes-devtools/valgrind/valgrind/run-ptest
++++ b/meta/recipes-devtools/valgrind/valgrind/run-ptest
+@@ -4,13 +4,30 @@
+ #   wraps the valgrind regression script vg_regtest. 
+ #
+ # Dave Lerner <dave.lerner@windriver.com>
++# Randy MacLeod <Randy.MacLeod@windriver.com>
+ ###############################################################
+-VALGRINDLIB=@libdir@/valgrind
+-LOG="${VALGRINDLIB}/ptest/valgrind_ptest_$(date +%Y%m%d-%H%M%S).log"
++VALGRIND_LIB=@libdir@/valgrind
++VALGRIND_BIN=@bindir@/valgrind
+ 
+-cd ${VALGRINDLIB}/ptest && ./tests/vg_regtest --all \
+-    --valgrind=/usr/bin/valgrind --valgrind-lib=$VALGRINDLIB \
+-    --yocto-ptest 2>&1|tee ${LOG}
++LOG="${VALGRIND_LIB}/ptest/valgrind_ptest_$(date +%Y%m%d-%H%M%S).log"
 +
-+Test executables produced when cross-compiling can contain
-+relative paths such as:
-+   coregrind/tests/../../../valgrind-3.15.0/coregrind/
-+Use the --fullpath-after option to match and therefore
-+suppress more of the prefix to enable test to pass.
++TOOLS="memcheck cachegrind callgrind helgrind drd massif dhat lackey none"
++EXP_TOOLS="exp-bbv exp-dhat exp-sgcheck"
 +
-+Upstream-Status: Inappropriate [embedded specific]
++GDB_BIN=@bindir@/gdb
++cd ${VALGRIND_LIB}/ptest && ./gdbserver_tests/make_local_links ${GDB_BIN}
 +
-+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-+---
-+ memcheck/tests/badfree3.vgtest | 2 +-
-+ memcheck/tests/varinfo5.vgtest | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
++cd ${VALGRIND_LIB}/ptest && ./tests/vg_regtest \
++    --valgrind=${VALGRIND_BIN} \
++    --valgrind-lib=${VALGRIND_LIB} \
++    --yocto-ptest \
++    gdbserver_tests ${TOOLS} ${EXP_TOOLS} \
++    2>&1|tee ${LOG}  
 +
-+diff --git a/memcheck/tests/badfree3.vgtest b/memcheck/tests/badfree3.vgtest
-+index 3dfc5fd8a..57eec21f3 100644
-+--- a/memcheck/tests/badfree3.vgtest
-++++ b/memcheck/tests/badfree3.vgtest
-+@@ -1,3 +1,3 @@
-+ prog: badfree
-+-vgopts: -q --fullpath-after=memcheck/ --fullpath-after=coregrind/
-++vgopts: -q --fullpath-after=/valgrind-3.15.0/memcheck/ --fullpath-after=/valgrind-3.15.0/coregrind/
-+ stderr_filter_args: badfree.c
-+diff --git a/memcheck/tests/varinfo5.vgtest b/memcheck/tests/varinfo5.vgtest
-+index 063d00dce..6907bb2f6 100644
-+--- a/memcheck/tests/varinfo5.vgtest
-++++ b/memcheck/tests/varinfo5.vgtest
-+@@ -1,3 +1,3 @@
-+ prog: varinfo5
-+-vgopts: --fullpath-after=memcheck/  --fullpath-after=coregrind/ --read-var-info=yes --read-inline-info=yes -q
-++vgopts: --fullpath-after=/valgrind-3.15.0/memcheck/  --fullpath-after=/valgrind-3.15.0/coregrind/ --read-var-info=yes --read-inline-info=yes -q
-+ stderr_filter: filter_varinfo3
-+-- 
-+2.22.0
-+
++cd ${VALGRIND_LIB}/ptest && \
++    ./tests/post_regtest_checks $(pwd) \
++    gdbserver_tests ${TOOLS} ${EXP_TOOLS} \
++    2>&1|tee -a ${LOG}
+ 
+ passed=`grep PASS: ${LOG}|wc -l`
+ failed=`grep FAIL: ${LOG}|wc -l`
 diff --git a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-index 7bb6001d90..bf0ca57c93 100644
+index bf0ca57c93..6d47b6d01d 100644
 --- a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
 +++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-@@ -38,6 +38,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-Return-a-valid-exit_code-from-vg_regtest.patch \
-            file://0001-valgrind-filter_xml_frames-do-not-filter-usr.patch \
-            file://0002-valgrind-adjust-std_list-expected-output.patch \
-+           file://0001-adjust-path-filter-for-2-memcheck-tests.patch \
-            "
- SRC_URI[md5sum] = "46e5fbdcbc3502a5976a317a0860a975"
- SRC_URI[sha256sum] = "417c7a9da8f60dd05698b3a7bc6002e4ef996f14c13f0ff96679a16873e78ab1"
-@@ -109,7 +110,7 @@ RDEPENDS_${PN} += "perl"
+@@ -110,7 +110,11 @@ RDEPENDS_${PN} += "perl"
  # redirect functions like strlen.
  RRECOMMENDS_${PN} += "${TCLIBC}-dbg"
  
--RDEPENDS_${PN}-ptest += " bash file perl perl-module-file-glob procps sed ${PN}-dbg"
-+RDEPENDS_${PN}-ptest += " bash file libgomp perl perl-module-file-glob procps sed ${PN}-dbg"
+-RDEPENDS_${PN}-ptest += " bash file libgomp perl perl-module-file-glob procps sed ${PN}-dbg"
++RDEPENDS_${PN}-ptest += " bash coreutils file \
++   gdb libgomp \
++   perl \
++   perl-module-getopt-long perl-module-file-basename perl-module-file-glob \
++   procps sed ${PN}-dbg"
  RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
  
  # One of the tests contains a bogus interpreter path on purpose.
-@@ -158,6 +159,8 @@ do_install_ptest() {
+@@ -136,12 +140,11 @@ do_install_ptest() {
+         cd $parent_dir
+ 
+         subdirs=" \
++	   .in_place \
+ 	   cachegrind/tests \
+ 	   callgrind/tests \
+ 	   dhat/tests \
+ 	   drd/tests \
+-	   exp-bbv/tests \
+-	   exp-dhat/tests \
+ 	   gdbserver_tests \
+ 	   helgrind/tests \
+ 	   lackey/tests \
+@@ -149,6 +152,9 @@ do_install_ptest() {
+ 	   memcheck/tests \
+ 	   none/tests \
+ 	   tests \
++	   exp-bbv/tests \
++	   exp-dhat/tests \
++	   exp-sgcheck/tests \
+ 	"
+         # Get the vg test scripts, filters, and expected files
+         for dir in $subdirs ; do
+@@ -156,16 +162,24 @@ do_install_ptest() {
+         done
+         cd $saved_dir
+     done
++
++    # The scripts reference config.h so add it to the top ptest dir.
      cp ${B}/config.h ${D}${PTEST_PATH}
++
++    # Add an executable need by none/tests/bigcode
      mkdir ${D}${PTEST_PATH}/perf
      cp ${B}/perf/bigcode ${D}${PTEST_PATH}/perf
-+    # needed by memcheck/tests/vcpu_bz2
-+    cp ${B}/perf/bz2 ${D}${PTEST_PATH}/perf
+-    # needed by memcheck/tests/vcpu_bz2
++
++    # Add an executable needed by memcheck/tests/vcpu_bz2
+     cp ${B}/perf/bz2 ${D}${PTEST_PATH}/perf
  
-     # Hide then restore a.c that is used by ann[12].vgtest in call/cachegrind
-     mv ${D}${PTEST_PATH}/cachegrind/tests/a.c ${D}${PTEST_PATH}/cachegrind/tests/a_c
+-    # Hide then restore a.c that is used by ann[12].vgtest in call/cachegrind
+-    mv ${D}${PTEST_PATH}/cachegrind/tests/a.c ${D}${PTEST_PATH}/cachegrind/tests/a_c
+-    # clean out build artifacts before building the package. Keep config.h for ptests.
+-    mv ${D}${PTEST_PATH}/config.h ${D}${PTEST_PATH}/config_h
++    # Make the ptest dir look like the top level valgrind src dir
++    # This is checked by the gdbserver_tests/make_local_links script
++    mkdir ${D}${PTEST_PATH}/coregrind
++    cp ${B}/coregrind/vgdb ${D}${PTEST_PATH}/coregrind
++
++    # Add an executable needed by massif tests
++    cp ${B}/massif/ms_print ${D}${PTEST_PATH}/massif/ms_print
+ 
+     find ${D}${PTEST_PATH} \
+         \( \
+@@ -173,9 +187,9 @@ do_install_ptest() {
+         -o -name "*.o" \
+ 	\) \
+         -exec rm {} \;
+-    mv ${D}${PTEST_PATH}/cachegrind/tests/a_c ${D}${PTEST_PATH}/cachegrind/tests/a.c
++
++    # These files need to be newer so touch them.
+     touch ${D}${PTEST_PATH}/cachegrind/tests/a.c -r ${D}${PTEST_PATH}/cachegrind/tests/cgout-test
+-    mv ${D}${PTEST_PATH}/config_h ${D}${PTEST_PATH}/config.h
+ 
+     # find *_annotate in ${bindir} for yocto build
+     sed -i s:\.\./\.\./cachegrind/cg_annotate:${bindir}/cg_annotate: ${D}${PTEST_PATH}/cachegrind/tests/ann1.vgtest
+@@ -184,9 +198,7 @@ do_install_ptest() {
+     sed -i s:\.\./\.\./callgrind/callgrind_annotate:${bindir}/callgrind_annotate: ${D}${PTEST_PATH}/callgrind/tests/ann1.vgtest
+     sed -i s:\.\./\.\./callgrind/callgrind_annotate:${bindir}/callgrind_annotate: ${D}${PTEST_PATH}/callgrind/tests/ann2.vgtest
+ 
+-    # needed by massif tests
+-    cp ${B}/massif/ms_print ${D}${PTEST_PATH}/massif/ms_print
+-
+     # handle multilib
+     sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
++    sed -i s:@bindir@:${bindir}:g ${D}${PTEST_PATH}/run-ptest
+ }
 -- 
 2.22.0
 
