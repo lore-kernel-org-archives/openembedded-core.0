@@ -1,53 +1,52 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 03F347F342
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+	[209.85.210.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 12B1B7F342
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 12:41:14 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id x20so2942794plm.9
+	Tue, 10 Sep 2019 12:41:19 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id h195so11472393pfe.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 05:41:16 -0700 (PDT)
+	Tue, 10 Sep 2019 05:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=JwmJ3kzGTGW2oXyuPjAw5Skc8yFYpTf+dcI4c4dCEKY=;
-	b=EfCjNa0yWMLKZWdKthkpTgiBeQdo9NB0G8H97nDmBiZOldJayTqw4XrVNOhV91suYH
-	js1oyGkDB44cqjHVGzdNvx4puWmVh07MhOIbcS0FJZbXtHqcfQEXhnTlHQpgu3LWepQd
-	O6FRwp6lu/pHUoVVzL7wdNTUAAWlV4aLBTlkrJlVVTQ45aKsi6KutmYo4riwNQ7lZl9v
-	PZ4rD3JjxB2DSVc0ZJyFdt8mhT6IXrcpLNVIgqNGOKnT3HWR/oO2GmSMmIMpqECHKNj9
-	AobuKDLGimdmkF86p1S/CT1PLd/mmngfGqr8EX1TcU+Sky36bPpggi3vnfkcG5+rcI1R
-	oIFw==
+	bh=uY+cnwI9b+N1vyanGCiCp+YYp0Mww2WkCjLCiPciUc0=;
+	b=UaEh6+o7htIZ7gwjF5CqvKy5OZstDJlC0rnRuKRjfZZqggh4jBIAFGnZncrmzNFjVs
+	wC/ap7yyCuyJLPiJQtVy7fhoxj3xF7GcDp4uJRnEHSknSkuF2RX7RuI4CXH68N/QhL2M
+	ie/rfhegqaoIaJcW8jEkv4E2APSTtEzpJEouI4hwgvjhbna0H5tSnzmaLh0ncw6/MYmk
+	mM7vsY6bfUa8leAtepDcUXoetrPl4KRelT02IR8nDTDIpTXLCWhxZN2gwORv+C0i+W5U
+	gtC7SYrJZaccyvMDKipoSOJaS7cotC+0B1yA8Xy63GYos9SqBxFlz5zCdhhyDJzDKPoR
+	wn+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=JwmJ3kzGTGW2oXyuPjAw5Skc8yFYpTf+dcI4c4dCEKY=;
-	b=uMtLbLzqYwmJpKgvBAjT0IUdI/V6GlsnKX2y/UHsVnWnWzv/SFodBQgLa/RDOEL9x7
-	9/R/N54xQm2qoohNj3OB7eubuJOIwoQ3fEAbOYvdq7isZ+WQSx6O6L0LelHvJ2x8mV61
-	UijT+oI4feLWS8gpsls+SZkmSssfOLvYCL7aJGj/W1MEbY+SfLzMpXnbDahZwjs25fLz
-	+4YUFhqRAYn8KBVHJTvsvFQ6p+Bu0RWEMafq65Ovw4OkjP98ofN9bBaPa8RW0uCSZFWw
-	JWpHJq6A1V81kE0/t1RqUksM7hTr6Q6+oV63ntF0imXmWiiAzqocV/Zwa9Xyr1tGcPTH
-	+/lA==
-X-Gm-Message-State: APjAAAU1ltz909/rFcclgQL8GmNu02xuztxHsdsekWmt71ZvFW8+y+5E
-	hDGv1QqqO9h6+YdHGtD6nu0BSw==
-X-Google-Smtp-Source: APXvYqwety+nWE0QnMXO4d5MeqagDc0KWDDBEcyHK31mXJvJX8aS0uY9iuY2jfqzVsb7kX8N0odA2A==
-X-Received: by 2002:a17:902:20e3:: with SMTP id
-	v32mr29509429plg.142.1568119275767; 
-	Tue, 10 Sep 2019 05:41:15 -0700 (PDT)
+	bh=uY+cnwI9b+N1vyanGCiCp+YYp0Mww2WkCjLCiPciUc0=;
+	b=hgLRnYy1gYhxTweN7IylPXKZfaCsCjhbYG0bRUSUNJho/qRZeu4Q24effot7OZoWY+
+	F+llEDkbGKkfmc4UruISO/dxAcBwQyXkLcMiKK52qsDXDzRgQCaEtVTnN4898OJhcbPY
+	VtIJUPybsrQiroandsOPx4UXrQcUTJBJLOeBKOOmnJ8XMdaZ8dvB+Dm01DZU17oz2Fy8
+	pbG3YGcgCRH+xeXm/LLM9/PHj2IhQcbJrTRoCRNd+ZpeeEmIjdYUdjT0Y4jSFRkj4dWa
+	ogUV52FjWmmhpaLMnZKSYiXs2LV2DNBkCUvrYkWWHl25F7Gu0nR8+1a7ojsKtjuvEmui
+	j2TA==
+X-Gm-Message-State: APjAAAV/Wp4/IcKaZ01pEJbko+qbfB2VVvuz1YlkaEsovUpic7dbG2nG
+	yzA7cnYBlds4s0G+6FcEjsbgjw==
+X-Google-Smtp-Source: APXvYqxKrICR/Kj5reda4FFK7IoZjn1USOHE3gqpMA2297GmC1vJbaPfWBKHoh9jR76C0kDsTe02BA==
+X-Received: by 2002:aa7:8259:: with SMTP id e25mr34805663pfn.166.1568119281048;
+	Tue, 10 Sep 2019 05:41:21 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	f128sm25491580pfg.143.2019.09.10.05.41.13
+	e21sm1054300pgr.43.2019.09.10.05.41.18
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Sep 2019 05:41:15 -0700 (PDT)
+	Tue, 10 Sep 2019 05:41:20 -0700 (PDT)
 Date: Tue, 10 Sep 2019 12:40:59 +0000
-Message-Id: <20190910124059.3908-2-nathan@nathanrossi.com>
+Message-Id: <20190910124059.3908-3-nathan@nathanrossi.com>
 In-Reply-To: <20190910124059.3908-1-nathan@nathanrossi.com>
 References: <20190910124059.3908-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 2/6] oeqa/selftest/context.py: For -t/-T use append argparse action
+Subject: [PATCH 3/6] chrpath.bbclass: Add break_hardlinks kwarg to allow breaking hardlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +59,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 12:41:15 -0000
+X-List-Received-Date: Tue, 10 Sep 2019 12:41:20 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Use the 'append' action of argparse instead of nargs. This changes the
-behaviour of the option from "-t foo bar -r" to "-t foo -t bar -r".
-
-Additionally rename the long form options to be consistent with
-behaviour, such that they specifying a single tag at a time.
+Add the break_hardlinks kwarg to break hardlinks when modifying files.
+This uses the bb.utils.break_hardlinks function to break hardlinks. The
+default is to maintain existing behaviour and leave hardlinks in place.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/lib/oeqa/selftest/context.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/chrpath.bbclass | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 3126ada716..c4eb5d614e 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -78,12 +78,12 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         parser.add_argument('--machine', required=False, choices=['random', 'all'],
-                             help='Run tests on different machines (random/all).')
+diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
+index ad3c3975a5..2870c10d51 100644
+--- a/meta/classes/chrpath.bbclass
++++ b/meta/classes/chrpath.bbclass
+@@ -1,7 +1,7 @@
+ CHRPATH_BIN ?= "chrpath"
+ PREPROCESS_RELOCATE_DIRS ?= ""
  
--        parser.add_argument('-t', '--select-tags', dest="select_tags",
--                nargs='*', default=None,
--                help='Filter all (unhidden) tests to any that match any of the specified tags.')
--        parser.add_argument('-T', '--exclude-tags', dest="exclude_tags",
--                nargs='*', default=None,
--                help='Exclude all (unhidden) tests that match any of the specified tags. (exclude applies before select)')
-+        parser.add_argument('-t', '--select-tag', dest="select_tags",
-+                action='append', default=None,
-+                help='Filter all (unhidden) tests to any that match any of the specified tag(s).')
-+        parser.add_argument('-T', '--exclude-tag', dest="exclude_tags",
-+                action='append', default=None,
-+                help='Exclude all (unhidden) tests that match any of the specified tag(s). (exclude applies before select)')
+-def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d):
++def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d, break_hardlinks = False):
+     import subprocess as sub
  
-         parser.set_defaults(func=self.run)
+     p = sub.Popen([cmd, '-l', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
+@@ -39,6 +39,9 @@ def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d):
+ 
+     # if we have modified some rpaths call chrpath to update the binary
+     if modified:
++        if break_hardlinks:
++            bb.utils.break_hardlinks(fpath)
++
+         args = ":".join(new_rpaths)
+         #bb.note("Setting rpath for %s to %s" %(fpath, args))
+         p = sub.Popen([cmd, '-r', args, fpath],stdout=sub.PIPE,stderr=sub.PIPE)
+@@ -46,7 +49,7 @@ def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d):
+         if p.returncode != 0:
+             bb.fatal("%s: chrpath command failed with exit code %d:\n%s%s" % (d.getVar('PN'), p.returncode, out, err))
+ 
+-def process_file_darwin(cmd, fpath, rootdir, baseprefix, tmpdir, d):
++def process_file_darwin(cmd, fpath, rootdir, baseprefix, tmpdir, d, break_hardlinks = False):
+     import subprocess as sub
+ 
+     p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
+@@ -61,11 +64,14 @@ def process_file_darwin(cmd, fpath, rootdir, baseprefix, tmpdir, d):
+         if baseprefix not in rpath:
+             continue
+ 
++        if break_hardlinks:
++            bb.utils.break_hardlinks(fpath)
++
+         newpath = "@loader_path/" + os.path.relpath(rpath, os.path.dirname(fpath.replace(rootdir, "/")))
+         p = sub.Popen([d.expand("${HOST_PREFIX}install_name_tool"), '-change', rpath, newpath, fpath],stdout=sub.PIPE,stderr=sub.PIPE)
+         out, err = p.communicate()
+ 
+-def process_dir (rootdir, directory, d):
++def process_dir(rootdir, directory, d, break_hardlinks = False):
+     import stat
+ 
+     rootdir = os.path.normpath(rootdir)
+@@ -95,7 +101,7 @@ def process_dir (rootdir, directory, d):
+             continue
+ 
+         if os.path.isdir(fpath):
+-            process_dir(rootdir, fpath, d)
++            process_dir(rootdir, fpath, d, break_hardlinks = break_hardlinks)
+         else:
+             #bb.note("Testing %s for relocatability" % fpath)
+ 
+@@ -108,8 +114,9 @@ def process_dir (rootdir, directory, d):
+             else:
+                 # Temporarily make the file writeable so we can chrpath it
+                 os.chmod(fpath, perms|stat.S_IRWXU)
+-            process_file(cmd, fpath, rootdir, baseprefix, tmpdir, d)
+-                
++
++            process_file(cmd, fpath, rootdir, baseprefix, tmpdir, d, break_hardlinks = break_hardlinks)
++
+             if perms:
+                 os.chmod(fpath, perms)
  
 ---
 2.23.0.rc1
