@@ -1,23 +1,39 @@
-Return-Path: <Stefan.Ghinea@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 273417F220
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DBE57F2A0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 06:34:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8A6YRTh019026
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Sep 2019 23:34:27 -0700 (PDT)
-Received: from otp-sghinea-d1.wrs.com (128.224.124.155) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 9 Sep 2019 23:34:14 -0700
-From: Stefan Ghinea <stefan.ghinea@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Sep 2019 09:34:12 +0300
-Message-ID: <1568097252-29009-1-git-send-email-stefan.ghinea@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 10 Sep 2019 08:06:07 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,487,1559491200"; d="scan'208,217";a="75221772"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 10 Sep 2019 16:06:00 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id BD4644CE03E8;
+	Tue, 10 Sep 2019 16:05:49 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0439.000; Tue, 10 Sep 2019 16:05:59 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Thread-Topic: [OE-core] [PATCH] rpm: make rpm work in toolchain.
+Thread-Index: AQHVZv7BxgoU2vZWukWivQ42Ff9uAacjMChA//+ajoCAAWtVMA==
+Date: Tue, 10 Sep 2019 08:06:02 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E403@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1568026619-117196-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<CANNYZj8kH3Oqp_ac8BsRCRpT4qEqnCg3VYk0LFW4vnkGxnoF9A@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E199@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CANNYZj_OBagcWxfBb0yF80Jr=CmhPg_FND5-V6ze4a4qFWYOyA@mail.gmail.com>
+In-Reply-To: <CANNYZj_OBagcWxfBb0yF80Jr=CmhPg_FND5-V6ze4a4qFWYOyA@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.35]
 MIME-Version: 1.0
-Subject: [PATCH v2] ghostscript: CVE-2019-14811, CVE-2019-14817
+X-yoursite-MailScanner-ID: BD4644CE03E8.AA09B
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: make rpm work in toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,649 +46,225 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 06:34:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Sep 2019 08:06:09 -0000
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E403G08CNEXMBPEKD01_"
 
-A flaw was found in, ghostscript versions prior to 9.28,
-in the .pdf_hook_DSC_Creator procedure where it did not
-properly secure its privileged calls, enabling scripts to
-bypass `-dSAFER` restrictions. A specially crafted PostScript
-file could disable security protection and then have access
-to the file system, or execute arbitrary commands.
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E403G08CNEXMBPEKD01_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-A flaw was found in, ghostscript versions prior to 9.28,
-in the .pdfexectoken and other procedures where it did not
-properly secure its privileged calls, enabling scripts to
-bypass `-dSAFER` restrictions. A specially crafted PostScript
-file could disable security protection and then have access
-to the file system, or execute arbitrary commands.
+SGkgQWxleA0KDQpOb3cgSSBoYXZlIGEgcXVlc3Rpb24gYWZ0ZXIgYSB0ZXN0
+Lg0KDQpJbiBsYXN0IHBhdGNoLCBJIHB1dCB0aGUgY29uZmlnIGZpbGUgaW4g
+bWV0YS1lbnZpcm9ubWVudCBhcyBpdHMgZG9faW5zdGFsbCB0YXNrIGlzIGlu
+IHRoZSB0YXJnZXQgZW52aXJvbm1lbnQgd2hpY2ggbWVhbnMgdGhlIHZhbHVl
+IG9mICR7UEFDS0FHRV9BUkNIU30gaXMgcmlnaHQuDQpBbmQgaXQgZmluYWxs
+eSBwcm9kdWNlIGEgbmF0aXZlc2RrIHBhY2thZ2UuDQoNCklmIEkgcHV0IHRo
+ZSBjb25maWcgZmlsZSBpbiBuYXRpdmVzZGstcnBtLCB0aGUgdmFsdWUgb2Yg
+JHtQQUNLQUdFX0FSQ0hTfSB3aWxsIGFsd2F5cyBiZSDigJxhbGwgYW55IG5v
+YXJjaCB4ODZfNjQtbmF0aXZlc2Rr4oCdIHdoaWNoIGlzIG5vdCBzdWl0YWJs
+ZSBmb3IgeDg2LCBhcm0gYW5kIG90aGVyIEFSQ0hTLg0KDQpTbyBJ4oCZZCBs
+aWtlIHRvIHB1dCBjb25maWcgZmlsZSBpbiB0aGUgcnBtIG9mIG1ldGEtZW52
+aXJvbm1lbnQuIERpZCB5b3UgaGF2ZSBhbnkgZ29vZCBTdWdnZXN0aW9ucz8N
+Cg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0NClpoZW5nIFJ1b3Fpbg0KTmFuamluZyBGdWppdHN1IE5hbmRh
+IFNvZnR3YXJlIFRlY2guIENvLiwgTHRkLihGTlNUKQ0KQUREUi46IE5vLjYg
+V2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2ZW51ZSwNCiAgICAgICBOYW5qaW5n
+LCAyMTAwMTIsIENoaW5hDQpNQUlMIDogemhlbmdycS5mbnN0QGNuLmZ1amlz
+dHUuY29tDQoNCkZyb206IEFsZXhhbmRlciBLYW5hdmluIFttYWlsdG86YWxl
+eC5rYW5hdmluQGdtYWlsLmNvbV0NClNlbnQ6IE1vbmRheSwgU2VwdGVtYmVy
+IDA5LCAyMDE5IDk6MDcgUE0NClRvOiBaaGVuZywgUnVvcWluL+mDkSDoi6Xp
+kqYgPHpoZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbT4NCkNjOiBPRS1jb3Jl
+IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K
+U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHJwbTogbWFrZSBycG0g
+d29yayBpbiB0b29sY2hhaW4uDQoNCk9uIE1vbiwgOSBTZXAgMjAxOSBhdCAx
+MzoxOSwgWmhlbmcsIFJ1b3FpbiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3Uu
+Y29tPG1haWx0bzp6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+PiB3cm90
+ZToNCi0+V2hhdCBkbyB0aGVzZSB0d28gc2VkIGNvbW1hbmRzIGRvPyBJZiB3
+ZSBjcmVhdGUgL2V0Yy9ycG1yYyBqdXN0IGFib3ZlLCBjYW4gaXQgaGF2ZSB0
+aGUgcmlnaHQgY29udGVudCBmcm9tIHRoZSBiZWdpbm5pbmc/DQoNCldlbGws
+IGluIHRoZSBlbnZpcm9ubWVudCBpbiBZb2N0byBCdWlsZCBzeXN0ZW0sIHRo
+ZSB2YWx1ZSBvZiAke1BBQ0tBR0VfQVJDSFN9IGluY2x1ZGUg4oCc4oCTbmF0
+aXZlc2Rr4oCdIGFzIG5vdCBuZWVkZWQgaW4gU0RLIGVudmlyb25tZW50Lg0K
+QW5kIHRoZSBBUkNIIG5hbWUgb2YgY29yZTItNjQgcnBtIGlzIGNvcmUyXzY0
+IGxpa2UgcnBtLTQuMTQuMi4xLXIwLmNvcmUyXzY0LnJwbS4NClNvIEkgbW9k
+aWZ5IHRoZSBBUkNIIG5hbWUgaW4gZXRjL3JwbXJjLg0KDQpUaGFua3MsIGNh
+biB5b3UgcHV0IGEgY29tbWVudCBpbiBmcm9udCBvZiB0aGUgc2VkIGNvbW1h
+bmRzIGV4cGxhaW5pbmcgdGhhdD8gSXQgd291bGQgYmUgdXNlZnVsIHRvIGFu
+eW9uZSB3aG8gcmVhZHMgdGhlIHJlY2lwZS4NCg0KQWxleA0KCgo=
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2019-14811
-https://nvd.nist.gov/vuln/detail/CVE-2019-14817
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E403G08CNEXMBPEKD01_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Upstream patches:
-http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=885444fcbe10dc42787ecb76686c8ee4dd33bf33
-http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=cd1b1cacadac2479e291efe611979bdc1b3bdb19
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
+IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
+ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
+Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
+bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
+cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
+IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
+Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
+b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
+Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
+YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
+fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
+CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
+Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
+IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
+i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
+dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
+bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29I
+eXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJs
+dWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQs
+IHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9y
+aXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5k
+ZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBl
+OnBlcnNvbmFsOw0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlm
+Ow0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTgNCgl7bXNv
+LXN0eWxlLXR5cGU6cGVyc29uYWwtY29tcG9zZTsNCglmb250LWZhbWlseToi
+Q2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5kb3d0ZXh0O30NCi5N
+c29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0K
+CWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCkBwYWdlIFdv
+cmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46
+NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRpdi5Xb3JkU2VjdGlv
+bjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lm
+IGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVk
+aXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0t
+W2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJl
+ZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9v
+OnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJv
+ZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0K
+PGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
+OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+SGkgQWxleDxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
+bGlicmkmcXVvdDssc2Fucy1zZXJpZiI+PG86cD4mbmJzcDs8L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OyxzYW5zLXNlcmlmIj5Ob3cgSSBoYXZlIGEgcXVlc3Rpb24gYWZ0ZXIgYSB0
+ZXN0LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
+OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+PG86cD4mbmJzcDs8
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
+c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
+aWJyaSZxdW90OyxzYW5zLXNlcmlmIj5JbiBsYXN0IHBhdGNoLCBJIHB1dCB0
+aGUgY29uZmlnIGZpbGUgaW4gbWV0YS1lbnZpcm9ubWVudCBhcyBpdHMgZG9f
+aW5zdGFsbCB0YXNrIGlzIGluIHRoZSB0YXJnZXQgZW52aXJvbm1lbnQgd2hp
+Y2ggbWVhbnMgdGhlIHZhbHVlIG9mICR7UEFDS0FHRV9BUkNIU30gaXMgcmln
+aHQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5BbmQgaXQ8L3NwYW4+
+DQo8c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPmZpbmFsbHkgcHJvZHVj
+ZSBhIG5hdGl2ZXNkayBwYWNrYWdlLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZiI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5JZiBJ
+IHB1dCB0aGUgY29uZmlnIGZpbGUgaW4gbmF0aXZlc2RrLXJwbSwgdGhlIHZh
+bHVlIG9mICR7UEFDS0FHRV9BUkNIU30gd2lsbCBhbHdheXMgYmUg4oCcYWxs
+IGFueSBub2FyY2ggeDg2XzY0LW5hdGl2ZXNka+KAnSB3aGljaCBpcyBub3Qg
+c3VpdGFibGUgZm9yIHg4NiwgYXJtIGFuZCBvdGhlciBBUkNIUy48bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
+dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
+YnJpJnF1b3Q7LHNhbnMtc2VyaWYiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
+PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+c2Fucy1zZXJpZiI+U28gSeKAmWQgbGlrZSB0byBwdXQgY29uZmlnIGZpbGUg
+aW4gdGhlIHJwbSBvZiBtZXRhLWVudmlyb25tZW50LiBEaWQgeW91IGhhdmUg
+YW55IGdvb2QgU3VnZ2VzdGlvbnM/PG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
+cmlmIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPi0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1
+b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5aaGVuZyBSdW9xaW48bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPk5hbmppbmcgRnVqaXRzdSBOYW5k
+YSBTb2Z0d2FyZSBUZWNoLiBDby4sIEx0ZC4oRk5TVCk8bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LHNhbnMtc2VyaWYiPkFERFIuOiBOby42IFdlbnpodSBSb2FkLCBTb2Z0
+d2FyZSBBdmVudWUsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4mbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgTmFuamluZywgMjEw
+MDEyLCBDaGluYTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+TUFJTCA6
+IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1LmNvbTxvOnA+PC9vOnA+PC9zcGFu
+PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+c2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVm
+dDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQi
+Pg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6
+c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNt
+Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+c2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+c2Fucy1zZXJpZiI+IEFsZXhhbmRlciBLYW5hdmluIFttYWlsdG86YWxleC5r
+YW5hdmluQGdtYWlsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBNb25kYXks
+IFNlcHRlbWJlciAwOSwgMjAxOSA5OjA3IFBNPGJyPg0KPGI+VG86PC9iPiBa
+aGVuZywgUnVvcWluLzwvc3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9
+ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk65a6L5L2TIj7pg5E8L3Nw
+YW4+PHNwYW4gbGFuZz0iWkgtQ04iIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
+O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+
+DQo8L3NwYW4+PHNwYW4gbGFuZz0iWkgtQ04iIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OuWui+S9kyI+6Iul6ZKmPC9zcGFuPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
+bGlicmkmcXVvdDssc2Fucy1zZXJpZiI+ICZsdDt6aGVuZ3JxLmZuc3RAY24u
+ZnVqaXRzdS5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlICZsdDtv
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxi
+cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0gcnBt
+OiBtYWtlIHJwbSB3b3JrIGluIHRvb2xjaGFpbi48bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPk9uIE1vbiwgOSBTZXAgMjAxOSBhdCAxMzoxOSwgWmhl
+bmcsIFJ1b3FpbiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnpoZW5ncnEuZm5zdEBj
+bi5mdWppdHN1LmNvbSI+emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPC9h
+PiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8
+YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29s
+aWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21h
+cmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4tJmd0O1doYXQgZG8gdGhlc2Ug
+dHdvIHNlZCBjb21tYW5kcyBkbz8gSWYgd2UgY3JlYXRlIC9ldGMvcnBtcmMg
+anVzdCBhYm92ZSwgY2FuIGl0IGhhdmUgdGhlIHJpZ2h0IGNvbnRlbnQgZnJv
+bSB0aGUgYmVnaW5uaW5nPw0KPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87bXNv
+LW1hcmdpbi1ib3R0b20tYWx0OmF1dG8iPiZuYnNwOzxvOnA+PC9vOnA+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJnaW4tdG9w
+LWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvIj5XZWxsLCBp
+biB0aGUgZW52aXJvbm1lbnQgaW4gWW9jdG8gQnVpbGQgc3lzdGVtLCB0aGUg
+dmFsdWUgb2YgJHtQQUNLQUdFX0FSQ0hTfSBpbmNsdWRlIOKAnOKAk25hdGl2
+ZXNka+KAnSBhcyBub3QgbmVlZGVkIGluIFNESyBlbnZpcm9ubWVudC48bzpw
+PjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28t
+bWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0
+byI+QW5kIHRoZSBBUkNIIG5hbWUgb2YgY29yZTItNjQgcnBtIGlzIGNvcmUy
+XzY0IGxpa2UgcnBtLTQuMTQuMi4xLXIwLmNvcmUyXzY0LnJwbS48bzpwPjwv
+bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFy
+Z2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0byI+
+U28gSSBtb2RpZnkgdGhlIEFSQ0ggbmFtZSBpbiBldGMvcnBtcmMuPG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+VGhhbmtz
+LCBjYW4geW91IHB1dCBhIGNvbW1lbnQgaW4gZnJvbnQgb2YgdGhlIHNlZCBj
+b21tYW5kcyBleHBsYWluaW5nIHRoYXQ/IEl0IHdvdWxkIGJlIHVzZWZ1bCB0
+byBhbnlvbmUgd2hvIHJlYWRzIHRoZSByZWNpcGUuPG86cD48L286cD48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
+YnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPkFsZXg8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8
+L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
----
- .../ghostscript/CVE-2019-14811-0001.patch     |  68 +++++
- .../ghostscript/CVE-2019-14817-0001.patch     | 270 ++++++++++++++++++
- .../ghostscript/CVE-2019-14817-0002.patch     | 236 +++++++++++++++
- .../ghostscript/ghostscript_9.27.bb           |   3 +
- 4 files changed, 577 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14811-0001.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14817-0001.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14817-0002.patch
-
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14811-0001.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14811-0001.patch
-new file mode 100644
-index 0000000000..3f28555e8a
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14811-0001.patch
-@@ -0,0 +1,68 @@
-+From 885444fcbe10dc42787ecb76686c8ee4dd33bf33 Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <ken.sharp@artifex.com>
-+Date: Tue, 20 Aug 2019 10:10:28 +0100
-+Subject: [PATCH] make .forceput inaccessible
-+
-+Bug #701343, #701344, #701345
-+
-+More defensive programming. We don't want people to access .forecput
-+even though it is no longer sufficient to bypass SAFER. The exploit
-+in #701343 didn't work anyway because of earlier work to stop the error
-+handler being used, but nevertheless, prevent access to .forceput from
-+.setuserparams2.
-+
-+CVE: CVE-2019-14811
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
-+
-+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-+---
-+ Resource/Init/gs_lev2.ps  | 6 +++---
-+ Resource/Init/gs_pdfwr.ps | 4 ++--
-+ 2 files changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/Resource/Init/gs_lev2.ps b/Resource/Init/gs_lev2.ps
-+index 98d55fe..f1b771f 100644
-+--- a/Resource/Init/gs_lev2.ps
-++++ b/Resource/Init/gs_lev2.ps
-+@@ -158,7 +158,7 @@ end
-+     {
-+       pop pop
-+     } ifelse
-+-  } forall
-++  } executeonly forall
-+         % A context switch might have occurred during the above loop,
-+         % causing the interpreter-level parameters to be reset.
-+         % Set them again to the new values.  From here on, we are safe,
-+@@ -229,9 +229,9 @@ end
-+        { pop pop
-+        }
-+       ifelse
-+-    }
-++    } executeonly
-+    forall pop
-+-} .bind odef
-++} .bind executeonly odef
-+ 
-+ % Initialize the passwords.
-+ % NOTE: the names StartJobPassword and SystemParamsPassword are known to
-+diff --git a/Resource/Init/gs_pdfwr.ps b/Resource/Init/gs_pdfwr.ps
-+index 00c19fa..dfe504d 100644
-+--- a/Resource/Init/gs_pdfwr.ps
-++++ b/Resource/Init/gs_pdfwr.ps
-+@@ -652,11 +652,11 @@ currentdict /.pdfmarkparams .undef
-+           systemdict /.pdf_hooked_DSC_Creator //true .forceput
-+         } executeonly if
-+         pop
-+-      } if
-++      } executeonly if
-+     } {
-+       pop
-+     } ifelse
-+-  }
-++  } executeonly
-+   {
-+     pop
-+   } ifelse
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14817-0001.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14817-0001.patch
-new file mode 100644
-index 0000000000..c76e21caa6
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14817-0001.patch
-@@ -0,0 +1,270 @@
-+From 0bafbd9c1273fab0dc79fd20db0ffc4443683f96 Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <ken.sharp@artifex.com>
-+Date: Mon, 29 Apr 2019 11:14:06 +0100
-+Subject: [PATCH 1/2] PDF interpreter - Decode ToUnicode entries of the form
-+ /Identity-H/V
-+
-+Bug #701003 "Text searchability broken due to omission of /ToUnicode /Identity-H"
-+
-+The PDF references from 1.2 too 2.0 all state that the value associated
-+with a ToUnicode key in a FontDescriptor must be a stream object. However
-+this file (and one case seen previously, bug 687351) have FontDescriptor
-+dictionaries where the value associated with a /ToUnicode key is a
-+name object, in both cases /Identity-H.
-+
-+Although this is clearly not legal, Acrobat not only tolerates it, it
-+actually uses it for search/copy/paste (see bug 701003 for details).
-+Without the key Acrobat is unable to successfully search the output file.
-+
-+We can't simply preserve the name object as a ToUnicode value; when
-+handling ToUnicode we actually decode the CMap and build a
-+GlyphNames2Unicode map (an internal representation of the G2U data
-+produced by the Microsoft PostScript printer driver). When writing the
-+output file we use that information to get a Unicode value for each
-+character we write, and build a new ToUnicode CMap using that.
-+
-+This commit tackles the problem by pre-scanning for a name object and
-+then checking to see if its Identity-H or Identity-V (although we have
-+not seen an Identity-V, there seems no reason why it wouldn't be
-+equally valid). If we find either of these then we construct a
-+GlyphNames2Unicode table for all possible values (0 - 65535) and store
-+that with the font as normal. When we write the output file we only
-+write the required entries for the subset font, so we write a now
-+completely legal ToUnicode CMap, and Acrobat is equally happy with that
-+as the original name.
-+
-+If the ToUnicode value isn't a name object, or isn't one of the
-+identities then we proceed as before. This means we will print a
-+warning for non conforming ToUnicode entries and ignore them.
-+
-+CVE: CVE-2019-14817
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
-+
-+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-+---
-+ Resource/Init/pdf_font.ps | 200 ++++++++++++++++++++++++--------------
-+ 1 file changed, 129 insertions(+), 71 deletions(-)
-+
-+diff --git a/Resource/Init/pdf_font.ps b/Resource/Init/pdf_font.ps
-+index 9fb85f6..2df3303 100644
-+--- a/Resource/Init/pdf_font.ps
-++++ b/Resource/Init/pdf_font.ps
-+@@ -621,86 +621,144 @@ currentdict end readonly def
-+         PDFDEBUG {
-+           (.processToUnicode beg) =
-+         } if
-+-        2 index /ToUnicode knownoget {
-+-          dup type /dicttype eq { dup /File known not } { //true } ifelse {
-+-            % We undefine wrong /Length and define /File in stream dictionaries.
-+-            % Bug687351.pdf defines /ToUnicode /Identity-H, what is incorrect.
-+-            (   **** Warning: Ignoring bad ToUnicode CMap.\n)  pdfformatwarning
-+-            pop
-++
-++        2 index /ToUnicode knownoget
-++        {
-++            dup type /nametype eq {
-++              % This is contrary to the specification but it seems that Acrobat at least will accept
-++              % a ToUnicode with a value of Identity-H *and* will use that for search, copy/paste.
-++              % We can't pass through a name, so the best we can do is build a GlyphNames2Unicode
-++              % map matching that which would have been generated by a full 16-bit Identity CMap
-++              %
-++              % See bug numbers 701003 and 687351
-++              %
-++              dup /Identity-H eq 1 index /Identity-V eq or{
-++                pop
-++                1 index /FontInfo .knownget not {
-++                  currentglobal 2 index dup gcheck setglobal
-++                  /FontInfo 5 dict dup 5 1 roll .forceput
-++                  setglobal
-++                } if
-++                dup /GlyphNames2Unicode .knownget not {
-++                  //true                        % No existing G2U, make one
-++                } {
-++                  dup wcheck {
-++                    //false                     % Existing, writeable G2U, don't make new one
-++                  } {
-++                    pop //true                          % Existing read only G2U, make new one
-++                  } ifelse
-++                } ifelse
-++                {
-++                  currentglobal exch dup gcheck setglobal
-++                  dup /GlyphNames2Unicode 100 dict dup 4 1 roll .forceput
-++                  3 2 roll setglobal
-++                } if                                 % font-res font-dict encoding|null font-info g2u
-++
-++                0 1 65535{
-++                                                        % g2u index
-++                  dup dup 256 mod exch 256 idiv         % g2u index lo-byte hi-byte
-++                  2 string dup 0 4 -1 roll              % g2u index lo-byte () () 0 hi-byte
-++                  put                                   % g2u index lo-byte (x)
-++                  dup 1                                 % g2u index lo-byte (x) (x) 1
-++                  4 -1 roll put                         % g2u index (x) (x) 1 lo-byte -> dict index (xx)
-++                  2 index                               % g2u index (xx) dict
-++                  3 1 roll                              % g2u g2u index (xx)
-++                  put                                   % g2u
-++                } for
-++                pop                                     % font-res font-dict encoding|null font-info
-++                pop                                     % font-res font-dict encoding|null
-++                //false                                 % We built a GlyphNames2Unicode table, don't need to process further
-++              }{
-++                //true                                  % name is not Identity-V or H, fail by falling through
-++              }ifelse
-+           } {
-+-            /PDFScanRules .getuserparam dup //null eq {
-+-              pop //PDFScanRules_null
-+-            } {
-+-              1 dict dup /PDFScanRules 4 -1 roll put
-+-            } ifelse
-+-            //PDFScanRules_true setuserparams
-+-            PDFfile fileposition
-+-            3 -1 roll
-+-            count 1 sub
-+-            countdictstack
-+-            { //false resolvestream
-+-              % Following Acrobat we ignore everything outside
-+-              %   begincodespacerange .. endcmap.
-+-              dup 0 (begincodespacerange) /SubFileDecode filter flushfile
-+-              /CIDInit /ProcSet findresource begin
-+-              //ToUnicodeCMapReader begin
-+-              12 dict begin
-+-              /CMapType 2 def
-+-              mark exch % emulate 'begincodespacerange'
-+-              0 (endcmap) /SubFileDecode filter cvx /begincmap cvx exch 2 .execn
-+-              endcmap
-+-              userdict /.lastToUnicode currentdict put
-+-              end end end
-+-            }
-++            //true
-++          } ifelse                                      % not a name, try as a dictionary (as specified)
-+ 
-+-            PDFSTOPONERROR {
-+-              { exec } 0 get
-+-              //false
-+-              5 -2 roll
-+-              5
-++          % If the ToUnicode isn't a name, or the name isn't Identity-V or -H then follow the specification
-++          % If its not a dictionary type throw an error, otherwise decode it and build a GlyphNames2Unicode
-++          %
-++          {
-++            dup type /dicttype eq { dup /File known not } { //true } ifelse {
-++              % We undefine wrong /Length and define /File in stream dictionaries.
-++              % Bug687351.pdf defines /ToUnicode /Identity-H, what is incorrect.
-++              (   **** Warning: Ignoring bad ToUnicode CMap.\n)  pdfformatwarning
-++              pop
-+             } {
-+-              { stopped } 0 get
-+-              4 2 roll
-+-              4
-+-            } ifelse
-+-            array astore cvx exec
-++              /PDFScanRules .getuserparam dup //null eq {
-++                pop //PDFScanRules_null
-++              } {
-++                1 dict dup /PDFScanRules 4 -1 roll put
-++              } ifelse
-++              //PDFScanRules_true setuserparams
-++              PDFfile fileposition
-++              3 -1 roll
-++              count 1 sub
-++              countdictstack
-++              { //false resolvestream
-++                % Following Acrobat we ignore everything outside
-++                %   begincodespacerange .. endcmap.
-++                dup 0 (begincodespacerange) /SubFileDecode filter flushfile
-++                /CIDInit /ProcSet findresource begin
-++                //ToUnicodeCMapReader begin
-++                12 dict begin
-++                /CMapType 2 def
-++                mark exch % emulate 'begincodespacerange'
-++                0 (endcmap) /SubFileDecode filter cvx /begincmap cvx exch 2 .execn
-++                endcmap
-++                userdict /.lastToUnicode currentdict put
-++                end end end
-++              }
-+ 
-+-            countdictstack exch sub 0 .max { end } repeat
-+-            count exch sub 2 sub 0 .max { exch pop } repeat
-+-            3 1 roll                     % Stach the stop flag.
-+-            PDFfile exch setfileposition
-+-            setuserparams
-+-            {
-+-              (   **** Warning: Failed to read ToUnicode CMap.\n)  pdfformatwarning
-+-            } {
-+-              1 index /FontInfo .knownget not {
-+-                currentglobal 2 index dup gcheck setglobal
-+-                /FontInfo 5 dict dup 5 1 roll .forceput
-+-                setglobal
-+-              } if
-+-              dup /GlyphNames2Unicode .knownget not {
-+-                //true                        % No existing G2U, make one
-++              PDFSTOPONERROR {
-++                { exec } 0 get
-++                //false
-++                5 -2 roll
-++                5
-++              } {
-++                { stopped } 0 get
-++                4 2 roll
-++                4
-++              } ifelse
-++              array astore cvx exec
-++
-++              countdictstack exch sub 0 .max { end } repeat
-++              count exch sub 2 sub 0 .max { exch pop } repeat
-++              3 1 roll                     % Stach the stop flag.
-++              PDFfile exch setfileposition
-++              setuserparams
-++              {
-++                (   **** Warning: Failed to read ToUnicode CMap.\n)  pdfformatwarning
-+               } {
-+-                dup wcheck {
-+-                  //false                     % Existing, writeable G2U, don't make new one
-++                1 index /FontInfo .knownget not {
-++                  currentglobal 2 index dup gcheck setglobal
-++                  /FontInfo 5 dict dup 5 1 roll .forceput
-++                  setglobal
-++                } if
-++                dup /GlyphNames2Unicode .knownget not {
-++                  //true                        % No existing G2U, make one
-+                 } {
-+-                  pop //true                          % Existing read only G2U, make new one
-++                  dup wcheck {
-++                    //false                     % Existing, writeable G2U, don't make new one
-++                  } {
-++                    pop //true                          % Existing read only G2U, make new one
-++                  } ifelse
-+                 } ifelse
-++                {
-++                  currentglobal exch dup gcheck setglobal
-++                  dup /GlyphNames2Unicode 100 dict dup 4 1 roll .forceput
-++                  3 2 roll setglobal
-++                } if                                 % font-res font-dict encoding|null font-info g2u
-++                exch pop exch                        % font-res font-dict g2u encoding|null
-++                userdict /.lastToUnicode get         % font-res font-dict g2u Encoding|null CMap
-++                .convert_ToUnicode-into-g2u          % font-res font-dict
-++                //null                               % font-res font-dict //null
-+               } ifelse
-+-              {
-+-                currentglobal exch dup gcheck setglobal
-+-                dup /GlyphNames2Unicode 100 dict dup 4 1 roll .forceput
-+-                3 2 roll setglobal
-+-              } if                                 % font-res font-dict encoding|null font-info g2u
-+-              exch pop exch                        % font-res font-dict g2u encoding|null
-+-              userdict /.lastToUnicode get         % font-res font-dict g2u Encoding|null CMap
-+-              .convert_ToUnicode-into-g2u          % font-res font-dict
-+-              //null                               % font-res font-dict //null
-+             } ifelse
-+-          } ifelse
-+-        } if
-+-        PDFDEBUG {
-+-          (.processToUnicode end) =
-++          } if
-++          PDFDEBUG {
-++            (.processToUnicode end) =
-++          } if
-+         } if
-+       } if
-+     } stopped
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14817-0002.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14817-0002.patch
-new file mode 100644
-index 0000000000..6348fff2d1
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14817-0002.patch
-@@ -0,0 +1,236 @@
-+From cd1b1cacadac2479e291efe611979bdc1b3bdb19 Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <ken.sharp@artifex.com>
-+Date: Wed, 21 Aug 2019 10:10:51 +0100
-+Subject: [PATCH 2/2] PDF interpreter - review .forceput security
-+
-+Bug #701450 "Safer Mode Bypass by .forceput Exposure in .pdfexectoken"
-+
-+By abusing the error handler it was possible to get the PDFDEBUG portion
-+of .pdfexectoken, which uses .forceput left readable.
-+
-+Add an executeonly appropriately to make sure that clause isn't readable
-+no mstter what.
-+
-+Review all the uses of .forceput searching for similar cases, add
-+executeonly as required to secure those. All cases in the PostScript
-+support files seem to be covered already.
-+
-+CVE: CVE-2019-14817
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
-+
-+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-+---
-+ Resource/Init/pdf_base.ps |  2 +-
-+ Resource/Init/pdf_draw.ps | 14 +++++++-------
-+ Resource/Init/pdf_font.ps | 29 ++++++++++++++++-------------
-+ Resource/Init/pdf_main.ps |  6 +++---
-+ Resource/Init/pdf_ops.ps  | 11 ++++++-----
-+ 5 files changed, 33 insertions(+), 29 deletions(-)
-+
-+diff --git a/Resource/Init/pdf_base.ps b/Resource/Init/pdf_base.ps
-+index 1a218f4..cffde5c 100644
-+--- a/Resource/Init/pdf_base.ps
-++++ b/Resource/Init/pdf_base.ps
-+@@ -157,7 +157,7 @@ currentdict /num-chars-dict .undef
-+     {
-+       dup ==only () = flush
-+     } ifelse % PDFSTEP
-+-  } if % PDFDEBUG
-++  } executeonly if % PDFDEBUG
-+   2 copy .knownget {
-+     exch pop exch pop exch pop exec
-+   } {
-+diff --git a/Resource/Init/pdf_draw.ps b/Resource/Init/pdf_draw.ps
-+index e18a7c2..0a3924c 100644
-+--- a/Resource/Init/pdf_draw.ps
-++++ b/Resource/Init/pdf_draw.ps
-+@@ -501,8 +501,8 @@ end
-+       (        Output may be incorrect.\n) pdfformaterror
-+       //pdfdict /.gs_warning_issued //true .forceput
-+       PDFSTOPONERROR { /gs /undefined signalerror } if
-+-    } if
-+-  }
-++    } executeonly if
-++  } executeonly
-+   ifelse
-+ } bind executeonly def
-+ 
-+@@ -1142,7 +1142,7 @@ currentdict end readonly def
-+           .setglobal
-+           pdfformaterror
-+         } executeonly ifelse
-+-      }
-++      } executeonly
-+       {
-+         currentglobal //pdfdict gcheck .setglobal
-+         //pdfdict /.Qqwarning_issued //true .forceput
-+@@ -1150,8 +1150,8 @@ currentdict end readonly def
-+         pdfformaterror
-+       } executeonly ifelse
-+       end
-+-    } ifelse
-+-  } loop
-++    } executeonly ifelse
-++  } executeonly loop
-+   {
-+     (\n   **** Error: File has unbalanced q/Q operators \(too many q's\)\n               Output may be incorrect.\n)
-+     //pdfdict /.Qqwarning_issued .knownget
-+@@ -1165,14 +1165,14 @@ currentdict end readonly def
-+         .setglobal
-+         pdfformaterror
-+       } executeonly ifelse
-+-    }
-++    } executeonly
-+     {
-+       currentglobal //pdfdict gcheck .setglobal
-+       //pdfdict /.Qqwarning_issued //true .forceput
-+       .setglobal
-+       pdfformaterror
-+     } executeonly ifelse
-+-  } if
-++  } executeonly if
-+   pop
-+ 
-+   % restore pdfemptycount
-+diff --git a/Resource/Init/pdf_font.ps b/Resource/Init/pdf_font.ps
-+index 2df3303..6a6a5fe 100644
-+--- a/Resource/Init/pdf_font.ps
-++++ b/Resource/Init/pdf_font.ps
-+@@ -638,7 +638,7 @@ currentdict end readonly def
-+                   currentglobal 2 index dup gcheck setglobal
-+                   /FontInfo 5 dict dup 5 1 roll .forceput
-+                   setglobal
-+-                } if
-++                } executeonly if
-+                 dup /GlyphNames2Unicode .knownget not {
-+                   //true                        % No existing G2U, make one
-+                 } {
-+@@ -668,10 +668,12 @@ currentdict end readonly def
-+                 pop                                     % font-res font-dict encoding|null font-info
-+                 pop                                     % font-res font-dict encoding|null
-+                 //false                                 % We built a GlyphNames2Unicode table, don't need to process further
-+-              }{
-++              } executeonly
-++              {
-+                 //true                                  % name is not Identity-V or H, fail by falling through
-+               }ifelse
-+-          } {
-++          } executeonly
-++          {
-+             //true
-+           } ifelse                                      % not a name, try as a dictionary (as specified)
-+ 
-+@@ -759,9 +761,9 @@ currentdict end readonly def
-+           PDFDEBUG {
-+             (.processToUnicode end) =
-+           } if
-+-        } if
-+-      } if
-+-    } stopped
-++        } executeonly if
-++      } executeonly if
-++    } executeonly stopped
-+     {
-+       .dstackdepth 1 countdictstack 1 sub
-+       {pop end} for
-+@@ -1291,19 +1293,20 @@ currentdict /eexec_pdf_param_dict .undef
-+                 //pdfdict /.Qqwarning_issued //true .forceput
-+               } executeonly if
-+               Q
-+-            } repeat
-++            } executeonly repeat
-+             Q
-+-          } PDFfile fileposition 2 .execn % Keep pdfcount valid.
-++          } executeonly PDFfile fileposition 2 .execn % Keep pdfcount valid.
-+           PDFfile exch setfileposition
-+-        } ifelse
-+-      } {
-++        } executeonly ifelse
-++      } executeonly
-++      {
-+         % PDF Type 3 fonts don't use .notdef
-+         % d1 implementation adjusts the width as needed
-+         0 0 0 0 0 0
-+         pdfopdict /d1 get exec
-+       } ifelse
-+       end end
-+-    } bdef
-++    } executeonly bdef
-+     dup currentdict Encoding .processToUnicode
-+     currentdict end .completefont exch pop
-+ } bind executeonly odef
-+@@ -2103,9 +2106,9 @@ currentdict /CMap_read_dict undef
-+           (Will continue, but content may be missing.) = flush
-+         } ifelse
-+       } if
-+-    } if
-++    } executeonly if
-+     /findresource cvx /undefined signalerror
-+-  } loop
-++  } executeonly loop
-+ } bind executeonly odef
-+ 
-+ /buildCIDType0 {	% <CIDFontType0-font-resource> buildCIDType0 <font>
-+diff --git a/Resource/Init/pdf_main.ps b/Resource/Init/pdf_main.ps
-+index 5305ea6..a59e63c 100644
-+--- a/Resource/Init/pdf_main.ps
-++++ b/Resource/Init/pdf_main.ps
-+@@ -2749,15 +2749,15 @@ currentdict /PDF2PS_matrix_key undef
-+           .setglobal
-+           pdfformaterror
-+         } executeonly ifelse
-+-      }
-++      } executeonly
-+       {
-+         currentglobal //pdfdict gcheck .setglobal
-+         //pdfdict /.Qqwarning_issued //true .forceput
-+         .setglobal
-+         pdfformaterror
-+       } executeonly ifelse
-+-    } if
-+-  } if
-++    } executeonly if
-++  } executeonly if
-+   pop
-+   count PDFexecstackcount sub { pop } repeat
-+   (after exec) VMDEBUG
-+diff --git a/Resource/Init/pdf_ops.ps b/Resource/Init/pdf_ops.ps
-+index 285e582..6c1f100 100644
-+--- a/Resource/Init/pdf_ops.ps
-++++ b/Resource/Init/pdf_ops.ps
-+@@ -186,14 +186,14 @@ currentdict /gput_always_allow .undef
-+         .setglobal
-+         pdfformaterror
-+       } executeonly ifelse
-+-    }
-++    } executeonly
-+     {
-+       currentglobal //pdfdict gcheck .setglobal
-+       //pdfdict /.Qqwarning_issued //true .forceput
-+       .setglobal
-+       pdfformaterror
-+     } executeonly ifelse
-+-  } if
-++  } executeonly if
-+ } bind executeonly odef
-+ 
-+ % Save PDF gstate
-+@@ -440,11 +440,12 @@ currentdict /gput_always_allow .undef
-+   dup type /booleantype eq {
-+     .currentSMask type /dicttype eq {
-+       .currentSMask /Processed 2 index .forceput
-++    } executeonly
-++    {
-++      .setSMask
-++    }ifelse
-+   } executeonly
-+   {
-+-      .setSMask
-+-  }ifelse
-+-  }{
-+   .setSMask
-+   }ifelse
-+ 
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-index fcc9e0099e..349c0c2e8b 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-@@ -25,6 +25,9 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://do-not-check-local-libpng-source.patch \
-                 file://avoid-host-contamination.patch \
-                 file://mkdir-p.patch \
-+                file://CVE-2019-14811-0001.patch \
-+                file://CVE-2019-14817-0001.patch \
-+                file://CVE-2019-14817-0002.patch \
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
--- 
-2.20.1
-
-
+--_000_33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E403G08CNEXMBPEKD01_--
