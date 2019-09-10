@@ -1,55 +1,25 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id A1CEF7F323
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BDF871B1D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 15:43:08 +0000 (UTC)
-Received: (qmail 7629 invoked by uid 1003); 10 Sep 2019 15:43:14 -0000
-Received: from unknown (HELO ?192.168.11.139?)
-	(philip@opensdr.com@73.152.143.112)
-	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
-	10 Sep 2019 15:43:14 -0000
-References: <A084970538D2234B96D99D06FA9D974FCA8EB423@ALA-MBD.corp.ad.wrs.com>
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	mQENBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAG0JVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz6JAT4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4Yxi5AQ0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAYkBJQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-X-Forwarded-Message-Id: <A084970538D2234B96D99D06FA9D974FCA8EB423@ALA-MBD.corp.ad.wrs.com>
-Message-ID: <a12c7a10-ee8c-0105-b7ef-36288c15f98f@balister.org>
-Date: Tue, 10 Sep 2019 11:43:08 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Tue, 10 Sep 2019 20:45:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8AKj3q2029893
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Sep 2019 13:45:03 -0700 (PDT)
+Received: from fidler.wrs.com (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 10 Sep 2019 13:45:01 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Sep 2019 16:44:43 -0400
+Message-ID: <20190910204445.21958-2-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190910204445.21958-1-Randy.MacLeod@windriver.com>
+References: <20190910204445.21958-1-Randy.MacLeod@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <A084970538D2234B96D99D06FA9D974FCA8EB423@ALA-MBD.corp.ad.wrs.com>
-Subject: [yocto] Yocto Project Summit 2019 - CFP Open
+Subject: [PATCH 2/4] valgrind: make a few more ptests pass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,106 +32,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 15:43:09 -0000
-X-Groupsio-MsgNum: 128950
-Content-Type: multipart/mixed; boundary="------------CDE14248713FA2C306A10941"
-Content-Language: en-MW
-
---------------CDE14248713FA2C306A10941
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Tue, 10 Sep 2019 20:45:02 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Just a reminder we are looking for talks for the Yocto Project Summit
-after ELCE. On Day 2 there is a parallel track with one session being
-dedicated to an OpenEmbedded Developer Meeeting. Please sign up here if
-you plan to attend and we are also collecting topics for discussion.
+Adjust two memcheck vgtest files to deal with relative paths
+that are in test executables when cross-compiling.
+Add libgomp to enable OpenMP tests.
+Add the bz2 executable for memcheck/tests/vcpu_bz2.
 
-https://www.openembedded.org/wiki/OEDEM_2019
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+---
+ ...ust-path-filter-for-2-memcheck-tests.patch | 40 +++++++++++++++++++
+ .../valgrind/valgrind_3.15.0.bb               |  5 ++-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-adjust-path-filter-for-2-memcheck-tests.patch
 
-And please submit talks for the first day, we really want to see new
-faces talking!
-
-Philip
-
-
--------- Forwarded Message --------
-Subject: [yocto] Yocto Project Summit 2019 - CFP Open
-Date: Thu, 29 Aug 2019 23:24:03 +0000
-From: Volosincu, Andreea S <andreea.volosincu@windriver.com>
-To: Yocto list discussion <yocto@yoctoproject.org>
-
-Yocto Project is pleased to announce the Yocto Project Summit 2019, a
-technical conference for engineers, open source technologists, students
-and academia in the OSS space.
-
-Organized in conjunction with ELCE 2019, this 2-day event is where
-individuals will learn about Yocto Projects' direction - including, but
-not limited to, new releases, development tools, features - get training
-on the next wave of embedded Linux technologies (segment previously
-known as Yocto Project Developer Day), and network with their industry
-peers, Yocto Project maintainers and experts.
-
-DATE: Thursday, October 31 - Friday, November 1, 2019
-TIME: 9:00 am - 5:00 pm
-LOCATION: Lyon Convention Center
-REGISTRATION: Together with your ELCE
-registration<https://www.cvent.com/Events/Register/RegNumConfirmation.aspx?e=66d78d44-9d3c-4c92-85fa-a87ef8e8b62b>
-EVENT PAGE: https://www.yoctoproject.org/yocto-project-summit-2019-2/
-
-The CFP is currently open.
-CFP Closes: 11:59 PM PST on Monday, September 16
-CFP Notifications: Monday, September 23
-Schedule Announcement: Thursday, September 30
-Slide Due Date: Monday, October 21
-
-CFP list of topics:
-
-?  DevTool
-
-?  Layer quality: e.g. creating robust layers, safely using existing layers
-
-?  Future languages (e.g. Rust)
-
-?  Productivity tricks and tools
-
-?  Security
-
-?  Reproducibility
-
-?  Init systems: pros and cons, selection, configuration
-
-?  Leveraging the new runqueue optimizations for mirrors, reproducible
-builds
-
-?  Supporting the Application Developer
-
-?  DevOps
-
-?  Working with/creating BSPs
-
-?  Practical use of the Yocto Project
-
-Submit your proposals at
-conferences@yoctoproject.org<mailto:conferences@yoctoproject.org>
-
-Best regards,
-Yocto Project Advocacy Team
-
-
-
-
---------------CDE14248713FA2C306A10941
-Content-Type: text/plain; charset=UTF-8;
- name="Attached Message Part"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="Attached Message Part"
-
---=20
-_______________________________________________
-yocto mailing list
-yocto@yoctoproject.org
-https://lists.yoctoproject.org/listinfo/yocto
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-adjust-path-filter-for-2-memcheck-tests.patch b/meta/recipes-devtools/valgrind/valgrind/0001-adjust-path-filter-for-2-memcheck-tests.patch
+new file mode 100644
+index 0000000000..a93fe92c9e
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/0001-adjust-path-filter-for-2-memcheck-tests.patch
+@@ -0,0 +1,40 @@
++From bf63e35c3036e6040c8cfecabc7160b1f36b0591 Mon Sep 17 00:00:00 2001
++From: Randy MacLeod <Randy.MacLeod@windriver.com>
++Date: Wed, 28 Aug 2019 12:31:15 -0400
++Subject: [PATCH] adjust path filter for 2 memcheck tests
++
++Test executables produced when cross-compiling can contain
++relative paths such as:
++   coregrind/tests/../../../valgrind-3.15.0/coregrind/
++Use the --fullpath-after option to match and therefore
++suppress more of the prefix to enable test to pass.
++
++Inappropriate [embedded specific]
++
++Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
++---
++ memcheck/tests/badfree3.vgtest | 2 +-
++ memcheck/tests/varinfo5.vgtest | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/memcheck/tests/badfree3.vgtest b/memcheck/tests/badfree3.vgtest
++index 3dfc5fd8a..57eec21f3 100644
++--- a/memcheck/tests/badfree3.vgtest
+++++ b/memcheck/tests/badfree3.vgtest
++@@ -1,3 +1,3 @@
++ prog: badfree
++-vgopts: -q --fullpath-after=memcheck/ --fullpath-after=coregrind/
+++vgopts: -q --fullpath-after=/valgrind-3.15.0/memcheck/ --fullpath-after=/valgrind-3.15.0/coregrind/
++ stderr_filter_args: badfree.c
++diff --git a/memcheck/tests/varinfo5.vgtest b/memcheck/tests/varinfo5.vgtest
++index 063d00dce..6907bb2f6 100644
++--- a/memcheck/tests/varinfo5.vgtest
+++++ b/memcheck/tests/varinfo5.vgtest
++@@ -1,3 +1,3 @@
++ prog: varinfo5
++-vgopts: --fullpath-after=memcheck/  --fullpath-after=coregrind/ --read-var-info=yes --read-inline-info=yes -q
+++vgopts: --fullpath-after=/valgrind-3.15.0/memcheck/  --fullpath-after=/valgrind-3.15.0/coregrind/ --read-var-info=yes --read-inline-info=yes -q
++ stderr_filter: filter_varinfo3
++-- 
++2.22.0
++
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+index 7bb6001d90..bf0ca57c93 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+@@ -38,6 +38,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+            file://0001-Return-a-valid-exit_code-from-vg_regtest.patch \
+            file://0001-valgrind-filter_xml_frames-do-not-filter-usr.patch \
+            file://0002-valgrind-adjust-std_list-expected-output.patch \
++           file://0001-adjust-path-filter-for-2-memcheck-tests.patch \
+            "
+ SRC_URI[md5sum] = "46e5fbdcbc3502a5976a317a0860a975"
+ SRC_URI[sha256sum] = "417c7a9da8f60dd05698b3a7bc6002e4ef996f14c13f0ff96679a16873e78ab1"
+@@ -109,7 +110,7 @@ RDEPENDS_${PN} += "perl"
+ # redirect functions like strlen.
+ RRECOMMENDS_${PN} += "${TCLIBC}-dbg"
+ 
+-RDEPENDS_${PN}-ptest += " bash file perl perl-module-file-glob procps sed ${PN}-dbg"
++RDEPENDS_${PN}-ptest += " bash file libgomp perl perl-module-file-glob procps sed ${PN}-dbg"
+ RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
+ 
+ # One of the tests contains a bogus interpreter path on purpose.
+@@ -158,6 +159,8 @@ do_install_ptest() {
+     cp ${B}/config.h ${D}${PTEST_PATH}
+     mkdir ${D}${PTEST_PATH}/perf
+     cp ${B}/perf/bigcode ${D}${PTEST_PATH}/perf
++    # needed by memcheck/tests/vcpu_bz2
++    cp ${B}/perf/bz2 ${D}${PTEST_PATH}/perf
+ 
+     # Hide then restore a.c that is used by ann[12].vgtest in call/cachegrind
+     mv ${D}${PTEST_PATH}/cachegrind/tests/a.c ${D}${PTEST_PATH}/cachegrind/tests/a_c
+-- 
+2.22.0
 
 
---------------CDE14248713FA2C306A10941--
