@@ -1,52 +1,53 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 06AB47F346
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 36B3F7F346
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 12:41:24 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id d15so11445922pfo.10
+	Tue, 10 Sep 2019 12:41:30 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id f19so8543164plr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 05:41:26 -0700 (PDT)
+	Tue, 10 Sep 2019 05:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=XCX/K7ZRVk1OQXorngajekpBfDKGhkHT5nX+BPggqpU=;
-	b=WRu0vMxyO4K604AQoD6KG+UtaoLgk/3/LRzvh8ncXmZg0qlKSlW3uRi9/fTx6E05EE
-	FMAuZNt9L+hdsqr6bebgTxhfMfTBRBSIV54OWM//CsDv6znQKBJEpER+Y9qeLxQN4uqw
-	TTQjjaUp8BxzvE45AgzjyFx8ToX2SLy1b99JGkYZisxcDeES8IViy+RtdtYoJbNbCtJ+
-	Dg0aE3e47q6v30NixWz7RtMg7Eo0f4bfDwyNRUeSXJ6j3t7d5E9DGMNWL+DKHyyUmaz/
-	w0yhp8sIi/mqE4GZup1CliYL38wC5OHBjfnOCs8+0g6CKrWrwkmkHIJmVSKCidYxwNEF
-	em7g==
+	bh=wiyplDhKz9WUdV4JGBJbe8cLMQSmuREO1j5BIFy8/AI=;
+	b=M21QHC+x/adylm6PnFLd4Fse1pn6AVUdIeBCyGBB8b4lE3CD+2w5wDVziYbg7P6pVY
+	/U3jutsURmoDKoLyyH10sJ+/K2p9tTeX7OFNNQZo4uKsma0hhvzKwh4NTbcdRa2lEjeS
+	uCXdKfnIAganJuXusvA9LpvWSwtRYKacxLpwxeedgSOVuwK0AXXn5cf7wM0LI7A9qf2F
+	L9eeUhL48U8XoJ5jdPzYx5dbCoEClGnUOAX27T4y8oqmKyyh8VO9537X6ChvAeGrqoNR
+	gZy9U/lNTZygjD2M0yosHxBmG4gUjXoc/+kqU/FERZENMjAqJRZgM9oTo39lli4tedgs
+	/9BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=XCX/K7ZRVk1OQXorngajekpBfDKGhkHT5nX+BPggqpU=;
-	b=VMvD8SK+5hRkt7BCYNzY4xPXuQ7i6GTgX8IfFLWN/0mVxe4qvEaxFl2g4lxV0dztfc
-	hImSQUWu1ll7Or3Oo97qHytHGELqzJexzXuhWLju8VJNb+zLA5BlHJz0mfLSjVSxo2NC
-	s5y/wPtBwz0mWnUJMw/ZjXxaNUgGyl5RdDE2l5Wztw2BhifGpvSGXEE8Noc31IQiBAbM
-	6z+a23BPLiYOqPf01Av2EdirXAVy8K8U+YZGyaILIjK+XEQFW2lkyMpf4dNj/reogQtN
-	2wcuLAuGL+XMzbSG9Qd/6yne8d1lWVhv7IjLhTGfLWWofAovLJzOXrJjSLbF4yZnq9MS
-	xHmQ==
-X-Gm-Message-State: APjAAAX8JACXK5QM5hhT4InVLJYufTYpAmtTHCl8J5D9D4hwixUoBsMR
-	/tsLAQ5Nx695c3ZoCBsAOC82lQ==
-X-Google-Smtp-Source: APXvYqwerhttpz0UM5UqX5c/yhRsQTOviVwsPyccGsDATrDIyT4nCONqJ2lzluzBTMdFWSxriAsqJQ==
-X-Received: by 2002:a63:2349:: with SMTP id u9mr24838230pgm.214.1568119286019; 
-	Tue, 10 Sep 2019 05:41:26 -0700 (PDT)
+	bh=wiyplDhKz9WUdV4JGBJbe8cLMQSmuREO1j5BIFy8/AI=;
+	b=IO98fPME7Sbify0HbucKv4T+CbLgl42niV8gBV5jcL2rCouIpUNxfvXUKptkw6MTJV
+	whsRlToEgZfhwIINdNwkhMLgrI38uuz8Ym7mcJCxDb6znoE39DS1ksz8n6gXhMYwaJV8
+	WRwmMoGJkRq8XP9SJQ/RexG8mGF7H06uuKnatDzemLT0GLI7uzdagixF6OcZh/XSR7JB
+	dsxaIfU3oPvFT0BUpQoh4t/XJ7P176dSRKRZO5+cHGO7BaEm/n1bD5ARAopHWgBdrOpZ
+	eFQRqE+tPoMCmjwY9H3KbneYFKYsdnYSjVl/BG//ZxSBQslFZNqoPKbvGjb4lLGStweE
+	j6lQ==
+X-Gm-Message-State: APjAAAVzPUeDjTiNlBNlgPMnr1BD88eop45HG+j1XBc7UWbufpt2pT8r
+	5Ljo52pqtCmtEM2E6amNJSxmEw==
+X-Google-Smtp-Source: APXvYqwv3KjcalW91iYMi3+QKZSlBv9UTAO2GjAo0sa48rmOExR3U2f82GUFhgIJ79ngPa3cf91F0A==
+X-Received: by 2002:a17:902:b605:: with SMTP id
+	b5mr31113709pls.103.1568119291198; 
+	Tue, 10 Sep 2019 05:41:31 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	k4sm333091pfa.95.2019.09.10.05.41.23
+	h4sm19876695pfg.159.2019.09.10.05.41.28
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Sep 2019 05:41:25 -0700 (PDT)
+	Tue, 10 Sep 2019 05:41:30 -0700 (PDT)
 Date: Tue, 10 Sep 2019 12:40:59 +0000
-Message-Id: <20190910124059.3908-4-nathan@nathanrossi.com>
+Message-Id: <20190910124059.3908-5-nathan@nathanrossi.com>
 In-Reply-To: <20190910124059.3908-1-nathan@nathanrossi.com>
 References: <20190910124059.3908-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 4/6] gcc-cross.inc: Process binaries in build dir to be relocatable
+Subject: [PATCH 5/6] oeqa/core/case.py: Add OEPTestResultTestCase for ptestresult helpers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +60,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 12:41:25 -0000
+X-List-Received-Date: Tue, 10 Sep 2019 12:41:30 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Process binaries within the build directory before stashing to be
-relocatable with ORIGIN relative rpaths. This corrects issues with
-rpaths being invalid when trying to use the binaries from an unstashed
-build directory (e.g. gcc-runtime).
+Add the OEPTestResultTestCase class as a mix-in class to provide helper
+functions for interacting with ptestresults within the extraresults
+object generated by the test case.
+
+This class also provides default compression of log text and log files.
+
+Also add support to resulttool for decoding/decompressing log files
+embedded in the test results.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-devtools/gcc/gcc-cross.inc | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/lib/oeqa/core/case.py    | 49 +++++++++++++++++++++++++++++++++++++++++++
+ scripts/lib/resulttool/log.py | 12 ++++++++++-
+ 2 files changed, 60 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-index 95af6d89a9..e20f6cb6c1 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -206,9 +206,17 @@ do_package_write_ipk[noexec] = "1"
- do_package_write_rpm[noexec] = "1"
- do_package_write_deb[noexec] = "1"
+diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
+index aca144e9dc..180635ac6c 100644
+--- a/meta/lib/oeqa/core/case.py
++++ b/meta/lib/oeqa/core/case.py
+@@ -4,6 +4,8 @@
+ # SPDX-License-Identifier: MIT
+ #
  
-+inherit chrpath
++import base64
++import zlib
+ import unittest
+ 
+ from oeqa.core.exception import OEQAMissingVariable
+@@ -49,3 +51,50 @@ class OETestCase(unittest.TestCase):
+         for d in self.decorators:
+             d.tearDownDecorator()
+         self.tearDownMethod()
 +
-+python gcc_stash_builddir_fixrpaths() {
-+    # rewrite rpaths, breaking hardlinks as required
-+    process_dir("/", d.getVar("BUILDDIRSTASH"), d, break_hardlinks = True)
-+}
++class OEPTestResultTestCase:
++    """
++    Mix-in class to provide functions to make interacting with extraresults for
++    the purposes of storing ptestresult data.
++    """
++    @staticmethod
++    def _compress_log(log):
++        logdata = log.encode("utf-8")
++        logdata = zlib.compress(logdata)
++        logdata = base64.b64encode(logdata).decode("utf-8")
++        return {"compressed" : logdata}
 +
- BUILDDIRSTASH = "${WORKDIR}/stashed-builddir"
- do_gcc_stash_builddir[dirs] = "${B}"
- do_gcc_stash_builddir[cleandirs] = "${BUILDDIRSTASH}"
-+do_gcc_stash_builddir[postfuncs] += "gcc_stash_builddir_fixrpaths"
- do_gcc_stash_builddir () {
- 	dest=${BUILDDIRSTASH}
- 	hardlinkdir . $dest
++    def ptest_rawlog(self, log):
++        if not hasattr(self, "extraresults"):
++            self.extraresults = {"ptestresult.sections" : {}}
++        self.extraresults["ptestresult.rawlogs"] = {"log" : self._compress_log(log)}
++
++    def ptest_section(self, section, duration = None, log = None, logfile = None, exitcode = None):
++        if not hasattr(self, "extraresults"):
++            self.extraresults = {"ptestresult.sections" : {}}
++
++        sections = self.extraresults.get("ptestresult.sections")
++        if section not in sections:
++            sections[section] = {}
++
++        if log is not None:
++            sections[section]["log"] = self._compress_log(log)
++        elif logfile is not None:
++            with open(logfile, "r") as f:
++                sections[section]["log"] = self._compress_log(f.read())
++
++        if duration is not None:
++            sections[section]["duration"] = duration
++        if exitcode is not None:
++            sections[section]["exitcode"] = exitcode
++
++    def ptest_result(self, section, test, result):
++        if not hasattr(self, "extraresults"):
++            self.extraresults = {"ptestresult.sections" : {}}
++
++        sections = self.extraresults.get("ptestresult.sections")
++        if section not in sections:
++            sections[section] = {}
++        resultname = "ptestresult.{}.{}".format(section, test)
++        self.extraresults[resultname] = {"status" : result}
++
+diff --git a/scripts/lib/resulttool/log.py b/scripts/lib/resulttool/log.py
+index 2352c767d9..99663772a3 100644
+--- a/scripts/lib/resulttool/log.py
++++ b/scripts/lib/resulttool/log.py
+@@ -5,6 +5,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ import os
++import base64
++import zlib
+ import resulttool.resultutils as resultutils
+ 
+ def show_ptest(result, ptest, logger):
+@@ -25,6 +27,9 @@ def show_reproducible(result, reproducible, logger):
+         print("reproducible '%s' not found" % reproducible)
+         return 1
+ 
++def decode_compressed_log(logdata):
++    data = base64.b64decode(logdata.encode("utf-8"))
++    return zlib.decompress(data).decode("utf-8")
+ 
+ def log(args, logger):
+     results = resultutils.load_resultsdata(args.source)
+@@ -39,6 +44,7 @@ def log(args, logger):
+             if 'ptestresult.sections' in r:
+                 for name, ptest in r['ptestresult.sections'].items():
+                     if 'log' in ptest:
++                        logdata = ptest['log']
+                         dest_dir = args.dump_ptest
+                         if args.prepend_run:
+                             dest_dir = os.path.join(dest_dir, run_name)
+@@ -48,7 +54,11 @@ def log(args, logger):
+                         dest = os.path.join(dest_dir, '%s.log' % name)
+                         print(dest)
+                         with open(dest, 'w') as f:
+-                            f.write(ptest['log'])
++                            if isinstance(logdata, str):
++                                f.write(logdata)
++                            elif isinstance(logdata, dict):
++                                if "compressed" in logdata:
++                                    f.write(decode_compressed_log(logdata.get("compressed")))
+ 
+         if args.raw_ptest:
+             if 'ptestresult.rawlogs' in r:
 ---
 2.23.0.rc1
 
