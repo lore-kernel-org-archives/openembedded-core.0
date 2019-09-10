@@ -1,52 +1,54 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
-	[209.85.222.54])
-	by mail.openembedded.org (Postfix) with ESMTP id E95AD7F346
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EDC567F32C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 13:18:18 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id 107so5541096uau.5
+	Tue, 10 Sep 2019 13:59:41 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id i78so17074127qke.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 06:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 10 Sep 2019 06:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YWu7BTyD2XFGTKcIDDpd6cTTUmmVuoOBR9uSmUclzEs=;
-	b=g9cMpBc0mTetgGwJzDMwHhL63rh+MipRnE/XKQrk9LTqwZqoqJb6jiIYpwRQIIg6r9
-	OjrPBAp2thwV2ClDoQ7nKBI6Pg882s1ksmAZegjO9Rt9m1nFYdf5vf8vztLSN1GCWepd
-	SQD9CP8NCohjaX3MYvBTuKRtwhz4lbH2cDMCdPY5UosincpQJJkX8BWrQNH5B6Nt8phO
-	qaoN5hbA0i4ui6lgmwKqdpX13BaSiEGFp7a5PyQnnqhmTl1WiV7hkYc4RZlpjOuhc1Vk
-	fOzDI93TyD8dIFZ/FpDRwRYD0zfVUxk8tlzsaGFDI2daXaeddxwMUMJ/PbA3Mh2Tk04q
-	4fTQ==
+	:cc; bh=lZl52gbQYXklNTOb6mB84ro3fGte7NIFQYThYJARjFQ=;
+	b=EN3FyZ8W/kZ+SsdpsDAwBULR/NoCsEfCG5ehccs2JautJmsGlAJnGF7fAtD1dIrjuB
+	kFtRX3qTv1CNJJuxyN7/TPLD/MhAPxTGXL3zm7suHR4fOu0+SMaFUTSC7CsnIbbb2QT2
+	JNpNZu4gcpd9W59bjuYR26jIB6R/8HXbQt8TgfFpNMggQSFvEJZpScwkXsUNf8cq2IoA
+	8GqBEo/71qFKDK+Tqn1R7DA5rKB3h/iHURRSRouIXZFpFMvR+KIjr3G/KsTk/0fu5RH5
+	ukdc34RLhGsunn358oYG3VaXfx4SnF+cxT5XiKSxHON9SbTirEbuMc37zHW01cq20T8Z
+	Shxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=YWu7BTyD2XFGTKcIDDpd6cTTUmmVuoOBR9uSmUclzEs=;
-	b=iwq1QZPrtv75o9jjOpNdBNsX/1RLndqaXgm+kn1zAMw5r/A26sEKdMu2CrXw1omZur
-	JZSjb91n1obQOv8NpuuTriY9ThY96iYIb4NXZYKK9FhgrzHUYuGuJFQu+mNf2JADm6RW
-	npUNQ3qgK38jYSa6SmyRl5d0cdPePpfbaqAkAaaKH4zGG4Jp1xDaRP6tVaWBqAmBpRlB
-	RpqnavVDWYNXZf4eEoz154+KpIcKBkMjspVBgz6jEpQE1o8SpuxWxE4Bze0oDGKFevys
-	pu59EybGrK+nl848ULdwdlrFA4ILIhcNfxtDyqfFP7+dyASZuekMzBKq7FX48lRG8jae
-	M4bA==
-X-Gm-Message-State: APjAAAWT23oaV2lf/nWvBSAqrfrJeme4/OQMW+JG1b+qUP9vFVQyoibO
-	/SV6jwmKCBT7MAGiBxcs9e9y1NIzIqr/TtqaD1Xnzw==
-X-Google-Smtp-Source: APXvYqzq7B0hnrXpN5p4FLIekLVbnoo1fVQtcRmT7N6T7Jpxcz659Aossf8WZh8WatJzwSTyzPDZEY+EM/X4Ne2P4F8=
-X-Received: by 2002:ab0:e19:: with SMTP id g25mr13160342uak.71.1568121499571; 
-	Tue, 10 Sep 2019 06:18:19 -0700 (PDT)
+	bh=lZl52gbQYXklNTOb6mB84ro3fGte7NIFQYThYJARjFQ=;
+	b=WmP3koWVT399r63vGtNwFuD/fheqj7y6zLVhmuwTab3+xCqzBSHJ7PPZkT4qEj4FX/
+	ajqNVpSC9ltfvVcrLGj1Wx2h8g5kPsO5hIXk/vtMtcsjVWOH5ln2UTYuJfMz7TTO5mWu
+	cKVta98xNpd6IM+bQMzAUKC+S7lyc/NJdDQKv6cwgBKy7DMTsYhveYmim882GSmqHO5X
+	6lldMJc14eFaz+1hgbU1XGKvbV7dJ/10oeCiobdHESLhsp4AVToCjzHT5h5N0GcAyYoL
+	e3lcNFbF+Og6tG1sZQ/Sgez1VaBkaL4l2ddPMDB8IuBwZ2lpv01bdOnXc+BZ+PgfxXy2
+	FGTQ==
+X-Gm-Message-State: APjAAAXujfMzF0dhtipFdWIH9zvEQPfOO7JwgbSlBe2DOKhbaNgOgaEo
+	WNg97OxQ2R+KF0fRkycPGHsDRzd7Ni13xk5vmmOMkw==
+X-Google-Smtp-Source: APXvYqw08LoQI6mKusOjNWoUqjyWbnbZnqL9LTDWFg/00spoY4XHVLDKgnnRFMMtkKEwGt4QtIe8hCykmqNXeN3ZFNE=
+X-Received: by 2002:a37:6789:: with SMTP id
+	b131mr28730996qkc.314.1568123982600; 
+	Tue, 10 Sep 2019 06:59:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <1568026619-117196-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CANNYZj8kH3Oqp_ac8BsRCRpT4qEqnCg3VYk0LFW4vnkGxnoF9A@mail.gmail.com>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E199@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<CANNYZj_OBagcWxfBb0yF80Jr=CmhPg_FND5-V6ze4a4qFWYOyA@mail.gmail.com>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E403@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<CANNYZj-KCVLR2zTNgu-KywKoyRteOk7sn1N0ArMguAENNPLgig@mail.gmail.com>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E517@G08CNEXMBPEKD01.g08.fujitsu.local>
-In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E517@G08CNEXMBPEKD01.g08.fujitsu.local>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 10 Sep 2019 15:18:08 +0200
-Message-ID: <CANNYZj9M7kUqP_5XGqYgb-uyMqcf=o-usSUa+hNr2YBzWnaH=g@mail.gmail.com>
-To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rpm: make rpm work in toolchain.
+References: <20190906184727.552-1-fabio.berton@ossystems.com.br>
+	<CANNYZj8jseQc9Lnt8r1SuDdh4q_xUJy5FkpUukpLzUbVn5vW2g@mail.gmail.com>
+	<a74c7fb7-451c-094a-36a3-49b62c66d742@intel.com>
+	<CANNYZj-2tw_kkoj7OqwhbBggFE7dvZ7dv0FhmsVuA2vOWQBf-A@mail.gmail.com>
+	<ac6643d7-da5a-0ec7-799b-06083b728381@intel.com>
+	<CANNYZj_oMcEekZoLJ+2vsGc7UgOETJppY1UZ9jDj8z86PeSnXQ@mail.gmail.com>
+In-Reply-To: <CANNYZj_oMcEekZoLJ+2vsGc7UgOETJppY1UZ9jDj8z86PeSnXQ@mail.gmail.com>
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Date: Tue, 10 Sep 2019 10:59:26 -0300
+Message-ID: <CAAPZna02yCZxxG3Y1_St-G6mq2wJr5tJxyEzyN-f4E97M=-yNw@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: Upgrade 19.1.1 -> 19.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,103 +61,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 13:18:19 -0000
-Content-Type: multipart/alternative; boundary="000000000000f25a73059232bc9c"
-
---000000000000f25a73059232bc9c
+X-List-Received-Date: Tue, 10 Sep 2019 13:59:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 10 Sep 2019 at 13:56, Zheng, Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
+Adding python3-native doesn't work.
 
-> 3. Actually, my first plan  is to write ${MACHINE_ARCH} in toolchain, but
-> it was rejected
->
-> +++ b/meta/classes/toolchain-scripts.bbclass
->
-> @@ -101,6 +101,7 @@ toolchain_shared_env_script () {
->
->         echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
->
->         echo 'export KCFLAGS="--sysroot=$SDKTARGETSYSROOT"' >> $script
->
->         echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
->
-> +       echo 'export MACHINE_ARCH=${MACHINE_ARCH}' >> $script
->
->         echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
->
->
->
-> I guess if it can work, maybe post-relocate-setup.d/ facility will be
-> usefull.
->
+Hmm... it seems that adding "export STAGING_LIBDIR =
+"${STAGING_LIBDIR_NATIVE}"" and removing python3 from DEPENDS worked.
 
-What I would like to avoid is placing rpm-specific things into SDK recipes
-that have nothing to do with rpm. So please investigate
-post-relocate-setup.d/, and if it is not good enough, we can perhaps extend
-it.
+Alexander, I don't know what is the best way to do this, maybe you can
+help here.
 
-Alex
+Thanks!
 
---000000000000f25a73059232bc9c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, Sep 10, 2019 at 7:40 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> On Tue, 10 Sep 2019 at 11:50, Ross Burton <ross.burton@intel.com> wrote:
+>>
+>> On 09/09/2019 19:41, Alexander Kanavin wrote:
+>> > and find_installation() method of meson does not merely look for the
+>> > native python binary, it runs the binary with a meson-supplied python
+>> > script designed to obtain all sorts of information, including
+>> > target-specific things that we patch native python to report. If the
+>> > target python installation is not present in sysroot, the script will
+>> > fail, and meson will declare that 'there is no valid installation of
+>> > python on your system'.
+>>
+>> So the python3-native pokes around the target python3 to get the right
+>> values?
+>
+>
+> Yes, if STAGING_LIBDIR is set, via this patch:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
+>
+> (don't shoot the pianist, it was working like this pre-rewrite as well).
+>
+> Alex
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 10 Sep 2019 at 13:56, Zheng, Ruoq=
-in &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fujit=
-su.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-
-
-
-
-
-<div lang=3D"EN-US">
-<div class=3D"gmail-m_7704774913935399707WordSection1"><span style=3D"font-=
-size:11pt;font-family:&quot;Calibri&quot;,sans-serif">3. Actually, my first=
- plan =C2=A0is to write
-</span><span style=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-s=
-erif">${MACHINE_ARCH} in toolchain, but it was rejected</span><span style=
-=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-serif"></span>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">+++ b/meta/classes/toolchain-scripts.bbclass<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">@@ -101,6 +101,7 @@ toolchain_shared_env_script () {<=
-u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;=
-export CPPFLAGS=3D&quot;${TARGET_CPPFLAGS}&quot;&#39; &gt;&gt; $script<u></=
-u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;=
-export KCFLAGS=3D&quot;--sysroot=3D$SDKTARGETSYSROOT&quot;&#39; &gt;&gt; $s=
-cript<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;=
-export OECORE_DISTRO_VERSION=3D&quot;${DISTRO_VERSION}&quot;&#39; &gt;&gt; =
-$script<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;expor=
-t MACHINE_ARCH=3D${MACHINE_ARCH}&#39; &gt;&gt; $script<u></u><u></u></span>=
-</p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;=
-export OECORE_SDK_VERSION=3D&quot;${SDK_VERSION}&quot;&#39; &gt;&gt; $scrip=
-t<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
-bri&quot;,sans-serif">I guess if it can work, maybe
-</span>post-relocate-setup.d/ facility will be usefull.<span style=3D"font-=
-size:11pt;font-family:&quot;Calibri&quot;,sans-serif;color:rgb(31,73,125)">=
-<u></u><u></u></span></p>
-</div></div></blockquote><div><br></div><div>What I would like to avoid is =
-placing rpm-specific things into SDK recipes that have nothing to do with r=
-pm. So please investigate post-relocate-setup.d/, and if it is not good eno=
-ugh, we can perhaps extend it.</div><div><br></div><div>Alex<br></div></div=
-></div>
-
---000000000000f25a73059232bc9c--
