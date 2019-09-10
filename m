@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
-	[209.85.221.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E552A6D4B6
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
+	[209.85.222.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CE92F6D4B6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 10:39:50 +0000 (UTC)
-Received: by mail-vk1-f176.google.com with SMTP id 70so2525959vkz.8
+	Tue, 10 Sep 2019 10:53:18 +0000 (UTC)
+Received: by mail-ua1-f66.google.com with SMTP id w16so5376330uap.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 03:39:52 -0700 (PDT)
+	Tue, 10 Sep 2019 03:53:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=W+C2p8F9WUjtM46dFKRU1TmX7XVz9F0h+G/VlT/Kd7M=;
-	b=lgywcKsp5tABfwpfOsYG3lp6/NihM092VEAblfi/gB4Q4PhrWzsykVeVk+lnCyx88s
-	1VUSUJ84FN1NY34wyvfWs9+srfps6nh5o1Hxhq/OaE5ZayVjvsBxV7D32+8kO2gpgS95
-	qg7LdY8tLAlG7reqTix4NuQJlEzoTTcgL5ebLSH6lBHXsdauH4xpimxsmWU+/JsnQ1SO
-	CAh/sWhfHicEdokSRC425QtH44giwImXaSHRDC/MpjgIQiWfGzbp3+9hU32xQ4G7BcII
-	j5iWt3Y1hRNrcemJ+on5cEPnBlCvS6hJEFjPU0egNGv/YPebSQzRN+UOmnzJOleVH4kM
-	hC1w==
+	:cc; bh=7YTAqBSbLYYae7R1CP00SpHcI6VDpyfhfZzMkm30xtU=;
+	b=tup2Akl2xjdz0esawzT8AYvuVjBa5rb7vHQAY9jkjoeatJaI6ykUfo63DxPm9p6zzw
+	YCFgUF91r+1Xyvfj4syOfbxlCtFi/+8JKf51JIlZERgcXPILqblaBlOkP+n76q/TsiEU
+	9YGL+pV3JNhF/2xrkH0ExS6Cx2JqbmghB9vB+j++OJzi5ZeweLmfCy/+CfKxDIsM7MtQ
+	Jf8YyOrFrL2DvtAu3io8/iRFGyLL4a1lb0ucyOtJuVm40E+dLBwv9v8WBt9YrrJRf9Je
+	ruVzoldZ/Lr6ucCIwZB4MRvIs7tNsZa//sS2w4g2olu78gTxYwF9bWyrQnmaVaVum/Zp
+	dBPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=W+C2p8F9WUjtM46dFKRU1TmX7XVz9F0h+G/VlT/Kd7M=;
-	b=cL/F3O2yZH/mGfwKV8qEHioS/oapmurePtKBS6JE1cA0P+l0VDgo6GhFkTm4SNnHVh
-	tyRFhsCEQ4VAWf6z11kBxop4Y++WZ05lQpS6HVyLPh16fZHDFHQsYPAimAXhmq3DvbeQ
-	TXp1SnMWMQBCrU63xbjveKPi1iKUM7I1SfkMDI/wXqpO3KoR4ZEhJ78TqXycMGYSR3u8
-	cnan1/edZsWhqdHZFw3lk43ZJIJLOEmUTq77eu1YcLz+1z7Y2QDUqutjTDHhT5zIEkue
-	2NmivDhnJ/UF0ujEo/FBEdRjfAHC3Hqg8qR+lVBC8aZUsAGJ9cBdLSnQo5rweZUcPnIf
-	EcJw==
-X-Gm-Message-State: APjAAAWAOfQB416PYBvsfMM72UEmji92pXHhgGp8WVCnL5uWJRCbDfeM
-	6M507nTsyyyhquAIHj6vqQtHgYezU8sGfVgw1k3G4UXE
-X-Google-Smtp-Source: APXvYqx+O/WZhY1rlK5gfcFSPug+caojBSAZUmUQMfD6vt+bmfKk38HDO19zZXIn/WAmLpx0KaBqajs1GEXR9lTO9yk=
-X-Received: by 2002:ac5:c5ba:: with SMTP id f26mr13227704vkl.32.1568111991612; 
-	Tue, 10 Sep 2019 03:39:51 -0700 (PDT)
+	bh=7YTAqBSbLYYae7R1CP00SpHcI6VDpyfhfZzMkm30xtU=;
+	b=ngIq/AxBgQu+aFFM/My9hqLnw+pigNthEv9vn9jrMMph6buxtpH3mziwEO3xnyPZEE
+	OSbO8OIWBvAETft4Cw5a8caNelZUfytCXasm7XZ2AOTw9t1C+M5Py01fCWPUcs0rsvZm
+	G9XgfuRe3n/i4vDebJhZr17Hrt1pdF3HlTZLS+V1oNy+dJoXS0Us4i2199HhhtQGnB5G
+	bJ1WWij8uz1WReYIGRvW4RkbPMgHItr1zc2R0dPQ+MA5knSt78Iy6+CtvXM7yVu2BYJx
+	75o/2guX9MVbdpYPHmT3raD5i7P+KEoWbSDzK2C3gClJi+B4SlRVVgPK2EupykhpFI7d
+	wXgA==
+X-Gm-Message-State: APjAAAU/7LJ5E1k51fuWfQo/7/P7xO2lQ4AijvCF8OBh97k+mksTv4Hs
+	XF10fGZLj/YkLbi/Xg1YkbsOLK9zioEckkASaangNbe7
+X-Google-Smtp-Source: APXvYqy4smHW7tAHYXGaKgZOP2ceDOi7YunzbIwNh9gjAlRs9F3CKTrZXP25Xztvluyn5+W5YQLP+N/owmMx2LiPhug=
+X-Received: by 2002:ab0:6601:: with SMTP id r1mr13871679uam.100.1568112799420; 
+	Tue, 10 Sep 2019 03:53:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190906184727.552-1-fabio.berton@ossystems.com.br>
-	<CANNYZj8jseQc9Lnt8r1SuDdh4q_xUJy5FkpUukpLzUbVn5vW2g@mail.gmail.com>
-	<a74c7fb7-451c-094a-36a3-49b62c66d742@intel.com>
-	<CANNYZj-2tw_kkoj7OqwhbBggFE7dvZ7dv0FhmsVuA2vOWQBf-A@mail.gmail.com>
-	<ac6643d7-da5a-0ec7-799b-06083b728381@intel.com>
-In-Reply-To: <ac6643d7-da5a-0ec7-799b-06083b728381@intel.com>
+References: <1568026619-117196-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<CANNYZj8kH3Oqp_ac8BsRCRpT4qEqnCg3VYk0LFW4vnkGxnoF9A@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E199@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CANNYZj_OBagcWxfBb0yF80Jr=CmhPg_FND5-V6ze4a4qFWYOyA@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E403@G08CNEXMBPEKD01.g08.fujitsu.local>
+In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E403@G08CNEXMBPEKD01.g08.fujitsu.local>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 10 Sep 2019 12:39:40 +0200
-Message-ID: <CANNYZj_oMcEekZoLJ+2vsGc7UgOETJppY1UZ9jDj8z86PeSnXQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
+Date: Tue, 10 Sep 2019 12:53:08 +0200
+Message-ID: <CANNYZj-KCVLR2zTNgu-KywKoyRteOk7sn1N0ArMguAENNPLgig@mail.gmail.com>
+To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: Upgrade 19.1.1 -> 19.1.6
+Subject: Re: [PATCH] rpm: make rpm work in toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,65 +57,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 10:39:51 -0000
-Content-Type: multipart/alternative; boundary="0000000000003a6a79059230863c"
+X-List-Received-Date: Tue, 10 Sep 2019 10:53:19 -0000
+Content-Type: multipart/alternative; boundary="000000000000609841059230b664"
 
---0000000000003a6a79059230863c
+--000000000000609841059230b664
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 10 Sep 2019 at 11:50, Ross Burton <ross.burton@intel.com> wrote:
+On Tue, 10 Sep 2019 at 10:07, Zheng, Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+wrote:
 
-> On 09/09/2019 19:41, Alexander Kanavin wrote:
-> > and find_installation() method of meson does not merely look for the
-> > native python binary, it runs the binary with a meson-supplied python
-> > script designed to obtain all sorts of information, including
-> > target-specific things that we patch native python to report. If the
-> > target python installation is not present in sysroot, the script will
-> > fail, and meson will declare that 'there is no valid installation of
-> > python on your system'.
+> In last patch, I put the config file in meta-environment as its do_instal=
+l
+> task is in the target environment which means the value of ${PACKAGE_ARCH=
+S}
+> is right.
 >
-> So the python3-native pokes around the target python3 to get the right
-> values?
+> And it finally produce a nativesdk package.
+>
+>
+>
+> If I put the config file in nativesdk-rpm, the value of ${PACKAGE_ARCHS}
+> will always be =E2=80=9Call any noarch x86_64-nativesdk=E2=80=9D which is=
+ not suitable for
+> x86, arm and other ARCHS.
+>
+>
+>
+> So I=E2=80=99d like to put config file in the rpm of meta-environment. Di=
+d you
+> have any good Suggestions?
 >
 
-Yes, if STAGING_LIBDIR is set, via this patch:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
-
-(don't shoot the pianist, it was working like this pre-rewrite as well).
+You probably need to use the post-relocate-setup.d/ facility, like the
+nativesdk-meson recipe does. I am not sure if PACKAGE_ARCHS is accessible
+from it, but it does seem like the right mechanism for tweaking settings
+that are specific to nativesdk packages.
 
 Alex
 
---0000000000003a6a79059230863c
+--000000000000609841059230b664
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 10 Sep 2019 at 11:50, Ross Burton=
- &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt;=
- wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On 09/09/2019 19:41, Alexander Kanavin wrote:<br>
-&gt; and find_installation() method of meson does not merely look for the <=
-br>
-&gt; native python binary, it runs the binary with a meson-supplied python =
-<br>
-&gt; script designed to obtain all sorts of information, including <br>
-&gt; target-specific things that we patch native python to report. If the <=
-br>
-&gt; target python installation is not present in sysroot, the script will =
-<br>
-&gt; fail, and meson will declare that &#39;there is no valid installation =
-of <br>
-&gt; python on your system&#39;.<br>
-<br>
-So the python3-native pokes around the target python3 to get the right <br>
-values?<br></blockquote><div><br></div><div>Yes, if STAGING_LIBDIR is set, =
-via this patch:</div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/p=
-oky/tree/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-appe=
-nd-STAGING_LIBDIR-python-sys.patch">http://git.yoctoproject.org/cgit/cgit.c=
-gi/poky/tree/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-=
-append-STAGING_LIBDIR-python-sys.patch</a></div><div class=3D"gmail_quote">=
-<br></div><div class=3D"gmail_quote">(don&#39;t shoot the pianist, it was w=
-orking like this pre-rewrite as well).</div><div class=3D"gmail_quote"><br>=
-</div><div class=3D"gmail_quote">Alex<br></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 10 Sep 2019 at 10:07, Zheng, Ruoq=
+in &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fujit=
+su.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
 
---0000000000003a6a79059230863c--
+
+
+
+
+<div lang=3D"EN-US">
+<div class=3D"gmail-m_3065483816656345781WordSection1"><span style=3D"font-=
+size:11pt;font-family:&quot;Calibri&quot;,sans-serif">In last patch, I put =
+the config file in meta-environment as its do_install task is in the target=
+ environment which means the value of ${PACKAGE_ARCHS} is right.</span>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">And it</span>
+<span style=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-serif">f=
+inally produce a nativesdk package.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">If I put the config file in nativesdk-rpm, the value =
+of ${PACKAGE_ARCHS} will always be =E2=80=9Call any noarch x86_64-nativesdk=
+=E2=80=9D which is not suitable for x86, arm and other ARCHS.<u></u><u></u>=
+</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">So I=E2=80=99d like to put config file in the rpm of =
+meta-environment. Did you have any good Suggestions?<u></u><u></u></span></=
+p>
+</div></div></blockquote><div><br></div><div>You probably need to use the p=
+ost-relocate-setup.d/ facility, like the nativesdk-meson recipe does. I am =
+not sure if PACKAGE_ARCHS is accessible from it, but it does seem like the =
+right mechanism for tweaking settings that are specific to nativesdk packag=
+es.</div><div><br></div><div>Alex<br></div><div><br></div><div><br> </div><=
+/div></div>
+
+--000000000000609841059230b664--
