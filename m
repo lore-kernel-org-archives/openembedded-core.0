@@ -1,64 +1,51 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id AD62060111
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id D262A7F2E7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 21:45:20 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id e12so12180044oie.0
+	Tue, 10 Sep 2019 22:56:31 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id 4so10463835pgm.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 14:45:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=3nYhrXh5ykAqS74/Z7KsRs6ANHswCneAVDgb0LzWKIM=;
-	b=sa1fR3irPUB6VDtj3CKRRn6f+0hQWs2TcWy8LVvtL7yfqVMXLjdU1O+mbiTepNk8/a
-	O6+mNaUmTSv5pwXfPqC/LQEswX/vbQgk/Xs/TwbbNlaNpINxdix4XTXpVAvOrh7yIcDg
-	sBE/YIwZXsMmr25bi58ssUGkzrm0F01G4bwae1ahFYa23junIRu3tpiW00Q297DUqYjQ
-	hsNRbHpMQJzia2A1ytZDWxjgJJCO+vL+MFoOmxLoH1dt7i6539LTyS1zp1RkXIkja1vf
-	+k0hJ9zPrndH4OtQeFWB5DGlNxOegdU2gRwIfCXNnuTxYkiu6/dvLVwYrKdaj7v0GyVt
-	4wjg==
+	Tue, 10 Sep 2019 15:56:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8kO3DqOX9GeOH5XcDc699mb8QgXq9HiV4UtLork/018=;
+	b=nSgtJ16ZMjwhpRFZQGyNikHhwDpx0jka9cROKJpeWA6BXmWbvV5Id0v1miKzWkQMMc
+	ouB9mRPNV7h/GErYb1S9L0brbYbIN3aTBNFS2DkbW3rqkOxbeA5vJhSjazVbEskN1aa/
+	tN04NqUGKESoHyQVniHgk2/+7YrATS941EYKbjwWsjuxeC0CyL1oRBr9+mZo2Nnc+8Ky
+	L0quQbzvcgIvHdCdqhjBqqp1UhDs6DKDY9/8xH28eF7tlGY4NtIJlHXfkxK2yFMBpSZ1
+	YXZVujBHNPpSe3CucOtWtbYlrdbo+mUZoT7aBHe59fZIvYh6bSIIGaEQP3n53oKSNcAZ
+	UaUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-	:message-id:subject:to:cc;
-	bh=3nYhrXh5ykAqS74/Z7KsRs6ANHswCneAVDgb0LzWKIM=;
-	b=Z7fEuGZgxjoAiRVFBrXe8oyeZih1dHRKxWld56t1CgOPWwzcLrdwfzNkZ1kKuBJwJH
-	8EXFGqqnr5X3EwA8DyVHPhv/LTbCHdoJwiX58kTI15H+aD6k/oh7XCWpsinP+xqB0550
-	E8DJ6lBOY1ufseHVkeulv7Po2Ap5PQuoDzlNU2TdlfgM1WHwTpxfYGcAbvT0lWEcn2MR
-	c3x5chwwzdKp3x5OZzW8+vRdxqBOkxlu6nqXQ7kl2h9d5Dqb9ZlLIy50EDvIwU7V3cW7
-	4CUqzyXmWQRck9XYzunZ8oNPqzGz1DuOlo7ZtJKehdMp2nKHVsG0bnZuKkaM2Gef7fMd
-	fwNQ==
-X-Gm-Message-State: APjAAAXv6UUE4PYlPjktC/m0PQ5jmTgm4TbjAFeKqHZA7KLk+iDm8IBc
-	jinzSj5iackwbctqfxlfO0chnULCqyJHpA==
-X-Google-Smtp-Source: APXvYqySAJqBpzImgMSWJwAzLrmqqsRSzszukZryWVF1wWXWd4p/OtY3tPqEdX9EoZLPWE20+fZhKQ==
-X-Received: by 2002:a05:6808:48a:: with SMTP id
-	z10mr1485574oid.129.1568151921076; 
-	Tue, 10 Sep 2019 14:45:21 -0700 (PDT)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com.
-	[209.85.210.42])
-	by smtp.gmail.com with ESMTPSA id 93sm7637136ota.16.2019.09.10.14.45.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 10 Sep 2019 14:45:20 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ot1-f42.google.com with SMTP id s28so20518055otd.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 14:45:20 -0700 (PDT)
-X-Received: by 2002:a05:6830:20d2:: with SMTP id
-	z18mr27533651otq.181.1568151919624; 
-	Tue, 10 Sep 2019 14:45:19 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8kO3DqOX9GeOH5XcDc699mb8QgXq9HiV4UtLork/018=;
+	b=oE8X6V8KlYhOzvV74ZhQBA1ZS2Gn0NKHUn4M0LRvAIPIjoIRPis5gYyy4HUnukl/6P
+	8NS77IuvceAcLmexcxM0bPMVTDzJqUQ5bY4wtD96xhFN/UcwI7SgTokCSsXGJbB4X1mo
+	jahoymMPxr43wXmLbI749RIvVfrAe3/G/M04zzAJLrNoBTDnpm/hbvNG+HToqTjwV8DQ
+	YgoHKtSignlKjwYzz850ssqHcmd4kD8C0C8l7mhNB5thPeLbMMCWPHFlrY553sLpqyrJ
+	n8ktIe+i9liyb7eDiv/9kAyW6CWBCGjbQvrB7KZgO+ut5GtKknMFBlDwQlgdTT8KuPz+
+	+CFQ==
+X-Gm-Message-State: APjAAAX+ABgqBWgLNkPJZBzXhnBNYmcMHFQtt7R5C8aW5K0/tXmu+EBk
+	Vejo1/uGmBW/0xQi7BDuvfE6JDelra8=
+X-Google-Smtp-Source: APXvYqyc3CWSziQwm/jSCxja+fW0KdNXP6ohMrlJyy70AqhHBG/ZxJzIbTeUw/0UOBHty6OCssTaqA==
+X-Received: by 2002:a63:5c06:: with SMTP id q6mr30337123pgb.45.1568156192046; 
+	Tue, 10 Sep 2019 15:56:32 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
+	e24sm24036863pgk.21.2019.09.10.15.56.31
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 10 Sep 2019 15:56:31 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Sep 2019 15:56:22 -0700
+Message-Id: <20190910225622.3106589-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20190910213750.1369567-1-raj.khem@gmail.com>
-In-Reply-To: <20190910213750.1369567-1-raj.khem@gmail.com>
-Date: Tue, 10 Sep 2019 18:45:07 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqXo6bapA_ZEFE3E-MP-1QOSpdGw8pEyy8+JAH333-taQ@mail.gmail.com>
-Message-ID: <CAP9ODKqXo6bapA_ZEFE3E-MP-1QOSpdGw8pEyy8+JAH333-taQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston-init: Add possibility to run weston as non-root user
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH V2] weston-init: Add possibility to run weston as non-root user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,40 +58,225 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 21:45:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Sep 2019 22:56:32 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 10, 2019 at 6:38 PM Khem Raj <raj.khem@gmail.com> wrote:
-...
->  do_install() {
->         install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
-> -       install -Dm0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
-> -
-> +       install -Dm0644 ${WORKDIR}/weston@.service ${D}${systemd_system_unitdir}/weston@.service
+These changes are from meta-96boards primarily
+Launch the session via a udev rule based on what kind of display device
+is available
 
-Not need, as it is done below.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+---
+v2: Drop duplicate isntall rule and use systemd_system_unitdir
 
-> +       install -D -p -m0644 ${WORKDIR}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.ini
-> +
-> +       # Install Weston systemd service and accompanying udev rule
-> +       install -D -p -m0644 ${WORKDIR}/weston@.service ${D}${systemd_unitdir}/system/weston@.service
+ meta/recipes-graphics/wayland/weston-init.bb  | 24 +++++-
+ .../wayland/weston-init/71-weston-drm.rules   |  2 +
+ .../wayland/weston-init/weston.ini            | 74 +++++++++++++++++++
+ .../wayland/weston-init/weston.service        | 13 ----
+ .../wayland/weston-init/weston@.service       | 37 ++++++++++
+ 5 files changed, 133 insertions(+), 17 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/weston.ini
+ delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
+ create mode 100644 meta/recipes-graphics/wayland/weston-init/weston@.service
 
-This is good. Replace ${systemd_unitdir}/system with ${systemd_system_unitdir}
-
-> +       sed -i -e s:/etc:${sysconfdir}:g \
-> +               -e s:/usr/bin:${bindir}:g \
-> +               -e s:/var:${localstatedir}:g \
-> +               ${D}${systemd_unitdir}/system/weston@.service
-> +       install -D -p -m0644 ${WORKDIR}/71-weston-drm.rules \
-> +               ${D}${sysconfdir}/udev/rules.d/71-weston-drm.rules
->         # Install weston-start script
->         install -Dm755 ${WORKDIR}/weston-start ${D}${bindir}/weston-start
->         sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
-...
-
-
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 22ba5f3fb3..08ebbe08f2 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -3,15 +3,25 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+ SRC_URI = "file://init \
+-           file://weston.service \
++           file://weston.ini \
++           file://weston@.service \
++           file://71-weston-drm.rules \
+            file://weston-start"
+ 
+ S = "${WORKDIR}"
+ 
+ do_install() {
+ 	install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
+-	install -Dm0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
+-
++	install -D -p -m0644 ${WORKDIR}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.ini
++
++	# Install Weston systemd service and accompanying udev rule
++	install -D -p -m0644 ${WORKDIR}/weston@.service ${D}${systemd_system_unitdir}/weston@.service
++	sed -i -e s:/etc:${sysconfdir}:g \
++		-e s:/usr/bin:${bindir}:g \
++		-e s:/var:${localstatedir}:g \
++		${D}${systemd_unitdir}/system/weston@.service
++	install -D -p -m0644 ${WORKDIR}/71-weston-drm.rules \
++		${D}${sysconfdir}/udev/rules.d/71-weston-drm.rules
+ 	# Install weston-start script
+ 	install -Dm755 ${WORKDIR}/weston-start ${D}${bindir}/weston-start
+ 	sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
+@@ -28,4 +38,10 @@ RDEPENDS_${PN} = "weston kbd"
+ INITSCRIPT_NAME = "weston"
+ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+ 
+-SYSTEMD_SERVICE_${PN} = "weston.service"
++FILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_unitdir}/system/weston@.service"
++
++CONFFILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini"
++
++SYSTEMD_SERVICE_${PN} = "weston@%i.service"
++SYSTEMD_AUTO_ENABLE = "disable"
++
+diff --git a/meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules b/meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules
+new file mode 100644
+index 0000000000..1a1b8bbda4
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules
+@@ -0,0 +1,2 @@
++ACTION=="add", SUBSYSTEM=="graphics", KERNEL=="fb0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="weston@root.service"
++ACTION=="add", SUBSYSTEM=="drm", KERNEL=="card0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="weston@root.service"
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/recipes-graphics/wayland/weston-init/weston.ini
+new file mode 100644
+index 0000000000..1eecf48bc1
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
+@@ -0,0 +1,74 @@
++# configuration file for Weston
++
++#[core]
++#modules=xwayland.so,cms-colord.so
++#shell=desktop-shell.so
++#gbm-format=xrgb2101010
++
++#[shell]
++#background-image=/usr/share/backgrounds/gnome/Aqua.jpg
++#background-color=0xff002244
++#background-type=tile
++#clock-format=minutes
++#panel-color=0x90ff0000
++#locking=true
++#animation=zoom
++#startup-animation=fade
++#binding-modifier=ctrl
++#num-workspaces=6
++#cursor-theme=whiteglass
++#cursor-size=24
++
++#lockscreen-icon=/usr/share/icons/gnome/256x256/actions/lock.png
++#lockscreen=/usr/share/backgrounds/gnome/Garden.jpg
++#homescreen=/usr/share/backgrounds/gnome/Blinds.jpg
++#animation=fade
++
++#[launcher]
++#icon=/usr/share/icons/gnome/24x24/apps/utilities-terminal.png
++#path=/usr/bin/gnome-terminal
++
++#[launcher]
++#icon=/usr/share/icons/gnome/24x24/apps/utilities-terminal.png
++#path=/usr/bin/weston-terminal
++
++#[launcher]
++#icon=/usr/share/icons/hicolor/24x24/apps/google-chrome.png
++#path=/usr/bin/google-chrome
++
++#[launcher]
++#icon=/usr/share/icons/gnome/24x24/apps/arts.png
++#path=/build/weston-0lEgCh/weston-1.11.0/weston-flower
++
++#[input-method]
++#path=/usr/lib/weston/weston-keyboard
++
++#[output]
++#name=LVDS1
++#mode=1680x1050
++#transform=90
++#icc_profile=/usr/share/color/icc/colord/Bluish.icc
++
++#[output]
++#name=VGA1
++#mode=173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
++#transform=flipped
++
++#[output]
++#name=X1
++#mode=1024x768
++#transform=flipped-90
++
++#[libinput]
++#enable_tap=true
++
++#[touchpad]
++#constant_accel_factor = 50
++#min_accel_factor = 0.16
++#max_accel_factor = 1.0
++
++#[screen-share]
++#command=/usr/bin/weston --backend=rdp-backend.so --shell=fullscreen-shell.so --no-clients-resize
++
++#[xwayland]
++#path=/usr/bin/Xwayland
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
+deleted file mode 100644
+index 18f72626e0..0000000000
+--- a/meta/recipes-graphics/wayland/weston-init/weston.service
++++ /dev/null
+@@ -1,13 +0,0 @@
+-[Unit]
+-Description=Weston Wayland Compositor
+-RequiresMountsFor=/run
+-
+-[Service]
+-User=root
+-PAMName=login
+-EnvironmentFile=-/etc/default/weston
+-ExecStart=/usr/bin/weston-start -v -e -- $OPTARGS
+-
+-[Install]
+-WantedBy=multi-user.target
+-
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/meta/recipes-graphics/wayland/weston-init/weston@.service
+new file mode 100644
+index 0000000000..9ecf2ab069
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
+@@ -0,0 +1,37 @@
++[Unit]
++Description=Weston Wayland Compositor (on tty7)
++RequiresMountsFor=/run
++Conflicts=getty@tty7.service plymouth-quit.service
++After=systemd-user-sessions.service getty@tty7.service plymouth-quit-wait.service
++
++[Service]
++User=%i
++PermissionsStartOnly=true
++
++# Log us in via PAM so we get our XDG & co. environment and
++# are treated as logged in so we can use the tty:
++PAMName=login
++
++# Grab tty7
++UtmpIdentifier=tty7
++TTYPath=/dev/tty7
++TTYReset=yes
++TTYVHangup=yes
++TTYVTDisallocate=yes
++
++# stderr to journal so our logging doesn't get thrown into /dev/null
++StandardOutput=tty
++StandardInput=tty
++StandardError=journal
++
++EnvironmentFile=-/etc/default/weston
++
++# Weston does not successfully change VT, nor does systemd place us on
++# the VT it just activated for us. Switch manually:
++ExecStartPre=/usr/bin/chvt 7
++ExecStart=/usr/bin/weston --log=${XDG_RUNTIME_DIR}/weston.log $OPTARGS
++
++IgnoreSIGPIPE=no
++
++#[Install]
++#Alias=multi-user.target.wants/weston.service
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.23.0
+
 
