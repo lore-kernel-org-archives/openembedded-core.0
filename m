@@ -1,53 +1,52 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E06A7F395
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
+	[209.85.222.54])
+	by mail.openembedded.org (Postfix) with ESMTP id E95AD7F346
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 12:41:35 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id bd8so8542835plb.6
+	Tue, 10 Sep 2019 13:18:18 +0000 (UTC)
+Received: by mail-ua1-f54.google.com with SMTP id 107so5541096uau.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 05:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:in-reply-to:references:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=eQB133spgqAcqh5zgtph+y3OpkLGAUWt5ri8O/7e0AU=;
-	b=E/f3NNrWAuuu3OsWXebseqgRjTnK2R5J468VnJ2DE8RfTsVp3QJrVsy3PeJ0SpNdQq
-	CUsdpMTuDS1jDT0RSdp2fbppsNn/0EoESjcXiZbDC8qEjCvmW3GAbTUdQkyab0d5/OCx
-	LjCq38mjkyOq79P+jvRYmoGklbHM4Bz2ivALY3dMDIRqjy86qVIBxzc98u8iparQZerh
-	wDUv/C4bLG0dGHYpYMusUl5YBf6szxAGFaZQY+N0fg4OfXw0oopEWrivmEFmq3wKYyVs
-	H6axRJiA8PI9utPhZpYUI1tCr08Jj9TLRvdbvV36F8PeNBrfs/Ztizt8U9Adu3ZE9NAS
-	VPEw==
+	Tue, 10 Sep 2019 06:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YWu7BTyD2XFGTKcIDDpd6cTTUmmVuoOBR9uSmUclzEs=;
+	b=g9cMpBc0mTetgGwJzDMwHhL63rh+MipRnE/XKQrk9LTqwZqoqJb6jiIYpwRQIIg6r9
+	OjrPBAp2thwV2ClDoQ7nKBI6Pg882s1ksmAZegjO9Rt9m1nFYdf5vf8vztLSN1GCWepd
+	SQD9CP8NCohjaX3MYvBTuKRtwhz4lbH2cDMCdPY5UosincpQJJkX8BWrQNH5B6Nt8phO
+	qaoN5hbA0i4ui6lgmwKqdpX13BaSiEGFp7a5PyQnnqhmTl1WiV7hkYc4RZlpjOuhc1Vk
+	fOzDI93TyD8dIFZ/FpDRwRYD0zfVUxk8tlzsaGFDI2daXaeddxwMUMJ/PbA3Mh2Tk04q
+	4fTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
-	:cc:subject:content-transfer-encoding:mime-version;
-	bh=eQB133spgqAcqh5zgtph+y3OpkLGAUWt5ri8O/7e0AU=;
-	b=WkXn6LCfdMgMo6t+WYqvK4ClgTTnfOte4PqDXrC/CS6aRjNJRRsNsJsuZkqoWFwgeq
-	yftI9XInHIvEM0ujUer3ECLenC9pgBwPnyjX/Mv9ygi7FDW7jo2lPXKFwR+vgChR5jen
-	YGevI2ZaoZGXKW9tve4GFofqWTO/VKlahsnpqPXfvsV67wdFUyi98v84uwN8yPji3eCV
-	xdsN0Vkth72ZnRR/I6v5CzdKZXfjZ0lafw8JMqK6gehFal777T9QLecKgwjlG6jl2BfH
-	uHMqDgbQx1if9jIu+2s4OLBIKFz2mNSBMaH/f34CkNWk91erGHD3YwW5vxy5xLj8UYVo
-	4nPQ==
-X-Gm-Message-State: APjAAAX1wMrWLjfhbVx6Zv84B+KPQY4m6OSVS4HDM24RsPshJGJ/3F98
-	ORdgb32E5BKeSTmVuZLyhKrrqQ==
-X-Google-Smtp-Source: APXvYqw/+jCNY3MokqDE9+3z0Q8BE4oqUkfKv8eGrLobtAIsXGReHu6QR1SFjzQzsquVKDIoMhblfQ==
-X-Received: by 2002:a17:902:74c3:: with SMTP id
-	f3mr31470481plt.325.1568119296222; 
-	Tue, 10 Sep 2019 05:41:36 -0700 (PDT)
-Received: from [127.0.1.1] ([101.184.76.229])
-	by smtp.gmail.com with UTF8SMTPSA id
-	d18sm20624082pgi.40.2019.09.10.05.41.33
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Sep 2019 05:41:35 -0700 (PDT)
-Date: Tue, 10 Sep 2019 12:40:59 +0000
-Message-Id: <20190910124059.3908-6-nathan@nathanrossi.com>
-In-Reply-To: <20190910124059.3908-1-nathan@nathanrossi.com>
-References: <20190910124059.3908-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YWu7BTyD2XFGTKcIDDpd6cTTUmmVuoOBR9uSmUclzEs=;
+	b=iwq1QZPrtv75o9jjOpNdBNsX/1RLndqaXgm+kn1zAMw5r/A26sEKdMu2CrXw1omZur
+	JZSjb91n1obQOv8NpuuTriY9ThY96iYIb4NXZYKK9FhgrzHUYuGuJFQu+mNf2JADm6RW
+	npUNQ3qgK38jYSa6SmyRl5d0cdPePpfbaqAkAaaKH4zGG4Jp1xDaRP6tVaWBqAmBpRlB
+	RpqnavVDWYNXZf4eEoz154+KpIcKBkMjspVBgz6jEpQE1o8SpuxWxE4Bze0oDGKFevys
+	pu59EybGrK+nl848ULdwdlrFA4ILIhcNfxtDyqfFP7+dyASZuekMzBKq7FX48lRG8jae
+	M4bA==
+X-Gm-Message-State: APjAAAWT23oaV2lf/nWvBSAqrfrJeme4/OQMW+JG1b+qUP9vFVQyoibO
+	/SV6jwmKCBT7MAGiBxcs9e9y1NIzIqr/TtqaD1Xnzw==
+X-Google-Smtp-Source: APXvYqzq7B0hnrXpN5p4FLIekLVbnoo1fVQtcRmT7N6T7Jpxcz659Aossf8WZh8WatJzwSTyzPDZEY+EM/X4Ne2P4F8=
+X-Received: by 2002:ab0:e19:: with SMTP id g25mr13160342uak.71.1568121499571; 
+	Tue, 10 Sep 2019 06:18:19 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 6/6] oeqa/selftest: Rework toolchain tests to use OEPTestResultTestCase
+References: <1568026619-117196-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<CANNYZj8kH3Oqp_ac8BsRCRpT4qEqnCg3VYk0LFW4vnkGxnoF9A@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E199@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CANNYZj_OBagcWxfBb0yF80Jr=CmhPg_FND5-V6ze4a4qFWYOyA@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E403@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CANNYZj-KCVLR2zTNgu-KywKoyRteOk7sn1N0ArMguAENNPLgig@mail.gmail.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E517@G08CNEXMBPEKD01.g08.fujitsu.local>
+In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6E517@G08CNEXMBPEKD01.g08.fujitsu.local>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 10 Sep 2019 15:18:08 +0200
+Message-ID: <CANNYZj9M7kUqP_5XGqYgb-uyMqcf=o-usSUa+hNr2YBzWnaH=g@mail.gmail.com>
+To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: make rpm work in toolchain.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,136 +59,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2019 12:41:35 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Sep 2019 13:18:19 -0000
+Content-Type: multipart/alternative; boundary="000000000000f25a73059232bc9c"
 
-Use OEPTestResultTestCase to collect results and add logfile collection
-and compression.
+--000000000000f25a73059232bc9c
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
- meta/lib/oeqa/selftest/cases/binutils.py | 11 ++++++-----
- meta/lib/oeqa/selftest/cases/gcc.py      |  8 ++++----
- meta/lib/oeqa/selftest/cases/glibc.py    |  7 ++++---
- 3 files changed, 14 insertions(+), 12 deletions(-)
+On Tue, 10 Sep 2019 at 13:56, Zheng, Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+wrote:
 
-diff --git a/meta/lib/oeqa/selftest/cases/binutils.py b/meta/lib/oeqa/selftest/cases/binutils.py
-index 9bc752040f..821f52f5a8 100644
---- a/meta/lib/oeqa/selftest/cases/binutils.py
-+++ b/meta/lib/oeqa/selftest/cases/binutils.py
-@@ -4,6 +4,7 @@ import sys
- import re
- import logging
- from oeqa.core.decorator import OETestTag
-+from oeqa.core.case import OEPTestResultTestCase
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
- 
-@@ -15,7 +16,7 @@ def parse_values(content):
-                 break
- 
- @OETestTag("toolchain-user", "toolchain-system")
--class BinutilsCrossSelfTest(OESelftestTestCase):
-+class BinutilsCrossSelfTest(OESelftestTestCase, OEPTestResultTestCase):
-     def test_binutils(self):
-         self.run_binutils("binutils")
- 
-@@ -36,14 +37,14 @@ class BinutilsCrossSelfTest(OESelftestTestCase):
- 
-         bitbake("{0} -c check".format(recipe))
- 
--        ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
--        self.extraresults = {"ptestresult.sections" : {ptestsuite : {}}}
--
-         sumspath = os.path.join(builddir, suite, "{0}.sum".format(suite))
-         if not os.path.exists(sumspath):
-             sumspath = os.path.join(builddir, suite, "testsuite", "{0}.sum".format(suite))
-+        logpath = os.path.splitext(sumspath)[0] + ".log"
- 
-+        ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
-+        self.ptest_section(ptestsuite, logfile = logpath)
-         with open(sumspath, "r") as f:
-             for test, result in parse_values(f):
--                self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
-+                self.ptest_result(ptestsuite, test, result)
- 
-diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
-index 2c25b5904c..6daa8d9e15 100644
---- a/meta/lib/oeqa/selftest/cases/gcc.py
-+++ b/meta/lib/oeqa/selftest/cases/gcc.py
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: MIT
- import os
- from oeqa.core.decorator import OETestTag
-+from oeqa.core.case import OEPTestResultTestCase
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
- 
-@@ -11,7 +12,7 @@ def parse_values(content):
-                 yield i[len(v) + 2:].strip(), v
-                 break
- 
--class GccSelfTestBase(OESelftestTestCase):
-+class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
-     def check_skip(self, suite):
-         targets = get_bb_var("RUNTIMETARGET", "gcc-runtime").split()
-         if suite not in targets:
-@@ -41,7 +42,6 @@ class GccSelfTestBase(OESelftestTestCase):
-         bb_vars = get_bb_vars(["B", "TARGET_SYS"], recipe)
-         builddir, target_sys = bb_vars["B"], bb_vars["TARGET_SYS"]
- 
--        self.extraresults = {"ptestresult.sections" : {}}
-         for suite in suites:
-             sumspath = os.path.join(builddir, "gcc", "testsuite", suite, "{0}.sum".format(suite))
-             if not os.path.exists(sumspath): # check in target dirs
-@@ -51,10 +51,10 @@ class GccSelfTestBase(OESelftestTestCase):
- 
-             ptestsuite = "gcc-{}".format(suite) if suite != "gcc" else suite
-             ptestsuite = ptestsuite + "-user" if ssh is None else ptestsuite
--            self.extraresults["ptestresult.sections"][ptestsuite] = {}
-+            self.ptest_section(ptestsuite, logfile = logpath)
-             with open(sumspath, "r") as f:
-                 for test, result in parse_values(f):
--                    self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
-+                    self.ptest_result(ptestsuite, test, result)
- 
-     def run_check_emulated(self, *args, **kwargs):
-         # build core-image-minimal with required packages
-diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
-index 2e42485dd6..c687f6ef93 100644
---- a/meta/lib/oeqa/selftest/cases/glibc.py
-+++ b/meta/lib/oeqa/selftest/cases/glibc.py
-@@ -2,6 +2,7 @@
- import os
- import contextlib
- from oeqa.core.decorator import OETestTag
-+from oeqa.core.case import OEPTestResultTestCase
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
- from oeqa.utils.nfs import unfs_server
-@@ -13,7 +14,7 @@ def parse_values(content):
-                 yield i[len(v) + 2:].strip(), v
-                 break
- 
--class GlibcSelfTestBase(OESelftestTestCase):
-+class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
-     def run_check(self, ssh = None):
-         # configure ssh target
-         features = []
-@@ -31,10 +32,10 @@ class GlibcSelfTestBase(OESelftestTestCase):
-         builddir = get_bb_var("B", "glibc-testsuite")
- 
-         ptestsuite = "glibc-user" if ssh is None else "glibc"
--        self.extraresults = {"ptestresult.sections" : {ptestsuite : {}}}
-+        self.ptest_section(ptestsuite)
-         with open(os.path.join(builddir, "tests.sum"), "r") as f:
-             for test, result in parse_values(f):
--                self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
-+                self.ptest_result(ptestsuite, test, result)
- 
-     def run_check_emulated(self):
-         with contextlib.ExitStack() as s:
----
-2.23.0.rc1
+> 3. Actually, my first plan  is to write ${MACHINE_ARCH} in toolchain, but
+> it was rejected
+>
+> +++ b/meta/classes/toolchain-scripts.bbclass
+>
+> @@ -101,6 +101,7 @@ toolchain_shared_env_script () {
+>
+>         echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
+>
+>         echo 'export KCFLAGS="--sysroot=$SDKTARGETSYSROOT"' >> $script
+>
+>         echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
+>
+> +       echo 'export MACHINE_ARCH=${MACHINE_ARCH}' >> $script
+>
+>         echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
+>
+>
+>
+> I guess if it can work, maybe post-relocate-setup.d/ facility will be
+> usefull.
+>
 
+What I would like to avoid is placing rpm-specific things into SDK recipes
+that have nothing to do with rpm. So please investigate
+post-relocate-setup.d/, and if it is not good enough, we can perhaps extend
+it.
+
+Alex
+
+--000000000000f25a73059232bc9c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 10 Sep 2019 at 13:56, Zheng, Ruoq=
+in &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fujit=
+su.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US">
+<div class=3D"gmail-m_7704774913935399707WordSection1"><span style=3D"font-=
+size:11pt;font-family:&quot;Calibri&quot;,sans-serif">3. Actually, my first=
+ plan =C2=A0is to write
+</span><span style=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-s=
+erif">${MACHINE_ARCH} in toolchain, but it was rejected</span><span style=
+=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-serif"></span>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">+++ b/meta/classes/toolchain-scripts.bbclass<u></u><u=
+></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">@@ -101,6 +101,7 @@ toolchain_shared_env_script () {<=
+u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;=
+export CPPFLAGS=3D&quot;${TARGET_CPPFLAGS}&quot;&#39; &gt;&gt; $script<u></=
+u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;=
+export KCFLAGS=3D&quot;--sysroot=3D$SDKTARGETSYSROOT&quot;&#39; &gt;&gt; $s=
+cript<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;=
+export OECORE_DISTRO_VERSION=3D&quot;${DISTRO_VERSION}&quot;&#39; &gt;&gt; =
+$script<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;expor=
+t MACHINE_ARCH=3D${MACHINE_ARCH}&#39; &gt;&gt; $script<u></u><u></u></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo &#39;=
+export OECORE_SDK_VERSION=3D&quot;${SDK_VERSION}&quot;&#39; &gt;&gt; $scrip=
+t<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Cali=
+bri&quot;,sans-serif">I guess if it can work, maybe
+</span>post-relocate-setup.d/ facility will be usefull.<span style=3D"font-=
+size:11pt;font-family:&quot;Calibri&quot;,sans-serif;color:rgb(31,73,125)">=
+<u></u><u></u></span></p>
+</div></div></blockquote><div><br></div><div>What I would like to avoid is =
+placing rpm-specific things into SDK recipes that have nothing to do with r=
+pm. So please investigate post-relocate-setup.d/, and if it is not good eno=
+ugh, we can perhaps extend it.</div><div><br></div><div>Alex<br></div></div=
+></div>
+
+--000000000000f25a73059232bc9c--
