@@ -1,50 +1,53 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E64C87D1E9
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D1367EC56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 14:13:23 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id i1so4901425pfa.6
+	Wed, 11 Sep 2019 14:13:28 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id d15so13726442pfo.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 07:13:25 -0700 (PDT)
+	Wed, 11 Sep 2019 07:13:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
-	h=date:message-id:from:to:cc:subject:content-transfer-encoding
-	:mime-version; bh=Khff3Sds8glK5cF6FrbfCd5MOXHrT78zjaIJsCRGxcU=;
-	b=iykPZJsRNQLGJOlo/Q9fkQXmOHD9wqujtRXrh91flLCG2DAQE+hU+Qy8FL7efEeMvC
-	TnbIjEvzQrR3NKUJ6S4GRWkGUtu1FLtWvjIhScKQkairtPPyuLquZxZmAq235Oi8wgta
-	3WXALWa1uv1Sdp38IIXT4UA4gh60WVniePP1Y1lOFJsO+alrnwhmvoia4hGainrmnj5Z
-	1RQkImFfIMdf/xYnmLkT/yfT3I6qsaBbCsLTLxyqgE45H808HGlwPg8IRmCzFNvBt51w
-	padUYUK9m6DASHrKrXs4CTiShvmJB5Y1VT6B/b9l30MdtKZNLyonRSvrkbqV3Z9bawW1
-	xgJQ==
+	h=date:message-id:in-reply-to:references:from:to:cc:subject
+	:content-transfer-encoding:mime-version;
+	bh=3tSFGCeqLkR+i4a2MGmVVq42Sq5iKYY7fB8fWxvFjYg=;
+	b=Ca7ehZ7IE6U7b0ko7o/f4D+JRWxGuWe2MX0rUAARS15iufCuiO0r9uEM+m+jxl2JfY
+	EpnHFjYQUE0eVCe0GqunCar0hv5QORpmfMBSQ/PGBSKQIL9ecLosULtoqsq7410ef4QZ
+	5qU7ZsCkLB0vB+fu2IcSHCFxULnMTp/fqJVEIXZBpLukR4A1vOfgLWsBCz3FNCuEIThu
+	MwL62RqO2sWBHh0u3BO5HBGkITkOJFPUVq8oYFJoTTn6dnZCfD+6E5a3LaJL2I4Cx2dT
+	Kh1+IASIWGdU/i7d4z4DedwJkBDTjBVqrecA3SIoQKpJqMjtt3Sips8l0Cc0hAKmminB
+	6leQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=Khff3Sds8glK5cF6FrbfCd5MOXHrT78zjaIJsCRGxcU=;
-	b=S6b9yIl9py29I5v9jsp9iDW5oovyNa6PugXp1J+3E1cqm7BFDDzLfXnUDGt8lBvGEn
-	sxXym+Y5W4r2Phg8E16xV4W6NKDfk3cz2GkuPDp5EJ2dMsBEu+hysNIrFqxbf1kzsJMH
-	oyUqpndkQcot5KMlnuVxR4gh9/er+hXKd7sJ9ErvLxPLGy4yxO4Ukd7YPIN929vTAVeF
-	4MZxxtKhD9IWmyByr330aUk/mB4duh9ut/XubTe7zgXDHbdvcys3eKWylEQ9h8jznzWq
-	5dZ7QNOSchkQfJWjvy0sxCh1YUKJx3eY44K45sTdygQ0AB0JzocMaEZO6b1WDzH6adt/
-	UWwQ==
-X-Gm-Message-State: APjAAAW6tQwCppjuvkTAESlDdftU8dMt0iNOj9jmeZ+DG3R3FFezlJOU
-	8UI3my8lOyuvWbDovRqobovs1Lgn6LyhNA==
-X-Google-Smtp-Source: APXvYqxkrcqErd+WdyyMG5EqhLw+EV3lagkCAWVz9+/ebX2mHDi7W2gcuuGU879ynm8vd0RCeekTbQ==
-X-Received: by 2002:a17:90b:f02:: with SMTP id
-	br2mr5737729pjb.67.1568211204311; 
-	Wed, 11 Sep 2019 07:13:24 -0700 (PDT)
+	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
+	:cc:subject:content-transfer-encoding:mime-version;
+	bh=3tSFGCeqLkR+i4a2MGmVVq42Sq5iKYY7fB8fWxvFjYg=;
+	b=Gr2k212ezekfYNKVwCdGZ4FQWMDoAMX8nQXzxeQRJyp0igY+IAcZJYmclEtmY2dmYS
+	71/m8/rBIXqgV20Tsl+QzV3nJLoRF8iQROf5WfwiosYeTID7JW8GDHf6tpxUp1mxDP45
+	OP/Xxaanu2u27uq8JS9yzMK9BPhmLezu9sXoBOlFtrcmEUoCGeFNr0oCKq4XrF9k5RlG
+	ACefffBA1BzVziDG9A6JDcZUh4Ax52OR6NryNKxPXs9OWL7M39DxJmYDHT69dFGsjts0
+	8XgIR8XWoP4Fn10KC36EQ6TGVU6bEBugUX3M+25QGlcEWk4CTQnqGMy2ayc0KS5arOw/
+	umag==
+X-Gm-Message-State: APjAAAWmdGCf53vScVcrNm7imHHSOXKwqEYNazAYCtoLbd68WRpdWMq5
+	z72QuZEbD02ik4IXSDyms1IU73KuKZxpPQ==
+X-Google-Smtp-Source: APXvYqys2DyJsouIs11wu2czKRJdf+O4SgHO0cvdwg9QnxmK//NLZLeXhmZ9GqYDwPZVjayJD+JskA==
+X-Received: by 2002:a17:90a:a892:: with SMTP id
+	h18mr5955455pjq.14.1568211209144; 
+	Wed, 11 Sep 2019 07:13:29 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	v66sm26372916pfv.79.2019.09.11.07.13.21
+	f89sm8653474pje.20.2019.09.11.07.13.27
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Sep 2019 07:13:23 -0700 (PDT)
+	Wed, 11 Sep 2019 07:13:28 -0700 (PDT)
 Date: Wed, 11 Sep 2019 14:13:07 +0000
-Message-Id: <20190911141307.28014-1-nathan@nathanrossi.com>
+Message-Id: <20190911141307.28014-2-nathan@nathanrossi.com>
+In-Reply-To: <20190911141307.28014-1-nathan@nathanrossi.com>
+References: <20190911141307.28014-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH v2 1/4] resulttool: Handle multiple series containing ptestresults
+Subject: [PATCH v2 2/4] gcc-cross.inc: Process binaries in build dir to be relocatable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,112 +60,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 14:13:24 -0000
+X-List-Received-Date: Wed, 11 Sep 2019 14:13:28 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Handle multiple results series having ptestresults content. The contents
-are merged on a per-result basis where duplicates are ignored (with a
-warning message printed). The 'ptestresults.sections' collection is also
-merged on a per-suite basis.
+Process binaries within the build directory before stashing to be
+relocatable with ORIGIN relative rpaths. This corrects issues with
+rpaths being invalid when trying to use the binaries from an unstashed
+build directory (e.g. gcc-runtime).
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- scripts/lib/resulttool/report.py | 44 +++++++++++++++++++++++++++++-----------
- 1 file changed, 32 insertions(+), 12 deletions(-)
+Changes in v2:
+- Nest the stash directory within 'stashed-builddir' to match the
+  nesting of the copied build directory, this ensures that the relative
+  rpaths are correct when extracting to a similar build directory.
+---
+ meta/recipes-devtools/gcc/gcc-cross.inc | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
-index 8b03717d29..883b52517b 100644
---- a/scripts/lib/resulttool/report.py
-+++ b/scripts/lib/resulttool/report.py
-@@ -32,16 +32,22 @@ class ResultsTextReport(object):
-             # Ensure tests without any test results still show up on the report
-             for suite in result['ptestresult.sections']:
-                 if suite not in self.ptests[machine]:
--                    self.ptests[machine][suite] = {'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-', 'failed_testcases': []}
-+                    self.ptests[machine][suite] = {
-+                            'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-',
-+                            'failed_testcases': [], "testcases": set(),
-+                            }
-                 if 'duration' in result['ptestresult.sections'][suite]:
-                     self.ptests[machine][suite]['duration'] = result['ptestresult.sections'][suite]['duration']
-                 if 'timeout' in result['ptestresult.sections'][suite]:
-                     self.ptests[machine][suite]['duration'] += " T"
--            return
-+            return True
-+
-+        # process test result
-         try:
-             _, suite, test = k.split(".", 2)
-         except ValueError:
--            return
-+            return True
-+
-         # Handle 'glib-2.0'
-         if 'ptestresult.sections' in result and suite not in result['ptestresult.sections']:
-             try:
-@@ -50,11 +56,23 @@ class ResultsTextReport(object):
-                     suite = suite + "." + suite1
-             except ValueError:
-                 pass
-+
-         if suite not in self.ptests[machine]:
--            self.ptests[machine][suite] = {'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-', 'failed_testcases': []}
-+            self.ptests[machine][suite] = {
-+                    'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-',
-+                    'failed_testcases': [], "testcases": set(),
-+                    }
-+
-+        # do not process duplicate results
-+        if test in self.ptests[machine][suite]["testcases"]:
-+            print("Warning duplicate ptest result '{}.{}' for {}".format(suite, test, machine))
-+            return False
-+
-         for tk in self.result_types:
-             if status in self.result_types[tk]:
-                 self.ptests[machine][suite][tk] += 1
-+        self.ptests[machine][suite]["testcases"].add(test)
-+        return True
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index 95af6d89a9..8855bb1f34 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -206,9 +206,17 @@ do_package_write_ipk[noexec] = "1"
+ do_package_write_rpm[noexec] = "1"
+ do_package_write_deb[noexec] = "1"
  
-     def handle_ltptest_result(self, k, status, result, machine):
-         if machine not in self.ltptests:
-@@ -124,17 +142,20 @@ class ResultsTextReport(object):
-         result = testresult.get('result', [])
-         for k in result:
-             test_status = result[k].get('status', [])
-+            if k.startswith("ptestresult."):
-+                if not self.handle_ptest_result(k, test_status, result, machine):
-+                    continue
-+            elif k.startswith("ltpresult."):
-+                self.handle_ltptest_result(k, test_status, result, machine)
-+            elif k.startswith("ltpposixresult."):
-+                self.handle_ltpposixtest_result(k, test_status, result, machine)
+-BUILDDIRSTASH = "${WORKDIR}/stashed-builddir"
++inherit chrpath
 +
-+            # process result if it was not skipped by a handler
-             for tk in self.result_types:
-                 if test_status in self.result_types[tk]:
-                     test_count_report[tk] += 1
-             if test_status in self.result_types['failed']:
-                 test_count_report['failed_testcases'].append(k)
--            if k.startswith("ptestresult."):
--                self.handle_ptest_result(k, test_status, result, machine)
--            if k.startswith("ltpresult."):
--                self.handle_ltptest_result(k, test_status, result, machine)
--            if k.startswith("ltpposixresult."):
--                self.handle_ltpposixtest_result(k, test_status, result, machine)
-         return test_count_report
- 
-     def print_test_report(self, template_file_name, test_count_reports):
-@@ -210,8 +231,7 @@ class ResultsTextReport(object):
-                 # Check to see if there is already results for these kinds of tests for the machine
-                 for key in result['result'].keys():
-                     testtype = str(key).split('.')[0]
--                    if ((machine in self.ptests and testtype == "ptestresult" and self.ptests[machine]) or
--                        (machine in self.ltptests and testtype == "ltpiresult" and self.ltptests[machine]) or
-+                    if ((machine in self.ltptests and testtype == "ltpiresult" and self.ltptests[machine]) or
-                         (machine in self.ltpposixtests and testtype == "ltpposixresult" and self.ltpposixtests[machine])):
-                         print("Already have test results for %s on %s, skipping %s" %(str(key).split('.')[0], machine, resultid))
-                         skip = True
++python gcc_stash_builddir_fixrpaths() {
++    # rewrite rpaths, breaking hardlinks as required
++    process_dir("/", d.getVar("BUILDDIRSTASH"), d, break_hardlinks = True)
++}
++
++BUILDDIRSTASH = "${WORKDIR}/stashed-builddir/build"
+ do_gcc_stash_builddir[dirs] = "${B}"
+ do_gcc_stash_builddir[cleandirs] = "${BUILDDIRSTASH}"
++do_gcc_stash_builddir[postfuncs] += "gcc_stash_builddir_fixrpaths"
+ do_gcc_stash_builddir () {
+ 	dest=${BUILDDIRSTASH}
+ 	hardlinkdir . $dest
 ---
 2.23.0.rc1
 
