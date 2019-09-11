@@ -1,52 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 153BF7E6EF
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B3D667CE79
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 04:29:11 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id u72so10828374pgb.10
+	Wed, 11 Sep 2019 06:03:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8B63HVL019200
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 21:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zQMTIeMWssrSvCvY3Hxxb6XYZdc1jjvo6ToIRR/Ep+A=;
-	b=cZoew79OFvtXHkadu26agP5FKASy3bUgrgwCcJRCBYqeTxcg+o5JZ6XQ7muPfl4zV8
-	Dj2rEWwxgOScDFbGHxI4vWWxxFDH3nUdAJv12hSiV43fVNXkDnmiNX5bw+gvvH4mb9su
-	ioSH+k7Vctycqso9MZCsIQdKLhxlFc8AHEXs7UW9Y0JVuOof4fPvUaMhzv2jeHtP4/Qy
-	TFhW+L6TE8OyYIIh5m2t1Zq3mrFE0BLj1j/EJlh570BNlfwTmkZoAmv8+1FAni2+jTbZ
-	Vg9v8AnCHTXD/OVLpldNkZKzqYlKN624uWOLj6u1kCjyVPl7lwMN8xpIBEuZTrjYajmR
-	/ciQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zQMTIeMWssrSvCvY3Hxxb6XYZdc1jjvo6ToIRR/Ep+A=;
-	b=WXRbPLdEKQ6HfMosIK1zT1/xiAOxNNWvJY6wn/xpoDrTyPh6+U2TP+mfqY9dTz2h0u
-	qsradYW+SyDQhYqyLxTDSzbuerD2y0euRi8WjU+UWHKve1L+0yMClmwi3id3T9ONXLUk
-	FsGL0YxZOwzkQByWQlYLt9tyJ6HF2TK3wuLX55WzpI/MFhgb01p22a56X5EII3j7BXHF
-	kQ2Ef+jEteSQfoFkZFeQnTMnD+oOi2lXSNOYaj/HBrFzPsUaeHNGehgVwVC/2G4M3B93
-	mYcmJna3qHikRpyNoAyQKWMXn5IZ9nzJSoqhjeOQIMfCfSARnp8wjh54tmdiM3vKEXke
-	4m2A==
-X-Gm-Message-State: APjAAAVEWr8j1Rw3BwcFkMvcQrvniG6TPcvNO1rkFZnwUJilmBy9HA0Z
-	OEWsmZd3FQm14MU6Z1D5tBdPF/TlAac=
-X-Google-Smtp-Source: APXvYqxcjF1fMvlz7KpjUmQMN07c7dMh3VviCFJgi+cDKk5wLo5n7tzOOe+WoeWneqKz/HiFgsuvjw==
-X-Received: by 2002:a17:90a:b78c:: with SMTP id
-	m12mr3273060pjr.143.1568176152214; 
-	Tue, 10 Sep 2019 21:29:12 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3])
-	by smtp.gmail.com with ESMTPSA id bb7sm1169148pjb.2.2019.09.10.21.29.11
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Sep 2019 21:29:11 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Sep 2019 21:29:03 -0700
-Message-Id: <20190911042903.3047253-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
+	Tue, 10 Sep 2019 23:03:17 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 10 Sep 2019 23:03:16 -0700
+From: Li Zhou <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Sep 2019 14:02:53 +0800
+Message-ID: <1568181773-91288-1-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH V3] weston-init: Add possibility to run weston as non-root user
+X-Originating-IP: [128.224.153.75]
+Subject: [PATCH] qemu: Security Advisory - qemu - CVE-2019-15890
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,226 +31,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 04:29:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 11 Sep 2019 06:03:16 -0000
+Content-Type: text/plain
 
-These changes are from meta-96boards primarily
-Launch the session via a udev rule based on what kind of display device
-is available
+Backporting patch from
+https://gitlab.freedesktop.org/slirp/libslirp/commit/c5927943
+to solve CVE-2019-15890.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
 ---
-v2: Drop duplicate isntall rule and use systemd_system_unitdir
-v3: Use systemd_system_unitdir in FILES section too
+ meta/recipes-devtools/qemu/qemu.inc                |  1 +
+ .../qemu/qemu/CVE-2019-15890.patch                 | 48 ++++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-15890.patch
 
- meta/recipes-graphics/wayland/weston-init.bb  | 24 +++++-
- .../wayland/weston-init/71-weston-drm.rules   |  2 +
- .../wayland/weston-init/weston.ini            | 74 +++++++++++++++++++
- .../wayland/weston-init/weston.service        | 13 ----
- .../wayland/weston-init/weston@.service       | 37 ++++++++++
- 5 files changed, 133 insertions(+), 17 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules
- create mode 100644 meta/recipes-graphics/wayland/weston-init/weston.ini
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston.service
- create mode 100644 meta/recipes-graphics/wayland/weston-init/weston@.service
-
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index 22ba5f3fb3..2c1cd1046c 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -3,15 +3,25 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 241f9db..de21d30 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -23,6 +23,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
+            file://0009-Fix-webkitgtk-builds.patch \
+            file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
++           file://CVE-2019-15890.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI = "file://init \
--           file://weston.service \
-+           file://weston.ini \
-+           file://weston@.service \
-+           file://71-weston-drm.rules \
-            file://weston-start"
- 
- S = "${WORKDIR}"
- 
- do_install() {
- 	install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
--	install -Dm0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
--
-+	install -D -p -m0644 ${WORKDIR}/weston.ini ${D}${sysconfdir}/xdg/weston/weston.ini
-+
-+	# Install Weston systemd service and accompanying udev rule
-+	install -D -p -m0644 ${WORKDIR}/weston@.service ${D}${systemd_system_unitdir}/weston@.service
-+	sed -i -e s:/etc:${sysconfdir}:g \
-+		-e s:/usr/bin:${bindir}:g \
-+		-e s:/var:${localstatedir}:g \
-+		${D}${systemd_unitdir}/system/weston@.service
-+	install -D -p -m0644 ${WORKDIR}/71-weston-drm.rules \
-+		${D}${sysconfdir}/udev/rules.d/71-weston-drm.rules
- 	# Install weston-start script
- 	install -Dm755 ${WORKDIR}/weston-start ${D}${bindir}/weston-start
- 	sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
-@@ -28,4 +38,10 @@ RDEPENDS_${PN} = "weston kbd"
- INITSCRIPT_NAME = "weston"
- INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
- 
--SYSTEMD_SERVICE_${PN} = "weston.service"
-+FILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_system_unitdir}/weston@.service"
-+
-+CONFFILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini"
-+
-+SYSTEMD_SERVICE_${PN} = "weston@%i.service"
-+SYSTEMD_AUTO_ENABLE = "disable"
-+
-diff --git a/meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules b/meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2019-15890.patch b/meta/recipes-devtools/qemu/qemu/CVE-2019-15890.patch
 new file mode 100644
-index 0000000000..1a1b8bbda4
+index 0000000..1d89431
 --- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules
-@@ -0,0 +1,2 @@
-+ACTION=="add", SUBSYSTEM=="graphics", KERNEL=="fb0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="weston@root.service"
-+ACTION=="add", SUBSYSTEM=="drm", KERNEL=="card0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="weston@root.service"
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/recipes-graphics/wayland/weston-init/weston.ini
-new file mode 100644
-index 0000000000..1eecf48bc1
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
-@@ -0,0 +1,74 @@
-+# configuration file for Weston
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2019-15890.patch
+@@ -0,0 +1,48 @@
++From 4fc0d23e8f6d795c679623d2ed2cbe6a7a17b9c7 Mon Sep 17 00:00:00 2001
++From: Li Zhou <li.zhou@windriver.com>
++Date: Tue, 10 Sep 2019 20:02:15 -0700
++Subject: [PATCH] ip_reass: Fix use after free
 +
-+#[core]
-+#modules=xwayland.so,cms-colord.so
-+#shell=desktop-shell.so
-+#gbm-format=xrgb2101010
++Using ip_deq after m_free might read pointers from an allocation reuse.
 +
-+#[shell]
-+#background-image=/usr/share/backgrounds/gnome/Aqua.jpg
-+#background-color=0xff002244
-+#background-type=tile
-+#clock-format=minutes
-+#panel-color=0x90ff0000
-+#locking=true
-+#animation=zoom
-+#startup-animation=fade
-+#binding-modifier=ctrl
-+#num-workspaces=6
-+#cursor-theme=whiteglass
-+#cursor-size=24
++This would be difficult to exploit, but that is still related with
++CVE-2019-14378 which generates fragmented IP packets that would trigger this
++issue and at least produce a DoS.
 +
-+#lockscreen-icon=/usr/share/icons/gnome/256x256/actions/lock.png
-+#lockscreen=/usr/share/backgrounds/gnome/Garden.jpg
-+#homescreen=/usr/share/backgrounds/gnome/Blinds.jpg
-+#animation=fade
++Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 +
-+#[launcher]
-+#icon=/usr/share/icons/gnome/24x24/apps/utilities-terminal.png
-+#path=/usr/bin/gnome-terminal
++Upstream-Status: Backport
++CVE: CVE-2019-15890
++Signed-off-by: Li Zhou <li.zhou@windriver.com>
++---
++ slirp/src/ip_input.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
 +
-+#[launcher]
-+#icon=/usr/share/icons/gnome/24x24/apps/utilities-terminal.png
-+#path=/usr/bin/weston-terminal
++diff --git a/slirp/src/ip_input.c b/slirp/src/ip_input.c
++index 8c75d914..c07d7d40 100644
++--- a/slirp/src/ip_input.c
+++++ b/slirp/src/ip_input.c
++@@ -292,6 +292,7 @@ static struct ip *ip_reass(Slirp *slirp, struct ip *ip, struct ipq *fp)
++      */
++     while (q != (struct ipasfrag *)&fp->frag_link &&
++            ip->ip_off + ip->ip_len > q->ipf_off) {
+++        struct ipasfrag *prev;
++         i = (ip->ip_off + ip->ip_len) - q->ipf_off;
++         if (i < q->ipf_len) {
++             q->ipf_len -= i;
++@@ -299,9 +300,10 @@ static struct ip *ip_reass(Slirp *slirp, struct ip *ip, struct ipq *fp)
++             m_adj(dtom(slirp, q), i);
++             break;
++         }
+++        prev = q;
++         q = q->ipf_next;
++-        m_free(dtom(slirp, q->ipf_prev));
++-        ip_deq(q->ipf_prev);
+++        ip_deq(prev);
+++        m_free(dtom(slirp, prev));
++     }
++ 
++ insert:
++-- 
++2.23.0
 +
-+#[launcher]
-+#icon=/usr/share/icons/hicolor/24x24/apps/google-chrome.png
-+#path=/usr/bin/google-chrome
-+
-+#[launcher]
-+#icon=/usr/share/icons/gnome/24x24/apps/arts.png
-+#path=/build/weston-0lEgCh/weston-1.11.0/weston-flower
-+
-+#[input-method]
-+#path=/usr/lib/weston/weston-keyboard
-+
-+#[output]
-+#name=LVDS1
-+#mode=1680x1050
-+#transform=90
-+#icc_profile=/usr/share/color/icc/colord/Bluish.icc
-+
-+#[output]
-+#name=VGA1
-+#mode=173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
-+#transform=flipped
-+
-+#[output]
-+#name=X1
-+#mode=1024x768
-+#transform=flipped-90
-+
-+#[libinput]
-+#enable_tap=true
-+
-+#[touchpad]
-+#constant_accel_factor = 50
-+#min_accel_factor = 0.16
-+#max_accel_factor = 1.0
-+
-+#[screen-share]
-+#command=/usr/bin/weston --backend=rdp-backend.so --shell=fullscreen-shell.so --no-clients-resize
-+
-+#[xwayland]
-+#path=/usr/bin/Xwayland
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.service b/meta/recipes-graphics/wayland/weston-init/weston.service
-deleted file mode 100644
-index 18f72626e0..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston.service
-+++ /dev/null
-@@ -1,13 +0,0 @@
--[Unit]
--Description=Weston Wayland Compositor
--RequiresMountsFor=/run
--
--[Service]
--User=root
--PAMName=login
--EnvironmentFile=-/etc/default/weston
--ExecStart=/usr/bin/weston-start -v -e -- $OPTARGS
--
--[Install]
--WantedBy=multi-user.target
--
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/meta/recipes-graphics/wayland/weston-init/weston@.service
-new file mode 100644
-index 0000000000..9ecf2ab069
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
-@@ -0,0 +1,37 @@
-+[Unit]
-+Description=Weston Wayland Compositor (on tty7)
-+RequiresMountsFor=/run
-+Conflicts=getty@tty7.service plymouth-quit.service
-+After=systemd-user-sessions.service getty@tty7.service plymouth-quit-wait.service
-+
-+[Service]
-+User=%i
-+PermissionsStartOnly=true
-+
-+# Log us in via PAM so we get our XDG & co. environment and
-+# are treated as logged in so we can use the tty:
-+PAMName=login
-+
-+# Grab tty7
-+UtmpIdentifier=tty7
-+TTYPath=/dev/tty7
-+TTYReset=yes
-+TTYVHangup=yes
-+TTYVTDisallocate=yes
-+
-+# stderr to journal so our logging doesn't get thrown into /dev/null
-+StandardOutput=tty
-+StandardInput=tty
-+StandardError=journal
-+
-+EnvironmentFile=-/etc/default/weston
-+
-+# Weston does not successfully change VT, nor does systemd place us on
-+# the VT it just activated for us. Switch manually:
-+ExecStartPre=/usr/bin/chvt 7
-+ExecStart=/usr/bin/weston --log=${XDG_RUNTIME_DIR}/weston.log $OPTARGS
-+
-+IgnoreSIGPIPE=no
-+
-+#[Install]
-+#Alias=multi-user.target.wants/weston.service
 -- 
-2.23.0
+1.9.1
 
 
