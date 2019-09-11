@@ -1,53 +1,25 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
-	[209.85.167.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 229E07F2A2
+Return-Path: <Meng.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DCAB77F2E1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 09:30:15 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id c12so15884647lfh.5
+	Wed, 11 Sep 2019 09:58:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8B9w55g026157
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 02:30:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=4SkxER/J7UGejTzVJV339JhcfBwyk1JdmeHmuvQ0DVA=;
-	b=ZjGX7YC/7eC+lKCrdObIWp808qdDe2YjXxO4LrIuFDUKfVhim7D45ybg0wQdaId6J/
-	ltVAebxgpwiO0Y6qMUvCGyR/FnBjTB7NEB1XsfgBN+rewREiKhInFl6g7t4gJIRQXkZ+
-	jCjRqiAC53RTY36sL/+rdGj7UdfEzHtYdTj+UbJvzvKqjb2SG7RR5dMF6+K15XzuUOlS
-	VwObj2eWgbMkMUxa2NIQb+g7vnIek45Z8seBB7enlG7ud5hG0xv+wlcoYCKn0SmXhseH
-	42dubaPYqT6NLCRNyTuPI6qkOT2hhhmVtIIkc7M3fyYAuJxy772RJpE7Oug70ERs4ZPN
-	RbUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=4SkxER/J7UGejTzVJV339JhcfBwyk1JdmeHmuvQ0DVA=;
-	b=cRTuT4ZI7t0X5GaqUJdZpWxhwKoCHLd653RJBLWapuGDbWk2KavQjcZsBHsdQXm+Gy
-	0KKfchLGsSgVSbs0m9Wj2GIBW0aKTNVWK4ouv8CPCL3M3HiOFmrzzdyn43QZ5yxd6xxk
-	+QUTQezXzVd8pxWJu36jlnAjjQUkvYq4iTjUapeJCk2rHn8NE7reccXrIAECo/z+IUCb
-	tNidvCZCGBSa752uQDkdlMVmb/g+mH815cmfMfDBKvtk1/mGrsabVr6nf8jl906WXtsp
-	2egUwDIdhJbtqMAW5yu4LYtW8PVdwsYRfdhog8gn5Rr3ja925YARHyDsxGsrh6sR4olA
-	fp0Q==
-X-Gm-Message-State: APjAAAXUhYa55sicONRuutltHMBwYYm7cf6/S4uTKBougndRamIYbxLH
-	vqPRNGUBLFV12Dcq19YwnxcoV2FH
-X-Google-Smtp-Source: APXvYqwXPNKR7vuze2tkVxQUr8EfE8SFJFDwKYINS++69psTtRj6x0kLIGDjfdpdt+CmAonOuvJfTg==
-X-Received: by 2002:ac2:5633:: with SMTP id b19mr23311956lff.103.1568194215088;
-	Wed, 11 Sep 2019 02:30:15 -0700 (PDT)
-Received: from localhost.localdomain ([94.25.229.24])
-	by smtp.gmail.com with ESMTPSA id
-	t1sm4509306lji.101.2019.09.11.02.30.13
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Sep 2019 02:30:14 -0700 (PDT)
-From: dbaryshkov@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Sep 2019 12:30:01 +0300
-Message-Id: <20190911093001.7849-9-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190911093001.7849-1-dbaryshkov@gmail.com>
-References: <20190911093001.7849-1-dbaryshkov@gmail.com>
+	Wed, 11 Sep 2019 02:58:06 -0700 (PDT)
+Received: from pek-mli1-d1.wrs.com (128.224.162.173) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 11 Sep 2019 02:58:05 -0700
+From: <Meng.Li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Sep 2019 17:59:47 +0800
+Message-ID: <1568195987-11106-2-git-send-email-Meng.Li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1568195987-11106-1-git-send-email-Meng.Li@windriver.com>
+References: <1568195987-11106-1-git-send-email-Meng.Li@windriver.com>
 MIME-Version: 1.0
-Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH 9/9] systemd-boot.bbclass: use efi_*_populate_common
+Subject: [PATCH 1/1] tune-cortexa57-cortexa53: add tunes for ARM Cortex-A53-Cortex-A57
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,61 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 09:30:15 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 11 Sep 2019 09:58:06 -0000
+Content-Type: text/plain
 
-From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+From: Limeng <Meng.Li@windriver.com>
 
-Use common code form uefi.bbclass to populate efi directories.
+commit 3613b2780a6b5d5d70ea6802be5060a8214cbdb5 from
+git://github.com/renesas-rcar/meta-renesas
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+The renesas rcar SoC H3/M3 is big.LITTLE architecture(cortex-a57.cortex-a53).
+In order to optimize the performance of the code running on SoC H3/M3,
+add a tune file for ARM Cortex-A53-Cortex-A57.
+Create this tune file by refering GCC doc, 3.18.5 ARM Options. 
+
+Signed-off-by: Meng Li <Meng.Li@windriver.com>
 ---
- meta/classes/systemd-boot.bbclass | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ .../include/tune-cortexa57-cortexa53.inc       | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-cortexa57-cortexa53.inc
 
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index ad565414a142..6594a2331f7d 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot.bbclass
-@@ -16,16 +16,12 @@ inherit uefi
- inherit fs-uuid
- 
- efi_populate() {
--        DEST=$1
-+        efi_populate_common "$1" systemd
- 
--        install -d ${DEST}${EFIDIR}
-         # systemd-boot requires these paths for configuration files
-         # they are not customizable so no point in new vars
-         install -d ${DEST}/loader
-         install -d ${DEST}/loader/entries
--        install -m 0644 ${DEPLOY_DIR_IMAGE}/systemd-${EFI_BOOT_IMAGE} ${DEST}${EFIDIR}/${EFI_BOOT_IMAGE}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${DEST}/startup.nsh
-         install -m 0644 ${SYSTEMD_BOOT_CFG} ${DEST}/loader/loader.conf
-         for i in ${SYSTEMD_BOOT_ENTRIES}; do
-             install -m 0644 ${i} ${DEST}/loader/entries
-@@ -33,17 +29,9 @@ efi_populate() {
- }
- 
- efi_iso_populate() {
--        iso_dir=$1
--        efi_populate $iso_dir
--        mkdir -p ${EFIIMGDIR}/${EFIDIR}
--        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-+        efi_iso_populate_common "$1"
+diff --git a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+new file mode 100644
+index 0000000000..d05e93f51e
+--- /dev/null
++++ b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+@@ -0,0 +1,18 @@
++DEFAULTTUNE ?= "cortexa57-cortexa53"
++require conf/machine/include/arm/arch-armv8a.inc
 +
-         cp -r $iso_dir/loader ${EFIIMGDIR}
--        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        echo "fs0:${EFIPATH}\\${EFI_BOOT_IMAGE}" > ${EFIIMGDIR}/startup.nsh
--        if [ -f "$iso_dir/initrd" ] ; then
--            cp $iso_dir/initrd ${EFIIMGDIR}
--        fi
- }
- 
- efi_hddimg_populate() {
++TUNEVALID[cortexa57-cortexa53] = "Enable big.LITTLE Cortex-A57.Cortex-A53 specific processor optimizations"
++TUNECONFLICTS[aarch64] = "armv4 armv5 armv6 armv7 armv7a"
++
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", " -march=armv8-a", "" ,d)}"
++
++MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "cortexa57-cortexa53", "cortexa57-cortexa53:", "" ,d)}"
++
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa57-cortexa53", " -mtune=cortex-a57.cortex-a53", "", d)}"
++
++# Little Endian base configs
++AVAILTUNES += "cortexa57-cortexa53"
++ARMPKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
++TUNE_FEATURES_tune-cortexa57-cortexa53 = "${TUNE_FEATURES_tune-aarch64} cortexa57-cortexa53"
++PACKAGE_EXTRA_ARCHS_tune-cortexa57-cortexa53 = "${PACKAGE_EXTRA_ARCHS_tune-aarch64} cortexa57-cortexa53"
++BASE_LIB_tune-cortexa57-cortexa53 = "lib64"
 -- 
-2.23.0
+2.18.1
 
 
