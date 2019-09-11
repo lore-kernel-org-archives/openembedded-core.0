@@ -1,24 +1,37 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B3D667CE79
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 906177F296
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 06:03:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8B63HVL019200
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2019 23:03:17 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Tue, 10 Sep 2019 23:03:16 -0700
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Sep 2019 14:02:53 +0800
-Message-ID: <1568181773-91288-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 11 Sep 2019 07:43:57 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Sep 2019 00:43:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; d="scan'208";a="187107162"
+Received: from pgsmsx112-dag.png.intel.com (HELO PGSMSX112.gar.corp.intel.com)
+	([10.108.55.234])
+	by orsmga003.jf.intel.com with ESMTP; 11 Sep 2019 00:43:57 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.57]) by
+	PGSMSX112.gar.corp.intel.com ([169.254.3.2]) with mapi id
+	14.03.0439.000; Wed, 11 Sep 2019 15:38:03 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "li.zhou@windriver.com" <li.zhou@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] qemu: Security Advisory - qemu - CVE-2019-15890
+Thread-Index: AQHVaGa2vngLr0uUSkma/OjYetQM4qclkMOA
+Date: Wed, 11 Sep 2019 07:38:02 +0000
+Message-ID: <8d42e3a265dcb8c3dc5398d0f6056df9f0d7940e.camel@intel.com>
+References: <1568181773-91288-1-git-send-email-li.zhou@windriver.com>
+In-Reply-To: <1568181773-91288-1-git-send-email-li.zhou@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.128.76]
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH] qemu: Security Advisory - qemu - CVE-2019-15890
+Subject: Re: [PATCH] qemu: Security Advisory - qemu - CVE-2019-15890
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,87 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 06:03:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Sep 2019 07:43:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FA3D53963DAD4A43AE5A26F036E3CA7B@intel.com>
+Content-Transfer-Encoding: base64
 
-Backporting patch from
-https://gitlab.freedesktop.org/slirp/libslirp/commit/c5927943
-to solve CVE-2019-15890.
-
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc                |  1 +
- .../qemu/qemu/CVE-2019-15890.patch                 | 48 ++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-15890.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 241f9db..de21d30 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -23,6 +23,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
-            file://0009-Fix-webkitgtk-builds.patch \
-            file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
-+           file://CVE-2019-15890.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2019-15890.patch b/meta/recipes-devtools/qemu/qemu/CVE-2019-15890.patch
-new file mode 100644
-index 0000000..1d89431
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2019-15890.patch
-@@ -0,0 +1,48 @@
-+From 4fc0d23e8f6d795c679623d2ed2cbe6a7a17b9c7 Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Tue, 10 Sep 2019 20:02:15 -0700
-+Subject: [PATCH] ip_reass: Fix use after free
-+
-+Using ip_deq after m_free might read pointers from an allocation reuse.
-+
-+This would be difficult to exploit, but that is still related with
-+CVE-2019-14378 which generates fragmented IP packets that would trigger this
-+issue and at least produce a DoS.
-+
-+Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-15890
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ slirp/src/ip_input.c | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/slirp/src/ip_input.c b/slirp/src/ip_input.c
-+index 8c75d914..c07d7d40 100644
-+--- a/slirp/src/ip_input.c
-++++ b/slirp/src/ip_input.c
-+@@ -292,6 +292,7 @@ static struct ip *ip_reass(Slirp *slirp, struct ip *ip, struct ipq *fp)
-+      */
-+     while (q != (struct ipasfrag *)&fp->frag_link &&
-+            ip->ip_off + ip->ip_len > q->ipf_off) {
-++        struct ipasfrag *prev;
-+         i = (ip->ip_off + ip->ip_len) - q->ipf_off;
-+         if (i < q->ipf_len) {
-+             q->ipf_len -= i;
-+@@ -299,9 +300,10 @@ static struct ip *ip_reass(Slirp *slirp, struct ip *ip, struct ipq *fp)
-+             m_adj(dtom(slirp, q), i);
-+             break;
-+         }
-++        prev = q;
-+         q = q->ipf_next;
-+-        m_free(dtom(slirp, q->ipf_prev));
-+-        ip_deq(q->ipf_prev);
-++        ip_deq(prev);
-++        m_free(dtom(slirp, prev));
-+     }
-+ 
-+ insert:
-+-- 
-+2.23.0
-+
--- 
-1.9.1
-
+T24gV2VkLCAyMDE5LTA5LTExIGF0IDE0OjAyICswODAwLCBMaSBaaG91IHdyb3RlOg0KPiBCYWNr
+cG9ydGluZyBwYXRjaCBmcm9tDQo+IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9zbGly
+cC9saWJzbGlycC9jb21taXQvYzU5Mjc5NDMNCj4gdG8gc29sdmUgQ1ZFLTIwMTktMTU4OTAuDQo+
+IA0KPiBTaWduZWQtb2ZmLWJ5OiBMaSBaaG91IDxsaS56aG91QHdpbmRyaXZlci5jb20+DQo+IC0t
+LQ0KPiAgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS5pbmMgICAgICAgICAgICAgICAg
+fCAgMSArDQo+ICAuLi4vcWVtdS9xZW11L0NWRS0yMDE5LTE1ODkwLnBhdGNoICAgICAgICAgICAg
+ICAgICB8IDQ4DQo+ICsrKysrKysrKysrKysrKysrKysrKysNCj4gIDIgZmlsZXMgY2hhbmdlZCwg
+NDkgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9xZW11L3FlbXUvQ1ZFLTIwMTktDQo+IDE1ODkwLnBhdGNoDQo+IA0KPiBkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS5pbmMgYi9tZXRhL3JlY2lwZXMtDQo+
+IGRldnRvb2xzL3FlbXUvcWVtdS5pbmMNCj4gaW5kZXggMjQxZjlkYi4uZGUyMWQzMCAxMDA2NDQN
+Cj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS5pbmMNCj4gKysrIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS5pbmMNCj4gQEAgLTIzLDYgKzIzLDcgQEAgU1JD
+X1VSSSA9ICINCj4gaHR0cHM6Ly9kb3dubG9hZC5xZW11Lm9yZy8ke0JQTn0tJHtQVn0udGFyLnh6
+IFwNCj4gICAgICAgICAgICAgZmlsZTovLzAwMDgtbGludXgtdXNlci1GaXgtd2Via2l0Z3RrLWhh
+bmdzLW9uLTMyLWJpdC14ODYtDQo+IHRhcmdldC5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6
+Ly8wMDA5LUZpeC13ZWJraXRndGstYnVpbGRzLnBhdGNoIFwNCj4gICAgICAgICAgICAgZmlsZTov
+LzAwMTAtY29uZmlndXJlLUFkZC1wa2ctY29uZmlnLWhhbmRsaW5nLWZvci0NCj4gbGliZ2NyeXB0
+LnBhdGNoIFwNCj4gKyAgICAgICAgICAgZmlsZTovL0NWRS0yMDE5LTE1ODkwLnBhdGNoIFwNCj4g
+ICAgICAgICAgICAgIg0KPiAgVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAicWVtdS0oP1A8cHZlcj5c
+ZCsoXC5cZCspKylcLnRhciINCj4gIA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3FlbXUvcWVtdS9DVkUtMjAxOS0xNTg5MC5wYXRjaA0KPiBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9xZW11L3FlbXUvQ1ZFLTIwMTktMTU4OTAucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2
+NDQNCj4gaW5kZXggMDAwMDAwMC4uMWQ4OTQzMQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUvQ1ZFLTIwMTktMTU4OTAucGF0Y2gNCj4gQEAg
+LTAsMCArMSw0OCBAQA0KPiArRnJvbSA0ZmMwZDIzZThmNmQ3OTVjNjc5NjIzZDJlZDJjYmU2YTdh
+MTdiOWM3IE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiArRnJvbTogTGkgWmhvdSA8bGku
+emhvdUB3aW5kcml2ZXIuY29tPg0KDQpDYW4geW91IHBsZWFzZSBmaXggdGhlIGF1dGhvciBuYW1l
+IGhlcmU/DQoNClRoYW5rcywNCg0KQW51ag0K
 
