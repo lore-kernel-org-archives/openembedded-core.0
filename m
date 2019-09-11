@@ -1,52 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F5E67EB41
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
+	[209.85.221.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E48B7E996
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 15:18:01 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id r195so4062194wme.2
+	Wed, 11 Sep 2019 15:27:44 +0000 (UTC)
+Received: by mail-vk1-f169.google.com with SMTP id 70so3535029vkz.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 08:18:02 -0700 (PDT)
+	Wed, 11 Sep 2019 08:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=5OvBnSU+lgE9snTgae5vb9vucGWxRUqRW1Q2s9k8Qqo=;
-	b=If/MAXiiHcsDgHa2DaWaNGDIbSnaWRG9RzGKlMwNvfkTj8ehoYwbpNjE5xcpdUZwpI
-	74o/iBznWytTMGovPPUuNMrYwSBc81YVCMEwWvBGK2WKsIh21kp58unRfdpcaI+n+xlx
-	SYpuK35K79NwdMHCCzPnXWRFll5lmntGF5rA+f36p+0Nt1gC1WQMNNn1ncbrPURo0gA3
-	+yx4KtlEMsoOGxLX9LYVRvIopgar73tsEr4pb3lgJ3FxtrZU8jvh6Wp8+H0E1B9ugpCU
-	iVBTuvxC2PdWHiK2QtVtpF1PnHHK1Fq6jb3Bu1Z6q0VSN0E/EVp0hZada/qj6Z8XD/iZ
-	K3lA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hahraUxSPW55dD8BDYpbdMkRIcW+48KmKIDNVt6Zkgw=;
+	b=D5jgUbaTr1YAFkA2pyp31fm9Tx+wsmGFNMulk9Hg4vzHNmMWhuc/kuDY8R8NWC1ivD
+	F0byrF/XJ2ZMglye0SN0aTvEkqX04f9nzRRLhexTfdhDGJm5LP0kZgcIyukcUkJ1T50E
+	ieTRNej3bFciyES7K8jcCcWMu91Ht4y6Bx76ujxPjFO3g3t5bWj8HzWC+/rYM5twJoex
+	y1cqVtpbdDoJWxKX4edcqoCXZeICM7Db1UIYcFesujDdfqwAQRiWrx+jAjPy5NFogerF
+	+hoE9b9+znyUfawsujCajHy320ChQNWflGiG0Jff/EXZehn43ptWMFmZpon4amdHsoN1
+	8X5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=5OvBnSU+lgE9snTgae5vb9vucGWxRUqRW1Q2s9k8Qqo=;
-	b=Eof3Rb2MK9cfgEANkoi8WcohOCZwfXdaCfD3EZPwnsBkiaqJRIAWW3TwGIHK24RtWp
-	GCQ5c+2YSUsg95X1fqjieCJ1oT6Uysqaj9BCLHUm+vFh+eaU5HessvSELjdJQXTUYPB3
-	Ltlsg74zbejdizVVGF5vHOSvG/FVYn7iTQPZTVvYDQtNq/avcBMiJTBDh+efZduvoz/u
-	pDTL7AqPdNt0HO8F6IjbLoGfTcVr3BSghR7zIajyHZERXf51/JZ4yWMZu2N+op9E6+NI
-	FAFF1upUTp6NQxhew7BlNJx1PLwCVATn3VPiprSMtZ5K8FjdBiERIsGqdvDsOE521sdS
-	6ZaA==
-X-Gm-Message-State: APjAAAX9uyVRB0ySOt783LyPs0i1Wx2oiv0+mEAStjaf1cAGiEcmLhAt
-	qfs/SZLB/ThWbsm/dAzKm/tGBjKMd0Y=
-X-Google-Smtp-Source: APXvYqzPXhXiGaInCn/US2HPoWvsHoQcGOXt2Kjuo4uNfKPzr/OWT/BhhIoI6e0kLccz42mWr3wKHA==
-X-Received: by 2002:a05:600c:29a:: with SMTP id 26mr4635348wmk.8.1568215081615;
-	Wed, 11 Sep 2019 08:18:01 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	q66sm4566574wme.39.2019.09.11.08.18.00
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 11 Sep 2019 08:18:01 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Sep 2019 15:18:00 +0000
-Message-Id: <20190911151800.1363-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1566540028.git.Martin.Jansa@gmail.com>
-References: <cover.1566540028.git.Martin.Jansa@gmail.com>
-Cc: Jan.Hilsdorf@lawo.com
-Subject: [PATCH 7/7] kernel-devicetree.bbclass: add missing backslash
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hahraUxSPW55dD8BDYpbdMkRIcW+48KmKIDNVt6Zkgw=;
+	b=U/FGP3l/kOxRg9qNadGsvJJTYT1L6876YlMbYQ3vNeyJE2xA/2VCKUu+joFAzCqKNA
+	F2i6705DEi1E7zV9TcxzNqZpKMioxpLNaAJk2MO2sbcLVyMirmFebBRVChruRoG2liY6
+	Y+T9EBofqhRcdZ1t3W2tkdCwllQLrKXVs9rqBWmC2IQlHeoCIGhTILMgl/EGq8Z0iiEu
+	CKBryRkZUT39smja8lYe+0fWI9voRnsHkvqBiKHa8Uwr0qt1JIpjkM+bbsEFcI+dLHO5
+	xNBBS8FBQSyhb0tZ1ugdJC5rpVovIiqaepyeUPSKYj9siOq7d5CUQPHbI8lDwouFppxO
+	GFyQ==
+X-Gm-Message-State: APjAAAWkH51eoNtJ4yKG57dvX8Va0QCPzYu7LjCNbsnNzOb1Ql2xp+Jf
+	wg/VvptOZBNyIildorFzbQkuCO/UI7rn9nUtBq4=
+X-Google-Smtp-Source: APXvYqyRT2IfJ7Mc9pVIH7QUY3AQURLuNhE/Qi4VSjpGcnXp0YyJ8pC639F7/vlhCvgkYLU+qcA9CwgsrJ78ZjGQyXU=
+X-Received: by 2002:ac5:c5ba:: with SMTP id f26mr340208vkl.32.1568215665108;
+	Wed, 11 Sep 2019 08:27:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190906184727.552-1-fabio.berton@ossystems.com.br>
+	<CANNYZj8jseQc9Lnt8r1SuDdh4q_xUJy5FkpUukpLzUbVn5vW2g@mail.gmail.com>
+	<a74c7fb7-451c-094a-36a3-49b62c66d742@intel.com>
+	<CANNYZj-2tw_kkoj7OqwhbBggFE7dvZ7dv0FhmsVuA2vOWQBf-A@mail.gmail.com>
+	<ac6643d7-da5a-0ec7-799b-06083b728381@intel.com>
+	<CANNYZj_oMcEekZoLJ+2vsGc7UgOETJppY1UZ9jDj8z86PeSnXQ@mail.gmail.com>
+	<268869ab-aa03-cf7c-c75d-9aa8dd7fd5ab@intel.com>
+In-Reply-To: <268869ab-aa03-cf7c-c75d-9aa8dd7fd5ab@intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 11 Sep 2019 17:27:34 +0200
+Message-ID: <CANNYZj_DyE_oxXjk+NeK4je72gYF0pG-_MbxVMv8ck37Qcp2bw@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: Upgrade 19.1.1 -> 19.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +59,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 15:18:01 -0000
+X-List-Received-Date: Wed, 11 Sep 2019 15:27:45 -0000
+Content-Type: multipart/alternative; boundary="000000000000a66935059248a90b"
 
-* in oe-core commit 1860d9d3c62e2e94cd68a809385873ffd8270b6d I've accidentally
-  removed the backshash here
+--000000000000a66935059248a90b
+Content-Type: text/plain; charset="UTF-8"
 
-Reported-By: "Hilsdorf, Jan (LAWO)" <Jan.Hilsdorf@lawo.com>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/kernel-devicetree.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 11 Sep 2019 at 14:35, Ross Burton <ross.burton@intel.com> wrote:
 
-diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-index a45a0ce3c8..6028361f80 100644
---- a/meta/classes/kernel-devicetree.bbclass
-+++ b/meta/classes/kernel-devicetree.bbclass
-@@ -81,7 +81,7 @@ do_deploy_append() {
- 					> ${DEPLOYDIR}/$type-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext.bin
- 				if [ -e "${KERNEL_OUTPUT_DIR}/${type}.initramfs" ]; then
- 					cat ${KERNEL_OUTPUT_DIR}/${type}.initramfs \
--						${DEPLOYDIR}/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
-+						${DEPLOYDIR}/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext \
- 						>  ${DEPLOYDIR}/${type}-${INITRAMFS_NAME}-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext.bin
- 				fi
- 			fi
--- 
-2.17.1
+>
+> See I knew that but had blocked it out because it's so horrible.
+>
+> One day we need to sit down with upstream Python and figure out how to
+> handle cross-compilation properly.
+>
+> I finally managed to make my own builds fail (had to turn off Python in
+> libxml2) and beat at it to build without a target Python.  Fabio: can
+> you try building Mesa with these two patches:
+>
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=5f3559d8bb61212e0f9a6543f2dce2bdf77c48b5
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=4f8995aaa2ec557a0603ddc664d929317b0c0b6e
+>
 
+I have to say, the latter patch is rather ugly. It would be better to split
+python3native class into two: python3native (just for running scripts, does
+not depend on target python3), and python3target (for actually obtaining
+information about the target configuration, does need target python3).
+Until then, I'd just pull in target python, for simplicity's sake (also
+there's one or two recipes where the same meson problem happens).
 
+Alex
+
+--000000000000a66935059248a90b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 11 Sep 2019 at 14:35, Ross Burton=
+ &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt;=
+ wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><br>
+See I knew that but had blocked it out because it&#39;s so horrible.<br>
+<br>
+One day we need to sit down with upstream Python and figure out how to <br>
+handle cross-compilation properly.<br>
+<br>
+I finally managed to make my own builds fail (had to turn off Python in <br=
+>
+libxml2) and beat at it to build without a target Python.=C2=A0 Fabio: can =
+<br>
+you try building Mesa with these two patches:<br>
+<br>
+<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Dro=
+ss/mut&amp;id=3D5f3559d8bb61212e0f9a6543f2dce2bdf77c48b5" rel=3D"noreferrer=
+" target=3D"_blank">http://git.yoctoproject.org/cgit.cgi/poky-contrib/commi=
+t/?h=3Dross/mut&amp;id=3D5f3559d8bb61212e0f9a6543f2dce2bdf77c48b5</a><br>
+<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Dro=
+ss/mut&amp;id=3D4f8995aaa2ec557a0603ddc664d929317b0c0b6e" rel=3D"noreferrer=
+" target=3D"_blank">http://git.yoctoproject.org/cgit.cgi/poky-contrib/commi=
+t/?h=3Dross/mut&amp;id=3D4f8995aaa2ec557a0603ddc664d929317b0c0b6e</a><br></=
+blockquote><div><br></div><div>I have to say, the latter patch is rather ug=
+ly. It would be better to split python3native class into two: python3native=
+ (just for running scripts, does not depend on target python3), and python3=
+target (for actually obtaining information about the target configuration, =
+does need target python3). Until then, I&#39;d just pull in target python, =
+for simplicity&#39;s sake (also there&#39;s one or two recipes where the sa=
+me meson problem happens).</div><div><br></div><div>Alex<br></div></div></d=
+iv>
+
+--000000000000a66935059248a90b--
