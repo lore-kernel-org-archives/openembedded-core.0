@@ -1,53 +1,53 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DCB407E447
+Return-Path: <prvs=1507a981f=alistair.francis@wdc.com>
+Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A6AC7E3AA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 17:13:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8BHCZWd025288
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 11 Sep 2019 10:13:01 -0700
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 11 Sep 2019 10:12:51 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Wes Lindauer
-	<wesley.lindauer@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <8ca1565a5fa846fbb77c1f2680e1a169@xbox06.axis.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <8c611fa1-9087-bbbc-d717-4487c9605ad6@windriver.com>
-Date: Wed, 11 Sep 2019 12:12:50 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+	Wed, 11 Sep 2019 17:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1568222836; x=1599758836;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=Cagovh9Gn4unsxFj1X9EC20iQ/7pIqBh0nS07eF4wcA=;
+	b=R6Zhb1qp+DL8gmkxd/GIdd4OE41Gcc43ci3tp/l86/XilgkbKjotZuQM
+	U+W42aBQWMD8mLLfI06xpXWcVjW7c8G/DFoPajjwDTOPuSyXgl3BhplB5
+	m4f6/5m3G+hZB94j1s0u6F8owlKO7uirarduhSNnCFggEJ/4HNM+C8S6G
+	6/4KSGx8yz3aw1QHNGLL2GkNdWoQequyBn4Gk/0XsfKc4uQrs0RvQpiTw
+	+r1tEbpq2Xt5FOgfqNwMka7J53tKoNTxAPiGcmTyCI9GU6q6LHrgaod7m
+	OwCrdEbSFBukxm3wLiKcPf6RWLylGQZFSo7XhgaIR8fw/Lc6rGlDKJ/Bm A==;
+IronPort-SDR: R8433iNhDaWQ6ylNh8fegu4N7E8nHAbcEVXDB2Tpq0itNw8bsCoYt2uSG0fUU/rA/5IGG7Cp4F
+	2O58MH1OX2SfCsr9TelJF+va10mxxzcYFgX836qlsH5dgvklHD5X2HANNCF4ccz9Wgp6c5EpFi
+	nxiyxw/cBL3s4CofFd/4FfrdxYJPhwhvw8BDrcks13APzkni8PdHnjED/CfL1Vs5kAWMkgvGax
+	/jtCo6ZHbP4qIGfecpvD4q5dAfHphVi8VToDWrvhzTSvCqm2ZhtFL08toJm9AizEofgQ3jo3OV
+	68A=
+X-IronPort-AV: E=Sophos;i="5.64,494,1559491200"; d="scan'208";a="118883271"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 12 Sep 2019 01:27:00 +0800
+IronPort-SDR: 4rxNsO4FqQMEm/02hhrHVI1okJ3SRDCGVl0Gt4pAJoAHGRVAYj4m7I7whDi2a6vroesI2yHcoC
+	o5kiU3rWrVwAV0L7DDVQCbOjqX/F2qSqgAM029gXod2scL1Zn91NKLo9glKs3FumiXmSfhfOAO
+	GMTtGXtVWyzgp6dHYolSydbxI3J70sPWhkuxAFi63kyixSRlXEHUC1XY+0yxB+5E62KNDVnEZw
+	/oBp3e++75TNCxGIwmi17lsVw1dsUzK5pTbufN+A8nZLOUTStRkoQXbM5o76Y01aDZ4clHAzV7
+	qp9RFEr05utaNveiPAHabjyY
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	11 Sep 2019 10:23:40 -0700
+IronPort-SDR: cUB6yvk/VV6jVIHu1dLHFjonU1xS6ULJR4HZO1VBi295x8anHxI10QWc1Cbc9YwJxnyETvyqwR
+	Z8OG13r/xIL4gXPNOP8HKom46tS2xWHY5LdxrkloCLtl96OpGfKiRNVMenb5CFSuTy78Z/7U+F
+	nDi0oD5UCm0k/pI091GS+q6hy9b5lz5Xf8rVclqRmbi6TMu9oMAY9rFAV5bjOyxskVTkAaQVly
+	zE3muRoUzvaNdtzoszUw/F+Ri9d+MQczP0bHiP/LzNnFNkL9bjRVF7AgUtxsbd40KA42vI1vD1
+	504=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+	by uls-op-cesaip01.wdc.com with ESMTP; 11 Sep 2019 10:26:57 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Sep 2019 10:22:56 -0700
+Message-Id: <20190911172256.11378-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <8ca1565a5fa846fbb77c1f2680e1a169@xbox06.axis.com>
-Subject: Re: [PATCH] bitbake: cooker: Ensure bbappends are found in stable order
+Subject: [PATCH] gdb: Mark gdbserver as ALLOW_EMPTY for riscv32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,70 +60,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 17:13:48 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Sep 2019 17:27:14 -0000
+Content-Transfer-Encoding: 8bit
 
-On 9/11/19 12:07 PM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-bounces@lists.openembedded.org> On Behalf Of Wes Lindauer
->> Sent: den 28 augusti 2019 23:38
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH] bitbake: cooker: Ensure bbappends are found
->> in stable order
->>
->> Thanks to wildcards in bbappend filenames, it's possible to have
->> multiple bbappends that apply to the same recipe in the same directory.
->> In order to get sstate hits between different workspaces, we want to
->> apply those bbappend files in a consistent order.  Since readdir()
->> returns files in a non-deterministic order between workspaces (based on
->> inode number and/or time of creation), we'll need to sort its result in
->> order to have any consistency.
->>
->> Signed-off-by: Wes Lindauer <wesley.lindauer@gmail.com>
->> ---
->>  bitbake/lib/bb/cooker.py | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
->> index 0607fcc708..a9ee142aa5 100644
->> --- a/bitbake/lib/bb/cooker.py
->> +++ b/bitbake/lib/bb/cooker.py
->> @@ -1869,6 +1869,7 @@ class CookerCollectFiles(object):
->>              (bbappend, filename) = b
->>              if (bbappend == f) or ('%' in bbappend and bbappend.startswith(f[:bbappend.index('%')])):
->>                  filelist.append(filename)
->> +        filelist.sort()
->>          return filelist
->>
->>      def collection_priorities(self, pkgfns, d):
->> --
->> 2.14.5
-> 
-> I don't think this was a good idea at all. Before, bbappends were applied 
-> in the priority order of the layers, but this change throws the sorting 
-> based on priority out the window and might cause bbappend files for higher 
-> layers to be applied before lower layers' bbappend files.
-> 
-> Please revert this change, and rethink how to maintain a stable order for 
-> bbappend files from the same directory without affecting bbappend files 
-> from different layers.
+riscv64 already has gdbserver set as ALLOW_EMPTY, so let's set it for
+riscv32 as well.
 
-I had assumed that the sorting was only within each layer's bbappends.  If it's
-global, you are absolutely right that priority order matters.
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ meta/recipes-devtools/gdb/gdb.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-So maybe:
-
-Within a layer (multiple .bbappends) 'sort' (alphabetic)
-
-Between layers first by priority, then by order in the bblayers (for two layers
-with the same priority)?
-
---Mark
-
-> //Peter
-> 
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index 0f10b41734..249e24dc52 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -10,4 +10,5 @@ PACKAGES =+ "gdbserver"
+ FILES_gdbserver = "${bindir}/gdbserver"
+ 
+ ALLOW_EMPTY_gdbserver_riscv64 = "1"
++ALLOW_EMPTY_gdbserver_riscv32 = "1"
+ 
+-- 
+2.23.0
 
 
