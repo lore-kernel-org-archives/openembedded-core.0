@@ -1,53 +1,53 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id ACD387F2A1
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+	[209.85.208.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C69447F2A1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 09:30:08 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id t8so15843723lfc.13
+	Wed, 11 Sep 2019 09:30:09 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id y5so8482145lji.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 02:30:10 -0700 (PDT)
+	Wed, 11 Sep 2019 02:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=5XOFInWkQ0MuVSiIabZpKlmvYPSMxijXL/KICdN9RGY=;
-	b=HcjvVm8QgyeZ5/HRANXKyNCUzeVoP7I6qARjo1I4zNM97khesPFvFZaHcMiiH1JIuE
-	vjG6pDwK417KRLK//0D/2++b1QpEL4GNKd40B47XrtrSdO33oDy/LWZTJKbhQgzmDNLR
-	D2Wgvt3e3iE6n9IZhV2OVQIdX/Y4DX63Hg4axudiAdXCrlKKdBssHJsIhbEusTcblCF2
-	IjfdaVjZPhlK+X5ZETH3XZ5JRN1Z3NMNxCEg4MB/rljIjRqlcy/QYsLxL928q1DpnlqP
-	m6Ed7V8rVtEsMqQz76bIAHi3hhyykIo1BjxRQo+yukaeqpmaIeP7U4zW7wdG5ArRCtn9
-	QYxA==
+	bh=RUFPcJmp8ccwRu6qRBrmSOLkxhXWWdzMIogjj+xR6Qw=;
+	b=lys5L+m0AnK4k/0gfqcqR9PbiFG0RmJWTboJkZZjbdd2u59WOmwXas5oXvVtc6W9jk
+	Dxb8if2T4/GGjVuDQKKOy8mPmpzQFeqgoWi22DATkxUi9/MsXURPtX4o7ux36IojUis3
+	LNyDjX6fsXuUfHnYoEG8QJ7DSlkD7B470+TSgjZ7HfhYIvmsneA+tlqJGS053J3HHvrp
+	H9SxnGpy0vHPjdgdkaJnhvj94vvuXzo+z6P5i4nbm5JLcqMvTVR0ZbliQuqsUVqDNiS7
+	NPWURfzxisTDoejZ+ZQeZcvIMmVFOHdwtDKBGyyG0WgwhulBTSkkHCWuoUuFgLpuMk4O
+	Jmtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=5XOFInWkQ0MuVSiIabZpKlmvYPSMxijXL/KICdN9RGY=;
-	b=E67yJCVijK5HW9hSs23SxatrRDMq9PNXCoR9Tt6+2wRLIPZNALtPkYOSYMXJ7FgMzv
-	rd08VthI5oNgrGnmIluRoLbOf93xDGZGHzmYReVXftAZGpzdQYNQerg/rldW1vjPoT4m
-	lfq9SQSzT6QJG75uCP/TJRFkjgLXF03yAOVjP/maGOMZk+hQiQY26bywRgjGXBnULnpp
-	8kTMNeHRHaYo+/bDPzgDaPvMPXxST4EjTONp99/VGIcqPqRXTX/uAJEOsUwsquNQcH5+
-	FaQXsKkz+VPGc4vn81oFbG0SMMni7RFmCHh1YeewEc7IhCP5+6F3q5pmPc9KXXXU/Tme
-	9ylA==
-X-Gm-Message-State: APjAAAUJgT/vwuRbgfGyMr++KIuDG+5Ib7ykW+nlqa5huVGpGeFCCTPn
-	in9YNcnQk/aQd1G9963B2RBoZSVi
-X-Google-Smtp-Source: APXvYqwQxcMd9acPIhsJf4A1B41O3oaSx1w1Em9Q9KOzWNgTBReKc0pJKPAU4mH59WggcCYtR9CQ6w==
-X-Received: by 2002:ac2:5445:: with SMTP id d5mr22719082lfn.43.1568194208752; 
-	Wed, 11 Sep 2019 02:30:08 -0700 (PDT)
+	bh=RUFPcJmp8ccwRu6qRBrmSOLkxhXWWdzMIogjj+xR6Qw=;
+	b=s0SBa/55XTvn7HlzoNJB4NuuH9Y5erM7YjwreSwQMI/vE/kDVr9cQy3pMxT6AM7D2Y
+	bDfybUytmaVISBUainDft94yKlvOeyMac6Y8ViVPmZGqMOFNq1MKgNsochUfiSUFIeg0
+	wHjNqdn2I8oqh6b0rEkJVgwmEn6oql1+TtHsvqQLqy8ZxZIJxNkAHXYJU2JwxkfzPT9M
+	SezU+eqiFTylPvKEPfFkbE8GniuVebMCZUI9nzpG44t9RytsLCr4XY8/VCzgVc2i15WF
+	p50MrgoxYodg54B8ejE9XRlTrgsgh5OBh6ESeWhJqtcVwispCtQAwIYLG6EUtArx+He0
+	vxQA==
+X-Gm-Message-State: APjAAAUcdczaVypi/CDXmnUhsYBU0ORlw6xw5lpeWs7Ah2M9vNADOFPj
+	3BV0Yf4oDMwItSxDl9jtzyR/esz8
+X-Google-Smtp-Source: APXvYqyl5Zdg6aLXJ9mLbXI7NW6R71sXGVKgvXNZtfDz3XkL/yWK1EFsV3Q4yyXX4MjEtqgNx9NJbg==
+X-Received: by 2002:a2e:3a0e:: with SMTP id h14mr1877439lja.161.1568194209912; 
+	Wed, 11 Sep 2019 02:30:09 -0700 (PDT)
 Received: from localhost.localdomain ([94.25.229.24])
 	by smtp.gmail.com with ESMTPSA id
-	t1sm4509306lji.101.2019.09.11.02.30.07
+	t1sm4509306lji.101.2019.09.11.02.30.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Sep 2019 02:30:08 -0700 (PDT)
+	Wed, 11 Sep 2019 02:30:09 -0700 (PDT)
 From: dbaryshkov@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Sep 2019 12:29:56 +0300
-Message-Id: <20190911093001.7849-4-dbaryshkov@gmail.com>
+Date: Wed, 11 Sep 2019 12:29:57 +0300
+Message-Id: <20190911093001.7849-5-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190911093001.7849-1-dbaryshkov@gmail.com>
 References: <20190911093001.7849-1-dbaryshkov@gmail.com>
 MIME-Version: 1.0
 Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH 4/9] grub-efi.bbclass: switch to uefi.bbclass
+Subject: [PATCH 5/9] systemd-boot: switch to uefi.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,75 +60,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 09:30:08 -0000
+X-List-Received-Date: Wed, 11 Sep 2019 09:30:10 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 
-Use variables from uefi.bbclass instead of hardcoding them in the class.
+Use variables from uefi.bbclass instead of hardcoding them in the recipe.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 ---
- meta/classes/grub-efi-cfg.bbclass |  1 -
- meta/classes/grub-efi.bbclass     | 20 ++++----------------
- 2 files changed, 4 insertions(+), 17 deletions(-)
+ meta/recipes-core/systemd/systemd-boot_242.bb | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/grub-efi-cfg.bbclass b/meta/classes/grub-efi-cfg.bbclass
-index f661a69f833a..8b5ff20c72c0 100644
---- a/meta/classes/grub-efi-cfg.bbclass
-+++ b/meta/classes/grub-efi-cfg.bbclass
-@@ -23,7 +23,6 @@ GRUB_TIMEOUT ?= "10"
- #FIXME: build this from the machine config
- GRUB_OPTS ?= "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1"
+diff --git a/meta/recipes-core/systemd/systemd-boot_242.bb b/meta/recipes-core/systemd/systemd-boot_242.bb
+index 56a25c35babc..3cb05db345ff 100644
+--- a/meta/recipes-core/systemd/systemd-boot_242.bb
++++ b/meta/recipes-core/systemd/systemd-boot_242.bb
+@@ -1,6 +1,8 @@
+ require systemd.inc
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
  
--EFIDIR = "/EFI/BOOT"
- GRUB_ROOT ?= "${ROOT}"
- APPEND ?= ""
- 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index ec692f1646f3..a0a95d0e1e45 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -1,4 +1,5 @@
- inherit grub-efi-cfg
 +inherit uefi
++
+ DEPENDS = "intltool-native libcap util-linux gnu-efi gperf-native"
  
- efi_populate() {
- 	# DEST must be the root of the image so that EFIDIR is not
-@@ -7,22 +8,9 @@ efi_populate() {
- 
- 	install -d ${DEST}${EFIDIR}
- 
--	GRUB_IMAGE="grub-efi-bootia32.efi"
--	DEST_IMAGE="bootia32.efi"
--	if [ -n "${MLPREFIX}" ]; then
--		if [ "${TARGET_ARCH_MULTILIB_ORIGINAL}" = "x86_64" ]; then
--			GRUB_IMAGE="grub-efi-bootx64.efi"
--			DEST_IMAGE="bootx64.efi"
--		fi
--	else
--		if [ "${TARGET_ARCH}" = "x86_64" ]; then
--			GRUB_IMAGE="grub-efi-bootx64.efi"
--			DEST_IMAGE="bootx64.efi"
--		fi
--	fi
--	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}/${DEST_IMAGE}
-+	install -m 0644 ${DEPLOY_DIR_IMAGE}/grub-efi-${EFI_BOOT_IMAGE} ${DEST}${EFIDIR}/${EFI_BOOT_IMAGE}
- 	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--	printf 'fs0:%s\%s\n' "$EFIPATH" "$DEST_IMAGE" >${DEST}/startup.nsh
-+	printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${DEST}/startup.nsh
- 
- 	install -m 0644 ${GRUB_CFG} ${DEST}${EFIDIR}/grub.cfg
+ # NOTE: These three patches are in theory not needed, but we haven't
+@@ -33,16 +35,13 @@ python __anonymous () {
+     import re
+     target = d.getVar('TARGET_ARCH')
+     prefix = "" if d.getVar('EFI_PROVIDER') == "systemd-boot" else "systemd-"
+-    if target == "x86_64":
+-        systemdimage = prefix + "bootx64.efi"
+-    else:
+-        systemdimage = prefix + "bootia32.efi"
++    systemdimage = prefix + d.getVar("EFI_BOOT_IMAGE")
+     d.setVar("SYSTEMD_BOOT_IMAGE", systemdimage)
+     prefix = "systemd-" if prefix == "" else ""
+     d.setVar("SYSTEMD_BOOT_IMAGE_PREFIX", prefix)
  }
-@@ -35,7 +23,7 @@ efi_iso_populate() {
- 	cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
- 	cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
- 	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--	printf 'fs0:%s\%s\n' "$EFIPATH" "$GRUB_IMAGE" > ${EFIIMGDIR}/startup.nsh
-+	printf 'fs0:%s\%s\n' "$EFIPATH" "grub-efi-${EFI_BOOT_IMAGE}" > ${EFIIMGDIR}/startup.nsh
- 	if [ -f "$iso_dir/initrd" ] ; then
- 		cp $iso_dir/initrd ${EFIIMGDIR}
- 	fi
+ 
+-FILES_${PN} = "/boot/EFI/BOOT/${SYSTEMD_BOOT_IMAGE}"
++FILES_${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}"
+ 
+ RDEPENDS_${PN} += "virtual/systemd-bootconf"
+ 
+@@ -61,10 +60,8 @@ do_compile() {
+ }
+ 
+ do_install() {
+-	install -d ${D}/boot
+-	install -d ${D}/boot/EFI
+-	install -d ${D}/boot/EFI/BOOT
+-	install ${B}/src/boot/efi/systemd-boot*.efi ${D}/boot/EFI/BOOT/${SYSTEMD_BOOT_IMAGE}
++	install -d ${D}${EFI_FILES_PATH}
++	install ${B}/src/boot/efi/systemd-boot*.efi ${D}${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}
+ }
+ 
+ do_deploy () {
 -- 
 2.23.0
 
