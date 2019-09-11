@@ -1,52 +1,52 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
-	[209.85.210.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A03777EC5D
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 67C377EC92
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 14:13:33 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id y72so13712548pfb.12
+	Wed, 11 Sep 2019 14:13:38 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id b13so13726720pfo.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 07:13:35 -0700 (PDT)
+	Wed, 11 Sep 2019 07:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=cev0ZrkxnpNB9O64qfto/WnFlnuGkKX5tJa8iFx/R6o=;
-	b=hmXEus8qMjKUC5J9c1U2PU9EbNspxIMujbaHUktJ1U48K2gsrXegXlvcy2MVoRTmYW
-	f5zVs+zVcQ7i5kkFqup8ShhtUG+GJRJSTy/o5mnEG9vflvgaVVYunqCk6wxTqtjAjO9Q
-	2wpLVxhC/NGngFXVnJxa7lMJHFhhx/7ZtV3VM73OEhvb2TdNsfw5THEtSN4RaFZ/2fFF
-	bOhBlarlV13zypQMlRr96zgiNsGTjhZZwuZrkwFXQ6ea8ChUTnVitbt4rSvJNkcm4FPv
-	uOHiQvTWucnFzHnX8hE4nhIhQmSRdtdLA2MEXFJBtKeORGh6FEkZQQ8Oqbj9KjfkXKu2
-	XvsQ==
+	bh=pyjBwg+onwWuN24ujFy0oAIDS/0NGBXcSR0W0Xxk1qU=;
+	b=eMa1V2A9lt3znBx29escYONXcRSYmNJUDuGM9+967wBF/81cvweKAnwHnYcK3J3NNR
+	AkAO/W8PXw0IEi7MkrAbzq8UhY37gVlzJCGbA7a88ZBgIp0IorGA8nRGzbhmboGZRreg
+	mJRzo2nht+h1VXV3IpHqcOoXS5wWFrlpV01lnhO90B00HPpyQsiCoFQCdgSgtZunKrge
+	7TXsNzPmV+ea2g6tiEQuPVgTCzDNz/Ho/a4JtmMq1ALGgz55iC2Pz7Z6d31YLPP9szU9
+	Oz+ZVYvmmF4mhhDm33RpUbWwyE47aIER3iKDTxTJ/mw2UO6uRYofhkiPynDWBCF1u4Qc
+	KXfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=cev0ZrkxnpNB9O64qfto/WnFlnuGkKX5tJa8iFx/R6o=;
-	b=CV35kNOQDy6FPjxu4EZFIcoMUAC1u7i5KXNVaj0j5LdntQbZjTDYqv+4Ul3Q1hbupg
-	qwd+26VISPVoeHXMKhofbe1AehaxJLQl5S4Vt74GMUcz0OGMdMxPhVIMpcHwer1ggpTd
-	xn7ou4DiSO/ViSy7uyUritPzh9P73V4ruFSqucNOm1gXDf2k+Zj5Xol7qLYbBXe4Mpvz
-	9vcvXUBGriPp62ovrbKqxfe2eZeXYmhd1U+JbOhKB6x+MO5hQp++ZdviFlMefztPVdtP
-	sUxcuYp3Or0VAU2ebvmEp0xmbE4H+SWaLXxA6fQDXJKEj8Gd6MEwq12EuW26csPlmr2V
-	PprQ==
-X-Gm-Message-State: APjAAAU2yTiuSNuh4ZcTtCBpPue/o+D3+z9zK8ua9iWCorFlvSQdBs3R
-	geTuKlkvGqyfgDTTNcHGxAnxTtHOdIvq6w==
-X-Google-Smtp-Source: APXvYqx7mGKh29BVITmsGap5Uh/5VMmWMRQCD9B4HMp/Owhw5fQNgMEDi+frUH5I2Ptf506ej1JsBw==
-X-Received: by 2002:a63:2026:: with SMTP id g38mr32444495pgg.172.1568211214140;
-	Wed, 11 Sep 2019 07:13:34 -0700 (PDT)
+	bh=pyjBwg+onwWuN24ujFy0oAIDS/0NGBXcSR0W0Xxk1qU=;
+	b=FlWRIbFx0V7pi/6fWFCb5YtrNkwu9+6lHnN9I+9lzbifezvCMcm08QiYQKQ0OB4LCs
+	iyRN8ZIZ5Of6gjVLGsGkQjiQr2XjE8NF4NKZT3H4u0KaWuga3hfrGxcX5ChB0SdukKLT
+	1RGWHGeYgjDpHpuqug8guOI9un54FGYDZ/wiFp0sWbN0UxHvjV9YgN+AN/4am433zdSl
+	UYSpVwt+YdkSrJsbgYJZPQGUkcwcAEWGCEI5EiPLRZLNY1RWDvQ6zW9bK7UYiZ4aM1Mj
+	abd95G/cnRXmUuEHy94GEGXOx28XDDKbkl37c3YcjhGwo+qjbJ1n5CJcFrKyv4nUTV76
+	7mvw==
+X-Gm-Message-State: APjAAAUtuPG6mdXahEUthwyF/F3h/nGy5M+KnbfJ3rZyxSOC6a8CM+h1
+	gu2DC2KojMmSUP4FdlFLp7AW0OrpCZbg4w==
+X-Google-Smtp-Source: APXvYqx5BBTWC5GEif+WNA3nTd0JIl9ZpNm2rOa0CChD7qSeMSJ82136Ffy4UL4xr4lJrqAr+Bn3dw==
+X-Received: by 2002:a65:5348:: with SMTP id w8mr32998681pgr.176.1568211218895; 
+	Wed, 11 Sep 2019 07:13:38 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.76.229])
 	by smtp.gmail.com with UTF8SMTPSA id
-	l23sm1112431pgj.53.2019.09.11.07.13.32
+	w11sm17691176pga.52.2019.09.11.07.13.36
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Sep 2019 07:13:33 -0700 (PDT)
+	Wed, 11 Sep 2019 07:13:38 -0700 (PDT)
 Date: Wed, 11 Sep 2019 14:13:07 +0000
-Message-Id: <20190911141307.28014-3-nathan@nathanrossi.com>
+Message-Id: <20190911141307.28014-4-nathan@nathanrossi.com>
 In-Reply-To: <20190911141307.28014-1-nathan@nathanrossi.com>
 References: <20190911141307.28014-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH v2 3/4] oeqa/core/case.py: Add OEPTestResultTestCase for ptestresult helpers
+Subject: [PATCH v2 4/4] oeqa/selftest: Rework toolchain tests to use OEPTestResultTestCase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,238 +59,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 14:13:33 -0000
+X-List-Received-Date: Wed, 11 Sep 2019 14:13:38 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Add the OEPTestResultTestCase class as a mix-in class to provide helper
-functions for interacting with ptestresults within the extraresults
-object generated by the test case.
-
-This class also provides default compression of log text and log files.
-
-Also add support to resulttool for decoding/decompressing log files
-embedded in the test results.
+Use OEPTestResultTestCase to collect results and add logfile collection
+and compression.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
 Changes in v2:
-- Fix up resultutils so that it can decode compressed logs
-- Move common log decoding from log to resultutils module, and simplify
-  uses of log access
+- Fixed up missing logpath setting for gcc.py.
 ---
- meta/lib/oeqa/core/case.py            | 49 +++++++++++++++++++++++++++++++++++
- scripts/lib/resulttool/log.py         | 43 +++++++++++++++---------------
- scripts/lib/resulttool/resultutils.py | 45 +++++++++++++++++++++++++++-----
- 3 files changed, 109 insertions(+), 28 deletions(-)
+ meta/lib/oeqa/selftest/cases/binutils.py | 11 ++++++-----
+ meta/lib/oeqa/selftest/cases/gcc.py      |  9 +++++----
+ meta/lib/oeqa/selftest/cases/glibc.py    |  7 ++++---
+ 3 files changed, 15 insertions(+), 12 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
-index aca144e9dc..180635ac6c 100644
---- a/meta/lib/oeqa/core/case.py
-+++ b/meta/lib/oeqa/core/case.py
-@@ -4,6 +4,8 @@
+diff --git a/meta/lib/oeqa/selftest/cases/binutils.py b/meta/lib/oeqa/selftest/cases/binutils.py
+index 9bc752040f..821f52f5a8 100644
+--- a/meta/lib/oeqa/selftest/cases/binutils.py
++++ b/meta/lib/oeqa/selftest/cases/binutils.py
+@@ -4,6 +4,7 @@ import sys
+ import re
+ import logging
+ from oeqa.core.decorator import OETestTag
++from oeqa.core.case import OEPTestResultTestCase
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
+ 
+@@ -15,7 +16,7 @@ def parse_values(content):
+                 break
+ 
+ @OETestTag("toolchain-user", "toolchain-system")
+-class BinutilsCrossSelfTest(OESelftestTestCase):
++class BinutilsCrossSelfTest(OESelftestTestCase, OEPTestResultTestCase):
+     def test_binutils(self):
+         self.run_binutils("binutils")
+ 
+@@ -36,14 +37,14 @@ class BinutilsCrossSelfTest(OESelftestTestCase):
+ 
+         bitbake("{0} -c check".format(recipe))
+ 
+-        ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
+-        self.extraresults = {"ptestresult.sections" : {ptestsuite : {}}}
+-
+         sumspath = os.path.join(builddir, suite, "{0}.sum".format(suite))
+         if not os.path.exists(sumspath):
+             sumspath = os.path.join(builddir, suite, "testsuite", "{0}.sum".format(suite))
++        logpath = os.path.splitext(sumspath)[0] + ".log"
+ 
++        ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
++        self.ptest_section(ptestsuite, logfile = logpath)
+         with open(sumspath, "r") as f:
+             for test, result in parse_values(f):
+-                self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
++                self.ptest_result(ptestsuite, test, result)
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
+index 2c25b5904c..5a917b9c44 100644
+--- a/meta/lib/oeqa/selftest/cases/gcc.py
++++ b/meta/lib/oeqa/selftest/cases/gcc.py
+@@ -1,6 +1,7 @@
  # SPDX-License-Identifier: MIT
- #
- 
-+import base64
-+import zlib
- import unittest
- 
- from oeqa.core.exception import OEQAMissingVariable
-@@ -49,3 +51,50 @@ class OETestCase(unittest.TestCase):
-         for d in self.decorators:
-             d.tearDownDecorator()
-         self.tearDownMethod()
-+
-+class OEPTestResultTestCase:
-+    """
-+    Mix-in class to provide functions to make interacting with extraresults for
-+    the purposes of storing ptestresult data.
-+    """
-+    @staticmethod
-+    def _compress_log(log):
-+        logdata = log.encode("utf-8")
-+        logdata = zlib.compress(logdata)
-+        logdata = base64.b64encode(logdata).decode("utf-8")
-+        return {"compressed" : logdata}
-+
-+    def ptest_rawlog(self, log):
-+        if not hasattr(self, "extraresults"):
-+            self.extraresults = {"ptestresult.sections" : {}}
-+        self.extraresults["ptestresult.rawlogs"] = {"log" : self._compress_log(log)}
-+
-+    def ptest_section(self, section, duration = None, log = None, logfile = None, exitcode = None):
-+        if not hasattr(self, "extraresults"):
-+            self.extraresults = {"ptestresult.sections" : {}}
-+
-+        sections = self.extraresults.get("ptestresult.sections")
-+        if section not in sections:
-+            sections[section] = {}
-+
-+        if log is not None:
-+            sections[section]["log"] = self._compress_log(log)
-+        elif logfile is not None:
-+            with open(logfile, "r") as f:
-+                sections[section]["log"] = self._compress_log(f.read())
-+
-+        if duration is not None:
-+            sections[section]["duration"] = duration
-+        if exitcode is not None:
-+            sections[section]["exitcode"] = exitcode
-+
-+    def ptest_result(self, section, test, result):
-+        if not hasattr(self, "extraresults"):
-+            self.extraresults = {"ptestresult.sections" : {}}
-+
-+        sections = self.extraresults.get("ptestresult.sections")
-+        if section not in sections:
-+            sections[section] = {}
-+        resultname = "ptestresult.{}.{}".format(section, test)
-+        self.extraresults[resultname] = {"status" : result}
-+
-diff --git a/scripts/lib/resulttool/log.py b/scripts/lib/resulttool/log.py
-index 2352c767d9..f1bfd99500 100644
---- a/scripts/lib/resulttool/log.py
-+++ b/scripts/lib/resulttool/log.py
-@@ -8,12 +8,12 @@ import os
- import resulttool.resultutils as resultutils
- 
- def show_ptest(result, ptest, logger):
--    if 'ptestresult.sections' in result:
--        if ptest in result['ptestresult.sections'] and 'log' in result['ptestresult.sections'][ptest]:
--            print(result['ptestresult.sections'][ptest]['log'])
--            return 0
-+    logdata = resultutils.ptestresult_get_log(result, ptest)
-+    if logdata is not None:
-+        print(logdata)
-+        return 0
- 
--    print("ptest '%s' not found" % ptest)
-+    print("ptest '%s' log not found" % ptest)
-     return 1
- 
- def show_reproducible(result, reproducible, logger):
-@@ -25,7 +25,6 @@ def show_reproducible(result, reproducible, logger):
-         print("reproducible '%s' not found" % reproducible)
-         return 1
- 
--
- def log(args, logger):
-     results = resultutils.load_resultsdata(args.source)
- 
-@@ -35,24 +34,24 @@ def log(args, logger):
-         return 1
- 
-     for _, run_name, _, r in resultutils.test_run_results(results):
--        if args.dump_ptest:
--            if 'ptestresult.sections' in r:
--                for name, ptest in r['ptestresult.sections'].items():
--                    if 'log' in ptest:
--                        dest_dir = args.dump_ptest
--                        if args.prepend_run:
--                            dest_dir = os.path.join(dest_dir, run_name)
--
--                        os.makedirs(dest_dir, exist_ok=True)
--
--                        dest = os.path.join(dest_dir, '%s.log' % name)
--                        print(dest)
--                        with open(dest, 'w') as f:
--                            f.write(ptest['log'])
-+        if args.dump_ptest and 'ptestresult.sections' in r:
-+            for name, ptest in r['ptestresult.sections'].items():
-+                logdata = resultutils.ptestresult_get_log(r, name)
-+                if logdata is not None:
-+                    dest_dir = args.dump_ptest
-+                    if args.prepend_run:
-+                        dest_dir = os.path.join(dest_dir, run_name)
-+
-+                    os.makedirs(dest_dir, exist_ok=True)
-+                    dest = os.path.join(dest_dir, '%s.log' % name)
-+                    print(dest)
-+                    with open(dest, 'w') as f:
-+                        f.write(logdata)
- 
-         if args.raw_ptest:
--            if 'ptestresult.rawlogs' in r:
--                print(r['ptestresult.rawlogs']['log'])
-+            rawlog = resultutils.ptestresult_get_rawlogs(r)
-+            if rawlog is not None:
-+                print(rawlog)
-             else:
-                 print('Raw ptest logs not found')
-                 return 1
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index e595c185df..177fb25f93 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -7,6 +7,8 @@
- #
- 
  import os
-+import base64
-+import zlib
- import json
- import scriptpath
- import copy
-@@ -117,6 +119,34 @@ def strip_ptestresults(results):
-                     del newresults[res]['result']['ptestresult.sections'][i]['log']
-     return newresults
+ from oeqa.core.decorator import OETestTag
++from oeqa.core.case import OEPTestResultTestCase
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
  
-+def decode_log(logdata):
-+    if isinstance(logdata, str):
-+        return logdata
-+    elif isinstance(logdata, dict):
-+        if "compressed" in logdata:
-+            data = logdata.get("compressed")
-+            data = base64.b64decode(data.encode("utf-8"))
-+            return zlib.decompress(data).decode("utf-8")
-+    return None
-+
-+def ptestresult_get_log(results, section):
-+    if 'ptestresult.sections' not in results:
-+        return None
-+    if section not in results['ptestresult.sections']:
-+        return None
-+
-+    ptest = results['ptestresult.sections'][section]
-+    if 'log' not in ptest:
-+        return None
-+    return decode_log(ptest['log'])
-+
-+def ptestresult_get_rawlogs(results):
-+    if 'ptestresult.rawlogs' not in results:
-+        return None
-+    if 'log' not in results['ptestresult.rawlogs']:
-+        return None
-+    return decode_log(results['ptestresult.rawlogs']['log'])
-+
- def save_resultsdata(results, destdir, fn="testresults.json", ptestjson=False, ptestlogs=False):
-     for res in results:
-         if res:
-@@ -131,14 +161,17 @@ def save_resultsdata(results, destdir, fn="testresults.json", ptestjson=False, p
-             f.write(json.dumps(resultsout, sort_keys=True, indent=4))
-         for res2 in results[res]:
-             if ptestlogs and 'result' in results[res][res2]:
--                if 'ptestresult.rawlogs' in results[res][res2]['result']:
-+                seriesresults = results[res][res2]['result']
-+                rawlogs = ptestresult_get_rawlogs(seriesresults)
-+                if rawlogs is not None:
-                     with open(dst.replace(fn, "ptest-raw.log"), "w+") as f:
--                        f.write(results[res][res2]['result']['ptestresult.rawlogs']['log'])
--                if 'ptestresult.sections' in results[res][res2]['result']:
--                    for i in results[res][res2]['result']['ptestresult.sections']:
--                        if 'log' in results[res][res2]['result']['ptestresult.sections'][i]:
-+                        f.write(rawlogs)
-+                if 'ptestresult.sections' in seriesresults:
-+                    for i in seriesresults['ptestresult.sections']:
-+                        sectionlog = ptestresult_get_log(seriesresults, i)
-+                        if sectionlog is not None:
-                             with open(dst.replace(fn, "ptest-%s.log" % i), "w+") as f:
--                                f.write(results[res][res2]['result']['ptestresult.sections'][i]['log'])
-+                                f.write(sectionlog)
+@@ -11,7 +12,7 @@ def parse_values(content):
+                 yield i[len(v) + 2:].strip(), v
+                 break
  
- def git_get_result(repo, tags):
-     git_objs = []
+-class GccSelfTestBase(OESelftestTestCase):
++class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+     def check_skip(self, suite):
+         targets = get_bb_var("RUNTIMETARGET", "gcc-runtime").split()
+         if suite not in targets:
+@@ -41,20 +42,20 @@ class GccSelfTestBase(OESelftestTestCase):
+         bb_vars = get_bb_vars(["B", "TARGET_SYS"], recipe)
+         builddir, target_sys = bb_vars["B"], bb_vars["TARGET_SYS"]
+ 
+-        self.extraresults = {"ptestresult.sections" : {}}
+         for suite in suites:
+             sumspath = os.path.join(builddir, "gcc", "testsuite", suite, "{0}.sum".format(suite))
+             if not os.path.exists(sumspath): # check in target dirs
+                 sumspath = os.path.join(builddir, target_sys, suite, "testsuite", "{0}.sum".format(suite))
+             if not os.path.exists(sumspath): # handle libstdc++-v3 -> libstdc++
+                 sumspath = os.path.join(builddir, target_sys, suite, "testsuite", "{0}.sum".format(suite.split("-")[0]))
++            logpath = os.path.splitext(sumspath)[0] + ".log"
+ 
+             ptestsuite = "gcc-{}".format(suite) if suite != "gcc" else suite
+             ptestsuite = ptestsuite + "-user" if ssh is None else ptestsuite
+-            self.extraresults["ptestresult.sections"][ptestsuite] = {}
++            self.ptest_section(ptestsuite, logfile = logpath)
+             with open(sumspath, "r") as f:
+                 for test, result in parse_values(f):
+-                    self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
++                    self.ptest_result(ptestsuite, test, result)
+ 
+     def run_check_emulated(self, *args, **kwargs):
+         # build core-image-minimal with required packages
+diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
+index 2e42485dd6..c687f6ef93 100644
+--- a/meta/lib/oeqa/selftest/cases/glibc.py
++++ b/meta/lib/oeqa/selftest/cases/glibc.py
+@@ -2,6 +2,7 @@
+ import os
+ import contextlib
+ from oeqa.core.decorator import OETestTag
++from oeqa.core.case import OEPTestResultTestCase
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
+ from oeqa.utils.nfs import unfs_server
+@@ -13,7 +14,7 @@ def parse_values(content):
+                 yield i[len(v) + 2:].strip(), v
+                 break
+ 
+-class GlibcSelfTestBase(OESelftestTestCase):
++class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
+     def run_check(self, ssh = None):
+         # configure ssh target
+         features = []
+@@ -31,10 +32,10 @@ class GlibcSelfTestBase(OESelftestTestCase):
+         builddir = get_bb_var("B", "glibc-testsuite")
+ 
+         ptestsuite = "glibc-user" if ssh is None else "glibc"
+-        self.extraresults = {"ptestresult.sections" : {ptestsuite : {}}}
++        self.ptest_section(ptestsuite)
+         with open(os.path.join(builddir, "tests.sum"), "r") as f:
+             for test, result in parse_values(f):
+-                self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
++                self.ptest_result(ptestsuite, test, result)
+ 
+     def run_check_emulated(self):
+         with contextlib.ExitStack() as s:
 ---
 2.23.0.rc1
 
