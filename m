@@ -1,52 +1,52 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 67C377EC92
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F5E67EB41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 14:13:38 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id b13so13726720pfo.8
+	Wed, 11 Sep 2019 15:18:01 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id r195so4062194wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 07:13:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:in-reply-to:references:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=pyjBwg+onwWuN24ujFy0oAIDS/0NGBXcSR0W0Xxk1qU=;
-	b=eMa1V2A9lt3znBx29escYONXcRSYmNJUDuGM9+967wBF/81cvweKAnwHnYcK3J3NNR
-	AkAO/W8PXw0IEi7MkrAbzq8UhY37gVlzJCGbA7a88ZBgIp0IorGA8nRGzbhmboGZRreg
-	mJRzo2nht+h1VXV3IpHqcOoXS5wWFrlpV01lnhO90B00HPpyQsiCoFQCdgSgtZunKrge
-	7TXsNzPmV+ea2g6tiEQuPVgTCzDNz/Ho/a4JtmMq1ALGgz55iC2Pz7Z6d31YLPP9szU9
-	Oz+ZVYvmmF4mhhDm33RpUbWwyE47aIER3iKDTxTJ/mw2UO6uRYofhkiPynDWBCF1u4Qc
-	KXfw==
+	Wed, 11 Sep 2019 08:18:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=5OvBnSU+lgE9snTgae5vb9vucGWxRUqRW1Q2s9k8Qqo=;
+	b=If/MAXiiHcsDgHa2DaWaNGDIbSnaWRG9RzGKlMwNvfkTj8ehoYwbpNjE5xcpdUZwpI
+	74o/iBznWytTMGovPPUuNMrYwSBc81YVCMEwWvBGK2WKsIh21kp58unRfdpcaI+n+xlx
+	SYpuK35K79NwdMHCCzPnXWRFll5lmntGF5rA+f36p+0Nt1gC1WQMNNn1ncbrPURo0gA3
+	+yx4KtlEMsoOGxLX9LYVRvIopgar73tsEr4pb3lgJ3FxtrZU8jvh6Wp8+H0E1B9ugpCU
+	iVBTuvxC2PdWHiK2QtVtpF1PnHHK1Fq6jb3Bu1Z6q0VSN0E/EVp0hZada/qj6Z8XD/iZ
+	K3lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
-	:cc:subject:content-transfer-encoding:mime-version;
-	bh=pyjBwg+onwWuN24ujFy0oAIDS/0NGBXcSR0W0Xxk1qU=;
-	b=FlWRIbFx0V7pi/6fWFCb5YtrNkwu9+6lHnN9I+9lzbifezvCMcm08QiYQKQ0OB4LCs
-	iyRN8ZIZ5Of6gjVLGsGkQjiQr2XjE8NF4NKZT3H4u0KaWuga3hfrGxcX5ChB0SdukKLT
-	1RGWHGeYgjDpHpuqug8guOI9un54FGYDZ/wiFp0sWbN0UxHvjV9YgN+AN/4am433zdSl
-	UYSpVwt+YdkSrJsbgYJZPQGUkcwcAEWGCEI5EiPLRZLNY1RWDvQ6zW9bK7UYiZ4aM1Mj
-	abd95G/cnRXmUuEHy94GEGXOx28XDDKbkl37c3YcjhGwo+qjbJ1n5CJcFrKyv4nUTV76
-	7mvw==
-X-Gm-Message-State: APjAAAUtuPG6mdXahEUthwyF/F3h/nGy5M+KnbfJ3rZyxSOC6a8CM+h1
-	gu2DC2KojMmSUP4FdlFLp7AW0OrpCZbg4w==
-X-Google-Smtp-Source: APXvYqx5BBTWC5GEif+WNA3nTd0JIl9ZpNm2rOa0CChD7qSeMSJ82136Ffy4UL4xr4lJrqAr+Bn3dw==
-X-Received: by 2002:a65:5348:: with SMTP id w8mr32998681pgr.176.1568211218895; 
-	Wed, 11 Sep 2019 07:13:38 -0700 (PDT)
-Received: from [127.0.1.1] ([101.184.76.229])
-	by smtp.gmail.com with UTF8SMTPSA id
-	w11sm17691176pga.52.2019.09.11.07.13.36
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Sep 2019 07:13:38 -0700 (PDT)
-Date: Wed, 11 Sep 2019 14:13:07 +0000
-Message-Id: <20190911141307.28014-4-nathan@nathanrossi.com>
-In-Reply-To: <20190911141307.28014-1-nathan@nathanrossi.com>
-References: <20190911141307.28014-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=5OvBnSU+lgE9snTgae5vb9vucGWxRUqRW1Q2s9k8Qqo=;
+	b=Eof3Rb2MK9cfgEANkoi8WcohOCZwfXdaCfD3EZPwnsBkiaqJRIAWW3TwGIHK24RtWp
+	GCQ5c+2YSUsg95X1fqjieCJ1oT6Uysqaj9BCLHUm+vFh+eaU5HessvSELjdJQXTUYPB3
+	Ltlsg74zbejdizVVGF5vHOSvG/FVYn7iTQPZTVvYDQtNq/avcBMiJTBDh+efZduvoz/u
+	pDTL7AqPdNt0HO8F6IjbLoGfTcVr3BSghR7zIajyHZERXf51/JZ4yWMZu2N+op9E6+NI
+	FAFF1upUTp6NQxhew7BlNJx1PLwCVATn3VPiprSMtZ5K8FjdBiERIsGqdvDsOE521sdS
+	6ZaA==
+X-Gm-Message-State: APjAAAX9uyVRB0ySOt783LyPs0i1Wx2oiv0+mEAStjaf1cAGiEcmLhAt
+	qfs/SZLB/ThWbsm/dAzKm/tGBjKMd0Y=
+X-Google-Smtp-Source: APXvYqzPXhXiGaInCn/US2HPoWvsHoQcGOXt2Kjuo4uNfKPzr/OWT/BhhIoI6e0kLccz42mWr3wKHA==
+X-Received: by 2002:a05:600c:29a:: with SMTP id 26mr4635348wmk.8.1568215081615;
+	Wed, 11 Sep 2019 08:18:01 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	q66sm4566574wme.39.2019.09.11.08.18.00
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 11 Sep 2019 08:18:01 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-MIME-Version: 1.0
-Subject: [PATCH v2 4/4] oeqa/selftest: Rework toolchain tests to use OEPTestResultTestCase
+Date: Wed, 11 Sep 2019 15:18:00 +0000
+Message-Id: <20190911151800.1363-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1566540028.git.Martin.Jansa@gmail.com>
+References: <cover.1566540028.git.Martin.Jansa@gmail.com>
+Cc: Jan.Hilsdorf@lawo.com
+Subject: [PATCH 7/7] kernel-devicetree.bbclass: add missing backslash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,142 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 14:13:38 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 11 Sep 2019 15:18:01 -0000
 
-Use OEPTestResultTestCase to collect results and add logfile collection
-and compression.
+* in oe-core commit 1860d9d3c62e2e94cd68a809385873ffd8270b6d I've accidentally
+  removed the backshash here
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+Reported-By: "Hilsdorf, Jan (LAWO)" <Jan.Hilsdorf@lawo.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
-Changes in v2:
-- Fixed up missing logpath setting for gcc.py.
----
- meta/lib/oeqa/selftest/cases/binutils.py | 11 ++++++-----
- meta/lib/oeqa/selftest/cases/gcc.py      |  9 +++++----
- meta/lib/oeqa/selftest/cases/glibc.py    |  7 ++++---
- 3 files changed, 15 insertions(+), 12 deletions(-)
+ meta/classes/kernel-devicetree.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/binutils.py b/meta/lib/oeqa/selftest/cases/binutils.py
-index 9bc752040f..821f52f5a8 100644
---- a/meta/lib/oeqa/selftest/cases/binutils.py
-+++ b/meta/lib/oeqa/selftest/cases/binutils.py
-@@ -4,6 +4,7 @@ import sys
- import re
- import logging
- from oeqa.core.decorator import OETestTag
-+from oeqa.core.case import OEPTestResultTestCase
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
- 
-@@ -15,7 +16,7 @@ def parse_values(content):
-                 break
- 
- @OETestTag("toolchain-user", "toolchain-system")
--class BinutilsCrossSelfTest(OESelftestTestCase):
-+class BinutilsCrossSelfTest(OESelftestTestCase, OEPTestResultTestCase):
-     def test_binutils(self):
-         self.run_binutils("binutils")
- 
-@@ -36,14 +37,14 @@ class BinutilsCrossSelfTest(OESelftestTestCase):
- 
-         bitbake("{0} -c check".format(recipe))
- 
--        ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
--        self.extraresults = {"ptestresult.sections" : {ptestsuite : {}}}
--
-         sumspath = os.path.join(builddir, suite, "{0}.sum".format(suite))
-         if not os.path.exists(sumspath):
-             sumspath = os.path.join(builddir, suite, "testsuite", "{0}.sum".format(suite))
-+        logpath = os.path.splitext(sumspath)[0] + ".log"
- 
-+        ptestsuite = "binutils-{}".format(suite) if suite != "binutils" else suite
-+        self.ptest_section(ptestsuite, logfile = logpath)
-         with open(sumspath, "r") as f:
-             for test, result in parse_values(f):
--                self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
-+                self.ptest_result(ptestsuite, test, result)
- 
-diff --git a/meta/lib/oeqa/selftest/cases/gcc.py b/meta/lib/oeqa/selftest/cases/gcc.py
-index 2c25b5904c..5a917b9c44 100644
---- a/meta/lib/oeqa/selftest/cases/gcc.py
-+++ b/meta/lib/oeqa/selftest/cases/gcc.py
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: MIT
- import os
- from oeqa.core.decorator import OETestTag
-+from oeqa.core.case import OEPTestResultTestCase
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
- 
-@@ -11,7 +12,7 @@ def parse_values(content):
-                 yield i[len(v) + 2:].strip(), v
-                 break
- 
--class GccSelfTestBase(OESelftestTestCase):
-+class GccSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
-     def check_skip(self, suite):
-         targets = get_bb_var("RUNTIMETARGET", "gcc-runtime").split()
-         if suite not in targets:
-@@ -41,20 +42,20 @@ class GccSelfTestBase(OESelftestTestCase):
-         bb_vars = get_bb_vars(["B", "TARGET_SYS"], recipe)
-         builddir, target_sys = bb_vars["B"], bb_vars["TARGET_SYS"]
- 
--        self.extraresults = {"ptestresult.sections" : {}}
-         for suite in suites:
-             sumspath = os.path.join(builddir, "gcc", "testsuite", suite, "{0}.sum".format(suite))
-             if not os.path.exists(sumspath): # check in target dirs
-                 sumspath = os.path.join(builddir, target_sys, suite, "testsuite", "{0}.sum".format(suite))
-             if not os.path.exists(sumspath): # handle libstdc++-v3 -> libstdc++
-                 sumspath = os.path.join(builddir, target_sys, suite, "testsuite", "{0}.sum".format(suite.split("-")[0]))
-+            logpath = os.path.splitext(sumspath)[0] + ".log"
- 
-             ptestsuite = "gcc-{}".format(suite) if suite != "gcc" else suite
-             ptestsuite = ptestsuite + "-user" if ssh is None else ptestsuite
--            self.extraresults["ptestresult.sections"][ptestsuite] = {}
-+            self.ptest_section(ptestsuite, logfile = logpath)
-             with open(sumspath, "r") as f:
-                 for test, result in parse_values(f):
--                    self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
-+                    self.ptest_result(ptestsuite, test, result)
- 
-     def run_check_emulated(self, *args, **kwargs):
-         # build core-image-minimal with required packages
-diff --git a/meta/lib/oeqa/selftest/cases/glibc.py b/meta/lib/oeqa/selftest/cases/glibc.py
-index 2e42485dd6..c687f6ef93 100644
---- a/meta/lib/oeqa/selftest/cases/glibc.py
-+++ b/meta/lib/oeqa/selftest/cases/glibc.py
-@@ -2,6 +2,7 @@
- import os
- import contextlib
- from oeqa.core.decorator import OETestTag
-+from oeqa.core.case import OEPTestResultTestCase
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runqemu, Command
- from oeqa.utils.nfs import unfs_server
-@@ -13,7 +14,7 @@ def parse_values(content):
-                 yield i[len(v) + 2:].strip(), v
-                 break
- 
--class GlibcSelfTestBase(OESelftestTestCase):
-+class GlibcSelfTestBase(OESelftestTestCase, OEPTestResultTestCase):
-     def run_check(self, ssh = None):
-         # configure ssh target
-         features = []
-@@ -31,10 +32,10 @@ class GlibcSelfTestBase(OESelftestTestCase):
-         builddir = get_bb_var("B", "glibc-testsuite")
- 
-         ptestsuite = "glibc-user" if ssh is None else "glibc"
--        self.extraresults = {"ptestresult.sections" : {ptestsuite : {}}}
-+        self.ptest_section(ptestsuite)
-         with open(os.path.join(builddir, "tests.sum"), "r") as f:
-             for test, result in parse_values(f):
--                self.extraresults["ptestresult.{}.{}".format(ptestsuite, test)] = {"status" : result}
-+                self.ptest_result(ptestsuite, test, result)
- 
-     def run_check_emulated(self):
-         with contextlib.ExitStack() as s:
----
-2.23.0.rc1
+diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
+index a45a0ce3c8..6028361f80 100644
+--- a/meta/classes/kernel-devicetree.bbclass
++++ b/meta/classes/kernel-devicetree.bbclass
+@@ -81,7 +81,7 @@ do_deploy_append() {
+ 					> ${DEPLOYDIR}/$type-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext.bin
+ 				if [ -e "${KERNEL_OUTPUT_DIR}/${type}.initramfs" ]; then
+ 					cat ${KERNEL_OUTPUT_DIR}/${type}.initramfs \
+-						${DEPLOYDIR}/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext
++						${DEPLOYDIR}/$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext \
+ 						>  ${DEPLOYDIR}/${type}-${INITRAMFS_NAME}-$dtb_base_name-${KERNEL_DTB_NAME}.$dtb_ext.bin
+ 				fi
+ 			fi
+-- 
+2.17.1
+
 
