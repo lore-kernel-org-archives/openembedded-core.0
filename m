@@ -1,53 +1,32 @@
-Return-Path: <prvs=1507a981f=alistair.francis@wdc.com>
-Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A6AC7E3AA
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 01BE77DE74
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 17:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1568222836; x=1599758836;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=Cagovh9Gn4unsxFj1X9EC20iQ/7pIqBh0nS07eF4wcA=;
-	b=R6Zhb1qp+DL8gmkxd/GIdd4OE41Gcc43ci3tp/l86/XilgkbKjotZuQM
-	U+W42aBQWMD8mLLfI06xpXWcVjW7c8G/DFoPajjwDTOPuSyXgl3BhplB5
-	m4f6/5m3G+hZB94j1s0u6F8owlKO7uirarduhSNnCFggEJ/4HNM+C8S6G
-	6/4KSGx8yz3aw1QHNGLL2GkNdWoQequyBn4Gk/0XsfKc4uQrs0RvQpiTw
-	+r1tEbpq2Xt5FOgfqNwMka7J53tKoNTxAPiGcmTyCI9GU6q6LHrgaod7m
-	OwCrdEbSFBukxm3wLiKcPf6RWLylGQZFSo7XhgaIR8fw/Lc6rGlDKJ/Bm A==;
-IronPort-SDR: R8433iNhDaWQ6ylNh8fegu4N7E8nHAbcEVXDB2Tpq0itNw8bsCoYt2uSG0fUU/rA/5IGG7Cp4F
-	2O58MH1OX2SfCsr9TelJF+va10mxxzcYFgX836qlsH5dgvklHD5X2HANNCF4ccz9Wgp6c5EpFi
-	nxiyxw/cBL3s4CofFd/4FfrdxYJPhwhvw8BDrcks13APzkni8PdHnjED/CfL1Vs5kAWMkgvGax
-	/jtCo6ZHbP4qIGfecpvD4q5dAfHphVi8VToDWrvhzTSvCqm2ZhtFL08toJm9AizEofgQ3jo3OV
-	68A=
-X-IronPort-AV: E=Sophos;i="5.64,494,1559491200"; d="scan'208";a="118883271"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
-	([199.255.45.14])
-	by ob1.hgst.iphmx.com with ESMTP; 12 Sep 2019 01:27:00 +0800
-IronPort-SDR: 4rxNsO4FqQMEm/02hhrHVI1okJ3SRDCGVl0Gt4pAJoAHGRVAYj4m7I7whDi2a6vroesI2yHcoC
-	o5kiU3rWrVwAV0L7DDVQCbOjqX/F2qSqgAM029gXod2scL1Zn91NKLo9glKs3FumiXmSfhfOAO
-	GMTtGXtVWyzgp6dHYolSydbxI3J70sPWhkuxAFi63kyixSRlXEHUC1XY+0yxB+5E62KNDVnEZw
-	/oBp3e++75TNCxGIwmi17lsVw1dsUzK5pTbufN+A8nZLOUTStRkoQXbM5o76Y01aDZ4clHAzV7
-	qp9RFEr05utaNveiPAHabjyY
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	11 Sep 2019 10:23:40 -0700
-IronPort-SDR: cUB6yvk/VV6jVIHu1dLHFjonU1xS6ULJR4HZO1VBi295x8anHxI10QWc1Cbc9YwJxnyETvyqwR
-	Z8OG13r/xIL4gXPNOP8HKom46tS2xWHY5LdxrkloCLtl96OpGfKiRNVMenb5CFSuTy78Z/7U+F
-	nDi0oD5UCm0k/pI091GS+q6hy9b5lz5Xf8rVclqRmbi6TMu9oMAY9rFAV5bjOyxskVTkAaQVly
-	zE3muRoUzvaNdtzoszUw/F+Ri9d+MQczP0bHiP/LzNnFNkL9bjRVF7AgUtxsbd40KA42vI1vD1
-	504=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
-	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
-	by uls-op-cesaip01.wdc.com with ESMTP; 11 Sep 2019 10:26:57 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Sep 2019 10:22:56 -0700
-Message-Id: <20190911172256.11378-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.23.0
+	Wed, 11 Sep 2019 18:01:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8BI12pT026374
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Sep 2019 11:01:25 -0700
+Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 11 Sep 2019 11:01:01 -0700
+To: Adrian Bunk <bunk@stusta.de>
+References: <20190910214136.22971-1-Randy.MacLeod@windriver.com>
+	<20190910214136.22971-4-Randy.MacLeod@windriver.com>
+	<20190911123258.GA27961@localhost>
+	<f87d660d-9c05-dfdd-ced2-88cfc9a38a4f@windriver.com>
+	<20190911140016.GB27961@localhost>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <d2af200a-7865-1c18-fa3d-2842032450a5@windriver.com>
+Date: Wed, 11 Sep 2019 14:01:00 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH] gdb: Mark gdbserver as ALLOW_EMPTY for riscv32
+In-Reply-To: <20190911140016.GB27961@localhost>
+X-Originating-IP: [172.25.44.5]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [v2 4/4] valgrind: disable 256 ptests for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,28 +39,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 17:27:14 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 11 Sep 2019 18:01:48 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-riscv64 already has gdbserver set as ALLOW_EMPTY, so let's set it for
-riscv32 as well.
+On 9/11/19 10:00 AM, Adrian Bunk wrote:
+> On Wed, Sep 11, 2019 at 09:38:53AM -0400, Randy MacLeod wrote:
+>> On 9/11/19 8:32 AM, Adrian Bunk wrote:
+>>> On Tue, Sep 10, 2019 at 05:41:36PM -0400, Randy MacLeod wrote:
+>>>> On qemuarm64 systems, about half of the valgrind tests fail and
+>>>> often result in defunct processes, eg:
+>>>>      root       819   818 25 00:12 pts/0    00:01:52 /usr/bin/valgrind --command-line-only=yes --memcheck:leak-check=no --tool=memcheck -q --track-origins=
+>>>>      root       861   420  0 00:13 pts/0    00:00:00 [sh] <defunct>
+>>>> Eventually these processes use so much memory that the
+>>>> out of memory killer runs.
+>>>>
+>>>> Hide the tests that fail as a horrid work-around until the
+>>>> root cause has been resolved since this at least allows the
+>>>> ptest run to complete.
+>>>> ...
+>>>
+>>> I can reproduce this on hardware,
+>>
+>> Ah good, I was wondering if it was just happening on qemu.
+>>
+>>> and I have the bad feeling that no one
+>>> will work on resolving the root cause if this is work-arounded in ptest.
+>>>
+>>> IMHO this should instead be listed as M3 blocker,
+>>> similar to "strace ptest timeout".
+>>
+>> Well, I've enabled 100s of tests that were not being run before
+>> and most of them pass for qemux86-64 so I don't think it
+>> should be an M3 blocker like strace since it isn't a regression.
+> 
+> I just tried to reproduce in warrior and it did,
+> so it doesn't seem to be a regression.
+> 
+>> I did start to debug valgrind but it's a bit of a complicated
+>> program and will take time so this work-around makes sense to
+>> me. If no one else gets to it before me, I'll come back to
+>> debugging this issue but likely not before early 3.1.
+> 
+> It would be good if you could also open a bug, so that people can see
+> that there is a problem with this package on an important architecture.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- meta/recipes-devtools/gdb/gdb.inc | 1 +
- 1 file changed, 1 insertion(+)
+Done:
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 0f10b41734..249e24dc52 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -10,4 +10,5 @@ PACKAGES =+ "gdbserver"
- FILES_gdbserver = "${bindir}/gdbserver"
- 
- ALLOW_EMPTY_gdbserver_riscv64 = "1"
-+ALLOW_EMPTY_gdbserver_riscv32 = "1"
- 
+many valgrind tests fail for arm64
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13520
+
+../Randy
+
+> 
+>> Thanks,
+>> ../Randy
+> 
+> Thanks
+> Adrian
+> 
+
+
 -- 
-2.23.0
-
+# Randy MacLeod
+# Wind River Linux
 
