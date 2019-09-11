@@ -1,35 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 417827D1E9
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A0F06B8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 12:35:35 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Sep 2019 05:35:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; d="scan'208";a="196878879"
-Received: from unknown (HELO blackadder.local) ([10.249.39.47])
-	by orsmga002.jf.intel.com with ESMTP; 11 Sep 2019 05:35:34 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>, fabio.berton@ossystems.com.br
-References: <20190906184727.552-1-fabio.berton@ossystems.com.br>
-	<CANNYZj8jseQc9Lnt8r1SuDdh4q_xUJy5FkpUukpLzUbVn5vW2g@mail.gmail.com>
-	<a74c7fb7-451c-094a-36a3-49b62c66d742@intel.com>
-	<CANNYZj-2tw_kkoj7OqwhbBggFE7dvZ7dv0FhmsVuA2vOWQBf-A@mail.gmail.com>
-	<ac6643d7-da5a-0ec7-799b-06083b728381@intel.com>
-	<CANNYZj_oMcEekZoLJ+2vsGc7UgOETJppY1UZ9jDj8z86PeSnXQ@mail.gmail.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <268869ab-aa03-cf7c-c75d-9aa8dd7fd5ab@intel.com>
-Date: Wed, 11 Sep 2019 13:35:33 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+	Wed, 11 Sep 2019 13:39:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8BDcse3011054
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Sep 2019 06:38:55 -0700 (PDT)
+Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 11 Sep 2019 06:38:54 -0700
+To: Adrian Bunk <bunk@stusta.de>
+References: <20190910214136.22971-1-Randy.MacLeod@windriver.com>
+	<20190910214136.22971-4-Randy.MacLeod@windriver.com>
+	<20190911123258.GA27961@localhost>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <f87d660d-9c05-dfdd-ced2-88cfc9a38a4f@windriver.com>
+Date: Wed, 11 Sep 2019 09:38:53 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_oMcEekZoLJ+2vsGc7UgOETJppY1UZ9jDj8z86PeSnXQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: Upgrade 19.1.1 -> 19.1.6
+In-Reply-To: <20190911123258.GA27961@localhost>
+X-Originating-IP: [172.25.44.5]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [v2 4/4] valgrind: disable 256 ptests for aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +36,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2019 12:35:36 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Wed, 11 Sep 2019 13:39:01 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On 10/09/2019 11:39, Alexander Kanavin wrote:
-> Yes, if STAGING_LIBDIR is set, via this patch:
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
+On 9/11/19 8:32 AM, Adrian Bunk wrote:
+> On Tue, Sep 10, 2019 at 05:41:36PM -0400, Randy MacLeod wrote:
+>> On qemuarm64 systems, about half of the valgrind tests fail and
+>> often result in defunct processes, eg:
+>>     root       819   818 25 00:12 pts/0    00:01:52 /usr/bin/valgrind --command-line-only=yes --memcheck:leak-check=no --tool=memcheck -q --track-origins=
+>>     root       861   420  0 00:13 pts/0    00:00:00 [sh] <defunct>
+>> Eventually these processes use so much memory that the
+>> out of memory killer runs.
+>>
+>> Hide the tests that fail as a horrid work-around until the
+>> root cause has been resolved since this at least allows the
+>> ptest run to complete.
+>> ...
 > 
-> (don't shoot the pianist, it was working like this pre-rewrite as well).
+> I can reproduce this on hardware, 
 
-See I knew that but had blocked it out because it's so horrible.
+Ah good, I was wondering if it was just happening on qemu.
 
-One day we need to sit down with upstream Python and figure out how to 
-handle cross-compilation properly.
+> and I have the bad feeling that no one
+> will work on resolving the root cause if this is work-arounded in ptest.
+> 
+> IMHO this should instead be listed as M3 blocker,
+> similar to "strace ptest timeout".
 
-I finally managed to make my own builds fail (had to turn off Python in 
-libxml2) and beat at it to build without a target Python.  Fabio: can 
-you try building Mesa with these two patches:
+Well, I've enabled 100s of tests that were not being run before
+and most of them pass for qemux86-64 so I don't think it
+should be an M3 blocker like strace since it isn't a regression.
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=5f3559d8bb61212e0f9a6543f2dce2bdf77c48b5
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=4f8995aaa2ec557a0603ddc664d929317b0c0b6e
+I did start to debug valgrind but it's a bit of a complicated
+program and will take time so this work-around makes sense to
+me. If no one else gets to it before me, I'll come back to
+debugging this issue but likely not before early 3.1.
 
-Cheers,
-Ross
+Thanks,
+../Randy
+
+> 
+> cu
+> Adrian
+> 
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
 
