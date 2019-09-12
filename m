@@ -1,24 +1,102 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 70AE97E98B
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2892C6C0F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 03:28:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8C3SRN2017649
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 12 Sep 2019 06:01:20 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id u17so12841258pgi.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2019 20:28:27 -0700 (PDT)
-Received: from localhost (128.224.162.195) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Wed, 11 Sep 2019 20:28:26 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Sep 2019 11:28:24 +0800
-Message-ID: <1568258904-6897-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 11 Sep 2019 23:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=LndUoxK2XEFzHc6uuSant0tPIuvc4wXihvtkMuzgOdQ=;
+	b=E4xO6N4qVukn+THeDYpUj0qKbjI1RdN1w0t3k+HPjuZd/KTVvIgBuf8KUo9HxBeyEv
+	RNbQLLEqzuhooCRyPY1jFrCb9/IZybQr3M4sZfCpSK/pGf+cBNHLPBKblYEsR/fIvsHN
+	wayYTYlWMTdFRm9Lu/VNRr/dXmkD0xAVE3G/MBvAQfWi9i1JJwlb99dw8SWdDbDAcQNs
+	nkKiUaEd6LWncbmTqWiPjfwK8/Q63nOGupLuqjEbkiC7c4iDGxeXtq7Z0GeJT5YaYd7D
+	qMEwEig4C5hjvEXi1Rt5cayvfpK2WjxmL0LPgS6iU8mIV+dg0BiLI6t1mjHeX/f34vSE
+	zgbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=LndUoxK2XEFzHc6uuSant0tPIuvc4wXihvtkMuzgOdQ=;
+	b=E9iOabh2DoiI6FLzRO9xvXIiqbCqtKjtPfL3JXktaJ7WPhrTiPaFT7mIgbaUKN3NRb
+	KvuOFXn/5p+MWaQCID/2iShNatIWpQKvM7vRPp/cHPvgVpNQCDiT/iPrVAeefpFsupdM
+	1kdWSzncq4WSniL4lFwrItLw0+J3HwK9Lij0opeZUr0T1jFYXTPvb3NEPjvhXhut6Uer
+	IVOAf/SGxqV/G+5JWPCaagczGc8szImPbHeGskEDSUgfZpooAUzRPtIzPCMUJv061GuM
+	Ma6MOJ3I6y7WZ97djznWUzkXE8OINmlftS2Qn1f/oED54cqTn29JKb20Okaya9wm3HQv
+	M96Q==
+X-Gm-Message-State: APjAAAXYmnziI8ScS/wLsH7BuelAMBQOaJl+KBAdXiPpGGY5NDNH1nKI
+	t4FeqehdEv5z80yt3cRkXZyatn5CNBQ=
+X-Google-Smtp-Source: APXvYqwT7SGSuPA5/tLQ9KibODyiG9WGCw8HtnPsD0XoUgupp1zbQI3g9g3Honl/oFtfYFP6fseX9g==
+X-Received: by 2002:a17:90a:266c:: with SMTP id
+	l99mr9758856pje.93.1568268080934; 
+	Wed, 11 Sep 2019 23:01:20 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:94af:b4e3:6058:dfc8?
+	([2601:202:4180:c33:94af:b4e3:6058:dfc8])
+	by smtp.gmail.com with ESMTPSA id
+	f14sm34249208pfq.187.2019.09.11.23.01.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 11 Sep 2019 23:01:20 -0700 (PDT)
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>,
+	openembedded-core@lists.openembedded.org
+References: <20190912012949.28776-1-zangrc.fnst@cn.fujitsu.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <6f1e239d-2e99-d6bc-174b-da21bf5d9517@gmail.com>
+Date: Wed, 11 Sep 2019 23:01:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.195]
-Subject: [PATCH] nfs-utils: fix nfs mount error on 32bit nfs server
+In-Reply-To: <20190912012949.28776-1-zangrc.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] timezone:upgrade 2019b -> 2019c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,206 +109,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2019 03:28:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Sep 2019 06:01:21 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-There is a client side error "Stale file handle" when mounting from a
-nfs server running on 32bit arch.
 
-Steps to reproduce:
-1. $ MACHINE=qemux86 bitbake core-image-sato
-2. $ runqemu qemux86 kvm nographic qemuparams="-m 1024"
-3. $ echo "/nfs_root *(insecure,rw,async,no_root_squash,no_subtree_check)" \
-     >> /etc/exports
-   $ /etc/init.d/nfsserver restart
 
-  root@qemux86:~# mount -t nfs 127.0.0.1:/nfs_root /mnt
-  mount: mounting 127.0.0.1:/nfs_root on /mnt failed: Stale file handle
+On 9/11/19 6:29 PM, Zang Ruochen wrote:
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 
-Backport a patch to fix this issue.
+What is in the update?
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- ...include-order-between-config.h-and-stat.h.patch | 156 +++++++++++++++++++++
- .../nfs-utils/nfs-utils_2.4.1.bb                   |   1 +
- 2 files changed, 157 insertions(+)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
-
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
-new file mode 100644
-index 0000000..7b0f935
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
-@@ -0,0 +1,156 @@
-+From 2fbc62e2a13fc22b6ae4910e295a2c10fb790486 Mon Sep 17 00:00:00 2001
-+From: Zoltan Karcagi <zkr7432@gmail.com>
-+Date: Mon, 12 Aug 2019 13:27:16 -0400
-+Subject: [PATCH] Fix include order between config.h and stat.h
-+
-+At least on Arch linux ARM, the definition of struct stat in stat.h depends
-+on __USE_FILE_OFFSET64. This symbol comes from config.h when defined,
-+therefore config.h must always be included before stat.h. Fix all
-+occurrences where the order is wrong by moving config.h to the top.
-+
-+This fixes the client side error "Stale file handle" when mounting from
-+a server running Arch Linux ARM.
-+
-+Signed-off-by: Zoltan Karcagi <zkr7432@gmail.com>
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+
-+Upstream-Status: Backport
-+[http://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=2fbc62e2a13fc22b6ae4910e295a2c10fb790486]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ support/misc/nfsd_path.c         | 5 ++++-
-+ support/misc/xstat.c             | 5 ++++-
-+ support/nfs/conffile.c           | 8 +++++++-
-+ utils/blkmapd/device-discovery.c | 8 ++++----
-+ utils/idmapd/idmapd.c            | 8 ++++----
-+ 5 files changed, 23 insertions(+), 11 deletions(-)
-+
-+diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
-+index 84e4802..f078a66 100644
-+--- a/support/misc/nfsd_path.c
-++++ b/support/misc/nfsd_path.c
-+@@ -1,3 +1,7 @@
-++#ifdef HAVE_CONFIG_H
-++#include <config.h>
-++#endif
-++
-+ #include <errno.h>
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-+@@ -5,7 +9,6 @@
-+ #include <stdlib.h>
-+ #include <unistd.h>
-+ 
-+-#include "config.h"
-+ #include "conffile.h"
-+ #include "xmalloc.h"
-+ #include "xlog.h"
-+diff --git a/support/misc/xstat.c b/support/misc/xstat.c
-+index fa04788..4c997ee 100644
-+--- a/support/misc/xstat.c
-++++ b/support/misc/xstat.c
-+@@ -1,3 +1,7 @@
-++#ifdef HAVE_CONFIG_H
-++#include <config.h>
-++#endif
-++
-+ #include <errno.h>
-+ #include <sys/types.h>
-+ #include <fcntl.h>
-+@@ -5,7 +9,6 @@
-+ #include <sys/sysmacros.h>
-+ #include <unistd.h>
-+ 
-+-#include "config.h"
-+ #include "xstat.h"
-+ 
-+ #ifdef HAVE_FSTATAT
-+diff --git a/support/nfs/conffile.c b/support/nfs/conffile.c
-+index b6400be..6ba8a35 100644
-+--- a/support/nfs/conffile.c
-++++ b/support/nfs/conffile.c
-+@@ -500,7 +500,7 @@ conf_readfile(const char *path)
-+ 
-+ 	if ((stat (path, &sb) == 0) || (errno != ENOENT)) {
-+ 		char *new_conf_addr = NULL;
-+-		size_t sz = sb.st_size;
-++		off_t sz;
-+ 		int fd = open (path, O_RDONLY, 0);
-+ 
-+ 		if (fd == -1) {
-+@@ -517,6 +517,11 @@ conf_readfile(const char *path)
-+ 
-+ 		/* only after we have the lock, check the file size ready to read it */
-+ 		sz = lseek(fd, 0, SEEK_END);
-++		if (sz < 0) {
-++			xlog_warn("conf_readfile: unable to determine file size: %s",
-++				  strerror(errno));
-++			goto fail;
-++		}
-+ 		lseek(fd, 0, SEEK_SET);
-+ 
-+ 		new_conf_addr = malloc(sz+1);
-+@@ -2162,6 +2167,7 @@ conf_write(const char *filename, const char *section, const char *arg,
-+ 	ret = 0;
-+ 
-+ cleanup:
-++	flush_outqueue(&inqueue, NULL);
-+ 	flush_outqueue(&outqueue, NULL);
-+ 
-+ 	if (buff)
-+diff --git a/utils/blkmapd/device-discovery.c b/utils/blkmapd/device-discovery.c
-+index e811703..f5f9b10 100644
-+--- a/utils/blkmapd/device-discovery.c
-++++ b/utils/blkmapd/device-discovery.c
-+@@ -26,6 +26,10 @@
-+  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+  */
-+ 
-++#ifdef HAVE_CONFIG_H
-++#include "config.h"
-++#endif /* HAVE_CONFIG_H */
-++
-+ #include <sys/sysmacros.h>
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-+@@ -51,10 +55,6 @@
-+ #include <errno.h>
-+ #include <libdevmapper.h>
-+ 
-+-#ifdef HAVE_CONFIG_H
-+-#include "config.h"
-+-#endif /* HAVE_CONFIG_H */
-+-
-+ #include "device-discovery.h"
-+ #include "xcommon.h"
-+ #include "nfslib.h"
-+diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
-+index 62e37b8..267acea 100644
-+--- a/utils/idmapd/idmapd.c
-++++ b/utils/idmapd/idmapd.c
-+@@ -34,6 +34,10 @@
-+  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+  */
-+ 
-++#ifdef HAVE_CONFIG_H
-++#include "config.h"
-++#endif /* HAVE_CONFIG_H */
-++
-+ #include <sys/types.h>
-+ #include <sys/time.h>
-+ #include <sys/inotify.h>
-+@@ -62,10 +66,6 @@
-+ #include <libgen.h>
-+ #include <nfsidmap.h>
-+ 
-+-#ifdef HAVE_CONFIG_H
-+-#include "config.h"
-+-#endif /* HAVE_CONFIG_H */
-+-
-+ #include "xlog.h"
-+ #include "conffile.h"
-+ #include "queue.h"
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-index 8b673c8..7e80354 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-@@ -32,6 +32,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://clang-format-string.patch \
-            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
-            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
-+           file://0001-Fix-include-order-between-config.h-and-stat.h.patch \
- "
- SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
- SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
--- 
-2.7.4
+- Armin
+> ---
+>  meta/recipes-extended/timezone/timezone.inc | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+> index ce16524..f6bab1a 100644
+> --- a/meta/recipes-extended/timezone/timezone.inc
+> +++ b/meta/recipes-extended/timezone/timezone.inc
+> @@ -4,7 +4,7 @@ SECTION = "base"
+>  LICENSE = "PD & BSD & BSD-3-Clause"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+>  
+> -PV = "2019b"
+> +PV = "2019c"
+>  
+>  SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+>             http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+> @@ -12,7 +12,7 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+>  
+>  UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+>  
+> -SRC_URI[tzcode.md5sum] = "91e0978d947496fd6aaf46d351f9c41d"
+> -SRC_URI[tzcode.sha256sum] = "2e479d409337da41408629ce6c3b4d8410b10ba6d4431d862e22d2b137d7756d"
+> -SRC_URI[tzdata.md5sum] = "b26b5d7d844cb96c73ed2fb6d588daaf"
+> -SRC_URI[tzdata.sha256sum] = "05d9092c90dcf9ec4f3ccfdea80c7dcea5e882b3b105c3422da172aaa9a50c64"
+> +SRC_URI[tzcode.md5sum] = "195a17454c5db05cab96595380650391"
+> +SRC_URI[tzcode.sha256sum] = "f6ebd3668e02d5ed223d3b7b1947561bf2d2da2f4bd1db61efefd9e06c167ed4"
+> +SRC_URI[tzdata.md5sum] = "f6987e6dfdb2eb83a1b5076a50b80894"
+> +SRC_URI[tzdata.sha256sum] = "79c7806dab09072308da0e3d22c37d3b245015a591891ea147d3b133b60ffc7c"
 
 
