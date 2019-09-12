@@ -1,48 +1,55 @@
-Return-Path: <daniel@qtec.com>
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
-	[209.85.208.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 539C87C603
+Return-Path: <misla011@fiu.edu>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 941CF6C149
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 19:54:39 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id o9so25080898edq.0
+	Thu, 12 Sep 2019 20:58:46 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id h126so18263543qke.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 12:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtec.com; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
+	Thu, 12 Sep 2019 13:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=fiu-edu.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version:reply-to
 	:content-transfer-encoding;
-	bh=LZXLVFjnsNKAd2YixxLOvjt/0qCUm6IHkDmj95KHwxo=;
-	b=qA+fEYE4p00hWacvHE1oJzqOIkrs6wPAb8c/vyfeQsfTNeFHCPV52i8mKznC+9UKEm
-	9HT2U7aywbzojvrqQ9S/pL11IovGbPmc/fvZYDNFpJVeuaZRefl70qGadWUJFSuALtE6
-	JnWlVEvlO4ziT/DUlqcYFz15pFE5GH5Bn1smU=
+	bh=6YaUGtBwhg25uQTGhtnB8Q7DxIiqFLhFKvXrctFvlkA=;
+	b=OUVWHAHcGrHJIt/EU0y5qaQBBtg9YzjyNkZGTkIwg4rvSmXF8gBBil7OHp1EwWk6Lc
+	HgIqEjjaE9PojIUGwyCyo0CWFMMgrvaXAX1o/tiklVUDvQ8fy+17sy0AXV0ZAnTHiB9K
+	H4TyscKgbJHyCSXNec9/HIIILt69Ck8U0gRy3AHj220DQ09Na7PLZdFzxbeSY6U+9p8y
+	MvGZLZY/bEDMClLmk6kdPbkMP+dihVMxtGq4hdyyj/PGJhIja53jWuzTp8Aw3h4MnylC
+	cLoZixl1v9mpW8rEO0qx33d2zMZ0zQl/XRyYp9S0/UkIegwnzVj3bAKZglreYFxCmzT0
+	mquQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=LZXLVFjnsNKAd2YixxLOvjt/0qCUm6IHkDmj95KHwxo=;
-	b=JEObNlPcgW5K84vjoLYbhXDWd2f5/mNnTPzrYvn5G0A/bIy9+nUC897pOn6YgQHRKg
-	Andmd5JQoGOcsukubk2cE06efUJ2p7Jiqmu/T+uKIr1sgDGDFUIxnZVPjCeGG3S34IYa
-	FyNy+5nVaVoOdgwOz0q01Y3iUUF9e/h5HqxV0Ru3GcR5zQBNNZxlL8eevEYy68lihf6T
-	W/E0qcqVomXta3A3tfTElU1qUI3eS8/LQSB0beFCUULifQY8nqjaSB+I3F95ODyXVLJq
-	cfz1A369FnV8GwNB75B3mOXrGcB5fABnLRNyO858A578Gu8akJM6In046/FGJ8JMUjt4
-	gVdQ==
-X-Gm-Message-State: APjAAAXCC+71z151gb1aqHpVoemQVaV7HY/4FIBSJ9LXT/nsnV8ng9Vc
-	a+jHGvV7Y0OuYWgu4fxCmQRuMWRC2oA=
-X-Google-Smtp-Source: APXvYqxv1UzLWPqh+q6QJ8sCV2yoDbvc4uN9Avih5/3cM8bluigNT5J84VSSdZQYj0ip8GHhQ9PTXA==
-X-Received: by 2002:a05:6402:b11:: with SMTP id
-	bm17mr43972787edb.31.1568318079590; 
-	Thu, 12 Sep 2019 12:54:39 -0700 (PDT)
-Received: from turia.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net.
-	[80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id l1sm4948932edc.11.2019.09.12.12.54.38
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Sep 2019 12:54:39 -0700 (PDT)
-From: Daniel Gomez <daniel@qtec.com>
+	:reply-to:content-transfer-encoding;
+	bh=6YaUGtBwhg25uQTGhtnB8Q7DxIiqFLhFKvXrctFvlkA=;
+	b=tHnJA8L+kctDq5pQDuNnCcyBhYuYym1WwnvxaVW8UqAmnc+M9ieQiMXKMzhYWNcW6/
+	6QK+1FqqazY7tuNHwvNbLx1e8RRPTB+AtzWoyuFt20XtWcP8DXSvkDQAPoFXzaYQg0Bd
+	lryVb68uNs06/uJ/IFG7bq8mF7LmFGstZE7JCEXZN2Rhnh5baGHEFM1mSNxSJj/j83Q9
+	pmpTogDMs5w5yyW1EXtMx/zstz44LTnJUjHG5gXQapTvp1sK7bSCh7TwIHjspNHXdTAU
+	2jZwUndPxwmcVCxW56GDCHL1mGp5iiDeuizcUE+egj60eDCJR7SsxIG15mWnLf/oURqv
+	o2UA==
+X-Gm-Message-State: APjAAAU8yJmidnP6rUru/qHDPNRAwd/MCXGIP7M3raS0slz50XVXF3Ct
+	pskMZQXGIPPCDWmzUMk56lstC0lqwSZft4Zp
+X-Google-Smtp-Source: APXvYqy41sY4n4yQKwaE0SeIsSr8YsTNbTTUIt+x7gN8xqIbGRt40C66P7FmCA0CxiRi3bcfMw59vw==
+X-Received: by 2002:a37:95c6:: with SMTP id
+	x189mr42413159qkd.323.1568321927016; 
+	Thu, 12 Sep 2019 13:58:47 -0700 (PDT)
+Received: from
+	muislam-yocto.h0ebkyng4k5ejcojahceueqbfb.cx.internal.cloudapp.net
+	([40.84.59.7]) by smtp.gmail.com with ESMTPSA id
+	d3sm11710268qtr.55.2019.09.12.13.58.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 12 Sep 2019 13:58:46 -0700 (PDT)
+From: Muminul Islam <misla011@fiu.edu>
+X-Google-Original-From: Muminul Islam <muislam@microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Sep 2019 21:54:23 +0200
-Message-Id: <20190912195423.29246-1-daniel@qtec.com>
-X-Mailer: git-send-email 2.20.1
+Date: Thu, 12 Sep 2019 20:58:38 +0000
+Message-Id: <20190912205838.42869-1-muislam@microsoft.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH] lttng-modules: Add missing SRCREV_FORMAT
+Reply-To: muislam@microsoft.com
+Subject: [thud][PATCH] CVE fix for libxslt <CVE-2019-11068>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +62,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2019 19:54:39 -0000
+X-List-Received-Date: Thu, 12 Sep 2019 20:58:46 -0000
 Content-Transfer-Encoding: 8bit
 
-When using devupstream class the SRCREV_FORMAT variable must be set.
-
-Signed-off-by: Daniel Gomez <daniel@qtec.com>
+Signed-off-by: Muminul Islam <muislam@microsoft.com>
 ---
+ .../libxslt/libxslt/CVE-2019-11068.patch      | 128 ++++++++++++++++++
+ .../recipes-support/libxslt/libxslt_1.1.32.bb |   1 +
+ 2 files changed, 129 insertions(+)
+ create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2019-11068.patch
 
-When using class-devupstream, multiple SCMs are used. Therefore, it is needed
-to select the variant of the recipe via PREFERRED_VERSION. In addition,
-SRCREV_FORMAT variable must be set.
-
-An example of devupstream class + SRCREV_FORMAT:
-meta/recipes-kernel/linux/linux-yocto.inc
-
-Error log:
-ERROR: ExpansionError during parsing /workdir/repo/poky/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb
-Traceback (most recent call last):
-  File "Var <SRCPV>", line 1, in <module>
-  File "/workdir/repo/poky/bitbake/lib/bb/fetch2/__init__.py", line 768, in get_srcrev(d=<bb.data_smart.DataSmart object at 0x7ffb7638add8>, method_name='sortable_revision'):
-             raise FetchError("The SRCREV_FORMAT variable must be set when multiple SCMs are used.\n"\
-    >                         "The SCMs are:\n%s" % '\n'.join(scms))
-
-bb.data_smart.ExpansionError: Failure expanding variable SRCPV, expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError: Fetcher failure: The SRCREV_FORMAT variable must be set when multiple SCMs are used.
-The SCMs are:
-git://git.lttng.org/lttng-modules;branch=stable-2.10
-git://git.lttng.org/lttng-modules.git;branch=stable-2.10
-
- meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb
-index 6e2d655495..dccc4b9842 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb
-@@ -43,3 +43,4 @@ SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.1
- SRCREV_class-devupstream = "624aca5d7507fbd11ea4a1a474c3aa1031bd9a31"
- PV_class-devupstream = "2.10.10+git${SRCPV}"
- S_class-devupstream = "${WORKDIR}/git"
-+SRCREV_FORMAT ?= "lttng_git"
---
-2.20.1
+diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2019-11068.patch b/meta/recipes-support/libxslt/libxslt/CVE-2019-11068.patch
+new file mode 100644
+index 0000000000..83ca8a3c00
+--- /dev/null
++++ b/meta/recipes-support/libxslt/libxslt/CVE-2019-11068.patch
+@@ -0,0 +1,128 @@
++From aed812d8dbbb6d1337312652aa72aa7f44d2b07d Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Sun, 24 Mar 2019 09:51:39 +0100
++Subject: [PATCH] Fix security framework bypass
++
++xsltCheckRead and xsltCheckWrite return -1 in case of error but callers
++don't check for this condition and allow access. With a specially
++crafted URL, xsltCheckRead could be tricked into returning an error
++because of a supposedly invalid URL that would still be loaded
++succesfully later on.
++
++Fixes #12.
++
++Thanks to Felix Wilhelm for the report.
++
++Signed-off-by: Muminul Islam <muminul.islam@microsoft.com>
++
++CVE: CVE-2019-11068
++
++Upstream-Status: Backport
++
++https://gitlab.gnome.org/GNOME/libxslt/commit/e03553605b45c88f0b4b2980adfbbb8f6fca2fd6
++---
++ libxslt/documents.c | 18 ++++++++++--------
++ libxslt/imports.c   |  9 +++++----
++ libxslt/transform.c |  9 +++++----
++ libxslt/xslt.c      |  9 +++++----
++ 4 files changed, 25 insertions(+), 20 deletions(-)
++
++diff --git a/libxslt/documents.c b/libxslt/documents.c
++index 3f3a7312..4aad11bb 100644
++--- a/libxslt/documents.c
+++++ b/libxslt/documents.c
++@@ -296,10 +296,11 @@ xsltLoadDocument(xsltTransformContextPtr ctxt, const xmlChar *URI) {
++ 	int res;
++ 
++ 	res = xsltCheckRead(ctxt->sec, ctxt, URI);
++-	if (res == 0) {
++-	    xsltTransformError(ctxt, NULL, NULL,
++-		 "xsltLoadDocument: read rights for %s denied\n",
++-			     URI);
+++	if (res <= 0) {
+++            if (res == 0)
+++                xsltTransformError(ctxt, NULL, NULL,
+++                     "xsltLoadDocument: read rights for %s denied\n",
+++                                 URI);
++ 	    return(NULL);
++ 	}
++     }
++@@ -372,10 +373,11 @@ xsltLoadStyleDocument(xsltStylesheetPtr style, const xmlChar *URI) {
++ 	int res;
++ 
++ 	res = xsltCheckRead(sec, NULL, URI);
++-	if (res == 0) {
++-	    xsltTransformError(NULL, NULL, NULL,
++-		 "xsltLoadStyleDocument: read rights for %s denied\n",
++-			     URI);
+++	if (res <= 0) {
+++            if (res == 0)
+++                xsltTransformError(NULL, NULL, NULL,
+++                     "xsltLoadStyleDocument: read rights for %s denied\n",
+++                                 URI);
++ 	    return(NULL);
++ 	}
++     }
++diff --git a/libxslt/imports.c b/libxslt/imports.c
++index 7262aab9..b62e0877 100644
++--- a/libxslt/imports.c
+++++ b/libxslt/imports.c
++@@ -131,10 +131,11 @@ xsltParseStylesheetImport(xsltStylesheetPtr style, xmlNodePtr cur) {
++ 	int secres;
++ 
++ 	secres = xsltCheckRead(sec, NULL, URI);
++-	if (secres == 0) {
++-	    xsltTransformError(NULL, NULL, NULL,
++-		 "xsl:import: read rights for %s denied\n",
++-			     URI);
+++	if (secres <= 0) {
+++            if (secres == 0)
+++                xsltTransformError(NULL, NULL, NULL,
+++                     "xsl:import: read rights for %s denied\n",
+++                                 URI);
++ 	    goto error;
++ 	}
++     }
++diff --git a/libxslt/transform.c b/libxslt/transform.c
++index 560f43ca..46eef553 100644
++--- a/libxslt/transform.c
+++++ b/libxslt/transform.c
++@@ -3485,10 +3485,11 @@ xsltDocumentElem(xsltTransformContextPtr ctxt, xmlNodePtr node,
++      */
++     if (ctxt->sec != NULL) {
++ 	ret = xsltCheckWrite(ctxt->sec, ctxt, filename);
++-	if (ret == 0) {
++-	    xsltTransformError(ctxt, NULL, inst,
++-		 "xsltDocumentElem: write rights for %s denied\n",
++-			     filename);
+++	if (ret <= 0) {
+++            if (ret == 0)
+++                xsltTransformError(ctxt, NULL, inst,
+++                     "xsltDocumentElem: write rights for %s denied\n",
+++                                 filename);
++ 	    xmlFree(URL);
++ 	    xmlFree(filename);
++ 	    return;
++diff --git a/libxslt/xslt.c b/libxslt/xslt.c
++index 54a39de9..359913e4 100644
++--- a/libxslt/xslt.c
+++++ b/libxslt/xslt.c
++@@ -6763,10 +6763,11 @@ xsltParseStylesheetFile(const xmlChar* filename) {
++ 	int res;
++ 
++ 	res = xsltCheckRead(sec, NULL, filename);
++-	if (res == 0) {
++-	    xsltTransformError(NULL, NULL, NULL,
++-		 "xsltParseStylesheetFile: read rights for %s denied\n",
++-			     filename);
+++	if (res <= 0) {
+++            if (res == 0)
+++                xsltTransformError(NULL, NULL, NULL,
+++                     "xsltParseStylesheetFile: read rights for %s denied\n",
+++                                 filename);
++ 	    return(NULL);
++ 	}
++     }
++-- 
++2.23.0
++
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.32.bb b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
+index f0fa5e723f..df3f97aa12 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.32.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
+@@ -10,6 +10,7 @@ DEPENDS = "libxml2"
+ 
+ SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
+            file://fix-rvts-handling.patch \
++           file://CVE-2019-11068.patch \
+            "
+ 
+ SRC_URI[md5sum] = "1fc72f98e98bf4443f1651165f3aa146"
+-- 
+2.23.0
 
 
