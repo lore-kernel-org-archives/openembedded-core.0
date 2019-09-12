@@ -1,52 +1,51 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 618C07E5F9
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 547B07E5F9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 22:56:32 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id n190so14249346pgn.0
+	Thu, 12 Sep 2019 22:56:35 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id x15so14226676pgg.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 15:56:33 -0700 (PDT)
+	Thu, 12 Sep 2019 15:56:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=U2aYek2jcQexvWc16Beww/TRpy50Sk6u9XSSn2Bbh48=;
-	b=QhhSlsISu/sQa76G5KIB+roLXF2BHXcoo7JGchafS7NQQ16mOW9u3SDa8/fHmiaU8U
-	JyMoH6rWaRqEOpQ4vmBPdVElvvLiFx2fkSDp5B7ForeafYa/v1mUsw5BtG4UU6IatLYw
-	JzBqdq29CGhhqAjBdMRD6dcmkgodJA8JVl35Bl8OBZti2NCaq6QDeKWe/HMSspGZInQf
-	lMLoBCQ6P9x9AsLNi7GuXejNrykD7lr3K2EE/SVzSPfUXjG6oQ8f7kdM8kgFRVAzhqAM
-	aBXrXkuS4bne3qnui3y2mc/qFfItWZJnIHps5Uix60v84OCMIY9jGxzYn3ubPCMRKw3W
-	U83Q==
+	bh=uUFWjicUcz/el1VQtZcwjdn0/TaVn3qdgv4MZ/vYBig=;
+	b=JIxYwRb4alJ9DUE9IauaPUQSVn+xcXcIU4iMD+2MQoMThoXvMrsxwqESqLPwxsMPtM
+	naZ4xWn5jZOSGW0HjapNIX0Rm1CDErzsB6s/G8mNqyJk65BAbgVXbGXN6V+S39N8n6X4
+	sqYK/ylf9RkqhKJyqMyM82L9wSrs2OXpzjFUkACQcgL/wPn3BXLQN8urBok4knqjWVNW
+	gLSD8yqcoDTjO732gIgTOcM62fhG5f5d3BXp5p5y+SrXG5b7IDafpuLS5s6TM52hTRrm
+	rlPf2ytkBFyCipxWz9fDV9XmHvvANai/g9kkNCxKykBkcNiyRWLXqZNwTyJh2Iyqk9Bh
+	BVIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=U2aYek2jcQexvWc16Beww/TRpy50Sk6u9XSSn2Bbh48=;
-	b=WiLJHfLH64EJe+UPHrO86Mv7WzBTdBLtMQK6oay0sOY1bOQUbFw5DJpgJ1cnFWsTPi
-	dJGl74CpjrP1QXRdEEiplaubXrm/u8g30T/vl+iSSOk3gcPooMdgseEE3aJa0INjk+G0
-	AMzXJ8TXGfS5tqEb0NegoG0R8mjnpRVgQ/nBTR+mRBVMwKvGCaCrzThFkJvpQNouOBJP
-	TPM9c2VpZupDytOUWt6Ta6pVeTA9zKUU11Out6NkOHMVXKQlclN7HTUFkmjTVO48J/tP
-	WmBQcsHHCT5oyzDB1r6G2dm7LDxfXna8V6A+5ThxPP0ec2wqG8HsdOMX8o5Vl2T/dcjO
-	5eBg==
-X-Gm-Message-State: APjAAAWtbngO5k0WBjpkFGSSy8v+gjwmUfdY4VYKKpYsE4va7Gs1SvlT
-	vNzvyxqTnIVZmd6f92hruNnMW4eX
-X-Google-Smtp-Source: APXvYqwNWvrgeA3blP27ri/NASyzShckKcYhzwbu8u3D6pkBYi+LXh0d2MEV0g49ocquBaLXgPUlGQ==
-X-Received: by 2002:a17:90a:22b0:: with SMTP id
-	s45mr1263277pjc.22.1568328993218; 
-	Thu, 12 Sep 2019 15:56:33 -0700 (PDT)
+	bh=uUFWjicUcz/el1VQtZcwjdn0/TaVn3qdgv4MZ/vYBig=;
+	b=MVVNFcmvB9bOZv3rlHrPKnzp73t4KLACfSplM3ClA1p2HMdjSyjGJk3lVA/PH3Ibgq
+	4x9jMX/Z0pigxMmCnCRQHfD31UEDQTKTYrUl7cltVRuhwW5ufvCMnmxp9FCmJKJ6Ocb8
+	JYWTUNQztYvlmN6x/eQLtm09XfFhh00MGqzQZ0jfuNM5X7HtTR+mSkCifnVbaJ/Q5779
+	quQqOvmqZWMQQ9DqClDc7HiuZORKUW7Ra29bQnoBLkcGOWVKUeGZFQyxGxIPVXlAZCYT
+	HDOG7viYtuLQ8NNJ7Y6ajfswxjDnuw2CFQHBkXkoAYtZMEWg6bQwc6DxNghfolz+7/lQ
+	z+tw==
+X-Gm-Message-State: APjAAAXkURrT9vemKMnbZfIpk43VAbDJj0Ur5M+llrFK0EtZULDm/jNY
+	dqs6ZsG98jN8JndYtuQ4yrZWTprA
+X-Google-Smtp-Source: APXvYqwsVIcRmse7Yqj/FQOn95fOCxfLTdTB7tj3kPxgFTybAvrykTN/yMtznERnE5snt3wt4By1FA==
+X-Received: by 2002:aa7:9e05:: with SMTP id y5mr54290783pfq.38.1568328996095; 
+	Thu, 12 Sep 2019 15:56:36 -0700 (PDT)
 Received: from localhost.localdomain ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id t5sm314024pjw.15.2019.09.12.15.56.32
+	by smtp.gmail.com with ESMTPSA id t5sm314024pjw.15.2019.09.12.15.56.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Sep 2019 15:56:32 -0700 (PDT)
+	Thu, 12 Sep 2019 15:56:35 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Sep 2019 15:56:23 -0700
-Message-Id: <20190912225624.28572-2-armccurdy@gmail.com>
+Date: Thu, 12 Sep 2019 15:56:24 -0700
+Message-Id: <20190912225624.28572-3-armccurdy@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190912225624.28572-1-armccurdy@gmail.com>
 References: <20190912225624.28572-1-armccurdy@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] busybox: drop inittab from SRC_URI ( now moved to busybox-inittab )
+Subject: [PATCH 3/3] busybox-inittab: minor formatting tweaks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +58,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2019 22:56:32 -0000
+X-List-Received-Date: Thu, 12 Sep 2019 22:56:35 -0000
 Content-Transfer-Encoding: 8bit
 
-The reference to inittab should have been removed from busybox
-SRC_URI when the file was moved into the busybox-inittab recipe:
+Add an empty line to inittab before the line(s) which start getty.
 
-  http://git.openembedded.org/openembedded-core/commit/?id=afb09abd2f0f7555ba156260a87fd3867f591310
+Also cleanup indent in recipe do_install().
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/busybox/busybox_1.31.0.bb | 1 -
- 1 file changed, 1 deletion(-)
+ .../busybox/busybox-inittab_1.31.0.bb         | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox_1.31.0.bb b/meta/recipes-core/busybox/busybox_1.31.0.bb
-index fa63965674..34b1f2cc91 100644
---- a/meta/recipes-core/busybox/busybox_1.31.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.31.0.bb
-@@ -36,7 +36,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            ${@["", "file://mdev.cfg"][(d.getVar('VIRTUAL-RUNTIME_dev_manager') == 'busybox-mdev')]} \
-            file://syslog.cfg \
-            file://unicode.cfg \
--           file://inittab \
-            file://rcS \
-            file://rcK \
-            file://makefile-libbb-race.patch \
+diff --git a/meta/recipes-core/busybox/busybox-inittab_1.31.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.31.0.bb
+index c347daf501..61fb8cbad1 100644
+--- a/meta/recipes-core/busybox/busybox-inittab_1.31.0.bb
++++ b/meta/recipes-core/busybox/busybox-inittab_1.31.0.bb
+@@ -13,15 +13,16 @@ do_compile() {
+ }
+ 
+ do_install() {
+-    install -d ${D}${sysconfdir}
+-    install -D -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
+-    tmp="${SERIAL_CONSOLES}"
+-    for i in $tmp
+-    do
+-            j=`echo ${i} | sed s/\;/\ /g`
+-            id=`echo ${i} | sed -e 's/^.*;//' -e 's/;.*//'`
+-            echo "$id::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
+-    done
++	install -d ${D}${sysconfdir}
++	install -D -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
++	tmp="${SERIAL_CONSOLES}"
++	[ -n "$tmp" ] && echo >> ${D}${sysconfdir}/inittab
++	for i in $tmp
++	do
++		j=`echo ${i} | sed s/\;/\ /g`
++		id=`echo ${i} | sed -e 's/^.*;//' -e 's/;.*//'`
++		echo "$id::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
++	done
+ }
+ 
+ # SERIAL_CONSOLES is generally defined by the MACHINE .conf.
 -- 
 2.23.0
 
