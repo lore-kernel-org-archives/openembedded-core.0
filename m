@@ -1,54 +1,50 @@
-Return-Path: <misla011@fiu.edu>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DEABF7E08E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id BB6187E58B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 21:23:13 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id g4so31436653qtq.7
+	Thu, 12 Sep 2019 22:56:29 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id f19so12384849plr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 14:23:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=fiu-edu.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:mime-version:reply-to
+	Thu, 12 Sep 2019 15:56:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=6YaUGtBwhg25uQTGhtnB8Q7DxIiqFLhFKvXrctFvlkA=;
-	b=frf7tsHfOvcGbW8v9pwBeDrOJE9eXyTt+oqb+hNOvoK+bX7kp3rx+ACq++WiDQtIcD
-	V33YBNORY7v+znnJw3w/g7DylK3sj6pslWsYKmFY3yKu3G8lUtPmIekYERcDWEdzva6D
-	EJr/zCde3tb5sJcY7ZxDywiCvAiEMZVoGxmcIU/jXmBvZEZOTxv3aqspIuhjmvzWQtEK
-	qsxbLsXXmCiTrvpjvSdr1XcD4xt/tvFd75yNjo1VOhoqkTO4JKyCpwPSRBoH+RhWrPKY
-	ckc8kpXDSRrDgcDtiY+UGq24pqHkcg+PHX61zI+CCviptDBP7OIsbCpzYPd5EPgSLVr8
-	GG7w==
+	bh=AU5Z6UDjPCjjnwWKVN5p2d19M0u1YFCVrW+OMxoxE/Q=;
+	b=KZ3JBa5wl5ktbxv3EynpHdWQzrje01/3aKo4gMcdK/TqbY79im/L1Mw1Dwi747exBg
+	EzXirqdUC9cRpk0XYDVdDqqwRDZmV0lzUohkvClwb09eY9r8Vig9N3KaCS3w4pbmuhjZ
+	i4N08xjsVD5lzVn77MIuURoboxfF64gYu1Zm5aHBvzmSHHCBml0DveCSk9kuWEf0sYuo
+	AagY+4tUrQZUNC6YIpVqju/2nMrgMkGrdbiSTvdv3Fqe1EbAxKdzrWVrk2f/bl7hBZkS
+	j5vsBjMSCTNWGI2nb66acpeoZkLj1XhQk6scov9ynSQD8/GkqVVSJI6uD/20KzZ9QJLO
+	FZug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:reply-to:content-transfer-encoding;
-	bh=6YaUGtBwhg25uQTGhtnB8Q7DxIiqFLhFKvXrctFvlkA=;
-	b=lM2JlH5s/0yrzTtswbGBJGrrfpgAOM6JRqa85q3kfLDGPcxJd5gp/lMljswQ6Bd42D
-	tXIq4JuQ2+SalTJod3A1JuzcT/RLFg+1rKAN0RfAKIYdqePtaldl8FL/rAh6XtLvqlNq
-	T45xZxuiW160eybXGXcO7wuEIF6tgzg/9JW+Rkibnh+3jCyeQdnSS0m5L+UOx+3jMXGw
-	Ih9zoY3FZkNOka+lnFckF0qHmwu1v2Pf0wmKhiNVZ5nnTJjkuj0yt63n1ublluTJpNPb
-	Ts99Am3Gcfvoc7WZG+Ox2+1bh0nl8/Zp57IPHvRMjSbEjSNqma1vLIiRlulVU03l7LFX
-	WhmQ==
-X-Gm-Message-State: APjAAAX6e32Cv1sScG4JY9FbBwjFM3L4oUaSaNmgG2I61N3T/zqSZ0g8
-	bS5GFTb9Fip91tkloVFOELESouu3C8HcDQ==
-X-Google-Smtp-Source: APXvYqzffkvAbmWi7EaG1jD9CWT+87+/VoLlA9k7CfkImU9nrK8t63EwOEp2G20Bzp6bswwmyaVARQ==
-X-Received: by 2002:ac8:6b8b:: with SMTP id z11mr35152768qts.294.1568323394426;
-	Thu, 12 Sep 2019 14:23:14 -0700 (PDT)
-Received: from
-	muislam-yocto.h0ebkyng4k5ejcojahceueqbfb.cx.internal.cloudapp.net
-	([40.84.59.7]) by smtp.gmail.com with ESMTPSA id
-	f14sm4885008qtq.54.2019.09.12.14.23.13
+	:content-transfer-encoding;
+	bh=AU5Z6UDjPCjjnwWKVN5p2d19M0u1YFCVrW+OMxoxE/Q=;
+	b=dwbMyAJ5Ig0x4PwaHmcfoBmq7J4vIzzV5b2AVvb3XdDRJp0NDHRo7cqxs/6CzEI3Gj
+	MlpeLKUnTXICTXWgvt8ro3H5GlLjidD3/OPrJ/+staYcWnW4TCXCN1TYDdoHT2QmPakM
+	ClxHxQChlCpApcLuu6o2olj2XB6gmdwY8JtgouhbK42WDIksVd2YFf9A6l/Dq7by3kB5
+	DXfqo0JzR4cgE9asPmN94QKfvWuaJnGEXO5dOayXjhacUI/AOlFJdreXr1Jl72dabZjk
+	oI5KD9O4WbJPRf7K96XIEKjC7/Hi4ZrvIwSG79xlvnSZokzOS5mTQUWkNIpmiaND+Jf6
+	3VZw==
+X-Gm-Message-State: APjAAAU3vO4h0CfeZiV6n3ABhnAMqzr/v9ZVqFPmioUquMyc5/Qavm8h
+	NPvIPcKNkg0VBgSLIuxWai57OTfU
+X-Google-Smtp-Source: APXvYqx3ucNHM/ckTAcc3K2eITCBpMrYe1wL1u8vUCpUzU7mI0+v4pqOCOMYT5BChXX6AMvzzRwh4w==
+X-Received: by 2002:a17:902:b718:: with SMTP id
+	d24mr25593869pls.270.1568328990354; 
+	Thu, 12 Sep 2019 15:56:30 -0700 (PDT)
+Received: from localhost.localdomain ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id t5sm314024pjw.15.2019.09.12.15.56.29
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 12 Sep 2019 14:23:13 -0700 (PDT)
-From: Muminul Islam <misla011@fiu.edu>
-X-Google-Original-From: Muminul Islam <muislam@microsoft.com>
+	Thu, 12 Sep 2019 15:56:29 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Sep 2019 21:23:05 +0000
-Message-Id: <20190912212305.50649-1-muislam@microsoft.com>
+Date: Thu, 12 Sep 2019 15:56:22 -0700
+Message-Id: <20190912225624.28572-1-armccurdy@gmail.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Reply-To: muislam@microsoft.com
-Subject: [thud][PATCH v2] libxslt: Cve fix CVE-2019-11068
+Subject: [PATCH 1/3] busybox: drop unused mount.busybox and umount.busybox wrappers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,162 +57,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2019 21:23:14 -0000
+X-List-Received-Date: Thu, 12 Sep 2019 22:56:29 -0000
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Muminul Islam <muislam@microsoft.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- .../libxslt/libxslt/CVE-2019-11068.patch      | 128 ++++++++++++++++++
- .../recipes-support/libxslt/libxslt_1.1.32.bb |   1 +
- 2 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-support/libxslt/libxslt/CVE-2019-11068.patch
+ meta/recipes-core/busybox/busybox_1.31.0.bb    | 2 --
+ meta/recipes-core/busybox/files/mount.busybox  | 3 ---
+ meta/recipes-core/busybox/files/umount.busybox | 3 ---
+ 3 files changed, 8 deletions(-)
+ delete mode 100755 meta/recipes-core/busybox/files/mount.busybox
+ delete mode 100755 meta/recipes-core/busybox/files/umount.busybox
 
-diff --git a/meta/recipes-support/libxslt/libxslt/CVE-2019-11068.patch b/meta/recipes-support/libxslt/libxslt/CVE-2019-11068.patch
-new file mode 100644
-index 0000000000..83ca8a3c00
---- /dev/null
-+++ b/meta/recipes-support/libxslt/libxslt/CVE-2019-11068.patch
-@@ -0,0 +1,128 @@
-+From aed812d8dbbb6d1337312652aa72aa7f44d2b07d Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Sun, 24 Mar 2019 09:51:39 +0100
-+Subject: [PATCH] Fix security framework bypass
-+
-+xsltCheckRead and xsltCheckWrite return -1 in case of error but callers
-+don't check for this condition and allow access. With a specially
-+crafted URL, xsltCheckRead could be tricked into returning an error
-+because of a supposedly invalid URL that would still be loaded
-+succesfully later on.
-+
-+Fixes #12.
-+
-+Thanks to Felix Wilhelm for the report.
-+
-+Signed-off-by: Muminul Islam <muminul.islam@microsoft.com>
-+
-+CVE: CVE-2019-11068
-+
-+Upstream-Status: Backport
-+
-+https://gitlab.gnome.org/GNOME/libxslt/commit/e03553605b45c88f0b4b2980adfbbb8f6fca2fd6
-+---
-+ libxslt/documents.c | 18 ++++++++++--------
-+ libxslt/imports.c   |  9 +++++----
-+ libxslt/transform.c |  9 +++++----
-+ libxslt/xslt.c      |  9 +++++----
-+ 4 files changed, 25 insertions(+), 20 deletions(-)
-+
-+diff --git a/libxslt/documents.c b/libxslt/documents.c
-+index 3f3a7312..4aad11bb 100644
-+--- a/libxslt/documents.c
-++++ b/libxslt/documents.c
-+@@ -296,10 +296,11 @@ xsltLoadDocument(xsltTransformContextPtr ctxt, const xmlChar *URI) {
-+ 	int res;
-+ 
-+ 	res = xsltCheckRead(ctxt->sec, ctxt, URI);
-+-	if (res == 0) {
-+-	    xsltTransformError(ctxt, NULL, NULL,
-+-		 "xsltLoadDocument: read rights for %s denied\n",
-+-			     URI);
-++	if (res <= 0) {
-++            if (res == 0)
-++                xsltTransformError(ctxt, NULL, NULL,
-++                     "xsltLoadDocument: read rights for %s denied\n",
-++                                 URI);
-+ 	    return(NULL);
-+ 	}
-+     }
-+@@ -372,10 +373,11 @@ xsltLoadStyleDocument(xsltStylesheetPtr style, const xmlChar *URI) {
-+ 	int res;
-+ 
-+ 	res = xsltCheckRead(sec, NULL, URI);
-+-	if (res == 0) {
-+-	    xsltTransformError(NULL, NULL, NULL,
-+-		 "xsltLoadStyleDocument: read rights for %s denied\n",
-+-			     URI);
-++	if (res <= 0) {
-++            if (res == 0)
-++                xsltTransformError(NULL, NULL, NULL,
-++                     "xsltLoadStyleDocument: read rights for %s denied\n",
-++                                 URI);
-+ 	    return(NULL);
-+ 	}
-+     }
-+diff --git a/libxslt/imports.c b/libxslt/imports.c
-+index 7262aab9..b62e0877 100644
-+--- a/libxslt/imports.c
-++++ b/libxslt/imports.c
-+@@ -131,10 +131,11 @@ xsltParseStylesheetImport(xsltStylesheetPtr style, xmlNodePtr cur) {
-+ 	int secres;
-+ 
-+ 	secres = xsltCheckRead(sec, NULL, URI);
-+-	if (secres == 0) {
-+-	    xsltTransformError(NULL, NULL, NULL,
-+-		 "xsl:import: read rights for %s denied\n",
-+-			     URI);
-++	if (secres <= 0) {
-++            if (secres == 0)
-++                xsltTransformError(NULL, NULL, NULL,
-++                     "xsl:import: read rights for %s denied\n",
-++                                 URI);
-+ 	    goto error;
-+ 	}
-+     }
-+diff --git a/libxslt/transform.c b/libxslt/transform.c
-+index 560f43ca..46eef553 100644
-+--- a/libxslt/transform.c
-++++ b/libxslt/transform.c
-+@@ -3485,10 +3485,11 @@ xsltDocumentElem(xsltTransformContextPtr ctxt, xmlNodePtr node,
-+      */
-+     if (ctxt->sec != NULL) {
-+ 	ret = xsltCheckWrite(ctxt->sec, ctxt, filename);
-+-	if (ret == 0) {
-+-	    xsltTransformError(ctxt, NULL, inst,
-+-		 "xsltDocumentElem: write rights for %s denied\n",
-+-			     filename);
-++	if (ret <= 0) {
-++            if (ret == 0)
-++                xsltTransformError(ctxt, NULL, inst,
-++                     "xsltDocumentElem: write rights for %s denied\n",
-++                                 filename);
-+ 	    xmlFree(URL);
-+ 	    xmlFree(filename);
-+ 	    return;
-+diff --git a/libxslt/xslt.c b/libxslt/xslt.c
-+index 54a39de9..359913e4 100644
-+--- a/libxslt/xslt.c
-++++ b/libxslt/xslt.c
-+@@ -6763,10 +6763,11 @@ xsltParseStylesheetFile(const xmlChar* filename) {
-+ 	int res;
-+ 
-+ 	res = xsltCheckRead(sec, NULL, filename);
-+-	if (res == 0) {
-+-	    xsltTransformError(NULL, NULL, NULL,
-+-		 "xsltParseStylesheetFile: read rights for %s denied\n",
-+-			     filename);
-++	if (res <= 0) {
-++            if (res == 0)
-++                xsltTransformError(NULL, NULL, NULL,
-++                     "xsltParseStylesheetFile: read rights for %s denied\n",
-++                                 filename);
-+ 	    return(NULL);
-+ 	}
-+     }
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.32.bb b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
-index f0fa5e723f..df3f97aa12 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.32.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.32.bb
-@@ -10,6 +10,7 @@ DEPENDS = "libxml2"
- 
- SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
-            file://fix-rvts-handling.patch \
-+           file://CVE-2019-11068.patch \
-            "
- 
- SRC_URI[md5sum] = "1fc72f98e98bf4443f1651165f3aa146"
+diff --git a/meta/recipes-core/busybox/busybox_1.31.0.bb b/meta/recipes-core/busybox/busybox_1.31.0.bb
+index c1da372629..fa63965674 100644
+--- a/meta/recipes-core/busybox/busybox_1.31.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.31.0.bb
+@@ -9,7 +9,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://default.script \
+            file://simple.script \
+            file://hwclock.sh \
+-           file://mount.busybox \
+            file://syslog \
+            file://syslog-startup.conf \
+            file://syslog.conf \
+@@ -17,7 +16,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://mdev \
+            file://mdev.conf \
+            file://mdev-mount.sh \
+-           file://umount.busybox \
+            file://defconfig \
+            file://busybox-syslog.service.in \
+            file://busybox-klogd.service.in \
+diff --git a/meta/recipes-core/busybox/files/mount.busybox b/meta/recipes-core/busybox/files/mount.busybox
+deleted file mode 100755
+index fef945b7b2..0000000000
+--- a/meta/recipes-core/busybox/files/mount.busybox
++++ /dev/null
+@@ -1,3 +0,0 @@
+-#!/bin/sh
+-
+-exec /bin/busybox mount $@
+diff --git a/meta/recipes-core/busybox/files/umount.busybox b/meta/recipes-core/busybox/files/umount.busybox
+deleted file mode 100755
+index f3731626e6..0000000000
+--- a/meta/recipes-core/busybox/files/umount.busybox
++++ /dev/null
+@@ -1,3 +0,0 @@
+-#!/bin/sh
+-
+-exec /bin/busybox umount $@
 -- 
 2.23.0
 
