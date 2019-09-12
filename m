@@ -1,30 +1,24 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FC356D688
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 70AE97E98B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 01:30:14 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,495,1559491200"; d="scan'208";a="75330989"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Sep 2019 09:30:00 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 21C584CE14E4
+	Thu, 12 Sep 2019 03:28:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8C3SRN2017649
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 09:29:51 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Thu, 12 Sep 2019 09:30:04 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+	Wed, 11 Sep 2019 20:28:27 -0700 (PDT)
+Received: from localhost (128.224.162.195) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Wed, 11 Sep 2019 20:28:26 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Sep 2019 09:29:49 +0800
-Message-ID: <20190912012949.28776-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+Date: Thu, 12 Sep 2019 11:28:24 +0800
+Message-ID: <1568258904-6897-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 21C584CE14E4.A7F38
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] timezone:upgrade 2019b -> 2019c
+X-Originating-IP: [128.224.162.195]
+Subject: [PATCH] nfs-utils: fix nfs mount error on 32bit nfs server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +31,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2019 01:30:15 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Sep 2019 03:28:29 -0000
 Content-Type: text/plain
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/timezone/timezone.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+There is a client side error "Stale file handle" when mounting from a
+nfs server running on 32bit arch.
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index ce16524..f6bab1a 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -4,7 +4,7 @@ SECTION = "base"
- LICENSE = "PD & BSD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
--PV = "2019b"
-+PV = "2019c"
- 
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
-@@ -12,7 +12,7 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
- 
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.md5sum] = "91e0978d947496fd6aaf46d351f9c41d"
--SRC_URI[tzcode.sha256sum] = "2e479d409337da41408629ce6c3b4d8410b10ba6d4431d862e22d2b137d7756d"
--SRC_URI[tzdata.md5sum] = "b26b5d7d844cb96c73ed2fb6d588daaf"
--SRC_URI[tzdata.sha256sum] = "05d9092c90dcf9ec4f3ccfdea80c7dcea5e882b3b105c3422da172aaa9a50c64"
-+SRC_URI[tzcode.md5sum] = "195a17454c5db05cab96595380650391"
-+SRC_URI[tzcode.sha256sum] = "f6ebd3668e02d5ed223d3b7b1947561bf2d2da2f4bd1db61efefd9e06c167ed4"
-+SRC_URI[tzdata.md5sum] = "f6987e6dfdb2eb83a1b5076a50b80894"
-+SRC_URI[tzdata.sha256sum] = "79c7806dab09072308da0e3d22c37d3b245015a591891ea147d3b133b60ffc7c"
+Steps to reproduce:
+1. $ MACHINE=qemux86 bitbake core-image-sato
+2. $ runqemu qemux86 kvm nographic qemuparams="-m 1024"
+3. $ echo "/nfs_root *(insecure,rw,async,no_root_squash,no_subtree_check)" \
+     >> /etc/exports
+   $ /etc/init.d/nfsserver restart
+
+  root@qemux86:~# mount -t nfs 127.0.0.1:/nfs_root /mnt
+  mount: mounting 127.0.0.1:/nfs_root on /mnt failed: Stale file handle
+
+Backport a patch to fix this issue.
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ ...include-order-between-config.h-and-stat.h.patch | 156 +++++++++++++++++++++
+ .../nfs-utils/nfs-utils_2.4.1.bb                   |   1 +
+ 2 files changed, 157 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
+
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
+new file mode 100644
+index 0000000..7b0f935
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
+@@ -0,0 +1,156 @@
++From 2fbc62e2a13fc22b6ae4910e295a2c10fb790486 Mon Sep 17 00:00:00 2001
++From: Zoltan Karcagi <zkr7432@gmail.com>
++Date: Mon, 12 Aug 2019 13:27:16 -0400
++Subject: [PATCH] Fix include order between config.h and stat.h
++
++At least on Arch linux ARM, the definition of struct stat in stat.h depends
++on __USE_FILE_OFFSET64. This symbol comes from config.h when defined,
++therefore config.h must always be included before stat.h. Fix all
++occurrences where the order is wrong by moving config.h to the top.
++
++This fixes the client side error "Stale file handle" when mounting from
++a server running Arch Linux ARM.
++
++Signed-off-by: Zoltan Karcagi <zkr7432@gmail.com>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++
++Upstream-Status: Backport
++[http://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=2fbc62e2a13fc22b6ae4910e295a2c10fb790486]
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ support/misc/nfsd_path.c         | 5 ++++-
++ support/misc/xstat.c             | 5 ++++-
++ support/nfs/conffile.c           | 8 +++++++-
++ utils/blkmapd/device-discovery.c | 8 ++++----
++ utils/idmapd/idmapd.c            | 8 ++++----
++ 5 files changed, 23 insertions(+), 11 deletions(-)
++
++diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
++index 84e4802..f078a66 100644
++--- a/support/misc/nfsd_path.c
+++++ b/support/misc/nfsd_path.c
++@@ -1,3 +1,7 @@
+++#ifdef HAVE_CONFIG_H
+++#include <config.h>
+++#endif
+++
++ #include <errno.h>
++ #include <sys/types.h>
++ #include <sys/stat.h>
++@@ -5,7 +9,6 @@
++ #include <stdlib.h>
++ #include <unistd.h>
++ 
++-#include "config.h"
++ #include "conffile.h"
++ #include "xmalloc.h"
++ #include "xlog.h"
++diff --git a/support/misc/xstat.c b/support/misc/xstat.c
++index fa04788..4c997ee 100644
++--- a/support/misc/xstat.c
+++++ b/support/misc/xstat.c
++@@ -1,3 +1,7 @@
+++#ifdef HAVE_CONFIG_H
+++#include <config.h>
+++#endif
+++
++ #include <errno.h>
++ #include <sys/types.h>
++ #include <fcntl.h>
++@@ -5,7 +9,6 @@
++ #include <sys/sysmacros.h>
++ #include <unistd.h>
++ 
++-#include "config.h"
++ #include "xstat.h"
++ 
++ #ifdef HAVE_FSTATAT
++diff --git a/support/nfs/conffile.c b/support/nfs/conffile.c
++index b6400be..6ba8a35 100644
++--- a/support/nfs/conffile.c
+++++ b/support/nfs/conffile.c
++@@ -500,7 +500,7 @@ conf_readfile(const char *path)
++ 
++ 	if ((stat (path, &sb) == 0) || (errno != ENOENT)) {
++ 		char *new_conf_addr = NULL;
++-		size_t sz = sb.st_size;
+++		off_t sz;
++ 		int fd = open (path, O_RDONLY, 0);
++ 
++ 		if (fd == -1) {
++@@ -517,6 +517,11 @@ conf_readfile(const char *path)
++ 
++ 		/* only after we have the lock, check the file size ready to read it */
++ 		sz = lseek(fd, 0, SEEK_END);
+++		if (sz < 0) {
+++			xlog_warn("conf_readfile: unable to determine file size: %s",
+++				  strerror(errno));
+++			goto fail;
+++		}
++ 		lseek(fd, 0, SEEK_SET);
++ 
++ 		new_conf_addr = malloc(sz+1);
++@@ -2162,6 +2167,7 @@ conf_write(const char *filename, const char *section, const char *arg,
++ 	ret = 0;
++ 
++ cleanup:
+++	flush_outqueue(&inqueue, NULL);
++ 	flush_outqueue(&outqueue, NULL);
++ 
++ 	if (buff)
++diff --git a/utils/blkmapd/device-discovery.c b/utils/blkmapd/device-discovery.c
++index e811703..f5f9b10 100644
++--- a/utils/blkmapd/device-discovery.c
+++++ b/utils/blkmapd/device-discovery.c
++@@ -26,6 +26,10 @@
++  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++  */
++ 
+++#ifdef HAVE_CONFIG_H
+++#include "config.h"
+++#endif /* HAVE_CONFIG_H */
+++
++ #include <sys/sysmacros.h>
++ #include <sys/types.h>
++ #include <sys/stat.h>
++@@ -51,10 +55,6 @@
++ #include <errno.h>
++ #include <libdevmapper.h>
++ 
++-#ifdef HAVE_CONFIG_H
++-#include "config.h"
++-#endif /* HAVE_CONFIG_H */
++-
++ #include "device-discovery.h"
++ #include "xcommon.h"
++ #include "nfslib.h"
++diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
++index 62e37b8..267acea 100644
++--- a/utils/idmapd/idmapd.c
+++++ b/utils/idmapd/idmapd.c
++@@ -34,6 +34,10 @@
++  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++  */
++ 
+++#ifdef HAVE_CONFIG_H
+++#include "config.h"
+++#endif /* HAVE_CONFIG_H */
+++
++ #include <sys/types.h>
++ #include <sys/time.h>
++ #include <sys/inotify.h>
++@@ -62,10 +66,6 @@
++ #include <libgen.h>
++ #include <nfsidmap.h>
++ 
++-#ifdef HAVE_CONFIG_H
++-#include "config.h"
++-#endif /* HAVE_CONFIG_H */
++-
++ #include "xlog.h"
++ #include "conffile.h"
++ #include "queue.h"
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
+index 8b673c8..7e80354 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
+@@ -32,6 +32,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://clang-format-string.patch \
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
++           file://0001-Fix-include-order-between-config.h-and-stat.h.patch \
+ "
+ SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
+ SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
 -- 
 2.7.4
-
-
 
 
