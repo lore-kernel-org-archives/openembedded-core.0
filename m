@@ -1,49 +1,46 @@
-Return-Path: <frieder.schrempf@kontron.de>
-X-Greylist: delayed 585 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 12 Sep 2019 15:12:01 UTC
-Received: from skedge03.snt-world.com (skedge03.snt-world.com [91.208.41.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F3CC7DD9F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+	[209.85.128.41])
+	by mail.openembedded.org (Postfix) with ESMTP id C639D7E5F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2019 15:12:01 +0000 (UTC)
-Received: from sntmail12r.snt-is.com (unknown [10.203.32.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by skedge03.snt-world.com (Postfix) with ESMTPS id 52BDD67A64E;
-	Thu, 12 Sep 2019 17:02:16 +0200 (CEST)
-Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail12r.snt-is.com
-	(10.203.32.182) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5;
-	Thu, 12 Sep 2019 17:02:15 +0200
-Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
-	sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
-	15.01.1713.004; Thu, 12 Sep 2019 17:02:15 +0200
-From: Schrempf Frieder <frieder.schrempf@kontron.de>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [warrior][PATCH] uboot: fixes to uboot-extlinux-config attribute
-	values
-Thread-Index: AQHVaXsQ4FzNqdi46kOze0zy2ww9cQ==
-Date: Thu, 12 Sep 2019 15:02:15 +0000
-Message-ID: <20190912150214.29180-1-frieder.schrempf@kontron.de>
-Accept-Language: de-DE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.17.1
-x-originating-ip: [172.25.9.193]
-x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
-MIME-Version: 1.0
-X-SnT-MailScanner-Information: Please contact the ISP for more information
-X-SnT-MailScanner-ID: 52BDD67A64E.AD354
-X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
-	Provider for details
-X-SnT-MailScanner-SpamCheck: 
-X-SnT-MailScanner-From: frieder.schrempf@kontron.de
-X-SnT-MailScanner-To: akuster808@gmail.com,
-	openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, wpage@polysync.io
-X-Spam-Status: No
-Cc: Will Page <wpage@polysync.io>
-Subject: [warrior][PATCH] uboot: fixes to uboot-extlinux-config attribute values
+	Thu, 12 Sep 2019 15:36:50 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id p7so542259wmp.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Sep 2019 08:36:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=8js4TKVA5fB7aXXaLBVTVO1QjO5F04VD7Zjp6gNpNQQ=;
+	b=D89wfd7qxU+WtxGhlvonGoNEhUGm3bS0fEmR/DKxlOIay0cDQ6dGyqDKnpW00lCWAg
+	H661aiwz1Hp2io+PVjZ01vI0qfL5d0dVrSMP6LVoGXhKMgnM3VAto1lOEj6KIElSWpYT
+	Y8U/4pHb1LLlv1fPV8soQmIZcU0rGUqKhakVK06xJUxUVe4NwnWZ+F8+ocR81/Kqpcw4
+	Z3MhegMjEPPhaZuOmiSHtbBkH6vEunfs4xmWwb50Xhs2kNw66XQxq3PxP1ToLUGvijuN
+	aLIdxR9XJVOBEAGBeEKxPm7TG+7QpBUO2m4mN+IL0Uf5Ty5eHkqsHZfqH253DxhOMfie
+	BV+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8js4TKVA5fB7aXXaLBVTVO1QjO5F04VD7Zjp6gNpNQQ=;
+	b=g4sf0PANg+ckejRqifj6QfhHHAJ1CepBnjTsl09znNzXvdPF8apML0LGKdxnyCch13
+	0c0fSrtYRLCwdo2wwUV/Bcs11p7CPolRvs1oophTGUCRJrdxWbIpluM7z8p7SHYv5WLc
+	OuWjHbfjtWmUYsmTRZSO/PzwEAR9A8q+cnSReYFgJp+4n+kzKcCDr4WRVnmHCCJrG2fT
+	8uzpVjCzi76rEHsm6cIVOT9YjnQF6VR9Gr8eKxZwPDFUoirjFx+ajUzAGCE1jjHOkNLn
+	x7WV+y14wi5ztFlTyT5qebMMjm/VwTBThdMM7PXNx11FGr8XrimU/9qMJk1LQnrq2Xtb
+	L1Lg==
+X-Gm-Message-State: APjAAAWp4HH1jhkqDtnEg5mrsFkqjlq6UZi+3QFKhFnU/InIbYhott16
+	DN0X/31dntNdTFBOJr/hkecL0W3j
+X-Google-Smtp-Source: APXvYqyX218r/JrqVGw56z8pizmDWYYQ4dR+6HxVx7Y7UH9mprIhsKthm+JgHRrVVambpOr2fYonNQ==
+X-Received: by 2002:a1c:a8cb:: with SMTP id r194mr519610wme.156.1568302611095; 
+	Thu, 12 Sep 2019 08:36:51 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id 189sm456447wmz.19.2019.09.12.08.36.49
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 12 Sep 2019 08:36:49 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Sep 2019 17:36:42 +0200
+Message-Id: <20190912153644.19473-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] runqemu: decouple gtk and gl options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,70 +53,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2019 15:12:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Sep 2019 15:36:51 -0000
 
-From: Will Page <wpage@polysync.io>
+This will allow not having to multiply these options for the sdl
+frontend, instead combining them as needed.
 
-The way this class uses overrides to support generation of multiple
-sections is subject to two different issues: 1) labels that conflict
-with existing override names causing the value for the conflicting label
-to be set for all labels, and 2) reusing the override list through each
-iteration, prepending each new label to the list of overrides makes
-earlier labels' value take precedence over later labels, making later
-labels virtually impossible to customize.
-
-The first issue is resolved by removing all label names from overrides
-before iterating over labels.  The second issue is resolved by
-generating a fresh list of overrides with only the current label added.
-
-The current label is also appended to the list of overrides instead of
-prepended, which makes it the highest priority override.  This is
-matches the behavior of devtool-source.bbclass, which similarly
-monkey-patches overrides.
-
-Closes https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13469 .
-
-Signed-off-by: Will Page <wpage@polysync.io>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/uboot-extlinux-config.bbclass | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/selftest/cases/runtime_test.py |  2 +-
+ scripts/runqemu                              | 21 +++++++++++++-------
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboo=
-t-extlinux-config.bbclass
-index b5b1a81dfc..f4bf94be04 100644
---- a/meta/classes/uboot-extlinux-config.bbclass
-+++ b/meta/classes/uboot-extlinux-config.bbclass
-@@ -104,13 +104,16 @@ python do_create_extlinux_config() {
-                 if default:
-                     cfgfile.write('DEFAULT %s\n' % (default))
-=20
--            for label in labels.split():
-+            # Need to deconflict the labels with existing overrides
-+            label_overrides =3D labels.split()
-+            default_overrides =3D localdata.getVar('OVERRIDES').split(':')
-+            # We're keeping all the existing overrides that aren't used as=
- a label
-+            # an override for that label will be added back in while we're=
- processing that label
-+            keep_overrides =3D list(filter(lambda x: x not in label_overri=
-des, default_overrides))
-=20
--                overrides =3D localdata.getVar('OVERRIDES')
--                if not overrides:
--                    bb.fatal('OVERRIDES not defined')
-+            for label in labels.split():
-=20
--                localdata.setVar('OVERRIDES', label + ':' + overrides)
-+                localdata.setVar('OVERRIDES', ':'.join(keep_overrides + [l=
-abel]))
-=20
-                 extlinux_console =3D localdata.getVar('UBOOT_EXTLINUX_CONS=
-OLE')
-=20
---=20
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 20969d2c48a..3f212bd0eac 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -191,7 +191,7 @@ class TestImage(OESelftestTestCase):
+         features += 'TEST_SUITES = "ping ssh virgl"\n'
+         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
+         features += 'IMAGE_INSTALL_append = " kmscube"\n'
+-        features += 'TEST_RUNQEMUPARAMS = "gtk-gl"\n'
++        features += 'TEST_RUNQEMUPARAMS = "gtk gl"\n'
+         self.write_config(features)
+         bitbake('core-image-minimal')
+         bitbake('-c testimage core-image-minimal')
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 4415e9b69f8..68ba7dcfb94 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -65,9 +65,10 @@ of the following environment variables (in any order):
+   MACHINE - the machine name (optional, autodetected from KERNEL filename if unspecified)
+   Simplified QEMU command-line options can be passed with:
+     nographic - disable video console
+-    sdl - choose the SDL frontend instead of the Gtk+ default
+-    gtk-gl - enable virgl-based GL acceleration using Gtk+ frontend
+-    gtk-gl-es - enable virgl-based GL acceleration, using OpenGL ES and Gtk+ frontend
++    sdl - choose the SDL UI frontend
++    gtk - choose the Gtk UI frontend
++    gl - enable virgl-based GL acceleration (also needs gtk option)
++    gl-es - enable virgl-based GL acceleration, using OpenGL ES (also needs gtk option)
+     egl-headless - enable headless EGL output; use vnc or spice to see it
+     serial - enable a serial console on /dev/ttyS0
+     serialstdio - enable a serial console on the console (regardless of graphics mode)
+@@ -436,10 +437,16 @@ class BaseConfig(object):
+                 self.kernel_cmdline_script += ' console=ttyS0'
+             elif arg == 'sdl':
+                 self.qemu_opt_script += ' -display sdl'
+-            elif arg == 'gtk-gl':
+-                self.qemu_opt_script += ' -vga virtio -display gtk,gl=on'
+-            elif arg == 'gtk-gl-es':
+-                self.qemu_opt_script += ' -vga virtio -display gtk,gl=es'
++            elif arg == 'gtk':
++                if 'gl' in sys.argv[1:]:
++                    self.qemu_opt_script += ' -vga virtio -display gtk,gl=on'
++                elif 'gl-es' in sys.argv[1:]:
++                    self.qemu_opt_script += ' -vga virtio -display gtk,gl=es'
++                else:
++                    self.qemu_opt_script += ' -display gtk'
++            elif arg == 'gl' or arg == 'gl-es':
++                # These args are handled inside sdl or gtk blocks above
++                pass
+             elif arg == 'egl-headless':
+                 self.qemu_opt_script += ' -vga virtio -display egl-headless'
+                 # As runqemu can be run within bitbake (when using testimage, for example),
+-- 
 2.17.1
+
 
