@@ -1,49 +1,50 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 62FA07ED59
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C7477ED4A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 19:16:02 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id y23so27804619ljn.5
+	Fri, 13 Sep 2019 19:17:07 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id e17so28105507ljf.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 12:16:03 -0700 (PDT)
+	Fri, 13 Sep 2019 12:17:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
 	bh=NVkSC7WB1h4KnMhCWNK37ucZMgnT9vdpqHKbt79wi3Y=;
-	b=qNejquPS7L8NYPRm511O5wERW+Bsuyc7EqY3StPBhqf1Rru3q+ZOC/tf9sYTaMtXFo
-	eEsR3MrA/iBrBzPx+PQjE+qmBgRsHdzJreRHJorK+6XpYgHyNYmSKn/cJiD/KJj+lpPk
-	J41BSMj/bnxLsOhpmdstRh1evogCoSyXht89sdrCm24LcilFuULgsKLP+cgl15IH4+A4
-	/Vj2bxHJnyMWqurZ7dD1sPwluR3AxUDWYD8b+4sxCLEcIfezNrlbFbSXlORUyA5muhxZ
-	+7lPn4p4zR6yYZg84HCkZuLsTZsFSmd/8n0ID+RSHH3BctqMphTZCbcIJ5F27v+hHcov
-	+Cqg==
+	b=FPyAw7GFPEKQb3GRWim4C3b3uc9PJNKeayS0FCf3ZxxoEfMUN7/B08Ar8dILiWWITC
+	qjlPPQdJSaWvANIzzKvlxOMqDG4XAJ5wBOVKyjESd7k9bB/Mr9CwZ48ppFqosb/6QOas
+	vipMQiRq3V8rs3dohhL05jK4agUC8bB3eEEVRRIWMxSgXgCi2GiY3R0aQSn4y5ZfDeJE
+	LqlSStB5vnUMAY2LsljY0KjeTnr2aCmKJBtLQ8y4sNOcQg6ZzafOwBNsP6IgsRyDl2Bz
+	YJg32xjmNOdIPpIG5xhm9fLxTPyWOKufOFKj+bYmNFLKClARILaXlG39A+iKC/jvajhZ
+	lkBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
 	bh=NVkSC7WB1h4KnMhCWNK37ucZMgnT9vdpqHKbt79wi3Y=;
-	b=Z/yvGo3AmZXBZg+2/RefiQbxm8SF3aUjjFo4SbOdJfzwfVQRRN3jgs+R1FPQNYWlcj
-	hQbHpT4YrauRq3viKzLl+A/t9ryd5bipK0z+pTumEJXevyGVgYuKMHM6Kq+qvcD/8hU0
-	edRlMJT/6y79n84yXa7uQVClxmEgSOzvQlmPqKTjmkuEIFt8cbt7W22Ydm8qiP6mvNPd
-	S3uIvBxq7IhErZv85mF2laDGKT1pzsfkgPECETK3uUyRn+TcpidZ5V8crIDdfEMl2mNI
-	kgmxDzSVCMZqGQg0jWdQXoSjcktd+bHL73PSX3PCfyhorx7QMiNgaSo4pJxU+WLkzCSF
-	neOw==
-X-Gm-Message-State: APjAAAUi6fLDr11dc5pbKhWnwBGq6OhJOywxwd6AZSgNo5Tvgw9RMpsb
-	h11bqUMgKN9hGFuxN1cKjcKzw5t1BSI=
-X-Google-Smtp-Source: APXvYqxNT7SR6+F6vebXwnvE7nGNWDVWap6iY9jSaVRaWK5zCYZtzZ7gVb/zpTcGEfcu+86HGitTrg==
-X-Received: by 2002:a2e:874a:: with SMTP id q10mr29847475ljj.187.1568402162521;
-	Fri, 13 Sep 2019 12:16:02 -0700 (PDT)
+	b=HikzXMEw1YekSx8UFDJxP7ClzoqXd43eFUmmFmWkL4RhbNOzeJnw7lY7wUG6x7KMHn
+	kyVme1R7ypu/GvIslUbMdAuJR53kzfSKm16gJlgbdhNuJ/lU+R+iL6/8aoyasNX666cO
+	jvVO/GfPgsbA1ru5Kn16Q0lFwwTznCDdRrwg6FJfZgqIv+gUyP6eDBvqvCHy2Lh7ePQ7
+	a7HQh9GFwr0zdHcCj0bN018upnwn3AwZvhUkddcbe5Qg5PTDCdam01UA4zx4xyje5+5I
+	rOrkdiZt/yEsvOX6y9FffG3Tz6DylfDN/2GToCJuJd6Wrj2cSrdzSeaIR3sjYItxxwwr
+	xX4w==
+X-Gm-Message-State: APjAAAWjVMnhtjX/6ep9GuudE8WRtt6VpN6bcIXyRXiLzCCA2QRcZ+2I
+	266J3C30tDcA8WBZaGLurhYSwc4kveg=
+X-Google-Smtp-Source: APXvYqwM0suZmeuZvf2fS68pow4tG9ENI0QLNnqbBtbhNfauECTCEcVjYYhLLCChZsw1Db8DN0DS0w==
+X-Received: by 2002:a05:651c:202:: with SMTP id
+	y2mr31559623ljn.4.1568402228420; 
+	Fri, 13 Sep 2019 12:17:08 -0700 (PDT)
 Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se.
-	[213.89.0.115]) by smtp.gmail.com with ESMTPSA id
-	c197sm7112319lfg.46.2019.09.13.12.16.01
+	[213.89.0.115])
+	by smtp.gmail.com with ESMTPSA id v6sm6437433ljk.17.2019.09.13.12.17.07
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 13 Sep 2019 12:16:01 -0700 (PDT)
+	Fri, 13 Sep 2019 12:17:07 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Sep 2019 21:15:58 +0200
-Message-Id: <20190913191558.31450-1-open.source@oleksandr-kravchuk.com>
+Date: Fri, 13 Sep 2019 21:17:05 +0200
+Message-Id: <20190913191705.32022-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH]] curl: update to 7.66.0
+Subject: [PATCH v2] curl: update to 7.66.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,7 +57,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2019 19:16:02 -0000
+X-List-Received-Date: Fri, 13 Sep 2019 19:17:08 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
