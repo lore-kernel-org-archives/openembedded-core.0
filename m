@@ -1,48 +1,47 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 63A6A751D2
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 017327E601
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 11:59:43 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id b10so13197423plr.4
+	Fri, 13 Sep 2019 12:07:06 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id n190so15172666pgn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 04:59:44 -0700 (PDT)
+	Fri, 13 Sep 2019 05:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=qUCk3HABnS1BD5KUz1sDRqmR2Px4/67tKL4JCFPBBkY=;
-	b=HeMgfc98/SzEY4nRYObJErvKImHPA3L4GQzqzLZjRcW3eTLCoobxRgqrsx3ALN5GHF
-	B3eICGANwqZgzRacpJ8lRylMDUAZ+tzr+Ky5iaFNJzOPO3/s93+9HNLMN2UcEgZMxe9l
-	Av+PAk5l3SztRgFA6PEDXSCQhEfjZCZF85KZwv7vbaiygOlbzLFqKOcXp9PtMr4ZJ52J
-	rMjAJFjP7iS1MSjWheNMi07TcU9N9FEq3fW0YAJguChYcDXLZxf9/EPe4+zZpuRdRmyf
-	pISonlQPLx/rF5ov/a/N83JNAJetvJiUfVG1CGPkDgyKbDTv8fPzIFs7TxOCZ67G1yfi
-	J/2Q==
+	bh=F6pmTU3xJT0dFl3hYq5mxNEdEJ/yLgBe/MgGgebniZI=;
+	b=RhQwroWkLGOTyYgL5YkXQGVI72Ltp1/c99SMtJNzLYVe06rEgJIMOF3nfAAT+IrScn
+	YlUyuPMZYFbaAlORenqpHlwlLkj9+ToPm0PC0VBIsdRSe3ukJ5kLZw6nsIQ+gk+b1EKL
+	jvoam3I6p/YZd0W0bSJtNd/7Jcct3P2j7JuqhIzZWcLeZlPOk80Yz4nlXOPpfIisLEcz
+	Lv0vyvdvlwL6AULJUpZzDbyZRuxy/YdkHSSaQmayA/cZik9Bd+1yCCNrg6bLMGM6+exW
+	Upq7fc5seQT7rlcCkABIdDHYMwL/78xpPWOkSIjj/485/nZWmnOoW5CsKzVwfH5cLErO
+	ecXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=qUCk3HABnS1BD5KUz1sDRqmR2Px4/67tKL4JCFPBBkY=;
-	b=Qxkb6HFTH8BmwOS7+l8y3qEwhVrQN2dblrfkflFx46rV9bFtfthN9ih1fKr2GFnQhj
-	fP/CdgW59oRQOP1jcpgD5HW0ndft8M5ey/9zoAwMFbs6sE+f404fwq5s199wLKzstx11
-	iCyYa/6jd6uVTmJiEseXd1W/C7s/xfvqLUANuntG173dELRV6ZBTuAbz7Gebe5s+8gS+
-	FBrONchcLIShJXqJgyHR+pUMUiOiwjmSWRlerz/3N/OvtBRCnUPTz9p0lFFNEPpz5cig
-	SG0XzI3w401dVkcWcz0nTXumIBXfZuufKGUie/VPoshhvBz57EgNxAfHUVNML3FI9lOo
-	0Fpg==
-X-Gm-Message-State: APjAAAWvcECMsmSG4iuNwIf6vzx4GoxaoMLilqTanparOkw7BZTVXeXM
-	yFsSYd5DIkM413Bcs2O6zAWRfLUQZgYpEmwh/3Y=
-X-Google-Smtp-Source: APXvYqyAGwsffX802GDpJAa9uf1wW371FM5jwJ2Xzqvgs4kVPEJivy7cmkEkKVhWizqeD8/oLyPibIC0YyXFscIZ6d4=
-X-Received: by 2002:a17:902:76c1:: with SMTP id
-	j1mr613110plt.270.1568375984371; 
-	Fri, 13 Sep 2019 04:59:44 -0700 (PDT)
+	bh=F6pmTU3xJT0dFl3hYq5mxNEdEJ/yLgBe/MgGgebniZI=;
+	b=fY2WhqR1pMJgnvsXNyEgHRq9szFPdZE+c3r0lTVMDbSJhE3uy+C9ViKdI4PlI6iNWo
+	jnBkuIdDD6x0vb0Kryxm/0qcb40SFVEwZZmk4L+fPK1iO0WO508xJqcxVQa/mX7X1XtJ
+	50gsY2ZCYEZ9UNNAukZHSHsrYB952P6yIHlTc5foqfMo0LpS+7Gb2ueoXGvYTLTYW0h5
+	eSzh1Ka9fpYMzww51fGHlCLKsPzQeBSDyHS7+O5jjX6HB6zmX5iqGlxrcSgiQrEkwmVW
+	nk4X+tMgSbgtL9w5BT6WWi/2PSrDU628fEX8yeG+Kl75neW++vtjVmATe1HjNKFMFPCK
+	DJ2Q==
+X-Gm-Message-State: APjAAAVnpCFLurLI3IuX99IstLtymBqSSOkNqk7NxYsRa+Jo3IvOvIwM
+	SQQ+o70WkhNo0NGbwamAFn4i6y7RR6AzYCah3QI=
+X-Google-Smtp-Source: APXvYqyXE2a1VJWpkeqwsrus61zt9wYtSff+g8fmVYIH+FHNZAYkxr9TD5uvgZYb3K2/8UM9J+MrEcq8aJ+qT4s255Y=
+X-Received: by 2002:a63:534d:: with SMTP id t13mr43347196pgl.313.1568376427959;
+	Fri, 13 Sep 2019 05:07:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190911093001.7849-1-dbaryshkov@gmail.com>
-	<59fae086ca25abd545f80067c6824c752bce0f86.camel@intel.com>
-In-Reply-To: <59fae086ca25abd545f80067c6824c752bce0f86.camel@intel.com>
+	<DM6PR11MB343694FD68FA565D1B1C6628A3B30@DM6PR11MB3436.namprd11.prod.outlook.com>
+In-Reply-To: <DM6PR11MB343694FD68FA565D1B1C6628A3B30@DM6PR11MB3436.namprd11.prod.outlook.com>
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Fri, 13 Sep 2019 14:59:32 +0300
-Message-ID: <CALT56yPjxZCfP+z3aJ8tUHr3WFQGzyUBQau7te56GeQOPY4hYQ@mail.gmail.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "dmitry_eremin-solenikov@mentor.com" <dmitry_eremin-solenikov@mentor.com>,
+Date: Fri, 13 Sep 2019 15:06:55 +0300
+Message-ID: <CALT56yN-K+iZOfu+mOoeY7p-2FH0vcXJMUcpiAAEz1hAnhr81A@mail.gmail.com>
+To: "Ang, Chin Huat" <chin.huat.ang@intel.com>
+Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/9] uefi.bbclass: add bbclass holding configuration for UEFI applications
@@ -58,27 +57,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2019 11:59:43 -0000
+X-List-Received-Date: Fri, 13 Sep 2019 12:07:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=D0=BF=D1=82, 13 =D1=81=D0=B5=D0=BD=D1=82. 2019 =D0=B3. =D0=B2 02:12, Mitta=
-l, Anuj <anuj.mittal@intel.com>:
+=D0=BF=D1=82, 13 =D1=81=D0=B5=D0=BD=D1=82. 2019 =D0=B3. =D0=B2 05:14, Ang, =
+Chin Huat <chin.huat.ang@intel.com>:
 >
-> Hello,
+> > +        image =3D "bootUNKNOWN.efi"
 >
-> On Wed, 2019-09-11 at 12:29 +0300, dbaryshkov@gmail.com wrote:
-> > From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-> >
-> > Create new bbclass defining common variables for all UEFI-related
-> > packages (bootloaders, test applications, etc).
->
-> Have these changes been tested using wic as well with non default
-> values? There are places in there in EFI plugins where EFI/BOOT is
-> hardcoded. They might have to be changed as well ...
+> It might be better to raise an error here.
 
-This would be the next step. For now I wanted to consolidate code
-in recipes, so that it won't be duplicated all over the repo.
+Fine, I can change in v2.
+
+>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-bounces@lists.openembedded.org> On Behalf Of dbaryshkov@gmail.com
+> Sent: Wednesday, September 11, 2019 5:30 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+> Subject: [OE-core] [PATCH 1/9] uefi.bbclass: add bbclass holding configur=
+ation for UEFI applications
+>
+> From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+>
+> Create new bbclass defining common variables for all UEFI-related package=
+s (bootloaders, test applications, etc).
+>
+> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.co=
+m>
+> ---
+>  meta/classes/uefi.bbclass | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>  create mode 100644 meta/classes/uefi.bbclass
+>
+> diff --git a/meta/classes/uefi.bbclass b/meta/classes/uefi.bbclass new fi=
+le mode 100644 index 000000000000..d3fc4b686676
+> --- /dev/null
+> +++ b/meta/classes/uefi.bbclass
+> @@ -0,0 +1,26 @@
+> +# Location of EFI files inside EFI System Partition EFIDIR ?=3D
+> +"/EFI/BOOT"
+> +
+> +# Prefix where ESP is mounted inside rootfs. Set to empty if package is
+> +going # to be installed to ESP directly EFI_PREFIX ?=3D "/boot"
+> +
+> +# Location inside rootfs.
+> +EFI_FILES_PATH =3D "${EFI_PREFIX}${EFIDIR}"
+> +
+> +# Determine name of bootloader image
+> +python __anonymous () {
+> +    import re
+> +    target =3D d.getVar('TARGET_ARCH')
+> +    if target =3D=3D "x86_64":
+> +        image =3D "bootx64.efi"
+> +    elif re.match('i.86', target):
+> +        image =3D "bootia32.efi"
+> +    elif re.match('aarch64', target):
+> +        image =3D "bootaa64.efi"
+> +    elif re.match('arm', target):
+> +        image =3D "bootarm.efi"
+> +    else:
+> +        image =3D "bootUNKNOWN.efi"
+> +    d.setVar("EFI_BOOT_IMAGE", image)
+> +}
+> --
+> 2.23.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
 --=20
 With best wishes
