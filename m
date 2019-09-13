@@ -1,51 +1,53 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
-	[209.85.167.41])
-	by mail.openembedded.org (Postfix) with ESMTP id D864F6C106
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+	[209.85.208.179])
+	by mail.openembedded.org (Postfix) with ESMTP id EAED87ECAA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 15:44:37 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id r22so11193620lfm.1
+	Fri, 13 Sep 2019 15:44:41 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id 7so27530753ljw.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 08:44:39 -0700 (PDT)
+	Fri, 13 Sep 2019 08:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5Jc9HVRDKMlI2zOHsZg/RzLAaaLCjnNqBg3P7lDKS/c=;
-	b=KdSZToTFdpp+P0lv7pvl4kkKbsnYhmsVTmN7heureeoUtJr6VhJa6tbFTOQjpJANPF
-	PY6KNqSAIYjJBduwu/zgIIgHzr6gMoeaPR0i/uBBfAr0n5xZfl61Y6kEhXYtSbpHbngV
-	bv29vib73vdxDyvsrQYXicd7aO6wDOerD86I7UP/puVHvtEPYCJJpJrAt1LjBA8CODwP
-	zyjlODoZIglwNulJp0S5kxHupIud3ymCNeSO1zudoBscb3YXFnR90iIgnEgJWvaFyL4H
-	7/qMHqfztrkFS/Gbp+k7FhQ64iYh/QaQ13K4ns3cf0VPzzbBJtPBChsobWOyMhaR/+F7
-	vgbw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=KnWpNY6AAmqQN2f+TGLVTjWMRVcgw5CDJaDliiyqI4s=;
+	b=ojMIk8uU5WUSB1yLUcnOoqp5RGADy3fgs8aM7dywBY1TK7cIywNkgS2WDmBRCNlw6f
+	cBWshqxt3zr5GKdH1FmDMgqEodn0ftaJbUpIvQAzVzF3ZXKRkG07YC2/Wv4mmy53SMbN
+	NVWZWYp/0J+tGpveObqQbQc9mwp1QE+MXp7gE/tvxjSodTyNCMxItZMaWw1DDX1L49Rm
+	O+IroijqQnvw0wZEpEotZTmoBSPCc92QCCgayY0jVXHb9F5OhyLydVMUGCwy09ZVxx6B
+	R1t62CtEEcIohj50/XQfFF5EH1twWzlY6nkLv3aMPQS4vctAS9aDseK6kZKsohRssl8f
+	NHoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5Jc9HVRDKMlI2zOHsZg/RzLAaaLCjnNqBg3P7lDKS/c=;
-	b=jumaBMsz3bWFppdisPHVa+NFCxQkANbcy+hLUWjcj3hCt2eQq6CsffVzCU5M4UC8yU
-	5e6WxfwD3EP6eMVBPK+J9pHq4oWpJt+LSyMsbUJh4RPHC8hge6VprBz8bAjPFq9bIAvb
-	hKqUB7QPWKiN/gP369BWmF68b2bdtIRI4j5QgFOJz52oBFqCYk2FP+tlDHpcMzguc+/e
-	dXjIXKZdeFIPd3shC3GdV/ThAz7Qalx6PchEH6IW+H9dvywOmhUJHxOv3I/bDfiBt4cp
-	U63roFWDLFo5R/r3IJWbDBcb0VK+pxga5J3V8AI7AzWjPvfUeQDdgX3cG95K7e2aPVBS
-	KH8A==
-X-Gm-Message-State: APjAAAVhO/aknsclwg/k3cId2AajDQ+0D6gUAIEIuvbTUzP9ck/8nHrr
-	H9Zrbpx0GWsEIH1TwZsg27fTuwsh
-X-Google-Smtp-Source: APXvYqxpWaSt2FjzMKD28vePEkE6JGxkfrtdKXat8Qyr+vJL9eJ8KU8fO0Bc3R6XnXuqd3EhPIkw3A==
-X-Received: by 2002:a19:4b4a:: with SMTP id y71mr30658376lfa.118.1568389477869;
-	Fri, 13 Sep 2019 08:44:37 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=KnWpNY6AAmqQN2f+TGLVTjWMRVcgw5CDJaDliiyqI4s=;
+	b=JdBheDDYDaoiiPGsfYJ9UHJtfwzEWJSZ+MB3+Ef8n1UY+9vhheyV7WbEEh7FlV7ssa
+	cL2gJ2HgzHwYR9snCjeLkEmyLDPJGFaLR55kAs4OQRHrEuMyL3gl6a5EbitZ/wR43mqk
+	3zWwhQGzwJWnaNOo3v4m42rvODP3fqdZBQ4foVHDDIg5reYIfgeDUagChYvAXGOHcsZ5
+	/urPX7/pf83wgIhgptTCVcTt8mQF2HPHH3ntLr0eQVLjaKCzs3M2wBQBHeeyTZLGHyZ0
+	oxTSDHW9vQ5v8jC38Z07QeGcRyqCqq/dPsFj3jGDI2CcjrtuZF/SvQkg5xL9wQS559Vr
+	COag==
+X-Gm-Message-State: APjAAAV0XaR3abO19K205zYmACSJ5SjrlDKVG6NQHdW1Iu4X+Lhq3yai
+	RTB87r3iRCr9Hv9uTRGfPyOMar9J
+X-Google-Smtp-Source: APXvYqzkXNoAP6CB7MpUVPEqHsD5GMAgX54jzxv1GWdviHupD8kWu6lu4s7GT14xsIy333TD3vRXXg==
+X-Received: by 2002:a2e:9549:: with SMTP id t9mr26008249ljh.189.1568389481965; 
+	Fri, 13 Sep 2019 08:44:41 -0700 (PDT)
 Received: from localhost.localdomain ([94.25.229.196])
 	by smtp.gmail.com with ESMTPSA id
-	t1sm6297169lji.101.2019.09.13.08.44.36
+	t1sm6297169lji.101.2019.09.13.08.44.37
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 13 Sep 2019 08:44:36 -0700 (PDT)
+	Fri, 13 Sep 2019 08:44:39 -0700 (PDT)
 From: dbaryshkov@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Sep 2019 18:44:26 +0300
-Message-Id: <20190913154434.29908-1-dbaryshkov@gmail.com>
+Date: Fri, 13 Sep 2019 18:44:27 +0300
+Message-Id: <20190913154434.29908-2-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190913154434.29908-1-dbaryshkov@gmail.com>
+References: <20190913154434.29908-1-dbaryshkov@gmail.com>
 MIME-Version: 1.0
 Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH v2 1/9] uefi.bbclass: add bbclass holding configuration for UEFI applications
+Subject: [PATCH v2 2/9] grub-bootconf: switch to uefi.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,52 +60,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2019 15:44:38 -0000
+X-List-Received-Date: Fri, 13 Sep 2019 15:44:42 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 
-Create new bbclass defining common variables for all UEFI-related
-packages (bootloaders, test applications, etc).
+Use variables from uefi.bbclass instead of hardcoding them in the recipe.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 ---
- meta/classes/uefi.bbclass | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
- create mode 100644 meta/classes/uefi.bbclass
+ meta/recipes-bsp/grub/grub-bootconf_1.00.bb | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/uefi.bbclass b/meta/classes/uefi.bbclass
-new file mode 100644
-index 000000000000..7991640a2aaa
---- /dev/null
-+++ b/meta/classes/uefi.bbclass
-@@ -0,0 +1,26 @@
-+# Location of EFI files inside EFI System Partition
-+EFIDIR ?= "/EFI/BOOT"
-+
-+# Prefix where ESP is mounted inside rootfs. Set to empty if package is going
-+# to be installed to ESP directly
-+EFI_PREFIX ?= "/boot"
-+
-+# Location inside rootfs.
-+EFI_FILES_PATH = "${EFI_PREFIX}${EFIDIR}"
-+
-+# Determine name of bootloader image
-+python __anonymous () {
-+    import re
-+    target = d.getVar('TARGET_ARCH')
-+    if target == "x86_64":
-+        image = "bootx64.efi"
-+    elif re.match('i.86', target):
-+        image = "bootia32.efi"
-+    elif re.match('aarch64', target):
-+        image = "bootaa64.efi"
-+    elif re.match('arm', target):
-+        image = "bootarm.efi"
-+    else:
-+        raise bb.parse.SkipRecipe("UEFI unsupported on target %s, skipping" % target)
-+    d.setVar("EFI_BOOT_IMAGE", image)
-+}
+diff --git a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
+index 750f8c808a8e..ff3e27e3779b 100644
+--- a/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
++++ b/meta/recipes-bsp/grub/grub-bootconf_1.00.bb
+@@ -5,6 +5,7 @@ SUMMARY = "Basic grub.cfg for use in EFI systems"
+ RPROVIDES_${PN} += "virtual/grub-bootconf"
+ 
+ inherit grub-efi-cfg
++inherit uefi
+ 
+ S = "${WORKDIR}"
+ 
+@@ -20,10 +21,8 @@ python do_configure() {
+ do_configure[vardeps] += "APPEND ROOT"
+ 
+ do_install() {
+-	install -d ${D}/boot
+-	install -d ${D}/boot/EFI
+-	install -d ${D}/boot/EFI/BOOT
+-	install grub-bootconf ${D}/boot/EFI/BOOT/grub.cfg
++	install -d ${D}${EFI_FILES_PATH}
++	install grub-bootconf ${D}${EFI_FILES_PATH}/grub.cfg
+ }
+ 
+-FILES_${PN} = "/boot/EFI/BOOT/grub.cfg"
++FILES_${PN} = "${EFI_FILES_PATH}/grub.cfg"
 -- 
 2.23.0
 
