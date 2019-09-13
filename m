@@ -1,50 +1,52 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 017327E601
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id DBF3B751D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 12:07:06 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id n190so15172666pgn.0
+	Fri, 13 Sep 2019 12:22:27 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id a11so22126190wrx.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 05:07:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=F6pmTU3xJT0dFl3hYq5mxNEdEJ/yLgBe/MgGgebniZI=;
-	b=RhQwroWkLGOTyYgL5YkXQGVI72Ltp1/c99SMtJNzLYVe06rEgJIMOF3nfAAT+IrScn
-	YlUyuPMZYFbaAlORenqpHlwlLkj9+ToPm0PC0VBIsdRSe3ukJ5kLZw6nsIQ+gk+b1EKL
-	jvoam3I6p/YZd0W0bSJtNd/7Jcct3P2j7JuqhIzZWcLeZlPOk80Yz4nlXOPpfIisLEcz
-	Lv0vyvdvlwL6AULJUpZzDbyZRuxy/YdkHSSaQmayA/cZik9Bd+1yCCNrg6bLMGM6+exW
-	Upq7fc5seQT7rlcCkABIdDHYMwL/78xpPWOkSIjj/485/nZWmnOoW5CsKzVwfH5cLErO
-	ecXg==
+	Fri, 13 Sep 2019 05:22:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Il4qsnBT8LOySfazm+7++YQj68XSPwNeN575yEyFKtI=;
+	b=ysbXESlL3mWNKxL1JMuPvkC7GFbJ0ZvTOX6PSY0a4iN1Sx3kovMEye4YFxUNvLqkrX
+	eJ1i4VEX9olQmjdjZ3p2nwSNed60Rjr5l6L14krG7pvokFDSpvHBBtexHNp8kOU5oQJ/
+	nby5a/6sHx/DnLAWAPqH2Wwc08TrxAjJOrfzDwu1tZ/PwQn//Zyez0d/zyi5z5cDqBNh
+	NYjjtirfKlxgXW4hGLGHmO9zSNE6ZEhs88Nw13GHa3Yt1xb/wjOHqwmuPeDgveG/mMrU
+	ED/N83sgH8CMVmQxkkR9rk9T9GpOuTkVun14auyJxhN+o/TgIR/W2E872cIh3YwknklA
+	nhRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=F6pmTU3xJT0dFl3hYq5mxNEdEJ/yLgBe/MgGgebniZI=;
-	b=fY2WhqR1pMJgnvsXNyEgHRq9szFPdZE+c3r0lTVMDbSJhE3uy+C9ViKdI4PlI6iNWo
-	jnBkuIdDD6x0vb0Kryxm/0qcb40SFVEwZZmk4L+fPK1iO0WO508xJqcxVQa/mX7X1XtJ
-	50gsY2ZCYEZ9UNNAukZHSHsrYB952P6yIHlTc5foqfMo0LpS+7Gb2ueoXGvYTLTYW0h5
-	eSzh1Ka9fpYMzww51fGHlCLKsPzQeBSDyHS7+O5jjX6HB6zmX5iqGlxrcSgiQrEkwmVW
-	nk4X+tMgSbgtL9w5BT6WWi/2PSrDU628fEX8yeG+Kl75neW++vtjVmATe1HjNKFMFPCK
-	DJ2Q==
-X-Gm-Message-State: APjAAAVnpCFLurLI3IuX99IstLtymBqSSOkNqk7NxYsRa+Jo3IvOvIwM
-	SQQ+o70WkhNo0NGbwamAFn4i6y7RR6AzYCah3QI=
-X-Google-Smtp-Source: APXvYqyXE2a1VJWpkeqwsrus61zt9wYtSff+g8fmVYIH+FHNZAYkxr9TD5uvgZYb3K2/8UM9J+MrEcq8aJ+qT4s255Y=
-X-Received: by 2002:a63:534d:: with SMTP id t13mr43347196pgl.313.1568376427959;
-	Fri, 13 Sep 2019 05:07:07 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Il4qsnBT8LOySfazm+7++YQj68XSPwNeN575yEyFKtI=;
+	b=OMfQv7uZWtnveXDJk2ou5Wv/BsUYw4vnt6Vijtoaa0USBxGHDU97Nhe78MnMVyFAiw
+	VT0+XOAGWJw6WsQPcibOLoqrIB6CQ6LlYT+c273QtMhygWPa3Bg4pq4ovMWoPd21caEp
+	2F/dXwHylmyNMein+8H7AVDp3/92nG3EJvvwdK+1QMlDsSamgZXoRVJeIV0QO7eMfhvn
+	Da06jbrI2LkbwBlhJ9vUln02h1eJGMy7mijDoIiWW1KgHjup02cuTdXyEFFf6STmC8Z6
+	iyICsrV1jrpUxl0LQwNZNooXcgjRjy0m121MvT7gIpVABQ49Cjra3yQ3vhs+j+nVRnaB
+	a7yw==
+X-Gm-Message-State: APjAAAUVbdJfoSt2Vmu4+A5R+oSuzidla+jca7I5ieBcGMFKwK4GMI31
+	faP163FRfikfOOCrgyJbRq7iQ/WtNcw=
+X-Google-Smtp-Source: APXvYqxGflWgGUFkhwF89Dk9NvWJw2GOBVn5szHqIoyjWw7pr/6LHKo6yy88tgUUJq6ukM0bqpagTw==
+X-Received: by 2002:a5d:5612:: with SMTP id l18mr39330605wrv.177.1568377347942;
+	Fri, 13 Sep 2019 05:22:27 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	y186sm2640721wmd.26.2019.09.13.05.22.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 13 Sep 2019 05:22:26 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Sep 2019 13:22:22 +0100
+Message-Id: <20190913122222.19350-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190911093001.7849-1-dbaryshkov@gmail.com>
-	<DM6PR11MB343694FD68FA565D1B1C6628A3B30@DM6PR11MB3436.namprd11.prod.outlook.com>
-In-Reply-To: <DM6PR11MB343694FD68FA565D1B1C6628A3B30@DM6PR11MB3436.namprd11.prod.outlook.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Fri, 13 Sep 2019 15:06:55 +0300
-Message-ID: <CALT56yN-K+iZOfu+mOoeY7p-2FH0vcXJMUcpiAAEz1hAnhr81A@mail.gmail.com>
-To: "Ang, Chin Huat" <chin.huat.ang@intel.com>
-Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/9] uefi.bbclass: add bbclass holding configuration for UEFI applications
+Subject: [PATCH] adwaita-icon-theme: fix rare install race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,83 +59,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2019 12:07:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Sep 2019 12:22:28 -0000
+Content-Transfer-Encoding: 8bit
 
-=D0=BF=D1=82, 13 =D1=81=D0=B5=D0=BD=D1=82. 2019 =D0=B3. =D0=B2 05:14, Ang, =
-Chin Huat <chin.huat.ang@intel.com>:
->
-> > +        image =3D "bootUNKNOWN.efi"
->
-> It might be better to raise an error here.
+There have been rare errors during the build of adwaita-icon-theme, such as:
 
-Fine, I can change in v2.
+Exception: bb.process.ExecutionError: Execution of '.../temp/run.sysroot_stage_all.45186' failed with exit code 2:
+cpio: ./icons/Adwaita/32x32/legacy/_inst.34160_: Cannot stat: No such file or directory
+cpio: ./icons/Adwaita/32x32/legacy/_inst.33428_: Cannot stat: No such file or directory
+cpio: ./icons/Adwaita/32x32/legacy/_inst.35421_: Cannot stat: No such file or directory
+cpio: ./icons/Adwaita/32x32/legacy/_inst.34533_: Cannot stat: No such file or directory
+cpio: ./icons/Adwaita/32x32/legacy/_inst.35366_: Cannot stat: No such file or directory
 
->
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--bounces@lists.openembedded.org> On Behalf Of dbaryshkov@gmail.com
-> Sent: Wednesday, September 11, 2019 5:30 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-> Subject: [OE-core] [PATCH 1/9] uefi.bbclass: add bbclass holding configur=
-ation for UEFI applications
->
-> From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
->
-> Create new bbclass defining common variables for all UEFI-related package=
-s (bootloaders, test applications, etc).
->
-> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.co=
-m>
-> ---
->  meta/classes/uefi.bbclass | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
->  create mode 100644 meta/classes/uefi.bbclass
->
-> diff --git a/meta/classes/uefi.bbclass b/meta/classes/uefi.bbclass new fi=
-le mode 100644 index 000000000000..d3fc4b686676
-> --- /dev/null
-> +++ b/meta/classes/uefi.bbclass
-> @@ -0,0 +1,26 @@
-> +# Location of EFI files inside EFI System Partition EFIDIR ?=3D
-> +"/EFI/BOOT"
-> +
-> +# Prefix where ESP is mounted inside rootfs. Set to empty if package is
-> +going # to be installed to ESP directly EFI_PREFIX ?=3D "/boot"
-> +
-> +# Location inside rootfs.
-> +EFI_FILES_PATH =3D "${EFI_PREFIX}${EFIDIR}"
-> +
-> +# Determine name of bootloader image
-> +python __anonymous () {
-> +    import re
-> +    target =3D d.getVar('TARGET_ARCH')
-> +    if target =3D=3D "x86_64":
-> +        image =3D "bootx64.efi"
-> +    elif re.match('i.86', target):
-> +        image =3D "bootia32.efi"
-> +    elif re.match('aarch64', target):
-> +        image =3D "bootaa64.efi"
-> +    elif re.match('arm', target):
-> +        image =3D "bootarm.efi"
-> +    else:
-> +        image =3D "bootUNKNOWN.efi"
-> +    d.setVar("EFI_BOOT_IMAGE", image)
-> +}
-> --
-> 2.23.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The problem was that a previous optimisation (oe-core cd9af17028) to massively
+increase the install speed (by parallelling the hundreds of installs) was subtly
+wrong.  It was essentially doing this:
 
+  for i in list; do
+    install i &
+  done
+  wait
 
+In pure shell this does parallelise the install commands and then wait for them
+all to finish before exiting, but in Makefiles *each line in a separate shell*.  The actual Makefile is closer to this:
 
---=20
-With best wishes
-Dmitry
+  for i in list; do \
+    install i & \
+  done
+  wait
+
+The backslashes are required to write a multi-line for loop in a Makefile, but
+note that when the loop ends the shell exits and all of the install processes
+that are still running are disowned.  The wait command then executes in a new
+shell, and there are no childen to wait for.
+
+The fix is trivial: add more backslashes so that the wait is part of the same
+shell.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...001-Run-installation-commands-as-shell-jobs.patch | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
+index 6c38e237f40..c4d7e2583bd 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Run-installation-commands-as-shell-jobs.patch
+@@ -24,7 +24,8 @@ index 1c940a5..3998ee6 100644
+ -			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+ +			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
+  		done; \
+- 	done;
++-	done;
+++	done; \
+ +	wait
+  
+  ## FIXME we should add a way to remove links generated by icon mapping
+@@ -45,7 +46,8 @@ index 86f4d7c..3fae8c1 100644
+  		$(mkdir_p) $(DESTDIR)$(themedir)/scalable-up-to-32/$$context; \
+ -		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file; \
+ +		$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/scalable-up-to-32/$$file $(DESTDIR)$(themedir)/scalable-up-to-32/$$file & \
+- 	done
++-	done
+++	done; \
+ +	wait
+  
+  uninstall-local:
+@@ -61,7 +63,8 @@ index 24aac9b..61ba071 100644
+ -			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file; \
+ +			$(install_sh_DATA) $(top_srcdir)/$(SVGOUTDIR)/$$size/$$file $(DESTDIR)$(themedir)/$$size/$$file & \
+  		done; \
+- 	done
++-	done
+++	done; \
+  	for file in `cd $(top_srcdir)/$(SVGOUTDIR)/scalable; find . -name "*.svg"`; do \
+  		context="`dirname $$file`"; \
+  		$(mkdir_p) $(DESTDIR)$(themedir)/scalable/$$context; \
+@@ -72,7 +75,8 @@ index 24aac9b..61ba071 100644
+ -			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context; \
+ +			$(GTK_ENCODE_SYMBOLIC_SVG) $(top_srcdir)/$(SVGOUTDIR)/scalable/$$file $$size -o $(DESTDIR)$(themedir)/$$size/$$context & \
+  		done \
+- 	done
++-	done
+++	done; \
+ +	wait
+  
+  uninstall-local:
+-- 
+2.20.1
+
 
