@@ -1,48 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id DE5987DDA5
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id EAA397EC65
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 13:48:17 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id g16so380818qto.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 06:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZbWZWmBHDIkIHjFSKzpfprO+z403WVmAxv6jclF6Lm4=;
-	b=tmTg3AeYOjXBsqahDTfkOG7oGr/i5tiTnx4BYgeRFMpjShVnHwjTrVOP8exoDrpm+k
-	9FLRp/7oZFMOTiK6KgUL9FtbRD2bvfmwYqw8/BNDBIp0GIUFS+ApbAGGfqeFbE0CiRp/
-	gm1LpCr0gUsXgwzOlhiRt31cozvHYXlEg6QYjG6LGgCTEeio+AfBZGfGfp1wkBNstHVp
-	rW9mhaZMqDX16ulPWYLMGV2V546Jh7OMK/uyA4wKXW3LO9u2W+Dq+QSiPiVyqCYortez
-	m0FdBmh2j4RUX0L1oU9D+lT6D6KzcFB/Htg/Jw9jDrEJ7mApL091krqx54DXGbfWES2N
-	0UpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZbWZWmBHDIkIHjFSKzpfprO+z403WVmAxv6jclF6Lm4=;
-	b=UrhJoB0YQQpA9MBIabTji8QUDFtifcdQz5FsF7cu0PE2W+6NK3Bx93Llcza9b8rvTT
-	yZo0flJ32LLTiUUicF5YQw5I/0S3P80zz721z8sqKn9CVC2aTWEQaURvqZaqfVtlUc5H
-	dNBuOEjQIXdPkC1DQQ1LoW0shK31nchJa6K25+4F8zO7GslME/K7kAtx/zFJROiYNGVR
-	IGNKC7SB+w/dZMgI3YyN7j3PojGJH8iKsoqt+Vy3SVt38d5LyNoDUK/azmb6OaKq9RhQ
-	jYyUwkCR7RY40ArBwwbGQya/2lbx1pNKgzHD1L+xZQ6xTp256Xd93MEVyToBmr6oRFtW
-	b4dA==
-X-Gm-Message-State: APjAAAWF0wYf+zyGLe4sPeY6GeRR6SfqxHOaBWi17r2PEhgiQIffjwcG
-	6VMrKG/NKKXX62XPYE2r0C0YWo9hbgdd8HGRzDw=
-X-Google-Smtp-Source: APXvYqyuStGii1W6+uZ9ysrZ20eT+yr90369Mi+fuzwIy0P2XsjB4WQ7fBRJ1FAzVwKehcf9KecefhBecWDEudB0CcY=
-X-Received: by 2002:aed:3c52:: with SMTP id u18mr3025646qte.194.1568382498387; 
-	Fri, 13 Sep 2019 06:48:18 -0700 (PDT)
+	Fri, 13 Sep 2019 15:03:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46VJn64s1FzQx;
+	Fri, 13 Sep 2019 17:03:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1568387035;
+	bh=uLR8lZ6Zprjh/VL4j/DAzSwk5nhB2rK5lk7Hb6ZNgyM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CwVsj+9K5kuWwe1A8MqVPRyGASalP1OyrnQJvSpkiOyWG6gOaXSvBH9ZHij3mtMtY
+	vc71Pna3LEok+5wmOPlktSt+iheNnVL3wDyqT0aSCy6ohJrfuH2sP2El5pWlV8syjK
+	q5YS55r0wVusxInCT5fc/hBn/46xMeHGSFpx4wBy9jBnaayvN6T5NavyIqEi5Sda2+
+	8IYqywbnZ4eMGAOEG5IbyLzHW95OlWHyztfrOojsWF9ERQuM/Qti57dB+0TdBy3J1W
+	+UZ3pJBU9Nd3b37vCGBqx0/YAOhAX4Ot0gRT1xLDaaZmrxfATuMdzytr/zcK9XtVpJ
+	w1XiZXCPuqUbdIFVBakb+9MLintu9q3Yb9llfIOadcX2pQwXRazQh/2PnwvRSj9Zq7
+	pF/fBG2LXeEn+zSyHrkJsPkFyfwJX7HwgQ/MAx0LgGASc0ZZGXqOlcRrQ4LfJEPZnl
+	V13Ml1wKFKBon4h+/1sXiQprBCkVtpxBpjPCmnJ7T09xaEDEgfSET6WdneITo94E1M
+	W5uCrlqMNnNn1B1XG+Lg7WkePG5ajrsKXvcsIgg6PUTwia14rytts5ieT9iFDV7hEz
+	6/YQbwF12iMTaknefh7+1TP4h81zvUFqQ+ERI/U9Su6fESVwv622VNZeW4hRHW18Dn
+	O+4iB4mcyjcfRqzYRi6Z/BaI=
+Date: Fri, 13 Sep 2019 18:03:51 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: akuster808 <akuster808@gmail.com>
+Message-ID: <20190913150351.GA5554@localhost>
+References: <20190912065221.733-1-zangrc.fnst@cn.fujitsu.com>
+	<e91aab69-d7ab-dd80-1671-72e21e85711b@gmail.com>
+	<20190912142824.GB5021@localhost>
+	<95697dfd-5692-c175-3fd4-0609e3b96310@gmail.com>
 MIME-Version: 1.0
-References: <20190913074910.23384-1-nathan@nathanrossi.com>
-In-Reply-To: <20190913074910.23384-1-nathan@nathanrossi.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 13 Sep 2019 06:47:52 -0700
-Message-ID: <CAMKF1sr5W3a2mT46Gt=GG=A32gWLVABiOL7PHc2TwNksH5CrSw@mail.gmail.com>
-To: Nathan Rossi <nathan@nathanrossi.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc-testsuite: SkipRecipe if libc is not glibc
+In-Reply-To: <95697dfd-5692-c175-3fd4-0609e3b96310@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] timezone:upgrade 2019b -> 2019c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +46,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2019 13:48:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 13 Sep 2019 15:03:56 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 13, 2019 at 12:49 AM Nathan Rossi <nathan@nathanrossi.com> wrote:
->
-> To prevent issues with parsing or dependencies, limit this recipe to use
-> only when the libc is glibc (and libc-locale is glibc-locale).
->
-> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> ---
->  meta/recipes-core/glibc/glibc-testsuite_2.30.bb | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.30.bb b/meta/recipes-core/glibc/glibc-testsuite_2.30.bb
-> index 64fa8d87df..657fd4dbc1 100644
-> --- a/meta/recipes-core/glibc/glibc-testsuite_2.30.bb
-> +++ b/meta/recipes-core/glibc/glibc-testsuite_2.30.bb
-> @@ -8,6 +8,13 @@ PROVIDES = ""
->  # setup depends
->  INHIBIT_DEFAULT_DEPS = ""
->
-> +python () {
-> +    libc = d.getVar("PREFERRED_PROVIDER_virtual/libc")
-> +    libclocale = d.getVar("PREFERRED_PROVIDER_virtual/libc-locale")
-> +    if libc != "glibc" or libclocale != "glibc-locale":
-> +        raise bb.parse.SkipRecipe("glibc-testsuite requires that virtual/libc is glibc")
-> +}
-> +
-would something like below work
+On Thu, Sep 12, 2019 at 10:30:30AM -0700, akuster808 wrote:
+> On 9/12/19 7:28 AM, Adrian Bunk wrote:
+>...
+> I applaud those who  take the time and  effort of providing additional
+> information in the commit messages.
+>...
 
-COMPATIBLE_HOST ?= "null"
-COMAPTIBLE_HOST_libc-glibc = "(*)"
+Blind pasting of the complete upstream changelog is not exactly an 
+effort that would warrant applause.
 
->  DEPENDS += "glibc-locale libgcc gcc-runtime"
->
->  # remove the initial depends
-> ---
-> 2.23.0
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+A short summary of the relevant parts might be useful, but when you are 
+asking to include details like
+  The 1892-05-01 transition in Brussels was at 00:17:30, not at noon.
+that's only adding noise in "git log".
+
+> > BTW: How is the legal handling of the metadata, when such lengthy
+> >      3rd party texts copyrighted by various people under various 
+> >      licences are distributed as part of the git metadata?
+> Interesting question. Since I am not a lawyer,
+
+I am also not a lawyer.
+
+> maybe you can help guide
+> the community so we do the right thing. Now I am worried about the
+> stable branches,
+> do backports have  this same issue, are those 3-party texts?
+
+Backporting does not make a difference here,
+it is about under what licence the contents of the commit message is.
+
+Pasting texts from elsewhere makes the licencing of the git metadata a 
+complete mess, like you cannot claim it is MIT if it contains text from
+GPLv3 software.
+
+A person using Signed-off-by also certifies that the whole contribution 
+is under an open source license, which would make pasting changelogs from 
+components that are not under an open source license clearly off-limits.
+
+Not sure how much actual lawyers care about such issues,
+but once something is in the git history it is too late.
+
+> - armin
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
