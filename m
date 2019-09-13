@@ -1,53 +1,53 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B3B717ED8E
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 75D0C7EE86
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 15:44:58 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id h2so21059572ljk.1
+	Fri, 13 Sep 2019 15:45:03 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id q11so7556911lfc.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 08:45:00 -0700 (PDT)
+	Fri, 13 Sep 2019 08:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=+bvGypW0zDbyFHSvVUfNgrx+pklVDg5Ck+pBj99Uc7M=;
-	b=tFEi33KaD2NiWcOZy5zqjfz2GPiCDxRUHJNJUrzH+cnixx/i8zbAIZ2TU87UOPRbkV
-	DK4r045XEbIYvpAOX7qRw0nzsLxnbkTRdPBMvSFWiaiCIuhQ5ECnDrWcZVKepyAL9SEO
-	f5IJl//Yp+QAdHU19Kjdw7cSuXXtTceRi0Ef8VxSz7aYSley5B5gzt7etRtfwFdNL4Ve
-	eaay/OLRujEDcg0EdD1Cd3m1taVkpvbM/azV2wrEBAUEXipUkrrmcCHwPiZHmL9Vh8DP
-	OpZbbX403Z+gaI/MhtJdeGMEZYukHVY6GYeC3tjItTi+xrclpaA9act57pq54Aegn2Ff
-	Bb5w==
+	bh=3NG0xu1QUbFr7ZI1J7mMWr0KqwQv1YT+O89cwbQ0F2I=;
+	b=P/6bh0UqgvOqPwYzpSBEAeYsXqrj1lsthPKw0Mnj2oTUrrU/1SQe3q2cASfEEJ7Q4H
+	8Eex7G4XzG9obxFPrfWowK+80FtmzoIS4nfH3T/u75h/1cE8eF+ZMQQONa1pj7UGROPe
+	4tnDNIwajmVTam7OJiXdRNB+N6ylJ/+ddMoSh+X55mcL+7+S4jE+1et5i53SQYZ8uwST
+	hyb7MYa1xrZP9JxkWgg19BvaWlOVzl9ARDkFXOwlh1Nr0CISm387yMt99unkblVKJFOB
+	fNjmmk5EkrzU/Oxg5AjmpxFL5quWiQiCpE7CBitjGTUtOta0KE6rloRttJtLGZ4L+Wtj
+	14+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=+bvGypW0zDbyFHSvVUfNgrx+pklVDg5Ck+pBj99Uc7M=;
-	b=Np8chwwCu2NTUFQH0HH/g3eZT/X+GmRyEPt7PDVsTsGMY/cdmSSnD0DIupr+r4/AGU
-	N4vFMHwVuxcJdIKQzNTOZihgh3smulaTjJ4HWG8qt8+f+fe/j9dNUVO638SyRzYcPt7m
-	xMGusbn+s74Gvowz2KSDQmLyT0UQpR69V16zivU5nHxsdIAghE53OfZ73wWmlGRCePBe
-	dEGfnkLwuA9YL/ehZ2EgTE9XMi6436MdrPk+MjAwMVJMl0VGauhrSMdVQP/hdw4oCsSx
-	GoYoQ4ljI5kklXC5pN0AxNmNeLy3UcMm1M2q6Z0+fLZ4vNd0L2HmoEI6JzzW/6yf1NU3
-	gfuw==
-X-Gm-Message-State: APjAAAV6LECoQV0ZeyBZ53v5gpRGmSMGmBBgzyu0zvMVRanfqvyikPmw
-	gl943/rQ7DX4N3GTaVYswe8KbjVI
-X-Google-Smtp-Source: APXvYqzVl2PE2q9WyF9uWwOO2sXAzHgPtAsUS76A46lKwooxJGkJcusUSU2uDBsH9Tb01Kzn13W2KQ==
-X-Received: by 2002:a2e:3618:: with SMTP id d24mr29714275lja.179.1568389498865;
-	Fri, 13 Sep 2019 08:44:58 -0700 (PDT)
+	bh=3NG0xu1QUbFr7ZI1J7mMWr0KqwQv1YT+O89cwbQ0F2I=;
+	b=Mrq6bQ0vJMIS2tcywsHPh4Swy3yzkQi1DLEUr9uhVCaxPzMg3HXWcM8je2oCbsH0Or
+	JglHjIhhYqeld3px2t2Vb3HDk2f5PpVV1n5t8PTZzioY/vY8Ol7b75XXTFqP+Br79Fdq
+	v06ErijfUCMfrT/RTPAQdZSkETNbiIvhYXxA7oJwSibP3PteHz/3MjMn6vJdGFWKW4f1
+	HsPI0qYnBmdbWuXh7I8jIlLeywJyBfxdEkYJyNDNqzqD6AB4+RjNKxkMPIk5xUR66t6v
+	ys7kiixwpkBKgL04wjsD6bfZ/DEf4TPFwcdf1fTKjnWGedteDvy0cCVqpxKk/EQkZZcp
+	uIUA==
+X-Gm-Message-State: APjAAAVbLtBjlltXcJtfNf0Lug+pT/K3okeDOhCZ6ncvlO7YOraOemXO
+	KcDOuzXjdcW5x44/pAFRXlPsq+ee
+X-Google-Smtp-Source: APXvYqwKe/tU8B22PjvT+vblGQB0eu0rJ9bdAMSOy0nIvVv3iyUhDRkNf3dV6e3ZAi3y19r1QZj91w==
+X-Received: by 2002:a19:c017:: with SMTP id q23mr7695913lff.174.1568389503595; 
+	Fri, 13 Sep 2019 08:45:03 -0700 (PDT)
 Received: from localhost.localdomain ([94.25.229.196])
 	by smtp.gmail.com with ESMTPSA id
-	t1sm6297169lji.101.2019.09.13.08.44.57
+	t1sm6297169lji.101.2019.09.13.08.45.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 13 Sep 2019 08:44:57 -0700 (PDT)
+	Fri, 13 Sep 2019 08:45:02 -0700 (PDT)
 From: dbaryshkov@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Sep 2019 18:44:32 +0300
-Message-Id: <20190913154434.29908-7-dbaryshkov@gmail.com>
+Date: Fri, 13 Sep 2019 18:44:33 +0300
+Message-Id: <20190913154434.29908-8-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190913154434.29908-1-dbaryshkov@gmail.com>
 References: <20190913154434.29908-1-dbaryshkov@gmail.com>
 MIME-Version: 1.0
 Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH v2 7/9] uefi.bbclass: provide efi population functions for live images
+Subject: [PATCH v2 8/9] grub-efi.bbclass: use efi_*_populate_common
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,54 +60,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2019 15:44:59 -0000
+X-List-Received-Date: Fri, 13 Sep 2019 15:45:03 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 
-Define common functions for populating EFI directories in live image.
+Use common code form uefi.bbclass to populate efi directories.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 ---
- meta/classes/uefi.bbclass | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ meta/classes/grub-efi.bbclass | 22 ++--------------------
+ 1 file changed, 2 insertions(+), 20 deletions(-)
 
-diff --git a/meta/classes/uefi.bbclass b/meta/classes/uefi.bbclass
-index 7991640a2aaa..dab654d73d52 100644
---- a/meta/classes/uefi.bbclass
-+++ b/meta/classes/uefi.bbclass
-@@ -24,3 +24,31 @@ python __anonymous () {
-         raise bb.parse.SkipRecipe("UEFI unsupported on target %s, skipping" % target)
-     d.setVar("EFI_BOOT_IMAGE", image)
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index a0a95d0e1e45..188515ef9edc 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -2,31 +2,13 @@ inherit grub-efi-cfg
+ inherit uefi
+ 
+ efi_populate() {
+-	# DEST must be the root of the image so that EFIDIR is not
+-	# nested under a top level directory.
+-	DEST=$1
+-
+-	install -d ${DEST}${EFIDIR}
+-
+-	install -m 0644 ${DEPLOY_DIR_IMAGE}/grub-efi-${EFI_BOOT_IMAGE} ${DEST}${EFIDIR}/${EFI_BOOT_IMAGE}
+-	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+-	printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${DEST}/startup.nsh
++	efi_populate_common "$1" grub-efi
+ 
+ 	install -m 0644 ${GRUB_CFG} ${DEST}${EFIDIR}/grub.cfg
  }
-+
-+efi_populate_common() {
-+        # DEST must be the root of the image so that EFIDIR is not
-+        # nested under a top level directory.
-+        DEST=$1
-+
-+        install -d ${DEST}${EFIDIR}
-+
-+        install -m 0644 ${DEPLOY_DIR_IMAGE}/$2-${EFI_BOOT_IMAGE} ${DEST}${EFIDIR}/${EFI_BOOT_IMAGE}
-+        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
-+        printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${DEST}/startup.nsh
-+}
-+
-+efi_iso_populate_common() {
-+        iso_dir=$1
-+        efi_populate $iso_dir
-+        # Build a EFI directory to create efi.img
-+        mkdir -p ${EFIIMGDIR}/${EFIDIR}
-+        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-+        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
-+
-+        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
-+        printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${EFIIMGDIR}/startup.nsh
-+
-+        if [ -f "$iso_dir/initrd" ] ; then
-+                cp $iso_dir/initrd ${EFIIMGDIR}
-+        fi
-+}
+ 
+ efi_iso_populate() {
+-	iso_dir=$1
+-	efi_populate $iso_dir
+-	# Build a EFI directory to create efi.img
+-	mkdir -p ${EFIIMGDIR}/${EFIDIR}
+-	cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
+-	cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
+-	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
+-	printf 'fs0:%s\%s\n' "$EFIPATH" "grub-efi-${EFI_BOOT_IMAGE}" > ${EFIIMGDIR}/startup.nsh
+-	if [ -f "$iso_dir/initrd" ] ; then
+-		cp $iso_dir/initrd ${EFIIMGDIR}
+-	fi
++	efi_iso_populate_common "$1"
+ }
+ 
+ efi_hddimg_populate() {
 -- 
 2.23.0
 
