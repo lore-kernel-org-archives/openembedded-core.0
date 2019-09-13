@@ -1,50 +1,51 @@
 Return-Path: <>
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EFC47ED81
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F7D07ED59
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 19:36:28 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8DJaT1i002936
+	Fri, 13 Sep 2019 19:36:30 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8DJaVRA006798
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 14:36:29 -0500
+	Fri, 13 Sep 2019 14:36:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1568403389;
-	bh=fA1Mih34tpjAZ0ityWDCh4OAPrueurC0dBvavW3jnOo=;
+	s=ti-com-17Q1; t=1568403391;
+	bh=F9bVLMIuo1WW74x6nm7j6/hwzJifZ+6vawnqPx1nSWc=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=YtFaZIXRUue6BLph/TqmJHDPLhVdm5LDF6OdDMaHuE+GiFArgU3uAKxprzsCQAZAQ
-	CMfhg9KAAEgu5srklNdZk+PSw/cNnY33BwfahfwVajVEODSelmsemLERuGQQXsYDV8
-	+hsn7QM9YpRyB8QPv03URZ/lvkuAyTAUdDSfvf3s=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8DJaTKW065936
+	b=FpvOJIlvisIJ8TIX4duwFMv7NllXS2MOuD8Iw3WhNvBi4bUM+bzfkyLYQNE3obj1A
+	55aLR9GKXSErwea49zkfVgctOjCBE7PydCl8iyhZSfGWThU/MadM5R8LOg3eDvc5d6
+	6ml4zdZzyaWfyAxDJcG7e/7wv0yKNtAAD9/zydOc=
+Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8DJaVg7085079
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 14:36:29 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE112.ent.ti.com
-	(157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+	Fri, 13 Sep 2019 14:36:31 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE111.ent.ti.com
+	(157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5;
-	Fri, 13 Sep 2019 14:36:28 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE100.ent.ti.com
-	(157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+	Fri, 13 Sep 2019 14:36:30 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
+	(157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
-	Frontend Transport; Fri, 13 Sep 2019 14:36:28 -0500
+	Frontend Transport; Fri, 13 Sep 2019 14:36:31 -0500
 Received: from legion.dal.design.ti.com (legion.dal.design.ti.com
 	[128.247.22.53])
-	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8DJaSxM089681;
-	Fri, 13 Sep 2019 14:36:28 -0500
+	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8DJaVtY089723;
+	Fri, 13 Sep 2019 14:36:31 -0500
 Received: from localhost ([10.250.95.88])
 	by legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with ESMTP id
-	x8DJaRZ27586; Fri, 13 Sep 2019 14:36:28 -0500 (CDT)
+	x8DJaTZ27616; Fri, 13 Sep 2019 14:36:30 -0500 (CDT)
 From: "Andrew F. Davis" <afd@ti.com>
 To: Denys Dmytriyenko <denys@ti.com>, Gowtham Tammana <g-tammana@ti.com>, Eric
 	Ruei <e-ruei1@ti.com>
-Date: Fri, 13 Sep 2019 15:36:12 -0400
-Message-ID: <20190913193614.4882-2-afd@ti.com>
+Date: Fri, 13 Sep 2019 15:36:13 -0400
+Message-ID: <20190913193614.4882-3-afd@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190913193614.4882-1-afd@ti.com>
 References: <20190913193614.4882-1-afd@ti.com>
 MIME-Version: 1.0
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] cogl: Set depends to the virtual needed not explicitly on Mesa
+Subject: [PATCH 3/4] gtk+3: Set depends to the virtual needed not explicitly on Mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,7 +58,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2019 19:36:28 -0000
+X-List-Received-Date: Fri, 13 Sep 2019 19:36:30 -0000
 Content-Type: text/plain
 
 The dependency is for EGL and GLES2 libraries. On some systems these
@@ -66,22 +67,22 @@ can choose the correct provider.
 
 Signed-off-by: Andrew F. Davis <afd@ti.com>
 ---
- meta/recipes-graphics/cogl/cogl-1.0.inc | 2 +-
+ meta/recipes-gnome/gtk+/gtk+3.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index 3e392fa5ec..b8c64c029a 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -18,7 +18,7 @@ EDEPENDS_GLES2 = "virtual/libgles2"
- EDEPENDS_KMS = "libdrm virtual/egl"
- EDEPENDS_EGL = "virtual/egl"
- EDEPENDS_X11 = "virtual/libx11 libxcomposite libxfixes libxi libxrandr"
--EDEPENDS_WAYLAND = "virtual/mesa wayland"
-+EDEPENDS_WAYLAND = "virtual/egl virtual/libgles2 wayland"
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 77b6c31536..7ec40dcbf5 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -52,7 +52,7 @@ PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fon
+ # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
+ PACKAGECONFIG[opengl] = "--enable-opengl,--disable-opengl,libepoxy"
+ PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
+-PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/mesa wayland-native"
++PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/egl virtual/gles2 wayland-native"
+ PACKAGECONFIG[cups] = "--enable-cups,--disable-cups,cups"
  
- # Extra RDEPENDS for PACKAGECONFIG
- # This has to be explictly listed, because cogl dlopens the backends
+ prepare_gtk_scripts() {
 -- 
 2.17.1
 
