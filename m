@@ -1,49 +1,54 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id AC0C67E28B
+Return-Path: <scott.murray@konsulko.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 041457E28B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 23:20:23 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id d10so16045433pgo.5
+	Fri, 13 Sep 2019 23:20:45 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id b19so6239899iob.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 16:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=bpj5lez+xyXshX0vyuMARElf4X6GdTNFX0RGxgzf26g=;
-	b=U6Fn1t0VJ1O0KZdcKwlu646ZbHM+p08sdIEucoBoFUN/ZSFpFBGRvtADt5Ln/5aYsv
-	RvyjRdLM6foTzs8jgjJk5gMcs6h8XD4itKWuVGVWMLF3o9DUoBzJZOCShUonfZR8E6IF
-	Ivf6kES1Eo0G8mi56BwgJXnxMh3z1fBhtoc0fGWa4s2tGWzjtgIbuax/P89Arhrjk8eD
-	ldSDVI7yE0Kg4uAgxDm7lzJJNe6qIvoJSaAodMocc69wDDzQhUvAI+h8S8eQbBcJKMCr
-	ukNVqabKumJAj6D7rmRFlHCD7nYGvWVAjZQq6ZA/yPQdbTtezB1rRHSGTnAYAblWqjpG
-	UB/A==
+	Fri, 13 Sep 2019 16:20:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:in-reply-to:message-id:references
+	:user-agent:mime-version;
+	bh=Tmdb0UL2ZU8KgIYnH8XB6AD3VCGpG/qGB0EmhNJNVdc=;
+	b=Prmdlucq0qSv5GV284TEPRZTPmf1ag6yq/wPnO7V8+36nw9beInXZccCtfl2oHBuia
+	+OBGYEWf62CrbJdlv1jTnMMVBChGY8gfuRJzJg56++xzS2hj2EP1O5GEhXpd8eNYEoJ/
+	odYliwK/YTsNeiqFdg/HiJPHqhvm0MDfMXDPs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bpj5lez+xyXshX0vyuMARElf4X6GdTNFX0RGxgzf26g=;
-	b=fRentDcEXkzyEAQ0STnGHyPb17qXw+kDyAh6VBg5qs8IzeXbPWfbdebaKQlAH6vzDw
-	MJ6XDt+u5pQ5wr8d4J92pnTG3nvv/TECm+fMg97PwS8NVicHyh085JyXLIxSMyfeECYo
-	H6mAUtSKXyizPAmUAADilsO+8CK01pfv9Z6Oy5ctJjRNHhu+U8DrUbGZhdzFJcGFFiKq
-	AJGQ5dJWq08fmZn0G3HS9aLaoOK6tuz5HcU2IGBlw5ldiEIxDr61R6KpS7T9TKa14et+
-	KSNcO6i1NqpIPjid2SiRj1J7LU53MVDMP8DRDkMJN5F6GGfly9kYTFh07kwhQseICxEc
-	D9mA==
-X-Gm-Message-State: APjAAAWu+L/50Z2Mqu+/QRLNz6iHTNuQ3AL1mmL02qL65Sldd+tZrbYl
-	XWqKCIX+GktEi9T60DIXg8DvX3BNFic=
-X-Google-Smtp-Source: APXvYqxdBoqMZ+1vjM4HvybEh4niNzzeyb+7MpIrlknpql+0siNFypstSKM+4oI92IOVpRJ3snhRsQ==
-X-Received: by 2002:a63:ec48:: with SMTP id r8mr43732574pgj.387.1568416824587; 
-	Fri, 13 Sep 2019 16:20:24 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:c33:b812:1f2e:5b35:90e5])
+	h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+	:references:user-agent:mime-version;
+	bh=Tmdb0UL2ZU8KgIYnH8XB6AD3VCGpG/qGB0EmhNJNVdc=;
+	b=PDzqsNPVclLTouvyws+02n4RuSfs77sWAK19TdEVQcF1nJya9Mj+OpR3CzXnmni53m
+	LrSJh3XrVcIREvP8KnLVunOyLY81UVY8yT59GXeN1DMYNNk+Lz6vs/SRINbm7foLtrvq
+	jDAnoDSOe0SsJTboLDI/j0T+qkUP3069meSkIQx2xkuczg5cokb6GhEs9DpxSzVhLZTt
+	FLM/pqXIrNfocL+YOdyte8Rk5udIbluXEibq62iyqNFMiGrv3RwcczgDRFS5umxTTxHG
+	Wc2q5G+dTietG8siZ9BUzNLJhNxzGoTEIEEAdM/b/qW6TNX7c9agaFh3GYGqs9W+FYEG
+	OJMg==
+X-Gm-Message-State: APjAAAW/FEHeHox67hiQeavx6slf8EyW8kPhkCGiyE8MzgEzvwY0MEYh
+	EfIhE3DXEZZrypJuttzNV2xOHY0nGxc=
+X-Google-Smtp-Source: APXvYqy5ZtbtvmE6XWOd2cI/Rnh1mM2VkUreESnocVGXf/oGgazmnz65RdsPYvRBUj1z+M0U48Mvqg==
+X-Received: by 2002:a6b:b291:: with SMTP id b139mr2796198iof.281.1568416847044;
+	Fri, 13 Sep 2019 16:20:47 -0700 (PDT)
+Received: from godzilla (198-84-179-103.cpe.teksavvy.com. [198.84.179.103])
 	by smtp.gmail.com with ESMTPSA id
-	u9sm30395839pfn.29.2019.09.13.16.20.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Sep 2019 16:20:24 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Sep 2019 16:20:22 -0700
-Message-Id: <1568416822-28039-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [Warrior][PATCH] Curl: Security fix for CVE-2019-5482
+	x5sm24408481ior.46.2019.09.13.16.20.46
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 13 Sep 2019 16:20:46 -0700 (PDT)
+Date: Fri, 13 Sep 2019 19:20:45 -0400 (EDT)
+From: Scott Murray <scott.murray@konsulko.com>
+X-X-Sender: scottm@godzilla.spiteful.org
+To: akuster808 <akuster808@gmail.com>
+In-Reply-To: <01f9c9d2-619e-b365-8b52-7e844d424d50@gmail.com>
+Message-ID: <alpine.LFD.2.21.1909131917180.5588@godzilla.spiteful.org>
+References: <20190913215809.34402-1-scott.murray@konsulko.com>
+	<20190913221123.GA31095@localhost>
+	<alpine.LFD.2.21.1909131822190.5588@godzilla.spiteful.org>
+	<01f9c9d2-619e-b365-8b52-7e844d424d50@gmail.com>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org, Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH v2] systemd: upgrade to 243
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,112 +61,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2019 23:20:23 -0000
+X-List-Received-Date: Fri, 13 Sep 2019 23:20:46 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-From: Armin Kuster <akuster@mvista.com>
+On Fri, 13 Sep 2019, akuster808 wrote:
 
-Source: curl.org
-MR: 99905
-Type: Security Fix
-Disposition: Backport from https://github.com/curl/curl/commit/facb0e4662415b5f28163e853dc6742ac5fafb3d
-ChangeID: e0c807da8937f687a4b2e28eaa6b4b5a51845bc5
-Description:
+> On 9/13/19 3:28 PM, Scott Murray wrote:
+> > On Sat, 14 Sep 2019, Adrian Bunk wrote:
+> >
+> >> On Fri, Sep 13, 2019 at 05:58:09PM -0400, Scott Murray wrote:
+[snip]
+>
+> When your happy with the series, I will through it on AB this weekend
+> for a testrun.
+>
+> let me know.
 
-Fixes CVE-2019-5482
-- Affected versions: libcurl >= 7.19.4 to and including 7.65.3
-- Not affected versions: libcurl < 7.19.4
+Okay, I've sent a v3 with the two musl patches updated per Adrian's
+notes.
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-support/curl/curl/CVE-2019-5482.patch | 65 ++++++++++++++++++++++
- meta/recipes-support/curl/curl_7.64.1.bb           |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5482.patch
+Thanks,
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2019-5482.patch b/meta/recipes-support/curl/curl/CVE-2019-5482.patch
-new file mode 100644
-index 0000000..30122d1
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2019-5482.patch
-@@ -0,0 +1,65 @@
-+From facb0e4662415b5f28163e853dc6742ac5fafb3d Mon Sep 17 00:00:00 2001
-+From: Thomas Vegas <>
-+Date: Sat, 31 Aug 2019 17:30:51 +0200
-+Subject: [PATCH] tftp: Alloc maximum blksize, and use default unless OACK is
-+ received
-+
-+Fixes potential buffer overflow from 'recvfrom()', should the server
-+return an OACK without blksize.
-+
-+Bug: https://curl.haxx.se/docs/CVE-2019-5482.html
-+CVE-2019-5482
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-5482
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ lib/tftp.c | 12 +++++++++---
-+ 1 file changed, 9 insertions(+), 3 deletions(-)
-+
-+Index: curl-7.64.1/lib/tftp.c
-+===================================================================
-+--- curl-7.64.1.orig/lib/tftp.c
-++++ curl-7.64.1/lib/tftp.c
-+@@ -973,6 +973,7 @@ static CURLcode tftp_connect(struct conn
-+ {
-+   tftp_state_data_t *state;
-+   int blksize;
-++  int need_blksize;
-+ 
-+   blksize = TFTP_BLKSIZE_DEFAULT;
-+ 
-+@@ -987,15 +988,20 @@ static CURLcode tftp_connect(struct conn
-+       return CURLE_TFTP_ILLEGAL;
-+   }
-+ 
-++  need_blksize = blksize;
-++  /* default size is the fallback when no OACK is received */
-++  if(need_blksize < TFTP_BLKSIZE_DEFAULT)
-++    need_blksize = TFTP_BLKSIZE_DEFAULT;
-++
-+   if(!state->rpacket.data) {
-+-    state->rpacket.data = calloc(1, blksize + 2 + 2);
-++    state->rpacket.data = calloc(1, need_blksize + 2 + 2);
-+ 
-+     if(!state->rpacket.data)
-+       return CURLE_OUT_OF_MEMORY;
-+   }
-+ 
-+   if(!state->spacket.data) {
-+-    state->spacket.data = calloc(1, blksize + 2 + 2);
-++    state->spacket.data = calloc(1, need_blksize + 2 + 2);
-+ 
-+     if(!state->spacket.data)
-+       return CURLE_OUT_OF_MEMORY;
-+@@ -1009,7 +1015,7 @@ static CURLcode tftp_connect(struct conn
-+   state->sockfd = state->conn->sock[FIRSTSOCKET];
-+   state->state = TFTP_STATE_START;
-+   state->error = TFTP_ERR_NONE;
-+-  state->blksize = blksize;
-++  state->blksize = TFTP_BLKSIZE_DEFAULT; /* Unless updated by OACK response */
-+   state->requested_blksize = blksize;
-+ 
-+   ((struct sockaddr *)&state->local_addr)->sa_family =
-diff --git a/meta/recipes-support/curl/curl_7.64.1.bb b/meta/recipes-support/curl/curl_7.64.1.bb
-index 00c8c5a..64e0336 100644
---- a/meta/recipes-support/curl/curl_7.64.1.bb
-+++ b/meta/recipes-support/curl/curl_7.64.1.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
-            file://CVE-2019-5435.patch \
-            file://CVE-2019-5436.patch \
-+           file://CVE-2019-5382.patch \
- "
- 
- SRC_URI[md5sum] = "790c101927845208a9d7e8c429ddd1b2"
--- 
-2.7.4
+Scott
 
 
