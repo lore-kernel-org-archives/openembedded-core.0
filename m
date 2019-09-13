@@ -1,34 +1,18 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 348A47ECBE
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2019 21:19:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 0670740BFA;
-	Fri, 13 Sep 2019 21:19:05 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 8PjtpImdmWo7; Fri, 13 Sep 2019 21:19:04 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
-	[100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B85D840BD4;
-	Fri, 13 Sep 2019 21:19:03 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 75222173BBA; Fri, 13 Sep 2019 17:19:03 -0400 (EDT)
-Date: Fri, 13 Sep 2019 17:19:03 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20190913211903.GH30018@denix.org>
-References: <20190912225624.28572-1-armccurdy@gmail.com>
-	<20190912225624.28572-3-armccurdy@gmail.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E871E7ECC7;
+	Fri, 13 Sep 2019 21:32:01 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190912225624.28572-3-armccurdy@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Scott Murray <scott.murray@konsulko.com>
+Date: Fri, 13 Sep 2019 21:32:03 -0000
+Message-ID: <20190913213203.2331.12942@do>
+References: <20190913211918.87500-1-scott.murray@konsulko.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190913211918.87500-1-scott.murray@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] busybox-inittab: minor formatting tweaks
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogdXBncmFkZSB0byAyNDM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,60 +25,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2019 21:19:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 13 Sep 2019 21:32:02 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 12, 2019 at 03:56:24PM -0700, Andre McCurdy wrote:
-> Add an empty line to inittab before the line(s) which start getty.
-> 
-> Also cleanup indent in recipe do_install().
-> 
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+== Series Details ==
 
-Reviewed-by: Denys Dmytriyenko <denys@ti.com>
+Series: systemd: upgrade to 243
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/19912/
+State : failure
+
+== Summary ==
 
 
-> ---
->  .../busybox/busybox-inittab_1.31.0.bb         | 19 ++++++++++---------
->  1 file changed, 10 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meta/recipes-core/busybox/busybox-inittab_1.31.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.31.0.bb
-> index c347daf501..61fb8cbad1 100644
-> --- a/meta/recipes-core/busybox/busybox-inittab_1.31.0.bb
-> +++ b/meta/recipes-core/busybox/busybox-inittab_1.31.0.bb
-> @@ -13,15 +13,16 @@ do_compile() {
->  }
->  
->  do_install() {
-> -    install -d ${D}${sysconfdir}
-> -    install -D -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
-> -    tmp="${SERIAL_CONSOLES}"
-> -    for i in $tmp
-> -    do
-> -            j=`echo ${i} | sed s/\;/\ /g`
-> -            id=`echo ${i} | sed -e 's/^.*;//' -e 's/;.*//'`
-> -            echo "$id::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-> -    done
-> +	install -d ${D}${sysconfdir}
-> +	install -D -m 0644 ${WORKDIR}/inittab ${D}${sysconfdir}/inittab
-> +	tmp="${SERIAL_CONSOLES}"
-> +	[ -n "$tmp" ] && echo >> ${D}${sysconfdir}/inittab
-> +	for i in $tmp
-> +	do
-> +		j=`echo ${i} | sed s/\;/\ /g`
-> +		id=`echo ${i} | sed -e 's/^.*;//' -e 's/;.*//'`
-> +		echo "$id::respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-> +	done
->  }
->  
->  # SERIAL_CONSOLES is generally defined by the MACHINE .conf.
-> -- 
-> 2.23.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in 0002-src-login-brightness.c-include-wait.h.patch
+  Current          Upstream-Status: pending
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
