@@ -1,50 +1,52 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
-	[209.85.167.44])
-	by mail.openembedded.org (Postfix) with ESMTP id F12D56B50B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+	[209.85.210.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F4226D4B6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2019 20:25:52 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id u3so9420387lfl.10
+	Sun, 15 Sep 2019 02:59:29 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id 205so20363104pfw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2019 13:25:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=RgR0V6mWQ83MkyT3osRZU4xRPXqE63Z6fCrbJBUVjfU=;
-	b=KSbKd9VZAJeb/WtGS6gxSF1NzAYMmzmUgYhCVVzuHerrEjP89VDUq0sw9ugxyQK02/
-	9p9vywqXb3lTszuWgmgwEfRPa4ZxGTLwqlcmQDUa2vPL0PZDFNmM3cbOX1c/W5ipztHv
-	ZQntmrf9WSU9HdLaXZHepVZ4hRH26EUASj12XD1+UTC7H19+GhM4PzM2Y0a03XitWRt+
-	DlCKAxFU0Cj4EB/J6D0OGDyCnGjMwPJFYvV++m9g1BVJq20b76+9Zus9c7uPV7Uw1RNG
-	6ptexU/fd2sBViaf9KR5IZfgSNXkPLhcQku67mE6JivFUrSDYxHXOhUAyhoN79VhKD3s
-	etpA==
+	Sat, 14 Sep 2019 19:59:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=f966UGdMbrIalZGi3rvBuQDjFONl0e0e46FUB+haXXE=;
+	b=muwApwIHL5UVmOANe9fMFYEH2LOOiCOen1pz3GnmdbfpRMEKcVC2+iZahO0Dw4gBCn
+	pxBulSueV3PBWxE0yaGXrNq1KctuRWD4662PD7lkHxXPdF3wJ3EpnGmZqfXC9Jy2PSWz
+	hEz7u1efLL0n8jd0uOMpKWrwMe6zOGPELp/wUCw6a+EVBCF8J1SnH3obdEt2XZhNhKYQ
+	hCTwar7DgyRGlLBl+EMJ1UbyKUqUKQGOG3HXzvlexTygiNznKKK1jHSgQMmxhdt4BGhv
+	Ivhq5adAAm+pwq8FKjRY+27HbZcZ3K8qv/7BcdHx4leYnBWTUeYcIEw5Q/Bc5GdG1vTA
+	ElJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=RgR0V6mWQ83MkyT3osRZU4xRPXqE63Z6fCrbJBUVjfU=;
-	b=pfwIItlTfLMVHS53H5hH34icgRKEtuN63ATjnhacQpSKhmJtk738epjMNHPRVoqiTC
-	H6ypjZFTch/ZVoEm8uM8iBjDR2TazkNPXSfokdDfmOg75a6fYbV2wEf+uoEvpDWMMQ22
-	TFTzwo3IEeuAurJ/Na0ldYJCaMxXcLykd7PUDIR1GhnMbD28LjSCFCpJgDS1kmGvXD79
-	VOOTrLRYi9C2dXnYdMcbo/8mfcU5/AycrFQV7gsj4yHpW9A54sESypSwXgDFNcUI2ri1
-	R7a8J7vulVViCboD5WnOxy73cHkHWsFslLNXePGoERjq7Nm829vNZQcjXvwrBOk8KKx/
-	oKjg==
-X-Gm-Message-State: APjAAAVDPU9Z5eNNQAB3d8vvmaJp9g3NSkIf6uCQjXusLi6Sjr24Vigb
-	jqtqR0hVEeZtsuNQmTec/wIspX2QVeE=
-X-Google-Smtp-Source: APXvYqyl7Yi+TQzD5D97hSaHWpXSzGEyb2m9aa0plTw/2Pu3cx2FOX15RmQpcqNGM/7ivlIIdUVA3g==
-X-Received: by 2002:a05:6512:210:: with SMTP id
-	a16mr33541839lfo.42.1568492753004; 
-	Sat, 14 Sep 2019 13:25:53 -0700 (PDT)
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se.
-	[213.89.0.115])
-	by smtp.gmail.com with ESMTPSA id v6sm7147100ljk.17.2019.09.14.13.25.52
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=f966UGdMbrIalZGi3rvBuQDjFONl0e0e46FUB+haXXE=;
+	b=FLLmbgNCxMnesPjRJfcW36UP+PC7CMSz7eCuWEGpj7YvwreKqdSdjpLtq2+ICeBYVQ
+	saUQdcABRtUDBhjBssBwQustXx6DxMYgYrl4RO0iGHonBoZydfQJFC+JnBLfbWsvBqG/
+	XE3VXVRRsFYvaUI1YkKOgzOfisOo0M8CjCo8LJjKBm09+unGYWziQ6mk0r6Gstxu1vqG
+	QFYybTrxhKY5EEDqjA/Nm5hUNag9oJT9CctlFT1EsSY809Gld0xRBixBy2gW6khf4SBu
+	+0P48P/ehlzbNO6FAsI1dcR+IGZKIyb8mpnKUlfgnpANf6PIhxZyQ6um7Z/fMHS56R6Q
+	x3Wg==
+X-Gm-Message-State: APjAAAXIE57SZ3kBDb1RcTcY1RucMFinPwyFLhsBN2L1nd0FNnljh+PG
+	TxL0c4KccTzjQheyTs/0P1mfsnM8xUI=
+X-Google-Smtp-Source: APXvYqyijHY3uvJCKIYyVbQBzbRkav9H8z3Q76dwskCxEFFz1Z5s/nsGdb+nJ0inJBMOAj64tibSdw==
+X-Received: by 2002:a65:6152:: with SMTP id o18mr40834903pgv.279.1568516370650;
+	Sat, 14 Sep 2019 19:59:30 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
+	6sm54699668pfa.162.2019.09.14.19.59.30
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 14 Sep 2019 13:25:52 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	Sat, 14 Sep 2019 19:59:30 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Sep 2019 22:25:43 +0200
-Message-Id: <20190914202543.18462-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] expat: update to 2.2.8
+Date: Sat, 14 Sep 2019 19:59:22 -0700
+Message-Id: <20190915025922.3859296-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190915025922.3859296-1-raj.khem@gmail.com>
+References: <20190915025922.3859296-1-raj.khem@gmail.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/2] populate_sdk_base.bbclass: nativesdk-glibc-locale is required on musl too
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Sep 2019 20:25:55 -0000
+X-List-Received-Date: Sun, 15 Sep 2019 02:59:30 -0000
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+musl based extensible sdk fails to install
+
+ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+    Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+    Following is the list of potential problems / advisories:
+
+    Your system needs to support the en_US.UTF-8 locale.
+
+The real reason is that its missing locale-archive in buildtools-tarball
+hence python3 from buildtools-tarball fails to run bitbake when
+installing esdk
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/expat/{expat_2.2.7.bb => expat_2.2.8.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/expat/{expat_2.2.7.bb => expat_2.2.8.bb} (81%)
+ meta/classes/populate_sdk_base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/expat/expat_2.2.7.bb b/meta/recipes-core/expat/expat_2.2.8.bb
-similarity index 81%
-rename from meta/recipes-core/expat/expat_2.2.7.bb
-rename to meta/recipes-core/expat/expat_2.2.8.bb
-index f213bc3c3e..0ea2edc122 100644
---- a/meta/recipes-core/expat/expat_2.2.7.bb
-+++ b/meta/recipes-core/expat/expat_2.2.8.bb
-@@ -10,8 +10,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
-            file://libtool-tag.patch \
- 	  "
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 59920a57a7..4e3794f75c 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -63,7 +63,7 @@ python () {
+ SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+ SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
+ PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
+-SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
++SDK_DEPENDS += "nativesdk-glibc-locale"
  
--SRC_URI[md5sum] = "72f36b87cdb478aba1e78473393766aa"
--SRC_URI[sha256sum] = "cbc9102f4a31a8dafd42d642e9a3aa31e79a0aedaa1f6efd2795ebc83174ec18"
-+SRC_URI[md5sum] = "00858041acfea5757af55e6ee6b86231"
-+SRC_URI[sha256sum] = "9a130948b05a82da34e4171d5f5ae5d321d9630277af02c8fa51e431f6475102"
- 
- inherit autotools lib_package
- 
+ # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
+ # could be set to the MACHINE_ARCH
 -- 
-2.17.1
+2.23.0
 
 
