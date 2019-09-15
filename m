@@ -1,52 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
-	[209.85.210.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F4226D4B6
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+	[209.85.210.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 63A966D4B6
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 15 Sep 2019 02:59:29 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id 205so20363104pfw.2
+Received: by mail-pf1-f169.google.com with SMTP id b13so20336056pfo.8
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 14 Sep 2019 19:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=f966UGdMbrIalZGi3rvBuQDjFONl0e0e46FUB+haXXE=;
-	b=muwApwIHL5UVmOANe9fMFYEH2LOOiCOen1pz3GnmdbfpRMEKcVC2+iZahO0Dw4gBCn
-	pxBulSueV3PBWxE0yaGXrNq1KctuRWD4662PD7lkHxXPdF3wJ3EpnGmZqfXC9Jy2PSWz
-	hEz7u1efLL0n8jd0uOMpKWrwMe6zOGPELp/wUCw6a+EVBCF8J1SnH3obdEt2XZhNhKYQ
-	hCTwar7DgyRGlLBl+EMJ1UbyKUqUKQGOG3HXzvlexTygiNznKKK1jHSgQMmxhdt4BGhv
-	Ivhq5adAAm+pwq8FKjRY+27HbZcZ3K8qv/7BcdHx4leYnBWTUeYcIEw5Q/Bc5GdG1vTA
-	ElJg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IBsb8KGV3o1XPIeGQA3RA6oDUpxvPwZQ/XqELAEcHH4=;
+	b=RRQLnTEe3RSivSYjwIUemxjsOSnGdr0BWb7Kv3J15uxMiBgICGuwFQsF1KeeqAgQlE
+	yCGUmcJqA7Hi1Ff6wf9crwFNFLbAKz1/FwPeuv8l4/pF8BHsZu+4o+tiKYMt/WE1xf1p
+	J3OZGYnku+qf7pMYabq3Ds5bTO/zXB8mC/MVLerYJXYib65h5lptW6YUaJ235pdrTnlM
+	BZlRhdqFLCKtf/x+yzKQuyxJeX13d5rPBPT371Vj57Qvo7CLb0Cna/D3SeQGw2/DEDB6
+	8DHTfpRouXbtmZNVmMfUd03IOuLXnU+SMY3UTuTcAj+FfWV3NiBQVzZXmc2KpWJdTXBa
+	TX/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=f966UGdMbrIalZGi3rvBuQDjFONl0e0e46FUB+haXXE=;
-	b=FLLmbgNCxMnesPjRJfcW36UP+PC7CMSz7eCuWEGpj7YvwreKqdSdjpLtq2+ICeBYVQ
-	saUQdcABRtUDBhjBssBwQustXx6DxMYgYrl4RO0iGHonBoZydfQJFC+JnBLfbWsvBqG/
-	XE3VXVRRsFYvaUI1YkKOgzOfisOo0M8CjCo8LJjKBm09+unGYWziQ6mk0r6Gstxu1vqG
-	QFYybTrxhKY5EEDqjA/Nm5hUNag9oJT9CctlFT1EsSY809Gld0xRBixBy2gW6khf4SBu
-	+0P48P/ehlzbNO6FAsI1dcR+IGZKIyb8mpnKUlfgnpANf6PIhxZyQ6um7Z/fMHS56R6Q
-	x3Wg==
-X-Gm-Message-State: APjAAAXIE57SZ3kBDb1RcTcY1RucMFinPwyFLhsBN2L1nd0FNnljh+PG
-	TxL0c4KccTzjQheyTs/0P1mfsnM8xUI=
-X-Google-Smtp-Source: APXvYqyijHY3uvJCKIYyVbQBzbRkav9H8z3Q76dwskCxEFFz1Z5s/nsGdb+nJ0inJBMOAj64tibSdw==
-X-Received: by 2002:a65:6152:: with SMTP id o18mr40834903pgv.279.1568516370650;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IBsb8KGV3o1XPIeGQA3RA6oDUpxvPwZQ/XqELAEcHH4=;
+	b=MWjOiiizlFBVT4ZLZ0viiAkc2FnUKnso62DqIZ6R5jHZtKKPwoycIyfkRqaqDyTxzq
+	utQp5xU+gBIlkm3j3CGvoUJrWkmG7GhPiOGP9JxMUYCaZY/nJJLcX5wne+QPb+AUVG80
+	sgdg+s4B9/YBIE9dj8B+iQxy534zTPVf6xzAxsDJDH212WrG+udz6ZfPnzPX9gSKNsnL
+	Nr6hg9+rQFR67O26ovp692H5Euj8Y89zhV0WcYQGXXytElcnqD5aVGfzDVcdo6YGRoaQ
+	EEdaT3IuPgRNUVIPApJ0Hcul87uquT+DgTdDvdNNb/1sW0Lfc0zK+n3+Pck4QdME2phY
+	I56Q==
+X-Gm-Message-State: APjAAAWuEXwYDPfcSFAl2ySWVudZQFFwiiBZad6N+Qb9f5MerhRE9gwI
+	OS3G1TjeJntnNmYd7a4Rgnhnji2txCw=
+X-Google-Smtp-Source: APXvYqyh69MRiNvUuJMUIaEs0xILYnUILopiGGW8h7xz1sp5LJkPnYnIyCE3F7JT4RJk0etAqvM1Gw==
+X-Received: by 2002:aa7:85d0:: with SMTP id z16mr62897pfn.206.1568516370027;
 	Sat, 14 Sep 2019 19:59:30 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
 	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	6sm54699668pfa.162.2019.09.14.19.59.30
+	6sm54699668pfa.162.2019.09.14.19.59.29
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 14 Sep 2019 19:59:30 -0700 (PDT)
+	Sat, 14 Sep 2019 19:59:29 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Sep 2019 19:59:22 -0700
-Message-Id: <20190915025922.3859296-2-raj.khem@gmail.com>
+Date: Sat, 14 Sep 2019 19:59:21 -0700
+Message-Id: <20190915025922.3859296-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190915025922.3859296-1-raj.khem@gmail.com>
-References: <20190915025922.3859296-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] populate_sdk_base.bbclass: nativesdk-glibc-locale is required on musl too
+Subject: [PATCH 1/2] glibc: Move DISTRO_FEATURE specific do_install code for target recipe only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,36 +60,89 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sun, 15 Sep 2019 02:59:30 -0000
 Content-Transfer-Encoding: 8bit
 
-musl based extensible sdk fails to install
+nativesdk-glibc should be spared of recompile when the distro features
+are changed e.g. ldconfig is not in
+DISTRO_FEATURES, this happens when sdk with musl and another one with
+glibc is built
 
-ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
-    Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
-    Following is the list of potential problems / advisories:
-
-    Your system needs to support the en_US.UTF-8 locale.
-
-The real reason is that its missing locale-archive in buildtools-tarball
-hence python3 from buildtools-tarball fails to run bitbake when
-installing esdk
+Fixes
+Variable do_install value changed:
+...
+-DISTRO_FEATURES{ldconfig} = Set
++DISTRO_FEATURES{ldconfig} = Unset
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/populate_sdk_base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 59920a57a7..4e3794f75c 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -63,7 +63,7 @@ python () {
- SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
- SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
- PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
--SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
-+SDK_DEPENDS += "nativesdk-glibc-locale"
+s
+---
+ meta/recipes-core/glibc/glibc-package.inc | 39 ++++++++++++-----------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
+
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 9b1e7b7903..2e8f9f3e02 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -83,14 +83,6 @@ do_install_append () {
+ 		rm -f ${D}${infodir}/dir
+ 	fi
  
- # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
- # could be set to the MACHINE_ARCH
+-	if ! ${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', 'true', 'false', d)}; then
+-		# The distro doesn't want these files so let's not install them
+-		rm -f ${D}${sysconfdir}/ld.so.conf
+-		rm -f ${D}${base_sbindir}/ldconfig
+-		# This directory will be empty now so remove it too.
+-		rmdir ${D}${sysconfdir}
+-	fi
+-
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -d ${D}${localstatedir}/db/nscd
+ 	install -m 0755 ${S}/nscd/nscd.init ${D}${sysconfdir}/init.d/nscd
+@@ -102,6 +94,26 @@ do_install_append () {
+ 	install -d ${D}${systemd_unitdir}/system
+ 	install -m 0644 ${S}/nscd/nscd.service ${D}${systemd_unitdir}/system/
+ 
++	# The dynamic loader will have been installed into
++	# ${base_libdir}. However, if that isn't going to end up being
++	# available in the ABI-mandated location, then a symlink must
++        # be created.
++
++	if [ -n "${ARCH_DYNAMIC_LOADER}" -a ! -e "${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
++		install -d ${D}${root_prefix}/lib
++		ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/${ARCH_DYNAMIC_LOADER} \
++				${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}
++	fi
++}
++
++do_install_append_class-target() {
++	if ! ${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', 'true', 'false', d)}; then
++		# The distro doesn't want these files so let's not install them
++		rm -f ${D}${sysconfdir}/ld.so.conf
++		rm -f ${D}${base_sbindir}/ldconfig
++		# This directory will be empty now so remove it too.
++		rmdir ${D}${sysconfdir}
++	fi
+ 	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+ 		install -d ${D}${sysconfdir}/tmpfiles.d
+ 		echo "d /run/nscd 755 root root -" \
+@@ -114,18 +126,7 @@ do_install_append () {
+ 			> ${D}${sysconfdir}/default/volatiles/98_nscd
+ 	fi
+ 
+-	# The dynamic loader will have been installed into
+-	# ${base_libdir}. However, if that isn't going to end up being
+-	# available in the ABI-mandated location, then a symlink must
+-        # be created.
+-
+-	if [ -n "${ARCH_DYNAMIC_LOADER}" -a ! -e "${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+-		install -d ${D}${root_prefix}/lib
+-		ln -s ${@oe.path.relative('${root_prefix}/lib', '${base_libdir}')}/${ARCH_DYNAMIC_LOADER} \
+-				${D}${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}
+-	fi
+ }
+-
+ do_install_append_aarch64 () {
+ 	do_install_armmultilib
+ }
 -- 
 2.23.0
 
