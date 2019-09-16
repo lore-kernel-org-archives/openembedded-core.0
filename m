@@ -1,52 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 68FC47F956
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C421D7F8BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 22:27:47 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 7so991707wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 15:27:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=2X73yeXmC/zPXesX7nOM7XVbS3VtTSrB1QyNEAUNM38=;
-	b=GhymOsnRiutkvJ4S0BFue95jpuUrGc3L3GniwayFzT65YcdacSAtlk1/QTpNWRFOxJ
-	IWF50KcihRoyO1XhuA0qQLP52HG9C83Qp7UJIp85dqObybuq9aeYIkMu2zzXu+B3uIJz
-	Nrjp+PlU1l/ApqYwHRgPh7YfoCl9okpIhskfI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=2X73yeXmC/zPXesX7nOM7XVbS3VtTSrB1QyNEAUNM38=;
-	b=WBI12YkLI4Fr9SoIJbnBNIC17kasytfF1TAvrFvcmTPWgmkCq8hvzvdNosZ7JqHXSy
-	zD+GqbxapqncJ7BGpPyWtEW3k9LHQH3yyUw+fhx0nm1H7gh7FIoW+Ci8J8WHBxy/cjbi
-	9TU1rOswK+T3If37LYN/7EjMg/3q7wkSi0xAKIMqF3DveTUMscmnt/nNSkNwyJ6Nx9hi
-	2tkIQzKr7ONG12lY+Ntpz+ot5lMqYJBw1bvUtwufP5qiODFd9Ji6lIaoV7JIVywNW8oY
-	LKj7TcB06x0duNWPoy3RoebECzWXtxHb/Y9RT38exwUpZFeNHdWct2uu6909k53gHsEs
-	Xw3g==
-X-Gm-Message-State: APjAAAWMlZ1Ygr0/IAROGoV1NXY6anss254JUtsKTvn09jsuoWFvphkI
-	/6O2v85hhKPR2wTBORL56jyhxw==
-X-Google-Smtp-Source: APXvYqwScXmbBqHmDkkmO12xdcrXYX1MZc2HNgCzVaCBHqMPhUgcHbhVkT71L1AMGjjj/Yesq29CPQ==
-X-Received: by 2002:a1c:f515:: with SMTP id t21mr825511wmh.74.1568672868195;
-	Mon, 16 Sep 2019 15:27:48 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id q15sm429631wrg.65.2019.09.16.15.27.47
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Sep 2019 15:27:47 -0700 (PDT)
-Message-ID: <85c976042f32c1ddf1a3384ac31c946573087bbe.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Andrew F. Davis" <afd@ti.com>, Denys Dmytriyenko <denys@ti.com>, 
-	Gowtham Tammana <g-tammana@ti.com>, Eric Ruei <e-ruei1@ti.com>
-Date: Mon, 16 Sep 2019 23:27:46 +0100
-In-Reply-To: <20190913193614.4882-3-afd@ti.com>
-References: <20190913193614.4882-1-afd@ti.com>
-	<20190913193614.4882-3-afd@ti.com>
-User-Agent: Evolution 3.32.2-1 
+	Mon, 16 Sep 2019 22:34:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46XLf93Z1tz2J;
+	Tue, 17 Sep 2019 00:34:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1568673297;
+	bh=TwIjHLIDKJV5r+kJ4j9jZtQI0MBoHKgEzKVfjV2m3go=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KIwKwMRhNXeuikzuknxqsxzT1TXtNMC7mJVJfq36U0X+5NkQUaFD8ojUPR2jD1AOu
+	ITowqi+Bv4Gni2lmyvt0ZsF0UHi/Gp3Ls8Bz0P/z2jPGizVZ/oongvLPsboGcr31wN
+	PYjlcD+H1nc0zLulfQzcQCjayu/uzaNNZ1YgWTl9QF4BNAQ3b/V5h4jn/7vvanhi/I
+	30FHWE7EqW7cDR3i2/18w46aYBQDsboKpNXAW6oEo9OvYqputeKVzYRnpa+tGWvsBR
+	GZrH137/ZCghTlZqn7Dajebzn2HMe7JTqDIN73rC7DXiqtQzUSeCFUGn05APtmKjd4
+	GLatZL4fU6lrlLwUUYVdgiZE8s3TvPtFQ1ZRk2K4krUgxtwYAwRqJl2s6kj0Rwn9Ci
+	OJpWScP3P7qZFZBsDiDmlnm2taWzZnW15bzd6jblw1WAA2Cv7oVZxTrfKKX5+JMSxC
+	Knhr0I3aEdnsTx8mrDm0qRVAbJR+B2euT9gzImhtis1VZSpCtgx7KI+BZicgiU6dfJ
+	7tf+31u45dzm1HjHVDSpr/xwsTDKXLxcXpeCyhMYAcapXQ6aExuS8TGukh/ZWUInwg
+	zWzY9etzHlv2gOVO/lbe3++GZ3RajeP9ESEyf5qTEEUHmYDzYJ4QM6Kdg0vYlvoHFn
+	MEHvxpNvDz5UvJrRTHWE+ADw=
+Date: Tue, 17 Sep 2019 01:34:54 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20190916223454.GA27980@localhost>
+References: <20190916192429.27294-1-armccurdy@gmail.com>
+	<20190916192429.27294-4-armccurdy@gmail.com>
+	<0a559d39-3699-4504-addc-89fe7252fbea@Spark>
+	<CAJ86T=UOKYMh-r1kmO2xjyu6aKDe1E3x8MVOd6J96qCfUNo_yA@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] gtk+3: Set depends to the virtual needed not explicitly on Mesa
+In-Reply-To: <CAJ86T=UOKYMh-r1kmO2xjyu6aKDe1E3x8MVOd6J96qCfUNo_yA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/8] ffmpeg: don't rely on configure to correctly detect ARM vfp or neon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,44 +46,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2019 22:27:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Sep 2019 22:34:58 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2019-09-13 at 15:36 -0400, Andrew F. Davis via Openembedded-core wrote:
-> The dependency is for EGL and GLES2 libraries. On some systems these
-> are not provided by Mesa, list what is actually needed so the system
-> can choose the correct provider.
+On Mon, Sep 16, 2019 at 03:08:01PM -0700, Andre McCurdy wrote:
+> On Mon, Sep 16, 2019 at 2:33 PM Christopher Larson <kergoth@gmail.com> wrote:
+> >
+> > This seems like something that could do with a ‘why’ in the commit message and/or comments, to me.
 > 
-> Signed-off-by: Andrew F. Davis <afd@ti.com>
-> ---
->  meta/recipes-gnome/gtk+/gtk+3.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> To be consistent with:
 > 
-> diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-> index 77b6c31536..7ec40dcbf5 100644
-> --- a/meta/recipes-gnome/gtk+/gtk+3.inc
-> +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-> @@ -52,7 +52,7 @@ PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fon
->  # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
->  PACKAGECONFIG[opengl] = "--enable-opengl,--disable-opengl,libepoxy"
->  PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
-> -PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/mesa wayland-native"
-> +PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/egl virtual/gles2 wayland-native"
->  PACKAGECONFIG[cups] = "--enable-cups,--disable-cups,cups"
->  
->  prepare_gtk_scripts() {
+>   https://git.openembedded.org/openembedded-core/commit/?id=1a563214caf6bd5b3a026ebe953f8c692ebd640a
+>...
 
-This breaks things:
+libwebp sets -mfpu=neon when autodetecting,
+is there a similar problem with ffmpeg?
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/1037
+> > +# Do not trust configure to determine if ARM vfp or neon are available.
+> > +#
+> > +EXTRA_OECONF_ARM = " \
+> > + ${@bb.utils.contains('TUNE_FEATURES','vfp','--enable-vfp','--disable-vfp', d)} \
+> > + ${@bb.utils.contains("TUNE_FEATURES",'neon','--enable-neon','--disable-neon',d)} \
+>...
 
-step1b: ERROR: Nothing PROVIDES 'virtual/gles2' (but /home/pokybuild/yocto-worker/qemux86-64-x32/build/meta/recipes-gnome/gtk+/gtk+3_3.24.8.bb DEPENDS on or otherwise requires it). Close matches:
+If we cannot trust the vfp autodetection, why can we trust that the 
+autodetection of the vfp variant (vfpv2, vfpv3 or vfpv3-d16) and
+the exact architecture (e.g. armv5te, armv6, armv6k or armv6t2)
+are correct?
 
-Cheers,
+Which brings us back to the problem what the actual problem is (if any).
 
-Richard
+cu
+Adrian
 
+-- 
 
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
