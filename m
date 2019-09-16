@@ -1,51 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 401667F26C
+Return-Path: <prvs=15518f367=Mikko.Rapeli@bmw.de>
+Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com
+	[68.232.139.124])
+	by mail.openembedded.org (Postfix) with ESMTP id 199E77EE97
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 12:41:54 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 7so9984081wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 05:41:55 -0700 (PDT)
+	Mon, 16 Sep 2019 12:43:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5gIyeKoGyW6fKD4FBXh4432/2Q3XnaCdD2CxtkkJAOI=;
-	b=vOAhrcTBKzen8xvCp1w5ElfFSUmPzivrAtxL8u2/iam+Oux40tdpX4QleHqFcUcO9H
-	xhbQU4k05eGOvcLcYG/NyFqDHOW8IhIh8CNFVcwgSXmoh+xlrarsK/UV7TfDsu1xDbQb
-	qpuqG9OL+HMSBNd7FwR6IMZuuwr7RDm0ed+f0QK/gb7igIl28UjFNkh1WPbaFaWJtVkK
-	ZsWNOaoDaAUTDhA9UAMWKlO/ZvRz2pHYiAD3d4QpVNk/BQZCv9vDu2vCBeZFDGvC4qHM
-	oQMcAINJrB9rXWeDG+lxEInE34xagsNxso0aoc3FOpBPRuUdPQIGoHEv+hpEf8GxmUXC
-	jK5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5gIyeKoGyW6fKD4FBXh4432/2Q3XnaCdD2CxtkkJAOI=;
-	b=Mw3SEcTtQI13v5N7doTZ4BGokswquddzhlO8Y716V25jj2AFsZVaLysxlMzjKexQqO
-	bA4nSSpCVvGIXvqblqPh+tKQCb0LKzwrKuDvHFI+PIaNYcsNPNNlv1pIvLY1nwtdQPPY
-	60KO/q7FZkIEVx+18jm5iPCxLzWnV5YXKwW5ru58K2qULXKhSFfwpW7GKo7POLFSPWXx
-	iNxHQj8n3Y2Bt/C1/aSjlrFNcko0XIKLGWf/JK7DJaFkI/AGH0GGvZCqh82aiybilfDg
-	cPjq/gpoa/PGDOQqjiIgkQxdx+TeViAZevPu7vqq8kyylD/MC99ySJFajn6rfL57OgT2
-	pTWw==
-X-Gm-Message-State: APjAAAXuKgMoBPd3Gj9UTiD4w6qRjCauth+UjyNmy1oD1OX+wXIHxiFS
-	lxHvmIdvjUVh4tmZFbAgCZL+LOpMpyc=
-X-Google-Smtp-Source: APXvYqyeMEQOeUf+ZrA1mkMOgUQH3JThI/sjZpAGPSNgg5C8vwgStep7NxuOrg1xHfXcJkVC2HfsiA==
-X-Received: by 2002:a7b:c92d:: with SMTP id h13mr8462523wml.169.1568637714143; 
-	Mon, 16 Sep 2019 05:41:54 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	q66sm16016954wme.39.2019.09.16.05.41.50
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Sep 2019 05:41:52 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Sep 2019 13:41:44 +0100
-Message-Id: <20190916124144.28576-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1568637792; x=1600173792;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=XQnUuu/StpmDGSmsMowk9ds5c+1q6OrwaXWkObLPPAQ=;
+	b=YA8xgodjFqukTvmwEjDnlSLPlIQWtCojnmVBNRqnlJVzB+WDQb/1VL73
+	AL2f6IgjHA5B6BdICsXqllfEHykbs8wxHcsUj1rar6JKgR5vpchAJu+72
+	zubFpC2QPmhgAsEn5j2AobYV35XGeP8R41BfUVkHEYMWd8xjGcj6+MU5M c=;
+IronPort-SDR: KnGzO0w1JaHp6O0r+U/VAyvQor/hsVPBuNm0sDgBaFSVGHAtHn5QHi1qoIvwRJlBfP6s4mE7Al
+	qci1vvFne+RBtZfTKJHuRn+yB9H9Pr93/5GtzEmbgXdzZxpsWLJz0SZsWDDVK+GV8YOSd6nkIM
+	1l9FGDmfEj07IKBmf/0HT2tQskMywe5DTXx4diSFvy8827svD2ivs52xRVaN7hxLroTI0XGngL
+	19GLHUbsLVbfhdsv3YE8mAuF8/cCmla8PxWsWPVIIv969qE7Nzy5nPU/oMA61zRgi+kcJpHEKA
+	a2Q=
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+	esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 16 Sep 2019 14:43:10 +0200
+Received: from esabb3.muc ([160.50.100.30])  by esagw1.muc with ESMTP/TLS;
+	16 Sep 2019 14:43:07 +0200
+Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
+	([160.48.96.47])
+	by esabb3.muc with ESMTP/TLS; 16 Sep 2019 14:43:07 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10k.europe.bmw.corp
+	(160.48.96.47) with Microsoft SMTP Server (TLS;
+	Mon, 16 Sep 2019 14:43:05 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Mon, 16 Sep 2019 14:43:05 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/2] busybox.inc: handle empty DEBUG_PREFIX_MAP
+Thread-Index: AQHVbF6sAKFPmiT1vkWnxTUxcb1uD6cuHLeAgAABlQA=
+Date: Mon, 16 Sep 2019 12:43:05 +0000
+Message-ID: <20190916124304.GP6154@hiutale>
+References: <1568618176-5365-1-git-send-email-mikko.rapeli@bmw.de>
+	<71c210c6-abf0-4c0c-06b6-1a7bf01279e7@intel.com>
+In-Reply-To: <71c210c6-abf0-4c0c-06b6-1a7bf01279e7@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.42]
 MIME-Version: 1.0
-Subject: [PATCH] kernel: do verbose builds
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] busybox.inc: handle empty DEBUG_PREFIX_MAP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +62,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2019 12:41:54 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 16 Sep 2019 12:43:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <C7244437FB459F489410EE47070C86F1@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Pass V=1 to kernel builds so that the compile log is more useful if it all goes
-wrong.
+Hi,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Sep 16, 2019 at 01:37:25PM +0100, Ross Burton wrote:
+> Hi Mikko,
+>=20
+> This is 1/2 but 2/2 never arrived on the list.  Can you repost it?
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ebcb79a5286..9d2e1e476d4 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -324,7 +324,7 @@ kernel_do_compile() {
- 	fi
- 	cc_extra=$(get_cc_option)
- 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
--		oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
-+		oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} V=1 $use_alternate_initrd
- 	done
- 	# vmlinux.gz is not built by kernel
- 	if (echo "${KERNEL_IMAGETYPES}" | grep -wq "vmlinux\.gz"); then
--- 
-2.20.1
+Sorry, 2/2 from my poky tree was the bitbake svn fetcher patch in
+http://lists.openembedded.org/pipermail/bitbake-devel/2019-September/020328=
+.html
 
+Can you ignore the numberings or shall I send again without them?
+
+-Mikko=
 
