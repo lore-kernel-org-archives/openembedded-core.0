@@ -1,24 +1,30 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C407A7F1E3
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E00F7E63A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 05:50:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8G5oK6i022976
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 16 Sep 2019 06:36:48 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,510,1559491200"; d="scan'208";a="75510987"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 16 Sep 2019 14:36:49 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id E0C884CE14E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Sep 2019 22:50:40 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Sun, 15 Sep 2019 22:50:24 -0700
-From: <changqing.li@windriver.com>
+	Mon, 16 Sep 2019 14:36:29 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 16 Sep 2019 14:36:51 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Sep 2019 13:50:23 +0800
-Message-ID: <1568613023-302707-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Date: Mon, 16 Sep 2019 14:36:45 +0800
+Message-ID: <1568615805-50657-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH] classextend.py: don't extend file for file dependency
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: E0C884CE14E8.AB0A7
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] dnf: make dnf work in toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,60 +37,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2019 05:50:51 -0000
+X-List-Received-Date: Mon, 16 Sep 2019 06:36:49 -0000
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+We need to configure dnf to use package architecture from yocto build system.
 
-Fix error like:
-lib32-e2fsprogs-1.45.3-r0 do_package_qa: QA Issue: /usr/sbin/e2scrub_all
-contained in package lib32-e2fsprogs-e2scrub requires /bin/bash,
-but no providers found in RDEPENDS_lib32-e2fsprogs-e2scrub
+Install etc/dnf/vars to ${SDKTARGETSYSROOT} because config file in host-sysroot as /opt/poky/2.7+snapshot/sysroots/x86_64-pokysdk-linux will be covered by another ARCH which result in previous config settings inefficacy.
 
-For some lib32 packages(eg: lib32-bash, lib32-sed) which probvides files,
-extend is not needed
+To resolve it, put config file in target-sysroot like /opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux. As each ARCH has its own target-sysroot, config file will not be covered.
 
-Eg: RPROVIDES of lib32-bash expects to have /bin/bash, with original
-extend, it will become lib32-/bin/bash, then will cause above error
-
-Fix by don't extend file dependency, and skip multilib check for file dependency
-in do_package_qa to avoid error like:
-WARNING: lib32-bash-5.0-r0 do_package: QA Issue: lib32-bash package lib32-bash
- - suspicious values '/bin/bash /bin/sh' in RPROVIDES [multilib]
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- meta/classes/multilib.bbclass | 2 +-
- meta/lib/oe/classextend.py    | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/dnf/dnf_4.2.2.bb | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index d625bd5..1a9295d 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -187,7 +187,7 @@ python do_package_qa_multilib() {
-             if (not i.startswith('kernel-module')) and (not i.startswith(mlprefix)) and \
-                 (not 'cross-canadian' in i) and (not i.startswith("nativesdk-")) and \
-                 (not i.startswith("rtld")) and (not i.startswith('kernel-vmlinux')) \
--                and (not i.startswith("kernel-image")):
-+                and (not i.startswith("kernel-image")) and (not i.startswith("/")):
-                 candidates.append(i)
-         if len(candidates) > 0:
-             msg = "%s package %s - suspicious values '%s' in %s" \
-diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py
-index e25122e..f02fbe9 100644
---- a/meta/lib/oe/classextend.py
-+++ b/meta/lib/oe/classextend.py
-@@ -24,6 +24,8 @@ class ClassExtender(object):
-             if not subs.startswith(self.extname):
-                 return "virtual/" + self.extname + "-" + subs
-             return name
-+        if name.startswith("/"):
-+            return name
-         if not name.startswith(self.extname):
-             return self.extname + "-" + name
-         return name
+diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+index c77773332c..02500a33c2 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+@@ -68,10 +68,22 @@ do_install_append_class-native() {
+                 RPM_NO_CHROOT_FOR_SCRIPTS=1
+ }
+ 
++
++REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}-${DISTRO}-${TARGET_OS}"
++SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
++
+ do_install_append_class-nativesdk() {
+         create_wrapper ${D}/${bindir}/dnf \
+                 RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm \
+                 RPM_NO_CHROOT_FOR_SCRIPTS=1 
++
++        install -d ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars
++        cat >${D}/${SDKTARGETSYSROOT}/etc/dnf/vars/arch <<EOF
++${DEFAULTTUNE}:${MACHINE_ARCH}:${TARGET_ARCH}
++EOF
++
++# Default ${TARGET_ARCH} should be fixed as '-' is instead of '_'.
++        sed -i 's/-/_/' ${D}/${SDKTARGETSYSROOT}/etc/dnf/vars/arch
+ }
+ 
+ SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
+@@ -81,3 +93,5 @@ SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
+                          dnf-automatic-notifyonly.service dnf-automatic-notifyonly.timer \
+ "
+ SYSTEMD_AUTO_ENABLE ?= "disable"
++
++FILES_${PN}_append_class-nativesdk += "${SDKTARGETSYSROOT}"
 -- 
-2.7.4
+2.17.1
+
+
 
 
