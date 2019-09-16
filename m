@@ -1,51 +1,52 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 65E1F7F29A
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F2F17F2AD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 19:24:39 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id n9so563467pgc.1
+	Mon, 16 Sep 2019 19:24:40 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id t11so350130plo.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 12:24:40 -0700 (PDT)
+	Mon, 16 Sep 2019 12:24:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=nBLx685hS0a2vOw5yE927zsK9MS50LcHtfLvXBIIFPE=;
-	b=oarpmMEvn63CDVbCS9qez77jiIF1UmK0svbcqhU4+k42ToFdVIq5W0IWSblN9Jx3uT
-	YnfdxH9KZxWF9iFMHYMHjj5O8+RBdS958LDswrI/OvqAkisRkU0uBsgneXLJGKudClTf
-	WEgFxz5XO9gvfWxkO9L1bxYDgk6qpHaKz1qgiO6Rs7o73cYy1Xq6FC682x/DwfI6kCGw
-	t4o6d0Hc0mfJ1C0PSbtfE9GJH3NSswStI/tSMdWGgxljLJovYzXPzNlURgU5rXYR9IOf
-	YIxNzBBUUJrmp0uAwmjyfMCDOTSOGw5iPafKM59Q+ZLjOlPa/KDwhmGIDCJJGHcdnsJx
-	4O+g==
+	bh=gy1ED/WkHWduV/FvJ8G6coa/QrLXSEIxyT9UM6Ih1R8=;
+	b=QYflG/jtpSR1R+uPKX4S7qicenSpbXx37hpYQkcN0JESFhMW4w3xxvG8eXqP1uzLc/
+	gFBuzXQt/phYA5eOn1u2ZKtZ4nVq3Vd6TM2OlvCLpWO4jQxGBTFkMMXrYW4F5UfIRrFE
+	QvFBw3+rgwZywSU8o31cJNqlEn2KG6VJFjjuAeDDhCcQtjVB020WbAKnnoYOC+ef5t+/
+	be26FL94tNxjPqsRpLUeGSaxAqBTcHls4ixVPsGCexOmJ/4A+MfydiHd5HBUszLxRulF
+	dt7HhI2wr7uj/62hoeBLUrsi0pCE20TTstwKxdv3LkjuIeesUonY7w/W190uISi3KfW6
+	Q6/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=nBLx685hS0a2vOw5yE927zsK9MS50LcHtfLvXBIIFPE=;
-	b=oFMzb9a4+IUxz+/iHvVb5LpIrb9yNJ3fx0mLESFl6MHzsKzNPk5oYVrOAYGPcTYZFt
-	EUdPA6Pv4SqNoJyyoqmoroOfVZhbjvxJTU4AieglAUqjg0VQU90Uvuel2MOAppYM8uBN
-	yJlKzyPRubBvi6jdK4N72y9RzCqSuSN/w+fYCusR4rshVrBpgRDZIJnDczmey5HOM+FC
-	MS4jyR8vJEmJ8IkIueOScSKiZZB30PGsIAwkSwEzENLmwuMh/CKmv7MA/6zu82FoeXI0
-	nS2BF7ezeHIKRs8XymKH1I9/09tXx92W8q2o9oWitmOjheBswEXtlsy3+tq7ib5Y+d3i
-	ctwg==
-X-Gm-Message-State: APjAAAVDGkQVb0insuf7eq36Skf4h+LNT1PjGa5Kv+mDB+5Idj6EgbF7
-	Dmk2Zo8ZyOkllUh1gLAVOZcG+/7E
-X-Google-Smtp-Source: APXvYqz1sPD4g0/CEoOvWGB5zDtMKZgoD+eUKm8KEnC8DouZzv10vvZEAcZai5NCIahNngSBWcz/7w==
-X-Received: by 2002:a63:925d:: with SMTP id s29mr737584pgn.144.1568661880260; 
-	Mon, 16 Sep 2019 12:24:40 -0700 (PDT)
+	bh=gy1ED/WkHWduV/FvJ8G6coa/QrLXSEIxyT9UM6Ih1R8=;
+	b=sgQxw2tddQO+q5CVmeKvpefHiJdM85sAUWyZJkkrCiVOAdwegdLC0PF0poVe12+cUS
+	W0n7opM1F1b6I4Au/KYHWxXk/Ie4gYvaeWVmRmJwFi2dWq54JNiX6QFjXOcn9LFMyPnW
+	DdgyMIfK5vM/qhOnYHN0YW/ZMEPat5ZKlih80PrSVCKx2Xgtd0E5Nnypgu/TMOvIzcn/
+	F+uHGqAgKtMDVkkBcDiI9OjpqfAk9iLhO7QKhgWxRD1wlumftSVpmW0cPJ+QkvwM2D7P
+	VtKFnXOmbqni8JWZhkSMycGudREAYCcRNiibVK2X4BtfKag+S8y4J7iHXUxMoChtcslG
+	DidQ==
+X-Gm-Message-State: APjAAAVJ+xE1Jh+Y7Qc1Qa8b1+uGqciHl7Tt7ktS0cihawLRz/qhqHli
+	Nhoee6hzlZP+nJIQAAkmg/2O4zZT
+X-Google-Smtp-Source: APXvYqyqH/3cDEz87awnWEqdj8yLeKzDIrFvKN7clelJdHxNd3/q4fo3wZurZk8CQekIE9EwnCF/hQ==
+X-Received: by 2002:a17:902:9001:: with SMTP id
+	a1mr1525704plp.148.1568661881859; 
+	Mon, 16 Sep 2019 12:24:41 -0700 (PDT)
 Received: from localhost.localdomain ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id d7sm5490494pfr.7.2019.09.16.12.24.39
+	by smtp.gmail.com with ESMTPSA id d7sm5490494pfr.7.2019.09.16.12.24.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 16 Sep 2019 12:24:39 -0700 (PDT)
+	Mon, 16 Sep 2019 12:24:41 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Sep 2019 12:24:25 -0700
-Message-Id: <20190916192429.27294-4-armccurdy@gmail.com>
+Date: Mon, 16 Sep 2019 12:24:26 -0700
+Message-Id: <20190916192429.27294-5-armccurdy@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190916192429.27294-1-armccurdy@gmail.com>
 References: <20190916192429.27294-1-armccurdy@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/8] ffmpeg: don't rely on configure to correctly detect ARM vfp or neon
+Subject: [PATCH 5/8] ffmpeg: enable more verbose build logs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +59,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2019 19:24:39 -0000
+X-List-Received-Date: Mon, 16 Sep 2019 19:24:41 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.bb | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.bb
-index 307e37e3fe..c4261248b6 100644
+index c4261248b6..2809f343b8 100644
 --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.bb
 +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.bb
-@@ -114,10 +114,19 @@ EXTRA_OECONF = " \
-     --pkg-config=pkg-config \
- "
- 
-+# Do not trust configure to determine if ARM vfp or neon are available.
-+#
-+EXTRA_OECONF_ARM = " \
-+    ${@bb.utils.contains('TUNE_FEATURES','vfp','--enable-vfp','--disable-vfp', d)} \
-+    ${@bb.utils.contains("TUNE_FEATURES",'neon','--enable-neon','--disable-neon',d)} \
-+"
-+EXTRA_OECONF_append_arm = " ${EXTRA_OECONF_ARM}"
-+EXTRA_OECONF_append_armeb = " ${EXTRA_OECONF_ARM}"
-+
- EXTRA_OECONF_append_linux-gnux32 = " --disable-asm"
-+
- # gold crashes on x86, another solution is to --disable-asm but thats more hacky
+@@ -129,6 +129,8 @@ EXTRA_OECONF_append_linux-gnux32 = " --disable-asm"
  # ld.gold: internal error in relocate_section, at ../../gold/i386.cc:3684
--
  LDFLAGS_append_x86 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', ' -fuse-ld=bfd ', '', d)}"
  
++EXTRA_OEMAKE = "V=1"
++
  do_configure() {
+     ${S}/configure ${EXTRA_OECONF}
+ }
 -- 
 2.23.0
 
