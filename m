@@ -1,49 +1,52 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 343357F51A
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2524D7F87E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 20:42:04 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id c195so1021650lfg.9
+	Mon, 16 Sep 2019 21:33:57 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id z12so715360pgp.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 13:42:05 -0700 (PDT)
+	Mon, 16 Sep 2019 14:33:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=FGmpQhBjPMMzl0TCQjo+JfLVD6WOMuLB0QOHOvSFPh0=;
-	b=Nwk7fCdgyzUbz7SDTwiu62VeVHQR42BvFZPG4fIu1lQfdr72nbmuWXEIYBSB1/noXS
-	WUprVMTEgILpjAtf+pvHvphdr5Vi14OSewhqPTEbXMUWttoIcmaMJOYdtAHHoggn6diW
-	jYBd2eq4y6Yk4C7f9TftWEogZsOQnt8txhgGwV8YFqhSkbnAfaM6I65wZg6+QWUeBqWI
-	rkLKrvcgJlQ5XbEmK1DKhXeax6Vn5H1T3lGipLPq5m4/8SwSfVzoC2OtmWLaap54qjDR
-	J/egXd2MFV4r5ouPb2Fr26RMn1wm8nhjRpAYUZWg0YSHVORoYRdntqxcQuPZ+hhHh7kl
-	Iz0A==
+	h=date:from:to:message-id:in-reply-to:references:subject:mime-version; 
+	bh=daunIhoE2Mt3NpUJ6cJ6RAChe7h23lyUmlTTU4rs8l4=;
+	b=kiiH6zn+ukUp0KuLmyGKvI8ZW7bleBE0ftk1rTcUsdiQFp25qwXuZA3yUzyvr7OeAF
+	y6KFgwVbxombH2Jb9Zyuhybl6e7XHTfG58Yb3Tt1nSoeCh2fqkH5FfLWuQwi4B6axYme
+	Z6KkoxiG2OQK7kHhtE4WxHCQ4eH9cmhFZBcHJA3hbnr37PjHuiDi6895vLNR8guOq4sj
+	QZLnxoAwE7s9Owf3REAh8G4JHsA3F+87cYzvJoVhO/9nkMZF0dGEYWhIVH8w101xIFGq
+	jQmY5XqUVnkQKXWsfRF8q8cvnYo5udpGX0aMJm0yI9tS7lgS6160TEA9WKLReIGKqMYr
+	SVKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=FGmpQhBjPMMzl0TCQjo+JfLVD6WOMuLB0QOHOvSFPh0=;
-	b=Zzlw21BHH84HAgg3X41+Mp0anJCfbyTFFLoXnfHJcp247C+cM59h1BvveYnT6zsvoJ
-	QxNi979Y7MMdiyqjFxW81ieiuq0a1wrxj5JUjHLJiNtOm9Lx05lbOwhddnSj9Q6m1F6z
-	z74fzVWTLwSYyNvhaTzsfw6P0nS17Y8DbuYUTOv6tEgauMGCB/nUKNrBn74+/LM1pcY4
-	DxDA5H4S3B4QkhVK4Fk8E2AgvMI5yfMoY6XgSVtGLKfAWap4PvJ1AWsXvxHotUURlcqn
-	f9cC9xrL0TMYG0lKRlJxkOJyVd1hRhecLGnw6vn6azbMSYibFydJ+fxJSLNoTHN+J6Fe
-	ZBoA==
-X-Gm-Message-State: APjAAAVm4y9U2ABYvJwbPSQoq0K3qWFmCVS1sQk4XrR70LnSZbbdGsRC
-	sKquQCm/30MFv4S/VfWVkX+svomc154fafhFj5c=
-X-Google-Smtp-Source: APXvYqyj/gZFd4O7QpnrUglFfdqYFUrjm8tq6c27x8CYtQLP3jmZlbXk7v+yT8FyFsekI/KJvgY17IK9n/R51Wmm3xc=
-X-Received: by 2002:a19:c80b:: with SMTP id y11mr54618lff.184.1568666524488;
-	Mon, 16 Sep 2019 13:42:04 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:message-id:in-reply-to:references
+	:subject:mime-version;
+	bh=daunIhoE2Mt3NpUJ6cJ6RAChe7h23lyUmlTTU4rs8l4=;
+	b=Al8aMZ8kQPdfE5cEDMl9P/tkp1KixgHfOQojrBclr8Cdn9XPa8qGC0e99hV+/OX9Vc
+	d7K/nCtDfn/CIcm8joB3+0hJXYWqUzLlFHr6wx4f0aaxAuCy5P2paT2cm4aoovSLDlcl
+	KLWbey6mMZyrnMmjqRRZoILeiRBDMv+7n/eUW4u0O0HCTxSvKrPZoh32On9QkEPUGH3K
+	PKmikAGUWk+5g3TWfKIz4cItj91ix3H4sN1qyTPQzVuiF7t591rGCWYM8I8f92bE4LR+
+	bXNwp6xG6pYMlfBqMAnkdO4YJTnFNM5kvHFeiVWAijjHAOCqmRniVGxUNCJqYbwlgVQS
+	lYjQ==
+X-Gm-Message-State: APjAAAXkSFPYkYo7J7jNvCimXUeP4lKTklbEy2QyngFo+s5gxNpdra1Z
+	BWjbFaIiclX3HPZAFvIeFZKDicoKy9s=
+X-Google-Smtp-Source: APXvYqyPn7lMTXDgtn0xNjY237i/8ba0SMrRERW61LeB4dPnKcRK0W9ZnrtaE+G7PgUbrHX53boReQ==
+X-Received: by 2002:a63:4c64:: with SMTP id m36mr222829pgl.229.1568669638616; 
+	Mon, 16 Sep 2019 14:33:58 -0700 (PDT)
+Received: from [192.168.1.17] (ip70-180-21-74.ph.ph.cox.net. [70.180.21.74])
+	by smtp.gmail.com with ESMTPSA id x23sm30084pfq.140.2019.09.16.14.33.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Sep 2019 14:33:57 -0700 (PDT)
+Date: Mon, 16 Sep 2019 14:33:46 -0700
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org, Andre McCurdy
+	<armccurdy@gmail.com>
+Message-ID: <0a559d39-3699-4504-addc-89fe7252fbea@Spark>
+In-Reply-To: <20190916192429.27294-4-armccurdy@gmail.com>
+References: <20190916192429.27294-1-armccurdy@gmail.com>
+	<20190916192429.27294-4-armccurdy@gmail.com>
+X-Readdle-Message-ID: 0a559d39-3699-4504-addc-89fe7252fbea@Spark
 MIME-Version: 1.0
-References: <20190916124144.28576-1-ross.burton@intel.com>
-	<CADkTA4NPu1wUZL7Qri=CXS8QjoFv-KpTCk08-yXRkYLAgaUN=w@mail.gmail.com>
-	<6379bdb4-31f1-7c95-e883-b585899da45d@intel.com>
-In-Reply-To: <6379bdb4-31f1-7c95-e883-b585899da45d@intel.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 16 Sep 2019 16:41:53 -0400
-Message-ID: <CADkTA4P8bbH1C0BGkSVs6Wh_zaxNADcCAYvicqemPc2yTsz1-w@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: do verbose builds
+Subject: Re: [PATCH 4/8] ffmpeg: don't rely on configure to correctly detect ARM vfp or neon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,68 +59,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2019 20:42:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 16 Sep 2019 21:33:58 -0000
+Content-Type: multipart/alternative; boundary="5d7fffc4_327b23c6_4c9b"
 
-On Mon, Sep 16, 2019 at 4:27 PM Ross Burton <ross.burton@intel.com> wrote:
+--5d7fffc4_327b23c6_4c9b
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+This seems like something that could do with a =E2=80=98why=E2=80=99 in t=
+he commit message and/or comments, to me.
+On Sep 16, 2019, 12:25 PM -0700, Andre McCurdy <armccurdy=40gmail.com>, w=
+rote:
+> Signed-off-by: Andre McCurdy <armccurdy=40gmail.com>
+> ---
+> meta/recipes-multimedia/ffmpeg/ffmpeg=5F4.2.bb =7C 11 ++++++++++-
+> 1 file changed, 10 insertions(+), 1 deletion(-)
 >
-> On 16/09/2019 14:18, Bruce Ashfield wrote:
-> > On Mon, Sep 16, 2019 at 8:41 AM Ross Burton <ross.burton@intel.com> wrote:
-> >>
-> >> Pass V=1 to kernel builds so that the compile log is more useful if it all goes
-> >> wrong.
-> >>
-> >> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> >> ---
-> >>   meta/classes/kernel.bbclass | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> >> index ebcb79a5286..9d2e1e476d4 100644
-> >> --- a/meta/classes/kernel.bbclass
-> >> +++ b/meta/classes/kernel.bbclass
-> >> @@ -324,7 +324,7 @@ kernel_do_compile() {
-> >>          fi
-> >>          cc_extra=$(get_cc_option)
-> >>          for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
-> >> -               oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
-> >> +               oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} V=1 $use_alternate_initrd
-> >
-> > Personally, I wouldn't want this on all the time. Most of what V=1
-> > provides, I never use for debugging and it just clutters the logs.
-> >
-> > Can't this be triggered off a packageconfig-like setting for those
-> > that want it ?
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg=5F4.2.bb b/meta/reci=
+pes-multimedia/ffmpeg/ffmpeg=5F4.2.bb
+> index 307e37e3fe..c4261248b6 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg=5F4.2.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg=5F4.2.bb
+> =40=40 -114,10 +114,19 =40=40 EXTRA=5FOECON=46 =3D =22 =5C
+> --pkg-config=3Dpkg-config =5C
+> =22
 >
-> If you object then I guess it's easy enough to add it to
-> KERNEL_EXTRA_ARGS or something when required.  I only did this because I
-> was chasing that build paths thing and needed the full build log, and
-> typically we enable the full build log so it's there if required.
-
-'object' is a strong word :D I just know that for the most part, I'm
-not looking at CFLAGS or other Make/path issues when I'm looking at
-the kernel build for issues (and that could be different for other
-folks), and that I've found I end up doing custom instrumentation to
-debug Make issues, versus getting anything really useful out of V=1
-(it's a bit chatty). That and I've never done production builds with
-V=1 (even if it won't impact the output).
-
-It would make the logs a bit bigger, but I can't see it having a
-performance impact .. so really, it isn't a big deal. But it sounded
-like a knob that we could add, since clearly there are two different
-points of view and modes that people may use.
-
-Cheers,
-
-Bruce
-
+> +=23 Do not trust configure to determine if ARM vfp or neon are availab=
+le.
+> +=23
+> +EXTRA=5FOECON=46=5FARM =3D =22 =5C
+> + =24=7B=40bb.utils.contains('TUNE=5F=46EATURES','vfp','--enable-vfp','=
+--disable-vfp', d)=7D =5C
+> + =24=7B=40bb.utils.contains(=22TUNE=5F=46EATURES=22,'neon','--enable-n=
+eon','--disable-neon',d)=7D =5C
+> +=22
+> +EXTRA=5FOECON=46=5Fappend=5Farm =3D =22 =24=7BEXTRA=5FOECON=46=5FARM=7D=
+=22
+> +EXTRA=5FOECON=46=5Fappend=5Farmeb =3D =22 =24=7BEXTRA=5FOECON=46=5FARM=
+=7D=22
+> +
+> EXTRA=5FOECON=46=5Fappend=5Flinux-gnux32 =3D =22 --disable-asm=22
+> +
+> =23 gold crashes on x86, another solution is to --disable-asm but thats=
+ more hacky
+> =23 ld.gold: internal error in relocate=5Fsection, at ../../gold/i386.c=
+c:3684
+> -
+> LD=46LAGS=5Fappend=5Fx86 =3D =22=24=7B=40bb.utils.contains('DISTRO=5F=46=
+EATURES', 'ld-is-gold', ' -fuse-ld=3Dbfd ', '', d)=7D=22
 >
-> Ross
+> do=5Fconfigure() =7B
+> --
+> 2.23.0
+>
+> --
+> =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
+=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
+> Openembedded-core mailing list
+> Openembedded-core=40lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--5d7fffc4_327b23c6_4c9b
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
+<html xmlns=3D=22http://www.w3.org/1999/xhtml=22>
+<head>
+<title></title>
+</head>
+<body>
+<div name=3D=22messageBodySection=22>
+<div dir=3D=22auto=22>This seems like something that could do with a =E2=80=
+=98why=E2=80=99 in the commit message and/or comments, to me.</div>
+</div>
+<div name=3D=22messageReplySection=22>On Sep 16, 2019, 12:25 PM -0700, An=
+dre McCurdy &lt;armccurdy=40gmail.com&gt;, wrote:<br />
+<blockquote type=3D=22cite=22 class=3D=22spark=5Fquote=22 style=3D=22marg=
+in: 5px 5px; padding-left: 10px; border-left: thin solid =231abc9c;=22>Si=
+gned-off-by: Andre McCurdy &lt;armccurdy=40gmail.com&gt;<br />
+---<br />
+meta/recipes-multimedia/ffmpeg/ffmpeg=5F4.2.bb =7C 11 ++++++++++-<br />
+1 file changed, 10 insertions(+), 1 deletion(-)<br />
+<br />
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg=5F4.2.bb b/meta/recipe=
+s-multimedia/ffmpeg/ffmpeg=5F4.2.bb<br />
+index 307e37e3fe..c4261248b6 100644<br />
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg=5F4.2.bb<br />
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg=5F4.2.bb<br />
+=40=40 -114,10 +114,19 =40=40 EXTRA=5FOECON=46 =3D =22 =5C<br />
+--pkg-config=3Dpkg-config =5C<br />
+=22<br />
+<br />
++=23 Do not trust configure to determine if ARM vfp or neon are available=
+.<br />
++=23<br />
++EXTRA=5FOECON=46=5FARM =3D =22 =5C<br />
++ =24=7B=40bb.utils.contains('TUNE=5F=46EATURES','vfp','--enable-vfp','--=
+disable-vfp', d)=7D =5C<br />
++ =24=7B=40bb.utils.contains(=22TUNE=5F=46EATURES=22,'neon','--enable-neo=
+n','--disable-neon',d)=7D =5C<br />
++=22<br />
++EXTRA=5FOECON=46=5Fappend=5Farm =3D =22 =24=7BEXTRA=5FOECON=46=5FARM=7D=22=
+<br />
++EXTRA=5FOECON=46=5Fappend=5Farmeb =3D =22 =24=7BEXTRA=5FOECON=46=5FARM=7D=
+=22<br />
++<br />
+EXTRA=5FOECON=46=5Fappend=5Flinux-gnux32 =3D =22 --disable-asm=22<br />
++<br />
+=23 gold crashes on x86, another solution is to --disable-asm but thats m=
+ore hacky<br />
+=23 ld.gold: internal error in relocate=5Fsection, at ../../gold/i386.cc:=
+3684<br />
+-<br />
+LD=46LAGS=5Fappend=5Fx86 =3D =22=24=7B=40bb.utils.contains('DISTRO=5F=46E=
+ATURES', 'ld-is-gold', ' -fuse-ld=3Dbfd ', '', d)=7D=22<br />
+<br />
+do=5Fconfigure() =7B<br />
+--<br />
+2.23.0<br />
+<br />
+--<br />
+=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
+=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F<br />
+Openembedded-core mailing list<br />
+Openembedded-core=40lists.openembedded.org<br />
+http://lists.openembedded.org/mailman/listinfo/openembedded-core<br /></b=
+lockquote>
+</div>
+</body>
+</html>
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
+--5d7fffc4_327b23c6_4c9b--
