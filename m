@@ -1,42 +1,52 @@
-Return-Path: <johnnymarler@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 006247F92B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 68FC47F956
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 22:25:56 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id q11so1191581lfc.11
+	Mon, 16 Sep 2019 22:27:47 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 7so991707wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 15:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=v6Pxxx1x4MxpFw9wzYLDU5R+eFmoYBn9O+RSYsS49q4=;
-	b=PwHGqZ5mF9Z1lZSwW39LTAkiV3dIXIdEuAgaZhUod3Ti1Rf5HBsuatAkDj3GSx6z2M
-	Vj3Rchq+dx9xjQAv5s4YJxMdnHYXLFJlZTvqEiLJx9MRJ8PB/XLwlGq31KU2utcWkBv7
-	LWZuPtdkXw2JkLg0QOHufWpKK89/W+Re4gq2MqpUGk6y5AwZHeyMzUjpud1wnFZmPQOb
-	h/I45DvLEfHn+IPLH4oH9R+drEWXhB19WHq/QU/JFfpTA8kvrcGdc6ZPFPqKpO+0SoE3
-	64kXwjY0iA5XaoSeRR7YAj56G4LR2NWUOOCFHxltV7K+G1JRSZFLwe4RqXBTnDbov4Cd
-	3PWQ==
+	Mon, 16 Sep 2019 15:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=2X73yeXmC/zPXesX7nOM7XVbS3VtTSrB1QyNEAUNM38=;
+	b=GhymOsnRiutkvJ4S0BFue95jpuUrGc3L3GniwayFzT65YcdacSAtlk1/QTpNWRFOxJ
+	IWF50KcihRoyO1XhuA0qQLP52HG9C83Qp7UJIp85dqObybuq9aeYIkMu2zzXu+B3uIJz
+	Nrjp+PlU1l/ApqYwHRgPh7YfoCl9okpIhskfI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=v6Pxxx1x4MxpFw9wzYLDU5R+eFmoYBn9O+RSYsS49q4=;
-	b=p6vmbFdicjag80zqZFnLWc8jsCbgCfFFHTSKak8tr6EXDl8sWV0kEn9aPIYj29k7QU
-	HiIzcx+5Rh50Sp5pAetWG4c8odXxG7DTi2TQBsY76VoWDK721yz/MZ2l1HlaE/+fgk2R
-	F/d/3VWudPdDXFObQKmYQ4HLDKPFWz/IpgbaySlwY+8fQ1v1OTl0eulTnb9L2uhjhVea
-	ycKo4VgXyEk8/qs4sPs9KmsUIeqNP7AtVx80Zvotqy67AK2vaDqGvbSl5PGnT9muJSgr
-	Z+UwJuyeupWVyfigjTqpviTZU556rQ5c97BoeI1BF3AdcBVND0Jk/VJQnbaHNpHZ5eFE
-	yR4Q==
-X-Gm-Message-State: APjAAAWVM3WPS0K0O0h1FeSQWCRSOg6ZqViQJg51FpZfpWCyYg2Qi7bD
-	TWWNxmDrBwqm2EgtuHuhcoJwJHCXDihLuhZvJjcB3cWtVxE=
-X-Google-Smtp-Source: APXvYqymAnNx1LPl8B2VhXPah0pI/yFvpfaEDo2m4pIGywZDM1MbswUYS6sswa438MPb1TK54JQEbjoL1UzAG+2m/nM=
-X-Received: by 2002:a19:3fd1:: with SMTP id m200mr268375lfa.18.1568672757186; 
-	Mon, 16 Sep 2019 15:25:57 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=2X73yeXmC/zPXesX7nOM7XVbS3VtTSrB1QyNEAUNM38=;
+	b=WBI12YkLI4Fr9SoIJbnBNIC17kasytfF1TAvrFvcmTPWgmkCq8hvzvdNosZ7JqHXSy
+	zD+GqbxapqncJ7BGpPyWtEW3k9LHQH3yyUw+fhx0nm1H7gh7FIoW+Ci8J8WHBxy/cjbi
+	9TU1rOswK+T3If37LYN/7EjMg/3q7wkSi0xAKIMqF3DveTUMscmnt/nNSkNwyJ6Nx9hi
+	2tkIQzKr7ONG12lY+Ntpz+ot5lMqYJBw1bvUtwufP5qiODFd9Ji6lIaoV7JIVywNW8oY
+	LKj7TcB06x0duNWPoy3RoebECzWXtxHb/Y9RT38exwUpZFeNHdWct2uu6909k53gHsEs
+	Xw3g==
+X-Gm-Message-State: APjAAAWMlZ1Ygr0/IAROGoV1NXY6anss254JUtsKTvn09jsuoWFvphkI
+	/6O2v85hhKPR2wTBORL56jyhxw==
+X-Google-Smtp-Source: APXvYqwScXmbBqHmDkkmO12xdcrXYX1MZc2HNgCzVaCBHqMPhUgcHbhVkT71L1AMGjjj/Yesq29CPQ==
+X-Received: by 2002:a1c:f515:: with SMTP id t21mr825511wmh.74.1568672868195;
+	Mon, 16 Sep 2019 15:27:48 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id q15sm429631wrg.65.2019.09.16.15.27.47
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 16 Sep 2019 15:27:47 -0700 (PDT)
+Message-ID: <85c976042f32c1ddf1a3384ac31c946573087bbe.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Andrew F. Davis" <afd@ti.com>, Denys Dmytriyenko <denys@ti.com>, 
+	Gowtham Tammana <g-tammana@ti.com>, Eric Ruei <e-ruei1@ti.com>
+Date: Mon, 16 Sep 2019 23:27:46 +0100
+In-Reply-To: <20190913193614.4882-3-afd@ti.com>
+References: <20190913193614.4882-1-afd@ti.com>
+	<20190913193614.4882-3-afd@ti.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-From: Jonathan Marler <johnnymarler@gmail.com>
-Date: Mon, 16 Sep 2019 16:25:46 -0600
-Message-ID: <CACKT+AqXthjbHZZ86goPLEWqszrFd8+HRLj0JzfU=-AyrDx4Cg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] Assert error when there are multiple shlib_providers for the same file
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] gtk+3: Set depends to the virtual needed not explicitly on Mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,46 +59,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2019 22:25:57 -0000
-Content-Type: multipart/alternative; boundary="0000000000007604b30592b31621"
-
---0000000000007604b30592b31621
+X-List-Received-Date: Mon, 16 Sep 2019 22:27:47 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit 86b8a1d534bfcd70775c6e2b59eabe10de29f526:
+On Fri, 2019-09-13 at 15:36 -0400, Andrew F. Davis via Openembedded-core wrote:
+> The dependency is for EGL and GLES2 libraries. On some systems these
+> are not provided by Mesa, list what is actually needed so the system
+> can choose the correct provider.
+> 
+> Signed-off-by: Andrew F. Davis <afd@ti.com>
+> ---
+>  meta/recipes-gnome/gtk+/gtk+3.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+> index 77b6c31536..7ec40dcbf5 100644
+> --- a/meta/recipes-gnome/gtk+/gtk+3.inc
+> +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+> @@ -52,7 +52,7 @@ PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fon
+>  # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
+>  PACKAGECONFIG[opengl] = "--enable-opengl,--disable-opengl,libepoxy"
+>  PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
+> -PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/mesa wayland-native"
+> +PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/egl virtual/gles2 wayland-native"
+>  PACKAGECONFIG[cups] = "--enable-cups,--disable-cups,cups"
+>  
+>  prepare_gtk_scripts() {
 
-  libevent: don't treat test stats line as pass/fail in ptest (2019-09-11
-07:30:08 +0100)
+This breaks things:
 
-are available in the git repository at:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/1037
 
-  git://github.com/marler8997/openembedded-core assertMultiShlibs
-  https://github.com/marler8997/openembedded-core/tree/assertMultiShlibs
+step1b: ERROR: Nothing PROVIDES 'virtual/gles2' (but /home/pokybuild/yocto-worker/qemux86-64-x32/build/meta/recipes-gnome/gtk+/gtk+3_3.24.8.bb DEPENDS on or otherwise requires it). Close matches:
 
-Jonathan Marler (1):
-  Assert error when there are multiple shlib_providers for the same file
+Cheers,
 
- meta/classes/package.bbclass | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+Richard
 
--- 
-2.7.4
 
---0000000000007604b30592b31621
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">The following changes since commit 86b8a1d534bfcd70775c6e2=
-b59eabe10de29f526:<br><br>=C2=A0 libevent: don&#39;t treat test stats line =
-as pass/fail in ptest (2019-09-11 07:30:08 +0100)<br><br>are available in t=
-he git repository at:<br><br>=C2=A0 git://<a href=3D"http://github.com/marl=
-er8997/openembedded-core">github.com/marler8997/openembedded-core</a> asser=
-tMultiShlibs<br>=C2=A0 <a href=3D"https://github.com/marler8997/openembedde=
-d-core/tree/assertMultiShlibs">https://github.com/marler8997/openembedded-c=
-ore/tree/assertMultiShlibs</a><br><br>Jonathan Marler (1):<br>=C2=A0 Assert=
- error when there are multiple shlib_providers for the same file<br><br>=C2=
-=A0meta/classes/package.bbclass | 21 +++++++++++----------<br>=C2=A01 file =
-changed, 11 insertions(+), 10 deletions(-)<br><br>-- <br>2.7.4<br><br></div=
->
 
---0000000000007604b30592b31621--
