@@ -1,47 +1,52 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B70B37D264
+Return-Path: <diego.rondini@kynetics.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 93B947C873
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 13:18:16 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id 72so1157470lfh.6
+	Mon, 16 Sep 2019 13:23:27 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id r3so8729375wrj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 06:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=b8iyoGWPgI5tlIIKbphUFVBAYCzwynRtUde47pCQ6wA=;
-	b=D9HTFy6uRnwnE6c1yrmy4XWYl6pQOY9TecX36Vx3W27TAqmTtLFgefRFmDihkKv4ky
-	ocmvEHmJmp6EmPVa3G4Lv4DrgfwIZT0RAvTXGRlPzBs40QPTh/t/lhXcuT2zh+Smb9Ox
-	u/xsfdwKCCXOf1rzWYmiM96srWBGMmFmRfre/BwmAf9MiCk8tJAX9jvB6pMgdNEg0L6g
-	ZlEhpzjmHFDBF5NrP3aBtSfHQHfqZuOrmH5BN4g2t+vtHCuFOWKPUUd/kIiiUMurprM/
-	E4ioIz4Oj2aQD9s8KmdW5ALlrYIszEcsJoi37jcOvfXIcEa1WqTsqnklSky37A1SnYeq
-	EtaA==
+	Mon, 16 Sep 2019 06:23:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kynetics-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=PVW+r0UOrOTXmc6Zr4W5p6RF0QZOnWad3R01tP/WU0A=;
+	b=GCd9DufvQnFNT92Ck3mkEZVEdPVgCe9fUX9PA+mQq5868PE/H17CCkc2RuyCu3JxnI
+	0Mn0RZAfV+EFjf4xcI1UbUoBAgK2xSZQZlpMKDjnHyQHfuC68R4h3HMXZ/lgYyB/ri98
+	ani8TePURREx6aiPtPkIyCS8yb0zgvu9MswlVGJ0Pdq+5iOglqtifKWgF+qRdQVtaT+X
+	pc/woU1qaQq/2oqRP4z46SRU5P2peSwzGnSoTWQ1KMJYm2jpStOEMcMiFhtH8qMBLpW+
+	8AAQx8eWOPp3iheoZGfsn4UbPJOPT2I/PnCRJYRbMbJ8XhGLZ8Am04RtlgdYaib1K+Ps
+	kv/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=b8iyoGWPgI5tlIIKbphUFVBAYCzwynRtUde47pCQ6wA=;
-	b=il38/QGlphhxOmUp9GYS11rxv6VYa41ejWNcaOdM7S2kbVyxTsMvaRdUxCY3XZThxe
-	0KoGSJdQxsxsppFDMznhPHPfJeuS4V1Vc9cIFgaq3N/vrLkeXY/PuaJLOCm1ktQgCqJA
-	MPqoA/8EJJPSOjT8TR3Ubo/v8bHqtfaDnkB9nJKRmt4zTb72vcbxm/v8iR89MV9CNYOj
-	ZOqAgbo3+DmUSfxF37BDAYbRuD+FJDOyFsbzZJOLi6Q0lJcZeCAhmSCXIza2RGmlRixR
-	S8qVNvwAnLGFpcCQHGvcEP6EbXbK3Ij6kXa4BmIF04AJMG5APMRZbnmEST6EeSk4fhsA
-	6WZQ==
-X-Gm-Message-State: APjAAAXhFRtyPFbqdY63ZazuG8R8x3ulMuT2h14UwTRJusGuEgjJyTwp
-	4O7HBdu3mHReN1ALMwVpQvEl5zqpOxiajjdaE/E=
-X-Google-Smtp-Source: APXvYqxgOpHR9Z5B0uOQC5iFeyNPl5dreFXnwT31iPB/6eac7ndLkOxurv84Eg6JAmQC+e5SO2OG38iseVA9b1hRWoA=
-X-Received: by 2002:ac2:4c8b:: with SMTP id d11mr7056711lfl.36.1568639897020; 
-	Mon, 16 Sep 2019 06:18:17 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=PVW+r0UOrOTXmc6Zr4W5p6RF0QZOnWad3R01tP/WU0A=;
+	b=Iq4udoHSQCLYe84kfguYCy1LmLoqGKA8bSJ9NeXhkYoPSPk7PQERr6QF4efy7EbJ4N
+	yleYWk7CtR+D+d8X3GSmOEcoFkPMOonhI1B7ykscSluSZLVtjloGiYGLylUslbjLhqNO
+	1Rt7YWJj9JVZJXEzRRROerG4CuTsfZL/3lE9hY0W4eovB0BzoD/vJFgNc1WahMwrBA8J
+	5yUzltsITJrkt30fAzI4Q9CYQH0yrP9P8DxJcV76szmhU2zV2hy0bpFKwwDccz9PSMCG
+	6cd4UES86DnyK/BYwag9kuKM/3Zktx4zYB9vAVXNW2CXFvPuJPhZRG/CSIUVGW/0Kk7H
+	ZK5Q==
+X-Gm-Message-State: APjAAAXCx/QAS01S5gaqmYnOxz8+koBtZK5sokYF8724xdpnE77Bwrj+
+	EA8orr4iHLM44H3FDKYRFPOEgdFYfCoFiw==
+X-Google-Smtp-Source: APXvYqzsvqPykFT36Z/eLEXeyO6ytrS8BAawMRO8Pyl2VTETi/mJjfJVAgOKIWNy2ByZyKKlc4A9qw==
+X-Received: by 2002:adf:f011:: with SMTP id j17mr11767246wro.131.1568640207865;
+	Mon, 16 Sep 2019 06:23:27 -0700 (PDT)
+Received: from localhost.localdomain (217-133-17-98.static.clienti.tiscali.it.
+	[217.133.17.98]) by smtp.gmail.com with ESMTPSA id
+	f186sm19462765wmg.21.2019.09.16.06.23.25
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 16 Sep 2019 06:23:26 -0700 (PDT)
+From: Diego Rondini <diego.rondini@kynetics.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Sep 2019 15:23:15 +0200
+Message-Id: <20190916132315.15704-1-diego.rondini@kynetics.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190916124144.28576-1-ross.burton@intel.com>
-In-Reply-To: <20190916124144.28576-1-ross.burton@intel.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 16 Sep 2019 09:18:06 -0400
-Message-ID: <CADkTA4NPu1wUZL7Qri=CXS8QjoFv-KpTCk08-yXRkYLAgaUN=w@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: do verbose builds
+Cc: Diego Rondini <diego.rondini@kynetics.com>
+Subject: [PATCH] initramfs-framework: support PARTLABEL option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2019 13:18:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 16 Sep 2019 13:23:28 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 16, 2019 at 8:41 AM Ross Burton <ross.burton@intel.com> wrote:
->
-> Pass V=1 to kernel builds so that the compile log is more useful if it all goes
-> wrong.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ebcb79a5286..9d2e1e476d4 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -324,7 +324,7 @@ kernel_do_compile() {
->         fi
->         cc_extra=$(get_cc_option)
->         for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
-> -               oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
-> +               oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} V=1 $use_alternate_initrd
+Since commit (kernel >= 4.20):
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f027c34d844013d9d6c902af8fa01a82d6e5073d
+specifying rootfs by PARTLABEL is supported. This commit adds support to
+specify root by GPT partition label.
 
-Personally, I wouldn't want this on all the time. Most of what V=1
-provides, I never use for debugging and it just clutters the logs.
+Signed-off-by: Diego Rondini <diego.rondini@kynetics.com>
+---
+ meta/recipes-core/initrdscripts/initramfs-framework/rootfs | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Can't this be triggered off a packageconfig-like setting for those
-that want it ?
-
-Bruce
-
->         done
->         # vmlinux.gz is not built by kernel
->         if (echo "${KERNEL_IMAGETYPES}" | grep -wq "vmlinux\.gz"); then
-> --
-> 2.20.1
->
-
-
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
+index 76fa84d354..61baf73a60 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
+@@ -31,6 +31,11 @@ rootfs_run() {
+ 				bootparam_root="/dev/disk/by-partuuid/$root_uuid"
+ 			fi
+ 
++			if [ "`echo ${bootparam_root} | cut -c1-10`" = "PARTLABEL=" ]; then
++				root_uuid=`echo $bootparam_root | cut -c11-`
++				bootparam_root="/dev/disk/by-partlabel/$root_uuid"
++			fi
++
+ 			if [ "`echo ${bootparam_root} | cut -c1-6`" = "LABEL=" ]; then
+ 				root_label=`echo $bootparam_root | cut -c7-`
+ 				bootparam_root="/dev/disk/by-label/$root_label"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.21.0
+
 
