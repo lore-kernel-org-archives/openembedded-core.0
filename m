@@ -1,52 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 354B27F276
+Return-Path: <ross.burton@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 537317D200
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 10:57:31 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id y135so7056465wmc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 03:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=VS4VUi6oigsMmQFouBwl95Gv7BRoIMBC01I/ie68VBU=;
-	b=MLXS97xBekKMasqvjZnGSkMKiTWTW/W3E7ZnwBfAKA9pIHc76/oFv/WNMg/TiRfHrL
-	vV3Uz2zIgNjgs5j78UwNdXgAyZSrzSOHSv/6EijHcjCHAib8Z1iZ6qGs6SKXhQeidXst
-	TNQPh386N4jiFQh+5G8q3sr1FfY01s1HOPOgY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=VS4VUi6oigsMmQFouBwl95Gv7BRoIMBC01I/ie68VBU=;
-	b=mW7LaYwdkWsR1jjgrVFmsOqU5ItIyL7JhjigYQhKg+0O6nR8dNmyoc63Eehc0LMyT9
-	/QtgnQTMMuFqy6Pj9Uja4JIcKDnNV5OWQ1h7ckNbiZrMkYJGyY8wX22s9LkyAYsgGwTn
-	z50sQDlaTzL4M4hm8pue8lvRJ/sH1W0dLDCQ9rDt4wtANvRaugAaF+jdE3AqHGgK4Fvv
-	DwjOoa5H+D/PNuD13bISjyUyhhuD5mu/ajHwd/nn+kzY7c31i0w33KPMIiONQwhdF5j0
-	camBrvsVuaIhx6ZWfIzD1B4Tg6MOCwz5dUWEG8N5nwGhNcIb1dmN68WRE5lwdU/QWFnu
-	TjUg==
-X-Gm-Message-State: APjAAAWMNTTDFR96qfbkOpmclcOd+3iubiQ75O1lK31VntcdGHsjZ+W3
-	aFa3ytw1PsJ1hOMDhjTKkaLyyA==
-X-Google-Smtp-Source: APXvYqw8dhsaZ4NL1Mn2AWmINiKRXfzKmSje4llNgHE6FmYGJlixd1Z/4HO7odLgc0spzOEYcH48Tg==
-X-Received: by 2002:a05:600c:2049:: with SMTP id
-	p9mr12820552wmg.30.1568631451786; 
-	Mon, 16 Sep 2019 03:57:31 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b62sm23928152wmc.13.2019.09.16.03.57.30
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Sep 2019 03:57:30 -0700 (PDT)
-Message-ID: <380372ea5dfb9b87cd72363064c5f63e61b84744.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>, 
+	Mon, 16 Sep 2019 12:37:29 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Sep 2019 05:37:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; d="scan'208";a="191059235"
+Received: from abloeckn-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.38.226])
+	by orsmga006.jf.intel.com with ESMTP; 16 Sep 2019 05:37:28 -0700
+To: Mikko Rapeli <mikko.rapeli@bmw.de>,
 	openembedded-core@lists.openembedded.org
-Date: Mon, 16 Sep 2019 11:57:29 +0100
-In-Reply-To: <1568615805-50657-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1568615805-50657-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Evolution 3.32.2-1 
+References: <1568618176-5365-1-git-send-email-mikko.rapeli@bmw.de>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <71c210c6-abf0-4c0c-06b6-1a7bf01279e7@intel.com>
+Date: Mon, 16 Sep 2019 13:37:25 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] dnf: make dnf work in toolchain
+In-Reply-To: <1568618176-5365-1-git-send-email-mikko.rapeli@bmw.de>
+Subject: Re: [PATCH 1/2] busybox.inc: handle empty DEBUG_PREFIX_MAP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +38,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2019 10:57:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 16 Sep 2019 12:37:29 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-09-16 at 14:36 +0800, Zheng Ruoqin wrote:
-> We need to configure dnf to use package architecture from yocto build
-> system.
-> 
-> Install etc/dnf/vars to ${SDKTARGETSYSROOT} because config file in
-> host-sysroot as /opt/poky/2.7+snapshot/sysroots/x86_64-pokysdk-linux
-> will be covered by another ARCH which result in previous config
-> settings inefficacy.
-> 
-> To resolve it, put config file in target-sysroot like
-> /opt/poky/2.7+snapshot/sysroots/core2-64-poky-linux. As each ARCH has
-> its own target-sysroot, config file will not be covered.
+Hi Mikko,
 
-I'm afraid we can't have target dependencies within nativesdk packages.
+This is 1/2 but 2/2 never arrived on the list.  Can you repost it?
 
-This is shown by the fact this patch (and the similar rpm one) cause
-selftest failures in the signature tests:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/381/steps/8/logs/step2d
-
-2019-09-16 00:24:54,670 - oe-selftest - INFO - RESULTS - sstatetests.SStateTests.test_sstate_allarch_samesigs: FAILED (111.59s)
-2019-09-16 00:24:54,670 - oe-selftest - INFO - RESULTS - sstatetests.SStateTests.test_sstate_nativesdk_samesigs_multilib: FAILED (144.14s)
-2019-09-16 00:24:54,670 - oe-selftest - INFO - RESULTS - sstatetests.SStateTests.test_sstate_sametune_samesigs: FAILED (161.53s)
-
-you can run these with commands like:
-
-os-selftest -r sstatetests.SStateTests.test_sstate_allarch_samesigs
-
-Cheers,
-
-Richard
-
+Ross
 
