@@ -1,54 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E1AFB7F940
+Return-Path: <johnnymarler@gmail.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 006247F92B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 22:19:10 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id h7so1008870wrw.8
+	Mon, 16 Sep 2019 22:25:56 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id q11so1191581lfc.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2019 15:19:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=sm+PxNqva0xy/3FYgxjpJRthIH/0Kp1QIQvHPhotD0E=;
-	b=RntSjmTDBpbnKlhQ5u+a2jWcPW9ruoWSPE8B3xP+f5VY4wxfgXutxy5oChfGisyQyu
-	WYjDcy5SABZGXpwNKV+VZTfBnReNbDEFxpAjsDJWah4EfIGX0KmSCHEyozI8ovQ6k3QG
-	PeRlS1fxr1EDEf8wbavFw9om6pj9F3lY09Nt0=
+	Mon, 16 Sep 2019 15:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=v6Pxxx1x4MxpFw9wzYLDU5R+eFmoYBn9O+RSYsS49q4=;
+	b=PwHGqZ5mF9Z1lZSwW39LTAkiV3dIXIdEuAgaZhUod3Ti1Rf5HBsuatAkDj3GSx6z2M
+	Vj3Rchq+dx9xjQAv5s4YJxMdnHYXLFJlZTvqEiLJx9MRJ8PB/XLwlGq31KU2utcWkBv7
+	LWZuPtdkXw2JkLg0QOHufWpKK89/W+Re4gq2MqpUGk6y5AwZHeyMzUjpud1wnFZmPQOb
+	h/I45DvLEfHn+IPLH4oH9R+drEWXhB19WHq/QU/JFfpTA8kvrcGdc6ZPFPqKpO+0SoE3
+	64kXwjY0iA5XaoSeRR7YAj56G4LR2NWUOOCFHxltV7K+G1JRSZFLwe4RqXBTnDbov4Cd
+	3PWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=sm+PxNqva0xy/3FYgxjpJRthIH/0Kp1QIQvHPhotD0E=;
-	b=q6hGIDBiM1iZ61rVox+tehKhOkcXgGksj8bO5uDd3nU8atbQdYeB1dZxiwwb7fTfEt
-	BjvRGJGCK3rv6TY1ov3qRkuVbbQObFxokM184JSh1aAbwmmRMHw0fOpbOl6iSgFPPskv
-	eVCsn2Kkkon9L7Qy74kmryODpznRGHSZSTnMdlpkDg//fp8mauZIyKf2ZB/ygrEQCCZn
-	rYQktHqrglt2apkUzK5M6itOpyUvZA1B4Mb/n33/hfEek3WPmNNJiXOexksOmx2lv2df
-	esBPrPCwyC5IMe44xMMCrcOni6SHcYum3SahiHAIEEIfuOIK+Y7FWJpyUIW4546OOnCN
-	/yRA==
-X-Gm-Message-State: APjAAAXcx1xojjjAJgvMkSMNzf0b/INoKZ9rMwoY7C8uiibSllOg4ZNH
-	1ifOxxQDXIYKmSJ5Wi34wocS5A==
-X-Google-Smtp-Source: APXvYqzLOVCanBQRbUjrMqV0Hh90LZcMt+VJHoc4PWcC5n7rRHeWrhTDDYfCLiKshZ1z5cEoyokBuQ==
-X-Received: by 2002:adf:fc0e:: with SMTP id i14mr449658wrr.302.1568672351659; 
-	Mon, 16 Sep 2019 15:19:11 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id l1sm319057wrb.1.2019.09.16.15.19.10
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Sep 2019 15:19:10 -0700 (PDT)
-Message-ID: <ea9b12e8a04445f0a3f36f84b00ca3f420b86802.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross.burton@intel.com>
-Date: Mon, 16 Sep 2019 23:19:09 +0100
-In-Reply-To: <CAMKF1sr9S=7H5_2QL7eeZFnGfNAo=PeHMkSX5B+CJ=WnoQE_Sw@mail.gmail.com>
-References: <20190911042903.3047253-1-raj.khem@gmail.com>
-	<984e3147-bddd-56a5-ea90-eea87d8a792c@intel.com>
-	<CAMKF1sr9S=7H5_2QL7eeZFnGfNAo=PeHMkSX5B+CJ=WnoQE_Sw@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=v6Pxxx1x4MxpFw9wzYLDU5R+eFmoYBn9O+RSYsS49q4=;
+	b=p6vmbFdicjag80zqZFnLWc8jsCbgCfFFHTSKak8tr6EXDl8sWV0kEn9aPIYj29k7QU
+	HiIzcx+5Rh50Sp5pAetWG4c8odXxG7DTi2TQBsY76VoWDK721yz/MZ2l1HlaE/+fgk2R
+	F/d/3VWudPdDXFObQKmYQ4HLDKPFWz/IpgbaySlwY+8fQ1v1OTl0eulTnb9L2uhjhVea
+	ycKo4VgXyEk8/qs4sPs9KmsUIeqNP7AtVx80Zvotqy67AK2vaDqGvbSl5PGnT9muJSgr
+	Z+UwJuyeupWVyfigjTqpviTZU556rQ5c97BoeI1BF3AdcBVND0Jk/VJQnbaHNpHZ5eFE
+	yR4Q==
+X-Gm-Message-State: APjAAAWVM3WPS0K0O0h1FeSQWCRSOg6ZqViQJg51FpZfpWCyYg2Qi7bD
+	TWWNxmDrBwqm2EgtuHuhcoJwJHCXDihLuhZvJjcB3cWtVxE=
+X-Google-Smtp-Source: APXvYqymAnNx1LPl8B2VhXPah0pI/yFvpfaEDo2m4pIGywZDM1MbswUYS6sswa438MPb1TK54JQEbjoL1UzAG+2m/nM=
+X-Received: by 2002:a19:3fd1:: with SMTP id m200mr268375lfa.18.1568672757186; 
+	Mon, 16 Sep 2019 15:25:57 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3] weston-init: Add possibility to run weston as non-root user
+From: Jonathan Marler <johnnymarler@gmail.com>
+Date: Mon, 16 Sep 2019 16:25:46 -0600
+Message-ID: <CACKT+AqXthjbHZZ86goPLEWqszrFd8+HRLj0JzfU=-AyrDx4Cg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] Assert error when there are multiple shlib_providers for the same file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,34 +49,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2019 22:19:11 -0000
+X-List-Received-Date: Mon, 16 Sep 2019 22:25:57 -0000
+Content-Type: multipart/alternative; boundary="0000000000007604b30592b31621"
+
+--0000000000007604b30592b31621
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-09-13 at 06:41 -0700, Khem Raj wrote:
-> On Fri, Sep 13, 2019 at 5:27 AM Ross Burton <ross.burton@intel.com>
-> wrote:
-> > On 11/09/2019 05:29, Khem Raj wrote:
-> > >   .../wayland/weston-init/weston.ini            | 74
-> > > +++++++++++++++++++
-> > 
-> > core-image-weston now fails:
-> > 
-> >    file /etc/xdg/weston/weston.ini conflicts between attempted
-> > installs
-> > of weston-init-1.0-r0.noarch and weston-conf-1.0-r0.qemux86_64
-> > 
-> 
-> on x86 qemu right. Sent a V4. give it a try
+The following changes since commit 86b8a1d534bfcd70775c6e2b59eabe10de29f526:
 
-Fails oe-selftest:
+  libevent: don't treat test stats line as pass/fail in ptest (2019-09-11
+07:30:08 +0100)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/383/steps/8/logs/step2d
+are available in the git repository at:
 
-oe-selftest -r statetests.SStateTests.test_sstate_sametune_samesigs
+  git://github.com/marler8997/openembedded-core assertMultiShlibs
+  https://github.com/marler8997/openembedded-core/tree/assertMultiShlibs
 
-Cheers,
+Jonathan Marler (1):
+  Assert error when there are multiple shlib_providers for the same file
 
-Richard
+ meta/classes/package.bbclass | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
+-- 
+2.7.4
 
+--0000000000007604b30592b31621
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The following changes since commit 86b8a1d534bfcd70775c6e2=
+b59eabe10de29f526:<br><br>=C2=A0 libevent: don&#39;t treat test stats line =
+as pass/fail in ptest (2019-09-11 07:30:08 +0100)<br><br>are available in t=
+he git repository at:<br><br>=C2=A0 git://<a href=3D"http://github.com/marl=
+er8997/openembedded-core">github.com/marler8997/openembedded-core</a> asser=
+tMultiShlibs<br>=C2=A0 <a href=3D"https://github.com/marler8997/openembedde=
+d-core/tree/assertMultiShlibs">https://github.com/marler8997/openembedded-c=
+ore/tree/assertMultiShlibs</a><br><br>Jonathan Marler (1):<br>=C2=A0 Assert=
+ error when there are multiple shlib_providers for the same file<br><br>=C2=
+=A0meta/classes/package.bbclass | 21 +++++++++++----------<br>=C2=A01 file =
+changed, 11 insertions(+), 10 deletions(-)<br><br>-- <br>2.7.4<br><br></div=
+>
+
+--0000000000007604b30592b31621--
