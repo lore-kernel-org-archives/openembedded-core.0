@@ -1,51 +1,23 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B24847F879
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FACB7F844
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 09:33:40 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id s17so1272821plp.2
+	Tue, 17 Sep 2019 09:48:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8H9mtuR002322
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 02:33:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=H0wxQBYWXNlSHeC5MTOCXDGDjdnRBNfXUBI3de71Ryg=;
-	b=JIZMT0zzELzSWYQ8AKijd2tLm357O+WZuAcP+MzXmoMwdPEIMqqu0GgHYZoeXzA69M
-	tC/b8DDna38dnHsgqg8Gr7gn9vCSXOYzW5eVE4n7rhZImhhS4mcD1Zmlp5s65fCdLcIS
-	EbQskQhWJPc3pyF1Y1kFEQR6ugiVEcXYw690Q6KSDtoEXiq5yIG+JbSATd1fMDMxQfD6
-	zNimYaLTwDq60XC9hGu2BOGl+zipW0YAxxaDIgD9QuqZy72Hg9vn/aGtSVRjJI6hdIDF
-	GfCNvC6KXZ4YBd3tcu7GV4LJlwJMafirPB52yXLfaXvzKbIWJGgbpMgXVUYfbEw18NMh
-	ARWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=H0wxQBYWXNlSHeC5MTOCXDGDjdnRBNfXUBI3de71Ryg=;
-	b=tZW+tQLZBs289FfDFGMcNCCKCvLDjskrPHRpGLNCTorrZo+1QfsfuLUCjwWpfEo2um
-	RrpxBKEn1mb09Tf2jItQSBdeT8p7AoadT1kg7UGBxDwJwXi1xCQIw70Mr7iIc6MnsSia
-	ArYB+c88WFT4r2xKwLvK8jfxddKyDtCfJG+HHq3XtvMD3h7ri6eJ6dlciTi8TEaHgNpK
-	xw3isTgMPmsHrxrjo7giCO9qmXf21y60wm2Q30yz5cTsXc4l0fFLO0a3sw+EOPzBVFOk
-	drlrFCpzooWk+E/GGRkgBKIFAohiJUS+AKkElo3e3TaR8dLpVr+NEDy4Fnk9N0+Dd9kp
-	xcLQ==
-X-Gm-Message-State: APjAAAUbQ82iAzUtkoDsRKJ2xm0FzvexMmI0yiMHq7lMxnEGN9tYvmov
-	gynqbWXJiCav4r+RWLk5t0qovYM2c6ioTVMSk54=
-X-Google-Smtp-Source: APXvYqzv+imRFuKD1tcpvAfneQ8OquqVrzbIYRwEj40HFVllwvynFMmLMQGLqHNAibHa8AXBPXlmo23JCJNX9B/yjjo=
-X-Received: by 2002:a17:902:76c1:: with SMTP id
-	j1mr2695300plt.270.1568712821609; 
-	Tue, 17 Sep 2019 02:33:41 -0700 (PDT)
+	Tue, 17 Sep 2019 02:48:55 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Tue, 17 Sep 2019 02:48:54 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Sep 2019 17:48:52 +0800
+Message-ID: <1568713732-37402-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190913154434.29908-1-dbaryshkov@gmail.com>
-	<23aa15d10f0bfb0cc558caa5dd84991f465dba4a.camel@linuxfoundation.org>
-In-Reply-To: <23aa15d10f0bfb0cc558caa5dd84991f465dba4a.camel@linuxfoundation.org>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Tue, 17 Sep 2019 12:33:27 +0300
-Message-ID: <CALT56yNwveFV09w6x0Lit0sFOZ8v3cc9_2u09mkko0-kkpzEtg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/9] uefi.bbclass: add bbclass holding configuration for UEFI applications
+Subject: [PATCH] report-error.bbclass: add local.conf/auto.conf into error report
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 09:33:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 17 Sep 2019 09:48:55 -0000
+Content-Type: text/plain
 
-=D0=B2=D1=82, 17 =D1=81=D0=B5=D0=BD=D1=82. 2019 =D0=B3. =D0=B2 01:17, Richa=
-rd Purdie
-<richard.purdie@linuxfoundation.org>:
->
-> On Fri, 2019-09-13 at 18:44 +0300, dbaryshkov@gmail.com wrote:
-> > From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-> >
-> > Create new bbclass defining common variables for all UEFI-related
-> > packages (bootloaders, test applications, etc).
-> >
-> > Signed-off-by: Dmitry Eremin-Solenikov <
-> > dmitry_eremin-solenikov@mentor.com>
-> > ---
-> >  meta/classes/uefi.bbclass | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >  create mode 100644 meta/classes/uefi.bbclass
->
-> I really want to get away from the proliferation of bbclass files we
-> have. Wouldn't this make more sense as a .conf file?
+From: Changqing Li <changqing.li@windriver.com>
 
-Moving configuration to .conf file might make sense. I even can
-implement anonymous function as per-arch override. However there are
-still functions like efi_populate_common() and
-efi_iso_populate_common(), which can not be moved to .conf file.
+sometimes, it is not enough to reproduce a failed build with current
+info on error reports web, add local.conf/auto.conf into error
+report to make it more easier to reproduce failed build
 
-Would you prefer separate uefi.conf file and uefi-bootloader.bbclass files?
+Note: this need work together with change in repo error-report-web,
+which will display local.conf and auto.conf as Error Details
 
-> The anonymous function could be done with overrides, or an appropriate
-> function from lib/oe/.
->
-> I appreciate we don't use conf files so much but we need to start
-> somewhere and I think this is a good candidate for it.
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/classes/report-error.bbclass | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
---=20
-With best wishes
-Dmitry
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index 1c55abf..ea043b2 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -25,6 +25,19 @@ def errorreport_savedata(e, newdata, file):
+         json.dump(newdata, f, indent=4, sort_keys=True)
+     return datafile
+ 
++def get_conf_data(e, filename):
++    builddir = e.data.getVar('TOPDIR')
++    filepath = os.path.join(builddir, "conf", filename)
++    jsonstring = ""
++    if os.path.exists(filepath):
++        with open(filepath, 'r') as f:
++            for line in f.readlines():
++                if line.startswith("#") or len(line.strip()) == 0:
++                    continue
++                else:
++                    jsonstring=jsonstring + line
++    return jsonstring
++
+ python errorreport_handler () {
+         import json
+         import codecs
+@@ -51,6 +64,8 @@ python errorreport_handler () {
+             data['failures'] = []
+             data['component'] = " ".join(e.getPkgs())
+             data['branch_commit'] = str(base_detect_branch(e.data)) + ": " + str(base_detect_revision(e.data))
++            data['local_conf'] = get_conf_data(e, 'local.conf')
++            data['auto_conf'] = get_conf_data(e, 'auto.conf')
+             lock = bb.utils.lockfile(datafile + '.lock')
+             errorreport_savedata(e, data, "error-report.txt")
+             bb.utils.unlockfile(lock)
+-- 
+2.7.4
+
 
