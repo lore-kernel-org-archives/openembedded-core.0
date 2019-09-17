@@ -1,49 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 199757E712
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E11C97F604
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 11:40:21 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id l11so2789559wrx.5
+	Tue, 17 Sep 2019 12:37:00 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id v17so2965786wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 04:40:22 -0700 (PDT)
+	Tue, 17 Sep 2019 05:37:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=Z81yhXs5JNsfWOdFKdllNO39a/Qi8hNWppFwbLdrABw=;
-	b=Ep2DzP/ZqZwHSE3FXkq0Dp/EvssyRHlcDYOGc8xhmXRWS4lY2oOn2lbngpFr25+kZ5
-	7a7pZk1xXqpQkuGpVxgbrXwgZG1FZ0boVyM3EW7oHiWFIUhjio2LZVqwm6spReDnl4mz
-	Y2NtodvPaC6ZCOiqCDSJ51P6Kf+IscoS4NE/4=
+	bh=npOiPGN6zqNN2CfTL/wVPCb/qv4MGNAIyhJuaweURpU=;
+	b=J6zFIwjCk037jHUGJzZKREGLWXBmiXcnW89FQy/hvct0aghL7o3If5tBIDhDharcLa
+	HVyxCLtt1D8bKcUsxw+o8/fL75GSJKLIUO7zqmx7Fas0+iZ7f+sYbrZDS2gYlPt1NpeK
+	7fX4bOzlSfyWaGAD7Hbc7fjrs58KZgSKCxNpJYJSqPUMblVTvOUEcrW/VThEzXbnlzES
+	zQym2+kHVaGCSeR56MQe7TxWVYUu8CYKO9lPc7aF0yAVYT6lQrGKC0gBYHOzSMALHzHN
+	5AE3Msg/phez7Ci9QQKa8owjWvI9Kf8jS0KXkaObEn4ioYZGi96H72g+aX/iG335PYmF
+	HGsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=Z81yhXs5JNsfWOdFKdllNO39a/Qi8hNWppFwbLdrABw=;
-	b=mtqrlW+rOljeq2ej7gFtFF6wrzVDXY1Vlh9sqC51ps1kwzkFBdhKJlKMAj+Aq2F86R
-	5+5I4aVLn/YvddAzB2XSisAy0cbiPXerUY41WNinQa/pgZkhl0jupj0+bYHd9wpEam8K
-	33EvC6v2v+/FPZm2TnNIjkfeBPVMIdiCkRwFWaW05PMzNrL2+nQvJ6Gqpm7dCBl4nRLI
-	hvhIelz/6bJoHGFqsAbEEWMtFF0mRS0aNumMBHuU9Hpen6c13soxTFFKqA2bVZtWjGGQ
-	86m06v4fP7KJ3j8fNICpiIGDv4RPJp4TrNxPhEVQvH/wMfJXoYan+bVIOy1azIuYR24+
-	HRVw==
-X-Gm-Message-State: APjAAAWmySR0pdVb8OwFIUpvhVYwuyzwWiRzMTbJKZZT9lT+CwyMhSw0
-	SkYpm9GJH2+cGMt3VcMfG9t77hczdRd4FA==
-X-Google-Smtp-Source: APXvYqz0QZLy2iZm6WqnsS4qMTbKyl7EiEDElBkpEc5Y/Fj+bVsuMHLg8ddFZh1F/8M5iVlUnat5xg==
-X-Received: by 2002:adf:e548:: with SMTP id z8mr2598481wrm.324.1568720421356; 
-	Tue, 17 Sep 2019 04:40:21 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	33sm3814305wra.41.2019.09.17.04.40.19
+	bh=npOiPGN6zqNN2CfTL/wVPCb/qv4MGNAIyhJuaweURpU=;
+	b=dkvbWPz2pshEGJFOFrDYzJG1jF3cewnSmsUDFT9fC9GUwqj3U9sclIcr1KlYZJwAoJ
+	NXLkBaZZkNBNn65ig9eX58CBWnyZcLRmKtqYmLTswhOgO3cehf4m8SVgKwURRnqpTP8e
+	NrNa3P3huER7O6GTxjb7IUHnuDKaY+FHOa6RQoaGK5OTPpJyuSnXATgdb3anemmbmX3t
+	C13k3Au8iKFfIHNikttGVRY8JdqbO6VVHd8YQkq7jeTzPwaPkrtqALm+NwqZhuesUJk5
+	p+ttlwKGdLt6o4wgV5dZQqwfauft+BNcqttKiKAoj9YC8zsn+5/SwTAjVW8q245DxZll
+	440w==
+X-Gm-Message-State: APjAAAVZD/sBSLGlts118Sz8BRssVbIZSkFATdAGxQgcWGt2pyAd4ae8
+	h/aYqbqpxHL9P1ipqpp0vlGGSzQ4O1w=
+X-Google-Smtp-Source: APXvYqz/q1YClLWaNvcBe7F3mCN8hQYOrg90jYzA439A/TjdfV5+6mYFPYktCmRlaZ9RcLjxlDBIog==
+X-Received: by 2002:a1c:c5cb:: with SMTP id v194mr3305785wmf.108.1568723821039;
+	Tue, 17 Sep 2019 05:37:01 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	l13sm2412994wmj.25.2019.09.17.05.36.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Sep 2019 04:40:20 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 17 Sep 2019 05:36:59 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2019 12:40:18 +0100
-Message-Id: <20190917114018.25921-1-richard.purdie@linuxfoundation.org>
+Date: Tue, 17 Sep 2019 13:36:52 +0100
+Message-Id: <20190917123655.30315-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] runqemu: Mention snapshot in the help output
+Subject: [PATCH 1/4] libical: upgrade to 3.0.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,28 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 11:40:22 -0000
+X-List-Received-Date: Tue, 17 Sep 2019 12:37:01 -0000
 Content-Transfer-Encoding: 8bit
 
-This is a useful option but not documented in the help text.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/runqemu | 1 +
- 1 file changed, 1 insertion(+)
+ .../libical/{libical_3.0.5.bb => libical_3.0.6.bb}            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libical/{libical_3.0.5.bb => libical_3.0.6.bb} (90%)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 68ba7dcfb94..1a5aca98ac7 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -73,6 +73,7 @@ of the following environment variables (in any order):
-     serial - enable a serial console on /dev/ttyS0
-     serialstdio - enable a serial console on the console (regardless of graphics mode)
-     slirp - enable user networking, no root privileges is required
-+    snapshot - don't write changes to back to images
-     kvm - enable KVM when running x86/x86_64 (VT-capable CPU required)
-     kvm-vhost - enable KVM with vhost when running x86/x86_64 (VT-capable CPU required)
-     publicvnc - enable a VNC server open to all hosts
+diff --git a/meta/recipes-support/libical/libical_3.0.5.bb b/meta/recipes-support/libical/libical_3.0.6.bb
+similarity index 90%
+rename from meta/recipes-support/libical/libical_3.0.5.bb
+rename to meta/recipes-support/libical/libical_3.0.6.bb
+index 3832b20bf11..032f3655e9a 100644
+--- a/meta/recipes-support/libical/libical_3.0.5.bb
++++ b/meta/recipes-support/libical/libical_3.0.6.bb
+@@ -9,8 +9,8 @@ SECTION = "libs"
+ 
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz"
+ 
+-SRC_URI[md5sum] = "9be4e8a1739a9c27e06aa8ce66b8cb34"
+-SRC_URI[sha256sum] = "7ad550c8c49c9b9983658e3ab3e68b1eee2439ec17b169a6b1e6ecb5274e78e6"
++SRC_URI[md5sum] = "463a59244c6767b8e67b29379405e297"
++SRC_URI[sha256sum] = "5c8a21c2b732ece4a33e5c862970b4f35a8548bbcda50de5695f6fc211ac4d97"
+ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
+ 
+ inherit cmake pkgconfig
 -- 
 2.20.1
 
