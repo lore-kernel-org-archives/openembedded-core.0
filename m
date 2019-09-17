@@ -1,41 +1,26 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7811B7F8E9
+Return-Path: <henning.schild@siemens.com>
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id CD2407F8F2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 08:16:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46XbXq3FgZz3S;
-	Tue, 17 Sep 2019 10:16:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1568708171;
-	bh=3vIOD1ezhjNzKDs5dqRShGcbeto4EPdtx5ga7WZLTvk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a/0X3FRumhaMxrm68w/QbkwFJSZW1amuZsJJ7xNnHLeH5Dzbn1og3YLlYj+eZef2z
-	jlv+EBJbj/xa2p1oQbS9Ki43CSMRnUSdNvoHRRVwMOLHpBRiJGRIK4nrtbnrWJgjvZ
-	Zahzxbc8fyYc3PmS2HT5G9wennAKP/c95UOoggfS5Pa4Ns/i3O1bKMajR6aqXk4JkI
-	q5Bd9ihwlRO+EE8gyB4+JhvFEsKZSZHcq2U1SWMVGjkKjNBWQPKSC3hKs9/1jFAV7Q
-	6os5GAQyjzNs9D+JxexP3G0Fk4/I1/pjMICXlg9MD5HasUTwkrl+7m1x2tkuTWzMMd
-	89H8VSYEAw5Jp2bG69wlN7+4pbjI8GxxC9QEXLaYUzoFcDAFoEhUJUwGQKft2tweub
-	Ou3YzeZRSMZb52GSWGN3z/luPlqMhjC5gzVNp2raqwCn+1G+IYBofnjNenHrHncjuF
-	pEcPqgddA1mj6SRYP3bzkPk+VywGac+a+JNRNMVly1NoPRpWESXBw2LPBlaMowUPeq
-	7L1Ru1bcFeETUm72lCJLACQs0k7W/L3YYRQ24yIPlXqBzIeEVcRGgdlrhO0GBhnpma
-	IqWUxOVrW0ln4YwcSiU1IKiIZmTRsS+6C4sVegb47iLfpK0xtmOA6M1Is3Xj3iPDrY
-	lxL++F0oaxP/Ehpq2Uyfn+Ns=
-Date: Tue, 17 Sep 2019 11:16:09 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20190917081609.GA11168@localhost>
-References: <20190916192429.27294-1-armccurdy@gmail.com>
-	<20190916192429.27294-4-armccurdy@gmail.com>
-	<0a559d39-3699-4504-addc-89fe7252fbea@Spark>
-	<CAJ86T=UOKYMh-r1kmO2xjyu6aKDe1E3x8MVOd6J96qCfUNo_yA@mail.gmail.com>
-	<20190916223454.GA27980@localhost>
-	<CAJ86T=WeoZJsHqTusGmi=M7Qb7MgW1o7UUM4aO7D8wjx8qZp=A@mail.gmail.com>
+	Tue, 17 Sep 2019 08:44:26 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id x8H8iQYo023732
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Sep 2019 10:44:26 +0200
+Received: from md1za8fc.ad001.siemens.net ([139.25.68.240])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id x8H8iQG8028428;
+	Tue, 17 Sep 2019 10:44:26 +0200
+Date: Tue, 17 Sep 2019 10:44:26 +0200
+From: Henning Schild <henning.schild@siemens.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20190917104426.73290e2b@md1za8fc.ad001.siemens.net>
+In-Reply-To: <20190903134350.21512-1-henning.schild@siemens.com>
+References: <20190903134350.21512-1-henning.schild@siemens.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=WeoZJsHqTusGmi=M7Qb7MgW1o7UUM4aO7D8wjx8qZp=A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/8] ffmpeg: don't rely on configure to correctly detect ARM vfp or neon
+Cc: Jan Kiszka <jan.kiszka@siemens.com>
+Subject: Re: [PATCHv2 0/6] solve several issues in oe-git-proxy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,74 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 08:16:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 17 Sep 2019 08:44:27 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 16, 2019 at 03:43:42PM -0700, Andre McCurdy wrote:
-> On Mon, Sep 16, 2019 at 3:34 PM Adrian Bunk <bunk@stusta.de> wrote:
-> >
-> > On Mon, Sep 16, 2019 at 03:08:01PM -0700, Andre McCurdy wrote:
-> > > On Mon, Sep 16, 2019 at 2:33 PM Christopher Larson <kergoth@gmail.com> wrote:
-> > > >
-> > > > This seems like something that could do with a ‘why’ in the commit message and/or comments, to me.
-> > >
-> > > To be consistent with:
-> > >
-> > >   https://git.openembedded.org/openembedded-core/commit/?id=1a563214caf6bd5b3a026ebe953f8c692ebd640a
-> > >...
-> >
-> > libwebp sets -mfpu=neon when autodetecting,
-> > is there a similar problem with ffmpeg?
-> >
-> > > > +# Do not trust configure to determine if ARM vfp or neon are available.
-> > > > +#
-> > > > +EXTRA_OECONF_ARM = " \
-> > > > + ${@bb.utils.contains('TUNE_FEATURES','vfp','--enable-vfp','--disable-vfp', d)} \
-> > > > + ${@bb.utils.contains("TUNE_FEATURES",'neon','--enable-neon','--disable-neon',d)} \
-> > >...
-> >
-> > If we cannot trust the vfp autodetection, why can we trust that the
-> > autodetection of the vfp variant (vfpv2, vfpv3 or vfpv3-d16) and
-> > the exact architecture (e.g. armv5te, armv6, armv6k or armv6t2)
-> > are correct?
+Seems that was merged without further notice ... again. But hey it is
+in.
+
+poky
+49bb6cefb507c116cb2548ae842eb0653053fee4...4b0bf01c14a90313ab294ead2ca1e5536bafd632
+
+Henning
+
+Am Tue, 3 Sep 2019 15:43:44 +0200
+schrieb Henning Schild <henning.schild@siemens.com>:
+
+> From: Henning Schild <henning.schild@siemens.com>
 > 
-> In general we can't. However these are all corner cases which are
-> rarely (if ever) tested.
+> Change to v1:
+>  - fix comment in p4
+>  - move "set -f" all the way up in p4, that was the intention in the
+>    first place
 > 
-> For ffmpeg configuring with --enable-runtime-cpudetect (which I think
-> we effectively do by default) probably hides a lot of the configure
-> time misdetection too.
->...
-
-Building with --disable-runtime-cpudetect for qemuarmv5 gives:
-
-ARCH                      arm (armv5te)
-big-endian                no
-runtime cpu detection     no
-ARMv5TE enabled           yes
-ARMv6 enabled             yes
-ARMv6T2 enabled           yes
-VFP enabled               yes
-NEON enabled              yes
-
-
-These 4 misdetections are all affecting a certain range of CPUs,
-ARMv6T2 misdetection should affect more CPUs than VFP misdetection.
-
-There likely is a common root cause that should be fixed,
-instead of manually specifying every autodetected feature.
-
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+> Henning Schild (6):
+>   oe-git-proxy: allow setting SOCAT from outside
+>   oeqa: add case for oe-git-proxy
+>   Revert "oe-git-proxy: Avoid resolving NO_PROXY against local files"
+>   oe-git-proxy: disable shell pathname expansion for the whole script
+>   oe-git-proxy: NO_PROXY suffix matching without wildcard for
+> match_host oe-git-proxy: fix dash "Bad substitution"
+> 
+>  meta/lib/oeqa/selftest/cases/oescripts.py | 58
+> +++++++++++++++++++++++ scripts/oe-git-proxy                      |
+> 21 ++++---- 2 files changed, 71 insertions(+), 8 deletions(-)
+> 
 
 
