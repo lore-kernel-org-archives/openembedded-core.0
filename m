@@ -1,52 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 633197FD86
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 300E27FDBA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 18:50:01 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id i18so2460600pgl.11
+	Tue, 17 Sep 2019 20:30:33 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id q17so4533811wrx.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 11:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
+	Tue, 17 Sep 2019 13:30:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=fqef18wbWUEZhzGP7RZQgLzWCCGxipj5w9XmQiQlA4c=;
-	b=vSU+/DdZQZqUT3H8YStINL7+tL3dHTae8SE1JAYX0IK8gLkQPFqq+ar2uccV0aagre
-	d6oi9Hj+SnUlL+rs0kazQEf2qwVyNIp+rnfz1CEd7aeo1QwAdQByEnnimcJuNdjyIDd3
-	D4qj9ux4m2kYqKzg2o+/ncGIik11ptcNvvokAPkUKwX6Z2Hk0lVzl9mPPhISCLxfhsj5
-	4wnVDKSOgXAgiE3oPNAubyYajmAPMGRWxaG8vNYBLAVmabcNgOw9a005Cc37Xv4ksDkT
-	+QZVzCY6eudFuiCTuds2mCxUG7CLq6MJZIPQu2TJMozjJkDM4Aw8glnQ/SZQW9P4APQc
-	OLEw==
+	bh=NGO09iFn3SKjd7tOmDkChDZ292zIqUkNOiKj3RTquo0=;
+	b=qK3KIdVVg1F2xXU2Yt+RLPIquTPkQNint/+SEjpaS5O39DJ2HkjHTCTTgi/Odrc4vf
+	YJe6vh/kef9nKbZDUXLPXm5d7lG006lmS/1yT2f2yrtAdruSGgwxxRiSnlfre2zEBMvY
+	6IA+FoKiJsGlJFCZ81B4rHutjU5Q7GoAGfjp9pxq3YXZ9VrJZ6isAz6f7CQRFlWHTZTQ
+	7f08U3ZcTeCMLhxKbjtuHWdcb4kpKD4DCnM6qT9sPFDe/92Rxwj2xIcbbhZkfMgwmWZj
+	TskFvWEf+b8fAzUPeWe0yi+I6F3KpeokDGci+OpUoJFMQV3lSQkEVfL+nsjf2A8CagDo
+	hTaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=fqef18wbWUEZhzGP7RZQgLzWCCGxipj5w9XmQiQlA4c=;
-	b=f02DuA6Z6zbZ5TYyQ8A9jovrUfltT/Qh5ke71SohPHLJOhpTxo9eCr0cJDl/Amu5Up
-	7xXWgZvKDMiSBTD0H45cCL40TOg+bG0V92tPflQ5KIqqFkxwKAKtEiO4fVQxLn3W9WOs
-	kyOt+td6i2QlfZ/SOEJFM1IrioZYM+Nsw0N17joGAIlfT77ft12Dyu+Z+cWBP8BTJuV4
-	Ml8pYE2iCxBUj6999ZdOHO0FHZNvpAGSFLbUHwEb6XNh0CwOo7pVYYc5FibQS+Ux16cY
-	+fJ8vrF4dMcmGlOUXvfFbSYEXtSSmAdu9FRK6nTkv/DH+ZSyMFNK6OYdYTtPdqENAMAY
-	Q9uA==
-X-Gm-Message-State: APjAAAXr25EZ4clcaOjJ5/cpS0h/bVE1DoUysxVei/zN35NO9wR+Fy1o
-	Wf3xLIfRUZnJoQRhUC+ASUQlIYbZgIM=
-X-Google-Smtp-Source: APXvYqx/dA1v7/v3ljmcK+h+zgKuCp8IeJg80CZLbeNkTIkHT6jLfDRLSu6dpQ3hYI6WLaUBY2SG+Q==
-X-Received: by 2002:a17:90a:d356:: with SMTP id
-	i22mr6263773pjx.24.1568746201710; 
-	Tue, 17 Sep 2019 11:50:01 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3])
-	by smtp.gmail.com with ESMTPSA id n1sm1337891pfa.12.2019.09.17.11.50.00
+	bh=NGO09iFn3SKjd7tOmDkChDZ292zIqUkNOiKj3RTquo0=;
+	b=mZxO00p6YknrmMCoH8gZPKLx8mYpot1FbSUB0UB3rka65dnNx1dTv6E2Dr9DYCNj4D
+	apOoEf3OQ7Ais0W9MEeCUOo9XTY7tj54Cu6rgorpSv6o4up4ycqUiV8npJIPE/KhF7qw
+	tmXPkRjI/WQAsL+fRgdKPgLGnwUvPZ4sVvUqovThTeNGfL0OUKtLv1/2AowSNYufy7eH
+	Ccmj58KZ1qfB7DpvTyErdSuwzK2oFieyYGy4nEBP8mRDhl9XCfMPPMGfnLxAsuVdJj1Z
+	fkErViZiPvMRafUCXFqx8Dlgh5cPN47y43gejNcVd8Hn5fYd53U9f6MoJuv5OFZdDolr
+	DfSA==
+X-Gm-Message-State: APjAAAVPLTGdYuf7mkYwoR7frnSA8zfF26NgyczZD9dFV+D0pNfa1Cyo
+	xcrUuFxk6nb0c+y6wfkravwwAyutWKA=
+X-Google-Smtp-Source: APXvYqxC9kINXdz7yDXiwdpkm3fC3wYxCquHYW1H8of7n4AuV3+i2EBuIMv30e0GNA8FgjZkvzxMxg==
+X-Received: by 2002:adf:e3c4:: with SMTP id k4mr325316wrm.157.1568752233722;
+	Tue, 17 Sep 2019 13:30:33 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	s12sm5778528wra.82.2019.09.17.13.30.31
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Sep 2019 11:50:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Tue, 17 Sep 2019 13:30:32 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2019 11:49:47 -0700
-Message-Id: <20190917184947.2244823-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
+Date: Tue, 17 Sep 2019 21:30:30 +0100
+Message-Id: <20190917203030.29832-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Adrian Bunk <bunk@stusta.de>
-Subject: [PATCH] openssl: Enable os option for with-rand-seed as well
+Subject: [PATCH] systemd-systemctl-native: don't care about line endings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,47 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 18:50:01 -0000
+X-List-Received-Date: Tue, 17 Sep 2019 20:30:34 -0000
 Content-Transfer-Encoding: 8bit
 
-with openSSL 1.1.1d we start seeing errors like
+It's possible for a service file to accidentally contain mixed line endings, but
+the string cleanup code was assuming Unix endings.
 
-Error Generating Key
-139979727451584:error:2406C06E:random number generator:RAND_DRBG_instantiate:error retrieving entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
+[ YOCTO #13535 ]
 
-when using openssl from openssl-native on build hosts, this is due to
-limiting the random seed to devrandom, to support older hosts, since the
-option allows to have a comma separated list of methods to try, we can
-try the default first and if that fails then fallback to devrandom, this
-will ensure that it keeps working with build systems which dont support
-getrandom()
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Adrian Bunk <bunk@stusta.de>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/systemd/systemd-systemctl/systemctl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-index 080d1a8bb7..072f727e0b 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-@@ -43,10 +43,10 @@ do_configure[cleandirs] = "${B}"
- EXTRA_OECONF_append_libc-musl = " no-async"
- EXTRA_OECONF_append_libc-musl_powerpc64 = " no-asm"
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index 8837f54e166..ebac863739a 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -57,7 +57,7 @@ class SystemdFile():
+                 if skip_re.match(line):
+                     continue
  
--# This prevents openssl from using getrandom() which is not available on older glibc versions
-+# adding devrandom prevents openssl from using getrandom() which is not available on older glibc versions
- # (native versions can be built with newer glibc, but then relocated onto a system with older glibc)
--EXTRA_OECONF_class-native = "--with-rand-seed=devrandom"
--EXTRA_OECONF_class-nativesdk = "--with-rand-seed=devrandom"
-+EXTRA_OECONF_class-native = "--with-rand-seed=os,devrandom"
-+EXTRA_OECONF_class-nativesdk = "--with-rand-seed=os,devrandom"
- 
- # Relying on hardcoded built-in paths causes openssl-native to not be relocateable from sstate.
- CFLAGS_append_class-native = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
+-                line = line.rstrip("\n")
++                line = line.strip()
+                 m = section_re.match(line)
+                 if m:
+                     if m.group('section') not in self.sections:
 -- 
-2.23.0
+2.20.1
 
 
