@@ -1,47 +1,41 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 76B1E7F84E
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 7811B7F8E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 07:30:35 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id j4so5135948iog.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 00:30:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=UeDg/BLqD1dUXLEleVPB3GN0eity0pC4+XrXBoXHy3o=;
-	b=bOXHgYcUe/i8kbJOGC4eB3ZkC/gl/MdlDDrcPCe4bFcISxpQXs3MjspHhfwp13ZBTk
-	u1pZ16uwGClcqptF1EenzSbKGe0od9yv/Qa/ypNkOJSKd2Lk0OsU9lul+5yQgJyK31Iu
-	QK8vAIF1wMrCx2v16dHDd6TBi+JnnPf4gR2ORITLV4XiidPUFOgkD3pcjdZqU8Wv7fbV
-	uGFr5xrl5czWd6RGCUciJ5iBQhKIreeT17dT41sKH4PMihSDdQhrDY4buiN1HEtSzdJo
-	x8yarZlLaO9+zHTRW05gDrmRUj5k/+dz5Tr+qiyczzV0k7sy2nO7IBeccxc8IJwJWMoZ
-	zegQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=UeDg/BLqD1dUXLEleVPB3GN0eity0pC4+XrXBoXHy3o=;
-	b=GJoZrdU/6JkMa6etMHJDEiRah6E/GGDK2JNHec2dZMMbEDCi98zarq7lROr5rM34YQ
-	XDQn1cyeJWW1PY2L4mfqEarkTgXCmC0Euw1YeqfsP3dkIWJDOL0KwfxbW5dFZNhDciNV
-	CHDMT6GMD5yitDhLYKw19RKce61QKZ0RnrzHj5p9wD95NQiGhsQvMfEPUN2DXRImxZuu
-	tZDXUbekf4N1LqfJUzGJ4+lDHp1U+SeXuJKn6aqoJgWdRko70nhQ5+XycIjBZ8nZ4c9R
-	G0GjXoDTkMUJ8yRKW20X72MY6AI8fHzuoTL++t6YgANDN/R6QpHF5KLkLTv01Sfhh5hG
-	Zlyg==
-X-Gm-Message-State: APjAAAUpBB2zQtmnlh//Af5VgLjVSB9/3Y2Agfva3Zuxqm1xR3MldPsN
-	H88nTjxeR/hFSmG4CN6uMa2lkGao1AoQyIa8rKTnrZAgomw=
-X-Google-Smtp-Source: APXvYqyvfVwWmjMwFNV+6QyZD4zLvn8wAvo1ChK7M7J3ldKEWSxIngjDoIpSfK1JbvE9ufx4AkVsKTLDSjvhlIZ6Bns=
-X-Received: by 2002:a6b:c302:: with SMTP id t2mr2090924iof.217.1568705436308; 
-	Tue, 17 Sep 2019 00:30:36 -0700 (PDT)
+	Tue, 17 Sep 2019 08:16:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46XbXq3FgZz3S;
+	Tue, 17 Sep 2019 10:16:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1568708171;
+	bh=3vIOD1ezhjNzKDs5dqRShGcbeto4EPdtx5ga7WZLTvk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a/0X3FRumhaMxrm68w/QbkwFJSZW1amuZsJJ7xNnHLeH5Dzbn1og3YLlYj+eZef2z
+	jlv+EBJbj/xa2p1oQbS9Ki43CSMRnUSdNvoHRRVwMOLHpBRiJGRIK4nrtbnrWJgjvZ
+	Zahzxbc8fyYc3PmS2HT5G9wennAKP/c95UOoggfS5Pa4Ns/i3O1bKMajR6aqXk4JkI
+	q5Bd9ihwlRO+EE8gyB4+JhvFEsKZSZHcq2U1SWMVGjkKjNBWQPKSC3hKs9/1jFAV7Q
+	6os5GAQyjzNs9D+JxexP3G0Fk4/I1/pjMICXlg9MD5HasUTwkrl+7m1x2tkuTWzMMd
+	89H8VSYEAw5Jp2bG69wlN7+4pbjI8GxxC9QEXLaYUzoFcDAFoEhUJUwGQKft2tweub
+	Ou3YzeZRSMZb52GSWGN3z/luPlqMhjC5gzVNp2raqwCn+1G+IYBofnjNenHrHncjuF
+	pEcPqgddA1mj6SRYP3bzkPk+VywGac+a+JNRNMVly1NoPRpWESXBw2LPBlaMowUPeq
+	7L1Ru1bcFeETUm72lCJLACQs0k7W/L3YYRQ24yIPlXqBzIeEVcRGgdlrhO0GBhnpma
+	IqWUxOVrW0ln4YwcSiU1IKiIZmTRsS+6C4sVegb47iLfpK0xtmOA6M1Is3Xj3iPDrY
+	lxL++F0oaxP/Ehpq2Uyfn+Ns=
+Date: Tue, 17 Sep 2019 11:16:09 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20190917081609.GA11168@localhost>
+References: <20190916192429.27294-1-armccurdy@gmail.com>
+	<20190916192429.27294-4-armccurdy@gmail.com>
+	<0a559d39-3699-4504-addc-89fe7252fbea@Spark>
+	<CAJ86T=UOKYMh-r1kmO2xjyu6aKDe1E3x8MVOd6J96qCfUNo_yA@mail.gmail.com>
+	<20190916223454.GA27980@localhost>
+	<CAJ86T=WeoZJsHqTusGmi=M7Qb7MgW1o7UUM4aO7D8wjx8qZp=A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190916070515.31531-1-bunk@stusta.de>
-In-Reply-To: <20190916070515.31531-1-bunk@stusta.de>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 17 Sep 2019 08:30:24 +0100
-Message-ID: <CAO5Uq5QjR4eF-UfjWTJ_UQF6t-zvBUxLvrBdmj5ap9RziD27DA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: Upgrade 1.1.1c -> 1.1.1d
+In-Reply-To: <CAJ86T=WeoZJsHqTusGmi=M7Qb7MgW1o7UUM4aO7D8wjx8qZp=A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/8] ffmpeg: don't rely on configure to correctly detect ARM vfp or neon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,150 +48,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 07:30:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 Sep 2019 08:16:11 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 16, 2019 at 8:05 AM Adrian Bunk <bunk@stusta.de> wrote:
->
-> Backported patches removed.
->
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->  .../0001-Fix-broken-change-from-b3d113e.patch | 35 ---------------
->  ...x-build-error-for-aarch64-big-endian.patch | 43 -------------------
->  .../{openssl_1.1.1c.bb => openssl_1.1.1d.bb}  |  6 +--
->  3 files changed, 2 insertions(+), 82 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-broken-change-from-b3d113e.patch
->  delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
->  rename meta/recipes-connectivity/openssl/{openssl_1.1.1c.bb => openssl_1.1.1d.bb} (96%)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-broken-change-from-b3d113e.patch b/meta/recipes-connectivity/openssl/openssl/0001-Fix-broken-change-from-b3d113e.patch
-> deleted file mode 100644
-> index 6b4789fc70..0000000000
-> --- a/meta/recipes-connectivity/openssl/openssl/0001-Fix-broken-change-from-b3d113e.patch
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -From 711a161f03ef9ed7cd149a22bf1203700c103e96 Mon Sep 17 00:00:00 2001
-> -From: Pauli <paul.dale@oracle.com>
-> -Date: Fri, 29 Mar 2019 09:24:07 +1000
-> -Subject: [PATCH] Fix broken change from b3d113e.
-> -
-> -Reviewed-by: Tim Hudson <tjh@openssl.org>
-> -(Merged from https://github.com/openssl/openssl/pull/8606)
-> -
-> -Running valgrind against code using Openssl v1.1.1c reports a large number of
-> -uninitialized memory errors. This fix from upstream solves this problem.
-> -
-> -Upstream-Status: Backport [https://github.com/openssl/openssl/commit/711a161f03ef9ed7cd149a22bf1203700c103e96]
-> -Signed-off-by: Laurent Bonnans <laurent.bonnans@here.com>
-> ----
-> - crypto/rand/rand_lib.c | 3 ++-
-> - 1 file changed, 2 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/crypto/rand/rand_lib.c b/crypto/rand/rand_lib.c
-> -index 23abbde156..a298b7515b 100644
-> ---- a/crypto/rand/rand_lib.c
-> -+++ b/crypto/rand/rand_lib.c
-> -@@ -235,8 +235,9 @@ size_t rand_drbg_get_nonce(RAND_DRBG *drbg,
-> -     struct {
-> -         void * instance;
-> -         int count;
-> --    } data = { NULL, 0 };
-> -+    } data;
-> -
-> -+    memset(&data, 0, sizeof(data));
-> -     pool = rand_pool_new(0, min_len, max_len);
-> -     if (pool == NULL)
-> -         return 0;
-> ---
-> -2.20.1
-> -
-> diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
-> deleted file mode 100644
-> index 9a90a68cfd..0000000000
-> --- a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
-> +++ /dev/null
-> @@ -1,43 +0,0 @@
-> -From 1f8c0f2feea5cdcae0bcd9dfc78198d9e2c4cf09 Mon Sep 17 00:00:00 2001
-> -From: Lei Maohui <leimaohui@cn.fujitsu.com>
-> -Date: Thu, 13 Jun 2019 12:17:30 +0900
-> -Subject: [PATCH] Fix build error for aarch64 big endian.
-> -
-> -Modified rev to rev64, because rev only takes integer registers.
-> -https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90827
-> -Otherwise, the following error will occur.
-> -
-> -Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
-> -
-> -Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/9151]
-> -
-> -Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
-> ----
-> - crypto/sha/asm/keccak1600-armv8.pl | 4 ++--
-> - 1 file changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/crypto/sha/asm/keccak1600-armv8.pl b/crypto/sha/asm/keccak1600-armv8.pl
-> -index dc72f18..6620690 100755
-> ---- a/crypto/sha/asm/keccak1600-armv8.pl
-> -+++ b/crypto/sha/asm/keccak1600-armv8.pl
-> -@@ -731,7 +731,7 @@ $code.=<<___;
-> -       blo     .Lprocess_block_ce
-> -       ldr     d31,[$inp],#8           // *inp++
-> - #ifdef        __AARCH64EB__
-> --      rev     v31.16b,v31.16b
-> -+      rev64   v31.16b,v31.16b
-> - #endif
-> -       eor     $A[$j/5][$j%5],$A[$j/5][$j%5],v31.16b
-> -       beq     .Lprocess_block_ce
-> -@@ -740,7 +740,7 @@ ___
-> - $code.=<<___;
-> -       ldr     d31,[$inp],#8           // *inp++
-> - #ifdef        __AARCH64EB__
-> --      rev     v31.16b,v31.16b
-> -+      rev64   v31.16b,v31.16b
-> - #endif
-> -       eor     $A[4][4],$A[4][4],v31.16b
-> -
-> ---
-> -2.7.4
-> -
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> similarity index 96%
-> rename from meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-> rename to meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> index 75159ac725..080d1a8bb7 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> @@ -16,16 +16,14 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
->             file://0001-skip-test_symbol_presence.patch \
->             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
->             file://afalg.patch \
-> -           file://0001-Fix-build-error-for-aarch64-big-endian.patch \
-> -           file://0001-Fix-broken-change-from-b3d113e.patch \
->             "
->
->  SRC_URI_append_class-nativesdk = " \
->             file://environment.d-openssl.sh \
->             "
->
-> -SRC_URI[md5sum] = "15e21da6efe8aa0e0768ffd8cd37a5f6"
-> -SRC_URI[sha256sum] = "f6fb3079ad15076154eda9413fed42877d668e7069d9b87396d0804fdb3f4c90"
-> +SRC_URI[md5sum] = "3be209000dbc7e1b95bcdf47980a3baa"
-> +SRC_URI[sha256sum] = "1e3a91bc1f9dfce01af26026f856e064eab4c8ee0a8f457b5ae30b40b8b711f2"
->
->  inherit lib_package multilib_header multilib_script ptest
->  MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+On Mon, Sep 16, 2019 at 03:43:42PM -0700, Andre McCurdy wrote:
+> On Mon, Sep 16, 2019 at 3:34 PM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > On Mon, Sep 16, 2019 at 03:08:01PM -0700, Andre McCurdy wrote:
+> > > On Mon, Sep 16, 2019 at 2:33 PM Christopher Larson <kergoth@gmail.com> wrote:
+> > > >
+> > > > This seems like something that could do with a ‘why’ in the commit message and/or comments, to me.
+> > >
+> > > To be consistent with:
+> > >
+> > >   https://git.openembedded.org/openembedded-core/commit/?id=1a563214caf6bd5b3a026ebe953f8c692ebd640a
+> > >...
+> >
+> > libwebp sets -mfpu=neon when autodetecting,
+> > is there a similar problem with ffmpeg?
+> >
+> > > > +# Do not trust configure to determine if ARM vfp or neon are available.
+> > > > +#
+> > > > +EXTRA_OECONF_ARM = " \
+> > > > + ${@bb.utils.contains('TUNE_FEATURES','vfp','--enable-vfp','--disable-vfp', d)} \
+> > > > + ${@bb.utils.contains("TUNE_FEATURES",'neon','--enable-neon','--disable-neon',d)} \
+> > >...
+> >
+> > If we cannot trust the vfp autodetection, why can we trust that the
+> > autodetection of the vfp variant (vfpv2, vfpv3 or vfpv3-d16) and
+> > the exact architecture (e.g. armv5te, armv6, armv6k or armv6t2)
+> > are correct?
+> 
+> In general we can't. However these are all corner cases which are
+> rarely (if ever) tested.
+> 
+> For ffmpeg configuring with --enable-runtime-cpudetect (which I think
+> we effectively do by default) probably hides a lot of the configure
+> time misdetection too.
+>...
 
-Seems like this has broken FIT image signing:
+Building with --disable-runtime-cpudetect for qemuarmv5 gives:
 
-| Could not obtain signature: error:2406C06E:random number
-generator:RAND_DRBG_instantiate:error retrieving entropy
-| uboot-mkimage Can't add hashes to FIT blob: -1
-| Failed to sign 'signature@1' signature node in
-'conf@A335XHUB-0001.dtb' conf node
+ARCH                      arm (armv5te)
+big-endian                no
+runtime cpu detection     no
+ARMv5TE enabled           yes
+ARMv6 enabled             yes
+ARMv6T2 enabled           yes
+VFP enabled               yes
+NEON enabled              yes
 
-Not dug into it yet, but reverting this fixes it.
+
+These 4 misdetections are all affecting a certain range of CPUs,
+ARMv6T2 misdetection should affect more CPUs than VFP misdetection.
+
+There likely is a common root cause that should be fixed,
+instead of manually specifying every autodetected feature.
+
+
+cu
+Adrian
 
 -- 
-Alex Kiernan
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
