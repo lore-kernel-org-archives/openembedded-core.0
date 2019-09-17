@@ -1,31 +1,18 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 515877F6E1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 13:56:07 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Sep 2019 06:56:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,516,1559545200"; d="scan'208";a="188930994"
-Received: from abloeckn-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.38.226])
-	by orsmga003.jf.intel.com with ESMTP; 17 Sep 2019 06:56:07 -0700
-To: openembedded-core@lists.openembedded.org
-References: <20190916070515.31531-1-bunk@stusta.de>
-	<CAO5Uq5QjR4eF-UfjWTJ_UQF6t-zvBUxLvrBdmj5ap9RziD27DA@mail.gmail.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <6bc77b39-4dac-8301-5902-f383abc6de9f@intel.com>
-Date: Tue, 17 Sep 2019 14:56:06 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B56767F72D;
+	Tue, 17 Sep 2019 14:02:32 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAO5Uq5QjR4eF-UfjWTJ_UQF6t-zvBUxLvrBdmj5ap9RziD27DA@mail.gmail.com>
-Subject: Re: [PATCH] openssl: Upgrade 1.1.1c -> 1.1.1d
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 17 Sep 2019 14:02:34 -0000
+Message-ID: <20190917140234.2329.61575@do>
+References: <20190916174733.14392-1-JPEWhacker@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190916174733.14392-1-JPEWhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYml0YmFrZTogUmV3b3JrIGhhc2ggZXF1aXZhbGVuY2U=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 13:56:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Tue, 17 Sep 2019 14:02:32 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 17/09/2019 08:30, Alex Kiernan wrote:
-> Seems like this has broken FIT image signing:
-> 
-> | Could not obtain signature: error:2406C06E:random number
-> generator:RAND_DRBG_instantiate:error retrieving entropy
-> | uboot-mkimage Can't add hashes to FIT blob: -1
-> | Failed to sign 'signature@1' signature node in
-> 'conf@A335XHUB-0001.dtb' conf node
-> 
-> Not dug into it yet, but reverting this fixes it.
+== Series Details ==
 
-ovmf fails for IA targets too:
+Series: bitbake: Rework hash equivalence
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20004/
+State : failure
 
-| Generating a RSA private key
-| Error Generating Key
-| 140416287909248:error:2406C06E:random number 
-generator:RAND_DRBG_instantiate:error retrieving 
-entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
-| 140416287909248:error:2406C06E:random number 
-generator:RAND_DRBG_instantiate:error retrieving 
-entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
-| 140416287909248:error:2406B072:random number 
-generator:RAND_DRBG_generate:in error 
-state:../openssl-1.1.1d/crypto/rand/drbg_lib.c:589:
-| 140416287909248:error:2406C06E:random number 
-generator:RAND_DRBG_instantiate:error retrieving 
-entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
-| 140416287909248:error:2406C06E:random number 
-generator:RAND_DRBG_instantiate:error retrieving 
-entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
-| 140416287909248:error:2406B072:random number 
-generator:RAND_DRBG_generate:in error 
-state:../openssl-1.1.1d/crypto/rand/drbg_lib.c:589:
-| 140416287909248:error:2406C06E:random number 
-generator:RAND_DRBG_instantiate:error retrieving 
-entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
-| 140416287909248:error:2406B072:random number 
-generator:RAND_DRBG_generate:in error 
-state:../openssl-1.1.1d/crypto/rand/drbg_lib.c:589:
-| 140416287909248:error:04081003:rsa routines:rsa_builtin_keygen:BN 
-lib:../openssl-1.1.1d/crypto/rsa/rsa_gen.c:387:
+== Summary ==
 
-Ross
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
+  Patch's path:    bitbake/bin/bitbake-hashclient
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 56e4e05417)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
