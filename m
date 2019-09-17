@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
-	[209.85.167.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 6519A7F502
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 640877F741
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 14:45:14 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id u3so3087317lfl.10
+	Tue, 17 Sep 2019 14:45:15 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id l21so2092303lje.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 07:45:15 -0700 (PDT)
+	Tue, 17 Sep 2019 07:45:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ACmx+v+h7b7T0t0ZfLKg+TNxuOymE0fjeebWz6SCJNk=;
-	b=PkOb3t+FvYK/AMH2q8YvqAxoj5f1L5IDg+lfsSzUz7T8R84xENtYdyHgFLK/KaNbYk
-	VT5Mz64gAKm1COtpdZ4KPiq8YHBpnTygo6lUZHKZX/MVtQ+sUIgYqeE4LNOy6Pj7uNEY
-	ZYVqAGAmZogsaMI2/hhYZ87rn8UFbn60YbPdJxsqCd+yHK21c9DVkq8qe3oR2pO7AIBa
-	SRjnspJuNY4uDg2qE+oiqPMpsBQ0+aTze/upEWG/gCT/DESK5ZLiIWq0KCylE726sWhP
-	NzstMk0V6ZcdR4SYJzWQ7UaQEiBfI62vTkJapwR4Niz5C3pyZ2Xw72EFIA2TS9MmVHHT
-	q5OQ==
+	bh=U9O28oLJxnE8m49zHA8pRUmt3Czfc2Zb/V/B/nP1vgM=;
+	b=l2QoAzrdisznIBFDXZLqbhAWYxOyeeEGNSPPIQwbMFWwizqpaDYwlyjopzFljeI8zT
+	REoB9Rj6SrebGtRScsSKRrmOBjCuYDI8tp90XRxIuRCwXry8EysRJPoNvKOz+dFT8l2M
+	DNht9aaQSSrJL9Ub6WRMFLzmIOlTCwQ9iWZsyuRusBqgB64p9MpwhtJIUG7fhH6w7dZi
+	nWCuSds0/0EssOKlr40qqT804/4XNCXew18VGNRQ7QzPRSW3ducLoKGWduB4EaIRgrPQ
+	BF98HRhrMzvsvzrrkindF2EiOyLHvvzRLaXNhZJX7mCrtW5ih8s3D7DR2+7sQn/qRN+B
+	U1tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ACmx+v+h7b7T0t0ZfLKg+TNxuOymE0fjeebWz6SCJNk=;
-	b=ry/LYLfCz63MxTEtKkZY7VHc6LxvQ/mhua7A9cSzY7lmC3GoLIEJleaTiH4ad2QEsy
-	NQ5X6spGV4PbazVo1ubu440Aq7Nm+r6PzD3UXTvqP1eNCie9RVlETLjH7tIZK+EoXYyc
-	IpDY8o16jknygX3Bvaj48Te2EEdEzjxq7xwfZSDhIG36/SldH93SAiCFGLbRoC5o++pM
-	avN+je2sghYc0uzCqMa8zjRiEI1QHv3LZw82ik1SnNtOO/GlJvaOvjbuzy5sU9ki4BXB
-	VLSJlvHZeizLtq0CK6n3lkAEVz3KCnFiK+kHuCW33ahdc3JiQ240KqikBdp+trtvLHnz
-	sngA==
-X-Gm-Message-State: APjAAAUPvPCj4Ncuc7nvvzhxb6oVpNWNoIfFDvf6f3RedgNz13C6gOP7
-	c0DxxEj5SyJ3MTaluzOhVb2erPnQ
-X-Google-Smtp-Source: APXvYqzkd5pm2w3EWzSNFncNiHzgTt5A9/QuoyObdZVDwuYIo38tscvX0hmNweynWkYPe5t13vV+2A==
-X-Received: by 2002:ac2:5ec1:: with SMTP id d1mr2252884lfq.83.1568731514706;
-	Tue, 17 Sep 2019 07:45:14 -0700 (PDT)
+	bh=U9O28oLJxnE8m49zHA8pRUmt3Czfc2Zb/V/B/nP1vgM=;
+	b=TxNbqWslisPI2G3E5ZHsDvWDnoNJ0RTNizqY//HnJ1bJMHWWJgR3iRgiRNVE81CM5M
+	BsMlQW9HjSDQ2Xsyh5cO5oZ7MlLxjsJ7FlQg+TK85fl/yC71jAK9f38CcuqxMy3/1DLa
+	XH9Hr2eaGjV+wVEkfCEOmrWt1ZzQ7PqOhVdW9GTgu1gD0FweAMlYTvbt+Xwu/8Kyosye
+	qNDWktSiZR7jG4ggADBR96+ssntrN6fTns04NuquPOAp6duwrNGdrnxz8HmKxfqYlJW6
+	aABRosKZ8RysN0r4Yt3iGxIbuOxY6zO6OLXRL5BT+p6J3MM1xO9iDM0LEzzNuyacQ/mb
+	S3+g==
+X-Gm-Message-State: APjAAAU3oOmWKqEu2SeAyOJNVnZFdXPRf1VQnZsfNG0PxL8jtlsAfbUh
+	WNla6Yc9XLUfFZgxexedajCTbgYP
+X-Google-Smtp-Source: APXvYqwqGSljl2xs2cRgssBC9BBSsLXg0gXg7p0rRP/EnJ0WAt50Pv0vbX3vZFOitb9r2PCDPPU2RQ==
+X-Received: by 2002:a2e:8656:: with SMTP id i22mr2212736ljj.32.1568731515761; 
+	Tue, 17 Sep 2019 07:45:15 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id a14sm479022lfg.74.2019.09.17.07.45.13
+	by smtp.gmail.com with ESMTPSA id a14sm479022lfg.74.2019.09.17.07.45.14
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Sep 2019 07:45:14 -0700 (PDT)
+	Tue, 17 Sep 2019 07:45:15 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2019 16:45:04 +0200
-Message-Id: <20190917144506.43003-2-alex.kanavin@gmail.com>
+Date: Tue, 17 Sep 2019 16:45:05 +0200
+Message-Id: <20190917144506.43003-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190917144506.43003-1-alex.kanavin@gmail.com>
 References: <20190917144506.43003-1-alex.kanavin@gmail.com>
-Subject: [PATCH 2/4] oe-selftest: extend virgl gtk test to also check the SDL option
+Subject: [PATCH 3/4] runqemu: unset another environment variable for 'egl-headless'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,59 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 14:45:14 -0000
+X-List-Received-Date: Tue, 17 Sep 2019 14:45:15 -0000
+
+Some host distributions (opensuse for example) are using 'pkgconf',
+which, unlike the original pkg-config, appends PKG_CONFIG_SYSROOT_DIR
+to every directory from the .pc file.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ scripts/runqemu | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 3f212bd0eac..8f98a9ead46 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -166,9 +166,9 @@ class TestImage(OESelftestTestCase):
-         bitbake('core-image-full-cmdline socat')
-         bitbake('-c testimage core-image-full-cmdline')
- 
--    def test_testimage_virgl_gtk(self):
-+    def test_testimage_virgl_gtk_sdl(self):
-         """
--        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
-+        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk and SDL frontends
-         Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
-                   2. Check that kmscube demo runs without crashing.
-         Product: oe-core
-@@ -181,18 +181,27 @@ class TestImage(OESelftestTestCase):
-             self.skipTest('virgl isn\'t working with Debian 8')
- 
-         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
-+        sdl_packageconfig = get_bb_var('PACKAGECONFIG', 'libsdl2-native')
-         features = 'INHERIT += "testimage"\n'
-         if 'gtk+' not in qemu_packageconfig:
-             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"\n'
-+        if 'sdl' not in qemu_packageconfig:
-+            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " sdl"\n'
-         if 'virglrenderer' not in qemu_packageconfig:
-             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"\n'
-         if 'glx' not in qemu_packageconfig:
-             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " glx"\n'
-+        if 'opengl' not in sdl_packageconfig:
-+            features += 'PACKAGECONFIG_append_pn-libsdl2-native = " opengl"\n'
-         features += 'TEST_SUITES = "ping ssh virgl"\n'
-         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-         features += 'IMAGE_INSTALL_append = " kmscube"\n'
--        features += 'TEST_RUNQEMUPARAMS = "gtk gl"\n'
--        self.write_config(features)
-+        features_gtk = features + 'TEST_RUNQEMUPARAMS = "gtk gl"\n'
-+        self.write_config(features_gtk)
-+        bitbake('core-image-minimal')
-+        bitbake('-c testimage core-image-minimal')
-+        features_sdl = features + 'TEST_RUNQEMUPARAMS = "sdl gl"\n'
-+        self.write_config(features_sdl)
-         bitbake('core-image-minimal')
-         bitbake('-c testimage core-image-minimal')
- 
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 18091a29c3b..3ebe9d66ff8 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -461,6 +461,7 @@ class BaseConfig(object):
+                     del os.environ['PKG_CONFIG_PATH']
+                     del os.environ['PKG_CONFIG_DIR']
+                     del os.environ['PKG_CONFIG_LIBDIR']
++                    del os.environ['PKG_CONFIG_SYSROOT_DIR']
+                 except KeyError:
+                     pass
+                 try:
 -- 
 2.17.1
 
