@@ -1,32 +1,51 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 17 Sep 2019 22:12:33 UTC
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DA797FD6F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id BAB227FD8B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 22:12:33 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Sep 2019 15:05:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,518,1559545200"; d="scan'208";a="338129524"
-Received: from mnazeli-mobl.gar.corp.intel.com (HELO linux.fritz.box)
-	([10.255.175.201])
-	by orsmga004.jf.intel.com with ESMTP; 17 Sep 2019 15:05:25 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Jaewon Lee <JAEWON@xilinx.com>
-Date: Wed, 18 Sep 2019 10:05:09 +1200
-Message-ID: <2420065.Evh0tLMQLu@linux.fritz.box>
-Organization: Intel Corporation
-In-Reply-To: <BYAPR02MB5816F67E4B32AB35B425D15DAFA20@BYAPR02MB5816.namprd02.prod.outlook.com>
-References: <1554163613-2791-1-git-send-email-jaewon.lee@xilinx.com>
-	<BYAPR02MB5816F67E4B32AB35B425D15DAFA20@BYAPR02MB5816.namprd02.prod.outlook.com>
+	Tue, 17 Sep 2019 22:16:20 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id r3so4782983wrj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Sep 2019 15:16:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=SxKV3WAvoASiooH1KYBKQkYlEWgf9eX86U90UHi3Xhs=;
+	b=GmAvMKRxxJO2qENa135JLLvvifiHA8F4wh2FYQZgcL8RcyrNRZpjk40K778XGvrOVT
+	r1becMfRsYOIoGHuo4oPvSaDojjcIszczvtmkUzLyVsGav+US7Q0Z2xQzeKwMRdJIUaB
+	0jIqxpBOMbtg6myCxOAV1suRLcLmNU/HkJiZM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=SxKV3WAvoASiooH1KYBKQkYlEWgf9eX86U90UHi3Xhs=;
+	b=XIk1Bw2EqsuzPfrBIcdOnJJygWqQ8WFD8nYoB+EjxiLgdf4/fZ8j/wnE8yhP29Pe8R
+	VHEygSFitODa3u5y+TOalFEd9W6Xn35f5MHnggmsCwRw2xG/glr1GeWBTFtSJurC3P3x
+	ExRF1NWfQ85gZIJ8OSEIg7OvzvlWbmaagYiXuCwBCvb4pKE+52IV2NiAGyZrJ+uZPP85
+	ZNUlQ5hJcV9W8LxqSFWG4rposU6Awcgp434R96D25Rrn6ewn9fdtsOyP6RaSAuzmwkb4
+	eGd/+t35StEjHv7B1XVQXNZmhaF3nkHAVia+mLxOi6hx/zMexg5JrT9MSeFoURQMk1wC
+	9+lA==
+X-Gm-Message-State: APjAAAW/9aloW1/DKwHNQ/VaIoySc299sePptAYDpvXjKjT2IzB3N467
+	g8jGlMlQPQl544V8h7mmOzMdrA==
+X-Google-Smtp-Source: APXvYqzthbDb4ev/Ekwx32LDMi6aTtb3ryj7P1F6Wpk4s6dmMPibaGM46s8r6DCalmBZ9kcCI4Ygbw==
+X-Received: by 2002:a5d:5048:: with SMTP id h8mr555044wrt.280.1568758581444;
+	Tue, 17 Sep 2019 15:16:21 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a13sm8352467wrf.73.2019.09.17.15.16.20
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 17 Sep 2019 15:16:20 -0700 (PDT)
+Message-ID: <8efc4f66f7509b3cc4235939f542858051b61b8a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: dbaryshkov@gmail.com, openembedded-core@lists.openembedded.org
+Date: Tue, 17 Sep 2019 23:16:19 +0100
+In-Reply-To: <20190917153613.4954-1-dbaryshkov@gmail.com>
+References: <20190917153613.4954-1-dbaryshkov@gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: Bruce Ashfield <brucea@xilinx.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [master][PATCH] Introduce mechanism to keep nativesdk* sstate in esdk
+Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+Subject: Re: [PATCH v3 1/9] uefi.conf: add config file holding configuration for UEFI applications
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,57 +58,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 22:12:34 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 17 Sep 2019 22:16:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Jaewon
+On Tue, 2019-09-17 at 18:36 +0300, dbaryshkov@gmail.com wrote:
+> From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+> 
+> Create new config file defining common variables for all UEFI-related
+> packages (bootloaders, test applications, etc).
+> 
+> Signed-off-by: Dmitry Eremin-Solenikov <
+> dmitry_eremin-solenikov@mentor.com>
+> ---
+>  meta/conf/uefi.conf | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>  create mode 100644 meta/conf/uefi.conf
 
-Richard was waiting for me to review this - unfortunately another one that fell between the cracks - sorry about that.
+This is heading in the right direction however if we're going to try
+and clean things up I've concluded we need to do it properly and get it
+right.
 
-On Friday, 30 August 2019 5:13:39 AM NZST Jaewon Lee wrote:
-> > -----Original Message-----
-> > From: Jaewon Lee <jaewon.lee@xilinx.com>
-> > Sent: Monday, April 1, 2019 5:07 PM
-> > To: openembedded-core@lists.openembedded.org; Alejandro Enedino
-> > Hernandez Samaniego <alejandr@xilinx.com>; Manjukumar Harthikote
-> > Matha <MANJUKUM@xilinx.com>; Bruce Ashfield <brucea@xilinx.com>
-> > Cc: Jaewon Lee <JAEWON@xilinx.com>
-> > Subject: [oe-core][master][PATCH] Introduce mechanism to keep nativesdk*
-> > sstate in esdk
-> > 
-> > Using SDK_INCLUDE_NATIVESDK flag to toggle inclusion of all nativesdk*
-> > sstate into esdk Currently locked-sigs.inc is generated during
-> > do_sdk_depends which doesn't pull in nativesdk packages. Generating
-> > another locked-sigs.inc in do_populate_sdk_ext and pruning it to only
-> > nativesdk* packages by using a modified version of the already existing
-> > function prune_locked_sigs and merging it with the current locked-sigs.inc
-> > Also adding SDK_INCLUDE_NATIVESDK tasklistfn to the logic surrounding
-> > setting tasklist file to not prune esdk sstate during creation
-> > 
-> > Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+Now I understand more about how this configuration file is being used,
+should it be called image-uefi.conf ?
 
-The commit message doesn't actually explain why you are adding this functionality. You explained it elsewhere (bug 13261) but it needs to be in here. I would also recommend adding a "Fixes [YOCTO #13261]" at the end so there's a reference back to the bug as well.
+I feel really strongly that we do not want an uefi.bbclass, its simply
+not warranted and will just continue to expand the current mess of
+classes. If all we need it for is some functions, those functions
+should be added elsewhere.
 
-> > @@ -414,7 +433,7 @@ python copy_buildsystem () {
-> > 
-> >      sdk_include_toolchain = (d.getVar('SDK_INCLUDE_TOOLCHAIN') == '1')
-> >      sdk_ext_type = d.getVar('SDK_EXT_TYPE')
-> > -    if sdk_ext_type != 'minimal' or sdk_include_toolchain or derivative:
-> > +    if (sdk_ext_type != 'minimal' or sdk_include_toolchain or derivative) and not sdk_include_nativesdk:
-> >          # Create the filtered task list used to generate the sstate cache shipped with the SDK
-> >          tasklistfn = d.getVar('WORKDIR') + '/tasklist.txt'
-> >          create_filtered_tasklist(d, baseoutpath, tasklistfn, conf_initpath) @@ -
+I hadn't realised they were shell functions earlier, sorry about that.
+One option could be to convert them to python since they could be
+written in python easily. You could call a python function as a prefunc
+or postfunc of another shell or python function.
 
-This logic change looks a bit odd. Are you sure this is correct?
+Other options could be to make them shell commands (via the script
+directory) or create an image-functions.bbclass which contains such
+shared functions generically. As long as things are namespaced (which
+they already are), that should be fine. I would ask that documentation
+comments be added to them to say what the functions do.
 
-Thanks
-Paul
+I'm also on the lookout for tests of these kinds of codepaths. Code is
+much more likely to be accepted if tests are added for it. I'm not
+quite sure what would make most sense here in this case buts its a
+general point I will be pushing for going forward.
 
--- 
+Cheers,
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Richard
 
 
 
