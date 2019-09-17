@@ -1,49 +1,85 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 07B317FD87
+Return-Path: <JAEWON@xilinx.com>
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com
+	(mail-eopbgr790044.outbound.protection.outlook.com [40.107.79.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E17177FD80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 23:04:33 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id h195so3045352pfe.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 16:04:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=crOGw135eN6hXPLHQ/wNosq2OxaIZYhKPJuZ6RDFmEk=;
-	b=JcH90JHpJHtvbV/0hZ1amu4YEkO+Rsm2w1TPfXyuoR71TeGMcnVU1sLDp1RNGQlwy5
-	2gZl9zdyJXyHdNMo0xNkSOVL6djCRXVUGsZwZ6hDR7XFt9NL/zXLVKFpfkxeLoqO5uN6
-	/DSv8wao6fexm0mRpIkSFFXa0B10PIrOyOkXg5GdyLTSlVPJubqAU69HQaB90UppceUg
-	DOdeKErMd3mbO0rLHsES/xeL2yK/QhRnT+KD+79iZMTvz3qKIAOP1YIC+TM4oKT/wsCL
-	aCP51f22X4R5ccYiB3u5F5MOlcFGghqJdxaW+39rTfh9uxEn0DLtjqj5H/bAAGL8kUtH
-	raiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=crOGw135eN6hXPLHQ/wNosq2OxaIZYhKPJuZ6RDFmEk=;
-	b=NZGZcEw3V3NbP7q6nLhZiL8zmZ8vmioL/rtHKeNXdF/3IiUSv5uhltMGW+Vu9XsbsM
-	Cq0GEXJfTldbY0/C4iSiBJe8U3b8um++P9LbgIWg2WQUhKciRZUyRggVAVXm4vBaThnX
-	/beWwgPA9SxExpgcR/B6wcICN8MN1z3qOhKmBftWZGk8ekR8KfYajVICHyF6M66id0yi
-	kR0Yu6t2BoYaAte/AF4ksNloZb6LRLS9M7DR5m+Rp9fjZgbDJEGYD6UaSdvbO/oOLQ3+
-	Dk89wxbWeQRQEUVGLxY+Z9W8zWtBaZUbJbJQtoMRG2hST6wASga4rs1CY/oHEPkyFVfH
-	aXAw==
-X-Gm-Message-State: APjAAAV54hDEOU3an5znbGa7FSAONZGEd93sWAhOdSDmIazOwebh1nha
-	lgU+bFEegDggdbfnj42U14TzhKOuGYY=
-X-Google-Smtp-Source: APXvYqxWWzQMY3pPq2msEqaFdKtjIb6QTBJORUkgSzHJvTibeAU4/WIXoYbOB3ljNl05WGeX3/fKlw==
-X-Received: by 2002:a17:90a:d356:: with SMTP id
-	i22mr577572pjx.24.1568761474332; 
-	Tue, 17 Sep 2019 16:04:34 -0700 (PDT)
-Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
-	[67.181.203.136])
-	by smtp.gmail.com with ESMTPSA id n1sm1732252pfa.12.2019.09.17.16.04.33
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Sep 2019 16:04:33 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2019 16:04:32 -0700
-Message-Id: <20190917230432.11385-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH] gcc: Security fix for CVE-2019-15847
+	Tue, 17 Sep 2019 23:35:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=E5t7MQ5Oc7hA+DtfU+Qnf3601qAE345x3aASrAq2TKmL9+ZTJDQ7KNnmpTHt3wkkzrSLEqhlEjEjY/5fvzIsRa497sgpuCIJci3ufmlmP+8yeAOYHDGLxfsT6vfyXj1ewrVxGJoXu8I6kawu6YGU84PCF6wfpsKfkc+adU4UGJgSoIuccvJP+dZF6/3HTDQb8Dal5NbqoyuxBifH3oBAlJtcHVlB8jEOj02XzDrhdA9GSDJdt4OE2tguIh8wEHLEdsgznrJYhv4paUNZyXNIPhjiutYmYhNXl8mEie8Mod0KDKq60E86Bx9+RrQd/itfDqvM4j7ll0cUcQkgmMpEbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=TbOrM7GW3t42XN70d8FZfTSsXUXM7FAdT02fRV88StA=;
+	b=RJnRRy5Uf5HSmWPTQLoRCgP4HqK6ZoTqqR0UkD9e1h+C2d+Los7rulkBo0LRtp5rHh+0YlugOtNkAAvIVhGFTA8IwLyJ18bTrjRGowJi2YgkDgDu9YAEKOK6OQ8tUCRZK2OBV4pK27OpLLASuxZyDM8FgAZHm9ezBqEzYULRfzXxeZhmpgx2bwJRgvjWxcBB5nw+tSAsVZi1PgWHmEU3J5QCqznp23qm1ImTC+irlvZQclO6ZCU9i2rLcNLYJ57AfZsjnRhAeRM9fbRchE8B1EO6J25FFdVAeNFHaHIztpiPUgIWSFk8aDCL2L+HSlT1NUD6+L5aC2jS+6dRwC1BIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+	dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=TbOrM7GW3t42XN70d8FZfTSsXUXM7FAdT02fRV88StA=;
+	b=AID0Q5i1KSr6RXvYHJMM7rKTaOPkIv2yJxDxvQ01Wh1IYcWyCMqsF2TISMTmrpZvGaQZ7izBcqB614vN/s/GjdIJrCm+jvvf3lCdscszdgO6vru4LKzTY7zGAToIIYpSNMi6EtnZTVXxRzuQ7yOobOesCEG6C6y5Zg6jA2KYwZo=
+Received: from BYAPR02MB5816.namprd02.prod.outlook.com (20.179.62.217) by
+	BYAPR02MB4279.namprd02.prod.outlook.com (52.135.236.216) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2263.15; Tue, 17 Sep 2019 23:35:31 +0000
+Received: from BYAPR02MB5816.namprd02.prod.outlook.com
+	([fe80::fcb8:6742:6614:e8ea]) by
+	BYAPR02MB5816.namprd02.prod.outlook.com
+	([fe80::fcb8:6742:6614:e8ea%5]) with mapi id 15.20.2263.023;
+	Tue, 17 Sep 2019 23:35:31 +0000
+From: Jaewon Lee <JAEWON@xilinx.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [oe-core][master][PATCH] Introduce mechanism to keep
+	nativesdk* sstate in esdk
+Thread-Index: AQHU6OgD2JhQnI36fUOvfpDbvD40gqcTSFbQgB4tyoCAABZlEA==
+Date: Tue, 17 Sep 2019 23:35:31 +0000
+Message-ID: <BYAPR02MB5816B9224029E64C19CAE53AAF8F0@BYAPR02MB5816.namprd02.prod.outlook.com>
+References: <1554163613-2791-1-git-send-email-jaewon.lee@xilinx.com>
+	<BYAPR02MB5816F67E4B32AB35B425D15DAFA20@BYAPR02MB5816.namprd02.prod.outlook.com>
+	<2420065.Evh0tLMQLu@linux.fritz.box>
+In-Reply-To: <2420065.Evh0tLMQLu@linux.fritz.box>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=JAEWON@xilinx.com; 
+x-originating-ip: [149.199.62.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5166d78b-0a22-4c09-2579-08d73bc7bb07
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+	SRVR:BYAPR02MB4279; 
+x-ms-traffictypediagnostic: BYAPR02MB4279:|BYAPR02MB4279:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB42793D3B5DE3C1299BBEC0AFAF8F0@BYAPR02MB4279.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 01630974C0
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(979002)(4636009)(396003)(376002)(39860400002)(366004)(346002)(136003)(13464003)(199004)(189003)(6916009)(478600001)(86362001)(74316002)(305945005)(7736002)(81156014)(71190400001)(71200400001)(6436002)(81166006)(2906002)(186003)(66556008)(76176011)(66476007)(64756008)(3846002)(6116002)(14444005)(66946007)(66446008)(76116006)(33656002)(256004)(52536014)(8936002)(14454004)(229853002)(4326008)(11346002)(25786009)(102836004)(316002)(446003)(53546011)(476003)(6506007)(8676002)(26005)(54906003)(6246003)(5660300002)(486006)(7696005)(66066001)(107886003)(99286004)(55016002)(9686003)(969003)(989001)(999001)(1009001)(1019001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4279;
+	H:BYAPR02MB5816.namprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: +xa68pebZ4NVmN5FEZcJwtRxdsRssRR6WdamURN+RQ4xfi5JVa1GzDmTCl9KPCddSRM8J8ZjbMiuSGesbDc8Uz1eMxvJoVAoDb3VVclpRxRQvd4ZL7zwXh9X+9VogVc0m+1LzCAkAs4ll9DyKFWuJu20oCSEJEE42/b1ttuZ/aiBx3tZXAgBZSw2QAzvpoU6b8w6sTxGXNhR2mgyAqep/x/GAzIpzohe51PUaolKunyY/COBmioH5BlwNgngye9RE2d84BD2UnLe8zmXfyjhGjrR6Y0q0n1ygNNu8e2hEtzWku/TovSnt6OJ08U4FMCIp6Ih4P8Vsv3o/F9mPrFYxHujlx7gLkZRi31doiHXcskcTeHUqdsixUqctpBcibR1+siw7ILhpxiLD6RQX76/+m2UyUo7Zwrzw9lOtaJbcZ8=
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5166d78b-0a22-4c09-2579-08d73bc7bb07
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2019 23:35:31.6773 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0V/bA/fVzGRF6yG0Goca3OqscY/ujaVa71Y73k+T8aWeaIyryiRJ0RhknFyLzdLhFi7DC6cxxaYosSKQjZgc4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4279
+Cc: Bruce Ashfield <brucea@xilinx.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [master][PATCH] Introduce mechanism to keep nativesdk* sstate in esdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,718 +92,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 23:04:34 -0000
+X-List-Received-Date: Tue, 17 Sep 2019 23:35:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Armin Kuster <akuster@mvista.com>
+Hi Paul,
 
-Affects <= 9.2.0
+> -----Original Message-----
+> From: Paul Eggleton <paul.eggleton@linux.intel.com>
+> Sent: Tuesday, September 17, 2019 3:05 PM
+> To: Jaewon Lee <JAEWON@xilinx.com>
+> Cc: openembedded-core@lists.openembedded.org; Alejandro Enedino
+> Hernandez Samaniego <alejandr@xilinx.com>; Manjukumar Harthikote
+> Matha <MANJUKUM@xilinx.com>; Bruce Ashfield <brucea@xilinx.com>
+> Subject: Re: [OE-core] [oe-core][master][PATCH] Introduce mechanism to
+> keep nativesdk* sstate in esdk
+>=20
+> Hi Jaewon
+>=20
+> Richard was waiting for me to review this - unfortunately another one tha=
+t
+> fell between the cracks - sorry about that.
+[Jaewon] No  problem!
 
-Dropped Changelog changes.
+>=20
+> On Friday, 30 August 2019 5:13:39 AM NZST Jaewon Lee wrote:
+> > > -----Original Message-----
+> > > From: Jaewon Lee <jaewon.lee@xilinx.com>
+> > > Sent: Monday, April 1, 2019 5:07 PM
+> > > To: openembedded-core@lists.openembedded.org; Alejandro Enedino
+> > > Hernandez Samaniego <alejandr@xilinx.com>; Manjukumar Harthikote
+> > > Matha <MANJUKUM@xilinx.com>; Bruce Ashfield <brucea@xilinx.com>
+> > > Cc: Jaewon Lee <JAEWON@xilinx.com>
+> > > Subject: [oe-core][master][PATCH] Introduce mechanism to keep
+> > > nativesdk* sstate in esdk
+> > >
+> > > Using SDK_INCLUDE_NATIVESDK flag to toggle inclusion of all
+> > > nativesdk* sstate into esdk Currently locked-sigs.inc is generated
+> > > during do_sdk_depends which doesn't pull in nativesdk packages.
+> > > Generating another locked-sigs.inc in do_populate_sdk_ext and
+> > > pruning it to only
+> > > nativesdk* packages by using a modified version of the already
+> > > existing function prune_locked_sigs and merging it with the current
+> > > locked-sigs.inc Also adding SDK_INCLUDE_NATIVESDK tasklistfn to the
+> > > logic surrounding setting tasklist file to not prune esdk sstate
+> > > during creation
+> > >
+> > > Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+>=20
+> The commit message doesn't actually explain why you are adding this
+> functionality. You explained it elsewhere (bug 13261) but it needs to be =
+in
+> here. I would also recommend adding a "Fixes [YOCTO #13261]" at the end s=
+o
+> there's a reference back to the bug as well.
+[Jaewon] Ok I will resend with commit fixed
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta/recipes-devtools/gcc/gcc-9.2.inc         |   3 +
- .../gcc/gcc-9.2/CVE-2019-15847_1.patch        | 521 ++++++++++++++++++
- .../gcc/gcc-9.2/CVE-2019-15847_2.patch        |  77 +++
- .../gcc/gcc-9.2/CVE-2019-15847_3.patch        |  62 +++
- 4 files changed, 663 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_1.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_2.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_3.patch
+>=20
+> > > @@ -414,7 +433,7 @@ python copy_buildsystem () {
+> > >
+> > >      sdk_include_toolchain =3D (d.getVar('SDK_INCLUDE_TOOLCHAIN') =3D=
+=3D '1')
+> > >      sdk_ext_type =3D d.getVar('SDK_EXT_TYPE')
+> > > -    if sdk_ext_type !=3D 'minimal' or sdk_include_toolchain or deriv=
+ative:
+> > > +    if (sdk_ext_type !=3D 'minimal' or sdk_include_toolchain or deri=
+vative)
+> and not sdk_include_nativesdk:
+> > >          # Create the filtered task list used to generate the sstate =
+cache
+> shipped with the SDK
+> > >          tasklistfn =3D d.getVar('WORKDIR') + '/tasklist.txt'
+> > >          create_filtered_tasklist(d, baseoutpath, tasklistfn,
+> > > conf_initpath) @@ -
+>=20
+> This logic change looks a bit odd. Are you sure this is correct?
+[Jaewon] I kept the original logic and did a "and not" my flag=20
+Because if flag sdk_include_nativesdk is set I want tasklistfn to be none s=
+o esdksstate is not pruned during creation
 
-diff --git a/meta/recipes-devtools/gcc/gcc-9.2.inc b/meta/recipes-devtools/gcc/gcc-9.2.inc
-index 01d3bf0f32..c6395998d5 100644
---- a/meta/recipes-devtools/gcc/gcc-9.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-9.2.inc
-@@ -65,6 +65,9 @@ SRC_URI = "\
-            file://0035-Fix-for-testsuite-failure.patch \
-            file://0036-Re-introduce-spe-commandline-options.patch \
-            file://CVE-2019-14250.patch \
-+	   file://CVE-2019-15847_1.patch \
-+	   file://CVE-2019-15847_2.patch \
-+	   file://CVE-2019-15847_3.patch \
- "
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- SRC_URI[md5sum] = "3818ad8600447f05349098232c2ddc78"
-diff --git a/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_1.patch b/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_1.patch
-new file mode 100644
-index 0000000000..227fd47c95
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_1.patch
-@@ -0,0 +1,521 @@
-+From 8c61566116d23063ff597271884f8e00d94ab1a1 Mon Sep 17 00:00:00 2001
-+From: segher <segher@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Fri, 30 Aug 2019 13:48:48 +0000
-+Subject: [PATCH] 	Backport from trunk 	2019-08-22  Segher Boessenkool
-+  <segher@kernel.crashing.org>
-+
-+	* config/rs6000/altivec.md (unspec): Delete UNSPEC_DARN, UNSPEC_DARN_32,
-+	UNSPEC_DARN_RAW, UNSPEC_CMPRB, UNSPEC_CMPRB2, UNSPEC_CMPEQB; move to...
-+	* config/rs6000/rs6000.md (unspec): ... here.
-+	* config/rs6000/altivec.md (darn_32, darn_raw, darn, cmprb,
-+	*cmprb_internal, setb_signed, setb_unsigned, cmprb2, *cmprb2_internal,
-+	cmpeqb, *cmpeqb_internal): Delete, move to...
-+	* config/rs6000/rs6000.md (darn_32, darn_raw, darn, cmprb,
-+	*cmprb_internal, setb_signed, setb_unsigned, cmprb2, *cmprb2_internal,
-+	cmpeqb, *cmpeqb_internal): ... here.
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-9-branch@275170 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-15847 p1
-+Affects <= 9.2.0
-+Dropped Changelog changes
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ gcc/config/rs6000/altivec.md | 223 ----------------------------------
-+ gcc/config/rs6000/rs6000.md  | 224 +++++++++++++++++++++++++++++++++++
-+ 3 files changed, 239 insertions(+), 223 deletions(-)
-+
-+Index: gcc-9.2.0/gcc/config/rs6000/altivec.md
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/config/rs6000/altivec.md
-++++ gcc-9.2.0/gcc/config/rs6000/altivec.md
-+@@ -80,9 +80,6 @@
-+    UNSPEC_VUPKHPX
-+    UNSPEC_VUPKLPX
-+    UNSPEC_CONVERT_4F32_8I16
-+-   UNSPEC_DARN
-+-   UNSPEC_DARN_32
-+-   UNSPEC_DARN_RAW
-+    UNSPEC_DST
-+    UNSPEC_DSTT
-+    UNSPEC_DSTST
-+@@ -161,9 +158,6 @@
-+    UNSPEC_BCDADD
-+    UNSPEC_BCDSUB
-+    UNSPEC_BCD_OVERFLOW
-+-   UNSPEC_CMPRB
-+-   UNSPEC_CMPRB2
-+-   UNSPEC_CMPEQB
-+    UNSPEC_VRLMI
-+    UNSPEC_VRLNM
-+ ])
-+@@ -4101,223 +4095,6 @@
-+   "bcd<bcd_add_sub>. %0,%1,%2,%3"
-+   [(set_attr "type" "vecsimple")])
-+ 
-+-(define_insn "darn_32"
-+-  [(set (match_operand:SI 0 "register_operand" "=r")
-+-        (unspec:SI [(const_int 0)] UNSPEC_DARN_32))]
-+-  "TARGET_P9_MISC"
-+-  "darn %0,0"
-+-  [(set_attr "type" "integer")])
-+-
-+-(define_insn "darn_raw"
-+-  [(set (match_operand:DI 0 "register_operand" "=r")
-+-        (unspec:DI [(const_int 0)] UNSPEC_DARN_RAW))]
-+-  "TARGET_P9_MISC && TARGET_64BIT"
-+-  "darn %0,2"
-+-  [(set_attr "type" "integer")])
-+-
-+-(define_insn "darn"
-+-  [(set (match_operand:DI 0 "register_operand" "=r")
-+-        (unspec:DI [(const_int 0)] UNSPEC_DARN))]
-+-  "TARGET_P9_MISC && TARGET_64BIT"
-+-  "darn %0,1"
-+-  [(set_attr "type" "integer")])
-+-
-+-;; Test byte within range.
-+-;;
-+-;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-+-;; represents a byte whose value is ignored in this context and
-+-;; vv, the least significant byte, holds the byte value that is to
-+-;; be tested for membership within the range specified by operand 2.
-+-;; The bytes of operand 2 are organized as xx:xx:hi:lo.
-+-;;
-+-;; Return in target register operand 0 a value of 1 if lo <= vv and
-+-;; vv <= hi.  Otherwise, set register operand 0 to 0.
-+-;;
-+-;; Though the instructions to which this expansion maps operate on
-+-;; 64-bit registers, the current implementation only operates on
-+-;; SI-mode operands as the high-order bits provide no information
-+-;; that is not already available in the low-order bits.  To avoid the
-+-;; costs of data widening operations, future enhancements might allow
-+-;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
-+-(define_expand "cmprb"
-+-  [(set (match_dup 3)
-+-	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-+-		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-+-	 UNSPEC_CMPRB))
-+-   (set (match_operand:SI 0 "gpc_reg_operand" "=r")
-+-	(if_then_else:SI (lt (match_dup 3)
-+-			     (const_int 0))
-+-			 (const_int -1)
-+-			 (if_then_else (gt (match_dup 3)
-+-					   (const_int 0))
-+-				       (const_int 1)
-+-				       (const_int 0))))]
-+-  "TARGET_P9_MISC"
-+-{
-+-  operands[3] = gen_reg_rtx (CCmode);
-+-})
-+-
-+-;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-+-;; represents a byte whose value is ignored in this context and
-+-;; vv, the least significant byte, holds the byte value that is to
-+-;; be tested for membership within the range specified by operand 2.
-+-;; The bytes of operand 2 are organized as xx:xx:hi:lo.
-+-;;
-+-;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
-+-;; lo <= vv and vv <= hi.  Otherwise, set the GT bit to 0.  The other
-+-;; 3 bits of the target CR register are all set to 0.
-+-(define_insn "*cmprb_internal"
-+-  [(set (match_operand:CC 0 "cc_reg_operand" "=y")
-+-	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-+-		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-+-	 UNSPEC_CMPRB))]
-+-  "TARGET_P9_MISC"
-+-  "cmprb %0,0,%1,%2"
-+-  [(set_attr "type" "logical")])
-+-
-+-;; Set operand 0 register to -1 if the LT bit (0x8) of condition
-+-;; register operand 1 is on.  Otherwise, set operand 0 register to 1
-+-;; if the GT bit (0x4) of condition register operand 1 is on.
-+-;; Otherwise, set operand 0 to 0.  Note that the result stored into
-+-;; register operand 0 is non-zero iff either the LT or GT bits are on
-+-;; within condition register operand 1.
-+-(define_insn "setb_signed"
-+-   [(set (match_operand:SI 0 "gpc_reg_operand" "=r")
-+-	 (if_then_else:SI (lt (match_operand:CC 1 "cc_reg_operand" "y")
-+-			      (const_int 0))
-+-			  (const_int -1)
-+-			  (if_then_else (gt (match_dup 1)
-+-					    (const_int 0))
-+-					(const_int 1)
-+-					(const_int 0))))]
-+-  "TARGET_P9_MISC"
-+-  "setb %0,%1"
-+-  [(set_attr "type" "logical")])
-+-
-+-(define_insn "setb_unsigned"
-+-   [(set (match_operand:SI 0 "gpc_reg_operand" "=r")
-+-	 (if_then_else:SI (ltu (match_operand:CCUNS 1 "cc_reg_operand" "y")
-+-			      (const_int 0))
-+-			  (const_int -1)
-+-			  (if_then_else (gtu (match_dup 1)
-+-					    (const_int 0))
-+-					(const_int 1)
-+-					(const_int 0))))]
-+-  "TARGET_P9_MISC"
-+-  "setb %0,%1"
-+-  [(set_attr "type" "logical")])
-+-
-+-;; Test byte within two ranges.
-+-;;
-+-;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-+-;; represents a byte whose value is ignored in this context and
-+-;; vv, the least significant byte, holds the byte value that is to
-+-;; be tested for membership within the range specified by operand 2.
-+-;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
-+-;;
-+-;; Return in target register operand 0 a value of 1 if (lo_1 <= vv and
-+-;; vv <= hi_1) or if (lo_2 <= vv and vv <= hi_2).  Otherwise, set register
-+-;; operand 0 to 0.
-+-;;
-+-;; Though the instructions to which this expansion maps operate on
-+-;; 64-bit registers, the current implementation only operates on
-+-;; SI-mode operands as the high-order bits provide no information
-+-;; that is not already available in the low-order bits.  To avoid the
-+-;; costs of data widening operations, future enhancements might allow
-+-;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
-+-(define_expand "cmprb2"
-+-  [(set (match_dup 3)
-+-	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-+-		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-+-	 UNSPEC_CMPRB2))
-+-   (set (match_operand:SI 0 "gpc_reg_operand" "=r")
-+-	(if_then_else:SI (lt (match_dup 3)
-+-			     (const_int 0))
-+-			 (const_int -1)
-+-			 (if_then_else (gt (match_dup 3)
-+-					   (const_int 0))
-+-				       (const_int 1)
-+-				       (const_int 0))))]
-+-  "TARGET_P9_MISC"
-+-{
-+-  operands[3] = gen_reg_rtx (CCmode);
-+-})
-+-
-+-;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-+-;; represents a byte whose value is ignored in this context and
-+-;; vv, the least significant byte, holds the byte value that is to
-+-;; be tested for membership within the ranges specified by operand 2.
-+-;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
-+-;;
-+-;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
-+-;; (lo_1 <= vv and vv <= hi_1) or if (lo_2 <= vv and vv <= hi_2).
-+-;; Otherwise, set the GT bit to 0.  The other 3 bits of the target
-+-;; CR register are all set to 0.
-+-(define_insn "*cmprb2_internal"
-+-  [(set (match_operand:CC 0 "cc_reg_operand" "=y")
-+-	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-+-		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-+-	 UNSPEC_CMPRB2))]
-+-  "TARGET_P9_MISC"
-+-  "cmprb %0,1,%1,%2"
-+-  [(set_attr "type" "logical")])
-+-
-+-;; Test byte membership within set of 8 bytes.
-+-;;
-+-;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-+-;; represents a byte whose value is ignored in this context and
-+-;; vv, the least significant byte, holds the byte value that is to
-+-;; be tested for membership within the set specified by operand 2.
-+-;; The bytes of operand 2 are organized as e0:e1:e2:e3:e4:e5:e6:e7.
-+-;;
-+-;; Return in target register operand 0 a value of 1 if vv equals one
-+-;; of the values e0, e1, e2, e3, e4, e5, e6, or e7.  Otherwise, set
-+-;; register operand 0 to 0.  Note that the 8 byte values held within
-+-;; operand 2 need not be unique.
-+-;;
-+-;; Though the instructions to which this expansion maps operate on
-+-;; 64-bit registers, the current implementation requires that operands
-+-;; 0 and 1 have mode SI as the high-order bits provide no information
-+-;; that is not already available in the low-order bits.  To avoid the
-+-;; costs of data widening operations, future enhancements might allow
-+-;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
-+-(define_expand "cmpeqb"
-+-  [(set (match_dup 3)
-+-	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-+-		    (match_operand:DI 2 "gpc_reg_operand" "r")]
-+-	 UNSPEC_CMPEQB))
-+-   (set (match_operand:SI 0 "gpc_reg_operand" "=r")
-+-	(if_then_else:SI (lt (match_dup 3)
-+-			     (const_int 0))
-+-			 (const_int -1)
-+-			 (if_then_else (gt (match_dup 3)
-+-					   (const_int 0))
-+-				       (const_int 1)
-+-				       (const_int 0))))]
-+-  "TARGET_P9_MISC && TARGET_64BIT"
-+-{
-+-  operands[3] = gen_reg_rtx (CCmode);
-+-})
-+-
-+-;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-+-;; represents a byte whose value is ignored in this context and
-+-;; vv, the least significant byte, holds the byte value that is to
-+-;; be tested for membership within the set specified by operand 2.
-+-;; The bytes of operand 2 are organized as e0:e1:e2:e3:e4:e5:e6:e7.
-+-;;
-+-;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if vv
-+-;; equals one of the values e0, e1, e2, e3, e4, e5, e6, or e7.  Otherwise,
-+-;; set the GT bit to zero.  The other 3 bits of the target CR register
-+-;; are all set to 0.
-+-(define_insn "*cmpeqb_internal"
-+-  [(set (match_operand:CC 0 "cc_reg_operand" "=y")
-+-	 (unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-+-		     (match_operand:DI 2 "gpc_reg_operand" "r")]
-+-	  UNSPEC_CMPEQB))]
-+-  "TARGET_P9_MISC && TARGET_64BIT"
-+-  "cmpeqb %0,%1,%2"
-+-  [(set_attr "type" "logical")])
-+-
-+ (define_expand "bcd<bcd_add_sub>_<code>"
-+   [(parallel [(set (reg:CCFP CR6_REGNO)
-+ 		   (compare:CCFP
-+Index: gcc-9.2.0/gcc/config/rs6000/rs6000.md
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/config/rs6000/rs6000.md
-++++ gcc-9.2.0/gcc/config/rs6000/rs6000.md
-+@@ -137,6 +137,12 @@
-+    UNSPEC_LSQ
-+    UNSPEC_FUSION_GPR
-+    UNSPEC_STACK_CHECK
-++   UNSPEC_DARN
-++   UNSPEC_DARN_32
-++   UNSPEC_DARN_RAW
-++   UNSPEC_CMPRB
-++   UNSPEC_CMPRB2
-++   UNSPEC_CMPEQB
-+    UNSPEC_ADD_ROUND_TO_ODD
-+    UNSPEC_SUB_ROUND_TO_ODD
-+    UNSPEC_MUL_ROUND_TO_ODD
-+@@ -14322,7 +14328,225 @@
-+    "xscmpuqp %0,%1,%2"
-+   [(set_attr "type" "veccmp")
-+    (set_attr "size" "128")])
-++
-++;; Miscellaneous ISA 3.0 (power9) instructions
-++
-++(define_insn "darn_32"
-++  [(set (match_operand:SI 0 "register_operand" "=r")
-++        (unspec:SI [(const_int 0)] UNSPEC_DARN_32))]
-++  "TARGET_P9_MISC"
-++  "darn %0,0"
-++  [(set_attr "type" "integer")])
-++
-++(define_insn "darn_raw"
-++  [(set (match_operand:DI 0 "register_operand" "=r")
-++        (unspec:DI [(const_int 0)] UNSPEC_DARN_RAW))]
-++  "TARGET_P9_MISC && TARGET_64BIT"
-++  "darn %0,2"
-++  [(set_attr "type" "integer")])
-++
-++(define_insn "darn"
-++  [(set (match_operand:DI 0 "register_operand" "=r")
-++        (unspec:DI [(const_int 0)] UNSPEC_DARN))]
-++  "TARGET_P9_MISC && TARGET_64BIT"
-++  "darn %0,1"
-++  [(set_attr "type" "integer")])
-++
-++;; Test byte within range.
-++;;
-++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-++;; represents a byte whose value is ignored in this context and
-++;; vv, the least significant byte, holds the byte value that is to
-++;; be tested for membership within the range specified by operand 2.
-++;; The bytes of operand 2 are organized as xx:xx:hi:lo.
-++;;
-++;; Return in target register operand 0 a value of 1 if lo <= vv and
-++;; vv <= hi.  Otherwise, set register operand 0 to 0.
-++;;
-++;; Though the instructions to which this expansion maps operate on
-++;; 64-bit registers, the current implementation only operates on
-++;; SI-mode operands as the high-order bits provide no information
-++;; that is not already available in the low-order bits.  To avoid the
-++;; costs of data widening operations, future enhancements might allow
-++;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
-++(define_expand "cmprb"
-++  [(set (match_dup 3)
-++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-++	 UNSPEC_CMPRB))
-++   (set (match_operand:SI 0 "gpc_reg_operand" "=r")
-++	(if_then_else:SI (lt (match_dup 3)
-++			     (const_int 0))
-++			 (const_int -1)
-++			 (if_then_else (gt (match_dup 3)
-++					   (const_int 0))
-++				       (const_int 1)
-++				       (const_int 0))))]
-++  "TARGET_P9_MISC"
-++{
-++  operands[3] = gen_reg_rtx (CCmode);
-++})
-++
-++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-++;; represents a byte whose value is ignored in this context and
-++;; vv, the least significant byte, holds the byte value that is to
-++;; be tested for membership within the range specified by operand 2.
-++;; The bytes of operand 2 are organized as xx:xx:hi:lo.
-++;;
-++;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
-++;; lo <= vv and vv <= hi.  Otherwise, set the GT bit to 0.  The other
-++;; 3 bits of the target CR register are all set to 0.
-++(define_insn "*cmprb_internal"
-++  [(set (match_operand:CC 0 "cc_reg_operand" "=y")
-++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-++	 UNSPEC_CMPRB))]
-++  "TARGET_P9_MISC"
-++  "cmprb %0,0,%1,%2"
-++  [(set_attr "type" "logical")])
-++
-++;; Set operand 0 register to -1 if the LT bit (0x8) of condition
-++;; register operand 1 is on.  Otherwise, set operand 0 register to 1
-++;; if the GT bit (0x4) of condition register operand 1 is on.
-++;; Otherwise, set operand 0 to 0.  Note that the result stored into
-++;; register operand 0 is non-zero iff either the LT or GT bits are on
-++;; within condition register operand 1.
-++(define_insn "setb_signed"
-++   [(set (match_operand:SI 0 "gpc_reg_operand" "=r")
-++	 (if_then_else:SI (lt (match_operand:CC 1 "cc_reg_operand" "y")
-++			      (const_int 0))
-++			  (const_int -1)
-++			  (if_then_else (gt (match_dup 1)
-++					    (const_int 0))
-++					(const_int 1)
-++					(const_int 0))))]
-++  "TARGET_P9_MISC"
-++  "setb %0,%1"
-++  [(set_attr "type" "logical")])
-+ 
-++(define_insn "setb_unsigned"
-++   [(set (match_operand:SI 0 "gpc_reg_operand" "=r")
-++	 (if_then_else:SI (ltu (match_operand:CCUNS 1 "cc_reg_operand" "y")
-++			      (const_int 0))
-++			  (const_int -1)
-++			  (if_then_else (gtu (match_dup 1)
-++					    (const_int 0))
-++					(const_int 1)
-++					(const_int 0))))]
-++  "TARGET_P9_MISC"
-++  "setb %0,%1"
-++  [(set_attr "type" "logical")])
-++
-++;; Test byte within two ranges.
-++;;
-++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-++;; represents a byte whose value is ignored in this context and
-++;; vv, the least significant byte, holds the byte value that is to
-++;; be tested for membership within the range specified by operand 2.
-++;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
-++;;
-++;; Return in target register operand 0 a value of 1 if (lo_1 <= vv and
-++;; vv <= hi_1) or if (lo_2 <= vv and vv <= hi_2).  Otherwise, set register
-++;; operand 0 to 0.
-++;;
-++;; Though the instructions to which this expansion maps operate on
-++;; 64-bit registers, the current implementation only operates on
-++;; SI-mode operands as the high-order bits provide no information
-++;; that is not already available in the low-order bits.  To avoid the
-++;; costs of data widening operations, future enhancements might allow
-++;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
-++(define_expand "cmprb2"
-++  [(set (match_dup 3)
-++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-++	 UNSPEC_CMPRB2))
-++   (set (match_operand:SI 0 "gpc_reg_operand" "=r")
-++	(if_then_else:SI (lt (match_dup 3)
-++			     (const_int 0))
-++			 (const_int -1)
-++			 (if_then_else (gt (match_dup 3)
-++					   (const_int 0))
-++				       (const_int 1)
-++				       (const_int 0))))]
-++  "TARGET_P9_MISC"
-++{
-++  operands[3] = gen_reg_rtx (CCmode);
-++})
-++
-++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-++;; represents a byte whose value is ignored in this context and
-++;; vv, the least significant byte, holds the byte value that is to
-++;; be tested for membership within the ranges specified by operand 2.
-++;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
-++;;
-++;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
-++;; (lo_1 <= vv and vv <= hi_1) or if (lo_2 <= vv and vv <= hi_2).
-++;; Otherwise, set the GT bit to 0.  The other 3 bits of the target
-++;; CR register are all set to 0.
-++(define_insn "*cmprb2_internal"
-++  [(set (match_operand:CC 0 "cc_reg_operand" "=y")
-++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-++	 UNSPEC_CMPRB2))]
-++  "TARGET_P9_MISC"
-++  "cmprb %0,1,%1,%2"
-++  [(set_attr "type" "logical")])
-++
-++;; Test byte membership within set of 8 bytes.
-++;;
-++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-++;; represents a byte whose value is ignored in this context and
-++;; vv, the least significant byte, holds the byte value that is to
-++;; be tested for membership within the set specified by operand 2.
-++;; The bytes of operand 2 are organized as e0:e1:e2:e3:e4:e5:e6:e7.
-++;;
-++;; Return in target register operand 0 a value of 1 if vv equals one
-++;; of the values e0, e1, e2, e3, e4, e5, e6, or e7.  Otherwise, set
-++;; register operand 0 to 0.  Note that the 8 byte values held within
-++;; operand 2 need not be unique.
-++;;
-++;; Though the instructions to which this expansion maps operate on
-++;; 64-bit registers, the current implementation requires that operands
-++;; 0 and 1 have mode SI as the high-order bits provide no information
-++;; that is not already available in the low-order bits.  To avoid the
-++;; costs of data widening operations, future enhancements might allow
-++;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
-++(define_expand "cmpeqb"
-++  [(set (match_dup 3)
-++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-++		    (match_operand:DI 2 "gpc_reg_operand" "r")]
-++	 UNSPEC_CMPEQB))
-++   (set (match_operand:SI 0 "gpc_reg_operand" "=r")
-++	(if_then_else:SI (lt (match_dup 3)
-++			     (const_int 0))
-++			 (const_int -1)
-++			 (if_then_else (gt (match_dup 3)
-++					   (const_int 0))
-++				       (const_int 1)
-++				       (const_int 0))))]
-++  "TARGET_P9_MISC && TARGET_64BIT"
-++{
-++  operands[3] = gen_reg_rtx (CCmode);
-++})
-++
-++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-++;; represents a byte whose value is ignored in this context and
-++;; vv, the least significant byte, holds the byte value that is to
-++;; be tested for membership within the set specified by operand 2.
-++;; The bytes of operand 2 are organized as e0:e1:e2:e3:e4:e5:e6:e7.
-++;;
-++;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if vv
-++;; equals one of the values e0, e1, e2, e3, e4, e5, e6, or e7.  Otherwise,
-++;; set the GT bit to zero.  The other 3 bits of the target CR register
-++;; are all set to 0.
-++(define_insn "*cmpeqb_internal"
-++  [(set (match_operand:CC 0 "cc_reg_operand" "=y")
-++	 (unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-++		     (match_operand:DI 2 "gpc_reg_operand" "r")]
-++	  UNSPEC_CMPEQB))]
-++  "TARGET_P9_MISC && TARGET_64BIT"
-++  "cmpeqb %0,%1,%2"
-++  [(set_attr "type" "logical")])
-+ 
-+ 
-+ (include "sync.md")
-diff --git a/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_2.patch b/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_2.patch
-new file mode 100644
-index 0000000000..de7a83c23f
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_2.patch
-@@ -0,0 +1,77 @@
-+From 87bc784a7ca3a43182f7272241597a50d7491342 Mon Sep 17 00:00:00 2001
-+From: segher <segher@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Fri, 30 Aug 2019 13:51:26 +0000
-+Subject: [PATCH] 	Backport from trunk 	2019-08-22  Segher Boessenkool
-+  <segher@kernel.crashing.org>
-+
-+	PR target/91481
-+	* config/rs6000/rs6000.md (unspec): Delete UNSPEC_DARN, UNSPEC_DARN_32,
-+	and UNSPEC_DARN_RAW.
-+	(unspecv): New enumerator values UNSPECV_DARN, UNSPECV_DARN_32, and
-+	UNSPECV_DARN_RAW.
-+	(darn_32): Use an unspec_volatile, and UNSPECV_DARN_32.
-+	(darn_raw): Use an unspec_volatile, and UNSPECV_DARN_RAW.
-+	(darn): Use an unspec_volatile, and UNSPECV_DARN.
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-9-branch@275175 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-15847 p2
-+Affects <= 9.2.0
-+Dropped Changelog changes
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ gcc/config/rs6000/rs6000.md | 12 ++++++------
-+ 2 files changed, 20 insertions(+), 6 deletions(-)
-+
-+Index: gcc-9.2.0/gcc/config/rs6000/rs6000.md
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/config/rs6000/rs6000.md
-++++ gcc-9.2.0/gcc/config/rs6000/rs6000.md
-+@@ -137,9 +137,6 @@
-+    UNSPEC_LSQ
-+    UNSPEC_FUSION_GPR
-+    UNSPEC_STACK_CHECK
-+-   UNSPEC_DARN
-+-   UNSPEC_DARN_32
-+-   UNSPEC_DARN_RAW
-+    UNSPEC_CMPRB
-+    UNSPEC_CMPRB2
-+    UNSPEC_CMPEQB
-+@@ -170,6 +167,9 @@
-+    UNSPECV_EH_RR		; eh_reg_restore
-+    UNSPECV_ISYNC		; isync instruction
-+    UNSPECV_MFTB			; move from time base
-++   UNSPECV_DARN			; darn 1 (deliver a random number)
-++   UNSPECV_DARN_32		; darn 2
-++   UNSPECV_DARN_RAW		; darn 0
-+    UNSPECV_NLGR			; non-local goto receiver
-+    UNSPECV_MFFS			; Move from FPSCR
-+    UNSPECV_MFFSL		; Move from FPSCR light instruction version
-+@@ -14333,21 +14333,21 @@
-+ 
-+ (define_insn "darn_32"
-+   [(set (match_operand:SI 0 "register_operand" "=r")
-+-        (unspec:SI [(const_int 0)] UNSPEC_DARN_32))]
-++        (unspec_volatile:SI [(const_int 0)] UNSPECV_DARN_32))]
-+   "TARGET_P9_MISC"
-+   "darn %0,0"
-+   [(set_attr "type" "integer")])
-+ 
-+ (define_insn "darn_raw"
-+   [(set (match_operand:DI 0 "register_operand" "=r")
-+-        (unspec:DI [(const_int 0)] UNSPEC_DARN_RAW))]
-++        (unspec_volatile:DI [(const_int 0)] UNSPECV_DARN_RAW))]
-+   "TARGET_P9_MISC && TARGET_64BIT"
-+   "darn %0,2"
-+   [(set_attr "type" "integer")])
-+ 
-+ (define_insn "darn"
-+   [(set (match_operand:DI 0 "register_operand" "=r")
-+-        (unspec:DI [(const_int 0)] UNSPEC_DARN))]
-++        (unspec_volatile:DI [(const_int 0)] UNSPECV_DARN))]
-+   "TARGET_P9_MISC && TARGET_64BIT"
-+   "darn %0,1"
-+   [(set_attr "type" "integer")])
-diff --git a/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_3.patch b/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_3.patch
-new file mode 100644
-index 0000000000..ba7130ca7d
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-9.2/CVE-2019-15847_3.patch
-@@ -0,0 +1,62 @@
-+From dc4c8dd9dbe70740ec7a684b0f35620249fb036a Mon Sep 17 00:00:00 2001
-+From: segher <segher@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Fri, 30 Aug 2019 13:53:11 +0000
-+Subject: [PATCH] 	Backport from trunk 	2019-08-23  Segher Boessenkool
-+  <segher@kernel.crashing.org>
-+
-+gcc/testsuite/
-+	PR target/91481
-+	* gcc.target/powerpc/darn-3.c: New testcase.
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-9-branch@275176 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-15847 p3
-+Affects <= 9.2.0
-+Dropped Changelog changes
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ gcc/testsuite/ChangeLog                   |  6 ++++++
-+ gcc/testsuite/gcc.target/powerpc/darn-3.c | 16 ++++++++++++++++
-+ 2 files changed, 22 insertions(+)
-+ create mode 100644 gcc/testsuite/gcc.target/powerpc/darn-3.c
-+
-+Index: gcc-9.2.0/gcc/testsuite/gcc.target/powerpc/darn-3.c
-+===================================================================
-+--- /dev/null
-++++ gcc-9.2.0/gcc/testsuite/gcc.target/powerpc/darn-3.c
-+@@ -0,0 +1,16 @@
-++/* { dg-do compile { target { powerpc*-*-* } } } */
-++/* { dg-skip-if "" { powerpc*-*-aix* } } */
-++/* { dg-options "-O2 -mdejagnu-cpu=power9" } */
-++
-++static int darn32(void) { return __builtin_darn_32(); }
-++
-++int four(void)
-++{
-++	int sum = 0;
-++	int i;
-++	for (i = 0; i < 4; i++)
-++		sum += darn32();
-++	return sum;
-++}
-++
-++/* { dg-final { scan-assembler-times {(?n)\mdarn .*,0\M} 4 } } */
-+Index: gcc-9.2.0/gcc/testsuite/ChangeLog
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/testsuite/ChangeLog
-++++ gcc-9.2.0/gcc/testsuite/ChangeLog
-+@@ -1,3 +1,11 @@
-++2019-08-30  Segher Boessenkool  <segher@kernel.crashing.org>
-++
-++	Backport from trunk
-++	2019-08-23  Segher Boessenkool  <segher@kernel.crashing.org>
-++
-++	PR target/91481
-++	* gcc.target/powerpc/darn-3.c: New testcase.
-++
-+ 2019-08-12  Release Manager
-+ 
-+ 	* GCC 9.2.0 released.
--- 
-2.17.1
+Thanks,
+Jaewon
 
 
