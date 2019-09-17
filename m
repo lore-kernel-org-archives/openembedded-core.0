@@ -1,42 +1,99 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
-	[209.85.166.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F8B57D69D
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id C518D7F6B4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 14:49:50 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id m11so8346884ioo.0
+	Tue, 17 Sep 2019 14:56:32 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id 4so2138686pgm.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 07:49:51 -0700 (PDT)
+	Tue, 17 Sep 2019 07:56:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=IZB26cboH58hMtAOVO+MrLy98P49gCZuytLJ+WOEmEw=;
-	b=SejYSrPZ13YBxiRw9yH7ENB3GznmCz11Z9uOw08EoAag9OMF05fPAe+n7+gDLVdq70
-	iiPvsuBG01g2P4RLf/ryBmlpJ+HUS2xS7ivi3fj0E7z14SqmCoChjT40M2yy86WVWIdM
-	DNsUc+meQB/LOb6mWW3p3gr3j4dXnjfBGgU++8F4r8HGM+LV1telbDqyBBkHMJgV0uEy
-	0wPfudNcdajtsWduQHAovCU66g/v64CH3F+y9ZcU7Kfrp0vpTx9HMG9D17mzmHe9SpOr
-	sctxwloLPBePk8qijgmXxuiZRxhPocBbFFTEZIt3LMBOox3N7bD6y1Am8rdi5l+bZ6dy
-	5kKg==
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=F5HJR7jKk8msZ8ACSP573eSPW5bH6dsr3BJXsWkvi2o=;
+	b=Z/ST3GtWS2A5hnJy7zhhaFLu71OkoY7efRUan/jCJKTBSjgw7MwC736QaF2BbJG3XZ
+	dXi+jWIVJDQcAOfI8vbDUN92ApypwuN8R6GklJccTvMIX7+E8Do2Kvp24PJCXlb5QBS/
+	01ggx33hNuOhe3Vd2ZUY7MubMzNCpyjSMdH+70uw7G6vH7hkijLNuc4/L6lj6GskTSvP
+	Gt0XGfIVfSMiqoghJsFG6YOcR7ocFimSjFdE3KLUauFydwVvJGmvFHVTUfvfSnt2/3RO
+	mYZczB/U0DHbi+BcWkzMfhEgLdM8IqgA8Lv4H61T2EfxxkNQvZYV1zBn7L5od1gqhPqT
+	T6jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=IZB26cboH58hMtAOVO+MrLy98P49gCZuytLJ+WOEmEw=;
-	b=nkR2ueCb7hKPQQeN5MyAKkFfHdSZ7lpHSXXgs6KKJvnGTuCx5mgKIwNGk3rR7ErI41
-	WvFphGfMLLFo50Z0X7e6yMUF/GnSkeH3gI61W2MX8sswYKAohDQWSvIUMhwpTRJVhRNO
-	71fVLQIIUxmgOJgRYCYTRGnMUEDNclZhNF56FUXThjHrzbWEINbIPb/y0vei/tWSwpGo
-	9CqRWFfKz+bAVRrXnwYhqipKRf2i83lfBeaNhWL5BeLbiPmLQTkouIvMOaKn7OG2oEjW
-	DVWI6WJMxXgeOZDjsrnWPwtqd8q1DiU2cm7C+uAK7w8jyErHag1J97NnU8eDC4thCxkW
-	CqhA==
-X-Gm-Message-State: APjAAAVDU1tjt+ywEtDYjdSonKjIoCoKVqoXK0mBEamxuVgsl2dB9anZ
-	SD+V8XbTOXYS7KqwR/dAN40sfCcTz+XYNHq8hmc=
-X-Google-Smtp-Source: APXvYqy10fsJ96F/Qgau9MvolwyaHjOzplsFr4TnmrRAdng5NJJF3G9yKWZ5cXWZyP8yksrohx/RHL9Us/zUOZ6T/Og=
-X-Received: by 2002:a02:6a22:: with SMTP id l34mr4825970jac.33.1568731791385; 
-	Tue, 17 Sep 2019 07:49:51 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=F5HJR7jKk8msZ8ACSP573eSPW5bH6dsr3BJXsWkvi2o=;
+	b=oDSfBxj0ctQ/NDjSPw8Smbn8aoorFNmB1NoK1qWkk9bIul5szCv0Gk6cCQbLN/hPVR
+	YWtvClhPLhOG2ItB6PpwfqN3jnWNvvstOtlwmY5Jjt5d3oWX2lg5OFiFAITqJZ4FOs75
+	ODyrf9aIjm9UehYx+Bn2DqkS4UX14WQuLmttn9KSdgkHFzcyiYOanvwXKHwLoxZ5lHeg
+	7LTkyMPzvnjZ3/dUefh7e9JgDdpz8yKcxD7HV22DxqRceGJR56xAFO95GTXUN+d/Lxze
+	L2Vtv5/tdhLi1TLrED1BDCzLGZnpoIK05E2FpU6QrnOrV4nzDdTY/ZzQdXCTTad7SYt7
+	yiqA==
+X-Gm-Message-State: APjAAAUr9AVl0kmJ+RlVxdxsncb2HTzLmtmYnZBizI0Ejw0gkvpDiP1r
+	8URW+nEKEOpxaivA6htw/ZTyd+Vv/jU=
+X-Google-Smtp-Source: APXvYqxG+feI/5PuXg9004YlfyM1Yv1jC/pPp8SV6yzdjZtDbYZvFZmCWsu2TVgI8IuNnVTVwqBnLw==
+X-Received: by 2002:a62:db42:: with SMTP id f63mr4812968pfg.225.1568732191294; 
+	Tue, 17 Sep 2019 07:56:31 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:45b7:cfa2:129c:2a54?
+	([2601:202:4180:c33:45b7:cfa2:129c:2a54])
+	by smtp.gmail.com with ESMTPSA id g3sm2241001pjx.32.2019.09.17.07.56.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 17 Sep 2019 07:56:29 -0700 (PDT)
+To: muislam@microsoft.com, openembedded-core@lists.openembedded.org
+References: <20190916203728.64590-1-muislam@microsoft.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	mQINBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
+	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
+	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
+	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
+	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
+	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
+	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
+	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
+	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
+	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABtCFha3VzdGVyODA4
+	IDxha3VzdGVyODA4QGdtYWlsLmNvbT6JAj0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
+	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
+	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
+	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
+	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
+	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
+	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
+	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
+	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
+	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
+	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
+	oRoyDxC5Ag0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
+	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
+	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
+	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
+	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
+	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
+	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
+	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
+	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
+	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAGJAiUEGAEI
+	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
+	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
+	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
+	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
+	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
+	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
+	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
+	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
+	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
+	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
+	8CS2NxU=
+Message-ID: <93f4bac8-b876-7df5-e8b1-80cb63e3b3f1@gmail.com>
+Date: Tue, 17 Sep 2019 07:56:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-From: Stephen K Jolley <sjolley.yp.pm@gmail.com>
-Date: Tue, 17 Sep 2019 07:49:40 -0700
-Message-ID: <CAK5yBb_fQ86_Hhzq2GVD0xyOmjX=PMMkJhJ3i8N2ti6WnMh5Tw@mail.gmail.com>
-To: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?WW9jdG8gUHJvamVjdCBTdGF0dXMgV1czOOKAmTE5?=
+In-Reply-To: <20190916203728.64590-1-muislam@microsoft.com>
+Subject: Re: [thud][PATCH v2] gcc: CVE fix for gcc <CVE-2019-15847>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,565 +106,1339 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 14:49:50 -0000
-Content-Type: multipart/alternative; boundary="0000000000002c6ae20592c0d50a"
-
---0000000000002c6ae20592c0d50a
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 Sep 2019 14:56:33 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+
+
+
+On 9/16/19 1:37 PM, Muminul Islam wrote:
+> Signed-off-by: Muminul Islam <muislam@microsoft.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-8.2.inc         |   2 +
+>  .../gcc/gcc/0042-CVE-2019-15847_1.patch       | 570 ++++++++++++++++
+>  .../gcc/gcc/0043-CVE-2019-15847_2.patch       | 640 ++++++++++++++++++=
+
+>  3 files changed, 1212 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0042-CVE-2019-15847_1=
+=2Epatch
+>  create mode 100644 meta/recipes-devtools/gcc/gcc/0043-CVE-2019-15847_2=
+=2Epatch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-8.2.inc b/meta/recipes-devto=
+ols/gcc/gcc-8.2.inc
+> index 866a77558b..cab494989e 100644
+> --- a/meta/recipes-devtools/gcc/gcc-8.2.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-8.2.inc
+> @@ -70,6 +70,8 @@ SRC_URI =3D "\
+>             file://0039-Fix-for-testsuite-failure.patch \
+>             file://0040-Re-introduce-spe-commandline-options.patch \
+>             file://0041-ARC-fix-spec-gen.patch \
+> +           file://0042-CVE-2019-15847_1.patch \
+This patch appears to include the same info twice.
+
+The change logs include information not present in this patch series.
+
+
+can you double check.
+
+- armin
+> +           file://0043-CVE-2019-15847_2.patch \
+>             ${BACKPORTS} \
+>  "
+>  BACKPORTS =3D "\
+> diff --git a/meta/recipes-devtools/gcc/gcc/0042-CVE-2019-15847_1.patch =
+b/meta/recipes-devtools/gcc/gcc/0042-CVE-2019-15847_1.patch
+> new file mode 100644
+> index 0000000000..edebf2fb41
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0042-CVE-2019-15847_1.patch
+> @@ -0,0 +1,570 @@
+> +From 3efdb8c4afcbc5e07d33b05ab8c2bf88f42f4890 Mon Sep 17 00:00:00 2001=
+
+> +From: segher <segher@138bc75d-0d04-0410-961f-82ee72b054a4>
+> +Date: Thu, 22 Aug 2019 19:36:21 +0000
+> +Subject: [PATCH] rs6000: Use unspec_volatile for darn (PR91481)
+> +Reply-To: muislam@microsoft.com
+> +
+> +Every call to darn should deliver a *new* random number; such calls
+> +should not be CSEd together.  So they should be unspec_volatile, not
+> +plain unspec.
+> +
+> +	PR target/91481
+> +	* config/rs6000/rs6000.md (unspec): Delete UNSPEC_DARN, UNSPEC_DARN_3=
+2,
+> +	and UNSPEC_DARN_RAW.
+> +	(unspecv): New enumerator values UNSPECV_DARN, UNSPECV_DARN_32, and
+> +	UNSPECV_DARN_RAW.
+> +	(darn_32): Use an unspec_volatile, and UNSPECV_DARN_32.
+> +	(darn_raw): Use an unspec_volatile, and UNSPECV_DARN_RAW.
+> +	(darn): Use an unspec_volatile, and UNSPECV_DARN.
+> +
+> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@274835 138bc75d-0d04-0=
+410-961f-82ee72b054a4
+> +Signed-off-by: Muminul Islam <muislam@microsoft.com>
+> +
+> +CVE: CVE-2019-15847
+> +Upstream-Status: Backport
+> +---
+> + gcc/ChangeLog               | 336 +++++++++++++++++++++++++++++++++++=
+-
+> + gcc/config/rs6000/rs6000.md | 169 +++++++++++++++++-
+> + 2 files changed, 503 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/gcc/ChangeLog b/gcc/ChangeLog
+> +index b93dae5dfb0..dc22d7e43b7 100644
+> +--- a/gcc/ChangeLog
+> ++++ b/gcc/ChangeLog
+> +@@ -1,4 +1,338 @@
+> +-2018-07-26  Release Manager
+> ++2019-08-22  Segher Boessenkool  <segher@kernel.crashing.org>
+> ++
+> ++	PR target/91481
+> ++	* config/rs6000/rs6000.md (unspec): Delete UNSPEC_DARN, UNSPEC_DARN_=
+32,
+> ++	and UNSPEC_DARN_RAW.
+> ++	(unspecv): New enumerator values UNSPECV_DARN, UNSPECV_DARN_32, and
+> ++	UNSPECV_DARN_RAW.
+> ++	(darn_32): Use an unspec_volatile, and UNSPECV_DARN_32.
+> ++	(darn_raw): Use an unspec_volatile, and UNSPECV_DARN_RAW.
+> ++	(darn): Use an unspec_volatile, and UNSPECV_DARN.
+> ++
+> ++2019-08-22  Segher Boessenkool  <segher@kernel.crashing.org>
+> ++
+> ++	* config/rs6000/altivec.md (unspec): Delete UNSPEC_DARN, UNSPEC_DARN=
+_32,
+> ++	UNSPEC_DARN_RAW, UNSPEC_CMPRB, UNSPEC_CMPRB2, UNSPEC_CMPEQB; move to=
+=2E..
+> ++	* config/rs6000/rs6000.md (unspec): ... here.
+> ++	* config/rs6000/altivec.md (darn_32, darn_raw, darn, cmprb,
+> ++	*cmprb_internal, setb_signed, setb_unsigned, cmprb2, *cmprb2_interna=
+l,
+> ++	cmpeqb, *cmpeqb_internal): Delete, move to...
+> ++	* config/rs6000/rs6000.md (darn_32, darn_raw, darn, cmprb,
+> ++	*cmprb_internal, setb_signed, setb_unsigned, cmprb2, *cmprb2_interna=
+l,
+> ++	cmpeqb, *cmpeqb_internal): ... here.
+> ++
+> ++2019-08-22  Kyrylo Tkachov <kyrylo.tkachov@arm.com>
+> ++
+> ++	* config/arm/arm_acle.h: Use arch=3Darmv8-a+crc+simd pragma for CRC3=
+2
+> ++	intrinsics if __ARM_FP.
+> ++	Use __ARM_FEATURE_CRC32 ifdef guard.
+> ++
+> ++2019-08-22  Wilco Dijkstra  <wdijkstr@arm.com>
+> ++
+> ++	* config/arm/arm.md (neon_for_64bits): Remove.
+> ++	(avoid_neon_for_64bits): Remove.
+> ++	(arm_adddi3): Always split early.
+> ++	(arm_subdi3): Always split early.
+> ++	(negdi2): Remove Neon expansion.
+> ++	(split zero_extend): Split before reload.
+> ++	(split sign_extend): Split before reload.
+> ++
+> ++2019-08-22  Wilco Dijkstra  <wdijkstr@arm.com>
+> ++
+> ++	* config/arm/iterators.md (qhs_extenddi_cstr): Update.
+> ++	(qhs_extenddi_cstr): Likewise.
+> ++	* config/arm/arm.md (ashldi3): Always expand early.
+> ++	(ashlsi3): Likewise.
+> ++	(ashrsi3): Likewise.
+> ++	(zero_extend<mode>di2): Remove Neon variants.
+> ++	(extend<mode>di2): Likewise.
+> ++	* config/arm/neon.md (ashldi3_neon_noclobber): Remove.
+> ++	(signed_shift_di3_neon): Likewise.
+> ++	(unsigned_shift_di3_neon): Likewise.
+> ++	(ashrdi3_neon_imm_noclobber): Likewise.
+> ++	(lshrdi3_neon_imm_noclobber): Likewise.
+> ++	(<shift>di3_neon): Likewise.
+> ++	(split extend): Remove DI extend split patterns.
+> ++
+> ++2019-08-22  Wilco Dijkstra  <wdijkstr@arm.com>
+> ++
+> ++	* config/arm/arm.md (split and/eor/ior): Remove Neon check.
+> ++	(split not): Add DImode not splitter.
+> ++	(anddi3): Remove pattern.
+> ++	(anddi3_insn): Likewise.
+> ++	(anddi_zesidi_di): Likewise.
+> ++	(anddi_sesdi_di): Likewise.
+> ++	(anddi_notdi_di): Likewise.
+> ++	(anddi_notzesidi_di): Likewise.
+> ++	(anddi_notsesidi_di): Likewise.
+> ++	(iordi3): Likewise.
+> ++	(iordi3_insn): Likewise.
+> ++	(iordi_zesidi_di): Likewise.
+> ++	(iordi_sesidi_di): Likewise.
+> ++	(xordi3): Likewise.
+> ++	(xordi3_insn): Likewise.
+> ++	(xordi_sesidi_di): Likewise.
+> ++	(xordi_zesidi_di): Likewise.
+> ++	(one_cmpldi2): Likewise.
+> ++	(one_cmpldi2_insn): Likewise.
+> ++	* config/arm/constraints.md: Remove De, Df, Dg constraints.
+> ++	* config/arm/iwmmxt.md (iwmmxt_iordi3): Remove general register
+> ++	alternative.
+> ++	(iwmmxt_xordi3): Likewise.
+> ++	(iwmmxt_anddi3): Likewise.
+> ++	* config/arm/neon.md (orndi3_neon): Remove pattern.
+> ++	(anddi_notdi_di): Likewise.
+> ++	* config/arm/predicates.md (arm_anddi_operand_neon): Remove.
+> ++	(arm_iordi_operand_neon): Likewise.
+> ++	(arm_xordi_operand_neon): Likewise.
+> ++	* config/arm/thumb2.md(iordi_notdi_di): Remove pattern.
+> ++	(iordi_notzesidi_di): Likewise.
+> ++	(iordi_notdi_zesidi): Likewise.
+> ++	(iordi_notsesidi_di): Likewise.
+> ++
+> ++2019-08-22  Richard Earnshaw  <rearnsha@arm.com>
+> ++
+> ++	* config/arm/arm.md (iorsi3_compare0): Add alternative for 16-bit th=
+umb
+> ++	insn.
+> ++	(iorsi3_compare0_scratch): Likewise.
+> ++
+> ++2019-08-22  Sylvia Taylor  <sylvia.taylor@arm.com>
+> ++
+> ++	* config/aarch64/aarch64-simd-builtins.def:
+> ++	(ld1x4): New.
+> ++	(st1x4): Likewise.
+> ++	* config/aarch64/aarch64-simd.md:
+> ++	(aarch64_ld1x4<VALLDIF:mode>): New pattern.
+> ++	(aarch64_st1x4<VALLDIF:mode>): Likewise.
+> ++	(aarch64_ld1_x4_<mode>): Likewise.
+> ++	(aarch64_st1_x4_<mode>): Likewise.
+> ++	* config/aarch64/arm_neon.h:
+> ++	(vld1_s8_x4): New function.
+> ++	(vld1q_s8_x4): Likewise.
+> ++	(vld1_s16_x4): Likewise.
+> ++	(vld1q_s16_x4): Likewise.
+> ++	(vld1_s32_x4): Likewise.
+> ++	(vld1q_s32_x4): Likewise.
+> ++	(vld1_u8_x4): Likewise.
+> ++	(vld1q_u8_x4): Likewise.
+> ++	(vld1_u16_x4): Likewise.
+> ++	(vld1q_u16_x4): Likewise.
+> ++	(vld1_u32_x4): Likewise.
+> ++	(vld1q_u32_x4): Likewise.
+> ++	(vld1_f16_x4): Likewise.
+> ++	(vld1q_f16_x4): Likewise.
+> ++	(vld1_f32_x4): Likewise.
+> ++	(vld1q_f32_x4): Likewise.
+> ++	(vld1_p8_x4): Likewise.
+> ++	(vld1q_p8_x4): Likewise.
+> ++	(vld1_p16_x4): Likewise.
+> ++	(vld1q_p16_x4): Likewise.
+> ++	(vld1_s64_x4): Likewise.
+> ++	(vld1_u64_x4): Likewise.
+> ++	(vld1_p64_x4): Likewise.
+> ++	(vld1q_s64_x4): Likewise.
+> ++	(vld1q_u64_x4): Likewise.
+> ++	(vld1q_p64_x4): Likewise.
+> ++	(vld1_f64_x4): Likewise.
+> ++	(vld1q_f64_x4): Likewise.
+> ++	(vst1_s8_x4): Likewise.
+> ++	(vst1q_s8_x4): Likewise.
+> ++	(vst1_s16_x4): Likewise.
+> ++	(vst1q_s16_x4): Likewise.
+> ++	(vst1_s32_x4): Likewise.
+> ++	(vst1q_s32_x4): Likewise.
+> ++	(vst1_u8_x4): Likewise.
+> ++	(vst1q_u8_x4): Likewise.
+> ++	(vst1_u16_x4): Likewise.
+> ++	(vst1q_u16_x4): Likewise.
+> ++	(vst1_u32_x4): Likewise.
+> ++	(vst1q_u32_x4): Likewise.
+> ++	(vst1_f16_x4): Likewise.
+> ++	(vst1q_f16_x4): Likewise.
+> ++	(vst1_f32_x4): Likewise.
+> ++	(vst1q_f32_x4): Likewise.
+> ++	(vst1_p8_x4): Likewise.
+> ++	(vst1q_p8_x4): Likewise.
+> ++	(vst1_p16_x4): Likewise.
+> ++	(vst1q_p16_x4): Likewise.
+> ++	(vst1_s64_x4): Likewise.
+> ++	(vst1_u64_x4): Likewise.
+> ++	(vst1_p64_x4): Likewise.
+> ++	(vst1q_s64_x4): Likewise.
+> ++	(vst1q_u64_x4): Likewise.
+> ++	(vst1q_p64_x4): Likewise.
+> ++	(vst1_f64_x4): Likewise.
+> ++	(vst1q_f64_x4): Likewise.
+> ++
+> ++2019-08-22  Prathamesh Kulkarni  <prathamesh.kulkarni@linaro.org>
+> ++
+> ++	* config/aarch64/aarch64-sve.md (vcond_mask): Add "@".
+> ++
+> ++2019-08-22  Prathamesh Kulkarni  <prathamesh.kulkarni@linaro.org>
+> ++	    Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	PR target/88839
+> ++	* config/aarch64/aarch64.c (aarch64_evpc_sel): New function.
+> ++	(aarch64_expand_vec_perm_const_1): Call aarch64_evpc_sel.
+> ++
+> ++2019-08-21  Prathamesh Kulkarni  <prathamesh.kulkarni@linaro.org>
+> ++
+> ++	PR target/90724
+> ++	* config/aarch64/aarch64.c (aarch64_gen_compare_reg_maybe_ze): Force=
+ y
+> ++	in reg if it fails aarch64_plus_operand predicate.
+> ++
+> ++2019-08-21  Richard Biener  <rguenther@suse.de>
+> ++
+> ++	PR tree-optimization/91482
+> ++	* tree-ssa-ccp.c (ccp_folder::fold_stmt): Remove useless
+> ++	BUILT_IN_ASSUME_ALIGNED calls.
+> ++
+> ++2019-08-21  Richard Biener  <rguenther@suse.de>
+> ++
+> ++	PR target/91498
+> ++	PR target/91503
+> ++	* config/i386/i386-features.c
+> ++	(general_scalar_chain::make_vector_copies): Copy stack temporary
+> ++	rtx when using it multiple times.
+> ++	(general_scalar_chain::convert_reg): Likewise.
+> ++
+> ++2019-08-20  Bernd Edlinger  <bernd.edlinger@hotmail.de>
+> ++
+> ++	* function.c (assign_parm_find_stack_rtl): Use known_eq instead of =3D=
+=3D.
+> ++
+> ++2019-08-20  Matthew Beliveau  <mbelivea@redhat.com>
+> ++
+> ++	* tree-ssa-dse.c (dse_optimize_redundant_stores): Improved check to
+> ++	catch more redundant zero initialization cases.
+> ++	(dse_dom_walker::dse_optimize_stmt): Likewise.
+> ++
+> ++2019-08-20  Richard Biener  <rguenther@suse.de>
+> ++
+> ++	PR lto/91307
+> ++	* ipa.c (cgraph_build_static_cdtor_1): Use names not recognizable
+> ++	by collect2 when targetm.have_ctors_dtors which avoids dragging
+> ++	in temporary filenames from LTO input objects.
+> ++
+> ++2019-08-20  Richard Biener  <rguenther@suse.de>
+> ++
+> ++	PR tree-optimization/37242
+> ++	* tree-ssa-sccvn.c (visit_nary_op): Also CSE (T)(a + b)
+> ++	to (T)a + (T)b if we know that a + b does not overflow.
+> ++
+> ++2019-08-20  Eric Botcazou  <ebotcazou@adacore.com>
+> ++
+> ++	PR rtl-optimization/91347
+> ++	* dse.c (scan_insn): Call add_wild_read for non-const/memset tail ca=
+lls
+> ++	before reload if HARD_FRAME_POINTER_IS_ARG_POINTER.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* calls.h (function_arg_info): Add a pass_by_reference field,
+> ++	defaulting to false.
+> ++	* calls.c (apply_pass_by_reference_rules): Set pass_by_reference
+> ++	when applying pass-by-reference semantics.
+> ++	(initialize_argument_information): Likewise.
+> ++	(emit_library_call_value_1): Likewise.
+> ++	* function.c (assign_parm_data_one): Remove passed_pointer field.
+> ++	(assign_parm_find_data_types): Don't set it.
+> ++	(assign_parm_find_stack_rtl, assign_parm_adjust_stack_rtl)
+> ++	(assign_parm_setup_reg, assign_parms, gimplify_parameters): Use
+> ++	arg.pass_by_reference instead of passed_pointer.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* calls.c (emit_library_call_value_1): Merge arg and orig_arg
+> ++	into a single function_arg_info, updating its fields when we
+> ++	apply pass-by-reference and promotion semantics.  Use the
+> ++	function_arg_info to track the mode rather than keeping it in
+> ++	a separate local variable.
+> ++	(initialize_argument_information): Likewise.  Base the final
+> ++	arg_to_skip on this new function_arg_info rather than creating
+> ++	a new one from scratch.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* function.c (assign_parm_data_one): Replace passed_type,
+> ++	promoted_mode and named_arg with a function_arg_info field.
+> ++	(assign_parm_find_data_types): Remove local variables and
+> ++	assign directly to "data".  Make data->passed_mode shadow
+> ++	data->arg.mode until promotion, then assign the promoted
+> ++	mode to data->arg.mode.
+> ++	(assign_parms_setup_varargs, assign_parm_find_entry_rtl)
+> ++	(assign_parm_find_stack_rtl, assign_parm_adjust_entry_rtl)
+> ++	(assign_parm_remove_parallels, assign_parm_setup_block_p)
+> ++	(assign_parm_setup_block, assign_parm_setup_reg)
+> ++	(assign_parm_setup_stack, assign_parms, gimplify_parameters): Use
+> ++	arg.mode instead of promoted_mode, arg.type instead of passed_type
+> ++	and arg.named instead of named_arg.  Use data->arg for
+> ++	function_arg_info structures that had the field values passed_type,
+> ++	promoted_mode and named_arg.  Base other function_arg_infos on
+> ++	data->arg, changing the necessary properties.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* calls.h (apply_pass_by_reference_rules): Declare.
+> ++	* calls.c (apply_pass_by_reference_rules): New function.
+> ++	* config/c6x/c6x.c (c6x_call_saved_register_used): Use it.
+> ++	* config/rs6000/rs6000-call.c (rs6000_parm_needs_stack): Likewise.
+> ++	* config/s390/s390.c (s390_call_saved_register_used): Likewise.
+> ++	* function.c (assign_parm_find_data_types): Likewise.
+> ++	* var-tracking.c (prepare_call_arguments): Likewise.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* target.def (must_pass_in_stack): Take a function_arg_info instead
+> ++	of a mode and a type.
+> ++	* doc/tm.texi: Regenerate.
+> ++	* calls.h (must_pass_in_stack_var_size): Take a function_arg_info
+> ++	instead of a mode and a type.
+> ++	(must_pass_in_stack_var_size_or_pad): Likewise.
+> ++	* calls.c (must_pass_in_stack_var_size): Likewise.
+> ++	(must_pass_in_stack_var_size_or_pad): Likewise.
+> ++	(initialize_argument_information): Update call to
+> ++	targetm.calls.must_pass_in_stack.
+> ++	(must_pass_va_arg_on_stack): Likewise.
+> ++	* function.c (assign_parm_find_entry_rtl): Likewise.
+> ++	* targhooks.c (hook_pass_by_reference_must_pass_in_stack): Likewise.=
+
+> ++	* config/alpha/alpha.c (alpha_function_arg): Likewise.
+> ++	(alpha_function_arg_advance): Likewise.
+> ++	* config/cr16/cr16.c (cr16_function_arg): Likewise.
+> ++	(cr16_function_arg_advance): Likewise.
+> ++	* config/cris/cris.c (cris_pass_by_reference): Likewise.
+> ++	(cris_arg_partial_bytes): Likewise.
+> ++	* config/iq2000/iq2000.c (iq2000_pass_by_reference): Likewise.
+> ++	* config/lm32/lm32.c (lm32_function_arg): Likewise.
+> ++	* config/mcore/mcore.c (mcore_num_arg_regs): Likewise.
+> ++	(mcore_function_arg, mcore_arg_partial_bytes): Likewise.
+> ++	* config/mips/mips.c (mips_pass_by_reference): Likewise.
+> ++	* config/mmix/mmix.c (mmix_function_arg_advance): Likewise.
+> ++	(mmix_function_arg_1, mmix_pass_by_reference): Likewise.
+> ++	* config/sh/sh.c (sh_pass_by_reference): Likewise.
+> ++	* config/stormy16/stormy16.c (xstormy16_function_arg): Likewise.
+> ++	* config/xtensa/xtensa.c (xtensa_function_arg_advance): Likewise.
+> ++	* config/arm/arm.c (arm_must_pass_in_stack): Take a function_arg_inf=
+o
+> ++	instead of a mode and a type.
+> ++	* config/fr30/fr30.c (fr30_must_pass_in_stack): Likewise.
+> ++	(fr30_num_arg_regs): Likewise.
+> ++	(fr30_setup_incoming_varargs): Update calls accordingly.
+> ++	(fr30_arg_partial_bytes, fr30_function_arg): Likewise.
+> ++	(fr30_function_arg_advance): Likewise.
+> ++	* config/frv/frv.c (frv_must_pass_in_stack): Take a function_arg_inf=
+o
+> ++	instead of a mode and a type.
+> ++	* config/gcn/gcn.c (num_arg_regs): Likewise.
+> ++	(gcn_function_arg, gcn_function_arg_advance): Update calls to
+> ++	num_arg_regs and targetm.calls.must_pass_in_stack.
+> ++	(gcn_arg_partial_bytes): Likewise.
+> ++	* config/i386/i386.c (ix86_must_pass_in_stack): Take a
+> ++	function_arg_info instead of a mode and a type.
+> ++	(classify_argument): Update call accordingly.
+> ++	* config/nds32/nds32.c (nds32_must_pass_in_stack): Take a
+> ++	function_arg_info instead of a mode and a type.
+> ++	* config/rs6000/rs6000-internal.h (rs6000_must_pass_in_stack):
+> ++	Likewise.
+> ++	* config/rs6000/rs6000-call.c (rs6000_must_pass_in_stack): Likewise.=
+
+> ++	(rs6000_parm_needs_stack): Update call accordingly.
+> ++	(setup_incoming_varargs): Likewise.
+> +=20
+> + 	* GCC 8.2.0 released.
+> +=20
+> +diff --git a/gcc/config/rs6000/rs6000.md b/gcc/config/rs6000/rs6000.md=
+
+> +index 60058814b8a..d706c6ecd1a 100644
+> +--- a/gcc/config/rs6000/rs6000.md
+> ++++ b/gcc/config/rs6000/rs6000.md
+> +@@ -138,6 +138,9 @@
+> +    UNSPEC_STACK_CHECK
+> +    UNSPEC_FUSION_P9
+> +    UNSPEC_FUSION_ADDIS
+> ++   UNSPEC_CMPRB
+> ++   UNSPEC_CMPRB2
+> ++   UNSPEC_CMPEQB
+> +    UNSPEC_ADD_ROUND_TO_ODD
+> +    UNSPEC_SUB_ROUND_TO_ODD
+> +    UNSPEC_MUL_ROUND_TO_ODD
+> +@@ -162,6 +165,9 @@
+> +    UNSPECV_EH_RR		; eh_reg_restore
+> +    UNSPECV_ISYNC		; isync instruction
+> +    UNSPECV_MFTB			; move from time base
+> ++   UNSPECV_DARN			; darn 1 (deliver a random number)
+> ++   UNSPECV_DARN_32		; darn 2
+> ++   UNSPECV_DARN_RAW		; darn 0
+> +    UNSPECV_NLGR			; non-local goto receiver
+> +    UNSPECV_MFFS			; Move from FPSCR
+> +    UNSPECV_MTFSF		; Move to FPSCR Fields
+> +@@ -14603,7 +14609,168 @@
+> +   [(set_attr "type" "veccmp")
+> +    (set_attr "size" "128")])
+> +=20
+> +-=0C
+> ++;; Miscellaneous ISA 3.0 (power9) instructions
+> ++(define_insn "darn_32"
+> ++  [(set (match_operand:SI 0 "register_operand" "=3Dr")
+> ++        (unspec_volatile:SI [(const_int 0)] UNSPECV_DARN_32))]
+> ++  "TARGET_P9_MISC"
+> ++  "darn %0,0"
+> ++  [(set_attr "type" "integer")])
+> ++
+> ++(define_insn "darn_raw"
+> ++  [(set (match_operand:DI 0 "register_operand" "=3Dr")
+> ++        (unspec_volatile:DI [(const_int 0)] UNSPECV_DARN_RAW))]
+> ++  "TARGET_P9_MISC && TARGET_64BIT"
+> ++  "darn %0,2"
+> ++  [(set_attr "type" "integer")])
+> ++
+> ++(define_insn "darn"
+> ++  [(set (match_operand:DI 0 "register_operand" "=3Dr")
+> ++        (unspec_volatile:DI [(const_int 0)] UNSPECV_DARN))]
+> ++  "TARGET_P9_MISC && TARGET_64BIT"
+> ++  "darn %0,1"
+> ++  [(set_attr "type" "integer")])
+> ++
+> ++;; Test byte within range.
+> ++;;
+> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
+> ++;; represents a byte whose value is ignored in this context and
+> ++;; vv, the least significant byte, holds the byte value that is to
+> ++;; be tested for membership within the range specified by operand 2.
+> ++;; The bytes of operand 2 are organized as xx:xx:hi:lo.
+> ++;;
+> ++;; Return in target register operand 0 a value of 1 if lo <=3D vv and=
+
+> ++;; vv <=3D hi.  Otherwise, set register operand 0 to 0.
+> ++;;
+> ++;; Though the instructions to which this expansion maps operate on
+> ++;; 64-bit registers, the current implementation only operates on
+> ++;; SI-mode operands as the high-order bits provide no information
+> ++;; that is not already available in the low-order bits.  To avoid the=
+
+> ++;; costs of data widening operations, future enhancements might allow=
+
+> ++;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
+> ++(define_expand "cmprb"
+> ++  [(set (match_dup 3)
+> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
+> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
+> ++	 UNSPEC_CMPRB))
+> ++   (set (match_operand:SI 0 "gpc_reg_operand" "=3Dr")
+> ++	(if_then_else:SI (lt (match_dup 3)
+> ++			     (const_int 0))
+> ++			 (const_int -1)
+> ++			 (if_then_else (gt (match_dup 3)
+> ++					   (const_int 0))
+> ++				       (const_int 1)
+> ++				       (const_int 0))))]
+> ++  "TARGET_P9_MISC"
+> ++{
+> ++  operands[3] =3D gen_reg_rtx (CCmode);
+> ++})
+> ++
+> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
+> ++;; represents a byte whose value is ignored in this context and
+> ++;; vv, the least significant byte, holds the byte value that is to
+> ++;; be tested for membership within the range specified by operand 2.
+> ++;; The bytes of operand 2 are organized as xx:xx:hi:lo.
+> ++;;
+> ++;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
+> ++;; lo <=3D vv and vv <=3D hi.  Otherwise, set the GT bit to 0.  The o=
+ther
+> ++;; 3 bits of the target CR register are all set to 0.
+> ++(define_insn "*cmprb_internal"
+> ++  [(set (match_operand:CC 0 "cc_reg_operand" "=3Dy")
+> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
+> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
+> ++	 UNSPEC_CMPRB))]
+> ++  "TARGET_P9_MISC"
+> ++  "cmprb %0,0,%1,%2"
+> ++  [(set_attr "type" "logical")])
+> ++
+> ++;; Set operand 0 register to -1 if the LT bit (0x8) of condition
+> ++;; register operand 1 is on.  Otherwise, set operand 0 register to 1
+> ++;; if the GT bit (0x4) of condition register operand 1 is on.
+> ++;; Otherwise, set operand 0 to 0.  Note that the result stored into
+> ++;; register operand 0 is non-zero iff either the LT or GT bits are on=
+
+> ++;; within condition register operand 1.
+> ++(define_insn "setb_signed"
+> ++   [(set (match_operand:SI 0 "gpc_reg_operand" "=3Dr")
+> ++	 (if_then_else:SI (lt (match_operand:CC 1 "cc_reg_operand" "y")
+> ++			      (const_int 0))
+> ++			  (const_int -1)
+> ++			  (if_then_else (gt (match_dup 1)
+> ++					    (const_int 0))
+> ++					(const_int 1)
+> ++					(const_int 0))))]
+> ++  "TARGET_P9_MISC"
+> ++  "setb %0,%1"
+> ++  [(set_attr "type" "logical")])
+> ++
+> ++(define_insn "setb_unsigned"
+> ++   [(set (match_operand:SI 0 "gpc_reg_operand" "=3Dr")
+> ++	 (if_then_else:SI (ltu (match_operand:CCUNS 1 "cc_reg_operand" "y")
+> ++			      (const_int 0))
+> ++			  (const_int -1)
+> ++			  (if_then_else (gtu (match_dup 1)
+> ++					    (const_int 0))
+> ++					(const_int 1)
+> ++					(const_int 0))))]
+> ++  "TARGET_P9_MISC"
+> ++  "setb %0,%1"
+> ++  [(set_attr "type" "logical")])
+> ++
+> ++;; Test byte within two ranges.
+> ++;;
+> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
+> ++;; represents a byte whose value is ignored in this context and
+> ++;; vv, the least significant byte, holds the byte value that is to
+> ++;; be tested for membership within the range specified by operand 2.
+> ++;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
+> ++;;
+> ++;; Return in target register operand 0 a value of 1 if (lo_1 <=3D vv =
+and
+> ++;; vv <=3D hi_1) or if (lo_2 <=3D vv and vv <=3D hi_2).  Otherwise, s=
+et register
+> ++;; operand 0 to 0.
+> ++;;
+> ++;; Though the instructions to which this expansion maps operate on
+> ++;; 64-bit registers, the current implementation only operates on
+> ++;; SI-mode operands as the high-order bits provide no information
+> ++;; that is not already available in the low-order bits.  To avoid the=
+
+> ++;; costs of data widening operations, future enhancements might allow=
+
+> ++;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
+> ++(define_expand "cmprb2"
+> ++  [(set (match_dup 3)
+> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
+> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
+> ++	 UNSPEC_CMPRB2))
+> ++   (set (match_operand:SI 0 "gpc_reg_operand" "=3Dr")
+> ++	(if_then_else:SI (lt (match_dup 3)
+> ++			     (const_int 0))
+> ++			 (const_int -1)
+> ++			 (if_then_else (gt (match_dup 3)
+> ++					   (const_int 0))
+> ++				       (const_int 1)
+> ++				       (const_int 0))))]
+> ++  "TARGET_P9_MISC"
+> ++{
+> ++  operands[3] =3D gen_reg_rtx (CCmode);
+> ++})
+> ++
+> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
+> ++;; represents a byte whose value is ignored in this context and
+> ++;; vv, the least significant byte, holds the byte value that is to
+> ++;; be tested for membership within the ranges specified by operand 2.=
+
+> ++;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
+> ++;;
+> ++;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
+> ++;; (lo_1 <=3D vv and vv <=3D hi_1) or if (lo_2 <=3D vv and vv <=3D hi=
+_2).
+> ++;; Otherwise, set the GT bit to 0.  The other 3 bits of the target
+> ++;; CR register are all set to 0.
+> ++(define_insn "*cmprb2_internal"
+> ++  [(set (match_operand:CC 0 "cc_reg_operand" "=3Dy")
+> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
+> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
+> ++	 UNSPEC_CMPRB2))]
+> ++  "TARGET_P9_MISC"
+> ++  "cmprb %0,1,%1,%2"
+> ++  [(set_attr "type" "logical")])
+> ++
+> +=20
+> + (include "sync.md")
+> + (include "vector.md")
+> +--=20
+> +2.23.0
+> +
+> diff --git a/meta/recipes-devtools/gcc/gcc/0043-CVE-2019-15847_2.patch =
+b/meta/recipes-devtools/gcc/gcc/0043-CVE-2019-15847_2.patch
+> new file mode 100644
+> index 0000000000..8d1bc7a6fd
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc/0043-CVE-2019-15847_2.patch
+> @@ -0,0 +1,640 @@
+> +From 3efdb8c4afcbc5e07d33b05ab8c2bf88f42f4890 Mon Sep 17 00:00:00 2001=
+
+> +From: segher <segher@138bc75d-0d04-0410-961f-82ee72b054a4>
+> +Date: Thu, 22 Aug 2019 19:36:21 +0000
+> +Subject: [PATCH 1/2] rs6000: Use unspec_volatile for darn (PR91481)
+> +Reply-To: muislam@microsoft.com
+> +
+> +Every call to darn should deliver a *new* random number; such calls
+> +should not be CSEd together.  So they should be unspec_volatile, not
+> +plain unspec.
+> +
+> +	PR target/91481
+> +	* config/rs6000/rs6000.md (unspec): Delete UNSPEC_DARN, UNSPEC_DARN_3=
+2,
+> +	and UNSPEC_DARN_RAW.
+> +	(unspecv): New enumerator values UNSPECV_DARN, UNSPECV_DARN_32, and
+> +	UNSPECV_DARN_RAW.
+> +	(darn_32): Use an unspec_volatile, and UNSPECV_DARN_32.
+> +	(darn_raw): Use an unspec_volatile, and UNSPECV_DARN_RAW.
+> +	(darn): Use an unspec_volatile, and UNSPECV_DARN.
+> +
+> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@274835 138bc75d-0d04-0=
+410-961f-82ee72b054a4
+> +Signed-off-by: Muminul Islam <muislam@microsoft.com>
+> +
+> +CVE: CVE-2019-15847
+> +Upstream-Status: Backport
+> +---
+> + gcc/ChangeLog               | 336 +++++++++++++++++++++++++++++++++++=
+-
+> + gcc/config/rs6000/rs6000.md | 169 +++++++++++++++++-
+> + 2 files changed, 503 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/gcc/ChangeLog b/gcc/ChangeLog
+> +index b93dae5dfb0..dc22d7e43b7 100644
+> +--- a/gcc/ChangeLog
+> ++++ b/gcc/ChangeLog
+> +@@ -1,4 +1,338 @@
+> +-2018-07-26  Release Manager
+> ++2019-08-22  Segher Boessenkool  <segher@kernel.crashing.org>
+> ++
+> ++	PR target/91481
+> ++	* config/rs6000/rs6000.md (unspec): Delete UNSPEC_DARN, UNSPEC_DARN_=
+32,
+> ++	and UNSPEC_DARN_RAW.
+> ++	(unspecv): New enumerator values UNSPECV_DARN, UNSPECV_DARN_32, and
+> ++	UNSPECV_DARN_RAW.
+> ++	(darn_32): Use an unspec_volatile, and UNSPECV_DARN_32.
+> ++	(darn_raw): Use an unspec_volatile, and UNSPECV_DARN_RAW.
+> ++	(darn): Use an unspec_volatile, and UNSPECV_DARN.
+> ++
+> ++2019-08-22  Segher Boessenkool  <segher@kernel.crashing.org>
+> ++
+> ++	* config/rs6000/altivec.md (unspec): Delete UNSPEC_DARN, UNSPEC_DARN=
+_32,
+> ++	UNSPEC_DARN_RAW, UNSPEC_CMPRB, UNSPEC_CMPRB2, UNSPEC_CMPEQB; move to=
+=2E..
+> ++	* config/rs6000/rs6000.md (unspec): ... here.
+> ++	* config/rs6000/altivec.md (darn_32, darn_raw, darn, cmprb,
+> ++	*cmprb_internal, setb_signed, setb_unsigned, cmprb2, *cmprb2_interna=
+l,
+> ++	cmpeqb, *cmpeqb_internal): Delete, move to...
+> ++	* config/rs6000/rs6000.md (darn_32, darn_raw, darn, cmprb,
+> ++	*cmprb_internal, setb_signed, setb_unsigned, cmprb2, *cmprb2_interna=
+l,
+> ++	cmpeqb, *cmpeqb_internal): ... here.
+> ++
+> ++2019-08-22  Kyrylo Tkachov <kyrylo.tkachov@arm.com>
+> ++
+> ++	* config/arm/arm_acle.h: Use arch=3Darmv8-a+crc+simd pragma for CRC3=
+2
+> ++	intrinsics if __ARM_FP.
+> ++	Use __ARM_FEATURE_CRC32 ifdef guard.
+> ++
+> ++2019-08-22  Wilco Dijkstra  <wdijkstr@arm.com>
+> ++
+> ++	* config/arm/arm.md (neon_for_64bits): Remove.
+> ++	(avoid_neon_for_64bits): Remove.
+> ++	(arm_adddi3): Always split early.
+> ++	(arm_subdi3): Always split early.
+> ++	(negdi2): Remove Neon expansion.
+> ++	(split zero_extend): Split before reload.
+> ++	(split sign_extend): Split before reload.
+> ++
+> ++2019-08-22  Wilco Dijkstra  <wdijkstr@arm.com>
+> ++
+> ++	* config/arm/iterators.md (qhs_extenddi_cstr): Update.
+> ++	(qhs_extenddi_cstr): Likewise.
+> ++	* config/arm/arm.md (ashldi3): Always expand early.
+> ++	(ashlsi3): Likewise.
+> ++	(ashrsi3): Likewise.
+> ++	(zero_extend<mode>di2): Remove Neon variants.
+> ++	(extend<mode>di2): Likewise.
+> ++	* config/arm/neon.md (ashldi3_neon_noclobber): Remove.
+> ++	(signed_shift_di3_neon): Likewise.
+> ++	(unsigned_shift_di3_neon): Likewise.
+> ++	(ashrdi3_neon_imm_noclobber): Likewise.
+> ++	(lshrdi3_neon_imm_noclobber): Likewise.
+> ++	(<shift>di3_neon): Likewise.
+> ++	(split extend): Remove DI extend split patterns.
+> ++
+> ++2019-08-22  Wilco Dijkstra  <wdijkstr@arm.com>
+> ++
+> ++	* config/arm/arm.md (split and/eor/ior): Remove Neon check.
+> ++	(split not): Add DImode not splitter.
+> ++	(anddi3): Remove pattern.
+> ++	(anddi3_insn): Likewise.
+> ++	(anddi_zesidi_di): Likewise.
+> ++	(anddi_sesdi_di): Likewise.
+> ++	(anddi_notdi_di): Likewise.
+> ++	(anddi_notzesidi_di): Likewise.
+> ++	(anddi_notsesidi_di): Likewise.
+> ++	(iordi3): Likewise.
+> ++	(iordi3_insn): Likewise.
+> ++	(iordi_zesidi_di): Likewise.
+> ++	(iordi_sesidi_di): Likewise.
+> ++	(xordi3): Likewise.
+> ++	(xordi3_insn): Likewise.
+> ++	(xordi_sesidi_di): Likewise.
+> ++	(xordi_zesidi_di): Likewise.
+> ++	(one_cmpldi2): Likewise.
+> ++	(one_cmpldi2_insn): Likewise.
+> ++	* config/arm/constraints.md: Remove De, Df, Dg constraints.
+> ++	* config/arm/iwmmxt.md (iwmmxt_iordi3): Remove general register
+> ++	alternative.
+> ++	(iwmmxt_xordi3): Likewise.
+> ++	(iwmmxt_anddi3): Likewise.
+> ++	* config/arm/neon.md (orndi3_neon): Remove pattern.
+> ++	(anddi_notdi_di): Likewise.
+> ++	* config/arm/predicates.md (arm_anddi_operand_neon): Remove.
+> ++	(arm_iordi_operand_neon): Likewise.
+> ++	(arm_xordi_operand_neon): Likewise.
+> ++	* config/arm/thumb2.md(iordi_notdi_di): Remove pattern.
+> ++	(iordi_notzesidi_di): Likewise.
+> ++	(iordi_notdi_zesidi): Likewise.
+> ++	(iordi_notsesidi_di): Likewise.
+> ++
+> ++2019-08-22  Richard Earnshaw  <rearnsha@arm.com>
+> ++
+> ++	* config/arm/arm.md (iorsi3_compare0): Add alternative for 16-bit th=
+umb
+> ++	insn.
+> ++	(iorsi3_compare0_scratch): Likewise.
+> ++
+> ++2019-08-22  Sylvia Taylor  <sylvia.taylor@arm.com>
+> ++
+> ++	* config/aarch64/aarch64-simd-builtins.def:
+> ++	(ld1x4): New.
+> ++	(st1x4): Likewise.
+> ++	* config/aarch64/aarch64-simd.md:
+> ++	(aarch64_ld1x4<VALLDIF:mode>): New pattern.
+> ++	(aarch64_st1x4<VALLDIF:mode>): Likewise.
+> ++	(aarch64_ld1_x4_<mode>): Likewise.
+> ++	(aarch64_st1_x4_<mode>): Likewise.
+> ++	* config/aarch64/arm_neon.h:
+> ++	(vld1_s8_x4): New function.
+> ++	(vld1q_s8_x4): Likewise.
+> ++	(vld1_s16_x4): Likewise.
+> ++	(vld1q_s16_x4): Likewise.
+> ++	(vld1_s32_x4): Likewise.
+> ++	(vld1q_s32_x4): Likewise.
+> ++	(vld1_u8_x4): Likewise.
+> ++	(vld1q_u8_x4): Likewise.
+> ++	(vld1_u16_x4): Likewise.
+> ++	(vld1q_u16_x4): Likewise.
+> ++	(vld1_u32_x4): Likewise.
+> ++	(vld1q_u32_x4): Likewise.
+> ++	(vld1_f16_x4): Likewise.
+> ++	(vld1q_f16_x4): Likewise.
+> ++	(vld1_f32_x4): Likewise.
+> ++	(vld1q_f32_x4): Likewise.
+> ++	(vld1_p8_x4): Likewise.
+> ++	(vld1q_p8_x4): Likewise.
+> ++	(vld1_p16_x4): Likewise.
+> ++	(vld1q_p16_x4): Likewise.
+> ++	(vld1_s64_x4): Likewise.
+> ++	(vld1_u64_x4): Likewise.
+> ++	(vld1_p64_x4): Likewise.
+> ++	(vld1q_s64_x4): Likewise.
+> ++	(vld1q_u64_x4): Likewise.
+> ++	(vld1q_p64_x4): Likewise.
+> ++	(vld1_f64_x4): Likewise.
+> ++	(vld1q_f64_x4): Likewise.
+> ++	(vst1_s8_x4): Likewise.
+> ++	(vst1q_s8_x4): Likewise.
+> ++	(vst1_s16_x4): Likewise.
+> ++	(vst1q_s16_x4): Likewise.
+> ++	(vst1_s32_x4): Likewise.
+> ++	(vst1q_s32_x4): Likewise.
+> ++	(vst1_u8_x4): Likewise.
+> ++	(vst1q_u8_x4): Likewise.
+> ++	(vst1_u16_x4): Likewise.
+> ++	(vst1q_u16_x4): Likewise.
+> ++	(vst1_u32_x4): Likewise.
+> ++	(vst1q_u32_x4): Likewise.
+> ++	(vst1_f16_x4): Likewise.
+> ++	(vst1q_f16_x4): Likewise.
+> ++	(vst1_f32_x4): Likewise.
+> ++	(vst1q_f32_x4): Likewise.
+> ++	(vst1_p8_x4): Likewise.
+> ++	(vst1q_p8_x4): Likewise.
+> ++	(vst1_p16_x4): Likewise.
+> ++	(vst1q_p16_x4): Likewise.
+> ++	(vst1_s64_x4): Likewise.
+> ++	(vst1_u64_x4): Likewise.
+> ++	(vst1_p64_x4): Likewise.
+> ++	(vst1q_s64_x4): Likewise.
+> ++	(vst1q_u64_x4): Likewise.
+> ++	(vst1q_p64_x4): Likewise.
+> ++	(vst1_f64_x4): Likewise.
+> ++	(vst1q_f64_x4): Likewise.
+> ++
+> ++2019-08-22  Prathamesh Kulkarni  <prathamesh.kulkarni@linaro.org>
+> ++
+> ++	* config/aarch64/aarch64-sve.md (vcond_mask): Add "@".
+> ++
+> ++2019-08-22  Prathamesh Kulkarni  <prathamesh.kulkarni@linaro.org>
+> ++	    Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	PR target/88839
+> ++	* config/aarch64/aarch64.c (aarch64_evpc_sel): New function.
+> ++	(aarch64_expand_vec_perm_const_1): Call aarch64_evpc_sel.
+> ++
+> ++2019-08-21  Prathamesh Kulkarni  <prathamesh.kulkarni@linaro.org>
+> ++
+> ++	PR target/90724
+> ++	* config/aarch64/aarch64.c (aarch64_gen_compare_reg_maybe_ze): Force=
+ y
+> ++	in reg if it fails aarch64_plus_operand predicate.
+> ++
+> ++2019-08-21  Richard Biener  <rguenther@suse.de>
+> ++
+> ++	PR tree-optimization/91482
+> ++	* tree-ssa-ccp.c (ccp_folder::fold_stmt): Remove useless
+> ++	BUILT_IN_ASSUME_ALIGNED calls.
+> ++
+> ++2019-08-21  Richard Biener  <rguenther@suse.de>
+> ++
+> ++	PR target/91498
+> ++	PR target/91503
+> ++	* config/i386/i386-features.c
+> ++	(general_scalar_chain::make_vector_copies): Copy stack temporary
+> ++	rtx when using it multiple times.
+> ++	(general_scalar_chain::convert_reg): Likewise.
+> ++
+> ++2019-08-20  Bernd Edlinger  <bernd.edlinger@hotmail.de>
+> ++
+> ++	* function.c (assign_parm_find_stack_rtl): Use known_eq instead of =3D=
+=3D.
+> ++
+> ++2019-08-20  Matthew Beliveau  <mbelivea@redhat.com>
+> ++
+> ++	* tree-ssa-dse.c (dse_optimize_redundant_stores): Improved check to
+> ++	catch more redundant zero initialization cases.
+> ++	(dse_dom_walker::dse_optimize_stmt): Likewise.
+> ++
+> ++2019-08-20  Richard Biener  <rguenther@suse.de>
+> ++
+> ++	PR lto/91307
+> ++	* ipa.c (cgraph_build_static_cdtor_1): Use names not recognizable
+> ++	by collect2 when targetm.have_ctors_dtors which avoids dragging
+> ++	in temporary filenames from LTO input objects.
+> ++
+> ++2019-08-20  Richard Biener  <rguenther@suse.de>
+> ++
+> ++	PR tree-optimization/37242
+> ++	* tree-ssa-sccvn.c (visit_nary_op): Also CSE (T)(a + b)
+> ++	to (T)a + (T)b if we know that a + b does not overflow.
+> ++
+> ++2019-08-20  Eric Botcazou  <ebotcazou@adacore.com>
+> ++
+> ++	PR rtl-optimization/91347
+> ++	* dse.c (scan_insn): Call add_wild_read for non-const/memset tail ca=
+lls
+> ++	before reload if HARD_FRAME_POINTER_IS_ARG_POINTER.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* calls.h (function_arg_info): Add a pass_by_reference field,
+> ++	defaulting to false.
+> ++	* calls.c (apply_pass_by_reference_rules): Set pass_by_reference
+> ++	when applying pass-by-reference semantics.
+> ++	(initialize_argument_information): Likewise.
+> ++	(emit_library_call_value_1): Likewise.
+> ++	* function.c (assign_parm_data_one): Remove passed_pointer field.
+> ++	(assign_parm_find_data_types): Don't set it.
+> ++	(assign_parm_find_stack_rtl, assign_parm_adjust_stack_rtl)
+> ++	(assign_parm_setup_reg, assign_parms, gimplify_parameters): Use
+> ++	arg.pass_by_reference instead of passed_pointer.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* calls.c (emit_library_call_value_1): Merge arg and orig_arg
+> ++	into a single function_arg_info, updating its fields when we
+> ++	apply pass-by-reference and promotion semantics.  Use the
+> ++	function_arg_info to track the mode rather than keeping it in
+> ++	a separate local variable.
+> ++	(initialize_argument_information): Likewise.  Base the final
+> ++	arg_to_skip on this new function_arg_info rather than creating
+> ++	a new one from scratch.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* function.c (assign_parm_data_one): Replace passed_type,
+> ++	promoted_mode and named_arg with a function_arg_info field.
+> ++	(assign_parm_find_data_types): Remove local variables and
+> ++	assign directly to "data".  Make data->passed_mode shadow
+> ++	data->arg.mode until promotion, then assign the promoted
+> ++	mode to data->arg.mode.
+> ++	(assign_parms_setup_varargs, assign_parm_find_entry_rtl)
+> ++	(assign_parm_find_stack_rtl, assign_parm_adjust_entry_rtl)
+> ++	(assign_parm_remove_parallels, assign_parm_setup_block_p)
+> ++	(assign_parm_setup_block, assign_parm_setup_reg)
+> ++	(assign_parm_setup_stack, assign_parms, gimplify_parameters): Use
+> ++	arg.mode instead of promoted_mode, arg.type instead of passed_type
+> ++	and arg.named instead of named_arg.  Use data->arg for
+> ++	function_arg_info structures that had the field values passed_type,
+> ++	promoted_mode and named_arg.  Base other function_arg_infos on
+> ++	data->arg, changing the necessary properties.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* calls.h (apply_pass_by_reference_rules): Declare.
+> ++	* calls.c (apply_pass_by_reference_rules): New function.
+> ++	* config/c6x/c6x.c (c6x_call_saved_register_used): Use it.
+> ++	* config/rs6000/rs6000-call.c (rs6000_parm_needs_stack): Likewise.
+> ++	* config/s390/s390.c (s390_call_saved_register_used): Likewise.
+> ++	* function.c (assign_parm_find_data_types): Likewise.
+> ++	* var-tracking.c (prepare_call_arguments): Likewise.
+> ++
+> ++2019-08-20  Richard Sandiford  <richard.sandiford@arm.com>
+> ++
+> ++	* target.def (must_pass_in_stack): Take a function_arg_info instead
+> ++	of a mode and a type.
+> ++	* doc/tm.texi: Regenerate.
+> ++	* calls.h (must_pass_in_stack_var_size): Take a function_arg_info
+> ++	instead of a mode and a type.
+> ++	(must_pass_in_stack_var_size_or_pad): Likewise.
+> ++	* calls.c (must_pass_in_stack_var_size): Likewise.
+> ++	(must_pass_in_stack_var_size_or_pad): Likewise.
+> ++	(initialize_argument_information): Update call to
+> ++	targetm.calls.must_pass_in_stack.
+> ++	(must_pass_va_arg_on_stack): Likewise.
+> ++	* function.c (assign_parm_find_entry_rtl): Likewise.
+> ++	* targhooks.c (hook_pass_by_reference_must_pass_in_stack): Likewise.=
+
+> ++	* config/alpha/alpha.c (alpha_function_arg): Likewise.
+> ++	(alpha_function_arg_advance): Likewise.
+> ++	* config/cr16/cr16.c (cr16_function_arg): Likewise.
+> ++	(cr16_function_arg_advance): Likewise.
+> ++	* config/cris/cris.c (cris_pass_by_reference): Likewise.
+> ++	(cris_arg_partial_bytes): Likewise.
+> ++	* config/iq2000/iq2000.c (iq2000_pass_by_reference): Likewise.
+> ++	* config/lm32/lm32.c (lm32_function_arg): Likewise.
+> ++	* config/mcore/mcore.c (mcore_num_arg_regs): Likewise.
+> ++	(mcore_function_arg, mcore_arg_partial_bytes): Likewise.
+> ++	* config/mips/mips.c (mips_pass_by_reference): Likewise.
+> ++	* config/mmix/mmix.c (mmix_function_arg_advance): Likewise.
+> ++	(mmix_function_arg_1, mmix_pass_by_reference): Likewise.
+> ++	* config/sh/sh.c (sh_pass_by_reference): Likewise.
+> ++	* config/stormy16/stormy16.c (xstormy16_function_arg): Likewise.
+> ++	* config/xtensa/xtensa.c (xtensa_function_arg_advance): Likewise.
+> ++	* config/arm/arm.c (arm_must_pass_in_stack): Take a function_arg_inf=
+o
+> ++	instead of a mode and a type.
+> ++	* config/fr30/fr30.c (fr30_must_pass_in_stack): Likewise.
+> ++	(fr30_num_arg_regs): Likewise.
+> ++	(fr30_setup_incoming_varargs): Update calls accordingly.
+> ++	(fr30_arg_partial_bytes, fr30_function_arg): Likewise.
+> ++	(fr30_function_arg_advance): Likewise.
+> ++	* config/frv/frv.c (frv_must_pass_in_stack): Take a function_arg_inf=
+o
+> ++	instead of a mode and a type.
+> ++	* config/gcn/gcn.c (num_arg_regs): Likewise.
+> ++	(gcn_function_arg, gcn_function_arg_advance): Update calls to
+> ++	num_arg_regs and targetm.calls.must_pass_in_stack.
+> ++	(gcn_arg_partial_bytes): Likewise.
+> ++	* config/i386/i386.c (ix86_must_pass_in_stack): Take a
+> ++	function_arg_info instead of a mode and a type.
+> ++	(classify_argument): Update call accordingly.
+> ++	* config/nds32/nds32.c (nds32_must_pass_in_stack): Take a
+> ++	function_arg_info instead of a mode and a type.
+> ++	* config/rs6000/rs6000-internal.h (rs6000_must_pass_in_stack):
+> ++	Likewise.
+> ++	* config/rs6000/rs6000-call.c (rs6000_must_pass_in_stack): Likewise.=
+
+> ++	(rs6000_parm_needs_stack): Update call accordingly.
+> ++	(setup_incoming_varargs): Likewise.
+
+Where are all the other changes noted in the Change log?
+> +=20
+> + 	* GCC 8.2.0 released.
+> +=20
+> +diff --git a/gcc/config/rs6000/rs6000.md b/gcc/config/rs6000/rs6000.md=
+
+> +index 60058814b8a..d706c6ecd1a 100644
+> +--- a/gcc/config/rs6000/rs6000.md
+> ++++ b/gcc/config/rs6000/rs6000.md
+> +@@ -138,6 +138,9 @@
+> +    UNSPEC_STACK_CHECK
+> +    UNSPEC_FUSION_P9
+> +    UNSPEC_FUSION_ADDIS
+> ++   UNSPEC_CMPRB
+> ++   UNSPEC_CMPRB2
+> ++   UNSPEC_CMPEQB
+> +    UNSPEC_ADD_ROUND_TO_ODD
+> +    UNSPEC_SUB_ROUND_TO_ODD
+> +    UNSPEC_MUL_ROUND_TO_ODD
+> +@@ -162,6 +165,9 @@
+> +    UNSPECV_EH_RR		; eh_reg_restore
+> +    UNSPECV_ISYNC		; isync instruction
+> +    UNSPECV_MFTB			; move from time base
+> ++   UNSPECV_DARN			; darn 1 (deliver a random number)
+> ++   UNSPECV_DARN_32		; darn 2
+> ++   UNSPECV_DARN_RAW		; darn 0
+> +    UNSPECV_NLGR			; non-local goto receiver
+> +    UNSPECV_MFFS			; Move from FPSCR
+> +    UNSPECV_MTFSF		; Move to FPSCR Fields
+> +@@ -14603,7 +14609,168 @@
+> +   [(set_attr "type" "veccmp")
+> +    (set_attr "size" "128")])
+> +=20
+> +-=0C
+> ++;; Miscellaneous ISA 3.0 (power9) instructions
+> ++(define_insn "darn_32"
+> ++  [(set (match_operand:SI 0 "register_operand" "=3Dr")
+> ++        (unspec_volatile:SI [(const_int 0)] UNSPECV_DARN_32))]
+> ++  "TARGET_P9_MISC"
+> ++  "darn %0,0"
+> ++  [(set_attr "type" "integer")])
+> ++
+> ++(define_insn "darn_raw"
+> ++  [(set (match_operand:DI 0 "register_operand" "=3Dr")
+> ++        (unspec_volatile:DI [(const_int 0)] UNSPECV_DARN_RAW))]
+> ++  "TARGET_P9_MISC && TARGET_64BIT"
+> ++  "darn %0,2"
+> ++  [(set_attr "type" "integer")])
+> ++
+> ++(define_insn "darn"
+> ++  [(set (match_operand:DI 0 "register_operand" "=3Dr")
+> ++        (unspec_volatile:DI [(const_int 0)] UNSPECV_DARN))]
+> ++  "TARGET_P9_MISC && TARGET_64BIT"
+> ++  "darn %0,1"
+> ++  [(set_attr "type" "integer")])
+> ++
+> ++;; Test byte within range.
+> ++;;
+> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
+> ++;; represents a byte whose value is ignored in this context and
+> ++;; vv, the least significant byte, holds the byte value that is to
+> ++;; be tested for membership within the range specified by operand 2.
+> ++;; The bytes of operand 2 are organized as xx:xx:hi:lo.
+> ++;;
+> ++;; Return in target register operand 0 a value of 1 if lo <=3D vv and=
+
+> ++;; vv <=3D hi.  Otherwise, set register operand 0 to 0.
+> ++;;
+> ++;; Though the instructions to which this expansion maps operate on
+> ++;; 64-bit registers, the current implementation only operates on
+> ++;; SI-mode operands as the high-order bits provide no information
+> ++;; that is not already available in the low-order bits.  To avoid the=
+
+> ++;; costs of data widening operations, future enhancements might allow=
+
+> ++;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
+> ++(define_expand "cmprb"
+> ++  [(set (match_dup 3)
+> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
+> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
+> ++	 UNSPEC_CMPRB))
+> ++   (set (match_operand:SI 0 "gpc_reg_operand" "=3Dr")
+> ++	(if_then_else:SI (lt (match_dup 3)
+> ++			     (const_int 0))
+> ++			 (const_int -1)
+> ++			 (if_then_else (gt (match_dup 3)
+> ++					   (const_int 0))
+> ++				       (const_int 1)
+> ++				       (const_int 0))))]
+> ++  "TARGET_P9_MISC"
+> ++{
+> ++  operands[3] =3D gen_reg_rtx (CCmode);
+> ++})
+> ++
+> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
+> ++;; represents a byte whose value is ignored in this context and
+> ++;; vv, the least significant byte, holds the byte value that is to
+> ++;; be tested for membership within the range specified by operand 2.
+> ++;; The bytes of operand 2 are organized as xx:xx:hi:lo.
+> ++;;
+> ++;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
+> ++;; lo <=3D vv and vv <=3D hi.  Otherwise, set the GT bit to 0.  The o=
+ther
+> ++;; 3 bits of the target CR register are all set to 0.
+> ++(define_insn "*cmprb_internal"
+> ++  [(set (match_operand:CC 0 "cc_reg_operand" "=3Dy")
+> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
+> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
+> ++	 UNSPEC_CMPRB))]
+> ++  "TARGET_P9_MISC"
+> ++  "cmprb %0,0,%1,%2"
+> ++  [(set_attr "type" "logical")])
+> ++
+> ++;; Set operand 0 register to -1 if the LT bit (0x8) of condition
+> ++;; register operand 1 is on.  Otherwise, set operand 0 register to 1
+> ++;; if the GT bit (0x4) of condition register operand 1 is on.
+> ++;; Otherwise, set operand 0 to 0.  Note that the result stored into
+> ++;; register operand 0 is non-zero iff either the LT or GT bits are on=
+
+> ++;; within condition register operand 1.
+> ++(define_insn "setb_signed"
+> ++   [(set (match_operand:SI 0 "gpc_reg_operand" "=3Dr")
+> ++	 (if_then_else:SI (lt (match_operand:CC 1 "cc_reg_operand" "y")
+> ++			      (const_int 0))
+> ++			  (const_int -1)
+> ++			  (if_then_else (gt (match_dup 1)
+> ++					    (const_int 0))
+> ++					(const_int 1)
+> ++					(const_int 0))))]
+> ++  "TARGET_P9_MISC"
+> ++  "setb %0,%1"
+> ++  [(set_attr "type" "logical")])
+> ++
+> ++(define_insn "setb_unsigned"
+> ++   [(set (match_operand:SI 0 "gpc_reg_operand" "=3Dr")
+> ++	 (if_then_else:SI (ltu (match_operand:CCUNS 1 "cc_reg_operand" "y")
+> ++			      (const_int 0))
+> ++			  (const_int -1)
+> ++			  (if_then_else (gtu (match_dup 1)
+> ++					    (const_int 0))
+> ++					(const_int 1)
+> ++					(const_int 0))))]
+> ++  "TARGET_P9_MISC"
+> ++  "setb %0,%1"
+> ++  [(set_attr "type" "logical")])
+> ++
+> ++;; Test byte within two ranges.
+> ++;;
+> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
+> ++;; represents a byte whose value is ignored in this context and
+> ++;; vv, the least significant byte, holds the byte value that is to
+> ++;; be tested for membership within the range specified by operand 2.
+> ++;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
+> ++;;
+> ++;; Return in target register operand 0 a value of 1 if (lo_1 <=3D vv =
+and
+> ++;; vv <=3D hi_1) or if (lo_2 <=3D vv and vv <=3D hi_2).  Otherwise, s=
+et register
+> ++;; operand 0 to 0.
+> ++;;
+> ++;; Though the instructions to which this expansion maps operate on
+> ++;; 64-bit registers, the current implementation only operates on
+> ++;; SI-mode operands as the high-order bits provide no information
+> ++;; that is not already available in the low-order bits.  To avoid the=
+
+> ++;; costs of data widening operations, future enhancements might allow=
+
+> ++;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
+> ++(define_expand "cmprb2"
+> ++  [(set (match_dup 3)
+> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
+> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
+> ++	 UNSPEC_CMPRB2))
+> ++   (set (match_operand:SI 0 "gpc_reg_operand" "=3Dr")
+> ++	(if_then_else:SI (lt (match_dup 3)
+> ++			     (const_int 0))
+> ++			 (const_int -1)
+> ++			 (if_then_else (gt (match_dup 3)
+> ++					   (const_int 0))
+> ++				       (const_int 1)
+> ++				       (const_int 0))))]
+> ++  "TARGET_P9_MISC"
+> ++{
+> ++  operands[3] =3D gen_reg_rtx (CCmode);
+> ++})
+> ++
+> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
+> ++;; represents a byte whose value is ignored in this context and
+> ++;; vv, the least significant byte, holds the byte value that is to
+> ++;; be tested for membership within the ranges specified by operand 2.=
+
+> ++;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
+> ++;;
+> ++;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
+> ++;; (lo_1 <=3D vv and vv <=3D hi_1) or if (lo_2 <=3D vv and vv <=3D hi=
+_2).
+> ++;; Otherwise, set the GT bit to 0.  The other 3 bits of the target
+> ++;; CR register are all set to 0.
+> ++(define_insn "*cmprb2_internal"
+> ++  [(set (match_operand:CC 0 "cc_reg_operand" "=3Dy")
+> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
+> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
+> ++	 UNSPEC_CMPRB2))]
+> ++  "TARGET_P9_MISC"
+> ++  "cmprb %0,1,%1,%2"
+> ++  [(set_attr "type" "logical")])
+> ++
+> +=20
+> + (include "sync.md")
+> + (include "vector.md")
+> +--=20
+> +2.23.0
+> +
+> +
+> +From 650317c9974024bd33d533740450189c3d6540b0 Mon Sep 17 00:00:00 2001=
+
+> +From: segher <segher@138bc75d-0d04-0410-961f-82ee72b054a4>
+> +Date: Fri, 23 Aug 2019 22:19:40 +0000
+> +Subject: [PATCH 2/2] rs6000: New darn testcase (PR91481)
+> +Reply-To: muislam@microsoft.com
+> +
+> +We used to implement darn with unspecs, not unspec_volatiles, which
+> +means two darn instructions could be CSEd together.
+> +
+> +This testcase tests it by adding together four random numbers.  If all=
+
+> +is well that means we get four darn instructions, because such a small=
+
+> +loop is unrolled fine at -O2 already.  If things go bad, combine will
+> +combine it all to one darn and a shift left by two.
+> +
+> +gcc/testsuite/
+> +	PR target/91481
+> +	* gcc.target/powerpc/darn-3.c: New testcase.
+> +
+> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@274889 138bc75d-0d04-0=
+410-961f-82ee72b054a4
+> +Signed-off-by: Muminul Islam <muislam@microsoft.com>
+> +
+> +CVE: CVE-2019-15847
+> +Upstream-Status: Backport
+> +---
+> + gcc/testsuite/ChangeLog                   |  7 ++++++-
+> + gcc/testsuite/gcc.target/powerpc/darn-3.c | 16 ++++++++++++++++
+> + 2 files changed, 22 insertions(+), 1 deletion(-)
+> + create mode 100644 gcc/testsuite/gcc.target/powerpc/darn-3.c
+> +
+> +diff --git a/gcc/testsuite/ChangeLog b/gcc/testsuite/ChangeLog
+> +index b80ff889f15..47ed83e50e6 100644
+> +--- a/gcc/testsuite/ChangeLog
+> ++++ b/gcc/testsuite/ChangeLog
+> +@@ -1,4 +1,9 @@
+> +-2018-07-26  Release Manager
+> ++2019-08-23  Segher Boessenkool  <segher@kernel.crashing.org>
+> ++
+> ++	PR target/91481
+> ++	* gcc.target/powerpc/darn-3.c: New testcase.
+> ++
+> ++2019-08-23  Marek Polacek  <polacek@redhat.com>
+> +=20
+> + 	* GCC 8.2.0 released.
+> +=20
+> +diff --git a/gcc/testsuite/gcc.target/powerpc/darn-3.c b/gcc/testsuite=
+/gcc.target/powerpc/darn-3.c
+> +new file mode 100644
+> +index 00000000000..477901fde70
+> +--- /dev/null
+> ++++ b/gcc/testsuite/gcc.target/powerpc/darn-3.c
+> +@@ -0,0 +1,16 @@
+> ++/* { dg-do compile { target { powerpc*-*-* } } } */
+> ++/* { dg-skip-if "" { powerpc*-*-aix* } } */
+> ++/* { dg-options "-O2 -mdejagnu-cpu=3Dpower9" } */
+> ++
+> ++static int darn32(void) { return __builtin_darn_32(); }
+> ++
+> ++int four(void)
+> ++{
+> ++	int sum =3D 0;
+> ++	int i;
+> ++	for (i =3D 0; i < 4; i++)
+> ++		sum +=3D darn32();
+> ++	return sum;
+> ++}
+> ++
+> ++/* { dg-final { scan-assembler-times {(?n)\mdarn .*,0\M} 4 } } */
+> +--=20
+> +2.23.0
+> +
 
-Current Dev Position: YP 2.8 M4 Feature Freeze
 
-Next Deadline: YP 3.0 Final Release 25th Oct
 
-SWAT Team Rotation:
-
-   -
-
-   SWAT lead is currently: Ross
-   -
-
-   SWAT team rotation: Ross -> Amanda on Sept. 20, 2019
-   -
-
-   SWAT team rotation: Amanda -> Chen on Sept. 27, 2019
-   -
-
-   https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
-
-
-Next Team Meetings:
-
-   -
-
-   Bug Triage meeting Thursday Sept 19th at 7:30am PDT (
-   https://zoom.us/j/454367603)
-   -
-
-   Monthly Project Meeting Tuesday Oct. 1st at 8am PDT (
-   https://zoom.us/j/990892712) <https://zoom.us/j/990892712>
-   -
-
-   Weekly Engineering Sync Tuesday Sept. 17th at 8am PDT (
-   https://zoom.us/j/990892712) <https://zoom.us/j/990892712>
-   -
-
-   Twitch - Next event is Tuesday Octt. 8th at 8am PDT (
-   https://www.twitch.tv/yocto_project)
-
-
-Key Status/Updates:
-
-   -
-
-   We=E2=80=99re now in feature freeze for 3.0 and working on bug fixing fo=
-r final
-   release
-   -
-
-   We have not built M3 yet as there are still three issues that need to be
-   resolved:
-   -
-
-      strace ptest regressions with 5.1/5.2 kernels
-      -
-
-      systemd timeouts on mips
-      -
-
-      hashequiv server rewrite
-      -
-
-   The strace regressions will be discussed with the kernel community, the
-   best workaround may be to lower the individual test timeouts so one the
-   affected individual tests fail rather than all tests timing out.
-   -
-
-   The qemumips issue with systemd is puzzling as its happening in hwdb and
-   hwdb should be generated in advance anyway. Investigation is ongoing abo=
-ut
-   why its being regenerated, a workaround is to increase the timeout as mi=
-ps
-   is just slow (it does complete eventually, its just marginal).
-   -
-
-   The hashequiv server changes are being tested in master-next
-   -
-
-   It is planned to build M3 this week with the workarounds mentioned above
-   worst case. Its expected there would be further hashequiv fixing during =
-M4.
-   -
-
-   We hope to make up time during M4 by having M3 at high quality and take
-   advantage of our automation.
-   -
-
-   Documentation - Due to illness Scott is unavailable for the next month
-   or two so doc patches will be handled by Richard or Ross in the short te=
-rm.
-   We=E2=80=99ll likely limit them to correctness issues and defer any subs=
-tantial new
-   text. If anyone has availability and skills to work on the manuals pleas=
-e
-   talk to us. We=E2=80=99re aware there is a patch backlog.
-   -
-
-   If anyone has any status items for the project they=E2=80=99d like to ad=
-d to the
-   weekly reports, please email Richard+Stephen.
-
-
-Planned Releases for YP 3.0 {2.8}:
-
-   -
-
-   M3 Release 6th Sept
-   -
-
-   M4 Cutoff 30th Sept - this will be YP 3.0.
-   -
-
-   YP 3.0 {2.8 (M4)} Final Release 25th Oct
-
-
-Planned upcoming dot releases:
-
-   -
-
-   YP 2.7.2 (Warrior) is planned for after YP 3.0 release.
-   -
-
-   YP 2.6.4 (Thud) is planned for after YP 2.7.2  release.
-
-
-Tracking Metrics:
-
-   -
-
-   WDD 2449 (last week 2424) (
-   https://wiki.yoctoproject.org/charts/combo.html)
-   -
-
-   Poky Patch Metrics
-   -
-
-      Total patches found: 1424 (last week 1417)
-      -
-
-      Patches in the Pending State: 587 (41%) [last week 582 (41%)]
-
-
-Key Status Links for YP:
-
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.8_Status
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.8_Schedule
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.8_Features
-
-The Yocto Project=E2=80=99s technical governance is through its Technical S=
-teering
-Committee, more information is available at:
-
-https://wiki.yoctoproject.org/wiki/TSC
-
-The Status reports are now stored on the wiki at:
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
-[If anyone has suggestions for other information you=E2=80=99d like to see =
-on this
-weekly status update, let us know!]
-
-
-Thanks,
-
-
-
-*Stephen K. Jolley*
-
-*Yocto Project Program Manager*
-
-(    *Cell*:                (208) 244-4460
-
-* *Email*:              sjolley.yp.pm@gmail.com
-
---0000000000002c6ae20592c0d50a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><span id=3D"gmail-docs-internal-guid-3847c562-7fff-be8f-2b=
-dc-ba0b652cd4a3"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
-rgin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(=
-0,0,0);background-color:transparent;font-variant-numeric:normal;font-varian=
-t-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">Current D=
-ev Position: YP 2.8 M4 Feature Freeze</span></p><p dir=3D"ltr" style=3D"lin=
-e-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11=
-pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;font-var=
-iant-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;=
-white-space:pre-wrap">Next Deadline: YP 3.0 Final Release 25th Oct</span></=
-p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom=
-:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);back=
-ground-color:transparent;font-variant-numeric:normal;font-variant-east-asia=
-n:normal;vertical-align:baseline;white-space:pre-wrap">SWAT Team Rotation:<=
-/span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" st=
-yle=3D"list-style-type:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,=
-0);background-color:transparent;font-variant-numeric:normal;font-variant-ea=
-st-asian:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" sty=
-le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"fon=
-t-size:11pt;background-color:transparent;font-variant-numeric:normal;font-v=
-ariant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">SWAT=
- lead is currently: Ross</span></p></li><li dir=3D"ltr" style=3D"list-style=
--type:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-col=
-or:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;v=
-ertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height=
-:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;backg=
-round-color:transparent;font-variant-numeric:normal;font-variant-east-asian=
-:normal;vertical-align:baseline;white-space:pre-wrap">SWAT team rotation: R=
-oss -&gt; Amanda on Sept. 20, 2019</span></p></li><li dir=3D"ltr" style=3D"=
-list-style-type:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);back=
-ground-color:transparent;font-variant-numeric:normal;font-variant-east-asia=
-n:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"l=
-ine-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:=
-11pt;background-color:transparent;font-variant-numeric:normal;font-variant-=
-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">SWAT team r=
-otation: Amanda -&gt; Chen on Sept. 27, 2019</span></p></li><li dir=3D"ltr"=
- style=3D"list-style-type:disc;font-size:11pt;font-family:Consolas,sans-ser=
-if;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:norma=
-l;font-variant-east-asian:normal;vertical-align:baseline;white-space:pre"><=
-p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><=
-a href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team"=
- style=3D"text-decoration-line:none"><span style=3D"font-size:11pt;backgrou=
-nd-color:transparent;font-variant-numeric:normal;font-variant-east-asian:no=
-rmal;text-decoration-line:underline;vertical-align:baseline;white-space:pre=
--wrap">https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team</sp=
-an></a></p></li></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-to=
-p:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;co=
-lor:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;fon=
-t-variant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">N=
-ext Team Meetings:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"=
-><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:A=
-rial;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:nor=
-mal;font-variant-east-asian:normal;vertical-align:baseline;white-space:pre"=
-><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
-><span style=3D"font-size:11pt;background-color:transparent;font-variant-nu=
-meric:normal;font-variant-east-asian:normal;vertical-align:baseline;white-s=
-pace:pre-wrap">Bug Triage meeting Thursday Sept 19th at 7:30am PDT (</span>=
-<a href=3D"https://zoom.us/j/454367603" style=3D"text-decoration-line:none"=
-><span style=3D"font-size:10pt;background-color:transparent;font-variant-nu=
-meric:normal;font-variant-east-asian:normal;text-decoration-line:underline;=
-vertical-align:baseline;white-space:pre-wrap">https://zoom.us/j/454367603</=
-span></a><span style=3D"font-size:11pt;background-color:transparent;font-va=
-riant-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline=
-;white-space:pre-wrap">)</span></p></li><li dir=3D"ltr" style=3D"list-style=
--type:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-col=
-or:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;v=
-ertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height=
-:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;backg=
-round-color:transparent;font-variant-numeric:normal;font-variant-east-asian=
-:normal;vertical-align:baseline;white-space:pre-wrap">Monthly Project Meeti=
-ng Tuesday Oct. 1st at 8am PDT (</span><a href=3D"https://zoom.us/j/9908927=
-12" style=3D"text-decoration-line:none"><span style=3D"font-size:11pt;backg=
-round-color:transparent;font-variant-numeric:normal;font-variant-east-asian=
-:normal;text-decoration-line:underline;vertical-align:baseline;white-space:=
-pre-wrap">https://zoom.us/j/990892712)</span></a></p></li><li dir=3D"ltr" s=
-tyle=3D"list-style-type:disc;font-size:11pt;font-family:Arial;color:rgb(0,0=
-,0);background-color:transparent;font-variant-numeric:normal;font-variant-e=
-ast-asian:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" st=
-yle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"fo=
-nt-size:11pt;background-color:transparent;font-variant-numeric:normal;font-=
-variant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">Wee=
-kly Engineering Sync Tuesday Sept. 17th at 8am PDT (</span><a href=3D"https=
-://zoom.us/j/990892712" style=3D"text-decoration-line:none"><span style=3D"=
-font-size:11pt;background-color:transparent;font-variant-numeric:normal;fon=
-t-variant-east-asian:normal;text-decoration-line:underline;vertical-align:b=
-aseline;white-space:pre-wrap">https://zoom.us/j/990892712)</span></a></p></=
-li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family=
-:Arial;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:n=
-ormal;font-variant-east-asian:normal;vertical-align:baseline;white-space:pr=
-e"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0p=
-t"><span style=3D"font-size:11pt;background-color:transparent;font-variant-=
-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;white=
--space:pre-wrap">Twitch - Next event is Tuesday Octt. 8th at 8am PDT (</spa=
-n><a href=3D"https://www.twitch.tv/yocto_project" style=3D"text-decoration-=
-line:none"><span style=3D"font-size:11pt;background-color:transparent;font-=
-variant-numeric:normal;font-variant-east-asian:normal;text-decoration-line:=
-underline;vertical-align:baseline;white-space:pre-wrap">https://www.twitch.=
-tv/yocto_project</span></a><span style=3D"font-size:11pt;background-color:t=
-ransparent;font-variant-numeric:normal;font-variant-east-asian:normal;verti=
-cal-align:baseline;white-space:pre-wrap">)</span></p></li></ul><br><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span =
-style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color=
-:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;ver=
-tical-align:baseline;white-space:pre-wrap">Key Status/Updates:</span></p><u=
-l style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-=
-style-type:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);backgroun=
-d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
-mal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-h=
-eight:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;=
-background-color:transparent;font-variant-numeric:normal;font-variant-east-=
-asian:normal;vertical-align:baseline;white-space:pre-wrap">We=E2=80=99re no=
-w in feature freeze for 3.0 and working on bug fixing for final release</sp=
-an></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;fo=
-nt-family:Arial;color:rgb(0,0,0);background-color:transparent;font-variant-=
-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;white=
--space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-=
-bottom:0pt"><span style=3D"font-size:11pt;background-color:transparent;font=
--variant-numeric:normal;font-variant-east-asian:normal;vertical-align:basel=
-ine;white-space:pre-wrap">We have not built M3 yet as there are still three=
- issues that need to be resolved:</span></p></li><ul style=3D"margin-top:0p=
-x;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:circle;font-s=
-ize:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;fo=
-nt-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:bas=
-eline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:=
-0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;background-color:trans=
-parent;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-=
-align:baseline;white-space:pre-wrap">strace ptest regressions with 5.1/5.2 =
-kernels</span></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font=
--size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;=
-font-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:b=
-aseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-to=
-p:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;background-color:tra=
-nsparent;font-variant-numeric:normal;font-variant-east-asian:normal;vertica=
-l-align:baseline;white-space:pre-wrap">systemd timeouts on mips</span></p><=
-/li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-fam=
-ily:Arial;color:rgb(0,0,0);background-color:transparent;font-variant-numeri=
-c:normal;font-variant-east-asian:normal;vertical-align:baseline;white-space=
-:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom=
-:0pt"><span style=3D"font-size:11pt;background-color:transparent;font-varia=
-nt-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;wh=
-ite-space:pre-wrap">hashequiv server rewrite</span></p></li></ul><li dir=3D=
-"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial;color:=
-rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-va=
-riant-east-asian:normal;vertical-align:baseline;white-space:pre"><p dir=3D"=
-ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span styl=
-e=3D"font-size:11pt;background-color:transparent;font-variant-numeric:norma=
-l;font-variant-east-asian:normal;vertical-align:baseline;white-space:pre-wr=
-ap">The strace regressions will be discussed with the kernel community, the=
- best workaround may be to lower the individual test timeouts so one the af=
-fected individual tests fail rather than all tests timing out.</span></p></=
-li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family=
-:Arial;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:n=
-ormal;font-variant-east-asian:normal;vertical-align:baseline;white-space:pr=
-e"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0p=
-t"><span style=3D"font-size:11pt;background-color:transparent;font-variant-=
-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;white=
--space:pre-wrap">The qemumips issue with systemd is puzzling as its happeni=
-ng in hwdb and hwdb should be generated in advance anyway. Investigation is=
- ongoing about why its being regenerated, a workaround is to increase the t=
-imeout as mips is just slow (it does complete eventually, its just marginal=
-).</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:1=
-1pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;font-va=
-riant-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline=
-;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
-argin-bottom:0pt"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-align=
-:baseline;white-space:pre-wrap">The hashequiv server changes are being test=
-ed in master-next</span></p></li><li dir=3D"ltr" style=3D"list-style-type:d=
-isc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:tran=
-sparent;font-variant-numeric:normal;font-variant-east-asian:normal;vertical=
--align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;m=
-argin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;background-c=
-olor:transparent;font-variant-numeric:normal;font-variant-east-asian:normal=
-;vertical-align:baseline;white-space:pre-wrap">It is planned to build M3 th=
-is week with the workarounds mentioned above worst case. Its expected there=
- would be further hashequiv fixing during M4.</span></p></li><li dir=3D"ltr=
-" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial;color:rgb(=
-0,0,0);background-color:transparent;font-variant-numeric:normal;font-varian=
-t-east-asian:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr"=
- style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D=
-"font-size:11pt;background-color:transparent;font-variant-numeric:normal;fo=
-nt-variant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">=
-We hope to make up time during M4 by having M3 at high quality and take adv=
-antage of our automation.</span></p></li><li dir=3D"ltr" style=3D"list-styl=
-e-type:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-co=
-lor:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;=
-vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heigh=
-t:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;back=
-ground-color:transparent;font-variant-numeric:normal;font-variant-east-asia=
-n:normal;vertical-align:baseline;white-space:pre-wrap">Documentation - Due =
-to illness Scott is unavailable for the next month or two so doc patches wi=
-ll be handled by Richard or Ross in the short term. We=E2=80=99ll likely li=
-mit them to correctness issues and defer any substantial new text. If anyon=
-e has availability and skills to work on the manuals please talk to us. We=
-=E2=80=99re aware there is a patch backlog.</span></p></li><li dir=3D"ltr" =
-style=3D"list-style-type:disc;font-size:11pt;font-family:Arial;color:rgb(0,=
-0,0);background-color:transparent;font-variant-numeric:normal;font-variant-=
-east-asian:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" s=
-tyle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"f=
-ont-size:11pt;background-color:transparent;font-variant-numeric:normal;font=
--variant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">If=
- anyone has any status items for the project they=E2=80=99d like to add to =
-the weekly reports, please email Richard+Stephen.</span></p></li></ul><br><=
-p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><=
-span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-=
-color:transparent;font-variant-numeric:normal;font-variant-east-asian:norma=
-l;vertical-align:baseline;white-space:pre-wrap">Planned Releases for YP 3.0=
- {2.8}:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D=
-"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial;color:=
-rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-va=
-riant-east-asian:normal;vertical-align:baseline;white-space:pre"><p dir=3D"=
-ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span styl=
-e=3D"font-size:11pt;background-color:transparent;font-variant-numeric:norma=
-l;font-variant-east-asian:normal;vertical-align:baseline;white-space:pre-wr=
-ap">M3 Release 6th Sept</span></p></li><li dir=3D"ltr" style=3D"list-style-=
-type:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-colo=
-r:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;ve=
-rtical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:=
-1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;backgr=
-ound-color:transparent;font-variant-numeric:normal;font-variant-east-asian:=
-normal;vertical-align:baseline;white-space:pre-wrap">M4 Cutoff 30th Sept - =
-this will be YP 3.0.</span></p></li><li dir=3D"ltr" style=3D"list-style-typ=
-e:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:t=
-ransparent;font-variant-numeric:normal;font-variant-east-asian:normal;verti=
-cal-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.3=
-8;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;backgroun=
-d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
-mal;vertical-align:baseline;white-space:pre-wrap">YP 3.0 {2.8 (M4)} Final R=
-elease 25th Oct</span></p></li></ul><br><p dir=3D"ltr" style=3D"line-height=
-:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-=
-family:Arial;color:rgb(0,0,0);background-color:transparent;font-variant-num=
-eric:normal;font-variant-east-asian:normal;vertical-align:baseline;white-sp=
-ace:pre-wrap">Planned upcoming dot releases:</span></p><ul style=3D"margin-=
-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;fo=
-nt-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparen=
-t;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-align=
-:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-=
-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;background-color:t=
-ransparent;font-variant-numeric:normal;font-variant-east-asian:normal;verti=
-cal-align:baseline;white-space:pre-wrap">YP 2.7.2 (Warrior) is planned for =
-after YP 3.0 release.</span></p></li><li dir=3D"ltr" style=3D"list-style-ty=
-pe:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:=
-transparent;font-variant-numeric:normal;font-variant-east-asian:normal;vert=
-ical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;backgrou=
-nd-color:transparent;font-variant-numeric:normal;font-variant-east-asian:no=
-rmal;vertical-align:baseline;white-space:pre-wrap">YP 2.6.4 (Thud) is plann=
-ed for after YP 2.7.2=C2=A0 release.</span></p></li></ul><br><p dir=3D"ltr"=
- style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D=
-"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transpa=
-rent;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-al=
-ign:baseline;white-space:pre-wrap">Tracking Metrics:</span></p><ul style=3D=
-"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type=
-:disc;font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:tr=
-ansparent;font-variant-numeric:normal;font-variant-east-asian:normal;vertic=
-al-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38=
-;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;background=
--color:transparent;font-variant-numeric:normal;font-variant-east-asian:norm=
-al;vertical-align:baseline;white-space:pre-wrap">WDD 2449 (last week 2424)<=
-/span><span style=3D"font-size:11pt;font-family:Consolas,sans-serif;backgro=
-und-color:transparent;font-variant-numeric:normal;font-variant-east-asian:n=
-ormal;vertical-align:baseline;white-space:pre-wrap"> (</span><a href=3D"htt=
-ps://wiki.yoctoproject.org/charts/combo.html" style=3D"text-decoration-line=
-:none"><span style=3D"font-size:11pt;background-color:transparent;font-vari=
-ant-numeric:normal;font-variant-east-asian:normal;text-decoration-line:unde=
-rline;vertical-align:baseline;white-space:pre-wrap">https://wiki.yoctoproje=
-ct.org/charts/combo.html</span></a><span style=3D"font-size:11pt;font-famil=
-y:Consolas,sans-serif;background-color:transparent;font-variant-numeric:nor=
-mal;font-variant-east-asian:normal;vertical-align:baseline;white-space:pre-=
-wrap">)</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-s=
-ize:11pt;font-family:Consolas,sans-serif;color:rgb(0,0,0);background-color:=
-transparent;font-variant-numeric:normal;font-variant-east-asian:normal;vert=
-ical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-fam=
-ily:Arial;background-color:transparent;font-variant-numeric:normal;font-var=
-iant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">Poky P=
-atch Metrics=C2=A0=C2=A0</span></p></li><ul style=3D"margin-top:0px;margin-=
-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;=
-font-family:Arial;color:rgb(0,0,0);background-color:transparent;font-varian=
-t-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;whi=
-te-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margi=
-n-bottom:0pt"><span style=3D"font-size:11pt;background-color:transparent;fo=
-nt-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:bas=
-eline;white-space:pre-wrap">Total patches found: 1424 (last week 1417)</spa=
-n></p></li><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;f=
-ont-family:Consolas,sans-serif;color:rgb(0,0,0);background-color:transparen=
-t;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-align=
-:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-=
-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;=
-background-color:transparent;font-variant-numeric:normal;font-variant-east-=
-asian:normal;vertical-align:baseline;white-space:pre-wrap">Patches in the P=
-ending State: 587 (41%) [last week 582 (41%)]</span></p></li></ul></ul><br>=
-<p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt">=
-<span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background=
--color:transparent;font-variant-numeric:normal;font-variant-east-asian:norm=
-al;vertical-align:baseline;white-space:pre-wrap">Key Status Links for YP:</=
-span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bot=
-tom:0pt"><a href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.8_S=
-tatus" style=3D"text-decoration-line:none"><span style=3D"font-size:11pt;fo=
-nt-family:Consolas,sans-serif;background-color:transparent;font-variant-num=
-eric:normal;font-variant-east-asian:normal;text-decoration-line:underline;v=
-ertical-align:baseline;white-space:pre-wrap">https://wiki.yoctoproject.org/=
-wiki/Yocto_Project_v2.8_Status</span></a></p><p dir=3D"ltr" style=3D"line-h=
-eight:1.38;margin-top:0pt;margin-bottom:0pt"><a href=3D"https://wiki.yoctop=
-roject.org/wiki/Yocto_2.8_Schedule" style=3D"text-decoration-line:none"><sp=
-an style=3D"font-size:11pt;font-family:Consolas,sans-serif;background-color=
-:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;tex=
-t-decoration-line:underline;vertical-align:baseline;white-space:pre-wrap">h=
-ttps://wiki.yoctoproject.org/wiki/Yocto_2.8_Schedule</span></a></p><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><a hre=
-f=3D"https://wiki.yoctoproject.org/wiki/Yocto_2.8_Features" style=3D"text-d=
-ecoration-line:none"><span style=3D"font-size:11pt;font-family:Consolas,san=
-s-serif;background-color:transparent;font-variant-numeric:normal;font-varia=
-nt-east-asian:normal;text-decoration-line:underline;vertical-align:baseline=
-;white-space:pre-wrap">https://wiki.yoctoproject.org/wiki/Yocto_2.8_Feature=
-s</span></a></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt=
-;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:r=
-gb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-var=
-iant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">The Yo=
-cto Project=E2=80=99s technical governance is through its Technical Steerin=
-g Committee, more information is available at:</span></p><p dir=3D"ltr" sty=
-le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><a href=3D"https:/=
-/wiki.yoctoproject.org/wiki/TSC" style=3D"text-decoration-line:none"><span =
-style=3D"font-size:11pt;font-family:Arial;background-color:transparent;font=
--variant-numeric:normal;font-variant-east-asian:normal;text-decoration-line=
-:underline;vertical-align:baseline;white-space:pre-wrap">https://wiki.yocto=
-project.org/wiki/TSC</span></a></p><br><p dir=3D"ltr" style=3D"line-height:=
-1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-f=
-amily:Arial;color:rgb(0,0,0);background-color:transparent;font-variant-nume=
-ric:normal;font-variant-east-asian:normal;vertical-align:baseline;white-spa=
-ce:pre-wrap">The Status reports are now stored on the wiki at: </span><a hr=
-ef=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status" style=3D"text-decor=
-ation-line:none"><span style=3D"font-size:11pt;font-family:Arial;background=
--color:transparent;font-variant-numeric:normal;font-variant-east-asian:norm=
-al;text-decoration-line:underline;vertical-align:baseline;white-space:pre-w=
-rap">https://wiki.yoctoproject.org/wiki/Weekly_Status</span></a></p><br><p =
-dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><sp=
-an style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-co=
-lor:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;=
-vertical-align:baseline;white-space:pre-wrap">[If anyone has suggestions fo=
-r other information you=E2=80=99d like to see on this weekly status update,=
- let us know!]</span></p><p class=3D"MsoNormal" style=3D"margin:0in 0in 0.0=
-001pt;font-size:11pt;font-family:Calibri,sans-serif"><br></p><p class=3D"Ms=
-oNormal" style=3D"margin:0in 0in 0.0001pt;font-size:11pt;font-family:Calibr=
-i,sans-serif">Thanks,</p><p class=3D"MsoNormal" style=3D"margin:0in 0in 0.0=
-001pt;font-size:11pt;font-family:Calibri,sans-serif">=C2=A0</p><p class=3D"=
-MsoNormal" style=3D"margin:0in 0in 0.0001pt;break-after:avoid;font-size:11p=
-t;font-family:Calibri,sans-serif"><b><i><span style=3D"font-size:16pt;font-=
-family:&quot;Times New Roman&quot;,serif;color:purple">Stephen K. Jolley</s=
-pan></i></b><b><i><span style=3D"font-size:16pt;font-family:Tahoma,sans-ser=
-if;color:purple"></span></i></b></p><p class=3D"MsoNormal" style=3D"margin:=
-0in 0in 0.0001pt;font-size:11pt;font-family:Calibri,sans-serif"><b><span st=
-yle=3D"font-size:8pt;font-family:&quot;Courier New&quot;;color:blue">Yocto =
-Project Program Manager</span></b></p><p class=3D"MsoNormal" style=3D"margi=
-n:0in 0in 0.0001pt;font-size:11pt;font-family:Calibri,sans-serif"><span sty=
-le=3D"font-size:9pt;font-family:Wingdings;color:black">(</span><span style=
-=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif;color:teal">=
-=C2=A0=C2=A0=C2=A0=C2=A0</span><b><span style=3D"font-size:8pt;font-family:=
-&quot;Comic Sans MS&quot;;color:teal">Cell</span></b><span style=3D"font-si=
-ze:9pt;font-family:&quot;MS Sans Serif&quot;,serif;color:teal">:=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0</span><span style=3D"font-size:9pt;font-family:&quot;MS Sans S=
-erif&quot;,serif">(208) 244-4460<span style=3D"color:black"></span></span><=
-/p><p class=3D"MsoNormal" style=3D"margin:0in 0in 0.0001pt;font-size:11pt;f=
-ont-family:Calibri,sans-serif"><span style=3D"font-size:9pt;font-family:Win=
-gdings">*=C2=A0</span><b><span lang=3D"FR" style=3D"font-size:8pt;font-fami=
-ly:&quot;Comic Sans MS&quot;;color:teal">Email</span></b><span lang=3D"FR" =
-style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif;color:te=
-al">:</span><span lang=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS S=
-ans Serif&quot;,serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<a href=3D"mailto:sjolley.yp.pm@gmail.com"=
- target=3D"_blank" style=3D"color:rgb(5,99,193)">sjolley.yp.pm@gmail.com</a=
-></span></p></span></div>
-
---0000000000002c6ae20592c0d50a--
