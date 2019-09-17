@@ -1,53 +1,52 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A6597F6AE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 633197FD86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 15:36:27 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 7so4058270wme.1
+	Tue, 17 Sep 2019 18:50:01 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id i18so2460600pgl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 08:36:29 -0700 (PDT)
+	Tue, 17 Sep 2019 11:50:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=YlupAn2uaI2MKaPpDkQD04gRGi7C1OhaRxIYC3b3KYA=;
-	b=lxC5PlVZLTHRojozdDcfvhdalkKC4vHOI1TZIW8A7gbv1AmVNkY1vYC2+Wtlvwnbsm
-	eUeP6YLzqpuRrl4pdanQO/H/xTCCMnLLt6+xgh/mWSA+VBb8wTaQh9pYEq/ye2/vzUnu
-	gUZKo4oHNAcmVNQKt86D3XuRpuG+IQpX7Ay9fZiwgab7Zwv5+7izI1bdO26hupFmnsuW
-	RzADN3tBBqskFTLt69jQfEEVYsKnVAVp9JciUPy1IW86b+sNOj8XXe3taL3JuOObPcZC
-	0PfozFw14qoSF7RFpsERxJlBRe/BjvphDQUdBCv5brDFAEAB0/v1I6tWZWjsxFz2sMrR
-	WtQw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fqef18wbWUEZhzGP7RZQgLzWCCGxipj5w9XmQiQlA4c=;
+	b=vSU+/DdZQZqUT3H8YStINL7+tL3dHTae8SE1JAYX0IK8gLkQPFqq+ar2uccV0aagre
+	d6oi9Hj+SnUlL+rs0kazQEf2qwVyNIp+rnfz1CEd7aeo1QwAdQByEnnimcJuNdjyIDd3
+	D4qj9ux4m2kYqKzg2o+/ncGIik11ptcNvvokAPkUKwX6Z2Hk0lVzl9mPPhISCLxfhsj5
+	4wnVDKSOgXAgiE3oPNAubyYajmAPMGRWxaG8vNYBLAVmabcNgOw9a005Cc37Xv4ksDkT
+	+QZVzCY6eudFuiCTuds2mCxUG7CLq6MJZIPQu2TJMozjJkDM4Aw8glnQ/SZQW9P4APQc
+	OLEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=YlupAn2uaI2MKaPpDkQD04gRGi7C1OhaRxIYC3b3KYA=;
-	b=TW5j+7ibjlODxfgmeauisqn49mRj/D4Dk9+5hhhZ6l2NydBC7/v9PX7HV24rNM3sDn
-	LgLhFmExWQAENYvChLTcaq8Nxy2+OVuQbN3KBZyerjgFahWREfwPpVWC2IjByXh7UL8G
-	wdVLHuvWLaWT+CbT+TGgaKJ0H0VsVW59cvsweerk1hpAY2PY3YXqGXfp7KWvw2j/dQGE
-	//gJCgaQH2AqvqNm9aLP/0AeMSyJnJrXpDVPQDKPgVeBJjhalOTIGN1gzXNsixNoosXR
-	4OqYCeFHUef2155yswCPRpHCCYH0px1R6cUaq9OjNKwgei5pRxdP0ZX3yiHEquRg/in4
-	YOHg==
-X-Gm-Message-State: APjAAAXdP8eAS54nxLcFbcDDDjjGLuuvXTtJjp68pOENCOxy/JPCLc3J
-	kML+Z/QMjUM+eE5PKTh+2BDyWFA6
-X-Google-Smtp-Source: APXvYqzHKsX83SfQBx94Jhe9wVEv0L9ap0XmOrIuPHJ907KeyRrwGsFegqLKfNa80eEfiw23sEsCDA==
-X-Received: by 2002:a1c:ed16:: with SMTP id l22mr4083417wmh.172.1568734587765; 
-	Tue, 17 Sep 2019 08:36:27 -0700 (PDT)
-Received: from lothlann.rup.mentorg.com (nat-min.mentorg.com. [139.181.32.34])
-	by smtp.gmail.com with ESMTPSA id
-	o9sm4605245wrh.46.2019.09.17.08.36.26
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fqef18wbWUEZhzGP7RZQgLzWCCGxipj5w9XmQiQlA4c=;
+	b=f02DuA6Z6zbZ5TYyQ8A9jovrUfltT/Qh5ke71SohPHLJOhpTxo9eCr0cJDl/Amu5Up
+	7xXWgZvKDMiSBTD0H45cCL40TOg+bG0V92tPflQ5KIqqFkxwKAKtEiO4fVQxLn3W9WOs
+	kyOt+td6i2QlfZ/SOEJFM1IrioZYM+Nsw0N17joGAIlfT77ft12Dyu+Z+cWBP8BTJuV4
+	Ml8pYE2iCxBUj6999ZdOHO0FHZNvpAGSFLbUHwEb6XNh0CwOo7pVYYc5FibQS+Ux16cY
+	+fJ8vrF4dMcmGlOUXvfFbSYEXtSSmAdu9FRK6nTkv/DH+ZSyMFNK6OYdYTtPdqENAMAY
+	Q9uA==
+X-Gm-Message-State: APjAAAXr25EZ4clcaOjJ5/cpS0h/bVE1DoUysxVei/zN35NO9wR+Fy1o
+	Wf3xLIfRUZnJoQRhUC+ASUQlIYbZgIM=
+X-Google-Smtp-Source: APXvYqx/dA1v7/v3ljmcK+h+zgKuCp8IeJg80CZLbeNkTIkHT6jLfDRLSu6dpQ3hYI6WLaUBY2SG+Q==
+X-Received: by 2002:a17:90a:d356:: with SMTP id
+	i22mr6263773pjx.24.1568746201710; 
+	Tue, 17 Sep 2019 11:50:01 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
+	[73.71.176.3])
+	by smtp.gmail.com with ESMTPSA id n1sm1337891pfa.12.2019.09.17.11.50.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Sep 2019 08:36:26 -0700 (PDT)
-From: dbaryshkov@gmail.com
+	Tue, 17 Sep 2019 11:50:01 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2019 18:36:13 +0300
-Message-Id: <20190917153613.4954-9-dbaryshkov@gmail.com>
+Date: Tue, 17 Sep 2019 11:49:47 -0700
+Message-Id: <20190917184947.2244823-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190917153613.4954-1-dbaryshkov@gmail.com>
-References: <20190917153613.4954-1-dbaryshkov@gmail.com>
 MIME-Version: 1.0
-Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH v3 9/9] systemd-boot.bbclass: use efi_*_populate_common
+Cc: Adrian Bunk <bunk@stusta.de>
+Subject: [PATCH] openssl: Enable os option for with-rand-seed as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,66 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 15:36:28 -0000
+X-List-Received-Date: Tue, 17 Sep 2019 18:50:01 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+with openSSL 1.1.1d we start seeing errors like
 
-Use common code form uefi.bbclass to populate efi directories.
+Error Generating Key
+139979727451584:error:2406C06E:random number generator:RAND_DRBG_instantiate:error retrieving entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+when using openssl from openssl-native on build hosts, this is due to
+limiting the random seed to devrandom, to support older hosts, since the
+option allows to have a comma separated list of methods to try, we can
+try the default first and if that fails then fallback to devrandom, this
+will ensure that it keeps working with build systems which dont support
+getrandom()
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Adrian Bunk <bunk@stusta.de>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/systemd-boot.bbclass | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+ meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index 47f2adcd7744..6594a2331f7d 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot.bbclass
-@@ -11,21 +11,17 @@
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+index 080d1a8bb7..072f727e0b 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+@@ -43,10 +43,10 @@ do_configure[cleandirs] = "${B}"
+ EXTRA_OECONF_append_libc-musl = " no-async"
+ EXTRA_OECONF_append_libc-musl_powerpc64 = " no-asm"
  
- do_bootimg[depends] += "${MLPREFIX}systemd-boot:do_deploy"
+-# This prevents openssl from using getrandom() which is not available on older glibc versions
++# adding devrandom prevents openssl from using getrandom() which is not available on older glibc versions
+ # (native versions can be built with newer glibc, but then relocated onto a system with older glibc)
+-EXTRA_OECONF_class-native = "--with-rand-seed=devrandom"
+-EXTRA_OECONF_class-nativesdk = "--with-rand-seed=devrandom"
++EXTRA_OECONF_class-native = "--with-rand-seed=os,devrandom"
++EXTRA_OECONF_class-nativesdk = "--with-rand-seed=os,devrandom"
  
--require conf/uefi.conf
-+inherit uefi
- # Need UUID utility code.
- inherit fs-uuid
- 
- efi_populate() {
--        DEST=$1
-+        efi_populate_common "$1" systemd
- 
--        install -d ${DEST}${EFIDIR}
-         # systemd-boot requires these paths for configuration files
-         # they are not customizable so no point in new vars
-         install -d ${DEST}/loader
-         install -d ${DEST}/loader/entries
--        install -m 0644 ${DEPLOY_DIR_IMAGE}/systemd-${EFI_BOOT_IMAGE} ${DEST}${EFIDIR}/${EFI_BOOT_IMAGE}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${DEST}/startup.nsh
-         install -m 0644 ${SYSTEMD_BOOT_CFG} ${DEST}/loader/loader.conf
-         for i in ${SYSTEMD_BOOT_ENTRIES}; do
-             install -m 0644 ${i} ${DEST}/loader/entries
-@@ -33,17 +29,9 @@ efi_populate() {
- }
- 
- efi_iso_populate() {
--        iso_dir=$1
--        efi_populate $iso_dir
--        mkdir -p ${EFIIMGDIR}/${EFIDIR}
--        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-+        efi_iso_populate_common "$1"
-+
-         cp -r $iso_dir/loader ${EFIIMGDIR}
--        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        echo "fs0:${EFIPATH}\\${EFI_BOOT_IMAGE}" > ${EFIIMGDIR}/startup.nsh
--        if [ -f "$iso_dir/initrd" ] ; then
--            cp $iso_dir/initrd ${EFIIMGDIR}
--        fi
- }
- 
- efi_hddimg_populate() {
+ # Relying on hardcoded built-in paths causes openssl-native to not be relocateable from sstate.
+ CFLAGS_append_class-native = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
 -- 
 2.23.0
 
