@@ -1,54 +1,36 @@
-Return-Path: <prvs=157cabe6c=Mikko.Rapeli@bmw.de>
-Received: from esa1.bmw.c3s2.iphmx.com (esa1.bmw.c3s2.iphmx.com
-	[68.232.133.201])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C62B90009
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EA0790142
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 05:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1568786056; x=1600322056;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=AaAoNiO8ALnUa7+zxq2j7XZzG56pcWZTGcjRZ7aW7Y4=;
-	b=E7gf4XYbPfqjRv0eOSA3FITPyV4cyhfi+3fKegyxHW6vXw/5SxkNoPPJ
-	dD5qIJcdck5oQPjvU/fRkUEG7lX6POsK5oyqMJfxtYSaKeHIi3PG7LgqX
-	Ki4TMThKuJUmIR1m44vgIW/a4uvAZu478CB4gVr/6o0DqJEXHiq90ODS/ A=;
-IronPort-SDR: 321ebWOj+b3E4LJP+YAs81PJerTFVNc1eimzWL5Yjz1BQHYMoaSY072vSsccvgLMaKY8XdbE9m
-	r0MtkHfByTnzkNOKKLD2QiRJYmqDvJbXS5LMrvO4jNNsSrX5VSGUCJ4OPvcrt402DllRHgIaQc
-	HnnuBcITsBtwMk3SKCvlhLRSVZaB+tCqfdnUEXSkKN8KFIl3wEDdi01a30fDFWfWzrmwUwIwVK
-	sx6sYM5DGOl7+nvWG25QE/Q3x9pHO5vNgYwNRKL4Twb3acgMybCZYeKEdtUQdaUQySQM1zLXTW
-	A08=
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
-	esa1.bmw.c3s2.iphmx.com with ESMTP/TLS; 18 Sep 2019 07:54:14 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw4.muc with ESMTP/TLS;
-	18 Sep 2019 07:54:13 +0200
-Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
-	([160.48.96.46])
-	by esabb2.muc with ESMTP/TLS; 18 Sep 2019 07:54:13 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10j.europe.bmw.corp
-	(160.48.96.46) with Microsoft SMTP Server (TLS;
-	Wed, 18 Sep 2019 07:54:13 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Wed, 18 Sep 2019 07:54:13 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <muislam@microsoft.com>
-Thread-Topic: [OE-core] [thud][PATCH v4] gcc:  CVE fix for gcc <CVE-2019-15847>
-Thread-Index: AQHVbaKAMYz98HJYkUOhh/MzKff5TacwzjCA
-Date: Wed, 18 Sep 2019 05:54:13 +0000
-Message-ID: <20190918055408.GM6154@hiutale>
-References: <20190917215408.18288-1-muislam@microsoft.com>
-In-Reply-To: <20190917215408.18288-1-muislam@microsoft.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.34]
+	Wed, 18 Sep 2019 07:20:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46YBFb04ffz1n;
+	Wed, 18 Sep 2019 09:20:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1568791203;
+	bh=Gv8rGO4723EALIN6Fzmmfq4rjCwwVwd6SWxrbviYLCE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oj9jND/JY9GKaTg2zYevlWg15EhKzkJ6/h0/VYnjpO9IQOvADh1K8jHJpfe0GIHgQ
+	5RgGTq0wvRu7dr3NUfoFYrq2G/j5nHGNE7K3cLfss/tlQcLZgNNKPy9tAwLGWMgzv8
+	ZYjFl/PgmdXKuVTWzdL3E/MD4fAzcK5ZLL3ZrSJO/Xz7ZrFhhEg+6C6F+fm/v3MMid
+	5Je7o51JjfmIDfVSX7kDRZc31q4aeK41RL2DpZh8oryhcDYEAmEUOnisEsgBE0cApl
+	p5bUhzVbMdDtTUAmZlyqqTHYjm4VmD6eOLEiyJbVOPMVrhsyIfq1sDnQOZNCrofk2u
+	jxS4ObLocPB03EuaXwIqZkOt3KrYjNevwotrQo0QhYbt7gtrLqnVmaUwoQwteSsXht
+	jYPnOHsf01Q+MCN8aWtnap6E1frHXYan3d1j4dDAVRes6rB+8LN5VvWfhUy50DHEZW
+	qPDbO7Jq9P+Ov2Yo0mrUOG2i8/9HPlXhKTs8yC6jp33HzQ9BSWT4q/KTbjf9hh/Qit
+	M/Uvc5Pj7APg3pEg0HzZD8cAbwQlf7c/nGpSSb4U45D7lrqECuiVmEnzYi7HTFstsZ
+	Qjx1HQrL/2gdjL+XyVTnkNpuYOY40FaGFggjA8phsSpNP6UyimTi90ZdnLvnqOvyPk
+	+zzdy4jpdQMuRMj4DoWRTdvI=
+Date: Wed, 18 Sep 2019 10:20:00 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190918072000.GA11465@localhost>
+References: <20190917184947.2244823-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <20190917184947.2244823-1-raj.khem@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [thud][PATCH v4] gcc: CVE fix for gcc <CVE-2019-15847>
+Subject: Re: [PATCH] openssl: Enable os option for with-rand-seed as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,19 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 05:54:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <79AB3F1B97EC53498B3FA9B0D406A3D3@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 18 Sep 2019 07:20:04 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Looks ok, though I would consider updating to point releases or latest
-versions of the gcc-8 stable tree, where these patches are already backport=
-ed
-by upstream developers. The 8.3 update does not have this CVE patch, but
-a lot of bug fixes which should be useful for gcc 8 users.
+On Tue, Sep 17, 2019 at 11:49:47AM -0700, Khem Raj wrote:
+> with openSSL 1.1.1d we start seeing errors like
+> 
+> Error Generating Key
+> 139979727451584:error:2406C06E:random number generator:RAND_DRBG_instantiate:error retrieving entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
+> 
+> when using openssl from openssl-native on build hosts, this is due to
+> limiting the random seed to devrandom, to support older hosts, since the
+> option allows to have a comma separated list of methods to try, we can
+> try the default first and if that fails then fallback to devrandom, this
+> will ensure that it keeps working with build systems which dont support
+> getrandom()
+>...
 
-Reviewed-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+Thanks for fixing this problem!
 
--Mikko=
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
