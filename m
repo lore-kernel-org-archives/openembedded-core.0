@@ -1,85 +1,102 @@
 Return-Path: <JAEWON@xilinx.com>
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com
-	(mail-eopbgr790044.outbound.protection.outlook.com [40.107.79.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E17177FD80
+Received: from NAM01-BY2-obe.outbound.protection.outlook.com
+	(mail-eopbgr810075.outbound.protection.outlook.com [40.107.81.75])
+	by mail.openembedded.org (Postfix) with ESMTP id BE1207FD4D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 23:35:32 +0000 (UTC)
+	Wed, 18 Sep 2019 00:37:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=E5t7MQ5Oc7hA+DtfU+Qnf3601qAE345x3aASrAq2TKmL9+ZTJDQ7KNnmpTHt3wkkzrSLEqhlEjEjY/5fvzIsRa497sgpuCIJci3ufmlmP+8yeAOYHDGLxfsT6vfyXj1ewrVxGJoXu8I6kawu6YGU84PCF6wfpsKfkc+adU4UGJgSoIuccvJP+dZF6/3HTDQb8Dal5NbqoyuxBifH3oBAlJtcHVlB8jEOj02XzDrhdA9GSDJdt4OE2tguIh8wEHLEdsgznrJYhv4paUNZyXNIPhjiutYmYhNXl8mEie8Mod0KDKq60E86Bx9+RrQd/itfDqvM4j7ll0cUcQkgmMpEbw==
+	b=M8oa1NuO1GGM6Em+d3UbKJHhBGnNlYLFL1bSVszMbmSuj5kChDHc/q58qEnH+lE6RH8w53QN4py3DLrHO+RrTHyXfHiSgriABuf+Mng1cETLmxh8rurK6305Pk5TCep/vaqgeut85Xqx5Vq//5SFEkzb5s7D+5de+VPNDThWNsjroAZVKNbnV5NiegL4dus21iJcQp91wndYBAY+Y4gMN/JVcApG4VMM2OXnD8pQ/00cZVmwm5imlxnErbHeBl98pQKZvJIc6plZY+xFHE+ocl/HPMJx+XrGEieTiaSMoSZ93LP9A+LYn2Y3Ce+/i6xYSgrI9oxroVCa45dXGMlJuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
 	s=arcselector9901;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=TbOrM7GW3t42XN70d8FZfTSsXUXM7FAdT02fRV88StA=;
-	b=RJnRRy5Uf5HSmWPTQLoRCgP4HqK6ZoTqqR0UkD9e1h+C2d+Los7rulkBo0LRtp5rHh+0YlugOtNkAAvIVhGFTA8IwLyJ18bTrjRGowJi2YgkDgDu9YAEKOK6OQ8tUCRZK2OBV4pK27OpLLASuxZyDM8FgAZHm9ezBqEzYULRfzXxeZhmpgx2bwJRgvjWxcBB5nw+tSAsVZi1PgWHmEU3J5QCqznp23qm1ImTC+irlvZQclO6ZCU9i2rLcNLYJ57AfZsjnRhAeRM9fbRchE8B1EO6J25FFdVAeNFHaHIztpiPUgIWSFk8aDCL2L+HSlT1NUD6+L5aC2jS+6dRwC1BIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
-	dkim=pass header.d=xilinx.com; arc=none
+	bh=FRS87xxFNah23tfrbSZBt7PA41g2DTryhm8iShYdUu0=;
+	b=Mm5CQJZJgOT3fsyuP0mYNe8KDFHw5xbAA3FCFq6moHwHggsutloacjFsekkq95f4JCaxYsOpA0+n3IqXKw4PE1mLssuaK+u4qoUHPpHo4FsAtouYXFObw89IAV3FiMXEGEX5IRUqD3FJLx9RVhOPtaXwCpCqs5XwBHE/LyrD+JWHhKidD6Cgbk0BzGa7jHh0mCngdnkgJvVj6ykj9zCAMpVUSLdRKFjI2QfpVWhP6uBB8Jz9k3rSETBjN2ojJ9UB/l6AI5p5tyoUW7rqebIu9s8eUQUVdPyfpAkBqDVRwOIEbGBQrIpOojhb4KyinsB5eDVB8jzJJiQttqikNiLuuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+	149.199.60.83) smtp.rcpttodomain=linux.intel.com
+	smtp.mailfrom=xilinx.com; 
+	dmarc=bestguesspass action=none header.from=xilinx.com;
+	dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=TbOrM7GW3t42XN70d8FZfTSsXUXM7FAdT02fRV88StA=;
-	b=AID0Q5i1KSr6RXvYHJMM7rKTaOPkIv2yJxDxvQ01Wh1IYcWyCMqsF2TISMTmrpZvGaQZ7izBcqB614vN/s/GjdIJrCm+jvvf3lCdscszdgO6vru4LKzTY7zGAToIIYpSNMi6EtnZTVXxRzuQ7yOobOesCEG6C6y5Zg6jA2KYwZo=
-Received: from BYAPR02MB5816.namprd02.prod.outlook.com (20.179.62.217) by
-	BYAPR02MB4279.namprd02.prod.outlook.com (52.135.236.216) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2263.15; Tue, 17 Sep 2019 23:35:31 +0000
-Received: from BYAPR02MB5816.namprd02.prod.outlook.com
-	([fe80::fcb8:6742:6614:e8ea]) by
-	BYAPR02MB5816.namprd02.prod.outlook.com
-	([fe80::fcb8:6742:6614:e8ea%5]) with mapi id 15.20.2263.023;
-	Tue, 17 Sep 2019 23:35:31 +0000
-From: Jaewon Lee <JAEWON@xilinx.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [oe-core][master][PATCH] Introduce mechanism to keep
-	nativesdk* sstate in esdk
-Thread-Index: AQHU6OgD2JhQnI36fUOvfpDbvD40gqcTSFbQgB4tyoCAABZlEA==
-Date: Tue, 17 Sep 2019 23:35:31 +0000
-Message-ID: <BYAPR02MB5816B9224029E64C19CAE53AAF8F0@BYAPR02MB5816.namprd02.prod.outlook.com>
-References: <1554163613-2791-1-git-send-email-jaewon.lee@xilinx.com>
-	<BYAPR02MB5816F67E4B32AB35B425D15DAFA20@BYAPR02MB5816.namprd02.prod.outlook.com>
-	<2420065.Evh0tLMQLu@linux.fritz.box>
-In-Reply-To: <2420065.Evh0tLMQLu@linux.fritz.box>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=JAEWON@xilinx.com; 
-x-originating-ip: [149.199.62.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5166d78b-0a22-4c09-2579-08d73bc7bb07
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
-	SRVR:BYAPR02MB4279; 
-x-ms-traffictypediagnostic: BYAPR02MB4279:|BYAPR02MB4279:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB42793D3B5DE3C1299BBEC0AFAF8F0@BYAPR02MB4279.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 01630974C0
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(979002)(4636009)(396003)(376002)(39860400002)(366004)(346002)(136003)(13464003)(199004)(189003)(6916009)(478600001)(86362001)(74316002)(305945005)(7736002)(81156014)(71190400001)(71200400001)(6436002)(81166006)(2906002)(186003)(66556008)(76176011)(66476007)(64756008)(3846002)(6116002)(14444005)(66946007)(66446008)(76116006)(33656002)(256004)(52536014)(8936002)(14454004)(229853002)(4326008)(11346002)(25786009)(102836004)(316002)(446003)(53546011)(476003)(6506007)(8676002)(26005)(54906003)(6246003)(5660300002)(486006)(7696005)(66066001)(107886003)(99286004)(55016002)(9686003)(969003)(989001)(999001)(1009001)(1019001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4279;
-	H:BYAPR02MB5816.namprd02.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: +xa68pebZ4NVmN5FEZcJwtRxdsRssRR6WdamURN+RQ4xfi5JVa1GzDmTCl9KPCddSRM8J8ZjbMiuSGesbDc8Uz1eMxvJoVAoDb3VVclpRxRQvd4ZL7zwXh9X+9VogVc0m+1LzCAkAs4ll9DyKFWuJu20oCSEJEE42/b1ttuZ/aiBx3tZXAgBZSw2QAzvpoU6b8w6sTxGXNhR2mgyAqep/x/GAzIpzohe51PUaolKunyY/COBmioH5BlwNgngye9RE2d84BD2UnLe8zmXfyjhGjrR6Y0q0n1ygNNu8e2hEtzWku/TovSnt6OJ08U4FMCIp6Ih4P8Vsv3o/F9mPrFYxHujlx7gLkZRi31doiHXcskcTeHUqdsixUqctpBcibR1+siw7ILhpxiLD6RQX76/+m2UyUo7Zwrzw9lOtaJbcZ8=
+	bh=FRS87xxFNah23tfrbSZBt7PA41g2DTryhm8iShYdUu0=;
+	b=EakU43JANTJBRwYeM9dd1BhGO+J8ghrHmfrbbH8f7GhAqaMoSra9KZWkU0YBlGKzmLPDZQe8jhbFn3DlRsG/u16UnmCuZl7KG1hoSsl9WpTDgxnpfgQKknYsYG767w/lXXb7JckBx9TN7ghAsZyXhLssk6+TZm8/RIYIPNkb8TU=
+Received: from SN4PR0201CA0069.namprd02.prod.outlook.com
+	(2603:10b6:803:20::31) by DM6PR02MB5338.namprd02.prod.outlook.com
+	(2603:10b6:5:47::15) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2263.24;
+	Wed, 18 Sep 2019 00:37:47 +0000
+Received: from SN1NAM02FT059.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e44::205) by SN4PR0201CA0069.outlook.office365.com
+	(2603:10b6:803:20::31) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2284.19 via
+	Frontend Transport; Wed, 18 Sep 2019 00:37:47 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=xilinx.com; linux.intel.com;
+	dkim=none (message not signed)
+	header.d=none;linux.intel.com; dmarc=bestguesspass action=none
+	header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	SN1NAM02FT059.mail.protection.outlook.com (10.152.72.177) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2263.17
+	via Frontend Transport; Wed, 18 Sep 2019 00:37:46 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1iANyc-0006ty-G8; Tue, 17 Sep 2019 17:37:46 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1iANyX-0007op-CZ; Tue, 17 Sep 2019 17:37:41 -0700
+Received: from xsj-pvapsmtp01 (mailhub.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	x8I0bYbQ016932; Tue, 17 Sep 2019 17:37:34 -0700
+Received: from [172.19.3.42] (helo=xsjjaewon50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1iANyQ-0007nI-2g; Tue, 17 Sep 2019 17:37:34 -0700
+From: Jaewon Lee <jaewon.lee@xilinx.com>
+To: openembedded-core@lists.openembedded.org, manjukum@xilinx.com,
+	alejandr@xilinx.com, paul.eggleton@linux.intel.com
+Date: Tue, 17 Sep 2019 17:37:33 -0700
+Message-Id: <1568767053-29469-1-git-send-email-jaewon.lee@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(4636009)(376002)(396003)(136003)(39860400002)(346002)(199004)(189003)(48376002)(478600001)(70206006)(70586007)(4326008)(305945005)(36756003)(2906002)(107886003)(50226002)(14444005)(50466002)(81166006)(8676002)(36386004)(81156014)(47776003)(336012)(5660300002)(44832011)(316002)(486006)(106002)(356004)(8936002)(16586007)(2616005)(126002)(51416003)(476003)(186003)(7696005)(426003)(26005)(9786002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR02MB5338; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1;
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 67af97ec-d972-431a-b6c5-08d73bd06d69
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(4709080)(1401327)(4618075)(2017052603328);
+	SRVR:DM6PR02MB5338; 
+X-MS-TrafficTypeDiagnostic: DM6PR02MB5338:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB53382487D19A637AE37A7754AF8E0@DM6PR02MB5338.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-Forefront-PRVS: 01644DCF4A
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: PCSBGTYi8UWGPYlbq6BSlLDg5xRtK4Pgsqur0AoryDPX2iW6zDtTzQOxTwNA9rG9lrGSi3Eekcl0BPhTBjEiJvKurK9Dbiy1nxMT7jRyNaw0nSk/ZKunh/JnSnm/T4w79ctumOI3WGh+hE6ayj7GrTCMwvGunCQ8qLsoD6PKHKa3CdggRS4ThsCgnpbipoZgNW7/Wpmvzi2vbxhpVr/fKMT1vIBF9J9I1RLETavvUo6jmiCMp19sefwAKMOts9CgnZC48zQfDJ9Ku7NV3NZ42Xsh20dVz19NAhHcB7zhTu24z8r2QYnjsAjmTwAgfAjToFAM+uXoBCSsqHTHlGtfCKgy5wGYlFV128Ck9JQcekQTBGkkWZp+cHmPit0dIf4ncX/et0689SNRLZlyI0P7uqE1IXaqrR5KHBMKXENppKw=
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5166d78b-0a22-4c09-2579-08d73bc7bb07
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2019 23:35:31.6773 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0V/bA/fVzGRF6yG0Goca3OqscY/ujaVa71Y73k+T8aWeaIyryiRJ0RhknFyLzdLhFi7DC6cxxaYosSKQjZgc4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4279
-Cc: Bruce Ashfield <brucea@xilinx.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH] Introduce mechanism to keep nativesdk* sstate in esdk
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2019 00:37:46.9474 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67af97ec-d972-431a-b6c5-08d73bd06d69
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5338
+Subject: [master][PATCH v2] Introduce mechanism to keep nativesdk* sstate in esdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -92,87 +109,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 23:35:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 18 Sep 2019 00:37:48 -0000
+Content-Type: text/plain
 
-Hi Paul,
+When doing a devtool build-sdk from within an esdk all nativesdk
+components would be rebuilt. This patch introduces SDK_INCLUDE_NATIVESDK
+flag to toggle the inclusion of nativesdk packages when creating the
+esdk sstate
 
-> -----Original Message-----
-> From: Paul Eggleton <paul.eggleton@linux.intel.com>
-> Sent: Tuesday, September 17, 2019 3:05 PM
-> To: Jaewon Lee <JAEWON@xilinx.com>
-> Cc: openembedded-core@lists.openembedded.org; Alejandro Enedino
-> Hernandez Samaniego <alejandr@xilinx.com>; Manjukumar Harthikote
-> Matha <MANJUKUM@xilinx.com>; Bruce Ashfield <brucea@xilinx.com>
-> Subject: Re: [OE-core] [oe-core][master][PATCH] Introduce mechanism to
-> keep nativesdk* sstate in esdk
->=20
-> Hi Jaewon
->=20
-> Richard was waiting for me to review this - unfortunately another one tha=
-t
-> fell between the cracks - sorry about that.
-[Jaewon] No  problem!
+Currently locked-sigs.inc is generated during do_sdk_depends which
+doesn't pull in nativesdk packages. Generating another locked-sigs.inc
+in do_populate_sdk_ext and pruning it to only nativesdk* packages by
+using a modified version of the already existing function
+prune_locked_sigs and merging it with the current locked-sigs.inc
+Also adding SDK_INCLUDE_NATIVESDK tasklistfn to the logic surrounding
+setting tasklist file to not prune esdk sstate during creation
 
->=20
-> On Friday, 30 August 2019 5:13:39 AM NZST Jaewon Lee wrote:
-> > > -----Original Message-----
-> > > From: Jaewon Lee <jaewon.lee@xilinx.com>
-> > > Sent: Monday, April 1, 2019 5:07 PM
-> > > To: openembedded-core@lists.openembedded.org; Alejandro Enedino
-> > > Hernandez Samaniego <alejandr@xilinx.com>; Manjukumar Harthikote
-> > > Matha <MANJUKUM@xilinx.com>; Bruce Ashfield <brucea@xilinx.com>
-> > > Cc: Jaewon Lee <JAEWON@xilinx.com>
-> > > Subject: [oe-core][master][PATCH] Introduce mechanism to keep
-> > > nativesdk* sstate in esdk
-> > >
-> > > Using SDK_INCLUDE_NATIVESDK flag to toggle inclusion of all
-> > > nativesdk* sstate into esdk Currently locked-sigs.inc is generated
-> > > during do_sdk_depends which doesn't pull in nativesdk packages.
-> > > Generating another locked-sigs.inc in do_populate_sdk_ext and
-> > > pruning it to only
-> > > nativesdk* packages by using a modified version of the already
-> > > existing function prune_locked_sigs and merging it with the current
-> > > locked-sigs.inc Also adding SDK_INCLUDE_NATIVESDK tasklistfn to the
-> > > logic surrounding setting tasklist file to not prune esdk sstate
-> > > during creation
-> > >
-> > > Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
->=20
-> The commit message doesn't actually explain why you are adding this
-> functionality. You explained it elsewhere (bug 13261) but it needs to be =
-in
-> here. I would also recommend adding a "Fixes [YOCTO #13261]" at the end s=
-o
-> there's a reference back to the bug as well.
-[Jaewon] Ok I will resend with commit fixed
+Fixes [YOCTO #13261]
 
->=20
-> > > @@ -414,7 +433,7 @@ python copy_buildsystem () {
-> > >
-> > >      sdk_include_toolchain =3D (d.getVar('SDK_INCLUDE_TOOLCHAIN') =3D=
-=3D '1')
-> > >      sdk_ext_type =3D d.getVar('SDK_EXT_TYPE')
-> > > -    if sdk_ext_type !=3D 'minimal' or sdk_include_toolchain or deriv=
-ative:
-> > > +    if (sdk_ext_type !=3D 'minimal' or sdk_include_toolchain or deri=
-vative)
-> and not sdk_include_nativesdk:
-> > >          # Create the filtered task list used to generate the sstate =
-cache
-> shipped with the SDK
-> > >          tasklistfn =3D d.getVar('WORKDIR') + '/tasklist.txt'
-> > >          create_filtered_tasklist(d, baseoutpath, tasklistfn,
-> > > conf_initpath) @@ -
->=20
-> This logic change looks a bit odd. Are you sure this is correct?
-[Jaewon] I kept the original logic and did a "and not" my flag=20
-Because if flag sdk_include_nativesdk is set I want tasklistfn to be none s=
-o esdksstate is not pruned during creation
+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+---
+Changes in v2:
+    change to commit message to include reason
+    got rid of some tabs
+    rebased to apply on master
+---
+ meta/classes/populate_sdk_ext.bbclass | 28 +++++++++++++++++++++++++++-
+ meta/lib/oe/copy_buildsystem.py       |  8 ++++++--
+ 2 files changed, 33 insertions(+), 3 deletions(-)
 
-Thanks,
-Jaewon
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 800e117..086f55d 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -20,6 +20,7 @@ SDK_EXT_task-populate-sdk-ext = "-ext"
+ SDK_EXT_TYPE ?= "full"
+ SDK_INCLUDE_PKGDATA ?= "0"
+ SDK_INCLUDE_TOOLCHAIN ?= "${@'1' if d.getVar('SDK_EXT_TYPE') == 'full' else '0'}"
++SDK_INCLUDE_NATIVESDK ?= "0"
+ 
+ SDK_RECRDEP_TASKS ?= ""
+ 
+@@ -401,9 +402,27 @@ python copy_buildsystem () {
+     excluded_targets = get_sdk_install_targets(d, images_only=True)
+     sigfile = d.getVar('WORKDIR') + '/locked-sigs.inc'
+     lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
++    #nativesdk-only sigfile to merge into locked-sigs.inc
++    sdk_include_nativesdk = (d.getVar("SDK_INCLUDE_NATIVESDK") == '1')
++    nativesigfile = d.getVar('WORKDIR') + '/locked-sigs_nativesdk.inc'
++    nativesigfile_pruned = d.getVar('WORKDIR') + '/locked-sigs_nativesdk_pruned.inc'
++
++    if sdk_include_nativesdk:
++        oe.copy_buildsystem.prune_lockedsigs([],
++                                             excluded_targets.split(),
++                                             nativesigfile,
++                                             True,
++                                             nativesigfile_pruned)
++
++        oe.copy_buildsystem.merge_lockedsigs([],
++                                             sigfile,
++                                             nativesigfile_pruned,
++                                             sigfile)
++
+     oe.copy_buildsystem.prune_lockedsigs([],
+                                          excluded_targets.split(),
+                                          sigfile,
++                                         False,
+                                          lockedsigs_pruned)
+ 
+     sstate_out = baseoutpath + '/sstate-cache'
+@@ -414,7 +433,7 @@ python copy_buildsystem () {
+ 
+     sdk_include_toolchain = (d.getVar('SDK_INCLUDE_TOOLCHAIN') == '1')
+     sdk_ext_type = d.getVar('SDK_EXT_TYPE')
+-    if sdk_ext_type != 'minimal' or sdk_include_toolchain or derivative:
++    if (sdk_ext_type != 'minimal' or sdk_include_toolchain or derivative) and not sdk_include_nativesdk:
+         # Create the filtered task list used to generate the sstate cache shipped with the SDK
+         tasklistfn = d.getVar('WORKDIR') + '/tasklist.txt'
+         create_filtered_tasklist(d, baseoutpath, tasklistfn, conf_initpath)
+@@ -657,9 +676,16 @@ fakeroot python do_populate_sdk_ext() {
+     d.setVar('SDKDEPLOYDIR', '${SDKEXTDEPLOYDIR}')
+     # ESDKs have a libc from the buildtools so ensure we don't ship linguas twice
+     d.delVar('SDKIMAGE_LINGUAS')
++    if d.getVar("SDK_INCLUDE_NATIVESDK") == '1':
++        generate_nativesdk_lockedsigs(d)
+     populate_sdk_common(d)
+ }
+ 
++def generate_nativesdk_lockedsigs(d):
++    import oe.copy_buildsystem
++    sigfile = d.getVar('WORKDIR') + '/locked-sigs_nativesdk.inc'
++    oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
++
+ def get_ext_sdk_depends(d):
+     # Note: the deps varflag is a list not a string, so we need to specify expand=False
+     deps = d.getVarFlag('do_image_complete', 'deps', False)
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index cb663b2..31a84f5 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -177,7 +177,7 @@ def generate_locked_sigs(sigfile, d):
+     tasks = ['%s:%s' % (v[2], v[1]) for v in depd.values()]
+     bb.parse.siggen.dump_lockedsigs(sigfile, tasks)
+ 
+-def prune_lockedsigs(excluded_tasks, excluded_targets, lockedsigs, pruned_output):
++def prune_lockedsigs(excluded_tasks, excluded_targets, lockedsigs, onlynative, pruned_output):
+     with open(lockedsigs, 'r') as infile:
+         bb.utils.mkdirhier(os.path.dirname(pruned_output))
+         with open(pruned_output, 'w') as f:
+@@ -187,7 +187,11 @@ def prune_lockedsigs(excluded_tasks, excluded_targets, lockedsigs, pruned_output
+                     if line.endswith('\\\n'):
+                         splitval = line.strip().split(':')
+                         if not splitval[1] in excluded_tasks and not splitval[0] in excluded_targets:
+-                            f.write(line)
++                            if onlynative:
++                                if 'nativesdk' in splitval[0]:
++                                    f.write(line)
++                            else:
++                                f.write(line)
+                     else:
+                         f.write(line)
+                         invalue = False
+-- 
+2.7.4
 
 
