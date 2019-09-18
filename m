@@ -1,18 +1,39 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id BE2577FD33;
-	Wed, 18 Sep 2019 01:02:32 +0000 (UTC)
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AC7B7FD47
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Sep 2019 01:28:26 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,518,1559491200"; d="scan'208";a="75621858"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 18 Sep 2019 09:28:26 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 06FF04CE14FF
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Sep 2019 09:28:26 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
+	14.03.0439.000; Wed, 18 Sep 2019 09:28:27 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] dnf: make dnf work in toolchain
+Thread-Index: AQHVbPEkwKhYYKBIPkyVHfxNoE9opacwpN6w
+Date: Wed, 18 Sep 2019 01:28:35 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6F89C@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1568615805-50657-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<380372ea5dfb9b87cd72363064c5f63e61b84744.camel@linuxfoundation.org>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6F545@G08CNEXMBPEKD01.g08.fujitsu.local>
+In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6F545@G08CNEXMBPEKD01.g08.fujitsu.local>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.35]
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jaewon Lee <jaewon.lee@xilinx.com>
-Date: Wed, 18 Sep 2019 01:02:34 -0000
-Message-ID: <20190918010234.2329.17236@do>
-References: <1568767053-29469-1-git-send-email-jaewon.lee@xilinx.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1568767053-29469-1-git-send-email-jaewon.lee@xilinx.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgSW50cm9kdWNlIG1lY2hhbmlzbSB0byBrZWVwIG5hdGl2ZXNkayogc3N0YXRlIGluIGVzZGsgKHJldjMp?=
+X-yoursite-MailScanner-ID: 06FF04CE14FF.AF4FE
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH] dnf: make dnf work in toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +46,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 01:02:32 -0000
+X-List-Received-Date: Wed, 18 Sep 2019 01:28:27 -0000
+Content-Language: zh-CN
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-== Series Details ==
-
-Series: Introduce mechanism to keep nativesdk* sstate in esdk (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/16856/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [master,v2] Introduce mechanism to keep nativesdk* sstate in esdk
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+SGkgUmljaGFyZA0KDQo+ID4geW91IGNhbiBydW4gdGhlc2Ugd2l0aCBjb21t
+YW5kcyBsaWtlOg0KPiA+DQo+ID4gb3Mtc2VsZnRlc3QgLXIgc3N0YXRldGVz
+dHMuU1N0YXRlVGVzdHMudGVzdF9zc3RhdGVfYWxsYXJjaF9zYW1lc2lncw0K
+DQpPbmUgbW9yZSAgcXVlc3Rpb24gaXMgdGhhdCBJIGV4ZWN1dGVkIG9zLXNl
+bGZ0ZXN0IGluIG15IHlvY3RvIGJ1aWxkIGVudmlyb25tZW50LCBhbmQgaXQg
+d2FzIHBhc3NlZC4gU28gaG93IGNvdWxkIEkgcmVwcm9kdWNlIHRoZSBlcnJv
+ciBsb2c/DQoNCi9idWlsZCQgb2Utc2VsZnRlc3QgLXIgc3N0YXRldGVzdHMu
+U1N0YXRlVGVzdHMudGVzdF9zc3RhdGVfYWxsYXJjaF9zYW1lc2lncw0KMjAx
+OS0wOS0xNyAxMToxMTo0MCw3MDMgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBB
+ZGRpbmcgbGF5ZXIgbGlicmFyaWVzOg0KMjAxOS0wOS0xNyAxMToxMTo0MCw3
+MDMgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAJL2hvbWUvemhlbmdycS93b3Jr
+ZGlyL3lvdGNvL3Bva3kvbWV0YS9saWINCjIwMTktMDktMTcgMTE6MTE6NDAs
+NzA0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gCS9ob21lL3poZW5ncnEvd29y
+a2Rpci95b3Rjby9wb2t5L21ldGEteW9jdG8tYnNwL2xpYg0KMjAxOS0wOS0x
+NyAxMToxMTo0MCw3MDQgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAJL2hvbWUv
+emhlbmdycS93b3JrZGlyL3lvdGNvL3Bva3kvbWV0YS1zZWxmdGVzdC9saWIN
+CjIwMTktMDktMTcgMTE6MTE6NDAsNzA0IC0gb2Utc2VsZnRlc3QgLSBJTkZP
+IC0gCS9ob21lL3poZW5ncnEvd29ya2Rpci95b3Rjby9tZXRhLW9wZW5lbWJl
+ZGRlZC9tZXRhLW9lL2xpYg0KMjAxOS0wOS0xNyAxMToxMTo0MCw3MDcgLSBv
+ZS1zZWxmdGVzdCAtIElORk8gLSBSdW5uaW5nIGJpdGJha2UgLWUgdG8gdGVz
+dCB0aGUgY29uZmlndXJhdGlvbiBpcyB2YWxpZC9wYXJzYWJsZQ0KMjAxOS0w
+OS0xNyAxMToxMTo0Miw0MDYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBBZGRp
+bmc6ICJpbmNsdWRlIHNlbGZ0ZXN0LmluYyIgaW4gL2hvbWUvemhlbmdycS93
+b3JrZGlyL3lvdGNvL2J1aWxkL2NvbmYvbG9jYWwuY29uZg0KMjAxOS0wOS0x
+NyAxMToxMTo0Miw0MDcgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBBZGRpbmc6
+ICJpbmNsdWRlIGJibGF5ZXJzLmluYyIgaW4gYmJsYXllcnMuY29uZg0KMjAx
+OS0wOS0xNyAxMToxMTo0Miw0MDcgLSBvZS1zZWxmdGVzdCAtIElORk8gLSB0
+ZXN0X3NzdGF0ZV9hbGxhcmNoX3NhbWVzaWdzIChzc3RhdGV0ZXN0cy5TU3Rh
+dGVUZXN0cykNCjIwMTktMDktMTcgMTE6MTc6MDAsMDM0IC0gb2Utc2VsZnRl
+c3QgLSBJTkZPIC0gIC4uLiBvaw0KMjAxOS0wOS0xNyAxMToxNzowMCwwNDcg
+LSBvZS1zZWxmdGVzdCAtIElORk8gLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tDQoyMDE5LTA5LTE3IDExOjE3OjAwLDA0NyAtIG9lLXNlbGZ0ZXN0IC0g
+SU5GTyAtIFJhbiAxIHRlc3QgaW4gMzE3LjY0MXMNCjIwMTktMDktMTcgMTE6
+MTc6MDAsMDQ3IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gT0sNCmZhdGFsOiBu
+b3QgYSBnaXQgcmVwb3NpdG9yeSAob3IgYW55IG9mIHRoZSBwYXJlbnQgZGly
+ZWN0b3JpZXMpOiAuZ2l0DQpmYXRhbDogbm90IGEgZ2l0IHJlcG9zaXRvcnkg
+KG9yIGFueSBvZiB0aGUgcGFyZW50IGRpcmVjdG9yaWVzKTogLmdpdA0KZmF0
+YWw6IG5vdCBhIGdpdCByZXBvc2l0b3J5IChvciBhbnkgb2YgdGhlIHBhcmVu
+dCBkaXJlY3Rvcmllcyk6IC5naXQNCjIwMTktMDktMTcgMTE6MTc6MDcsMDI1
+IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVTVUxUUzoNCjIwMTktMDktMTcg
+MTE6MTc6MDcsMDI2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVTVUxUUyAt
+IHNzdGF0ZXRlc3RzLlNTdGF0ZVRlc3RzLnRlc3Rfc3N0YXRlX2FsbGFyY2hf
+c2FtZXNpZ3M6IFBBU1NFRCAoMzE3LjY0cykNCjIwMTktMDktMTcgMTE6MTc6
+MDcsMDY1IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gU1VNTUFSWToNCjIwMTkt
+MDktMTcgMTE6MTc6MDcsMDY1IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gb2Ut
+c2VsZnRlc3QgKCkgLSBSYW4gMSB0ZXN0IGluIDMxNy42NDJzDQoyMDE5LTA5
+LTE3IDExOjE3OjA3LDA2NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIG9lLXNl
+bGZ0ZXN0IC0gT0sgLSBBbGwgcmVxdWlyZWQgdGVzdHMgcGFzc2VkIChzdWNj
+ZXNzZXM9MSwgc2tpcHBlZD0wLCBmYWlsdXJlcz0wLCBlcnJvcnM9MCkNCg0K
+DQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3UgTmFuZGEg
+U29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjogTm8uNiBX
+ZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5hbmppbmcs
+IDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24uZnVqaXN0
+dS5jb20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZy
+b206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZw0KPiBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24gQmVoYWxmIE9mDQo+IFpoZW5n
+LCBSdW9xaW4NCj4gU2VudDogVHVlc2RheSwgU2VwdGVtYmVyIDE3LCAyMDE5
+IDg6NDUgQU0NCj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hd
+IGRuZjogbWFrZSBkbmYgd29yayBpbiB0b29sY2hhaW4NCj4gDQo+IEhpIFJp
+Y2hhcmQNCj4gDQo+ID4geW91IGNhbiBydW4gdGhlc2Ugd2l0aCBjb21tYW5k
+cyBsaWtlOg0KPiA+DQo+ID4gb3Mtc2VsZnRlc3QgLXIgc3N0YXRldGVzdHMu
+U1N0YXRlVGVzdHMudGVzdF9zc3RhdGVfYWxsYXJjaF9zYW1lc2lncw0KPiA+
+DQo+ID4gQ2hlZXJzLA0KPiANCj4gQ291bGQgeW91IHRlbGwgbWUgd2hhdCBk
+b2VzIHRoZSBvZS1zZWxmdGVzdCAgaW4gaGVyZSB0ZXN0IGZvcj8gRXNwZWNp
+YWxseSB3aGF0IGRvDQo+IHRoZSBzaWduYXR1cmUgdGVzdHMgdGVzdCBmb3I/
+DQo+IA0KPiBUaGFua3MNCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gWmhlbmcgUnVvcWluDQo+IE5h
+bmppbmcgRnVqaXRzdSBOYW5kYSBTb2Z0d2FyZSBUZWNoLiBDby4sIEx0ZC4o
+Rk5TVCkNCj4gQUREUi46IE5vLjYgV2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2
+ZW51ZSwNCj4gICAgICAgIE5hbmppbmcsIDIxMDAxMiwgQ2hpbmENCj4gTUFJ
+TCA6IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1LmNvbQ0KPiANCj4gDQo+ID4g
+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBSaWNoYXJk
+IFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlv
+bi5vcmddDQo+ID4gU2VudDogTW9uZGF5LCBTZXB0ZW1iZXIgMTYsIDIwMTkg
+Njo1NyBQTQ0KPiA+IFRvOiBaaGVuZywgUnVvcWluL+mDkSDoi6XpkqYgPHpo
+ZW5ncnEuZm5zdEBjbi5mdWppdHN1LmNvbT47IG9wZW5lbWJlZGRlZC0NCj4g
+PiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBTdWJqZWN0OiBS
+ZTogW09FLWNvcmVdIFtQQVRDSF0gZG5mOiBtYWtlIGRuZiB3b3JrIGluIHRv
+b2xjaGFpbg0KPiA+DQo+ID4gT24gTW9uLCAyMDE5LTA5LTE2IGF0IDE0OjM2
+ICswODAwLCBaaGVuZyBSdW9xaW4gd3JvdGU6DQo+ID4gPiBXZSBuZWVkIHRv
+IGNvbmZpZ3VyZSBkbmYgdG8gdXNlIHBhY2thZ2UgYXJjaGl0ZWN0dXJlIGZy
+b20geW9jdG8NCj4gPiA+IGJ1aWxkIHN5c3RlbS4NCj4gPiA+DQo+ID4gPiBJ
+bnN0YWxsIGV0Yy9kbmYvdmFycyB0byAke1NES1RBUkdFVFNZU1JPT1R9IGJl
+Y2F1c2UgY29uZmlnIGZpbGUgaW4NCj4gPiA+IGhvc3Qtc3lzcm9vdCBhcyAv
+b3B0L3Bva3kvMi43K3NuYXBzaG90L3N5c3Jvb3RzL3g4Nl82NC1wb2t5c2Rr
+LWxpbnV4DQo+ID4gPiB3aWxsIGJlIGNvdmVyZWQgYnkgYW5vdGhlciBBUkNI
+IHdoaWNoIHJlc3VsdCBpbiBwcmV2aW91cyBjb25maWcNCj4gPiA+IHNldHRp
+bmdzIGluZWZmaWNhY3kuDQo+ID4gPg0KPiA+ID4gVG8gcmVzb2x2ZSBpdCwg
+cHV0IGNvbmZpZyBmaWxlIGluIHRhcmdldC1zeXNyb290IGxpa2UNCj4gPiA+
+IC9vcHQvcG9reS8yLjcrc25hcHNob3Qvc3lzcm9vdHMvY29yZTItNjQtcG9r
+eS1saW51eC4gQXMgZWFjaCBBUkNIDQo+ID4gPiBoYXMgaXRzIG93biB0YXJn
+ZXQtc3lzcm9vdCwgY29uZmlnIGZpbGUgd2lsbCBub3QgYmUgY292ZXJlZC4N
+Cj4gPg0KPiA+IEknbSBhZnJhaWQgd2UgY2FuJ3QgaGF2ZSB0YXJnZXQgZGVw
+ZW5kZW5jaWVzIHdpdGhpbiBuYXRpdmVzZGsgcGFja2FnZXMuDQo+ID4NCj4g
+PiBUaGlzIGlzIHNob3duIGJ5IHRoZSBmYWN0IHRoaXMgcGF0Y2ggKGFuZCB0
+aGUgc2ltaWxhciBycG0gb25lKSBjYXVzZQ0KPiA+IHNlbGZ0ZXN0IGZhaWx1
+cmVzIGluIHRoZSBzaWduYXR1cmUgdGVzdHM6DQo+ID4NCj4gPiBodHRwczov
+L2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxk
+ZXJzLzc5L2J1aWxkcy8zODEvDQo+ID4gc3RlcHMvOA0KPiA+IC9sb2dzL3N0
+ZXAyZA0KPiA+DQo+ID4gMjAxOS0wOS0xNiAwMDoyNDo1NCw2NzAgLSBvZS1z
+ZWxmdGVzdCAtIElORk8gLSBSRVNVTFRTIC0NCj4gPiBzc3RhdGV0ZXN0cy5T
+U3RhdGVUZXN0cy50ZXN0X3NzdGF0ZV9hbGxhcmNoX3NhbWVzaWdzOiBGQUlM
+RUQgKDExMS41OXMpDQo+ID4gMjAxOS0wOS0xNiAwMDoyNDo1NCw2NzAgLSBv
+ZS1zZWxmdGVzdCAtIElORk8gLSBSRVNVTFRTIC0NCj4gPiBzc3RhdGV0ZXN0
+cy5TU3RhdGVUZXN0cy50ZXN0X3NzdGF0ZV9uYXRpdmVzZGtfc2FtZXNpZ3Nf
+bXVsdGlsaWI6DQo+ID4gRkFJTEVEDQo+ID4gKDE0NC4xNHMpDQo+ID4gMjAx
+OS0wOS0xNiAwMDoyNDo1NCw2NzAgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBS
+RVNVTFRTIC0NCj4gPiBzc3RhdGV0ZXN0cy5TU3RhdGVUZXN0cy50ZXN0X3Nz
+dGF0ZV9zYW1ldHVuZV9zYW1lc2lnczogRkFJTEVEDQo+ID4gKDE2MS41M3Mp
+DQo+ID4NCj4gPiB5b3UgY2FuIHJ1biB0aGVzZSB3aXRoIGNvbW1hbmRzIGxp
+a2U6DQo+ID4NCj4gPiBvcy1zZWxmdGVzdCAtciBzc3RhdGV0ZXN0cy5TU3Rh
+dGVUZXN0cy50ZXN0X3NzdGF0ZV9hbGxhcmNoX3NhbWVzaWdzDQo+ID4NCj4g
+PiBDaGVlcnMsDQo+ID4NCj4gPiBSaWNoYXJkDQo+ID4NCj4gPg0KPiANCj4g
+DQo+IA0KPiAtLQ0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5n
+IGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZw0KPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoKCg==
 
