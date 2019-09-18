@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 993478FFE5
+	by mail.openembedded.org (Postfix) with ESMTP id 9A2438FFE8
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 Sep 2019 18:28:05 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46YT4N1WChz56
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46YT4P5MB8z6W
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 20:28:04 +0200 (CEST)
+	Wed, 18 Sep 2019 20:28:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1568831284;
-	bh=9l+vZZl220UbofHAYG/xxr+a9To92hBG+HWYgYGXLdg=;
+	s=default; t=1568831285;
+	bh=AFs6VB1ba8ZZ8+ThzAn9WVBmjyLTu79MWM6uEt0Xzzk=;
 	h=From:To:Subject:Date:From;
-	b=q84RbJY5zdvpUt8M+p2/hBt6RE8Rrk3VGFOKSGWenfd+jje8hFkUyfdS3TT1Eaf5A
-	0+KYwWnfZDA5H7r+t+8dDxgE5+wQ8+K9VSuEO0uCOVZJyv5HFx42hAnAyRHu1UueOY
-	uFQqRWGaAYjt4WecwwsJzlErA9WgEhnPlKwfRPxGaqy9CgL3IOb9Aj0Iq9Jvk/K8aR
-	mNUTfYFRY2RZSrs/VNQNR0MXmOUm/tpGRXut33t4ouG244BMBjVp+8zIASgqmM3DQz
-	umXAU7aE2FlOOeMYFhd7GS669UtR+uLMzBamY7RW9ypwquSpePjyiX0tnUYtr6DC5e
-	CF4JycIgn6QQfzLS6fVxKZ3FqigVmZQ3SxYXQW9DQUj5WFkxW1v4t6yVJQQP8gseDd
-	hJtlbcK/VxCL4dWzqAOGGXJuj73JTGqdSgmH7umWv97SbKsYdeVmAlpCYz0djfZxSh
-	7vi2jAAoVlQqt2mMil50YFdOnILlmZs5ZNedeQlhSp4ycYOcDuOEsNCRZb4MWY3KyK
-	qDjhGJPXK+PEx/S4CUcPoshKb4yjdvUbQTRQ38piBKwUe/nr7hKSfK0JgRO5DGfa1z
-	4gZmR4N/yAYCi9PjujuHRVAw5e8TxhxmHYA7ZHYElC3Kzl9Hjq93I3kyebuMpzGwYC
-	vF+Nj+fv+OUQFOgdJj/705SY=
+	b=k+VzsLuY1a2IZjdSbMPka32QsC+Vbpv91qGCTZQ2n9c1QjV1C+YLla4KcKgMkaWw/
+	3Q5fiT56v11gUy9Mvx4RyH8PfFLrnV8eME7IaBcxpLsuoR6aHkKuwozgVXaFUBu/aE
+	IrQxlMhHhAY7DOXuxNLeseIZiSWroPV1l02BnUrHHKxfGxhYT67FTsyVunu5Kctnuy
+	l2ADi2uIpaiAFVWEophmcYdt2Bm91tQYMw8SzFNeq5WOQkTIarUzbBgIl79p1/emJY
+	f/PVHD8bu9lakrDwr6OY7mK5+cy4AVwrBLICEdb1liZGIMpPPC1sjtrtd5G128PCs8
+	2IOSkCvONwR03fZWmKXbSKAYRdmKHbIDCkJXOZy2FUZrbczUlGn6CEm4qPilSeBLCU
+	GUtaLiPKn0t4kBC5nAW2pgr0HuRG1WtsooV1DKsuLlMU5mOYux6PO32ThCOkcRDHda
+	lNU5fFsB/tgsJp52jk10m7NN4tOjqZTFKMgnZBfJxfZsI/IStOvs4TJmnhlOHJ7LCf
+	YxleL2tWHCFlNMdrnzc31mrHx0F0CJXaI04Dni6TkgBIpEqzLEgFl/D2hGGFGkB8i1
+	Nweo4yctU1z1+IJLx27qj4ZutUkgOF/aJjZqsimXcTET8ffuM/Kqio11oraQNR4OIi
+	xDkClOn2oVNz8QSPN1t5C5JM=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Sep 2019 21:27:59 +0300
-Message-Id: <20190918182803.29170-1-bunk@stusta.de>
+Date: Wed, 18 Sep 2019 21:28:03 +0300
+Message-Id: <20190918182803.29170-5-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] glib-2.0: Upgrade 2.60.6 -> 2.60.7
+Subject: [PATCH] libmpc: Remove dead UPSTREAM_CHECK_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,25 +44,22 @@ X-List-Received-Date: Wed, 18 Sep 2019 18:28:06 -0000
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../glib-2.0/{glib-2.0_2.60.6.bb => glib-2.0_2.60.7.bb}       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.60.6.bb => glib-2.0_2.60.7.bb} (88%)
+ meta/recipes-support/libmpc/libmpc_1.1.0.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.60.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
-similarity index 88%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.60.6.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
-index a3c5a09d41..740473719d 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.60.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
-@@ -21,5 +21,5 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
- SRC_URI_append_class-native = " file://relocate-modules.patch"
- SRC_URI_append_class-target = " file://glib-meson.cross"
+diff --git a/meta/recipes-support/libmpc/libmpc_1.1.0.bb b/meta/recipes-support/libmpc/libmpc_1.1.0.bb
+index 1e48c576d4..bbc673ff38 100644
+--- a/meta/recipes-support/libmpc/libmpc_1.1.0.bb
++++ b/meta/recipes-support/libmpc/libmpc_1.1.0.bb
+@@ -8,8 +8,6 @@ SRC_URI = "${GNU_MIRROR}/mpc/mpc-${PV}.tar.gz"
+ SRC_URI[md5sum] = "4125404e41e482ec68282a2e687f6c73"
+ SRC_URI[sha256sum] = "6985c538143c1208dcb1ac42cedad6ff52e267b47e5f970183a3e75125b43c2e"
  
--SRC_URI[md5sum] = "cd6865d8ce40db5e4c12b7d180953de6"
--SRC_URI[sha256sum] = "ff8fab8d8deaa4fd0536c90f90d9769a09071779c7e6183907f6855645bffb6c"
-+SRC_URI[md5sum] = "f036f78a7fca330d9f7d939fcf794bde"
-+SRC_URI[sha256sum] = "8b12c0af569afd3b71200556ad751bad4cf4bf7bc4b5f880638459a42ca86310"
+-UPSTREAM_CHECK_URI = "http://www.multiprecision.org/mpc/download.html"
+-
+ S = "${WORKDIR}/mpc-${PV}"
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
 2.17.1
 
