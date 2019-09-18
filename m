@@ -1,24 +1,54 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DC5527FD7D
+Return-Path: <prvs=157cabe6c=Mikko.Rapeli@bmw.de>
+Received: from esa1.bmw.c3s2.iphmx.com (esa1.bmw.c3s2.iphmx.com
+	[68.232.133.201])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C62B90009
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 01:31:56 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8I1VbZO000702
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2019 18:31:47 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 17 Sep 2019 18:31:26 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Sep 2019 09:31:25 +0800
-Message-ID: <1568770285-205402-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 18 Sep 2019 05:54:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1568786056; x=1600322056;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=AaAoNiO8ALnUa7+zxq2j7XZzG56pcWZTGcjRZ7aW7Y4=;
+	b=E7gf4XYbPfqjRv0eOSA3FITPyV4cyhfi+3fKegyxHW6vXw/5SxkNoPPJ
+	dD5qIJcdck5oQPjvU/fRkUEG7lX6POsK5oyqMJfxtYSaKeHIi3PG7LgqX
+	Ki4TMThKuJUmIR1m44vgIW/a4uvAZu478CB4gVr/6o0DqJEXHiq90ODS/ A=;
+IronPort-SDR: 321ebWOj+b3E4LJP+YAs81PJerTFVNc1eimzWL5Yjz1BQHYMoaSY072vSsccvgLMaKY8XdbE9m
+	r0MtkHfByTnzkNOKKLD2QiRJYmqDvJbXS5LMrvO4jNNsSrX5VSGUCJ4OPvcrt402DllRHgIaQc
+	HnnuBcITsBtwMk3SKCvlhLRSVZaB+tCqfdnUEXSkKN8KFIl3wEDdi01a30fDFWfWzrmwUwIwVK
+	sx6sYM5DGOl7+nvWG25QE/Q3x9pHO5vNgYwNRKL4Twb3acgMybCZYeKEdtUQdaUQySQM1zLXTW
+	A08=
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+	esa1.bmw.c3s2.iphmx.com with ESMTP/TLS; 18 Sep 2019 07:54:14 +0200
+Received: from esabb2.muc ([160.50.100.34])  by esagw4.muc with ESMTP/TLS;
+	18 Sep 2019 07:54:13 +0200
+Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
+	([160.48.96.46])
+	by esabb2.muc with ESMTP/TLS; 18 Sep 2019 07:54:13 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10j.europe.bmw.corp
+	(160.48.96.46) with Microsoft SMTP Server (TLS;
+	Wed, 18 Sep 2019 07:54:13 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Wed, 18 Sep 2019 07:54:13 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <muislam@microsoft.com>
+Thread-Topic: [OE-core] [thud][PATCH v4] gcc:  CVE fix for gcc <CVE-2019-15847>
+Thread-Index: AQHVbaKAMYz98HJYkUOhh/MzKff5TacwzjCA
+Date: Wed, 18 Sep 2019 05:54:13 +0000
+Message-ID: <20190918055408.GM6154@hiutale>
+References: <20190917215408.18288-1-muislam@microsoft.com>
+In-Reply-To: <20190917215408.18288-1-muislam@microsoft.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.34]
 MIME-Version: 1.0
-Subject: [PATCH V2] report-error.bbclass: add local.conf/auto.conf into error report
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [thud][PATCH v4] gcc: CVE fix for gcc <CVE-2019-15847>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +61,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 01:31:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Sep 2019 05:54:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <79AB3F1B97EC53498B3FA9B0D406A3D3@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-From: Changqing Li <changqing.li@windriver.com>
+Looks ok, though I would consider updating to point releases or latest
+versions of the gcc-8 stable tree, where these patches are already backport=
+ed
+by upstream developers. The 8.3 update does not have this CVE patch, but
+a lot of bug fixes which should be useful for gcc 8 users.
 
-sometimes, it is not enough to reproduce a failed build with current
-info on error reports web, add local.conf/auto.conf into error
-report to make it more easier to reproduce failed build
+Reviewed-by: Mikko Rapeli <mikko.rapeli@bmw.de>
 
-Note: this need work together with change in repo error-report-web,
-which will display local.conf and auto.conf as Error Details
-
-[YOCTO #13252]
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/classes/report-error.bbclass | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 1c55abf..ea043b2 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -25,6 +25,19 @@ def errorreport_savedata(e, newdata, file):
-         json.dump(newdata, f, indent=4, sort_keys=True)
-     return datafile
- 
-+def get_conf_data(e, filename):
-+    builddir = e.data.getVar('TOPDIR')
-+    filepath = os.path.join(builddir, "conf", filename)
-+    jsonstring = ""
-+    if os.path.exists(filepath):
-+        with open(filepath, 'r') as f:
-+            for line in f.readlines():
-+                if line.startswith("#") or len(line.strip()) == 0:
-+                    continue
-+                else:
-+                    jsonstring=jsonstring + line
-+    return jsonstring
-+
- python errorreport_handler () {
-         import json
-         import codecs
-@@ -51,6 +64,8 @@ python errorreport_handler () {
-             data['failures'] = []
-             data['component'] = " ".join(e.getPkgs())
-             data['branch_commit'] = str(base_detect_branch(e.data)) + ": " + str(base_detect_revision(e.data))
-+            data['local_conf'] = get_conf_data(e, 'local.conf')
-+            data['auto_conf'] = get_conf_data(e, 'auto.conf')
-             lock = bb.utils.lockfile(datafile + '.lock')
-             errorreport_savedata(e, data, "error-report.txt")
-             bb.utils.unlockfile(lock)
--- 
-2.7.4
-
+-Mikko=
 
