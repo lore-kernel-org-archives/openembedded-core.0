@@ -1,36 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EA0790142
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D86B490102
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 07:20:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46YBFb04ffz1n;
-	Wed, 18 Sep 2019 09:20:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1568791203;
-	bh=Gv8rGO4723EALIN6Fzmmfq4rjCwwVwd6SWxrbviYLCE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oj9jND/JY9GKaTg2zYevlWg15EhKzkJ6/h0/VYnjpO9IQOvADh1K8jHJpfe0GIHgQ
-	5RgGTq0wvRu7dr3NUfoFYrq2G/j5nHGNE7K3cLfss/tlQcLZgNNKPy9tAwLGWMgzv8
-	ZYjFl/PgmdXKuVTWzdL3E/MD4fAzcK5ZLL3ZrSJO/Xz7ZrFhhEg+6C6F+fm/v3MMid
-	5Je7o51JjfmIDfVSX7kDRZc31q4aeK41RL2DpZh8oryhcDYEAmEUOnisEsgBE0cApl
-	p5bUhzVbMdDtTUAmZlyqqTHYjm4VmD6eOLEiyJbVOPMVrhsyIfq1sDnQOZNCrofk2u
-	jxS4ObLocPB03EuaXwIqZkOt3KrYjNevwotrQo0QhYbt7gtrLqnVmaUwoQwteSsXht
-	jYPnOHsf01Q+MCN8aWtnap6E1frHXYan3d1j4dDAVRes6rB+8LN5VvWfhUy50DHEZW
-	qPDbO7Jq9P+Ov2Yo0mrUOG2i8/9HPlXhKTs8yC6jp33HzQ9BSWT4q/KTbjf9hh/Qit
-	M/Uvc5Pj7APg3pEg0HzZD8cAbwQlf7c/nGpSSb4U45D7lrqECuiVmEnzYi7HTFstsZ
-	Qjx1HQrL/2gdjL+XyVTnkNpuYOY40FaGFggjA8phsSpNP6UyimTi90ZdnLvnqOvyPk
-	+zzdy4jpdQMuRMj4DoWRTdvI=
-Date: Wed, 18 Sep 2019 10:20:00 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190918072000.GA11465@localhost>
-References: <20190917184947.2244823-1-raj.khem@gmail.com>
+	Wed, 18 Sep 2019 09:04:46 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id n190so3664698pgn.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Sep 2019 02:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=iHQ0XZZzJ9+Vqg/QzO/ssiLZA/LxKNFVwnMOf0Rexmo=;
+	b=aVTetDJx1nhLiVaA9I9k76xQnwscXV83SqjNJe5Tah0To/ojqP8WNjUYLfvkOQvTPw
+	nhKLTM+I2GgF7I2KGITtypG0+iNPHwyaMMeRImxHFEwPA7Ydq3uMdqwcRuiYiDSUV/KW
+	tVto9IBKLh/B+lOrVwY59yGQi1bBOJZsDl503jUE/DVSvadUhyZZhwGjV3YS5+Qa1M0O
+	YNC20OZnREyBDzzImfEhtfiksN94SBuPZTq9pH6y06JcAq46tti3Y09mb+9GzBbUvpF4
+	8aXphqy+wWh3kxGRY/kMrg3JVOeRnr/WpkMCuQHpj6GT9x1wIXN3nna/zYWJKAdU8X0w
+	5O2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=iHQ0XZZzJ9+Vqg/QzO/ssiLZA/LxKNFVwnMOf0Rexmo=;
+	b=LTptzmQh4l54nT41rueP7VbhxLP4sf3yit7yH7Sh6LG5skz70+mx0BiXv6KyaKMExG
+	smpS3c9dhYyg1z6YSf2B5F0i15MeOPdQCXeKPJDOins+JQgZn7UPZTfWTsOAIKpeRr28
+	d2u5IKAoZDITQieb2gLaBcnxwnAXTGfCSxsqtj8it3xXIhlt6HveGONN7N9BhA6oZszX
+	bfBe0K4T106ntBhwAogKwBUhQY6oqyTfxvVq282pwovs9lApBtAceVMllE2SiZlVtzcP
+	QwF7WVb0GtPbHrB7EkL1NCDbKRumWbszgEE2Ikjz5/1350rJQOtDSLhQIz97RRnHGV+2
+	qS1Q==
+X-Gm-Message-State: APjAAAWlnWXFbVhT6ZkJA4isMZZWuU2McCvJF7Q5b0i64P6nHaWhIh07
+	WTwqBMBLbSEXnGHZIPNfWqEhza4peMb5T6h7Ayn2YA==
+X-Google-Smtp-Source: APXvYqzDl3fciOFWvRiayvINd9YK1ert4FUvzMdPSv2+cneQhcxFGPfXoyPHFf2K6YaLC9DOza4aefh2VbU8pA41LnM=
+X-Received: by 2002:a63:f907:: with SMTP id h7mr2983518pgi.418.1568797487465; 
+	Wed, 18 Sep 2019 02:04:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190917184947.2244823-1-raj.khem@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssl: Enable os option for with-rand-seed as well
+References: <20190917153613.4954-1-dbaryshkov@gmail.com>
+	<8efc4f66f7509b3cc4235939f542858051b61b8a.camel@linuxfoundation.org>
+In-Reply-To: <8efc4f66f7509b3cc4235939f542858051b61b8a.camel@linuxfoundation.org>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Date: Wed, 18 Sep 2019 12:04:35 +0300
+Message-ID: <CALT56yOx98GPrNCZTMLbShmMvTZz3v4v3Ei5L6Wuvh62Mps6Hg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 1/9] uefi.conf: add config file holding configuration for UEFI applications
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +57,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 07:20:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 18 Sep 2019 09:04:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 17, 2019 at 11:49:47AM -0700, Khem Raj wrote:
-> with openSSL 1.1.1d we start seeing errors like
-> 
-> Error Generating Key
-> 139979727451584:error:2406C06E:random number generator:RAND_DRBG_instantiate:error retrieving entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
-> 
-> when using openssl from openssl-native on build hosts, this is due to
-> limiting the random seed to devrandom, to support older hosts, since the
-> option allows to have a comma separated list of methods to try, we can
-> try the default first and if that fails then fallback to devrandom, this
-> will ensure that it keeps working with build systems which dont support
-> getrandom()
->...
+Hello,
 
-Thanks for fixing this problem!
+=D1=81=D1=80, 18 =D1=81=D0=B5=D0=BD=D1=82. 2019 =D0=B3. =D0=B2 01:16, Richa=
+rd Purdie
+<richard.purdie@linuxfoundation.org>:
+>
+> On Tue, 2019-09-17 at 18:36 +0300, dbaryshkov@gmail.com wrote:
+> > From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+> >
+> > Create new config file defining common variables for all UEFI-related
+> > packages (bootloaders, test applications, etc).
+> >
+> > Signed-off-by: Dmitry Eremin-Solenikov <
+> > dmitry_eremin-solenikov@mentor.com>
+> > ---
+> >  meta/conf/uefi.conf | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >  create mode 100644 meta/conf/uefi.conf
+>
+> This is heading in the right direction however if we're going to try
+> and clean things up I've concluded we need to do it properly and get it
+> right.
+>
+> Now I understand more about how this configuration file is being used,
+> should it be called image-uefi.conf ?
 
-cu
-Adrian
+Fine, I will rename the conf file
 
--- 
+> I feel really strongly that we do not want an uefi.bbclass, its simply
+> not warranted and will just continue to expand the current mess of
+> classes. If all we need it for is some functions, those functions
+> should be added elsewhere.
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+As those EFI_PROVIDER bootloader classes are called only form
+live-vm-common, maybe I should just add them to live-vm-common and
+make individual classes _append those functions?
 
+> I'm also on the lookout for tests of these kinds of codepaths. Code is
+> much more likely to be accepted if tests are added for it. I'm not
+> quite sure what would make most sense here in this case buts its a
+> general point I will be pushing for going forward.
+
+What kind of tests would you like? This code already exists and is
+called as a part of any live image generation.
+
+--=20
+With best wishes
+Dmitry
 
