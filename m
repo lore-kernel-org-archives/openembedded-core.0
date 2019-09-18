@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 9750A8FFDD
+	by mail.openembedded.org (Postfix) with ESMTP id 965468FFD8
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 Sep 2019 18:28:05 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46YT4P2W7fz65
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46YT4N414Cz5c
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 20:28:05 +0200 (CEST)
+	Wed, 18 Sep 2019 20:28:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1568831285;
-	bh=plH66liYMnN9Be20g8+kVhwRiS+5N1eft5AY3cHitFc=;
+	s=default; t=1568831284;
+	bh=HqFY2WXofi2ZtapstuN/sn+iS8JLwy+XLVSdOnIeG9o=;
 	h=From:To:Subject:Date:From;
-	b=s6iehLHQlvKi5tOhTMv2O4hocQCePZM6KaUNF2N0Rqc1XHgsnkY4vhL9HTqRLRvg+
-	svFeCdN/uuENMp1CLsVmycSyl+HJ59stREPJDHDg9tlh+NkQuN9OkNHuFhjTQyjIi7
-	+Z0BRG561utuQ9yinP6Dm9F3GPGAajGdoBwfl/jPBzqO/oi6d1oJquUN4mCzVcnM7x
-	7GgmXrUi68EeFTk+L+Q21qCqw6M5mV8ksgJj0+tXAV+UJI5DJ84KSsmGqbG71NVMaB
-	Me32PkWtksAo0HC2Ks0Ahh0CR01XuXij3mCM1J4478zfH+F9T39gB5UN8yZ63FvXbq
-	K7DOW4g9nC/9pMRXUj1yCA9Cv1HHdP/nqQ9C+cMEUPeAdAQ7Zx5c4JHHlSnoY+QVi4
-	cQPUcR57vq6KJuo1RO7Gwcso276DI5jqUZ//2vZOIChZj52RC19LLb5bZKhEWPzGF3
-	+dAa+BVLhUNg8fBh//Kz2U4YrrCpCwdFBKJ7iR8G9vqkMaL08nCwSCbqoHfOeAmu5k
-	h34Wm/KEhA8IPFnSYM0a6dVExlqw+WesA24cfzWEzf1DyMUh9gwD6m9Mhsgo34GUbc
-	X99rLsuu1GpqLN07lHVCWexzScdDL97Edm/v0YKUbsJ/eXcb8yTx4C04vHhEwpZVNU
-	rHF4Ue2aVjoqQCWff4PFBWik=
+	b=QMpF97K2ZSFF2i6sETdLNSlsHUeLyZB15RrNpZoJDCM1Rt0lFlazK8DulfaC58DtO
+	ETfDpze1vbLvG8Nuj9DZmTOdi67nb3Gpev0Y6+QPVQaxkOc5QcLWbEfW2Olqwkztqj
+	GvBsq++9Smr08vwDl0EoChZ3RfB1dega9HxTzPejba5+M1vyAMcj4gcMy2KDcRhrlu
+	V6u1FpcSa/F2EUfJdQXMMhwqIK9DI8fCQf91h/jC2U0UXwonNIBP4NNz8FAQVvbu/t
+	0CpiF8J6MGnFXYPkCt5dyY/6jU6aZ49A3xeP+bYbL+40vzYLHlvvU0HWIh0tRlzQKz
+	ZPfPYwHYFPUERDZIeOO6iNuBjxw3mMwjrRHfi4aDKL+lTNhZuyxYNSsKa5j5y57Mom
+	mdM7SK8jkXB/5CcZUMbEvJCT2gckj3XHAm455522xJzcntRl3EpAmg6ETfbYZ478KS
+	uSna71rMvfqxUY4KdrC/TtMSiNjdiV55Mu4osGR6t8+iDOGnk0rAXsbwNb0ZooLbbB
+	wbXhtkLW/8WUxjtYMIOJbKmMqwypanSfoxpNoqJUBk8Os4U5o2UX5HoLocfXXo6DhW
+	tEY1UDmL1Hsa7neeLAG+0LwnCmydVDZUIB2FCrxvVbkBPaDVepkTofKZMWN9B9oIuO
+	UBbtF3LEjw9GN3YNf49CMA+o=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Sep 2019 21:28:02 +0300
-Message-Id: <20190918182803.29170-4-bunk@stusta.de>
+Date: Wed, 18 Sep 2019 21:28:00 +0300
+Message-Id: <20190918182803.29170-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] squashfs-tools: Remove UPSTREAM_CHECK_COMMITS
+Subject: [PATCH] lttng-modules: Upgrade 2.10.10 -> 2.10.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,24 +42,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 18 Sep 2019 18:28:05 -0000
 
-Upstream is making releases again.
-
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb | 1 -
- 1 file changed, 1 deletion(-)
+ .../{lttng-modules_2.10.10.bb => lttng-modules_2.10.11.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.10.10.bb => lttng-modules_2.10.11.bb} (93%)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index ab2ff01b62..51e4a5939d 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -10,7 +10,6 @@ SRCREV = "f95864afe8833fe3ad782d714b41378e860977b1"
- SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
-            file://squashfs-tools-4.3-sysmacros.patch;striplevel=2 \
- "
--UPSTREAM_CHECK_COMMITS = "1"
- SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
- SRC_URI[lzma.sha256sum] = "c935fd04dd8e0e8c688a3078f3675d699679a90be81c12686837e0880aa0fa1e"
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
+similarity index 93%
+rename from meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb
+rename to meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
+index dccc4b9842..789a3be850 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
+@@ -16,8 +16,8 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+            "
+ 
+-SRC_URI[md5sum] = "07c0b1ea4c1dd9d3edba8dc980fd93dd"
+-SRC_URI[sha256sum] = "e0d031005eef337c62de530a3b5b3e8fb1c732846eefcb23b8978edd2091f6e4"
++SRC_URI[md5sum] = "c618fb646514dfc1bf910cfd7cda4256"
++SRC_URI[sha256sum] = "7f91e39b2e8e46d8bbba2b4c8c1614f1fb380611cd1a1fccc1d1859be26112f1"
+ 
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
  
 -- 
 2.17.1
