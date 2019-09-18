@@ -1,52 +1,52 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 55E227F93F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EC167FFA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 13:17:36 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id t8so5620873lfc.13
+	Wed, 18 Sep 2019 13:27:51 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id b9so6970641wrs.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 06:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=Z5hgEViypV6Z4ZjLoQ4Hio15rWEAp3Coa/VdJHrAstU=;
-	b=XKZzhpQfsuuv8Kalnjx4Ide81DMegre7CTJZG4PbhmtZcHYCAq6SPi9rYgMDjDX9Wr
-	9nUqGCprmDMwqXKS81Rp8T2axzNQOPzbYlFInf6rAhke1EHAvxbndO9syDuzY0QTQTnr
-	jxErS+eRuYP0dgMe+R2TI1hBT4AdArb4Oet5mnGp1rJ3xoXoX9kBkcNhGdz3LRi6nyxa
-	Ywn+VHxqtO60w/zgjreesWhxsGBBM/4sjvyXb5kQXAciHDzGia6kBLuAMEgrvijdFI80
-	H8nh41JasPqXYEcqAA/RXX3d2OruGScCWkNrn2/mIHkHW1dQzoFvvOhrQ1oyQvGoJqTw
-	mApA==
+	Wed, 18 Sep 2019 06:27:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=afNXVaRvOToR8w+uER6KivB+9Mq1oT/6krP3YNVoRh8=;
+	b=HfP4X7GImhiZThS27zBkau2jEMUp3QNk3CAXCJAC7ZWjPU6WQevtGAPPRjJSXF4em0
+	J8n8EtoN9D7wHPIO8BdKxuqgKJRosTYhZwGfEJ5JK5nk6F9RYSWp+Mm3QZRsuyxuxm0S
+	JxaEh5mkUFRdi3HFNIG7cuQgo26sKHmH/3TIq0mfZlY5LMXc6o9gyOzdEPpWNGKm9Y/F
+	ccylLZX+dLSoGX7ujwchguv8LhqxZ/sIgAGZ4oEcIaYxC9ofS3+M7X/XbYUrsm90vy4J
+	XBwKr+jgw3ASp9QX+8C44G87GLON+iMBoi+KGS/PjA9ljBUEZ4Nu3wxQcEukzGq4CZmE
+	snlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Z5hgEViypV6Z4ZjLoQ4Hio15rWEAp3Coa/VdJHrAstU=;
-	b=AXJVQNFt7O0EHsj6QNYD5OGi7ORjH83XilLKS07mn4axD1244QRk+l/dvZ6bDlLQ/+
-	ylyzIjvcN2CCadmyuAClXfpelXl3EfhYf1rFrZi7X7h/s27loiCiOsEXxuOw/qvpZ/p5
-	x62aGZGAUEp3e8MSbo//n2ueGfE7dpJ6KNvyhW1yWiOAuOJM8j/VBmgCABF60jim/FDp
-	fRLMXwOg2/f+E5EdXrhKhxci/LCmqrBXCu4xGCAw8hALQ8H27+jQBhiFOOIGsGOUVLK8
-	B62oobtXF0GUR+vCVWrta0j+YGi3iwusZ2idDUa1lPpQdbyVcbmLynmNsxKx1S79nncw
-	vf9Q==
-X-Gm-Message-State: APjAAAW5CvxgVIlhiOaCYEleDY8N5vaVGjKyg4DBpFctq2dXs//4yK5z
-	KsLa0ke8Ddu0SV/CFm/2T5W9FlSQ
-X-Google-Smtp-Source: APXvYqyTYehLlhNaQsl77TMyv5U+kuPAS+1b4+3tJIvrjvmB6iCEyQRmFadLLbOuEAPhz8aKCHTNVg==
-X-Received: by 2002:a19:22cd:: with SMTP id i196mr2084928lfi.160.1568812656384;
-	Wed, 18 Sep 2019 06:17:36 -0700 (PDT)
-Received: from localhost.localdomain ([94.25.229.37])
-	by smtp.gmail.com with ESMTPSA id u10sm999466lfk.34.2019.09.18.06.17.35
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=afNXVaRvOToR8w+uER6KivB+9Mq1oT/6krP3YNVoRh8=;
+	b=oTk9Diwp2b7RLrPUm5NcwHR35LQNANDS+A9TODnKnsCf4bZrcNJdrz2woq5IiBer2J
+	5qbHpvkdx3pSIevMBkBFwX1rwmLtkvoWHnRmcImUtdtxbd6bhb1Jkkldg2516mGiGbVc
+	qCnXf2dp8ZbURsmU4E7rahTR8pEFy2gu83wP7B3tsCVXAZRrvqql57E8yv0VcTkd0XlB
+	E9FgG0HxrBvE6duEd3Df90W095+lMbrrzNoJJ8pmHLmojcD7hSyxPqWpbf7Nva+3Vc5A
+	7wohqKsKihsd9pi5v35IUezk7ZbXv+EMOPqS2+F9pJ+2A09pQn/WYtrMeMxIuM7naDlj
+	ALWg==
+X-Gm-Message-State: APjAAAVsTn5KGMXI8a8Cucf6Sis0PORWgNTWCP8JUKwQLYnSzg/duxmW
+	Uliy3IQb51sdddg5iENzlx+lB2Es+Lw=
+X-Google-Smtp-Source: APXvYqzzx10vDp5Vt6kDpPKa4P/oRY5vqu9xavKuSE4FUUYLuTAhrJZgmaK0KrB8SAeKo73gqRnGWw==
+X-Received: by 2002:adf:f150:: with SMTP id y16mr2923697wro.71.1568813271920; 
+	Wed, 18 Sep 2019 06:27:51 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id d9sm7812207wrf.62.2019.09.18.06.27.50
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Sep 2019 06:17:35 -0700 (PDT)
-From: dbaryshkov@gmail.com
+	Wed, 18 Sep 2019 06:27:50 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Sep 2019 16:12:47 +0300
-Message-Id: <20190918131247.26488-7-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190918131247.26488-1-dbaryshkov@gmail.com>
-References: <20190918131247.26488-1-dbaryshkov@gmail.com>
+Date: Wed, 18 Sep 2019 14:27:42 +0100
+Message-Id: <20190918132744.11195-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH v3 7/7] live-vm-common.bbclass: provide efi population functions for live images
+Subject: [PATCH 1/3] acpica: upgrade 20190509 -> 20190816
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,150 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 13:17:36 -0000
+X-List-Received-Date: Wed, 18 Sep 2019 13:27:51 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-
-Define common functions for populating EFI directories in live image by
-reusing common code from grub-efi and systemd-boot bbclasses.
-
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/grub-efi.bbclass       | 28 +-----------------------
- meta/classes/live-vm-common.bbclass | 33 +++++++++++++++++++++++++++++
- meta/classes/systemd-boot.bbclass   | 22 ++-----------------
- 3 files changed, 36 insertions(+), 47 deletions(-)
+ .../acpica/{acpica_20190509.bb => acpica_20190816.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/acpica/{acpica_20190509.bb => acpica_20190816.bb} (91%)
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 724bbe86842c..8fc6999e52a8 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -2,33 +2,7 @@ inherit grub-efi-cfg
- require conf/image-uefi.conf
+diff --git a/meta/recipes-extended/acpica/acpica_20190509.bb b/meta/recipes-extended/acpica/acpica_20190816.bb
+similarity index 91%
+rename from meta/recipes-extended/acpica/acpica_20190509.bb
+rename to meta/recipes-extended/acpica/acpica_20190816.bb
+index cf6db336a6f..8f799747756 100644
+--- a/meta/recipes-extended/acpica/acpica_20190509.bb
++++ b/meta/recipes-extended/acpica/acpica_20190816.bb
+@@ -17,8 +17,8 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ DEPENDS = "bison flex bison-native"
  
- efi_populate() {
--	# DEST must be the root of the image so that EFIDIR is not
--	# nested under a top level directory.
--	DEST=$1
--
--	install -d ${DEST}${EFIDIR}
--
--	install -m 0644 ${DEPLOY_DIR_IMAGE}/grub-efi-${EFI_BOOT_IMAGE} ${DEST}${EFIDIR}/${EFI_BOOT_IMAGE}
--	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--	printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${DEST}/startup.nsh
-+	efi_populate_common "$1" grub-efi
+ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz"
+-SRC_URI[md5sum] = "dd1f8240f924b12b0a0de0c31ab26ab1"
+-SRC_URI[sha256sum] = "860b5f94a0590b278592acf16a4556b05ff0309c08e8c48aa29827cfa02c8e9d"
++SRC_URI[md5sum] = "6a73b1e34715916fa31132dbe11008b0"
++SRC_URI[sha256sum] = "888e80f3bb77381620a5ead208e1a1be06f3ea66ddc8cfdfa62811cae5f03752"
+ UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
  
- 	install -m 0644 ${GRUB_CFG} ${DEST}${EFIDIR}/grub.cfg
- }
--
--efi_iso_populate() {
--	iso_dir=$1
--	efi_populate $iso_dir
--	# Build a EFI directory to create efi.img
--	mkdir -p ${EFIIMGDIR}/${EFIDIR}
--	cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
--	cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
--	EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--	printf 'fs0:%s\%s\n' "$EFIPATH" "grub-efi-${EFI_BOOT_IMAGE}" > ${EFIIMGDIR}/startup.nsh
--	if [ -f "$iso_dir/initrd" ] ; then
--		cp $iso_dir/initrd ${EFIIMGDIR}
--	fi
--}
--
--efi_hddimg_populate() {
--	efi_populate $1
--}
-diff --git a/meta/classes/live-vm-common.bbclass b/meta/classes/live-vm-common.bbclass
-index 68105d9b84f9..74e7074a5397 100644
---- a/meta/classes/live-vm-common.bbclass
-+++ b/meta/classes/live-vm-common.bbclass
-@@ -29,6 +29,39 @@ def pcbios(d):
- PCBIOS = "${@pcbios(d)}"
- PCBIOS_CLASS = "${@['','syslinux'][d.getVar('PCBIOS') == '1']}"
- 
-+# efi_populate_common DEST BOOTLOADER
-+efi_populate_common() {
-+        # DEST must be the root of the image so that EFIDIR is not
-+        # nested under a top level directory.
-+        DEST=$1
-+
-+        install -d ${DEST}${EFIDIR}
-+
-+        install -m 0644 ${DEPLOY_DIR_IMAGE}/$2-${EFI_BOOT_IMAGE} ${DEST}${EFIDIR}/${EFI_BOOT_IMAGE}
-+        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
-+        printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${DEST}/startup.nsh
-+}
-+
-+efi_iso_populate() {
-+        iso_dir=$1
-+        efi_populate $iso_dir
-+        # Build a EFI directory to create efi.img
-+        mkdir -p ${EFIIMGDIR}/${EFIDIR}
-+        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-+        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
-+
-+        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
-+        printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${EFIIMGDIR}/startup.nsh
-+
-+        if [ -f "$iso_dir/initrd" ] ; then
-+                cp $iso_dir/initrd ${EFIIMGDIR}
-+        fi
-+}
-+
-+efi_hddimg_populate() {
-+	efi_populate $1
-+}
-+
- inherit ${EFI_CLASS}
- inherit ${PCBIOS_CLASS}
- 
-diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index bb3221dacca8..336c4c2ff58c 100644
---- a/meta/classes/systemd-boot.bbclass
-+++ b/meta/classes/systemd-boot.bbclass
-@@ -16,38 +16,20 @@ require conf/image-uefi.conf
- inherit fs-uuid
- 
- efi_populate() {
--        DEST=$1
-+        efi_populate_common "$1" systemd
- 
--        install -d ${DEST}${EFIDIR}
-         # systemd-boot requires these paths for configuration files
-         # they are not customizable so no point in new vars
-         install -d ${DEST}/loader
-         install -d ${DEST}/loader/entries
--        install -m 0644 ${DEPLOY_DIR_IMAGE}/systemd-${EFI_BOOT_IMAGE} ${DEST}${EFIDIR}/${EFI_BOOT_IMAGE}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        printf 'fs0:%s\%s\n' "$EFIPATH" "${EFI_BOOT_IMAGE}" >${DEST}/startup.nsh
-         install -m 0644 ${SYSTEMD_BOOT_CFG} ${DEST}/loader/loader.conf
-         for i in ${SYSTEMD_BOOT_ENTRIES}; do
-             install -m 0644 ${i} ${DEST}/loader/entries
-         done
- }
- 
--efi_iso_populate() {
--        iso_dir=$1
--        efi_populate $iso_dir
--        mkdir -p ${EFIIMGDIR}/${EFIDIR}
--        cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-+efi_iso_populate_append() {
-         cp -r $iso_dir/loader ${EFIIMGDIR}
--        cp $iso_dir/${KERNEL_IMAGETYPE} ${EFIIMGDIR}
--        EFIPATH=$(echo "${EFIDIR}" | sed 's/\//\\/g')
--        echo "fs0:${EFIPATH}\\${EFI_BOOT_IMAGE}" > ${EFIIMGDIR}/startup.nsh
--        if [ -f "$iso_dir/initrd" ] ; then
--            cp $iso_dir/initrd ${EFIIMGDIR}
--        fi
--}
--
--efi_hddimg_populate() {
--        efi_populate $1
- }
- 
- inherit systemd-boot-cfg
+ S = "${WORKDIR}/acpica-unix2-${PV}"
 -- 
-2.23.0
+2.20.1
 
 
