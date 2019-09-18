@@ -1,27 +1,52 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DF8C190103
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C5359016B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 09:22:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8I9MYVj016586
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 18 Sep 2019 11:01:39 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id r5so6359612wrm.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 02:22:35 -0700 (PDT)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Wed, 18 Sep 2019 02:22:34 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1568770285-205402-1-git-send-email-changqing.li@windriver.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <0af8e9b6-2384-cff1-1d7f-8081aca92e9d@windriver.com>
-Date: Wed, 18 Sep 2019 17:22:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Wed, 18 Sep 2019 04:01:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BE2CfBckLf7G226gMAFj9XJ36/Nn8ZRY2/E8WJN1VbM=;
+	b=VW6S0RR4xIOUEd9GBwAsArwp+/cvDQIWfFdiTjzRx2ucudQ5JI/p5OqhMBroxOTey4
+	dOW95MtxUwaJyJ1dySXJsDsvWZcWcqO6+shW2byWCvFPvYoZ2hTzMJhahgax2gsBtDSj
+	fEBNvhrktDpley87CFMyVmoUJ5aYcG//qkgaIVoruhqzJEBVsMllyrFjo3/nbddXVD8G
+	6sHgc+kDkTqgdU8OYlLWajYT7+KWGOSaik56bnqVOXlOAiTwE4U0fBNlVHU1RvxzGPGm
+	NXZkNdhTxJRCSqjzxtq7ZHulQYT1zp0Brv/z8SfqqmJ6aL6+cW4QmTcPBx/eIWZOj7/0
+	zdRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BE2CfBckLf7G226gMAFj9XJ36/Nn8ZRY2/E8WJN1VbM=;
+	b=YRIgJjvoinawYZ9VEZWRHNoA2Xgpfr5WOCXRnWREJM+HV1HXhALIrtXlG/9FGU7vX5
+	Qew57fQ76QqeRq5CFsedKHkr8t4lAAbGgmNmy44piz2feh53vCE75kXggrl5CRqY/8lU
+	q4qjNnIsmdj3F7zO3890Ijd+CRyS6DmyrsM3H45m1JVjY9lRi6Kczc7lh+QC0Sa/3E+R
+	1ZqS9L/euyFpQURcMHpmAFNnRdHyh8JbgvZrp3SY+asdl26Ddcc2TTNWx+xnIJOuo77W
+	JDbnDH1hw75MLa9QZ8YnFEWEZgzwiDuFoIKEDw+DBHDjCJC8F+5Q6BSixTClBy9Lg4m6
+	eEVA==
+X-Gm-Message-State: APjAAAVc5jQB78VZFNwJqOjpb9Ye+8Q2SO/Dx7oPbsts7JQtNxt85Wdb
+	JpYiX1bIaQ+d/RFfIdMo6rCv/GyS0Kw=
+X-Google-Smtp-Source: APXvYqxRsomN0z9830NyQ3EUUSyRd5cPUZ3xyD21K2Gejt/zah57Gf+V3JuHLHaAUsTi1jyX0jgKEg==
+X-Received: by 2002:adf:e2d0:: with SMTP id d16mr2730319wrj.245.1568804499754; 
+	Wed, 18 Sep 2019 04:01:39 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id n2sm2041872wmc.1.2019.09.18.04.01.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 18 Sep 2019 04:01:38 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Sep 2019 12:01:34 +0100
+Message-Id: <20190918110134.18149-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1568770285-205402-1-git-send-email-changqing.li@windriver.com>
-X-Originating-IP: [128.224.162.186]
-Subject: Re: [PATCH V2] report-error.bbclass: add local.conf/auto.conf into error report
+Subject: [PATCH] libinput: upgrade 1.14.0 -> 1.14.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,74 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 09:22:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Wed, 18 Sep 2019 11:01:39 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-It is ok to merge this repo first, and error-report-web still old,  
-since error-report-web will ignore the new field.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../wayland/{libinput_1.14.0.bb => libinput_1.14.1.bb}   | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.14.0.bb => libinput_1.14.1.bb} (73%)
 
-but cannot update error-report-web to new one first,  or the database of 
-error-report-web will report error
-
-since report from oe-core don't provide default value for the new field 
-of database.
-
-On 9/18/19 9:31 AM, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->
-> sometimes, it is not enough to reproduce a failed build with current
-> info on error reports web, add local.conf/auto.conf into error
-> report to make it more easier to reproduce failed build
->
-> Note: this need work together with change in repo error-report-web,
-> which will display local.conf and auto.conf as Error Details
->
-> [YOCTO #13252]
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->   meta/classes/report-error.bbclass | 15 +++++++++++++++
->   1 file changed, 15 insertions(+)
->
-> diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-> index 1c55abf..ea043b2 100644
-> --- a/meta/classes/report-error.bbclass
-> +++ b/meta/classes/report-error.bbclass
-> @@ -25,6 +25,19 @@ def errorreport_savedata(e, newdata, file):
->           json.dump(newdata, f, indent=4, sort_keys=True)
->       return datafile
->   
-> +def get_conf_data(e, filename):
-> +    builddir = e.data.getVar('TOPDIR')
-> +    filepath = os.path.join(builddir, "conf", filename)
-> +    jsonstring = ""
-> +    if os.path.exists(filepath):
-> +        with open(filepath, 'r') as f:
-> +            for line in f.readlines():
-> +                if line.startswith("#") or len(line.strip()) == 0:
-> +                    continue
-> +                else:
-> +                    jsonstring=jsonstring + line
-> +    return jsonstring
-> +
->   python errorreport_handler () {
->           import json
->           import codecs
-> @@ -51,6 +64,8 @@ python errorreport_handler () {
->               data['failures'] = []
->               data['component'] = " ".join(e.getPkgs())
->               data['branch_commit'] = str(base_detect_branch(e.data)) + ": " + str(base_detect_revision(e.data))
-> +            data['local_conf'] = get_conf_data(e, 'local.conf')
-> +            data['auto_conf'] = get_conf_data(e, 'auto.conf')
->               lock = bb.utils.lockfile(datafile + '.lock')
->               errorreport_savedata(e, data, "error-report.txt")
->               bb.utils.unlockfile(lock)
-
+diff --git a/meta/recipes-graphics/wayland/libinput_1.14.0.bb b/meta/recipes-graphics/wayland/libinput_1.14.1.bb
+similarity index 73%
+rename from meta/recipes-graphics/wayland/libinput_1.14.0.bb
+rename to meta/recipes-graphics/wayland/libinput_1.14.1.bb
+index d236f3fa087..38bc8d2c338 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.14.0.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.14.1.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1f2ea9ebff3a2c6d458faf58492efb63"
+ DEPENDS = "libevdev udev mtdev"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz"
+-SRC_URI[md5sum] = "1c33d49fc7985926eab877e3de9c17eb"
+-SRC_URI[sha256sum] = "7cb85c24f8920b81bc5360220107e267ab4e0e718704c7690a8c7b03fa14fc67"
++SRC_URI[md5sum] = "da29a704dc6f7ea2d5aac754db046340"
++SRC_URI[sha256sum] = "e333a3242835c019ca37d2cef8b51a87d3138eb47444119c0153dc7a8656ee70"
+ 
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ 
+@@ -21,7 +21,10 @@ PACKAGECONFIG[gui] = "-Ddebug-gui=true,-Ddebug-gui=false,cairo gtk+3"
+ 
+ UDEVDIR = "`pkg-config --variable=udevdir udev`"
+ 
+-EXTRA_OEMESON += "-Dudev-dir=${UDEVDIR} -Ddocumentation=false -Dtests=false"
++EXTRA_OEMESON += "-Dudev-dir=${UDEVDIR} \
++                  -Ddocumentation=false \
++                  -Dtests=false \
++                  -Dzshcompletiondir=no"
+ 
+ # package name changed in 1.8.1 upgrade: make sure package upgrades work
+ RPROVIDES_${PN} = "libinput"
 -- 
-BRs
-
-Sandy(Li Changqing)
+2.20.1
 
 
