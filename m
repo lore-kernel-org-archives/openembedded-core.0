@@ -1,30 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 29205901C9
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DD1190185
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 11:51:03 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Sep 2019 04:51:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,520,1559545200"; d="scan'208";a="211830344"
-Received: from abloeckn-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.38.226])
-	by fmsmga004.fm.intel.com with ESMTP; 18 Sep 2019 04:51:04 -0700
-To: openembedded-core@lists.openembedded.org
-References: <20190918111225.29068-1-daniel.ammann@bytesatwork.ch>
+	Wed, 18 Sep 2019 12:16:43 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id h7so6645836wrw.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Sep 2019 05:16:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SWlc3FnISzzqhwPiPVVosUp4Ez4erz+PRjv3m7flv6w=;
+	b=q76CM4FSl8BAs3lBEns/tW/h9p2rNI+Rhn1skr5/dWTx4X+WlAYOwjDUGMTpCUusY3
+	2BbrFe5kbHPMgAQetNOqYeXyquUN6Y6xcJuVcc7eYZBgE96zAPtR4yEYP4Kb7p1Xr8E0
+	Hx8LQPnsaQSDC0cqfYY9jBNQuTtX+LGWMcXgIbkJNBg7TUjlzqXsuaFPwtDJ10X91Hri
+	MfRPZt9Do+JpfhdlSxs81C6JdgN4+pcfNCCg7YN2cDf3kZaEyNZbm1ej1J/7IPRShFjv
+	pbqRzXAZqteo35uTbFQjxB4EL3SI5WCpQujiyQt4gKeRwnqiKuTUlt6/z5iOUsJgv6Oy
+	F0Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SWlc3FnISzzqhwPiPVVosUp4Ez4erz+PRjv3m7flv6w=;
+	b=rrwSiQgDENKzscaEDvwRunSXoWpOcl6URcXdkcPUfJkm7FkY8rDf7seXTL3qoQG6Gc
+	qPNDbm8KuYhQPcWYL6Uy5vxHrVCrY3K7xZti1cc+LTzQMdGdowRYDNNx5s1af7GPyEPd
+	6UqyxRPUQPU4RUejF5gGO9qDMCGDI+T24PNG+TULlIiAaIc/ysdaVPsRrOqMmx4zxlDM
+	GxjVC5yl/NkqHd6dl5g47ct9LYcV+UVeW4/7Ud75AP3ApibnmOdDnaHfAm56kiyygJh1
+	66b8JEbt6MR95EgEiTa/h7TPb2ZAE+lvfhxhINtV6TG7TGrJvKTvOKM5TF2YGxzrkAud
+	xU8g==
+X-Gm-Message-State: APjAAAXinWtfaXMzs9f5F4bez5aIT4g+Mq2QgNv8ykpYtXNwv3PTKBm0
+	k6l6/b/cxUp9AEZMMoCsybRFkRPZpDA=
+X-Google-Smtp-Source: APXvYqy+j7Yb2BBZEjt+lMMTHQ1OlTn/OCUOyCfOMB2BZRAS2o8lIZhzs1DCWSS8xepIAClkOkXa6g==
+X-Received: by 2002:adf:f303:: with SMTP id i3mr3005027wro.242.1568809003510; 
+	Wed, 18 Sep 2019 05:16:43 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	d78sm3344254wmd.47.2019.09.18.05.16.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 18 Sep 2019 05:16:42 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <58ec63ee-fa32-cf5e-1a44-0298f4bb077d@intel.com>
-Date: Wed, 18 Sep 2019 12:51:03 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Sep 2019 13:16:40 +0100
+Message-Id: <20190918121640.31682-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190918111225.29068-1-daniel.ammann@bytesatwork.ch>
-Subject: Re: [PATCH] dhex: Add new recipe
+Subject: [PATCH] rootfs-postcommands: check /etc/gconf exists before working on it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,16 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 11:51:04 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Sep 2019 12:16:43 -0000
+Content-Transfer-Encoding: 8bit
 
-On 18/09/2019 12:12, Daniel Ammann wrote:
-> +SUMMARY = "dhex is a hex editor that includes a diff mode"
+Check that /etc/gconf exists before trying to find files under it, to avoid
+writing find error messages to the rootfs log.
 
-Doesn't seem fundamental enough to justify being in oe-core, please 
-considering submitting this to meta-oe instead.
+Also use ${sysconfdir}/gconf instead of hardcoding /etc/gconf.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/rootfs-postcommands.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index fc338161c4d..88f75d0f442 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -361,7 +361,9 @@ rootfs_reproducible () {
+ 		echo $sformatted > ${IMAGE_ROOTFS}/etc/version
+ 		bbnote "rootfs_reproducible: set /etc/version to $sformatted"
+ 
+-		find ${IMAGE_ROOTFS}/etc/gconf -name '%gconf.xml' -print0 | xargs -0r \
+-		sed -i -e 's@\bmtime="[0-9][0-9]*"@mtime="'${REPRODUCIBLE_TIMESTAMP_ROOTFS}'"@g'
++		if [ -d ${IMAGE_ROOTFS}${sysconfdir}/gconf ]; then
++			find ${IMAGE_ROOTFS}${sysconfdir}/gconf -name '%gconf.xml' -print0 | xargs -0r \
++			sed -i -e 's@\bmtime="[0-9][0-9]*"@mtime="'${REPRODUCIBLE_TIMESTAMP_ROOTFS}'"@g'
++		fi
+ 	fi
+ }
+-- 
+2.20.1
+
 
