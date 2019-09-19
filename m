@@ -1,59 +1,50 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 75A047FE60
+Return-Path: <msft.dantran@gmail.com>
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+	[209.85.160.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 194066B512
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 16:35:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 55D2D18117
+	Thu, 19 Sep 2019 18:30:17 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id m15so5525552qtq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:30 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id ZIsgiVLL8SyG
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 75B5A184D8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 234981A0AC
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 183561A0A8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by seth.se.axis.com (Postfix) with ESMTP id 0C78F1C7B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x8JGZSOn016476
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:29 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x8JGZSqU016475
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Sep 2019 18:35:28 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Thu, 19 Sep 2019 11:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:reply-to;
+	bh=6c2biKW8gmOEOn5X7Q+ZmsI63q5kEiXVZnGDp7zXbIo=;
+	b=EbQjzGEmtQil9Ub12ePrQ5XebvLg124UB08SStfMhfT2lLMx47DbI1AZIlN+8V6MK+
+	m7yseGgdVcny6hojvgL4a+Qxl2v+SqgxyXgPVrVx4iB5+zRChXYHM3S/IpFmOSM38+O8
+	ISA/EcDKpkR5Q2EOUlaheHMqfshE5+eB+1oPj54ChSfU2e94oz81Nq72pTjxfUckGjdN
+	MHILf7mujpsLLoeQWT5vmNpPfGyhih68vOOFWGH7wDpr3PfzRnOc5Z8P6zn/V5UElU8Z
+	bBDaDd+Xc6GtpR0zqa8Oejlmjf1gZIWKj5Ab8BdjtB0Rn4H17mMjHv2EMi13hqO9Kphg
+	q+uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+	bh=6c2biKW8gmOEOn5X7Q+ZmsI63q5kEiXVZnGDp7zXbIo=;
+	b=BqOkt7I7Ni7CYA/vqugd5EiHs5UUjWmeWj/pkdDovrHqvMe0HUW8n8LDZXW0mNRANS
+	u6oLK5ITH61qXLP257DmzWr6VyR4m00jBzw+6Uh7qU3buqXNOXke5U+5l/iAlY21rX8F
+	rYtjk4t9oHhzjZIMfYkAviBvg820wI3HOUCH1BMAnH9v1eD52NPeBu35w9qRchUrG0x8
+	4LZCxvraOjtq24RDYcRLyAOPAuCvRF1i490f3Ack2WnRc5LGSu7/zMqmt5y7RVzmukop
+	G9UE6yuQix4BkpJICXgjdfh1Y4ue8BaVM7We6nnFAzu7Q5N0U04VTYRSbPein5GZZmv3
+	ePPQ==
+X-Gm-Message-State: APjAAAVpAC1yllrXIOrqcl5g5nsYSAR4FpLdThNxNdXYUWO9EPaapb2D
+	P1NO/eZ1hII22gms4TMhfDMNBwQW3Pc=
+X-Google-Smtp-Source: APXvYqxh7Ogts040dCmwcuui1DBw2vMbqKN7lBXcrExyAS1LEvUarF7lbRexctqFP8m0fO6cH1Al4Q==
+X-Received: by 2002:ac8:1117:: with SMTP id c23mr4792207qtj.6.1568917818393;
+	Thu, 19 Sep 2019 11:30:18 -0700 (PDT)
+Received: from
+	dantran-yocto.nbqgwzabenwu5ordtxtxpzrzah.cx.internal.cloudapp.net
+	([52.184.177.192]) by smtp.gmail.com with ESMTPSA id
+	m125sm5433482qkd.3.2019.09.19.11.30.17
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 19 Sep 2019 11:30:17 -0700 (PDT)
+From: msft.dantran@gmail.com
+X-Google-Original-From: dantran@microsoft.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2019 18:35:20 +0200
-Message-Id: <20190919163520.16429-2-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190919163520.16429-1-pkj@axis.com>
-References: <20190919163520.16429-1-pkj@axis.com>
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH 2/2] tzdata: Correct the packaging of /etc/localtime and /etc/timezone
+Date: Thu, 19 Sep 2019 18:30:04 +0000
+Message-Id: <1568917804-84394-1-git-send-email-dantran@microsoft.com>
+X-Mailer: git-send-email 2.7.4
+Reply-To: dantran@microsoft.com
+Subject: [thud][PATCH] unzip: fix CVE-2019-13232
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,48 +57,425 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2019 16:35:30 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Sep 2019 18:30:18 -0000
 
-During restructuring of the packaging in 2af4d6eb (tzdata: Install
-everything by default), these two files remained in the tzdata
-package, which is supposed to be empty. Move them to tzdata-core where
-they belong.
+From: Dan Tran <dantran@microsoft.com>
 
-Also simplify the definition of CONFFILES_tzdata-core. As its value
-only takes effect for files that actually exist, there is no need to
-complicate its definition by checking if a file is created before
-adding it to the list of configuration files.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Dan Tran <dantran@microsoft.com>
 ---
- meta/recipes-extended/timezone/tzdata.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../unzip/unzip/CVE-2019-13232.patch               | 389 +++++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |   1 +
+ 2 files changed, 390 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch
 
-diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
-index 82fe369baa..1e2d9bd1b9 100644
---- a/meta/recipes-extended/timezone/tzdata.bb
-+++ b/meta/recipes-extended/timezone/tzdata.bb
-@@ -147,6 +147,8 @@ FILES_tzdata-misc += "${datadir}/zoneinfo/Cuba           \
- RPROVIDES_tzdata-misc = "tzdata-misc"
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch b/meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch
+new file mode 100644
+index 0000000..27c196e
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2019-13232.patch
+@@ -0,0 +1,389 @@
++From 0c592daa4e506ab28a3129a5ab702ef7da45a253 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Mon, 27 May 2019 08:20:32 -0700
++Subject: [PATCH 1/2] Fix bug in undefer_input() that misplaced the input
++ state.
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ fileio.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/fileio.c b/fileio.c
++index ba0a1d0..f45de37 100644
++--- a/fileio.c
+++++ b/fileio.c
++@@ -530,8 +530,10 @@ void undefer_input(__G)
++          * This condition was checked when G.incnt_leftover was set > 0 in
++          * defer_leftover_input(), and it is NOT allowed to touch G.csize
++          * before calling undefer_input() when (G.incnt_leftover > 0)
++-         * (single exception: see read_byte()'s  "G.csize <= 0" handling) !!
+++         * (single exception: see readbyte()'s  "G.csize <= 0" handling) !!
++          */
+++        if (G.csize < 0L)
+++            G.csize = 0L;
++         G.incnt = G.incnt_leftover + (int)G.csize;
++         G.inptr = G.inptr_leftover - (int)G.csize;
++         G.incnt_leftover = 0;
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
++
++
++From d6a7e51fe71e6b1e9419b65c8e4df2512765b0b5 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Tue, 11 Jun 2019 22:01:18 -0700
++Subject: [PATCH 2/2] Detect and reject a zip bomb using overlapped entries.
++
++This detects an invalid zip file that has at least one entry that
++overlaps with another entry or with the central directory to the
++end of the file. A Fifield zip bomb uses overlapped local entries
++to vastly increase the potential inflation ratio. Such an invalid
++zip file is rejected.
++
++See https://www.bamsoftware.com/hacks/zipbomb/ for David Fifield's
++analysis, construction, and examples of such zip bombs.
++
++The detection maintains a list of covered spans of the zip files
++so far, where the central directory to the end of the file and any
++bytes preceding the first entry at zip file offset zero are
++considered covered initially. Then as each entry is decompressed
++or tested, it is considered covered. When a new entry is about to
++be processed, its initial offset is checked to see if it is
++contained by a covered span. If so, the zip file is rejected as
++invalid.
++
++This commit depends on a preceding commit: "Fix bug in
++undefer_input() that misplaced the input state."
++
++CVE: CVE-2019-13232
++Upstream-Status: Backport
++[https://github.com/madler/unzip/commit/47b3ceae397d21bf822bc2ac73052a4b1daf8e1c]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ extract.c | 190 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
++ globals.c |   1 +
++ globals.h |   3 +
++ process.c |  11 ++++
++ unzip.h   |   1 +
++ 5 files changed, 205 insertions(+), 1 deletion(-)
++
++diff --git a/extract.c b/extract.c
++index 1acd769..0973a33 100644
++--- a/extract.c
+++++ b/extract.c
++@@ -319,6 +319,125 @@ static ZCONST char Far UnsupportedExtraField[] =
++   "\nerror:  unsupported extra-field compression type (%u)--skipping\n";
++ static ZCONST char Far BadExtraFieldCRC[] =
++   "error [%s]:  bad extra-field CRC %08lx (should be %08lx)\n";
+++static ZCONST char Far NotEnoughMemCover[] =
+++  "error: not enough memory for bomb detection\n";
+++static ZCONST char Far OverlappedComponents[] =
+++  "error: invalid zip file with overlapped components (possible zip bomb)\n";
+++
+++
+++
+++
+++
+++/* A growable list of spans. */
+++typedef zoff_t bound_t;
+++typedef struct {
+++    bound_t beg;        /* start of the span */
+++    bound_t end;        /* one past the end of the span */
+++} span_t;
+++typedef struct {
+++    span_t *span;       /* allocated, distinct, and sorted list of spans */
+++    size_t num;         /* number of spans in the list */
+++    size_t max;         /* allocated number of spans (num <= max) */
+++} cover_t;
+++
+++/*
+++ * Return the index of the first span in cover whose beg is greater than val.
+++ * If there is no such span, then cover->num is returned.
+++ */
+++static size_t cover_find(cover, val)
+++    cover_t *cover;
+++    bound_t val;
+++{
+++    size_t lo = 0, hi = cover->num;
+++    while (lo < hi) {
+++        size_t mid = (lo + hi) >> 1;
+++        if (val < cover->span[mid].beg)
+++            hi = mid;
+++        else
+++            lo = mid + 1;
+++    }
+++    return hi;
+++}
+++
+++/* Return true if val lies within any one of the spans in cover. */
+++static int cover_within(cover, val)
+++    cover_t *cover;
+++    bound_t val;
+++{
+++    size_t pos = cover_find(cover, val);
+++    return pos > 0 && val < cover->span[pos - 1].end;
+++}
+++
+++/*
+++ * Add a new span to the list, but only if the new span does not overlap any
+++ * spans already in the list. The new span covers the values beg..end-1. beg
+++ * must be less than end.
+++ *
+++ * Keep the list sorted and merge adjacent spans. Grow the allocated space for
+++ * the list as needed. On success, 0 is returned. If the new span overlaps any
+++ * existing spans, then 1 is returned and the new span is not added to the
+++ * list. If the new span is invalid because beg is greater than or equal to
+++ * end, then -1 is returned. If the list needs to be grown but the memory
+++ * allocation fails, then -2 is returned.
+++ */
+++static int cover_add(cover, beg, end)
+++    cover_t *cover;
+++    bound_t beg;
+++    bound_t end;
+++{
+++    size_t pos;
+++    int prec, foll;
+++
+++    if (beg >= end)
+++    /* The new span is invalid. */
+++        return -1;
+++
+++    /* Find where the new span should go, and make sure that it does not
+++       overlap with any existing spans. */
+++    pos = cover_find(cover, beg);
+++    if ((pos > 0 && beg < cover->span[pos - 1].end) ||
+++        (pos < cover->num && end > cover->span[pos].beg))
+++        return 1;
+++
+++    /* Check for adjacencies. */
+++    prec = pos > 0 && beg == cover->span[pos - 1].end;
+++    foll = pos < cover->num && end == cover->span[pos].beg;
+++    if (prec && foll) {
+++        /* The new span connects the preceding and following spans. Merge the
+++           following span into the preceding span, and delete the following
+++           span. */
+++        cover->span[pos - 1].end = cover->span[pos].end;
+++        cover->num--;
+++        memmove(cover->span + pos, cover->span + pos + 1,
+++                (cover->num - pos) * sizeof(span_t));
+++    }
+++    else if (prec)
+++        /* The new span is adjacent only to the preceding span. Extend the end
+++           of the preceding span. */
+++        cover->span[pos - 1].end = end;
+++    else if (foll)
+++        /* The new span is adjacent only to the following span. Extend the
+++           beginning of the following span. */
+++        cover->span[pos].beg = beg;
+++    else {
+++        /* The new span has gaps between both the preceding and the following
+++           spans. Assure that there is room and insert the span.  */
+++        if (cover->num == cover->max) {
+++            size_t max = cover->max == 0 ? 16 : cover->max << 1;
+++            span_t *span = realloc(cover->span, max * sizeof(span_t));
+++            if (span == NULL)
+++                return -2;
+++            cover->span = span;
+++            cover->max = max;
+++        }
+++        memmove(cover->span + pos + 1, cover->span + pos,
+++                (cover->num - pos) * sizeof(span_t));
+++        cover->num++;
+++        cover->span[pos].beg = beg;
+++        cover->span[pos].end = end;
+++    }
+++    return 0;
+++}
++ 
++ 
++ 
++@@ -374,6 +493,29 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++     }
++ #endif /* !SFX || SFX_EXDIR */
++ 
+++    /* One more: initialize cover structure for bomb detection. Start with a
+++       span that covers the central directory though the end of the file. */
+++    if (G.cover == NULL) {
+++        G.cover = malloc(sizeof(cover_t));
+++        if (G.cover == NULL) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(NotEnoughMemCover)));
+++            return PK_MEM;
+++        }
+++        ((cover_t *)G.cover)->span = NULL;
+++        ((cover_t *)G.cover)->max = 0;
+++    }
+++    ((cover_t *)G.cover)->num = 0;
+++    if ((G.extra_bytes != 0 &&
+++         cover_add((cover_t *)G.cover, 0, G.extra_bytes) != 0) ||
+++        cover_add((cover_t *)G.cover,
+++                  G.extra_bytes + G.ecrec.offset_start_central_directory,
+++                  G.ziplen) != 0) {
+++        Info(slide, 0x401, ((char *)slide,
+++          LoadFarString(NotEnoughMemCover)));
+++        return PK_MEM;
+++    }
+++
++ /*---------------------------------------------------------------------------
++     The basic idea of this function is as follows.  Since the central di-
++     rectory lies at the end of the zipfile and the member files lie at the
++@@ -591,7 +733,8 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++             if (error > error_in_archive)
++                 error_in_archive = error;
++             /* ...and keep going (unless disk full or user break) */
++-            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC) {
+++            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC ||
+++                error == PK_BOMB) {
++                 /* clear reached_end to signal premature stop ... */
++                 reached_end = FALSE;
++                 /* ... and cancel scanning the central directory */
++@@ -1060,6 +1203,11 @@ static int extract_or_test_entrylist(__G__ numchunk,
++ 
++         /* seek_zipf(__G__ pInfo->offset);  */
++         request = G.pInfo->offset + G.extra_bytes;
+++        if (cover_within((cover_t *)G.cover, request)) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(OverlappedComponents)));
+++            return PK_BOMB;
+++        }
++         inbuf_offset = request % INBUFSIZ;
++         bufstart = request - inbuf_offset;
++ 
++@@ -1591,6 +1739,18 @@ reprompt:
++             return IZ_CTRLC;        /* cancel operation by user request */
++         }
++ #endif
+++        error = cover_add((cover_t *)G.cover, request,
+++                          G.cur_zipfile_bufstart + (G.inptr - G.inbuf));
+++        if (error < 0) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(NotEnoughMemCover)));
+++            return PK_MEM;
+++        }
+++        if (error != 0) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(OverlappedComponents)));
+++            return PK_BOMB;
+++        }
++ #ifdef MACOS  /* MacOS is no preemptive OS, thus call event-handling by hand */
++         UserStop();
++ #endif
++@@ -1992,6 +2152,34 @@ static int extract_or_test_member(__G)    /* return PK-type error code */
++     }
++ 
++     undefer_input(__G);
+++
+++    if ((G.lrec.general_purpose_bit_flag & 8) != 0) {
+++        /* skip over data descriptor (harder than it sounds, due to signature
+++         * ambiguity)
+++         */
+++#       define SIG 0x08074b50
+++#       define LOW 0xffffffff
+++        uch buf[12];
+++        unsigned shy = 12 - readbuf((char *)buf, 12);
+++        ulg crc = shy ? 0 : makelong(buf);
+++        ulg clen = shy ? 0 : makelong(buf + 4);
+++        ulg ulen = shy ? 0 : makelong(buf + 8); /* or high clen if ZIP64 */
+++        if (crc == SIG &&                       /* if not SIG, no signature */
+++            (G.lrec.crc32 != SIG ||             /* if not SIG, have signature */
+++             (clen == SIG &&                    /* if not SIG, no signature */
+++              ((G.lrec.csize & LOW) != SIG ||   /* if not SIG, have signature */
+++               (ulen == SIG &&                  /* if not SIG, no signature */
+++                (G.zip64 ? G.lrec.csize >> 32 : G.lrec.ucsize) != SIG
+++                                                /* if not SIG, have signature */
+++                )))))
+++                   /* skip four more bytes to account for signature */
+++                   shy += 4 - readbuf((char *)buf, 4);
+++        if (G.zip64)
+++            shy += 8 - readbuf((char *)buf, 8); /* skip eight more for ZIP64 */
+++        if (shy)
+++            error = PK_ERR;
+++    }
+++
++     return error;
++ 
++ } /* end function extract_or_test_member() */
++diff --git a/globals.c b/globals.c
++index fa8cca5..1e0f608 100644
++--- a/globals.c
+++++ b/globals.c
++@@ -181,6 +181,7 @@ Uz_Globs *globalsCtor()
++ # if (!defined(NO_TIMESTAMPS))
++     uO.D_flag=1;    /* default to '-D', no restoration of dir timestamps */
++ # endif
+++    G.cover = NULL;     /* not allocated yet */
++ #endif
++ 
++     uO.lflag=(-1);
++diff --git a/globals.h b/globals.h
++index 11b7215..2bdcdeb 100644
++--- a/globals.h
+++++ b/globals.h
++@@ -260,12 +260,15 @@ typedef struct Globals {
++     ecdir_rec       ecrec;         /* used in unzip.c, extract.c */
++     z_stat   statbuf;              /* used by main, mapname, check_for_newer */
++ 
+++    int zip64;                     /* true if Zip64 info in extra field */
+++
++     int      mem_mode;
++     uch      *outbufptr;           /* extract.c static */
++     ulg      outsize;              /* extract.c static */
++     int      reported_backslash;   /* extract.c static */
++     int      disk_full;
++     int      newfile;
+++    void     **cover;              /* used in extract.c for bomb detection */
++ 
++     int      didCRlast;            /* fileio static */
++     ulg      numlines;             /* fileio static: number of lines printed */
++diff --git a/process.c b/process.c
++index 1e9a1e1..d2e4dc3 100644
++--- a/process.c
+++++ b/process.c
++@@ -637,6 +637,13 @@ void free_G_buffers(__G)     /* releases all memory allocated in global vars */
++     }
++ #endif
++ 
+++    /* Free the cover span list and the cover structure. */
+++    if (G.cover != NULL) {
+++        free(*(G.cover));
+++        free(G.cover);
+++        G.cover = NULL;
+++    }
+++
++ } /* end function free_G_buffers() */
++ 
++ 
++@@ -1890,6 +1897,8 @@ int getZip64Data(__G__ ef_buf, ef_len)
++     but it means that this procedure is only called in one place.
++   ---------------------------------------------------------------------------*/
++ 
+++    G.zip64 = FALSE;
+++
++     if (ef_len == 0 || ef_buf == NULL)
++         return PK_COOL;
++ 
++@@ -1927,6 +1936,8 @@ int getZip64Data(__G__ ef_buf, ef_len)
++             G.crec.disk_number_start = (zuvl_t)makelong(offset + ef_buf);
++             offset += sizeof(G.crec.disk_number_start);
++           }
+++
+++          G.zip64 = TRUE;
++         }
++ 
++         /* Skip this extra field block */
++diff --git a/unzip.h b/unzip.h
++index 5b2a326..ed24a5b 100644
++--- a/unzip.h
+++++ b/unzip.h
++@@ -645,6 +645,7 @@ typedef struct _Uzp_cdir_Rec {
++ #define PK_NOZIP           9   /* zipfile not found */
++ #define PK_PARAM          10   /* bad or illegal parameters specified */
++ #define PK_FIND           11   /* no files found */
+++#define PK_BOMB           12   /* likely zip bomb */
++ #define PK_DISK           50   /* disk full */
++ #define PK_EOF            51   /* unexpected EOF */
++ 
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
++
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index daba722..1d18526 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -22,6 +22,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+ 	file://symlink.patch \
+ 	file://0001-unzip-fix-CVE-2018-1000035.patch \
+ 	file://CVE-2018-18384.patch \
++        file://CVE-2019-13232.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
  
- FILES_tzdata-core += " \
-+                ${sysconfdir}/localtime                  \
-+                ${sysconfdir}/timezone                   \
-                 ${datadir}/zoneinfo/Pacific/Honolulu     \
-                 ${datadir}/zoneinfo/America/Anchorage    \
-                 ${datadir}/zoneinfo/America/Los_Angeles  \
-@@ -202,8 +204,7 @@ FILES_tzdata-core += " \
-                 ${datadir}/zoneinfo/iso3166.tab          \
-                 ${datadir}/zoneinfo/Etc/*"
- 
--CONFFILES_tzdata-core += "${@ "${sysconfdir}/timezone" if bb.utils.to_boolean(d.getVar('INSTALL_TIMEZONE_FILE')) else "" }"
--CONFFILES_tzdata-core += "${sysconfdir}/localtime"
-+CONFFILES_tzdata-core = "${sysconfdir}/localtime ${sysconfdir}/timezone"
- 
- ALLOW_EMPTY_${PN} = "1"
- RDEPENDS_${PN} = "${TZ_PACKAGES}"
 -- 
-2.21.0
+2.7.4
 
 
