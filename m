@@ -1,20 +1,18 @@
-Return-Path: <quentin.schulz@streamunlimited.com>
-Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
-	by mail.openembedded.org (Postfix) with ESMTP id C9F1A6D458
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 14:55:48 +0000 (UTC)
-Received: from qschulz.suevie (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTPSA id 46Z0K04SKtz5tlJ;
-	Thu, 19 Sep 2019 16:55:48 +0200 (CEST)
-From: Quentin Schulz <quentin.schulz@streamunlimited.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2019 16:55:14 +0200
-Message-Id: <20190919145514.15353-1-quentin.schulz@streamunlimited.com>
-X-Mailer: git-send-email 2.17.1
-Cc: radek.dostal@streamunlimited.com,
-	Quentin Schulz <quentin.schulz@streamunlimited.com>,
-	andriy.danylovskyy@streamunlimited.com
-Subject: [PATCH] meta: classes: externalsrc: stop rebuilds of 2+ externalsrc recipes sharing the same git repo
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A02B97F31A;
+	Thu, 19 Sep 2019 15:02:21 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Date: Thu, 19 Sep 2019 15:02:23 -0000
+Message-ID: <20190919150223.2331.78443@do>
+References: <20190919145514.15353-1-quentin.schulz@streamunlimited.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190919145514.15353-1-quentin.schulz@streamunlimited.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWV0YTogY2xhc3NlczogZXh0ZXJuYWxzcmM6IHN0b3AgcmVidWlsZHMgb2YgMisgZXh0ZXJuYWxzcmMgcmVjaXBlcyBzaGFyaW5nIHRoZSBzYW1lIGdpdCByZXBv?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,60 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2019 14:55:49 -0000
+X-List-Received-Date: Thu, 19 Sep 2019 15:02:21 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-externalsrc do_configure task watches oe-devtool-tree-sha1 file and its
-checksum. That file basically contains the result of `git add -A
-${EXTERNALSRC} && git write-tree` which is the hash of temporary
-"commit" of the non committed changes. This file is stored in the .git
-directory of the git repo of the externalsrc recipe. do_configure then
-depends on the checksum of oe-devtool-tree-sha1 file.
+== Series Details ==
 
-If 2+ recipes with different externalsrc paths but same git repo (e.g.
-one recipe at /some/path and the other at /some/path/subdir) are parsed,
-this oe-devtool-tree-sha1 will be overwritten by those recipes at
-parsing time since .git is shared between those recipes.
+Series: meta: classes: externalsrc: stop rebuilds of 2+ externalsrc recipes sharing the same git repo
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20060/
+State : failure
 
-If there is one non committed git change in /some/path but not in
-/some/path/subdir, the oe-devtool-tree-sha1 of both recipes will be
-different.
+== Summary ==
 
-What will happen is that recipe1 will watch over the
-oe-devtool-tree-sha1 with a specific checksum, fill in file-checksums
-for do_configure correctly, then recipe2 will watch over the identically
-named file with different content also fill in the file-checksums
-varflag. When do_configure of recipe1 will be evaluated for
-re-execution, oe-devtool-tree-sha1 will be of the value of what is
-watched over by recipe2, thus triggering a rebuild of recipe1.
 
-This behavior is not always reproducible which I'm guessing is due to a
-small window between recipe1 putting info into oe-devtool-tree-sha1 and
-calculating the checksum of that file and recipe2 putting its content
-into oe-devtool-tree-sha1.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-By appending the name of the recipe to oe-devtool-tree-sha1, we make
-sure that a recipe won't have its oe-devtool-tree-sha1 overwritten by
-another recipe sharing the same externalsrc git repo.
 
-Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+
+* Patch            meta: classes: externalsrc: stop rebuilds of 2+ externalsrc recipes sharing the same git repo
+ Issue             Commit shortlog is too long [test_shortlog_length] 
+  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 93 characters)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/externalsrc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 3618b99a86..ea59d02ed9 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -203,7 +203,7 @@ def srctree_hash_files(d, srcdir=None):
- 
-     ret = " "
-     if git_dir is not None:
--        oe_hash_file = os.path.join(git_dir, 'oe-devtool-tree-sha1')
-+        oe_hash_file = os.path.join(git_dir, 'oe-devtool-tree-sha1-%s' % d.getVar('PN'))
-         with tempfile.NamedTemporaryFile(prefix='oe-devtool-index') as tmp_index:
-             # Clone index
-             shutil.copyfile(os.path.join(git_dir, 'index'), tmp_index.name)
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
