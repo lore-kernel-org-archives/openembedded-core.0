@@ -1,49 +1,57 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E38D7FDAF
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 30C447FE69
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 15:50:56 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id p7so5181406wmp.4
+	Thu, 19 Sep 2019 16:35:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5F8DF1853A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 08:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=J7vifQ11wcYeFPmFebDntTNYFJWOtNe5fIrmE+VVLvE=;
-	b=LC19H+PzyrKt+81e+N8oiEiwlzRdZ2vHeuijKkvBuo0aGmMmD/lHAtrc3QlMCQmGZC
-	zWKYeGA105pgZctBdhWTOGViZHQWjGyH8Nx+BnYDWkD/7g1lQFxmIlgr4iZtQoYUW4N3
-	GRqcJVNnHGHxczDvq7yEMbZiIqOpJo0HKGTRY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=J7vifQ11wcYeFPmFebDntTNYFJWOtNe5fIrmE+VVLvE=;
-	b=dMqXK68OohH2QZnUd8Umd7ipU4l2YU885ZAwrO8QMWTCEaTEv+Ji2qLwSRnNZe/8bM
-	SoXjRgCc4mc5DHKajxsUmNMlVwQVertlxZ178Qquw12eUfwVSrt9Zkn5qgvQakiXBsXP
-	vWJxNP0Q9dBgW+rB5bS9Io71ysGuVadJzV2yG02aKLIBaIodXohu9QAAFbyBALB2H5W9
-	7ovtHn3FTuQ9MT3EZVafJIJasiAL7rOWkEe679qfGiO3X/RPtQUZJN+BwvTaR4CSYgDb
-	8kD1YycMZjEFPqo20PorzK2tHDRwm2c4i7p90+lwXoI9piK11uII5iI+S5IURmqUsZCR
-	otRw==
-X-Gm-Message-State: APjAAAUTuAe9skorpBcNBVqpWitTEtusKcxCWKCLcyJ89EoUtxTlwS2y
-	YYRvLxKKsCRA7V66pGMTQt0xyzJd6bs=
-X-Google-Smtp-Source: APXvYqxaYRY7ppTdOqFzu7kq8Owq9p+lSDFXeYDLlIdBPabtj1ulAXH2Cobuu85HoVLN8CB8q7n0Ug==
-X-Received: by 2002:a7b:c8c3:: with SMTP id f3mr3351142wml.157.1568908256807; 
-	Thu, 19 Sep 2019 08:50:56 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o22sm17379982wra.96.2019.09.19.08.50.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Sep 2019 08:50:56 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 19 Sep 2019 18:35:28 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id vHUx_bJtUdGG
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 91E5E184D8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 506921A0B0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 43A311A0AC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
+	by seth.se.axis.com (Postfix) with ESMTP id 3564F1C7B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x8JGZRXa016472
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 18:35:27 +0200
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x8JGZRSH016471
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 Sep 2019 18:35:27 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2019 16:50:55 +0100
-Message-Id: <20190919155055.28655-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+Date: Thu, 19 Sep 2019 18:35:19 +0200
+Message-Id: <20190919163520.16429-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH] oeqa/concurrenttest: Use ionice to delete build directories
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/2] package_rpm.bbclass: Remove a misleading bb.note()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +64,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2019 15:50:56 -0000
+X-List-Received-Date: Thu, 19 Sep 2019 16:35:28 -0000
 Content-Transfer-Encoding: 8bit
 
-Autobuilder type infrastructure can benefit from deletion of certain files as
-background IO due to the way Linux filesystem priority works.
+It should have been removed in 3db9d865 (classes/package_rpm.bbclass:
+Enhance diagnostic messages) when it was split in two new notes.
 
-We have problems where build directories as part of oe-selftest being
-delete starves the running tasks of IO to the point builds take much
-longer to compelte.
+Also change the casing of two other notes to align them with the other
+notes.
 
-Having this option of running the deletion at "idle" helps a lot with
-that. Use the new option added to bb.utils.prunedir().
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/lib/oeqa/core/utils/concurrencytest.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/package_rpm.bbclass | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
-index fa6fa34b0e1..6293cf94ec5 100644
---- a/meta/lib/oeqa/core/utils/concurrencytest.py
-+++ b/meta/lib/oeqa/core/utils/concurrencytest.py
-@@ -216,7 +216,7 @@ def removebuilddir(d):
-     while delay and os.path.exists(d + "/bitbake.lock"):
-         time.sleep(1)
-         delay = delay - 1
--    bb.utils.prunedir(d)
-+    bb.utils.prunedir(d, ionice=True)
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index a605a57ecc..9145717f98 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -409,7 +409,6 @@ python write_specfile () {
+             if not file_list and localdata.getVar('ALLOW_EMPTY', False) != "1":
+                 bb.note("Not creating empty RPM package for %s" % splitname)
+             else:
+-                bb.note("Creating RPM package for %s" % splitname)
+                 spec_files_top.append('%files')
+                 if extra_pkgdata:
+                     package_rpm_extra_pkgdata(splitname, spec_files_top, localdata)
+@@ -418,7 +417,7 @@ python write_specfile () {
+                     bb.note("Creating RPM package for %s" % splitname)
+                     spec_files_top.extend(file_list)
+                 else:
+-                    bb.note("Creating EMPTY RPM Package for %s" % splitname)
++                    bb.note("Creating empty RPM package for %s" % splitname)
+                 spec_files_top.append('')
+             continue
  
- def fork_for_tests(concurrency_num, suite):
-     result = []
+@@ -510,7 +509,7 @@ python write_specfile () {
+                 bb.note("Creating RPM package for %s" % splitname)
+                 spec_files_bottom.extend(file_list)
+             else:
+-                bb.note("Creating EMPTY RPM Package for %s" % splitname)
++                bb.note("Creating empty RPM package for %s" % splitname)
+             spec_files_bottom.append('')
+ 
+         del localdata
 -- 
-2.20.1
+2.21.0
 
 
