@@ -1,18 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A02B97F31A;
-	Thu, 19 Sep 2019 15:02:21 +0000 (UTC)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E38D7FDAF
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 15:50:56 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id p7so5181406wmp.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 08:50:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=J7vifQ11wcYeFPmFebDntTNYFJWOtNe5fIrmE+VVLvE=;
+	b=LC19H+PzyrKt+81e+N8oiEiwlzRdZ2vHeuijKkvBuo0aGmMmD/lHAtrc3QlMCQmGZC
+	zWKYeGA105pgZctBdhWTOGViZHQWjGyH8Nx+BnYDWkD/7g1lQFxmIlgr4iZtQoYUW4N3
+	GRqcJVNnHGHxczDvq7yEMbZiIqOpJo0HKGTRY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=J7vifQ11wcYeFPmFebDntTNYFJWOtNe5fIrmE+VVLvE=;
+	b=dMqXK68OohH2QZnUd8Umd7ipU4l2YU885ZAwrO8QMWTCEaTEv+Ji2qLwSRnNZe/8bM
+	SoXjRgCc4mc5DHKajxsUmNMlVwQVertlxZ178Qquw12eUfwVSrt9Zkn5qgvQakiXBsXP
+	vWJxNP0Q9dBgW+rB5bS9Io71ysGuVadJzV2yG02aKLIBaIodXohu9QAAFbyBALB2H5W9
+	7ovtHn3FTuQ9MT3EZVafJIJasiAL7rOWkEe679qfGiO3X/RPtQUZJN+BwvTaR4CSYgDb
+	8kD1YycMZjEFPqo20PorzK2tHDRwm2c4i7p90+lwXoI9piK11uII5iI+S5IURmqUsZCR
+	otRw==
+X-Gm-Message-State: APjAAAUTuAe9skorpBcNBVqpWitTEtusKcxCWKCLcyJ89EoUtxTlwS2y
+	YYRvLxKKsCRA7V66pGMTQt0xyzJd6bs=
+X-Google-Smtp-Source: APXvYqxaYRY7ppTdOqFzu7kq8Owq9p+lSDFXeYDLlIdBPabtj1ulAXH2Cobuu85HoVLN8CB8q7n0Ug==
+X-Received: by 2002:a7b:c8c3:: with SMTP id f3mr3351142wml.157.1568908256807; 
+	Thu, 19 Sep 2019 08:50:56 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o22sm17379982wra.96.2019.09.19.08.50.55
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 19 Sep 2019 08:50:56 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Sep 2019 16:50:55 +0100
+Message-Id: <20190919155055.28655-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Date: Thu, 19 Sep 2019 15:02:23 -0000
-Message-ID: <20190919150223.2331.78443@do>
-References: <20190919145514.15353-1-quentin.schulz@streamunlimited.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190919145514.15353-1-quentin.schulz@streamunlimited.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWV0YTogY2xhc3NlczogZXh0ZXJuYWxzcmM6IHN0b3AgcmVidWlsZHMgb2YgMisgZXh0ZXJuYWxzcmMgcmVjaXBlcyBzaGFyaW5nIHRoZSBzYW1lIGdpdCByZXBv?=
+Subject: [PATCH] oeqa/concurrenttest: Use ionice to delete build directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2019 15:02:21 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Sep 2019 15:50:56 -0000
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+Autobuilder type infrastructure can benefit from deletion of certain files as
+background IO due to the way Linux filesystem priority works.
 
-Series: meta: classes: externalsrc: stop rebuilds of 2+ externalsrc recipes sharing the same git repo
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/20060/
-State : failure
+We have problems where build directories as part of oe-selftest being
+delete starves the running tasks of IO to the point builds take much
+longer to compelte.
 
-== Summary ==
+Having this option of running the deletion at "idle" helps a lot with
+that. Use the new option added to bb.utils.prunedir().
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            meta: classes: externalsrc: stop rebuilds of 2+ externalsrc recipes sharing the same git repo
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 93 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/lib/oeqa/core/utils/concurrencytest.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
+index fa6fa34b0e1..6293cf94ec5 100644
+--- a/meta/lib/oeqa/core/utils/concurrencytest.py
++++ b/meta/lib/oeqa/core/utils/concurrencytest.py
+@@ -216,7 +216,7 @@ def removebuilddir(d):
+     while delay and os.path.exists(d + "/bitbake.lock"):
+         time.sleep(1)
+         delay = delay - 1
+-    bb.utils.prunedir(d)
++    bb.utils.prunedir(d, ionice=True)
+ 
+ def fork_for_tests(concurrency_num, suite):
+     result = []
+-- 
+2.20.1
 
 
