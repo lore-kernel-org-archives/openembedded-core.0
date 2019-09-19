@@ -1,57 +1,59 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 30C447FE69
+	by mail.openembedded.org (Postfix) with ESMTP id 75A047FE60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 16:35:27 +0000 (UTC)
+	Thu, 19 Sep 2019 16:35:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 5F8DF1853A
+	by bastet.se.axis.com (Postfix) with ESMTP id 55D2D18117
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:28 +0200 (CEST)
+	Thu, 19 Sep 2019 18:35:30 +0200 (CEST)
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id vHUx_bJtUdGG
+	port 10024) with LMTP id ZIsgiVLL8SyG
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 91E5E184D8
+	by bastet.se.axis.com (Postfix) with ESMTPS id 75B5A184D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 506921A0B0
+	by IMSVA (Postfix) with ESMTP id 234981A0AC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 43A311A0AC
+	by IMSVA (Postfix) with ESMTP id 183561A0A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
 Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
 Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by seth.se.axis.com (Postfix) with ESMTP id 3564F1C7B
+	by seth.se.axis.com (Postfix) with ESMTP id 0C78F1C7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:27 +0200 (CEST)
+	Thu, 19 Sep 2019 18:35:29 +0200 (CEST)
 Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x8JGZRXa016472
+	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x8JGZSOn016476
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2019 18:35:27 +0200
+	Thu, 19 Sep 2019 18:35:29 +0200
 Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x8JGZRSH016471
+	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x8JGZSqU016475
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Sep 2019 18:35:27 +0200
+	Thu, 19 Sep 2019 18:35:28 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2019 18:35:19 +0200
-Message-Id: <20190919163520.16429-1-pkj@axis.com>
+Date: Thu, 19 Sep 2019 18:35:20 +0200
+Message-Id: <20190919163520.16429-2-pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190919163520.16429-1-pkj@axis.com>
+References: <20190919163520.16429-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCH 1/2] package_rpm.bbclass: Remove a misleading bb.note()
+Subject: [PATCH 2/2] tzdata: Correct the packaging of /etc/localtime and /etc/timezone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,50 +66,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2019 16:35:28 -0000
+X-List-Received-Date: Thu, 19 Sep 2019 16:35:30 -0000
 Content-Transfer-Encoding: 8bit
 
-It should have been removed in 3db9d865 (classes/package_rpm.bbclass:
-Enhance diagnostic messages) when it was split in two new notes.
+During restructuring of the packaging in 2af4d6eb (tzdata: Install
+everything by default), these two files remained in the tzdata
+package, which is supposed to be empty. Move them to tzdata-core where
+they belong.
 
-Also change the casing of two other notes to align them with the other
-notes.
+Also simplify the definition of CONFFILES_tzdata-core. As its value
+only takes effect for files that actually exist, there is no need to
+complicate its definition by checking if a file is created before
+adding it to the list of configuration files.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/package_rpm.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-extended/timezone/tzdata.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index a605a57ecc..9145717f98 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -409,7 +409,6 @@ python write_specfile () {
-             if not file_list and localdata.getVar('ALLOW_EMPTY', False) != "1":
-                 bb.note("Not creating empty RPM package for %s" % splitname)
-             else:
--                bb.note("Creating RPM package for %s" % splitname)
-                 spec_files_top.append('%files')
-                 if extra_pkgdata:
-                     package_rpm_extra_pkgdata(splitname, spec_files_top, localdata)
-@@ -418,7 +417,7 @@ python write_specfile () {
-                     bb.note("Creating RPM package for %s" % splitname)
-                     spec_files_top.extend(file_list)
-                 else:
--                    bb.note("Creating EMPTY RPM Package for %s" % splitname)
-+                    bb.note("Creating empty RPM package for %s" % splitname)
-                 spec_files_top.append('')
-             continue
+diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
+index 82fe369baa..1e2d9bd1b9 100644
+--- a/meta/recipes-extended/timezone/tzdata.bb
++++ b/meta/recipes-extended/timezone/tzdata.bb
+@@ -147,6 +147,8 @@ FILES_tzdata-misc += "${datadir}/zoneinfo/Cuba           \
+ RPROVIDES_tzdata-misc = "tzdata-misc"
  
-@@ -510,7 +509,7 @@ python write_specfile () {
-                 bb.note("Creating RPM package for %s" % splitname)
-                 spec_files_bottom.extend(file_list)
-             else:
--                bb.note("Creating EMPTY RPM Package for %s" % splitname)
-+                bb.note("Creating empty RPM package for %s" % splitname)
-             spec_files_bottom.append('')
+ FILES_tzdata-core += " \
++                ${sysconfdir}/localtime                  \
++                ${sysconfdir}/timezone                   \
+                 ${datadir}/zoneinfo/Pacific/Honolulu     \
+                 ${datadir}/zoneinfo/America/Anchorage    \
+                 ${datadir}/zoneinfo/America/Los_Angeles  \
+@@ -202,8 +204,7 @@ FILES_tzdata-core += " \
+                 ${datadir}/zoneinfo/iso3166.tab          \
+                 ${datadir}/zoneinfo/Etc/*"
  
-         del localdata
+-CONFFILES_tzdata-core += "${@ "${sysconfdir}/timezone" if bb.utils.to_boolean(d.getVar('INSTALL_TIMEZONE_FILE')) else "" }"
+-CONFFILES_tzdata-core += "${sysconfdir}/localtime"
++CONFFILES_tzdata-core = "${sysconfdir}/localtime ${sysconfdir}/timezone"
+ 
+ ALLOW_EMPTY_${PN} = "1"
+ RDEPENDS_${PN} = "${TZ_PACKAGES}"
 -- 
 2.21.0
 
