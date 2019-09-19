@@ -1,48 +1,30 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FB267F742
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C7049008A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 22:58:07 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id q11so845096lfc.11
+	Thu, 19 Sep 2019 02:41:28 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,522,1559491200"; d="scan'208";a="75683758"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 19 Sep 2019 10:41:13 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 8687E4CE14EB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2019 15:58:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=mN/wdH77LhE5ZJVLUUwvJy+0WnXNLPS2OQgg0gh/dGI=;
-	b=zZYuq7AESIVM8is4VnBRzFPrcLr0M+yKKEGn9URunUyMYdD4wiANa8r4PBmd6ZftQ8
-	CKIGfY+UC91iCo1P5BkezDBkcwDA2l+h48XBVvBJv+k/61WWvLqRqhIi4oi6iSyfbhcV
-	gi0MPnBvd5t0jfQX6Sb8ZVFIxuC6Jy8oxdBVDlDwSEoBF2u1sroob8+zyls9vbw5xodW
-	R+3O+bpIKZalf+/drQMH94AUbkIGhuoBF30dpTCpKFKhQCCq4SSJMfpwET8w0gqAZwkv
-	qOjaEj5v3CQn1TNxcJN9s1InNdXaDHIHrtTguIwI+EsjPm7DmYsdrAgdQ7bkAkrETTha
-	4HPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=mN/wdH77LhE5ZJVLUUwvJy+0WnXNLPS2OQgg0gh/dGI=;
-	b=m5LOa/U4aiYXYECfrfgmsC++8QUgG4qViMSuM/4p5/YWXAuUJgc1VW8Up6IMKTxLLh
-	lCK23ei5wdgW3By84bHlhXmGYiElfvZR5eA6c/0oaRdv7IS2qBuXERDyMl+z8sCCWC5f
-	TlhoGXViwsNMcgnzCdhKTaFdMRBwOxkUs/7VUAIlWWKrcJ9LqtnDlb8ex7gfvZjeEQnd
-	nyBTxw9GMz2OqGN6P5yl9uYALxI7B8WnVYDi5z8AZ4dnFxK+hD+7fF2VDc0k9OGQ3Uhu
-	knkRU1RrG05DgTHj/KMQwg7x1cJ65/Qb+W6Tq/7QrPd/KwCLNLMWN2WV0W7RNUWA+5Ct
-	pRVQ==
-X-Gm-Message-State: APjAAAUfPwbuCDsI9W7uoze0iQkCpxPM9pr9wi8HQuXTB98zPGuE0y8O
-	mTnthb1VwM1U9DxsEKE7PqyvRpf1jQsoKwzJF/DOhg==
-X-Google-Smtp-Source: APXvYqxU/g9C30ONfoQh2WgmwFLpH6w+5tFZEYrE2+vo5a2BilCePnJanqsp96ezy4SKQq6SiPj4XqsuZiEXQYSvZ2s=
-X-Received: by 2002:a19:cc15:: with SMTP id c21mr3306004lfg.64.1568847487896; 
-	Wed, 18 Sep 2019 15:58:07 -0700 (PDT)
+	Thu, 19 Sep 2019 10:41:13 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 19 Sep 2019 10:41:15 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Sep 2019 10:41:04 +0800
+Message-ID: <20190919024104.8957-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190728100103.21136-1-dbaryshkov@gmail.com>
-In-Reply-To: <20190728100103.21136-1-dbaryshkov@gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 19 Sep 2019 00:57:54 +0200
-Message-ID: <CAP71WjzkvtaK7i7Edk7Hg-2iReYLGkLbLd3eBXD_Wqk0Lo9Sew@mail.gmail.com>
-To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>,
-	akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: fix installation of modules signing certificates
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 8687E4CE14EB.AAE59
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] bison:upgrade 3.4.1 -> 3.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 22:58:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 19 Sep 2019 02:41:29 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-hi Armin,
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ meta/recipes-devtools/bison/{bison_3.4.1.bb => bison_3.4.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/bison/{bison_3.4.1.bb => bison_3.4.2.bb} (90%)
 
-On Sun, Jul 28, 2019 at 12:01 PM Dmitry Eremin-Solenikov
-<dbaryshkov@gmail.com> wrote:
->
-> From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
->
-> If one has provided external key/certificate for modules signing, Kbuild
-> will skip creating signing_key.pem and will write only signing_key.x509
-> certificate. Thus we have to check for .x509 file existence rather than
-> .pem one.
->
-> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+diff --git a/meta/recipes-devtools/bison/bison_3.4.1.bb b/meta/recipes-devtools/bison/bison_3.4.2.bb
+similarity index 90%
+rename from meta/recipes-devtools/bison/bison_3.4.1.bb
+rename to meta/recipes-devtools/bison/bison_3.4.2.bb
+index 7946e20..46f0f90 100644
+--- a/meta/recipes-devtools/bison/bison_3.4.1.bb
++++ b/meta/recipes-devtools/bison/bison_3.4.2.bb
+@@ -17,8 +17,8 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+ # No point in hardcoding path to m4, just use PATH
+ EXTRA_OECONF += "M4=m4"
+ 
+-SRC_URI[md5sum] = "201286a573b12da109df96282fe4ff4a"
+-SRC_URI[sha256sum] = "27159ac5ebf736dffd5636fd2cd625767c9e437de65baa63cb0de83570bd820d"
++SRC_URI[md5sum] = "d1ceb9dfde2d03b24a4c1137f7f1b572"
++SRC_URI[sha256sum] = "27d05534699735dc69e86add5b808d6cb35900ad3fd63fa82e3eb644336abfa0"
+ 
+ inherit autotools gettext texinfo
+ 
+-- 
+2.7.4
 
-This patch applies cleanly on warrior and thud, and it's a bug fix,
-when the use provides its own private certificate to sign kernel
-modules. I have spent quite a bit of time in this area this week,
-sadly i was working with thud branch, fixed my issue and found out
-that master didn't have the issue!
 
-Any chance this can be pulled in thud and warrior? Feel free to add my
-Signed-off tag , once again cherry-pick just works.
 
->
-> ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index a60e15b57814..bf3674238f02 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -454,7 +454,7 @@ do_shared_workdir () {
->         cp .config $kerneldir/
->         mkdir -p $kerneldir/include/config
->         cp include/config/kernel.release $kerneldir/include/config/kernel.release
-> -       if [ -e certs/signing_key.pem ]; then
-> +       if [ -e certs/signing_key.x509 ]; then
->                 # The signing_key.* files are stored in the certs/ dir in
->                 # newer Linux kernels
->                 mkdir -p $kerneldir/certs
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
