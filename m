@@ -1,18 +1,32 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 030F77F669;
-	Fri, 20 Sep 2019 11:32:35 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Fri, 20 Sep 2019 11:32:37 -0000
-Message-ID: <20190920113237.2334.54066@do>
+Return-Path: <ross.burton@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F079C7FA4B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 11:59:26 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Sep 2019 04:59:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,528,1559545200"; d="scan'208";a="362830439"
+Received: from creinhar-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.39.119])
+	by orsmga005.jf.intel.com with ESMTP; 20 Sep 2019 04:59:26 -0700
+To: Adrian Bunk <bunk@stusta.de>
 References: <20190920111602.27927-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190920111602.27927-1-ross.burton@intel.com>
+	<20190920112649.GA6059@localhost>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <9f88c909-9c21-7b3b-58f4-3a4e4b8cae67@intel.com>
+Date: Fri, 20 Sep 2019 12:59:25 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20190920112649.GA6059@localhost>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImpzb24tYzogdXNlIEdpdEh1YiBmb3IgdXBzdHJlYS4uLiIgYW5kIDEgbW9yZQ==?=
+Subject: Re: [PATCH 1/2] json-c: use GitHub for upstream release checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +39,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2019 11:32:36 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 20 Sep 2019 11:59:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 20/09/2019 12:26, Adrian Bunk wrote:
+> Upstream tag names are appending the date to the version,
+> making "devtool check-upgrade-status" with this patch result in
+> INFO: json-c                    0.13.1          UNKNOWN_BROKEN  Yi Zhao <yi.zhao@windriver.com>
 
-Series: "json-c: use GitHub for upstrea..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/20079/
-State : failure
+I totally tested this and it worked, somehow.  Obviously my tool is broken!
 
-== Summary ==
+V2 incoming...
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 95ad562629)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Ross
 
