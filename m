@@ -1,28 +1,26 @@
 Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BAEBC7FEDE
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ADEF7FEDE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 02:32:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8K2WRHU015998
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 19 Sep 2019 19:32:27 -0700 (PDT)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Thu, 19 Sep 2019 19:32:26 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1567741059-137869-1-git-send-email-changqing.li@windriver.com>
-	<3f394af5d0dcaabf8465b5a53ce9c2c7b3d07e54.camel@linuxfoundation.org>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <66a27926-2d65-8677-0d76-f1903f82c6a9@windriver.com>
-Date: Fri, 20 Sep 2019 10:32:23 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Fri, 20 Sep 2019 02:32:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8K2W84k023206
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2019 19:32:19 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 19 Sep 2019 19:31:58 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Sep 2019 10:31:55 +0800
+Message-ID: <1568946715-47955-2-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1568946715-47955-1-git-send-email-changqing.li@windriver.com>
+References: <1568946715-47955-1-git-send-email-changqing.li@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <3f394af5d0dcaabf8465b5a53ce9c2c7b3d07e54.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.186]
-Subject: Re: [PATCH 1/2] mdadm: fix do_package failed when changed local.conf but not cleaned
+Subject: [PATCH 2/2] devtool.py: fix buildclean test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,66 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2019 02:32:26 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 20 Sep 2019 02:32:28 -0000
+Content-Type: text/plain
 
+From: Changqing Li <changqing.li@windriver.com>
 
-On 9/7/19 5:48 AM, Richard Purdie wrote:
-> On Fri, 2019-09-06 at 11:37 +0800, changqing.li@windriver.com wrote:
->> From: Changqing Li <changqing.li@windriver.com>
->>
->> reproduce steps:
->> 1. add DISTRO_FEATURE_append = 'usrmerge' in local.conf
->> 2. bitbake mdadm --success
->> 3. remove DISTRO_FEATURE_append = 'usrmerge' from local.conf
->> 4. bitbake mdadm  -- failed when do_package
->>
->> it is not proper to change source Makefile during do_install by sed,
->> change to add patch for it.
->>
->> [YOCTO #13493]
->>
->> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> This somehow seems to break:
->
-> oe-selftest -r devtool.DevtoolModifyTests.test_devtool_buildclean
-> and
-> oe-selftest -r devtool.DevtoolModifyTests.test_devtool_modify
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/694
->
-> Cheers,
->
-> Richard
+when build with EXTERNALSRC, checksum of EXTERNALSRC is one of inputs
+for generate sigdata of task do_compile. without change any source, the
+sigdata will not changed, and buildclean task only do make clean, and
+not clean stampfiles like clean task, so the stampfile keep there, then
+do_compile after do_buildclean will not rerun, and targetfile
+tempdir_mdadm/mdadm will not be generated, report below error:
 
-I researched this problem,  it is not problem of this patch, but this 
-patch reveal
+AssertionError: '/tmp/devtoolqarxv8ct6u/mdadm' does not exist
 
-the defect of the testcase.
+Fix by add a comments in Makefile to trigger rebuild of compile task
 
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-without this patch, Makefile is changed during first run of do_compile 
-task,
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index a7c6005..3a25da2 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -604,6 +604,7 @@ class DevtoolModifyTests(DevtoolBase):
+             bitbake('mdadm m4 -c buildclean')
+             assertNoFile(tempdir_mdadm, 'mdadm')
+             assertNoFile(builddir_m4, 'src/m4')
++            runCmd('echo "#Trigger rebuild" >> %s/Makefile' % tempdir_mdadm)
+             bitbake('mdadm m4 -c compile')
+             assertFile(tempdir_mdadm, 'mdadm')
+             assertFile(builddir_m4, 'src/m4')
+-- 
+2.7.4
 
-for external_src, EXTERNALSRC is one of inputs of sigdata of do_compile,
-
-then will rerun the second time's compile task.  but this cover defects 
-of testcase,
-
-please see the fixed patch for details.
-
-
-I have send 2 patch to fix the problem of testcase,  which is titled 
-with devtool.py
-
-
-BRs
-
-Sandy
-
->
->
->
 
