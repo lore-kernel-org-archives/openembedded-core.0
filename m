@@ -1,37 +1,48 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id D0C1A7FA79
+Return-Path: <andrey.z@gmail.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 51E0B7F9F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 14:03:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46Zb5z6pttz4S;
-	Fri, 20 Sep 2019 16:03:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1568988200;
-	bh=EvV1afw06jZyWVDsL/HOiPn10umQ7snpQnyNtUKd6v0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OgAkhjydOSYpLbcMYxp42d8YQiEmQ/UZNWyhV8pFsDzCqDPtMpxMvQF4CwiQ8JxUj
-	hps7HDGem4aXIvc4XY+kC2Podv644ftkXUA0io6NADY8KIIBXzKL//Lop3UBw8D8FR
-	l1zS/72ySn3296CCna7x36yZmU1/il4FPwxM+BNp2u/SX8fjLiHFRFLUQtPTBfWkME
-	+Ig+Fa8ac4NZ9spGrrBhZPaMKhFvwoFTCmwR1FxAnHC74kVKALySqmKZ9ij3Uff2Sw
-	NGjdCURcm48q50NS5uZY1Ii/eHbyjRGlZ+K0+AqMvhbCbjIyYVomofWxbgnST/xMbJ
-	hs/FNwcSKw23DfxLpdlddnerYGHy5VMNoMMcVZSFFz3mbHJ/PxV/NxQWFvqZBYHHUI
-	3lD+yoljrstygwiU/HCFfu2YtD2fYDEbIj6/KZRG9P4GMDH5a66jeVIM5PWm5xlqAJ
-	8VdeNCZW88OWpuIiOPC6SfwwKQ7BsRHPmMsql8uQ1zrAVyxNJcBk6N9EMB3zt9xFOO
-	Fdo79C8Pc8AxLDS5yi+ZA3PPJkc4gaqpOAClSAbhMhuJf6AdR/k9zwZw8Xr/zmZr8H
-	psMRkD03B63EcrppGfyBbuCqWmXUQncnHAl0xCNMdWMYEDPBqo6zHr+zIK8+Cb9seW
-	/2HE/MLWVr5BWHhxgUt/Tr4Y=
-Date: Fri, 20 Sep 2019 17:03:17 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Mikko.Rapeli@bmw.de
-Message-ID: <20190920140317.GA10364@localhost>
+	Fri, 20 Sep 2019 14:04:23 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 5so2650794wmg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 07:04:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ODWjdoaTP/cMWH69UYITuFbe9Xg+wND4ygtP9btywM8=;
+	b=UwDIk9ktvRub45QxkYnbUPolozHRP8uh2be9ChCM/r2X384PCeDUnfgOcZNHRc9dNu
+	Esg/1NeSuUMCpHlJtZw9UpOJgMmmb0JwoQZOjR2LGYMV+c4XJAE+Zgf28IaGAGhIJEq2
+	oL69Z51F5j1hPyvCmVTBcRLXakOLTSMsh0GUFl62lCrrgH+RXzfm6QnKHE2emHE9Iny5
+	/OS7HQQdCRR78z/auRH2JDqfNcXae9aSmtVaFQOQY0ISEUfnXtPo89g1i3MYFaegDgWQ
+	eFtGx6W6PIzVihlnwXdtbuoTVTo+GMxq0ESTSWYWNmG4H4FFDEGOTqwqtS4KnUsPCVAJ
+	zIbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ODWjdoaTP/cMWH69UYITuFbe9Xg+wND4ygtP9btywM8=;
+	b=jw68dUpcvPtji+Pep27Fho7iSuFhHuIZSRGkafBEftM9XX0H1KUYqFz01WxkRicFan
+	tGHODq6euaVoSsc17g9DR+bUL56xsr2S19dpKyWLZL9gwTfos9IWarNxPiHEt2HSrJKE
+	6h68vPVIM5oJe9Uep94Ht+rJpwKqjFObUYfNQjB3HR2bXUf+c8p0aJK1MK0hjvvleXL5
+	Txy6AoK+pyjY3FVxyKNAEBPzuRvhrKOhm23vOPR/BzcPVILeNccOsGfm+JSpf0O3zZ1I
+	V++8zNe1wjpigOM7NgklCegEc0YGoQRRy/ZT4WcDhKXEdb+WhxAfYqnMMsFHLjz+PkLq
+	ONgA==
+X-Gm-Message-State: APjAAAWLZfjf16HwshxDHzSt3waLS+wzZviKoRbV1jNS5HRmgFkkHn4L
+	uan4l4RauQgJflzqYySi3vFrIX5x9OFkV7MGNco=
+X-Google-Smtp-Source: APXvYqxWG2+bLrovt8sUakrm7Fy1WK/t/UZ9LYeTd/K3n0Z9bnwUDedIc5JVHboPN5bJIwi5d/sRKyTU+qym8AEItrU=
+X-Received: by 2002:a1c:1f89:: with SMTP id f131mr3527288wmf.72.1568988263948; 
+	Fri, 20 Sep 2019 07:04:23 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190917184947.2244823-1-raj.khem@gmail.com>
 	<CAHtQpK4svi46b06dzCfCX7R-i6uiooQ0hi0mmdcOuoY+Ccm+MQ@mail.gmail.com>
 	<20190920133829.GW6154@hiutale>
-MIME-Version: 1.0
 In-Reply-To: <20190920133829.GW6154@hiutale>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
+From: Andrey Zhizhikin <andrey.z@gmail.com>
+Date: Fri, 20 Sep 2019 16:04:12 +0200
+Message-ID: <CAHtQpK5cHSYFRr_Uck96fXDHZftV0ZEDeQz4K8SR3fO8zVjFtA@mail.gmail.com>
+To: Mikko.Rapeli@bmw.de
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	Adrian Bunk <bunk@stusta.de>
 Subject: Re: [PATCH] openssl: Enable os option for with-rand-seed as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,74 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2019 14:03:22 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 20 Sep 2019 14:04:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 20, 2019 at 01:38:29PM +0000, Mikko.Rapeli@bmw.de wrote:
-> On Fri, Sep 20, 2019 at 03:13:44PM +0200, Andrey Zhizhikin wrote:
-> > Hello Raj,
-> > 
-> > On Tue, Sep 17, 2019 at 8:50 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > >
-> > > with openSSL 1.1.1d we start seeing errors like
-> > >
-> > > Error Generating Key
-> > > 139979727451584:error:2406C06E:random number generator:RAND_DRBG_instantiate:error retrieving entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
-> > >
-> > > when using openssl from openssl-native on build hosts, this is due to
-> > > limiting the random seed to devrandom, to support older hosts, since the
-> > > option allows to have a comma separated list of methods to try, we can
-> > > try the default first and if that fails then fallback to devrandom, this
-> > > will ensure that it keeps working with build systems which dont support
-> > > getrandom()
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > Cc: Adrian Bunk <bunk@stusta.de>
-> > > Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > ---
-> > 
-> > Just as a test report for this patch:
-> > 
-> > I've tested this patch on the HW (i.MX8M Mini EVK) and unfortunately
-> > my sshd given up with a message: PRNG is not seeded
-> 
-> > Reverting commits (effectively rolling back to openssl 1.1.1c) made
-> > sshd operable again.:
-> > 53b5654d6e openssl: Enable os option for with-rand-seed as well
-> > 2c6b9b918c openssl: Upgrade 1.1.1c -> 1.1.1d
-> 
+On Fri, Sep 20, 2019 at 3:38 PM <Mikko.Rapeli@bmw.de> wrote:
+>
+>
 > Do you have rng-tools on the image? That helped me with the kernel random pool
 > initialization for sshd in iMX8 and openssl 1.1.1x.
-> 
+
+No, but I would definitely try it! Thanks a lot for the tip here!
+
+>
 > I don't see how 53b5654d6e could change this behavior for target openssl.
-> 2c6b9b918c could change the behavior and would be suprise.
->...
+> 2c6b9b918c could change the behavior and would be suprise. Maybe also
+> target recipe needs --with-rand-seed=os,devrandom on iMX8 or similar platforms.
 
-OpenSSL is full of surprises...
+This has puzzled me as well.. Actually, the 53b5654d6e is related to
+2c6b9b918c in a way that it fixes the build issue with various
+components. That was the reason I reverted both of them since they are
+going in pair. Strangely enough, when reverting the openssl version to
+1.1.1c - sshd starts to work normally.
 
-CHANGES says:
-    Linux kernels 4.8 and later, don't have a reliable way to detect 
-    that /dev/urandom has been properly seeded, so a failure is raised 
-    for this case (i.e. the getentropy(2) call has already failed).
+I'm building now Arria10 to see if I can reproduce the issue there as well.
 
-It seems to be correct to give an error here, and lack of rng-tools 
-and/or kernel support for the iMX8 RNG is something that should be
-fixed by the user.
-
-OTOH, this kind of changes make it hard to justify upgrading openssl
-in stable branches.
-
-> -Mikko
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+-- andrey
 
