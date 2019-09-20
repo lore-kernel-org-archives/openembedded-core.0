@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 459BA7ED48;
-	Fri, 20 Sep 2019 17:33:01 +0000 (UTC)
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CA987F8D3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 17:42:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8KHgs60024475
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 10:42:54 -0700 (PDT)
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Fri, 20 Sep 2019 10:42:53 -0700
+From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Sep 2019 13:42:53 -0400
+Message-ID: <20190920174253.28033-1-Trevor.Gamblin@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Muminul Islam <misla011@fiu.edu>
-Date: Fri, 20 Sep 2019 17:33:02 -0000
-Message-ID: <20190920173302.2330.60680@do>
-References: <20190920171912.61196-1-muislam@microsoft.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190920171912.61196-1-muislam@microsoft.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlic29sdjogU2VjdXJpdHkgZml4IGZvciBDVkVzOiA8Q1ZFLTIwMTgtMjA1MzIsIENWRS0yMDE4LTIwNTMzLCBDVkUtMjAxOC0yMDUzND4=?=
+Subject: [PATCH] tiff: fix CVE-2019-14973
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,50 +30,455 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2019 17:33:01 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Sep 2019 17:42:53 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-Series: libsolv: Security fix for CVEs: <CVE-2018-20532, CVE-2018-20533, CVE-2018-20534>
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/20084/
-State : failure
+CVE reference: https://nvd.nist.gov/vuln/detail/CVE-2019-14973
+Upstream merge: https://gitlab.com/libtiff/libtiff/commit/2218055c
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [thud] libsolv: Security fix for CVEs: <CVE-2018-20532, CVE-2018-20533, CVE-2018-20534>
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-extended/libsolv/libsolv/0003-Fix-Dereference-of-null-pointer.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-extended/libsolv/libsolv/0003-Fix-Dereference-of-null-pointer.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../libtiff/tiff/CVE-2019-14973.patch         | 411 ++++++++++++++++++
+ .../recipes-multimedia/libtiff/tiff_4.0.10.bb |   4 +-
+ 2 files changed, 414 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-14973.patch
+
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2019-14973.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-14973.patch
+new file mode 100644
+index 0000000000..6a547f11ac
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-14973.patch
+@@ -0,0 +1,411 @@
++From ef273787f41daf9b44cf3f05564d61a05ed62bc7 Mon Sep 17 00:00:00 2001
++From: Trevor Gamblin <trevor.gamblin@windriver.com>
++Date: Fri, 20 Sep 2019 09:33:22 -0400
++Subject: [PATCH] libtiff-fix-CVE-2019-14973
++
++---
++ libtiff/tif_aux.c      | 49 +++++++++++++++++++++++++++++++++++++-----
++ libtiff/tif_getimage.c |  6 ++----
++ libtiff/tif_luv.c      |  8 +------
++ libtiff/tif_pixarlog.c |  7 +-----
++ libtiff/tif_read.c     | 38 +++++++++-----------------------
++ libtiff/tif_strip.c    | 35 ++++--------------------------
++ libtiff/tif_tile.c     | 27 +++--------------------
++ libtiff/tiffiop.h      |  7 +++++-
++ 8 files changed, 71 insertions(+), 106 deletions(-)
++
++diff --git a/libtiff/tif_aux.c b/libtiff/tif_aux.c
++index 4ece162f..33fb8a44 100644
++--- a/libtiff/tif_aux.c
+++++ b/libtiff/tif_aux.c
++@@ -57,18 +57,57 @@ _TIFFMultiply64(TIFF* tif, uint64 first, uint64 second, const char* where)
++ 	return bytes;
++ }
++ 
+++tmsize_t
+++_TIFFMultiplySSize(TIFF* tif, tmsize_t first, tmsize_t second, const char* where)
+++{
+++    if( first <= 0 || second <= 0 )
+++    {
+++        if( tif != NULL && where != NULL )
+++        {
+++            TIFFErrorExt(tif->tif_clientdata, where,
+++                        "Invalid argument to _TIFFMultiplySSize() in %s", where);
+++        }
+++        return 0;
+++    }
+++
+++    if( first > TIFF_TMSIZE_T_MAX / second )
+++    {
+++        if( tif != NULL && where != NULL )
+++        {
+++            TIFFErrorExt(tif->tif_clientdata, where,
+++                        "Integer overflow in %s", where);
+++        }
+++        return 0;
+++    }
+++    return first * second;
+++}
+++
+++tmsize_t _TIFFCastUInt64ToSSize(TIFF* tif, uint64 val, const char* module)
+++{
+++    if( val > (uint64)TIFF_TMSIZE_T_MAX )
+++    {
+++        if( tif != NULL && module != NULL )
+++        {
+++            TIFFErrorExt(tif->tif_clientdata,module,"Integer overflow");
+++        }
+++        return 0;
+++    }
+++    return (tmsize_t)val;
+++}
+++
++ void*
++ _TIFFCheckRealloc(TIFF* tif, void* buffer,
++ 		  tmsize_t nmemb, tmsize_t elem_size, const char* what)
++ {
++ 	void* cp = NULL;
++-	tmsize_t bytes = nmemb * elem_size;
++-
+++        tmsize_t count = _TIFFMultiplySSize(tif, nmemb, elem_size, NULL);
++ 	/*
++-	 * XXX: Check for integer overflow.
+++	 * Check for integer overflow.
++ 	 */
++-	if (nmemb && elem_size && bytes / elem_size == nmemb)
++-		cp = _TIFFrealloc(buffer, bytes);
+++	if (count != 0)
+++	{
+++		cp = _TIFFrealloc(buffer, count);
+++	}
++ 
++ 	if (cp == NULL) {
++ 		TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
++diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
++index 6a9d5a7c..2106ca21 100644
++--- a/libtiff/tif_getimage.c
+++++ b/libtiff/tif_getimage.c
++@@ -755,9 +755,8 @@ gtTileSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
++ 	uint32 leftmost_tw;
++ 
++ 	tilesize = TIFFTileSize(tif);  
++-	bufsize = TIFFSafeMultiply(tmsize_t,alpha?4:3,tilesize);
+++	bufsize = _TIFFMultiplySSize(tif, alpha?4:3,tilesize, "gtTileSeparate");
++ 	if (bufsize == 0) {
++-		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Integer overflow in %s", "gtTileSeparate");
++ 		return (0);
++ 	}
++ 
++@@ -1019,9 +1018,8 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
++         uint16 colorchannels;
++ 
++ 	stripsize = TIFFStripSize(tif);  
++-	bufsize = TIFFSafeMultiply(tmsize_t,alpha?4:3,stripsize);
+++	bufsize = _TIFFMultiplySSize(tif,alpha?4:3,stripsize, "gtStripSeparate");
++ 	if (bufsize == 0) {
++-		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Integer overflow in %s", "gtStripSeparate");
++ 		return (0);
++ 	}
++ 
++diff --git a/libtiff/tif_luv.c b/libtiff/tif_luv.c
++index aa35ea07..46d2dff2 100644
++--- a/libtiff/tif_luv.c
+++++ b/libtiff/tif_luv.c
++@@ -1264,16 +1264,10 @@ LogL16GuessDataFmt(TIFFDirectory *td)
++ 	return (SGILOGDATAFMT_UNKNOWN);
++ }
++ 
++-
++-#define TIFF_SIZE_T_MAX ((size_t) ~ ((size_t)0))
++-#define TIFF_TMSIZE_T_MAX (tmsize_t)(TIFF_SIZE_T_MAX >> 1)
++-
++ static tmsize_t
++ multiply_ms(tmsize_t m1, tmsize_t m2)
++ {
++-        if( m1 == 0 || m2 > TIFF_TMSIZE_T_MAX / m1 )
++-            return 0;
++-        return m1 * m2;
+++        return _TIFFMultiplySSize(NULL, m1, m2, NULL);
++ }
++ 
++ static int
++diff --git a/libtiff/tif_pixarlog.c b/libtiff/tif_pixarlog.c
++index 7438d692..b52a3ee4 100644
++--- a/libtiff/tif_pixarlog.c
+++++ b/libtiff/tif_pixarlog.c
++@@ -634,15 +634,10 @@ PixarLogGuessDataFmt(TIFFDirectory *td)
++ 	return guess;
++ }
++ 
++-#define TIFF_SIZE_T_MAX ((size_t) ~ ((size_t)0))
++-#define TIFF_TMSIZE_T_MAX (tmsize_t)(TIFF_SIZE_T_MAX >> 1)
++-
++ static tmsize_t
++ multiply_ms(tmsize_t m1, tmsize_t m2)
++ {
++-        if( m1 == 0 || m2 > TIFF_TMSIZE_T_MAX / m1 )
++-            return 0;
++-        return m1 * m2;
+++        return _TIFFMultiplySSize(NULL, m1, m2, NULL);
++ }
++ 
++ static tmsize_t
++diff --git a/libtiff/tif_read.c b/libtiff/tif_read.c
++index e63810cc..8db39d7a 100644
++--- a/libtiff/tif_read.c
+++++ b/libtiff/tif_read.c
++@@ -29,9 +29,6 @@
++ #include "tiffiop.h"
++ #include <stdio.h>
++ 
++-#define TIFF_SIZE_T_MAX ((size_t) ~ ((size_t)0))
++-#define TIFF_TMSIZE_T_MAX (tmsize_t)(TIFF_SIZE_T_MAX >> 1)
++-
++ int TIFFFillStrip(TIFF* tif, uint32 strip);
++ int TIFFFillTile(TIFF* tif, uint32 tile);
++ static int TIFFStartStrip(TIFF* tif, uint32 strip);
++@@ -49,6 +46,8 @@ TIFFReadRawTile1(TIFF* tif, uint32 tile, void* buf, tmsize_t size, const char* m
++ #define THRESHOLD_MULTIPLIER 10
++ #define MAX_THRESHOLD (THRESHOLD_MULTIPLIER * THRESHOLD_MULTIPLIER * THRESHOLD_MULTIPLIER * INITIAL_THRESHOLD)
++ 
+++#define TIFF_INT64_MAX ((((int64)0x7FFFFFFF) << 32) | 0xFFFFFFFF)
+++
++ /* Read 'size' bytes in tif_rawdata buffer starting at offset 'rawdata_offset'
++  * Returns 1 in case of success, 0 otherwise. */
++ static int TIFFReadAndRealloc( TIFF* tif, tmsize_t size,
++@@ -734,23 +733,8 @@ TIFFReadRawStrip(TIFF* tif, uint32 strip, void* buf, tmsize_t size)
++ 		return ((tmsize_t)(-1));
++ 	}
++ 	bytecount = td->td_stripbytecount[strip];
++-	if ((int64)bytecount <= 0) {
++-#if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
++-		TIFFErrorExt(tif->tif_clientdata, module,
++-			     "%I64u: Invalid strip byte count, strip %lu",
++-			     (unsigned __int64) bytecount,
++-			     (unsigned long) strip);
++-#else
++-		TIFFErrorExt(tif->tif_clientdata, module,
++-			     "%llu: Invalid strip byte count, strip %lu",
++-			     (unsigned long long) bytecount,
++-			     (unsigned long) strip);
++-#endif
++-		return ((tmsize_t)(-1));
++-	}
++-	bytecountm = (tmsize_t)bytecount;
++-	if ((uint64)bytecountm!=bytecount) {
++-		TIFFErrorExt(tif->tif_clientdata, module, "Integer overflow");
+++        bytecountm = _TIFFCastUInt64ToSSize(tif, bytecount, module);
+++	if (bytecountm == 0) {
++ 		return ((tmsize_t)(-1));
++ 	}
++ 	if (size != (tmsize_t)(-1) && size < bytecountm)
++@@ -774,7 +758,7 @@ TIFFFillStrip(TIFF* tif, uint32 strip)
++ 	if ((tif->tif_flags&TIFF_NOREADRAW)==0)
++ 	{
++ 		uint64 bytecount = td->td_stripbytecount[strip];
++-		if ((int64)bytecount <= 0) {
+++		if( bytecount == 0 || bytecount > (uint64)TIFF_INT64_MAX ) {
++ #if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
++ 			TIFFErrorExt(tif->tif_clientdata, module,
++ 				"Invalid strip byte count %I64u, strip %lu",
++@@ -801,7 +785,7 @@ TIFFFillStrip(TIFF* tif, uint32 strip)
++ 			    (bytecount - 4096) / 10 > (uint64)stripsize  )
++ 			{
++ 				uint64 newbytecount = (uint64)stripsize * 10 + 4096;
++-				if( (int64)newbytecount >= 0 )
+++				if( newbytecount == 0 || newbytecount > (uint64)TIFF_INT64_MAX )
++ 				{
++ #if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
++ 					TIFFWarningExt(tif->tif_clientdata, module,
++@@ -1196,10 +1180,8 @@ TIFFReadRawTile(TIFF* tif, uint32 tile, void* buf, tmsize_t size)
++ 	bytecount64 = td->td_stripbytecount[tile];
++ 	if (size != (tmsize_t)(-1) && (uint64)size < bytecount64)
++ 		bytecount64 = (uint64)size;
++-	bytecountm = (tmsize_t)bytecount64;
++-	if ((uint64)bytecountm!=bytecount64)
++-	{
++-		TIFFErrorExt(tif->tif_clientdata,module,"Integer overflow");
+++	bytecountm = _TIFFCastUInt64ToSSize(tif, bytecount64, module);
+++        if( bytecountm == 0 ) {
++ 		return ((tmsize_t)(-1));
++ 	}
++ 	return (TIFFReadRawTile1(tif, tile, buf, bytecountm, module));
++@@ -1221,7 +1203,7 @@ TIFFFillTile(TIFF* tif, uint32 tile)
++ 	if ((tif->tif_flags&TIFF_NOREADRAW)==0)
++ 	{
++ 		uint64 bytecount = td->td_stripbytecount[tile];
++-		if ((int64)bytecount <= 0) {
+++		if( bytecount == 0 || bytecount > (uint64)TIFF_INT64_MAX ) {
++ #if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
++ 			TIFFErrorExt(tif->tif_clientdata, module,
++ 				"%I64u: Invalid tile byte count, tile %lu",
++@@ -1248,7 +1230,7 @@ TIFFFillTile(TIFF* tif, uint32 tile)
++ 			    (bytecount - 4096) / 10 > (uint64)stripsize  )
++ 			{
++ 				uint64 newbytecount = (uint64)stripsize * 10 + 4096;
++-				if( (int64)newbytecount >= 0 )
+++				if( newbytecount == 0 || newbytecount > (uint64)TIFF_INT64_MAX )
++ 				{
++ #if defined(__WIN32__) && (defined(_MSC_VER) || defined(__MINGW32__))
++ 					TIFFWarningExt(tif->tif_clientdata, module,
++diff --git a/libtiff/tif_strip.c b/libtiff/tif_strip.c
++index 5b76fba5..2366acf0 100644
++--- a/libtiff/tif_strip.c
+++++ b/libtiff/tif_strip.c
++@@ -129,15 +129,8 @@ TIFFVStripSize(TIFF* tif, uint32 nrows)
++ {
++ 	static const char module[] = "TIFFVStripSize";
++ 	uint64 m;
++-	tmsize_t n;
++ 	m=TIFFVStripSize64(tif,nrows);
++-	n=(tmsize_t)m;
++-	if ((uint64)n!=m)
++-	{
++-		TIFFErrorExt(tif->tif_clientdata,module,"Integer overflow");
++-		n=0;
++-	}
++-	return(n);
+++        return _TIFFCastUInt64ToSSize(tif, m, module);
++ }
++ 
++ /*
++@@ -211,15 +204,8 @@ TIFFStripSize(TIFF* tif)
++ {
++ 	static const char module[] = "TIFFStripSize";
++ 	uint64 m;
++-	tmsize_t n;
++ 	m=TIFFStripSize64(tif);
++-	n=(tmsize_t)m;
++-	if ((uint64)n!=m)
++-	{
++-		TIFFErrorExt(tif->tif_clientdata,module,"Integer overflow");
++-		n=0;
++-	}
++-	return(n);
+++	return _TIFFCastUInt64ToSSize(tif, m, module);
++ }
++ 
++ /*
++@@ -330,14 +316,8 @@ TIFFScanlineSize(TIFF* tif)
++ {
++ 	static const char module[] = "TIFFScanlineSize";
++ 	uint64 m;
++-	tmsize_t n;
++ 	m=TIFFScanlineSize64(tif);
++-	n=(tmsize_t)m;
++-	if ((uint64)n!=m) {
++-		TIFFErrorExt(tif->tif_clientdata,module,"Integer arithmetic overflow");
++-		n=0;
++-	}
++-	return(n);
+++	return _TIFFCastUInt64ToSSize(tif, m, module);
++ }
++ 
++ /*
++@@ -366,15 +346,8 @@ TIFFRasterScanlineSize(TIFF* tif)
++ {
++ 	static const char module[] = "TIFFRasterScanlineSize";
++ 	uint64 m;
++-	tmsize_t n;
++ 	m=TIFFRasterScanlineSize64(tif);
++-	n=(tmsize_t)m;
++-	if ((uint64)n!=m)
++-	{
++-		TIFFErrorExt(tif->tif_clientdata,module,"Integer arithmetic overflow");
++-		n=0;
++-	}
++-	return(n);
+++	return _TIFFCastUInt64ToSSize(tif, m, module);
++ }
++ 
++ /* vim: set ts=8 sts=8 sw=8 noet: */
++diff --git a/libtiff/tif_tile.c b/libtiff/tif_tile.c
++index 58fe9354..661cc771 100644
++--- a/libtiff/tif_tile.c
+++++ b/libtiff/tif_tile.c
++@@ -181,15 +181,8 @@ TIFFTileRowSize(TIFF* tif)
++ {
++ 	static const char module[] = "TIFFTileRowSize";
++ 	uint64 m;
++-	tmsize_t n;
++ 	m=TIFFTileRowSize64(tif);
++-	n=(tmsize_t)m;
++-	if ((uint64)n!=m)
++-	{
++-		TIFFErrorExt(tif->tif_clientdata,module,"Integer overflow");
++-		n=0;
++-	}
++-	return(n);
+++	return _TIFFCastUInt64ToSSize(tif, m, module);
++ }
++ 
++ /*
++@@ -248,15 +241,8 @@ TIFFVTileSize(TIFF* tif, uint32 nrows)
++ {
++ 	static const char module[] = "TIFFVTileSize";
++ 	uint64 m;
++-	tmsize_t n;
++ 	m=TIFFVTileSize64(tif,nrows);
++-	n=(tmsize_t)m;
++-	if ((uint64)n!=m)
++-	{
++-		TIFFErrorExt(tif->tif_clientdata,module,"Integer overflow");
++-		n=0;
++-	}
++-	return(n);
+++	return _TIFFCastUInt64ToSSize(tif, m, module);
++ }
++ 
++ /*
++@@ -272,15 +258,8 @@ TIFFTileSize(TIFF* tif)
++ {
++ 	static const char module[] = "TIFFTileSize";
++ 	uint64 m;
++-	tmsize_t n;
++ 	m=TIFFTileSize64(tif);
++-	n=(tmsize_t)m;
++-	if ((uint64)n!=m)
++-	{
++-		TIFFErrorExt(tif->tif_clientdata,module,"Integer overflow");
++-		n=0;
++-	}
++-	return(n);
+++	return _TIFFCastUInt64ToSSize(tif, m, module);
++ }
++ 
++ /*
++diff --git a/libtiff/tiffiop.h b/libtiff/tiffiop.h
++index 186c291f..558484fe 100644
++--- a/libtiff/tiffiop.h
+++++ b/libtiff/tiffiop.h
++@@ -77,6 +77,9 @@ extern int snprintf(char* str, size_t size, const char* format, ...);
++ #define	FALSE	0
++ #endif
++ 
+++#define TIFF_SIZE_T_MAX ((size_t) ~ ((size_t)0))
+++#define TIFF_TMSIZE_T_MAX (tmsize_t)(TIFF_SIZE_T_MAX >> 1)
+++
++ typedef struct client_info {
++     struct client_info *next;
++     void *data;
++@@ -258,7 +261,7 @@ struct tiff {
++ #define TIFFhowmany8_64(x) (((x)&0x07)?((uint64)(x)>>3)+1:(uint64)(x)>>3)
++ #define TIFFroundup_64(x, y) (TIFFhowmany_64(x,y)*(y))
++ 
++-/* Safe multiply which returns zero if there is an integer overflow */
+++/* Safe multiply which returns zero if there is an *unsigned* integer overflow. This macro is not safe for *signed* integer types */
++ #define TIFFSafeMultiply(t,v,m) ((((t)(m) != (t)0) && (((t)(((v)*(m))/(m))) == (t)(v))) ? (t)((v)*(m)) : (t)0)
++ 
++ #define TIFFmax(A,B) ((A)>(B)?(A):(B))
++@@ -368,6 +371,8 @@ extern TIFFErrorHandlerExt _TIFFerrorHandlerExt;
++ 
++ extern uint32 _TIFFMultiply32(TIFF*, uint32, uint32, const char*);
++ extern uint64 _TIFFMultiply64(TIFF*, uint64, uint64, const char*);
+++extern tmsize_t _TIFFMultiplySSize(TIFF*, tmsize_t, tmsize_t, const char*);
+++extern tmsize_t _TIFFCastUInt64ToSSize(TIFF*, uint64, const char*);
++ extern void* _TIFFCheckMalloc(TIFF*, tmsize_t, tmsize_t, const char*);
++ extern void* _TIFFCheckRealloc(TIFF*, void*, tmsize_t, tmsize_t, const char*);
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
+index 999496273c..0432763cce 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
+@@ -6,7 +6,9 @@ CVE_PRODUCT = "libtiff"
+ 
+ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2019-6128.patch \
+-           file://CVE-2019-7663.patch"
++           file://CVE-2019-7663.patch \
++           file://CVE-2019-14973.patch \
++"
+ SRC_URI[md5sum] = "114192d7ebe537912a2b97408832e7fd"
+ SRC_URI[sha256sum] = "2c52d11ccaf767457db0c46795d9c7d1a8d8f76f68b0b800a3dfe45786b996e4"
+ 
+-- 
+2.21.0
 
 
