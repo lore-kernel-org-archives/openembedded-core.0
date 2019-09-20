@@ -1,50 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 63A1A7FA67
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 9565F7FA67
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 12:02:03 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id q17so6476514wrx.10
+	Fri, 20 Sep 2019 12:03:40 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id l11so6500698wrx.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 05:02:04 -0700 (PDT)
+	Fri, 20 Sep 2019 05:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=I6ukGLmGgBW2tJAkC2LJhPB384rhSXDibpE5kERWSrc=;
-	b=c2/BWQoSjeT2x4pffljnLEu7JT1rGsfT2t7g/QOsXtToXE8pjnouutHv3bhFGsHnsh
-	y3PGEQ/zDWj308a+4sIzeVQMaiejBJrdGJGUAEEHfrzzn0q9t2KLHV3DDCVNLJIC0M/T
-	FtGxyJhn3XIMYoPcYug5dVhYzBQQ/v1WcR9xc=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ct2NikCl0EoBCozlf1N2RciK76mPcjRnvL/BEowQzaM=;
+	b=oeVJ/YQIj6D/zXNv5R0+HWncQX4SbgpCI580IOSJyv4FJLjZJNcyqgd1O+xFtlFhoI
+	WAAwAzr4B6Sk/VBoPcvznkqlpdZ+YRU8895Z0tRvRYxs3NWHw51QiJYNO/xn2O6ZcmEK
+	oDHnpx3wQvbRCcEjYX7wht8EfQPA/CqLvztpxeWYFgVmOXnLlcTlkFeFxqnMqK0jEl/2
+	OpzPy+WdEloqjlU/I29FTMQ+4bxw+1ZOV8Gy+CP/gYMiP2Ry99oRkoP5H/PuZ2ppgxeD
+	r0FpijOlT+ByLCia8mmBbtoUyNA9bopY44GhyIsuqVmIo8/EROb6n61X9rMuVz3Edf9r
+	t0oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=I6ukGLmGgBW2tJAkC2LJhPB384rhSXDibpE5kERWSrc=;
-	b=j48Ls6cICDKbF9IWhQaAfyeIdA8xswjep/RmTYpn3OYhBSOZR5KEjkxX0Bce7dRZRW
-	UdVs/FCK/wV4zshdaE6N1fVygGGZFFwzHaOhIhu6FfOxQ7dhL2ycmQTWHwRelcahXrIY
-	eDBkYxeyCNxHeWpk9f+F5wiYUBXAK725Uq7FnIyv+gjYtFrXTtW8JGz972L2OkFtfI1j
-	KEq3adYvJJo9TQVNjzje/89l97fZG2Dr1F73VsXERSQg1iAbEMRiHF8S6HT9thN8B+O/
-	omXR88HXNE7ZQ/PWF4pUXOc/DiWCmoX9YTArIzKY75CQyhDDZLKKTGtiGYUuvo8UwKvm
-	e83w==
-X-Gm-Message-State: APjAAAWCJLGmFPDFrT754hov6j5D2C0sq26coc+kT77lomkJ29rR+ct9
-	k1AU6gZN7IjSzIc0TdndIp/HYw==
-X-Google-Smtp-Source: APXvYqw1lSsSXjYJDUl59MLvzOdwkUX4EzhLv7h/q4EI/Xy4X1sePL1iTs+2LNxl9kO6hqsJceLV7A==
-X-Received: by 2002:adf:ef05:: with SMTP id e5mr11368892wro.127.1568980924022; 
-	Fri, 20 Sep 2019 05:02:04 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 33sm2634375wra.41.2019.09.20.05.02.00
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ct2NikCl0EoBCozlf1N2RciK76mPcjRnvL/BEowQzaM=;
+	b=mVii60jrrpfMs6q1qW1/Oiq71bYH2aezTUp+h71PMuQol1D9jUnenbKDQitsGoMJ4I
+	hdsf6ZWKGq3tHwNvQvtb9Mq/jsY2aQsYBJU+DbgPysgDU/4lRPxdrtrJ1TbegvLDmIoO
+	seiCIK7gNxWLzU48vRniX6ox+SAMNMIgz823pUQ2j2Wp+Tysty+XAF/jBZ/lSkLSGO7z
+	sNzy/LVIUAwiWZjSpzJQTj4uLzO4+K4rpiTu2k9rSMcqNdn9hugI+8Jo7Guw+Js3gmDr
+	aHHLZEKv42KFAWVJ2Q3w9AZGK+YYQrHRhCkEeRebBqAn+frh4Z5wc/MunsVQzIbUCBjk
+	LcBw==
+X-Gm-Message-State: APjAAAXmHFGl0QTfQ+y+V2UC7u4LzHTXMJSDDA1BS1r11D5kp5dtlBLD
+	oIus6BFJgzOiZnbgTuP0GTUbpuBNiTw=
+X-Google-Smtp-Source: APXvYqziEhC0DuLH+GPKQr6fo7fhYhMssxx/rLOIGZ4nghBcZYhze6KN0TYTeW9pmdoydV8aBx7OQg==
+X-Received: by 2002:adf:ed05:: with SMTP id a5mr11415564wro.35.1568981020755; 
+	Fri, 20 Sep 2019 05:03:40 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	t203sm2106355wmf.42.2019.09.20.05.03.38
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 20 Sep 2019 05:02:02 -0700 (PDT)
-Message-ID: <6e040457ee15fc874b8a4d6a627661fe2669467f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 20 Sep 2019 13:01:53 +0100
-In-Reply-To: <1568683649-14738-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1568683649-14738-1-git-send-email-ee.peng.yeoh@intel.com>
-User-Agent: Evolution 3.33.4-1build1 
+	Fri, 20 Sep 2019 05:03:39 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Sep 2019 13:03:37 +0100
+Message-Id: <20190920120337.1658-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] testimage.bbclass: Add kernel provider and version to testresult
+Subject: [PATCH v2] json-c: use GitHub for upstream release checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +59,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2019 12:02:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Sep 2019 12:03:42 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2019-09-17 at 09:27 +0800, Yeoh Ee Peng wrote:
-> In running QA testing, we sometime need to select custom  provider
-> for
-> virtual/kernel and version. To track the selected virtual/kernel
-> provider
-> and version used during test, we need to add these information to
-> testresult.
-> 
-> This patch add the virtual/kernel and version into the testresult
-> configuration section.
-> 
-> Example of virtual/kernel and version added to testresult
-> configuration:
->    - "KERNEL_PROVIDER_VERSION": "linux-intel_4.19"
-> 
-> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-> ---
->  meta/classes/testimage.bbclass | 20 ++++++++++++++++++--
->  1 file changed, 18 insertions(+), 2 deletions(-)
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/json-c/json-c_0.13.1.bb | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-This fixes a very specific use case but we don't really want to add
-extra variables to this each time someone has a new use case. In other
-words this isn't going to scale.
-
-The idea originally is that "DISTRO" should give a pretty good idea of
-what was being tested. Another idea would be to allow the variables to
-be configurable but I'm not sure we want to support adding arbitrary
-variables...
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
+index 9654e60a3d2..8ee9437af16 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
+@@ -10,13 +10,8 @@ SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+ SRC_URI[md5sum] = "04969ad59cc37bddd83741a08b98f350"
+ SRC_URI[sha256sum] = "b87e608d4d3f7bfdd36ef78d56d53c74e66ab278d318b71e6002a369d36f4873"
+ 
+-UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+).tar"
+-# json-c releases page is fetching the list of releases in some weird XML format
+-# from https://s3.amazonaws.com/json-c_releases and processes it with javascript :-/
+-#UPSTREAM_CHECK_URI = "https://s3.amazonaws.com/json-c_releases/releases/index.html"
+-RECIPE_UPSTREAM_VERSION = "0.13.1"
+-RECIPE_UPSTREAM_DATE = "Mar 04, 2018"
+-CHECK_DATE = "May 02, 2018"
++UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
++UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
+ 
+ RPROVIDES_${PN} = "libjson"
+ 
+-- 
+2.20.1
 
 
