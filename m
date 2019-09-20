@@ -1,33 +1,24 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id A44A27FBBD
+Return-Path: <Quanyang.Wang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A2AD57FA80
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 08:26:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46ZRd85CVtz4q
+	Fri, 20 Sep 2019 10:15:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8KAF9JW004199
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 10:26:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1568967980;
-	bh=lNlZ1Ti24otqA/DiJNqEcTlXjNG3XaucMDZR87FqOos=;
-	h=From:To:Subject:Date:From;
-	b=eCQp6ZZUMW5gMbmBSSmS+Vawj8xN5RHnkJ90R0h2Oxcha8yiATfvD3hCB4U5oSfE6
-	jNUrOCoHKikDAcJ2Q956kA9aH3uhXA328bQ10C8b5tdIOBPnIl96/+1Rlwb4+4p0Ef
-	mGjH3ngC+n4PgPaRHOIFlf9oMcjokzlvt5xHhhGobMjiQOBeknZWqeuCfAOaOv4zlK
-	dglZjvL7LHMASerAfbe5XMdJ2cFnPnaV+VKwHMEHwoqVz+LHzfdAbek/MIiUO3C5XH
-	G2QqjeVoiU3SKE5deERZYpbIAEPLieNarR/yB93RE1FKf9kUh11i+QLVTov4pdMag4
-	s/Va9AOpZiwLAq1msaRs38M530g+YlQfzgulWK9M9fXAjVS9eOvDLNUomxi7BWf8Xn
-	s/OOadYGvUyefOKUJmWsFrcYAvTbuj3wddgzP6FJEcIeVlnBchUbyb+kWeLNEncjDt
-	1NJUqobvFAJVW/Y+pHkeXILJDlhRXg76igmFupqo+N4P8A4Nj/GJdtph7hDUHqO5PQ
-	8kZ1iGqhMFmqUVcm7fGRcu5Rr8A/ocJ3VRdMzrtDOjDyBSqvAZLi4O3RK3NB1+fA+l
-	5lbb14xGyXLQn/HHIUOb8YBmgKvZ+Fc9CwO11vWaUmLg8FtoeNZpmG7GIu0OR/lyFZ
-	DjRnNevvy6/BywVENRko/wuY=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Sep 2019 11:26:19 +0300
-Message-Id: <20190920082619.14011-1-bunk@stusta.de>
+	Fri, 20 Sep 2019 03:15:20 -0700
+Received: from pek-qwang2-d1.wrs.com (128.224.162.137) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Fri, 20 Sep 2019 03:14:58 -0700
+From: <quanyang.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Sep 2019 18:14:57 +0800
+Message-ID: <20190920101457.10169-1-quanyang.wang@windriver.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] json-c: Don't --enable-rdrand
+MIME-Version: 1.0
+Subject: [PATCH] kexec-tools: fix arm kexec failure for __NR_kexec_file_load
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,38 +31,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2019 08:26:22 -0000
+X-List-Received-Date: Fri, 20 Sep 2019 10:15:29 -0000
+Content-Type: text/plain
 
-In recent years AMD CPUs have had various problems with RDRAND
-giving either non-random data or no result at all, which is
-problematic if either build or target machine has a CPU with
-this problem.
+From: Wang Quanyang <quanyang.wang@windriver.com>
 
-The fallback is /dev/urandom, and I'd trust the kernel here.
+Once use kexec in arm arch, it will throw out the error info as below:
 
---enable-rdrand was added in an upgrade to a new upstream
-version without mentioning any reason.
+Could not find a free area of memory of 0xc78e744 bytes... 
 
-[YOCTO #13534]
+This is because that kexec use kexec_file_load to load image by default
+but arm doesn't support it. So add this patch to avoid use kexec_file_load
+in arm platforms.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
 ---
- meta/recipes-devtools/json-c/json-c_0.13.1.bb | 1 -
- 1 file changed, 1 deletion(-)
+ ...ndefine-__NR_kexec_file_load-for-arm.patch | 37 +++++++++++++++++++
+ .../kexec/kexec-tools_2.0.19.bb               |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch
 
-diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-index 9d8f2e7870..9654e60a3d 100644
---- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-@@ -23,7 +23,6 @@ RPROVIDES_${PN} = "libjson"
- inherit autotools
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch b/meta/recipes-kernel/kexec/kexec-tools/0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch
+new file mode 100644
+index 0000000000..1b11363191
+--- /dev/null
++++ b/meta/recipes-kernel/kexec/kexec-tools/0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch
+@@ -0,0 +1,37 @@
++From b54816eff272324320c490d62dc36b27d2838732 Mon Sep 17 00:00:00 2001
++From: Quanyang Wang <quanyang.wang@windriver.com>
++Date: Mon, 16 Sep 2019 10:49:05 +0800
++Subject: [PATCH] kexec/arm: undefine __NR_kexec_file_load for arm
++
++In the kernel upstream commit 4ab65ba7a5cb
++("ARM: add kexec_file_load system call number"),
++__NR_kexec_file_load for arm has been defined to be 401.
++This results that even if kexec_file_load isn't implemented
++for arm but the function is_kexec_file_load_implemented()
++will still return true. So undef __NR_kexec_file_load for
++arm architecture.
++
++Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
++Signed-off-by: Simon Horman <horms@verge.net.au>
++---
++ kexec/kexec-syscall.h | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/kexec/kexec-syscall.h b/kexec/kexec-syscall.h
++index dac1c1f..92d51d3 100644
++--- a/kexec/kexec-syscall.h
+++++ b/kexec/kexec-syscall.h
++@@ -56,6 +56,10 @@
++ #endif
++ #endif /*ifndef __NR_kexec_load*/
++ 
+++#ifdef __arm__
+++#undef __NR_kexec_file_load
+++#endif
+++
++ #ifndef __NR_kexec_file_load
++ 
++ #ifdef __x86_64__
++-- 
++2.17.1
++
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+index 3439899070..c3f74359f1 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
+     file://0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
+     file://0004-x86_64-Add-support-to-build-kexec-tools-with-x32-ABI.patch \
+     file://0005-Disable-PIE-during-link.patch \
++    file://0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch \
+ "
  
- EXTRA_OECONF = "--disable-werror \
--                --enable-rdrand \
-                 "
- 
- do_configure_prepend() {
+ SRC_URI[md5sum] = "052458f0a35c2a3b0d2302caa3318e9f"
 -- 
-2.17.1
+2.22.0
 
 
