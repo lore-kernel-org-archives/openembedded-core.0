@@ -1,39 +1,57 @@
-Return-Path: <hs@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id B40077FC9A
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 714727FC59
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 04:48:34 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 46ZLnv2g4Mz1rG87;
-	Fri, 20 Sep 2019 06:48:35 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 46ZLnv2S5bz1qqkJ;
-	Fri, 20 Sep 2019 06:48:35 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id iVTl4bAEigNc; Fri, 20 Sep 2019 06:48:34 +0200 (CEST)
-X-Auth-Info: 6+fJQJy/13weFa0Xv9MHbs9LyWPzZHZr0qJ9lS2LMaw=
-Received: from mail-internal.denx.de (p578adb1c.dip0.t-ipconnect.de
-	[87.138.219.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 20 Sep 2019 06:48:34 +0200 (CEST)
-Received: from pollux.denx.de (pollux [192.168.1.1])
-	by mail-internal.denx.de (Postfix) with ESMTP id 5824818531E;
-	Fri, 20 Sep 2019 06:48:27 +0200 (CEST)
-Received: by pollux.denx.de (Postfix, from userid 515)
-	id 400C41A0093; Fri, 20 Sep 2019 06:48:27 +0200 (CEST)
-From: Heiko Schocher <hs@denx.de>
+	Fri, 20 Sep 2019 07:25:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id DECEC18393
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id TIE1QeBrIblP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 2A76018117
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 13F961A0A1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 08C471A09E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 09:25:28 +0200 (CEST)
+Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
+	by thoth.se.axis.com (Postfix) with ESMTP id F0EE111DC
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 09:25:28 +0200 (CEST)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x8K7PS0k031605
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2019 09:25:28 +0200
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x8K7PSv5031568
+	for openembedded-core@lists.openembedded.org;
+	Fri, 20 Sep 2019 09:25:28 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Sep 2019 06:48:26 +0200
-Message-Id: <20190920044826.15452-1-hs@denx.de>
+Date: Fri, 20 Sep 2019 09:25:27 +0200
+Message-Id: <20190920072527.30154-1-pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Cc: Julius Werner <jwerner@chromium.org>
-Subject: [PATCH v2] kernel.fitimage.bbclass: remove ramdisk_ctype
+X-TM-AS-GCONF: 00
+Subject: [PATCH] systemd: Make it build with hwdb disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,82 +64,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2019 04:48:35 -0000
+X-List-Received-Date: Fri, 20 Sep 2019 07:25:29 -0000
 Content-Transfer-Encoding: 8bit
 
-set in the ramdisk node the compression property
-always to "none", as U-Boot nowadays since commit:
+If hwdb is disabled, then systemd-hwdb-update.service does not exists.
+Do not try to modify it in this case.
 
-b1307f884a91 ("fit: Support compression for non-kernel components (e.g. FDT)")
-
-decompress non kernel components. Setting compression
-to the used comression algorithm now, will end in
-fail of your kernel boot with the ramdisk.
-
-This issue is fixed since commit:
-
-bddd98573465 ("fit: Do not automatically decompress ramdisk images")
-
-which now prints a warning in U-Boot, instead of decompressing
-the ramdisk, but we should setup compression property correct.
-
-Signed-off-by: Heiko Schocher <hs@denx.de>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
+ meta/recipes-core/systemd/systemd_243.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Changes in v2:
-- resend patch to  openembedded-core@lists.openembedded.org instead
-  to Yocto Project <yocto@yoctoproject.org> as Ross suggested. No
-  changes in code.
-
- meta/classes/kernel-fitimage.bbclass | 21 +--------------------
- 1 file changed, 1 insertion(+), 20 deletions(-)
-
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index b51882dce4..1bcb09c598 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -207,7 +207,6 @@ EOF
- fitimage_emit_section_ramdisk() {
+diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
+index f0e8c569b8..d0f9d17dba 100644
+--- a/meta/recipes-core/systemd/systemd_243.bb
++++ b/meta/recipes-core/systemd/systemd_243.bb
+@@ -299,9 +299,10 @@ do_install() {
+ }
  
- 	ramdisk_csum="${FIT_HASH_ALG}"
--	ramdisk_ctype="none"
- 	ramdisk_loadline=""
- 	ramdisk_entryline=""
+ do_install_append () {
+-       # Mips qemu is extremely slow, allow more time for the hwdb update
+-       # This is a workaround until https://github.com/systemd/systemd/issues/13581 is resolved
+-       sed -i -e s#TimeoutSec=90s#TimeoutSec=180s# ${D}${systemd_unitdir}/system/systemd-hwdb-update.service
++	# Mips qemu is extremely slow, allow more time for the hwdb update
++	# This is a workaround until https://github.com/systemd/systemd/issues/13581 is resolved
++	[ ! -e ${D}${systemd_unitdir}/system/systemd-hwdb-update.service ] ||
++		sed -i -e s#TimeoutSec=90s#TimeoutSec=180s# ${D}${systemd_unitdir}/system/systemd-hwdb-update.service
+ }
  
-@@ -218,24 +217,6 @@ fitimage_emit_section_ramdisk() {
- 		ramdisk_entryline="entry = <${UBOOT_RD_ENTRYPOINT}>;"
- 	fi
- 
--	case $3 in
--		*.gz)
--			ramdisk_ctype="gzip"
--			;;
--		*.bz2)
--			ramdisk_ctype="bzip2"
--			;;
--		*.lzma)
--			ramdisk_ctype="lzma"
--			;;
--		*.lzo)
--			ramdisk_ctype="lzo"
--			;;
--		*.lz4)
--			ramdisk_ctype="lz4"
--			;;
--	esac
--
- 	cat << EOF >> ${1}
-                 ramdisk@${2} {
-                         description = "${INITRAMFS_IMAGE}";
-@@ -243,7 +224,7 @@ fitimage_emit_section_ramdisk() {
-                         type = "ramdisk";
-                         arch = "${UBOOT_ARCH}";
-                         os = "linux";
--                        compression = "${ramdisk_ctype}";
-+                        compression = "none";
-                         ${ramdisk_loadline}
-                         ${ramdisk_entryline}
-                         hash@1 {
+ python populate_packages_prepend (){
 -- 
 2.21.0
 
