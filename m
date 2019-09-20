@@ -1,57 +1,33 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 714727FC59
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id A44A27FBBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 07:25:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id DECEC18393
+	Fri, 20 Sep 2019 08:26:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46ZRd85CVtz4q
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id TIE1QeBrIblP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 2A76018117
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 13F961A0A1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 08C471A09E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 09:25:29 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 09:25:28 +0200 (CEST)
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by thoth.se.axis.com (Postfix) with ESMTP id F0EE111DC
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 09:25:28 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x8K7PS0k031605
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 09:25:28 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x8K7PSv5031568
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Sep 2019 09:25:28 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Fri, 20 Sep 2019 10:26:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1568967980;
+	bh=lNlZ1Ti24otqA/DiJNqEcTlXjNG3XaucMDZR87FqOos=;
+	h=From:To:Subject:Date:From;
+	b=eCQp6ZZUMW5gMbmBSSmS+Vawj8xN5RHnkJ90R0h2Oxcha8yiATfvD3hCB4U5oSfE6
+	jNUrOCoHKikDAcJ2Q956kA9aH3uhXA328bQ10C8b5tdIOBPnIl96/+1Rlwb4+4p0Ef
+	mGjH3ngC+n4PgPaRHOIFlf9oMcjokzlvt5xHhhGobMjiQOBeknZWqeuCfAOaOv4zlK
+	dglZjvL7LHMASerAfbe5XMdJ2cFnPnaV+VKwHMEHwoqVz+LHzfdAbek/MIiUO3C5XH
+	G2QqjeVoiU3SKE5deERZYpbIAEPLieNarR/yB93RE1FKf9kUh11i+QLVTov4pdMag4
+	s/Va9AOpZiwLAq1msaRs38M530g+YlQfzgulWK9M9fXAjVS9eOvDLNUomxi7BWf8Xn
+	s/OOadYGvUyefOKUJmWsFrcYAvTbuj3wddgzP6FJEcIeVlnBchUbyb+kWeLNEncjDt
+	1NJUqobvFAJVW/Y+pHkeXILJDlhRXg76igmFupqo+N4P8A4Nj/GJdtph7hDUHqO5PQ
+	8kZ1iGqhMFmqUVcm7fGRcu5Rr8A/ocJ3VRdMzrtDOjDyBSqvAZLi4O3RK3NB1+fA+l
+	5lbb14xGyXLQn/HHIUOb8YBmgKvZ+Fc9CwO11vWaUmLg8FtoeNZpmG7GIu0OR/lyFZ
+	DjRnNevvy6/BywVENRko/wuY=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Sep 2019 09:25:27 +0200
-Message-Id: <20190920072527.30154-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] systemd: Make it build with hwdb disabled
+Date: Fri, 20 Sep 2019 11:26:19 +0300
+Message-Id: <20190920082619.14011-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] json-c: Don't --enable-rdrand
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,36 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2019 07:25:29 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 20 Sep 2019 08:26:22 -0000
 
-If hwdb is disabled, then systemd-hwdb-update.service does not exists.
-Do not try to modify it in this case.
+In recent years AMD CPUs have had various problems with RDRAND
+giving either non-random data or no result at all, which is
+problematic if either build or target machine has a CPU with
+this problem.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+The fallback is /dev/urandom, and I'd trust the kernel here.
+
+--enable-rdrand was added in an upgrade to a new upstream
+version without mentioning any reason.
+
+[YOCTO #13534]
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-core/systemd/systemd_243.bb | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/json-c/json-c_0.13.1.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
-index f0e8c569b8..d0f9d17dba 100644
---- a/meta/recipes-core/systemd/systemd_243.bb
-+++ b/meta/recipes-core/systemd/systemd_243.bb
-@@ -299,9 +299,10 @@ do_install() {
- }
+diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
+index 9d8f2e7870..9654e60a3d 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
+@@ -23,7 +23,6 @@ RPROVIDES_${PN} = "libjson"
+ inherit autotools
  
- do_install_append () {
--       # Mips qemu is extremely slow, allow more time for the hwdb update
--       # This is a workaround until https://github.com/systemd/systemd/issues/13581 is resolved
--       sed -i -e s#TimeoutSec=90s#TimeoutSec=180s# ${D}${systemd_unitdir}/system/systemd-hwdb-update.service
-+	# Mips qemu is extremely slow, allow more time for the hwdb update
-+	# This is a workaround until https://github.com/systemd/systemd/issues/13581 is resolved
-+	[ ! -e ${D}${systemd_unitdir}/system/systemd-hwdb-update.service ] ||
-+		sed -i -e s#TimeoutSec=90s#TimeoutSec=180s# ${D}${systemd_unitdir}/system/systemd-hwdb-update.service
- }
+ EXTRA_OECONF = "--disable-werror \
+-                --enable-rdrand \
+                 "
  
- python populate_packages_prepend (){
+ do_configure_prepend() {
 -- 
-2.21.0
+2.17.1
 
 
