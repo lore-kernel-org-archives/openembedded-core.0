@@ -1,41 +1,49 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
-	[209.85.160.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 127097F888
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EA417C131
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 23:41:36 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id w14so6175091qto.9
+	Sun, 22 Sep 2019 23:13:30 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id b20so6456322ljj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2019 16:41:38 -0700 (PDT)
+	Sun, 22 Sep 2019 16:13:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=DyIFmOF+rRvFQh3n6rJbQ+qvmy0syTksGwKsMO/x6m0=;
+	b=ElwxXWYf93DL5z9Y3HuGLbklViG4ph6vKTmNR/lRriN/6g0WQWV8rqhAGhVLtDhlZR
+	WMbht9EGGyD7PKXmIFUY4baOjvrmb7MeLjJg08c8iYvI03zMXAyQObG+9LfAMor2hMgH
+	k8CTtRT4x0JjUOtkO1eNJzeQmOjLCQ904erjnKzM3r8I2jL+wypzTwzbtIno8geU+yy8
+	r8Jz68/2TGfI5d5/BuQHrtIP1je1/1+8f7ZppfEWHkGkiyyKY34olBPO/wlPv78YrL3s
+	VPPADModpnKBJSFjyy8I0hcaI2QtLPizqojzx/QT/45LMypWiP54LD5IzBt13q59NtqA
+	K6LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=tu4lqNzyhF8X18xBUF0QhaxhyZ3FbHjJkfOHUi4+0UI=;
-	b=YGr7Y4dd97FouF4Zsew8+FZGjqGS/ThOQHCl2b6m8w4ec3inXQgO0oEeFS36CHbe3k
-	5gdDZtSgNT6yLfQd+mceGXBdJkPyeyHH5YyoSXGQ6s8MBlJyaiKljTo/7COqCTehNjum
-	7ntBbMac66xprvQauqrQoGK11EuU24g1tM11RUZq6HVfWnyFmlLN2gzfDrFhwu8sxLvN
-	8igdo84SuGqpv43yfAlz1Awr/FIolRT0qRp396DkB9fDSRq1oQtpMoE7p1i9DDK+J5eX
-	l2NjxLTjjdCZDdjhDDoQEF0TJT5NroZKDckw3+82FxQ5Vd4my+Rs4aQy5KBLt+H6OY4a
-	wq4g==
-X-Gm-Message-State: APjAAAUVlFpwxQhpBILVGtN+TA0n7nzcykY+Itj/puxyfIxmKGEM3zEZ
-	HdCvvPy6Ycx6R5Crprszsuywoe9MRMI=
-X-Google-Smtp-Source: APXvYqxTxjFAMMicS3Uihhm+LnRRF0Q49sT7Jos/EuiU7OfV5hrInWX9FNgKrBmfKsRTENvjELR7XA==
-X-Received: by 2002:ac8:36c7:: with SMTP id b7mr6183313qtc.275.1569022897514; 
-	Fri, 20 Sep 2019 16:41:37 -0700 (PDT)
-Received: from localhost ([181.220.83.67]) by smtp.gmail.com with ESMTPSA id
-	x55sm2133482qtj.69.2019.09.20.16.41.36
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=DyIFmOF+rRvFQh3n6rJbQ+qvmy0syTksGwKsMO/x6m0=;
+	b=hS6w0b7jop2Gr97gorYfTDii94HpSr62GxRyrqr/YmG/Z05ZPrX7cCHc6YXO2M5sdS
+	lWLj8PC3Y3uEJpvEjWRiQIOk6os7ahJCBXntQkvqiN7ruCfNq1MFUFVDe46cr8eiMEYd
+	G0HDTVM+eH1iNky/HbMyovgMQUQj53raUS7cD9VEq3eYpM5lk75FhwcMKu+LEBL2YJ8h
+	b6hx4HcQvkSXlGqzlsDJW6Db7jnRjXXP8G5C35XHHizOQvb1c2XPRxpg3BtaM2dsBrY6
+	B7c/A5w+RjquhL1ocGziW9f/Gfe8Oo8Lbu4o1KxK+U8mJwDgu4YrE3NVrImXx9tUFDtl
+	Lbpw==
+X-Gm-Message-State: APjAAAWS2Ty5BaRIvT98ZPITAwqydqZJXUrOlT6bnbAPN3Kn3a1qGuyp
+	rsnHSOhnLZVg/UyL1orAm3VmOUYUKd4=
+X-Google-Smtp-Source: APXvYqzwI+OAnQbOeZIMQ7uuup5HJR73WqBdBZF/RN2Zue0BbKyMg9BYpGmZBJePIlSsXsrF3treLw==
+X-Received: by 2002:a2e:2953:: with SMTP id u80mr16093139lje.233.1569194010362;
+	Sun, 22 Sep 2019 16:13:30 -0700 (PDT)
+Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se.
+	[213.89.0.115]) by smtp.gmail.com with ESMTPSA id
+	a23sm1829930lfl.66.2019.09.22.16.13.29
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 20 Sep 2019 16:41:36 -0700 (PDT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Sep 2019 20:41:32 -0300
-Message-Id: <20190920234133.558667-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] mesa: Upgrade 19.1.6 -> 19.1.7
+	Sun, 22 Sep 2019 16:13:29 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Sep 2019 01:13:17 +0200
+Message-Id: <20190922231317.27680-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ell: update to 0.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,44 +56,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2019 23:41:37 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 22 Sep 2019 23:13:30 -0000
 
-This is a stable bugfix release. Detailed release notes available at:
-https://www.mesa3d.org/relnotes/19.1.7.html
+Changelog:
+- Add support for checking if uintset is empty.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
+ meta/recipes-core/ell/{ell_0.22.bb => ell_0.23.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.22.bb => ell_0.23.bb} (83%)
 
- .../mesa/{mesa-gl_19.1.6.bb => mesa-gl_19.1.7.bb}             | 0
- meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_19.1.7.bb} | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_19.1.6.bb => mesa-gl_19.1.7.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_19.1.7.bb} (85%)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_19.1.7.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_19.1.7.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_19.1.6.bb b/meta/recipes-graphics/mesa/mesa_19.1.7.bb
-similarity index 85%
-rename from meta/recipes-graphics/mesa/mesa_19.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa_19.1.7.bb
-index 19221e9e25..d0518322ae 100644
---- a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
-+++ b/meta/recipes-graphics/mesa/mesa_19.1.7.bb
-@@ -6,8 +6,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
-            "
+diff --git a/meta/recipes-core/ell/ell_0.22.bb b/meta/recipes-core/ell/ell_0.23.bb
+similarity index 83%
+rename from meta/recipes-core/ell/ell_0.22.bb
+rename to meta/recipes-core/ell/ell_0.23.bb
+index b3942fc30e..f6e91ef6fd 100644
+--- a/meta/recipes-core/ell/ell_0.22.bb
++++ b/meta/recipes-core/ell/ell_0.23.bb
+@@ -14,8 +14,8 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
  
--SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
--SRC_URI[sha256sum] = "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
-+SRC_URI[md5sum] = "cd1345c9b0d5121b860a0bdb20abc347"
-+SRC_URI[sha256sum] = "e287920fdb38712a9fed448dc90b3ca95048c7face5db52e58361f8b6e0f3cd5"
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "a4e7d74404f11e71775b89f53a8f1c33"
+-SRC_URI[sha256sum] = "3c1d6d997e17dfcbe4ebcd1331d9a7be5c64f2f0a0813bc223790e570d8da2e3"
++SRC_URI[md5sum] = "be8214ff5b37012c4314343c8e6bcf15"
++SRC_URI[sha256sum] = "2efd9f7cdf57dedb9f1ba81bec534a3e0432476b1cb35ec0bc69973772a5f89b"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
 -- 
-2.23.0
+2.17.1
 
 
