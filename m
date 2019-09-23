@@ -1,49 +1,23 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EA417C131
+Return-Path: <Quanyang.Wang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B9BAC7CDAC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Sep 2019 23:13:30 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id b20so6456322ljj.5
+	Mon, 23 Sep 2019 02:26:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8N2Qri1006575
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Sep 2019 16:13:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=DyIFmOF+rRvFQh3n6rJbQ+qvmy0syTksGwKsMO/x6m0=;
-	b=ElwxXWYf93DL5z9Y3HuGLbklViG4ph6vKTmNR/lRriN/6g0WQWV8rqhAGhVLtDhlZR
-	WMbht9EGGyD7PKXmIFUY4baOjvrmb7MeLjJg08c8iYvI03zMXAyQObG+9LfAMor2hMgH
-	k8CTtRT4x0JjUOtkO1eNJzeQmOjLCQ904erjnKzM3r8I2jL+wypzTwzbtIno8geU+yy8
-	r8Jz68/2TGfI5d5/BuQHrtIP1je1/1+8f7ZppfEWHkGkiyyKY34olBPO/wlPv78YrL3s
-	VPPADModpnKBJSFjyy8I0hcaI2QtLPizqojzx/QT/45LMypWiP54LD5IzBt13q59NtqA
-	K6LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=DyIFmOF+rRvFQh3n6rJbQ+qvmy0syTksGwKsMO/x6m0=;
-	b=hS6w0b7jop2Gr97gorYfTDii94HpSr62GxRyrqr/YmG/Z05ZPrX7cCHc6YXO2M5sdS
-	lWLj8PC3Y3uEJpvEjWRiQIOk6os7ahJCBXntQkvqiN7ruCfNq1MFUFVDe46cr8eiMEYd
-	G0HDTVM+eH1iNky/HbMyovgMQUQj53raUS7cD9VEq3eYpM5lk75FhwcMKu+LEBL2YJ8h
-	b6hx4HcQvkSXlGqzlsDJW6Db7jnRjXXP8G5C35XHHizOQvb1c2XPRxpg3BtaM2dsBrY6
-	B7c/A5w+RjquhL1ocGziW9f/Gfe8Oo8Lbu4o1KxK+U8mJwDgu4YrE3NVrImXx9tUFDtl
-	Lbpw==
-X-Gm-Message-State: APjAAAWS2Ty5BaRIvT98ZPITAwqydqZJXUrOlT6bnbAPN3Kn3a1qGuyp
-	rsnHSOhnLZVg/UyL1orAm3VmOUYUKd4=
-X-Google-Smtp-Source: APXvYqzwI+OAnQbOeZIMQ7uuup5HJR73WqBdBZF/RN2Zue0BbKyMg9BYpGmZBJePIlSsXsrF3treLw==
-X-Received: by 2002:a2e:2953:: with SMTP id u80mr16093139lje.233.1569194010362;
-	Sun, 22 Sep 2019 16:13:30 -0700 (PDT)
-Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se.
-	[213.89.0.115]) by smtp.gmail.com with ESMTPSA id
-	a23sm1829930lfl.66.2019.09.22.16.13.29
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 22 Sep 2019 16:13:29 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2019 01:13:17 +0200
-Message-Id: <20190922231317.27680-1-open.source@oleksandr-kravchuk.com>
+	Sun, 22 Sep 2019 19:26:53 -0700 (PDT)
+Received: from pek-qwang2-d1.wrs.com (128.224.162.137) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Sun, 22 Sep 2019 19:26:53 -0700
+From: <quanyang.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Sep 2019 10:26:52 +0800
+Message-ID: <20190923022652.25379-1-quanyang.wang@windriver.com>
 X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] ell: update to 0.23
+MIME-Version: 1.0
+Subject: [PATCH v2] kexec-tools: fix arm kexec failure for __NR_kexec_file_load
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +30,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Sep 2019 23:13:30 -0000
+X-List-Received-Date: Mon, 23 Sep 2019 02:26:52 -0000
+Content-Type: text/plain
 
-Changelog:
-- Add support for checking if uintset is empty.
+From: Wang Quanyang <quanyang.wang@windriver.com>
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Once use kexec in arm arch, it will throw out the error info as below:
+
+Could not find a free area of memory of 0xc78e744 bytes... 
+
+This is because that kexec use kexec_file_load to load image by default
+but arm doesn't support it. So add this patch to avoid use kexec_file_load
+in arm platforms.
+
+Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
 ---
- meta/recipes-core/ell/{ell_0.22.bb => ell_0.23.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/ell/{ell_0.22.bb => ell_0.23.bb} (83%)
+ ...ndefine-__NR_kexec_file_load-for-arm.patch | 39 +++++++++++++++++++
+ .../kexec/kexec-tools_2.0.19.bb               |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch
 
-diff --git a/meta/recipes-core/ell/ell_0.22.bb b/meta/recipes-core/ell/ell_0.23.bb
-similarity index 83%
-rename from meta/recipes-core/ell/ell_0.22.bb
-rename to meta/recipes-core/ell/ell_0.23.bb
-index b3942fc30e..f6e91ef6fd 100644
---- a/meta/recipes-core/ell/ell_0.22.bb
-+++ b/meta/recipes-core/ell/ell_0.23.bb
-@@ -14,8 +14,8 @@ DEPENDS = "dbus"
- inherit autotools pkgconfig
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch b/meta/recipes-kernel/kexec/kexec-tools/0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch
+new file mode 100644
+index 0000000000..1b11363191
+--- /dev/null
++++ b/meta/recipes-kernel/kexec/kexec-tools/0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch
+@@ -0,0 +1,40 @@
++From b54816eff272324320c490d62dc36b27d2838732 Mon Sep 17 00:00:00 2001
++From: Quanyang Wang <quanyang.wang@windriver.com>
++Date: Mon, 16 Sep 2019 10:49:05 +0800
++Subject: [PATCH] kexec/arm: undefine __NR_kexec_file_load for arm
++
++In the kernel upstream commit 4ab65ba7a5cb
++("ARM: add kexec_file_load system call number"),
++__NR_kexec_file_load for arm has been defined to be 401.
++This results that even if kexec_file_load isn't implemented
++for arm but the function is_kexec_file_load_implemented()
++will still return true. So undef __NR_kexec_file_load for
++arm architecture.
++
++Upstream-Status: Backport
++[https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git/commit/kexec/kexec-syscall.h?id=b54816eff272324320c490d62dc36b27d2838732]
++
++Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
++Signed-off-by: Simon Horman <horms@verge.net.au>
++---
++ kexec/kexec-syscall.h | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/kexec/kexec-syscall.h b/kexec/kexec-syscall.h
++index dac1c1f..92d51d3 100644
++--- a/kexec/kexec-syscall.h
+++++ b/kexec/kexec-syscall.h
++@@ -56,6 +56,10 @@
++ #endif
++ #endif /*ifndef __NR_kexec_load*/
++ 
+++#ifdef __arm__
+++#undef __NR_kexec_file_load
+++#endif
+++
++ #ifndef __NR_kexec_file_load
++ 
++ #ifdef __x86_64__
++-- 
++2.17.1
++
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+index 3439899070..c3f74359f1 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
+     file://0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
+     file://0004-x86_64-Add-support-to-build-kexec-tools-with-x32-ABI.patch \
+     file://0005-Disable-PIE-during-link.patch \
++    file://0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch \
+ "
  
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "a4e7d74404f11e71775b89f53a8f1c33"
--SRC_URI[sha256sum] = "3c1d6d997e17dfcbe4ebcd1331d9a7be5c64f2f0a0813bc223790e570d8da2e3"
-+SRC_URI[md5sum] = "be8214ff5b37012c4314343c8e6bcf15"
-+SRC_URI[sha256sum] = "2efd9f7cdf57dedb9f1ba81bec534a3e0432476b1cb35ec0bc69973772a5f89b"
- 
- do_configure_prepend () {
-     mkdir -p ${S}/build-aux
+ SRC_URI[md5sum] = "052458f0a35c2a3b0d2302caa3318e9f"
 -- 
-2.17.1
+2.22.0
 
 
