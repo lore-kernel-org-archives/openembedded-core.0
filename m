@@ -1,54 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D75E7DE5A
+Return-Path: <shuagr97@gmail.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E5CA7DE5A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 21:23:25 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id h7so15543444wrw.8
+	Mon, 23 Sep 2019 21:26:28 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id h195so9941377pfe.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 14:23:26 -0700 (PDT)
+	Mon, 23 Sep 2019 14:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=35ergjjmvCQzHL04+I8VN6UkPDrPB4MyxebjsRytz64=;
-	b=QW4P015Wup6TuoJEDjhGx0UMhuhSxv731otxzH6MU7V5XcXZ83uFQcKe5E1zycmikf
-	OHwwX0ZEL6L669ER7/RhcnwuUlio0Vf74/lI+CayNZ/Dbrdta4dU+SdALpzLLmCuTtA2
-	mzQXMKt30TUkXnHAWXmBLENIr37sbKPV2KEKzYUbehgHjSd3J2a+rkj4W1bP+KqFYji/
-	S3/yoYfpGGSgXn+kBUu6HFmGkg0JIW52g5t9bntVBnxU65/OONyIIbGRMvxCJ7VhvQne
-	gm1BP7tr0ZN+HUuGfxzYNHf3Ra2gC9sfGhptexqCF+mg4mmC47nz8G+It5kFotE/FaCg
-	SFHA==
+	h=from:to:cc:subject:date:message-id:reply-to;
+	bh=wSj+UCPBQ3B/45dF5XQeiAYIBuzKK47AlrcqVg+V4uk=;
+	b=tLBiDE1Jh29PzLdV6eG0S67pM2Rc5akyYzK/gJ1fg1nQDs1U0OhPEgO6DrPRbGxPa6
+	yxOsKT92SU/hjNMSUNm4P/kXBsiuP8t0Vw9uS4H8yqEIeLfAXD8aiMehhc8ArO8ewbLX
+	AFq5qKCIFT2q+sifvd+9K68UCYcKkdHBCVFg/Ix1DVILleg596j460VnbSn77WVRarpu
+	+zRX9/3PWvFxcLmYMQDeWSGl/1/SlrKVfIAdQcozDQCqT0TFikPVmVn7klmNod88woCX
+	qk9UlX9BVweA/FH2Eq9DOL6mr7MxxYPOKeyj/+ITypYuj1kxy9isnGRRdALBvSlesFe1
+	Z3tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=35ergjjmvCQzHL04+I8VN6UkPDrPB4MyxebjsRytz64=;
-	b=lJiZHPD9/twYqVrhvQk++IyiUhfAAYA/cU5KA5Q+WT0Dpc1PLshgXdwqGW/Nkv2+nv
-	cFyhsmAiNjDLM9aXL7XavKevsJbyQ+xPqVsUTy4yrMcFfSQyLINZdh14AJmO78DtluDE
-	N00W2eXY9F/r769c1huBdWND0o8y9N+c9Vg/e9yuSgxXcJ70gU7cMwzS6OdswdFxsa5g
-	ycWH6bEdnJnlyQslGgGdKahHYxDH1t/hL2WE6QqkpXjO0ztRjsao9lKmae/tQA2mMIJN
-	ucyhoqXUpYrdy3Q35ZysQKMsVGmBFtvr4L2w/hodIJpfrnhtghMmcR6+63oEHizDXwFd
-	6Juw==
-X-Gm-Message-State: APjAAAW+aprmIwNfGPKOehANrNkhdyFyo9s2C099BvAzeeAUh/ofzNZq
-	R+YlPGTYZ8gWCgBA96eombU=
-X-Google-Smtp-Source: APXvYqwuffrFjpsn8N2steqtcTmjHygBBJeFK88gZx5t28rDYyMSYK375pxNqNQFVj3ZSXBjnw6FUg==
-X-Received: by 2002:a5d:678d:: with SMTP id v13mr948147wru.133.1569273806018; 
-	Mon, 23 Sep 2019 14:23:26 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	e17sm9646902wma.15.2019.09.23.14.23.24
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 23 Sep 2019 14:23:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 23 Sep 2019 23:23:27 +0200
-To: shuagr@microsoft.com
-Message-ID: <20190923212327.GA1808@jama>
-References: <1569273251-128066-1-git-send-email-shuagr@microsoft.com>
-MIME-Version: 1.0
-In-Reply-To: <1569273251-128066-1-git-send-email-shuagr@microsoft.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IFvigJ1PRS1jb3JlXVt0aHVkXVtQQVRDSOKAnV0gZWxmdXRpbHM6IENWRSBmaXggZm9yIGVsZnV0aWxz?=
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+	bh=wSj+UCPBQ3B/45dF5XQeiAYIBuzKK47AlrcqVg+V4uk=;
+	b=hHN5WRIz3vk0AzvFshfGH7KT8rDMONx3aVEO33tfg0nBkQrxx8ixSnsWhDtjLmKlH8
+	LS7qAp8ayeTmiIlOwaRpLc8JIDXJTfCbPWsQrj2rdKFCzyghkLtAboB1/8ge3o34oIu/
+	na40fOk2bHMKWAa9jyFSke5x+4WhPmxCFe33RLc2LqV9V20g0pnY1gmc/yZ4uNJsXBQj
+	Rz8Hef3u1rzD8h1RkDfzSoU54QilqPmESvfOV8AIakdoCiav1PShXfAl/WlEPuu7C597
+	Mmt4T+8RKWPq9BkTYZxFBaOL7UtwewuhJacby1qFGpuAOrcrLF8OzDIlKux3fIjWQ+pa
+	wFEQ==
+X-Gm-Message-State: APjAAAVoznKFT7JEKUqTCYEdthSRVQTqVBmwvUR4YzMPmdFs5JkomGH8
+	RHpugFG2entMzsGzNJcY4ic6cQSn
+X-Google-Smtp-Source: APXvYqwStvoiSgUKXe5Wb4vPptLJYsggci6cHLC9k1IUHhhylroWHcz7wUhc70H5RPZQ4HoLpKoz/Q==
+X-Received: by 2002:a17:90a:1990:: with SMTP id
+	16mr1610310pji.47.1569273989240; 
+	Mon, 23 Sep 2019 14:26:29 -0700 (PDT)
+Received: from
+	shuagr-yocto-build.mdn4q2lr1oauhmizmzsslly3ad.xx.internal.cloudapp.net
+	([51.143.9.113]) by smtp.gmail.com with ESMTPSA id
+	z6sm10801195pgk.18.2019.09.23.14.26.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 23 Sep 2019 14:26:28 -0700 (PDT)
+From: shuagr97@gmail.com
+X-Google-Original-From: shuagr@microsoft.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Sep 2019 21:26:16 +0000
+Message-Id: <1569273976-50712-1-git-send-email-shuagr@microsoft.com>
+X-Mailer: git-send-email 2.7.4
+Reply-To: shuagr@microsoft.com
+Subject: [thud][PATCH] elfutils: CVE fix for elfutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,72 +58,267 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2019 21:23:25 -0000
-X-Groupsio-MsgNum: 129317
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ReaqsoxgOBHFXBhH"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 23 Sep 2019 21:26:28 -0000
 
---ReaqsoxgOBHFXBhH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Shubham Agrawal <shuagr@microsoft.com>
 
-On Mon, Sep 23, 2019 at 09:14:11PM +0000, shuagr97@gmail.com wrote:
-> From: Shubham Agrawal <shuagr@microsoft.com>
+CVE: CVE-2019-7664.patch
+CVE: CVE-2019-7665.patch
 
-Drop the quotes in the e-mail subject.
+Sign off: Shubham Agrawal <shuagr@microsoft.com>
+---
+ meta/recipes-devtools/elfutils/elfutils_0.175.bb   |   2 +
+ .../elfutils/files/CVE-2019-7664.patch             |  65 +++++++++
+ .../elfutils/files/CVE-2019-7665.patch             | 154 +++++++++++++++++++++
+ 3 files changed, 221 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7664.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7665.patch
 
->=20
-> CVE: CVE-2019-7664.patch
-> CVE: CVE-2019-7665.patch
->=20
-> Sign off: Shubham Agrawal <shuagr@microsoft.com>
-> ---
->  meta/recipes-devtools/elfutils/elfutils_0.175.bb   |   2 +
->  .../elfutils/files/CVE-2019-7664.patch             |  65 +++++++++
->  .../elfutils/files/CVE-2019-7665.patch             | 154 +++++++++++++++=
-++++++
->  3 files changed, 221 insertions(+)
->  create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7664.pa=
-tch
->  create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7665.pa=
-tch
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.175.bb b/meta/recipes-devtools/elfutils/elfutils_0.175.bb
+index e94a48e..862a9b6 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.175.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.175.bb
+@@ -31,6 +31,8 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://CVE-2019-7150.patch \
+            file://CVE-2019-7146_p1.patch \
+            file://CVE-2019-7146_p2.patch \
++           file://CVE-2019-7664.patch \
++           file://CVE-2019-7665.patch \
+            "
+ SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch"
+ 
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2019-7664.patch b/meta/recipes-devtools/elfutils/files/CVE-2019-7664.patch
+new file mode 100644
+index 0000000..e55dc5a
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/CVE-2019-7664.patch
+@@ -0,0 +1,65 @@
++From 3ed05376e7b2c96c1d6eb24d2842cc25b79a4f07 Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Wed, 16 Jan 2019 12:25:57 +0100
++Subject: [PATCH] CVE: CVE-2019-7664
++
++Upstream-Status: Backport
++libelf: Correct overflow check in note_xlate.
++
++We want to make sure the note_len doesn't overflow and becomes shorter
++than the note header. But the namesz and descsz checks got the note header
++size wrong). Replace the wrong constant (8) with a sizeof cvt_Nhdr (12).
++
++https://sourceware.org/bugzilla/show_bug.cgi?id=24084
++
++Signed-off-by: Mark Wielaard <mark@klomp.org>
++Signed-off-by: Ubuntu <lisa@shuagr-yocto-build.mdn4q2lr1oauhmizmzsslly3ad.xx.internal.cloudapp.net>
++---
++ libelf/ChangeLog    | 13 +++++++++++++
++ libelf/note_xlate.h |  4 ++--
++ 2 files changed, 15 insertions(+), 2 deletions(-)
++
++diff --git a/libelf/ChangeLog b/libelf/ChangeLog
++index 68c4fbd..892e6e7 100644
++--- a/libelf/ChangeLog
+++++ b/libelf/ChangeLog
++@@ -1,3 +1,16 @@
+++<<<<<<< HEAD
+++=======
+++2019-01-16  Mark Wielaard  <mark@klomp.org>
+++
+++	* note_xlate.h (elf_cvt_note): Check n_namesz and n_descsz don't
+++	overflow note_len into note header.
+++
+++2018-11-17  Mark Wielaard  <mark@klomp.org>
+++
+++	* elf32_updatefile.c (updatemmap): Make sure to call convert
+++	function on a properly aligned destination.
+++
+++>>>>>>> e65d91d... libelf: Correct overflow check in note_xlate.
++ 2018-11-16  Mark Wielaard  <mark@klomp.org>
++ 
++ 	* libebl.h (__elf32_msize): Mark with const attribute.
++diff --git a/libelf/note_xlate.h b/libelf/note_xlate.h
++index 9bdc3e2..bc9950f 100644
++--- a/libelf/note_xlate.h
+++++ b/libelf/note_xlate.h
++@@ -46,13 +46,13 @@ elf_cvt_note (void *dest, const void *src, size_t len, int encode,
++       /* desc needs to be aligned.  */
++       note_len += n->n_namesz;
++       note_len = nhdr8 ? NOTE_ALIGN8 (note_len) : NOTE_ALIGN4 (note_len);
++-      if (note_len > len || note_len < 8)
+++      if (note_len > len || note_len < sizeof *n)
++ 	break;
++ 
++       /* data as a whole needs to be aligned.  */
++       note_len += n->n_descsz;
++       note_len = nhdr8 ? NOTE_ALIGN8 (note_len) : NOTE_ALIGN4 (note_len);
++-      if (note_len > len || note_len < 8)
+++      if (note_len > len || note_len < sizeof *n)
++ 	break;
++ 
++       /* Copy or skip the note data.  */
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2019-7665.patch b/meta/recipes-devtools/elfutils/files/CVE-2019-7665.patch
+new file mode 100644
+index 0000000..a1bb309
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/CVE-2019-7665.patch
+@@ -0,0 +1,154 @@
++From 4323d46c4a369b614aa1f574805860b3434552df Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Wed, 16 Jan 2019 15:41:31 +0100
++Subject: [PATCH] CVE: CVE-2019-7665
++
++Upstream-Status: Backport
++
++Sign off: Shubham Agrawal <shuagr@microsoft.com>
++
++libebl: Check NT_PLATFORM core notes contain a zero terminated string.
++
++Most strings in core notes are fixed size. But NT_PLATFORM contains just
++a variable length string. Check that it is actually zero terminated
++before passing to readelf to print.
++
++https://sourceware.org/bugzilla/show_bug.cgi?id=24089
++
++Signed-off-by: Mark Wielaard <mark@klomp.org>
++Signed-off-by: Ubuntu <lisa@shuagr-yocto-build.mdn4q2lr1oauhmizmzsslly3ad.xx.internal.cloudapp.net>
++---
++ libdwfl/linux-core-attach.c |  9 +++++----
++ libebl/eblcorenote.c        | 39 +++++++++++++++++++--------------------
++ libebl/libebl.h             |  3 ++-
++ src/readelf.c               |  2 +-
++ 4 files changed, 27 insertions(+), 26 deletions(-)
++
++diff --git a/libdwfl/linux-core-attach.c b/libdwfl/linux-core-attach.c
++index 6c99b9e..c0f1b0d 100644
++--- a/libdwfl/linux-core-attach.c
+++++ b/libdwfl/linux-core-attach.c
++@@ -137,7 +137,7 @@ core_next_thread (Dwfl *dwfl __attribute__ ((unused)), void *dwfl_arg,
++       const Ebl_Register_Location *reglocs;
++       size_t nitems;
++       const Ebl_Core_Item *items;
++-      if (! ebl_core_note (core_arg->ebl, &nhdr, name,
+++      if (! ebl_core_note (core_arg->ebl, &nhdr, name, desc,
++ 			   &regs_offset, &nregloc, &reglocs, &nitems, &items))
++ 	{
++ 	  /* This note may be just not recognized, skip it.  */
++@@ -191,8 +191,9 @@ core_set_initial_registers (Dwfl_Thread *thread, void *thread_arg_voidp)
++   const Ebl_Register_Location *reglocs;
++   size_t nitems;
++   const Ebl_Core_Item *items;
++-  int core_note_err = ebl_core_note (core_arg->ebl, &nhdr, name, &regs_offset,
++-				     &nregloc, &reglocs, &nitems, &items);
+++  int core_note_err = ebl_core_note (core_arg->ebl, &nhdr, name, desc,
+++				     &regs_offset, &nregloc, &reglocs,
+++				     &nitems, &items);
++   /* __libdwfl_attach_state_for_core already verified the note is there.  */
++   assert (core_note_err != 0);
++   assert (nhdr.n_type == NT_PRSTATUS);
++@@ -383,7 +384,7 @@ dwfl_core_file_attach (Dwfl *dwfl, Elf *core)
++       const Ebl_Register_Location *reglocs;
++       size_t nitems;
++       const Ebl_Core_Item *items;
++-      if (! ebl_core_note (ebl, &nhdr, name,
+++      if (! ebl_core_note (ebl, &nhdr, name, desc,
++ 			   &regs_offset, &nregloc, &reglocs, &nitems, &items))
++ 	{
++ 	  /* This note may be just not recognized, skip it.  */
++diff --git a/libebl/eblcorenote.c b/libebl/eblcorenote.c
++index 783f981..7fab397 100644
++--- a/libebl/eblcorenote.c
+++++ b/libebl/eblcorenote.c
++@@ -36,11 +36,13 @@
++ #include <inttypes.h>
++ #include <stdio.h>
++ #include <stddef.h>
+++#include <string.h>
++ #include <libeblP.h>
++ 
++ 
++ int
++ ebl_core_note (Ebl *ebl, const GElf_Nhdr *nhdr, const char *name,
+++	       const char *desc,
++ 	       GElf_Word *regs_offset, size_t *nregloc,
++ 	       const Ebl_Register_Location **reglocs, size_t *nitems,
++ 	       const Ebl_Core_Item **items)
++@@ -51,28 +53,25 @@ ebl_core_note (Ebl *ebl, const GElf_Nhdr *nhdr, const char *name,
++     {
++       /* The machine specific function did not know this type.  */
++ 
++-      *regs_offset = 0;
++-      *nregloc = 0;
++-      *reglocs = NULL;
++-      switch (nhdr->n_type)
+++      /* NT_PLATFORM is kind of special since it needs a zero terminated
+++         string (other notes often have a fixed size string).  */
+++      static const Ebl_Core_Item platform[] =
++ 	{
++-#define ITEMS(type, table)				\
++-	  case type:					\
++-	    *items = table;				\
++-	    *nitems = sizeof table / sizeof table[0];	\
++-	    result = 1;					\
++-	    break
+++	  {
+++	    .name = "Platform",
+++	    .type = ELF_T_BYTE, .count = 0, .format = 's'
+++	  }
+++	};
++ 
++-	  static const Ebl_Core_Item platform[] =
++-	    {
++-	      {
++-		.name = "Platform",
++-		.type = ELF_T_BYTE, .count = 0, .format = 's'
++-	      }
++-	    };
++-	  ITEMS (NT_PLATFORM, platform);
++-
++-#undef	ITEMS
+++      if (nhdr->n_type == NT_PLATFORM
+++	  && memchr (desc, '\0', nhdr->n_descsz) != NULL)
+++        {
+++	  *regs_offset = 0;
+++	  *nregloc = 0;
+++	  *reglocs = NULL;
+++	  *items = platform;
+++	  *nitems = 1;
+++	  result = 1;
++ 	}
++     }
++ 
++diff --git a/libebl/libebl.h b/libebl/libebl.h
++index ca9b9fe..24922eb 100644
++--- a/libebl/libebl.h
+++++ b/libebl/libebl.h
++@@ -319,7 +319,8 @@ typedef struct
++ 
++ /* Describe the format of a core file note with the given header and NAME.
++    NAME is not guaranteed terminated, it's NHDR->n_namesz raw bytes.  */
++-extern int ebl_core_note (Ebl *ebl, const GElf_Nhdr *nhdr, const char *name,
+++extern int ebl_core_note (Ebl *ebl, const GElf_Nhdr *nhdr,
+++			  const char *name, const char *desc,
++ 			  GElf_Word *regs_offset, size_t *nregloc,
++ 			  const Ebl_Register_Location **reglocs,
++ 			  size_t *nitems, const Ebl_Core_Item **items)
++diff --git a/src/readelf.c b/src/readelf.c
++index 3a73710..71651e0 100644
++--- a/src/readelf.c
+++++ b/src/readelf.c
++@@ -12153,7 +12153,7 @@ handle_core_note (Ebl *ebl, const GElf_Nhdr *nhdr,
++   size_t nitems;
++   const Ebl_Core_Item *items;
++ 
++-  if (! ebl_core_note (ebl, nhdr, name,
+++  if (! ebl_core_note (ebl, nhdr, name, desc,
++ 		       &regs_offset, &nregloc, &reglocs, &nitems, &items))
++     return;
++ 
++-- 
++2.7.4
++
+-- 
+2.7.4
 
-=2E...
 
-> +diff --git a/libelf/ChangeLog b/libelf/ChangeLog
-> +index 68c4fbd..892e6e7 100644
-> +--- a/libelf/ChangeLog
-> ++++ b/libelf/ChangeLog
-> +@@ -1,3 +1,16 @@
-> ++<<<<<<< HEAD
-> ++=3D=3D=3D=3D=3D=3D=3D
-> ++2019-01-16  Mark Wielaard  <mark@klomp.org>
-> ++
-> ++	* note_xlate.h (elf_cvt_note): Check n_namesz and n_descsz don't
-> ++	overflow note_len into note header.
-> ++
-> ++2018-11-17  Mark Wielaard  <mark@klomp.org>
-> ++
-> ++	* elf32_updatefile.c (updatemmap): Make sure to call convert
-> ++	function on a properly aligned destination.
-> ++
-> ++>>>>>>> e65d91d... libelf: Correct overflow check in note_xlate.
-
-You should resolve these conflicts (or drop the ChangeLog updates
-completely from the backports as they will conflict with any other
-backport as well.
-
---ReaqsoxgOBHFXBhH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXYk3zgAKCRA3VSO3ZXaA
-HPaOAJ9qAe9QQUxvU3QaNmwIrIO+pRNfXACgpbKKRKGEicMF5WVltaLskuNT+Ik=
-=yQrP
------END PGP SIGNATURE-----
-
---ReaqsoxgOBHFXBhH--
