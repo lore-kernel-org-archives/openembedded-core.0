@@ -1,53 +1,54 @@
 Return-Path: <shuagr97@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E8CD7CF1B
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D70F77DE8F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 21:12:53 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id c17so8711614pgg.4
+	Mon, 23 Sep 2019 21:14:16 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id y72so9889619pfb.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 14:12:54 -0700 (PDT)
+	Mon, 23 Sep 2019 14:14:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version:reply-to
 	:content-transfer-encoding;
 	bh=wSj+UCPBQ3B/45dF5XQeiAYIBuzKK47AlrcqVg+V4uk=;
-	b=HX1BZRTxrWp70xmX+opbksMJmYs5Y+s/TtoC1w/7AQ9Whqk0lfUj5WVXY77uxDMNc/
-	iUR+vhwFu+sL9Bu8sXv/GYWpGKu2X0mJb6uuBw57woJsU2xEyKC0ohsj/9/SlCOlSpQk
-	98oWrgS9eRAbeDOA1JsH2QE3832LtBzFAbuLqk2uetgtA2aDywsQi47yIDmnbsWqddF4
-	xlfMrfVsV1olT/cKf1Pql/eNXN7ygVrYnD77BpK7LLqXXh3sjHUBw9/qtTjyJCF1hgLO
-	SkX1Pg7bpGrVObNEssQcXw4Yaqt/v4PfMYi5F/GP80tDm5AkCKPsywRq5wuvPpze5aRG
-	YQfw==
+	b=iUKLgbXkSb2iuqMkar+YGxKYb1zYMksBJp3nLrYVPTpYVNK0RvsZz+AQtQHNbQ63+q
+	nwrc3U+uLPPK5AdFAsesHg1U7BlGLSxne+GBaimdPALccg5RMrGswwD9GzMcgIV8Cjxx
+	3Tlmx01A1mR2vRwmuXKLkO0CqShU+0Ld/ez66BKfCgNK84S/CrT/nIpnFn67eMl/qYge
+	dtoqbcMiBFk3OrmgX5k27m2JShagLR3RhYfd82GNHyL/5f4ceRtaX/Kxfzw7fU28ALKl
+	SXnLeddxwsIj6kxbFNOO0GreA7/69LRhKVbVSdmtdbBgLh0wwaksnQXxu6UvBlS/p/uc
+	bQdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:reply-to:content-transfer-encoding;
 	bh=wSj+UCPBQ3B/45dF5XQeiAYIBuzKK47AlrcqVg+V4uk=;
-	b=H3yp4TJeob5jeAh7vWwYb0dMZbUKDp0so8PnwG3K1ayOQoh2hNvZ4om/xfneXYqE+U
-	gw2OavcM4SkWOO3t1dyt7IT3kdf73YEibfqqgYlYiFFL61fjLuE7m2RYXUqI6j7jUIzE
-	J/oJFj6h8Y9WmpyRggHuzIbys/dmujEFuZrNjxAmUOhRYQ44vEJELr+oTje/mxaFNyqI
-	uGqD2Do1Qrf53Pb4YZHOnsJl3eRI++DahSLyt36k8TjTuI0R+AsSnnriy6o6x2LjUSCA
-	Wuq8lxi9alHzFsuCDahDnQyIToejhDg6n1u+8TuA/66f1k6yK8B+mNcoBjIRMHDC0GOx
-	Dosg==
-X-Gm-Message-State: APjAAAX75XEG0H3W3rg/eqnvuopW6m7OR+fzeJ6WqURNCz/oVsmVmyb1
-	oCigYe8w02o4CLXT7MkdRmj33oW0
-X-Google-Smtp-Source: APXvYqx1K6QuUIet/SF6QrF2wyBzcWf3bsBItx6E1onkBWdKuOOuE2RIKjwNfZlyKUAW/UJkWfuyZA==
-X-Received: by 2002:a62:f249:: with SMTP id y9mr1725365pfl.147.1569273174137; 
-	Mon, 23 Sep 2019 14:12:54 -0700 (PDT)
+	b=Csd81ZicCY3ihDWdcWExBG+aM7g3sPjfqEd4/CeQsNB23dGJoy/DcYeS5P32QB0bwG
+	aRG6FPCjOA+4MphHTomaVntloGYuDbdkvSut7/4nALeVrNfZhPZf7yQ/nyUEAP2THJdj
+	CYz0gs8CbRJfuVEbv1Ud8OMbnwWDC/1j7Oaq7UgCL8d3XBIuzCEOj4T9lZpm2oX+yCHq
+	Qiai3WnoGFMLqFPBz4pw2wdvas00uYtCTz6jIP9t27TtDIEYb5vBlAJIgT9hGlyHIZck
+	CcPer+c9vGx2yx4ZCVcilsXwWdtII18eAAhA3Xy9B1M+ksWqHiaHqMchwADDBRyhSPxE
+	sf2g==
+X-Gm-Message-State: APjAAAW6A0CaZKwb9d1gQ4j6peCy9vqBly40qRCvPDRX3bF5jl8gal41
+	xro/MwDTmsztIiNmJu/sr+LwFSpw
+X-Google-Smtp-Source: APXvYqzx8RDFVb8l6JbANwJHu+Pfg+q4/rpDt4xUi+ZHn9Wb5G/kfkET5p4GL2JAY9z/wSM/DgxRbQ==
+X-Received: by 2002:a17:90a:ba93:: with SMTP id
+	t19mr1451297pjr.141.1569273257630; 
+	Mon, 23 Sep 2019 14:14:17 -0700 (PDT)
 Received: from
 	shuagr-yocto-build.mdn4q2lr1oauhmizmzsslly3ad.xx.internal.cloudapp.net
 	([51.143.9.113]) by smtp.gmail.com with ESMTPSA id
-	129sm14083783pfd.173.2019.09.23.14.12.53
+	e9sm11158643pgs.86.2019.09.23.14.14.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Sep 2019 14:12:53 -0700 (PDT)
+	Mon, 23 Sep 2019 14:14:17 -0700 (PDT)
 From: shuagr97@gmail.com
 X-Google-Original-From: shuagr@microsoft.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2019 21:12:41 +0000
-Message-Id: <1569273161-117523-1-git-send-email-shuagr@microsoft.com>
+Date: Mon, 23 Sep 2019 21:14:11 +0000
+Message-Id: <1569273251-128066-1-git-send-email-shuagr@microsoft.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 Reply-To: shuagr@microsoft.com
-Subject: =?UTF-8?B?W+KAnU9FLWNvcmVdW3RodWRdW1BBVENI4oCdXSBlbGZ1aXRsczogQ1ZFIGZpeCBmb3IgZWxmdXRpbHM=?=
+Subject: =?UTF-8?B?W+KAnU9FLWNvcmVdW3RodWRdW1BBVENI4oCdXSBlbGZ1dGlsczogQ1ZFIGZpeCBmb3IgZWxmdXRpbHM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,7 +61,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2019 21:12:53 -0000
+X-List-Received-Date: Mon, 23 Sep 2019 21:14:17 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
