@@ -1,23 +1,46 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D7D37DE37
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+	[209.85.166.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 109597DE38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 18:01:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8NI1A4J028437
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 23 Sep 2019 18:06:21 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id z19so13552128ior.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 11:01:10 -0700 (PDT)
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 23 Sep 2019 11:01:09 -0700
-From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Sep 2019 14:01:09 -0400
-Message-ID: <20190923180109.15157-1-Trevor.Gamblin@windriver.com>
-X-Mailer: git-send-email 2.21.0
+	Mon, 23 Sep 2019 11:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=qnc2fMX0wSMXo+z6TM2s+R3mjdHlsQUEqvqUhsg5yp0=;
+	b=G8coXzRUGnLm/7JWkQfnoS4U1LBFUGJnfAqcZl0jJdRpBave4xHpKi9Q8wjfdpbR2U
+	6ZZwxyStNoR/SlV/NRH0Xg3pYDWAn9HBALU+4Oc1GuTN1uYyKz4dv58XZhlgVRdjQCkK
+	xlkCEBej1gJQt1ia2AQl9p+kzf45bGLfZcQu3OS8eFtBL4ZE+rIiYrlMIiKr0Hhaljde
+	MoGBp6GiG7WGsfrf+flrT1q50ydqDf+MrSl73OdAqBBLgcJD/ehTN9df8AR0yVlXmOLU
+	pHVkZcmcr6tGKeAWd6JYZ368mj4XQTDlgLXN97prTv8z+zTDgn3DbK60uTdoPjy/DGhY
+	HD+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=qnc2fMX0wSMXo+z6TM2s+R3mjdHlsQUEqvqUhsg5yp0=;
+	b=bGurWRaL6B4f+yXQ4RNlVQPuyUeVTsyV9akYHkx0/B+3CZWRfOjNyygI5c4G/jiEen
+	fD7L/dr+A9E4jHFtLu7WwOuZWfZm71Ej0XzVJyTY4n2WHlMEs8FyP2cZK3P+4MVtIfnF
+	ibMyI+2E7QhYIZK8Bfqy7YdjV6V1jIWVaIDACuaVJnhI0EhsGC1D+s4PJJ3Qjih8leBx
+	Cag+gFUYkSMBkM3OO/BO+VTF00PaOJSD7+oa1vVI56AviCvm2IjNg55GYzTRYNBKFkTo
+	V3/3MSOSV/Wdncpwwv/Df9YZ2yoNQR0fS+91SgOZseeILbDY37FmBxm3Y32+c53kCOiy
+	j4tA==
+X-Gm-Message-State: APjAAAVapkvQxNfNnP7rPxMDV5WOGmfFqgPQ9b3Zf1VVzriFk0rX9JDM
+	i8Kfe+6PXEqldSsdvs2pyn0m4EGrFv6CfvTt6qA=
+X-Google-Smtp-Source: APXvYqzxz8BMKJmhcq58YORhXV/BguFAgyGyQLVrjRMykZXJO6miwZiPTsT0jMf8VidQWsB1VLk8AGkGVvlUGxvcdOk=
+X-Received: by 2002:a6b:d307:: with SMTP id s7mr659052iob.39.1569261982917;
+	Mon, 23 Sep 2019 11:06:22 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] lighttpd: remove fam as a PACKAGECONFIG option
+References: <20190923155238.31958-1-Trevor.Gamblin@windriver.com>
+In-Reply-To: <20190923155238.31958-1-Trevor.Gamblin@windriver.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Mon, 23 Sep 2019 11:06:12 -0700
+Message-ID: <CANx9H-A2D-sAhKW7YaXnG0E1wg5odcOWubA=BbqwK85XD6nC7A@mail.gmail.com>
+To: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python3-subunit: ensure runtime dependencies are present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,49 +53,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2019 18:01:09 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Mon, 23 Sep 2019 18:06:22 -0000
+Content-Type: multipart/alternative; boundary="0000000000000d2a6805933c4736"
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+--0000000000000d2a6805933c4736
+Content-Type: text/plain; charset="UTF-8"
 
-lighttpd builds fail if "fam" (and therefore gamin) is enabled.
+On Mon, Sep 23, 2019 at 8:53 AM Trevor Gamblin <Trevor.Gamblin@windriver.com>
+wrote:
 
-In conf/local.conf:
+> From: Trevor Gamblin <trevor.gamblin@windriver.com>
+>
+> Without access to unittest, subunit cannot be imported in python3:
+>
+>     root@qemux86-64:~# python3
+>     Python 3.7.4 (default, Sep 20 2019, 13:38:31)
+>     [GCC 9.2.0] on linux
+>     Type "help", "copyright", "credits" or "license" for more information.
+>     >>> import subunit
+>     Traceback (most recent call last):
+>       File "<stdin>", line 1, in <module>
+>       File "/usr/lib/python3.7/site-packages/subunit/__init__.py", line
+> 123, in <module>
+>         import unittest
+>     ModuleNotFoundError: No module named 'unittest'
+>     >>>
+>
+> Adding python3-testtools to python3-subunit's RDEPENDS fixes the
+> issue. This also implicitly provides the functionality found in
+> the python3-extras module.
+>
 
-    CORE_IMAGE_EXTRA_INSTALL += "lighttpd"
-    PACKAGECONFIG_append_pn-lighttpd = " fam"
-
-bitbake error:
-
-    ERROR: Nothing PROVIDES 'gamin' (but /yow-lpggp31/tgamblin/oe-core.git/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb DEPENDS on or otherwise requires it)
-    NOTE: Runtime target 'lighttpd' is unbuildable, removing...
-    Missing or unbuildable dependency chain was: ['lighttpd', 'gamin']
-    ERROR: Required build target 'core-image-minimal' has no buildable providers.
-    Missing or unbuildable dependency chain was: ['core-image-minimal', 'lighttpd', 'gamin']
-
-Since gamin doesn't appear to have a recipe and hasn't been
-maintained for several years, this should be removed from the
-list of lighttpd PACKAGECONFIG options.
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb
-index 72990d02e5..3f9e4fec18 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb
-@@ -39,7 +39,6 @@ PACKAGECONFIG[krb5] = "--with-krb5,--without-krb5,krb5"
- PACKAGECONFIG[pcre] = "--with-pcre,--without-pcre,libpcre"
- PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
- PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2"
--PACKAGECONFIG[fam] = "--with-fam,--without-fam,gamin"
- PACKAGECONFIG[webdav-props] = "--with-webdav-props,--without-webdav-props,libxml2 sqlite3"
- PACKAGECONFIG[webdav-locks] = "--with-webdav-locks,--without-webdav-locks,util-linux"
- PACKAGECONFIG[gdbm] = "--with-gdbm,--without-gdbm,gdbm"
--- 
-2.21.0
+If we literally only need unittest, then RDEPENDS on -testtools is
+overkill. We only need the -unittest submodule:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/python/python3/python3-manifest.json#n1158
 
 
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> ---
+>  meta/recipes-devtools/python/python3-subunit_1.3.0.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/python/python3-subunit_1.3.0.bb
+> b/meta/recipes-devtools/python/python3-subunit_1.3.0.bb
+> index 2ece4451df..55066e2d0f 100644
+> --- a/meta/recipes-devtools/python/python3-subunit_1.3.0.bb
+> +++ b/meta/recipes-devtools/python/python3-subunit_1.3.0.bb
+> @@ -1,2 +1,4 @@
+>  inherit setuptools3
+>  require python-subunit.inc
+> +
+> +RDEPENDS_${PN} = " python3-testtools"
+> --
+> 2.21.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--0000000000000d2a6805933c4736
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Sep 23, 2019 at 8:53 AM Trevor Gamblin &lt;<a href=
+=3D"mailto:Trevor.Gamblin@windriver.com">Trevor.Gamblin@windriver.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">From: Trevor Gamblin &lt;=
+<a href=3D"mailto:trevor.gamblin@windriver.com" target=3D"_blank">trevor.ga=
+mblin@windriver.com</a>&gt;<br>
+<br>
+Without access to unittest, subunit cannot be imported in python3:<br>
+<br>
+=C2=A0 =C2=A0 root@qemux86-64:~# python3<br>
+=C2=A0 =C2=A0 Python 3.7.4 (default, Sep 20 2019, 13:38:31)<br>
+=C2=A0 =C2=A0 [GCC 9.2.0] on linux<br>
+=C2=A0 =C2=A0 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&q=
+uot; or &quot;license&quot; for more information.<br>
+=C2=A0 =C2=A0 &gt;&gt;&gt; import subunit<br>
+=C2=A0 =C2=A0 Traceback (most recent call last):<br>
+=C2=A0 =C2=A0 =C2=A0 File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&=
+gt;<br>
+=C2=A0 =C2=A0 =C2=A0 File &quot;/usr/lib/python3.7/site-packages/subunit/__=
+init__.py&quot;, line 123, in &lt;module&gt;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 import unittest<br>
+=C2=A0 =C2=A0 ModuleNotFoundError: No module named &#39;unittest&#39;<br>
+=C2=A0 =C2=A0 &gt;&gt;&gt;<br>
+<br>
+Adding python3-testtools to python3-subunit&#39;s RDEPENDS fixes the<br>
+issue. This also implicitly provides the functionality found in<br>
+the python3-extras module.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">If we literally =
+only need unittest, then RDEPENDS on -testtools is overkill. We only need t=
+he -unittest submodule:</div><div dir=3D"auto"><div><a href=3D"http://git.y=
+octoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/python/python=
+3/python3-manifest.json#n1158">http://git.yoctoproject.org/cgit/cgit.cgi/po=
+ky/tree/meta/recipes-devtools/python/python3/python3-manifest.json#n1158</a=
+></div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Signed-off-by: Trevor Gamblin &lt;<a href=3D"mailto:trevor.gamblin@windrive=
+r.com" target=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3-subunit_1.3.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">python3-subunit_1.3.0.bb</a> | 2 +=
++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-subunit=
+_1.3.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-subunit_1.3.0.bb</a=
+> b/meta/recipes-devtools/python/<a href=3D"http://python3-subunit_1.3.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">python3-subunit_1.3.0.bb</a><br>
+index 2ece4451df..55066e2d0f 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3-subunit_1.3.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">python3-subunit_1.3.0.bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-subunit_1.3.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">python3-subunit_1.3.0.bb</a><br>
+@@ -1,2 +1,4 @@<br>
+=C2=A0inherit setuptools3<br>
+=C2=A0require python-subunit.inc<br>
++<br>
++RDEPENDS_${PN} =3D &quot; python3-testtools&quot;<br>
+-- <br>
+2.21.0<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--0000000000000d2a6805933c4736--
