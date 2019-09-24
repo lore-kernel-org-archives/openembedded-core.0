@@ -1,53 +1,28 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D3247E507
+Return-Path: <christian.thaler@tes-dst.com>
+X-Greylist: delayed 500 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 24 Sep 2019 12:27:41 UTC
+Received: from mail.tes-dst.com (mail.tes-dst.com [212.6.170.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D08497E58B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 12:09:06 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id n14so1647913wrw.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 05:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=K4qwo4oyBlgxWB+WStSU3AFy2bP2/QdGDQQNLEKw8bw=;
-	b=QovnRow4BCpvlDXqWYzPtZ4bvVofOnoFDKdEu62uYHAW1uidE+qTc03yau4+OBenG8
-	nYqJ8+uvqYl9I/ENkvgR/UBisgoh1iLkUXxye+G33MNXqPVXxxHF12G2e013hXxFjMk/
-	ltuvRYepRTmPnWp7/xoyKh3rJPVrKWLklcTFI5Izr+P4x+u+Nbjsdn04a/oV2YWdeci9
-	9lAuufOg3PulYtZkoFeJo4/xZV0AAMAvDj0mvGbp+GSVDIO1RtQmYiItg3XiCKaa+AbH
-	0q/7K6rHkDgGePgq7Rg2KDM51VgwZblIflBJR3q6uydwqOzPyHU7F3lSpVZBJyYtP3r/
-	Y9Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=K4qwo4oyBlgxWB+WStSU3AFy2bP2/QdGDQQNLEKw8bw=;
-	b=F37pxDeZsPY3hqYOHlT8pNm63s18/Tc4SHD/LURcRFEBb6C50NmJEGvAzip4kbaTvt
-	CXeMysAbVN1zIVMkyfuMGU3VKte3iBBjzpMKSF53S4AJw+Te5SKl0lKl9EmWW3+z5rB2
-	8c/LetvSrrDdE1qZpTlW/DNVunDksZY8/Fz7vcJGTS+3oz+DrW7l4AV5+kFgRl2pvDS0
-	YeybHpMCKJd8+7sakwQ5uYjHzZDdLDtCk+zRPDbnxCkf2tSsevCFRQyAf7HV7h/FUFfQ
-	YkG30YFWQWXYvFDUbiGykoNhizg4vfRQt2rokCgfmYr13PBxd13ERuvZTupfb0//oAmI
-	45CA==
-X-Gm-Message-State: APjAAAWn0mjTR9yDx8OizhKPyCFhy3xDHtCNoaS182+a6C1hZvNp1GKP
-	W5yjXENlwH1VfEbn6iO/1hK8NUci
-X-Google-Smtp-Source: APXvYqyCwXbyZYY7ZB+wLaIQIHiVa0GXBPvx2Ne2I2OxlJIjSbszw3Pi/fVydOChHDxWpMszLU6/4Q==
-X-Received: by 2002:a5d:5381:: with SMTP id d1mr456305wrv.315.1569326947211;
-	Tue, 24 Sep 2019 05:09:07 -0700 (PDT)
-Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
-	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
-	q66sm3110466wme.39.2019.09.24.05.09.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 24 Sep 2019 05:09:06 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+	Tue, 24 Sep 2019 12:27:41 +0000 (UTC)
+Received: from mail.tes-dst.com (localhost [127.0.0.1])
+	by mail.tes-dst.com (Postfix) with ESMTPS id 9ACBE52051E;
+	Tue, 24 Sep 2019 14:19:21 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.tes-dst.com (Postfix) with ESMTP id 8D7E3520517;
+	Tue, 24 Sep 2019 14:19:21 +0200 (CEST)
+Received: from mail.tes-dst.com ([127.0.0.1])
+	by localhost (mail.tes-dst.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id n0fXJMLJsy6P; Tue, 24 Sep 2019 14:19:21 +0200 (CEST)
+Received: from tesvm.hamburg.tes (unknown [172.20.10.181])
+	by mail.tes-dst.com (Postfix) with ESMTPSA id 6A7A25204A1;
+	Tue, 24 Sep 2019 14:19:21 +0200 (CEST)
+From: Christian Thaler <christian.thaler@tes-dst.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Sep 2019 14:08:48 +0200
-Message-Id: <20190924120848.25479-5-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190924120848.25479-1-schnitzeltony@gmail.com>
-References: <20190924120848.25479-1-schnitzeltony@gmail.com>
-MIME-Version: 1.0
-Subject: [sumo][PATCH v2 4/4] cross-localedef-native: Fix build for hosts with recent glibc
+Date: Tue, 24 Sep 2019 14:18:53 +0200
+Message-Id: <1569327533-1511-1-git-send-email-christian.thaler@tes-dst.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [thud][PATCH] kernel-devsrc: check for localversion files in the kernel source tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,119 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 12:09:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 24 Sep 2019 12:27:42 -0000
 
-Fixes:
-| argp-help.c:(.text+0x1f51): undefined reference to `_IO_fwide'
-| collect2: error: ld returned 1 exit status
-| make: *** [Makefile:60: localedef] Error 1
+localversion files are ignored. This might lead to a bad version magic when
+building out-of-tree modules via SDK.
+(Backport from master https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-kernel/linux/kernel-devsrc.bb?id=59fcee90de0cbb5b6b8333ab2b0e36214b174e52)
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Signed-off-by: Christian Thaler <christian.thaler@tes-dst.com>
 ---
- .../glibc/cross-localedef-native_2.27.bb      |  1 +
- ...ll-_IO_fwide-if-_LIBC-is-not-defined.patch | 78 +++++++++++++++++++
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
-index 5e92eb71d55..a999d35201a 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
-@@ -35,6 +35,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0021-eglibc-Install-PIC-archives.patch \
-            file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
-            file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
-+           file://0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch \
-            file://archive-path.patch \
- "
- # Makes for a rather long rev (22 characters), but...
-diff --git a/meta/recipes-core/glibc/glibc/0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch b/meta/recipes-core/glibc/glibc/0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch
-new file mode 100644
-index 00000000000..edeb27da0c1
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch
-@@ -0,0 +1,78 @@
-+From 3a67e81d7527363a96af095a5af03b6201b82e9d Mon Sep 17 00:00:00 2001
-+From: Charles-Antoine Couret <charles-antoine.couret@essensium.com>
-+Date: Thu, 29 Nov 2018 17:56:55 +0000
-+Subject: [PATCH] argp: do not call _IO_fwide() if _LIBC is not defined
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 361ad21..ec5cf09 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -62,6 +62,12 @@ do_install() {
+ 	cd ${S}
+ 	cp --parents $(find  -type f -name "Makefile*" -o -name "Kconfig*") $kerneldir/build
+ 	cp --parents $(find  -type f -name "Build" -o -name "Build.include") $kerneldir/build
 +
-+_IO_fwide() is defined in libio.h file. This file is included only
-+when _LIBC is defined.
++	# Copy localversion file if any to keep correct version magic after
++	# modules_prepare.
++	if [ -f *localversion* ]; then
++	    cp *localversion* $kerneldir/build
++	fi
+     )
+ 
+     # then drop all but the needed Makefiles/Kconfig files
+@@ -213,6 +219,9 @@ do_install() {
+ 
+         # required to build scripts/selinux/genheaders/genheaders
+         cp -a --parents security/selinux/include/* $kerneldir/build/
 +
-+So, in case of compilation of these files without _LIBC definition,
-+the compilation failed due to this unknown function.
-+
-+Now this function is called when libio.h file is included.
-+
-+(Change merged from gnulib.  Tested on x86_64.)
-+
-+	* argp/argp-fmtstream.c (__argp_fmtstream_update): Use [_LIBC]
-+	conditional on calls to _IO_fwide and putwc_unlocked.  (Merge from
-+	gnulib.)
-+	* argp/argp-help.c (__argp_failure): Likewise.
-+	
-+Upstream-Status: Backport [1]
-+
-+[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=3a67e81d7527363a96af095a5af03b6201b82e9d
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ ChangeLog             | 7 +++++++
-+ argp/argp-fmtstream.c | 4 ++++
-+ argp/argp-help.c      | 2 ++
-+ 3 files changed, 13 insertions(+)
-+
-+diff --git a/argp/argp-fmtstream.c b/argp/argp-fmtstream.c
-+index e43a0c7cf1..e9e4c0e5cc 100644
-+--- a/argp/argp-fmtstream.c
-++++ b/argp/argp-fmtstream.c
-+@@ -149,9 +149,11 @@ __argp_fmtstream_update (argp_fmtstream_t fs)
-+ 	      size_t i;
-+ 	      for (i = 0; i < pad; i++)
-+ 		{
-++#ifdef _LIBC
-+ 		  if (_IO_fwide (fs->stream, 0) > 0)
-+ 		    putwc_unlocked (L' ', fs->stream);
-+ 		  else
-++#endif
-+ 		    putc_unlocked (' ', fs->stream);
-+ 		}
-+ 	    }
-+@@ -312,9 +314,11 @@ __argp_fmtstream_update (argp_fmtstream_t fs)
-+ 	      *nl++ = ' ';
-+ 	  else
-+ 	    for (i = 0; i < fs->wmargin; ++i)
-++#ifdef _LIBC
-+ 	      if (_IO_fwide (fs->stream, 0) > 0)
-+ 		putwc_unlocked (L' ', fs->stream);
-+ 	      else
-++#endif
-+ 		putc_unlocked (' ', fs->stream);
-+ 
-+ 	  /* Copy the tail of the original buffer into the current buffer
-+diff --git a/argp/argp-help.c b/argp/argp-help.c
-+index 2b6b0775d6..a17260378c 100644
-+--- a/argp/argp-help.c
-++++ b/argp/argp-help.c
-+@@ -1873,9 +1873,11 @@ __argp_failure (const struct argp_state *state, int status, int errnum,
-+ #endif
-+ 	    }
-+ 
-++#ifdef _LIBC
-+ 	  if (_IO_fwide (stream, 0) > 0)
-+ 	    putwc_unlocked (L'\n', stream);
-+ 	  else
-++#endif
-+ 	    putc_unlocked ('\n', stream);
-+ 
-+ #if _LIBC || (HAVE_FLOCKFILE && HAVE_FUNLOCKFILE)
-+-- 
-+2.21.0
-+
++	# copy any localversion files
++	cp -a localversion* $kerneldir/build/ 2>/dev/null || :
+     )
+ 
+     # Make sure the Makefile and version.h have a matching timestamp so that
 -- 
-2.21.0
+2.7.4
 
 
