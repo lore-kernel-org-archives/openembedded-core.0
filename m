@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id CEDE27F0D8
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 38B227F273
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 03:13:35 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id y10so309061plp.2
+	Tue, 24 Sep 2019 03:13:37 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id x10so394280pgi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 20:13:37 -0700 (PDT)
+	Mon, 23 Sep 2019 20:13:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=KIypmHm8Z54QEM2fpfii5FzVMtjCWIOvJGaoicL6sH4=;
-	b=RomBSou3po2X30fERoNmEt+UUUXLNa5ZDi3PvTYjk0dCjSvDqphEbfHwHVdCcN9i05
-	ddDZQnSGi1PxNSjKQWoHLMv0dWdsf4m1H/binHI2v7+ouHjT+g+GSxTCTqu9fqs8A9yf
-	8pqfLk+qK9y3LvnwPwZJvsE77K4EjhP43/RMwElt6ZW5sKPjgzYeLlYSMogV/Ns+VENE
-	DwWJE4b6fUnsPiLMinWqdNBCn4nXNqUB3nP13mrQLA6hYsIgU7YdZRTX/oPE1MC6RWL5
-	j3EQxYT8MTyS3OtFQ9shK3c7l839gpc7tgQsDAjE3EWONufakYswH1uHskbhVyZINHFJ
-	7PdQ==
+	bh=j2MXK2OEWreOhSZIpWfqVPeE3XkIfeTZgcCBEjwOBVk=;
+	b=oP8zlwy9iUVauKoQNYd0kOJcx7ET+A4sBKJVOcKWysCfl7JIXGqlzYb3/jj3xre7ED
+	HELPXRP/L7ljuSBxXmDpyw+ry8pw4i3BMIodLgWglKCz0W5w5tRI4A0Y2FZEMSaodPUo
+	WxpJPjZD6AGOzVmcP4M2Q9Sn8lg5IWZ/TKEvtCBVxeQI2xcvjOc+upI9/YOhof3cViKG
+	SPWR4SKKutncs9Dq+OvGTqfYCeDYmlylvUgk9Qjrlq1iuSS6bBSPVkaLu9g6UU/vECkE
+	I5Gmjhgr0Ubo6mqNXwCXpttUBJz20wHsoNZWzbSGNmBMPFtSGPSSdL1oaWvuPxeHnmu/
+	PwFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=KIypmHm8Z54QEM2fpfii5FzVMtjCWIOvJGaoicL6sH4=;
-	b=adrOUMtUCjF5Zs5JxYda5LWmZvDE+Z+lKoa6KP0lH7gdi3dH8yRrUAdZ8OeMggCeTP
-	e/eYahZpBfZe9DuNqYfBFLgomt/WEP5GUC6tr0b5cLIDkfYjofrZgrFf458h4qud/9XD
-	/YrG4iWH2DqJ3CkikU76jIAaUnhqe48ZrAPHMx2Xd9T/8O+ND2ntuXPY3q05a/bmHDKw
-	7d/bc0sw4G4WQ/nLnHhszF9apsyXeD92uYKmQvc77efWThuuju7uC4iTZGhcByJNEe1U
-	gQnHkWE3c1aOj6NCUDxkHoUGPAxmpkCJiWvq9BBAJlBzeyKnn9sqJmEEek5si+j3Iy1t
-	TH3Q==
-X-Gm-Message-State: APjAAAXsdQLezxVOu/AzY73a+GPwVblsnKtXfwzwWkpaRN603KV/D8zH
-	d06CN8TayTK8Ruhl2neU65XI4uCr3V8=
-X-Google-Smtp-Source: APXvYqw0zCPFSv3XXOF8XipUaEIPTynP2tX+dmGs+23BPhLFy9P0STwBDzeAK2MLjp/TWR3MJQ5edA==
-X-Received: by 2002:a17:902:ac8a:: with SMTP id
-	h10mr816911plr.170.1569294816110; 
-	Mon, 23 Sep 2019 20:13:36 -0700 (PDT)
+	bh=j2MXK2OEWreOhSZIpWfqVPeE3XkIfeTZgcCBEjwOBVk=;
+	b=Rggl0EYsJt0IapxfZLQjaSa5GoGCfGBbK4yiTam3tjcVRqSjyNsNCb7YcOMfhSO3Fu
+	Pu06lNUorpH+WaZWC/umWfjzeGIhCm61VwgoxvOEmB6EG/ORPKMLmsw5RzJSSFU0AEIB
+	5eQy4/hYOIDl4Gy24S+DKWdMoHoqDU/fJJBuEjrrYcCoWHLEh7CIulk+bj1iLnB4Z9Kt
+	w8rkA3OzrwT+6NCkgxEetAWyyecTFJO+xnNlDY6JDpaPZ7csPyiciNG309T3oJ9tc3rN
+	iPGOwOn63ktRKsy41uWs/V+TpAjjCjk8BnqAJnLhcfX/AzJY7ZlUs9upxu3P/qisE8Eb
+	KLWQ==
+X-Gm-Message-State: APjAAAVplWf6CbcAOxjB8SSl2bXpYsFkmm88uoIIxtJtc7V2P0L6V+BX
+	83cbUcTdPv2FlB3NFlV5dnOZMm2UoL0=
+X-Google-Smtp-Source: APXvYqxTRVd8GVC8YCI83Zhi54bgT7obpoCcUxojo7nqhy03W2kGjyUw9S6N/8iYYt0fDuv15dfvWA==
+X-Received: by 2002:a63:2b01:: with SMTP id r1mr819374pgr.19.1569294818168;
+	Mon, 23 Sep 2019 20:13:38 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:ec07:55c0:9c8c:b3de])
-	by smtp.gmail.com with ESMTPSA id z23sm252602pgi.78.2019.09.23.20.13.35
+	by smtp.gmail.com with ESMTPSA id z23sm252602pgi.78.2019.09.23.20.13.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Sep 2019 20:13:35 -0700 (PDT)
+	Mon, 23 Sep 2019 20:13:37 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2019 20:13:09 -0700
-Message-Id: <b24447b40e4988e337bdd4b5cf194df0827f9887.1569294712.git.akuster808@gmail.com>
+Date: Mon, 23 Sep 2019 20:13:10 -0700
+Message-Id: <6018e9755dce3eaa22a1fe691dc18546c43c9cbe.1569294712.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569294712.git.akuster808@gmail.com>
 References: <cover.1569294712.git.akuster808@gmail.com>
-Subject: [Thud][ 13/24] bind: upgrade 9.11.5 -> 9.11.5-P4
+Subject: [Thud][ 14/24] go: update to 1.11.13, minor updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,61 +58,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 03:13:35 -0000
+X-List-Received-Date: Tue, 24 Sep 2019 03:13:37 -0000
 
-From: Adrian Bunk <bunk@stusta.de>
+From: Armin Kuster <akuster@mvista.com>
 
-Source: OE.org
-MR: 99751, 99752, 99753
+Source: golang.org
+MR: 99376
 Type: Security Fix
-Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-connectivity/bind?h=warrior&id=5d286da0fbe1a7ded2f84eec990e49d221bdeab4
-ChangeID: ce3719ea11bd03af3baeca51a22115badf84be01
+Disposition: Backport from golang.org
+ChangeID: 41576ab4a0abdebbc44f1a35a83bf04e5f2fde06
 Description:
 
-Bugfix-only compared to 9.11.5, mostly CVE fixes.
+https://golang.org/doc/devel/release.html
 
-COPYRIGHT checksum changed due to 2018 -> 2019.
+go1.11.11 (released 2019/06/11) includes a fix to the crypto/x509 package. See the Go 1.11.11 milestone on our issue tracker for details.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[Included cves:
-CVE-2018-5744
-CVE-2018-5745
-CVE-2019-6465
-]
+go1.11.12 (released 2019/07/08) includes fixes to the compiler and the linker. See the Go 1.11.12 milestone on our issue tracker for details.
+
+go1.11.13 (released 2019/08/13) includes security fixes to the net/http and net/url packages. See the Go 1.11.13 milestone on our issue tracker for details.
+
+Includes CVE: CVE-2019-14809
+
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../recipes-connectivity/bind/{bind_9.11.5.bb => bind_9.11.5-P4.bb} | 6 +++---
+ meta/recipes-devtools/go/go-1.11.inc | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.11.5.bb => bind_9.11.5-P4.bb} (96%)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.5.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.11.5.bb
-rename to meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-index 21e979f..432bad0 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.5.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.isc.org/sw/bind/"
- SECTION = "console/network"
+diff --git a/meta/recipes-devtools/go/go-1.11.inc b/meta/recipes-devtools/go/go-1.11.inc
+index 401e71f..90d4037 100644
+--- a/meta/recipes-devtools/go/go-1.11.inc
++++ b/meta/recipes-devtools/go/go-1.11.inc
+@@ -1,7 +1,7 @@
+ require go-common.inc
  
- LICENSE = "ISC & BSD"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=6ba7c9fe0c888a943c79c93e6de744fb"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8f17f64e47e83b60cd920a1e4b54419e"
+ GO_BASEVERSION = "1.11"
+-GO_MINOR = ".10"
++GO_MINOR = ".13"
+ PV .= "${GO_MINOR}"
+ FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
  
- DEPENDS = "openssl libcap zlib"
- 
-@@ -22,8 +22,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+@@ -19,5 +19,5 @@ SRC_URI += "\
  "
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
  
--SRC_URI[md5sum] = "17a0d02102117c9a221e857cf2cc8157"
--SRC_URI[sha256sum] = "a4cae11dad954bdd4eb592178f875bfec09fcc7e29fe0f6b7a4e5b5c6bc61322"
-+SRC_URI[md5sum] = "8ddab4b61fa4516fe404679c74e37960"
-+SRC_URI[sha256sum] = "7e8c08192bcbaeb6e9f2391a70e67583b027b90e8c4bc1605da6eb126edde434"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+-SRC_URI[main.md5sum] = "f2d2e44b9954b827daa8ad4d936a7a82"
+-SRC_URI[main.sha256sum] = "df27e96a9d1d362c46ecd975f1faa56b8c300f5c529074e9ea79bdd885493c1b"
++SRC_URI[main.md5sum] = "32e71746981695517387a2149eb541ef"
++SRC_URI[main.sha256sum] = "5032095fd3f641cafcce164f551e5ae873785ce7b07ca7c143aecd18f7ba4076"
 -- 
 2.7.4
 
