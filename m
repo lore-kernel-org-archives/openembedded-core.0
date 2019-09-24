@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
 	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id EAABC7F2BC
+	by mail.openembedded.org (Postfix) with ESMTP id 0C5907E713
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 02:50:14 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id f19so282397plr.3
+	Tue, 24 Sep 2019 02:50:15 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id d22so291534pls.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 19:50:16 -0700 (PDT)
+	Mon, 23 Sep 2019 19:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=o45MwPbSqLClHfb3loQJcD6n+7OXKh2356ZX1BPurFk=;
-	b=m4HDsrAoTQKTJaohw70m76ZFxOvHkPKq2QktDHugSm8PqpRABy9qzSB6VKh+2GpA7h
-	oiU0HCDAs/EzwWUwL9FVSCgymh9fYC7xBnlPYzkwPZJVUJNXMi5pr80mhpIgZ+atIrsb
-	FFf7RqpqYaqR7sBa9r8xq0LBGNewBgSp+llSVkvkk1UTBynCvJgJF4MDRLZ1/Crm0Lr/
-	AelFDBUl9KQMmtWx8tgdwchWj1xHowzBrDdHdy1iMhmW9f48PyK1hgWjhFObEJJys8CW
-	wZ3f2ytAE7BN8+yJwYOB+chnLnm6FdGKNDXkhXg0dKixi5gy0Mg4AuI26qxIFO9kgdop
-	RICA==
+	bh=qTeGTUYJFAxnTEn35ceW/LtkqKkiVHdbomGRuRV+ofA=;
+	b=sXg7/kxmx2AZ7mgK3Eb0LV7zEDm9O1itI+S4HjjX/nTHA9QVQud4xzQwfhyLiIK6lw
+	fZ+1OPj24Sq6RoiTXPZXeH/nClSXtj87qGR4l3sJ1A5HF7gWS9lHSlPvPlY+1ZJviHJB
+	zM63o6pXqDcLscBvrjrYJpiixoGO0FIWrheemce3SJIGthCjY3jgux227LkSzymg35Rl
+	E5ie4M7XEeXPU8eOib+tsdWbs28kGEq0Jbm5kvZXXn38lsF+KKZqABP8RvjKEAJedR76
+	wy/+1G9Mk0s6hWUKG0/8GDAgWal/yApjZ8WaAOhlK39r/QhQaulgJU/g3VtxgqGu8Otf
+	R1Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=o45MwPbSqLClHfb3loQJcD6n+7OXKh2356ZX1BPurFk=;
-	b=N7CtJGsjnW+yKYO6E8lRDpTMYM7APWMNj9a7bubr+OdTUGgLlsKba1buqDJxU+rX4y
-	gR0WsmPw4qqfiP0wxDsYwUHoB3o5PRuNaR9+zHysOdoJ55dOibskug7q9rlob009yF/2
-	iFvN3Keq8ueHvoNZ9HxtjUrlvzqkQD8kJVeSewR5rh0uqt06ksOdXRVqkt/BsgbhbxEI
-	2eT/zqcvzs/mIDB1GgOrYG6gI37F8hscSJKN4NUdOKgcbsE/PEDy/5LLFsA7PPy164dg
-	dDmx88PRow/sVagN9p00MB3DwlvmtK0qjTDe5shWaF3Cvco4L8ElDo+0xXpVXcig197F
-	XfgA==
-X-Gm-Message-State: APjAAAUKfbRJ/7ZivDrsp1lX0HhqIP8qGJracW35XgjAUbDkwfsQvNlN
-	+95bsjXOLszF1FcxYk4bKlcAubz5uXI=
-X-Google-Smtp-Source: APXvYqy6oYSBZX8gLLxfmwpQw6aRY2uMBcYIJ+j/IE9QuSNItKQhX+zYtwKetfGnvFtdlcTh6uh6Ww==
-X-Received: by 2002:a17:902:5a89:: with SMTP id
-	r9mr477845pli.206.1569293415791; 
-	Mon, 23 Sep 2019 19:50:15 -0700 (PDT)
+	bh=qTeGTUYJFAxnTEn35ceW/LtkqKkiVHdbomGRuRV+ofA=;
+	b=jcue/YqZEyVS8t2dQH3f4JRWn3+N3uOLm/GyttsoqGkmGPdvr8Hu9azE64X88YQPm8
+	4HifssFCVchNWu8NymFyw2BT1zjqUArbOfk+PsvQBP8GXfQ8IaFMlc9QevzX2fv5PWJb
+	f1K3urzY67igv8vAnz3Ut/7wsivL50btsTp9ghKpvzMK/exh8DAhludKEDEEvjso9Z2j
+	RDdRhN4g3Xu+hzJjE1mcN49J1S3K8yd2d0fSy8xGl/YvWaikp/CIRYLIvARc4n4nzHVJ
+	1gZ9Q6eU3zulnB70EK87sYaA2tdOFXZ1Q/SpGjO5SGMBELY8HUQ8bbAwjryG6xrIkM8H
+	tSWg==
+X-Gm-Message-State: APjAAAUMtvLVCghMDhMZQlllbJoowILWV34OPwrKMHlBmA62yXvctZpn
+	p56Mn1jRI4dq90CkOHR1CjBbdrbZt0Q=
+X-Google-Smtp-Source: APXvYqw9snPbX/RL1CGqbYoiDT05WBPzm++cnl6frbgbvr4qteKouW7x/O60BLp9NFhpB524gsTZDg==
+X-Received: by 2002:a17:902:7c94:: with SMTP id
+	y20mr440099pll.229.1569293416960; 
+	Mon, 23 Sep 2019 19:50:16 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:ec07:55c0:9c8c:b3de])
 	by smtp.gmail.com with ESMTPSA id
-	q204sm146791pfc.11.2019.09.23.19.50.14
+	q204sm146791pfc.11.2019.09.23.19.50.16
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Sep 2019 19:50:15 -0700 (PDT)
+	Mon, 23 Sep 2019 19:50:16 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2019 19:49:22 -0700
-Message-Id: <b37a71e1cd95db7670217240e3112b6aefdc037a.1569292053.git.akuster808@gmail.com>
+Date: Mon, 23 Sep 2019 19:49:23 -0700
+Message-Id: <c9eb2ed8d37be4fd4f06edc54a4845a908f72166.1569292053.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569292053.git.akuster808@gmail.com>
 References: <cover.1569292053.git.akuster808@gmail.com>
-Subject: [warrior][ 42/50] glibc / glibc-locale: Fix stash_locale determinism problems
+Subject: [warrior][ 43/50] gcc-8.3: Security fix for CVE-2019-14250
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,137 +60,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 02:50:15 -0000
+X-List-Received-Date: Tue, 24 Sep 2019 02:50:16 -0000
 
-From: Jason Wessel <jason.wessel@windriver.com>
+From: Armin Kuster <akuster@mvista.com>
 
-When using sstate, or performing an incremental build any change to
-the do_stash_locale() will cause a build failure because
-do_stash_locale() was destroying the results obtained from the
-do_install() with several mv operations.  A recent change to
-do_stash_locale() for a different problem illustrated a number of
-build failures for users in the community.
+Affects < 9.2
 
-To fix the problem, do_stash_locale() must use copy operations instead
-of the mv operations.  Because this is changed to a copy, the sysroot
-and package stage need to remove the files that would have been
-previously removed.  The correct "fixup" code to deal with the removal
-already existed in the previous do_poststash_install_cleanup().  All
-that needed change was the path to where to remove the files
-from the sysroot and package stages.
-
-In order to force a re-compilation of glibc some unused white space
-was removed from do_compile() for glibc.  I could not find any other
-way around this and we don't want to have all the community folks to
-have another iteration where they have to remove their tmp directories
-or purge some portion of the sstate.  It also makes this change
-bisectable. If the change to the glibc is not included, it will fail
-with the following message:
-
-=====
-| DEBUG: Executing shell function do_prep_locale_tree
-| tar: i18n: Cannot stat: No such file or directory
-| tar: Exiting with failure status due to previous errors
-| gzip: /poky/build/tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/locale-tree//usr/share/i18n/charmaps/*gz.gz: No such file or directory
-=====
-
-After this one time change I tested changing only the
-do_stash_locale() function and it now works well because it is
-deterministically operating off the sstate data or a local build.
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 40 ++++++++++++++++++-------------
- meta/recipes-core/glibc/glibc_2.29.bb     |  1 -
- 2 files changed, 24 insertions(+), 17 deletions(-)
+ meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
+ .../gcc/gcc-8.3/CVE-2019-14250.patch               | 44 ++++++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index ff17a19..5cfb1b6 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -164,13 +164,13 @@ do_stash_locale () {
- 	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
- 	# Hide away the locale data from the deployment
- 	if [ -e ${D}${bindir}/localedef ]; then
--		mv -f ${D}${bindir}/localedef ${dest}${bindir}
-+		cp -a ${D}${bindir}/localedef ${dest}${bindir}
- 	fi
- 	if [ -e ${D}${libdir}/gconv ]; then
--		mv -f ${D}${libdir}/gconv ${dest}${libdir}
-+		cp -a ${D}${libdir}/gconv ${dest}${libdir}
- 	fi
- 	if [ -e ${D}${datadir}/i18n ]; then
--		mv ${D}${datadir}/i18n ${dest}${datadir}
-+		cp -a  ${D}${datadir}/i18n ${dest}${datadir}
- 	fi
- 
- 	# Make a copy of all the libraries into the locale stash
-@@ -210,30 +210,38 @@ python do_stash_locale_setscene () {
- }
- addtask do_stash_locale_setscene
- 
--do_poststash_install_cleanup () {
--	# Remove all files which do_stash_locale would remove (mv)
--	# since that task could have come from sstate and not get run.
-+PACKAGE_PREPROCESS_FUNCS += "stash_locale_package_cleanup"
-+SYSROOT_PREPROCESS_FUNCS += "stash_locale_sysroot_cleanup"
-+stash_locale_cleanup () {
-+	cleanupdir=$1
-+	# Remove all files which do_stash_locale() copies
- 	for i in ${bashscripts}; do
--	    rm -f ${D}${bindir}/$i
-+	    rm -f ${cleanupdir}${bindir}/$i
- 	done
--	rm -f ${D}${bindir}/localedef
--	rm -rf ${D}${datadir}/i18n
--	rm -rf ${D}${libdir}/gconv
--	rm -rf ${D}/${localedir}
--	rm -rf ${D}${datadir}/locale
-+	rm -f ${cleanupdir}${bindir}/localedef
-+	rm -rf ${cleanupdir}${datadir}/i18n
-+	rm -rf ${cleanupdir}${libdir}/gconv
-+	rm -rf ${cleanupdir}/${localedir}
-+	rm -rf ${cleanupdir}${datadir}/locale
- 	if [ "${libdir}" != "${exec_prefix}/lib" ] && [ "${root_prefix}/lib" != "${exec_prefix}/lib" ]; then
--	    if [ -d "${D}${exec_prefix}/lib" ]; then
-+	    if [ -d "${cleanupdir}${exec_prefix}/lib" ]; then
- 		if [ -z "${ARCH_DYNAMIC_LOADER}" -o \
--		     ! -e "${D}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
-+		     ! -e "${cleanupdir}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
- 			# error out if directory isn't empty
- 			# this dir should only contain locale dir
- 			# which has been deleted in the previous step
--			rmdir ${D}${exec_prefix}/lib
-+			rmdir ${cleanupdir}${exec_prefix}/lib
- 		fi
- 	    fi
- 	fi
- }
--addtask do_poststash_install_cleanup after do_stash_locale do_install before do_populate_sysroot do_package
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
+index dce85a2..80f716a 100644
+--- a/meta/recipes-devtools/gcc/gcc-8.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
+@@ -74,6 +74,7 @@ SRC_URI = "\
+            file://0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch \
+            file://0042-PR-debug-86964.patch \
+            file://0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch \
++           file://CVE-2019-14250.patch \
+ "
+ SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
+ SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch b/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
+new file mode 100644
+index 0000000..e327684
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
+@@ -0,0 +1,44 @@
++From a4f1b58eb48b349a5f353bc69c30be553506d33b Mon Sep 17 00:00:00 2001
++From: rguenth <rguenth@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Thu, 25 Jul 2019 10:48:26 +0000
++Subject: [PATCH] 2019-07-25  Richard Biener  <rguenther@suse.de>
 +
-+stash_locale_sysroot_cleanup() {
-+	stash_locale_cleanup ${SYSROOT_DESTDIR}
-+}
-+stash_locale_package_cleanup() {
-+	stash_locale_cleanup ${PKGD}
-+}
- 
- pkg_postinst_nscd () {
- 	if [ -z "$D" ]; then
-diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
-index 073d153..c6b2caa 100644
---- a/meta/recipes-core/glibc/glibc_2.29.bb
-+++ b/meta/recipes-core/glibc/glibc_2.29.bb
-@@ -121,7 +121,6 @@ do_compile () {
- 		echo "ldd \"${prevrtld} ${RTLDLIST}\" -> \"${newrtld}\""
- 		sed -i ${B}/elf/ldd -e "s#^RTLDLIST=.*\$#RTLDLIST=\"${newrtld}\"#"
- 	fi
--
- }
- 
- require glibc-package.inc
++	PR lto/90924
++	Backport from mainline
++	2019-07-12  Ren Kimura  <rkx1209dev@gmail.com>
++
++	* simple-object-elf.c (simple_object_elf_match): Check zero value
++	shstrndx.
++
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-8-branch@273794 138bc75d-0d04-0410-961f-82ee72b054a4
++
++Upstream-Status: Backport
++Affectes: <  9.2
++CVE: CVE-2019-14250
++Dropped changelog
++Signed-off-by: Armin Kuster <Akustre@mvista.com>
++
++---
++ libiberty/simple-object-elf.c | 8 ++++++++
++ 2 files changed, 17 insertions(+)
++
++Index: gcc-8.2.0/libiberty/simple-object-elf.c
++===================================================================
++--- gcc-8.2.0.orig/libiberty/simple-object-elf.c
+++++ gcc-8.2.0/libiberty/simple-object-elf.c
++@@ -549,6 +549,14 @@ simple_object_elf_match (unsigned char h
++       return NULL;
++     }
++ 
+++  if (eor->shstrndx == 0)
+++    {
+++      *errmsg = "invalid ELF shstrndx == 0";
+++      *err = 0;
+++      XDELETE (eor);
+++      return NULL;
+++    }
+++
++   return (void *) eor;
++ }
++ 
 -- 
 2.7.4
 
