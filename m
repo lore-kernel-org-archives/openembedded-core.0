@@ -1,28 +1,24 @@
-Return-Path: <christian.thaler@tes-dst.com>
-X-Greylist: delayed 500 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 24 Sep 2019 12:27:41 UTC
-Received: from mail.tes-dst.com (mail.tes-dst.com [212.6.170.45])
-	by mail.openembedded.org (Postfix) with ESMTP id D08497E58B
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 10EBD6C1C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 12:27:41 +0000 (UTC)
-Received: from mail.tes-dst.com (localhost [127.0.0.1])
-	by mail.tes-dst.com (Postfix) with ESMTPS id 9ACBE52051E;
-	Tue, 24 Sep 2019 14:19:21 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.tes-dst.com (Postfix) with ESMTP id 8D7E3520517;
-	Tue, 24 Sep 2019 14:19:21 +0200 (CEST)
-Received: from mail.tes-dst.com ([127.0.0.1])
-	by localhost (mail.tes-dst.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id n0fXJMLJsy6P; Tue, 24 Sep 2019 14:19:21 +0200 (CEST)
-Received: from tesvm.hamburg.tes (unknown [172.20.10.181])
-	by mail.tes-dst.com (Postfix) with ESMTPSA id 6A7A25204A1;
-	Tue, 24 Sep 2019 14:19:21 +0200 (CEST)
-From: Christian Thaler <christian.thaler@tes-dst.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Sep 2019 14:18:53 +0200
-Message-Id: <1569327533-1511-1-git-send-email-christian.thaler@tes-dst.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [thud][PATCH] kernel-devsrc: check for localversion files in the kernel source tree
+	Tue, 24 Sep 2019 14:02:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8OE1NS2010092
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Sep 2019 07:02:00 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 24 Sep 2019 07:01:19 -0700
+From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Sep 2019 10:01:18 -0400
+Message-ID: <20190924140118.6651-1-Trevor.Gamblin@windriver.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Subject: [PATCH] nativesdk-dnf: ensure installed systemd files are shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 12:27:42 -0000
+X-List-Received-Date: Tue, 24 Sep 2019 14:02:09 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-localversion files are ignored. This might lead to a bad version magic when
-building out-of-tree modules via SDK.
-(Backport from master https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-kernel/linux/kernel-devsrc.bb?id=59fcee90de0cbb5b6b8333ab2b0e36214b174e52)
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-Signed-off-by: Christian Thaler <christian.thaler@tes-dst.com>
+"bitbake nativesdk-dnf" throws a QA warning if the contents of
+${base_libdir}/systemd/system/ are not shipped, so add them.
+
+Warning log:
+
+    WARNING: nativesdk-dnf-4.2.2-r0 do_package: QA Issue: nativesdk-dnf: Files/directories were installed but not shipped in any package:
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic.timer
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-makecache.timer
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic.service
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-makecache.service
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-notifyonly.timer
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-download.service
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-download.timer
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-notifyonly.service
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-install.timer
+      /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-install.service
+    Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+    nativesdk-dnf: 13 installed and not shipped files. [installed-vs-shipped]
+
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/recipes-devtools/dnf/dnf_4.2.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 361ad21..ec5cf09 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -62,6 +62,12 @@ do_install() {
- 	cd ${S}
- 	cp --parents $(find  -type f -name "Makefile*" -o -name "Kconfig*") $kerneldir/build
- 	cp --parents $(find  -type f -name "Build" -o -name "Build.include") $kerneldir/build
+diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+index c77773332c..7ea454a8f6 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+@@ -74,6 +74,9 @@ do_install_append_class-nativesdk() {
+                 RPM_NO_CHROOT_FOR_SCRIPTS=1 
+ }
+ 
++# Ensure installed systemd files are shipped when building nativesdk-dnf
++FILES_${PN} += "${base_libdir}/systemd/system/*"
 +
-+	# Copy localversion file if any to keep correct version magic after
-+	# modules_prepare.
-+	if [ -f *localversion* ]; then
-+	    cp *localversion* $kerneldir/build
-+	fi
-     )
- 
-     # then drop all but the needed Makefiles/Kconfig files
-@@ -213,6 +219,9 @@ do_install() {
- 
-         # required to build scripts/selinux/genheaders/genheaders
-         cp -a --parents security/selinux/include/* $kerneldir/build/
-+
-+	# copy any localversion files
-+	cp -a localversion* $kerneldir/build/ 2>/dev/null || :
-     )
- 
-     # Make sure the Makefile and version.h have a matching timestamp so that
+ SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
+                          dnf-automatic.service dnf-automatic.timer \
+                          dnf-automatic-download.service dnf-automatic-download.timer \
 -- 
-2.7.4
+2.21.0
 
 
