@@ -1,50 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
-	[209.85.222.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 693526D7C1
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D655602D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 02:11:20 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id z67so102385qkb.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 19:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=K4xScPzt5bo0lvB+5vC0WT54WNU4g0PGejktnELFED0=;
-	b=s3szMx6HypnwAw/B+UkeJ7/irWQE4W3eiWwk2Ysb2DbXK5tmlFxNi1H1oaaAt/E0oW
-	7GT6DgH09ol3oKYqrw15G80Q/jC/MKHcb0JaMGvoG2ntHLZlMovUSUqN1XD0ZqxzeedO
-	Atv/8tX2ZcfP8DwuqZPzrhDhQfLABlrfLgq8MHlCani4zdBaPngIFqX1UD4IoFACQoz0
-	8/l6zfkP1WeBLNdYsP40ukGXZyNE5ht/gOvamZxbA96b1Ok6Kb8Nn8IkyRvp7uklpA9f
-	PPtDip0cjHYIsFJxAx6FRdXd1AZMbZarPL7HgCyxb22LmoA+YWJWbesu5bePh8qVOw2V
-	SCaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=K4xScPzt5bo0lvB+5vC0WT54WNU4g0PGejktnELFED0=;
-	b=uoPNm29CTjTFzP4p913lKJoe7tWjT3kJ+hU9H00f/0sszc+Gx1VCChn8m5bZdnlcPF
-	haskDD2rNTnLYatKv0uyDD/yqm8IiSfs2vB3fFHRbBo9kKDA5pvvNn46aol2lOE7ebs3
-	Ouogsi3uLdqPka+0jMgJtsqtitN9pADCsnp+7dLt4O6vcDf7Mn32gDLoRj/1kVoVYBtn
-	grnDMNOpzdnJelMa2RWh8VvVmSx4oJ4KRO5GNBlgOky3L69xCYkKbzPwiJm8i+/tIQ9q
-	dF2DxHkZdQOaKUM5j/fsXPlCyBUgJ0+4nNsBeqlD99dT9K7kInz20HAdezNg6O+8eGaT
-	9Plg==
-X-Gm-Message-State: APjAAAX5zI/1pDY5Z/YT+hKIFpvnVr315/YxgP2r/8FRUxCXotNyKKgA
-	Leo9pKBcvtEktqPnoQuCckpu0pwHU8M2sIP0RE0=
-X-Google-Smtp-Source: APXvYqypS0NiQG3cuIQBH8fct4Et+fSw5y3F7k46N/Ug/C3e5RKaughBFWkiBy/xJKZAgZVi/FFlNWUkA/xxhx4m9kI=
-X-Received: by 2002:a05:620a:13d1:: with SMTP id
-	g17mr189313qkl.9.1569291081012; 
-	Mon, 23 Sep 2019 19:11:21 -0700 (PDT)
+	Tue, 24 Sep 2019 02:45:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8O2jFN8023366
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 23 Sep 2019 19:45:15 -0700 (PDT)
+Received: from fidler.wrs.com (172.25.44.5) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
+	Mon, 23 Sep 2019 19:45:09 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Sep 2019 22:45:05 -0400
+Message-ID: <20190924024508.9175-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-References: <CAMKF1sqanCn50yNrGcUDyGZQu9fOXsRZkccvk4o+GvD6F5nPRg@mail.gmail.com>
-	<CAKmqyKPkQAHM5+X0QfRAR1wneOe2o1ffBirz0boqv8PetCRVkQ@mail.gmail.com>
-	<7e0cc8d45ea1b5556dccf61519de8e0d31575550.camel@wdc.com>
-In-Reply-To: <7e0cc8d45ea1b5556dccf61519de8e0d31575550.camel@wdc.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 23 Sep 2019 19:10:54 -0700
-Message-ID: <CAMKF1sp6hDii_4dH6nrr1VstobnP2sCpyNUy74eiOaJGqVKhNg@mail.gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: qemu 4.1 boot regression with riscv/musl
+Cc: stevenrwalter@gmail.com, cardoe@cardoe.com, bunk@stusta.de
+Subject: [RFC][PATCH 0/3] Move rust from meta-rust to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,66 +30,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 02:11:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 24 Sep 2019 02:45:30 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Mon, Sep 23, 2019 at 6:39 PM Alistair Francis
-<Alistair.Francis@wdc.com> wrote:
->
-> On Mon, 2019-09-23 at 17:59 -0700, Alistair Francis wrote:
-> > On Mon, Sep 23, 2019 at 3:40 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > > Alistair,
-> > >
-> > > OE-core qemu upgrade to 4.1 has ended up with regressing musl/riscv
-> > > port. I could pin point it to
-> > >
-> > > https://git.openembedded.org/openembedded-core/commit/?id=50a7dec95618080962e56fd347f505e691b7ad6f
-> > >
-> > > it works fine with 4.0, I havent looked further
-> > >
-> > > To reproduce
-> > >
-> > > build
-> > > MACHINE=qemuriscv64 TCLIBC=musl  bitbake core-image-minimal
-> > > TCLIBC=musl runqemu nographic
-> >
-> > Thanks, I can reproduce this and am bisecting QEMU now.
->
-> This QEMU patch causes the failure. It reverts cleanly on master and
-> that fixes the issue:
->
-> RISC-V: Clear load reservations on context switch and SC
->
-> This prevents a load reservation from being placed in one
-> context/process,
-> then being used in another, resulting in an SC succeeding incorrectly
-> and
-> breaking atomics.
->
-> Signed-off-by: Joel Sing <joel@sing.id.au>
-> Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
->
-> I'll investigate a full solution tomorrow, in the mean time do you want
-> to just revert the patch?
+I moved the Rust support from meta-rust to oe-core.
 
-yes lets use the revert for now, this will give you enough time to
-investigate solution
-since its riscv specific it will be low risk and we can even go to 3.0
-release with it
+As you'd expect, it's still building rust-hello-world for all qemus 
+(except riscv64 which may never have worked). 
+Rust-hello-world runs for me on qemu:
+   x86-64, arm, arm64
+It may run on other machines but that's what I've tested so far.
 
->
-> Alistair
->
-> >
-> > Alistair
-> >
-> > > Thanks
-> > > -Khem
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+We need a list of meta-rust issues that should be resolved 
+in order to get the code accepted in oe-core. I opened an issue 
+to track that:
+   https://github.com/meta-rust/meta-rust/issues/251
+but there haven't been any comments yet. I'd rather track
+issues in github than in the YP Bugzilla:
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=12675
+
+Here, in no particular order, are some of
+the defects that I believe need to be fixed:
+
+1. build system is assumed to be linux-x86_64
+   https://github.com/meta-rust/meta-rust/issues/23
+
+2. Make rust-native build in parallel (it's very slow!)
+   (meta-rust issue/PR to be created by Randy)
+
+3. Document developer workflows such as cargo-bitbake.
+
+4. Build offline ( BB_NO_NETWORK = '1' )
+
+5. make rust-hello-world install for qemuriscv64
+   https://github.com/meta-rust/meta-rust/issues/252
+
+6. ... build rustc and cargo for target (nice to have, only).
+   https://github.com/meta-rust/meta-rust/issues/81
+
+7. Bootstrap from C as an option?
+   See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12675#c2
+
+8. Update librsvg to latest (2.46) which uses rust.
+
+What have I missed?
+
+I'll work on several of these defects but I'll likely
+need help from people with more Rust experience.
+
+../Randy
+
+Randy MacLeod (3):
+  Add libgit2, libssh2 from meta-oe for rust
+  meta-rust: move code to oe-core from meta-rust layer
+  rust: mv README.md to recipes-devtools/rust/README-rust.md
+
+ meta/classes/cargo.bbclass                    |  70 +++
+ meta/classes/cargo_common.bbclass             |  98 ++++
+ meta/classes/crate-fetch.bbclass              |  13 +
+ meta/classes/rust-bin.bbclass                 | 149 +++++
+ meta/classes/rust-common.bbclass              | 144 +++++
+ meta/classes/rust.bbclass                     |  45 ++
+ .../distro/include/rust_security_flags.inc    |   7 +
+ meta/conf/layer.conf                          |   2 +
+ meta/lib/crate.py                             | 149 +++++
+ .../cargo-1.34.2/0001-Disable-http2.patch     |  29 +
+ .../cargo-1.36.0/0001-Disable-http2.patch     |  31 ++
+ .../cargo-1.37.0/0001-Disable-http2.patch     |  29 +
+ meta/recipes-devtools/cargo/cargo.inc         |  43 ++
+ meta/recipes-devtools/cargo/cargo_1.34.2.bb   |   8 +
+ meta/recipes-devtools/cargo/cargo_1.36.0.bb   |   8 +
+ meta/recipes-devtools/cargo/cargo_1.37.0.bb   |   8 +
+ meta/recipes-devtools/rust/README-rust.md     |  69 +++
+ meta/recipes-devtools/rust/libstd-rs.inc      |  31 ++
+ .../recipes-devtools/rust/libstd-rs_1.34.2.bb |   8 +
+ .../recipes-devtools/rust/libstd-rs_1.36.0.bb |   8 +
+ .../recipes-devtools/rust/libstd-rs_1.37.0.bb |   8 +
+ meta/recipes-devtools/rust/rust-cross.inc     |  52 ++
+ .../rust/rust-cross_1.34.2.bb                 |   3 +
+ .../rust/rust-cross_1.36.0.bb                 |   3 +
+ .../rust/rust-cross_1.37.0.bb                 |   3 +
+ meta/recipes-devtools/rust/rust-llvm.inc      |  62 +++
+ ...-llvm-allow-env-override-of-exe-path.patch |  32 ++
+ .../recipes-devtools/rust/rust-llvm_1.34.2.bb |  16 +
+ .../recipes-devtools/rust/rust-llvm_1.36.0.bb |  16 +
+ .../recipes-devtools/rust/rust-llvm_1.37.0.bb |  16 +
+ .../rust/rust-snapshot-1.34.2.inc             |  24 +
+ .../rust/rust-snapshot-1.36.0.inc             |  24 +
+ .../rust/rust-snapshot-1.37.0.inc             |  24 +
+ .../rust/rust-source-1.34.2.inc               |  11 +
+ .../rust/rust-source-1.36.0.inc               |  11 +
+ .../rust/rust-source-1.37.0.inc               |  11 +
+ meta/recipes-devtools/rust/rust.inc           | 509 ++++++++++++++++++
+ meta/recipes-devtools/rust/rust_1.34.2.bb     |  12 +
+ meta/recipes-devtools/rust/rust_1.36.0.bb     |  12 +
+ meta/recipes-devtools/rust/rust_1.37.0.bb     |  12 +
+ .../rust-hello-world/rust-hello-world_git.bb  |  13 +
+ meta/recipes-example/rustfmt/rustfmt_0.8.0.bb |  67 +++
+ .../recipes-support/libgit2/libgit2_0.27.8.bb |  25 +
+ meta/recipes-support/libssh2/libssh2_1.8.2.bb |  27 +
+ scripts/build.sh                              |  19 +
+ scripts/cleanup-env.sh                        |  14 +
+ scripts/containerize.sh                       |  54 ++
+ scripts/fetch.sh                              | 103 ++++
+ scripts/publish-build-cache.sh                |  13 +
+ scripts/setup-env.sh                          |  12 +
+ 50 files changed, 2157 insertions(+)
+ create mode 100644 meta/classes/cargo.bbclass
+ create mode 100644 meta/classes/cargo_common.bbclass
+ create mode 100644 meta/classes/crate-fetch.bbclass
+ create mode 100644 meta/classes/rust-bin.bbclass
+ create mode 100644 meta/classes/rust-common.bbclass
+ create mode 100644 meta/classes/rust.bbclass
+ create mode 100644 meta/conf/distro/include/rust_security_flags.inc
+ create mode 100644 meta/lib/crate.py
+ create mode 100644 meta/recipes-devtools/cargo/cargo-1.34.2/0001-Disable-http2.patch
+ create mode 100644 meta/recipes-devtools/cargo/cargo-1.36.0/0001-Disable-http2.patch
+ create mode 100644 meta/recipes-devtools/cargo/cargo-1.37.0/0001-Disable-http2.patch
+ create mode 100644 meta/recipes-devtools/cargo/cargo.inc
+ create mode 100644 meta/recipes-devtools/cargo/cargo_1.34.2.bb
+ create mode 100644 meta/recipes-devtools/cargo/cargo_1.36.0.bb
+ create mode 100644 meta/recipes-devtools/cargo/cargo_1.37.0.bb
+ create mode 100644 meta/recipes-devtools/rust/README-rust.md
+ create mode 100644 meta/recipes-devtools/rust/libstd-rs.inc
+ create mode 100644 meta/recipes-devtools/rust/libstd-rs_1.34.2.bb
+ create mode 100644 meta/recipes-devtools/rust/libstd-rs_1.36.0.bb
+ create mode 100644 meta/recipes-devtools/rust/libstd-rs_1.37.0.bb
+ create mode 100644 meta/recipes-devtools/rust/rust-cross.inc
+ create mode 100644 meta/recipes-devtools/rust/rust-cross_1.34.2.bb
+ create mode 100644 meta/recipes-devtools/rust/rust-cross_1.36.0.bb
+ create mode 100644 meta/recipes-devtools/rust/rust-cross_1.37.0.bb
+ create mode 100644 meta/recipes-devtools/rust/rust-llvm.inc
+ create mode 100644 meta/recipes-devtools/rust/rust-llvm/0002-llvm-allow-env-override-of-exe-path.patch
+ create mode 100644 meta/recipes-devtools/rust/rust-llvm_1.34.2.bb
+ create mode 100644 meta/recipes-devtools/rust/rust-llvm_1.36.0.bb
+ create mode 100644 meta/recipes-devtools/rust/rust-llvm_1.37.0.bb
+ create mode 100644 meta/recipes-devtools/rust/rust-snapshot-1.34.2.inc
+ create mode 100644 meta/recipes-devtools/rust/rust-snapshot-1.36.0.inc
+ create mode 100644 meta/recipes-devtools/rust/rust-snapshot-1.37.0.inc
+ create mode 100644 meta/recipes-devtools/rust/rust-source-1.34.2.inc
+ create mode 100644 meta/recipes-devtools/rust/rust-source-1.36.0.inc
+ create mode 100644 meta/recipes-devtools/rust/rust-source-1.37.0.inc
+ create mode 100644 meta/recipes-devtools/rust/rust.inc
+ create mode 100644 meta/recipes-devtools/rust/rust_1.34.2.bb
+ create mode 100644 meta/recipes-devtools/rust/rust_1.36.0.bb
+ create mode 100644 meta/recipes-devtools/rust/rust_1.37.0.bb
+ create mode 100644 meta/recipes-example/rust-hello-world/rust-hello-world_git.bb
+ create mode 100644 meta/recipes-example/rustfmt/rustfmt_0.8.0.bb
+ create mode 100644 meta/recipes-support/libgit2/libgit2_0.27.8.bb
+ create mode 100644 meta/recipes-support/libssh2/libssh2_1.8.2.bb
+ create mode 100755 scripts/build.sh
+ create mode 100755 scripts/cleanup-env.sh
+ create mode 100755 scripts/containerize.sh
+ create mode 100755 scripts/fetch.sh
+ create mode 100755 scripts/publish-build-cache.sh
+ create mode 100755 scripts/setup-env.sh
+
+-- 
+2.22.0
+
 
