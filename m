@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 38B227F273
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 44AF77F2A2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 03:13:37 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id x10so394280pgi.5
+	Tue, 24 Sep 2019 03:13:39 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id z12so380692pgp.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 20:13:38 -0700 (PDT)
+	Mon, 23 Sep 2019 20:13:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=j2MXK2OEWreOhSZIpWfqVPeE3XkIfeTZgcCBEjwOBVk=;
-	b=oP8zlwy9iUVauKoQNYd0kOJcx7ET+A4sBKJVOcKWysCfl7JIXGqlzYb3/jj3xre7ED
-	HELPXRP/L7ljuSBxXmDpyw+ry8pw4i3BMIodLgWglKCz0W5w5tRI4A0Y2FZEMSaodPUo
-	WxpJPjZD6AGOzVmcP4M2Q9Sn8lg5IWZ/TKEvtCBVxeQI2xcvjOc+upI9/YOhof3cViKG
-	SPWR4SKKutncs9Dq+OvGTqfYCeDYmlylvUgk9Qjrlq1iuSS6bBSPVkaLu9g6UU/vECkE
-	I5Gmjhgr0Ubo6mqNXwCXpttUBJz20wHsoNZWzbSGNmBMPFtSGPSSdL1oaWvuPxeHnmu/
-	PwFQ==
+	bh=zXcnkzKjXjuiCEq8uFhku/n3fBi3T0fI7Cw1UJfwdis=;
+	b=mx5MUMMxbIo9KaepzzCDqrnhMw5NBjfX/7nOfNE8gDMukHvMxrZu6SQ8sMtHHzL0GA
+	WKHMk57JLCZcE7H1yk0gmvllM1JQHk/cSVLrNWi8B8Gdy+iX09w56fTRcajVG/cjHaBu
+	x7GQankODoHUsNpCyKnKD/zh1Xy6e8FA+ksO9aUIgddJSvEW4sLjGTYlU5Y5AQbkG3Uv
+	GdX4Ql497UTCfcIynzG0Vboyj0YdUYq7OtdbBVZ0PXVQKRx1DQdxDwWuZjqsy+17e/Lm
+	FHk0h4NfmSbtImm/yrPD6iA/6wvidrUKSRNf2BxhiOf4L6AGjHyxUc4msMx4zmi7/Lak
+	ENGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=j2MXK2OEWreOhSZIpWfqVPeE3XkIfeTZgcCBEjwOBVk=;
-	b=Rggl0EYsJt0IapxfZLQjaSa5GoGCfGBbK4yiTam3tjcVRqSjyNsNCb7YcOMfhSO3Fu
-	Pu06lNUorpH+WaZWC/umWfjzeGIhCm61VwgoxvOEmB6EG/ORPKMLmsw5RzJSSFU0AEIB
-	5eQy4/hYOIDl4Gy24S+DKWdMoHoqDU/fJJBuEjrrYcCoWHLEh7CIulk+bj1iLnB4Z9Kt
-	w8rkA3OzrwT+6NCkgxEetAWyyecTFJO+xnNlDY6JDpaPZ7csPyiciNG309T3oJ9tc3rN
-	iPGOwOn63ktRKsy41uWs/V+TpAjjCjk8BnqAJnLhcfX/AzJY7ZlUs9upxu3P/qisE8Eb
-	KLWQ==
-X-Gm-Message-State: APjAAAVplWf6CbcAOxjB8SSl2bXpYsFkmm88uoIIxtJtc7V2P0L6V+BX
-	83cbUcTdPv2FlB3NFlV5dnOZMm2UoL0=
-X-Google-Smtp-Source: APXvYqxTRVd8GVC8YCI83Zhi54bgT7obpoCcUxojo7nqhy03W2kGjyUw9S6N/8iYYt0fDuv15dfvWA==
-X-Received: by 2002:a63:2b01:: with SMTP id r1mr819374pgr.19.1569294818168;
-	Mon, 23 Sep 2019 20:13:38 -0700 (PDT)
+	bh=zXcnkzKjXjuiCEq8uFhku/n3fBi3T0fI7Cw1UJfwdis=;
+	b=Z/hImgSLHAff2JcshKRaV3/6DUNt68Ph5M2ccsNqQpLkRyXxwYDVqAQp3l3t0ml1rq
+	C42HsAL6naEo2ruCSqs2V33b+v+aU5IvpZrT+eT0LKvchgl9I5R+h7EiAoiWxOA9cApa
+	jXTQwmHGJCDIDOfvSJhG709wdXKvvqBEDH6rQ+0elpOeNha+QVYPS9itDM9DXqt8XKvO
+	q6toU1IVb7ImVG+LEXh7G1s3m5CBID7ARbLhIOMchBLFLs3AiTPTWFXi2lHUmyRqfNo5
+	TN0VX5mPEqvN/fJaIBgHRFkDvSNOuwStWNZJNxmpCBXwK5GBRw0lBD++XlKYwDpxDudY
+	48zw==
+X-Gm-Message-State: APjAAAV9NCAoby0W2HphQh45LzuaDZZwtapcc8agY/lz+fY5hWbK6PS0
+	KacorN1vVw6BHgfHh/MRcv4vyIMIkeA=
+X-Google-Smtp-Source: APXvYqy6zWgLnP+6bDsj2xV6UtYZ0eyPT8uymfSybau7i1h7X6BH7ri721lmT5Cy82IrKf91hx3AxA==
+X-Received: by 2002:a63:4902:: with SMTP id w2mr896701pga.28.1569294819989;
+	Mon, 23 Sep 2019 20:13:39 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:ec07:55c0:9c8c:b3de])
-	by smtp.gmail.com with ESMTPSA id z23sm252602pgi.78.2019.09.23.20.13.36
+	by smtp.gmail.com with ESMTPSA id z23sm252602pgi.78.2019.09.23.20.13.39
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Sep 2019 20:13:37 -0700 (PDT)
+	Mon, 23 Sep 2019 20:13:39 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2019 20:13:10 -0700
-Message-Id: <6018e9755dce3eaa22a1fe691dc18546c43c9cbe.1569294712.git.akuster808@gmail.com>
+Date: Mon, 23 Sep 2019 20:13:12 -0700
+Message-Id: <99459e79c422bd5f2fda8d0320649255c20e4548.1569294712.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569294712.git.akuster808@gmail.com>
 References: <cover.1569294712.git.akuster808@gmail.com>
-Subject: [Thud][ 14/24] go: update to 1.11.13, minor updates
+Subject: [Thud][ 16/24] binutils: Fix 4 CVEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,53 +58,405 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 03:13:37 -0000
+X-List-Received-Date: Tue, 24 Sep 2019 03:13:39 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+From: Dan Tran <dantran@microsoft.com>
 
-Source: golang.org
-MR: 99376
-Type: Security Fix
-Disposition: Backport from golang.org
-ChangeID: 41576ab4a0abdebbc44f1a35a83bf04e5f2fde06
-Description:
+Fixes CVE-2018-20623, CVE-2018-20651, CVE-2018-20-671, and
+CVE-2018-1000876 for binutils 2.31.1.
 
-https://golang.org/doc/devel/release.html
-
-go1.11.11 (released 2019/06/11) includes a fix to the crypto/x509 package. See the Go 1.11.11 milestone on our issue tracker for details.
-
-go1.11.12 (released 2019/07/08) includes fixes to the compiler and the linker. See the Go 1.11.12 milestone on our issue tracker for details.
-
-go1.11.13 (released 2019/08/13) includes security fixes to the net/http and net/url packages. See the Go 1.11.13 milestone on our issue tracker for details.
-
-Includes CVE: CVE-2019-14809
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Dan Tran <dantran@microsoft.com>
+[fixed up .inc for thud-next context]
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/go/go-1.11.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/binutils/binutils-2.31.inc   |   4 +
+ .../binutils/binutils/CVE-2018-1000876.patch       | 180 +++++++++++++++++++++
+ .../binutils/binutils/CVE-2018-20623.patch         |  74 +++++++++
+ .../binutils/binutils/CVE-2018-20651.patch         |  35 ++++
+ .../binutils/binutils/CVE-2018-20671.patch         |  49 ++++++
+ 5 files changed, 342 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-1000876.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-20623.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-20651.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2018-20671.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.11.inc b/meta/recipes-devtools/go/go-1.11.inc
-index 401e71f..90d4037 100644
---- a/meta/recipes-devtools/go/go-1.11.inc
-+++ b/meta/recipes-devtools/go/go-1.11.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
- 
- GO_BASEVERSION = "1.11"
--GO_MINOR = ".10"
-+GO_MINOR = ".13"
- PV .= "${GO_MINOR}"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
-@@ -19,5 +19,5 @@ SRC_URI += "\
+diff --git a/meta/recipes-devtools/binutils/binutils-2.31.inc b/meta/recipes-devtools/binutils/binutils-2.31.inc
+index e1a6673..c9a3610 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.31.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.31.inc
+@@ -48,6 +48,10 @@ SRC_URI = "\
+      file://CVE-2018-18607.patch \
+      file://CVE-2019-14444.patch \
+      file://CVE-2019-12972.patch \
++     file://CVE-2018-20623.patch \
++     file://CVE-2018-20651.patch \
++     file://CVE-2018-20671.patch \
++     file://CVE-2018-1000876.patch \
  "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+ S  = "${WORKDIR}/git"
  
--SRC_URI[main.md5sum] = "f2d2e44b9954b827daa8ad4d936a7a82"
--SRC_URI[main.sha256sum] = "df27e96a9d1d362c46ecd975f1faa56b8c300f5c529074e9ea79bdd885493c1b"
-+SRC_URI[main.md5sum] = "32e71746981695517387a2149eb541ef"
-+SRC_URI[main.sha256sum] = "5032095fd3f641cafcce164f551e5ae873785ce7b07ca7c143aecd18f7ba4076"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-1000876.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-1000876.patch
+new file mode 100644
+index 0000000..ff85351
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-1000876.patch
+@@ -0,0 +1,180 @@
++From efec0844fcfb5692f5a78f4082994d63e420ecd9 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sun, 16 Dec 2018 23:02:50 +1030
++Subject: [PATCH] PR23994, libbfd integer overflow
++
++	PR 23994
++	* aoutx.h: Include limits.h.
++	(get_reloc_upper_bound): Detect long overflow and return a file
++	too big error if it occurs.
++	* elf.c: Include limits.h.
++	(_bfd_elf_get_symtab_upper_bound): Detect long overflow and return
++	a file too big error if it occurs.
++	(_bfd_elf_get_dynamic_symtab_upper_bound): Likewise.
++	(_bfd_elf_get_dynamic_reloc_upper_bound): Likewise.
++
++CVE: CVE-2018-1000876
++Upstream-Status: Backport
++[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=3a551c7a1b80fca579461774860574eabfd7f18f]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ bfd/aoutx.h | 40 +++++++++++++++++++++-------------------
++ bfd/elf.c   | 32 ++++++++++++++++++++++++--------
++ 2 files changed, 45 insertions(+), 27 deletions(-)
++
++diff --git a/bfd/aoutx.h b/bfd/aoutx.h
++index 023843b0be..78eaa9c503 100644
++--- a/bfd/aoutx.h
+++++ b/bfd/aoutx.h
++@@ -117,6 +117,7 @@ DESCRIPTION
++ #define KEEPIT udata.i
++ 
++ #include "sysdep.h"
+++#include <limits.h>
++ #include "bfd.h"
++ #include "safe-ctype.h"
++ #include "bfdlink.h"
++@@ -2491,6 +2492,8 @@ NAME (aout, canonicalize_reloc) (bfd *abfd,
++ long
++ NAME (aout, get_reloc_upper_bound) (bfd *abfd, sec_ptr asect)
++ {
+++  bfd_size_type count;
+++
++   if (bfd_get_format (abfd) != bfd_object)
++     {
++       bfd_set_error (bfd_error_invalid_operation);
++@@ -2498,26 +2501,25 @@ NAME (aout, get_reloc_upper_bound) (bfd *abfd, sec_ptr asect)
++     }
++ 
++   if (asect->flags & SEC_CONSTRUCTOR)
++-    return sizeof (arelent *) * (asect->reloc_count + 1);
++-
++-  if (asect == obj_datasec (abfd))
++-    return sizeof (arelent *)
++-      * ((exec_hdr (abfd)->a_drsize / obj_reloc_entry_size (abfd))
++-	 + 1);
++-
++-  if (asect == obj_textsec (abfd))
++-    return sizeof (arelent *)
++-      * ((exec_hdr (abfd)->a_trsize / obj_reloc_entry_size (abfd))
++-	 + 1);
++-
++-  if (asect == obj_bsssec (abfd))
++-    return sizeof (arelent *);
++-
++-  if (asect == obj_bsssec (abfd))
++-    return 0;
+++    count = asect->reloc_count;
+++  else if (asect == obj_datasec (abfd))
+++    count = exec_hdr (abfd)->a_drsize / obj_reloc_entry_size (abfd);
+++  else if (asect == obj_textsec (abfd))
+++    count = exec_hdr (abfd)->a_trsize / obj_reloc_entry_size (abfd);
+++  else if (asect == obj_bsssec (abfd))
+++    count = 0;
+++  else
+++    {
+++      bfd_set_error (bfd_error_invalid_operation);
+++      return -1;
+++    }
++ 
++-  bfd_set_error (bfd_error_invalid_operation);
++-  return -1;
+++  if (count >= LONG_MAX / sizeof (arelent *))
+++    {
+++      bfd_set_error (bfd_error_file_too_big);
+++      return -1;
+++    }
+++  return (count + 1) * sizeof (arelent *);
++ }
++ 
++ long
++diff --git a/bfd/elf.c b/bfd/elf.c
++index 828241d48a..10037176a3 100644
++--- a/bfd/elf.c
+++++ b/bfd/elf.c
++@@ -35,6 +35,7 @@ SECTION
++ /* For sparc64-cross-sparc32.  */
++ #define _SYSCALL32
++ #include "sysdep.h"
+++#include <limits.h>
++ #include "bfd.h"
++ #include "bfdlink.h"
++ #include "libbfd.h"
++@@ -8114,11 +8115,16 @@ error_return:
++ long
++ _bfd_elf_get_symtab_upper_bound (bfd *abfd)
++ {
++-  long symcount;
+++  bfd_size_type symcount;
++   long symtab_size;
++   Elf_Internal_Shdr *hdr = &elf_tdata (abfd)->symtab_hdr;
++ 
++   symcount = hdr->sh_size / get_elf_backend_data (abfd)->s->sizeof_sym;
+++  if (symcount >= LONG_MAX / sizeof (asymbol *))
+++    {
+++      bfd_set_error (bfd_error_file_too_big);
+++      return -1;
+++    }
++   symtab_size = (symcount + 1) * (sizeof (asymbol *));
++   if (symcount > 0)
++     symtab_size -= sizeof (asymbol *);
++@@ -8129,7 +8135,7 @@ _bfd_elf_get_symtab_upper_bound (bfd *abfd)
++ long
++ _bfd_elf_get_dynamic_symtab_upper_bound (bfd *abfd)
++ {
++-  long symcount;
+++  bfd_size_type symcount;
++   long symtab_size;
++   Elf_Internal_Shdr *hdr = &elf_tdata (abfd)->dynsymtab_hdr;
++ 
++@@ -8140,6 +8146,11 @@ _bfd_elf_get_dynamic_symtab_upper_bound (bfd *abfd)
++     }
++ 
++   symcount = hdr->sh_size / get_elf_backend_data (abfd)->s->sizeof_sym;
+++  if (symcount >= LONG_MAX / sizeof (asymbol *))
+++    {
+++      bfd_set_error (bfd_error_file_too_big);
+++      return -1;
+++    }
++   symtab_size = (symcount + 1) * (sizeof (asymbol *));
++   if (symcount > 0)
++     symtab_size -= sizeof (asymbol *);
++@@ -8209,7 +8220,7 @@ _bfd_elf_canonicalize_dynamic_symtab (bfd *abfd,
++ long
++ _bfd_elf_get_dynamic_reloc_upper_bound (bfd *abfd)
++ {
++-  long ret;
+++  bfd_size_type count;
++   asection *s;
++ 
++   if (elf_dynsymtab (abfd) == 0)
++@@ -8218,15 +8229,20 @@ _bfd_elf_get_dynamic_reloc_upper_bound (bfd *abfd)
++       return -1;
++     }
++ 
++-  ret = sizeof (arelent *);
+++  count = 1;
++   for (s = abfd->sections; s != NULL; s = s->next)
++     if (elf_section_data (s)->this_hdr.sh_link == elf_dynsymtab (abfd)
++ 	&& (elf_section_data (s)->this_hdr.sh_type == SHT_REL
++ 	    || elf_section_data (s)->this_hdr.sh_type == SHT_RELA))
++-      ret += ((s->size / elf_section_data (s)->this_hdr.sh_entsize)
++-	      * sizeof (arelent *));
++-
++-  return ret;
+++      {
+++	count += s->size / elf_section_data (s)->this_hdr.sh_entsize;
+++	if (count > LONG_MAX / sizeof (arelent *))
+++	  {
+++	    bfd_set_error (bfd_error_file_too_big);
+++	    return -1;
+++	  }
+++      }
+++  return count * sizeof (arelent *);
++ }
++ 
++ /* Canonicalize the dynamic relocation entries.  Note that we return the
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-20623.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-20623.patch
+new file mode 100644
+index 0000000..b44d448
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-20623.patch
+@@ -0,0 +1,74 @@
++From 90cce28d4b59f86366d4f562d01a8d439d514234 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Wed, 9 Jan 2019 12:25:16 +0000
++Subject: [PATCH] Fix a heap use after free memory access fault when displaying
++ error messages about malformed archives.
++
++	PR 14049
++	* readelf.c (process_archive): Use arch.file_name in error
++	messages until the qualified name is available.
++
++CVE: CVE-2018-20623
++Upstream-Status: Backport
++[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=28e817cc440bce73691c03e01860089a0954a837]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ binutils/readelf.c | 13 ++++++++-----
++ 1 file changed, 8 insertions(+), 5 deletions(-)
++
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index f4df697a7d..280023d8de 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -19061,7 +19061,7 @@ process_archive (Filedata * filedata, bfd_boolean is_thin_archive)
++       /* Read the next archive header.  */
++       if (fseek (filedata->handle, arch.next_arhdr_offset, SEEK_SET) != 0)
++         {
++-          error (_("%s: failed to seek to next archive header\n"), filedata->file_name);
+++          error (_("%s: failed to seek to next archive header\n"), arch.file_name);
++           return FALSE;
++         }
++       got = fread (&arch.arhdr, 1, sizeof arch.arhdr, filedata->handle);
++@@ -19069,7 +19069,10 @@ process_archive (Filedata * filedata, bfd_boolean is_thin_archive)
++         {
++           if (got == 0)
++ 	    break;
++-          error (_("%s: failed to read archive header\n"), filedata->file_name);
+++	  /* PR 24049 - we cannot use filedata->file_name as this will
+++	     have already been freed.  */
+++	  error (_("%s: failed to read archive header\n"), arch.file_name);
+++	    
++           ret = FALSE;
++           break;
++         }
++@@ -19089,7 +19092,7 @@ process_archive (Filedata * filedata, bfd_boolean is_thin_archive)
++       name = get_archive_member_name (&arch, &nested_arch);
++       if (name == NULL)
++ 	{
++-	  error (_("%s: bad archive file name\n"), filedata->file_name);
+++	  error (_("%s: bad archive file name\n"), arch.file_name);
++ 	  ret = FALSE;
++ 	  break;
++ 	}
++@@ -19098,7 +19101,7 @@ process_archive (Filedata * filedata, bfd_boolean is_thin_archive)
++       qualified_name = make_qualified_name (&arch, &nested_arch, name);
++       if (qualified_name == NULL)
++ 	{
++-	  error (_("%s: bad archive file name\n"), filedata->file_name);
+++	  error (_("%s: bad archive file name\n"), arch.file_name);
++ 	  ret = FALSE;
++ 	  break;
++ 	}
++@@ -19144,7 +19147,7 @@ process_archive (Filedata * filedata, bfd_boolean is_thin_archive)
++ 	  if (nested_arch.file == NULL)
++ 	    {
++ 	      error (_("%s: contains corrupt thin archive: %s\n"),
++-		     filedata->file_name, name);
+++		     qualified_name, name);
++ 	      ret = FALSE;
++ 	      break;
++ 	    }
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-20651.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-20651.patch
+new file mode 100644
+index 0000000..24fb031
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-20651.patch
+@@ -0,0 +1,35 @@
++From 6a29d95602b09bb83d2c82b45ed935157fb780aa Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Mon, 31 Dec 2018 15:40:08 +1030
++Subject: [PATCH] PR24041, Invalid Memory Address Dereference in
++ elf_link_add_object_symbols
++
++	PR 24041
++	* elflink.c (elf_link_add_object_symbols): Don't segfault on
++	crafted ET_DYN with no program headers.
++
++CVE: CVE-2018-20651
++Upstream-Status: Backport
++[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=54025d5812ff100f5f0654eb7e1ffd50f2e37f5f]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ bfd/elflink.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bfd/elflink.c b/bfd/elflink.c
++index 46091b6341..557c550082 100644
++--- a/bfd/elflink.c
+++++ b/bfd/elflink.c
++@@ -4178,7 +4178,7 @@ error_free_dyn:
++ 	 all sections contained fully therein.  This makes relro
++ 	 shared library sections appear as they will at run-time.  */
++       phdr = elf_tdata (abfd)->phdr + elf_elfheader (abfd)->e_phnum;
++-      while (--phdr >= elf_tdata (abfd)->phdr)
+++      while (phdr-- > elf_tdata (abfd)->phdr)
++ 	if (phdr->p_type == PT_GNU_RELRO)
++ 	  {
++ 	    for (s = abfd->sections; s != NULL; s = s->next)
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2018-20671.patch b/meta/recipes-devtools/binutils/binutils/CVE-2018-20671.patch
+new file mode 100644
+index 0000000..9bd9207
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2018-20671.patch
+@@ -0,0 +1,49 @@
++From 8a5f4f2ebe7f35ac5646060fa51e3332f6ef388c Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Fri, 4 Jan 2019 13:44:34 +0000
++Subject: [PATCH] Fix a possible integer overflow problem when examining
++ corrupt binaries using a 32-bit binutil.
++
++	PR 24005
++	* objdump.c (load_specific_debug_section): Check for integer
++	overflow before attempting to allocate contents.
++
++CVE: CVE-2018-20671
++Upstream-Status: Backport
++[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=11fa9f134fd658075c6f74499c780df045d9e9ca]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ binutils/objdump.c | 13 ++++++++++---
++ 1 file changed, 10 insertions(+), 3 deletions(-)
++
++diff --git a/binutils/objdump.c b/binutils/objdump.c
++index f468fcdb59..89ca688938 100644
++--- a/binutils/objdump.c
+++++ b/binutils/objdump.c
++@@ -2503,12 +2503,19 @@ load_specific_debug_section (enum dwarf_section_display_enum debug,
++   section->reloc_info = NULL;
++   section->num_relocs = 0;
++   section->address = bfd_get_section_vma (abfd, sec);
+++  section->user_data = sec;
++   section->size = bfd_get_section_size (sec);
++   amt = section->size + 1;
+++  if (amt == 0 || amt > bfd_get_file_size (abfd))
+++    {
+++      section->start = NULL;
+++      free_debug_section (debug);
+++      printf (_("\nSection '%s' has an invalid size: %#llx.\n"),
+++	      section->name, (unsigned long long) section->size);
+++      return FALSE;
+++    }
++   section->start = contents = malloc (amt);
++-  section->user_data = sec;
++-  if (amt == 0
++-      || section->start == NULL
+++  if (section->start == NULL
++       || !bfd_get_full_section_contents (abfd, sec, &contents))
++     {
++       free_debug_section (debug);
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
++
 -- 
 2.7.4
 
