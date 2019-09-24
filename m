@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id F3D677F2B6
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 15EC87F2BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 02:50:12 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id 4so263906pld.10
+	Tue, 24 Sep 2019 02:50:14 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id u12so258059pls.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 19:50:14 -0700 (PDT)
+	Mon, 23 Sep 2019 19:50:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=7VM1VjmPn7JQszkFYdQ5EHE43Qe0z5FGxwTCckbh4LQ=;
-	b=VYAj7iv1S04ItzvKOz1TyDcY/hubzNbHUxo5n/GybTc3d5casin7PsYEMtO9PVgxKv
-	ZoBjqP4wT7vCUql4YqZrkoL+GKIXpPQPXsqXNCg+rzbCD3gTxKkSwDQqTxlVqqfr2b8Q
-	NJRiVo/xDQQmCUaQQ6uEpD3a4Y4aC3sxd4ewP1vn4eO/qYu/G1hIe6FqAB6UrynCyW3R
-	i5+vGxxN+sC2TA1rqx9/aeS4avk1jJaWqNFlz/dpa+ujfpG6vEWzuPb/EMTkeYlAK3ll
-	ytkCTSjPk9PqkZGJMuM6aH9Fa7ejX8SYoabmEi671iS5cobF+ou2Gk0lBIbql7/RE5B2
-	il/Q==
+	bh=pePUMuXbWL+S0m7tdwnNv1XKJm7FPqqKahmdEwx4xa4=;
+	b=N6+BB/vQv36Y/gxjJ5kY7junhEs6/qv9DTfHF07l3q7b44eEDxggA00uCJvEuh7yUr
+	ctGU/Fj8+mtlBR407DrsA5BKzohGDzS9QI1vPi44nFZ3u3PLpensFtIhXs1mPqyFoFLh
+	1yNWtmZTGTpZB6D174XIU1O2zEwdVpat5uJzbYEFPotzDr5lbisldjKhdeTSxYSBhMo1
+	BttcSX9l2+l4TKIe5OR0BK79srHBp27RidfqrnpXPdWyCHtjQV/jaoxr5Ff/zwNecANo
+	d5bohJyNJkf8C/DtQqubdb5KgBZEoM3h6wguZ+qFCJQIodr7vGxC5mpQ3q2107WAbsR/
+	v04Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=7VM1VjmPn7JQszkFYdQ5EHE43Qe0z5FGxwTCckbh4LQ=;
-	b=DwwxZ6lehWtHNq6l4D4O5LD5DQZo1Am/nYKzlPOEkpvNzE409oa8PDRrOekaskX0lA
-	g9bdq2l1fskSpHCEEhTHLwZQ82MlHtGcYphbaq0Uw9E8mKbfKt4TE5RvAHZ/XcsLhT7N
-	n2pEBJWYxQgA/V3Nfk68MIDx13nwkbcnJsvfR8vV5Q8zAWu2zms7AagX5RdsWGZ5/0Y8
-	W3+E74xZiqUbIeLGdTy7YkTNER2o5306oMup6ZVdtCHSd99MsF/DarLRj3mwGe1d7SC/
-	p4hghPVU2AXUIhyro9ksvzbTAS89aqjSzco5FsgDSefckSbXQ/iCAXw4dNJSL1KyrWMm
-	4Myg==
-X-Gm-Message-State: APjAAAV0M1CanE84jl6TDfbzE+XutSSSDkgpEJU049x0Vbb8BBF2i6jc
-	KF4V3zgP2AbgrLnqDYoJ1a/0NDRMpok=
-X-Google-Smtp-Source: APXvYqwZq0XWILy0jO0SZxIxzfQhXBtBmEq8q6hLHEz9IVUW1/M8lJw3XzC15aHJ3SXN3hE9RILckA==
-X-Received: by 2002:a17:902:b704:: with SMTP id
-	d4mr486401pls.204.1569293414017; 
+	bh=pePUMuXbWL+S0m7tdwnNv1XKJm7FPqqKahmdEwx4xa4=;
+	b=RRyXJn/YAH3klCF5iVDk9Ou7TL97vk0l0uvA48NcJ4XktZIwGLFW1hyhutzaczKfeW
+	p2Q5ioihBwV2KAX/L/0EgHjpKQ6RRgf49OlNvtDAzOjuHu2L4NF+j9e7BdqFDBRUAHzZ
+	/uWftdG4opW9q5nCWHUtk2sVM1VgxLaVJ08R1m3Ji7S0dI/OQ7uoDk7xc2kK+sfa8K52
+	oveqsc1odRjPE8Zt6fgogSsxLy7iSY5RAS3BfzfRLUiUkylCeXRQGoFvAr/8vzUskRbQ
+	rpglnyR69rNQntYdRoEFQ6H6w/xicA1epzGVgjJtH940MQ9lHy6aT1WKPvl/KyU644oS
+	wDRQ==
+X-Gm-Message-State: APjAAAUQdpJL8jPJ1pVhF0IfloVTHFoslWLhO/lUW/v5/oUTzEot90Dp
+	YPlFrlhqrFuXc7s7SrafiAcmp3i0n/w=
+X-Google-Smtp-Source: APXvYqwpntEJOBpxH39f8G2haHSdV4puWoQ4BeRYgtn7JpX5jAq/hG9eGM//C5MWeCGANm2fxahirg==
+X-Received: by 2002:a17:902:23:: with SMTP id 32mr500832pla.214.1569293414699; 
 	Mon, 23 Sep 2019 19:50:14 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:ec07:55c0:9c8c:b3de])
 	by smtp.gmail.com with ESMTPSA id
-	q204sm146791pfc.11.2019.09.23.19.50.13
+	q204sm146791pfc.11.2019.09.23.19.50.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Sep 2019 19:50:13 -0700 (PDT)
+	Mon, 23 Sep 2019 19:50:14 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2019 19:49:20 -0700
-Message-Id: <2ed66891e3afed338740a73c0b7c0e6947f2ea77.1569292053.git.akuster808@gmail.com>
+Date: Mon, 23 Sep 2019 19:49:21 -0700
+Message-Id: <7af754ca4b1d45275dfd4a66a317f262f24edde9.1569292053.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569292053.git.akuster808@gmail.com>
 References: <cover.1569292053.git.akuster808@gmail.com>
-Subject: [warrior][ 40/50] glibc-locale: Fix build error with PACKAGE_NO_GCONV = "1"
+Subject: [warrior][ 41/50] glibc/glibc-locale: Fix do_stash_locale to work with usrmerge and multilibs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +59,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 02:50:13 -0000
+X-List-Received-Date: Tue, 24 Sep 2019 02:50:14 -0000
 
 From: Jason Wessel <jason.wessel@windriver.com>
 
-When the PACKAGE_NO_GCONV is set to 1 an empty directory is left behind from the do_install rule:
+The do_stash_locale was not working consistently across the 4 build
+configurations and the multilib, usrmerge configuration would fail
+entirely with the obscure message:
 
-=====
-ERROR: glibc-locale-2.29-r0 do_package: QA Issue: glibc-locale: Files/directories were installed but not shipped in any package:
-  /usr/lib
-  /usr/lib/locale
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
-glibc-locale: 2 installed and not shipped files. [installed-vs-shipped]
-ERROR: glibc-locale-2.29-r0 do_package: Fatal QA errors found, failing task.
-=====
+| DEBUG: Executing shell function do_prep_locale_tree
+| tar: i18n: Cannot stat: No such file or directory
+| tar: Exiting with failure status due to previous errors
+| gzip: /poky/build/tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/locale-tree//usr/share/i18n/charmaps/*gz.gz: No such file or directory
+| WARNING: /poky/build/tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/temp/run.do_prep_locale_tree.124690:1 exit 1 from 'gunzip $i'
 
-The simple fix is to prune the empty directory.
+Here is the 4 build configurations without the patch applied:
+
+A) x86-64 no multilibs, no usrmerge
+find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v nscd.service |wc -l
+909
+B) x86-64 no multilibs, usrmerge
+find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v nscd.service |wc -l
+909
+C) x86-64 multilibs, no usrmerge
+find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v nscd.service |wc -l
+885
+D) x86-64 multilibs, usrmerge
+find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v nscd.service |wc -l
+864
+
+The issue here is that all the moves should be processed first, then a
+copy should be made of the lib directories, but only in the case they
+are different when using the usrmerge feature.  Even though the build
+worked for the multilib configuration without usrmerge, the content
+was not the same.
+
+After applying the patch the same number of files are in all the
+configurations.  The list of files was also diffed, after normalizing
+the directory names to ensure all the correct files were copied.
+
+Ultimately there are probably additional files that should be pruned
+from what is copied to the stated_locale, but the purpose of this
+patch is make it 100% consistent between the build types and fix the
+builds.
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/glibc/glibc-locale.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-core/glibc/glibc-package.inc | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-index a985d26..17f5b78 100644
---- a/meta/recipes-core/glibc/glibc-locale.inc
-+++ b/meta/recipes-core/glibc/glibc-locale.inc
-@@ -89,6 +89,9 @@ do_install() {
- 	if [ ${PACKAGE_NO_GCONV} -eq 0 ]; then
- 		copy_locale_files ${libdir}/gconv 0755
- 		copy_locale_files ${datadir}/i18n 0644
-+	else
-+		# Remove the libdir if it is empty when gconv is not copied
-+		find ${D}${libdir} -type d -empty -delete
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index a1d79b3..ff17a19 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -162,21 +162,28 @@ bashscripts = "mtrace sotruss xtrace"
+ do_stash_locale () {
+ 	dest=${LOCALESTASH}
+ 	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
+-	if [ "${base_libdir}" != "${libdir}" ]; then
+-		cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
+-	fi
++	# Hide away the locale data from the deployment
+ 	if [ -e ${D}${bindir}/localedef ]; then
+ 		mv -f ${D}${bindir}/localedef ${dest}${bindir}
  	fi
- 	copy_locale_files ${datadir}/locale 0644
- 	install -m 0644 ${LOCALETREESRC}/SUPPORTED ${WORKDIR}/SUPPORTED
+ 	if [ -e ${D}${libdir}/gconv ]; then
+ 		mv -f ${D}${libdir}/gconv ${dest}${libdir}
+ 	fi
+-	if [ -e ${D}${exec_prefix}/lib ]; then
+-		cp -fpPR ${D}${exec_prefix}/lib ${dest}${exec_prefix}
+-	fi
+ 	if [ -e ${D}${datadir}/i18n ]; then
+ 		mv ${D}${datadir}/i18n ${dest}${datadir}
+ 	fi
++
++	# Make a copy of all the libraries into the locale stash
++	cp -fpPR ${D}${libdir}/* ${dest}${libdir}
++	if [ "${base_libdir}" != "${libdir}" ]; then
++		cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
++	fi
++	if [ -e ${D}${exec_prefix}/lib ]; then
++		if [ ${exec_prefix}/lib != ${base_libdir} ] && [ ${exec_prefix}/lib != ${libdir} ]; then
++			cp -fpPR ${D}${exec_prefix}/lib ${dest}${exec_prefix}
++		fi
++	fi
++
+ 	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
+ 	rm -rf ${D}${datadir}/locale/
+ 	cp -fpPR ${WORKDIR}/SUPPORTED ${dest}
 -- 
 2.7.4
 
