@@ -1,24 +1,37 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D9207F21B
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id E15F77F0D5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 06:00:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8O5xeTB011165
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 23:00:16 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 23 Sep 2019 23:00:06 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Sep 2019 14:00:05 +0800
-Message-ID: <1569304805-85150-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 24 Sep 2019 06:50:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46csK72LtXz4t;
+	Tue, 24 Sep 2019 08:50:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1569307851;
+	bh=fsKj9jmamTlT+wzcf/jxvyRjXEkEg9w6rpnJzhlf7m0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jTKJx3ATw/mgZcjlRiX+Qm7PGOZDvHbe23yTbHbhxnEnfKxCMyEcIXrwxfbUIaheZ
+	RHmUFZzJWzTHpyrt1n8c2GdJvJSwtXGT5WX6l+z4oc5lHiCD8pXQ0SL/OYM4FaIpjF
+	iqH8o3O/v69y/z6gHXp1HHFqaGJ9otP5zs/rNRczUJ2eriHdlPY11/ALsR7uo20moW
+	OYIOQMVhbQG/ae9YYqv/nAPEltDMy7BtWUMGUmGC7EqcBUs6/KNmleWOgXZvjCZS9Q
+	/S2LcYMSo+qn971sBomhTWj4j1kjz7DM0RYutCPl9GnenDyGGF/OR907hpTAvRBRrB
+	veOQ6cIGu6RZY304A3PIaGG8jpB1GWj6iMKN+ugouWpOHJMqAbLlvruNroiZO/jFFd
+	IdHKJ2I0hbkr1t+cNmncW0ggPXRBFmlWNFglaohLYK6UHt6wdoSPeKNEfPQSz8zI8a
+	TgIXI2V1JtYOzVuY13rlL6xUWE2x4+gh8QRw18DCq2Nr2zDlWefseLEd5xKMo5Dn9R
+	5lF5ZJbDjcPB7Vk1ZcX9fOILgdz6syc1RfSIdLOOLvzeRw4e0DKVgLvbd6XBu7vlYf
+	MRRyOqg/QzgUxW8lcF81OAqKqZ/Xgoyi2NFXyymMOAm8ntwuFToAPnwekfobqqyCnq
+	IMnHLxzC8p2/rSd+98vMlXg0=
+Date: Tue, 24 Sep 2019 09:50:49 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Armin Kuster <akuster808@gmail.com>
+Message-ID: <20190924065049.GA16793@localhost>
+References: <cover.1569292053.git.akuster808@gmail.com>
+	<d000f85c4dfa791e2e764c9d6126bcc13baea01c.1569292053.git.akuster808@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH V2] mdadm: fix do_package failed when changed local.conf but not cleaned
+In-Reply-To: <d000f85c4dfa791e2e764c9d6126bcc13baea01c.1569292053.git.akuster808@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [warrior][ 18/50] systemd: Backport OpenSSL BUF_MEM fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,111 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 06:00:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 24 Sep 2019 06:50:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-From: Changqing Li <changqing.li@windriver.com>
+Please drop this one, see
+https://github.com/systemd/systemd/pull/12802
 
-reproduce steps:
-1. add DISTRO_FEATURE_append = 'usrmerge' in local.conf
-2. bitbake mdadm --success
-3. remove DISTRO_FEATURE_append = 'usrmerge' from local.conf
-4. bitbake mdadm  -- failed when do_package
+cu
+Adrian
 
-it is not proper to change source Makefile during do_install by sed,
-change to add patch for it.
-
-[YOCTO #13493]
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../mdadm/files/0001-mdadm-support-usrmerge.patch  | 46 ++++++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb           |  7 ++--
- 2 files changed, 50 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
-
-diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
-new file mode 100644
-index 0000000..f1aa119
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
-@@ -0,0 +1,46 @@
-+From 2c7ccea05d7cf9dde48d735faa511d1b06c14878 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Thu, 5 Sep 2019 18:03:11 +0800
-+Subject: [PATCH] mdadm: support usrmerge
-+
-+Upstream-Status: Inappropriate[oe-specific]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ Makefile | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 4839001..466e960 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -88,7 +88,7 @@ MAP_PATH = $(MAP_DIR)/$(MAP_FILE)
-+ MDMON_DIR = $(RUN_DIR)
-+ # place for autoreplace cookies
-+ FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
-+-SYSTEMD_DIR=/lib/systemd/system
-++SYSTEMD_DIR=${SYSTEMD_UNITDIR}/system
-+ LIB_DIR=/usr/libexec/mdadm
-+ 
-+ COROSYNC:=$(shell [ -f $(SYSROOT)/usr/include/corosync/cmap.h ] || echo -DNO_COROSYNC)
-+@@ -120,7 +120,7 @@ LDLIBS=-ldl
-+ 
-+ INSTALL = /usr/bin/install
-+ DESTDIR =
-+-BINDIR  = /sbin
-++BINDIR  = ${BASE_SBINDIR}
-+ MANDIR  = /usr/share/man
-+ MAN4DIR = $(MANDIR)/man4
-+ MAN5DIR = $(MANDIR)/man5
-+@@ -128,7 +128,7 @@ MAN8DIR = $(MANDIR)/man8
-+ 
-+ UDEVDIR := $(shell $(PKG_CONFIG) --variable=udevdir udev 2>/dev/null)
-+ ifndef UDEVDIR
-+- UDEVDIR = /lib/udev
-++ UDEVDIR = ${NONARCH_BASE_LIBDIR}/udev
-+ endif
-+ 
-+ ifeq (,$(findstring s,$(MAKEFLAGS)))
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 639382e..18cc87b 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -23,6 +23,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
- 	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
-            file://include_sysmacros.patch \
-            file://0001-mdadm-skip-test-11spare-migration.patch \
-+           file://0001-mdadm-support-usrmerge.patch \
-            "
- 
- SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
-@@ -43,13 +44,13 @@ CFLAGS_append_powerpc64 = ' -D__SANE_USERSPACE_TYPES__'
- CFLAGS_append_mipsarchn64 = ' -D__SANE_USERSPACE_TYPES__'
- CFLAGS_append_mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
- 
--EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
-+EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}" BASE_SBINDIR="${base_sbindir}" \
-+                NONARCH_BASE_LIBDIR="${nonarch_base_libdir}" \
-+                SYSTEMD_UNITDIR="${systemd_unitdir}"'
- 
- DEBUG_OPTIMIZATION_append = " -Wno-error"
- 
- do_compile() {
--	# Point to right sbindir
--	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" -e "s;SYSTEMD_DIR=/lib/systemd/system;SYSTEMD_DIR=${systemd_unitdir}/system;" ${S}/Makefile
- 	oe_runmake SYSROOT="${STAGING_DIR_TARGET}"
- }
- 
 -- 
-2.7.4
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
