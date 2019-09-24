@@ -1,24 +1,55 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CD4D57ED81
+Return-Path: <paul@betafive.co.uk>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+	[66.111.4.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D2626C397
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 08:15:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8O8Einx019925
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 01:15:32 -0700
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 24 Sep 2019 01:15:16 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Sep 2019 16:15:16 +0800
-Message-ID: <cover.1569312737.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 24 Sep 2019 09:06:26 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 2470821B7C;
+	Tue, 24 Sep 2019 05:06:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+	by compute1.internal (MEProxy); Tue, 24 Sep 2019 05:06:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=ppj5jCGkqvVroH/k0ML/uict/2
+	KnFc7HVh0wIYUMEdE=; b=zNFBzJIP+kwIuywLsccAiFwN/pqT9zWD4gy60yuwKE
+	917HrgYMrkzat5fsqbZPoPv+pa90RTeqCAmfMHplmO9VjxKAWaJRsBcUstC/stLi
+	kIAFIknGnqaLYXoywlSavc4QLJA0X89u7FYLOwRbc/jYuxZOJWCztXzKGBP2uO2M
+	VWA1YP5XlVPF+aRbJ2w10QjUcsCQ3mKsQZoRu6OeK+zpgxBPM9zF09m8NP4Yqirp
+	Igx9hnfdOsT2WZRE8ie0xQRcn1IoWmBEEjW4wx0nX5bBhSMBBFXhRu3E9VG3bdx1
+	nNVBzqQsNeMdtMGyFKrVBTLuhQSXcyD1bwNQ9PigBWTQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ppj5jCGkqvVroH/k0
+	ML/uict/2KnFc7HVh0wIYUMEdE=; b=sME9DvstYpsWUctk32iVy/9s/MfNdg7EC
+	Ozpql2/RxhDFv/YnP39LDnKFxBhXewrrFbBlkNSgyf19vipXeqvefU5F00yfPjIw
+	/U24CuibccTflDlUQHO+ex8XmVKdjB1YOIbL+yFwJoC19+OYBTCrmvy1/11Tdjn6
+	S/fLUYLMp/oxmjJMvFTUj3WYEwd1C7nEx5MthIkv+mb7llexE6Nj6Pqg2tvCMkVZ
+	yqV3YSygt/HpAbI5ItQ+2vRGOcFBk9yuG3gcfZng39RBDC94ppG44HkC325DqsBZ
+	9AaH2KQIAG0baX5KwGX5s9xcFQfCHR0r3bhHOKN5dVDBHl+qTySTA==
+X-ME-Sender: <xms:j9yJXZAOY9mSfrpYC7U9e4otqgqfK5Czi_J7bvjhPvC2rWH5njDmow>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrfedtgdduudcutefuodetggdotefrodftvf
+	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+	uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+	dtnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsegsvghtrghfihhvvgdr
+	tghordhukheqnecukfhppedvudefrdegkedruddurddugeelnecurfgrrhgrmhepmhgrih
+	hlfhhrohhmpehprghulhessggvthgrfhhivhgvrdgtohdruhhknecuvehluhhsthgvrhfu
+	ihiivgeptd
+X-ME-Proxy: <xmx:j9yJXd4RbS09NjTbaH42Rtza8_mHDlalCJsYbZeOKSJjLLLo-DPJEg>
+	<xmx:j9yJXQ0xFs8R1eqqYX7Nl_FI21sWgrwb1fF9j28SCqrXEqg7jqRvHA>
+	<xmx:j9yJXRkw7v-v511URnf87eMvBRwT5m_VJyNobgl25cWl07Fg8TXxGw>
+	<xmx:kNyJXeA-Zy37Kk7Z25uCNMNfqHUKZKRmZQmnsN_dLJb0QPipBwX65A>
+Received: from arch0.home.b5net.uk (unknown [213.48.11.149])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 26DF2D6005F;
+	Tue, 24 Sep 2019 05:06:23 -0400 (EDT)
+From: Paul Barker <paul@betafive.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Sep 2019 10:06:08 +0100
+Message-Id: <20190924090609.264248-1-paul@betafive.co.uk>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] cases/bbtests.py: test_bitbake_g(): Check core-image-minimal itself
+Subject: [PATCH 0/1] Add new mirror archiver mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +62,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 08:15:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 24 Sep 2019 09:06:26 -0000
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit 95ad5626296380358c8a502a3e04879dab653d78:
+This patch allows the creation of a full source mirror using the archiver
+bbclass. Using the archiver allows us to make use of copyleft license
+filtering, recipe type filtering and other features that are not available if
+we just copy the contents of the downloads directory itself to create a
+mirror. We also get the advantage of sstate caching and we don't have to
+throw away the entire downloads directory before building to keep sources for
+other builds out of our mirror.
 
-  build-appliance-image: Update to master head revision (2019-09-19 20:32:47 +0100)
+The resulting mirror may be published and used as an entry in PREMIRRORS or
+MIRRORS for a subsequent build. The functionality is explained in more detail
+in the patch commit message and the additions to the documentation comments.
 
-are available in the git repository at:
+We've been using this patch in our Oryx Linux distro for a few months now to
+confirm that it works as expected. All feedback is welcome, especially from
+people who have worked on the archiver bbclass before.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/test
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/test
+Mirror creation was tested with the following additions to local.conf:
 
-Robert Yang (1):
-  cases/bbtests.py: test_bitbake_g(): Check core-image-minimal itself
+    INHERIT += "archiver"
+    BB_GENERATE_MIRROR_TARBALLS = "1"
+    ARCHIVER_MODE[src] = "mirror"
+    ARCHIVER_MODE[mirror] = "combined"
+    ARCHIVER_MIRROR_EXCLUDE = "file://"
+    COPYLEFT_LICENSE_INCLUDE = "*"
 
- meta/lib/oeqa/selftest/cases/bbtests.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+The resulting mirror directory was moved out of the tmpdir and a rebuild was
+tested with the following additions to local.conf:
+
+    BB_NO_NETWORK = "1"
+    INHERIT += "own-mirrors"
+    SOURCE_MIRROR_URL = "file://${TOPDIR}/mirror"
+
+Paul Barker (1):
+  archiver.bbclass: Add new mirror archiver mode
+
+ meta/classes/archiver.bbclass | 136 +++++++++++++++++++++++++++++-----
+ 1 file changed, 117 insertions(+), 19 deletions(-)
 
 -- 
-2.7.4
+2.23.0
 
 
