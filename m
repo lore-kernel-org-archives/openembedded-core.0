@@ -1,56 +1,37 @@
-Return-Path: <paul@betafive.co.uk>
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
-	[66.111.4.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 616A27E951
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E45E7D1E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 09:14:25 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7FF6021111;
-	Tue, 24 Sep 2019 05:14:26 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-	by compute1.internal (MEProxy); Tue, 24 Sep 2019 05:14:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=mime-version:message-id:date:from:to:subject:content-type; s=
-	fm2; bh=3SfYi7BOx7h6WQsY6VluvRTVdbaxm1TDdeZJDWN5QJE=; b=PlZrWD9E
-	5+ou9k1jxPP1vshQ13oqmfda8He+HtUNpqOOr/pF69AL3ZYj9tXyRKwbUefq+yz0
-	lfZLkj/45OocGhAuNsHTa2vKrI2zKauOnjVkqJPd7zfnJCSKJZkZceeB9mtw7OQJ
-	OTubGyjbw0Epslxw55KAq0TgwSJ9jJY3u/jIemgjLDaHMYw+uDd1PNmiHu+XDx5P
-	npKCGqkZ63Slw5/FVV/2oFwPCIdUL9HceVg/YKYbA/MKc7e1At+P4f4w5YJIQlKa
-	7eZPHrBUGPWhD/NJcypP4uR8xml6/Y7ljXszVVadT3wjc5H0gpCLhRqSuXM+fuVX
-	0p/ho6UMiNvMqQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-type:date:from:message-id
-	:mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; bh=3SfYi7BOx7h6WQsY6VluvRTVdbaxm
-	1TDdeZJDWN5QJE=; b=f8PsMMtu8TJcEkBbmwJ+dMywiGbcoa9PAour8g+oRNPyf
-	QGCOes2PTixy4USl8JYd3nue5T+yq25E+DwVW/FrHy7mcBrrKKQgMnoV4xl34/ZI
-	cfvJ4FQwTGTc20G9vcfM6IUjoIlCWbNzvxIAU5iBx+glcvBfXw5+2endzIjgMJp1
-	Um7/2BEl6WedYPsFJt+E7t1WhrwedPV4mzeP+2IIPfhJFQ7xVyC2eI/e8XodVm73
-	FujLnF27C96g3DgkYJPTfiacZRnUqx5FXTmvykzg1kroea9ZHduoc2r3JzqcgA3v
-	pJ1kWJJqHRJ3oBOuMiQaCn0U40DKE4m19FoWDtTzg==
-X-ME-Sender: <xms:cd6JXZbRshS6dj_NV2lKeVYk6sV2HjggtsuVC2Vk0rYKjFc5eijIfg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrfedtgdduvdcutefuodetggdotefrodftvf
-	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-	fjughrpefofgggkfffhffvufgtsehttdertderredtnecuhfhrohhmpedfrfgruhhluceu
-	rghrkhgvrhdfuceophgruhhlsegsvghtrghfihhvvgdrtghordhukheqnecurfgrrhgrmh
-	epmhgrihhlfhhrohhmpehprghulhessggvthgrfhhivhgvrdgtohdruhhknecuvehluhhs
-	thgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:cd6JXaHjRKApENf-afSA-0ibGM6GBk23I6wHPie9RecEGglXkzEajQ>
-	<xmx:cd6JXbTSpJfpi4GghIq3CFCZDIUmoT_DqmLnNn1VX-Ur0ns5UtSpjg>
-	<xmx:cd6JXfuMbAxsy2wYGPbJbL8-ar9CRZF_Kp0hzGK_B4fRTOtme5-wJA>
-	<xmx:ct6JXb4XDpnuabqxZm7ZdgBfEuOJ3eiUDd-IxkFNHTtU3yM46t54ug>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id ABA28E00A5; Tue, 24 Sep 2019 05:14:25 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-238-g170a812-fmstable-20190913v1
-Mime-Version: 1.0
-Message-Id: <0314bb01-d210-4a7a-adb4-c0c7c9992cf9@www.fastmail.com>
-Date: Tue, 24 Sep 2019 10:12:00 +0100
-From: "Paul Barker" <paul@betafive.co.uk>
-To: "Armin Kuster" <akuster808@gmail.com>,
+	Tue, 24 Sep 2019 10:18:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46cxwd6P4Hz4s;
+	Tue, 24 Sep 2019 12:18:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1569320307;
+	bh=vtbzy7+T2SKhKZ2mOO6tu7hhzs8JjvgcgHH43qqJIeY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V8xDaNOSU/GD8mVGmjgZ7pFscvAyL2r6g3m/k7eVgu7CybHnM6lZnR3cVJCDVvhI4
+	ajp30sn/6ekfpCG7IyMmDGWJ76xOWJrn4AOkQd6lmtKFHoddMOg9Yc358bK+80VgMJ
+	tXvjQ63fgPNKDHag57fA8Xw1wFzDR9e8xUk5ZkTx2ZZx4MT6RZVLIEf2JZANgUy65k
+	uul/AbNcPDeP5GJ7DJ9Tp4QcEQ7hcz6O77ukT1T9YM/8OAegKf/Z/iCRyViMdKMsLV
+	pqi2BW4NkPS+ACsJ6zU87aPacAP71jVhdnGFTVzUErYCKZmOuXZ7oblqRn500yQOnu
+	/y6Ngadr62owGAM+9EE7v3Y7reM6RMmcNj51xZYo3c2pHL/f2xE4LvQ1lLZvPQXbwD
+	POXCp3F9SZI4NZg6Uj3IlcHE2dpwTMCgHXn5d/tWE5MWacne7i+IhJ141dcM1+BFVm
+	goYLUZK5ERBm+dnwnshnO6+/4I4vU61NgyyCoRBjclzmMQExAbYtwXjA3+JkeNlvy+
+	UlPEgZ5zzlcPzcF+1HuMNH0AGUQIy5FqmWaGxwMfBd9YyVvL0Dk5r0PNwWdNmWbuKo
+	U2hQ9g5E08h8Wcem1DeDjE9Efe3bDxvGvqI52QtTcDRmxo2LHlHXQndPLBfQoP0PRu
+	T87WkPSA/wQPX261hh9F+99o=
+Date: Tue, 24 Sep 2019 13:18:23 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>
+Message-ID: <20190924101823.GC16793@localhost>
+References: <20190924024508.9175-1-Randy.MacLeod@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <20190924024508.9175-1-Randy.MacLeod@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: stevenrwalter@gmail.com, cardoe@cardoe.com,
 	openembedded-core@lists.openembedded.org
-Subject: oe-core warrior backport request
+Subject: Re: [RFC][PATCH 0/3] Move rust from meta-rust to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,20 +44,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 09:14:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 24 Sep 2019 10:18:29 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Hi,
+On Mon, Sep 23, 2019 at 10:45:05PM -0400, Randy MacLeod wrote:
+> I moved the Rust support from meta-rust to oe-core.
+> 
+> As you'd expect, it's still building rust-hello-world for all qemus 
+> (except riscv64 which may never have worked). 
+> Rust-hello-world runs for me on qemu:
+>    x86-64, arm, arm64
+> It may run on other machines but that's what I've tested so far.
+> 
+> We need a list of meta-rust issues that should be resolved 
+> in order to get the code accepted in oe-core. I opened an issue 
+> to track that:
+>    https://github.com/meta-rust/meta-rust/issues/251
+> but there haven't been any comments yet. I'd rather track
+> issues in github than in the YP Bugzilla:
+>   https://bugzilla.yoctoproject.org/show_bug.cgi?id=12675
+> 
+> Here, in no particular order, are some of
+> the defects that I believe need to be fixed:
+> 
+> 1. build system is assumed to be linux-x86_64
+>    https://github.com/meta-rust/meta-rust/issues/23
+> 
+> 2. Make rust-native build in parallel (it's very slow!)
+>    (meta-rust issue/PR to be created by Randy)
+> 
+> 3. Document developer workflows such as cargo-bitbake.
 
-Could we get the following patches backported to the warrior branch? We're carrying them locally to enable builds on our infrastructure where DEPLOY_DIR and WORKDIR are placed on different devices.
+Is there consensus on how libraries should be handled in general for 
+various ecosystems?
 
-    f064a581ba license_image: Use new oe.path.copyhardlink() helper
-    5437efa16f oe.path: Add copyhardlink() helper function
+Precedent with C, Python and Perl are recipes for each library,
+but vendoring seems to be a popular option now.
 
-Thanks,
+There are also related topics like how to provide security support
+for vendored libraries - this is the main reason why vendored libraries
+shipped by upstream are rarely used by distributions in the C ecosystem.
+
+> 4. Build offline ( BB_NO_NETWORK = '1' )
+> 
+> 5. make rust-hello-world install for qemuriscv64
+>    https://github.com/meta-rust/meta-rust/issues/252
+
+LLVM in meta-rust is too old for RISC-V.
+
+Using an own LLVM recipe might makes sense for an external layer, but in 
+oe-core the llvm recipe that is already there should be used instead of 
+another copy of LLVM.
+
+> 6. ... build rustc and cargo for target (nice to have, only).
+>    https://github.com/meta-rust/meta-rust/issues/81
+> 
+> 7. Bootstrap from C as an option?
+>    See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=12675#c2
+> 
+> 8. Update librsvg to latest (2.46) which uses rust.
+
+2.44 built for me a few months ago with meta-rust.
+
+> What have I missed?
+>...
+
+9. Ensure that there are no non-optional dependencies on the target
+   librsvg since users will build for targets not supported by Rust.
+   The one in webkitgtk seems to be optional or obsolete.
+
+10. Review the whole contents of the layer.
+    There are several things where I hope there are better solutions,
+    and I expect that what will land in oe-core will look quite 
+    different from the current meta-rust.
+    See item 5 above for an example.
+
+> ../Randy
+>...
+
+cu
+Adrian
 
 -- 
-Paul Barker
-Managing Director & Principal Engineer
-Beta Five Ltd
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
