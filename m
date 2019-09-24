@@ -1,53 +1,53 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CC4CC7E584
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D3247E507
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 12:09:05 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id y21so1769154wmi.0
+	Tue, 24 Sep 2019 12:09:06 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id n14so1647913wrw.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 05:09:07 -0700 (PDT)
+	Tue, 24 Sep 2019 05:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=NWdYnRAHpzOYnMme/sQVCFvI0AuMFdvgw114txhf1R4=;
-	b=PIxx/BdAqPus6QMquPvdH31Y0QqjKe7pWYckwv8zlLwWsZWkNW/ywtJs2hRmjOpTk7
-	HsMxvGUUi65n7VKNni/twy6s9Py0m/AQ+K5ZERyIsVU7GN8G4Bre8p7v0hsb8gqT65AM
-	xGpg1kLa9MbTWWExbEeIoWNIDvqqzc7/Cso4YgHO54INKZKlKF2N7nz8mpyCDF6GyD6H
-	hSyfLuM3DUiZdsyaDisFH7cNyko3INHlG3mndq36fmEpSIFqvnwj9S5c7L+EPtomivNp
-	pne1MFJRFclMBCsVOaSMLpz2m+av6rgkT0HT+lx/r7Pbl9DmSGfhiI4WVFIadq5/X7IC
-	+1CQ==
+	bh=K4qwo4oyBlgxWB+WStSU3AFy2bP2/QdGDQQNLEKw8bw=;
+	b=QovnRow4BCpvlDXqWYzPtZ4bvVofOnoFDKdEu62uYHAW1uidE+qTc03yau4+OBenG8
+	nYqJ8+uvqYl9I/ENkvgR/UBisgoh1iLkUXxye+G33MNXqPVXxxHF12G2e013hXxFjMk/
+	ltuvRYepRTmPnWp7/xoyKh3rJPVrKWLklcTFI5Izr+P4x+u+Nbjsdn04a/oV2YWdeci9
+	9lAuufOg3PulYtZkoFeJo4/xZV0AAMAvDj0mvGbp+GSVDIO1RtQmYiItg3XiCKaa+AbH
+	0q/7K6rHkDgGePgq7Rg2KDM51VgwZblIflBJR3q6uydwqOzPyHU7F3lSpVZBJyYtP3r/
+	Y9Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=NWdYnRAHpzOYnMme/sQVCFvI0AuMFdvgw114txhf1R4=;
-	b=ANy6JktOB1Fun+FzTVtq09t0KSdYt/Ixh6ONroC5mxOPa1kWBebj8V6ILZ7Mf2pRWV
-	BG2PUKRrg8JYw8E3edOvUjx8C796g3XJZUEe2oVKEEMXYf03oVydK6VQH0bpsURSxRu6
-	JPDUmoVejaWo/yR/CNfDBCVtk2HPDKms+PLzf2YMh/1o4iTAaTGa0A73E2NV6p8mT+Zw
-	jH/CkH0P9HkhuAT4LTlFJws2EWtZPH5G/KgLh6bkr901k52gNpFfZC2aVxOL4G0ELPrl
-	rAuSoHs6H3bvVTdIBkYuZ9EdfdY96Ou/+jnI6vLuedKFOI8bL7YGajI9WxRhfj/GEoGP
-	5Emg==
-X-Gm-Message-State: APjAAAWsqOW+R6lywDlUslTcjtfT2Gal2l3/Bxr4L7N8TjBlT12Hqwqv
-	MBzooK/YLjzABq0f/Q29A9VEph5o
-X-Google-Smtp-Source: APXvYqykS+vgipgCrNnjfqdhN1rRT1LxFutA5SpYsXmGoRC/6lXkYzBhZfiW9yOS8X49I2MKNHpaqQ==
-X-Received: by 2002:a1c:9e46:: with SMTP id h67mr2493547wme.48.1569326946242; 
-	Tue, 24 Sep 2019 05:09:06 -0700 (PDT)
+	bh=K4qwo4oyBlgxWB+WStSU3AFy2bP2/QdGDQQNLEKw8bw=;
+	b=F37pxDeZsPY3hqYOHlT8pNm63s18/Tc4SHD/LURcRFEBb6C50NmJEGvAzip4kbaTvt
+	CXeMysAbVN1zIVMkyfuMGU3VKte3iBBjzpMKSF53S4AJw+Te5SKl0lKl9EmWW3+z5rB2
+	8c/LetvSrrDdE1qZpTlW/DNVunDksZY8/Fz7vcJGTS+3oz+DrW7l4AV5+kFgRl2pvDS0
+	YeybHpMCKJd8+7sakwQ5uYjHzZDdLDtCk+zRPDbnxCkf2tSsevCFRQyAf7HV7h/FUFfQ
+	YkG30YFWQWXYvFDUbiGykoNhizg4vfRQt2rokCgfmYr13PBxd13ERuvZTupfb0//oAmI
+	45CA==
+X-Gm-Message-State: APjAAAWn0mjTR9yDx8OizhKPyCFhy3xDHtCNoaS182+a6C1hZvNp1GKP
+	W5yjXENlwH1VfEbn6iO/1hK8NUci
+X-Google-Smtp-Source: APXvYqyCwXbyZYY7ZB+wLaIQIHiVa0GXBPvx2Ne2I2OxlJIjSbszw3Pi/fVydOChHDxWpMszLU6/4Q==
+X-Received: by 2002:a5d:5381:: with SMTP id d1mr456305wrv.315.1569326947211;
+	Tue, 24 Sep 2019 05:09:07 -0700 (PDT)
 Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
 	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
-	q66sm3110466wme.39.2019.09.24.05.09.05
+	q66sm3110466wme.39.2019.09.24.05.09.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 24 Sep 2019 05:09:05 -0700 (PDT)
+	Tue, 24 Sep 2019 05:09:06 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Sep 2019 14:08:47 +0200
-Message-Id: <20190924120848.25479-4-schnitzeltony@gmail.com>
+Date: Tue, 24 Sep 2019 14:08:48 +0200
+Message-Id: <20190924120848.25479-5-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924120848.25479-1-schnitzeltony@gmail.com>
 References: <20190924120848.25479-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
-Subject: [sumo][PATCH v2 3/4] glib-2.0: Add patch from upstream to fix build with host gcc9
+Subject: [sumo][PATCH v2 4/4] cross-localedef-native: Fix build for hosts with recent glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,112 +60,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 12:09:06 -0000
+X-List-Received-Date: Tue, 24 Sep 2019 12:09:07 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Fixes:
+| argp-help.c:(.text+0x1f51): undefined reference to `_IO_fwide'
+| collect2: error: ld returned 1 exit status
+| make: *** [Makefile:60: localedef] Error 1
+
 Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- ...11-gdbus-Avoid-printing-null-strings.patch | 77 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb |  1 +
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0011-gdbus-Avoid-printing-null-strings.patch
+ .../glibc/cross-localedef-native_2.27.bb      |  1 +
+ ...ll-_IO_fwide-if-_LIBC-is-not-defined.patch | 78 +++++++++++++++++++
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0011-gdbus-Avoid-printing-null-strings.patch b/meta/recipes-core/glib-2.0/glib-2.0/0011-gdbus-Avoid-printing-null-strings.patch
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+index 5e92eb71d55..a999d35201a 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.27.bb
+@@ -35,6 +35,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0021-eglibc-Install-PIC-archives.patch \
+            file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
+            file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
++           file://0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch \
+            file://archive-path.patch \
+ "
+ # Makes for a rather long rev (22 characters), but...
+diff --git a/meta/recipes-core/glibc/glibc/0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch b/meta/recipes-core/glibc/glibc/0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch
 new file mode 100644
-index 00000000000..19085d0b789
+index 00000000000..edeb27da0c1
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0011-gdbus-Avoid-printing-null-strings.patch
-@@ -0,0 +1,77 @@
-+From 566e1d61a500267c7849ad0b2552feec9c9a29a6 Mon Sep 17 00:00:00 2001
-+From: Ernestas Kulik <ekulik@redhat.com>
-+Date: Tue, 29 Jan 2019 09:50:46 +0100
-+Subject: [PATCH] gdbus: Avoid printing null strings
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/glibc/glibc/0032-argp-do-not-call-_IO_fwide-if-_LIBC-is-not-defined.patch
+@@ -0,0 +1,78 @@
++From 3a67e81d7527363a96af095a5af03b6201b82e9d Mon Sep 17 00:00:00 2001
++From: Charles-Antoine Couret <charles-antoine.couret@essensium.com>
++Date: Thu, 29 Nov 2018 17:56:55 +0000
++Subject: [PATCH] argp: do not call _IO_fwide() if _LIBC is not defined
 +
-+This mostly affects the 2.56 branch, but, given that GCC 9 is being
-+stricter about passing null string pointers to printf-like functions, it
-+might make sense to proactively fix such calls.
++_IO_fwide() is defined in libio.h file. This file is included only
++when _LIBC is defined.
 +
-+gdbusauth.c: In function '_g_dbus_auth_run_server':
-+gdbusauth.c:1302:11: error: '%s' directive argument is null
-+[-Werror=format-overflow=]
-+ 1302 |           debug_print ("SERVER: WaitingForBegin, read '%s'",
-+ line);
-+       |
++So, in case of compilation of these files without _LIBC definition,
++the compilation failed due to this unknown function.
 +
-+gdbusmessage.c: In function ‘g_dbus_message_to_blob’:
-+gdbusmessage.c:2730:30: error: ‘%s’ directive argument is null [-Werror=format-overflow=]
-+ 2730 |       tupled_signature_str = g_strdup_printf ("(%s)", signature_str);
-+      |
++Now this function is called when libio.h file is included.
 +
-+Upstream-Status: Accepted
++(Change merged from gnulib.  Tested on x86_64.)
 +
-+[1] https://gitlab.gnome.org/GNOME/glib/commit/566e1d61a500267c7849ad0b2552feec9c9a29a6
++	* argp/argp-fmtstream.c (__argp_fmtstream_update): Use [_LIBC]
++	conditional on calls to _IO_fwide and putwc_unlocked.  (Merge from
++	gnulib.)
++	* argp/argp-help.c (__argp_failure): Likewise.
++	
++Upstream-Status: Backport [1]
++
++[1] https://sourceware.org/git/?p=glibc.git;a=commit;h=3a67e81d7527363a96af095a5af03b6201b82e9d
 +
 +Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 +---
-+ gio/gdbusauth.c    | 2 +-
-+ gio/gdbusmessage.c | 5 ++---
-+ 2 files changed, 3 insertions(+), 4 deletions(-)
++ ChangeLog             | 7 +++++++
++ argp/argp-fmtstream.c | 4 ++++
++ argp/argp-help.c      | 2 ++
++ 3 files changed, 13 insertions(+)
 +
-+diff --git a/gio/gdbusauth.c b/gio/gdbusauth.c
-+index 1f8ea8057..752ec23fc 100644
-+--- a/gio/gdbusauth.c
-++++ b/gio/gdbusauth.c
-+@@ -1272,9 +1272,9 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
-+                                                     &line_length,
-+                                                     cancellable,
-+                                                     error);
-+-          debug_print ("SERVER: WaitingForBegin, read '%s'", line);
-+           if (line == NULL)
-+             goto out;
-++          debug_print ("SERVER: WaitingForBegin, read '%s'", line);
-+           if (g_strcmp0 (line, "BEGIN") == 0)
-+             {
-+               /* YAY, done! */
-+diff --git a/gio/gdbusmessage.c b/gio/gdbusmessage.c
-+index 3221b925d..3a1a1f9e9 100644
-+--- a/gio/gdbusmessage.c
-++++ b/gio/gdbusmessage.c
-+@@ -2731,7 +2731,6 @@ g_dbus_message_to_blob (GDBusMessage          *message,
-+   if (message->body != NULL)
-+     {
-+       gchar *tupled_signature_str;
-+-      tupled_signature_str = g_strdup_printf ("(%s)", signature_str);
-+       if (signature == NULL)
-+         {
-+           g_set_error (error,
-+@@ -2739,10 +2738,10 @@ g_dbus_message_to_blob (GDBusMessage          *message,
-+                        G_IO_ERROR_INVALID_ARGUMENT,
-+                        _("Message body has signature “%s” but there is no signature header"),
-+                        signature_str);
-+-          g_free (tupled_signature_str);
-+           goto out;
-+         }
-+-      else if (g_strcmp0 (tupled_signature_str, g_variant_get_type_string (message->body)) != 0)
-++      tupled_signature_str = g_strdup_printf ("(%s)", signature_str);
-++      if (g_strcmp0 (tupled_signature_str, g_variant_get_type_string (message->body)) != 0)
-+         {
-+           g_set_error (error,
-+                        G_IO_ERROR,
++diff --git a/argp/argp-fmtstream.c b/argp/argp-fmtstream.c
++index e43a0c7cf1..e9e4c0e5cc 100644
++--- a/argp/argp-fmtstream.c
+++++ b/argp/argp-fmtstream.c
++@@ -149,9 +149,11 @@ __argp_fmtstream_update (argp_fmtstream_t fs)
++ 	      size_t i;
++ 	      for (i = 0; i < pad; i++)
++ 		{
+++#ifdef _LIBC
++ 		  if (_IO_fwide (fs->stream, 0) > 0)
++ 		    putwc_unlocked (L' ', fs->stream);
++ 		  else
+++#endif
++ 		    putc_unlocked (' ', fs->stream);
++ 		}
++ 	    }
++@@ -312,9 +314,11 @@ __argp_fmtstream_update (argp_fmtstream_t fs)
++ 	      *nl++ = ' ';
++ 	  else
++ 	    for (i = 0; i < fs->wmargin; ++i)
+++#ifdef _LIBC
++ 	      if (_IO_fwide (fs->stream, 0) > 0)
++ 		putwc_unlocked (L' ', fs->stream);
++ 	      else
+++#endif
++ 		putc_unlocked (' ', fs->stream);
++ 
++ 	  /* Copy the tail of the original buffer into the current buffer
++diff --git a/argp/argp-help.c b/argp/argp-help.c
++index 2b6b0775d6..a17260378c 100644
++--- a/argp/argp-help.c
+++++ b/argp/argp-help.c
++@@ -1873,9 +1873,11 @@ __argp_failure (const struct argp_state *state, int status, int errnum,
++ #endif
++ 	    }
++ 
+++#ifdef _LIBC
++ 	  if (_IO_fwide (stream, 0) > 0)
++ 	    putwc_unlocked (L'\n', stream);
++ 	  else
+++#endif
++ 	    putc_unlocked ('\n', stream);
++ 
++ #if _LIBC || (HAVE_FLOCKFILE && HAVE_FUNLOCKFILE)
 +-- 
 +2.21.0
 +
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb
-index faf594569d6..35fd86819bf 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.54.3.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-Do-not-ignore-return-value-of-write.patch \
-            file://0001-Test-for-pthread_getname_np-before-using-it.patch \
-            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
-+           file://0011-gdbus-Avoid-printing-null-strings.patch \
-            "
- 
- SRC_URI_append_class-native = " file://relocate-modules.patch"
 -- 
 2.21.0
 
