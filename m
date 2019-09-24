@@ -1,26 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 961EA7F25B
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E1E96C1BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 07:35:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8O7YJ78017082
+	Tue, 24 Sep 2019 08:15:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8O8FYub015352
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 00:35:21 -0700
+	Tue, 24 Sep 2019 01:15:34 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 24 Sep 2019 00:34:58 -0700
+	14.3.468.0; Tue, 24 Sep 2019 01:15:33 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Sep 2019 15:34:26 +0800
-Message-ID: <727575983e43ad186b2f36209b306bdf37b07c4d.1569306585.git.liezhi.yang@windriver.com>
+Date: Tue, 24 Sep 2019 16:15:17 +0800
+Message-ID: <ba0e10441f900a47a504fbbc28579d5b2f6fc841.1569312737.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1569306585.git.liezhi.yang@windriver.com>
-References: <cover.1569306585.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1569312737.git.liezhi.yang@windriver.com>
+References: <cover.1569312737.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] expect: Fix buffer overflow error when build in long path
+Subject: [PATCH 1/1] cases/bbtests.py: test_bitbake_g(): Check core-image-minimal itself
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,96 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 07:35:30 -0000
+X-List-Received-Date: Tue, 24 Sep 2019 08:15:33 -0000
 Content-Type: text/plain
 
-Fixed when built the project in a long path (len(TMPDIR) > 200):
-$ bitbake dejagnu-native
-[snip]
-checking Tcl version 8.5 or greater... *** buffer overflow detected ***:
-TOPDIR/tmp-glibc/work/x86_64-linux/dejagnu-native/1.6.2-r0/recipe-sysroot-native/usr/bin/expect terminated
-[snip]
+It checked whether busybox is in pn-buildlist and task-depends.dot after run
+"bitbake -g core-image-minimal", but busybox is not a must for
+core-image-minimal, so the case may fail when busybox is not present, this case
+is used for checking "bitbake -g", so check core-image-minimal itself is more
+reliable.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch | 55 ++++++++++++++++++++++
- meta/recipes-devtools/expect/expect_5.45.4.bb      |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-devtools/expect/expect/0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch
+ meta/lib/oeqa/selftest/cases/bbtests.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/expect/expect/0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch b/meta/recipes-devtools/expect/expect/0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch
-new file mode 100644
-index 0000000..37512fb
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch
-@@ -0,0 +1,55 @@
-+From 1407fcad6f1dac0a4efe8041660bf6139c1cd16a Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Tue, 24 Sep 2019 13:40:10 +0800
-+Subject: [PATCH] exp_main_sub.c: Use PATH_MAX for path
-+
-+If expect was built from a long path whose length > 200, then it couldn't run:
-+$ expect -c 'puts yes'
-+*** buffer overflow detected ***: expect terminated
-+Aborted (core dumped)
-+
-+Use PATH_MAX to fix the problem.
-+
-+Upstream-Status: Pending [Upstream seems dead]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ exp_main_sub.c | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/exp_main_sub.c b/exp_main_sub.c
-+index fcfaa6e..bf6c4be 100644
-+--- a/exp_main_sub.c
-++++ b/exp_main_sub.c
-+@@ -48,6 +48,10 @@ char exp_version[] = PACKAGE_VERSION;
-+ #define NEED_TCL_MAJOR		7
-+ #define NEED_TCL_MINOR		5
-+ 
-++#ifndef PATH_MAX
-++#define PATH_MAX 4096
-++#endif
-++
-+ char *exp_argv0 = "this program";	/* default program name */
-+ void (*exp_app_exit)() = 0;
-+ void (*exp_event_exit)() = 0;
-+@@ -901,7 +905,7 @@ int sys_rc;
-+ 	int rc;
-+ 
-+ 	if (sys_rc) {
-+-	    char file[200];
-++	    char file[PATH_MAX];
-+ 	    int fd;
-+ 
-+ 	    sprintf(file,"%s/expect.rc",SCRIPTDIR);
-+@@ -917,7 +921,7 @@ int sys_rc;
-+ 	    }
-+ 	}
-+ 	if (my_rc) {
-+-	    char file[200];
-++	    char file[PATH_MAX];
-+ 	    char *home;
-+ 	    int fd;
-+ 	    char *getenv();
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
-index 96eacd9..dcd252f 100644
---- a/meta/recipes-devtools/expect/expect_5.45.4.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
-@@ -25,6 +25,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-            file://0001-expect-install-scripts-without-using-the-fixline1-tc.patch \
-            file://0001-Resolve-string-formatting-issues.patch \
-            file://0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch \
-+           file://0001-exp_main_sub.c-Use-PATH_MAX-for-path.patch \
-           "
- SRC_URI[md5sum] = "00fce8de158422f5ccd2666512329bd2"
- SRC_URI[sha256sum] = "49a7da83b0bdd9f46d04a04deec19c7767bb9a323e40c4781f89caf760b92c34"
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
+index 8e59baf..4103396 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -118,11 +118,12 @@ class BitbakeTests(OESelftestTestCase):
+             self.assertIn(task, result.output, msg="Couldn't find %s task.")
+ 
+     def test_bitbake_g(self):
+-        result = bitbake('-g core-image-minimal')
++        recipe = 'core-image-minimal'
++        result = bitbake('-g %s' % recipe)
+         for f in ['pn-buildlist', 'task-depends.dot']:
+             self.addCleanup(os.remove, f)
+         self.assertTrue('Task dependencies saved to \'task-depends.dot\'' in result.output, msg = "No task dependency \"task-depends.dot\" file was generated for the given task target. bitbake output: %s" % result.output)
+-        self.assertTrue('busybox' in ftools.read_file(os.path.join(self.builddir, 'task-depends.dot')), msg = "No \"busybox\" dependency found in task-depends.dot file.")
++        self.assertTrue(recipe in ftools.read_file(os.path.join(self.builddir, 'task-depends.dot')), msg = "No \"%s\" dependency found in task-depends.dot file." % recipe)
+ 
+     def test_image_manifest(self):
+         bitbake('core-image-minimal')
 -- 
 2.7.4
 
