@@ -1,52 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
-	[209.85.210.179])
-	by mail.openembedded.org (Postfix) with ESMTP id A18437F250
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
+	[209.85.221.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D7E2A7F07B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 03:13:46 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id q12so302050pff.9
+	Tue, 24 Sep 2019 03:37:27 +0000 (UTC)
+Received: by mail-vk1-f196.google.com with SMTP id d66so112990vka.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2019 20:13:48 -0700 (PDT)
+	Mon, 23 Sep 2019 20:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=bA3sn8u+DsrUCwztYDtP7MsObcgpyU9f9RMIpctO6m8=;
-	b=W+8nO8rFwufwgY4JyvonuSUy0Kbmn4023DDx1Y9iDr1A5DxNNBh5zHKXcszUS+wrJO
-	uEbHzSZt6mloVsDZpbRIctclqYKRIV9k7iVV6+Gq7cTv9MycigRwgryQYgQs1AIUOp2/
-	z8nUpl0zusjg89DDLRDkPDhnw0QE5gcrJIA61jglIQN3JRQKpv0sk0dsro6insettSRJ
-	h/ArHm/71wH5nvFG9dkvLFMSrkPRdvvX2FpjulnPg2BySc1n2Re2AE4j6iawoIFjmbP+
-	V03nPz0Eq4RsR+3PjFN61E3vDw0h51oNhoNmr1D5hHmNa0SFYFQrKl13Aq2/VhDrkQyE
-	l4iQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Xq/rbU2c7jhDhg7+WYy1sQDdhitKbmDmDMI3IfmMhv0=;
+	b=UdsMyPtECToASOh3w8S1770ZONwB0Mkf3ZivQ77Mc447JwtiSXISlLV+A6sATaQIHQ
+	pd07Tv+1jch37rtsbWqWZ+ZPww89GBb3j5PatH7VHs6CzpoDImuZltS9KelLtk0oTf8X
+	WXMVzVd17RB1R059YBmqupbAfI3yorlWOg/jdDIQATsTnTSHkFK3zPuGuoAqk+bR4gJI
+	jKdKKP9G5LJW7KRCOzoUgQT0KY6r3mtcnONNrEu3BPJVJ3SNEPjQjsXcLy9xHG0KPrPQ
+	e2vxcIl2kfrrMcFC/OMTTvgv3M8T0MQtbkofhfH27vY/NlxI/2lb0Vr9iqcLRgKbIVQ2
+	RCPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=bA3sn8u+DsrUCwztYDtP7MsObcgpyU9f9RMIpctO6m8=;
-	b=iKYM4GKepSnRb8KwvKtIjiHFrJkwJr9z+nypZghCPbZJiO+s4peLm0O8VHhaU4Oaqy
-	MGnjbZRgsZFvNZVGa+GDbCIa4FLbQj16f15aZ9BlT3zRAMpFdnvPkQCefZOYCwUYDQ6Y
-	faJoW83DllF/F4+3I2F6/NKSgx1xVg4yzD8YsuMC13zEHI6TQD0hSy9WnRFiP6zzr7Wk
-	H7ESZdxtKeRCDQ+hStm3bbs/+BI7fzYbD4EO5XtsJjdFsh/2p9d1knWC/sAR3P9fWMwO
-	E6vkqnn+0z1nhU9qu65N2U/buv46JmE71SHkEifyZaEDSun6IM40WPX0NlfGsP48isaA
-	GAnQ==
-X-Gm-Message-State: APjAAAWzAaUpM8xLspgZmPDdB54RWtexQFVz8oaDx5zSbNDMmIP8b4xb
-	ZN2AChOc5FDGJW0vqfjLZ7HkGFZ4W+Y=
-X-Google-Smtp-Source: APXvYqwBgoSoR97rc2UIMiEsM9fWbQRi7sZIDsmlyI0f9oqDtOcyw3y7tC6yVVr2vGbcFppXYrjzSQ==
-X-Received: by 2002:a17:90a:e64a:: with SMTP id
-	ep10mr490222pjb.59.1569294827746; 
-	Mon, 23 Sep 2019 20:13:47 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:ec07:55c0:9c8c:b3de])
-	by smtp.gmail.com with ESMTPSA id z23sm252602pgi.78.2019.09.23.20.13.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 23 Sep 2019 20:13:47 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2019 20:13:20 -0700
-Message-Id: <83522ac0fecb1697abaa5108513f5906f80d748a.1569294712.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1569294712.git.akuster808@gmail.com>
-References: <cover.1569294712.git.akuster808@gmail.com>
-Subject: [Thud][ 24/24] linux-yocto/4.14: update to v4.14.143
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Xq/rbU2c7jhDhg7+WYy1sQDdhitKbmDmDMI3IfmMhv0=;
+	b=g/9szCPk2z4/b5uz7Yudt/9ewsq4d6FB/3CVc8HHZSIpnwZT0tXlPDbOrdFfv3yPj/
+	WOkGhpgi7+nHh88oYHwnyfrL8WHfNm1LHt3e9BNUmAA2U2T7r0R4iiRmE8BQ5N6BGNSG
+	z1HmYg9qJrfVTxM3e6It7qRuwX113faaxGNVmlEH2OXrXYG33pjnyyBwFHjjuSZbmk4+
+	a4VnZci6p+ABZEPw3+XbHtRFGneLhlRSmhtNkN5F5CQrMyS7vuhdjqY81BGvAlLlhAke
+	LVjNe2DqOmQUawFcfrqWvg+uKrRT8RDvb7DOub8RGDlcCxWnIwdNujksgO98Q64Z1ynR
+	QwMQ==
+X-Gm-Message-State: APjAAAWyCH7awjoDib8JsCrhX2O8JW+SP/POuuLzNcnH+2CooVuMxPbo
+	SLPbuEi7GocRBxn01HeCkgRvdmUvQi1FsHLn78E=
+X-Google-Smtp-Source: APXvYqztimwkd4tnlBW2icDehtiGta3+KbUHqBmlrpwbBYN8pbtWQHXqidD+mU4Mj4Ak3rhkw7G/GSORRNeGRB6ColA=
+X-Received: by 2002:a05:6122:9e:: with SMTP id r30mr483085vka.10.1569296247989;
+	Mon, 23 Sep 2019 20:37:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1569292053.git.akuster808@gmail.com>
+	<e09f916e2b5ff8c7cef7cfd13b43a7f9d2463346.1569292053.git.akuster808@gmail.com>
+In-Reply-To: <e09f916e2b5ff8c7cef7cfd13b43a7f9d2463346.1569292053.git.akuster808@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 23 Sep 2019 20:37:16 -0700
+Message-ID: <CAJ86T=VijcAyk6cLv4hx2P74Ar2bbqVOHBgJpD65_aStBc9GfQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [warrior][ 25/50] boost: Fix build and enable context and coroutines on aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,102 +54,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 03:13:47 -0000
+X-List-Received-Date: Tue, 24 Sep 2019 03:37:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Mon, Sep 23, 2019 at 7:52 PM Armin Kuster <akuster808@gmail.com> wrote:
+>
+> From: "Bedel, Alban" <alban.bedel@aerq.com>
+>
+> Like for ARM bjam need some hints about the ABI to properly build on
+> aarch64. While at it also enable context and coroutine as these are
+> supported on aarch64.
 
-Updating to the latest 4.14 -stable. Lightly build and boot tested
-on qemu*
+What's the symptom when this is mis-detected ?
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 20 ++++++++++----------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+I'm guessing big endian 32bit ARM (ie the _armeb over-ride) probably
+needs the same fix too... but it's not clear how to test or confirm
+that.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-index 4189fc8..0ed2900 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "82ac7b2b8048b537481bf16b8acda1cc9bfe9565"
--SRCREV_meta ?= "6a3254e7b370cbb86c1f73379dcf38885c1c69e0"
-+SRCREV_machine ?= "72075349c6af55a7a6d024f0aa241711653fcb97"
-+SRCREV_meta ?= "1bd749b7ce4240e83024b10fa4a4a6b9de5a5e5f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.14.79"
-+LINUX_VERSION ?= "4.14.143"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-index 71f5c47..cb46307 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
-@@ -4,7 +4,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "4.14.79"
-+LINUX_VERSION ?= "4.14.143"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
-@@ -12,8 +12,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "6ce17eae5d962b30846a5258956246438d68d60a"
--SRCREV_meta ?= "6a3254e7b370cbb86c1f73379dcf38885c1c69e0"
-+SRCREV_machine ?= "3d884bc92763f474cc0728d1feb0becad8ed37d5"
-+SRCREV_meta ?= "1bd749b7ce4240e83024b10fa4a4a6b9de5a5e5f"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-index 65b2444..4a92d27 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
-@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "v4.14/standard/base"
- KBRANCH_qemux86-64 ?= "v4.14/standard/base"
- KBRANCH_qemumips64 ?= "v4.14/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "8752b8421efe8b5a478f17fbffacf4af974ec703"
--SRCREV_machine_qemuarm64 ?= "ac66474ba7f7e93d16ae3ea005f214113bb127c5"
--SRCREV_machine_qemumips ?= "ab031b267e2a79fcd48da5d10d503f4d065f4821"
--SRCREV_machine_qemuppc ?= "f47c3945e8dd230ea37771bcacc836245fc79d22"
--SRCREV_machine_qemux86 ?= "f1d93b219bde37a8a286cd18d6af2dcf0d02c1a8"
--SRCREV_machine_qemux86-64 ?= "f1d93b219bde37a8a286cd18d6af2dcf0d02c1a8"
--SRCREV_machine_qemumips64 ?= "8063a7258fc670a361fed85b858fabb237485f1c"
--SRCREV_machine ?= "f1d93b219bde37a8a286cd18d6af2dcf0d02c1a8"
--SRCREV_meta ?= "6a3254e7b370cbb86c1f73379dcf38885c1c69e0"
-+SRCREV_machine_qemuarm ?= "bd85f4880bb890bf9c45ee6c2fd95f077d2bf67e"
-+SRCREV_machine_qemuarm64 ?= "445a4787bd489eb6b3d5c172b9842dbe5a34d734"
-+SRCREV_machine_qemumips ?= "3d07ac9aa6ca729674dfb763563202f18f9eedde"
-+SRCREV_machine_qemuppc ?= "81ba8dbab3b1bfc371e539956be905809db0e41a"
-+SRCREV_machine_qemux86 ?= "bc9d4b045fa0254d14ef3a667a200f02cb9af755"
-+SRCREV_machine_qemux86-64 ?= "bc9d4b045fa0254d14ef3a667a200f02cb9af755"
-+SRCREV_machine_qemumips64 ?= "3c4acadcbe2ee11043f7d0fce43a5181511d0935"
-+SRCREV_machine ?= "bc9d4b045fa0254d14ef3a667a200f02cb9af755"
-+SRCREV_meta ?= "1bd749b7ce4240e83024b10fa4a4a6b9de5a5e5f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.14.79"
-+LINUX_VERSION ?= "4.14.143"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
--- 
-2.7.4
-
+> Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/recipes-support/boost/boost.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+> index 9be3717..c2e2cbb 100644
+> --- a/meta/recipes-support/boost/boost.inc
+> +++ b/meta/recipes-support/boost/boost.inc
+> @@ -33,6 +33,7 @@ BOOST_LIBS_append_x86 = " context coroutine"
+>  BOOST_LIBS_append_x86-64 = " context coroutine"
+>  BOOST_LIBS_append_powerpc = " context coroutine"
+>  BOOST_LIBS_append_arm = " context coroutine"
+> +BOOST_LIBS_append_aarch64 = " context coroutine"
+>  # need consistent settings for native builds (x86 override not applied for native)
+>  BOOST_LIBS_remove_class-native = " context coroutine"
+>  # does not compile
+> @@ -151,6 +152,7 @@ BJAM_OPTS_append_x86-x32 = " abi=x32 address-model=64"
+>
+>  # cross compiling for arm fails to detect abi, so provide some help
+>  BJAM_OPTS_append_arm = " abi=aapcs architecture=arm"
+> +BJAM_OPTS_append_aarch64 = " abi=aapcs address-model=64 architecture=arm"
+>
+>  do_configure() {
+>         cp -f ${S}/boost/config/platform/linux.hpp ${S}/boost/config/platform/linux-gnueabi.hpp
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
