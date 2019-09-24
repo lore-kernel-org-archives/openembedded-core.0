@@ -1,53 +1,53 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D3547DD6B
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B04127E588
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 10:59:40 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id v8so1430858wrt.2
+	Tue, 24 Sep 2019 10:59:41 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id i16so1718619wmd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 03:59:42 -0700 (PDT)
+	Tue, 24 Sep 2019 03:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=RB5Chx2jmnDjRM+wyaBbyvyLf/HcvLxTGVOdOHyTEdI=;
-	b=kgTCHgw2r7UuYbdu/8YmyrKhbOc8QrHyR7mqJA4HaSPjvOr97XPc7sR4sGfHT854yD
-	gW0+OfgIRZybmKyT2AQ8X2StamzjvZhB1NxOGXnjG4AK/aEpwtT0QI98W3BxHfpRAgLB
-	Uad1NMiNJRTlKtM13InSZOQnAshELVnZ3jm22uOg1lKUg/AyiRrDWRinQjc+gCMKHbq3
-	ct256rM2VGJS7Zy3nLFrgj+fI5mL6mIW6ubQpuQRIH5kt+GshD7RlXAV6lHdlv6jrF3U
-	QOyf5hyZT+NvAiuEU9OHphySk2MtX5Z6+pn9p3DvYMzmBN4ret2kSs4XXOqGnM4MYQOJ
-	pOYQ==
+	bh=/LtRlZ91FS4j6cu7FZdRfX97lCuMiTUvC3034f8CG5c=;
+	b=OumOEgd4mzsVoj6CXwfGBGBBwicHQcqHr8k5TWjPBpO75Y9rC/WTfzvIKR5aFMYXRD
+	hNgnaOO613newQXSTwAKlIuUuFSOUEOeBpeEutP4+/mSxZn5HdyvKBdlJ1aYcWNv7t5h
+	PGvA6GbOaj1MPkOdSsqwxuHfxRmKCGKHNYujsrAItY3Yzhx9nO2YuNOra6AaH7rv+yN8
+	TxQ4Q4KkoyCqSlbyh2N/mg+dJIE9Zwhbnbiq1P0DRM9yjlUsOjucfsxAYXOzviA5pSNT
+	885m+py3tP9F6QnCZ4kUzO4Twpu4bNi0+Yk0hdne2IXoyL1KiDB6A3LwWh4ou1pbQJRm
+	ghXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=RB5Chx2jmnDjRM+wyaBbyvyLf/HcvLxTGVOdOHyTEdI=;
-	b=CAKr05yi6jYIBoTANToYf23tqgJXBgyPtHy6+fwIUkooUL11sG7z1e88NZcfT8ENOp
-	hR35JMfoqCql4S89G2Q0zk0UMG+pSVYiB/GgUhO5oZxa/J/8WmMhg6dK16+bT71XQi1J
-	FLOvBBaY4fAFzSSlMv2kJQGvJCT917kRPhM4sXTZt9P++O1G2vuTvO5/0nnYjw8Gs/t/
-	kuMrLKL5hFiUhuUeUvPtH1pze1EZiugNBImZCv6Ik/aRrM2VsRCiV6W9N/o92Su5rYvm
-	r3buIpJ1LzmI9xG+rRoiWW3YLKKzd0Tj9TkqtFRc9q0/hHTgCY+XOke2IGYAxsDXVf9c
-	Gtxg==
-X-Gm-Message-State: APjAAAUbZV45qaUVpJY+NyP5ql0Q87trMYq7MO7iGNoc0MPOY/z77qHT
-	q0DsqK9PuD3XXpnzM0m0E3QwO31M
-X-Google-Smtp-Source: APXvYqyXAUUzEWsqyUiUzj8AIRffeLJbV5ZVicR8C280/e+PKxH49jLVYUKGB3aMDMunHUnIvA/PlA==
-X-Received: by 2002:a5d:4f11:: with SMTP id c17mr1909130wru.227.1569322781034; 
-	Tue, 24 Sep 2019 03:59:41 -0700 (PDT)
+	bh=/LtRlZ91FS4j6cu7FZdRfX97lCuMiTUvC3034f8CG5c=;
+	b=b+3KmAAOeZJORi8PXfpQ6PSGF7RT8DJGerHOeJbYIRbwiziQV4NYuy/lKvhEiUNEBf
+	DhZUp+cKBUzgLzz6M2LNU35qhIqe/wRdKnJN1rMhWkwNQxHm4Boq5lc1Jl6ZQgp8JX1V
+	cCA/lV0LwOQJ9M/QCSuXEzfmnmF7N2ZYqG18npdT+iXR3uX8J4F+9fJMbthCdEha/zbJ
+	76sxQrje7Y/xbsUEfwC+82OaJczpR5Q+ZTIDFFddnW9NFvfBUJB0GNkg15vQtOixhT3g
+	hNpRoWB5D/RyKeqk2hR8Fv1sb0+/tAuSYqRN7LWi2eSxjf0EJko1CIlQMQoU/d9LZ2DS
+	51Lg==
+X-Gm-Message-State: APjAAAVos7H4hAcEwpc+iH6OSNSUNdoaeM+g27RL8MUat5CON8BZq3i9
+	IycmFvJVz/QwJqzsUVMuyWd5B8tz
+X-Google-Smtp-Source: APXvYqxMxTuIV/rNBt9wfzO+gtoPCMZzIAbHOHmRJw9ZDhxh70oNNKPVNe85K2M64heOKkVG9KnXBA==
+X-Received: by 2002:a7b:ce91:: with SMTP id q17mr2154091wmj.25.1569322782170; 
+	Tue, 24 Sep 2019 03:59:42 -0700 (PDT)
 Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
 	[80.151.55.163])
-	by smtp.gmail.com with ESMTPSA id n7sm1943753wrt.59.2019.09.24.03.59.40
+	by smtp.gmail.com with ESMTPSA id n7sm1943753wrt.59.2019.09.24.03.59.41
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 24 Sep 2019 03:59:40 -0700 (PDT)
+	Tue, 24 Sep 2019 03:59:41 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Sep 2019 12:59:22 +0200
-Message-Id: <20190924105925.2287-2-schnitzeltony@gmail.com>
+Date: Tue, 24 Sep 2019 12:59:23 +0200
+Message-Id: <20190924105925.2287-3-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190924105925.2287-1-schnitzeltony@gmail.com>
 References: <20190924105925.2287-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
-Subject: [sumo][PATCH 1/4] elfutils(-native): Add backported patch to fix build with host gcc9
+Subject: [sumo][PATCH 2/4] bison: Fix build break with glibc 2.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,77 +60,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 10:59:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 24 Sep 2019 10:59:42 -0000
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- .../elfutils/elfutils_0.170.bb                |  1 +
- ...-fsize-and-msize-with-const-attribut.patch | 42 +++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/0009-libelf-Mark-both-fsize-and-msize-with-const-attribut.patch
+From: Khem Raj <raj.khem@gmail.com>
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.170.bb b/meta/recipes-devtools/elfutils/elfutils_0.170.bb
-index 14ac22ee643..48f14286203 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.170.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.170.bb
-@@ -25,6 +25,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://debian/0003-Add-mips-n64-relocation-format-hack.patch \
-            file://0001-Use-fallthrough-attribute.patch \
-            file://0001-Ensure-that-packed-structs-follow-the-gcc-memory-lay.patch \
-+           file://0009-libelf-Mark-both-fsize-and-msize-with-const-attribut.patch \
-            "
- SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch"
- SRC_URI[md5sum] = "03599aee98c9b726c7a732a2dd0245d5"
-diff --git a/meta/recipes-devtools/elfutils/files/0009-libelf-Mark-both-fsize-and-msize-with-const-attribut.patch b/meta/recipes-devtools/elfutils/files/0009-libelf-Mark-both-fsize-and-msize-with-const-attribut.patch
+(From OE-Core rev: 741415c58b3565764000028c26efd081212eb989)
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../recipes-devtools/bison/bison/gnulib.patch | 21 +++++++++++++++++++
+ meta/recipes-devtools/bison/bison_3.0.4.bb    |  1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-devtools/bison/bison/gnulib.patch
+
+diff --git a/meta/recipes-devtools/bison/bison/gnulib.patch b/meta/recipes-devtools/bison/bison/gnulib.patch
 new file mode 100644
-index 00000000000..b5f8fd417aa
+index 00000000000..7eaf0ce0fa9
 --- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/0009-libelf-Mark-both-fsize-and-msize-with-const-attribut.patch
-@@ -0,0 +1,42 @@
-+From a01938d584b91e747167bb4b3f30ec300c4d6e43 Mon Sep 17 00:00:00 2001
-+From: Mark Wielaard <mark@klomp.org>
-+Date: Fri, 16 Nov 2018 09:27:00 +0100
-+Subject: [PATCH] libelf: Mark both fsize and msize with const attribute.
++++ b/meta/recipes-devtools/bison/bison/gnulib.patch
+@@ -0,0 +1,21 @@
++Fix gnulib issues found with glibc 2.28 libio.h removal
 +
-+GCC9 -Wmissing-attributes pointed out that although we alias the fsize
-+and msize functions only fsize was marked as const. Fix by also marking
-+the msize definition as const.
++see
++https://lists.gnu.org/r/bug-gnulib/2018-03/msg00000.html
 +
-+https://sourceware.org/bugzilla/show_bug.cgi?id=23884
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+Signed-off-by: Mark Wielaard <mark@klomp.org>
-+
-+Upstream-Status: Backport [1]
-+
-+[1] https://sourceware.org/git/?p=elfutils.git;a=commit;h=a01938d584b91e747167bb4b3f30ec300c4d6e43
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ libelf/ChangeLog | 5 +++++
-+ libelf/libelfP.h | 4 ++--
-+ 2 files changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/libelf/libelfP.h b/libelf/libelfP.h
-+index fa6d55d8..9f3e8e9d 100644
-+--- a/libelf/libelfP.h
-++++ b/libelf/libelfP.h
-+@@ -461,9 +461,9 @@ extern Elf_Type __libelf_data_type (Elf *elf, int sh_type, GElf_Xword align)
-+    These functions cannot be marked internal since they are aliases
-+    of the export elfXX_fsize functions.*/
-+ extern size_t __elf32_msize (Elf_Type __type, size_t __count,
-+-			     unsigned int __version);
-++			     unsigned int __version) __const_attribute__;
-+ extern size_t __elf64_msize (Elf_Type __type, size_t __count,
-+-			     unsigned int __version);
-++			     unsigned int __version) __const_attribute__;
-+ 
-+ 
-+ /* Create Elf descriptor from memory image.  */
-+-- 
-+2.21.0
-+
++Index: bison-3.0.4/lib/fseterr.c
++===================================================================
++--- bison-3.0.4.orig/lib/fseterr.c
+++++ bison-3.0.4/lib/fseterr.c
++@@ -29,7 +29,7 @@ fseterr (FILE *fp)
++   /* Most systems provide FILE as a struct and the necessary bitmask in
++      <stdio.h>, because they need it for implementing getc() and putc() as
++      fast macros.  */
++-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++   fp->_flags |= _IO_ERR_SEEN;
++ #elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
++   fp_->_flags |= __SERR;
+diff --git a/meta/recipes-devtools/bison/bison_3.0.4.bb b/meta/recipes-devtools/bison/bison_3.0.4.bb
+index 58728f5021f..cc155f0fbe3 100644
+--- a/meta/recipes-devtools/bison/bison_3.0.4.bb
++++ b/meta/recipes-devtools/bison/bison_3.0.4.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+            file://dont-depend-on-help2man.patch.patch \
+            file://0001-src-local.mk-fix-parallel-issue.patch \
+            file://add-with-bisonlocaledir.patch \
++           file://gnulib.patch \
+ "
+ 
+ # No point in hardcoding path to m4, just use PATH
 -- 
 2.21.0
 
