@@ -1,40 +1,47 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CEBA6D147
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+	[209.85.167.45])
+	by mail.openembedded.org (Postfix) with ESMTP id F191B6B513
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 00:27:59 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,542,1559491200"; d="scan'208";a="75904290"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 24 Sep 2019 08:27:59 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id EFCB14CE14EA
+	Tue, 24 Sep 2019 01:00:17 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id w6so28934lfl.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 08:27:58 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0439.000; Tue, 24 Sep 2019 08:27:59 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] dnf: make dnf work in toolchain
-Thread-Index: AQHVbcBrkQV8Ocpbv0eXDXAt3TN6Mac6Ai5Q
-Date: Tue, 24 Sep 2019 00:28:05 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B70354@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1568615805-50657-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<380372ea5dfb9b87cd72363064c5f63e61b84744.camel@linuxfoundation.org>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6F545@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B5B6F89C@G08CNEXMBPEKD01.g08.fujitsu.local>
-In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6F89C@G08CNEXMBPEKD01.g08.fujitsu.local>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.35]
+	Mon, 23 Sep 2019 18:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hvrWAKXW7uh4kg7Ig1RQVd4iGwhiKEn88aIJvq/6XiY=;
+	b=vVr0yibpYaLa36x+QH33DE4dd95NRY6aDPxn2XpRFcLnTabVuysrpFSHBjmt5wfSfh
+	pNARXpbt04rB3H/dyxYoGRbrkE/7Gi8c47ui0Ju4elZ0zsZ8U6tePsEodagP6ODaz1qm
+	mpkqdtGfu0SBExXvTd2TsJX3thfVTr7+3dtAZ9XFOvzaxidOjNsRasu4RGhr3XABzeO2
+	93BbiJRXL/oC1/hGdb+tx3Zp5FX9UiFr7IEnplHkCGjNl1ENXCOsqp5DXA63LOAJ9p53
+	DS/KijNaZ1yjfs6wKLJoV0esdYrihN0aIfHf3hkUDGWRMRpmdKlsEl1/1U1YM6P1+5rg
+	I8Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hvrWAKXW7uh4kg7Ig1RQVd4iGwhiKEn88aIJvq/6XiY=;
+	b=XIFNs29oZ5sCkLmkCOXUZdIPz1aUnFFzl+44NjvJSgDbGVIpseeNdCNQWiawRptjDa
+	ouGE5L8+W12IX2Z8RUA2Hyn2sdUaOhSf6Quw7qCH9OnBWmAWPRV26isT5KqqT0qxZ2eR
+	9rhBc5Q3NgJcDaMi7V2ZztP2z2ZL9SEzIZY0dEfRQ57wmIDvN/uGDqrgZPrp3UvWsj7L
+	pbT+0uRm57Ut19h+fPISN/e3Eqha2JUxXT0+JJnWr9MYsH6AUNKH6qFm0XGvQL2dPeoa
+	FEU+ZizAlcrJx5j8wnREarBdmnAoUAq/vr4MrvR+LL8f66k0GHu4SuKJYUgUP8jBv0WF
+	9O1A==
+X-Gm-Message-State: APjAAAUIoN2oDB+/giTx3bsBTELMZTwcIWdsRPOVFavEWLna+O2ZD7CO
+	Ey1e5u61301k+B4ocB/mOl9xxA/8qL0tcIuWPOM=
+X-Google-Smtp-Source: APXvYqw7sBierqexq/8Wiq/BpSAF2JOxlHBodo3b/eHudJgO50K7MP3XXCGXAU3OKeM20vNcPfvdSUJMNEqhNk0csDI=
+X-Received: by 2002:ac2:4a69:: with SMTP id q9mr46634lfp.86.1569286818488;
+	Mon, 23 Sep 2019 18:00:18 -0700 (PDT)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: EFCB14CE14EA.A1550
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH] dnf: make dnf work in toolchain
+References: <CAMKF1sqanCn50yNrGcUDyGZQu9fOXsRZkccvk4o+GvD6F5nPRg@mail.gmail.com>
+In-Reply-To: <CAMKF1sqanCn50yNrGcUDyGZQu9fOXsRZkccvk4o+GvD6F5nPRg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 23 Sep 2019 17:59:51 -0700
+Message-ID: <CAKmqyKPkQAHM5+X0QfRAR1wneOe2o1ffBirz0boqv8PetCRVkQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: qemu 4.1 boot regression with riscv/musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,156 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 00:28:00 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 24 Sep 2019 01:00:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-cGluZw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3Ug
-TmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjog
-Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5h
-bmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24u
-ZnVqaXN0dS5jb20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQo+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZw0KPiBbbWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlLWJv
-dW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10gT24gQmVoYWxmIE9mDQo+
-IFpoZW5nLCBSdW9xaW4NCj4gU2VudDogV2VkbmVzZGF5LCBTZXB0ZW1iZXIg
-MTgsIDIwMTkgOToyOSBBTQ0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVd
-IFtQQVRDSF0gZG5mOiBtYWtlIGRuZiB3b3JrIGluIHRvb2xjaGFpbg0KPiAN
-Cj4gSGkgUmljaGFyZA0KPiANCj4gPiA+IHlvdSBjYW4gcnVuIHRoZXNlIHdp
-dGggY29tbWFuZHMgbGlrZToNCj4gPiA+DQo+ID4gPiBvcy1zZWxmdGVzdCAt
-ciBzc3RhdGV0ZXN0cy5TU3RhdGVUZXN0cy50ZXN0X3NzdGF0ZV9hbGxhcmNo
-X3NhbWVzaWdzDQo+IA0KPiBPbmUgbW9yZSAgcXVlc3Rpb24gaXMgdGhhdCBJ
-IGV4ZWN1dGVkIG9zLXNlbGZ0ZXN0IGluIG15IHlvY3RvIGJ1aWxkIGVudmly
-b25tZW50LA0KPiBhbmQgaXQgd2FzIHBhc3NlZC4gU28gaG93IGNvdWxkIEkg
-cmVwcm9kdWNlIHRoZSBlcnJvciBsb2c/DQo+IA0KPiAvYnVpbGQkIG9lLXNl
-bGZ0ZXN0IC1yIHNzdGF0ZXRlc3RzLlNTdGF0ZVRlc3RzLnRlc3Rfc3N0YXRl
-X2FsbGFyY2hfc2FtZXNpZ3MNCj4gMjAxOS0wOS0xNyAxMToxMTo0MCw3MDMg
-LSBvZS1zZWxmdGVzdCAtIElORk8gLSBBZGRpbmcgbGF5ZXIgbGlicmFyaWVz
-Og0KPiAyMDE5LTA5LTE3IDExOjExOjQwLDcwMyAtIG9lLXNlbGZ0ZXN0IC0g
-SU5GTyAtDQo+IAkvaG9tZS96aGVuZ3JxL3dvcmtkaXIveW90Y28vcG9reS9t
-ZXRhL2xpYg0KPiAyMDE5LTA5LTE3IDExOjExOjQwLDcwNCAtIG9lLXNlbGZ0
-ZXN0IC0gSU5GTyAtDQo+IAkvaG9tZS96aGVuZ3JxL3dvcmtkaXIveW90Y28v
-cG9reS9tZXRhLXlvY3RvLWJzcC9saWINCj4gMjAxOS0wOS0xNyAxMToxMTo0
-MCw3MDQgLSBvZS1zZWxmdGVzdCAtIElORk8gLQ0KPiAJL2hvbWUvemhlbmdy
-cS93b3JrZGlyL3lvdGNvL3Bva3kvbWV0YS1zZWxmdGVzdC9saWINCj4gMjAx
-OS0wOS0xNyAxMToxMTo0MCw3MDQgLSBvZS1zZWxmdGVzdCAtIElORk8gLQ0K
-PiAJL2hvbWUvemhlbmdycS93b3JrZGlyL3lvdGNvL21ldGEtb3BlbmVtYmVk
-ZGVkL21ldGEtb2UvbGliDQo+IDIwMTktMDktMTcgMTE6MTE6NDAsNzA3IC0g
-b2Utc2VsZnRlc3QgLSBJTkZPIC0gUnVubmluZyBiaXRiYWtlIC1lIHRvIHRl
-c3QgdGhlDQo+IGNvbmZpZ3VyYXRpb24gaXMgdmFsaWQvcGFyc2FibGUNCj4g
-MjAxOS0wOS0xNyAxMToxMTo0Miw0MDYgLSBvZS1zZWxmdGVzdCAtIElORk8g
-LSBBZGRpbmc6ICJpbmNsdWRlIHNlbGZ0ZXN0LmluYyIgaW4NCj4gL2hvbWUv
-emhlbmdycS93b3JrZGlyL3lvdGNvL2J1aWxkL2NvbmYvbG9jYWwuY29uZg0K
-PiAyMDE5LTA5LTE3IDExOjExOjQyLDQwNyAtIG9lLXNlbGZ0ZXN0IC0gSU5G
-TyAtIEFkZGluZzogImluY2x1ZGUgYmJsYXllcnMuaW5jIiBpbg0KPiBiYmxh
-eWVycy5jb25mDQo+IDIwMTktMDktMTcgMTE6MTE6NDIsNDA3IC0gb2Utc2Vs
-ZnRlc3QgLSBJTkZPIC0gdGVzdF9zc3RhdGVfYWxsYXJjaF9zYW1lc2lncw0K
-PiAoc3N0YXRldGVzdHMuU1N0YXRlVGVzdHMpDQo+IDIwMTktMDktMTcgMTE6
-MTc6MDAsMDM0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gIC4uLiBvaw0KPiAy
-MDE5LTA5LTE3IDExOjE3OjAwLDA0NyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
-IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-DQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+IDIwMTktMDktMTcg
-MTE6MTc6MDAsMDQ3IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUmFuIDEgdGVz
-dCBpbiAzMTcuNjQxcw0KPiAyMDE5LTA5LTE3IDExOjE3OjAwLDA0NyAtIG9l
-LXNlbGZ0ZXN0IC0gSU5GTyAtIE9LDQo+IGZhdGFsOiBub3QgYSBnaXQgcmVw
-b3NpdG9yeSAob3IgYW55IG9mIHRoZSBwYXJlbnQgZGlyZWN0b3JpZXMpOiAu
-Z2l0DQo+IGZhdGFsOiBub3QgYSBnaXQgcmVwb3NpdG9yeSAob3IgYW55IG9m
-IHRoZSBwYXJlbnQgZGlyZWN0b3JpZXMpOiAuZ2l0DQo+IGZhdGFsOiBub3Qg
-YSBnaXQgcmVwb3NpdG9yeSAob3IgYW55IG9mIHRoZSBwYXJlbnQgZGlyZWN0
-b3JpZXMpOiAuZ2l0DQo+IDIwMTktMDktMTcgMTE6MTc6MDcsMDI1IC0gb2Ut
-c2VsZnRlc3QgLSBJTkZPIC0gUkVTVUxUUzoNCj4gMjAxOS0wOS0xNyAxMTox
-NzowNywwMjYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBSRVNVTFRTIC0NCj4g
-c3N0YXRldGVzdHMuU1N0YXRlVGVzdHMudGVzdF9zc3RhdGVfYWxsYXJjaF9z
-YW1lc2lnczogUEFTU0VEICgzMTcuNjRzKQ0KPiAyMDE5LTA5LTE3IDExOjE3
-OjA3LDA2NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFNVTU1BUlk6DQo+IDIw
-MTktMDktMTcgMTE6MTc6MDcsMDY1IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
-b2Utc2VsZnRlc3QgKCkgLSBSYW4gMSB0ZXN0IGluIDMxNy42NDJzDQo+IDIw
-MTktMDktMTcgMTE6MTc6MDcsMDY1IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
-b2Utc2VsZnRlc3QgLSBPSyAtIEFsbCByZXF1aXJlZCB0ZXN0cw0KPiBwYXNz
-ZWQgKHN1Y2Nlc3Nlcz0xLCBza2lwcGVkPTAsIGZhaWx1cmVzPTAsIGVycm9y
-cz0wKQ0KPiANCj4gDQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+IFpoZW5nIFJ1b3Fpbg0KPiBOYW5q
-aW5nIEZ1aml0c3UgTmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZO
-U1QpDQo+IEFERFIuOiBOby42IFdlbnpodSBSb2FkLCBTb2Z0d2FyZSBBdmVu
-dWUsDQo+ICAgICAgICBOYW5qaW5nLCAyMTAwMTIsIENoaW5hDQo+IE1BSUwg
-OiB6aGVuZ3JxLmZuc3RAY24uZnVqaXN0dS5jb20NCj4gDQo+IA0KPiA+IC0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gRnJvbTogb3BlbmVtYmVk
-ZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4g
-W21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmddIE9uIEJlaGFsZg0KPiBPZg0KPiA+IFpoZW5nLCBSdW9x
-aW4NCj4gPiBTZW50OiBUdWVzZGF5LCBTZXB0ZW1iZXIgMTcsIDIwMTkgODo0
-NSBBTQ0KPiA+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnDQo+ID4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hd
-IGRuZjogbWFrZSBkbmYgd29yayBpbiB0b29sY2hhaW4NCj4gPg0KPiA+IEhp
-IFJpY2hhcmQNCj4gPg0KPiA+ID4geW91IGNhbiBydW4gdGhlc2Ugd2l0aCBj
-b21tYW5kcyBsaWtlOg0KPiA+ID4NCj4gPiA+IG9zLXNlbGZ0ZXN0IC1yIHNz
-dGF0ZXRlc3RzLlNTdGF0ZVRlc3RzLnRlc3Rfc3N0YXRlX2FsbGFyY2hfc2Ft
-ZXNpZ3MNCj4gPiA+DQo+ID4gPiBDaGVlcnMsDQo+ID4NCj4gPiBDb3VsZCB5
-b3UgdGVsbCBtZSB3aGF0IGRvZXMgdGhlIG9lLXNlbGZ0ZXN0ICBpbiBoZXJl
-IHRlc3QgZm9yPw0KPiA+IEVzcGVjaWFsbHkgd2hhdCBkbyB0aGUgc2lnbmF0
-dXJlIHRlc3RzIHRlc3QgZm9yPw0KPiA+DQo+ID4gVGhhbmtzDQo+ID4gLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0NCj4gPiBaaGVuZyBSdW9xaW4NCj4gPiBOYW5qaW5nIEZ1aml0c3UgTmFu
-ZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQo+ID4gQUREUi46
-IE5vLjYgV2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2ZW51ZSwNCj4gPiAgICAg
-ICAgTmFuamluZywgMjEwMDEyLCBDaGluYQ0KPiA+IE1BSUwgOiB6aGVuZ3Jx
-LmZuc3RAY24uZnVqaXN0dS5jb20NCj4gPg0KPiA+DQo+ID4gPiAtLS0tLU9y
-aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogUmljaGFyZCBQdXJk
-aWUgW21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3Jn
-XQ0KPiA+ID4gU2VudDogTW9uZGF5LCBTZXB0ZW1iZXIgMTYsIDIwMTkgNjo1
-NyBQTQ0KPiA+ID4gVG86IFpoZW5nLCBSdW9xaW4v6YORIOiLpemSpiA8emhl
-bmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiA+
-ID4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiBTdWJqZWN0
-OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gZG5mOiBtYWtlIGRuZiB3b3JrIGlu
-IHRvb2xjaGFpbg0KPiA+ID4NCj4gPiA+IE9uIE1vbiwgMjAxOS0wOS0xNiBh
-dCAxNDozNiArMDgwMCwgWmhlbmcgUnVvcWluIHdyb3RlOg0KPiA+ID4gPiBX
-ZSBuZWVkIHRvIGNvbmZpZ3VyZSBkbmYgdG8gdXNlIHBhY2thZ2UgYXJjaGl0
-ZWN0dXJlIGZyb20geW9jdG8NCj4gPiA+ID4gYnVpbGQgc3lzdGVtLg0KPiA+
-ID4gPg0KPiA+ID4gPiBJbnN0YWxsIGV0Yy9kbmYvdmFycyB0byAke1NES1RB
-UkdFVFNZU1JPT1R9IGJlY2F1c2UgY29uZmlnIGZpbGUgaW4NCj4gPiA+ID4g
-aG9zdC1zeXNyb290IGFzDQo+ID4gPiA+IC9vcHQvcG9reS8yLjcrc25hcHNo
-b3Qvc3lzcm9vdHMveDg2XzY0LXBva3lzZGstbGludXgNCj4gPiA+ID4gd2ls
-bCBiZSBjb3ZlcmVkIGJ5IGFub3RoZXIgQVJDSCB3aGljaCByZXN1bHQgaW4g
-cHJldmlvdXMgY29uZmlnDQo+ID4gPiA+IHNldHRpbmdzIGluZWZmaWNhY3ku
-DQo+ID4gPiA+DQo+ID4gPiA+IFRvIHJlc29sdmUgaXQsIHB1dCBjb25maWcg
-ZmlsZSBpbiB0YXJnZXQtc3lzcm9vdCBsaWtlDQo+ID4gPiA+IC9vcHQvcG9r
-eS8yLjcrc25hcHNob3Qvc3lzcm9vdHMvY29yZTItNjQtcG9reS1saW51eC4g
-QXMgZWFjaCBBUkNIDQo+ID4gPiA+IGhhcyBpdHMgb3duIHRhcmdldC1zeXNy
-b290LCBjb25maWcgZmlsZSB3aWxsIG5vdCBiZSBjb3ZlcmVkLg0KPiA+ID4N
-Cj4gPiA+IEknbSBhZnJhaWQgd2UgY2FuJ3QgaGF2ZSB0YXJnZXQgZGVwZW5k
-ZW5jaWVzIHdpdGhpbiBuYXRpdmVzZGsgcGFja2FnZXMuDQo+ID4gPg0KPiA+
-ID4gVGhpcyBpcyBzaG93biBieSB0aGUgZmFjdCB0aGlzIHBhdGNoIChhbmQg
-dGhlIHNpbWlsYXIgcnBtIG9uZSkgY2F1c2UNCj4gPiA+IHNlbGZ0ZXN0IGZh
-aWx1cmVzIGluIHRoZSBzaWduYXR1cmUgdGVzdHM6DQo+ID4gPg0KPiA+ID4g
-aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24v
-Iy9idWlsZGVycy83OS9idWlsZHMvMzgNCj4gPiA+IDEvDQo+ID4gPiBzdGVw
-cy84DQo+ID4gPiAvbG9ncy9zdGVwMmQNCj4gPiA+DQo+ID4gPiAyMDE5LTA5
-LTE2IDAwOjI0OjU0LDY3MCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFJFU1VM
-VFMgLQ0KPiA+ID4gc3N0YXRldGVzdHMuU1N0YXRlVGVzdHMudGVzdF9zc3Rh
-dGVfYWxsYXJjaF9zYW1lc2lnczogRkFJTEVEDQo+ID4gPiAoMTExLjU5cykN
-Cj4gPiA+IDIwMTktMDktMTYgMDA6MjQ6NTQsNjcwIC0gb2Utc2VsZnRlc3Qg
-LSBJTkZPIC0gUkVTVUxUUyAtDQo+ID4gPiBzc3RhdGV0ZXN0cy5TU3RhdGVU
-ZXN0cy50ZXN0X3NzdGF0ZV9uYXRpdmVzZGtfc2FtZXNpZ3NfbXVsdGlsaWI6
-DQo+ID4gPiBGQUlMRUQNCj4gPiA+ICgxNDQuMTRzKQ0KPiA+ID4gMjAxOS0w
-OS0xNiAwMDoyNDo1NCw2NzAgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBSRVNV
-TFRTIC0NCj4gPiA+IHNzdGF0ZXRlc3RzLlNTdGF0ZVRlc3RzLnRlc3Rfc3N0
-YXRlX3NhbWV0dW5lX3NhbWVzaWdzOiBGQUlMRUQNCj4gPiA+ICgxNjEuNTNz
-KQ0KPiA+ID4NCj4gPiA+IHlvdSBjYW4gcnVuIHRoZXNlIHdpdGggY29tbWFu
-ZHMgbGlrZToNCj4gPiA+DQo+ID4gPiBvcy1zZWxmdGVzdCAtciBzc3RhdGV0
-ZXN0cy5TU3RhdGVUZXN0cy50ZXN0X3NzdGF0ZV9hbGxhcmNoX3NhbWVzaWdz
-DQo+ID4gPg0KPiA+ID4gQ2hlZXJzLA0KPiA+ID4NCj4gPiA+IFJpY2hhcmQN
-Cj4gPiA+DQo+ID4gPg0KPiA+DQo+ID4NCj4gPg0KPiA+IC0tDQo+ID4gX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18N
-Cj4gPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gPiBPcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gaHR0
-cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9v
-cGVuZW1iZWRkZWQtY29yZQ0KPiANCj4gDQo+IC0tDQo+IF9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IE9wZW5l
-bWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNv
-cmUNCgoK
+On Mon, Sep 23, 2019 at 3:40 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Alistair,
+>
+> OE-core qemu upgrade to 4.1 has ended up with regressing musl/riscv
+> port. I could pin point it to
+>
+> https://git.openembedded.org/openembedded-core/commit/?id=50a7dec95618080962e56fd347f505e691b7ad6f
+>
+> it works fine with 4.0, I havent looked further
+>
+> To reproduce
+>
+> build
+> MACHINE=qemuriscv64 TCLIBC=musl  bitbake core-image-minimal
+> TCLIBC=musl runqemu nographic
+
+Thanks, I can reproduce this and am bisecting QEMU now.
+
+Alistair
+
+>
+> Thanks
+> -Khem
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
