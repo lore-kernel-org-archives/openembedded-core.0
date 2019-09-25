@@ -1,51 +1,28 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
-	[209.85.167.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CE2BB7E66A
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AD357E6B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 19:12:58 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id m16so5915723oic.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 12:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=h5g8jebgDQfWVsH8FMijmMykKn4E06GIBmZj57/0BZc=;
-	b=pOeFsc0t8ZU4moTztfTx4A0l7415PlfYSA13Q89idV+fxrg3el2A/3124zSok8qwb9
-	4k4xTPONgvhW/C/X90wh+py/inLaVi8yoheOmqHvwWE45LWo6+bRhqJaae1QgXESyWE3
-	1OVs+Eddzhub1uWIvjCi1bS2U5lT7ANBgrd0kuch3C+UgqTmij9Hu/5J3Mm6DPGjl9PX
-	tM/ktn1B5HzgTciXrHrXUS9H/9CJuiTe8aJWqWm5hT6oyCIibBv2NIyKm8ey/JsE1rm/
-	AWpi92Ts3TtdJQlZ2/p4++FXcidCHP8PJW9qbMPM5CHc5HGHFmeBcQ8RK55pA3/mE95I
-	J5Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=h5g8jebgDQfWVsH8FMijmMykKn4E06GIBmZj57/0BZc=;
-	b=VBYdClLVnY09NmIHeG5mMZpgvbaLRSpFwYXEoK5cXxmQfh7cC0lVT8qrBhegVhcGQk
-	Nq13HkEG7fNbTdOz0sHK1w19+w7x4esThkTEICIlPGMAZazFu84xy8GYDpwRXZo4ln+F
-	LYfNwMrEA4uanyShDPDJI99UCFFFMGqEUKsNzpFD2MehTnp/hINbn4OaC2j7rWsoZuSV
-	MUrm+/oW36jb3iHcQZ5/my/KsyTEniEdNGQkd/xtbWa+jz5iGfZnvdHrY9J5EsMPLyOg
-	JHo/eCX5f7VLaNabKCmMiUTyoXkm+AT65hiy0YW2sA+wdI9wPsk4cx7i7aLAWsWQUkmq
-	ntyA==
-X-Gm-Message-State: APjAAAWE+TXaCT87mruWq58fvOHCKVMr3TX1hmz1eV7A+tRnr/O2VpvR
-	lmk5V1hCI9GDXB2Lu/BpTbTJLLdVIlo1zKqvBA==
-X-Google-Smtp-Source: APXvYqypUrPb0vI5uKoeJDCUBhWX0ujxTHOYXYZxwT1bM0wVWuYeaEFGRuTSHoh8qvrh7wMa7Jz1FjO6cl920HRKdPk=
-X-Received: by 2002:a05:6808:302:: with SMTP id
-	i2mr5867116oie.176.1569438779877; 
-	Wed, 25 Sep 2019 12:12:59 -0700 (PDT)
+	Wed, 25 Sep 2019 19:17:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8PJHAto003566
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 25 Sep 2019 12:17:25 -0700
+Received: from [128.224.56.209] (128.224.56.209) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Wed, 25 Sep 2019 12:17:04 -0700
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190924140118.6651-1-Trevor.Gamblin@windriver.com>
+	<0807ede6-ed1e-2068-6004-22fd947a51ef@intel.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <bc706caa-9fd8-faf9-b0a4-26d3f4d1fbf9@windriver.com>
+Date: Wed, 25 Sep 2019 15:17:04 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190925115259.26437-1-george.mccollister@gmail.com>
-	<20190925115259.26437-2-george.mccollister@gmail.com>
-	<39e9c9c3-dc27-03da-2149-fe173e5680f9@kernel.crashing.org>
-	<CAFSKS=MfvSSzyhn0HmcwFJgNq2Tj=f+Fr+VWrsQCYnbH3f2tjQ@mail.gmail.com>
-	<CAJ86T=UXCxS_X86dG+WL_rvh=pB7WAP8_Vg5wCUru6hmnzrstQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=UXCxS_X86dG+WL_rvh=pB7WAP8_Vg5wCUru6hmnzrstQ@mail.gmail.com>
-From: George McCollister <george.mccollister@gmail.com>
-Date: Wed, 25 Sep 2019 14:12:48 -0500
-Message-ID: <CAFSKS=MJU=n3vN28WA400yS=_-gN0CGq=V2bg59wmPvnYgAp=A@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] openssl: make OPENSSL_ENGINES match install path
+In-Reply-To: <0807ede6-ed1e-2068-6004-22fd947a51ef@intel.com>
+Subject: Re: [PATCH] nativesdk-dnf: ensure installed systemd files are shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,78 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2019 19:13:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 25 Sep 2019 19:17:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Wed, Sep 25, 2019 at 1:37 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Wed, Sep 25, 2019 at 11:13 AM George McCollister
-> <george.mccollister@gmail.com> wrote:
-> > On Wed, Sep 25, 2019 at 11:08 AM Mark Hatle
-> > <mark.hatle@kernel.crashing.org> wrote:
-> > > On 9/25/19 6:52 AM, George McCollister wrote:
-> > > > Set OPENSSL_ENGINES to the path where engines are actually installed.
-> > > >
-> > > > Signed-off-by: George McCollister <george.mccollister@gmail.com>
-> > > > ---
-> > > >  meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> > > > index 072f727e0b..8819e19ec4 100644
-> > > > --- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> > > > +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> > > > @@ -148,7 +148,7 @@ do_install_append_class-native () {
-> > > >           OPENSSL_CONF=${libdir}/ssl-1.1/openssl.cnf \
-> > > >           SSL_CERT_DIR=${libdir}/ssl-1.1/certs \
-> > > >           SSL_CERT_FILE=${libdir}/ssl-1.1/cert.pem \
-> > > > -         OPENSSL_ENGINES=${libdir}/ssl-1.1/engines
-> > > > +         OPENSSL_ENGINES=${libdir}/engines-1.1
-> > >
-> > > Is this a bug in the openssl recipe (it's placing engines in the wrong place),
-> > > or a bug in the recipes providing acceleration engines and THEY are going into
-> > > the wrong place?
-> >
-> > This recipe installs:
-> > packages-split/openssl-engines/usr/lib/engines-1.1/afalg.so
-> > packages-split/openssl-engines/usr/lib/engines-1.1/padlock.so
-> > packages-split/openssl-engines/usr/lib/engines-1.1/capi.so
-> >
-> > libp11 in meta-oe installs these:
-> > packages-split/libp11/usr/lib/engines-1.1
-> > packages-split/libp11/usr/lib/engines-1.1/pkcs11.so
-> > packages-split/libp11-dev/usr/lib/engines-1.1
-> > packages-split/libp11-dev/usr/lib/engines-1.1/libpkcs11.so
-> >
-> > >
-> > > The ssl-1.1/engines makes more sense to me..  as /usr/lib/engines-1.1 obscures
-> > > that they are OpenSSL related.
-> >
-> > I don't have a strong opinion either way but ssl-1.1/engines does make
-> > a bit more sense.
-> > Debian appears to install them in engines-1.1 though:
-> >  https://packages.debian.org/buster/amd64/libssl1.1/filelist
->
-> It would be interesting to know when the path in the -native wrapper
-> script stopped matching the path where the engines plugins are
-> installed. ie was the wrapper script always wrong? Did the default
-> install path used by openssl change at some point?
+On 9/24/19 12:15 PM, Ross Burton wrote:
 
-It's been wrong on and off with openssl 1.0 and I believe always wrong
-with openssl 1.1.
+> On 24/09/2019 15:01, Trevor Gamblin wrote:
+>> From: Trevor Gamblin <trevor.gamblin@windriver.com>
+>>
+>> "bitbake nativesdk-dnf" throws a QA warning if the contents of
+>> ${base_libdir}/systemd/system/ are not shipped, so add them.
+>
+> Looks like a bug in systemd.bbclass, not this recipe.  For example if 
+> I enable nativesdk for acpid:
+
+Can you clarify what you meant? Did you mean that the class should be 
+doing the cleanup of the systemd service files?
 
 >
-> > I do need this fixed in warrior though and wonder if anyone would
-> > gripe about changing where they are installed post release.
-> >
-> > How shall we proceed? Does anyone else want to chime in?
+> ERROR: nativesdk-acpid-2.0.32-r0 do_package: QA Issue: 
+> nativesdk-acpid: Files/directories were installed but not shipped in 
+> any package:
+>   /opt/poky/2.7+snapshot/sysroots/x86_64-pokysdk-linux/lib
+>   /opt/poky/2.7+snapshot/sysroots/x86_64-pokysdk-linux/lib/systemd
+> /opt/poky/2.7+snapshot/sysroots/x86_64-pokysdk-linux/lib/systemd/system
 >
-> The change being proposed is for the openssl-native wrapper script, so
-> won't affect anything on the target.
+> /opt/poky/2.7+snapshot/sysroots/x86_64-pokysdk-linux/lib/systemd/system/acpid.service 
 >
-> I'm curious why openssl-native needs engines plugins at all?
-
-I need the pkcs11 engine for pkcs11 signing with an HSM. Unfortunately
-for me most people won't notice if the wrapper doesn't match the
-installed plugin path.
+>
+> Ross
 
