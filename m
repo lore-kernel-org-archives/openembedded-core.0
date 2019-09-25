@@ -1,31 +1,33 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 440147E684
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B5A867E66A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 19:40:54 +0000 (UTC)
+	Wed, 25 Sep 2019 19:53:19 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Sep 2019 12:40:55 -0700
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Sep 2019 12:53:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,549,1559545200"; d="scan'208";a="189761090"
+X-IronPort-AV: E=Sophos;i="5.64,549,1559545200"; d="scan'208";a="189764161"
 Received: from arokiasx-mobl1.gar.corp.intel.com (HELO blackadder.local)
 	([10.252.54.158])
-	by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2019 12:40:54 -0700
-To: Diego Rondini <diego.rondini@kynetics.com>,
+	by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2019 12:53:19 -0700
+To: Trevor Gamblin <trevor.gamblin@windriver.com>,
 	openembedded-core@lists.openembedded.org
-References: <20190925144933.16030-1-diego.rondini@kynetics.com>
+References: <20190924140118.6651-1-Trevor.Gamblin@windriver.com>
+	<0807ede6-ed1e-2068-6004-22fd947a51ef@intel.com>
+	<bc706caa-9fd8-faf9-b0a4-26d3f4d1fbf9@windriver.com>
 From: Ross Burton <ross.burton@intel.com>
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
 	Swindon SN3 1RJ
-Message-ID: <bd5c3ea5-aa03-ae71-1257-026d91102a03@intel.com>
-Date: Wed, 25 Sep 2019 20:40:53 +0100
+Message-ID: <2a9d99ed-8a58-7784-1ab8-183cf30ef8e7@intel.com>
+Date: Wed, 25 Sep 2019 20:53:18 +0100
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
 	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190925144933.16030-1-diego.rondini@kynetics.com>
-Subject: Re: [PATCH] bmap-tools: add missing python3-misc dependency
+In-Reply-To: <bc706caa-9fd8-faf9-b0a4-26d3f4d1fbf9@windriver.com>
+Subject: Re: [PATCH] nativesdk-dnf: ensure installed systemd files are shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2019 19:40:54 -0000
+X-List-Received-Date: Wed, 25 Sep 2019 19:53:19 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 25/09/2019 15:49, Diego Rondini wrote:
-> Add runtime dependency on python3-misc as bmaptool depends on ntpath.
+On 25/09/2019 20:17, Trevor Gamblin wrote:
+> On 9/24/19 12:15 PM, Ross Burton wrote:
 > 
-> Signed-off-by: Diego Rondini <diego.rondini@kynetics.com>
-> ---
->   meta/recipes-support/bmap-tools/bmap-tools_3.5.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>> On 24/09/2019 15:01, Trevor Gamblin wrote:
+>>> From: Trevor Gamblin <trevor.gamblin@windriver.com>
+>>>
+>>> "bitbake nativesdk-dnf" throws a QA warning if the contents of
+>>> ${base_libdir}/systemd/system/ are not shipped, so add them.
+>>
+>> Looks like a bug in systemd.bbclass, not this recipe.  For example if 
+>> I enable nativesdk for acpid:
 > 
-> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-> index 7c4db85b32..6be07d7f9c 100644
-> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-> @@ -17,7 +17,7 @@ PV .= "+git${SRCPV}"
->   
->   UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
->   
-> -RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six"
-> +RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six python3-misc"
->   
->   inherit python3native
->   inherit setuptools3
-> 
+> Can you clarify what you meant? Did you mean that the class should be 
+> doing the cleanup of the systemd service files?
 
-ERROR: Nothing RPROVIDES 'python3-misc-native' (but 
-virtual:native:/home/ross/Yocto/poky/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb 
-RDEPENDS on or otherwise requires it)
+If the intention is that unit files don't get installed/managed/etc in 
+nativesdk, then yes the class should be removing them.
 
 Ross
 
