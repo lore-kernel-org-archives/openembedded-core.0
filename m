@@ -1,23 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ED3D46D561
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 42AA56D561
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 02:53:17 +0000 (UTC)
+	Wed, 25 Sep 2019 02:53:19 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8P2rIHZ002484
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8P2rKpJ000008
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 19:53:19 -0700 (PDT)
+	Tue, 24 Sep 2019 19:53:20 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 24 Sep 2019 19:53:18 -0700
+	14.3.468.0; Tue, 24 Sep 2019 19:53:19 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Sep 2019 11:07:48 +0800
-Message-ID: <cover.1569380793.git.Qi.Chen@windriver.com>
+Date: Wed, 25 Sep 2019 11:07:49 +0800
+Message-ID: <1b92d4ed4d0d7fbd91d56d28e32f3249e8fbdf72.1569380793.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1569380793.git.Qi.Chen@windriver.com>
+References: <cover.1569380793.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] systemd: mark /etc as updated to avoid unnecessary services to run
+Subject: [PATCH 1/1] systemd: mark /etc as updated to avoid unnecessary services to run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,26 +32,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2019 02:53:18 -0000
+X-List-Received-Date: Wed, 25 Sep 2019 02:53:19 -0000
 Content-Type: text/plain
 
-*** BLURB HERE ***
-The following changes since commit 81f9e815d36848761a9dfa94b00ad998bb39a4a6:
+We have updated hwdb via postinstall, updated systemd users via
+'systemd_create_users', so there's no need to update /etc. Mark it
+as updated to avoid unnecessary services like systemd-hwdb-update.service
+to run.
 
-  build-appliance-image: Update to master head revision (2019-09-19 20:32:53 +0100)
+This would solve timeout problem on qemumips. So also remove the
+timeout change for systemd-hwdb-update.service.
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/etc-updated
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/etc-updated
-
-Chen Qi (1):
-  systemd: mark /etc as updated to avoid unnecessary services to run
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/classes/rootfs-postcommands.bbclass | 6 ++++++
  meta/recipes-core/systemd/systemd_243.bb | 6 ------
  2 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 88f75d0..9323e92 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -36,6 +36,8 @@ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+ # Set default target for systemd images
+ SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; systemd_create_users;", "", d)}'
++# Mark /etc as updated for systemd as we have done things in rootfs time
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "systemd_mark_etc_updated;", "", d)}'
+ 
+ ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
+ 
+@@ -86,6 +88,10 @@ systemd_create_users () {
+ 	done
+ }
+ 
++systemd_mark_etc_updated () {
++	touch ${IMAGE_ROOTFS}${sysconfdir}/.updated
++}
++
+ #
+ # A hook function to support read-only-rootfs IMAGE_FEATURES
+ #
+diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
+index f0e8c56..0148c37 100644
+--- a/meta/recipes-core/systemd/systemd_243.bb
++++ b/meta/recipes-core/systemd/systemd_243.bb
+@@ -298,12 +298,6 @@ do_install() {
+ 	install -Dm 0644 ${WORKDIR}/99-default.preset ${D}${systemd_unitdir}/system-preset/99-default.preset
+ }
+ 
+-do_install_append () {
+-       # Mips qemu is extremely slow, allow more time for the hwdb update
+-       # This is a workaround until https://github.com/systemd/systemd/issues/13581 is resolved
+-       sed -i -e s#TimeoutSec=90s#TimeoutSec=180s# ${D}${systemd_unitdir}/system/systemd-hwdb-update.service
+-}
+-
+ python populate_packages_prepend (){
+     systemdlibdir = d.getVar("rootlibdir")
+     do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
 -- 
 1.9.1
 
