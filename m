@@ -1,25 +1,31 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 42AA56D561
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C6FFF7CDC0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 02:53:19 +0000 (UTC)
+	Wed, 25 Sep 2019 02:54:13 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8P2rKpJ000008
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8P2sFMf002558
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2019 19:53:20 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 24 Sep 2019 19:53:19 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Sep 2019 11:07:49 +0800
-Message-ID: <1b92d4ed4d0d7fbd91d56d28e32f3249e8fbdf72.1569380793.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1569380793.git.Qi.Chen@windriver.com>
-References: <cover.1569380793.git.Qi.Chen@windriver.com>
+	Tue, 24 Sep 2019 19:54:15 -0700 (PDT)
+Received: from [128.224.162.210] (128.224.162.210) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 24 Sep 2019 19:54:14 -0700
+To: Randy MacLeod <randy.macleod@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1569312737.git.liezhi.yang@windriver.com>
+	<ba0e10441f900a47a504fbbc28579d5b2f6fc841.1569312737.git.liezhi.yang@windriver.com>
+	<87234437-88b4-d70a-6bb4-41cc152278fb@windriver.com>
+	<566509fb-9b85-d83d-c534-e841e9c5da5b@windriver.com>
+	<6fe6e031-13fe-de92-2b29-2b20db2a2374@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <023bedaa-6a02-355a-6797-feb2ec95ab51@windriver.com>
+Date: Wed, 25 Sep 2019 10:54:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: mark /etc as updated to avoid unnecessary services to run
+In-Reply-To: <6fe6e031-13fe-de92-2b29-2b20db2a2374@windriver.com>
+Subject: Re: [PATCH 1/1] cases/bbtests.py: test_bitbake_g(): Check core-image-minimal itself
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,65 +38,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2019 02:53:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 Sep 2019 02:54:13 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-We have updated hwdb via postinstall, updated systemd users via
-'systemd_create_users', so there's no need to update /etc. Mark it
-as updated to avoid unnecessary services like systemd-hwdb-update.service
-to run.
 
-This would solve timeout problem on qemumips. So also remove the
-timeout change for systemd-hwdb-update.service.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/rootfs-postcommands.bbclass | 6 ++++++
- meta/recipes-core/systemd/systemd_243.bb | 6 ------
- 2 files changed, 6 insertions(+), 6 deletions(-)
+On 9/25/19 10:28 AM, Randy MacLeod wrote:
+> On 9/24/19 9:41 PM, Robert Yang wrote:
+>> Hi Randy,
+>>
+>> On 9/25/19 4:46 AM, Randy MacLeod wrote:
+>>> On 9/24/19 4:15 AM, Robert Yang wrote:
+>>>> It checked whether busybox is in pn-buildlist and task-depends.dot after run
+>>>> "bitbake -g core-image-minimal", but busybox is not a must for
+>>>> core-image-minimal, 
+>>>
+>>> You should explain why busybox is not a must since
+>>> usually busybox is the key package in c-i-m.
+>>>
+>>> We have some images that deliberately exclude busybox and
+>>> I think this was found by using:
+>>> echo "BB_NO_NETWORK = \"0\"" >> conf/local.conf
+>>> echo "PNWHITELIST_LAYERS_remove = \"selftest\"" >> conf/local.conf
+>>> echo "SANITY_TESTED_DISTROS = \"\"" >> conf/local.conf
+>>> echo "DISTRO = \"wrlinux-graphics\"" >> conf/local.conf
+>>> echo "VIRTUAL-RUNTIME_no-busybox_forcevariable = \"\"" >> conf/local.conf
+>>> echo "PNWHITELIST_meta-layer0 += 'layerappendtest'" >> conf/local.conf
+>>>
+>>> so mention that in general and VIRTUAL-RUNTIME_no-busybox_forcevariable
+>>> specifically.
+>>
+>> Thanks for the explanation, I think that the maintainers know busybox
+>> is not a must in oe-core, not matter for core-image-minimal or sato,
+>> so I didn't add very detailed explanations.
+> 
+> commit logs are for maintainers, developers and users all
+> of varying ranges of familiarity with oe-core so
+> it's better to over-explain, without going over the top, IMO.
+> 
+>>
+>>>
+>>>> so the case may fail when busybox is not present, this case
+>>>> is used for checking "bitbake -g", so check core-image-minimal itself is more
+>>>> reliable.
+>>>
+>>> It's true that busybox may not be present but we want to
+>>> test that some package is in the image, not just that the
+>>> task-depends.dot file exists and mentions c-i-m.
+>>> How about searching for 'base-files' ?
+>>
+>> The base-files is my first thought, but it's not a must either, for testing
+>> "bitbake -g recipe", I think that check the recipe itself is more reliable than
+>> others.
+> 
+> If you had explained that in the commit log,
+> I wouldn't have replied, eh? ;-)
+> 
+> Sure base-files might not be part of the image but I
+> haven't seen an image that has done that. Your check will
+> always work so it really depends on the intent of the original
+> check.
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 88f75d0..9323e92 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -36,6 +36,8 @@ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
- # Set default target for systemd images
- SYSTEMD_DEFAULT_TARGET ?= '${@bb.utils.contains("IMAGE_FEATURES", "x11-base", "graphical.target", "multi-user.target", d)}'
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "set_systemd_default_target; systemd_create_users;", "", d)}'
-+# Mark /etc as updated for systemd as we have done things in rootfs time
-+ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("DISTRO_FEATURES", "systemd", "systemd_mark_etc_updated;", "", d)}'
- 
- ROOTFS_POSTPROCESS_COMMAND += 'empty_var_volatile;'
- 
-@@ -86,6 +88,10 @@ systemd_create_users () {
- 	done
- }
- 
-+systemd_mark_etc_updated () {
-+	touch ${IMAGE_ROOTFS}${sysconfdir}/.updated
-+}
-+
- #
- # A hook function to support read-only-rootfs IMAGE_FEATURES
- #
-diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
-index f0e8c56..0148c37 100644
---- a/meta/recipes-core/systemd/systemd_243.bb
-+++ b/meta/recipes-core/systemd/systemd_243.bb
-@@ -298,12 +298,6 @@ do_install() {
- 	install -Dm 0644 ${WORKDIR}/99-default.preset ${D}${systemd_unitdir}/system-preset/99-default.preset
- }
- 
--do_install_append () {
--       # Mips qemu is extremely slow, allow more time for the hwdb update
--       # This is a workaround until https://github.com/systemd/systemd/issues/13581 is resolved
--       sed -i -e s#TimeoutSec=90s#TimeoutSec=180s# ${D}${systemd_unitdir}/system/systemd-hwdb-update.service
--}
--
- python populate_packages_prepend (){
-     systemdlibdir = d.getVar("rootlibdir")
-     do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
--- 
-1.9.1
+Yes, make sense, I will send a V2 to check base-files.
 
+// Robert
+
+> 
+> ../Randy
+> 
+>>
+>> // Robert
+>>
+>>>
+>>> ../Randy
+>>>
+>>>>
+>>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>> ---
+>>>>   meta/lib/oeqa/selftest/cases/bbtests.py | 5 +++--
+>>>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py 
+>>>> b/meta/lib/oeqa/selftest/cases/bbtests.py
+>>>> index 8e59baf..4103396 100644
+>>>> --- a/meta/lib/oeqa/selftest/cases/bbtests.py
+>>>> +++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+>>>> @@ -118,11 +118,12 @@ class BitbakeTests(OESelftestTestCase):
+>>>>               self.assertIn(task, result.output, msg="Couldn't find %s task.")
+>>>>       def test_bitbake_g(self):
+>>>> -        result = bitbake('-g core-image-minimal')
+>>>> +        recipe = 'core-image-minimal'
+>>>> +        result = bitbake('-g %s' % recipe)
+>>>>           for f in ['pn-buildlist', 'task-depends.dot']:
+>>>>               self.addCleanup(os.remove, f)
+>>>>           self.assertTrue('Task dependencies saved to \'task-depends.dot\'' 
+>>>> in result.output, msg = "No task dependency \"task-depends.dot\" file was 
+>>>> generated for the given task target. bitbake output: %s" % result.output)
+>>>> -        self.assertTrue('busybox' in 
+>>>> ftools.read_file(os.path.join(self.builddir, 'task-depends.dot')), msg = "No 
+>>>> \"busybox\" dependency found in task-depends.dot file.")
+>>>> +        self.assertTrue(recipe in 
+>>>> ftools.read_file(os.path.join(self.builddir, 'task-depends.dot')), msg = "No 
+>>>> \"%s\" dependency found in task-depends.dot file." % recipe)
+>>>>       def test_image_manifest(self):
+>>>>           bitbake('core-image-minimal')
+>>>>
+>>>
+>>>
+> 
+> 
 
