@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DA43B6C0C0;
-	Wed, 25 Sep 2019 07:02:24 +0000 (UTC)
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id C9D897E093
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Sep 2019 08:04:46 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,547,1559491200"; d="scan'208";a="75988500"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 25 Sep 2019 16:04:46 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 4D6CB4CE14F8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Sep 2019 16:04:49 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 25 Sep 2019 16:04:50 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Sep 2019 16:04:44 +0800
+Message-ID: <20190925080444.22289-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 25 Sep 2019 07:02:26 -0000
-Message-ID: <20190925070226.2334.14010@do>
-References: <20190925065704.1794628-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190925065704.1794628-1-raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbXVzbDogRml4IHJpc2N2NjQgQ0FTIGZ1bmN0aW9ucw==?=
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 4D6CB4CE14F8.AE23E
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] e2fsprogs:upgrade 1.45.3 -> 1.45.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2019 07:02:25 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Sep 2019 08:04:47 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
-
-Series: musl: Fix riscv64 CAS functions
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/20146/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
-  Suggested fix    Include where 0001-correct-the-operand-specifiers-in-the-riscv64-CAS-ro.patch was submitted
-  Current          Upstream-Status: Submitted
-  Standard format  Upstream-Status: Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../e2fsprogs/{e2fsprogs_1.45.3.bb => e2fsprogs_1.45.4.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.45.3.bb => e2fsprogs_1.45.4.bb} (99%)
+
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
+similarity index 99%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
+index fdc9454..90db71d 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
+@@ -11,7 +11,7 @@ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permissio
+                                 file://quiet-debugfs.patch \
+ "
+ 
+-SRCREV = "1f56fb81236fe3e25e2c60c1e89ea0aa7cb36260"
++SRCREV = "984ff8d6a0a1d5dc300505f67b38ed5047d51dac"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
+ 
+ EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+-- 
+2.7.4
+
+
 
 
