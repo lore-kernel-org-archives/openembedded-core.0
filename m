@@ -1,29 +1,26 @@
-Return-Path: <alessio.bogani@elettra.eu>
-X-Greylist: delayed 561 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 25 Sep 2019 15:15:25 UTC
-Received: from spamalot.elettra.eu (spamalot.elettra.trieste.it
-	[140.105.206.208])
-	by mail.openembedded.org (Postfix) with ESMTP id B9B597DFE4
+Return-Path: <mark.hatle@kernel.crashing.org>
+X-Greylist: delayed 791 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 25 Sep 2019 16:08:05 UTC
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D8DC07E601
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 15:15:25 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by localhost (Email Security Appliance) with ESMTP id
-	7959A440DCB_D8B825AB; Wed, 25 Sep 2019 15:06:02 +0000 (GMT)
-Received: from unknown-host by spamalot.elettra.eu with queue id 782879;
-	Wed, 25 Sep 2019 15:06:02 GMT
-Received: from voltumna.elettra.trieste.it (voltumna.elettra.trieste.it
-	[192.168.205.44])
-	by spamalot.elettra.eu (Sophos Email Appliance) with ESMTP id
-	1E8CB43E345_D8B825AF; Wed, 25 Sep 2019 15:06:02 +0000 (GMT)
-From: Alessio Igor Bogani <alessio.bogani@elettra.eu>
-To: openembedded-core@lists.openembedded.org,
-	Anuj Mittal <anuj.mittal@intel.com>
-Date: Wed, 25 Sep 2019 17:05:57 +0200
-X-Mailer: git-send-email 2.17.1
-X-SASI-RCODE: 200
-Message-Id: <20190925150602.7959A440DCB_D8B825AB@spamalot.elettra.eu>
-Cc: Alessio Igor Bogani <alessio.bogani@elettra.eu>
-Subject: [PATCH] wic: Using the right rootfs size during prepare_rootfs
+	Wed, 25 Sep 2019 16:08:05 +0000 (UTC)
+Received: from Marks-MacBook-Pro.local ([76.164.61.198]) (authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id x8PFssQB023977
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NO) for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Sep 2019 10:54:55 -0500
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+References: <20190925115259.26437-1-george.mccollister@gmail.com>
+	<20190925115259.26437-2-george.mccollister@gmail.com>
+Message-ID: <39e9c9c3-dc27-03da-2149-fe173e5680f9@kernel.crashing.org>
+Date: Wed, 25 Sep 2019 10:54:53 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20190925115259.26437-2-george.mccollister@gmail.com>
+Subject: Re: [PATCH 1/1] openssl: make OPENSSL_ENGINES match install path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2019 15:15:26 -0000
+X-List-Received-Date: Wed, 25 Sep 2019 16:08:06 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The commit 8e48b4d6c4 makes wic ignores IMAGE_ROOTFS_SIZE for rootfs
-size and makes it uses the computed one only. Re-add support for
-IMAGE_ROOTFS_SIZE variable and compute roots size only if the former
-is not defined.
+On 9/25/19 6:52 AM, George McCollister wrote:
+> Set OPENSSL_ENGINES to the path where engines are actually installed.
+> 
+> Signed-off-by: George McCollister <george.mccollister@gmail.com>
+> ---
+>  meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+> index 072f727e0b..8819e19ec4 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+> @@ -148,7 +148,7 @@ do_install_append_class-native () {
+>  	    OPENSSL_CONF=${libdir}/ssl-1.1/openssl.cnf \
+>  	    SSL_CERT_DIR=${libdir}/ssl-1.1/certs \
+>  	    SSL_CERT_FILE=${libdir}/ssl-1.1/cert.pem \
+> -	    OPENSSL_ENGINES=${libdir}/ssl-1.1/engines
+> +	    OPENSSL_ENGINES=${libdir}/engines-1.1
 
-Signed-off-by: Alessio Igor Bogani <alessio.bogani@elettra.eu>
----
- scripts/lib/wic/partition.py | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+Is this a bug in the openssl recipe (it's placing engines in the wrong place),
+or a bug in the recipes providing acceleration engines and THEY are going into
+the wrong place?
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 2a71d7b1d6..81df15f71b 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -212,13 +212,23 @@ class Partition():
-         if os.path.isfile(rootfs):
-             os.remove(rootfs)
- 
--        # If size is not specified compute it from the rootfs_dir size
-         if not self.size and real_rootfs:
--            # Use the same logic found in get_rootfs_size()
--            # from meta/classes/image.bbclass
--            du_cmd = "du -ks %s" % rootfs_dir
--            out = exec_cmd(du_cmd)
--            self.size = int(out.split()[0])
-+            # The rootfs size is not set in .ks file so try to get it
-+            # from bitbake variable
-+            rsize_bb = get_bitbake_var('ROOTFS_SIZE')
-+            if rsize_bb:
-+                # Bitbake variable ROOTFS_SIZE is calculated in
-+                # Image._get_rootfs_size method from meta/lib/oe/image.py
-+                # using IMAGE_ROOTFS_SIZE, IMAGE_ROOTFS_ALIGNMENT,
-+                # IMAGE_OVERHEAD_FACTOR and IMAGE_ROOTFS_EXTRA_SPACE
-+                self.size = int(round(float(rsize_bb)))
-+            else:
-+                # Bitbake variable ROOTFS_SIZE is not defined so compute it
-+                # from the rootfs_dir size using the same logic found in
-+                # get_rootfs_size() from meta/classes/image.bbclass
-+                du_cmd = "du -ks %s" % rootfs_dir
-+                out = exec_cmd(du_cmd)
-+                self.size = int(out.split()[0])
- 
-         prefix = "ext" if self.fstype.startswith("ext") else self.fstype
-         method = getattr(self, "prepare_rootfs_" + prefix)
--- 
-2.17.1
+The ssl-1.1/engines makes more sense to me..  as /usr/lib/engines-1.1 obscures
+that they are OpenSSL related.
+
+--Mark
+
+>  }
+>  
+>  do_install_append_class-nativesdk () {
+> 
 
 
