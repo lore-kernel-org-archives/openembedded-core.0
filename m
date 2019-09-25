@@ -1,51 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 531D47E98E
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D24FA7E98C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 22:05:00 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id q15so3220670pll.11
+	Wed, 25 Sep 2019 22:22:03 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id c21so363474qtj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 15:05:01 -0700 (PDT)
+	Wed, 25 Sep 2019 15:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=M5zdDlZ1N64LKYt6napq55+rAbv7frVQGHsD++G8bHw=;
-	b=UdqvbYmlSXfX9jnJ6GOtivb8NsIFyl/ZoZ946oL5oE9spJEgN95sf4gzkhksoQWMMd
-	H7Y0+8dDgymkXqeLAb8zl8SVJX/DLEp8Akq4t4mu6+gUJxrTwjAsSC7LVLUw+fPA21kw
-	pXW/bw+R8orv6g/fKbixpG4C2FDm4jLl2pf4j7c7M4LW9WeNP7UDOhMufFKYwwtossks
-	PNn6xXrsjFNLFXzVs9gGIuFZewZFz1d7A/JNrcWQnKoKBFO2dESD7B/OSxZ4YXU+ff6k
-	+6njbUZZV4X1IC6TVTKriYkzqXhVsQ4YN7eh9f9rhrNk1JpkN0q/+gDQgoIjku2QMD9t
-	QZKg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=NliKRz9BnZYOwxNxpAW4xd580ro5XYGVek59m/n1tN4=;
+	b=lbz/IQPJoYThbm6yk2R0GOrF9yWT9Fi6912HCp9Pa5PblRaJJIyPfxcY7HfI9sx/QV
+	XDTyC9gILC7B2DMhHAzM1jL+1qZhMzMBut/diBnpsZ23OJ9E2aa3UOspyERfUCzG3m2Z
+	WM/Akz5doVkAPfu02rOTdCIo1RzaopPOYp85XvBgspYxXITeKKDOccdbF0bw/7J6IXRz
+	YN9PbKnCqayPLUTyuxkT4cw7iNA8C4pdwQkxuPshktnUYhHWXpZZCToXoR9zFPNPYCmg
+	CIQuexkdrZOp0aJGE36x3KseoOfKg3fmZI3aqV1GaJM17Dqpgcj/JubdnjSDwSe5/eY2
+	HKPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=M5zdDlZ1N64LKYt6napq55+rAbv7frVQGHsD++G8bHw=;
-	b=nMTmUhKo5+7Bg8s1scO0IK6Bauu8Ccme6DsId4WK3ZrHp0JhcrcmNJhEbYTGliY7XB
-	4wlM0bXO8syjZxCp8ZPmMPCwV7DD07DbG2rx2xAqOuddE37nnQ4kEwV6u2RpLv4vEtss
-	IogzKwPcDlSroHBAKrp3vrMV7MLBAeNzV8OFowaZX50Wz7s7WK6oSsi4xxe0fUOGCV3A
-	s3ilQBh7xBsGwHX/uWk1EFcACa6KzcKUaC21hyHOCTlfSGyUcxiyEonkNLXsrjFQrTIk
-	Gs6/eVXPMbW+Knp3TVXuVj8ApJWBDCl5b/VnaqwahwBp8RkFq529fPAHiTVR40+CVZKh
-	3zDw==
-X-Gm-Message-State: APjAAAUVlMuVvMUs2n1B3zT/YBssO9ek9ZiM356o6J2T73J5UXtntbud
-	bWjNEI1GQamb2SbKZfZUHX0AieakTeA=
-X-Google-Smtp-Source: APXvYqwOmzdysi6+F8iVr2TuDBC+OdHIkJwYUX+g8sC92iW2Eyrm/wqGPFZuUeR7NmEQmd8cwz/AjQ==
-X-Received: by 2002:a17:902:b684:: with SMTP id
-	c4mr667961pls.102.1569449100638; 
-	Wed, 25 Sep 2019 15:05:00 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3])
-	by smtp.gmail.com with ESMTPSA id q132sm23058pfq.16.2019.09.25.15.04.59
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 25 Sep 2019 15:05:00 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Sep 2019 15:04:46 -0700
-Message-Id: <20190925220446.1403940-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=NliKRz9BnZYOwxNxpAW4xd580ro5XYGVek59m/n1tN4=;
+	b=gk0N8p27DnUm7eemDLBMNYSTGbsweMZF8xDSy3Eyp+f10gJcgrW8cAkq0UY2tRCMtj
+	kHYZ1Oro+lg5ayVNvVOPQ+g/HpSsw5Zw1XZtK+S9s8RK2rGw7dPxhzRzuNPVY/DERer1
+	+moyHsoQir8RQXsoFPVT1ruI1NiM90Jja51m8sORvXcJgWYHoukiNRYFaQZgWwLFdlT8
+	s6vZP4k6GtOj62AwJ0Nf7LQLXMXnK79Mx5piUGWchKyxQ+87ly+x9u4zOoMYu+n3tYbS
+	VzU1S85XVo9OQIiMSFMxJc7XwpZuuftWwIWKGgJeHKWEWSO7B/gio+Tads4eXnzrE+ee
+	TK5g==
+X-Gm-Message-State: APjAAAXp0IGN0LTIIIeJV7lg3xAAJmkE25dzevkLmkRcPLpVGfnnZIPu
+	DWxvAmVumG1JCw1Ih2uzuW+7hotayvFF8fmyfRg=
+X-Google-Smtp-Source: APXvYqzjqdPGJLuHmfFhTuitULaUPrh0fhk4dO+oH338VOZntlDR9anIIFoKc2oFkX1xRPNOW/SJWLawmcwyuRL4FGE=
+X-Received: by 2002:ad4:5551:: with SMTP id v17mr74223qvy.65.1569450124577;
+	Wed, 25 Sep 2019 15:22:04 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] qemuriscv: Do not blacklist clang anymore
+References: <1568828569-19552-1-git-send-email-jaewon.lee@xilinx.com>
+In-Reply-To: <1568828569-19552-1-git-send-email-jaewon.lee@xilinx.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 25 Sep 2019 15:21:37 -0700
+Message-ID: <CAMKF1spUL6YFt5Di7o4sExKQNXDOMXOwhmys3Cmpg42aKa19Bg@mail.gmail.com>
+To: Jaewon Lee <jaewon.lee@xilinx.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>, majukum@xilinx.com
+Subject: Re: [master][PATCH v3] esdk: Introduce mechanism to keep nativesdk* sstate in esdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +55,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2019 22:05:00 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 25 Sep 2019 22:22:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-clang 9.x ( which is now default in meta-clang ) supports riscv
+I think this is the reason why extensible sdk is not building for me,
+key is I am not setting SDK_INCLUDE_NATIVESDK
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/machine/include/riscv/qemuriscv.inc | 13 -------------
- 1 file changed, 13 deletions(-)
+The file local.conf.bak that it is not able to find to copy is
+actually inside sdk-ext/image/tmp-renamed-sdk/conf, So I wonder if
+renaming is happening inbetween copying ?
 
-diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
-index df35f2808f..a42346f361 100644
---- a/meta/conf/machine/include/riscv/qemuriscv.inc
-+++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-@@ -36,16 +36,3 @@ QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,por
- # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
- QB_OPT_APPEND = " -object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-device,rng=rng0"
- 
--BAD_RECOMMENDATIONS += "\
--    libcxx-dev \
--    libcxx-staticdev \
--    compiler-rt-dev \
--    compiler-rt-staticdev \
--"
--
--ASSUME_PROVIDED += "\
--    libcxx-dev \
--    libcxx-staticdev \
--    compiler-rt-dev \
--    compiler-rt-staticdev \
--"
--- 
-2.23.0
+Summary: 1 task failed:
+  /mnt/b/yoe/build/tmp/work/qemuriscv64-yoe-linux-musl/yoe-simple-image/1.0-r0/sdk-ext/image/tmp-renamed-sdk/layers/openembedded-core/meta/recipes-core/meta/package-index.bb:do_package_index
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+ERROR: yoe-simple-image-1.0-r0 do_populate_sdk_ext: Error executing a
+python function in exec_python_func() autogenerated:
 
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:copy_buildsystem(d)
+     0003:
+File: '/mnt/b/yoe/sources/openembedded-core/meta/classes/populate_sdk_ext.bbclass',
+lineno: 444, function: copy_buildsystem
+     0440:    sdk_ext_type = d.getVar('SDK_EXT_TYPE')
+     0441:    if (sdk_ext_type != 'minimal' or sdk_include_toolchain
+or derivative) and not sdk_include_nativesdk:
+     0442:        # Create the filtered task list used to generate the
+sstate cache shipped with the SDK
+     0443:        tasklistfn = d.getVar('WORKDIR') + '/tasklist.txt'
+ *** 0444:        create_filtered_tasklist(d, baseoutpath, tasklistfn,
+conf_initpath)
+     0445:    else:
+     0446:        tasklistfn = None
+     0447:
+     0448:    if os.path.exists(builddir + '/cache/bb_unihashes.dat'):
+File: '/mnt/b/yoe/sources/openembedded-core/meta/classes/populate_sdk_ext.bbclass',
+lineno: 180, function: create_filtered_tasklist
+     0176:        # Clean out residue of running bitbake, which
+check_sstate_task_list()
+     0177:        # will effectively do
+     0178:        clean_esdk_builddir(d, sdkbasepath)
+     0179:    finally:
+ *** 0180:        os.replace(sdkbasepath + '/conf/local.conf.bak',
+sdkbasepath + '/conf/local.conf')
+     0181:
+     0182:python copy_buildsystem () {
+     0183:    import re
+     0184:    import shutil
+Exception: FileNotFoundError: [Errno 2] No such file or directory:
+'/mnt/b/yoe/build/tmp/work/qemuriscv64-yoe-linux-musl/yoe-simple-image/1.0-r0/sdk-ext/image//opt/yoe/3.0/conf/local.conf.bak'
+-> '/mnt/b/yoe/build/tmp/work/qemuriscv64-yoe-linux-musl/yoe-simple-image/1.0-r
+0/sdk-ext/image//opt/yoe/3.0/conf/local.conf'
+
+ERROR: Logfile of failure stored in:
+/mnt/b/yoe/build/tmp/work/qemuriscv64-yoe-linux-musl/yoe-simple-image/1.0-r0/temp/log.do_populate_sdk_ext.1484013
+
+On Wed, Sep 18, 2019 at 10:43 AM Jaewon Lee <jaewon.lee@xilinx.com> wrote:
+>
+> When doing a devtool build-sdk from within an esdk all nativesdk
+> components would be rebuilt. This patch introduces SDK_INCLUDE_NATIVESDK
+> flag to toggle the inclusion of nativesdk packages when creating the
+> esdk sstate
+>
+> Currently locked-sigs.inc is generated during do_sdk_depends which
+> doesn't pull in nativesdk packages. Generating another locked-sigs.inc
+> in do_populate_sdk_ext and pruning it to only nativesdk* packages by
+> using a modified version of the already existing function
+> prune_locked_sigs and merging it with the current locked-sigs.inc
+> Also adding SDK_INCLUDE_NATIVESDK tasklistfn to the logic surrounding
+> setting tasklist file to not prune esdk sstate during creation
+>
+> Fixes [YOCTO #13261]
+>
+> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+> ---
+> changes in v2:
+>     change to commit message to include reason
+>     got rid of some tabs
+>     rebased to apply on master
+> changes in v3:
+>     fix patchwork failure for format of short commit message
+> ---
+>  meta/classes/populate_sdk_ext.bbclass | 28 +++++++++++++++++++++++++++-
+>  meta/lib/oe/copy_buildsystem.py       |  8 ++++++--
+>  2 files changed, 33 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+> index 800e117..086f55d 100644
+> --- a/meta/classes/populate_sdk_ext.bbclass
+> +++ b/meta/classes/populate_sdk_ext.bbclass
+> @@ -20,6 +20,7 @@ SDK_EXT_task-populate-sdk-ext = "-ext"
+>  SDK_EXT_TYPE ?= "full"
+>  SDK_INCLUDE_PKGDATA ?= "0"
+>  SDK_INCLUDE_TOOLCHAIN ?= "${@'1' if d.getVar('SDK_EXT_TYPE') == 'full' else '0'}"
+> +SDK_INCLUDE_NATIVESDK ?= "0"
+>
+>  SDK_RECRDEP_TASKS ?= ""
+>
+> @@ -401,9 +402,27 @@ python copy_buildsystem () {
+>      excluded_targets = get_sdk_install_targets(d, images_only=True)
+>      sigfile = d.getVar('WORKDIR') + '/locked-sigs.inc'
+>      lockedsigs_pruned = baseoutpath + '/conf/locked-sigs.inc'
+> +    #nativesdk-only sigfile to merge into locked-sigs.inc
+> +    sdk_include_nativesdk = (d.getVar("SDK_INCLUDE_NATIVESDK") == '1')
+> +    nativesigfile = d.getVar('WORKDIR') + '/locked-sigs_nativesdk.inc'
+> +    nativesigfile_pruned = d.getVar('WORKDIR') + '/locked-sigs_nativesdk_pruned.inc'
+> +
+> +    if sdk_include_nativesdk:
+> +        oe.copy_buildsystem.prune_lockedsigs([],
+> +                                             excluded_targets.split(),
+> +                                             nativesigfile,
+> +                                             True,
+> +                                             nativesigfile_pruned)
+> +
+> +        oe.copy_buildsystem.merge_lockedsigs([],
+> +                                             sigfile,
+> +                                             nativesigfile_pruned,
+> +                                             sigfile)
+> +
+>      oe.copy_buildsystem.prune_lockedsigs([],
+>                                           excluded_targets.split(),
+>                                           sigfile,
+> +                                         False,
+>                                           lockedsigs_pruned)
+>
+>      sstate_out = baseoutpath + '/sstate-cache'
+> @@ -414,7 +433,7 @@ python copy_buildsystem () {
+>
+>      sdk_include_toolchain = (d.getVar('SDK_INCLUDE_TOOLCHAIN') == '1')
+>      sdk_ext_type = d.getVar('SDK_EXT_TYPE')
+> -    if sdk_ext_type != 'minimal' or sdk_include_toolchain or derivative:
+> +    if (sdk_ext_type != 'minimal' or sdk_include_toolchain or derivative) and not sdk_include_nativesdk:
+>          # Create the filtered task list used to generate the sstate cache shipped with the SDK
+>          tasklistfn = d.getVar('WORKDIR') + '/tasklist.txt'
+>          create_filtered_tasklist(d, baseoutpath, tasklistfn, conf_initpath)
+> @@ -657,9 +676,16 @@ fakeroot python do_populate_sdk_ext() {
+>      d.setVar('SDKDEPLOYDIR', '${SDKEXTDEPLOYDIR}')
+>      # ESDKs have a libc from the buildtools so ensure we don't ship linguas twice
+>      d.delVar('SDKIMAGE_LINGUAS')
+> +    if d.getVar("SDK_INCLUDE_NATIVESDK") == '1':
+> +        generate_nativesdk_lockedsigs(d)
+>      populate_sdk_common(d)
+>  }
+>
+> +def generate_nativesdk_lockedsigs(d):
+> +    import oe.copy_buildsystem
+> +    sigfile = d.getVar('WORKDIR') + '/locked-sigs_nativesdk.inc'
+> +    oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
+> +
+>  def get_ext_sdk_depends(d):
+>      # Note: the deps varflag is a list not a string, so we need to specify expand=False
+>      deps = d.getVarFlag('do_image_complete', 'deps', False)
+> diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+> index cb663b2..31a84f5 100644
+> --- a/meta/lib/oe/copy_buildsystem.py
+> +++ b/meta/lib/oe/copy_buildsystem.py
+> @@ -177,7 +177,7 @@ def generate_locked_sigs(sigfile, d):
+>      tasks = ['%s:%s' % (v[2], v[1]) for v in depd.values()]
+>      bb.parse.siggen.dump_lockedsigs(sigfile, tasks)
+>
+> -def prune_lockedsigs(excluded_tasks, excluded_targets, lockedsigs, pruned_output):
+> +def prune_lockedsigs(excluded_tasks, excluded_targets, lockedsigs, onlynative, pruned_output):
+>      with open(lockedsigs, 'r') as infile:
+>          bb.utils.mkdirhier(os.path.dirname(pruned_output))
+>          with open(pruned_output, 'w') as f:
+> @@ -187,7 +187,11 @@ def prune_lockedsigs(excluded_tasks, excluded_targets, lockedsigs, pruned_output
+>                      if line.endswith('\\\n'):
+>                          splitval = line.strip().split(':')
+>                          if not splitval[1] in excluded_tasks and not splitval[0] in excluded_targets:
+> -                            f.write(line)
+> +                            if onlynative:
+> +                                if 'nativesdk' in splitval[0]:
+> +                                    f.write(line)
+> +                            else:
+> +                                f.write(line)
+>                      else:
+>                          f.write(line)
+>                          invalue = False
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
