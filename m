@@ -1,36 +1,49 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 735BB7E7BA
+Return-Path: <msft.dantran@gmail.com>
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+	[209.85.222.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 259CB7E71B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 23:00:33 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Sep 2019 16:00:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,549,1559545200"; d="scan'208";a="273127534"
-Received: from kmsmsx157.gar.corp.intel.com ([172.21.138.134])
-	by orsmga001.jf.intel.com with ESMTP; 25 Sep 2019 16:00:32 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.57]) by
-	kmsmsx157.gar.corp.intel.com ([169.254.5.132]) with mapi id
-	14.03.0439.000; Thu, 26 Sep 2019 07:00:31 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "msft.dantran@gmail.com"
-	<msft.dantran@gmail.com>
-Thread-Topic: [OE-core] [oe-core][thud][PATCH v2] unzip: fix CVE-2019-13232
-Thread-Index: AQHVc/KBLCBEeKrVykW8JU+J3AduPKc8fAwA
-Date: Wed, 25 Sep 2019 23:00:30 +0000
-Message-ID: <b957fe0cdfe4d119977820db74078378fd45ce4a.camel@intel.com>
-References: <20190925224138.16794-1-dantran@microsoft.com>
-In-Reply-To: <20190925224138.16794-1-dantran@microsoft.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.19.251]
-MIME-Version: 1.0
-Subject: Re: [thud][PATCH v2] unzip: fix CVE-2019-13232
+	Wed, 25 Sep 2019 23:30:19 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id z67so230487qkb.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Sep 2019 16:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=mxa0xpiUYLjfreRK1iJnibGP0A4ZDymfjf4KJDtsf9U=;
+	b=tZOJvEKY2b5ru5ou8pBbecDDQAvXXxuez9KA7f9nMY5M/nsgB4Eq3L1z6/SmBSa+p0
+	sSSxZSUgK30CmSwXS0FXnADcfB799+HCs18n3fSh7+FqzEpz0bX5koXQ8yk82ya4DGx9
+	/vJtlwHVbD9VttRDaj+RFhEvtD1Wo9oSSO5CWTeA00JpHGzX8+WexKA7J055l7+CPQu9
+	HaTMyic5DxT73UtAIsYY5UKFNkc0MRIQ2k/CWOymYJFemZWAYZyOrB64DSKP3N1rYJT2
+	8EJMoGDP3txxJ9Rt0ZbyJuXQ1ZFqli12A6eUuKHxbe3GGqkl7PLpLe8ODy4lP6PjTEZD
+	FdBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=mxa0xpiUYLjfreRK1iJnibGP0A4ZDymfjf4KJDtsf9U=;
+	b=L60aJc5KiNAHZ5mL3zX6urWQC/q2LytTJshGe1fsYaUgxqEqBx7fYIYL0cBg/sW+el
+	UiTEJ2txGwADIXW5dHhEW51OdOKwOlqcLoNdd8myZy83CJXOyNlrXUO0HLmseb0KgdE+
+	D3Xg0dhrOK5shuZ1RhyNirkcOZKW+LasDR3n4fUwDKJHni9Q/fpgL7RpPNmAwH7uGexP
+	EewMl2P40qNSJqEqXK2uJA2pmRfrCeju1Sd/0zfNmdMbVU34VgD6dWi6qltHj00J3aYd
+	9UV572fnjrqKcii+Oc+pkg64/dBgE08EwgC/ZetS/0lyhb9iXouB6+WYPJ1Flbw9svXI
+	yL5g==
+X-Gm-Message-State: APjAAAVbFDBcgLgU1PU9s/EksdYNlJvhOwP7mr0GyXyBX6WVgRsE+Q2Y
+	VeDcPF4BbgWWTF3yX/QezKQhb0h0
+X-Google-Smtp-Source: APXvYqyzkQY8gvxNt0kY3lFkyXGs/pmhBNM6C1B9yoL31UZqHFIHG+Xnl+wejv9QVZYoE+MRkMcbQg==
+X-Received: by 2002:a37:c14:: with SMTP id 20mr490508qkm.291.1569454219326;
+	Wed, 25 Sep 2019 16:30:19 -0700 (PDT)
+Received: from
+	dantran-yocto-ubuntu18.4z1s34kka3euddhhn33gkqkz1e.cx.internal.cloudapp.net
+	([40.70.73.119])
+	by smtp.gmail.com with ESMTPSA id s17sm148436qkg.79.2019.09.25.16.30.18
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 25 Sep 2019 16:30:18 -0700 (PDT)
+From: msft.dantran@gmail.com
+X-Google-Original-From: dantran@microsoft.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Sep 2019 23:30:12 +0000
+Message-Id: <20190925233012.36194-1-dantran@microsoft.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [thud][PATCH v3] unzip: fix CVE-2019-13232
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,322 +56,564 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2019 23:00:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BA2132BD54437B45925DF82E6ACE86DD@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 25 Sep 2019 23:30:19 -0000
 
-V2Ugc2hvdWxkIHByb2JhYmx5IHRha2UgdGhpcyBhcyB3ZWxsOg0KDQpodHRwczovL2dpdGh1Yi5j
-b20vbWFkbGVyL3VuemlwL2NvbW1pdC82ZDM1MTgzMWJlNzA1Y2MyNmQ4OTdkYjQ0Zjg3OGE5Nzhm
-NDEzOGZjDQoNClNlZToNCg0KaHR0cHM6Ly9naXRodWIuY29tL21hZGxlci91bnppcC9jb21taXQv
-NDdiM2NlYWUzOTdkMjFiZjgyMmJjMmFjNzMwNTJhNGIxZGFmOGUxYyNjb21taXRjb21tZW50LTM0
-NDYwOTg4DQoNCkRlYmlhbiBoYXMgYWxzbyBhcHBsaWVkIGFsbCB0aHJlZSBwYXRjaGVzLg0KDQpU
-aGFua3MsDQoNCkFudWoNCg0KT24gV2VkLCAyMDE5LTA5LTI1IGF0IDIyOjQxICswMDAwLCBtc2Z0
-LmRhbnRyYW5AZ21haWwuY29tIHdyb3RlOg0KPiBGcm9tOiBEYW4gVHJhbiA8ZGFudHJhbkBtaWNy
-b3NvZnQuY29tPg0KPiANCj4gU2lnbmVkLW9mZi1ieTogRGFuIFRyYW4gPGRhbnRyYW5AbWljcm9z
-b2Z0LmNvbT4NCj4gLS0tDQo+ICAuLi4vdW56aXAvdW56aXAvQ1ZFLTIwMTktMTMyMzIucGF0Y2gg
-ICAgICAgICAgfCAzODgNCj4gKysrKysrKysrKysrKysrKysrDQo+ICBtZXRhL3JlY2lwZXMtZXh0
-ZW5kZWQvdW56aXAvdW56aXBfNi4wLmJiICAgICAgfCAgIDEgKw0KPiAgMiBmaWxlcyBjaGFuZ2Vk
-LCAzODkgaW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1l
-eHRlbmRlZC91bnppcC91bnppcC9DVkUtMjAxOS0NCj4gMTMyMzIucGF0Y2gNCj4gDQo+IGRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvdW56aXAvdW56aXAvQ1ZFLTIwMTktMTMyMzIu
-cGF0Y2gNCj4gYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvdW56aXAvdW56aXAvQ1ZFLTIwMTktMTMy
-MzIucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMC4uMDg1
-MTJiYjBiMQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC91
-bnppcC91bnppcC9DVkUtMjAxOS0xMzIzMi5wYXRjaA0KPiBAQCAtMCwwICsxLDM4OCBAQA0KPiAr
-RnJvbSAwODBkNTJjM2M5NDE2YzczMWY2MzdmOWM2ZTAwMzk2MWVmNDNmMDc5IE1vbiBTZXAgMTcg
-MDA6MDA6MDANCj4gMjAwMQ0KPiArRnJvbTogTWFyayBBZGxlciA8bWFkbGVyQGFsdW1uaS5jYWx0
-ZWNoLmVkdT4NCj4gK0RhdGU6IE1vbiwgMjcgTWF5IDIwMTkgMDg6MjA6MzIgLTA3MDANCj4gK1N1
-YmplY3Q6IFtQQVRDSCAxLzJdIEZpeCBidWcgaW4gdW5kZWZlcl9pbnB1dCgpIHRoYXQgbWlzcGxh
-Y2VkIHRoZQ0KPiBpbnB1dA0KPiArIHN0YXRlLg0KPiArDQo+ICtTaWduZWQtb2ZmLWJ5OiBEYW4g
-VHJhbiA8ZGFudHJhbkBtaWNyb3NvZnQuY29tPg0KPiArLS0tDQo+ICsgZmlsZWlvLmMgfCA0ICsr
-Ky0NCj4gKyAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+
-ICsNCj4gK2RpZmYgLS1naXQgYS9maWxlaW8uYyBiL2ZpbGVpby5jDQo+ICtpbmRleCA3NjA1YTI5
-Li4xNDQ2MGYzIDEwMDY0NA0KPiArLS0tIGEvZmlsZWlvLmMNCj4gKysrKyBiL2ZpbGVpby5jDQo+
-ICtAQCAtNTMyLDggKzUzMiwxMCBAQCB2b2lkIHVuZGVmZXJfaW5wdXQoX19HKQ0KPiArICAgICAg
-ICAgICogVGhpcyBjb25kaXRpb24gd2FzIGNoZWNrZWQgd2hlbiBHLmluY250X2xlZnRvdmVyIHdh
-cyBzZXQNCj4gPiAwIGluDQo+ICsgICAgICAgICAgKiBkZWZlcl9sZWZ0b3Zlcl9pbnB1dCgpLCBh
-bmQgaXQgaXMgTk9UIGFsbG93ZWQgdG8gdG91Y2gNCj4gRy5jc2l6ZQ0KPiArICAgICAgICAgICog
-YmVmb3JlIGNhbGxpbmcgdW5kZWZlcl9pbnB1dCgpIHdoZW4gKEcuaW5jbnRfbGVmdG92ZXIgPg0K
-PiAwKQ0KPiArLSAgICAgICAgICogKHNpbmdsZSBleGNlcHRpb246IHNlZSByZWFkX2J5dGUoKSdz
-ICAiRy5jc2l6ZSA8PSAwIg0KPiBoYW5kbGluZykgISENCj4gKysgICAgICAgICAqIChzaW5nbGUg
-ZXhjZXB0aW9uOiBzZWUgcmVhZGJ5dGUoKSdzICAiRy5jc2l6ZSA8PSAwIg0KPiBoYW5kbGluZykg
-ISENCj4gKyAgICAgICAgICAqLw0KPiArKyAgICAgICAgaWYgKEcuY3NpemUgPCAwTCkNCj4gKysg
-ICAgICAgICAgICBHLmNzaXplID0gMEw7DQo+ICsgICAgICAgICBHLmluY250ID0gRy5pbmNudF9s
-ZWZ0b3ZlciArIChpbnQpRy5jc2l6ZTsNCj4gKyAgICAgICAgIEcuaW5wdHIgPSBHLmlucHRyX2xl
-ZnRvdmVyIC0gKGludClHLmNzaXplOw0KPiArICAgICAgICAgRy5pbmNudF9sZWZ0b3ZlciA9IDA7
-DQo+ICstLSANCj4gKzIuMjIuMC52ZnMuMS4xLjU3LmdiYWYxNmM4DQo+ICsNCj4gKw0KPiArRnJv
-bSAxYWFlNDdmYTg5MzU2NTRhODQ0MDM3NjhmMzJjMDNlY2JiMWJlNDcwIE1vbiBTZXAgMTcgMDA6
-MDA6MDANCj4gMjAwMQ0KPiArRnJvbTogTWFyayBBZGxlciA8bWFkbGVyQGFsdW1uaS5jYWx0ZWNo
-LmVkdT4NCj4gK0RhdGU6IFR1ZSwgMTEgSnVuIDIwMTkgMjI6MDE6MTggLTA3MDANCj4gK1N1Ympl
-Y3Q6IFtQQVRDSCAyLzJdIERldGVjdCBhbmQgcmVqZWN0IGEgemlwIGJvbWIgdXNpbmcgb3Zlcmxh
-cHBlZA0KPiBlbnRyaWVzLg0KPiArDQo+ICtUaGlzIGRldGVjdHMgYW4gaW52YWxpZCB6aXAgZmls
-ZSB0aGF0IGhhcyBhdCBsZWFzdCBvbmUgZW50cnkgdGhhdA0KPiArb3ZlcmxhcHMgd2l0aCBhbm90
-aGVyIGVudHJ5IG9yIHdpdGggdGhlIGNlbnRyYWwgZGlyZWN0b3J5IHRvIHRoZQ0KPiArZW5kIG9m
-IHRoZSBmaWxlLiBBIEZpZmllbGQgemlwIGJvbWIgdXNlcyBvdmVybGFwcGVkIGxvY2FsIGVudHJp
-ZXMNCj4gK3RvIHZhc3RseSBpbmNyZWFzZSB0aGUgcG90ZW50aWFsIGluZmxhdGlvbiByYXRpby4g
-U3VjaCBhbiBpbnZhbGlkDQo+ICt6aXAgZmlsZSBpcyByZWplY3RlZC4NCj4gKw0KPiArU2VlIGh0
-dHBzOi8vd3d3LmJhbXNvZnR3YXJlLmNvbS9oYWNrcy96aXBib21iLyBmb3IgRGF2aWQgRmlmaWVs
-ZCdzDQo+ICthbmFseXNpcywgY29uc3RydWN0aW9uLCBhbmQgZXhhbXBsZXMgb2Ygc3VjaCB6aXAg
-Ym9tYnMuDQo+ICsNCj4gK1RoZSBkZXRlY3Rpb24gbWFpbnRhaW5zIGEgbGlzdCBvZiBjb3ZlcmVk
-IHNwYW5zIG9mIHRoZSB6aXAgZmlsZXMNCj4gK3NvIGZhciwgd2hlcmUgdGhlIGNlbnRyYWwgZGly
-ZWN0b3J5IHRvIHRoZSBlbmQgb2YgdGhlIGZpbGUgYW5kIGFueQ0KPiArYnl0ZXMgcHJlY2VkaW5n
-IHRoZSBmaXJzdCBlbnRyeSBhdCB6aXAgZmlsZSBvZmZzZXQgemVybyBhcmUNCj4gK2NvbnNpZGVy
-ZWQgY292ZXJlZCBpbml0aWFsbHkuIFRoZW4gYXMgZWFjaCBlbnRyeSBpcyBkZWNvbXByZXNzZWQN
-Cj4gK29yIHRlc3RlZCwgaXQgaXMgY29uc2lkZXJlZCBjb3ZlcmVkLiBXaGVuIGEgbmV3IGVudHJ5
-IGlzIGFib3V0IHRvDQo+ICtiZSBwcm9jZXNzZWQsIGl0cyBpbml0aWFsIG9mZnNldCBpcyBjaGVj
-a2VkIHRvIHNlZSBpZiBpdCBpcw0KPiArY29udGFpbmVkIGJ5IGEgY292ZXJlZCBzcGFuLiBJZiBz
-bywgdGhlIHppcCBmaWxlIGlzIHJlamVjdGVkIGFzDQo+ICtpbnZhbGlkLg0KPiArDQo+ICtUaGlz
-IGNvbW1pdCBkZXBlbmRzIG9uIGEgcHJlY2VkaW5nIGNvbW1pdDogIkZpeCBidWcgaW4NCj4gK3Vu
-ZGVmZXJfaW5wdXQoKSB0aGF0IG1pc3BsYWNlZCB0aGUgaW5wdXQgc3RhdGUuIg0KPiArDQo+ICtD
-VkU6IENWRS0yMDE5LTEzMjMyDQo+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0DQo+ICtbDQo+
-IGh0dHBzOi8vZ2l0aHViLmNvbS9tYWRsZXIvdW56aXAvY29tbWl0LzQ3YjNjZWFlMzk3ZDIxYmY4
-MjJiYzJhYzczMDUyYTRiMWRhZjhlMWMNCj4gXQ0KPiArDQo+ICtTaWduZWQtb2ZmLWJ5OiBEYW4g
-VHJhbiA8ZGFudHJhbkBtaWNyb3NvZnQuY29tPg0KPiArLS0tDQo+ICsgZXh0cmFjdC5jIHwgMTkw
-DQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-LQ0KPiArIGdsb2JhbHMuYyB8ICAgMSArDQo+ICsgZ2xvYmFscy5oIHwgICAzICsNCj4gKyBwcm9j
-ZXNzLmMgfCAgMTAgKysrDQo+ICsgdW56aXAuaCAgIHwgICAxICsNCj4gKyA1IGZpbGVzIGNoYW5n
-ZWQsIDIwNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICsNCj4gK2RpZmYgLS1naXQg
-YS9leHRyYWN0LmMgYi9leHRyYWN0LmMNCj4gK2luZGV4IDI0ZGIyYTguLjJiYjcyYmEgMTAwNjQ0
-DQo+ICstLS0gYS9leHRyYWN0LmMNCj4gKysrKyBiL2V4dHJhY3QuYw0KPiArQEAgLTMyMSw2ICsz
-MjEsMTI1IEBAIHN0YXRpYyBaQ09OU1QgY2hhciBGYXIgVW5zdXBwb3J0ZWRFeHRyYUZpZWxkW10N
-Cj4gPQ0KPiArICAgIlxuZXJyb3I6ICB1bnN1cHBvcnRlZCBleHRyYS1maWVsZCBjb21wcmVzc2lv
-biB0eXBlICgldSkNCj4gLS1za2lwcGluZ1xuIjsNCj4gKyBzdGF0aWMgWkNPTlNUIGNoYXIgRmFy
-IEJhZEV4dHJhRmllbGRDUkNbXSA9DQo+ICsgICAiZXJyb3IgWyVzXTogIGJhZCBleHRyYS1maWVs
-ZCBDUkMgJTA4bHggKHNob3VsZCBiZSAlMDhseClcbiI7DQo+ICsrc3RhdGljIFpDT05TVCBjaGFy
-IEZhciBOb3RFbm91Z2hNZW1Db3ZlcltdID0NCj4gKysgICJlcnJvcjogbm90IGVub3VnaCBtZW1v
-cnkgZm9yIGJvbWIgZGV0ZWN0aW9uXG4iOw0KPiArK3N0YXRpYyBaQ09OU1QgY2hhciBGYXIgT3Zl
-cmxhcHBlZENvbXBvbmVudHNbXSA9DQo+ICsrICAiZXJyb3I6IGludmFsaWQgemlwIGZpbGUgd2l0
-aCBvdmVybGFwcGVkIGNvbXBvbmVudHMgKHBvc3NpYmxlIHppcA0KPiBib21iKVxuIjsNCj4gKysN
-Cj4gKysNCj4gKysNCj4gKysNCj4gKysNCj4gKysvKiBBIGdyb3dhYmxlIGxpc3Qgb2Ygc3BhbnMu
-ICovDQo+ICsrdHlwZWRlZiB6b2ZmX3QgYm91bmRfdDsNCj4gKyt0eXBlZGVmIHN0cnVjdCB7DQo+
-ICsrICAgIGJvdW5kX3QgYmVnOyAgICAgICAgLyogc3RhcnQgb2YgdGhlIHNwYW4gKi8NCj4gKysg
-ICAgYm91bmRfdCBlbmQ7ICAgICAgICAvKiBvbmUgcGFzdCB0aGUgZW5kIG9mIHRoZSBzcGFuICov
-DQo+ICsrfSBzcGFuX3Q7DQo+ICsrdHlwZWRlZiBzdHJ1Y3Qgew0KPiArKyAgICBzcGFuX3QgKnNw
-YW47ICAgICAgIC8qIGFsbG9jYXRlZCwgZGlzdGluY3QsIGFuZCBzb3J0ZWQgbGlzdCBvZg0KPiBz
-cGFucyAqLw0KPiArKyAgICBzaXplX3QgbnVtOyAgICAgICAgIC8qIG51bWJlciBvZiBzcGFucyBp
-biB0aGUgbGlzdCAqLw0KPiArKyAgICBzaXplX3QgbWF4OyAgICAgICAgIC8qIGFsbG9jYXRlZCBu
-dW1iZXIgb2Ygc3BhbnMgKG51bSA8PSBtYXgpDQo+ICovDQo+ICsrfSBjb3Zlcl90Ow0KPiArKw0K
-PiArKy8qDQo+ICsrICogUmV0dXJuIHRoZSBpbmRleCBvZiB0aGUgZmlyc3Qgc3BhbiBpbiBjb3Zl
-ciB3aG9zZSBiZWcgaXMgZ3JlYXRlcg0KPiB0aGFuIHZhbC4NCj4gKysgKiBJZiB0aGVyZSBpcyBu
-byBzdWNoIHNwYW4sIHRoZW4gY292ZXItPm51bSBpcyByZXR1cm5lZC4NCj4gKysgKi8NCj4gKytz
-dGF0aWMgc2l6ZV90IGNvdmVyX2ZpbmQoY292ZXIsIHZhbCkNCj4gKysgICAgY292ZXJfdCAqY292
-ZXI7DQo+ICsrICAgIGJvdW5kX3QgdmFsOw0KPiArK3sNCj4gKysgICAgc2l6ZV90IGxvID0gMCwg
-aGkgPSBjb3Zlci0+bnVtOw0KPiArKyAgICB3aGlsZSAobG8gPCBoaSkgew0KPiArKyAgICAgICAg
-c2l6ZV90IG1pZCA9IChsbyArIGhpKSA+PiAxOw0KPiArKyAgICAgICAgaWYgKHZhbCA8IGNvdmVy
-LT5zcGFuW21pZF0uYmVnKQ0KPiArKyAgICAgICAgICAgIGhpID0gbWlkOw0KPiArKyAgICAgICAg
-ZWxzZQ0KPiArKyAgICAgICAgICAgIGxvID0gbWlkICsgMTsNCj4gKysgICAgfQ0KPiArKyAgICBy
-ZXR1cm4gaGk7DQo+ICsrfQ0KPiArKw0KPiArKy8qIFJldHVybiB0cnVlIGlmIHZhbCBsaWVzIHdp
-dGhpbiBhbnkgb25lIG9mIHRoZSBzcGFucyBpbiBjb3Zlci4gKi8NCj4gKytzdGF0aWMgaW50IGNv
-dmVyX3dpdGhpbihjb3ZlciwgdmFsKQ0KPiArKyAgICBjb3Zlcl90ICpjb3ZlcjsNCj4gKysgICAg
-Ym91bmRfdCB2YWw7DQo+ICsrew0KPiArKyAgICBzaXplX3QgcG9zID0gY292ZXJfZmluZChjb3Zl
-ciwgdmFsKTsNCj4gKysgICAgcmV0dXJuIHBvcyA+IDAgJiYgdmFsIDwgY292ZXItPnNwYW5bcG9z
-IC0gMV0uZW5kOw0KPiArK30NCj4gKysNCj4gKysvKg0KPiArKyAqIEFkZCBhIG5ldyBzcGFuIHRv
-IHRoZSBsaXN0LCBidXQgb25seSBpZiB0aGUgbmV3IHNwYW4gZG9lcyBub3QNCj4gb3ZlcmxhcCBh
-bnkNCj4gKysgKiBzcGFucyBhbHJlYWR5IGluIHRoZSBsaXN0LiBUaGUgbmV3IHNwYW4gY292ZXJz
-IHRoZSB2YWx1ZXMNCj4gYmVnLi5lbmQtMS4gYmVnDQo+ICsrICogbXVzdCBiZSBsZXNzIHRoYW4g
-ZW5kLg0KPiArKyAqDQo+ICsrICogS2VlcCB0aGUgbGlzdCBzb3J0ZWQgYW5kIG1lcmdlIGFkamFj
-ZW50IHNwYW5zLiBHcm93IHRoZQ0KPiBhbGxvY2F0ZWQgc3BhY2UgZm9yDQo+ICsrICogdGhlIGxp
-c3QgYXMgbmVlZGVkLiBPbiBzdWNjZXNzLCAwIGlzIHJldHVybmVkLiBJZiB0aGUgbmV3IHNwYW4N
-Cj4gb3ZlcmxhcHMgYW55DQo+ICsrICogZXhpc3Rpbmcgc3BhbnMsIHRoZW4gMSBpcyByZXR1cm5l
-ZCBhbmQgdGhlIG5ldyBzcGFuIGlzIG5vdCBhZGRlZA0KPiB0byB0aGUNCj4gKysgKiBsaXN0LiBJ
-ZiB0aGUgbmV3IHNwYW4gaXMgaW52YWxpZCBiZWNhdXNlIGJlZyBpcyBncmVhdGVyIHRoYW4gb3IN
-Cj4gZXF1YWwgdG8NCj4gKysgKiBlbmQsIHRoZW4gLTEgaXMgcmV0dXJuZWQuIElmIHRoZSBsaXN0
-IG5lZWRzIHRvIGJlIGdyb3duIGJ1dCB0aGUNCj4gbWVtb3J5DQo+ICsrICogYWxsb2NhdGlvbiBm
-YWlscywgdGhlbiAtMiBpcyByZXR1cm5lZC4NCj4gKysgKi8NCj4gKytzdGF0aWMgaW50IGNvdmVy
-X2FkZChjb3ZlciwgYmVnLCBlbmQpDQo+ICsrICAgIGNvdmVyX3QgKmNvdmVyOw0KPiArKyAgICBi
-b3VuZF90IGJlZzsNCj4gKysgICAgYm91bmRfdCBlbmQ7DQo+ICsrew0KPiArKyAgICBzaXplX3Qg
-cG9zOw0KPiArKyAgICBpbnQgcHJlYywgZm9sbDsNCj4gKysNCj4gKysgICAgaWYgKGJlZyA+PSBl
-bmQpDQo+ICsrICAgIC8qIFRoZSBuZXcgc3BhbiBpcyBpbnZhbGlkLiAqLw0KPiArKyAgICAgICAg
-cmV0dXJuIC0xOw0KPiArKw0KPiArKyAgICAvKiBGaW5kIHdoZXJlIHRoZSBuZXcgc3BhbiBzaG91
-bGQgZ28sIGFuZCBtYWtlIHN1cmUgdGhhdCBpdA0KPiBkb2VzIG5vdA0KPiArKyAgICAgICBvdmVy
-bGFwIHdpdGggYW55IGV4aXN0aW5nIHNwYW5zLiAqLw0KPiArKyAgICBwb3MgPSBjb3Zlcl9maW5k
-KGNvdmVyLCBiZWcpOw0KPiArKyAgICBpZiAoKHBvcyA+IDAgJiYgYmVnIDwgY292ZXItPnNwYW5b
-cG9zIC0gMV0uZW5kKSB8fA0KPiArKyAgICAgICAgKHBvcyA8IGNvdmVyLT5udW0gJiYgZW5kID4g
-Y292ZXItPnNwYW5bcG9zXS5iZWcpKQ0KPiArKyAgICAgICAgcmV0dXJuIDE7DQo+ICsrDQo+ICsr
-ICAgIC8qIENoZWNrIGZvciBhZGphY2VuY2llcy4gKi8NCj4gKysgICAgcHJlYyA9IHBvcyA+IDAg
-JiYgYmVnID09IGNvdmVyLT5zcGFuW3BvcyAtIDFdLmVuZDsNCj4gKysgICAgZm9sbCA9IHBvcyA8
-IGNvdmVyLT5udW0gJiYgZW5kID09IGNvdmVyLT5zcGFuW3Bvc10uYmVnOw0KPiArKyAgICBpZiAo
-cHJlYyAmJiBmb2xsKSB7DQo+ICsrICAgICAgICAvKiBUaGUgbmV3IHNwYW4gY29ubmVjdHMgdGhl
-IHByZWNlZGluZyBhbmQgZm9sbG93aW5nIHNwYW5zLg0KPiBNZXJnZSB0aGUNCj4gKysgICAgICAg
-ICAgIGZvbGxvd2luZyBzcGFuIGludG8gdGhlIHByZWNlZGluZyBzcGFuLCBhbmQgZGVsZXRlIHRo
-ZQ0KPiBmb2xsb3dpbmcNCj4gKysgICAgICAgICAgIHNwYW4uICovDQo+ICsrICAgICAgICBjb3Zl
-ci0+c3Bhbltwb3MgLSAxXS5lbmQgPSBjb3Zlci0+c3Bhbltwb3NdLmVuZDsNCj4gKysgICAgICAg
-IGNvdmVyLT5udW0tLTsNCj4gKysgICAgICAgIG1lbW1vdmUoY292ZXItPnNwYW4gKyBwb3MsIGNv
-dmVyLT5zcGFuICsgcG9zICsgMSwNCj4gKysgICAgICAgICAgICAgICAgKGNvdmVyLT5udW0gLSBw
-b3MpICogc2l6ZW9mKHNwYW5fdCkpOw0KPiArKyAgICB9DQo+ICsrICAgIGVsc2UgaWYgKHByZWMp
-DQo+ICsrICAgICAgICAvKiBUaGUgbmV3IHNwYW4gaXMgYWRqYWNlbnQgb25seSB0byB0aGUgcHJl
-Y2VkaW5nIHNwYW4uDQo+IEV4dGVuZCB0aGUgZW5kDQo+ICsrICAgICAgICAgICBvZiB0aGUgcHJl
-Y2VkaW5nIHNwYW4uICovDQo+ICsrICAgICAgICBjb3Zlci0+c3Bhbltwb3MgLSAxXS5lbmQgPSBl
-bmQ7DQo+ICsrICAgIGVsc2UgaWYgKGZvbGwpDQo+ICsrICAgICAgICAvKiBUaGUgbmV3IHNwYW4g
-aXMgYWRqYWNlbnQgb25seSB0byB0aGUgZm9sbG93aW5nIHNwYW4uDQo+IEV4dGVuZCB0aGUNCj4g
-KysgICAgICAgICAgIGJlZ2lubmluZyBvZiB0aGUgZm9sbG93aW5nIHNwYW4uICovDQo+ICsrICAg
-ICAgICBjb3Zlci0+c3Bhbltwb3NdLmJlZyA9IGJlZzsNCj4gKysgICAgZWxzZSB7DQo+ICsrICAg
-ICAgICAvKiBUaGUgbmV3IHNwYW4gaGFzIGdhcHMgYmV0d2VlbiBib3RoIHRoZSBwcmVjZWRpbmcg
-YW5kIHRoZQ0KPiBmb2xsb3dpbmcNCj4gKysgICAgICAgICAgIHNwYW5zLiBBc3N1cmUgdGhhdCB0
-aGVyZSBpcyByb29tIGFuZCBpbnNlcnQgdGhlDQo+IHNwYW4uICAqLw0KPiArKyAgICAgICAgaWYg
-KGNvdmVyLT5udW0gPT0gY292ZXItPm1heCkgew0KPiArKyAgICAgICAgICAgIHNpemVfdCBtYXgg
-PSBjb3Zlci0+bWF4ID09IDAgPyAxNiA6IGNvdmVyLT5tYXggPDwgMTsNCj4gKysgICAgICAgICAg
-ICBzcGFuX3QgKnNwYW4gPSByZWFsbG9jKGNvdmVyLT5zcGFuLCBtYXggKg0KPiBzaXplb2Yoc3Bh
-bl90KSk7DQo+ICsrICAgICAgICAgICAgaWYgKHNwYW4gPT0gTlVMTCkNCj4gKysgICAgICAgICAg
-ICAgICAgcmV0dXJuIC0yOw0KPiArKyAgICAgICAgICAgIGNvdmVyLT5zcGFuID0gc3BhbjsNCj4g
-KysgICAgICAgICAgICBjb3Zlci0+bWF4ID0gbWF4Ow0KPiArKyAgICAgICAgfQ0KPiArKyAgICAg
-ICAgbWVtbW92ZShjb3Zlci0+c3BhbiArIHBvcyArIDEsIGNvdmVyLT5zcGFuICsgcG9zLA0KPiAr
-KyAgICAgICAgICAgICAgICAoY292ZXItPm51bSAtIHBvcykgKiBzaXplb2Yoc3Bhbl90KSk7DQo+
-ICsrICAgICAgICBjb3Zlci0+bnVtKys7DQo+ICsrICAgICAgICBjb3Zlci0+c3Bhbltwb3NdLmJl
-ZyA9IGJlZzsNCj4gKysgICAgICAgIGNvdmVyLT5zcGFuW3Bvc10uZW5kID0gZW5kOw0KPiArKyAg
-ICB9DQo+ICsrICAgIHJldHVybiAwOw0KPiArK30NCj4gKyANCj4gKyANCj4gKyANCj4gK0BAIC0z
-NzYsNiArNDk1LDI5IEBAIGludCBleHRyYWN0X29yX3Rlc3RfZmlsZXMoX19HKSAgICAvKiByZXR1
-cm4gUEstDQo+IHR5cGUgZXJyb3IgY29kZSAqLw0KPiArICAgICB9DQo+ICsgI2VuZGlmIC8qICFT
-RlggfHwgU0ZYX0VYRElSICovDQo+ICsgDQo+ICsrICAgIC8qIE9uZSBtb3JlOiBpbml0aWFsaXpl
-IGNvdmVyIHN0cnVjdHVyZSBmb3IgYm9tYiBkZXRlY3Rpb24uDQo+IFN0YXJ0IHdpdGggYQ0KPiAr
-KyAgICAgICBzcGFuIHRoYXQgY292ZXJzIHRoZSBjZW50cmFsIGRpcmVjdG9yeSB0aG91Z2ggdGhl
-IGVuZCBvZiB0aGUNCj4gZmlsZS4gKi8NCj4gKysgICAgaWYgKEcuY292ZXIgPT0gTlVMTCkgew0K
-PiArKyAgICAgICAgRy5jb3ZlciA9IG1hbGxvYyhzaXplb2YoY292ZXJfdCkpOw0KPiArKyAgICAg
-ICAgaWYgKEcuY292ZXIgPT0gTlVMTCkgew0KPiArKyAgICAgICAgICAgIEluZm8oc2xpZGUsIDB4
-NDAxLCAoKGNoYXIgKilzbGlkZSwNCj4gKysgICAgICAgICAgICAgIExvYWRGYXJTdHJpbmcoTm90
-RW5vdWdoTWVtQ292ZXIpKSk7DQo+ICsrICAgICAgICAgICAgcmV0dXJuIFBLX01FTTsNCj4gKysg
-ICAgICAgIH0NCj4gKysgICAgICAgICgoY292ZXJfdCAqKUcuY292ZXIpLT5zcGFuID0gTlVMTDsN
-Cj4gKysgICAgICAgICgoY292ZXJfdCAqKUcuY292ZXIpLT5tYXggPSAwOw0KPiArKyAgICB9DQo+
-ICsrICAgICgoY292ZXJfdCAqKUcuY292ZXIpLT5udW0gPSAwOw0KPiArKyAgICBpZiAoKEcuZXh0
-cmFfYnl0ZXMgIT0gMCAmJg0KPiArKyAgICAgICAgIGNvdmVyX2FkZCgoY292ZXJfdCAqKUcuY292
-ZXIsIDAsIEcuZXh0cmFfYnl0ZXMpICE9IDApIHx8DQo+ICsrICAgICAgICBjb3Zlcl9hZGQoKGNv
-dmVyX3QgKilHLmNvdmVyLA0KPiArKyAgICAgICAgICAgICAgICAgIEcuZXh0cmFfYnl0ZXMgKw0K
-PiBHLmVjcmVjLm9mZnNldF9zdGFydF9jZW50cmFsX2RpcmVjdG9yeSwNCj4gKysgICAgICAgICAg
-ICAgICAgICBHLnppcGxlbikgIT0gMCkgew0KPiArKyAgICAgICAgSW5mbyhzbGlkZSwgMHg0MDEs
-ICgoY2hhciAqKXNsaWRlLA0KPiArKyAgICAgICAgICBMb2FkRmFyU3RyaW5nKE5vdEVub3VnaE1l
-bUNvdmVyKSkpOw0KPiArKyAgICAgICAgcmV0dXJuIFBLX01FTTsNCj4gKysgICAgfQ0KPiArKw0K
-PiArIC8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0NCj4gLS0tLS0tLS0tLQ0KPiArICAgICBUaGUgYmFzaWMgaWRlYSBvZiB0
-aGlzIGZ1bmN0aW9uIGlzIGFzIGZvbGxvd3MuICBTaW5jZSB0aGUNCj4gY2VudHJhbCBkaS0NCj4g
-KyAgICAgcmVjdG9yeSBsaWVzIGF0IHRoZSBlbmQgb2YgdGhlIHppcGZpbGUgYW5kIHRoZSBtZW1i
-ZXIgZmlsZXMgbGllDQo+IGF0IHRoZQ0KPiArQEAgLTU5Myw3ICs3MzUsOCBAQCBpbnQgZXh0cmFj
-dF9vcl90ZXN0X2ZpbGVzKF9fRykgICAgLyogcmV0dXJuIFBLLQ0KPiB0eXBlIGVycm9yIGNvZGUg
-Ki8NCj4gKyAgICAgICAgICAgICBpZiAoZXJyb3IgPiBlcnJvcl9pbl9hcmNoaXZlKQ0KPiArICAg
-ICAgICAgICAgICAgICBlcnJvcl9pbl9hcmNoaXZlID0gZXJyb3I7DQo+ICsgICAgICAgICAgICAg
-LyogLi4uYW5kIGtlZXAgZ29pbmcgKHVubGVzcyBkaXNrIGZ1bGwgb3IgdXNlciBicmVhaykNCj4g
-Ki8NCj4gKy0gICAgICAgICAgICBpZiAoRy5kaXNrX2Z1bGwgPiAxIHx8IGVycm9yX2luX2FyY2hp
-dmUgPT0gSVpfQ1RSTEMpIHsNCj4gKysgICAgICAgICAgICBpZiAoRy5kaXNrX2Z1bGwgPiAxIHx8
-IGVycm9yX2luX2FyY2hpdmUgPT0gSVpfQ1RSTEMgfHwNCj4gKysgICAgICAgICAgICAgICAgZXJy
-b3IgPT0gUEtfQk9NQikgew0KPiArICAgICAgICAgICAgICAgICAvKiBjbGVhciByZWFjaGVkX2Vu
-ZCB0byBzaWduYWwgcHJlbWF0dXJlIHN0b3AgLi4uDQo+ICovDQo+ICsgICAgICAgICAgICAgICAg
-IHJlYWNoZWRfZW5kID0gRkFMU0U7DQo+ICsgICAgICAgICAgICAgICAgIC8qIC4uLiBhbmQgY2Fu
-Y2VsIHNjYW5uaW5nIHRoZSBjZW50cmFsIGRpcmVjdG9yeSAqLw0KPiArQEAgLTEwNjIsNiArMTIw
-NSwxMSBAQCBzdGF0aWMgaW50IGV4dHJhY3Rfb3JfdGVzdF9lbnRyeWxpc3QoX19HX18NCj4gbnVt
-Y2h1bmssDQo+ICsgDQo+ICsgICAgICAgICAvKiBzZWVrX3ppcGYoX19HX18gcEluZm8tPm9mZnNl
-dCk7ICAqLw0KPiArICAgICAgICAgcmVxdWVzdCA9IEcucEluZm8tPm9mZnNldCArIEcuZXh0cmFf
-Ynl0ZXM7DQo+ICsrICAgICAgICBpZiAoY292ZXJfd2l0aGluKChjb3Zlcl90ICopRy5jb3Zlciwg
-cmVxdWVzdCkpIHsNCj4gKysgICAgICAgICAgICBJbmZvKHNsaWRlLCAweDQwMSwgKChjaGFyICop
-c2xpZGUsDQo+ICsrICAgICAgICAgICAgICBMb2FkRmFyU3RyaW5nKE92ZXJsYXBwZWRDb21wb25l
-bnRzKSkpOw0KPiArKyAgICAgICAgICAgIHJldHVybiBQS19CT01COw0KPiArKyAgICAgICAgfQ0K
-PiArICAgICAgICAgaW5idWZfb2Zmc2V0ID0gcmVxdWVzdCAlIElOQlVGU0laOw0KPiArICAgICAg
-ICAgYnVmc3RhcnQgPSByZXF1ZXN0IC0gaW5idWZfb2Zmc2V0Ow0KPiArIA0KPiArQEAgLTE1OTMs
-NiArMTc0MSwxOCBAQCByZXByb21wdDoNCj4gKyAgICAgICAgICAgICByZXR1cm4gSVpfQ1RSTEM7
-ICAgICAgICAvKiBjYW5jZWwgb3BlcmF0aW9uIGJ5IHVzZXINCj4gcmVxdWVzdCAqLw0KPiArICAg
-ICAgICAgfQ0KPiArICNlbmRpZg0KPiArKyAgICAgICAgZXJyb3IgPSBjb3Zlcl9hZGQoKGNvdmVy
-X3QgKilHLmNvdmVyLCByZXF1ZXN0LA0KPiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgRy5j
-dXJfemlwZmlsZV9idWZzdGFydCArIChHLmlucHRyIC0NCj4gRy5pbmJ1ZikpOw0KPiArKyAgICAg
-ICAgaWYgKGVycm9yIDwgMCkgew0KPiArKyAgICAgICAgICAgIEluZm8oc2xpZGUsIDB4NDAxLCAo
-KGNoYXIgKilzbGlkZSwNCj4gKysgICAgICAgICAgICAgIExvYWRGYXJTdHJpbmcoTm90RW5vdWdo
-TWVtQ292ZXIpKSk7DQo+ICsrICAgICAgICAgICAgcmV0dXJuIFBLX01FTTsNCj4gKysgICAgICAg
-IH0NCj4gKysgICAgICAgIGlmIChlcnJvciAhPSAwKSB7DQo+ICsrICAgICAgICAgICAgSW5mbyhz
-bGlkZSwgMHg0MDEsICgoY2hhciAqKXNsaWRlLA0KPiArKyAgICAgICAgICAgICAgTG9hZEZhclN0
-cmluZyhPdmVybGFwcGVkQ29tcG9uZW50cykpKTsNCj4gKysgICAgICAgICAgICByZXR1cm4gUEtf
-Qk9NQjsNCj4gKysgICAgICAgIH0NCj4gKyAjaWZkZWYgTUFDT1MgIC8qIE1hY09TIGlzIG5vIHBy
-ZWVtcHRpdmUgT1MsIHRodXMgY2FsbCBldmVudC0NCj4gaGFuZGxpbmcgYnkgaGFuZCAqLw0KPiAr
-ICAgICAgICAgVXNlclN0b3AoKTsNCj4gKyAjZW5kaWYNCj4gK0BAIC0xOTk0LDYgKzIxNTQsMzQg
-QEAgc3RhdGljIGludCBleHRyYWN0X29yX3Rlc3RfbWVtYmVyKF9fRykgICAgLyoNCj4gcmV0dXJu
-IFBLLXR5cGUgZXJyb3IgY29kZSAqLw0KPiArICAgICB9DQo+ICsgDQo+ICsgICAgIHVuZGVmZXJf
-aW5wdXQoX19HKTsNCj4gKysNCj4gKysgICAgaWYgKChHLmxyZWMuZ2VuZXJhbF9wdXJwb3NlX2Jp
-dF9mbGFnICYgOCkgIT0gMCkgew0KPiArKyAgICAgICAgLyogc2tpcCBvdmVyIGRhdGEgZGVzY3Jp
-cHRvciAoaGFyZGVyIHRoYW4gaXQgc291bmRzLCBkdWUgdG8NCj4gc2lnbmF0dXJlDQo+ICsrICAg
-ICAgICAgKiBhbWJpZ3VpdHkpDQo+ICsrICAgICAgICAgKi8NCj4gKysjICAgICAgIGRlZmluZSBT
-SUcgMHgwODA3NGI1MA0KPiArKyMgICAgICAgZGVmaW5lIExPVyAweGZmZmZmZmZmDQo+ICsrICAg
-ICAgICB1Y2ggYnVmWzEyXTsNCj4gKysgICAgICAgIHVuc2lnbmVkIHNoeSA9IDEyIC0gcmVhZGJ1
-ZigoY2hhciAqKWJ1ZiwgMTIpOw0KPiArKyAgICAgICAgdWxnIGNyYyA9IHNoeSA/IDAgOiBtYWtl
-bG9uZyhidWYpOw0KPiArKyAgICAgICAgdWxnIGNsZW4gPSBzaHkgPyAwIDogbWFrZWxvbmcoYnVm
-ICsgNCk7DQo+ICsrICAgICAgICB1bGcgdWxlbiA9IHNoeSA/IDAgOiBtYWtlbG9uZyhidWYgKyA4
-KTsgLyogb3IgaGlnaCBjbGVuIGlmDQo+IFpJUDY0ICovDQo+ICsrICAgICAgICBpZiAoY3JjID09
-IFNJRyAmJiAgICAgICAgICAgICAgICAgICAgICAgLyogaWYgbm90IFNJRywgbm8NCj4gc2lnbmF0
-dXJlICovDQo+ICsrICAgICAgICAgICAgKEcubHJlYy5jcmMzMiAhPSBTSUcgfHwgICAgICAgICAg
-ICAgLyogaWYgbm90IFNJRywgaGF2ZQ0KPiBzaWduYXR1cmUgKi8NCj4gKysgICAgICAgICAgICAg
-KGNsZW4gPT0gU0lHICYmICAgICAgICAgICAgICAgICAgICAvKiBpZiBub3QgU0lHLCBubw0KPiBz
-aWduYXR1cmUgKi8NCj4gKysgICAgICAgICAgICAgICgoRy5scmVjLmNzaXplICYgTE9XKSAhPSBT
-SUcgfHwgICAvKiBpZiBub3QgU0lHLCBoYXZlDQo+IHNpZ25hdHVyZSAqLw0KPiArKyAgICAgICAg
-ICAgICAgICh1bGVuID09IFNJRyAmJiAgICAgICAgICAgICAgICAgIC8qIGlmIG5vdCBTSUcsIG5v
-DQo+IHNpZ25hdHVyZSAqLw0KPiArKyAgICAgICAgICAgICAgICAoRy56aXA2NCA/IEcubHJlYy5j
-c2l6ZSA+PiAzMiA6IEcubHJlYy51Y3NpemUpICE9DQo+IFNJRw0KPiArKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC8qIGlmIG5vdCBTSUcsIGhhdmUNCj4g
-c2lnbmF0dXJlICovDQo+ICsrICAgICAgICAgICAgICAgICkpKSkpDQo+ICsrICAgICAgICAgICAg
-ICAgICAgIC8qIHNraXAgZm91ciBtb3JlIGJ5dGVzIHRvIGFjY291bnQgZm9yIHNpZ25hdHVyZQ0K
-PiAqLw0KPiArKyAgICAgICAgICAgICAgICAgICBzaHkgKz0gNCAtIHJlYWRidWYoKGNoYXIgKili
-dWYsIDQpOw0KPiArKyAgICAgICAgaWYgKEcuemlwNjQpDQo+ICsrICAgICAgICAgICAgc2h5ICs9
-IDggLSByZWFkYnVmKChjaGFyICopYnVmLCA4KTsgLyogc2tpcCBlaWdodCBtb3JlDQo+IGZvciBa
-SVA2NCAqLw0KPiArKyAgICAgICAgaWYgKHNoeSkNCj4gKysgICAgICAgICAgICBlcnJvciA9IFBL
-X0VSUjsNCj4gKysgICAgfQ0KPiArKw0KPiArICAgICByZXR1cm4gZXJyb3I7DQo+ICsgDQo+ICsg
-fSAvKiBlbmQgZnVuY3Rpb24gZXh0cmFjdF9vcl90ZXN0X21lbWJlcigpICovDQo+ICtkaWZmIC0t
-Z2l0IGEvZ2xvYmFscy5jIGIvZ2xvYmFscy5jDQo+ICtpbmRleCBmYThjY2E1Li4xZTBmNjA4IDEw
-MDY0NA0KPiArLS0tIGEvZ2xvYmFscy5jDQo+ICsrKysgYi9nbG9iYWxzLmMNCj4gK0BAIC0xODEs
-NiArMTgxLDcgQEAgVXpfR2xvYnMgKmdsb2JhbHNDdG9yKCkNCj4gKyAjIGlmICghZGVmaW5lZChO
-T19USU1FU1RBTVBTKSkNCj4gKyAgICAgdU8uRF9mbGFnPTE7ICAgIC8qIGRlZmF1bHQgdG8gJy1E
-Jywgbm8gcmVzdG9yYXRpb24gb2YgZGlyDQo+IHRpbWVzdGFtcHMgKi8NCj4gKyAjIGVuZGlmDQo+
-ICsrICAgIEcuY292ZXIgPSBOVUxMOyAgICAgLyogbm90IGFsbG9jYXRlZCB5ZXQgKi8NCj4gKyAj
-ZW5kaWYNCj4gKyANCj4gKyAgICAgdU8ubGZsYWc9KC0xKTsNCj4gK2RpZmYgLS1naXQgYS9nbG9i
-YWxzLmggYi9nbG9iYWxzLmgNCj4gK2luZGV4IDExYjcyMTUuLjJiZGNkZWIgMTAwNjQ0DQo+ICst
-LS0gYS9nbG9iYWxzLmgNCj4gKysrKyBiL2dsb2JhbHMuaA0KPiArQEAgLTI2MCwxMiArMjYwLDE1
-IEBAIHR5cGVkZWYgc3RydWN0IEdsb2JhbHMgew0KPiArICAgICBlY2Rpcl9yZWMgICAgICAgZWNy
-ZWM7ICAgICAgICAgLyogdXNlZCBpbiB1bnppcC5jLCBleHRyYWN0LmMgKi8NCj4gKyAgICAgel9z
-dGF0ICAgc3RhdGJ1ZjsgICAgICAgICAgICAgIC8qIHVzZWQgYnkgbWFpbiwgbWFwbmFtZSwNCj4g
-Y2hlY2tfZm9yX25ld2VyICovDQo+ICsgDQo+ICsrICAgIGludCB6aXA2NDsgICAgICAgICAgICAg
-ICAgICAgICAvKiB0cnVlIGlmIFppcDY0IGluZm8gaW4gZXh0cmENCj4gZmllbGQgKi8NCj4gKysN
-Cj4gKyAgICAgaW50ICAgICAgbWVtX21vZGU7DQo+ICsgICAgIHVjaCAgICAgICpvdXRidWZwdHI7
-ICAgICAgICAgICAvKiBleHRyYWN0LmMgc3RhdGljICovDQo+ICsgICAgIHVsZyAgICAgIG91dHNp
-emU7ICAgICAgICAgICAgICAvKiBleHRyYWN0LmMgc3RhdGljICovDQo+ICsgICAgIGludCAgICAg
-IHJlcG9ydGVkX2JhY2tzbGFzaDsgICAvKiBleHRyYWN0LmMgc3RhdGljICovDQo+ICsgICAgIGlu
-dCAgICAgIGRpc2tfZnVsbDsNCj4gKyAgICAgaW50ICAgICAgbmV3ZmlsZTsNCj4gKysgICAgdm9p
-ZCAgICAgKipjb3ZlcjsgICAgICAgICAgICAgIC8qIHVzZWQgaW4gZXh0cmFjdC5jIGZvciBib21i
-DQo+IGRldGVjdGlvbiAqLw0KPiArIA0KPiArICAgICBpbnQgICAgICBkaWRDUmxhc3Q7ICAgICAg
-ICAgICAgLyogZmlsZWlvIHN0YXRpYyAqLw0KPiArICAgICB1bGcgICAgICBudW1saW5lczsgICAg
-ICAgICAgICAgLyogZmlsZWlvIHN0YXRpYzogbnVtYmVyIG9mDQo+IGxpbmVzIHByaW50ZWQgKi8N
-Cj4gK2RpZmYgLS1naXQgYS9wcm9jZXNzLmMgYi9wcm9jZXNzLmMNCj4gK2luZGV4IGEzYzFhNGQu
-LjIwODYxOWMgMTAwNjQ0DQo+ICstLS0gYS9wcm9jZXNzLmMNCj4gKysrKyBiL3Byb2Nlc3MuYw0K
-PiArQEAgLTYzNyw2ICs2MzcsMTMgQEAgdm9pZCBmcmVlX0dfYnVmZmVycyhfX0cpICAgICAvKiBy
-ZWxlYXNlcyBhbGwNCj4gbWVtb3J5IGFsbG9jYXRlZCBpbiBnbG9iYWwgdmFycyAqLw0KPiArICAg
-ICB9DQo+ICsgI2VuZGlmDQo+ICsgDQo+ICsrICAgIC8qIEZyZWUgdGhlIGNvdmVyIHNwYW4gbGlz
-dCBhbmQgdGhlIGNvdmVyIHN0cnVjdHVyZS4gKi8NCj4gKysgICAgaWYgKEcuY292ZXIgIT0gTlVM
-TCkgew0KPiArKyAgICAgICAgZnJlZSgqKEcuY292ZXIpKTsNCj4gKysgICAgICAgIGZyZWUoRy5j
-b3Zlcik7DQo+ICsrICAgICAgICBHLmNvdmVyID0gTlVMTDsNCj4gKysgICAgfQ0KPiArKw0KPiAr
-IH0gLyogZW5kIGZ1bmN0aW9uIGZyZWVfR19idWZmZXJzKCkgKi8NCj4gKyANCj4gKyANCj4gK0BA
-IC0xOTA1LDYgKzE5MTIsNyBAQCBpbnQgZ2V0WmlwNjREYXRhKF9fR19fIGVmX2J1ZiwgZWZfbGVu
-KQ0KPiArIA0KPiArICNkZWZpbmUgWjY0RkxHUyAweGZmZmYNCj4gKyAjZGVmaW5lIFo2NEZMR0wg
-MHhmZmZmZmZmZg0KPiArKyAgICBHLnppcDY0ID0gRkFMU0U7DQo+ICsgDQo+ICsgICAgIGlmIChl
-Zl9sZW4gPT0gMCB8fCBlZl9idWYgPT0gTlVMTCkNCj4gKyAgICAgICAgIHJldHVybiBQS19DT09M
-Ow0KPiArQEAgLTE5NjQsNiArMTk3Miw4IEBAIGludCBnZXRaaXA2NERhdGEoX19HX18gZWZfYnVm
-LCBlZl9sZW4pDQo+ICsgICAgICAgICAgICAgRy5jcmVjLmRpc2tfbnVtYmVyX3N0YXJ0ID0gKHp1
-dmxfdCltYWtlbG9uZyhvZmZzZXQgKw0KPiBlZl9idWYpOw0KPiArICAgICAgICAgICAgIG9mZnNl
-dCArPSA0Ow0KPiArICAgICAgICAgICB9DQo+ICsrDQo+ICsrICAgICAgICAgIEcuemlwNjQgPSBU
-UlVFOw0KPiArICNpZiAwDQo+ICsgICAgICAgICAgIGJyZWFrOyAgICAgICAgICAgICAgICAvKiBF
-eHBlY3Qgb25seSBvbmUgRUZfUEtTWjY0IGJsb2NrLg0KPiAqLw0KPiArICNlbmRpZiAvKiAwICov
-DQo+ICtkaWZmIC0tZ2l0IGEvdW56aXAuaCBiL3VuemlwLmgNCj4gK2luZGV4IDViMmEzMjYuLmVk
-MjRhNWIgMTAwNjQ0DQo+ICstLS0gYS91bnppcC5oDQo+ICsrKysgYi91bnppcC5oDQo+ICtAQCAt
-NjQ1LDYgKzY0NSw3IEBAIHR5cGVkZWYgc3RydWN0IF9VenBfY2Rpcl9SZWMgew0KPiArICNkZWZp
-bmUgUEtfTk9aSVAgICAgICAgICAgIDkgICAvKiB6aXBmaWxlIG5vdCBmb3VuZCAqLw0KPiArICNk
-ZWZpbmUgUEtfUEFSQU0gICAgICAgICAgMTAgICAvKiBiYWQgb3IgaWxsZWdhbCBwYXJhbWV0ZXJz
-DQo+IHNwZWNpZmllZCAqLw0KPiArICNkZWZpbmUgUEtfRklORCAgICAgICAgICAgMTEgICAvKiBu
-byBmaWxlcyBmb3VuZCAqLw0KPiArKyNkZWZpbmUgUEtfQk9NQiAgICAgICAgICAgMTIgICAvKiBs
-aWtlbHkgemlwIGJvbWIgKi8NCj4gKyAjZGVmaW5lIFBLX0RJU0sgICAgICAgICAgIDUwICAgLyog
-ZGlzayBmdWxsICovDQo+ICsgI2RlZmluZSBQS19FT0YgICAgICAgICAgICA1MSAgIC8qIHVuZXhw
-ZWN0ZWQgRU9GICovDQo+ICsgDQo+ICstLSANCj4gKzIuMjIuMC52ZnMuMS4xLjU3LmdiYWYxNmM4
-DQo+ICsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC91bnppcC91bnppcF82
-LjAuYmIgYi9tZXRhL3JlY2lwZXMtDQo+IGV4dGVuZGVkL3VuemlwL3VuemlwXzYuMC5iYg0KPiBp
-bmRleCBkYWJhNzIyNzIyLi4wYTJhYzUzM2U5IDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQvdW56aXAvdW56aXBfNi4wLmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRl
-ZC91bnppcC91bnppcF82LjAuYmINCj4gQEAgLTIyLDYgKzIyLDcgQEAgU1JDX1VSSSA9DQo+ICIk
-e1NPVVJDRUZPUkdFX01JUlJPUn0vaW5mb3ppcC9VblppcCUyMDYueCUyMCUyOGxhdGVzdCUyOS9V
-blppcCUyMDYuMA0KPiAvDQo+ICAJZmlsZTovL3N5bWxpbmsucGF0Y2ggXA0KPiAgCWZpbGU6Ly8w
-MDAxLXVuemlwLWZpeC1DVkUtMjAxOC0xMDAwMDM1LnBhdGNoIFwNCj4gIAlmaWxlOi8vQ1ZFLTIw
-MTgtMTgzODQucGF0Y2ggXA0KPiArCWZpbGU6Ly9DVkUtMjAxOS0xMzIzMi5wYXRjaCBcDQo+ICAi
-DQo+ICBVUFNUUkVBTV9WRVJTSU9OX1VOS05PV04gPSAiMSINCj4gIA0KPiAtLSANCj4gMi4xNy4x
-DQo+IA0K
+From: Dan Tran <dantran@microsoft.com>
+
+Signed-off-by: Dan Tran <dantran@microsoft.com>
+---
+ .../unzip/unzip/CVE-2019-13232_p1.patch       |  33 ++
+ .../unzip/unzip/CVE-2019-13232_p2.patch       | 356 ++++++++++++++++++
+ .../unzip/unzip/CVE-2019-13232_p3.patch       | 121 ++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb      |   3 +
+ 4 files changed, 513 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch
+
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch
+new file mode 100644
+index 0000000000..d485a1bd6e
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch
+@@ -0,0 +1,33 @@
++From 080d52c3c9416c731f637f9c6e003961ef43f079 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Mon, 27 May 2019 08:20:32 -0700
++Subject: [PATCH 1/3] Fix bug in undefer_input() that misplaced the input
++ state.
++
++CVE: CVE-2019-13232
++Upstream-Status: Backport
++[https://github.com/madler/unzip/commit/41beb477c5744bc396fa1162ee0c14218ec12213]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ fileio.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/fileio.c b/fileio.c
++index 7605a29..14460f3 100644
++--- a/fileio.c
+++++ b/fileio.c
++@@ -532,8 +532,10 @@ void undefer_input(__G)
++          * This condition was checked when G.incnt_leftover was set > 0 in
++          * defer_leftover_input(), and it is NOT allowed to touch G.csize
++          * before calling undefer_input() when (G.incnt_leftover > 0)
++-         * (single exception: see read_byte()'s  "G.csize <= 0" handling) !!
+++         * (single exception: see readbyte()'s  "G.csize <= 0" handling) !!
++          */
+++        if (G.csize < 0L)
+++            G.csize = 0L;
++         G.incnt = G.incnt_leftover + (int)G.csize;
++         G.inptr = G.inptr_leftover - (int)G.csize;
++         G.incnt_leftover = 0;
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch
+new file mode 100644
+index 0000000000..41037a8e24
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch
+@@ -0,0 +1,356 @@
++From 1aae47fa8935654a84403768f32c03ecbb1be470 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Tue, 11 Jun 2019 22:01:18 -0700
++Subject: [PATCH 2/3] Detect and reject a zip bomb using overlapped entries.
++
++This detects an invalid zip file that has at least one entry that
++overlaps with another entry or with the central directory to the
++end of the file. A Fifield zip bomb uses overlapped local entries
++to vastly increase the potential inflation ratio. Such an invalid
++zip file is rejected.
++
++See https://www.bamsoftware.com/hacks/zipbomb/ for David Fifield's
++analysis, construction, and examples of such zip bombs.
++
++The detection maintains a list of covered spans of the zip files
++so far, where the central directory to the end of the file and any
++bytes preceding the first entry at zip file offset zero are
++considered covered initially. Then as each entry is decompressed
++or tested, it is considered covered. When a new entry is about to
++be processed, its initial offset is checked to see if it is
++contained by a covered span. If so, the zip file is rejected as
++invalid.
++
++This commit depends on a preceding commit: "Fix bug in
++undefer_input() that misplaced the input state."
++
++CVE: CVE-2019-13232
++Upstream-Status: Backport
++[https://github.com/madler/unzip/commit/47b3ceae397d21bf822bc2ac73052a4b1daf8e1c]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ extract.c | 190 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
++ globals.c |   1 +
++ globals.h |   3 +
++ process.c |  10 +++
++ unzip.h   |   1 +
++ 5 files changed, 204 insertions(+), 1 deletion(-)
++
++diff --git a/extract.c b/extract.c
++index 24db2a8..2bb72ba 100644
++--- a/extract.c
+++++ b/extract.c
++@@ -321,6 +321,125 @@ static ZCONST char Far UnsupportedExtraField[] =
++   "\nerror:  unsupported extra-field compression type (%u)--skipping\n";
++ static ZCONST char Far BadExtraFieldCRC[] =
++   "error [%s]:  bad extra-field CRC %08lx (should be %08lx)\n";
+++static ZCONST char Far NotEnoughMemCover[] =
+++  "error: not enough memory for bomb detection\n";
+++static ZCONST char Far OverlappedComponents[] =
+++  "error: invalid zip file with overlapped components (possible zip bomb)\n";
+++
+++
+++
+++
+++
+++/* A growable list of spans. */
+++typedef zoff_t bound_t;
+++typedef struct {
+++    bound_t beg;        /* start of the span */
+++    bound_t end;        /* one past the end of the span */
+++} span_t;
+++typedef struct {
+++    span_t *span;       /* allocated, distinct, and sorted list of spans */
+++    size_t num;         /* number of spans in the list */
+++    size_t max;         /* allocated number of spans (num <= max) */
+++} cover_t;
+++
+++/*
+++ * Return the index of the first span in cover whose beg is greater than val.
+++ * If there is no such span, then cover->num is returned.
+++ */
+++static size_t cover_find(cover, val)
+++    cover_t *cover;
+++    bound_t val;
+++{
+++    size_t lo = 0, hi = cover->num;
+++    while (lo < hi) {
+++        size_t mid = (lo + hi) >> 1;
+++        if (val < cover->span[mid].beg)
+++            hi = mid;
+++        else
+++            lo = mid + 1;
+++    }
+++    return hi;
+++}
+++
+++/* Return true if val lies within any one of the spans in cover. */
+++static int cover_within(cover, val)
+++    cover_t *cover;
+++    bound_t val;
+++{
+++    size_t pos = cover_find(cover, val);
+++    return pos > 0 && val < cover->span[pos - 1].end;
+++}
+++
+++/*
+++ * Add a new span to the list, but only if the new span does not overlap any
+++ * spans already in the list. The new span covers the values beg..end-1. beg
+++ * must be less than end.
+++ *
+++ * Keep the list sorted and merge adjacent spans. Grow the allocated space for
+++ * the list as needed. On success, 0 is returned. If the new span overlaps any
+++ * existing spans, then 1 is returned and the new span is not added to the
+++ * list. If the new span is invalid because beg is greater than or equal to
+++ * end, then -1 is returned. If the list needs to be grown but the memory
+++ * allocation fails, then -2 is returned.
+++ */
+++static int cover_add(cover, beg, end)
+++    cover_t *cover;
+++    bound_t beg;
+++    bound_t end;
+++{
+++    size_t pos;
+++    int prec, foll;
+++
+++    if (beg >= end)
+++    /* The new span is invalid. */
+++        return -1;
+++
+++    /* Find where the new span should go, and make sure that it does not
+++       overlap with any existing spans. */
+++    pos = cover_find(cover, beg);
+++    if ((pos > 0 && beg < cover->span[pos - 1].end) ||
+++        (pos < cover->num && end > cover->span[pos].beg))
+++        return 1;
+++
+++    /* Check for adjacencies. */
+++    prec = pos > 0 && beg == cover->span[pos - 1].end;
+++    foll = pos < cover->num && end == cover->span[pos].beg;
+++    if (prec && foll) {
+++        /* The new span connects the preceding and following spans. Merge the
+++           following span into the preceding span, and delete the following
+++           span. */
+++        cover->span[pos - 1].end = cover->span[pos].end;
+++        cover->num--;
+++        memmove(cover->span + pos, cover->span + pos + 1,
+++                (cover->num - pos) * sizeof(span_t));
+++    }
+++    else if (prec)
+++        /* The new span is adjacent only to the preceding span. Extend the end
+++           of the preceding span. */
+++        cover->span[pos - 1].end = end;
+++    else if (foll)
+++        /* The new span is adjacent only to the following span. Extend the
+++           beginning of the following span. */
+++        cover->span[pos].beg = beg;
+++    else {
+++        /* The new span has gaps between both the preceding and the following
+++           spans. Assure that there is room and insert the span.  */
+++        if (cover->num == cover->max) {
+++            size_t max = cover->max == 0 ? 16 : cover->max << 1;
+++            span_t *span = realloc(cover->span, max * sizeof(span_t));
+++            if (span == NULL)
+++                return -2;
+++            cover->span = span;
+++            cover->max = max;
+++        }
+++        memmove(cover->span + pos + 1, cover->span + pos,
+++                (cover->num - pos) * sizeof(span_t));
+++        cover->num++;
+++        cover->span[pos].beg = beg;
+++        cover->span[pos].end = end;
+++    }
+++    return 0;
+++}
++ 
++ 
++ 
++@@ -376,6 +495,29 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++     }
++ #endif /* !SFX || SFX_EXDIR */
++ 
+++    /* One more: initialize cover structure for bomb detection. Start with a
+++       span that covers the central directory though the end of the file. */
+++    if (G.cover == NULL) {
+++        G.cover = malloc(sizeof(cover_t));
+++        if (G.cover == NULL) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(NotEnoughMemCover)));
+++            return PK_MEM;
+++        }
+++        ((cover_t *)G.cover)->span = NULL;
+++        ((cover_t *)G.cover)->max = 0;
+++    }
+++    ((cover_t *)G.cover)->num = 0;
+++    if ((G.extra_bytes != 0 &&
+++         cover_add((cover_t *)G.cover, 0, G.extra_bytes) != 0) ||
+++        cover_add((cover_t *)G.cover,
+++                  G.extra_bytes + G.ecrec.offset_start_central_directory,
+++                  G.ziplen) != 0) {
+++        Info(slide, 0x401, ((char *)slide,
+++          LoadFarString(NotEnoughMemCover)));
+++        return PK_MEM;
+++    }
+++
++ /*---------------------------------------------------------------------------
++     The basic idea of this function is as follows.  Since the central di-
++     rectory lies at the end of the zipfile and the member files lie at the
++@@ -593,7 +735,8 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++             if (error > error_in_archive)
++                 error_in_archive = error;
++             /* ...and keep going (unless disk full or user break) */
++-            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC) {
+++            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC ||
+++                error == PK_BOMB) {
++                 /* clear reached_end to signal premature stop ... */
++                 reached_end = FALSE;
++                 /* ... and cancel scanning the central directory */
++@@ -1062,6 +1205,11 @@ static int extract_or_test_entrylist(__G__ numchunk,
++ 
++         /* seek_zipf(__G__ pInfo->offset);  */
++         request = G.pInfo->offset + G.extra_bytes;
+++        if (cover_within((cover_t *)G.cover, request)) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(OverlappedComponents)));
+++            return PK_BOMB;
+++        }
++         inbuf_offset = request % INBUFSIZ;
++         bufstart = request - inbuf_offset;
++ 
++@@ -1593,6 +1741,18 @@ reprompt:
++             return IZ_CTRLC;        /* cancel operation by user request */
++         }
++ #endif
+++        error = cover_add((cover_t *)G.cover, request,
+++                          G.cur_zipfile_bufstart + (G.inptr - G.inbuf));
+++        if (error < 0) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(NotEnoughMemCover)));
+++            return PK_MEM;
+++        }
+++        if (error != 0) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(OverlappedComponents)));
+++            return PK_BOMB;
+++        }
++ #ifdef MACOS  /* MacOS is no preemptive OS, thus call event-handling by hand */
++         UserStop();
++ #endif
++@@ -1994,6 +2154,34 @@ static int extract_or_test_member(__G)    /* return PK-type error code */
++     }
++ 
++     undefer_input(__G);
+++
+++    if ((G.lrec.general_purpose_bit_flag & 8) != 0) {
+++        /* skip over data descriptor (harder than it sounds, due to signature
+++         * ambiguity)
+++         */
+++#       define SIG 0x08074b50
+++#       define LOW 0xffffffff
+++        uch buf[12];
+++        unsigned shy = 12 - readbuf((char *)buf, 12);
+++        ulg crc = shy ? 0 : makelong(buf);
+++        ulg clen = shy ? 0 : makelong(buf + 4);
+++        ulg ulen = shy ? 0 : makelong(buf + 8); /* or high clen if ZIP64 */
+++        if (crc == SIG &&                       /* if not SIG, no signature */
+++            (G.lrec.crc32 != SIG ||             /* if not SIG, have signature */
+++             (clen == SIG &&                    /* if not SIG, no signature */
+++              ((G.lrec.csize & LOW) != SIG ||   /* if not SIG, have signature */
+++               (ulen == SIG &&                  /* if not SIG, no signature */
+++                (G.zip64 ? G.lrec.csize >> 32 : G.lrec.ucsize) != SIG
+++                                                /* if not SIG, have signature */
+++                )))))
+++                   /* skip four more bytes to account for signature */
+++                   shy += 4 - readbuf((char *)buf, 4);
+++        if (G.zip64)
+++            shy += 8 - readbuf((char *)buf, 8); /* skip eight more for ZIP64 */
+++        if (shy)
+++            error = PK_ERR;
+++    }
+++
++     return error;
++ 
++ } /* end function extract_or_test_member() */
++diff --git a/globals.c b/globals.c
++index fa8cca5..1e0f608 100644
++--- a/globals.c
+++++ b/globals.c
++@@ -181,6 +181,7 @@ Uz_Globs *globalsCtor()
++ # if (!defined(NO_TIMESTAMPS))
++     uO.D_flag=1;    /* default to '-D', no restoration of dir timestamps */
++ # endif
+++    G.cover = NULL;     /* not allocated yet */
++ #endif
++ 
++     uO.lflag=(-1);
++diff --git a/globals.h b/globals.h
++index 11b7215..2bdcdeb 100644
++--- a/globals.h
+++++ b/globals.h
++@@ -260,12 +260,15 @@ typedef struct Globals {
++     ecdir_rec       ecrec;         /* used in unzip.c, extract.c */
++     z_stat   statbuf;              /* used by main, mapname, check_for_newer */
++ 
+++    int zip64;                     /* true if Zip64 info in extra field */
+++
++     int      mem_mode;
++     uch      *outbufptr;           /* extract.c static */
++     ulg      outsize;              /* extract.c static */
++     int      reported_backslash;   /* extract.c static */
++     int      disk_full;
++     int      newfile;
+++    void     **cover;              /* used in extract.c for bomb detection */
++ 
++     int      didCRlast;            /* fileio static */
++     ulg      numlines;             /* fileio static: number of lines printed */
++diff --git a/process.c b/process.c
++index a3c1a4d..208619c 100644
++--- a/process.c
+++++ b/process.c
++@@ -637,6 +637,13 @@ void free_G_buffers(__G)     /* releases all memory allocated in global vars */
++     }
++ #endif
++ 
+++    /* Free the cover span list and the cover structure. */
+++    if (G.cover != NULL) {
+++        free(*(G.cover));
+++        free(G.cover);
+++        G.cover = NULL;
+++    }
+++
++ } /* end function free_G_buffers() */
++ 
++ 
++@@ -1905,6 +1912,7 @@ int getZip64Data(__G__ ef_buf, ef_len)
++ 
++ #define Z64FLGS 0xffff
++ #define Z64FLGL 0xffffffff
+++    G.zip64 = FALSE;
++ 
++     if (ef_len == 0 || ef_buf == NULL)
++         return PK_COOL;
++@@ -1964,6 +1972,8 @@ int getZip64Data(__G__ ef_buf, ef_len)
++             G.crec.disk_number_start = (zuvl_t)makelong(offset + ef_buf);
++             offset += 4;
++           }
+++
+++          G.zip64 = TRUE;
++ #if 0
++           break;                /* Expect only one EF_PKSZ64 block. */
++ #endif /* 0 */
++diff --git a/unzip.h b/unzip.h
++index 5b2a326..ed24a5b 100644
++--- a/unzip.h
+++++ b/unzip.h
++@@ -645,6 +645,7 @@ typedef struct _Uzp_cdir_Rec {
++ #define PK_NOZIP           9   /* zipfile not found */
++ #define PK_PARAM          10   /* bad or illegal parameters specified */
++ #define PK_FIND           11   /* no files found */
+++#define PK_BOMB           12   /* likely zip bomb */
++ #define PK_DISK           50   /* disk full */
++ #define PK_EOF            51   /* unexpected EOF */
++ 
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch
+new file mode 100644
+index 0000000000..fd26fdd833
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch
+@@ -0,0 +1,121 @@
++From be88aa4811af47ca06d8b7dcda294f899eba70ea Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Thu, 25 Jul 2019 20:43:17 -0700
++Subject: [PATCH 3/3] Do not raise a zip bomb alert for a misplaced central
++ directory.
++
++There is a zip-like file in the Firefox distribution, omni.ja,
++which is a zip container with the central directory placed at the
++start of the file instead of after the local entries as required
++by the zip standard. This commit marks the actual location of the
++central directory, as well as the end of central directory records,
++as disallowed locations. This now permits such containers to not
++raise a zip bomb alert, where in fact there are no overlaps.
++
++CVE: CVE-2019-13232
++Upstream-Status: Backport
++[https://github.com/madler/unzip/commit/6d351831be705cc26d897db44f878a978f4138fc]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ extract.c | 25 +++++++++++++++++++------
++ process.c |  6 ++++++
++ unzpriv.h | 10 ++++++++++
++ 3 files changed, 35 insertions(+), 6 deletions(-)
++
++diff --git a/extract.c b/extract.c
++index 2bb72ba..a9dcca8 100644
++--- a/extract.c
+++++ b/extract.c
++@@ -495,8 +495,11 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++     }
++ #endif /* !SFX || SFX_EXDIR */
++ 
++-    /* One more: initialize cover structure for bomb detection. Start with a
++-       span that covers the central directory though the end of the file. */
+++    /* One more: initialize cover structure for bomb detection. Start with
+++       spans that cover any extra bytes at the start, the central directory,
+++       the end of central directory record (including the Zip64 end of central
+++       directory locator, if present), and the Zip64 end of central directory
+++       record, if present. */
++     if (G.cover == NULL) {
++         G.cover = malloc(sizeof(cover_t));
++         if (G.cover == NULL) {
++@@ -508,15 +511,25 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++         ((cover_t *)G.cover)->max = 0;
++     }
++     ((cover_t *)G.cover)->num = 0;
++-    if ((G.extra_bytes != 0 &&
++-         cover_add((cover_t *)G.cover, 0, G.extra_bytes) != 0) ||
++-        cover_add((cover_t *)G.cover,
+++    if (cover_add((cover_t *)G.cover,
++                   G.extra_bytes + G.ecrec.offset_start_central_directory,
++-                  G.ziplen) != 0) {
+++                  G.extra_bytes + G.ecrec.offset_start_central_directory +
+++                  G.ecrec.size_central_directory) != 0) {
++         Info(slide, 0x401, ((char *)slide,
++           LoadFarString(NotEnoughMemCover)));
++         return PK_MEM;
++     }
+++    if ((G.extra_bytes != 0 &&
+++         cover_add((cover_t *)G.cover, 0, G.extra_bytes) != 0) ||
+++        (G.ecrec.have_ecr64 &&
+++         cover_add((cover_t *)G.cover, G.ecrec.ec64_start,
+++                   G.ecrec.ec64_end) != 0) ||
+++        cover_add((cover_t *)G.cover, G.ecrec.ec_start,
+++                  G.ecrec.ec_end) != 0) {
+++        Info(slide, 0x401, ((char *)slide,
+++          LoadFarString(OverlappedComponents)));
+++        return PK_BOMB;
+++    }
++ 
++ /*---------------------------------------------------------------------------
++     The basic idea of this function is as follows.  Since the central di-
++diff --git a/process.c b/process.c
++index 208619c..5f8f6c6 100644
++--- a/process.c
+++++ b/process.c
++@@ -1408,6 +1408,10 @@ static int find_ecrec64(__G__ searchlen)         /* return PK-class error */
++ 
++     /* Now, we are (almost) sure that we have a Zip64 archive. */
++     G.ecrec.have_ecr64 = 1;
+++    G.ecrec.ec_start -= ECLOC64_SIZE+4;
+++    G.ecrec.ec64_start = ecrec64_start_offset;
+++    G.ecrec.ec64_end = ecrec64_start_offset +
+++                       12 + makeint64(&byterec[ECREC64_LENGTH]);
++ 
++     /* Update the "end-of-central-dir offset" for later checks. */
++     G.real_ecrec_offset = ecrec64_start_offset;
++@@ -1542,6 +1546,8 @@ static int find_ecrec(__G__ searchlen)          /* return PK-class error */
++       makelong(&byterec[OFFSET_START_CENTRAL_DIRECTORY]);
++     G.ecrec.zipfile_comment_length =
++       makeword(&byterec[ZIPFILE_COMMENT_LENGTH]);
+++    G.ecrec.ec_start = G.real_ecrec_offset;
+++    G.ecrec.ec_end = G.ecrec.ec_start + 22 + G.ecrec.zipfile_comment_length;
++ 
++     /* Now, we have to read the archive comment, BEFORE the file pointer
++        is moved away backwards to seek for a Zip64 ECLOC64 structure.
++diff --git a/unzpriv.h b/unzpriv.h
++index c8d3eab..5e177c7 100644
++--- a/unzpriv.h
+++++ b/unzpriv.h
++@@ -2185,6 +2185,16 @@ typedef struct VMStimbuf {
++        int have_ecr64;                  /* valid Zip64 ecdir-record exists */
++        int is_zip64_archive;            /* Zip64 ecdir-record is mandatory */
++        ush zipfile_comment_length;
+++       zusz_t ec_start, ec_end;         /* offsets of start and end of the
+++                                           end of central directory record,
+++                                           including if present the Zip64
+++                                           end of central directory locator,
+++                                           which immediately precedes the
+++                                           end of central directory record */
+++       zusz_t ec64_start, ec64_end;     /* if have_ecr64 is true, then these
+++                                           are the offsets of the start and
+++                                           end of the Zip64 end of central
+++                                           directory record */
++    } ecdir_rec;
++ 
++ 
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
++
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index daba722722..464d73d0f3 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -22,6 +22,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+ 	file://symlink.patch \
+ 	file://0001-unzip-fix-CVE-2018-1000035.patch \
+ 	file://CVE-2018-18384.patch \
++	file://CVE-2019-13232_p1.patch \
++	file://CVE-2019-13232_p2.patch \
++        file://CVE-2019-13232_p3.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+-- 
+2.17.1
+
 
