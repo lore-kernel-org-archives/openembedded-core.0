@@ -1,52 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 62DFC7EE24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 20:33:12 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id a11so282321wrx.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 13:33:13 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 38A067F0D4
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 26 Sep 2019 20:52:52 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 3so3964067wmi.3
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 26 Sep 2019 13:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=NbaFhHzphPagbGvSzN3u8GzNxFRNrC72cssiccL9MVY=;
-	b=iGZGAsTKmzdH4nSjDr6EBEyHpP4tS++GGzwXM5YO7LxGZczb06nOnDos+0SY0go0bw
-	EyXTL47rRKz+kPnZ70AKtN6CJy7DfrsCJsM5IISIJwCKb7Gscoz962N8MGfHI17G4fGx
-	Tqvt9c+RJEfJyiHAHausqe37IgBUrBqqeD9YY=
+	bh=hAH7kLcls/jvQLcDMAfDgnOuDNVlldRoPlw31cQhxLw=;
+	b=FTH+xK7HvN8ERDm+RAlWA20IaoQXwl3RbhLtI3SqP7CWAs0mQYMP+d59ykCc0aER5H
+	Pp7eoGBArqtMhHdhLK9ejFfpiPdeZrhpAlKYQerblsGBXccaiqPRtk2R8c40ZbqrO+i2
+	uj90lMh2m3BP2Z6waAF1Wor9RucTi+MYUcGdo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=NbaFhHzphPagbGvSzN3u8GzNxFRNrC72cssiccL9MVY=;
-	b=aBek+PPkzsMee/mvDJz7ITs4F/ZMLKpxVKkRTCNgoRgLgGLQ2SMJRKbNtkxX1oiKLI
-	5Jj78ecwPcPAXP2Qf7pxD8mf4TRh9EKqkdRhWpWWvHbKbjvmwx6442E0hp9GnRK56tum
-	Sf5Euz8MRyyaGRBPDliW9uSzMxPelHZjsi4NltHsPGlQpvf+HQ2TTxqmPMghICfZxrlb
-	AY/303rKCHiFBNRwxT5aRlo/7Edw95JsXsU1Xi2kGMUD84/DhXrQVljp47cJZPVdPUkL
-	4QJ+NczNLfMVNRcxzB0DXPDysXf/oVNNtik7q5efzKHLPdKwwL47+iGjNL8FVbai7lsi
-	MFOg==
-X-Gm-Message-State: APjAAAUn38aeDdeBm/2o2F+vnGtdWiPo8MJVmBEsAObD1roooQ+R5zv6
-	PdT4O1TzOOifBG6Mq4Imv2exMcyIu6I=
-X-Google-Smtp-Source: APXvYqwMebIa8sHfXJCTLIGttPbUkov2kiQHEGzHtQwVTmXUA8e2OiDa1htb9+jrdeYtaZgcYXrgBg==
-X-Received: by 2002:a05:6000:1c4:: with SMTP id
-	t4mr217849wrx.183.1569529993140; 
-	Thu, 26 Sep 2019 13:33:13 -0700 (PDT)
+	bh=hAH7kLcls/jvQLcDMAfDgnOuDNVlldRoPlw31cQhxLw=;
+	b=pxfR0IF9aQI5z90nVDk2DBjiLq8yVKWOXfz7iDSVO+1ZmgCEA+/MoRO1/T6Xyr1NFW
+	WjDGj/ZQTmXUaylRv77o+fOaMCqXt9KNBI0sAsT1Th8QiXdaxmzh8gW7juJqbCBfUWZ2
+	PSDzv5RuqwDu16jqVP49ECVJ15NvEY0oX/2avnuadZtzu6P+9jCqz/AYpq7qdbw8gX0t
+	wVlk5nUaBluBe3jCcioDrIKigeFzAR3kNC+ZLG7k/gLOznXjZKLoqU34JWUZkk4fEo+c
+	oY7zrHdQIhEYCfGjGEOIBuhZzJg0euWFXUJwmV/Oo5Ap/FjAWOXHVV3Fk0aNxCuCgfcZ
+	d8oA==
+X-Gm-Message-State: APjAAAVDOnyeYaFCEh7k5AWVBWqp87+l3VKgSjHhPHV7Z2w31y+sf3bS
+	h2bCHuqDX8ns3kicE+yQu6fKKA==
+X-Google-Smtp-Source: APXvYqyH+3aN6geBpwW8EJopJmV58Z2fy2Zony8FcCgxl83UjSWicb7ICp7uNxf0R2N/h+qXKSVoWA==
+X-Received: by 2002:a1c:1903:: with SMTP id 3mr4274901wmz.4.1569531172917;
+	Thu, 26 Sep 2019 13:52:52 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id f20sm2311856wmb.6.2019.09.26.13.33.12
+	by smtp.gmail.com with ESMTPSA id
+	o188sm6424737wma.14.2019.09.26.13.52.51
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 26 Sep 2019 13:33:12 -0700 (PDT)
-Message-ID: <7ffb41b488386caef3c4de5178369beea8f189a0.camel@linuxfoundation.org>
+	Thu, 26 Sep 2019 13:52:51 -0700 (PDT)
+Message-ID: <b1f2e008047cb4c75b7e23fc8b3e92410c8f183f.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 26 Sep 2019 21:33:11 +0100
-In-Reply-To: <47210e81-33a4-4f87-c258-e7b63b71482e@intel.com>
-References: <20190923180109.15157-1-Trevor.Gamblin@windriver.com>
-	<47210e81-33a4-4f87-c258-e7b63b71482e@intel.com>
+To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>, 
+	"Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>, 
+	"bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>
+Date: Thu, 26 Sep 2019 21:52:50 +0100
+In-Reply-To: <CY4PR12MB16531DD24CCB0C838C7906608B840@CY4PR12MB1653.namprd12.prod.outlook.com>
+References: <CY4PR12MB16531DD24CCB0C838C7906608B840@CY4PR12MB1653.namprd12.prod.outlook.com>
 User-Agent: Evolution 3.34.0-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH] lighttpd: remove fam as a PACKAGECONFIG option
+Subject: Re: [bitbake-devel] Keeping multiconfig config files in sync
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +61,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2019 20:33:12 -0000
+X-List-Received-Date: Thu, 26 Sep 2019 20:52:52 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2019-09-23 at 21:16 +0100, Ross Burton wrote:
-> On 23/09/2019 19:01, Trevor Gamblin wrote:
-> > From: Trevor Gamblin<trevor.gamblin@windriver.com>
-> > 
-> > lighttpd builds fail if "fam" (and therefore gamin) is enabled.
-> > 
-> > In conf/local.conf:
-> > 
-> >      CORE_IMAGE_EXTRA_INSTALL += "lighttpd"
-> >      PACKAGECONFIG_append_pn-lighttpd = " fam"
-> > 
-> > bitbake error:
-> > 
-> >      ERROR: Nothing PROVIDES 'gamin' (but /yow-lpggp31/tgamblin/oe-
-> > core.git/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb DEPENDS
-> > on or otherwise requires it)
-> >      NOTE: Runtime target 'lighttpd' is unbuildable, removing...
-> >      Missing or unbuildable dependency chain was: ['lighttpd',
-> > 'gamin']
-> >      ERROR: Required build target 'core-image-minimal' has no
-> > buildable providers.
-> >      Missing or unbuildable dependency chain was: ['core-image-
-> > minimal', 'lighttpd', 'gamin']
-> > 
-> > Since gamin doesn't appear to have a recipe and hasn't been
-> > maintained for several years, this should be removed from the
-> > list of lighttpd PACKAGECONFIG options.
-> 
-> Non-default PACKAGECONFIGs are allowed to depend on recipes that are
-> not 
-> in core, plenty of recipes do this.  Otherwise there'd be no way to
-> turn 
-> on options that have dependencies in other layers.
-> 
-> However, the fact that Gamin is very much dead is a good reason to 
-> remove the PACKAGECONFIG and simply hardcode --without-fam for good
-> measure.
+Hi Chris,
 
-Agreed, can we have a v2 with --without-fam hardcoded in EXTRA_OECONF
-please?
+On Tue, 2019-09-24 at 18:21 +0000, chris.laplante--- via bitbake-devel
+wrote:
+> Thanks to Richard and others recent hard work, multiconfig is poised
+> to become much more practical in YP 3.0.
+>  
+> One thing I’m not clear on, however, is how it will work in a team
+> environment. If I have recipes with multiconfig dependencies, then I
+> must ensure that anyone else using those recipes has the exact same
+> set of multiconfig config files defined in their
+> build/conf/multiconfig/ directory. Or at least, compatible
+> multiconfigs with matching names.
+>  
+> Since these files are under build/conf/, it’s not immediately clear
+> how one might version control these. Unless I’m mistaken and there is
+> a better way, as a workaround I will probably put the multiconfigs in
+> a layer and instruct developers to symlink build/conf/multiconfig to
+> there.
+>  
+> Any insight?
+
+This has bugged me since we first created multiconfig. It was always
+intended we'd have configs you could reference. It turned out to be
+hard to code and we (well, I) decided to "come back to it". That hasn't
+happened yet.
+
+I'd welcome proposals on how it could work (its harder than it first
+appears). It'd be good to check we do have a bug open for it too.
+
+So yes, its an issue, I know about it, I don't have a good fix but
+would like to see some kind of improvement.
 
 Cheers,
 
