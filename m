@@ -1,49 +1,49 @@
 Return-Path: <msft.dantran@gmail.com>
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
-	[209.85.222.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F6267F26B
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+	[209.85.222.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 40D9E7F27A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 23:08:21 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id z67so431987qkb.12
+	Thu, 26 Sep 2019 23:11:26 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id p10so458428qkg.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 16:08:22 -0700 (PDT)
+	Thu, 26 Sep 2019 16:11:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
 	bh=zUAX9mLiXJTUFjJj+27n/mB8ypm4IxISjZKopz62rKM=;
-	b=LDOJooD5PBJmcywj1CahXfK+ly7FmI0pIHVQBr1Pbx5oKbG2uUbNmSd5N/efYAdCND
-	l6eazMpJ6QvvjRyrTuFhCMTsqh3GRyVM5iMcgkiPdzBwiYBswa5CvZdSzpZPFXOwFDNh
-	K85kKK/x3Skclb0vvAo8GrOI7buLxBJ5XE2TsntIbxxWCeGInuwo+vigDd1xgeh3S9kW
-	D4aC/bvSgCBz2DMHZk2zRsmmJsoqwDBLaIX7aWaw1LChaHhYNh3p02+eKnhUbYnfUvfm
-	O4N9d0GYakOYdsx8Suo+1K3+ngHzGsWjWFckV8BZLpSbB1huwVNCN/IvNs9WQDRuzVq1
-	/3lw==
+	b=ou43f5IkjGd8ySklxVcsfte273BwboMVG6YJUgYaYqlR1Ul7JNv9Pf8NkYdCrPkHEz
+	yWFGuZ4+9dFKdDMwxgX63K564BR4Mfiod6Xpgq2x8JrfOiBMPbXlXaXW8yqNRdog1Qkn
+	FT3q1n4IBDbeC67O1pLWwpFpSI4Mfv2IHw8igwx8c7Vq9fQvz2XEMu7P9SBWA1T9cBQN
+	D+LF3I4+EEHK1ISZlut7D4YttMT5uLdvs/zUKbjR7DawMZXlnkEtJUkq+IM+OjXutwr7
+	OshIrBL6Jusf6WSwJfbB3Qo+wUJh5meyxJr/nIPYmKxvivdiHenjqK93RwX0OMekHGQO
+	+mRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
 	bh=zUAX9mLiXJTUFjJj+27n/mB8ypm4IxISjZKopz62rKM=;
-	b=TLEeJIqG9ZQhysJWyXeTJCk3g2+mtHhpH/spImqY/grdywwf925Ri0MHS0WsDFI0Xm
-	wY5/ouNYd+KmxfyuacyXQpcK68nI+oU/PzxDaS8q6Yc9Xd0Zrddp0cZ31lAK1VOFuxie
-	iS6poN6pJMhWFEWx1P4k8C7pwH+ZbXMKDG0tSHXLeMS0s5TrYTGBeneMnrFe6z1lMwry
-	rGqpYc/y7sL6xq3AqZCb43Bcq9u4oDgC9v9IUpjjsAlk83QXdN38CpS1kiun9aVANk5F
-	EVoEayNoUFn3g847nnJeTAJHovf5AIK4Mm/IMYVHn90HhO5ZlrEHwidMUp8j/guZYQx3
-	IC/A==
-X-Gm-Message-State: APjAAAU4fgR82Zg9zH6Wpx7UT2bIkOZslnDLK3ZZjV+i4l6udnwLbQt3
-	NPBb3vwgjnhkMiYsXjkCe/MirYmEAH8=
-X-Google-Smtp-Source: APXvYqy0c1Pv5gBDhCIpXsGN+dGlKiq4wdyPE95aNosfBa3CUlVeY62FdpAibsHb5UA9YJbZPDodTg==
-X-Received: by 2002:a37:4c93:: with SMTP id z141mr1584042qka.400.1569539301367;
-	Thu, 26 Sep 2019 16:08:21 -0700 (PDT)
+	b=oa52gI/JuCHOlzsUL8htVuCouM2O/9IJaaw71uPDnH1kbdAE0cK01YuKc6WXJeHHgV
+	b5DVWI9vpG1C2PNAUNa9tcT24J1kMomadD7Kg7qlbLxdeoVtOXwAqsr8xa7vykvX4Eni
+	zS08C525OKSlxCXw42jDip0wbzctvk+IasIV2kdQ7I0xNn3jymUXDpVEJBlCnGQJ04TB
+	HyJlZVpY4HEwthluFrNfGV/uuqhs4KxJ9Mc0ojK1Dt8hir5Tn+677lNZ+EJhm0aRR3XI
+	6Qi+96Ruekx3B02+qktAQTu8zesmsAwfwHZhm9MEPGxpq1TwWhAyb+S7Ms9/KP57VuW5
+	lfaw==
+X-Gm-Message-State: APjAAAXVjszNUSfgSEXBTMCVx0uT3DhhPM+o1LxGRF1nqpiNqtI9bbv+
+	Ea7fcxs2QO6SmLPASB91BjSTDiLn7xw=
+X-Google-Smtp-Source: APXvYqxN1/B8xsbeXSU3bbuWydYBzduzDO3ElV18PGc+GMhJZD4q+MkAtUA/aOFK8vstup1yRenhyw==
+X-Received: by 2002:a37:9203:: with SMTP id u3mr1487435qkd.304.1569539486851; 
+	Thu, 26 Sep 2019 16:11:26 -0700 (PDT)
 Received: from
 	dantran-yocto-ubuntu18.4z1s34kka3euddhhn33gkqkz1e.cx.internal.cloudapp.net
-	([52.167.220.70])
-	by smtp.gmail.com with ESMTPSA id c41sm2396009qte.8.2019.09.26.16.08.20
+	([52.167.220.70]) by smtp.gmail.com with ESMTPSA id
+	b16sm2241157qtk.65.2019.09.26.16.11.26
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 26 Sep 2019 16:08:20 -0700 (PDT)
+	Thu, 26 Sep 2019 16:11:26 -0700 (PDT)
 From: msft.dantran@gmail.com
 X-Google-Original-From: dantran@microsoft.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Sep 2019 23:08:16 +0000
-Message-Id: <20190926230816.101316-1-dantran@microsoft.com>
+Date: Thu, 26 Sep 2019 23:11:13 +0000
+Message-Id: <20190926231113.101731-1-dantran@microsoft.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] unzip: Fix CVE-2019-13232
+Subject: [PATCH] unzip: Fix CVE-2019-13232
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2019 23:08:21 -0000
+X-List-Received-Date: Thu, 26 Sep 2019 23:11:27 -0000
 
 From: Dan Tran <dantran@microsoft.com>
 
