@@ -1,48 +1,52 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id B24117ED22
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E7697E21C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 17:09:06 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1iDXGN-0003DO-85; Thu, 26 Sep 2019 19:09:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=/95zlzkrfjt8Bhmw/JYdz498DWJV5OmG6wHt7L+9HPc=;
-	b=P5J9Je467funotzMJAegJsuoxo
-	3zXE65R9iToaT9qtyD1SoSYOithrOwhI2i/gUZTMKF3rPlh7TzFMm5dgmsB31MIC/xAWFvzE7E2h/
-	dBhIGlNwUY+x8/7Lr9agUfWMrkg8fsN7G/9hwd8vxIyeroUzL+1jv7uQUk1ZRIu4t1KdSJie8xCnW
-	f12UdS4wehM57Ux+gQbsy3ZueLypxLCpKBNFi4+JaNDqN6cCnCx9ylJy5S6W0x9KAuNobIx3HXr0W
-	JRGI1W8ZoFjNJp5D/IkhrKOk6GqE36RcHWkBZaZ8rzNMFjsu+kDy/vcB6TQyxcsd18JAP9pd8nOnz
-	IkqQkdkw==;
-Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
-	helo=[192.168.1.13])
-	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
-	id 1iDXGJ-0006AK-6u; Thu, 26 Sep 2019 19:09:05 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20190926090532.4131-1-zboszor@pr.hu>
-	<2d13e0b4b4ca76b8953baef89d5bd7589218928f.camel@linuxfoundation.org>
-	<2d191737-5fa3-5e18-4528-c989f86e3805@pr.hu>
-	<27e95708-e551-19d9-2274-94354207ad5c@pr.hu>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Message-ID: <d4bc7322-a5d8-417d-739d-31589034e1dc@pr.hu>
-Date: Thu, 26 Sep 2019 19:09:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thu, 26 Sep 2019 17:58:03 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id j4so8804545iog.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Sep 2019 10:58:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=JHyAirehyVFQR3IKKBRPIUv0FxAEOvXt+IvUudH7bdk=;
+	b=ewwyQtGBpeuiFcPG6mA0PUbmJwE6LS0W6W1WrKP8KXRDzP4/Vy/WoW75KiRGXN6w9C
+	/zbzH105RUB+sITA38Z4jrMBd4+QXPHK3K/rqO5LF1wHr8RH3X2GEe4L7jQ/mWLnzjR7
+	ymMTMRkEjtm2rnBTJiA7I+md1246eBf08MxGLood1sVPgjTp6KQoSQuSRR55GIoHU+8U
+	5m+m/g4A6zbNCoCqoLtY7R8DWqeTlRtQ9V4+10aWBJrGhy2kA4zkV+JFWE3RsIdGw8jF
+	XJ70l6TrA8WxwLPSMPzW3WIeXwhYtVBC61r4x7zVsHDkG6lQ5unJRAvtEpI+qW6VjMQV
+	8/bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=JHyAirehyVFQR3IKKBRPIUv0FxAEOvXt+IvUudH7bdk=;
+	b=WuF8vpwC+rRmhhnUXXskwAhVbXZ1WN60GbKpjoJHN2L+fxPCm9kdzOgtlaHgjfsCWk
+	7bb7AER+iLYtbEpGkk39cyvrR9D3024UEsIWBKu/mzy86u3m+egRfNy0GNO/2KXslMlC
+	N8hOL5wnSzZFU3stP3q3p25Vnqqibuj/zIcFEy+7te3oselcuIypAfVa21HbFpGH2Bnl
+	45ST6atzvfYnfXKaPbD4VTeS6z2rtQt5CrsesUlxWQ1vIbADHeOdGTo//ZbWXzrt8Ylb
+	WMw0hUJSs1NJVYqvsDtR/tSBH5BvidxDhndCnwECGbePsOrzVnjhtlJh+2QRPclmCmKI
+	AbhQ==
+X-Gm-Message-State: APjAAAUvfwU5UfTKUMw6deZcCkQA5fWFs3JhCvAotBmZMDU0hIl+w3ie
+	jT4cgp7xT1AVBn4gcmqdCm6aj500
+X-Google-Smtp-Source: APXvYqyYWmzgn1j70QeilWwUMEajXD4w7IdlbZoPXx5KKbew2b0Objgu3uQX/T3YhWh6vOdjUHdI4w==
+X-Received: by 2002:a5d:8e0d:: with SMTP id e13mr4473234iod.3.1569520684256;
+	Thu, 26 Sep 2019 10:58:04 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id 26sm2696ilx.47.2019.09.26.10.58.03
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 26 Sep 2019 10:58:03 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Sep 2019 12:57:51 -0500
+Message-Id: <20190926175751.12195-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190916182114.17200-1-JPEWhacker@gmail.com>
+References: <20190916182114.17200-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <27e95708-e551-19d9-2274-94354207ad5c@pr.hu>
-X-Spam-Score: -1.8 (-)
-X-Scan-Signature: 76ab43eec501ec4ddadf215339afa85a
-X-Spam-Tracer: backend.mail.pr.hu -1.8 20190926170905Z
-Subject: Re: [PATCH] classes/image-live.bbclass: Don't hardcode cpio.gz
+Subject: [PATCH v2] classes/reproducible_build: Move SDE deploy to another directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,87 +59,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2019 17:09:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Thu, 26 Sep 2019 17:58:03 -0000
 Content-Transfer-Encoding: 8bit
 
-2019. 09. 26. 19:02 keltezéssel, Böszörményi Zoltán via Openembedded-core írta:
-> 2019. 09. 26. 18:50 keltezéssel, Böszörményi Zoltán via Openembedded-core írta:
->> 2019. 09. 26. 17:45 keltezéssel, Richard Purdie írta:
->>> On Thu, 2019-09-26 at 11:05 +0200, Böszörményi Zoltán via Openembedded-
->>> core wrote:
->>>> There's INITRAMFS_FSTYPES that can be set differently.
->>>>
->>>> Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
->>>> ---
->>>>
->>>> With the hardcoded initrd filename suffix but INITRAMFS_FSTYPES
->>>> set to cpio.lzma, this error occurs:
->>>>
->>>> ERROR: sicom-pos-image-1.0-r0 do_bootimg:
->>>> .../deploy/glibc/images/intel-core2-32/core-image-minimal-initramfs-
->>>> intel-core2-32.cpio.lzma is invalid. initrd image creation failed.
->>>> ERROR: sicom-pos-image-1.0-r0 do_bootimg: Function failed:
->>>> build_hddimg (log file is located at .../tmp-sicom-
->>>> glibc/work/intel_core2_32-sicom-linux/sicom-pos-image/1.0-
->>>> r0/temp/log.do_bootimg.32210)
->>>> ERROR: Logfile of failure stored in: .../tmp-sicom-
->>>> glibc/work/intel_core2_32-sicom-linux/sicom-pos-image/1.0-
->>>> r0/temp/log.do_bootimg.32210
->>>> ERROR: Task (.../layers/meta-sicom/images/sicom-pos-
->>>> image.bb:do_bootimg) failed with exit code '1'
->>>>
->>>>   meta/classes/image-live.bbclass | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-
->>>> live.bbclass
->>>> index af71be5093..54058b350d 100644
->>>> --- a/meta/classes/image-live.bbclass
->>>> +++ b/meta/classes/image-live.bbclass
->>>> @@ -37,7 +37,7 @@ do_bootimg[depends] += "dosfstools-
->>>> native:do_populate_sysroot \
->>>>   LABELS_LIVE ?= "boot install"
->>>>   ROOT_LIVE ?= "root=/dev/ram0"
->>>>   INITRD_IMAGE_LIVE ?= "${MLPREFIX}core-image-minimal-initramfs"
->>>> -INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-
->>>> ${MACHINE}.cpio.gz"
->>>> +INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-
->>>> ${MACHINE}.${INITRAMFS_FSTYPES}"
->>>>   LIVE_ROOTFS_TYPE ?= "ext4"
->>>>   ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${LIVE_ROOTFS_TYPE}"
->>>
->>> I'm a little worried that INITRAMFS_FSTYPES can contain multiple values
->>> by the sounds of its name...
->>
->>  From the looks of the current value, it's already contains multiple values
->> delimited by that dot. "cpio" + "gz".
->>
->> Also, according to meta/conf/documentation.conf, line 228:
->>
->> INITRAMFS_FSTYPES[doc] = "Defines the format for the output image of an initial RAM disk 
->> (initramfs), which is used during boot."
-> 
-> Also, image-live.bbclass uses this variable this way:
-> 
-> INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.${INITRAMFS_FSTYPES}"
-> 
-> The initrd/initramfs file name would definitely look strange if
-> this variable could contain multiple space delimited settings.
+The deployment of the source date epoch file had a race condition where
+any task attempting to read from the file would race with creation of
+the sstate archive for the do_deploy_source_date_epoch task. The
+creation of the sstate archive requires moving the directory to a
+temporary location, then moving it back. This means that the file
+disappears for a short period of time, which will cause a failure if any
+other task is running and trying to open the file to get the current
+source date epoch.
 
-Also, openembedded-core/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-has that _build_initramfs_path function from line 143. The usage of
-the same variable in this python function also points back to the
-documentation line, i.e. it's a filename suffix and not multiple
-settings delimited by space.
+The solution is to copy the source date epoch file to a separate
+directory when deploying so the file never disappears. When the file is
+restored from sstate, it is moved to the correct location after being
+extracted.
 
-> 
->>
->> Defines the "format", singular. Maybe the variable is a slight misnomer.
->>
->> Cheers,
->> Zoltán Böszörményi
-> 
+[YOCTO #13501]
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/reproducible_build.bbclass | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
+index 8788ad7145c..99b749a9ee2 100644
+--- a/meta/classes/reproducible_build.bbclass
++++ b/meta/classes/reproducible_build.bbclass
+@@ -39,19 +39,27 @@ inherit ${@oe.utils.ifelse(d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1', 'repr
+ 
+ SDE_DIR ="${WORKDIR}/source-date-epoch"
+ SDE_FILE = "${SDE_DIR}/__source_date_epoch.txt"
++SDE_DEPLOYDIR = "${WORKDIR}/deploy-source-date-epoch"
+ 
+ SSTATETASKS += "do_deploy_source_date_epoch"
+ 
+ do_deploy_source_date_epoch () {
+     echo "Deploying SDE to ${SDE_DIR}."
++    mkdir -p ${SDE_DEPLOYDIR}
++    if [ -e ${SDE_FILE} ]; then
++        cp -p ${SDE_FILE} ${SDE_DEPLOYDIR}/__source_date_epoch.txt
++    fi
+ }
+ 
+ python do_deploy_source_date_epoch_setscene () {
+     sstate_setscene(d)
++    sde_file = os.path.join(d.getVar('SDE_DEPLOYDIR'), '__source_date_epoch.txt')
++    if os.path.exists(sde_file):
++        os.rename(sde_file, d.getVar('SDE_FILE'))
+ }
+ 
+-do_deploy_source_date_epoch[dirs] = "${SDE_DIR}"
+-do_deploy_source_date_epoch[sstate-plaindirs] = "${SDE_DIR}"
++do_deploy_source_date_epoch[dirs] = "${SDE_DEPLOYDIR}"
++do_deploy_source_date_epoch[sstate-plaindirs] = "${SDE_DEPLOYDIR}"
+ addtask do_deploy_source_date_epoch_setscene
+ addtask do_deploy_source_date_epoch before do_configure after do_patch
+ 
+-- 
+2.21.0
 
 
