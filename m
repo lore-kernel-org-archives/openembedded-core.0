@@ -1,25 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 54A197ED4E
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D1E107ED57
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 02:52:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x8Q2q7u8014383
+	Thu, 26 Sep 2019 02:52:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8Q2psn2014937
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 19:52:07 -0700 (PDT)
+	Wed, 25 Sep 2019 19:52:04 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 25 Sep 2019 19:52:06 -0700
+	14.3.468.0; Wed, 25 Sep 2019 19:51:43 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Sep 2019 10:51:45 +0800
-Message-ID: <d17e1baaf4fdb38bced2bc9d24dc5fb892727453.1569466181.git.liezhi.yang@windriver.com>
+Date: Thu, 26 Sep 2019 10:51:43 +0800
+Message-ID: <acf2ac895d9134ca4b03b43bf139e2685d4281a7.1569466181.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569466181.git.liezhi.yang@windriver.com>
 References: <cover.1569466181.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 3/3] net-tools: Fix installed-vs-shipped for nativesdk
+Subject: [PATCH v2 1/3] expect: Fix configure error for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2019 02:52:06 -0000
+X-List-Received-Date: Thu, 26 Sep 2019 02:52:14 -0000
 Content-Type: text/plain
 
 Fixed:
-$ bitbake nativesdk-net-tools
-ERROR: nativesdk-net-tools-1.60-26-r0 do_package: QA Issue: nativesdk-net-tools: Files/directories were installed but not shipped in any package:
-  /usr
-  /usr/share
-  /usr/share/man
-[snip]
+$ bitbake nativesdk-expect
+checking for Tcl public headers... configure: error: tcl.h not found.  Please specify its location with --with-tclinclude
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/expect/expect_5.45.4.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-index b565fd0..5a376e7 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-@@ -95,7 +95,7 @@ do_compile() {
+diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
+index 96eacd9..5f59083 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.4.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
+@@ -44,9 +44,9 @@ do_install_append() {
+ }
  
- do_install() {
- 	# We don't need COPTS or LOPTS, but let's be consistent.
--	oe_runmake COPTS="$CFLAGS" LOPTS="$LDFLAGS" 'BASEDIR=${D}' install
-+	oe_runmake COPTS="$CFLAGS" LOPTS="$LDFLAGS" BASEDIR=${D} INSTALLNLSDIR=${D}${datadir}/locale mandir=${mandir} install
+ # Apparently the public Tcl headers are only in /usr/include/tcl8.6
+-# when building for the target.
+-TCL_INCLUDE_PATH = ""
+-TCL_INCLUDE_PATH_class-target = "--with-tclinclude=${STAGING_INCDIR}/tcl8.6"
++# when building for the target and nativesdk.
++TCL_INCLUDE_PATH = "--with-tclinclude=${STAGING_INCDIR}/tcl8.6"
++TCL_INCLUDE_PATH_class-native = ""
  
- 	if [ "${base_bindir}" != "/bin" ]; then
- 		mkdir -p ${D}/${base_bindir}
+ EXTRA_OECONF += "--with-tcl=${STAGING_LIBDIR} \
+                  --enable-shared \
 -- 
 2.7.4
 
