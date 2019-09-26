@@ -1,26 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D1E107ED57
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F0A77ECB9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 02:52:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8Q2psn2014937
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 26 Sep 2019 02:58:03 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id r5so1122533qtd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2019 19:52:04 -0700
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 25 Sep 2019 19:51:43 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Sep 2019 10:51:43 +0800
-Message-ID: <acf2ac895d9134ca4b03b43bf139e2685d4281a7.1569466181.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1569466181.git.liezhi.yang@windriver.com>
-References: <cover.1569466181.git.liezhi.yang@windriver.com>
+	Wed, 25 Sep 2019 19:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=LLunV3LpgoVqKXO4Ua2RPUH2cyF+8BeLxQuTc55Ephg=;
+	b=gd8vzDbHnVoJcdgK2Wm2N/0tH5Gstqdz+JNiD0EjBwCFUKnZKFmQg0lJMbArVP7/cF
+	CHDA/88+35jolYFhwYySxcyQGEa1GnWNnNs5WMWaf9kFItiMDVUV5JCsAIpcHbNcVHl6
+	GyM5a+j4/q8opvoa5DNg/MYJV0chsVGawRckRuwP+b55QEXucycdMfegO0jqwt9dYi7S
+	NPP52d6hEtjmIEO6KOcw3SWqrfh1BYAve+fyn+/dIBhwL6y5+LH1OBOLjwIkTTF9Xh5h
+	zVSJQj7PQxLpjz2mV+ZbYHQDZy6s7cTP4ZVAxjcnSmWutVCWo5HrDHDRs0R6hS3gGCsB
+	ZKxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=LLunV3LpgoVqKXO4Ua2RPUH2cyF+8BeLxQuTc55Ephg=;
+	b=k5XwYkxEHr/3u4Eb6NHJhSf63ygqi0Kn0mx5NRgZJ55JzJt9WgzPlLp9WbB1rqDxMy
+	dNG3tzmqFsF5kWP+M3+nyrB0UUvVfeTV80wXtfp8+DYWIKNhcriMl9dRaSnGoeVeI+kV
+	vMz62NRLWQGHCGCi9mWimK4ChWoc6Ig1q1GWWlQ4cQqvYDFuFmBpzv5Ap906kXlB9wDo
+	hd+dz/bB1x45/X7P1ATtw9jzWl6eTYcUj2BHXFSycbe2ruoYeWhp7+0IacLOKaf0kDfU
+	gjkTB5Q5Y2SREKDhZa8slW86TgXrlMBlwDjRHfj1Q/5opQ1RZXrJdysvG0CcwhdoVLaJ
+	Y4JQ==
+X-Gm-Message-State: APjAAAXf/M010kC8ZdwvIU8XF2g1HOqihD/3BaN49rh91BPdcY8xI07L
+	YO6llAs4P+G8nFOMBy3Z6gWgmUY+UcNSYf5mSbQ=
+X-Google-Smtp-Source: APXvYqxxG0GbtdfnsJKAhqB/b8kmvyo/BTTjrWuMiJGD/XR0375AHjFHmEImQggZmxtYILyI2M43aXMYturIpuzKy6g=
+X-Received: by 2002:ac8:e09:: with SMTP id a9mr1775542qti.88.1569466684172;
+	Wed, 25 Sep 2019 19:58:04 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2 1/3] expect: Fix configure error for nativesdk
+References: <cover.1569466181.git.liezhi.yang@windriver.com>
+	<e32ddb5983f3ac13e58fb60425bafbb711721151.1569466181.git.liezhi.yang@windriver.com>
+In-Reply-To: <e32ddb5983f3ac13e58fb60425bafbb711721151.1569466181.git.liezhi.yang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 25 Sep 2019 19:57:36 -0700
+Message-ID: <CAMKF1sq9Yc4=_R2EkvUw4+m--YxgGViStkg9RU_mXXqH7SwBYA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/3] apr: Fix configure error for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2019 02:52:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Sep 2019 02:58:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Fixed:
-$ bitbake nativesdk-expect
-checking for Tcl public headers... configure: error: tcl.h not found.  Please specify its location with --with-tclinclude
+On Wed, Sep 25, 2019 at 7:52 PM Robert Yang <liezhi.yang@windriver.com> wrote:
+>
+> Fixed:
+> $ bitbake nativesdk-apr
+> buildconf: libtool not found.
+>            You need libtool version 1.4 or newer installed
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/recipes-support/apr/apr_1.7.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
+> index 09a65bf..a9d98be 100644
+> --- a/meta/recipes-support/apr/apr_1.7.0.bb
+> +++ b/meta/recipes-support/apr/apr_1.7.0.bb
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "Apache Portable Runtime (APR) library"
+>  HOMEPAGE = "http://apr.apache.org/"
+>  SECTION = "libs"
+> -DEPENDS = "util-linux"
+> +DEPENDS = "util-linux libtool"
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/expect/expect_5.45.4.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+hmmm packages usually need libtoolize so please check if thats the
+case or maybe patch apr to
+do so., thereafter you can just DEPEND on libtool-cross
 
-diff --git a/meta/recipes-devtools/expect/expect_5.45.4.bb b/meta/recipes-devtools/expect/expect_5.45.4.bb
-index 96eacd9..5f59083 100644
---- a/meta/recipes-devtools/expect/expect_5.45.4.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.4.bb
-@@ -44,9 +44,9 @@ do_install_append() {
- }
- 
- # Apparently the public Tcl headers are only in /usr/include/tcl8.6
--# when building for the target.
--TCL_INCLUDE_PATH = ""
--TCL_INCLUDE_PATH_class-target = "--with-tclinclude=${STAGING_INCDIR}/tcl8.6"
-+# when building for the target and nativesdk.
-+TCL_INCLUDE_PATH = "--with-tclinclude=${STAGING_INCDIR}/tcl8.6"
-+TCL_INCLUDE_PATH_class-native = ""
- 
- EXTRA_OECONF += "--with-tcl=${STAGING_LIBDIR} \
-                  --enable-shared \
--- 
-2.7.4
-
+>
+>  LICENSE = "Apache-2.0"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=4dfd4cd216828c8cae5de5a12f3844c8 \
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
