@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 058336BF37
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 62DFC7EE24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 20:31:47 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id n14so235843wrw.9
+	Thu, 26 Sep 2019 20:33:12 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id a11so282321wrx.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 13:31:49 -0700 (PDT)
+	Thu, 26 Sep 2019 13:33:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=pUjjy04AXXGHHR5rukkJZEpAGlUvixP8jx1E0LywsJY=;
-	b=dyvpRDoD/JquJoFgadqXHfBnW4NTV7qoSn78/4OVDXCvPya8ar6jHFM0Yp0DjHdyEV
-	MdMmpJ+9Hr8D7y8vF/dBppl0P9+IuSZSjKLrPlytLx2oFzxybJxwL9CLlE37/dI/gxxH
-	OMpm+N4Sj6ydefpS2mnYtnPM3k77bevqbO3hk=
+	bh=NbaFhHzphPagbGvSzN3u8GzNxFRNrC72cssiccL9MVY=;
+	b=iGZGAsTKmzdH4nSjDr6EBEyHpP4tS++GGzwXM5YO7LxGZczb06nOnDos+0SY0go0bw
+	EyXTL47rRKz+kPnZ70AKtN6CJy7DfrsCJsM5IISIJwCKb7Gscoz962N8MGfHI17G4fGx
+	Tqvt9c+RJEfJyiHAHausqe37IgBUrBqqeD9YY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=pUjjy04AXXGHHR5rukkJZEpAGlUvixP8jx1E0LywsJY=;
-	b=fDVtzOYIb0X2cCeHbKbAkRee4NdorotW6mXXTnNd3KOvRNhRO/LRMXT1rtH53G+g5J
-	xeYqxhnxK7WDeaISF+myNyeyngcR7HPlNbFx/ABniBPgA/ZPj7LURdxJA4XbwGj79FSE
-	QdYfQxXp1lDVL+B5cA3na8GRb2TOeQOKIpzTrTt9tA8vREAW8p+yxgShjhrExswWOkL5
-	qztv4z7pizLmwnelCzpGFoKyq+8y+G3PTEbBUs43K+inKCEG1Y51nYWTetG3hvM97e78
-	+s6ap7Aa7bqyrWRw6vyHT19GMs9bOtDnmm2vK3cCsYd/viFCsdFo1jnQu7u3kSNTdNDU
-	sDkg==
-X-Gm-Message-State: APjAAAWaKXKp4D+i4AjXJ/f0yCxDa6Bm17d3MmdZrhpGlbyjZwalDxEO
-	MeXfBlH3Hd6BxWe1z+sPUBz0Rfapkds=
-X-Google-Smtp-Source: APXvYqwzaF+oPZI9UPiytcaboSYP9piy/QDCuky1UY4d0eIdGd9TSvRnXO/G092L5T+8JNG2GTHZNg==
-X-Received: by 2002:adf:a415:: with SMTP id d21mr230798wra.94.1569529908485;
-	Thu, 26 Sep 2019 13:31:48 -0700 (PDT)
+	bh=NbaFhHzphPagbGvSzN3u8GzNxFRNrC72cssiccL9MVY=;
+	b=aBek+PPkzsMee/mvDJz7ITs4F/ZMLKpxVKkRTCNgoRgLgGLQ2SMJRKbNtkxX1oiKLI
+	5Jj78ecwPcPAXP2Qf7pxD8mf4TRh9EKqkdRhWpWWvHbKbjvmwx6442E0hp9GnRK56tum
+	Sf5Euz8MRyyaGRBPDliW9uSzMxPelHZjsi4NltHsPGlQpvf+HQ2TTxqmPMghICfZxrlb
+	AY/303rKCHiFBNRwxT5aRlo/7Edw95JsXsU1Xi2kGMUD84/DhXrQVljp47cJZPVdPUkL
+	4QJ+NczNLfMVNRcxzB0DXPDysXf/oVNNtik7q5efzKHLPdKwwL47+iGjNL8FVbai7lsi
+	MFOg==
+X-Gm-Message-State: APjAAAUn38aeDdeBm/2o2F+vnGtdWiPo8MJVmBEsAObD1roooQ+R5zv6
+	PdT4O1TzOOifBG6Mq4Imv2exMcyIu6I=
+X-Google-Smtp-Source: APXvYqwMebIa8sHfXJCTLIGttPbUkov2kiQHEGzHtQwVTmXUA8e2OiDa1htb9+jrdeYtaZgcYXrgBg==
+X-Received: by 2002:a05:6000:1c4:: with SMTP id
+	t4mr217849wrx.183.1569529993140; 
+	Thu, 26 Sep 2019 13:33:13 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b194sm7734573wmg.46.2019.09.26.13.31.47
+	by smtp.gmail.com with ESMTPSA id f20sm2311856wmb.6.2019.09.26.13.33.12
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 26 Sep 2019 13:31:47 -0700 (PDT)
-Message-ID: <005f542adcf8904ec7fc2cd45e1c2cc8aa532cba.camel@linuxfoundation.org>
+	Thu, 26 Sep 2019 13:33:12 -0700 (PDT)
+Message-ID: <7ffb41b488386caef3c4de5178369beea8f189a0.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Barker <paul@betafive.co.uk>, 
+To: Ross Burton <ross.burton@intel.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Thu, 26 Sep 2019 21:31:46 +0100
-In-Reply-To: <20190924090609.264248-1-paul@betafive.co.uk>
-References: <20190924090609.264248-1-paul@betafive.co.uk>
+Date: Thu, 26 Sep 2019 21:33:11 +0100
+In-Reply-To: <47210e81-33a4-4f87-c258-e7b63b71482e@intel.com>
+References: <20190923180109.15157-1-Trevor.Gamblin@windriver.com>
+	<47210e81-33a4-4f87-c258-e7b63b71482e@intel.com>
 User-Agent: Evolution 3.34.0-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/1] Add new mirror archiver mode
+Subject: Re: [PATCH] lighttpd: remove fam as a PACKAGECONFIG option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,70 +59,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2019 20:31:48 -0000
+X-List-Received-Date: Thu, 26 Sep 2019 20:33:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-09-24 at 10:06 +0100, Paul Barker wrote:
-> This patch allows the creation of a full source mirror using the
-> archiver
-> bbclass. Using the archiver allows us to make use of copyleft license
-> filtering, recipe type filtering and other features that are not
-> available if
-> we just copy the contents of the downloads directory itself to create
-> a
-> mirror. We also get the advantage of sstate caching and we don't have
-> to
-> throw away the entire downloads directory before building to keep
-> sources for
-> other builds out of our mirror.
+On Mon, 2019-09-23 at 21:16 +0100, Ross Burton wrote:
+> On 23/09/2019 19:01, Trevor Gamblin wrote:
+> > From: Trevor Gamblin<trevor.gamblin@windriver.com>
+> > 
+> > lighttpd builds fail if "fam" (and therefore gamin) is enabled.
+> > 
+> > In conf/local.conf:
+> > 
+> >      CORE_IMAGE_EXTRA_INSTALL += "lighttpd"
+> >      PACKAGECONFIG_append_pn-lighttpd = " fam"
+> > 
+> > bitbake error:
+> > 
+> >      ERROR: Nothing PROVIDES 'gamin' (but /yow-lpggp31/tgamblin/oe-
+> > core.git/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb DEPENDS
+> > on or otherwise requires it)
+> >      NOTE: Runtime target 'lighttpd' is unbuildable, removing...
+> >      Missing or unbuildable dependency chain was: ['lighttpd',
+> > 'gamin']
+> >      ERROR: Required build target 'core-image-minimal' has no
+> > buildable providers.
+> >      Missing or unbuildable dependency chain was: ['core-image-
+> > minimal', 'lighttpd', 'gamin']
+> > 
+> > Since gamin doesn't appear to have a recipe and hasn't been
+> > maintained for several years, this should be removed from the
+> > list of lighttpd PACKAGECONFIG options.
 > 
-> The resulting mirror may be published and used as an entry in
-> PREMIRRORS or
-> MIRRORS for a subsequent build. The functionality is explained in
-> more detail
-> in the patch commit message and the additions to the documentation
-> comments.
+> Non-default PACKAGECONFIGs are allowed to depend on recipes that are
+> not 
+> in core, plenty of recipes do this.  Otherwise there'd be no way to
+> turn 
+> on options that have dependencies in other layers.
 > 
-> We've been using this patch in our Oryx Linux distro for a few months
-> now to
-> confirm that it works as expected. All feedback is welcome,
-> especially from
-> people who have worked on the archiver bbclass before.
-> 
-> Mirror creation was tested with the following additions to
-> local.conf:
-> 
->     INHERIT += "archiver"
->     BB_GENERATE_MIRROR_TARBALLS = "1"
->     ARCHIVER_MODE[src] = "mirror"
->     ARCHIVER_MODE[mirror] = "combined"
->     ARCHIVER_MIRROR_EXCLUDE = "file://"
->     COPYLEFT_LICENSE_INCLUDE = "*"
-> 
-> The resulting mirror directory was moved out of the tmpdir and a
-> rebuild was
-> tested with the following additions to local.conf:
-> 
->     BB_NO_NETWORK = "1"
->     INHERIT += "own-mirrors"
->     SOURCE_MIRROR_URL = "file://${TOPDIR}/mirror"
-> 
-> Paul Barker (1):
->   archiver.bbclass: Add new mirror archiver mode
-> 
->  meta/classes/archiver.bbclass | 136 +++++++++++++++++++++++++++++---
-> --
->  1 file changed, 117 insertions(+), 19 deletions(-)
+> However, the fact that Gamin is very much dead is a good reason to 
+> remove the PACKAGECONFIG and simply hardcode --without-fam for good
+> measure.
 
-This is coming in a bit late to be in 3.0 as we're way past feature
-freeze. Have you given thought to regression testing? I'd also really
-like to see some tests. There are some already:
-
-meta/lib/oeqa/selftest/cases/archiver.py 
-
-and whilst I'd not going to claim they're wonderful, it would be good
-to extend as we add new functionality.
+Agreed, can we have a v2 with --without-fam hardcoded in EXTRA_OECONF
+please?
 
 Cheers,
 
