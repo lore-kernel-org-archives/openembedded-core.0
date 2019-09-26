@@ -1,37 +1,49 @@
-Return-Path: <stefan@agner.ch>
-X-Greylist: delayed 508 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 26 Sep 2019 08:27:40 UTC
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id A24337C7A5
+Return-Path: <diego.rondini@kynetics.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 94A217C7A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 08:27:40 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id EC2145C0258;
-	Thu, 26 Sep 2019 10:19:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1569485952;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=R5oXuL5l/JDxNi8DtNYZt+TTXkdJ67873XCkmMjWCZ0=;
-	b=luLgtcym/45cFEWYinvjIEBuFb3fwCBPmWQjtwWZiA6nifCul+omcHoj0tcA2EmX1HbQP9
-	z/FLG7DKy25KE+I7b+kt0FO66HS3thcXJNzIHwF6b+LvyJQVzP8rxnkEa+IyUWnE/KemLJ
-	z9JcrzB1+TCZDivbOIo4jKMiFT2IDYQ=
+	Thu, 26 Sep 2019 08:41:07 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id p10so1228420edq.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Sep 2019 01:41:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kynetics-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=SMqJ0mGPUadY+01h+pIad71vC/iR64+5RKPG/8yFqlQ=;
+	b=I1l8ikInV13USVLUFXKU1m/eQWjo0r+BAikDbqUerAT+j2o6uFN23/H3NDAFG6YlYB
+	JPOxYhWD8TAGd7X2h3Wiv7NEjfDA3Vzdi9R56W/9ddHXvWJ7NWx5oKvOSPjowq0ujq7k
+	crJpgDS6a4MRLJLtvT+gDP0iS0aKrZExEp3+ilikO1VFQGLmuORs8veB5BrtJWG87LtV
+	jyx+5RFNa1ghpf+iRGPPiu1yb42Pm1oJzBPxiIj+tCllTmF714kS2CYykCplo+sey8jT
+	It6qzPV4qzPwUNswBkQTxrR5H/KOsrlIewQ2xDRB1bYnw6+bLoJmR5aLBDSGMi3Kgfli
+	0d0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=SMqJ0mGPUadY+01h+pIad71vC/iR64+5RKPG/8yFqlQ=;
+	b=ciUKb+wJ+qASjWRPxM3bW4wMOg4a8SLesG2fAbe8CUc1eoSQ9UpQw9tOPPqUGZfRKB
+	sbR1Okmh09Qw0UCizfjij4TLAkZlsR7jJ6pIdbO3uS/DZT0jHNAUx/ZyYRerHDl5H5Ba
+	iqhVmWd3QUbHTlyYLhVHUEnpBgyrPKR2PUJw7+8mo55jX18F657t/Oz8h5xI+wc2OVWx
+	W6wD0oNm90HnHsCbAJ06ffp4LxmDTXdw6sVC8mbRuXi8UUUCICuZQZSxPAPyyuIki27L
+	Ej+bO6hrs7Dbwft7bqkhdqSWxdRzwAYhJdqIKXwv+6dcD89h5XqudpF0bMbgXwsbeBzv
+	CUhA==
+X-Gm-Message-State: APjAAAVFMach9h2e7FmLhiJQEdYpSlIhW+qFQInb8RvMLUHyPurHkmsE
+	owSC5Kla7aGvrEmx/8zqJJoc1dJwJTvuJRQOLVVlTQ==
+X-Google-Smtp-Source: APXvYqx5DZmoCBHJTpjKvUUAXOg40Xdq58ArSKs27e4oRLws2TdV2ZIIhvZRlWzMNrAnGPGLJT4uV9iqvVvwWYICJnQ=
+X-Received: by 2002:a17:906:bb0f:: with SMTP id
+	jz15mr1986692ejb.264.1569487268130; 
+	Thu, 26 Sep 2019 01:41:08 -0700 (PDT)
 MIME-Version: 1.0
-Date: Thu, 26 Sep 2019 10:19:12 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: "Andrew F. Davis" <afd@ti.com>
-In-Reply-To: <20190917131053.32411-4-afd@ti.com>
-References: <20190917131053.32411-1-afd@ti.com>
-	<20190917131053.32411-4-afd@ti.com>
-Message-ID: <2be09d9daa44612fd8c52483dc73131e@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.9
-Cc: openembedded-core@lists.openembedded.org,
-	Gowtham Tammana <g-tammana@ti.com>, Eric Ruei <e-ruei1@ti.com>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH v2 4/4] weston: Set depends to the virtual needed not explicitly on Mesa
+References: <20190925144933.16030-1-diego.rondini@kynetics.com>
+	<bd5c3ea5-aa03-ae71-1257-026d91102a03@intel.com>
+In-Reply-To: <bd5c3ea5-aa03-ae71-1257-026d91102a03@intel.com>
+From: Diego Rondini <diego.rondini@kynetics.com>
+Date: Thu, 26 Sep 2019 10:40:57 +0200
+Message-ID: <CAMfw5Yqn7iozG+P2_ve4GUBpZkGgxDp08q8yfRACJfBeG1UB7w@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bmap-tools: add missing python3-misc dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,63 +56,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2019 08:27:40 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Sep 2019 08:41:08 -0000
+Content-Type: multipart/alternative; boundary="00000000000018c77b059370bb19"
 
-On 2019-09-17 15:10, Andrew F. Davis via Openembedded-core wrote:
-> The dependency is for EGL and GLES2 libraries. On some systems these
-> are not provided by Mesa, list what is actually needed so the system
-> can choose the correct provider.
+--00000000000018c77b059370bb19
+Content-Type: text/plain; charset="UTF-8"
 
-Unfortunately I saw that a bit late, but this is breaking our use case.
+Hi Ross,
 
-Weston works perfectly fine on non-GPU systems without EGL/OpenGL ES
-using pixman renderer. Currently libgbm is still a compile time
-dependency, but I have a merge request pending which should drop this
-dependency, then the DRM backend can be compiled fine with only KMS
-support.
+On Wed, Sep 25, 2019 at 9:40 PM Ross Burton <ross.burton@intel.com> wrote:
 
---
-Stefan
+> On 25/09/2019 15:49, Diego Rondini wrote:
+> > Add runtime dependency on python3-misc as bmaptool depends on ntpath.
+> >
+> > Signed-off-by: Diego Rondini <diego.rondini@kynetics.com>
+> > ---
+> >   meta/recipes-support/bmap-tools/bmap-tools_3.5.bb | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> > index 7c4db85b32..6be07d7f9c 100644
+> > --- a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> > +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> > @@ -17,7 +17,7 @@ PV .= "+git${SRCPV}"
+> >
+> >   UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+> >
+> > -RDEPENDS_${PN} = "python3-core python3-compression python3-mmap
+> python3-setuptools python3-fcntl python3-six"
+> > +RDEPENDS_${PN} = "python3-core python3-compression python3-mmap
+> python3-setuptools python3-fcntl python3-six python3-misc"
+> >
+> >   inherit python3native
+> >   inherit setuptools3
+> >
+>
+> ERROR: Nothing RPROVIDES 'python3-misc-native' (but
+> virtual:native:/home/ross/Yocto/poky/meta/recipes-support/bmap-tools/
+> bmap-tools_3.5.bb
+> RDEPENDS on or otherwise requires it)
+>
+> Ross
+>
 
+I've seen ntpath has been added back to python3-core with this commit:
+http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/python/python3/python3-manifest.json?id=9ff61fa83a0a4f2a7b5b0376b6c48fb1173c9ac7
+so my change makes sense only in warrior.
 
-> 
-> Signed-off-by: Andrew F. Davis <afd@ti.com>
-> Acked-by: Denys Dmytriyenko <denys@ti.com>
-> ---
-> 
-> Changes from v1:
->  - s/gles2/libgles2
-> 
->  meta/recipes-graphics/wayland/weston_7.0.0.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> b/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> index 5d2a9336f3..f9efdbd20a 100644
-> --- a/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> +++ b/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> @@ -36,9 +36,9 @@ PACKAGECONFIG ??=
-> "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev
->  # Compositor choices
->  #
->  # Weston on KMS
-> -PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev
-> virtual/mesa virtual/libgbm mtdev"
-> +PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev
-> virtual/egl virtual/libgles2 virtual/libgbm mtdev"
->  # Weston on Wayland (nested Weston)
-> -PACKAGECONFIG[wayland] =
-> "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/mesa"
-> +PACKAGECONFIG[wayland] =
-> "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/egl
-> virtual/libgles2"
->  # Weston on X11
->  PACKAGECONFIG[x11] =
-> "-Dbackend-x11=true,-Dbackend-x11=false,virtual/libx11 libxcb libxcb
-> libxcursor cairo"
->  # Headless Weston
-> -- 
-> 2.17.1
+Can you please explain how you trigger that error?
 
+Thank you,
+Diego
+
+--00000000000018c77b059370bb19
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Ross,<br></div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 25, 2019 at 9:40 =
+PM Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@int=
+el.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On 25/09/2019 15:49, Diego Rondini wrote:<br>
+&gt; Add runtime dependency on python3-misc as bmaptool depends on ntpath.<=
+br>
+&gt; <br>
+&gt; Signed-off-by: Diego Rondini &lt;<a href=3D"mailto:diego.rondini@kynet=
+ics.com" target=3D"_blank">diego.rondini@kynetics.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0meta/recipes-support/bmap-tools/<a href=3D"http://bmap-too=
+ls_3.5.bb" rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a> | 2 +=
+-<br>
+&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-support/bmap-tools/<a href=3D"http://bmap-to=
+ols_3.5.bb" rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a> b/me=
+ta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5.bb" rel=3D"n=
+oreferrer" target=3D"_blank">bmap-tools_3.5.bb</a><br>
+&gt; index 7c4db85b32..6be07d7f9c 100644<br>
+&gt; --- a/meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5=
+.bb" rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a><br>
+&gt; +++ b/meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5=
+.bb" rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a><br>
+&gt; @@ -17,7 +17,7 @@ PV .=3D &quot;+git${SRCPV}&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0UPSTREAM_CHECK_GITTAGREGEX =3D &quot;v(?P&lt;pver&gt;\d+(\=
+.\d+)+)&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -RDEPENDS_${PN} =3D &quot;python3-core python3-compression python3-mma=
+p python3-setuptools python3-fcntl python3-six&quot;<br>
+&gt; +RDEPENDS_${PN} =3D &quot;python3-core python3-compression python3-mma=
+p python3-setuptools python3-fcntl python3-six python3-misc&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0inherit python3native<br>
+&gt;=C2=A0 =C2=A0inherit setuptools3<br>
+&gt; <br>
+<br>
+ERROR: Nothing RPROVIDES &#39;python3-misc-native&#39; (but <br>
+virtual:native:/home/ross/Yocto/poky/meta/recipes-support/bmap-tools/<a hre=
+f=3D"http://bmap-tools_3.5.bb" rel=3D"noreferrer" target=3D"_blank">bmap-to=
+ols_3.5.bb</a> <br>
+RDEPENDS on or otherwise requires it)<br>
+<br>
+Ross<br>
+</blockquote></div><div><br></div><div>I&#39;ve seen ntpath has been added =
+back to python3-core with this commit:</div><div><a href=3D"http://git.open=
+embedded.org/openembedded-core/commit/meta/recipes-devtools/python/python3/=
+python3-manifest.json?id=3D9ff61fa83a0a4f2a7b5b0376b6c48fb1173c9ac7">http:/=
+/git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/python=
+/python3/python3-manifest.json?id=3D9ff61fa83a0a4f2a7b5b0376b6c48fb1173c9ac=
+7</a></div><div>so my change makes sense only in warrior.</div><div><br></d=
+iv><div>Can you please explain how you trigger that error?</div><div><br></=
+div><div>Thank you,<br></div><div dir=3D"ltr" class=3D"gmail_signature"><di=
+v dir=3D"ltr">Diego<br></div></div></div>
+
+--00000000000018c77b059370bb19--
