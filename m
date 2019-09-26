@@ -1,14 +1,14 @@
 Return-Path: <zboszor@pr.hu>
 Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 00CA271B99
+	by mail.openembedded.org (Postfix) with ESMTP id 46F3771B99
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 09:05:24 +0000 (UTC)
+	Thu, 26 Sep 2019 09:06:30 +0000 (UTC)
 Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
 	by frontdoor.pr.hu with esmtps
 	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>) id 1iDPiG-0000iZ-HI
+	(envelope-from <zboszor@pr.hu>) id 1iDPjL-0001NU-5Q
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Sep 2019 11:05:24 +0200
+	Thu, 26 Sep 2019 11:06:31 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
 	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
 	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
@@ -16,26 +16,26 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
 	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
 	bh=i4lR9K824mHuyU1SA0DVul/4Uy/WtGhkiJPNstwbAu0=;
-	b=BAIPERW1DZOL1lokz4ymPoViRf
-	SF0WwxOJPQPRsAZy9aOrLRFYMiyO+f6L5NWfWwK7BZf7ojHeV9HiraBJXU838AfvRN5/Jr/CFqFyd
-	+W7Q9LW5vy1PRVuksysEpUXd8Sd6kUEUGqMMxqAIfC3QACxvfghxZ5yoNG/utMw99BpHcZnBW+9EJ
-	HzqDFs2+h9ZM0LZVurkU0Bjz3+XEonFb7fqi1k+Ane2hr+OjB2lBby/0o7LmHvNjUYux0i2+alk3+
-	2CDD/rYXlRqSNTQHapIyY0AyGzqwG3egR8NbmR6I3ZaYVkISzOidyohSFflUP7BKZZSKDS6uuOubO
-	Kte35iow==;
+	b=LfsUWnlZS3csclMTHLshSqSrfz
+	+h+d35Kg0Ff+USp2TeCegjuzPTCsfEaMv4UGaD1zIeixzHoE3Vno3s1c4rwJcTs0FB8jDz0FD0daD
+	NLgSODzOUE3q2iBurSj5zAQCxooNuv5teo+4YFUW+GqVdrGvRH8/Xn1AcSBFEx057FGVYwZIwcWj4
+	6Tf3w+hxZhAH0vyJon1I4wJ+jxleW68lMdiVpAy/YbiQmlL9vbFMrlpncKY2sSLaFj/DDj1S+J6V6
+	VEEolt29MVkdohggYEYwAUk2a56O0smgQvH9zgSNtVJrYj63qH7Siz29mba8lZ+7l//CSr0IaQ4s/
+	Rplaq3JA==;
 Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
 	helo=zolilaptop.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
 	(envelope-from <zboszor@pr.hu>)
-	id 1iDPiC-0002XW-Iz; Thu, 26 Sep 2019 11:05:22 +0200
+	id 1iDPiT-0002bb-Hk; Thu, 26 Sep 2019 11:06:29 +0200
 From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Sep 2019 11:04:57 +0200
-Message-Id: <20190926090457.4072-1-zboszor@pr.hu>
+Date: Thu, 26 Sep 2019 11:05:32 +0200
+Message-Id: <20190926090532.4131-1-zboszor@pr.hu>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 X-Spam-Score: -1.8 (-)
 X-Scan-Signature: d715e2383c66dfab752a5ffb3bca881e
-X-Spam-Tracer: backend.mail.pr.hu -1.8 20190926090522Z
-Subject: [warrior][PATCH] classes/image-live.bbclass: Don't hardcode cpio.gz
+X-Spam-Tracer: backend.mail.pr.hu -1.8 20190926090629Z
+Subject: [PATCH] classes/image-live.bbclass: Don't hardcode cpio.gz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2019 09:05:26 -0000
+X-List-Received-Date: Thu, 26 Sep 2019 09:06:30 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
