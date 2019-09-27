@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 23B297F32F
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+	[209.85.222.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 309097F351
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 15:54:45 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id f16so2340679qkl.9
+	Fri, 27 Sep 2019 15:58:32 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id h126so2342163qke.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 08:54:46 -0700 (PDT)
+	Fri, 27 Sep 2019 08:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=e2TRNZpNTELXoOaTK2XV1MGvDfRUnH1z7Y6b6Mi+gU8=;
-	b=Rtp/ycJMJh3/sMAZG9rpf67lZwwYWIbyT5D3+yt5C19yezCf1F8CQTRJvaOFCs/E/Q
-	mUNhjbCFpbJEnrUqeUvVa86XN3genwadSoS4E5nJAlFmemsHvmvOUD1sfFEYrGBUQxKe
-	a5ZuXKqBl9yS4aRdxknseI0kLIBVE6d1NYfudJJv0/8cvhWO2mZwG48n0y36b45nlite
-	qcCSWmdTylJCwtjJhbAn0Kbg4aD5YAy9kTPaWYt/cEvfTRO0EMgDnL+/d13wc6aASOC+
-	f6fPS70XraJRo/kicV6f9gBIWDm/dP+95rfQTgiLorTtzz3XvyWFAtZR8kFrSD1Z/C9f
-	YARg==
+	bh=8RKVc1mN/NFEWgS7djYScCqVNxi7Jdmoln6opulGGCk=;
+	b=oUM0no0NdHRTxBqkuozN0nS1Z6oIMtboSYb2gfX4/dCzZ8kR9empGhd/cTHqthUj92
+	zBNIzwVRW/u5Tp5CMzdUMUZjXy7imOJ3MjbhFEujSp39W2tNrwGCb8fUCYZXiVINVRp9
+	lJeesWTEaQRiEaDjJ/J2L1v8Djr01uicqJc32fywvlfRFQZAuNyFj8gw/EFve/jz65de
+	g5j1ugfk17XZPSyRil8Xxn++b4YHStVIyudYBEtDYKZzDrhpKsB+XDMgygxycgt9rbEF
+	cOoqYMsFGT2o1O1nTC2totEiEAmWfBzT5MDtWJ9YPLiVw66HqzNwI59ZAlJHjtKu/i58
+	YKxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=e2TRNZpNTELXoOaTK2XV1MGvDfRUnH1z7Y6b6Mi+gU8=;
-	b=uiprI6j71n/DpyirwN/mzFUQjkS+EIHtoDBy+OUZbQuomLQgRzQleRBZkmp4IYrIj6
-	BH/5OHP7BlzyC0r1ar7+lFF2J8daH9SEA/ltLloITm71i9WfJ3ayAFRZ46rN7Uf8zGRH
-	/pHhIdXk2VEoz6gKR0hI+uceMIt2BBDSQxUy2cPPSeAp6dQXVDrGYVKz9VT6fPZYT3LD
-	oMYNhtwUWjCC3cPNYWLPKntfLcKWghi2+xWZXpgE3W01n/DnwURy+7Y0NtmwQeh52aX5
-	2BvE31a7Owk/0H5yN1Zy0vlQ1nug2BYhLI+MGrY3fDbkMPJpl2rdT4PeeOqPPdxQwOzj
-	jzKg==
-X-Gm-Message-State: APjAAAWLgp/ImwI8OVGDYp/k+j6PA/5tkXuY873Xhcsn4U9CGLzr3P2L
-	0jh8QHZQ/s+/yYWuzpTzN2Xu2r+6azAMFvUr6ygeC4/x
-X-Google-Smtp-Source: APXvYqxuQiVdF72zNdSC8zsYm4J/Gbo2VHIZ5mSjKq9aFjJ94yToXBvArmvM7uUsPvNG1cDYeIjyiT02Z1KUSqyylrM=
-X-Received: by 2002:a05:620a:653:: with SMTP id
-	a19mr5228622qka.337.1569599685600; 
-	Fri, 27 Sep 2019 08:54:45 -0700 (PDT)
+	bh=8RKVc1mN/NFEWgS7djYScCqVNxi7Jdmoln6opulGGCk=;
+	b=qc8MFOCK6IcyxEF4BYUV2C7Mw/ysZUC3CfHKBe77VoCDl/L16wHP7Bv9Jf+26MQdxo
+	U93v7ibxEbNuFH1rlpNwBhx+fqhcOPISA6Notua1Y58t5MDmUozSKsTaBUw2eTn1ePvi
+	M568DIVbhg8Na7zbFmI0HQfDrqKuR4/6kvNbWxSL4gBdCUl6Ua4XibXmnafdBgfz1ChM
+	xyRKEnQyT7TBGvv/WR3WFdjuWfxcJqdxLLbl1hyMgRpoL5qPU/NNu5L+1WvwN1qasfDy
+	YS9ywxWydYbUMZHnXKa4K1tXF12brnTCoFii9083/D+Mo7cP+aYKRDbi7VnsxlBB29ED
+	eSBQ==
+X-Gm-Message-State: APjAAAUmCj0Coh8w81BS8bo+oiU4UuCR3Y1o1yy/nSE/AuThq2KapHGC
+	yPMtlEpUVt70eCOgPdnuzpgz3pcV+Xd1wqFp6IZmznhWaSI=
+X-Google-Smtp-Source: APXvYqxIe2rKRO4MsZie/1dH+F6ytx7ZKRPDVscNw/gzhnZKvFQu38EJVcY0uiNL2kOeP4wmWnmAqAI0OqtB4DEl0MI=
+X-Received: by 2002:a37:5cc1:: with SMTP id q184mr5440004qkb.212.1569599912744;
+	Fri, 27 Sep 2019 08:58:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190927135443.15407-1-git@andred.net>
-In-Reply-To: <20190927135443.15407-1-git@andred.net>
+References: <8qOLR3hEH6wWLGBdAwosadkVtTzsjACcBDJ7jxKUJKbIVJIzyXxEBy5JI-6-QtM8_w9muMkzgnnlyi-gRtTcwbvkKgfTNFYJVc2SO5GFpgY=@protonmail.ch>
+In-Reply-To: <8qOLR3hEH6wWLGBdAwosadkVtTzsjACcBDJ7jxKUJKbIVJIzyXxEBy5JI-6-QtM8_w9muMkzgnnlyi-gRtTcwbvkKgfTNFYJVc2SO5GFpgY=@protonmail.ch>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 27 Sep 2019 08:54:17 -0700
-Message-ID: <CAMKF1som6J7urVf+dxzWEtUnfWNOp0K9RdFpF4MQ+2sgH_5vNA@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: Patches and discussions about the oe-core layer
+Date: Fri, 27 Sep 2019 08:58:05 -0700
+Message-ID: <CAMKF1srZ0hJK5hWf1GoKrFKC8o7_efU9oTW1-+tDhznN3+YY4g@mail.gmail.com>
+To: vygu <vygu@protonmail.ch>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] ruby: configure mis-detects isnan/isinf on musl
+Subject: Re: Warrior, OpenCV, Python2, python-cv2 issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2019 15:54:45 -0000
+X-List-Received-Date: Fri, 27 Sep 2019 15:58:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 27, 2019 at 6:55 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
->
-> From: Andr=C3=A9 Draszik <andre.draszik@jci.com>
->
-> The configure script does not detect isnan/isinf as macros
-> as is the case in musl.
->
-> Help it by providing the correct result via
-> CACHED_CONFIGUREVARS.
->
-> Signed-off-by: Andr=C3=A9 Draszik <andre.draszik@jci.com>
-> ---
->  meta/recipes-devtools/ruby/ruby_2.5.5.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/ruby/ruby_2.5.5.bb b/meta/recipes-devt=
-ools/ruby/ruby_2.5.5.bb
-> index 8ad59a7657..fdd3852a78 100644
-> --- a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-> +++ b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-> @@ -32,6 +32,9 @@ EXTRA_OECONF =3D "\
->      --with-pkg-config=3Dpkg-config \
->  "
->
-> +# the configure script does not detect isnan/isinf as macros
-> +CACHED_CONFIGUREVARS_libc-musl +=3D "ac_cv_func_isnan=3Dyes ac_cv_func_i=
-sinf=3Dyes"
-> +
+maybe look into meta/recipes-support/gpgme/gpgme_1.13.1.bb it might be
+helpful how its doing py2 and py3
 
-Please use _append_libc-musl and drop +=3D
-
->  do_install() {
->      oe_runmake 'DESTDIR=3D${D}' install
->  }
-> --
-> 2.23.0.rc1
+On Fri, Sep 27, 2019 at 8:03 AM vygu via Openembedded-core
+<openembedded-core@lists.openembedded.org> wrote:
+>
+> Hello,
+>
+> With the warrior's serie, with poky and meta-openembedded layers, we have=
+ got an issue about the opencv recipe, when we add the "python2" support to=
+ PACKAGECONFIG. The recipe does not crash. But the issue happens during the=
+ rootfs generation, because "nothing provides python-opencv needed by openc=
+v-3.4.5-r0". The opencv recipe does not seem to provide correctly the pytho=
+n-cv2 package due to the PYTHON_SITEPACKAGES_DIR variable definition.
+>
+> How can we obtain on our image python-cv2 and python3-cv2 with the opencv=
+ recipe?
+> Thank you in advance.
+>
+> Vygu
 >
 > --
 > _______________________________________________
