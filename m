@@ -1,28 +1,57 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C7A36C13D
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A43C17D3EF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 09:58:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x8R9wsYe004270
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 Sep 2019 02:58:54 -0700 (PDT)
-Received: from [128.224.158.233] (128.224.158.233) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 27 Sep 2019 02:58:42 -0700
-To: Ross Burton <ross.burton@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1569569493.git.liezhi.yang@windriver.com>
-	<240614c649cb0804b49efc464106399a6a9c7086.1569569493.git.liezhi.yang@windriver.com>
-	<b3c4ae73-4446-a476-a22a-4c580168231d@intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <c369e654-3567-35e4-8486-db5ae2306f97@windriver.com>
-Date: Fri, 27 Sep 2019 17:58:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Fri, 27 Sep 2019 10:33:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 71E8A185F7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2019 12:33:58 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id ZhBgk4b5DHOD
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2019 12:33:57 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id ACC6418521
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2019 12:33:57 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 938331E0AD
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2019 12:33:57 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 889531E0AC
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2019 12:33:57 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2019 12:33:57 +0200 (CEST)
+Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
+	by seth.se.axis.com (Postfix) with ESMTP id 7C76422DC
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2019 12:33:57 +0200 (CEST)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x8RAXvlv017774
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2019 12:33:57 +0200
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x8RAXvH5017773
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 Sep 2019 12:33:57 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Sep 2019 12:33:52 +0200
+Message-Id: <20190927103352.17725-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <b3c4ae73-4446-a476-a22a-4c580168231d@intel.com>
-Subject: Re: [PATCH 1/1] apr: Check for libtoolize rather than libtool
+X-TM-AS-GCONF: 00
+Subject: [PATCH] lib/oe/lsb: Make sure the distro ID is always lowercased
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +64,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2019 09:58:54 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Fri, 27 Sep 2019 10:33:59 -0000
 Content-Transfer-Encoding: 8bit
 
+In commit 8689e561 (lib/oe/lsb: attempt to ensure consistent distro id
+regardless of source), the distro ID returned by
+oe.lsb.distro_identifier() was lowercased, but only if a release
+version is also present.
 
+This changes the code to always lowercase the distro ID, including the
+default distro ID "unknown", which is used if no other ID can be
+identified.
 
-On 9/27/19 5:30 PM, Ross Burton wrote:
-> Much neater, but:
->> -    libtool='${HOST_SYS}-libtool' ./buildconf
->> +    ./buildconf 2
-> 
-> Where did this 2 come from and what does it mean?
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/lib/oe/lsb.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Sorry that I didn't add a comment for it, there is no document or help message
-for it, I read the code and thought it meant libtool version 2, another option
-is 1 (version 1).
+diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
+index 4f2b419edc..43e46380d7 100644
+--- a/meta/lib/oe/lsb.py
++++ b/meta/lib/oe/lsb.py
+@@ -110,12 +110,12 @@ def distro_identifier(adjust_hook=None):
+     if adjust_hook:
+         distro_id, release = adjust_hook(distro_id, release)
+     if not distro_id:
+-        return "Unknown"
+-    # Filter out any non-alphanumerics
+-    distro_id = re.sub(r'\W', '', distro_id)
++        return "unknown"
++    # Filter out any non-alphanumerics and convert to lowercase
++    distro_id = re.sub(r'\W', '', distro_id).lower()
+ 
+     if release:
+-        id_str = '{0}-{1}'.format(distro_id.lower(), release)
++        id_str = '{0}-{1}'.format(distro_id, release)
+     else:
+         id_str = distro_id
+     return id_str.replace(' ','-').replace('/','-')
+-- 
+2.21.0
 
-I have updated it in the PULL:
-
-         cd ${S}
--       libtool='${HOST_SYS}-libtool' ./buildconf
-+       # The "2" means libtool version 2.
-+       ./buildconf 2
-
-
-// Robert
-
-> 
-> Ross
 
