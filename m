@@ -1,53 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id D21057F2F0
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4843C7ECA6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 15:16:59 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id b9so3406313wrs.0
+	Fri, 27 Sep 2019 15:24:36 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n14so3405244wrw.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 08:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=szS/+deR1zffNfIQPv0gLhN+2sdCU1TyrTbPCcEmuq4=;
-	b=qjxR/YE/Nyi0TMFKEWs27aI4+Ucx9P8HpKuTMAp1LuFT8SiCCxH5FA5kqqXqSWGxDZ
-	uCk05d5IxJ9jvk8Hmmgp5hDWultocA5sPDfXQ+at5+W2pNyTaeCKicrFsfHbYML8xaAN
-	leMSM3iT6DHL/tIgokKmkqU06UvkLLZFTBK+AcClTvLkN3PfH3caZMRcaUtjIErr5p7m
-	3DB9MZxNST+8V6AnWiFK2h7i+kj0RqnF8ozQlD5yQP3TYGdt/aKzXE63dEb/cIZTTCjo
-	NV0TokkbTQ6lfIH0I8gkuwtmqCebwK6kaUcVKGcSlwwVyphvC/o+yOpp/A1sCDHkRsFg
-	5z7Q==
+	Fri, 27 Sep 2019 08:24:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=szS/+deR1zffNfIQPv0gLhN+2sdCU1TyrTbPCcEmuq4=;
-	b=RY/9samOX88NLRvJDsanqGHKK+3zJAt3VKzOaIX/WG8sMJ9D8suNd/CQhHhHhMmJnX
-	9NQtcN9W2LMgsH0LT0MW+OrByr369KG3mP+GDWd0mqv/Sb9HiqVJoJrr5515yGFXsOLJ
-	sfwR7dXTiInRRso/eLjLNn24B38ntmFMNsf2QtidFxhKqWMQIWMCqP/0emcx6jer2fAu
-	LcgeUR8pyMjQB8RQCdCfWPx1DRLlTC+MJzzZcSlPGINRMYa1BoSnhewE3JN39/d/9x9q
-	h+HGCrSLp9cVp9tf5nVPrbKeC4M7SGhXif3LCgpaVSJxZQvHFKIQvT7JAAjYJaE8gZWo
-	BNNg==
-X-Gm-Message-State: APjAAAX1UJFU6jpLJ4hlsrUUwcNwKRTnTOMpC71/DJhjvRIYTZRMq57n
-	DtrVdiCLNmzLHIILNh8O+hIOgYzDM+8=
-X-Google-Smtp-Source: APXvYqxb18gjpJ8phxLxiTZiisnOWstWqeecLgRNOVZffTwtHrH09Z7+yY6KjRFSewQTZ8+7iU7wPQ==
-X-Received: by 2002:a05:600c:2311:: with SMTP id
-	17mr7481584wmo.39.1569597419992; 
-	Fri, 27 Sep 2019 08:16:59 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id n1sm5791051wrg.67.2019.09.27.08.16.57
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=trhZutYFd2Hq75jhtEYqt4ZfujzA0klmqGtesLNXNsE=;
+	b=bTMF4/sS7KjsSklWrosJ9sLsHOD716KUWozd9gX+MzeaPqcFxyuAhukAz+OpjoJnwy
+	qFpzErPh31ivrGt9lLaVTQcj6mFRVNU6f1CweByUIJ2RqYee9kv1zv6qitH5kzBUwfst
+	qlBZG1teFG7fqrA0yDS/3G6OvByNhh7qrRq2zb98P8yay2Y9vtdIHthgRofQQ/9wUgeZ
+	kwA3mjDuli6CpmO8xbi9JL82ohjztl5AmXR1X+93ka6n5OxpoMuEBIoOLohtjn2D79kE
+	aL7DOlGW7cR1sVDSTrayLYCE/6GxSddDSVBoGEPz8JJY/qvm3tA6/S3/1Ny3hgc7BQXo
+	4/pA==
+X-Gm-Message-State: APjAAAValSNT2WElRxQ3eipMv4hQlrtInfJKKc2FMdHxncKV28eD7p+q
+	6iA6rvolS78+oufqhj1PZi4=
+X-Google-Smtp-Source: APXvYqxBGCjB+BNbSItbO5MLuKVKaYAnxUIr1pHx1901wrqHDB6wnwd+03+nEFWcHXyKEE3d09raRg==
+X-Received: by 2002:adf:ce04:: with SMTP id p4mr3348678wrn.130.1569597876717; 
+	Fri, 27 Sep 2019 08:24:36 -0700 (PDT)
+Received: from 1aq-andre ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
+	q66sm11756566wme.39.2019.09.27.08.24.35
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 27 Sep 2019 08:16:58 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Sep 2019 16:16:55 +0100
-Message-Id: <20190927151655.30447-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	Fri, 27 Sep 2019 08:24:35 -0700 (PDT)
+Message-ID: <d5d7c18c1c5fdbb7cae13f47ef2c53c3c3a9518d.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 27 Sep 2019 16:24:35 +0100
+In-Reply-To: <CANNYZj8SJTA37zSRbFQ4jpJFH__ViDBQSKCC9EdH49Zk_E9Pjg@mail.gmail.com>
+References: <20190927135443.15407-2-git@andred.net>
+	<20190927141006.31440-1-git@andred.net>
+	<CANNYZj8SJTA37zSRbFQ4jpJFH__ViDBQSKCC9EdH49Zk_E9Pjg@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Subject: [PATCH] pango: fix the failing testiter test case
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] ruby: fix non-IPv6 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,77 +51,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2019 15:17:00 -0000
+X-List-Received-Date: Fri, 27 Sep 2019 15:24:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The testiter test case fails if libthai support isn't enabled because it
-execises codepaths that need libthai to be correct.  Backport a patch to skip
-this test if libthai isn't enabled.
+On Fri, 2019-09-27 at 17:05 +0200, Alexander Kanavin wrote:
+> Just wanted to request, would you be able to provide a ruby version upgrade as well?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...kip-thai-break-tests-without-libthai.patch | 36 +++++++++++++++++++
- meta/recipes-graphics/pango/pango_1.44.6.bb   |  3 +-
- 2 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/pango/pango/0001-Skip-thai-break-tests-without-libthai.patch
+Not anytime soon - I'm just working a quick proof-of-concept.
 
-diff --git a/meta/recipes-graphics/pango/pango/0001-Skip-thai-break-tests-without-libthai.patch b/meta/recipes-graphics/pango/pango/0001-Skip-thai-break-tests-without-libthai.patch
-new file mode 100644
-index 00000000000..3f9ebff33e7
---- /dev/null
-+++ b/meta/recipes-graphics/pango/pango/0001-Skip-thai-break-tests-without-libthai.patch
-@@ -0,0 +1,36 @@
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 12beb39925b5a4574a7cfd86073b59bceb49f791 Mon Sep 17 00:00:00 2001
-+From: Matthias Clasen <mclasen@redhat.com>
-+Date: Wed, 4 Sep 2019 15:51:06 -0400
-+Subject: [PATCH] Skip thai break tests without libthai
-+
-+If we don't have libthai, these tests fail.
-+
-+Closes: https://gitlab.gnome.org/GNOME/pango/issues/420
-+---
-+ tests/meson.build | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/tests/meson.build b/tests/meson.build
-+index 4c22c12c..c617331f 100644
-+--- a/tests/meson.build
-++++ b/tests/meson.build
-+@@ -89,9 +89,12 @@ test_breaks_data = [
-+   'breaks/one',
-+   'breaks/two',
-+   'breaks/three',
-+-  'breaks/four',
-+ ]
-+ 
-++if thai_dep.found()
-++  test_breaks_data += [ 'breaks/four', ]
-++endif
-++
-+ test_items_data = [
-+   'itemize/one',
-+ ]
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-graphics/pango/pango_1.44.6.bb b/meta/recipes-graphics/pango/pango_1.44.6.bb
-index 882eada7a4e..da7f2156dca 100644
---- a/meta/recipes-graphics/pango/pango_1.44.6.bb
-+++ b/meta/recipes-graphics/pango/pango_1.44.6.bb
-@@ -15,7 +15,8 @@ GNOMEBASEBUILDCLASS = "meson"
- 
- inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspection
- 
--SRC_URI += "file://run-ptest"
-+SRC_URI += "file://run-ptest \
-+            file://0001-Skip-thai-break-tests-without-libthai.patch"
- SRC_URI[archive.md5sum] = "db0a3243ba33e02aaa775412f8e5f412"
- SRC_URI[archive.sha256sum] = "3e1e41ba838737e200611ff001e3b304c2ca4cdbba63d200a20db0b0ddc0f86c"
- 
--- 
-2.20.1
+Also, if you look at Alpine, they are packaging all the bundled gems
+separately, so ideally the same should happen when using yocto.
+But that's a bigger task...
+
+And I don't know anything about ruby :-)
+
+Can't the auto-updater do it? (Without the repackaging?)
+
+Cheers,
+Andre'
+
+
+
+> Alex
+> 
+> On Fri, 27 Sep 2019 at 16:10, André Draszik <git@andred.net> wrote:
+> > From: André Draszik <andre.draszik@jci.com>
+> > 
+> > When IPv6 support is disabled, this recipe mis-configures
+> > ruby so that it end up non-working:
+> > --enable-wide-getaddrinfo instructs ruby to re-implement
+> > the standard getaddinfo(), but IPv6 support is still
+> > automatically detected via ext/socket/extconf.rb
+> > independently of that flag.
+> > 
+> > To re-implement getaddrinfo(), ruby uses the obsolete
+> > getipnodebyaddr() and getipnodebyname() functions - i.e.
+> > according to the man-page, glibc provided those only in
+> > glibc 2.1.91-95; and of course compilation fails. [1]
+> > 
+> > Switch to ruby's standard --enable-ipv6= configure
+> > options to make the build work without warnings, and
+> > ruby work at runtime as well.
+> > 
+> > [1] Compilation and linking actually succeed, albeit with
+> > a warning regarding implicit declaration / unresolved
+> > symbols. The error is only obvious at runtime due to the
+> > unresolved symbols...
+> > 
+> > Signed-off-by: André Draszik <andre.draszik@jci.com>
+> > 
+> > ---
+> > v2:
+> > * switch to --enable-ipv6/--disable-ipv6 instead of
+> >   --enable-ipv6=yes/no, as the latter is not actually
+> >   recognised
+> > ---
+> >  meta/recipes-devtools/ruby/ruby_2.5.5.bb | 7 +------
+> >  1 file changed, 1 insertion(+), 6 deletions(-)
+> > 
+> > diff --git a/meta/recipes-devtools/ruby/ruby_2.5.5.bb b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+> > index fdd3852a78..feb654cb6a 100644
+> > --- a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+> > +++ b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+> > @@ -9,17 +9,12 @@ SRC_URI += " \
+> >  SRC_URI[md5sum] = "7e156fb526b8f4bb1b30a3dd8a7ce400"
+> >  SRC_URI[sha256sum] = "28a945fdf340e6ba04fc890b98648342e3cccfd6d223a48f3810572f11b2514c"
+> > 
+> > -# it's unknown to configure script, but then passed to extconf.rb
+> > -# maybe it's not really needed as we're hardcoding the result with
+> > -# 0001-socket-extconf-hardcode-wide-getaddr-info-test-outco.patch
+> > -UNKNOWN_CONFIGURE_WHITELIST += "--enable-wide-getaddrinfo"
+> > -
+> >  PACKAGECONFIG ??= ""
+> >  PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+> > 
+> >  PACKAGECONFIG[valgrind] = "--with-valgrind=yes, --with-valgrind=no, valgrind"
+> >  PACKAGECONFIG[gmp] = "--with-gmp=yes, --with-gmp=no, gmp"
+> > -PACKAGECONFIG[ipv6] = ",--enable-wide-getaddrinfo,"
+> > +PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6,"
+> > 
+> >  EXTRA_AUTORECONF += "--exclude=aclocal"
+> > 
+> > -- 
+> > 2.23.0.rc1
+> > 
 
 
