@@ -1,42 +1,47 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4843C7ECA6
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
+	[209.85.221.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B69957D6C2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 15:24:36 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id n14so3405244wrw.9
+	Fri, 27 Sep 2019 15:32:56 +0000 (UTC)
+Received: by mail-vk1-f193.google.com with SMTP id v78so1305124vke.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 08:24:37 -0700 (PDT)
+	Fri, 27 Sep 2019 08:32:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=GlUhmvLUGsE0ZcoKnWcRuorRXPgqWubTtQlmWUCFmnQ=;
+	b=HXIuXd8lxIMev1pHXiG2d/lfnI1jFTTV4cDF3FZVvffMVmmopCTsH9edJYe7AEvhdu
+	UaqHvE/ZazEj1AxPHXmN6BGpY2vIfP0AZWX+B/xMnAVniW+9Lnkfq9PUKxQFzapbZMlB
+	x0BLjnSOeH6F/d+1Ca/QSu2G7LhCeHcTowyvlT5U/AXuFPEYEDswFThtcUYWUUyh12OJ
+	TM4DIFZg4QKO3fQiLVZdpfF+88NcyIVskoUNv1E2p7cnkUPr2BluAyVQsAHacrhBWA9g
+	BrHdicJyuHu459fbO4BpOd2UNXkMvRdMjAXoDZzOKEjS/G45Y93ydGFuGg+fUquIo/iG
+	XshA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=trhZutYFd2Hq75jhtEYqt4ZfujzA0klmqGtesLNXNsE=;
-	b=bTMF4/sS7KjsSklWrosJ9sLsHOD716KUWozd9gX+MzeaPqcFxyuAhukAz+OpjoJnwy
-	qFpzErPh31ivrGt9lLaVTQcj6mFRVNU6f1CweByUIJ2RqYee9kv1zv6qitH5kzBUwfst
-	qlBZG1teFG7fqrA0yDS/3G6OvByNhh7qrRq2zb98P8yay2Y9vtdIHthgRofQQ/9wUgeZ
-	kwA3mjDuli6CpmO8xbi9JL82ohjztl5AmXR1X+93ka6n5OxpoMuEBIoOLohtjn2D79kE
-	aL7DOlGW7cR1sVDSTrayLYCE/6GxSddDSVBoGEPz8JJY/qvm3tA6/S3/1Ny3hgc7BQXo
-	4/pA==
-X-Gm-Message-State: APjAAAValSNT2WElRxQ3eipMv4hQlrtInfJKKc2FMdHxncKV28eD7p+q
-	6iA6rvolS78+oufqhj1PZi4=
-X-Google-Smtp-Source: APXvYqxBGCjB+BNbSItbO5MLuKVKaYAnxUIr1pHx1901wrqHDB6wnwd+03+nEFWcHXyKEE3d09raRg==
-X-Received: by 2002:adf:ce04:: with SMTP id p4mr3348678wrn.130.1569597876717; 
-	Fri, 27 Sep 2019 08:24:36 -0700 (PDT)
-Received: from 1aq-andre ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
-	q66sm11756566wme.39.2019.09.27.08.24.35
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 27 Sep 2019 08:24:35 -0700 (PDT)
-Message-ID: <d5d7c18c1c5fdbb7cae13f47ef2c53c3c3a9518d.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 27 Sep 2019 16:24:35 +0100
-In-Reply-To: <CANNYZj8SJTA37zSRbFQ4jpJFH__ViDBQSKCC9EdH49Zk_E9Pjg@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=GlUhmvLUGsE0ZcoKnWcRuorRXPgqWubTtQlmWUCFmnQ=;
+	b=ououhuLophCr4u+4GWqwDs6XMAE34XsgPJEA7ib211EMFjplFF6ivDmqaScm6S8lZ9
+	Vk55qT/nAGwHm510MrouFQQSzAJnHiWib1+HklE0q0ySYXCyhOX5a2bD4ZLrQHFdrBKA
+	0lRUJCI11fnXSuRolgxqEZCScYi5B+ddgF4pzuAUFfurdntT8QVv7TMfWytSDE1DKOEg
+	r5ERmc34V+PXYaf3cUvLvhqXAaXEdbFn/rBdIfAzi88gSeFeBFBflSp4Z6NgSIIL3bms
+	IwMJWZ2wtvlGo1RwcM2Y/zsw98rmMN/4D773JRFN1jSL4MyAV74KhZRFn4v3/kP6eq3U
+	iEmw==
+X-Gm-Message-State: APjAAAVmQrdmgOd5j5US4VbAMp/8hJFMcMZAHYyBGAYTKgW2AVpjbY0X
+	q7HfaPoz/IWsl3aaeRGhN14MsNR6C73QxGh4vkU=
+X-Google-Smtp-Source: APXvYqxwxVfZB1HeQpxYTfUTqZzp7vmE0tooDhHUuc0m/nARs75/4DEsU6KWbMMU8+259J4DhTscPGOzmTdVIj3uH7A=
+X-Received: by 2002:ac5:c3c3:: with SMTP id t3mr4876812vkk.59.1569598377516;
+	Fri, 27 Sep 2019 08:32:57 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190927135443.15407-2-git@andred.net>
 	<20190927141006.31440-1-git@andred.net>
 	<CANNYZj8SJTA37zSRbFQ4jpJFH__ViDBQSKCC9EdH49Zk_E9Pjg@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1.1 
-MIME-Version: 1.0
+	<d5d7c18c1c5fdbb7cae13f47ef2c53c3c3a9518d.camel@andred.net>
+In-Reply-To: <d5d7c18c1c5fdbb7cae13f47ef2c53c3c3a9518d.camel@andred.net>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 27 Sep 2019 17:32:46 +0200
+Message-ID: <CANNYZj_-m=u=OfTWnwWBi=VxeZWkVzyU1qXLBM_eZ7LAoPRdYQ@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] ruby: fix non-IPv6 support
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -51,90 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2019 15:24:36 -0000
+X-List-Received-Date: Fri, 27 Sep 2019 15:32:56 -0000
+Content-Type: multipart/alternative; boundary="000000000000bb650105938a99e0"
+
+--000000000000bb650105938a99e0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2019-09-27 at 17:05 +0200, Alexander Kanavin wrote:
-> Just wanted to request, would you be able to provide a ruby version upgrade as well?
+On Fri, 27 Sep 2019 at 17:24, Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-Not anytime soon - I'm just working a quick proof-of-concept.
+> Can't the auto-updater do it? (Without the repackaging?)
+>
 
-Also, if you look at Alpine, they are packaging all the bundled gems
-separately, so ideally the same should happen when using yocto.
-But that's a bigger task...
+I think it fails at the rebasing patches step - merge conflicts can only be
+resolved by a human.
 
-And I don't know anything about ruby :-)
+Alex
 
-Can't the auto-updater do it? (Without the repackaging?)
+--000000000000bb650105938a99e0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Andre'
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 27 Sep 2019 at 17:24, Andr=C3=A9 =
+Draszik &lt;<a href=3D"mailto:git@andred.net">git@andred.net</a>&gt; wrote:=
+<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">Can&#39;t the auto-updater do it? (Without the repackaging?)<br=
+></blockquote><div><br></div><div>I think it fails at the rebasing patches =
+step - merge conflicts can only be resolved by a human. <br></div><div><br>=
+</div><div>Alex<br></div></div></div>
 
-
-
-> Alex
-> 
-> On Fri, 27 Sep 2019 at 16:10, André Draszik <git@andred.net> wrote:
-> > From: André Draszik <andre.draszik@jci.com>
-> > 
-> > When IPv6 support is disabled, this recipe mis-configures
-> > ruby so that it end up non-working:
-> > --enable-wide-getaddrinfo instructs ruby to re-implement
-> > the standard getaddinfo(), but IPv6 support is still
-> > automatically detected via ext/socket/extconf.rb
-> > independently of that flag.
-> > 
-> > To re-implement getaddrinfo(), ruby uses the obsolete
-> > getipnodebyaddr() and getipnodebyname() functions - i.e.
-> > according to the man-page, glibc provided those only in
-> > glibc 2.1.91-95; and of course compilation fails. [1]
-> > 
-> > Switch to ruby's standard --enable-ipv6= configure
-> > options to make the build work without warnings, and
-> > ruby work at runtime as well.
-> > 
-> > [1] Compilation and linking actually succeed, albeit with
-> > a warning regarding implicit declaration / unresolved
-> > symbols. The error is only obvious at runtime due to the
-> > unresolved symbols...
-> > 
-> > Signed-off-by: André Draszik <andre.draszik@jci.com>
-> > 
-> > ---
-> > v2:
-> > * switch to --enable-ipv6/--disable-ipv6 instead of
-> >   --enable-ipv6=yes/no, as the latter is not actually
-> >   recognised
-> > ---
-> >  meta/recipes-devtools/ruby/ruby_2.5.5.bb | 7 +------
-> >  1 file changed, 1 insertion(+), 6 deletions(-)
-> > 
-> > diff --git a/meta/recipes-devtools/ruby/ruby_2.5.5.bb b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-> > index fdd3852a78..feb654cb6a 100644
-> > --- a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-> > +++ b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-> > @@ -9,17 +9,12 @@ SRC_URI += " \
-> >  SRC_URI[md5sum] = "7e156fb526b8f4bb1b30a3dd8a7ce400"
-> >  SRC_URI[sha256sum] = "28a945fdf340e6ba04fc890b98648342e3cccfd6d223a48f3810572f11b2514c"
-> > 
-> > -# it's unknown to configure script, but then passed to extconf.rb
-> > -# maybe it's not really needed as we're hardcoding the result with
-> > -# 0001-socket-extconf-hardcode-wide-getaddr-info-test-outco.patch
-> > -UNKNOWN_CONFIGURE_WHITELIST += "--enable-wide-getaddrinfo"
-> > -
-> >  PACKAGECONFIG ??= ""
-> >  PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
-> > 
-> >  PACKAGECONFIG[valgrind] = "--with-valgrind=yes, --with-valgrind=no, valgrind"
-> >  PACKAGECONFIG[gmp] = "--with-gmp=yes, --with-gmp=no, gmp"
-> > -PACKAGECONFIG[ipv6] = ",--enable-wide-getaddrinfo,"
-> > +PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6,"
-> > 
-> >  EXTRA_AUTORECONF += "--exclude=aclocal"
-> > 
-> > -- 
-> > 2.23.0.rc1
-> > 
-
-
+--000000000000bb650105938a99e0--
