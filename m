@@ -1,26 +1,50 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 20C197F29D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 930237F281
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 11:09:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x8RB9OZd003605
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 27 Sep 2019 12:21:19 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id p7so6368367wmp.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 04:09:47 -0700
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Fri, 27 Sep 2019 04:09:40 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Sep 2019 19:09:17 +0800
-Message-ID: <11bd4264e2d1372d86ed1f95dbebb81ad9876a2a.1569582526.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1569582526.git.liezhi.yang@windriver.com>
-References: <cover.1569582526.git.liezhi.yang@windriver.com>
+	Fri, 27 Sep 2019 05:21:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=WikUtWBprnICfbT0ttizCUqbrpvKvbs2SONXb55MiIE=;
+	b=J02M/1r4S5zMHcrwGR6arlfxOb267CqKvrQIo8n30ADYRRxfBw8jVHzoqfLL9yAur2
+	2O5Vorc1jmYOfz/QOwmLa7ngDAQM9SrjwBffOWBYyf+Fon9ud2iCtWGLteKA6YIm6MFj
+	XEhHxvqrS96VIs66pj03w5bTfe9M6Tz0m03kQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=WikUtWBprnICfbT0ttizCUqbrpvKvbs2SONXb55MiIE=;
+	b=gST5kBhRfJToVMDI5Y65hmpmspejMFei7y/0rQglI7mVMLdZwPCI6uVnVjCf+D3GAK
+	NNa5OD1U+XzwUxGD5Iduxoe1TuOGdI2Eh1aL71mMEmTt0zbxOH4uKXZAUk5IbSeUd3JL
+	oxqR56U5utnzk7svFg6ryHqiwHY/x8m4CxhYtxhbDe1mWFwlx7qwCaVOoWwJNSrEbR1u
+	p94QukghKuirnZrduNzP33JCfSRQrc5Bw2e/F1udMIpnBnFEOhsKZGaRlAQ6ogVMRO7l
+	vzmBTsmfPscenE3cfb+TEg0bCrv2wbA8c5eysP+uILp0M7UHJ9FCOxmOWDdD2Cp32as5
+	fYZA==
+X-Gm-Message-State: APjAAAWajdO8uA04d5DKH73TAmk1AWKvYiRlXVFkjxe8cOdQRho8SgsO
+	PIoNgmUyrcdF7DlH15M0YS74wmFTtQw=
+X-Google-Smtp-Source: APXvYqzcaWTILg+1IEUOXglAs2AGVoPEU0gsRtxD+hHPoJr9gsOAjsDdlwSH5Rsm42ZGTmVUj4FRPA==
+X-Received: by 2002:a05:600c:2153:: with SMTP id
+	v19mr7153337wml.146.1569586879863; 
+	Fri, 27 Sep 2019 05:21:19 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	d9sm3973609wrf.62.2019.09.27.05.21.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 27 Sep 2019 05:21:19 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Sep 2019 13:21:14 +0100
+Message-Id: <20190927122117.19023-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] lttng-ust: Fix for --enable-python-agent
+Subject: [PATCH 1/4] sstatesig: Fix hash equivlanency locked signature issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +57,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2019 11:09:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Sep 2019 12:21:19 -0000
+Content-Transfer-Encoding: 8bit
 
-Fixed:
-PACKAGECONFIG_append_pn-lttng-ust = ' python3-agent'
+Using locked signatures with the hash equivalency server ran into
+problems. We need to:
 
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+a) Ensure the lockedhashes data object is passed from the core to
+   any individual tasks using the get/set_taskdata methods
 
-$ bitbake lttng-ust
-ERROR: lttng-ust-2_2.10.4-r0 do_package: QA Issue: lttng-ust: Files/directories were installed but not shipped in any package:
-  /usr/lib
-  /usr/lib/python3.7
-  /usr/lib/python3.7/site-packages
-  /usr/lib/python3.7/site-packages/lttngust-2.10.4-py3.7.egg-info
+b) Return a locked singature instead of a unihash
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+c) Write the unihash being used to locked signature lists rather than
+   the calculated taskhash
+
+d) Skip warnings of hash mismatch if the hash is a unihash
+
+These changes fix esdk builds (which use locked sigs) when a hash equivalence
+server is in use.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...gust-Makefile.am-Add-install-lib-to-setup.patch | 31 ++++++++++++++++++++++
- meta/recipes-kernel/lttng/lttng-ust_2.10.5.bb      |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-ust/0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch
+ meta/lib/oe/sstatesig.py | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch
-new file mode 100644
-index 0000000..55679f1
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-ust/0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch
-@@ -0,0 +1,31 @@
-+From f79dac30af9adda12996da7f6aa6667d3b580537 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 26 Sep 2019 17:54:00 +0800
-+Subject: [PATCH] python-lttngust/Makefile.am: Add --install-lib to setup.py
-+
-+Otherwise it may install to /usr/lib, but should be /usr/lib64 when cross
-+building.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ python-lttngust/Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/python-lttngust/Makefile.am b/python-lttngust/Makefile.am
-+index 6c0d20d..38b51b8 100644
-+--- a/python-lttngust/Makefile.am
-++++ b/python-lttngust/Makefile.am
-+@@ -9,7 +9,7 @@ install-exec-local:
-+ 	if [ "$(DESTDIR)" != "" ]; then \
-+ 		opts="$$opts --root=$(DESTDIR)"; \
-+ 	fi; \
-+-	$(PYTHON) setup.py install $$opts;
-++	$(PYTHON) setup.py install $$opts --install-lib=$(pythondir);
-+ 
-+ clean-local:
-+ 	rm -rf $(builddir)/build
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.10.5.bb b/meta/recipes-kernel/lttng/lttng-ust_2.10.5.bb
-index e8312af..cfaad30 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.10.5.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.10.5.bb
-@@ -27,6 +27,7 @@ PE = "2"
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 50d80bf51a1..43eb6034e6a 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -130,10 +130,10 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
  
- SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
-            file://lttng-ust-doc-examples-disable.patch \
-+           file://0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch \
-           "
+     def get_taskdata(self):
+         data = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskdata()
+-        return (data, self.lockedpnmap, self.lockedhashfn)
++        return (data, self.lockedpnmap, self.lockedhashfn, self.lockedhashes)
  
- SRC_URI[md5sum] = "f0c86a9fa7dcfd0205fb42584a310b1c"
+     def set_taskdata(self, data):
+-        coredata, self.lockedpnmap, self.lockedhashfn = data
++        coredata, self.lockedpnmap, self.lockedhashfn, self.lockedhashes = data
+         super(bb.siggen.SignatureGeneratorBasicHash, self).set_taskdata(coredata)
+ 
+     def dump_sigs(self, dataCache, options):
+@@ -171,10 +171,11 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+                 h_locked = self.lockedsigs[recipename][task][0]
+                 var = self.lockedsigs[recipename][task][1]
+                 self.lockedhashes[tid] = h_locked
++                unihash = super().get_unihash(tid)
+                 self.taskhash[tid] = h_locked
+                 #bb.warn("Using %s %s %s" % (recipename, task, h))
+ 
+-                if h != h_locked:
++                if h != h_locked and h_locked != unihash:
+                     self.mismatch_msgs.append('The %s:%s sig is computed to be %s, but the sig is locked to %s in %s'
+                                           % (recipename, task, h, h_locked, var))
+ 
+@@ -182,6 +183,11 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+         #bb.warn("%s %s %s" % (recipename, task, h))
+         return h
+ 
++    def get_unihash(self, tid):
++        if tid in self.lockedhashes:
++            return self.lockedhashes[tid]
++        return super().get_unihash(tid)
++
+     def dump_sigtask(self, fn, task, stampbase, runtime):
+         tid = fn + ":" + task
+         if tid in self.lockedhashes:
+@@ -211,7 +217,7 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+                     (_, _, task, fn) = bb.runqueue.split_tid_mcfn(tid)
+                     if tid not in self.taskhash:
+                         continue
+-                    f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.taskhash[tid] + " \\\n")
++                    f.write("    " + self.lockedpnmap[fn] + ":" + task + ":" + self.get_unihash(tid) + " \\\n")
+                 f.write('    "\n')
+             f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "%s"' % (self.machine, " ".join(l)))
+ 
 -- 
-2.7.4
+2.20.1
 
 
