@@ -1,53 +1,23 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
-	[209.85.210.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 402E07F280
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E0E567C7A3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 05:31:22 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id v4so861712pff.6
+	Fri, 27 Sep 2019 06:42:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x8R6gqoI002485
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 22:31:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:in-reply-to:references:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=C2Ep+QIHf3rlZNRK0Oi71adLRk3y1MCUQJ6u94iMZok=;
-	b=khql2KOZCdgjotvi+rkYH4o5B7SZTYAew89cH83yMAu0masC1tnsg4XdIEXXS+wbyK
-	keGo0KxrcIQxH4H+KW2fEr4qNE8B/rJRZTRyRmvAaXZOZ2GOOl8OgVdxp1UkIKwoVDQ6
-	5KjJLkl2QWUDNcimYMCMzYkxi6+EjhMb38FpwbxTdfuHy+NmJc2AW+xejVo6H/po/3z6
-	qjKR4xKWLLp4Bxi/MkXZSksdEPr+/RiBqjCnSRoe09EXFl21NJs0WCR+MLjlfcUlH4lM
-	U8Bw/WMaBpKSBknxRevKgH3P14MLMJR7tvDmf7mY/53yc0SOk4TQdwBlVXIiCrY7SnK8
-	yVPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
-	:cc:subject:content-transfer-encoding:mime-version;
-	bh=C2Ep+QIHf3rlZNRK0Oi71adLRk3y1MCUQJ6u94iMZok=;
-	b=LU2IyantEbExyA84eOzwawMcRvVutFUUQ3PkLeAwZrl6jN26HTH4eeS/UngJ3oecj/
-	DBvEpmkA8clJRs8y3xnm0MlZ3+738YLXCzRbdY3tSgywypEt/IraTHKVVssuECLzx94k
-	SDybOJjidgEhLtrvhyF1bSR53sNIN0OzJngqJ3ykO+w7MHMJBFmXSeVIKClphUmB+o7h
-	vIbkNpJKLnhNBMOGmqgGg6hyIaoF4Hta2HWfOXLg6S6NEnoDbncKTqt9ObNbwpOx4ohL
-	/VBspqkLek0az8FtgeH/i2dCKF1As3/MERtIM5M5ShovbTebA8lpxLlk7ZUgt9f7MVvR
-	Vc2g==
-X-Gm-Message-State: APjAAAW4uCJvChpnPGmYtDiRTw9iuj/Rba4rGoDsN1A7IrJSSYog1Ab4
-	vOuqObHF02rGkOpPWmM02BJDng==
-X-Google-Smtp-Source: APXvYqxY3VL5JhBmR4tgAxPGXyUgieclsF8B3V9ghOINUuZ9kxL7KNvJnpSyuj0vHvqWR/1lRFTbjw==
-X-Received: by 2002:a17:90a:2e06:: with SMTP id
-	q6mr7670663pjd.139.1569562283218; 
-	Thu, 26 Sep 2019 22:31:23 -0700 (PDT)
-Received: from [127.0.1.1] ([101.184.51.94])
-	by smtp.gmail.com with UTF8SMTPSA id
-	e1sm3520831pgd.21.2019.09.26.22.31.20
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 26 Sep 2019 22:31:22 -0700 (PDT)
-Date: Fri, 27 Sep 2019 05:31:08 +0000
-Message-Id: <20190927053108.14495-2-nathan@nathanrossi.com>
-In-Reply-To: <20190927053108.14495-1-nathan@nathanrossi.com>
-References: <20190927053108.14495-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
+	Thu, 26 Sep 2019 23:42:52 -0700 (PDT)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 26 Sep 2019 23:42:52 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Sep 2019 14:42:51 +0800
+Message-ID: <20190927064251.3046-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] oeqa/core/case.py: Encode binary data of log
+Subject: [PATCH] systemd: fix NFS regression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,63 +30,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2019 05:31:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 27 Sep 2019 06:42:52 -0000
+Content-Type: text/plain
 
-Do not decode the log content into a string only to re-encode it as
-binary data again. Some logs might un-intentionally contain bytes that
-do not decode as utf-8, as such preserve the log file content as it was
-on disk.
+Currently systemd cannot boot correctly on NFS. This is because
+the code uses readdir which returns DT_UNKNOWN instead of DT_LNK
+on NFS. So consider DT_UNKNOWN to fix this problem.
 
-Handle the decoding on the resulttool side, but also handle the failure
-to decode the data.
-
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/lib/oeqa/core/case.py            | 4 ++--
- scripts/lib/resulttool/resultutils.py | 6 +++++-
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ ...ider-symlink-on-filesystems-like-NFS.patch | 42 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_243.bb      |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch
 
-diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
-index 180635ac6c..aae451fef2 100644
---- a/meta/lib/oeqa/core/case.py
-+++ b/meta/lib/oeqa/core/case.py
-@@ -59,7 +59,7 @@ class OEPTestResultTestCase:
-     """
-     @staticmethod
-     def _compress_log(log):
--        logdata = log.encode("utf-8")
-+        logdata = log.encode("utf-8") if isinstance(log, str) else log
-         logdata = zlib.compress(logdata)
-         logdata = base64.b64encode(logdata).decode("utf-8")
-         return {"compressed" : logdata}
-@@ -80,7 +80,7 @@ class OEPTestResultTestCase:
-         if log is not None:
-             sections[section]["log"] = self._compress_log(log)
-         elif logfile is not None:
--            with open(logfile, "r") as f:
-+            with open(logfile, "rb") as f:
-                 sections[section]["log"] = self._compress_log(f.read())
+diff --git a/meta/recipes-core/systemd/systemd/0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch b/meta/recipes-core/systemd/systemd/0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch
+new file mode 100644
+index 0000000000..ba20a0bb46
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch
+@@ -0,0 +1,42 @@
++From d0122c077d2d8fd0fd29b463c501e7ddf9177ff3 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Tue, 24 Sep 2019 17:04:50 +0800
++Subject: [PATCH] unit-file.c: consider symlink on filesystems like NFS
++
++Some filesystems do not fully support readdir, according to the manual,
++so we should also consider DT_UNKNOWN to correctly handle symlinks.
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++
++Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/13637]
++---
++ src/shared/unit-file.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/src/shared/unit-file.c b/src/shared/unit-file.c
++index 4a5f23e6c1..8373103000 100644
++--- a/src/shared/unit-file.c
+++++ b/src/shared/unit-file.c
++@@ -247,6 +247,7 @@ int unit_file_build_name_map(
++                         _cleanup_free_ char *_filename_free = NULL, *simplified = NULL;
++                         const char *suffix, *dst = NULL;
++                         bool valid_unit_name;
+++                        struct stat sb;
++ 
++                         valid_unit_name = unit_name_is_valid(de->d_name, UNIT_NAME_ANY);
++ 
++@@ -279,7 +280,10 @@ int unit_file_build_name_map(
++                         if (hashmap_contains(ids, de->d_name))
++                                 continue;
++ 
++-                        if (de->d_type == DT_LNK) {
+++                        if (de->d_type == DT_LNK ||
+++                            (de->d_type == DT_UNKNOWN &&
+++                             lstat(filename, &sb) == 0 &&
+++                             (sb.st_mode & S_IFMT) == S_IFLNK)) {
++                                 /* We don't explicitly check for alias loops here. unit_ids_map_get() which
++                                  * limits the number of hops should be used to access the map. */
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
+index 0148c37e45..1ef4cd142e 100644
+--- a/meta/recipes-core/systemd/systemd_243.bb
++++ b/meta/recipes-core/systemd/systemd_243.bb
+@@ -22,6 +22,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0004-rules-whitelist-hd-devices.patch \
+            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
++           file://0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch \
+            file://99-default.preset \
+            "
  
-         if duration is not None:
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index 177fb25f93..7cb85a6aa9 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -126,7 +126,11 @@ def decode_log(logdata):
-         if "compressed" in logdata:
-             data = logdata.get("compressed")
-             data = base64.b64decode(data.encode("utf-8"))
--            return zlib.decompress(data).decode("utf-8")
-+            data = zlib.decompress(data)
-+            try:
-+                return data.decode("utf-8")
-+            except UnicodeDecodeError:
-+                return data
-     return None
- 
- def ptestresult_get_log(results, section):
----
-2.23.0
+-- 
+2.17.1
+
 
