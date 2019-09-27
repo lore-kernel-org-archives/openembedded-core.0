@@ -1,49 +1,53 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B6346BA9D
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+	[209.85.210.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 402E07F280
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 05:31:17 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id q7so2794148pgi.12
+	Fri, 27 Sep 2019 05:31:22 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id v4so861712pff.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2019 22:31:18 -0700 (PDT)
+	Thu, 26 Sep 2019 22:31:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
-	h=date:message-id:from:to:cc:subject:content-transfer-encoding
-	:mime-version; bh=pEH/khTWD3PP6tJ6R95QRsADX7oZFKn4Yg3lH7aW6PM=;
-	b=ZIonODfqWuBFazAttOVBxpXxZnfN+7ACZz6duWg7ZNK2c3WhaF35BgIOygvErJGViV
-	QNiQjxxWJYLcDQNOEWLh2obt0jdY9GCrw2RAWTTv6Kg2qCoxSTBNhQ+EKwDxLfTpsQ5k
-	RB60rvYO/KpmInrGXNNZVYMEIRS80+p6ZfhnbN8C3tIYK7XNPa0xi+zbH8zHXrV9NSdr
-	PeTNUpgM9h6wfjvOan4oCkCfNNxH0NLsFWCFaJXsY8GSu6xA/xearGWDjtO3t5Z4RTpS
-	QHq6lwJIe68AeTP4bTY31tBNAXtxoUFkFqr6YAe9OGAbqd/CO8s41zOz3aMqEoeiMJ0+
-	2nHQ==
+	h=date:message-id:in-reply-to:references:from:to:cc:subject
+	:content-transfer-encoding:mime-version;
+	bh=C2Ep+QIHf3rlZNRK0Oi71adLRk3y1MCUQJ6u94iMZok=;
+	b=khql2KOZCdgjotvi+rkYH4o5B7SZTYAew89cH83yMAu0masC1tnsg4XdIEXXS+wbyK
+	keGo0KxrcIQxH4H+KW2fEr4qNE8B/rJRZTRyRmvAaXZOZ2GOOl8OgVdxp1UkIKwoVDQ6
+	5KjJLkl2QWUDNcimYMCMzYkxi6+EjhMb38FpwbxTdfuHy+NmJc2AW+xejVo6H/po/3z6
+	qjKR4xKWLLp4Bxi/MkXZSksdEPr+/RiBqjCnSRoe09EXFl21NJs0WCR+MLjlfcUlH4lM
+	U8Bw/WMaBpKSBknxRevKgH3P14MLMJR7tvDmf7mY/53yc0SOk4TQdwBlVXIiCrY7SnK8
+	yVPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=pEH/khTWD3PP6tJ6R95QRsADX7oZFKn4Yg3lH7aW6PM=;
-	b=Amzh08eEWlnxf4hLVTYYq17/oIqyCBr2+++ytMGkHt8ZECbvJm0YwVLzYLNIakML2O
-	inZOqub5wBS/XSWMBepdsyTh89pmu2E6+MLNx+/9jJtsFDwfIJdaAIow7shvD+D/WIez
-	imp3400/T+wlzkJUDZBo9Y7cTYqc+1w3wVvcRx7wuywCd3mY2j07vqvMmoFc2ATsaQv6
-	W9+kRVTtAR05H7x+RRjTmYXV4XUNNIbqMYArbT1hKdhWZY6yX6rZ7mNYWFy427/uLPIB
-	bsx8mJcANErjAi2B8TRIkT6ddTmgTBGMdi6hjWaQ4iogY1KZwSL5/1btNgXmM/YoYTZZ
-	NoJw==
-X-Gm-Message-State: APjAAAWvvlZJ2G3ME6p5K82cg/Aewmr9/74v/n/es+PoaNJ8e6JYMrlX
-	zcpL+U03RfsgMwYmGHCCUZ0/Xw==
-X-Google-Smtp-Source: APXvYqxScMdmJTV69D14zeoQhj/+hfYB/fbDYIO8GwfQ8JtAT8jfTCjT+12a3Metbev7iVaeK9NeqA==
-X-Received: by 2002:a17:90a:2284:: with SMTP id s4mr7551705pjc.3.1569562278241;
-	Thu, 26 Sep 2019 22:31:18 -0700 (PDT)
+	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
+	:cc:subject:content-transfer-encoding:mime-version;
+	bh=C2Ep+QIHf3rlZNRK0Oi71adLRk3y1MCUQJ6u94iMZok=;
+	b=LU2IyantEbExyA84eOzwawMcRvVutFUUQ3PkLeAwZrl6jN26HTH4eeS/UngJ3oecj/
+	DBvEpmkA8clJRs8y3xnm0MlZ3+738YLXCzRbdY3tSgywypEt/IraTHKVVssuECLzx94k
+	SDybOJjidgEhLtrvhyF1bSR53sNIN0OzJngqJ3ykO+w7MHMJBFmXSeVIKClphUmB+o7h
+	vIbkNpJKLnhNBMOGmqgGg6hyIaoF4Hta2HWfOXLg6S6NEnoDbncKTqt9ObNbwpOx4ohL
+	/VBspqkLek0az8FtgeH/i2dCKF1As3/MERtIM5M5ShovbTebA8lpxLlk7ZUgt9f7MVvR
+	Vc2g==
+X-Gm-Message-State: APjAAAW4uCJvChpnPGmYtDiRTw9iuj/Rba4rGoDsN1A7IrJSSYog1Ab4
+	vOuqObHF02rGkOpPWmM02BJDng==
+X-Google-Smtp-Source: APXvYqxY3VL5JhBmR4tgAxPGXyUgieclsF8B3V9ghOINUuZ9kxL7KNvJnpSyuj0vHvqWR/1lRFTbjw==
+X-Received: by 2002:a17:90a:2e06:: with SMTP id
+	q6mr7670663pjd.139.1569562283218; 
+	Thu, 26 Sep 2019 22:31:23 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.51.94])
 	by smtp.gmail.com with UTF8SMTPSA id
-	z12sm1120712pfj.41.2019.09.26.22.31.15
+	e1sm3520831pgd.21.2019.09.26.22.31.20
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 26 Sep 2019 22:31:17 -0700 (PDT)
+	Thu, 26 Sep 2019 22:31:22 -0700 (PDT)
 Date: Fri, 27 Sep 2019 05:31:08 +0000
-Message-Id: <20190927053108.14495-1-nathan@nathanrossi.com>
+Message-Id: <20190927053108.14495-2-nathan@nathanrossi.com>
+In-Reply-To: <20190927053108.14495-1-nathan@nathanrossi.com>
+References: <20190927053108.14495-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 1/2] oeqa/core/utils/concurrencytest.py: Handle exceptions and details
+Subject: [PATCH 2/2] oeqa/core/case.py: Encode binary data of log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,92 +60,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2019 05:31:17 -0000
+X-List-Received-Date: Fri, 27 Sep 2019 05:31:22 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Handle the streaming of exception content with details data. The
-testtools package allows both 'err' and 'details' kwargs but can only
-pass one of them to the parent.
+Do not decode the log content into a string only to re-encode it as
+binary data again. Some logs might un-intentionally contain bytes that
+do not decode as utf-8, as such preserve the log file content as it was
+on disk.
 
-To handle the passing of exception traceback and details data at the
-same time, encode the traceback into the details object and remove the
-'err' arg from the add* result call. This encodes the traceback similar
-to how 'err' is handled without any details object. Decoding is already
-done by testtools when the traceback is encoded in the details object.
+Handle the decoding on the resulttool side, but also handle the failure
+to decode the data.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/lib/oeqa/core/utils/concurrencytest.py | 31 +++++++++++++++++------------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+ meta/lib/oeqa/core/case.py            | 4 ++--
+ scripts/lib/resulttool/resultutils.py | 6 +++++-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
-index 6293cf94ec..0f7b3dcc11 100644
---- a/meta/lib/oeqa/core/utils/concurrencytest.py
-+++ b/meta/lib/oeqa/core/utils/concurrencytest.py
-@@ -78,29 +78,29 @@ class ProxyTestResult:
-     def __init__(self, target):
-         self.result = target
+diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
+index 180635ac6c..aae451fef2 100644
+--- a/meta/lib/oeqa/core/case.py
++++ b/meta/lib/oeqa/core/case.py
+@@ -59,7 +59,7 @@ class OEPTestResultTestCase:
+     """
+     @staticmethod
+     def _compress_log(log):
+-        logdata = log.encode("utf-8")
++        logdata = log.encode("utf-8") if isinstance(log, str) else log
+         logdata = zlib.compress(logdata)
+         logdata = base64.b64encode(logdata).decode("utf-8")
+         return {"compressed" : logdata}
+@@ -80,7 +80,7 @@ class OEPTestResultTestCase:
+         if log is not None:
+             sections[section]["log"] = self._compress_log(log)
+         elif logfile is not None:
+-            with open(logfile, "r") as f:
++            with open(logfile, "rb") as f:
+                 sections[section]["log"] = self._compress_log(f.read())
  
--    def _addResult(self, method, test, *args, **kwargs):
-+    def _addResult(self, method, test, *args, exception = False, **kwargs):
-         return method(test, *args, **kwargs)
+         if duration is not None:
+diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
+index 177fb25f93..7cb85a6aa9 100644
+--- a/scripts/lib/resulttool/resultutils.py
++++ b/scripts/lib/resulttool/resultutils.py
+@@ -126,7 +126,11 @@ def decode_log(logdata):
+         if "compressed" in logdata:
+             data = logdata.get("compressed")
+             data = base64.b64decode(data.encode("utf-8"))
+-            return zlib.decompress(data).decode("utf-8")
++            data = zlib.decompress(data)
++            try:
++                return data.decode("utf-8")
++            except UnicodeDecodeError:
++                return data
+     return None
  
--    def addError(self, test, *args, **kwargs):
--        self._addResult(self.result.addError, test, *args, **kwargs)
-+    def addError(self, test, err = None, **kwargs):
-+        self._addResult(self.result.addError, test, err, exception = True, **kwargs)
- 
--    def addFailure(self, test, *args, **kwargs):
--        self._addResult(self.result.addFailure, test, *args, **kwargs)
-+    def addFailure(self, test, err = None, **kwargs):
-+        self._addResult(self.result.addFailure, test, err, exception = True, **kwargs)
- 
--    def addSuccess(self, test, *args, **kwargs):
--        self._addResult(self.result.addSuccess, test, *args, **kwargs)
-+    def addSuccess(self, test, **kwargs):
-+        self._addResult(self.result.addSuccess, test, **kwargs)
- 
--    def addExpectedFailure(self, test, *args, **kwargs):
--        self._addResult(self.result.addExpectedFailure, test, *args, **kwargs)
-+    def addExpectedFailure(self, test, err = None, **kwargs):
-+        self._addResult(self.result.addExpectedFailure, test, err, exception = True, **kwargs)
- 
--    def addUnexpectedSuccess(self, test, *args, **kwargs):
--        self._addResult(self.result.addUnexpectedSuccess, test, *args, **kwargs)
-+    def addUnexpectedSuccess(self, test, **kwargs):
-+        self._addResult(self.result.addUnexpectedSuccess, test, **kwargs)
- 
-     def __getattr__(self, attr):
-         return getattr(self.result, attr)
- 
- class ExtraResultsDecoderTestResult(ProxyTestResult):
--    def _addResult(self, method, test, *args, **kwargs):
-+    def _addResult(self, method, test, *args, exception = False, **kwargs):
-         if "details" in kwargs and "extraresults" in kwargs["details"]:
-             if isinstance(kwargs["details"]["extraresults"], Content):
-                 kwargs = kwargs.copy()
-@@ -114,7 +114,7 @@ class ExtraResultsDecoderTestResult(ProxyTestResult):
-         return method(test, *args, **kwargs)
- 
- class ExtraResultsEncoderTestResult(ProxyTestResult):
--    def _addResult(self, method, test, *args, **kwargs):
-+    def _addResult(self, method, test, *args, exception = False, **kwargs):
-         if hasattr(test, "extraresults"):
-             extras = lambda : [json.dumps(test.extraresults).encode()]
-             kwargs = kwargs.copy()
-@@ -123,6 +123,11 @@ class ExtraResultsEncoderTestResult(ProxyTestResult):
-             else:
-                 kwargs["details"] = kwargs["details"].copy()
-             kwargs["details"]["extraresults"] = Content(ContentType("application", "json", {'charset': 'utf8'}), extras)
-+        # if using details, need to encode any exceptions into the details obj,
-+        # testtools does not handle "err" and "details" together.
-+        if "details" in kwargs and exception and (len(args) >= 1 and args[0] is not None):
-+            kwargs["details"]["traceback"] = testtools.content.TracebackContent(args[0], test)
-+            args = []
-         return method(test, *args, **kwargs)
- 
- #
+ def ptestresult_get_log(results, section):
 ---
 2.23.0
 
