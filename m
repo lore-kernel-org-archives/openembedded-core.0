@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D98D7F290
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 677447F281
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 12:21:20 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id q17so2473891wrx.10
+	Fri, 27 Sep 2019 12:21:21 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id i18so2466691wru.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 05:21:21 -0700 (PDT)
+	Fri, 27 Sep 2019 05:21:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=NTaBGmYnJTUDOi8o7zVpji0jcQYBB0QNGg1v5jNqyS4=;
-	b=H+uanNBtsSZNPOOKsiiMYMrCKv8KHmUTCQfgnjLcesq8UYggeT10/sSdJbkljKmCnI
-	5GiEv/cGMVhv/fFrRP4awhW3ZZYoDN4ipVzsOcEv/DnA+Jfcl1zGqWOJsAz7NouKNa9k
-	UPyjByDa2ymtB31sIVy7he5C+z4/gSz9DQubc=
+	bh=4YEfMERerbQy+8vdf/HPVSWzm40Sy0rsdf/rEFyaG38=;
+	b=KmGNU2mAV2JNXstFKrD56pb2iVxUMNfC3yeXfxuJB/EilPBiqfWbPflJR2/RL714J6
+	CH6ou4+Z6HRgP+lyOAyCfqHUwM1FhSVth2290g+DXOXKfGnQvqidikNOqq10YsJeOr2A
+	XnmtsQomQ4UzYH2b5wjm9cCUamfdg3lXAceTE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=NTaBGmYnJTUDOi8o7zVpji0jcQYBB0QNGg1v5jNqyS4=;
-	b=a/jzJFuKkSU9FNPDAAeoXTQOU0XjrdLAwv5LGsH2xmBBgmxNNOnv2+Ao1/Gt6ez+/6
-	EG2cZiPZRI4Z3/UxjH/SPMSvukgj5u4nVrIQ86CA8WQF0VFcDA+3FhgRpkj5jlF7coSN
-	4eSbEHdg6948PVgso68fnFSGmjc3vmfrBrWxozp2lgQl5780i1etzkihcaVWU1MmH8Lk
-	Ypk7nVl2qm8PgPH1UZAw/mCGR9zrc1D/9DYsA1RYhC4zCgTF1zb0acAfTMJlP6ZofOOe
-	FQkw9RhjZbpWlEc0X8IjqPAaWPJaa8piklt+VTOYID/ra/OQuT8oMfOCQlUA5msz74ay
-	otFw==
-X-Gm-Message-State: APjAAAWKBN7xUE9WKL3jtnfNg5Mw4/+KXouoflsqE6a1K7xrYowdorxX
-	DZD/zFGnazm4LQpJtf1xwyU/CAHD24U=
-X-Google-Smtp-Source: APXvYqyxbACVpC4Zw4HbYeJQoGcPqOIvDMusPQCkZm8fkDEDcL1WSC0BXqyXa7FTmpL2yX2mNxv37Q==
-X-Received: by 2002:adf:e607:: with SMTP id p7mr2708329wrm.230.1569586880800; 
-	Fri, 27 Sep 2019 05:21:20 -0700 (PDT)
+	bh=4YEfMERerbQy+8vdf/HPVSWzm40Sy0rsdf/rEFyaG38=;
+	b=KEg80GJ/x3rjcI9ebrkMFWkL5GPTmU7qDDF1feUNKL6XO1H+v0X4p1M6p/SeKplNLL
+	3ZzJHzy0N3wpD5ZwXxOcXqURxIsa8Cp9bjirTQMPN9ikCYmi7PPN9npQxhoIAre5x6by
+	AISRXjMhkzgCWA86xbIbpIYzqU/TzCEkSb/KeBNlSw+TRnUwawjnuNd/jkjS3e9MGwbH
+	OG5hM6lPfF2W0YGwd4WKu3UXhFEspzLTADoBNEoAU2hUS/amy4j7W3auAfdNE/6vgrMl
+	N2E8nHnN5PAldZJyqSNgg4rstD/7OUXhdVi9mGxJBzgx6CDoDW19JzfwaKiHB425hfcP
+	YaeQ==
+X-Gm-Message-State: APjAAAXlC3HkOkPf+n3xULD/VDU12fOK6ft8HEIs9hEcisyuYewzzdQH
+	RwOGJI5l2/HIPYpfpNXc/pxVIiOzpHw=
+X-Google-Smtp-Source: APXvYqxfY8hSHvVdsvDKU/9E0SoKVUWXSxAAXTnDPvnhwUruqe7IzERFuRjHqBZJ1inR2gDxbzsFrw==
+X-Received: by 2002:adf:e546:: with SMTP id z6mr2736095wrm.113.1569586881864; 
+	Fri, 27 Sep 2019 05:21:21 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	d9sm3973609wrf.62.2019.09.27.05.21.19
+	d9sm3973609wrf.62.2019.09.27.05.21.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 27 Sep 2019 05:21:20 -0700 (PDT)
+	Fri, 27 Sep 2019 05:21:21 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Sep 2019 13:21:15 +0100
-Message-Id: <20190927122117.19023-2-richard.purdie@linuxfoundation.org>
+Date: Fri, 27 Sep 2019 13:21:16 +0100
+Message-Id: <20190927122117.19023-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190927122117.19023-1-richard.purdie@linuxfoundation.org>
 References: <20190927122117.19023-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] oeqa/selftest/signing: Fix for hash equivlance server
+Subject: [PATCH 3/4] lib/sstatesig: Fix class inheritance problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,56 +58,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2019 12:21:20 -0000
+X-List-Received-Date: Fri, 27 Sep 2019 12:21:21 -0000
 Content-Transfer-Encoding: 8bit
 
-There were two issues with the test one is that an equivalent hash
-could come from the server meaning the signature didn't change when it
-should. A uuid string is injected to ensure this does not happen.
+The locked sigs class needs to be inherited after the hashequiv mixin so
+that get_unihash can correctly wrap the underlying hashequiv function.
 
-If there were multiple warnings the test would also fail as only the
-first is prefixed with WARNING. Tweak the string to avoid that failure
-mode.
+To do this turn the locked sigs class into a second mixin, then the order
+can be correctly handled. Tweak the get/set_taskdata to match.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/signing.py | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/lib/oe/sstatesig.py | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
-index b390f37d8e6..5c4e01b2c36 100644
---- a/meta/lib/oeqa/selftest/cases/signing.py
-+++ b/meta/lib/oeqa/selftest/cases/signing.py
-@@ -180,6 +180,8 @@ class LockedSignatures(OESelftestTestCase):
-         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-         """
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 43eb6034e6a..c566ce5a0cb 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -90,8 +90,7 @@ class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
+     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
+         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
  
-+        import uuid
+-class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+-    name = "OEBasicHash"
++class SignatureGeneratorOEBasicHashMixIn(object):
+     def init_rundepcheck(self, data):
+         self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE") or "").split()
+         self.saferecipedeps = (data.getVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS") or "").split()
+@@ -129,12 +128,11 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
+ 
+     def get_taskdata(self):
+-        data = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskdata()
+-        return (data, self.lockedpnmap, self.lockedhashfn, self.lockedhashes)
++        return (self.lockedpnmap, self.lockedhashfn, self.lockedhashes) + super().get_taskdata()
+ 
+     def set_taskdata(self, data):
+-        coredata, self.lockedpnmap, self.lockedhashfn, self.lockedhashes = data
+-        super(bb.siggen.SignatureGeneratorBasicHash, self).set_taskdata(coredata)
++        self.lockedpnmap, self.lockedhashfn, self.lockedhashes = data[:3]
++        super().set_taskdata(data[3:])
+ 
+     def dump_sigs(self, dataCache, options):
+         sigfile = os.getcwd() + "/locked-sigs.inc"
+@@ -263,7 +261,10 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+         if error_msgs:
+             bb.fatal("\n".join(error_msgs))
+ 
+-class SignatureGeneratorOEEquivHash(bb.siggen.SignatureGeneratorUniHashMixIn, SignatureGeneratorOEBasicHash):
++class SignatureGeneratorOEBasicHash(SignatureGeneratorOEBasicHashMixIn, bb.siggen.SignatureGeneratorBasicHash):
++    name = "OEBasicHash"
 +
-         test_recipe = 'ed'
-         locked_sigs_file = 'locked-sigs.inc'
++class SignatureGeneratorOEEquivHash(SignatureGeneratorOEBasicHashMixIn, bb.siggen.SignatureGeneratorUniHashMixIn, bb.siggen.SignatureGeneratorBasicHash):
+     name = "OEEquivHash"
  
-@@ -197,9 +199,10 @@ class LockedSignatures(OESelftestTestCase):
-         bitbake(test_recipe)
- 
-         # Make a change that should cause the locked task signature to change
-+        # Use uuid so hash equivalance server isn't triggered
-         recipe_append_file = test_recipe + '_' + get_bb_var('PV', test_recipe) + '.bbappend'
-         recipe_append_path = os.path.join(self.testlayer_path, 'recipes-test', test_recipe, recipe_append_file)
--        feature = 'SUMMARY += "test locked signature"\n'
-+        feature = 'SUMMARY_${PN} = "test locked signature%s"\n' % uuid.uuid4()
- 
-         os.mkdir(os.path.join(self.testlayer_path, 'recipes-test', test_recipe))
-         write_file(recipe_append_path, feature)
-@@ -210,7 +213,7 @@ class LockedSignatures(OESelftestTestCase):
-         ret = bitbake(test_recipe)
- 
-         # Verify you get the warning and that the real task *isn't* run (i.e. the locked signature has worked)
--        patt = r'WARNING: The %s:do_package sig is computed to be \S+, but the sig is locked to \S+ in SIGGEN_LOCKEDSIGS\S+' % test_recipe
-+        patt = r'The %s:do_package sig is computed to be \S+, but the sig is locked to \S+ in SIGGEN_LOCKEDSIGS\S+' % test_recipe
-         found_warn = re.search(patt, ret.output)
- 
-         self.assertIsNotNone(found_warn, "Didn't find the expected warning message. Output: %s" % ret.output)
+     def init_rundepcheck(self, data):
 -- 
 2.20.1
 
