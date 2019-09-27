@@ -1,43 +1,31 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3769A7F344
+Return-Path: <vygu@protonmail.ch>
+X-Greylist: delayed 361 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 27 Sep 2019 15:03:10 UTC
+Received: from mail-40130.protonmail.ch (mail-40130.protonmail.ch
+	[185.70.40.130])
+	by mail.openembedded.org (Postfix) with ESMTP id EE2457C346
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 14:10:07 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id n14so2890067wrw.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2019 07:10:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=PRaUKmM8gB+nS6sdfUkWsaQMdZ6TzY1lVBY6fqBb8cQ=;
-	b=aDjAlMkMxi3gWL416ZstADBj2lTOyn99k6OGtG8SVcTtIaqSLcaC69LjX+HGv3B0oh
-	TD2KAfxcF3JCjx56Td6lFqOfslINOV80WQiR5NT6MSF+UcpPgyRDPQdbUgY2cYTEIzME
-	gua73dg9V7EM0xXKxKZUFe/nNfK1xsDIjl+RvXa8titrCOGMr47OKTY7j8jOawoawOs/
-	XfrrJE5JyByW4Dab6r7/aFJcNO2LNwT47I/6siSW7lIs6V6gfEar6c3yLFr2xvlSlb2Z
-	F7EUxzQFBSmTSTEctyijSfqsdQVKH0M64Xb2lyNIIknw6M6DxTsnm6i9osH0+pIXuK7A
-	m2dg==
-X-Gm-Message-State: APjAAAV3cihNQuCEOYjUntp7WmtZ9t1KVVx/7K9VnfhCvf7qtFTlZPH0
-	o846hCk72Xy+CrgRYwQzFFCSgOZx
-X-Google-Smtp-Source: APXvYqwDY4KJXd7VTljNW7fFtL1QM/N4Kt0+dcJW2fmNuMm/Wf4QjkFfxtICPeqj6dnkcmEuapNe4g==
-X-Received: by 2002:a5d:5052:: with SMTP id h18mr3015637wrt.397.1569593407715; 
-	Fri, 27 Sep 2019 07:10:07 -0700 (PDT)
-Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	z142sm17596532wmc.24.2019.09.27.07.10.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 27 Sep 2019 07:10:06 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Sep 2019 15:10:06 +0100
-Message-Id: <20190927141006.31440-1-git@andred.net>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20190927135443.15407-2-git@andred.net>
-References: <20190927135443.15407-2-git@andred.net>
+	Fri, 27 Sep 2019 15:03:10 +0000 (UTC)
+Date: Fri, 27 Sep 2019 14:57:03 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
+	s=default; t=1569596228;
+	bh=7V4V2lkkODhQ1MKiWfM8xDFvQMjXzDBQ6laNUzJkC5s=;
+	h=Date:To:From:Reply-To:Subject:Feedback-ID:From;
+	b=siMH5Q5eFU5Kcn0ehc9oD9qzJTNZ4DpGshoeFZ+1mwbWN1Ja6LZ3yNIoM7ATCBgjs
+	jLa8DxfKDAwYfxZ1z8nxKeEGM7AagxVe0huXYK+iy6tCtCC0vo4Dm0sEOWrc2Xp03C
+	LYmxpCRXzzpD9KsZw4faA6yivMHUov2LKCsPmbdE=
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+From: vygu <vygu@protonmail.ch>
+Reply-To: vygu <vygu@protonmail.ch>
+Message-ID: <8qOLR3hEH6wWLGBdAwosadkVtTzsjACcBDJ7jxKUJKbIVJIzyXxEBy5JI-6-QtM8_w9muMkzgnnlyi-gRtTcwbvkKgfTNFYJVc2SO5GFpgY=@protonmail.ch>
+Feedback-ID: zBs-L8wQuKBorWEbLVdJJa3lLTcCv3Htc-27OHD_QG0eSCsj-lmyvhEbqA6BLcl_zRuO8x5lF36uIcXEqZFTgQ==:Ext:ProtonMail
 MIME-Version: 1.0
-Subject: [PATCH v2] ruby: fix non-IPv6 support
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HTML_MESSAGE
+	autolearn=ham autolearn_force=no version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
+Subject: Warrior, OpenCV, Python2, python-cv2 issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,68 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2019 14:10:07 -0000
+X-List-Received-Date: Fri, 27 Sep 2019 15:03:11 -0000
+Content-Type: multipart/alternative;
+	boundary="b1_597fbc56ce4eea5e89c9db044cf70c08"
+
+--b1_597fbc56ce4eea5e89c9db044cf70c08
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
 
-From: André Draszik <andre.draszik@jci.com>
-
-When IPv6 support is disabled, this recipe mis-configures
-ruby so that it end up non-working:
---enable-wide-getaddrinfo instructs ruby to re-implement
-the standard getaddinfo(), but IPv6 support is still
-automatically detected via ext/socket/extconf.rb
-independently of that flag.
-
-To re-implement getaddrinfo(), ruby uses the obsolete
-getipnodebyaddr() and getipnodebyname() functions - i.e.
-according to the man-page, glibc provided those only in
-glibc 2.1.91-95; and of course compilation fails. [1]
-
-Switch to ruby's standard --enable-ipv6= configure
-options to make the build work without warnings, and
-ruby work at runtime as well.
-
-[1] Compilation and linking actually succeed, albeit with
-a warning regarding implicit declaration / unresolved
-symbols. The error is only obvious at runtime due to the
-unresolved symbols...
-
-Signed-off-by: André Draszik <andre.draszik@jci.com>
-
----
-v2:
-* switch to --enable-ipv6/--disable-ipv6 instead of
-  --enable-ipv6=yes/no, as the latter is not actually
-  recognised
----
- meta/recipes-devtools/ruby/ruby_2.5.5.bb | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/meta/recipes-devtools/ruby/ruby_2.5.5.bb b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-index fdd3852a78..feb654cb6a 100644
---- a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-@@ -9,17 +9,12 @@ SRC_URI += " \
- SRC_URI[md5sum] = "7e156fb526b8f4bb1b30a3dd8a7ce400"
- SRC_URI[sha256sum] = "28a945fdf340e6ba04fc890b98648342e3cccfd6d223a48f3810572f11b2514c"
- 
--# it's unknown to configure script, but then passed to extconf.rb
--# maybe it's not really needed as we're hardcoding the result with
--# 0001-socket-extconf-hardcode-wide-getaddr-info-test-outco.patch
--UNKNOWN_CONFIGURE_WHITELIST += "--enable-wide-getaddrinfo"
--
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- 
- PACKAGECONFIG[valgrind] = "--with-valgrind=yes, --with-valgrind=no, valgrind"
- PACKAGECONFIG[gmp] = "--with-gmp=yes, --with-gmp=no, gmp"
--PACKAGECONFIG[ipv6] = ",--enable-wide-getaddrinfo,"
-+PACKAGECONFIG[ipv6] = "--enable-ipv6, --disable-ipv6,"
- 
- EXTRA_AUTORECONF += "--exclude=aclocal"
- 
--- 
-2.23.0.rc1
+SGVsbG8sCgpXaXRoIHRoZSB3YXJyaW9yJ3Mgc2VyaWUsIHdpdGggcG9reSBhbmQgbWV0YS1vcGVu
+ZW1iZWRkZWQgbGF5ZXJzLCB3ZSBoYXZlIGdvdCBhbiBpc3N1ZSBhYm91dCB0aGUgb3BlbmN2IHJl
+Y2lwZSwgd2hlbiB3ZSBhZGQgdGhlICJweXRob24yIiBzdXBwb3J0IHRvIFBBQ0tBR0VDT05GSUcu
+IFRoZSByZWNpcGUgZG9lcyBub3QgY3Jhc2guIEJ1dCB0aGUgaXNzdWUgaGFwcGVucyBkdXJpbmcg
+dGhlIHJvb3RmcyBnZW5lcmF0aW9uLCBiZWNhdXNlICJub3RoaW5nIHByb3ZpZGVzIHB5dGhvbi1v
+cGVuY3YgbmVlZGVkIGJ5IG9wZW5jdi0zLjQuNS1yMCIuIFRoZSBvcGVuY3YgcmVjaXBlIGRvZXMg
+bm90IHNlZW0gdG8gcHJvdmlkZSBjb3JyZWN0bHkgdGhlIHB5dGhvbi1jdjIgcGFja2FnZSBkdWUg
+dG8gdGhlIFBZVEhPTl9TSVRFUEFDS0FHRVNfRElSIHZhcmlhYmxlIGRlZmluaXRpb24uCgpIb3cg
+Y2FuIHdlIG9idGFpbiBvbiBvdXIgaW1hZ2UgcHl0aG9uLWN2MiBhbmQgcHl0aG9uMy1jdjIgd2l0
+aCB0aGUgb3BlbmN2IHJlY2lwZT8KVGhhbmsgeW91IGluIGFkdmFuY2UuCgpWeWd1
 
 
+--b1_597fbc56ce4eea5e89c9db044cf70c08
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
+
+PGRpdj5IZWxsbyw8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5XaXRoIHRoZSB3YXJyaW9y
+J3Mgc2VyaWUsIHdpdGggcG9reSBhbmQgbWV0YS1vcGVuZW1iZWRkZWQgbGF5ZXJzLCB3ZSBoYXZl
+IGdvdCBhbiBpc3N1ZSBhYm91dCB0aGUgb3BlbmN2IHJlY2lwZSwgd2hlbiB3ZSBhZGQgdGhlICJw
+eXRob24yIiBzdXBwb3J0IHRvIFBBQ0tBR0VDT05GSUcuIFRoZSByZWNpcGUgZG9lcyBub3QgY3Jh
+c2guIEJ1dCB0aGUgaXNzdWUgaGFwcGVucyBkdXJpbmcgdGhlIHJvb3RmcyBnZW5lcmF0aW9uLCBi
+ZWNhdXNlICJub3RoaW5nIHByb3ZpZGVzIHB5dGhvbi1vcGVuY3YgbmVlZGVkIGJ5IG9wZW5jdi0z
+LjQuNS1yMCIuIFRoZSBvcGVuY3YgcmVjaXBlIGRvZXMgbm90IHNlZW0gdG8gcHJvdmlkZSBjb3Jy
+ZWN0bHkgdGhlIHB5dGhvbi1jdjIgcGFja2FnZSBkdWUgdG8gdGhlIFBZVEhPTl9TSVRFUEFDS0FH
+RVNfRElSIHZhcmlhYmxlIGRlZmluaXRpb24uPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+
+SG93IGNhbiB3ZSBvYnRhaW4gb24gb3VyIGltYWdlIHB5dGhvbi1jdjIgYW5kIHB5dGhvbjMtY3Yy
+IHdpdGggdGhlIG9wZW5jdiByZWNpcGU/IDxicj48L2Rpdj48ZGl2PlRoYW5rIHlvdSBpbiBhZHZh
+bmNlLjxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PlZ5Z3U8YnI+PC9kaXY+PGRpdj48YnI+
+PC9kaXY+
+
+
+
+--b1_597fbc56ce4eea5e89c9db044cf70c08--
