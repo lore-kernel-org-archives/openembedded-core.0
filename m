@@ -1,51 +1,53 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A16D6C129
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B8B876C129
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 29 Sep 2019 20:14:02 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id v24so7286522ljj.3
+Received: by mail-lj1-f195.google.com with SMTP id y3so7276076ljj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Sep 2019 13:14:03 -0700 (PDT)
+	Sun, 29 Sep 2019 13:14:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=EfgnZG5lcLvxGsfNSJrzBZbYCFX0RcV0RA99JJv03Po=;
-	b=Y4czygZiHbkemTJwV/ADrb13mUKE0WBbm2QeI1e5kqL+kfM0fyf58KZ1t+vVvt6FTl
-	lsJKi7zCuoOOrifzDuprdQByx5xK+7uXFfUJTIY47RNFAKYUbkadkVxnxm5qjpB6uJfQ
-	2SHDE6c4bLF5htCx/r1mgMIe4/ln7poMQrOeSVnLOv7JfQ3Xiwp9qsks7cLVA4szVTLj
-	pgCda+i62PMgCTk+L/iN54wcEdHKHUIAErFMxPAnD1ygvQEa1svRs0XM1qxep+lBKjf1
-	1iO/VzPHv8N9/Gi9GRh1zcbm2QEeqAMUbuYx96izg3o+JqyEUG5CV/mid488MofijJrZ
-	sAYQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Lmbiie1+UAp5fYzNBPWdWceTvHs3qMHLNmJmFkC6n3Q=;
+	b=gz3wvrHh3pxDLumQ2EH2HD+EnnMY4yGJrjuqUAVv0PDzy6YnpWnQpF9lSuVhDXH0HY
+	Ukg2TNCTGOAh+HwA4Dkm982HWADj7IeY49C38mhRrGVv75x8c7iuSw9yYh2fzhEPsgCP
+	BKGXkUpbjRYFH50CUAaPuWVD5FhX3bPfMxay231b2NtmTHeDZq1/+M5Krpsddunw8Q2+
+	OXkPow/AOxJSKfVwc7NE5W/U353RZpg3nuP6YPimWlr7ZLOgZM8uPebYxrIa7eFZmerg
+	9lJK4C/D9HJAtb1zSsb4MOOlozCkmgSh9knaVh1PlqeCwAgZRwNpLSuRzRkFUp1SG6+S
+	t5fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=EfgnZG5lcLvxGsfNSJrzBZbYCFX0RcV0RA99JJv03Po=;
-	b=dKeJ3LCj9x2bYyjgcHYSSzbZXrUNYSczCUKwkZTvLRJl0IUzA/hgc0OrUYCCRbcLMd
-	T6GSvC7hBqN4Lu8JUxAMv6tMBsIRl8Fo5fGi7KZgJLkvmWU678by+3BxJ4y3YMMoFEsQ
-	cM99q1rZyndJSfTJzo5OzpGqlB0dKGaRj90KZe1VETiJbayka6Xa2VdEGuODPUK+XQiw
-	vmuopCTs0E8v8DXYknIA/fxAz+4T3bIy4LS+KdatzWVRnjvarKEt8UoiMxclK8bAZDCM
-	FF0n36HOvokmB98a7pXr/OwQlwFu0MTOyJVabWKb6iZBMHH5uUzQ19kK+XGQE26Cx72P
-	XgkQ==
-X-Gm-Message-State: APjAAAWT/Xjdld5KqinkTs7jNkpSPV6EUbPBmf4B6opVIFUi7d+uuekP
-	AHxWB1LhLS/a5dnr5mIQNcTPm8Hb
-X-Google-Smtp-Source: APXvYqxUr0ux1c0zAiqGLV2h+6POOtF27vjtiXeX3tUxrMlzkv5VNbm60GQv0UnH7m8dlbMoKeX9Sg==
-X-Received: by 2002:a2e:b1ce:: with SMTP id e14mr10139068lja.135.1569788041987;
-	Sun, 29 Sep 2019 13:14:01 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Lmbiie1+UAp5fYzNBPWdWceTvHs3qMHLNmJmFkC6n3Q=;
+	b=qo3n7L/B3yE2hzLqmmFEiz5y1FG13GcrtEG71oTZvRC5YXZtMndt3pzYDrWUbvapT4
+	td/DrXTLC760mMIlyIYvy5SngAT+RCuShsQW7oFernUeVWm4iNIRpUCjrXPVj7CfiWQG
+	tfXBqj0T5mKIWUTpY7t1gsdt+syhO6j/zpuQyRueatjylV50iMo8e3otexI8gy5Tl8Yx
+	D2fkSw3EP1MagCF/6QQ8P5xrJPYJivhsd4CUNs3bsn78EhdEtb5rMMvK86n9OSzxraOy
+	4SCCiw7alYmnBUuciuUtCcm+UAqnIedme2i9D5Lz2vrwzdJIVctx0awbjNrUUYOZ3sWW
+	mUbw==
+X-Gm-Message-State: APjAAAXve2rWTJfEnPLiKlh7MdEg9UKRgL+MU/EGpm4QOelxucpOFOuf
+	f0C2D8p54sAwfBdVOla5+MgbcSZs
+X-Google-Smtp-Source: APXvYqxwysYfJuE1wFEiHzDTWGq1kZNx5l3rUyalESbBwrVUWae0wfgvswKosfkfYaS7FUzZm+eOgQ==
+X-Received: by 2002:a2e:9d4a:: with SMTP id y10mr9522908ljj.181.1569788043041; 
+	Sun, 29 Sep 2019 13:14:03 -0700 (PDT)
 Received: from localhost.localdomain ([94.25.228.87])
 	by smtp.gmail.com with ESMTPSA id
-	w77sm2414685lff.49.2019.09.29.13.14.00
+	w77sm2414685lff.49.2019.09.29.13.14.02
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 29 Sep 2019 13:14:00 -0700 (PDT)
+	Sun, 29 Sep 2019 13:14:02 -0700 (PDT)
 From: dbaryshkov@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 23:13:55 +0300
-Message-Id: <20190929201359.9837-1-dbaryshkov@gmail.com>
+Date: Sun, 29 Sep 2019 23:13:56 +0300
+Message-Id: <20190929201359.9837-2-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190929201359.9837-1-dbaryshkov@gmail.com>
+References: <20190929201359.9837-1-dbaryshkov@gmail.com>
 MIME-Version: 1.0
 Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH v2 1/5] grub-efi: replace anonymous function with static configuration
+Subject: [PATCH v2 2/5] systemd-boot: replace anonymous function with static configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,101 +60,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Sep 2019 20:14:02 -0000
+X-List-Received-Date: Sun, 29 Sep 2019 20:14:04 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 
 Replace anonymous function setting GRUB_* variables with static
-configuration, since grub-efi.bbclass will use fixed names for grub
-bootloader.
+configuration, since systemd-boot.bbclass will use fixed names for
+systemd bootloader.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 ---
- meta/recipes-bsp/grub/grub-efi_2.04.bb | 40 ++++++++++++--------------
- 1 file changed, 18 insertions(+), 22 deletions(-)
+ meta/recipes-core/systemd/systemd-boot_243.bb | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.04.bb b/meta/recipes-bsp/grub/grub-efi_2.04.bb
-index b9d6225d2774..419f25c014b9 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.04.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.04.bb
-@@ -13,26 +13,22 @@ SRC_URI += " \
+diff --git a/meta/recipes-core/systemd/systemd-boot_243.bb b/meta/recipes-core/systemd/systemd-boot_243.bb
+index 515abc289bef..832532077d07 100644
+--- a/meta/recipes-core/systemd/systemd-boot_243.bb
++++ b/meta/recipes-core/systemd/systemd-boot_243.bb
+@@ -28,20 +28,19 @@ EXTRA_OEMESON += "-Defi=true \
+                   -Defi-objcopy='${OBJCOPY}' \
+                   "
  
- S = "${WORKDIR}/grub-${PV}"
- 
--# Determine the target arch for the grub modules
-+GRUB_TARGET = "UNSUPPORTED"
-+GRUB_TARGET_x86-64 = "x86_64"
-+GRUB_TARGET_x86 = "i386"
-+GRUB_TARGET_aarch64 = "arm64"
-+GRUB_TARGET_arm = "arm"
++SYSTEMD_BOOT_IMAGE = "systemd-${EFI_BOOT_IMAGE}"
 +
-+GRUB_IMAGE = "grub-efi-${EFI_BOOT_IMAGE}"
-+
-+# install to the image as boot*.efi if its the EFI_PROVIDER,
-+# otherwise install as the full name.
-+# This allows multiple bootloaders to coexist in a single image.
+ # install to the image as boot*.efi if its the EFI_PROVIDER,
+ # otherwise install as the full name.
+ # This allows multiple bootloaders to coexist in a single image.
  python __anonymous () {
 -    import re
 -    target = d.getVar('TARGET_ARCH')
--    prefix = "" if d.getVar('EFI_PROVIDER') == "grub-efi" else "grub-efi-"
--    if target == "x86_64":
--        grubtarget = 'x86_64'
--    elif re.match('i.86', target):
--        grubtarget = 'i386'
--    elif re.match('aarch64', target):
--        grubtarget = 'arm64'
--    elif re.match('arm', target):
--        grubtarget = 'arm'
+-    prefix = "" if d.getVar('EFI_PROVIDER') == "systemd-boot" else "systemd-"
+-    systemdimage = prefix + d.getVar("EFI_BOOT_IMAGE")
+-    d.setVar("SYSTEMD_BOOT_IMAGE", systemdimage)
+-    prefix = "systemd-" if prefix == "" else ""
+-    d.setVar("SYSTEMD_BOOT_IMAGE_PREFIX", prefix)
 +    if d.getVar('EFI_PROVIDER') == "grub-efi":
-+        d.setVar("GRUB_EFI_BOOT_IMAGE", d.getVar("EFI_BOOT_IMAGE"))
-     else:
--        raise bb.parse.SkipRecipe("grub-efi is incompatible with target %s" % target)
--    grubimage = prefix + d.getVar("EFI_BOOT_IMAGE")
--    d.setVar("GRUB_TARGET", grubtarget)
--    d.setVar("GRUB_IMAGE", grubimage)
--    prefix = "grub-efi-" if prefix == "" else ""
--    d.setVar("GRUB_IMAGE_PREFIX", prefix)
-+        d.setVar("GRUB_EFI_BOOT_IMAGE", d.getVar("GRUB_IMAGE"))
++        d.setVar("SYSTEMD_BOOT_EFI_BOOT_IMAGE", d.getVar("EFI_BOOT_IMAGE"))
++    else:
++        d.setVar("SYSTEMD_BOOT_EFI_BOOT_IMAGE", d.getVar("SYSTEMD_BOOT_IMAGE"))
  }
  
- inherit deploy
-@@ -45,7 +41,7 @@ do_mkimage() {
- 	# Search for the grub.cfg on the local boot media by using the
- 	# built in cfg file provided via this recipe
- 	grub-mkimage -c ../cfg -p ${EFIDIR} -d ./grub-core/ \
--	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} \
-+	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
- 	               ${GRUB_BUILDIN}
+-FILES_${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}"
++FILES_${PN} = "${EFI_FILES_PATH}/${SYSTEMD_BOOT_EFI_BOOT_IMAGE}"
+ 
+ RDEPENDS_${PN} += "virtual/systemd-bootconf"
+ 
+@@ -56,12 +55,12 @@ do_compile() {
+ 		SYSTEMD_BOOT_EFI_ARCH="x64"
+ 	fi
+ 
+-	ninja src/boot/efi/${SYSTEMD_BOOT_IMAGE_PREFIX}${SYSTEMD_BOOT_IMAGE}
++	ninja src/boot/efi/${SYSTEMD_BOOT_IMAGE}
  }
  
-@@ -57,7 +53,7 @@ do_mkimage_class-native() {
- 
- do_install_append_class-target() {
+ do_install() {
  	install -d ${D}${EFI_FILES_PATH}
--	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${D}${EFI_FILES_PATH}/${GRUB_IMAGE}
-+	install -m 644 ${B}/${GRUB_IMAGE} ${D}${EFI_FILES_PATH}/${GRUB_EFI_BOOT_IMAGE}
+-	install ${B}/src/boot/efi/systemd-boot*.efi ${D}${EFI_FILES_PATH}/${SYSTEMD_BOOT_IMAGE}
++	install ${B}/src/boot/efi/systemd-boot*.efi ${D}${EFI_FILES_PATH}/${SYSTEMD_BOOT_EFI_BOOT_IMAGE}
  }
  
- do_install_class-native() {
-@@ -86,7 +82,7 @@ GRUB_BUILDIN ?= "boot linux ext2 fat serial part_msdos part_gpt normal \
-                  efi_gop iso9660 configfile search loadenv test"
- 
- do_deploy() {
--	install -m 644 ${B}/${GRUB_IMAGE_PREFIX}${GRUB_IMAGE} ${DEPLOYDIR}
-+	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
- }
- 
- do_deploy_class-native() {
-@@ -97,7 +93,7 @@ addtask deploy after do_install before do_build
- 
- FILES_${PN} = "${libdir}/grub/${GRUB_TARGET}-efi \
-                ${datadir}/grub \
--               ${EFI_FILES_PATH}/${GRUB_IMAGE} \
-+               ${EFI_FILES_PATH}/${GRUB_EFI_BOOT_IMAGE} \
-                "
- 
- FILES_${PN}_remove_aarch64 = "${libdir}/grub/${GRUB_TARGET}-efi"
+ do_deploy () {
 -- 
 2.23.0
 
