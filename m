@@ -1,53 +1,53 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CE047D265
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A12887E95B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Sep 2019 10:15:30 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id y23so6465376lje.9
+	Sun, 29 Sep 2019 10:15:31 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id u28so4900391lfc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Sep 2019 03:15:32 -0700 (PDT)
+	Sun, 29 Sep 2019 03:15:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=kiAVVRIzWAm9si5a1MXXkHTuitgrHY9mEBcMvm6H4jA=;
-	b=P3OYp9peS9MoisvduUfFGvJJIos5Z89ZV7QqQDwDMg/KSYK4nZ+1p1vtWKEvoRqmQI
-	uxLn59qyqevVaB1Yfws4mgXSWRj9Mwn/r9kITuvGPhOqvZhQFxRO4Lr21JBEH96lGIYG
-	D9bybVwpyCmlhPEy5HYiM7TOPfJOJA0PAnGRa8PYcgpvtOlbhZItB/uySKfagsQyRd+r
-	XyKp6RGr841votUUeVnA7H31o2M7IM7ONGHE7YyP4XK/MmKt0qwVFJmuR0fGidElF7VI
-	K2mUfXNFrqi9Haj3WpX1K94usFWa8cv5Oz6eLErHsM91EZ6GW5SOdl2uwXkO/XmsSmHb
-	yJtw==
+	bh=cNxlrlsCR8MCMXnywjCx8gu+Bz6KVMj7zOYky62jnig=;
+	b=Wy/jHcEBpD/GmStzXE5PAZx+YQYH/35C3Su4Ye70VVRv2kxxmk9yzOq3O2NH39WaED
+	9L2+IV3dDMct48ONj88xWFZ6M4YJFUSnNOPrw+mZ6VGgBSndypTt3xoH5LkfMo2mvOwE
+	+nEkg/x++GV7vDycekXv881Vyf9x2YGRDgYS3QmhoJ1G41MmePcD9wJjdHmMXh6jXoyZ
+	+vHS9t2LZTYFPtqk/zqKavsTEU5mVh1y9/9ezknHvDBTr7onrymT7MtgVCCJtYr5n4OU
+	fkitayyz2fSeX0pX3FmYJFKtkW1c47UF3Rd1GpVBAaJ3bvuRrqI6lT41n7sLPHVKpJVE
+	Ck/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=kiAVVRIzWAm9si5a1MXXkHTuitgrHY9mEBcMvm6H4jA=;
-	b=abNrmAs9h2OUfVeESpdBLTjMs4+sDLjcw9fGFZ2Wot4QbKIGJY5osvcgTg6z/KKhYo
-	nF1BBvp/gXUlCQ9UpIFbOmFCpItC3mPKhJq/VxMgfGk39+G1ns9UNExgCaMqYHuhlJ+P
-	fuVS5tq1Ys4Eo6ec5Pec4P1EbDRoEWr65YNo1gSXPFi3Za1h3CUuQP9YeBdV8NavE9VF
-	n8onedwMiMfJew8fdrJwXx35ahnw4V8VRWwS0IN+J8Rfi06KJyaIkGvbW4mXflocO05j
-	agrVyRgAsJ5QUWIhOdUX4aQSxxvFcy2zloFWKTM//9a1EFpSsJV06rTS/eRoOAc1+s+V
-	FOkg==
-X-Gm-Message-State: APjAAAVjInY21M0ljbCGyd7y9EQqUpRuJIpm3p1N1QHGm6x2uMdAnreX
-	FX8M3KJvccm4nPy1m9y0dMuGm3g2
-X-Google-Smtp-Source: APXvYqwHVe5MHdfFwWcjIGyKQ8+5An4qAzEsvY5gkwVwUpxCGdl4gdRTIBBzsjJFrebkDVMM47hK1g==
-X-Received: by 2002:a2e:a0c5:: with SMTP id f5mr2220717ljm.114.1569752130856; 
-	Sun, 29 Sep 2019 03:15:30 -0700 (PDT)
+	bh=cNxlrlsCR8MCMXnywjCx8gu+Bz6KVMj7zOYky62jnig=;
+	b=nCF2NOLpodYYqs6VMUmEMyq4t1b8UYsVVH+uDp741/bJfvrlh07iZyWcQG2AQZfl6V
+	m3sVn4R7AAyWlmD4+jQ+0bNEnWrEEi0TV0G/eS1YgMkO4Z/sub23y6VjvGHEThFwqWFD
+	727klMPCUwb0X11DiVTELxJrS5intloevWmcxyD1QpmyF0QQXrIcytJr7rxZK/pV+Bv9
+	SKsXJf4Sdbn7ChXgKP4vDK1H7sKdTEqfaErmY/fk1mn5QyfyqjNL3EOAxz5ZKABC3D+t
+	+hmTEVbf2KnwKL02CjVaI2huvFv9eL0JTohPY0d1PRuB/WjSpZgNoF5uXydkA+8VapGK
+	zqeg==
+X-Gm-Message-State: APjAAAWvbf5zQfUIFEhxLIMNXT/Ls14q8L1U9XsBCFDdrRnp81GIZs80
+	U69F7Ok+n2kTajLBciRdu8dJKWud
+X-Google-Smtp-Source: APXvYqymUusI09L05HJQnyH2wpRx3lxgILIshbqZ1GMmm/3gwf/RjnCauLbMb1wwbHq66DV9HO8/MA==
+X-Received: by 2002:a19:ef17:: with SMTP id n23mr7766504lfh.109.1569752131984; 
+	Sun, 29 Sep 2019 03:15:31 -0700 (PDT)
 Received: from localhost.localdomain ([94.25.228.202])
 	by smtp.gmail.com with ESMTPSA id
-	d28sm2012918lfq.88.2019.09.29.03.15.29
+	d28sm2012918lfq.88.2019.09.29.03.15.30
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 29 Sep 2019 03:15:29 -0700 (PDT)
+	Sun, 29 Sep 2019 03:15:31 -0700 (PDT)
 From: dbaryshkov@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 13:15:24 +0300
-Message-Id: <20190929101526.2061-3-dbaryshkov@gmail.com>
+Date: Sun, 29 Sep 2019 13:15:25 +0300
+Message-Id: <20190929101526.2061-4-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190929101526.2061-1-dbaryshkov@gmail.com>
 References: <20190929101526.2061-1-dbaryshkov@gmail.com>
 MIME-Version: 1.0
 Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH 3/5] image-uefi.conf: define EFI_ARCH variable
+Subject: [PATCH 4/5] image-uefi.conf: define generic EFI_COMPATIBLE_HOST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +60,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Sep 2019 10:15:30 -0000
+X-List-Received-Date: Sun, 29 Sep 2019 10:15:32 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 
-Define EFI_ARCH to suffix used by UEFI on the platform to name files.
-
 Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 ---
- meta/conf/image-uefi.conf | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ meta/conf/image-uefi.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/conf/image-uefi.conf b/meta/conf/image-uefi.conf
-index aaeff12ccb80..669c16d42af4 100644
+index 669c16d42af4..19729c401dfa 100644
 --- a/meta/conf/image-uefi.conf
 +++ b/meta/conf/image-uefi.conf
-@@ -9,8 +9,10 @@ EFI_PREFIX ?= "/boot"
- EFI_FILES_PATH = "${EFI_PREFIX}${EFIDIR}"
+@@ -16,3 +16,5 @@ EFI_ARCH_aarch64 = "aa64"
+ EFI_ARCH_arm = "arm"
  
- # Determine name of bootloader image
--EFI_BOOT_IMAGE ?= "bootINVALID.efi"
--EFI_BOOT_IMAGE_x86-64 = "bootx64.efi"
--EFI_BOOT_IMAGE_x86 = "bootia32.efi"
--EFI_BOOT_IMAGE_aarch64 = "bootaa64.efi"
--EFI_BOOT_IMAGE_arm = "bootarm.efi"
-+EFI_ARCH ?= "INVALID"
-+EFI_ARCH_x86-64 = "x64"
-+EFI_ARCH_x86 = "ia32"
-+EFI_ARCH_aarch64 = "aa64"
-+EFI_ARCH_arm = "arm"
+ EFI_BOOT_IMAGE ?= "boot${EFI_ARCH}.efi"
 +
-+EFI_BOOT_IMAGE ?= "boot${EFI_ARCH}.efi"
++EFI_COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64.*)-linux.*"
 -- 
 2.23.0
 
