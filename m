@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BDE560807
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 54DC57F33E
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 30 Sep 2019 04:48:27 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id y10so3410346plp.2
+Received: by mail-pl1-f174.google.com with SMTP id e5so3399535pls.9
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 29 Sep 2019 21:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=fvUDpFi44QMFi2MN1XRqzTYpulu2pHOv5HzGABEdhwI=;
-	b=Dl1IvDZvU8ZSkA8q1WjW9EuWYv+u5fykmZm9Syrh0YuTiFK0et983CIAd1qP9SNgl9
-	1+hIBEn43QV1ji3+oaFGMMcPfMvHkiSHeCSGslByyh5jDRERMCWbMh5iaYGKEwHlGxru
-	GNQrSGy7CPWlsORvaqpdyR9XkWHGVxz41UXo8Z3jEIxObRXRtce4abuO4onBl0USeY3Z
-	pH8AKwPQi/77BxuGridgysm+0saXGkgjyIcpIG+I+JoXwkAxyeUNB0hPmseEtVSEjXte
-	Eu8WwEo99FZRUPbekRmL2hJuLViXZpgG/Jedxg4DSTNds914O4vL+niTEQfUBobm1XVG
-	fGuw==
+	bh=BjPq8JOTwdEVKI1ZUpLtrQsVB1h5g0kAsRTQvQJ1+TE=;
+	b=qzl7fiG+JfspAwwGDLJdS5ZMOn0eWA6OSm7A+pyITMRQ9rJBM8vll7N4Ue0RQ7HlEl
+	LOKukeJm89SM4ZM7J6aSndCzWpbJkSHjiW43YGCzGIyGpBdosRvjzrKRsLiaZAt1R1Yx
+	XiCBN2+LsYVmaR4Y99k3TLO10fvFfv+SyjCQb5lCoG9JC6dWv4BXkg1Nhjwk8uUFR2lg
+	U3DbWpN/xJdGfXIc8er3kR+x8DDIaTAl6+Y8b/qGmHCfFCFkd6uX+tJ/t7uDma8+W4E9
+	ENOe6TRNf2xrB/pTdKNRHiJmiz9Fs0pjoKPSWX/itS3YG2wVWKgbOxooTevcbYz3QUds
+	07mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=fvUDpFi44QMFi2MN1XRqzTYpulu2pHOv5HzGABEdhwI=;
-	b=EMK1ITHx/RLg6wGfW0zD0vmA94naPCM9mb2iVPjztq1Q/yYQC7MhciWn/Cy2hz5dAg
-	4017HoVPCjxXsFRbGbyoTu+crdLApyd3rm6xByKR+k4qzBNGlrxt6QGn3en1k+LNo8W7
-	Lw1zkeaqgoPgutjZQcWtZnhlJ+0cQAAc6KSFXXZTEL48eNOlbWzDL5qoyhax3j14vie4
-	5oC64bjY8VMOZbWk0GXYL+EAyED40Cl4HPa9NkSpcEORLbV58L65i4MNjPE0Fb3+3NiT
-	NqAjm1aPE/WR3BlC+3wD//a5C3vdUCmWS3bePtunZB97F0LbtYp1/83du2dgmanT+NPY
-	Q4CQ==
-X-Gm-Message-State: APjAAAUimZDjtgw/kKHzuWpZUJSsi+91SAnM6dJ0QEZZJfw1Xd8AEjjF
-	Z00bmb+2StDZljz1LYVaKGI2gWX2pnw=
-X-Google-Smtp-Source: APXvYqyFWreQ7IQ3PnBjSbq8Cxd248AYFNy4h+8EkmHd3auacay+MLdyL9DvwN0He/sDbrGLHrrnpA==
-X-Received: by 2002:a17:902:8bc4:: with SMTP id
-	r4mr17448096plo.341.1569818907263; 
-	Sun, 29 Sep 2019 21:48:27 -0700 (PDT)
+	bh=BjPq8JOTwdEVKI1ZUpLtrQsVB1h5g0kAsRTQvQJ1+TE=;
+	b=Uy4tE09zbDymlB+ImrcdZ5UccDs90iPlu859JzqRK/0geRsECkxS1SJcGx5UT2Y2ia
+	dgdHmvXLBqJBpfRceuJvSaPfVzElvA5V8PdQfZg/CGqI0rp7Liicy3HZTfMSKqsh+r/8
+	zv2gt0n50v3H8g9wcc3/u19q5t0aD0UwoJCNwoupIJr+TxZoMn40hKW8gxg+33uU01Ws
+	PkMgqFElifSHCkPl7E1BBDNpP3RNhGcwAEcD2eoiIhy/JlkEQuyTuD4es7sEWqdrtemV
+	BQstVqab8G8ChBqfFh6Sdvi/MrcF+Z6jSTaPb+err5yJwiRIlocvsepUeX+hU0KaIW5R
+	hSuA==
+X-Gm-Message-State: APjAAAUxldzB4seAkBkdNvw5XJS5dn35kjtl1i5/GMIijamHc2bAAenj
+	6pRpR3CW/kV07EXhA0RptTqdByBKULU=
+X-Google-Smtp-Source: APXvYqxgRf5VfplRCql7OKFzjb+Rm+2gAi2MRnszqHUlyorgsaOsqnD5fiuPFmvTJ4J3iIs3Mh0PVw==
+X-Received: by 2002:a17:902:a70f:: with SMTP id
+	w15mr18629458plq.132.1569818908401; 
+	Sun, 29 Sep 2019 21:48:28 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:edf9:811d:ad92:85c2])
 	by smtp.gmail.com with ESMTPSA id
-	h15sm18888493pgn.76.2019.09.29.21.48.26
+	h15sm18888493pgn.76.2019.09.29.21.48.27
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Sep 2019 21:48:26 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:27 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 21:47:28 -0700
-Message-Id: <d2ce91ddd66d2c646b0fe273e66538f2724a5cdb.1569818533.git.akuster808@gmail.com>
+Date: Sun, 29 Sep 2019 21:47:29 -0700
+Message-Id: <b7bc9c12219f5c48eb6698e4537f6c0be94ac06a.1569818533.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569818533.git.akuster808@gmail.com>
 References: <cover.1569818533.git.akuster808@gmail.com>
-Subject: [warrior-next 33/54] pango: fix CVE-2019-1010238
+Subject: [warrior-next 34/54] glib-2.0: fix CVE-2019-13012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,70 +67,69 @@ From: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../pango/pango/CVE-2019-1010238.patch             | 38 ++++++++++++++++++++++
- meta/recipes-graphics/pango/pango_1.42.4.bb        |  4 ++-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/pango/pango/CVE-2019-1010238.patch
+ .../glib-2.0/glib-2.0/CVE-2019-13012.patch         | 40 ++++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb      |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
 
-diff --git a/meta/recipes-graphics/pango/pango/CVE-2019-1010238.patch b/meta/recipes-graphics/pango/pango/CVE-2019-1010238.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
 new file mode 100644
-index 0000000..5b0c342
+index 0000000..c882cba
 --- /dev/null
-+++ b/meta/recipes-graphics/pango/pango/CVE-2019-1010238.patch
-@@ -0,0 +1,38 @@
-+From 490f8979a260c16b1df055eab386345da18a2d54 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-13012.patch
+@@ -0,0 +1,40 @@
++From 9fd6b4b21891adc318784f6a141f40d767b0d73c Mon Sep 17 00:00:00 2001
 +From: Matthias Clasen <mclasen@redhat.com>
-+Date: Wed, 10 Jul 2019 20:26:23 -0400
-+Subject: [PATCH] bidi: Be safer against bad input
++Date: Tue, 22 Jan 2019 13:26:31 -0500
++Subject: [PATCH] keyfile settings: Use tighter permissions
 +
-+Don't run off the end of an array that we
-+allocated to certain length.
++When creating directories, create them with 700 permissions,
++instead of 777.
 +
-+Closes: https://gitlab.gnome.org/GNOME/pango/issues/342
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/pango/commit/490f8979a260c16b1df055eab386345da18a2d54]
-+CVE: CVE-2019-1010238
++Closes: #1658
++CVE: CVE-2019-13012
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/commit/5e4da714f00f6bfb2ccd6d73d61329c6f3a08429]
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++
 +---
-+ pango/pango-bidi-type.c | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
++ gio/gkeyfilesettingsbackend.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
 +
-+diff --git a/pango/pango-bidi-type.c b/pango/pango-bidi-type.c
-+index 3e46b66c..5c02dbbb 100644
-+--- a/pango/pango-bidi-type.c
-++++ b/pango/pango-bidi-type.c
-+@@ -181,8 +181,11 @@ pango_log2vis_get_embedding_levels (const gchar    *text,
-+   for (i = 0, p = text; p < text + length; p = g_utf8_next_char(p), i++)
-+     {
-+       gunichar ch = g_utf8_get_char (p);
-+-      FriBidiCharType char_type;
-+-      char_type = fribidi_get_bidi_type (ch);
-++      FriBidiCharType char_type = fribidi_get_bidi_type (ch);
-++
-++      if (i == n_chars)
-++        break;
-++
-+       bidi_types[i] = char_type;
-+       ored_types |= char_type;
-+       if (FRIBIDI_IS_STRONG (char_type))
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-graphics/pango/pango_1.42.4.bb b/meta/recipes-graphics/pango/pango_1.42.4.bb
-index f3be9f4..1e1a5b8 100644
---- a/meta/recipes-graphics/pango/pango_1.42.4.bb
-+++ b/meta/recipes-graphics/pango/pango_1.42.4.bb
-@@ -16,7 +16,9 @@ GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspection
++diff --git a/gio/gkeyfilesettingsbackend.c b/gio/gkeyfilesettingsbackend.c
++index a37978e..580a0b0 100644
++--- a/gio/gkeyfilesettingsbackend.c
+++++ b/gio/gkeyfilesettingsbackend.c
++@@ -89,7 +89,8 @@ g_keyfile_settings_backend_keyfile_write (GKeyfileSettingsBackend *kfsb)
++ 
++   contents = g_key_file_to_data (kfsb->keyfile, &length, NULL);
++   g_file_replace_contents (kfsb->file, contents, length, NULL, FALSE,
++-                           G_FILE_CREATE_REPLACE_DESTINATION,
+++                           G_FILE_CREATE_REPLACE_DESTINATION |
+++                           G_FILE_CREATE_PRIVATE,
++                            NULL, NULL, NULL);
++ 
++   compute_checksum (kfsb->digest, contents, length);
++@@ -640,7 +641,7 @@ g_keyfile_settings_backend_new (const gchar *filename,
++ 
++   kfsb->file = g_file_new_for_path (filename);
++   kfsb->dir = g_file_get_parent (kfsb->file);
++-  g_file_make_directory_with_parents (kfsb->dir, NULL, NULL);
+++  g_mkdir_with_parents (g_file_peek_path (kfsb->dir), 0700);
++ 
++   kfsb->file_monitor = g_file_monitor (kfsb->file, 0, NULL, NULL);
++   kfsb->dir_monitor = g_file_monitor (kfsb->dir, 0, NULL, NULL);
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+index 733a2d4..2286d03 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
+            file://0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch \
+            file://glib-meson.cross \
++           file://CVE-2019-13012.patch \
+            "
  
- SRC_URI += "file://run-ptest \
--            file://insensitive-diff.patch"
-+            file://insensitive-diff.patch \
-+            file://CVE-2019-1010238.patch \
-+            "
- 
- SRC_URI[archive.md5sum] = "deb171a31a3ad76342d5195a1b5bbc7c"
- SRC_URI[archive.sha256sum] = "1d2b74cd63e8bd41961f2f8d952355aa0f9be6002b52c8aa7699d9f5da597c9d"
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
 -- 
 2.7.4
 
