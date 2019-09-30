@@ -1,32 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DDA17F273
+Return-Path: <mark.hatle@kernel.crashing.org>
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 753A37CDAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2019 11:06:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Sep 2019 04:06:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,567,1559545200"; d="scan'208";a="365961631"
-Received: from karthik-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.38.183])
-	by orsmga005.jf.intel.com with ESMTP; 30 Sep 2019 04:06:39 -0700
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1569728615.git.liezhi.yang@windriver.com>
-	<53a2dd95f2fbdb4106916bf5556c5a26172a6e57.1569728615.git.liezhi.yang@windriver.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <6446e616-bd19-483f-bdea-9cf7f84ee326@intel.com>
-Date: Mon, 30 Sep 2019 12:06:38 +0100
+	Mon, 30 Sep 2019 14:39:17 +0000 (UTC)
+Received: from Marks-MacBook-Pro.local ([76.164.61.198]) (authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id x8UEd6dK023880
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NO); Mon, 30 Sep 2019 09:39:14 -0500
+To: Chandana Kalluri <ckalluri@xilinx.com>,
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <MWHPR02MB2576ADF2408BAAF0BF27D82BB0810@MWHPR02MB2576.namprd02.prod.outlook.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+Message-ID: <29d6d028-16a8-b958-83ab-23e9ec581947@kernel.crashing.org>
+Date: Mon, 30 Sep 2019 09:39:06 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
 	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <53a2dd95f2fbdb4106916bf5556c5a26172a6e57.1569728615.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/1] bluez5: Fix for --enable-btpclient
+In-Reply-To: <MWHPR02MB2576ADF2408BAAF0BF27D82BB0810@MWHPR02MB2576.namprd02.prod.outlook.com>
+Subject: Re: [yocto] Xilinx/meta-jupyter layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,15 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2019 11:06:39 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Mon, 30 Sep 2019 14:39:17 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 29/09/2019 04:44, Robert Yang wrote:
-> +Upstream-Status: Inappropriate [Upstream already fixed]
 
-So this is a backport then?
 
-Ross
+On 9/27/19 3:12 PM, Chandana Kalluri wrote:
+> Hello all,
+> 
+> https://github.com/Xilinx/meta-jupyter is a meta-jupyter layer containing recipes for jupyter notebook. The initial recipes are based of Dmitry Kargin's meta-jupyter layer https://layers.openembedded.org/layerindex/branch/master/layer/meta-jupyter/. This layer has not been updated for a while. 
+> 
+> The Xilinx/meta-jupyter layer also adds recipes for python3 based notebooks apart from existing python2 based notebooks.
+> This layer has been tested using Yocto thud layer and  by running jupyter notebooks on Ultra96 community boards. 
+> We would like to maintain Xilinx/meta-jupyter  layer actively and welcome contributions to this layer either through pull requests or via patches sent to meta-xilinx mailing list until a mailing list for meta-jupyter is in place. In the next cycle we will deprecate python2 recipes. 
+> 
+> A question to community,
+>  - Would you recommend maintaining this layer separately in the current github.com/Xilinx location or be included under meta- openembedded layers.
+> - Would you suggest having a separate mailing list ?
+
+I'd suggest that you should consider either keeping it on github, or offering it
+to the git.yoctoproject.org.  I can assist with this if you need.
+
+Since this is pretty targeted to a specific use-case, either would make sense to me.
+
+--Mark
+
+> Thanks,
+> Chandana
+> 
 
