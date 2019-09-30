@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
-	[209.85.210.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 334DE7F380
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id DC86B7F380
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 30 Sep 2019 04:48:44 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id q10so4879984pfl.0
+Received: by mail-pg1-f180.google.com with SMTP id s1so6659835pgv.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Sep 2019 21:48:45 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=HYYjlFmxQAE5l+TlEW/WEULFDB1zkt/mPN2ZpdvWRjU=;
-	b=htKTUbYSnwyaqF4CsHezSqhbg4oA8bqG/Q2GfWPF2MK8Wt2pT2YzGx9HoVWctUm/ka
-	d3yGv+M73XDvANJAZ28zuZEdvCQWzgd8X7ZLSw83ta6E7g7WhUO8saFNiWGInifJ2glF
-	Fa4ilcHrceoBIR3C4S8QdX763PLbksbJAC4kV5arQPndYDJHjTAi+aCoalA8ts+bzM0c
-	FjIVGnXSUGIEnylnIieTU9Qivt5yii1vNmEK2aSZZIIIsWPE+xJMNuMoNANjwlwBLGEr
-	5iWARF+Zimq8QYQhrgf7BL1fJ4+f7kNmWxIADyeL0KGzU4RDl+LoWCa2LrZtC/fyCoa/
-	bCXQ==
+	bh=SKKqRmq7BdhSLNSarA7jBTjs6vmFS6gTzVnlDchJ2KY=;
+	b=LzuoG86kY8vUEYZAfduXmeneh2w43tZ9cyvPl0crJQj2/2AL0VgRMskVkphWAZmXL1
+	TxFoTpGV0Gse7qGkXivaSk7DYPEHJ3lY7F/chPg9ClnSmZv64yzKdPBtLRyGbXvMhp0w
+	tEDP1v23vZdmUghAYZi8oBAqpjm1cT5yFI5b3xC0jjVmeSjqKv330GdyxKqQFPBuaT7C
+	xJL6lVvPzNC3Vbd7CsOxlEuL+70c2dvpkIQrWRyFjU1h2ZIOjHVSj/+QKha4bSAVRAKP
+	7wgmNYVOdhToomdz+RUHIathB3IXDnALDs8eUJq/jlTDs0bwFLlbOgLnrzaaDhLEHbRz
+	rsgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=HYYjlFmxQAE5l+TlEW/WEULFDB1zkt/mPN2ZpdvWRjU=;
-	b=e4+ejuSyEv756Nk/LPvhSKf4rseifeianP5peETXdFNK3gJouIx2yQRBQx5pfbQxVS
-	NyFvyGwb7TANx8NbrtMJ4EcLy20vHiTkrqofB0a9dxIOEgT5uCVo5Ehirb7vlrjvcZ8R
-	LsmaAmB8B2xZLb19cfjoywUacNqgDAf1Hh4K8ipuB7uDhRaOXbrJJLAvlxlLqCGHEksE
-	7BR4CmwMf1PIcMmso44mJHioEVFAttAE8gHuMUpBx3ozKGb9vXSKd2eS4BuHWCRBqMif
-	Te4xp5jHROFiPxZhiqMJmmVBlolDhlVTYYy0OIlMTy0byLc6l/M/+oh7esgIt9yQVGR1
-	Hiuw==
-X-Gm-Message-State: APjAAAV83X1kZkP8ghEkGoSHkNMUinRGnIkVYtFBNv6F2PTNo3mSklSS
-	+gDL0SjNon9MdzpDwfqS6pZQaoJkf0w=
-X-Google-Smtp-Source: APXvYqxPB6mWyzvJFDjQa6ruaV4Cm7sGQtijZpfmrAAhy7MSA7Xaw0AxgWq/RbSiEmqHKmy7Q7pIdQ==
-X-Received: by 2002:a65:6799:: with SMTP id e25mr23255943pgr.271.1569818925051;
+	bh=SKKqRmq7BdhSLNSarA7jBTjs6vmFS6gTzVnlDchJ2KY=;
+	b=sO4ZjXsz48q2tj5S1zbCGAKs6IeloTgkXznSBzyHWNctXhvT8pbqESxPejchyEiYQD
+	PwsjPpQM9VNrVgoBQidlIRbRtbj+CKvF4xGrkuCYYYyRh8+KG5AmolPQF9k/YfPLCMNa
+	+S0TC/GsvGv0GTR0IQjtSzyBn+X0nLNV7dpxYCCYnHAODjncnUVpBYoyCR/Xdul6jhr0
+	KCEWBLFtMqd52dUaRus9bPdyQRFVYsz0q/deax54eeBmeDqP1j1MoaYBNubJG2UgOMtq
+	cqPB0ln3ALrJqXyyEIa5z7MJNkb9DgWFuDJaQFGRIkaieiI6mxWL8Ko2wHeXQ+CSDlTX
+	elsg==
+X-Gm-Message-State: APjAAAVgLLD2fkQS1B3f7cyUYxToofjeYLrV/cBA5t3YQDoUi+GN4gGl
+	i5zq0jx4UvmDs7q3GB3FJMtWy/AHwqM=
+X-Google-Smtp-Source: APXvYqxE+Z/clniA0EHLdW81sjavcLK904/P5wZVDnr6s2ZO1mEEwReqobaBXhhqly5mljJQPbg1eA==
+X-Received: by 2002:a62:2ad6:: with SMTP id q205mr18916347pfq.46.1569818925966;
 	Sun, 29 Sep 2019 21:48:45 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:edf9:811d:ad92:85c2])
 	by smtp.gmail.com with ESMTPSA id
-	h15sm18888493pgn.76.2019.09.29.21.48.44
+	h15sm18888493pgn.76.2019.09.29.21.48.45
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Sep 2019 21:48:44 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:45 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 21:47:45 -0700
-Message-Id: <441a2b8979e69c20e7ed0178cdb210eecdec91e1.1569818533.git.akuster808@gmail.com>
+Date: Sun, 29 Sep 2019 21:47:46 -0700
+Message-Id: <7f98309c856e0a54dc9dafda91c9db0a33e57425.1569818533.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569818533.git.akuster808@gmail.com>
 References: <cover.1569818533.git.akuster808@gmail.com>
-Subject: [warrior-next 50/54] useradd: Fix build architecture corruption of sstate artefacts
+Subject: [warrior-next 51/54] useradd: Ensure do_populate_sysroot has dependency on useradd variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,71 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2019 04:48:44 -0000
+X-List-Received-Date: Mon, 30 Sep 2019 04:48:45 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When mixing aarch64 and x86_64 host builds with common sstate, useradd failures
-were found. This was due to references to:
+The do_populate_sysroot task doesn't rerun if you change any of the USERADD_PARAM
+or GROUPADD_PARAM variables, only do_package will.
 
-/home/pokybuild/yocto-worker/qemuarm/build/build/tmp/sysroots-components/aarch64/pseudo-native/usr/bin/pseudo
-or
-/home/pokybuild/yocto-worker/qemuarm/build/build/tmp/sysroots-components/x86_64/pseudo-native/usr/bin/pseudo
+If another task depends on the recipe, this means it won't see any updated changes.
 
-on the wrong architecture within the useradd postinst files.
+This patch adds in the missing vardeps ensuring the code is deterministic.
 
-Instead of using COMPONENTS_DIR as the FIXME, use PSEUDO_SYSROOT which contains
-the arch component as well to avoid this.
-
-Add extra comments to cause the relavent sstate to be rebuilt.
+[YOCTO #13232]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0384622f72a6c0bd8225cf06f692340fdef67d4a)
+(cherry picked from commit 37d0382a3c67f47f8cfdd977a041069bf912b8c3)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/staging.bbclass | 2 +-
- meta/classes/useradd.bbclass | 6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ meta/classes/useradd.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 062b281..546fc81 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -167,7 +167,7 @@ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnative, d):
-     if not fixme:
-         return
-     cmd = "sed -e 's:^[^/]*/:%s/:g' %s | xargs sed -i -e 's:FIXMESTAGINGDIRTARGET:%s:g; s:FIXMESTAGINGDIRHOST:%s:g'" % (target, " ".join(fixme), recipesysroot, recipesysrootnative)
--    for fixmevar in ['COMPONENTS_DIR', 'HOSTTOOLS_DIR', 'PKGDATA_DIR', 'PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
-+    for fixmevar in ['PSEUDO_SYSROOT', 'HOSTTOOLS_DIR', 'PKGDATA_DIR', 'PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
-         fixme_path = d.getVar(fixmevar)
-         cmd += " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
-     bb.debug(2, cmd)
 diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 124becd..5e600de 100644
+index 5e600de..e5f3ba2 100644
 --- a/meta/classes/useradd.bbclass
 +++ b/meta/classes/useradd.bbclass
-@@ -100,6 +100,8 @@ useradd_sysroot () {
- 	# Pseudo may (do_prepare_recipe_sysroot) or may not (do_populate_sysroot_setscene) be running 
- 	# at this point so we're explicit about the environment so pseudo can load if 
- 	# not already present.
-+	# PSEUDO_SYSROOT can contain references to the build architecture and COMPONENT_DIR
-+	# so needs the STAGING_FIXME below
- 	export PSEUDO="${FAKEROOTENV} ${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+@@ -184,6 +184,7 @@ def update_useradd_after_parse(d):
+         bb.fatal("%s inherits useradd but doesn't set USERADD_PACKAGES" % d.getVar('FILE', False))
  
- 	# Explicitly set $D since it isn't set to anything
-@@ -134,10 +136,10 @@ useradd_sysroot () {
- }
+     for pkg in useradd_packages.split():
++        d.appendVarFlag("do_populate_sysroot", "vardeps", "USERADD_PARAM_%s GROUPADD_PARAM_%s GROUPMEMS_PARAM_%s" % (pkg, pkg, pkg))
+         if not d.getVar('USERADD_PARAM_%s' % pkg) and not d.getVar('GROUPADD_PARAM_%s' % pkg) and not d.getVar('GROUPMEMS_PARAM_%s' % pkg):
+             bb.fatal("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE', False), pkg))
  
- # The export of PSEUDO in useradd_sysroot() above contains references to
--# ${COMPONENTS_DIR} and ${PSEUDO_LOCALSTATEDIR}. Additionally, the logging
-+# ${PSEUDO_SYSROOT} and ${PSEUDO_LOCALSTATEDIR}. Additionally, the logging
- # shell functions use ${LOGFIFO}. These need to be handled when restoring
- # postinst-useradd-${PN} from the sstate cache.
--EXTRA_STAGING_FIXMES += "COMPONENTS_DIR PSEUDO_LOCALSTATEDIR LOGFIFO"
-+EXTRA_STAGING_FIXMES += "PSEUDO_SYSROOT PSEUDO_LOCALSTATEDIR LOGFIFO"
- 
- python useradd_sysroot_sstate () {
-     scriptfile = None
 -- 
 2.7.4
 
