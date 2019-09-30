@@ -1,46 +1,32 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 312FE6BC19
+Return-Path: <ross.burton@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DDA17F273
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2019 08:17:54 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id r3so10131742wrj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2019 01:17:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=T+nI6Wq+errHVhOgUVV/S1m7wYX1YKoKVbvnO2uCt3M=;
-	b=qUxVhvgcG1hCs8xHLHE0/6bG8A2VVfTmZo1Kqw59mMhSau1mlR5Pw2iBTBWGRejyJ9
-	LY+kHM/BjRhDthauK1pJtkwWqF3QD1p0quaDqklqmmdnnOGykSd/rPNNRyOuUZc5hdpf
-	7AXZoOF2/Ag1oNAYQOrQZANWjQu1i06IU8wxYKSDDHtMt6lxO+lLWYGAy1dKN4YxR+VI
-	cJxgUkVwOrA+r3wzdYNBT8HGeR7SAj7DNzNgKQ/8jZF6vdTg9+K8jVGI4N0MmMI8QBnt
-	YCrhtbSOzOCi8PSKRUGwEweEhUu8G6LoN86O4IYraLGkSzqu8puqAGXkhc72Dp0wdAOp
-	hHFw==
-X-Gm-Message-State: APjAAAXOQ0eg8xzDoKqNuPogtRiNYEuw9slw6tkwCEWkvqgTv0y4t+Fh
-	on1Rxvf9B5tdxCcFjjnf+vY=
-X-Google-Smtp-Source: APXvYqwa6Xs4m8a3h1qyGUEfHVNxf5DOF82Jin7GnDfOSdZWntNhgUKea03F3f+c8XUwiV/kGaqXqw==
-X-Received: by 2002:adf:f5ca:: with SMTP id k10mr12112666wrp.236.1569831474997;
-	Mon, 30 Sep 2019 01:17:54 -0700 (PDT)
-Received: from 1aq-andre ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
-	w18sm13282992wmc.9.2019.09.30.01.17.54
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 30 Sep 2019 01:17:54 -0700 (PDT)
-Message-ID: <3ddde333484a7b8168cc2f35901ad34805431b31.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 30 Sep 2019 09:17:54 +0100
-In-Reply-To: <CANNYZj_-m=u=OfTWnwWBi=VxeZWkVzyU1qXLBM_eZ7LAoPRdYQ@mail.gmail.com>
-References: <20190927135443.15407-2-git@andred.net>
-	<20190927141006.31440-1-git@andred.net>
-	<CANNYZj8SJTA37zSRbFQ4jpJFH__ViDBQSKCC9EdH49Zk_E9Pjg@mail.gmail.com>
-	<d5d7c18c1c5fdbb7cae13f47ef2c53c3c3a9518d.camel@andred.net>
-	<CANNYZj_-m=u=OfTWnwWBi=VxeZWkVzyU1qXLBM_eZ7LAoPRdYQ@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1.1 
+	Mon, 30 Sep 2019 11:06:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Sep 2019 04:06:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,567,1559545200"; d="scan'208";a="365961631"
+Received: from karthik-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.38.183])
+	by orsmga005.jf.intel.com with ESMTP; 30 Sep 2019 04:06:39 -0700
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1569728615.git.liezhi.yang@windriver.com>
+	<53a2dd95f2fbdb4106916bf5556c5a26172a6e57.1569728615.git.liezhi.yang@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <6446e616-bd19-483f-bdea-9cf7f84ee326@intel.com>
+Date: Mon, 30 Sep 2019 12:06:38 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] ruby: fix non-IPv6 support
+In-Reply-To: <53a2dd95f2fbdb4106916bf5556c5a26172a6e57.1569728615.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/1] bluez5: Fix for --enable-btpclient
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,19 +39,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2019 08:17:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 30 Sep 2019 11:06:39 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-09-27 at 17:32 +0200, Alexander Kanavin wrote:
-> On Fri, 27 Sep 2019 at 17:24, André Draszik <git@andred.net> wrote:
-> > Can't the auto-updater do it? (Without the repackaging?)
-> 
-> I think it fails at the rebasing patches step - merge conflicts can only be resolved by a human. 
+On 29/09/2019 04:44, Robert Yang wrote:
+> +Upstream-Status: Inappropriate [Upstream already fixed]
 
-OK, I'll try to have a look anyway...
+So this is a backport then?
 
-A.
-
-
+Ross
 
