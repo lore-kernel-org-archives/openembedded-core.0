@@ -1,54 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id ADD417E08D
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 706947DE5A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2019 04:47:57 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id x10so6669417pgi.5
+	Mon, 30 Sep 2019 04:47:58 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id v27so6647897pgk.10
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 29 Sep 2019 21:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:in-reply-to:references
-	:content-transfer-encoding;
-	bh=G6q68tHCgcNOibGVyiTPGV40J+v6/qASCoH+NWi3QOs=;
-	b=GrRhoToNcpZkaB+MgHAKNDEYzNZrb3FuFjXyGSl71ZxHCD8acc5wEoX7asiiWVSD33
-	rK68h8p0RTqs/4/x8gbewUK6BRDbuGpQIqjQiBLvDhEOAlfhALwNHvrDi3EbKubrAxBS
-	qds/liDGSLL6kPKXtoNW63IWNEIRCripxiEjB7qQwJu0uIJLr/m/d+5UFi5nFaEJ/SOj
-	yfhsy0oKkluxuAFusNR5okHWCdk6ijmYj0P1roEZGKNaYPXzDmW8v6/rzUgZltWN/Zm8
-	T+yMiCz9XTjX2ZQFZIsR9bpeLMasvj+pTM4OXHUguk1hmjd7OrQSidDBs1bGzglWUAP1
-	hQrQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=Q6q20kcbclYsy3wAcIU4/lPSMGZUUuwjVOB4ay7R/50=;
+	b=DYUBE2vNMwehJ5p823dZCFbtdIEQht/zC6dfe1x2WMZBZpJXoBM3TH8bQMEYFVlbSb
+	sFSEhy/iw+U3Yy+tJadIVwXuGgSYA0K4W5VoXD5fj4CFw5A2a8FcIsx3Aca9nJEJgkE5
+	LqeHFXL2iTOZB/mcgo29OcavOnI4LRBwHp//qOucXhS/Svbmx3vZ8EwpfKMA5FBotG2q
+	Ymrivpx9C66vDC5qWWw6wNiHDST9c3cKdWVCkMigULKqU6j0LAUptY4mIVxdklGJRP2L
+	EoL2nu/ytqsI5lolAQXEB6/TQnGv7ckOJLqIonr7Dvh6XUtS2Tno+KDNAbfIOlfnMkAJ
+	fo8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:in-reply-to:references:content-transfer-encoding;
-	bh=G6q68tHCgcNOibGVyiTPGV40J+v6/qASCoH+NWi3QOs=;
-	b=XRGCqXAI2k14ddig4/hKJ4+L0qt2NMfL++7Tue4iIB1MzwzkNMs7T9EJi/snYG+8am
-	nBt44xNdlFklVIsBPmj/+Xu+NyQP9QoJS9kyPtzJ89skh6bo82BwenDvOtYEKDsNW31Q
-	MY4qh2APhfAyrrV/S1YkUAwBuG0OvKt4HGX02LwtLBQkQIYsDpnQVKbWl347I/TEf8Pf
-	7LT42pOIoO1u80Bkr+J+pbRFjO6LPrRUkHtwfILU9bAp6nrmQckNt9EYIXMtU7fDkeG/
-	u0dtCBDsgntGWX02vfhFqF0kj7Lb7adhSbZNEeNw7CrE78wvKgOQGXM+csHGK7bocwXG
-	YA4g==
-X-Gm-Message-State: APjAAAWpakSZ+p+zbZ6twVYhAIuIclAy7rkFLTctgmJnvEElZ5RWozRW
-	lPSLoPBqxtbSrl3Eaun4twC/3QZtju0=
-X-Google-Smtp-Source: APXvYqw8mgu8dBwO8z9MEwrfKL0I8CxD7C2XOEmwNWrvXEmIfCz1UhW4s5AuT09M/z6pq9yQPttavg==
-X-Received: by 2002:a63:9a11:: with SMTP id o17mr22062976pge.434.1569818878596;
-	Sun, 29 Sep 2019 21:47:58 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=Q6q20kcbclYsy3wAcIU4/lPSMGZUUuwjVOB4ay7R/50=;
+	b=la2hVkTHAnQOKYSCmRm3z96Uu7Zoa8XyXURre7//pCX5SB07HWOkqMeJE3FFvfOIGt
+	736jp1s2fZoPgsO9l7/3kZUVcr43kPLDrXcD1ZYJSvizDOXKG83soEVdAYMDEWOPwHeb
+	XnP62huSnZiz+yLeEN2TRESJHew5j29sI5aV7D4g/udG9xiLRhQ7mSDrv9IxsgfjAE6V
+	zIvzo4PBczOakyNW6Kb93crcVZagLT68nn32UxNq4BIGXQNohFQ1zW+F0H6fzAVgQX66
+	0cDkm2+Wf5Jq75lrdCTgH363CyyKo2QQ+V9Uw8gk/6JKEBzFby+PZPVIjmWTVfFBJJg3
+	KxtA==
+X-Gm-Message-State: APjAAAU4zAqsR8Bmuf2RZQBlheOFSwnS7M2fUhrNYPdNVPTOA6ghz8BK
+	jzRI8Zg5JL0Uaq6ZqQX6g+4JTwNYaXI=
+X-Google-Smtp-Source: APXvYqzNNNij6OkSSnLOywWwTar7NKma53p/onrBa11yIyCSzGZ6v0fmW716j1TlDi6rLCl6jMoJXg==
+X-Received: by 2002:a17:90a:6c90:: with SMTP id
+	y16mr25373496pjj.58.1569818879423; 
+	Sun, 29 Sep 2019 21:47:59 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:edf9:811d:ad92:85c2])
 	by smtp.gmail.com with ESMTPSA id
-	h15sm18888493pgn.76.2019.09.29.21.47.56
+	h15sm18888493pgn.76.2019.09.29.21.47.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Sep 2019 21:47:57 -0700 (PDT)
+	Sun, 29 Sep 2019 21:47:58 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 21:46:59 -0700
-Message-Id: <7a3b5f260c498da39ecedb313898d1f5482ddd2f.1569818533.git.akuster808@gmail.com>
+Date: Sun, 29 Sep 2019 21:47:00 -0700
+Message-Id: <408950d64fe02350acc0ac2ad5a0ea019dbf8945.1569818533.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
 In-Reply-To: <cover.1569818533.git.akuster808@gmail.com>
 References: <cover.1569818533.git.akuster808@gmail.com>
-Subject: [warrior-next 04/54] libxslt: fix CVE-2019-13117 CVE-2019-13118
+Subject: [warrior-next 05/54] glibc: CVE-2018-20796 is same as CVE-2019-9169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,159 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2019 04:47:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 30 Sep 2019 04:47:58 -0000
 
 From: Anuj Mittal <anuj.mittal@intel.com>
 
-(From OE-Core rev: 7dc3048fec88dd62ef49ef16517b7382ab7cf2a5)
+See:
+https://debbugs.gnu.org/cgi/bugreport.cgi?bug=34141
+https://www.securityfocus.com/bid/107160
+
+(From OE-Core rev: 7e90506534ed2a70680382cf28614f02fdb98409)
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../libxslt/files/CVE-2019-13117.patch             | 33 ++++++++++
- .../libxslt/files/CVE-2019-13118.patch             | 76 ++++++++++++++++++++++
- meta/recipes-support/libxslt/libxslt_1.1.33.bb     |  2 +
- 3 files changed, 111 insertions(+)
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-13117.patch
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-13118.patch
+ meta/recipes-core/glibc/glibc/CVE-2019-9169.patch | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/libxslt/files/CVE-2019-13117.patch b/meta/recipes-support/libxslt/files/CVE-2019-13117.patch
-new file mode 100644
-index 0000000..ef3f270
---- /dev/null
-+++ b/meta/recipes-support/libxslt/files/CVE-2019-13117.patch
-@@ -0,0 +1,33 @@
-+From c5eb6cf3aba0af048596106ed839b4ae17ecbcb1 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Sat, 27 Apr 2019 11:19:48 +0200
-+Subject: [PATCH] Fix uninitialized read of xsl:number token
-+
-+Found by OSS-Fuzz.
-+
-+CVE: CVE-2019-13117
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/commit/c5eb6cf3aba0af048596106ed839b4ae17ecbcb1]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ libxslt/numbers.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/libxslt/numbers.c b/libxslt/numbers.c
-+index 89e1f668..75c31eba 100644
-+--- a/libxslt/numbers.c
-++++ b/libxslt/numbers.c
-+@@ -382,7 +382,10 @@ xsltNumberFormatTokenize(const xmlChar *format,
-+ 		tokens->tokens[tokens->nTokens].token = val - 1;
-+ 		ix += len;
-+ 		val = xmlStringCurrentChar(NULL, format+ix, &len);
-+-	    }
-++	    } else {
-++                tokens->tokens[tokens->nTokens].token = (xmlChar)'0';
-++                tokens->tokens[tokens->nTokens].width = 1;
-++            }
-+ 	} else if ( (val == (xmlChar)'A') ||
-+ 		    (val == (xmlChar)'a') ||
-+ 		    (val == (xmlChar)'I') ||
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-support/libxslt/files/CVE-2019-13118.patch b/meta/recipes-support/libxslt/files/CVE-2019-13118.patch
-new file mode 100644
-index 0000000..595e6c2
---- /dev/null
-+++ b/meta/recipes-support/libxslt/files/CVE-2019-13118.patch
-@@ -0,0 +1,76 @@
-+From 6ce8de69330783977dd14f6569419489875fb71b Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Mon, 3 Jun 2019 13:14:45 +0200
-+Subject: [PATCH] Fix uninitialized read with UTF-8 grouping chars
-+
-+The character type in xsltFormatNumberConversion was too narrow and
-+an invalid character/length combination could be passed to
-+xsltNumberFormatDecimal, resulting in an uninitialized read.
-+
-+Found by OSS-Fuzz.
-+
-+CVE: CVE-2019-13118
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/commit/6ce8de69330783977dd14f6569419489875fb71b]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+
-+---
-+ libxslt/numbers.c         | 5 +++--
-+ tests/docs/bug-222.xml    | 1 +
-+ tests/general/bug-222.out | 2 ++
-+ tests/general/bug-222.xsl | 6 ++++++
-+ 4 files changed, 12 insertions(+), 2 deletions(-)
-+ create mode 100644 tests/docs/bug-222.xml
-+ create mode 100644 tests/general/bug-222.out
-+ create mode 100644 tests/general/bug-222.xsl
-+
-+diff --git a/libxslt/numbers.c b/libxslt/numbers.c
-+index f1ed8846..20b99d5a 100644
-+--- a/libxslt/numbers.c
-++++ b/libxslt/numbers.c
-+@@ -1298,13 +1298,14 @@ OUTPUT_NUMBER:
-+     number = floor((scale * number + 0.5)) / scale;
-+     if ((self->grouping != NULL) &&
-+         (self->grouping[0] != 0)) {
-++        int gchar;
-+ 
-+ 	len = xmlStrlen(self->grouping);
-+-	pchar = xsltGetUTF8Char(self->grouping, &len);
-++	gchar = xsltGetUTF8Char(self->grouping, &len);
-+ 	xsltNumberFormatDecimal(buffer, floor(number), self->zeroDigit[0],
-+ 				format_info.integer_digits,
-+ 				format_info.group,
-+-				pchar, len);
-++				gchar, len);
-+     } else
-+ 	xsltNumberFormatDecimal(buffer, floor(number), self->zeroDigit[0],
-+ 				format_info.integer_digits,
-+diff --git a/tests/docs/bug-222.xml b/tests/docs/bug-222.xml
-+new file mode 100644
-+index 00000000..69d62f2c
-+--- /dev/null
-++++ b/tests/docs/bug-222.xml
-+@@ -0,0 +1 @@
-++<doc/>
-+diff --git a/tests/general/bug-222.out b/tests/general/bug-222.out
-+new file mode 100644
-+index 00000000..e3139698
-+--- /dev/null
-++++ b/tests/general/bug-222.out
-+@@ -0,0 +1,2 @@
-++<?xml version="1.0"?>
-++1⠢0
-+diff --git a/tests/general/bug-222.xsl b/tests/general/bug-222.xsl
-+new file mode 100644
-+index 00000000..e32dc473
-+--- /dev/null
-++++ b/tests/general/bug-222.xsl
-+@@ -0,0 +1,6 @@
-++<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-++  <xsl:decimal-format name="f" grouping-separator="⠢"/>
-++  <xsl:template match="/">
-++    <xsl:value-of select="format-number(10,'#⠢0','f')"/>
-++  </xsl:template>
-++</xsl:stylesheet>
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.33.bb b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
-index 42b21c7..92d3099 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.33.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
-@@ -10,6 +10,8 @@ DEPENDS = "libxml2"
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+index bc40361..cf3744b 100644
+--- a/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
++++ b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+@@ -1,4 +1,5 @@
+ CVE: CVE-2019-9169
++CVE: CVE-2018-20796
+ Upstream-Status: Backport
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
  
- SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
-            file://0001-Fix-security-framework-bypass.patch \
-+           file://CVE-2019-13117.patch \
-+           file://CVE-2019-13118.patch \
- "
- 
- SRC_URI[md5sum] = "b3bd254a03e46d58f8ad1e4559cd2c2f"
 -- 
 2.7.4
 
