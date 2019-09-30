@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id DC86B7F380
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+	[209.85.210.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F8DF7F314
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2019 04:48:44 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id s1so6659835pgv.8
+	Mon, 30 Sep 2019 04:48:45 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id y5so4867256pfo.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Sep 2019 21:48:46 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=SKKqRmq7BdhSLNSarA7jBTjs6vmFS6gTzVnlDchJ2KY=;
-	b=LzuoG86kY8vUEYZAfduXmeneh2w43tZ9cyvPl0crJQj2/2AL0VgRMskVkphWAZmXL1
-	TxFoTpGV0Gse7qGkXivaSk7DYPEHJ3lY7F/chPg9ClnSmZv64yzKdPBtLRyGbXvMhp0w
-	tEDP1v23vZdmUghAYZi8oBAqpjm1cT5yFI5b3xC0jjVmeSjqKv330GdyxKqQFPBuaT7C
-	xJL6lVvPzNC3Vbd7CsOxlEuL+70c2dvpkIQrWRyFjU1h2ZIOjHVSj/+QKha4bSAVRAKP
-	7wgmNYVOdhToomdz+RUHIathB3IXDnALDs8eUJq/jlTDs0bwFLlbOgLnrzaaDhLEHbRz
-	rsgA==
+	bh=2+mgz9G+NKjLJOCQBxTRaxTZxip+Nst6wRuxYelb/lY=;
+	b=J8KwE5Pq5E06iQjBlf5zGPOsF+HyMO0IovPhSKErBmobyW6MzNQBaz/0zk4zLoLWqJ
+	SjGkzi03kow+ymmsQ2SnM14D8TarxfCexTG+C4/j3v1k25xRwlGS7Meaei3v+CkwHlHF
+	BfkNP/8c+zCqzpr+VFxacPcY/7FZLoz2OvXWP3n6mxp8BkfVmr3PuolANnkKpc5lFREs
+	bauMJVhR7QcIWGfd6c2yzK4VtBqVUF6w1DQoE8OZHcPRoa1PNQOliqUY3fMx1UwKyJax
+	X7lFHb17wjmWl6MXy8uoasjddZAFDWn288bDrMs7VCVKmj2g+OvrbPHYTag4B/vGFVlM
+	/aqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=SKKqRmq7BdhSLNSarA7jBTjs6vmFS6gTzVnlDchJ2KY=;
-	b=sO4ZjXsz48q2tj5S1zbCGAKs6IeloTgkXznSBzyHWNctXhvT8pbqESxPejchyEiYQD
-	PwsjPpQM9VNrVgoBQidlIRbRtbj+CKvF4xGrkuCYYYyRh8+KG5AmolPQF9k/YfPLCMNa
-	+S0TC/GsvGv0GTR0IQjtSzyBn+X0nLNV7dpxYCCYnHAODjncnUVpBYoyCR/Xdul6jhr0
-	KCEWBLFtMqd52dUaRus9bPdyQRFVYsz0q/deax54eeBmeDqP1j1MoaYBNubJG2UgOMtq
-	cqPB0ln3ALrJqXyyEIa5z7MJNkb9DgWFuDJaQFGRIkaieiI6mxWL8Ko2wHeXQ+CSDlTX
-	elsg==
-X-Gm-Message-State: APjAAAVgLLD2fkQS1B3f7cyUYxToofjeYLrV/cBA5t3YQDoUi+GN4gGl
-	i5zq0jx4UvmDs7q3GB3FJMtWy/AHwqM=
-X-Google-Smtp-Source: APXvYqxE+Z/clniA0EHLdW81sjavcLK904/P5wZVDnr6s2ZO1mEEwReqobaBXhhqly5mljJQPbg1eA==
-X-Received: by 2002:a62:2ad6:: with SMTP id q205mr18916347pfq.46.1569818925966;
-	Sun, 29 Sep 2019 21:48:45 -0700 (PDT)
+	bh=2+mgz9G+NKjLJOCQBxTRaxTZxip+Nst6wRuxYelb/lY=;
+	b=nrl//dliWqGSTudYboEBSYdjuteYwHGqKMH2VLNS/yjd4+KP6UcMXsWOyKV/g0GXvq
+	hRAOwovC0q+AsETrq18lfwQ6exmYn7nCPS3Tn5fZzZTDqkkUa9IqhNaBhEx0jws4FrEe
+	gTEdK6CPwY7CumTMYKfU1mS9I43e4K+tRCXpFMbWv8i+4FacZ6iJwpPYUM+s4/XiVCq8
+	NlGrINnzwnvurMwIvU62+OGdnmC722X3ta4booK5cA4KRxS7OnDWcjZOk3uwSlopykQ2
+	vr4Y4S9TKoFfSFGFLXmiZQSPeTl8N0sijuWazfnF9wQn8smNBK9zUYhza9MChE+KTKMk
+	52oA==
+X-Gm-Message-State: APjAAAWqc5CG/5+7uF5fq/wM9suVWG04ayDPSCdi5SF0mpxIzmnLdrJe
+	C2QzPQua93g6n8ddESL6u+6LoHrFoI8=
+X-Google-Smtp-Source: APXvYqwYrrr188/tFlOaFyWl8/Peapr63OxvlPDhp+xT0n38YlGy/3FFTIQQDj/lF2Hhx73P/POiSQ==
+X-Received: by 2002:a63:5946:: with SMTP id j6mr22289391pgm.66.1569818926972; 
+	Sun, 29 Sep 2019 21:48:46 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:edf9:811d:ad92:85c2])
 	by smtp.gmail.com with ESMTPSA id
-	h15sm18888493pgn.76.2019.09.29.21.48.45
+	h15sm18888493pgn.76.2019.09.29.21.48.46
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Sep 2019 21:48:45 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:46 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 21:47:46 -0700
-Message-Id: <7f98309c856e0a54dc9dafda91c9db0a33e57425.1569818533.git.akuster808@gmail.com>
+Date: Sun, 29 Sep 2019 21:47:47 -0700
+Message-Id: <933a85e45c3edd65cdcc00cb18e17524e0411a09.1569818533.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569818533.git.akuster808@gmail.com>
 References: <cover.1569818533.git.akuster808@gmail.com>
-Subject: [warrior-next 51/54] useradd: Ensure do_populate_sysroot has dependency on useradd variables
+Subject: [warrior-next 52/54] uboot: fixes to uboot-extlinux-config attribute values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +59,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2019 04:48:45 -0000
+X-List-Received-Date: Mon, 30 Sep 2019 04:48:46 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Will Page <wpage@polysync.io>
 
-The do_populate_sysroot task doesn't rerun if you change any of the USERADD_PARAM
-or GROUPADD_PARAM variables, only do_package will.
+The way this class uses overrides to support generation of multiple
+sections is subject to two different issues: 1) labels that conflict
+with existing override names causing the value for the conflicting label
+to be set for all labels, and 2) reusing the override list through each
+iteration, prepending each new label to the list of overrides makes
+earlier labels' value take precedence over later labels, making later
+labels virtually impossible to customize.
 
-If another task depends on the recipe, this means it won't see any updated changes.
+The first issue is resolved by removing all label names from overrides
+before iterating over labels.  The second issue is resolved by
+generating a fresh list of overrides with only the current label added.
 
-This patch adds in the missing vardeps ensuring the code is deterministic.
+The current label is also appended to the list of overrides instead of
+prepended, which makes it the highest priority override.  This is
+matches the behavior of devtool-source.bbclass, which similarly
+monkey-patches overrides.
 
-[YOCTO #13232]
+Closes https://bugzilla.yoctoproject.org/show_bug.cgi?id=13469 .
 
+Signed-off-by: Will Page <wpage@polysync.io>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 37d0382a3c67f47f8cfdd977a041069bf912b8c3)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/useradd.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/uboot-extlinux-config.bbclass | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 5e600de..e5f3ba2 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -184,6 +184,7 @@ def update_useradd_after_parse(d):
-         bb.fatal("%s inherits useradd but doesn't set USERADD_PACKAGES" % d.getVar('FILE', False))
+diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+index b5b1a81..f4bf94b 100644
+--- a/meta/classes/uboot-extlinux-config.bbclass
++++ b/meta/classes/uboot-extlinux-config.bbclass
+@@ -104,13 +104,16 @@ python do_create_extlinux_config() {
+                 if default:
+                     cfgfile.write('DEFAULT %s\n' % (default))
  
-     for pkg in useradd_packages.split():
-+        d.appendVarFlag("do_populate_sysroot", "vardeps", "USERADD_PARAM_%s GROUPADD_PARAM_%s GROUPMEMS_PARAM_%s" % (pkg, pkg, pkg))
-         if not d.getVar('USERADD_PARAM_%s' % pkg) and not d.getVar('GROUPADD_PARAM_%s' % pkg) and not d.getVar('GROUPMEMS_PARAM_%s' % pkg):
-             bb.fatal("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE', False), pkg))
+-            for label in labels.split():
++            # Need to deconflict the labels with existing overrides
++            label_overrides = labels.split()
++            default_overrides = localdata.getVar('OVERRIDES').split(':')
++            # We're keeping all the existing overrides that aren't used as a label
++            # an override for that label will be added back in while we're processing that label
++            keep_overrides = list(filter(lambda x: x not in label_overrides, default_overrides))
+ 
+-                overrides = localdata.getVar('OVERRIDES')
+-                if not overrides:
+-                    bb.fatal('OVERRIDES not defined')
++            for label in labels.split():
+ 
+-                localdata.setVar('OVERRIDES', label + ':' + overrides)
++                localdata.setVar('OVERRIDES', ':'.join(keep_overrides + [label]))
+ 
+                 extlinux_console = localdata.getVar('UBOOT_EXTLINUX_CONSOLE')
  
 -- 
 2.7.4
