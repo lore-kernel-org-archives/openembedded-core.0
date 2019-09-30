@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
-	[209.85.210.181])
-	by mail.openembedded.org (Postfix) with ESMTP id DB8FB7F168
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+	[209.85.210.172])
+	by mail.openembedded.org (Postfix) with ESMTP id EB0837E8B7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2019 04:48:08 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id q7so4855974pfh.8
+	Mon, 30 Sep 2019 04:48:09 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id q5so4840351pfg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Sep 2019 21:48:10 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=eUthZrTjpLjld+E3kjiQNxNY284z5Qh/gYW7uFklMjk=;
-	b=soHbuZNiDB+qL5EnGglhKXLxL087OVUIKpKNDAhH+cRGsEZdiRu+OikaXlsCAh32gt
-	mwxdWZzyLeX+S4WzFLK/CwVG87I9CcfNGE8njhooYnBd8kuprYxJn5h7lk9JNLQb7Cmr
-	7h793HLHFnDkPSlLCn1D5iWibCTuPQ9WN1+aVu3XPSXKwFFkBdeGUHgu3QBqC6tl53gc
-	W33l4+PWLVZB/ionrrfdMubK2cKCAI2x7FQvMvq6JFus4Wc8a3BcT6N5ZxzXLnzjY9Up
-	jnQuWK7Wa1QWC551cXy+WLp6b68W0iDWxsSZwen53qwY86r8v3Cwd1Mi9GQy+uH7udEV
-	A+XQ==
+	bh=hZqTgINDA+GSWeT89RdgoNETahIaAcaktSPVKQU/Uvo=;
+	b=cHwtj3sU/Wn4fuJGz1SfCcjsUd6dJ74/+g/n4b3KrPWpalWJMy0JxF3okzi8s2SEsv
+	vVr0kGpbIwg13jB6y6mGWOl+sWU3gjnMYKHMk5aHVcR0EjdzBLfc2VLeYMXFNfPSjP76
+	ZBOu9efXIto6Gg8Vmv239/Qj4iq/yFHVNg1xFiB2mQL7YEGqoR0cA1oNmcA1iYyJGsgN
+	FTIwarCnOl1e00flsXe70M7HQG1GbBlnZ1Msq/uxgQig6lUZWzRcI96LqNEYv7r5rJOn
+	rZ/OAOvAGDgW7wDN/HmNUYQ8rs+6crLG2uYyam4jFJatfpRKFfOQmySoL91i39T95hsn
+	O4fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=eUthZrTjpLjld+E3kjiQNxNY284z5Qh/gYW7uFklMjk=;
-	b=r6hfzoX0Qm3koxWJ9effbm7WmjgssOkF44tvHcte8LxBb5zZlKVDRgMlgWAh90df6U
-	C6BU7xNENRtYxyNu9ZNec/5ocTq6IDsIurtAO0Ipw9CV9XGPqWDl3vnpNbo8AtDQjfJr
-	v9o+6aY251Az0d5cSZOxjplRimehcdHbV+HFNK36lNJzP6F77aAKWKrE6xM6jeRYvguF
-	WiW3jpf6hBkwJn0J710CYvvWaITpCHNrgRIzq7moZ9QZKUX5jpAlqHyn2CVk+3K4v4O4
-	7lJn2MxzuzxjlvLTG/RyTSRCq1YM5fGdVMCM1FW6D/VXEYMTdY8fIo6dTlwcNqjoFcZV
-	9coA==
-X-Gm-Message-State: APjAAAXePIVqG2zLQOfchSh50ySYsv865xQSk7M9oBcAW2DENiIvEOTF
-	kTVECeMEuiudIysSiabOWxXAVSzZKec=
-X-Google-Smtp-Source: APXvYqxzehswmz8R1n0sVsjKVLg3WOJc5V4kPFQ273QFYxAqnjbJUjxiArtWmx5HOh60cD56AC/mPg==
-X-Received: by 2002:a17:90b:d97:: with SMTP id
-	bg23mr24661151pjb.86.1569818889924; 
-	Sun, 29 Sep 2019 21:48:09 -0700 (PDT)
+	bh=hZqTgINDA+GSWeT89RdgoNETahIaAcaktSPVKQU/Uvo=;
+	b=mqqaumQik2DA8oKqLUOS97cVcqGwQU09CZcMZNMegxYYvrTRSmKV2WeEJEQGrzkn+u
+	p74/B7fQToAfk3EpL9FeESoqrKQJyACXqNYkxSMhS7bGMcOsrm6QBCsk+CGm5RXvmUJ2
+	VUyS+AT6SIY9TSiE0lxW5bEWeJfTIK/TVJRXlW+vF1PDwlaebfHZLQBGibGbSO5Gsp+o
+	Dx2RbscmZbArkyCDj4DlQ+/OF2WBlwp47roOKP1jWjC9dBl6ZXmxcI8X9ihnbAP+EnIR
+	f8H8e2AuHuYGk2Jo2Xkt+VsL8RIndm4ZnEJAwrVMK6A66o1p62aFaYJRpFDyKpnSqwnZ
+	V92w==
+X-Gm-Message-State: APjAAAVgbEHjdhgTJ8oVdtU/ml1mB0KxBIx+cgvZzYHTC9h0nYqxBG8X
+	Uz9nc/gDWt78wBXL1YKYq9OkVhBPhEY=
+X-Google-Smtp-Source: APXvYqzk63+3MKquN0eMqaHLnydhhsWd6HSyvTs4Ir9oi7BR0ihGhmfhZtOshyABf+Iqjp5RAFsLYw==
+X-Received: by 2002:a63:5946:: with SMTP id j6mr22287664pgm.66.1569818890940; 
+	Sun, 29 Sep 2019 21:48:10 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:edf9:811d:ad92:85c2])
 	by smtp.gmail.com with ESMTPSA id
-	h15sm18888493pgn.76.2019.09.29.21.48.08
+	h15sm18888493pgn.76.2019.09.29.21.48.10
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Sep 2019 21:48:09 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:10 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 21:47:11 -0700
-Message-Id: <b6daf8a5755842c0e38b1a88687a18432138a45a.1569818533.git.akuster808@gmail.com>
+Date: Sun, 29 Sep 2019 21:47:12 -0700
+Message-Id: <423115b70a4a2cdef4b3882ad4491446b84a1f1e.1569818533.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569818533.git.akuster808@gmail.com>
 References: <cover.1569818533.git.akuster808@gmail.com>
-Subject: [warrior-next 16/54] rng-tools: fix very long shutdown delay with systemd
+Subject: [warrior-next 17/54] psmisc: Fix dependency for USE_NLS=no
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,39 +59,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2019 04:48:09 -0000
+X-List-Received-Date: Mon, 30 Sep 2019 04:48:10 -0000
 
-From: "Bedel, Alban" <alban.bedel@aerq.com>
+From: Jason Wessel <jason.wessel@windriver.com>
 
-The systemd service file has DefaultDependencies=no but is not
-properly configured to also stop the unit. Because of this the unit
-keep running after shutdown but systemd still waits for it to finish to
-then later resort to a hard kill. All this take 1m30s with the default
-configuration.
+When using USE_NLS="no" in the local.conf psmisc will fail to
+compile as follows:
 
-To fix this problem add the missing Before=shutdown.target and
-Conflicts=shutdown.target to have systemd stop the unit on shutdown.
+| autoreconf: Entering directory `.'
+| autoreconf: running: autopoint --force
+| autoreconf: failed to run autopoint: No such file or directory
+| autoreconf: autopoint is needed because this package uses Gettext
+| ERROR: autoreconf execution failed.
 
-Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
+This is because the gettext.bbclass returns gettext-minimal-native for
+the host dependency which does not include autopoint.  The autopoint
+utility is required to build psmisc, so it needs to list
+gettext-native as a dependency.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-support/rng-tools/rng-tools/rngd.service | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-extended/psmisc/psmisc.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-index f0355db..5c8253b 100644
---- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
-+++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-@@ -2,7 +2,8 @@
- Description=Hardware RNG Entropy Gatherer Daemon
- DefaultDependencies=no
- After=systemd-udev-settle.service
--Before=sysinit.target
-+Before=sysinit.target shutdown.target
-+Conflicts=shutdown.target
+diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
+index 82ef947..594a10c 100644
+--- a/meta/recipes-extended/psmisc/psmisc.inc
++++ b/meta/recipes-extended/psmisc/psmisc.inc
+@@ -7,7 +7,7 @@ command sends a specified signal (SIGTERM if nothing is specified) to \
+ processes identified by name.  The fuser command identifies the PIDs \
+ of processes that are using specified files or filesystems."
+ SECTION = "base"
+-DEPENDS = "ncurses virtual/libintl"
++DEPENDS = "ncurses virtual/libintl gettext-native"
+ LICENSE = "GPLv2"
  
- [Service]
- ExecStart=@SBINDIR@/rngd -f -r /dev/hwrng
+ SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz"
 -- 
 2.7.4
 
