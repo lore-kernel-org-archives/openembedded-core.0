@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
-	[209.85.210.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FCCC7F318
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EC5560807
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2019 04:48:35 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id a2so4853414pfo.10
+	Mon, 30 Sep 2019 04:48:26 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id j11so97927plk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Sep 2019 21:48:37 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=qTeGTUYJFAxnTEn35ceW/LtkqKkiVHdbomGRuRV+ofA=;
-	b=lntGBqqhhwdee8nWMOvWBLWp3IV5t8AhSXnYRvp59MNCr/tNISZsxH+EIJkU5r6byv
-	E41Wt+JwgOKOFiCRoLMW/bjnGtzBpBQgCzPvkiBMw2JJzlw/me8z95390CUBNs1p5xCx
-	dQCGRvzz3quon5EtXop6QVDsczYh5DzYjpAmPrxp2p6AFGefnfrv2PEsDSL2bpruAzvB
-	kxybk7QSZ39ZJPAO6Ictpu7euo1E5LCqLK4CYOGWoNpl/YIpcWX48ikneoa/pvbyHuKV
-	zWZVhGWhGl9kd+o1EECpzaYXT8A4olt86sInUlgipgGgHPjk5ZRIaCdvTlU+qMdsZKUM
-	Xj7Q==
+	bh=DJ3l99r2lq/DyWg02EX9klMGXtH156vmg1vqqqjvp6k=;
+	b=jeSUvoB2HfNrk25xw9JKtlLbmQrOi4glC31clL5SEXoEYqeOrw/ClMXooibu8zSWA+
+	lj9Gq7BadYgzaWIvmUFmme6w1JeWoYb8PX8OgUt/165+Vq20TCB7dxQjX+Hnd4aaoJdW
+	saFSgeFEOYOa/B2jaErrqlEynHSlsot5wzI81HqVH/+tF6i3/QXhpEjeg7zUrueJRElI
+	frI9kZM3kvVCOE5ZCgcNoGiShoBcp2W1mmX1CRHFmWufrgZ+9Xb3IctoEgTTEUveSxv7
+	Nm1cTFV6YcLcmYGHNr5rHd2VxzSVjqPGyN123auO+aWuzni+plAMS/II/ZRDfGwHwnUI
+	VW0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=qTeGTUYJFAxnTEn35ceW/LtkqKkiVHdbomGRuRV+ofA=;
-	b=Z5pc7GuOpI1NvsPetE4cMniyqj/bYwCUEz64HRwcA6AyMcQMW8sVkucsE1DKdrCA7b
-	FCHKnwE+TRSl62N2RfcqpsjxbUWiOI2Zk5lTZLVCpuxTBREtQgXSQ2jUsSEErZ3z71fK
-	bmJUJIBbTMy2n3JjpHUzTxkI9BNTaD/ADaujGzsH1uMXdk2rxujCQKbOmiwvKNTDL+sT
-	OkzhkhKNKE5oNccQDF++IZScnrNWaI3cKqeS6ovTBZbuROIISsCuIf9qgr75gcWq6Rf4
-	2i78LZX9uGfQsb0s0hbwQ/SGHAilLmyPztNJscp446pUd/lJHjXZK6bLJpAw5EbIhvY6
-	P9KA==
-X-Gm-Message-State: APjAAAVKREdftM36jjyVW1sMwF8UUxbbhqY+xZwKHiitiIZR9GOKUaQE
-	+ZuYqBUKtqLHnXPkmk3tuU97qj3PYig=
-X-Google-Smtp-Source: APXvYqzewl2Jb3N+jF0qLlPI6eCUKJOkdpdD2jkfLQ+CS+N0ALKoIj9/5ARSptRRFkQFOmIwqRwrQg==
-X-Received: by 2002:a62:2ccf:: with SMTP id
-	s198mr19541940pfs.216.1569818917036; 
-	Sun, 29 Sep 2019 21:48:37 -0700 (PDT)
+	bh=DJ3l99r2lq/DyWg02EX9klMGXtH156vmg1vqqqjvp6k=;
+	b=VaCsPegMazZ8I9enxLU9N6kWlrO7NG4TK7UD6ihIY6C0UJfW99ZV74noT4ppdW5Y/Z
+	UOT7uIbqlShB+L8BHBpU0Kggu0XNJShuIm7eSi3WUSf/dPiaHB2Xc25t0QTUyI0R17/0
+	4Nxfmba2iPwPTkgprE2KmJZXDy7o/ggGZ6g3UXs3o4PnaitRth6kTwCgwRnAiFskxsmq
+	hqIFdk9nvMlkUiIv2OIfTCu1SLsdHNXmAl/ao4UksyvttG6DESsr+qcMJ8qNdVFEawRq
+	f97DkQGkc5t/5XQn27REMgHrZLGnwNQyrWtxioibyV8DxvjSVrePeNeEtrvWcafwfyVp
+	+gJw==
+X-Gm-Message-State: APjAAAVLq7F6+9Y05L6Wrd1QZ612PFb2J1KuoBiLq9zVHB5GYF7fPOc9
+	zAa29tEqMDmv61nHVfE97yr0mpKuJiQ=
+X-Google-Smtp-Source: APXvYqx1iBwtCDZBytabnnUftZCOZPxNOukD0GagJ5Jvdm3c/rpFb6+0R9m2uMcHE0lbumJFy9x1qA==
+X-Received: by 2002:a17:902:848e:: with SMTP id
+	c14mr12425098plo.217.1569818906547; 
+	Sun, 29 Sep 2019 21:48:26 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:edf9:811d:ad92:85c2])
 	by smtp.gmail.com with ESMTPSA id
-	h15sm18888493pgn.76.2019.09.29.21.48.36
+	h15sm18888493pgn.76.2019.09.29.21.48.25
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Sep 2019 21:48:36 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:26 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 21:47:37 -0700
-Message-Id: <125c77be468adf8b3be8d00f99d80bd77f7d2e1e.1569818533.git.akuster808@gmail.com>
+Date: Sun, 29 Sep 2019 21:47:27 -0700
+Message-Id: <41579d569738a23b80d4599fd6ec082488c6cfee.1569818533.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569818533.git.akuster808@gmail.com>
 References: <cover.1569818533.git.akuster808@gmail.com>
-Subject: [warrior-next 42/54] gcc-8.3: Security fix for CVE-2019-14250
+Subject: [warrior-next 32/54] binutils: fix CVE-2019-14250 CVE-2019-14444
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,71 +60,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2019 04:48:36 -0000
+X-List-Received-Date: Mon, 30 Sep 2019 04:48:26 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
 
-Affects < 9.2
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
- .../gcc/gcc-8.3/CVE-2019-14250.patch               | 44 ++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
+ meta/recipes-devtools/binutils/binutils-2.32.inc   |  2 ++
+ .../binutils/binutils/CVE-2019-14250.patch         | 33 ++++++++++++++++++++++
+ .../binutils/binutils/CVE-2019-14444.patch         | 28 ++++++++++++++++++
+ 3 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
-index dce85a2..80f716a 100644
---- a/meta/recipes-devtools/gcc/gcc-8.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
-@@ -74,6 +74,7 @@ SRC_URI = "\
-            file://0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch \
-            file://0042-PR-debug-86964.patch \
-            file://0043-PR85434-Prevent-spilling-of-stack-protector-guard-s-.patch \
-+           file://CVE-2019-14250.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
+index 31c24a3..d3c5293 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.32.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
+@@ -50,6 +50,8 @@ SRC_URI = "\
+      file://CVE-2019-9077.patch \
+      file://CVE-2019-9071.patch \
+      file://CVE-2019-12972.patch \
++     file://CVE-2019-14250.patch \
++     file://CVE-2019-14444.patch \
  "
- SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
- SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch b/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
 new file mode 100644
-index 0000000..e327684
+index 0000000..c915a83
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-8.3/CVE-2019-14250.patch
-@@ -0,0 +1,44 @@
-+From a4f1b58eb48b349a5f353bc69c30be553506d33b Mon Sep 17 00:00:00 2001
-+From: rguenth <rguenth@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 25 Jul 2019 10:48:26 +0000
-+Subject: [PATCH] 2019-07-25  Richard Biener  <rguenther@suse.de>
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-14250.patch
+@@ -0,0 +1,33 @@
++From df78be05daf4eb07f60f50ec1080cb979af32ec0 Mon Sep 17 00:00:00 2001
++From: marxin <marxin@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Tue, 23 Jul 2019 07:33:32 +0000
++Subject: [PATCH] libiberty: Check zero value shstrndx in simple-object-elf.c
 +
-+	PR lto/90924
-+	Backport from mainline
-+	2019-07-12  Ren Kimura  <rkx1209dev@gmail.com>
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@273718 138bc75d-0d04-0410-961f-82ee72b054a4
 +
-+	* simple-object-elf.c (simple_object_elf_match): Check zero value
-+	shstrndx.
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-8-branch@273794 138bc75d-0d04-0410-961f-82ee72b054a4
-+
-+Upstream-Status: Backport
-+Affectes: <  9.2
 +CVE: CVE-2019-14250
-+Dropped changelog
-+Signed-off-by: Armin Kuster <Akustre@mvista.com>
-+
++Upstream-Status: Backport [from gcc: https://gcc.gnu.org/viewcvs/gcc?view=revision&revision=273718]
++[Removed Changelog entry]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ libiberty/simple-object-elf.c | 8 ++++++++
-+ 2 files changed, 17 insertions(+)
-+
-+Index: gcc-8.2.0/libiberty/simple-object-elf.c
-+===================================================================
-+--- gcc-8.2.0.orig/libiberty/simple-object-elf.c
-++++ gcc-8.2.0/libiberty/simple-object-elf.c
-+@@ -549,6 +549,14 @@ simple_object_elf_match (unsigned char h
++diff --git a/libiberty/simple-object-elf.c b/libiberty/simple-object-elf.c
++index 502388991a08..bdee963634d6 100644
++--- a/libiberty/simple-object-elf.c
+++++ b/libiberty/simple-object-elf.c
++@@ -548,7 +548,15 @@ simple_object_elf_match (unsigned char header[SIMPLE_OBJECT_MATCH_HEADER_LEN],
++       XDELETE (eor);
 +       return NULL;
 +     }
-+ 
++-
+++  
 ++  if (eor->shstrndx == 0)
 ++    {
 ++      *errmsg = "invalid ELF shstrndx == 0";
@@ -132,10 +122,44 @@ index 0000000..e327684
 ++      XDELETE (eor);
 ++      return NULL;
 ++    }
-++
+++  
 +   return (void *) eor;
 + }
 + 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
+new file mode 100644
+index 0000000..85b9a9f
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-14444.patch
+@@ -0,0 +1,28 @@
++From e17869db99195849826eaaf5d2d0eb2cfdd7a2a7 Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Mon, 5 Aug 2019 10:40:35 +0100
++Subject: [PATCH] Catch potential integer overflow in readelf when processing
++ corrupt binaries.
++
++	PR 24829
++	* readelf.c (apply_relocations): Catch potential integer overflow
++	whilst checking reloc location against section size.
++
++CVE: CVE-2019-14444
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=e17869db99195849826eaaf5d2d0eb2cfdd7a2a7]
++[Removed Changelog entry]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index b896ad9f406..e785fde43e7 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -13366,7 +13366,7 @@ apply_relocations (Filedata *                 filedata,
++ 	    }
++ 
++ 	  rloc = start + rp->r_offset;
++-	  if ((rloc + reloc_size) > end || (rloc < start))
+++	  if (rloc >= end || (rloc + reloc_size) > end || (rloc < start))
++ 	    {
++ 	      warn (_("skipping invalid relocation offset 0x%lx in section %s\n"),
++ 		    (unsigned long) rp->r_offset,
 -- 
 2.7.4
 
