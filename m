@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id F38DC6C0F4
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CE4C97F337
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2019 04:48:36 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id b128so4877562pfa.1
+	Mon, 30 Sep 2019 04:48:37 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id a3so6631526pgm.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Sep 2019 21:48:38 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=sRFkFtQNu/c9RuPbZQKQ20iMl/cNy+QCK9j3pq4pBWs=;
-	b=UAk70bC2HGcdzMyIaY1698ptkCaDvfWhN+wdbjYl+FxWXRrmSstceKDP0YfQIBZSrH
-	lijfO1jfA6Oth/rpd0YTRKsbCjxy8+XsBEgb8TjNMxf1lu8SRXcp/uQrsPr3Jga1KcRP
-	CP9S/N6v2miQ74dNBHTQHEhGbYy/noOuKpBHknyHzKMRka4AtzVwZ4sHw8LpOjytZjcp
-	qdmy6CmLHryR9pjMd0aGjeI4qaZgY6HAs8msRnwf4+nCT+LNf3mc0TlgDQLO3GZQOznQ
-	C5/jiSlr6LCJLyajd5LAS/FiRvZliVCfNoyk4Vhh/Oiqwv+CZphENtFGG4LH2a1WhnIU
-	AsAw==
+	bh=Esc4bPSuqdtuLpJ+2YKUlXNIfgG2rln0TxMBeTaXk+w=;
+	b=RSQiSGfGoAbYKG84YWmjUM3300IxSp+sYjKAkgW19fFH/H/09u8C1J/pCWVpXGHKsZ
+	Y4A9u4dOwHC3BSSABSdlyeQnAcn3YpR3Mmq9dqgjJZEDb7yZ69mIw9WmgVD6iidt3NHq
+	g6UTVxAXG9Zz7wZ1xCha5XtEAOAPE3WmZyo2u5qSShvKQ68zl074ghi1mEtGizTgHxLi
+	NSrg+l5k/vf9xj6WLldOfSfaBMv5p9xFZhN70SsbpMmtFdvgDwvvoay2/YMD3ryXJVbx
+	YdlcRVC/djQiVBG2iIlje5Y3Isi8WYVFxPcX5vTUuAngo++dD7D8hzBUwwAHWChDzkmh
+	PDOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=sRFkFtQNu/c9RuPbZQKQ20iMl/cNy+QCK9j3pq4pBWs=;
-	b=H+K79ILOsU55YlGa7OmcGddohThaO+FbTz4FV+rDuGwWtHtHyD/8cF66voLWZt5BYJ
-	jVkFZcDmVY1a1+LT/Gq0964x413PZKbV3qpLjSS9zdw3Aik9TSXmpAkbj4RRf5q32xvf
-	MFNsAbml/74Y9Gx0RHIubYrpzUItsUKSWHMaISgAAysYx0MQ8e0H3zRaUbgqArpYrkks
-	NfQKXSM5J/C+FwLc74A0twpYEYoJFiNZgPdE9pcRe4sEYlOeXqLcN8WFuSGyqstkeYkO
-	FlE+MsUD+QOG+EAYyILcUIwJ+oD2+MxyiJMObeteFTiMDUwO60d8zHpLEXAzk6L0V3zY
-	lOqg==
-X-Gm-Message-State: APjAAAWcxEWmaN+brl+mnvLbDUfQGsevtG6Rp2ikGoydsxOdkKQR65p7
-	VS0xv+WiJGSKp9wHYrPUFyNfaQfXNAI=
-X-Google-Smtp-Source: APXvYqwmSs9E7kuR3xHI15LatBPPLOVZCyZf79sndJ8bLYxtDEEWMBoSO06cT0r+m/ymS9yHRELeZw==
-X-Received: by 2002:a63:5007:: with SMTP id e7mr21209151pgb.2.1569818917801;
-	Sun, 29 Sep 2019 21:48:37 -0700 (PDT)
+	bh=Esc4bPSuqdtuLpJ+2YKUlXNIfgG2rln0TxMBeTaXk+w=;
+	b=azZ86Jz9tlcie+iTKU9SdcQ4KkQFIH5pu7Ah0Ykz0yA5HbEFXKFPyYRKvtdaqKPDjf
+	hNVc7bjQkVWz8Ng/2uzKXuYgwSDBrhkV+5EGtGTGBLSkD2MXdYVRpxLqQErpTwdtKthK
+	vi6PndxfcY3XswpvAmTYwF4sgrvWYeLYCjYAQ3aCjOwzs8Xh+SwoBBO9NOUcKLXG4AJs
+	uCozA4fJW1OzC17ZqJdoDUV3n3xjaBjMkIVGuJ3jSrUPIkkRLknNPrh1Qg1kZv7YlnPc
+	wRU4cS6M5B1I1zAPVJr8UX4JKgYKgScaJhRR9Mw2REVIZvpEodhNYa+f9yzZ+xX7QCBE
+	tr/A==
+X-Gm-Message-State: APjAAAWITBd7SxMj2H+8cFfFV+UBtrLqCrQM/OD11sfHxde2Sti2kpRG
+	gX2f//Ctau0QW55MBJ5rAAryziVD1Ck=
+X-Google-Smtp-Source: APXvYqxvc7tQlbmQ9xXnAKxAZS8tSmWW+ehAiGqdIhlIPcBw4OolfVJNjW1DA1XMu18piS5ky9R/6w==
+X-Received: by 2002:a17:90a:6547:: with SMTP id
+	f7mr23753772pjs.13.1569818918707; 
+	Sun, 29 Sep 2019 21:48:38 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:edf9:811d:ad92:85c2])
 	by smtp.gmail.com with ESMTPSA id
 	h15sm18888493pgn.76.2019.09.29.21.48.37
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Sep 2019 21:48:37 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:38 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 21:47:38 -0700
-Message-Id: <6b4c4fbaef8b4655efbc542fb7b97081dbaed8ce.1569818533.git.akuster808@gmail.com>
+Date: Sun, 29 Sep 2019 21:47:39 -0700
+Message-Id: <ef7a387c8045af08e5db171e944656b9bf15f598.1569818533.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569818533.git.akuster808@gmail.com>
 References: <cover.1569818533.git.akuster808@gmail.com>
-Subject: [warrior-next 43/54] kernel-fitimage: uboot-sign: fix missing signature
+Subject: [warrior-next 44/54] kernel-devsrc: tweak for v5.3+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,47 +60,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2019 04:48:37 -0000
+X-List-Received-Date: Mon, 30 Sep 2019 04:48:38 -0000
 
-From: Jun Nie <jun.nie@linaro.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-u-boot.bin with dtb & signature should be placed in ${B} so that
-it can be deployed by u-boot as expected. Otherwise, the version
-without signature is installed.
+The 5.3 kernel has two changes that require tweaks to the minimal
+kernel-devsrc package.
 
-Signed-off-by: Jun Nie <jun.nie@linaro.org>
+- 4ce97317f [x86/purgatory: Do not use __builtin_memcpy and __builtin_memset]
+
+  This change removes the need for arch/x86/purgatory/string.c and
+  instead reuses a copy in arch/x86/boot/compressed/, so we can't copy
+  the file anymore. To support older kernels, we make the copy survive
+  the non-existence of the file.
+
+- b1663d7e [docs: Kbuild/Makefile: allow check for missing docs at build time]
+
+  This change adds the sourceing of Documentation/Kbuild to the top
+  level Kbuild file. So we now leave the copy of Documention/'s Kbuild
+  in the devsrc.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/uboot-sign.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index 8beafff..1fc2a37 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -66,7 +66,7 @@ concat_dtb_helper() {
- 		install ${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
- 	elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
- 		cd ${DEPLOYDIR}
--		cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${UBOOT_BINARY} > ${UBOOT_IMAGE}
-+		cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${CONFIG_B_PATH}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
- 	else
- 		bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 5ec5929..3900489 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -65,7 +65,6 @@ do_install() {
+     )
+ 
+     # then drop all but the needed Makefiles/Kconfig files
+-    rm -rf $kerneldir/build/Documentation
+     rm -rf $kerneldir/build/scripts
+     rm -rf $kerneldir/build/include
+ 
+@@ -205,11 +204,12 @@ do_install() {
+ 	    cp -a --parents arch/x86/purgatory/sha256.c $kerneldir/build/ 2>/dev/null || :
+ 
+ 	    cp -a --parents arch/x86/purgatory/stack.S $kerneldir/build/
+-	    cp -a --parents arch/x86/purgatory/string.c $kerneldir/build/
++	    cp -a --parents arch/x86/purgatory/string.c $kerneldir/build/ 2>/dev/null || :
+ 	    cp -a --parents arch/x86/purgatory/setup-x86_64.S $kerneldir/build/
+ 	    cp -a --parents arch/x86/purgatory/entry64.S $kerneldir/build/
+ 	    cp -a --parents arch/x86/boot/string.h $kerneldir/build/
+ 	    cp -a --parents arch/x86/boot/string.c $kerneldir/build/
++	    cp -a --parents arch/x86/boot/compressed/string.c $kerneldir/build/ 2>/dev/null || :
+ 	    cp -a --parents arch/x86/boot/ctype.h $kerneldir/build/
  	fi
-@@ -77,10 +77,12 @@ concat_dtb() {
- 		mkdir -p ${DEPLOYDIR}
- 		if [ -n "${UBOOT_CONFIG}" ]; then
- 			for config in ${UBOOT_MACHINE}; do
-+				CONFIG_B_PATH="${config}"
- 				cd ${B}/${config}
- 				concat_dtb_helper
- 			done
- 		else
-+			CONFIG_B_PATH=""
- 			cd ${B}
- 			concat_dtb_helper
- 		fi
+ 
 -- 
 2.7.4
 
