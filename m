@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
-	[209.85.210.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B50357F36F
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7710B7F377
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2019 04:48:40 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id 205so4873513pfw.2
+	Mon, 30 Sep 2019 04:48:41 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id v27so6648795pgk.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Sep 2019 21:48:42 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=FhGPA1pCT+0PwFrJuGG6LphgTWvDov/U+8xgnBDEz+E=;
-	b=FT2JcKWsflIVkOTz9jaBlnN4STU8D5pZ22csxLut8gF2SJMG0p8+QsBrdcDZnTCwi5
-	ZPLBw6Av3EU6igpgYkoSvHN8c29GqUBJx68oiWG5/Yc02c9Jy3H3MpZriuEvXwNK+Vih
-	itYBiSshlEoYQNGdJuGhtdSYizRJswf5sD278iIZm39FSTLFhkAZauZBVPqDz36kDgFi
-	fZBokoOwe+kJYjtNuBe8wR8fP2je3QiMzADh7wSdbsMiU3WCa2YeNu2HDBZETo6Tl6qC
-	HKdKedQMldipekEecb+u3yQuCQ1mlX7TcWh3Em1INLI3Wy5FMcX1T2uqIPHRduqASo0G
-	mWGA==
+	bh=L0Eh6jqbNqEqek377ALVXnJou16+RD4DO8r1L06uFZ8=;
+	b=eByvYvqhVmxn89jI4KiVvIRKMWTC7Sk31ePLo62vkQRE4KL4L+VShIEg3Zv/Lz3uTo
+	S+ofIymBB9YlrirRA+iM7dgqL8iK9ouyYNehYNQ+c274X1zPynt9BUoUy63mVOz+5HYS
+	V22tdJtAZAErdduDMbrm7hks+B/ed1d3h17AT3Xw7dxgmiR+SpEWQutF4XrlDmVEY3VL
+	KapzV8UMwcMyJgYPeko9UNxKuVx4/ZH/zgDDk4+p33I/I1olG/X95XxGcta7ZfPtS+2M
+	HkbKVOa+UStMYz4YX784w0Zh3BPt9rSW/CqWMQcF72/CNp+wa7JFfGbbT6FqIBToo0+v
+	S9iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=FhGPA1pCT+0PwFrJuGG6LphgTWvDov/U+8xgnBDEz+E=;
-	b=m1MSXESspBZ1oc0O/8JovpySnaCqP+z/egJgiFNG7I/oyjfUncKIhtEd0mJE61oYVb
-	0mht2bRyg8vWuAjkZ9Jv6tYn/24dZ5izN9cR7NjuBtey5Ge2R+iMX2pVg0Yp7P6MdWMP
-	/x5Sa0OHn2G+csirvKUir6cP3wFj8svriE6zp7DWrwiWy+SSEfP7amHFXJnBWPB3zwv1
-	XNJ67l54egFhGoqlXNtuelWf6t53RuA+Tol2UAPSpWOqETLdHKCfApWL8ZbF2QUwPj1z
-	C9dnml4Z0wE1ICZECRtR1xHWZEiXevhEed47MI7fnM3uyrNlxA+RC0GN8moToWuZgWdA
-	fedA==
-X-Gm-Message-State: APjAAAVsVU2kezDWlF5GIWP8DM5nXE0fXgDwHRUgn1OS2h/aQIOOxFP7
-	7oiw37OJN2IK4760I4dHOIlMitkgBO8=
-X-Google-Smtp-Source: APXvYqzo6Glu5xgVIxrafwjdQgFJGSKQLDU1na9bEtKxs7HW+oYEFZIPPgXXvdJ7jXUr/sRHEGQyWg==
-X-Received: by 2002:a63:ec13:: with SMTP id j19mr11256060pgh.36.1569818921704; 
-	Sun, 29 Sep 2019 21:48:41 -0700 (PDT)
+	bh=L0Eh6jqbNqEqek377ALVXnJou16+RD4DO8r1L06uFZ8=;
+	b=eSTVoMU20gIgwyPpZnGBwJihVpT2KEilS8Z8iDbKXOt9u+38Mg+hd1fFpHm+722bLa
+	U/XNZ33CZ9WtKCsn201ushRpwdEXMJ1ehomWw+l6EwlbFIOLJxS1RzPPuy1ZQ0BW20I0
+	8DvObPEk3TZDk78fBvYNMCeo5IYFmmm1Lzp3zdn8gDpX6nAatk6FF46WvjIIcxIIll6Q
+	UqzzEuBYTf+7lxPqB/nfwD4S7mNo92fFi8hiDQZ9Dq8LkX3Jbkck4evXYNz9LSjMmJp1
+	EP4zagwg49YB2IkUojkcCnOlObxgSO+lNoSSSjk2Do5QGOtSiSwSQAPASFKwLcH1BtV0
+	q1Hw==
+X-Gm-Message-State: APjAAAVK+7Io5MW/zOC5dgeNZzL0qhiWBjLvUgKK2QS0Kt6mWXkwqeBu
+	WT1YFcX2FiPNhdr3oyFuhIGMVov2ehU=
+X-Google-Smtp-Source: APXvYqyI4eS1ArDAMq0zECVZ7pJ7GrTRR2QoS0IZie8V2VEVuCoULOGU4s4ODbqxQUiRKM0f5IMN2A==
+X-Received: by 2002:a17:90a:8002:: with SMTP id
+	b2mr25197349pjn.0.1569818922678; 
+	Sun, 29 Sep 2019 21:48:42 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:edf9:811d:ad92:85c2])
 	by smtp.gmail.com with ESMTPSA id
-	h15sm18888493pgn.76.2019.09.29.21.48.39
+	h15sm18888493pgn.76.2019.09.29.21.48.41
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 29 Sep 2019 21:48:40 -0700 (PDT)
+	Sun, 29 Sep 2019 21:48:42 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Sep 2019 21:47:41 -0700
-Message-Id: <4e110b7d3b6e84015249f4174766dd3790f9bbbe.1569818533.git.akuster808@gmail.com>
+Date: Sun, 29 Sep 2019 21:47:42 -0700
+Message-Id: <d2e5558133f970a8a196c545dd00af9315c1a06a.1569818533.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1569818533.git.akuster808@gmail.com>
 References: <cover.1569818533.git.akuster808@gmail.com>
-Subject: [warrior-next 46/54] libgpg-error: Fix build with gawk 5.x
+Subject: [warrior-next 47/54] Curl: Security fix for CVE-2019-5482
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,197 +62,109 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 30 Sep 2019 04:48:42 -0000
 
-From: Sean Nyekjaer <sean@geanix.com>
+From: Armin Kuster <akuster@mvista.com>
 
-Based on poky master, but for version 1.35
+Source: curl.org
+MR: 99905
+Type: Security Fix
+Disposition: Backport from https://github.com/curl/curl/commit/facb0e4662415b5f28163e853dc6742ac5fafb3d
+ChangeID: e0c807da8937f687a4b2e28eaa6b4b5a51845bc5
+Description:
 
-Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Fixes CVE-2019-5482
+- Affected versions: libcurl >= 7.19.4 to and including 7.65.3
+- Not affected versions: libcurl < 7.19.4
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../libgpg-error-1.35-gawk5-support.patch          | 161 +++++++++++++++++++++
- .../libgpg-error/libgpg-error_1.35.bb              |   1 +
- 2 files changed, 162 insertions(+)
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
+ meta/recipes-support/curl/curl/CVE-2019-5482.patch | 65 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.64.1.bb           |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5482.patch
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2019-5482.patch b/meta/recipes-support/curl/curl/CVE-2019-5482.patch
 new file mode 100644
-index 0000000..dc3d558
+index 0000000..30122d1
 --- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
-@@ -0,0 +1,161 @@
-+Upstream-Status: Backport [https://dev.gnupg.org/T4459]
-+Signed-off-by: Sean Nyekjaer <sean@geanix.com>
++++ b/meta/recipes-support/curl/curl/CVE-2019-5482.patch
+@@ -0,0 +1,65 @@
++From facb0e4662415b5f28163e853dc6742ac5fafb3d Mon Sep 17 00:00:00 2001
++From: Thomas Vegas <>
++Date: Sat, 31 Aug 2019 17:30:51 +0200
++Subject: [PATCH] tftp: Alloc maximum blksize, and use default unless OACK is
++ received
 +
-+From 37069826e497d6af01e3e48fe5d2220ae7f85449 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Mon, 15 Apr 2019 15:10:44 +0900
-+Subject: [PATCH] awk: Prepare for Gawk 5.0.
++Fixes potential buffer overflow from 'recvfrom()', should the server
++return an OACK without blksize.
 +
-+* src/Makefile.am: Use pkg_namespace (instead of namespace).
-+* src/mkerrnos.awk: Likewise.
-+* lang/cl/mkerrcodes.awk: Don't escape # in regexp.
-+* src/mkerrcodes.awk, src/mkerrcodes1.awk, src/mkerrcodes2.awk: Ditto.
++Bug: https://curl.haxx.se/docs/CVE-2019-5482.html
++CVE-2019-5482
 +
-+--
++Upstream-Status: Backport
++CVE: CVE-2019-5482
 +
-+In Gawk 5.0, regexp routines are replaced by Gnulib implementation,
-+which only allows escaping specific characters.
++Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
-+GnuPG-bug-id: 4459
-+Reported-by: Marius Schamschula
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
 +---
-+ lang/cl/mkerrcodes.awk |  2 +-
-+ src/Makefile.am        |  2 +-
-+ src/mkerrcodes.awk     |  2 +-
-+ src/mkerrcodes1.awk    |  2 +-
-+ src/mkerrcodes2.awk    |  2 +-
-+ src/mkerrnos.awk       |  2 +-
-+ src/mkstrtable.awk     | 10 +++++-----
-+ 7 files changed, 11 insertions(+), 11 deletions(-)
++ lib/tftp.c | 12 +++++++++---
++ 1 file changed, 9 insertions(+), 3 deletions(-)
 +
-+diff --git a/lang/cl/mkerrcodes.awk b/lang/cl/mkerrcodes.awk
-+index ae29043..9a1fc18 100644
-+--- a/lang/cl/mkerrcodes.awk
-++++ b/lang/cl/mkerrcodes.awk
-+@@ -122,7 +122,7 @@ header {
-+ }
++Index: curl-7.64.1/lib/tftp.c
++===================================================================
++--- curl-7.64.1.orig/lib/tftp.c
+++++ curl-7.64.1/lib/tftp.c
++@@ -973,6 +973,7 @@ static CURLcode tftp_connect(struct conn
++ {
++   tftp_state_data_t *state;
++   int blksize;
+++  int need_blksize;
 + 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
++   blksize = TFTP_BLKSIZE_DEFAULT;
 + 
-+   if (/^$/)
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 42998e4..0ceac9f 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -281,7 +281,7 @@ code-from-errno.h: mkerrcodes Makefile
++@@ -987,15 +988,20 @@ static CURLcode tftp_connect(struct conn
++       return CURLE_TFTP_ILLEGAL;
++   }
 + 
-+ errnos-sym.h: Makefile mkstrtable.awk errnos.in
-+ 	$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
-+-		-v prefix=GPG_ERR_ -v namespace=errnos_ \
-++		-v prefix=GPG_ERR_ -v pkg_namespace=errnos_ \
-+ 		$(srcdir)/errnos.in >$@
+++  need_blksize = blksize;
+++  /* default size is the fallback when no OACK is received */
+++  if(need_blksize < TFTP_BLKSIZE_DEFAULT)
+++    need_blksize = TFTP_BLKSIZE_DEFAULT;
+++
++   if(!state->rpacket.data) {
++-    state->rpacket.data = calloc(1, blksize + 2 + 2);
+++    state->rpacket.data = calloc(1, need_blksize + 2 + 2);
 + 
++     if(!state->rpacket.data)
++       return CURLE_OUT_OF_MEMORY;
++   }
 + 
-+diff --git a/src/mkerrcodes.awk b/src/mkerrcodes.awk
-+index 46d436c..e9c857c 100644
-+--- a/src/mkerrcodes.awk
-++++ b/src/mkerrcodes.awk
-+@@ -85,7 +85,7 @@ header {
-+ }
++   if(!state->spacket.data) {
++-    state->spacket.data = calloc(1, blksize + 2 + 2);
+++    state->spacket.data = calloc(1, need_blksize + 2 + 2);
 + 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
++     if(!state->spacket.data)
++       return CURLE_OUT_OF_MEMORY;
++@@ -1009,7 +1015,7 @@ static CURLcode tftp_connect(struct conn
++   state->sockfd = state->conn->sock[FIRSTSOCKET];
++   state->state = TFTP_STATE_START;
++   state->error = TFTP_ERR_NONE;
++-  state->blksize = blksize;
+++  state->blksize = TFTP_BLKSIZE_DEFAULT; /* Unless updated by OACK response */
++   state->requested_blksize = blksize;
 + 
-+   if (/^$/)
-+diff --git a/src/mkerrcodes1.awk b/src/mkerrcodes1.awk
-+index a771a73..4578e29 100644
-+--- a/src/mkerrcodes1.awk
-++++ b/src/mkerrcodes1.awk
-+@@ -81,7 +81,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkerrcodes2.awk b/src/mkerrcodes2.awk
-+index ea58503..188f7a4 100644
-+--- a/src/mkerrcodes2.awk
-++++ b/src/mkerrcodes2.awk
-+@@ -91,7 +91,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkerrnos.awk b/src/mkerrnos.awk
-+index f79df66..15b1aad 100644
-+--- a/src/mkerrnos.awk
-++++ b/src/mkerrnos.awk
-+@@ -83,7 +83,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+diff --git a/src/mkstrtable.awk b/src/mkstrtable.awk
-+index c9de9c1..285e45f 100644
-+--- a/src/mkstrtable.awk
-++++ b/src/mkstrtable.awk
-+@@ -77,7 +77,7 @@
-+ #
-+ # The variable prefix can be used to prepend a string to each message.
-+ #
-+-# The variable namespace can be used to prepend a string to each
-++# The variable pkg_namespace can be used to prepend a string to each
-+ # variable and macro name.
-+ 
-+ BEGIN {
-+@@ -102,7 +102,7 @@ header {
-+       print "/* The purpose of this complex string table is to produce";
-+       print "   optimal code with a minimum of relocations.  */";
-+       print "";
-+-      print "static const char " namespace "msgstr[] = ";
-++      print "static const char " pkg_namespace "msgstr[] = ";
-+       header = 0;
-+     }
-+   else
-+@@ -110,7 +110,7 @@ header {
-+ }
-+ 
-+ !header {
-+-  sub (/\#.+/, "");
-++  sub (/#.+/, "");
-+   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-+ 
-+   if (/^$/)
-+@@ -150,7 +150,7 @@ END {
-+   else
-+     print "  gettext_noop (\"" last_msgstr "\");";
-+   print "";
-+-  print "static const int " namespace "msgidx[] =";
-++  print "static const int " pkg_namespace "msgidx[] =";
-+   print "  {";
-+   for (i = 0; i < coded_msgs; i++)
-+     print "    " pos[i] ",";
-+@@ -158,7 +158,7 @@ END {
-+   print "  };";
-+   print "";
-+   print "static GPG_ERR_INLINE int";
-+-  print namespace "msgidxof (int code)";
-++  print pkg_namespace "msgidxof (int code)";
-+   print "{";
-+   print "  return (0 ? 0";
-+ 
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
-index 57ac143..37c298e 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.35.bb
-@@ -14,6 +14,7 @@ SECTION = "libs"
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
-+           file://libgpg-error-1.35-gawk5-support.patch \
- 	  "
++   ((struct sockaddr *)&state->local_addr)->sa_family =
+diff --git a/meta/recipes-support/curl/curl_7.64.1.bb b/meta/recipes-support/curl/curl_7.64.1.bb
+index 00c8c5a..151d74a 100644
+--- a/meta/recipes-support/curl/curl_7.64.1.bb
++++ b/meta/recipes-support/curl/curl_7.64.1.bb
+@@ -9,6 +9,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+            file://CVE-2019-5435.patch \
+            file://CVE-2019-5436.patch \
++           file://CVE-2019-5482.patch \
+ "
  
- SRC_URI[md5sum] = "2808a9e044f883f7554c5ba6a380b711"
+ SRC_URI[md5sum] = "790c101927845208a9d7e8c429ddd1b2"
 -- 
 2.7.4
 
