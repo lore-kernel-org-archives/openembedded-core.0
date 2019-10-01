@@ -1,31 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 3192C7CF1B
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E9A07E3AA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2019 11:55:05 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Oct 2019 04:55:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,571,1559545200"; d="scan'208";a="191438055"
-Received: from karthik-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.38.183])
-	by fmsmga007.fm.intel.com with ESMTP; 01 Oct 2019 04:55:06 -0700
-To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
-	openembedded-core@lists.openembedded.org
-References: <20191001095452.37335-1-git@andred.net>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <0b9696a9-bc60-f16c-2855-44d518a5f8c7@intel.com>
-Date: Tue, 1 Oct 2019 12:55:05 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+	Tue,  1 Oct 2019 14:29:57 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id f22so3511785wmc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Oct 2019 07:29:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=lUR5cd//XSCaB25Jz+ep5/LdvQ+8ETD9eyBIzKHXS/U=;
+	b=PjpdErSYCbX8YvGG6+34hKJZ5do1qkaRB6ruXTJ4UwJ1DSz8C1LlbEWnzRSD1fwxJl
+	Rzl2Z4v/9A3jZvRPtJg7DW/TPWpOkkax3pDpudHC+p6I3rm6lHnki33FRV9SlYljxAlW
+	VZPPtT8Td5fYSgYHsuYW5e1lU0j+x6iKgq06niYN2jo/8nugHugaBPLH98uAFKnIECK5
+	AIVidLEGM5fQbq8oJyO9uyihDvjjkXBcbmIXoTdumtY18i0BzsZjakS+VuNZ5VNUsOIP
+	LzxhgC3jDaWi4gbSbngYnzZbM2z+OxhuExgb7F+LHx9+dKdKz2qzAWNN1VGxQli20Dui
+	vW0w==
+X-Gm-Message-State: APjAAAU0CLwTZU1wHixMM5iKbocdGCgOOVZcajBdCqQNaCs7P1u52qYT
+	IvuwEsgx37xEPDfgwITZD7b2TOdk
+X-Google-Smtp-Source: APXvYqyCzJjRVh+y7KS397qCLZq8YlTAxCAQSGqXkeWDo2ViATJFaHyjfhDWFd/4SRXDDhex73rGgg==
+X-Received: by 2002:a05:600c:2386:: with SMTP id
+	m6mr4160383wma.164.1569940197945; 
+	Tue, 01 Oct 2019 07:29:57 -0700 (PDT)
+Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	z1sm32693448wre.40.2019.10.01.07.29.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 01 Oct 2019 07:29:57 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Oct 2019 15:29:56 +0100
+Message-Id: <20191001142956.39512-1-git@andred.net>
+X-Mailer: git-send-email 2.23.0.rc1
+In-Reply-To: <20191001095452.37335-5-git@andred.net>
+References: <20191001095452.37335-5-git@andred.net>
 MIME-Version: 1.0
-In-Reply-To: <20191001095452.37335-1-git@andred.net>
-Subject: Re: [PATCH v3 0/4] ruby recipe updates
+Subject: [PATCH] ruby: some ptest fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,22 +51,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2019 11:55:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Tue, 01 Oct 2019 14:29:57 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 01/10/2019 10:54, André Draszik wrote:
-> This series updates the ruby recipe to:
-> * remove duplicated patches
-> * make it work better on musl
-> * fix non-IPv6 support
-> * update to v2.6.4
+From: André Draszik <andre.draszik@jci.com>
 
-I spy a new ruby recipe maintainer. ;)
+* the (new?) ruby expects some additional compiled libraries
+  to run, so we need to copy them as part of ptest.
+  Fixes errors like:
+  # ruby ./runner.rb ./-ext-/vm/test_at_exit.rb
+  Run options:
 
-Thanks André!
+  # Running tests:
 
-Ross
+  [1/1] TestVM#test_at_exit = 0.06 s
+    1) Failure:
+  TestVM#test_at_exit [/usr/lib/ruby/ptest/test/-ext-/vm/test_at_exit.rb:7]:
+
+  1. [1/2] Assertion for "stdout"
+     | <["begin", "end"]> expected but was
+     | <[]>.
+
+  2. [2/2] Assertion for "stderr"
+     | <[]> expected but was
+     | <["-:1:in `require': cannot load such file -- -test-/vm/at_exit (LoadError)",
+     |  "\tfrom -:1:in `<main>'"]>.
+
+* the 'erb' test can't find the erb binary, as we're not
+  running this from within the build directory
+
+Signed-off-by: André Draszik <andre.draszik@jci.com>
+---
+ meta/recipes-devtools/ruby/ruby_2.6.4.bb | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/ruby/ruby_2.6.4.bb b/meta/recipes-devtools/ruby/ruby_2.6.4.bb
+index 4554487c0a..fb202b8f1f 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.6.4.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.6.4.bb
+@@ -44,6 +44,14 @@ do_install_append_class-target () {
+ 
+ do_install_ptest () {
+     cp -rf ${S}/test ${D}${PTEST_PATH}/
++    # install test-binaries
++    find $(find ./.ext -path '*/-test-') -name '*.so' -print0 \
++        | tar --no-recursion --null -T - --no-same-owner --preserve-permissions -cf - \
++        | tar -C ${D}${libdir}/ruby/${SHRT_VER}.0/ --no-same-owner --preserve-permissions --strip-components=2 -xf -
++    # adjust path to not assume build directory layout
++    sed -e 's|File.expand_path(.*\.\./bin/erb[^)]*|File.expand_path("${bindir}/erb"|g' \
++        -i ${D}${PTEST_PATH}/test/erb/test_erb_command.rb
++
+     cp -r ${S}/include ${D}/${libdir}/ruby/
+     test_case_rb=`grep rubygems/test_case.rb ${B}/.installed.list`
+     sed -i -e 's:../../../test/:../../../ptest/test/:g' ${D}/$test_case_rb
+@@ -61,6 +69,9 @@ FILES_${PN}-rdoc += "${libdir}/ruby/*/rdoc ${bindir}/rdoc"
+ 
+ FILES_${PN} += "${datadir}/rubygems"
+ 
+-FILES_${PN}-ptest_append_class-target += "${libdir}/ruby/include"
++FILES_${PN}-ptest_append_class-target = "\
++    ${libdir}/ruby/include \
++    ${libdir}/ruby/${SHRT_VER}.0/*/-test- \
++"
+ 
+ BBCLASSEXTEND = "native"
+-- 
+2.23.0.rc1
 
 
