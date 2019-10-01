@@ -1,35 +1,42 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F6DC7F282
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+	[209.85.128.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A4457F225
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2019 04:48:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 890F740BF9;
-	Tue,  1 Oct 2019 04:48:27 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id SlHEu_qCbQGA; Tue,  1 Oct 2019 04:48:27 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
-	[100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 6082640BF0;
-	Tue,  1 Oct 2019 04:48:25 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 161B9174275; Tue,  1 Oct 2019 00:48:25 -0400 (EDT)
-Date: Tue, 1 Oct 2019 00:48:24 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Stefan Agner <stefan@agner.ch>
-Message-ID: <20191001044824.GB30018@denix.org>
-References: <20190917131053.32411-1-afd@ti.com>
-	<20190917131053.32411-4-afd@ti.com>
-	<2be09d9daa44612fd8c52483dc73131e@agner.ch>
+	Tue,  1 Oct 2019 09:54:59 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id v17so2492770wml.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Oct 2019 02:55:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=6tUsoHzUgh2RHO9Xc5m31PVKpLgw4QhKrVPFS0B7dx8=;
+	b=Nqg4MbniJWufgl0Rax84VfM8zFznr73+yo5QIaXxd1i92wa4piyLbscfUeh3WsOo+c
+	PdZ97QKl7cD5Q1iM4hl0dMABxrKc57kMSxr7X39ydo5Qirb/Nfq07BD3P6dFoJXWCq9e
+	kgQ81TVba7SsNDEEJuYq6Hq9JVrmPsGT1fB36JH227NqOSWOMLElJgOYgg0X/lKfLEwM
+	+l8zstTyvxzr9JSf9Wx7UuYrfdA5MAjsNNjbdi9JhooVS+Hps1VF4idnWJx/n4oFkYYi
+	4sr4vFrbXmao3hYhDecE9qcQUj2+9uHN5gxBITFFUbv2ds4eXwLXMsiiixE+xcKb6iRf
+	X8FQ==
+X-Gm-Message-State: APjAAAXgdAuyk/9D6bQN4+PcgROgtD+Knw1Tma77I68aLC/4YVJg+3F+
+	LEpOkIedbtXKoyXSFXTlJAG4bSb7
+X-Google-Smtp-Source: APXvYqwpQ8hxWSimgT3dCSb9gAKDe+4sDTYSmsvzRfWG5GF277iXgIAtUWWXjQ01Fxry7nhjoExnlw==
+X-Received: by 2002:a05:600c:351:: with SMTP id
+	u17mr2830996wmd.1.1569923700014; 
+	Tue, 01 Oct 2019 02:55:00 -0700 (PDT)
+Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	g185sm3070875wme.10.2019.10.01.02.54.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 01 Oct 2019 02:54:59 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Oct 2019 10:54:48 +0100
+Message-Id: <20191001095452.37335-1-git@andred.net>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-In-Reply-To: <2be09d9daa44612fd8c52483dc73131e@agner.ch>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 4/4] weston: Set depends to the virtual needed not explicitly on Mesa
+Subject: [PATCH v3 0/4] ruby recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,73 +49,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2019 04:48:26 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 01 Oct 2019 09:55:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 26, 2019 at 10:19:12AM +0200, Stefan Agner wrote:
-> On 2019-09-17 15:10, Andrew F. Davis via Openembedded-core wrote:
-> > The dependency is for EGL and GLES2 libraries. On some systems these
-> > are not provided by Mesa, list what is actually needed so the system
-> > can choose the correct provider.
-> 
-> Unfortunately I saw that a bit late, but this is breaking our use case.
-> 
-> Weston works perfectly fine on non-GPU systems without EGL/OpenGL ES
-> using pixman renderer. Currently libgbm is still a compile time
-> dependency, but I have a merge request pending which should drop this
-> dependency, then the DRM backend can be compiled fine with only KMS
-> support.
+This series updates the ruby recipe to:
+* remove duplicated patches
+* make it work better on musl
+* fix non-IPv6 support
+* update to v2.6.4
 
-Hi, Stefan,
+They were all kept as individual patches, in particular
+the version update, so as to make backporting the
+three first recipe fixes easier onto OE maintenance
+branches.
 
-Can you please provide Weston configuration logs when it gets built with 
-pixman and w/o EGL/GLES? Thanks.
-
--- 
-Denys
+Cheers,
+Andre'
 
 
-> > Signed-off-by: Andrew F. Davis <afd@ti.com>
-> > Acked-by: Denys Dmytriyenko <denys@ti.com>
-> > ---
-> > 
-> > Changes from v1:
-> >  - s/gles2/libgles2
-> > 
-> >  meta/recipes-graphics/wayland/weston_7.0.0.bb | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> > b/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> > index 5d2a9336f3..f9efdbd20a 100644
-> > --- a/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> > +++ b/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> > @@ -36,9 +36,9 @@ PACKAGECONFIG ??=
-> > "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev
-> >  # Compositor choices
-> >  #
-> >  # Weston on KMS
-> > -PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev
-> > virtual/mesa virtual/libgbm mtdev"
-> > +PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev
-> > virtual/egl virtual/libgles2 virtual/libgbm mtdev"
-> >  # Weston on Wayland (nested Weston)
-> > -PACKAGECONFIG[wayland] =
-> > "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/mesa"
-> > +PACKAGECONFIG[wayland] =
-> > "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/egl
-> > virtual/libgles2"
-> >  # Weston on X11
-> >  PACKAGECONFIG[x11] =
-> > "-Dbackend-x11=true,-Dbackend-x11=false,virtual/libx11 libxcb libxcb
-> > libxcursor cairo"
-> >  # Headless Weston
-> > -- 
-> > 2.17.1
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
