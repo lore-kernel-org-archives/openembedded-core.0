@@ -1,47 +1,36 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
-	[209.85.217.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 08B9E7E08E
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id A30337D39B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2019 19:16:27 +0000 (UTC)
-Received: by mail-vs1-f44.google.com with SMTP id l2so10168721vsr.8
+	Tue,  1 Oct 2019 19:58:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46jVSW2V9Rz2C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Oct 2019 12:16:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=saQM0YMfmsNzlyDrR/hUmmkZagejvJrEVsSPgy/0AOE=;
-	b=AcZlL4GBvrXnZVpn9cQjhtV1Jh2P+x5a3xiGl9Nf2Q+lfkG/ocU0v+vgNlekxAfpRr
-	VnZQ0WLh9xEv4Bgoq2iDKgaPviQl2umIeNdHrXTsj2u+TSEMqBmZLJ2VotXhSJ0bL7r8
-	GDypoK2yOH30U+N4JDp6o1YQg26BEr7/s6yxShAgR8CpI1KO3r5y+Pn9g/NJYT7cZ1P/
-	ygMvSkyaSqKDJ7ZIHW2j25A1pBfValCVbFWVL3Fmda5QZbNHLlH8VyvI+3O1dZ3FqQQ/
-	U3J3/BISTi2MIn/urkwF8cYdMHphun20sZ5kUNbxbHYwqHi5elzPZlzRsagpRnBQjI8s
-	diqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=saQM0YMfmsNzlyDrR/hUmmkZagejvJrEVsSPgy/0AOE=;
-	b=CA8xfy+Uh2gmNb8QDv6JMVMvMz5vGLFPY50a1YMqNks4ieI5qfiY6fOXSx02UqoAvd
-	DiQTiVZhy8uxStGCWZkCMD6x0AZodJuzJ9J6QLQUaYJU49KSvLFwih9ZOY5knqogncd+
-	xZcR9calmN6QEhnbZfVylaOdrdscO3zIHRmLZVNZB+fUA/l5xRKLImgRUjlequhUCSSf
-	eUgk8YLK6L40SaicE9ngMEAKeW7HueeMoPEGenbRErjAjeQnDJWDPn7eRAj4CdnLBFTV
-	j1X3m5HbfpJCh1tDPwN7R2C9LUuKlBPGuE0IymOq0j4QCQ0/HdcBQBrGP7MjNzUWql+M
-	7lnw==
-X-Gm-Message-State: APjAAAUcdOt4f5wLCERgBxyhAuIVIGgUzDbdgjUVVRro1/1xBZNn8XrD
-	d5BF+MjkU2jETRX6B4IL0mMy6OO7CFxx6aW/cm0=
-X-Google-Smtp-Source: APXvYqwWMgxP7lpAKE5PY/T/M3ZPt+CxgmQyenPfJ9lQG7JCqczUULCUZRLnhx7I017WLX8iiK9T3CHuviawQGum7oM=
-X-Received: by 2002:a67:2c43:: with SMTP id s64mr13389043vss.94.1569957388067; 
-	Tue, 01 Oct 2019 12:16:28 -0700 (PDT)
+	Tue,  1 Oct 2019 21:58:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1569959899;
+	bh=8JF8i2LZyISL7i5jdTWDrFJnUTFiDRd/ECOGIjIEMbo=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=NRsk+z0+Dl0g2gzOOraDNzSCBQ/y5/QSFkbw2wtUm4fGWCDb1lkeqPiTJI5BX//+f
+	Y2gwkjaOibRHIjHhmwDPPTgLYPA1rNDMAPr4YxYAktDvuxOezEJDDM1HQrJ/M8SuN7
+	fXRkPfATGXZ7XQBLhfx9HlWN5eQ+rvIdL1OlknPBJJLSrDXTC8xtdiCskfvJcrk9lP
+	8iY+a9izdu6LLZVGFTGLdPnE+1FyTUnH7onFXKjVYu9/5bvGLvJQEOJaZ2hLHjSiOd
+	uhEzYeabIS2RbnRLjlu68a+arNQY61OcFtmC2QDZp/oUOdMZ13Liroqg1HhV7obklW
+	5P5OM7t64miVGrxnROKdTyrqGSfdId2ljxhH7xTN9gyfe0ZYjFoPMI4y0eldSGoxFw
+	SHI8eV+VMu/IjOwFiWhXKlevFT6J6K/bfZKHa13J8oqjj6XClEmWhsO/YpXW4mkhfF
+	Wb4Pp5jp9TZf/oZEqJpJ1KDn0KPCsWldG8zXjXcA/bnBHCE9kPhH+2GgIEqi5RGYeX
+	IyPhhmaeuU1X6TBFDrVWJAlN6RqCACL9zFyG9EThnTwigH+knbqra3VoHSuG44XjKm
+	C1S/2bhwMBSiWE9Do5VCgJOxmfWssNWrTQeTVoXRaGeedvO0e+R3evMOIUn9tqE8Cd
+	TodpM94m+Nhe0v6DP4mO9bUI=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Oct 2019 22:58:17 +0300
+Message-Id: <20191001195817.22650-2-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191001195817.22650-1-bunk@stusta.de>
+References: <20191001195817.22650-1-bunk@stusta.de>
 MIME-Version: 1.0
-References: <CAK5yBb9KAnpTGSC_V4W40AwD7nSPm-Q+RcxRBqMLHLw=ykBcNA@mail.gmail.com>
-In-Reply-To: <CAK5yBb9KAnpTGSC_V4W40AwD7nSPm-Q+RcxRBqMLHLw=ykBcNA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 1 Oct 2019 21:16:16 +0200
-Message-ID: <CANNYZj9q28NdSq8w1fHsJE3yLGoQJjqCwVewni3TXz1YVfJ=NA@mail.gmail.com>
-To: Stephen K Jolley <sjolley.yp.pm@gmail.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IFlvY3RvIFByb2plY3QgU3RhdHVzIFdXNDDigJkxOQ==?=
+Subject: [warrior][PATCH] python3: upgrade 3.7.3 -> 3.7.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +43,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2019 19:16:28 -0000
-Content-Type: multipart/alternative; boundary="0000000000006da70e0593de30fe"
+X-List-Received-Date: Tue, 01 Oct 2019 19:58:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---0000000000006da70e0593de30fe
-Content-Type: text/plain; charset="UTF-8"
+From: Anuj Mittal <anuj.mittal@intel.com>
 
-On Tue, 1 Oct 2019 at 16:54, Stephen K Jolley <sjolley.yp.pm@gmail.com>
-wrote:
+Also fixes CVE-2019-9740, CVE-2019-9948. For details, see:
 
-> A significant performance problem has been found on the autobuilder where
-> some builds are scaling in time badly as the sstate cache grows, taking 12
-> hours or more in some cases. Unfortunately nobody seems motivated to help
-> work on this kind of issue.
->
+https://docs.python.org/3.7/whatsnew/changelog.html#python-3-7-4-final
 
-Wait a moment, I believe there is a patch for this issue?
-http://lists.openembedded.org/pipermail/openembedded-core/2019-September/287445.html
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[ Backported patch removed. ]
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ .../python/python3/CVE-2019-9740.patch        | 151 ------------------
+ .../{python3_3.7.3.bb => python3_3.7.4.bb}    |   5 +-
+ 2 files changed, 2 insertions(+), 154 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2019-9740.patch
+ rename meta/recipes-devtools/python/{python3_3.7.3.bb => python3_3.7.4.bb} (98%)
 
-Alex
+diff --git a/meta/recipes-devtools/python/python3/CVE-2019-9740.patch b/meta/recipes-devtools/python/python3/CVE-2019-9740.patch
+deleted file mode 100644
+index 9bb336d7e4..0000000000
+--- a/meta/recipes-devtools/python/python3/CVE-2019-9740.patch
++++ /dev/null
+@@ -1,151 +0,0 @@
+-From 7e200e0763f5b71c199aaf98bd5588f291585619 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Miro=20Hron=C4=8Dok?= <miro@hroncok.cz>
+-Date: Tue, 7 May 2019 17:28:47 +0200
+-Subject: [PATCH] bpo-30458: Disallow control chars in http URLs. (GH-12755)
+- (GH-13154)
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Disallow control chars in http URLs in urllib.urlopen.  This addresses a potential security problem for applications that do not sanity check their URLs where http request headers could be injected.
+-
+-Disable https related urllib tests on a build without ssl (GH-13032)
+-These tests require an SSL enabled build. Skip these tests when python is built without SSL to fix test failures.
+-
+-Use http.client.InvalidURL instead of ValueError as the new error case's exception. (GH-13044)
+-
+-Backport Co-Authored-By: Miro Hrončok <miro@hroncok.cz>
+-Upstream-Status: Backport[https://github.com/python/cpython/commit/7e200e0763f5b71c199aaf98bd5588f291585619]
+-CVE: CVE-2019-9740
+-CVE: CVE-2019-9947
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- Lib/http/client.py                            | 15 ++++++
+- Lib/test/test_urllib.py                       | 53 +++++++++++++++++++
+- Lib/test/test_xmlrpc.py                       |  7 ++-
+- .../2019-04-10-08-53-30.bpo-30458.51E-DA.rst  |  1 +
+- 4 files changed, 75 insertions(+), 1 deletion(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
+-
+-diff --git a/Lib/http/client.py b/Lib/http/client.py
+-index 1de151c38e92..2afd452fe30f 100644
+---- a/Lib/http/client.py
+-+++ b/Lib/http/client.py
+-@@ -140,6 +140,16 @@
+- _is_legal_header_name = re.compile(rb'[^:\s][^:\r\n]*').fullmatch
+- _is_illegal_header_value = re.compile(rb'\n(?![ \t])|\r(?![ \t\n])').search
+- 
+-+# These characters are not allowed within HTTP URL paths.
+-+#  See https://tools.ietf.org/html/rfc3986#section-3.3 and the
+-+#  https://tools.ietf.org/html/rfc3986#appendix-A pchar definition.
+-+# Prevents CVE-2019-9740.  Includes control characters such as \r\n.
+-+# We don't restrict chars above \x7f as putrequest() limits us to ASCII.
+-+_contains_disallowed_url_pchar_re = re.compile('[\x00-\x20\x7f]')
+-+# Arguably only these _should_ allowed:
+-+#  _is_allowed_url_pchars_re = re.compile(r"^[/!$&'()*+,;=:@%a-zA-Z0-9._~-]+$")
+-+# We are more lenient for assumed real world compatibility purposes.
+-+
+- # We always set the Content-Length header for these methods because some
+- # servers will otherwise respond with a 411
+- _METHODS_EXPECTING_BODY = {'PATCH', 'POST', 'PUT'}
+-@@ -1101,6 +1111,11 @@ def putrequest(self, method, url, skip_host=False,
+-         self._method = method
+-         if not url:
+-             url = '/'
+-+        # Prevent CVE-2019-9740.
+-+        match = _contains_disallowed_url_pchar_re.search(url)
+-+        if match:
+-+            raise InvalidURL(f"URL can't contain control characters. {url!r} "
+-+                             f"(found at least {match.group()!r})")
+-         request = '%s %s %s' % (method, url, self._http_vsn_str)
+- 
+-         # Non-ASCII characters should have been eliminated earlier
+-diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
+-index 2ac73b58d832..7214492eca9d 100644
+---- a/Lib/test/test_urllib.py
+-+++ b/Lib/test/test_urllib.py
+-@@ -329,6 +329,59 @@ def test_willclose(self):
+-         finally:
+-             self.unfakehttp()
+- 
+-+    @unittest.skipUnless(ssl, "ssl module required")
+-+    def test_url_with_control_char_rejected(self):
+-+        for char_no in list(range(0, 0x21)) + [0x7f]:
+-+            char = chr(char_no)
+-+            schemeless_url = f"//localhost:7777/test{char}/"
+-+            self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+-+            try:
+-+                # We explicitly test urllib.request.urlopen() instead of the top
+-+                # level 'def urlopen()' function defined in this... (quite ugly)
+-+                # test suite.  They use different url opening codepaths.  Plain
+-+                # urlopen uses FancyURLOpener which goes via a codepath that
+-+                # calls urllib.parse.quote() on the URL which makes all of the
+-+                # above attempts at injection within the url _path_ safe.
+-+                escaped_char_repr = repr(char).replace('\\', r'\\')
+-+                InvalidURL = http.client.InvalidURL
+-+                with self.assertRaisesRegex(
+-+                    InvalidURL, f"contain control.*{escaped_char_repr}"):
+-+                    urllib.request.urlopen(f"http:{schemeless_url}")
+-+                with self.assertRaisesRegex(
+-+                    InvalidURL, f"contain control.*{escaped_char_repr}"):
+-+                    urllib.request.urlopen(f"https:{schemeless_url}")
+-+                # This code path quotes the URL so there is no injection.
+-+                resp = urlopen(f"http:{schemeless_url}")
+-+                self.assertNotIn(char, resp.geturl())
+-+            finally:
+-+                self.unfakehttp()
+-+
+-+    @unittest.skipUnless(ssl, "ssl module required")
+-+    def test_url_with_newline_header_injection_rejected(self):
+-+        self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+-+        host = "localhost:7777?a=1 HTTP/1.1\r\nX-injected: header\r\nTEST: 123"
+-+        schemeless_url = "//" + host + ":8080/test/?test=a"
+-+        try:
+-+            # We explicitly test urllib.request.urlopen() instead of the top
+-+            # level 'def urlopen()' function defined in this... (quite ugly)
+-+            # test suite.  They use different url opening codepaths.  Plain
+-+            # urlopen uses FancyURLOpener which goes via a codepath that
+-+            # calls urllib.parse.quote() on the URL which makes all of the
+-+            # above attempts at injection within the url _path_ safe.
+-+            InvalidURL = http.client.InvalidURL
+-+            with self.assertRaisesRegex(
+-+                InvalidURL, r"contain control.*\\r.*(found at least . .)"):
+-+                urllib.request.urlopen(f"http:{schemeless_url}")
+-+            with self.assertRaisesRegex(InvalidURL, r"contain control.*\\n"):
+-+                urllib.request.urlopen(f"https:{schemeless_url}")
+-+            # This code path quotes the URL so there is no injection.
+-+            resp = urlopen(f"http:{schemeless_url}")
+-+            self.assertNotIn(' ', resp.geturl())
+-+            self.assertNotIn('\r', resp.geturl())
+-+            self.assertNotIn('\n', resp.geturl())
+-+        finally:
+-+            self.unfakehttp()
+-+
+-     def test_read_0_9(self):
+-         # "0.9" response accepted (but not "simple responses" without
+-         # a status line)
+-diff --git a/Lib/test/test_xmlrpc.py b/Lib/test/test_xmlrpc.py
+-index 32263f7f0b3b..0e002ec4ef9f 100644
+---- a/Lib/test/test_xmlrpc.py
+-+++ b/Lib/test/test_xmlrpc.py
+-@@ -945,7 +945,12 @@ def test_unicode_host(self):
+-     def test_partial_post(self):
+-         # Check that a partial POST doesn't make the server loop: issue #14001.
+-         conn = http.client.HTTPConnection(ADDR, PORT)
+--        conn.request('POST', '/RPC2 HTTP/1.0\r\nContent-Length: 100\r\n\r\nbye')
+-+        conn.send('POST /RPC2 HTTP/1.0\r\n'
+-+                  'Content-Length: 100\r\n\r\n'
+-+                  'bye HTTP/1.1\r\n'
+-+                  f'Host: {ADDR}:{PORT}\r\n'
+-+                  'Accept-Encoding: identity\r\n'
+-+                  'Content-Length: 0\r\n\r\n'.encode('ascii'))
+-         conn.close()
+- 
+-     def test_context_manager(self):
+-diff --git a/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
+-new file mode 100644
+-index 000000000000..ed8027fb4d64
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
+-@@ -0,0 +1 @@
+-+Address CVE-2019-9740 by disallowing URL paths with embedded whitespace or control characters through into the underlying http client request.  Such potentially malicious header injection URLs now cause an http.client.InvalidURL exception to be raised.
+diff --git a/meta/recipes-devtools/python/python3_3.7.3.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.7.3.bb
+rename to meta/recipes-devtools/python/python3_3.7.4.bb
+index 1f1441f4ac..dd163512bb 100644
+--- a/meta/recipes-devtools/python/python3_3.7.3.bb
++++ b/meta/recipes-devtools/python/python3_3.7.4.bb
+@@ -22,7 +22,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0002-Don-t-do-runtime-test-to-get-float-byte-order.patch \
+            file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
+            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
+-           file://CVE-2019-9740.patch \
+            "
+ 
+ SRC_URI_append_class-native = " \
+@@ -33,8 +32,8 @@ SRC_URI_append_class-nativesdk = " \
+            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
+            "
+ 
+-SRC_URI[md5sum] = "93df27aec0cd18d6d42173e601ffbbfd"
+-SRC_URI[sha256sum] = "da60b54064d4cfcd9c26576f6df2690e62085123826cff2e667e72a91952d318"
++SRC_URI[md5sum] = "d33e4aae66097051c2eca45ee3604803"
++SRC_URI[sha256sum] = "fb799134b868199930b75f26678f18932214042639cd52b16da7fd134cd9b13f"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+-- 
+2.17.1
 
---0000000000006da70e0593de30fe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 1 Oct 2019 at 16:54, Stephen K Jo=
-lley &lt;<a href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com=
-</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex"><div dir=3D"ltr"><p dir=3D"ltr" style=3D"line-he=
-ight:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;b=
-ackground-color:transparent;font-variant-numeric:normal;font-variant-east-a=
-sian:normal;vertical-align:baseline;white-space:pre-wrap">A significant per=
-formance problem has been found on the autobuilder where some builds are sc=
-aling in time badly as the sstate cache grows, taking 12 hours or more in s=
-ome cases. Unfortunately nobody seems motivated to help work on this kind o=
-f issue.</span></p>
-</div></blockquote><div><br></div><div>Wait a moment, I believe there is a =
-patch for this issue?</div><div><a href=3D"http://lists.openembedded.org/pi=
-permail/openembedded-core/2019-September/287445.html">http://lists.openembe=
-dded.org/pipermail/openembedded-core/2019-September/287445.html</a></div><d=
-iv><br></div><div>Alex<br> </div></div></div>
-
---0000000000006da70e0593de30fe--
