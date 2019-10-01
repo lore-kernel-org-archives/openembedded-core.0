@@ -1,37 +1,54 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E7FA7F102
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BBEA7CFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2019 20:07:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46jVgR2PvWz2C
+	Tue,  1 Oct 2019 21:27:12 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id r19so4910900wmh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2019 22:07:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1569960467;
-	bh=6wHe0WdBMXQ0LdGMSRHtYijst/MErE451VwL8yg0njE=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=ZmCVEx4kVkPc7N5OiywV2RuafVOGbfSH/Pqo0kghWFYSadyxk8N9LdRbPER251+sf
-	Ym0ZswNsk65Jc1MLUkRvd7QKAheS0V8z+b4+OsSIRCPvZ2/t5LnDMBMa94FvQlBjgP
-	bo4JxPEse+etwAZS/hm9sW99Bqx5rCntvEHGGdYMeqmlDoFMRPVcvYB0RttUFaIWAj
-	y8QCiNjS8ueTEyFmGSGCZ86xnOjkg9bt4chhDr47+aASM2r7b0JJzlbbnnd85ruZ42
-	p+gzdK2bkH3aTnz4qySNi/w0p7C8AdMg+F+XhRkmYuFxHybn5+jyN6ikQ3E2wBb9K8
-	Sh/ke47uzJhoywGlvLVkBH7upQvEauqZPx40QX9ZHpAKzfzYreKnKFOFw5nwQ+Jf3n
-	mJFP5hltQOgU3UjQyarygP5efTFAwm7SasTrdmxuhDUeorzuwslniH5i7dc9mChWxh
-	D0Qj4zCld/Eci/tcfduXK2YMetHmwmLqHpmk4w7idD8DyOnTjO2+z8a3w8btrGIi6l
-	DbqaSQ7ufnLq1opl89qApNXU2QrKdqFrjowg8Mr6nznqpCGg62q79mWz/khwBU5iPG
-	mS95F/M7aeX4emq8oc/EzNfQQtxqffG42l7/dGTP+dyxBu62F+fJGIzy1DEyF74WIr
-	ooJ5bzi5LhgcxSL/Rgo3jR+w=
-Date: Tue, 1 Oct 2019 23:07:45 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20191001200745.GA25556@localhost>
-References: <20191001195817.22650-1-bunk@stusta.de>
-	<20191001200212.2330.14716@do>
+	Tue, 01 Oct 2019 14:27:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=n1FStLvIvy7Pi+iJ4eFoGirxvSAJbWMNC1Wd/ZcB9mk=;
+	b=UW/46gl8adNivujhF25ZmWyA77HXMg3CQ2ZUunc+eJ3ofmjQK7+ELJmX89gCptnUE4
+	+uX04Yn4AxJ3z8Ly3fHp0h1QN92Gqz9WTwQofHundxf2stM9+Cp8OXlT4wlx6P+Lt3Px
+	vTyFmFN87hZN18pvXGfg4KHIKpbpCboe0voXw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=n1FStLvIvy7Pi+iJ4eFoGirxvSAJbWMNC1Wd/ZcB9mk=;
+	b=LKw14AmZcWm+PLiWdyj3AJnUfqVl4hIakeCSBhKhp0wiq5abrLURl40hUl39T4WJr0
+	DQWVjoQf5YZsO6i705MCKLYylePg8nq/DpdcSqb2SefiXCIg6uirtWO6Szyl96tjvBNn
+	sFPNJFs7qedhzqywt1/ROc3znynNwd8uHaMy3ZuOwvTEb0pZfDJo4MgSW5AEtADpQ1px
+	tAPdI/u2MGxfxE5yCSFppUAiu49qFhYxgVu5jLeGMT+8Hfr1bmmRB8pBN7QUtP6hd4vX
+	Ra4n7KpqA8fq7QojbQBQpHJ79/ZI5Ci9mq5Bb1m6DA1vgywUKpjY7DimAUVPbkp7Y3bz
+	w62A==
+X-Gm-Message-State: APjAAAVRReCcVDY+9FcCuxFhcnDr8A9OoLdaIwDQGbt+nKtbFbis6YyX
+	HYU+MIWHgMUWnzYreohtJAGWMQ==
+X-Google-Smtp-Source: APXvYqwG77xeQo6HuBp/H2XCoPZy44sDN/RqbGPOJVVXsZMicsLleFErr5cCoIIVaewtvebyzq0jGA==
+X-Received: by 2002:a7b:c92d:: with SMTP id h13mr87705wml.169.1569965233171;
+	Tue, 01 Oct 2019 14:27:13 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r9sm20830081wra.19.2019.10.01.14.27.11
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 01 Oct 2019 14:27:12 -0700 (PDT)
+Message-ID: <d8171f242dd7275f16f43d7bec6351199c6f098a.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Stephen K Jolley
+	<sjolley.yp.pm@gmail.com>
+Date: Tue, 01 Oct 2019 22:27:10 +0100
+In-Reply-To: <CANNYZj9q28NdSq8w1fHsJE3yLGoQJjqCwVewni3TXz1YVfJ=NA@mail.gmail.com>
+References: <CAK5yBb9KAnpTGSC_V4W40AwD7nSPm-Q+RcxRBqMLHLw=ykBcNA@mail.gmail.com>
+	<CANNYZj9q28NdSq8w1fHsJE3yLGoQJjqCwVewni3TXz1YVfJ=NA@mail.gmail.com>
+User-Agent: Evolution 3.34.0-1 
 MIME-Version: 1.0
-In-Reply-To: <20191001200212.2330.14716@do>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHB5dGhvbjM6IHVwZ3JhZGUgMy43LjMgLT4gMy43LjQ=?=
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: =?UTF-8?B?UmU6IFlvY3RvIFByb2plY3QgU3RhdHVzIFdXNDDigJkxOQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +61,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2019 20:07:47 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 01 Oct 2019 21:27:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 01, 2019 at 08:02:12PM -0000, Patchwork wrote:
->...
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  warrior (currently at acc0f4a6a9)
+On Tue, 2019-10-01 at 21:16 +0200, Alexander Kanavin wrote:
+> On Tue, 1 Oct 2019 at 16:54, Stephen K Jolley <
+> sjolley.yp.pm@gmail.com> wrote:
+> > A significant performance problem has been found on the autobuilder
+> > where some builds are scaling in time badly as the sstate cache
+> > grows, taking 12 hours or more in some cases. Unfortunately nobody
+> > seems motivated to help work on this kind of issue.
+> > 
 > 
-> 
-> 
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
->...
+> Wait a moment, I believe there is a patch for this issue?
+> http://lists.openembedded.org/pipermail/openembedded-core/2019-September/287445.html
 
-Patchwork doesn't seem to handle the situation where a patch allies on 
-top of another patch in the same series.
+Sorry, that was copied form last week and should have been updated but
+I became distracted in completing the blockers list.
 
-cu
-Adrian
+There is a patch and the plan is to test that on the autobuilder to
+compare performance, I appreciate the patch!
 
--- 
+Cheers,
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Richard
 
 
