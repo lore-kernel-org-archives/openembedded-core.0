@@ -1,53 +1,43 @@
-Return-Path: <jdmason@kudzu.us>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DAC487F220
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+	[209.85.128.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 331BE7F23C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2019 15:11:52 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id c6so48697993ioo.13
+	Tue,  1 Oct 2019 15:24:07 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id r19so3867869wmh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Oct 2019 08:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HEtOOfxQHh1R3SDy158Zbe1rxvAgWzCDCIWW6vPJUb0=;
-	b=xxg6uCfUq4xY6ZVtY/o0v+wLoajPW2ITIbi/W1OKhLmXAr/rOMEBfvanm4W+CDB+5d
-	tlSUmvJ1LZXsdYF+HWaoNvqzW69IikScs3p4G0lDrET+Mp/+3xsxGSpt+OVkAaXaiezh
-	QmbkHMYfa0QPLI0ToUkIihnYjP5fx95u5/CIDneeIWTUXGsNA7NDAp/Xq5sdL00J4Nkt
-	Ry3sjPAVbTfi3w7zTOrwV70oxzFx5X5dK2n2qLdj5+fNE25MDxwW/1gcKkK3a4q9En+o
-	zNNUvPlDLQ7kf4lQgGqG5YFP18F8gxcgZ4YXTJZQBdFrFGfUS2XFZyfLadSd0Os0GE7i
-	NYaQ==
+	Tue, 01 Oct 2019 08:24:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=HEtOOfxQHh1R3SDy158Zbe1rxvAgWzCDCIWW6vPJUb0=;
-	b=pS3pmnKlGa2tfJ+IBtSmiFvvfOhHECYaJNt0GJxPZtH/hJWZqKIg2LqXZxiifvAVNX
-	+K7Uv1a8iXBE95zWJJ3IEH/Tqh7OS4MOWtWIkl65nP5K56+RusdW/PK0kz/7wZHwfrlV
-	xCe8sXcLao+FE96+F/ohWcR/UvOv8G0w2YzE5drlHkXnzXvffsBHME/jtLpeqoX8sTAz
-	Owu1bbH4MI38abNva7ffDwjpasdT2KLF0H63poyUZr0HqpXpvtigMeBnZdtbhokOAqE2
-	WKqXeI7HiPQrGbkKtFdVfYGdKNKi8PenQLpAfkeVBOg91RWhKxeLdlvb7eYiIliVuXkR
-	UsMQ==
-X-Gm-Message-State: APjAAAXgRIqUhAU00r+U88YxTanGW6HyNkgPFcXc2pZOjgl1qSZ2crFq
-	A45UCdx+ZeRhdzJtTdIV+OV10H/uGGnzvextF9KO3Plzt2RUgw==
-X-Google-Smtp-Source: APXvYqzeWm0jgmBxEl/JaFkOkLwBZ1qqdjeFcdpKAN0B3+0a+fNHtfdAPR5cyl3i4HCFHHRdW2meYl0zHjPKYtf9Iv8=
-X-Received: by 2002:a92:5f13:: with SMTP id t19mr27030576ilb.163.1569942713713;
-	Tue, 01 Oct 2019 08:11:53 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=ma84PN1Z+hDcQuESuGn4KzKbwMd6ijRTEwJbFdyrbe8=;
+	b=cGrWRJs26+BvLTlxKGydbyVYf+qSBmzNEygiuYC4fEohoDzSLogUGwkpxXAeHUUyTy
+	nYlfYBcvlxUeEZmdASJThQpMY7gnzonp6/g2bSjqzaJ5LloxB10ADkji9lBbzvo6kSNt
+	xHS+THPvTH80WdtKDnF/e2oFLl4GUKV9ARe2jqHHX2vwxzNFOVUaECSbiq4/LmT2c47y
+	Hbjye13qvbM9Arrl8739sMPzvTGfwmeT9rfLwXpLydXrd9TkUF82COtqtPxT5vzeUTQw
+	jVNzEw1rzIE+6blazRWPiJIQNbgKe4sRX53ZurjkVQx9UCp7aUGO4vt/uPC/yfZQaN00
+	0U3g==
+X-Gm-Message-State: APjAAAUELAwVEcmpih5Sfu5kS31RHQ5vwliQDeJu8soPl+Mxj6EaSQRq
+	TK+KhqWofrwxcsrcX2AlSX3XxCKA
+X-Google-Smtp-Source: APXvYqwFLyzvG4pIA26pruQiV/pl1LkxJPBjFM9jtnJof8nvggdmdk+U2T7b1cdx1otznso4KX8BYw==
+X-Received: by 2002:a1c:2b41:: with SMTP id r62mr4068832wmr.47.1569943447659; 
+	Tue, 01 Oct 2019 08:24:07 -0700 (PDT)
+Received: from 1aq-andre ([77.107.218.170]) by smtp.gmail.com with ESMTPSA id
+	r12sm17257705wrq.88.2019.10.01.08.24.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 01 Oct 2019 08:24:06 -0700 (PDT)
+Message-ID: <64a859a3d46a603917a3fbbf606f556d759e0925.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 01 Oct 2019 16:24:06 +0100
+In-Reply-To: <20191001150205.2331.21077@do>
+References: <20191001095452.37335-1-git@andred.net>
+	<20191001150205.2331.21077@do>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-References: <b5b5c822-756a-5ae5-7b58-07f437751909@balister.org>
-In-Reply-To: <b5b5c822-756a-5ae5-7b58-07f437751909@balister.org>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Tue, 1 Oct 2019 11:11:42 -0400
-Message-ID: <CAPoiz9zR_VyVdeLhp0KHpimS1SJCGbUMfnUr7phgSHS3C_t7SQ@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded Developer Meeting on Day 2 of Yocto Project Summit after ELCE
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHJ1YnkgcmVjaXBlIHVwZGF0ZXMgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,61 +50,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2019 15:11:53 -0000
+X-List-Received-Date: Tue, 01 Oct 2019 15:24:07 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-T-shirts for OEDEM are happening.  If you plan on attending, please
-add yourself to the list.  If you already are on the list, please
-verify the size is correct.  Please use this size chart if there are
-any questions or doubts:
-https://www.customink.com/items/sizing/04600_lineup/standard.htm
+Hi,
 
-I will be ordering in ~24 hours, to allow enough time for them to be
-made and delivered to me prior to the event.  So, please sign-up ASAP!
+not sure why this failed. These patches are against current master
+which is at revision
+a73cbe649af5 ("bitbake: siggen: Remove full path from unitaskhashes keys")
 
-Thanks,
-Jon
+Cheers,
+Andre'
 
-FAQ:
-Q: Can I get one?
-A: If you are coming, yes.  If you are not coming, only if there are
-extras and you arrange for someone present to transport it to you.
+On Tue, 2019-10-01 at 15:02 +0000, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: ruby recipe updates (rev2)
+> Revision: 2
+> URL   : https://patchwork.openembedded.org/series/20256/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at 9973f89daf)
+> 
+> 
+> 
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+> 
+> ---
+> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
 
-Q: Who is paying for it?
-A: Arm is paying for it and there will be a logo somewhere on the shirt
-
-
-On Mon, Sep 16, 2019 at 12:38 PM Philip Balister <philip@balister.org> wrote:
->
-> Boy that is a mouthful. The date is November 1 2019 in Lyon, France.
->
-> On day 2 of the Yocto Project Summit after the Embedded Linux
-> Conference, we are hosting an OpenEmbedded Developer meeting. This
-> meeting is part of an ongoing series of meetings held for OpenEmbedded
-> developers and users to exchange information about the project's
-> direction and to explain to developers problems people face in the real
-> world.
->
-> Please sign up here (attendance is capped at 40):
->
-> https://www.openembedded.org/wiki/OEDEM_2019
->
-> Please add ideas for topics also. (Also add your T-shirt size after your
-> name, no promises but the information might help us)
->
-> More info and sign up information for the Yocto Project Summit is here:
->
-> https://wiki.yoctoproject.org/wiki/Yocto_Project_Summit_2019
->
-> Based on talk abstracts I've seen, Day 1 should be very interesting!
->
-> Philip
->
-> PS: For some historical perspective, here is the page from 2007:
-> https://www.openembedded.org/wiki/Oedem2007
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
