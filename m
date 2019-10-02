@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A1A947E553
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 555457DFE4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2019 13:15:41 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id b9so19641894wrs.0
+	Wed,  2 Oct 2019 13:21:52 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id v8so19675461wrt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Oct 2019 06:15:43 -0700 (PDT)
+	Wed, 02 Oct 2019 06:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=qyvuEd41iXomubw3HBI/MPGJiwwuEcG8JWtbZ86KE88=;
-	b=T6cth2ly78Gplg63DtphIewI78cOSGN6T6BLqJ3o/vtBUG+Lt4hIwVatsbO+8Xe/Sv
-	F3k5bwqfM8UpesA2HMOGOGavIF3y9iXgG+U1FodEnOdJ5mSRvxBeXSsJWVAr/vWKiAlS
-	iSG+RxMgMjVrLY86OeOydicyZU7lDrq/AdaAM=
+	bh=r+u0/gYRXKiswlhq0iWMYt1QK/3YWmUOWv4m2ezpaTI=;
+	b=P+/A28Jn6dpmK18GLbmG1l8kC1PawbWVfQbwdl3ENMolrnElYQVakltan0evwq691M
+	Lf9ma0MRsHrOxrMNmh7oV+R2vSRAhSypzYt+NyEk8bwr5s80X9LFnu/mRi/Ex7/KpG39
+	NcNht7Zudqju4BFipSjuaWPtGX21vo5HcidJw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=qyvuEd41iXomubw3HBI/MPGJiwwuEcG8JWtbZ86KE88=;
-	b=GS5kKBQIEXwkohiwwQIpzPvFECdBD94FsArNT3/lRi4RIz3w5RsdXAhlSEQy2Ts3S9
-	Ulb1P96Of7I23qHKWcBETpU5Z/+UYaT7J5/cXdwocmq+bmwIkFHNtMk0JczoTVRiI771
-	cb/dwQS80nOQfePp7L1NMshfLMrqUzF1K5oAEbbS4ZpTqV2PPHc+6L1zuF8F0JJcMr4U
-	zjCK/RC/5CkwLNj7c3RXEpax53/dEcs1lv+kNY9XEue+kzpiYl7QLJjd00TeImHRpMuS
-	459SY7qHzQFX1z39+jK4+e6CdVPGmiTbM5r5QjvYnVLK/Hk6YC/UGAeWgX0GtG30tlTq
-	No/A==
-X-Gm-Message-State: APjAAAX0LapGI9eRiRrXE8PBmb7iEs4M08I0HBgWmVNtSAE2NWlzXolT
-	yvqGH9eXBhhFtE2ImE3Vfoqzug==
-X-Google-Smtp-Source: APXvYqzP7l5TITItFXI7pmix9s2KiRaVTbYleQKoh6gEeY0gdkaFg+0Q96Ll6VixzJsl6trgTeVHpQ==
-X-Received: by 2002:a5d:620d:: with SMTP id y13mr2601092wru.86.1570022142365; 
-	Wed, 02 Oct 2019 06:15:42 -0700 (PDT)
+	bh=r+u0/gYRXKiswlhq0iWMYt1QK/3YWmUOWv4m2ezpaTI=;
+	b=QbbYdWxowdyV/z5VdeiNGkyGwU5qBrgFd1MuP/3aqx7Wwa58UDLMWfmdkdCsLnUDgJ
+	+JjlPd3Vp4+YWYyKNQMIi54vYByQ5SFGlYfP1fG0os3/CARyO1oCn2kSqshmfkcGVBdT
+	UI8DAgx8x9JpXDKP29Z7TkzHZKuh7yY/KNe+RJQK5kAl7Vuh1CwOewj5JD0yweQIhRdJ
+	t/ubfkByQKGeDWVWfvdI8UKXC3AJkeBfxnpVK4/n6u02tDSHKMYtKDC0xl7Fhdnv4IMs
+	uI6s/1+PCuIcV1HCi2ws0XV2O85pHVSiw8OZfBDPp84/RetpKIHFwjG3syH13aK0FJHi
+	xp8w==
+X-Gm-Message-State: APjAAAUuvvLVh9Wocd/AFWSRYM9oiLzdASKYd8GE3a+M1y8wXKxzO4Y4
+	8FjrfPW8Hdk6nzVfkj4a5MAKIg==
+X-Google-Smtp-Source: APXvYqwn/pz4ccj5CEwBeJeEx6NvPV5GdEtcbHzpsA8Rrx99hs8yz1vWOaSUcMHjc5iZ+B0U3iwuDQ==
+X-Received: by 2002:a5d:45cb:: with SMTP id b11mr2849941wrs.109.1570022512950; 
+	Wed, 02 Oct 2019 06:21:52 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id z3sm5567767wmi.30.2019.10.02.06.15.41
+	by smtp.gmail.com with ESMTPSA id
+	j1sm41843991wrg.24.2019.10.02.06.21.51
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 02 Oct 2019 06:15:41 -0700 (PDT)
-Message-ID: <7fb2fcf3aad554c6f6bc88935ab7b241b86fd87b.camel@linuxfoundation.org>
+	Wed, 02 Oct 2019 06:21:52 -0700 (PDT)
+Message-ID: <279cb31b6c743596e9c7b19e613575f51a3b534c.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ycn aKaJoseph <ycnakajsph@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 02 Oct 2019 14:15:40 +0100
-In-Reply-To: <CAC3TgA+C1NuNXu31nbB2J3Qw6j0FgLUZK+sxL3xO-JJ7f4oPAQ@mail.gmail.com>
-References: <CAC3TgA+C1NuNXu31nbB2J3Qw6j0FgLUZK+sxL3xO-JJ7f4oPAQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 02 Oct 2019 14:21:51 +0100
+In-Reply-To: <20190930213721.3320280-1-raj.khem@gmail.com>
+References: <20190930213721.3320280-1-raj.khem@gmail.com>
 User-Agent: Evolution 3.34.0-1 
 MIME-Version: 1.0
-Subject: Re: [kernel-cache][PATCH] bug 13333 Add SPDX license headers to all source files for yocto-kernel-cache
+Subject: Re: [PATCH] layer.conf: Add xserver-nodm-init to SIGGEN_EXCLUDERECIPES_ABISAFE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,25 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2019 13:15:41 -0000
+X-List-Received-Date: Wed, 02 Oct 2019 13:21:52 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-diff --git a/staging/small-ck-stage.scc b/staging/small-ck-stage.scc
-index 0508194..328de6e 100644
---- a/staging/small-ck-stage.scc
-+++ b/staging/small-ck-stage.scc
-@@ -1 +1,2 @@
--include small/small-ck.scc
-+# SPDX-License-Identifier: MIT
-+include small/small-ck.scc
-\ No newline at end of file
+On Mon, 2019-09-30 at 14:37 -0700, Khem Raj wrote:
+> Found signature differences when same machine is used as a copy
+> see
+> 
+> ERROR: xscreensaver different signature for task
+> do_package_write_ipk.sigdata between qemux86copy and qemux86
+> Hash for dependent task x11-common/xserver-nodm-
+> init_3.0.bb:do_packagedata changed from
+> de0944d4fcaeed0efdb143a18cc406bd043469ae291de1704a999bc878a7691c to
+> ba7bdaf35860ba5bf5a5f4ce06379a77c88eb9806e09a1fc5373933888a46507
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/layer.conf | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+> index 27893b633e..a13c8dc9b2 100644
+> --- a/meta/conf/layer.conf
+> +++ b/meta/conf/layer.conf
+> @@ -44,6 +44,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+>    opkg-utils \
+>    gstreamer1.0-meta-base \
+>    ca-certificates \
+> +  xserver-nodm-init \
+>  "
+>  
+>  SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
 
-It looks very like your patch has stripped all the newlines off the
-last lines in the files. I suspect we probably don't want to do that.
-
-Also, please follow the section in the README, "Submitting Patches" as
-the mailing list is incorrect.
+This seems odd, why is xscreensaver depending on xserver-nodm-init?
 
 Cheers,
 
