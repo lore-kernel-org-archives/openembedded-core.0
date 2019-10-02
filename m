@@ -1,28 +1,52 @@
-Return-Path: <Konrad.Scherer@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 44C606C3AA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E1A47E8B7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2019 14:56:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x92Eupne022072
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 2 Oct 2019 07:56:51 -0700 (PDT)
-Received: from [128.224.56.212] (128.224.56.212) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Wed, 2 Oct 2019 07:56:51 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
+	Wed,  2 Oct 2019 15:25:35 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id l3so20148036wru.7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Oct 2019 08:25:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=zeObhFrqIRu8BYZJDDgnvqN8LuKM+i8TxJqUtNfzWhc=;
+	b=UgD+DTRrZppcPTAGfE0B+Sg1kxhJCAz7oGzmqThflm2YuLKsokJhl/Lhzt+PrqmUzW
+	mZkYHtlKaFf1Pc2zWo+5jykBaPgegHU9z581XXsQT33ahlNkYf8MnVLVNvCr6bHGINNW
+	R0+XajHJ0iMc+X96lrjuvQmsrdWRAY7fCb7Kk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=zeObhFrqIRu8BYZJDDgnvqN8LuKM+i8TxJqUtNfzWhc=;
+	b=W8jYC+AzBMM+rsWwVfmtIBrmLnlsYoTlk2bKu2HhZq6flztIjrU+LFtLKp+EKqy4X4
+	gMfMZx+PsDrXHKRhvaC/UoucmX094zjue782WhT81ZmapY6QrcWBp2QjeX9b8tB7JVpJ
+	NACgsMkxEYtYjhU9CR6WfjM7iB7eqZYSEWgOScFqc1iyUevMD557mLKohfxBkMmZs/kF
+	+5xRpAsd1vNkxX+aAWYdFYiLjGQ+TY+O32/AJ70zqNK5+s8drv0HPHqf0n7T3/cQc9Bk
+	ubiFtC3GOzQed4+4qqzxc9uTyq3EH5Gy5TuOjQC/xDUUkpt8hP8ohn86wtwHXykucF6E
+	vTkQ==
+X-Gm-Message-State: APjAAAUKorAGgu3jKJTQNFPJ4wAjBkr6jyhgOSMmlv/YDVP9V1X/C53s
+	liYSAwZVMtIT/ii8FqgbjAky0Q==
+X-Google-Smtp-Source: APXvYqzyjAO6RmQfemzNB8AxBAvBQV3j9/M08EoU5L1G6/dc1ggg0lIlFWz5OXu0ckjnjjp7+TNp/w==
+X-Received: by 2002:a5d:630d:: with SMTP id i13mr3124528wru.230.1570029936035; 
+	Wed, 02 Oct 2019 08:25:36 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o19sm11005260wmh.27.2019.10.02.08.25.35
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 02 Oct 2019 08:25:35 -0700 (PDT)
+Message-ID: <eecb2354c35a8a2c788b1cc919339e7931619dd9.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Konrad Scherer <Konrad.Scherer@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 02 Oct 2019 16:25:33 +0100
+In-Reply-To: <34a7db7f-83b3-f51f-9628-615762b44e91@windriver.com>
 References: <20190927185642.29251-1-konrad.scherer@windriver.com>
 	<4ad724ca50b35e495d2eae800edd83c60b7128bf.camel@linuxfoundation.org>
-From: Konrad Scherer <Konrad.Scherer@windriver.com>
-Message-ID: <34a7db7f-83b3-f51f-9628-615762b44e91@windriver.com>
-Date: Wed, 2 Oct 2019 10:56:50 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	<34a7db7f-83b3-f51f-9628-615762b44e91@windriver.com>
+User-Agent: Evolution 3.34.0-1 
 MIME-Version: 1.0
-In-Reply-To: <4ad724ca50b35e495d2eae800edd83c60b7128bf.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.56.212]
 Subject: Re: [master][PATCH] gen-lockedsig-cache: Replace glob lookup with hash to filename lookup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,129 +60,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2019 14:56:53 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Wed, 02 Oct 2019 15:25:35 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 10/2/19 6:17 AM, Richard Purdie wrote:
-> On Fri, 2019-09-27 at 14:56 -0400, Konrad Scherer wrote:
->> From: Konrad Scherer <Konrad.Scherer@windriver.com>
->>
->> Using the glob function to map signatures to sstate files is very
->> slow
->> when the sstate is large and accessed over nfs. The lookup now only
->> loads the necessary prefixes and doesn't use glob as all.
->>
->> Unfortunately I don't have access to the systems where the
->> performance
->> isse was noticed and on my test system the glob is fast enough that
->> the performance numbers aren't useful. I could verify that file list
->> returned by the new code is the same.
->>
->> [YOCTO #13539]
->>
->> Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
->> ---
->>   meta/lib/oe/copy_buildsystem.py |  3 ++-
->>   scripts/gen-lockedsig-cache     | 44 +++++++++++++++++++++++++++++
->> ----
->>   2 files changed, 41 insertions(+), 6 deletions(-)
+On Wed, 2019-10-02 at 10:56 -0400, Konrad Scherer wrote:
+> On 10/2/19 6:17 AM, Richard Purdie wrote:
+> > My benchmark before was seeing it spend over 30 minutes in bitbake
+> > core-image-minimal:do_populate_sdk_ext on an otherwise idle
+> > autobuilder
+> > cluster/NAS (35 minutes from a clean tmpdir).
+> > 
+> > With the patch applied and my above tweak, I saw:
+> > 
+> > real	6m58.120s
+> > 
+> > and I'd note this was with a full build running on the other
+> > workers so
+> > the NAS was under load. I could try and get an exact time for the
+> > above
+> > but didn't really see the point in spending another 30 minutes on
+> > it.
+> > 
+> > This is the time for the whole SDK image, not just the time this
+> > script
+> > takes but its enough for me to say its a vast improvement! :)
 > 
-> Thanks for this, its hugely appreciated!
-> 
-> I aimed to do some profile measurements to show the difference in speed
-> but when testing it failed with:
-> 
-> Filtering out gdb-cross-x86_64:do_patch
-> Filtering out gdb-cross-x86_64:do_prepare_recipe_sysroot
-> Filtering out gdb-cross-x86_64:do_unpack
-> Gathering file list
-> Traceback (most recent call last):
->    File "/home/pokybuild/yocto-worker/qa-extras/build/scripts/gen-lockedsig-cache", line 77, in <module>
->      sstate_content_cache[prefix] = build_sha_cache(prefix)
->    File "/home/pokybuild/yocto-worker/qa-extras/build/scripts/gen-lockedsig-cache", line 39, in build_sha_cache
->      map_sha_to_files(sstate_dir, prefix, sha_map)
->    File "/home/pokybuild/yocto-worker/qa-extras/build/scripts/gen-lockedsig-cache", line 29, in map_sha_to_files
->      sha = extract_sha(f)
->    File "/home/pokybuild/yocto-worker/qa-extras/build/scripts/gen-lockedsig-cache", line 21, in extract_sha
->      return filename.split(':')[7].split('_')[0]
-> IndexError: list index out of range
-> 
-> and then when I fixed that by ignoring files which don't match the pattern:
-> 
-> Gathering file list
-> Traceback (most recent call last):
->    File "/home/pokybuild/yocto-worker/qa-extras/build/scripts/gen-lockedsig-cache", line 80, in <module>
->      sstate_content_cache[prefix] = build_sha_cache(prefix)
->    File "/home/pokybuild/yocto-worker/qa-extras/build/scripts/gen-lockedsig-cache", line 45, in build_sha_cache
->      map_sha_to_files(native_sstate_dir, prefix, sha_map)
->    File "/home/pokybuild/yocto-worker/qa-extras/build/scripts/gen-lockedsig-cache", line 27, in map_sha_to_files
->      sstate_files = os.listdir(sstate_prefix_path)
-> FileNotFoundError: [Errno 2] No such file or directory: '/srv/autobuilder/autobuilder.yoctoproject.org/pub/sstateuniversal/b6/'
-> 
-> 
-> I therefore added:
-> 
-> diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
-> index ae5e09d89f..48cb67112f 100755
-> --- a/scripts/gen-lockedsig-cache
-> +++ b/scripts/gen-lockedsig-cache
-> @@ -26,10 +26,13 @@ def map_sha_to_files(dir_, prefix, sha_map):
->       sstate_prefix_path = dir_ + '/' + prefix + '/'
->       sstate_files = os.listdir(sstate_prefix_path)
->       for f in sstate_files:
-> -        sha = extract_sha(f)
-> -        if sha not in sha_map:
-> -            sha_map[sha] = []
-> -        sha_map[sha].append(sstate_prefix_path + f)
-> +        try:
-> +            sha = extract_sha(f)
-> +            if sha not in sha_map:
-> +                sha_map[sha] = []
-> +            sha_map[sha].append(sstate_prefix_path + f)
-> +        except IndexError:
-> +            continue
->   
->   # given a prefix build a map of hash to list of files
->   def build_sha_cache(prefix):
-> @@ -38,7 +41,7 @@ def build_sha_cache(prefix):
->       sstate_dir = sys.argv[2]
->       map_sha_to_files(sstate_dir, prefix, sha_map)
->   
-> -    native_sstate_dir = sys.argv[2] + sys.argv[4]
-> +    native_sstate_dir = sys.argv[2] + '/' + sys.argv[4]
->       map_sha_to_files(native_sstate_dir, prefix, sha_map)
->   
->       return sha_map
-> 
-> 
-> My benchmark before was seeing it spend over 30 minutes in bitbake
-> core-image-minimal:do_populate_sdk_ext on an otherwise idle autobuilder
-> cluster/NAS (35 minutes from a clean tmpdir).
-> 
-> With the patch applied and my above tweak, I saw:
-> 
-> real	6m58.120s
-> 
-> and I'd note this was with a full build running on the other workers so
-> the NAS was under load. I could try and get an exact time for the above
-> but didn't really see the point in spending another 30 minutes on it.
-> 
-> This is the time for the whole SDK image, not just the time this script
-> takes but its enough for me to say its a vast improvement! :)
+> Great! It was frustrating to develop the code without a good
+> reproducer.
 
-Great! It was frustrating to develop the code without a good reproducer.
+Unfortunately I think we may be celebrating prematurely. On an
+otherwise unloaded system this looked ok however in real world builds
+the sdk creation is still excruciatingly slow.
 
-> Konrad: Mind if I squash in the above tweaks?
+We don't even need to use the script to understand why:
 
-Not at all. Sorry that you had to spend time debugging my code. That sha extraction code should have been more robust.
+pokybuild@debian9-ty-2:~$ time ls /srv/autobuilder/autobuilder.yoctoproject.org/pub/sstate/c6
 
-> Also, the new code is a bit too chatty and leads to a lot of log
-> output, we'll need to tweak that too.
+real	9m3.140s
+user	0m4.432s
+sys	0m5.164s
 
-Please do.
+So we'd expect the script to take 2*9*255 minutes :(
 
--- 
-Konrad Scherer, MTS, Linux Products Group, Wind River
+(214054 files in there incidentally, I got 1m49 the second try)
+
+I've cc'd our sysadmin.
+
+> > Konrad: Mind if I squash in the above tweaks?
+> 
+> Not at all. Sorry that you had to spend time debugging my code. That
+> sha extraction code should have been more robust.
+> 
+> > Also, the new code is a bit too chatty and leads to a lot of log
+> > output, we'll need to tweak that too.
+> 
+> Please do.
+
+I've queued such a patch in master-next and am testing, its an
+improvement but I'm worried its not resolving the problem.
+
+Options are to prune the sstate cache, or to teach the code to generate
+the full filenames (would mean refactoring)...
+
+We could give you access to the autobuilder to help reproduce the
+problem but I think its clear where the delays are...
+
+Cheers,
+
+Richard
+
+
+
 
