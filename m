@@ -1,36 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id AEB1A7E648
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A49C7C873
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2019 17:51:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46k3cB3chXz2C;
-	Wed,  2 Oct 2019 19:51:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1570038714;
-	bh=P4wfDP5g3z2hmJAjEr3ebFybMQJAT3fmvkObD+dOe9Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fV2uip/SEIr2P23iVPdzo9NWTt56LU3dqtO5dKRxGf6HGTY9BClMgow3On/0Z+aoK
-	vNLK1Y0/6BYtaSRE//ZgRYefMBO6CtD255/wVisGAl+7Qt6ZDb/jLMmrTk5mhDJuq+
-	gTAQXjxoG1iBbRkkXAF1Fr6VvUq4mg9LGB1bbD2w5ijjWUFDZ4NZhtdJsIoUFNrlxC
-	SCCBxvO3w959HrMih8oWlafJYz8ecRbPbCQ/IB70IX0ZLXIeJPQ1GQvazKb/t1WoAB
-	W6mT/DQYrewscqg2xB49AVXwvIUAbKp7VVtH7eD0bfCkAcRBD3/fc+UmrFFyKsVYda
-	78GphvJ3O5UFAxDrZRoC5WxsBkWJNlrjJGu8FMTbn2zA+LQyMUP9PROGPeGFxBLb02
-	WLpa92GDd1JFU0bKGKRd2Ae74Rd4msjpq+6+k5SejuAp9Kw8upFJOQqd25iN4mQdO/
-	PIMxWE67EIEbsBZVSKH1au5nTK/5De2j17JM67Mckhl52PeUrn0W61UlzURdrPOtns
-	igFdtpAOLfLf0p1VbHZiv6FDGv+LJXjMu7YSzUITttpRdO5I06fPCNtT0wcIGx9QWX
-	b3PSFRj+peM0YGwvTi3J2Dlp21WGg0qEfMHBBX9dn+iH6DN0L0p7Lxr/y3MJT0oMje
-	bTxIEimlmNuPZLQ0AWEesFnY=
-Date: Wed, 2 Oct 2019 20:51:52 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20191002175152.GA14877@localhost>
+	Wed,  2 Oct 2019 18:08:18 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id w195so12544754vsw.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Oct 2019 11:08:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=tlS+s6AgpR+6gk9kNeQu688Js5a156VSgo86pFkqAG0=;
+	b=kkXLEc+cSvMMF/o4ouz7PPaIRUuLa3w1QQrlup84NNfpZXmrL8UIMcwAJ2+qRlDq0W
+	D1H50jagVdwqQN0yVC/qxEE4LTi5t3QnaCUkGVUhLW+7eBlriFONPiuHfGtdpJ0lOdi3
+	KhhBA7yJneypzHIapdMNu/gezFyYywuysjGGi+O7G/GzH0qrrdjjJeTVE4Wz3ADPGnx0
+	ZUX1fR5vomv3p95ZsCz77DbCxqhyh7mC4DzayIxVd1NP024Kl7yOsl4ok+YTkYkzDN66
+	heiNnLOfE0XYdy8A6J0ifXsrs6gUVBA92g8EBijU51Bpe3Q7r3ydLd9QM1ibHrk7HU/0
+	vK9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=tlS+s6AgpR+6gk9kNeQu688Js5a156VSgo86pFkqAG0=;
+	b=atwe+ncqzPZ2AmRgcdQp9fQ+WOx4NrJ4KC8ZE96T2bXW07zcNGRML9zTz7cGoKo/G6
+	vX/YCiuL5Muvt8C8x9GKLPWLWGDpucHCVDC3CWg9HsO4QF5VQBQKJsxWFENzN2lugGTA
+	2BLMUBPtbOsjn0SELxMOIfPgxK/fhiQE3I2zDN+WfZe9z/27dZj/XbzddIpu8HjxbbAY
+	Vqp1z2FDOlt/aet4V0mB851vXL/Rnbiiis/rZKpoLlQ2qHLaXZGndpDHHxbLQ1vU4QTY
+	vk9VKbMcuSNGyWDJurUgjRfHDMTIQe1R57w8ooFU7nOjqNf3tI8djTX2pcLVrSf9a8FU
+	xCRw==
+X-Gm-Message-State: APjAAAXtKUeI78nU2BJImDzhdjAOOjEwc91yWUphSW+ACwNKK/SpIQ5c
+	VA0fv8QFg0QBIMgQUGbqthLIFFPIALuZp8KIsyIvNA==
+X-Google-Smtp-Source: APXvYqwpBGGAtma2kccfpVI1SXmdewfANO2zK1A2BJaNr0h67UAMRhqX/RsLhgVjt35oEC+H/zks3mfjpOhpE63g5hc=
+X-Received: by 2002:a67:2c43:: with SMTP id s64mr2612891vss.94.1570039699534; 
+	Wed, 02 Oct 2019 11:08:19 -0700 (PDT)
+MIME-Version: 1.0
 References: <20191002120027.109242-1-alex.kanavin@gmail.com>
 	<20191002120027.109242-2-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20191002120027.109242-2-alex.kanavin@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
+	<20191002175152.GA14877@localhost>
+In-Reply-To: <20191002175152.GA14877@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 2 Oct 2019 20:08:08 +0200
+Message-ID: <CANNYZj89n07FE7UEo5DdwCs_q2xUePEh_MZgwZ=uYX1hyRqDnA@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] ethtool, libcap: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,45 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2019 17:51:56 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 02 Oct 2019 18:08:19 -0000
+Content-Type: multipart/alternative; boundary="00000000000092f62a0593f15a53"
 
-On Wed, Oct 02, 2019 at 02:00:27PM +0200, Alexander Kanavin wrote:
-> The default URI returns a gzip-compressed index page
-> which browsers can auto-detect, but we can't.
->...
+--00000000000092f62a0593f15a53
+Content-Type: text/plain; charset="UTF-8"
 
-Works for me without your patch:
+On Wed, 2 Oct 2019 at 19:51, Adrian Bunk <bunk@stusta.de> wrote:
 
-$ devtool check-upgrade-status ethtool 
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache: 100% |###########################################################################################################################################################################################################| Time: 0:00:00
-Loaded 3386 entries from dependency cache.
---2019-10-02 20:48:43--  https://cdn.kernel.org/pub/software/network/ethtool/
-Resolving cdn.kernel.org (cdn.kernel.org)... 151.101.245.176, 2a04:4e42:3a::432
-Connecting to cdn.kernel.org (cdn.kernel.org)|151.101.245.176|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 12157 (12K) [text/html]
-Saving to: ‘/tmp/wget-index-68s3yqp8/wget-listing-0s5soh5t’
+> Works for me without your patch:
+>
 
+I am not sure what this may mean; but for me the patch definitely solves
+the problem.
 
-2019-10-02 20:48:43 (4.08 MB/s) - ‘/tmp/wget-index-68s3yqp8/wget-listing-0s5soh5t’ saved [12157/12157]
+Alex
 
-INFO: ethtool                   5.2             5.3             Changhyeok Bae <changhyeok.bae@gmail.com>  
-$ 
+--00000000000092f62a0593f15a53
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-cu
-Adrian
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 2 Oct 2019 at 19:51, Adrian Bunk =
+&lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></di=
+v><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">Works for me without your patch:<br></blockquote><br></div><div class=
+=3D"gmail_quote">I am not sure what this may mean; but for me the patch def=
+initely solves the problem.</div><div class=3D"gmail_quote"><br></div><div =
+class=3D"gmail_quote">Alex<br></div></div>
 
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
-
+--00000000000092f62a0593f15a53--
