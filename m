@@ -1,28 +1,18 @@
-Return-Path: <alessio.bogani@elettra.eu>
-Received: from spamalot.elettra.eu (spamalot.elettra.trieste.it
-	[140.105.206.208])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B4E46C4D8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2019 06:30:34 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by localhost (Email Security Appliance) with ESMTP id
-	283294410DC_D944409B for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2019 06:30:33 +0000 (GMT)
-Received: from unknown-host by spamalot.elettra.eu with queue id 784192
-	for openembedded-core@lists.openembedded.org;
-	Wed, 02 Oct 2019 06:30:32 GMT
-Received: from voltumna.elettra.trieste.it (voltumna.elettra.trieste.it
-	[192.168.205.44])
-	by spamalot.elettra.eu (Sophos Email Appliance) with ESMTP id
-	4C1EB43EAD1_D944408F; Wed,  2 Oct 2019 06:30:32 +0000 (GMT)
-From: Alessio Igor Bogani <alessio.bogani@elettra.eu>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Oct 2019 08:30:25 +0200
-X-Mailer: git-send-email 2.17.1
-X-SASI-RCODE: 200
-Message-Id: <20191002063033.283294410DC_D944409B@spamalot.elettra.eu>
-Cc: Alessio Igor Bogani <alessio.bogani@elettra.eu>
-Subject: [PATCH] Avoid use of an hard-coded value
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 150327C5FC;
+	Wed,  2 Oct 2019 07:02:31 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alessio Igor Bogani <alessio.bogani@elettra.eu>
+Date: Wed, 02 Oct 2019 07:02:33 -0000
+Message-ID: <20191002070233.2329.23103@do>
+References: <20191002063033.283294410DC_D944409B@spamalot.elettra.eu>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20191002063033.283294410DC_D944409B@spamalot.elettra.eu>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQXZvaWQgdXNlIG9mIGFuIGhhcmQtY29kZWQgdmFsdWU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,27 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2019 06:30:36 -0000
+X-List-Received-Date: Wed, 02 Oct 2019 07:02:32 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alessio Igor Bogani <alessio.bogani@elettra.eu>
+== Series Details ==
+
+Series: Avoid use of an hard-coded value
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20265/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            Avoid use of an hard-coded value
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/rootfs-postcommands.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 88f75d0f44..2f171836fa 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -29,7 +29,7 @@ APPEND_append = '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", " ro
- ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
- 
- # Write manifest
--IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.manifest"
-+IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
- ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
- # Set default postinst log file
- POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
