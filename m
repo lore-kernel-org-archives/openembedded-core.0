@@ -1,82 +1,103 @@
-Return-Path: <JAEWON@xilinx.com>
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
-	(mail-eopbgr750087.outbound.protection.outlook.com [40.107.75.87])
-	by mail.openembedded.org (Postfix) with ESMTP id 22A8660685
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C13060069
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2019 23:10:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=eCJSoK2mr2S7G+F8UbJ8IB808oa9M7xqqr2ydrukQa0dm4r38sd81xsakaFvwjZSXnoQQSJ/udLbIS2m6uNG0G5PF0UqM1rIu5jqKDixfUSKCNIa9Xd6AjTTnRkg8KcI8b3estvXi3KRrnR4ZZJ1qUodknkmBrClLYBjLLzIWJ3x/5TXmTRpvVrfeGNMrqia8Z/MhW6sdVj+gWc4BFP4p08glsFUYvqb6e/NNY0YGcPO6j97ynVFBkNz7HiiheGiGJyIjlfxvjVPd6AwYSo1WCt106bekO92J6lJisz2f534Enas7I8wIWlSnPM3wMCKs5T5Me2yCLP1QzRkIZVF3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=rB9dLzetah2wfJng/kV1LK05nbCBE5ci+Rm7TltZ2xg=;
-	b=BcZufeTRtV7UflLYhWir45erWUTdoBzfkhA9ajZI6JSlxqPZ3KFeTzy3bMy8+npto7P9WC2EJR2pA4HFzPRpAK1o/kPB+Q1ZTy4kUPZ3VNiEJqqYzwyXJN1L9C7Q0mqcfgReNtePy/B+89DGyFAe0sdSlM7QPV6St+ySZzd7Xsmora+ZgxeKAXIAe2RWATsas6CzL1ou9uZSpiN+xaijycyfC1SlVkGhiVWGQZEw/mrTn8ZO0NzvhvsgHTOtwEnOUfZP8QOvoK+Dz11AKJ8EnFqfs8FgjinojPB0/40ZBcAq/kNUip9n+0lyZ4dB0SfvxPvKxkObr3pCCBzgxr1F2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
-	dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=rB9dLzetah2wfJng/kV1LK05nbCBE5ci+Rm7TltZ2xg=;
-	b=F9lSb5Jvr7MCW+Aw8oJWvW7G9Cn9vHpH7U9Qe7SBpm0GLYM2UuMUPMz7qo9J65r4R7P9mFWYsauzD0vr56HvJvaiaI4ijKG76vMTh3B74JKd9W/jMs+n/cYOD1ouiY99oOXvx1jhyq0odkxcpLh5q151LRgc5hUVTY9RUZSyqeQ=
-Received: from BYAPR02MB5816.namprd02.prod.outlook.com (20.179.62.217) by
-	BYAPR02MB4952.namprd02.prod.outlook.com (52.135.235.82) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2305.15; Wed, 2 Oct 2019 23:10:27 +0000
-Received: from BYAPR02MB5816.namprd02.prod.outlook.com
-	([fe80::8156:2fb5:9724:5120]) by
-	BYAPR02MB5816.namprd02.prod.outlook.com
-	([fe80::8156:2fb5:9724:5120%7]) with mapi id 15.20.2305.023;
-	Wed, 2 Oct 2019 23:10:27 +0000
-From: Jaewon Lee <JAEWON@xilinx.com>
-To: Jaewon Lee <JAEWON@xilinx.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "paul.eggleton@linux.intel.com"
-	<paul.eggleton@linux.intel.com>, Manjukumar Harthikote Matha
-	<MANJUKUM@xilinx.com>, Alejandro Enedino Hernandez Samaniego
-	<alejandr@xilinx.com>
-Thread-Topic: [OE-core][master][PATCH] standard.py: Not filtering devtool
-	workspace for devtool finish
-Thread-Index: AQHVb0hAmZ6ygbxDLUWNXMtBQvdZFqdIDpDQ
-Date: Wed, 2 Oct 2019 23:10:27 +0000
-Message-ID: <BYAPR02MB5816E371E89C380F99923768AF9C0@BYAPR02MB5816.namprd02.prod.outlook.com>
-References: <1568938409-5070-1-git-send-email-jaewon.lee@xilinx.com>
-In-Reply-To: <1568938409-5070-1-git-send-email-jaewon.lee@xilinx.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=JAEWON@xilinx.com; 
-x-originating-ip: [149.199.62.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5360c244-8060-42e6-d1e9-08d7478db66a
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: BYAPR02MB4952:|BYAPR02MB4952:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB4952489518701549A6A40EE4AF9C0@BYAPR02MB4952.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1247;
-x-forefront-prvs: 0178184651
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(4636009)(396003)(366004)(136003)(39860400002)(376002)(346002)(199004)(13464003)(189003)(26005)(81166006)(7696005)(229853002)(102836004)(6636002)(14454004)(6506007)(53546011)(2906002)(33656002)(76176011)(478600001)(81156014)(8676002)(7736002)(2501003)(316002)(25786009)(305945005)(52536014)(74316002)(476003)(11346002)(55016002)(446003)(256004)(5660300002)(14444005)(486006)(2201001)(9686003)(66066001)(66946007)(66446008)(186003)(6436002)(71190400001)(71200400001)(64756008)(86362001)(76116006)(99286004)(8936002)(66556008)(66476007)(3846002)(6246003)(6116002)(110136005);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4952;
-	H:BYAPR02MB5816.namprd02.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Y9y1QU/DzpAgYEbt7THnWZ0IePRLbzyEFa1Kkmy/WuhL3Vm6MVqxtZzwlrbrB+zJktN3n+HWzcF6dVyA3MXiSmEToE/rEIqCtf6R31xbuFBIv8IJUPDrqrWvpGHAwVklWdM0/LZqdZQQ1+66AG5OQdgwRHvjv5NvtprYd8GKlV1IMO3qfm51pxgZBIW78rYlK2J6c+dJBTBcLwdDKYaDrZQhcZUGahi/BntUZS4d6wDKlJL3/8qpZQoTUlgjHjBfl8QsPsXUWu4YMms8QowqA4/AzL7bHfMHLnXz10GELbdB/+hX1AI92MmTgKf6Ob0E1kLrBR9gYjKr4uo663ISBIqH/8nesmGT6eW9Zruxvunt47mEEjMlOautqdTa3Km8OuDZuOTSt28ySlvxxvHzHuRplSqC8aljGorE4rhKLkw=
+	Wed,  2 Oct 2019 23:32:12 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id w8so581866plq.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Oct 2019 16:32:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=GgdWbiV2qu5VnO38QIFguys2vfjE+ozXIATN3hCF3hQ=;
+	b=sFwGsxE+tpiEloSXICYuzqBfXX3TOTlNvLkNYHB7GiD05S5qQq1ub/bIOuT8OUvQu2
+	Xp0WnyONkzZnu6067fW3DLfFkjsadWQobGYrMed7TQ274BDd74q0M266bTMvjmW7fPX/
+	Ol9CQ+jeGcSRyhimI5h+4k/rhMIgNCSm6b4Rh0EBikB+qkOi7IAmuQB1QQTVNKgA2rtg
+	sGBFH/UQtHDzxI7T87IbU8iEDWWt7lRuY75MuHCZqsJTMcwPU8OfGi4lgKCJyPkJYMNQ
+	5cZrExw4o0ks6LeloWh5t7xh+SqMqYwfSJaJ4SH1dS3Vdln80gyc5XvZVhK1HjwDxtMJ
+	DNog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=GgdWbiV2qu5VnO38QIFguys2vfjE+ozXIATN3hCF3hQ=;
+	b=AQBVfQynsCvSjVBcdD4IFdTfojsrhM4oKlLYp1Fmkk2bptbTRgqnrMmfnRIe2ZgUH0
+	6MN8wh55DfaA6r7mEYIDAswoEAcXDpz4fHjjfqC8BHoh+BC49DbxPh0a1qXTlKAByjXB
+	WzeN3gKme0hzKnUkTKjm1v+tFBIq2pps1EjFDhQ8F8XyV0XNZtWYDBj5dkkUa4CIoPkI
+	FW3Oi1/Fj4BEJzrs+F2pEmwWujKnA626WPoCT9bzHDUqj6TxqjF0BXVOjJ1gg5czBpe2
+	AMYR2In15DlVWgy/bT3vq+iPktNfK8K4wiSOTcuhvGNcv8cWiR0vbkBTjZIpSMFQfTwV
+	l6RA==
+X-Gm-Message-State: APjAAAWA3sLCFueByhHP86ziHeY4zyID1fj+YI0NXTLaXdvbq2xvHFCp
+	+6O0phgJGP5LRD5THI6caVQ=
+X-Google-Smtp-Source: APXvYqxlBO1XE8mjMhO5OrdWAYWzqTJMG74i2Qgu7rWVWbItpbRXPZq5vl/vNHRxKvTvZ3JZ0pMNsw==
+X-Received: by 2002:a17:902:8e86:: with SMTP id
+	bg6mr6620198plb.212.1570059133529; 
+	Wed, 02 Oct 2019 16:32:13 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:a5c0:2c5e:3326:62f0:95f9?
+	([2601:202:4180:a5c0:2c5e:3326:62f0:95f9])
+	by smtp.gmail.com with ESMTPSA id c6sm440659pgk.65.2019.10.02.16.32.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 02 Oct 2019 16:32:12 -0700 (PDT)
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <4192571.iDR9UPTnyj@localhost.localdomain>
+	<93d8fa4a-c6ee-a529-5dec-f2b9857c0228@gmail.com>
+	<4021250.qhsO4ulJn3@localhost.localdomain>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <c00c3fe6-824f-5d97-a228-54a30f8bc5c3@gmail.com>
+Date: Wed, 2 Oct 2019 16:32:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5360c244-8060-42e6-d1e9-08d7478db66a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2019 23:10:27.1589 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dCCJ/LcVYnW+Bwf2TWVIGc3J1k4Uaxh7yUdoyXvQ6b0h/NpQ4KXTEgDUnwLSsyyq5lkjRHcVuFJCgS8Y23TvxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4952
-Subject: Re: [master][PATCH] standard.py: Not filtering devtool workspace for devtool finish
+In-Reply-To: <4021250.qhsO4ulJn3@localhost.localdomain>
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: 3.0 release notes / migration guide
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -89,72 +110,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2019 23:10:29 -0000
+X-List-Received-Date: Wed, 02 Oct 2019 23:32:12 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-ping
 
-> -----Original Message-----
-> From: Jaewon Lee <jaewon.lee@xilinx.com>
-> Sent: Thursday, September 19, 2019 5:13 PM
-> To: openembedded-core@lists.openembedded.org;
-> paul.eggleton@linux.intel.com; Manjukumar Harthikote Matha
-> <MANJUKUM@xilinx.com>; Alejandro Enedino Hernandez Samaniego
-> <alejandr@xilinx.com>
-> Cc: Jaewon Lee <JAEWON@xilinx.com>
-> Subject: [OE-core][master][PATCH] standard.py: Not filtering devtool
-> workspace for devtool finish
->=20
-> All devtool commands right now are filtering out the devtool workspace
-> bbappends in build/workspace/appends when calling parse_recipe. While
-> this may make sense for devtool add and modify, we need devtool finish to
-> include those appends.
->=20
-> A specific breakage that is caused because devtool finish filters devtool
-> appends is the cmake/cml1 flow where a file is created in the WORKDIR tha=
-t
-> finish needs access to, to commit those files. Particularly for git packa=
-ges with
-> SRCPV in PV, SRCPV is only changed to 999 when using external source,
-> hence when creating the cfg or cmake config files using for instance bitb=
-ake -
-> c diffconfig, these files are created in the
-> git999 workdir correctly (as in the devtool bbapends, we are inheriting
-> externalsrc class). But when devtool finish is run, the devtool appends a=
-re
-> not parsed, hence SRCPV is not changed to 999 and devtool is looking for =
-the
-> fragment files in the wrong WORKDIR.
->=20
-> Changing the parse_recipe call just in devtool finish to not filter out t=
-he
-> devtool workspace.
->=20
-> Fixes [YOCTO #13533]
->=20
-> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-> ---
->  scripts/lib/devtool/standard.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standa=
-rd.py
-> index 9eeaefb..e87b433 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -2011,7 +2011,7 @@ def finish(args, config, basepath, workspace):
->      no_clean =3D False
->      tinfoil =3D setup_tinfoil(basepath=3Dbasepath, tracking=3DTrue)
->      try:
-> -        rd =3D parse_recipe(config, tinfoil, args.recipename, True)
-> +        rd =3D parse_recipe(config, tinfoil, args.recipename, True,
-> + False)
->          if not rd:
->              return 1
->=20
-> --
-> 2.7.4
+
+On 10/2/19 3:57 PM, Paul Eggleton wrote:
+> On Thursday, 3 October 2019 11:44:53 AM NZDT akuster808 wrote:
+>> On 10/2/19 3:20 PM, Paul Eggleton wrote:
+>>> So it's that time again - we need to start building up the raw material for 
+>>> the release notes and migration guide for the upcoming 3.0 release, and I'd 
+>>> like to request some help with some parts of it - read on for details.
+>>>
+>>> For the migration guide we have a wiki page serving as a staging area:
+>>>
+>>>   https://wiki.yoctoproject.org/wiki/FutureMigrationGuide
+>> Thanks for putting this together.
+> No problem!
+>
+>>> Things that should go in the migration guide: *anything* in the release that 
+>>> would require someone who is upgrading to take some form of action (i.e. 
+>>> change their configuration / recipes / etc.) Help with this from people who 
+>>> implemented the changes or have already thought about / dealt with their 
+>>> impact would be much appreciated.
+>>>
+>>> There is a process where I look through all the commits since the last release 
+>>> and pull out the ones that need to be mentioned in some form - other than the 
+>>> migration guide items, the following needs to be gathered for the release 
+>>> notes:
+>>>
+>>> 1) Features - new functionality. We need to capture what the feature is and 
+>>> hopefully express the impact to the user succinctly.
+>> We remove LSB support.
+> Thanks - I've just added that to the migration guide and will note it in the release notes.
+>
+>>> 2) Recipe upgrades - straightforward
+>>>
+>>> 3) CVE fixes - fairly straightforward, I just look for commits that explicitly 
+>>> mention "CVE". If I can easily do so I'll also note where a recipe upgrade 
+>>> fixes a CVE, but that isn't often readily available information.
+>> So how can the community help in this case? Better commit messages?
+> That would be great - but it does require the person doing the upgrade to look
+> upstream, and of course every upstream is different. Unfortunately with some
+> upstreams finding fixed CVE information is quite difficult indeed.
+>
+>> Well, aren't open defects not fixed by the time we release time but we
+>> intend on fixing after release a form of known issues ?
+> Yes, that's true - I will say we haven't been particularly systematic about the
+> known issues in past releases so perhaps we should drive the list from
+> bugzilla. I would want the list to be kept as short as possible though and each
+> item should succinctly describe the issue. 
+
+Maybe something the Yocto Bug triage team could possible assist in.   I
+will bring it up tomorrow morning.
+
+- armin
+
+> Cheers
+> Paul
+>
 
 
