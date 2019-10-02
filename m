@@ -1,41 +1,53 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C650F7EDF1
+Return-Path: <maxime.roussinbelanger@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 357726B11A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2019 20:20:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46k6vC6mzyz2C;
-	Wed,  2 Oct 2019 22:20:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1570047608;
-	bh=5ClXCeSScbJH+6Huw+tycRh7VqaJQaComi84eGfvnow=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S78oiHBzKiA28lQs+QVnVYbFBEN0m4DzZsp+Y4Kuv81Slode6R/MBvH1VkYDgp/At
-	ZVYdGDrOfRqIyj4Jox//aKbgumjGmEr0WkF3dqhHpPRGxQgPCR/xB9DTccGTLjy9ty
-	mM09jZ0UYiQWlnfSTBtnzOeArlhd36oVHvCHG7o+WucWtY7o7fWSdvRAhc++UlvoIT
-	d66IvNu/BzLA8YyM2JgxC2SRY75X7VIr0W1lYWOL0JkTFEW+GRumLsVOiLJPvHx/32
-	UoYWul67D0F956UlebDALgxLqnJVtDvKOZ2VwI+bLa3AdWvcQJsfYewskjI0p2lnrR
-	GpP4fJp35393jqh8L6o/BOt3EXfkus9huHDzm++TWZlNv3IJy64Iptu7zbOyd/TynR
-	l/vPnItitKxnrb0K6XNuXJqKE+1VE4Qxv/o0806yTWUNphojheip4UfY18Zj7WRGBl
-	FodRZ99qprUv7xvy21Dzzsfd9gJbNWavlH8dpJy//3yj34i6CeBR9TGlI9bJp8/UuX
-	hLUYJkvJ5wY8AKisP1yHK0kPSI055qHBpp1ArvTfJsreflxjPU0I6ieDPb2Z/61YFK
-	M4m87u3RKxLwljlyYdSJE0OlLcGK7flGh1OSVRLUd8XS+O86n4hkGZkPkgBxVAz7NC
-	u1LeEASUSffVAXl4Z47vPD6U=
-Date: Wed, 2 Oct 2019 23:20:01 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20191002202001.GB18433@localhost>
-References: <20191002120027.109242-1-alex.kanavin@gmail.com>
-	<20191002120027.109242-2-alex.kanavin@gmail.com>
-	<20191002175152.GA14877@localhost>
-	<CANNYZj89n07FE7UEo5DdwCs_q2xUePEh_MZgwZ=uYX1hyRqDnA@mail.gmail.com>
-	<20191002181821.GB14877@localhost>
-	<CANNYZj8W=Ugu8sRctN3aO1mwSrijDBWLONhFiT4aYrMjRygabw@mail.gmail.com>
+	Wed,  2 Oct 2019 20:52:29 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id y144so115572qkb.7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Oct 2019 13:52:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=TRlfr6Dva9MY8BXYuc7fkY7RU/+Pqp55qQ5psBokNJ4=;
+	b=b3yDblexKcLnXShABTRGKZsiCpPhzZJnpwnrMCqvHH3SFMtbSGlm/RkfyFgrclre/i
+	45GVFfJuRp6gToSW5zuOQEiqx8yClbmfpFssuySsIJGFN4X6KVswiJzje7aS+5b7bvGd
+	ACRvnUk/ho73IZazxbuh/q9HOoLYZQz3kfX1pO2IU09VY6UVJLLrvG6NBw1N2rr1nG8D
+	GpLJ91fhMyzxK4MfQ8IuaVqutSVce6nmO/uo1ZazbtYF2yM32+t7tvD0zjd9cS/+nI2g
+	Al8bGbDt1pLmpqwmNw3HFU74i9dQRFZecKHJEysVCl0uNJN3B1KftrQI7rneEfobEWj0
+	7qlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=TRlfr6Dva9MY8BXYuc7fkY7RU/+Pqp55qQ5psBokNJ4=;
+	b=SEf+EseEmOxMq0n5rIID/++s3/c97AvvmTp5dRDCtDZls2HYiKBbPJKe9IkVx6+mQn
+	tMo9JiDgk5+/8J/LyvgdbgvdNC3Vo1vUYFhzjhHRrXB1myGMmp1XQtw3XgqBhZ70cuJ5
+	y265VwmYbxE4TsZVZXiTAHGQNmLOmCNc6ro3+uq/GbRi7R30LEuGbhJzReAcp63VtWo0
+	QjOL72/kFdJiI/f8BxVgKlieB74oOOiAk9JF/UrKLRcGCPhtSw5+GU/MIBD+hobl1YmP
+	Wt559uvJR+7DW7cTEZ51sl50ejNd3RptrQouvD4GM1ItoKWboMGb+Yc+QSxD5Oj7p4Z8
+	My+w==
+X-Gm-Message-State: APjAAAWPyS6REALr6/bgYO1h0NKuC9S8yW9pxzaeABbguuGZR4m3IniR
+	l0JJp70hUcCKMexq8e5GYeGPCNCSiOc=
+X-Google-Smtp-Source: APXvYqzmMBsfkPMFOSkz02m2waMU13BRBlzxnCyOgyI/X1TjlTOhxvVIbx1AAl4Cen2f0kl+Icqcfw==
+X-Received: by 2002:a05:620a:15b1:: with SMTP id
+	f17mr805746qkk.187.1570049550192; 
+	Wed, 02 Oct 2019 13:52:30 -0700 (PDT)
+Received: from mbedesk.Sonatest.net
+	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
+	[174.94.156.236]) by smtp.gmail.com with ESMTPSA id
+	l129sm210223qkd.84.2019.10.02.13.52.29
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 02 Oct 2019 13:52:29 -0700 (PDT)
+From: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
+	<maxime.roussinbelanger@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Oct 2019 16:52:27 -0400
+Message-Id: <20191002205227.16149-1-maxime.roussinbelanger@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj8W=Ugu8sRctN3aO1mwSrijDBWLONhFiT4aYrMjRygabw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] ethtool, libcap: fix upstream version check
+Subject: [PATCH] meta: add missing some description in devtools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,63 +60,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2019 20:20:10 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 02 Oct 2019 20:52:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 02, 2019 at 08:27:55PM +0200, Alexander Kanavin wrote:
-> On Wed, 2 Oct 2019 at 20:18, Adrian Bunk <bunk@stusta.de> wrote:
-> 
-> > On Wed, Oct 02, 2019 at 08:08:08PM +0200, Alexander Kanavin wrote:
-> > > On Wed, 2 Oct 2019 at 19:51, Adrian Bunk <bunk@stusta.de> wrote:
-> > >
-> > > > Works for me without your patch:
-> > >
-> > > I am not sure what this may mean; but for me the patch definitely solves
-> > > the problem.
-> >
-> > It means that even without your patch devtool is able to tell me that
-> > there is a new upstream version of ethtool available.
-> >
-> > I was originally wondering whether there is a problem that also affects
-> > other users of KERNELORG_MIRROR, and was then surprised that it worked
-> > for me without the change the way I tried.
-> >
-> > How are you reproducing the problem?
-> 
-> The same way. I am getting the following on my home computer and on both of
-> my work computers (which are on two different networks). Note the IP
-> address is different, and the file size is smaller, as it's gzip-compressed:
->...
+Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
+---
+ meta/recipes-devtools/apt/apt.inc              | 3 +++
+ meta/recipes-devtools/cmake/cmake.inc          | 6 ++++++
+ meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb | 2 ++
+ meta/recipes-devtools/dnf/dnf_4.2.2.bb         | 5 ++++-
+ meta/recipes-devtools/meson/meson.inc          | 3 +++
+ meta/recipes-devtools/qemu/qemu.inc            | 4 ++++
+ meta/recipes-devtools/quilt/quilt.inc          | 4 ++++
+ meta/recipes-devtools/swig/swig.inc            | 3 +++
+ meta/recipes-devtools/unfs3/unfs3_git.bb       | 3 +++
+ 9 files changed, 32 insertions(+), 1 deletion(-)
 
-I am able to reproduce your problem from a machine located elsewhere, 
-and there is no difference in the headers sent that can change the 
-behaviour to either make both work or both break.
-
-My guess would be that this is a temporary problem on some part of the
-Fastly network,
-  wget --debug http://www.kernel.org/pub/software/network/ethtool/
-says the cache that is broken for me is HHN in Frankfurt:
-  Content-Encoding: gzip
-  X-Served-By: cache-hhn4065-HHN
-
-I'd be surprised if this affects only 2 recipes, the big hammer would be
-  -KERNELORG_MIRROR = "https://cdn.kernel.org/pub"
-  +KERNELORG_MIRROR = "https://www.kernel.org/pub"
-
-But so far it looks to me that it might only be a temporary hiccup 
-(and affecting only functionality not usually used by users).
-
-I sent an email to Fastly support, let's see if they will answer.
-
-cu
-Adrian
-
+diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+index b855099e52..6883ac865a 100644
+--- a/meta/recipes-devtools/apt/apt.inc
++++ b/meta/recipes-devtools/apt/apt.inc
+@@ -1,4 +1,7 @@
+ SUMMARY = "Advanced front-end for dpkg"
++DESCRIPTION = "Provides commandline tools for searching and managing as well \
++as querying information about packages as a low-level access to all features \
++of the libapt-pkg library."
+ LICENSE = "GPLv2.0+"
+ SECTION = "base"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 3711f18db6..35d78eea17 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -2,6 +2,12 @@
+ # Released under the MIT license (see packages/COPYING)
+ 
+ SUMMARY = "Cross-platform, open-source make system"
++DESCRIPTION = "CMake is used to control the software compilation process \
++using simple platform and compiler independent configuration files. CMake \
++generates native makefiles and workspaces that can be used in the compiler \
++environment of your choice. CMake is quite sophisticated: it is possible to \
++support complex environments requiring system configuration, pre-processor \
++generation, code generation, and template instantiation."
+ HOMEPAGE = "http://www.cmake.org/"
+ BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
+ SECTION = "console/utils"
+diff --git a/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb b/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
+index 7dc4e417f6..10220ebc91 100644
+--- a/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
++++ b/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
+@@ -1,4 +1,6 @@
+ SUMMARY = "GNU unit testing framework, written in Expect and Tcl"
++DESCRIPTION = "DejaGnu is a framework for testing other programs. Its purpose \
++is to provide a single front end for all tests."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ SECTION = "devel"
+diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+index c77773332c..f38167f1ad 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+@@ -1,4 +1,7 @@
+ SUMMARY = "Package manager forked from Yum, using libsolv as a dependency resolver"
++DESCRIPTION = "Software package manager that installs, updates, and removes \
++packages on RPM-based Linux distributions. It automatically computes \
++dependencies and determines the actions required to install packages."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://PACKAGE-LICENSING;md5=4a0548e303dbc77f067335b4d688e745 \
+@@ -71,7 +74,7 @@ do_install_append_class-native() {
+ do_install_append_class-nativesdk() {
+         create_wrapper ${D}/${bindir}/dnf \
+                 RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm \
+-                RPM_NO_CHROOT_FOR_SCRIPTS=1 
++                RPM_NO_CHROOT_FOR_SCRIPTS=1
+ }
+ 
+ SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index 6de109de7f..2958a2a8de 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -1,5 +1,8 @@
+ HOMEPAGE = "http://mesonbuild.com"
+ SUMMARY = "A high performance build system"
++DESCRIPTION = "Meson is a build system designed to increase programmer \
++productivity. It does this by providing a fast, simple and easy to use \
++interface for modern software development tools and practices."
+ 
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index de21d30732..11783eaca5 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -1,4 +1,8 @@
+ SUMMARY = "Fast open source processor emulator"
++DESCRIPTION = "QEMU is a hosted virtual machine monitor: it emulates the \
++machine's processor through dynamic binary translation and provides a set \
++of different hardware and device models for the machine, enabling it to run \
++a variety of guest operating systems"
+ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+ 
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index 433e9b40b7..61e1c93605 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -1,4 +1,8 @@
+ SUMMARY = "Tool for working with series of patches"
++DESCRIPTION = "Quilt is a tool to manage large sets of patches by keeping \
++track of the changes each patch makes. Patches can be applied, un-applied,\
++refreshed, etc. The key philosophical concept is that your primary output \
++is patches."
+ HOMEPAGE = "http://savannah.nongnu.org/projects/quilt/"
+ SECTION = "devel"
+ LICENSE = "GPLv2"
+diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtools/swig/swig.inc
+index 00b9c5b605..e62718c508 100644
+--- a/meta/recipes-devtools/swig/swig.inc
++++ b/meta/recipes-devtools/swig/swig.inc
+@@ -1,4 +1,7 @@
+ SUMMARY = "SWIG - Simplified Wrapper and Interface Generator"
++DESCRIPTION = "SWIG is a compiler that makes it easy to integrate C and C++ \
++code with other languages including Perl, Tcl, Ruby, Python, Java, Guile, \
++Mzscheme, Chicken, OCaml, Pike, and C#."
+ HOMEPAGE = "http://swig.sourceforge.net/"
+ LICENSE = "BSD & GPLv3"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e7807a6282784a7dde4c846626b08fc6 \
+diff --git a/meta/recipes-devtools/unfs3/unfs3_git.bb b/meta/recipes-devtools/unfs3/unfs3_git.bb
+index a4ac46c68e..79d09788d3 100644
+--- a/meta/recipes-devtools/unfs3/unfs3_git.bb
++++ b/meta/recipes-devtools/unfs3/unfs3_git.bb
+@@ -1,4 +1,7 @@
+ SUMMARY = "Userspace NFS server v3 protocol"
++DESCRIPTION = "UNFS3 is a user-space implementation of the NFSv3 server \
++specification. It provides a daemon for the MOUNT and NFS protocols, which \
++are used by NFS clients for accessing files on the server."
+ SECTION = "console/network"
+ LICENSE = "unfs3"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=9475885294e17c0cc0067820d042792e"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.20.1
 
 
