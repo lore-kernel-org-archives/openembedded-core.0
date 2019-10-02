@@ -1,50 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 555457DFE4
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EF36D7E9CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2019 13:21:52 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id v8so19675461wrt.2
+	Wed,  2 Oct 2019 14:09:15 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a6so7344437wma.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Oct 2019 06:21:53 -0700 (PDT)
+	Wed, 02 Oct 2019 07:09:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=r+u0/gYRXKiswlhq0iWMYt1QK/3YWmUOWv4m2ezpaTI=;
-	b=P+/A28Jn6dpmK18GLbmG1l8kC1PawbWVfQbwdl3ENMolrnElYQVakltan0evwq691M
-	Lf9ma0MRsHrOxrMNmh7oV+R2vSRAhSypzYt+NyEk8bwr5s80X9LFnu/mRi/Ex7/KpG39
-	NcNht7Zudqju4BFipSjuaWPtGX21vo5HcidJw=
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0YcC4gwiiNh70d9DuANPlLRatQ0cq/cczJMcAkAoMmU=;
+	b=E5kFmmdRMZwfz0emXmLCjS/qwyramak5m4x3ZbTU6uqPRgLnS2Gm3GG6ZfmOVM1fcv
+	s6eX04h6tvSWReJn+iGg+wH499C+4cQzLuH+8FMgnU4YVtJhwMpRjOK7zoGBgtG1J49/
+	BM785MEHpal+w0ScpDtsZdWSa2WfunicVPMxc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=r+u0/gYRXKiswlhq0iWMYt1QK/3YWmUOWv4m2ezpaTI=;
-	b=QbbYdWxowdyV/z5VdeiNGkyGwU5qBrgFd1MuP/3aqx7Wwa58UDLMWfmdkdCsLnUDgJ
-	+JjlPd3Vp4+YWYyKNQMIi54vYByQ5SFGlYfP1fG0os3/CARyO1oCn2kSqshmfkcGVBdT
-	UI8DAgx8x9JpXDKP29Z7TkzHZKuh7yY/KNe+RJQK5kAl7Vuh1CwOewj5JD0yweQIhRdJ
-	t/ubfkByQKGeDWVWfvdI8UKXC3AJkeBfxnpVK4/n6u02tDSHKMYtKDC0xl7Fhdnv4IMs
-	uI6s/1+PCuIcV1HCi2ws0XV2O85pHVSiw8OZfBDPp84/RetpKIHFwjG3syH13aK0FJHi
-	xp8w==
-X-Gm-Message-State: APjAAAUuvvLVh9Wocd/AFWSRYM9oiLzdASKYd8GE3a+M1y8wXKxzO4Y4
-	8FjrfPW8Hdk6nzVfkj4a5MAKIg==
-X-Google-Smtp-Source: APXvYqwn/pz4ccj5CEwBeJeEx6NvPV5GdEtcbHzpsA8Rrx99hs8yz1vWOaSUcMHjc5iZ+B0U3iwuDQ==
-X-Received: by 2002:a5d:45cb:: with SMTP id b11mr2849941wrs.109.1570022512950; 
-	Wed, 02 Oct 2019 06:21:52 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0YcC4gwiiNh70d9DuANPlLRatQ0cq/cczJMcAkAoMmU=;
+	b=IvlzASuTAV3VGX5xRteyKBaiizVmESrgcefddWi6fmMzY72w11AB183Fu3IRppvBxx
+	k6JFiPdcJNofcLXRrcRhHHTnjVz/HlDew6rJPZDp/0BPzVPEaFT/LXimlXZJOVIy5RM0
+	vsEH8Wzp1VejJRLctcySklAVYR++i+z5nJ0Zt1bE5f+0dtNMNUz6rcq5TywpgBJ3Ux6o
+	qbjguZYER5PUlCyUa+UHFQBLHc4Yf/HEPy+JKZ1duS3hE4lTqjEtwZpGdqku49M1H+bU
+	qkYWD2Yl6uHI/Jo7glkEjF1aGw6oo3ETPFyoZck6M1ut4IT06AzMXWbTkeqUNzuZRUNN
+	URVg==
+X-Gm-Message-State: APjAAAUwV1pMkT6Zh0NWgGhxLW8ueEgxEf/7fsqVL2L1mCijoAT6rdHY
+	CtzWiNRmqy+wZg9pKmtkAuA34aowLjQ=
+X-Google-Smtp-Source: APXvYqyggVLLWuZ6Z0eYpJWxwK01JbDL+ZKWwQGeL8if39IvWldSA4Z0ZW5jbFwo7G0grW2IwgekIA==
+X-Received: by 2002:a7b:c776:: with SMTP id x22mr2807502wmk.123.1570025356208; 
+	Wed, 02 Oct 2019 07:09:16 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	j1sm41843991wrg.24.2019.10.02.06.21.51
+	o1sm2762026wrs.78.2019.10.02.07.09.15
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 02 Oct 2019 06:21:52 -0700 (PDT)
-Message-ID: <279cb31b6c743596e9c7b19e613575f51a3b534c.camel@linuxfoundation.org>
+	Wed, 02 Oct 2019 07:09:15 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 02 Oct 2019 14:21:51 +0100
-In-Reply-To: <20190930213721.3320280-1-raj.khem@gmail.com>
-References: <20190930213721.3320280-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.34.0-1 
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Oct 2019 15:09:13 +0100
+Message-Id: <20191002140914.30358-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] layer.conf: Add xserver-nodm-init to SIGGEN_EXCLUDERECIPES_ABISAFE
+Subject: [PATCH 1/2] base: Improve module import error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2019 13:21:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Oct 2019 14:09:16 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2019-09-30 at 14:37 -0700, Khem Raj wrote:
-> Found signature differences when same machine is used as a copy
-> see
-> 
-> ERROR: xscreensaver different signature for task
-> do_package_write_ipk.sigdata between qemux86copy and qemux86
-> Hash for dependent task x11-common/xserver-nodm-
-> init_3.0.bb:do_packagedata changed from
-> de0944d4fcaeed0efdb143a18cc406bd043469ae291de1704a999bc878a7691c to
-> ba7bdaf35860ba5bf5a5f4ce06379a77c88eb9806e09a1fc5373933888a46507
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/conf/layer.conf | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 27893b633e..a13c8dc9b2 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -44,6 +44,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
->    opkg-utils \
->    gstreamer1.0-meta-base \
->    ca-certificates \
-> +  xserver-nodm-init \
->  "
->  
->  SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+Turn:
 
-This seems odd, why is xscreensaver depending on xserver-nodm-init?
+ERROR: Unable to parse Var <OE_IMPORTED[:=]>
+Traceback (most recent call last):
+  File "Var <OE_IMPORTED[:=]>", line 1, in <module>
+  File "/media/build1/poky/meta/classes/base.bbclass", line 35, in oe_import(d=<bb.data_smart.DataSmart object at 0x7f1d941ad208>):
+         for toimport in oe.data.typed_value("OE_IMPORTS", d):
+    >        imported = __import__(toimport)
+             inject(toimport.split(".", 1)[0], imported)
+  File "/media/build1/poky/meta/lib/oe/sstatesig.py", line 267, in <module>:
 
-Cheers,
+    >class SignatureGeneratorOEEquivHash(SignatureGeneratorOEBasicHashMixIn, bb.siggen.SignatureGeneratorUniHashMixIn, bb.siggen.SignatureGeneratorBasicHash):
+         name = "OEEquivHash"
+bb.data_smart.ExpansionError: Failure expanding variable OE_IMPORTED[:=], expression was ${@oe_import(d)} which triggered exception AttributeError: module 'bb.siggen' has no attribute 'SignatureGeneratorUniHashMixIn'
 
-Richard
+into:
+ERROR: Error importing OE modules: module 'bb.siggen' has no attribute 'SignatureGeneratorUniHashMixIn'
+
+which can then trigger a version mismatch error message.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/base.bbclass | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 0c8a4b28629..d3184ecf7bb 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -32,9 +32,11 @@ def oe_import(d):
+ 
+     import oe.data
+     for toimport in oe.data.typed_value("OE_IMPORTS", d):
+-        imported = __import__(toimport)
+-        inject(toimport.split(".", 1)[0], imported)
+-
++        try:
++            imported = __import__(toimport)
++            inject(toimport.split(".", 1)[0], imported)
++        except AttributeError as e:
++            bb.error("Error importing OE modules: %s" % str(e))
+     return ""
+ 
+ # We need the oe module name space early (before INHERITs get added)
+-- 
+2.20.1
 
 
