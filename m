@@ -1,46 +1,37 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A49C7C873
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 302F07C873
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2019 18:08:18 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id w195so12544754vsw.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Oct 2019 11:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=tlS+s6AgpR+6gk9kNeQu688Js5a156VSgo86pFkqAG0=;
-	b=kkXLEc+cSvMMF/o4ouz7PPaIRUuLa3w1QQrlup84NNfpZXmrL8UIMcwAJ2+qRlDq0W
-	D1H50jagVdwqQN0yVC/qxEE4LTi5t3QnaCUkGVUhLW+7eBlriFONPiuHfGtdpJ0lOdi3
-	KhhBA7yJneypzHIapdMNu/gezFyYywuysjGGi+O7G/GzH0qrrdjjJeTVE4Wz3ADPGnx0
-	ZUX1fR5vomv3p95ZsCz77DbCxqhyh7mC4DzayIxVd1NP024Kl7yOsl4ok+YTkYkzDN66
-	heiNnLOfE0XYdy8A6J0ifXsrs6gUVBA92g8EBijU51Bpe3Q7r3ydLd9QM1ibHrk7HU/0
-	vK9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=tlS+s6AgpR+6gk9kNeQu688Js5a156VSgo86pFkqAG0=;
-	b=atwe+ncqzPZ2AmRgcdQp9fQ+WOx4NrJ4KC8ZE96T2bXW07zcNGRML9zTz7cGoKo/G6
-	vX/YCiuL5Muvt8C8x9GKLPWLWGDpucHCVDC3CWg9HsO4QF5VQBQKJsxWFENzN2lugGTA
-	2BLMUBPtbOsjn0SELxMOIfPgxK/fhiQE3I2zDN+WfZe9z/27dZj/XbzddIpu8HjxbbAY
-	Vqp1z2FDOlt/aet4V0mB851vXL/Rnbiiis/rZKpoLlQ2qHLaXZGndpDHHxbLQ1vU4QTY
-	vk9VKbMcuSNGyWDJurUgjRfHDMTIQe1R57w8ooFU7nOjqNf3tI8djTX2pcLVrSf9a8FU
-	xCRw==
-X-Gm-Message-State: APjAAAXtKUeI78nU2BJImDzhdjAOOjEwc91yWUphSW+ACwNKK/SpIQ5c
-	VA0fv8QFg0QBIMgQUGbqthLIFFPIALuZp8KIsyIvNA==
-X-Google-Smtp-Source: APXvYqwpBGGAtma2kccfpVI1SXmdewfANO2zK1A2BJaNr0h67UAMRhqX/RsLhgVjt35oEC+H/zks3mfjpOhpE63g5hc=
-X-Received: by 2002:a67:2c43:: with SMTP id s64mr2612891vss.94.1570039699534; 
-	Wed, 02 Oct 2019 11:08:19 -0700 (PDT)
-MIME-Version: 1.0
+	Wed,  2 Oct 2019 18:18:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46k4Bl16hsz2C;
+	Wed,  2 Oct 2019 20:18:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1570040303;
+	bh=sFBFoyRTSBtOm4ckQVuGsXw2KqwbnMTUlQqhKrtr1xk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K6Qk1JNcD6UajhWtX4O1fH1qY2imcHtonlble7c33vM/biBfHsND00Cif9bAvP3mj
+	FoEScjnCfGT3jngySJZOd9yakAuHijIV44KKkavLqkXy58ieL+h7Pd1I/6fYQova9F
+	/6GDdwHWA9TY94exusyFs+YRu7sBVLjtDP7Sc4b48iVRxAgvJcRCX0v2kiBnNkyWx6
+	NGiFOiLeMVXoZhKOaKWba2t6FNoxHYmJtWtaawU4I+ylEVJByoqjqAT2tA9N2jOL0P
+	joIgRYcufw3UhxtMHKsFpiiZVdCp82DEItwmWgRvRFAuP4Fx5nldx75pi0MaOWmic4
+	xQSKxCDa1Bbd4Rn/Kpb+4el3orQSlpcYGhDmyI2F9fmaFeMFq3CQWVCO4IjPCtIX9e
+	yXRQ7Q0QtXi/GS10H70PXv6m7enJHjzcYHI2k7nUhx4dnnXOOg9BhWr96G98oxXQJH
+	ivbgdAIAoHT+53F6l1z12LIDQCOPnRPoKFKki/HdVVDOf8rwkMq1Vw8vdAcLnZv815
+	EyykX39vpS7Goq0rGuJctFcRvgwfbWftHYwUTtCJyFOgRuFZ8TmXx/xt+DnADd3Hgn
+	ER4AtrZz2t/j5DowHsLJu3jBPft/GDAXuXv9Nak2GWeBixLsedo/J0DWKDlg9n4iwu
+	7FbJqYmgq3JnuQ5K/UywrrwQ=
+Date: Wed, 2 Oct 2019 21:18:21 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20191002181821.GB14877@localhost>
 References: <20191002120027.109242-1-alex.kanavin@gmail.com>
 	<20191002120027.109242-2-alex.kanavin@gmail.com>
 	<20191002175152.GA14877@localhost>
-In-Reply-To: <20191002175152.GA14877@localhost>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 2 Oct 2019 20:08:08 +0200
-Message-ID: <CANNYZj89n07FE7UEo5DdwCs_q2xUePEh_MZgwZ=uYX1hyRqDnA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
+	<CANNYZj89n07FE7UEo5DdwCs_q2xUePEh_MZgwZ=uYX1hyRqDnA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj89n07FE7UEo5DdwCs_q2xUePEh_MZgwZ=uYX1hyRqDnA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] ethtool, libcap: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,33 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2019 18:08:19 -0000
-Content-Type: multipart/alternative; boundary="00000000000092f62a0593f15a53"
+X-List-Received-Date: Wed, 02 Oct 2019 18:18:23 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---00000000000092f62a0593f15a53
-Content-Type: text/plain; charset="UTF-8"
+On Wed, Oct 02, 2019 at 08:08:08PM +0200, Alexander Kanavin wrote:
+> On Wed, 2 Oct 2019 at 19:51, Adrian Bunk <bunk@stusta.de> wrote:
+> 
+> > Works for me without your patch:
+> 
+> I am not sure what this may mean; but for me the patch definitely solves
+> the problem.
 
-On Wed, 2 Oct 2019 at 19:51, Adrian Bunk <bunk@stusta.de> wrote:
+It means that even without your patch devtool is able to tell me that 
+there is a new upstream version of ethtool available.
 
-> Works for me without your patch:
->
+I was originally wondering whether there is a problem that also affects 
+other users of KERNELORG_MIRROR, and was then surprised that it worked 
+for me without the change the way I tried.
 
-I am not sure what this may mean; but for me the patch definitely solves
-the problem.
+How are you reproducing the problem?
 
-Alex
+> Alex
 
---00000000000092f62a0593f15a53
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+cu
+Adrian
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 2 Oct 2019 at 19:51, Adrian Bunk =
-&lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></di=
-v><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">Works for me without your patch:<br></blockquote><br></div><div class=
-=3D"gmail_quote">I am not sure what this may mean; but for me the patch def=
-initely solves the problem.</div><div class=3D"gmail_quote"><br></div><div =
-class=3D"gmail_quote">Alex<br></div></div>
+-- 
 
---00000000000092f62a0593f15a53--
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
+
