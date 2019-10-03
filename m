@@ -1,42 +1,51 @@
-Return-Path: <michaelcooper81@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B6BA960879
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 993306C37E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Oct 2019 15:36:35 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id u22so2763752qkk.11
+	Thu,  3 Oct 2019 15:59:46 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id r3so3358675wrj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Oct 2019 08:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=CoHQbjz2aOvqi6iSpnSbSfOxCuP03lkDy5AxnttCCRQ=;
-	b=fQcY2Cg0WkWuJKLKgNOtT88tiLCOY++QZQM6Lo9wdsgXjvftq5meoNuQjeAEVw+XjK
-	jl0RhmOkoFt2DVvRG18aXSbRCyrr5l0/6v99BF0frZ4Gnbu/54u6osuFBP0ndxTLWkYg
-	vFvGw8a870ORB7dEa9CjSB9tj/co2SnjOmBpXJ/UpdJ/Yj3xL6TBv0d41A/XONeholzw
-	anOq2iCU53p/qW37q2l8UaqwCi067NduWgOYaZ6d6xCKt6mIQJ7rr90LQhVi4s6EtULM
-	X8Dl1byb58YI/S5L/7EmkogtKWB2DVVCCgtgiU0OAvF9suBMOwoylumoilQs0nmaXE7T
-	eIig==
+	Thu, 03 Oct 2019 08:59:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=AnjpngKiS6Xyo/tiFvX3dbyaYMNMp2jOxjGAPEDOgf4=;
+	b=e5OzjQI+AH32cUkoKqgA2/wRH5DEL8aI9/ok93ngbDXCA9y7CBYYB8feL/tiUiKox2
+	mjU9DAuQ/GoK4ejBa2rOwLp8noGr+ugE3e10V39ErFKG+pWYXWOCikmhJeMOQ6yxLdcq
+	LInIAnwlzVtlWfmnZemPMwawmQQaXYFS/R6Gc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=CoHQbjz2aOvqi6iSpnSbSfOxCuP03lkDy5AxnttCCRQ=;
-	b=o0hy50HPM6G8Ay6bygE+qoay06wvTZK/QRucVA5GsC1igvKtEayfDWNaW7mNHuAB77
-	L/ealAcw8ZQQT29QuFU6NrXLO++k/geZxpEi1+Jv59oSW0+SSGiEeST0SiUO6viwBKCO
-	G1BKfKwkpV5gEkUM/htucBBpNQJ7vgEXubfpZ7DVoY9RINVLYGHj81/sRcrvSiUkJlYt
-	Yly/AiuHJamhVFKekohqaODXq1tkj1UEnio9ZL4tgbK3Yl+cBbpW+3rFbEDhaWbuq+Su
-	frhGf4iGvE/h/MAhTR6iviOHQTksRkELSeKuMJmA+/Hm60vqo4ZAxIL4932Or7bK1Wqp
-	e5YQ==
-X-Gm-Message-State: APjAAAVlZiLCAyheRaw4ElIgvxUpcSVgJVapnjSzijKO82hskv51yXer
-	MFQoZgkkn1XFILlNsZ8PqIP6a+VsPCyjdMj8lu5X/7FjI5QJgvlH
-X-Google-Smtp-Source: APXvYqxisqrkD8B6ddHs8JMH9yMdNGVe0MdZMeDvEVa3Rwvu068hdtrf6GxQnk8ENXI+ztYa39GTVxp6+xSOGYSBEGw=
-X-Received: by 2002:a37:b643:: with SMTP id g64mr4867366qkf.463.1570116996310; 
-	Thu, 03 Oct 2019 08:36:36 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=AnjpngKiS6Xyo/tiFvX3dbyaYMNMp2jOxjGAPEDOgf4=;
+	b=deLGBs+g1c6hbdOsHY9RjqIzlmvHbA5kg9G6C9CLIVfD72wt6FwdEhtxJqz8zObrDt
+	iOvAQ5TTK3YYcsVT4uXnNDHTA9HzKY0PUKZmx0s0/ZG/Z0mb58iQiKXLoPD6Bd9dDiUG
+	Nl0DonPds1qqc4E9WKB6dzfzcjLrzt2CMKMorr1UBkppM3HMB1Tl5t0P0l+spc+mgN31
+	XX1sC+5MHxbpogRf8dOrZw8tp/r7jtbM/70glc9XQntL5npnVMSWQD+AETR9vOQ82HeB
+	CeOBKiYycoNQvt4Ya6PQ/GhJrI+Z71cR9Cwh/T43c4nmKtaDih504hFSSWP9qUeHdYFu
+	i8pQ==
+X-Gm-Message-State: APjAAAWK+Ilvo6bndVpYKEfVNWC8zIKWFk8rDLmAyOtAygWJY3jcapb+
+	FIAMoNtVEIn/rucT5be5WPWBIw==
+X-Google-Smtp-Source: APXvYqwrjdcyRE97xhn/z2FnPR5yBqkZn9ElMe3qJuRsMyAK+hQxVpBanJ8sh/dM3GE+MEmVruXSXA==
+X-Received: by 2002:a5d:6a4b:: with SMTP id t11mr6776262wrw.24.1570118387226; 
+	Thu, 03 Oct 2019 08:59:47 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v16sm3556272wrt.12.2019.10.03.08.59.46
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 03 Oct 2019 08:59:46 -0700 (PDT)
+Message-ID: <daf8cfafd4e22a8a2e91cbf8f53d134281aed2d5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Michael Cooper <michaelcooper81@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 03 Oct 2019 16:59:45 +0100
+In-Reply-To: <CAEaKURdr0+G66Nm4-nOMVn_3yFUBJJAqxdgzovNuf4o9PyZL4A@mail.gmail.com>
+References: <CAEaKURdr0+G66Nm4-nOMVn_3yFUBJJAqxdgzovNuf4o9PyZL4A@mail.gmail.com>
+User-Agent: Evolution 3.34.0-1 
 MIME-Version: 1.0
-From: Michael Cooper <michaelcooper81@gmail.com>
-Date: Thu, 3 Oct 2019 18:36:25 +0300
-Message-ID: <CAEaKURdr0+G66Nm4-nOMVn_3yFUBJJAqxdgzovNuf4o9PyZL4A@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] Fix #13560 - Partition numbering is broken for MBR primary partition #4
+Subject: Re: [PATCH] Fix #13560 - Partition numbering is broken for MBR primary partition #4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,45 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Oct 2019 15:36:35 -0000
+X-List-Received-Date: Thu, 03 Oct 2019 15:59:47 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Bug: When wks describes extra partitions that aren't in the partition
-table (e.g. boot loader) and exactly four primary MBR partitions, the
-last partition gets added to fstab as partition #5 instead of #4.
+On Thu, 2019-10-03 at 18:36 +0300, Michael Cooper wrote:
+> Bug: When wks describes extra partitions that aren't in the partition
+> table (e.g. boot loader) and exactly four primary MBR partitions, the
+> last partition gets added to fstab as partition #5 instead of #4.
+> 
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13560
+> 
+> Signed-off-by: Michael Cooper <michaelcooper81@gmail.com>
+> ---
+>  scripts/lib/wic/plugins/imager/direct.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13560
+Thanks, I've queued this.
 
-Signed-off-by: Michael Cooper <michaelcooper81@gmail.com>
----
- scripts/lib/wic/plugins/imager/direct.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+For reference, your patch arrived line wrapped. It was simple enough I
+could edit that out by hand (been doing this too long, clearly!).
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py
-b/scripts/lib/wic/plugins/imager/direct.py
-index 3ce6ad55b8..2441cc33ad 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -316,6 +316,7 @@ class PartitionedImage():
-         # Size of a sector used in calculations
-         self.sector_size = SECTOR_SIZE
-         self.native_sysroot = native_sysroot
-+        num_real_partitions = len([p for p in self.partitions if not
-p.no_table])
+I also tweaked the shortlog to match our guidelines and tweaked the bug
+number reference to the standard [YOCTO #13560]. I just mention these
+so you can sort next time, thanks for the patch!
 
-         # calculate the real partition number, accounting for partitions not
-         # in the partition table and logical partitions
-@@ -325,7 +326,7 @@ class PartitionedImage():
-                 part.realnum = 0
-             else:
-                 realnum += 1
--                if self.ptable_format == 'msdos' and realnum > 3 and
-len(partitions) > 4:
-+                if self.ptable_format == 'msdos' and realnum > 3 and
-num_real_partitions > 4:
-                     part.realnum = realnum + 1
-                     continue
-                 part.realnum = realnum
--- 
-2.17.1
+Cheers,
+
+Richard
+
 
