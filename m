@@ -1,51 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 993306C37E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Oct 2019 15:59:46 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id r3so3358675wrj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Oct 2019 08:59:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=AnjpngKiS6Xyo/tiFvX3dbyaYMNMp2jOxjGAPEDOgf4=;
-	b=e5OzjQI+AH32cUkoKqgA2/wRH5DEL8aI9/ok93ngbDXCA9y7CBYYB8feL/tiUiKox2
-	mjU9DAuQ/GoK4ejBa2rOwLp8noGr+ugE3e10V39ErFKG+pWYXWOCikmhJeMOQ6yxLdcq
-	LInIAnwlzVtlWfmnZemPMwawmQQaXYFS/R6Gc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=AnjpngKiS6Xyo/tiFvX3dbyaYMNMp2jOxjGAPEDOgf4=;
-	b=deLGBs+g1c6hbdOsHY9RjqIzlmvHbA5kg9G6C9CLIVfD72wt6FwdEhtxJqz8zObrDt
-	iOvAQ5TTK3YYcsVT4uXnNDHTA9HzKY0PUKZmx0s0/ZG/Z0mb58iQiKXLoPD6Bd9dDiUG
-	Nl0DonPds1qqc4E9WKB6dzfzcjLrzt2CMKMorr1UBkppM3HMB1Tl5t0P0l+spc+mgN31
-	XX1sC+5MHxbpogRf8dOrZw8tp/r7jtbM/70glc9XQntL5npnVMSWQD+AETR9vOQ82HeB
-	CeOBKiYycoNQvt4Ya6PQ/GhJrI+Z71cR9Cwh/T43c4nmKtaDih504hFSSWP9qUeHdYFu
-	i8pQ==
-X-Gm-Message-State: APjAAAWK+Ilvo6bndVpYKEfVNWC8zIKWFk8rDLmAyOtAygWJY3jcapb+
-	FIAMoNtVEIn/rucT5be5WPWBIw==
-X-Google-Smtp-Source: APXvYqwrjdcyRE97xhn/z2FnPR5yBqkZn9ElMe3qJuRsMyAK+hQxVpBanJ8sh/dM3GE+MEmVruXSXA==
-X-Received: by 2002:a5d:6a4b:: with SMTP id t11mr6776262wrw.24.1570118387226; 
-	Thu, 03 Oct 2019 08:59:47 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	v16sm3556272wrt.12.2019.10.03.08.59.46
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 03 Oct 2019 08:59:46 -0700 (PDT)
-Message-ID: <daf8cfafd4e22a8a2e91cbf8f53d134281aed2d5.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Michael Cooper <michaelcooper81@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 03 Oct 2019 16:59:45 +0100
-In-Reply-To: <CAEaKURdr0+G66Nm4-nOMVn_3yFUBJJAqxdgzovNuf4o9PyZL4A@mail.gmail.com>
-References: <CAEaKURdr0+G66Nm4-nOMVn_3yFUBJJAqxdgzovNuf4o9PyZL4A@mail.gmail.com>
-User-Agent: Evolution 3.34.0-1 
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 617676C37E;
+	Thu,  3 Oct 2019 16:01:59 +0000 (UTC)
 MIME-Version: 1.0
-Subject: Re: [PATCH] Fix #13560 - Partition numbering is broken for MBR primary partition #4
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Michael Cooper <michaelcooper81@gmail.com>
+Date: Thu, 03 Oct 2019 16:02:00 -0000
+Message-ID: <20191003160200.2330.79641@do>
+References: <CAEaKURdr0+G66Nm4-nOMVn_3yFUBJJAqxdgzovNuf4o9PyZL4A@mail.gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <CAEaKURdr0+G66Nm4-nOMVn_3yFUBJJAqxdgzovNuf4o9PyZL4A@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4ICMxMzU2MCAtIFBhcnRpdGlvbiBudW1iZXJpbmcgaXMgYnJva2VuIGZvciBNQlIgcHJpbWFyeSBwYXJ0aXRpb24gIzQ=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +25,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Oct 2019 15:59:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 03 Oct 2019 16:01:59 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-10-03 at 18:36 +0300, Michael Cooper wrote:
-> Bug: When wks describes extra partitions that aren't in the partition
-> table (e.g. boot loader) and exactly four primary MBR partitions, the
-> last partition gets added to fstab as partition #5 instead of #4.
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13560
-> 
-> Signed-off-by: Michael Cooper <michaelcooper81@gmail.com>
-> ---
->  scripts/lib/wic/plugins/imager/direct.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+== Series Details ==
 
-Thanks, I've queued this.
+Series: Fix #13560 - Partition numbering is broken for MBR primary partition #4
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20282/
+State : failure
 
-For reference, your patch arrived line wrapped. It was simple enough I
-could edit that out by hand (been doing this too long, clearly!).
+== Summary ==
 
-I also tweaked the shortlog to match our guidelines and tweaked the bug
-number reference to the standard [YOCTO #13560]. I just mention these
-so you can sort next time, thanks for the patch!
 
-Cheers,
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Richard
+
+
+* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
+  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
+  Diff line        @@ -325,7 +326,7 @@ class PartitionedImage():
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 520c6f30cd)
+
+* Patch            Fix #13560 - Partition numbering is broken for MBR primary partition #4
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
