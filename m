@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 375DC603FE;
-	Thu,  3 Oct 2019 21:02:17 +0000 (UTC)
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 968186C106
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 Oct 2019 22:45:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x93MjiZr014933
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 3 Oct 2019 15:45:44 -0700 (PDT)
+Received: from yow-tgamblin-lx.wrs.com (128.224.20.237) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 3 Oct 2019 15:45:44 -0700
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 3 Oct 2019 18:45:43 -0400
+Message-ID: <20191003224543.5892-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Muminul Islam <misla011@fiu.edu>
-Date: Thu, 03 Oct 2019 21:02:18 -0000
-Message-ID: <20191003210218.2332.41554@do>
-References: <20191003204318.15377-1-muislam@microsoft.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20191003204318.15377-1-muislam@microsoft.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlic29sdjogU2VjdXJpdHkgZml4IGZvciBDVkVzOiA8Q1ZFLTIwMTgtMjA1MzIsIENWRS0yMDE4LTIwNTMzLCBDVkUtMjAxOC0yMDUzND4gKHJldjIp?=
+Subject: [PATCH] lib/oe/terminal.py: fix gnome-terminal start behavior
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,50 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Oct 2019 21:02:17 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 Oct 2019 22:45:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+[Bugzilla Bug 13201] -- https://bugzilla.yoctoproject.org/show_bug.cgi?id=13201
 
-Series: libsolv: Security fix for CVEs: <CVE-2018-20532, CVE-2018-20533, CVE-2018-20534> (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/20084/
-State : failure
+Newer versions of gnome-terminal (3.32.0 and up) are not starting
+as expected for commands e.g. "bitbake -c devshell zlib". This
+manifests as the instance appearing as a new tab rather than a
+new window. Fix this (and maintain new window preferred behavior)
+by changing the "-x" option to "--" as per the warning message,
+avoiding deprecated options:
 
-== Summary ==
+    # Option “--command” is deprecated and might be removed in a later version of gnome-terminal.
+    # Use “-- ” to terminate the options and put the command line to execute after it.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [thud, v2] libsolv: Security fix for CVEs: <CVE-2018-20532, CVE-2018-20533, CVE-2018-20534>
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-extended/libsolv/libsolv/0003-Fix-Dereference-of-null-pointer.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-extended/libsolv/libsolv/0003-Fix-Dereference-of-null-pointer.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/lib/oe/terminal.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 9bda3efdc7..a1daa2bed6 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -55,7 +55,7 @@ class XTerminal(Terminal):
+             raise UnsupportedTerminal(self.name)
+ 
+ class Gnome(XTerminal):
+-    command = 'gnome-terminal -t "{title}" -x {command}'
++    command = 'gnome-terminal -t "{title}" -- {command}'
+     priority = 2
+ 
+     def __init__(self, sh_cmd, title=None, env=None, d=None):
+-- 
+2.17.1
 
 
