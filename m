@@ -1,54 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 203A475E80
+Return-Path: <michaelcooper81@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B6BA960879
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Oct 2019 14:25:07 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id p14so2134952wro.4
+	Thu,  3 Oct 2019 15:36:35 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id u22so2763752qkk.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Oct 2019 07:25:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=+7Vtc1o+1O0Ov33ouigVWVN8OubpjX6gqB/DVBIE+mg=;
-	b=XmQ92EXBimwwf0jngGQa9vJQkvihioWS1h10/EraemTq/ARIgveCYH8Sf2gitFs0Wk
-	ZY0FzHrFLZBnQgwP9t0OdYKJ6onUm/0FY50blf7hWfP154xNlgo1A4W6zGNxl8CfFLYK
-	oBRZUs8oHfCZw5eex0+F5IsqOxe9gvZGzX7YY=
+	Thu, 03 Oct 2019 08:36:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=CoHQbjz2aOvqi6iSpnSbSfOxCuP03lkDy5AxnttCCRQ=;
+	b=fQcY2Cg0WkWuJKLKgNOtT88tiLCOY++QZQM6Lo9wdsgXjvftq5meoNuQjeAEVw+XjK
+	jl0RhmOkoFt2DVvRG18aXSbRCyrr5l0/6v99BF0frZ4Gnbu/54u6osuFBP0ndxTLWkYg
+	vFvGw8a870ORB7dEa9CjSB9tj/co2SnjOmBpXJ/UpdJ/Yj3xL6TBv0d41A/XONeholzw
+	anOq2iCU53p/qW37q2l8UaqwCi067NduWgOYaZ6d6xCKt6mIQJ7rr90LQhVi4s6EtULM
+	X8Dl1byb58YI/S5L/7EmkogtKWB2DVVCCgtgiU0OAvF9suBMOwoylumoilQs0nmaXE7T
+	eIig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=+7Vtc1o+1O0Ov33ouigVWVN8OubpjX6gqB/DVBIE+mg=;
-	b=B0JrnQMabKrG0vILz00a5TZa30qngequAbe6+jpaZKTB7/JjH0tubhQxRBEEoZM7lz
-	I3KTtRv3pyNQO/EpxAEUEodzJ1ycXdz4o19L4yiv2umT8DQguqMzMgHFxFfvkZBDjVsL
-	ifiXu/aqfy5HxsZ4SUNsDXoDU7dz3bUmYnCMVPtxysjEpgMFjhFuagypOulmQiwOgNC/
-	sqIzCgSSV+vf5l0XTefXpzSGm21xhd+GiNL1KRb9fZyTe7XOyGKrj9aTouyg5fdUoSG5
-	IJQByq/ZmvoX9ztpQ5v5JfZvBXyAN9nAzbUS/MzZH44MhPVJGhFXeve/nCIloWC4ouFK
-	FIbg==
-X-Gm-Message-State: APjAAAXMu+Jy0Nza1Go3ZWmzUCoOco01acogGEv4HQWx8m8ntQy+Uztq
-	ebd1fV0r52NEhOFDLTPyNIjTIA==
-X-Google-Smtp-Source: APXvYqyuY9dxAhPCbZG8zgkrozc03S1XKzSew9yIzLYJQEZZukOjjU/ntdmQo72J7kiC6iMmMlOatg==
-X-Received: by 2002:adf:eb8d:: with SMTP id t13mr6740750wrn.53.1570112708740; 
-	Thu, 03 Oct 2019 07:25:08 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o188sm6489646wma.14.2019.10.03.07.25.07
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 03 Oct 2019 07:25:07 -0700 (PDT)
-Message-ID: <d1aa8e89345aee537ebe751a6be65db92002e325.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Konrad Scherer <Konrad.Scherer@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 03 Oct 2019 15:25:06 +0100
-In-Reply-To: <eecb2354c35a8a2c788b1cc919339e7931619dd9.camel@linuxfoundation.org>
-References: <20190927185642.29251-1-konrad.scherer@windriver.com>
-	<4ad724ca50b35e495d2eae800edd83c60b7128bf.camel@linuxfoundation.org>
-	<34a7db7f-83b3-f51f-9628-615762b44e91@windriver.com>
-	<eecb2354c35a8a2c788b1cc919339e7931619dd9.camel@linuxfoundation.org>
-User-Agent: Evolution 3.34.0-1 
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=CoHQbjz2aOvqi6iSpnSbSfOxCuP03lkDy5AxnttCCRQ=;
+	b=o0hy50HPM6G8Ay6bygE+qoay06wvTZK/QRucVA5GsC1igvKtEayfDWNaW7mNHuAB77
+	L/ealAcw8ZQQT29QuFU6NrXLO++k/geZxpEi1+Jv59oSW0+SSGiEeST0SiUO6viwBKCO
+	G1BKfKwkpV5gEkUM/htucBBpNQJ7vgEXubfpZ7DVoY9RINVLYGHj81/sRcrvSiUkJlYt
+	Yly/AiuHJamhVFKekohqaODXq1tkj1UEnio9ZL4tgbK3Yl+cBbpW+3rFbEDhaWbuq+Su
+	frhGf4iGvE/h/MAhTR6iviOHQTksRkELSeKuMJmA+/Hm60vqo4ZAxIL4932Or7bK1Wqp
+	e5YQ==
+X-Gm-Message-State: APjAAAVlZiLCAyheRaw4ElIgvxUpcSVgJVapnjSzijKO82hskv51yXer
+	MFQoZgkkn1XFILlNsZ8PqIP6a+VsPCyjdMj8lu5X/7FjI5QJgvlH
+X-Google-Smtp-Source: APXvYqxisqrkD8B6ddHs8JMH9yMdNGVe0MdZMeDvEVa3Rwvu068hdtrf6GxQnk8ENXI+ztYa39GTVxp6+xSOGYSBEGw=
+X-Received: by 2002:a37:b643:: with SMTP id g64mr4867366qkf.463.1570116996310; 
+	Thu, 03 Oct 2019 08:36:36 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [master][PATCH] gen-lockedsig-cache: Replace glob lookup with hash to filename lookup
+From: Michael Cooper <michaelcooper81@gmail.com>
+Date: Thu, 3 Oct 2019 18:36:25 +0300
+Message-ID: <CAEaKURdr0+G66Nm4-nOMVn_3yFUBJJAqxdgzovNuf4o9PyZL4A@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Fix #13560 - Partition numbering is broken for MBR primary partition #4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,47 +49,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Oct 2019 14:25:08 -0000
+X-List-Received-Date: Thu, 03 Oct 2019 15:36:35 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-10-02 at 16:25 +0100, richard.purdie@linuxfoundation.org
-wrote:
-> I've queued such a patch in master-next and am testing, its an
-> improvement but I'm worried its not resolving the problem.
-> 
-> Options are to prune the sstate cache, or to teach the code to
-> generate
-> the full filenames (would mean refactoring)...
-> 
-> We could give you access to the autobuilder to help reproduce the
-> problem but I think its clear where the delays are...
+Bug: When wks describes extra partitions that aren't in the partition
+table (e.g. boot loader) and exactly four primary MBR partitions, the
+last partition gets added to fstab as partition #5 instead of #4.
 
-We've cleaned out the sstate on the autobuilder to try and reduce the
-impact of this issue as this patch, whilst helping, didn't solve the
-problem.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13560
 
-I'm wondering about a different approach.
+Signed-off-by: Michael Cooper <michaelcooper81@gmail.com>
+---
+ scripts/lib/wic/plugins/imager/direct.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/scripts/lib/wic/plugins/imager/direct.py
+b/scripts/lib/wic/plugins/imager/direct.py
+index 3ce6ad55b8..2441cc33ad 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -316,6 +316,7 @@ class PartitionedImage():
+         # Size of a sector used in calculations
+         self.sector_size = SECTOR_SIZE
+         self.native_sysroot = native_sysroot
++        num_real_partitions = len([p for p in self.partitions if not
+p.no_table])
 
-Just to elaborate on what teaching the code would entail, as well as
-using the 'hashfn' data as part of the hash validate function in from
-runqueue.py:
-
-sq_data['hashfn'][tid] = self.rqdata.dataCaches[mc].hashfn[taskfn]
-
-we could inject that data into BB_TASKDEPDATA. If we did that, the
-oecore code could probably create the full sstate tasknames for the
-tasks it needs using logic extracted out of sstate_checkhashes() from
-sstate.bbclass.
-
-This would mean the script wouldn't have to guess at filenames, it
-could access them directly.
-
-Worth some further thought...
-
-Cheers,
-
-Richard
-
+         # calculate the real partition number, accounting for partitions not
+         # in the partition table and logical partitions
+@@ -325,7 +326,7 @@ class PartitionedImage():
+                 part.realnum = 0
+             else:
+                 realnum += 1
+-                if self.ptable_format == 'msdos' and realnum > 3 and
+len(partitions) > 4:
++                if self.ptable_format == 'msdos' and realnum > 3 and
+num_real_partitions > 4:
+                     part.realnum = realnum + 1
+                     continue
+                 part.realnum = realnum
+-- 
+2.17.1
 
