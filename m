@@ -1,42 +1,52 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DAB86C0C0
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 857BD7CBDF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Oct 2019 17:01:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46kfRp3g1Fz4s;
-	Thu,  3 Oct 2019 19:01:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1570122102;
-	bh=/QS7r9B4cQzfk6m6fWtwrY2Ncb8rE4HCMEDclYuO9ug=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JcaLy/I0VXnqYK5kJmEddkMGGyv/sBgNkXXMjsnk80EO1KdPiJ1/6Tp9RrCK8FZTO
-	1D0HGbVcvI4mtagJxG0XhAW6Nt3nnxtPI1lRiNKBFsDMhPoTsiyW345gQoVh4XQjSm
-	BkumTzhWosmLDY3xr1BTp2l9Qf6mZBP4E59QGnKMScMpXHnNig2hps0nrOAF1IB+4w
-	XO97//sKJjQGz3lbfopJ97dqpiBHAT9+bqTqBfnXZtc/7YZhtNJNu4fnE9zB6XLyXO
-	rKkSa+Eygft0fPet4BStm7xF2nP4+hSFM+GH1EznA/2vFWJzPIwZTbghvaceVtRdXH
-	Sdl4YeebnsL7JV2kkwZ1JVXwgIvCAL3au4b9VtsSUdlKHTJ5Trrka4Z1m4AfZTIdia
-	gY3R1UQQXOQ4KO20WOqpbm7FcKtR52zJf6lohMzLEev5lL+b6tjwUCuaM184DYU3iI
-	zh8F+y6f90a6l/EJSvGj269Al3b/HWHZNTcVq1PjfYmV0LkbnoZXi4MWZTxRrbVC31
-	ze8dMrhfXMN4U7nosatISKVnBGwRiaXGnTvzIaKCv2EHbjKahEbYn6dy6NnSK2pmQn
-	8dg5wKjkho3bDa/u9eMreHUgl9i8mtB+8AwzJCX7uPupMpxHM5hxYaKkvub69L7axo
-	Ck5aKR+u1wUmJsANlsHMVmoU=
-Date: Thu, 3 Oct 2019 20:01:40 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20191003170140.GA1202@localhost>
-References: <20191002120027.109242-1-alex.kanavin@gmail.com>
-	<20191002120027.109242-2-alex.kanavin@gmail.com>
-	<20191002175152.GA14877@localhost>
-	<CANNYZj89n07FE7UEo5DdwCs_q2xUePEh_MZgwZ=uYX1hyRqDnA@mail.gmail.com>
-	<20191002181821.GB14877@localhost>
-	<CANNYZj8W=Ugu8sRctN3aO1mwSrijDBWLONhFiT4aYrMjRygabw@mail.gmail.com>
-	<20191002202001.GB18433@localhost>
+	Thu,  3 Oct 2019 17:18:30 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id g13so2971552otp.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Oct 2019 10:18:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=oCmKRXbGIGOb4CUZKbl/jVH24cSrXTn95D6XsRi1zWw=;
+	b=faOR4g8wjdcX5TdievPs7W4IDk9OBOHpr3FyKEVXFMh+b6OtWFJac6fx/V9WnNAsUm
+	cJhXV2h7HrdfZc7CP725fzLXVfE9HkLO5aAA1iA0TGPZ/VfLiTJTpyW13Q/hy0A+hOQ1
+	fGIlFBJQNCrkcitF6G01wD/sZ0udqnki+8oAmmIty+lrnoZhgyHWfkvvPR7Q5cElAqsR
+	sKVk2DO5FSRoWKzFMQKVf03svMbJg1VDvV2WhQwkp0Mhg2Bd4BmSJyeK+xopIEMFnFky
+	yBuUL00YZP8xX257TIOyeTlBDDkctekrvjG/PzXgLCWpXlCcjBMi+NEwEZFnnEu/6frx
+	xsaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=oCmKRXbGIGOb4CUZKbl/jVH24cSrXTn95D6XsRi1zWw=;
+	b=uR62qSLoSIxYKlMNgg7PF/rVYsL3s+qR8AFvJlWdnOPD7dxJXaZQ/fL1rSvA3WsKs/
+	ChP5jJGQETuI1Ha0ZU/TUGg65SEL+0jCqPzuWlkBO+ZDiSqGXUi4w2GOBtrQYhlpN16e
+	sGj8PKqVGoprKbIXMYjRZ8D2KsIHhEg4/MVyY+jv879KLDSZdrDIfQlR4VDu1Y1PE/ey
+	vGbrRLYjdPojxtCxLn0neu7lVC2RpPijdjaOGgSlwv5oM3oohzQqaXew0jf+5lNuXdrM
+	d59C8lQFo/iAUZxY+S9QE/EGukk1SJLgQkogb4C64Ib9GHM16j/2amOOQ9uRVSQfoalV
+	G3dw==
+X-Gm-Message-State: APjAAAVbmn3IOdAwvqltWA+QaSNCLl3E3LqMcmNIUR26OXI1P/0Mo6Hj
+	c8G0793wBF6j8qraEiJEm3AD/WRMwtY=
+X-Google-Smtp-Source: APXvYqw51m/4YvfxYGNZE3nqezO5RM5EWHjfAukiUI3iV4Qpx5S4OKfr1qNyUsdJEccrT1HT6x7z8w==
+X-Received: by 2002:a05:6830:86:: with SMTP id
+	a6mr3576294oto.353.1570123110972; 
+	Thu, 03 Oct 2019 10:18:30 -0700 (PDT)
+Received: from nick-bbestie.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id y16sm906228otg.7.2019.10.03.10.18.28
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 03 Oct 2019 10:18:29 -0700 (PDT)
+From: Nicola Lunghi <nick83ola@gmail.com>
+X-Google-Original-From: Nicola Lunghi <nicola.lunghi@jci.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Oct 2019 18:18:16 +0100
+Message-Id: <20191003171815.26731-1-nicola.lunghi@jci.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191002202001.GB18433@localhost>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] ethtool, libcap: fix upstream version check
+Cc: Nicola Lunghi <nicola.lunghi@jci.com>
+Subject: [meta][PATCH] ofono: convert recipe to use git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,27 +59,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Oct 2019 17:01:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 03 Oct 2019 17:18:30 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 02, 2019 at 11:20:01PM +0300, Adrian Bunk wrote:
->...
-> I sent an email to Fastly support, let's see if they will answer.
+From: Nicola Lunghi <nick83ola@gmail.com>
 
-This is something that has to be fixed at the kernel.org side (see [1]),
-my ticket for that is Linux Foundation RT #80134.
+ofono has a git repository available.
+Use that instead of the KERNELORG_MIRROR
 
-cu
-Adrian
+Signed-off-by: Nicola Lunghi <nicola.lunghi@jci.com>
+---
+ meta/recipes-connectivity/ofono/ofono.inc     | 4 +++-
+ meta/recipes-connectivity/ofono/ofono_1.30.bb | 3 +--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-[1] https://www.fastly.com/blog/best-practices-using-vary-header
-
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index bbf31c3a9d..63f97a97d7 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -7,10 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+ DEPENDS = "dbus glib-2.0 udev mobile-broadband-provider-info ell"
+ 
+ SRC_URI = "\
+-    ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
++    git://git.kernel.org/pub/scm/network/ofono/ofono.git \
+     file://ofono \
+ "
+ 
++S = "${WORKDIR}/git"
++
+ inherit autotools pkgconfig update-rc.d systemd gobject-introspection-data
+ 
+ INITSCRIPT_NAME = "ofono"
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.30.bb b/meta/recipes-connectivity/ofono/ofono_1.30.bb
+index 71c33e1287..37cc0c79d0 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.30.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.30.bb
+@@ -3,5 +3,4 @@ require ofono.inc
+ SRC_URI_append = " \
+     file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch \
+ "
+-SRC_URI[md5sum] = "2b1ce11a4db1f4b5c8cd96eb7e96ba0c"
+-SRC_URI[sha256sum] = "8079735efc5d7f33be9e792e791f2f7ff75c31ce67d477b994673e32319eec5c"
++SRCREV = "c1de25bcb4541ee4c69cbd31baea681025df43ed"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.20.1
 
 
