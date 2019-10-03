@@ -1,53 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 92BCF605BA
+Return-Path: <acj@cisco.com>
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+	by mail.openembedded.org (Postfix) with ESMTP id 411F27C5C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Oct 2019 04:23:01 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id f21so850079plj.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Oct 2019 21:23:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=1AZ0HNsgNdT//kBGhhIJr2VSc0BzdX6XZnE6NrrNQ7c=;
-	b=PAd3sAE58jP4S+15S9lFCQzSi+2uyppuI7jMkavc1anyVhEuuuNLV22VPdHQzjgS2U
-	4mxB4FKUpk6n1QFkDvlgmkTyias3ywmOuCj2/couPSWnCO+MJhlVtW++El9D3S6AGCXv
-	fd0Moz/RAs+xP8uOXBt64o72f7uqdqF61bttuJ8emx4A8Cap0dNyXm5k9Uq33z/Hv4x/
-	F9O0sEp4ITw55irxu6sznMhTVsK+kuHpRLE1jF7DqlBGkWChfykDbMr+Eh44SeqjM+Gc
-	2JJsh9cRexp+pa5uGpUGGD/irsf6Py05u+p/auKgb8dLm7ZjEBu6XFhivjLk/JZ02hBi
-	nmPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=1AZ0HNsgNdT//kBGhhIJr2VSc0BzdX6XZnE6NrrNQ7c=;
-	b=XU3b3pGLgdnH6lWC4zN8ckPuoXD9YeqfegpWsKUPaAgv1SVRgKBf44LGwb2Na/uQnF
-	rvRCQl72fksZS85qf0xRph6hhvjH2FDUSRsfeaeubM3DTvtRtWJ13u5wI6XVnskvql+s
-	hwkpjQdq/cB74HpPreLBCRyUVYl0Ey0Pp6SF6DtKdmOCWuxEIKhKREJNZwq6t/OeQ+zi
-	Staw/7P5kTzQjE5HU8PgYGbGp6yf+3ipvxUq27zVQjh05pREAE+iKWiuGqgj1ITkfsem
-	5oShzIS78KCue4CN944tFgWnoy+nnWEjLixm2d2dlYHwsNwqILABE//2XpeEtrPOfVcL
-	yqMQ==
-X-Gm-Message-State: APjAAAWYJJbKniOT8lV6BR7UKutxsjJDNce5Uek0R9bvWUC2Tvkb2Phd
-	ZRu8awVwQtlKOnwrc1ITAMykpNpfa+k=
-X-Google-Smtp-Source: APXvYqxaV8OdLJCiMapOJJnUtJReBHgwnAahMvH+3KhlHwCTqhxtzeCzC7lGfGBO4pJ3ilKt5+qEZw==
-X-Received: by 2002:a17:902:7045:: with SMTP id
-	h5mr7376876plt.161.1570076582349; 
-	Wed, 02 Oct 2019 21:23:02 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net (c-73-71-176-3.hsd1.ca.comcast.net.
-	[73.71.176.3]) by smtp.gmail.com with ESMTPSA id
-	e6sm1002856pfl.146.2019.10.02.21.23.01
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 02 Oct 2019 21:23:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Oct 2019 21:22:49 -0700
-Message-Id: <20191003042249.2147767-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191003042249.2147767-1-raj.khem@gmail.com>
-References: <20191003042249.2147767-1-raj.khem@gmail.com>
+	Thu,  3 Oct 2019 06:07:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=8424; q=dns/txt; s=iport;
+	t=1570082858; x=1571292458;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=PL9LUCJohjJaQtkAn5UYp6JiOTyrp2eHIhO1XYVV9tA=;
+	b=WcQZ5BCdgvHYuHBsGoBEFDTbhMhC9x8RI+abyS1VUzDqJ5oOg9A0wLcm
+	jxAnS4u6aT+XF/q4+fB7D+FZbr+S9Ib8ZyuADao+mTB4YnsTST9zKdxFX
+	z8fAfevWCdGjtz2s4wJTFRJgzx+WXBe7/Y1dJ0T2QPKlppPNtnwzSUYyT I=;
+X-IronPort-AV: E=Sophos;i="5.67,251,1566864000"; d="scan'208";a="627535519"
+Received: from alln-core-9.cisco.com ([173.36.13.129])
+	by rcdn-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	03 Oct 2019 06:07:37 +0000
+Received: from sjc-ads-7483.cisco.com (sjc-ads-7483.cisco.com [10.30.221.19])
+	by alln-core-9.cisco.com (8.15.2/8.15.2) with ESMTP id
+	x9367bxL002009; Thu, 3 Oct 2019 06:07:37 GMT
+Received: by sjc-ads-7483.cisco.com (Postfix, from userid 838444)
+	id 4B19915BE; Wed,  2 Oct 2019 23:07:37 -0700 (PDT)
+From: Aviraj CJ <acj@cisco.com>
+To: openembedded-core@lists.openembedded.org, xe-linux-external@cisco.com
+Date: Wed,  2 Oct 2019 23:07:35 -0700
+Message-Id: <20191003060735.1174-1-acj@cisco.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] qemu: Add ppc64 to QEMU_TARGETS
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.30.221.19, sjc-ads-7483.cisco.com
+X-Outbound-Node: alln-core-9.cisco.com
+Cc: Aviraj CJ <acj@cisco.com>
+Subject: [PATCH] [thud] wget: Security fixes CVE-2018-20483
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,30 +44,251 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Oct 2019 04:23:01 -0000
+X-List-Received-Date: Thu, 03 Oct 2019 06:07:37 -0000
 Content-Transfer-Encoding: 8bit
 
-helps with qemuppc target
+Source: http://git.savannah.gnu.org/cgit/wget.git/
+Type: Security Fix
+Disposition: Backport from http://git.savannah.gnu.org/cgit/wget.git/
+Description:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Fixes CVE-2018-20483
+
+Signed-off-by: Aviraj CJ <acj@cisco.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../wget/wget/CVE-2018-20483_p1.patch         |  73 ++++++++++
+ .../wget/wget/CVE-2018-20483_p2.patch         | 127 ++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.19.5.bb     |   2 +
+ 3 files changed, 202 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2018-20483_p1.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2018-20483_p2.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index de21d30732..551b49ac0a 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -53,7 +53,7 @@ do_install_ptest() {
- }
+diff --git a/meta/recipes-extended/wget/wget/CVE-2018-20483_p1.patch b/meta/recipes-extended/wget/wget/CVE-2018-20483_p1.patch
+new file mode 100644
+index 0000000000..cbc4a127a8
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget/CVE-2018-20483_p1.patch
+@@ -0,0 +1,73 @@
++From 6c5471e4834aebd7359d88b760b087136473bac8 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
++Date: Wed, 26 Dec 2018 13:51:48 +0100
++Subject: [PATCH 1/2] Don't use extended attributes (--xattr) by default
++
++* src/init.c (defaults): Set enable_xattr to false by default
++* src/main.c (print_help): Reverse option logic of --xattr
++* doc/wget.texi: Add description for --xattr
++
++Users may not be aware that the origin URL and Referer are saved
++including credentials, and possibly access tokens within
++the urls.
++
++CVE: CVE-2018-20483 patch 1
++Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/wget.git/commit/?id=c125d24762962d91050d925fbbd9e6f30b2302f8]
++Signed-off-by: Aviraj CJ <acj@cisco.com>
++---
++ doc/wget.texi | 8 ++++++++
++ src/init.c    | 4 ----
++ src/main.c    | 2 +-
++ 3 files changed, 9 insertions(+), 5 deletions(-)
++
++diff --git a/doc/wget.texi b/doc/wget.texi
++index eaf6b380..3f9d7c1c 100644
++--- a/doc/wget.texi
+++++ b/doc/wget.texi
++@@ -540,6 +540,14 @@ right NUMBER.
++ Set preferred location for Metalink resources. This has effect if multiple
++ resources with same priority are available.
++ 
+++@cindex xattr
+++@item --xattr
+++Enable use of file system's extended attributes to save the
+++original URL and the Referer HTTP header value if used.
+++
+++Be aware that the URL might contain private information like
+++access tokens or credentials.
+++
++ 
++ @cindex force html
++ @item -F
++diff --git a/src/init.c b/src/init.c
++index eb81ab47..800970c5 100644
++--- a/src/init.c
+++++ b/src/init.c
++@@ -509,11 +509,7 @@ defaults (void)
++   opt.hsts = true;
++ #endif
++ 
++-#ifdef ENABLE_XATTR
++-  opt.enable_xattr = true;
++-#else
++   opt.enable_xattr = false;
++-#endif
++ }
++ 
++ /* Return the user's home directory (strdup-ed), or NULL if none is
++diff --git a/src/main.c b/src/main.c
++index 81db9319..6ac1621b 100644
++--- a/src/main.c
+++++ b/src/main.c
++@@ -754,7 +754,7 @@ Download:\n"),
++ #endif
++ #ifdef ENABLE_XATTR
++     N_("\
++-       --no-xattr                  turn off storage of metadata in extended file attributes\n"),
+++       --xattr                     turn on storage of metadata in extended file attributes\n"),
++ #endif
++     "\n",
++ 
++-- 
++2.19.1
++
+diff --git a/meta/recipes-extended/wget/wget/CVE-2018-20483_p2.patch b/meta/recipes-extended/wget/wget/CVE-2018-20483_p2.patch
+new file mode 100644
+index 0000000000..72ce8a0b33
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget/CVE-2018-20483_p2.patch
+@@ -0,0 +1,127 @@
++From 5a4ee4f3c07cc5dc7ef5f7244fcf51fd2fa3bc67 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
++Date: Wed, 26 Dec 2018 14:38:18 +0100
++Subject: [PATCH 2/2] Don't save user/pw with --xattr
++
++Also the Referer info is reduced to scheme+host+port.
++
++* src/ftp.c (getftp): Change params of set_file_metadata()
++* src/http.c (gethttp): Change params of set_file_metadata()
++* src/xattr.c (set_file_metadata): Remove user/password from origin URL,
++  reduce Referer value to scheme/host/port.
++* src/xattr.h: Change prototype of set_file_metadata()
++
++CVE: CVE-2018-20483 patch 2
++Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/wget.git/commit/?id=3cdfb594cf75f11cdbb9702ac5e856c332ccacfa]
++Signed-off-by: Aviraj CJ <acj@cisco.com>
++---
++ src/ftp.c   |  2 +-
++ src/http.c  |  4 ++--
++ src/xattr.c | 24 ++++++++++++++++++++----
++ src/xattr.h |  3 ++-
++ 4 files changed, 25 insertions(+), 8 deletions(-)
++
++diff --git a/src/ftp.c b/src/ftp.c
++index 69148936..db8a6267 100644
++--- a/src/ftp.c
+++++ b/src/ftp.c
++@@ -1580,7 +1580,7 @@ Error in server response, closing control connection.\n"));
++ 
++ #ifdef ENABLE_XATTR
++   if (opt.enable_xattr)
++-    set_file_metadata (u->url, NULL, fp);
+++    set_file_metadata (u, NULL, fp);
++ #endif
++ 
++   fd_close (local_sock);
++diff --git a/src/http.c b/src/http.c
++index 77bdbbed..472c328f 100644
++--- a/src/http.c
+++++ b/src/http.c
++@@ -4120,9 +4120,9 @@ gethttp (const struct url *u, struct url *original_url, struct http_stat *hs,
++   if (opt.enable_xattr)
++     {
++       if (original_url != u)
++-        set_file_metadata (u->url, original_url->url, fp);
+++        set_file_metadata (u, original_url, fp);
++       else
++-        set_file_metadata (u->url, NULL, fp);
+++        set_file_metadata (u, NULL, fp);
++     }
++ #endif
++ 
++diff --git a/src/xattr.c b/src/xattr.c
++index 66524226..0f20fadf 100644
++--- a/src/xattr.c
+++++ b/src/xattr.c
++@@ -21,6 +21,7 @@
++ #include <string.h>
++ 
++ #include "log.h"
+++#include "utils.h"
++ #include "xattr.h"
++ 
++ #ifdef USE_XATTR
++@@ -57,7 +58,7 @@ write_xattr_metadata (const char *name, const char *value, FILE *fp)
++ #endif /* USE_XATTR */
++ 
++ int
++-set_file_metadata (const char *origin_url, const char *referrer_url, FILE *fp)
+++set_file_metadata (const struct url *origin_url, const struct url *referrer_url, FILE *fp)
++ {
++   /* Save metadata about where the file came from (requested, final URLs) to
++    * user POSIX Extended Attributes of retrieved file.
++@@ -67,13 +68,28 @@ set_file_metadata (const char *origin_url, const char *referrer_url, FILE *fp)
++    * [http://0pointer.de/lennart/projects/mod_mime_xattr/].
++    */
++   int retval = -1;
+++  char *value;
++ 
++   if (!origin_url || !fp)
++     return retval;
++ 
++-  retval = write_xattr_metadata ("user.xdg.origin.url", escnonprint_uri (origin_url), fp);
++-  if ((!retval) && referrer_url)
++-    retval = write_xattr_metadata ("user.xdg.referrer.url", escnonprint_uri (referrer_url), fp);
+++  value = url_string (origin_url, URL_AUTH_HIDE);
+++  retval = write_xattr_metadata ("user.xdg.origin.url", escnonprint_uri (value), fp);
+++  xfree (value);
+++
+++  if (!retval && referrer_url)
+++    {
+++	  struct url u;
+++
+++	  memset(&u, 0, sizeof(u));
+++      u.scheme = referrer_url->scheme;
+++      u.host = referrer_url->host;
+++      u.port = referrer_url->port;
+++
+++      value = url_string (&u, 0);
+++      retval = write_xattr_metadata ("user.xdg.referrer.url", escnonprint_uri (value), fp);
+++      xfree (value);
+++    }
++ 
++   return retval;
++ }
++diff --git a/src/xattr.h b/src/xattr.h
++index 10f3ed11..40c7a8d3 100644
++--- a/src/xattr.h
+++++ b/src/xattr.h
++@@ -16,12 +16,13 @@
++    along with this program; if not, see <http://www.gnu.org/licenses/>.  */
++ 
++ #include <stdio.h>
+++#include <url.h>
++ 
++ #ifndef _XATTR_H
++ #define _XATTR_H
++ 
++ /* Store metadata name/value attributes against fp. */
++-int set_file_metadata (const char *origin_url, const char *referrer_url, FILE *fp);
+++int set_file_metadata (const struct url *origin_url, const struct url *referrer_url, FILE *fp);
++ 
++ #if defined(__linux)
++ /* libc on Linux has fsetxattr (5 arguments). */
++-- 
++2.19.1
++
+diff --git a/meta/recipes-extended/wget/wget_1.19.5.bb b/meta/recipes-extended/wget/wget_1.19.5.bb
+index 920b74de1b..a53844bb8f 100644
+--- a/meta/recipes-extended/wget/wget_1.19.5.bb
++++ b/meta/recipes-extended/wget/wget_1.19.5.bb
+@@ -2,6 +2,8 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+            file://0002-improve-reproducibility.patch \
+            file://CVE-2019-5953.patch \
++           file://CVE-2018-20483_p1.patch \
++           file://CVE-2018-20483_p2.patch \
+           "
  
- # QEMU_TARGETS is overridable variable
--QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc riscv32 riscv64 sh4 x86_64"
-+QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc ppc64 riscv32 riscv64 sh4 x86_64"
- 
- EXTRA_OECONF = " \
-     --prefix=${prefix} \
+ SRC_URI[md5sum] = "2db6f03d655041f82eb64b8c8a1fa7da"
 -- 
-2.23.0
+2.19.1
 
 
