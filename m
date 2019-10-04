@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 00D3C7C5C8
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B53CA7F102
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2019 00:22:13 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id l3so4812596wru.7
+	Fri,  4 Oct 2019 00:22:18 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id 5so3862264wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Oct 2019 17:22:15 -0700 (PDT)
+	Thu, 03 Oct 2019 17:22:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=cwOLrf5KRHEfueFpUUZ3Rm7NSTQKNqSiYYTn0NojiZc=;
-	b=J9wjIdU+n71C0dbzhxpy9gYzsk8qDv85JVKckgJ8YTOG68guOQTvV0cTA93criOSAq
-	T+ziqFhm15yUL2e1GZdbuMaftdiZ14gs2XcYrQJd29sFnk0DF48GAGZyGNsOpHr7ROZO
-	Pru29tFvH7laRcnzCXjrEL9T2aLrsC47fouQI6JuZ8OUSCuYD1KWKdZVRwNDRbrk2YAW
-	Kic4RNqGJsc81Yny0Q7q4uYB1ba9gcsywVo8ef+RtFzZpb3EJMwVc+Kpq57In8bSu03E
-	bTUm9uaXbo7pPcx01V6RjBCAB/gKV2M3tlK5pchzCpsffuUeRPQpRP2EgzcWEfx/EE8q
-	c7iA==
+	bh=A4E0pn7vVhomKJF0z92EoKb/Fz2ZIL/QRHEo0vA9QNU=;
+	b=Rn1TIU9M2v6dDPZ/bOD+T18+YJYhMzvnTqGHDIRKFk/thpgXP6/5F/2Hcf+56EW3/f
+	/56IMXlSlVvfe46JDYUM++eMb6lGVecWKtxx8dwm4wIbNcTb5MvbIrLJd9oozKR89GAk
+	bqTERtBiYpbByiF+DttcXsQVyvkVH0wo8KcBazXdI0s8gau6dz1Xelbg4xFjZAoBe/Gm
+	l6V/QGDoWpxX1ZkkYrFuirP6YXkb9H5l0xFTIkt1sxiukIVBiU6XGbvC0bhd2wAuq6b5
+	2/V9AG5Z8I5+8p0MuSZNtFKHdEcNZJqw5VBMnSIqTrzlOM/A8nbYsWZgNuyuttxBGr+/
+	cigg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=cwOLrf5KRHEfueFpUUZ3Rm7NSTQKNqSiYYTn0NojiZc=;
-	b=R4cjQFxaQwVUlq825iieT5QMu0izs8O+3+at+NkTEJ4sv5kAa8yxWRKoFSzHtfA/mL
-	odOly4dCNR2jBQFQgUdFTtnBsU/zSdCPt/awebVVaPusaySsHqi8xit006cKls4wnJgs
-	XhIjsvVNozsYe1VJK8pRkeZlld6iFESEukOKdnpi4ytdWVCcz+BIyM4if1n+0ya5krwL
-	nN6tDglv7MMIja6m668hWAuYNH5rgJe8P13Ir9XLF+zD332v/gWank2rm63RJgYvTWh7
-	+BlL/qGbvjC2wu1jKO02njc1sSiQp/V659jGrQFGlmi1aQ0LB6h8fA/tdjFFet0YxSqm
-	yeDw==
-X-Gm-Message-State: APjAAAUL4bhq2THiLLPiXUcS6b9VvNoS7sBnX1sv8KY9B5GTcpXAjjZN
-	4e2fCWcw/1xIT7IOM1NtoqXTwBKZt4A=
-X-Google-Smtp-Source: APXvYqy11hjVuYR5LpBaNO4NyrTNN8uly5AELniZimZT8Cd4No7cHPbh3UrDKmCAeOwyqn0KV8v+Pg==
-X-Received: by 2002:adf:fa86:: with SMTP id h6mr9044171wrr.152.1570148534511; 
-	Thu, 03 Oct 2019 17:22:14 -0700 (PDT)
+	bh=A4E0pn7vVhomKJF0z92EoKb/Fz2ZIL/QRHEo0vA9QNU=;
+	b=emqqDQiZEq5IGbxFZF8mxiTXjRqcaLH4mCx0zqg6nQN1Xv9RzX9bYg1TN3stfhSvdL
+	foG2ihWfSY9XYGn/rMmwKTKjAxh+NwKxuLwc7M6wfSaB8F+rFoyS3epIVdrwUS0leQ7C
+	aS2TqUyOQO7+4r3tKyTwR8Gmrmm1ClMz5UFyQk691J37saQe5r4JWJ8f3FPQeq8dckiY
+	pGCmKCn3j3n7ZI78fbtWF6njXp4kuFLhn2YUraLopYjTmBXEe2LP2GiIM+irW65z/iwL
+	MU6PYj0zx6fkHi3sLdNLcfN22nx3NSta14VbwnMR1OPxJTaoHS8uzQ7+9W+7WmY/GIpk
+	j0mA==
+X-Gm-Message-State: APjAAAVvoaX8WIm0VqTMXF9WSHfcSKrhyy1+4PlfKdam92EsxmGTY68z
+	Uiy6A50AeKokPR1GtM1mDxAtlieVuto=
+X-Google-Smtp-Source: APXvYqym+T0DGZvqL9lTKfqdvbWumEQ3chy/D8vAAunM8KNmw6H1VY2FMinTAsM6APYERulgT6+c9A==
+X-Received: by 2002:a1c:3cc3:: with SMTP id j186mr8223354wma.119.1570148539064;
+	Thu, 03 Oct 2019 17:22:19 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	r27sm8194246wrc.55.2019.10.03.17.22.12
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id c6sm4604375wrm.71.2019.10.03.17.22.18
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 03 Oct 2019 17:22:13 -0700 (PDT)
+	Thu, 03 Oct 2019 17:22:18 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Oct 2019 01:22:10 +0100
-Message-Id: <20191004002210.2095-1-ross.burton@intel.com>
+Date: Fri,  4 Oct 2019 01:22:17 +0100
+Message-Id: <20191004002217.2159-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] meson: fix RDEPENDS
+Subject: [PATCH] insane: add check for perllocal.pod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +59,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Oct 2019 00:22:15 -0000
+X-List-Received-Date: Fri, 04 Oct 2019 00:22:19 -0000
 Content-Transfer-Encoding: 8bit
 
-Meson needs python3-pkg-resources to work to add to RDEPENDS.
+perlocal.pod is an index file of locally installed modules and so shouldn't be
+installed by any distribution packages.  cpan.bbclass already sets NO_PERLOCAL
+to stop this file being generated by most Perl recipes, but if a recipe is using
+MakeMaker directly (such as rrdtool) then they might not be doing this
+correctly.
 
-Remove python3-core as this is automatically pulled in by python3-modules.
+To avoid multiple packages shipping this file and then failing to install
+together, add a QA test to check if this file exists and by default emit an
+error if it does.
+
+[ YOCTO #13491 ]
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/meson/meson.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/insane.bbclass | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
-index 6de109de7fd..c775489d5f6 100644
---- a/meta/recipes-devtools/meson/meson.inc
-+++ b/meta/recipes-devtools/meson/meson.inc
-@@ -29,6 +29,6 @@ UPSTREAM_CHECK_URI = "https://github.com/mesonbuild/meson/releases"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 9b886d13805..9605ac2baee 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -34,7 +34,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             split-strip packages-list pkgv-undefined var-undefined \
+             version-going-backwards expanded-d invalid-chars \
+             license-checksum dev-elf file-rdeps configure-unsafe \
+-            configure-gettext \
++            configure-gettext perllocalpod \
+             "
+ # Add usrmerge QA check based on distro feature
+ ERROR_QA_append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
+@@ -795,6 +795,23 @@ def package_qa_check_usrmerge(pkg, d, messages):
+             return False
+     return True
  
- inherit setuptools3
- 
--RDEPENDS_${PN} = "ninja python3-core python3-modules"
-+RDEPENDS_${PN} = "ninja python3-modules python3-pkg-resources"
- 
- FILES_${PN} += "${datadir}/polkit-1"
++QAPKGTEST[perllocalpod] = "package_qa_check_perllocalpod"
++def package_qa_check_perllocalpod(pkg, d, messages):
++    """
++    Check that the recipe didn't ship a perlocal.pod file, which shouldn't be
++    installed in a distribution package.  cpan.bbclass sets NO_PERLLOCAL=1 to
++    handle this for most recipes.
++    """
++    import glob
++    pkgd = oe.path.join(d.getVar('PKGDEST'), pkg)
++    podpath = oe.path.join(pkgd, d.getVar("libdir"), "perl*", "*", "*", "perllocal.pod")
++
++    matches = glob.glob(podpath)
++    if matches:
++        matches = [package_qa_clean_path(path, d, pkg) for path in matches]
++        msg = "%s contains perllocal.pod (%s), should not be installed" % (pkg, " ".join(matches))
++        package_qa_add_message(messages, "perllocalpod", msg)
++
+ QAPKGTEST[expanded-d] = "package_qa_check_expanded_d"
+ def package_qa_check_expanded_d(package, d, messages):
+     """
 -- 
 2.20.1
 
