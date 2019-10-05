@@ -1,98 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E1F66D666;
-	Sat,  5 Oct 2019 17:44:29 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id e1so5599977pgj.6;
-	Sat, 05 Oct 2019 10:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=P6Psbn7zyP1TvAwlp5b23AR5dYKVzqdxZhSvKrzOmX8=;
-	b=HhuynY4yGKOwxSyAnUnark7yJLyhsjDq2Htsay+HF2D4Uy9QpOKnBu7260WZUtfbwd
-	5mLnSs7IHhw7IQAdhgzvt2pEOWSzhgjDRso4nZMWs3hCQe8xfVvf/WBuV6jXIhW3dzRP
-	Iz3NjQMdfp/ZaMuymb9QvNdKgiy8DusbYFa4EyeczCie1J3eE7MvGnC6Hj9v1s8ONVLx
-	6UeWwMerWEwFVhSws22s/clm8uObRPCT1oZmo6wtIAZ8F3KkV9RcCVz5LfnJJGeSiK2c
-	zOiTQeWblkw+n22iAwACgl6EMOFiVKAQ4bs5oXn5j1uPrpL86wfPAz/bigi7UfHdELiB
-	tIPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
-	:date:user-agent:mime-version:content-transfer-encoding
-	:content-language;
-	bh=P6Psbn7zyP1TvAwlp5b23AR5dYKVzqdxZhSvKrzOmX8=;
-	b=N+d4AxfvB83kqn4lHI53mD3sm06k10BC6pce4n1VxaIXUgqfH2x0tIYfSLMd3q22qZ
-	veMspupb8QmFMzazttk28I3qr1mRT11+hR9hjHbLVYDmPpxRDSoq+TAmCUPtF6XzNm6x
-	712qM8rIgRQz9Xz9+Iv1fRvUPg2/y4m46FGbvdpZQhWuH4VqWA0ZPKBVdy30qQIxyb+n
-	1rN2tVjHRpsQKRzOJda9dkpVhUYJkNKWkwVc0qaC0YF6FuT8xQ1/0hDQD0fE5/q0v254
-	s8PQjug4iq9cOUTl4IYQQ8pwKKtnQ4lidz0GdolIzE+9qm7Gq3OKziI7n4hBUrJ43ciw
-	/3Rw==
-X-Gm-Message-State: APjAAAWAiTY9Umi2///LRzD0HcGFasLcQW3NAOb5qlCA7Tci3oTxGBtq
-	73XptVDUQ8SNXMqDy4p5F6Y=
-X-Google-Smtp-Source: APXvYqxXMhtPKESA7mN7xhDftsCjQmjCq6Sk4cZdLCGRGXzvpf66bKh9PhJgNp92GptsWH8pD2xn0A==
-X-Received: by 2002:a63:d641:: with SMTP id d1mr17511208pgj.351.1570297470974; 
-	Sat, 05 Oct 2019 10:44:30 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:a5c0:88cc:97a9:c570:f3a6?
-	([2601:202:4180:a5c0:88cc:97a9:c570:f3a6])
-	by smtp.gmail.com with ESMTPSA id
-	71sm15963873pfw.147.2019.10.05.10.44.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 05 Oct 2019 10:44:30 -0700 (PDT)
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <3758d20c-1e83-865a-6c29-aea46061bc79@gmail.com>
-Date: Sat, 5 Oct 2019 10:44:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D6947C326
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  5 Oct 2019 21:08:37 +0000 (UTC)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 697C25C0224;
+	Sat,  5 Oct 2019 23:08:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1570309717;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:
+	content-transfer-encoding:content-transfer-encoding:in-reply-to:
+	references; bh=a5fq91TfD/frd12y2unrAJ/UDotcBLdPF7S1Ssi9tEY=;
+	b=ESPiIdFcIpiWrN8A6cFslGLT2u0vR/9M1DX8cZ5sTLBkZnWuxJzfs6ZsXvTuzluRlb7IKl
+	AukcmCPFFa4+UDOFER/eCWaItDlsQnB7VxbCIvvnEj+6TZQIsyxwpVTlbC4/jeKgdE8Ni0
+	uSFb4c+6quSEou0ctBB4E/c60gPwvc0=
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  5 Oct 2019 23:08:34 +0200
+Message-Id: <20191005210834.28170-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Patchwork and stable branches
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH] zram: properly implement systemd service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -105,31 +35,261 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Oct 2019 17:44:30 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+X-List-Received-Date: Sat, 05 Oct 2019 21:08:37 -0000
+Content-Transfer-Encoding: 8bit
 
-My apologies for cross posting.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-I have noticed some behavior I was not expecting with OE's Patchwork in
-that it is hiding patches.=C2=A0 I don't know if this is by design or a b=
-ug
-in our Patchwork.
+The systemd service points ot a script which is not installed by
+zram or any of its dependencies. It seems that the service got
+migrated without the necessary script.
 
-When a series of patches are submitted to the mailing list and are same
-fix but against different branches, all but the last=C2=A0 patch entered =
-are
-automatically marked as "suspended"=C2=A0 and then hidden from the defaul=
-t
-view.=C2=A0 I never noticed this before and is now adding a new dimension=
- to
-the Stable branch maintenance process that I need to work around.=C2=A0 I=
- am
-catching these issues as I compare my in box to patchwork.
+The sysvinit script seems rather dated and initializes multiple
+zram instances to support multiprocessor systems. This is no
+longer necessary with modern implementations as newer kernel
+version support multiple streams by default.
 
+Create a modern implementation based on Fedoras zram package.
+Make use of systemd swap unit files instead of enabling swap
+directly.
 
-regards,
-Armin
+This removes the need for util-linux-swaponoff (since swap is
+now handled by systemd, which presumably depends on swaponoff).
+However, it adds the dependency to util-linux for zramctl.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ .../recipes-extended/zram/zram/dev-zram0.swap | 10 ++++
+ .../zram/zram/zram-swap-deinit                | 19 +++++++
+ .../recipes-extended/zram/zram/zram-swap-init | 26 ++++++++++
+ .../zram/zram/zram-swap.service               | 10 ++++
+ .../recipes-extended/zram/zram/zram.service   | 12 -----
+ meta-oe/recipes-extended/zram/zram/zramstop   |  5 ++
+ meta-oe/recipes-extended/zram/zram_0.1.bb     | 33 -------------
+ meta-oe/recipes-extended/zram/zram_0.2.bb     | 49 +++++++++++++++++++
+ 8 files changed, 119 insertions(+), 45 deletions(-)
+ create mode 100644 meta-oe/recipes-extended/zram/zram/dev-zram0.swap
+ create mode 100755 meta-oe/recipes-extended/zram/zram/zram-swap-deinit
+ create mode 100755 meta-oe/recipes-extended/zram/zram/zram-swap-init
+ create mode 100644 meta-oe/recipes-extended/zram/zram/zram-swap.service
+ delete mode 100644 meta-oe/recipes-extended/zram/zram/zram.service
+ create mode 100644 meta-oe/recipes-extended/zram/zram/zramstop
+ delete mode 100644 meta-oe/recipes-extended/zram/zram_0.1.bb
+ create mode 100644 meta-oe/recipes-extended/zram/zram_0.2.bb
+
+diff --git a/meta-oe/recipes-extended/zram/zram/dev-zram0.swap b/meta-oe/recipes-extended/zram/zram/dev-zram0.swap
+new file mode 100644
+index 000000000..05eae7eed
+--- /dev/null
++++ b/meta-oe/recipes-extended/zram/zram/dev-zram0.swap
+@@ -0,0 +1,10 @@
++[Unit]
++Description=Enable compressed swap in memory using zram
++Requires=zram-swap.service
++After=zram-swap.service
++
++[Swap]
++What=/dev/zram0
++
++[Install]
++WantedBy=swap.target
+diff --git a/meta-oe/recipes-extended/zram/zram/zram-swap-deinit b/meta-oe/recipes-extended/zram/zram/zram-swap-deinit
+new file mode 100755
+index 000000000..46248c401
+--- /dev/null
++++ b/meta-oe/recipes-extended/zram/zram/zram-swap-deinit
+@@ -0,0 +1,19 @@
++#!/bin/sh
++set -e
++
++device=$1
++if [ "$device" = "" ]; then
++    echo "Usage: zram-swap-deinit <device>"
++    exit 1
++fi
++
++sysblockdev=/sys/block/$(basename $device)
++if [ ! -d $sysblockdev ]; then
++    echo "Block device not found in sysfs"
++    exit 1
++fi
++
++# zramctl -r is not suitable as it also removes the actual device. Recreating
++# it is non-trivial, especially if not /dev/zram0 is used...
++echo 1 > ${sysblockdev}/reset
++
+diff --git a/meta-oe/recipes-extended/zram/zram/zram-swap-init b/meta-oe/recipes-extended/zram/zram/zram-swap-init
+new file mode 100755
+index 000000000..0643dbca2
+--- /dev/null
++++ b/meta-oe/recipes-extended/zram/zram/zram-swap-init
+@@ -0,0 +1,26 @@
++#!/bin/sh
++set -e
++
++device=$1
++if [ "$device" = "" ]; then
++    echo "Usage: zram-swap-init <device>"
++    exit 1
++fi
++
++# Allocate zram to be size of actual system memory
++# Note: zram is only allocated when used. When swapped pages compress with a
++# a 2:1 ratio zram will require 50% of system memory (while allowing to use
++# 150% memory).
++ZRAM_SIZE_PERCENT=100
++ZRAM_ALGORITHM=lz4
++
++[ -f /etc/default/zram ] && ./etc/default/zram || true
++
++memtotal=$(grep MemTotal /proc/meminfo | awk ' { print $2 } ')
++memzram=$(($memtotal*${ZRAM_SIZE_PERCENT}/100))
++
++# Try loading zram module
++modprobe -q zram || true
++
++zramctl -a ${ZRAM_ALGORITHM} -s ${memzram}KB $device
++mkswap -L "zram-swap" $device
+diff --git a/meta-oe/recipes-extended/zram/zram/zram-swap.service b/meta-oe/recipes-extended/zram/zram/zram-swap.service
+new file mode 100644
+index 000000000..7bb9e0a45
+--- /dev/null
++++ b/meta-oe/recipes-extended/zram/zram/zram-swap.service
+@@ -0,0 +1,10 @@
++[Unit]
++Description=Create compressed swap in memory using zram
++DefaultDependencies=no
++
++[Service]
++Type=oneshot
++RemainAfterExit=yes
++TimeoutStartSec=30sec
++ExecStart=/usr/libexec/zram-swap-init /dev/zram0
++ExecStop=/usr/libexec/zram-swap-deinit /dev/zram0
+diff --git a/meta-oe/recipes-extended/zram/zram/zram.service b/meta-oe/recipes-extended/zram/zram/zram.service
+deleted file mode 100644
+index 4a19367d9..000000000
+--- a/meta-oe/recipes-extended/zram/zram/zram.service
++++ /dev/null
+@@ -1,12 +0,0 @@
+-[Unit]
+-Description=Enable zram compressed in-memory swap.
+-After=multi-user.target
+-
+-[Service]
+-RemainAfterExit=yes
+-ExecStart=/usr/bin/zram-load.sh --load
+-ExecStop=/usr/bin/zram-load.sh --unload
+-Type=oneshot
+-
+-[Install]
+-WantedBy=multi-user.target
+diff --git a/meta-oe/recipes-extended/zram/zram/zramstop b/meta-oe/recipes-extended/zram/zram/zramstop
+new file mode 100644
+index 000000000..07777978e
+--- /dev/null
++++ b/meta-oe/recipes-extended/zram/zram/zramstop
+@@ -0,0 +1,5 @@
++#!/bin/sh
++
++for i in $(grep '^/dev/zram' /proc/swaps | awk '{ print $1 }'); do
++	swapoff "$i" && zramctl --reset "$i"
++done
+diff --git a/meta-oe/recipes-extended/zram/zram_0.1.bb b/meta-oe/recipes-extended/zram/zram_0.1.bb
+deleted file mode 100644
+index dfd75e71c..000000000
+--- a/meta-oe/recipes-extended/zram/zram_0.1.bb
++++ /dev/null
+@@ -1,33 +0,0 @@
+-SUMMARY = "Linux zram compressed in-memory swap"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+-
+-inherit update-rc.d systemd
+-
+-RDEPENDS_${PN} = "util-linux-swaponoff kmod"
+-RRECOMMENDS_${PN} = "kernel-module-zram"
+-
+-PR = "r3"
+-
+-SRC_URI = " \
+-           file://init \
+-           file://zram.service \
+-"
+-
+-do_install () {
+-    # Sysvinit
+-    install -d ${D}${sysconfdir}/init.d
+-    install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/zram
+-
+-    install -d ${D}${systemd_unitdir}/system
+-    install -m 0644 ${WORKDIR}/zram.service ${D}${systemd_unitdir}/system
+-}
+-
+-FILES_${PN} = "${sysconfdir}"
+-INITSCRIPT_NAME = "zram"
+-INITSCRIPT_PARAMS = "start 05 2 3 4 5 . stop 22 0 1 6 ."
+-
+-RPROVIDES_${PN} += "${PN}-systemd"
+-RREPLACES_${PN} += "${PN}-systemd"
+-RCONFLICTS_${PN} += "${PN}-systemd"
+-SYSTEMD_SERVICE_${PN} = "zram.service"
+diff --git a/meta-oe/recipes-extended/zram/zram_0.2.bb b/meta-oe/recipes-extended/zram/zram_0.2.bb
+new file mode 100644
+index 000000000..ca3b3b0c1
+--- /dev/null
++++ b/meta-oe/recipes-extended/zram/zram_0.2.bb
+@@ -0,0 +1,49 @@
++SUMMARY = "Linux zram compressed in-memory swap"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++inherit update-rc.d systemd
++
++RDEPENDS_${PN} = "kmod \
++    ${@bb.utils.contains('DISTRO_FEATURES','systemd','util-linux','util-linux-swaponoff',d)}"
++RRECOMMENDS_${PN} = "kernel-module-zram"
++
++PR = "r3"
++
++SRC_URI = " \
++           file://init \
++           file://zram-swap-init \
++           file://zram-swap-deinit \
++           file://zram-swap.service \
++           file://dev-zram0.swap \
++"
++
++do_install () {
++    # Install systemd related configuration file
++    if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
++        install -d ${D}${sysconfdir}/init.d
++        install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/zram
++    fi
++
++    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
++        install -d ${D}${libexecdir}
++        install -m 0755 ${WORKDIR}/zram-swap-init ${D}${libexecdir}
++        install -m 0755 ${WORKDIR}/zram-swap-deinit ${D}${libexecdir}
++        install -d ${D}${systemd_unitdir}/system
++        install -m 0644 ${WORKDIR}/zram-swap.service ${D}${systemd_unitdir}/system
++        install -m 0644 ${WORKDIR}/dev-zram0.swap ${D}${systemd_unitdir}/system
++    fi
++}
++
++FILES_${PN} = " \
++    ${sysconfdir} \
++    ${systemd_unitdir} \
++    ${libexecdir} \
++"
++INITSCRIPT_NAME = "zram"
++INITSCRIPT_PARAMS = "start 05 2 3 4 5 . stop 22 0 1 6 ."
++
++RPROVIDES_${PN} += "${PN}-systemd"
++RREPLACES_${PN} += "${PN}-systemd"
++RCONFLICTS_${PN} += "${PN}-systemd"
++SYSTEMD_SERVICE_${PN} = "dev-zram0.swap"
+-- 
+2.20.1
 
 
