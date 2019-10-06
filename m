@@ -1,48 +1,48 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
 	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id BAE436C42C
+	by mail.openembedded.org (Postfix) with ESMTP id EE9757D68F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Oct 2019 22:23:53 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id q10so7424542pfl.0
+	Sun,  6 Oct 2019 22:25:41 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id x127so7382842pfb.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Oct 2019 15:23:55 -0700 (PDT)
+	Sun, 06 Oct 2019 15:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=x5RodXuNIxsokGoT7l0NkG0BIpL7PJtwFVBcGqNfNKA=;
-	b=hABTn7ckHAUV3okkyZXXxPHE2Jp0LzAmBlL9VSioKIb91UT9KjV147neOU0fb4c5S1
-	V5kb7GMl7NHYC7jUlyGuVHwH8F4QbyI0sLoOy+3x9mc7NWF4Mc52YbNFr7oXr8n7CVzw
-	i7fVq+Ct+faMJlxx1vG1SgMvjs9p41pYienWF6WcE4dP/FB5oxbDoIqMiF2V5y7MTCR5
-	tkxUEPMiohzhHkR6TL0RhY7xsdWIrJ5JgdQPQGoATmPbjwE5x4SEfHY7eGAsmE6NP0Iw
-	K8/beX3uZTs1SxOAAFdQcoN6razFHci2dDRidgTZ26TjEyYxTy9QZLY2XBxYZzKot0bP
-	PjZA==
+	bh=1+28+fvVM3Sm45QPYE6wXUjeDAAslSM/3Sqv9sxI9wU=;
+	b=FWEPvmdseSCji83RaKagl/BAgA9YnFSutXIfEYw4D7b8Tf3eI66EUmLTH+SLakLDez
+	gOLieosdXpifwpj/JLf5wwbxDKTsi0XJEicxHQBEkUDESwQketIObjeBu07Dlh36svR/
+	S6prx0AXN1y3YcdZ2nJ0gILTiQ5e2pS49ZQ7vWZhjPbY/x5urbylDpKY24972qkRhZjz
+	Sq9AmZ3/yhiaBWiSFXnwBkJb2ikPaU3iPu0fHl1xx4U38z/xlBu6j+77+wwFYYzpq7za
+	PFrpXN5M0++NGGKbf9P2SwdKyf5WR384Bgme8OzX2jTAmf5C3ryDjD40v6Lu2PCp88pe
+	vUyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=x5RodXuNIxsokGoT7l0NkG0BIpL7PJtwFVBcGqNfNKA=;
-	b=SfoPGLQ65j83p+PFfQH0WlGM3q4fMFmZnv7hSJ5krHl2PGEQGv3AKQM706XfoV2sWA
-	y1TWgbwb+ziA2SCEgH4Buga3MuyTmp87Aoy53R4YabIvuCboATVfVOchqw/ODzsbm2PN
-	1aFISNl3rFEDFLrbUZhow9T5jSzbFXWc1i0XqwUaNSvx2L2Qn93zO2jge/LsRs/VZpC1
-	F7IHX6xgtRAiRB48rrUmhaehDRXBqcIeLJxbZ7AZKRYNnkxQXoMc6Dr3ajdFFezEwDpq
-	2artB7aD9T+orz6a8IxqXczFl4ZphzNKXpvt43orpjGMx4p1aAzojv1l7drEB5xo/I2W
-	3ipw==
-X-Gm-Message-State: APjAAAW5yhOCSn01IjNPThcnz19wGYbZOtnFIsVy80OFNimfaOl6I8ge
-	ghqasZmJjdjUcQjNE2h7y3jsAmAEQtc=
-X-Google-Smtp-Source: APXvYqyVzstNxt4tr/0UM2zMNkY7ZYLhvvCmdZZuClh2EK9cYEeY9RfGwPuEYsokFd6DWYELVUTvlQ==
-X-Received: by 2002:aa7:920d:: with SMTP id 13mr29222116pfo.17.1570400634296; 
-	Sun, 06 Oct 2019 15:23:54 -0700 (PDT)
+	bh=1+28+fvVM3Sm45QPYE6wXUjeDAAslSM/3Sqv9sxI9wU=;
+	b=JQOmcHwkY9OH1BPdSzQcMi2DBMEhZxDwSZXe46dp3AxkFJZuVjMbLqk0H7sjd4j1xB
+	ggRQftkfeWqaGSn84JJXoSj6P+DFHZ4A896W/3jjteZf6Xc4SiPJiK1aCm4RkhwKDCd+
+	Yz1xB0Yifx/BXOGF93fuPlYscGYRiGTPSUSscf/INcmgF/O3g3ZrKO631HsBSqMazXju
+	Kv1lKoGaey0lz/17PTA5Mdccj9qUHvioKfJSg5JM9zqrW0aIWifeNodoWO5AeeCjySKL
+	RvYbLQmxsnhWS5KUcgVQsCxHD/3Nmhk/TqP1KRGsNaG7q3Sn4dqWYBoRwSicdjJYO1Lr
+	N9KA==
+X-Gm-Message-State: APjAAAWZozoPJ5rOCJK9TxkEZ3t950gS3NU0iyKzWRIu9dFmTFoa0sib
+	RSIx7yXtM/SnQlz1h7EKrXLkDs3wYAI=
+X-Google-Smtp-Source: APXvYqzHQyPIwKR/M0g3pwmDF78k59kabGwF6uCJUtl+ZHPfbIA5CuMQAE0UwiH9CPSdg8qwdxieYA==
+X-Received: by 2002:a63:5621:: with SMTP id k33mr3532520pgb.86.1570400742814; 
+	Sun, 06 Oct 2019 15:25:42 -0700 (PDT)
 Received: from ?IPv6:2601:202:4180:a5c0:65e8:7322:d189:1d85?
 	([2601:202:4180:a5c0:65e8:7322:d189:1d85])
 	by smtp.gmail.com with ESMTPSA id
-	69sm13588538pfb.145.2019.10.06.15.23.52
+	b14sm13214139pfi.95.2019.10.06.15.25.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 06 Oct 2019 15:23:53 -0700 (PDT)
-To: muislam@microsoft.com, openembedded-core@lists.openembedded.org
-References: <20190920030759.5068-1-muislam@microsoft.com>
+	Sun, 06 Oct 2019 15:25:42 -0700 (PDT)
+To: shuagr@microsoft.com, openembedded-core@lists.openembedded.org
+References: <1569953569-21886-1-git-send-email-shuagr@microsoft.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -88,13 +88,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <16ec7808-67da-10a1-6a5c-0bb8e635724d@gmail.com>
-Date: Sun, 6 Oct 2019 15:23:52 -0700
+Message-ID: <4a86d8f7-69ce-6454-7365-3243fdabde4e@gmail.com>
+Date: Sun, 6 Oct 2019 15:25:41 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190920030759.5068-1-muislam@microsoft.com>
-Subject: Re: [thud][PATCH v5] gcc: Security fix for CVE: <CVE-2019-15847>
+In-Reply-To: <1569953569-21886-1-git-send-email-shuagr@microsoft.com>
+Subject: Re: [thud][PATCH] sqlite3: CVE-2019-8457.patch fix Backport from 3.28.0 Sign off: Shubham Agrawal<shuagr@microsoft.com>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,454 +107,171 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Oct 2019 22:23:54 -0000
+X-List-Received-Date: Sun, 06 Oct 2019 22:25:42 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
 
 
-On 9/19/19 8:07 PM, Muminul Islam wrote:
-> Signed-off-by: Muminul Islam <muislam@microsoft.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-8.2.inc         |   3 +
->  .../gcc/gcc-8.2/CVE-2019-15847_p1.patch       | 223 ++++++++++++++++++
->  .../gcc/gcc-8.2/CVE-2019-15847_p2.patch       |  47 ++++
->  .../gcc/gcc-8.2/CVE-2019-15847_p3.patch       |  38 +++
->  4 files changed, 311 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p1.patch
->  create mode 100644 meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p2.patch
->  create mode 100644 meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p3.patch
+On 10/1/19 11:12 AM, shuagr97@gmail.com wrote:
+> From: Shubham Agrawal <shuagr@microsoft.com>
 
-This patch finally got into a build as it needed to be in master and
-warrior first.
+I cleaned up the patch to conform to the patch guide.
 
-i am seeing this error. Can you confirm I have the correct patch. I
-believe its released to th p1 patch.
-
-| g++   
--isystem/home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-powerpc/8.2.0-r0/recipe-sysroot-native/usr/include
--O2 -pipe -DIN_GCC  -DCROSS_DIRECTORY_STRUCTURE   -fno-exceptions
--fno-rtti -fasynchronous-unwind-tables -W -Wall -Wno-narrowing
--Wwrite-strings -Wcast-qual -Wmissing-format-attribute
--Woverloaded-virtual -pedantic -Wno-long-long -Wno-variadic-macros
--Wno-overlength-strings   -DHAVE_CONFIG_H -DGENERATOR_FILE -fno-PIE
--static-libstdc++ -static-libgcc
--L/home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-powerpc/8.2.0-r0/recipe-sysroot-native/usr/lib
--L/home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-powerpc/8.2.0-r0/recipe-sysroot-native/lib
--Wl,-rpath-link,/home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-powerpc/8.2.0-r0/recipe-sysroot-native/usr/lib
--Wl,-rpath-link,/home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-powerpc/8.2.0-r0/recipe-sysroot-native/lib
--Wl,-rpath,/home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-powerpc/8.2.0-r0/recipe-sysroot-native/usr/lib
--Wl,-rpath,/home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-powerpc/8.2.0-r0/recipe-sysroot-native/lib
--Wl,-O1 -no-pie -o build/genenums \
-|     build/genenums.o build/read-md.o build/errors.o
-../build-x86_64-linux/libiberty/libiberty.a
-| build/genmddeps
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/common.md
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/config/rs6000/rs6000.md
-> tmp-mddeps
-| /bin/bash
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/../move-if-change
-tmp-mddeps mddeps.mk
-| echo timestamp > s-mddeps
-| build/genconstants
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/common.md
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/config/rs6000/rs6000.md
-\
-|    > tmp-constants.h
-| /bin/bash
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/../move-if-change
-tmp-constants.h insn-constants.h
-| echo timestamp > s-constants
-| build/genenums
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/common.md
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/config/rs6000/rs6000.md
-\
-|    > tmp-enums.c
-| /bin/bash
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/../move-if-change
-tmp-enums.c insn-enums.c
-| echo timestamp > s-enums
-| g++  -c  
--isystem/home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-powerpc/8.2.0-r0/recipe-sysroot-native/usr/include
--O2 -pipe -DIN_GCC  -DCROSS_DIRECTORY_STRUCTURE   -fno-exceptions
--fno-rtti -fasynchronous-unwind-tables -W -Wall -Wno-narrowing
--Wwrite-strings -Wcast-qual -Wmissing-format-attribute
--Woverloaded-virtual -pedantic -Wno-long-long -Wno-variadic-macros
--Wno-overlength-strings   -DHAVE_CONFIG_H -DGENERATOR_FILE -fno-PIE -I.
--Ibuild -I../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc
--I../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/build
--I../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/../include 
--I../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/../libcpp/include
--isystem/home/akuster/oss/maint/openembedded-core/build/tmp-glibc/work/x86_64-linux/gcc-cross-initial-powerpc/8.2.0-r0/recipe-sysroot-native/usr/include
-\
-|     -o build/gencheck.o
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/gencheck.c
-| /bin/bash
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/../move-if-change
-tmp-gtype.state gtype.state
-| build/gengtype  \
-|                     -r gtype.state
-| In file included from ./tm.h:23:0,
-|                  from
-../../../../../../../work-shared/gcc-8.2.0-r0/gcc-8.2.0/gcc/gencheck.c:23:
-| ./insn-constants.h:377:3: error: expected identifier before numeric
-constant
-|    75 = 320,
-|    ^
-| ./insn-constants.h:377:3: error: expected ‘}’ before numeric constant
-| ./insn-constants.h:377:3: error: expected unqualified-id before
-numeric constant
-| ./insn-constants.h:404:1: error: expected declaration before ‘}’ token
-|  };
-|  ^
-| Makefile:2671: recipe for target 'build/gencheck.o' failed
-| make[1]: *** [build/gencheck.o] Error 1
-| make[1]: *** Waiting for unfinished jobs....
-| echo timestamp > s-gtype
+see
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=stable/thud-nmut&id=c0c66d213b4b6deb0a5e9a688810d2e9674d3ecf 
+as an example of what was meant.
 
 - armin
-
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-8.2.inc b/meta/recipes-devtools/gcc/gcc-8.2.inc
-> index 866a77558b..65fd29d943 100644
-> --- a/meta/recipes-devtools/gcc/gcc-8.2.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-8.2.inc
-> @@ -70,6 +70,9 @@ SRC_URI = "\
->             file://0039-Fix-for-testsuite-failure.patch \
->             file://0040-Re-introduce-spe-commandline-options.patch \
->             file://0041-ARC-fix-spec-gen.patch \
-> +           file://CVE-2019-15847_p1.patch \
-> +           file://CVE-2019-15847_p2.patch \
-> +           file://CVE-2019-15847_p3.patch \
->             ${BACKPORTS} \
->  "
->  BACKPORTS = "\
-> diff --git a/meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p1.patch b/meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p1.patch
+> ---
+>  .../sqlite/files/CVE-2019-8457.patch               | 124 +++++++++++++++++++++
+>  meta/recipes-support/sqlite/sqlite3_3.23.1.bb      |   1 +
+>  2 files changed, 125 insertions(+)
+>  create mode 100644 meta/recipes-support/sqlite/files/CVE-2019-8457.patch
+>
+> diff --git a/meta/recipes-support/sqlite/files/CVE-2019-8457.patch b/meta/recipes-support/sqlite/files/CVE-2019-8457.patch
 > new file mode 100644
-> index 0000000000..6e73564266
+> index 0000000..a103dd8
 > --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p1.patch
-> @@ -0,0 +1,223 @@
-> +From eebe740f9142ee15bd997c480df0e1f61ac6ffd1 Mon Sep 17 00:00:00 2001
-> +From: segher <segher@138bc75d-0d04-0410-961f-82ee72b054a4>
-> +Date: Fri, 30 Aug 2019 14:15:39 +0000
-> +Subject: [PATCH] 	Backport from trunk 	2019-08-22  Segher Boessenkool
-> +  <segher@kernel.crashing.org>
-> +Reply-To: muislam@microsoft.com
+> +++ b/meta/recipes-support/sqlite/files/CVE-2019-8457.patch
+> @@ -0,0 +1,124 @@
+> +From fbf2392644f0ae4282fa4583c9bb67260995d983 Mon Sep 17 00:00:00 2001
+> +From: Shubham Agrawal <shuagr@microsoft.com>
+> +Date: Mon, 23 Sep 2019 20:58:47 +0000
+> +Subject: [PATCH] CVE: CVE-2019-8457 Upstream-Status: Backport
 > +
-> +	PR target/91481
-> +	* config/rs6000/rs6000.md (unspec): Delete UNSPEC_DARN, UNSPEC_DARN_32,
-> +	and UNSPEC_DARN_RAW.
-> +	(unspecv): New enumerator values UNSPECV_DARN, UNSPECV_DARN_32, and
-> +	UNSPECV_DARN_RAW.
-> +	(darn_32): Use an unspec_volatile, and UNSPECV_DARN_32.
-> +	(darn_raw): Use an unspec_volatile, and UNSPECV_DARN_RAW.
-> +	(darn): Use an unspec_volatile, and UNSPECV_DARN.
-> +
-> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-8-branch@275181 138bc75d-0d04-0410-961f-82ee72b054a4
-> +Signed-off-by: Muminul Islam <muislam@microsoft.com>
-> +
-> +CVE: CVE-2019-15847
-> +
-> +Upstream-Status: Backport
+> +Sign off: Shubham Agrawal <shuagr@microsoft.com>
 > +---
-> + gcc/config/rs6000/rs6000.md | 169 ++++++++++++++++++++++++++++++++++++
-> + 1 file changed, 169 insertions(+)
+> + sqlite3.c | 50 +++++++++++++++++++++++++++++++-------------------
+> + 1 file changed, 31 insertions(+), 19 deletions(-)
 > +
-> +diff --git a/gcc/config/rs6000/rs6000.md b/gcc/config/rs6000/rs6000.md
-> +index 60058814b8a..f540b033541 100644
-> +--- a/gcc/config/rs6000/rs6000.md
-> ++++ b/gcc/config/rs6000/rs6000.md
-> +@@ -136,6 +136,9 @@
-> +    UNSPEC_LSQ
-> +    UNSPEC_FUSION_GPR
-> +    UNSPEC_STACK_CHECK
-> ++   UNSPEC_CMPRB
-> ++   UNSPEC_CMPRB2
-> ++   UNSPEC_CMPEQB
-> +    UNSPEC_FUSION_P9
-> +    UNSPEC_FUSION_ADDIS
-> +    UNSPEC_ADD_ROUND_TO_ODD
-> +@@ -162,6 +165,9 @@
-> +    UNSPECV_EH_RR		; eh_reg_restore
-> +    UNSPECV_ISYNC		; isync instruction
-> +    UNSPECV_MFTB			; move from time base
-> ++   UNSPECV_DARN			; darn 1 (deliver a random number)
-> ++   UNSPECV_DARN_32		; darn 2
-> ++   UNSPECV_DARN_RAW		; darn 0
-> +    UNSPECV_NLGR			; non-local goto receiver
-> +    UNSPECV_MFFS			; Move from FPSCR
-> +    UNSPECV_MTFSF		; Move to FPSCR Fields
-> +@@ -14602,6 +14608,169 @@
-> +    "xscmpuqp %0,%1,%2"
-> +   [(set_attr "type" "veccmp")
-> +    (set_attr "size" "128")])
-> ++
-> ++;; Miscellaneous ISA 3.0 (power9) instructions
-> ++
-> ++(define_insn "darn_32"
-> ++  [(set (match_operand:SI 0 "register_operand" "=r")
-> ++        (unspec_volatile:SI [(const_int 0)] UNSPECV_DARN_32))]
-> ++  "TARGET_P9_MISC"
-> ++  "darn %0,0"
-> ++  [(set_attr "type" "integer")])
-> ++
-> ++(define_insn "darn_raw"
-> ++  [(set (match_operand:DI 0 "register_operand" "=r")
-> ++        (unspec_volatile:DI [(const_int 0)] UNSPECV_DARN_RAW))]
-> ++  "TARGET_P9_MISC && TARGET_64BIT"
-> ++  "darn %0,2"
-> ++  [(set_attr "type" "integer")])
-> ++
-> ++(define_insn "darn"
-> ++  [(set (match_operand:DI 0 "register_operand" "=r")
-> ++        (unspec_volatile:DI [(const_int 0)] UNSPECV_DARN))]
-> ++  "TARGET_P9_MISC && TARGET_64BIT"
-> ++  "darn %0,1"
-> ++  [(set_attr "type" "integer")])
-> ++
-> ++;; Test byte within range.
-> ++;;
-> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-> ++;; represents a byte whose value is ignored in this context and
-> ++;; vv, the least significant byte, holds the byte value that is to
-> ++;; be tested for membership within the range specified by operand 2.
-> ++;; The bytes of operand 2 are organized as xx:xx:hi:lo.
-> ++;;
-> ++;; Return in target register operand 0 a value of 1 if lo <= vv and
-> ++;; vv <= hi.  Otherwise, set register operand 0 to 0.
-> ++;;
-> ++;; Though the instructions to which this expansion maps operate on
-> ++;; 64-bit registers, the current implementation only operates on
-> ++;; SI-mode operands as the high-order bits provide no information
-> ++;; that is not already available in the low-order bits.  To avoid the
-> ++;; costs of data widening operations, future enhancements might allow
-> ++;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
-> ++(define_expand "cmprb"
-> ++  [(set (match_dup 3)
-> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-> ++	 UNSPEC_CMPRB))
-> ++   (set (match_operand:SI 0 "gpc_reg_operand" "=r")
-> ++	(if_then_else:SI (lt (match_dup 3)
-> ++			     (const_int 0))
-> ++			 (const_int -1)
-> ++			 (if_then_else (gt (match_dup 3)
-> ++					   (const_int 0))
-> ++				       (const_int 1)
-> ++				       (const_int 0))))]
-> ++  "TARGET_P9_MISC"
-> ++{
-> ++  operands[3] = gen_reg_rtx (CCmode);
-> ++})
-> ++
-> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-> ++;; represents a byte whose value is ignored in this context and
-> ++;; vv, the least significant byte, holds the byte value that is to
-> ++;; be tested for membership within the range specified by operand 2.
-> ++;; The bytes of operand 2 are organized as xx:xx:hi:lo.
-> ++;;
-> ++;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
-> ++;; lo <= vv and vv <= hi.  Otherwise, set the GT bit to 0.  The other
-> ++;; 3 bits of the target CR register are all set to 0.
-> ++(define_insn "*cmprb_internal"
-> ++  [(set (match_operand:CC 0 "cc_reg_operand" "=y")
-> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-> ++	 UNSPEC_CMPRB))]
-> ++  "TARGET_P9_MISC"
-> ++  "cmprb %0,0,%1,%2"
-> ++  [(set_attr "type" "logical")])
-> ++
-> ++;; Set operand 0 register to -1 if the LT bit (0x8) of condition
-> ++;; register operand 1 is on.  Otherwise, set operand 0 register to 1
-> ++;; if the GT bit (0x4) of condition register operand 1 is on.
-> ++;; Otherwise, set operand 0 to 0.  Note that the result stored into
-> ++;; register operand 0 is non-zero iff either the LT or GT bits are on
-> ++;; within condition register operand 1.
-> ++(define_insn "setb_signed"
-> ++   [(set (match_operand:SI 0 "gpc_reg_operand" "=r")
-> ++	 (if_then_else:SI (lt (match_operand:CC 1 "cc_reg_operand" "y")
-> ++			      (const_int 0))
-> ++			  (const_int -1)
-> ++			  (if_then_else (gt (match_dup 1)
-> ++					    (const_int 0))
-> ++					(const_int 1)
-> ++					(const_int 0))))]
-> ++  "TARGET_P9_MISC"
-> ++  "setb %0,%1"
-> ++  [(set_attr "type" "logical")])
-> ++
-> ++(define_insn "setb_unsigned"
-> ++   [(set (match_operand:SI 0 "gpc_reg_operand" "=r")
-> ++	 (if_then_else:SI (ltu (match_operand:CCUNS 1 "cc_reg_operand" "y")
-> ++			      (const_int 0))
-> ++			  (const_int -1)
-> ++			  (if_then_else (gtu (match_dup 1)
-> ++					    (const_int 0))
-> ++					(const_int 1)
-> ++					(const_int 0))))]
-> ++  "TARGET_P9_MISC"
-> ++  "setb %0,%1"
-> ++  [(set_attr "type" "logical")])
-> ++
-> ++;; Test byte within two ranges.
-> ++;;
-> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-> ++;; represents a byte whose value is ignored in this context and
-> ++;; vv, the least significant byte, holds the byte value that is to
-> ++;; be tested for membership within the range specified by operand 2.
-> ++;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
-> ++;;
-> ++;; Return in target register operand 0 a value of 1 if (lo_1 <= vv and
-> ++;; vv <= hi_1) or if (lo_2 <= vv and vv <= hi_2).  Otherwise, set register
-> ++;; operand 0 to 0.
-> ++;;
-> ++;; Though the instructions to which this expansion maps operate on
-> ++;; 64-bit registers, the current implementation only operates on
-> ++;; SI-mode operands as the high-order bits provide no information
-> ++;; that is not already available in the low-order bits.  To avoid the
-> ++;; costs of data widening operations, future enhancements might allow
-> ++;; DI mode for operand 0 and/or might allow operand 1 to be QI mode.
-> ++(define_expand "cmprb2"
-> ++  [(set (match_dup 3)
-> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-> ++	 UNSPEC_CMPRB2))
-> ++   (set (match_operand:SI 0 "gpc_reg_operand" "=r")
-> ++	(if_then_else:SI (lt (match_dup 3)
-> ++			     (const_int 0))
-> ++			 (const_int -1)
-> ++			 (if_then_else (gt (match_dup 3)
-> ++					   (const_int 0))
-> ++				       (const_int 1)
-> ++				       (const_int 0))))]
-> ++  "TARGET_P9_MISC"
-> ++{
-> ++  operands[3] = gen_reg_rtx (CCmode);
-> ++})
-> ++
-> ++;; The bytes of operand 1 are organized as xx:xx:xx:vv, where xx
-> ++;; represents a byte whose value is ignored in this context and
-> ++;; vv, the least significant byte, holds the byte value that is to
-> ++;; be tested for membership within the ranges specified by operand 2.
-> ++;; The bytes of operand 2 are organized as hi_1:lo_1:hi_2:lo_2.
-> ++;;
-> ++;; Set bit 1 (the GT bit, 0x4) of CR register operand 0 to 1 if
-> ++;; (lo_1 <= vv and vv <= hi_1) or if (lo_2 <= vv and vv <= hi_2).
-> ++;; Otherwise, set the GT bit to 0.  The other 3 bits of the target
-> ++;; CR register are all set to 0.
-> ++(define_insn "*cmprb2_internal"
-> ++  [(set (match_operand:CC 0 "cc_reg_operand" "=y")
-> ++	(unspec:CC [(match_operand:SI 1 "gpc_reg_operand" "r")
-> ++		    (match_operand:SI 2 "gpc_reg_operand" "r")]
-> ++	 UNSPEC_CMPRB2))]
-> ++  "TARGET_P9_MISC"
-> ++  "cmprb %0,1,%1,%2"
-> ++  [(set_attr "type" "logical")])
+> +diff --git a/sqlite3.c b/sqlite3.c
+> +index 00513d4..5c8c7f4 100644
+> +--- a/sqlite3.c
+> ++++ b/sqlite3.c
+> +@@ -172325,6 +172325,33 @@
+> + }
 > + 
-> + 
 > + 
-> +-- 
-> +2.23.0
-> +
-> diff --git a/meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p2.patch b/meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p2.patch
-> new file mode 100644
-> index 0000000000..4f64c39b0a
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p2.patch
-> @@ -0,0 +1,47 @@
-> +From f2b99d05bb2721e062404afdfb05e570e68b4ced Mon Sep 17 00:00:00 2001
-> +From: segher <segher@138bc75d-0d04-0410-961f-82ee72b054a4>
-> +Date: Fri, 30 Aug 2019 14:17:20 +0000
-> +Subject: [PATCH] 	Backport from trunk 	2019-08-23  Segher Boessenkool
-> +  <segher@kernel.crashing.org>
-> +Reply-To: muislam@microsoft.com
-> +
-> +gcc/testsuite/
-> +	PR target/91481
-> +	* gcc.target/powerpc/darn-3.c: New testcase.
-> +
-> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-8-branch@275182 138bc75d-0d04-0410-961f-82ee72b054a4
-> +Signed-off-by: Muminul Islam <muislam@microsoft.com>
-> +
-> +CVE: CVE-2019-15847
-> +
-> +Upstream-Status: Backport
-> +---
-> + gcc/testsuite/gcc.target/powerpc/darn-3.c | 16 ++++++++++++++++
-> + 1 file changed, 16 insertions(+)
-> + create mode 100644 gcc/testsuite/gcc.target/powerpc/darn-3.c
-> +
-> +diff --git a/gcc/testsuite/gcc.target/powerpc/darn-3.c b/gcc/testsuite/gcc.target/powerpc/darn-3.c
-> +new file mode 100644
-> +index 00000000000..477901fde70
-> +--- /dev/null
-> ++++ b/gcc/testsuite/gcc.target/powerpc/darn-3.c
-> +@@ -0,0 +1,16 @@
-> ++/* { dg-do compile { target { powerpc*-*-* } } } */
-> ++/* { dg-skip-if "" { powerpc*-*-aix* } } */
-> ++/* { dg-options "-O2 -mdejagnu-cpu=power9" } */
-> ++
-> ++static int darn32(void) { return __builtin_darn_32(); }
-> ++
-> ++int four(void)
-> ++{
-> ++	int sum = 0;
-> ++	int i;
-> ++	for (i = 0; i < 4; i++)
-> ++		sum += darn32();
-> ++	return sum;
+> ++/* Allocate and initialize a new dynamic string object */
+> ++StrAccum *sqlite3_str_new(sqlite3 *db){
+> ++  StrAccum *p = sqlite3DbMallocRaw(db, sizeof(*p));
+> ++  if( p ){
+> ++    sqlite3StrAccumInit(p, db, 0, 0, SQLITE_MAX_LENGTH);
+> ++  }
+> ++  return p;
 > ++}
 > ++
-> ++/* { dg-final { scan-assembler-times {(?n)\mdarn .*,0\M} 4 } } */
-> +-- 
-> +2.23.0
-> +
-> diff --git a/meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p3.patch b/meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p3.patch
-> new file mode 100644
-> index 0000000000..0ab7544caa
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-8.2/CVE-2019-15847_p3.patch
-> @@ -0,0 +1,38 @@
-> +From f4721625a060ad708c0b7d02d3d6b3a581e7d885 Mon Sep 17 00:00:00 2001
-> +From: segher <segher@138bc75d-0d04-0410-961f-82ee72b054a4>
-> +Date: Sat, 31 Aug 2019 18:58:04 +0000
-> +Subject: [PATCH] rs6000: Fix darn-3.c for GCC 8 and GCC 7
-> +Reply-To: muislam@microsoft.com
-> +
-> +Apparently I didn't properly test the testcase backport to GCC 8 and
-> +GCC 7.  This makes it not fail there.
-> +
-> +	PR target/91481
-> +	* gcc.target/powerpc/darn-3.c: Fix testcase.
-> +
-> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-8-branch@275244 138bc75d-0d04-0410-961f-82ee72b054a4
-> +Signed-off-by: Muminul Islam <muislam@microsoft.com>
-> +
-> +CVE: CVE-2019-15847
-> +
-> +Upstream-Status: Backport
-> +---
-> + gcc/testsuite/gcc.target/powerpc/darn-3.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/gcc/testsuite/gcc.target/powerpc/darn-3.c b/gcc/testsuite/gcc.target/powerpc/darn-3.c
-> +index 477901fde70..96ac21fc58c 100644
-> +--- a/gcc/testsuite/gcc.target/powerpc/darn-3.c
-> ++++ b/gcc/testsuite/gcc.target/powerpc/darn-3.c
-> +@@ -1,6 +1,7 @@
-> + /* { dg-do compile { target { powerpc*-*-* } } } */
-> + /* { dg-skip-if "" { powerpc*-*-aix* } } */
-> +-/* { dg-options "-O2 -mdejagnu-cpu=power9" } */
-> ++/* { dg-skip-if "do not override -mcpu" { powerpc*-*-* } { "-mcpu=*" } { "-mcpu=power9" } } */
-> ++/* { dg-options "-O2 -mcpu=power9" } */
+> ++/* Finalize a string created using sqlite3_str_new().
+> ++*/
+> ++
+> ++char *sqlite3_str_finish(StrAccum *p){
+> ++  char *z;
+> ++  if( p ){
+> ++    z = sqlite3StrAccumFinish(p);
+> ++    sqlite3DbFree(p->db, p);
+> ++  }else{
+> ++    z = 0;
+> ++  }
+> ++  return z;
+> ++}
+> ++/* Return any error code associated with p */
+> ++int sqlite3_str_errcode(StrAccum *p){
+> ++  return p ? p->accError : SQLITE_NOMEM;
+> ++}
+> ++
+> + /*
+> + ** Implementation of a scalar function that decodes r-tree nodes to
+> + ** human readable strings. This can be used for debugging and analysis.
+> +@@ -172342,49 +172369,53 @@
+> + ** <num-dimension>*2 coordinates.
+> + */
+> + static void rtreenode(sqlite3_context *ctx, int nArg, sqlite3_value **apArg){
+> +-  char *zText = 0;
+> ++
+> +   RtreeNode node;
+> +   Rtree tree;
+> +   int ii;
+> ++  int nData;
+> ++  int errCode;
+> ++  StrAccum *pOut;
 > + 
-> + static int darn32(void) { return __builtin_darn_32(); }
+> +   UNUSED_PARAMETER(nArg);
+> +   memset(&node, 0, sizeof(RtreeNode));
+> +   memset(&tree, 0, sizeof(Rtree));
+> +   tree.nDim = (u8)sqlite3_value_int(apArg[0]);
+> ++  if( tree.nDim<1 || tree.nDim>5 ) return;
+> +   tree.nDim2 = tree.nDim*2;
+> +   tree.nBytesPerCell = 8 + 8 * tree.nDim;
+> +   node.zData = (u8 *)sqlite3_value_blob(apArg[1]);
+> ++  nData = sqlite3_value_bytes(apArg[1]);
+> ++  if( nData<4 ) return;
+> ++  if( nData<NCELL(&node)*tree.nBytesPerCell ) return;
 > + 
+> ++  pOut = sqlite3_str_new(0);
+> +   for(ii=0; ii<NCELL(&node); ii++){
+> +-    char zCell[512];
+> +-    int nCell = 0;
+> ++
+> ++
+> +     RtreeCell cell;
+> +     int jj;
+> + 
+> +     nodeGetCell(&tree, &node, ii, &cell);
+> +-    sqlite3_snprintf(512-nCell,&zCell[nCell],"%lld", cell.iRowid);
+> +-    nCell = (int)strlen(zCell);
+> ++    if( ii>0 ) sqlite3StrAccumAppend(pOut, " ", 1);
+> ++    sqlite3XPrintf(pOut, "{%lld", cell.iRowid);
+> ++
+> +     for(jj=0; jj<tree.nDim2; jj++){
+> + #ifndef SQLITE_RTREE_INT_ONLY
+> +-      sqlite3_snprintf(512-nCell,&zCell[nCell], " %g",
+> +-                       (double)cell.aCoord[jj].f);
+> ++
+> ++      sqlite3XPrintf(pOut, " %g", (double)cell.aCoord[jj].f);
+> + #else
+> +-      sqlite3_snprintf(512-nCell,&zCell[nCell], " %d",
+> +-                       cell.aCoord[jj].i);
+> ++
+> ++      sqlite3XPrintf(pOut, " %d", cell.aCoord[jj].i);
+> + #endif
+> +-      nCell = (int)strlen(zCell);
+> +-    }
+> + 
+> +-    if( zText ){
+> +-      char *zTextNew = sqlite3_mprintf("%s {%s}", zText, zCell);
+> +-      sqlite3_free(zText);
+> +-      zText = zTextNew;
+> +-    }else{
+> +-      zText = sqlite3_mprintf("{%s}", zCell);
+> +     }
+> ++    sqlite3StrAccumAppend(pOut, "}", 1);
+> +   }
+> +-  
+> +-  sqlite3_result_text(ctx, zText, -1, sqlite3_free);
+> ++
+> ++  errCode = sqlite3_str_errcode(pOut);
+> ++  sqlite3_result_text(ctx, sqlite3_str_finish(pOut), -1, sqlite3_free);
+> ++  sqlite3_result_error_code(ctx, errCode);
+> + }
+> + 
+> + /* This routine implements an SQL function that returns the "depth" parameter
 > +-- 
-> +2.23.0
+> +2.7.4
 > +
+> diff --git a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+> index d214ea1..7df61cd 100644
+> --- a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+> +++ b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
+> @@ -7,6 +7,7 @@ SRC_URI = "\
+>    http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+>    file://CVE-2018-20505.patch \
+>    file://CVE-2018-20506.patch \
+> +  file://CVE-2019-8457.patch \
+>    "
+>  SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
+>  SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
 
 
