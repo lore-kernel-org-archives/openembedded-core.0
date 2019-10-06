@@ -1,54 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 733E87D674
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A8FF47C377
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Oct 2019 15:24:16 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id v27so6619698pgk.10
+	Sun,  6 Oct 2019 15:24:18 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id a2so6998733pfo.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Oct 2019 08:24:18 -0700 (PDT)
+	Sun, 06 Oct 2019 08:24:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=GgZBgPmow5ehu8UB3kvmHXJ8ZxX7VMDMQY09HvTHRPk=;
-	b=Y6ry+55AvNWKhtAvY50xNhxx4wnT7XIk2cAnbp1+Pjg0nDGFaOJ3rb/O/H7CEYyefh
-	YEPIAZ/AIYR568nIBMVY+F17oJloXOCuDJLKKfJSxA+/LKYrgf2z857lUH51OwB2KxoE
-	7OF25Q3rf/xJ/XuCY7f1dNBE3ajoOUkT1imgesDo0pmSZmMI0pjKC49WevSj8OsIdQsD
-	3yMBQYOkUAu2adIzonYmI6gwd37u0QtbsNZxtK/6g7B0u/7yifKieB9BOR+Fyv55M3pz
-	DkpgUJX/oNujV8tfVqFPcbcrjkT7oFH12aCjVKnn50y5nDiycJKV4r7KG50VXJ4It8SP
-	A7tA==
+	bh=CpFJ44w1vhMloksstcFg67llIDMA2i+M0sNnHCm3m8s=;
+	b=sV3TA+hdNf+0yElLj0E5x8ZUnr4jCaZF9L/ziYNSoJGi6NySHDtLU8RhXJPPBRAWHT
+	A1KYGC8AGXTsY4p0d92IhxEUe4WVRt12OdpaqMda0cpdKeeVgZaxhd4GdfS8J2a1RoQ+
+	IvUWEGe1Kk/ZBBrRfoMPLC/eBwh/i4pvvDOLSmzfHq7XrDFtO/EYKHSAoXhxeCZku11Q
+	/wUSWF7SVL7v3z4GoaXa8E7OClZx4rVs69K9m/TW/yH12WlBY+UnA8udP2c4PG0atT9C
+	Xy3P4g12mGH8uEM5cEMfsDx4oUOjVPfcYu8moYXMVLQz/Cpg0FZYDvzDkwk9ELP0jng6
+	P64w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=GgZBgPmow5ehu8UB3kvmHXJ8ZxX7VMDMQY09HvTHRPk=;
-	b=hsmKu01mwWzfFcNchgbH1QnVoBpdWPvgjPwgIfZ+qGTO/3U3j4XhCJ4nv3CU4x9pso
-	LV3c8OhUzv624bYqnfGt0dGAYqWdwQBKgFa0FDmJRQNhi7T7YGqI+JIhyO4PwIy7Yzng
-	94zqqFAHjMi7aqAWf8rlUp7/oNmqkh9uWYKW9oE1fhOwz78+CdtEGKAWdvNllr3HdlAD
-	S7PKh9/20FHDblDgo0lkIgcHFZyD8nB7RmAjMvfdfUGst2lfTeuxCWZ7osvi5Bx9eERc
-	kKexioaOcJ64OcGg1adSpZosP9ike4tFIUbExtFq+VveoGqF0svpLgIUm01OCzgbpA0j
-	9ehw==
-X-Gm-Message-State: APjAAAWhbhSE10Xtbu7CJhryjo0Vt/fKbtYcGoN04czlDKJQKCNr0skd
-	7+BlmPv1wIbldggvU5pPi9OOZIZuyw0=
-X-Google-Smtp-Source: APXvYqx3pwN4ikj3A79b7ToeXSyTLN+3dEWSybqTUiDpmx9sVmlfkitXsWa4aCzrBhK8H3oIj4Xd1Q==
-X-Received: by 2002:aa7:8604:: with SMTP id p4mr21788383pfn.229.1570375457671; 
-	Sun, 06 Oct 2019 08:24:17 -0700 (PDT)
+	bh=CpFJ44w1vhMloksstcFg67llIDMA2i+M0sNnHCm3m8s=;
+	b=QRh3Xir/0Ruhx4TdiiORxG6phbYClLO8taPM4+/7hN+zgnQu5DDb177Fl57Ck574uG
+	Qo//6J/Hg+NB6+THii6N0V3dmFU5wP26h08JrquF/z+YofC+TQJFY9Tg9s5OepwlVWF1
+	ncqZSHnsNLzkFK9YISSq20A/+riMB5xJXUTWh+Vbzc6Z3GXC/bTmOrL8eUhhYW1NxHCj
+	mbpp/AkpST7p69w/zVWMoEo1JucU+Y7z1KS8Clvz9jl+XV8cLymAVfgt8CA/JcmP8aBr
+	BbOVXSD7O5dVgIM+h1BXTIIKz7IiIcanDv2UWuAxC+CvGuvUlhhopK+JmbyLDnvZy/sM
+	RYjA==
+X-Gm-Message-State: APjAAAX/Yd2doM+DdFTJxxsrhd01GD79KRGquDUnvulhAoXBZ86RKELu
+	izohmD0IZH5QMEk0XIBpYDC+yeXrkHc=
+X-Google-Smtp-Source: APXvYqy67ckH1dtv0/RVe2m5w/JLvMINHOQiIBbWBJhTIW15Zmxqs5BbuFYHf7ehfditQILPuWVX5g==
+X-Received: by 2002:a62:e917:: with SMTP id j23mr28068247pfh.50.1570375459419; 
+	Sun, 06 Oct 2019 08:24:19 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:65e8:7322:d189:1d85])
 	by smtp.gmail.com with ESMTPSA id
-	v1sm10586425pjd.22.2019.10.06.08.24.16
+	v1sm10586425pjd.22.2019.10.06.08.24.18
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 06 Oct 2019 08:24:17 -0700 (PDT)
+	Sun, 06 Oct 2019 08:24:19 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 Oct 2019 08:24:06 -0700
-Message-Id: <11819621707cb62213c53334e65f26971a6203f3.1570375187.git.akuster808@gmail.com>
+Date: Sun,  6 Oct 2019 08:24:08 -0700
+Message-Id: <c9310e59a2142578310cdef5c35dfd45cc043af9.1570375187.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1570375187.git.akuster808@gmail.com>
 References: <cover.1570375187.git.akuster808@gmail.com>
 MIME-Version: 1.0
-Subject: [warrior] 6/8] classes/image-live.bbclass: Don't hardcode cpio.gz
+Subject: [warrior] 8/8] qemu: fix build issue on new hosts with glibc 2.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,33 +61,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Oct 2019 15:24:17 -0000
+X-List-Received-Date: Sun, 06 Oct 2019 15:24:18 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Andrii Bordunov via Openembedded-core <openembedded-core@lists.openembedded.org>
+This fixes the following error:
 
-There's INITRAMFS_FSTYPES that can be set differently.
+TOPDIR/tmp/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-3.1.0/linux-user/syscall.c:254:16: error: static declaration of ‘gettid’ follows non-static declaration
+ 254 | _syscall0(int, gettid)
+ |                ^~~~~~
+ TOPDIR/tmp/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-3.1.0/linux-user/syscall.c:185:13: note: in definition of macro ‘_syscall0’
+ 185 | static type name (void)   \
+ |             ^~~~
+ In file included from /usr/include/unistd.h:1170,
+ from TOPDIR/tmp/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-3.1.0/include/qemu/osdep.h:90,
+ from TOPDIR/tmp/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-3.1.0/linux-user/syscall.c:20:
+ /usr/include/bits/unistd_ext.h:34:16: note: previous declaration of ‘gettid’ was here
+ 34 | extern __pid_t gettid (void) __THROW;
+ |                ^~~~~~
 
-Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/image-live.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc                |  2 +
+ ...nux-user-assume-__NR_gettid-always-exists.patch | 49 +++++++++++
+ ...rename-gettid-to-sys_gettid-to-avoid-clas.patch | 95 ++++++++++++++++++++++
+ 3 files changed, 146 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch
 
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index af71be5..54058b3 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -37,7 +37,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
- LABELS_LIVE ?= "boot install"
- ROOT_LIVE ?= "root=/dev/ram0"
- INITRD_IMAGE_LIVE ?= "${MLPREFIX}core-image-minimal-initramfs"
--INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.cpio.gz"
-+INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.${INITRAMFS_FSTYPES}"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e720ddf..40c3174 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -33,6 +33,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch \
+            file://CVE-2018-20815.patch \
+            file://CVE-2019-8934.patch \
++           file://0001-linux-user-assume-__NR_gettid-always-exists.patch \
++           file://0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- LIVE_ROOTFS_TYPE ?= "ext4"
- ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${LIVE_ROOTFS_TYPE}"
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch b/meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch
+new file mode 100644
+index 0000000..b09ddbe
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch
+@@ -0,0 +1,49 @@
++From 184943d827ce09375284e6fbb9fd5eeb9e369529 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Wed, 20 Mar 2019 16:18:41 +0000
++Subject: [PATCH] linux-user: assume __NR_gettid always exists
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The gettid syscall was introduced in Linux 2.4.11. This is old enough
++that we can assume it always exists and thus not bother with the
++conditional backcompat logic.
++
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Reviewed-by: Laurent Vivier <laurent@vivier.eu>
++Message-Id: <20190320161842.13908-2-berrange@redhat.com>
++Signed-off-by: Laurent Vivier <laurent@vivier.eu>
++
++Upstream-Status: Backport
++dependancy patch for fix
++
++Signed-off-by: Armin Kuster <akuster808@gmail.com>
++
++---
++
++
++ linux-user/syscall.c | 8 --------
++ 1 file changed, 8 deletions(-)
++
++Index: qemu-3.1.0/linux-user/syscall.c
++===================================================================
++--- qemu-3.1.0.orig/linux-user/syscall.c
+++++ qemu-3.1.0/linux-user/syscall.c
++@@ -250,15 +250,7 @@ static type name (type1 arg1,type2 arg2,
++ #define TARGET_NR__llseek TARGET_NR_llseek
++ #endif
++ 
++-#ifdef __NR_gettid
++ _syscall0(int, gettid)
++-#else
++-/* This is a replacement for the host gettid() and must return a host
++-   errno. */
++-static int gettid(void) {
++-    return -ENOSYS;
++-}
++-#endif
++ 
++ /* For the 64-bit guest on 32-bit host case we must emulate
++  * getdents using getdents64, because otherwise the host
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch b/meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch
+new file mode 100644
+index 0000000..86d7678
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch
+@@ -0,0 +1,95 @@
++From 71ba74f67eaca21b0cc9d96f534ad3b9a7161400 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Wed, 20 Mar 2019 16:18:42 +0000
++Subject: [PATCH] linux-user: rename gettid() to sys_gettid() to avoid clash
++ with glibc
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The glibc-2.29.9000-6.fc31.x86_64 package finally includes the gettid()
++function as part of unistd.h when __USE_GNU is defined. This clashes
++with linux-user code which unconditionally defines this function name
++itself.
++
++/home/berrange/src/virt/qemu/linux-user/syscall.c:253:16: error: static declaration of ‘gettid’ follows non-static declaration
++  253 | _syscall0(int, gettid)
++      |                ^~~~~~
++/home/berrange/src/virt/qemu/linux-user/syscall.c:184:13: note: in definition of macro ‘_syscall0’
++  184 | static type name (void)   \
++      |             ^~~~
++In file included from /usr/include/unistd.h:1170,
++                 from /home/berrange/src/virt/qemu/include/qemu/osdep.h:107,
++                 from /home/berrange/src/virt/qemu/linux-user/syscall.c:20:
++/usr/include/bits/unistd_ext.h:34:16: note: previous declaration of ‘gettid’ was here
++   34 | extern __pid_t gettid (void) __THROW;
++      |                ^~~~~~
++  CC      aarch64-linux-user/linux-user/signal.o
++make[1]: *** [/home/berrange/src/virt/qemu/rules.mak:69: linux-user/syscall.o] Error 1
++make[1]: *** Waiting for unfinished jobs....
++make: *** [Makefile:449: subdir-aarch64-linux-user] Error 2
++
++While we could make our definition conditional and rely on glibc's impl,
++this patch simply renames our definition to sys_gettid() which is a
++common pattern in this file.
++
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Reviewed-by: Laurent Vivier <laurent@vivier.eu>
++Message-Id: <20190320161842.13908-3-berrange@redhat.com>
++Signed-off-by: Laurent Vivier <laurent@vivier.eu>
++
++Upstream-status: Backport
++
++Fixes issue found on tumbleweed-ty-1
++Yocto bug: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13577
++Signed-off-by: Armin Kuster <akuster808@gmail.com>
++
++---
++ linux-user/syscall.c | 11 ++++++-----
++ 1 file changed, 6 insertions(+), 5 deletions(-)
++
++Index: qemu-3.1.0/linux-user/syscall.c
++===================================================================
++--- qemu-3.1.0.orig/linux-user/syscall.c
+++++ qemu-3.1.0/linux-user/syscall.c
++@@ -250,7 +250,8 @@ static type name (type1 arg1,type2 arg2,
++ #define TARGET_NR__llseek TARGET_NR_llseek
++ #endif
++ 
++-_syscall0(int, gettid)
+++#define __NR_sys_gettid __NR_gettid
+++_syscall0(int, sys_gettid)
++ 
++ /* For the 64-bit guest on 32-bit host case we must emulate
++  * getdents using getdents64, because otherwise the host
++@@ -5483,7 +5484,7 @@ static void *clone_func(void *arg)
++     cpu = ENV_GET_CPU(env);
++     thread_cpu = cpu;
++     ts = (TaskState *)cpu->opaque;
++-    info->tid = gettid();
+++    info->tid = sys_gettid();
++     task_settid(ts);
++     if (info->child_tidptr)
++         put_user_u32(info->tid, info->child_tidptr);
++@@ -5628,9 +5629,9 @@ static int do_fork(CPUArchState *env, un
++                mapping.  We can't repeat the spinlock hack used above because
++                the child process gets its own copy of the lock.  */
++             if (flags & CLONE_CHILD_SETTID)
++-                put_user_u32(gettid(), child_tidptr);
+++                put_user_u32(sys_gettid(), child_tidptr);
++             if (flags & CLONE_PARENT_SETTID)
++-                put_user_u32(gettid(), parent_tidptr);
+++                put_user_u32(sys_gettid(), parent_tidptr);
++             ts = (TaskState *)cpu->opaque;
++             if (flags & CLONE_SETTLS)
++                 cpu_set_tls (env, newtls);
++@@ -10588,7 +10589,7 @@ static abi_long do_syscall1(void *cpu_en
++         return TARGET_PAGE_SIZE;
++ #endif
++     case TARGET_NR_gettid:
++-        return get_errno(gettid());
+++        return get_errno(sys_gettid());
++ #ifdef TARGET_NR_readahead
++     case TARGET_NR_readahead:
++ #if TARGET_ABI_BITS == 32
 -- 
 2.7.4
 
