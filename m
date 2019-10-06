@@ -1,50 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D20387D711
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 153337D5EA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Oct 2019 15:48:03 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id 23so6679046pgk.3
+	Sun,  6 Oct 2019 16:38:42 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id r4so10207794edy.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Oct 2019 08:48:05 -0700 (PDT)
+	Sun, 06 Oct 2019 09:38:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=N92GGTiP6n3VZ63OARk+wp1rRBfIwY8K7uBzmqHai+M=;
-	b=SMM+O0eAtR02HnzaM6JZ8eEF6nH9VWN5qYIYCv7TOy7MzH0hfConjRQkyp73QR6LRU
-	MuG9txXU0/oOlaqBgK9ovr/hOyf8B/xem+IqGy8oHBfLwYMYKcpbsggg+dQ2ATjqrEdt
-	ysSv3stNq5Iz8AjxHbcMPvmRZbnTD8gJ1/O2+S++5oGz4N/+ERWSSB2CH751zaneSONm
-	moX4MTBPySKo84XDSFDhG+9kGYn4Lh4mIMN3Ye6uUZzJ2YkXeo1JESFf1a4zXwPwNb0t
-	m0YzpG46SbTgXJniNJsIuRbc22Zh2ZyWQSH1VKbHA3dZgnuiANhskrXKEcihUMjOF6q5
-	8olA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=pzoVRB7zYRJWIBM81MrgW6heuuwBTKTGpsmwFTQ8JNw=;
+	b=kNUd2T0GOa7NnniVdrlBw6n2JiMDSFrR9wsIDP+MWndVb52wZVuvXEwqbz5UZejC8y
+	ly+FKufoQjLvnwV5PrPj5mAvTDMXX5/imidmN2Aun04lzLGhqkG/ShvQuTO7RRSbF8YR
+	Vrgj1rYFuCJH2aGjUOKWa27n97/0rPNu73cjyRFHWLJDNgOZhyLx73DRRRgbXIwhoZzz
+	mdB4soBF+nwESqqQGj1zaHANxgjl+XL0MDCaJnPXrp6qbF17fD6MhIsJVwTJIXiXIT7/
+	oIV8Y9Ym7BlYfFl90YHvjstoiP4YpoUTZGM/XcjI6v0hbAVq9NUQ0KeWJIVs9EBKzRs7
+	q25Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=N92GGTiP6n3VZ63OARk+wp1rRBfIwY8K7uBzmqHai+M=;
-	b=rg8ywfw4T4jJSNS8px4xXTyD5x+cnyxhuCWDQkcRPY95DtSZApDw5ElZFcYsu2QTAo
-	Qu22r343jFiO2dQ/ZyfD7dn2htczmZv2le/1c8hQRN9/Gvuy6Hwf8Z0HPI33rJTB+5mW
-	9aE51N6+X/FGmyxlqvWpHfhs7XjLYyEvQsdYscxyi3JJDr/yEVFDR1g/TLIC73DE78x1
-	cvRDS1IdtZxAunXSDTxtX0XUMZ8GnGVGCbyLcg4MkAhui7rWS6dQIavKPZNZGQfl8LV/
-	r+d2CiOkyQrSI8zRP6wUE6kHbRRxjbFI5+94sI1+kPRK76dgUiD7+l+i/1lMvo1YlVrM
-	7R7A==
-X-Gm-Message-State: APjAAAU16je03Q0v7yO3EWcSnP7bqI+ApKRaXbAknpCST58YWkiO/Pxq
-	NQhfLVW+c3ah5hu6+kFc5n2bwMiDGPM=
-X-Google-Smtp-Source: APXvYqxG5FXt52FZ0yBuu6NAT1bIXkLfDKrM/OFmUhmvf8sk8zChcbp+X52gVwD07c+qPwDWw3z7pQ==
-X-Received: by 2002:a62:75d2:: with SMTP id q201mr28039877pfc.43.1570376884326;
-	Sun, 06 Oct 2019 08:48:04 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::7275])
-	by smtp.gmail.com with ESMTPSA id
-	v19sm13081539pff.46.2019.10.06.08.48.03
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 06 Oct 2019 08:48:03 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 Oct 2019 08:47:47 -0700
-Message-Id: <20191006154747.7699-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=pzoVRB7zYRJWIBM81MrgW6heuuwBTKTGpsmwFTQ8JNw=;
+	b=AVJOreSK7xZVB2AjDi6vpR2rh7cptEt0KKhO+q2BPxw97MpbuGaKcW5DLz1MF8ZPGJ
+	zMDQ6mT3zspqdCBiSNi8781H2PaXG/9xo8vHuOmtvoGCkCWRdniOVBuFgdmwwA0nv1Ex
+	JMZtoMWCNP4u5Q0w5yebAWRVcUvigyLRq8Vfxug1ecw/9NaRQRcusZ8L7ZOfIg0jhCsc
+	k1Zkublic58tEGGrar2srZhv1UYh12ENQ9n7+Bgc3jG7myuts5uJ9BJGzLBfL4RMVA2G
+	Q/+cwCcVUMTd2tLvwCZLnS6IjgdltmiRFqBDTkk0LbYdcbt6MwbxxyFw8IRL4gkrfwvR
+	tSuA==
+X-Gm-Message-State: APjAAAVoCceP9L6f7deT9DN7MW640MN5gjXSxu97kcWKazXVMW2dwlQo
+	90okY9A7DbJVCiSQZd1snw1GbW5D/8SKe6Bm6ao=
+X-Google-Smtp-Source: APXvYqxXlhOV73Ta3MkthJWXT01NAojGQSPg+A/VLViFUWfNilHwy3xmmVryqC+1gHc56JVj6dhXelPBo/wN1ELcByI=
+X-Received: by 2002:a17:906:4a5a:: with SMTP id
+	a26mr20393176ejv.154.1570379923599; 
+	Sun, 06 Oct 2019 09:38:43 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] perl: Handle PACKAGES_DYNAMIC for perl-native
+References: <cover.1570375187.git.akuster808@gmail.com>
+In-Reply-To: <cover.1570375187.git.akuster808@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sun, 6 Oct 2019 18:38:31 +0200
+Message-ID: <CA+chaQdc5=7MgKwr673FdhJZ8RBKj=nA_sUy_uJRpzZqmM6MjQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [warrior] 0/8] Patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,67 +55,236 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Oct 2019 15:48:03 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 06 Oct 2019 16:38:43 -0000
+Content-Type: multipart/alternative; boundary="00000000000082378a0594409132"
 
-A perl module recipe extending to provide native version causes target
-perl dependencies to be pulled into native build if the module recipe
-has RDEPENDS_${PN} = "perl-module-XXXX" e.g. libxml-sax-base-perl
-recipe.
+--00000000000082378a0594409132
+Content-Type: text/plain; charset="UTF-8"
 
-The reason is that native bbclass empties out PACKAGES_DYNAMIC and
-perl's PACKAGES_DYNAMIC_class-target is greedy enough to usurp native
-modules as well.
+Can you please add:
+http://git.openembedded.org/openembedded-core/commit/?id=f7a470531d4bcc2888cbb9a7b197b86174f3aba2
 
-Eventually we end up with errors like when sstate is used across
-machines
+it does apply cleanly in warrior.
 
-* ERROR: libxml-sax-base-perl-native different signature for task do_populate_sysroot.sigdata between qemux86copy and qemuarm
+Thanks
 
-Therefore, to fix this native case needs to handled specially when
-re-assigning module dependencies in split_perl_packages(), where the
-modules are named correctly for native case and have a single dependency
-on perl-native, secondly, PACKAGES_DYNAMIC for target case needs to be
-reined in to spare, -native modules, thirdly, let perl-native take over
-the case for providing native modules
+On Sun, Oct 6, 2019 at 5:24 PM Armin Kuster <akuster808@gmail.com> wrote:
 
-This will fix several sstate signature errors like above with external
-perl modules providing native variants and having runtime dependencies on
-modules which are provided by perl proper
+> Next series to review.
+>
+> Please comment by Monday.
+> All these have already been sent to the list so short review period.
+>
+>
+> The following changes since commit
+> acc0f4a6a99fe9367e57a5c2a4f995b6f4db4a9f:
+>
+>   runqemu: Add support for kvm on aarch64 (2019-10-01 10:48:46 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib stable/warrior-nmut
+>   http://cgit.openembedded.org//log/?h=stable/warrior-nmut
+>
+> Adrian Bunk (1):
+>   json-c: Don't --enable-rdrand
+>
+> Alexander Kanavin (1):
+>   python: update to 3.7.3
+>
+> Andrii Bordunov via Openembedded-core (1):
+>   classes/image-live.bbclass: Don't hardcode cpio.gz
+>
+> Anuj Mittal (1):
+>   python3: upgrade 3.7.3 -> 3.7.4
+>
+> Armin Kuster (2):
+>   qemu: Fix CVE-2019-8934
+>   qemu: fix build issue on new hosts with glibc 2.30
+>
+> Dan Tran (1):
+>   unzip: Fix CVE-2019-13232
+>
+> Jan Klare (1):
+>   systemd: update SRCREV for systemd v241-stable
+>
+>  meta/classes/image-live.bbclass                    |   2 +-
+>  meta/recipes-core/systemd/systemd.inc              |   2 +-
+>  meta/recipes-devtools/json-c/json-c_0.13.1.bb      |   2 -
+>  ...ysconfig-append-STAGING_LIBDIR-python-sys.patch |   2 +-
+>  ...2-distutils-prefix-is-inside-staging-area.patch |   2 +-
+>  .../python/python3/CVE-2018-20852.patch            | 124 -------
+>  .../python/python3/CVE-2019-9636.patch             | 154 ---------
+>  .../python/python3/CVE-2019-9740.patch             | 151 ---------
+>  .../python/{python3_3.7.2.bb => python3_3.7.4.bb}  |   9 +-
+>  meta/recipes-devtools/qemu/qemu.inc                |   3 +
+>  ...nux-user-assume-__NR_gettid-always-exists.patch |  49 +++
+>  ...rename-gettid-to-sys_gettid-to-avoid-clas.patch |  95 ++++++
+>  .../recipes-devtools/qemu/qemu/CVE-2019-8934.patch | 215 +++++++++++++
+>  .../unzip/unzip/CVE-2019-13232_p1.patch            |  33 ++
+>  .../unzip/unzip/CVE-2019-13232_p2.patch            | 356
+> +++++++++++++++++++++
+>  .../unzip/unzip/CVE-2019-13232_p3.patch            | 121 +++++++
+>  meta/recipes-extended/unzip/unzip_6.0.bb           |   3 +
+>  17 files changed, 882 insertions(+), 441 deletions(-)
+>  delete mode 100644
+> meta/recipes-devtools/python/python3/CVE-2018-20852.patch
+>  delete mode 100644
+> meta/recipes-devtools/python/python3/CVE-2019-9636.patch
+>  delete mode 100644
+> meta/recipes-devtools/python/python3/CVE-2019-9740.patch
+>  rename meta/recipes-devtools/python/{python3_3.7.2.bb => python3_3.7.4.bb}
+> (97%)
+>  create mode 100644
+> meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch
+>  create mode 100644
+> meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-8934.patch
+>  create mode 100644
+> meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch
+>  create mode 100644
+> meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch
+>  create mode 100644
+> meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/perl/perl_5.30.0.bb | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+--00000000000082378a0594409132
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-devtools/perl/perl_5.30.0.bb b/meta/recipes-devtools/perl/perl_5.30.0.bb
-index a221bce52b..9614477982 100644
---- a/meta/recipes-devtools/perl/perl_5.30.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.0.bb
-@@ -265,13 +265,18 @@ python split_perl_packages () {
-     # Read the pre-generated dependency file, and use it to set module dependecies
-     for line in open(d.expand("${WORKDIR}") + '/perl-rdepends.txt').readlines():
-         splitline = line.split()
--        module = splitline[0].replace("RDEPENDS_perl", "RDEPENDS_${PN}")
--        depends = splitline[2].strip('"').replace("perl-module", "${PN}-module")
-+        if bb.data.inherits_class('native', d):
-+            module = splitline[0] + '-native'
-+            depends = "perl-native"
-+        else:
-+            module = splitline[0].replace("RDEPENDS_perl", "RDEPENDS_${PN}")
-+            depends = splitline[2].strip('"').replace("perl-module", "${PN}-module")
-         d.appendVar(d.expand(module), " " + depends)
- }
- 
--PACKAGES_DYNAMIC_class-target += "^perl-module-.*"
--PACKAGES_DYNAMIC_class-nativesdk += "^nativesdk-perl-module-.*"
-+PACKAGES_DYNAMIC_class-native_forcevariable = "^perl-module-.*-native$"
-+PACKAGES_DYNAMIC_class-target = "^perl-module-.*(?<!native)$"
-+PACKAGES_DYNAMIC_class-nativesdk = "^nativesdk-perl-module-.*"
- 
- RDEPENDS_${PN}-misc += "perl perl-modules"
- RDEPENDS_${PN}-pod += "perl"
--- 
-2.23.0
+<div dir=3D"ltr">Can you please add:<div><a href=3D"http://git.openembedded=
+.org/openembedded-core/commit/?id=3Df7a470531d4bcc2888cbb9a7b197b86174f3aba=
+2">http://git.openembedded.org/openembedded-core/commit/?id=3Df7a470531d4bc=
+c2888cbb9a7b197b86174f3aba2</a><br></div><div><br></div><div>it does apply =
+cleanly in warrior.</div><div><br></div><div>Thanks</div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Oct 6, 201=
+9 at 5:24 PM Armin Kuster &lt;<a href=3D"mailto:akuster808@gmail.com">akust=
+er808@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">Next series to review.<br>
+<br>
+Please comment by Monday.<br>
+All these have already been sent to the list so short review period.<br>
+<br>
+<br>
+The following changes since commit acc0f4a6a99fe9367e57a5c2a4f995b6f4db4a9f=
+:<br>
+<br>
+=C2=A0 runqemu: Add support for kvm on aarch64 (2019-10-01 10:48:46 +0100)<=
+br>
+<br>
+are available in the git repository at:<br>
+<br>
+=C2=A0 git://<a href=3D"http://git.openembedded.org/openembedded-core-contr=
+ib" rel=3D"noreferrer" target=3D"_blank">git.openembedded.org/openembedded-=
+core-contrib</a> stable/warrior-nmut<br>
+=C2=A0 <a href=3D"http://cgit.openembedded.org//log/?h=3Dstable/warrior-nmu=
+t" rel=3D"noreferrer" target=3D"_blank">http://cgit.openembedded.org//log/?=
+h=3Dstable/warrior-nmut</a><br>
+<br>
+Adrian Bunk (1):<br>
+=C2=A0 json-c: Don&#39;t --enable-rdrand<br>
+<br>
+Alexander Kanavin (1):<br>
+=C2=A0 python: update to 3.7.3<br>
+<br>
+Andrii Bordunov via Openembedded-core (1):<br>
+=C2=A0 classes/image-live.bbclass: Don&#39;t hardcode cpio.gz<br>
+<br>
+Anuj Mittal (1):<br>
+=C2=A0 python3: upgrade 3.7.3 -&gt; 3.7.4<br>
+<br>
+Armin Kuster (2):<br>
+=C2=A0 qemu: Fix CVE-2019-8934<br>
+=C2=A0 qemu: fix build issue on new hosts with glibc 2.30<br>
+<br>
+Dan Tran (1):<br>
+=C2=A0 unzip: Fix CVE-2019-13232<br>
+<br>
+Jan Klare (1):<br>
+=C2=A0 systemd: update SRCREV for systemd v241-stable<br>
+<br>
+=C2=A0meta/classes/image-live.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+=C2=A0meta/recipes-core/systemd/systemd.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+=C2=A0meta/recipes-devtools/json-c/<a href=3D"http://json-c_0.13.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">json-c_0.13.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 =C2=A02 -<br>
+=C2=A0...ysconfig-append-STAGING_LIBDIR-python-sys.patch |=C2=A0 =C2=A02 +-=
+<br>
+=C2=A0...2-distutils-prefix-is-inside-staging-area.patch |=C2=A0 =C2=A02 +-=
+<br>
+=C2=A0.../python/python3/CVE-2018-20852.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 124 -------<br>
+=C2=A0.../python/python3/CVE-2019-9636.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 154 ---------<br>
+=C2=A0.../python/python3/CVE-2019-9740.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 151 ---------<br>
+=C2=A0.../python/{<a href=3D"http://python3_3.7.2.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">python3_3.7.2.bb</a> =3D&gt; <a href=3D"http://python3_3.7.=
+4.bb" rel=3D"noreferrer" target=3D"_blank">python3_3.7.4.bb</a>}=C2=A0 |=C2=
+=A0 =C2=A09 +-<br>
+=C2=A0meta/recipes-devtools/qemu/qemu.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 +<br>
+=C2=A0...nux-user-assume-__NR_gettid-always-exists.patch |=C2=A0 49 +++<br>
+=C2=A0...rename-gettid-to-sys_gettid-to-avoid-clas.patch |=C2=A0 95 ++++++<=
+br>
+=C2=A0.../recipes-devtools/qemu/qemu/CVE-2019-8934.patch | 215 ++++++++++++=
++<br>
+=C2=A0.../unzip/unzip/CVE-2019-13232_p1.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 33 ++<br>
+=C2=A0.../unzip/unzip/CVE-2019-13232_p2.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 356 +++++++++++++++++++++<br>
+=C2=A0.../unzip/unzip/CVE-2019-13232_p3.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 121 +++++++<br>
+=C2=A0meta/recipes-extended/unzip/<a href=3D"http://unzip_6.0.bb" rel=3D"no=
+referrer" target=3D"_blank">unzip_6.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A03 +<br>
+=C2=A017 files changed, 882 insertions(+), 441 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/python/python3/CVE-2018-2085=
+2.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/python/python3/CVE-2019-9636=
+.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/python/python3/CVE-2019-9740=
+.patch<br>
+=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3_3.7.2.=
+bb" rel=3D"noreferrer" target=3D"_blank">python3_3.7.2.bb</a> =3D&gt; <a hr=
+ef=3D"http://python3_3.7.4.bb" rel=3D"noreferrer" target=3D"_blank">python3=
+_3.7.4.bb</a>} (97%)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-as=
+sume-__NR_gettid-always-exists.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-re=
+name-gettid-to-sys_gettid-to-avoid-clas.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-8934.patc=
+h<br>
+=C2=A0create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p=
+1.patch<br>
+=C2=A0create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p=
+2.patch<br>
+=C2=A0create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p=
+3.patch<br>
+<br>
+-- <br>
+2.7.4<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-
+--00000000000082378a0594409132--
