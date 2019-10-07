@@ -1,50 +1,50 @@
 Return-Path: <christophe.priouzeau@st.com>
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
 	[62.209.51.94])
-	by mail.openembedded.org (Postfix) with ESMTP id AE9866011C
+	by mail.openembedded.org (Postfix) with ESMTP id A0A977D5BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 13:42:04 +0000 (UTC)
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+	Mon,  7 Oct 2019 13:42:09 +0000 (UTC)
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
 	by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
-	x97D6e8a006744 for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Oct 2019 15:08:38 +0200
+	x97D1Tnm032197 for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Oct 2019 15:08:40 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
 	h=from : to : cc : subject
 	: date : message-id : references : in-reply-to : content-type :
 	content-transfer-encoding : mime-version; s=STMicroelectronics;
-	bh=lm5L414c1bzNuWFtVOLO50CxMcWEBeTWgs088pGzYiM=;
-	b=dwTy7uSVPrMl6obCbyVZqUw/t+lj1wVMo5aVMD44I4pEdVL5TwM2oCXeeNF23haFLXo1
-	3Uuzqru0/MtyGdmQysWNdHjEggzSQmFlb+PW3Iy2FA3/Cvb1vYKyU5wFqw3IRhADzDBa
-	jSGhj6sWSsMlpE2qCQ6U6so9xT8XN+NvSEVJUzfuiWwNFVvaN/pCqI64QfVhOoB5jUVT
-	MsVHIrbhn/Kwpcc6kAM8d6IyNLajNG+XaGoLgufnA/cpUvUSD28hIIU0NPyoap2UIQzS
-	HH/T1vmayQ4YDOjeysRWIpyIusBJ8V3xM7GzIC6f18bVj5kCmxVOq40IdhlbY/iiHVsM
-	Jw== 
+	bh=iDOERJ7CtVTByucJeaogQKaTMXt+Y53ayHjywhchRpM=;
+	b=uHtQq1vNzgB3N0/UGlNuySDhrfnRslvvYWhKObmu69a6j1EuXKkSkCrO6tMKQUfbSZri
+	h9v9TcFD2JHHR4ertWiNkAc76Ulwo0cf6VQ/z+qc3fZO4XZRdMcfVyc8SZFccwsCnHTs
+	0257I7aQJWKykjdXn2vaFuDhSlXXS+DC/W11Ix3x1gkXsydPySiNR8QcixwLBxXpX2mn
+	47D45BHFjVS9He0aFs6hTv+xSpe08NbbR73AehvJS3XoWGA6e/MRpd1g1HtyDb/lDmGC
+	648pDPcdz95TlD/LhR2m9teaeCKrFDAnUPHCaMk8qQAegw0MInNbIvrWvC8XPoR4NS9b
+	dw== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com with ESMTP id 2vegxvjead-1
+	by mx07-00178001.pphosted.com with ESMTP id 2vegn0jgvn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 15:08:38 +0200
+	Mon, 07 Oct 2019 15:08:40 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C779A10003A
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id ACA15100034
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:37 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag6node1.st.com [10.75.127.16])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C2C242C9DF7
+	Mon,  7 Oct 2019 15:08:39 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A85052C9DF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:37 +0200 (CEST)
-Received: from SFHDAG6NODE2.st.com (10.75.127.17) by SFHDAG6NODE1.st.com
-	(10.75.127.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
-	Mon, 7 Oct 2019 15:08:37 +0200
+	Mon,  7 Oct 2019 15:08:39 +0200 (CEST)
+Received: from SFHDAG6NODE2.st.com (10.75.127.17) by SFHDAG6NODE3.st.com
+	(10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+	Mon, 7 Oct 2019 15:08:39 +0200
 Received: from SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6]) by
 	SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6%20]) with mapi id
-	15.00.1347.000; Mon, 7 Oct 2019 15:08:37 +0200
+	15.00.1347.000; Mon, 7 Oct 2019 15:08:39 +0200
 From: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 05/23] file: update license
-Thread-Index: AQHVfRBUJN6mEhCESk2FzxpSFxtF9w==
-Date: Mon, 7 Oct 2019 13:08:37 +0000
-Message-ID: <84378992ee40c99e4ff1480c2fbad4e77e06fc71.1570452710.git.christophe.priouzeau@st.com>
+Thread-Topic: [PATCH 09/23] libarchive: update license
+Thread-Index: AQHVfRBV+M8oHMS46kCUvVcR8+Uo0w==
+Date: Mon, 7 Oct 2019 13:08:39 +0000
+Message-ID: <c526eaab76e3ca64967c3ee1fa415f52d24af01a.1570452710.git.christophe.priouzeau@st.com>
 References: <cover.1570452710.git.christophe.priouzeau@st.com>
 In-Reply-To: <cover.1570452710.git.christophe.priouzeau@st.com>
 Accept-Language: en-US
@@ -57,7 +57,7 @@ MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
 	definitions=2019-10-07_02:2019-10-07,2019-10-07 signatures=0
 Cc: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
-Subject: [PATCH 05/23] file: update license
+Subject: [PATCH 09/23] libarchive: update license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,33 +70,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 13:42:05 -0000
+X-List-Received-Date: Mon, 07 Oct 2019 13:42:10 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-The license of file is BSD-2-Clause.
+The license of libarchive is BSD-2-Clause.
 
 Signed-off-by: Christophe Priouzeau <christophe.priouzeau@st.com>
 ---
- meta/recipes-devtools/file/file_5.37.bb | 2 +-
+ meta/recipes-extended/libarchive/libarchive_3.4.0.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/file/file_5.37.bb b/meta/recipes-devtool=
-s/file/file_5.37.bb
-index 803aa9a271a..a840dbc012b 100644
---- a/meta/recipes-devtools/file/file_5.37.bb
-+++ b/meta/recipes-devtools/file/file_5.37.bb
-@@ -5,7 +5,7 @@ HOMEPAGE =3D "http://www.darwinsys.com/file/"
- SECTION =3D "console/utils"
-=20
- # two clause BSD
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb b/meta/re=
+cipes-extended/libarchive/libarchive_3.4.0.bb
+index c789cd44d21..9c0d5e26ec3 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
+@@ -2,7 +2,7 @@ SUMMARY =3D "Support for reading various archive formats"
+ DESCRIPTION =3D "C library and command-line tools for reading and writing =
+tar, cpio, zip, ISO, and other archive formats"
+ HOMEPAGE =3D "http://www.libarchive.org/"
+ SECTION =3D "devel"
 -LICENSE =3D "BSD"
 +LICENSE =3D "BSD-2-Clause"
- LIC_FILES_CHKSUM =3D "file://COPYING;beginline=3D2;md5=3D0251eaec1188b20d9=
-a72c502ecfdda1b"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dfe01f5e02b1f0cc934d593a7b0ddceb=
+6"
 =20
- DEPENDS =3D "zlib file-replacement-native"
+ DEPENDS =3D "e2fsprogs-native"
 --=20
 2.17.1
 
