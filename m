@@ -1,52 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2468A7E63A
+Return-Path: <misla011@fiu.edu>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A4D57D708
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 19:39:12 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id r19so698423wmh.2
+	Mon,  7 Oct 2019 20:34:33 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id o12so21237055qtf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 12:39:13 -0700 (PDT)
+	Mon, 07 Oct 2019 13:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
+	d=fiu-edu.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version:reply-to
 	:content-transfer-encoding;
-	bh=9PBrFUE6NhOGn6vtoNDNz8LZUhNmGiwPq879IqAhn9E=;
-	b=M0NoNspmmvtdd/xy6HPSBp4wExkTy1IG+6+g1cQfH5ElDO6un/wiag9zXUvpDEN3Ne
-	e8KwU6ywFeFZK2sW3qfINxd9eVXhd7dORQNcLFnNdoEeyqapjf6biL2bP847SL4m7emF
-	Me/Pl772dAhGhtYoqbJ5ZbnIi11sXkHW+HjRP629/VMVfvE7pcpnENfa11Y+gGKFIaLP
-	d9cSd1eFrBMNLANeIhcJhaQvb16v1xteM3yKzhoUdhgSg01XNMCPuU7ANPeP223JFLz8
-	JTpwNypKS5eArw5seew9k9J1nlBYHxeBE/4mOtBr+bjaYF5lyTUsSMbYR1D2l7XTto/q
-	vGww==
+	bh=qNhTlawfv1X4tSSLiheAB2TuBy4EqoWq6ADrWu7A93U=;
+	b=Sp83cXdOmxQLFQkOn8VrFAwIaWtqnNSQrXeDa/wx48QXdz+LfiP/u7URdi5jH333ZT
+	SxVUhygypvQSQxLQ6sRzmy+8i9U68y9P0Pnyi0fdIwEZLJH6Njei3rmTKVfY4IKqXYyk
+	x7Z5b1CpJSNx/oMHUy8d1RLP8pAVpQ2Qt+i0agpxJ/XT2IVylYqvMTznKQszXl15N88f
+	qG4RMihNqjrf2zzSXz06WxLTg4icOWpgGNOfPYlAWOJfzd7a5GNu9Sn/cUNILyeoSVxq
+	+D7UhDi7ZFsmfohuZjVVZPpXp5DBgfoH49QV9E8wAtx/TY156OOkmPP5odqksEnMUj54
+	qamA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9PBrFUE6NhOGn6vtoNDNz8LZUhNmGiwPq879IqAhn9E=;
-	b=nafPTqQ6kVDGTR9H75JaMmn1D8xzIqMa/Y8Q9bJxCxmnnTFm9qT1Q6jRAbS0JlepdM
-	mDygheLBQs14mkVOGMTq5MspXd75lXrXqtvIrx3h5awkwRgmMib9nYFsFAc7XLHtslRF
-	XmMjnCjcsINgNQzDT5xMgmFD09/4MCI37L/pWeCXDRiIx3aU1SRmC2ZQQXoUpemt1YUP
-	Qi+iEdfADp6JAP9pGkQ5sbWRqYXx+NJyWLwAkfK1k+0t6uLsG/dYpSPG0yyyXoRKlSkY
-	y2tpsFs/p6DMmNPiS4GfK4Z7ci6eelFKST/LwMk/5JqdXpTYznHIq851EWHKl+N19JIz
-	TshA==
-X-Gm-Message-State: APjAAAXjsLak/2ubCZAJxMVV/fLLYM02NHuZWK2XX1wowLdaVhNu63cN
-	K+S1hWfZlewtl175Im8Lvwp6R/Kh3GI=
-X-Google-Smtp-Source: APXvYqxQMR455jBo+T03K2d8jCRVDs7YjLla8YR1C5wCCDH90jHE04N4cBAsAhE/iApbR6VUmAeCIQ==
-X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr659107wmh.105.1570477152419; 
-	Mon, 07 Oct 2019 12:39:12 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id e3sm737194wme.39.2019.10.07.12.39.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 07 Oct 2019 12:39:11 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:reply-to:content-transfer-encoding;
+	bh=qNhTlawfv1X4tSSLiheAB2TuBy4EqoWq6ADrWu7A93U=;
+	b=uWMCaJ60rfuucqfsQS9IOrZQbzEMstYatcFqEo9IDFDBsQWtCW7fe6/gChCFGwUuMU
+	JFyG3Ew0AOBdOvG+Ikn5XokNLmJpO/EEG+zQaAfgmA6UBy6LlyWOoAyLLwd0ey5gZNmT
+	QiR7ziJHlVd90VBvtw2QCQbsbmTFz5hVpPo27bvjTplC67m+xUxc5D9XkMi/EekMwWNZ
+	G6P1uKuTd4k23I8A8iXkDZo4GXnRFR9WAQPePB7LFDRbCUdHeA/Yw6NBB+/Mo4sLpwfI
+	Gm3TG58GdD7dyy3jQXr4fkY/BAYt6mGNbELUMaQbC7poqExT3IuQcACyDOvoHWw9fSNQ
+	1jlw==
+X-Gm-Message-State: APjAAAW28QB7Edq4osBRaD5MngjKrK833bsl56PAixPW9wG5WE0A+QB5
+	r8eK/at2aOFezJuFob0nuj14fOONs8M=
+X-Google-Smtp-Source: APXvYqw18uZoPVwdcCLOTVVpiLA+MYMtotJZWAUGGdBl2N3wXHPertiuYEaOw2mA8lipbWsKB1LR6Q==
+X-Received: by 2002:ac8:3515:: with SMTP id y21mr32023740qtb.342.1570480473518;
+	Mon, 07 Oct 2019 13:34:33 -0700 (PDT)
+Received: from
+	muislam-yocto.h0ebkyng4k5ejcojahceueqbfb.cx.internal.cloudapp.net
+	([40.84.59.7]) by smtp.gmail.com with ESMTPSA id
+	t199sm8151111qke.36.2019.10.07.13.34.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 07 Oct 2019 13:34:32 -0700 (PDT)
+From: Muminul Islam <misla011@fiu.edu>
+X-Google-Original-From: Muminul Islam <muislam@microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Oct 2019 20:39:07 +0100
-Message-Id: <20191007193907.13467-1-ross.burton@intel.com>
+Date: Mon,  7 Oct 2019 20:34:25 +0000
+Message-Id: <20191007203425.90048-1-muislam@microsoft.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH v2] systemd: don't install systemd-hwdb-update.service
+Reply-To: muislam@microsoft.com
+Subject: [thud][PATCH v2] glibc: Security fix for cve <CVE-2019-6488, CVE-2019-7309>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,52 +61,514 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 19:39:12 -0000
+X-List-Received-Date: Mon, 07 Oct 2019 20:34:34 -0000
 Content-Transfer-Encoding: 8bit
 
-This service file is designed to do first-boot initialisation of the udev hwdb
-database, but the condition logic to fire it is suboptimal: it can fire if not
-needed, and can also not fire if needed.  Specifically it will always fire on
-first boot, even though as part of rootfs generation we build the hwdb database.
-On slow machines this can take a significant amount of time, the pathological
-case being qemumips where the service can time out after 90 seconds of
-processing.
-
-Other distributions have also noticed this problem (specifically, at least
-Debian and Clear) and solve it by using traditional postinst scripts to generate
-the hwdb (which we already do) and deleting the service file (which we don't).
-
-Finish the fix and improve boot times across all boards by deleting the service
-file.
-
-[ YOCTO #13504 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Muminul Islam <muislam@microsoft.com>
 ---
- meta/recipes-core/systemd/systemd_243.bb | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ .../glibc/glibc/CVE-2019-6488.patch           | 269 ++++++++++++++++++
+ .../glibc/glibc/CVE-2019-7309.patch           | 202 +++++++++++++
+ meta/recipes-core/glibc/glibc_2.28.bb         |   2 +
+ 3 files changed, 473 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-6488.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-7309.patch
 
-diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
-index b9097593f17..a4a744ce9ba 100644
---- a/meta/recipes-core/systemd/systemd_243.bb
-+++ b/meta/recipes-core/systemd/systemd_243.bb
-@@ -297,13 +297,10 @@ do_install() {
- 	# install default policy for presets
- 	# https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
- 	install -Dm 0644 ${WORKDIR}/99-default.preset ${D}${systemd_unitdir}/system-preset/99-default.preset
--}
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-6488.patch b/meta/recipes-core/glibc/glibc/CVE-2019-6488.patch
+new file mode 100644
+index 0000000000..b771ebb361
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2019-6488.patch
+@@ -0,0 +1,269 @@
++From 718016100d889a986c536b595bf6ec0d6ab4b90e Mon Sep 17 00:00:00 2001
++From: "H.J. Lu" <hjl.tools@gmail.com>
++Date: Fri, 1 Feb 2019 12:17:09 -0800
++Subject: [PATCH] x86-64 memchr/wmemchr: Properly handle the length parameter
++ [BZ #24097]
++Reply-To: muislam@microsoft.com
++
++On x32, the size_t parameter may be passed in the lower 32 bits of a
++64-bit register with the non-zero upper 32 bits.  The string/memory
++functions written in assembly can only use the lower 32 bits of a
++64-bit register as length or must clear the upper 32 bits before using
++the full 64-bit register for length.
++
++This pach fixes memchr/wmemchr for x32.  Tested on x86-64 and x32.  On
++x86-64, libc.so is the same with and withou the fix.
++
++	[BZ #24097]
++	CVE-2019-6488
++	* sysdeps/x86_64/memchr.S: Use RDX_LP for length.  Clear the
++	upper 32 bits of RDX register.
++	* sysdeps/x86_64/multiarch/memchr-avx2.S: Likewise.
++	* sysdeps/x86_64/x32/Makefile (tests): Add tst-size_t-memchr and
++	tst-size_t-wmemchr.
++	* sysdeps/x86_64/x32/test-size_t.h: New file.
++	* sysdeps/x86_64/x32/tst-size_t-memchr.c: Likewise.
++	* sysdeps/x86_64/x32/tst-size_t-wmemchr.c: Likewise.
++
++(cherry picked from commit 97700a34f36721b11a754cf37a1cc40695ece1fd)
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++---
++ NEWS                                    |  1 -
++ sysdeps/x86_64/memchr.S                 | 10 ++--
++ sysdeps/x86_64/multiarch/memchr-avx2.S  |  8 ++-
++ sysdeps/x86_64/x32/Makefile             |  8 +++
++ sysdeps/x86_64/x32/test-size_t.h        | 35 ++++++++++++
++ sysdeps/x86_64/x32/tst-size_t-memchr.c  | 72 +++++++++++++++++++++++++
++ sysdeps/x86_64/x32/tst-size_t-wmemchr.c | 20 +++++++
++ 7 files changed, 148 insertions(+), 6 deletions(-)
++ create mode 100644 sysdeps/x86_64/x32/test-size_t.h
++ create mode 100644 sysdeps/x86_64/x32/tst-size_t-memchr.c
++ create mode 100644 sysdeps/x86_64/x32/tst-size_t-wmemchr.c
++
++diff --git a/NEWS b/NEWS
++index fd14941128..b158973a30 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -17,7 +17,6 @@ The following bugs are resolved with this release:
++   [23606] Missing ENDBR32 in sysdeps/i386/start.S
++   [23679] gethostid: Missing NULL check for gethostbyname_r result
++   [23717] Fix stack overflow in stdlib/tst-setcontext9
++-
++ 
++ Version 2.28
++ 
++diff --git a/sysdeps/x86_64/memchr.S b/sysdeps/x86_64/memchr.S
++index feef5d4f24..cb320257a2 100644
++--- a/sysdeps/x86_64/memchr.S
+++++ b/sysdeps/x86_64/memchr.S
++@@ -34,12 +34,16 @@ ENTRY(MEMCHR)
++ 	mov	%edi, %ecx
++ 
++ #ifdef USE_AS_WMEMCHR
++-	test	%rdx, %rdx
+++	test	%RDX_LP, %RDX_LP
++ 	jz	L(return_null)
++-	shl	$2, %rdx
+++	shl	$2, %RDX_LP
++ #else
+++# ifdef __ILP32__
+++	/* Clear the upper 32 bits.  */
+++	movl	%edx, %edx
+++# endif
++ 	punpcklbw %xmm1, %xmm1
++-	test	%rdx, %rdx
+++	test	%RDX_LP, %RDX_LP
++ 	jz	L(return_null)
++ 	punpcklbw %xmm1, %xmm1
++ #endif
++diff --git a/sysdeps/x86_64/multiarch/memchr-avx2.S b/sysdeps/x86_64/multiarch/memchr-avx2.S
++index 5f5e772554..c81da19bf0 100644
++--- a/sysdeps/x86_64/multiarch/memchr-avx2.S
+++++ b/sysdeps/x86_64/multiarch/memchr-avx2.S
++@@ -40,16 +40,20 @@
++ ENTRY (MEMCHR)
++ # ifndef USE_AS_RAWMEMCHR
++ 	/* Check for zero length.  */
++-	testq	%rdx, %rdx
+++	test	%RDX_LP, %RDX_LP
++ 	jz	L(null)
++ # endif
++ 	movl	%edi, %ecx
++ 	/* Broadcast CHAR to YMM0.  */
++ 	vmovd	%esi, %xmm0
++ # ifdef USE_AS_WMEMCHR
++-	shl	$2, %rdx
+++	shl	$2, %RDX_LP
++ 	vpbroadcastd %xmm0, %ymm0
++ # else
+++#  ifdef __ILP32__
+++	/* Clear the upper 32 bits.  */
+++	movl	%edx, %edx
+++#  endif
++ 	vpbroadcastb %xmm0, %ymm0
++ # endif
++ 	/* Check if we may cross page boundary with one vector load.  */
++diff --git a/sysdeps/x86_64/x32/Makefile b/sysdeps/x86_64/x32/Makefile
++index f2ebc24fb0..7d528889c6 100644
++--- a/sysdeps/x86_64/x32/Makefile
+++++ b/sysdeps/x86_64/x32/Makefile
++@@ -4,3 +4,11 @@ ifeq ($(subdir),math)
++ # 64-bit llround.  Add -fno-builtin-lround to silence the compiler.
++ CFLAGS-s_llround.c += -fno-builtin-lround
++ endif
+++
+++ifeq ($(subdir),string)
+++tests += tst-size_t-memchr
+++endif
+++
+++ifeq ($(subdir),wcsmbs)
+++tests += tst-size_t-wmemchr
+++endif
++diff --git a/sysdeps/x86_64/x32/test-size_t.h b/sysdeps/x86_64/x32/test-size_t.h
++new file mode 100644
++index 0000000000..78a940863e
++--- /dev/null
+++++ b/sysdeps/x86_64/x32/test-size_t.h
++@@ -0,0 +1,35 @@
+++/* Test string/memory functions with size_t in the lower 32 bits of
+++   64-bit register.
+++   Copyright (C) 2019 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define TEST_MAIN
+++#include <string/test-string.h>
+++
+++/* On x32, parameter_t may be passed in a 64-bit register with the LEN
+++   field in the lower 32 bits.  When the LEN field of 64-bit register
+++   is passed to string/memory function as the size_t parameter, only
+++   the lower 32 bits can be used.  */
+++typedef struct
+++{
+++  union
+++    {
+++      size_t len;
+++      void (*fn) (void);
+++    };
+++  void *p;
+++} parameter_t;
++diff --git a/sysdeps/x86_64/x32/tst-size_t-memchr.c b/sysdeps/x86_64/x32/tst-size_t-memchr.c
++new file mode 100644
++index 0000000000..29a3daf102
++--- /dev/null
+++++ b/sysdeps/x86_64/x32/tst-size_t-memchr.c
++@@ -0,0 +1,72 @@
+++/* Test memchr with size_t in the lower 32 bits of 64-bit register.
+++   Copyright (C) 2019 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#ifndef WIDE
+++# define TEST_NAME "memchr"
+++#else
+++# define TEST_NAME "wmemchr"
+++#endif /* WIDE */
+++#include "test-size_t.h"
+++
+++#ifndef WIDE
+++# define MEMCHR memchr
+++# define CHAR char
+++# define UCHAR unsigned char
+++#else
+++# include <wchar.h>
+++# define MEMCHR wmemchr
+++# define CHAR wchar_t
+++# define UCHAR wchar_t
+++#endif /* WIDE */
+++
+++IMPL (MEMCHR, 1)
+++
+++typedef CHAR * (*proto_t) (const CHAR*, int, size_t);
+++
+++static CHAR *
+++__attribute__ ((noinline, noclone))
+++do_memchr (parameter_t a, parameter_t b)
+++{
+++  return CALL (&b, a.p, (uintptr_t) b.p, a.len);
+++}
+++
+++static int
+++test_main (void)
+++{
+++  test_init ();
+++
+++  parameter_t src = { { page_size / sizeof (CHAR) }, buf2 };
+++  parameter_t c = { { 0 }, (void *) (uintptr_t) 0x12 };
+++
+++  int ret = 0;
+++  FOR_EACH_IMPL (impl, 0)
+++    {
+++      c.fn = impl->fn;
+++      CHAR *res = do_memchr (src, c);
+++      if (res)
+++	{
+++	  error (0, 0, "Wrong result in function %s: %p != NULL",
+++		 impl->name, res);
+++	  ret = 1;
+++	}
+++    }
+++
+++  return ret ? EXIT_FAILURE : EXIT_SUCCESS;
+++}
+++
+++#include <support/test-driver.c>
++diff --git a/sysdeps/x86_64/x32/tst-size_t-wmemchr.c b/sysdeps/x86_64/x32/tst-size_t-wmemchr.c
++new file mode 100644
++index 0000000000..877801d646
++--- /dev/null
+++++ b/sysdeps/x86_64/x32/tst-size_t-wmemchr.c
++@@ -0,0 +1,20 @@
+++/* Test wmemchr with size_t in the lower 32 bits of 64-bit register.
+++   Copyright (C) 2019 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define WIDE 1
+++#include "tst-size_t-memchr.c"
++-- 
++2.23.0
++
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-7309.patch b/meta/recipes-core/glibc/glibc/CVE-2019-7309.patch
+new file mode 100644
+index 0000000000..43dbdffbea
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2019-7309.patch
+@@ -0,0 +1,202 @@
++From af7f46c45a60e6df754fb6258b546917e61ae6f1 Mon Sep 17 00:00:00 2001
++From: "H.J. Lu" <hjl.tools@gmail.com>
++Date: Mon, 4 Feb 2019 08:55:52 -0800
++Subject: [PATCH] x86-64 memcmp: Use unsigned Jcc instructions on size [BZ
++ #24155]
++Reply-To: muislam@microsoft.com
++
++Since the size argument is unsigned. we should use unsigned Jcc
++instructions, instead of signed, to check size.
++
++Tested on x86-64 and x32, with and without --disable-multi-arch.
++
++	[BZ #24155]
++	CVE-2019-7309
++	* NEWS: Updated for CVE-2019-7309.
++	* sysdeps/x86_64/memcmp.S: Use RDX_LP for size.  Clear the
++	upper 32 bits of RDX register for x32.  Use unsigned Jcc
++	instructions, instead of signed.
++	* sysdeps/x86_64/x32/Makefile (tests): Add tst-size_t-memcmp-2.
++	* sysdeps/x86_64/x32/tst-size_t-memcmp-2.c: New test.
++
++(cherry picked from commit 3f635fb43389b54f682fc9ed2acc0b2aaf4a923d)
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++---
++ sysdeps/x86_64/memcmp.S                  | 20 +++---
++ sysdeps/x86_64/x32/Makefile              |  2 +-
++ sysdeps/x86_64/x32/tst-size_t-memcmp-2.c | 79 ++++++++++++++++++++++++
++ 3 files changed, 92 insertions(+), 9 deletions(-)
++ create mode 100644 sysdeps/x86_64/x32/tst-size_t-memcmp-2.c
++
++diff --git a/sysdeps/x86_64/memcmp.S b/sysdeps/x86_64/memcmp.S
++index bcb4a2e88d..45918d375a 100644
++--- a/sysdeps/x86_64/memcmp.S
+++++ b/sysdeps/x86_64/memcmp.S
++@@ -21,14 +21,18 @@
++ 
++ 	.text
++ ENTRY (memcmp)
++-	test	%rdx, %rdx
+++#ifdef __ILP32__
+++	/* Clear the upper 32 bits.  */
+++	movl	%edx, %edx
+++#endif
+++	test	%RDX_LP, %RDX_LP
++ 	jz	L(finz)
++ 	cmpq	$1, %rdx
++-	jle	L(finr1b)
+++	jbe	L(finr1b)
++ 	subq	%rdi, %rsi
++ 	movq	%rdx, %r10
++ 	cmpq	$32, %r10
++-	jge	L(gt32)
+++	jae	L(gt32)
++ 	/* Handle small chunks and last block of less than 32 bytes.  */
++ L(small):
++ 	testq	$1, %r10
++@@ -156,7 +160,7 @@ L(A32):
++ 	movq	%r11, %r10
++ 	andq	$-32, %r10
++ 	cmpq	%r10, %rdi
++-        jge	L(mt16)
+++        jae	L(mt16)
++ 	/* Pre-unroll to be ready for unrolled 64B loop.  */
++ 	testq	$32, %rdi
++ 	jz	L(A64)
++@@ -178,7 +182,7 @@ L(A64):
++ 	movq	%r11, %r10
++ 	andq	$-64, %r10
++ 	cmpq	%r10, %rdi
++-        jge	L(mt32)
+++        jae	L(mt32)
++ 
++ L(A64main):
++ 	movdqu    (%rdi,%rsi), %xmm0
++@@ -216,7 +220,7 @@ L(mt32):
++ 	movq	%r11, %r10
++ 	andq	$-32, %r10
++ 	cmpq	%r10, %rdi
++-        jge	L(mt16)
+++        jae	L(mt16)
++ 
++ L(A32main):
++ 	movdqu    (%rdi,%rsi), %xmm0
++@@ -254,7 +258,7 @@ L(ATR):
++ 	movq	%r11, %r10
++ 	andq	$-32, %r10
++ 	cmpq	%r10, %rdi
++-        jge	L(mt16)
+++        jae	L(mt16)
++ 	testq	$16, %rdi
++ 	jz	L(ATR32)
++ 
++@@ -325,7 +329,7 @@ L(ATR64main):
++ 	movq	%r11, %r10
++ 	andq	$-32, %r10
++ 	cmpq	%r10, %rdi
++-        jge	L(mt16)
+++        jae	L(mt16)
++ 
++ L(ATR32res):
++ 	movdqa    (%rdi,%rsi), %xmm0
++diff --git a/sysdeps/x86_64/x32/Makefile b/sysdeps/x86_64/x32/Makefile
++index 7d528889c6..c9850beeb5 100644
++--- a/sysdeps/x86_64/x32/Makefile
+++++ b/sysdeps/x86_64/x32/Makefile
++@@ -6,7 +6,7 @@ CFLAGS-s_llround.c += -fno-builtin-lround
++ endif
++ 
++ ifeq ($(subdir),string)
++-tests += tst-size_t-memchr
+++tests += tst-size_t-memchr tst-size_t-memcmp-2
++ endif
++ 
++ ifeq ($(subdir),wcsmbs)
++diff --git a/sysdeps/x86_64/x32/tst-size_t-memcmp-2.c b/sysdeps/x86_64/x32/tst-size_t-memcmp-2.c
++new file mode 100644
++index 0000000000..d8ae1a0813
++--- /dev/null
+++++ b/sysdeps/x86_64/x32/tst-size_t-memcmp-2.c
++@@ -0,0 +1,79 @@
+++/* Test memcmp with size_t in the lower 32 bits of 64-bit register.
+++   Copyright (C) 2019 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++#define TEST_MAIN
+++#ifdef WIDE
+++# define TEST_NAME "wmemcmp"
+++#else
+++# define TEST_NAME "memcmp"
+++#endif
+++
+++#include "test-size_t.h"
+++
+++#ifdef WIDE
+++# include <inttypes.h>
+++# include <wchar.h>
+++
+++# define MEMCMP wmemcmp
+++# define CHAR wchar_t
+++#else
+++# define MEMCMP memcmp
+++# define CHAR char
+++#endif
+++
+++IMPL (MEMCMP, 1)
+++
+++typedef int (*proto_t) (const CHAR *, const CHAR *, size_t);
+++
+++static int
+++__attribute__ ((noinline, noclone))
+++do_memcmp (parameter_t a, parameter_t b)
+++{
+++  return CALL (&b, a.p, b.p, a.len);
+++}
+++
+++static int
+++test_main (void)
+++{
+++  test_init ();
+++
+++  parameter_t dest = { { page_size / sizeof (CHAR) }, buf1 };
+++  parameter_t src = { { 0 }, buf2 };
+++
+++  memcpy (buf1, buf2, page_size);
+++
+++  CHAR *p = (CHAR *) buf1;
+++  p[page_size / sizeof (CHAR) - 1] = (CHAR) 1;
+++
+++  int ret = 0;
+++  FOR_EACH_IMPL (impl, 0)
+++    {
+++      src.fn = impl->fn;
+++      int res = do_memcmp (dest, src);
+++      if (res >= 0)
+++	{
+++	  error (0, 0, "Wrong result in function %s: %i >= 0",
+++		 impl->name, res);
+++	  ret = 1;
+++	}
+++    }
+++
+++  return ret ? EXIT_FAILURE : EXIT_SUCCESS;
+++}
+++
+++#include <support/test-driver.c>
++-- 
++2.23.0
++
+diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+index 0839fa126d..4e6ee4dcab 100644
+--- a/meta/recipes-core/glibc/glibc_2.28.bb
++++ b/meta/recipes-core/glibc/glibc_2.28.bb
+@@ -50,6 +50,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://CVE-2019-9169.patch \
+            file://CVE-2016-10739.patch \
+            file://CVE-2018-19591.patch \
++           file://CVE-2019-6488.patch \
++           file://CVE-2019-7309.patch \
+ "
  
--do_install_append () {
--	# Mips qemu is extremely slow, allow more time for the hwdb update
--	# This is a workaround until https://github.com/systemd/systemd/issues/13581 is resolved
--	[ ! -e ${D}${systemd_unitdir}/system/systemd-hwdb-update.service ] ||
--		sed -i -e s#TimeoutSec=90s#TimeoutSec=180s# ${D}${systemd_unitdir}/system/systemd-hwdb-update.service
-+    # We use package postinsts for the hwdb update, as the update service is
-+    # easily triggered for no reason and will slow down boots.
-+    find ${D} -name systemd-hwdb-update.service -delete
- }
- 
- python populate_packages_prepend (){
+ NATIVESDKFIXES ?= ""
 -- 
 2.20.1
 
