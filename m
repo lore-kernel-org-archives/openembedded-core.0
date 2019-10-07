@@ -1,50 +1,28 @@
-Return-Path: <mhalstead@linuxfoundation.org>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id F37317E468
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A4CCC7DFBE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 16:48:03 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id q24so7114013plr.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 09:48:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yrIRuHMOJQXcmTpdBHlF9eqOUJ2Z3xtJNgnrYUZScJc=;
-	b=JilOd1afNbJa9MeqgeVb+xXHdaGeVxIwVnVzwLsKRpPvY2b0kd6y825/zIxokycIEA
-	6ZxFyNVG1yXtrEAE23YxpbvXMy5wQznbULwwkYjVnBB01kXMSgiC1rV/UZSv7HK9cYqO
-	qr8TcnlzuzDhLH5vI0waO3Z5Md9g1SAvqGK7s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yrIRuHMOJQXcmTpdBHlF9eqOUJ2Z3xtJNgnrYUZScJc=;
-	b=IdTpDDUOQsH08QB39ySjtCi+vqKFhcRDZ7Q8TTEpWf0Z/eLWnmlkuN5/VPOqQXTAF2
-	ax1QWZqGF6bx3OUwYuEh94WgJO4WHeagCmSGlAIeH6E64Ja4/EDw1FbWKd7MVPQWI6uV
-	BHXzmzzJBZ8QMcq7CcNXs5JDPAesBxujrOAXHVdedeeXsGVioXTxREokgaG8ApESByBA
-	SqkDYUcRVuW+8Dw6L8I5gputzvviWdJOQzRjGk+fgXK7xVvXK91UQoeIZoUq7loaNbtA
-	zWJsHYAdYXGxZpGAcxQYQrPZV0af4qsB3DY2kspJBbzAeuxtHQp2oAN+MCQwJFz8SyTx
-	TNNQ==
-X-Gm-Message-State: APjAAAUkUnhiYmtTyMosM/fOJr7kf9cLp7f/WfMTA7o78dfTa13L+zs4
-	iqZv30Y+ff+a1boj3BbBGwi9hzbyDL0=
-X-Google-Smtp-Source: APXvYqxzI3xdOjIh6RTHsiZg3pMBir3ZArCcX6yy7bLSWCjJZyveblnmnSsq1GTEbwjo+tB/x8iVqA==
-X-Received: by 2002:a17:902:b08b:: with SMTP id
-	p11mr31096817plr.320.1570466884538; 
-	Mon, 07 Oct 2019 09:48:04 -0700 (PDT)
-Received: from localhost.yoctoproject.org ([2601:1c0:ce01:91e0::6f11])
-	by smtp.gmail.com with ESMTPSA id
-	f6sm16903875pfq.169.2019.10.07.09.48.03
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 07 Oct 2019 09:48:03 -0700 (PDT)
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Oct 2019 09:47:57 -0700
-Message-Id: <20191007164757.29687-1-mhalstead@linuxfoundation.org>
-X-Mailer: git-send-email 2.21.0
+	Mon,  7 Oct 2019 17:44:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x97HiixQ019092
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 7 Oct 2019 10:44:44 -0700 (PDT)
+Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Mon, 7 Oct 2019 10:44:44 -0700
+To: <openembedded-core@lists.openembedded.org>, "Burton, Ross"
+	<ross.burton@intel.com>
+References: <20191007133836.1307-1-ross.burton@intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <2d8ef388-4ec5-3142-4769-2d038f7d7773@windriver.com>
+Date: Mon, 7 Oct 2019 13:44:43 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Cc: rpurdie@linuxfoundation.org
-Subject: [PATCH v2] uninative: Update to 2.7 release
+In-Reply-To: <20191007133836.1307-1-ross.burton@intel.com>
+X-Originating-IP: [172.25.44.5]
+Subject: Re: [PATCH] pango: add PACKAGECONFIGs for all the optional dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +35,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 16:48:04 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 07 Oct 2019 17:44:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-The 2.7 release updates glibc to version 2.30. Recently added to openSUSE
-Tumbleweed and needed for Fedora Core 31.
+On 10/7/19 9:38 AM, Ross Burton wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   .../recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb | 17 ++++++-----------
+>   1 file changed, 6 insertions(+), 11 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
+> index b0f565b9b07..b8a89d005e5 100644
+> --- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
+> +++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
+> @@ -7,24 +7,19 @@ LICENSE = "MIT"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=e11f5c3149cdec4bb309babb020b32b9 \
+>                       file://src/hb-ucd.cc;beginline=1;endline=15;md5=29d4dcb6410429195df67efe3382d8bc"
+>   
+> -DEPENDS = "glib-2.0 cairo fontconfig freetype"
+> -
+>   SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.xz"
+>   SRC_URI[md5sum] = "89b758a2eb14d56a94406cf914b62388"
+>   SRC_URI[sha256sum] = "c651fb3faaa338aeb280726837c2384064cdc17ef40539228d88a1260960844f"
+>   
+>   inherit autotools pkgconfig lib_package gtk-doc
+>   
+> -PACKAGECONFIG ??= "icu"
+> -PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
+> +PACKAGECONFIG ??= "cairo fontconfig freetype glib icu"
+> +PACKAGECONFIG[cairo] = "--with-cairo,--without-cairo,cairo"
+> +PACKAGECONFIG[fontconfig] = "--with-fontconfig,--without-fontconfig,fontconfig"
+> +PACKAGECONFIG[freetype] = "--with-freetype,--without-freetype,freetype"
+> +PACKAGECONFIG[glib] = "--with-glib,--without-glib,glib-2.0"
+>   PACKAGECONFIG[graphite] = "--with-graphite2,--without-graphite2,graphite2"
+> -
+> -EXTRA_OECONF = " \
+> -    --with-cairo \
+> -    --with-fontconfig \
+> -    --with-freetype \
+> -    --with-glib \
+> -"
+> +PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
----
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Hi Ross,
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index df24346855..ad75d3e2a3 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,9 +6,9 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_MAXGLIBCVERSION = "2.29"
-+UNINATIVE_MAXGLIBCVERSION = "2.30"
- 
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.6/"
--UNINATIVE_CHECKSUM[aarch64] ?= "a37118fc8b423f48146120707b81dd15017512c3e8ef9e6ca2cb3a033f4f4046"
--UNINATIVE_CHECKSUM[i686] ?= "3234fc3ded810225071f23a0e9a99f4f8c2480059945a848eff076ce78122ade"
--UNINATIVE_CHECKSUM[x86_64] ?= "133387753a9acf3e1b788103c59fac91e968e2ee331d7a4b9498e926ada7be57"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.7/"
-+UNINATIVE_CHECKSUM[aarch64] ?= "e76a45886ee8a0b3904b761c17ac8ff91edf9811ee455f1832d10763ba794dfc"
-+UNINATIVE_CHECKSUM[i686] ?= "810d027dfb1c7675226afbcec07808770516c969ee7378f6d8240281083f8924"
-+UNINATIVE_CHECKSUM[x86_64] ?= "9498d8bba047499999a7310ac2576d0796461184965351a56f6d32c888a1f216"
+PACKAGECONFIG has been nagging at me for years.
+This is mostly me just blowing off steam but I would
+like to hear your opinion.
+
+While this is technically correct and seeing as oe-core is
+a distribution building system rather than a distro, this change
+makes sense, I do wonder how we're going to keep up with
+the testing that such flexibility requires. We could
+test each package's default config and then toggle each
+PACKAGECONFIG individually, hopefully with an automated tool.
+
+In theory for N PACKAGECONFIGs, we'd need to do not just N
+toggles but for pairs of interacting configs: N * N-1 builds
+and so on for triplets, quadruplets, etc. For dependencies
+between packages, the number of combinations explodes rapidly.
+
+The status quo seems to be that we enable the options, pick
+reasonable defaults, and hope that distros and users test their
+configs and report errors. That'll work for detecting some errors
+even if it can take a while to get feedback. We recently tested
+a variety of configurations and found > 30 configurations that
+didn't work at all at build time.
+
+So for this package, are there use cases that you know of where
+the old, hard-coded defaults are a problem?
+
+It's also interesting to see that the README.md for pango says:
+
+    The Cairo backend is the preferred backend to use Pango with and is
+    subject of most of the development in the future.  It has the
+    advantage that the same code can be used for display and printing.
+
+    We suggest using Pango with Cairo as described above, but ...
+
+so it would seem that even our defaults are not the ones recommended
+by upstream.
+
+Does pango build if you drop glib? The README.md says:
+    Dependencies
+    ------------
+    Pango depends on the GLib library; more information about GLib can
+    be found at https://www.gtk.org/.
+
+../Randy
+>   
+>   PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
+>   
+> 
+
+
 -- 
-2.21.0
-
+# Randy MacLeod
+# Wind River Linux
 
