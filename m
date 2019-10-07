@@ -1,30 +1,30 @@
 Return-Path: <zangrc.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A3D76A441
+	by mail.openembedded.org (Postfix) with ESMTP id BFC8860685
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 05:42:32 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.67,265,1566835200"; d="scan'208";a="76575569"
+	Mon,  7 Oct 2019 06:00:40 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.67,265,1566835200"; d="scan'208";a="76576108"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Oct 2019 13:42:32 +0800
+	by heian.cn.fujitsu.com with ESMTP; 07 Oct 2019 14:00:40 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 69DC34CE042F
+	by cn.fujitsu.com (Postfix) with ESMTP id 196834CE042F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 13:42:32 +0800 (CST)
+	Mon,  7 Oct 2019 14:00:40 +0800 (CST)
 Received: from localhost.local (10.167.225.40) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 7 Oct 2019 13:42:40 +0800
+	Server (TLS) id 14.3.439.0; Mon, 7 Oct 2019 14:00:48 +0800
 From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 7 Oct 2019 13:42:33 +0800
-Message-ID: <20191007054233.17959-1-zangrc.fnst@cn.fujitsu.com>
+Date: Mon, 7 Oct 2019 14:00:41 +0800
+Message-ID: <20191007060041.18153-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 69DC34CE042F.A780D
+X-yoursite-MailScanner-ID: 196834CE042F.A5CA9
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] libxfont2:upgrade 2.0.3 -> 2.0.4
+Subject: [PATCH] libxvmc:upgrade 1.0.11 -> 1.0.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 05:42:33 -0000
+X-List-Received-Date: Mon, 07 Oct 2019 06:00:42 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../xorg-lib/{libxfont2_2.0.3.bb => libxfont2_2.0.4.bb}               | 4 ++--
+ .../xorg-lib/{libxvmc_1.0.11.bb => libxvmc_1.0.12.bb}                 | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxfont2_2.0.3.bb => libxfont2_2.0.4.bb} (81%)
+ rename meta/recipes-graphics/xorg-lib/{libxvmc_1.0.11.bb => libxvmc_1.0.12.bb} (76%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.4.bb
-similarity index 81%
-rename from meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
-rename to meta/recipes-graphics/xorg-lib/libxfont2_2.0.4.bb
-index 6994d79..1c9cc0a 100644
---- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.4.bb
-@@ -15,8 +15,8 @@ XORG_PN = "libXfont2"
+diff --git a/meta/recipes-graphics/xorg-lib/libxvmc_1.0.11.bb b/meta/recipes-graphics/xorg-lib/libxvmc_1.0.12.bb
+similarity index 76%
+rename from meta/recipes-graphics/xorg-lib/libxvmc_1.0.11.bb
+rename to meta/recipes-graphics/xorg-lib/libxvmc_1.0.12.bb
+index d95f809..29ed0c4 100644
+--- a/meta/recipes-graphics/xorg-lib/libxvmc_1.0.11.bb
++++ b/meta/recipes-graphics/xorg-lib/libxvmc_1.0.12.bb
+@@ -15,5 +15,5 @@ PE = "1"
  
- BBCLASSEXTEND = "native"
+ XORG_PN = "libXvMC"
  
--SRC_URI[md5sum] = "b7ca87dfafeb5205b28a1e91ac3efe85"
--SRC_URI[sha256sum] = "0e8ab7fd737ccdfe87e1f02b55f221f0bd4503a1c5f28be4ed6a54586bac9c4e"
-+SRC_URI[md5sum] = "00516bed7ec1453d56974560379fff2f"
-+SRC_URI[sha256sum] = "6d151b3368e5035efede4b6264c0fdc6662c1c99dbc2de425e3480cababc69e6"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+-SRC_URI[md5sum] = "707175185a2e0490b8173686c657324f"
+-SRC_URI[sha256sum] = "4a2e34d444a683a7c010b01b23cefe2b8043a063ce4dc6a9b855836b5262622d"
++SRC_URI[md5sum] = "3569ff7f3e26864d986d6a21147eaa58"
++SRC_URI[sha256sum] = "6b3da7977b3f7eaf4f0ac6470ab1e562298d82c4e79077765787963ab7966dcd"
 -- 
 2.7.4
 
