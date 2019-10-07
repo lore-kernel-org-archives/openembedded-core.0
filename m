@@ -1,54 +1,54 @@
 Return-Path: <misla011@fiu.edu>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1346C6B50B
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 795487D23C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 21:50:47 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id u40so21536244qth.11
+	Mon,  7 Oct 2019 21:52:59 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id n7so21582839qtb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 14:50:49 -0700 (PDT)
+	Mon, 07 Oct 2019 14:53:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=fiu-edu.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:mime-version:reply-to
 	:content-transfer-encoding;
-	bh=bgDMemfwZ5TNkrDLeWtSU6GvAUcnlWzhT0Hnf1FZ2n4=;
-	b=xnqPsQhBDvnCcCNiwqp8W3LuzCYfx1WOgDEEyUh1O+CAXLPozU6MyS51lR9VZgI/qt
-	adgw5k3XtXFqgTUqfxVWFOG8PKAr/wcyGLhSDwhH/2i/RrN4UztyxPuYs/8PqSsKahB4
-	/v1mk0hNEYrNohpc3InD6G1fmui9TkXzLvYvJ4fIkXyjtgRi7p97WaQq89TRkvTwxLs7
-	K3SfaIIPyZsikPx0RYnr13X76fvAXvkdvm8b3scmw27Hqj/GCGj3vwhKVZQTAjDuG21/
-	qZbLZ+IeOEfM50G2JHqeYK+CYZ+r7wcG6ktYxOrmEBb4PlTnamEvunRLTByey7jWqwc+
-	HmQw==
+	bh=9oexCw1PjQEK20JJxo/H3YfBrnRJ3eIsPukGoCZLZ+I=;
+	b=1N2LdG+yhrxKqCDvNxNJK/8G7uNNAwLuFaG2Ie9X+bfie4CpEaLC+eXbA2vNH2yp7n
+	o7WZDDMZkhKrE1o/ZT6qYOMUDmRlaHwX0JfaTn83DS/eW6oYyFU76pOgtCxDtJZ7anYx
+	wOyPafDybNIzD3Ov3H+l8Xpy5Nmjs9AgEBQcmlezDCME9/Aji/qLsqoP2hJYTUb6jt5N
+	3gtryaXuhQHVJqsl693jljswq4ldLmbAZy5Y2aW24C3qxz3zwEaiTuUGiXyEWCl1ONIl
+	Io4uOh2N5nQyUrCy6NBSaq+LLQiUUE7f7CpwT3fTCt6ktO9/zWsAQACL4YCf64wmlh5f
+	xNkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:reply-to:content-transfer-encoding;
-	bh=bgDMemfwZ5TNkrDLeWtSU6GvAUcnlWzhT0Hnf1FZ2n4=;
-	b=dXIxBf+urXx6nXRaFu9LvMhpDKl27hXMK5cz3PgpSJjJUZ5J4DurjbAo/9c5JzfsaC
-	yiDs1UBbEq06j0JMlFh2QTVvBeb3/pThJyprCViAyKwqebEXCBF1rSIk8wJY+66lxiF5
-	MhcdEhpVo65IBsT2Iv/HkwA7utj7FX133HfC9Jq9Y1a2JgJFegd/8zygyzk4n5TBUlgv
-	ABPHp7DXJ3HANYNCXc4USd6cZrvC5vnGHvWMZJUXUOoIKfr/ZEohhZJAXoH9p4s+cZ9o
-	eHD+QeJGsSjOVMIaa/DwM4Xqq7l9aYCtbR/JGJlRzpvKhJOfrzrnDSj66stYEwC7bQd2
-	tZEw==
-X-Gm-Message-State: APjAAAVEFxmxM1UNW5DfzrI13tk3ZbivXA0IHyv+BfohrpyeIewu/gFR
-	6BZOoeQb9IQh4qLj83O4oA4pZnVhioc=
-X-Google-Smtp-Source: APXvYqxG0yGF85YNmRIQG0x4G7ifOycR+gVB5yEAInyGe47BXLiV6l8B0SxBEvubmeEiVH6h+k4IRw==
-X-Received: by 2002:a0c:a9db:: with SMTP id c27mr4227393qvb.231.1570485048245; 
-	Mon, 07 Oct 2019 14:50:48 -0700 (PDT)
+	bh=9oexCw1PjQEK20JJxo/H3YfBrnRJ3eIsPukGoCZLZ+I=;
+	b=fmbjanir5fvUH8HqLgWvBOac55HrY2UF+ACbHgMmdSJI/10gaqqD9QUo+n0m2AXyMp
+	33cDSFsY6zZ4kzzq1LNfMLPocZRQPGjnr6uUh3zsx03duoH/et/k0xBj+NsAhvKwQD5o
+	uDlab+2cVPJmwoEBY78vxGoHOUfug7qbXIPzakQKROozkk35fo08xelU1sLpuTI3ipFR
+	HJGkqeaf1u3iUTs3zn6tn+7lz6msVVpmozc9Mt3BUs87x9dzk9PxhZCP+TqTyO1V/tpZ
+	c4m0fS67FAYbU1BFncFEoNunA3woXxzaCy2NgoxNsMBOuJpR+BKqW4Apb3UCV43Ncs0U
+	5v6A==
+X-Gm-Message-State: APjAAAU8Hqhy4F0Gwkj5VylU0mAKhsZlORNP5v8JiQ9DS6xBd0gsCvc8
+	5qFcQbJGul10ltIyF4W5Q0w7MTXPC8o=
+X-Google-Smtp-Source: APXvYqyjvr168xTKD0q6Sz6Z10BGBQiZPqYUwLQGxkcQGWPJges1EsXNisGGbpIB8+B25ed416ka7g==
+X-Received: by 2002:ac8:2e58:: with SMTP id s24mr33315271qta.52.1570485180060; 
+	Mon, 07 Oct 2019 14:53:00 -0700 (PDT)
 Received: from
 	muislam-yocto.h0ebkyng4k5ejcojahceueqbfb.cx.internal.cloudapp.net
-	([40.84.59.7])
-	by smtp.gmail.com with ESMTPSA id 29sm8338138qkp.86.2019.10.07.14.50.47
+	([40.84.59.7]) by smtp.gmail.com with ESMTPSA id
+	199sm8468418qkk.112.2019.10.07.14.52.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 07 Oct 2019 14:50:47 -0700 (PDT)
+	Mon, 07 Oct 2019 14:52:59 -0700 (PDT)
 From: Muminul Islam <misla011@fiu.edu>
 X-Google-Original-From: Muminul Islam <muislam@microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Oct 2019 21:50:40 +0000
-Message-Id: <20191007215040.106320-1-muislam@microsoft.com>
+Date: Mon,  7 Oct 2019 21:52:53 +0000
+Message-Id: <20191007215253.106710-1-muislam@microsoft.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Reply-To: muislam@microsoft.com
-Subject: [thud][PATCH v4] glibc: Security fix for cve <CVE-2019-6488, CVE-2019-7309>
+Subject: [thud][PATCH v2] curl: Security fix for CVE-2019-5482
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,528 +61,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 21:50:48 -0000
+X-List-Received-Date: Mon, 07 Oct 2019 21:52:59 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Muminul Islam <muislam@microsoft.com>
-
-CVE: CVE-2019-6488, CVE-2019-7309
-
-Upstream-Status: Backport
 ---
- .../glibc/glibc/CVE-2019-6488.patch           | 274 ++++++++++++++++++
- .../glibc/glibc/CVE-2019-7309.patch           | 207 +++++++++++++
- meta/recipes-core/glibc/glibc_2.28.bb         |   2 +
- 3 files changed, 483 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-6488.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-7309.patch
+ .../curl/curl/CVE-2019-5482.patch             | 68 +++++++++++++++++++
+ meta/recipes-support/curl/curl_7.61.0.bb      |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5482.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-6488.patch b/meta/recipes-core/glibc/glibc/CVE-2019-6488.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2019-5482.patch b/meta/recipes-support/curl/curl/CVE-2019-5482.patch
 new file mode 100644
-index 0000000000..fa423754d4
+index 0000000000..91b186699d
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2019-6488.patch
-@@ -0,0 +1,274 @@
-+From 718016100d889a986c536b595bf6ec0d6ab4b90e Mon Sep 17 00:00:00 2001
-+From: "H.J. Lu" <hjl.tools@gmail.com>
-+Date: Fri, 1 Feb 2019 12:17:09 -0800
-+Subject: [PATCH] x86-64 memchr/wmemchr: Properly handle the length parameter
-+ [BZ #24097]
++++ b/meta/recipes-support/curl/curl/CVE-2019-5482.patch
+@@ -0,0 +1,68 @@
++From 38319e0717844c32464a6c7630de9be226f1c6f4 Mon Sep 17 00:00:00 2001
++From: Thomas Vegas <>
++Date: Sat, 31 Aug 2019 17:30:51 +0200
++Subject: [PATCH] tftp: Alloc maximum blksize, and use default unless OACK is
++ received
 +Reply-To: muislam@microsoft.com
 +
-+On x32, the size_t parameter may be passed in the lower 32 bits of a
-+64-bit register with the non-zero upper 32 bits.  The string/memory
-+functions written in assembly can only use the lower 32 bits of a
-+64-bit register as length or must clear the upper 32 bits before using
-+the full 64-bit register for length.
++Fixes potential buffer overflow from 'recvfrom()', should the server
++return an OACK without blksize.
 +
-+This pach fixes memchr/wmemchr for x32.  Tested on x86-64 and x32.  On
-+x86-64, libc.so is the same with and withou the fix.
++Bug: https://curl.haxx.se/docs/CVE-2019-5482.html
 +
-+	[BZ #24097]
-+	CVE-2019-6488
-+	* sysdeps/x86_64/memchr.S: Use RDX_LP for length.  Clear the
-+	upper 32 bits of RDX register.
-+	* sysdeps/x86_64/multiarch/memchr-avx2.S: Likewise.
-+	* sysdeps/x86_64/x32/Makefile (tests): Add tst-size_t-memchr and
-+	tst-size_t-wmemchr.
-+	* sysdeps/x86_64/x32/test-size_t.h: New file.
-+	* sysdeps/x86_64/x32/tst-size_t-memchr.c: Likewise.
-+	* sysdeps/x86_64/x32/tst-size_t-wmemchr.c: Likewise.
-+
-+(cherry picked from commit 97700a34f36721b11a754cf37a1cc40695ece1fd)
-+
-+CVE: CVE-2019-6488
++CVE: CVE-2019-5482
 +
 +Upstream-Status: Backport
 +
 +Signed-off-by: Muminul Islam <muislam@microsoft.com>
 +---
-+ NEWS                                    |  1 -
-+ sysdeps/x86_64/memchr.S                 | 10 ++--
-+ sysdeps/x86_64/multiarch/memchr-avx2.S  |  8 ++-
-+ sysdeps/x86_64/x32/Makefile             |  8 +++
-+ sysdeps/x86_64/x32/test-size_t.h        | 35 ++++++++++++
-+ sysdeps/x86_64/x32/tst-size_t-memchr.c  | 72 +++++++++++++++++++++++++
-+ sysdeps/x86_64/x32/tst-size_t-wmemchr.c | 20 +++++++
-+ 7 files changed, 148 insertions(+), 6 deletions(-)
-+ create mode 100644 sysdeps/x86_64/x32/test-size_t.h
-+ create mode 100644 sysdeps/x86_64/x32/tst-size_t-memchr.c
-+ create mode 100644 sysdeps/x86_64/x32/tst-size_t-wmemchr.c
++ lib/tftp.c | 12 +++++++++---
++ 1 file changed, 9 insertions(+), 3 deletions(-)
 +
-+diff --git a/NEWS b/NEWS
-+index fd14941128..b158973a30 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -17,7 +17,6 @@ The following bugs are resolved with this release:
-+   [23606] Missing ENDBR32 in sysdeps/i386/start.S
-+   [23679] gethostid: Missing NULL check for gethostbyname_r result
-+   [23717] Fix stack overflow in stdlib/tst-setcontext9
-+-
-+ 
-+ Version 2.28
++diff --git a/lib/tftp.c b/lib/tftp.c
++index 064eef318..2c148e3e1 100644
++--- a/lib/tftp.c
+++++ b/lib/tftp.c
++@@ -969,6 +969,7 @@ static CURLcode tftp_connect(struct connectdata *conn, bool *done)
++ {
++   tftp_state_data_t *state;
++   int blksize;
+++  int need_blksize;
 + 
-+diff --git a/sysdeps/x86_64/memchr.S b/sysdeps/x86_64/memchr.S
-+index feef5d4f24..cb320257a2 100644
-+--- a/sysdeps/x86_64/memchr.S
-++++ b/sysdeps/x86_64/memchr.S
-+@@ -34,12 +34,16 @@ ENTRY(MEMCHR)
-+ 	mov	%edi, %ecx
++   blksize = TFTP_BLKSIZE_DEFAULT;
 + 
-+ #ifdef USE_AS_WMEMCHR
-+-	test	%rdx, %rdx
-++	test	%RDX_LP, %RDX_LP
-+ 	jz	L(return_null)
-+-	shl	$2, %rdx
-++	shl	$2, %RDX_LP
-+ #else
-++# ifdef __ILP32__
-++	/* Clear the upper 32 bits.  */
-++	movl	%edx, %edx
-++# endif
-+ 	punpcklbw %xmm1, %xmm1
-+-	test	%rdx, %rdx
-++	test	%RDX_LP, %RDX_LP
-+ 	jz	L(return_null)
-+ 	punpcklbw %xmm1, %xmm1
-+ #endif
-+diff --git a/sysdeps/x86_64/multiarch/memchr-avx2.S b/sysdeps/x86_64/multiarch/memchr-avx2.S
-+index 5f5e772554..c81da19bf0 100644
-+--- a/sysdeps/x86_64/multiarch/memchr-avx2.S
-++++ b/sysdeps/x86_64/multiarch/memchr-avx2.S
-+@@ -40,16 +40,20 @@
-+ ENTRY (MEMCHR)
-+ # ifndef USE_AS_RAWMEMCHR
-+ 	/* Check for zero length.  */
-+-	testq	%rdx, %rdx
-++	test	%RDX_LP, %RDX_LP
-+ 	jz	L(null)
-+ # endif
-+ 	movl	%edi, %ecx
-+ 	/* Broadcast CHAR to YMM0.  */
-+ 	vmovd	%esi, %xmm0
-+ # ifdef USE_AS_WMEMCHR
-+-	shl	$2, %rdx
-++	shl	$2, %RDX_LP
-+ 	vpbroadcastd %xmm0, %ymm0
-+ # else
-++#  ifdef __ILP32__
-++	/* Clear the upper 32 bits.  */
-++	movl	%edx, %edx
-++#  endif
-+ 	vpbroadcastb %xmm0, %ymm0
-+ # endif
-+ 	/* Check if we may cross page boundary with one vector load.  */
-+diff --git a/sysdeps/x86_64/x32/Makefile b/sysdeps/x86_64/x32/Makefile
-+index f2ebc24fb0..7d528889c6 100644
-+--- a/sysdeps/x86_64/x32/Makefile
-++++ b/sysdeps/x86_64/x32/Makefile
-+@@ -4,3 +4,11 @@ ifeq ($(subdir),math)
-+ # 64-bit llround.  Add -fno-builtin-lround to silence the compiler.
-+ CFLAGS-s_llround.c += -fno-builtin-lround
-+ endif
++@@ -983,15 +984,20 @@ static CURLcode tftp_connect(struct connectdata *conn, bool *done)
++       return CURLE_TFTP_ILLEGAL;
++   }
++ 
+++  need_blksize = blksize;
+++  /* default size is the fallback when no OACK is received */
+++  if(need_blksize < TFTP_BLKSIZE_DEFAULT)
+++    need_blksize = TFTP_BLKSIZE_DEFAULT;
 ++
-++ifeq ($(subdir),string)
-++tests += tst-size_t-memchr
-++endif
-++
-++ifeq ($(subdir),wcsmbs)
-++tests += tst-size_t-wmemchr
-++endif
-+diff --git a/sysdeps/x86_64/x32/test-size_t.h b/sysdeps/x86_64/x32/test-size_t.h
-+new file mode 100644
-+index 0000000000..78a940863e
-+--- /dev/null
-++++ b/sysdeps/x86_64/x32/test-size_t.h
-+@@ -0,0 +1,35 @@
-++/* Test string/memory functions with size_t in the lower 32 bits of
-++   64-bit register.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#define TEST_MAIN
-++#include <string/test-string.h>
-++
-++/* On x32, parameter_t may be passed in a 64-bit register with the LEN
-++   field in the lower 32 bits.  When the LEN field of 64-bit register
-++   is passed to string/memory function as the size_t parameter, only
-++   the lower 32 bits can be used.  */
-++typedef struct
-++{
-++  union
-++    {
-++      size_t len;
-++      void (*fn) (void);
-++    };
-++  void *p;
-++} parameter_t;
-+diff --git a/sysdeps/x86_64/x32/tst-size_t-memchr.c b/sysdeps/x86_64/x32/tst-size_t-memchr.c
-+new file mode 100644
-+index 0000000000..29a3daf102
-+--- /dev/null
-++++ b/sysdeps/x86_64/x32/tst-size_t-memchr.c
-+@@ -0,0 +1,72 @@
-++/* Test memchr with size_t in the lower 32 bits of 64-bit register.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#ifndef WIDE
-++# define TEST_NAME "memchr"
-++#else
-++# define TEST_NAME "wmemchr"
-++#endif /* WIDE */
-++#include "test-size_t.h"
-++
-++#ifndef WIDE
-++# define MEMCHR memchr
-++# define CHAR char
-++# define UCHAR unsigned char
-++#else
-++# include <wchar.h>
-++# define MEMCHR wmemchr
-++# define CHAR wchar_t
-++# define UCHAR wchar_t
-++#endif /* WIDE */
-++
-++IMPL (MEMCHR, 1)
-++
-++typedef CHAR * (*proto_t) (const CHAR*, int, size_t);
-++
-++static CHAR *
-++__attribute__ ((noinline, noclone))
-++do_memchr (parameter_t a, parameter_t b)
-++{
-++  return CALL (&b, a.p, (uintptr_t) b.p, a.len);
-++}
-++
-++static int
-++test_main (void)
-++{
-++  test_init ();
-++
-++  parameter_t src = { { page_size / sizeof (CHAR) }, buf2 };
-++  parameter_t c = { { 0 }, (void *) (uintptr_t) 0x12 };
-++
-++  int ret = 0;
-++  FOR_EACH_IMPL (impl, 0)
-++    {
-++      c.fn = impl->fn;
-++      CHAR *res = do_memchr (src, c);
-++      if (res)
-++	{
-++	  error (0, 0, "Wrong result in function %s: %p != NULL",
-++		 impl->name, res);
-++	  ret = 1;
-++	}
-++    }
-++
-++  return ret ? EXIT_FAILURE : EXIT_SUCCESS;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/sysdeps/x86_64/x32/tst-size_t-wmemchr.c b/sysdeps/x86_64/x32/tst-size_t-wmemchr.c
-+new file mode 100644
-+index 0000000000..877801d646
-+--- /dev/null
-++++ b/sysdeps/x86_64/x32/tst-size_t-wmemchr.c
-+@@ -0,0 +1,20 @@
-++/* Test wmemchr with size_t in the lower 32 bits of 64-bit register.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#define WIDE 1
-++#include "tst-size_t-memchr.c"
++   if(!state->rpacket.data) {
++-    state->rpacket.data = calloc(1, blksize + 2 + 2);
+++    state->rpacket.data = calloc(1, need_blksize + 2 + 2);
++ 
++     if(!state->rpacket.data)
++       return CURLE_OUT_OF_MEMORY;
++   }
++ 
++   if(!state->spacket.data) {
++-    state->spacket.data = calloc(1, blksize + 2 + 2);
+++    state->spacket.data = calloc(1, need_blksize + 2 + 2);
++ 
++     if(!state->spacket.data)
++       return CURLE_OUT_OF_MEMORY;
++@@ -1005,7 +1011,7 @@ static CURLcode tftp_connect(struct connectdata *conn, bool *done)
++   state->sockfd = state->conn->sock[FIRSTSOCKET];
++   state->state = TFTP_STATE_START;
++   state->error = TFTP_ERR_NONE;
++-  state->blksize = blksize;
+++  state->blksize = TFTP_BLKSIZE_DEFAULT; /* Unless updated by OACK response */
++   state->requested_blksize = blksize;
++ 
++   ((struct sockaddr *)&state->local_addr)->sa_family =
 +-- 
 +2.23.0
 +
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-7309.patch b/meta/recipes-core/glibc/glibc/CVE-2019-7309.patch
-new file mode 100644
-index 0000000000..04963c29e4
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2019-7309.patch
-@@ -0,0 +1,207 @@
-+From af7f46c45a60e6df754fb6258b546917e61ae6f1 Mon Sep 17 00:00:00 2001
-+From: "H.J. Lu" <hjl.tools@gmail.com>
-+Date: Mon, 4 Feb 2019 08:55:52 -0800
-+Subject: [PATCH] x86-64 memcmp: Use unsigned Jcc instructions on size [BZ
-+ #24155]
-+Reply-To: muislam@microsoft.com
-+
-+Since the size argument is unsigned. we should use unsigned Jcc
-+instructions, instead of signed, to check size.
-+
-+Tested on x86-64 and x32, with and without --disable-multi-arch.
-+
-+	[BZ #24155]
-+	CVE-2019-7309
-+	* NEWS: Updated for CVE-2019-7309.
-+	* sysdeps/x86_64/memcmp.S: Use RDX_LP for size.  Clear the
-+	upper 32 bits of RDX register for x32.  Use unsigned Jcc
-+	instructions, instead of signed.
-+	* sysdeps/x86_64/x32/Makefile (tests): Add tst-size_t-memcmp-2.
-+	* sysdeps/x86_64/x32/tst-size_t-memcmp-2.c: New test.
-+
-+(cherry picked from commit 3f635fb43389b54f682fc9ed2acc0b2aaf4a923d)
-+
-+Signed-off-by: Muminul Islam <muislam@microsoft.com>
-+
-+CVE: CVE-2019-7309
-+
-+Upstream-Status: Backport
-+---
-+ sysdeps/x86_64/memcmp.S                  | 20 +++---
-+ sysdeps/x86_64/x32/Makefile              |  2 +-
-+ sysdeps/x86_64/x32/tst-size_t-memcmp-2.c | 79 ++++++++++++++++++++++++
-+ 3 files changed, 92 insertions(+), 9 deletions(-)
-+ create mode 100644 sysdeps/x86_64/x32/tst-size_t-memcmp-2.c
-+
-+diff --git a/sysdeps/x86_64/memcmp.S b/sysdeps/x86_64/memcmp.S
-+index bcb4a2e88d..45918d375a 100644
-+--- a/sysdeps/x86_64/memcmp.S
-++++ b/sysdeps/x86_64/memcmp.S
-+@@ -21,14 +21,18 @@
-+ 
-+ 	.text
-+ ENTRY (memcmp)
-+-	test	%rdx, %rdx
-++#ifdef __ILP32__
-++	/* Clear the upper 32 bits.  */
-++	movl	%edx, %edx
-++#endif
-++	test	%RDX_LP, %RDX_LP
-+ 	jz	L(finz)
-+ 	cmpq	$1, %rdx
-+-	jle	L(finr1b)
-++	jbe	L(finr1b)
-+ 	subq	%rdi, %rsi
-+ 	movq	%rdx, %r10
-+ 	cmpq	$32, %r10
-+-	jge	L(gt32)
-++	jae	L(gt32)
-+ 	/* Handle small chunks and last block of less than 32 bytes.  */
-+ L(small):
-+ 	testq	$1, %r10
-+@@ -156,7 +160,7 @@ L(A32):
-+ 	movq	%r11, %r10
-+ 	andq	$-32, %r10
-+ 	cmpq	%r10, %rdi
-+-        jge	L(mt16)
-++        jae	L(mt16)
-+ 	/* Pre-unroll to be ready for unrolled 64B loop.  */
-+ 	testq	$32, %rdi
-+ 	jz	L(A64)
-+@@ -178,7 +182,7 @@ L(A64):
-+ 	movq	%r11, %r10
-+ 	andq	$-64, %r10
-+ 	cmpq	%r10, %rdi
-+-        jge	L(mt32)
-++        jae	L(mt32)
-+ 
-+ L(A64main):
-+ 	movdqu    (%rdi,%rsi), %xmm0
-+@@ -216,7 +220,7 @@ L(mt32):
-+ 	movq	%r11, %r10
-+ 	andq	$-32, %r10
-+ 	cmpq	%r10, %rdi
-+-        jge	L(mt16)
-++        jae	L(mt16)
-+ 
-+ L(A32main):
-+ 	movdqu    (%rdi,%rsi), %xmm0
-+@@ -254,7 +258,7 @@ L(ATR):
-+ 	movq	%r11, %r10
-+ 	andq	$-32, %r10
-+ 	cmpq	%r10, %rdi
-+-        jge	L(mt16)
-++        jae	L(mt16)
-+ 	testq	$16, %rdi
-+ 	jz	L(ATR32)
-+ 
-+@@ -325,7 +329,7 @@ L(ATR64main):
-+ 	movq	%r11, %r10
-+ 	andq	$-32, %r10
-+ 	cmpq	%r10, %rdi
-+-        jge	L(mt16)
-++        jae	L(mt16)
-+ 
-+ L(ATR32res):
-+ 	movdqa    (%rdi,%rsi), %xmm0
-+diff --git a/sysdeps/x86_64/x32/Makefile b/sysdeps/x86_64/x32/Makefile
-+index 7d528889c6..c9850beeb5 100644
-+--- a/sysdeps/x86_64/x32/Makefile
-++++ b/sysdeps/x86_64/x32/Makefile
-+@@ -6,7 +6,7 @@ CFLAGS-s_llround.c += -fno-builtin-lround
-+ endif
-+ 
-+ ifeq ($(subdir),string)
-+-tests += tst-size_t-memchr
-++tests += tst-size_t-memchr tst-size_t-memcmp-2
-+ endif
-+ 
-+ ifeq ($(subdir),wcsmbs)
-+diff --git a/sysdeps/x86_64/x32/tst-size_t-memcmp-2.c b/sysdeps/x86_64/x32/tst-size_t-memcmp-2.c
-+new file mode 100644
-+index 0000000000..d8ae1a0813
-+--- /dev/null
-++++ b/sysdeps/x86_64/x32/tst-size_t-memcmp-2.c
-+@@ -0,0 +1,79 @@
-++/* Test memcmp with size_t in the lower 32 bits of 64-bit register.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#define TEST_MAIN
-++#ifdef WIDE
-++# define TEST_NAME "wmemcmp"
-++#else
-++# define TEST_NAME "memcmp"
-++#endif
-++
-++#include "test-size_t.h"
-++
-++#ifdef WIDE
-++# include <inttypes.h>
-++# include <wchar.h>
-++
-++# define MEMCMP wmemcmp
-++# define CHAR wchar_t
-++#else
-++# define MEMCMP memcmp
-++# define CHAR char
-++#endif
-++
-++IMPL (MEMCMP, 1)
-++
-++typedef int (*proto_t) (const CHAR *, const CHAR *, size_t);
-++
-++static int
-++__attribute__ ((noinline, noclone))
-++do_memcmp (parameter_t a, parameter_t b)
-++{
-++  return CALL (&b, a.p, b.p, a.len);
-++}
-++
-++static int
-++test_main (void)
-++{
-++  test_init ();
-++
-++  parameter_t dest = { { page_size / sizeof (CHAR) }, buf1 };
-++  parameter_t src = { { 0 }, buf2 };
-++
-++  memcpy (buf1, buf2, page_size);
-++
-++  CHAR *p = (CHAR *) buf1;
-++  p[page_size / sizeof (CHAR) - 1] = (CHAR) 1;
-++
-++  int ret = 0;
-++  FOR_EACH_IMPL (impl, 0)
-++    {
-++      src.fn = impl->fn;
-++      int res = do_memcmp (dest, src);
-++      if (res >= 0)
-++	{
-++	  error (0, 0, "Wrong result in function %s: %i >= 0",
-++		 impl->name, res);
-++	  ret = 1;
-++	}
-++    }
-++
-++  return ret ? EXIT_FAILURE : EXIT_SUCCESS;
-++}
-++
-++#include <support/test-driver.c>
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
-index 0839fa126d..4e6ee4dcab 100644
---- a/meta/recipes-core/glibc/glibc_2.28.bb
-+++ b/meta/recipes-core/glibc/glibc_2.28.bb
-@@ -50,6 +50,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://CVE-2019-9169.patch \
-            file://CVE-2016-10739.patch \
-            file://CVE-2018-19591.patch \
-+           file://CVE-2019-6488.patch \
-+           file://CVE-2019-7309.patch \
+diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
+index 1027f75e9e..3b54774b9d 100644
+--- a/meta/recipes-support/curl/curl_7.61.0.bb
++++ b/meta/recipes-support/curl/curl_7.61.0.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2018-16842.patch \
+            file://CVE-2019-5435.patch \
+            file://CVE-2019-5436.patch \
++           file://CVE-2019-5482.patch \
  "
  
- NATIVESDKFIXES ?= ""
+ SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
 -- 
 2.20.1
 
