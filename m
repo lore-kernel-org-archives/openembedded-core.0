@@ -1,63 +1,38 @@
-Return-Path: <christophe.priouzeau@st.com>
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
-	[62.209.51.94])
-	by mail.openembedded.org (Postfix) with ESMTP id A0A977D5BE
+Return-Path: <hs@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id E1D9A6011C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 13:42:09 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
-	x97D1Tnm032197 for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Oct 2019 15:08:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
-	h=from : to : cc : subject
-	: date : message-id : references : in-reply-to : content-type :
-	content-transfer-encoding : mime-version; s=STMicroelectronics;
-	bh=iDOERJ7CtVTByucJeaogQKaTMXt+Y53ayHjywhchRpM=;
-	b=uHtQq1vNzgB3N0/UGlNuySDhrfnRslvvYWhKObmu69a6j1EuXKkSkCrO6tMKQUfbSZri
-	h9v9TcFD2JHHR4ertWiNkAc76Ulwo0cf6VQ/z+qc3fZO4XZRdMcfVyc8SZFccwsCnHTs
-	0257I7aQJWKykjdXn2vaFuDhSlXXS+DC/W11Ix3x1gkXsydPySiNR8QcixwLBxXpX2mn
-	47D45BHFjVS9He0aFs6hTv+xSpe08NbbR73AehvJS3XoWGA6e/MRpd1g1HtyDb/lDmGC
-	648pDPcdz95TlD/LhR2m9teaeCKrFDAnUPHCaMk8qQAegw0MInNbIvrWvC8XPoR4NS9b
-	dw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com with ESMTP id 2vegn0jgvn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 15:08:40 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id ACA15100034
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:39 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A85052C9DF7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:39 +0200 (CEST)
-Received: from SFHDAG6NODE2.st.com (10.75.127.17) by SFHDAG6NODE3.st.com
-	(10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
-	Mon, 7 Oct 2019 15:08:39 +0200
-Received: from SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6]) by
-	SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6%20]) with mapi id
-	15.00.1347.000; Mon, 7 Oct 2019 15:08:39 +0200
-From: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 09/23] libarchive: update license
-Thread-Index: AQHVfRBV+M8oHMS46kCUvVcR8+Uo0w==
-Date: Mon, 7 Oct 2019 13:08:39 +0000
-Message-ID: <c526eaab76e3ca64967c3ee1fa415f52d24af01a.1570452710.git.christophe.priouzeau@st.com>
-References: <cover.1570452710.git.christophe.priouzeau@st.com>
-In-Reply-To: <cover.1570452710.git.christophe.priouzeau@st.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.44]
+	Mon,  7 Oct 2019 13:42:47 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 46n1rS2wJ9z1rtjq;
+	Mon,  7 Oct 2019 15:42:48 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 46n1rS2GShz1qqkC;
+	Mon,  7 Oct 2019 15:42:48 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id oAjJiCA9mP1W; Mon,  7 Oct 2019 15:42:45 +0200 (CEST)
+X-Auth-Info: 8NMdtfrgNlhw2rw194FJD1bGO4c4okTSO5zOOAGJ5Tw=
+Received: from [192.168.1.106] (213-197-79-46.pool.digikabel.hu
+	[213.197.79.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon,  7 Oct 2019 15:42:45 +0200 (CEST)
+Reply-To: hs@denx.de
+To: openembedded-core@lists.openembedded.org
+References: <20190920042112.14832-1-hs@denx.de>
+From: Heiko Schocher <hs@denx.de>
+Message-ID: <09ae8961-2b77-b38f-374b-a1f1c9ee8d5e@denx.de>
+Date: Mon, 7 Oct 2019 15:42:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
-	definitions=2019-10-07_02:2019-10-07,2019-10-07 signatures=0
-Cc: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
-Subject: [PATCH 09/23] libarchive: update license
+In-Reply-To: <20190920042112.14832-1-hs@denx.de>
+Cc: Julius Werner <jwerner@chromium.org>
+Subject: Re: [PATCH v2] kernel.fitimage.bbclass: remove ramdisk_ctype
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,34 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 13:42:10 -0000
+X-List-Received-Date: Mon, 07 Oct 2019 13:42:48 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-The license of libarchive is BSD-2-Clause.
+Hello all,
 
-Signed-off-by: Christophe Priouzeau <christophe.priouzeau@st.com>
----
- meta/recipes-extended/libarchive/libarchive_3.4.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Am 20.09.2019 um 06:21 schrieb Heiko Schocher:
+> set in the ramdisk node the compression property
+> always to "none", as U-Boot nowadays since commit:
+> 
+> b1307f884a91 ("fit: Support compression for non-kernel components (e.g. FDT)")
+> 
+> decompress non kernel components. Setting compression
+> to the used comression algorithm now, will end in
+> fail of your kernel boot with the ramdisk.
+> 
+> This issue is fixed since commit:
+> 
+> bddd98573465 ("fit: Do not automatically decompress ramdisk images")
+> 
+> which now prints a warning in U-Boot, instead of decompressing
+> the ramdisk, but we should setup compression property correct.
+> 
+> Signed-off-by: Heiko Schocher <hs@denx.de>
+> ---
+> 
+> Changes in v2:
+> - resend patch to  openembedded-core@lists.openembedded.org instead
+>    to Yocto Project <yocto@yoctoproject.org> as Ross suggested. No
+>    changes in code.
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb b/meta/re=
-cipes-extended/libarchive/libarchive_3.4.0.bb
-index c789cd44d21..9c0d5e26ec3 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
-@@ -2,7 +2,7 @@ SUMMARY =3D "Support for reading various archive formats"
- DESCRIPTION =3D "C library and command-line tools for reading and writing =
-tar, cpio, zip, ISO, and other archive formats"
- HOMEPAGE =3D "http://www.libarchive.org/"
- SECTION =3D "devel"
--LICENSE =3D "BSD"
-+LICENSE =3D "BSD-2-Clause"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dfe01f5e02b1f0cc934d593a7b0ddceb=
-6"
-=20
- DEPENDS =3D "e2fsprogs-native"
---=20
-2.17.1
+gentle ping. Any comments?
+
+bye,
+Heiko
+-- 
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: +49-8142-66989-52   Fax: +49-8142-66989-80   Email: hs@denx.de
 
