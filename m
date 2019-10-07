@@ -1,52 +1,50 @@
 Return-Path: <christophe.priouzeau@st.com>
-X-Greylist: delayed 810 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 07 Oct 2019 13:22:05 UTC
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
 	[62.209.51.94])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B0AA7D41F
+	by mail.openembedded.org (Postfix) with ESMTP id 89D277D419
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 13:22:05 +0000 (UTC)
+	Mon,  7 Oct 2019 13:23:05 +0000 (UTC)
 Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
 	by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
-	x97D1Rmr032190 for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Oct 2019 15:08:45 +0200
+	x97D1ZlT032242 for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Oct 2019 15:08:37 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
 	h=from : to : cc : subject
 	: date : message-id : references : in-reply-to : content-type :
 	content-transfer-encoding : mime-version; s=STMicroelectronics;
-	bh=xPvROInm0j3x+gAy1gnVLFPSwOB8hrX41D9pOoQYjxQ=;
-	b=hDK6Fmz1X+AQwmgi7hLtDTl5Ek5kOuQ2DrVyPM8wQuFXd7SJQCrWuPxy0pcvs8OdaGG1
-	WfTQjzVgBpsF0zzOMWJhG0A/DJ1VZ1+ssVjiwkmrDKPr88ZXseO0XEx7O0+TJpFXDrjx
-	X6XiJrdffdtj/w6wU4rF1a4cGXiAWhkEBwbr6prsytLR2jNHAq/VQN2IkyY0T5M21aRe
-	Txkx84EKTkaLBGCJ6rhKM9OxFuAnSoew0TuuLl4CzbxJ1qEV6ukQGkLJdCeEnEdWLUxZ
-	d5GyhCSCwKL3eiW4+1QuvlBRwU2AXGvKPPodtWxE4MiH23+VoDADC5Ex+mvcFI5FKSVH
-	KA== 
+	bh=yy6YRK/4DzTrtw0q9qMPUnf7UAEBhdLdNpZOnphvxeQ=;
+	b=hJtFxIvOXYKKG/YzoznhKVapZxMBlTmOn4O8NyK70BG5Mr3lGYEC6W9Vz6Jesn+rFso2
+	rWXSVIr43Cu/yYFSW8Xy1Vr28H1bruZcuT4VTYTwyZJDLL/la50ZUTQ1eUtZw29EV98I
+	38t46ysqr28lZ7TqMA5yz3Y8cZB6tdL1+3OYjp0F/EUBbYrMh6ZqjJ7Tuj+dcni2s9Qr
+	mUlxX/FnEJrCfAqNIX3BRsBXGxzjgv0YM2QRUCXl0wawwFEYDttDTHyjHuVA2MPqZCwI
+	d+tkFxgPm1ABZ1+saICfHIEq/jW5wHgUL3Ra/jhVXaQoTqv1dEXL1F5S5ef/1i7zOpZJ
+	ww== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com with ESMTP id 2vegn0jgw7-1
+	by mx07-00178001.pphosted.com with ESMTP id 2vegn0jgvg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 15:08:45 +0200
+	Mon, 07 Oct 2019 15:08:37 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5CEE110003A
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7F84D100038
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:45 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag6node2.st.com [10.75.127.17])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5881D2C9DF7
+	Mon,  7 Oct 2019 15:08:37 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 79FEC2C9DF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:45 +0200 (CEST)
-Received: from SFHDAG6NODE2.st.com (10.75.127.17) by SFHDAG6NODE2.st.com
-	(10.75.127.17) with Microsoft SMTP Server (TLS) id 15.0.1347.2;
-	Mon, 7 Oct 2019 15:08:45 +0200
+	Mon,  7 Oct 2019 15:08:37 +0200 (CEST)
+Received: from SFHDAG6NODE2.st.com (10.75.127.17) by SFHDAG6NODE3.st.com
+	(10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+	Mon, 7 Oct 2019 15:08:37 +0200
 Received: from SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6]) by
 	SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6%20]) with mapi id
-	15.00.1347.000; Mon, 7 Oct 2019 15:08:45 +0200
+	15.00.1347.000; Mon, 7 Oct 2019 15:08:37 +0200
 From: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 23/23] p11-kit: update license
-Thread-Index: AQHVfRBZMeeUux6cDUauheZIVKmuWg==
-Date: Mon, 7 Oct 2019 13:08:44 +0000
-Message-ID: <0cb20425d3089484ca1dd3b4d76981f426f92b8c.1570452710.git.christophe.priouzeau@st.com>
+Thread-Topic: [PATCH 04/23] cmake: update license
+Thread-Index: AQHVfRBUyxLMbFYrCUmIeNtv8dkpkw==
+Date: Mon, 7 Oct 2019 13:08:37 +0000
+Message-ID: <6234efb696ff8787c2f35ab917a5fc022e0ed5a5.1570452710.git.christophe.priouzeau@st.com>
 References: <cover.1570452710.git.christophe.priouzeau@st.com>
 In-Reply-To: <cover.1570452710.git.christophe.priouzeau@st.com>
 Accept-Language: en-US
@@ -59,7 +57,7 @@ MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
 	definitions=2019-10-07_02:2019-10-07,2019-10-07 signatures=0
 Cc: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
-Subject: [PATCH 23/23] p11-kit: update license
+Subject: [PATCH 04/23] cmake: update license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,31 +70,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 13:22:05 -0000
+X-List-Received-Date: Mon, 07 Oct 2019 13:23:05 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-The license of p11-kit is BSD-3-Clause.
+The license of cmake is BSD-3-Clause
 
 Signed-off-by: Christophe Priouzeau <christophe.priouzeau@st.com>
 ---
- meta/recipes-support/p11-kit/p11-kit_0.23.16.1.bb | 2 +-
+ meta/recipes-devtools/cmake/cmake.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.23.16.1.bb b/meta/recip=
-es-support/p11-kit/p11-kit_0.23.16.1.bb
-index 54455da1bb7..48bf027f479 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.23.16.1.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.23.16.1.bb
-@@ -1,5 +1,5 @@
- SUMMARY =3D "Provides a way to load and enumerate PKCS#11 modules"
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/=
+cmake/cmake.inc
+index 35d78eea177..957448445e6 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -11,7 +11,7 @@ generation, code generation, and template instantiation."
+ HOMEPAGE =3D "http://www.cmake.org/"
+ BUGTRACKER =3D "http://public.kitware.com/Bug/my_view_page.php"
+ SECTION =3D "console/utils"
 -LICENSE =3D "BSD"
 +LICENSE =3D "BSD-3-Clause"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D02933887f609807fbb57aa4237d14a5=
-0"
-=20
- inherit autotools gettext pkgconfig gtk-doc
+ LIC_FILES_CHKSUM =3D "file://Copyright.txt;md5=3D622747147b46f22e1953876a7=
+cba3323 \
+                     file://Source/cmake.h;md5=3D4494dee184212fc89c469c3acd=
+555a14;beginline=3D1;endline=3D3 \
+                     "
 --=20
 2.17.1
 
