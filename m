@@ -1,51 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D6A57C89C
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5381A7C5F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 01:40:21 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id q7so7172601pgi.12
+	Mon,  7 Oct 2019 02:52:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.67,265,1566835200"; d="scan'208";a="76571161"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 07 Oct 2019 10:52:18 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id CB4D34CE14E1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Oct 2019 18:40:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=I2pKuSFNXPykBCRB8Qw9AtrdnxgnQZjwTl8e1VFOEbc=;
-	b=FaEya216yyhR7wPKISqrZkSruD360dOCkRu+JDagHcIkOBoZnPWu/OsfssgJU+x6nR
-	/fKV26sdR3kO2sfG3nYTvWQyT5znwEOcFry7r5NAo1VwPnpe09AUXct2xdKbrFpk383j
-	Ebqmi/K4K0lX1BJLHTlVwqTcYefW7psoGba/HbMJiV0Evpc1mT+1UF4GK2j55HmpQiV5
-	rdnckVtqZGIfPCHpAODcXO9sy6zuexYWEhh2Zz2qTsOuoQi8RUrjF/cHjOzBS1vk22H3
-	WFTLL3IJ8VQ1N5HmlSpMT64uwNl8/OIfD4wg7VSvOfg3Ww4bjnpqahOcnEyGH9GI6wTN
-	CMdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=I2pKuSFNXPykBCRB8Qw9AtrdnxgnQZjwTl8e1VFOEbc=;
-	b=nSYH/7qyyiJTn6J2GflH1dl8CwHjZeiyj7gbYZ4d+0iTfoFXLpj5fPny6hV+XPjoR2
-	fU7+aSFj0LEWOXRZuVUWHx4lWTyiVFHi8JQOYeu9/c19qz5lnWrzu9ImgrrzImqEzmbe
-	EE6bkAzKTg0tuQcJtp1lK/wO183aBV6ZjicGBzFGaEskqhfu5HafkfUIICiGkMxYnV/6
-	Calbja64t7GKCKEUZJ6HkOuInPrh0IOA6i1sJfWqZLttgAzX+2i1YdUqjcS+4jBc8+t8
-	06IPIdskNhv8pXaDs7kOLS2+qj1ONQG6fL5sFqKPjNZj/qxH6bxmQ4vvCIH4WsWbk9eb
-	LbfA==
-X-Gm-Message-State: APjAAAWV7SgYUjfCWZHIUe6eY+pY9PpJePI+DyuZQF8Mg/2xecpPbvdt
-	ldMkCbLifGiq/T24LJHtFnZxcGxVZ/k=
-X-Google-Smtp-Source: APXvYqyLgowsezmNfREHS4WmD1KcPgu6I3Ut1Dt8HMAKbdADEQ3KsqQtlA0ylsrKLMPyQ9wP+iFVTA==
-X-Received: by 2002:a17:90a:ba94:: with SMTP id
-	t20mr30908437pjr.8.1570412421642; 
-	Sun, 06 Oct 2019 18:40:21 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::7275])
-	by smtp.gmail.com with ESMTPSA id
-	o42sm10610076pjo.32.2019.10.06.18.40.20
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 06 Oct 2019 18:40:21 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 Oct 2019 18:40:12 -0700
-Message-Id: <20191007014012.982396-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.23.0
+	Mon,  7 Oct 2019 10:52:13 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 7 Oct 2019 10:52:14 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 7 Oct 2019 10:52:14 +0800
+Message-ID: <20191007025214.16260-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] gnu-efi: Do not use gcc-only options when building with clang
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: CB4D34CE14E1.A9EB9
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libpcap:upgrade 1.9.0 -> 1.9.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,59 +37,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 01:40:22 -0000
+X-List-Received-Date: Mon, 07 Oct 2019 02:52:20 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
+ Removed since this is included in 1.9.1.
+
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../gnu-efi-3.0.9-fix-clang-build.patch       | 24 +++++++++++++++++++
- meta/recipes-bsp/gnu-efi/gnu-efi_3.0.9.bb     |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/gnu-efi-3.0.9-fix-clang-build.patch
+ ...nux.c-add-missing-limits.h-for-musl-syste.patch | 29 ----------------------
+ .../libpcap/{libpcap_1.9.0.bb => libpcap_1.9.1.bb} |  5 ++--
+ 2 files changed, 2 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
+ rename meta/recipes-connectivity/libpcap/{libpcap_1.9.0.bb => libpcap_1.9.1.bb} (88%)
 
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/gnu-efi-3.0.9-fix-clang-build.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/gnu-efi-3.0.9-fix-clang-build.patch
-new file mode 100644
-index 0000000000..c6d660095e
---- /dev/null
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi/gnu-efi-3.0.9-fix-clang-build.patch
-@@ -0,0 +1,24 @@
-+Fix building with CLANG-9.0.0 
-+
-+Fixes
-+clang-9: error: unknown argument: '-maccumulate-outgoing-args'
-+
-+Upstream-Status: Submitted [https://sourceforge.net/p/gnu-efi/patches/70/]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+--- a/Make.defaults
-++++ b/Make.defaults
-+@@ -110,10 +110,10 @@
-+                             || ( [ $(GCCVERSION) -eq "4" ]      \
-+                                  && [ $(GCCMINOR) -ge "7" ] ) ) \
-+                           && echo 1)
-+-  ifeq ($(GCCNEWENOUGH),1)
-+-    CPPFLAGS += -DGNU_EFI_USE_MS_ABI -maccumulate-outgoing-args --std=c11
-+-  else ifeq ($(USING_CLANG),clang)
-++  ifeq ($(USING_CLANG),clang)
-+     CPPFLAGS += -DGNU_EFI_USE_MS_ABI --std=c11
-++  else ifeq ($(GCCNEWENOUGH),1)
-++    CPPFLAGS += -DGNU_EFI_USE_MS_ABI -maccumulate-outgoing-args --std=c11
-+   endif
-+ 
-+   CFLAGS += -mno-red-zone
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.9.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.9.bb
-index f844435472..6d4c303353 100644
---- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.9.bb
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.9.bb
-@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://gnuefi/crt0-efi-arm.S;beginline=4;endline=16;md5=e582
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
-            file://parallel-make-archives.patch \
-            file://lib-Makefile-fix-parallel-issue.patch \
-+           file://gnu-efi-3.0.9-fix-clang-build.patch \
-            "
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch b/meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
+deleted file mode 100644
+index 0177383..0000000
+--- a/meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From aafa3512b7b742f5e66a5543e41974cc5e7eebfa Mon Sep 17 00:00:00 2001
+-From: maxice8 <thinkabit.ukim@gmail.com>
+-Date: Sun, 22 Jul 2018 18:54:17 -0300
+-Subject: [PATCH] pcap-usb-linux.c: add missing limits.h for musl systems.
+-
+-fix compilation on musl libc systems like Void Linux and Alpine.
+-
+-Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/d557c98a16dc254aaff03762b694fe624e180bea]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- pcap-usb-linux.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/pcap-usb-linux.c b/pcap-usb-linux.c
+-index 6f8adf65..b92c05ea 100644
+---- a/pcap-usb-linux.c
+-+++ b/pcap-usb-linux.c
+-@@ -50,6 +50,7 @@
+- #include <stdlib.h>
+- #include <unistd.h>
+- #include <fcntl.h>
+-+#include <limits.h>
+- #include <string.h>
+- #include <dirent.h>
+- #include <byteswap.h>
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb b/meta/recipes-connectivity/libpcap/libpcap_1.9.1.bb
+similarity index 88%
+rename from meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb
+rename to meta/recipes-connectivity/libpcap/libpcap_1.9.1.bb
+index 77bc31a..318e2d7 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.9.1.bb
+@@ -11,10 +11,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5eb289217c160e2920d2e35bddc36453 \
+ DEPENDS = "flex-native bison-native"
  
- SRC_URI[md5sum] = "32af17b917545a693e549af2439c4a99"
+ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
+-           file://0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch \
+            "
+-SRC_URI[md5sum] = "dffd65cb14406ab9841f421732eb0f33"
+-SRC_URI[sha256sum] = "2edb88808e5913fdaa8e9c1fcaf272e19b2485338742b5074b9fe44d68f37019"
++SRC_URI[md5sum] = "21af603d9a591c7d96a6457021d84e6c"
++SRC_URI[sha256sum] = "635237637c5b619bcceba91900666b64d56ecb7be63f298f601ec786ce087094"
+ 
+ inherit autotools binconfig-disabled pkgconfig
+ 
 -- 
-2.23.0
+2.7.4
+
+
 
 
