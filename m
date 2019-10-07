@@ -1,47 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 92C747E687
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A68FD7E468
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 18:40:22 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id h144so30854234iof.7
+	Mon,  7 Oct 2019 19:38:08 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id r3so16705985wrj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 11:40:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3t6RXPsRJOHgXK0KkHTgfT+Lz+SCXaAq9iBZAGH2nKM=;
-	b=hYgiZ5oAeo2rbaIRyRYFQQFN6+D3ujVHDJLDa+xhf4b+8kbWCdkosc4Mw7AOV6OxST
-	LAUAMozCWxrNLo0IwvHbxmzdpRceftp+HzMAev05YHoFpxubMLrjsWnUCpTSfgFSz3xG
-	Co37uV3V2CvAVB0sdA+icy0IvN7mr0glZBOT4ic+34Okdu39zXrp2lfHRfID1uTGA53h
-	kDLk/FMAjL1pLHIMhh3sElBLrvGBlk7EE1YBHpYVotAjBYpvF/59WRUsg45/jfF8sSuH
-	mhnefVyN4DHD2RGQSIJV1VIX02nMqi2zWtJ4IT/xQe708HW55i9+hHgfCwzPxRL40Sap
-	Es5g==
+	Mon, 07 Oct 2019 12:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ClHUq6k51nIhWQIw1R9XSpTm220SsJ1iAiBeVj3Ovk8=;
+	b=qSAoTRVeXQTZ1VrTFC4pGZhcaQPZdRqAY9X/dpsOETxGcS1yyyzs6Pj32zlGm0BObb
+	MQokvSQzvImUT0l/ubb/DJzELAwdGZqBKqltpwLvUj6Mh8lHwQcWvvd5ZttYw2ROCRNw
+	9lloapVNU069iERy34nsyr4NrOmL4APu/vQX+7hJhhv2fLgArssfb6QjGjkhGgPSM9OY
+	HLKhpAPeOI9dI55HHwFurxdAjzbqH8E/ozn5DZsk/lJ/PR/N2PGhnWNj0y/XZiPg4ff5
+	gZp0lvXnDRKiObvNRA+uZIuypgop90N96RTHhywETiaEDNdyVdIyA08dcwqo6869tBPj
+	nu0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3t6RXPsRJOHgXK0KkHTgfT+Lz+SCXaAq9iBZAGH2nKM=;
-	b=AMqG2LKMMZjNWjtUyVyAk1uUMoc2qoME97fwApt9uqha7lKO6Oiu2/UFHsS3KgjZCP
-	cI2xo1XznWDyTrimKtwG0xbjrIuEQT2vaRLyoq+OmcVI2tVH2/NZUiWDDAV2hzS20hBd
-	pWrSJKTVRWCBlcYiUbK1KEjG6VlNaGpV9N3RPPuoj0U4r5dcGZPDlwTVnX+5DFb6vqqJ
-	lRJnepU99CSU5yO71FaNGrgl9umiR4uK+qs7r80RrebR89RRdYX7atpikLz+xPKhLQ4x
-	BRRwZn2Ts8VUnsevJiquUIcRdWMUwUfqVTT8kSvBjPWGBh045bZEKg+NK5oypu2bJyMA
-	IVzg==
-X-Gm-Message-State: APjAAAVYQvr+a7NLvmOEoF1RRbd9+6NLVIaq2m/C6r8VhWLIm6ZZxbmW
-	JxHrZK8/ItbszyhZ0YMBB2ZXeHwhAfxP/ODPN6iE26Da
-X-Google-Smtp-Source: APXvYqwZzbbP6p1p9pX4qci/PSd3MQit1YgXHVyZa6N99Nfre/YAn8sWjhUiUi4ZaoNCur4Bj9RAIOQWwZ7RoWl1cS0=
-X-Received: by 2002:a92:d2d2:: with SMTP id w18mr29937700ilg.220.1570473623170;
-	Mon, 07 Oct 2019 11:40:23 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ClHUq6k51nIhWQIw1R9XSpTm220SsJ1iAiBeVj3Ovk8=;
+	b=bGw/QLqIxeljfkMMjkGgoFNOWixekD+dioM0HvME7uBcdaljIqXkUAgG0VUdIOl9nE
+	/cpWK4tP9SdT3eZSMaf6khviCLe64+6jBPPmQEJGoDdh2hiyfW4jy6+Gh8mE3iHFjnqP
+	og0cbqLUkT2bE1TYGVGe5SjTbk+Y2XbMIRatI3Bhgc7VFagygcLjrb+4wzYBFpf+YeTo
+	wvQug7wsssxWlwWDoX+UZi/GuZ+aHK+/XKa5y+Jp7nLFs6sz/vZ4SXMvciTBj0oTeEjc
+	MaPUAQmhvQOZzQgs2hAw9GNSkjXjnurYz2FvcK7vKQPRQs8LCqpMtpHz2adAgukjb0h/
+	Vnlw==
+X-Gm-Message-State: APjAAAVu2MWyvAVr9kCwi/vlndscK8mbyqBhT3W6fWq3/hiRP/+npLFj
+	5ElhThcMcd82+K+jY6CReafkiigQfOI=
+X-Google-Smtp-Source: APXvYqy9Wz+T3/EjzcQGYYvrHAY+8JlVUPqM4Z067qUnhqlZxK2l7VHDkWq1f9vpxkJ6inW73QG6zg==
+X-Received: by 2002:adf:ea0d:: with SMTP id q13mr939214wrm.111.1570477088993; 
+	Mon, 07 Oct 2019 12:38:08 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	a10sm17356942wrm.52.2019.10.07.12.38.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 07 Oct 2019 12:38:07 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Oct 2019 20:38:04 +0100
+Message-Id: <20191007193805.13219-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1570473350-6427-1-git-send-email-chandana.kalluri@xilinx.com>
-In-Reply-To: <1570473350-6427-1-git-send-email-chandana.kalluri@xilinx.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 7 Oct 2019 11:39:57 -0700
-Message-ID: <CAMKF1sr2yLJBiE6VdORpxJDg9fvYbNNXb2z7ZbMWcE8rKFkfUQ@mail.gmail.com>
-To: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH] devtool: Add --remove-work option for devtool reset command
+Subject: [PATCH 1/2] systemd: don't install systemd-hwdb-update.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,131 +59,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 18:40:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 07 Oct 2019 19:38:09 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 7, 2019 at 11:36 AM Sai Hari Chandana Kalluri
-<chandana.kalluri@xilinx.com> wrote:
->
-> Enable --remove-work option for devtool reset command that allows user
-> to clean up source directory within workspace.
->
-> Currently devtool reset command only removes recipes and user is forced
-> to manually remove the sources directory within the workspace before
-> running devtool modify again.
->
-> Using devtool reset -r or devtool reset --remove-work option, user can
-> cleanup the sources directory along with the recipe instead of manually
-> cleaning it.
+This service file is designed to do first-boot initialisation of the udev hwdb
+database, but the condition logic to fire it is suboptimal: it can fire if not
+needed, and can also not fire if needed.  Specifically it will always fire on
+first boot, even though as part of rootfs generation we build the hwdb database.
+On slow machines this can take a significant amount of time, the pathological
+case being qemumips where the service can time out after 90 seconds of
+processing.
 
-perhaps we can have another cmd like "reset-all" like cleanall ?
-which would remove everything that devtool did external to bblayers
-for that recipe.
+Other distributions have also noticed this problem (specifically, at least
+Debian and Clear) and solve it by using traditional postinst scripts to generate
+the hwdb (which we already do) and deleting the service file (which we don't).
 
->
-> syntax: devtool reset -r <recipename>
->     Ex: devtool reset -r zip
->
->         devtool finish -r <recipename> <layer-name>
->     Ex: devtool finish -r zip meta-yocto-bsp
->
-> Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-> ---
->  scripts/lib/devtool/standard.py | 26 +++++++++++++++++++-------
->  1 file changed, 19 insertions(+), 7 deletions(-)
->
-> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-> index 60c9a04..1c0cd8a 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -1852,7 +1852,7 @@ def status(args, config, basepath, workspace):
->      return 0
->
->
-> -def _reset(recipes, no_clean, config, basepath, workspace):
-> +def _reset(recipes, no_clean, remove_work, config, basepath, workspace):
->      """Reset one or more recipes"""
->      import oe.path
->
-> @@ -1930,10 +1930,15 @@ def _reset(recipes, no_clean, config, basepath, workspace):
->          srctreebase = workspace[pn]['srctreebase']
->          if os.path.isdir(srctreebase):
->              if os.listdir(srctreebase):
-> -                # We don't want to risk wiping out any work in progress
-> -                logger.info('Leaving source tree %s as-is; if you no '
-> -                            'longer need it then please delete it manually'
-> -                            % srctreebase)
-> +                    if remove_work:
-> +                        logger.info('-r argument used on %s, removing source tree.'
-> +                                    ' You will lose any unsaved work' %pn)
-> +                        shutil.rmtree(srctreebase)
-> +                    else:
-> +                        # We don't want to risk wiping out any work in progress
-> +                        logger.info('Leaving source tree %s as-is; if you no '
-> +                                    'longer need it then please delete it manually'
-> +                                    % srctreebase)
->              else:
->                  # This is unlikely, but if it's empty we can just remove it
->                  os.rmdir(srctreebase)
-> @@ -1943,6 +1948,10 @@ def _reset(recipes, no_clean, config, basepath, workspace):
->  def reset(args, config, basepath, workspace):
->      """Entry point for the devtool 'reset' subcommand"""
->      import bb
-> +    import shutil
-> +
-> +    recipes = ""
-> +
->      if args.recipename:
->          if args.all:
->              raise DevtoolError("Recipe cannot be specified if -a/--all is used")
-> @@ -1957,7 +1966,7 @@ def reset(args, config, basepath, workspace):
->      else:
->          recipes = args.recipename
->
-> -    _reset(recipes, args.no_clean, config, basepath, workspace)
-> +    _reset(recipes, args.no_clean, args.remove_work, config, basepath, workspace)
->
->      return 0
->
-> @@ -2009,6 +2018,7 @@ def finish(args, config, basepath, workspace):
->              raise DevtoolError('Source tree is not clean:\n\n%s\nEnsure you have committed your changes or use -f/--force if you are sure there\'s nothing that needs to be committed' % dirty)
->
->      no_clean = args.no_clean
-> +    remove_work=args.remove_work
->      tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
->      try:
->          rd = parse_recipe(config, tinfoil, args.recipename, True)
-> @@ -2160,7 +2170,7 @@ def finish(args, config, basepath, workspace):
->      if args.dry_run:
->          logger.info('Resetting recipe (dry-run)')
->      else:
-> -        _reset([args.recipename], no_clean=no_clean, config=config, basepath=basepath, workspace=workspace)
-> +        _reset([args.recipename], no_clean=no_clean, remove_work=remove_work, config=config, basepath=basepath, workspace=workspace)
->
->      return 0
->
-> @@ -2272,6 +2282,7 @@ def register_commands(subparsers, context):
->      parser_reset.add_argument('recipename', nargs='*', help='Recipe to reset')
->      parser_reset.add_argument('--all', '-a', action="store_true", help='Reset all recipes (clear workspace)')
->      parser_reset.add_argument('--no-clean', '-n', action="store_true", help='Don\'t clean the sysroot to remove recipe output')
-> +    parser_reset.add_argument('--remove-work', '-r', action="store_true", help='Clean the sources directory along with append')
->      parser_reset.set_defaults(func=reset)
->
->      parser_finish = subparsers.add_parser('finish', help='Finish working on a recipe in your workspace',
-> @@ -2282,6 +2293,7 @@ def register_commands(subparsers, context):
->      parser_finish.add_argument('--mode', '-m', choices=['patch', 'srcrev', 'auto'], default='auto', help='Update mode (where %(metavar)s is %(choices)s; default is %(default)s)', metavar='MODE')
->      parser_finish.add_argument('--initial-rev', help='Override starting revision for patches')
->      parser_finish.add_argument('--force', '-f', action="store_true", help='Force continuing even if there are uncommitted changes in the source tree repository')
-> +    parser_finish.add_argument('--remove-work', '-r', action="store_true", help='Clean the sources directory under workspace')
->      parser_finish.add_argument('--no-clean', '-n', action="store_true", help='Don\'t clean the sysroot to remove recipe output')
->      parser_finish.add_argument('--no-overrides', '-O', action="store_true", help='Do not handle other override branches (if they exist)')
->      parser_finish.add_argument('--dry-run', '-N', action="store_true", help='Dry-run (just report changes instead of writing them)')
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Finish the fix and improve boot times across all boards by deleting the service
+file.
+
+[ YOCTO #13581 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/systemd/systemd_243.bb | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
+index b9097593f17..a4a744ce9ba 100644
+--- a/meta/recipes-core/systemd/systemd_243.bb
++++ b/meta/recipes-core/systemd/systemd_243.bb
+@@ -297,13 +297,10 @@ do_install() {
+ 	# install default policy for presets
+ 	# https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
+ 	install -Dm 0644 ${WORKDIR}/99-default.preset ${D}${systemd_unitdir}/system-preset/99-default.preset
+-}
+ 
+-do_install_append () {
+-	# Mips qemu is extremely slow, allow more time for the hwdb update
+-	# This is a workaround until https://github.com/systemd/systemd/issues/13581 is resolved
+-	[ ! -e ${D}${systemd_unitdir}/system/systemd-hwdb-update.service ] ||
+-		sed -i -e s#TimeoutSec=90s#TimeoutSec=180s# ${D}${systemd_unitdir}/system/systemd-hwdb-update.service
++    # We use package postinsts for the hwdb update, as the update service is
++    # easily triggered for no reason and will slow down boots.
++    find ${D} -name systemd-hwdb-update.service -delete
+ }
+ 
+ python populate_packages_prepend (){
+-- 
+2.20.1
+
 
