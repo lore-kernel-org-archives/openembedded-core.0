@@ -1,55 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A5327D58A
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2043A7D58A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:11:09 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id q7so8366210pgi.12
+	Mon,  7 Oct 2019 15:11:10 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id j11so7026763plk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 08:11:10 -0700 (PDT)
+	Mon, 07 Oct 2019 08:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:in-reply-to:references
-	:content-transfer-encoding;
-	bh=QG+YZmIlI3qiTcyXkxR+4Wt2SkGNI31OLFmKzkzzR3E=;
-	b=mSUGas3JSxFrVKXoX/vKHTJGMXPGUzgypYJT/ay/77OHnDyViD0uoWQ/uT5nuRWG3b
-	T8u3drHNrlpDOMPYQvwP/Cu1mP2gvE/Gez+NzRyPCXV3PtNQa/THhzQ5Zqhc3CSh5Q10
-	R+rxKp8j+MzEGH2p/HFzZw9UCmDncNh0+PxYfnm5ReaHKNIynj/hdHnAIY77Zf9fp20s
-	tbDGB82VxGqztIIPGE7w3j1aFjINYtUJ5rYl5L0xVmeONYEJ2iiCQb6/Lf9i/ulf5eyC
-	DLDGakpPtP7RISchzaS/icE+MbrSI/QKallrmmxp7xr7AHqMKz/QdKcaU+OkRG4FFWzt
-	dn2g==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=6jJCR2vx8ekO68DkxkrevQ+c3DFJI5vPZitZInTpCgY=;
+	b=K/BXA9WAlDFeiImsPgDXHFIhziZzEgylyiK1p9mEdCFWi26L79TGSAyCjACousGigw
+	PXo2IVC3tdhCG1d9a8oto6BI5CLJ1URZbSJDlWee6JBaTprAsbbHJM+V8xhYi5an3DjO
+	b5183K/0h7ZthJLDxdgzevOuantUTeuTQ+FeJLy1ZHzpnkRyWhFhSlih8QxglVPmDN4p
+	jaNegkZ4qmaR+YgXBdDoDboFe+oPhgVentLZ+v0cp3FAWgiVbg4WESLRsDsA+IdqHirP
+	rTyck59G/GmKZKmPHxtqu0Fq13l2pApfWu8CzwoWJRJs3ix+xPbAHSjCLcTYUBsI/qwX
+	Es3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:in-reply-to:references:content-transfer-encoding;
-	bh=QG+YZmIlI3qiTcyXkxR+4Wt2SkGNI31OLFmKzkzzR3E=;
-	b=sP/OwW03IOmtAomUMOYBlMdoxoCJiYMo03OpHsT5UGRfg2NAF0SU61oBlmYrwetQsJ
-	TFuGK12/w1AU4gRseGj6sAatfIq1dX37N6p4kqGlhIT/C2f08azlgENnXhsY6ymwdTnr
-	s/1hESFfS4eBFsLfsrr7rPaTg74/SuE/dK3fw2+yuhIhX5xkxVGDgcxP3oEOIbcu0nlE
-	p4znakKbCwAACMcDjPmhb91rM6ohkig8Jmk06nvzWOFd5wC/0qJ+pRqnIHFpixOf4fAo
-	FY2xngGu2muRAvISOKjWDkCsIIDU2TaXEhGRK4Ro8XIWWBYhspFg+9OLZEFVIcuLdyyq
-	qKAg==
-X-Gm-Message-State: APjAAAVT9raKr2Ra5bsi8byvXMtlhkWcZju+FKL1SZVX7bOEjrLFObUb
-	JAvygUv9JWHwogBhqDdQ2tZaI8agVPs=
-X-Google-Smtp-Source: APXvYqxBwReUp8U+Ucj/OTTO9dsAWtUCSnJIyopfbRx9LBYt07kGRkS2geBZmuEhLQabLDg3br7P2w==
-X-Received: by 2002:a17:90a:bb82:: with SMTP id
-	v2mr34044695pjr.78.1570461069908; 
-	Mon, 07 Oct 2019 08:11:09 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=6jJCR2vx8ekO68DkxkrevQ+c3DFJI5vPZitZInTpCgY=;
+	b=kFRwOON8uqZA2ayImse094wX52Y1PfP2uyk+AdRoNyr9P9pTy4MrkuiwqfzkkhRfxm
+	qEWN32kp9kbH+IbtxtQu+DErOrMEnWeZaSpzhjLdNNVgf7L56YRw+YV3JFfxQM7LUx5u
+	uL+F95YYHnROHz3ou07ncCZ4MbDsnwgFS5zobfcOR+2JB6KbvExViYt06wqK8psaWFVJ
+	s1+5dJ6G2HEvP1ql2sF+xoTRKtXD+ppYPJunZgpJlx4ep5lqYkdpibeXUEmPSE60P0Hz
+	LIf75V7pQC+7/0GrJyNFpaLaU/tvWufHo/capx6uH+KyGVEMqFIGTN0YELplby0NDoRZ
+	p5fQ==
+X-Gm-Message-State: APjAAAVFiMbSkYxIGICyZrojT9nOhNnhZpLAWq1Y2NAAiqD5gAU5U6PH
+	F99/Qn8W/oqKayEsqiRRQok0v+YWjaE=
+X-Google-Smtp-Source: APXvYqzAK5Mtc49OMHT6la0L0cPe4mqU8sKoytllyRimlYIQqn9gjJUG3ZgRBtiwoFEzC2ePY9+7Cg==
+X-Received: by 2002:a17:902:7c0c:: with SMTP id
+	x12mr30659892pll.238.1570461070915; 
+	Mon, 07 Oct 2019 08:11:10 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:65e8:7322:d189:1d85])
 	by smtp.gmail.com with ESMTPSA id
-	m102sm12786928pje.5.2019.10.07.08.11.08
+	m102sm12786928pje.5.2019.10.07.08.11.10
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 07 Oct 2019 08:11:09 -0700 (PDT)
+	Mon, 07 Oct 2019 08:11:10 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Oct 2019 08:10:40 -0700
-Message-Id: <ad90312adabbad951f62e3bd4ad95fcc763ad0c4.1570460789.git.akuster808@gmail.com>
+Date: Mon,  7 Oct 2019 08:10:41 -0700
+Message-Id: <75a4b4d8fb14414bbe2e38be8ccda0af94ef9b40.1570460789.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
 In-Reply-To: <cover.1570460789.git.akuster808@gmail.com>
 References: <cover.1570460789.git.akuster808@gmail.com>
-Subject: [thud 03/26] python3: fix CVE-2019-9740
+Subject: [thud 04/26] curl: fix CVE-2018-16890 CVE-2019-3822 CVE-2019-3823
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,197 +60,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 15:11:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 07 Oct 2019 15:11:10 -0000
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+From: Andrii Bordunov via Openembedded-core <openembedded-core@lists.openembedded.org>
 
-CVE-2019-9947 is same as CVE-2019-9740 and mark it as such. See:
-
-https://bugs.python.org/issue30458
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Kevin Weng <t-keweng@microsoft.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../python/python3/CVE-2019-9740.patch             | 155 +++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.5.6.bb      |   1 +
- 2 files changed, 156 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-9740.patch
+ .../recipes-support/curl/curl/CVE-2018-16890.patch | 50 ++++++++++++++++++++
+ meta/recipes-support/curl/curl/CVE-2019-3822.patch | 47 ++++++++++++++++++
+ meta/recipes-support/curl/curl/CVE-2019-3823.patch | 55 ++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.61.0.bb           |  3 ++
+ 4 files changed, 155 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2018-16890.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-3822.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-3823.patch
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2019-9740.patch b/meta/recipes-devtools/python/python3/CVE-2019-9740.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2018-16890.patch b/meta/recipes-support/curl/curl/CVE-2018-16890.patch
 new file mode 100644
-index 0000000..8370901
+index 0000000..3776f36
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2019-9740.patch
-@@ -0,0 +1,155 @@
-+From afe3a4975cf93c97e5d6eb8800e48f368011d37a Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Miro=20Hron=C4=8Dok?= <miro@hroncok.cz>
-+Date: Sun, 14 Jul 2019 11:07:11 +0200
-+Subject: [PATCH] bpo-30458: Disallow control chars in http URLs. (GH-12755)
-+ (#13207)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-support/curl/curl/CVE-2018-16890.patch
+@@ -0,0 +1,50 @@
++From 53d3c2f92b4a7561b1006494badf8cf2ef9110c0 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 2 Jan 2019 20:33:08 +0100
++Subject: [PATCH 1/3] NTLM: fix size check condition for type2 received data
 +
-+Disallow control chars in http URLs in urllib.urlopen.  This addresses a potential security problem for applications that do not sanity check their URLs where http request headers could be injected.
++Bug: https://curl.haxx.se/docs/CVE-2018-16890.html
++Reported-by: Wenxiang Qian
++CVE-2018-16890
 +
-+Disable https related urllib tests on a build without ssl (GH-13032)
-+These tests require an SSL enabled build. Skip these tests when python is built without SSL to fix test failures.
++Upstream-Status: Backport
++[https://github.com/curl/curl/commit
++/b780b30d1377adb10bbe774835f49e9b237fb9bb]
 +
-+Use http.client.InvalidURL instead of ValueError as the new error case's exception. (GH-13044)
++CVE: CVE-2018-16890
 +
-+Co-Authored-By: Miro Hrončok <miro@hroncok.cz>
-+Upstream-Status: Backport[https://github.com/python/cpython/commit/afe3a4975cf93c97e5d6eb8800e48f368011d37a]
-+CVE: CVE-2019-9740
-+CVE: CVE-2019-9947
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++Signed-off-by: Kevin Weng <t-keweng@microsoft.com>
 +---
-+ Lib/http/client.py                            | 16 ++++++
-+ Lib/test/test_urllib.py                       | 55 +++++++++++++++++++
-+ Lib/test/test_xmlrpc.py                       |  8 ++-
-+ .../2019-04-10-08-53-30.bpo-30458.51E-DA.rst  |  1 +
-+ 4 files changed, 79 insertions(+), 1 deletion(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
++ lib/vauth/ntlm.c | 7 ++++---
++ 1 file changed, 4 insertions(+), 3 deletions(-)
 +
-+diff --git a/Lib/http/client.py b/Lib/http/client.py
-+index 352c1017adce..76b9be69a374 100644
-+--- a/Lib/http/client.py
-++++ b/Lib/http/client.py
-+@@ -141,6 +141,16 @@
-+ _is_legal_header_name = re.compile(rb'[^:\s][^:\r\n]*').fullmatch
-+ _is_illegal_header_value = re.compile(rb'\n(?![ \t])|\r(?![ \t\n])').search
++diff --git a/lib/vauth/ntlm.c b/lib/vauth/ntlm.c
++index cdb8d8f0d..0212756ab 100644
++--- a/lib/vauth/ntlm.c
+++++ b/lib/vauth/ntlm.c
++@@ -5,7 +5,7 @@
++  *                            | (__| |_| |  _ <| |___
++  *                             \___|\___/|_| \_\_____|
++  *
++- * Copyright (C) 1998 - 2017, Daniel Stenberg, <daniel@haxx.se>, et al.
+++ * Copyright (C) 1998 - 2019, Daniel Stenberg, <daniel@haxx.se>, et al.
++  *
++  * This software is licensed as described in the file COPYING, which
++  * you should have received as part of this distribution. The terms
++@@ -182,10 +182,11 @@ static CURLcode ntlm_decode_type2_target(struct Curl_easy *data,
++     target_info_len = Curl_read16_le(&buffer[40]);
++     target_info_offset = Curl_read32_le(&buffer[44]);
++     if(target_info_len > 0) {
++-      if(((target_info_offset + target_info_len) > size) ||
+++      if((target_info_offset >= size) ||
+++         ((target_info_offset + target_info_len) > size) ||
++          (target_info_offset < 48)) {
++         infof(data, "NTLM handshake failure (bad type-2 message). "
++-                    "Target Info Offset Len is set incorrect by the peer\n");
+++              "Target Info Offset Len is set incorrect by the peer\n");
++         return CURLE_BAD_CONTENT_ENCODING;
++       }
 + 
-++# These characters are not allowed within HTTP URL paths.
-++#  See https://tools.ietf.org/html/rfc3986#section-3.3 and the
-++#  https://tools.ietf.org/html/rfc3986#appendix-A pchar definition.
-++# Prevents CVE-2019-9740.  Includes control characters such as \r\n.
-++# We don't restrict chars above \x7f as putrequest() limits us to ASCII.
-++_contains_disallowed_url_pchar_re = re.compile('[\x00-\x20\x7f]')
-++# Arguably only these _should_ allowed:
-++#  _is_allowed_url_pchars_re = re.compile(r"^[/!$&'()*+,;=:@%a-zA-Z0-9._~-]+$")
-++# We are more lenient for assumed real world compatibility purposes.
++-- 
++2.22.0
++
+diff --git a/meta/recipes-support/curl/curl/CVE-2019-3822.patch b/meta/recipes-support/curl/curl/CVE-2019-3822.patch
+new file mode 100644
+index 0000000..4f612dd
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2019-3822.patch
+@@ -0,0 +1,47 @@
++From 761b51f66c7b1cd2cd6c71b807bfdb6a27c49b30 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 3 Jan 2019 12:59:28 +0100
++Subject: [PATCH 2/3] ntlm: fix *_type3_message size check to avoid buffer
++ overflow
++
++Bug: https://curl.haxx.se/docs/CVE-2019-3822.html
++Reported-by: Wenxiang Qian
++CVE-2019-3822
++
++Upstream-Status: Backport
++[https://github.com/curl/curl/commit
++/50c9484278c63b958655a717844f0721263939cc]
++
++CVE: CVE-2019-3822
++
++Signed-off-by: Kevin Weng <t-keweng@microsoft.com>
++---
++ lib/vauth/ntlm.c | 11 +++++++----
++ 1 file changed, 7 insertions(+), 4 deletions(-)
++
++diff --git a/lib/vauth/ntlm.c b/lib/vauth/ntlm.c
++index 0212756ab..3be0403d9 100644
++--- a/lib/vauth/ntlm.c
+++++ b/lib/vauth/ntlm.c
++@@ -777,11 +777,14 @@ CURLcode Curl_auth_create_ntlm_type3_message(struct Curl_easy *data,
++   });
++ 
++ #ifdef USE_NTRESPONSES
++-  if(size < (NTLM_BUFSIZE - ntresplen)) {
++-    DEBUGASSERT(size == (size_t)ntrespoff);
++-    memcpy(&ntlmbuf[size], ptr_ntresp, ntresplen);
++-    size += ntresplen;
+++  /* ntresplen + size should not be risking an integer overflow here */
+++  if(ntresplen + size > sizeof(ntlmbuf)) {
+++    failf(data, "incoming NTLM message too big");
+++    return CURLE_OUT_OF_MEMORY;
++   }
+++  DEBUGASSERT(size == (size_t)ntrespoff);
+++  memcpy(&ntlmbuf[size], ptr_ntresp, ntresplen);
+++  size += ntresplen;
++ 
++   DEBUG_OUT({
++     fprintf(stderr, "\n   ntresp=");
++-- 
++2.22.0
++
+diff --git a/meta/recipes-support/curl/curl/CVE-2019-3823.patch b/meta/recipes-support/curl/curl/CVE-2019-3823.patch
+new file mode 100644
+index 0000000..194e6e6
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2019-3823.patch
+@@ -0,0 +1,55 @@
++From 40f6c913f63cdbfa81daa7ac7f1c7415bb99edeb Mon Sep 17 00:00:00 2001
++From: Daniel Gustafsson <daniel@yesql.se>
++Date: Sat, 19 Jan 2019 00:42:47 +0100
++Subject: [PATCH 3/3] smtp: avoid risk of buffer overflow in strtol
++
++If the incoming len 5, but the buffer does not have a termination
++after 5 bytes, the strtol() call may keep reading through the line
++buffer until is exceeds its boundary. Fix by ensuring that we are
++using a bounded read with a temporary buffer on the stack.
++
++Bug: https://curl.haxx.se/docs/CVE-2019-3823.html
++Reported-by: Brian Carpenter (Geeknik Labs)
++CVE-2019-3823
++
++Upstream-Status: Backport
++[https://github.com/curl/curl/commit
++/39df4073e5413fcdbb5a38da0c1ce6f1c0ceb484]
++
++CVE: CVE-2019-3823
++
++Signed-off-by: Kevin Weng <t-keweng@microsoft.com>
++---
++ lib/smtp.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/lib/smtp.c b/lib/smtp.c
++index ecf10a41a..1b9f92d30 100644
++--- a/lib/smtp.c
+++++ b/lib/smtp.c
++@@ -5,7 +5,7 @@
++  *                            | (__| |_| |  _ <| |___
++  *                             \___|\___/|_| \_\_____|
++  *
++- * Copyright (C) 1998 - 2018, Daniel Stenberg, <daniel@haxx.se>, et al.
+++ * Copyright (C) 1998 - 2019, Daniel Stenberg, <daniel@haxx.se>, et al.
++  *
++  * This software is licensed as described in the file COPYING, which
++  * you should have received as part of this distribution. The terms
++@@ -207,8 +207,12 @@ static bool smtp_endofresp(struct connectdata *conn, char *line, size_t len,
++      Section 4. Examples of RFC-4954 but some e-mail servers ignore this and
++      only send the response code instead as per Section 4.2. */
++   if(line[3] == ' ' || len == 5) {
+++    char tmpline[6];
 ++
-+ # We always set the Content-Length header for these methods because some
-+ # servers will otherwise respond with a 411
-+ _METHODS_EXPECTING_BODY = {'PATCH', 'POST', 'PUT'}
-+@@ -978,6 +988,12 @@ def putrequest(self, method, url, skip_host=False,
-+         self._method = method
-+         if not url:
-+             url = '/'
-++        # Prevent CVE-2019-9740.
-++        match = _contains_disallowed_url_pchar_re.search(url)
-++        if match:
-++            raise InvalidURL("URL can't contain control characters. {!r} "
-++                             "(found at least {!r})".format(url,
-++                                                            match.group()))
-+         request = '%s %s %s' % (method, url, self._http_vsn_str)
++     result = TRUE;
++-    *resp = curlx_sltosi(strtol(line, NULL, 10));
+++    memset(tmpline, '\0', sizeof(tmpline));
+++    memcpy(tmpline, line, (len == 5 ? 5 : 3));
+++    *resp = curlx_sltosi(strtol(tmpline, NULL, 10));
 + 
-+         # Non-ASCII characters should have been eliminated earlier
-+diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
-+index 3afb1312de32..1e2c622e29fd 100644
-+--- a/Lib/test/test_urllib.py
-++++ b/Lib/test/test_urllib.py
-+@@ -330,6 +330,61 @@ def test_willclose(self):
-+         finally:
-+             self.unfakehttp()
-+ 
-++    @unittest.skipUnless(ssl, "ssl module required")
-++    def test_url_with_control_char_rejected(self):
-++        for char_no in list(range(0, 0x21)) + [0x7f]:
-++            char = chr(char_no)
-++            schemeless_url = "//localhost:7777/test{}/".format(char)
-++            self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
-++            try:
-++                # We explicitly test urllib.request.urlopen() instead of the top
-++                # level 'def urlopen()' function defined in this... (quite ugly)
-++                # test suite.  They use different url opening codepaths.  Plain
-++                # urlopen uses FancyURLOpener which goes via a codepath that
-++                # calls urllib.parse.quote() on the URL which makes all of the
-++                # above attempts at injection within the url _path_ safe.
-++                escaped_char_repr = repr(char).replace('\\', r'\\')
-++                InvalidURL = http.client.InvalidURL
-++                with self.assertRaisesRegex(
-++                    InvalidURL,
-++                    "contain control.*{}".format(escaped_char_repr)):
-++                    urllib.request.urlopen("http:{}".format(schemeless_url))
-++                with self.assertRaisesRegex(
-++                    InvalidURL,
-++                    "contain control.*{}".format(escaped_char_repr)):
-++                    urllib.request.urlopen("https:{}".format(schemeless_url))
-++                # This code path quotes the URL so there is no injection.
-++                resp = urlopen("http:{}".format(schemeless_url))
-++                self.assertNotIn(char, resp.geturl())
-++            finally:
-++                self.unfakehttp()
-++
-++    @unittest.skipUnless(ssl, "ssl module required")
-++    def test_url_with_newline_header_injection_rejected(self):
-++        self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
-++        host = "localhost:7777?a=1 HTTP/1.1\r\nX-injected: header\r\nTEST: 123"
-++        schemeless_url = "//" + host + ":8080/test/?test=a"
-++        try:
-++            # We explicitly test urllib.request.urlopen() instead of the top
-++            # level 'def urlopen()' function defined in this... (quite ugly)
-++            # test suite.  They use different url opening codepaths.  Plain
-++            # urlopen uses FancyURLOpener which goes via a codepath that
-++            # calls urllib.parse.quote() on the URL which makes all of the
-++            # above attempts at injection within the url _path_ safe.
-++            InvalidURL = http.client.InvalidURL
-++            with self.assertRaisesRegex(
-++                InvalidURL, r"contain control.*\\r.*(found at least . .)"):
-++                urllib.request.urlopen("http:{}".format(schemeless_url))
-++            with self.assertRaisesRegex(InvalidURL, r"contain control.*\\n"):
-++                urllib.request.urlopen("https:{}".format(schemeless_url))
-++            # This code path quotes the URL so there is no injection.
-++            resp = urlopen("http:{}".format(schemeless_url))
-++            self.assertNotIn(' ', resp.geturl())
-++            self.assertNotIn('\r', resp.geturl())
-++            self.assertNotIn('\n', resp.geturl())
-++        finally:
-++            self.unfakehttp()
-++
-+     def test_read_0_9(self):
-+         # "0.9" response accepted (but not "simple responses" without
-+         # a status line)
-+diff --git a/Lib/test/test_xmlrpc.py b/Lib/test/test_xmlrpc.py
-+index c2de057ecbfa..99e510fcee86 100644
-+--- a/Lib/test/test_xmlrpc.py
-++++ b/Lib/test/test_xmlrpc.py
-+@@ -896,7 +896,13 @@ def test_unicode_host(self):
-+     def test_partial_post(self):
-+         # Check that a partial POST doesn't make the server loop: issue #14001.
-+         conn = http.client.HTTPConnection(ADDR, PORT)
-+-        conn.request('POST', '/RPC2 HTTP/1.0\r\nContent-Length: 100\r\n\r\nbye')
-++        conn.send('POST /RPC2 HTTP/1.0\r\n'
-++                  'Content-Length: 100\r\n\r\n'
-++                  'bye HTTP/1.1\r\n'
-++                  'Host: {}:{}\r\n'
-++                  'Accept-Encoding: identity\r\n'
-++                  'Content-Length: 0\r\n\r\n'
-++                  .format(ADDR, PORT).encode('ascii'))
-+         conn.close()
-+ 
-+     def test_context_manager(self):
-+diff --git a/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
-+new file mode 100644
-+index 000000000000..ed8027fb4d64
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
-+@@ -0,0 +1 @@
-++Address CVE-2019-9740 by disallowing URL paths with embedded whitespace or control characters through into the underlying http client request.  Such potentially malicious header injection URLs now cause an http.client.InvalidURL exception to be raised.
-diff --git a/meta/recipes-devtools/python/python3_3.5.6.bb b/meta/recipes-devtools/python/python3_3.5.6.bb
-index 6aa6df6..7e74c55 100644
---- a/meta/recipes-devtools/python/python3_3.5.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.6.bb
-@@ -43,6 +43,7 @@ SRC_URI += "\
-             file://0004-bpo-33570-TLS-1.3-ciphers-for-OpenSSL-1.1.1-GH-6976.patch \
-             file://0005-bpo-30714-ALPN-changes-for-OpenSSL-1.1.0f-2305.patch \
-             file://run-ptest \
-+            file://CVE-2019-9740.patch \
-            "
++     /* Make sure real server never sends internal value */
++     if(*resp == 1)
++-- 
++2.22.0
++
+diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
+index 1027f75..c1e4342 100644
+--- a/meta/recipes-support/curl/curl_7.61.0.bb
++++ b/meta/recipes-support/curl/curl_7.61.0.bb
+@@ -13,6 +13,9 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2018-16842.patch \
+            file://CVE-2019-5435.patch \
+            file://CVE-2019-5436.patch \
++           file://CVE-2018-16890.patch \
++           file://CVE-2019-3822.patch \
++           file://CVE-2019-3823.patch \
+ "
  
- inherit multilib_header python3native update-alternatives qemu ptest
+ SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
 -- 
 2.7.4
 
