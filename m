@@ -1,52 +1,50 @@
 Return-Path: <christophe.priouzeau@st.com>
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
-	[62.209.51.94])
-	by mail.openembedded.org (Postfix) with ESMTP id BDAED7D419
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+	[91.207.212.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 573657D419
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 13:30:13 +0000 (UTC)
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
-	x97D1Rhv032193 for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Oct 2019 15:08:44 +0200
+	Mon,  7 Oct 2019 13:30:51 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+	x97D6VY7020869 for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Oct 2019 15:08:35 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
 	h=from : to : cc : subject
-	: date : message-id : references : in-reply-to : content-type :
-	content-transfer-encoding : mime-version; s=STMicroelectronics;
-	bh=goSmQtkBygepzL9gLp/CaOJ90yZXK1CX9qzx7ge4bxA=;
-	b=T8hSiNgdCgALaRxF9yT5XFNvYsx1DJ5lXoIv3fnesnroA+aTLVToRkU/yg/rrDKhB/RC
-	KnRrd2sLeqwAckZM6mYk1+MZtiJ1wvb259Hd+pLlZh1e+oy702DZqJOoZmntUpiSYi77
-	9yL70KVJ9JXthUQWKhdSy2x6tL4vxE5avGZR2JRYbEB22q81neqpvrDj7bIx2z/uTuFM
-	dm9EAuteJflvHWpX5OfgPQkFakY0soRiyYMuASWQjJvR4vyoQQhxl9Ko1lRNfKXVZl0q
-	QKMxBXIiQ3cAZIJoEzVucDsBSes8DJ89l83Z+BE+pNCg6dm0QZRIj1Z7KF6q4onqacd+
-	pg== 
+	: date : message-id : content-type : content-transfer-encoding :
+	mime-version; s=STMicroelectronics;
+	bh=6XnKorLyshy2T4+/OA6GwwbKKevFPKKuJ9iPxDFFle8=;
+	b=YQueolxiKc2BbyH5P2vZo/D/7psKRQ+uhiBEGZB3udB2cUM7+C0isnr9JL+JsNS5w5l/
+	doeAdyRIkfnz3qzbFZmMIYDyykBqeok2o06/vYfHqFiGFh2Ncza2Ps9pxsbmQyJSBUdZ
+	XfZgEE7gKkTdGEtjspmmAAUuYmC+QK0/5uREAAuYjI1EdivNXLMawfpTW+DiqEV9RnPO
+	sFQyLVj6faUM92f6V0aSagnXjKpyDZYoRRqiKU2Oa1xZwaPzp5et7mhtK9bQxkRt3tt6
+	R0m6mpIPUynilIlobL54Uapyw9Ee3PKjb0pUkdAZNuzUTMLjU6RL1nSovBBccAzTICaE
+	aA== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com with ESMTP id 2vegn0jgw3-1
+	by mx08-00178001.pphosted.com with ESMTP id 2vej2p2fce-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 15:08:44 +0200
+	Mon, 07 Oct 2019 15:08:35 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id CE28D100038
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B15E910002A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:43 +0200 (CEST)
+	Mon,  7 Oct 2019 15:08:34 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C99712C9DF7
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A16FB2C9DF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:43 +0200 (CEST)
+	Mon,  7 Oct 2019 15:08:34 +0200 (CEST)
 Received: from SFHDAG6NODE2.st.com (10.75.127.17) by SFHDAG6NODE3.st.com
 	(10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
-	Mon, 7 Oct 2019 15:08:43 +0200
+	Mon, 7 Oct 2019 15:08:34 +0200
 Received: from SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6]) by
 	SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6%20]) with mapi id
-	15.00.1347.000; Mon, 7 Oct 2019 15:08:43 +0200
+	15.00.1347.000; Mon, 7 Oct 2019 15:08:34 +0200
 From: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 19/23] speex: update license
-Thread-Index: AQHVfRBYbYeFQMSuOk+cdbklH7Dh3A==
-Date: Mon, 7 Oct 2019 13:08:43 +0000
-Message-ID: <930fc554fcae5671a58a0755192a65c425450347.1570452710.git.christophe.priouzeau@st.com>
-References: <cover.1570452710.git.christophe.priouzeau@st.com>
-In-Reply-To: <cover.1570452710.git.christophe.priouzeau@st.com>
+Thread-Topic: [PATCH 00/23] Update BSD license
+Thread-Index: AQHVfRBS4asz+suJbkydQNNNXHIZuw==
+Date: Mon, 7 Oct 2019 13:08:34 +0000
+Message-ID: <cover.1570452710.git.christophe.priouzeau@st.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -57,7 +55,7 @@ MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
 	definitions=2019-10-07_02:2019-10-07,2019-10-07 signatures=0
 Cc: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
-Subject: [PATCH 19/23] speex: update license
+Subject: [PATCH 00/23] Update BSD license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,35 +68,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 13:30:14 -0000
+X-List-Received-Date: Mon, 07 Oct 2019 13:30:52 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-The license of speex is BSD-3-Clause.
+Some recipes use BSD as license while SPDX license reference : BSD-0-Clause=
+,
+BSD-1-Clause, BSD-2-Clause, BSD-3-Clause, BSD-4-Clause.
+The goal of this request are to indicate the SPDX license euqivalent for re=
+cipes
+which indicate "BSD" as license.
 
-Signed-off-by: Christophe Priouzeau <christophe.priouzeau@st.com>
----
- meta/recipes-multimedia/speex/speex_1.2.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 108ce1447ca5dcb838ef67ef6b9a9d25e993da1d=
+:
 
-diff --git a/meta/recipes-multimedia/speex/speex_1.2.0.bb b/meta/recipes-mu=
-ltimedia/speex/speex_1.2.0.bb
-index 19636bb202e..3a0911d6f83 100644
---- a/meta/recipes-multimedia/speex/speex_1.2.0.bb
-+++ b/meta/recipes-multimedia/speex/speex_1.2.0.bb
-@@ -2,7 +2,7 @@ SUMMARY =3D "Speech Audio Codec"
- DESCRIPTION =3D "Speex is an Open Source/Free Software patent-free audio c=
-ompression format designed for speech."
- HOMEPAGE =3D "http://www.speex.org"
- SECTION =3D "libs"
--LICENSE =3D "BSD"
-+LICENSE =3D "BSD-3-Clause"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D314649d8ba9dd7045dfb6683f298d0a=
-8 \
-                     file://include/speex/speex.h;beginline=3D1;endline=3D3=
-4;md5=3Def8c8ea4f7198d71cf3509c6ed05ea50"
- DEPENDS =3D "libogg speexdsp"
+  meson: update patch status (2019-10-04 09:06:31 +0100)
+
+are available in the Git repository at:
+
+  git://github.com/cpriouzeau/openembedded-core oe-license
+  https://github.com/cpriouzeau/openembedded-core/tree/oe-license
+
+Christophe Priouzeau (23):
+  libpcap: update license
+  wpa-supplicant: update license
+  ovmf: update license
+  cmake: update license
+  file: update license
+  flex: update license
+  python-async: update license
+  python-smmap: update license
+  libarchive: update license
+  libtirpc: update license
+  lighttpd: update license
+  pbzip2: update license
+  rpcbind: update license
+  tcp-wrappers: update license
+  libxpm: update license
+  libogg: update license
+  libtheora: update license
+  libvorbis: update license
+  speex: update license
+  speexdsp: update license
+  libwebp: update license
+  libpcre: update license
+  p11-kit: update license
+
+ meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb             | 2 +-
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb | 2 +-
+ meta/recipes-core/ovmf/ovmf_git.bb                             | 2 +-
+ meta/recipes-devtools/cmake/cmake.inc                          | 2 +-
+ meta/recipes-devtools/file/file_5.37.bb                        | 2 +-
+ meta/recipes-devtools/flex/flex_2.6.0.bb                       | 2 +-
+ meta/recipes-devtools/python/python-async.inc                  | 2 +-
+ meta/recipes-devtools/python/python-smmap.inc                  | 2 +-
+ meta/recipes-extended/libarchive/libarchive_3.4.0.bb           | 2 +-
+ meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb               | 2 +-
+ meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb              | 2 +-
+ meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb                  | 2 +-
+ meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb                 | 2 +-
+ meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb         | 2 +-
+ meta/recipes-graphics/xorg-lib/libxpm_3.5.12.bb                | 2 +-
+ meta/recipes-multimedia/libogg/libogg_1.3.4.bb                 | 2 +-
+ meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb           | 2 +-
+ meta/recipes-multimedia/libvorbis/libvorbis_1.3.6.bb           | 2 +-
+ meta/recipes-multimedia/speex/speex_1.2.0.bb                   | 2 +-
+ meta/recipes-multimedia/speex/speexdsp_1.2rc3.bb               | 2 +-
+ meta/recipes-multimedia/webp/libwebp_1.0.3.bb                  | 2 +-
+ meta/recipes-support/libpcre/libpcre2_10.33.bb                 | 2 +-
+ meta/recipes-support/libpcre/libpcre_8.43.bb                   | 2 +-
+ meta/recipes-support/p11-kit/p11-kit_0.23.16.1.bb              | 2 +-
+ 24 files changed, 24 insertions(+), 24 deletions(-)
+
 --=20
 2.17.1
 
