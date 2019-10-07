@@ -1,54 +1,54 @@
 Return-Path: <misla011@fiu.edu>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CBDB56B50B
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1346C6B50B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 21:45:40 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id y144so14192734qkb.7
+	Mon,  7 Oct 2019 21:50:47 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id u40so21536244qth.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 14:45:42 -0700 (PDT)
+	Mon, 07 Oct 2019 14:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=fiu-edu.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:mime-version:reply-to
 	:content-transfer-encoding;
-	bh=lEyLF5g+EG2f/m/QIsTQnUZVZLPVrq423zw/vuXN+Q4=;
-	b=c056QnOU4Lk2GUBx4YVjNIkut1kAbu0vJdns7DAepsyvgcFPhwvrSkz9yWcyvCidSF
-	y63iWBULW+LRCUflcN9+HPKWz9YKh355maEBrlGDYJMRXTH6voHEzSXF43CtTeDyA2Fc
-	Iu0e+dWSdsl643q5MG9Q4cXRz1PoY8FWm/dVYzcc2SdYX0oGkP49ojaMklEv25Xen9pC
-	nuf8/PJBYPp3GjKN/UFDt6oqc6Kwh/89mfNhsDqkX74Uem5QJHlptYdBl4CoYfR2Vi9T
-	xp+YT7glk/NKzt64zLo97kKA/AwTW+57kpsLbFUBvVYSJqMKyvwJoxbEyNsoR8V8BKO2
-	Mpag==
+	bh=bgDMemfwZ5TNkrDLeWtSU6GvAUcnlWzhT0Hnf1FZ2n4=;
+	b=xnqPsQhBDvnCcCNiwqp8W3LuzCYfx1WOgDEEyUh1O+CAXLPozU6MyS51lR9VZgI/qt
+	adgw5k3XtXFqgTUqfxVWFOG8PKAr/wcyGLhSDwhH/2i/RrN4UztyxPuYs/8PqSsKahB4
+	/v1mk0hNEYrNohpc3InD6G1fmui9TkXzLvYvJ4fIkXyjtgRi7p97WaQq89TRkvTwxLs7
+	K3SfaIIPyZsikPx0RYnr13X76fvAXvkdvm8b3scmw27Hqj/GCGj3vwhKVZQTAjDuG21/
+	qZbLZ+IeOEfM50G2JHqeYK+CYZ+r7wcG6ktYxOrmEBb4PlTnamEvunRLTByey7jWqwc+
+	HmQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:reply-to:content-transfer-encoding;
-	bh=lEyLF5g+EG2f/m/QIsTQnUZVZLPVrq423zw/vuXN+Q4=;
-	b=WhE42+RK7SusQaAeZ/SiNl2xFUoGdTTdiGXalxQy0CXlF4Vsxz6tKqEX7/J+u0tTy7
-	PVDWCnjfFYPCpqL0R3XUAlK5Dq/OZrJmzSJJbPTjg1YxIpSlC81LCQoY3Z/binTa1WWn
-	bY33lmpWY3KyRn3xmLJuYhGVcCXDSmhh/jB3JHM0ydNCl5m2Z3YvQm/sS3RU5Bdd3/2k
-	4uGK570NSrHxDrkr1Trz6Fqs5pEVoOq2VGiJOLLiV7yAvSxKGreqUEVs9DM3Lq70wP2y
-	ddq5cf57++qp0ZboB6aAR6xkbejG57Nv6TKkGxaa7ypvmNoOdIvc8GMNdhDqVgxWU6iE
-	n8cg==
-X-Gm-Message-State: APjAAAU2g2sqL+lOsYcDuPDofNAzAZc3AW8/6urlQ9Omo31qiiZ+oLi3
-	FWd6u5F1+smj1zQU3CChAw9yCdC6Wb4=
-X-Google-Smtp-Source: APXvYqx10y7FA6Ob1GCEU9CNVTJ3UepQKkvggQPmR+qeAWD8cbUnHdLOid4gjRwabFNqyrRpcAEdNQ==
-X-Received: by 2002:a37:4b43:: with SMTP id y64mr24998772qka.139.1570484740957;
-	Mon, 07 Oct 2019 14:45:40 -0700 (PDT)
+	bh=bgDMemfwZ5TNkrDLeWtSU6GvAUcnlWzhT0Hnf1FZ2n4=;
+	b=dXIxBf+urXx6nXRaFu9LvMhpDKl27hXMK5cz3PgpSJjJUZ5J4DurjbAo/9c5JzfsaC
+	yiDs1UBbEq06j0JMlFh2QTVvBeb3/pThJyprCViAyKwqebEXCBF1rSIk8wJY+66lxiF5
+	MhcdEhpVo65IBsT2Iv/HkwA7utj7FX133HfC9Jq9Y1a2JgJFegd/8zygyzk4n5TBUlgv
+	ABPHp7DXJ3HANYNCXc4USd6cZrvC5vnGHvWMZJUXUOoIKfr/ZEohhZJAXoH9p4s+cZ9o
+	eHD+QeJGsSjOVMIaa/DwM4Xqq7l9aYCtbR/JGJlRzpvKhJOfrzrnDSj66stYEwC7bQd2
+	tZEw==
+X-Gm-Message-State: APjAAAVEFxmxM1UNW5DfzrI13tk3ZbivXA0IHyv+BfohrpyeIewu/gFR
+	6BZOoeQb9IQh4qLj83O4oA4pZnVhioc=
+X-Google-Smtp-Source: APXvYqxG0yGF85YNmRIQG0x4G7ifOycR+gVB5yEAInyGe47BXLiV6l8B0SxBEvubmeEiVH6h+k4IRw==
+X-Received: by 2002:a0c:a9db:: with SMTP id c27mr4227393qvb.231.1570485048245; 
+	Mon, 07 Oct 2019 14:50:48 -0700 (PDT)
 Received: from
 	muislam-yocto.h0ebkyng4k5ejcojahceueqbfb.cx.internal.cloudapp.net
-	([40.84.59.7]) by smtp.gmail.com with ESMTPSA id
-	x55sm11743692qta.74.2019.10.07.14.45.40
+	([40.84.59.7])
+	by smtp.gmail.com with ESMTPSA id 29sm8338138qkp.86.2019.10.07.14.50.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 07 Oct 2019 14:45:40 -0700 (PDT)
+	Mon, 07 Oct 2019 14:50:47 -0700 (PDT)
 From: Muminul Islam <misla011@fiu.edu>
 X-Google-Original-From: Muminul Islam <muislam@microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Oct 2019 21:45:33 +0000
-Message-Id: <20191007214533.105299-1-muislam@microsoft.com>
+Date: Mon,  7 Oct 2019 21:50:40 +0000
+Message-Id: <20191007215040.106320-1-muislam@microsoft.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Reply-To: muislam@microsoft.com
-Subject: [thud][PATCH v3] glibc: Security fix for cve <CVE-2019-6488, CVE-2019-7309>
+Subject: [thud][PATCH v4] glibc: Security fix for cve <CVE-2019-6488, CVE-2019-7309>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,7 +61,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 21:45:41 -0000
+X-List-Received-Date: Mon, 07 Oct 2019 21:50:48 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Muminul Islam <muislam@microsoft.com>
@@ -359,7 +359,7 @@ index 0000000000..fa423754d4
 +
 diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-7309.patch b/meta/recipes-core/glibc/glibc/CVE-2019-7309.patch
 new file mode 100644
-index 0000000000..f48017e90e
+index 0000000000..04963c29e4
 --- /dev/null
 +++ b/meta/recipes-core/glibc/glibc/CVE-2019-7309.patch
 @@ -0,0 +1,207 @@
@@ -388,7 +388,7 @@ index 0000000000..f48017e90e
 +
 +Signed-off-by: Muminul Islam <muislam@microsoft.com>
 +
-+CVE: CVE-2019-6488
++CVE: CVE-2019-7309
 +
 +Upstream-Status: Backport
 +---
