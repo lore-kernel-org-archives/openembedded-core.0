@@ -1,37 +1,37 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id CC6EC7F0A0
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+	[209.85.210.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 9764F7F351
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:11:31 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id p1so6618425pgi.4
+	Mon,  7 Oct 2019 15:11:32 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id b128so8883589pfa.1
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 07 Oct 2019 08:11:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=rt2SCBf0H15IXZGSRQCub2CO44IpUy4N2eOTP4iX5RY=;
-	b=JX2cX6lFAWSOqDnQMoon8cSma0NhHgfIi7pDS5x9xUa0qvVIFXJ66CBFfBkB7qHmZJ
-	e0xMwcy4VUEywc+kEMySfuUU/Eto/u3m+UEmiXzYzlmyLakHFdxBxlL6KDDX/5/MvnpN
-	ixJaMEj4JGqFNVD5otK8jEPpEQYhAhmNLRUfJfhWGF9ovoCTPd7FZeaRqf8hEhsTL8Ny
-	3iZ4Ps972v4EaJb2P41CR31qRH6GHlCO3tCqj0v8frx4bOw52zPfieQFeb4yLPpzT8cL
-	HlF6NFvFMcr7SGveV6gyMaYgasjSAINKZI46I43sNLnhalW4LPVORXiGDD5cwDGq72fs
-	ZA2A==
+	bh=h35ci2H/+cb0xy9RjQGEwYkXDdYAOp+7zmzxLqNHerk=;
+	b=IRG8B7RUtpAn00R8JmbHZqB84f4rFguu72BK2T7pBKgp0CnCIu6Q1+QP4bXOO4hPBr
+	X/o6gIHlYZTt49JMAbVx2d+Izns60qp3r0TE+Jb5PrGwQtDjaNMd0xA1cEJYe8u7XeCA
+	UkmS965TA5N/0utvakd0wW9Q3dRP0f7/7F9RP7Woa+A/BUlfhWpgM+nQrz37Jtpi47XY
+	Ei95R4WtlopCP2xVOB7bVUXbQRQRul1k8dnEBXrUaaLnnRKMCQHC2+gXn3BHAiCvNVn/
+	t1HYGpfhypGn1iqwbrrKNxZ9QhQxsv11jF79RG2j5h81emDk1r7OCTLSY9sNKYnhFb1e
+	hmLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=rt2SCBf0H15IXZGSRQCub2CO44IpUy4N2eOTP4iX5RY=;
-	b=c6WmIOnSJCGAelzQP+n/LOSqWvGblqqsFwznQmqWQqRyD8rd4HliEErRVqF0IQEDMf
-	drBHrWg/mdL7HP1jNmxAdnAFop+pwrrpAArYNOpJzoCwGfo3CQT7jBUKup5TksRJYFhI
-	29W5+ntzK1lsQHxMNspHPkRDwKUYNhuBlDALKOqhba79FO7c7GiWF/C4rnVls3PWv1cI
-	3uVeU4VYujlS+d94aTBT6E+g324HnFUh3pD6cCANQlje9UOTLTlcKU8KrxTL+RwOcU1g
-	b2F+0epiJh0/dli/Ao+SuOFIzKjJHxVLzV1l5mx05eX1O6Pp/Fm6UJgETZnLAST2DfhY
-	mLBg==
-X-Gm-Message-State: APjAAAVT54/7EzpAuXx662lFYI3gMoGk5On0mJscE5MMNR1D5Nyf/4KV
-	Fpnf0CIinmE789idZCmjqcPuUuw6v9Y=
-X-Google-Smtp-Source: APXvYqzvfjQH3Z1D8qnhppwuEzf6o+CS6k520QbfIZWlgsscRwzI1is+fsPlu+e5opSFE1BW8iUmcg==
-X-Received: by 2002:a62:4e0f:: with SMTP id c15mr33566932pfb.42.1570461092618; 
-	Mon, 07 Oct 2019 08:11:32 -0700 (PDT)
+	bh=h35ci2H/+cb0xy9RjQGEwYkXDdYAOp+7zmzxLqNHerk=;
+	b=fQJVzB4Ied6E9uQm7AJ0+6cOWX8hlAlQsU1K9pJs9YXH59FoIg/epCGdyma3fVGBh1
+	rw9iO5wHiKZuPfODhiVdMiaUIsIz6rS8u+i8WI0C9LkQVbKq+HAPC/MAj0IfCaZcqF01
+	gARneu8Riuyw3AS1TXcd93e7keFpn0xLL5bTjMpCeFaA+96w12euzBZJl070CsrQ/Hw7
+	VPvhFw+foC2j/jepdiI357XcqNuItxMAjeWIjGi29x3YtA2g/zUOxfT4L/gGtuDvdFQq
+	tJyec/1o+r9ZRv/1/DEFbhvT9eezdX/1t+WrDHcH0GKnbr8TIikyTmVwsoN1iQCBTQCK
+	fwKA==
+X-Gm-Message-State: APjAAAXngtNbX+P6aDSVSg2nFt7X1fLE20rhWbJ4hZjCqOn+BDuzD8iv
+	OsIRXiSuK9Ma25qMeERuFOAuGVS5oX4=
+X-Google-Smtp-Source: APXvYqwEZnoAlJpdRWqp2s2Q8HgrmOtU96Zw19hNXPBgoOq4u+JEoztJ9UstM0l/Nty5bdZGIrUD5w==
+X-Received: by 2002:a63:1420:: with SMTP id u32mr15990914pgl.62.1570461093336; 
+	Mon, 07 Oct 2019 08:11:33 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:65e8:7322:d189:1d85])
 	by smtp.gmail.com with ESMTPSA id
@@ -41,12 +41,12 @@ Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	Mon, 07 Oct 2019 08:11:32 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Oct 2019 08:11:01 -0700
-Message-Id: <e2869ff2f76adb2b1ba6f003d6d02d242afe49e8.1570460789.git.akuster808@gmail.com>
+Date: Mon,  7 Oct 2019 08:11:02 -0700
+Message-Id: <20b23cb40917b1c83b862817b13f0eefc8fa7a64.1570460789.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1570460789.git.akuster808@gmail.com>
 References: <cover.1570460789.git.akuster808@gmail.com>
-Subject: [thud 24/26] patch: backport fixes
+Subject: [thud 25/26] pango: fix CVE-2019-1010238
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,222 +63,76 @@ X-List-Received-Date: Mon, 07 Oct 2019 15:11:32 -0000
 
 From: Anuj Mittal <anuj.mittal@intel.com>
 
-The original fix for CVE-2018-1000156 was incomplete. Backport more
-fixes done later for a complete fix.
-
-Also see:
-https://savannah.gnu.org/bugs/index.php?53820
-
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
-(cherry picked from commit 12f9689cba740da6b8c7d9292c74c3992c2e18f2)
+(cherry picked from commit 65631a048f57965745dc8cc23cb80c4c3a71ba94)
+[Fix up for thud context]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...k-temporary-file-on-failed-ed-style-patch.patch | 93 ++++++++++++++++++++++
- ...ak-temporary-file-on-failed-multi-file-ed.patch | 80 +++++++++++++++++++
- meta/recipes-devtools/patch/patch_2.7.6.bb         |  2 +
- 3 files changed, 175 insertions(+)
- create mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
- create mode 100644 meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
+ .../pango/pango/CVE-2019-1010238.patch             | 38 ++++++++++++++++++++++
+ meta/recipes-graphics/pango/pango_1.42.4.bb        |  4 ++-
+ 2 files changed, 41 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/pango/pango/CVE-2019-1010238.patch
 
-diff --git a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
+diff --git a/meta/recipes-graphics/pango/pango/CVE-2019-1010238.patch b/meta/recipes-graphics/pango/pango/CVE-2019-1010238.patch
 new file mode 100644
-index 0000000..9891526
+index 0000000..5b0c342
 --- /dev/null
-+++ b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch
-@@ -0,0 +1,93 @@
-+From 7f770b9c20da1a192dad8cb572a6391f2773285a Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Thu, 3 May 2018 14:31:55 +0200
-+Subject: [PATCH 1/2] Don't leak temporary file on failed ed-style patch
++++ b/meta/recipes-graphics/pango/pango/CVE-2019-1010238.patch
+@@ -0,0 +1,38 @@
++From 490f8979a260c16b1df055eab386345da18a2d54 Mon Sep 17 00:00:00 2001
++From: Matthias Clasen <mclasen@redhat.com>
++Date: Wed, 10 Jul 2019 20:26:23 -0400
++Subject: [PATCH] bidi: Be safer against bad input
 +
-+Now that we write ed-style patches to a temporary file before we
-+apply them, we need to ensure that the temporary file is removed
-+before we leave, even on fatal error.
++Don't run off the end of an array that we
++allocated to certain length.
 +
-+* src/pch.c (do_ed_script): Use global TMPEDNAME instead of local
-+  tmpname. Don't unlink the file directly, instead tag it for removal
-+  at exit time.
-+* src/patch.c (cleanup): Unlink TMPEDNAME at exit.
++Closes: https://gitlab.gnome.org/GNOME/pango/issues/342
 +
-+This closes bug #53820:
-+https://savannah.gnu.org/bugs/index.php?53820
-+
-+Fixes: 123eaff0d5d1 ("Fix arbitrary command execution in ed-style patches (CVE-2018-1000156)")
-+
-+Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=19599883ffb6a450d2884f081f8ecf68edbed7ee]
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/pango/commit/490f8979a260c16b1df055eab386345da18a2d54]
++CVE: CVE-2019-1010238
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ src/common.h |  2 ++
-+ src/pch.c    | 12 +++++-------
-+ 2 files changed, 7 insertions(+), 7 deletions(-)
++ pango/pango-bidi-type.c | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/common.h b/src/common.h
-+index ec50b40..22238b5 100644
-+--- a/src/common.h
-++++ b/src/common.h
-+@@ -94,10 +94,12 @@ XTERN char const *origsuff;
-+ XTERN char const * TMPINNAME;
-+ XTERN char const * TMPOUTNAME;
-+ XTERN char const * TMPPATNAME;
-++XTERN char const * TMPEDNAME;
-+ 
-+ XTERN bool TMPINNAME_needs_removal;
-+ XTERN bool TMPOUTNAME_needs_removal;
-+ XTERN bool TMPPATNAME_needs_removal;
-++XTERN bool TMPEDNAME_needs_removal;
-+ 
-+ #ifdef DEBUGGING
-+ XTERN int debug;
-+diff --git a/src/pch.c b/src/pch.c
-+index 16e001a..c1a62cf 100644
-+--- a/src/pch.c
-++++ b/src/pch.c
-+@@ -2392,7 +2392,6 @@ do_ed_script (char const *inname, char const *outname,
-+     file_offset beginning_of_this_line;
-+     size_t chars_read;
-+     FILE *tmpfp = 0;
-+-    char const *tmpname;
-+     int tmpfd;
-+     pid_t pid;
-+ 
-+@@ -2404,12 +2403,13 @@ do_ed_script (char const *inname, char const *outname,
-+ 	   invalid commands and treats the next line as a new command, which
-+ 	   can lead to arbitrary command execution.  */
-+ 
-+-	tmpfd = make_tempfile (&tmpname, 'e', NULL, O_RDWR | O_BINARY, 0);
-++	tmpfd = make_tempfile (&TMPEDNAME, 'e', NULL, O_RDWR | O_BINARY, 0);
-+ 	if (tmpfd == -1)
-+-	  pfatal ("Can't create temporary file %s", quotearg (tmpname));
-++        pfatal ("Can't create temporary file %s", quotearg (TMPEDNAME));
-++        TMPEDNAME_needs_removal = true;
-+ 	tmpfp = fdopen (tmpfd, "w+b");
-+ 	if (! tmpfp)
-+-	  pfatal ("Can't open stream for file %s", quotearg (tmpname));
-++        pfatal ("Can't open stream for file %s", quotearg (TMPEDNAME));
-+       }
-+ 
-+     for (;;) {
-+@@ -2449,8 +2449,7 @@ do_ed_script (char const *inname, char const *outname,
-+       write_fatal ();
-+ 
-+     if (lseek (tmpfd, 0, SEEK_SET) == -1)
-+-      pfatal ("Can't rewind to the beginning of file %s", quotearg (tmpname));
-+-
-++        pfatal ("Can't rewind to the beginning of file %s", quotearg (TMPEDNAME));
-+     if (! dry_run && ! skip_rest_of_patch) {
-+ 	int exclusive = *outname_needs_removal ? 0 : O_EXCL;
-+ 	*outname_needs_removal = true;
-+@@ -2482,7 +2481,6 @@ do_ed_script (char const *inname, char const *outname,
-+     }
-+ 
-+     fclose (tmpfp);
-+-    safe_unlink (tmpname);
-+ 
-+     if (ofp)
-+       {
++diff --git a/pango/pango-bidi-type.c b/pango/pango-bidi-type.c
++index 3e46b66c..5c02dbbb 100644
++--- a/pango/pango-bidi-type.c
+++++ b/pango/pango-bidi-type.c
++@@ -181,8 +181,11 @@ pango_log2vis_get_embedding_levels (const gchar    *text,
++   for (i = 0, p = text; p < text + length; p = g_utf8_next_char(p), i++)
++     {
++       gunichar ch = g_utf8_get_char (p);
++-      FriBidiCharType char_type;
++-      char_type = fribidi_get_bidi_type (ch);
+++      FriBidiCharType char_type = fribidi_get_bidi_type (ch);
+++
+++      if (i == n_chars)
+++        break;
+++
++       bidi_types[i] = char_type;
++       ored_types |= char_type;
++       if (FRIBIDI_IS_STRONG (char_type))
 +-- 
-+2.17.0
++2.21.0
 +
-diff --git a/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
-new file mode 100644
-index 0000000..d6a219a
---- /dev/null
-+++ b/meta/recipes-devtools/patch/patch/0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch
-@@ -0,0 +1,80 @@
-+From 369dcccdfa6336e5a873d6d63705cfbe04c55727 Mon Sep 17 00:00:00 2001
-+From: Jean Delvare <jdelvare@suse.de>
-+Date: Mon, 7 May 2018 15:14:45 +0200
-+Subject: Don't leak temporary file on failed multi-file ed-style patch
-+
-+The previous fix worked fine with single-file ed-style patches, but
-+would still leak temporary files in the case of multi-file ed-style
-+patch. Fix that case as well, and extend the test case to check for
-+it.
-+
-+* src/patch.c (main): Unlink TMPEDNAME if needed before moving to
-+  the next file in a patch.
-+
-+This closes bug #53820:
-+https://savannah.gnu.org/bugs/index.php?53820
-+
-+Fixes: 123eaff0d5d1 ("Fix arbitrary command execution in ed-style patches (CVE-2018-1000156)")
-+Fixes: 19599883ffb6 ("Don't leak temporary file on failed ed-style patch")
-+
-+Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/patch.git/commit/?id=369dcccdfa6336e5a873d6d63705cfbe04c55727]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ src/patch.c    |  1 +
-+ tests/ed-style | 31 +++++++++++++++++++++++++++++++
-+ 2 files changed, 32 insertions(+)
-+
-+diff --git a/src/patch.c b/src/patch.c
-+index 9146597..81c7a02 100644
-+--- a/src/patch.c
-++++ b/src/patch.c
-+@@ -236,6 +236,7 @@ main (int argc, char **argv)
-+ 	    }
-+ 	  remove_if_needed (TMPOUTNAME, &TMPOUTNAME_needs_removal);
-+ 	}
-++      remove_if_needed (TMPEDNAME, &TMPEDNAME_needs_removal);
-+ 
-+       if (! skip_rest_of_patch && ! file_type)
-+ 	{
-+diff --git a/tests/ed-style b/tests/ed-style
-+index 6b6ef9d..504e6e5 100644
-+--- a/tests/ed-style
-++++ b/tests/ed-style
-+@@ -38,3 +38,34 @@ EOF
-+ check 'cat foo' <<EOF
-+ foo
-+ EOF
-++
-++# Test the case where one ed-style patch modifies several files
-++
-++cat > ed3.diff <<EOF
-++--- foo
-+++++ foo
-++1c
-++bar
-++.
-++--- baz
-+++++ baz
-++0a
-++baz
-++.
-++EOF
-++
-++# Apparently we can't create a file with such a patch, while it works fine
-++# when the file name is provided on the command line
-++cat > baz <<EOF
-++EOF
-++
-++check 'patch -e -i ed3.diff' <<EOF
-++EOF
-++
-++check 'cat foo' <<EOF
-++bar
-++EOF
-++
-++check 'cat baz' <<EOF
-++baz
-++EOF
-+-- 
-+cgit v1.0-41-gc330
-+
-diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
-index 8908910..5d7f55f 100644
---- a/meta/recipes-devtools/patch/patch_2.7.6.bb
-+++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
-@@ -8,6 +8,8 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-             file://0001-Fix-swapping-fake-lines-in-pch_swap.patch \
-             file://CVE-2019-13636.patch \
-             file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
-+            file://0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch \
-+            file://0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch \
- "
+diff --git a/meta/recipes-graphics/pango/pango_1.42.4.bb b/meta/recipes-graphics/pango/pango_1.42.4.bb
+index 22fe3af..f6a3a5a 100644
+--- a/meta/recipes-graphics/pango/pango_1.42.4.bb
++++ b/meta/recipes-graphics/pango/pango_1.42.4.bb
+@@ -15,7 +15,9 @@ inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspec
  
- SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
+ SRC_URI += "file://run-ptest \
+             file://0001-Enforce-recreation-of-docs-pango.types-it-is-build-c.patch \
+-"
++            file://CVE-2019-1010238.patch \
++            "
++
+ SRC_URI[archive.md5sum] = "deb171a31a3ad76342d5195a1b5bbc7c"
+ SRC_URI[archive.sha256sum] = "1d2b74cd63e8bd41961f2f8d952355aa0f9be6002b52c8aa7699d9f5da597c9d"
+ 
 -- 
 2.7.4
 
