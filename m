@@ -1,63 +1,53 @@
-Return-Path: <christophe.priouzeau@st.com>
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
-	[62.209.51.94])
-	by mail.openembedded.org (Postfix) with ESMTP id A20D17D3CE
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EEA460116
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 13:57:58 +0000 (UTC)
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
-	x97D6e8e006744 for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Oct 2019 15:08:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
-	h=from : to : cc : subject
-	: date : message-id : references : in-reply-to : content-type :
-	content-transfer-encoding : mime-version; s=STMicroelectronics;
-	bh=csQg3287ilAEyolsW2XCdOsN8tERSVntCxScoDUcE1g=;
-	b=lNma7W9Hvh5Zp59+SBhx7IEhZlEItkI3RvBGmEm2jqus1NoWMcNJGn/uj44FpCcVH/Ix
-	RO4giOW0vZd3ydkrzXmOcSjM7APGQmhiUdIpbkGcfYZlo7S2ktHnaHfsmBgBM85Q6xNr
-	U5SNylV7CeNe6vyK4jxTvfRW3PX7rNCMbPMnmjoyw0RD2vMytKrEdLb6EwA8YCztWkEm
-	ON4xcO/w8WbPzsMNNNtdSWiCeXz+BvtD0RFKPQCrkHb17JEaO0kEj4ATy0GnUhlr3gbD
-	3VMxdZCZwHdDZqRaCFAWggXAFL4dnAmIc7A3GokCMA31nCtMChichaGjx2WoA65+ux5Z
-	0Q== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com with ESMTP id 2vegxvjeat-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 15:08:41 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4B52310002A
+	Mon,  7 Oct 2019 14:44:17 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id q15so6955274pll.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:41 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag6node2.st.com [10.75.127.17])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 471ED2C9DF7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 15:08:41 +0200 (CEST)
-Received: from SFHDAG6NODE2.st.com (10.75.127.17) by SFHDAG6NODE2.st.com
-	(10.75.127.17) with Microsoft SMTP Server (TLS) id 15.0.1347.2;
-	Mon, 7 Oct 2019 15:08:40 +0200
-Received: from SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6]) by
-	SFHDAG6NODE2.st.com ([fe80::a56f:c186:bab7:13d6%20]) with mapi id
-	15.00.1347.000; Mon, 7 Oct 2019 15:08:40 +0200
-From: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 13/23] rpcbind: update license
-Thread-Index: AQHVfRBWPYzkPlixmUCnXhV1aGsqZA==
-Date: Mon, 7 Oct 2019 13:08:40 +0000
-Message-ID: <e326c966e794e863fba3f52d5a02492f26524b7b.1570452710.git.christophe.priouzeau@st.com>
-References: <cover.1570452710.git.christophe.priouzeau@st.com>
-In-Reply-To: <cover.1570452710.git.christophe.priouzeau@st.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.44]
+	Mon, 07 Oct 2019 07:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=b5offvoL7qAppAGfNH1X7ndEYfR3Hg56k58LJKHSpqo=;
+	b=TyeRf+8HcHjaczAmSwuA7TXO3AtIEFhraXOkbnkf9hWSXTdXbBzDe+bk7l6K0cBoeN
+	1W5Sy/Qh7ZRWhs9c9nZu/IDQ6kgvypwNhUClbK4AyTQ5C9R/D0rHBof7lR2DVhSUGsmy
+	bsn2PSyBVZBmuVEcWDOkrfTriHzOuxaaGzCL3LCXSwFcYQ9dA09AKhV/gzIOHyz1nUbU
+	jYUC2cpxDTsLHvKLelY5ugN91dll48NtXbS2dHd6JtZ2oAKmpFHlqVjP3z6xqqWbxeyW
+	eCLkshBd6OD8DZS6ykimN/gZUpitw8xGdaCVGqdgB6nBaqauOfBJYpEf+M2XbpRbqQbR
+	KkWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=b5offvoL7qAppAGfNH1X7ndEYfR3Hg56k58LJKHSpqo=;
+	b=q58wHWzktrS7SF24lcle5edTTnPMBJJ8uib32nh5612/Rw/Zj55XDUFczI0GTMcT5h
+	WSZMGQ4eh/zJZ8tcg2srOivuv1PbCOAxVzzfg2TVhb6Tpl0V7IuJMSkNL2LGYVeFH4UO
+	AX9GJVRVUBBopafGmFrSYw0OCRWXQcaCo8AwOIhIlMZinBG4By5rH14VGLmYVvxiwfW6
+	Gu1rAxzjQiMsDLnqlirgXDAaZ4B7lHm1TkwlJJlFKXbnzx8iIUHfJo7476YqY8aEtxOz
+	pgfLDkpgqnMkhoIabjvB2Ud1w2XwrW35chhk9XODqNgB6v+VItY1TzcuZp3ZICh6ypXU
+	BDEQ==
+X-Gm-Message-State: APjAAAVt+R0YiAqsHh8yDVtPubcT1gp9wtrdOVN0gpFKl39SAbn9xag8
+	OGfGtkZ+OwxMgA8AozlM9lRYragGdKc=
+X-Google-Smtp-Source: APXvYqzPH2S/8Nca0a2plwYt3OVCqYzHXyW7mX4QcsOcQ3Ui6CLdwO1WK3CAld2gjug4zlX0HziefA==
+X-Received: by 2002:a17:902:7c94:: with SMTP id
+	y20mr28788191pll.229.1570459457993; 
+	Mon, 07 Oct 2019 07:44:17 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4180:a5c0:65e8:7322:d189:1d85])
+	by smtp.gmail.com with ESMTPSA id
+	o9sm16627561pfp.67.2019.10.07.07.44.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 07 Oct 2019 07:44:17 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Oct 2019 07:44:14 -0700
+Message-Id: <1570459455-21306-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
-	definitions=2019-10-07_02:2019-10-07,2019-10-07 signatures=0
-Cc: Christophe PRIOUZEAU <christophe.priouzeau@st.com>
-Subject: [PATCH 13/23] rpcbind: update license
+Subject: [thud][PATCH 1/2] qemu: fix build issue on new hosts with glibc 2.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,35 +60,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 13:57:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Oct 2019 14:44:17 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The license of rpcbind is BSD-3-Clause.
+This fixes the following error:
 
-Signed-off-by: Christophe Priouzeau <christophe.priouzeau@st.com>
+TOPDIR/tmp/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-3.1.0/linux-user/syscall.c:254:16: error: static declaration of ‘gettid’ follows non-static declaration
+ 254 | _syscall0(int, gettid)
+ |                ^~~~~~
+ TOPDIR/tmp/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-3.1.0/linux-user/syscall.c:185:13: note: in definition of macro ‘_syscall0’
+ 185 | static type name (void)   \
+ |             ^~~~
+ In file included from /usr/include/unistd.h:1170,
+ from TOPDIR/tmp/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-3.1.0/include/qemu/osdep.h:90,
+ from TOPDIR/tmp/work/x86_64-linux/qemu-native/3.1.0-r0/qemu-3.1.0/linux-user/syscall.c:20:
+ /usr/include/bits/unistd_ext.h:34:16: note: previous declaration of ‘gettid’ was here
+ 34 | extern __pid_t gettid (void) __THROW;
+ |                ^~~~~~
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...nux-user-assume-__NR_gettid-always-exists.patch | 49 +++++++++++
+ ...rename-gettid-to-sys_gettid-to-avoid-clas.patch | 95 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  2 +
+ 3 files changed, 146 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb b/meta/recipes-=
-extended/rpcbind/rpcbind_1.2.5.bb
-index 7c96aca36b7..19d778b6d14 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
-@@ -6,7 +6,7 @@ HOMEPAGE =3D "http://sourceforge.net/projects/rpcbind/"
- BUGTRACKER =3D "http://sourceforge.net/tracker/?group_id=3D201237&atid=3D9=
-76751"
- DEPENDS =3D "libtirpc quota"
-=20
--LICENSE =3D "BSD"
-+LICENSE =3D "BSD-3-Clause"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db46486e4c4a416602693a711bb5bfa3=
-9 \
-                     file://src/rpcinfo.c;beginline=3D1;endline=3D27;md5=3D=
-f8a8cd2cb25ac5aa16767364fb0e3c24"
-=20
---=20
-2.17.1
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch b/meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch
+new file mode 100644
+index 0000000..767b200
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch
+@@ -0,0 +1,49 @@
++From 184943d827ce09375284e6fbb9fd5eeb9e369529 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Wed, 20 Mar 2019 16:18:41 +0000
++Subject: [PATCH] linux-user: assume __NR_gettid always exists
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The gettid syscall was introduced in Linux 2.4.11. This is old enough
++that we can assume it always exists and thus not bother with the
++conditional backcompat logic.
++
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Reviewed-by: Laurent Vivier <laurent@vivier.eu>
++Message-Id: <20190320161842.13908-2-berrange@redhat.com>
++Signed-off-by: Laurent Vivier <laurent@vivier.eu>
++
++Upstream-Status: Backport
++dependancy patch for fix
++
++Signed-off-by: Armin Kuster <akuster808@gmail.com>
++
++---
++
++
++ linux-user/syscall.c | 8 --------
++ 1 file changed, 8 deletions(-)
++
++Index: qemu-3.0.0/linux-user/syscall.c
++===================================================================
++--- qemu-3.0.0.orig/linux-user/syscall.c
+++++ qemu-3.0.0/linux-user/syscall.c
++@@ -251,15 +251,7 @@ static type name (type1 arg1,type2 arg2,
++ #define TARGET_NR__llseek TARGET_NR_llseek
++ #endif
++ 
++-#ifdef __NR_gettid
++ _syscall0(int, gettid)
++-#else
++-/* This is a replacement for the host gettid() and must return a host
++-   errno. */
++-static int gettid(void) {
++-    return -ENOSYS;
++-}
++-#endif
++ 
++ /* For the 64-bit guest on 32-bit host case we must emulate
++  * getdents using getdents64, because otherwise the host
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch b/meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch
+new file mode 100644
+index 0000000..ab3b71d
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch
+@@ -0,0 +1,95 @@
++From 71ba74f67eaca21b0cc9d96f534ad3b9a7161400 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Wed, 20 Mar 2019 16:18:42 +0000
++Subject: [PATCH] linux-user: rename gettid() to sys_gettid() to avoid clash
++ with glibc
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The glibc-2.29.9000-6.fc31.x86_64 package finally includes the gettid()
++function as part of unistd.h when __USE_GNU is defined. This clashes
++with linux-user code which unconditionally defines this function name
++itself.
++
++/home/berrange/src/virt/qemu/linux-user/syscall.c:253:16: error: static declaration of ‘gettid’ follows non-static declaration
++  253 | _syscall0(int, gettid)
++      |                ^~~~~~
++/home/berrange/src/virt/qemu/linux-user/syscall.c:184:13: note: in definition of macro ‘_syscall0’
++  184 | static type name (void)   \
++      |             ^~~~
++In file included from /usr/include/unistd.h:1170,
++                 from /home/berrange/src/virt/qemu/include/qemu/osdep.h:107,
++                 from /home/berrange/src/virt/qemu/linux-user/syscall.c:20:
++/usr/include/bits/unistd_ext.h:34:16: note: previous declaration of ‘gettid’ was here
++   34 | extern __pid_t gettid (void) __THROW;
++      |                ^~~~~~
++  CC      aarch64-linux-user/linux-user/signal.o
++make[1]: *** [/home/berrange/src/virt/qemu/rules.mak:69: linux-user/syscall.o] Error 1
++make[1]: *** Waiting for unfinished jobs....
++make: *** [Makefile:449: subdir-aarch64-linux-user] Error 2
++
++While we could make our definition conditional and rely on glibc's impl,
++this patch simply renames our definition to sys_gettid() which is a
++common pattern in this file.
++
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
++Reviewed-by: Laurent Vivier <laurent@vivier.eu>
++Message-Id: <20190320161842.13908-3-berrange@redhat.com>
++Signed-off-by: Laurent Vivier <laurent@vivier.eu>
++
++Upstream-status: Backport
++
++Fixes issue found on tumbleweed-ty-1
++Yocto bug: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13577
++Signed-off-by: Armin Kuster <akuster808@gmail.com>
++
++---
++ linux-user/syscall.c | 11 ++++++-----
++ 1 file changed, 6 insertions(+), 5 deletions(-)
++
++Index: qemu-3.0.0/linux-user/syscall.c
++===================================================================
++--- qemu-3.0.0.orig/linux-user/syscall.c
+++++ qemu-3.0.0/linux-user/syscall.c
++@@ -251,7 +251,8 @@ static type name (type1 arg1,type2 arg2,
++ #define TARGET_NR__llseek TARGET_NR_llseek
++ #endif
++ 
++-_syscall0(int, gettid)
+++#define __NR_sys_gettid __NR_gettid
+++_syscall0(int, sys_gettid)
++ 
++ /* For the 64-bit guest on 32-bit host case we must emulate
++  * getdents using getdents64, because otherwise the host
++@@ -6483,7 +6484,7 @@ static void *clone_func(void *arg)
++     cpu = ENV_GET_CPU(env);
++     thread_cpu = cpu;
++     ts = (TaskState *)cpu->opaque;
++-    info->tid = gettid();
+++    info->tid = sys_gettid();
++     task_settid(ts);
++     if (info->child_tidptr)
++         put_user_u32(info->tid, info->child_tidptr);
++@@ -6628,9 +6629,9 @@ static int do_fork(CPUArchState *env, un
++                mapping.  We can't repeat the spinlock hack used above because
++                the child process gets its own copy of the lock.  */
++             if (flags & CLONE_CHILD_SETTID)
++-                put_user_u32(gettid(), child_tidptr);
+++                put_user_u32(sys_gettid(), child_tidptr);
++             if (flags & CLONE_PARENT_SETTID)
++-                put_user_u32(gettid(), parent_tidptr);
+++                put_user_u32(sys_gettid(), parent_tidptr);
++             ts = (TaskState *)cpu->opaque;
++             if (flags & CLONE_SETTLS)
++                 cpu_set_tls (env, newtls);
++@@ -11876,7 +11877,7 @@ abi_long do_syscall(void *cpu_env, int n
++         break;
++ #endif
++     case TARGET_NR_gettid:
++-        ret = get_errno(gettid());
+++        ret = get_errno(sys_gettid());
++         break;
++ #ifdef TARGET_NR_readahead
++     case TARGET_NR_readahead:
+diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+index 6c3049b..e483aca 100644
+--- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
+@@ -40,6 +40,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2019-3812.patch \
+            file://CVE-2019-6778.patch \
+            file://CVE-2019-8934.patch \
++           file://0001-linux-user-assume-__NR_gettid-always-exists.patch \
++           file://0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+-- 
+2.7.4
+
 
