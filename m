@@ -1,52 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 67ED77F36C
+Return-Path: <ycnakajsph@gmail.com>
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
+	[209.85.166.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E7AEC7F260
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 11:02:25 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id r19so2671842wmh.2
+	Tue,  8 Oct 2019 11:42:29 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id z19so35855104ior.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Oct 2019 04:02:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=RDgVSS+5WFSVqPAO6Ey2BsnH+JEjMtQCnhyi10uTytY=;
-	b=Zw+styRLJypWm2e6YoQp2ap6wLQ34NMb707VHcpNNwD0MMBahm0IRjz/eeGCt5Fjom
-	OHX1nkyQ7M3tT5/izDLlg+GiSvvWPdKRP+acgHjEv2rH9aOgzrkaR6fvsgecByew3hVi
-	kSJ9dMzZxV85gcvXU7zU3ye/Ifhdi/sPoEvamLxyy950yhiR6TCGo5sNgi3k8XaqdstD
-	obaY12LZT95CQdOrZMvqMu9NrAaJpsHLA1cj9OEMBRcKB/Suc6olF+BZaOUt0/E4CmWl
-	ZCtuXT4kaeuFEQy+KA/vMHX1gIs8yfiyQqHfkYYuZn27bqk6Aj+It0EJGSu8eHXjQfEI
-	KWJQ==
+	Tue, 08 Oct 2019 04:42:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=EABZM7aQKyVYbf+kjj8gXXzD8DRYNhOi6RtsPYa1MnI=;
+	b=XjnByhm9CzMAROUkB0MxeKBjecH7JQsslkxYcfeJ/os/P/I51Ufcin8XAkT+6HZAs9
+	9LUay0TqdV1csZzHNsDBlf0OVglpYeNGURJny/uw3NaBD7eXecgk5P3vePSPJheShehW
+	fwL53gqb/tvaTXlPqBE5Q2yKTEzTS7h4Qtvich5fvtV4m4N62TI94tOyzrcVWeHNolmI
+	ZIChV9FzEp+6vzJmpeqyXMKeqWrvqRnEuWZUcm7agjwLZi62Qd1Pgb3RWp/lXJPAOzUI
+	WIpDu+GMvCpJWzTA0R653KMDCFirwECbeL2jX3zhuDIabLRegnlw2NNxcmCSvDgA/YfX
+	7cpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=RDgVSS+5WFSVqPAO6Ey2BsnH+JEjMtQCnhyi10uTytY=;
-	b=Oa1Y9MB99y9U2oP4T2+VywmpvEEtFmyEFvVvdiSH4A00ONo7/h+BToVvnUC7N1EkQ8
-	sGdU22Upm+0K7WBcA3SxHcHKu0B4ESz3DJQRJIUelgHM/MzvRqpQrdF16CWubQ29ugpY
-	jS9LrAiqs9QHW3Bsg92msnhRZ6/ICERe7Yj/61OlL+djRNtxBLH1zh6kob9wd0rI7Avj
-	aEsp7l9VHxl1U49bq+ODl10r554kT2c+iSG3S9syr2u3xJ+ZZJhOo3dne45wZNBX37VR
-	5TNOlNRQlqLH5I+QPaxqTNP6wlimGhmVgCZouEs9jKdQWJadbTL8ep3KnYukblzEkTs8
-	0nmg==
-X-Gm-Message-State: APjAAAXbSh6AWLeVeyaP+j6eDrl3v6cDitMohFQdjBgKI2BTN52hAEPB
-	B3KoH+YqL0BB5ztHCa3TEjcy+k8jnUs=
-X-Google-Smtp-Source: APXvYqyM2i/s7mjUGd7O7Nlmxjm3aXiTQB+kgyNvTK3qfy2aEtUYlCXW65agI7uFungyIH7frw5Stg==
-X-Received: by 2002:a1c:48c6:: with SMTP id v189mr3245349wma.20.1570532545490; 
-	Tue, 08 Oct 2019 04:02:25 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	y186sm6096985wmd.26.2019.10.08.04.02.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 08 Oct 2019 04:02:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Oct 2019 12:02:21 +0100
-Message-Id: <20191008110221.16349-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=EABZM7aQKyVYbf+kjj8gXXzD8DRYNhOi6RtsPYa1MnI=;
+	b=iVT8sOHb2HKR1nTVtEe9XgcYRP2IazniJYgfmo5nYCJ5T5cr20nmQP+SpdSi9T3EKD
+	NN4RnfxziuwMRWqsUEG9xjiHeJMojWdJwchHO+RdscN3LaZZmujuhSYmSt/cP4gVY4wt
+	D0YqamONvjfQbkAW0Y2fEy/dp4kq9B24cN9yHKTfWQpnohivSJC95YNTCSwqIrSTSZN0
+	ldZn+U97lS9usSIEkibhqj3adJjyTaDCwWcmaN4WbhPYj3lPwL3fZkT3OIVbgTsHmvj7
+	xxg6zAnf0WbxgSS7bs9xuL09qQAm/6/hy4eqqxyj9qzsreZi/D33fwa37xdTXNwK+bsR
+	KJgA==
+X-Gm-Message-State: APjAAAXLaQ67LXaCrFUyuLdjztv3LRsqg5I34shyFTR6UZZHwujT0RcT
+	CacY81qlyj59TTl5x7poiRFIInHm+PSlxI+xYVzJQE5fJcU=
+X-Google-Smtp-Source: APXvYqzDBTf9GKmpgmBAEk1uLQ5UBZdp9rmrlqlZSP27/NkZbpQcnLyHWA3//R7UydPUsDb3Nuy8UrVtcwr6m4fvMWo=
+X-Received: by 2002:a6b:b643:: with SMTP id g64mr28139657iof.149.1570534950427;
+	Tue, 08 Oct 2019 04:42:30 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2] harfbuzz: add PACKAGECONFIGs for all the optional dependencies
+From: Ycn aKaJoseph <ycnakajsph@gmail.com>
+Date: Tue, 8 Oct 2019 13:42:18 +0200
+Message-ID: <CAC3TgAJwEr9HVkz+mNHu6WBNouV+qc4AsXcT3dpXt8w4PkYrmw@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: akuster@mvista.com
+Subject: [release-tools][PATCH]Bug 13524 - Add SPDX license headers to all source files for release-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,61 +50,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 11:02:25 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 08 Oct 2019 11:42:30 -0000
+X-Groupsio-MsgNum: 129917
+Content-Type: multipart/mixed; boundary="000000000000d44927059464a94e"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../harfbuzz/harfbuzz_2.6.1.bb                | 23 ++++++++++---------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+--000000000000d44927059464a94e
+Content-Type: multipart/alternative; boundary="000000000000d44925059464a94c"
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-index b0f565b9b07..99cd4cd7087 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-@@ -7,29 +7,30 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e11f5c3149cdec4bb309babb020b32b9 \
-                     file://src/hb-ucd.cc;beginline=1;endline=15;md5=29d4dcb6410429195df67efe3382d8bc"
- 
--DEPENDS = "glib-2.0 cairo fontconfig freetype"
--
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.xz"
- SRC_URI[md5sum] = "89b758a2eb14d56a94406cf914b62388"
- SRC_URI[sha256sum] = "c651fb3faaa338aeb280726837c2384064cdc17ef40539228d88a1260960844f"
- 
- inherit autotools pkgconfig lib_package gtk-doc
- 
--PACKAGECONFIG ??= "icu"
--PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
-+PACKAGECONFIG ??= "cairo fontconfig freetype glib icu"
-+PACKAGECONFIG[cairo] = "--with-cairo,--without-cairo,cairo"
-+PACKAGECONFIG[fontconfig] = "--with-fontconfig,--without-fontconfig,fontconfig"
-+PACKAGECONFIG[freetype] = "--with-freetype,--without-freetype,freetype"
-+PACKAGECONFIG[glib] = "--with-glib,--without-glib,glib-2.0"
- PACKAGECONFIG[graphite] = "--with-graphite2,--without-graphite2,graphite2"
--
--EXTRA_OECONF = " \
--    --with-cairo \
--    --with-fontconfig \
--    --with-freetype \
--    --with-glib \
--"
-+PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
- 
- PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
- 
- LEAD_SONAME = "libharfbuzz.so"
- 
-+do_install_append() {
-+    # If no tools are installed due to PACKAGECONFIG then this directory is
-+    #still installed, so remove it to stop packaging wanings.
-+    rmdir --ignore-fail-on-non-empty ${D}${bindir}
-+}
-+
- FILES_${PN}-icu = "${libdir}/libharfbuzz-icu.so.*"
- FILES_${PN}-icu-dev = "${libdir}/libharfbuzz-icu.la \
-                        ${libdir}/libharfbuzz-icu.so \
--- 
-2.20.1
+--000000000000d44925059464a94c
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
+I've been working on bug 13524 :
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13524
+
+Here's the patch.
+
+Basically I've been adding :
+
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+to all .py files.
+
+Regards,
+
+Yann CARDAILLAC
+
+--000000000000d44925059464a94c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>I&#39;ve been working on=
+ bug 13524 :</div><div><br></div><div><a href=3D"https://bugzilla.yoctoproj=
+ect.org/show_bug.cgi?id=3D13524">https://bugzilla.yoctoproject.org/show_bug=
+.cgi?id=3D13524</a></div><div><br></div><div>Here&#39;s the patch. <br></di=
+v><div><br></div><div>Basically I&#39;ve been adding :<br></div><div><br></=
+div><div># SPDX-License-Identifier: GPL-2.0-or-later</div><div><br></div><d=
+iv>to all .py files.<br></div><div><br></div><div>Regards,</div><div><br></=
+div><div>Yann CARDAILLAC<br></div></div>
+
+--000000000000d44925059464a94c--
+
+--000000000000d44927059464a94e
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-add-License-SPDX-identifier-to-scripts.patch"
+Content-Disposition: attachment; 
+	filename="0001-add-License-SPDX-identifier-to-scripts.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_k1hrv6rz0>
+X-Attachment-Id: f_k1hrv6rz0
+
+RnJvbSBkODliZWY2ZTdiMjMwYTYyN2FlZGQ2NzM2ODY1MDk0OTVlYTNlZDUzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBZYW5uIENBUkRBSUxMQUMgPHljbmFrYWpzcGhAZ21haWwuY29t
+PgpEYXRlOiBUdWUsIDggT2N0IDIwMTkgMTM6MzM6MzkgKzAyMDAKU3ViamVjdDogW1BBVENIXSBh
+ZGQgTGljZW5zZSBTUERYIGlkZW50aWZpZXIgdG8gc2NyaXB0cwoKU2lnbmVkLW9mZi1ieTogWWFu
+biBDQVJEQUlMTEFDIDx5Y25ha2Fqc3BoQGdtYWlsLmNvbT4KLS0tCiBhbm5vdW5jZS5weSAgICB8
+IDEgKwogZ2V0X2N2ZXMucHkgICAgfCAxICsKIGdldF9oYXNoZXMucHkgIHwgMSArCiByZWxfdHlw
+ZS5weSAgICB8IDEgKwogcmVsZWFzZS5weSAgICAgfCAxICsKIHJlbG5vdGVzLnB5ICAgIHwgMSAr
+CiB0ZXN0cmVzdWx0cy5weSB8IDEgKwogdW5paGFzaC5weSAgICAgfCAxICsKIHVuaW5hdGl2ZS5w
+eSAgIHwgMSArCiB1dGlscy5weSAgICAgICB8IDEgKwogd2hlcmVfYW1faS5weSAgfCAxICsKIDEx
+IGZpbGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9hbm5vdW5jZS5w
+eSBiL2Fubm91bmNlLnB5CmluZGV4IDFkYzAyNmIuLjVlZDhjZTkgMTAwNzU1Ci0tLSBhL2Fubm91
+bmNlLnB5CisrKyBiL2Fubm91bmNlLnB5CkBAIC0xLDMgKzEsNCBAQAorIyBTUERYLUxpY2Vuc2Ut
+SWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcgogJycnCiBDcmVhdGVkIG9uIEp1bmUgMTksIDIw
+MTkKIApkaWZmIC0tZ2l0IGEvZ2V0X2N2ZXMucHkgYi9nZXRfY3Zlcy5weQppbmRleCA5OTQ2YWY1
+Li4wODFhOTQwIDEwMDc1NQotLS0gYS9nZXRfY3Zlcy5weQorKysgYi9nZXRfY3Zlcy5weQpAQCAt
+MSwzICsxLDQgQEAKKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb3ItbGF0ZXIK
+ICcnJwogQ3JlYXRlZCBvbiBOb3YgNywgMjAxOAogCmRpZmYgLS1naXQgYS9nZXRfaGFzaGVzLnB5
+IGIvZ2V0X2hhc2hlcy5weQppbmRleCBkODNiNjRkLi42ZTEzYjMzIDEwMDc1NQotLS0gYS9nZXRf
+aGFzaGVzLnB5CisrKyBiL2dldF9oYXNoZXMucHkKQEAgLTEsMyArMSw0IEBACisjIFNQRFgtTGlj
+ZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9yLWxhdGVyCiAnJycKIENyZWF0ZWQgb24gT2N0IDE2
+LCAyMDE4CiAKZGlmZiAtLWdpdCBhL3JlbF90eXBlLnB5IGIvcmVsX3R5cGUucHkKaW5kZXggZGEx
+ZGZkMS4uZDg1YzU5NiAxMDA3NTUKLS0tIGEvcmVsX3R5cGUucHkKKysrIGIvcmVsX3R5cGUucHkK
+QEAgLTEsMyArMSw0IEBACisjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9yLWxh
+dGVyCiAnJycKIENyZWF0ZWQgb24gT2N0IDE2LCAyMDE4CiAKZGlmZiAtLWdpdCBhL3JlbGVhc2Uu
+cHkgYi9yZWxlYXNlLnB5CmluZGV4IGJmOGNkM2UuLmFkMWM3MGQgMTAwNzU1Ci0tLSBhL3JlbGVh
+c2UucHkKKysrIGIvcmVsZWFzZS5weQpAQCAtMSwzICsxLDQgQEAKKyMgU1BEWC1MaWNlbnNlLUlk
+ZW50aWZpZXI6IEdQTC0yLjAtb3ItbGF0ZXIKICcnJwogQ3JlYXRlZCBvbiBKYW4gNywgMjAxNgog
+CmRpZmYgLS1naXQgYS9yZWxub3Rlcy5weSBiL3JlbG5vdGVzLnB5CmluZGV4IDQ5NTRmZjEuLmM2
+MDRhOTggMTAwNzU1Ci0tLSBhL3JlbG5vdGVzLnB5CisrKyBiL3JlbG5vdGVzLnB5CkBAIC0xLDMg
+KzEsNCBAQAorIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcgogJycn
+CiBDcmVhdGVkIG9uIEZlYiAyMiwgMjAxNgogCmRpZmYgLS1naXQgYS90ZXN0cmVzdWx0cy5weSBi
+L3Rlc3RyZXN1bHRzLnB5CmluZGV4IDY1ZjhhN2MuLjQwZThjOTcgMTAwNzU1Ci0tLSBhL3Rlc3Ry
+ZXN1bHRzLnB5CisrKyBiL3Rlc3RyZXN1bHRzLnB5CkBAIC0xLDMgKzEsNCBAQAorIyBTUERYLUxp
+Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcgogJycnCiBDcmVhdGVkIG9uIEp1bmUg
+MjAsIDIwMTkKIApkaWZmIC0tZ2l0IGEvdW5paGFzaC5weSBiL3VuaWhhc2gucHkKaW5kZXggNTA1
+NGI5MC4uMzgxZTIwYyAxMDA2NDQKLS0tIGEvdW5paGFzaC5weQorKysgYi91bmloYXNoLnB5CkBA
+IC0xLDMgKzEsNCBAQAorIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRl
+cgogJycnCiBDcmVhdGVkIG9uIEF1Z3VzdCA3LCAyMDE4CiAKZGlmZiAtLWdpdCBhL3VuaW5hdGl2
+ZS5weSBiL3VuaW5hdGl2ZS5weQppbmRleCAxNDRhMjYwLi5mNTI3MWFlIDEwMDY0NAotLS0gYS91
+bmluYXRpdmUucHkKKysrIGIvdW5pbmF0aXZlLnB5CkBAIC0xLDMgKzEsNCBAQAorIyBTUERYLUxp
+Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcgogJycnCiBDcmVhdGVkIG9uIEp1bHkg
+MzEsIDIwMTcKIApkaWZmIC0tZ2l0IGEvdXRpbHMucHkgYi91dGlscy5weQppbmRleCA2Y2I4ZTIw
+Li5iYWE3Y2U3IDEwMDY0NAotLS0gYS91dGlscy5weQorKysgYi91dGlscy5weQpAQCAtMSwzICsx
+LDQgQEAKKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb3ItbGF0ZXIKICcnJwog
+Q3JlYXRlZCBvbiBPY3QgMTYsIDIwMTgKIApkaWZmIC0tZ2l0IGEvd2hlcmVfYW1faS5weSBiL3do
+ZXJlX2FtX2kucHkKaW5kZXggOTg1NGQ5Yi4uNjYyMDk1ZCAxMDA2NDQKLS0tIGEvd2hlcmVfYW1f
+aS5weQorKysgYi93aGVyZV9hbV9pLnB5CkBAIC0xLDMgKzEsNCBAQAorIyBTUERYLUxpY2Vuc2Ut
+SWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcgogJycnCiBDcmVhdGVkIG9uIEF1ZyAyMSwgMjAx
+OAogCi0tIAoyLjcuNAoK
+
+--000000000000d44927059464a94e--
