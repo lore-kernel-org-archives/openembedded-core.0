@@ -1,82 +1,48 @@
-Return-Path: <ckalluri@xilinx.com>
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
-	(mail-eopbgr770088.outbound.protection.outlook.com [40.107.77.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B7366C4CE
+Return-Path: <maxime.roussinbelanger@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C5B97D58A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 02:14:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=DkrpBqSTWfHOTibvuiwY9bMpF4cHbcv7WtHg+UfJ2vonQCPk7QdVCq5eD11w+CtFXgWCokLdxTf67ZS6wp1PDqCNCTMejDAa41PkEdDyl4qHuMGUHR1jxQHt/ZY941Z+WKMeO1uzJ//Ow9ftZnXziDui56xptmdBzZP0x/K0ggE24wpKDTJpSXJ+7SVZYkd7UBY52H70Y6V3wsqFbebjK6NAT3ll0woRRY7ZBfeIyYRErWNZGJ/FrbKSymVPX//rydltnprXDSjKh55/zoZ0vrltTQ1iRp+YhYxFlZQboB3XFkKvR1Ey5OcbT+3ZdLT4eyWRm6gujWSARcoKH0o4wA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=Ij5GyUP7795fyarmRuctGAY3ok+lwhu+Wl8qt+PrCUI=;
-	b=gHgNIcgkM+TJIWJK+3dMJT9Ro5FeoXIw3y1vFNwpYFZmQrrj39Dayjwa2sqK/UUhQqWIHqwlEMFw/+3ojdiLPcM9RIxx8OcfkNPV65TGnIOIjyTgz+O4rmcQyyDiP13/1j5br1W4b7dT3Z5quG3WKW2mxh8j/QHpWsSPdXpSQ/EZnXB5JweEOttfNscZY7uybEoXee+YIcpGg+ipKN6MnG/2JaoAW6QuNaLuYhtLg81H92jjF/kfieQ+HWqXKBzFLxzodCUyCu5jn5YQW5BZJqLoSPmkykKyslci/XcddTf1Cjl6+IXAnPXFpu0C1gvHLw1ttOC53LnshBu+NtNSmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
-	dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=Ij5GyUP7795fyarmRuctGAY3ok+lwhu+Wl8qt+PrCUI=;
-	b=B1oKGv+drGf+uHf8+M24myMc/ESXL+CHIKqi3zHs8jATyInZv1AnWdRQsz68J0c29mgWcELT6HyJmDZP6KFmbQmljefvx2nwCQjdsui5J5tbInvYOlzQiOlQ1OsEamm85oDTtOFO+i2BvEyyphpC++AY9Z7wh/OmU4j2z+loW7o=
-Received: from MWHPR02MB2576.namprd02.prod.outlook.com (10.168.205.142) by
-	MWHPR02MB2800.namprd02.prod.outlook.com (10.175.50.10) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2327.25; Tue, 8 Oct 2019 02:14:22 +0000
-Received: from MWHPR02MB2576.namprd02.prod.outlook.com
-	([fe80::1805:e930:4d76:7501]) by
-	MWHPR02MB2576.namprd02.prod.outlook.com
-	([fe80::1805:e930:4d76:7501%8]) with mapi id 15.20.2327.025;
-	Tue, 8 Oct 2019 02:14:21 +0000
-From: Chandana Kalluri <ckalluri@xilinx.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [OE-Core][master][PATCH] devtool: Add --remove-work
-	option for devtool reset command
-Thread-Index: AQHVfT4PTCh1M/m8jUadmBwqJY4M6qdPgr+AgAB+j3A=
-Date: Tue, 8 Oct 2019 02:14:21 +0000
-Message-ID: <MWHPR02MB2576CA239828D4BD746538FEB09A0@MWHPR02MB2576.namprd02.prod.outlook.com>
-References: <1570473350-6427-1-git-send-email-chandana.kalluri@xilinx.com>
-	<CAMKF1sr2yLJBiE6VdORpxJDg9fvYbNNXb2z7ZbMWcE8rKFkfUQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sr2yLJBiE6VdORpxJDg9fvYbNNXb2z7ZbMWcE8rKFkfUQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=ckalluri@xilinx.com; 
-x-originating-ip: [149.199.62.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: dc1763c3-33f3-4e25-db3b-08d74b953baf
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: MWHPR02MB2800:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <MWHPR02MB2800DA34A52E003F5F43F5E8B09A0@MWHPR02MB2800.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2089;
-x-forefront-prvs: 01842C458A
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(4636009)(366004)(376002)(396003)(39860400002)(136003)(346002)(189003)(199004)(13464003)(76116006)(102836004)(66446008)(66556008)(66946007)(66476007)(64756008)(86362001)(305945005)(74316002)(54906003)(316002)(33656002)(71190400001)(71200400001)(11346002)(446003)(476003)(99286004)(53546011)(6506007)(76176011)(7736002)(7696005)(186003)(66066001)(81166006)(81156014)(8676002)(8936002)(6246003)(6916009)(256004)(14444005)(4326008)(6306002)(6436002)(229853002)(486006)(9686003)(55016002)(478600001)(52536014)(14454004)(6116002)(3846002)(966005)(26005)(25786009)(2906002)(5660300002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR02MB2800;
-	H:MWHPR02MB2576.namprd02.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kE5SdJPucQv/eYJ5Au4dFB4grrTgZRon6Tvk0AXCqWENuhY3tApfllEa6m5BDL/Oh1e/4B9N6G3GSY9Ze2/K9MP/v2nuY2LLzawTIFee3vcqq+vWo+1rw+aYh61Vsyqk/Fh8iEiAG8CQQqP7Ybds3cwNC7tKkTp/1TqtfAIymYsfb7Sgpf5ajTu2jju+KNCa2CPrpGJwL1pau9LfE0zXsFHBM1hiClW76qosREV9XULnNMWiuXHBoRAypiKmEWOtIdIQQuKMdeDXfSVAVBxY9WOyJ9a87lb5ZicENwaiRgGhj8Ea9s9jlVmN3Z4C6g2yUZSGCu6p75ubzEJu1mWBfgGT2GW77AtWsqcDHtH2a8Mg+9NgF82WhRzwdizVfjF/cSMAIqqXIFaBZF8HN3MC+cUHKIWIahIFLA3WviDdfe0Myfu9jq8TRcL8EBx+OO5bO8NEwpzRkAcJnseF8aPYyA==
-x-ms-exchange-transport-forked: True
+	Tue,  8 Oct 2019 02:46:07 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id c6so33224569ioo.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Oct 2019 19:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=t/odgW5uO5VVsyrbdAKasmQtVvWSSbF2TZUf24Ooag8=;
+	b=QkPmQ2yXYdamA7FXEPv7enbPJ4nXLOUIkwd5nDzYfNuEi1Y9JbdptOY2ZaX8jycpzA
+	EynBMcRGH09bptitAHy2RaUegvTOxBewF4xo21XtRS6Ii4mSrTIZyy8MbvzIq2bLE+t6
+	qYSHQudAgKBsIDJnAAf5VKXcjVHBOCEuvMRqmFMZxLd1XzGZg7ywQY7z0aQKFsSmqgql
+	NYnATFVU9fycmP54wkWLpyQ+G6qTq5GwQIkxTnTBIALk/0TgOC8iYF0IkKGRq5StwJpz
+	Rg1mbWzj4NWyjtKV9PZ852N5QbLuqQsBQ/aolHy/SqEg422115ZDZNYbdDCzWj9tTLNN
+	DmEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=t/odgW5uO5VVsyrbdAKasmQtVvWSSbF2TZUf24Ooag8=;
+	b=Y0IVA5c3gtWR8+cbWbspj0F8l0vKEp2tnMlltxnsVFKjR/BRvliG5OLTT0K4JQ2OjN
+	nwINJBj3tBHcBcTxH2FQuG0pHCDSzEkp+TG5Ur083xBlNRROZfaNj1+6n0nx4UCQXdR6
+	mdaoODKaxX4if4sr7jpllEMoNH9a+Bq01SzxapEaMMwK6rvrkMH0CRThQQxD4Wpmdplk
+	yL2agfJCCoqadRTbC0c1QVZcuG7lVbTauOyrL3MsYre2+0Xr3vCAJ/8oO0mHSaZ2hO0I
+	bUW+a55OuoT9zJhRXRkezFRuagTmW/MTnjmUQD99NgkG54qNnIAJpcmODTUCtml99LZQ
+	BxbQ==
+X-Gm-Message-State: APjAAAUzYAEyVWeMRcjwUP03+5ypxassHbtm08o9fHodOIrFCXx3dmTx
+	c83Wr5u6aOr8Cvi3bNrJg2sds+l3K8SMYJnT+3BvO6CghjMXuQ==
+X-Google-Smtp-Source: APXvYqyalnrh89gnuoUAlvMC4LkReC9TwsEw/RcGR6NrgK399S/Qskma/blq/RegoLKgDBN/rjB8jyD4dZnBKWgHeQo=
+X-Received: by 2002:a02:a617:: with SMTP id c23mr28881093jam.14.1570502768086; 
+	Mon, 07 Oct 2019 19:46:08 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc1763c3-33f3-4e25-db3b-08d74b953baf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2019 02:14:21.9355 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5ggLSVhZcIFj/p+Z/QHSGFspKZOSOZ+MQJKyKEpmc/sEVhpGWoSUjYAyeIdfnUEVlyktimAe8lVT7932JwhODA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2800
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH] devtool: Add --remove-work option for devtool reset command
+References: <20191002205227.16149-1-maxime.roussinbelanger@gmail.com>
+	<3547886f-9101-7c00-938c-f2da9a639f06@windriver.com>
+In-Reply-To: <3547886f-9101-7c00-938c-f2da9a639f06@windriver.com>
+From: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?=
+	<maxime.roussinbelanger@gmail.com>
+Date: Mon, 7 Oct 2019 22:45:41 -0400
+Message-ID: <CAE=T-s6Lse5Rj3WZLaZE+qYam95AFg=GnYc5ZbBNT99WLmADTQ@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] meta: add missing some description in devtools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -89,139 +55,518 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 02:14:26 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 08 Oct 2019 02:46:07 -0000
+Content-Type: multipart/alternative; boundary="0000000000009c57da05945d2b45"
 
-SGkgUGF1bCwNCg0KQW55IHRob3VnaHRzIG9uIGltcGxlbWVudGluZyB0aGlzIGFzIGEgc2VwYXJh
-dGUgY29tbWFuZCAgYXMgc3VnZ2VzdGVkIGJ5IEtoZW0/DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNz
-YWdlLS0tLS0NCj4gRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4NCj4gU2VudDog
-TW9uZGF5LCBPY3RvYmVyIDcsIDIwMTkgMTE6NDAgQU0NCj4gVG86IENoYW5kYW5hIEthbGx1cmkg
-PGNrYWxsdXJpQHhpbGlueC5jb20+DQo+IENjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91
-dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW09FLUNvcmVdW21hc3Rlcl1bUEFU
-Q0hdIGRldnRvb2w6IEFkZCAtLXJlbW92ZS13b3JrDQo+IG9wdGlvbiBmb3IgZGV2dG9vbCByZXNl
-dCBjb21tYW5kDQo+IA0KPiBPbiBNb24sIE9jdCA3LCAyMDE5IGF0IDExOjM2IEFNIFNhaSBIYXJp
-IENoYW5kYW5hIEthbGx1cmkNCj4gPGNoYW5kYW5hLmthbGx1cmlAeGlsaW54LmNvbT4gd3JvdGU6
-DQo+ID4NCj4gPiBFbmFibGUgLS1yZW1vdmUtd29yayBvcHRpb24gZm9yIGRldnRvb2wgcmVzZXQg
-Y29tbWFuZCB0aGF0IGFsbG93cyB1c2VyDQo+ID4gdG8gY2xlYW4gdXAgc291cmNlIGRpcmVjdG9y
-eSB3aXRoaW4gd29ya3NwYWNlLg0KPiA+DQo+ID4gQ3VycmVudGx5IGRldnRvb2wgcmVzZXQgY29t
-bWFuZCBvbmx5IHJlbW92ZXMgcmVjaXBlcyBhbmQgdXNlciBpcw0KPiA+IGZvcmNlZCB0byBtYW51
-YWxseSByZW1vdmUgdGhlIHNvdXJjZXMgZGlyZWN0b3J5IHdpdGhpbiB0aGUgd29ya3NwYWNlDQo+
-ID4gYmVmb3JlIHJ1bm5pbmcgZGV2dG9vbCBtb2RpZnkgYWdhaW4uDQo+ID4NCj4gPiBVc2luZyBk
-ZXZ0b29sIHJlc2V0IC1yIG9yIGRldnRvb2wgcmVzZXQgLS1yZW1vdmUtd29yayBvcHRpb24sIHVz
-ZXIgY2FuDQo+ID4gY2xlYW51cCB0aGUgc291cmNlcyBkaXJlY3RvcnkgYWxvbmcgd2l0aCB0aGUg
-cmVjaXBlIGluc3RlYWQgb2YNCj4gPiBtYW51YWxseSBjbGVhbmluZyBpdC4NCj4gDQo+IHBlcmhh
-cHMgd2UgY2FuIGhhdmUgYW5vdGhlciBjbWQgbGlrZSAicmVzZXQtYWxsIiBsaWtlIGNsZWFuYWxs
-ID8NCj4gd2hpY2ggd291bGQgcmVtb3ZlIGV2ZXJ5dGhpbmcgdGhhdCBkZXZ0b29sIGRpZCBleHRl
-cm5hbCB0byBiYmxheWVycyBmb3IgdGhhdA0KPiByZWNpcGUuDQo+IA0KPiA+DQo+ID4gc3ludGF4
-OiBkZXZ0b29sIHJlc2V0IC1yIDxyZWNpcGVuYW1lPg0KPiA+ICAgICBFeDogZGV2dG9vbCByZXNl
-dCAtciB6aXANCj4gPg0KPiA+ICAgICAgICAgZGV2dG9vbCBmaW5pc2ggLXIgPHJlY2lwZW5hbWU+
-IDxsYXllci1uYW1lPg0KPiA+ICAgICBFeDogZGV2dG9vbCBmaW5pc2ggLXIgemlwIG1ldGEteW9j
-dG8tYnNwDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBTYWkgSGFyaSBDaGFuZGFuYSBLYWxsdXJp
-IDxjaGFuZGFuYS5rYWxsdXJpQHhpbGlueC5jb20+DQo+ID4gLS0tDQo+ID4gIHNjcmlwdHMvbGli
-L2RldnRvb2wvc3RhbmRhcmQucHkgfCAyNiArKysrKysrKysrKysrKysrKysrLS0tLS0tLQ0KPiA+
-ICAxIGZpbGUgY2hhbmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkNCj4gPg0K
-PiA+IGRpZmYgLS1naXQgYS9zY3JpcHRzL2xpYi9kZXZ0b29sL3N0YW5kYXJkLnB5DQo+ID4gYi9z
-Y3JpcHRzL2xpYi9kZXZ0b29sL3N0YW5kYXJkLnB5IGluZGV4IDYwYzlhMDQuLjFjMGNkOGEgMTAw
-NjQ0DQo+ID4gLS0tIGEvc2NyaXB0cy9saWIvZGV2dG9vbC9zdGFuZGFyZC5weQ0KPiA+ICsrKyBi
-L3NjcmlwdHMvbGliL2RldnRvb2wvc3RhbmRhcmQucHkNCj4gPiBAQCAtMTg1Miw3ICsxODUyLDcg
-QEAgZGVmIHN0YXR1cyhhcmdzLCBjb25maWcsIGJhc2VwYXRoLCB3b3Jrc3BhY2UpOg0KPiA+ICAg
-ICAgcmV0dXJuIDANCj4gPg0KPiA+DQo+ID4gLWRlZiBfcmVzZXQocmVjaXBlcywgbm9fY2xlYW4s
-IGNvbmZpZywgYmFzZXBhdGgsIHdvcmtzcGFjZSk6DQo+ID4gK2RlZiBfcmVzZXQocmVjaXBlcywg
-bm9fY2xlYW4sIHJlbW92ZV93b3JrLCBjb25maWcsIGJhc2VwYXRoLCB3b3Jrc3BhY2UpOg0KPiA+
-ICAgICAgIiIiUmVzZXQgb25lIG9yIG1vcmUgcmVjaXBlcyIiIg0KPiA+ICAgICAgaW1wb3J0IG9l
-LnBhdGgNCj4gPg0KPiA+IEBAIC0xOTMwLDEwICsxOTMwLDE1IEBAIGRlZiBfcmVzZXQocmVjaXBl
-cywgbm9fY2xlYW4sIGNvbmZpZywgYmFzZXBhdGgsDQo+IHdvcmtzcGFjZSk6DQo+ID4gICAgICAg
-ICAgc3JjdHJlZWJhc2UgPSB3b3Jrc3BhY2VbcG5dWydzcmN0cmVlYmFzZSddDQo+ID4gICAgICAg
-ICAgaWYgb3MucGF0aC5pc2RpcihzcmN0cmVlYmFzZSk6DQo+ID4gICAgICAgICAgICAgIGlmIG9z
-Lmxpc3RkaXIoc3JjdHJlZWJhc2UpOg0KPiA+IC0gICAgICAgICAgICAgICAgIyBXZSBkb24ndCB3
-YW50IHRvIHJpc2sgd2lwaW5nIG91dCBhbnkgd29yayBpbiBwcm9ncmVzcw0KPiA+IC0gICAgICAg
-ICAgICAgICAgbG9nZ2VyLmluZm8oJ0xlYXZpbmcgc291cmNlIHRyZWUgJXMgYXMtaXM7IGlmIHlv
-dSBubyAnDQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAnbG9uZ2VyIG5lZWQgaXQg
-dGhlbiBwbGVhc2UgZGVsZXRlIGl0IG1hbnVhbGx5Jw0KPiA+IC0gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgJSBzcmN0cmVlYmFzZSkNCj4gPiArICAgICAgICAgICAgICAgICAgICBpZiByZW1v
-dmVfd29yazoNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgbG9nZ2VyLmluZm8oJy1yIGFy
-Z3VtZW50IHVzZWQgb24gJXMsIHJlbW92aW5nIHNvdXJjZSB0cmVlLicNCj4gPiArICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgJyBZb3Ugd2lsbCBsb3NlIGFueSB1bnNhdmVkIHdv
-cmsnICVwbikNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgc2h1dGlsLnJtdHJlZShzcmN0
-cmVlYmFzZSkNCj4gPiArICAgICAgICAgICAgICAgICAgICBlbHNlOg0KPiA+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICAjIFdlIGRvbid0IHdhbnQgdG8gcmlzayB3aXBpbmcgb3V0IGFueSB3b3Jr
-IGluIHByb2dyZXNzDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIGxvZ2dlci5pbmZvKCdM
-ZWF2aW5nIHNvdXJjZSB0cmVlICVzIGFzLWlzOyBpZiB5b3Ugbm8gJw0KPiA+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAnbG9uZ2VyIG5lZWQgaXQgdGhlbiBwbGVhc2UgZGVs
-ZXRlIGl0IG1hbnVhbGx5Jw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAlIHNyY3RyZWViYXNlKQ0KPiA+ICAgICAgICAgICAgICBlbHNlOg0KPiA+ICAgICAgICAgICAg
-ICAgICAgIyBUaGlzIGlzIHVubGlrZWx5LCBidXQgaWYgaXQncyBlbXB0eSB3ZSBjYW4ganVzdCBy
-ZW1vdmUgaXQNCj4gPiAgICAgICAgICAgICAgICAgIG9zLnJtZGlyKHNyY3RyZWViYXNlKSBAQCAt
-MTk0Myw2ICsxOTQ4LDEwIEBAIGRlZg0KPiA+IF9yZXNldChyZWNpcGVzLCBub19jbGVhbiwgY29u
-ZmlnLCBiYXNlcGF0aCwgd29ya3NwYWNlKToNCj4gPiAgZGVmIHJlc2V0KGFyZ3MsIGNvbmZpZywg
-YmFzZXBhdGgsIHdvcmtzcGFjZSk6DQo+ID4gICAgICAiIiJFbnRyeSBwb2ludCBmb3IgdGhlIGRl
-dnRvb2wgJ3Jlc2V0JyBzdWJjb21tYW5kIiIiDQo+ID4gICAgICBpbXBvcnQgYmINCj4gPiArICAg
-IGltcG9ydCBzaHV0aWwNCj4gPiArDQo+ID4gKyAgICByZWNpcGVzID0gIiINCj4gPiArDQo+ID4g
-ICAgICBpZiBhcmdzLnJlY2lwZW5hbWU6DQo+ID4gICAgICAgICAgaWYgYXJncy5hbGw6DQo+ID4g
-ICAgICAgICAgICAgIHJhaXNlIERldnRvb2xFcnJvcigiUmVjaXBlIGNhbm5vdCBiZSBzcGVjaWZp
-ZWQgaWYNCj4gPiAtYS8tLWFsbCBpcyB1c2VkIikgQEAgLTE5NTcsNyArMTk2Niw3IEBAIGRlZiBy
-ZXNldChhcmdzLCBjb25maWcsIGJhc2VwYXRoLA0KPiB3b3Jrc3BhY2UpOg0KPiA+ICAgICAgZWxz
-ZToNCj4gPiAgICAgICAgICByZWNpcGVzID0gYXJncy5yZWNpcGVuYW1lDQo+ID4NCj4gPiAtICAg
-IF9yZXNldChyZWNpcGVzLCBhcmdzLm5vX2NsZWFuLCBjb25maWcsIGJhc2VwYXRoLCB3b3Jrc3Bh
-Y2UpDQo+ID4gKyAgICBfcmVzZXQocmVjaXBlcywgYXJncy5ub19jbGVhbiwgYXJncy5yZW1vdmVf
-d29yaywgY29uZmlnLA0KPiA+ICsgYmFzZXBhdGgsIHdvcmtzcGFjZSkNCj4gPg0KPiA+ICAgICAg
-cmV0dXJuIDANCj4gPg0KPiA+IEBAIC0yMDA5LDYgKzIwMTgsNyBAQCBkZWYgZmluaXNoKGFyZ3Ms
-IGNvbmZpZywgYmFzZXBhdGgsIHdvcmtzcGFjZSk6DQo+ID4gICAgICAgICAgICAgIHJhaXNlIERl
-dnRvb2xFcnJvcignU291cmNlIHRyZWUgaXMgbm90DQo+ID4gY2xlYW46XG5cbiVzXG5FbnN1cmUg
-eW91IGhhdmUgY29tbWl0dGVkIHlvdXIgY2hhbmdlcyBvciB1c2UgLWYvLS1mb3JjZQ0KPiA+IGlm
-IHlvdSBhcmUgc3VyZSB0aGVyZVwncyBub3RoaW5nIHRoYXQgbmVlZHMgdG8gYmUgY29tbWl0dGVk
-JyAlIGRpcnR5KQ0KPiA+DQo+ID4gICAgICBub19jbGVhbiA9IGFyZ3Mubm9fY2xlYW4NCj4gPiAr
-ICAgIHJlbW92ZV93b3JrPWFyZ3MucmVtb3ZlX3dvcmsNCj4gPiAgICAgIHRpbmZvaWwgPSBzZXR1
-cF90aW5mb2lsKGJhc2VwYXRoPWJhc2VwYXRoLCB0cmFja2luZz1UcnVlKQ0KPiA+ICAgICAgdHJ5
-Og0KPiA+ICAgICAgICAgIHJkID0gcGFyc2VfcmVjaXBlKGNvbmZpZywgdGluZm9pbCwgYXJncy5y
-ZWNpcGVuYW1lLCBUcnVlKSBAQA0KPiA+IC0yMTYwLDcgKzIxNzAsNyBAQCBkZWYgZmluaXNoKGFy
-Z3MsIGNvbmZpZywgYmFzZXBhdGgsIHdvcmtzcGFjZSk6DQo+ID4gICAgICBpZiBhcmdzLmRyeV9y
-dW46DQo+ID4gICAgICAgICAgbG9nZ2VyLmluZm8oJ1Jlc2V0dGluZyByZWNpcGUgKGRyeS1ydW4p
-JykNCj4gPiAgICAgIGVsc2U6DQo+ID4gLSAgICAgICAgX3Jlc2V0KFthcmdzLnJlY2lwZW5hbWVd
-LCBub19jbGVhbj1ub19jbGVhbiwgY29uZmlnPWNvbmZpZywNCj4gYmFzZXBhdGg9YmFzZXBhdGgs
-IHdvcmtzcGFjZT13b3Jrc3BhY2UpDQo+ID4gKyAgICAgICAgX3Jlc2V0KFthcmdzLnJlY2lwZW5h
-bWVdLCBub19jbGVhbj1ub19jbGVhbiwNCj4gPiArIHJlbW92ZV93b3JrPXJlbW92ZV93b3JrLCBj
-b25maWc9Y29uZmlnLCBiYXNlcGF0aD1iYXNlcGF0aCwNCj4gPiArIHdvcmtzcGFjZT13b3Jrc3Bh
-Y2UpDQo+ID4NCj4gPiAgICAgIHJldHVybiAwDQo+ID4NCj4gPiBAQCAtMjI3Miw2ICsyMjgyLDcg
-QEAgZGVmIHJlZ2lzdGVyX2NvbW1hbmRzKHN1YnBhcnNlcnMsIGNvbnRleHQpOg0KPiA+ICAgICAg
-cGFyc2VyX3Jlc2V0LmFkZF9hcmd1bWVudCgncmVjaXBlbmFtZScsIG5hcmdzPScqJywgaGVscD0n
-UmVjaXBlIHRvDQo+IHJlc2V0JykNCj4gPiAgICAgIHBhcnNlcl9yZXNldC5hZGRfYXJndW1lbnQo
-Jy0tYWxsJywgJy1hJywgYWN0aW9uPSJzdG9yZV90cnVlIiwgaGVscD0nUmVzZXQgYWxsDQo+IHJl
-Y2lwZXMgKGNsZWFyIHdvcmtzcGFjZSknKQ0KPiA+ICAgICAgcGFyc2VyX3Jlc2V0LmFkZF9hcmd1
-bWVudCgnLS1uby1jbGVhbicsICctbicsDQo+ID4gYWN0aW9uPSJzdG9yZV90cnVlIiwgaGVscD0n
-RG9uXCd0IGNsZWFuIHRoZSBzeXNyb290IHRvIHJlbW92ZSByZWNpcGUNCj4gPiBvdXRwdXQnKQ0K
-PiA+ICsgICAgcGFyc2VyX3Jlc2V0LmFkZF9hcmd1bWVudCgnLS1yZW1vdmUtd29yaycsICctcics
-DQo+ID4gKyBhY3Rpb249InN0b3JlX3RydWUiLCBoZWxwPSdDbGVhbiB0aGUgc291cmNlcyBkaXJl
-Y3RvcnkgYWxvbmcgd2l0aA0KPiA+ICsgYXBwZW5kJykNCj4gPiAgICAgIHBhcnNlcl9yZXNldC5z
-ZXRfZGVmYXVsdHMoZnVuYz1yZXNldCkNCj4gPg0KPiA+ICAgICAgcGFyc2VyX2ZpbmlzaCA9IHN1
-YnBhcnNlcnMuYWRkX3BhcnNlcignZmluaXNoJywgaGVscD0nRmluaXNoDQo+ID4gd29ya2luZyBv
-biBhIHJlY2lwZSBpbiB5b3VyIHdvcmtzcGFjZScsIEBAIC0yMjgyLDYgKzIyOTMsNyBAQCBkZWYN
-Cj4gcmVnaXN0ZXJfY29tbWFuZHMoc3VicGFyc2VycywgY29udGV4dCk6DQo+ID4gICAgICBwYXJz
-ZXJfZmluaXNoLmFkZF9hcmd1bWVudCgnLS1tb2RlJywgJy1tJywgY2hvaWNlcz1bJ3BhdGNoJywg
-J3NyY3JldicsDQo+ICdhdXRvJ10sIGRlZmF1bHQ9J2F1dG8nLCBoZWxwPSdVcGRhdGUgbW9kZSAo
-d2hlcmUgJShtZXRhdmFyKXMgaXMgJShjaG9pY2VzKXM7DQo+IGRlZmF1bHQgaXMgJShkZWZhdWx0
-KXMpJywgbWV0YXZhcj0nTU9ERScpDQo+ID4gICAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVu
-dCgnLS1pbml0aWFsLXJldicsIGhlbHA9J092ZXJyaWRlIHN0YXJ0aW5nIHJldmlzaW9uDQo+IGZv
-ciBwYXRjaGVzJykNCj4gPiAgICAgIHBhcnNlcl9maW5pc2guYWRkX2FyZ3VtZW50KCctLWZvcmNl
-JywgJy1mJywgYWN0aW9uPSJzdG9yZV90cnVlIiwNCj4gPiBoZWxwPSdGb3JjZSBjb250aW51aW5n
-IGV2ZW4gaWYgdGhlcmUgYXJlIHVuY29tbWl0dGVkIGNoYW5nZXMgaW4gdGhlDQo+ID4gc291cmNl
-IHRyZWUgcmVwb3NpdG9yeScpDQo+ID4gKyAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVudCgn
-LS1yZW1vdmUtd29yaycsICctcicsDQo+ID4gKyBhY3Rpb249InN0b3JlX3RydWUiLCBoZWxwPSdD
-bGVhbiB0aGUgc291cmNlcyBkaXJlY3RvcnkgdW5kZXINCj4gPiArIHdvcmtzcGFjZScpDQo+ID4g
-ICAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVudCgnLS1uby1jbGVhbicsICctbicsIGFjdGlv
-bj0ic3RvcmVfdHJ1ZSIsDQo+IGhlbHA9J0RvblwndCBjbGVhbiB0aGUgc3lzcm9vdCB0byByZW1v
-dmUgcmVjaXBlIG91dHB1dCcpDQo+ID4gICAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVudCgn
-LS1uby1vdmVycmlkZXMnLCAnLU8nLCBhY3Rpb249InN0b3JlX3RydWUiLA0KPiBoZWxwPSdEbyBu
-b3QgaGFuZGxlIG90aGVyIG92ZXJyaWRlIGJyYW5jaGVzIChpZiB0aGV5IGV4aXN0KScpDQo+ID4g
-ICAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVudCgnLS1kcnktcnVuJywgJy1OJywNCj4gPiBh
-Y3Rpb249InN0b3JlX3RydWUiLCBoZWxwPSdEcnktcnVuIChqdXN0IHJlcG9ydCBjaGFuZ2VzIGlu
-c3RlYWQgb2YNCj4gPiB3cml0aW5nIHRoZW0pJykNCj4gPiAtLQ0KPiA+IDIuNy40DQo+ID4NCj4g
-PiAtLQ0KPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-DQo+ID4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4gT3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
-b3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg0KVGhhbmtzLA0KQ2hhbmRh
-bmENCg==
+--0000000000009c57da05945d2b45
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Thanks for the review!
+
+On Mon, Oct 7, 2019 at 2:12 PM Randy MacLeod <randy.macleod@windriver.com>
+wrote:
+
+> On 10/2/19 4:52 PM, Maxime Roussin-B=C3=A9langer wrote:
+> > Signed-off-by: Maxime Roussin-B=C3=A9langer <maxime.roussinbelanger@gma=
+il.com
+> >
+> > ---
+> >   meta/recipes-devtools/apt/apt.inc              | 3 +++
+> >   meta/recipes-devtools/cmake/cmake.inc          | 6 ++++++
+> >   meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb | 2 ++
+> >   meta/recipes-devtools/dnf/dnf_4.2.2.bb         | 5 ++++-
+> >   meta/recipes-devtools/meson/meson.inc          | 3 +++
+> >   meta/recipes-devtools/qemu/qemu.inc            | 4 ++++
+> >   meta/recipes-devtools/quilt/quilt.inc          | 4 ++++
+> >   meta/recipes-devtools/swig/swig.inc            | 3 +++
+> >   meta/recipes-devtools/unfs3/unfs3_git.bb       | 3 +++
+> >   9 files changed, 32 insertions(+), 1 deletion(-)
+>
+> Thanks for the updates Maxime. I have a few minor fixes/questions.
+> >
+> > diff --git a/meta/recipes-devtools/apt/apt.inc
+> b/meta/recipes-devtools/apt/apt.inc
+> > index b855099e52..6883ac865a 100644
+> > --- a/meta/recipes-devtools/apt/apt.inc
+> > +++ b/meta/recipes-devtools/apt/apt.inc
+> > @@ -1,4 +1,7 @@
+> >   SUMMARY =3D "Advanced front-end for dpkg"
+> > +DESCRIPTION =3D "Provides commandline tools for searching and managing=
+ as
+> well \
+> s/commandline/command-line/
+> according to:
+>     https://en.wikipedia.org/wiki/Command-line_interface
+>     https://wiki.debian.org/Apt
+>
+> > +as querying information about packages as a low-level access to all
+> features \
+> > +of the libapt-pkg library."
+> >   LICENSE =3D "GPLv2.0+"
+> >   SECTION =3D "base"
+> >
+> > diff --git a/meta/recipes-devtools/cmake/cmake.inc
+> b/meta/recipes-devtools/cmake/cmake.inc
+> > index 3711f18db6..35d78eea17 100644
+> > --- a/meta/recipes-devtools/cmake/cmake.inc
+> > +++ b/meta/recipes-devtools/cmake/cmake.inc
+> > @@ -2,6 +2,12 @@
+> >   # Released under the MIT license (see packages/COPYING)
+> >
+> >   SUMMARY =3D "Cross-platform, open-source make system"
+> > +DESCRIPTION =3D "CMake is used to control the software compilation
+> process \
+> > +using simple platform and compiler independent configuration files.
+> CMake \
+> > +generates native makefiles and workspaces that can be used in the
+> compiler \
+> > +environment of your choice.
+> Should we cut off the text here?
+>
+
+Probably... after rereading I feel this is extra text and it doesn't add
+much.
+
+
+> > CMake is quite sophisticated: it is possible to \
+> > +support complex environments requiring system configuration,
+> pre-processor \
+> > +generation, code generation, and template instantiation."
+> >   HOMEPAGE =3D "http://www.cmake.org/"
+> >   BUGTRACKER =3D "http://public.kitware.com/Bug/my_view_page.php"
+> >   SECTION =3D "console/utils"
+> > diff --git a/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
+> b/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
+> > index 7dc4e417f6..10220ebc91 100644
+> > --- a/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
+> > +++ b/meta/recipes-devtools/dejagnu/dejagnu_1.6.2.bb
+> > @@ -1,4 +1,6 @@
+> >   SUMMARY =3D "GNU unit testing framework, written in Expect and Tcl"
+> > +DESCRIPTION =3D "DejaGnu is a framework for testing other programs. It=
+s
+> purpose \
+> > +is to provide a single front end for all tests."
+> >   LICENSE =3D "GPLv2"
+> >   LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae504"
+> >   SECTION =3D "devel"
+> > diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+> b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+> > index c77773332c..f38167f1ad 100644
+> > --- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+> > +++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+> > @@ -1,4 +1,7 @@
+> >   SUMMARY =3D "Package manager forked from Yum, using libsolv as a
+> dependency resolver"
+> > +DESCRIPTION =3D "Software package manager that installs, updates, and
+> removes \
+> > +packages on RPM-based Linux distributions. It automatically computes \
+> > +dependencies and determines the actions required to install packages."
+> >   LICENSE =3D "GPLv2"
+> >   LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+> >
+>  file://PACKAGE-LICENSING;md5=3D4a0548e303dbc77f067335b4d688e745 \
+> > @@ -71,7 +74,7 @@ do_install_append_class-native() {
+> >   do_install_append_class-nativesdk() {
+> >           create_wrapper ${D}/${bindir}/dnf \
+> >                   RPM_CONFIGDIR=3D${SDKPATHNATIVE}${libdir_nativesdk}/r=
+pm \
+> > -                RPM_NO_CHROOT_FOR_SCRIPTS=3D1
+> > +                RPM_NO_CHROOT_FOR_SCRIPTS=3D1
+> Whitespace only? Ah, you removed a trailing space.
+> Please add:
+>    Remove trailing space in dnf recipe.
+> in the log to prevent OCDers from wondering if there was a typo.
+>
+
+I was not intending to submit this change.
+
+Your comment means to submit a 2 part patch with this change right?
+
+
+> >   }
+> >
+> >   SYSTEMD_SERVICE_${PN} =3D "dnf-makecache.service dnf-makecache.timer =
+\
+> > diff --git a/meta/recipes-devtools/meson/meson.inc
+> b/meta/recipes-devtools/meson/meson.inc
+> > index 6de109de7f..2958a2a8de 100644
+> > --- a/meta/recipes-devtools/meson/meson.inc
+> > +++ b/meta/recipes-devtools/meson/meson.inc
+> > @@ -1,5 +1,8 @@
+> >   HOMEPAGE =3D "http://mesonbuild.com"
+> >   SUMMARY =3D "A high performance build system"
+> > +DESCRIPTION =3D "Meson is a build system designed to increase programm=
+er \
+> > +productivity. It does this by providing a fast, simple and easy to use=
+ \
+> > +interface for modern software development tools and practices."
+> >
+> >   LICENSE =3D "Apache-2.0"
+> >   LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D3b83ef96387f14655fc854ddc3c6bd57"
+> > diff --git a/meta/recipes-devtools/qemu/qemu.inc
+> b/meta/recipes-devtools/qemu/qemu.inc
+> > index de21d30732..11783eaca5 100644
+> > --- a/meta/recipes-devtools/qemu/qemu.inc
+> > +++ b/meta/recipes-devtools/qemu/qemu.inc
+> > @@ -1,4 +1,8 @@
+> >   SUMMARY =3D "Fast open source processor emulator"
+> > +DESCRIPTION =3D "QEMU is a hosted virtual machine monitor: it emulates
+> the \
+> > +machine's processor through dynamic binary translation and provides a
+> set \
+> > +of different hardware and device models for the machine, enabling it t=
+o
+> run \
+> > +a variety of guest operating systems"
+> >   HOMEPAGE =3D "http://qemu.org"
+> >   LICENSE =3D "GPLv2 & LGPLv2.1"
+> >
+> > diff --git a/meta/recipes-devtools/quilt/quilt.inc
+> b/meta/recipes-devtools/quilt/quilt.inc
+> > index 433e9b40b7..61e1c93605 100644
+> > --- a/meta/recipes-devtools/quilt/quilt.inc
+> > +++ b/meta/recipes-devtools/quilt/quilt.inc
+> > @@ -1,4 +1,8 @@
+> >   SUMMARY =3D "Tool for working with series of patches"
+> > +DESCRIPTION =3D "Quilt is a tool to manage large sets of patches by
+> keeping \
+> > +track of the changes each patch makes. Patches can be applied,
+> un-applied,\
+> > +refreshed, etc.
+> End here as is done:
+>     http://savannah.nongnu.org/projects/quilt/
+> > The key philosophical concept is that your primary output \
+> > +is patches."
+
+
+> Thanks again for the updates.
+> ../Randy
+>
+> >   HOMEPAGE =3D "http://savannah.nongnu.org/projects/quilt/"
+> >   SECTION =3D "devel"
+> >   LICENSE =3D "GPLv2"
+> > diff --git a/meta/recipes-devtools/swig/swig.inc
+> b/meta/recipes-devtools/swig/swig.inc
+> > index 00b9c5b605..e62718c508 100644
+> > --- a/meta/recipes-devtools/swig/swig.inc
+> > +++ b/meta/recipes-devtools/swig/swig.inc
+> > @@ -1,4 +1,7 @@
+> >   SUMMARY =3D "SWIG - Simplified Wrapper and Interface Generator"
+> > +DESCRIPTION =3D "SWIG is a compiler that makes it easy to integrate C =
+and
+> C++ \
+> > +code with other languages including Perl, Tcl, Ruby, Python, Java,
+> Guile, \
+> > +Mzscheme, Chicken, OCaml, Pike, and C#."
+> >   HOMEPAGE =3D "http://swig.sourceforge.net/"
+> >   LICENSE =3D "BSD & GPLv3"
+> >   LIC_FILES_CHKSUM =3D
+> "file://LICENSE;md5=3De7807a6282784a7dde4c846626b08fc6 \
+> > diff --git a/meta/recipes-devtools/unfs3/unfs3_git.bb
+> b/meta/recipes-devtools/unfs3/unfs3_git.bb
+> > index a4ac46c68e..79d09788d3 100644
+> > --- a/meta/recipes-devtools/unfs3/unfs3_git.bb
+> > +++ b/meta/recipes-devtools/unfs3/unfs3_git.bb
+> > @@ -1,4 +1,7 @@
+> >   SUMMARY =3D "Userspace NFS server v3 protocol"
+> > +DESCRIPTION =3D "UNFS3 is a user-space implementation of the NFSv3 ser=
+ver
+> \
+> > +specification. It provides a daemon for the MOUNT and NFS protocols,
+> which \
+> > +are used by NFS clients for accessing files on the server."
+> >   SECTION =3D "console/network"
+> >   LICENSE =3D "unfs3"
+> >   LIC_FILES_CHKSUM =3D
+> "file://LICENSE;md5=3D9475885294e17c0cc0067820d042792e"
+> >
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+
+--0000000000009c57da05945d2b45
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks for the review!</div><div><br></div><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 7, 2019 =
+at 2:12 PM Randy MacLeod &lt;<a href=3D"mailto:randy.macleod@windriver.com"=
+>randy.macleod@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">On 10/2/19 4:52 PM, Maxime Roussin-B=C3=A9lange=
+r wrote:<br>
+&gt; Signed-off-by: Maxime Roussin-B=C3=A9langer &lt;<a href=3D"mailto:maxi=
+me.roussinbelanger@gmail.com" target=3D"_blank">maxime.roussinbelanger@gmai=
+l.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0meta/recipes-devtools/apt/apt.inc=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | 3 +++<br>
+&gt;=C2=A0 =C2=A0meta/recipes-devtools/cmake/cmake.inc=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 6 ++++++<br>
+&gt;=C2=A0 =C2=A0meta/recipes-devtools/dejagnu/<a href=3D"http://dejagnu_1.=
+6.2.bb" rel=3D"noreferrer" target=3D"_blank">dejagnu_1.6.2.bb</a> | 2 ++<br=
+>
+&gt;=C2=A0 =C2=A0meta/recipes-devtools/dnf/<a href=3D"http://dnf_4.2.2.bb" =
+rel=3D"noreferrer" target=3D"_blank">dnf_4.2.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 5 ++++-<br>
+&gt;=C2=A0 =C2=A0meta/recipes-devtools/meson/meson.inc=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 3 +++<br>
+&gt;=C2=A0 =C2=A0meta/recipes-devtools/qemu/qemu.inc=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 4 ++++<br>
+&gt;=C2=A0 =C2=A0meta/recipes-devtools/quilt/quilt.inc=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 4 ++++<br>
+&gt;=C2=A0 =C2=A0meta/recipes-devtools/swig/swig.inc=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 3 +++<br>
+&gt;=C2=A0 =C2=A0meta/recipes-devtools/unfs3/<a href=3D"http://unfs3_git.bb=
+" rel=3D"noreferrer" target=3D"_blank">unfs3_git.bb</a>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 3 +++<br>
+&gt;=C2=A0 =C2=A09 files changed, 32 insertions(+), 1 deletion(-)<br>
+<br>
+Thanks for the updates Maxime. I have a few minor fixes/questions.<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools=
+/apt/apt.inc<br>
+&gt; index b855099e52..6883ac865a 100644<br>
+&gt; --- a/meta/recipes-devtools/apt/apt.inc<br>
+&gt; +++ b/meta/recipes-devtools/apt/apt.inc<br>
+&gt; @@ -1,4 +1,7 @@<br>
+&gt;=C2=A0 =C2=A0SUMMARY =3D &quot;Advanced front-end for dpkg&quot;<br>
+&gt; +DESCRIPTION =3D &quot;Provides commandline tools for searching and ma=
+naging as well \<br>
+s/commandline/command-line/<br>
+according to:<br>
+=C2=A0 =C2=A0 <a href=3D"https://en.wikipedia.org/wiki/Command-line_interfa=
+ce" rel=3D"noreferrer" target=3D"_blank">https://en.wikipedia.org/wiki/Comm=
+and-line_interface</a><br>
+=C2=A0 =C2=A0 <a href=3D"https://wiki.debian.org/Apt" rel=3D"noreferrer" ta=
+rget=3D"_blank">https://wiki.debian.org/Apt</a><br>
+<br>
+&gt; +as querying information about packages as a low-level access to all f=
+eatures \<br>
+&gt; +of the libapt-pkg library.&quot;<br>
+&gt;=C2=A0 =C2=A0LICENSE =3D &quot;GPLv2.0+&quot;<br>
+&gt;=C2=A0 =C2=A0SECTION =3D &quot;base&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devt=
+ools/cmake/cmake.inc<br>
+&gt; index 3711f18db6..35d78eea17 100644<br>
+&gt; --- a/meta/recipes-devtools/cmake/cmake.inc<br>
+&gt; +++ b/meta/recipes-devtools/cmake/cmake.inc<br>
+&gt; @@ -2,6 +2,12 @@<br>
+&gt;=C2=A0 =C2=A0# Released under the MIT license (see packages/COPYING)<br=
+>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0SUMMARY =3D &quot;Cross-platform, open-source make system&=
+quot;<br>
+&gt; +DESCRIPTION =3D &quot;CMake is used to control the software compilati=
+on process \<br>
+&gt; +using simple platform and compiler independent configuration files. C=
+Make \<br>
+&gt; +generates native makefiles and workspaces that can be used in the com=
+piler \<br>
+&gt; +environment of your choice. <br>
+Should we cut off the text here?<br></blockquote><div><br></div><div>Probab=
+ly... after rereading I feel this is extra text and it doesn&#39;t add much=
+.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; CMake is quite sophisticated: it is possible to \<br>
+&gt; +support complex environments requiring system configuration, pre-proc=
+essor \<br>
+&gt; +generation, code generation, and template instantiation.&quot;<br>
+&gt;=C2=A0 =C2=A0HOMEPAGE =3D &quot;<a href=3D"http://www.cmake.org/" rel=
+=3D"noreferrer" target=3D"_blank">http://www.cmake.org/</a>&quot;<br>
+&gt;=C2=A0 =C2=A0BUGTRACKER =3D &quot;<a href=3D"http://public.kitware.com/=
+Bug/my_view_page.php" rel=3D"noreferrer" target=3D"_blank">http://public.ki=
+tware.com/Bug/my_view_page.php</a>&quot;<br>
+&gt;=C2=A0 =C2=A0SECTION =3D &quot;console/utils&quot;<br>
+&gt; diff --git a/meta/recipes-devtools/dejagnu/<a href=3D"http://dejagnu_1=
+.6.2.bb" rel=3D"noreferrer" target=3D"_blank">dejagnu_1.6.2.bb</a> b/meta/r=
+ecipes-devtools/dejagnu/<a href=3D"http://dejagnu_1.6.2.bb" rel=3D"noreferr=
+er" target=3D"_blank">dejagnu_1.6.2.bb</a><br>
+&gt; index 7dc4e417f6..10220ebc91 100644<br>
+&gt; --- a/meta/recipes-devtools/dejagnu/<a href=3D"http://dejagnu_1.6.2.bb=
+" rel=3D"noreferrer" target=3D"_blank">dejagnu_1.6.2.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/dejagnu/<a href=3D"http://dejagnu_1.6.2.bb=
+" rel=3D"noreferrer" target=3D"_blank">dejagnu_1.6.2.bb</a><br>
+&gt; @@ -1,4 +1,6 @@<br>
+&gt;=C2=A0 =C2=A0SUMMARY =3D &quot;GNU unit testing framework, written in E=
+xpect and Tcl&quot;<br>
+&gt; +DESCRIPTION =3D &quot;DejaGnu is a framework for testing other progra=
+ms. Its purpose \<br>
+&gt; +is to provide a single front end for all tests.&quot;<br>
+&gt;=C2=A0 =C2=A0LICENSE =3D &quot;GPLv2&quot;<br>
+&gt;=C2=A0 =C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dd32239bcb6=
+73463ab874e80d47fae504&quot;<br>
+&gt;=C2=A0 =C2=A0SECTION =3D &quot;devel&quot;<br>
+&gt; diff --git a/meta/recipes-devtools/dnf/<a href=3D"http://dnf_4.2.2.bb"=
+ rel=3D"noreferrer" target=3D"_blank">dnf_4.2.2.bb</a> b/meta/recipes-devto=
+ols/dnf/<a href=3D"http://dnf_4.2.2.bb" rel=3D"noreferrer" target=3D"_blank=
+">dnf_4.2.2.bb</a><br>
+&gt; index c77773332c..f38167f1ad 100644<br>
+&gt; --- a/meta/recipes-devtools/dnf/<a href=3D"http://dnf_4.2.2.bb" rel=3D=
+"noreferrer" target=3D"_blank">dnf_4.2.2.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/dnf/<a href=3D"http://dnf_4.2.2.bb" rel=3D=
+"noreferrer" target=3D"_blank">dnf_4.2.2.bb</a><br>
+&gt; @@ -1,4 +1,7 @@<br>
+&gt;=C2=A0 =C2=A0SUMMARY =3D &quot;Package manager forked from Yum, using l=
+ibsolv as a dependency resolver&quot;<br>
+&gt; +DESCRIPTION =3D &quot;Software package manager that installs, updates=
+, and removes \<br>
+&gt; +packages on RPM-based Linux distributions. It automatically computes =
+\<br>
+&gt; +dependencies and determines the actions required to install packages.=
+&quot;<br>
+&gt;=C2=A0 =C2=A0LICENSE =3D &quot;GPLv2&quot;<br>
+&gt;=C2=A0 =C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Db234ee4d69=
+f5fce4486a80fdaf4a4263 \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0file://PACKAGE-LICENSING;md5=3D4a0548e303dbc77f067335b4d688e74=
+5 \<br>
+&gt; @@ -71,7 +74,7 @@ do_install_append_class-native() {<br>
+&gt;=C2=A0 =C2=A0do_install_append_class-nativesdk() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0create_wrapper ${D}/${bindir}/=
+dnf \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0RP=
+M_CONFIGDIR=3D${SDKPATHNATIVE}${libdir_nativesdk}/rpm \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 RPM_NO_CHROOT=
+_FOR_SCRIPTS=3D1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 RPM_NO_CHROOT=
+_FOR_SCRIPTS=3D1<br>
+Whitespace only? Ah, you removed a trailing space.<br>
+Please add:<br>
+=C2=A0 =C2=A0Remove trailing space in dnf recipe.<br>
+in the log to prevent OCDers from wondering if there was a typo.<br></block=
+quote><div><br></div><div>I was not intending to submit this change.</div><=
+div><br></div><div>Your comment means to submit a 2 part patch with this ch=
+ange right?</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0SYSTEMD_SERVICE_${PN} =3D &quot;dnf-makecache.service dnf-=
+makecache.timer \<br>
+&gt; diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devt=
+ools/meson/meson.inc<br>
+&gt; index 6de109de7f..2958a2a8de 100644<br>
+&gt; --- a/meta/recipes-devtools/meson/meson.inc<br>
+&gt; +++ b/meta/recipes-devtools/meson/meson.inc<br>
+&gt; @@ -1,5 +1,8 @@<br>
+&gt;=C2=A0 =C2=A0HOMEPAGE =3D &quot;<a href=3D"http://mesonbuild.com" rel=
+=3D"noreferrer" target=3D"_blank">http://mesonbuild.com</a>&quot;<br>
+&gt;=C2=A0 =C2=A0SUMMARY =3D &quot;A high performance build system&quot;<br=
+>
+&gt; +DESCRIPTION =3D &quot;Meson is a build system designed to increase pr=
+ogrammer \<br>
+&gt; +productivity. It does this by providing a fast, simple and easy to us=
+e \<br>
+&gt; +interface for modern software development tools and practices.&quot;<=
+br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0LICENSE =3D &quot;Apache-2.0&quot;<br>
+&gt;=C2=A0 =C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D3b83ef9638=
+7f14655fc854ddc3c6bd57&quot;<br>
+&gt; diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtoo=
+ls/qemu/qemu.inc<br>
+&gt; index de21d30732..11783eaca5 100644<br>
+&gt; --- a/meta/recipes-devtools/qemu/qemu.inc<br>
+&gt; +++ b/meta/recipes-devtools/qemu/qemu.inc<br>
+&gt; @@ -1,4 +1,8 @@<br>
+&gt;=C2=A0 =C2=A0SUMMARY =3D &quot;Fast open source processor emulator&quot=
+;<br>
+&gt; +DESCRIPTION =3D &quot;QEMU is a hosted virtual machine monitor: it em=
+ulates the \<br>
+&gt; +machine&#39;s processor through dynamic binary translation and provid=
+es a set \<br>
+&gt; +of different hardware and device models for the machine, enabling it =
+to run \<br>
+&gt; +a variety of guest operating systems&quot;<br>
+&gt;=C2=A0 =C2=A0HOMEPAGE =3D &quot;<a href=3D"http://qemu.org" rel=3D"nore=
+ferrer" target=3D"_blank">http://qemu.org</a>&quot;<br>
+&gt;=C2=A0 =C2=A0LICENSE =3D &quot;GPLv2 &amp; LGPLv2.1&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devt=
+ools/quilt/quilt.inc<br>
+&gt; index 433e9b40b7..61e1c93605 100644<br>
+&gt; --- a/meta/recipes-devtools/quilt/quilt.inc<br>
+&gt; +++ b/meta/recipes-devtools/quilt/quilt.inc<br>
+&gt; @@ -1,4 +1,8 @@<br>
+&gt;=C2=A0 =C2=A0SUMMARY =3D &quot;Tool for working with series of patches&=
+quot;<br>
+&gt; +DESCRIPTION =3D &quot;Quilt is a tool to manage large sets of patches=
+ by keeping \<br>
+&gt; +track of the changes each patch makes. Patches can be applied, un-app=
+lied,\<br>
+&gt; +refreshed, etc. <br>
+End here as is done:<br>
+=C2=A0 =C2=A0 <a href=3D"http://savannah.nongnu.org/projects/quilt/" rel=3D=
+"noreferrer" target=3D"_blank">http://savannah.nongnu.org/projects/quilt/</=
+a><br>
+&gt; The key philosophical concept is that your primary output \<br>
+&gt; +is patches.&quot;=C2=A0</blockquote><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
+<br>
+Thanks again for the updates.<br>
+../Randy<br>
+<br>
+&gt;=C2=A0 =C2=A0HOMEPAGE =3D &quot;<a href=3D"http://savannah.nongnu.org/p=
+rojects/quilt/" rel=3D"noreferrer" target=3D"_blank">http://savannah.nongnu=
+.org/projects/quilt/</a>&quot;<br>
+&gt;=C2=A0 =C2=A0SECTION =3D &quot;devel&quot;<br>
+&gt;=C2=A0 =C2=A0LICENSE =3D &quot;GPLv2&quot;<br>
+&gt; diff --git a/meta/recipes-devtools/swig/swig.inc b/meta/recipes-devtoo=
+ls/swig/swig.inc<br>
+&gt; index 00b9c5b605..e62718c508 100644<br>
+&gt; --- a/meta/recipes-devtools/swig/swig.inc<br>
+&gt; +++ b/meta/recipes-devtools/swig/swig.inc<br>
+&gt; @@ -1,4 +1,7 @@<br>
+&gt;=C2=A0 =C2=A0SUMMARY =3D &quot;SWIG - Simplified Wrapper and Interface =
+Generator&quot;<br>
+&gt; +DESCRIPTION =3D &quot;SWIG is a compiler that makes it easy to integr=
+ate C and C++ \<br>
+&gt; +code with other languages including Perl, Tcl, Ruby, Python, Java, Gu=
+ile, \<br>
+&gt; +Mzscheme, Chicken, OCaml, Pike, and C#.&quot;<br>
+&gt;=C2=A0 =C2=A0HOMEPAGE =3D &quot;<a href=3D"http://swig.sourceforge.net/=
+" rel=3D"noreferrer" target=3D"_blank">http://swig.sourceforge.net/</a>&quo=
+t;<br>
+&gt;=C2=A0 =C2=A0LICENSE =3D &quot;BSD &amp; GPLv3&quot;<br>
+&gt;=C2=A0 =C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3De7807a6282=
+784a7dde4c846626b08fc6 \<br>
+&gt; diff --git a/meta/recipes-devtools/unfs3/<a href=3D"http://unfs3_git.b=
+b" rel=3D"noreferrer" target=3D"_blank">unfs3_git.bb</a> b/meta/recipes-dev=
+tools/unfs3/<a href=3D"http://unfs3_git.bb" rel=3D"noreferrer" target=3D"_b=
+lank">unfs3_git.bb</a><br>
+&gt; index a4ac46c68e..79d09788d3 100644<br>
+&gt; --- a/meta/recipes-devtools/unfs3/<a href=3D"http://unfs3_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">unfs3_git.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/unfs3/<a href=3D"http://unfs3_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">unfs3_git.bb</a><br>
+&gt; @@ -1,4 +1,7 @@<br>
+&gt;=C2=A0 =C2=A0SUMMARY =3D &quot;Userspace NFS server v3 protocol&quot;<b=
+r>
+&gt; +DESCRIPTION =3D &quot;UNFS3 is a user-space implementation of the NFS=
+v3 server \<br>
+&gt; +specification. It provides a daemon for the MOUNT and NFS protocols, =
+which \<br>
+&gt; +are used by NFS clients for accessing files on the server.&quot;<br>
+&gt;=C2=A0 =C2=A0SECTION =3D &quot;console/network&quot;<br>
+&gt;=C2=A0 =C2=A0LICENSE =3D &quot;unfs3&quot;<br>
+&gt;=C2=A0 =C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D9475885294=
+e17c0cc0067820d042792e&quot;<br>
+&gt; <br>
+<br>
+<br>
+-- <br>
+# Randy MacLeod<br>
+# Wind River Linux<br>
+</blockquote></div></div>
+
+--0000000000009c57da05945d2b45--
