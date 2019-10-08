@@ -1,53 +1,42 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C6687F3B1
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+	[209.85.166.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 3189C7F385
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 15:27:02 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id p1so8649527pgi.4
+	Tue,  8 Oct 2019 15:29:03 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id z19so37518832ior.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Oct 2019 08:27:03 -0700 (PDT)
+	Tue, 08 Oct 2019 08:29:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=XcOancrhepmhoCwcUI4lujiuE1xxfe3NajkiNt6NWnk=;
-	b=PEH5WfRvfhrWIBri+lMxf7GJqfKzVnjqwEgdPjNNETj5HJLwl839e4bdbEtiJYCGEt
-	XJo62Kqinq5Lp+RhkFI0TGi+YmRFiNOwh0ZO/rapt1nRVkHDP3t+n1Dz+xX6qD0/aOmJ
-	Qot7cB5uCY7Q1xIo2Xn0f91DSbtB5YJzjE3jIJsgtEIfsb0TnXf3glTWJKKee7O1Ut2d
-	8KDoK6gts1kkTxd8aGxlFHs+aSKhXUZrFj61aCKI4tlecg2ypLxLBwr+HmCL58iX9P/U
-	00/2fp5SIeRbH2MNjN6W2ZiJ3D4ZVT8pNC/9A5Ui276iGPhJXj6CXWXTGA9FQFrs+oIE
-	eG3w==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=VbIUI6TCukIVVf16GR0zu8MdQTE8tY3d3JdyIWTmeXg=;
+	b=vMgA5o4pqH7gpArenc12tEfZjVbW5p/ut1dxHvaZAaVQKorlZnRGPO8rs47nRVXEzw
+	+NztMatdC9F+Y6aqdGLeDPuWWGpfRzKBdi7M0q9CmX4Xmg8UQfpCa6a5uzOprABdlqU6
+	rJscFS2B9OrRui04YXyAqtypi7H2hLr/oYp/PAcXZF+sd9pXH8PlkWNM154EfJWB7GMG
+	K7BrglitnNN40bdzZi3/KZjwGqzJ/j6mQDuBJU6vByzc0/LEikyb9fGdBZHKUK9lrhUm
+	8zx9P8iTdSHj2D9VRCBEcKcuhRdH5aRWN8OFZxQZUpsTj3j9eX/KIleGpahcw9w9BkII
+	a4aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=XcOancrhepmhoCwcUI4lujiuE1xxfe3NajkiNt6NWnk=;
-	b=ryCTYt6TidkZNR/QOZCyFYIboLlAxA4PBL6JJ7ZTK3YKyW/XEKxAj0rwR3WFSYUKuB
-	pps4susYhP/pWKZI0Regruzvp9tfUvNCIwrDr/f+0NK/RHBnJUFrW+4bI7kp6YQdcG78
-	Lu7wwHOsG3xLQrS6IVZSW/BmTSjJ+ZQ9bC2MQzggKmDzOXLzxhgtQzzUVyiEPXhtHaUg
-	qsUoXMGKqPorwmeMidXJijHMfFlY67qG9RK0e6cMTUxTMbI3tJs+07T3nHHEH1NGR2RN
-	huMbvhzD/AmikoO0n9v37brMV4c+EPi+CRXzMoJgF7/mqb5jusGgB1u1fL7w7IKeNgcN
-	TLeg==
-X-Gm-Message-State: APjAAAU3c2xUB5GBT4UYT9oVpKZ1R4+a8xgixjshhW8FnmoHVcCG6CYz
-	KwhXasETImxkXKOkVS19YsH9dZPQezs=
-X-Google-Smtp-Source: APXvYqzWED/y1RyuQLdBWqVpVoAYwCIQG5QjhDPRYgR0zdo9wXNmBB/qM7+2L2TasMmmCIF13e1UVg==
-X-Received: by 2002:a62:2ccf:: with SMTP id
-	s198mr40399822pfs.216.1570548423135; 
-	Tue, 08 Oct 2019 08:27:03 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:a5c0:8d14:b7f9:8b16:849f])
-	by smtp.gmail.com with ESMTPSA id
-	x18sm18420763pge.76.2019.10.08.08.27.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Oct 2019 08:27:02 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Oct 2019 08:26:44 -0700
-Message-Id: <e6728a873f1eef335a9e21bdface304f13f0c952.1570548180.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1570548180.git.akuster808@gmail.com>
-References: <cover.1570548180.git.akuster808@gmail.com>
-Subject: [thud 12/12] uninative: Update to 2.7 release
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=VbIUI6TCukIVVf16GR0zu8MdQTE8tY3d3JdyIWTmeXg=;
+	b=rRwPktk1WOWrAKXEv8hPjemilXgWiM3UisoxNHNGWNxB264aIeCpOKPH9lLC8EaxPV
+	2sm9wzM5F26nKqt1uKD/x6bhWdsLd7Sc2pZNIz497I0UX4MxGweeS2LokPFo3iBwOaEE
+	NDN0zyXHoQlMRHCF2vg6OMIjQxF3iTyLifbsdMtFuuZk8ipKR6C/ZGpweoNVnEdk288s
+	o2kjWsC5dtPKSbQvtDqOIBpK3d7ZtYINr9fcmkvTNodQjCV9IE8cuNkuwda02q2fsj7B
+	E0B5HrDo+71f6Z3AHfn+e7/Xe+DqE/L/X5M5/5Yf5FnJETGIwcwUWSQIPjISMeTyNihf
+	kI6Q==
+X-Gm-Message-State: APjAAAXCfXDVQ0w9WNlyYzooO3Pm/VvLxU9p2yJvRCCwFQX5fMoGr5qA
+	jMnwFZlYeKUyXwo5OSaUuMYwW3QsDuLqyw2rsxYP38Jx
+X-Google-Smtp-Source: APXvYqy4AZ1Rp9AYbQK04IqgwS9uzpvSpdORk5Pim4Vb8EkZaoDlsXFyo8LSi8SlmxirNAT6HVMwwDMtQYspDmFcBIE=
+X-Received: by 2002:a92:d209:: with SMTP id y9mr9695249ily.286.1570548544842; 
+	Tue, 08 Oct 2019 08:29:04 -0700 (PDT)
+MIME-Version: 1.0
+From: Stephen K Jolley <sjolley.yp.pm@gmail.com>
+Date: Tue, 8 Oct 2019 08:28:55 -0700
+Message-ID: <CAK5yBb_Q32FsB4x6L4n8mAoYbPajpd8oyb8ipH89Y=2a0hw_aA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org, yocto@yoctoproject.org
+Subject: Yocto Technical Team Minutes for October 8, 2019
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,40 +49,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 15:27:02 -0000
+X-List-Received-Date: Tue, 08 Oct 2019 15:29:04 -0000
+Content-Type: multipart/alternative; boundary="0000000000001e365d059467d463"
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+--0000000000001e365d059467d463
+Content-Type: text/plain; charset="UTF-8"
 
-The 2.7 release updates glibc to version 2.30. Recently added to openSUSE
-Tumbleweed and needed for Fedora Core 31.
+See:
+https://docs.google.com/document/d/1Y5IIuE-z0Ykdl-DwuzUJh52flOZuhN_TSAfw2tdU9pg/edit
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index df24346..ad75d3e 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,9 +6,9 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_MAXGLIBCVERSION = "2.29"
-+UNINATIVE_MAXGLIBCVERSION = "2.30"
- 
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.6/"
--UNINATIVE_CHECKSUM[aarch64] ?= "a37118fc8b423f48146120707b81dd15017512c3e8ef9e6ca2cb3a033f4f4046"
--UNINATIVE_CHECKSUM[i686] ?= "3234fc3ded810225071f23a0e9a99f4f8c2480059945a848eff076ce78122ade"
--UNINATIVE_CHECKSUM[x86_64] ?= "133387753a9acf3e1b788103c59fac91e968e2ee331d7a4b9498e926ada7be57"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.7/"
-+UNINATIVE_CHECKSUM[aarch64] ?= "e76a45886ee8a0b3904b761c17ac8ff91edf9811ee455f1832d10763ba794dfc"
-+UNINATIVE_CHECKSUM[i686] ?= "810d027dfb1c7675226afbcec07808770516c969ee7378f6d8240281083f8924"
-+UNINATIVE_CHECKSUM[x86_64] ?= "9498d8bba047499999a7310ac2576d0796461184965351a56f6d32c888a1f216"
 -- 
-2.7.4
+
+Thanks,
 
 
+
+*Stephen K. Jolley*
+
+*Yocto Project Program Manager*
+
+*7867 SW Bayberry Dr., Beaverton, OR 97007*
+
+(    *Cell*:                (208) 244-4460
+
+* *Email*:                 *s
+<stephen.k.jolley@intel.com>jolley.yp.pm@gmail.com <jolley.yp.pm@gmail.com>*
+
+--0000000000001e365d059467d463
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">See:=C2=A0
+
+<a href=3D"https://docs.google.com/document/d/1Y5IIuE-z0Ykdl-DwuzUJh52flOZu=
+hN_TSAfw2tdU9pg/edit">https://docs.google.com/document/d/1Y5IIuE-z0Ykdl-Dwu=
+zUJh52flOZuhN_TSAfw2tdU9pg/edit</a>=C2=A0=C2=A0<br clear=3D"all"><div><br><=
+/div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gm=
+ail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><p class=3D"MsoNormal=
+" style=3D"background-image:initial;background-position:initial;background-=
+repeat:initial"><span style=3D"font-size:12pt;font-family:Arial,sans-serif"=
+>Thanks,<span></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><span style=3D"font-size:12pt;font-fam=
+ily:Arial,sans-serif">=C2=A0<span></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><b><i><span style=3D"font-size:16pt;co=
+lor:purple">Stephen K. Jolley</span></i></b><span style=3D"font-size:12pt;f=
+ont-family:Arial,sans-serif"><span></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><b><span style=3D"font-size:8pt;font-f=
+amily:&quot;Courier New&quot;;color:blue">Yocto Project Program Manager<spa=
+n></span></span></b></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><b><span style=3D"font-family:&quot;Co=
+urier New&quot;;color:fuchsia;background-image:initial;background-position:=
+initial;background-repeat:initial">7867 SW Bayberry Dr., Beaverton, OR 9700=
+7</span></b><span style=3D"font-size:12pt;font-family:Arial,sans-serif"><sp=
+an></span></span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
+ly:Wingdings;color:black">(</span><span style=3D"font-size:9pt;font-family:=
+&quot;MS Sans Serif&quot;,serif;color:teal">=C2=A0=C2=A0=C2=A0=C2=A0</span>=
+<b><span style=3D"font-size:8pt;font-family:&quot;Comic Sans MS&quot;;color=
+:teal">Cell</span></b><span style=3D"font-size:9pt;font-family:&quot;MS San=
+s Serif&quot;,serif;color:teal">:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 </span><span style=3D"font=
+-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif">(208) 244-4460</span=
+><span style=3D"font-size:12pt;font-family:Arial,sans-serif"><span></span><=
+/span></p>
+
+<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
+n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
+ly:Wingdings">*=C2=A0</span><b><span lang=3D"FR" style=3D"font-size:8pt;fon=
+t-family:&quot;Comic Sans MS&quot;;color:teal">Email</span></b><span lang=
+=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif;=
+color:teal">:</span><span lang=3D"FR" style=3D"font-size:9pt;font-family:&q=
+uot;MS Sans Serif&quot;,serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0</span><u><span=
+ lang=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,s=
+erif;color:blue"><span style=3D"color:rgb(17,85,204)"><a href=3D"mailto:ste=
+phen.k.jolley@intel.com" target=3D"_blank">s</a><a href=3D"mailto:jolley.yp=
+.pm@gmail.com" target=3D"_blank">jolley.yp.pm@gmail.com</a></span></span></=
+u></p></div></div></div></div></div>
+
+--0000000000001e365d059467d463--
