@@ -1,54 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
-	[209.85.210.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FA6A7F382
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+	[209.85.210.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DEBB7F389
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 15:04:46 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id a2so10914430pfo.10
+	Tue,  8 Oct 2019 15:04:47 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id q7so10913483pfh.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Oct 2019 08:04:47 -0700 (PDT)
+	Tue, 08 Oct 2019 08:04:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:in-reply-to:references
-	:content-transfer-encoding;
-	bh=vHbw3dFkzKFQdauIVlkOG6NCUn5ED2tr2O3a/QYZbgY=;
-	b=Z7S4RCuefJS6lH85HNQhQ6knsJeYCZKF6/1KYUp6Sw/V8/DNZ5kVdW0Rc85TB8R+uA
-	BWSaDULcpmrMxjjLfnGg465UnPtNZxFVD0bUdCHFNY5Mg5N58Qpj/wqBBtl5Nysgt+CJ
-	Y8QrsDqmGrLSrOxcxnabI+rt9KeyUJbyStUmGEQ5FpqhBG7ow7l6S/hp51X9DrhnXw1W
-	+Wg+FOykpi6lpc4MNUUOdCZsNL9m+mQyT5f5shh26wxLGOmbfhAu+R1x+G+bCIcsIhyf
-	RAdHg8FFbJRqFJRaK36YsARhUajuvFMh9LT6P5wrEPHy1xp0cY0kFzM+lTHHJ6yutsVP
-	gPCg==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=Im5dUu+Z20wjwvb/3hxn/L1JA0gWvE3qOOaxVu97pkc=;
+	b=q2Ant8puFivyiC6TxcEr2XkNtDaXKs/Zsqqe11eNBuJ3BSoTtlL9G/0Bd6TntxH4gS
+	tLG2KbLnMjP5rbLDsXpLIzdKR71UNdE0MfGFVIs4NrrIRmqxjQg8+rrVoovrJ2Igjo+c
+	SZ0eCo70EjmJOt6zCLOau2N3p7hQGkvuFYJD93t52UOGYgK3jv0TjzRQpA/L15A9/gim
+	0J/AVP/LTuZPQixZrWTHy8YjWT21R+9RFVYsXdX305HoPlYj8ab1TUSfFk0JKKwUlIW8
+	Ks23IJYn8XTP4TQXuUu4Dzi2FEFxz1goKwg5pUk8hNcHgMl6uv+pCSvpfpQ3HFqYwPMY
+	PqRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:in-reply-to:references:content-transfer-encoding;
-	bh=vHbw3dFkzKFQdauIVlkOG6NCUn5ED2tr2O3a/QYZbgY=;
-	b=cQr1yZbIjcIkzX+uY1Qd4pBI6vZ+aeE3P5OV3h/djnF64ex0qXeG9cchKsZrIwQe8B
-	ODthxydRKy9+NflS0nQpaS/eZJDh3e3iENUH/adpk8OhW37LMIFUu92ewEzVp5FwiuQ/
-	p1i/9opjZfEGpnF10JCkRjWNcf+mSLmNW3lKkx0Ecfvk+/5uxPLP+EXEmDv9KS9mw5F+
-	uiZWBXbJk45ejdv6zlDBUXAZO3I0lrmKRP1pNhvRy6L80u5HSzY7w974R8sth0AWVEpB
-	wd06nAjNBC7yY4rW3c8XkFBB4kblwoxhsm5AfAtPFSL8TLb5G6ftJ3cHcn1fCEb2ale3
-	yuKQ==
-X-Gm-Message-State: APjAAAUXNA9KHcLjt+6kjzK4DLXxQpFROMeP5xNC9u2nNalz5/7EVwE4
-	jpGiup5kCsA8peu73Oqf2Vwqe3H0rO0=
-X-Google-Smtp-Source: APXvYqw3vumUE0qPWnifyVJ1Mi65gbzo13vj+pCWbE6FEUtzIlMwcxcaW5F9XG5ZGiwZZpW00oD4bA==
-X-Received: by 2002:a62:b603:: with SMTP id j3mr38532452pff.171.1570547086949; 
-	Tue, 08 Oct 2019 08:04:46 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=Im5dUu+Z20wjwvb/3hxn/L1JA0gWvE3qOOaxVu97pkc=;
+	b=mxJTHQ2KjwDsrcK0YIKLtl6MIygy+ebofAmE41H7jp14XsE52doJdR7FH2tgKeoIUG
+	/g8zamvGl/0UUpNxxKO9NPwZUwDThnNgSD2/XXctq4/F9Fa47fRNoptmvmLLON8/A61Q
+	Dn9oX+6InvT1fNaGj+jj7Ro6Fv6EBSzt9B8gdDdFSsbIjbVzGF1n6nPqc06pQC4U5btu
+	bkea6fbvGcplyqdYElXZenWRWigo5emYLR+/JTmmoSRlrI+aSraSinX+FBfWQCXQACe+
+	IpUdnYKGXdrLn9YFi75NiWu/n9GrNVh2BwlteWJ5V+KfZaa40vTPFnc3Acwdu+DXPrG6
+	JaWg==
+X-Gm-Message-State: APjAAAWZmstbBb48JJsCDdvlAx4mazErUeGUvdrq5LU39T5eb4txJlVK
+	ziPC37B+ysznI+tbdOki8TO9H0aKcDo=
+X-Google-Smtp-Source: APXvYqy+uKEiX0wlRVqIboWufE4fbW8eJ9rNG4lWxWoXwFytvltqteP5IhgQAEcMZe/k6qxMmdpk1A==
+X-Received: by 2002:a63:5144:: with SMTP id r4mr27940274pgl.339.1570547088015; 
+	Tue, 08 Oct 2019 08:04:48 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:8d14:b7f9:8b16:849f])
 	by smtp.gmail.com with ESMTPSA id
-	a8sm17675579pfo.118.2019.10.08.08.04.45
+	a8sm17675579pfo.118.2019.10.08.08.04.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Oct 2019 08:04:46 -0700 (PDT)
+	Tue, 08 Oct 2019 08:04:47 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Oct 2019 08:04:31 -0700
-Message-Id: <7f13e4e9ef51bf62729a9a955967aa4752d0d2e8.1570546808.git.akuster808@gmail.com>
+Date: Tue,  8 Oct 2019 08:04:32 -0700
+Message-Id: <8bc35e7b23ca0f10f4a2f3c4f7137d3dedc051fb.1570546808.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
 In-Reply-To: <cover.1570546808.git.akuster808@gmail.com>
 References: <cover.1570546808.git.akuster808@gmail.com>
-Subject: [warrior 04/10] qemu: Fix CVE-2019-8934
+Subject: [warrior 05/10] unzip: Fix CVE-2019-13232
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,254 +59,564 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 15:04:46 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 08 Oct 2019 15:04:47 -0000
 
-From: Dan Tran <msft.dantran@gmail.com>
+From: Dan Tran <dantran@microsoft.com>
 
 Signed-off-by: Dan Tran <dantran@microsoft.com>
-[Fix up against lastest warrior]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc                |   1 +
- .../recipes-devtools/qemu/qemu/CVE-2019-8934.patch | 215 +++++++++++++++++++++
- 2 files changed, 216 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-8934.patch
+ .../unzip/unzip/CVE-2019-13232_p1.patch            |  33 ++
+ .../unzip/unzip/CVE-2019-13232_p2.patch            | 356 +++++++++++++++++++++
+ .../unzip/unzip/CVE-2019-13232_p3.patch            | 121 +++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |   3 +
+ 4 files changed, 513 insertions(+)
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 3de87d3..e720ddf 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -32,6 +32,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2019-3812.patch \
-            file://0014-linux-user-fix-to-handle-variably-sized-SIOCGSTAMP-w.patch \
-            file://CVE-2018-20815.patch \
-+           file://CVE-2019-8934.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2019-8934.patch b/meta/recipes-devtools/qemu/qemu/CVE-2019-8934.patch
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch
 new file mode 100644
-index 0000000..d1d7d23
+index 0000000..d485a1b
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2019-8934.patch
-@@ -0,0 +1,215 @@
-+From 8c2e30a92d95d89e2cf45d229bce274881026cf7 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Mon, 18 Feb 2019 23:43:49 +0530
-+Subject: [PATCH] ppc: add host-serial and host-model machine attributes
-+ (CVE-2019-8934)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch
+@@ -0,0 +1,33 @@
++From 080d52c3c9416c731f637f9c6e003961ef43f079 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Mon, 27 May 2019 08:20:32 -0700
++Subject: [PATCH 1/3] Fix bug in undefer_input() that misplaced the input
++ state.
 +
-+On ppc hosts, hypervisor shares following system attributes
-+
-+  - /proc/device-tree/system-id
-+  - /proc/device-tree/model
-+
-+with a guest. This could lead to information leakage and misuse.[*]
-+Add machine attributes to control such system information exposure
-+to a guest.
-+
-+[*] https://wiki.openstack.org/wiki/OSSN/OSSN-0028
-+
-+Reported-by: Daniel P. Berrangé <berrange@redhat.com>
-+Fix-suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-Id: <20190218181349.23885-1-ppandit@redhat.com>
-+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-+Reviewed-by: Greg Kurz <groug@kaod.org>
-+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-+
-+CVE: CVE-2019-8934
++CVE: CVE-2019-13232
 +Upstream-Status: Backport
-+[https://github.com/qemu/qemu/commit/27461d69a0f108dea756419251acc3ea65198f1b]
++[https://github.com/madler/unzip/commit/41beb477c5744bc396fa1162ee0c14218ec12213]
 +
 +Signed-off-by: Dan Tran <dantran@microsoft.com>
 +---
-+ hw/ppc/spapr.c         | 128 ++++++++++++++++++++++++++++++++++++++---
-+ include/hw/ppc/spapr.h |   2 +
-+ 2 files changed, 123 insertions(+), 7 deletions(-)
++ fileio.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
-+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-+index 7afd1a175b..bcee7c162d 100644
-+--- a/hw/ppc/spapr.c
-++++ b/hw/ppc/spapr.c
-+@@ -1244,13 +1244,30 @@ static void *spapr_build_fdt(sPAPRMachineState *spapr,
-+      * Add info to guest to indentify which host is it being run on
-+      * and what is the uuid of the guest
-+      */
-+-    if (kvmppc_get_host_model(&buf)) {
-+-        _FDT(fdt_setprop_string(fdt, 0, "host-model", buf));
-+-        g_free(buf);
-++    if (spapr->host_model && !g_str_equal(spapr->host_model, "none")) {
-++        if (g_str_equal(spapr->host_model, "passthrough")) {
-++            /* -M host-model=passthrough */
-++            if (kvmppc_get_host_model(&buf)) {
-++                _FDT(fdt_setprop_string(fdt, 0, "host-model", buf));
-++                g_free(buf);
-++            }
-++        } else {
-++            /* -M host-model=<user-string> */
-++            _FDT(fdt_setprop_string(fdt, 0, "host-model", spapr->host_model));
++diff --git a/fileio.c b/fileio.c
++index 7605a29..14460f3 100644
++--- a/fileio.c
+++++ b/fileio.c
++@@ -532,8 +532,10 @@ void undefer_input(__G)
++          * This condition was checked when G.incnt_leftover was set > 0 in
++          * defer_leftover_input(), and it is NOT allowed to touch G.csize
++          * before calling undefer_input() when (G.incnt_leftover > 0)
++-         * (single exception: see read_byte()'s  "G.csize <= 0" handling) !!
+++         * (single exception: see readbyte()'s  "G.csize <= 0" handling) !!
++          */
+++        if (G.csize < 0L)
+++            G.csize = 0L;
++         G.incnt = G.incnt_leftover + (int)G.csize;
++         G.inptr = G.inptr_leftover - (int)G.csize;
++         G.incnt_leftover = 0;
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch
+new file mode 100644
+index 0000000..41037a8
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch
+@@ -0,0 +1,356 @@
++From 1aae47fa8935654a84403768f32c03ecbb1be470 Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Tue, 11 Jun 2019 22:01:18 -0700
++Subject: [PATCH 2/3] Detect and reject a zip bomb using overlapped entries.
++
++This detects an invalid zip file that has at least one entry that
++overlaps with another entry or with the central directory to the
++end of the file. A Fifield zip bomb uses overlapped local entries
++to vastly increase the potential inflation ratio. Such an invalid
++zip file is rejected.
++
++See https://www.bamsoftware.com/hacks/zipbomb/ for David Fifield's
++analysis, construction, and examples of such zip bombs.
++
++The detection maintains a list of covered spans of the zip files
++so far, where the central directory to the end of the file and any
++bytes preceding the first entry at zip file offset zero are
++considered covered initially. Then as each entry is decompressed
++or tested, it is considered covered. When a new entry is about to
++be processed, its initial offset is checked to see if it is
++contained by a covered span. If so, the zip file is rejected as
++invalid.
++
++This commit depends on a preceding commit: "Fix bug in
++undefer_input() that misplaced the input state."
++
++CVE: CVE-2019-13232
++Upstream-Status: Backport
++[https://github.com/madler/unzip/commit/47b3ceae397d21bf822bc2ac73052a4b1daf8e1c]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ extract.c | 190 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
++ globals.c |   1 +
++ globals.h |   3 +
++ process.c |  10 +++
++ unzip.h   |   1 +
++ 5 files changed, 204 insertions(+), 1 deletion(-)
++
++diff --git a/extract.c b/extract.c
++index 24db2a8..2bb72ba 100644
++--- a/extract.c
+++++ b/extract.c
++@@ -321,6 +321,125 @@ static ZCONST char Far UnsupportedExtraField[] =
++   "\nerror:  unsupported extra-field compression type (%u)--skipping\n";
++ static ZCONST char Far BadExtraFieldCRC[] =
++   "error [%s]:  bad extra-field CRC %08lx (should be %08lx)\n";
+++static ZCONST char Far NotEnoughMemCover[] =
+++  "error: not enough memory for bomb detection\n";
+++static ZCONST char Far OverlappedComponents[] =
+++  "error: invalid zip file with overlapped components (possible zip bomb)\n";
+++
+++
+++
+++
+++
+++/* A growable list of spans. */
+++typedef zoff_t bound_t;
+++typedef struct {
+++    bound_t beg;        /* start of the span */
+++    bound_t end;        /* one past the end of the span */
+++} span_t;
+++typedef struct {
+++    span_t *span;       /* allocated, distinct, and sorted list of spans */
+++    size_t num;         /* number of spans in the list */
+++    size_t max;         /* allocated number of spans (num <= max) */
+++} cover_t;
+++
+++/*
+++ * Return the index of the first span in cover whose beg is greater than val.
+++ * If there is no such span, then cover->num is returned.
+++ */
+++static size_t cover_find(cover, val)
+++    cover_t *cover;
+++    bound_t val;
+++{
+++    size_t lo = 0, hi = cover->num;
+++    while (lo < hi) {
+++        size_t mid = (lo + hi) >> 1;
+++        if (val < cover->span[mid].beg)
+++            hi = mid;
+++        else
+++            lo = mid + 1;
+++    }
+++    return hi;
+++}
+++
+++/* Return true if val lies within any one of the spans in cover. */
+++static int cover_within(cover, val)
+++    cover_t *cover;
+++    bound_t val;
+++{
+++    size_t pos = cover_find(cover, val);
+++    return pos > 0 && val < cover->span[pos - 1].end;
+++}
+++
+++/*
+++ * Add a new span to the list, but only if the new span does not overlap any
+++ * spans already in the list. The new span covers the values beg..end-1. beg
+++ * must be less than end.
+++ *
+++ * Keep the list sorted and merge adjacent spans. Grow the allocated space for
+++ * the list as needed. On success, 0 is returned. If the new span overlaps any
+++ * existing spans, then 1 is returned and the new span is not added to the
+++ * list. If the new span is invalid because beg is greater than or equal to
+++ * end, then -1 is returned. If the list needs to be grown but the memory
+++ * allocation fails, then -2 is returned.
+++ */
+++static int cover_add(cover, beg, end)
+++    cover_t *cover;
+++    bound_t beg;
+++    bound_t end;
+++{
+++    size_t pos;
+++    int prec, foll;
+++
+++    if (beg >= end)
+++    /* The new span is invalid. */
+++        return -1;
+++
+++    /* Find where the new span should go, and make sure that it does not
+++       overlap with any existing spans. */
+++    pos = cover_find(cover, beg);
+++    if ((pos > 0 && beg < cover->span[pos - 1].end) ||
+++        (pos < cover->num && end > cover->span[pos].beg))
+++        return 1;
+++
+++    /* Check for adjacencies. */
+++    prec = pos > 0 && beg == cover->span[pos - 1].end;
+++    foll = pos < cover->num && end == cover->span[pos].beg;
+++    if (prec && foll) {
+++        /* The new span connects the preceding and following spans. Merge the
+++           following span into the preceding span, and delete the following
+++           span. */
+++        cover->span[pos - 1].end = cover->span[pos].end;
+++        cover->num--;
+++        memmove(cover->span + pos, cover->span + pos + 1,
+++                (cover->num - pos) * sizeof(span_t));
+++    }
+++    else if (prec)
+++        /* The new span is adjacent only to the preceding span. Extend the end
+++           of the preceding span. */
+++        cover->span[pos - 1].end = end;
+++    else if (foll)
+++        /* The new span is adjacent only to the following span. Extend the
+++           beginning of the following span. */
+++        cover->span[pos].beg = beg;
+++    else {
+++        /* The new span has gaps between both the preceding and the following
+++           spans. Assure that there is room and insert the span.  */
+++        if (cover->num == cover->max) {
+++            size_t max = cover->max == 0 ? 16 : cover->max << 1;
+++            span_t *span = realloc(cover->span, max * sizeof(span_t));
+++            if (span == NULL)
+++                return -2;
+++            cover->span = span;
+++            cover->max = max;
 ++        }
+++        memmove(cover->span + pos + 1, cover->span + pos,
+++                (cover->num - pos) * sizeof(span_t));
+++        cover->num++;
+++        cover->span[pos].beg = beg;
+++        cover->span[pos].end = end;
+++    }
+++    return 0;
+++}
++ 
++ 
++ 
++@@ -376,6 +495,29 @@ int extract_or_test_files(__G)    /* return PK-type error code */
 +     }
-+-    if (kvmppc_get_host_serial(&buf)) {
-+-        _FDT(fdt_setprop_string(fdt, 0, "host-serial", buf));
-+-        g_free(buf);
-++
-++    if (spapr->host_serial && !g_str_equal(spapr->host_serial, "none")) {
-++        if (g_str_equal(spapr->host_serial, "passthrough")) {
-++            /* -M host-serial=passthrough */
-++            if (kvmppc_get_host_serial(&buf)) {
-++                _FDT(fdt_setprop_string(fdt, 0, "host-serial", buf));
-++                g_free(buf);
-++            }
-++        } else {
-++            /* -M host-serial=<user-string> */
-++            _FDT(fdt_setprop_string(fdt, 0, "host-serial", spapr->host_serial));
++ #endif /* !SFX || SFX_EXDIR */
++ 
+++    /* One more: initialize cover structure for bomb detection. Start with a
+++       span that covers the central directory though the end of the file. */
+++    if (G.cover == NULL) {
+++        G.cover = malloc(sizeof(cover_t));
+++        if (G.cover == NULL) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(NotEnoughMemCover)));
+++            return PK_MEM;
 ++        }
+++        ((cover_t *)G.cover)->span = NULL;
+++        ((cover_t *)G.cover)->max = 0;
+++    }
+++    ((cover_t *)G.cover)->num = 0;
+++    if ((G.extra_bytes != 0 &&
+++         cover_add((cover_t *)G.cover, 0, G.extra_bytes) != 0) ||
+++        cover_add((cover_t *)G.cover,
+++                  G.extra_bytes + G.ecrec.offset_start_central_directory,
+++                  G.ziplen) != 0) {
+++        Info(slide, 0x401, ((char *)slide,
+++          LoadFarString(NotEnoughMemCover)));
+++        return PK_MEM;
+++    }
+++
++ /*---------------------------------------------------------------------------
++     The basic idea of this function is as follows.  Since the central di-
++     rectory lies at the end of the zipfile and the member files lie at the
++@@ -593,7 +735,8 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++             if (error > error_in_archive)
++                 error_in_archive = error;
++             /* ...and keep going (unless disk full or user break) */
++-            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC) {
+++            if (G.disk_full > 1 || error_in_archive == IZ_CTRLC ||
+++                error == PK_BOMB) {
++                 /* clear reached_end to signal premature stop ... */
++                 reached_end = FALSE;
++                 /* ... and cancel scanning the central directory */
++@@ -1062,6 +1205,11 @@ static int extract_or_test_entrylist(__G__ numchunk,
++ 
++         /* seek_zipf(__G__ pInfo->offset);  */
++         request = G.pInfo->offset + G.extra_bytes;
+++        if (cover_within((cover_t *)G.cover, request)) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(OverlappedComponents)));
+++            return PK_BOMB;
+++        }
++         inbuf_offset = request % INBUFSIZ;
++         bufstart = request - inbuf_offset;
++ 
++@@ -1593,6 +1741,18 @@ reprompt:
++             return IZ_CTRLC;        /* cancel operation by user request */
++         }
++ #endif
+++        error = cover_add((cover_t *)G.cover, request,
+++                          G.cur_zipfile_bufstart + (G.inptr - G.inbuf));
+++        if (error < 0) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(NotEnoughMemCover)));
+++            return PK_MEM;
+++        }
+++        if (error != 0) {
+++            Info(slide, 0x401, ((char *)slide,
+++              LoadFarString(OverlappedComponents)));
+++            return PK_BOMB;
+++        }
++ #ifdef MACOS  /* MacOS is no preemptive OS, thus call event-handling by hand */
++         UserStop();
++ #endif
++@@ -1994,6 +2154,34 @@ static int extract_or_test_member(__G)    /* return PK-type error code */
 +     }
 + 
-+     buf = qemu_uuid_unparse_strdup(&qemu_uuid);
-+@@ -3031,6 +3048,73 @@ static void spapr_set_vsmt(Object *obj, Visitor *v, const char *name,
-+     visit_type_uint32(v, name, (uint32_t *)opaque, errp);
-+ }
-+ 
-++static char *spapr_get_ic_mode(Object *obj, Error **errp)
-++{
-++    sPAPRMachineState *spapr = SPAPR_MACHINE(obj);
++     undefer_input(__G);
 ++
-++    if (spapr->irq == &spapr_irq_xics_legacy) {
-++        return g_strdup("legacy");
-++    } else if (spapr->irq == &spapr_irq_xics) {
-++        return g_strdup("xics");
-++    } else if (spapr->irq == &spapr_irq_xive) {
-++        return g_strdup("xive");
-++    } else if (spapr->irq == &spapr_irq_dual) {
-++        return g_strdup("dual");
+++    if ((G.lrec.general_purpose_bit_flag & 8) != 0) {
+++        /* skip over data descriptor (harder than it sounds, due to signature
+++         * ambiguity)
+++         */
+++#       define SIG 0x08074b50
+++#       define LOW 0xffffffff
+++        uch buf[12];
+++        unsigned shy = 12 - readbuf((char *)buf, 12);
+++        ulg crc = shy ? 0 : makelong(buf);
+++        ulg clen = shy ? 0 : makelong(buf + 4);
+++        ulg ulen = shy ? 0 : makelong(buf + 8); /* or high clen if ZIP64 */
+++        if (crc == SIG &&                       /* if not SIG, no signature */
+++            (G.lrec.crc32 != SIG ||             /* if not SIG, have signature */
+++             (clen == SIG &&                    /* if not SIG, no signature */
+++              ((G.lrec.csize & LOW) != SIG ||   /* if not SIG, have signature */
+++               (ulen == SIG &&                  /* if not SIG, no signature */
+++                (G.zip64 ? G.lrec.csize >> 32 : G.lrec.ucsize) != SIG
+++                                                /* if not SIG, have signature */
+++                )))))
+++                   /* skip four more bytes to account for signature */
+++                   shy += 4 - readbuf((char *)buf, 4);
+++        if (G.zip64)
+++            shy += 8 - readbuf((char *)buf, 8); /* skip eight more for ZIP64 */
+++        if (shy)
+++            error = PK_ERR;
 ++    }
-++    g_assert_not_reached();
-++}
 ++
-++static void spapr_set_ic_mode(Object *obj, const char *value, Error **errp)
-++{
-++    sPAPRMachineState *spapr = SPAPR_MACHINE(obj);
++     return error;
++ 
++ } /* end function extract_or_test_member() */
++diff --git a/globals.c b/globals.c
++index fa8cca5..1e0f608 100644
++--- a/globals.c
+++++ b/globals.c
++@@ -181,6 +181,7 @@ Uz_Globs *globalsCtor()
++ # if (!defined(NO_TIMESTAMPS))
++     uO.D_flag=1;    /* default to '-D', no restoration of dir timestamps */
++ # endif
+++    G.cover = NULL;     /* not allocated yet */
++ #endif
++ 
++     uO.lflag=(-1);
++diff --git a/globals.h b/globals.h
++index 11b7215..2bdcdeb 100644
++--- a/globals.h
+++++ b/globals.h
++@@ -260,12 +260,15 @@ typedef struct Globals {
++     ecdir_rec       ecrec;         /* used in unzip.c, extract.c */
++     z_stat   statbuf;              /* used by main, mapname, check_for_newer */
++ 
+++    int zip64;                     /* true if Zip64 info in extra field */
 ++
-++    if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
-++        error_setg(errp, "This machine only uses the legacy XICS backend, don't pass ic-mode");
-++        return;
++     int      mem_mode;
++     uch      *outbufptr;           /* extract.c static */
++     ulg      outsize;              /* extract.c static */
++     int      reported_backslash;   /* extract.c static */
++     int      disk_full;
++     int      newfile;
+++    void     **cover;              /* used in extract.c for bomb detection */
++ 
++     int      didCRlast;            /* fileio static */
++     ulg      numlines;             /* fileio static: number of lines printed */
++diff --git a/process.c b/process.c
++index a3c1a4d..208619c 100644
++--- a/process.c
+++++ b/process.c
++@@ -637,6 +637,13 @@ void free_G_buffers(__G)     /* releases all memory allocated in global vars */
++     }
++ #endif
++ 
+++    /* Free the cover span list and the cover structure. */
+++    if (G.cover != NULL) {
+++        free(*(G.cover));
+++        free(G.cover);
+++        G.cover = NULL;
 ++    }
 ++
-++    /* The legacy IRQ backend can not be set */
-++    if (strcmp(value, "xics") == 0) {
-++        spapr->irq = &spapr_irq_xics;
-++    } else if (strcmp(value, "xive") == 0) {
-++        spapr->irq = &spapr_irq_xive;
-++    } else if (strcmp(value, "dual") == 0) {
-++        spapr->irq = &spapr_irq_dual;
-++    } else {
-++        error_setg(errp, "Bad value for \"ic-mode\" property");
++ } /* end function free_G_buffers() */
++ 
++ 
++@@ -1905,6 +1912,7 @@ int getZip64Data(__G__ ef_buf, ef_len)
++ 
++ #define Z64FLGS 0xffff
++ #define Z64FLGL 0xffffffff
+++    G.zip64 = FALSE;
++ 
++     if (ef_len == 0 || ef_buf == NULL)
++         return PK_COOL;
++@@ -1964,6 +1972,8 @@ int getZip64Data(__G__ ef_buf, ef_len)
++             G.crec.disk_number_start = (zuvl_t)makelong(offset + ef_buf);
++             offset += 4;
++           }
+++
+++          G.zip64 = TRUE;
++ #if 0
++           break;                /* Expect only one EF_PKSZ64 block. */
++ #endif /* 0 */
++diff --git a/unzip.h b/unzip.h
++index 5b2a326..ed24a5b 100644
++--- a/unzip.h
+++++ b/unzip.h
++@@ -645,6 +645,7 @@ typedef struct _Uzp_cdir_Rec {
++ #define PK_NOZIP           9   /* zipfile not found */
++ #define PK_PARAM          10   /* bad or illegal parameters specified */
++ #define PK_FIND           11   /* no files found */
+++#define PK_BOMB           12   /* likely zip bomb */
++ #define PK_DISK           50   /* disk full */
++ #define PK_EOF            51   /* unexpected EOF */
++ 
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
+diff --git a/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch
+new file mode 100644
+index 0000000..fd26fdd
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch
+@@ -0,0 +1,121 @@
++From be88aa4811af47ca06d8b7dcda294f899eba70ea Mon Sep 17 00:00:00 2001
++From: Mark Adler <madler@alumni.caltech.edu>
++Date: Thu, 25 Jul 2019 20:43:17 -0700
++Subject: [PATCH 3/3] Do not raise a zip bomb alert for a misplaced central
++ directory.
++
++There is a zip-like file in the Firefox distribution, omni.ja,
++which is a zip container with the central directory placed at the
++start of the file instead of after the local entries as required
++by the zip standard. This commit marks the actual location of the
++central directory, as well as the end of central directory records,
++as disallowed locations. This now permits such containers to not
++raise a zip bomb alert, where in fact there are no overlaps.
++
++CVE: CVE-2019-13232
++Upstream-Status: Backport
++[https://github.com/madler/unzip/commit/6d351831be705cc26d897db44f878a978f4138fc]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ extract.c | 25 +++++++++++++++++++------
++ process.c |  6 ++++++
++ unzpriv.h | 10 ++++++++++
++ 3 files changed, 35 insertions(+), 6 deletions(-)
++
++diff --git a/extract.c b/extract.c
++index 2bb72ba..a9dcca8 100644
++--- a/extract.c
+++++ b/extract.c
++@@ -495,8 +495,11 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++     }
++ #endif /* !SFX || SFX_EXDIR */
++ 
++-    /* One more: initialize cover structure for bomb detection. Start with a
++-       span that covers the central directory though the end of the file. */
+++    /* One more: initialize cover structure for bomb detection. Start with
+++       spans that cover any extra bytes at the start, the central directory,
+++       the end of central directory record (including the Zip64 end of central
+++       directory locator, if present), and the Zip64 end of central directory
+++       record, if present. */
++     if (G.cover == NULL) {
++         G.cover = malloc(sizeof(cover_t));
++         if (G.cover == NULL) {
++@@ -508,15 +511,25 @@ int extract_or_test_files(__G)    /* return PK-type error code */
++         ((cover_t *)G.cover)->max = 0;
++     }
++     ((cover_t *)G.cover)->num = 0;
++-    if ((G.extra_bytes != 0 &&
++-         cover_add((cover_t *)G.cover, 0, G.extra_bytes) != 0) ||
++-        cover_add((cover_t *)G.cover,
+++    if (cover_add((cover_t *)G.cover,
++                   G.extra_bytes + G.ecrec.offset_start_central_directory,
++-                  G.ziplen) != 0) {
+++                  G.extra_bytes + G.ecrec.offset_start_central_directory +
+++                  G.ecrec.size_central_directory) != 0) {
++         Info(slide, 0x401, ((char *)slide,
++           LoadFarString(NotEnoughMemCover)));
++         return PK_MEM;
++     }
+++    if ((G.extra_bytes != 0 &&
+++         cover_add((cover_t *)G.cover, 0, G.extra_bytes) != 0) ||
+++        (G.ecrec.have_ecr64 &&
+++         cover_add((cover_t *)G.cover, G.ecrec.ec64_start,
+++                   G.ecrec.ec64_end) != 0) ||
+++        cover_add((cover_t *)G.cover, G.ecrec.ec_start,
+++                  G.ecrec.ec_end) != 0) {
+++        Info(slide, 0x401, ((char *)slide,
+++          LoadFarString(OverlappedComponents)));
+++        return PK_BOMB;
 ++    }
-++}
-++
-++static char *spapr_get_host_model(Object *obj, Error **errp)
-++{
-++    sPAPRMachineState *spapr = SPAPR_MACHINE(obj);
-++
-++    return g_strdup(spapr->host_model);
-++}
-++
-++static void spapr_set_host_model(Object *obj, const char *value, Error **errp)
-++{
-++    sPAPRMachineState *spapr = SPAPR_MACHINE(obj);
-++
-++    g_free(spapr->host_model);
-++    spapr->host_model = g_strdup(value);
-++}
-++
-++static char *spapr_get_host_serial(Object *obj, Error **errp)
-++{
-++    sPAPRMachineState *spapr = SPAPR_MACHINE(obj);
-++
-++    return g_strdup(spapr->host_serial);
-++}
-++
-++static void spapr_set_host_serial(Object *obj, const char *value, Error **errp)
-++{
-++    sPAPRMachineState *spapr = SPAPR_MACHINE(obj);
-++
-++    g_free(spapr->host_serial);
-++    spapr->host_serial = g_strdup(value);
-++}
-++
-+ static void spapr_instance_init(Object *obj)
-+ {
-+     sPAPRMachineState *spapr = SPAPR_MACHINE(obj);
-+@@ -3067,6 +3151,25 @@ static void spapr_instance_init(Object *obj)
-+                                     " the host's SMT mode", &error_abort);
-+     object_property_add_bool(obj, "vfio-no-msix-emulation",
-+                              spapr_get_msix_emulation, NULL, NULL);
-++
-++    /* The machine class defines the default interrupt controller mode */
-++    spapr->irq = smc->irq;
-++    object_property_add_str(obj, "ic-mode", spapr_get_ic_mode,
-++                            spapr_set_ic_mode, NULL);
-++    object_property_set_description(obj, "ic-mode",
-++                 "Specifies the interrupt controller mode (xics, xive, dual)",
-++                 NULL);
-++
-++    object_property_add_str(obj, "host-model",
-++        spapr_get_host_model, spapr_set_host_model,
-++        &error_abort);
-++    object_property_set_description(obj, "host-model",
-++        "Set host's model-id to use - none|passthrough|string", &error_abort);
-++    object_property_add_str(obj, "host-serial",
-++        spapr_get_host_serial, spapr_set_host_serial,
-++        &error_abort);
-++    object_property_set_description(obj, "host-serial",
-++        "Set host's system-id to use - none|passthrough|string", &error_abort);
-+ }
 + 
-+ static void spapr_machine_finalizefn(Object *obj)
-+@@ -3965,7 +4068,18 @@ static void spapr_machine_3_1_instance_options(MachineState *machine)
++ /*---------------------------------------------------------------------------
++     The basic idea of this function is as follows.  Since the central di-
++diff --git a/process.c b/process.c
++index 208619c..5f8f6c6 100644
++--- a/process.c
+++++ b/process.c
++@@ -1408,6 +1408,10 @@ static int find_ecrec64(__G__ searchlen)         /* return PK-class error */
 + 
-+ static void spapr_machine_3_1_class_options(MachineClass *mc)
-+ {
-+-    /* Defaults for the latest behaviour inherited from the base class */
-++    sPAPRMachineClass *smc = SPAPR_MACHINE_CLASS(mc);
-++    static GlobalProperty compat[] = {
-++        { TYPE_SPAPR_MACHINE, "host-model", "passthrough" },
-++        { TYPE_SPAPR_MACHINE, "host-serial", "passthrough" },
-++    };
-++
-++    spapr_machine_4_0_class_options(mc);
-++    compat_props_add(mc->compat_props, hw_compat_3_1, hw_compat_3_1_len);
-++    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
-++
-++    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power8_v2.0");
-++    smc->update_dt_enabled = false;
-+ }
++     /* Now, we are (almost) sure that we have a Zip64 archive. */
++     G.ecrec.have_ecr64 = 1;
+++    G.ecrec.ec_start -= ECLOC64_SIZE+4;
+++    G.ecrec.ec64_start = ecrec64_start_offset;
+++    G.ecrec.ec64_end = ecrec64_start_offset +
+++                       12 + makeint64(&byterec[ECREC64_LENGTH]);
 + 
-+ DEFINE_SPAPR_MACHINE(3_1, "3.1", true);
-+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-+index 6279711fe8..63692a13bd 100644
-+--- a/include/hw/ppc/spapr.h
-++++ b/include/hw/ppc/spapr.h
-+@@ -171,6 +171,8 @@ struct sPAPRMachineState {
++     /* Update the "end-of-central-dir offset" for later checks. */
++     G.real_ecrec_offset = ecrec64_start_offset;
++@@ -1542,6 +1546,8 @@ static int find_ecrec(__G__ searchlen)          /* return PK-class error */
++       makelong(&byterec[OFFSET_START_CENTRAL_DIRECTORY]);
++     G.ecrec.zipfile_comment_length =
++       makeword(&byterec[ZIPFILE_COMMENT_LENGTH]);
+++    G.ecrec.ec_start = G.real_ecrec_offset;
+++    G.ecrec.ec_end = G.ecrec.ec_start + 22 + G.ecrec.zipfile_comment_length;
 + 
-+     /*< public >*/
-+     char *kvm_type;
-++    char *host_model;
-++    char *host_serial;
++     /* Now, we have to read the archive comment, BEFORE the file pointer
++        is moved away backwards to seek for a Zip64 ECLOC64 structure.
++diff --git a/unzpriv.h b/unzpriv.h
++index c8d3eab..5e177c7 100644
++--- a/unzpriv.h
+++++ b/unzpriv.h
++@@ -2185,6 +2185,16 @@ typedef struct VMStimbuf {
++        int have_ecr64;                  /* valid Zip64 ecdir-record exists */
++        int is_zip64_archive;            /* Zip64 ecdir-record is mandatory */
++        ush zipfile_comment_length;
+++       zusz_t ec_start, ec_end;         /* offsets of start and end of the
+++                                           end of central directory record,
+++                                           including if present the Zip64
+++                                           end of central directory locator,
+++                                           which immediately precedes the
+++                                           end of central directory record */
+++       zusz_t ec64_start, ec64_end;     /* if have_ecr64 is true, then these
+++                                           are the offsets of the start and
+++                                           end of the Zip64 end of central
+++                                           directory record */
++    } ecdir_rec;
 + 
-+     const char *icp_type;
-+     int32_t irq_map_nr;
++ 
 +-- 
 +2.22.0.vfs.1.1.57.gbaf16c8
 +
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index daba722..c1ea0a9 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -22,6 +22,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/
+ 	file://symlink.patch \
+ 	file://0001-unzip-fix-CVE-2018-1000035.patch \
+ 	file://CVE-2018-18384.patch \
++	file://CVE-2019-13232_p1.patch \
++	file://CVE-2019-13232_p2.patch \
++	file://CVE-2019-13232_p3.patch \
+ "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
 -- 
 2.7.4
 
