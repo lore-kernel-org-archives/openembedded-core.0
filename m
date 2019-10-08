@@ -1,27 +1,52 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BBB577D264
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
+	[209.85.166.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 628577F36C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 14:04:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x98E463l025353
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  8 Oct 2019 14:26:31 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id w12so36785417iol.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Oct 2019 07:04:06 -0700
-Received: from [128.224.56.214] (128.224.56.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Tue, 8 Oct 2019 07:04:06 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <20190927150740.22453-1-Trevor.Gamblin@windriver.com>
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-Message-ID: <f7ae5400-49db-0918-d24e-e8612a36d015@windriver.com>
-Date: Tue, 8 Oct 2019 10:04:05 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Tue, 08 Oct 2019 07:26:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=h7pU+zz5fi6sWXQk1sHTmfNXWA2JupgQbmhB3NAvxeU=;
+	b=GE+39mll9RFzCIzhFwJWqHpNjbAJy5AKMznjHWQXzkfX+3E5yRjwqJkjv8Bp0MQ94T
+	2dJ+DO99RhfbZcIhb9n/P3rcnZGhd2rY/ojlYGWMSPhWJn7+ovUObU/SLPdOmGutXbmZ
+	1fMwZZ+ibzkm0e+2gwSFxDYG3DP0P1yLwo9gPnwjF76fSOGecfIxHWS7Bw3CfskYqDq/
+	qFkNdp+UlegNi0evwTu0i35mDz78P3WQTx/BzUG+Gq/zJ11e1JbJCD9CvVKykMahPsu+
+	qnNycUyNnnwXkaW0U4S3ejP9Guq0Sr/46WQWM0q8nfJP80+hgeMkjr9J8E1RrL/OeL6T
+	c6vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=h7pU+zz5fi6sWXQk1sHTmfNXWA2JupgQbmhB3NAvxeU=;
+	b=THN/k29lavHA7V641GbjmCZLunxjUSPett9Kctzkj5f50sAytIuse5irfCEW0G7qXJ
+	3Yb/uGbgNZ2ZTtEGWIqZcvFbeeFA9f959mjMRxYswo1LzwHSQlIq2yrGDeghXx4i8Hja
+	QMr7dIAlIsCHWSF+a6LVRfbg39bULSqHZFU1cKDU+LMI8SWSaAVzInZm77gF/xcvdv5r
+	SqkoBw8Ln4KOa0TZUGMAFN0Q3AQaEpDG5YyfMHj5I6B6uudLgapJP4Q23pISsA/DOy1w
+	bMUCYcQfuUhQZ8JXjFDOQgph21/4tXy+nI2/H3n8spcYWDBpvyj7X2VZMBgeG37MvCyU
+	MG6Q==
+X-Gm-Message-State: APjAAAWxAp73LsMBeku3pUz4H/8Icy/xnawUfJMSxex8+acNwD/dkIMT
+	WQ+VTZ8Fr31sdub7h4LR9J4=
+X-Google-Smtp-Source: APXvYqy6iqHzBk8a6rPuu2GyxahFb6mlXkcmN/vF2O20TIH6mRAfjqfd0mqpGS4wSgTq5C1L5YNXzA==
+X-Received: by 2002:a02:cd8d:: with SMTP id l13mr32331789jap.138.1570544791973;
+	Tue, 08 Oct 2019 07:26:31 -0700 (PDT)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.113.11.95])
+	by smtp.gmail.com with ESMTPSA id j6sm7845664ilr.2.2019.10.08.07.26.30
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 08 Oct 2019 07:26:31 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Tue,  8 Oct 2019 10:26:29 -0400
+Message-Id: <20191008142629.62088-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <20190927150740.22453-1-Trevor.Gamblin@windriver.com>
-Subject: Re: [PATCH] systemd.bbclass: add RMINITDIR for nativesdk builds
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/5.2: fix strace/ptrace long runtime issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +59,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 14:04:05 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 08 Oct 2019 14:26:31 -0000
+Content-Transfer-Encoding: 8bit
 
-On 9/27/19 11:07 AM, Trevor Gamblin wrote:
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-> From: Trevor Gamblin <trevor.gamblin@windriver.com>
->
-> nativesdk builds such as nativesdk-dnf are installing systemd
-> service files, leading bitbake to throw installed-vs-shipped
-> warnings, but these are not needed in nativesdk:
->
->   WARNING: nativesdk-dnf-4.2.2-r0 do_package: QA Issue: nativesdk-dnf: Files/directories were installed but not shipped in any package:
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic.timer
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-makecache.timer
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic.service
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-makecache.service
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-notifyonly.timer
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-download.service
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-download.timer
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-notifyonly.service
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-install.timer
->        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-install.service
->      Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
->      nativesdk-dnf: 13 installed and not shipped files. [installed-vs-shipped]
->
-> Rather than have each recipe remove the files, an RMINITDIR case
-> for nativesdk builds should be added to systemd.bbclass.
->
-> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> ---
->   meta/classes/systemd.bbclass | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-> index 747055b8fa..1dca09964b 100644
-> --- a/meta/classes/systemd.bbclass
-> +++ b/meta/classes/systemd.bbclass
-> @@ -231,5 +231,6 @@ python rm_sysvinit_initddir (){
->   
->   do_install[postfuncs] += "${RMINITDIR} "
->   RMINITDIR_class-target = " rm_sysvinit_initddir rm_systemd_unitdir "
-> +RMINITDIR_class-nativesdk = " rm_sysvinit_initddir rm_systemd_unitdir "
->   RMINITDIR = ""
->   
-Anything holding this one back?
+Bumping SRCREVs to pickup the following kernel commit:
+
+[
+    Author: Bruce Ashfield <bruce.ashfield@gmail.com>
+    Date:   Tue Oct 8 13:15:46 2019 +0000
+
+        signal/ptrace: fix cgroup2/freezer long runtimes
+
+        As reported in the thread: https://lkml.org/lkml/2019/10/1/789, in
+        kernels with commit 76f969e8948d82 [cgroup: cgroup v2 freezer], we
+        were seeing much longer runtime in strace/ptrace tests (4 minutes
+        versus 4 seconds).
+
+        The issue only manifests if CONFIG_PREEMPT is enabled, which is in
+        all of the default configurations.
+
+        As sugggested in the thread, the movement of preempt_enable_no_resched()
+        until after the cgroup is frozen returns the behaviour to pre-5.2
+        runtimes.
+
+        Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+With this change in place, our times are back to normal:
+
+   root@qemux86-64:~# cd /usr/lib/strace/ptest/tests
+   root@qemux86-64:/usr/lib/strace/ptest/tests# time ../strace -o log -qq -esignal=none -e/clock ./printpath-umovestr>ttt
+
+   real    0m3.909s
+   user    0m0.534s
+   sys     0m3.342s
+
+This will eventually loop around via -stable, or may need future
+tweaks, but it does address the immediate issue/symptom that we are
+seeing, with no obvious side effects.
+
+[YOCTO #13556]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_5.2.bb               |  4 ++--
+ .../linux/linux-yocto-tiny_5.2.bb             |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.2.bb  | 20 +++++++++----------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+index acae24edb1..e3fe54441f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+@@ -11,8 +11,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "90a5890111ca601af1cfba50939d4003fa8d9ce8"
+-SRCREV_meta ?= "56f5bc749e5a8e40b55a3819288ac277813ec5ef"
++SRCREV_machine ?= "0a9f6ee2443b54c614107728ca76485916010023"
++SRCREV_meta ?= "b867b78b5019ae455af97dec7794cff7527d7624"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+index e6eb78198c..f3f546866b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "e31887832108a1dfac19601459a84a2fa38207f7"
+-SRCREV_machine ?= "25b14cdf9659c68ab32d66616dfdbbe2ece3fd94"
+-SRCREV_meta ?= "56f5bc749e5a8e40b55a3819288ac277813ec5ef"
++SRCREV_machine_qemuarm ?= "aaa66d462ec17345dadd69b1ec0f3fcc83e82536"
++SRCREV_machine ?= "255a750d28cd45df8923c3aba1e82c322757a50d"
++SRCREV_meta ?= "b867b78b5019ae455af97dec7794cff7527d7624"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.2.bb b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+index 49b14b6185..1a2c3ffcd2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.2/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.2/standard/base"
+ KBRANCH_qemumips64 ?= "v5.2/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "d956bb318771761069228fc70fea722ceabecb75"
+-SRCREV_machine_qemuarm64 ?= "25b14cdf9659c68ab32d66616dfdbbe2ece3fd94"
+-SRCREV_machine_qemumips ?= "9e95334637a4a85b19bea120f9027ff0028d7069"
+-SRCREV_machine_qemuppc ?= "25b14cdf9659c68ab32d66616dfdbbe2ece3fd94"
+-SRCREV_machine_qemuriscv64 ?= "25b14cdf9659c68ab32d66616dfdbbe2ece3fd94"
+-SRCREV_machine_qemux86 ?= "25b14cdf9659c68ab32d66616dfdbbe2ece3fd94"
+-SRCREV_machine_qemux86-64 ?= "25b14cdf9659c68ab32d66616dfdbbe2ece3fd94"
+-SRCREV_machine_qemumips64 ?= "29a8d126f60d1b9e9cf0985b38da2033ebde25db"
+-SRCREV_machine ?= "25b14cdf9659c68ab32d66616dfdbbe2ece3fd94"
+-SRCREV_meta ?= "56f5bc749e5a8e40b55a3819288ac277813ec5ef"
++SRCREV_machine_qemuarm ?= "47b80ef7bd932830f299ed76e2302df631ae4fbe"
++SRCREV_machine_qemuarm64 ?= "255a750d28cd45df8923c3aba1e82c322757a50d"
++SRCREV_machine_qemumips ?= "45ff64cb3f87c38db6f46353ea93005d049b0cf6"
++SRCREV_machine_qemuppc ?= "255a750d28cd45df8923c3aba1e82c322757a50d"
++SRCREV_machine_qemuriscv64 ?= "255a750d28cd45df8923c3aba1e82c322757a50d"
++SRCREV_machine_qemux86 ?= "255a750d28cd45df8923c3aba1e82c322757a50d"
++SRCREV_machine_qemux86-64 ?= "255a750d28cd45df8923c3aba1e82c322757a50d"
++SRCREV_machine_qemumips64 ?= "ea0fd387a459803ac60e9b8a1729f2fc7d3215f1"
++SRCREV_machine ?= "255a750d28cd45df8923c3aba1e82c322757a50d"
++SRCREV_meta ?= "b867b78b5019ae455af97dec7794cff7527d7624"
+ 
+ # remap qemuarm to qemuarma15 for the 5.2 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+-- 
+2.19.1
+
 
