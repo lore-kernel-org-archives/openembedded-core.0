@@ -1,52 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A6907D39B
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BBB577D264
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 13:18:25 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id b24so3092498wmj.5
+	Tue,  8 Oct 2019 14:04:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x98E463l025353
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Oct 2019 06:18:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yxHCnY6F3VTwKHMS4HH3+pCQJzYHGmxGl+ySMnBA5/o=;
-	b=rjq9kjn/azJIrusbe7ja+K8Goy+dwAM+MJkYCl9B/GuMiMi8lCUlnyClMVlHbSMaQD
-	FDQtKIc0QM3OgXPzG44fYCFVC8uBMKw2kPEZc3fmIhG0KiD3ysCkxtMSnKf/D/roFRh5
-	1+mORkJHznNNETaueLcpTzemYlba6mtvINlM4lwHKxSXus++wbdh9/lqA2LaowpmjDWG
-	TxhcebAaDwGZ04mjlf1seU+FbuySgeBsWdDBSeDhqGNx2dOkRz5zBWuzWDkxXeRU/9Wi
-	xMJUcoQFYjgt01OrqXcwbrYCK69o78Ixz9OsYNibqBBE5rDEu8DGIor798gqN9NqXLnt
-	ZzdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yxHCnY6F3VTwKHMS4HH3+pCQJzYHGmxGl+ySMnBA5/o=;
-	b=At6n6jd9bnJ3UqEoRBcEQqFTSETalHMQkjGgz2HJMBXLMePd9/H7aZdOTC7EL5zTPa
-	i+qyN0PmFgCkdC1Hpy4k8om5h+vGuDxgD4UscY3dCPW83b5nix4+ojgPL07HYvjhvFGI
-	1t1QymqcG/pvKUK7tA/CBWqKhOoluyT9eAx5AC48hfZMqazG67jdH7IWPef73LUJs6/m
-	ftSspzg4B7lnjUGuLSGhcYI7BspcwuRvXIFvVkp+mwLlBg85IKEyM69gyolsKphQ0kDP
-	MQ4TJ6H25/m+Fy245b6eaZ/TlIv5Ej7uCf4O0ONGwCXcLKt89qvZJnuXYalU8LZNOsVn
-	s2jQ==
-X-Gm-Message-State: APjAAAUkcScunerQcmmhCcazUT+mOmTZ6NL7FNH44CYQgCM+z/82qo8l
-	jISw8YsRU39PxyCFiTbL3fNID0TNRXw=
-X-Google-Smtp-Source: APXvYqzhznuhh8DsRokBC3DiKZNbPc6Z3hxbnoV+nVkxZ9E0IITEuhdaC/3fN1uRR8ktYySzbWVZrg==
-X-Received: by 2002:a7b:cd13:: with SMTP id f19mr3575727wmj.4.1570540705968;
-	Tue, 08 Oct 2019 06:18:25 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o18sm5148480wrw.90.2019.10.08.06.18.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 08 Oct 2019 06:18:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Oct 2019 14:18:22 +0100
-Message-Id: <20191008131822.22701-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	Tue, 8 Oct 2019 07:04:06 -0700
+Received: from [128.224.56.214] (128.224.56.214) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 8 Oct 2019 07:04:06 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <20190927150740.22453-1-Trevor.Gamblin@windriver.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <f7ae5400-49db-0918-d24e-e8612a36d015@windriver.com>
+Date: Tue, 8 Oct 2019 10:04:05 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-Subject: [PATCH] pango: remove obsolete libtool FILES
+In-Reply-To: <20190927150740.22453-1-Trevor.Gamblin@windriver.com>
+Subject: Re: [PATCH] systemd.bbclass: add RMINITDIR for nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,33 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 13:18:26 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 08 Oct 2019 14:04:05 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-We now build Pango with Meson which doesn't use libtool, so we can remove the
-FILES that packages up non-existant .la files.
+On 9/27/19 11:07 AM, Trevor Gamblin wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/pango/pango_1.44.6.bb | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/meta/recipes-graphics/pango/pango_1.44.6.bb b/meta/recipes-graphics/pango/pango_1.44.6.bb
-index da7f2156dca..8138ef72c16 100644
---- a/meta/recipes-graphics/pango/pango_1.44.6.bb
-+++ b/meta/recipes-graphics/pango/pango_1.44.6.bb
-@@ -33,10 +33,8 @@ GTKDOC_MESON_OPTION = "gtk_doc"
- GIR_MESON_OPTION = 'introspection'
- 
- LEAD_SONAME = "libpango-1.0*"
--LIBV = "1.8.0"
- 
- FILES_${PN} = "${bindir}/* ${libdir}/libpango*${SOLIBS}"
--FILES_${PN}-dev += "${libdir}/pango/${LIBV}/modules/*.la"
- 
- RDEPENDS_${PN}-ptest += "cantarell-fonts"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-en-us"
--- 
-2.20.1
-
+> From: Trevor Gamblin <trevor.gamblin@windriver.com>
+>
+> nativesdk builds such as nativesdk-dnf are installing systemd
+> service files, leading bitbake to throw installed-vs-shipped
+> warnings, but these are not needed in nativesdk:
+>
+>   WARNING: nativesdk-dnf-4.2.2-r0 do_package: QA Issue: nativesdk-dnf: Files/directories were installed but not shipped in any package:
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic.timer
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-makecache.timer
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic.service
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-makecache.service
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-notifyonly.timer
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-download.service
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-download.timer
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-notifyonly.service
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-install.timer
+>        /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/lib/systemd/system/dnf-automatic-install.service
+>      Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+>      nativesdk-dnf: 13 installed and not shipped files. [installed-vs-shipped]
+>
+> Rather than have each recipe remove the files, an RMINITDIR case
+> for nativesdk builds should be added to systemd.bbclass.
+>
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> ---
+>   meta/classes/systemd.bbclass | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+> index 747055b8fa..1dca09964b 100644
+> --- a/meta/classes/systemd.bbclass
+> +++ b/meta/classes/systemd.bbclass
+> @@ -231,5 +231,6 @@ python rm_sysvinit_initddir (){
+>   
+>   do_install[postfuncs] += "${RMINITDIR} "
+>   RMINITDIR_class-target = " rm_sysvinit_initddir rm_systemd_unitdir "
+> +RMINITDIR_class-nativesdk = " rm_sysvinit_initddir rm_systemd_unitdir "
+>   RMINITDIR = ""
+>   
+Anything holding this one back?
 
