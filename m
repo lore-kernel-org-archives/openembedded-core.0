@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 00FBF7F220
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B27F87F37F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 11:51:58 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id p14so18112696wro.4
+	Tue,  8 Oct 2019 11:52:02 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id f22so2809744wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Oct 2019 04:52:00 -0700 (PDT)
+	Tue, 08 Oct 2019 04:52:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=ieNOKjfyOTVf8kEm9v8+dV8u3KNXyf0JnDNyDqXQrwo=;
-	b=QX8k+/91kBK0VPY5Mq+QRiZZ8yJCFOnzdkju9vcqjfz3TGD/1AbJFSxrEgTPxlGwTJ
-	Kc5APDYC7SP42i3jrAucYz0U1BInNzfo7JzI5dZkD8Yekum3kQXhundRgg4Z7Bmxqzf/
-	2wdYs7n6sjHBb+DEFBEcORkryvuIsbKy/a+U3BBnJGQlU4fjVNeQnZq4e0sVFT7WAE7r
-	BFBCknS1I3EpmGMGYHeBcpfBspF5lrzVx16AlgImmEIMj+pTPT+eJoewAAY6rC7A9h1y
-	4ZsQY+5JhppbONAFwZLM26RjFMOOkWGLi/rA8DU4Fb/srEJV5lAE78KWMemNcQgGPsHN
-	WyDw==
+	bh=HGn4IwJB4U11A7oM75fkJbwQ6E3dTdgb1EkyHCFbrK0=;
+	b=pycvWGo9Y6oF9pIr/LHi3lhPIpGdRNjTw8UkYRSRHE9X5vlzh5LfOoxrUHo+0Utwat
+	M4aw/JIQh9Fn0ZE4gEqvGq37r19ARfRx4WFtO2BAeScMRiyN9q2iDMgemC974o1oQc+l
+	HquftRvLMLC3JyT25XZ572j+WhPUic41ensFANK6xj6bzN9lZnaEQtwClSXORrHOYSkG
+	VR5PuWfhlEEEyKW7De5E7o3qcEtL3GuAxU+lL7EE86DATLxoQzIxoJ5jDZxzCZtVk7nz
+	hQCu7e5JXpqOnN1ei1AWMjUqcK/M7ptIm20gKpHIwVBN21rELpd9C14IfgL+CyQ4zXEM
+	y+3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=ieNOKjfyOTVf8kEm9v8+dV8u3KNXyf0JnDNyDqXQrwo=;
-	b=d2CP1ZS1HELiMuZdK7rjfmn6RwVOz9OHpBPQ9x2a4LZ0qGRhmMGWcyqCU48y4DVCcd
-	zaPn1kaOMZ9jWbS4Coa6TE1ydpWwytQQbZUZ1lh1n4Gk8+H8ZJr0cM7K+NW7ySbWnjpC
-	+1f89mL1dEFKdzJBBus/gbkLRKvmm8RivzWCDzkpIfXPKrsCya4Ze42kkwCBNgLEGB0J
-	z9jSNNe0lmBzocwB4bhIWzKw7b/aorN+JLgWXkYC2C3XzC4KW46+PzrNr0cFn4GZoJ8T
-	aPP07vGvmrG/iqp6fUVCp8Am/JYTFMERDQojLpVeRuZhJmACVN51N6AiUmHMwxonBO0X
-	VTwg==
-X-Gm-Message-State: APjAAAUKGT5+AUM2xm9ibpRfiF67LZl6mi3QDVbN/yUsjJaMuxhTD83F
-	Fo4RFYiaI9nN0QCTNCLHor+N0bZHuIU=
-X-Google-Smtp-Source: APXvYqz+Cb16xd6BUbfM49dFsfCbJLogNzQU6r76c8vHL2B+AitqiDFwU5q5lDKcVJbM1Px23gQ4vA==
-X-Received: by 2002:a5d:45c7:: with SMTP id b7mr18086937wrs.356.1570535519332; 
-	Tue, 08 Oct 2019 04:51:59 -0700 (PDT)
+	bh=HGn4IwJB4U11A7oM75fkJbwQ6E3dTdgb1EkyHCFbrK0=;
+	b=qlBqiGkhHu8ROBOhocH69lFc+za9hoJ08YzqbhE0jUM3xa307A90jQmSfBqCqAADTl
+	VqKm3fy10DmmnjAh2CgAoMUupPAuyS1N/7EuiUSAZHYJ2jy9q2TMIBMlSQZI0g82peuu
+	K2TN8e570Vs8K3KT72NnFmw+N4mHr6AGOcHyBxXs2B+5NhEdAdXYWd7cd5Z+Uhk284+t
+	nUFNgiEkbZC82Vi12dDGMWU/951womJnQnFDpAHy3xjIzBSj/JW/IdA1bkAKP6P0N4nc
+	yXRF6SwdTQTxfCW5cKXPLOV7wq0Zs4VcMMtqQKQJ88mFX80kmKrRweBcyRpyBPqYRMlP
+	/vkg==
+X-Gm-Message-State: APjAAAX96xg4tcQxmqVOPDZBgRhXURpMHJCOKsO4sp66Ow3Vgdlti/IX
+	P2CUVDkIHTlnwm0SQDJfYsRcbWtz0vc=
+X-Google-Smtp-Source: APXvYqyQQMjMsoXT+Ld+nPcE+17Owddz34DjPljP+FO+7Busy5eZjzRD2X37tonsvRB9LX6cK9Noug==
+X-Received: by 2002:a1c:540c:: with SMTP id i12mr3708211wmb.90.1570535523251; 
+	Tue, 08 Oct 2019 04:52:03 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	r20sm34655979wrg.61.2019.10.08.04.51.57
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id i5sm2633660wmd.21.2019.10.08.04.52.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 08 Oct 2019 04:51:58 -0700 (PDT)
+	Tue, 08 Oct 2019 04:52:02 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Oct 2019 12:51:56 +0100
-Message-Id: <20191008115156.16982-1-ross.burton@intel.com>
+Date: Tue,  8 Oct 2019 12:52:01 +0100
+Message-Id: <20191008115201.17035-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] toolchain-scripts: export READELF
+Subject: [PATCH] oeqa/sdk: improve Meson test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 11:51:59 -0000
+X-List-Received-Date: Tue, 08 Oct 2019 11:52:02 -0000
 Content-Transfer-Encoding: 8bit
 
-The readelf binary is prefixed, so export READELF in the SDKs so that the
-correct readelf binary can be used.
-
-This fixes problems with the symbol extractor in Meson with multilib SDKs where
-readelf can't be found correctly.
+Verify that the build inside the SDK is detected as a cross compilation.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oeqa/sdk/cases/buildepoxy.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 1a2ec4f3b29..db1d3215ef7 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -90,6 +90,7 @@ toolchain_shared_env_script () {
- 	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
- 	echo 'export OBJCOPY=${TARGET_PREFIX}objcopy' >> $script
- 	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
-+	echo 'export READELF=${TARGET_PREFIX}readelf' >> $script
- 	echo 'export AR=${TARGET_PREFIX}ar' >> $script
- 	echo 'export NM=${TARGET_PREFIX}nm' >> $script
- 	echo 'export M4=m4' >> $script
+diff --git a/meta/lib/oeqa/sdk/cases/buildepoxy.py b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+index f3d207c6ddd..4211955f8d3 100644
+--- a/meta/lib/oeqa/sdk/cases/buildepoxy.py
++++ b/meta/lib/oeqa/sdk/cases/buildepoxy.py
+@@ -32,7 +32,9 @@ class EpoxyTest(OESDKTestCase):
+             self.assertTrue(os.path.isdir(dirs["source"]))
+             os.makedirs(dirs["build"])
+ 
+-            self._run("meson -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
++            log = self._run("meson -Degl=no -Dglx=no -Dx11=false {build} {source}".format(**dirs))
++            # Check that Meson thinks we're doing a cross build and not a native
++            self.assertIn("Build type: cross build", log)
+             self._run("ninja -C {build} -v".format(**dirs))
+             self._run("DESTDIR={install} ninja -C {build} -v install".format(**dirs))
+ 
 -- 
 2.20.1
 
