@@ -1,47 +1,82 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 136907E457
+Return-Path: <ckalluri@xilinx.com>
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+	(mail-eopbgr770088.outbound.protection.outlook.com [40.107.77.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B7366C4CE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2019 22:35:54 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id u186so14377222qkc.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2019 15:35:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=DjuYtnBwJgl7aeAGfJoVqh6mT0gl2igGSX8VJ3gE5BQ=;
-	b=eQ3vNkitI6PmuMUr49XSh5DgPxJe0xdTzz9s678xKhYCg6dXtU00O7cJOX906uQxwr
-	ZCSK+DIZLCfwkh/T124vqTgniVy2khu+MsU3ZZKjB5euWnlytWzm/UP37lPkGlEEKE5E
-	7+MsBQCvT9Zd6+6RNTmK7KyFITUXRpUkixHdcGkrtNv5dgFMxgJaf8P/oNdQOEs9e56V
-	oUGqwgCkKVns9g5yDh0FyJ1n1VmahrJDxPcHSyNT59NbjTrMqMWe2n4YEIZDjjHRs6ll
-	e+Ug4+6Uhh0Bh6ejfL4AHIFza0v/sLTs74s/4WB3K9FNaYUiN+oIdVzRffXjmaWbGThS
-	MLfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=DjuYtnBwJgl7aeAGfJoVqh6mT0gl2igGSX8VJ3gE5BQ=;
-	b=C9KVjSHUm5pPpE7Ys3jAvq03PXifmpDpTuRuwsfBw9RyRQtKtig8Q85ISdkNg8QK3C
-	SQtVGfmc+YsSvWfb7BiEJC3h35H+7ef8yoaKKqLHzqHQznt02PFcbO0ld8ZmWZtYTDmf
-	ExIM6dZ6kVRvCCX0j6nBGDo2raBGV9RLld71Ev9peRpcBKyxB8k+XsTD1O6Jqj052CIs
-	0BpswJrFLA+gaPPlHEMahJZAmXFICAuNyPBatNrRL19Mzr0NmjunhWzVq7ikK6QH743k
-	w79WzQ5kY5fRgVeMenevn+RoG3LW4WYQPj04mqG0qzGBWiLNPx8isskCkTzLxHrHfjDT
-	IebQ==
-X-Gm-Message-State: APjAAAVQmD0GBRYEgai6IxDPpq0A8JZPDlpAmYU/P8Oks5AvcEPm4V/Z
-	GOedkfGYhMDD/iHyxQdluwT9OYVP/UQvZrb1DKY=
-X-Google-Smtp-Source: APXvYqzRVyQKGnJKOj+JEwV2nYqo/Quj+zavdQaTtbQBOi0h8gzyqMRS+nPzqa48hNA8kFMn8wFQXEXmC1AX/umVi9s=
-X-Received: by 2002:a37:6651:: with SMTP id a78mr26488448qkc.474.1570487755581;
-	Mon, 07 Oct 2019 15:35:55 -0700 (PDT)
+	Tue,  8 Oct 2019 02:14:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=DkrpBqSTWfHOTibvuiwY9bMpF4cHbcv7WtHg+UfJ2vonQCPk7QdVCq5eD11w+CtFXgWCokLdxTf67ZS6wp1PDqCNCTMejDAa41PkEdDyl4qHuMGUHR1jxQHt/ZY941Z+WKMeO1uzJ//Ow9ftZnXziDui56xptmdBzZP0x/K0ggE24wpKDTJpSXJ+7SVZYkd7UBY52H70Y6V3wsqFbebjK6NAT3ll0woRRY7ZBfeIyYRErWNZGJ/FrbKSymVPX//rydltnprXDSjKh55/zoZ0vrltTQ1iRp+YhYxFlZQboB3XFkKvR1Ey5OcbT+3ZdLT4eyWRm6gujWSARcoKH0o4wA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=Ij5GyUP7795fyarmRuctGAY3ok+lwhu+Wl8qt+PrCUI=;
+	b=gHgNIcgkM+TJIWJK+3dMJT9Ro5FeoXIw3y1vFNwpYFZmQrrj39Dayjwa2sqK/UUhQqWIHqwlEMFw/+3ojdiLPcM9RIxx8OcfkNPV65TGnIOIjyTgz+O4rmcQyyDiP13/1j5br1W4b7dT3Z5quG3WKW2mxh8j/QHpWsSPdXpSQ/EZnXB5JweEOttfNscZY7uybEoXee+YIcpGg+ipKN6MnG/2JaoAW6QuNaLuYhtLg81H92jjF/kfieQ+HWqXKBzFLxzodCUyCu5jn5YQW5BZJqLoSPmkykKyslci/XcddTf1Cjl6+IXAnPXFpu0C1gvHLw1ttOC53LnshBu+NtNSmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+	dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=Ij5GyUP7795fyarmRuctGAY3ok+lwhu+Wl8qt+PrCUI=;
+	b=B1oKGv+drGf+uHf8+M24myMc/ESXL+CHIKqi3zHs8jATyInZv1AnWdRQsz68J0c29mgWcELT6HyJmDZP6KFmbQmljefvx2nwCQjdsui5J5tbInvYOlzQiOlQ1OsEamm85oDTtOFO+i2BvEyyphpC++AY9Z7wh/OmU4j2z+loW7o=
+Received: from MWHPR02MB2576.namprd02.prod.outlook.com (10.168.205.142) by
+	MWHPR02MB2800.namprd02.prod.outlook.com (10.175.50.10) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2327.25; Tue, 8 Oct 2019 02:14:22 +0000
+Received: from MWHPR02MB2576.namprd02.prod.outlook.com
+	([fe80::1805:e930:4d76:7501]) by
+	MWHPR02MB2576.namprd02.prod.outlook.com
+	([fe80::1805:e930:4d76:7501%8]) with mapi id 15.20.2327.025;
+	Tue, 8 Oct 2019 02:14:21 +0000
+From: Chandana Kalluri <ckalluri@xilinx.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [OE-Core][master][PATCH] devtool: Add --remove-work
+	option for devtool reset command
+Thread-Index: AQHVfT4PTCh1M/m8jUadmBwqJY4M6qdPgr+AgAB+j3A=
+Date: Tue, 8 Oct 2019 02:14:21 +0000
+Message-ID: <MWHPR02MB2576CA239828D4BD746538FEB09A0@MWHPR02MB2576.namprd02.prod.outlook.com>
+References: <1570473350-6427-1-git-send-email-chandana.kalluri@xilinx.com>
+	<CAMKF1sr2yLJBiE6VdORpxJDg9fvYbNNXb2z7ZbMWcE8rKFkfUQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sr2yLJBiE6VdORpxJDg9fvYbNNXb2z7ZbMWcE8rKFkfUQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=ckalluri@xilinx.com; 
+x-originating-ip: [149.199.62.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: dc1763c3-33f3-4e25-db3b-08d74b953baf
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: MWHPR02MB2800:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <MWHPR02MB2800DA34A52E003F5F43F5E8B09A0@MWHPR02MB2800.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2089;
+x-forefront-prvs: 01842C458A
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(4636009)(366004)(376002)(396003)(39860400002)(136003)(346002)(189003)(199004)(13464003)(76116006)(102836004)(66446008)(66556008)(66946007)(66476007)(64756008)(86362001)(305945005)(74316002)(54906003)(316002)(33656002)(71190400001)(71200400001)(11346002)(446003)(476003)(99286004)(53546011)(6506007)(76176011)(7736002)(7696005)(186003)(66066001)(81166006)(81156014)(8676002)(8936002)(6246003)(6916009)(256004)(14444005)(4326008)(6306002)(6436002)(229853002)(486006)(9686003)(55016002)(478600001)(52536014)(14454004)(6116002)(3846002)(966005)(26005)(25786009)(2906002)(5660300002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR02MB2800;
+	H:MWHPR02MB2576.namprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: kE5SdJPucQv/eYJ5Au4dFB4grrTgZRon6Tvk0AXCqWENuhY3tApfllEa6m5BDL/Oh1e/4B9N6G3GSY9Ze2/K9MP/v2nuY2LLzawTIFee3vcqq+vWo+1rw+aYh61Vsyqk/Fh8iEiAG8CQQqP7Ybds3cwNC7tKkTp/1TqtfAIymYsfb7Sgpf5ajTu2jju+KNCa2CPrpGJwL1pau9LfE0zXsFHBM1hiClW76qosREV9XULnNMWiuXHBoRAypiKmEWOtIdIQQuKMdeDXfSVAVBxY9WOyJ9a87lb5ZicENwaiRgGhj8Ea9s9jlVmN3Z4C6g2yUZSGCu6p75ubzEJu1mWBfgGT2GW77AtWsqcDHtH2a8Mg+9NgF82WhRzwdizVfjF/cSMAIqqXIFaBZF8HN3MC+cUHKIWIahIFLA3WviDdfe0Myfu9jq8TRcL8EBx+OO5bO8NEwpzRkAcJnseF8aPYyA==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20191006154747.7699-1-raj.khem@gmail.com>
-	<72f935872cf5be891f607ba461716e4126f3d2c0.camel@linuxfoundation.org>
-In-Reply-To: <72f935872cf5be891f607ba461716e4126f3d2c0.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 7 Oct 2019 15:35:44 -0700
-Message-ID: <CAMKF1soi4YPbx1-QGFJ5UJecjcStASUB=r-S2751F9O6HGYGFQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] perl: Handle PACKAGES_DYNAMIC for perl-native
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc1763c3-33f3-4e25-db3b-08d74b953baf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Oct 2019 02:14:21.9355 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5ggLSVhZcIFj/p+Z/QHSGFspKZOSOZ+MQJKyKEpmc/sEVhpGWoSUjYAyeIdfnUEVlyktimAe8lVT7932JwhODA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2800
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [master][PATCH] devtool: Add --remove-work option for devtool reset command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,209 +89,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2019 22:35:55 -0000
-Content-Type: multipart/alternative; boundary="000000000000cbaf70059459ac10"
+X-List-Received-Date: Tue, 08 Oct 2019 02:14:26 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---000000000000cbaf70059459ac10
-Content-Type: text/plain; charset="UTF-8"
+SGkgUGF1bCwNCg0KQW55IHRob3VnaHRzIG9uIGltcGxlbWVudGluZyB0aGlzIGFzIGEgc2VwYXJh
+dGUgY29tbWFuZCAgYXMgc3VnZ2VzdGVkIGJ5IEtoZW0/DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNz
+YWdlLS0tLS0NCj4gRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4NCj4gU2VudDog
+TW9uZGF5LCBPY3RvYmVyIDcsIDIwMTkgMTE6NDAgQU0NCj4gVG86IENoYW5kYW5hIEthbGx1cmkg
+PGNrYWxsdXJpQHhpbGlueC5jb20+DQo+IENjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91
+dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW09FLUNvcmVdW21hc3Rlcl1bUEFU
+Q0hdIGRldnRvb2w6IEFkZCAtLXJlbW92ZS13b3JrDQo+IG9wdGlvbiBmb3IgZGV2dG9vbCByZXNl
+dCBjb21tYW5kDQo+IA0KPiBPbiBNb24sIE9jdCA3LCAyMDE5IGF0IDExOjM2IEFNIFNhaSBIYXJp
+IENoYW5kYW5hIEthbGx1cmkNCj4gPGNoYW5kYW5hLmthbGx1cmlAeGlsaW54LmNvbT4gd3JvdGU6
+DQo+ID4NCj4gPiBFbmFibGUgLS1yZW1vdmUtd29yayBvcHRpb24gZm9yIGRldnRvb2wgcmVzZXQg
+Y29tbWFuZCB0aGF0IGFsbG93cyB1c2VyDQo+ID4gdG8gY2xlYW4gdXAgc291cmNlIGRpcmVjdG9y
+eSB3aXRoaW4gd29ya3NwYWNlLg0KPiA+DQo+ID4gQ3VycmVudGx5IGRldnRvb2wgcmVzZXQgY29t
+bWFuZCBvbmx5IHJlbW92ZXMgcmVjaXBlcyBhbmQgdXNlciBpcw0KPiA+IGZvcmNlZCB0byBtYW51
+YWxseSByZW1vdmUgdGhlIHNvdXJjZXMgZGlyZWN0b3J5IHdpdGhpbiB0aGUgd29ya3NwYWNlDQo+
+ID4gYmVmb3JlIHJ1bm5pbmcgZGV2dG9vbCBtb2RpZnkgYWdhaW4uDQo+ID4NCj4gPiBVc2luZyBk
+ZXZ0b29sIHJlc2V0IC1yIG9yIGRldnRvb2wgcmVzZXQgLS1yZW1vdmUtd29yayBvcHRpb24sIHVz
+ZXIgY2FuDQo+ID4gY2xlYW51cCB0aGUgc291cmNlcyBkaXJlY3RvcnkgYWxvbmcgd2l0aCB0aGUg
+cmVjaXBlIGluc3RlYWQgb2YNCj4gPiBtYW51YWxseSBjbGVhbmluZyBpdC4NCj4gDQo+IHBlcmhh
+cHMgd2UgY2FuIGhhdmUgYW5vdGhlciBjbWQgbGlrZSAicmVzZXQtYWxsIiBsaWtlIGNsZWFuYWxs
+ID8NCj4gd2hpY2ggd291bGQgcmVtb3ZlIGV2ZXJ5dGhpbmcgdGhhdCBkZXZ0b29sIGRpZCBleHRl
+cm5hbCB0byBiYmxheWVycyBmb3IgdGhhdA0KPiByZWNpcGUuDQo+IA0KPiA+DQo+ID4gc3ludGF4
+OiBkZXZ0b29sIHJlc2V0IC1yIDxyZWNpcGVuYW1lPg0KPiA+ICAgICBFeDogZGV2dG9vbCByZXNl
+dCAtciB6aXANCj4gPg0KPiA+ICAgICAgICAgZGV2dG9vbCBmaW5pc2ggLXIgPHJlY2lwZW5hbWU+
+IDxsYXllci1uYW1lPg0KPiA+ICAgICBFeDogZGV2dG9vbCBmaW5pc2ggLXIgemlwIG1ldGEteW9j
+dG8tYnNwDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBTYWkgSGFyaSBDaGFuZGFuYSBLYWxsdXJp
+IDxjaGFuZGFuYS5rYWxsdXJpQHhpbGlueC5jb20+DQo+ID4gLS0tDQo+ID4gIHNjcmlwdHMvbGli
+L2RldnRvb2wvc3RhbmRhcmQucHkgfCAyNiArKysrKysrKysrKysrKysrKysrLS0tLS0tLQ0KPiA+
+ICAxIGZpbGUgY2hhbmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkNCj4gPg0K
+PiA+IGRpZmYgLS1naXQgYS9zY3JpcHRzL2xpYi9kZXZ0b29sL3N0YW5kYXJkLnB5DQo+ID4gYi9z
+Y3JpcHRzL2xpYi9kZXZ0b29sL3N0YW5kYXJkLnB5IGluZGV4IDYwYzlhMDQuLjFjMGNkOGEgMTAw
+NjQ0DQo+ID4gLS0tIGEvc2NyaXB0cy9saWIvZGV2dG9vbC9zdGFuZGFyZC5weQ0KPiA+ICsrKyBi
+L3NjcmlwdHMvbGliL2RldnRvb2wvc3RhbmRhcmQucHkNCj4gPiBAQCAtMTg1Miw3ICsxODUyLDcg
+QEAgZGVmIHN0YXR1cyhhcmdzLCBjb25maWcsIGJhc2VwYXRoLCB3b3Jrc3BhY2UpOg0KPiA+ICAg
+ICAgcmV0dXJuIDANCj4gPg0KPiA+DQo+ID4gLWRlZiBfcmVzZXQocmVjaXBlcywgbm9fY2xlYW4s
+IGNvbmZpZywgYmFzZXBhdGgsIHdvcmtzcGFjZSk6DQo+ID4gK2RlZiBfcmVzZXQocmVjaXBlcywg
+bm9fY2xlYW4sIHJlbW92ZV93b3JrLCBjb25maWcsIGJhc2VwYXRoLCB3b3Jrc3BhY2UpOg0KPiA+
+ICAgICAgIiIiUmVzZXQgb25lIG9yIG1vcmUgcmVjaXBlcyIiIg0KPiA+ICAgICAgaW1wb3J0IG9l
+LnBhdGgNCj4gPg0KPiA+IEBAIC0xOTMwLDEwICsxOTMwLDE1IEBAIGRlZiBfcmVzZXQocmVjaXBl
+cywgbm9fY2xlYW4sIGNvbmZpZywgYmFzZXBhdGgsDQo+IHdvcmtzcGFjZSk6DQo+ID4gICAgICAg
+ICAgc3JjdHJlZWJhc2UgPSB3b3Jrc3BhY2VbcG5dWydzcmN0cmVlYmFzZSddDQo+ID4gICAgICAg
+ICAgaWYgb3MucGF0aC5pc2RpcihzcmN0cmVlYmFzZSk6DQo+ID4gICAgICAgICAgICAgIGlmIG9z
+Lmxpc3RkaXIoc3JjdHJlZWJhc2UpOg0KPiA+IC0gICAgICAgICAgICAgICAgIyBXZSBkb24ndCB3
+YW50IHRvIHJpc2sgd2lwaW5nIG91dCBhbnkgd29yayBpbiBwcm9ncmVzcw0KPiA+IC0gICAgICAg
+ICAgICAgICAgbG9nZ2VyLmluZm8oJ0xlYXZpbmcgc291cmNlIHRyZWUgJXMgYXMtaXM7IGlmIHlv
+dSBubyAnDQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAnbG9uZ2VyIG5lZWQgaXQg
+dGhlbiBwbGVhc2UgZGVsZXRlIGl0IG1hbnVhbGx5Jw0KPiA+IC0gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgJSBzcmN0cmVlYmFzZSkNCj4gPiArICAgICAgICAgICAgICAgICAgICBpZiByZW1v
+dmVfd29yazoNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgbG9nZ2VyLmluZm8oJy1yIGFy
+Z3VtZW50IHVzZWQgb24gJXMsIHJlbW92aW5nIHNvdXJjZSB0cmVlLicNCj4gPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgJyBZb3Ugd2lsbCBsb3NlIGFueSB1bnNhdmVkIHdv
+cmsnICVwbikNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgc2h1dGlsLnJtdHJlZShzcmN0
+cmVlYmFzZSkNCj4gPiArICAgICAgICAgICAgICAgICAgICBlbHNlOg0KPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAjIFdlIGRvbid0IHdhbnQgdG8gcmlzayB3aXBpbmcgb3V0IGFueSB3b3Jr
+IGluIHByb2dyZXNzDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIGxvZ2dlci5pbmZvKCdM
+ZWF2aW5nIHNvdXJjZSB0cmVlICVzIGFzLWlzOyBpZiB5b3Ugbm8gJw0KPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAnbG9uZ2VyIG5lZWQgaXQgdGhlbiBwbGVhc2UgZGVs
+ZXRlIGl0IG1hbnVhbGx5Jw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAlIHNyY3RyZWViYXNlKQ0KPiA+ICAgICAgICAgICAgICBlbHNlOg0KPiA+ICAgICAgICAgICAg
+ICAgICAgIyBUaGlzIGlzIHVubGlrZWx5LCBidXQgaWYgaXQncyBlbXB0eSB3ZSBjYW4ganVzdCBy
+ZW1vdmUgaXQNCj4gPiAgICAgICAgICAgICAgICAgIG9zLnJtZGlyKHNyY3RyZWViYXNlKSBAQCAt
+MTk0Myw2ICsxOTQ4LDEwIEBAIGRlZg0KPiA+IF9yZXNldChyZWNpcGVzLCBub19jbGVhbiwgY29u
+ZmlnLCBiYXNlcGF0aCwgd29ya3NwYWNlKToNCj4gPiAgZGVmIHJlc2V0KGFyZ3MsIGNvbmZpZywg
+YmFzZXBhdGgsIHdvcmtzcGFjZSk6DQo+ID4gICAgICAiIiJFbnRyeSBwb2ludCBmb3IgdGhlIGRl
+dnRvb2wgJ3Jlc2V0JyBzdWJjb21tYW5kIiIiDQo+ID4gICAgICBpbXBvcnQgYmINCj4gPiArICAg
+IGltcG9ydCBzaHV0aWwNCj4gPiArDQo+ID4gKyAgICByZWNpcGVzID0gIiINCj4gPiArDQo+ID4g
+ICAgICBpZiBhcmdzLnJlY2lwZW5hbWU6DQo+ID4gICAgICAgICAgaWYgYXJncy5hbGw6DQo+ID4g
+ICAgICAgICAgICAgIHJhaXNlIERldnRvb2xFcnJvcigiUmVjaXBlIGNhbm5vdCBiZSBzcGVjaWZp
+ZWQgaWYNCj4gPiAtYS8tLWFsbCBpcyB1c2VkIikgQEAgLTE5NTcsNyArMTk2Niw3IEBAIGRlZiBy
+ZXNldChhcmdzLCBjb25maWcsIGJhc2VwYXRoLA0KPiB3b3Jrc3BhY2UpOg0KPiA+ICAgICAgZWxz
+ZToNCj4gPiAgICAgICAgICByZWNpcGVzID0gYXJncy5yZWNpcGVuYW1lDQo+ID4NCj4gPiAtICAg
+IF9yZXNldChyZWNpcGVzLCBhcmdzLm5vX2NsZWFuLCBjb25maWcsIGJhc2VwYXRoLCB3b3Jrc3Bh
+Y2UpDQo+ID4gKyAgICBfcmVzZXQocmVjaXBlcywgYXJncy5ub19jbGVhbiwgYXJncy5yZW1vdmVf
+d29yaywgY29uZmlnLA0KPiA+ICsgYmFzZXBhdGgsIHdvcmtzcGFjZSkNCj4gPg0KPiA+ICAgICAg
+cmV0dXJuIDANCj4gPg0KPiA+IEBAIC0yMDA5LDYgKzIwMTgsNyBAQCBkZWYgZmluaXNoKGFyZ3Ms
+IGNvbmZpZywgYmFzZXBhdGgsIHdvcmtzcGFjZSk6DQo+ID4gICAgICAgICAgICAgIHJhaXNlIERl
+dnRvb2xFcnJvcignU291cmNlIHRyZWUgaXMgbm90DQo+ID4gY2xlYW46XG5cbiVzXG5FbnN1cmUg
+eW91IGhhdmUgY29tbWl0dGVkIHlvdXIgY2hhbmdlcyBvciB1c2UgLWYvLS1mb3JjZQ0KPiA+IGlm
+IHlvdSBhcmUgc3VyZSB0aGVyZVwncyBub3RoaW5nIHRoYXQgbmVlZHMgdG8gYmUgY29tbWl0dGVk
+JyAlIGRpcnR5KQ0KPiA+DQo+ID4gICAgICBub19jbGVhbiA9IGFyZ3Mubm9fY2xlYW4NCj4gPiAr
+ICAgIHJlbW92ZV93b3JrPWFyZ3MucmVtb3ZlX3dvcmsNCj4gPiAgICAgIHRpbmZvaWwgPSBzZXR1
+cF90aW5mb2lsKGJhc2VwYXRoPWJhc2VwYXRoLCB0cmFja2luZz1UcnVlKQ0KPiA+ICAgICAgdHJ5
+Og0KPiA+ICAgICAgICAgIHJkID0gcGFyc2VfcmVjaXBlKGNvbmZpZywgdGluZm9pbCwgYXJncy5y
+ZWNpcGVuYW1lLCBUcnVlKSBAQA0KPiA+IC0yMTYwLDcgKzIxNzAsNyBAQCBkZWYgZmluaXNoKGFy
+Z3MsIGNvbmZpZywgYmFzZXBhdGgsIHdvcmtzcGFjZSk6DQo+ID4gICAgICBpZiBhcmdzLmRyeV9y
+dW46DQo+ID4gICAgICAgICAgbG9nZ2VyLmluZm8oJ1Jlc2V0dGluZyByZWNpcGUgKGRyeS1ydW4p
+JykNCj4gPiAgICAgIGVsc2U6DQo+ID4gLSAgICAgICAgX3Jlc2V0KFthcmdzLnJlY2lwZW5hbWVd
+LCBub19jbGVhbj1ub19jbGVhbiwgY29uZmlnPWNvbmZpZywNCj4gYmFzZXBhdGg9YmFzZXBhdGgs
+IHdvcmtzcGFjZT13b3Jrc3BhY2UpDQo+ID4gKyAgICAgICAgX3Jlc2V0KFthcmdzLnJlY2lwZW5h
+bWVdLCBub19jbGVhbj1ub19jbGVhbiwNCj4gPiArIHJlbW92ZV93b3JrPXJlbW92ZV93b3JrLCBj
+b25maWc9Y29uZmlnLCBiYXNlcGF0aD1iYXNlcGF0aCwNCj4gPiArIHdvcmtzcGFjZT13b3Jrc3Bh
+Y2UpDQo+ID4NCj4gPiAgICAgIHJldHVybiAwDQo+ID4NCj4gPiBAQCAtMjI3Miw2ICsyMjgyLDcg
+QEAgZGVmIHJlZ2lzdGVyX2NvbW1hbmRzKHN1YnBhcnNlcnMsIGNvbnRleHQpOg0KPiA+ICAgICAg
+cGFyc2VyX3Jlc2V0LmFkZF9hcmd1bWVudCgncmVjaXBlbmFtZScsIG5hcmdzPScqJywgaGVscD0n
+UmVjaXBlIHRvDQo+IHJlc2V0JykNCj4gPiAgICAgIHBhcnNlcl9yZXNldC5hZGRfYXJndW1lbnQo
+Jy0tYWxsJywgJy1hJywgYWN0aW9uPSJzdG9yZV90cnVlIiwgaGVscD0nUmVzZXQgYWxsDQo+IHJl
+Y2lwZXMgKGNsZWFyIHdvcmtzcGFjZSknKQ0KPiA+ICAgICAgcGFyc2VyX3Jlc2V0LmFkZF9hcmd1
+bWVudCgnLS1uby1jbGVhbicsICctbicsDQo+ID4gYWN0aW9uPSJzdG9yZV90cnVlIiwgaGVscD0n
+RG9uXCd0IGNsZWFuIHRoZSBzeXNyb290IHRvIHJlbW92ZSByZWNpcGUNCj4gPiBvdXRwdXQnKQ0K
+PiA+ICsgICAgcGFyc2VyX3Jlc2V0LmFkZF9hcmd1bWVudCgnLS1yZW1vdmUtd29yaycsICctcics
+DQo+ID4gKyBhY3Rpb249InN0b3JlX3RydWUiLCBoZWxwPSdDbGVhbiB0aGUgc291cmNlcyBkaXJl
+Y3RvcnkgYWxvbmcgd2l0aA0KPiA+ICsgYXBwZW5kJykNCj4gPiAgICAgIHBhcnNlcl9yZXNldC5z
+ZXRfZGVmYXVsdHMoZnVuYz1yZXNldCkNCj4gPg0KPiA+ICAgICAgcGFyc2VyX2ZpbmlzaCA9IHN1
+YnBhcnNlcnMuYWRkX3BhcnNlcignZmluaXNoJywgaGVscD0nRmluaXNoDQo+ID4gd29ya2luZyBv
+biBhIHJlY2lwZSBpbiB5b3VyIHdvcmtzcGFjZScsIEBAIC0yMjgyLDYgKzIyOTMsNyBAQCBkZWYN
+Cj4gcmVnaXN0ZXJfY29tbWFuZHMoc3VicGFyc2VycywgY29udGV4dCk6DQo+ID4gICAgICBwYXJz
+ZXJfZmluaXNoLmFkZF9hcmd1bWVudCgnLS1tb2RlJywgJy1tJywgY2hvaWNlcz1bJ3BhdGNoJywg
+J3NyY3JldicsDQo+ICdhdXRvJ10sIGRlZmF1bHQ9J2F1dG8nLCBoZWxwPSdVcGRhdGUgbW9kZSAo
+d2hlcmUgJShtZXRhdmFyKXMgaXMgJShjaG9pY2VzKXM7DQo+IGRlZmF1bHQgaXMgJShkZWZhdWx0
+KXMpJywgbWV0YXZhcj0nTU9ERScpDQo+ID4gICAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVu
+dCgnLS1pbml0aWFsLXJldicsIGhlbHA9J092ZXJyaWRlIHN0YXJ0aW5nIHJldmlzaW9uDQo+IGZv
+ciBwYXRjaGVzJykNCj4gPiAgICAgIHBhcnNlcl9maW5pc2guYWRkX2FyZ3VtZW50KCctLWZvcmNl
+JywgJy1mJywgYWN0aW9uPSJzdG9yZV90cnVlIiwNCj4gPiBoZWxwPSdGb3JjZSBjb250aW51aW5n
+IGV2ZW4gaWYgdGhlcmUgYXJlIHVuY29tbWl0dGVkIGNoYW5nZXMgaW4gdGhlDQo+ID4gc291cmNl
+IHRyZWUgcmVwb3NpdG9yeScpDQo+ID4gKyAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVudCgn
+LS1yZW1vdmUtd29yaycsICctcicsDQo+ID4gKyBhY3Rpb249InN0b3JlX3RydWUiLCBoZWxwPSdD
+bGVhbiB0aGUgc291cmNlcyBkaXJlY3RvcnkgdW5kZXINCj4gPiArIHdvcmtzcGFjZScpDQo+ID4g
+ICAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVudCgnLS1uby1jbGVhbicsICctbicsIGFjdGlv
+bj0ic3RvcmVfdHJ1ZSIsDQo+IGhlbHA9J0RvblwndCBjbGVhbiB0aGUgc3lzcm9vdCB0byByZW1v
+dmUgcmVjaXBlIG91dHB1dCcpDQo+ID4gICAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVudCgn
+LS1uby1vdmVycmlkZXMnLCAnLU8nLCBhY3Rpb249InN0b3JlX3RydWUiLA0KPiBoZWxwPSdEbyBu
+b3QgaGFuZGxlIG90aGVyIG92ZXJyaWRlIGJyYW5jaGVzIChpZiB0aGV5IGV4aXN0KScpDQo+ID4g
+ICAgICBwYXJzZXJfZmluaXNoLmFkZF9hcmd1bWVudCgnLS1kcnktcnVuJywgJy1OJywNCj4gPiBh
+Y3Rpb249InN0b3JlX3RydWUiLCBoZWxwPSdEcnktcnVuIChqdXN0IHJlcG9ydCBjaGFuZ2VzIGlu
+c3RlYWQgb2YNCj4gPiB3cml0aW5nIHRoZW0pJykNCj4gPiAtLQ0KPiA+IDIuNy40DQo+ID4NCj4g
+PiAtLQ0KPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+DQo+ID4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4gT3BlbmVtYmVkZGVkLWNv
+cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
+b3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg0KVGhhbmtzLA0KQ2hhbmRh
+bmENCg==
 
-On Mon, Oct 7, 2019 at 3:15 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Sun, 2019-10-06 at 08:47 -0700, Khem Raj wrote:
-> > A perl module recipe extending to provide native version causes target
-> > perl dependencies to be pulled into native build if the module recipe
-> > has RDEPENDS_${PN} = "perl-module-XXXX" e.g. libxml-sax-base-perl
-> > recipe.
-> >
-> > The reason is that native bbclass empties out PACKAGES_DYNAMIC and
-> > perl's PACKAGES_DYNAMIC_class-target is greedy enough to usurp native
-> > modules as well.
-> >
-> > Eventually we end up with errors like when sstate is used across
-> > machines
-> >
-> > * ERROR: libxml-sax-base-perl-native different signature for task
-> do_populate_sysroot.sigdata between qemux86copy and qemuarm
-> >
-> > Therefore, to fix this native case needs to handled specially when
-> > re-assigning module dependencies in split_perl_packages(), where the
-> > modules are named correctly for native case and have a single dependency
-> > on perl-native, secondly, PACKAGES_DYNAMIC for target case needs to be
-> > reined in to spare, -native modules, thirdly, let perl-native take over
-> > the case for providing native modules
-> >
-> > This will fix several sstate signature errors like above with external
-> > perl modules providing native variants and having runtime dependencies on
-> > modules which are provided by perl proper
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/perl/perl_5.30.0.bb | 13 +++++++++----
-> >  1 file changed, 9 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/perl/perl_5.30.0.bb
-> b/meta/recipes-devtools/perl/perl_5.30.0.bb
-> > index a221bce52b..9614477982 100644
-> > --- a/meta/recipes-devtools/perl/perl_5.30.0.bb
-> > +++ b/meta/recipes-devtools/perl/perl_5.30.0.bb
-> > @@ -265,13 +265,18 @@ python split_perl_packages () {
-> >      # Read the pre-generated dependency file, and use it to set module
-> dependecies
-> >      for line in open(d.expand("${WORKDIR}") +
-> '/perl-rdepends.txt').readlines():
-> >          splitline = line.split()
-> > -        module = splitline[0].replace("RDEPENDS_perl", "RDEPENDS_${PN}")
-> > -        depends = splitline[2].strip('"').replace("perl-module",
-> "${PN}-module")
-> > +        if bb.data.inherits_class('native', d):
-> > +            module = splitline[0] + '-native'
-> > +            depends = "perl-native"
-> > +        else:
-> > +            module = splitline[0].replace("RDEPENDS_perl",
-> "RDEPENDS_${PN}")
-> > +            depends = splitline[2].strip('"').replace("perl-module",
-> "${PN}-module")
-> >          d.appendVar(d.expand(module), " " + depends)
-> >  }
-> >
-> > -PACKAGES_DYNAMIC_class-target += "^perl-module-.*"
-> > -PACKAGES_DYNAMIC_class-nativesdk += "^nativesdk-perl-module-.*"
-> > +PACKAGES_DYNAMIC_class-native_forcevariable = "^perl-module-.*-native$"
-> > +PACKAGES_DYNAMIC_class-target = "^perl-module-.*(?<!native)$"
-> > +PACKAGES_DYNAMIC_class-nativesdk = "^nativesdk-perl-module-.*"
-> >
-> >  RDEPENDS_${PN}-misc += "perl perl-modules"
-> >  RDEPENDS_${PN}-pod += "perl"
->
-> We should never be using _forcevariable in public repos, let alone OE-
-> Core. Its a tool of last resort. I guess this is because native.bbclass
-> is clearing it but we need to find a better way.
-
-
-Ok and any suggestions that would be better here ?
-
-
->
-> Cheers,
->
-> Richard
->
->
-
---000000000000cbaf70059459ac10
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Oct 7, 2019 at 3:15 PM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, 2019-=
-10-06 at 08:47 -0700, Khem Raj wrote:<br>
-&gt; A perl module recipe extending to provide native version causes target=
-<br>
-&gt; perl dependencies to be pulled into native build if the module recipe<=
-br>
-&gt; has RDEPENDS_${PN} =3D &quot;perl-module-XXXX&quot; e.g. libxml-sax-ba=
-se-perl<br>
-&gt; recipe.<br>
-&gt; <br>
-&gt; The reason is that native bbclass empties out PACKAGES_DYNAMIC and<br>
-&gt; perl&#39;s PACKAGES_DYNAMIC_class-target is greedy enough to usurp nat=
-ive<br>
-&gt; modules as well.<br>
-&gt; <br>
-&gt; Eventually we end up with errors like when sstate is used across<br>
-&gt; machines<br>
-&gt; <br>
-&gt; * ERROR: libxml-sax-base-perl-native different signature for task do_p=
-opulate_sysroot.sigdata between qemux86copy and qemuarm<br>
-&gt; <br>
-&gt; Therefore, to fix this native case needs to handled specially when<br>
-&gt; re-assigning module dependencies in split_perl_packages(), where the<b=
-r>
-&gt; modules are named correctly for native case and have a single dependen=
-cy<br>
-&gt; on perl-native, secondly, PACKAGES_DYNAMIC for target case needs to be=
-<br>
-&gt; reined in to spare, -native modules, thirdly, let perl-native take ove=
-r<br>
-&gt; the case for providing native modules<br>
-&gt; <br>
-&gt; This will fix several sstate signature errors like above with external=
-<br>
-&gt; perl modules providing native variants and having runtime dependencies=
- on<br>
-&gt; modules which are provided by perl proper<br>
-&gt; <br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-devtools/perl/<a href=3D"http://perl_5.30.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">perl_5.30.0.bb</a> | 13 +++++++++----<br>
-&gt;=C2=A0 1 file changed, 9 insertions(+), 4 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.30.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">perl_5.30.0.bb</a> b/meta/recipes-=
-devtools/perl/<a href=3D"http://perl_5.30.0.bb" rel=3D"noreferrer" target=
-=3D"_blank">perl_5.30.0.bb</a><br>
-&gt; index a221bce52b..9614477982 100644<br>
-&gt; --- a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.30.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">perl_5.30.0.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/perl/<a href=3D"http://perl_5.30.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">perl_5.30.0.bb</a><br>
-&gt; @@ -265,13 +265,18 @@ python split_perl_packages () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # Read the pre-generated dependency file, and use =
-it to set module dependecies<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 for line in open(d.expand(&quot;${WORKDIR}&quot;) =
-+ &#39;/perl-rdepends.txt&#39;).readlines():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 splitline =3D line.split()<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 module =3D splitline[0].replace(&quot;RDE=
-PENDS_perl&quot;, &quot;RDEPENDS_${PN}&quot;)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 depends =3D splitline[2].strip(&#39;&quot=
-;&#39;).replace(&quot;perl-module&quot;, &quot;${PN}-module&quot;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if bb.data.inherits_class(&#39;native&#39=
-;, d):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 module =3D splitline[0] + &=
-#39;-native&#39;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 depends =3D &quot;perl-nati=
-ve&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 module =3D splitline[0].rep=
-lace(&quot;RDEPENDS_perl&quot;, &quot;RDEPENDS_${PN}&quot;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 depends =3D splitline[2].st=
-rip(&#39;&quot;&#39;).replace(&quot;perl-module&quot;, &quot;${PN}-module&q=
-uot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVar(d.expand(module), &quot;=
- &quot; + depends)<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; -PACKAGES_DYNAMIC_class-target +=3D &quot;^perl-module-.*&quot;<br>
-&gt; -PACKAGES_DYNAMIC_class-nativesdk +=3D &quot;^nativesdk-perl-module-.*=
-&quot;<br>
-&gt; +PACKAGES_DYNAMIC_class-native_forcevariable =3D &quot;^perl-module-.*=
--native$&quot;<br>
-&gt; +PACKAGES_DYNAMIC_class-target =3D &quot;^perl-module-.*(?&lt;!native)=
-$&quot;<br>
-&gt; +PACKAGES_DYNAMIC_class-nativesdk =3D &quot;^nativesdk-perl-module-.*&=
-quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 RDEPENDS_${PN}-misc +=3D &quot;perl perl-modules&quot;<br>
-&gt;=C2=A0 RDEPENDS_${PN}-pod +=3D &quot;perl&quot;<br>
-<br>
-We should never be using _forcevariable in public repos, let alone OE-<br>
-Core. Its a tool of last resort. I guess this is because native.bbclass<br>
-is clearing it but we need to find a better way.</blockquote><div dir=3D"au=
-to"><br></div><div dir=3D"auto">Ok and any suggestions that would be better=
- here ?</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br=
->
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
-
---000000000000cbaf70059459ac10--
