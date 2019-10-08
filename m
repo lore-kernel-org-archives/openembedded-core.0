@@ -1,28 +1,49 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C0E47D58A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D53B7DE8F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 03:16:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x983GJTX007865
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  8 Oct 2019 05:06:41 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id v4so10092737pff.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Oct 2019 20:16:19 -0700
-Received: from [128.224.158.194] (128.224.158.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Mon, 7 Oct 2019 20:16:18 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1569304805-85150-1-git-send-email-changqing.li@windriver.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <98ff244f-3fbb-ae80-788a-11b894eb18c7@windriver.com>
-Date: Tue, 8 Oct 2019 11:16:16 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Mon, 07 Oct 2019 22:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=c4S34ruHHchM42msZhy0XGTuiW9fWBqqqmMy3eLC47c=;
+	b=oeeKoEyBwd+8hhC5NPsvEYMh2L77x+GhUf6aeYyE7R4VZlBanbCi5H0iXegrl5XgP2
+	/OFfrBh3G+8Crnd8wyFQG32OxkZCkW7SBheS3MOi7htXWMV+Hu9ZR93tzio4PeP93AeH
+	tna1GvV/rcxeHYBSk6KuV8l0wBKYrY+bi1Z9K3pJ9aLAdWJ/Z2kvf9lefZCrUsOiKM8w
+	O4s0iQmGivBsVReNpExEx/ZlPQbS6lz1/D7TRq14nk3xaJewJsJRld5O5gnhABiAUHhE
+	YfmtKvUAJS/tRl9WmnaDpVOUm/i9DotoeQqv+Fnk9AQiI0t8otwV3efi2djH/tdZ6+n/
+	iHRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=c4S34ruHHchM42msZhy0XGTuiW9fWBqqqmMy3eLC47c=;
+	b=f0wzuas+pohMPv4YI4FmUJtSRaDNCIu1E+3LpRJxw9YfnWqTivR/UGFN9+U/zAGZQa
+	FyRpBwxUKSTKEbPfwwv0qhb4UI75eyq94+w+pnhD+KV5gX1YXw+UqX6hLOZf5QHUf+t4
+	ZuntavSn09LSJSEnakCqMyd934SdKaiorXzV3c2PG5RDE0V0cxv+np/TRF0Z0BLaszwj
+	uDi2v2eruQByLLTzITmrutCZVOUlK5FU9887nVsSFY+syREcdgqTL2Mw6cHiROlTtsHE
+	d8ieTIPA2q8LE7EN781xv8dDVvbqk9+KTJKqUzhzEmkRoP5DAB8QSpD9ed2SzMxymGWY
+	P6eg==
+X-Gm-Message-State: APjAAAXMjTPY+nFhkdT4LlhCp30CtOXxwn0QXqQYloH/XHifRuom055/
+	yZm8xIxj8DgU3Odc3GQmeT1NMZxIbPw=
+X-Google-Smtp-Source: APXvYqzf0ZfjFAtWFT8InswpAgls/OfyISbDr1OdGDG29kZkXKhz3M1tfFkZdW6RevoH+8Yhgk5uDA==
+X-Received: by 2002:a65:4884:: with SMTP id n4mr21854773pgs.348.1570511202607; 
+	Mon, 07 Oct 2019 22:06:42 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::7275])
+	by smtp.gmail.com with ESMTPSA id 2sm16341679pfo.91.2019.10.07.22.06.41
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 07 Oct 2019 22:06:42 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Oct 2019 22:06:29 -0700
+Message-Id: <20191008050629.588374-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <1569304805-85150-1-git-send-email-changqing.li@windriver.com>
-X-Originating-IP: [128.224.158.194]
-Subject: Re: [PATCH V2] mdadm: fix do_package failed when changed local.conf but not cleaned
+Subject: [PATCH V2] perl: Handle PACKAGES_DYNAMIC for perl-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,113 +56,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 03:16:18 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 08 Oct 2019 05:06:42 -0000
+Content-Transfer-Encoding: 8bit
 
-Ping
+A perl module recipe extending to provide native version causes target
+perl dependencies to be pulled into native build if the module recipe
+has RDEPENDS_${PN} = "perl-module-XXXX" e.g. libxml-sax-base-perl
+recipe.
 
-On 9/24/19 2:00 PM, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->
-> reproduce steps:
-> 1. add DISTRO_FEATURE_append = 'usrmerge' in local.conf
-> 2. bitbake mdadm --success
-> 3. remove DISTRO_FEATURE_append = 'usrmerge' from local.conf
-> 4. bitbake mdadm  -- failed when do_package
->
-> it is not proper to change source Makefile during do_install by sed,
-> change to add patch for it.
->
-> [YOCTO #13493]
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->   .../mdadm/files/0001-mdadm-support-usrmerge.patch  | 46 ++++++++++++++++++++++
->   meta/recipes-extended/mdadm/mdadm_4.1.bb           |  7 ++--
->   2 files changed, 50 insertions(+), 3 deletions(-)
->   create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
->
-> diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
-> new file mode 100644
-> index 0000000..f1aa119
-> --- /dev/null
-> +++ b/meta/recipes-extended/mdadm/files/0001-mdadm-support-usrmerge.patch
-> @@ -0,0 +1,46 @@
-> +From 2c7ccea05d7cf9dde48d735faa511d1b06c14878 Mon Sep 17 00:00:00 2001
-> +From: Changqing Li <changqing.li@windriver.com>
-> +Date: Thu, 5 Sep 2019 18:03:11 +0800
-> +Subject: [PATCH] mdadm: support usrmerge
-> +
-> +Upstream-Status: Inappropriate[oe-specific]
-> +
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> +---
-> + Makefile | 6 +++---
-> + 1 file changed, 3 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index 4839001..466e960 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -88,7 +88,7 @@ MAP_PATH = $(MAP_DIR)/$(MAP_FILE)
-> + MDMON_DIR = $(RUN_DIR)
-> + # place for autoreplace cookies
-> + FAILED_SLOTS_DIR = $(RUN_DIR)/failed-slots
-> +-SYSTEMD_DIR=/lib/systemd/system
-> ++SYSTEMD_DIR=${SYSTEMD_UNITDIR}/system
-> + LIB_DIR=/usr/libexec/mdadm
-> +
-> + COROSYNC:=$(shell [ -f $(SYSROOT)/usr/include/corosync/cmap.h ] || echo -DNO_COROSYNC)
-> +@@ -120,7 +120,7 @@ LDLIBS=-ldl
-> +
-> + INSTALL = /usr/bin/install
-> + DESTDIR =
-> +-BINDIR  = /sbin
-> ++BINDIR  = ${BASE_SBINDIR}
-> + MANDIR  = /usr/share/man
-> + MAN4DIR = $(MANDIR)/man4
-> + MAN5DIR = $(MANDIR)/man5
-> +@@ -128,7 +128,7 @@ MAN8DIR = $(MANDIR)/man8
-> +
-> + UDEVDIR := $(shell $(PKG_CONFIG) --variable=udevdir udev 2>/dev/null)
-> + ifndef UDEVDIR
-> +- UDEVDIR = /lib/udev
-> ++ UDEVDIR = ${NONARCH_BASE_LIBDIR}/udev
-> + endif
-> +
-> + ifeq (,$(findstring s,$(MAKEFLAGS)))
-> +--
-> +2.7.4
-> +
-> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> index 639382e..18cc87b 100644
-> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> @@ -23,6 +23,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
->   	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
->              file://include_sysmacros.patch \
->              file://0001-mdadm-skip-test-11spare-migration.patch \
-> +           file://0001-mdadm-support-usrmerge.patch \
->              "
->   
->   SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
-> @@ -43,13 +44,13 @@ CFLAGS_append_powerpc64 = ' -D__SANE_USERSPACE_TYPES__'
->   CFLAGS_append_mipsarchn64 = ' -D__SANE_USERSPACE_TYPES__'
->   CFLAGS_append_mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
->   
-> -EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
-> +EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}" BASE_SBINDIR="${base_sbindir}" \
-> +                NONARCH_BASE_LIBDIR="${nonarch_base_libdir}" \
-> +                SYSTEMD_UNITDIR="${systemd_unitdir}"'
->   
->   DEBUG_OPTIMIZATION_append = " -Wno-error"
->   
->   do_compile() {
-> -	# Point to right sbindir
-> -	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" -e "s;SYSTEMD_DIR=/lib/systemd/system;SYSTEMD_DIR=${systemd_unitdir}/system;" ${S}/Makefile
->   	oe_runmake SYSROOT="${STAGING_DIR_TARGET}"
->   }
->   
+The reason is that native bbclass empties out PACKAGES_DYNAMIC and
+perl's PACKAGES_DYNAMIC_class-target is greedy enough to usurp native
+modules as well.
+
+Eventually we end up with errors like when sstate is used across
+machines
+
+* ERROR: libxml-sax-base-perl-native different signature for task do_populate_sysroot.sigdata between qemux86copy and qemuarm
+
+Therefore, to fix this native case needs to handled specially when
+re-assigning module dependencies in split_perl_packages(), where the
+modules are named correctly for native case and have a single dependency
+on perl-native, secondly, PACKAGES_DYNAMIC for target case needs to be
+reined in to spare, -native modules, thirdly, let perl-native take over
+the case for providing native modules
+
+This will fix several sstate signature errors like above with external
+perl modules providing native variants and having runtime dependencies on
+modules which are provided by perl proper
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Use anon python to set PACKAGES_DYNAMIC instead of forcevariable
+    override
+
+ meta/recipes-devtools/perl/perl_5.30.0.bb | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-devtools/perl/perl_5.30.0.bb b/meta/recipes-devtools/perl/perl_5.30.0.bb
+index a221bce52b..ba2a8437d4 100644
+--- a/meta/recipes-devtools/perl/perl_5.30.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.30.0.bb
+@@ -265,13 +265,23 @@ python split_perl_packages () {
+     # Read the pre-generated dependency file, and use it to set module dependecies
+     for line in open(d.expand("${WORKDIR}") + '/perl-rdepends.txt').readlines():
+         splitline = line.split()
+-        module = splitline[0].replace("RDEPENDS_perl", "RDEPENDS_${PN}")
+-        depends = splitline[2].strip('"').replace("perl-module", "${PN}-module")
++        if bb.data.inherits_class('native', d):
++            module = splitline[0] + '-native'
++            depends = "perl-native"
++        else:
++            module = splitline[0].replace("RDEPENDS_perl", "RDEPENDS_${PN}")
++            depends = splitline[2].strip('"').replace("perl-module", "${PN}-module")
+         d.appendVar(d.expand(module), " " + depends)
+ }
+ 
+-PACKAGES_DYNAMIC_class-target += "^perl-module-.*"
+-PACKAGES_DYNAMIC_class-nativesdk += "^nativesdk-perl-module-.*"
++python() {
++    if d.getVar('CLASSOVERRIDE') == "class-target":
++        d.setVar("PACKAGES_DYNAMIC", "^perl-module-.*(?<!native)$")
++    elif d.getVar('CLASSOVERRIDE') == "class-native":
++        d.setVar("PACKAGES_DYNAMIC", "^perl-module-.*-native$")
++    elif d.getVar('CLASSOVERRIDE') == "class-nativesdk":
++        d.setVar("PACKAGES_DYNAMIC", "^nativesdk-perl-module-.*")
++}
+ 
+ RDEPENDS_${PN}-misc += "perl perl-modules"
+ RDEPENDS_${PN}-pod += "perl"
+-- 
+2.23.0
+
 
