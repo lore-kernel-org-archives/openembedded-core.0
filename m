@@ -1,33 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 318807F360
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id EA09E7F365
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 10:42:11 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Oct 2019 03:42:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,270,1566889200"; d="scan'208";a="218244578"
-Received: from unknown (HELO blackadder.local) ([10.252.56.237])
-	by fmsmga004.fm.intel.com with ESMTP; 08 Oct 2019 03:42:12 -0700
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1569728615.git.liezhi.yang@windriver.com>
-	<53a2dd95f2fbdb4106916bf5556c5a26172a6e57.1569728615.git.liezhi.yang@windriver.com>
-	<6446e616-bd19-483f-bdea-9cf7f84ee326@intel.com>
-	<d21d85b1-67b6-aea0-96f7-a897dd5e5bd9@windriver.com>
+	Tue,  8 Oct 2019 10:46:09 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id n14so18768228wrw.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Oct 2019 03:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yZtI7T9kSZTpLHo8vYNbO7taxDRGZRx+tdPlzLc2CMw=;
+	b=LmLmAGOotzCDdWtjvv4WetNTG6dM3YUWZfvIb31aYcRlLa47xBj/6M+d6QojbMBG5v
+	xD5sIEUKeK8RM7TVcHINL87MCLv0i1g/LqhUaFsjgzwCMAdRKYVv46XmcVqw0RtEhUTn
+	0R1GIhjvSz6zN9E/WklaaASR8T3SSOq9pkWTWxWTqlO0UyrUKjNRl6ypLz5TzhEBmw62
+	oF4VQky3vxuqrefs7JUpNDJ2+5PnmWUtZLHd3ri1d0/o5n9U8ChYGf3vvo6vI6E4V0qq
+	mygzKaUFOwsN6cqdQuV1GPoW2IoN0xSNZ4tsKQBbYrulJsnFZcL5TueYVbxoEJwqz5Em
+	OXGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yZtI7T9kSZTpLHo8vYNbO7taxDRGZRx+tdPlzLc2CMw=;
+	b=tajU0bFvTN4WLU0IZY7Bim88QdXuhm6ia5DMJX+T+w39vRkwGEgUhDGVVQz0UVVbyS
+	qknuc/yULrWC4IKRN2NHcQdoevkyMYXW76W0Kex/KTU+rNKE9tBSAEXziBbcwlO04GL1
+	LuxhfgWmzYTWQXUTQa3DYG8zO0d1FzX+TRJieObpRrJYZofaeF2mJls1vMiIyFbE+w7G
+	xMfEKG284RAJdvKOJHkgnfiz9csPiaJdnvutEZqSlPJmWH47FaVKslNsdzTHDgnbUq0A
+	KiMxEv6jTX5hnDHPwgu+F5aLDSCDrqXCybRSE2lNAzCnsdYVucHLLg3/pX7x4DlYY/o0
+	xVQA==
+X-Gm-Message-State: APjAAAUPV/MD3pDc+05/6x9vrhQVO5KGu2kpahaSEBCZNs+eOjWwIecD
+	qhIbkkrNM4p1Q057dYT4yAXBYFsDP8M=
+X-Google-Smtp-Source: APXvYqzX4hKkpVyppWAZ7WtdhrBUdM6nXUW15WYKVzmWKuPk7rCin6zyczOUALyCv8jjeYkQXEchqQ==
+X-Received: by 2002:a5d:62c8:: with SMTP id o8mr25952723wrv.350.1570531570141; 
+	Tue, 08 Oct 2019 03:46:10 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	x129sm3387191wmg.8.2019.10.08.03.46.08
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 08 Oct 2019 03:46:08 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <c7e3e13b-83d7-409e-d9f7-4c7c73bd22f7@intel.com>
-Date: Tue, 8 Oct 2019 11:42:11 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Oct 2019 11:46:04 +0100
+Message-Id: <20191008104605.28981-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <d21d85b1-67b6-aea0-96f7-a897dd5e5bd9@windriver.com>
-Subject: Re: [PATCH 1/1] bluez5: Fix for --enable-btpclient
+Subject: [PATCH 1/2] bluez5: add needed character encoding for ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,27 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 10:42:12 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Oct 2019 10:46:10 -0000
+Content-Transfer-Encoding: 8bit
 
-On 08/10/2019 04:12, Robert Yang wrote:
-> 
-> Hi Ross,
-> 
-> On 9/30/19 7:06 PM, Ross Burton wrote:
->> On 29/09/2019 04:44, Robert Yang wrote:
->>> +Upstream-Status: Inappropriate [Upstream already fixed]
->>
->> So this is a backport then?
-> 
-> I just come back from the holiday, sorry for the late reply. Upstream
-> fixed it in a different way, I didn't backport it since the fix looks
-> risky for bluez5 5.50. Should we use Backport for such a case, please?
+The test-gobject-header test suite needs UTF-16 encoding:
 
-I'd mark it as backport with an explanation that it's a subset of the 
-full fix that went upstream.
+test_decode_header_name_ascii:
+assertion failed (err == NULL):
+Unicode conversion failed:
+Conversion from character set ?UTF-16BE? to ?UTF-8? is not supported (g-obex-error-quark, 256)
 
-Ross
+Add gconv-utf-16 to the bluez5-ptest RDEPENDS.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 6c79ed0606b..f582a07e22a 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -155,3 +155,5 @@ do_install_ptest() {
+ 	cp -r ${B}/unit/ ${D}${PTEST_PATH}
+ 	rm -f ${D}${PTEST_PATH}/unit/*.o
+ }
++
++RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-gconv-utf-16"
+-- 
+2.20.1
+
 
