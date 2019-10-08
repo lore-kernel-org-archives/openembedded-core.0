@@ -1,55 +1,54 @@
 Return-Path: <prvs=177211c83=alistair.francis@wdc.com>
 Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 55DD36BDE3
+	by mail.openembedded.org (Postfix) with ESMTP id 93CE27F3E1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2019 21:50:23 +0000 (UTC)
+	Tue,  8 Oct 2019 21:50:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1570571425; x=1602107425;
-	h=from:to:cc:subject:date:message-id:in-reply-to:
-	references:mime-version:content-transfer-encoding;
-	bh=t7KkLFRPuxGXH4T76xiiZuOkIAzJ6CYbmgbE6HnXD0w=;
-	b=oJUjJo0SUlrGaietr4zayU4oTEtVZWrnlOtrhH4POw+HxPPpGUOdr9+Q
-	KxBtLwt62dTDz6HSbl/iZvPGQYdjsEuIGRY0LB7Z0JEwKZLhuM9ZPoXQc
-	d3axQ1l1t0TFWmf5Sw/TEJQcKnvsKQ5zBMM/4+6MJMOjLe1zHTyVtkJgt
-	WB1ferkwYq928x99de7oh/uczSfqZ3uOSDvW1/WIP2trx/edmxHoXxcma
-	eoQMzVsn/MK4aFrfx0yEERXWSmbaD6slZU0PljjxSN5yAOI0sLLPReF84
-	rbCOVjJS+rVuZ0RL9HVe3GKSPKLEDdu0LTKu7mdW2yX16EMUv1pQ19hWS Q==;
-IronPort-SDR: E/KITm3WASgTgP/l7ScLiY7JWJEVmJT55biwHk8PPUL3O1nFG6TqbqeoJQCRclplWGJ4llYebC
-	wPWve6m5m+YoS1kMaY/M+wRo/hBb4sHv1xMmdCj9NvXfs6wDaASPalTgKSf3nGh+2Dodq4MOfo
-	SZFZC8ehsMjy7HPy0JzNp2+j3Opqtj2uklc4sPQAZ4tlnsY1QyPbAVQ6nQ6Fnk1TMULng9IRcL
-	/o1pvmclNmRy7/T37PLyNpf/4AxgoW8IYfPNjxWrYhsAuGNEid2sdv31oxnLxv1jLYIU/AbBB2
-	Dlw=
-X-IronPort-AV: E=Sophos;i="5.67,272,1566835200"; d="scan'208";a="120863547"
+	t=1570571430; x=1602107430;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=fPPBuUKGEWS2bJFkc2wea/afxy9cbJgLNqpkQVTOhxs=;
+	b=Xa9pDUqrdPYN2cJMFoJbCXpJQFW+PTgRkD8/lBN82AVLzh4WelFXW8Hb
+	qBb90roDmjkK3MZijoDoBVRWJCDyHUkUImp4U5Up726hN4tEYGRE2x4f0
+	xHdWekTsTlemfsG00NVJa+QLT31rgdhnY07h+lac7vLkitHnwqbkjMIM/
+	GNG6CKrHWoSOBCGVPZWo9wFbmrVguD8RFXk56cxAPOdVuYjpsB0JuyX5b
+	5CMTcHcCrvjS7RoDCiTXZV6I78aw73l+LIEiVbE7zzUdmvUuUoHC40yqG
+	v40GM4oXqVdkdt8NW1yJFk/aGxw9eGMy/GH78RBW8lPL+S54HhwQumrdK g==;
+IronPort-SDR: Fjb/JAxRxmxRTaJkCJb7Z2bFoMw4uvYeyNAbbluZ5joAu3EyLYcrUlrl/cdrwnSfEZHIwNA41k
+	qBPWCR9tx6GP3bH5+HQfm+gwmXspZIbsuA98VWRecnRCKRBqQlfOyTUwBdjLsywJWLvaKKMQMj
+	wYWZSg1ZdXwPtWGBmqJNASGJ6s0IsPz8G6F4EhAP3kQ9jtgaxIMkS5r318PvY935CY4tKyGfgP
+	oINZK3ZxIPmVQScIE8AUL2FhLq/sp+dIARw48yUL87yrZR4izOVto/9ckyR9W/syDii2kyBJ6u
+	ngY=
+X-URL-LookUp-ScanningError: 1
+X-IronPort-AV: E=Sophos;i="5.67,272,1566835200"; d="scan'208";a="120863546"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
 	([199.255.45.15])
 	by ob1.hgst.iphmx.com with ESMTP; 09 Oct 2019 05:50:24 +0800
-IronPort-SDR: cHF+k9IHGSy9OQmREBybx9tOOTkQQjlNYwFSqwOHxHMHZa7XJ8dSwrf7f9kjvzvZDxhfvLEEtQ
-	qhdX4Y2hLHejUF4l6z2F2wHpPdP32llMPJ0q4yXlj2UxIdCDElFNifEbKxb3wpZe3R+ueXrHsW
-	4/rhp1m4ng4+Ag7tp/XNeBNBOgpkPqy7k2MnEMtayZnUx/TrXeBPHTaxkB8SmGOGbgVwwf6e02
-	EmwrUw0OFUny46PC1ctGvfvulhpM8981bDjPuitFdZoQM8GEMcx/+by/jBKTKn7LlJ8EZ4is9R
-	7eJv3e84CrA1wD2vyO+Z2+D4
+IronPort-SDR: uKYPoGAmeclm3mdcLrSACDcBy/FIFI/HiLBBCNbgaM9gn1YCA8aJun5AfpxJOviYtdZMGAqEjz
+	WvFQsSop4TZpFeMhWJ1hhCQM4a+8Bghd7l4Z3cPe/aqPiuObB0BuKUcG6nxEaqWFg0l6GqJPpj
+	f9EMoEXdPzn1MKxg8vBLm0lvjJ1Fnmghyfc/po3yEXS4dbI+4oUOrm/Nsvm5dkeP40wAruYTfF
+	aEISrlCKoMQrarBGRSnHbJNdFPNYx8TcG3LOKEUI56XocLcqy3TbxHWVMAjZg7OMJIXOHVyzKs
+	8ql42UZwSARohe/HREWg250u
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
 	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
 	08 Oct 2019 14:46:24 -0700
-IronPort-SDR: 93EevlRdI/NP/IV7ESInGRjHXZobhPNmGzKFclOQG4wv+84wk43ynbqlliVL7pS/bRbXfVzRq4
-	4kyuNo5tuSJlLtrqfdtSEPfaq2aY8L6PZw7J0BvShEZ5pn9ENY/WaN4n5hpS3GiEaSCw19VUzP
-	ikKs2ooveeZyW3SklrQP0tdY1/aotLQ7C/p27NgSKMZlxzWt0wioRTUx7TKK+EzirMQ7FYyFaJ
-	jk1o5pdxl2crrqWAsGccDg1DRkXb7jV4CaABOWcTZh22VsJDuQDbMulwsTBEmnXHhn2xRhgk3a
-	668=
+IronPort-SDR: dx2DWiIUq+rZRewnlaeePEcVs8iDwpeBsUyu+y0oET3JqpgVyR9QIycL63/RzMJuS/NvgmcIHB
+	M0w5SABPfkzFnrIUDH8vfgHbg1HD5O706kk9YAo6V/+f1RTx3Q9N/eOtfRkZVAA3K3GcoO3ycS
+	QSQUwgUkcoFWQduV7IzRS4PwX4axmm1JCiS1VHEM1ow7w0thSy7XFQiBuTj9clWvmTGxd6YP4X
+	EzCZXXMRs2GiXtZwrPxH5Rt4b8Cb+fACNe3NTOt9r+0tP4drzqjcHjyqt0FXvpFBefimO1MKMd
+	hDQ=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
 	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
-	by uls-op-cesaip01.wdc.com with ESMTP; 08 Oct 2019 14:50:25 -0700
+	by uls-op-cesaip01.wdc.com with ESMTP; 08 Oct 2019 14:50:24 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Oct 2019 14:45:51 -0700
-Message-Id: <20191008214551.32751-2-alistair.francis@wdc.com>
+Date: Tue,  8 Oct 2019 14:45:50 -0700
+Message-Id: <20191008214551.32751-1-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191008214551.32751-1-alistair.francis@wdc.com>
-References: <20191008214551.32751-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] qemuriscv64: Build smode U-Boot
+Subject: [PATCH 1/2] u-boot: Bump from 2019.07 to 2019.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,25 +61,560 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 21:50:23 -0000
+X-List-Received-Date: Tue, 08 Oct 2019 21:50:28 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- meta/conf/machine/qemuriscv64.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../u-boot/files/0001-CVE-2019-13103.patch    | 69 -------------------
+ .../u-boot/files/0002-CVE-2019-13104.patch    | 49 -------------
+ .../u-boot/files/0003-CVE-2019-13105.patch    | 37 ----------
+ .../u-boot/files/0004-CVE-2019-13106.patch    | 56 ---------------
+ .../0005-CVE-2019-14192-14193-14199.patch     | 43 ------------
+ ...-14197-14200-14201-14202-14203-14204.patch | 44 ------------
+ .../files/0007-CVE-2019-14194-14198.patch     | 42 -----------
+ .../u-boot/files/0008-CVE-2019-14195.patch    | 42 -----------
+ .../u-boot/files/0009-CVE-2019-14196.patch    | 48 -------------
+ meta/recipes-bsp/u-boot/u-boot-common.inc     | 13 +---
+ ..._2019.07.bb => u-boot-fw-utils_2019.10.bb} |  0
+ ...ols_2019.07.bb => u-boot-tools_2019.10.bb} |  0
+ .../{u-boot_2019.07.bb => u-boot_2019.10.bb}  |  0
+ 13 files changed, 2 insertions(+), 441 deletions(-)
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0001-CVE-2019-13103.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0002-CVE-2019-13104.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0003-CVE-2019-13105.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0004-CVE-2019-13106.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0005-CVE-2019-14192-14193-14199.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0006-CVE-2019-14197-14200-14201-14202-14203-14204.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0007-CVE-2019-14194-14198.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0008-CVE-2019-14195.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/files/0009-CVE-2019-14196.patch
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2019.07.bb => u-boot-fw-utils_2019.10.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot-tools_2019.07.bb => u-boot-tools_2019.10.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2019.07.bb => u-boot_2019.10.bb} (100%)
 
-diff --git a/meta/conf/machine/qemuriscv64.conf b/meta/conf/machine/qemuriscv64.conf
-index 99b48b309b..b45fdd556d 100644
---- a/meta/conf/machine/qemuriscv64.conf
-+++ b/meta/conf/machine/qemuriscv64.conf
-@@ -5,5 +5,5 @@
- require conf/machine/include/riscv/qemuriscv.inc
+diff --git a/meta/recipes-bsp/u-boot/files/0001-CVE-2019-13103.patch b/meta/recipes-bsp/u-boot/files/0001-CVE-2019-13103.patch
+deleted file mode 100644
+index 1a5d1eb996..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0001-CVE-2019-13103.patch
++++ /dev/null
+@@ -1,69 +0,0 @@
+-From 39a759494f734c4cdc3e2b919671bfb3134b41ae Mon Sep 17 00:00:00 2001
+-From: Paul Emge <paulemge@forallsecure.com>
+-Date: Mon, 8 Jul 2019 16:37:03 -0700
+-Subject: [PATCH 1/9] CVE-2019-13103: disk: stop infinite recursion in DOS
+- Partitions
+-
+-part_get_info_extended and print_partition_extended can recurse infinitely
+-while parsing a self-referential filesystem or one with a silly number of
+-extended partitions. This patch adds a limit to the number of recursive
+-partitions.
+-
+-Signed-off-by: Paul Emge <paulemge@forallsecure.com>
+-
+-Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
+-                 h=232e2f4fd9a24bf08215ddc8c53ccadffc841fb5]
+-
+-CVE: CVE-2019-13103
+-
+-Signed-off-by: Meng Li <Meng.Li@windriver.com>
+----
+- disk/part_dos.c | 18 ++++++++++++++++++
+- 1 file changed, 18 insertions(+)
+-
+-diff --git a/disk/part_dos.c b/disk/part_dos.c
+-index 936cee0d36..aae9d95906 100644
+---- a/disk/part_dos.c
+-+++ b/disk/part_dos.c
+-@@ -23,6 +23,10 @@
+- 
+- #define DOS_PART_DEFAULT_SECTOR 512
+- 
+-+/* should this be configurable? It looks like it's not very common at all
+-+ * to use large numbers of partitions */
+-+#define MAX_EXT_PARTS 256
+-+
+- /* Convert char[4] in little endian format to the host format integer
+-  */
+- static inline unsigned int le32_to_int(unsigned char *le32)
+-@@ -126,6 +130,13 @@ static void print_partition_extended(struct blk_desc *dev_desc,
+- 	dos_partition_t *pt;
+- 	int i;
+- 
+-+	/* set a maximum recursion level */
+-+	if (part_num > MAX_EXT_PARTS)
+-+	{
+-+		printf("** Nested DOS partitions detected, stopping **\n");
+-+		return;
+-+    }
+-+
+- 	if (blk_dread(dev_desc, ext_part_sector, 1, (ulong *)buffer) != 1) {
+- 		printf ("** Can't read partition table on %d:" LBAFU " **\n",
+- 			dev_desc->devnum, ext_part_sector);
+-@@ -191,6 +202,13 @@ static int part_get_info_extended(struct blk_desc *dev_desc,
+- 	int i;
+- 	int dos_type;
+- 
+-+	/* set a maximum recursion level */
+-+	if (part_num > MAX_EXT_PARTS)
+-+	{
+-+		printf("** Nested DOS partitions detected, stopping **\n");
+-+		return -1;
+-+    }
+-+
+- 	if (blk_dread(dev_desc, ext_part_sector, 1, (ulong *)buffer) != 1) {
+- 		printf ("** Can't read partition table on %d:" LBAFU " **\n",
+- 			dev_desc->devnum, ext_part_sector);
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0002-CVE-2019-13104.patch b/meta/recipes-bsp/u-boot/files/0002-CVE-2019-13104.patch
+deleted file mode 100644
+index de122b27d0..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0002-CVE-2019-13104.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From 1d36545e43003f4b1bb3a303a3b468abd482fa2f Mon Sep 17 00:00:00 2001
+-From: Paul Emge <paulemge@forallsecure.com>
+-Date: Mon, 8 Jul 2019 16:37:05 -0700
+-Subject: [PATCH 2/9] CVE-2019-13104: ext4: check for underflow in
+- ext4fs_read_file
+-
+-in ext4fs_read_file, it is possible for a broken/malicious file
+-system to cause a memcpy of a negative number of bytes, which
+-overflows all memory. This patch fixes the issue by checking for
+-a negative length.
+-
+-Signed-off-by: Paul Emge <paulemge@forallsecure.com>
+-
+-Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
+-                 h=878269dbe74229005dd7f27aca66c554e31dad8e]
+-
+-CVE: CVE-2019-13104
+-
+-Signed-off-by: Meng Li <Meng.Li@windriver.com>
+----
+- fs/ext4/ext4fs.c | 8 +++++---
+- 1 file changed, 5 insertions(+), 3 deletions(-)
+-
+-diff --git a/fs/ext4/ext4fs.c b/fs/ext4/ext4fs.c
+-index 26db677a1f..c8c8655ed8 100644
+---- a/fs/ext4/ext4fs.c
+-+++ b/fs/ext4/ext4fs.c
+-@@ -66,13 +66,15 @@ int ext4fs_read_file(struct ext2fs_node *node, loff_t pos,
+- 
+- 	ext_cache_init(&cache);
+- 
+--	if (blocksize <= 0)
+--		return -1;
+--
+- 	/* Adjust len so it we can't read past the end of the file. */
+- 	if (len + pos > filesize)
+- 		len = (filesize - pos);
+- 
+-+	if (blocksize <= 0 || len <= 0) {
+-+		ext_cache_fini(&cache);
+-+		return -1;
+-+	}
+-+
+- 	blockcnt = lldiv(((len + pos) + blocksize - 1), blocksize);
+- 
+- 	for (i = lldiv(pos, blocksize); i < blockcnt; i++) {
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0003-CVE-2019-13105.patch b/meta/recipes-bsp/u-boot/files/0003-CVE-2019-13105.patch
+deleted file mode 100644
+index f525147e57..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0003-CVE-2019-13105.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 4e937d0de669ee69cf41c20494cbf66c339c3174 Mon Sep 17 00:00:00 2001
+-From: Paul Emge <paulemge@forallsecure.com>
+-Date: Mon, 8 Jul 2019 16:37:04 -0700
+-Subject: [PATCH 3/9] CVE-2019-13105: ext4: fix double-free in ext4_cache_read
+-
+-ext_cache_read doesn't null cache->buf, after freeing, which results
+-in a later function double-freeing it. This patch fixes
+-ext_cache_read to call ext_cache_fini instead of free.
+-
+-Signed-off-by: Paul Emge <paulemge@forallsecure.com>
+-
+-Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
+-                 h=6e5a79de658cb1c8012c86e0837379aa6eabd024]
+-
+-CVE: CVE-2019-13105
+-
+-Signed-off-by: Meng Li <Meng.Li@windriver.com>
+----
+- fs/ext4/ext4fs.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/fs/ext4/ext4fs.c b/fs/ext4/ext4fs.c
+-index c8c8655ed8..e2b740cac4 100644
+---- a/fs/ext4/ext4fs.c
+-+++ b/fs/ext4/ext4fs.c
+-@@ -288,7 +288,7 @@ int ext_cache_read(struct ext_block_cache *cache, lbaint_t block, int size)
+- 	if (!cache->buf)
+- 		return 0;
+- 	if (!ext4fs_devread(block, 0, size, cache->buf)) {
+--		free(cache->buf);
+-+		ext_cache_fini(cache);
+- 		return 0;
+- 	}
+- 	cache->block = block;
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0004-CVE-2019-13106.patch b/meta/recipes-bsp/u-boot/files/0004-CVE-2019-13106.patch
+deleted file mode 100644
+index 8e1a1a9943..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0004-CVE-2019-13106.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 1307dabf5422372483f840dda3963f9dbd2e8e6f Mon Sep 17 00:00:00 2001
+-From: Paul Emge <paulemge@forallsecure.com>
+-Date: Mon, 8 Jul 2019 16:37:07 -0700
+-Subject: [PATCH 4/9] CVE-2019-13106: ext4: fix out-of-bounds memset
+-
+-In ext4fs_read_file in ext4fs.c, a memset can overwrite the bounds of
+-the destination memory region. This patch adds a check to disallow
+-this.
+-
+-Signed-off-by: Paul Emge <paulemge@forallsecure.com>
+-
+-Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
+-                 h=e205896c5383c938274262524adceb2775fb03ba]
+-
+-CVE: CVE-2019-13106
+-
+-Signed-off-by: Meng Li <Meng.Li@windriver.com>
+----
+- fs/ext4/ext4fs.c | 7 +++++--
+- 1 file changed, 5 insertions(+), 2 deletions(-)
+-
+-diff --git a/fs/ext4/ext4fs.c b/fs/ext4/ext4fs.c
+-index e2b740cac4..37b31d9f0f 100644
+---- a/fs/ext4/ext4fs.c
+-+++ b/fs/ext4/ext4fs.c
+-@@ -61,6 +61,7 @@ int ext4fs_read_file(struct ext2fs_node *node, loff_t pos,
+- 	lbaint_t delayed_skipfirst = 0;
+- 	lbaint_t delayed_next = 0;
+- 	char *delayed_buf = NULL;
+-+	char *start_buf = buf;
+- 	short status;
+- 	struct ext_block_cache cache;
+- 
+-@@ -139,6 +140,7 @@ int ext4fs_read_file(struct ext2fs_node *node, loff_t pos,
+- 			}
+- 		} else {
+- 			int n;
+-+			int n_left;
+- 			if (previous_block_number != -1) {
+- 				/* spill */
+- 				status = ext4fs_devread(delayed_start,
+-@@ -153,8 +155,9 @@ int ext4fs_read_file(struct ext2fs_node *node, loff_t pos,
+- 			}
+- 			/* Zero no more than `len' bytes. */
+- 			n = blocksize - skipfirst;
+--			if (n > len)
+--				n = len;
+-+			n_left = len - ( buf - start_buf );
+-+			if (n > n_left)
+-+				n = n_left;
+- 			memset(buf, 0, n);
+- 		}
+- 		buf += blocksize - skipfirst;
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0005-CVE-2019-14192-14193-14199.patch b/meta/recipes-bsp/u-boot/files/0005-CVE-2019-14192-14193-14199.patch
+deleted file mode 100644
+index a19545a2d3..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0005-CVE-2019-14192-14193-14199.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From e8e602f4a4b2aacfb3da32bb8a838be15ea70e7b Mon Sep 17 00:00:00 2001
+-From: "liucheng (G)" <liucheng32@huawei.com>
+-Date: Thu, 29 Aug 2019 13:47:33 +0000
+-Subject: [PATCH 5/9] CVE: net: fix unbounded memcpy of UDP packet
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-This patch adds a check to udp_len to fix unbounded memcpy for
+-CVE-2019-14192, CVE-2019-14193 and CVE-2019-14199.
+-
+-Signed-off-by: Cheng Liu <liucheng32@huawei.com>
+-Reviewed-by: Simon Goldschmidt <simon.k.r.goldschmidt@gmail.com>
+-Reported-by: Fermín Serna <fermin@semmle.com>
+-Acked-by: Joe Hershberger <joe.hershberger@ni.com>
+-
+-Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
+-                 h=fe7288069d2e6659117049f7d27e261b550bb725]
+-
+-CVE: CVE-2019-14192, CVE-2019-14193 and CVE-2019-14199
+-
+-Signed-off-by: Meng Li <Meng.Li@windriver.com>
+----
+- net/net.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/net/net.c b/net/net.c
+-index 58b0417cbe..38105f1142 100644
+---- a/net/net.c
+-+++ b/net/net.c
+-@@ -1252,6 +1252,9 @@ void net_process_received_packet(uchar *in_packet, int len)
+- 			return;
+- 		}
+- 
+-+		if (ntohs(ip->udp_len) < UDP_HDR_SIZE || ntohs(ip->udp_len) > ntohs(ip->ip_len))
+-+			return;
+-+
+- 		debug_cond(DEBUG_DEV_PKT,
+- 			   "received UDP (to=%pI4, from=%pI4, len=%d)\n",
+- 			   &dst_ip, &src_ip, len);
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0006-CVE-2019-14197-14200-14201-14202-14203-14204.patch b/meta/recipes-bsp/u-boot/files/0006-CVE-2019-14197-14200-14201-14202-14203-14204.patch
+deleted file mode 100644
+index 04a09e46df..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0006-CVE-2019-14197-14200-14201-14202-14203-14204.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 261658ddaf24bb35edd477cf09ec055569fd9894 Mon Sep 17 00:00:00 2001
+-From: "liucheng (G)" <liucheng32@huawei.com>
+-Date: Thu, 29 Aug 2019 13:47:40 +0000
+-Subject: [PATCH 6/9] CVE: nfs: fix stack-based buffer overflow in some
+- nfs_handler reply helper functions
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-This patch adds a check to nfs_handler to fix buffer overflow for CVE-2019-14197,
+-CVE-2019-14200, CVE-2019-14201, CVE-2019-14202, CVE-2019-14203 and CVE-2019-14204.
+-
+-Signed-off-by: Cheng Liu <liucheng32@huawei.com>
+-Reported-by: Fermín Serna <fermin@semmle.com>
+-Acked-by: Joe Hershberger <joe.hershberger@ni.com>
+-
+-Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
+-                 h=741a8a08ebe5bc3ccfe3cde6c2b44ee53891af21]
+-
+-CVE: CVE-2019-14197, CVE-2019-14200, CVE-2019-14201, CVE-2019-14202,
+-     CVE-2019-14203 and CVE-2019-14204
+-
+-Signed-off-by: Meng Li <Meng.Li@windriver.com>
+----
+- net/nfs.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/net/nfs.c b/net/nfs.c
+-index d6a7f8e827..b7cf3b3a18 100644
+---- a/net/nfs.c
+-+++ b/net/nfs.c
+-@@ -732,6 +732,9 @@ static void nfs_handler(uchar *pkt, unsigned dest, struct in_addr sip,
+- 
+- 	debug("%s\n", __func__);
+- 
+-+	if (len > sizeof(struct rpc_t))
+-+		return;
+-+
+- 	if (dest != nfs_our_port)
+- 		return;
+- 
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0007-CVE-2019-14194-14198.patch b/meta/recipes-bsp/u-boot/files/0007-CVE-2019-14194-14198.patch
+deleted file mode 100644
+index b3e3b72ebf..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0007-CVE-2019-14194-14198.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From fb6dc193bf2685b7574b218f7ca558aa54659e11 Mon Sep 17 00:00:00 2001
+-From: "liucheng (G)" <liucheng32@huawei.com>
+-Date: Thu, 29 Aug 2019 13:47:48 +0000
+-Subject: [PATCH 7/9] CVE-2019-14194/CVE-2019-14198: nfs: fix unbounded memcpy
+- with a failed length check at nfs_read_reply
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-This patch adds a check to rpc_pkt.u.reply.data at nfs_read_reply.
+-
+-Signed-off-by: Cheng Liu <liucheng32@huawei.com>
+-Reported-by: Fermín Serna <fermin@semmle.com>
+-Acked-by: Joe Hershberger <joe.hershberger@ni.com>
+-
+-Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
+-                 h=aa207cf3a6d68f39d64cd29057a4fb63943e9078]
+-
+-CVE: CVE-2019-14194 and CVE-2019-14198
+-
+-Signed-off-by: Meng Li <Meng.Li@windriver.com>
+----
+- net/nfs.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/net/nfs.c b/net/nfs.c
+-index b7cf3b3a18..11941fad1a 100644
+---- a/net/nfs.c
+-+++ b/net/nfs.c
+-@@ -701,6 +701,9 @@ static int nfs_read_reply(uchar *pkt, unsigned len)
+- 			&(rpc_pkt.u.reply.data[4 + nfsv3_data_offset]);
+- 	}
+- 
+-+	if (((uchar *)&(rpc_pkt.u.reply.data[0]) - (uchar *)(&rpc_pkt) + rlen) > len)
+-+			return -9999;
+-+
+- 	if (store_block(data_ptr, nfs_offset, rlen))
+- 			return -9999;
+- 
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0008-CVE-2019-14195.patch b/meta/recipes-bsp/u-boot/files/0008-CVE-2019-14195.patch
+deleted file mode 100644
+index bf9fb0ef52..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0008-CVE-2019-14195.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From 2236973b8a173ff54ae1ebf8ec2300928e69bd1b Mon Sep 17 00:00:00 2001
+-From: "liucheng (G)" <liucheng32@huawei.com>
+-Date: Thu, 29 Aug 2019 13:47:54 +0000
+-Subject: [PATCH 8/9] CVE-2019-14195: nfs: fix unbounded memcpy with
+- unvalidated length at nfs_readlink_reply
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-This patch adds a check to rpc_pkt.u.reply.data at nfs_readlink_reply.
+-
+-Signed-off-by: Cheng Liu <liucheng32@huawei.com>
+-Reported-by: Fermín Serna <fermin@semmle.com>
+-Acked-by: Joe Hershberger <joe.hershberger@ni.com>
+-
+-Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
+-                 h=cf3a4f1e86ecdd24f87b615051b49d8e1968c230]
+-
+-CVE: CVE-2019-14195
+-
+-Signed-off-by: Meng Li <Meng.Li@windriver.com>
+----
+- net/nfs.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/net/nfs.c b/net/nfs.c
+-index 11941fad1a..915acd95cf 100644
+---- a/net/nfs.c
+-+++ b/net/nfs.c
+-@@ -634,6 +634,9 @@ static int nfs_readlink_reply(uchar *pkt, unsigned len)
+- 	/* new path length */
+- 	rlen = ntohl(rpc_pkt.u.reply.data[1 + nfsv3_data_offset]);
+- 
+-+	if (((uchar *)&(rpc_pkt.u.reply.data[0]) - (uchar *)(&rpc_pkt) + rlen) > len)
+-+		return -NFS_RPC_DROP;
+-+
+- 	if (*((char *)&(rpc_pkt.u.reply.data[2 + nfsv3_data_offset])) != '/') {
+- 		int pathlen;
+- 
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-bsp/u-boot/files/0009-CVE-2019-14196.patch b/meta/recipes-bsp/u-boot/files/0009-CVE-2019-14196.patch
+deleted file mode 100644
+index f06e025297..0000000000
+--- a/meta/recipes-bsp/u-boot/files/0009-CVE-2019-14196.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 74c468caa95c86cdb12c4b8073e154c435ac0bf7 Mon Sep 17 00:00:00 2001
+-From: "liucheng (G)" <liucheng32@huawei.com>
+-Date: Thu, 29 Aug 2019 13:48:02 +0000
+-Subject: [PATCH 9/9] CVE-2019-14196: nfs: fix unbounded memcpy with a failed
+- length check at nfs_lookup_reply
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-This patch adds a check to rpc_pkt.u.reply.data at nfs_lookup_reply.
+-
+-Signed-off-by: Cheng Liu <liucheng32@huawei.com>
+-Reported-by: Fermín Serna <fermin@semmle.com>
+-Acked-by: Joe Hershberger <joe.hershberger@ni.com>
+-
+-Upstream-Status: Backport[http://git.denx.de/?p=u-boot.git;a=commit;
+-                 h=5d14ee4e53a81055d34ba280cb8fd90330f22a96]
+-
+-CVE: CVE-2019-14196
+-
+-Signed-off-by: Meng Li <Meng.Li@windriver.com>
+----
+- net/nfs.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/net/nfs.c b/net/nfs.c
+-index 915acd95cf..89952aeb66 100644
+---- a/net/nfs.c
+-+++ b/net/nfs.c
+-@@ -566,11 +566,15 @@ static int nfs_lookup_reply(uchar *pkt, unsigned len)
+- 	}
+- 
+- 	if (supported_nfs_versions & NFSV2_FLAG) {
+-+		if (((uchar *)&(rpc_pkt.u.reply.data[0]) - (uchar *)(&rpc_pkt) + NFS_FHSIZE) > len)
+-+			return -NFS_RPC_DROP;
+- 		memcpy(filefh, rpc_pkt.u.reply.data + 1, NFS_FHSIZE);
+- 	} else {  /* NFSV3_FLAG */
+- 		filefh3_length = ntohl(rpc_pkt.u.reply.data[1]);
+- 		if (filefh3_length > NFS3_FHSIZE)
+- 			filefh3_length  = NFS3_FHSIZE;
+-+		if (((uchar *)&(rpc_pkt.u.reply.data[0]) - (uchar *)(&rpc_pkt) + filefh3_length) > len)
+-+			return -NFS_RPC_DROP;
+- 		memcpy(filefh, rpc_pkt.u.reply.data + 2, filefh3_length);
+- 	}
+- 
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index f63dfa3b73..c3e458e925 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -12,18 +12,9 @@ PE = "1"
  
- EXTRA_IMAGEDEPENDS += "u-boot"
--UBOOT_MACHINE = "qemu-riscv64_defconfig"
-+UBOOT_MACHINE = "qemu-riscv64_smode_defconfig"
- UBOOT_ELF = "u-boot"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "e5aee22e4be75e75a854ab64503fc80598bc2004"
++SRCREV = "61ba1244b548463dbfb3c5285b6b22e7c772c5bd"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git \
+-           file://0001-CVE-2019-13103.patch \
+-           file://0002-CVE-2019-13104.patch \
+-           file://0003-CVE-2019-13105.patch \
+-           file://0004-CVE-2019-13106.patch \
+-           file://0005-CVE-2019-14192-14193-14199.patch \
+-           file://0006-CVE-2019-14197-14200-14201-14202-14203-14204.patch \
+-           file://0007-CVE-2019-14194-14198.patch \
+-           file://0008-CVE-2019-14195.patch \
+-           file://0009-CVE-2019-14196.patch \
+-"
++          "
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2019.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2019.10.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2019.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2019.10.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2019.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2019.10.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-tools_2019.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-tools_2019.10.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2019.07.bb b/meta/recipes-bsp/u-boot/u-boot_2019.10.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2019.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2019.10.bb
 -- 
 2.23.0
 
