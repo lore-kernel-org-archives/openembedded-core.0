@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 716257F38A
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CA797F39A
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  8 Oct 2019 15:04:51 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id u12so8565113pls.12
+Received: by mail-pl1-f196.google.com with SMTP id u12so8565126pls.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Oct 2019 08:04:52 -0700 (PDT)
+	Tue, 08 Oct 2019 08:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=I2VGnt+ccP5TXF77jhqDdVFG4H6eAjJxO5DG7P/PX8Y=;
-	b=W0jUx3YCQd+NKKnrzhitd13Ri8R4+UQUIXgOYuyhTm942zqvclUidmvLBFQB+DI3wq
-	ZBOTNF2aBIfW2bOLfwxYYESF8lvan+z2erW/r65KBNFP1zMhQJYlYwF9GtsC41fyDI5T
-	j+F8uiQd2D0/KIAXtjFfcSm+RH5tbSBaGoOny0SdXHD4Zimmgt2BP0xofWNSZqL8IxD/
-	zAxdmlRcpszmyCI1MCQIBc7f7CRM5rC9ZTQ3ce1dF4JxhYrdzj3uL39BkLn8OCGxn/Pp
-	MC9n07a/Roqd8Eqs3gh2sxDB9u0EEjeglBe58R6GbxKqOW24Yx1Bkm8xH8Btn22alCw+
-	n5ZQ==
+	bh=XcOancrhepmhoCwcUI4lujiuE1xxfe3NajkiNt6NWnk=;
+	b=sIs0Zuj7lTZMFNYtbCp4ya27RyrjTzIe6o0kNjfTVlIi5esBR5S6/mgbFZnq5VwVT3
+	700EoPbNlFESGjPrK6B6YHQPRF8zUd8/ArWHPaL1IsH1KyjA5Uom8yd2m4i5t+gtkgiq
+	w+b2TcE2A/sSTWEV2GriHfJb1pXVxAVqn6TPqBvfIGV/9vek9MSgy3P81pOCaZYngAVg
+	g5xbQmdmcRzUukMAylvyO6OMVA35EwAqgInsAGIQWGvZZwrZ2YUkynGTvtCsZXuwGBE6
+	nYc/b1I18QeaALjcxpbpmBKNOJ18yTsjQGJ9Cpv6PXqNJZmTuMOpkVrkjfqnq+luL8dG
+	l5Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=I2VGnt+ccP5TXF77jhqDdVFG4H6eAjJxO5DG7P/PX8Y=;
-	b=RnzLZzVCF0cPMzhaydzMaB/xwORtfMmxzzXBV3B6OngUCOqy+Ext80dCz+UfYetNC0
-	8RXJySt0vaxfbZggEMi7M/nfYHs++0EA7E+P8QL/tgdlMKdUkjtypB8IbQq4uhJpJiLf
-	Mb5c+XsvTboGN4pll+oXrFmZzkAs3RU7sLWHZth/F3+eJgifPelOf92h05gveOGVB4HK
-	xURTBh65M+W1vu4Dr5o4NqFTssnk8viVdjy4zcY/Z9BGJ0KR+CAzjUUV0bkSDAeHsW84
-	DxleZmdU70lBCNQNTPUrf0jRn2guKZTn/tMgTJQpKCYfqAobs1HdZh1Yn/wcR+QA702f
-	0ftA==
-X-Gm-Message-State: APjAAAX12TzqGrios3MAbyZt6KkVj7au22EOGiCvkifm1B8XrYM873Du
-	YRu/9htkH9BRaFQcZmd3klfPoMjkr8w=
-X-Google-Smtp-Source: APXvYqw68XY6tssnJIjjvy9sf3YrXCaK0VFydpEuCQtCfGek0FZu9FwEeymCkXwZOpafhFnjHa07Fw==
-X-Received: by 2002:a17:902:7045:: with SMTP id
-	h5mr34968865plt.161.1570547092328; 
-	Tue, 08 Oct 2019 08:04:52 -0700 (PDT)
+	bh=XcOancrhepmhoCwcUI4lujiuE1xxfe3NajkiNt6NWnk=;
+	b=Blz7UeWgicHEGIA+5+JGq35boE1hkwyvhK8G5P6ljBgMArPySArTp/XH22MfBO6+JE
+	xT11OUiQWz4/4DMzwKGTV+FOi8U4AULW1rH5n92P0gY6U7U1fvXBwSLuTJaf8whqbd15
+	ZOan5sV6fIhTxP1BnWd3H2awyQxsAvNbulMw8hc2TG0RUspAlqIzeWHaSRl0FWQkgjid
+	krpzX4K7uWCsqy5JLr21+SK9Qc2JVmviahQ210kIl0lW5xW3GxWqe3SstK9WDDAesiLh
+	HJCM++mgdBhVlugObVDJUJsXDyhqPsv0TQw4a0xxXmrLgRJLwGQbEU5uRCFXa8F7vNoa
+	r1Uw==
+X-Gm-Message-State: APjAAAWoUy1avGGfGsG70v4Xyn1wgO9sBcD/6ImTMZmySAFX/khwMxxh
+	EFQ7cMKGa28wQTVppUPhEg5vv8oPMKU=
+X-Google-Smtp-Source: APXvYqy1F5ea/EwAprbkFyVuslfvzGyKVXlc1NfPTMM3MKQ1QDT9lJwCwz+5ef9DsRgH8S+9hTQb4w==
+X-Received: by 2002:a17:902:9a45:: with SMTP id
+	x5mr4315314plv.92.1570547093019; 
+	Tue, 08 Oct 2019 08:04:53 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:8d14:b7f9:8b16:849f])
 	by smtp.gmail.com with ESMTPSA id
-	a8sm17675579pfo.118.2019.10.08.08.04.51
+	a8sm17675579pfo.118.2019.10.08.08.04.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Oct 2019 08:04:51 -0700 (PDT)
+	Tue, 08 Oct 2019 08:04:52 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Oct 2019 08:04:36 -0700
-Message-Id: <9051c10e46960a357f0339e347618f5d83923fe4.1570546808.git.akuster808@gmail.com>
+Date: Tue,  8 Oct 2019 08:04:37 -0700
+Message-Id: <b6e17afc06d7a44dc9774ee98de7f186580ddf0d.1570546808.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1570546808.git.akuster808@gmail.com>
 References: <cover.1570546808.git.akuster808@gmail.com>
-Subject: [warrior 09/10] meson: Fix native patch to python3
+Subject: [warrior 10/10] uninative: Update to 2.7 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2019 15:04:51 -0000
+X-List-Received-Date: Tue, 08 Oct 2019 15:04:52 -0000
 
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-Fixes:
+The 2.7 release updates glibc to version 2.30. Recently added to openSUSE
+Tumbleweed and needed for Fedora Core 31.
 
-  File "/workdir/build/tmp/work/dbfp4-poky-linux/qv4l2/1.17.0+gitAUTOINC+95f39aae48-r0/recipe-sysroot-native/usr/lib/python3.7/site-packages/mesonbuild/dependencies/base.py", line 574, in _call_pkgbin
-    cache[(self.pkgbin, targs, fenv)] = self._call_pkgbin_real(args, env, use_native)
-  File "/workdir/build/tmp/work/dbfp4-poky-linux/qv4l2/1.17.0+gitAUTOINC+95f39aae48-r0/recipe-sysroot-native/usr/lib/python3.7/site-packages/mesonbuild/dependencies/base.py", line 556, in _call_pkgbin_real
-    cmd = self.pkgbin.get_command() + "-native" + args
-TypeError: can only concatenate list (not "str") to list
-
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/meson/meson/0003-native_bindir.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
-index da47745..2b22531 100644
---- a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
-+++ b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
-@@ -51,7 +51,7 @@ index 6d3678f..90fdb80 100644
- -        cmd = self.pkgbin.get_command() + args
- +    def _call_pkgbin_real(self, args, env, use_native=False):
- +        if use_native:
--+            cmd = self.pkgbin.get_command() + "-native" + args
-++            cmd = [self.pkgbin.get_command()[0] + "-native"] + args
- +        else:
- +            cmd = self.pkgbin.get_command() + args
-          p, out = Popen_safe(cmd, env=env)[0:2]
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index df24346..ad75d3e 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,9 +6,9 @@
+ # to the distro running on the build machine.
+ #
+ 
+-UNINATIVE_MAXGLIBCVERSION = "2.29"
++UNINATIVE_MAXGLIBCVERSION = "2.30"
+ 
+-UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.6/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "a37118fc8b423f48146120707b81dd15017512c3e8ef9e6ca2cb3a033f4f4046"
+-UNINATIVE_CHECKSUM[i686] ?= "3234fc3ded810225071f23a0e9a99f4f8c2480059945a848eff076ce78122ade"
+-UNINATIVE_CHECKSUM[x86_64] ?= "133387753a9acf3e1b788103c59fac91e968e2ee331d7a4b9498e926ada7be57"
++UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.7/"
++UNINATIVE_CHECKSUM[aarch64] ?= "e76a45886ee8a0b3904b761c17ac8ff91edf9811ee455f1832d10763ba794dfc"
++UNINATIVE_CHECKSUM[i686] ?= "810d027dfb1c7675226afbcec07808770516c969ee7378f6d8240281083f8924"
++UNINATIVE_CHECKSUM[x86_64] ?= "9498d8bba047499999a7310ac2576d0796461184965351a56f6d32c888a1f216"
 -- 
 2.7.4
 
