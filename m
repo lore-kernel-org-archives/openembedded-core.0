@@ -1,47 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D75837F4CC
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0ACE17F4D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Oct 2019 14:44:57 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id h4so3362971wrv.7
+	Wed,  9 Oct 2019 14:44:58 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id 3so2925016wmi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Oct 2019 07:44:59 -0700 (PDT)
+	Wed, 09 Oct 2019 07:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=9rt3SRBzwUoGFsQcTtocgmrHLjDZOLV55SjkPATGSRg=;
-	b=b7cdP7nKUSk5f1hzoHq9ziYeINonwJwJfthNY4rstrQsFwmgFMVPcsasRCnoOxas+0
-	pCbF8+AFlgrRV2TUk9JnJsotYofXrhviWSoyxjx2WJ3iXlMFyWg6xVA9EDgx+qBVLunq
-	YPDdn4HhEq3Ly6bO0TaOyK59CIXIwYxjtCCUjwzhhpgVnTiWH5f87eLNqdLp8RM+sgHn
-	Z5nzCsFihqhP62PP7DXCUsz9jzsj7z7pmWRBamQShsNiUDDtukl8ss/FjWv4owF7ZB1f
-	3L8iMpi+2Lfp6yVfinaovk/mSPApVLHp291AEPbVGe6KPUuzgABoOnifEzZb9uPsgV3b
-	TfRw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=PE6TUuCkBQ/l6RRwZbGWbW5xJypTaifmIkL4VK2Auf8=;
+	b=SXQjl+ETRGVhl97hyMHTsdFwjUwwIlHCe7j1JDoFAMZPF9R3UZG3ZZHzxdS1QqYGBp
+	iyBzc4fTaZxxFA1O6od88yY1yvKRhihvs3/HBmtJyIfaSlZNRlS14R85sGLx+zub/P+H
+	j8DXtb5cYsjMmrefxdHWW1dmxkLBW4O2JPJeztfHXjbT0C8TdipNURQbo2F44j0JU9+r
+	UKmqp9KroD8qW8h3E399reqQNxflNdmJIFyO6hv9x3N5UkobLwn7ZYzYEfxaLruvttKg
+	Fvh0v3AO6U+3BvBBRR+bXtTkMnoGflLLCPNTfZ2Dgj/xCbF5qw7oMAJvS1qIzPPhY93B
+	KYUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9rt3SRBzwUoGFsQcTtocgmrHLjDZOLV55SjkPATGSRg=;
-	b=p2yhvBR8sxig4JPLSQ4Xq33ojJK8Z4WiBP8Z7bjbmaiI1FDBxXvGte9AUrMSbv2shY
-	hCpI3j5O1YwYTOxdp6BldI7ah4GKEHt0ztFRo1osPpw1fA5siaqCxWdiAWHxCckXs/uG
-	YLGnqBQig7JzKsEW3OwfMg8fiWvGGK/qsNdXLaHGa8ZEJ+0Xag65wKsnYvlznSTDbkSY
-	MuRoLNAEpfrAE3Oey+dljgZilOL1D0pqzcDxvW9YcBq3eyDLDoTRiqwse4/3gOq4WxFj
-	/s6r0nQtUas0c42Xb9FkBFjZvNBNXTB5a5pBWZdceFYnN4BTWeYjMtIk9bjABxCur6zW
-	gP5w==
-X-Gm-Message-State: APjAAAWpPiwgdrUHxjztgRK72OItXrmv6DgLBOlEvu2vTC09vptpBkWG
-	/1HUnnQm6g3156JyfVI2HwDwL+69
-X-Google-Smtp-Source: APXvYqxdWEUQeWadPqY+9A34DuC8aqehwz3RQY8n1dJNKzAfjPQVx4xcLyk8FCO5Pn/SNUv+cNjqGQ==
-X-Received: by 2002:adf:aacc:: with SMTP id i12mr3253572wrc.15.1570632298501; 
-	Wed, 09 Oct 2019 07:44:58 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=PE6TUuCkBQ/l6RRwZbGWbW5xJypTaifmIkL4VK2Auf8=;
+	b=RWn+VpjsDipL8vZq6Hq7p6pzAe+R8b4NbxHDeNMg/1HdFMsAjXDsrlJVgQPTjN+DSa
+	PHzU52Ju4pJZRgyBTZpkcAHP1XVGAqINxAV4uOdhHa7FDukwrb8PCsL3vhL66PKNbMvM
+	irMfBO1CG0ERlY7hjODV0loACGwVkXpc7RzH/gvGjYSDSqOllOEe3qIyG6peO2g3sxR5
+	OTrSCmS+R+Q88ahdAmrcvSWQpk9dv//VbI1S2Fg1NMZZDmzRo56LbnbeHheDx0ADmJMW
+	IGDqahODr0Z59HRw7ocZXF9QTIjNvrasU343sHXQoCsHaAM5gNdecSaRWfmTLvM4OLQn
+	N8wA==
+X-Gm-Message-State: APjAAAVxltTrAA1VUIelvU2KStq+lm/a4hgerpnii0jD2L+6hkPMQI7o
+	P/FXbnrNXN1qaLj05ZGaHYyb7fnj
+X-Google-Smtp-Source: APXvYqxVUTfCvi/hXId8n9OEbZSUvykP1tJ97UCBBU1j6C6En0tpXntRJ59KdwHEzV5FlJ2r0ASL/Q==
+X-Received: by 2002:a1c:4386:: with SMTP id q128mr3122520wma.39.1570632299302; 
+	Wed, 09 Oct 2019 07:44:59 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	n22sm1789883wmk.19.2019.10.09.07.44.57
+	n22sm1789883wmk.19.2019.10.09.07.44.58
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Wed, 09 Oct 2019 07:44:58 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Oct 2019 16:44:46 +0200
-Message-Id: <20191009144447.86018-1-alex.kanavin@gmail.com>
+Date: Wed,  9 Oct 2019 16:44:47 +0200
+Message-Id: <20191009144447.86018-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [RFC PATCH 1/2] license.bbclass: split incompatible license check into a helper function
+In-Reply-To: <20191009144447.86018-1-alex.kanavin@gmail.com>
+References: <20191009144447.86018-1-alex.kanavin@gmail.com>
+Subject: [RFC PATCH 2/2] license_image.bbclass: check and reject packages which have incompatible licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,58 +59,80 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 09 Oct 2019 14:44:59 -0000
 
-This would help with checking incompatible licenses at do_rootfs step
-in image creation, where it is beneficial to pass the license string
-directly to the function.
+The use case is setting INCOMPATIBLE_LICENSE per image,
+rather than as an awkward, and too strict global setting.
+
+This for example would allow building development images with gplv3 tools,
+but production images without them, and checking that nothing gpl3-licensed
+gets into the latter.
+
+Examples are provided via the selftest: three scenarios are tested:
+
+- bash is added to the image, with a default gpl3 license; this is rejected
+- bash is added to the image, with a "gpl3 & other" license; this is also rejected
+- bash is added to the image, with a "gpl3 | other" license; this is accepted, but
+only 'other' is added to the license manifest (this was already handled correctly
+previously).
+
+Eventually, this would allow deprecating the meta-gplv2 layer, while still
+enforcing the no-gpl3 rule where possible and needed.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/license.bbclass | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ meta/classes/license_image.bbclass            |  2 ++
+ .../oeqa/selftest/cases/incompatible_lic.py   | 29 +++++++++++++++++++
+ 2 files changed, 31 insertions(+)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index adca881c85b..648a4d78922 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -287,17 +287,7 @@ def incompatible_license_contains(license, truevalue, falsevalue, d):
-     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
-     return truevalue if license in bad_licenses else falsevalue
- 
--def incompatible_license(d, dont_want_licenses, package=None):
--    """
--    This function checks if a recipe has only incompatible licenses. It also
--    take into consideration 'or' operand.  dont_want_licenses should be passed
--    as canonical (SPDX) names.
--    """
--    import oe.license
--    license = d.getVar("LICENSE_%s" % package) if package else None
--    if not license:
--        license = d.getVar('LICENSE')
--
-+def incompatible_pkg_license(d, dont_want_licenses, license):
-     # Handles an "or" or two license sets provided by
-     # flattened_licenses(), pick one that works if possible.
-     def choose_lic_set(a, b):
-@@ -311,6 +301,19 @@ def incompatible_license(d, dont_want_licenses, package=None):
-     return any(not oe.license.license_ok(canonical_license(d, l), \
-                dont_want_licenses) for l in licenses)
- 
-+def incompatible_license(d, dont_want_licenses, package=None):
-+    """
-+    This function checks if a recipe has only incompatible licenses. It also
-+    take into consideration 'or' operand.  dont_want_licenses should be passed
-+    as canonical (SPDX) names.
-+    """
-+    import oe.license
-+    license = d.getVar("LICENSE_%s" % package) if package else None
-+    if not license:
-+        license = d.getVar('LICENSE')
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index 3f102d0fbc3..e5cb1b8c77d 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -47,6 +47,8 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+         for pkg in sorted(pkg_dic):
+             if bad_licenses:
+                 try:
++                    if incompatible_pkg_license(d, bad_licenses, pkg_dic[pkg]["LICENSE"]):
++                        bb.fatal("Package %s has an incompatible license %s and cannot be installed into the image." %(pkg, pkg_dic[pkg]["LICENSE"]))
+                     (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) = \
+                         oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"],
+                         bad_licenses, canonical_license, d)
+diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+index 8fb93af8a89..e80c9783122 100644
+--- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
++++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+@@ -39,3 +39,32 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+     # INCOMPATIBLE_LICENSE contains this license
+     def test_incompatible_nonspdx_license(self):
+         self.lic_test('incompatible-nonspdx-license', 'FooLicense', 'FooLicense')
 +
-+    return incompatible_pkg_license(d, dont_want_licenses, license)
++class IncompatibleLicensePerImageTests(OESelftestTestCase):
++    def default_config(self):
++        return """
++IMAGE_INSTALL_append = "bash"
++INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
++"""
 +
- def check_license_flags(d):
-     """
-     This function checks if a recipe has any LICENSE_FLAGS that
++    def test_bash_default(self):
++        self.write_config(self.default_config())
++        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash has an incompatible license GPLv3+ and cannot be installed into the image."
++
++        result = bitbake('core-image-minimal', ignore_status=True)
++        if error_msg not in result.output:
++            raise AssertionError(result.output)
++
++    def test_bash_and_license(self):
++        self.write_config(self.default_config() + '\nLICENSE_append_pn-bash = " & SomeLicense"')
++        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash has an incompatible license GPLv3+ & SomeLicense and cannot be installed into the image."
++
++        result = bitbake('core-image-minimal', ignore_status=True)
++        if error_msg not in result.output:
++            raise AssertionError(result.output)
++
++    def test_bash_or_license(self):
++        self.write_config(self.default_config() + '\nLICENSE_append_pn-bash = " | SomeLicense"')
++
++        bitbake('core-image-minimal')
++
 -- 
 2.17.1
 
