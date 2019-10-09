@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BB1DB6C3B1
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A4B2A6C132
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Oct 2019 11:01:54 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id b9so2370339wrs.0
+	Wed,  9 Oct 2019 11:20:04 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id b24so2123659wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Oct 2019 04:01:56 -0700 (PDT)
+	Wed, 09 Oct 2019 04:20:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
 	bh=UKm0eOXY0XzA5fQqJdld1bqIl6sQwKb5JzaoQSDeSNU=;
-	b=lFUBbnap9djOzexAXG8zy9kYE4RpDxeYdH/wJSN3i+zens3tHLTZHZoGbJ9SghWU+a
-	JOvzbyctG2R9d8jLgSbeVlVQoewuufZV94yy1OVko0YXIpsYLqntIXqKldPwfKeK3R3L
-	yE2MiZhy62XI3qu9bnCkWH/AZYgmNBfXWZs2vQ0jO5f2qDUh6ayqDhwSUAeR0jmoVflz
-	V2soYu4KCrNHNMuyis1qDF8osH2DITeiBnQQBQ9KMrxIslxvs/IoBhpkCfdFp4/lwjqR
-	B9yWu0eraKVnfH4bxyiponITYSLCoJTdaaa1hCuiEzRfELkmIENbjVUgOdGe89G0VIuz
-	sYDg==
+	b=pBc1y4J1fpCl/y7w4xmyIM0sHMITNlhgHh3TdaD57l74javQsHd5alEA/Y1Cfibax+
+	+lfFnZ3bnc+yCdCc73Ipp9PSDM6B6KiDhzibZO4haGbD0SXGaWTlDwaOaoKk7kR4k//i
+	UqzP/guxyNbjQZ0nLp0s9ml2Ij5Udxq6qcHAqa6fHd1rvTHKMvpWU7tdbDzHL/jahOtX
+	JjsSovRIG+vRV5K6bfRnv/yF+ikewFKx0Y63cQ4uBcIpKLKG21MOiV3m6kvKjVL1IBXn
+	DRkYxrrDku2bP2xrPpAnLtwFOhDu/T/IoEZxJ9cyxNk03nCpHhoPKiF+2KJrGrDwPRA0
+	kvJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
 	bh=UKm0eOXY0XzA5fQqJdld1bqIl6sQwKb5JzaoQSDeSNU=;
-	b=fPAMpW7v5zv2HY4Ty5RYOJrYAuFX47d4YuseExUdrnmWwSzcC+lnsq+12uUTuHWyrk
-	ihdTCviyytI70mXQjeX959tC9uDWti/wcNdUXg+P12gp3/c34lij5SaIsQi7gXo/NViF
-	gFdlTPgJdO7YhVXGl3tjKypMddoVJeg8PlH3jvtznPqjcGVcEiBEE6xBm+CJm0RuUQa+
-	bsZNDCAxNzig7PrcK22E101lIp6wNbPlidEvViym60dLUzVjKRyQD1XbrbSQf4C+BV11
-	HP0D03+BtbqPP1Zk6vC4CUKVrvSvZ+IiE48I07TP+SzZdsi3zVrLzfMdACfii2VzQwF4
-	p0ZQ==
-X-Gm-Message-State: APjAAAXOJs3QiCuhVi6zx7pT1vAFNPDZDWasJyg1+KorvtVYIW0wyLLj
-	93xVIJ4zYmgSNTAdtP1htMxWfJhhulM=
-X-Google-Smtp-Source: APXvYqz6kMRI9QCWSFmv948qnKpre8YHhzATP+sFI15NtGPHo2vX/s2e0LH4HxoQU0kML19hdpmiEA==
-X-Received: by 2002:adf:f50a:: with SMTP id q10mr2279520wro.157.1570618915147; 
-	Wed, 09 Oct 2019 04:01:55 -0700 (PDT)
+	b=gimO9OEIcvQGx/V6OiF0JYHNbj8gjz6pTiT13WzpN+j9sG1iNn8J3d8gzywxNonE8S
+	3oM1YCjtV6WVrLs0pg0yAu/UTnNZYn8i1wNuQxDUDoKeoTpVdCOS4Ou/Odry3IxQd1xj
+	0bZmTgCWKgEpEbR+zLu/4FIefTh7hqzygfnacp+Zhha1EM5sWSJ4h3sMxlXj0mp8i0G1
+	Q7J0LRw76+l56CfCEOBtl0YRfocWeUklZibuN2cU0LGlhS8ZWad5Ws4u2vrD0lCxYfGD
+	9LmZv+EQQaekCvlZv5yB9L+pjCj0fK0zEjrET7bKoP3jcSRUX/26Ph8uyWdu7rSuVUgL
+	k/OQ==
+X-Gm-Message-State: APjAAAU77Qdh/FMdJwT9RSdCqKdTZMYg7DuKCbL7wtjNHgycd9CMoub4
+	RULdn4Zwt7ig44kA7QicX7q596fDK/0=
+X-Google-Smtp-Source: APXvYqzGZWelHoK6/EyCCs6tuQnM61gWQgETUtHLsFG25ELOPktsDcg+4Yf7hp23lbEv9hdYgkdpOg==
+X-Received: by 2002:a1c:f011:: with SMTP id a17mr2154709wmb.18.1570620005042; 
+	Wed, 09 Oct 2019 04:20:05 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	w17sm1660777wmi.30.2019.10.09.04.01.52
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id n8sm2346579wma.7.2019.10.09.04.20.04
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 09 Oct 2019 04:01:53 -0700 (PDT)
+	Wed, 09 Oct 2019 04:20:04 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Oct 2019 12:01:51 +0100
-Message-Id: <20191009110151.25071-1-ross.burton@intel.com>
+Date: Wed,  9 Oct 2019 12:20:01 +0100
+Message-Id: <20191009112001.27050-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Subject: [PATCH] oeqa/selftest/imagefeatures: improve test_hypervisor_fmts
@@ -59,7 +59,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Oct 2019 11:01:55 -0000
+X-List-Received-Date: Wed, 09 Oct 2019 11:20:04 -0000
 Content-Transfer-Encoding: 8bit
 
 If this test fails then the output doesn't help in any meaningful way, so
