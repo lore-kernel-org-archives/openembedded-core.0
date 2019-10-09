@@ -1,30 +1,28 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FF2D7F440
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 51FA87F389
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Oct 2019 01:53:02 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.67,273,1566835200"; d="scan'208";a="76674972"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 09 Oct 2019 09:53:02 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 919594CE14FE
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Oct 2019 09:53:01 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 9 Oct 2019 09:53:13 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 9 Oct 2019 09:53:04 +0800
-Message-ID: <20191009015304.18573-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Wed,  9 Oct 2019 02:04:45 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Oct 2019 19:04:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,273,1566889200"; d="scan'208";a="205604328"
+Received: from salujahi-mobl.gar.corp.intel.com (HELO linux.fritz.box)
+	([10.249.74.106])
+	by orsmga002.jf.intel.com with ESMTP; 08 Oct 2019 19:04:43 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Date: Wed, 09 Oct 2019 15:03:57 +1300
+Message-ID: <4911491.AjdURssxYH@linux.fritz.box>
+Organization: Intel Corporation
+In-Reply-To: <1570473350-6427-1-git-send-email-chandana.kalluri@xilinx.com>
+References: <1570473350-6427-1-git-send-email-chandana.kalluri@xilinx.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 919594CE14FE.AB348
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] sqlite3:upgrade 3.29 -> 3.30
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [master][PATCH] devtool: Add --remove-work option for devtool reset command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +35,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Oct 2019 01:53:03 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 09 Oct 2019 02:04:45 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- meta/recipes-support/sqlite/{sqlite3_3.29.0.bb => sqlite3_3.30.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.29.0.bb => sqlite3_3.30.0.bb} (58%)
+Hi Chandana,
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb b/meta/recipes-support/sqlite/sqlite3_3.30.0.bb
-similarity index 58%
-rename from meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.30.0.bb
-index 07e36be..feeee8a 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.30.0.bb
-@@ -4,5 +4,5 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+On Saturday, 5 October 2019 11:52:29 AM NZDT Sai Hari Chandana Kalluri wrote:
+> Enable --remove-work option for devtool reset command that allows user
+> to clean up source directory within workspace.
+> 
+> Currently devtool reset command only removes recipes and user is forced
+> to manually remove the sources directory within the workspace before
+> running devtool modify again.
+> 
+> Using devtool reset -r or devtool reset --remove-work option, user can
+> cleanup the sources directory along with the recipe instead of manually
+> cleaning it.
+
+Thanks for adding this, some comments below.
  
- SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[md5sum] = "8f3dfe83387e62ecb91c7c5c09c688dc"
--SRC_URI[sha256sum] = "8e7c1e2950b5b04c5944a981cb31fffbf9d2ddda939d536838ebc854481afd5b"
-+SRC_URI[md5sum] = "84230638d5b80b61843e43b5efcb9e53"
-+SRC_URI[sha256sum] = "e0a8cf4c7a87455e55e10413d16f358ca121ccec687fe1301eac95e2d340fc58"
--- 
-2.7.4
+> syntax: devtool reset -r <recipename>
+>     Ex: devtool reset -r zip
+> 
+> 	devtool finish -r <recipename> <layer-name>
+>     Ex: devtool finish -r zip meta-yocto-bsp
+> 
+> Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+> ---
+>  scripts/lib/devtool/standard.py | 26 +++++++++++++++++++-------
+>  1 file changed, 19 insertions(+), 7 deletions(-)
+> 
+> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+> index 60c9a04..1c0cd8a 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -1852,7 +1852,7 @@ def status(args, config, basepath, workspace):
+>      return 0
+>  
+>  
+> -def _reset(recipes, no_clean, config, basepath, workspace):
+> +def _reset(recipes, no_clean, remove_work, config, basepath, workspace):
+>      """Reset one or more recipes"""
+>      import oe.path
+>  
+> @@ -1930,10 +1930,15 @@ def _reset(recipes, no_clean, config, basepath, workspace):
+>          srctreebase = workspace[pn]['srctreebase']
+>          if os.path.isdir(srctreebase):
+>              if os.listdir(srctreebase):
+> -                # We don't want to risk wiping out any work in progress
+> -                logger.info('Leaving source tree %s as-is; if you no '
+> -                            'longer need it then please delete it manually'
+> -                            % srctreebase)
+> +                    if remove_work:
+> +                        logger.info('-r argument used on %s, removing source tree.'
+> +                                    ' You will lose any unsaved work' %pn)
 
+This may be true, but isn't it a bit harsh given the user can't do anything about it at this point? I would simply say "Removing source tree as requested (-r)" and leave it at that.
+
+
+> +                        shutil.rmtree(srctreebase)
+> +                    else:
+> +                        # We don't want to risk wiping out any work in progress
+> +                        logger.info('Leaving source tree %s as-is; if you no '
+> +                                    'longer need it then please delete it manually'
+> +                                    % srctreebase)
+>              else:
+>                  # This is unlikely, but if it's empty we can just remove it
+>                  os.rmdir(srctreebase)
+> @@ -1943,6 +1948,10 @@ def _reset(recipes, no_clean, config, basepath, workspace):
+>  def reset(args, config, basepath, workspace):
+>      """Entry point for the devtool 'reset' subcommand"""
+>      import bb
+> +    import shutil
+> +
+> +    recipes = ""
+> +
+>      if args.recipename:
+>          if args.all:
+>              raise DevtoolError("Recipe cannot be specified if -a/--all is used")
+> @@ -1957,7 +1966,7 @@ def reset(args, config, basepath, workspace):
+>      else:
+>          recipes = args.recipename
+>  
+> -    _reset(recipes, args.no_clean, config, basepath, workspace)
+> +    _reset(recipes, args.no_clean, args.remove_work, config, basepath, workspace)
+>  
+>      return 0
+>  
+> @@ -2009,6 +2018,7 @@ def finish(args, config, basepath, workspace):
+>              raise DevtoolError('Source tree is not clean:\n\n%s\nEnsure you have committed your changes or use -f/--force if you are sure there\'s nothing that needs to be committed' % dirty)
+>  
+>      no_clean = args.no_clean
+> +    remove_work=args.remove_work
+
+Please use PEP-8 spacing i.e. 
+
++    remove_work = args.remove_work
+
+(Only for standalone assignments - named parameters in function calls don't use spaces around the equals)
+
+
+> +    parser_reset.add_argument('--remove-work', '-r', action="store_true", help='Clean the sources directory along with append')
+
+The help text should be "Also delete the working source tree (NOTE: will delete unsaved work)"
+
+> +    parser_finish.add_argument('--remove-work', '-r', action="store_true", help='Clean the sources directory under workspace')
+
+Similar with the help text: "Also delete the working source tree (NOTE: will delete uncommitted work)"
+
+Also, please add oe-selftest tests for this as mentioned in my earlier reply - given we're deleting things here we need to make sure it doesn't regress in future.
+
+Thanks,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
 
