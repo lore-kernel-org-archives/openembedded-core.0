@@ -1,49 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <andrei@gherzan.ro>
 Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
 	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 30F407F4C0
+	by mail.openembedded.org (Postfix) with ESMTP id 317317F2B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Oct 2019 16:16:05 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id o18so3698590wrv.13
+	Wed,  9 Oct 2019 17:06:33 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id o18so3883633wrv.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Oct 2019 09:16:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	Wed, 09 Oct 2019 10:06:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.ro; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=/dmjJnotcPfFL5pJ9EwnyCmYnNoV1OUTzQINd+jetc4=;
-	b=eFx9m7Vdvwg7XbkAM7Y2iJhpTpCwJsIO9pkTl8KmZkC5oNEfYt+HQirWpZSYU70hgS
-	79ahDIY0RAhuCi6eC7zxQ6yKP4nXZRhB7PdAszEc8Dk9OaAIR/CU8gb/YVE76eMwMsn2
-	dAzJ0Pr2bTMcq08VugIULZRW2BVHSNhFe81Hc=
+	bh=SGNPyIcaaSZ5O2yMJxPQjfDwQ5XYuIGT4gsRdk11e94=;
+	b=cCLDcHZ2/6aJFSWjsl03+HGSm6z6D1g4dAYJPiiZu/V9hE6MBe0he48rCCTr7JNcAu
+	Qv8UuKaoUyTl5FtMctySuseiIre/GcT3GCyBc0ioI51xfQ4rYGBlLUs2Gbh11Ob5h1DM
+	Y/uGGBMS8fuJbw/NeUEqZcajdJpEY8KO6KhzR6l6emT6uKbG363KFTUJxk/GoNgsEHax
+	9Ck2DvXgVGdJutUrWHuiOFUtWE4S4dWQBxdw2dqtP2aaEL6YzY4sMrWUKdVsS2fFuO1y
+	RNeSKCoSPzGIEOJzEQd8eNqAZLkDBGYRO5EZEnAMvUyDkXvLR9t2DScZ4D82M8Upxso1
+	Kt8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=/dmjJnotcPfFL5pJ9EwnyCmYnNoV1OUTzQINd+jetc4=;
-	b=Xxab40Yb1lFMMj1uoXUlfYuB/ajUhBT0suJMjYK880JCwTRwdci8vXhnPNuJHy17Qg
-	vllMTo1o+QPdC0emSIHQ592FxggWhu+b+v+f94Zwpuoyce/z5OS+gGOQN5GYVhahyIMh
-	VfmevodRXFOqIzFDTbc+3SLQp37mS1IN3S9mO2VvoBgjDmBm4OVWqaFoScB6EkLDdIbI
-	iCMlczbIutNumz3wyzcxiRWtbRi46VF6Wr5QhKxF+7ScCb/7cuYGXmuOlzzlNMMt7jRr
-	38WULn3TujX/1fp9H47NIx6u1sCPwqWO4ZZoIvJ5/tGmKZQ2wtbjuEBkdRlPr8LIEmII
-	+RVw==
-X-Gm-Message-State: APjAAAW2ba/3UGP84Ch0CxprUcA9kjEhwf07lUUhEKLg7jsIsZ9Iu67s
-	wHYoq0GlN/fbr915VvKPuFJ004AtQb0=
-X-Google-Smtp-Source: APXvYqytmlBaldb+IbLz4kejswwWBABppXaMtqUCtLXvw7Ghi1PVx4vvyLdlIPa9gAdtZij/01IBoQ==
-X-Received: by 2002:adf:f306:: with SMTP id i6mr3786557wro.196.1570637765523; 
-	Wed, 09 Oct 2019 09:16:05 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	bh=SGNPyIcaaSZ5O2yMJxPQjfDwQ5XYuIGT4gsRdk11e94=;
+	b=uR8YZRlRQ+UwZPdScC9G8z+TsLzOMNpjcUat5d5kk0spUrVZFZd2WFBwzRr8xz16q9
+	kG9pIb6oDd/lLaPDeeQWOrXQnX2vrDoH/l2NdwwxBXY9T5pI0r4DAKoeZGGyo1Fn7P2A
+	v306qzpN2XHQUUOjo7LevkZfMcC3VRudQTPS66ygUWPNytM//1AHJlykjhOXsd7FwaWs
+	7LawWkKFxdmx/0kraflSi37HnBbG7eXnWw4u57fj6UQhwqPAWuI299C0V84uZTaBJQ2c
+	4UGKJeQRecCPs2t4tP8CF512q3+NUx2Buhc7ezQh1xspV4dSYXCpnugAH1t+DIS64dMA
+	Kp+g==
+X-Gm-Message-State: APjAAAWXS3XTd+lsVjEJk1SQEmJbodEwwwCAo+coIU1i/1gqLQJFxVkC
+	F2XOi5dRkoAsHS9+SZ3PYb2mcwR/boE=
+X-Google-Smtp-Source: APXvYqwwrzJyr93GDOwluhMwOmF83/c9ro79oPWraAMHgKTg4X5GB3KnybgXKEu9r4PY2bqj5YzAQg==
+X-Received: by 2002:a05:6000:12cd:: with SMTP id
+	l13mr3781708wrx.344.1570640794300; 
+	Wed, 09 Oct 2019 10:06:34 -0700 (PDT)
+Received: from beast.hanover.local ([81.145.148.228])
 	by smtp.gmail.com with ESMTPSA id
-	i11sm3194592wrq.48.2019.10.09.09.16.04
-	for <openembedded-core@lists.openembedded.org>
+	j18sm2885835wrs.85.2019.10.09.10.06.33
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 09 Oct 2019 09:16:04 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 09 Oct 2019 10:06:33 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Oct 2019 17:16:03 +0100
-Message-Id: <20191009161603.11746-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+Date: Wed,  9 Oct 2019 18:05:42 +0100
+Message-Id: <20191009170543.74807-1-andrei@gherzan.ro>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH] scripts/gen-lockedsig-cache: Don't list paths which don't exist
+Subject: [PATCH 1/2] metadata_scm.bbclass: Add git human readable ref function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +58,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Oct 2019 16:16:05 -0000
+X-List-Received-Date: Wed, 09 Oct 2019 17:06:34 -0000
 Content-Transfer-Encoding: 8bit
 
-This avoids failures seen on the autobuilder when generating eSDKs
-and release sstate copies.
+This function finds the most recent tag reachable from the current
+commit and computes a nice reference. In order to avoid code
+duplication, I generalized the branch and revision functions as well
+(base_get_metadata_git_branch, base_get_metadata_git_revision).
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- scripts/gen-lockedsig-cache | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/metadata_scm.bbclass | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
-index 48cb67112fd..9bfae9d8323 100755
---- a/scripts/gen-lockedsig-cache
-+++ b/scripts/gen-lockedsig-cache
-@@ -24,6 +24,8 @@ def extract_sha(filename):
- # a map from hash to list of file with that hash
- def map_sha_to_files(dir_, prefix, sha_map):
-     sstate_prefix_path = dir_ + '/' + prefix + '/'
-+    if not os.path.exists(sstate_prefix_path):
-+        return
-     sstate_files = os.listdir(sstate_prefix_path)
-     for f in sstate_files:
-         try:
+diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
+index 58bb4c555a..1fe4b55dca 100644
+--- a/meta/classes/metadata_scm.bbclass
++++ b/meta/classes/metadata_scm.bbclass
+@@ -23,20 +23,19 @@ def base_get_metadata_svn_revision(path, d):
+         pass
+     return revision
+ 
+-def base_get_metadata_git_branch(path, d):
++def base_get_metadata_git(path, cmd, d):
+     import bb.process
+-
+     try:
+-        rev, _ = bb.process.run('git rev-parse --abbrev-ref HEAD', cwd=path)
++        rev, _ = bb.process.run(cmd, cwd=path)
+     except bb.process.ExecutionError:
+         rev = '<unknown>'
+     return rev.strip()
+ 
++def base_get_metadata_git_branch(path, d):
++    return base_get_metadata_git(path, 'git rev-parse --abbrev-ref HEAD', d)
++
+ def base_get_metadata_git_revision(path, d):
+-    import bb.process
++    return base_get_metadata_git(path, 'git rev-parse HEAD', d)
+ 
+-    try:
+-        rev, _ = bb.process.run('git rev-parse HEAD', cwd=path)
+-    except bb.process.ExecutionError:
+-        rev = '<unknown>'
+-    return rev.strip()
++def base_get_metadata_git_describe(path, d):
++    return base_get_metadata_git(path, 'git describe --tags', d)
 -- 
-2.20.1
+2.23.0
 
 
