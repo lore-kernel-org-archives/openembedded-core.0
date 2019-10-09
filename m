@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B58097F375
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E5DB87F45E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Oct 2019 08:36:41 +0000 (UTC)
+	Wed,  9 Oct 2019 08:36:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x998agv5027149
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x998aiia018457
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 Oct 2019 01:36:42 -0700 (PDT)
+	Wed, 9 Oct 2019 01:36:44 -0700 (PDT)
 Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 9 Oct 2019 01:36:41 -0700
+	14.3.468.0; Wed, 9 Oct 2019 01:36:43 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 9 Oct 2019 16:36:39 +0800
-Message-ID: <20191009083640.38909-1-Qi.Chen@windriver.com>
+Date: Wed, 9 Oct 2019 16:36:40 +0800
+Message-ID: <20191009083640.38909-2-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191009083640.38909-1-Qi.Chen@windriver.com>
+References: <20191009083640.38909-1-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/2] python3: CVE-2019-16056
+Subject: [PATCH V2 2/2] python: CVE-2019-16056
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Oct 2019 08:36:41 -0000
+X-List-Received-Date: Wed, 09 Oct 2019 08:36:43 -0000
 Content-Type: text/plain
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- ...nt-parse-domains-containing-GH-13079.patch | 132 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.4.bb |   5 +-
- 2 files changed, 135 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
+ ...nt-parse-domains-containing-GH-13079.patch | 90 +++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.16.bb |  1 +
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
 
-diff --git a/meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch b/meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
+diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
 new file mode 100644
-index 0000000000..319e7ed07e
+index 0000000000..5415472a35
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
-@@ -0,0 +1,132 @@
-+From 90d56127ae15b1e452755e62c77dc475dedf7161 Mon Sep 17 00:00:00 2001
-+From: jpic <jpic@users.noreply.github.com>
-+Date: Wed, 17 Jul 2019 23:54:25 +0200
-+Subject: [PATCH] bpo-34155: Dont parse domains containing @ (GH-13079)
++++ b/meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
+@@ -0,0 +1,90 @@
++From 532ed09c5454bb789a301bb6f1339a0818255610 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Roberto=20C=2E=20S=C3=A1nchez?= <roberto@connexer.com>
++Date: Sat, 14 Sep 2019 13:26:38 -0400
++Subject: [PATCH] [2.7] bpo-34155: Dont parse domains containing @ (GH-13079)
++ (GH-16006)
 +
-+Before:
++This change skips parsing of email addresses where domains include a "@" character, which can be maliciously used since the local part is returned as a complete address.
 +
-+        >>> email.message_from_string('From: a@malicious.org@important.com', policy=email.policy.default)['from'].addresses
-+        (Address(display_name='', username='a', domain='malicious.org'),)
++(cherry picked from commit 8cb65d1381b027f0b09ee36bfed7f35bb4dec9a9)
 +
-+        >>> parseaddr('a@malicious.org@important.com')
-+        ('', 'a@malicious.org')
++Excludes changes to Lib/email/_header_value_parser.py, which did not
++exist in 2.7.
 +
-+    After:
-+
-+        >>> email.message_from_string('From: a@malicious.org@important.com', policy=email.policy.default)['from'].addresses
-+        (Address(display_name='', username='', domain=''),)
-+
-+        >>> parseaddr('a@malicious.org@important.com')
-+        ('', 'a@')
++Co-authored-by: jpic <jpic@users.noreply.github.com>
 +
 +https://bugs.python.org/issue34155
 +
@@ -76,32 +72,17 @@ index 0000000000..319e7ed07e
 +
 +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 +---
-+ Lib/email/_header_value_parser.py                  |  2 ++
 + Lib/email/_parseaddr.py                            | 11 ++++++++++-
-+ Lib/test/test_email/test__header_value_parser.py   | 10 ++++++++++
-+ Lib/test/test_email/test_email.py                  | 14 ++++++++++++++
++ Lib/email/test/test_email.py                       | 14 ++++++++++++++
 + .../2019-05-04-13-33-37.bpo-34155.MJll68.rst       |  1 +
-+ 5 files changed, 37 insertions(+), 1 deletion(-)
++ 3 files changed, 25 insertions(+), 1 deletion(-)
 + create mode 100644 Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
 +
-+diff --git a/Lib/email/_header_value_parser.py b/Lib/email/_header_value_parser.py
-+index fc00b4a098..bbc026ec71 100644
-+--- a/Lib/email/_header_value_parser.py
-++++ b/Lib/email/_header_value_parser.py
-+@@ -1582,6 +1582,8 @@ def get_domain(value):
-+         token, value = get_dot_atom(value)
-+     except errors.HeaderParseError:
-+         token, value = get_atom(value)
-++    if value and value[0] == '@':
-++        raise errors.HeaderParseError('Invalid Domain')
-+     if leader is not None:
-+         token[:0] = [leader]
-+     domain.append(token)
 +diff --git a/Lib/email/_parseaddr.py b/Lib/email/_parseaddr.py
-+index cdfa3729ad..41ff6f8c00 100644
++index 690db2c22d..dc49d2e45a 100644
 +--- a/Lib/email/_parseaddr.py
 ++++ b/Lib/email/_parseaddr.py
-+@@ -379,7 +379,12 @@ class AddrlistClass:
++@@ -336,7 +336,12 @@ class AddrlistClass:
 +         aslist.append('@')
 +         self.pos += 1
 +         self.gotonext()
@@ -115,7 +96,7 @@ index 0000000000..319e7ed07e
 + 
 +     def getdomain(self):
 +         """Get the complete domain name from an address."""
-+@@ -394,6 +399,10 @@ class AddrlistClass:
++@@ -351,6 +356,10 @@ class AddrlistClass:
 +             elif self.field[self.pos] == '.':
 +                 self.pos += 1
 +                 sdlist.append('.')
@@ -126,52 +107,31 @@ index 0000000000..319e7ed07e
 +             elif self.field[self.pos] in self.atomends:
 +                 break
 +             else:
-+diff --git a/Lib/test/test_email/test__header_value_parser.py b/Lib/test/test_email/test__header_value_parser.py
-+index 693487bc96..7dc4de1b7b 100644
-+--- a/Lib/test/test_email/test__header_value_parser.py
-++++ b/Lib/test/test_email/test__header_value_parser.py
-+@@ -1438,6 +1438,16 @@ class TestParser(TestParserMixin, TestEmailBase):
-+         self.assertEqual(addr_spec.domain, 'example.com')
-+         self.assertEqual(addr_spec.addr_spec, 'star.a.star@example.com')
-+ 
-++    def test_get_addr_spec_multiple_domains(self):
-++        with self.assertRaises(errors.HeaderParseError):
-++            parser.get_addr_spec('star@a.star@example.com')
-++
-++        with self.assertRaises(errors.HeaderParseError):
-++            parser.get_addr_spec('star@a@example.com')
-++
-++        with self.assertRaises(errors.HeaderParseError):
-++            parser.get_addr_spec('star@172.17.0.1@example.com')
-++
-+     # get_obs_route
-+ 
-+     def test_get_obs_route_simple(self):
-+diff --git a/Lib/test/test_email/test_email.py b/Lib/test/test_email/test_email.py
-+index c29cc56203..aa775881c5 100644
-+--- a/Lib/test/test_email/test_email.py
-++++ b/Lib/test/test_email/test_email.py
-+@@ -3041,6 +3041,20 @@ class TestMiscellaneous(TestEmailBase):
-+         self.assertEqual(utils.parseaddr('<>'), ('', ''))
-+         self.assertEqual(utils.formataddr(utils.parseaddr('<>')), '')
++diff --git a/Lib/email/test/test_email.py b/Lib/email/test/test_email.py
++index 4b4dee3d34..2efe44ac5a 100644
++--- a/Lib/email/test/test_email.py
+++++ b/Lib/email/test/test_email.py
++@@ -2306,6 +2306,20 @@ class TestMiscellaneous(TestEmailBase):
++         self.assertEqual(Utils.parseaddr('<>'), ('', ''))
++         self.assertEqual(Utils.formataddr(Utils.parseaddr('<>')), '')
 + 
 ++    def test_parseaddr_multiple_domains(self):
 ++        self.assertEqual(
-++            utils.parseaddr('a@b@c'),
+++            Utils.parseaddr('a@b@c'),
 ++            ('', '')
 ++        )
 ++        self.assertEqual(
-++            utils.parseaddr('a@b.c@c'),
+++            Utils.parseaddr('a@b.c@c'),
 ++            ('', '')
 ++        )
 ++        self.assertEqual(
-++            utils.parseaddr('a@172.17.0.1@c'),
+++            Utils.parseaddr('a@172.17.0.1@c'),
 ++            ('', '')
 ++        )
 ++
 +     def test_noquote_dump(self):
 +         self.assertEqual(
-+             utils.formataddr(('A Silly Person', 'person@dom.ain')),
++             Utils.formataddr(('A Silly Person', 'person@dom.ain')),
 +diff --git a/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
 +new file mode 100644
 +index 0000000000..50292e29ed
@@ -179,25 +139,18 @@ index 0000000000..319e7ed07e
 ++++ b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
 +@@ -0,0 +1 @@
 ++Fix parsing of invalid email addresses with more than one ``@`` (e.g. a@b@c.com.) to not return the part before 2nd ``@`` as valid email address. Patch by maxking & jpic.
-diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
-index 8693c446c2..580f47f976 100644
---- a/meta/recipes-devtools/python/python3_3.7.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.4.bb
-@@ -23,11 +23,12 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
-            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
-            file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
--	   file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
--	   file://crosspythonpath.patch \
-+           file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
-+           file://crosspythonpath.patch \
-            file://reformat_sysconfig.py \
-            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
-            file://0001-test_locale.py-correct-the-test-output-format.patch \
-+           file://0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
+index 5b856a5097..aec877825e 100644
+--- a/meta/recipes-devtools/python/python_2.7.16.bb
++++ b/meta/recipes-devtools/python/python_2.7.16.bb
+@@ -30,6 +30,7 @@ SRC_URI += " \
+            file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
+            file://float-endian.patch \
+            file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch \
++           file://0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
+ "
  
- SRC_URI_append_class-native = " \
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.17.1
 
