@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 9300C7F518
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 31B207F518
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2019 11:18:59 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id j18so7368748wrq.10
+	Thu, 10 Oct 2019 11:19:00 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id y19so7402552wrd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2019 04:19:00 -0700 (PDT)
+	Thu, 10 Oct 2019 04:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=X2i0oqJK7nGMPFgxHBJj0g9gZhxOKdZnJPfQiehYvIo=;
-	b=SMjXakqLcr45vZbzYVchUoIggqebIZkWps10MXwc3rDPI6mFDKOWtuGQj77K1l1a0A
-	6WVFYWCeYH5EsyiLoJ+sso7vEt22YAtX7XSKgQHnSD9ZQF7Sle1f8ymvO5u/wp/H3Qzn
-	hrITADdQSTtauKegnOShozoWbzQG08VvHRiBxVceCkiYeGlDaToctMSU7eyOEPk1YZCj
-	qN+ZWnETINWvNS0Vl1Eiyv8Zu/ldhQuORlbXTNNUsTP6VFt8IsmsmwTd1JuvLXqRXdoO
-	VU5KwRnlMqVghoWLssf2mdyRd20DhLxb9hWHNJHBMOgabWiJrwkGmpdJoDZ6FTy6OD0L
-	MOrg==
+	bh=2QHOmJLBSZDN8U4tdokZPJ/7C7SskPVpyG2QNN/E9bY=;
+	b=AffvvMT+LdPpxSkw+2zsts5OsYVSwGBMsajiSZYsjMiZ7HvNcCOSwNycq4pmxuCB5/
+	7qmnRV5slG2XioU4OkjwENp/WwIuZfxgerKP8jpch/VBSfZWTZ1Dus5bLoBbe9aXsMOp
+	aLPpQnz6PSdFnVfKf6P9Q1InoO6p2sAuuF8eVKxrAY3+q+Tkx6BWwqdFGCVBnAMm2iNJ
+	qQmlg8ui+QoYWXAhAND3rn4+Ey65sugPqOOQfCPEW8GncocSCtMKwy52+DF4vKEnQfeZ
+	EEGOCOQKkk3LgylU6XNCrgyL9IA8aANmzycqbfSVNWDzC5DO2tpDwUlfdwVuEEUVQS/I
+	T8Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=X2i0oqJK7nGMPFgxHBJj0g9gZhxOKdZnJPfQiehYvIo=;
-	b=UzLc9HCB4YL45rOMo9NjR5SC2YpQnJDGf1rClMtyrUdmZzAImhC0ghcmp7MWSYKn/O
-	ufK20v9yOIpWrw37ioYzBhS+wBdvxmgXzkPWVPflQGxUvW5UQEsuzW4sxfwqhWT1xprJ
-	Iv/DdZl1zezlLp64AGyRSkvzVEpideibF+dnUhhuGDEd52MG0SAroiaioXk6MMXX+Qfd
-	zkaoIsCqX2y42Z5tq45ehU+pZVOuGQX62CsHxVUvkDN1fIpp+NKNdvId8bKcaa5NmKd3
-	DW8FyMIpx0BCejUO3O7emLVkgvKXTkwE5gBCrZ5JhsQgAsNz7HF1Oguerzaa8kKgJMWd
-	VmeA==
-X-Gm-Message-State: APjAAAVMU11VsluegfR43wZIUIFSybtrR534aUcrkeTF9mI0Nw3p9hdv
-	1aXoREdAI6fk3BNloWIyq/CznmfayCY=
-X-Google-Smtp-Source: APXvYqxw3PXJkvItpJaBWd5sWKClS7kTxnsbEBObrpBbJ1sQcf3P5nECdlUE3JaawVQvH3DjPwhXyA==
-X-Received: by 2002:adf:f50b:: with SMTP id q11mr4479341wro.310.1570706340150; 
+	bh=2QHOmJLBSZDN8U4tdokZPJ/7C7SskPVpyG2QNN/E9bY=;
+	b=ot4HGUqfTQijXxPJQ1nkUE8WXLw9XOi0QVaisJ7BOWkGRNL6RAmiMQvOKpVRLbTtbc
+	9risbZnA7dRbVjYzZ/xUqjWvTbvRpe9CgyFPtPr8aobTmynHfY6eqP547UNK+GbQqgvL
+	IfkFPaaEMcTIPYwNlhxif6UvVADQ/M4ezXB4Uc4RQJjNOUtGxJsjszVtSXGYmc8FvSkc
+	e6RzyHqal6krJ28GWAHN0SlCrYevcdviSz4oe5Q5IHR8bIuqc5dRBgBc1w+y1d7N1i1n
+	emFNaM5LjuCiYoyr0m80by6rKXDgaXc/zuOBbz6sPKPfqtCrY694+5+Ce44Ut7J/aWhg
+	7nIw==
+X-Gm-Message-State: APjAAAVxuPCLYqfj15rEbNuOP1UdlPaI4rx1oFrtXt/A7onAlseBCn9p
+	gSRm6NGZ0PGbv9VBmIHfGODqJkgXdcU=
+X-Google-Smtp-Source: APXvYqyxnQG87bJUQxJYF9ofodeLcyaRT4gSFZRmufOiN6wLc7/3EYlVq2AM0vHGVQ3wZdm0loujdQ==
+X-Received: by 2002:adf:fd46:: with SMTP id h6mr7759056wrs.243.1570706340857; 
 	Thu, 10 Oct 2019 04:19:00 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	l13sm5831372wmj.25.2019.10.10.04.18.59
+	l13sm5831372wmj.25.2019.10.10.04.19.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 10 Oct 2019 04:18:59 -0700 (PDT)
+	Thu, 10 Oct 2019 04:19:00 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Oct 2019 13:18:45 +0200
-Message-Id: <20191010111848.3825-7-alex.kanavin@gmail.com>
+Date: Thu, 10 Oct 2019 13:18:46 +0200
+Message-Id: <20191010111848.3825-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191010111848.3825-1-alex.kanavin@gmail.com>
 References: <20191010111848.3825-1-alex.kanavin@gmail.com>
-Subject: [PATCH 07/10] bind: do not RDEPEND on bash
+Subject: [PATCH 08/10] elfutils: do not depend on target libtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,25 +59,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 10 Oct 2019 11:19:00 -0000
 
-Nothing in the target installation actually needs it.
+This seems to be entirely unneeded.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-connectivity/bind/bind_9.11.5-P4.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-devtools/elfutils/elfutils_0.177.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-index 69b11740734..f4e985036d5 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-@@ -133,7 +133,5 @@ PACKAGE_BEFORE_PN += "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3-
- FILES_python3-bind = "${sbindir}/dnssec-coverage ${sbindir}/dnssec-checkds \
-                 ${sbindir}/dnssec-keymgr ${PYTHON_SITEPACKAGES_DIR}"
- 
--RDEPENDS_${PN} = "bash"
--RDEPENDS_${PN}-utils = "bash"
- RDEPENDS_${PN}-dev = ""
- RDEPENDS_python3-bind = "python3-core python3-ply"
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.177.bb b/meta/recipes-devtools/elfutils/elfutils_0.177.bb
+index 78c3791936d..818794266ce 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.177.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.177.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://sourceware.org/elfutils"
+ SECTION = "base"
+ LICENSE = "GPLv2 & LGPLv3+ & GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+-DEPENDS = "libtool bzip2 zlib virtual/libintl"
++DEPENDS = "bzip2 zlib virtual/libintl"
+ DEPENDS_append_libc-musl = " argp-standalone fts musl-obstack "
+ # The Debian patches below are from:
+ # http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.176-1.debian.tar.xz
 -- 
 2.17.1
 
