@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 31B207F518
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C72F7F510
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 10 Oct 2019 11:19:00 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id y19so7402552wrd.3
+Received: by mail-wr1-f68.google.com with SMTP id h4so7397216wrv.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2019 04:19:01 -0700 (PDT)
+	Thu, 10 Oct 2019 04:19:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=2QHOmJLBSZDN8U4tdokZPJ/7C7SskPVpyG2QNN/E9bY=;
-	b=AffvvMT+LdPpxSkw+2zsts5OsYVSwGBMsajiSZYsjMiZ7HvNcCOSwNycq4pmxuCB5/
-	7qmnRV5slG2XioU4OkjwENp/WwIuZfxgerKP8jpch/VBSfZWTZ1Dus5bLoBbe9aXsMOp
-	aLPpQnz6PSdFnVfKf6P9Q1InoO6p2sAuuF8eVKxrAY3+q+Tkx6BWwqdFGCVBnAMm2iNJ
-	qQmlg8ui+QoYWXAhAND3rn4+Ey65sugPqOOQfCPEW8GncocSCtMKwy52+DF4vKEnQfeZ
-	EEGOCOQKkk3LgylU6XNCrgyL9IA8aANmzycqbfSVNWDzC5DO2tpDwUlfdwVuEEUVQS/I
-	T8Yg==
+	bh=9rt3SRBzwUoGFsQcTtocgmrHLjDZOLV55SjkPATGSRg=;
+	b=Rrq7GuJtLXVEf2ZfciwBSOGx4ks4JmqpcxF0dtf30WY4krn5qIPHId1JVBUcbaN2Qx
+	v4qf1hhj47XUvGa8JH08utvsda8Y2HkIxK7+HYNaHBtgcT0DSZYX9aihZ5wYQs3IFUyt
+	ysdaazACasEtlDTNlmkFgZyyI1hJhoFLjRYRjGzA+8sNIYsnLk+AMm1PqCRCT2Divzry
+	/9W3FvLi6SZi4QaN4qrksBVcE4zFigR1kOgDWtk53xBZFikHasrYmGqgBKM/FoqbFeHC
+	xrrAvub7ceJWaGQ5jSmxowF7g0M4Ja4R7WMCZLB9FpzNUEBTStfXufcELfiyOwPCpwCQ
+	CKzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=2QHOmJLBSZDN8U4tdokZPJ/7C7SskPVpyG2QNN/E9bY=;
-	b=ot4HGUqfTQijXxPJQ1nkUE8WXLw9XOi0QVaisJ7BOWkGRNL6RAmiMQvOKpVRLbTtbc
-	9risbZnA7dRbVjYzZ/xUqjWvTbvRpe9CgyFPtPr8aobTmynHfY6eqP547UNK+GbQqgvL
-	IfkFPaaEMcTIPYwNlhxif6UvVADQ/M4ezXB4Uc4RQJjNOUtGxJsjszVtSXGYmc8FvSkc
-	e6RzyHqal6krJ28GWAHN0SlCrYevcdviSz4oe5Q5IHR8bIuqc5dRBgBc1w+y1d7N1i1n
-	emFNaM5LjuCiYoyr0m80by6rKXDgaXc/zuOBbz6sPKPfqtCrY694+5+Ce44Ut7J/aWhg
-	7nIw==
-X-Gm-Message-State: APjAAAVxuPCLYqfj15rEbNuOP1UdlPaI4rx1oFrtXt/A7onAlseBCn9p
-	gSRm6NGZ0PGbv9VBmIHfGODqJkgXdcU=
-X-Google-Smtp-Source: APXvYqyxnQG87bJUQxJYF9ofodeLcyaRT4gSFZRmufOiN6wLc7/3EYlVq2AM0vHGVQ3wZdm0loujdQ==
-X-Received: by 2002:adf:fd46:: with SMTP id h6mr7759056wrs.243.1570706340857; 
-	Thu, 10 Oct 2019 04:19:00 -0700 (PDT)
+	bh=9rt3SRBzwUoGFsQcTtocgmrHLjDZOLV55SjkPATGSRg=;
+	b=qj1O0lc5dGAJmqhAcy3fEzwAJsOL/BMv7QO+4s/MW4/N4VoiOmSfAj6Ts4r/KkPBY+
+	Q5f+9qPm/DffU9bqbv3+Ze1r4SlKw1APjXfiDg1lLoQBN71LLlkDMzCollmUlf5EKP6v
+	Vow5Ji3oMf1dUvqRuEaKGlyGWbCV6mEgxmF1SnQdBsL/vMLTVsnPDBv1RIyEEJ3L30Ho
+	69FjwTewq553U8Vxh9z9NNxhqJVHktCdwO5jXoQS4RA8MxPmvUsmAd00jrJl59nWGARY
+	O3PZ1ot2wkZQ6JiNwpoZldvb7MnEnQAhLfqBjdn6KsOUMaLu0yMaRK34tQWtC/gkSJXJ
+	C87Q==
+X-Gm-Message-State: APjAAAVZA7isK3rAU+ugWaRxwvz77s3eK++ab5KHx3STpFLeoafAeZcw
+	mrOH9Bnw7d9GdjyLhrTzY+rM97fCFc8=
+X-Google-Smtp-Source: APXvYqzvavDDwa/W+345sZtr0CdnA9Z8dQty0nzqA7eVDdj7RPlBzu2zL9lgvKIijrDV8HGM643Jqg==
+X-Received: by 2002:a05:6000:112:: with SMTP id
+	o18mr8521104wrx.323.1570706341599; 
+	Thu, 10 Oct 2019 04:19:01 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
 	l13sm5831372wmj.25.2019.10.10.04.19.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 10 Oct 2019 04:19:00 -0700 (PDT)
+	Thu, 10 Oct 2019 04:19:01 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Oct 2019 13:18:46 +0200
-Message-Id: <20191010111848.3825-8-alex.kanavin@gmail.com>
+Date: Thu, 10 Oct 2019 13:18:47 +0200
+Message-Id: <20191010111848.3825-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191010111848.3825-1-alex.kanavin@gmail.com>
 References: <20191010111848.3825-1-alex.kanavin@gmail.com>
-Subject: [PATCH 08/10] elfutils: do not depend on target libtool
+Subject: [PATCH 09/10] license.bbclass: split incompatible license check into a helper function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +58,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2019 11:19:00 -0000
+X-List-Received-Date: Thu, 10 Oct 2019 11:19:01 -0000
 
-This seems to be entirely unneeded.
+This would help with checking incompatible licenses at do_rootfs step
+in image creation, where it is beneficial to pass the license string
+directly to the function.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/elfutils/elfutils_0.177.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/license.bbclass | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.177.bb b/meta/recipes-devtools/elfutils/elfutils_0.177.bb
-index 78c3791936d..818794266ce 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.177.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.177.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://sourceware.org/elfutils"
- SECTION = "base"
- LICENSE = "GPLv2 & LGPLv3+ & GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
--DEPENDS = "libtool bzip2 zlib virtual/libintl"
-+DEPENDS = "bzip2 zlib virtual/libintl"
- DEPENDS_append_libc-musl = " argp-standalone fts musl-obstack "
- # The Debian patches below are from:
- # http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.176-1.debian.tar.xz
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index adca881c85b..648a4d78922 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -287,17 +287,7 @@ def incompatible_license_contains(license, truevalue, falsevalue, d):
+     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+     return truevalue if license in bad_licenses else falsevalue
+ 
+-def incompatible_license(d, dont_want_licenses, package=None):
+-    """
+-    This function checks if a recipe has only incompatible licenses. It also
+-    take into consideration 'or' operand.  dont_want_licenses should be passed
+-    as canonical (SPDX) names.
+-    """
+-    import oe.license
+-    license = d.getVar("LICENSE_%s" % package) if package else None
+-    if not license:
+-        license = d.getVar('LICENSE')
+-
++def incompatible_pkg_license(d, dont_want_licenses, license):
+     # Handles an "or" or two license sets provided by
+     # flattened_licenses(), pick one that works if possible.
+     def choose_lic_set(a, b):
+@@ -311,6 +301,19 @@ def incompatible_license(d, dont_want_licenses, package=None):
+     return any(not oe.license.license_ok(canonical_license(d, l), \
+                dont_want_licenses) for l in licenses)
+ 
++def incompatible_license(d, dont_want_licenses, package=None):
++    """
++    This function checks if a recipe has only incompatible licenses. It also
++    take into consideration 'or' operand.  dont_want_licenses should be passed
++    as canonical (SPDX) names.
++    """
++    import oe.license
++    license = d.getVar("LICENSE_%s" % package) if package else None
++    if not license:
++        license = d.getVar('LICENSE')
++
++    return incompatible_pkg_license(d, dont_want_licenses, license)
++
+ def check_license_flags(d):
+     """
+     This function checks if a recipe has any LICENSE_FLAGS that
 -- 
 2.17.1
 
