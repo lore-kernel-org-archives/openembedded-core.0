@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 051347F50E
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E84727F50D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2019 11:18:57 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id o18so7343546wrv.13
+	Thu, 10 Oct 2019 11:18:58 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n14so7357481wrw.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2019 04:18:59 -0700 (PDT)
+	Thu, 10 Oct 2019 04:19:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=gmEmLKAGwPB9AoJILNAYy8fEJLanpDg/96TWc2Easio=;
-	b=rJjbu5duKfZGtEKB78uGuo02lfQwPmXbnFftg8KAGXlHG/2FDe+Eu7vzV3Yw/avx3W
-	9HkrH/yJ8ows0/SaB0Qr56fb/2UgUvzDVUhF3yVgIi3Lv/rTci9XAJ8cQrLN1nI8hh35
-	qsi9tdgECyb63H52D2LSngW04rNYlA9fnpU7a1Y5RGY+bsYo7fCpEycqcIG10MeevJ0Q
-	g1x6E5UEX+o8GhSNQ37M3wFxcKm4yBWaXMQaGr/tCWXYNQI5NDJfkYCVUj21US/o33i6
-	SmiX+gRdWssz0I+jHblkjSK3/HoJkn/q91OOWM/AqieDGuxUbFj49rFjEtoUe2ju8Bw4
-	KtuA==
+	bh=KJF17fgMvqPXQ+EKBMa+7E3Rlo/CFvG4fuPBLEapcpE=;
+	b=Ux4kxYPLlM+yc+3b0j+oh2jUAKnCUNhdhS+qTcCOVRLJk6UPSjhTSzWa+bp/OZcRDW
+	wkOnClkpo7Ct1sAYZ00JWolyJ+/FimNVExaK2xXayaBOPgwZ9iOStH3WN3J4x7WZgiMX
+	8RqqRDCl5pn/O77leHjCX95fZIMn3FgHsWcFANyrwkVn4/tROihVzW1g3YHvFzYyuh84
+	/up/Dz1VudAHGAnsyD6TIb9T1YKbFpBmCzn4aIVluPmXTzqI96o0M5jr0fMzlIC+X37+
+	G6nStwTFoAVQi8xlDuYBeknr1p4tRpfq7vImu3qA3fVJSN2339SVoJWUrM7dqHyMMaFx
+	ObjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=gmEmLKAGwPB9AoJILNAYy8fEJLanpDg/96TWc2Easio=;
-	b=ob//Yh1dhLKL5PnLpt0WN2vp0J1DthzsKCeNo27XGf4C/5Iup1UCWEpDAwtteMICcl
-	J79EFuIO/NZXf+sAMOFkgDVAp7GPl2YjtXsbG6swMebKf7SzIEiJ1i1n2+dHa92tfYhk
-	N4/YtMblbsZtgkFq0Q/0/fH8z8UC4gdjBsJ48FLmGN3oFui527PgtY9IzwRXf1VKm2eT
-	Kjx/W6Cg60L+bQkKStqHYTBwwGF27byF8Nm+45kEbbslEX2XAyFiicIi2nUpK6bcJnLP
-	tSkr4mtVHikrVC4Cb1yrlaCT++8gfcBYb6v1mi1ngPz+gwLL7MRScOi5IAGSyWDC6Gz1
-	mbyw==
-X-Gm-Message-State: APjAAAXpjjftFBpcEg9G7qCYtDXECZKrAaLu7GUcWjuDWvUzBaPV7fOB
-	KwRPqEle9E73t+hazzA2mOJx3uVElKQ=
-X-Google-Smtp-Source: APXvYqwzjRock5LqoOw+xxYfWL466x4WyKyynq7j1pwzAVpZBfPAVHbhJ/ndrZR3AGQqfbPGlcWD2w==
-X-Received: by 2002:a5d:420c:: with SMTP id n12mr7782864wrq.85.1570706338614; 
-	Thu, 10 Oct 2019 04:18:58 -0700 (PDT)
+	bh=KJF17fgMvqPXQ+EKBMa+7E3Rlo/CFvG4fuPBLEapcpE=;
+	b=qHfeujeqMhWZxvfxkLqQ3a2Bq/FF6QgDlR31A0PY73EHU5d36C7a54+3rTC4XP8XOH
+	9fymwmJVvs5iZFNL+HOht3ThS6z113WR3XbAdKv2xjEvmsy15lMeXglvCPzH/aVRNz89
+	cvjQw6hKKKqkPtD1COZ1dd07MkJuEEmBQOHEXu0AIdzmbvWwzG01MYbvj3vwcVkhkBgZ
+	/W9jKlHyHfaO1OHbW16OvK+U47BO3jDlAPCBDBqO6iw9yAflc3eWvdNmvQ2Zc82eikn3
+	9chuROWaPp6XXAFZIJzfTPen4gIyRkUMVPxtvU5ym+i21VtcWXLWYA5FJle3rtls6R5J
+	GOZw==
+X-Gm-Message-State: APjAAAWsbWNu2h8VRPBtqsOjAkNio5yu1OVvX7j+cKApi7O26mhyWuxr
+	Z+r9crxiq4tdI/V9J8E8Bs2w+cRS0ng=
+X-Google-Smtp-Source: APXvYqzhYww64YuNtgXqmBhOJ7U5DAor5XM5Y8Q7LvIJzJ1ZIglclSbMjrUMCYmUoA8fd2zacKK8TQ==
+X-Received: by 2002:adf:8068:: with SMTP id 95mr8632671wrk.249.1570706339508; 
+	Thu, 10 Oct 2019 04:18:59 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	l13sm5831372wmj.25.2019.10.10.04.18.57
+	l13sm5831372wmj.25.2019.10.10.04.18.58
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Thu, 10 Oct 2019 04:18:58 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Oct 2019 13:18:43 +0200
-Message-Id: <20191010111848.3825-5-alex.kanavin@gmail.com>
+Date: Thu, 10 Oct 2019 13:18:44 +0200
+Message-Id: <20191010111848.3825-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191010111848.3825-1-alex.kanavin@gmail.com>
 References: <20191010111848.3825-1-alex.kanavin@gmail.com>
-Subject: [PATCH 05/10] libcheck: split /usr/bin/checkmk into its own package
+Subject: [PATCH 06/10] iproute2: make elfutils support optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,36 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2019 11:18:58 -0000
+X-List-Received-Date: Thu, 10 Oct 2019 11:18:59 -0000
 
-This allows not pulling in gawk, which is gplv3 licensed when
-only the libcheck library itself is needed. checkmk is a
-development tool that writes out a C boilerplate for tests.
+The use case is as well allowing gpl3-free builds without
+pulling in outdated meta-gpl2 recipes.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/libcheck/libcheck_0.12.0.bb | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/iproute2/iproute2.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libcheck/libcheck_0.12.0.bb b/meta/recipes-support/libcheck/libcheck_0.12.0.bb
-index 94b0dc1bbd1..25ac2c4b260 100644
---- a/meta/recipes-support/libcheck/libcheck_0.12.0.bb
-+++ b/meta/recipes-support/libcheck/libcheck_0.12.0.bb
-@@ -18,7 +18,12 @@ inherit autotools pkgconfig texinfo
- CACHED_CONFIGUREVARS += "ac_cv_path_AWK_PATH=${bindir}/gawk"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+index d72871767f9..fc31b8444ee 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+@@ -9,14 +9,15 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://ip/ip.c;beginline=3;endline=8;md5=689d691d0410a4b64d3899f8d6e31817"
  
- RREPLACES_${PN} = "check (<= 0.9.5)"
--RDEPENDS_${PN} += "gawk"
--RDEPENDS_${PN}_class-native = ""
+-DEPENDS = "flex-native bison-native iptables elfutils libcap"
++DEPENDS = "flex-native bison-native iptables libcap"
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+PACKAGES =+ "checkmk"
-+
-+FILES_checkmk = "${bindir}/checkmk"
-+
-+RDEPENDS_checkmk = "gawk"
-+
+ inherit update-alternatives bash-completion pkgconfig
+ 
+ CLEANBROKEN = "1"
+ 
+-PACKAGECONFIG ??= "tipc"
++PACKAGECONFIG ??= "tipc elf"
+ PACKAGECONFIG[tipc] = ",,libmnl,"
++PACKAGECONFIG[elf] = ",,elfutils,"
+ 
+ EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip bridge misc genl \
+                 ${@bb.utils.contains('PACKAGECONFIG', 'tipc', 'tipc', '', d)}' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
 -- 
 2.17.1
 
