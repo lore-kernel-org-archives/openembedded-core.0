@@ -1,52 +1,48 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id DA36A7F50D
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+	[209.85.208.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 270A97F54C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2019 15:49:45 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id x10so3938140pgi.5
+	Thu, 10 Oct 2019 17:06:37 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id l21so6992986lje.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2019 08:49:47 -0700 (PDT)
+	Thu, 10 Oct 2019 10:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=XcOancrhepmhoCwcUI4lujiuE1xxfe3NajkiNt6NWnk=;
-	b=sDAi4iFQ5og5GHikBAzO4d3amkKZQ2UU1GLHDgJoitWBUh4v9uOqE3bCzS7zixaI4h
-	1S8995ok+tollTJ1U8SrJ49zZlJ+ICesQ5uPqVBzHEtWnvjoke4jYXmH8Kbw/zztS72Z
-	bqW9bQF6dHtMcdeoul7QGpB3jbFR8SvEjCc5CHj0dAMjW0dME/B7JMVKpZtgcEEa5M0X
-	XQfY5ni75Fr4Px3cGjnu4k/NEwn0o2Lx9Lc+U6PkJeJUQrOdchXMQ/eqfBOZ/H9gjB7p
-	9DPEwLB8QBR20Mmi2ErfU/fo4kvqLT9qkbFrTrD6oRtUPVkMOxKoh+2DiOXjGoNAASv0
-	Z1Ng==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=Vzsj/t/N9ND09cIqkwY1Nc/POfQC2zV0xFz9PX5KA1s=;
+	b=KPkqkwv5cZtIhis8Ka//AJMQZAc8k1ylRjlg7m0ZqH/lJVkozwhqc2gEP1edT+nmpz
+	F9U3YmnoWgRpTwGT3PCuNwjQBEqqvu750lPOgv45YeauEc6xnrsaNno7QyEvQiS/1NxT
+	wHoW1YhfUG2O4Y53/YJmturcFHmXV4yLGzvQLHNwTTqVBGrjIzgoTUuZebgupU/RKdMm
+	l79CTyUnh24BTxBsuLn9jHyS1WmWtmXdoy3N56T3+B/bXks3UbGT7lAQkbNmrI3Jl5f0
+	vw2yiSpsj4YsMusF/whoA4nDSDvbMr2J465N//yVIL3J3iDkzW5IVEjjXwH0wroYk1uw
+	ESrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=XcOancrhepmhoCwcUI4lujiuE1xxfe3NajkiNt6NWnk=;
-	b=bEBbxL0UWHOJuHtIcrPxXjChTBF7mt3KTIZV0lq5oisFju9X5sjOsfWfJnM8H7e/Ma
-	RIn/mFNHPI6lFQCEDya5iOTmxHc7rMiMQe2auqdXpHjxYMgElfDnIYcXtvkZPLGCRYcl
-	63vHvp/4WdhnFxyeSox3etubIIom6n8otUv4o/RiJ1RABxnqP75p+hbUnp2I453cVViP
-	98aQ+5NPLMu50UoobnaEhqvMRnueGcyoiNrzsL5N9DEK8Auavv8AqE6JYMIfkx2sizSD
-	CFu7Z7B9xFg/PpAT3t8x0dechzdNkSNU4fRVct3A630g/2R09h+i2+pnPrwf8X/7mFGT
-	uweg==
-X-Gm-Message-State: APjAAAWHckb+IjgW519oQ6YXn1psu4HyTKnE2G3MxuSXwlHTv/ZxR9Dc
-	hMuAwiGtcaakMvv744/V4glC8u42
-X-Google-Smtp-Source: APXvYqy1tH+GpZ4bbr/wiCcOJCuTUL/bXabfIzL+U8BVXOsErvd17aiz0iIp2/xM61WG8zoJo1Nffw==
-X-Received: by 2002:aa7:9538:: with SMTP id c24mr11501494pfp.8.1570722586799; 
-	Thu, 10 Oct 2019 08:49:46 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:ac6d:f6a6:e34b:c619])
-	by smtp.gmail.com with ESMTPSA id
-	m26sm9872552pgn.71.2019.10.10.08.49.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 10 Oct 2019 08:49:46 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Oct 2019 08:49:24 -0700
-Message-Id: <e6728a873f1eef335a9e21bdface304f13f0c952.1570722439.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1570722439.git.akuster808@gmail.com>
-References: <cover.1570722439.git.akuster808@gmail.com>
-Subject: [thud 12/12] uninative: Update to 2.7 release
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=Vzsj/t/N9ND09cIqkwY1Nc/POfQC2zV0xFz9PX5KA1s=;
+	b=aloIygrazxXJN7sC0GVSMWQ0k/Aq5C8iDlTW9AKiFOhphif6RAifKunyp0PWdKRRA4
+	ZMY38z9rZjGG/ym1b3+75/1oai4BpUtrEiycaLNNnMT1d8rJghN0kAaKD2Wpd0i1pnIf
+	S4tXMrXp9hPGuSlqc5XWDf/hwGR0mXJ/Gt+AXUZxjEnJV5V/4ruSYfVO4HEbxpUWuJhm
+	hCYVdVphzgszRtz6why96k0WTodqt1yCBpkdPx0IOjyN+DI3LbErcMyWEuCRThq38M/w
+	C2qSJyVGEzxBMpJ6M6s+srWrNRhc7jG4/L+S3gnlhRyfp+ZGWBAoiCz94SRVjs/y0HCE
+	523Q==
+X-Gm-Message-State: APjAAAXIEdCOTjKeY667DBDnsIglTkIZqTGP0pBJ/2vxZT371tuJO6dk
+	K9yTBCi3o/+L3/yiGFELLzWzSwDkqhuRZep33hn2Dw==
+X-Google-Smtp-Source: APXvYqytZdoeT6daOqka3KNE0YppF/eU1zHBZRpGrHL95I7Y+dw5PBeODNCfEYMf8Mhn/60McbNySqTX7DAuLRYCPBw=
+X-Received: by 2002:a2e:91c3:: with SMTP id u3mr6732201ljg.177.1570727196937; 
+	Thu, 10 Oct 2019 10:06:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191003164043.17347-1-nicola.lunghi@jci.com>
+	<3a61b4fb-de17-0222-100d-3fd27ce611f8@intel.com>
+	<CABPh3UPM6TCnGp309VUNPw7gfyhVrZ4WsDACQ1DZ43djJU=gNA@mail.gmail.com>
+In-Reply-To: <CABPh3UPM6TCnGp309VUNPw7gfyhVrZ4WsDACQ1DZ43djJU=gNA@mail.gmail.com>
+From: nick83ola <nick83ola@gmail.com>
+Date: Thu, 10 Oct 2019 18:06:25 +0100
+Message-ID: <CABPh3UMz=PRWc=G6qvHg3JXHWpSii338uiMh=+8Q76K+MfegdQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [meta][PATCH] ofono: run oe-stylize over recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +55,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2019 15:49:46 -0000
+X-List-Received-Date: Thu, 10 Oct 2019 17:06:37 -0000
+Content-Type: multipart/alternative; boundary="0000000000009cd1e00594916cd2"
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+--0000000000009cd1e00594916cd2
+Content-Type: text/plain; charset="UTF-8"
 
-The 2.7 release updates glibc to version 2.30. Recently added to openSUSE
-Tumbleweed and needed for Fedora Core 31.
+Hi Ross,
+yes I was thinking the same thing.
+Also the init file has some issue.
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Last thing: there's any particular reason why is better to use a tar.gz
+instead of git?
+Because git makes creating patches a lot easier.
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index df24346..ad75d3e 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,9 +6,9 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_MAXGLIBCVERSION = "2.29"
-+UNINATIVE_MAXGLIBCVERSION = "2.30"
- 
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.6/"
--UNINATIVE_CHECKSUM[aarch64] ?= "a37118fc8b423f48146120707b81dd15017512c3e8ef9e6ca2cb3a033f4f4046"
--UNINATIVE_CHECKSUM[i686] ?= "3234fc3ded810225071f23a0e9a99f4f8c2480059945a848eff076ce78122ade"
--UNINATIVE_CHECKSUM[x86_64] ?= "133387753a9acf3e1b788103c59fac91e968e2ee331d7a4b9498e926ada7be57"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.7/"
-+UNINATIVE_CHECKSUM[aarch64] ?= "e76a45886ee8a0b3904b761c17ac8ff91edf9811ee455f1832d10763ba794dfc"
-+UNINATIVE_CHECKSUM[i686] ?= "810d027dfb1c7675226afbcec07808770516c969ee7378f6d8240281083f8924"
-+UNINATIVE_CHECKSUM[x86_64] ?= "9498d8bba047499999a7310ac2576d0796461184965351a56f6d32c888a1f216"
--- 
-2.7.4
+Thanks
+Nick
 
 
+On Fri, 4 Oct 2019 at 16:46, Ross Burton <ross.burton@intel.com> wrote:
+
+> On 03/10/2019 17:40, Nicola Lunghi wrote:
+> > From: Nicola Lunghi <nick83ola@gmail.com>
+> >
+> > Variable ordering changed slightly and add the SRC_URI to the inc file
+>
+> If you're tidying up the recipe we might as well merge the bb and inc
+> file, as the inc is pointless.
+>
+> Ross
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--0000000000009cd1e00594916cd2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_quote"><div dir=3D"ltr"><div>Hi Ro=
+ss,</div><div>yes I was thinking the same thing.</div><div>Also the init fi=
+le has some issue.</div><div><br></div><div>Last thing: there&#39;s any par=
+ticular reason why is better to use a tar.gz instead of git?</div><div>Beca=
+use git makes creating patches a lot easier.</div><div><br></div><div></div=
+><div>Thanks</div><div>Nick<br></div><div><br></div></div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 4 Oct 2019 at 1=
+6:46, Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_b=
+lank">ross.burton@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">On 03/10/2019 17:40, Nicola Lunghi wrote:<br>
+&gt; From: Nicola Lunghi &lt;<a href=3D"mailto:nick83ola@gmail.com" target=
+=3D"_blank">nick83ola@gmail.com</a>&gt;<br>
+&gt; <br>
+&gt; Variable ordering changed slightly and add the SRC_URI to the inc file=
+<br>
+<br>
+If you&#39;re tidying up the recipe we might as well merge the bb and inc <=
+br>
+file, as the inc is pointless.<br>
+<br>
+Ross<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+</div></div>
+
+--0000000000009cd1e00594916cd2--
