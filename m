@@ -1,50 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id C51887F510
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 449B47E31D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2019 11:19:01 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id w12so7394422wro.5
+	Thu, 10 Oct 2019 15:49:28 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id t3so3930541pga.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2019 04:19:03 -0700 (PDT)
+	Thu, 10 Oct 2019 08:49:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=TXjzib+eJRWdf8XHFBkKbnjfYTGIUFi6Lckh9Wr/SC0=;
-	b=TDfqmA5RFiJRKOTrEze3FA3uxkyYglpsV9QKa8s/kcX0tm9CisOZqkjnYDpa1w2O7D
-	lMr/NIEbrMWV82nE16vjn2Kq0XVlvlEGm9GtJ+cp5Thc1iAw2OuQbKwfxqaP4/uamxlL
-	Rx3Lb3hhk28poPHd9I+LySf4309yRuS4wJ/+/6DP9eFMWkgGfFjHHq0ejfdHiwtYa4EP
-	4hIZKBZQQ3WEBcJj0egVFXBPO87MMrQpNC/twmVYNJlUoEnwADaUN/rQxqT8BtsdLxuP
-	f26X1ssEycC0+WNo5pBJDcT97LtF9zuIzzqw770TO8qyybrCm87j726mMyf1+1AOu/Y8
-	R8nQ==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mkUZ9bVqK0wzNZbDzgyEZKHnhsTsa0FTyE9kKQAeezQ=;
+	b=Tt9LZhlcguhbPiJDpJXTSI8/ObmjiBqpG1ZyhKWxLK2iIqicl2CJE4dYAswWhQfrSl
+	AD+S9uJQZ72FX36ksH3WbJbVjBBqnbJ3hmwbN5KHomcU3BFDFuTR78lYxUOsF4uBo/d2
+	bgdAZ8+7bUuihSwQGD+05e/UNsxriapAtCuKNLa+MiKJL5zIl+wevagfUgNMr3cJJdXF
+	Qi7vFGvj2kIkldZFUalnG2IFZ1MV8Cj10FrLzN84Z3hVGKL8g3mRBE/eNTkUEjsVOi4j
+	eJh/Twbmi3Qbh/DsbESHoVG5cdQsHgCLN6MjUjYHefvMSCXYyR4DTOJ4/wGVu9kRNb1Z
+	AX3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=TXjzib+eJRWdf8XHFBkKbnjfYTGIUFi6Lckh9Wr/SC0=;
-	b=osF5alEShHFgerh+cTY0PEasai/dUAL54grsXajdWcclmjxl0Qkvqrbf8EZs6Nibrb
-	z9YkmbpRFPc/T/pVgNwkE2zMhOlVmxF+MMwn5U0OHst5i6XSC1GDYNyDb7pD0P0C/3gM
-	DAackdjSUpV9aAfXhmUhUtp0GnOeC9hwAJ6rS49wG0lnPVj37zK1B2+QwW7p+YbNsOXi
-	/eiPsDFAqrdWRte385Ijw4O+VVN9cYOto01TfHcQWuC3yTmp3xgii9d01N3Jt8GBbkft
-	WN7N8m3ZtmZsDgjxqmdb7E1Sw623HiAAIVRplRNeo9Pjb/oFe+d1e+LGZaZ2Jc0REvki
-	0qMg==
-X-Gm-Message-State: APjAAAXtNDZdlGlXesh9RTDZSOx+AdSqjVgZ7a2rWvG8DSK0fwGm94RA
-	C9Ymh2SM3b9yuJ/MpUxKVEjZ5I+6f7Q=
-X-Google-Smtp-Source: APXvYqw26yyx95ceX0YMOwhhBFyyhHOpotdLFUhw5ikdRff+p/99bBXJKeRDR47+HuPIat/uNTbC5g==
-X-Received: by 2002:a5d:4287:: with SMTP id k7mr7724947wrq.283.1570706342303; 
-	Thu, 10 Oct 2019 04:19:02 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mkUZ9bVqK0wzNZbDzgyEZKHnhsTsa0FTyE9kKQAeezQ=;
+	b=O4J3whbUlvnYNDYZ9K9cSK9RLYGnMlM3qLvADTV/eLshFD3i50ehHRA9O1dHXAxVu8
+	IdU+etRfSXtAhX4aFtAhI4RRKpl5GiWVsfbUadUEhL+vjel9fL8c4M0yhvBqbML/DnCP
+	2rFSzmyRrjCy0mnS8lUL2fFgt3s875LwtnNhfTC3AMMH6+VdgAjq04CxRxUZ0l5QUUlq
+	nG5xSCPDPzXLvTSp4AtFELapsZtADGIj8OIgiHnRJ/RmWaLsFnJ2EnUKJqpR+9nwb3gl
+	x4l5eBIp8CNV34b5rHnXxok57s7HgAW74Qqq9GnLf5vtSGt00JLuMTao4CY+k7U7uEM6
+	LcLQ==
+X-Gm-Message-State: APjAAAWbcJYbw/kNJYSLAbR0kVVDw4wuRU7TgWxEyO7NMMhvoZjpYXeX
+	T6lle3ZecPWx0Jb6z9JkArkjEu+N
+X-Google-Smtp-Source: APXvYqw69fcfwVz+19Nm9Rni6F5+JBJct0yG61O8YbmADrb5xHTHFgxKi1VZNmCkeUPJPNdiflMlzg==
+X-Received: by 2002:a63:ec4f:: with SMTP id r15mr11561675pgj.17.1570722568856; 
+	Thu, 10 Oct 2019 08:49:28 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:ac6d:f6a6:e34b:c619])
 	by smtp.gmail.com with ESMTPSA id
-	l13sm5831372wmj.25.2019.10.10.04.19.01
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 10 Oct 2019 04:19:01 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	m26sm9872552pgn.71.2019.10.10.08.49.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 10 Oct 2019 08:49:27 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Oct 2019 13:18:48 +0200
-Message-Id: <20191010111848.3825-10-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191010111848.3825-1-alex.kanavin@gmail.com>
-References: <20191010111848.3825-1-alex.kanavin@gmail.com>
-Subject: [PATCH 10/10] license_image.bbclass: check and reject packages which have incompatible licenses
+Date: Thu, 10 Oct 2019 08:49:12 -0700
+Message-Id: <cover.1570722439.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [thud 00/12] Thud pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,108 +59,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2019 11:19:02 -0000
+X-List-Received-Date: Thu, 10 Oct 2019 15:49:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The use case is setting INCOMPATIBLE_LICENSE per image,
-rather than as an awkward, and too strict global setting.
+Please merge these to thud mainline
 
-This for example would allow building development images with gplv3 tools,
-but production images without them, and checking that nothing gpl3-licensed
-gets into the latter.
+Clean AB full build
 
-Examples are provided via the selftest: four scenarios are tested:
+The following changes since commit f5be8c8309a932cde507ba24d042880a922df0b6:
 
-- bash is added to the image, with a default gpl3 license; this is rejected
-- bash is added to the image, with a "gpl3 & other" license; this is also rejected
-- bash is added to the image, with a "gpl3 | other" license; this is accepted, but
-only 'other' is added to the license manifest (this was already handled correctly
-previously).
-- bash is added to the image with a default gpl3 license, and is additionally
-whitelisted for that image; this is accepted.
+  linux-yocto/4.14: update to v4.14.143 (2019-09-24 08:28:04 -0700)
 
-Eventually, this would allow deprecating the meta-gplv2 layer, while still
-enforcing the no-gpl3 rule where possible and needed.
+are available in the git repository at:
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/classes/license_image.bbclass            | 10 +++++-
- .../oeqa/selftest/cases/incompatible_lic.py   | 34 +++++++++++++++++++
- 2 files changed, 43 insertions(+), 1 deletion(-)
+  git://git.openembedded.org/openembedded-core-contrib stable/thud-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/thud-next
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 3f102d0fbc3..b5399b6d960 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -43,10 +43,16 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-     bad_licenses = [canonical_license(d, l) for l in bad_licenses]
-     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
- 
-+    whitelist = []
-+    for lic in bad_licenses:
-+        whitelist.extend((d.getVar("WHITELIST_" + lic) or "").split())
-+
-     with open(license_manifest, "w") as license_file:
-         for pkg in sorted(pkg_dic):
--            if bad_licenses:
-+            if bad_licenses and pkg not in whitelist:
-                 try:
-+                    if incompatible_pkg_license(d, bad_licenses, pkg_dic[pkg]["LICENSE"]):
-+                        bb.fatal("Package %s has an incompatible license %s and cannot be installed into the image." %(pkg, pkg_dic[pkg]["LICENSE"]))
-                     (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) = \
-                         oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"],
-                         bad_licenses, canonical_license, d)
-@@ -56,6 +62,8 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                 pkg_dic[pkg]["LICENSES"] = re.sub(r'[|&()*]', ' ', pkg_dic[pkg]["LICENSE"])
-                 pkg_dic[pkg]["LICENSES"] = re.sub(r'  *', ' ', pkg_dic[pkg]["LICENSES"])
-                 pkg_dic[pkg]["LICENSES"] = pkg_dic[pkg]["LICENSES"].split()
-+                if pkg in whitelist:
-+                    bb.warn("Including %s with an incompatible license %s into the image, because it has been whitelisted." %(pkg, pkg_dic[pkg]["LICENSE"]))
- 
-             if not "IMAGE_MANIFEST" in pkg_dic[pkg]:
-                 # Rootfs manifest
-diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-index 8fb93af8a89..424a9e69c3e 100644
---- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-+++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-@@ -39,3 +39,37 @@ class IncompatibleLicenseTests(OESelftestTestCase):
-     # INCOMPATIBLE_LICENSE contains this license
-     def test_incompatible_nonspdx_license(self):
-         self.lic_test('incompatible-nonspdx-license', 'FooLicense', 'FooLicense')
-+
-+class IncompatibleLicensePerImageTests(OESelftestTestCase):
-+    def default_config(self):
-+        return """
-+IMAGE_INSTALL_append = "bash"
-+INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
-+"""
-+
-+    def test_bash_default(self):
-+        self.write_config(self.default_config())
-+        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash has an incompatible license GPLv3+ and cannot be installed into the image."
-+
-+        result = bitbake('core-image-minimal', ignore_status=True)
-+        if error_msg not in result.output:
-+            raise AssertionError(result.output)
-+
-+    def test_bash_and_license(self):
-+        self.write_config(self.default_config() + '\nLICENSE_append_pn-bash = " & SomeLicense"')
-+        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash has an incompatible license GPLv3+ & SomeLicense and cannot be installed into the image."
-+
-+        result = bitbake('core-image-minimal', ignore_status=True)
-+        if error_msg not in result.output:
-+            raise AssertionError(result.output)
-+
-+    def test_bash_or_license(self):
-+        self.write_config(self.default_config() + '\nLICENSE_append_pn-bash = " | SomeLicense"')
-+
-+        bitbake('core-image-minimal')
-+
-+    def test_bash_whitelist(self):
-+        self.write_config(self.default_config() + '\nWHITELIST_GPL-3.0_pn-core-image-minimal = "bash"')
-+
-+        bitbake('core-image-minimal')
-+
+Adrian Bunk (1):
+  json-c: Don't --enable-rdrand
+
+Andrii Bordunov via Openembedded-core (1):
+  wget: Security fixes CVE-2018-20483
+
+Armin Kuster (1):
+  qemu: fix build issue on new hosts with glibc 2.30
+
+Chen Qi (1):
+  oeqa/selftest/context: ensure log directory exists
+
+Dan Tran (3):
+  qemu: Fix 4 CVEs
+  unzip: fix CVE-2019-13232
+  perl: Fix CVE-2018-18311 to 18314
+
+Khem Raj (1):
+  gnupg: Do not apply -Woverride-init guard for gcc >= 9
+
+Michael Halstead (1):
+  uninative: Update to 2.7 release
+
+Sean Nyekjaer (1):
+  libgpg-error: Fix build with gawk 5.x
+
+Shubham Agrawal (2):
+  elfutils: CVE fix for elfutils
+  sqlite3: Security fix for CVE-2019-8457
+
+ meta/conf/distro/include/yocto-uninative.inc       |  10 +-
+ meta/lib/oeqa/selftest/context.py                  |   1 +
+ meta/recipes-devtools/elfutils/elfutils_0.175.bb   |   2 +
+ .../elfutils/files/CVE-2019-7664.patch             |  65 ++++
+ .../elfutils/files/CVE-2019-7665.patch             | 154 +++++++++
+ meta/recipes-devtools/json-c/json-c_0.13.1.bb      |   2 -
+ .../perl/perl/CVE-2018-18311.patch                 | 183 +++++++++++
+ .../perl/perl/CVE-2018-18312.patch                 | Bin 0 -> 2125 bytes
+ .../perl/perl/CVE-2018-18313.patch                 |  60 ++++
+ .../perl/perl/CVE-2018-18314.patch                 | 271 ++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.24.4.bb          |   4 +
+ ...nux-user-assume-__NR_gettid-always-exists.patch |  49 +++
+ ...rename-gettid-to-sys_gettid-to-avoid-clas.patch |  95 ++++++
+ .../qemu/qemu/CVE-2018-10839.patch                 |   2 +-
+ .../qemu/qemu/CVE-2018-17958.patch                 |  52 ---
+ .../qemu/qemu/CVE-2018-18954.patch                 |  50 +++
+ .../recipes-devtools/qemu/qemu/CVE-2019-3812.patch |  39 +++
+ .../recipes-devtools/qemu/qemu/CVE-2019-6778.patch |  41 +++
+ .../recipes-devtools/qemu/qemu/CVE-2019-8934.patch | 215 +++++++++++++
+ meta/recipes-devtools/qemu/qemu_3.0.0.bb           |   8 +-
+ .../unzip/unzip/CVE-2019-13232_p1.patch            |  33 ++
+ .../unzip/unzip/CVE-2019-13232_p2.patch            | 356 +++++++++++++++++++++
+ .../unzip/unzip/CVE-2019-13232_p3.patch            | 121 +++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |   3 +
+ .../wget/wget/CVE-2018-20483_p1.patch              |  73 +++++
+ .../wget/wget/CVE-2018-20483_p2.patch              | 127 ++++++++
+ meta/recipes-extended/wget/wget_1.19.5.bb          |   2 +
+ ...1-Woverride-init-is-not-needed-with-gcc-9.patch |  31 ++
+ ...c-use-a-custom-value-for-the-location-of-.patch |   6 +-
+ meta/recipes-support/gnupg/gnupg/relocate.patch    |   2 +-
+ meta/recipes-support/gnupg/gnupg_2.2.12.bb         |   3 +-
+ .../libgpg-error-1.35-gawk5-support.patch          | 161 ++++++++++
+ .../libgpg-error/libgpg-error_1.32.bb              |   1 +
+ .../sqlite/files/CVE-2019-8457.patch               | 126 ++++++++
+ meta/recipes-support/sqlite/sqlite3_3.23.1.bb      |   1 +
+ 35 files changed, 2283 insertions(+), 66 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7664.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7665.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-18311.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-18312.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-18313.patch
+ create mode 100644 meta/recipes-devtools/perl/perl/CVE-2018-18314.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-assume-__NR_gettid-always-exists.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-linux-user-rename-gettid-to-sys_gettid-to-avoid-clas.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-17958.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-18954.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-3812.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-6778.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-8934.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p1.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p2.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/CVE-2019-13232_p3.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2018-20483_p1.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2018-20483_p2.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+ create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.35-gawk5-support.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2019-8457.patch
+
 -- 
-2.17.1
+2.7.4
 
 
