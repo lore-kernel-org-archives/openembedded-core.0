@@ -1,31 +1,52 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 74F83731CF
+Return-Path: <maxime.roussinbelanger@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F4917BD97
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 01:23:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9B1NXpV021004
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 10 Oct 2019 18:23:33 -0700 (PDT)
-Received: from [128.224.158.194] (128.224.158.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Thu, 10 Oct 2019 18:23:33 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <cover.1567169002.git.alex.kanavin@gmail.com>
-	<874b5e653ac604a410f2290e0b97ad7acb4a0d39.1567169002.git.alex.kanavin@gmail.com>
-	<3625c508-3380-25b3-aacd-63543d3782b1@windriver.com>
-	<CANNYZj_SOSotWpU_rBema9Pt_RAcdqAYws3Pxs=7JmwXK3Wz3w@mail.gmail.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <f804f910-749b-3dd4-2e7d-01f8332c0a02@windriver.com>
-Date: Fri, 11 Oct 2019 09:23:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Fri, 11 Oct 2019 04:14:26 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id c21so11984894qtj.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Oct 2019 21:14:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mQkFuGiDWfAgutHWL63FKK9nd3H3mczSE3OiFCqtqL0=;
+	b=VN/ayOeLACJ6qv0RA1GZNAYobKZGU8zmy3BBe7dn8azOruvBE3i5PTL9ZUyD70k9mM
+	+6GayHE7ceWzqa6jF1nNaZGNKLQZSP2w6f2cukSPqrJZ9BYmwUeq3JeHhqfDHb7CIEgQ
+	YPIIn4jFmGSgzxFAYt3q8fFvfeo51FT3TsJU8jQVPD7tPrSp4Qfp6v+7Hel4gstT/szb
+	s7iryM1MUQonOGmTWRwNGTBVKeChGAd2Rrqm/ZdI7euky4cl/z9NYVBoCwKJuG/iIXbo
+	G4oNbC16Rq18ae0k2nhS/ZMzql4VeIEBd+jAeTXTErfOPC3m1KNf+rxIfgQzCclJl6Sy
+	Rkww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mQkFuGiDWfAgutHWL63FKK9nd3H3mczSE3OiFCqtqL0=;
+	b=pKg3O2fsojhiwXhsH/hd+6U+yQ3now4PZFrr5l0skbisD+yYYjfQ+DLsccOXMf1zCt
+	26YPNhPXPspHRNSavConJtQLGMog5Te7Ax207LTBztmU35w9CD6Ms2FhxDftvO4qNYXl
+	T8oOHiCFvkM1f8fqdNRa8SH/PXf6Gtnwpg3LyB0/UnBjD2Jd46NwMolBwHd7dMp7jBg0
+	eAsDavS3FJahs92LXll5FC8TW8ZqC9KAu12HhEhcMZm5+xAmcZWOsRialu0MKc6B8zSB
+	aychcCNOVZMnk57z4BCNBbsgHH5kif85FBrd4IWcVkt9vvBc8VUTN2AJ9HW7GDDSn8iQ
+	5GfQ==
+X-Gm-Message-State: APjAAAWLqHbmVpgDVoMXIyxT1lRNjaRl+UQdK6DOUGWTd4Qa1aPkzVW1
+	z2siIWGDcJ6MFomLw2VV4CJ8gRqwpsU=
+X-Google-Smtp-Source: APXvYqzID+tYrl/hDwU01lTb33H2G5OGKPeRaRfSW8TvdPc7MZdnXzIfHJwA1piJQgTgKGjyn0RAyQ==
+X-Received: by 2002:ac8:7289:: with SMTP id v9mr14432850qto.155.1570767267126; 
+	Thu, 10 Oct 2019 21:14:27 -0700 (PDT)
+Received: from mbedesk.Sonatest.net
+	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
+	[174.94.156.236]) by smtp.gmail.com with ESMTPSA id
+	q64sm4045287qkb.32.2019.10.10.21.14.26
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 10 Oct 2019 21:14:26 -0700 (PDT)
+From: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
+	<maxime.roussinbelanger@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Oct 2019 00:13:58 -0400
+Message-Id: <20191011041359.5933-1-maxime.roussinbelanger@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_SOSotWpU_rBema9Pt_RAcdqAYws3Pxs=7JmwXK3Wz3w@mail.gmail.com>
-X-Originating-IP: [128.224.158.194]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/13] qemu: switch to '-vga std' emulated hardware from vmware/cirrus for x86/mips
+Subject: [PATCH 1/2] shadow: update homepage and bugtracker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,141 +59,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2019 01:23:40 -0000
-Content-Type: multipart/alternative;
-	boundary="------------758E85407C3DDA9C48A9B9B9"
-Content-Language: en-US
-
---------------758E85407C3DDA9C48A9B9B9
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 11 Oct 2019 04:14:26 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+The previous homepage and issue tracker is no longer available.
 
-On 10/10/19 6:02 PM, Alexander Kanavin wrote:
-> On Thu, 10 Oct 2019 at 08:16, Changqing Li <changqing.li@windriver.com 
-> <mailto:changqing.li@windriver.com>> wrote:
->
->     After switch from -vga vmware to -vga std (use qemux86-64),  start
->     image by "runqemu nographic",
->
->     Memory used by process Xorg raised a lot,   for my image,   from
->     ~%7 to ~%34 (check by ps aux --sort -rss)
->
->     also check memory by command "systemctl status xserver-nodm", 
->     raised from ~60M to ~120M.
->
->     with the high raise of memory usage of Xorg, when run oe-test on
->     the target,  OOM is happened like:
->
->     [ 1038.221438]*Out of memory*: Killed process 180 (Xorg)
->     total-vm:335368kB, anon-rss:68824kB, file-rss:0kB, shmem-rss:140kB
->
->
->     Also test with poky distro,  and image core-image-sato, also
->     installed procps.
->
->     1. "ps aux --sort -rss":  Xorg from  ~3.6%  to ~ 17.4%
->
->     2. "systemctl status xserver-nodm":  from ~65M to ~131M
->
->
->     Any idea about how to resolve this problem?  do we really need
->     unify all boards to -vga=std? Thanks.
->
->
-> The increased memory usage is due to glamor loading the full 3D stack, 
-> mesa and friends. You can drop opengl from DISTRO_FEATURES, or 
-> otherwise disable glamor in xorg recipe via PACKAGECONFIG.
->
-> Or you can bump the available RAM for your image like is already done 
-> for core-image-sato.
->
-> Alex
+Remove some trailing whitespace
 
-Thanks!
+Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
+---
+ meta/recipes-extended/shadow/shadow-sysroot_4.6.bb | 6 +++---
+ meta/recipes-extended/shadow/shadow.inc            | 8 ++++----
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-Sandy
+diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
+index ef014628f6..79fc8b80b5 100644
+--- a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
++++ b/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Shadow utils requirements for useradd.bbclass"
+-HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
+-BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
++HOMEPAGE = "http://github.com/shadow-maint/shadow"
++BUGTRACKER = "http://github.com/shadow-maint/shadow/issues"
+ SECTION = "base utils"
+ LICENSE = "BSD | Artistic-1.0"
+ LIC_FILES_CHKSUM = "file://login.defs_shadow-sysroot;md5=25e2f2de4dfc8f966ac5cdfce45cd7d5"
+@@ -27,6 +27,6 @@ do_install() {
+ SYSROOT_DIRS += "${sysconfdir}"
+ 
+ # don't create any packages
+-# otherwise: dbus-dev depends on shadow-sysroot-dev which depends on shadow-sysroot 
++# otherwise: dbus-dev depends on shadow-sysroot-dev which depends on shadow-sysroot
+ # and this has another copy of /etc/login.defs already provided by shadow
+ PACKAGES = ""
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index af38b911df..770c239e96 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -1,6 +1,6 @@
+ SUMMARY = "Tools to change and administer password and group data"
+-HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
+-BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
++HOMEPAGE = "http://github.com/shadow-maint/shadow"
++BUGTRACKER = "http://github.com/shadow-maint/shadow/issues"
+ SECTION = "base/utils"
+ LICENSE = "BSD | Artistic-1.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ed80ff1c2b40843cf5768e5229cf16e5 \
+@@ -59,7 +59,7 @@ NSCDOPT = ""
+ NSCDOPT_class-native = "--without-nscd"
+ NSCDOPT_class-nativesdk = "--without-nscd"
+ NSCDOPT_libc-glibc = "--with-nscd"
+-          
++
+ PAM_PLUGINS = "libpam-runtime \
+                pam-plugin-faildelay \
+                pam-plugin-securetty \
+@@ -136,7 +136,7 @@ do_install_append() {
+ 		sed -i -f ${WORKDIR}/login_defs_pam.sed ${D}${sysconfdir}/login.defs
+ 	fi
+ 
+-	install -d ${D}${sbindir} ${D}${base_sbindir} ${D}${base_bindir} 
++	install -d ${D}${sbindir} ${D}${base_sbindir} ${D}${base_bindir}
+ 
+ 	# Move binaries to the locations we want
+ 	rm ${D}${sbindir}/vigr
+-- 
+2.20.1
 
 
---------------758E85407C3DDA9C48A9B9B9
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 10/10/19 6:02 PM, Alexander Kanavin
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CANNYZj_SOSotWpU_rBema9Pt_RAcdqAYws3Pxs=7JmwXK3Wz3w@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div dir="ltr">On Thu, 10 Oct 2019 at 08:16, Changqing Li &lt;<a
-            href="mailto:changqing.li@windriver.com"
-            moz-do-not-send="true">changqing.li@windriver.com</a>&gt;
-          wrote:<br>
-        </div>
-        <div class="gmail_quote">
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-            0.8ex;border-left:1px solid
-            rgb(204,204,204);padding-left:1ex">
-            <div bgcolor="#FFFFFF">After switch from -vga vmware to -vga
-              std (use qemux86-64),  start image by "runqemu nographic",
-              <br>
-              <p>Memory used by process Xorg raised a lot,   for my
-                image,   from ~%7 to ~%34 (check by ps aux --sort -rss)<br>
-              </p>
-              <p>also check memory by command "systemctl status
-                xserver-nodm",  raised from ~60M to ~120M.</p>
-              <p>with the high raise of memory usage of Xorg, when run
-                oe-test on the target,  OOM is happened like:</p>
-              <p><span
-style="color:rgb(51,51,51);font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;background-color:rgb(245,245,245);text-decoration-style:initial;text-decoration-color:initial;display:inline;float:none">[
-                  1038.221438]<span> </span></span><b
-style="color:rgb(51,51,51);font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;letter-spacing:normal;text-align:start;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;background-color:rgb(245,245,245);text-decoration-style:initial;text-decoration-color:initial">Out
-                  of memory</b><span
-style="color:rgb(51,51,51);font-family:Arial,sans-serif;font-size:14px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;background-color:rgb(245,245,245);text-decoration-style:initial;text-decoration-color:initial;display:inline;float:none">:
-                  Killed process 180 (Xorg) total-vm:335368kB,
-                  anon-rss:68824kB, file-rss:0kB, shmem-rss:140kB</span></p>
-              <p><br>
-              </p>
-              <p>Also test with poky distro,  and image core-image-sato,
-                also installed procps.<br>
-              </p>
-              <p>1. "ps aux --sort -rss":  Xorg from  ~3.6%  to ~ 17.4%</p>
-              <p>2. "systemctl status xserver-nodm":  from ~65M to ~131M</p>
-              <p><br>
-              </p>
-              <p>Any idea about how to resolve this problem?  do we
-                really need unify all boards to -vga=std? Thanks.</p>
-            </div>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>The increased memory usage is due to glamor loading the
-            full 3D stack, mesa and friends. You can drop opengl from
-            DISTRO_FEATURES, or otherwise disable glamor in xorg recipe
-            via PACKAGECONFIG.</div>
-          <div><br>
-          </div>
-          <div>Or you can bump the available RAM for your image like is
-            already done for core-image-sato.</div>
-          <div><br>
-          </div>
-          <div>Alex<br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p>Thanks!</p>
-    <p>Sandy<br>
-    </p>
-  </body>
-</html>
-
---------------758E85407C3DDA9C48A9B9B9--
