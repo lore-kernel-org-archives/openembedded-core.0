@@ -1,48 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
-	[209.85.160.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A2817F597
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DDC37F37D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 14:39:48 +0000 (UTC)
-Received: by mail-qt1-f171.google.com with SMTP id w14so14160540qto.9
+	Fri, 11 Oct 2019 18:57:30 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id q10so6622794pfl.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 07:39:49 -0700 (PDT)
+	Fri, 11 Oct 2019 11:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8hCvZmxixUTSRZDumNkN/DNIImCSY0N9JtOI/fMdnhs=;
-	b=J1DErPZbatF3gvtBkcZJAvI2PEH+YSE39fo3C0PByyxpy86OoSk5Ick3Z3tD8ZDprG
-	8/yWC3h2lgcqBzxOzOuiPBzgEfLRohFa9XzxrdRDM0uPFObiAjJ+NbhCsXwaybZ6eQxG
-	q0XrGksjLZFMI0+FNQlyuDJluJNj2ndLeH9+9evIzJ6LvsmGpD4FBLhaKDuqjzeQjMYv
-	48WTFTdP9+yuFhYNEKU7PWONFjAL8I2wjK7aD+e5+5PhuKcKZfw0VWWpECmdRgsfVt24
-	yCvQZlzguv9pLZc6WfKifP0qCUtxdgJLcNtsXQMOtzFSaO4BdQQrSW02ta3GBO/osJD5
-	XKUg==
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=o2SAHCTYFZ9gh7E4HC/92nexrB58WEilfKEWKCPMZ+4=;
+	b=LCIGHY+7lDEyR0AFyIqaWs3AkQEDdiPhiCgHTr3O3YvneIiA5RxkbjEqwR+sZzdFui
+	38f4czK9fykl05SCSc9iZZuUuVJUqanMakOXMo1CiVukcbGdQi08cObblY+TJIJo8fRK
+	2IXmphImiLgnX/xQOKgOlhy0+x+SP00Z0cbYm8vDmjphdDsjEjtEAjnxxzk5tlfM9SbQ
+	sI0WR8zyJoOuyjKdfWO1N/vq2HvIkXQaIwRSSafeNbxnh0gsMg5LxGYMzEXHWiRkZspt
+	mbt07OSGRH3A+wdMQROHbpNHYQgur8tS8JnYfe5wx59Im2SdFVwsz6kLDqv0dB+CJIQn
+	BN/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8hCvZmxixUTSRZDumNkN/DNIImCSY0N9JtOI/fMdnhs=;
-	b=f59I7l5BZ+HXMYwm3j6wv+I9ZKSq623hpFt/9tG0f9lDTVh2voy8RKTikVGlUSNxlU
-	EhVdIQxa+ArSRcKWWgcwZtYCVFgtOASeOhPl1ccvuz0IFS2uy15rTAWHvTW3/rr5yD2n
-	QNM3YJNXmIhiIt2Dcw8iVrc5ZrXWY48FSZSKlzx56iy4gkyUsrCE1X7FlJQk4LiN8yyA
-	awbJesSLKstgK5M7dJNvy7EPJtAXSUr9+5d80GQ827wPdxnpQl8WWkiMvM4+m6HGkPiN
-	wT7IWsPBfexVPhiWXb1rw/uUTlgEpRyHFhYGN95BHm6fzTTY8I+KYhAAAFdUHLld1Iis
-	cExw==
-X-Gm-Message-State: APjAAAVxT5bkz67R1K/P3/AwfEIJSp8r2TNy1cO+43ZVbSN+cqR8CTDt
-	ZDvO1MSc/U2qYY/vsBtaPAuR5suZsC78fzr5hTk=
-X-Google-Smtp-Source: APXvYqwmTHW52ccAwM+zQm/pFk+4B1bEd7DE/1k3XImn3zB9I9kXVP+X0Nj4TZaosRYXaIQsWJig5mivY29lyWwJOnI=
-X-Received: by 2002:ac8:768e:: with SMTP id g14mr2502705qtr.378.1570804788761; 
-	Fri, 11 Oct 2019 07:39:48 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=o2SAHCTYFZ9gh7E4HC/92nexrB58WEilfKEWKCPMZ+4=;
+	b=fXCnNVHKvwRVQQcd8a21n9/AfeKq/tMOE48jOPtSv7USVN4Pw0Y9J4pKCRxOao/nP0
+	yxavcOIemRx0EH05MC2eSLRBFfZZ/3ClPYigvCzXicNwh64vi+Sf+MmiFumwGHmpBRvw
+	Y7dqPNRPUqOdnIi+D//j9GW+ecetVJO3JG1KkDaLrFUFxGTgbgqiq/cRKFZMe01In3L8
+	kaBYMmDgbvwMLPl18iIyTn8UQJIkVPAuYk9/zfcR69h6DOXzevF7FZKvvwzZZuYI82MM
+	JpqOwb2tYfi0Y+O21OcxzSUmqZoO9xS+i5sLvgNWO4TcC9B4NAsJhFr2KzZfRfHzx4lT
+	FExg==
+X-Gm-Message-State: APjAAAXtOVaQe0UnrGT6eDK/GXgYcGXLqeqZf+3/Y8NUKHjOpvYw6KyP
+	57406rhzoQaZczfL0cce0Sk=
+X-Google-Smtp-Source: APXvYqwOwaZX0EHSzLGv4JNKycVsWaUjh9KE4mTf2l1eqpBFlVXW6Og730L9IKoptUdNBKzuEINR4A==
+X-Received: by 2002:a63:200e:: with SMTP id g14mr18752041pgg.210.1570820251169;
+	Fri, 11 Oct 2019 11:57:31 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:a5c0:103e:a562:b75f:8d63?
+	([2601:202:4180:a5c0:103e:a562:b75f:8d63])
+	by smtp.gmail.com with ESMTPSA id k6sm845115pfg.162.2019.10.11.11.57.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 11 Oct 2019 11:57:30 -0700 (PDT)
+To: Stefan Agner <stefan@agner.ch>, openembedded-core@lists.openembedded.org
+References: <20191011090659.34036-1-stefan@agner.ch>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <3c3f29ad-49a2-6738-276b-b33da09de9d6@gmail.com>
+Date: Fri, 11 Oct 2019 11:57:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191011114754.91740-1-alex.kanavin@gmail.com>
-	<20191011114754.91740-9-alex.kanavin@gmail.com>
-In-Reply-To: <20191011114754.91740-9-alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 11 Oct 2019 07:39:22 -0700
-Message-ID: <CAMKF1sp7KwGZSgsPobPDAN+K3q3M72xDkQ2e1muuDpnJ+fbU-w@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 09/19] webkitgtk: update 2.24.4 -> 2.26.1
+In-Reply-To: <20191011090659.34036-1-stefan@agner.ch>
+Cc: Stefan Agner <stefan.agner@toradex.com>, liu.ming50@gmail.com
+Subject: Re: [PATCH] uninative: check .done file instead of tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,310 +107,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2019 14:39:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Oct 11, 2019 at 4:49 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Drop patches:
-> - 0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch - this
-> has been a pain to rebase for a while as upstream keeps shifting and
-> changing the code that needs to be modified. If the issue the patch
-> is addressing is still relevant, please work with upstream to fix it
-> at the source
->
-
-IIRC this has already been fixed differently. So dropping it might be fine.
+X-List-Received-Date: Fri, 11 Oct 2019 18:57:30 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
 
-> - 0001-gstreamer-add-a-missing-format-string.patch, narrowing.patch
-> are integrated upstream
+
+On 10/11/19 2:06 AM, Stefan Agner wrote:
+> From: Stefan Agner <stefan.agner@toradex.com>
 >
-> - detect-gstreamer-gl.patch is adjusting something that is better done
-> from the yocto package configuration
+> In case multiple builds share UNINATIVE_DLDIR's location, one build
+> might be in the process of downloading the tarball while another is
+> just checking whether the tarball exists. Check for the done file
+> instead and rely on the fetchers lockfile mechanism in case two
+> builds are running.
 >
-> Add an option to disable an enabled-by-default sandbox that requires
-> a component that oe-core does not have.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+
+With backports I assume if this goes in.
+
+- armin
 > ---
->  ...acros-Append-to-I-and-not-to-isystem.patch | 125 ------------------
->  ...streamer-add-a-missing-format-string.patch |  24 ----
->  .../webkitgtk/detect-gstreamer-gl.patch       |  20 ---
->  .../webkit/webkitgtk/narrowing.patch          |  31 -----
->  ...ebkitgtk_2.24.4.bb => webkitgtk_2.26.1.bb} |   9 +-
->  5 files changed, 3 insertions(+), 206 deletions(-)
->  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
->  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-gstreamer-add-a-missing-format-string.patch
->  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch
->  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/narrowing.patch
->  rename meta/recipes-sato/webkit/{webkitgtk_2.24.4.bb => webkitgtk_2.26.1.bb} (93%)
+>  meta/classes/uninative.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-> deleted file mode 100644
-> index e71905d26a1..00000000000
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-> +++ /dev/null
-> @@ -1,125 +0,0 @@
-> -From d1634e56a2589ec62325011bf77d480a67123b52 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Sun, 17 Apr 2016 12:35:41 -0700
-> -Subject: [PATCH] WebKitMacros: Append to -I and not to -isystem
-> -
-> -gcc-6 has now introduced stdlib.h in libstdc++ for better
-> -compliance and its including the C library stdlib.h using
-> -include_next which is sensitive to order of system header
-> -include paths. Its infact better to not tinker with the
-> -system header include paths at all. Since adding /usr/include
-> -to -system is redundant and compiler knows about it moreover
-> -now with gcc6 it interferes with compiler's functioning
-> -and ends up with compile errors e.g.
-> -
-> -/usr/include/c++/6.0.0/cstdlib:75:25: fatal error: stdlib.h: No such file or directory
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -Upstream-Status: Pending
-> -
-> ----
-> - Source/JavaScriptCore/shell/CMakeLists.txt | 2 +-
-> - Source/WebCore/PlatformGTK.cmake           | 6 +++---
-> - Source/WebKit/PlatformGTK.cmake            | 2 +-
-> - Source/cmake/WebKitMacros.cmake            | 2 +-
-> - Tools/MiniBrowser/gtk/CMakeLists.txt       | 2 +-
-> - Tools/TestWebKitAPI/PlatformGTK.cmake      | 2 +-
-> - 6 files changed, 8 insertions(+), 8 deletions(-)
-> -
-> -diff --git a/Source/JavaScriptCore/shell/CMakeLists.txt b/Source/JavaScriptCore/shell/CMakeLists.txt
-> -index 87153e35..cd0beed4 100644
-> ---- a/Source/JavaScriptCore/shell/CMakeLists.txt
-> -+++ b/Source/JavaScriptCore/shell/CMakeLists.txt
-> -@@ -36,7 +36,7 @@ WEBKIT_INCLUDE_CONFIG_FILES_IF_EXISTS()
-> - WEBKIT_WRAP_SOURCELIST(${JSC_SOURCES})
-> - WEBKIT_WRAP_SOURCELIST(${TESTAPI_SOURCES})
-> - include_directories(./ ${JavaScriptCore_INCLUDE_DIRECTORIES} ${JavaScriptCore_PRIVATE_INCLUDE_DIRECTORIES})
-> --include_directories(SYSTEM ${JavaScriptCore_SYSTEM_INCLUDE_DIRECTORIES})
-> -+include_directories(${JavaScriptCore_SYSTEM_INCLUDE_DIRECTORIES})
-> - add_executable(jsc ${JSC_SOURCES})
-> - target_link_libraries(jsc ${JSC_LIBRARIES})
-> -
-> -diff --git a/Source/WebCore/PlatformGTK.cmake b/Source/WebCore/PlatformGTK.cmake
-> -index e0dd9cd9..a2997f3e 100644
-> ---- a/Source/WebCore/PlatformGTK.cmake
-> -+++ b/Source/WebCore/PlatformGTK.cmake
-> -@@ -164,7 +164,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-> -     target_include_directories(WebCorePlatformGTK2 PRIVATE
-> -         ${WebCore_INCLUDE_DIRECTORIES}
-> -     )
-> --    target_include_directories(WebCorePlatformGTK2 SYSTEM PRIVATE
-> -+    target_include_directories(WebCorePlatformGTK2 PRIVATE
-> -         ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-> -         ${GTK2_INCLUDE_DIRS}
-> -         ${GDK2_INCLUDE_DIRS}
-> -@@ -190,7 +190,7 @@ add_dependencies(WebCorePlatformGTK WebCore)
-> - target_include_directories(WebCorePlatformGTK PRIVATE
-> -     ${WebCore_INCLUDE_DIRECTORIES}
-> - )
-> --target_include_directories(WebCorePlatformGTK SYSTEM PRIVATE
-> -+target_include_directories(WebCorePlatformGTK PRIVATE
-> -     ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-> -     ${GTK_INCLUDE_DIRS}
-> -     ${GDK_INCLUDE_DIRS}
-> -@@ -206,7 +206,7 @@ include_directories(
-> -     "${WEBCORE_DIR}/bindings/gobject/"
-> - )
-> -
-> --include_directories(SYSTEM
-> -+include_directories(
-> -     ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-> - )
-> -
-> -diff --git a/Source/WebKit/PlatformGTK.cmake b/Source/WebKit/PlatformGTK.cmake
-> -index 693bbdfe..20e3802f 100644
-> ---- a/Source/WebKit/PlatformGTK.cmake
-> -+++ b/Source/WebKit/PlatformGTK.cmake
-> -@@ -664,7 +664,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-> -     target_include_directories(WebKitPluginProcess2 PRIVATE
-> -         ${WebKitCommonIncludeDirectories}
-> -     )
-> --    target_include_directories(WebKitPluginProcess2 SYSTEM PRIVATE
-> -+    target_include_directories(WebKitPluginProcess2 PRIVATE
-> -          ${WebKitCommonSystemIncludeDirectories}
-> -          ${GTK2_INCLUDE_DIRS}
-> -          ${GDK2_INCLUDE_DIRS}
-> -diff --git a/Source/cmake/WebKitMacros.cmake b/Source/cmake/WebKitMacros.cmake
-> -index 6d58d57e..976e2362 100644
-> ---- a/Source/cmake/WebKitMacros.cmake
-> -+++ b/Source/cmake/WebKitMacros.cmake
-> -@@ -152,7 +152,7 @@ macro(WEBKIT_FRAMEWORK _target)
-> -         ${${_target}_SOURCES}
-> -     )
-> -     target_include_directories(${_target} PUBLIC "$<BUILD_INTERFACE:${${_target}_INCLUDE_DIRECTORIES}>")
-> --    target_include_directories(${_target} SYSTEM PRIVATE "$<BUILD_INTERFACE:${${_target}_SYSTEM_INCLUDE_DIRECTORIES}>")
-> -+    target_include_directories(${_target} PRIVATE "$<BUILD_INTERFACE:${${_target}_SYSTEM_INCLUDE_DIRECTORIES}>")
-> -     target_include_directories(${_target} PRIVATE "$<BUILD_INTERFACE:${${_target}_PRIVATE_INCLUDE_DIRECTORIES}>")
-> -     target_link_libraries(${_target} ${${_target}_LIBRARIES})
-> -     set_target_properties(${_target} PROPERTIES COMPILE_DEFINITIONS "BUILDING_${_target}")
-> -diff --git a/Tools/MiniBrowser/gtk/CMakeLists.txt b/Tools/MiniBrowser/gtk/CMakeLists.txt
-> -index a0d32059..f259ade2 100644
-> ---- a/Tools/MiniBrowser/gtk/CMakeLists.txt
-> -+++ b/Tools/MiniBrowser/gtk/CMakeLists.txt
-> -@@ -59,7 +59,7 @@ endif ()
-> - add_definitions(-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_6)
-> -
-> - include_directories(${MiniBrowser_INCLUDE_DIRECTORIES})
-> --include_directories(SYSTEM ${MiniBrowser_SYSTEM_INCLUDE_DIRECTORIES})
-> -+include_directories(${MiniBrowser_SYSTEM_INCLUDE_DIRECTORIES})
-> - add_executable(MiniBrowser ${MiniBrowser_SOURCES})
-> - target_link_libraries(MiniBrowser ${MiniBrowser_LIBRARIES})
-> -
-> -diff --git a/Tools/TestWebKitAPI/PlatformGTK.cmake b/Tools/TestWebKitAPI/PlatformGTK.cmake
-> -index 8dd0e146..d037fc35 100644
-> ---- a/Tools/TestWebKitAPI/PlatformGTK.cmake
-> -+++ b/Tools/TestWebKitAPI/PlatformGTK.cmake
-> -@@ -22,7 +22,7 @@ include_directories(
-> -     ${WEBKIT_DIR}/UIProcess/API/gtk
-> - )
-> -
-> --include_directories(SYSTEM
-> -+include_directories(
-> -     ${GDK3_INCLUDE_DIRS}
-> -     ${GLIB_INCLUDE_DIRS}
-> -     ${GSTREAMER_INCLUDE_DIRS}
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-gstreamer-add-a-missing-format-string.patch b/meta/recipes-sato/webkit/webkitgtk/0001-gstreamer-add-a-missing-format-string.patch
-> deleted file mode 100644
-> index bd4ac1e3538..00000000000
-> --- a/meta/recipes-sato/webkit/webkitgtk/0001-gstreamer-add-a-missing-format-string.patch
-> +++ /dev/null
-> @@ -1,24 +0,0 @@
-> -From 2d9687840b97186b80053dd262209e39455ac876 Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Wed, 8 May 2019 15:31:23 +0200
-> -Subject: [PATCH] gstreamer: add a missing format string
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ----
-> - .../platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp    | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp
-> -index e1e497ee..483fd65c 100644
-> ---- a/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp
-> -+++ b/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp
-> -@@ -738,7 +738,7 @@ static GstStateChangeReturn webKitWebSrcChangeState(GstElement* element, GstStat
-> -     WebKitWebSrc* src = WEBKIT_WEB_SRC(element);
-> -
-> - #if GST_CHECK_VERSION(1, 14, 0)
-> --    GST_DEBUG_OBJECT(src, gst_state_change_get_name(transition));
-> -+    GST_DEBUG_OBJECT(src, "%s", gst_state_change_get_name(transition));
-> - #endif
-> -     switch (transition) {
-> -     case GST_STATE_CHANGE_READY_TO_NULL:
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch b/meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch
-> deleted file mode 100644
-> index 57ae48c1413..00000000000
-> --- a/meta/recipes-sato/webkit/webkitgtk/detect-gstreamer-gl.patch
-> +++ /dev/null
-> @@ -1,20 +0,0 @@
-> -From: Alberto Garcia <berto@igalia.com>
-> -Subject: Disable USE_GSTREAMER_GL is the package is not found
-> -Forwarded: no
-> -Upstream-Status: Pending
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -Index: webkitgtk/Source/cmake/GStreamerChecks.cmake
-> -===================================================================
-> ---- webkitgtk.orig/Source/cmake/GStreamerChecks.cmake
-> -+++ webkitgtk/Source/cmake/GStreamerChecks.cmake
-> -@@ -43,7 +43,8 @@ if (ENABLE_VIDEO OR ENABLE_WEB_AUDIO)
-> -             message(FATAL_ERROR "GStreamer 1.10 is needed for USE_GSTREAMER_GL.")
-> -         else ()
-> -             if (NOT PC_GSTREAMER_GL_FOUND)
-> --                message(FATAL_ERROR "GStreamerGL is needed for USE_GSTREAMER_GL.")
-> -+                set(USE_GSTREAMER_GL OFF)
-> -+                message(STATUS "GStreamerGL is needed for USE_GSTREAMER_GL.")
-> -             endif ()
-> -         endif ()
-> -     endif ()
-> diff --git a/meta/recipes-sato/webkit/webkitgtk/narrowing.patch b/meta/recipes-sato/webkit/webkitgtk/narrowing.patch
-> deleted file mode 100644
-> index 598b6b5df53..00000000000
-> --- a/meta/recipes-sato/webkit/webkitgtk/narrowing.patch
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -Fix build with clang on arm where char is unsigned
-> -
-> -Upstream-Status: Submitted [https://bugs.webkit.org/show_bug.cgi?id=197087]
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> ---- a/Source/WebCore/contentextensions/DFACombiner.cpp
-> -+++ b/Source/WebCore/contentextensions/DFACombiner.cpp
-> -@@ -37,7 +37,7 @@ namespace WebCore {
-> - namespace ContentExtensions {
-> -
-> - class DFAMerger {
-> --    typedef MutableRangeList<char, uint64_t, 128> CombinedTransitionsMutableRangeList;
-> -+    typedef MutableRangeList<signed char, uint64_t, 128> CombinedTransitionsMutableRangeList;
-> -
-> -     enum class WhichDFA {
-> -         A,
-> ---- a/Source/WebCore/contentextensions/NFAToDFA.cpp
-> -+++ b/Source/WebCore/contentextensions/NFAToDFA.cpp
-> -@@ -41,9 +41,9 @@ namespace WebCore {
-> -
-> - namespace ContentExtensions {
-> -
-> --typedef MutableRange<char, NFANodeIndexSet> NFANodeRange;
-> --typedef MutableRangeList<char, NFANodeIndexSet> NFANodeRangeList;
-> --typedef MutableRangeList<char, NFANodeIndexSet, 128> PreallocatedNFANodeRangeList;
-> -+typedef MutableRange<signed char, NFANodeIndexSet> NFANodeRange;
-> -+typedef MutableRangeList<signed char, NFANodeIndexSet> NFANodeRangeList;
-> -+typedef MutableRangeList<signed char, NFANodeIndexSet, 128> PreallocatedNFANodeRangeList;
-> - typedef Vector<uint32_t, 0, ContentExtensionsOverflowHandler> UniqueNodeList;
-> - typedef Vector<UniqueNodeList, 0, ContentExtensionsOverflowHandler> NFANodeClosures;
-> -
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.1.bb
-> similarity index 93%
-> rename from meta/recipes-sato/webkit/webkitgtk_2.24.4.bb
-> rename to meta/recipes-sato/webkit/webkitgtk_2.26.1.bb
-> index 8c695ce9e75..77e51e7d290 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.24.4.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.1.bb
-> @@ -17,16 +17,12 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
->             file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
->             file://x32_support.patch \
->             file://cross-compile.patch \
-> -           file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
->             file://0001-Fix-build-with-musl.patch \
-> -           file://detect-gstreamer-gl.patch \
->             file://include_array.patch \
-> -           file://narrowing.patch \
-> -           file://0001-gstreamer-add-a-missing-format-string.patch \
->             "
->
-> -SRC_URI[md5sum] = "c214963d8c0e7d83460da04a0d8dda87"
-> -SRC_URI[sha256sum] = "8668b129c026624ec226a4cccf4995f9d26f3e88fc28ab75b0e965f3c32b7dd8"
-> +SRC_URI[md5sum] = "08145bd6c1587230f135921c142bc150"
-> +SRC_URI[sha256sum] = "6b4b21801d2b1008422a1075dbd6fb4ae8b5127503faf657cf9671289d9cd155"
->
->  inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
->
-> @@ -69,6 +65,7 @@ EXTRA_OECMAKE = " \
->                 ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '-DENABLE_GTKDOC=ON', '-DENABLE_GTKDOC=OFF', d)} \
->                 -DENABLE_MINIBROWSER=ON \
->                  -DPYTHON_EXECUTABLE=`which python3` \
-> +                -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
->                 "
->
->  # Javascript JIT is not supported on ARC
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
+> index 3326c0db3d..9f8645a36a 100644
+> --- a/meta/classes/uninative.bbclass
+> +++ b/meta/classes/uninative.bbclass
+> @@ -45,7 +45,7 @@ python uninative_event_fetchloader() {
+>          tarballdir = os.path.join(d.getVar("UNINATIVE_DLDIR"), chksum)
+>          tarballpath = os.path.join(tarballdir, tarball)
+>  
+> -        if not os.path.exists(tarballpath):
+> +        if not os.path.exists(tarballpath + ".done"):
+>              bb.utils.mkdirhier(tarballdir)
+>              if d.getVar("UNINATIVE_URL") == "unset":
+>                  bb.fatal("Uninative selected but not configured, please set UNINATIVE_URL")
+
 
