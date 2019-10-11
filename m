@@ -1,54 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D0AF7ED3D
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DAAC7ED3D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 09:00:40 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 5so9594718wmg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 02:00:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=0gINHfbStB7qKrQIhum13bNViXnKu0390/rk58+ELcA=;
-	b=GrGcERrS2Wcz9VNGJAWjmdrFURO3y6ZGYdY2uKhV5a8z1ZN+8gszsLlOVCZMnSInu5
-	Hw88Z7HV5Dt6kOfTeaHomxzm+PHMzPj/xdgQSCXTLZsj/LvsnGNpcBXPBhd0gglaK7Qn
-	s8XD+Gfi84KTiJy+Bd2aT8BfDxcrtVRUwygDw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=0gINHfbStB7qKrQIhum13bNViXnKu0390/rk58+ELcA=;
-	b=NTsvXR8NUdOirPc8S1lhwySfKoV9geB6aeRp70ylhWugKjmmK8EXtnkJ3O/GAgUZVQ
-	PWiIllqqCeId8mVBz6+EghK6y9xHJ7BYxX2j0Dy+JB4PZYuHN/n9ekzwuueuDZSQU7MP
-	jlawnOcghWnPhOLVRxCqhJlK2qQqN/A4rCJGJla+Jpu0nRzyZT6KfR+1DMTQ4FOIMDh7
-	UofuHDw20Lq+tQEA3PkgrD/q8W/FUpX46mSHP6AOcx0nwXYZG2+oag5hO0K/83iD3Kzw
-	co8vYFhepFHh1XgEN9YawNHJBCotKYJIkpsWIgf6C+S16oj53AtYZtJySOVg4IRWZcaT
-	aLpg==
-X-Gm-Message-State: APjAAAVv5fbR+1GkWxW6RDguU08zy/3WoV6eWrnNiBsg8OLFnhGSAHHv
-	T5EEmS1ZmviiKlLbP4+V7THGWQ==
-X-Google-Smtp-Source: APXvYqzK/NtX6fTSwT6WmkaTclgC+Iba8JCx2c2Ei/yIcIckDRzsQoNXnByk3YMpXfplSutAVMwn6Q==
-X-Received: by 2002:a05:600c:20ca:: with SMTP id
-	y10mr2481371wmm.168.1570784441107; 
-	Fri, 11 Oct 2019 02:00:41 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b186sm11497120wmd.16.2019.10.11.02.00.38
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 11 Oct 2019 02:00:40 -0700 (PDT)
-Message-ID: <0d5268fcee17db44397f8de81284e400efeb4180.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan Agner <stefan@agner.ch>, Michael Halstead
-	<mhalstead@linuxfoundation.org>
-Date: Fri, 11 Oct 2019 10:00:36 +0100
+	Fri, 11 Oct 2019 09:03:33 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 77A575C0134;
+	Fri, 11 Oct 2019 11:03:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1570784613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=IRu7PkarEvRJLhi+GrToNC6NIX9+y0SqnR6xyuvvQJ0=;
+	b=LuAJ+JHps+soskn7U2W+AgtrVEzjxJW/IQPzK+5it6llLTpOtoJhG9+BV1yNLCVIB9loG8
+	mafyrBpcJTe531umnmhcVHImBldmLnwIY3G+YkVZaGkN5fmyo/5oz2KuEvGDOyJP9e5+6y
+	sRPBGIC1lfFBzKMsXX98PEaiwgvy79w=
+MIME-Version: 1.0
+Date: Fri, 11 Oct 2019 11:03:33 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Michael Halstead <mhalstead@linuxfoundation.org>
 In-Reply-To: <1cc830a84a8b5e58672806f515f0fd0c@agner.ch>
 References: <20191007164757.29687-1-mhalstead@linuxfoundation.org>
 	<1cc830a84a8b5e58672806f515f0fd0c@agner.ch>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Cc: ming.liu@toradex.com, rpurdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
+Message-ID: <8033503eb94472053ef31b7b202395b4@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.9
+Cc: ming.liu@toradex.com, openembedded-core@lists.openembedded.org,
+	rpurdie@linuxfoundation.org
 Subject: Re: [PATCH v2] uninative: Update to 2.7 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -62,37 +41,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2019 09:00:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 11 Oct 2019 09:03:34 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-10-11 at 10:26 +0200, Stefan Agner wrote:
+On 2019-10-11 10:26, Stefan Agner wrote:
+> On 2019-10-07 18:47, Michael Halstead wrote:
+>> The 2.7 release updates glibc to version 2.30. Recently added to openSUSE
+>> Tumbleweed and needed for Fedora Core 31.
+> 
+> Since we updated master to include this commit we see regularly the following
+> issues:
+> 
+> 
+> WARNING: Disabling uninative as unable to install uninative tarball:
+> Command 'mkdir -p /workdir/oe/tmp/sysroots-uninative; cd
+> /workdir/oe/tmp/sysroots-uninative; tar -xJf
+> /workdir/downloads/uninative//9498d8bba047499999a7310ac2576d0796461184965351a56f6d32c888a1f216/x86_64-nativesdk-libc.tar.xz;
+> /workdir/oe/tmp/sysroots-uninative/relocate_sdk.py  
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
+>  
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
+>  
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux//usr/bin/patchelf-uninative
+>
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libc*.so' returned
+> non-zero exit status 1.
+> WARNING: To build your own uninative loader, please bitbake
+> uninative-tarball and set UNINATIVE_TARBALL appropriately.
+> 
+> [...]
+> 
+> ERROR: ldconfig-native-2.12.1-r2 do_populate_sysroot_setscene: Error
+> executing a python function in exec_python_func() autogenerated:
+> 
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:uninative_changeinterp(d)
+>      0003:
+> File:
+> '/workdir/oe/build/conf/../../layers/openembedded-core/meta/classes/uninative.bbclass',
+> lineno: 165, function: uninative_changeinterp
+>      0161:                continue
+>      0162:            if not elf.isDynamic():
+>      0163:                continue
+>      0164:
+>  *** 0165:            subprocess.check_output(("patchelf-uninative",
+> "--set-interpreter", d.getVar("UNINATIVE_LOADER"), f),
+> stderr=subprocess.STDOUT)
+>      0166:}
+> File: '/usr/lib/python3.6/subprocess.py', lineno: 336, function: check_output
+>      0332:        # empty string. That is maintained here for
+> backwards compatibility.
+>      0333:        kwargs['input'] = '' if
+> kwargs.get('universal_newlines', False) else b''
+>      0334:
+>      0335:    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+>  *** 0336:               **kwargs).stdout
+>      0337:
+>      0338:
+>      0339:class CompletedProcess(object):
+>      0340:    """A process that has finished running.
+> File: '/usr/lib/python3.6/subprocess.py', lineno: 403, function: run
+>      0399:        if 'stdin' in kwargs:
+>      0400:            raise ValueError('stdin and input arguments may
+> not both be used.')
+>      0401:        kwargs['stdin'] = PIPE
+>      0402:
+>  *** 0403:    with Popen(*popenargs, **kwargs) as process:
+>      0404:        try:
+>      0405:            stdout, stderr = process.communicate(input,
+> timeout=timeout)
+>      0406:        except TimeoutExpired:
+>      0407:            process.kill()
+> File: '/usr/lib/python3.6/subprocess.py', lineno: 709, function: __init__
+>      0705:                                startupinfo, creationflags, shell,
+>      0706:                                p2cread, p2cwrite,
+>      0707:                                c2pread, c2pwrite,
+>      0708:                                errread, errwrite,
+>  *** 0709:                                restore_signals, start_new_session)
+>      0710:        except:
+>      0711:            # Cleanup if the child failed starting.
+>      0712:            for f in filter(None, (self.stdin, self.stdout,
+> self.stderr)):
+>      0713:                try:
+> File: '/usr/lib/python3.6/subprocess.py', lineno: 1344, function: _execute_child
+>      1340:                    if errno_num != 0:
+>      1341:                        err_msg = os.strerror(errno_num)
+>      1342:                        if errno_num == errno.ENOENT:
+>      1343:                            err_msg += ': ' + repr(err_filename)
+>  *** 1344:                    raise child_exception_type(errno_num,
+> err_msg, err_filename)
+>      1345:                raise child_exception_type(err_msg)
+>      1346:
+>      1347:
+>      1348:        def _handle_exitstatus(self, sts, _WIFSIGNALED=os.WIFSIGNALED,
+> Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> 'patchelf-uninative': 'patchelf-uninative'
+> 
+> ERROR: Logfile of failure stored in:
+> /workdir/oe/tmp/work/x86_64-linux/ldconfig-native/2.12.1-r2/temp/log.do_populate_sysroot_setscene.14967
+> 
+> 
+> 
+> Looking into the directory shows that uninative only got extracted half-way:
+> $ find /workdir/oe/tmp/sysroots-uninative
+> /workdir/oe/tmp/sysroots-uninative
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libresolv-2.30.so
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libnsl.so.1
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libanl.so.1
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libnss_compat-2.30.so
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libpthread-2.30.so
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/ld-2.30.so
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libutil-2.30.so
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libnss_compat.so.2
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libdl.so.2
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libc-2.30.so
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/librt.so.1
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libBrokenLocale.so.1
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/var
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/var/lib
+> /workdir/oe/tmp/sysroots-uninative/x86_64-linux/var/lib/rpm
+> /workdir/oe/tmp/sysroots-uninative/relocate_sdk.py
+> <end of output...>
+> 
 > We run several build in parallel using the same downloads folder, it
 > seems to me that
-> there is a race condition. The history shows the warning several
-> times already with
+> there is a race condition. The history shows the warning several times
+> already with
 > exit code 127, but in those instances the bulid succeeded 
 > 
 > What I don't understand is how the update to 2.7 release could affect
 > the behavior
 > such that it suddenly leads to issues. Any idea?
 
-We use the bitbake fetcher for uninative so there should be locking,
-the same as any other download.
+There seems to be definitely a race in uninative handling, this is from
+build/bitbake-cookerdaemon.log on the failing build:
+Running command ['buildTargets', ['torizon-core-docker'], 'build']
+xz: (stdin): Unexpected end of input
+tar: Unexpected EOF in archive
+tar: Unexpected EOF in archive
+tar: Error is not recoverable: exiting now
+Traceback (most recent call last):
+  File "/workdir/oe/tmp/sysroots-uninative/relocate_sdk.py", line 219,
+in <module>
+    perms = os.stat(e)[stat.ST_MODE]
+FileNotFoundError: [Errno 2] No such file or directory:
+'/workdir/oe/tmp/sysroots-uninative/x86_64-linux//usr/bin/patchelf-uninative'
 
-Are these builds in parallel on different machines with a shared
-network filesystem for downloads or the same physical machine?
+It seems that the recipe checks only for existence of the tar.xz, which
+of course could be partway downloaded by a parallel running build. I
+will send a patch to fix this. But what I still don't quite understand
+is why we see that all of the sudden as the race seems to be there
+already since a while.
 
-Are you using any special MIRRORS/PREMIRRORS?
+--
+Stefan
 
-FWIW we run many builds on the autobuilder and don't see this. I also
-haven't seen any other reports of it.
 
-I'm therefore at a loss as to why the locking would seem to be breaking
-for you :(
-
-Cheers,
-
-Richard
-
+> 
+> --
+> Stefan
+> 
+> 
+>>
+>> Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+>> ---
+>>  meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+>>  1 file changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/conf/distro/include/yocto-uninative.inc
+>> b/meta/conf/distro/include/yocto-uninative.inc
+>> index df24346855..ad75d3e2a3 100644
+>> --- a/meta/conf/distro/include/yocto-uninative.inc
+>> +++ b/meta/conf/distro/include/yocto-uninative.inc
+>> @@ -6,9 +6,9 @@
+>>  # to the distro running on the build machine.
+>>  #
+>>
+>> -UNINATIVE_MAXGLIBCVERSION = "2.29"
+>> +UNINATIVE_MAXGLIBCVERSION = "2.30"
+>>
+>> -UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.6/"
+>> -UNINATIVE_CHECKSUM[aarch64] ?=
+>> "a37118fc8b423f48146120707b81dd15017512c3e8ef9e6ca2cb3a033f4f4046"
+>> -UNINATIVE_CHECKSUM[i686] ?=
+>> "3234fc3ded810225071f23a0e9a99f4f8c2480059945a848eff076ce78122ade"
+>> -UNINATIVE_CHECKSUM[x86_64] ?=
+>> "133387753a9acf3e1b788103c59fac91e968e2ee331d7a4b9498e926ada7be57"
+>> +UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.7/"
+>> +UNINATIVE_CHECKSUM[aarch64] ?=
+>> "e76a45886ee8a0b3904b761c17ac8ff91edf9811ee455f1832d10763ba794dfc"
+>> +UNINATIVE_CHECKSUM[i686] ?=
+>> "810d027dfb1c7675226afbcec07808770516c969ee7378f6d8240281083f8924"
+>> +UNINATIVE_CHECKSUM[x86_64] ?=
+>> "9498d8bba047499999a7310ac2576d0796461184965351a56f6d32c888a1f216"
+>> --
+>> 2.21.0
 
