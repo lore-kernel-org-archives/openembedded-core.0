@@ -1,53 +1,33 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D80476BC19
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C3D37F57A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 08:16:53 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 5so9460810wmg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 01:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Iict8K2aWiAw2pk1YK3/BzAGI8M/IAhg9mM2exQVhf8=;
-	b=DMOFryqaBTDjWezvlupkb67RLmjfe54FG8R/zWMSVnm6wCqYX8Vv9ly4XxVbUioFY/
-	o13y4LnZD1jCzs+F1lTxhBBasI+ULi8XgamCluhiq69i70a+QF3ApNn1ygFnDcz/V1qB
-	+lIKc5lHMWo5QKCJsmu2YXoUvfKwdoMw98/aWJu2jMR+b+G2EGU/mFswmvt6rC4dR/aV
-	u39i8FiuSMzA4y6TZYlzeuitTZ6SqtI7K+D4PJQi/33mSLRWlLpOpi4tV6Aj1dtptnyV
-	ljW5IFUvIYY5hR9FoSBqzaRDfxF2kK3EX01L00PkO+Z2ywvoRoKs59k3SgsNJmgWQ+Ww
-	2CGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Iict8K2aWiAw2pk1YK3/BzAGI8M/IAhg9mM2exQVhf8=;
-	b=r9M5N1pSBuSzeZIP+uM8pUpyZ5l443kQjq8AIh0DloeuVL5EA1bXtLxeyGY41T0Prn
-	xqTakG/8cRDavatZiMwQzEGz1pZLG1RKEhHZH34fBq/x3LRd223S1u8O+mB3IprcSTvz
-	o97+nbthQIxvifBuPgSF81ZFkHSTaZbBMHcdNuskTuBfdiuRCBqRv3gifXBUA57SnKGi
-	wm2AyFWibUaTLa54jxfRPzbRX5aThYDj6f2yxwhFpe8cK+IfqISK5hQfwAkR2suEa8c/
-	9g6qAv2N6uq9RmyVkHT8VtFedyBPjanguoCCNbZ3YWpkUMhqJ2YhLO1gomv9NdKmKwg5
-	QlCA==
-X-Gm-Message-State: APjAAAUGNal1nFZJWeGXYaEGUo/7U9X96sxUBwC2A1ijiaaMUuin13AA
-	T82wai88AfGj7ZJD4tg4nvF7bg==
-X-Google-Smtp-Source: APXvYqwt9Q2LrMvpFAjYJ+/47o6zzjWSUvSQuQhjC7GYKNw6FJwUw5dQTrpnYASoP+CRMH/s59MBOg==
-X-Received: by 2002:a7b:ce93:: with SMTP id q19mr2120017wmj.11.1570781814375; 
-	Fri, 11 Oct 2019 01:16:54 -0700 (PDT)
-Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
-	[46.4.26.8])
-	by smtp.gmail.com with ESMTPSA id v6sm1408995wru.72.2019.10.11.01.16.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Oct 2019 01:16:53 -0700 (PDT)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: akuster808@gmail.com,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 11 Oct 2019 10:16:49 +0200
-Message-Id: <20191011081649.18474-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.20.1
+	Fri, 11 Oct 2019 08:26:46 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id BFB4F5C24C2;
+	Fri, 11 Oct 2019 10:26:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1570782406;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=wyEeOKC3/e1P3kXA0hStFtHIyv0l9snsiDt5iA8WCnk=;
+	b=fBYUyor3eh3rIc8iOk+1sOms7SDk8dy5/3PKzTtzJmOZ4SdvIa1mGFk4pQ2yV5yKeUtGJ6
+	4vDOl+CFYiJ2BklNC/FniMrSTOzhzJMHAqTMm0pMIY8Wgpll8lCza8P4k35qy6MSSrUeym
+	6p1bnRpZLmG5B5fpFDIIk69UxYyTtXg=
 MIME-Version: 1.0
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-	Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [warrior][PATCH] kernel.bbclass: fix installation of modules signing certificates
+Date: Fri, 11 Oct 2019 10:26:46 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Michael Halstead <mhalstead@linuxfoundation.org>
+In-Reply-To: <20191007164757.29687-1-mhalstead@linuxfoundation.org>
+References: <20191007164757.29687-1-mhalstead@linuxfoundation.org>
+Message-ID: <1cc830a84a8b5e58672806f515f0fd0c@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.9
+Cc: ming.liu@toradex.com, rpurdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] uninative: Update to 2.7 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +40,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2019 08:16:54 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 11 Oct 2019 08:26:46 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+On 2019-10-07 18:47, Michael Halstead wrote:
+> The 2.7 release updates glibc to version 2.30. Recently added to openSUSE
+> Tumbleweed and needed for Fedora Core 31.
 
-If one has provided external key/certificate for modules signing, Kbuild
-will skip creating signing_key.pem and will write only signing_key.x509
-certificate. Thus we have to check for .x509 file existence rather than
-.pem one.
+Since we updated master to include this commit we see regularly the following
+issues:
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2527e731eba43bd36d0ea268aca6b03155376134)
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 111a0b2eeb..fb1f49327c 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -453,7 +453,7 @@ do_shared_workdir () {
- 	cp .config $kerneldir/
- 	mkdir -p $kerneldir/include/config
- 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
--	if [ -e certs/signing_key.pem ]; then
-+	if [ -e certs/signing_key.x509 ]; then
- 		# The signing_key.* files are stored in the certs/ dir in
- 		# newer Linux kernels
- 		mkdir -p $kerneldir/certs
--- 
-2.20.1
+WARNING: Disabling uninative as unable to install uninative tarball: Command 'mkdir -p /workdir/oe/tmp/sysroots-uninative; cd /workdir/oe/tmp/sysroots-uninative; tar -xJf
+/workdir/downloads/uninative//9498d8bba047499999a7310ac2576d0796461184965351a56f6d32c888a1f216/x86_64-nativesdk-libc.tar.xz; /workdir/oe/tmp/sysroots-uninative/relocate_sdk.py   /workdir/oe/tmp/sysroots-uninative/x86_64-linux  
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2   /workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2   /workdir/oe/tmp/sysroots-uninative/x86_64-linux//usr/bin/patchelf-uninative  
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libc*.so' returned non-zero exit status 1.
+WARNING: To build your own uninative loader, please bitbake uninative-tarball and set UNINATIVE_TARBALL appropriately.
 
+[...]
+
+ERROR: ldconfig-native-2.12.1-r2 do_populate_sysroot_setscene: Error executing a python function in exec_python_func() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:uninative_changeinterp(d)
+     0003:
+File: '/workdir/oe/build/conf/../../layers/openembedded-core/meta/classes/uninative.bbclass', lineno: 165, function: uninative_changeinterp
+     0161:                continue
+     0162:            if not elf.isDynamic():
+     0163:                continue
+     0164:
+ *** 0165:            subprocess.check_output(("patchelf-uninative", "--set-interpreter", d.getVar("UNINATIVE_LOADER"), f), stderr=subprocess.STDOUT)
+     0166:}
+File: '/usr/lib/python3.6/subprocess.py', lineno: 336, function: check_output
+     0332:        # empty string. That is maintained here for backwards compatibility.
+     0333:        kwargs['input'] = '' if kwargs.get('universal_newlines', False) else b''
+     0334:
+     0335:    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+ *** 0336:               **kwargs).stdout
+     0337:
+     0338:
+     0339:class CompletedProcess(object):
+     0340:    """A process that has finished running.
+File: '/usr/lib/python3.6/subprocess.py', lineno: 403, function: run
+     0399:        if 'stdin' in kwargs:
+     0400:            raise ValueError('stdin and input arguments may not both be used.')
+     0401:        kwargs['stdin'] = PIPE
+     0402:
+ *** 0403:    with Popen(*popenargs, **kwargs) as process:
+     0404:        try:
+     0405:            stdout, stderr = process.communicate(input, timeout=timeout)
+     0406:        except TimeoutExpired:
+     0407:            process.kill()
+File: '/usr/lib/python3.6/subprocess.py', lineno: 709, function: __init__
+     0705:                                startupinfo, creationflags, shell,
+     0706:                                p2cread, p2cwrite,
+     0707:                                c2pread, c2pwrite,
+     0708:                                errread, errwrite,
+ *** 0709:                                restore_signals, start_new_session)
+     0710:        except:
+     0711:            # Cleanup if the child failed starting.
+     0712:            for f in filter(None, (self.stdin, self.stdout, self.stderr)):
+     0713:                try:
+File: '/usr/lib/python3.6/subprocess.py', lineno: 1344, function: _execute_child
+     1340:                    if errno_num != 0:
+     1341:                        err_msg = os.strerror(errno_num)
+     1342:                        if errno_num == errno.ENOENT:
+     1343:                            err_msg += ': ' + repr(err_filename)
+ *** 1344:                    raise child_exception_type(errno_num, err_msg, err_filename)
+     1345:                raise child_exception_type(err_msg)
+     1346:
+     1347:
+     1348:        def _handle_exitstatus(self, sts, _WIFSIGNALED=os.WIFSIGNALED,
+Exception: FileNotFoundError: [Errno 2] No such file or directory: 'patchelf-uninative': 'patchelf-uninative'
+
+ERROR: Logfile of failure stored in: /workdir/oe/tmp/work/x86_64-linux/ldconfig-native/2.12.1-r2/temp/log.do_populate_sysroot_setscene.14967
+
+
+
+Looking into the directory shows that uninative only got extracted half-way:
+$ find /workdir/oe/tmp/sysroots-uninative
+/workdir/oe/tmp/sysroots-uninative
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libresolv-2.30.so
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libnsl.so.1
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libanl.so.1
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libnss_compat-2.30.so
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libpthread-2.30.so
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/ld-2.30.so
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libutil-2.30.so
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libnss_compat.so.2
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libdl.so.2
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libc-2.30.so
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/librt.so.1
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/lib/libBrokenLocale.so.1
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/var
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/var/lib
+/workdir/oe/tmp/sysroots-uninative/x86_64-linux/var/lib/rpm
+/workdir/oe/tmp/sysroots-uninative/relocate_sdk.py
+<end of output...>
+
+We run several build in parallel using the same downloads folder, it seems to me that
+there is a race condition. The history shows the warning several times already with
+exit code 127, but in those instances the bulid succeeded 
+
+What I don't understand is how the update to 2.7 release could affect the behavior
+such that it suddenly leads to issues. Any idea?
+
+--
+Stefan
+
+
+> 
+> Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
+> ---
+>  meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/conf/distro/include/yocto-uninative.inc
+> b/meta/conf/distro/include/yocto-uninative.inc
+> index df24346855..ad75d3e2a3 100644
+> --- a/meta/conf/distro/include/yocto-uninative.inc
+> +++ b/meta/conf/distro/include/yocto-uninative.inc
+> @@ -6,9 +6,9 @@
+>  # to the distro running on the build machine.
+>  #
+>  
+> -UNINATIVE_MAXGLIBCVERSION = "2.29"
+> +UNINATIVE_MAXGLIBCVERSION = "2.30"
+>  
+> -UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.6/"
+> -UNINATIVE_CHECKSUM[aarch64] ?=
+> "a37118fc8b423f48146120707b81dd15017512c3e8ef9e6ca2cb3a033f4f4046"
+> -UNINATIVE_CHECKSUM[i686] ?=
+> "3234fc3ded810225071f23a0e9a99f4f8c2480059945a848eff076ce78122ade"
+> -UNINATIVE_CHECKSUM[x86_64] ?=
+> "133387753a9acf3e1b788103c59fac91e968e2ee331d7a4b9498e926ada7be57"
+> +UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.7/"
+> +UNINATIVE_CHECKSUM[aarch64] ?=
+> "e76a45886ee8a0b3904b761c17ac8ff91edf9811ee455f1832d10763ba794dfc"
+> +UNINATIVE_CHECKSUM[i686] ?=
+> "810d027dfb1c7675226afbcec07808770516c969ee7378f6d8240281083f8924"
+> +UNINATIVE_CHECKSUM[x86_64] ?=
+> "9498d8bba047499999a7310ac2576d0796461184965351a56f6d32c888a1f216"
+> -- 
+> 2.21.0
 
