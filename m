@@ -1,33 +1,47 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 46E5E7ED3D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CFC266C0F4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 09:20:02 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id D6EF95C00AC;
-	Fri, 11 Oct 2019 11:20:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1570785602;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=6lXPre23qcW2TEMfI0HaS3Cj3uohY41r5RlGXtMO3vo=;
-	b=ceLsN+joa7OXCl7KZU0jIOTcaNjfouOYNPjoNO5VJZozH1e3o5APDO+KYGxNjCjhn/BEN4
-	/RR6D9tz5lIrAse7VKSnlzVgsJL1Hivz6+i6YFy4RcZc5syeQ7H6vnmMXwfm0xbxvUJkp8
-	/mEhcBtVFCSp/5XbudwtNl5RI1pIWqw=
-MIME-Version: 1.0
-Date: Fri, 11 Oct 2019 11:20:01 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-In-Reply-To: <20191011090659.34036-1-stefan@agner.ch>
-References: <20191011090659.34036-1-stefan@agner.ch>
-Message-ID: <1fc7a92d88b9de884036323552d3c223@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.9
-Cc: Stefan Agner <stefan.agner@toradex.com>, liu.ming50@gmail.com
-Subject: Re: [PATCH] uninative: check .done file instead of tarball
+	Fri, 11 Oct 2019 11:48:00 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id v8so11583714wrt.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Oct 2019 04:48:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=CkNqO/3ApDcX4TrqR/pC5NrtlNcYoXaAa227xcVPk7o=;
+	b=gp8eVPJDZsK3CrC/84iXElB1min+0s8e8a12DLjqF+Q6b9nFLlANELNwqpGv3Cwu28
+	+O2AcIRPkvhfuFavYKGIk7ZipyDS6bN5lPzD+EOmxaoL/sWT8l5EUxcvgbodXvirs78p
+	D3osutmHH8qOocVDNQH946ySzjoKJuKpiaDEIFMWz7/bfzzA2Uz/9kBzf6OB1NtZMyg5
+	nvY3/nNC/5XBY2G4818wf3JTGLqTuymOBZqvi4FA5TK3wGbtpAvrzCsMpPH49bhKrSZ5
+	+/sdGzLUKHhtr8hb9d+UcZlYIfjBurGEkOfTreWKdjav6dkPENSFzRgx5mBH0octZU6F
+	Pgow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=CkNqO/3ApDcX4TrqR/pC5NrtlNcYoXaAa227xcVPk7o=;
+	b=uAB/fgFH1bBOgpZsd4Sl4rJtFRqDV2+ydOgLW5vrLHVrjQs1Mq/+WuXzA4pu2nuIkw
+	zXETnQrCnCb0gfa5F/RaR09E7zxhaGF0DOcfaZsHpgIbZ1PbM+p8Auy8+Y5gywPXfGls
+	S7j1Dyl+6Zj/pubkFnAaAvxEU98sxJ6F/jRsoRnFBxjmCuJz7zQy8PlzWlKVLvzuKfME
+	YjC7IyvDhVbWa5XFQspZQuGmSHrcaxWh59e2adLG1sMZPE1TPqXWs337fgVL7tOYNX5g
+	TJgcPw/u40S8Y3GzsyVo4nNlcu+Epnc40lb2ZN/c3yTHeBqHv5zQ6G3eW5OICiWjR6Je
+	8iCw==
+X-Gm-Message-State: APjAAAWOqd+eS/gpIKyNLZBFI7D1hi9q726tdvKDgS8ZlN2aL+HLfMVK
+	dUPH9d3kGpkTSjuB2WgYkkLUFj43
+X-Google-Smtp-Source: APXvYqzWyPZge6gu57JRjnedWYHkP0xOL/jApwPjRGIXBj1IBw5C1w8z/uMvFA83U19rfBzVSYkrPA==
+X-Received: by 2002:a05:6000:354:: with SMTP id
+	e20mr9965768wre.383.1570794481210; 
+	Fri, 11 Oct 2019 04:48:01 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id b5sm6964357wmj.18.2019.10.11.04.48.00
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 11 Oct 2019 04:48:00 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Oct 2019 13:47:36 +0200
+Message-Id: <20191011114754.91740-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 01/19] runqemu: add options that enable virgl with the SDL frontend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,40 +54,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2019 09:20:02 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Oct 2019 11:48:01 -0000
 
-Also add Richard.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ scripts/runqemu | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-On 2019-10-11 11:06, Stefan Agner wrote:
-> From: Stefan Agner <stefan.agner@toradex.com>
-> 
-> In case multiple builds share UNINATIVE_DLDIR's location, one build
-> might be in the process of downloading the tarball while another is
-> just checking whether the tarball exists. Check for the done file
-> instead and rely on the fetchers lockfile mechanism in case two
-> builds are running.
-> 
-> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-> ---
->  meta/classes/uninative.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-> index 3326c0db3d..9f8645a36a 100644
-> --- a/meta/classes/uninative.bbclass
-> +++ b/meta/classes/uninative.bbclass
-> @@ -45,7 +45,7 @@ python uninative_event_fetchloader() {
->          tarballdir = os.path.join(d.getVar("UNINATIVE_DLDIR"), chksum)
->          tarballpath = os.path.join(tarballdir, tarball)
->  
-> -        if not os.path.exists(tarballpath):
-> +        if not os.path.exists(tarballpath + ".done"):
->              bb.utils.mkdirhier(tarballdir)
->              if d.getVar("UNINATIVE_URL") == "unset":
->                  bb.fatal("Uninative selected but not configured,
-> please set UNINATIVE_URL")
-> -- 
-> 2.20.1
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 1a5aca98ac7..22671f19ec3 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -67,9 +67,9 @@ of the following environment variables (in any order):
+     nographic - disable video console
+     sdl - choose the SDL UI frontend
+     gtk - choose the Gtk UI frontend
+-    gl - enable virgl-based GL acceleration (also needs gtk option)
+-    gl-es - enable virgl-based GL acceleration, using OpenGL ES (also needs gtk option)
+-    egl-headless - enable headless EGL output; use vnc or spice to see it
++    gl - enable virgl-based GL acceleration (also needs gtk or sdl options)
++    gl-es - enable virgl-based GL acceleration, using OpenGL ES (also needs gtk or sdl options)
++    egl-headless - enable headless EGL output; use vnc (via publicvnc option) or spice to see it
+     serial - enable a serial console on /dev/ttyS0
+     serialstdio - enable a serial console on the console (regardless of graphics mode)
+     slirp - enable user networking, no root privileges is required
+@@ -437,7 +437,12 @@ class BaseConfig(object):
+                 self.qemu_opt_script += ' -nographic'
+                 self.kernel_cmdline_script += ' console=ttyS0'
+             elif arg == 'sdl':
+-                self.qemu_opt_script += ' -display sdl'
++                if 'gl' in sys.argv[1:]:
++                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=on'
++                elif 'gl-es' in sys.argv[1:]:
++                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=es'
++                else:
++                    self.qemu_opt_script += ' -display sdl'
+             elif arg == 'gtk':
+                 if 'gl' in sys.argv[1:]:
+                     self.qemu_opt_script += ' -vga virtio -display gtk,gl=on'
+-- 
+2.17.1
+
 
