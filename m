@@ -1,53 +1,46 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 354487F399
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com
+	[209.85.221.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 089537F5E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 20:20:07 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id u184so10097310qkd.4
+	Fri, 11 Oct 2019 20:39:51 +0000 (UTC)
+Received: by mail-vk1-f173.google.com with SMTP id s21so2420020vkm.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 13:20:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version:organization
-	:content-transfer-encoding;
-	bh=m/7gXd7DgDZ+U+mwm4MaYEsQtD4FJZeNOp4lxlP4Rm8=;
-	b=A37hb5TkdghTBuTiLahJNk8+1doKFats+Eq78Tl/94tewF8uqMYI+a4dG4EoS+MRF0
-	h7iRLj7EZ1CBSiBTRuNgDre4s5z5sju0D+PjFI1BPLBRGgOGl1uS/lUA/D1csUveEWUm
-	zDokcWuJzKO5MJ7wfCnfCMNDfqUxi9xdve8PPA2lMoNUB2kpocGIUJQynkDQstGKwL3t
-	b5HV+oy04xIjKkxzZJhXNSvmcVSTpF1LODltoIEiiC9f6V06aw79mUoijm01b0mxTdx2
-	xlAuie/Guoh+E4CqmQJk4r0oGeT6fkeMx9uHJRJtbD5kvjbV+jw1qsXo42/vryK4YVqz
-	38nA==
+	Fri, 11 Oct 2019 13:39:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=HZ4pA3dxFbhV+gt6u6SuK7HORDnjGIE5pOK6KtlfhhY=;
+	b=TeMJyLLLR/yshRZFHv6L++ZbUQOLDFsx9Gdl5HIRH/vRAjNWJ1CocG9R1pKZOryRrH
+	PXGLsGdSyELn7ZaGWvwqhiPQxXYva6qYowRffppIjj/PIe1pgtzUBysYlBY0Rt1q856j
+	ol/7UwrcjfdY1oJNqp/QkbfCM4QUyQjCTiDPoWEATET4MXYaC6RjSq53D7zoD9TXsTbt
+	Dy9ou/yaGo+XGE5BnrTgomOgUuHZ3h1g8g0gJnvYb+Zt9FBuvzKrlMyQbMDALj9LhYpK
+	AqtcienDRa6taEvauxFZOt4dBuzvSfcibIY7M8NdoUfOhLDU5PC6sY4mqJAAnioMsvw2
+	TE5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=m/7gXd7DgDZ+U+mwm4MaYEsQtD4FJZeNOp4lxlP4Rm8=;
-	b=iMbUan/AUbXJ4zYUG93f0taauoPhGl0wsglqnXa+WApCOXHpV4uUZ71fKcflUNazWf
-	nJmoDd9+q6bsPgTsUExdwFDhz+7o7/Hqtinjrz7IKRZz6q6/jB62UYVjac6AjDZPOUmr
-	0vNAKi0Qq96CNURdPaZGNsRqKqsEJiPkTBqQvO+LV9zZFmG4l6kIg7FpR/jyOv7DNHah
-	2bIRrB/AwfPGnslusJ0niJqgHs1uTUZ6SX1YoUQTSObzgFeNHNv8siZeW0rwMhiu+YvS
-	0lRv6+eHtT5l7MnDfUI4H68nadHa3aFGS+J3HkHOUMVa/kzv5H0ax7lm0iOuZpP72F0c
-	6klQ==
-X-Gm-Message-State: APjAAAWeLFEYcDqA0pB0SvoRb7jA9C9j3F+6Tr2/joCas7oR91jJlSob
-	8GnTMrgfBAaZASr9y43lXsgc2jmv9eN44Q==
-X-Google-Smtp-Source: APXvYqy2YGvCtZAu+IqX/qApY25eUQrrlIdUIzrxRRwP8Khiq+VNn11UsTdcWDUgJD5C7vZDquiuCw==
-X-Received: by 2002:ae9:f003:: with SMTP id l3mr17662424qkg.59.1570825208306; 
-	Fri, 11 Oct 2019 13:20:08 -0700 (PDT)
-Received: from centrium.lab.ossystems ([181.220.83.67])
-	by smtp.gmail.com with ESMTPSA id
-	u39sm5059798qtj.34.2019.10.11.13.20.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 11 Oct 2019 13:20:07 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Oct 2019 17:19:51 -0300
-Message-Id: <20191011201951.24617-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=HZ4pA3dxFbhV+gt6u6SuK7HORDnjGIE5pOK6KtlfhhY=;
+	b=dXetRu+Y+u8ptQh6vyf98IrUpElulViSRo0ZLOYCmNZtPLYoZAy00lfu8inXIieVV0
+	jNb+6iE5tI7sWcmvb56vej3IR+lXGyVHkncKIsHLwwFz21c1EqnrnfE8Y7TIxQq3RMhs
+	pVqtVxa2oauZj1QyHrrLaRWNm4Fe7Fwocj2shh+U+ZHXjqUSSXsMiNYcCFvtkbs19nJh
+	Vhxuq8CsZA/uygpkpnlZf8ZWVRM6rUAY6wH9IWh1DstUyOB2ZWEskEk3ePo0VuDf5iNN
+	bW5L1ZTbi1uB7lnASj/QyDVeYn4IsF6GJks2kuY90fC0wom1uMdv5sR7eHJZuPjodkCQ
+	XVmw==
+X-Gm-Message-State: APjAAAX5Ah80VGs7bsPZxzXu8Md7wAR7GBC4n2/4N/M9pyRsE+LaRSQV
+	jCanw9Aya7ygSWAaKJkWa/L2SYit7kDA/3sDftMDL6pF
+X-Google-Smtp-Source: APXvYqxqZuWraF1QzLIV0vp9PalQUOTcDctkR06t0gulMWj9GJBiaBxZYn6CFANUIh0pVV82bUdSIghVosw77npEfC8=
+X-Received: by 2002:a1f:b40a:: with SMTP id d10mr9605932vkf.29.1570826392760; 
+	Fri, 11 Oct 2019 13:39:52 -0700 (PDT)
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] mesa: Upgrade 19.1.6 -> 19.2.1
+References: <20191011201951.24617-1-fabio.berton@ossystems.com.br>
+In-Reply-To: <20191011201951.24617-1-fabio.berton@ossystems.com.br>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 11 Oct 2019 22:39:41 +0200
+Message-ID: <CANNYZj_6RQk_AMRoXXjx5c-XjtAOwHetUtQXAe_sEhHuGbtH7w@mail.gmail.com>
+To: Fabio Berton <fabio.berton@ossystems.com.br>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: Upgrade 19.1.6 -> 19.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,213 +53,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2019 20:20:08 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 11 Oct 2019 20:39:52 -0000
+Content-Type: multipart/alternative; boundary="00000000000024f6bb0594a885d0"
 
-  - Update patches with devtool finish --force-patch-refresh
+--00000000000024f6bb0594a885d0
+Content-Type: text/plain; charset="UTF-8"
 
-  - Update license checksum due to commit d5e273aad2
-    docs: remove pointless line-break
+On Fri, 11 Oct 2019 at 22:20, Fabio Berton <fabio.berton@ossystems.com.br>
+wrote:
 
-  This upgrade include the following changes:
-
-    - Mesa 19.2.1 This is a bug fix release.
-      Full log: https://mesa3d.org/relnotes/19.2.1.html
-
-    - Mesa 19.2.0 This is a new development release.
-      Full log: https://mesa3d.org/relnotes/19.2.0.html
-
-    - Mesa 19.1.7 is released.
-      Full log: https://mesa3d.org/relnotes/19.1.7.html
-
-    - Mesa 19.1.6 is released. This is a bug-fix release.
-      Full log: https://mesa3d.org/relnotes/19.1.6.html
-
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- ...k-for-all-linux-host_os-combinations.patch |  9 ++++----
- ...on.build-make-TLS-GLX-optional-again.patch | 22 +++++++++----------
- ...Allow-enable-DRI-without-DRI-drivers.patch |  9 ++++----
- .../{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc           |  2 +-
- .../mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb}   |  4 ++--
- 6 files changed, 24 insertions(+), 22 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb} (85%)
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-index 9fba5da4b2..461fc83345 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-@@ -1,4 +1,4 @@
--From ea966884e39aae9571c038fab55f3c1663d17850 Mon Sep 17 00:00:00 2001
-+From 7ed5b340f4077e616287b6124dfd46cf6a2cab50 Mon Sep 17 00:00:00 2001
- From: Fabio Berton <fabio.berton@ossystems.com.br>
- Date: Wed, 12 Jun 2019 13:40:20 -0300
- Subject: [PATCH] meson.build: check for all linux host_os combinations
-@@ -14,15 +14,16 @@ Upstream-Status: Pending
- Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
- Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
- Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+
- ---
-  meson.build | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/meson.build b/meson.build
--index 567a81afd6f..b33b430aed4 100644
-+index db94f85..6f7b0ed 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -107,7 +107,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
-+@@ -117,7 +117,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
-  # Only build shared_glapi if at least one OpenGL API is enabled
-  with_shared_glapi = get_option('shared-glapi') and with_any_opengl
-  
-@@ -31,7 +32,7 @@ index 567a81afd6f..b33b430aed4 100644
-  
-  dri_drivers = get_option('dri-drivers')
-  if dri_drivers.contains('auto')
--@@ -845,7 +845,7 @@ if cc.compiles('int foo(void) __attribute__((__noreturn__));',
-+@@ -856,7 +856,7 @@ if cc.compiles('__uint128_t foo(void) { return 0; }',
-  endif
-  
-  # TODO: this is very incomplete
-diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
-index 641bacf1d9..dc232285f0 100644
---- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
-+++ b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
-@@ -1,4 +1,4 @@
--From cee8e48c5344124e5d84307cb0c48ee0c9b3e684 Mon Sep 17 00:00:00 2001
-+From 78efbf1e2e733097d22ae7c558b8acf866104bec Mon Sep 17 00:00:00 2001
- From: Fabio Berton <fabio.berton@ossystems.com.br>
- Date: Wed, 12 Jun 2019 14:15:57 -0300
- Subject: [PATCH] meson.build: make TLS GLX optional again
-@@ -12,31 +12,32 @@ Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
- Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+
- ---
-- meson.build       | 4 +++-
-- meson_options.txt | 7 +++++++
-- 2 files changed, 10 insertions(+), 1 deletion(-)
-+ meson.build       | 4 ++++
-+ meson_options.txt | 6 ++++++
-+ 2 files changed, 10 insertions(+)
- 
- diff --git a/meson.build b/meson.build
--index b33b430aed4..0e50bb26c0a 100644
-+index 6f7b0ed..d961748 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -369,7 +369,9 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
--   endif
-+@@ -382,6 +382,10 @@ if not with_platform_android or get_option('platform-sdk-version') >= 29
-+   pre_args += '-DUSE_ELF_TLS'
-  endif
-  
---pre_args += '-DGLX_USE_TLS'
- +if get_option('glx-tls')
- +  pre_args += '-DGLX_USE_TLS'
- +endif
-++
-  if with_glx != 'disabled'
-    if not (with_platform_x11 and with_any_opengl)
-      error('Cannot build GLX support without X11 platform support and at least one OpenGL API')
- diff --git a/meson_options.txt b/meson_options.txt
--index 1f72faabee8..fcd49efea27 100644
-+index b768c15..d8a2d49 100644
- --- a/meson_options.txt
- +++ b/meson_options.txt
--@@ -339,6 +339,13 @@ option(
-+@@ -333,6 +333,12 @@ option(
-    value : true,
-    description : 'Enable direct rendering in GLX and EGL for DRI',
-  )
-@@ -46,7 +47,6 @@ index 1f72faabee8..fcd49efea27 100644
- +  value : true,
- +  description : 'Enable TLS support in GLX',
- +)
--+
-  option(
-    'I-love-half-baked-turnips',
-    type : 'boolean',
-diff --git a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
-index 3458c19199..5e66e09194 100644
---- a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
-+++ b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
-@@ -1,4 +1,4 @@
--From f1482e88c2295b9c7288f5b273335a8e18039de8 Mon Sep 17 00:00:00 2001
-+From 8e0fe4f54d68ff962665f6d59ce5cc96520d9e7d Mon Sep 17 00:00:00 2001
- From: Fabio Berton <fabio.berton@ossystems.com.br>
- Date: Wed, 12 Jun 2019 14:18:31 -0300
- Subject: [PATCH] Allow enable DRI without DRI drivers
-@@ -9,16 +9,17 @@ Upstream-Status: Pending
- Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
- Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
- Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-+
- ---
-  meson.build       | 2 +-
-  meson_options.txt | 6 ++++++
-  2 files changed, 7 insertions(+), 1 deletion(-)
- 
- diff --git a/meson.build b/meson.build
--index 0e50bb26c0a..de065c290d6 100644
-+index d961748..4e586e9 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -137,7 +137,7 @@ with_dri_r200 = dri_drivers.contains('r200')
-+@@ -147,7 +147,7 @@ with_dri_r200 = dri_drivers.contains('r200')
-  with_dri_nouveau = dri_drivers.contains('nouveau')
-  with_dri_swrast = dri_drivers.contains('swrast')
-  
-@@ -28,7 +29,7 @@ index 0e50bb26c0a..de065c290d6 100644
-  gallium_drivers = get_option('gallium-drivers')
-  if gallium_drivers.contains('auto')
- diff --git a/meson_options.txt b/meson_options.txt
--index fcd49efea27..0529200b3bb 100644
-+index d8a2d49..3fe980e 100644
- --- a/meson_options.txt
- +++ b/meson_options.txt
- @@ -34,6 +34,12 @@ option(
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 9e5808ee27..7809170f46 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -10,7 +10,7 @@ HOMEPAGE = "http://mesa3d.org"
- BUGTRACKER = "https://bugs.freedesktop.org"
- SECTION = "x11"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
-+LIC_FILES_CHKSUM = "file://docs/license.html;md5=3a4999caf82cc503ac8b9e37c235782e"
- 
- PE = "2"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_19.1.6.bb b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
-similarity index 85%
-rename from meta/recipes-graphics/mesa/mesa_19.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa_19.2.1.bb
-index 19221e9e25..ca66065251 100644
---- a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
-+++ b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
-@@ -6,8 +6,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
-            "
- 
--SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
--SRC_URI[sha256sum] = "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
-+SRC_URI[md5sum] = "8f9c05cfbf7b357c60a5345bb87a92c7"
-+SRC_URI[sha256sum] = "4cc53ca1a8d12c6ff0e5ea44a5213c05c88447ab50d7e28bb350cd29199f01e9"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
--- 
-2.20.1
+>   - Update patches with devtool finish --force-patch-refresh
 
 
+I'm not sure what you did exactly, but one of the patches below is
+incorrectly updated.
+
+Do use 'devtool upgrade', which properly rebases the patches and allows you
+to resolve conflicts.
+
+
+> +@@ -382,6 +382,10 @@ if not with_platform_android or
+> get_option('platform-sdk-version') >= 29
+> +   pre_args += '-DUSE_ELF_TLS'
+>   endif
+>
+> --pre_args += '-DGLX_USE_TLS'
+>  +if get_option('glx-tls')
+>  +  pre_args += '-DGLX_USE_TLS'
+>  +endif
+> ++
+>   if with_glx != 'disabled'
+>     if not (with_platform_x11 and with_any_opengl)
+>       error('Cannot build GLX support without X11 platform support and at
+> least one OpenGL API')
+>
+
+The fact that 'pre_args += '-DGLX_USE_TLS' is no longer present in the file
+should've raised suspicions, and indeed:
+"mesa: Rename GLX_USE_TLS to USE_ELF_TLS."
+https://gitlab.freedesktop.org/mesa/mesa/commit/9f37c9903b87f86a533bfaffa72f0ecb285b02b2
+
+Alex
+
+--00000000000024f6bb0594a885d0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div di=
+r=3D"ltr">On Fri, 11 Oct 2019 at 22:20, Fabio Berton &lt;<a href=3D"mailto:=
+fabio.berton@ossystems.com.br">fabio.berton@ossystems.com.br</a>&gt; wrote:=
+<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
+;border-left-color:rgb(204,204,204);padding-left:1ex">=C2=A0 - Update patch=
+es with devtool finish --force-patch-refresh</blockquote><div><br></div><di=
+v>I&#39;m not sure what you did exactly, but one of the patches below is in=
+correctly updated.</div><div><br></div><div>Do use &#39;devtool upgrade&#39=
+;, which properly rebases the patches and allows you to resolve conflicts.<=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-co=
+lor:rgb(204,204,204);padding-left:1ex">+@@ -382,6 +382,10 @@ if not with_pl=
+atform_android or get_option(&#39;platform-sdk-version&#39;) &gt;=3D 29<br>
++=C2=A0 =C2=A0pre_args +=3D &#39;-DUSE_ELF_TLS&#39;<br>
+=C2=A0 endif<br>
+<br>
+--pre_args +=3D &#39;-DGLX_USE_TLS&#39;<br>
+=C2=A0+if get_option(&#39;glx-tls&#39;)<br>
+=C2=A0+=C2=A0 pre_args +=3D &#39;-DGLX_USE_TLS&#39;<br>
+=C2=A0+endif<br>
+++<br>
+=C2=A0 if with_glx !=3D &#39;disabled&#39;<br>
+=C2=A0 =C2=A0 if not (with_platform_x11 and with_any_opengl)<br>
+=C2=A0 =C2=A0 =C2=A0 error(&#39;Cannot build GLX support without X11 platfo=
+rm support and at least one OpenGL API&#39;)<br></blockquote><div><br></div=
+>The fact that &#39;pre_args +=3D &#39;-DGLX_USE_TLS&#39; is no longer pres=
+ent in the file should&#39;ve raised suspicions, and indeed:<br>&quot;mesa:=
+ Rename GLX_USE_TLS to USE_ELF_TLS.&quot;<br><a href=3D"https://gitlab.free=
+desktop.org/mesa/mesa/commit/9f37c9903b87f86a533bfaffa72f0ecb285b02b2">http=
+s://gitlab.freedesktop.org/mesa/mesa/commit/9f37c9903b87f86a533bfaffa72f0ec=
+b285b02b2</a><div><br></div><div>Alex</div></div></div></div></div></div>
+
+--00000000000024f6bb0594a885d0--
