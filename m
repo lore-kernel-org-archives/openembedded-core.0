@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id DC2AF6C0F4
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B8786C0F4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 11:48:08 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id i16so10095006wmd.3
+	Fri, 11 Oct 2019 11:48:09 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id b24so9903557wmj.5
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 11 Oct 2019 04:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=gN5rPZGVf6JbHi5JC78ua+oYl1cPFRbr5XmMGpdz+XU=;
-	b=rG7DeXi+593XaGOjmvJIFO6yfAzuB8x/bx3AA+92LClDdgq+FKEQrzsGSXmseNcInx
-	NQuc+kMUG/T9w85RXnzHZiTwvQnfPbI/tOyYEgthG9Yke4EYxLeX9Deq7b/QhQVjkzr4
-	lhxuOywj6mmEJYfx3juAjTIdjPHJV2fq+VWSO7aq9Sk6luknoQX0XhjkAKFOwNzX7x3F
-	Vd3W3MbZIUZwHOKTPThxqwZJ7beRJ0s8g1+1QrXYfm0rjGFb3IJ/wQ+mPD5qqx4tcO4H
-	CmRb38QmYZhM2nRa2lCOsUTNeAeAXrmSan7u7OnzzqO3qGRAGEC54aG2LOgPXripfX7F
-	uSCg==
+	bh=FQLsdF7koOL7LxZq6rloEo6UXU8TJPfG1bfGIlxDnYs=;
+	b=MTBxQtINA2OTmzrKH/U5tGC6FOGhmnMawFQo8/+R76kDKmwqZLDX/2zGD6UQ/kORjV
+	FrHevrm0AyL+12fZoTXZ0aiT+JTr6IW0x3NGV+TjdmXqC5OxK2JnntjNfiGmzOQ+Cssq
+	OKNuGDiO3L0IlpXGZod1ygVWdxYYc1da5iYykSNM8A+oL8jdyXwGfNRY8nsAaZFfc32R
+	b79h3LhJRppU5GK+PU9ZPum07pRRLyynM94wXxangpFvMmxIVbA7hDKVeg9rbbUpUBkj
+	hH8aErrLVB+51a2YXf4BYt61RGpSA6n7Mgv9T51EePfi8jQylDMW6EpxLCNgftkggMbH
+	ihCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=gN5rPZGVf6JbHi5JC78ua+oYl1cPFRbr5XmMGpdz+XU=;
-	b=Ofo4Jzpn0Wud84wb1bF81XMn4DUSXXKQElmkPXV5LtR/wSVEYMpF/h54X7GtSe5kgo
-	aWMJZ6U22NzXNU5lFlrcw3zmWHdZZf6c047ZnWCu0OryppXTjbgoywhOvqpd0ypEFbtu
-	Of7RBDgbtu3M/NRI9jebLicOg8W88F2L4yrSBB7l6GbdnDlX8D91pnpBIb32i1WlNz8a
-	FEQ0DuXAcFFzyXu7lugxQ+JjGlmwKGPSKdQEo2ELOLEERqoqm7qgl6i+fVXG+v7X5uGN
-	y320D7ITqid4YIXmew9Ss7rgiJxDJN6kQQjpA/EI/EE3I9dBdw8knDWDXNkfGcucrRvr
-	DH6w==
-X-Gm-Message-State: APjAAAW3XzTdGjSCA9mfEJ64e8TyLUxLsLrOWF0SslpQocto48PfPMU3
-	z4zMZcgqU4KEXPYjZ56aVRma1+mL
-X-Google-Smtp-Source: APXvYqxNQSY3GR0I1cHcLnBmXTpMCdREUhS5xSVhxyvr3doFqeB4HpPbFEmzGM8I+jUC8nmblCuJVw==
-X-Received: by 2002:a1c:a8c7:: with SMTP id r190mr2893001wme.162.1570794489448;
-	Fri, 11 Oct 2019 04:48:09 -0700 (PDT)
+	bh=FQLsdF7koOL7LxZq6rloEo6UXU8TJPfG1bfGIlxDnYs=;
+	b=E0dK3ZPAs32ck8y60wSc8m8zq9tfqVSwWxYKq02w66ZzDebzBgsbfuRqBDx6rjli9C
+	6O/JCfbdxtSTIoxGKCfUhCoy8pFkwRjjT8udrzn0Hs/s7f0X6+BHZicrlyJgEfN31DTe
+	5gNe+vceG5K2KkZI3iT4bQm9IdQH2gCKuPKMTX+LTO2EZGuUvrpwMQqdOUMSvPS5x1u7
+	tTrtUXIRXxqhGRULMLTheuQUEucx8Xy3jXjeync7GNrEvgZGI6l4p2vsvg3Fib6RtLHa
+	OUXEfULrMzAJ+q4AOGPib2PtBTQROCJ+4UGGdPpAfI2OgG0kLmaasFsVMm8DY4TlxKcv
+	/1FQ==
+X-Gm-Message-State: APjAAAWMfEAUOCzChzNBh6uH5VcxkQF+dqnrdXoeCkrnVYZVOtBdCM4Y
+	FEiM2i1TvcdAZ7MResR1+MLneRtd
+X-Google-Smtp-Source: APXvYqyBZTrQPjXtvBgjf85rMtPiHSuoDZ6RBzi5A6qmFDeDx1BHGhie3NrqEuEUQByq4JmDdlVhCA==
+X-Received: by 2002:a1c:8189:: with SMTP id c131mr2918033wmd.151.1570794490121;
+	Fri, 11 Oct 2019 04:48:10 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id b5sm6964357wmj.18.2019.10.11.04.48.08
+	by smtp.gmail.com with ESMTPSA id b5sm6964357wmj.18.2019.10.11.04.48.09
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 11 Oct 2019 04:48:08 -0700 (PDT)
+	Fri, 11 Oct 2019 04:48:09 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Oct 2019 13:47:45 +0200
-Message-Id: <20191011114754.91740-10-alex.kanavin@gmail.com>
+Date: Fri, 11 Oct 2019 13:47:46 +0200
+Message-Id: <20191011114754.91740-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191011114754.91740-1-alex.kanavin@gmail.com>
 References: <20191011114754.91740-1-alex.kanavin@gmail.com>
-Subject: [PATCH 10/19] gtk-doc: upgrade 1.31 -> 1.32
+Subject: [PATCH 11/19] libdazzle: upgrade 3.32.3 -> 3.34.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,39 +60,28 @@ X-List-Received-Date: Fri, 11 Oct 2019 11:48:09 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch      | 2 +-
- .../gtk-doc/{gtk-doc_1.31.bb => gtk-doc_1.32.bb}              | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-gnome/gtk-doc/{gtk-doc_1.31.bb => gtk-doc_1.32.bb} (93%)
+ .../libdazzle/{libdazzle_3.32.3.bb => libdazzle_3.34.1.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/libdazzle/{libdazzle_3.32.3.bb => libdazzle_3.34.1.bb} (73%)
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-index 8c9bc954420..5ca4e3e086d 100644
---- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-@@ -1,4 +1,4 @@
--From 9537a7998a220b698b26d926a111bb400ff1ce01 Mon Sep 17 00:00:00 2001
-+From 657310f3842c84d28f6b77e8ad4d9b93472ca5da Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 5 Sep 2016 22:25:44 +0100
- Subject: [PATCH] Use native pkg-config when looking for gtk-doc.
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.31.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb
-similarity index 93%
-rename from meta/recipes-gnome/gtk-doc/gtk-doc_1.31.bb
-rename to meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb
-index 4f97ce06333..50d4d99722f 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.31.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb
-@@ -18,8 +18,8 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "api-documentation",
- PACKAGECONFIG[working-scripts] = ",,libxslt-native xmlto-native python3-six python3-pygments"
- PACKAGECONFIG[tests] = "--enable-tests,--disable-tests,glib-2.0"
+diff --git a/meta/recipes-gnome/libdazzle/libdazzle_3.32.3.bb b/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
+similarity index 73%
+rename from meta/recipes-gnome/libdazzle/libdazzle_3.32.3.bb
+rename to meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
+index e1a11830070..cf61ed5016f 100644
+--- a/meta/recipes-gnome/libdazzle/libdazzle_3.32.3.bb
++++ b/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
+@@ -7,8 +7,8 @@ inherit gnomebase upstream-version-is-even vala distro_features_check gobject-in
  
--SRC_URI[archive.md5sum] = "6239713011369a4fbdc7619350403772"
--SRC_URI[archive.sha256sum] = "a51687956d0377ac70904d03fdc73c9e116589b4a01453fa92162442b3657011"
-+SRC_URI[archive.md5sum] = "07764836262e154e94922e5f2aa476ae"
-+SRC_URI[archive.sha256sum] = "de0ef034fb17cb21ab0c635ec730d19746bce52984a6706e7bbec6fb5e0b907c"
- SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
-            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
-            file://conditionaltests.patch \
+ DEPENDS = "glib-2.0-native glib-2.0 gtk+3"
+ 
+-SRC_URI[archive.md5sum] = "b6da085649dcda2795e6980a84667950"
+-SRC_URI[archive.sha256sum] = "6c8d9b1514b5f6422107596f4145b89b8f2a99abef6383e086dfcd28c28667e8"
++SRC_URI[archive.md5sum] = "e796a92dd3f529616ed388c15208359b"
++SRC_URI[archive.sha256sum] = "3d981cbb9d9bb87bfaff7bfd44d9847223b3ef81e69225e4d1f6ac725a669505"
+ 
+ GIR_MESON_OPTION = 'with_introspection'
+ 
 -- 
 2.17.1
 
