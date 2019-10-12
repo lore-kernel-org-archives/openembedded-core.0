@@ -1,102 +1,60 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id DC1F87F591
+Return-Path: <alistair@alistair23.me>
+X-Greylist: delayed 391 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 12 Oct 2019 17:01:09 UTC
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+	[66.111.4.224])
+	by mail.openembedded.org (Postfix) with ESMTP id DEA727F58D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 16:58:18 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id y5so7936317pfo.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 09:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=Ye0wF/BIlDaipwNE6/3xJOENLEI3VGAyRLH40P1cgFo=;
-	b=LIJ+mnKuf9xPZj6DTO8X2aH8c1sIMSz4bXAP4PiLtisDvSijamjMGOs3hMKkTwZSVe
-	bqSpzMv9JshBkujWqRhS+ZyYtOgYUI2qNnpR0Eg3lP8bSeFm/Ra5tZCzPJuQvgY9O0Bk
-	455RZeyXITJ7w7bRRME2THNwVTrxTmMMWKe1iFjc8ESDKAkhIvJ1ggsSCxSovTLn9YLu
-	4cx59eh6zonuSz75bQQKBfPkLaBAdYPU7OPnGP1qe1IIh2JnFbfShuPtgdYQdrHlKE41
-	TIS/K26w4WP5I/uylpwgjhpFEH9jLYWt/oTLGa8aQc8qq9dmPEqtxIkJX0FHsHDX0OFs
-	ZvDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=Ye0wF/BIlDaipwNE6/3xJOENLEI3VGAyRLH40P1cgFo=;
-	b=KgRWtSNkEj8UhKr2RhjTLuRlhZmoYmG4jv3EfbQ+bQdVkNZ6hcgM7LJyC3ZD8+sHbf
-	0C9GP5rvoiqwY/IwJuMItlavCIQ254j9uxWGMsy4GPBAWGCN0m6UAFcd6PM77WXH11N6
-	lzuTHlJEi+i5fvPQUPz+TA6W0Mqsf9thxfaCjLha+M0YUY2xSPvqrUJdzfWo3OHgI/Ja
-	ffyEA5YwEmtdxAIZjHScITqznDL6xurpl0b2ks9QufGL+TGhAJAFrLHLDr39lNCBgUfG
-	goTYyeuYlxdR4LpxYdV14U2pLPRVu392EPTKZrPj750cnMwMz9S9GZNIU25xXkkXAwTc
-	uwfg==
-X-Gm-Message-State: APjAAAVzI1OoiAhAwU8OVUVNt7KT5oDbBI+CnJnkGYhIYpBX8R9CAnl/
-	my33gqCQ8FWkiXGKGk2a1xg=
-X-Google-Smtp-Source: APXvYqzjVaFH08hPgAbepAOSiXhuX0WZwQQn1oRyzUpaHfbXOVCCjuglVARYsmE5SiQurmJQKpqEuw==
-X-Received: by 2002:a62:8305:: with SMTP id h5mr23204128pfe.176.1570899500076; 
-	Sat, 12 Oct 2019 09:58:20 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:a5c0:5c58:2ffd:b6af:7edd?
-	([2601:202:4180:a5c0:5c58:2ffd:b6af:7edd])
-	by smtp.gmail.com with ESMTPSA id
-	k15sm12842473pfa.65.2019.10.12.09.58.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 12 Oct 2019 09:58:19 -0700 (PDT)
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
-	openembedded-core@lists.openembedded.org
-References: <20191011081552.17148-1-nicolas.dechesne@linaro.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <d82a9b4d-9e96-37c7-f360-22e9856e3c88@gmail.com>
-Date: Sat, 12 Oct 2019 09:58:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	Sat, 12 Oct 2019 17:01:09 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 29FE55839;
+	Sat, 12 Oct 2019 12:54:37 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+	by compute7.internal (MEProxy); Sat, 12 Oct 2019 12:54:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=cl+K0aXqASB2Jeu+BuGinXP5hT
+	3qQIHc3IlqTthIGnk=; b=aV2KDatkjvLcBEYjDqa2iH6LlR1Y0ZiXrrzOqA2Eh9
+	+vHmBHqAh1QMH1zaDnYawsclk3YsTPCvS7dRRFsBDwfYqp2rPZUNSLcn2AGRZ35e
+	OdeQdBiQuaJgrcXFZAdON+CYYxsVgkkTT9g9YUf5dMlaQ3AY/Zos6l192VTc1KYJ
+	HeKDeSowhDhyA9YbtvbEDVzGBM+oRLaR/Dph2GDyFbdKtZ1qXMaqA3V2+zsrhU6Y
+	GPKju8poPQzEOsPn9EtQuV6V6n84GisnEsB1YNuzj09LqcCO8UQOEgNeIneOV6fN
+	3iEbv1tqXaJwac3/GNJ4m11hTsMGw6HrIKuNLFLZ7HlQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=cl+K0aXqASB2Jeu+B
+	uGinXP5hT3qQIHc3IlqTthIGnk=; b=bzqSmYSsivKhAn03xF8+MORDMIuA/CPG4
+	eVAJsu7VXE2EwzAStzEQvTq2YE6b1TnOjeXH8SSte85eP/ZlMzWaOIk8Gt1H7tsL
+	wBynPMD+2ZjUgr/X9cp6Z/OfdkK5GGawWfo136LAGH4Wx0pGT0eINcBz1GJT1FR8
+	Mw6abk75Mcf3qyOwxTpVCT3oC+Uwb6oKJZc1i0AcmNnXYEySyH4bL4mEt43weHSz
+	O2vMs3DWP9EfraX2lZz6SzDLJNv9Ko49FW3TVpp7m/5wKzm22BtH8Yr8pRnCEIT/
+	SphRBGQxljiPCFWfP+qyd5IY1SNWELVWiLZ6mQKc/95NQZUEsHAdA==
+X-ME-Sender: <xms:TAWiXbfXtBJsKEF96FhA83XkRQN4XYUbbg6q5OdtLFnbFL-EyYQK2A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrieejgddutdejucetufdoteggodetrfdotf
+	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+	uceurghilhhouhhtmecufedttdenucgovehorghsthgrlhdqhfeguddvqddtvdculdduhe
+	dtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehlihhs
+	thgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmh
+	gvqeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpmhgvshgrfegurdho
+	rhhgnecukfhppeejfedrleefrdekgedrvddtkeenucfrrghrrghmpehmrghilhhfrhhomh
+	eprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvnecuvehluhhsthgvrhfuihii
+	vgeptd
+X-ME-Proxy: <xmx:TAWiXbvqPaov4E7Bj9eXmbK5McKjPr_dhZynlCGa7lvi3A0mZQH1JA>
+	<xmx:TAWiXReRyvGlRRiep1eihd0VwDpmUr-o1zDKUznTa4h5oLluBD5R-A>
+	<xmx:TAWiXfo3O8BCd0ubCZGAtUuKTRFYO9O2kKX5qWOp1-EcNPkBP7b5eg>
+	<xmx:TQWiXVJo21Jb_QqweFwev006_cmEH_tcjtDwT02hWtDbRpAELNrTSg>
+Received: from alistair-xps-14z.alistair23.me
+	(c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 12CCF80061;
+	Sat, 12 Oct 2019 12:54:35 -0400 (EDT)
+From: Alistair Francis <alistair@alistair23.me>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 12 Oct 2019 09:54:33 -0700
+Message-Id: <20191012165433.24511-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20191011081552.17148-1-nicolas.dechesne@linaro.org>
-Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: Re: [thud][PATCH] kernel.bbclass: fix installation of modules signing certificates
+Subject: [PATCH] mesa: Upgrade to 19.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,45 +67,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Oct 2019 16:58:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sat, 12 Oct 2019 17:01:10 -0000
+Content-Transfer-Encoding: 8bit
 
+Upgrade mesa and mesa-gl to 19.2.1.
 
+The license hash change was a trivial new line removal.
 
-On 10/11/19 1:15 AM, Nicolas Dechesne wrote:
-> From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
->
-> If one has provided external key/certificate for modules signing, Kbuild
-> will skip creating signing_key.pem and will write only signing_key.x509
-> certificate. Thus we have to check for .x509 file existence rather than
-> .pem one.
+The glx-tls option was removed as it isn't included in the meson.build
+file.
 
-Is this true for the all the kernel version supported by Thud?
+The -Dasm=false was removed as it also is no longer included.
 
-- armin
->
-> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 2527e731eba43bd36d0ea268aca6b03155376134)
-> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index bd185e258e..c72d1fe78a 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -451,7 +451,7 @@ do_shared_workdir () {
->  	cp .config $kerneldir/
->  	mkdir -p $kerneldir/include/config
->  	cp include/config/kernel.release $kerneldir/include/config/kernel.release
-> -	if [ -e certs/signing_key.pem ]; then
-> +	if [ -e certs/signing_key.x509 ]; then
->  		# The signing_key.* files are stored in the certs/ dir in
->  		# newer Linux kernels
->  		mkdir -p $kerneldir/certs
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+---
+ ...llow-enable-DRI-without-DRI-drivers.patch} |  0
+ ...on.build-make-TLS-GLX-optional-again.patch | 52 -------------------
+ .../{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb}  |  0
+ meta/recipes-graphics/mesa/mesa.inc           | 13 ++---
+ .../mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb}   |  7 ++-
+ 5 files changed, 7 insertions(+), 65 deletions(-)
+ rename meta/recipes-graphics/mesa/files/{0003-Allow-enable-DRI-without-DRI-drivers.patch => 0002-Allow-enable-DRI-without-DRI-drivers.patch} (100%)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb} (71%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch b/meta/recipes-graphics/mesa/files/0002-Allow-enable-DRI-without-DRI-drivers.patch
+similarity index 100%
+rename from meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+rename to meta/recipes-graphics/mesa/files/0002-Allow-enable-DRI-without-DRI-drivers.patch
+diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+deleted file mode 100644
+index 641bacf1d9..0000000000
+--- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From cee8e48c5344124e5d84307cb0c48ee0c9b3e684 Mon Sep 17 00:00:00 2001
+-From: Fabio Berton <fabio.berton@ossystems.com.br>
+-Date: Wed, 12 Jun 2019 14:15:57 -0300
+-Subject: [PATCH] meson.build: make TLS GLX optional again
+-Organization: O.S. Systems Software LTDA.
+-
+-This was optional with autotools, and needs to be disabled
+-when using musl C library, for instance.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+----
+- meson.build       | 4 +++-
+- meson_options.txt | 7 +++++++
+- 2 files changed, 10 insertions(+), 1 deletion(-)
+-
+-diff --git a/meson.build b/meson.build
+-index b33b430aed4..0e50bb26c0a 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -369,7 +369,9 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
+-   endif
+- endif
+- 
+--pre_args += '-DGLX_USE_TLS'
+-+if get_option('glx-tls')
+-+  pre_args += '-DGLX_USE_TLS'
+-+endif
+- if with_glx != 'disabled'
+-   if not (with_platform_x11 and with_any_opengl)
+-     error('Cannot build GLX support without X11 platform support and at least one OpenGL API')
+-diff --git a/meson_options.txt b/meson_options.txt
+-index 1f72faabee8..fcd49efea27 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
+-@@ -339,6 +339,13 @@ option(
+-   value : true,
+-   description : 'Enable direct rendering in GLX and EGL for DRI',
+- )
+-+option(
+-+  'glx-tls',
+-+  type : 'boolean',
+-+  value : true,
+-+  description : 'Enable TLS support in GLX',
+-+)
+-+
+- option(
+-   'I-love-half-baked-turnips',
+-   type : 'boolean',
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 9e5808ee27..dbf3f2ca67 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -10,7 +10,7 @@ HOMEPAGE = "http://mesa3d.org"
+ BUGTRACKER = "https://bugs.freedesktop.org"
+ SECTION = "x11"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
++LIC_FILES_CHKSUM = "file://docs/license.html;md5=3a4999caf82cc503ac8b9e37c235782e"
+ 
+ PE = "2"
+ 
+@@ -57,12 +57,11 @@ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
+-                   glx-tls \
+ 		   "
+-PACKAGECONFIG_class-native ?= "gbm dri egl opengl glx-tls"
+-PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl glx-tls"
++PACKAGECONFIG_class-native ?= "gbm dri egl opengl"
++PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl"
+ 
+-PACKAGECONFIG_remove_libc-musl = "glx-tls"
++PACKAGECONFIG_remove_libc-musl = ""
+ 
+ # "gbm" requires "dri", "opengl"
+ PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
+@@ -70,7 +69,6 @@ PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
+ X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes xrandr"
+ # "x11" requires "opengl"
+ PACKAGECONFIG[x11] = ",-Dglx=disabled,${X11_DEPS}"
+-PACKAGECONFIG[glx-tls] = "-Dglx-tls=true, -Dglx-tls=false"
+ PACKAGECONFIG[xvmc] = "-Dgallium-xvmc=true,-Dgallium-xvmc=false,libxvmc"
+ PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
+ 
+@@ -140,9 +138,6 @@ PACKAGECONFIG[osmesa] = "-Dosmesa=${OSMESA},-Dosmesa=none"
+ 
+ PACKAGECONFIG[unwind] = "-Dlibunwind=true,-Dlibunwind=false,libunwind"
+ 
+-# mesa tries to run cross-built gen_matypes on build machine to get struct size information
+-EXTRA_OEMESON_append = " -Dasm=false"
+-
+ # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
+ FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_19.1.6.bb b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
+similarity index 71%
+rename from meta/recipes-graphics/mesa/mesa_19.1.6.bb
+rename to meta/recipes-graphics/mesa/mesa_19.2.1.bb
+index 19221e9e25..6e87e0eb6a 100644
+--- a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
+@@ -2,12 +2,11 @@ require ${BPN}.inc
+ 
+ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
+-           file://0002-meson.build-make-TLS-GLX-optional-again.patch \
+-           file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
++           file://0002-Allow-enable-DRI-without-DRI-drivers.patch \
+            "
+ 
+-SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
+-SRC_URI[sha256sum] = "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
++SRC_URI[md5sum] = "8f9c05cfbf7b357c60a5345bb87a92c7"
++SRC_URI[sha256sum] = "4cc53ca1a8d12c6ff0e5ea44a5213c05c88447ab50d7e28bb350cd29199f01e9"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+-- 
+2.23.0
 
 
