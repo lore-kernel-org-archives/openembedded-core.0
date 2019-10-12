@@ -1,52 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DACC7F43B
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EF307F63C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 09:48:56 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id y18so4911969wrn.5
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 02:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=gSg2d1ursHdPaKBHsYsH2K9COYpk8pZqZCUuqGkyDAA=;
-	b=FVq1f86J+hl9Tll44JqHBuYYUMxkfmlJ+jWIv9czkulqnjpKTecMjopgh7LeR2Stk7
-	Dj1zc0OEhL7KxptbBj4pATg5v4NvAcWs26pUPDmhWo9IlWjGnXsCtNQ8Z/IVyc9irIz7
-	xNLAUEqcwUPApKzczVfaFGGd+Q6vx+kDRcwZo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=gSg2d1ursHdPaKBHsYsH2K9COYpk8pZqZCUuqGkyDAA=;
-	b=iWqvS2HIcFTQInI36GRNbqJZc/STIXNFf94+ajDvWP0FHF/Uu78r59iEI6wBzqorc4
-	/Dy6B7cwziyAiKPz/cykkoid2/htP0/Ef3LvRRzHWo3OmRxLKkw/QCTdpTykvAdmsZzf
-	pstbUuZmX2eVhwCF2QpjKSwUXyImGusn4SU1n9ZIH/APtvkccRgQvGNFsQqbVjtigfTr
-	0fHwbCD3hh/oJTNtt0s95by1yiKFX85wdODFx4DZ/nJ2t/wSmdheevg+NFmg8xWg1LpD
-	62NqglPZy+x8569UKT+1ftyy/UevGONOahyCJvSzF51K84/8DZuCmR3zrtFtkumVkljq
-	Q/Iw==
-X-Gm-Message-State: APjAAAXSKljNdNMguwY5QA6q8Ca+pPNMNK+RqcJkIFXnUAEnlVkV5jcB
-	YaxoC6D8K+QHSEmDi8lFVS14jw==
-X-Google-Smtp-Source: APXvYqy8ytJTvBV8ByrZalC+Uq/mV+eN0276eMpM6Uh5gqCMNbCAxyDatGC9se54RtTGJJRt13b61Q==
-X-Received: by 2002:adf:fe8d:: with SMTP id l13mr3384654wrr.365.1570873737237; 
-	Sat, 12 Oct 2019 02:48:57 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	l18sm12923558wrc.18.2019.10.12.02.48.55
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 12 Oct 2019 02:48:56 -0700 (PDT)
-Message-ID: <dff4f92f917d6fee20aea04e5d505e0aadff40bf.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christophe PRIOUZEAU <christophe.priouzeau@st.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 12 Oct 2019 10:48:55 +0100
-In-Reply-To: <cover.1570452710.git.christophe.priouzeau@st.com>
-References: <cover.1570452710.git.christophe.priouzeau@st.com>
-User-Agent: Evolution 3.34.1-2 
+	Sat, 12 Oct 2019 10:12:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46r0xT74ndz4Q;
+	Sat, 12 Oct 2019 12:12:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1570875150;
+	bh=L8AyW9Y4QNgYWSNOyMFUFAD4FqnXBAFakmyT95ckjSs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bgL19RV/C1pQ4UlzJyUH7+Y8IVlkXWGLSocs3ZqWRw6f6E3T4wZq+Kb0vT5XT1Oam
+	726pz7GIe2RehWD56JeAQZVjTNdvW/7/OtDtJm/Af3iKd3OIrnBAwWOGSD9H/kkqEU
+	qmbyyWAdipyi56QFXNE64H7kGHSmzlflLT6rK3jUMtFnpVQrolT3tcDZkq0LSTPqe2
+	36nWBUX0EGaqlJPz8iAupL/8NT14YV+056r0cinlgokmv4B6UJmZu70gjK8xZRFPNr
+	w2YQ4AjLZz998tI0tmxue8fXA8btZtZhNvPQ2Odea58xOQ3wZQl+YQK6/erieK5ykN
+	t+w0D2ZWu/zH0v4kbRSL7EpgQjjNcXwnZfMlVPQdBu247nV6lD94D4V2WNoMseq1BE
+	PT71ExaGYNbvAGCQXcRahElsOdaOQI86k3pK2Qr2S8gs4DS8HOiQlyUHCRu87D+CCP
+	MKvEY6nF6/vtYHKj+gULlK3E5PyYQCKPsNP61H09mGmUC96XBAj7m9DFA9aby5wrBk
+	/oymAX5ScJrArptLREmfryceUH6htJfP1OKTpLaOxoDZevY5nkBGYphm9H3ZvthXD4
+	yhrnuacQ3YJqTy2JaCTSBgFgWDC6mETBTQe3JVe9YtFkieh+FhKfdgXy1zm9RK7ViL
+	DqIEeya6PcPzrJZXosydBI6U=
+Date: Sat, 12 Oct 2019 13:12:27 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20191012101227.GA14610@localhost>
+References: <20191011114754.91740-1-alex.kanavin@gmail.com>
+	<20191011114754.91740-10-alex.kanavin@gmail.com>
+	<60257c1a-0225-dd3d-af04-bddad416de07@gmail.com>
+	<CANNYZj_K=oGF9qnYW-j2s2f_oxit8JH_mGWVL11EqOCeaQby2A@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 00/23] Update BSD license
+In-Reply-To: <CANNYZj_K=oGF9qnYW-j2s2f_oxit8JH_mGWVL11EqOCeaQby2A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 10/19] gtk-doc: upgrade 1.31 -> 1.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Oct 2019 09:48:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 12 Oct 2019 10:12:32 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Mon, 2019-10-07 at 13:08 +0000, Christophe PRIOUZEAU wrote:
-> Some recipes use BSD as license while SPDX license reference : BSD-0-
-> Clause,
-> BSD-1-Clause, BSD-2-Clause, BSD-3-Clause, BSD-4-Clause.
-> The goal of this request are to indicate the SPDX license euqivalent
-> for recipes
-> which indicate "BSD" as license.
+On Fri, Oct 11, 2019 at 09:39:07PM +0200, Alexander Kanavin wrote:
+> On Fri, 11 Oct 2019 at 21:30, akuster808 <akuster808@gmail.com> wrote:
 > 
-> The following changes since commit
-> 108ce1447ca5dcb838ef67ef6b9a9d25e993da1d:
+> > > --- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+> > > +++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
+> > > @@ -1,4 +1,4 @@
+> > > -From 9537a7998a220b698b26d926a111bb400ff1ce01 Mon Sep 17 00:00:00 2001
+> > > +From 657310f3842c84d28f6b77e8ad4d9b93472ca5da Mon Sep 17 00:00:00 2001
+> > >  From: Ross Burton <ross.burton@intel.com>
+> > >  Date: Mon, 5 Sep 2016 22:25:44 +0100
+> >
+> > Why did the patch change?
+> 
+> rebasing patches with 'devtool upgrade' can do this. I usually don't trim
+> such non-changes as they're obvious and harmless.
 
-Thanks for this. In future if there are more of these I'd like to have
-one tweak, specifically the commit message being "Clarify BSD license
-variant" rather than "update license" which is a little less specific.
+They can be a pain when cherry-picking changes for backporting.
 
-For this series I've just tweaked the commit messages to save reposting
-them.
+> Alex
 
-It is good to have these clarified!
+cu
+Adrian
 
-Cheers,
+-- 
 
-Richard
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
