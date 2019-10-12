@@ -1,46 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com
-	[209.85.221.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 089537F5E4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DACC7F43B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 20:39:51 +0000 (UTC)
-Received: by mail-vk1-f173.google.com with SMTP id s21so2420020vkm.0
+	Sat, 12 Oct 2019 09:48:56 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id y18so4911969wrn.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2019 13:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HZ4pA3dxFbhV+gt6u6SuK7HORDnjGIE5pOK6KtlfhhY=;
-	b=TeMJyLLLR/yshRZFHv6L++ZbUQOLDFsx9Gdl5HIRH/vRAjNWJ1CocG9R1pKZOryRrH
-	PXGLsGdSyELn7ZaGWvwqhiPQxXYva6qYowRffppIjj/PIe1pgtzUBysYlBY0Rt1q856j
-	ol/7UwrcjfdY1oJNqp/QkbfCM4QUyQjCTiDPoWEATET4MXYaC6RjSq53D7zoD9TXsTbt
-	Dy9ou/yaGo+XGE5BnrTgomOgUuHZ3h1g8g0gJnvYb+Zt9FBuvzKrlMyQbMDALj9LhYpK
-	AqtcienDRa6taEvauxFZOt4dBuzvSfcibIY7M8NdoUfOhLDU5PC6sY4mqJAAnioMsvw2
-	TE5Q==
+	Sat, 12 Oct 2019 02:48:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=gSg2d1ursHdPaKBHsYsH2K9COYpk8pZqZCUuqGkyDAA=;
+	b=FVq1f86J+hl9Tll44JqHBuYYUMxkfmlJ+jWIv9czkulqnjpKTecMjopgh7LeR2Stk7
+	Dj1zc0OEhL7KxptbBj4pATg5v4NvAcWs26pUPDmhWo9IlWjGnXsCtNQ8Z/IVyc9irIz7
+	xNLAUEqcwUPApKzczVfaFGGd+Q6vx+kDRcwZo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=HZ4pA3dxFbhV+gt6u6SuK7HORDnjGIE5pOK6KtlfhhY=;
-	b=dXetRu+Y+u8ptQh6vyf98IrUpElulViSRo0ZLOYCmNZtPLYoZAy00lfu8inXIieVV0
-	jNb+6iE5tI7sWcmvb56vej3IR+lXGyVHkncKIsHLwwFz21c1EqnrnfE8Y7TIxQq3RMhs
-	pVqtVxa2oauZj1QyHrrLaRWNm4Fe7Fwocj2shh+U+ZHXjqUSSXsMiNYcCFvtkbs19nJh
-	Vhxuq8CsZA/uygpkpnlZf8ZWVRM6rUAY6wH9IWh1DstUyOB2ZWEskEk3ePo0VuDf5iNN
-	bW5L1ZTbi1uB7lnASj/QyDVeYn4IsF6GJks2kuY90fC0wom1uMdv5sR7eHJZuPjodkCQ
-	XVmw==
-X-Gm-Message-State: APjAAAX5Ah80VGs7bsPZxzXu8Md7wAR7GBC4n2/4N/M9pyRsE+LaRSQV
-	jCanw9Aya7ygSWAaKJkWa/L2SYit7kDA/3sDftMDL6pF
-X-Google-Smtp-Source: APXvYqxqZuWraF1QzLIV0vp9PalQUOTcDctkR06t0gulMWj9GJBiaBxZYn6CFANUIh0pVV82bUdSIghVosw77npEfC8=
-X-Received: by 2002:a1f:b40a:: with SMTP id d10mr9605932vkf.29.1570826392760; 
-	Fri, 11 Oct 2019 13:39:52 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=gSg2d1ursHdPaKBHsYsH2K9COYpk8pZqZCUuqGkyDAA=;
+	b=iWqvS2HIcFTQInI36GRNbqJZc/STIXNFf94+ajDvWP0FHF/Uu78r59iEI6wBzqorc4
+	/Dy6B7cwziyAiKPz/cykkoid2/htP0/Ef3LvRRzHWo3OmRxLKkw/QCTdpTykvAdmsZzf
+	pstbUuZmX2eVhwCF2QpjKSwUXyImGusn4SU1n9ZIH/APtvkccRgQvGNFsQqbVjtigfTr
+	0fHwbCD3hh/oJTNtt0s95by1yiKFX85wdODFx4DZ/nJ2t/wSmdheevg+NFmg8xWg1LpD
+	62NqglPZy+x8569UKT+1ftyy/UevGONOahyCJvSzF51K84/8DZuCmR3zrtFtkumVkljq
+	Q/Iw==
+X-Gm-Message-State: APjAAAXSKljNdNMguwY5QA6q8Ca+pPNMNK+RqcJkIFXnUAEnlVkV5jcB
+	YaxoC6D8K+QHSEmDi8lFVS14jw==
+X-Google-Smtp-Source: APXvYqy8ytJTvBV8ByrZalC+Uq/mV+eN0276eMpM6Uh5gqCMNbCAxyDatGC9se54RtTGJJRt13b61Q==
+X-Received: by 2002:adf:fe8d:: with SMTP id l13mr3384654wrr.365.1570873737237; 
+	Sat, 12 Oct 2019 02:48:57 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	l18sm12923558wrc.18.2019.10.12.02.48.55
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 12 Oct 2019 02:48:56 -0700 (PDT)
+Message-ID: <dff4f92f917d6fee20aea04e5d505e0aadff40bf.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Christophe PRIOUZEAU <christophe.priouzeau@st.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Sat, 12 Oct 2019 10:48:55 +0100
+In-Reply-To: <cover.1570452710.git.christophe.priouzeau@st.com>
+References: <cover.1570452710.git.christophe.priouzeau@st.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20191011201951.24617-1-fabio.berton@ossystems.com.br>
-In-Reply-To: <20191011201951.24617-1-fabio.berton@ossystems.com.br>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 11 Oct 2019 22:39:41 +0200
-Message-ID: <CANNYZj_6RQk_AMRoXXjx5c-XjtAOwHetUtQXAe_sEhHuGbtH7w@mail.gmail.com>
-To: Fabio Berton <fabio.berton@ossystems.com.br>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: Upgrade 19.1.6 -> 19.2.1
+Subject: Re: [PATCH 00/23] Update BSD license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,83 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2019 20:39:52 -0000
-Content-Type: multipart/alternative; boundary="00000000000024f6bb0594a885d0"
-
---00000000000024f6bb0594a885d0
+X-List-Received-Date: Sat, 12 Oct 2019 09:48:58 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 11 Oct 2019 at 22:20, Fabio Berton <fabio.berton@ossystems.com.br>
-wrote:
+On Mon, 2019-10-07 at 13:08 +0000, Christophe PRIOUZEAU wrote:
+> Some recipes use BSD as license while SPDX license reference : BSD-0-
+> Clause,
+> BSD-1-Clause, BSD-2-Clause, BSD-3-Clause, BSD-4-Clause.
+> The goal of this request are to indicate the SPDX license euqivalent
+> for recipes
+> which indicate "BSD" as license.
+> 
+> The following changes since commit
+> 108ce1447ca5dcb838ef67ef6b9a9d25e993da1d:
 
->   - Update patches with devtool finish --force-patch-refresh
+Thanks for this. In future if there are more of these I'd like to have
+one tweak, specifically the commit message being "Clarify BSD license
+variant" rather than "update license" which is a little less specific.
+
+For this series I've just tweaked the commit messages to save reposting
+them.
+
+It is good to have these clarified!
+
+Cheers,
+
+Richard
 
 
-I'm not sure what you did exactly, but one of the patches below is
-incorrectly updated.
-
-Do use 'devtool upgrade', which properly rebases the patches and allows you
-to resolve conflicts.
-
-
-> +@@ -382,6 +382,10 @@ if not with_platform_android or
-> get_option('platform-sdk-version') >= 29
-> +   pre_args += '-DUSE_ELF_TLS'
->   endif
->
-> --pre_args += '-DGLX_USE_TLS'
->  +if get_option('glx-tls')
->  +  pre_args += '-DGLX_USE_TLS'
->  +endif
-> ++
->   if with_glx != 'disabled'
->     if not (with_platform_x11 and with_any_opengl)
->       error('Cannot build GLX support without X11 platform support and at
-> least one OpenGL API')
->
-
-The fact that 'pre_args += '-DGLX_USE_TLS' is no longer present in the file
-should've raised suspicions, and indeed:
-"mesa: Rename GLX_USE_TLS to USE_ELF_TLS."
-https://gitlab.freedesktop.org/mesa/mesa/commit/9f37c9903b87f86a533bfaffa72f0ecb285b02b2
-
-Alex
-
---00000000000024f6bb0594a885d0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div di=
-r=3D"ltr">On Fri, 11 Oct 2019 at 22:20, Fabio Berton &lt;<a href=3D"mailto:=
-fabio.berton@ossystems.com.br">fabio.berton@ossystems.com.br</a>&gt; wrote:=
-<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
-;border-left-color:rgb(204,204,204);padding-left:1ex">=C2=A0 - Update patch=
-es with devtool finish --force-patch-refresh</blockquote><div><br></div><di=
-v>I&#39;m not sure what you did exactly, but one of the patches below is in=
-correctly updated.</div><div><br></div><div>Do use &#39;devtool upgrade&#39=
-;, which properly rebases the patches and allows you to resolve conflicts.<=
-/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-co=
-lor:rgb(204,204,204);padding-left:1ex">+@@ -382,6 +382,10 @@ if not with_pl=
-atform_android or get_option(&#39;platform-sdk-version&#39;) &gt;=3D 29<br>
-+=C2=A0 =C2=A0pre_args +=3D &#39;-DUSE_ELF_TLS&#39;<br>
-=C2=A0 endif<br>
-<br>
---pre_args +=3D &#39;-DGLX_USE_TLS&#39;<br>
-=C2=A0+if get_option(&#39;glx-tls&#39;)<br>
-=C2=A0+=C2=A0 pre_args +=3D &#39;-DGLX_USE_TLS&#39;<br>
-=C2=A0+endif<br>
-++<br>
-=C2=A0 if with_glx !=3D &#39;disabled&#39;<br>
-=C2=A0 =C2=A0 if not (with_platform_x11 and with_any_opengl)<br>
-=C2=A0 =C2=A0 =C2=A0 error(&#39;Cannot build GLX support without X11 platfo=
-rm support and at least one OpenGL API&#39;)<br></blockquote><div><br></div=
->The fact that &#39;pre_args +=3D &#39;-DGLX_USE_TLS&#39; is no longer pres=
-ent in the file should&#39;ve raised suspicions, and indeed:<br>&quot;mesa:=
- Rename GLX_USE_TLS to USE_ELF_TLS.&quot;<br><a href=3D"https://gitlab.free=
-desktop.org/mesa/mesa/commit/9f37c9903b87f86a533bfaffa72f0ecb285b02b2">http=
-s://gitlab.freedesktop.org/mesa/mesa/commit/9f37c9903b87f86a533bfaffa72f0ec=
-b285b02b2</a><div><br></div><div>Alex</div></div></div></div></div></div>
-
---00000000000024f6bb0594a885d0--
