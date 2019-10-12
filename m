@@ -1,52 +1,52 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CF1A7F646
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E40D37F659
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 13:03:15 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id b9so14718632wrs.0
+	Sat, 12 Oct 2019 13:03:16 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id j11so14705854wrp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 06:03:17 -0700 (PDT)
+	Sat, 12 Oct 2019 06:03:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Xcf21skf9W/AALkfdPG/6nVX3qH7zx3F21vm32Rt2rU=;
-	b=WHcONv710XJOv2HzyV5xSHBhCzeLyx/+OqyyCOxcr/dgzcqSubVmH1f7XFo8Llf64n
-	r8FHRgC3P/3KUsVVA/1Q307ejs5RNY9sY93f/o+cdax0rqyGm3GXM9eYxk5OlahjDpml
-	jDQ4wz+xMY/bgMzg6AhuCytA3Nz7jMW/z2OVhiRbwLpAItCXMqserc0SeaHFgSQW7kKy
-	u+u4NBA8Gq/6Wflhm9n+qaLgpNh/UySiD3m/+Z4SiMX/4PXDuyW6YVO+1cSePhyUtBp8
-	TZOKodkV/RJy73JQWbtyVgTLIduuWnSxwC91p0hUrR0yA1wCz37d4wisxcWrQnnKOx+q
-	ED1w==
+	bh=j0Gfm8WtDw5K/LoDxkx+YYRyf6Nm+rIK84d//XvjC4k=;
+	b=KTkbx83BBNx8pbTWBWjlV8LVDrPOtt/FERzlNA2x4dn4/ZJiCRE35qrXJhyiAO/V07
+	g5rn9ux5mHHcVlZfNZ6y/xE9ZjxNchLn3JpMEZ+Y7R57tyut00Q/h7px2zX5LGzAcWxV
+	AHPIkFQw797rJvLIiuRvfrHP880BDhuJrPbYA+vlrQLPLNnrs0hBgKXk23vcY3xQqgle
+	4ekmt0QH/QjmWgEXzOyMQPoiehjw3HVzdeKDi7/HYYvviYzEwYqgdBzg3MyJQrsephsx
+	U+jyD0EpSCKvHt1EXphOpjklukNZxWXQZFJPKtD642Gcp5xOHg5jQrzq/fnOc+f2RnzJ
+	uBKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Xcf21skf9W/AALkfdPG/6nVX3qH7zx3F21vm32Rt2rU=;
-	b=qS5YyBoem5wPeHiVtFcF1X60HRyWBZ0wmIFfDM/RN5x5NW//wNIr/j4gA76QBgVUt3
-	BKwiYkA1/Js95Iu0XBvLoxnae02+QBiTb/yfx3MuzBvX3qFpQ6VJXp93g7buysUZBUl0
-	TuLDlqNOee3c4G2bb/cfUVHHhxwN5peeNg002LCt5UPmb1DLYDcfjXA7BnSBhaY3fWBK
-	lyA+05hYZXgvbaPk67nT5i4V9d6F7YRVW637QLJDbr//K1TckW6vOqvP525v9t2XzOLX
-	ha2dBj6g28LXDWE70KzCDKVHcysPnvTMxbJ5NUMNRWTzhuilcSXRF2u47Iaznaq+hDdq
-	/9rA==
-X-Gm-Message-State: APjAAAVdjbnpMoM7UAXNLv/YXgXO3EiNFZNJsn9KG3xxKRIFN8JwU9MC
-	02fGuyAj4TvPz6lyFzR4IwTfj0bkCy0=
-X-Google-Smtp-Source: APXvYqwWdzztlJ07hqIPBU8bw0lpfZAPx8P7e5O9ouiHL/iZL72XbXUPMrcUUKANzNP8OhnrHhmL4Q==
-X-Received: by 2002:adf:fe42:: with SMTP id m2mr17061762wrs.321.1570885396162; 
-	Sat, 12 Oct 2019 06:03:16 -0700 (PDT)
+	bh=j0Gfm8WtDw5K/LoDxkx+YYRyf6Nm+rIK84d//XvjC4k=;
+	b=o2Nezg22HhnR6Z/VqAnMoFAA7EZ/EQtjmQQRT2QnfzBJQZwcxo0IGmuQTQxGXjGryA
+	K8NYOFoEC8MiHtdCdtB3gdSNH4g/gvaNiDluo92YAryv//phVkqIPQaYe+EMtwF1NHf9
+	V1UiuSpE9I73U0/znV0c4CdcLY4byNS6XroBf0ih19nyI0eHmc1hNdinueoZ3C9wuE6A
+	lBFfLcLzR12RiB0a0KRSezUdt9LNbFtzUYKa+xEUdGMtpl77hH7gzLZnJa6MzX/1EWtQ
+	/KBQL8K148lc0xJM+5iNAJpCvYG40YJmefo8QVywDiKDOfDqaYF/9zhN9BOFLf0/pieT
+	0YKg==
+X-Gm-Message-State: APjAAAXqqLz9xfA9KBf3uUOW2FSokVG5ErHwzuMO1v4//uZg/qKVtivb
+	8jYAoQ3p8pyyuA4suPhWLEKM6vS883U=
+X-Google-Smtp-Source: APXvYqxDS8+nkzkhgaU960pkh8ljq+MTwSfc+zBNQ46MN+VVQOoGEM6EZ87dqr9zs5demdUW4IXdxA==
+X-Received: by 2002:adf:c98b:: with SMTP id f11mr18459287wrh.274.1570885397270;
+	Sat, 12 Oct 2019 06:03:17 -0700 (PDT)
 Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
 	by smtp.gmail.com with ESMTPSA id
-	r10sm14516331wml.46.2019.10.12.06.03.14
+	q19sm26357219wra.89.2019.10.12.06.03.16
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 12 Oct 2019 06:03:14 -0700 (PDT)
+	Sat, 12 Oct 2019 06:03:16 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Oct 2019 13:03:09 +0000
-Message-Id: <232674a14a6860cedd2baab9cc8b81f6602d8c96.1570885333.git.Martin.Jansa@gmail.com>
+Date: Sat, 12 Oct 2019 13:03:10 +0000
+Message-Id: <4b3e5643f8f0032df76ac97f4da43aa3c7163852.1570885333.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1570885333.git.Martin.Jansa@gmail.com>
 References: <cover.1570885333.git.Martin.Jansa@gmail.com>
-Subject: [PATCH][RESEND 3/6] kernel-artifact-names.bbclass: use PR instead of PKGR in KERNEL_ARTIFACT_NAME
+Subject: [PATCH][RESEND 4/6] kernel.bbclass: imageType without {}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,39 +59,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Oct 2019 13:03:16 -0000
+X-List-Received-Date: Sat, 12 Oct 2019 13:03:17 -0000
 
-* otherwise PKGR seen in do_install, do_deploy and do_deploy_links will
-  have different value in each of them (PRSERV will return different
-  value of EXTENDPRAUTO because TASKHASH is different for each of these
-  tasks and also cause unnecessary multiple EXTENDPRAUTO increments for
-  each build).
+* just to make sure it looks like bash variable not bitbake variable in
+  run.do_* scripts
 
 [YOCTO #12937]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/kernel-artifact-names.bbclass | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/classes/kernel.bbclass | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/kernel-artifact-names.bbclass b/meta/classes/kernel-artifact-names.bbclass
-index 529e0c565e..41ef6e884d 100644
---- a/meta/classes/kernel-artifact-names.bbclass
-+++ b/meta/classes/kernel-artifact-names.bbclass
-@@ -6,7 +6,12 @@
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index beced6fc6e..e8ee556f93 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -373,9 +373,9 @@ kernel_do_install() {
+ 	install -d ${D}/${KERNEL_IMAGEDEST}
+ 	install -d ${D}/boot
+ 	for imageType in ${KERNEL_IMAGETYPES} ; do
+-		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} ${D}/${KERNEL_IMAGEDEST}/${imageType}-${KERNEL_VERSION}
++		install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType ${D}/${KERNEL_IMAGEDEST}/$imageType-${KERNEL_VERSION}
+ 		if [ "${KERNEL_PACKAGE_NAME}" = "kernel" ]; then
+-			ln -sf ${imageType}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${imageType}
++			ln -sf $imageType-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/$imageType
+ 		fi
+ 	done
+ 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+@@ -683,8 +683,8 @@ kernel_do_deploy() {
+ 	fi
  
- inherit image-artifact-names
+ 	for imageType in ${KERNEL_IMAGETYPES} ; do
+-		install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType} $deployDir/${imageType}-${KERNEL_IMAGE_NAME}.bin
+-		ln -sf ${imageType}-${KERNEL_IMAGE_NAME}.bin $deployDir/${imageType}
++		install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType $deployDir/$imageType-${KERNEL_IMAGE_NAME}.bin
++		ln -sf $imageType-${KERNEL_IMAGE_NAME}.bin $deployDir/$imageType
+ 	done
  
--KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PKGR}-${MACHINE}"
-+# Intentionally use PR instead of PKGR, because EXTENDPRAUTO included
-+# in PKGR will have different value for do_install/do_deploy/do_deploy_links
-+# tasks with different TASKHASH, causing multiple EXTENDPRAUTO increments for
-+# each kernel build and more importantly preventing do_deploy_links to
-+# reference artifacts created do_deploy task
-+KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PR}-${MACHINE}"
- KERNEL_ARTIFACT_LINK_NAME ?= "${KERNEL_ARTIFACT_NAME}${IMAGE_VERSION_SUFFIX}"
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+@@ -697,7 +697,7 @@ kernel_do_deploy() {
+ 			if [ "$imageType" = "fitImage" ] ; then
+ 				continue
+ 			fi
+-			install -m 0644 ${KERNEL_OUTPUT_DIR}/${imageType}.initramfs $deployDir/${imageType}-${INITRAMFS_NAME}.bin
++			install -m 0644 ${KERNEL_OUTPUT_DIR}/$imageType.initramfs $deployDir/$imageType-${INITRAMFS_NAME}.bin
+ 		done
+ 	fi
+ }
+@@ -715,7 +715,7 @@ kernel_do_deploy_links() {
+ 	fi
  
- KERNEL_IMAGE_NAME ?= "${KERNEL_ARTIFACT_NAME}"
+ 	for imageType in ${KERNEL_IMAGETYPES} ; do
+-		ln -vf $deployDir/${imageType}-${KERNEL_IMAGE_NAME}.bin $deployDir/${imageType}-${KERNEL_IMAGE_LINK_NAME}.bin
++		ln -vf $deployDir/$imageType-${KERNEL_IMAGE_NAME}.bin $deployDir/$imageType-${KERNEL_IMAGE_LINK_NAME}.bin
+ 	done
+ 
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" -a -f $deployDir/modules-${MODULE_TARBALL_NAME}.tgz ] ; then
+@@ -727,7 +727,7 @@ kernel_do_deploy_links() {
+ 			if [ "$imageType" = "fitImage" ] ; then
+ 				continue
+ 			fi
+-			ln -vf $deployDir/${imageType}-${INITRAMFS_NAME}.bin $deployDir/${imageType}-${INITRAMFS_LINK_NAME}.bin
++			ln -vf $deployDir/$imageType-${INITRAMFS_NAME}.bin $deployDir/$imageType-${INITRAMFS_LINK_NAME}.bin
+ 		done
+ 	fi
+ }
 -- 
 2.17.1
 
