@@ -1,50 +1,49 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
 	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 12E7C7F52D
+	by mail.openembedded.org (Postfix) with ESMTP id DC1F87F591
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 16:57:21 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id q12so7916400pff.9
+	Sat, 12 Oct 2019 16:58:18 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id y5so7936317pfo.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 09:57:23 -0700 (PDT)
+	Sat, 12 Oct 2019 09:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=/lzQFFvmoRQMNGEPqJj8t3q5/yvriIFxxxgibAAEnYo=;
-	b=ToCTkUzydnx3YNYC32rEERKESZTj65EBPjxKqiR6VfB4g38dV8iPewdQWjyXwwyFgf
-	UA+46Q2hRBix2n9HtSDx3zUqQrSV7rPJDWxRMYgzTUSEgwsPZjjVDxsM34yXyK7uMAh5
-	YxYK4xw6AlAi6F7JBwda+p2w67h5HR3nLcT1+FlLcJ7U+i3NGAFDFo9VPTr7URugidUT
-	BVd+FBNIijnm5oaHyF6McrFGUuoNTgo7J6J4MfcCi7nDmQfAD2Y4MzmhJvyvFzEsbFZz
-	OnMrYLcPsCQcfyTYbPDmTCMvQ/x+3K0HSO62r0KyaU3TODDSpNkA8CsPOgPvF+D7B6mZ
-	gU9g==
+	bh=Ye0wF/BIlDaipwNE6/3xJOENLEI3VGAyRLH40P1cgFo=;
+	b=LIJ+mnKuf9xPZj6DTO8X2aH8c1sIMSz4bXAP4PiLtisDvSijamjMGOs3hMKkTwZSVe
+	bqSpzMv9JshBkujWqRhS+ZyYtOgYUI2qNnpR0Eg3lP8bSeFm/Ra5tZCzPJuQvgY9O0Bk
+	455RZeyXITJ7w7bRRME2THNwVTrxTmMMWKe1iFjc8ESDKAkhIvJ1ggsSCxSovTLn9YLu
+	4cx59eh6zonuSz75bQQKBfPkLaBAdYPU7OPnGP1qe1IIh2JnFbfShuPtgdYQdrHlKE41
+	TIS/K26w4WP5I/uylpwgjhpFEH9jLYWt/oTLGa8aQc8qq9dmPEqtxIkJX0FHsHDX0OFs
+	ZvDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=/lzQFFvmoRQMNGEPqJj8t3q5/yvriIFxxxgibAAEnYo=;
-	b=E4L00PGh7n1KCeN/VaWtYDFBGj5ZpwXafJbSy0myU7MWoX6vSsrySlfznaNSUCQl/d
-	tI6MRnokGhjaFP54RojaMOb97hBN7lZEKQwHTjlqr5MvUaerY8jvjJh2u/nLYxX9Ied6
-	zVXr+RqNnZFrrSerFRPORvXfoE53LhX/fb2IRxCMImK4zOZxKZcb93Ezzictk9dmiZWB
-	yFzWD9YbVIlbgpZInu15JOR4eCZWQDKOJOg8MEJ5Ryw7JgSXN7irXh0DrArv+S5oxc6e
-	bEKT8qbRzTF7O+GkiqavD4RJ3A1pUg0dbopfwYw2tP0UjKqKlT7BNQKDCIb1x/CibcJQ
-	xzGA==
-X-Gm-Message-State: APjAAAUtVwJJB/NisGAfnJq4dFZT0HnC5NaWcWWcTMAxS6TXCQYJ1Jc5
-	FLqSdB6ecMsussa3NpZfFyU=
-X-Google-Smtp-Source: APXvYqxzkd5ZTPOkdmoQak4/UhgRGr5jn3W4ji4U+8TDflC1amCdOA11mZZzI9Wd8kNjJPa9cElgiA==
-X-Received: by 2002:a17:90a:2044:: with SMTP id
-	n62mr24552191pjc.140.1570899443117; 
-	Sat, 12 Oct 2019 09:57:23 -0700 (PDT)
+	bh=Ye0wF/BIlDaipwNE6/3xJOENLEI3VGAyRLH40P1cgFo=;
+	b=KgRWtSNkEj8UhKr2RhjTLuRlhZmoYmG4jv3EfbQ+bQdVkNZ6hcgM7LJyC3ZD8+sHbf
+	0C9GP5rvoiqwY/IwJuMItlavCIQ254j9uxWGMsy4GPBAWGCN0m6UAFcd6PM77WXH11N6
+	lzuTHlJEi+i5fvPQUPz+TA6W0Mqsf9thxfaCjLha+M0YUY2xSPvqrUJdzfWo3OHgI/Ja
+	ffyEA5YwEmtdxAIZjHScITqznDL6xurpl0b2ks9QufGL+TGhAJAFrLHLDr39lNCBgUfG
+	goTYyeuYlxdR4LpxYdV14U2pLPRVu392EPTKZrPj750cnMwMz9S9GZNIU25xXkkXAwTc
+	uwfg==
+X-Gm-Message-State: APjAAAVzI1OoiAhAwU8OVUVNt7KT5oDbBI+CnJnkGYhIYpBX8R9CAnl/
+	my33gqCQ8FWkiXGKGk2a1xg=
+X-Google-Smtp-Source: APXvYqzjVaFH08hPgAbepAOSiXhuX0WZwQQn1oRyzUpaHfbXOVCCjuglVARYsmE5SiQurmJQKpqEuw==
+X-Received: by 2002:a62:8305:: with SMTP id h5mr23204128pfe.176.1570899500076; 
+	Sat, 12 Oct 2019 09:58:20 -0700 (PDT)
 Received: from ?IPv6:2601:202:4180:a5c0:5c58:2ffd:b6af:7edd?
 	([2601:202:4180:a5c0:5c58:2ffd:b6af:7edd])
 	by smtp.gmail.com with ESMTPSA id
-	x23sm15227708pfq.140.2019.10.12.09.57.21
+	k15sm12842473pfa.65.2019.10.12.09.58.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 12 Oct 2019 09:57:22 -0700 (PDT)
+	Sat, 12 Oct 2019 09:58:19 -0700 (PDT)
 To: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
 	openembedded-core@lists.openembedded.org
-References: <20191011081649.18474-1-nicolas.dechesne@linaro.org>
+References: <20191011081552.17148-1-nicolas.dechesne@linaro.org>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -90,14 +89,14 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <77b72f58-adea-f929-9f9d-2c0e6d7ff6e4@gmail.com>
-Date: Sat, 12 Oct 2019 09:57:20 -0700
+Message-ID: <d82a9b4d-9e96-37c7-f360-22e9856e3c88@gmail.com>
+Date: Sat, 12 Oct 2019 09:58:18 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191011081649.18474-1-nicolas.dechesne@linaro.org>
+In-Reply-To: <20191011081552.17148-1-nicolas.dechesne@linaro.org>
 Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: Re: [warrior][PATCH] kernel.bbclass: fix installation of modules signing certificates
+Subject: Re: [thud][PATCH] kernel.bbclass: fix installation of modules signing certificates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,14 +109,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Oct 2019 16:57:22 -0000
+X-List-Received-Date: Sat, 12 Oct 2019 16:58:19 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 10/11/19 1:16 AM, Nicolas Dechesne wrote:
+On 10/11/19 1:15 AM, Nicolas Dechesne wrote:
 > From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 >
 > If one has provided external key/certificate for modules signing, Kbuild
@@ -125,7 +124,7 @@ On 10/11/19 1:16 AM, Nicolas Dechesne wrote:
 > certificate. Thus we have to check for .x509 file existence rather than
 > .pem one.
 
-Is this true for all the kernel versions supported by warrior?
+Is this true for the all the kernel version supported by Thud?
 
 - armin
 >
@@ -138,10 +137,10 @@ Is this true for all the kernel versions supported by warrior?
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 111a0b2eeb..fb1f49327c 100644
+> index bd185e258e..c72d1fe78a 100644
 > --- a/meta/classes/kernel.bbclass
 > +++ b/meta/classes/kernel.bbclass
-> @@ -453,7 +453,7 @@ do_shared_workdir () {
+> @@ -451,7 +451,7 @@ do_shared_workdir () {
 >  	cp .config $kerneldir/
 >  	mkdir -p $kerneldir/include/config
 >  	cp include/config/kernel.release $kerneldir/include/config/kernel.release
