@@ -1,60 +1,48 @@
-Return-Path: <alistair@alistair23.me>
-X-Greylist: delayed 391 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 12 Oct 2019 17:01:09 UTC
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
-	[66.111.4.224])
-	by mail.openembedded.org (Postfix) with ESMTP id DEA727F58D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 56C717F02F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 17:01:09 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 29FE55839;
-	Sat, 12 Oct 2019 12:54:37 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-	by compute7.internal (MEProxy); Sat, 12 Oct 2019 12:54:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm2; bh=cl+K0aXqASB2Jeu+BuGinXP5hT
-	3qQIHc3IlqTthIGnk=; b=aV2KDatkjvLcBEYjDqa2iH6LlR1Y0ZiXrrzOqA2Eh9
-	+vHmBHqAh1QMH1zaDnYawsclk3YsTPCvS7dRRFsBDwfYqp2rPZUNSLcn2AGRZ35e
-	OdeQdBiQuaJgrcXFZAdON+CYYxsVgkkTT9g9YUf5dMlaQ3AY/Zos6l192VTc1KYJ
-	HeKDeSowhDhyA9YbtvbEDVzGBM+oRLaR/Dph2GDyFbdKtZ1qXMaqA3V2+zsrhU6Y
-	GPKju8poPQzEOsPn9EtQuV6V6n84GisnEsB1YNuzj09LqcCO8UQOEgNeIneOV6fN
-	3iEbv1tqXaJwac3/GNJ4m11hTsMGw6HrIKuNLFLZ7HlQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=cl+K0aXqASB2Jeu+B
-	uGinXP5hT3qQIHc3IlqTthIGnk=; b=bzqSmYSsivKhAn03xF8+MORDMIuA/CPG4
-	eVAJsu7VXE2EwzAStzEQvTq2YE6b1TnOjeXH8SSte85eP/ZlMzWaOIk8Gt1H7tsL
-	wBynPMD+2ZjUgr/X9cp6Z/OfdkK5GGawWfo136LAGH4Wx0pGT0eINcBz1GJT1FR8
-	Mw6abk75Mcf3qyOwxTpVCT3oC+Uwb6oKJZc1i0AcmNnXYEySyH4bL4mEt43weHSz
-	O2vMs3DWP9EfraX2lZz6SzDLJNv9Ko49FW3TVpp7m/5wKzm22BtH8Yr8pRnCEIT/
-	SphRBGQxljiPCFWfP+qyd5IY1SNWELVWiLZ6mQKc/95NQZUEsHAdA==
-X-ME-Sender: <xms:TAWiXbfXtBJsKEF96FhA83XkRQN4XYUbbg6q5OdtLFnbFL-EyYQK2A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrieejgddutdejucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucgovehorghsthgrlhdqhfeguddvqddtvdculdduhe
-	dtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehlihhs
-	thgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmh
-	gvqeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpmhgvshgrfegurdho
-	rhhgnecukfhppeejfedrleefrdekgedrvddtkeenucfrrghrrghmpehmrghilhhfrhhomh
-	eprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvnecuvehluhhsthgvrhfuihii
-	vgeptd
-X-ME-Proxy: <xmx:TAWiXbvqPaov4E7Bj9eXmbK5McKjPr_dhZynlCGa7lvi3A0mZQH1JA>
-	<xmx:TAWiXReRyvGlRRiep1eihd0VwDpmUr-o1zDKUznTa4h5oLluBD5R-A>
-	<xmx:TAWiXfo3O8BCd0ubCZGAtUuKTRFYO9O2kKX5qWOp1-EcNPkBP7b5eg>
-	<xmx:TQWiXVJo21Jb_QqweFwev006_cmEH_tcjtDwT02hWtDbRpAELNrTSg>
-Received: from alistair-xps-14z.alistair23.me
-	(c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 12CCF80061;
-	Sat, 12 Oct 2019 12:54:35 -0400 (EDT)
-From: Alistair Francis <alistair@alistair23.me>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Oct 2019 09:54:33 -0700
-Message-Id: <20191012165433.24511-1-alistair@alistair23.me>
-X-Mailer: git-send-email 2.23.0
+	Sat, 12 Oct 2019 21:00:13 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id j31so19226318qta.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 12 Oct 2019 14:00:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=bzSD5wnWxZuHRVU5SW0rvMWI2Kw6C+lFjA5lymWbk6c=;
+	b=ExNmoq8kSv+CoVMePArhN7cqnfDIaMsjzslD39/v8bBklky3E219nkuGl//2wUi2R3
+	0u/jkLavD2O2DWyC5ePHV9KnBQ+8ofjF7xjzOCPrK58feaB+vStuP3PE/20Il2S3PirD
+	y0cylC3UBn2EOPdj9Q0ZGdaoCHb9mVRPRp9qSfwsfX3Dmm0VV8DWXqxDYaMdz2zTUg1Z
+	sCc2Mfa1Nc00ZL2rXQ5vKtvjSEQ3qrklZ8rqvVfdiougnMcsZSZXKszM51w0jh6BtNVh
+	HAI3ocphyCxKeEif2KOAGtGUlcu7LgsU6oYeoHo5BD4RiIX35g+owfCt18URsHAJBDQm
+	bMOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=bzSD5wnWxZuHRVU5SW0rvMWI2Kw6C+lFjA5lymWbk6c=;
+	b=SPF6E0xwku/kRQGIuCHeI6NipsZRYkXyuFsrttqB0gsnuCUAqEriFcuutuLzJi6zS6
+	ZvEPvwx5yL5waB/kqstk480u7+//vWq43oXdfAVsITX1sQb1bgeqzvNI6XhcqhP4reaa
+	o3OFBwh3RXuPdVrLDwkxHPQzexQr5byC8xtyrMr4Sooy1h4M+Qns/AvQNZ8BF1/Mx6VL
+	jbRYlQ6/kuqxrSFDL9PH32TsUEKVZk2ySUgXbcpYqit/trsCSXzhOCxG8rAxFTMMKJJf
+	2ufyZtS1McNM94/GbBluu1EYx4eWfidlLy4XGHGt/cE0hvIBS7P3KEVV/xBGwfrSt76W
+	kShQ==
+X-Gm-Message-State: APjAAAVWOWoKVXw4o5XOYLHQR7ZToGxRQFHO0vLICg3qGFchqkPwAh/2
+	hVfD54Hg5HEnSoJcZOTHLgAtoeReYCnGEJdPLHQ=
+X-Google-Smtp-Source: APXvYqwOJsvErCerenZYmhp0RxAJJNwDzHRhUstrN+B5LaTxrrtTSfnkouo8pUfLtHvZ9lY9F5daJlPNQCvj651hTTA=
+X-Received: by 2002:ac8:768e:: with SMTP id g14mr10191350qtr.378.1570914013429;
+	Sat, 12 Oct 2019 14:00:13 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] mesa: Upgrade to 19.2.1
+References: <20191011114754.91740-1-alex.kanavin@gmail.com>
+	<20191011114754.91740-5-alex.kanavin@gmail.com>
+In-Reply-To: <20191011114754.91740-5-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 12 Oct 2019 13:59:46 -0700
+Message-ID: <CAMKF1spJaf-71+baeSXbSXncrVkskJ-fyz7hSbwjh0ai12VXgg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/19] glib-2.0: upgrade to 2.62.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,168 +55,436 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Oct 2019 17:01:10 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 12 Oct 2019 21:00:13 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Upgrade mesa and mesa-gl to 19.2.1.
+Regresses, on riscv
 
-The license hash change was a trivial new line removal.
+https://errors.yoctoproject.org/Errors/Details/273482/
 
-The glx-tls option was removed as it isn't included in the meson.build
-file.
-
-The -Dasm=false was removed as it also is no longer included.
-
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
----
- ...llow-enable-DRI-without-DRI-drivers.patch} |  0
- ...on.build-make-TLS-GLX-optional-again.patch | 52 -------------------
- .../{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc           | 13 ++---
- .../mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb}   |  7 ++-
- 5 files changed, 7 insertions(+), 65 deletions(-)
- rename meta/recipes-graphics/mesa/files/{0003-Allow-enable-DRI-without-DRI-drivers.patch => 0002-Allow-enable-DRI-without-DRI-drivers.patch} (100%)
- delete mode 100644 meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb} (71%)
-
-diff --git a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch b/meta/recipes-graphics/mesa/files/0002-Allow-enable-DRI-without-DRI-drivers.patch
-similarity index 100%
-rename from meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
-rename to meta/recipes-graphics/mesa/files/0002-Allow-enable-DRI-without-DRI-drivers.patch
-diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
-deleted file mode 100644
-index 641bacf1d9..0000000000
---- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From cee8e48c5344124e5d84307cb0c48ee0c9b3e684 Mon Sep 17 00:00:00 2001
--From: Fabio Berton <fabio.berton@ossystems.com.br>
--Date: Wed, 12 Jun 2019 14:15:57 -0300
--Subject: [PATCH] meson.build: make TLS GLX optional again
--Organization: O.S. Systems Software LTDA.
--
--This was optional with autotools, and needs to be disabled
--when using musl C library, for instance.
--
--Upstream-Status: Pending
--
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-----
-- meson.build       | 4 +++-
-- meson_options.txt | 7 +++++++
-- 2 files changed, 10 insertions(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index b33b430aed4..0e50bb26c0a 100644
----- a/meson.build
--+++ b/meson.build
--@@ -369,7 +369,9 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
--   endif
-- endif
-- 
---pre_args += '-DGLX_USE_TLS'
--+if get_option('glx-tls')
--+  pre_args += '-DGLX_USE_TLS'
--+endif
-- if with_glx != 'disabled'
--   if not (with_platform_x11 and with_any_opengl)
--     error('Cannot build GLX support without X11 platform support and at least one OpenGL API')
--diff --git a/meson_options.txt b/meson_options.txt
--index 1f72faabee8..fcd49efea27 100644
----- a/meson_options.txt
--+++ b/meson_options.txt
--@@ -339,6 +339,13 @@ option(
--   value : true,
--   description : 'Enable direct rendering in GLX and EGL for DRI',
-- )
--+option(
--+  'glx-tls',
--+  type : 'boolean',
--+  value : true,
--+  description : 'Enable TLS support in GLX',
--+)
--+
-- option(
--   'I-love-half-baked-turnips',
--   type : 'boolean',
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 9e5808ee27..dbf3f2ca67 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -10,7 +10,7 @@ HOMEPAGE = "http://mesa3d.org"
- BUGTRACKER = "https://bugs.freedesktop.org"
- SECTION = "x11"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
-+LIC_FILES_CHKSUM = "file://docs/license.html;md5=3a4999caf82cc503ac8b9e37c235782e"
- 
- PE = "2"
- 
-@@ -57,12 +57,11 @@ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
--                   glx-tls \
- 		   "
--PACKAGECONFIG_class-native ?= "gbm dri egl opengl glx-tls"
--PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl glx-tls"
-+PACKAGECONFIG_class-native ?= "gbm dri egl opengl"
-+PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl"
- 
--PACKAGECONFIG_remove_libc-musl = "glx-tls"
-+PACKAGECONFIG_remove_libc-musl = ""
- 
- # "gbm" requires "dri", "opengl"
- PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
-@@ -70,7 +69,6 @@ PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
- X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes xrandr"
- # "x11" requires "opengl"
- PACKAGECONFIG[x11] = ",-Dglx=disabled,${X11_DEPS}"
--PACKAGECONFIG[glx-tls] = "-Dglx-tls=true, -Dglx-tls=false"
- PACKAGECONFIG[xvmc] = "-Dgallium-xvmc=true,-Dgallium-xvmc=false,libxvmc"
- PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
- 
-@@ -140,9 +138,6 @@ PACKAGECONFIG[osmesa] = "-Dosmesa=${OSMESA},-Dosmesa=none"
- 
- PACKAGECONFIG[unwind] = "-Dlibunwind=true,-Dlibunwind=false,libunwind"
- 
--# mesa tries to run cross-built gen_matypes on build machine to get struct size information
--EXTRA_OEMESON_append = " -Dasm=false"
--
- # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
- FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_19.1.6.bb b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
-similarity index 71%
-rename from meta/recipes-graphics/mesa/mesa_19.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa_19.2.1.bb
-index 19221e9e25..6e87e0eb6a 100644
---- a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
-+++ b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
-@@ -2,12 +2,11 @@ require ${BPN}.inc
- 
- SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
--           file://0002-meson.build-make-TLS-GLX-optional-again.patch \
--           file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
-+           file://0002-Allow-enable-DRI-without-DRI-drivers.patch \
-            "
- 
--SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
--SRC_URI[sha256sum] = "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
-+SRC_URI[md5sum] = "8f9c05cfbf7b357c60a5345bb87a92c7"
-+SRC_URI[sha256sum] = "4cc53ca1a8d12c6ff0e5ea44a5213c05c88447ab50d7e28bb350cd29199f01e9"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
--- 
-2.23.0
-
+On Fri, Oct 11, 2019 at 4:49 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Drop backported 0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch
+> and 0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch where
+> upstream has removed the problematic bit.
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  ...t-write-bindir-into-pkg-config-files.patch | 31 +++++++---
+>  ...0001-Fix-DATADIRNAME-on-uclibc-Linux.patch | 34 ++++++++++
+>  ...-correctly-when-building-with-mingw3.patch | 22 +++----
+>  ...-time-check-for-strlcpy-before-attem.patch | 62 -------------------
+>  ...ot-hardcode-linux-as-the-host-system.patch | 27 --------
+>  .../glib-2.0/glib-2.0/relocate-modules.patch  |  8 +--
+>  .../glib-2.0/uclibc_musl_translation.patch    | 22 -------
+>  ...{glib-2.0_2.60.7.bb => glib-2.0_2.62.1.bb} |  8 +--
+>  meta/recipes-core/glib-2.0/glib.inc           |  2 +
+>  9 files changed, 75 insertions(+), 141 deletions(-)
+>  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
+>  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch
+>  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+>  delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch
+>  rename meta/recipes-core/glib-2.0/{glib-2.0_2.60.7.bb => glib-2.0_2.62.1.bb} (69%)
+>
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+> index ede29c90bab..edac4c9f75d 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+> @@ -1,4 +1,4 @@
+> -From 474e59abec88de0c455836c1f53152bf2aa26c34 Mon Sep 17 00:00:00 2001
+> +From 60b36289ac314ad972cf81c1acd19f6f2e58ff25 Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Fri, 15 Feb 2019 11:17:27 +0100
+>  Subject: [PATCH] Do not write $bindir into pkg-config files
+> @@ -9,33 +9,44 @@ rather than use target paths).
+>
+>  Upstream-Status: Inappropriate [upstream wants the paths in .pc files]
+>  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +
+>  ---
+> - gio/meson.build  | 6 +++---
+> - glib/meson.build | 6 +++---
+> - 2 files changed, 6 insertions(+), 6 deletions(-)
+> + gio/meson.build  | 16 ++++++++--------
+> + glib/meson.build |  6 +++---
+> + 2 files changed, 11 insertions(+), 11 deletions(-)
+>
+>  diff --git a/gio/meson.build b/gio/meson.build
+> -index 85d8b14..657720a 100644
+> +index 71e88c4..8ce3987 100644
+>  --- a/gio/meson.build
+>  +++ b/gio/meson.build
+> -@@ -813,9 +813,9 @@ pkg.generate(libraries : libgio,
+> +@@ -831,14 +831,14 @@ pkg.generate(libgio,
+>                  'schemasdir=' + join_paths('${datadir}', schemas_subdir),
+>                  'bindir=' + join_paths('${prefix}', get_option('bindir')),
+>                  'giomoduledir=' + giomodulesdir,
+> +-               'gio=' + join_paths('${bindir}', 'gio'),
+> +-               'gio_querymodules=' + join_paths('${bindir}', 'gio-querymodules'),
+>  -               'glib_compile_schemas=' + join_paths('${bindir}', 'glib-compile-schemas'),
+>  -               'glib_compile_resources=' + join_paths('${bindir}', 'glib-compile-resources'),
+> --               'gdbus_codegen=' + join_paths('${bindir}', 'gdbus-codegen')],
+> +-               'gdbus=' + join_paths('${bindir}', 'gdbus'),
+> +-               'gdbus_codegen=' + join_paths('${bindir}', 'gdbus-codegen'),
+> +-               'gresource=' + join_paths('${bindir}', 'gresource'),
+> +-               'gsettings=' + join_paths('${bindir}', 'gsettings')],
+> ++               'gio=gio',
+> ++               'gio_querymodules=gio-querymodules',
+>  +               'glib_compile_schemas=glib-compile-schemas',
+>  +               'glib_compile_resources=glib-compile-resources',
+> -+               'gdbus_codegen=gdbus-codegen'],
+> ++               'gdbus=gdbus',
+> ++               'gdbus_codegen=gdbus-codegen',
+> ++               'gresource=gresource',
+> ++               'gsettings=gsettings'],
+>     version : glib_version,
+>     install_dir : glib_pkgconfigreldir,
+>     filebase : 'gio-2.0',
+>  diff --git a/glib/meson.build b/glib/meson.build
+> -index c05c694..434e8b1 100644
+> +index 91a48f1..978fb73 100644
+>  --- a/glib/meson.build
+>  +++ b/glib/meson.build
+> -@@ -261,9 +261,9 @@ pkg.generate(libraries : [libglib, libintl],
+> +@@ -375,9 +375,9 @@ pkg.generate(libglib,
+>     subdirs : ['glib-2.0'],
+>     extra_cflags : ['-I${libdir}/glib-2.0/include'] + win32_cflags,
+>     variables : ['bindir=' + join_paths('${prefix}', get_option('bindir')),
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
+> new file mode 100644
+> index 00000000000..d8cf269bb8e
+> --- /dev/null
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
+> @@ -0,0 +1,34 @@
+> +From 15f807481de53942525b48952c5b6bbb9fb66542 Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Sat, 15 Mar 2014 22:42:29 -0700
+> +Subject: [PATCH] Fix DATADIRNAME on uclibc/Linux
+> +
+> +translation files are always installed under PREFIX/share/locale in uclibc
+> +based systems therefore lets set DATADIRNAME to "share".
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Upstream-Status: Pending
+> +
+> +%% original patch: uclibc_musl_translation.patch
+> +---
+> + m4macros/glib-gettext.m4 | 4 ++++
+> + 1 file changed, 4 insertions(+)
+> +
+> +diff --git a/m4macros/glib-gettext.m4 b/m4macros/glib-gettext.m4
+> +index df6fbf0..47db864 100644
+> +--- a/m4macros/glib-gettext.m4
+> ++++ b/m4macros/glib-gettext.m4
+> +@@ -293,6 +293,10 @@ msgstr ""
+> +           CATOBJEXT=.mo
+> +             DATADIRNAME=share
+> +           ;;
+> ++          *-*-musl* | *-*-linux-uclibc*)
+> ++          CATOBJEXT=.gmo
+> ++            DATADIRNAME=share
+> ++          ;;
+> +           *)
+> +           CATOBJEXT=.mo
+> +             DATADIRNAME=lib
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+> index d22a646c5de..b02169e09ba 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+> @@ -1,4 +1,4 @@
+> -From f5a4b4c0579734923c9caf70944322efff57318b Mon Sep 17 00:00:00 2001
+> +From cfff734af6bff6a30a649f784ecf698658c01884 Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Wed, 13 Feb 2019 15:32:05 +0100
+>  Subject: [PATCH] Set host_machine correctly when building with mingw32
+> @@ -14,11 +14,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>   4 files changed, 9 insertions(+), 6 deletions(-)
+>
+>  diff --git a/gio/tests/meson.build b/gio/tests/meson.build
+> -index 028b196..217ccb1 100644
+> +index 95aafc1..9025eb2 100644
+>  --- a/gio/tests/meson.build
+>  +++ b/gio/tests/meson.build
+> -@@ -12,7 +12,7 @@ test_c_args = [
+> -   '-DGLIB_COMPILE_SCHEMAS="@0@"'.format(glib_compile_schemas.full_path()),
+> +@@ -13,7 +13,7 @@ test_c_args = [
+> +   '-UG_DISABLE_ASSERT',
+>   ]
+>
+>  -if host_machine.system() == 'windows'
+> @@ -26,7 +26,7 @@ index 028b196..217ccb1 100644
+>     common_gio_tests_deps += [iphlpapi_dep, winsock2, cc.find_library ('secur32')]
+>   endif
+>
+> -@@ -119,7 +119,7 @@ if dbus1_dep.found()
+> +@@ -120,7 +120,7 @@ if dbus1_dep.found()
+>   endif
+>
+>   #  Test programs buildable on UNIX only
+> @@ -35,7 +35,7 @@ index 028b196..217ccb1 100644
+>     gio_tests += {
+>       'file' : {},
+>       'gdbus-peer' : {
+> -@@ -327,7 +327,7 @@ if host_machine.system() != 'windows'
+> +@@ -332,7 +332,7 @@ if host_machine.system() != 'windows'
+>   endif # unix
+>
+>   #  Test programs buildable on Windows only
+> @@ -44,7 +44,7 @@ index 028b196..217ccb1 100644
+>     gio_tests += {'win32-streams' : {}}
+>   endif
+>
+> -@@ -392,7 +392,7 @@ if cc.get_id() != 'msvc'
+> +@@ -397,7 +397,7 @@ if cc.get_id() != 'msvc' and cc.get_id() != 'clang-cl'
+>     }
+>   endif
+>
+> @@ -54,7 +54,7 @@ index 028b196..217ccb1 100644
+>       'gdbus-example-unix-fd-client' : {
+>         'install' : false,
+>  diff --git a/glib/tests/meson.build b/glib/tests/meson.build
+> -index d54fc41..a4761fe 100644
+> +index c47133f..cad975f 100644
+>  --- a/glib/tests/meson.build
+>  +++ b/glib/tests/meson.build
+>  @@ -132,7 +132,7 @@ if glib_conf.has('HAVE_EVENTFD')
+> @@ -67,10 +67,10 @@ index d54fc41..a4761fe 100644
+>       glib_tests += {
+>         'gpoll' : {
+>  diff --git a/meson.build b/meson.build
+> -index a745024..e87eae5 100644
+> +index 717d1bc..2a3beb8 100644
+>  --- a/meson.build
+>  +++ b/meson.build
+> -@@ -31,6 +31,9 @@ else
+> +@@ -32,6 +32,9 @@ else
+>   endif
+>
+>   host_system = host_machine.system()
+> @@ -81,7 +81,7 @@ index a745024..e87eae5 100644
+>   glib_version = meson.project_version()
+>   glib_api_version = '2.0'
+>  diff --git a/tests/meson.build b/tests/meson.build
+> -index 11075dd..cd6067b 100644
+> +index ce30442..5710f2c 100644
+>  --- a/tests/meson.build
+>  +++ b/tests/meson.build
+>  @@ -66,7 +66,7 @@ test_extra_programs = {
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch
+> deleted file mode 100644
+> index d1ed028759a..00000000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch
+> +++ /dev/null
+> @@ -1,62 +0,0 @@
+> -Upstream-Status: Backport [fc88e56bfc2b09a8fb2b350e76f6425ab0a056d7]
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -From 141acf6a2f3b21d63c9cfe620b8e20a506e78493 Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@intel.com>
+> -Date: Wed, 13 Mar 2019 16:22:09 +0000
+> -Subject: [PATCH] meson: do a build-time check for strlcpy before attempting
+> - runtime check
+> -
+> -In cross-compilation environments the runtime check isn't possible so it is up
+> -to the builder to seed the cross file, but we can definitely state that strlcpy
+> -doesn't exist with a build test.
+> ----
+> - meson.build | 30 ++++++++++++++++--------------
+> - 1 file changed, 16 insertions(+), 14 deletions(-)
+> -
+> -diff --git a/meson.build b/meson.build
+> -index 15039e448..414f2d9b1 100644
+> ---- a/meson.build
+> -+++ b/meson.build
+> -@@ -1860,22 +1860,24 @@ endif
+> -
+> - # Test if we have strlcpy/strlcat with a compatible implementation:
+> - # https://bugzilla.gnome.org/show_bug.cgi?id=53933
+> --if cc_can_run
+> --  rres = cc.run('''#include <stdlib.h>
+> --                   #include <string.h>
+> --                   int main() {
+> --                     char p[10];
+> --                     (void) strlcpy (p, "hi", 10);
+> --                     if (strlcat (p, "bye", 0) != 3)
+> --                       return 1;
+> --                     return 0;
+> --                   }''',
+> --                name : 'OpenBSD strlcpy/strlcat')
+> --  if rres.compiled() and rres.returncode() == 0
+> -+if cc.has_function('strlcpy')
+> -+  if cc_can_run
+> -+    rres = cc.run('''#include <stdlib.h>
+> -+                    #include <string.h>
+> -+                    int main() {
+> -+                      char p[10];
+> -+                      (void) strlcpy (p, "hi", 10);
+> -+                      if (strlcat (p, "bye", 0) != 3)
+> -+                        return 1;
+> -+                      return 0;
+> -+                    }''',
+> -+                  name : 'OpenBSD strlcpy/strlcat')
+> -+    if rres.compiled() and rres.returncode() == 0
+> -+      glib_conf.set('HAVE_STRLCPY', 1)
+> -+    endif
+> -+  elif meson.get_cross_property('have_strlcpy', false)
+> -     glib_conf.set('HAVE_STRLCPY', 1)
+> -   endif
+> --elif meson.get_cross_property('have_strlcpy', false)
+> --  glib_conf.set('HAVE_STRLCPY', 1)
+> - endif
+> -
+> - python = import('python').find_installation('python3')
+> ---
+> -2.11.0
+> -
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+> deleted file mode 100644
+> index 5a1a5898908..00000000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -From 635fe26af51f20194c8b208e7d01303be1086d68 Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> -Date: Tue, 19 Feb 2019 10:31:11 +0100
+> -Subject: [PATCH] meson.build: do not hardcode 'linux' as the host system
+> -
+> -OE build system can set this to other values that include 'linux',
+> -e.g. 'linux-gnueabi'
+> -
+> -Upstream-Status: Pending
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ----
+> - meson.build | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/meson.build b/meson.build
+> -index 4348f20..af5ed63 100644
+> ---- a/meson.build
+> -+++ b/meson.build
+> -@@ -1574,7 +1574,7 @@ atomicdefine = '''
+> - # We know that we can always use real ("lock free") atomic operations with MSVC
+> - if cc.get_id() == 'msvc' or cc.links(atomictest, name : 'atomic ops')
+> -   have_atomic_lock_free = true
+> --  if (host_system == 'android' or host_system == 'linux') and not cc.compiles(atomicdefine, name : 'atomic ops define')
+> -+  if (host_system == 'android' or host_system.contains('linux')) and not cc.compiles(atomicdefine, name : 'atomic ops define')
+> -     # When building for armv5 on Linux, gcc provides
+> -     # __sync_bool_compare_and_swap but doesn't define
+> -     # __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+> index 380bee086c0..7e9925845bb 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+> @@ -1,4 +1,4 @@
+> -From 9c5d6e6ce5254a5f050bba2118a4a1807292c02a Mon Sep 17 00:00:00 2001
+> +From 6325bf4e8a2f569c55c8e1a36b9439d3566f98f6 Mon Sep 17 00:00:00 2001
+>  From: Ross Burton <ross.burton@intel.com>
+>  Date: Fri, 11 Mar 2016 15:35:55 +0000
+>  Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+> @@ -19,10 +19,10 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>   1 file changed, 11 insertions(+), 1 deletion(-)
+>
+>  diff --git a/gio/giomodule.c b/gio/giomodule.c
+> -index b92162d..fce9933 100644
+> +index 1007abd..5380982 100644
+>  --- a/gio/giomodule.c
+>  +++ b/gio/giomodule.c
+> -@@ -40,6 +40,8 @@
+> +@@ -44,6 +44,8 @@
+>   #include "gnetworkmonitor.h"
+>   #ifdef G_OS_WIN32
+>   #include "gregistrysettingsbackend.h"
+> @@ -31,7 +31,7 @@ index b92162d..fce9933 100644
+>   #endif
+>   #include <glib/gstdio.h>
+>
+> -@@ -1156,7 +1158,15 @@ get_gio_module_dir (void)
+> +@@ -1158,7 +1160,15 @@ get_gio_module_dir (void)
+>   #endif
+>         g_free (install_dir);
+>   #else
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch b/meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch
+> deleted file mode 100644
+> index 7aa6217d693..00000000000
+> --- a/meta/recipes-core/glib-2.0/glib-2.0/uclibc_musl_translation.patch
+> +++ /dev/null
+> @@ -1,22 +0,0 @@
+> -Fix DATADIRNAME on uclibc/Linux
+> -
+> -translation files are always installed under PREFIX/share/locale in uclibc
+> -based systems therefore lets set DATADIRNAME to "share".
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Upstream-Status: Pending
+> -Index: glib-2.46.1/m4macros/glib-gettext.m4
+> -===================================================================
+> ---- glib-2.46.1.orig/m4macros/glib-gettext.m4
+> -+++ glib-2.46.1/m4macros/glib-gettext.m4
+> -@@ -243,6 +243,10 @@ msgstr ""
+> -           CATOBJEXT=.mo
+> -             DATADIRNAME=share
+> -           ;;
+> -+          *-*-musl* | *-*-linux-uclibc*)
+> -+          CATOBJEXT=.gmo
+> -+            DATADIRNAME=share
+> -+          ;;
+> -           *)
+> -           CATOBJEXT=.mo
+> -             DATADIRNAME=lib
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.1.bb
+> similarity index 69%
+> rename from meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
+> rename to meta/recipes-core/glib-2.0/glib-2.0_2.62.1.bb
+> index 740473719d8..6d841ec9d9b 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.1.bb
+> @@ -6,7 +6,7 @@ SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+>
+>  SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>             file://run-ptest \
+> -           file://uclibc_musl_translation.patch \
+> +           file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch \
+>             file://Enable-more-tests-while-cross-compiling.patch \
+>             file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
+>             file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch \
+> @@ -14,12 +14,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>             file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+>             file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch \
+>             file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+> -           file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
+> -           file://0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch \
+>             "
+>
+>  SRC_URI_append_class-native = " file://relocate-modules.patch"
+>  SRC_URI_append_class-target = " file://glib-meson.cross"
+>
+> -SRC_URI[md5sum] = "f036f78a7fca330d9f7d939fcf794bde"
+> -SRC_URI[sha256sum] = "8b12c0af569afd3b71200556ad751bad4cf4bf7bc4b5f880638459a42ca86310"
+> +SRC_URI[md5sum] = "64c14b4fe46c478992560c2f48a5b649"
+> +SRC_URI[sha256sum] = "3dd9024e1d0872a6da7ac509937ccf997161b11d7d35be337c7e829cbae0f9df"
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> index 3ae22f5e807..8b95f212047 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -158,6 +158,8 @@ RDEPENDS_${PN}-ptest += "\
+>              ${PN}-locale-pl \
+>              ${PN}-locale-ru \
+>              ${PN}-locale-th \
+> +            python3-core \
+> +            python3-modules \
+>             "
+>
+>  RDEPENDS_${PN}-ptest_append_libc-glibc = "\
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
