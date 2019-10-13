@@ -1,57 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A01E605B3
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C75A57D534
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Oct 2019 00:20:10 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id c3so6274780plo.2
+	Sun, 13 Oct 2019 00:51:25 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id q21so8267576pfn.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 17:20:12 -0700 (PDT)
+	Sat, 12 Oct 2019 17:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=yYR/MsPhZACUyxDiuJ6vu64s59udQkVkD7gYCp8UMjw=;
-	b=KfWx90HTfglfgqyMytg56C0MBWoABjsJ65Jif3/k6DrrDCkdYqVLMjehFCAluBSs5o
-	xUMSsNVmXB+2ipOamZkH/WXnpW/eij3Ycy4N8UM3OZkovUoM5F3ob7j/PRPRPTMFXWeA
-	FpjpomTNOdY5jZWmHf+5gfmtcQIVxcCWzy3Gy4gec2+jAc31ooimTcvKwVJIncPlBo9/
-	YENB9Wc+vmYmxhqeolHzmXjR9cWRePN4Ea/TLxVRsc8A8uYSRXKS1xtrF7//P6hX8IJo
-	lCHC+LJbccIr0CL2oPjtkZj7QYu1/VT43yVAZqtzKuVY0mJayPDw3K/8C/YJa0MpoiHu
-	Qo3w==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YuwNuLkodPP7b0SWTFc2BYN3VxTFbzHVC7hzH2klhw0=;
+	b=I6xoSXbXRAngnznzDgVPR2a03cZa0dPYwdh9FfaxhpCMmh15fA6s+8wH1XkEXHdMCj
+	0siVAk6OE9qtt+p80ngnuUoHfBs7pgY6qVdjNxWmatgw08J63igmZN/MfVI7ObASG/FM
+	3yTg/1Fspf0oKlI+4dcNYtKNzTKs9AroaGLTivku0dSI3kwWbl/gJ+XFXpdTSW6WqKwk
+	E3UkTjy12kp9271dOKdjL6WxynqxioDTmQkHaDIcmWwU8wO0Jc8/pbB5Lcp8dAKE7IQF
+	WnUhHUpHlr9+hNpE7Guf7co6AMn/Q1RxHC7Z63Ehxy1+NWE6oeF15DQTG0XnAh4KDXGS
+	uzZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:user-agent:mime-version
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=yYR/MsPhZACUyxDiuJ6vu64s59udQkVkD7gYCp8UMjw=;
-	b=Av3QV/PF018ZbJeM5lABDxsYlMenW+zS9Cwxz2sGsEl78P/Bl2FJnudcEmLaB6DAjj
-	XczyaHCyG0/AjGZX2sS3y1+Ri9PVUSuAezy+QCuj0Ozw7Q7igW/zlRq6rj379Lm3IiKR
-	y2QHegtVl1pniWYbyPVj/z6bMn/fQBfT+W5ks/Mt26GHpMnFiPBgPUkwpCBtfuXpTx0J
-	16k0y1Jw64VScaJ0pa80420OSF0ZQfWVDig4B73Srfq+fJv6d9O0gFS4i4dw+QwRp06T
-	HZSZj/kDGzuFDv4lUn508V8/QC6XbG22lHCMsYe8+WIAbAD0k/z2fzK98T6Vd5lnpKQt
-	NsoQ==
-X-Gm-Message-State: APjAAAVPy3pWo/jCmNP0lD7DIFOJ2YBXOnk+oQ+S8w/ZyoyUXWJJ/oh8
-	RzmiUd4Vy9KiF49+Xf0D1Dw=
-X-Google-Smtp-Source: APXvYqyDBrIlgFzEyHfg8Mp9F/TaQrXg/Qexi0KdYWfqWl1rh/XqbGZVqFzMjob2CUib5YtsUIPI9g==
-X-Received: by 2002:a17:902:9a06:: with SMTP id
-	v6mr22529440plp.221.1570926011038; 
-	Sat, 12 Oct 2019 17:20:11 -0700 (PDT)
-Received: from tyche ([2601:646:8500:1c20::3d0e])
+	bh=YuwNuLkodPP7b0SWTFc2BYN3VxTFbzHVC7hzH2klhw0=;
+	b=c0Lgu8oiLGqo6gxLmmMcPCSnDb7Y50uX++cpNKc+ClhSbQ5MJD+dvZbeBh3FQX38cv
+	PFwoEYh/aPzcc9ydUtJQ/+3Ppkv6w//9Q8i0t5/pkX7Eer3jCs5vZc7zPuAvveFrSV71
+	E2H2q4Pfu0CIX6R3koU4E4dm0XK6QRaYOmcSf5mEMCf7siT6DwsUW1JAdULaYGk5LRRF
+	2DZ/ag+5gGc74b0xWt8jqjdBrAstcSEp8VyI7L/U/939rXhueUPsHmtukxx/dnkPIeYT
+	Wn2joKjt5Qz2noaI0cT2RTEZXnYcFGD3JfFvC0II6HTaXYw98jNfwgOrtWAV8/LdMAfD
+	n/Qg==
+X-Gm-Message-State: APjAAAV3qZ76fy5r4WbwYgPfrReQ3tZUZMsDP5rAgmOIvXXDTC3fxm9z
+	RkEIXxOSLOHWBwkuNMB2DaXqc9iRCp4=
+X-Google-Smtp-Source: APXvYqyhktxJRa3z76qvhuXu6PV2qxYIIyNaat7GYPcOR73vWEHWttVMgfUQHT+oF4hNblTaI4Fi+Q==
+X-Received: by 2002:a17:90a:cf8c:: with SMTP id
+	i12mr26871518pju.77.1570927885851; 
+	Sat, 12 Oct 2019 17:51:25 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::7275])
 	by smtp.gmail.com with ESMTPSA id
-	d1sm14596835pfc.98.2019.10.12.17.20.09
+	d1sm14629304pfc.98.2019.10.12.17.51.24
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 12 Oct 2019 17:20:10 -0700 (PDT)
-Message-ID: <dbf128cd95ea3d8017274ea57dda52a72ad727cb.camel@gmail.com>
+	Sat, 12 Oct 2019 17:51:25 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 12 Oct 2019 17:20:09 -0700
-In-Reply-To: <20191011114754.91740-16-alex.kanavin@gmail.com>
-References: <20191011114754.91740-1-alex.kanavin@gmail.com>
-	<20191011114754.91740-16-alex.kanavin@gmail.com>
-Organization: HIMVIS LLC
-User-Agent: Evolution 3.34.1 
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 12 Oct 2019 17:51:17 -0700
+Message-Id: <20191013005117.841034-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 16/19] meson: update to 0.52.0
+Subject: [PATCH] glib-2.0: Fix build with clang compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,438 +58,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Oct 2019 00:20:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 13 Oct 2019 00:51:25 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2019-10-11 at 13:47 +0200, Alexander Kanavin wrote:
-> Drop backported patches.
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-devtools/meson/meson.inc         |  7 +--
->  ...efined-by-the-existance-of-a-cross-f.patch | 28 -----------
->  .../0001-Make-CPU-family-warnings-fatal.patch |  8 +--
->  ...etect-windows-also-if-the-system-str.patch | 29 -----------
->  ...sues-that-arise-when-cross-compiling.patch |  8 +--
->  ...pport-building-allarch-recipes-again.patch |  4 +-
->  .../meson/meson/0003-native_bindir.patch      | 20 ++++----
->  .../meson/meson/vala-cross-compile.patch      | 50 ---------------
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...on-Run-atomics-test-on-clang-as-well.patch | 31 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.62.1.bb |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch
 
-meson 0.52.x seems to be exposing the dconf build issue.
-
-https://errors.yoctoproject.org/Errors/Details/273492/
-
-also reported here
-https://gitlab.gnome.org/GNOME/dconf/issues/59
-
-> ----
->  .../{meson_0.51.2.bb => meson_0.52.0.bb}      |  1 -
->  ...on_0.51.2.bb => nativesdk-meson_0.52.0.bb} |  0
->  10 files changed, 22 insertions(+), 133 deletions(-)
->  delete mode 100644 meta/recipes-devtools/meson/meson/0001-Cross-
-> build-is-defined-by-the-existance-of-a-cross-f.patch
->  delete mode 100644 meta/recipes-devtools/meson/meson/0001-
-> environment.py-detect-windows-also-if-the-system-str.patch
->  delete mode 100644 meta/recipes-devtools/meson/meson/vala-cross-
-> compile.patch
->  rename meta/recipes-devtools/meson/{meson_0.51.2.bb =>
-> meson_0.52.0.bb} (97%)
->  rename meta/recipes-devtools/meson/{nativesdk-meson_0.51.2.bb =>
-> nativesdk-meson_0.52.0.bb} (100%)
-> 
-> diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-
-> devtools/meson/meson.inc
-> index 8219d87c741..ae0091c051c 100644
-> --- a/meta/recipes-devtools/meson/meson.inc
-> +++ b/meta/recipes-devtools/meson/meson.inc
-> @@ -14,14 +14,11 @@ SRC_URI = "
-> https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
->             file://0001-python-module-do-not-manipulate-the-
-> environment-when.patch \
->             file://disable-rpath-handling.patch \
->             file://cross-prop-default.patch \
-> -           file://0001-environment.py-detect-windows-also-if-the-
-> system-str.patch \
-> -           file://0001-Cross-build-is-defined-by-the-existance-of-a-
-> cross-f.patch \
->             file://0001-mesonbuild-environment.py-check-environment-
-> for-vari.patch \
->             file://0001-modules-python.py-do-not-substitute-python-s-
-> install.patch \
-> -           file://vala-cross-compile.patch \
->             "
-> -SRC_URI[sha256sum] =
-> "23688f0fc90be623d98e80e1defeea92bbb7103bf9336a5f5b9865d36e892d76"
-> -SRC_URI[md5sum] = "d46c4a8e3cfd27f90e2c6fe4a69e574b"
-> +SRC_URI[sha256sum] =
-> "d60f75f0dedcc4fd249dbc7519d6f3ce6df490033d276ef1cf27453ef4938d32"
-> +SRC_URI[md5sum] = "7ea7772414dda8ae11072244bf7ba991"
->  
->  SRC_URI_append_class-native = " \
->      file://0001-Make-CPU-family-warnings-fatal.patch \
-> diff --git a/meta/recipes-devtools/meson/meson/0001-Cross-build-is-
-> defined-by-the-existance-of-a-cross-f.patch b/meta/recipes-
-> devtools/meson/meson/0001-Cross-build-is-defined-by-the-existance-of-
-> a-cross-f.patch
-> deleted file mode 100644
-> index a5dbb81b088..00000000000
-> --- a/meta/recipes-devtools/meson/meson/0001-Cross-build-is-defined-
-> by-the-existance-of-a-cross-f.patch
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -From 0b4d1e8afd5428a495f8624ee061f63977b4c268 Mon Sep 17 00:00:00
-> 2001
-> -From: Jussi Pakkanen <jpakkane@gmail.com>
-> -Date: Sun, 6 Oct 2019 15:17:32 +0300
-> -Subject: [PATCH] Cross build is defined by the existance of a cross
-> file.
-> -
-> ----
-> - mesonbuild/environment.py | 2 +-
-> - 2 files changed, 2 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
-> -index e5d041b4..03c65688 100644
-> ---- a/mesonbuild/environment.py
-> -+++ b/mesonbuild/environment.py
-> -@@ -611,7 +611,7 @@ class Environment:
-> -         self.first_invocation = True
-> - 
-> -     def is_cross_build(self) -> bool:
-> --        return not
-> self.machines.matches_build_machine(MachineChoice.HOST)
-> -+        return self.coredata.is_cross_build()
-> - 
-> -     def dump_coredata(self):
-> -         return coredata.save(self.coredata, self.get_build_dir())
-> --- 
-> -2.20.1
-> -
-> diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-
-> warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-
-> CPU-family-warnings-fatal.patch
-> index 444fc081686..fc55dcacf6d 100644
-> --- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-
-> warnings-fatal.patch
-> +++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-
-> warnings-fatal.patch
-> @@ -1,4 +1,4 @@
-> -From f70fee13e4dbc757cd8153cd42d92fa9394fb542 Mon Sep 17 00:00:00
-> 2001
-> +From c07d29b715209cd5d75b142a00a540d45b00c36d Mon Sep 17 00:00:00
-> 2001
->  From: Ross Burton <ross.burton@intel.com>
->  Date: Tue, 3 Jul 2018 13:59:09 +0100
->  Subject: [PATCH] Make CPU family warnings fatal
-> @@ -12,7 +12,7 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
->   2 files changed, 2 insertions(+), 4 deletions(-)
->  
->  diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
-> -index 03c6346..86b350b 100644
-> +index a59cd89..17de654 100644
->  --- a/mesonbuild/envconfig.py
->  +++ b/mesonbuild/envconfig.py
->  @@ -186,7 +186,7 @@ class MachineInfo:
-> @@ -25,10 +25,10 @@ index 03c6346..86b350b 100644
->           endian = literal['endian']
->           if endian not in ('little', 'big'):
->  diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
-> -index 0cfdf9c..40aa189 100644
-> +index 3704921..f1988f2 100644
->  --- a/mesonbuild/environment.py
->  +++ b/mesonbuild/environment.py
-> -@@ -262,9 +262,7 @@ def detect_cpu_family(compilers: CompilersDict)
-> -> str:
-> +@@ -251,9 +251,7 @@ def detect_cpu_family(compilers: CompilersDict)
-> -> str:
->           trial = 'parisc'
->   
->       if trial not in known_cpu_families:
-> diff --git a/meta/recipes-devtools/meson/meson/0001-environment.py-
-> detect-windows-also-if-the-system-str.patch b/meta/recipes-
-> devtools/meson/meson/0001-environment.py-detect-windows-also-if-the-
-> system-str.patch
-> deleted file mode 100644
-> index 2faeda2e711..00000000000
-> --- a/meta/recipes-devtools/meson/meson/0001-environment.py-detect-
-> windows-also-if-the-system-str.patch
-> +++ /dev/null
-> @@ -1,29 +0,0 @@
-> -From b52e47c9d61dc4c930cfc7236fbeb70338c3b953 Mon Sep 17 00:00:00
-> 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Mon, 25 Mar 2019 17:17:06 +0100
-> -Subject: [PATCH] environment.py: detect windows also if the system
-> string
-> - contains 'mingw'
-> -
-> -Upstream-Status: Backport [fe645a0a9e2da230d2c500af1f5b2db5da1e364d]
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> -
-> ----
-> - mesonbuild/envconfig.py | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
-> -index 03c6346..a59cd89 100644
-> ---- a/mesonbuild/envconfig.py
-> -+++ b/mesonbuild/envconfig.py
-> -@@ -198,7 +198,7 @@ class MachineInfo:
-> -         """
-> -         Machine is windows?
-> -         """
-> --        return self.system in {'windows', 'mingw'}
-> -+        return self.system == 'windows' or 'mingw' in self.system
-> - 
-> -     def is_cygwin(self) -> bool:
-> -         """
-> --- 
-> -2.17.1
-> -
-> diff --git a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-
-> issues-that-arise-when-cross-compiling.patch b/meta/recipes-
-> devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-when-cross-
-> compiling.patch
-> index 7c3238bf91a..471f1500daa 100644
-> --- a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-
-> arise-when-cross-compiling.patch
-> +++ b/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-
-> arise-when-cross-compiling.patch
-> @@ -1,4 +1,4 @@
-> -From 1afbf5ccff56e582229c8f673f50aedf2b24117e Mon Sep 17 00:00:00
-> 2001
-> +From d3ef01a4208a801acad380a4aaceb6a21f8fa603 Mon Sep 17 00:00:00
-> 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Fri, 4 Aug 2017 16:16:41 +0300
->  Subject: [PATCH] gtkdoc: fix issues that arise when cross-compiling
-> @@ -20,11 +20,11 @@ Signed-off-by: Alexander Kanavin <
-> alex.kanavin@gmail.com>
->   1 file changed, 4 insertions(+)
->  
->  diff --git a/mesonbuild/modules/gnome.py
-> b/mesonbuild/modules/gnome.py
-> -index bf49770..7c5a363 100644
-> +index bcf77b9..6a4b472 100644
->  --- a/mesonbuild/modules/gnome.py
->  +++ b/mesonbuild/modules/gnome.py
-> -@@ -972,6 +972,10 @@ This will become a hard error in the
-> future.''')
-> -                 '--mode=' + mode]
-> +@@ -974,6 +974,10 @@ This will become a hard error in the
-> future.''')
-> +             args.append('--{}={}'.format(program_name, path))
->           if namespace:
->               args.append('--namespace=' + namespace)
->  +        gtkdoc_exe_wrapper =
-> state.environment.properties.host.get('gtkdoc_exe_wrapper', None)
-> diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-
-> allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-
-> Support-building-allarch-recipes-again.patch
-> index 8ad86a46e99..b8837d77b64 100644
-> --- a/meta/recipes-devtools/meson/meson/0002-Support-building-
-> allarch-recipes-again.patch
-> +++ b/meta/recipes-devtools/meson/meson/0002-Support-building-
-> allarch-recipes-again.patch
-> @@ -1,4 +1,4 @@
-> -From 3009a1c2f1b736b836a057d84dc11f379cba99cf Mon Sep 17 00:00:00
-> 2001
-> +From 263fc0e26e1fd92e25fa3ef93f4a549dcebc5887 Mon Sep 17 00:00:00
-> 2001
->  From: Peter Kjellerstedt <pkj@axis.com>
->  Date: Thu, 26 Jul 2018 16:32:49 +0200
->  Subject: [PATCH] Support building allarch recipes again
-> @@ -13,7 +13,7 @@ Signed-off-by: Peter Kjellerstedt <
-> peter.kjellerstedt@axis.com>
->   1 file changed, 1 insertion(+)
->  
->  diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
-> -index 86b350b..aa426ca 100644
-> +index 17de654..2d2deef 100644
->  --- a/mesonbuild/envconfig.py
->  +++ b/mesonbuild/envconfig.py
->  @@ -36,6 +36,7 @@ _T = typing.TypeVar('_T')
-> diff --git a/meta/recipes-devtools/meson/meson/0003-
-> native_bindir.patch b/meta/recipes-devtools/meson/meson/0003-
-> native_bindir.patch
-> index 57de598d2f1..76cc4931d63 100644
-> --- a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
-> +++ b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
-> @@ -1,4 +1,4 @@
-> -From ac38495de38a1ea42e2bc09a2f23c2e945fbc22d Mon Sep 17 00:00:00
-> 2001
-> +From 4a1d676522d6b56cbe9a45c3b040afaa27d37f78 Mon Sep 17 00:00:00
-> 2001
->  From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
->  Date: Wed, 15 Nov 2017 15:05:01 +0100
->  Subject: [PATCH] native_bindir
-> @@ -22,10 +22,10 @@ Signed-off-by: Ricardo Ribalda Delgado <
-> ricardo.ribalda@gmail.com>
->   2 files changed, 14 insertions(+), 11 deletions(-)
->  
->  diff --git a/mesonbuild/dependencies/base.py
-> b/mesonbuild/dependencies/base.py
-> -index 21da8e2..7d1ef85 100644
-> +index 3c55a56..eb52fd1 100644
->  --- a/mesonbuild/dependencies/base.py
->  +++ b/mesonbuild/dependencies/base.py
-> -@@ -155,7 +155,7 @@ class Dependency:
-> +@@ -185,7 +185,7 @@ class Dependency:
->       def get_exe_args(self, compiler):
->           return []
->   
-> @@ -34,7 +34,7 @@ index 21da8e2..7d1ef85 100644
->           raise DependencyException('{!r} is not a pkgconfig
-> dependency'.format(self.name))
->   
->       def get_configtool_variable(self, variable_name):
-> -@@ -214,7 +214,7 @@ class InternalDependency(Dependency):
-> +@@ -248,7 +248,7 @@ class InternalDependency(Dependency):
->           self.sources = sources
->           self.ext_deps = ext_deps
->   
-> @@ -43,7 +43,7 @@ index 21da8e2..7d1ef85 100644
->           raise DependencyException('Method
-> "get_pkgconfig_variable()" is '
->                                     'invalid for an internal
-> dependency')
->   
-> -@@ -639,15 +639,18 @@ class PkgConfigDependency(ExternalDependency):
-> +@@ -670,15 +670,18 @@ class PkgConfigDependency(ExternalDependency):
->           return s.format(self.__class__.__name__, self.name,
-> self.is_found,
->                           self.version_reqs)
->   
-> @@ -65,7 +65,7 @@ index 21da8e2..7d1ef85 100644
->           # Always copy the environment since we're going to modify
-> it
->           # with pkg-config variables
->           if env is None:
-> -@@ -663,7 +666,7 @@ class PkgConfigDependency(ExternalDependency):
-> +@@ -698,7 +701,7 @@ class PkgConfigDependency(ExternalDependency):
->           targs = tuple(args)
->           cache = PkgConfigDependency.pkgbin_cache
->           if (self.pkgbin, targs, fenv) not in cache:
-> @@ -74,16 +74,16 @@ index 21da8e2..7d1ef85 100644
->           return cache[(self.pkgbin, targs, fenv)]
->   
->       def _convert_mingw_paths(self, args):
-> -@@ -845,7 +848,7 @@ class PkgConfigDependency(ExternalDependency):
-> -                                       (self.name, out_raw))
-> -         self.link_args, self.raw_link_args = self._search_libs(out,
-> out_raw)
-> +@@ -926,7 +929,7 @@ class PkgConfigDependency(ExternalDependency):
-> +             mlog.warning('Could not determine complete list of
-> dependencies for %s' % self.name)
-> +         self.link_args, self.raw_link_args = self._search_libs(out,
-> out_raw, out_all)
->   
->  -    def get_pkgconfig_variable(self, variable_name, kwargs):
->  +    def get_pkgconfig_variable(self, variable_name, kwargs,
-> use_native=False):
->           options = ['--variable=' + variable_name, self.name]
->   
->           if 'define_variable' in kwargs:
-> -@@ -858,7 +861,7 @@ class PkgConfigDependency(ExternalDependency):
-> +@@ -939,7 +942,7 @@ class PkgConfigDependency(ExternalDependency):
->   
->               options = ['--define-variable=' + '='.join(definition)]
-> + options
->   
-> diff --git a/meta/recipes-devtools/meson/meson/vala-cross-
-> compile.patch b/meta/recipes-devtools/meson/meson/vala-cross-
-> compile.patch
-> deleted file mode 100644
-> index 816f810c054..00000000000
-> --- a/meta/recipes-devtools/meson/meson/vala-cross-compile.patch
-> +++ /dev/null
-> @@ -1,50 +0,0 @@
-> -From 77c3e6a4aaed07e626f4bf4deb7eb66e0f03a33d Mon Sep 17 00:00:00
-> 2001
-> -From: James Westman <flyingpimonster@flyingpimonster.net>
-> -Date: Mon, 24 Jun 2019 12:04:12 -0500
-> -Subject: [PATCH] Fix two errors when cross-compiling with Vala
-> -
-> -- AttributeError: 'ValaCompiler' object has no attribute
-> 'get_program_dirs'
-> -
-> -  Fixed by adding a `get_program_dirs()` function to the base
-> Compiler
-> -  class, to match `get_library_dirs()`
-> -
-> -- KeyError: 'vala_COMPILER'
-> -
-> -  Fixed by creating the Vala compile rules for all machines, not
-> just
-> -  the build machine.
-> -
-> -Upstream-Status: Backport [
-> https://github.com/mesonbuild/meson/commit/77c3e6a4aaed07e626f4bf4deb7eb66e0f03a33d
-> ]
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ----
-> - mesonbuild/backend/ninjabackend.py | 3 +--
-> - mesonbuild/compilers/compilers.py  | 3 +++
-> - 2 files changed, 4 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/mesonbuild/backend/ninjabackend.py
-> b/mesonbuild/backend/ninjabackend.py
-> -index a454e6ab5f..b830e377e4 100644
-> ---- a/mesonbuild/backend/ninjabackend.py
-> -+++ b/mesonbuild/backend/ninjabackend.py
-> -@@ -1653,8 +1653,7 @@ def generate_compile_rule_for(self, langname,
-> compiler):
-> -                 self.generate_cs_compile_rule(compiler)
-> -             return
-> -         if langname == 'vala':
-> --            if
-> self.environment.machines.matches_build_machine(compiler.for_machine)
-> :
-> --                self.generate_vala_compile_rules(compiler)
-> -+            self.generate_vala_compile_rules(compiler)
-> -             return
-> -         if langname == 'rust':
-> -             self.generate_rust_compile_rules(compiler)
-> -diff --git a/mesonbuild/compilers/compilers.py
-> b/mesonbuild/compilers/compilers.py
-> -index 5855de71c8..86c1e33407 100644
-> ---- a/mesonbuild/compilers/compilers.py
-> -+++ b/mesonbuild/compilers/compilers.py
-> -@@ -1117,6 +1117,9 @@ def find_library(self, *args, **kwargs):
-> -     def get_library_dirs(self, *args, **kwargs):
-> -         return ()
-> - 
-> -+    def get_program_dirs(self, *args, **kwargs):
-> -+        return ()
-> -+
-> -     def has_multi_arguments(self, args, env) -> Tuple[bool, bool]:
-> -         raise EnvironmentException(
-> -             'Language {} does not support
-> has_multi_arguments.'.format(
-> diff --git a/meta/recipes-devtools/meson/meson_0.51.2.bb
-> b/meta/recipes-devtools/meson/meson_0.52.0.bb
-> similarity index 97%
-> rename from meta/recipes-devtools/meson/meson_0.51.2.bb
-> rename to meta/recipes-devtools/meson/meson_0.52.0.bb
-> index de9b905c12b..897fa148d94 100644
-> --- a/meta/recipes-devtools/meson/meson_0.51.2.bb
-> +++ b/meta/recipes-devtools/meson/meson_0.52.0.bb
-> @@ -1,4 +1,3 @@
->  include meson.inc
->  
->  BBCLASSEXTEND = "native"
-> -
-> diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.51.2.bb
-> b/meta/recipes-devtools/meson/nativesdk-meson_0.52.0.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/meson/nativesdk-meson_0.51.2.bb
-> rename to meta/recipes-devtools/meson/nativesdk-meson_0.52.0.bb
-> -- 
-> 2.17.1
-> 
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch
+new file mode 100644
+index 0000000000..833ad2540e
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch
+@@ -0,0 +1,31 @@
++From cce617bec254e327ed7bcad60f58208024c6dc42 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 12 Oct 2019 17:46:26 -0700
++Subject: [PATCH] meson: Run atomics test on clang as well
++
++Fixes
++./glib-2.62.1/glib/gatomic.c:675:2: error: G_ATOMIC_LOCK_FREE defined, but incapable of lock-free atomics.
++^
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 9731de4..c678931 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -1634,7 +1634,7 @@ atomicdefine = '''
++ # We know that we can always use real ("lock free") atomic operations with MSVC
++ if cc.get_id() == 'msvc' or cc.get_id() == 'clang-cl' or cc.links(atomictest, name : 'atomic ops')
++   have_atomic_lock_free = true
++-  if cc.get_id() == 'gcc' and not cc.compiles(atomicdefine, name : 'atomic ops define')
+++  if (cc.get_id() == 'gcc' or cc.get_id() == 'clang') and not cc.compiles(atomicdefine, name : 'atomic ops define')
++     # Old gcc release may provide
++     # __sync_bool_compare_and_swap but doesn't define
++     # __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
++-- 
++2.23.0
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.1.bb
+index 6d841ec9d9..7897170a7d 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.1.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.1.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+            file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
++           file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            "
+ 
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
+-- 
+2.23.0
 
 
