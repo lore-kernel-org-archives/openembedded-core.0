@@ -1,54 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id CA3887F561
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CF11B6079F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Oct 2019 01:24:33 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id s17so6300963plp.6
+	Sun, 13 Oct 2019 04:06:54 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id u8so29879127iom.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2019 18:24:35 -0700 (PDT)
+	Sat, 12 Oct 2019 21:06:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=fXx/ELZUsKN7iNkm1yrpftptE3UJ2KcejvVgfOVNbv8=;
-	b=pA7HCqa8sIXVW3mRGHIqpQQuXqKSmHaQXIG6yTIXtxYy0gbeV09LV8L6YMCOv+v7T/
-	euHMhiDCCuulA9TIM/BB31gx0lUsSEw+LMP2SCSMQ4Z51aFo8hSMfQWqOIMKIVxY3wNv
-	GbfBlrWglvQgTh6GYwXJNVcOi18BTCArF9i/oZeo8pXbqPBZsd9GCwnvIr9SDPXby02H
-	kS83q9nkuvgZuojcCbupNbGVWZ4oUnXN3lfZxqVVPggNb4wpuUpM9PV8ASHwkg1+7W/V
-	qb2nuOo+/CbK4Phdygs3tJzhKRmI/hK/Zkqj8ydIEP3Z37VL/vReym0tXNxhPh4sfdSi
-	XmsQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ECnZpdITgFG8nURCabt9oGz5WIxdFTjsNr9Hx8PmHmk=;
+	b=U0eMcP0vHpzjPML/TBSvCPaalQCyrrdV80T6x9mHN+83oX2aZdCTO5KHyyru5M7w/X
+	0JvBukfH7aRRD/wxyBPakXGwIedwVfme02zOgysr+k5A+lFtIdsyiWiIPAOdePCza4FH
+	Hx7mye4RPs71wC+nFgYl0VbYdh4IYC+3rzInLT68q+9iGK4mZinwduZcagg++hnx7bGS
+	WhwBClto6P8v4OFHaxnheMKAkWouZbDobTNvDw/mzLlJ1tvhLuc3KtSWCkRd3ZZh5rhf
+	3uiJ/d9w0ON7ikcmyMxX+/1xtVChnKnB5KJBba6WR88R8u1aVOcA+W0CNKlvLq2PDNng
+	jD3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=fXx/ELZUsKN7iNkm1yrpftptE3UJ2KcejvVgfOVNbv8=;
-	b=MhTTThavze67vofrjBGM/K8Ia4Qp0Q2acs8BX3o6zbejU8X/3jq3KLgtGlvg1yuFSy
-	R+A3KOl1TJxnpzyiAmN37DZGxbuZ7wd4Rh4dHqKntMaHZjmmEMJpP0Aw4K15lwYMIaNd
-	sKlXJVJM8Ft/fbKjoG9gVbq2mHDbHRCF9b2dW5SlkB329kCF1pOtCPj99fpFnKYNAJdv
-	mIelio5wGhAqR/288inpQhlZh4+F70rIZWFARWsdUsDYsYhkFDElxyYsp3VssN0CvDGA
-	4WG8ioSQSfU50oX/DhmENO5MwIYut8sLo9P2dS7j/PmiEfI1Ccn6S/FHf4n/Urb3bk5I
-	Tktw==
-X-Gm-Message-State: APjAAAXDkHVwaJlX84z6F+Pa7BJuGVL5cYScwOtlPGwUZku3QB1SENBo
-	QzVYT6blJvXjtAKYlQu3mmtfdC+PJds=
-X-Google-Smtp-Source: APXvYqx5tUfFgF0Zl9+CKfk2/0RsycDRfogefo5AmvoGz1p+XxLwtTSDSJaoWwP9UY4Zaqqbsz/PuA==
-X-Received: by 2002:a17:902:9306:: with SMTP id
-	bc6mr22981697plb.133.1570929874472; 
-	Sat, 12 Oct 2019 18:24:34 -0700 (PDT)
-Received: from tyche ([2601:646:8500:1c20::3d0e])
-	by smtp.gmail.com with ESMTPSA id
-	j24sm13709221pff.71.2019.10.12.18.24.33
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 12 Oct 2019 18:24:33 -0700 (PDT)
-Message-ID: <ce141cece91f76d77a7316394ecd9c8776e4b257.camel@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: JH <jupiter.hce@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sat, 12 Oct 2019 18:24:33 -0700
-In-Reply-To: <CAA=hcWSN3s3YGNrods9t2bRsAbwVf1x1fRXDofVgjtr-BK29Bg@mail.gmail.com>
-References: <CAA=hcWSN3s3YGNrods9t2bRsAbwVf1x1fRXDofVgjtr-BK29Bg@mail.gmail.com>
-Organization: HIMVIS LLC
-User-Agent: Evolution 3.34.1 
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ECnZpdITgFG8nURCabt9oGz5WIxdFTjsNr9Hx8PmHmk=;
+	b=KBFr8S030MNg5PxkSE6GOO+AHkDGvOIAy+2ieAYCx1apF6aSxbPgPMCRBQlJRK3/9x
+	7jqavJUmj948H559yNvsfee0mcoHCLO/Xl3YO2wc/9kibPs1nhYvM+olGOIihSCabJxi
+	g191IxaWZHZPXpfeCqFVDn6vNBg3d+B2j0NO5a5DjJscozr+nHF4yVWhHbCKbGXgXDnF
+	O21vl0VzE5DNGnErW0Wx4K0zCV6xcF6tNtu9ZquCgfHNlDcxTPSXeLf5UwqX2Df6h25w
+	G22o/KWlqQw2GSRlbRyYnzssEfEo7g+GobpawHXh76KwNDKPNZFNkXGvu2YHBlzdL5V4
+	ZlZQ==
+X-Gm-Message-State: APjAAAUoHoosyylZe7vtjkhn74qT4ZeCQu1emstAoC7pDLza01PuBdNb
+	mNdwdbTJATfK5gDAZf5mT6UAeR8PucIBQ+bnpr8=
+X-Google-Smtp-Source: APXvYqx1WQ72T87xQPPmDC7ClhHOhNSjlj2PLLv+bw/iYzKL5G8KlvZnDnsfG4N17Q99hxtEdZYxtCYPosou70bELW8=
+X-Received: by 2002:a5d:8d13:: with SMTP id p19mr2742709ioj.306.1570939615663; 
+	Sat, 12 Oct 2019 21:06:55 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:ac0:9c85:0:0:0:0:0 with HTTP; Sat, 12 Oct 2019 21:06:54
+	-0700 (PDT)
+In-Reply-To: <ce141cece91f76d77a7316394ecd9c8776e4b257.camel@gmail.com>
+References: <CAA=hcWSN3s3YGNrods9t2bRsAbwVf1x1fRXDofVgjtr-BK29Bg@mail.gmail.com>
+	<ce141cece91f76d77a7316394ecd9c8776e4b257.camel@gmail.com>
+From: JH <jupiter.hce@gmail.com>
+Date: Sun, 13 Oct 2019 15:06:54 +1100
+Message-ID: <CAA=hcWRXoyXKyZqh-3dXxF6rPSMe2meejtGXK7xQ8ZZB+=-0-g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Failed to build zImage-initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -62,58 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Oct 2019 01:24:34 -0000
+X-List-Received-Date: Sun, 13 Oct 2019 04:06:55 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2019-10-13 at 12:14 +1100, JH wrote:
-> Hi,
-> 
-> Apologize if it is not right mailing list for helps, please advise
-> which mailing list I should go.
-> 
-> I have been trying to build zImage-initramfs, according to the
-> oe-core/meta/classes/kernel.bbclass, I defined following variables in
-> local.conf:
-> 
-> INITRAMFS_IMAGE = "zImage-initramfs"
+Hi Khem,
 
-this should be the rootfs image that you want to bundle into kernel and
-not the name of final kernel as above. Put something like core-image-
-minimal-initramfs or somesuch here.
+On 10/13/19, Khem Raj <raj.khem@gmail.com> wrote:
+> On Sun, 2019-10-13 at 12:14 +1100, JH wrote:
+>> Hi,
+>>
+>> Apologize if it is not right mailing list for helps, please advise
+>> which mailing list I should go.
+>>
+>> I have been trying to build zImage-initramfs, according to the
+>> oe-core/meta/classes/kernel.bbclass, I defined following variables in
+>> local.conf:
+>>
+>> INITRAMFS_IMAGE = "zImage-initramfs"
+>
+> this should be the rootfs image that you want to bundle into kernel and
+> not the name of final kernel as above. Put something like core-image-
+> minimal-initramfs or somesuch here.
 
-> INITRAMFS_IMAGE_NAME = "zImage-initramfs"
-> INITRAMFS_IMAGE_BUNDLE = "1"
-> IMAGE_INSTALL_append = "zImage-initramfs"
-> 
-> But I had following errors:
-> 
-> ERROR: Nothing RPROVIDES 'zImage-initramfs' (but
-> /build/Ramdisk/oe-core/../meta-solar/recipes-core/images/ram-image.bb
-> RDEPENDS on or otherwise requires it)
-> 
-> NOTE: Runtime target 'zImage-initramfs' is unbuildable, removing...
-> Missing or unbuildable dependency chain was: ['zImage-initramfs']
-> 
-> ERROR: Required build target 'solar-image' has no buildable
-> providers.
-> Missing or unbuildable dependency chain was: ['ram-image', 'zImage-
-> initramfs']
-> 
-> In my ram-image.bb:
-> 
-> inherit core-image
-> 
-> IMAGE_ROOTFS_SIZE = "100000"
-> IMAGE_FSTYPES += " ${INITRAMFS_FSTYPES} cpio.gz tar.gz"
-> PACKAGE_INSTALL = "${IMAGE_INSTALL}"
-> 
-> What I am missing for "Nothing RPROVIDES" error?
-> 
-> Thank you.
-> 
-> Kind regards,
-> 
-> - jh
+Thanks for the response, could you have more specific what I should
+change? From kernel.bbclass, without defining INITRAMFS_IMAGE and
+INITRAMFS_IMAGE_BUNDLE copy_initramfs() and do_bundle_initramfs ()
+won't be called, am wrong about it?
 
+Anyway, I followed your instruction to define the rootfs image in
+local.conf, it did not work, please correct me.
+
+$ vi local.conf
+IMAGE_ROOTFS += " core-image-minimal-initramfs"
+
+Thank you very much Khem,
+
+Kind regards,
+
+- jh
 
