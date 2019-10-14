@@ -1,52 +1,52 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1756D545
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6012A6D545
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2019 21:50:26 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id j19so18106744lja.1
+	Mon, 14 Oct 2019 21:52:08 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id z9so21336791wrl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2019 14:50:28 -0700 (PDT)
+	Mon, 14 Oct 2019 14:52:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=SXEfdmoUT6jKKu6I8hnhpSrDcMhm4apSsau11+y22eI=;
-	b=pw63RjSGu4MjPsRMzpXw8MuB62ODdGmRg7gQvBXqOyPIJLTAcimTb5dBQqzy+aoBTA
-	Y4C5lJV7JpteogkKSDskTarXzt5guyP3jPX1APFArSnOhkizbFSJAn3yIUnl4ueTlduB
-	P5AJnn3mJy2sbo1yKeaB1eN+aeEqtddNRE3OMGnmuPyBE0XliTFrDIBCwZ5g9+i7Jm52
-	swe0/2WUM4+TNRNGI2lVOeOUR7DNfUCVHk9Qts6aPlm3aygPUYAZrfg/P7nyyyWdMxB7
-	Zqilaf5ElXw3oavTba8XK2kE1+iX03NU/ubClMkK7x1pNe6TOPZDyvJpru0qQ/x7xI91
-	01Gg==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=iNdyqmdQJnDF1yb8uDxe9NGuYWRhU3xTD0XSA+HqeFo=;
+	b=T0z0fDUREuTjupHBFgEtI8RmF0rifbmM6pMFgE42pu9ieFskUqJ4ls6dXBua7KNAxF
+	zDL+MMiZJSOW7p11QediRQhDSf0R6VGJ4f+rldj1de5vg5Fg4KqwJOukzSkha1NTFz5z
+	eETsghpCX929U7QjFrsErz0FqYL9p22lhV9My8eI0xSWI1rxdnScbbIpvp/gYHBs0Q33
+	cFdJlKuM/YzBbAAHIki3U9syY4nb2aKeJeoUo+MemBjGiF7j6NBzKeqbTZ+geMCTvOAE
+	tUF4wkcy4gIwr7TL3Izgf0LzgoQZCs8tZYpDbffQ0bTMyVEIl6nzmntFO+czRFMq7Faa
+	afMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=SXEfdmoUT6jKKu6I8hnhpSrDcMhm4apSsau11+y22eI=;
-	b=nlvUHgy7yshVng/EZhTLiQhH7nFG8dAPrVR2FE3BPA8I0RosUPVSpIWNTuUnOiaEJS
-	RIRpocgxpJ1DxDHnMVUJad1+InUHmTwrqWYSDUUCOF/H3weaGXXKEDsy/FztJanNcc6P
-	frs47F19t2RIW0TBlsZ2mau8v4Tyh9lxxZgKKSOk61qSH8ZfoTAo+mDZ7cG1PPVcWENH
-	qyokO8LrNKzMf20br5sPohVIhnT50TzDZjUiG3zTeaQmoaXuMjCeL/x12c5a4ntHD49F
-	Sn7r2PJjHbcKNhczAtQP6zoHPLrQxUrU7OBeAwC3+CLTAygN/KI+K9eZSs0iCeFEMFrj
-	TwlQ==
-X-Gm-Message-State: APjAAAX/Cl3/UZRgwSD6/fDbA3UwlQlabkOUNDRr5MTYXUBp7KyAVahE
-	tVLWcrdPpQg/bHPKFPXCtWojz5b93ig=
-X-Google-Smtp-Source: APXvYqw/5LpduOW0zI3nxNS7nAYjEvv+Qpmy/Vspi2poFzKzQuxRBnLIRUCfAMJ7LZmELSfMszwM4w==
-X-Received: by 2002:a2e:6e18:: with SMTP id j24mr7033959ljc.57.1571089826934; 
-	Mon, 14 Oct 2019 14:50:26 -0700 (PDT)
-Received: from localhost.localdomain ([188.162.65.242])
-	by smtp.gmail.com with ESMTPSA id c3sm4418076lfi.32.2019.10.14.14.50.25
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=iNdyqmdQJnDF1yb8uDxe9NGuYWRhU3xTD0XSA+HqeFo=;
+	b=K6SSqHFXXjUppU0er0UuJqP6jmPCEtEjemj32mvA7u+fPtrkDiOmBNniBgLXXvGKS0
+	zccROXFcOrsbyYd1gDM162cGUBq7BjrRizqOZ0FkbjeLtONuB42CwY+9Jf/Q0OTT64u3
+	hyAk641Ezz0sbGz21db/33f861Wq48pQXlAX0Iueei/tZzvUngJ8D69W9Ft9UoeSfhBZ
+	K5Zj0NsyFi5pdo1x9W39+1rmUcXgvHFt5r2Xsuae4Ki6ak/f9r4CtDrfQ1OLMxcuT2Me
+	nwWw8u9iWvO7rIOKHDfrQb27RiFUlwBI1+68cdqncHYqlSK6qvZY9f61pc7UFxxQtNpF
+	6+/Q==
+X-Gm-Message-State: APjAAAUDqDyIv244UcgDJlcqr1NzlwnyTWUM51aP7qwF62z9EtOnJGp+
+	3/35+AeRC17kbghPTe4el7XgWbHm
+X-Google-Smtp-Source: APXvYqzxhK/AdzRQ/JZMFcbIMrXw+FalzZi6AR+5AmWYuUllLbGHG5q67IARBh620mPnUN9hCrdLcg==
+X-Received: by 2002:adf:e78c:: with SMTP id n12mr5128410wrm.351.1571089928883; 
+	Mon, 14 Oct 2019 14:52:08 -0700 (PDT)
+Received: from superandy.speedport.ip
+	(p200300F07F135A0825FC0019871DE783.dip0.t-ipconnect.de.
+	[2003:f0:7f13:5a08:25fc:19:871d:e783])
+	by smtp.gmail.com with ESMTPSA id g4sm23017531wrw.9.2019.10.14.14.52.07
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 14 Oct 2019 14:50:26 -0700 (PDT)
-From: dbaryshkov@gmail.com
+	Mon, 14 Oct 2019 14:52:08 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Oct 2019 00:50:14 +0300
-Message-Id: <20191014215014.9656-5-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191014215014.9656-1-dbaryshkov@gmail.com>
-References: <20191014215014.9656-1-dbaryshkov@gmail.com>
+Date: Mon, 14 Oct 2019 23:51:59 +0200
+Message-Id: <20191014215159.2763-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH v3 5/5] image-uefi.conf: define generic EFI_COMPATIBLE_HOST
+Subject: [PATCH] gsettings-desktop-schemas: upgrade 3.32.0 -> 3.34.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +59,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Oct 2019 21:50:27 -0000
+X-List-Received-Date: Mon, 14 Oct 2019 21:52:08 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+Would need it for gnome-settings-daemon 3.34:
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+| meson.build:91:0: ERROR: Invalid version of dependency, need 'gsettings-desktop-schemas' ['>= 3.33.0'] found '3.32.0'.
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- meta/conf/image-uefi.conf | 2 ++
- 1 file changed, 2 insertions(+)
+ ...chemas_3.32.0.bb => gsettings-desktop-schemas_3.34.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_3.32.0.bb => gsettings-desktop-schemas_3.34.0.bb} (70%)
 
-diff --git a/meta/conf/image-uefi.conf b/meta/conf/image-uefi.conf
-index 57fd18f02742..6173785d8327 100644
---- a/meta/conf/image-uefi.conf
-+++ b/meta/conf/image-uefi.conf
-@@ -13,3 +13,5 @@ EFI_FILES_PATH = "${EFI_PREFIX}${EFIDIR}"
- require conf/image-uefi.inc
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.34.0.bb
+similarity index 70%
+rename from meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb
+rename to meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.34.0.bb
+index 859f70466b..0674448567 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.34.0.bb
+@@ -5,12 +5,12 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- EFI_BOOT_IMAGE ?= "boot${EFI_ARCH}.efi"
-+
-+EFI_COMPATIBLE_HOST = "(x86_64.*|i.86.*|arm.*|aarch64.*)-linux.*"
+-DEPENDS = "glib-2.0"
++DEPENDS = "glib-2.0 gcr"
+ 
+ GNOMEBASEBUILDCLASS = "meson"
+ 
+ inherit gnomebase gsettings gobject-introspection gettext upstream-version-is-even
+ 
+-SRC_URI[archive.md5sum] = "0c2d468a482c12594757442c983aa8ea"
+-SRC_URI[archive.sha256sum] = "2d59b4b3a548859dfae46314ee4666787a00d5c82db382e97df7aa9d0e310a35"
++SRC_URI[archive.md5sum] = "9759ef53fb2e53fc8d19190e58f2c332"
++SRC_URI[archive.sha256sum] = "288b04260f7040b0e004a8d59c773cfb4e32df4f1b4a0f9d705c51afccc95ead"
+ SRC_URI += "file://0001-Do-not-skip-gir-installation-for-cross-compiling.patch"
 -- 
-2.23.0
+2.21.0
 
 
