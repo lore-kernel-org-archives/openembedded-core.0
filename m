@@ -1,48 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 086A67C89C
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E17060197
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Oct 2019 23:53:10 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id 23so9016872pgk.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Oct 2019 16:53:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=7N8mG1cKYgQkLCplvGK/y51+/QMb5NS1XyB5wEVkFK4=;
-	b=c2XbGTp5e+JdlWhASL2LOqUmW9H/yMoyMAqYVzpTqvitgzWOOHs/p3eCCZoK2Rwbs4
-	oahj4oaQA+9SqcmldDV5+YzB9nDVU9HWqI70WdSPSwhq8gHq4QG0+fW3FaEKXyQ1PPpq
-	Ms7HdCw4PZhGnToumWOsI9N9G5Hfxq/Nj5SMmljq7FOO0DxOgj4qIQd+V/cokRwjC6Rt
-	WdFpO2kaDA65+xmR4vutdk0E3dItpF5JSJoPlca13DkX0TzcoYZIfpMkT0UBhoXDH9XJ
-	3RgD3Xi8QobqjH/be/FG3pFxLCm2/sZSs62FKYoBQhxeyyQjGoQyLCocoSG0L4CXMAaz
-	LRRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7N8mG1cKYgQkLCplvGK/y51+/QMb5NS1XyB5wEVkFK4=;
-	b=KWouT+nKxhMuNYHDDJNj4Q1Yjy2fUEHtbwMk/lfy/XkFAdI278SVEzJPhR580KPrgZ
-	Q7Yfhv5weqMsIIuwhPorH1DBKdX+G98FbQgMGgKXIJoC0sLNWF91TkIUKVHQodVrRAxJ
-	jhG2C1zmY67FF2j9wqLx8AvlaZqqx5dUqvhNwqFJTMYfRTdkuPnCRN7OuLpovrgVD+s5
-	MBc43YPind7djMgKzQ8OZLawApu2e2gZPWHkgDaPz+fF5rreJ2nWG47qcCYFlMhlFs/E
-	KUKWeGbeOS1w4s4qi4S9y/IRwZDTR3CfNwnp8MkD5OpHJRsqW8ZBruMgzMG/o6+R1PFW
-	A3Yw==
-X-Gm-Message-State: APjAAAXJcP3Rc2K+TlaePQw51rx11RFpBh863Hu35Wpl0x8bqRF3ARBx
-	04fMMNalWqPCIRm8PVMqEXF76C7S
-X-Google-Smtp-Source: APXvYqydJKMiadqcjJ45DrSWU10//4Z2DFsZi8HTSCgRtNDpj9tRWpzYM1nEAfWOupjsst8j5tR2vA==
-X-Received: by 2002:a65:6096:: with SMTP id t22mr29595317pgu.409.1571010791712;
-	Sun, 13 Oct 2019 16:53:11 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:a5c0:e411:bea0:2b80:fd65])
-	by smtp.gmail.com with ESMTPSA id
-	m9sm14737393pjf.11.2019.10.13.16.53.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Oct 2019 16:53:11 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Oct 2019 16:53:09 -0700
-Message-Id: <1571010789-25049-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [warrior][PATCH] gnutls:upgrade 3.6.7 -> 3.6.8
+	Mon, 14 Oct 2019 04:25:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9E4PXvu006107
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 13 Oct 2019 21:25:34 -0700
+Received: from [128.224.158.164] (128.224.158.164) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Sun, 13 Oct 2019 21:25:33 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <dbaryshkov@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <20191012142414.26283-1-dbaryshkov@gmail.com>
+Message-ID: <dec79a88-8071-8398-aa76-d8cf07011df8@windriver.com>
+Date: Mon, 14 Oct 2019 12:25:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20191012142414.26283-1-dbaryshkov@gmail.com>
+X-Originating-IP: [128.224.158.164]
+Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+Subject: Re: [PATCH] conf/image-uefi: fix building images for multilib case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +35,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Oct 2019 23:53:11 -0000
+X-List-Received-Date: Mon, 14 Oct 2019 04:25:36 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Thanks Dmitry.
 
--Upgrade from gnutls_3.6.7.bb to gnutls_3.6.8.bb.
+But this patch introduces a minor issue. The lib32-systemd-boot will 
+fail to build when enable multilib and EFI_PROVIDER = "grub-efi":
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b34486a616ab4d4b30247a5dff58a18ef26ed709)
-[Bug fix only update.
-Includind: CVE-2019-3836 CVE-2019-3829
-https://lists.gnupg.org/pipermail/gnutls-help/2019-May/004527.html]
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-support/gnutls/{gnutls_3.6.7.bb => gnutls_3.6.8.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.6.7.bb => gnutls_3.6.8.bb} (93%)
+$ bitbake lib32-systemd-boot
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.7.bb b/meta/recipes-support/gnutls/gnutls_3.6.8.bb
-similarity index 93%
-rename from meta/recipes-support/gnutls/gnutls_3.6.7.bb
-rename to meta/recipes-support/gnutls/gnutls_3.6.8.bb
-index 01dd23c..bd752d3 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.7.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.8.bb
-@@ -21,8 +21,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://arm_eabi.patch \
- "
- 
--SRC_URI[md5sum] = "c4ac669c500df939d4fbfea722367929"
--SRC_URI[sha256sum] = "5b3409ad5aaf239808730d1ee12fdcd148c0be00262c7edf157af655a8a188e2"
-+SRC_URI[md5sum] = "9dcf0aa45d1a42e1b3ca5d39ec7c61a8"
-+SRC_URI[sha256sum] = "aa81944e5635de981171772857e72be231a7e0f559ae0292d2737de475383e83"
- 
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
- 
--- 
-2.7.4
+ERROR: lib32-systemd-boot-243+AUTOINC+efb536d0cb-r0 do_compile: 
+Execution of 
+'/buildarea/build/tmp/work/x86-pokymllib32-linux/lib32-systemd-boot/243+AUTOINC+efb536d0cb-r0/temp/run.do_compile.254335' 
+failed with exit code 1:
+ninja: error: unknown target 'src/boot/efi/systemd-bootx64.efi'
+WARNING: 
+/buildarea/build/tmp/work/x86-pokymllib32-linux/lib32-systemd-boot/243+AUTOINC+efb536d0cb-r0/temp/run.do_compile.254335:1 
+exit 1 from 'ninja src/boot/efi/systemd-bootx64.efi'
 
+ERROR: Logfile of failure stored in: 
+/buildarea/build/tmp/work/x86-pokymllib32-linux/lib32-systemd-boot/243+AUTOINC+efb536d0cb-r0/temp/log.do_compile.254335
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| ninja: error: unknown target 'src/boot/efi/systemd-bootx64.efi'
+| WARNING: 
+/buildarea/build/tmp/work/x86-pokymllib32-linux/lib32-systemd-boot/243+AUTOINC+efb536d0cb-r0/temp/run.do_compile.254335:1 
+exit 1 from 'ninja src/boot/efi/systemd-bootx64.efi'
+| ERROR: Execution of 
+'/buildarea/build/tmp/work/x86-pokymllib32-linux/lib32-systemd-boot/243+AUTOINC+efb536d0cb-r0/temp/run.do_compile.254335' 
+failed with exit code 1:
+| ninja: error: unknown target 'src/boot/efi/systemd-bootx64.efi'
+| WARNING: 
+/buildarea/build/tmp/work/x86-pokymllib32-linux/lib32-systemd-boot/243+AUTOINC+efb536d0cb-r0/temp/run.do_compile.254335:1 
+exit 1 from 'ninja src/boot/efi/systemd-bootx64.efi'
+|
+ERROR: Task 
+(virtual:multilib:lib32:/buildarea/poky/meta/recipes-core/systemd/systemd-boot_243.bb:do_compile) 
+failed with exit code '1'
+NOTE: Tasks Summary: Attempted 1661 tasks of which 1660 didn't need to 
+be rerun and 1 failed.
+
+
+
+//Yi
+
+
+On 10/12/19 10:24 PM, dbaryshkov@gmail.com wrote:
+> From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+>
+> Building live images for lib32-core-minimal-image will fail because
+> image target override won't match grub's override. Fix this by
+> introducing anonymous python function. A proper fix should be to
+> introduce multilib overrides, but it will be more intrusive.
+>
+> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+> ---
+>   meta/conf/image-uefi.conf | 11 +++++------
+>   meta/conf/image-uefi.inc  | 23 +++++++++++++++++++++++
+>   2 files changed, 28 insertions(+), 6 deletions(-)
+>   create mode 100644 meta/conf/image-uefi.inc
+>
+> diff --git a/meta/conf/image-uefi.conf b/meta/conf/image-uefi.conf
+> index aaeff12ccb80..57fd18f02742 100644
+> --- a/meta/conf/image-uefi.conf
+> +++ b/meta/conf/image-uefi.conf
+> @@ -8,9 +8,8 @@ EFI_PREFIX ?= "/boot"
+>   # Location inside rootfs.
+>   EFI_FILES_PATH = "${EFI_PREFIX}${EFIDIR}"
+>   
+> -# Determine name of bootloader image
+> -EFI_BOOT_IMAGE ?= "bootINVALID.efi"
+> -EFI_BOOT_IMAGE_x86-64 = "bootx64.efi"
+> -EFI_BOOT_IMAGE_x86 = "bootia32.efi"
+> -EFI_BOOT_IMAGE_aarch64 = "bootaa64.efi"
+> -EFI_BOOT_IMAGE_arm = "bootarm.efi"
+> +# Parsing python anonymous functions in .conf files does not work, so move it
+> +# to .inc file
+> +require conf/image-uefi.inc
+> +
+> +EFI_BOOT_IMAGE ?= "boot${EFI_ARCH}.efi"
+> diff --git a/meta/conf/image-uefi.inc b/meta/conf/image-uefi.inc
+> new file mode 100644
+> index 000000000000..94c5813494cb
+> --- /dev/null
+> +++ b/meta/conf/image-uefi.inc
+> @@ -0,0 +1,23 @@
+> +# Determine name of bootloader image
+> +python () {
+> +    import re
+> +    if d.getVar("MLPREFIX") != "":
+> +        target = d.getVar("TARGET_ARCH_MULTILIB_ORIGINAL")
+> +    else:
+> +        target = d.getVar("TARGET_ARCH")
+> +
+> +    if target == "x86_64":
+> +        arch = "x64"
+> +    elif re.match('i.86', target):
+> +        arch = "ia32"
+> +    elif re.match('aarch64', target):
+> +        arch = "aa64"
+> +    elif re.match('arm', target):
+> +        arch = "arm"
+> +    else:
+> +        raise bb.parse.SkipRecipe("image-uefi is incompatible with target %s" % target)
+> +
+> +    d.setVar("EFI_ARCH", arch)
+> +}
+> +
+> +
 
