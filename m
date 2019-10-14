@@ -1,53 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F151E7CED7
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E81276BDE3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2019 11:43:01 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id f22so16413436wmc.2
+	Mon, 14 Oct 2019 14:59:08 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id q64so16933457ljb.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2019 04:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=croYSKiVNgE9XVxEc/Og0s/7EOnv9fDuYAM2X/K+nnM=;
-	b=AKybLAPIMxUuP414ocq0cbN0TSEb5zfbjuwp+FT7y9P5s/y5geCIqdZVP+L9a9zzLx
-	rQAzYqKyEnCUDlUeR2bohr46dhEt5WVtCrRYfdhX9HKxaXiUR/HzLvQkGWu595GwqQsV
-	jkS0As/h/OsDuzsTqBV9c+7MzVZEvGmEThxuvf+nZ65HvY0lSpj6cK+ryAVzXLBGcR4K
-	ISHdA2lxmEPIeoq5u1Ae+bTwyAVdEpzoCIKVqjONhPK6TWwmI32nbuobJhFNxLExGqM7
-	UXotWFzoD9F3dLELCsNhPyfs1n5TqU2svsWey/0yAiULRXAN+cBs4ltxp9+55rkGAwJP
-	PP6g==
+	Mon, 14 Oct 2019 07:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=sEGg9Sj1BP/bFt75GPjmKhLqV5N9tjB1lEizwnDJxJE=;
+	b=i6s7rL8q2wVEYb8w4AEwu1kUqvwj8DNEZWbw5avAM4at+Io8vRecCNwOMNcX6urlhc
+	9Odlukaw8aTGWNF0T5s9NwJdzSwGOH7ocEzmHHP+6F8o5oh2c8h7+c2WfCWRrnyrNUDD
+	KloMZNUzWPmm4wMjxgTyJm/eizsoGo0dyFqWt54qQ+3gJVkeYqxlxtUlAYtWRP0KnKyu
+	rgiFSdSpaL0WsrSydA38fkhuqYnLCVN3J92Sr/W7V/2mc3OFSsZVcPwoTIUJW8j4q1el
+	9cOf6f2sxRQbqd13B0JBfd4fFOeUxoU3mGKVoajgeYpTX1WjS3RBUT3JRDOYJ/KlF9pv
+	+sAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=croYSKiVNgE9XVxEc/Og0s/7EOnv9fDuYAM2X/K+nnM=;
-	b=tDYHIihO+P+G4JICJTGv2dF6YQxV6tSpDNnDwwpJsfhUSPlsmxeilPBvAw3jZi9ro+
-	qZIh8InsryZ6+oS56Q94r9BTbXoksCY/tmjcT5RsLw0uTgLfuQpNTNwZhmOu93A+SCYk
-	zDnzjyO7kKNxb4HP4J7JtxVDvu7acBi8qFbHdOpEplwtOUa4X7++a0aivAHCT9NgCPoT
-	t8LFkL9M/9qfMIOww6ATluHjnX5Z2DL955UEbeyMskYHXzsuZ0QoDVz9Zfy1FowH6Czl
-	m6Cpg0QQOviydLBn8lx9INhtYP8kXm491yFmy7YRiI1wxOWbgdmT5luxHtACjCxUHsJh
-	Zu3w==
-X-Gm-Message-State: APjAAAV8iVoW/cquALhI5VVbCZGBd4xKM7hYoO1OD16WibG6Ud9SEVtW
-	UcKNZkm9higCGrm3+BYI7T9Wb8NAwKc=
-X-Google-Smtp-Source: APXvYqxmT/Lt4O6ZotiJwp4mRyQliOZRYGrm+P4+Z/GB2D6JKARrXYhmMwnRVm4F27LK2c2rWdewSg==
-X-Received: by 2002:a05:600c:29a:: with SMTP id
-	26mr15593903wmk.127.1571053382128; 
-	Mon, 14 Oct 2019 04:43:02 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	59sm40068296wrc.23.2019.10.14.04.43.00
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=sEGg9Sj1BP/bFt75GPjmKhLqV5N9tjB1lEizwnDJxJE=;
+	b=J10doaxMHWxTIDZBZ5nZlKctx23Vk8WAw5l5Nexac4dBFi1G+4+dnFJOsoq5eO0Urd
+	ZHzigc6o1wU2hMnVqUOJkB+z2xCKwV/N4cKfBohV8Nuz9r9yTRt8n56/wqU/Cy7UN4r2
+	sP3YZU8uJXE6YWu6/ihZCp9n4J9cZjDDJCdlUvjQ5JXke+ZBNMJD0gNdtzZD2OtLIXIn
+	+Qsmkprw1fV2MZ0VxxG2djUxfiM1Fh3xejhlsOLQ1XpUWLC+Z/4sOnVlTQhqXnqbmQno
+	14ZIaIeW95Rv56shnlPeI1GRvhCzMeDbCVKEzyKuMNBYQL0hM8ZC7Jmz4FZUw6ocsU+Z
+	rWNg==
+X-Gm-Message-State: APjAAAWD1Oce3kfMdFITAPHWl27tRPeV0j371B0pGZ/rfu7E2l9KBBKq
+	2Vyav9gdjIZqMW63GlHNPUdBKWFloUM=
+X-Google-Smtp-Source: APXvYqyOrDZa76b4k5QxmRPsyYavgDs0TaHIP+9YIeE92570o0BQq6v8++ci2DF3PVDfxZVBVvs27w==
+X-Received: by 2002:a2e:b4f7:: with SMTP id s23mr17883216ljm.111.1571065148660;
+	Mon, 14 Oct 2019 07:59:08 -0700 (PDT)
+Received: from localhost.localdomain ([94.25.229.62])
+	by smtp.gmail.com with ESMTPSA id
+	m10sm4195961lfo.69.2019.10.14.07.59.07
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 14 Oct 2019 04:43:00 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 14 Oct 2019 07:59:07 -0700 (PDT)
+From: dbaryshkov@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Oct 2019 12:42:57 +0100
-Message-Id: <20191014114258.28653-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+Date: Mon, 14 Oct 2019 17:58:50 +0300
+Message-Id: <20191014145850.9097-1-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <dec79a88-8071-8398-aa76-d8cf07011df8@windriver.com>
+References: <dec79a88-8071-8398-aa76-d8cf07011df8@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] sanity: check the format of SDK_VENDOR
+Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+Subject: [PATCH] multilib.conf: add systemd-boot to non-multilib recipes list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,39 +60,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Oct 2019 11:43:02 -0000
+X-List-Received-Date: Mon, 14 Oct 2019 14:59:09 -0000
 Content-Transfer-Encoding: 8bit
 
-If SDK_VENDOR isn't formatted as -foosdk and is instead for example -foo-sdk
-then the triple that are constructed are not in fact triples, which results in
-mysterious compile errors.
+From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 
-Check in sanity.bbclass so this failure is detected early.
+Add systemd-boot to NON_MULTILIB_RECIPES so that it won't be built for multilib targets.
 
-[ YOCTO #13573 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
 ---
- meta/classes/sanity.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/conf/multilib.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 2d3f49eb1a7..705062bc864 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -798,6 +798,11 @@ def check_sanity_everybuild(status, d):
-         elif d.getVar('SDK_ARCH', False) == "${BUILD_ARCH}":
-             status.addresult('SDKMACHINE is set, but SDK_ARCH has not been changed as a result - SDKMACHINE may have been set too late (e.g. in the distro configuration)\n')
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index cfed3fbbd07f..c734a121e12d 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -29,4 +29,4 @@ PKG_CONFIG_PATH[vardepvalueexclude] = ":${WORKDIR}/recipe-sysroot/${datadir}/pkg
  
-+    # If SDK_VENDOR looks like "-my-sdk" then the triples are badly formed so fail early
-+    sdkvendor = d.getVar("SDK_VENDOR")
-+    if not (sdkvendor.startswith("-") and sdkvendor.count("-") == 1):
-+        status.addresult("SDK_VENDOR should be of the form '-foosdk' with a single dash\n")
-+
-     check_supported_distro(d)
- 
-     omask = os.umask(0o022)
+ # These recipes don't need multilib variants, the ${BPN} PROVDES/RPROVDES
+ # ${MLPREFIX}${BPN}
+-NON_MULTILIB_RECIPES = "grub grub-efi make-mod-scripts ovmf"
++NON_MULTILIB_RECIPES = "grub grub-efi systemd-boot make-mod-scripts ovmf"
 -- 
-2.20.1
+2.23.0
 
 
