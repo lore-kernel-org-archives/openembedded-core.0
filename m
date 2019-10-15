@@ -1,51 +1,47 @@
-Return-Path: <mattias.hansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DC777D419
+Return-Path: <aatrapps@gmail.com>
+Received: from mail-yw1-f66.google.com (mail-yw1-f66.google.com
+	[209.85.161.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AA16F79C7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 11:45:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 593F5183B6;
-	Tue, 15 Oct 2019 13:45:52 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id FrdIBAWnyyPd; Tue, 15 Oct 2019 13:45:51 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 91C06183B0;
-	Tue, 15 Oct 2019 13:45:51 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7CF2F1E076;
-	Tue, 15 Oct 2019 13:45:51 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 70FA01E075;
-	Tue, 15 Oct 2019 13:45:51 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue, 15 Oct 2019 13:45:51 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by seth.se.axis.com (Postfix) with ESMTP id 646E71230;
-	Tue, 15 Oct 2019 13:45:51 +0200 (CEST)
-Received: from lnxmattihn2.wired.se.axis.com (10.0.5.60) by XBOX04.axis.com
-	(10.0.5.18) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Tue, 15 Oct 2019 13:45:51 +0200
-Date: Tue, 15 Oct 2019 13:45:50 +0200
-From: Mattias Hansson <mattias.hansson@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20191015114550.hj3yvjwmxviwbed2@lnxmattihn2.wired.se.axis.com>
-References: <20191015080015.1574-1-mattihn@axis.com>
-	<1d2a14032ca81a0e9acee21ba66c8e4cb7d5c950.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1d2a14032ca81a0e9acee21ba66c8e4cb7d5c950.camel@linuxfoundation.org>
-User-Agent: NeoMutt/20180716
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX04.axis.com (10.0.5.18) To XBOX04.axis.com (10.0.5.18)
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
+	Tue, 15 Oct 2019 13:06:06 +0000 (UTC)
+Received: by mail-yw1-f66.google.com with SMTP id x64so7313865ywg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2019 06:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=WB2aoqtVw6eJdbGP/fuC2qaONcjijVvSRsW1QupD1u0=;
+	b=aEklp4Mww9WnDF4hTD9OREMliHf3p2kP4dY8ZQX+6dJBfaEd4lAazu+Rr/vV/PCgus
+	PDsZbsTP2SWRQ+vloAbkvyQE88shJh+rCw4ijhwip03NrkWF6wcCpDhce8iyGiXXeu3n
+	57dHwr3w4RHak3kKfPx0TSvqw/lySmvG9PC2rG/Ji08VXo6LMuahcbDClGunROLpeM5j
+	rbBQcqTfGOwGA+SN5a9lAU2T5gCFO8uzKF4tWpbjIhqZ8IDItdDLCQlIvFkGfJBvqDi7
+	0k/0AgJJJp36E+nQJISDWwryG21KubESwjiLyCylJYqqGinahFS537CqnzDiYgN9yReo
+	MUYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=WB2aoqtVw6eJdbGP/fuC2qaONcjijVvSRsW1QupD1u0=;
+	b=n5g7KevWz4zWae878TeVeOG0AJ3eGVNBl1KJiX5uQKHUP7U5AZdrRX5GcPCtz0x5rf
+	HJesXoNv3zqWkv9iab9uUuQXj6a8t9D/UzGAPbaq0Xm0C9/gWEV6PISuhHjfVAMvWVkc
+	l9OeKDf8JYC/J36jwxZwED5L5vIdPNbyqlyUNkxFC/jA1JwkFDUWutbGSP6ub7tjpcw1
+	0O0Eqs3TgcH7TZctR0jfKKjCZZXFBOcMJSc2rUZU+aK9xtVqx2Y31ZgqFcMwKFxRmbX1
+	LVDixSOgIn9zg3sWErlkp9d8N9FtAOW1s8PCA9b4q8uAFeOz+R+Qxbk2ALJCRzngFSJ4
+	rbUg==
+X-Gm-Message-State: APjAAAW4K4QGVLl3GZogn1LL4gRtzvJGCy+8eQlJYTRT3bDbM1RhQjpZ
+	4R4Pc/nsk9uTien1bGPgkl2ew4vS
+X-Google-Smtp-Source: APXvYqwO9saSzrUdCQ8YmwqOzJ7Rv6fz/ikJyggW1Age5EOx10h9LCTtztTd6+Y7RdJH3A8rY4iyvg==
+X-Received: by 2002:a81:5d5:: with SMTP id 204mr15655963ywf.441.1571144767094; 
+	Tue, 15 Oct 2019 06:06:07 -0700 (PDT)
+Received: from aatir-VirtualBox.ibmmobiledemo.com ([170.225.9.143])
+	by smtp.gmail.com with ESMTPSA id
+	l24sm5537827ywh.108.2019.10.15.06.06.05
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 15 Oct 2019 06:06:06 -0700 (PDT)
+From: Aatir <aatrapps@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Oct 2019 08:05:51 -0500
+Message-Id: <20191015130551.32707-1-aatrapps@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] devtool: nlohmann-fifo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,62 +54,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2019 11:45:52 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 15 Oct 2019 13:06:06 -0000
 
-On Tue, Oct 15, 2019 at 10:27:27AM +0200, Richard Purdie wrote:
-> On Tue, 2019-10-15 at 10:00 +0200, Mattias Hansson wrote:
-> > do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
-> > However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
-> > which sometimes causes a build error when building a recipe that adds
-> > groups.
-> > 
-> > This issue only occurs when executing do_prepare_recipe_sysroot for a
-> > recipe that adds groups before finishing a task that depends on pseudo
-> > for a recipe that doesn't add groups.
-> > 
-> > Signed-off-by: Mattias Hansson <mattihn@axis.com>
-> > ---
-> >  meta/classes/base.bbclass | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> > index d3184ecf7b..1cea3a2213 100644
-> > --- a/meta/classes/base.bbclass
-> > +++ b/meta/classes/base.bbclass
-> > @@ -482,6 +482,7 @@ python () {
-> >      # If we're building a target package we need to use fakeroot (pseudo)
-> >      # in order to capture permissions, owners, groups and special files
-> >      if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
-> > +        d.appendVarFlag('do_prepare_recipe_sysroot', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
-> >          d.setVarFlag('do_unpack', 'umask', '022')
-> >          d.setVarFlag('do_configure', 'umask', '022')
-> >          d.setVarFlag('do_compile', 'umask', '022')
-> 
-> This was posted once already and the answer is still no, we do not want
-> to add pseudo as a dependency for all sysroot construction. IO under
-> pseudo is much slower and this is a very IO intensive task so it would
-> hurt performance and isn't necessary in most cases.
-> 
-> I appreciate its harder but we need to find a better more targeted way
-> to solve this and some of the other related pseudo issues for inter
-> dependent user/groups.
-> 
-> Cheers,
-> 
-> RIchard
-> 
+From: Tekkub <aatrapps@gmail.com>
 
-Sorry for the confusion, but this is a different patch. The previous
-forced do_prepare_recipe_sysroot to run in a fakerooted environment.
-This caused a performance degrade and was therefore rejected, if I
-understood you correctly.
+Adding nlohmann-fifo, a c++ header library for fifo maps.
 
-This patch will only declare fakeroot-native as a dependency and only
-cause pseudo to be available during do_prepare_recipe_sysroot. This
-should not cause the task to run in a fakerooted environment, is this a
-valid assumption?
+Signed-off-by: Aatir <aatrapps@gmail.com>
 
-/Mattias
+ Author:    Aatir <aatrapps@gmail.com>
+---
+ .../nlohmann-fifo/nlohmann-fifo_git.bb        | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb
+
+diff --git a/meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb b/meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb
+new file mode 100644
+index 000000000..afab2eac4
+--- /dev/null
++++ b/meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb
+@@ -0,0 +1,22 @@
++SUMMARY = "fifo maps for c++"
++HOMEPAGE = "/"
++SECTION = "libs"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE.MIT;md5=b67209a1e36b682a8226de19d265b1e0"
++
++SRC_URI = "git://github.com/nlohmann/fifo_map.git"
++
++PV = "1.0.0+git${SRCPV}"
++
++SRCREV = "0dfbf5dacbb15a32c43f912a7e66a54aae39d0f9"
++
++S = "${WORKDIR}/git"
++
++RDEPENDS_${PN}-dev = ""
++
++BBCLASSEXTEND = "native nativesdk"
++
++do_install() {
++    install -d ${D}${includedir}
++    install -m 0644 ${S}/src/fifo_map.hpp ${D}${includedir}/fifo_map.hpp
++}
+-- 
+2.17.1
+
 
