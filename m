@@ -1,57 +1,54 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9377B7F2F8
+Return-Path: <mattias.hansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DD5007F353
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 07:46:49 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id q12so13664048lfc.11
+	Tue, 15 Oct 2019 08:09:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 41AE91834A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 00:46:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=eewjS8wQMyQzSLp4nNZ1QPGo6ZX6aKXJugM7jamY3BE=;
-	b=JqEHu7EMSLDjGGV1FxYf98mFUjZeV4smlCg+hUrv8xZI4+VMfdiPZUkJ03uPtYUqll
-	Be9TNwrJfA4PrnHrFPhUKZnPotZsiJNkf+yIdhIjh8S5Q8bCER6+aaTWjuiHjcfwxItf
-	psX8m3ZPlUNMOXW9cj78XnjKVRNjPkcdKngEOEI44b5EwIr6cQ2NWI9DNguppn3HFzOE
-	aowCCiyOp6Q50LG4QhTWB1E6W8JCvR92HQhjN8THO9QYkZxo/omxkEjwwgOD1LWqK97o
-	NyiHlTIeevp9bum5xYvJXUfUQzDGumdGDLP88nKrwJ72hWfRQWP8RyLVdT5J5o4MvSPh
-	hj9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=eewjS8wQMyQzSLp4nNZ1QPGo6ZX6aKXJugM7jamY3BE=;
-	b=BmviDxbDwOfucDbwqbsP5NIbnjLnWWiUSAhhJqIiLHVcfh7wR/DlCYVk/GzQElb2Lq
-	a67BTshPbtX5sUQDA10pIR/MyqT2akTP09Mnz4x9BiCrxrFcYwopk64ijG9QxZaA52Xv
-	b8pBrs3FwwWpwOMbIh4IIxRPDJQ4XASvx+wAX17SIDyvdhgXjgBiBjYORnvDNnQsU2ct
-	ql90OXacSTeydGLzR1T+nA3rwajtoG1joy6TIV/RKgiZLL3HrdgoJAOWiwltjsnMgYQ3
-	RA2f0l67gNh8NG6bI2N4SmnMdY07IoQjaaTZir1U9NwwCKWmwdZcvLew3xvg/jbDIaYS
-	cPDw==
-X-Gm-Message-State: APjAAAXveuGeRMEV/nuPgkbfKXL/4qqUSgh0d7111eK3AtCuRPZ66eVL
-	e5tJ7BwGhj1c2dAP1tAZW+SMbb42DLA=
-X-Google-Smtp-Source: APXvYqxI+4WJd2rDXHTTIHbPvLBOJ9Z48ZOs7dCq6ztkHLisPawTQi8R8BrReNtboWTvG/IMTrPUNA==
-X-Received: by 2002:ac2:5a06:: with SMTP id q6mr18694046lfn.59.1571125609604; 
-	Tue, 15 Oct 2019 00:46:49 -0700 (PDT)
-Received: from [192.168.51.70] ([213.185.29.22])
-	by smtp.gmail.com with ESMTPSA id v1sm4805780lji.89.2019.10.15.00.46.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Oct 2019 00:46:48 -0700 (PDT)
-To: Dan Callaghan <dan.callaghan@opengear.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <20191015054827.7103-1-dan.callaghan@opengear.com>
-	<20191015061510.21803-1-dan.callaghan@opengear.com>
-	<e41fa2a4-1744-993c-d38a-f98229726251@gmail.com>
-	<1571123420-sup-6304@galangal.danc.bne.opengear.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Message-ID: <ed8679a7-9f6c-b759-1eb2-95fffd33c222@gmail.com>
-Date: Tue, 15 Oct 2019 09:46:48 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	Tue, 15 Oct 2019 10:09:40 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id kg0c4BwZ3XZN
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2019 10:09:39 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 5D7A31833E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2019 10:09:39 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 475DC1E074
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2019 10:09:39 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3BB311E070
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2019 10:09:39 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2019 10:09:39 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id 2EC3A216A
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2019 10:09:39 +0200 (CEST)
+Received: from lnxmattihn.se.axis.com (10.0.5.60) by XBOX04.axis.com
+	(10.0.5.18) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Tue, 15 Oct 2019 10:09:39 +0200
+From: Mattias Hansson <mattias.hansson@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Oct 2019 10:00:15 +0200
+Message-ID: <20191015080015.1574-1-mattihn@axis.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <1571123420-sup-6304@galangal.danc.bne.opengear.com>
-Subject: Re: [PATCH v2] elfutils: add PACKAGECONFIG for compression algorithms
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX04.axis.com (10.0.5.18)
+X-TM-AS-GCONF: 00
+Cc: Mattias Hansson <mattihn@axis.com>
+Subject: [PATCH] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,78 +61,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2019 07:46:50 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Oct 2019 08:09:40 -0000
+Content-Type: text/plain
 
-Den 2019-10-15 kl. 09:21, skrev Dan Callaghan:
-> Excerpts from Jacob Kroon's message of 2019-10-15 08:59:56 +02:00:
->> Den 2019-10-15 kl. 08:15, skrev Dan Callaghan:
->>> @@ -46,8 +46,12 @@ SRC_URI[sha256sum]
->>> = "fa489deccbcae7d8c920f60d85906124c1989c591196d90e0fd668e3dc
->>>
->>>    inherit autotools gettext ptest
->>>
->>> -EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
->>> -EXTRA_OECONF_append_class-native = " --without-bzlib"
->>> +EXTRA_OECONF = "--program-prefix=eu-"
->>> +
->>> +PACKAGECONFIG ??= "bzip2"
->>> +PACKAGECONFIG[bzip2] = "--with-bzlib,--without-bzlib,bzip2"
->>> +PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
->>> +
->>>    RDEPENDS_${PN}-ptest += "libasm libelf bash make coreutils ${PN}-binutils"
->>>
->>>    EXTRA_OECONF_append_class-target += "--disable-tests-rpath"
->>>
->>
->> If I get it correctly, previously the recipe depended on bzip2, but for
->> native it was actually disabled at configure time. Can't we just skip it
->> for native then, since it hasn't been required sofar ?
->>
->> You can do
->>
->> PACKAGECONFIG_class-native = ""
-> 
-> Yes true, that would work, although it seems like needless complication
-> to have different build configurations for the target recipe and native
-> variant.
-> 
+do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
+However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
+which sometimes causes a build error when building a recipe that adds
+groups.
 
-Lots of recipes do this. I personally think its ok if it helps keeping 
-build times down by avoiding unnecessary deps.
+This issue only occurs when executing do_prepare_recipe_sysroot for a
+recipe that adds groups before finishing a task that depends on pseudo
+for a recipe that doesn't add groups.
 
-> Anyway, I figured out why the --without-bzlib was originally added for
-> the native variant. The commit message wasn't clear to me, but I have
-> seen the problem in action now.
-> 
-> I saw that elfutils-native correctly depends on bzip2-native, and the
-> build worked on my PC. But it was actually the host bzip2 library
-> leaking into the build.
-> 
-> Poky has "bzip2-native" in ASSUME_PROVIDED. Presumably, this is because
-> bzip2 (the command line program) is a required host tool and so there is
-> no need to build bzip2-native just to get a working bzip2 program.
-> 
-> However that also means that bzip2-native libraries and headers are
-> silently omitted from the recipe-sysroot-native for elfutils-native,
-> even though it depends on bzip2-native. On our Jenkins, which has a very
-> minimal build environment and lacks the bzip2 headers, elfutils-native
-> fails to configure:
-> 
->      | checking for library containing BZ2_bzdopen... no
->      | configure: error: missing -lbz2 for --with-bzlib
-> 
-> It seems to me the real problem here is that "bzip2-native" does not
-> really belong in ASSUME_PROVIDED. Recipes can assume that the host
-> provides the bzip2 *command* but not necessarily its headers and
-> libraries.
-> 
+Signed-off-by: Mattias Hansson <mattihn@axis.com>
+---
+ meta/classes/base.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-Maybe try removing bzip2-native from ASSUME_PROVIDED in your local 
-jenkins builds ? Something like 'ASSUME_PROVIDED_remove = 
-"bzip2-native"' in local.conf.
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index d3184ecf7b..1cea3a2213 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -482,6 +482,7 @@ python () {
+     # If we're building a target package we need to use fakeroot (pseudo)
+     # in order to capture permissions, owners, groups and special files
+     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
++        d.appendVarFlag('do_prepare_recipe_sysroot', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
+         d.setVarFlag('do_unpack', 'umask', '022')
+         d.setVarFlag('do_configure', 'umask', '022')
+         d.setVarFlag('do_compile', 'umask', '022')
+-- 
+2.11.0
 
-Jacob
 
