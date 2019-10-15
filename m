@@ -1,52 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 38AF07D084
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 970817C85D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 08:27:29 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id i16so19797747wmd.3
+	Tue, 15 Oct 2019 08:42:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9F8gdsM018443
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 01:27:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=av0grmyx4CfB2bw/e87ZPI8EqGIgnUiHi0MbKEOwf6k=;
-	b=EXoZZz8uLP9ZAt4+0SNbvMcAzZ9lJkvvM++1kOTZK0sEuiUKDl4mXdGa2Y3vEoTikx
-	BGXL2reKHVwc+HUE3GwfElq1UgHpqUzGC/iOGCTChMYkfFMkBYSSLfrwdyoFI9kh6eXK
-	xiIFijQeqz9DZXRSmTJwByq3VmZQHBnJOlLW0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=av0grmyx4CfB2bw/e87ZPI8EqGIgnUiHi0MbKEOwf6k=;
-	b=oAKELoy5WKGB1Z060T/Nn7cBq6hGtpDR3VLyhVamWuHDUzSWhEL78yVQP5RM5agZQq
-	tT/kZ5SltQi/vGC2UrE8HwnKBtiphxW/Yzpmj/1zKoQo0vVhAQnJmmMsgUKNmynwEy/Q
-	v+2GzVAUyUMmX/il8g9pMv5qfkAbxCwwJ/NiId3MXlIG96H8VDb7WVkz/38mIuZziQ5r
-	LeMY2NM2a5OAWxojzDKUDM5J62hwQkRD9q7E3zbjDwHThby8cjFV53ogf8S5CCajFfaQ
-	09pGm8RAIS+OQ8mRs9KdvB3ABXkZyZIp+zFfgm0rr5ebn5OGOM18JHQ+mqMaqYFFfEok
-	x51A==
-X-Gm-Message-State: APjAAAWucQyCF2mVNg46DMTukBFuBX8BkL1CiA37S7YaM5VtbzX8Yo/4
-	TF+MKKYkYUzcBXfJ9z5CognHgg==
-X-Google-Smtp-Source: APXvYqybya/u9iYpYginEdA5lv/gzhLyt7yxUv/eFTTjl3hN/HUsc09v11IWUBJHMO+oN0lyiOs9gw==
-X-Received: by 2002:a7b:cab1:: with SMTP id r17mr17873911wml.106.1571128049837;
-	Tue, 15 Oct 2019 01:27:29 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	74sm14295100wrm.92.2019.10.15.01.27.28
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 15 Oct 2019 01:27:28 -0700 (PDT)
-Message-ID: <1d2a14032ca81a0e9acee21ba66c8e4cb7d5c950.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mattias Hansson <mattias.hansson@axis.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 15 Oct 2019 09:27:27 +0100
-In-Reply-To: <20191015080015.1574-1-mattihn@axis.com>
-References: <20191015080015.1574-1-mattihn@axis.com>
-User-Agent: Evolution 3.34.1-2 
+	Tue, 15 Oct 2019 01:42:40 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Tue, 15 Oct 2019 01:42:38 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Oct 2019 16:42:37 +0800
+Message-ID: <20191015084237.10090-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Cc: Mattias Hansson <mattihn@axis.com>
-Subject: Re: [PATCH] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
+Subject: [PATCH] sqlite3: fix CVE-2019-16168
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,49 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2019 08:27:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Oct 2019 08:42:39 -0000
+Content-Type: text/plain
 
-On Tue, 2019-10-15 at 10:00 +0200, Mattias Hansson wrote:
-> do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
-> However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
-> which sometimes causes a build error when building a recipe that adds
-> groups.
-> 
-> This issue only occurs when executing do_prepare_recipe_sysroot for a
-> recipe that adds groups before finishing a task that depends on pseudo
-> for a recipe that doesn't add groups.
-> 
-> Signed-off-by: Mattias Hansson <mattihn@axis.com>
-> ---
->  meta/classes/base.bbclass | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index d3184ecf7b..1cea3a2213 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -482,6 +482,7 @@ python () {
->      # If we're building a target package we need to use fakeroot (pseudo)
->      # in order to capture permissions, owners, groups and special files
->      if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
-> +        d.appendVarFlag('do_prepare_recipe_sysroot', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
->          d.setVarFlag('do_unpack', 'umask', '022')
->          d.setVarFlag('do_configure', 'umask', '022')
->          d.setVarFlag('do_compile', 'umask', '022')
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../files/0001-Fix-CVE-2019-16168.patch       | 40 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.29.0.bb |  3 +-
+ 2 files changed, 42 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
 
-This was posted once already and the answer is still no, we do not want
-to add pseudo as a dependency for all sysroot construction. IO under
-pseudo is much slower and this is a very IO intensive task so it would
-hurt performance and isn't necessary in most cases.
-
-I appreciate its harder but we need to find a better more targeted way
-to solve this and some of the other related pseudo issues for inter
-dependent user/groups.
-
-Cheers,
-
-RIchard
+diff --git a/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch b/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
+new file mode 100644
+index 0000000000..7c4a65b3cd
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
+@@ -0,0 +1,40 @@
++From fcf06b0b426e6c243d6ca2d6c6a02830717ab6a3 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Tue, 15 Oct 2019 13:22:52 +0800
++Subject: [PATCH] Fix CVE-2019-16168
++
++CVE: CVE-2019-16168
++
++Upstream-Status: Backport [https://www.sqlite.org/src/vpatch?from=4f5b2d938194fab7&to=98357d8c1263920b]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ sqlite3.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 61bfdeb..b3e6ae2 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -105933,7 +105933,9 @@ static void decodeIntArray(
++       if( sqlite3_strglob("unordered*", z)==0 ){
++         pIndex->bUnordered = 1;
++       }else if( sqlite3_strglob("sz=[0-9]*", z)==0 ){
++-        pIndex->szIdxRow = sqlite3LogEst(sqlite3Atoi(z+3));
+++        int sz = sqlite3Atoi(z+3);
+++        if( sz<2 ) sz = 2;
+++        pIndex->szIdxRow = sqlite3LogEst(sz);
++       }else if( sqlite3_strglob("noskipscan*", z)==0 ){
++         pIndex->noSkipScan = 1;
++       }
++@@ -143260,6 +143262,7 @@ static int whereLoopAddBtreeIndex(
++     ** it to pNew->rRun, which is currently set to the cost of the index
++     ** seek only. Then, if this is a non-covering index, add the cost of
++     ** visiting the rows in the main table.  */
+++    assert( pSrc->pTab->szTabRow>0 );
++     rCostIdx = pNew->nOut + 1 + (15*pProbe->szIdxRow)/pSrc->pTab->szTabRow;
++     pNew->rRun = sqlite3LogEstAdd(rLogSize, rCostIdx);
++     if( (pNew->wsFlags & (WHERE_IDX_ONLY|WHERE_IPK))==0 ){
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
+index 07e36bede7..34066fbe89 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
+@@ -3,6 +3,7 @@ require sqlite3.inc
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+ 
+-SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
++           file://0001-Fix-CVE-2019-16168.patch"
+ SRC_URI[md5sum] = "8f3dfe83387e62ecb91c7c5c09c688dc"
+ SRC_URI[sha256sum] = "8e7c1e2950b5b04c5944a981cb31fffbf9d2ddda939d536838ebc854481afd5b"
+-- 
+2.17.1
 
 
