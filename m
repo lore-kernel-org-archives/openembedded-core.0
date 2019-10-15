@@ -1,18 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 812657F455;
-	Tue, 15 Oct 2019 16:32:26 +0000 (UTC)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7665A7F455
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2019 16:36:44 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id j19so20977148lja.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2019 09:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=eCVtaD+WgdZ5i+772r3+2+4qK276NDn7NrIuo9LG2C4=;
+	b=G/dbl3olyq6lsRbhgeOWZVrNj//uqF2oVMvEXUAGjJyCatW8mDBh262x6mYXndYAfg
+	kngrg2ddIfUPS/xQjL7Xbvxcc1PLj4k0gMT1avULvOsG4U8BhU4DM3lD0d3vKzZ6R1sQ
+	469tln44+kRNmBn/Lt26RsGkPOuHgnlXVmrj3yL9DOwP5Fo1OFeue/4A3S1NEbQ40X4b
+	rntzCs2+A6MLUV5PXcMWUXM/uceABOgJEJH+Ply82TK5WQgNFZhLYAt6YTYIv7WhVCDd
+	Eg/d34/I+KntxcGazn2yEud32AlPtaUnpmg9VszoRYKBsheFSJeDY+84W18jxX231t2N
+	kqLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=eCVtaD+WgdZ5i+772r3+2+4qK276NDn7NrIuo9LG2C4=;
+	b=pUoB8NX3wYKOcgaDOVNGo0wE4V/Z8PI7bgVBJ2BaiEVd1FSx1rh7Ol6ERFlpNZw7K9
+	FL4UWTPepL3Pvezg3hAzqQlGPBcb1A3zioH2IzS2w7kP5oZ8b4aicBT578K+3a8aBBcR
+	zm5wDgacbS/kAFV1tcDL9vITSJLpxdxHwbZKLDPYAzsqxP3BS2ZpceRv0SGErWPAz6v5
+	w+7Mx3yuADt6gDhYOr5QK7lslMgdUivN8J8LUJ5ic3xcM903jUAWvPx4l3Zqe1dMZORK
+	qOywq5Wd6q5JiJQOqvIXiNtGTfTCvCflDVM5JnAroAJGo4cICipCv4yotpK+Rw80yna0
+	wnNA==
+X-Gm-Message-State: APjAAAVR2A6pLvwZhE29NXP/WwTv/GPjmlKzHaYv0zpdoWI/UIckB3j2
+	ro+3QmcE7tnHa3QmPC2X+2u7qjDO27ToewpuMyc=
+X-Google-Smtp-Source: APXvYqzKILhJJLL0uEyn2Es8KJbI63+LexBpb7yrX81jCPqc9s9mPrjLTLfW0QKtrakHxwuP6x2KbKbWktEexA/RZ/Q=
+X-Received: by 2002:a2e:63c7:: with SMTP id s68mr23393863lje.244.1571157404869;
+	Tue, 15 Oct 2019 09:36:44 -0700 (PDT)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: shuagr97@gmail.com
-Date: Tue, 15 Oct 2019 16:32:28 -0000
-Message-ID: <20191015163228.2332.69422@do>
-References: <1571156803-117298-1-git-send-email-shuagr@microsoft.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1571156803-117298-1-git-send-email-shuagr@microsoft.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3FsaXRlMzogQ1ZFIGZpeCAocmV2Mik=?=
+References: <20190802023302.28370-1-bruce.ashfield@gmail.com>
+	<9b6d2e15-1561-a13d-7337-afb4c8f63608@windriver.com>
+	<CADkTA4NqO7YZrR_Aioy32B18veCTQNNsMOkYrLzJgb3zA9SNqw@mail.gmail.com>
+In-Reply-To: <CADkTA4NqO7YZrR_Aioy32B18veCTQNNsMOkYrLzJgb3zA9SNqw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 15 Oct 2019 12:36:33 -0400
+Message-ID: <CADkTA4Mh=nsPxkZnP6MPfPHaDGh8uAPc_=yyEKj_u1A0AY7m7w@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-yocto-dev: bump to 5.3-rcX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,54 +56,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2019 16:32:26 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Oct 2019 16:36:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+On Tue, Oct 15, 2019 at 12:31 PM Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+>
+> On Tue, Oct 15, 2019 at 12:25 PM Randy MacLeod
+> <randy.macleod@windriver.com> wrote:
+> >
+> > On 8/1/19 10:33 PM, bruce.ashfield@gmail.com wrote:
+> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > >
+> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > ---
+> > >   meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> >
+> >
+> > > index 8c83620d39..96117ccf3f 100644
+> > > --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> > > +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> > > @@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
+> > >   SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+> > >   SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+> > >
+> > > -LINUX_VERSION ?= "5.2-rc+"
+> > > +LINUX_VERSION ?= "5.3-rc+"
+> > >   LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+> > >   PV = "${LINUX_VERSION}+git${SRCPV}"
+> > >
+> > >
+> >
+> > Should this recipe be dropped from releas branches such as
+> > warrior and zeus?
+>
+> I wouldn't bother, since it has never caused any issues in the past.
+> If someone wants to worth with a newer kernel on an older branch, it
+> provides a mechanism to do so. We get patches from time to time as
+> people do try and use newer kernels on those branches, so it isn't
+> uncommon.
 
-Series: sqlite3: CVE fix (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/20461/
-State : failure
+That being said, if someone wants to delete it on the release branches
+(or suggest another mechanism to inhibit it on non-master), I wouldn't
+object either
 
-== Summary ==
+Bruce
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [thud,v2] sqlite3: CVE fix
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-* Patch            [thud,v2] sqlite3: CVE fix
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-support/sqlite/files/CVE-2019-16168.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-support/sqlite/files/CVE-2019-16168.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+>
+> Bruce
+>
+> >
+> > Doing so would ensure that users understand that the -dev kernel is
+> > really only for development on the master branch.
+> >
+> > --
+> > # Randy MacLeod
+> > # Wind River Linux
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 
 
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
