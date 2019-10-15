@@ -1,59 +1,28 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 720437F456
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B4FD7F455
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 16:22:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 8884B18317;
-	Tue, 15 Oct 2019 18:22:46 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id FFEvhwbOV7Rk; Tue, 15 Oct 2019 18:22:45 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 82FF81836A;
-	Tue, 15 Oct 2019 18:22:45 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 71D1E1E080;
-	Tue, 15 Oct 2019 18:22:45 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 662241E07E;
-	Tue, 15 Oct 2019 18:22:45 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue, 15 Oct 2019 18:22:45 +0200 (CEST)
-Received: from XBOX08.axis.com (xbox08.axis.com [10.0.15.178])
-	by seth.se.axis.com (Postfix) with ESMTP id 59EAE2E44;
-	Tue, 15 Oct 2019 18:22:45 +0200 (CEST)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX08.axis.com (10.0.15.178)
-	with Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Tue, 15 Oct 2019 18:22:45 +0200
-Received: from XBOX03.axis.com (10.0.5.17) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Tue, 15 Oct 2019 18:22:45 +0200
-Received: from XBOX03.axis.com ([fe80::e49e:4060:87cc:61a]) by XBOX03.axis.com
-	([fe80::e49e:4060:87cc:61a%22]) with mapi id 15.00.1365.000;
-	Tue, 15 Oct 2019 18:22:44 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Aatir <aatrapps@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] devtool: nlohmann-fifo
-Thread-Index: AQHVg1lbZulO8oO40ESt2J9lUQkBqqdb4EvA
-Date: Tue, 15 Oct 2019 16:22:44 +0000
-Message-ID: <39a0c511bec44716a8be051b6d691b0d@XBOX03.axis.com>
-References: <20191015130551.32707-1-aatrapps@gmail.com>
-In-Reply-To: <20191015130551.32707-1-aatrapps@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue, 15 Oct 2019 16:25:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9FGPMZg030814
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 15 Oct 2019 09:25:23 -0700
+Received: from [172.25.44.5] (172.25.44.5) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 15 Oct 2019 09:25:21 -0700
+To: <bruce.ashfield@gmail.com>, <richard.purdie@linuxfoundation.org>
+References: <20190802023302.28370-1-bruce.ashfield@gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <9b6d2e15-1561-a13d-7337-afb4c8f63608@windriver.com>
+Date: Tue, 15 Oct 2019 12:25:20 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] devtool: nlohmann-fifo
+In-Reply-To: <20190802023302.28370-1-bruce.ashfield@gmail.com>
+X-Originating-IP: [172.25.44.5]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] linux-yocto-dev: bump to 5.3-rcX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,87 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2019 16:22:46 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 15 Oct 2019 16:25:25 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-This was sent to the wrong mailing list. Please send it to=20
-openembedded-devel@lists.openembedded.org instead (no idea why=20
-patchwork is not complaining).=20
-
-See further comments below.
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Aatir
-> Sent: den 15 oktober 2019 15:06
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] devtool: nlohmann-fifo
-
-Change the subject to something like this instead:
-
-nlohmann-fifo: Add recipe
-
->=20
-> From: Tekkub <aatrapps@gmail.com>
->=20
-> Adding nlohmann-fifo, a c++ header library for fifo maps.
->=20
-> Signed-off-by: Aatir <aatrapps@gmail.com>
->=20
->  Author:    Aatir <aatrapps@gmail.com>
-
-Remove the Author footer.
-
+On 8/1/19 10:33 PM, bruce.ashfield@gmail.com wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> 
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 > ---
->  .../nlohmann-fifo/nlohmann-fifo_git.bb        | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
->  create mode 100644 meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_=
-git.bb
->=20
-> diff --git a/meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb =
-b/meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb
-> new file mode 100644
-> index 000000000..afab2eac4
-> --- /dev/null
-> +++ b/meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb
-> @@ -0,0 +1,22 @@
-> +SUMMARY =3D "fifo maps for c++"
-> +HOMEPAGE =3D "/"
+>   meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
 
-Change to:
 
-HOMEPAGE =3D "https://github.com/nlohmann/fifo_map"
+> index 8c83620d39..96117ccf3f 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> @@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
+>   SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+>   SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+>   
+> -LINUX_VERSION ?= "5.2-rc+"
+> +LINUX_VERSION ?= "5.3-rc+"
+>   LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+>   PV = "${LINUX_VERSION}+git${SRCPV}"
+>   
+> 
 
-> +SECTION =3D "libs"
-> +LICENSE =3D "MIT"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE.MIT;md5=3Db67209a1e36b682a8226de19d=
-265b1e0"
-> +
-> +SRC_URI =3D "git://github.com/nlohmann/fifo_map.git"
-> +
-> +PV =3D "1.0.0+git${SRCPV}"
-> +
-> +SRCREV =3D "0dfbf5dacbb15a32c43f912a7e66a54aae39d0f9"
-> +
-> +S =3D "${WORKDIR}/git"
-> +
-> +RDEPENDS_${PN}-dev =3D ""
-> +
-> +BBCLASSEXTEND =3D "native nativesdk"
-> +
-> +do_install() {
-> +    install -d ${D}${includedir}
-> +    install -m 0644 ${S}/src/fifo_map.hpp ${D}${includedir}/fifo_map.hpp
+Should this recipe be dropped from releas branches such as
+warrior and zeus?
 
-Remove "/fifo_map.hpp" at the end since the target file name matches=20
-the source file name.
+Doing so would ensure that users understand that the -dev kernel is
+really only for development on the master branch.
 
-> +}
-> --
-> 2.17.1
-
-//Peter
-
+-- 
+# Randy MacLeod
+# Wind River Linux
 
