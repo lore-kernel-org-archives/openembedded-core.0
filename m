@@ -1,47 +1,29 @@
-Return-Path: <aatrapps@gmail.com>
-Received: from mail-yw1-f66.google.com (mail-yw1-f66.google.com
-	[209.85.161.66])
-	by mail.openembedded.org (Postfix) with ESMTP id AA16F79C7C
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E48F79C7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 13:06:06 +0000 (UTC)
-Received: by mail-yw1-f66.google.com with SMTP id x64so7313865ywg.3
+	Tue, 15 Oct 2019 13:18:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9FDJ0FZ026188
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 06:06:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=WB2aoqtVw6eJdbGP/fuC2qaONcjijVvSRsW1QupD1u0=;
-	b=aEklp4Mww9WnDF4hTD9OREMliHf3p2kP4dY8ZQX+6dJBfaEd4lAazu+Rr/vV/PCgus
-	PDsZbsTP2SWRQ+vloAbkvyQE88shJh+rCw4ijhwip03NrkWF6wcCpDhce8iyGiXXeu3n
-	57dHwr3w4RHak3kKfPx0TSvqw/lySmvG9PC2rG/Ji08VXo6LMuahcbDClGunROLpeM5j
-	rbBQcqTfGOwGA+SN5a9lAU2T5gCFO8uzKF4tWpbjIhqZ8IDItdDLCQlIvFkGfJBvqDi7
-	0k/0AgJJJp36E+nQJISDWwryG21KubESwjiLyCylJYqqGinahFS537CqnzDiYgN9yReo
-	MUYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=WB2aoqtVw6eJdbGP/fuC2qaONcjijVvSRsW1QupD1u0=;
-	b=n5g7KevWz4zWae878TeVeOG0AJ3eGVNBl1KJiX5uQKHUP7U5AZdrRX5GcPCtz0x5rf
-	HJesXoNv3zqWkv9iab9uUuQXj6a8t9D/UzGAPbaq0Xm0C9/gWEV6PISuhHjfVAMvWVkc
-	l9OeKDf8JYC/J36jwxZwED5L5vIdPNbyqlyUNkxFC/jA1JwkFDUWutbGSP6ub7tjpcw1
-	0O0Eqs3TgcH7TZctR0jfKKjCZZXFBOcMJSc2rUZU+aK9xtVqx2Y31ZgqFcMwKFxRmbX1
-	LVDixSOgIn9zg3sWErlkp9d8N9FtAOW1s8PCA9b4q8uAFeOz+R+Qxbk2ALJCRzngFSJ4
-	rbUg==
-X-Gm-Message-State: APjAAAW4K4QGVLl3GZogn1LL4gRtzvJGCy+8eQlJYTRT3bDbM1RhQjpZ
-	4R4Pc/nsk9uTien1bGPgkl2ew4vS
-X-Google-Smtp-Source: APXvYqwO9saSzrUdCQ8YmwqOzJ7Rv6fz/ikJyggW1Age5EOx10h9LCTtztTd6+Y7RdJH3A8rY4iyvg==
-X-Received: by 2002:a81:5d5:: with SMTP id 204mr15655963ywf.441.1571144767094; 
-	Tue, 15 Oct 2019 06:06:07 -0700 (PDT)
-Received: from aatir-VirtualBox.ibmmobiledemo.com ([170.225.9.143])
-	by smtp.gmail.com with ESMTPSA id
-	l24sm5537827ywh.108.2019.10.15.06.06.05
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 15 Oct 2019 06:06:06 -0700 (PDT)
-From: Aatir <aatrapps@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Oct 2019 08:05:51 -0500
-Message-Id: <20191015130551.32707-1-aatrapps@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] devtool: nlohmann-fifo
+	Tue, 15 Oct 2019 06:19:00 -0700
+Received: from [128.224.56.208] (128.224.56.208) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 15 Oct 2019 06:18:59 -0700
+To: Robert Yang <liezhi.yang@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1571129436.git.liezhi.yang@windriver.com>
+	<f25dc9d8cf72566819e6bf3b55ee987ca80adb3e.1571129436.git.liezhi.yang@windriver.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <03d2e12e-c62c-a1c0-a07d-10ae456da270@windriver.com>
+Date: Tue, 15 Oct 2019 09:18:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <f25dc9d8cf72566819e6bf3b55ee987ca80adb3e.1571129436.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/1] weston: Fix PACKAGECONFIG for remoting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,49 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2019 13:06:06 -0000
+X-List-Received-Date: Tue, 15 Oct 2019 13:19:00 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-From: Tekkub <aatrapps@gmail.com>
+On 10/15/19 4:51 AM, Robert Yang wrote:
 
-Adding nlohmann-fifo, a c++ header library for fifo maps.
+> Fix a typo: gstreamer-1.0 -> gstreamer1.0.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/recipes-graphics/wayland/weston_7.0.0.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/wayland/weston_7.0.0.bb b/meta/recipes-graphics/wayland/weston_7.0.0.bb
+> index d212754..02d724a 100644
+> --- a/meta/recipes-graphics/wayland/weston_7.0.0.bb
+> +++ b/meta/recipes-graphics/wayland/weston_7.0.0.bb
+> @@ -64,7 +64,7 @@ PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-color
+>   # Clients support
+>   PACKAGECONFIG[clients] = "-Dsimple-clients=all -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
+>   # Virtual remote output with GStreamer on DRM backend
+> -PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer-1.0"
+> +PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer1.0"
+>   # Weston with PAM support
+>   PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam"
+>   
 
-Signed-off-by: Aatir <aatrapps@gmail.com>
+You'll need to add gstreamer1.0-plugins-base as well if it is going to 
+successfully build, i.e. the line should be
 
- Author:    Aatir <aatrapps@gmail.com>
----
- .../nlohmann-fifo/nlohmann-fifo_git.bb        | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb
+PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer1.0 gstreamer1.0-plugins-base"
 
-diff --git a/meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb b/meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb
-new file mode 100644
-index 000000000..afab2eac4
---- /dev/null
-+++ b/meta-oe/recipes-devtools/nlohmann-fifo/nlohmann-fifo_git.bb
-@@ -0,0 +1,22 @@
-+SUMMARY = "fifo maps for c++"
-+HOMEPAGE = "/"
-+SECTION = "libs"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE.MIT;md5=b67209a1e36b682a8226de19d265b1e0"
-+
-+SRC_URI = "git://github.com/nlohmann/fifo_map.git"
-+
-+PV = "1.0.0+git${SRCPV}"
-+
-+SRCREV = "0dfbf5dacbb15a32c43f912a7e66a54aae39d0f9"
-+
-+S = "${WORKDIR}/git"
-+
-+RDEPENDS_${PN}-dev = ""
-+
-+BBCLASSEXTEND = "native nativesdk"
-+
-+do_install() {
-+    install -d ${D}${includedir}
-+    install -m 0644 ${S}/src/fifo_map.hpp ${D}${includedir}/fifo_map.hpp
-+}
--- 
-2.17.1
+Otherwise, you'll run into do_package_qa errors.
 
 
