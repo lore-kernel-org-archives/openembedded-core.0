@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 694337F360
+Return-Path: <ross.burton@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 11C6F7D088
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 08:50:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9F8otmS000123
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 01:50:55 -0700 (PDT)
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 15 Oct 2019 01:50:55 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Oct 2019 16:51:11 +0800
-Message-ID: <f25dc9d8cf72566819e6bf3b55ee987ca80adb3e.1571129436.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1571129436.git.liezhi.yang@windriver.com>
-References: <cover.1571129436.git.liezhi.yang@windriver.com>
+	Tue, 15 Oct 2019 10:50:58 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Oct 2019 03:50:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,299,1566889200"; d="scan'208";a="395488910"
+Received: from dirkbeck-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.40.171])
+	by fmsmga005.fm.intel.com with ESMTP; 15 Oct 2019 03:50:58 -0700
+To: openembedded-core@lists.openembedded.org
+References: <20191015084237.10090-1-Qi.Chen@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <5b729d37-1844-1c79-801a-d2cdb8dc36ef@intel.com>
+Date: Tue, 15 Oct 2019 11:50:58 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] weston: Fix PACKAGECONFIG for remoting
+In-Reply-To: <20191015084237.10090-1-Qi.Chen@windriver.com>
+Subject: Re: [PATCH] sqlite3: fix CVE-2019-16168
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +37,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2019 08:50:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Oct 2019 10:50:59 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Fix a typo: gstreamer-1.0 -> gstreamer1.0.
+There's a queued upgrade to 3.30 for master, is this fixed in that release?
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-graphics/wayland/weston_7.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/wayland/weston_7.0.0.bb b/meta/recipes-graphics/wayland/weston_7.0.0.bb
-index d212754..02d724a 100644
---- a/meta/recipes-graphics/wayland/weston_7.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_7.0.0.bb
-@@ -64,7 +64,7 @@ PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-color
- # Clients support
- PACKAGECONFIG[clients] = "-Dsimple-clients=all -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
- # Virtual remote output with GStreamer on DRM backend
--PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer-1.0"
-+PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer1.0"
- # Weston with PAM support
- PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam"
- 
--- 
-2.7.4
+Ross
 
 
