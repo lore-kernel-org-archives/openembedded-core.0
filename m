@@ -1,55 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 609EC7F2FD
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 866577F363
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Oct 2019 01:33:58 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id p1so11085469pgi.4
+Received: by mail-pl1-f180.google.com with SMTP id q24so8754258plr.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2019 18:33:59 -0700 (PDT)
+	Mon, 14 Oct 2019 18:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:in-reply-to:references
-	:content-transfer-encoding;
-	bh=18Yz8yrT3UZf8El6W1S/3SzuX2iUmYZfqxjkQYQ7wko=;
-	b=LGBLUsr0NwvZX4v91kVrt02QxdVLKGcLMV6noOlCPhCNzYwQqRPAQr0d+g4bHyUHIr
-	a6GQ2hhxjHOn6QznKvBYSyCs9R4UovDoNnx/jf+/8Pxd5PZ7yCHGCaBMIHYctpCMYlIM
-	LMh3HHHHU71ZvwEHCvfrtN5rgI7DRS7m/aqfhlqghaRC2SHUmQepShh5nVxLOATcoOuj
-	J2pZMi9j7h/RC6Su7dKUUDEE6pwZtOQ3OHBvcx16R4BOGH2G8bmI6m3nzjjr405FP+s2
-	Bfsc9IiPIC1ONWWn+BPpS9LfApbB/Ams7ma3rMmo+R38/26Z916Gy/IBQib/h+8TpB/t
-	wcDg==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=s4yZ5uIQ14JObVXAbMR/QCyf8ebzvVrYOMV53VVWFUg=;
+	b=pZidspMb5cgDoPDInli/Y35W9Y/Xtl4BVaLZpgTvwoNXqOqtXHDpV+67RMuvZ6IQ2d
+	BolPA7I2YINpIzcZN+bq0UTTj02QnYeedtmDZTnu7LApM2KmhWjTBuhIdK65NK2GlGyh
+	0hiZYAAFauykpR1XQj5ijA7r3fjWxm4fh87svnoXE5XQMHSaZU4oRd2RxGkYNoZYN32T
+	JTUfq91R/RPgYX78M4ye2gXcVX4GXygeBlKqZvbIlyhacnRAHYYNaJuHTnmb9PrHviae
+	jnsWPY0BaNRdHxLD3nt4HhU/AkTUE6QzGlRXB+LJLpVK6nvLSewOnKIO+W7sYczagzyp
+	UUdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:in-reply-to:references:content-transfer-encoding;
-	bh=18Yz8yrT3UZf8El6W1S/3SzuX2iUmYZfqxjkQYQ7wko=;
-	b=Btf/EaAGi2LM75n1WmkHJq3TxiRu3YRC+DhOZZbfUcK7d4TAodxQKq7lSPJ1wJ2efA
-	kFQ/OjCGPje18JHxgFL/qrho/WUY1BoK5p59YbmkXg0uw8yNNtayxXzcymhC0Bk2N8dx
-	Eexzx94ldBQJsrU1fJVbmcqfeqBTwicCsdUPxT+G72tOMmVWsQiasRqkhTUa9l+T+6bh
-	86ga74g1bXVN2KNf7t+pmaZ2FPFQNkMzUepc88GtzHnJlcUuRoE66Kv7q3bQNNpKZ+60
-	tsUgMFiLEX2n+cbbkdYIFwPatpSVwbD+i9BSMEmvHm6koXD3jS5PBV3wPQue0NCbyjRJ
-	KX4A==
-X-Gm-Message-State: APjAAAUrkaMS8A91g/aKW72qlveB+i+hzVF9bj4HgtziPjoiSHL3r+4R
-	v78kx0Kxyx+jkPWx42GPjx3jrad1
-X-Google-Smtp-Source: APXvYqzacAEUdlNCObkpVwKI0+lXMZrqmZho9WrA48CxcCYyDsucP4PLra2usWWD0k2nI6K2Zi33hQ==
-X-Received: by 2002:a17:90a:8a89:: with SMTP id
-	x9mr39507704pjn.95.1571103237948; 
-	Mon, 14 Oct 2019 18:33:57 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=s4yZ5uIQ14JObVXAbMR/QCyf8ebzvVrYOMV53VVWFUg=;
+	b=cyIhk0c9PXUfTopl1yi6DTPaByEkMIUIRBAp5NLUgTvEBMZ2E0DLSOojj5ltI7k8qK
+	RvFdaioqQw8ioJg1F+1bPoykZyAaAGTyFwsEjzyobG6ZFP18ZboBGN0fp3WEmPa7Y5qW
+	hBIDagchP83IcbjRp7THZhFn/qAdoMHEJlDCZpuw1d5Efhg/cIBOP8Mq7WpO75hiz1UP
+	VUXpoZHfykT81R77vHkJfr3ZF2rYF/YfQed6uG4t+GL6MTfZt/ik3NhRT2XRoEJdYSVw
+	AkulbByednBlJ6QvERf4eWf6KVexQsvTO4bOJagNkRxMLk+caaNSIwQv/MC4VElUfukx
+	pjMw==
+X-Gm-Message-State: APjAAAUVFpBvCPPoxAKC2ZBuP8V5FEtEnCSWCdL04++uzqjOi0P142oh
+	3J4+r75CgCOuleevPye0DJLe/LT2
+X-Google-Smtp-Source: APXvYqzawipUIPildmoz8l+dbR7mVEvTbGFhNGnIfGfYLrRiPpKPX7UCPtEuaQyZ4oozw6ykm+qjGw==
+X-Received: by 2002:a17:902:9888:: with SMTP id
+	s8mr23757656plp.193.1571103238913; 
+	Mon, 14 Oct 2019 18:33:58 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:1c7e:9ce6:b4cb:b655])
 	by smtp.gmail.com with ESMTPSA id
-	b20sm22710629pff.158.2019.10.14.18.33.57
+	b20sm22710629pff.158.2019.10.14.18.33.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 Oct 2019 18:33:57 -0700 (PDT)
+	Mon, 14 Oct 2019 18:33:58 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Oct 2019 18:33:46 -0700
-Message-Id: <54c6892543319c4b8f7248e95966e956053c97b7.1571103112.git.akuster808@gmail.com>
+Date: Mon, 14 Oct 2019 18:33:47 -0700
+Message-Id: <82a9850d6ef8cca816f9e0a53a8d20b056f95320.1571103112.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
 In-Reply-To: <cover.1571103112.git.akuster808@gmail.com>
 References: <cover.1571103112.git.akuster808@gmail.com>
-Subject: [thud 5/7] gnutls: Fix CVE-2019-3829 and CVE-2019-3836
+Subject: [thud 6/7] libsolv: Security fix for CVEs: <CVE-2018-20532, CVE-2018-20533, CVE-2018-20534>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,1045 +61,560 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 15 Oct 2019 01:33:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Dan Tran <dantran@microsoft.com>
+From: Muminul Islam <misla011@fiu.edu>
 
-Signed-off-by: Dan Tran <dantran@microsoft.com>
+Signed-off-by: Muminul Islam <muislam@microsoft.com>
+
+CVE: CVE-2018-20532 CVE-2018-20533 CVE-2018-20534
+
+Upstream-Status: Backport
+
+Cherry picked from  https://github.com/openSUSE/libsolv/pull/291/commits
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../gnutls/gnutls/CVE-2019-3829_p1.patch           |  39 +
- .../gnutls/gnutls/CVE-2019-3829_p2.patch           | 871 +++++++++++++++++++++
- .../gnutls/gnutls/CVE-2019-3829_p3.patch           |  36 +
- .../gnutls/gnutls/CVE-2019-3836.patch              |  35 +
- meta/recipes-support/gnutls/gnutls_3.6.4.bb        |   4 +
- 5 files changed, 985 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p1.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p2.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p3.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2019-3836.patch
+ .../0003-Fix-Dereference-of-null-pointer.patch     |  33 +++++
+ .../0004-Fix-Add-va_end-before-return.patch        |  36 +++++
+ .../libsolv/libsolv/0005-Fix-Memory-leaks.patch    | 158 +++++++++++++++++++++
+ .../libsolv/0006-Fix-testsolv-segfault.patch       |  41 ++++++
+ .../libsolv/0007-Fix-testsolv-segfaults.patch      |  47 ++++++
+ .../0008-Fix-Be-sure-that-NONBLOCK-is-set.patch    |  37 +++++
+ ...0009-Don-t-set-values-that-are-never-read.patch | 113 +++++++++++++++
+ meta/recipes-extended/libsolv/libsolv_0.6.35.bb    |   7 +
+ 8 files changed, 472 insertions(+)
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0003-Fix-Dereference-of-null-pointer.patch
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0004-Fix-Add-va_end-before-return.patch
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0005-Fix-Memory-leaks.patch
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0006-Fix-testsolv-segfault.patch
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0007-Fix-testsolv-segfaults.patch
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0008-Fix-Be-sure-that-NONBLOCK-is-set.patch
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0009-Don-t-set-values-that-are-never-read.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p1.patch b/meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p1.patch
+diff --git a/meta/recipes-extended/libsolv/libsolv/0003-Fix-Dereference-of-null-pointer.patch b/meta/recipes-extended/libsolv/libsolv/0003-Fix-Dereference-of-null-pointer.patch
 new file mode 100644
-index 0000000..823869e
+index 0000000..b10fd82
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p1.patch
-@@ -0,0 +1,39 @@
-+From 367688c05988bc7257d7e1801c5acf17ef7e854d Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Tue, 12 Feb 2019 15:09:11 +0100
-+Subject: [PATCH 1/3] Automatically NULLify after gnutls_free()
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-extended/libsolv/libsolv/0003-Fix-Dereference-of-null-pointer.patch
+@@ -0,0 +1,33 @@
++From fcd9e3aba122a220af617a802c4f47bad4b51e64 Mon Sep 17 00:00:00 2001
++From: Jaroslav Rohel <jrohel@redhat.com>
++Date: Fri, 7 Dec 2018 07:05:10 +0100
++Subject: [PATCH] Fix: Dereference of null pointer
++Reply-To: muislam@microsoft.com
++CVE: CVE-2018-20532 CVE-2018-20533 CVE-2018-20534
 +
-+This method prevents direct use-after-free and
-+double-free issues.
-+
-+Signed-off-by: Tim Rühsen <tim.ruehsen@gmx.de>
-+
-+CVE: CVE-2019-3829
 +Upstream-Status: Backport
-+[https://gitlab.com/gnutls/gnutls/commit/d39778e43d1674cb3ab3685157fd299816d535c0]
 +
-+Signed-off-by: Dan Tran <dantran@microsoft.com>
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++
++Cherry picked from  https://github.com/openSUSE/libsolv/pull/291/commits
++
 +---
-+ lib/includes/gnutls/gnutls.h.in | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/lib/includes/gnutls/gnutls.h.in b/lib/includes/gnutls/gnutls.h.in
-+index 49990b5f5..fa77fd0df 100644
-+--- a/lib/includes/gnutls/gnutls.h.in
-++++ b/lib/includes/gnutls/gnutls.h.in
-+@@ -2132,6 +2132,10 @@ extern _SYM_EXPORT gnutls_realloc_function gnutls_realloc;
-+ extern _SYM_EXPORT gnutls_calloc_function gnutls_calloc;
-+ extern _SYM_EXPORT gnutls_free_function gnutls_free;
-+ 
-++#ifdef GNUTLS_INTERNAL_BUILD
-++#define gnutls_free(a) gnutls_free((void *) (a)), a=NULL
-++#endif
-++
-+ extern _SYM_EXPORT char *(*gnutls_strdup) (const char *);
-+ 
-+ /* a variant of memset that doesn't get optimized out */
-+-- 
-+2.22.0.vfs.1.1.57.gbaf16c8
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p2.patch b/meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p2.patch
-new file mode 100644
-index 0000000..b3cd047
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p2.patch
-@@ -0,0 +1,871 @@
-+From a57509ef7c4983721193ac325ad5fb1783ea0f57 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Tue, 12 Feb 2019 15:14:07 +0100
-+Subject: [PATCH 2/3] Remove redundant resets of variables after free()
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Signed-off-by: Tim Rühsen <tim.ruehsen@gmx.de>
-+
-+CVE: CVE-2019-3829
-+Upstream-Status: Backport
-+[https://gitlab.com/gnutls/gnutls/commit/372821c883a3d36ed3ed683844ad9d90818f6392]
-+
-+Signed-off-by: Dan Tran <dantran@microsoft.com>
-+---
-+ lib/auth.c                                        |  3 ---
-+ lib/auth/rsa.c                                    |  2 ++
-+ lib/auth/rsa_psk.c                                |  1 -
-+ lib/auth/srp_sb64.c                               |  2 --
-+ lib/cert-cred-x509.c                              |  3 ---
-+ lib/cert-cred.c                                   |  3 ---
-+ lib/hello_ext.c                                   |  5 ++---
-+ lib/mpi.c                                         |  1 -
-+ lib/nettle/mpi.c                                  |  2 --
-+ lib/nettle/pk.c                                   |  3 ---
-+ lib/ocsp-api.c                                    |  1 -
-+ lib/pk.c                                          |  2 --
-+ lib/pkcs11.c                                      |  1 -
-+ lib/pkcs11_privkey.c                              |  6 +-----
-+ lib/pkcs11_write.c                                |  1 -
-+ lib/session_pack.c                                |  2 --
-+ lib/srp.c                                         |  1 -
-+ lib/str.c                                         |  2 +-
-+ lib/tls13/certificate_request.c                   |  2 --
-+ lib/tpm.c                                         |  2 --
-+ lib/x509/ocsp.c                                   | 15 +++------------
-+ lib/x509/pkcs12_bag.c                             |  1 -
-+ lib/x509/pkcs7-crypt.c                            |  1 -
-+ lib/x509/pkcs7.c                                  |  6 ------
-+ lib/x509/privkey_pkcs8.c                          |  1 -
-+ lib/x509/verify-high2.c                           |  1 -
-+ lib/x509/virt-san.c                               |  1 -
-+ lib/x509/x509.c                                   |  4 ----
-+ lib/x509/x509_ext.c                               |  1 -
-+ lib/x509_b64.c                                    |  1 -
-+ tests/cert.c                                      |  2 --
-+ tests/name-constraints-ip.c                       |  3 +--
-+ tests/pkcs11/pkcs11-import-url-privkey.c          |  2 --
-+ tests/pkcs11/pkcs11-privkey-always-auth.c         |  2 --
-+ tests/pkcs11/pkcs11-privkey-fork-reinit.c         |  1 -
-+ tests/pkcs11/pkcs11-privkey-fork.c                |  1 -
-+ tests/pkcs11/pkcs11-privkey-safenet-always-auth.c |  2 --
-+ tests/pkcs7.c                                     |  2 --
-+ tests/resume-dtls.c                               |  1 -
-+ tests/resume.c                                    |  1 -
-+ tests/sign-verify-data.c                          |  1 -
-+ tests/sign-verify-ext.c                           |  2 --
-+ tests/sign-verify-ext4.c                          |  2 --
-+ tests/sign-verify.c                               |  1 -
-+ tests/x509-extensions.c                           |  1 -
-+ tests/x509sign-verify-error.c                     |  1 -
-+ 46 files changed, 10 insertions(+), 92 deletions(-)
-+
-+diff --git a/lib/auth.c b/lib/auth.c
-+index 4bdedda38..5f9b8c427 100644
-+--- a/lib/auth.c
-++++ b/lib/auth.c
-+@@ -349,8 +349,6 @@ void _gnutls_free_auth_info(gnutls_session_t session)
-+ 
-+ 			gnutls_free(info->raw_certificate_list);
-+ 			gnutls_free(info->raw_ocsp_list);
-+-			info->raw_certificate_list = NULL;
-+-			info->raw_ocsp_list = NULL;
-+ 			info->ncerts = 0;
-+ 			info->nocsp = 0;
-+ 
-+@@ -367,7 +365,6 @@ void _gnutls_free_auth_info(gnutls_session_t session)
-+ 	}
-+ 
-+ 	gnutls_free(session->key.auth_info);
-+-	session->key.auth_info = NULL;
-+ 	session->key.auth_info_size = 0;
-+ 	session->key.auth_info_type = 0;
-+ 
-+diff --git a/lib/auth/rsa.c b/lib/auth/rsa.c
-+index 6afc91ae6..df6bd7bc6 100644
-+--- a/lib/auth/rsa.c
-++++ b/lib/auth/rsa.c
-+@@ -196,6 +196,8 @@ proc_rsa_client_kx(gnutls_session_t session, uint8_t * data,
-+ 	ret = gnutls_rnd(GNUTLS_RND_NONCE, rndkey.data,
-+ 			  rndkey.size);
-+ 	if (ret < 0) {
-++		gnutls_free(session->key.key.data);
-++		session->key.key.size = 0;
-+ 		gnutls_assert();
-+ 		goto cleanup;
-+ 	}
-+diff --git a/lib/auth/rsa_psk.c b/lib/auth/rsa_psk.c
-+index 5a29f9183..590ff0f71 100644
-+--- a/lib/auth/rsa_psk.c
-++++ b/lib/auth/rsa_psk.c
-+@@ -341,7 +341,6 @@ _gnutls_proc_rsa_psk_client_kx(gnutls_session_t session, uint8_t * data,
-+ 		    ("auth_rsa_psk: Possible PKCS #1 format attack\n");
-+ 		if (ret >= 0) {
-+ 			gnutls_free(plaintext.data);
-+-			plaintext.data = NULL;
-+ 		}
-+ 		randomize_key = 1;
-+ 	} else {
-+diff --git a/lib/auth/srp_sb64.c b/lib/auth/srp_sb64.c
-+index 1177e7671..7bfffdf07 100644
-+--- a/lib/auth/srp_sb64.c
-++++ b/lib/auth/srp_sb64.c
-+@@ -263,7 +263,6 @@ _gnutls_sbase64_decode(char *data, size_t idata_size, uint8_t ** result)
-+ 		tmp = decode(tmpres, datrev);
-+ 		if (tmp < 0) {
-+ 			gnutls_free((*result));
-+-			*result = NULL;
-+ 			return tmp;
-+ 		}
-+ 
-+@@ -277,7 +276,6 @@ _gnutls_sbase64_decode(char *data, size_t idata_size, uint8_t ** result)
-+ 		tmp = decode(tmpres, (uint8_t *) & data[i]);
-+ 		if (tmp < 0) {
-+ 			gnutls_free((*result));
-+-			*result = NULL;
-+ 			return tmp;
-+ 		}
-+ 		memcpy(&(*result)[j], tmpres, tmp);
-+diff --git a/lib/cert-cred-x509.c b/lib/cert-cred-x509.c
-+index f342a420b..da9cd647e 100644
-+--- a/lib/cert-cred-x509.c
-++++ b/lib/cert-cred-x509.c
-+@@ -296,7 +296,6 @@ parse_pem_cert_mem(gnutls_certificate_credentials_t res,
-+ 	    gnutls_pcert_import_x509_list(pcerts, unsorted, &ncerts, GNUTLS_X509_CRT_LIST_SORT);
-+ 	if (ret < 0) {
-+ 		gnutls_free(pcerts);
-+-		pcerts = NULL;
-+ 		gnutls_assert();
-+ 		goto cleanup;
-+ 	}
-+@@ -540,7 +539,6 @@ read_cert_url(gnutls_certificate_credentials_t res, gnutls_privkey_t key, const
-+ 			goto cleanup;
-+ 		}
-+ 		gnutls_free(t.data);
-+-		t.data = NULL;
-+ 	}
-+ 
-+ 	ret = certificate_credential_append_crt_list(res, key, names, ccert, count);
-+@@ -991,7 +989,6 @@ gnutls_certificate_get_x509_crt(gnutls_certificate_credentials_t res,
-+ 			while (i--)
-+ 				gnutls_x509_crt_deinit((*crt_list)[i]);
-+ 			gnutls_free(*crt_list);
-+-			*crt_list = NULL;
-+ 
-+ 			return gnutls_assert_val(ret);
-+ 		}
-+diff --git a/lib/cert-cred.c b/lib/cert-cred.c
-+index 2150e903f..190a8b3a2 100644
-+--- a/lib/cert-cred.c
-++++ b/lib/cert-cred.c
-+@@ -63,7 +63,6 @@ void gnutls_certificate_free_keys(gnutls_certificate_credentials_t sc)
-+ 
-+ 		for (j = 0; j < sc->certs[i].ocsp_data_length; j++) {
-+ 			gnutls_free(sc->certs[i].ocsp_data[j].response.data);
-+-			sc->certs[i].ocsp_data[j].response.data = NULL;
-+ 		}
-+ 		_gnutls_str_array_clear(&sc->certs[i].names);
-+ 		gnutls_privkey_deinit(sc->certs[i].pkey);
-+@@ -71,8 +70,6 @@ void gnutls_certificate_free_keys(gnutls_certificate_credentials_t sc)
-+ 
-+ 	gnutls_free(sc->certs);
-+ 	gnutls_free(sc->sorted_cert_idx);
-+-	sc->certs = NULL;
-+-	sc->sorted_cert_idx = NULL;
-+ 
-+ 	sc->ncerts = 0;
-+ }
-+diff --git a/lib/hello_ext.c b/lib/hello_ext.c
-+index c4907aace..fb2b4db67 100644
-+--- a/lib/hello_ext.c
-++++ b/lib/hello_ext.c
-+@@ -464,9 +464,8 @@ void _gnutls_hello_ext_deinit(void)
-+ 			continue;
-+ 
-+ 		if (extfunc[i]->free_struct != 0) {
-+-			gnutls_free((void*)extfunc[i]->name);
-+-			gnutls_free((void*)extfunc[i]);
-+-			extfunc[i] = NULL;
-++			gnutls_free(((hello_ext_entry_st *)extfunc[i])->name);
-++			gnutls_free(extfunc[i]);
-+ 		}
-+ 	}
-+ }
-+diff --git a/lib/mpi.c b/lib/mpi.c
-+index 2bc970d7c..ed208d511 100644
-+--- a/lib/mpi.c
-++++ b/lib/mpi.c
-+@@ -88,7 +88,6 @@ _gnutls_mpi_random_modp(bigint_t r, bigint_t p,
-+ 
-+ 	if (buf_release != 0) {
-+ 		gnutls_free(buf);
-+-		buf = NULL;
-+ 	}
-+ 
-+ 	if (r != NULL) {
-+diff --git a/lib/nettle/mpi.c b/lib/nettle/mpi.c
-+index 8a93ac278..96bec4aa4 100644
-+--- a/lib/nettle/mpi.c
-++++ b/lib/nettle/mpi.c
-+@@ -122,7 +122,6 @@ static int wrap_nettle_mpi_init_multi(bigint_t *w, ...)
-+ fail:
-+ 	mpz_clear(TOMPZ(*w));
-+ 	gnutls_free(*w);
-+-	*w = NULL;
-+ 
-+ 	va_start(args, w);
-+ 	
-+@@ -131,7 +130,6 @@ fail:
-+ 		if (next != last_failed) {
-+ 			mpz_clear(TOMPZ(*next));
-+ 			gnutls_free(*next);
-+-			*next = NULL;
-+ 		}
-+ 	} while(next != last_failed);
-+ 	
-+diff --git a/lib/nettle/pk.c b/lib/nettle/pk.c
-+index 6dcd2fdd0..f010493c0 100644
-+--- a/lib/nettle/pk.c
-++++ b/lib/nettle/pk.c
-+@@ -371,7 +371,6 @@ dh_cleanup:
-+ 
-+ 			if (_gnutls_mem_is_zero(out->data, out->size)) {
-+ 				gnutls_free(out->data);
-+-				out->data = NULL;
-+ 				gnutls_assert();
-+ 				ret = GNUTLS_E_RECEIVED_ILLEGAL_PARAMETER;
-+ 				goto cleanup;
-+@@ -2203,8 +2202,6 @@ wrap_nettle_pk_generate_keys(gnutls_pk_algorithm_t algo,
-+ 	params->params_nr = 0;
-+ 	gnutls_free(params->raw_priv.data);
-+ 	gnutls_free(params->raw_pub.data);
-+-	params->raw_priv.data = NULL;
-+-	params->raw_pub.data = NULL;
-+ 
-+ 	FAIL_IF_LIB_ERROR;
-+ 	return ret;
-+diff --git a/lib/ocsp-api.c b/lib/ocsp-api.c
-+index d18a1f0c2..a0005e99d 100644
-+--- a/lib/ocsp-api.c
-++++ b/lib/ocsp-api.c
-+@@ -473,7 +473,6 @@ gnutls_certificate_set_ocsp_status_request_mem(gnutls_certificate_credentials_t
-+ 			nresp++;
-+ 
-+ 			gnutls_free(der.data);
-+-			der.data = NULL;
-+ 
-+ 			p.data++;
-+ 			p.size--;
-+diff --git a/lib/pk.c b/lib/pk.c
-+index 1f137f71c..a5bb58b73 100644
-+--- a/lib/pk.c
-++++ b/lib/pk.c
-+@@ -537,8 +537,6 @@ void gnutls_pk_params_release(gnutls_pk_params_st * p)
-+ 	}
-+ 	gnutls_free(p->raw_priv.data);
-+ 	gnutls_free(p->raw_pub.data);
-+-	p->raw_priv.data = NULL;
-+-	p->raw_pub.data = NULL;
-+ 
-+ 	p->params_nr = 0;
-+ }
-+diff --git a/lib/pkcs11.c b/lib/pkcs11.c
-+index 990912790..fa1b65884 100644
-+--- a/lib/pkcs11.c
-++++ b/lib/pkcs11.c
-+@@ -1233,7 +1233,6 @@ int gnutls_pkcs11_obj_init(gnutls_pkcs11_obj_t * obj)
-+ 	(*obj)->info = p11_kit_uri_new();
-+ 	if ((*obj)->info == NULL) {
-+ 		gnutls_free(*obj);
-+-		*obj = NULL;
-+ 		gnutls_assert();
-+ 		return GNUTLS_E_MEMORY_ERROR;
-+ 	}
-+diff --git a/lib/pkcs11_privkey.c b/lib/pkcs11_privkey.c
-+index b721ed125..560a732e3 100644
-+--- a/lib/pkcs11_privkey.c
-++++ b/lib/pkcs11_privkey.c
-+@@ -443,7 +443,6 @@ _gnutls_pkcs11_privkey_sign(gnutls_pkcs11_privkey_t key,
-+ 		}
-+ 
-+ 		gnutls_free(tmp.data);
-+-		tmp.data = NULL;
-+ 	} else {
-+ 		signature->size = siglen;
-+ 		signature->data = tmp.data;
-+@@ -521,10 +520,8 @@ gnutls_pkcs11_privkey_import_url(gnutls_pkcs11_privkey_t pkey,
-+ 
-+ 	memset(&pkey->sinfo, 0, sizeof(pkey->sinfo));
-+ 
-+-	if (pkey->url) {
-++	if (pkey->url)
-+ 		gnutls_free(pkey->url);
-+-		pkey->url = NULL;
-+-	}
-+ 
-+ 	if (pkey->uinfo) {
-+ 		p11_kit_uri_free(pkey->uinfo);
-+@@ -613,7 +610,6 @@ gnutls_pkcs11_privkey_import_url(gnutls_pkcs11_privkey_t pkey,
-+ 		pkey->uinfo = NULL;
-+ 	}
-+ 	gnutls_free(pkey->url);
-+-	pkey->url = NULL;
-+ 
-+ 	return ret;
-+ }
-+diff --git a/lib/pkcs11_write.c b/lib/pkcs11_write.c
-+index 35207d554..6e866e2d4 100644
-+--- a/lib/pkcs11_write.c
-++++ b/lib/pkcs11_write.c
-+@@ -268,7 +268,6 @@ static void clean_pubkey(struct ck_attribute *a, unsigned a_val)
-+ 			case CKA_EC_PARAMS:
-+ 			case CKA_EC_POINT:
-+ 				gnutls_free(a[i].value);
-+-				a[i].value = NULL;
-+ 				break;
-+ 		}
-+ 	}
-+diff --git a/lib/session_pack.c b/lib/session_pack.c
-+index c5801fb32..5d475ea59 100644
-+--- a/lib/session_pack.c
-++++ b/lib/session_pack.c
-+@@ -562,8 +562,6 @@ unpack_certificate_auth_info(gnutls_session_t session,
-+ 
-+ 		gnutls_free(info->raw_certificate_list);
-+ 		gnutls_free(info->raw_ocsp_list);
-+-		info->raw_certificate_list = NULL;
-+-		info->raw_ocsp_list = NULL;
-+ 	}
-+ 
-+ 	return ret;
-+diff --git a/lib/srp.c b/lib/srp.c
-+index c3eb8e684..670642d64 100644
-+--- a/lib/srp.c
-++++ b/lib/srp.c
-+@@ -608,7 +608,6 @@ gnutls_srp_set_server_credentials_file(gnutls_srp_server_credentials_t res,
-+ 	if (res->password_conf_file == NULL) {
-+ 		gnutls_assert();
-+ 		gnutls_free(res->password_file);
-+-		res->password_file = NULL;
-+ 		return GNUTLS_E_MEMORY_ERROR;
-+ 	}
-+ 
-+diff --git a/lib/str.c b/lib/str.c
-+index c8d742e91..7408ea6ac 100644
-+--- a/lib/str.c
-++++ b/lib/str.c
-+@@ -81,7 +81,7 @@ void _gnutls_buffer_clear(gnutls_buffer_st * str)
-+ 		return;
-+ 	gnutls_free(str->allocd);
-+ 
-+-	str->data = str->allocd = NULL;
-++	str->data = NULL;
-+ 	str->max_length = 0;
-+ 	str->length = 0;
-+ }
-+diff --git a/lib/tls13/certificate_request.c b/lib/tls13/certificate_request.c
-+index a7ec0e2fd..823adc87f 100644
-+--- a/lib/tls13/certificate_request.c
-++++ b/lib/tls13/certificate_request.c
-+@@ -152,7 +152,6 @@ int _gnutls13_recv_certificate_request_int(gnutls_session_t session, gnutls_buff
-+ 			return gnutls_assert_val(ret);
-+ 
-+ 		gnutls_free(session->internals.post_handshake_cr_context.data);
-+-		session->internals.post_handshake_cr_context.data = NULL;
-+ 		ret = _gnutls_set_datum(&session->internals.post_handshake_cr_context,
-+ 					context.data, context.size);
-+ 		if (ret < 0)
-+@@ -279,7 +278,6 @@ int _gnutls13_send_certificate_request(gnutls_session_t session, unsigned again)
-+ 			}
-+ 
-+ 			gnutls_free(session->internals.post_handshake_cr_context.data);
-+-			session->internals.post_handshake_cr_context.data = NULL;
-+ 			ret = _gnutls_set_datum(&session->internals.post_handshake_cr_context,
-+ 						rnd, sizeof(rnd));
-+ 			if (ret < 0) {
-+diff --git a/lib/tpm.c b/lib/tpm.c
-+index ee53c7154..03565acb0 100644
-+--- a/lib/tpm.c
-++++ b/lib/tpm.c
-+@@ -1645,10 +1645,8 @@ gnutls_tpm_privkey_generate(gnutls_pk_algorithm_t pk, unsigned int bits,
-+ 	gnutls_pubkey_deinit(pub);
-+       privkey_cleanup:
-+ 	gnutls_free(privkey->data);
-+-	privkey->data = NULL;
-+       cleanup:
-+ 	gnutls_free(tmpkey.data);
-+-	tmpkey.data = NULL;
-+       err_sa:
-+ 	pTspi_Context_CloseObject(s.tpm_ctx, key_ctx);
-+       err_cc:
-+diff --git a/lib/x509/ocsp.c b/lib/x509/ocsp.c
-+index db54b3ea2..55cae94c3 100644
-+--- a/lib/x509/ocsp.c
-++++ b/lib/x509/ocsp.c
-+@@ -162,7 +162,6 @@ void gnutls_ocsp_resp_deinit(gnutls_ocsp_resp_t resp)
-+ 		asn1_delete_structure(&resp->basicresp);
-+ 
-+ 	resp->resp = NULL;
-+-	resp->response_type_oid.data = NULL;
-+ 	resp->basicresp = NULL;
-+ 
-+ 	gnutls_free(resp->der.data);
-+@@ -299,7 +298,6 @@ gnutls_ocsp_resp_import2(gnutls_ocsp_resp_t resp,
-+ 		}
-+ 
-+ 		gnutls_free(resp->der.data);
-+-		resp->der.data = NULL;
-+ 	}
-+ 
-+ 	resp->init = 1;
-+@@ -1668,18 +1666,12 @@ gnutls_ocsp_resp_get_single(gnutls_ocsp_resp_t resp,
-+ 
-+ 	return GNUTLS_E_SUCCESS;
-+  fail:
-+-	if (issuer_name_hash) {
-++	if (issuer_name_hash)
-+ 		gnutls_free(issuer_name_hash->data);
-+-		issuer_name_hash->data = NULL;
-+-	}
-+-	if (issuer_key_hash) {
-++	if (issuer_key_hash)
-+ 		gnutls_free(issuer_key_hash->data);
-+-		issuer_key_hash->data = NULL;
-+-	}
-+-	if (serial_number) {
-++	if (serial_number)
-+ 		gnutls_free(serial_number->data);
-+-		serial_number->data = NULL;
-+-	}
-+ 	return ret;
-+ }
-+ 
-+@@ -1955,7 +1947,6 @@ gnutls_ocsp_resp_get_certs(gnutls_ocsp_resp_t resp,
-+ 		}
-+ 
-+ 		gnutls_free(c.data);
-+-		c.data = NULL;
-+ 	}
-+ 
-+ 	tmpcerts[ctr] = NULL;
-+diff --git a/lib/x509/pkcs12_bag.c b/lib/x509/pkcs12_bag.c
-+index 26d2142ea..35d12ac4b 100644
-+--- a/lib/x509/pkcs12_bag.c
-++++ b/lib/x509/pkcs12_bag.c
-+@@ -62,7 +62,6 @@ static inline void _pkcs12_bag_free_data(gnutls_pkcs12_bag_t bag)
-+ 		_gnutls_free_datum(&bag->element[i].data);
-+ 		_gnutls_free_datum(&bag->element[i].local_key_id);
-+ 		gnutls_free(bag->element[i].friendly_name);
-+-		bag->element[i].friendly_name = NULL;
-+ 		bag->element[i].type = 0;
-+ 	}
-+ 
-+diff --git a/lib/x509/pkcs7-crypt.c b/lib/x509/pkcs7-crypt.c
-+index c2b00e61c..39eb7784b 100644
-+--- a/lib/x509/pkcs7-crypt.c
-++++ b/lib/x509/pkcs7-crypt.c
-+@@ -1269,7 +1269,6 @@ _gnutls_pkcs_raw_decrypt_data(schema_id schema, ASN1_TYPE pkcs8_asn,
-+ 	    _gnutls_cipher_init(&ch, ce, &dkey, &d_iv, 0);
-+ 
-+ 	gnutls_free(key);
-+-	key = NULL;
-+ 
-+ 	if (ret < 0) {
-+ 		gnutls_assert();
-+diff --git a/lib/x509/pkcs7.c b/lib/x509/pkcs7.c
-+index 955cb5ae9..8ae7b3e78 100644
-+--- a/lib/x509/pkcs7.c
-++++ b/lib/x509/pkcs7.c
-+@@ -692,7 +692,6 @@ int gnutls_pkcs7_get_signature_info(gnutls_pkcs7_t pkcs7, unsigned idx,
-+ 
-+ 		ret = gnutls_pkcs7_add_attr(&info->signed_attrs, oid, &tmp, 0);
-+ 		gnutls_free(tmp.data);
-+-		tmp.data = NULL;
-+ 
-+ 		if (ret < 0) {
-+ 			gnutls_assert();
-+@@ -730,7 +729,6 @@ int gnutls_pkcs7_get_signature_info(gnutls_pkcs7_t pkcs7, unsigned idx,
-+ 		ret =
-+ 		    gnutls_pkcs7_add_attr(&info->unsigned_attrs, oid, &tmp, 0);
-+ 		gnutls_free(tmp.data);
-+-		tmp.data = NULL;
-+ 
-+ 		if (ret < 0) {
-+ 			gnutls_assert();
-+@@ -842,9 +840,7 @@ static int verify_hash_attr(gnutls_pkcs7_t pkcs7, const char *root,
-+ 		}
-+ 
-+ 		gnutls_free(tmp.data);
-+-		tmp.data = NULL;
-+ 		gnutls_free(tmp2.data);
-+-		tmp2.data = NULL;
-+ 	}
-+ 
-+ 	if (msg_digest_ok)
-+@@ -1087,7 +1083,6 @@ static gnutls_x509_crt_t find_verified_issuer_of(gnutls_pkcs7_t pkcs7,
-+ 			gnutls_x509_crt_deinit(issuer);
-+ 			issuer = NULL;
-+ 			gnutls_free(tmp.data);
-+-			tmp.data = NULL;
-+ 			continue;
-+ 		}
-+ 
-+@@ -1204,7 +1199,6 @@ static gnutls_x509_crt_t find_child_of_with_serial(gnutls_pkcs7_t pkcs7,
-+ 				gnutls_x509_crt_deinit(crt);
-+ 				crt = NULL;
-+ 				gnutls_free(tmpdata.data);
-+-				tmpdata.data = NULL;
-+ 				continue;
-+ 			}
-+ 		} else {
-+diff --git a/lib/x509/privkey_pkcs8.c b/lib/x509/privkey_pkcs8.c
-+index 92dea06b0..56000ff12 100644
-+--- a/lib/x509/privkey_pkcs8.c
-++++ b/lib/x509/privkey_pkcs8.c
-+@@ -600,7 +600,6 @@ gnutls_pkcs8_info(const gnutls_datum_t * data, gnutls_x509_crt_fmt_t format,
-+  cleanup:
-+ 	if (ret != GNUTLS_E_UNKNOWN_CIPHER_TYPE && oid) {
-+ 		gnutls_free(*oid);
-+-		*oid = NULL;
-+ 	}
-+ 	if (need_free)
-+ 		_gnutls_free_datum(&_data);
-+diff --git a/lib/x509/verify-high2.c b/lib/x509/verify-high2.c
-+index 8ba2f2a3e..b9aed5cf4 100644
-+--- a/lib/x509/verify-high2.c
-++++ b/lib/x509/verify-high2.c
-+@@ -178,7 +178,6 @@ int remove_pkcs11_url(gnutls_x509_trust_list_t list, const char *ca_file)
-+ {
-+ 	if (strcmp(ca_file, list->pkcs11_token) == 0) {
-+ 		gnutls_free(list->pkcs11_token);
-+-		list->pkcs11_token = NULL;
-+ 	}
-+ 	return 0;
-+ }
-+diff --git a/lib/x509/virt-san.c b/lib/x509/virt-san.c
-+index f3b87135b..a81337e25 100644
-+--- a/lib/x509/virt-san.c
-++++ b/lib/x509/virt-san.c
-+@@ -70,7 +70,6 @@ int _gnutls_alt_name_assign_virt_type(struct name_st *name, unsigned type, gnutl
-+ 		if (ret < 0)
-+ 			return gnutls_assert_val(ret);
-+ 		gnutls_free(san->data);
-+-		san->data = NULL;
-+ 
-+ 		if (othername_oid) {
-+ 			name->othername_oid.data = (uint8_t *) othername_oid;
-+diff --git a/lib/x509/x509.c b/lib/x509/x509.c
-+index 4aff55eba..c149881f6 100644
-+--- a/lib/x509/x509.c
-++++ b/lib/x509/x509.c
-+@@ -383,7 +383,6 @@ static int cache_alt_names(gnutls_x509_crt_t cert)
-+ 	if (ret >= 0) {
-+ 		ret = gnutls_x509_ext_import_subject_alt_names(&tmpder, cert->san, 0);
-+ 		gnutls_free(tmpder.data);
-+-		tmpder.data = NULL;
-+ 		if (ret < 0)
-+ 			return gnutls_assert_val(ret);
-+ 	}
-+@@ -3680,7 +3679,6 @@ gnutls_x509_crt_list_import2(gnutls_x509_crt_t ** certs,
-+ 
-+ 	if (ret < 0) {
-+ 		gnutls_free(*certs);
-+-		*certs = NULL;
-+ 		return ret;
-+ 	}
-+ 
-+@@ -4310,7 +4308,6 @@ gnutls_x509_crt_list_import_url(gnutls_x509_crt_t **certs,
-+ 
-+ 		if (gnutls_x509_crt_equals2(crts[i-1], &issuer)) {
-+ 			gnutls_free(issuer.data);
-+-			issuer.data = NULL;
-+ 			break;
-+ 		}
-+ 
-+@@ -4331,7 +4328,6 @@ gnutls_x509_crt_list_import_url(gnutls_x509_crt_t **certs,
-+ 		}
-+ 
-+ 		gnutls_free(issuer.data);
-+-		issuer.data = NULL;
-+ 	}
-+ 
-+ 	*certs = gnutls_malloc(total*sizeof(gnutls_x509_crt_t));
-+diff --git a/lib/x509/x509_ext.c b/lib/x509/x509_ext.c
-+index 58c3263d1..477cf03c4 100644
-+--- a/lib/x509/x509_ext.c
-++++ b/lib/x509/x509_ext.c
-+@@ -1994,7 +1994,6 @@ int gnutls_x509_ext_import_policies(const gnutls_datum_t * ext,
-+ 				ret =
-+ 				    decode_user_notice(td.data, td.size, &txt);
-+ 				gnutls_free(td.data);
-+-				td.data = NULL;
-+ 
-+ 				if (ret < 0) {
-+ 					gnutls_assert();
-+diff --git a/lib/x509_b64.c b/lib/x509_b64.c
-+index 9a1037405..3117843be 100644
-+--- a/lib/x509_b64.c
-++++ b/lib/x509_b64.c
-+@@ -302,7 +302,6 @@ _gnutls_base64_decode(const uint8_t * data, size_t data_size,
-+ 
-+  fail:
-+ 	gnutls_free(result->data);
-+-	result->data = NULL;
-+ 
-+  cleanup:
-+ 	gnutls_free(pdata.data);
-+diff --git a/tests/cert.c b/tests/cert.c
-+index da0ab23df..ec566a4a4 100644
-+--- a/tests/cert.c
-++++ b/tests/cert.c
-+@@ -89,7 +89,6 @@ static int getnextcert(DIR **dirp, gnutls_datum_t *der, int *exp_ret)
-+ 				*exp_ret = atoi((char*)local.data);
-+ 				success("expecting error code %d\n", *exp_ret);
-+ 				gnutls_free(local.data);
-+-				local.data = NULL;
-+ 			}
-+ 
-+ 			return 0;
-+@@ -135,7 +134,6 @@ void doit(void)
-+ 
-+ 		gnutls_x509_crt_deinit(cert);
-+ 		gnutls_free(der.data);
-+-		der.data = NULL;
-+ 		der.size = 0;
-+ 		exp_ret = -1;
-+ 	}
-+diff --git a/tests/name-constraints-ip.c b/tests/name-constraints-ip.c
-+index 3dd4ff2cb..ed96109c7 100644
-+--- a/tests/name-constraints-ip.c
-++++ b/tests/name-constraints-ip.c
-+@@ -78,7 +78,6 @@ static void check_test_result(int ret, int expected_outcome,
-+ static void parse_cidr(const char* cidr, gnutls_datum_t *datum) {
-+ 	if (datum->data != NULL) {
-+ 		gnutls_free(datum->data);
-+-		datum->data = NULL;
-+ 	}
-+ 	int ret = gnutls_x509_cidr_to_rfc5280(cidr, datum);
-+ 	check_for_error(ret);
-+@@ -699,7 +698,7 @@ static int teardown(void **state) {
-+ 	gnutls_free(test_vars->ip.data);
-+ 	gnutls_x509_name_constraints_deinit(test_vars->nc);
-+ 	gnutls_x509_name_constraints_deinit(test_vars->nc2);
-+-	gnutls_free(test_vars);
-++	gnutls_free(*state);
-+ 	return 0;
-+ }
-+ 
-+diff --git a/tests/pkcs11/pkcs11-import-url-privkey.c b/tests/pkcs11/pkcs11-import-url-privkey.c
-+index cb44fb1e5..c7e06eb1a 100644
-+--- a/tests/pkcs11/pkcs11-import-url-privkey.c
-++++ b/tests/pkcs11/pkcs11-import-url-privkey.c
-+@@ -85,7 +85,6 @@ void doit(void)
-+ 	for (i=0;i<obj_list_size;i++)
-+ 		gnutls_pkcs11_obj_deinit(obj_list[i]);
-+ 	gnutls_free(obj_list);
-+-	obj_list = NULL;
-+ 	obj_list_size = 0;
-+ 
-+ #ifndef _WIN32
-+@@ -116,7 +115,6 @@ void doit(void)
-+ 		for (i=0;i<obj_list_size;i++)
-+ 			gnutls_pkcs11_obj_deinit(obj_list[i]);
-+ 		gnutls_free(obj_list);
-+-		obj_list = NULL;
-+ 		obj_list_size = 0;
-+ 	}
-+ #endif
-+diff --git a/tests/pkcs11/pkcs11-privkey-always-auth.c b/tests/pkcs11/pkcs11-privkey-always-auth.c
-+index 3561c412f..441f63722 100644
-+--- a/tests/pkcs11/pkcs11-privkey-always-auth.c
-++++ b/tests/pkcs11/pkcs11-privkey-always-auth.c
-+@@ -175,7 +175,6 @@ void doit(void)
-+ 	pin_called = 0;
-+ 
-+ 	gnutls_free(sig.data);
-+-	sig.data = NULL;
-+ 
-+ 	/* call again - should re-authenticate */
-+ 	ret = gnutls_privkey_sign_hash(key, GNUTLS_DIG_SHA1, 0, &data, &sig);
-+@@ -190,7 +189,6 @@ void doit(void)
-+ 	pin_called = 0;
-+ 
-+ 	gnutls_free(sig.data);
-+-	sig.data = NULL;
-+ 
-+ 	if (debug)
-+ 		printf("done\n\n\n");
-+diff --git a/tests/pkcs11/pkcs11-privkey-fork-reinit.c b/tests/pkcs11/pkcs11-privkey-fork-reinit.c
-+index 1535d644f..a72584225 100644
-+--- a/tests/pkcs11/pkcs11-privkey-fork-reinit.c
-++++ b/tests/pkcs11/pkcs11-privkey-fork-reinit.c
-+@@ -123,7 +123,6 @@ void doit(void)
-+ 	}
-+ 
-+ 	gnutls_free(sig.data);
-+-	sig.data = NULL;
-+ 
-+ 	pid = fork();
-+ 	if (pid != 0) {
-+diff --git a/tests/pkcs11/pkcs11-privkey-fork.c b/tests/pkcs11/pkcs11-privkey-fork.c
-+index 9d301d7d6..b99755c73 100644
-+--- a/tests/pkcs11/pkcs11-privkey-fork.c
-++++ b/tests/pkcs11/pkcs11-privkey-fork.c
-+@@ -123,7 +123,6 @@ void doit(void)
-+ 	}
-+ 
-+ 	gnutls_free(sig.data);
-+-	sig.data = NULL;
-+ 
-+ 	pid = fork();
-+ 	if (pid != 0) {
-+diff --git a/tests/pkcs11/pkcs11-privkey-safenet-always-auth.c b/tests/pkcs11/pkcs11-privkey-safenet-always-auth.c
-+index 1b5b34054..a4ab5b5aa 100644
-+--- a/tests/pkcs11/pkcs11-privkey-safenet-always-auth.c
-++++ b/tests/pkcs11/pkcs11-privkey-safenet-always-auth.c
-+@@ -157,7 +157,6 @@ void doit(void)
-+ 	pin_called = 0;
-+ 
-+ 	gnutls_free(sig.data);
-+-	sig.data = NULL;
-+ 
-+ 	/* call again - should re-authenticate */
-+ 	ret = gnutls_privkey_sign_hash(key, GNUTLS_DIG_SHA1, 0, &data, &sig);
-+@@ -172,7 +171,6 @@ void doit(void)
-+ 	pin_called = 0;
-+ 
-+ 	gnutls_free(sig.data);
-+-	sig.data = NULL;
-+ 
-+ 	if (debug)
-+ 		printf("done\n\n\n");
-+diff --git a/tests/pkcs7.c b/tests/pkcs7.c
-+index a490976fc..2d5a5548d 100644
-+--- a/tests/pkcs7.c
-++++ b/tests/pkcs7.c
-+@@ -90,7 +90,6 @@ static int getnextfile(DIR **dirp, gnutls_datum_t *der, int *exp_ret)
-+ 				*exp_ret = atoi((char*)local.data);
-+ 				success("expecting error code %d\n", *exp_ret);
-+ 				gnutls_free(local.data);
-+-				local.data = NULL;
-+ 			}
-+ 
-+ 			return 0;
-+@@ -134,7 +133,6 @@ void doit(void)
-+ 
-+ 		gnutls_pkcs7_deinit(cert);
-+ 		gnutls_free(der.data);
-+-		der.data = NULL;
-+ 		der.size = 0;
-+ 		exp_ret = -1;
-+ 	}
-+diff --git a/tests/resume-dtls.c b/tests/resume-dtls.c
-+index 9e6327c7f..b5b214313 100644
-+--- a/tests/resume-dtls.c
-++++ b/tests/resume-dtls.c
-+@@ -363,7 +363,6 @@ static void server(int sds[], struct params_res *params)
-+ 	}
-+ 
-+ 	gnutls_free(session_ticket_key.data);
-+-	session_ticket_key.data = NULL;
-+ 	gnutls_anon_free_server_credentials(anoncred);
-+ 
-+ 	if (debug)
-+diff --git a/tests/resume.c b/tests/resume.c
-+index 84314b836..3dc225136 100644
-+--- a/tests/resume.c
-++++ b/tests/resume.c
-+@@ -873,7 +873,6 @@ static void server(int sds[], struct params_res *params)
-+ 	}
-+ 
-+ 	gnutls_free(session_ticket_key.data);
-+-	session_ticket_key.data = NULL;
-+ 
-+ 	if (debug)
-+ 		success("server: finished\n");
-+diff --git a/tests/sign-verify-data.c b/tests/sign-verify-data.c
-+index 3aa261175..558ad2253 100644
-+--- a/tests/sign-verify-data.c
-++++ b/tests/sign-verify-data.c
-+@@ -153,7 +153,6 @@ void doit(void)
-+ 
-+ 		/* test the raw interface */
-+ 		gnutls_free(signature.data);
-+-		signature.data = NULL;
-+ 
-+ 		gnutls_free(signature.data);
-+ 		gnutls_x509_crt_deinit(crt);
-+diff --git a/tests/sign-verify-ext.c b/tests/sign-verify-ext.c
-+index eecb1f357..cc80bf907 100644
-+--- a/tests/sign-verify-ext.c
-++++ b/tests/sign-verify-ext.c
-+@@ -186,9 +186,7 @@ void doit(void)
-+ 
-+ 		/* test the raw interface */
-+ 		gnutls_free(signature.data);
-+-		signature.data = NULL;
-+ 		gnutls_free(signature2.data);
-+-		signature2.data = NULL;
-+ 
-+ 		if (gnutls_pubkey_get_pk_algorithm(pubkey, NULL) ==
-+ 		    GNUTLS_PK_RSA) {
-+diff --git a/tests/sign-verify-ext4.c b/tests/sign-verify-ext4.c
-+index 81aa345bf..be582ec14 100644
-+--- a/tests/sign-verify-ext4.c
-++++ b/tests/sign-verify-ext4.c
-+@@ -227,7 +227,6 @@ void doit(void)
-+ 			testfail("gnutls_pubkey_verify_data2\n");
-+ 
-+ 		gnutls_free(signature.data);
-+-		signature.data = NULL;
-+ 
-+ 
-+ 		if (!tests[i].data_only) {
-+@@ -243,7 +242,6 @@ void doit(void)
-+ 				testfail("gnutls_pubkey_verify_hash2-1 (hashed data)\n");
-+ 
-+ 			gnutls_free(signature2.data);
-+-			signature2.data = NULL;
-+ 		}
-+ 
-+ 		if (gnutls_pubkey_get_pk_algorithm(pubkey, NULL) ==
-+diff --git a/tests/sign-verify.c b/tests/sign-verify.c
-+index 1fbed5ece..5a14741fc 100644
-+--- a/tests/sign-verify.c
-++++ b/tests/sign-verify.c
-+@@ -206,7 +206,6 @@ void doit(void)
-+ 
-+ 		/* test the raw interface */
-+ 		gnutls_free(signature.data);
-+-		signature.data = NULL;
-+ 
-+ 		if (gnutls_pubkey_get_pk_algorithm(pubkey, NULL) ==
-+ 		    GNUTLS_PK_RSA) {
-+diff --git a/tests/x509-extensions.c b/tests/x509-extensions.c
-+index d480f8364..a062c1ba8 100644
-+--- a/tests/x509-extensions.c
-++++ b/tests/x509-extensions.c
-+@@ -767,7 +767,6 @@ void doit(void)
-+ 			}
-+ 		}
-+ 		gnutls_free(ext.data);
-+-		ext.data = NULL;
-+ 	}
-+ 
-+ 	if (debug)
-+diff --git a/tests/x509sign-verify-error.c b/tests/x509sign-verify-error.c
-+index 54bdc40ab..97c966685 100644
-+--- a/tests/x509sign-verify-error.c
-++++ b/tests/x509sign-verify-error.c
-+@@ -181,7 +181,6 @@ void doit(void)
-+ 			fail("gnutls_privkey_sign_hash\n");
-+ 
-+ 		gnutls_free(signature2.data);
-+-		signature2.data = NULL;
-+ 
-+ 		_gnutls_lib_simulate_error();
-+ 		ret = gnutls_privkey_sign_hash(privkey, GNUTLS_DIG_SHA1, 0,
-+-- 
-+2.22.0.vfs.1.1.57.gbaf16c8
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p3.patch b/meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p3.patch
-new file mode 100644
-index 0000000..d27ea4a
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2019-3829_p3.patch
-@@ -0,0 +1,36 @@
-+From bf616850cf20af2bec3d68b82e6ac610ee8fc404 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Tue, 12 Feb 2019 15:20:23 +0100
-+Subject: [PATCH 3/3] gnutls_x509_crt_init: Fix dereference of NULL pointer
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Signed-off-by: Tim Rühsen <tim.ruehsen@gmx.de>
-+
-+CVE: CVE-2019-3829
-+Upstream-Status: Backport
-+[https://gitlab.com/gnutls/gnutls/commit/6b5cbc9ea5bdca704bdbe2f8fb551f720d634bc6]
-+
-+Signed-off-by: Dan Tran <dantran@microsoft.com>
-+---
-+ lib/x509/x509.c | 2 +-
++ ext/repo_repomdxml.c | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/lib/x509/x509.c b/lib/x509/x509.c
-+index c149881f6..cc232ea50 100644
-+--- a/lib/x509/x509.c
-++++ b/lib/x509/x509.c
-+@@ -224,8 +224,8 @@ int gnutls_x509_crt_init(gnutls_x509_crt_t * cert)
-+ 	if (result < 0) {
-+ 		gnutls_assert();
-+ 		asn1_delete_structure(&tmp->cert);
-+-		gnutls_free(tmp);
-+ 		gnutls_subject_alt_names_deinit(tmp->san);
-++		gnutls_free(tmp);
-+ 		return result;
-+ 	}
-+ 
++diff --git a/ext/repo_repomdxml.c b/ext/repo_repomdxml.c
++index 760d481f..b2a5b8dd 100644
++--- a/ext/repo_repomdxml.c
+++++ b/ext/repo_repomdxml.c
++@@ -181,7 +181,7 @@ startElement(struct solv_xmlparser *xmlp, int state, const char *name, const cha
++             while (value)
++ 	      {
++ 		char *p = strchr(value, ',');
++-		if (*p)
+++		if (p)
++ 		  *p++ = 0;
++ 		if (*value)
++ 		  repodata_add_poolstr_array(pd->data, SOLVID_META, REPOSITORY_UPDATES, value);
 +-- 
-+2.22.0.vfs.1.1.57.gbaf16c8
++2.23.0
 +
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2019-3836.patch b/meta/recipes-support/gnutls/gnutls/CVE-2019-3836.patch
+diff --git a/meta/recipes-extended/libsolv/libsolv/0004-Fix-Add-va_end-before-return.patch b/meta/recipes-extended/libsolv/libsolv/0004-Fix-Add-va_end-before-return.patch
 new file mode 100644
-index 0000000..4aeb689
+index 0000000..fde1994
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2019-3836.patch
-@@ -0,0 +1,35 @@
-+From c68195f0ff65144d7e0c32f4de5f264c4012983a Mon Sep 17 00:00:00 2001
-+From: Daiki Ueno <dueno@redhat.com>
-+Date: Mon, 25 Mar 2019 16:06:39 +0100
-+Subject: [PATCH] handshake: add missing initialization of local variable
++++ b/meta/recipes-extended/libsolv/libsolv/0004-Fix-Add-va_end-before-return.patch
+@@ -0,0 +1,36 @@
++From 58053b44c9ed043d48fa7dd595d213849b733f0f Mon Sep 17 00:00:00 2001
++From: Jaroslav Rohel <jrohel@redhat.com>
++Date: Tue, 11 Dec 2018 09:50:06 +0100
++Subject: [PATCH] Fix: Add va_end() before return
++Reply-To: muislam@microsoft.com
 +
-+Resolves: #704
++The va_end() performs cleanup.
++If va_end() is not called before a function that calls va_start() returns,
++the behavior is undefined.
 +
-+Signed-off-by: Daiki Ueno <dueno@redhat.com>
-+Signed-off-by: Nikos Mavrogiannopoulos <nmav@redhat.com>
++CVE: CVE-2018-20532 CVE-2018-20533 CVE-2018-20534
 +
-+CVE: CVE-2019-3836
 +Upstream-Status: Backport
-+[https://gitlab.com/gnutls/gnutls/commit/96e07075e8f105b13e76b11e493d5aa2dd937226]
 +
-+Signed-off-by: Dan Tran <dantran@microsoft.com>
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++
++Cherry picked from  https://github.com/openSUSE/libsolv/pull/291/commits
 +---
-+ lib/handshake-tls13.c | 2 ++
++ src/pool.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/pool.c b/src/pool.c
++index 60cc0f49..f03b43f9 100644
++--- a/src/pool.c
+++++ b/src/pool.c
++@@ -1505,6 +1505,7 @@ pool_debug(Pool *pool, int type, const char *format, ...)
++         vprintf(format, args);
++       else
++         vfprintf(stderr, format, args);
+++      va_end(args);
++       return;
++     }
++   vsnprintf(buf, sizeof(buf), format, args);
++-- 
++2.23.0
++
+diff --git a/meta/recipes-extended/libsolv/libsolv/0005-Fix-Memory-leaks.patch b/meta/recipes-extended/libsolv/libsolv/0005-Fix-Memory-leaks.patch
+new file mode 100644
+index 0000000..85398a8
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv/0005-Fix-Memory-leaks.patch
+@@ -0,0 +1,158 @@
++From 6c99f33252d8bf8ff3e49013b8ad78aacf71c5d8 Mon Sep 17 00:00:00 2001
++From: Jaroslav Rohel <jrohel@redhat.com>
++Date: Tue, 11 Dec 2018 10:14:04 +0100
++Subject: [PATCH] Fix: Memory leaks
++Reply-To: muislam@microsoft.com
++
++CVE: CVE-2018-20532 CVE-2018-20533 CVE-2018-20534
++
++Upstream-Status: Backport
++
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++
++Cherry picked from  https://github.com/openSUSE/libsolv/pull/291/commits
++---
++ ext/repo_rpmdb.c  | 16 ++++++++++++++++
++ ext/testcase.c    |  4 ++++
++ tools/repo2solv.c |  1 +
++ 3 files changed, 21 insertions(+)
++
++diff --git a/ext/repo_rpmdb.c b/ext/repo_rpmdb.c
++index 75bb6780..ff939978 100644
++--- a/ext/repo_rpmdb.c
+++++ b/ext/repo_rpmdb.c
++@@ -1939,6 +1939,8 @@ repo_add_rpm(Repo *repo, const char *rpm, int flags)
++   if (fread(lead, 96 + 16, 1, fp) != 1 || getu32(lead) != 0xedabeedb)
++     {
++       pool_error(pool, -1, "%s: not a rpm", rpm);
+++      solv_chksum_free(leadsigchksumh, NULL);
+++      solv_chksum_free(chksumh, NULL);
++       fclose(fp);
++       return 0;
++     }
++@@ -1951,12 +1953,16 @@ repo_add_rpm(Repo *repo, const char *rpm, int flags)
++   if (lead[78] != 0 || lead[79] != 5)
++     {
++       pool_error(pool, -1, "%s: not a rpm v5 header", rpm);
+++      solv_chksum_free(leadsigchksumh, NULL);
+++      solv_chksum_free(chksumh, NULL);
++       fclose(fp);
++       return 0;
++     }
++   if (getu32(lead + 96) != 0x8eade801)
++     {
++       pool_error(pool, -1, "%s: bad signature header", rpm);
+++      solv_chksum_free(leadsigchksumh, NULL);
+++      solv_chksum_free(chksumh, NULL);
++       fclose(fp);
++       return 0;
++     }
++@@ -1965,6 +1971,8 @@ repo_add_rpm(Repo *repo, const char *rpm, int flags)
++   if (sigcnt >= MAX_SIG_CNT || sigdsize >= MAX_SIG_DSIZE)
++     {
++       pool_error(pool, -1, "%s: bad signature header", rpm);
+++      solv_chksum_free(leadsigchksumh, NULL);
+++      solv_chksum_free(chksumh, NULL);
++       fclose(fp);
++       return 0;
++     }
++@@ -1975,6 +1983,8 @@ repo_add_rpm(Repo *repo, const char *rpm, int flags)
++     {
++       if (!headfromfp(&state, rpm, fp, lead + 96, sigcnt, sigdsize, sigpad, chksumh, leadsigchksumh))
++ 	{
+++      solv_chksum_free(leadsigchksumh, NULL);
+++      solv_chksum_free(chksumh, NULL);
++ 	  fclose(fp);
++ 	  return 0;
++ 	}
++@@ -2014,6 +2024,8 @@ repo_add_rpm(Repo *repo, const char *rpm, int flags)
++ 	  if (fread(lead, l, 1, fp) != 1)
++ 	    {
++ 	      pool_error(pool, -1, "%s: unexpected EOF", rpm);
+++          solv_chksum_free(leadsigchksumh, NULL);
+++          solv_chksum_free(chksumh, NULL);
++ 	      fclose(fp);
++ 	      return 0;
++ 	    }
++@@ -2034,6 +2046,7 @@ repo_add_rpm(Repo *repo, const char *rpm, int flags)
++   if (fread(lead, 16, 1, fp) != 1)
++     {
++       pool_error(pool, -1, "%s: unexpected EOF", rpm);
+++      solv_chksum_free(chksumh, NULL);
++       fclose(fp);
++       return 0;
++     }
++@@ -2042,6 +2055,7 @@ repo_add_rpm(Repo *repo, const char *rpm, int flags)
++   if (getu32(lead) != 0x8eade801)
++     {
++       pool_error(pool, -1, "%s: bad header", rpm);
+++      solv_chksum_free(chksumh, NULL);
++       fclose(fp);
++       return 0;
++     }
++@@ -2050,6 +2064,7 @@ repo_add_rpm(Repo *repo, const char *rpm, int flags)
++   if (sigcnt >= MAX_HDR_CNT || sigdsize >= MAX_HDR_DSIZE)
++     {
++       pool_error(pool, -1, "%s: bad header", rpm);
+++      solv_chksum_free(chksumh, NULL);
++       fclose(fp);
++       return 0;
++     }
++@@ -2057,6 +2072,7 @@ repo_add_rpm(Repo *repo, const char *rpm, int flags)
++ 
++   if (!headfromfp(&state, rpm, fp, lead, sigcnt, sigdsize, 0, chksumh, 0))
++     {
+++      solv_chksum_free(chksumh, NULL);
++       fclose(fp);
++       return 0;
++     }
++diff --git a/ext/testcase.c b/ext/testcase.c
++index aa72a8d7..3901d90d 100644
++--- a/ext/testcase.c
+++++ b/ext/testcase.c
++@@ -2348,6 +2348,7 @@ testcase_write_mangled(Solver *solv, const char *dir, int resultflags, const cha
++ 	  if (fclose(fp))
++ 	    {
++ 	      pool_error(solv->pool, 0, "testcase_write: write error");
+++	      solv_free(result);
++ 	      strqueue_free(&sq);
++ 	      return 0;
++ 	    }
++@@ -2360,12 +2361,14 @@ testcase_write_mangled(Solver *solv, const char *dir, int resultflags, const cha
++   if (!(fp = fopen(out, "w")))
++     {
++       pool_error(solv->pool, 0, "testcase_write: could not open '%s' for writing", out);
+++      solv_free(cmd);
++       strqueue_free(&sq);
++       return 0;
++     }
++   if (*cmd && fwrite(cmd, strlen(cmd), 1, fp) != 1)
++     {
++       pool_error(solv->pool, 0, "testcase_write: write error");
+++      solv_free(cmd);
++       strqueue_free(&sq);
++       fclose(fp);
++       return 0;
++@@ -2373,6 +2376,7 @@ testcase_write_mangled(Solver *solv, const char *dir, int resultflags, const cha
++   if (fclose(fp))
++     {
++       pool_error(solv->pool, 0, "testcase_write: write error");
+++      solv_free(cmd);
++       strqueue_free(&sq);
++       return 0;
++     }
++diff --git a/tools/repo2solv.c b/tools/repo2solv.c
++index e055e408..30a41f42 100644
++--- a/tools/repo2solv.c
+++++ b/tools/repo2solv.c
++@@ -208,6 +208,7 @@ read_plaindir_repo(Repo *repo, const char *dir)
++ 	repodata_set_location(data, p, 0, 0, bp[0] == '.' && bp[1] == '/' ? bp + 2 : bp);
++       solv_free(rpm);
++     }
+++  solv_free(buf);
++   fclose(fp);
++   while (waitpid(pid, &wstatus, 0) == -1)
++     {
++-- 
++2.23.0
++
+diff --git a/meta/recipes-extended/libsolv/libsolv/0006-Fix-testsolv-segfault.patch b/meta/recipes-extended/libsolv/libsolv/0006-Fix-testsolv-segfault.patch
+new file mode 100644
+index 0000000..559aefb
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv/0006-Fix-testsolv-segfault.patch
+@@ -0,0 +1,41 @@
++From 823bf65087a017d2f488f01e09ee284fa36f7446 Mon Sep 17 00:00:00 2001
++From: Jaroslav Rohel <jrohel@redhat.com>
++Date: Tue, 11 Dec 2018 10:22:09 +0100
++Subject: [PATCH] Fix: testsolv segfault
++Reply-To: muislam@microsoft.com
++
++ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7fab0e11bf2b bp 0x7ffdfc044b70 sp 0x7ffdfc044a90 T0)
++0 0x7fab0e11bf2a in testcase_str2dep_complex /home/company/real_sanitize/libsolv-master/ext/testcase.c:577
++1 0x7fab0e11c80f in testcase_str2dep /home/company/real_sanitize/libsolv-master/ext/testcase.c:656
++2 0x7fab0e12e64a in testcase_read /home/company/real_sanitize/libsolv-master/ext/testcase.c:2952
++3 0x402aa5 in main /home/company/real_sanitize/libsolv-master/tools/testsolv.c:148
++4 0x7fab0d9d2a3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x20a3f)
++5 0x401bb8 in _start (/home/company/real_sanitize/libsolv-master/build/install/bin/testsolv+0x401bb8)
++
++CVE: CVE-2018-20532 CVE-2018-20533 CVE-2018-20534
++
++Upstream-Status: Backport
++
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++
++Cherry picked from  https://github.com/openSUSE/libsolv/pull/291/commits
++---
++ ext/testcase.c | 2 ++
 + 1 file changed, 2 insertions(+)
 +
-+diff --git a/lib/handshake-tls13.c b/lib/handshake-tls13.c
-+index 06c7c01d2..82689b5d8 100644
-+--- a/lib/handshake-tls13.c
-++++ b/lib/handshake-tls13.c
-+@@ -534,6 +534,8 @@ _gnutls13_recv_async_handshake(gnutls_session_t session)
-+ 		return gnutls_assert_val(GNUTLS_E_UNEXPECTED_PACKET);
++diff --git a/ext/testcase.c b/ext/testcase.c
++index 3901d90d..dd20de14 100644
++--- a/ext/testcase.c
+++++ b/ext/testcase.c
++@@ -571,6 +571,8 @@ testcase_str2dep_complex(Pool *pool, const char **sp, int relop)
++   Id flags, id, id2, namespaceid = 0;
++   struct oplist *op;
 + 
-+ 	do {
-++		_gnutls_handshake_buffer_init(&hsk);
-++
-+ 		/* the received handshake message has already been pushed into
-+ 		 * handshake buffers. As we do not need to use the handshake hash
-+ 		 * buffers we call the lower level receive functions */
+++  if (!s)
+++    return 0;
++   while (*s == ' ' || *s == '\t')
++     s++;
++   if (!strncmp(s, "namespace:", 10))
 +-- 
-+2.22.0.vfs.1.1.57.gbaf16c8
++2.23.0
 +
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.4.bb b/meta/recipes-support/gnutls/gnutls_3.6.4.bb
-index 6d2a11d..30873f0 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.4.bb
-@@ -19,6 +19,10 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+diff --git a/meta/recipes-extended/libsolv/libsolv/0007-Fix-testsolv-segfaults.patch b/meta/recipes-extended/libsolv/libsolv/0007-Fix-testsolv-segfaults.patch
+new file mode 100644
+index 0000000..5c13ce5
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv/0007-Fix-testsolv-segfaults.patch
+@@ -0,0 +1,47 @@
++From 43928ee565b9c4f69daa1875da66f92b2d5bf932 Mon Sep 17 00:00:00 2001
++From: Jaroslav Rohel <jrohel@redhat.com>
++Date: Tue, 11 Dec 2018 10:27:15 +0100
++Subject: [PATCH] Fix: testsolv segfaults
++Reply-To: muislam@microsoft.com
++
++ERROR: AddressSanitizer: SEGV on unknown address 0x0000000002f0 (pc 0x7f31501d3bd2 bp 0x7ffcfe4d4a50 sp 0x7ffcfe4d4a30 T0)
++0 0x7f31501d3bd1 in pool_whatprovides /home/company/real_sanitize/libsolv-master/src/pool.h:331
++1 0x7f31501d895e in testcase_str2solvid /home/company/real_sanitize/libsolv-master/ext/testcase.c:793
++2 0x7f31501e8388 in testcase_read /home/company/real_sanitize/libsolv-master/ext/testcase.c:2807
++3 0x402aa5 in main /home/company/real_sanitize/libsolv-master/tools/testsolv.c:148
++4 0x7f314fa8da3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x20a3f)
++5 0x401bb8 in _start (/home/company/real_sanitize/libsolv-master/build/install/bin/testsolv+0x401bb8)
++
++ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x7f5af9e7815f bp 0x7ffc4c843a40 sp 0x7ffc4c8436c0 T0)
++0 0x7f5af9e7815e in testcase_read /home/company/real_sanitize/libsolv-master/ext/testcase.c:2799
++1 0x402aa5 in main /home/company/real_sanitize/libsolv-master/tools/testsolv.c:148
++2 0x7f5af971da3f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x20a3f)
++3 0x401bb8 in _start (/home/company/real_sanitize/libsolv-master/build/install/bin/testsolv+0x401bb8)
++
++CVE: CVE-2018-20532 CVE-2018-20533 CVE-2018-20534
++
++Upstream-Status: Backport
++
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++
++Cherry picked from  https://github.com/openSUSE/libsolv/pull/291/commits
++---
++ ext/testcase.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/ext/testcase.c b/ext/testcase.c
++index dd20de14..83467fe2 100644
++--- a/ext/testcase.c
+++++ b/ext/testcase.c
++@@ -2772,7 +2772,7 @@ testcase_read(Pool *pool, FILE *fp, const char *testcase, Queue *job, char **res
++ 	{
++ 	  int i = strlen(pieces[1]);
++ 	  s = strchr(pieces[1], '(');
++-	  if (!s && pieces[1][i - 1] != ')')
+++	  if (!s || pieces[1][i - 1] != ')')
++ 	    {
++ 	      pool_error(pool, 0, "testcase_read: bad namespace '%s'", pieces[1]);
++ 	    }
++-- 
++2.23.0
++
+diff --git a/meta/recipes-extended/libsolv/libsolv/0008-Fix-Be-sure-that-NONBLOCK-is-set.patch b/meta/recipes-extended/libsolv/libsolv/0008-Fix-Be-sure-that-NONBLOCK-is-set.patch
+new file mode 100644
+index 0000000..fdea9db
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv/0008-Fix-Be-sure-that-NONBLOCK-is-set.patch
+@@ -0,0 +1,37 @@
++From ebb51f73491987435664ac14b79bebe16ffbdd5c Mon Sep 17 00:00:00 2001
++From: Jaroslav Rohel <jrohel@redhat.com>
++Date: Tue, 11 Dec 2018 12:40:42 +0100
++Subject: [PATCH] Fix: Be sure that NONBLOCK is set
++Reply-To: muislam@microsoft.com
++
++CVE: CVE-2018-20532 CVE-2018-20533 CVE-2018-20534
++
++Upstream-Status: Backport
++
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++
++Cherry picked from  https://github.com/openSUSE/libsolv/pull/291/commits
++---
++ examples/solv/fastestmirror.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/examples/solv/fastestmirror.c b/examples/solv/fastestmirror.c
++index d2ebd97a..0ee4e73b 100644
++--- a/examples/solv/fastestmirror.c
+++++ b/examples/solv/fastestmirror.c
++@@ -68,7 +68,11 @@ findfastest(char **urls, int nurls)
++ 	  socks[i] = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
++ 	  if (socks[i] >= 0)
++ 	    {
++-	      fcntl(socks[i], F_SETFL, O_NONBLOCK);
+++	      if (fcntl(socks[i], F_SETFL, O_NONBLOCK) == -1)
+++            {
+++		      close(socks[i]);
+++		      socks[i] = -1;
+++            }
++ 	      if (connect(socks[i], result->ai_addr, result->ai_addrlen) == -1)
++ 		{
++ 		  if (errno != EINPROGRESS)
++-- 
++2.23.0
++
+diff --git a/meta/recipes-extended/libsolv/libsolv/0009-Don-t-set-values-that-are-never-read.patch b/meta/recipes-extended/libsolv/libsolv/0009-Don-t-set-values-that-are-never-read.patch
+new file mode 100644
+index 0000000..8b4a993
+--- /dev/null
++++ b/meta/recipes-extended/libsolv/libsolv/0009-Don-t-set-values-that-are-never-read.patch
+@@ -0,0 +1,113 @@
++From edf87c92cf59c2eed9c1e33c51a47163da15d90b Mon Sep 17 00:00:00 2001
++From: Jaroslav Rohel <jrohel@redhat.com>
++Date: Tue, 11 Dec 2018 12:58:34 +0100
++Subject: [PATCH] Don't set values that are never read
++Reply-To: muislam@microsoft.com
++
++CVE: CVE-2018-20532 CVE-2018-20533 CVE-2018-20534
++
++Upstream-Status: Backport
++
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++
++Cherry picked from  https://github.com/openSUSE/libsolv/pull/291/commits
++---
++ ext/pool_fileconflicts.c | 1 -
++ ext/repo_appdata.c       | 2 +-
++ ext/repo_comps.c         | 2 +-
++ src/cleandeps.c          | 1 -
++ src/dirpool.c            | 2 +-
++ src/order.c              | 1 -
++ src/repopage.c           | 1 -
++ 7 files changed, 3 insertions(+), 7 deletions(-)
++
++diff --git a/ext/pool_fileconflicts.c b/ext/pool_fileconflicts.c
++index eaeb52b2..2fd3d540 100644
++--- a/ext/pool_fileconflicts.c
+++++ b/ext/pool_fileconflicts.c
++@@ -590,7 +590,6 @@ findfileconflicts_alias_cb(void *cbdatav, const char *fn, struct filelistinfo *i
++ 
++   if (!info->dirlen)
++     return;
++-  dp = fn + info->dirlen;
++   if (info->diridx != cbdata->lastdiridx)
++     {
++       cbdata->lastdiridx = info->diridx;
++diff --git a/ext/repo_appdata.c b/ext/repo_appdata.c
++index 62faf2d8..69d46386 100644
++--- a/ext/repo_appdata.c
+++++ b/ext/repo_appdata.c
++@@ -103,7 +103,7 @@ startElement(struct solv_xmlparser *xmlp, int state, const char *name, const cha
++ {
++   struct parsedata *pd = xmlp->userdata;
++   Pool *pool = pd->pool;
++-  Solvable *s = pd->solvable;
+++  Solvable *s;
++   const char *type;
++ 
++   /* ignore all language tags */
++diff --git a/ext/repo_comps.c b/ext/repo_comps.c
++index 255ecb16..e59f8d12 100644
++--- a/ext/repo_comps.c
+++++ b/ext/repo_comps.c
++@@ -107,7 +107,7 @@ startElement(struct solv_xmlparser *xmlp, int state, const char *name, const cha
++ {
++   struct parsedata *pd = xmlp->userdata;
++   Pool *pool = pd->pool;
++-  Solvable *s = pd->solvable;
+++  Solvable *s;
++ 
++   switch(state)
++     {
++diff --git a/src/cleandeps.c b/src/cleandeps.c
++index 1da28f6e..b2fde317 100644
++--- a/src/cleandeps.c
+++++ b/src/cleandeps.c
++@@ -748,7 +748,6 @@ solver_createcleandepsmap(Solver *solv, Map *cleandepsmap, int unneeded)
++ 	    continue;
++ 	  if (strncmp(pool_id2str(pool, s->name), "pattern:", 8) != 0)
++ 	    continue;
++-	  dp = s->repo->idarraydata + s->requires;
++ 	  for (dp = s->repo->idarraydata + s->requires; *dp; dp++)
++ 	    FOR_PROVIDES(p, pp, *dp)
++ 	      if (pool->solvables[p].repo == installed)
++diff --git a/src/dirpool.c b/src/dirpool.c
++index afb26ea5..bed9435e 100644
++--- a/src/dirpool.c
+++++ b/src/dirpool.c
++@@ -85,7 +85,7 @@ dirpool_make_dirtraverse(Dirpool *dp)
++     return;
++   dp->dirs = solv_extend_resize(dp->dirs, dp->ndirs, sizeof(Id), DIR_BLOCK);
++   dirtraverse = solv_calloc_block(dp->ndirs, sizeof(Id), DIR_BLOCK);
++-  for (parent = 0, i = 0; i < dp->ndirs; i++)
+++  for (i = 0; i < dp->ndirs; i++)
++     {
++       if (dp->dirs[i] > 0)
++ 	continue;
++diff --git a/src/order.c b/src/order.c
++index c92c3328..cfde40c9 100644
++--- a/src/order.c
+++++ b/src/order.c
++@@ -1066,7 +1066,6 @@ transaction_order(Transaction *trans, int flags)
++ #if 0
++ printf("do %s [%d]\n", pool_solvid2str(pool, te->p), temedianr[i]);
++ #endif
++-      s = pool->solvables + te->p;
++       for (j = te->edges; od.invedgedata[j]; j++)
++ 	{
++ 	  struct _TransactionElement *te2 = od.tes + od.invedgedata[j];
++diff --git a/src/repopage.c b/src/repopage.c
++index 2b7a863b..85d53eb9 100644
++--- a/src/repopage.c
+++++ b/src/repopage.c
++@@ -399,7 +399,6 @@ match_done:
++ 	      litlen -= 32;
++ 	    }
++ 	}
++-      litofs = 0;
++     }
++   return oo;
++ }
++-- 
++2.23.0
++
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.6.35.bb b/meta/recipes-extended/libsolv/libsolv_0.6.35.bb
+index 12dfc5d..ed6a7cb 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.6.35.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.6.35.bb
+@@ -10,6 +10,13 @@ DEPENDS = "expat zlib"
+ SRC_URI = "git://github.com/openSUSE/libsolv.git"
+ SRC_URI_append_libc-musl = " file://0001-Add-fallback-fopencookie-implementation.patch \
+                              file://0002-Fixes-to-internal-fopencookie-implementation.patch \
++                             file://0003-Fix-Dereference-of-null-pointer.patch \
++                             file://0004-Fix-Add-va_end-before-return.patch \
++                             file://0005-Fix-Memory-leaks.patch \
++                             file://0006-Fix-testsolv-segfault.patch \
++                             file://0007-Fix-testsolv-segfaults.patch \
++                             file://0008-Fix-Be-sure-that-NONBLOCK-is-set.patch \
++                             file://0009-Don-t-set-values-that-are-never-read.patch \
+                            "
  
- SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
-            file://arm_eabi.patch \
-+           file://CVE-2019-3829_p1.patch \
-+           file://CVE-2019-3829_p2.patch \
-+           file://CVE-2019-3829_p3.patch \
-+           file://CVE-2019-3836.patch \
- "
- 
- SRC_URI[md5sum] = "63363d1c00601f4d11a5cadc8b5e0799"
+ SRCREV = "38c5374d4712667b0b6ada4bf78ddbb343095d0c"
 -- 
 2.7.4
 
