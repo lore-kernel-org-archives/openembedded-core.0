@@ -1,24 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 970817C85D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 533437C85D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 08:42:39 +0000 (UTC)
+	Tue, 15 Oct 2019 08:50:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9F8gdsM018443
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9F8osZi014993
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 01:42:40 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 15 Oct 2019 01:42:38 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Tue, 15 Oct 2019 01:50:54 -0700 (PDT)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Tue, 15 Oct 2019 01:50:53 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Oct 2019 16:42:37 +0800
-Message-ID: <20191015084237.10090-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
+Date: Tue, 15 Oct 2019 16:51:10 +0800
+Message-ID: <cover.1571129436.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] sqlite3: fix CVE-2019-16168
+Subject: [PATCH 0/1] weston: Fix PACKAGECONFIG for remoting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,76 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2019 08:42:39 -0000
+X-List-Received-Date: Tue, 15 Oct 2019 08:50:53 -0000
 Content-Type: text/plain
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../files/0001-Fix-CVE-2019-16168.patch       | 40 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.29.0.bb |  3 +-
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
+The following changes since commit 59938780e7e776d87146002ea939b185f8704408:
 
-diff --git a/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch b/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
-new file mode 100644
-index 0000000000..7c4a65b3cd
---- /dev/null
-+++ b/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
-@@ -0,0 +1,40 @@
-+From fcf06b0b426e6c243d6ca2d6c6a02830717ab6a3 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Tue, 15 Oct 2019 13:22:52 +0800
-+Subject: [PATCH] Fix CVE-2019-16168
-+
-+CVE: CVE-2019-16168
-+
-+Upstream-Status: Backport [https://www.sqlite.org/src/vpatch?from=4f5b2d938194fab7&to=98357d8c1263920b]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ sqlite3.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 61bfdeb..b3e6ae2 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -105933,7 +105933,9 @@ static void decodeIntArray(
-+       if( sqlite3_strglob("unordered*", z)==0 ){
-+         pIndex->bUnordered = 1;
-+       }else if( sqlite3_strglob("sz=[0-9]*", z)==0 ){
-+-        pIndex->szIdxRow = sqlite3LogEst(sqlite3Atoi(z+3));
-++        int sz = sqlite3Atoi(z+3);
-++        if( sz<2 ) sz = 2;
-++        pIndex->szIdxRow = sqlite3LogEst(sz);
-+       }else if( sqlite3_strglob("noskipscan*", z)==0 ){
-+         pIndex->noSkipScan = 1;
-+       }
-+@@ -143260,6 +143262,7 @@ static int whereLoopAddBtreeIndex(
-+     ** it to pNew->rRun, which is currently set to the cost of the index
-+     ** seek only. Then, if this is a non-covering index, add the cost of
-+     ** visiting the rows in the main table.  */
-++    assert( pSrc->pTab->szTabRow>0 );
-+     rCostIdx = pNew->nOut + 1 + (15*pProbe->szIdxRow)/pSrc->pTab->szTabRow;
-+     pNew->rRun = sqlite3LogEstAdd(rLogSize, rCostIdx);
-+     if( (pNew->wsFlags & (WHERE_IDX_ONLY|WHERE_IPK))==0 ){
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-index 07e36bede7..34066fbe89 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-@@ -3,6 +3,7 @@ require sqlite3.inc
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
- 
--SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz"
-+SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+           file://0001-Fix-CVE-2019-16168.patch"
- SRC_URI[md5sum] = "8f3dfe83387e62ecb91c7c5c09c688dc"
- SRC_URI[sha256sum] = "8e7c1e2950b5b04c5944a981cb31fffbf9d2ddda939d536838ebc854481afd5b"
+  build-appliance-image: Update to master head revision (2019-10-09 22:28:44 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/weston
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/weston
+
+Robert Yang (1):
+  weston: Fix PACKAGECONFIG for remoting
+
+ meta/recipes-graphics/wayland/weston_7.0.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.17.1
+2.7.4
 
 
