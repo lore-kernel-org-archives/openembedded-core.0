@@ -1,53 +1,59 @@
-Return-Path: <prvs=1851b47d9=Mikko.Rapeli@bmw.de>
-Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
-	[68.232.139.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A9B57CBDD
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CA1837F34E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 13:56:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1571234165; x=1602770165;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=clU/G88NbyoG53l2PqMihHrfedmD82jFN3ItFR0jdBA=;
-	b=OzfwzaAOOCqbo/nsfobkGZyMTWg5yHLJs8Tho45z9yaA7rVPTEyjm+ef
-	rNomhLIasLit5qtmxADr62ua2Hk8cll5CtXVvUzPSyuxczZOrQuD2e72x
-	I/Uig2feSjFVIKVlAv4cuDYW9osSUFoeKvRx07yVvU0miazYXg6kKEQUG k=;
-IronPort-SDR: 0UL6N5IwocbY3WRtd3wFgnt1XUqnHwt/cx/D/7Ypkn3KaGh/Z7DOPuA8N0+MzVCetMa/UZZ+XH
-	MB0wkOBTvmWBE5fB+wm+9Z6elJeuDNDh6Spf0GVi/zh9WJN900e0es6GaT01bUeEkV2rJ9k3xf
-	A/M6dABN5/ILh2vMmIkrXLsPnEP4TAzMIlbkvQ4snPBobZdSSmutlWaEerkSkl+I98NSbX5k1w
-	Z6Yw8fhzHNoMWFOhhcX0uzFXRZ8HK8LNn56+KeBL55lyWyPMDsWNiiomWkK+sUBu2gKc7kg2Ot
-	Njg=
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
-	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 16 Oct 2019 15:56:03 +0200
-Received: from esabb3.muc ([160.50.100.30])  by esagw4.muc with ESMTP/TLS;
-	16 Oct 2019 15:56:03 +0200
-Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
-	([160.48.96.46])
-	by esabb3.muc with ESMTP/TLS; 16 Oct 2019 15:56:02 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10j.europe.bmw.corp
-	(160.48.96.46) with Microsoft SMTP Server (TLS;
-	Wed, 16 Oct 2019 15:56:02 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Wed, 16 Oct 2019 15:56:02 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <peter.kjellerstedt@axis.com>
-Thread-Topic: [OE-core] [PATCH] systemd.bbclass: enable all services specified
-	in ${SYSTEMD_SERVICE}
-Thread-Index: AdWEH4iAGHkhI334Qo6RNxPQJHLzov//8kwA
-Date: Wed, 16 Oct 2019 13:56:02 +0000
-Message-ID: <20191016135602.GR11609@hiutale>
-References: <d98547503ca345b68753531ef83704b2@XBOX03.axis.com>
-In-Reply-To: <d98547503ca345b68753531ef83704b2@XBOX03.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+	Wed, 16 Oct 2019 16:30:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 4404C18450
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2019 18:30:43 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id KaO4TxeTUeef
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2019 18:30:41 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 4E0A518422
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2019 18:30:41 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2A9551E07D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2019 18:30:41 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1D6F31E07C
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2019 18:30:41 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2019 18:30:41 +0200 (CEST)
+Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
+	by thoth.se.axis.com (Postfix) with ESMTP id 10A7F1B0F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2019 18:30:41 +0200 (CEST)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x9GGUeal018424
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2019 18:30:41 +0200
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x9GGUeVe018423
+	for openembedded-core@lists.openembedded.org;
+	Wed, 16 Oct 2019 18:30:40 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Oct 2019 18:30:25 +0200
+Message-Id: <ce369f6028c064b2974447a91d83251a46bd675a.1571243326.git.pkj@axis.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1571243326.git.pkj@axis.com>
+References: <cover.1571243326.git.pkj@axis.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd.bbclass: enable all services specified in ${SYSTEMD_SERVICE}
+X-TM-AS-GCONF: 00
+Subject: [warrior][PATCH 1/8] meson.bbclass: Remove the MESON_*_ARGS variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,64 +66,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2019 13:56:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <60C9AAF1A1353F4E894996FBD63C0857@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 16 Oct 2019 16:30:43 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 16, 2019 at 12:45:20PM +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> > core-bounces@lists.openembedded.org> On Behalf Of Mikko Rapeli
-> > Sent: den 16 oktober 2019 14:32
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH] systemd.bbclass: enable all services
-> > specified in ${SYSTEMD_SERVICE}
-> >=20
-> > This has been the traditional way of enabling systemd services.
-> > It may conflict with presets feature, but other layers, image classes
-> > and recipes add services to be enabled using SYSTEMD_SERVICE
-> > variable also with read-only rootfs, e.g. IMAGE_FEATURES has
-> > stateless-rootfs and systemd_preset_all task is not executed.
-> >=20
-> > Fixes startup of custom services from our recipes using custom
-> > image classes with various BSP layers. In the worst case even
-> > serial console getty service wasn't starting due to dependency
-> > no not enabled services.
-> >=20
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> > ---
-> >  meta/classes/systemd.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/classes/systemd.bbclass
-> > b/meta/classes/systemd.bbclass
-> > index 1dca099..ae03c6f 100644
-> > --- a/meta/classes/systemd.bbclass
-> > +++ b/meta/classes/systemd.bbclass
-> > @@ -33,7 +33,7 @@ if type systemctl >/dev/null 2>/dev/null; then
-> >  	if [ "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
-> >  		for service in ${SYSTEMD_SERVICE_ESCAPED}; do
-> >  			case "${service}" in
-> > -			*@*)
-> > +			*)
-> >  				systemctl ${OPTS} enable "${service}"
-> >  				;;
-> >  			esac
->=20
-> Not much point in leaving the case statement if it only has a=20
-> capture all case. I.e., the above simplifies to:
->=20
-> 	if [ "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
-> 		for service in ${SYSTEMD_SERVICE_ESCAPED}; do
-> 			systemctl ${OPTS} enable "$service"
->=20
-> (also note the change of "${service}" to "$service" to avoid using=20
-> ${...} for shell variables where not necessary as this causes them=20
-> to unnecessarily end up in the bitbake hash for the function.)
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-Thanks, I'll send a v2.
+The options in ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} are already passed
+via ${CC}/${CXX} and there is no reason to pass them a second time. Thus
+we can remove MESON_TOOLCHAIN_ARGS. And when it is removed, the other
+MESON_*_ARGS variables revert to the standard CFLAGS, CXXFLAGS and
+LDFLAGS, so just use them directly instead.
 
--Mikko=
+Apart from the obvious improvement with not passing a lot of options
+twice, this also solves a problem where -pie would be passed on the
+command line in a way that it would prevent building any dynamic
+libraries using meson if using a toolchain that is not built with
+--enable-default-pie and if security_flags.inc is used.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/meson.bbclass | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
+
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 115d1aedcb..5c0139f02a 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -30,11 +30,6 @@ MESONOPTS = " --prefix ${prefix} \
+               -Dcpp_args='${BUILD_CPPFLAGS} ${BUILD_CXXFLAGS}' \
+               -Dcpp_link_args='${BUILD_LDFLAGS}'"
+ 
+-MESON_TOOLCHAIN_ARGS = "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+-MESON_C_ARGS = "${MESON_TOOLCHAIN_ARGS} ${CFLAGS}"
+-MESON_CPP_ARGS = "${MESON_TOOLCHAIN_ARGS} ${CXXFLAGS}"
+-MESON_LINK_ARGS = "${MESON_TOOLCHAIN_ARGS} ${LDFLAGS}"
+-
+ EXTRA_OEMESON_append = " ${PACKAGECONFIG_CONFARGS}"
+ 
+ MESON_CROSS_FILE = ""
+@@ -76,7 +71,7 @@ def meson_endian(prefix, d):
+         bb.fatal("Cannot determine endianism for %s-%s" % (arch, os))
+ 
+ addtask write_config before do_configure
+-do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS CC CXX LD AR NM STRIP READELF"
++do_write_config[vardeps] += "CC CXX LD AR NM STRIP READELF CFLAGS CXXFLAGS LDFLAGS"
+ do_write_config() {
+     # This needs to be Py to split the args into single-element lists
+     cat >${WORKDIR}/meson.cross <<EOF
+@@ -93,10 +88,10 @@ llvm-config = 'llvm-config8.0.0'
+ 
+ [properties]
+ needs_exe_wrapper = true
+-c_args = ${@meson_array('MESON_C_ARGS', d)}
+-c_link_args = ${@meson_array('MESON_LINK_ARGS', d)}
+-cpp_args = ${@meson_array('MESON_CPP_ARGS', d)}
+-cpp_link_args = ${@meson_array('MESON_LINK_ARGS', d)}
++c_args = ${@meson_array('CFLAGS', d)}
++c_link_args = ${@meson_array('LDFLAGS', d)}
++cpp_args = ${@meson_array('CXXFLAGS', d)}
++cpp_link_args = ${@meson_array('LDFLAGS', d)}
+ gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
+ 
+ [host_machine]
+-- 
+2.21.0
+
 
