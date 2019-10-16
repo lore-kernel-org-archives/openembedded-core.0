@@ -1,44 +1,35 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C2217C556
+Return-Path: <ross.burton@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 54B0E7F3B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 09:18:36 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id 5so2066604wmg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 02:18:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=bW6v04iJf7amJotSCZRi3GQXvadT/dCtClxNnbjKQVA=;
-	b=Ws9KLjp+xzCbTSYcERoIlHqp7vJcuTzbfXH3rxicrPfO2kF9utvxyTDHneyj9Mpa40
-	O90cuZZMvdj+pUdC2MxTyOu6ZdeswR5l57gYdkQDep+hMbppOi5YCUBFGpqlJMO1+Dzs
-	XSJydJdOb2Xqt/JU8VaU78HOBm22Wh4+Q2YI6LKY+JwFoUSuCna0GzWTSNZvh/a+bAUu
-	JD6QzERwFTBHRvfAbAa1sEzSt+Cl/jcMigcz0lI1tGANZeAhAXtE+V3sbrufaCLrXGoX
-	q4J2of/pgTb1/ygmwjX5AVyjhOwLSB9NFpWTcbqFEKuRlbqfmpmAaJEYbMLZy3/7zjpa
-	WPDw==
-X-Gm-Message-State: APjAAAWEBs69/tJ5ORw0s4ZdCE3VsLNt9yGXbRVzxHHEkaHDcxNUgjuk
-	p7vWAD2jcGFv3HiIqSSlYL6q5QKR
-X-Google-Smtp-Source: APXvYqwccYlNmyPiMl+UZLX/Ft9YZ6ODSaFxe3AgRLYIbub3sEB/ne+l13Y3CoMKn2SjR2hLmAt9mQ==
-X-Received: by 2002:a05:600c:2549:: with SMTP id
-	e9mr2363409wma.64.1571217516722; 
-	Wed, 16 Oct 2019 02:18:36 -0700 (PDT)
-Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	v8sm31907518wra.79.2019.10.16.02.18.35
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 16 Oct 2019 02:18:36 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Wed, 16 Oct 2019 10:10:45 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Oct 2019 03:10:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,303,1566889200"; d="scan'208";a="370759382"
+Received: from dirkbeck-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.40.171])
+	by orsmga005.jf.intel.com with ESMTP; 16 Oct 2019 03:10:45 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Oct 2019 10:18:25 +0100
-Message-Id: <20191016091825.1910-7-git@andred.net>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20191016091825.1910-1-git@andred.net>
-References: <20191016091825.1910-1-git@andred.net>
+References: <20191015054827.7103-1-dan.callaghan@opengear.com>
+	<20191015061510.21803-1-dan.callaghan@opengear.com>
+	<e41fa2a4-1744-993c-d38a-f98229726251@gmail.com>
+	<1571123420-sup-6304@galangal.danc.bne.opengear.com>
+	<84b5c0f5-e790-84e4-967c-6eace1f673ba@intel.com>
+	<1571178617-sup-8448@galangal.danc.bne.opengear.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <37f8a95f-310d-ee4b-bf5e-b91041955076@intel.com>
+Date: Wed, 16 Oct 2019 11:10:44 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Subject: [PATCH 6/6] oeqa/runtime/systemd: skip unit enable/disable on read-only-rootfs
+In-Reply-To: <1571178617-sup-8448@galangal.danc.bne.opengear.com>
+Subject: Re: [PATCH v2] elfutils: add PACKAGECONFIG for compression algorithms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,45 +42,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2019 09:18:36 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 16 Oct 2019 10:10:45 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-This doesn't work on read-only-rootfs:
-    AssertionError: 1 != 0 : SYSTEMD_BUS_TIMEOUT=240s systemctl disable avahi-daemon.service
-    Failed to disable unit: File /etc/systemd/system/multi-user.target.wants/avahi-daemon.service: Read-only file system
+On 15/10/2019 23:46, Dan Callaghan wrote:
+> It does seem like it would be simpler to just take bzip2-native out of
+> ASSUME_PROVIDED, but I guess leaving it in there lets people avoid
+> building bzip2-native under some circumstances.
 
-Skip the test in that case to avoid this.
+I believe it's a bootstrap speed thing.  If we can assume bzip2 on the 
+host exists we don't need to build it to get going, which is especially 
+fun if you need to decompress bzip2 files to build bzip2...
 
-Signed-off-by: André Draszik <andre.draszik@jci.com>
-Signed-off-by: André Draszik <git@andred.net>
----
- meta/lib/oeqa/runtime/cases/systemd.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
-index c11fa49b07..e33c8a41a7 100644
---- a/meta/lib/oeqa/runtime/cases/systemd.py
-+++ b/meta/lib/oeqa/runtime/cases/systemd.py
-@@ -9,7 +9,7 @@ from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.data import skipIfDataVar, skipIfNotDataVar
- from oeqa.runtime.decorator.package import OEHasPackage
--from oeqa.core.decorator.data import skipIfNotFeature
-+from oeqa.core.decorator.data import skipIfNotFeature, skipIfFeature
- 
- class SystemdTest(OERuntimeTestCase):
- 
-@@ -114,6 +114,8 @@ class SystemdServiceTests(SystemdTest):
-         self.systemctl('is-active', 'avahi-daemon.service', verbose=True)
- 
-     @OETestDepends(['systemd.SystemdServiceTests.test_systemd_status'])
-+    @skipIfFeature('read-only-rootfs',
-+                   'Test does not work with read-only-rootfs in IMAGE_FEATURES')
-     def test_systemd_disable_enable(self):
-         self.systemctl('disable', 'avahi-daemon.service')
-         self.systemctl('is-enabled', 'avahi-daemon.service', expected=1)
--- 
-2.23.0.rc1
-
+Ross
 
