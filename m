@@ -1,102 +1,55 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E16AC7F37A
+Return-Path: <misla011@fiu.edu>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 118D27F33F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 20:24:58 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id p1so14955218pgi.4
+	Wed, 16 Oct 2019 21:10:42 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id h126so24173569qke.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 13:25:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=gLbl1/l2uKwtEovyGM6E2Oms67ZIyjQL1PKlPX++PBE=;
-	b=u/5u/YQlLXPqVWvg+iSbNp2gNDw9LVJbUbztEWbjEiffyx4nMFO85SElEC2no4YbP3
-	G1d+TYtdATDErpVm5Ry8KK1DwqyNIx5lxQeR5/Ytp8BhezErB2vUpnZEBTZWDGumDlGQ
-	H/c8J4paIICtdE/v9K0hNew/GYADRHkGKjYpUHJhDWdZtlt8NZQPGTAE4StyRKA5vorg
-	cVCE5fmvBSxKtxMjn+MoXZQ6dBKf49yJQd4L1seN1djsrqI3TDQSYSYm2jKPQt2jX7Mx
-	hwcaqZOTdjqz3c8jU2BI4EfVEspavLSvfDNthL8pEiw2y/veyxnnzwa6hcLxJd0qyNmK
-	Xp0w==
+	Wed, 16 Oct 2019 14:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=fiu-edu.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version:reply-to
+	:content-transfer-encoding;
+	bh=Hqok6QEC2GlIPg856rD4As0ntZsh6AzQ6XvSCKkbD+k=;
+	b=wF9oJLV4s4bDN1Q6V0XKVkJFYkZVfI0VGkxaCA7f0gfd80uCI83LlNjrtZTZmhw2WE
+	HbRXHpyIlgkRzSpVc51nf2rYfwnsMno352ItfVYP4bknVK82wM3ZAQhzMpL0fco9Eimd
+	0MM8D3qITMoDMEFsaexT5X56sHf77HyYnebH+aJx5VSgne6DLxZazo+GgDY5bVM3BaMy
+	i2rNHxG5qjQBz2VeJiI4aDB8pAgOXU1x6QPo8F+euO07JuPowjH4TXH5iaDKMdtKplmG
+	i78cNalWm4xcNsA6ohklpmT7jMtC0ruOTkTjIQMoEAJsMu3aMmY2HNdJbEk6nywtp+9m
+	HWoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=gLbl1/l2uKwtEovyGM6E2Oms67ZIyjQL1PKlPX++PBE=;
-	b=TeLAz3uLzDT+Cs1RT2cWAx4BU5bScUAIqZrTb4Amx2s7qYOBRZqlxYyDqiL+N13heV
-	fZM9D8XjxaaV1gOmoT3PqYYtV9kHr8dnvN9WqNNtBhUOMoOLeidgYl1eZd+i4p0x2Jzn
-	U2lu6MPWT7JDhKVHuSUAXweocoRBjFl+yNVQyzd80o+LKKZlN/o5IEDkhfUwoIqVps/l
-	CKVWjFoXsF5vg30mhY+CZv7h17WwTUF72QVsvNoVYk3rJc4Gd7uPN/7wsa94TyzN9Lsk
-	8v4lp+DpK+bY9YOnszHHeeX9f+lAxhbKJK8VUrSc0CMEijX2fW9yNu371S92CE6F6opq
-	ycWw==
-X-Gm-Message-State: APjAAAX8Npn0aoE4xbf2fPzHjHNKZSRdAZX3QqWwRmYF+5V1b+tPE9E+
-	dmtbcBWfA2S+JgEg4T4KKGa1uAIw
-X-Google-Smtp-Source: APXvYqwMcxZvh+dkICI/zZYwG4QYBy4t5490IFr3YovM/PJbTfi81BNVvfa5TKvEz1H00EpYfkxzIw==
-X-Received: by 2002:a62:5fc3:: with SMTP id t186mr559318pfb.238.1571257499640; 
-	Wed, 16 Oct 2019 13:24:59 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:a5c0:8dc1:2952:740a:7402?
-	([2601:202:4180:a5c0:8dc1:2952:740a:7402])
-	by smtp.gmail.com with ESMTPSA id
-	f17sm23326529pgd.8.2019.10.16.13.24.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Oct 2019 13:24:59 -0700 (PDT)
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1571243326.git.pkj@axis.com>
-	<bdaf3cd8bb68282d2039c3aacaf6eca19a94418d.1571243326.git.pkj@axis.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <8bc62b53-7f27-9c16-e89e-4825a15c8bf9@gmail.com>
-Date: Wed, 16 Oct 2019 13:24:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:reply-to:content-transfer-encoding;
+	bh=Hqok6QEC2GlIPg856rD4As0ntZsh6AzQ6XvSCKkbD+k=;
+	b=m9PG7mYNuEnKd9FYIIovL83gNcCcxdsHJkeQ6GWl5D1YBWm7qGZ9vjMyCYqBnwJD/Z
+	ubEenM9pyrTo9o8iL7Lx122nfDzsIQFuhRBV8qdvUNJR1Xfowo5wZw+LDvkRqwWQCV9B
+	FXvOddmsqd5PqeRgu5sRCHQ5eA9qrTQ3cL6em95LesFZdqRvLYakfkIV7j5TnCWZVndk
+	kRFN1ahevnzKCMlvpPk4SLj9zunnrGgTqSadFG8Uw3rBp/YTQheFVDVyhmFYpUrOCoqy
+	XO8vI5akbdp6HSgWOcNGM9x00XGn9xDGMJc43NN9jG7EYjaqpBhUGbDL78an2o7+Hlcj
+	Xjcw==
+X-Gm-Message-State: APjAAAWcGrwG4U1uC3T/3DkwVbggi8c6O1fX4ONhQWhYEoolRxZTik4a
+	/ho0SSkKYiz3TKePfXeL6F9HTfcQ87U=
+X-Google-Smtp-Source: APXvYqwmPGAe91gpqLHv5ZfBwVvPPgfG/UGcBdB6Vp7attMmmqxUPVRHNYrZPJ/kIG2anIJkLalWKg==
+X-Received: by 2002:a05:620a:2001:: with SMTP id
+	c1mr5425700qka.261.1571260243416; 
+	Wed, 16 Oct 2019 14:10:43 -0700 (PDT)
+Received: from
+	muislam-yocto.h0ebkyng4k5ejcojahceueqbfb.cx.internal.cloudapp.net
+	([40.84.59.7])
+	by smtp.gmail.com with ESMTPSA id j7sm145945qtc.73.2019.10.16.14.10.42
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 16 Oct 2019 14:10:42 -0700 (PDT)
+From: Muminul Islam <misla011@fiu.edu>
+X-Google-Original-From: Muminul Islam <muislam@microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Oct 2019 21:10:35 +0000
+Message-Id: <20191016211035.2270-1-muislam@microsoft.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <bdaf3cd8bb68282d2039c3aacaf6eca19a94418d.1571243326.git.pkj@axis.com>
-Subject: Re: [warrior][PATCH 7/8] devtool: finish: Add suppport for the --no-clean option
+Reply-To: muislam@microsoft.com
+Subject: [thud][PATCH] curl: Security fix for CVE-2019-5481
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,47 +62,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2019 20:24:59 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 16 Oct 2019 21:10:43 -0000
+Content-Transfer-Encoding: 8bit
 
+CVE: CVE-2019-5481
 
+Upstream-Status: Backport
 
-On 10/16/19 9:30 AM, Peter Kjellerstedt wrote:
-> From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->
-> This works just like the already existing --no-clean option to the
-> `devtool reset` command.
-what problem is this solving in warrior?
--a rmin
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  scripts/lib/devtool/standard.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-> index b944ec3966..aeb9452a8a 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -1895,7 +1895,7 @@ def finish(args, config, basepath, workspace):
->          else:
->              raise DevtoolError('Source tree is not clean:\n\n%s\nEnsure you have committed your changes or use -f/--force if you are sure there\'s nothing that needs to be committed' % dirty)
->  
-> -    no_clean = False
-> +    no_clean = args.no_clean
->      tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
->      try:
->          rd = parse_recipe(config, tinfoil, args.recipename, True)
-> @@ -2169,6 +2169,7 @@ def register_commands(subparsers, context):
->      parser_finish.add_argument('--mode', '-m', choices=['patch', 'srcrev', 'auto'], default='auto', help='Update mode (where %(metavar)s is %(choices)s; default is %(default)s)', metavar='MODE')
->      parser_finish.add_argument('--initial-rev', help='Override starting revision for patches')
->      parser_finish.add_argument('--force', '-f', action="store_true", help='Force continuing even if there are uncommitted changes in the source tree repository')
-> +    parser_finish.add_argument('--no-clean', '-n', action="store_true", help='Don\'t clean the sysroot to remove recipe output')
->      parser_finish.add_argument('--no-overrides', '-O', action="store_true", help='Do not handle other override branches (if they exist)')
->      parser_finish.add_argument('--dry-run', '-N', action="store_true", help='Dry-run (just report changes instead of writing them)')
->      parser_finish.add_argument('--force-patch-refresh', action="store_true", help='Update patches in the layer even if they have not been modified (useful for refreshing patch context)')
+Signed-off-by: Muminul Islam <muislam@microsoft.com>
+---
+ .../curl/curl/CVE-2019-5481.patch             | 52 +++++++++++++++++++
+ meta/recipes-support/curl/curl_7.61.0.bb      |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5481.patch
+
+diff --git a/meta/recipes-support/curl/curl/CVE-2019-5481.patch b/meta/recipes-support/curl/curl/CVE-2019-5481.patch
+new file mode 100644
+index 0000000000..a97a95a268
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2019-5481.patch
+@@ -0,0 +1,52 @@
++From f6fa4dffb2b973f3c7f2e8c2b6a7dc94c016f455 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Tue, 3 Sep 2019 22:59:32 +0200
++Subject: [PATCH] security:read_data fix bad realloc()
++Reply-To: muislam@microsoft.com
++
++... that could end up a double-free
++
++CVE-2019-5481
++Bug: https://curl.haxx.se/docs/CVE-2019-5481.html
++
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++
++CVE: CVE-2019-5481
++
++Upstream-Status: Backport
++
++Upstream commit: https://github.com/curl/curl/commit/9069838b30fb3b48af0123e39f664cea683254a5
++---
++ lib/security.c | 6 ++----
++ 1 file changed, 2 insertions(+), 4 deletions(-)
++
++diff --git a/lib/security.c b/lib/security.c
++index abf242c38..52cce97d0 100644
++--- a/lib/security.c
+++++ b/lib/security.c
++@@ -191,7 +191,6 @@ static CURLcode read_data(struct connectdata *conn,
++                           struct krb5buffer *buf)
++ {
++   int len;
++-  void *tmp = NULL;
++   CURLcode result;
++ 
++   result = socket_read(fd, &len, sizeof(len));
++@@ -201,12 +200,11 @@ static CURLcode read_data(struct connectdata *conn,
++   if(len) {
++     /* only realloc if there was a length */
++     len = ntohl(len);
++-    tmp = Curl_saferealloc(buf->data, len);
+++    buf->data = Curl_saferealloc(buf->data, len);
++   }
++-  if(tmp == NULL)
+++  if(!len || !buf->data)
++     return CURLE_OUT_OF_MEMORY;
++ 
++-  buf->data = tmp;
++   result = socket_read(fd, buf->data, len);
++   if(result)
++     return result;
++-- 
++2.23.0
++
+diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
+index 3b54774b9d..29aaff20a1 100644
+--- a/meta/recipes-support/curl/curl_7.61.0.bb
++++ b/meta/recipes-support/curl/curl_7.61.0.bb
+@@ -14,6 +14,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2019-5435.patch \
+            file://CVE-2019-5436.patch \
+            file://CVE-2019-5482.patch \
++           file://CVE-2019-5481.patch \
+ "
+ 
+ SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
+-- 
+2.23.0
 
 
