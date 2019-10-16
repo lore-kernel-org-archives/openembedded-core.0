@@ -1,26 +1,53 @@
-Return-Path: <tgamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA3477F457
+Return-Path: <prvs=1851b47d9=Mikko.Rapeli@bmw.de>
+Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
+	[68.232.139.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A9B57CBDD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 13:23:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9GDNPhx031350
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 06:23:26 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 16 Oct 2019 06:23:25 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 20958)	id 23A36C61144;
-	Wed, 16 Oct 2019 06:23:24 -0700 (PDT)
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Oct 2019 06:23:21 -0700
-Message-ID: <20191016132321.65460-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.23.0
+	Wed, 16 Oct 2019 13:56:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1571234165; x=1602770165;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=clU/G88NbyoG53l2PqMihHrfedmD82jFN3ItFR0jdBA=;
+	b=OzfwzaAOOCqbo/nsfobkGZyMTWg5yHLJs8Tho45z9yaA7rVPTEyjm+ef
+	rNomhLIasLit5qtmxADr62ua2Hk8cll5CtXVvUzPSyuxczZOrQuD2e72x
+	I/Uig2feSjFVIKVlAv4cuDYW9osSUFoeKvRx07yVvU0miazYXg6kKEQUG k=;
+IronPort-SDR: 0UL6N5IwocbY3WRtd3wFgnt1XUqnHwt/cx/D/7Ypkn3KaGh/Z7DOPuA8N0+MzVCetMa/UZZ+XH
+	MB0wkOBTvmWBE5fB+wm+9Z6elJeuDNDh6Spf0GVi/zh9WJN900e0es6GaT01bUeEkV2rJ9k3xf
+	A/M6dABN5/ILh2vMmIkrXLsPnEP4TAzMIlbkvQ4snPBobZdSSmutlWaEerkSkl+I98NSbX5k1w
+	Z6Yw8fhzHNoMWFOhhcX0uzFXRZ8HK8LNn56+KeBL55lyWyPMDsWNiiomWkK+sUBu2gKc7kg2Ot
+	Njg=
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 16 Oct 2019 15:56:03 +0200
+Received: from esabb3.muc ([160.50.100.30])  by esagw4.muc with ESMTP/TLS;
+	16 Oct 2019 15:56:03 +0200
+Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
+	([160.48.96.46])
+	by esabb3.muc with ESMTP/TLS; 16 Oct 2019 15:56:02 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10j.europe.bmw.corp
+	(160.48.96.46) with Microsoft SMTP Server (TLS;
+	Wed, 16 Oct 2019 15:56:02 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Wed, 16 Oct 2019 15:56:02 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <peter.kjellerstedt@axis.com>
+Thread-Topic: [OE-core] [PATCH] systemd.bbclass: enable all services specified
+	in ${SYSTEMD_SERVICE}
+Thread-Index: AdWEH4iAGHkhI334Qo6RNxPQJHLzov//8kwA
+Date: Wed, 16 Oct 2019 13:56:02 +0000
+Message-ID: <20191016135602.GR11609@hiutale>
+References: <d98547503ca345b68753531ef83704b2@XBOX03.axis.com>
+In-Reply-To: <d98547503ca345b68753531ef83704b2@XBOX03.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Subject: [PATCH v2] aspell: upgrade from 0.60.7 to 0.60.8
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd.bbclass: enable all services specified in ${SYSTEMD_SERVICE}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +60,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2019 13:23:25 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Oct 2019 13:56:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <60C9AAF1A1353F4E894996FBD63C0857@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-New version fixes CVE-2019-17544 as well as various other bugs.
+On Wed, Oct 16, 2019 at 12:45:20PM +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> > core-bounces@lists.openembedded.org> On Behalf Of Mikko Rapeli
+> > Sent: den 16 oktober 2019 14:32
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH] systemd.bbclass: enable all services
+> > specified in ${SYSTEMD_SERVICE}
+> >=20
+> > This has been the traditional way of enabling systemd services.
+> > It may conflict with presets feature, but other layers, image classes
+> > and recipes add services to be enabled using SYSTEMD_SERVICE
+> > variable also with read-only rootfs, e.g. IMAGE_FEATURES has
+> > stateless-rootfs and systemd_preset_all task is not executed.
+> >=20
+> > Fixes startup of custom services from our recipes using custom
+> > image classes with various BSP layers. In the worst case even
+> > serial console getty service wasn't starting due to dependency
+> > no not enabled services.
+> >=20
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+> > ---
+> >  meta/classes/systemd.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/classes/systemd.bbclass
+> > b/meta/classes/systemd.bbclass
+> > index 1dca099..ae03c6f 100644
+> > --- a/meta/classes/systemd.bbclass
+> > +++ b/meta/classes/systemd.bbclass
+> > @@ -33,7 +33,7 @@ if type systemctl >/dev/null 2>/dev/null; then
+> >  	if [ "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
+> >  		for service in ${SYSTEMD_SERVICE_ESCAPED}; do
+> >  			case "${service}" in
+> > -			*@*)
+> > +			*)
+> >  				systemctl ${OPTS} enable "${service}"
+> >  				;;
+> >  			esac
+>=20
+> Not much point in leaving the case statement if it only has a=20
+> capture all case. I.e., the above simplifies to:
+>=20
+> 	if [ "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
+> 		for service in ${SYSTEMD_SERVICE_ESCAPED}; do
+> 			systemctl ${OPTS} enable "$service"
+>=20
+> (also note the change of "${service}" to "$service" to avoid using=20
+> ${...} for shell variables where not necessary as this causes them=20
+> to unnecessarily end up in the bitbake hash for the function.)
 
-CVE: CVE-2019-17544
+Thanks, I'll send a v2.
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- .../aspell/{aspell_0.60.7.bb => aspell_0.60.8.bb}           | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-support/aspell/{aspell_0.60.7.bb => aspell_0.60.8.bb} (85%)
-
-diff --git a/meta/recipes-support/aspell/aspell_0.60.7.bb b/meta/recipes-support/aspell/aspell_0.60.8.bb
-similarity index 85%
-rename from meta/recipes-support/aspell/aspell_0.60.7.bb
-rename to meta/recipes-support/aspell/aspell_0.60.8.bb
-index da99d12630..629987810a 100644
---- a/meta/recipes-support/aspell/aspell_0.60.7.bb
-+++ b/meta/recipes-support/aspell/aspell_0.60.8.bb
-@@ -4,11 +4,9 @@ SECTION = "console/utils"
- LICENSE = "LGPLv2 | LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
--PR = "r1"
--
- SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
--SRC_URI[md5sum] = "8ef2252609c511cd2bb26f3a3932ef28"
--SRC_URI[sha256sum] = "5ca8fc8cb0370cc6c9eb5b64c6d1bc5d57b3750dbf17887726c3407d833b70e4"
-+SRC_URI[md5sum] = "012fa9209203ae4e5a61c2a668fd10e3"
-+SRC_URI[sha256sum] = "f9b77e515334a751b2e60daab5db23499e26c9209f5e7b7443b05235ad0226f2"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses"
--- 
-2.23.0
-
+-Mikko=
 
