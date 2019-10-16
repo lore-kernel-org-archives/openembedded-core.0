@@ -1,24 +1,29 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 88A0A7C127
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC477F4AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 02:05:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9G25OC9014457
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2019 19:05:24 -0700 (PDT)
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 15 Oct 2019 19:05:18 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Oct 2019 10:05:17 +0800
-Message-ID: <20191016020517.20354-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Wed, 16 Oct 2019 02:06:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9G2634T014120
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 15 Oct 2019 19:06:04 -0700
+Received: from [128.224.158.231] (128.224.158.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 15 Oct 2019 19:06:03 -0700
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20191015084237.10090-1-Qi.Chen@windriver.com>
+	<5b729d37-1844-1c79-801a-d2cdb8dc36ef@intel.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <9278460a-fe4c-9800-00cb-1709bb172142@windriver.com>
+Date: Wed, 16 Oct 2019 10:21:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [zeus][PATCH] sqlite3: fix CVE-2019-16168
+In-Reply-To: <5b729d37-1844-1c79-801a-d2cdb8dc36ef@intel.com>
+X-Originating-IP: [128.224.158.231]
+Subject: Re: [PATCH] sqlite3: fix CVE-2019-16168
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,76 +36,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2019 02:05:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Oct 2019 02:06:04 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../files/0001-Fix-CVE-2019-16168.patch       | 40 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.29.0.bb |  3 +-
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
+On 10/15/2019 06:50 PM, Ross Burton wrote:
+> There's a queued upgrade to 3.30 for master, is this fixed in that 
+> release?
+>
+> Ross
+>
+No such problem in 3.30.
+I've sent out a new patch tagged with '[zeus]'.
 
-diff --git a/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch b/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
-new file mode 100644
-index 0000000000..7c4a65b3cd
---- /dev/null
-+++ b/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
-@@ -0,0 +1,40 @@
-+From fcf06b0b426e6c243d6ca2d6c6a02830717ab6a3 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Tue, 15 Oct 2019 13:22:52 +0800
-+Subject: [PATCH] Fix CVE-2019-16168
-+
-+CVE: CVE-2019-16168
-+
-+Upstream-Status: Backport [https://www.sqlite.org/src/vpatch?from=4f5b2d938194fab7&to=98357d8c1263920b]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ sqlite3.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 61bfdeb..b3e6ae2 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -105933,7 +105933,9 @@ static void decodeIntArray(
-+       if( sqlite3_strglob("unordered*", z)==0 ){
-+         pIndex->bUnordered = 1;
-+       }else if( sqlite3_strglob("sz=[0-9]*", z)==0 ){
-+-        pIndex->szIdxRow = sqlite3LogEst(sqlite3Atoi(z+3));
-++        int sz = sqlite3Atoi(z+3);
-++        if( sz<2 ) sz = 2;
-++        pIndex->szIdxRow = sqlite3LogEst(sz);
-+       }else if( sqlite3_strglob("noskipscan*", z)==0 ){
-+         pIndex->noSkipScan = 1;
-+       }
-+@@ -143260,6 +143262,7 @@ static int whereLoopAddBtreeIndex(
-+     ** it to pNew->rRun, which is currently set to the cost of the index
-+     ** seek only. Then, if this is a non-covering index, add the cost of
-+     ** visiting the rows in the main table.  */
-++    assert( pSrc->pTab->szTabRow>0 );
-+     rCostIdx = pNew->nOut + 1 + (15*pProbe->szIdxRow)/pSrc->pTab->szTabRow;
-+     pNew->rRun = sqlite3LogEstAdd(rLogSize, rCostIdx);
-+     if( (pNew->wsFlags & (WHERE_IDX_ONLY|WHERE_IPK))==0 ){
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-index 07e36bede7..34066fbe89 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-@@ -3,6 +3,7 @@ require sqlite3.inc
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
- 
--SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz"
-+SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+           file://0001-Fix-CVE-2019-16168.patch"
- SRC_URI[md5sum] = "8f3dfe83387e62ecb91c7c5c09c688dc"
- SRC_URI[sha256sum] = "8e7c1e2950b5b04c5944a981cb31fffbf9d2ddda939d536838ebc854481afd5b"
--- 
-2.17.1
-
+Regards,
+Chen Qi
 
