@@ -1,56 +1,59 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AC25B7E447
+Return-Path: <mcfrisk@kapsi.fi>
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 132787E28B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 12:14:49 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id b24so2495360wmj.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 05:14:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=p8QvJZtblDgxnu1m9ibuubJplmefFzrHDsPx22BF3TY=;
-	b=WWuq4CBUfrzA7jAvOhA7v6BLo+8+SiEoIphqAkrOvTWdIZ7YD1YbzqKWJuKmV+8Zqd
-	ccEy8XLjoo3Ir4LY/+mreMvO27qFYi64Zw8ok0yCWhz57wQLsby9p+CzEq7O9QLf5qcF
-	5M22k3Sir58y9VoA5oTWYt9H8fTbVSWh6xz6c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=p8QvJZtblDgxnu1m9ibuubJplmefFzrHDsPx22BF3TY=;
-	b=N0Ifi5XGuXMM4PJpYJMOUTO33C1zJGivH+iluB09WCdIv0dgqgdeO8WDjUte3tF0bL
-	OaYMV7zBJDB/+iIMHBL59goxVZsJxg3A5pyMfLidvILjFB1dHn/nSv30hlpr6UD8Rivk
-	KpYknV/cQa4pCa27qQoA53chkvHrooX1srAPcF1ifyEwiavcoHHij4ov1RyP7TBNzHc1
-	N757zYd9xsIrxhkvJqjMbZBqcUOIj+izKD/0SS2pdDTaCOkY7LB9EHHAz+n4/V6HB/zV
-	EylJ3d7S5TX203AnsYouKhQf7L7y4cX6rtwNzD0rtGHvuACEMswo5jhc5NEtAcOdMcVy
-	pgaQ==
-X-Gm-Message-State: APjAAAXQZIeUg0pHaWa/I7v4N8OK8evvZOmkWxOg5zSIjT/mYCHgxsuL
-	vdrOIEuRpy2v5HVYIvUhsiuIJcIDtx4=
-X-Google-Smtp-Source: APXvYqzvvWWu3Wg7boY+XN23iOvLryMQCDhd17ULaK33y+6paDm+Vvc/t0L2Ueg+Wi99il4QtM/cJQ==
-X-Received: by 2002:a1c:4456:: with SMTP id r83mr3169411wma.44.1571228090367; 
-	Wed, 16 Oct 2019 05:14:50 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	f143sm3944029wme.40.2019.10.16.05.14.49
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 16 Oct 2019 05:14:49 -0700 (PDT)
-Message-ID: <a326534ef946ab81da4c160bd4cc629f5ff112f9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Dan Callaghan <dan.callaghan@opengear.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Oct 2019 13:14:48 +0100
-In-Reply-To: <1571178617-sup-8448@galangal.danc.bne.opengear.com>
-References: <20191015054827.7103-1-dan.callaghan@opengear.com>
-	<20191015061510.21803-1-dan.callaghan@opengear.com>
-	<e41fa2a4-1744-993c-d38a-f98229726251@gmail.com>
-	<1571123420-sup-6304@galangal.danc.bne.opengear.com>
-	<84b5c0f5-e790-84e4-967c-6eace1f673ba@intel.com>
-	<1571178617-sup-8448@galangal.danc.bne.opengear.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH v2] elfutils: add PACKAGECONFIG for compression algorithms
+	Wed, 16 Oct 2019 12:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Subject:Message-Id:Date:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=bGQUItUdl0avM0PbExMkYMf3pboXFNp7dHRIGSndQI8=;
+	b=g8llPq61ctO6+FnGnTLiTioZ/0
+	XYxxRZX06/XWaSbZ6RKGLVdZ0hPv8Ft7K8YtVJEvN1mDpOh/WIsbfz9EZkHVnXpeb5E1BTg2MXq8N
+	p3gdIh6UOimm/yYDjd6yQLTLcFZdYCvhMKvJllDiTpXpHwlGGio3gv7+t50gs1leYTmAnHL5b4Hxb
+	4XmAioPouuJdQG4BwSsAcWVsdsZOY9fUzpAVR1EEs4uMVATeaAqbnnKQ5gvgHoNBiZ0fGE8PfZalh
+	9xq9mMGwaO0BAP1lhBTO77XbwnD9TwYecMEqN5xCTQA2okhuwEvNDhtNjoxkQAawu2nztLLE+VwUm
+	tUcjta+A==;
+Received: from [2001:67c:1be8::12] (helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1iKiTd-0003Ct-0V; Wed, 16 Oct 2019 15:32:29 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1iKiTI-0007PC-S3; Wed, 16 Oct 2019 15:32:08 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Oct 2019 15:32:04 +0300
+Message-Id: <1571229124-27956-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-Rspam-Score: 4.4 (++++)
+X-Rspam-Report: Action: no action Symbol: ARC_NA(0.00)
+	Symbol: DMARC_POLICY_SOFTFAIL(0.10) Symbol: FROM_HAS_DN(0.00)
+	Symbol: TO_DN_SOME(0.00) Symbol: R_SPF_ALLOW(-0.20)
+	Symbol: TO_MATCH_ENVRCPT_ALL(0.00) Symbol: MIME_GOOD(-0.10)
+	Symbol: RCVD_TLS_LAST(0.00) Symbol: SUBJECT_HAS_CURRENCY(1.00)
+	Symbol: NEURAL_SPAM(0.00) Symbol: IP_SCORE(-0.16)
+	Symbol: RCPT_COUNT_TWO(0.00) Symbol: MID_CONTAINS_FROM(1.00)
+	Symbol: FORGED_SENDER(0.30) Symbol: R_DKIM_NA(0.00)
+	Symbol: MIME_TRACE(0.00) Symbol: ASN(0.00)
+	Symbol: FROM_NEQ_ENVFROM(0.00)
+	Symbol: HFILTER_HOSTNAME_UNKNOWN(2.50)
+	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf allow
+	Message-ID: 1571229124-27956-1-git-send-email-mikko.rapeli@bmw.de
+X-Rspam-Bar: ++++
+X-SA-Exim-Connect-IP: 2001:67c:1be8::12
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail
+X-Spam-Level: 
+X-Spam-Status: No, score=0.5 required=5.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,RDNS_NONE,SPF_HELO_NONE,SPF_NEUTRAL,
+	SUBJ_OBFU_PUNCT_FEW,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.2
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
+Subject: [PATCH] systemd.bbclass: enable all services specified in ${SYSTEMD_SERVICE}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,36 +66,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2019 12:14:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Oct 2019 12:32:31 -0000
 
-On Wed, 2019-10-16 at 08:46 +1000, Dan Callaghan wrote:
-> Excerpts from Ross Burton's message of 2019-10-15 11:55:31 +01:00:
-> > If you need bzip-native for the libraries, DEPEND on
-> > bzip2-replacement-native.
-> 
-> Oh, thanks for the hint! I hadn't seen that trick used before but
-> now 
-> I see it is in quite a few places. I will post a fresh patch using
-> that.
-> 
-> It does seem like it would be simpler to just take bzip2-native out
-> of 
-> ASSUME_PROVIDED, but I guess leaving it in there lets people avoid 
-> building bzip2-native under some circumstances.
+This has been the traditional way of enabling systemd services.
+It may conflict with presets feature, but other layers, image classes
+and recipes add services to be enabled using SYSTEMD_SERVICE
+variable also with read-only rootfs, e.g. IMAGE_FEATURES has
+stateless-rootfs and systemd_preset_all task is not executed.
 
-Its in ASSUME_PROVIDED since we do rely on bzip2 being there so that
-people can have .bz2 files in SRC_URI.
+Fixes startup of custom services from our recipes using custom
+image classes with various BSP layers. In the worst case even
+serial console getty service wasn't starting due to dependency
+no not enabled services.
 
-I have a small preference for disabling bzip2 in elfutils-native, just
-because we only really want to build things that are necessary. The
-more dependencies we add in, the longer builds take.
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+---
+ meta/classes/systemd.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Do we really need bzip2 in elfutils-native?
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 1dca099..ae03c6f 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -33,7 +33,7 @@ if type systemctl >/dev/null 2>/dev/null; then
+ 	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+ 		for service in ${SYSTEMD_SERVICE_ESCAPED}; do
+ 			case "${service}" in
+-			*@*)
++			*)
+ 				systemctl ${OPTS} enable "${service}"
+ 				;;
+ 			esac
+-- 
+1.9.1
 
 
