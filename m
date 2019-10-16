@@ -1,43 +1,44 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AF5F7C556
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C2217C556
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 09:18:35 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id i16so2051727wmd.3
+	Wed, 16 Oct 2019 09:18:36 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id 5so2066604wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 02:18:36 -0700 (PDT)
+	Wed, 16 Oct 2019 02:18:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=CPzgGKbcQeHUcgR8vvSdgijJAEACjjBOWb0eKJS+9DI=;
-	b=dRMUx+RdYy0QLL16nAIAuEKC3flERaiC40RNtqjH4NQ44YHMqMsoPmBK9iToaNCkIH
-	XW0BFNG7xlTB5lfWbuULZ95QvmaKl7NyscBW8jUo5HTr7M3wRGkUxvkOy04tnKx63/KS
-	M9+r5v3AnEpIhbMSBW1oeDitnp54391Vi7kTGC6UL3VtnehZs44OOVUDr+IdLnu1lBq9
-	rXX0qYBEmLR9btmIzn7qBlaGg+Ez2fwoLaV1//F0EE7vAYga3pjAZVJDmGBillqVHm13
-	hHd0Dy6FLMJfOwf8IUuc2fzPrA8QchiOIqUPH7ypGgamVxViMdK2VZm9TfBisaVXAy9C
-	jFrA==
-X-Gm-Message-State: APjAAAUcEk7oQHvuwdl8wcWjNrh40iv1YRkGJMmHA8dfWK5YlcVosTFk
-	mRLU5P4mDCj5E1s0BZsUyWT686Iu
-X-Google-Smtp-Source: APXvYqwoX14glnHBpnziJdXw5g6S2zvjyX2+iRJyyosmXIL71zRZD/afdvr4sis7CZnXE9oRT66WAQ==
-X-Received: by 2002:a1c:e08a:: with SMTP id x132mr2379090wmg.155.1571217515840;
-	Wed, 16 Oct 2019 02:18:35 -0700 (PDT)
+	bh=bW6v04iJf7amJotSCZRi3GQXvadT/dCtClxNnbjKQVA=;
+	b=Ws9KLjp+xzCbTSYcERoIlHqp7vJcuTzbfXH3rxicrPfO2kF9utvxyTDHneyj9Mpa40
+	O90cuZZMvdj+pUdC2MxTyOu6ZdeswR5l57gYdkQDep+hMbppOi5YCUBFGpqlJMO1+Dzs
+	XSJydJdOb2Xqt/JU8VaU78HOBm22Wh4+Q2YI6LKY+JwFoUSuCna0GzWTSNZvh/a+bAUu
+	JD6QzERwFTBHRvfAbAa1sEzSt+Cl/jcMigcz0lI1tGANZeAhAXtE+V3sbrufaCLrXGoX
+	q4J2of/pgTb1/ygmwjX5AVyjhOwLSB9NFpWTcbqFEKuRlbqfmpmAaJEYbMLZy3/7zjpa
+	WPDw==
+X-Gm-Message-State: APjAAAWEBs69/tJ5ORw0s4ZdCE3VsLNt9yGXbRVzxHHEkaHDcxNUgjuk
+	p7vWAD2jcGFv3HiIqSSlYL6q5QKR
+X-Google-Smtp-Source: APXvYqwccYlNmyPiMl+UZLX/Ft9YZ6ODSaFxe3AgRLYIbub3sEB/ne+l13Y3CoMKn2SjR2hLmAt9mQ==
+X-Received: by 2002:a05:600c:2549:: with SMTP id
+	e9mr2363409wma.64.1571217516722; 
+	Wed, 16 Oct 2019 02:18:36 -0700 (PDT)
 Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
 	v8sm31907518wra.79.2019.10.16.02.18.35
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 16 Oct 2019 02:18:35 -0700 (PDT)
+	Wed, 16 Oct 2019 02:18:36 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Oct 2019 10:18:24 +0100
-Message-Id: <20191016091825.1910-6-git@andred.net>
+Date: Wed, 16 Oct 2019 10:18:25 +0100
+Message-Id: <20191016091825.1910-7-git@andred.net>
 X-Mailer: git-send-email 2.23.0.rc1
 In-Reply-To: <20191016091825.1910-1-git@andred.net>
 References: <20191016091825.1910-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 5/6] oeqa/runtime/opkg: skip install on read-only-rootfs
+Subject: [PATCH 6/6] oeqa/runtime/systemd: skip unit enable/disable on read-only-rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,45 +51,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2019 09:18:35 -0000
+X-List-Received-Date: Wed, 16 Oct 2019 09:18:36 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Images can have package management enabled, but be
-generally running as read-only. In this case, the
-test fails at the moment with various errors due to
-that.
+This doesn't work on read-only-rootfs:
+    AssertionError: 1 != 0 : SYSTEMD_BUS_TIMEOUT=240s systemctl disable avahi-daemon.service
+    Failed to disable unit: File /etc/systemd/system/multi-user.target.wants/avahi-daemon.service: Read-only file system
 
-Use the new @skipIfFeature decorator to also skip
-this test in that case.
+Skip the test in that case to avoid this.
 
+Signed-off-by: André Draszik <andre.draszik@jci.com>
 Signed-off-by: André Draszik <git@andred.net>
 ---
- meta/lib/oeqa/runtime/cases/opkg.py | 4 +++-
+ meta/lib/oeqa/runtime/cases/systemd.py | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/opkg.py b/meta/lib/oeqa/runtime/cases/opkg.py
-index bb8b6d99d2..750706161b 100644
---- a/meta/lib/oeqa/runtime/cases/opkg.py
-+++ b/meta/lib/oeqa/runtime/cases/opkg.py
-@@ -5,7 +5,7 @@
- import os
- from oeqa.utils.httpserver import HTTPService
- from oeqa.runtime.case import OERuntimeTestCase
--from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
-+from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature, skipIfFeature
+diff --git a/meta/lib/oeqa/runtime/cases/systemd.py b/meta/lib/oeqa/runtime/cases/systemd.py
+index c11fa49b07..e33c8a41a7 100644
+--- a/meta/lib/oeqa/runtime/cases/systemd.py
++++ b/meta/lib/oeqa/runtime/cases/systemd.py
+@@ -9,7 +9,7 @@ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
+ from oeqa.core.decorator.data import skipIfDataVar, skipIfNotDataVar
  from oeqa.runtime.decorator.package import OEHasPackage
+-from oeqa.core.decorator.data import skipIfNotFeature
++from oeqa.core.decorator.data import skipIfNotFeature, skipIfFeature
  
- class OpkgTest(OERuntimeTestCase):
-@@ -45,6 +45,8 @@ class OpkgRepoTest(OpkgTest):
-                       'Test requires package-management to be in IMAGE_FEATURES')
-     @skipIfNotDataVar('IMAGE_PKGTYPE', 'ipk',
-                       'IPK is not the primary package manager')
+ class SystemdTest(OERuntimeTestCase):
+ 
+@@ -114,6 +114,8 @@ class SystemdServiceTests(SystemdTest):
+         self.systemctl('is-active', 'avahi-daemon.service', verbose=True)
+ 
+     @OETestDepends(['systemd.SystemdServiceTests.test_systemd_status'])
 +    @skipIfFeature('read-only-rootfs',
 +                   'Test does not work with read-only-rootfs in IMAGE_FEATURES')
-     @OEHasPackage(['opkg'])
-     def test_opkg_install_from_repo(self):
-         self.setup_source_config_for_package_install()
+     def test_systemd_disable_enable(self):
+         self.systemctl('disable', 'avahi-daemon.service')
+         self.systemctl('is-enabled', 'avahi-daemon.service', expected=1)
 -- 
 2.23.0.rc1
 
