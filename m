@@ -1,45 +1,60 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DAD07F353
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id F09D27E265
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 18:35:34 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id w67so18332292lff.4
+	Wed, 16 Oct 2019 18:49:53 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id w144so20960048oia.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 11:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3qNzVipS3knkI/vvvrYBzQVnB5wavW9y+LhSrLrO8SE=;
-	b=B9Ep+TMybIwuWG3Qm15XqgpPamjPmoa4o6Q8vLD0RoqroYVBjJLLC3UcGTvdt31YfQ
-	H2Q+Uqk8Jiq8kU2HfjnbLeYd/IVtYG33L+/w9cvrCBcJww6ECyuJhy4u+mUE+jaPDd4f
-	bejg2WMqBpzM+/fsiC4b9aFa4WJmmSx3VWZPEmqv6Eunc6L3IGB8VUnl8Pk5Qk4acAo4
-	DRVgF4EGooWEOBIqlEcTuUJuTiGKGJsWPPy1EXmYd8kr2iUN6gi21IU3RoWdO5zhE+E0
-	iOeUzK+jrdnqO+XTVxjJsA54DXyMPVz5E6AssRoVAduDI8aKOVpS3ZQyGQFbNV+7b4HP
-	LbUw==
+	Wed, 16 Oct 2019 11:49:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=IH25eFipIhLyfghKxaqxVPIZokdSLLThB5a+yadGfNo=;
+	b=FS7Ncdro3crOcwy3SALdX+JOp70ykXjOz3R7gXt+fZLYOyP65UoZ0zI97MuPKiAOXk
+	PY2Q2ZuNRQoZcSR6x2RTkEcJP0Ew6y+WG8+DCG2rZ0cFHHSD0wN10eP9onnepjZWdBju
+	t5UrPJm8a5fzGfPMeLlRPF67L3PKUBJq9ZmJDUZfJ0WwZtXngFQk8pmSsZ/HUpvDd9sR
+	gVtdvidRNzv6NhqeJW68F926Nf+28OfEVoPWN1OZa1lVdp5lzVo0gwQyuQsWQRaEFgh/
+	flY1S5vN/pqO2EehioHIAASOrNuNk+68SUZUf2tZNh0ceJI3Hd1Czm/UmDVuFOSDGIoL
+	Fs2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
 	:message-id:subject:to:cc;
-	bh=3qNzVipS3knkI/vvvrYBzQVnB5wavW9y+LhSrLrO8SE=;
-	b=YqcN31/4hck/bjQVDcc4uCX5izhTG4BbU/KeG/FpdUM7XotgwbFN974X9ynBDNxLXW
-	XeLxk10cQY+HyBofyKrz71/HdYQyITRIGMBWuY//mZenE/nbWnnZDLSmXT2XlJSemJxl
-	Ty6W3ppo5okfUNDLZRIYLPoGMcj4WMlTU42Yegfy8PmqZxWFJgRAW58mb8jZ08sdGrGT
-	If+jqJxqfT1bN3X0pqH+gUCRguPsOHTVRx02K83zG62c+P/Ndhk2agpv0xyZSF/Jpugg
-	lpD4OdBCSopXQ94a25Uyeyem7KTW7bxak5TPKAuBtHs7tTX83zYQFRTXghS53h2/D817
-	HNkg==
-X-Gm-Message-State: APjAAAWmvTW9CtDlxpp8lsNP2yZ2LeAAm6b7cvmC1GGwcyioPLdDim06
-	qhk73Kg8VuR4iKi0GcnZF++rLK364/Q1gzT8E3YlgY6muj4=
-X-Google-Smtp-Source: APXvYqz/K2thuNHfhHv900YacNiw9+k6FZm5zVL5/cBQw33BZ8dVfoydnCYX9tfE9yFdNqyY7tMA7W2/6l5RTAKo3mk=
-X-Received: by 2002:a19:ac01:: with SMTP id g1mr25958334lfc.141.1571250934660; 
-	Wed, 16 Oct 2019 11:35:34 -0700 (PDT)
+	bh=IH25eFipIhLyfghKxaqxVPIZokdSLLThB5a+yadGfNo=;
+	b=bKtVu76LKlQbZvDJSNgV6M5eM9+it57jL+SeurxJaJLwn5VKq7PuAjFIk5yg2lYDKz
+	ksdYYp/gZIIFTTAQlypQDkkf59GVrhQ69W7YvL8DjM3HNZzcDmtZmMCldn1dUA5pBHRr
+	W7S+PNvHx+dJDjf/4HxwMzk8O/3G8PHRvLsTCeiq7JgA0mHkkHYDX+6wchsYpURLOL0X
+	YqEHtMdCiJgJ4MRWD599Azydz/+H6l7KKFBowzNzLs75zlyvZ6DpWnwJJJ1iGKXABJD3
+	OAKIZ9zLz5zQ/4Vu9BZpaJoDqwyaUlmdk5grmevb75BmoyMM4TWDNQCyRyeTpTvLlqYf
+	FkAQ==
+X-Gm-Message-State: APjAAAWHLD3rIreZF5YgyIJNmOjqt3s3P32Uc8/YtWp+ECuYR/2MTnuf
+	5/4IqV3e7QpSlN9Rn8KbWP/pIjtbsFyX7Q==
+X-Google-Smtp-Source: APXvYqyr9Bmyw/F2ggpDq169OFj6rCvQ/Sxnczxc0av2Lln3zgRmft2ZHGkF5P1nJVeoxdgTbUwxMQ==
+X-Received: by 2002:aca:c788:: with SMTP id x130mr4794945oif.91.1571251794589; 
+	Wed, 16 Oct 2019 11:49:54 -0700 (PDT)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com.
+	[209.85.210.49]) by smtp.gmail.com with ESMTPSA id
+	n186sm7795827oih.58.2019.10.16.11.49.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 16 Oct 2019 11:49:53 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-ot1-f49.google.com with SMTP id e11so21076084otl.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2019 11:49:53 -0700 (PDT)
+X-Received: by 2002:a9d:7454:: with SMTP id p20mr32535521otk.265.1571251793238;
+	Wed, 16 Oct 2019 11:49:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191012165433.24511-1-alistair@alistair23.me>
 	<CAP9ODKpmB_kkXtd0LZEK-KWaK2VFM_T7yGjdwkyABR0d-Lgsew@mail.gmail.com>
-In-Reply-To: <CAP9ODKpmB_kkXtd0LZEK-KWaK2VFM_T7yGjdwkyABR0d-Lgsew@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 16 Oct 2019 11:30:26 -0700
-Message-ID: <CAKmqyKMp6y8hbCaC1rgvHezzHAWTmX6xXtRhXFSSEaNMyoEOXw@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+	<CAKmqyKMp6y8hbCaC1rgvHezzHAWTmX6xXtRhXFSSEaNMyoEOXw@mail.gmail.com>
+In-Reply-To: <CAKmqyKMp6y8hbCaC1rgvHezzHAWTmX6xXtRhXFSSEaNMyoEOXw@mail.gmail.com>
+Date: Wed, 16 Oct 2019 15:49:40 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqN4LQb31QPn5xKzKLacy675H5D9Mqyi_rASRb-sK_-QQ@mail.gmail.com>
+Message-ID: <CAP9ODKqN4LQb31QPn5xKzKLacy675H5D9Mqyi_rASRb-sK_-QQ@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] mesa: Upgrade to 19.2.1
@@ -55,36 +70,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2019 18:35:34 -0000
+X-List-Received-Date: Wed, 16 Oct 2019 18:49:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Oct 16, 2019 at 11:21 AM Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
+On Wed, Oct 16, 2019 at 3:35 PM Alistair Francis <alistair23@gmail.com> wrote:
 >
-> On Sat, Oct 12, 2019 at 2:01 PM Alistair Francis <alistair@alistair23.me> wrote:
-> > The glx-tls option was removed as it isn't included in the meson.build
-> > file.
+> On Wed, Oct 16, 2019 at 11:21 AM Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+> >
+> > On Sat, Oct 12, 2019 at 2:01 PM Alistair Francis <alistair@alistair23.me> wrote:
+> > > The glx-tls option was removed as it isn't included in the meson.build
+> > > file.
+> >
+> > Why drop it? Update the patch, please.
 >
-> Why drop it? Update the patch, please.
+> It doesn't exist any more. It has been removed from mesa.
+>
+> It does look like it has been somewhat replaced with USE_ELF_TLS
+> though. So if musl builds break I can re-add USE_ELF_TLS. I'll see if
+> musl works with it enabled.
 
-It doesn't exist any more. It has been removed from mesa.
+Got it.
 
-It does look like it has been somewhat replaced with USE_ELF_TLS
-though. So if musl builds break I can re-add USE_ELF_TLS. I'll see if
-musl works with it enabled.
-
-Alistair
-
->
->
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
