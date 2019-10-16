@@ -1,26 +1,36 @@
-Return-Path: <tgamblin@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 00FCA7E5FB
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 652737DF61
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 12:55:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9GCsx0Z023591
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 05:54:59 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 16 Oct 2019 05:54:59 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 20958)	id 4D9ABC610F8;
-	Wed, 16 Oct 2019 05:54:59 -0700 (PDT)
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Oct 2019 05:54:56 -0700
-Message-ID: <20191016125456.49624-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.23.0
+	Wed, 16 Oct 2019 13:03:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46tXXf3C8tz2J;
+	Wed, 16 Oct 2019 15:03:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1571230995;
+	bh=TyB3jdHGZFwPkl+axDLO84HBofR5GB1pq6oLvML8Ov8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ee6Be5sCUMNx1588JD74DZexNq0lEF0AOJiTmLgsoQ/1XXg76O3OEwEQMtNDffCZA
+	y2k+XPEIevtRqu77syxSINmN7pGd1sGqkwivYW9CtoqRHJ1z+tqWG7Qsqn0nQlU+RK
+	/nxiV1cW/2OFlYiADmOzUX/vvPh73wP6DuNPq4pVJElasuawG4lJ5+iEx7RuLu9JtN
+	v3B7NmwFSyNQkieAYAA+SzbPc7940NO8cIwtBfyeyIQjhgXs5VNWpVxNZINHeBANW7
+	xWq0SuGTeanNScZbx7vKXlgf6RVhGDrFauRpv9r+3aWc480JIYksnamt5qHD+G/aW4
+	ZDDHf+u3B/Sh5Jpd2YLj5cZRwB4F6x4ZKYoVAXM/anWUep2X1m5p5PArr5ExUPlEaH
+	CODLCobQlRedQRsIqDh3WTT2zZ6dqqlHFlUchiT3GryG0k5SlurA8izvl8JFwGX7fv
+	lER/6dvD+VsIa3a1I9EA3p9jZviMBHATVVpTMUtN1Vh7MUEkyjcotbVeX7JgFLcWOR
+	cUCtImNL4K3M9+xeIu+d8tRfSKJp06TH6uNKk8DIENl/JPVm/UhhVRYvfVQ5fxbI6P
+	5ESfePMK/b+Gi1TCXI/bkiOMFduv8xfdOQWAEqwz80Xj8/GtN+ByBc0cbM9HHXwr7e
+	vja0rWPD0yuy1X7aao2yUILQ=
+Date: Wed, 16 Oct 2019 16:03:09 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <20191016130309.GB7998@localhost>
+References: <20191016120526.67433-1-trevor.gamblin@windriver.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH] aspell: fix CVE-2019-17544
+In-Reply-To: <20191016120526.67433-1-trevor.gamblin@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] aspell: upgrade from 0.60.7 to 0.60.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,97 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2019 12:55:02 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Oct 2019 13:03:16 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Backport CVE-2019-17544 fix to zeus.
+On Wed, Oct 16, 2019 at 05:05:26AM -0700, Trevor Gamblin wrote:
+>...
+> --- a/meta/recipes-support/aspell/aspell_0.60.7.bb
+> +++ b/meta/recipes-support/aspell/aspell_0.60.8.bb
+> @@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+>  PR = "r1"
+>...
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- ...1-Fix-various-bugs-found-by-OSS-Fuze.patch | 56 +++++++++++++++++++
- meta/recipes-support/aspell/aspell_0.60.7.bb  |  4 +-
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/aspell/aspell/0001-Fix-various-bugs-found-by-OSS-Fuze.patch
+A new upstream version allows dropping PR.
 
-diff --git a/meta/recipes-support/aspell/aspell/0001-Fix-various-bugs-found-by-OSS-Fuze.patch b/meta/recipes-support/aspell/aspell/0001-Fix-various-bugs-found-by-OSS-Fuze.patch
-new file mode 100644
-index 0000000000..259075b37c
---- /dev/null
-+++ b/meta/recipes-support/aspell/aspell/0001-Fix-various-bugs-found-by-OSS-Fuze.patch
-@@ -0,0 +1,56 @@
-+From 80fa26c74279fced8d778351cff19d1d8f44fe4e Mon Sep 17 00:00:00 2001
-+From: Kevin Atkinson <kevina@gnu.org>
-+Date: Sun, 4 Aug 2019 04:20:29 -0400
-+Subject: [PATCH] Fix various bugs found by OSS-Fuze.
-+
-+---
-+ common/config.cpp    | 2 +-
-+ common/file_util.cpp | 1 +
-+ common/getdata.cpp   | 2 +-
-+ 3 files changed, 3 insertions(+), 2 deletions(-)
-+
-+Upstream-Status: Backport [https://github.com/GNUAspell/aspell/commit/80fa26c74279fced8d778351cff19d1d8f44fe4e]
-+CVE: CVE-2019-17544
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+
-+diff --git a/common/config.cpp b/common/config.cpp
-+index 017e741..e117d3c 100644
-+--- a/common/config.cpp
-++++ b/common/config.cpp
-+@@ -763,7 +763,7 @@ namespace acommon {
-+       }
-+       res.append(':');
-+     }
-+-    if (res.back() == ':') res.pop_back();
-++    if (!res.empty() && res.back() == ':') res.pop_back();
-+   }
-+ 
-+   struct ListAddHelper : public AddableContainer 
-+diff --git a/common/file_util.cpp b/common/file_util.cpp
-+index 8515832..56ea501 100644
-+--- a/common/file_util.cpp
-++++ b/common/file_util.cpp
-+@@ -181,6 +181,7 @@ namespace acommon {
-+     while ( (dir = els.next()) != 0 ) 
-+     {
-+       path = dir;
-++      if (path.empty()) continue;
-+       if (path.back() != '/') path += '/';
-+       unsigned dir_len = path.size();
-+       path += filename;
-+diff --git a/common/getdata.cpp b/common/getdata.cpp
-+index 7e822c9..1b04823 100644
-+--- a/common/getdata.cpp
-++++ b/common/getdata.cpp
-+@@ -64,7 +64,7 @@ namespace acommon {
-+   char * unescape(char * dest, const char * src)
-+   {
-+     while (*src) {
-+-      if (*src == '\\') {
-++      if (*src == '\\' && src[1]) {
-+ 	++src;
-+ 	switch (*src) {
-+ 	case 'n': *dest = '\n'; break;
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/aspell/aspell_0.60.7.bb b/meta/recipes-support/aspell/aspell_0.60.7.bb
-index da99d12630..b565cb3c6e 100644
---- a/meta/recipes-support/aspell/aspell_0.60.7.bb
-+++ b/meta/recipes-support/aspell/aspell_0.60.7.bb
-@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
- PR = "r1"
- 
--SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz \
-+           file://0001-Fix-various-bugs-found-by-OSS-Fuze.patch \
-+          "
- SRC_URI[md5sum] = "8ef2252609c511cd2bb26f3a3932ef28"
- SRC_URI[sha256sum] = "5ca8fc8cb0370cc6c9eb5b64c6d1bc5d57b3750dbf17887726c3407d833b70e4"
- 
+cu
+Adrian
+
 -- 
-2.23.0
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
