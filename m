@@ -1,24 +1,59 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 457156C3B1
+Return-Path: <mcfrisk@kapsi.fi>
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 512FE7F4C7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2019 02:52:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9H2qSVx014654
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 19:52:29 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 16 Oct 2019 19:52:28 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Oct 2019 10:52:27 +0800
-Message-ID: <1571280747-265169-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH V2] qemu: Fix CVE-2019-12068
+	Thu, 17 Oct 2019 07:32:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Subject:Message-Id:Date:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Bjx0FDbOf0QBlriTz/b94+k4EpMDWSsHD0uQhL+F1cI=;
+	b=Hq3RnMfb2eV+CgiUobCOhehmzQ
+	IO1I8PyIMDZwaYWRYXnWYkhTHy/eYNoB0gKN66BzHhg8RDtT8FUi/M6Jr/lCBmR95Hjn+s8Y8quwM
+	CMj4poJV32+L9CIzvi8uIPoz7wm/MPf8wd6F8RikFjvA26MjCXrVsVEy0s5oacxZl9ugQbODC3DjY
+	BnBSuQFHcZAFoJBhRTDaxCGSvKNTD7EiOOOPcJRZ8sSepnsB0Qx9gvGKdC7QueQDp68Y384QM0O60
+	OQHcixZBaEmkUaVp3v54UI7141U8cpKwgwXDEgfon4i61PnFynPvf8OQ4eht5fA5MLjI1vSiAzlWL
+	6vTl+/RQ==;
+Received: from [2001:67c:1be8::12] (helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1iL0Gl-000106-M2; Thu, 17 Oct 2019 10:32:26 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1iL0GR-0006ga-HO; Thu, 17 Oct 2019 10:32:03 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Oct 2019 10:31:58 +0300
+Message-Id: <1571297518-23406-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-Rspam-Score: 4.4 (++++)
+X-Rspam-Report: Action: no action Symbol: ARC_NA(0.00)
+	Symbol: DMARC_POLICY_SOFTFAIL(0.10) Symbol: FROM_HAS_DN(0.00)
+	Symbol: RCPT_COUNT_THREE(0.00) Symbol: R_SPF_ALLOW(-0.20)
+	Symbol: TO_MATCH_ENVRCPT_ALL(0.00) Symbol: MIME_GOOD(-0.10)
+	Symbol: RCVD_TLS_LAST(0.00) Symbol: SUBJECT_HAS_CURRENCY(1.00)
+	Symbol: TO_DN_SOME(0.00) Symbol: NEURAL_SPAM(0.00)
+	Symbol: IP_SCORE(-0.16) Symbol: MID_CONTAINS_FROM(1.00)
+	Symbol: FORGED_SENDER(0.30) Symbol: R_DKIM_NA(0.00)
+	Symbol: MIME_TRACE(0.00) Symbol: ASN(0.00)
+	Symbol: FROM_NEQ_ENVFROM(0.00)
+	Symbol: HFILTER_HOSTNAME_UNKNOWN(2.50)
+	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf allow
+	Message-ID: 1571297518-23406-1-git-send-email-mikko.rapeli@bmw.de
+X-Rspam-Bar: ++++
+X-SA-Exim-Connect-IP: 2001:67c:1be8::12
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail
+X-Spam-Level: 
+X-Spam-Status: No, score=0.5 required=5.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,RDNS_NONE,SPF_HELO_NONE,SPF_NEUTRAL,
+	SUBJ_OBFU_PUNCT_FEW autolearn=no autolearn_force=no version=3.4.2
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Subject: [PATCH v2] systemd.bbclass: enable all services specified in ${SYSTEMD_SERVICE}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,145 +66,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2019 02:52:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Oct 2019 07:32:27 -0000
 
-From: Changqing Li <changqing.li@windriver.com>
+This has been the traditional way of enabling systemd services.
+It may conflict with presets feature, but other layers, image classes
+and recipes add services to be enabled using SYSTEMD_SERVICE
+variable also with read-only rootfs, e.g. IMAGE_FEATURES has
+stateless-rootfs and systemd_preset_all task is not executed.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Fixes startup of custom services from our recipes using custom
+image classes with various BSP layers. In the worst case even
+serial console getty service wasn't starting due to dependency
+no not enabled services.
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc                |   1 +
- .../qemu/qemu/CVE-2019-12068.patch                 | 108 +++++++++++++++++++++
- 2 files changed, 109 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-12068.patch
+ meta/classes/systemd.bbclass | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 88ae68a..bb444b6 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -28,6 +28,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0009-Fix-webkitgtk-builds.patch \
-            file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
-            file://CVE-2019-15890.patch \
-+           file://CVE-2019-12068.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+v2: simplified according to comments in
+http://lists.openembedded.org/pipermail/openembedded-core/2019-October/288032.html
+
+v1: http://lists.openembedded.org/pipermail/openembedded-core/2019-October/288031.html
+
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 1dca099..9e8a82c 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -32,11 +32,7 @@ if type systemctl >/dev/null 2>/dev/null; then
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2019-12068.patch b/meta/recipes-devtools/qemu/qemu/CVE-2019-12068.patch
-new file mode 100644
-index 0000000..f1655e4
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2019-12068.patch
-@@ -0,0 +1,108 @@
-+From de594e47659029316bbf9391efb79da0a1a08e08 Mon Sep 17 00:00:00 2001
-+From: Paolo Bonzini <pbonzini@redhat.com>
-+Date: Wed, 14 Aug 2019 17:35:21 +0530
-+Subject: [PATCH] scsi: lsi: exit infinite loop while executing script
-+ (CVE-2019-12068)
-+
-+When executing script in lsi_execute_script(), the LSI scsi adapter
-+emulator advances 's->dsp' index to read next opcode. This can lead
-+to an infinite loop if the next opcode is empty. Move the existing
-+loop exit after 10k iterations so that it covers no-op opcodes as
-+well.
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=de594e47659029316bbf9391efb79da0a1a08e08]
-+CVE: CVE-2019-12068
-+
-+Reported-by: Bugs SysSec <bugs-syssec@rub.de>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ hw/scsi/lsi53c895a.c | 41 +++++++++++++++++++++++++++--------------
-+ 1 file changed, 27 insertions(+), 14 deletions(-)
-+
-+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-+index 222a286..ec53b14 100644
-+--- a/hw/scsi/lsi53c895a.c
-++++ b/hw/scsi/lsi53c895a.c
-+@@ -186,6 +186,9 @@ static const char *names[] = {
-+ /* Flag set if this is a tagged command.  */
-+ #define LSI_TAG_VALID     (1 << 16)
-+ 
-++/* Maximum instructions to process. */
-++#define LSI_MAX_INSN    10000
-++
-+ typedef struct lsi_request {
-+     SCSIRequest *req;
-+     uint32_t tag;
-+@@ -1133,7 +1136,21 @@ static void lsi_execute_script(LSIState *s)
-+ 
-+     s->istat1 |= LSI_ISTAT1_SRUN;
-+ again:
-+-    insn_processed++;
-++    if (++insn_processed > LSI_MAX_INSN) {
-++        /* Some windows drivers make the device spin waiting for a memory
-++           location to change.  If we have been executed a lot of code then
-++           assume this is the case and force an unexpected device disconnect.
-++           This is apparently sufficient to beat the drivers into submission.
-++         */
-++        if (!(s->sien0 & LSI_SIST0_UDC)) {
-++            qemu_log_mask(LOG_GUEST_ERROR,
-++                          "lsi_scsi: inf. loop with UDC masked");
-++        }
-++        lsi_script_scsi_interrupt(s, LSI_SIST0_UDC, 0);
-++        lsi_disconnect(s);
-++        trace_lsi_execute_script_stop();
-++        return;
-++    }
-+     insn = read_dword(s, s->dsp);
-+     if (!insn) {
-+         /* If we receive an empty opcode increment the DSP by 4 bytes
-+@@ -1570,19 +1587,7 @@ again:
-+             }
-+         }
-+     }
-+-    if (insn_processed > 10000 && s->waiting == LSI_NOWAIT) {
-+-        /* Some windows drivers make the device spin waiting for a memory
-+-           location to change.  If we have been executed a lot of code then
-+-           assume this is the case and force an unexpected device disconnect.
-+-           This is apparently sufficient to beat the drivers into submission.
-+-         */
-+-        if (!(s->sien0 & LSI_SIST0_UDC)) {
-+-            qemu_log_mask(LOG_GUEST_ERROR,
-+-                          "lsi_scsi: inf. loop with UDC masked");
-+-        }
-+-        lsi_script_scsi_interrupt(s, LSI_SIST0_UDC, 0);
-+-        lsi_disconnect(s);
-+-    } else if (s->istat1 & LSI_ISTAT1_SRUN && s->waiting == LSI_NOWAIT) {
-++    if (s->istat1 & LSI_ISTAT1_SRUN && s->waiting == LSI_NOWAIT) {
-+         if (s->dcntl & LSI_DCNTL_SSM) {
-+             lsi_script_dma_interrupt(s, LSI_DSTAT_SSI);
-+         } else {
-+@@ -1970,6 +1975,10 @@ static void lsi_reg_writeb(LSIState *s, int offset, uint8_t val)
-+     case 0x2f: /* DSP[24:31] */
-+         s->dsp &= 0x00ffffff;
-+         s->dsp |= val << 24;
-++        /*
-++         * FIXME: if s->waiting != LSI_NOWAIT, this will only execute one
-++         * instruction.  Is this correct?
-++         */
-+         if ((s->dmode & LSI_DMODE_MAN) == 0
-+             && (s->istat1 & LSI_ISTAT1_SRUN) == 0)
-+             lsi_execute_script(s);
-+@@ -1988,6 +1997,10 @@ static void lsi_reg_writeb(LSIState *s, int offset, uint8_t val)
-+         break;
-+     case 0x3b: /* DCNTL */
-+         s->dcntl = val & ~(LSI_DCNTL_PFF | LSI_DCNTL_STD);
-++        /*
-++         * FIXME: if s->waiting != LSI_NOWAIT, this will only execute one
-++         * instruction.  Is this correct?
-++         */
-+         if ((val & LSI_DCNTL_STD) && (s->istat1 & LSI_ISTAT1_SRUN) == 0)
-+             lsi_execute_script(s);
-+         break;
-+-- 
-+2.7.4
-+
+ 	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
+ 		for service in ${SYSTEMD_SERVICE_ESCAPED}; do
+-			case "${service}" in
+-			*@*)
+-				systemctl ${OPTS} enable "${service}"
+-				;;
+-			esac
++			systemctl ${OPTS} enable "$service"
+ 		done
+ 	fi
+ 
 -- 
-2.7.4
+1.9.1
 
 
