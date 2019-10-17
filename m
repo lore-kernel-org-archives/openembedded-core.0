@@ -1,63 +1,49 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ACDB7F59D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C39DA7F64A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2019 13:11:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id B6673184AE;
-	Thu, 17 Oct 2019 15:11:00 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id BnfqTXQbFYw8; Thu, 17 Oct 2019 15:10:59 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id B5C9C1847D;
-	Thu, 17 Oct 2019 15:10:59 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 42C021E07E;
-	Thu, 17 Oct 2019 15:10:59 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 359E31E078;
-	Thu, 17 Oct 2019 15:10:59 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Thu, 17 Oct 2019 15:10:59 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by seth.se.axis.com (Postfix) with ESMTP id 28E3A195C;
-	Thu, 17 Oct 2019 15:10:59 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Thu, 17 Oct 2019 15:10:59 +0200
-Received: from XBOX03.axis.com (10.0.5.17) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Thu, 17 Oct 2019 15:10:58 +0200
-Received: from XBOX03.axis.com ([fe80::e49e:4060:87cc:61a]) by XBOX03.axis.com
-	([fe80::e49e:4060:87cc:61a%22]) with mapi id 15.00.1365.000;
-	Thu, 17 Oct 2019 15:10:58 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: akuster808 <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [warrior][PATCH 7/8] devtool: finish: Add suppport for
-	the --no-clean option
-Thread-Index: AQHVhF/MeB+PkpfQW0mlDi4YEqFcRqddvYMg
-Date: Thu, 17 Oct 2019 13:10:58 +0000
-Message-ID: <8e71858cc74c4d06a11d6f2d386be09c@XBOX03.axis.com>
-References: <cover.1571243326.git.pkj@axis.com>
-	<bdaf3cd8bb68282d2039c3aacaf6eca19a94418d.1571243326.git.pkj@axis.com>
-	<8bc62b53-7f27-9c16-e89e-4825a15c8bf9@gmail.com>
-In-Reply-To: <8bc62b53-7f27-9c16-e89e-4825a15c8bf9@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Thu, 17 Oct 2019 13:15:41 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id h126so1770843qke.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Oct 2019 06:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=d4D9OdpjKHev/pJkyb+EpMbuKmNzvV7OMIdwPZnQxT4=;
+	b=uIqt/BtqN/r6vM63YOHw+/ezagCoco4N4xhLYlF4Ol2NFXSDQvWp0TPynH9weYOFZI
+	2kGbYmAyVcH0klk7WN3YstaM3gfjVpfTTobSw+k3/D/ajyull1knlGTVjQwuWjMe7Byu
+	hZlxKesGYBHpFBkeM3xXnV9PibmsQpnoZUP5JJ9xdVH3qfjAjCGO2TI8w/VffoUg9Y0O
+	VqJWBE6tHYfyAhm7hHlM3Ydt63Jdr/KAXNK1R9hL4qQmJ36nd8t7H8j8GJnePphCGUpa
+	BtCyDtm1lq4XmDsfjQUfgiequY4DU1mQRSF2jnUHvePvseXzghOWCD1PrSXnb7PAQnks
+	9ECA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=d4D9OdpjKHev/pJkyb+EpMbuKmNzvV7OMIdwPZnQxT4=;
+	b=RmEH4TmnQXsETb6RJQbKPW1+gzuvFEaUFuXq/5LkSouUJkHem7bOCrZlPU/w/tPqWX
+	3RHoCuiFycK5+VaEUkmKGxIi5rla4HjD0OyUOknqeZtp+e3MjXwHJF5o+Ah97woFHtxC
+	ofWN2g95ESvEkCl/+HXsEirOuajOyTszWXS1ArybbU+I+ca9dITrqVvauITVX82D1/gr
+	Zqy3HDAQpoA4f3HkAvFCKuemiogcFYJLo90Ki9mW7SmqorY8b8Tx9UV//e+kczJbTiYc
+	u3DH9pq4M97nZ1QzkEXoY+W2CknKlN2KyB4quDz/MhUEblJt+PS0aClY7EDsLC1M7iiY
+	Qy3g==
+X-Gm-Message-State: APjAAAXdOZIxRLAKb4sRJTJSYLeF9JrYyoQDWcxGgIUVb40aPGO+G5cA
+	22+QrEdy/+YRETjXaMLk7f/e+o+JjrJkA9be7c8=
+X-Google-Smtp-Source: APXvYqwsVRRwymK5WOiuz53MsqLSNsb2LuBjkYWGmD45UXvNPJVDYTS43dCmd+0/Qq4EwttfY9FkOPnYC4C4tRhcY38=
+X-Received: by 2002:a37:b985:: with SMTP id j127mr3237914qkf.337.1571318142085;
+	Thu, 17 Oct 2019 06:15:42 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [warrior][PATCH 7/8] devtool: finish: Add suppport for the --no-clean option
+References: <20191011114754.91740-1-alex.kanavin@gmail.com>
+	<20191011114754.91740-16-alex.kanavin@gmail.com>
+	<dbf128cd95ea3d8017274ea57dda52a72ad727cb.camel@gmail.com>
+In-Reply-To: <dbf128cd95ea3d8017274ea57dda52a72ad727cb.camel@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 17 Oct 2019 06:15:15 -0700
+Message-ID: <CAMKF1srnabEcWqWYa80uoCe1H=iw-wDPNut4hu4eRwuSQ1HaoQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 16/19] meson: update to 0.52.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,64 +56,454 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2019 13:11:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 17 Oct 2019 13:15:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBha3VzdGVyODA4IDxha3VzdGVy
-ODA4QGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDE2IG9rdG9iZXIgMjAxOSAyMjoyNQ0KPiBUbzog
-UGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyBvcGVuZW1i
-ZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09F
-LWNvcmVdIFt3YXJyaW9yXVtQQVRDSCA3LzhdIGRldnRvb2w6IGZpbmlzaDogQWRkDQo+IHN1cHBw
-b3J0IGZvciB0aGUgLS1uby1jbGVhbiBvcHRpb24NCj4gDQo+IE9uIDEwLzE2LzE5IDk6MzAgQU0s
-IFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiBGcm9tOiBQZXRlciBLamVsbGVyc3RlZHQg
-PHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gPg0KPiA+IFRoaXMgd29ya3MganVzdCBs
-aWtlIHRoZSBhbHJlYWR5IGV4aXN0aW5nIC0tbm8tY2xlYW4gb3B0aW9uIHRvIHRoZQ0KPiA+IGBk
-ZXZ0b29sIHJlc2V0YCBjb21tYW5kLg0KPiB3aGF0IHByb2JsZW0gaXMgdGhpcyBzb2x2aW5nIGlu
-IHdhcnJpb3I/DQo+IC1hIHJtaW4NCg0KS2VlcGluZyB0aGUgZGV2ZWxvcG1lbnQgdG9vbHMgaW4g
-c3luYyB3aXRoIG1hc3RlciBzbyBvbmUgY2FuIHVzZSB0aGUgDQpzYW1lIG9wdGlvbnMgd2hlbiB3
-b3JraW5nIHJlZ2FyZGxlc3Mgb2YgaWYgb25lIGlzIHdvcmtpbmcgd2l0aCBXYXJyaW9yIA0Kb3Ig
-WmV1cy4gU2luY2UgaXQgZG9lcyBub3QgYWZmZWN0IHdoYXQgaXMgYnVpbHQgYW5kIGdvZXMgaW50
-byB0aGUgcm9vdGZzLCANCml0IHNob3VsZCBub3QgYmUgYSBwcm9ibGVtIHRoYXQgaXQgdGVjaG5p
-Y2FsbHkgaXMgYSBuZXcgZmVhdHVyZS4NCg0KLy9QZXRlcg0KDQo+ID4NCj4gPiBTaWduZWQtb2Zm
-LWJ5OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4g
-PiBTaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
-ZGF0aW9uLm9yZz4NCj4gPiAtLS0NCj4gPiAgc2NyaXB0cy9saWIvZGV2dG9vbC9zdGFuZGFyZC5w
-eSB8IDMgKystDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRp
-b24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9zY3JpcHRzL2xpYi9kZXZ0b29sL3N0YW5kYXJk
-LnB5DQo+IGIvc2NyaXB0cy9saWIvZGV2dG9vbC9zdGFuZGFyZC5weQ0KPiA+IGluZGV4IGI5NDRl
-YzM5NjYuLmFlYjk0NTJhOGEgMTAwNjQ0DQo+ID4gLS0tIGEvc2NyaXB0cy9saWIvZGV2dG9vbC9z
-dGFuZGFyZC5weQ0KPiA+ICsrKyBiL3NjcmlwdHMvbGliL2RldnRvb2wvc3RhbmRhcmQucHkNCj4g
-PiBAQCAtMTg5NSw3ICsxODk1LDcgQEAgZGVmIGZpbmlzaChhcmdzLCBjb25maWcsIGJhc2VwYXRo
-LCB3b3Jrc3BhY2UpOg0KPiA+ICAgICAgICAgIGVsc2U6DQo+ID4gICAgICAgICAgICAgIHJhaXNl
-IERldnRvb2xFcnJvcignU291cmNlIHRyZWUgaXMgbm90DQo+IGNsZWFuOlxuXG4lc1xuRW5zdXJl
-IHlvdSBoYXZlIGNvbW1pdHRlZCB5b3VyIGNoYW5nZXMgb3IgdXNlIC1mLy0tZm9yY2UNCj4gaWYg
-eW91IGFyZSBzdXJlIHRoZXJlXCdzIG5vdGhpbmcgdGhhdCBuZWVkcyB0byBiZSBjb21taXR0ZWQn
-ICUgZGlydHkpDQo+ID4NCj4gPiAtICAgIG5vX2NsZWFuID0gRmFsc2UNCj4gPiArICAgIG5vX2Ns
-ZWFuID0gYXJncy5ub19jbGVhbg0KPiA+ICAgICAgdGluZm9pbCA9IHNldHVwX3RpbmZvaWwoYmFz
-ZXBhdGg9YmFzZXBhdGgsIHRyYWNraW5nPVRydWUpDQo+ID4gICAgICB0cnk6DQo+ID4gICAgICAg
-ICAgcmQgPSBwYXJzZV9yZWNpcGUoY29uZmlnLCB0aW5mb2lsLCBhcmdzLnJlY2lwZW5hbWUsIFRy
-dWUpDQo+ID4gQEAgLTIxNjksNiArMjE2OSw3IEBAIGRlZiByZWdpc3Rlcl9jb21tYW5kcyhzdWJw
-YXJzZXJzLCBjb250ZXh0KToNCj4gPiAgICAgIHBhcnNlcl9maW5pc2guYWRkX2FyZ3VtZW50KCct
-LW1vZGUnLCAnLW0nLCBjaG9pY2VzPVsncGF0Y2gnLA0KPiAnc3JjcmV2JywgJ2F1dG8nXSwgZGVm
-YXVsdD0nYXV0bycsIGhlbHA9J1VwZGF0ZSBtb2RlICh3aGVyZSAlKG1ldGF2YXIpcw0KPiBpcyAl
-KGNob2ljZXMpczsgZGVmYXVsdCBpcyAlKGRlZmF1bHQpcyknLCBtZXRhdmFyPSdNT0RFJykNCj4g
-PiAgICAgIHBhcnNlcl9maW5pc2guYWRkX2FyZ3VtZW50KCctLWluaXRpYWwtcmV2JywgaGVscD0n
-T3ZlcnJpZGUNCj4gc3RhcnRpbmcgcmV2aXNpb24gZm9yIHBhdGNoZXMnKQ0KPiA+ICAgICAgcGFy
-c2VyX2ZpbmlzaC5hZGRfYXJndW1lbnQoJy0tZm9yY2UnLCAnLWYnLCBhY3Rpb249InN0b3JlX3Ry
-dWUiLA0KPiBoZWxwPSdGb3JjZSBjb250aW51aW5nIGV2ZW4gaWYgdGhlcmUgYXJlIHVuY29tbWl0
-dGVkIGNoYW5nZXMgaW4gdGhlDQo+IHNvdXJjZSB0cmVlIHJlcG9zaXRvcnknKQ0KPiA+ICsgICAg
-cGFyc2VyX2ZpbmlzaC5hZGRfYXJndW1lbnQoJy0tbm8tY2xlYW4nLCAnLW4nLA0KPiBhY3Rpb249
-InN0b3JlX3RydWUiLCBoZWxwPSdEb25cJ3QgY2xlYW4gdGhlIHN5c3Jvb3QgdG8gcmVtb3ZlIHJl
-Y2lwZQ0KPiBvdXRwdXQnKQ0KPiA+ICAgICAgcGFyc2VyX2ZpbmlzaC5hZGRfYXJndW1lbnQoJy0t
-bm8tb3ZlcnJpZGVzJywgJy1PJywNCj4gYWN0aW9uPSJzdG9yZV90cnVlIiwgaGVscD0nRG8gbm90
-IGhhbmRsZSBvdGhlciBvdmVycmlkZSBicmFuY2hlcyAoaWYNCj4gdGhleSBleGlzdCknKQ0KPiA+
-ICAgICAgcGFyc2VyX2ZpbmlzaC5hZGRfYXJndW1lbnQoJy0tZHJ5LXJ1bicsICctTicsDQo+IGFj
-dGlvbj0ic3RvcmVfdHJ1ZSIsIGhlbHA9J0RyeS1ydW4gKGp1c3QgcmVwb3J0IGNoYW5nZXMgaW5z
-dGVhZCBvZg0KPiB3cml0aW5nIHRoZW0pJykNCj4gPiAgICAgIHBhcnNlcl9maW5pc2guYWRkX2Fy
-Z3VtZW50KCctLWZvcmNlLXBhdGNoLXJlZnJlc2gnLA0KPiBhY3Rpb249InN0b3JlX3RydWUiLCBo
-ZWxwPSdVcGRhdGUgcGF0Y2hlcyBpbiB0aGUgbGF5ZXIgZXZlbiBpZiB0aGV5DQo+IGhhdmUgbm90
-IGJlZW4gbW9kaWZpZWQgKHVzZWZ1bCBmb3IgcmVmcmVzaGluZyBwYXRjaCBjb250ZXh0KScpDQoN
-Cg==
+On Sat, Oct 12, 2019 at 5:20 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Fri, 2019-10-11 at 13:47 +0200, Alexander Kanavin wrote:
+> > Drop backported patches.
+> >
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  meta/recipes-devtools/meson/meson.inc         |  7 +--
+> >  ...efined-by-the-existance-of-a-cross-f.patch | 28 -----------
+> >  .../0001-Make-CPU-family-warnings-fatal.patch |  8 +--
+> >  ...etect-windows-also-if-the-system-str.patch | 29 -----------
+> >  ...sues-that-arise-when-cross-compiling.patch |  8 +--
+> >  ...pport-building-allarch-recipes-again.patch |  4 +-
+> >  .../meson/meson/0003-native_bindir.patch      | 20 ++++----
+> >  .../meson/meson/vala-cross-compile.patch      | 50 ---------------
+>
+> meson 0.52.x seems to be exposing the dconf build issue.
+>
+> https://errors.yoctoproject.org/Errors/Details/273492/
+>
+> also reported here
+> https://gitlab.gnome.org/GNOME/dconf/issues/59
+>
+
+
+Regardless of this report, this is now merged and I don't see any
+resolution either of a followup
+from the submitter or any other developer. This is quite disheartening
+since it takes a lot of effort to find
+these issues and reports. we should try to be considerate of the
+layers who are trying to keep up with
+OE-Core, like this we won't be able to improve the quality of these
+layers. I understand that there are no breakages seen in OE-cor but we
+should encourage more
+of other layers to test master and especially if there are reports
+than it would be good to heed to them.
+
+
+> > ----
+> >  .../{meson_0.51.2.bb => meson_0.52.0.bb}      |  1 -
+> >  ...on_0.51.2.bb => nativesdk-meson_0.52.0.bb} |  0
+> >  10 files changed, 22 insertions(+), 133 deletions(-)
+> >  delete mode 100644 meta/recipes-devtools/meson/meson/0001-Cross-
+> > build-is-defined-by-the-existance-of-a-cross-f.patch
+> >  delete mode 100644 meta/recipes-devtools/meson/meson/0001-
+> > environment.py-detect-windows-also-if-the-system-str.patch
+> >  delete mode 100644 meta/recipes-devtools/meson/meson/vala-cross-
+> > compile.patch
+> >  rename meta/recipes-devtools/meson/{meson_0.51.2.bb =>
+> > meson_0.52.0.bb} (97%)
+> >  rename meta/recipes-devtools/meson/{nativesdk-meson_0.51.2.bb =>
+> > nativesdk-meson_0.52.0.bb} (100%)
+> >
+> > diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-
+> > devtools/meson/meson.inc
+> > index 8219d87c741..ae0091c051c 100644
+> > --- a/meta/recipes-devtools/meson/meson.inc
+> > +++ b/meta/recipes-devtools/meson/meson.inc
+> > @@ -14,14 +14,11 @@ SRC_URI = "
+> > https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+> >             file://0001-python-module-do-not-manipulate-the-
+> > environment-when.patch \
+> >             file://disable-rpath-handling.patch \
+> >             file://cross-prop-default.patch \
+> > -           file://0001-environment.py-detect-windows-also-if-the-
+> > system-str.patch \
+> > -           file://0001-Cross-build-is-defined-by-the-existance-of-a-
+> > cross-f.patch \
+> >             file://0001-mesonbuild-environment.py-check-environment-
+> > for-vari.patch \
+> >             file://0001-modules-python.py-do-not-substitute-python-s-
+> > install.patch \
+> > -           file://vala-cross-compile.patch \
+> >             "
+> > -SRC_URI[sha256sum] =
+> > "23688f0fc90be623d98e80e1defeea92bbb7103bf9336a5f5b9865d36e892d76"
+> > -SRC_URI[md5sum] = "d46c4a8e3cfd27f90e2c6fe4a69e574b"
+> > +SRC_URI[sha256sum] =
+> > "d60f75f0dedcc4fd249dbc7519d6f3ce6df490033d276ef1cf27453ef4938d32"
+> > +SRC_URI[md5sum] = "7ea7772414dda8ae11072244bf7ba991"
+> >
+> >  SRC_URI_append_class-native = " \
+> >      file://0001-Make-CPU-family-warnings-fatal.patch \
+> > diff --git a/meta/recipes-devtools/meson/meson/0001-Cross-build-is-
+> > defined-by-the-existance-of-a-cross-f.patch b/meta/recipes-
+> > devtools/meson/meson/0001-Cross-build-is-defined-by-the-existance-of-
+> > a-cross-f.patch
+> > deleted file mode 100644
+> > index a5dbb81b088..00000000000
+> > --- a/meta/recipes-devtools/meson/meson/0001-Cross-build-is-defined-
+> > by-the-existance-of-a-cross-f.patch
+> > +++ /dev/null
+> > @@ -1,28 +0,0 @@
+> > -Upstream-Status: Backport
+> > -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > -
+> > -From 0b4d1e8afd5428a495f8624ee061f63977b4c268 Mon Sep 17 00:00:00
+> > 2001
+> > -From: Jussi Pakkanen <jpakkane@gmail.com>
+> > -Date: Sun, 6 Oct 2019 15:17:32 +0300
+> > -Subject: [PATCH] Cross build is defined by the existance of a cross
+> > file.
+> > -
+> > ----
+> > - mesonbuild/environment.py | 2 +-
+> > - 2 files changed, 2 insertions(+), 2 deletions(-)
+> > -
+> > -diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+> > -index e5d041b4..03c65688 100644
+> > ---- a/mesonbuild/environment.py
+> > -+++ b/mesonbuild/environment.py
+> > -@@ -611,7 +611,7 @@ class Environment:
+> > -         self.first_invocation = True
+> > -
+> > -     def is_cross_build(self) -> bool:
+> > --        return not
+> > self.machines.matches_build_machine(MachineChoice.HOST)
+> > -+        return self.coredata.is_cross_build()
+> > -
+> > -     def dump_coredata(self):
+> > -         return coredata.save(self.coredata, self.get_build_dir())
+> > ---
+> > -2.20.1
+> > -
+> > diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-
+> > warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-
+> > CPU-family-warnings-fatal.patch
+> > index 444fc081686..fc55dcacf6d 100644
+> > --- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-
+> > warnings-fatal.patch
+> > +++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-
+> > warnings-fatal.patch
+> > @@ -1,4 +1,4 @@
+> > -From f70fee13e4dbc757cd8153cd42d92fa9394fb542 Mon Sep 17 00:00:00
+> > 2001
+> > +From c07d29b715209cd5d75b142a00a540d45b00c36d Mon Sep 17 00:00:00
+> > 2001
+> >  From: Ross Burton <ross.burton@intel.com>
+> >  Date: Tue, 3 Jul 2018 13:59:09 +0100
+> >  Subject: [PATCH] Make CPU family warnings fatal
+> > @@ -12,7 +12,7 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+> >   2 files changed, 2 insertions(+), 4 deletions(-)
+> >
+> >  diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+> > -index 03c6346..86b350b 100644
+> > +index a59cd89..17de654 100644
+> >  --- a/mesonbuild/envconfig.py
+> >  +++ b/mesonbuild/envconfig.py
+> >  @@ -186,7 +186,7 @@ class MachineInfo:
+> > @@ -25,10 +25,10 @@ index 03c6346..86b350b 100644
+> >           endian = literal['endian']
+> >           if endian not in ('little', 'big'):
+> >  diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+> > -index 0cfdf9c..40aa189 100644
+> > +index 3704921..f1988f2 100644
+> >  --- a/mesonbuild/environment.py
+> >  +++ b/mesonbuild/environment.py
+> > -@@ -262,9 +262,7 @@ def detect_cpu_family(compilers: CompilersDict)
+> > -> str:
+> > +@@ -251,9 +251,7 @@ def detect_cpu_family(compilers: CompilersDict)
+> > -> str:
+> >           trial = 'parisc'
+> >
+> >       if trial not in known_cpu_families:
+> > diff --git a/meta/recipes-devtools/meson/meson/0001-environment.py-
+> > detect-windows-also-if-the-system-str.patch b/meta/recipes-
+> > devtools/meson/meson/0001-environment.py-detect-windows-also-if-the-
+> > system-str.patch
+> > deleted file mode 100644
+> > index 2faeda2e711..00000000000
+> > --- a/meta/recipes-devtools/meson/meson/0001-environment.py-detect-
+> > windows-also-if-the-system-str.patch
+> > +++ /dev/null
+> > @@ -1,29 +0,0 @@
+> > -From b52e47c9d61dc4c930cfc7236fbeb70338c3b953 Mon Sep 17 00:00:00
+> > 2001
+> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > -Date: Mon, 25 Mar 2019 17:17:06 +0100
+> > -Subject: [PATCH] environment.py: detect windows also if the system
+> > string
+> > - contains 'mingw'
+> > -
+> > -Upstream-Status: Backport [fe645a0a9e2da230d2c500af1f5b2db5da1e364d]
+> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > -
+> > ----
+> > - mesonbuild/envconfig.py | 2 +-
+> > - 1 file changed, 1 insertion(+), 1 deletion(-)
+> > -
+> > -diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+> > -index 03c6346..a59cd89 100644
+> > ---- a/mesonbuild/envconfig.py
+> > -+++ b/mesonbuild/envconfig.py
+> > -@@ -198,7 +198,7 @@ class MachineInfo:
+> > -         """
+> > -         Machine is windows?
+> > -         """
+> > --        return self.system in {'windows', 'mingw'}
+> > -+        return self.system == 'windows' or 'mingw' in self.system
+> > -
+> > -     def is_cygwin(self) -> bool:
+> > -         """
+> > ---
+> > -2.17.1
+> > -
+> > diff --git a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-
+> > issues-that-arise-when-cross-compiling.patch b/meta/recipes-
+> > devtools/meson/meson/0001-gtkdoc-fix-issues-that-arise-when-cross-
+> > compiling.patch
+> > index 7c3238bf91a..471f1500daa 100644
+> > --- a/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-
+> > arise-when-cross-compiling.patch
+> > +++ b/meta/recipes-devtools/meson/meson/0001-gtkdoc-fix-issues-that-
+> > arise-when-cross-compiling.patch
+> > @@ -1,4 +1,4 @@
+> > -From 1afbf5ccff56e582229c8f673f50aedf2b24117e Mon Sep 17 00:00:00
+> > 2001
+> > +From d3ef01a4208a801acad380a4aaceb6a21f8fa603 Mon Sep 17 00:00:00
+> > 2001
+> >  From: Alexander Kanavin <alex.kanavin@gmail.com>
+> >  Date: Fri, 4 Aug 2017 16:16:41 +0300
+> >  Subject: [PATCH] gtkdoc: fix issues that arise when cross-compiling
+> > @@ -20,11 +20,11 @@ Signed-off-by: Alexander Kanavin <
+> > alex.kanavin@gmail.com>
+> >   1 file changed, 4 insertions(+)
+> >
+> >  diff --git a/mesonbuild/modules/gnome.py
+> > b/mesonbuild/modules/gnome.py
+> > -index bf49770..7c5a363 100644
+> > +index bcf77b9..6a4b472 100644
+> >  --- a/mesonbuild/modules/gnome.py
+> >  +++ b/mesonbuild/modules/gnome.py
+> > -@@ -972,6 +972,10 @@ This will become a hard error in the
+> > future.''')
+> > -                 '--mode=' + mode]
+> > +@@ -974,6 +974,10 @@ This will become a hard error in the
+> > future.''')
+> > +             args.append('--{}={}'.format(program_name, path))
+> >           if namespace:
+> >               args.append('--namespace=' + namespace)
+> >  +        gtkdoc_exe_wrapper =
+> > state.environment.properties.host.get('gtkdoc_exe_wrapper', None)
+> > diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-
+> > allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-
+> > Support-building-allarch-recipes-again.patch
+> > index 8ad86a46e99..b8837d77b64 100644
+> > --- a/meta/recipes-devtools/meson/meson/0002-Support-building-
+> > allarch-recipes-again.patch
+> > +++ b/meta/recipes-devtools/meson/meson/0002-Support-building-
+> > allarch-recipes-again.patch
+> > @@ -1,4 +1,4 @@
+> > -From 3009a1c2f1b736b836a057d84dc11f379cba99cf Mon Sep 17 00:00:00
+> > 2001
+> > +From 263fc0e26e1fd92e25fa3ef93f4a549dcebc5887 Mon Sep 17 00:00:00
+> > 2001
+> >  From: Peter Kjellerstedt <pkj@axis.com>
+> >  Date: Thu, 26 Jul 2018 16:32:49 +0200
+> >  Subject: [PATCH] Support building allarch recipes again
+> > @@ -13,7 +13,7 @@ Signed-off-by: Peter Kjellerstedt <
+> > peter.kjellerstedt@axis.com>
+> >   1 file changed, 1 insertion(+)
+> >
+> >  diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+> > -index 86b350b..aa426ca 100644
+> > +index 17de654..2d2deef 100644
+> >  --- a/mesonbuild/envconfig.py
+> >  +++ b/mesonbuild/envconfig.py
+> >  @@ -36,6 +36,7 @@ _T = typing.TypeVar('_T')
+> > diff --git a/meta/recipes-devtools/meson/meson/0003-
+> > native_bindir.patch b/meta/recipes-devtools/meson/meson/0003-
+> > native_bindir.patch
+> > index 57de598d2f1..76cc4931d63 100644
+> > --- a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> > +++ b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> > @@ -1,4 +1,4 @@
+> > -From ac38495de38a1ea42e2bc09a2f23c2e945fbc22d Mon Sep 17 00:00:00
+> > 2001
+> > +From 4a1d676522d6b56cbe9a45c3b040afaa27d37f78 Mon Sep 17 00:00:00
+> > 2001
+> >  From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+> >  Date: Wed, 15 Nov 2017 15:05:01 +0100
+> >  Subject: [PATCH] native_bindir
+> > @@ -22,10 +22,10 @@ Signed-off-by: Ricardo Ribalda Delgado <
+> > ricardo.ribalda@gmail.com>
+> >   2 files changed, 14 insertions(+), 11 deletions(-)
+> >
+> >  diff --git a/mesonbuild/dependencies/base.py
+> > b/mesonbuild/dependencies/base.py
+> > -index 21da8e2..7d1ef85 100644
+> > +index 3c55a56..eb52fd1 100644
+> >  --- a/mesonbuild/dependencies/base.py
+> >  +++ b/mesonbuild/dependencies/base.py
+> > -@@ -155,7 +155,7 @@ class Dependency:
+> > +@@ -185,7 +185,7 @@ class Dependency:
+> >       def get_exe_args(self, compiler):
+> >           return []
+> >
+> > @@ -34,7 +34,7 @@ index 21da8e2..7d1ef85 100644
+> >           raise DependencyException('{!r} is not a pkgconfig
+> > dependency'.format(self.name))
+> >
+> >       def get_configtool_variable(self, variable_name):
+> > -@@ -214,7 +214,7 @@ class InternalDependency(Dependency):
+> > +@@ -248,7 +248,7 @@ class InternalDependency(Dependency):
+> >           self.sources = sources
+> >           self.ext_deps = ext_deps
+> >
+> > @@ -43,7 +43,7 @@ index 21da8e2..7d1ef85 100644
+> >           raise DependencyException('Method
+> > "get_pkgconfig_variable()" is '
+> >                                     'invalid for an internal
+> > dependency')
+> >
+> > -@@ -639,15 +639,18 @@ class PkgConfigDependency(ExternalDependency):
+> > +@@ -670,15 +670,18 @@ class PkgConfigDependency(ExternalDependency):
+> >           return s.format(self.__class__.__name__, self.name,
+> > self.is_found,
+> >                           self.version_reqs)
+> >
+> > @@ -65,7 +65,7 @@ index 21da8e2..7d1ef85 100644
+> >           # Always copy the environment since we're going to modify
+> > it
+> >           # with pkg-config variables
+> >           if env is None:
+> > -@@ -663,7 +666,7 @@ class PkgConfigDependency(ExternalDependency):
+> > +@@ -698,7 +701,7 @@ class PkgConfigDependency(ExternalDependency):
+> >           targs = tuple(args)
+> >           cache = PkgConfigDependency.pkgbin_cache
+> >           if (self.pkgbin, targs, fenv) not in cache:
+> > @@ -74,16 +74,16 @@ index 21da8e2..7d1ef85 100644
+> >           return cache[(self.pkgbin, targs, fenv)]
+> >
+> >       def _convert_mingw_paths(self, args):
+> > -@@ -845,7 +848,7 @@ class PkgConfigDependency(ExternalDependency):
+> > -                                       (self.name, out_raw))
+> > -         self.link_args, self.raw_link_args = self._search_libs(out,
+> > out_raw)
+> > +@@ -926,7 +929,7 @@ class PkgConfigDependency(ExternalDependency):
+> > +             mlog.warning('Could not determine complete list of
+> > dependencies for %s' % self.name)
+> > +         self.link_args, self.raw_link_args = self._search_libs(out,
+> > out_raw, out_all)
+> >
+> >  -    def get_pkgconfig_variable(self, variable_name, kwargs):
+> >  +    def get_pkgconfig_variable(self, variable_name, kwargs,
+> > use_native=False):
+> >           options = ['--variable=' + variable_name, self.name]
+> >
+> >           if 'define_variable' in kwargs:
+> > -@@ -858,7 +861,7 @@ class PkgConfigDependency(ExternalDependency):
+> > +@@ -939,7 +942,7 @@ class PkgConfigDependency(ExternalDependency):
+> >
+> >               options = ['--define-variable=' + '='.join(definition)]
+> > + options
+> >
+> > diff --git a/meta/recipes-devtools/meson/meson/vala-cross-
+> > compile.patch b/meta/recipes-devtools/meson/meson/vala-cross-
+> > compile.patch
+> > deleted file mode 100644
+> > index 816f810c054..00000000000
+> > --- a/meta/recipes-devtools/meson/meson/vala-cross-compile.patch
+> > +++ /dev/null
+> > @@ -1,50 +0,0 @@
+> > -From 77c3e6a4aaed07e626f4bf4deb7eb66e0f03a33d Mon Sep 17 00:00:00
+> > 2001
+> > -From: James Westman <flyingpimonster@flyingpimonster.net>
+> > -Date: Mon, 24 Jun 2019 12:04:12 -0500
+> > -Subject: [PATCH] Fix two errors when cross-compiling with Vala
+> > -
+> > -- AttributeError: 'ValaCompiler' object has no attribute
+> > 'get_program_dirs'
+> > -
+> > -  Fixed by adding a `get_program_dirs()` function to the base
+> > Compiler
+> > -  class, to match `get_library_dirs()`
+> > -
+> > -- KeyError: 'vala_COMPILER'
+> > -
+> > -  Fixed by creating the Vala compile rules for all machines, not
+> > just
+> > -  the build machine.
+> > -
+> > -Upstream-Status: Backport [
+> > https://github.com/mesonbuild/meson/commit/77c3e6a4aaed07e626f4bf4deb7eb66e0f03a33d
+> > ]
+> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ----
+> > - mesonbuild/backend/ninjabackend.py | 3 +--
+> > - mesonbuild/compilers/compilers.py  | 3 +++
+> > - 2 files changed, 4 insertions(+), 2 deletions(-)
+> > -
+> > -diff --git a/mesonbuild/backend/ninjabackend.py
+> > b/mesonbuild/backend/ninjabackend.py
+> > -index a454e6ab5f..b830e377e4 100644
+> > ---- a/mesonbuild/backend/ninjabackend.py
+> > -+++ b/mesonbuild/backend/ninjabackend.py
+> > -@@ -1653,8 +1653,7 @@ def generate_compile_rule_for(self, langname,
+> > compiler):
+> > -                 self.generate_cs_compile_rule(compiler)
+> > -             return
+> > -         if langname == 'vala':
+> > --            if
+> > self.environment.machines.matches_build_machine(compiler.for_machine)
+> > :
+> > --                self.generate_vala_compile_rules(compiler)
+> > -+            self.generate_vala_compile_rules(compiler)
+> > -             return
+> > -         if langname == 'rust':
+> > -             self.generate_rust_compile_rules(compiler)
+> > -diff --git a/mesonbuild/compilers/compilers.py
+> > b/mesonbuild/compilers/compilers.py
+> > -index 5855de71c8..86c1e33407 100644
+> > ---- a/mesonbuild/compilers/compilers.py
+> > -+++ b/mesonbuild/compilers/compilers.py
+> > -@@ -1117,6 +1117,9 @@ def find_library(self, *args, **kwargs):
+> > -     def get_library_dirs(self, *args, **kwargs):
+> > -         return ()
+> > -
+> > -+    def get_program_dirs(self, *args, **kwargs):
+> > -+        return ()
+> > -+
+> > -     def has_multi_arguments(self, args, env) -> Tuple[bool, bool]:
+> > -         raise EnvironmentException(
+> > -             'Language {} does not support
+> > has_multi_arguments.'.format(
+> > diff --git a/meta/recipes-devtools/meson/meson_0.51.2.bb
+> > b/meta/recipes-devtools/meson/meson_0.52.0.bb
+> > similarity index 97%
+> > rename from meta/recipes-devtools/meson/meson_0.51.2.bb
+> > rename to meta/recipes-devtools/meson/meson_0.52.0.bb
+> > index de9b905c12b..897fa148d94 100644
+> > --- a/meta/recipes-devtools/meson/meson_0.51.2.bb
+> > +++ b/meta/recipes-devtools/meson/meson_0.52.0.bb
+> > @@ -1,4 +1,3 @@
+> >  include meson.inc
+> >
+> >  BBCLASSEXTEND = "native"
+> > -
+> > diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.51.2.bb
+> > b/meta/recipes-devtools/meson/nativesdk-meson_0.52.0.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/meson/nativesdk-meson_0.51.2.bb
+> > rename to meta/recipes-devtools/meson/nativesdk-meson_0.52.0.bb
+> > --
+> > 2.17.1
+> >
+>
 
