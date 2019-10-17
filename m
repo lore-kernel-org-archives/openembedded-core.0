@@ -1,24 +1,18 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 23C457C426
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2019 02:09:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9H29faq011114
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2019 19:09:42 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 16 Oct 2019 19:09:41 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Oct 2019 10:09:39 +0800
-Message-ID: <1571278179-248436-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 67A1E7D6D0;
+	Thu, 17 Oct 2019 02:31:58 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] qemu: Fix CVE-2019-12068
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: changqing.li@windriver.com
+Date: Thu, 17 Oct 2019 02:31:59 -0000
+Message-ID: <20191017023159.2331.89474@do>
+References: <1571278179-248436-1-git-send-email-changqing.li@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1571278179-248436-1-git-send-email-changqing.li@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcWVtdTogRml4IENWRS0yMDE5LTEyMDY4?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,144 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2019 02:09:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Oct 2019 02:31:58 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+== Series Details ==
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Series: qemu: Fix CVE-2019-12068
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20510/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/qemu/qemu/CVE-2019-12068.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-devtools/qemu/qemu.inc                |   1 +
- .../qemu/qemu/CVE-2019-12068.patch                 | 107 +++++++++++++++++++++
- 2 files changed, 108 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-12068.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 88ae68a..bb444b6 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -28,6 +28,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0009-Fix-webkitgtk-builds.patch \
-            file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
-            file://CVE-2019-15890.patch \
-+           file://CVE-2019-12068.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2019-12068.patch b/meta/recipes-devtools/qemu/qemu/CVE-2019-12068.patch
-new file mode 100644
-index 0000000..4c636e9
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2019-12068.patch
-@@ -0,0 +1,107 @@
-+From de594e47659029316bbf9391efb79da0a1a08e08 Mon Sep 17 00:00:00 2001
-+From: Paolo Bonzini <pbonzini@redhat.com>
-+Date: Wed, 14 Aug 2019 17:35:21 +0530
-+Subject: [PATCH] scsi: lsi: exit infinite loop while executing script
-+ (CVE-2019-12068)
-+
-+When executing script in lsi_execute_script(), the LSI scsi adapter
-+emulator advances 's->dsp' index to read next opcode. This can lead
-+to an infinite loop if the next opcode is empty. Move the existing
-+loop exit after 10k iterations so that it covers no-op opcodes as
-+well.
-+
-+CVE: CVE-2019-12068
-+
-+Reported-by: Bugs SysSec <bugs-syssec@rub.de>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ hw/scsi/lsi53c895a.c | 41 +++++++++++++++++++++++++++--------------
-+ 1 file changed, 27 insertions(+), 14 deletions(-)
-+
-+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-+index 222a286..ec53b14 100644
-+--- a/hw/scsi/lsi53c895a.c
-++++ b/hw/scsi/lsi53c895a.c
-+@@ -186,6 +186,9 @@ static const char *names[] = {
-+ /* Flag set if this is a tagged command.  */
-+ #define LSI_TAG_VALID     (1 << 16)
-+ 
-++/* Maximum instructions to process. */
-++#define LSI_MAX_INSN    10000
-++
-+ typedef struct lsi_request {
-+     SCSIRequest *req;
-+     uint32_t tag;
-+@@ -1133,7 +1136,21 @@ static void lsi_execute_script(LSIState *s)
-+ 
-+     s->istat1 |= LSI_ISTAT1_SRUN;
-+ again:
-+-    insn_processed++;
-++    if (++insn_processed > LSI_MAX_INSN) {
-++        /* Some windows drivers make the device spin waiting for a memory
-++           location to change.  If we have been executed a lot of code then
-++           assume this is the case and force an unexpected device disconnect.
-++           This is apparently sufficient to beat the drivers into submission.
-++         */
-++        if (!(s->sien0 & LSI_SIST0_UDC)) {
-++            qemu_log_mask(LOG_GUEST_ERROR,
-++                          "lsi_scsi: inf. loop with UDC masked");
-++        }
-++        lsi_script_scsi_interrupt(s, LSI_SIST0_UDC, 0);
-++        lsi_disconnect(s);
-++        trace_lsi_execute_script_stop();
-++        return;
-++    }
-+     insn = read_dword(s, s->dsp);
-+     if (!insn) {
-+         /* If we receive an empty opcode increment the DSP by 4 bytes
-+@@ -1570,19 +1587,7 @@ again:
-+             }
-+         }
-+     }
-+-    if (insn_processed > 10000 && s->waiting == LSI_NOWAIT) {
-+-        /* Some windows drivers make the device spin waiting for a memory
-+-           location to change.  If we have been executed a lot of code then
-+-           assume this is the case and force an unexpected device disconnect.
-+-           This is apparently sufficient to beat the drivers into submission.
-+-         */
-+-        if (!(s->sien0 & LSI_SIST0_UDC)) {
-+-            qemu_log_mask(LOG_GUEST_ERROR,
-+-                          "lsi_scsi: inf. loop with UDC masked");
-+-        }
-+-        lsi_script_scsi_interrupt(s, LSI_SIST0_UDC, 0);
-+-        lsi_disconnect(s);
-+-    } else if (s->istat1 & LSI_ISTAT1_SRUN && s->waiting == LSI_NOWAIT) {
-++    if (s->istat1 & LSI_ISTAT1_SRUN && s->waiting == LSI_NOWAIT) {
-+         if (s->dcntl & LSI_DCNTL_SSM) {
-+             lsi_script_dma_interrupt(s, LSI_DSTAT_SSI);
-+         } else {
-+@@ -1970,6 +1975,10 @@ static void lsi_reg_writeb(LSIState *s, int offset, uint8_t val)
-+     case 0x2f: /* DSP[24:31] */
-+         s->dsp &= 0x00ffffff;
-+         s->dsp |= val << 24;
-++        /*
-++         * FIXME: if s->waiting != LSI_NOWAIT, this will only execute one
-++         * instruction.  Is this correct?
-++         */
-+         if ((s->dmode & LSI_DMODE_MAN) == 0
-+             && (s->istat1 & LSI_ISTAT1_SRUN) == 0)
-+             lsi_execute_script(s);
-+@@ -1988,6 +1997,10 @@ static void lsi_reg_writeb(LSIState *s, int offset, uint8_t val)
-+         break;
-+     case 0x3b: /* DCNTL */
-+         s->dcntl = val & ~(LSI_DCNTL_PFF | LSI_DCNTL_STD);
-++        /*
-++         * FIXME: if s->waiting != LSI_NOWAIT, this will only execute one
-++         * instruction.  Is this correct?
-++         */
-+         if ((val & LSI_DCNTL_STD) && (s->istat1 & LSI_ISTAT1_SRUN) == 0)
-+             lsi_execute_script(s);
-+         break;
-+-- 
-+2.7.4
-+
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
