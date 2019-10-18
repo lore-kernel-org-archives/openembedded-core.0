@@ -1,51 +1,52 @@
-Return-Path: <eu.smirnoff@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CF712605BE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 20F487F660
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 11:16:16 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id l10so5412571wrb.2
+	Fri, 18 Oct 2019 11:28:23 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id m18so5761185wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 04:16:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
+	Fri, 18 Oct 2019 04:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=uq9d1t3i8QPtvCtBXNh0bJI3xv5U87WFg4Q+Zd0ttJ8=;
-	b=bjvUD8DvhNSZXsnFnALpv7izUI9hfe90d6h+h5wF7PLjBI+/TdX84pQP7jJAM/VVc6
-	NZAPvMmYjNq2eYL/bKbPqAJq0QeawJQW/zAqILlx5Y8k+zNByHZOFKEnmmp/xkcO6Mb5
-	zCGPPMULL9AftvMFTD8ydrM3e+TaNsldzj47072+3HiFuybem/MzYqxDi0kD/JQjULN6
-	wwJ9ZFfQMVyikb5Vc62k/k6/UhPQKVtQzmP+rjpn92Xtvob/RGDyT7PCQi5PDcw1bLcc
-	2AsDNZPumzwpYAvfC1ZVmXBrA+jCznoEYQbsaS+LUxHGev//cJSMWfiZJUn6xMXuBq8j
-	d4/g==
+	bh=JnC329Eee7/29cXrbN/xPXV76MLrVSqBniLg/QiphIE=;
+	b=w3ZKKhDXYQnBP3Wl7LxHOabqI1323Eo3M55U+AiZbKWvdqdM198fN1bneO15j1pNv/
+	/ii2PIYYHg4XMs8yQnLm26588stXuT8JjGs8wImdKIHICZkqhReSgWBGfMdolHAiu2fh
+	u9grP9qyskWrGCOZd4a02Nntsi25t5RDR4cr7CYRhbB7g2DbW5p94gd1rEGyn45RLtV2
+	yLnL+RjPVj8dPTr6UR/3yjeRQzv8d53ffnNBfJ1V1uyjE0JM0LQ2YX+j1w07SUbDZ9k6
+	2eqmcJij9TWgI9VFLddVFcygMDIjZrExtEd81f0KkF0X01cowbIwPb9GR3V7vNURDMxr
+	jFvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=uq9d1t3i8QPtvCtBXNh0bJI3xv5U87WFg4Q+Zd0ttJ8=;
-	b=OSKDYQQ4fe0U8KqIPi31B1xgXVEyaBR1dCzqzDxXx0zOilF0/tjH062IiXe7B73W+g
-	qOVB3HOXVtH9em+abhMVAcvX3yPJabvWKcAfDqKfJkyxfDuo0714f6dvzvNewRdiakfo
-	91u7yAO//oLVPtXOAu7Cb3SxF+U/pjFdxf+vihP+dezMJ9OK81Iovsa5Eeykh+7wcpXr
-	KuODyDLwShyM49cVSGNMcvteiDkrz0WyrJgJX4w7p1Ls3KS3YPgu4riwlyEXr4VUDt35
-	T5pwGyQcnA9ZV71RnairmM0DgF3Muvpl3uDwSt6nuJfn+v6ITz0ZjPpY5mvLEQ83cEWD
-	vVzA==
-X-Gm-Message-State: APjAAAUAJsrCqOQYvHhRMgPXi8mjQZGI6t43ori2b61V3RyDp9/Po5Sq
-	Skd05MYtumswN3dmabnIgVYXBkl2
-X-Google-Smtp-Source: APXvYqwaZIUd/2vci1WHftVZ3niYrwfaqlBFEK91TrFYx6rc+IFr6d8npy3sGeCCDAEwo1hh+sG1ZA==
-X-Received: by 2002:adf:9b9d:: with SMTP id d29mr6601159wrc.293.1571397377018; 
-	Fri, 18 Oct 2019 04:16:17 -0700 (PDT)
-Received: from esm-laptop.ad.here.com ([131.228.216.134])
-	by smtp.gmail.com with ESMTPSA id j1sm6953894wrg.24.2019.10.18.04.16.16
+	bh=JnC329Eee7/29cXrbN/xPXV76MLrVSqBniLg/QiphIE=;
+	b=Xo5QLhSB9zcTgPQrVbNeqpNneHUsJe7L5C021nTaHHftcy2DYI4TplB7GdSfZx0VAK
+	rxx1uPaqsYkvlPmtfAm6jZXlbhcrmpEYP+rbhVmvMq7+GLlFKxO4+0Ct3Vloq2T10Y0Q
+	PYXKSU9vfBrnS1m2lsODUsFJVmOxoFTb1NVAXsvUhriH5V6/XHA8d06IjVfbovrZI7vU
+	a7KvuonwSI+72hHAV/E5lZfAU3Uttpg0qZi0f1CN/U/faNce3wwdkTKeDVgIMpZQvqKH
+	vDo8/okjCyEl3YzrGdOQdyXyHH3C0VQ+1yKbpbxJh5qOq9ANyOdNr5tsiupT9REfdc/R
+	LOeQ==
+X-Gm-Message-State: APjAAAV6B0rp8J+4Mo/0Ky4Eq9DDjMSWrB8h4XE3aFWpGiXYM4nEx2r9
+	JdOammQi/7mOy4m6XhqQufjjRne0e8Q=
+X-Google-Smtp-Source: APXvYqyW2M9knKbezBowU3RbBurxvy3R2xegf8Spw4bInfrYMITVaypeHfiRKm32GoeN2tJLE9OceQ==
+X-Received: by 2002:a1c:9cc6:: with SMTP id f189mr7713699wme.80.1571398103525; 
+	Fri, 18 Oct 2019 04:28:23 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	v20sm4467212wml.26.2019.10.18.04.28.21
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 18 Oct 2019 04:16:16 -0700 (PDT)
-From: Eugene Smirnov <eu.smirnoff@gmail.com>
-X-Google-Original-From: Eugene Smirnov <evgenii.smirnov@here.com>
+	Fri, 18 Oct 2019 04:28:22 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Oct 2019 13:16:14 +0200
-Message-Id: <20191018111614.21570-1-evgenii.smirnov@here.com>
+Date: Fri, 18 Oct 2019 12:28:19 +0100
+Message-Id: <20191018112819.16210-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Eugene Smirnov <evgenii.smirnov@here.com>
-Subject: [PATCH] wic/rawcopy: Support files in sub-directories
+Subject: [PATCH] file: explicitly disable seccomp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2019 11:16:17 -0000
+X-List-Received-Date: Fri, 18 Oct 2019 11:28:23 -0000
 Content-Transfer-Encoding: 8bit
 
-If the source file is located in a subdirectory of DEPLOY_DIR
-rawcopy will currently fail in sparse_copy function on
-open(dst_fname, 'wb'), as the parent directory for destination
-file does not exist.
+file will automatically enable seccomp if the seccomp headers are available, but
+the build will fail on Opensuse Tumbleweed because the include paths are wrong.
 
-This patch helps to avoid that by recursively creating
-parent directories.
+Enabling seccomp is a bad idea because it interacts badly with pseudo (causing
+build failures), so explicitly and globally disable seccomp.
 
-Signed-off-by: Eugene Smirnov <evgenii.smirnov@here.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/lib/wic/plugins/source/rawcopy.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/file/file_5.37.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index df86d6729c..82970ce51b 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -59,6 +59,9 @@ class RawCopyPlugin(SourcePlugin):
-         src = os.path.join(kernel_dir, source_params['file'])
-         dst = os.path.join(cr_workdir, "%s.%s" % (source_params['file'], part.lineno))
+diff --git a/meta/recipes-devtools/file/file_5.37.bb b/meta/recipes-devtools/file/file_5.37.bb
+index a840dbc012b..c53a120b840 100644
+--- a/meta/recipes-devtools/file/file_5.37.bb
++++ b/meta/recipes-devtools/file/file_5.37.bb
+@@ -21,6 +21,8 @@ S = "${WORKDIR}/git"
  
-+        if not os.path.exists(os.path.dirname(dst)):
-+            os.makedirs(os.path.dirname(dst))
+ inherit autotools update-alternatives
+ 
++EXTRA_OECONF += "--disable-libseccomp"
 +
-         if 'skip' in source_params:
-             sparse_copy(src, dst, skip=int(source_params['skip']))
-         else:
+ ALTERNATIVE_${PN} = "file"
+ ALTERNATIVE_LINK_NAME[file] = "${bindir}/file"
+ 
 -- 
 2.20.1
 
