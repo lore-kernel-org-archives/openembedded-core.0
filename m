@@ -1,26 +1,26 @@
 Return-Path: <tgamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A272E7F687
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 13A6C7F6A7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 14:35:14 +0000 (UTC)
+	Fri, 18 Oct 2019 14:35:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9IEZE8R013747
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9IEZdNE003589
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 07:35:15 -0700
+	Fri, 18 Oct 2019 07:35:39 -0700 (PDT)
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 18 Oct 2019 07:35:13 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 20958)	id 86185C6112F;
-	Fri, 18 Oct 2019 07:35:13 -0700 (PDT)
+	Fri, 18 Oct 2019 07:35:38 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 20958)	id C1973C6112F;
+	Fri, 18 Oct 2019 07:35:38 -0700 (PDT)
 From: Trevor Gamblin <trevor.gamblin@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Oct 2019 07:35:02 -0700
-Message-ID: <20191018143502.81069-1-trevor.gamblin@windriver.com>
+Date: Fri, 18 Oct 2019 07:35:36 -0700
+Message-ID: <20191018143536.81243-1-trevor.gamblin@windriver.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH] ncurses: fix CVE-2019-17594, CVE-2019-17595
+Subject: [zeus][PATCH] ncurses: fix CVE-2019-17594, CVE-2019-17595
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2019 14:35:14 -0000
+X-List-Received-Date: Fri, 18 Oct 2019 14:35:38 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
