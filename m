@@ -1,26 +1,43 @@
-Return-Path: <tgamblin@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F38B97F6A1
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+	[209.85.166.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C5487F6A0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 19:32:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9IJX1eK009153
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 18 Oct 2019 20:26:37 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id a1so8955735ioc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 12:33:01 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 18 Oct 2019 12:33:00 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 20958)	id B0C1CC6112F;
-	Fri, 18 Oct 2019 12:33:00 -0700 (PDT)
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Oct 2019 12:32:59 -0700
-Message-ID: <20191018193259.126775-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.23.0
+	Fri, 18 Oct 2019 13:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=7H44wj1UhDnfcdoeDs3QOI8PfDt3PBat3je13tFzKns=;
+	b=Kq7QHeiRAN1Xa3CqiVJeCtlYYEc9VZ2gw2XDJaXerDpCRwAdQS4sRm/GcLuE0GP3X0
+	QprC0y1S5I5OIO03W+3QUyFwf7Ln4z2c+5BO8Jq46yCRrQlg7y9fPmnbfBVjPfa9bvx1
+	5crkTjM0dAQTvvSD/s2Qjd88pLLJlYmNEGutSoKye0KeMQscF0ptvMrOkjx56pWHLUle
+	nlpnbqQ1XnauUTgZw8xvJS/SC4TgewwhjeseKG3NoSYYEldNX34SqOcaglVGtxfDqbO9
+	p5+JCh+kO1edjJJijDlFG5hT187XheuGVCrQtViRAkjqddLqGrZa2ynpxff4Cg3ossN9
+	OqnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=7H44wj1UhDnfcdoeDs3QOI8PfDt3PBat3je13tFzKns=;
+	b=GH/hpXoC7XoUcnupsZ7doXZYrh6BT0Q0LynXqcwWftKi1ZEPKorMnUXIoWC2qeW1nK
+	IuuN4E0PVAnr1zmj4Cgu5mLapPiG/uDsq/F72UPufiI3pgbeX2lESMmPpE9OChD4ga7M
+	Hy6uFwXu5alOORJP15CQOy/GyobfHIKJteNu5XD1KctmD3JleeHPxxYD/kX/IeQPl/zL
+	FQ3LOafmGMIhrU94d1R6BlYHPbU+LBv65LaXNax5vm8hB5HPnukys7MwFnTSdARLZMsS
+	WrDbNZL9rDvWMe6iw7+vM/hSRn2bTa1lV/4GMXUIX067MUdjCQq2oKzX0g/OBHjyXBd2
+	lWBg==
+X-Gm-Message-State: APjAAAUYBziiVax5scrqQ5E6y+DVc1Pdo0xVe8v1qTsRKEjDEPqzdAYQ
+	6xaWutDVbgZuHQ6HJtgGt5iUooYaBYJ28EGD/1UpRiW/
+X-Google-Smtp-Source: APXvYqyN3/W5MI9f+mkP066PtB3E7wkhsaXSEpZMI0OEPVS1GEJsR+U8ywXlbIncTAA4DaGYaL6LNu6ztM58QpSwsUY=
+X-Received: by 2002:a6b:7414:: with SMTP id s20mr10617058iog.299.1571430398368;
+	Fri, 18 Oct 2019 13:26:38 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] libgcrypt: fix CVE-2019-13627
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Fri, 18 Oct 2019 22:26:27 +0200
+Message-ID: <CALbNGRQ2AFU9P-oBLg=L0bYvjBO=SiAQZMCkYsVEvwDhJq04zg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: do_rootfs broken
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,241 +50,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2019 19:33:00 -0000
+X-List-Received-Date: Fri, 18 Oct 2019 20:26:37 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-Note that there are two patch files added for this fix.
+Hi,
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- ...cdsa-Fix-use-of-nonce-use-larger-one.patch | 126 ++++++++++++++++++
- ...Add-mitigation-against-timing-attack.patch |  68 ++++++++++
- .../libgcrypt/libgcrypt_1.8.4.bb              |   2 +
- 3 files changed, 196 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch
+Updated oe-core from
+commit 9973f89dafdf9d21f4021f59f1f4669f4ac13aff
+Author: Chen Qi <Qi.Chen@windriver.com>
+Date:   Fri Sep 27 14:42:51 2019 +0800
 
-diff --git a/meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch b/meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch
-new file mode 100644
-index 0000000000..fdc3873ba1
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch
-@@ -0,0 +1,126 @@
-+From 7c2943309d14407b51c8166c4dcecb56a3628567 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Thu, 8 Aug 2019 17:42:02 +0900
-+Subject: [PATCH] dsa,ecdsa: Fix use of nonce, use larger one.
-+
-+* cipher/dsa-common.c (_gcry_dsa_modify_k): New.
-+* cipher/pubkey-internal.h (_gcry_dsa_modify_k): New.
-+* cipher/dsa.c (sign): Use _gcry_dsa_modify_k.
-+* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Likewise.
-+* cipher/ecc-gost.c (_gcry_ecc_gost_sign): Likewise.
-+
-+CVE-id: CVE-2019-13627
-+GnuPG-bug-id: 4626
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+---
-+ cipher/dsa-common.c      | 24 ++++++++++++++++++++++++
-+ cipher/dsa.c             |  2 ++
-+ cipher/ecc-ecdsa.c       | 10 +---------
-+ cipher/ecc-gost.c        |  2 ++
-+ cipher/pubkey-internal.h |  1 +
-+ 5 files changed, 30 insertions(+), 9 deletions(-)
-+
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=7c2943309d1]
-+This backport is one of two upstream patches addressing CVE-2019-13627. 
-+
-+CVE: CVE-2019-13627
-+
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+
-+diff --git a/cipher/dsa-common.c b/cipher/dsa-common.c
-+index 8c0a6843..fe49248d 100644
-+--- a/cipher/dsa-common.c
-++++ b/cipher/dsa-common.c
-+@@ -29,6 +29,30 @@
-+ #include "pubkey-internal.h"
-+ 
-+ 
-++/*
-++ * Modify K, so that computation time difference can be small,
-++ * by making K large enough.
-++ *
-++ * Originally, (EC)DSA computation requires k where 0 < k < q.  Here,
-++ * we add q (the order), to keep k in a range: q < k < 2*q (or,
-++ * addming more q, to keep k in a range: 2*q < k < 3*q), so that
-++ * timing difference of the EC multiply (or exponentiation) operation
-++ * can be small.  The result of (EC)DSA computation is same.
-++ */
-++void
-++_gcry_dsa_modify_k (gcry_mpi_t k, gcry_mpi_t q, int qbits)
-++{
-++  gcry_mpi_t k1 = mpi_new (qbits+2);
-++
-++  mpi_resize (k, (qbits+2+BITS_PER_MPI_LIMB-1) / BITS_PER_MPI_LIMB);
-++  k->nlimbs = k->alloced;
-++  mpi_add (k, k, q);
-++  mpi_add (k1, k, q);
-++  mpi_set_cond (k, k1, !mpi_test_bit (k, qbits));
-++
-++  mpi_free (k1);
-++}
-++
-+ /*
-+  * Generate a random secret exponent K less than Q.
-+  * Note that ECDSA uses this code also to generate D.
-+diff --git a/cipher/dsa.c b/cipher/dsa.c
-+index 22d8d782..24a53528 100644
-+--- a/cipher/dsa.c
-++++ b/cipher/dsa.c
-+@@ -635,6 +635,8 @@ sign (gcry_mpi_t r, gcry_mpi_t s, gcry_mpi_t input, DSA_secret_key *skey,
-+       k = _gcry_dsa_gen_k (skey->q, GCRY_STRONG_RANDOM);
-+     }
-+ 
-++  _gcry_dsa_modify_k (k, skey->q, qbits);
-++
-+   /* r = (a^k mod p) mod q */
-+   mpi_powm( r, skey->g, k, skey->p );
-+   mpi_fdiv_r( r, r, skey->q );
-+diff --git a/cipher/ecc-ecdsa.c b/cipher/ecc-ecdsa.c
-+index 84a1cf84..97966c3a 100644
-+--- a/cipher/ecc-ecdsa.c
-++++ b/cipher/ecc-ecdsa.c
-+@@ -114,15 +114,7 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+           else
-+             k = _gcry_dsa_gen_k (skey->E.n, GCRY_STRONG_RANDOM);
-+ 
-+-          /* Originally, ECDSA computation requires k where 0 < k < n.
-+-           * Here, we add n (the order of curve), to keep k in a
-+-           * range: n < k < 2*n, or, addming more n, keep k in a range:
-+-           * 2*n < k < 3*n, so that timing difference of the EC
-+-           * multiply operation can be small.  The result is same.
-+-           */
-+-          mpi_add (k, k, skey->E.n);
-+-          if (!mpi_test_bit (k, qbits))
-+-            mpi_add (k, k, skey->E.n);
-++          _gcry_dsa_modify_k (k, skey->E.n, qbits);
-+ 
-+           _gcry_mpi_ec_mul_point (&I, k, &skey->E.G, ctx);
-+           if (_gcry_mpi_ec_get_affine (x, NULL, &I, ctx))
-+diff --git a/cipher/ecc-gost.c b/cipher/ecc-gost.c
-+index a34fa084..0362a6c7 100644
-+--- a/cipher/ecc-gost.c
-++++ b/cipher/ecc-gost.c
-+@@ -94,6 +94,8 @@ _gcry_ecc_gost_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+           mpi_free (k);
-+           k = _gcry_dsa_gen_k (skey->E.n, GCRY_STRONG_RANDOM);
-+ 
-++          _gcry_dsa_modify_k (k, skey->E.n, qbits);
-++
-+           _gcry_mpi_ec_mul_point (&I, k, &skey->E.G, ctx);
-+           if (_gcry_mpi_ec_get_affine (x, NULL, &I, ctx))
-+             {
-+diff --git a/cipher/pubkey-internal.h b/cipher/pubkey-internal.h
-+index b8167c77..d31e26f3 100644
-+--- a/cipher/pubkey-internal.h
-++++ b/cipher/pubkey-internal.h
-+@@ -84,6 +84,7 @@ _gcry_rsa_pss_verify (gcry_mpi_t value, gcry_mpi_t encoded,
-+ 
-+ 
-+ /*-- dsa-common.c --*/
-++void _gcry_dsa_modify_k (gcry_mpi_t k, gcry_mpi_t q, int qbits);
-+ gcry_mpi_t _gcry_dsa_gen_k (gcry_mpi_t q, int security_level);
-+ gpg_err_code_t _gcry_dsa_gen_rfc6979_k (gcry_mpi_t *r_k,
-+                                         gcry_mpi_t dsa_q, gcry_mpi_t dsa_x,
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch b/meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch
-new file mode 100644
-index 0000000000..66402d6187
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch
-@@ -0,0 +1,68 @@
-+From b9577f7c89b4327edc09f2231bc8b31521102c79 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Wed, 17 Jul 2019 12:44:50 +0900
-+Subject: [PATCH] ecc: Add mitigation against timing attack.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Add the order N to K.
-+* mpi/ec.c (_gcry_mpi_ec_mul_point): Compute with NBITS of P or larger.
-+
-+CVE-id: CVE-2019-13627
-+GnuPG-bug-id: 4626
-+Co-authored-by: Ján Jančár <johny@neuromancer.sk>
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+---
-+ cipher/ecc-ecdsa.c | 10 ++++++++++
-+ mpi/ec.c           |  6 +++++-
-+ 2 files changed, 15 insertions(+), 1 deletion(-)
-+
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=b9577f7c89b]
-+This backport is one of two upstream patches addressing CVE-2019-13627.
-+
-+CVE: CVE-2019-13627
-+
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+
-+diff --git a/cipher/ecc-ecdsa.c b/cipher/ecc-ecdsa.c
-+index 140e8c09..84a1cf84 100644
-+--- a/cipher/ecc-ecdsa.c
-++++ b/cipher/ecc-ecdsa.c
-+@@ -114,6 +114,16 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+           else
-+             k = _gcry_dsa_gen_k (skey->E.n, GCRY_STRONG_RANDOM);
-+ 
-++          /* Originally, ECDSA computation requires k where 0 < k < n.
-++           * Here, we add n (the order of curve), to keep k in a
-++           * range: n < k < 2*n, or, addming more n, keep k in a range:
-++           * 2*n < k < 3*n, so that timing difference of the EC
-++           * multiply operation can be small.  The result is same.
-++           */
-++          mpi_add (k, k, skey->E.n);
-++          if (!mpi_test_bit (k, qbits))
-++            mpi_add (k, k, skey->E.n);
-++
-+           _gcry_mpi_ec_mul_point (&I, k, &skey->E.G, ctx);
-+           if (_gcry_mpi_ec_get_affine (x, NULL, &I, ctx))
-+             {
-+diff --git a/mpi/ec.c b/mpi/ec.c
-+index 97afbfed..ed936d74 100644
-+--- a/mpi/ec.c
-++++ b/mpi/ec.c
-+@@ -1509,7 +1509,11 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
-+       unsigned int nbits;
-+       int j;
-+ 
-+-      nbits = mpi_get_nbits (scalar);
-++      if (mpi_cmp (scalar, ctx->p) >= 0)
-++        nbits = mpi_get_nbits (scalar);
-++      else
-++        nbits = mpi_get_nbits (ctx->p);
-++
-+       if (ctx->model == MPI_EC_WEIERSTRASS)
-+         {
-+           mpi_set_ui (result->x, 1);
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb
-index fda68a2938..9d649e49a3 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb
-@@ -21,6 +21,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
-            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-+           file://0001-ecc-Add-mitigation-against-timing-attack.patch \
-+           file://0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch \
- "
- SRC_URI[md5sum] = "fbfdaebbbc6d7e5fbbf6ffdb3e139573"
- SRC_URI[sha256sum] = "f638143a0672628fde0cad745e9b14deb85dffb175709cacc1f4fe24b93f2227"
--- 
-2.23.0
+    systemd: fix NFS regression
 
+To
+
+Author: Khem Raj <raj.khem@gmail.com>
+Date:   Sat Oct 12 17:51:17 2019 -0700
+
+    glib-2.0: Fix build with clang compiler
+
+and reverted meson 0.52.0 upgrade. All recipes build without issues
+but do_rootfs fails with:
+
+NOTE: > Executing update_pixbuf_cache intercept ...
+NOTE: Exit code 1. Output:
++ '[' True = False -a qemuwrapper-cross '!=' nativesdk-qemuwrapper-cross ']'
++ qemu-arm -r 3.2.0 -E
+LD_LIBRARY_PATH=/home/superandy/tmp/oe-core-glibc/work/raspberrypi3-mortsgna-linux-gnueabi/allgui-full-image/1.0-r0/rootfs/usr/lib:/home/superandy/tmp/oe-core-glibc/work/raspberrypi3-mortsgna-linux-gnueabi/allgui-full-image/1.0-r0/rootfs/lib
+-L /home/superandy/tmp/oe-core-glibc/work/raspberrypi3-mortsgna-linux-gnueabi/allgui-full-image/1.0-r0/rootfs
+/home/superandy/tmp/oe-core-glibc/work/raspberrypi3-mortsgna-linux-gnueabi/allgui-full-image/1.0-r0/rootfs/usr/lib/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders
+
+ERROR: The postinstall intercept hook 'update_pixbuf_cache' failed,
+details in /home/superandy/tmp/oe-core-glibc/work/raspberrypi3-mortsgna-linux-gnueabi/allgui-full-image/1.0-r0/temp/log.do_rootfs
+DEBUG: Python function do_rootfs finished
+
+Tried already to revert
+commit 3ecb6744402332f1ad143eb1eb6a94143e1700c8
+Author: Joerg Vehlow <joerg.vehlow@aox-tech.de>
+Date:   Fri Oct 11 08:03:57 2019 +0200
+
+    runqemu: Remove disabling of high resolution timer
+
+but that did not change anything.
+
+Any ideas / suggestions?
+
+Andreas
 
