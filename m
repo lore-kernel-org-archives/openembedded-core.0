@@ -1,33 +1,24 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B8857F6A7
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 91EDD75E2D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 02:49:43 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CAA49E00DAA; Thu, 17 Oct 2019 19:49:44 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4293BE00E84
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2019 19:49:20 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id 7F30A440013
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2019 19:49:19 -0700 (PDT)
+	Fri, 18 Oct 2019 07:10:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9I7A3v9027572
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 18 Oct 2019 00:10:03 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Fri, 18 Oct 2019 00:10:03 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <ross.burton@intel.com>
+Date: Fri, 18 Oct 2019 15:10:01 +0800
+Message-ID: <1571382601-18374-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Message-Id: <20191018024919.7F30A440013@auh.yoctoproject.org>
-Date: Thu, 17 Oct 2019 19:49:19 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2019-10-17
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] openssh: fix CVE-2019-16905
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,177 +31,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2019 02:49:43 -0000
-Content-Type: multipart/mixed; boundary="===============5532122421766700427=="
+X-List-Received-Date: Fri, 18 Oct 2019 07:10:03 -0000
+Content-Type: text/plain
 
---===============5532122421766700427==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Backport a patch from upstream to fix CVE-2019-16905
+https://github.com/openssh/openssh-portable/commit/a546b17bbaeb12beac4c9aeed56f74a42b18a93a
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
-IDQ0CiAgICAgICAgcHl0aG9uMywgMy44LjAsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3Vy
-Y2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBndGsrMywgMy4yNC4xMiwgUm9zcyBC
-dXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBibHVlejUsIDUuNTEsIEFudWog
-TWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAga2JkLCAyLjIuMCwgQWxleGFu
-ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgYWNsLCAyLjIuNTMs
-IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBzcXVhc2hmcy10b29scywg
-NC40LCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBnbGlk
-ZSwgMC4xMy4zLCBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29t
-LmJyPgogICAgICAgIHJ1YnksIDIuNi41LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwu
-Y29tPgogICAgICAgIHB1enpsZXMsIDAuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIEFudWogTWl0
-dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgaWZ1cGRvd24sIDAuOC4zNSwgQW51
-aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBvdm1mLCBlZGsyLXN0YWJs
-ZTIwMTkwOCwgUmljYXJkbyBOZXJpIDxyaWNhcmRvLm5lcmktY2FsZGVyb25AbGludXguaW50ZWwu
-Y29tPgogICAgICAgIG1lc2EsIDE5LjIuMSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFk
-b3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBkZWJpYW51dGlscywgNC45LCBZaSBaaGFvIDx5
-aS56aGFvQHdpbmRyaXZlci5jb20+CiAgICAgICAgcGFydGVkLCAzLjMsIEhvbmd4dSBKaWEgPGhv
-bmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBzeXN2aW5pdCwgMi45NiwgUm9zcyBCdXJ0
-b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBsaWJnY3J5cHQsIDEuOC41LCBIb25n
-eHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgc3lzcHJvZiwgMy4zNC4x
-LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBzY3Jl
-ZW4sIDQuNy4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHZ1
-bGthbi1kZW1vcywgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3Mu
-YnVydG9uQGludGVsLmNvbT4KICAgICAgICBsdHAsIDIwMTkwOTMwLCBZaSBaaGFvIDx5aS56aGFv
-QHdpbmRyaXZlci5jb20+CiAgICAgICAgZ2hvc3RzY3JpcHQsIDkuNTAsIEhvbmd4dSBKaWEgPGhv
-bmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBweXRob24zLW51bXB5LCAxLjE3LjIsIE9s
-ZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAg
-ICAgICBsaWJzb3VwLTIuNCwgMi42OC4yLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
-Y29tPgogICAgICAgIHZ0ZSwgMC41OC4yLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
-Y29tPgogICAgICAgIHNlZCwgNC43LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAg
-ICAgICAgZmxleCwgMi42LjQsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAg
-ICBwdWxzZWF1ZGlvLCAxMy4wLCBUYW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+CiAgICAgICAg
-bGlieGNyeXB0LWNvbXBhdCwgNC40LjEwLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgog
-ICAgICAgIHJwbSwgNC4xNS4wLCBNYXJrIEhhdGxlIDxtYXJrLmhhdGxlQHdpbmRyaXZlci5jb20+
-CiAgICAgICAgc3lza2xvZ2QsIDEuNiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
-ICAgICAgIGN1cHMsIDIuMy4wLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAg
-ICAgYmludXRpbHMsIDIuMzMuMSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAg
-ICBnZXR0ZXh0LCAwLjIwLjEsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29t
-PgogICAgICAgIHRleGluZm8sIDYuNywgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNv
-bT4KICAgICAgICBsaWJqaXR0ZXJlbnRyb3B5LCAyLjIuMCwgUm9zcyBCdXJ0b24gPHJvc3MuYnVy
-dG9uQGludGVsLmNvbT4KICAgICAgICBnby1ydW50aW1lLCAxLjEzLjEsIEtoZW0gUmFqIDxyYWou
-a2hlbUBnbWFpbC5jb20+CiAgICAgICAgZ251LWVmaSwgMy4wLjEwLCBZaSBaaGFvIDx5aS56aGFv
-QHdpbmRyaXZlci5jb20+CiAgICAgICAgbnNwciwgNC4yMiwgQXJtaW4gS3VzdGVyIDxha3VzdGVy
-ODA4QGdtYWlsLmNvbT4KICAgICAgICBhcHQsIDEuOS40LCBBbsOtYmFsIExpbcOzbiA8bGltb24u
-YW5pYmFsQGdtYWlsLmNvbT4KICAgICAgICBhdGssIDIuMzQuMSwgQW51aiBNaXR0YWwgPGFudWou
-bWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnbywgMS4xMy4xLCBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPgogICAgICAgIGJpbmQsIDkuMTEuMTEsIEFybWluIEt1c3RlciA8YWt1c3Rlcjgw
-OEBnbWFpbC5jb20+CiAgICAgICAgYXR0ciwgMi40LjQ4LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRy
-aXZlci5jb20+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZCwgMS4xNi4xLCBBbnVq
-IE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6
-IDMzCiAgICAgICAgb3JjLCAwLjQuMzAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5j
-b20+CiAgICAgICAgbWtmb250c2NhbGUsIDEuMi4xLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhA
-Z21haWwuY29tPgogICAgICAgIHN0cmVzcy1uZywgMC4xMC4wNywgQW51aiBNaXR0YWwgPGFudWou
-bWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnc3RyZWFtZXIxLjAtb214LCAxLjE2LjEsIEFudWog
-TWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgdS1ib290LCAyMDE5LjEwLCBN
-YXJlayBWYXN1dCA8bWFyZWsudmFzdXRAZ21haWwuY29tPgogICAgICAgIHByZWxpbmssIDEuMC1u
-ZXctY29tbWl0cy1hdmFpbGFibGUsIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNv
-bT4KICAgICAgICBzaGFkb3csIDQuNywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
-ICAgICAgIGxpYnhtbC1wYXJzZXItcGVybCwgMi40NiwgVGltIE9ybGluZyA8dGltb3RoeS50Lm9y
-bGluZ0BsaW51eC5pbnRlbC5jb20+CiAgICAgICAgdnVsa2FuLWxvYWRlciwgMS4xLjEyMS4wLCBB
-bnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGNtYWtlLCAzLjE1LjQs
-IFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaEBzaWVtZW5zLmNvbT4KICAgICAgICBsaWJ4Y3J5cHQs
-IDQuNC4xMCwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBnc3RyZWFtZXIx
-LjAtcGx1Z2lucy11Z2x5LCAxLjE2LjEsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5j
-b20+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZSwgMS4xNi4xLCBBbnVqIE1pdHRh
-bCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGFzc2ltcCwgNS4wLjAsIEFudWogTWl0
-dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgbGliZG5mLCAwLjM1LjUsIEFsZXhh
-bmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEu
-MC12YWFwaSwgMS4xNi4xLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAg
-ICAgIGx0dG5nLXRvb2xzLCAyLjEwLjgsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBs
-aW51eGZvdW5kYXRpb24ub3JnPgogICAgICAgIGxpYngxMSwgMS42LjksIEFybWluIEt1c3RlciA8
-YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgZ3N0LXZhbGlkYXRlLCAxLjE2LjEsIEFudWog
-TWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgdS1ib290LXRvb2xzLCAyMDE5
-LjEwLCBNYXJlayBWYXN1dCA8bWFyZWsudmFzdXRAZ21haWwuY29tPgogICAgICAgIGtleGVjLXRv
-b2xzLCAyLjAuMjAsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAg
-cHl0aG9uMy1zZXR1cHRvb2xzLCA0MS40LjAsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3Vy
-Y2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICB2dWxrYW4taGVhZGVycywgMS4xLjEy
-MS4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1l
-cjEuMC1wbHVnaW5zLWJhZCwgMS4xNi4xLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
-Y29tPgogICAgICAgIGdjciwgMy4zNC4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmlu
-QGdtYWlsLmNvbT4KICAgICAgICBnc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXIsIDEuMTYuMSwgQW51
-aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBweXRob24tc2V0dXB0b29s
-cywgNDEuNC4wLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2
-Y2h1ay5jb20+CiAgICAgICAgdS1ib290LWZ3LXV0aWxzLCAyMDE5LjEwLCBNYXJlayBWYXN1dCA8
-bWFyZWsudmFzdXRAZ21haWwuY29tPgogICAgICAgIGxpYmNhcC1uZy1weXRob24sIDAuNy4xMCwg
-WWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIHZ1bGthbi10b29scywgMS4x
-LjEyMS4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdzdHJl
-YW1lcjEuMC1weXRob24sIDEuMTYuMSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNv
-bT4KICAgICAgICBhdC1zcGkyLWF0aywgMi4zNC4xLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
-aW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1saWJhdiwgMS4xNi4xLCBBbnVqIE1pdHRh
-bCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgKiBTdWNjZWVkZWQ6IDMzCiAgICAgICAgdmlt
-LXRpbnksIDguMS4yMTUxLCBUb20gUmluaSA8dHJpbmlAa29uc3Vsa28uY29tPgogICAgICAgIHZp
-bSwgOC4xLjIxNTEsIFRvbSBSaW5pIDx0cmluaUBrb25zdWxrby5jb20+CiAgICAgICAgYWR3YWl0
-YS1pY29uLXRoZW1lLCAzLjM0LjAsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+
-CiAgICAgICAgaGFyZmJ1enosIDIuNi4yLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
-Y29tPgogICAgICAgIGFzcGVsbCwgMC42MC44LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50
-ZWwuY29tPgogICAgICAgIHB5dGhvbjMtcGlwLCAxOS4zLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9w
-ZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgaXByb3V0ZTIsIDUuMy4w
-LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAgICAgIGdkay1w
-aXhidWYsIDIuNDAuMCwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAg
-ICBldGh0b29sLCA1LjMsIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZUBnbWFpbC5jb20+
-CiAgICAgICAgbW1jLXV0aWxzLCAwLjEtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBBbnVqIE1pdHRh
-bCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHNxbGl0ZTMsIDMuMzAuMSwgQW51aiBN
-aXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBwaWdsaXQsIDEuMC1uZXctY29t
-bWl0cy1hdmFpbGFibGUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAg
-ICAgZWxsLCAwLjI0LCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1r
-cmF2Y2h1ay5jb20+CiAgICAgICAgbGlieHZtYywgMS4wLjEyLCBBcm1pbiBLdXN0ZXIgPGFrdXN0
-ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGNjYWNoZSwgMy43LjQsIFJvYmVydCBZYW5nIDxsaWV6
-aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYmNhcC1uZywgMC43LjEwLCBZaSBaaGFv
-IDx5aS56aGFvQHdpbmRyaXZlci5jb20+CiAgICAgICAgZTJmc3Byb2dzLCAxLjQ1LjQsIFJvYmVy
-dCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGRuZiwgNC4yLjExLCBB
-bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBnc2V0dGlu
-Z3MtZGVza3RvcC1zY2hlbWFzLCAzLjM0LjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRl
-bC5jb20+CiAgICAgICAgbGliZXJyb3ItcGVybCwgMC4xNzAyOCwgVGltIE9ybGluZyA8dGltb3Ro
-eS50Lm9ybGluZ0BsaW51eC5pbnRlbC5jb20+CiAgICAgICAgZ251dGxzLCAzLjYuMTAsIEFybWlu
-IEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgcHl0aG9uMy1naXQsIDMuMC4z
-LCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+
-CiAgICAgICAgYXQtc3BpMi1jb3JlLCAyLjM0LjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBp
-bnRlbC5jb20+CiAgICAgICAgbGludXgtZmlybXdhcmUsIDIwMTkwODE1LW5ldy1jb21taXRzLWF2
-YWlsYWJsZSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5i
-cj4KICAgICAgICBzdWRvLCAxLjguMjgsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4K
-ICAgICAgICBtYW4tcGFnZXMsIDUuMDVENUQ1RDMsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBuc3MsIDMuNDYuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4
-QGdtYWlsLmNvbT4KICAgICAgICBvcGVuc3NoLCA4LjFwMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVy
-ODA4QGdtYWlsLmNvbT4KICAgICAgICBrbXNjdWJlLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxl
-LCBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdkBwc2V1ZG90ZXJtaW5hbC5vcmc+CiAgICAgICAgcHl0
-aG9uMy1naXRkYiwgMi4wLjYsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3Nh
-bmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBnc3RyZWFtZXIxLjAsIDEuMTYuMSwgQW51aiBNaXR0
-YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBiaXNvbiwgMy40LjIsIENoZW4gUWkg
-PFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnbnUtY29uZmlnLCAyMDE5MDUwMS1uZXct
-Y29tbWl0cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29t
-PgoKICAgIFRPVEFMOiBhdHRlbXB0ZWQ9MTEwIHN1Y2NlZWRlZD0zMygzMC4wMCUpIGZhaWxlZD03
-Nyg3MC4wMCUpCgpSZWNpcGUgdXBncmFkZSBzdGF0aXN0aWNzIHBlciBNYWludGFpbmVyOgoKICAg
-IFJpY2FyZG8gTmVyaSA8cmljYXJkby5uZXJpLWNhbGRlcm9uOiBhdHRlbXB0ZWQ9MSBzdWNjZWVk
-ZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIENoZW4gUWkgPFFpLkNoZW46IGF0dGVt
-cHRlZD05IHN1Y2NlZWRlZD0yKDIyLjIyJSkgZmFpbGVkPTcoNzcuNzglKQogICAgVGFudSBLYXNr
-aW5lbiA8dGFudWs6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAu
-MDAlKQogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsOiBhdHRlbXB0ZWQ9MzIgc3VjY2VlZGVk
-PTcoMjEuODglKSBmYWlsZWQ9MjUoNzguMTIlKQogICAgS2hlbSBSYWogPHJhai5raGVtOiBhdHRl
-bXB0ZWQ9NSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTUoMTAwLjAwJSkKICAgIEFsZXhhbmRl
-ciBLYW5hdmluIDxhbGV4LmthbmF2aW46IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0xKDIwLjAwJSkg
-ZmFpbGVkPTQoODAuMDAlKQogICAgTWFyZWsgVmFzdXQgPG1hcmVrLnZhc3V0OiBhdHRlbXB0ZWQ9
-MyBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTMoMTAwLjAwJSkKICAgIE90YXZpbyBTYWx2YWRv
-ciA8b3RhdmlvLnNhbHZhZG9yOiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9MSgzMy4zMyUpIGZhaWxl
-ZD0yKDY2LjY3JSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0x
-KDIwLjAwJSkgZmFpbGVkPTQoODAuMDAlKQogICAgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVy
-ZGllOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAg
-IFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUp
-IGZhaWxlZD0xKDEwMC4wMCUpCiAgICBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdjogYXR0ZW1wdGVk
-PTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBBcm1pbiBLdXN0ZXIg
-PGFrdXN0ZXI4MDg6IGF0dGVtcHRlZD05IHN1Y2NlZWRlZD00KDQ0LjQ0JSkgZmFpbGVkPTUoNTUu
-NTYlKQogICAgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYTogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTEo
-MjUuMDAlKSBmYWlsZWQ9Myg3NS4wMCUpCiAgICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFs
-OiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIE9s
-ZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2U6IGF0dGVtcHRlZD04IHN1Y2NlZWRlZD00KDUw
-LjAwJSkgZmFpbGVkPTQoNTAuMDAlKQogICAgVGltIE9ybGluZyA8dGltb3RoeS50Lm9ybGluZzog
-YXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTEoNTAuMDAlKSBmYWlsZWQ9MSg1MC4wMCUpCiAgICBDaGFu
-Z2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWU6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0yKDEwMC4w
-MCUpIGZhaWxlZD0wKDAuMDAlKQogICAgTWFyayBIYXRsZSA8bWFyay5oYXRsZTogYXR0ZW1wdGVk
-PTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAgICBUb20gUmluaSA8dHJp
-bmk6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0yKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAg
-Um9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9NSBzdWNjZWVkZWQ9Myg2MC4wMCUp
-IGZhaWxlZD0yKDQwLjAwJSkKICAgIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbjogYXR0ZW1wdGVk
-PTggc3VjY2VlZGVkPTMoMzcuNTAlKSBmYWlsZWQ9NSg2Mi41MCUpCg==
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ ...x-integer-overflow-in-XMSS-private-key-pa.patch | 40 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_8.0p1.bb |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch
 
---===============5532122421766700427==--
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch b/meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch
+new file mode 100644
+index 0000000..3265be3
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch
+@@ -0,0 +1,40 @@
++From 2014fad3d28090b59d2f8a0971166c06e5fa6da6 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Fri, 18 Oct 2019 14:56:58 +0800
++Subject: [PATCH] upstream: fix integer overflow in XMSS private key parsing.
++
++Reported by Adam Zabrocki via SecuriTeam's SSH program.
++
++Note that this code is experimental and not compiled by default.
++
++ok markus@
++
++OpenBSD-Commit-ID: cd0361896d15e8a1bac495ac583ff065ffca2be1
++
++Signed-off-by: "djm@openbsd.org" <djm@openbsd.org>
++
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/a546b17bbaeb12beac4c9aeed56f74a42b18a93a]
++CVE: CVE-2019-16905
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ sshkey-xmss.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/sshkey-xmss.c b/sshkey-xmss.c
++index aaae702..c57681a 100644
++--- a/sshkey-xmss.c
+++++ b/sshkey-xmss.c
++@@ -977,7 +977,8 @@ sshkey_xmss_decrypt_state(const struct sshkey *k, struct sshbuf *encoded,
++ 		goto out;
++ 	}
++ 	/* check that an appropriate amount of auth data is present */
++-	if (sshbuf_len(encoded) < encrypted_len + authlen) {
+++	if (sshbuf_len(encoded) < authlen ||
+++	    sshbuf_len(encoded) - authlen < encrypted_len) {
++ 		r = SSH_ERR_INVALID_FORMAT;
++ 		goto out;
++ 	}
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+index 01eaecd..2ffbc9a 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
++           file://0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch \
+            "
+ SRC_URI[md5sum] = "bf050f002fe510e1daecd39044e1122d"
+ SRC_URI[sha256sum] = "bd943879e69498e8031eb6b7f44d08cdc37d59a7ab689aa0b437320c3481fd68"
+-- 
+2.7.4
+
+
