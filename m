@@ -1,46 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D9797F698
+Return-Path: <tgamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A272E7F687
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 12:33:33 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id u22so8741447qtq.13
+	Fri, 18 Oct 2019 14:35:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9IEZE8R013747
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 05:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=IZ350zBRYY35csbV1hNWKtLG516FL0r7LTAEMTNMhSM=;
-	b=iidNclibGuvtc0fkH0Rhdqx66OGtUNpaPaVuCvv1xDsYkesgDMXRY8IZ8OKOND/Oqt
-	+PETvCI9dCFnpOl7y7yRS+K1E+mEhAGgx9o3Uws/pbiuxB2R8MoHb9O1SPQkkFuIjtKJ
-	z1bvIPeGiDTrRfl88wUx9NMbuQiTWQhp0O0THrR0jyAWUbGPd6My8IT56lE+98Ob9jUN
-	ixt4zqhrlLRyHWVp7QzMz47PjGYFYos/GXHlKxs3wnYtX1u6Ewn7ivw7Rj6ZC50TBUcK
-	eGk5JssO8SHb+HOd2SRsPYv9euqHDQUEfzvOyICrhfBUuH6s03Mc9qruyTsDgJJp3BlU
-	vYvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=IZ350zBRYY35csbV1hNWKtLG516FL0r7LTAEMTNMhSM=;
-	b=QcXkfbLEYeOIXdeQvRwSnFNK0521KrYIRQVztF1/XARRsgvclfStHKiDNTilbVe7cX
-	VYlIDve2lO5M9yIdAgtkTqxA8ECM+3WYXUv+QgYJI4BsPgDuIT7BmxaTG+LQDWKo29cX
-	uBbnofOrLsxywoCVdBSzYACmxcbjXTCGwxBOyTQU8uoTg61IxEuLH17LX5TiFKD1FNe9
-	PCXlPuaCkdBCeFuUg9G9w3Nz8H/P65vb4doqueEYM8kMDFb7mbrNRu62MdQL94mqUVNj
-	63kEQyAxivv+0v6W8H5HHx8zewYqsarfOCY7vf2KnH6BXwWlbrSh2kDnZSvedOx3tcFM
-	SXow==
-X-Gm-Message-State: APjAAAUT9VDDx54n4TACYUsZMl3k+4JuB5S+yUNHYRFWgbweHoSmXs9R
-	LnHA/vcvgJDJufjs7bq0NzfZNlLQ3yFlN+cR/XY=
-X-Google-Smtp-Source: APXvYqwwxBEA0+YBByK08nGHPrVGYWNSLdX8R9/CQZyY5/uKhpUJ9mReeDswwCSTHUCldFEGPn8E+1qCaSy9tKGRBdA=
-X-Received: by 2002:ac8:3021:: with SMTP id f30mr9437100qte.80.1571402013791; 
-	Fri, 18 Oct 2019 05:33:33 -0700 (PDT)
+	Fri, 18 Oct 2019 07:35:15 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Fri, 18 Oct 2019 07:35:13 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 20958)	id 86185C6112F;
+	Fri, 18 Oct 2019 07:35:13 -0700 (PDT)
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Oct 2019 07:35:02 -0700
+Message-ID: <20191018143502.81069-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20191018112819.16210-1-ross.burton@intel.com>
-In-Reply-To: <20191018112819.16210-1-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 18 Oct 2019 18:03:22 +0530
-Message-ID: <CAMKF1soy5adOpd49H0dTqtwu=vSRc0EPMnXFvD5uQTaJd+JCig@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] file: explicitly disable seccomp
+Subject: [PATCH] ncurses: fix CVE-2019-17594, CVE-2019-17595
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,117 +33,208 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2019 12:33:33 -0000
-Content-Type: multipart/alternative; boundary="000000000000d4da0405952e8a64"
+X-List-Received-Date: Fri, 18 Oct 2019 14:35:14 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---000000000000d4da0405952e8a64
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Backport changes to tinfo/comp_hash.c, tinfo/parse_entry.c,
+and progs/dump_entry.c from upstream to fix CVEs.
 
-On Fri, Oct 18, 2019 at 4:58 PM Ross Burton <ross.burton@intel.com> wrote:
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+---
+ ...selective-backport-of-20191012-patch.patch | 169 ++++++++++++++++++
+ .../ncurses/ncurses_6.1+20190803.bb           |   1 +
+ 2 files changed, 170 insertions(+)
+ create mode 100644 meta/recipes-core/ncurses/files/0001-ncurses-selective-backport-of-20191012-patch.patch
 
-> file will automatically enable seccomp if the seccomp headers are
-> available, but
-> the build will fail on Opensuse Tumbleweed because the include paths are
-> wrong.
->
-> Enabling seccomp is a bad idea because it interacts badly with pseudo
-> (causing
-> build failures), so explicitly and globally disable seccomp.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-devtools/file/file_5.37.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-devtools/file/file_5.37.bb
-> b/meta/recipes-devtools/file/file_5.37.bb
-> index a840dbc012b..c53a120b840 100644
-> --- a/meta/recipes-devtools/file/file_5.37.bb
-> +++ b/meta/recipes-devtools/file/file_5.37.bb
-> @@ -21,6 +21,8 @@ S =3D "${WORKDIR}/git"
->
->  inherit autotools update-alternatives
->
-> +EXTRA_OECONF +=3D "--disable-libseccomp"
-> +
+diff --git a/meta/recipes-core/ncurses/files/0001-ncurses-selective-backport-of-20191012-patch.patch b/meta/recipes-core/ncurses/files/0001-ncurses-selective-backport-of-20191012-patch.patch
+new file mode 100644
+index 0000000000..7870c4ba32
+--- /dev/null
++++ b/meta/recipes-core/ncurses/files/0001-ncurses-selective-backport-of-20191012-patch.patch
+@@ -0,0 +1,169 @@
++From 064b77f173337aa790f1cec0d741bfbc61a33d31 Mon Sep 17 00:00:00 2001
++From: Trevor Gamblin <trevor.gamblin@windriver.com>
++Date: Fri, 18 Oct 2019 09:57:43 -0400
++Subject: [PATCH] ncurses: selective backport of 20191012 patch
++
++Upstream-Status: Backport [https://salsa.debian.org/debian/ncurses/commit/243908b1e3d81]
++
++Contents of the upstream patch that are not applied to comp_hash.c, 
++parse_entry.c, or dump_entry.c have been omitted.
++
++CVE: CVE-2019-17594
++CVE: CVE-2019-17595
++
++Signed-off-by: Trevor Gamblin  <trevor.gamblin@windriver.com>
++
++---
++ ncurses/tinfo/comp_hash.c   | 14 ++++++++++----
++ ncurses/tinfo/parse_entry.c | 32 ++++++++++++++++----------------
++ progs/dump_entry.c          |  7 ++++---
++ 3 files changed, 30 insertions(+), 23 deletions(-)
++
++diff --git a/ncurses/tinfo/comp_hash.c b/ncurses/tinfo/comp_hash.c
++index 21f165ca..a62d38f9 100644
++--- a/ncurses/tinfo/comp_hash.c
+++++ b/ncurses/tinfo/comp_hash.c
++@@ -44,7 +44,7 @@
++ #include <tic.h>
++ #include <hashsize.h>
++ 
++-MODULE_ID("$Id: comp_hash.c,v 1.49 2019/03/10 00:06:48 tom Exp $")
+++MODULE_ID("$Id: comp_hash.c,v 1.51 2019/10/12 16:32:13 tom Exp $")
++ 
++ /*
++  * Finds the entry for the given string in the hash table if present.
++@@ -63,7 +63,9 @@ _nc_find_entry(const char *string,
++ 
++     hashvalue = data->hash_of(string);
++ 
++-    if (data->table_data[hashvalue] >= 0) {
+++    if (hashvalue >= 0
+++	&& (unsigned) hashvalue < data->table_size
+++	&& data->table_data[hashvalue] >= 0) {
++ 
++ 	real_table = _nc_get_table(termcap);
++ 	ptr = real_table + data->table_data[hashvalue];
++@@ -96,7 +98,9 @@ _nc_find_type_entry(const char *string,
++     const HashData *data = _nc_get_hash_info(termcap);
++     int hashvalue = data->hash_of(string);
++ 
++-    if (data->table_data[hashvalue] >= 0) {
+++    if (hashvalue >= 0
+++	&& (unsigned) hashvalue < data->table_size
+++	&& data->table_data[hashvalue] >= 0) {
++ 	const struct name_table_entry *const table = _nc_get_table(termcap);
++ 
++ 	ptr = table + data->table_data[hashvalue];
++@@ -124,7 +128,9 @@ _nc_find_user_entry(const char *string)
++ 
++     hashvalue = data->hash_of(string);
++ 
++-    if (data->table_data[hashvalue] >= 0) {
+++    if (hashvalue >= 0
+++	&& (unsigned) hashvalue < data->table_size
+++	&& data->table_data[hashvalue] >= 0) {
++ 
++ 	real_table = _nc_get_userdefs_table();
++ 	ptr = real_table + data->table_data[hashvalue];
++diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
++index f8cca8b5..064376c5 100644
++--- a/ncurses/tinfo/parse_entry.c
+++++ b/ncurses/tinfo/parse_entry.c
++@@ -47,7 +47,7 @@
++ #include <ctype.h>
++ #include <tic.h>
++ 
++-MODULE_ID("$Id: parse_entry.c,v 1.97 2019/08/03 23:10:38 tom Exp $")
+++MODULE_ID("$Id: parse_entry.c,v 1.98 2019/10/12 00:50:31 tom Exp $")
++ 
++ #ifdef LINT
++ static short const parametrized[] =
++@@ -654,12 +654,12 @@ _nc_capcmp(const char *s, const char *t)
++ }
++ 
++ static void
++-append_acs0(string_desc * dst, int code, int src)
+++append_acs0(string_desc * dst, int code, char *src, size_t off)
++ {
++-    if (src != 0) {
+++    if (src != 0 && off < strlen(src)) {
++ 	char temp[3];
++ 	temp[0] = (char) code;
++-	temp[1] = (char) src;
+++	temp[1] = src[off];
++ 	temp[2] = 0;
++ 	_nc_safe_strcat(dst, temp);
++     }
++@@ -669,7 +669,7 @@ static void
++ append_acs(string_desc * dst, int code, char *src)
++ {
++     if (VALID_STRING(src) && strlen(src) == 1) {
++-	append_acs0(dst, code, *src);
+++	append_acs0(dst, code, src, 0);
++     }
++ }
++ 
++@@ -1038,17 +1038,17 @@ postprocess_terminfo(TERMTYPE2 *tp)
++ 	_nc_str_init(&result, buf2, sizeof(buf2));
++ 	_nc_safe_strcat(&result, acs_chars);
++ 
++-	append_acs0(&result, 'l', box_chars_1[0]);	/* ACS_ULCORNER */
++-	append_acs0(&result, 'q', box_chars_1[1]);	/* ACS_HLINE */
++-	append_acs0(&result, 'k', box_chars_1[2]);	/* ACS_URCORNER */
++-	append_acs0(&result, 'x', box_chars_1[3]);	/* ACS_VLINE */
++-	append_acs0(&result, 'j', box_chars_1[4]);	/* ACS_LRCORNER */
++-	append_acs0(&result, 'm', box_chars_1[5]);	/* ACS_LLCORNER */
++-	append_acs0(&result, 'w', box_chars_1[6]);	/* ACS_TTEE */
++-	append_acs0(&result, 'u', box_chars_1[7]);	/* ACS_RTEE */
++-	append_acs0(&result, 'v', box_chars_1[8]);	/* ACS_BTEE */
++-	append_acs0(&result, 't', box_chars_1[9]);	/* ACS_LTEE */
++-	append_acs0(&result, 'n', box_chars_1[10]);	/* ACS_PLUS */
+++	append_acs0(&result, 'l', box_chars_1, 0);	/* ACS_ULCORNER */
+++	append_acs0(&result, 'q', box_chars_1, 1);	/* ACS_HLINE */
+++	append_acs0(&result, 'k', box_chars_1, 2);	/* ACS_URCORNER */
+++	append_acs0(&result, 'x', box_chars_1, 3);	/* ACS_VLINE */
+++	append_acs0(&result, 'j', box_chars_1, 4);	/* ACS_LRCORNER */
+++	append_acs0(&result, 'm', box_chars_1, 5);	/* ACS_LLCORNER */
+++	append_acs0(&result, 'w', box_chars_1, 6);	/* ACS_TTEE */
+++	append_acs0(&result, 'u', box_chars_1, 7);	/* ACS_RTEE */
+++	append_acs0(&result, 'v', box_chars_1, 8);	/* ACS_BTEE */
+++	append_acs0(&result, 't', box_chars_1, 9);	/* ACS_LTEE */
+++	append_acs0(&result, 'n', box_chars_1, 10);	/* ACS_PLUS */
++ 
++ 	if (buf2[0]) {
++ 	    acs_chars = _nc_save_str(buf2);
++diff --git a/progs/dump_entry.c b/progs/dump_entry.c
++index d0e420ec..8a47084a 100644
++--- a/progs/dump_entry.c
+++++ b/progs/dump_entry.c
++@@ -39,7 +39,7 @@
++ #include "termsort.c"		/* this C file is generated */
++ #include <parametrized.h>	/* so is this */
++ 
++-MODULE_ID("$Id: dump_entry.c,v 1.173 2019/05/11 21:02:24 tom Exp $")
+++MODULE_ID("$Id: dump_entry.c,v 1.175 2019/10/12 15:59:07 tom Exp $")
++ 
++ #define DISCARD(string) string = ABSENT_STRING
++ #define PRINTF (void) printf
++@@ -1136,7 +1136,8 @@ fmt_entry(TERMTYPE2 *tterm,
++ 				*d++ = '\\';
++ 				*d = ':';
++ 			    } else if (*d == '\\') {
++-				*++d = *s++;
+++				if ((*++d = *s++) == '\0')
+++				    break;
++ 			    }
++ 			    d++;
++ 			    *d = '\0';
++@@ -1396,7 +1397,7 @@ one_one_mapping(const char *mapping)
++ 
++     if (VALID_STRING(mapping)) {
++ 	int n = 0;
++-	while (mapping[n] != '\0') {
+++	while (mapping[n] != '\0' && mapping[n + 1] != '\0') {
++ 	    if (isLine(mapping[n]) &&
++ 		mapping[n] != mapping[n + 1]) {
++ 		result = FALSE;
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/ncurses/ncurses_6.1+20190803.bb b/meta/recipes-core/ncurses/ncurses_6.1+20190803.bb
+index a44d78e4fe..e638a3737c 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.1+20190803.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.1+20190803.bb
+@@ -3,6 +3,7 @@ require ncurses.inc
+ SRC_URI += "file://0001-tic-hang.patch \
+             file://0002-configure-reproducible.patch \
+             file://config.cache \
++            file://0001-ncurses-selective-backport-of-20191012-patch.patch \
+ "
+ # commit id corresponds to the revision in package version
+ SRCREV = "3c9b2677c96c645496997321bf2fe465a5e7e21f"
+-- 
+2.23.0
 
 
-On host it makes sense but how about for target recipe ? We do have
-libseccomp support
-Perhaps it=E2=80=99s best to disable it for native and native sdk alone ?
-
->
->  ALTERNATIVE_${PN} =3D "file"
->  ALTERNATIVE_LINK_NAME[file] =3D "${bindir}/file"
->
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000d4da0405952e8a64
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Oct 18, 2019 at 4:58 PM Ross Burton &lt;<a href=3D"=
-mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">file will automatically enable seccomp if t=
-he seccomp headers are available, but<br>
-the build will fail on Opensuse Tumbleweed because the include paths are wr=
-ong.<br>
-<br>
-Enabling seccomp is a bad idea because it interacts badly with pseudo (caus=
-ing<br>
-build failures), so explicitly and globally disable seccomp.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" tar=
-get=3D"_blank">ross.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/file/<a href=3D"http://file_5.37.bb" rel=3D"nor=
-eferrer" target=3D"_blank">file_5.37.bb</a> | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-devtools/file/<a href=3D"http://file_5.37.bb" rel=
-=3D"noreferrer" target=3D"_blank">file_5.37.bb</a> b/meta/recipes-devtools/=
-file/<a href=3D"http://file_5.37.bb" rel=3D"noreferrer" target=3D"_blank">f=
-ile_5.37.bb</a><br>
-index a840dbc012b..c53a120b840 100644<br>
---- a/meta/recipes-devtools/file/<a href=3D"http://file_5.37.bb" rel=3D"nor=
-eferrer" target=3D"_blank">file_5.37.bb</a><br>
-+++ b/meta/recipes-devtools/file/<a href=3D"http://file_5.37.bb" rel=3D"nor=
-eferrer" target=3D"_blank">file_5.37.bb</a><br>
-@@ -21,6 +21,8 @@ S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
-=C2=A0inherit autotools update-alternatives<br>
-<br>
-+EXTRA_OECONF +=3D &quot;--disable-libseccomp&quot;<br>
-+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">On host it make=
-s sense but how about for target recipe ? We do have libseccomp support=C2=
-=A0</div><div dir=3D"auto">Perhaps it=E2=80=99s best to disable it for nati=
-ve and native sdk alone ?</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-=C2=A0ALTERNATIVE_${PN} =3D &quot;file&quot;<br>
-=C2=A0ALTERNATIVE_LINK_NAME[file] =3D &quot;${bindir}/file&quot;<br>
-<br>
--- <br>
-2.20.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---000000000000d4da0405952e8a64--
