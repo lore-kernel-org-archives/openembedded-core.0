@@ -1,49 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B7F77F382
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1422A7D97D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Oct 2019 05:26:43 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id w2so7401421qkf.2
+	Sat, 19 Oct 2019 13:06:40 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id e11so266206wrv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2019 22:26:45 -0700 (PDT)
+	Sat, 19 Oct 2019 06:06:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9S8hr9HTIV8WvRDwjHfgJUxGB7AbiSDJy+jOGYWuQuc=;
-	b=uL6f8fyRRPlvbg7fIB8PQDnjzAeGpiTc6agsXrQwOggmxhnSb+S+bkiEMqkKSza9ru
-	QeE1+ls20zXGDdwYwrRwETLJdwisDaaCwbb++yghBDB6T2xpLocxwgH5ZQanjnWd3o8C
-	thidsRUjygMF5VH6lssPKUDttkNaOq5ny1Cr9xzMH0gTvEXHQPwp9wNgP+i6EGLJnmuw
-	y9Z/lIYHaigojOoBZBRPt6RDmN8sNZD/b1p8Q4xWMM7YXfqPaiVAA0yFEiUCcse+Lz01
-	O+3z7QZhRjszOCh9PU0lEsQ8XAftswhkvsnSbAC7I/YcGub/Bz7aLpXU0xF+0azLXs7j
-	8E8w==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SQZ/67S3Dr4OKZN88vYqFmpeLdij8SIu4c+h5EnhekY=;
+	b=F2OFFbLxVg18HR2VHxl19sedJmjoGr891e5iJ8ga/OG6G4Obi2MvOIxYszMEYiFc8h
+	Ut5jjJbUzjmIdWxh5lM4FW79en3n2mP6L27lepD7CLjxGyliCrdPD5PI3yznzY15x+H7
+	UyWuFckiCidt3Ev5fzN2gVrPu3qzpTXriUQ0OAvUWLZv/leD4gTfekRZFp5LoDhOb6TX
+	pZjoyGhM+fzXqkP/4tGoyEeF5peXf/CsJmYYwK5CAVbJzmSXvs1UHR3bH0yX3v1jtBty
+	slnuxUc8f0FYuSzPi1IAr84eIjJIVTtXTVrVUz7dptW/abdQhvp0f5eoX3xr+HZzBroL
+	oovg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9S8hr9HTIV8WvRDwjHfgJUxGB7AbiSDJy+jOGYWuQuc=;
-	b=Ou0QvWutqUlYANgwjLIQOY1AHEOENA1OiNe5c9CMeKdRFENBViJXTJ3Nxb0yTet2Hs
-	hIUZeZPTGrrqYtuApGwu0erkoKU0tlvOB/Bk+DroGZkuJWZkjnidJfWfDpJWVRLIMo53
-	KUGpSdGTO1yCCczH7t5YnSUDTFzYD1F95Jodcm0w25gBS3GkY1m8zAUqmAWV82/OGSZn
-	/H4+gCJzqr42fhcNNu9KVWeHNnVb8zhIPbgD9/4WB4Bjqs4iuoukZ/WI9SaocmtZdI7E
-	VOMIXdBX9mI96C5405rIZ5nny9+O3nxYY1dRILwmr5Yl2qZcUQh+p2bY4NLyb7dQlivZ
-	ZkNQ==
-X-Gm-Message-State: APjAAAUollz7afsoVxF+56G/Z87HqJVK9gRI1nSeCytwlM5ub49D/cYs
-	JuhD1gMhH8wK5f3pyTsdthuWGQqMUcuULbcr+3U=
-X-Google-Smtp-Source: APXvYqx+68e9uPTDC9jgMR64Nl150ogJhhgLpQ+vDBK7WgLFS/GmJMOWxmlW+S5KML/6xLiy43+9NCY+cj9tq2zBrNM=
-X-Received: by 2002:a05:620a:1645:: with SMTP id
-	c5mr12520163qko.212.1571462803970; 
-	Fri, 18 Oct 2019 22:26:43 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SQZ/67S3Dr4OKZN88vYqFmpeLdij8SIu4c+h5EnhekY=;
+	b=mbLqjqjjIP8VpM/aTZe15zZHhDfZ8uklq5J7CFpxmwiUY3ZIEN51rPVJDgk0dRUBa0
+	5CCU5thKPxIFK4Wvyd8+fA3Kp7rv8gbMrVg/2mAATYvM6TYyYwzw1iDGRf7dErKPWk4v
+	Cvol9bI7my4VqNM9nkkRjvJCiTp+UVWf5aJUSj/XoRQemxIXFKU3kz+pCkch8v2vEgU4
+	EUD4zWCr4mT5dU/XOfgA3eDp3v9iQsd2enBmoOivEsT8ApUjbjJG64KFgsILEbylf3Fg
+	785ORN4nUpQ24r40a8YEDV2tU4qHmR5wE8BByVgr57iVIpvbFm7mdCe6eDbUaIzJ0Dqv
+	Bs1A==
+X-Gm-Message-State: APjAAAWSLTOWw+gP7geD25jOolFCOjUtAdtRfMrqll1cLw7u2ZFMLciW
+	D/4vSq/edLI5M/geS3X5EkILP4x2
+X-Google-Smtp-Source: APXvYqzp0dINgRdnGQcxQWu5WPwfcBVgiZgNCkn7bSsgVkZqdgnX6boPotyGYM0Ubj3dgFy80eA2Zg==
+X-Received: by 2002:adf:ef4f:: with SMTP id c15mr12150268wrp.296.1571490401174;
+	Sat, 19 Oct 2019 06:06:41 -0700 (PDT)
+Received: from superandy.speedport.ip
+	(p200300F07F0A1D354C294C8621B4EA37.dip0.t-ipconnect.de.
+	[2003:f0:7f0a:1d35:4c29:4c86:21b4:ea37])
+	by smtp.gmail.com with ESMTPSA id
+	r12sm8524140wrq.88.2019.10.19.06.06.39
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 19 Oct 2019 06:06:40 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	ross.burton@intel.com
+Date: Sat, 19 Oct 2019 15:06:33 +0200
+Message-Id: <20191019130633.9488-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191018112819.16210-1-ross.burton@intel.com>
-	<CAMKF1soy5adOpd49H0dTqtwu=vSRc0EPMnXFvD5uQTaJd+JCig@mail.gmail.com>
-	<1615697b554b612f329820f2b3f692011b7722ba.camel@linuxfoundation.org>
-In-Reply-To: <1615697b554b612f329820f2b3f692011b7722ba.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 19 Oct 2019 10:56:32 +0530
-Message-ID: <CAMKF1so3EEEexdaXTkbV6w_vYZrBTSbiHZQwZUb1_z9CJSYODA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] file: explicitly disable seccomp
+Subject: [PATCH] libical: add PACKAGECONFIG glib and enable it by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,140 +60,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Oct 2019 05:26:44 -0000
-Content-Type: multipart/alternative; boundary="000000000000355d4805953cb225"
+X-List-Received-Date: Sat, 19 Oct 2019 13:06:41 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---000000000000355d4805953cb225
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* As long as there is no solution upstream [1] build src-generator native and
+  adjust cmake file to find it
+* libical-glib is a mandatory dependency for evolution-data-server >= 3.34
 
-On Sat, Oct 19, 2019 at 2:58 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+[1] https://github.com/libical/libical/issues/394
 
-> On Fri, 2019-10-18 at 18:03 +0530, Khem Raj wrote:
-> >
-> >
-> > On Fri, Oct 18, 2019 at 4:58 PM Ross Burton <ross.burton@intel.com>
-> > wrote:
-> > > file will automatically enable seccomp if the seccomp headers are
-> > > available, but
-> > > the build will fail on Opensuse Tumbleweed because the include
-> > > paths are wrong.
-> > >
-> > > Enabling seccomp is a bad idea because it interacts badly with
-> > > pseudo (causing
-> > > build failures), so explicitly and globally disable seccomp.
-> > >
-> > > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > > ---
-> > >  meta/recipes-devtools/file/file_5.37.bb | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/meta/recipes-devtools/file/file_5.37.bb
-> > > b/meta/recipes-devtools/file/file_5.37.bb
-> > > index a840dbc012b..c53a120b840 100644
-> > > --- a/meta/recipes-devtools/file/file_5.37.bb
-> > > +++ b/meta/recipes-devtools/file/file_5.37.bb
-> > > @@ -21,6 +21,8 @@ S =3D "${WORKDIR}/git"
-> > >
-> > >  inherit autotools update-alternatives
-> > >
-> > > +EXTRA_OECONF +=3D "--disable-libseccomp"
-> > > +
-> >
-> > On host it makes sense but how about for target recipe ? We do have
-> > libseccomp support
-> > Perhaps it=E2=80=99s best to disable it for native and native sdk alone=
- ?
->
-> Given the problem reports in the media and the decisions made by most
-> other distros I think disabling this is probably safest until its been
-> make more usable (no other distro is shipping this enabled now).
->
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ ...-our-hand-build-native-src-generator.patch | 33 +++++++++++++++++++
+ meta/recipes-support/libical/libical_3.0.6.bb | 24 +++++++++-----
+ 2 files changed, 49 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-support/libical/libical/0001-Use-our-hand-build-native-src-generator.patch
 
-Ok makes sense
+diff --git a/meta/recipes-support/libical/libical/0001-Use-our-hand-build-native-src-generator.patch b/meta/recipes-support/libical/libical/0001-Use-our-hand-build-native-src-generator.patch
+new file mode 100644
+index 0000000000..73f83ef481
+--- /dev/null
++++ b/meta/recipes-support/libical/libical/0001-Use-our-hand-build-native-src-generator.patch
+@@ -0,0 +1,33 @@
++From e33bc310238bba1690f2c71ad333e10b9e422ea9 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
++Date: Sat, 19 Oct 2019 14:23:06 +0200
++Subject: [PATCH] Use our hand-build native src-generator
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
++---
++ src/libical-glib/CMakeLists.txt | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/libical-glib/CMakeLists.txt b/src/libical-glib/CMakeLists.txt
++index f3704e6..ce9db16 100644
++--- a/src/libical-glib/CMakeLists.txt
+++++ b/src/libical-glib/CMakeLists.txt
++@@ -63,8 +63,8 @@ endforeach()
++ 
++ add_custom_command (
++   OUTPUT ${LIBICAL_GLIB_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/libical-glib-private.h ${CMAKE_CURRENT_BINARY_DIR}/i-cal-forward-declarations.h
++-  COMMAND ${EXECUTABLE_OUTPUT_PATH}/src-generator "${CMAKE_CURRENT_SOURCE_DIR}/tools" "${CMAKE_CURRENT_SOURCE_DIR}/api"
++-  DEPENDS ${EXECUTABLE_OUTPUT_PATH}/src-generator ${xml_files}
+++  COMMAND ${CMAKE_BINARY_DIR}/src-generator "${CMAKE_CURRENT_SOURCE_DIR}/tools" "${CMAKE_CURRENT_SOURCE_DIR}/api"
+++  DEPENDS ${CMAKE_BINARY_DIR}/src-generator ${xml_files}
++ )
++ 
++ configure_file(
++-- 
++2.21.0
++
+diff --git a/meta/recipes-support/libical/libical_3.0.6.bb b/meta/recipes-support/libical/libical_3.0.6.bb
+index 032f3655e9..f9be898a12 100644
+--- a/meta/recipes-support/libical/libical_3.0.6.bb
++++ b/meta/recipes-support/libical/libical_3.0.6.bb
+@@ -7,27 +7,35 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1910a2a76ddf6a9ba369182494170d87 \
+                     file://LICENSE.MPL2.txt;md5=9741c346eef56131163e13b9db1241b3"
+ SECTION = "libs"
+ 
+-SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz"
+-
++SRC_URI = " \
++    https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
++    file://0001-Use-our-hand-build-native-src-generator.patch \
++"
+ SRC_URI[md5sum] = "463a59244c6767b8e67b29379405e297"
+ SRC_URI[sha256sum] = "5c8a21c2b732ece4a33e5c862970b4f35a8548bbcda50de5695f6fc211ac4d97"
+ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
+ 
+ inherit cmake pkgconfig
+ 
+-PACKAGECONFIG ??= "icu"
++do_compile_prepend() {
++	# As long as https://github.com/libical/libical/issues/394 is open build native src-generator manually
++	NATIVE_CFLAGS="${BUILD_CFLAGS} `pkg-config-native --cflags glib-2.0` `pkg-config-native --cflags libxml-2.0`"
++	NATIVE_LDFLAGS="${BUILD_LDFLAGS} `pkg-config-native --libs glib-2.0` `pkg-config-native --libs libxml-2.0`"
++	${BUILD_CC} $NATIVE_CFLAGS ${S}/src/libical-glib/tools/generator.c ${S}/src/libical-glib/tools/xml-parser.c -o ${B}/src-generator $NATIVE_LDFLAGS
++}
++
++PACKAGECONFIG ??= "icu glib"
+ PACKAGECONFIG[bdb] = ",-DCMAKE_DISABLE_FIND_PACKAGE_BDB=True,db"
++PACKAGECONFIG[glib] = "-DICAL_GLIB=True,-DICAL_GLIB=False,glib-2.0-native libxml2-native glib-2.0 libxml2"
+ # ICU is used for RSCALE (RFC7529) support
+ PACKAGECONFIG[icu] = ",-DCMAKE_DISABLE_FIND_PACKAGE_ICU=True,icu"
+ 
+ # No need to use perl-native, the host perl is sufficient.
+ EXTRA_OECMAKE += "-DPERL_EXECUTABLE=${HOSTTOOLS_DIR}/perl"
++# doc build fails with linker error (??) for libical-glib so disable it
++EXTRA_OECMAKE += "-DICAL_BUILD_DOCS=false"
+ 
+-# The glib library can't be cross-compiled, disable for now.
+-# https://github.com/libical/libical/issues/394
+-EXTRA_OECMAKE += "-DICAL_GLIB=false"
+-
+-do_install_append_class-target () {
++do_install_append () {
+     # Remove build host references
+     sed -i \
+        -e 's,${STAGING_LIBDIR},${libdir},g' \
+-- 
+2.21.0
 
 
-> Cheers,
->
-> Richard
->
->
->
->
->
->
-
---000000000000355d4805953cb225
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sat, Oct 19, 2019 at 2:58 AM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, 2019-=
-10-18 at 18:03 +0530, Khem Raj wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Fri, Oct 18, 2019 at 4:58 PM Ross Burton &lt;<a href=3D"mailto:ross=
-.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<br>
-&gt; wrote:<br>
-&gt; &gt; file will automatically enable seccomp if the seccomp headers are=
-<br>
-&gt; &gt; available, but<br>
-&gt; &gt; the build will fail on Opensuse Tumbleweed because the include<br=
->
-&gt; &gt; paths are wrong.<br>
-&gt; &gt; <br>
-&gt; &gt; Enabling seccomp is a bad idea because it interacts badly with<br=
->
-&gt; &gt; pseudo (causing<br>
-&gt; &gt; build failures), so explicitly and globally disable seccomp.<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@inte=
-l.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 meta/recipes-devtools/file/<a href=3D"http://file_5.37.bb" =
-rel=3D"noreferrer" target=3D"_blank">file_5.37.bb</a> | 2 ++<br>
-&gt; &gt;=C2=A0 1 file changed, 2 insertions(+)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/meta/recipes-devtools/file/<a href=3D"http://file_5.=
-37.bb" rel=3D"noreferrer" target=3D"_blank">file_5.37.bb</a><br>
-&gt; &gt; b/meta/recipes-devtools/file/<a href=3D"http://file_5.37.bb" rel=
-=3D"noreferrer" target=3D"_blank">file_5.37.bb</a><br>
-&gt; &gt; index a840dbc012b..c53a120b840 100644<br>
-&gt; &gt; --- a/meta/recipes-devtools/file/<a href=3D"http://file_5.37.bb" =
-rel=3D"noreferrer" target=3D"_blank">file_5.37.bb</a><br>
-&gt; &gt; +++ b/meta/recipes-devtools/file/<a href=3D"http://file_5.37.bb" =
-rel=3D"noreferrer" target=3D"_blank">file_5.37.bb</a><br>
-&gt; &gt; @@ -21,6 +21,8 @@ S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 inherit autotools update-alternatives<br>
-&gt; &gt; <br>
-&gt; &gt; +EXTRA_OECONF +=3D &quot;--disable-libseccomp&quot;<br>
-&gt; &gt; +<br>
-&gt; <br>
-&gt; On host it makes sense but how about for target recipe ? We do have<br=
->
-&gt; libseccomp support <br>
-&gt; Perhaps it=E2=80=99s best to disable it for native and native sdk alon=
-e ?<br>
-<br>
-Given the problem reports in the media and the decisions made by most<br>
-other distros I think disabling this is probably safest until its been<br>
-make more usable (no other distro is shipping this enabled now).<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ok makes sense=
-=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000355d4805953cb225--
