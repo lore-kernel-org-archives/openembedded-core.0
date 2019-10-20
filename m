@@ -1,52 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BF07360273
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
+	[209.85.166.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 15C8560720
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Oct 2019 01:21:38 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id t20so14997921qtr.10
+	Sun, 20 Oct 2019 09:20:13 +0000 (UTC)
+Received: by mail-il1-f169.google.com with SMTP id o16so1237375ilq.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Oct 2019 18:21:40 -0700 (PDT)
+	Sun, 20 Oct 2019 02:20:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=a5kUSIzf4AAthumsHWH5E0xWXPNP2CcrVAovqjw1EF0=;
-	b=k6YdrFdFhIdfouHZuOAWWBiw0f3Rq2zU6X+UIp5X7gZ6ziNTonB04qtYtkkfKdplin
-	G+7Eub3P6j070DCXtJ4WQ1HbHs0eFgzX14awvM/pyVZvsq6WTJK04vPKLbwkUwJMl93P
-	pE9Oj1xVk/xEdlUGjTdLyxJ7v1Wzvk6MxzQn1Oe6g58UrwWphZtegmaXd1hvmgHSBZbC
-	T+TqsLoRCCqVsy7vMhV9t2UhLQqSX1CBGdd+O1vL/P0nt1IOReX3NQ4a9k3ZNHL6D48L
-	duqLWx/wmtB0uSrbaJQl2rKybaZGMAZRYzbfttK+irzd/NR0NZx8px2v3j7psw6+5DAR
-	6Hmw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Y7ZJ6tKDhEi3som9bR5K0+dksCQjRqA6CaJOCCUNm/I=;
+	b=Bei3y1s+TBuo8MaoNWMggqkEsuXh7Y9a4JOvyzF0p5+eByfnTG6PfHBl/knfp2qt7X
+	NRnEmGUPa1sla09nwgyGd6bFbyL5/AfwalNb/uXG4uykj4z94FBfHTzR2tVFKPODeHFh
+	Z4iiudfYBj9rHkmDf403IuedOgWqYMEAbIsUfu+Mwetlli/F87AcmIo2J0t/LeETjq5I
+	3QuH3ITPfyxBwGrj3ttDMZxaJx6HlIf/buZmpHInQCt+jv32RpiOZcABI9txRnoHfm/W
+	Jj2nG7Q8d32E9wp2c1vImYuN+Y6KTSjL+X9WmjDCY/SYMt7lExdgfjt9uNv2rKJ7moJh
+	V+zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=a5kUSIzf4AAthumsHWH5E0xWXPNP2CcrVAovqjw1EF0=;
-	b=sdiIoc3uhsIiLkhdVEV6yRtkSyCZE1/Da+gKso8/hoicFIrG7/cjDQqP+595Ik06iv
-	r+BXl3cIoW2iQn+YSkOdbdEHbSmTWz1xzeHM6a8NKgtN6KKctWEuhmSjzfH/RUwzPlDX
-	SEgOJNwF5/JO1SKxX2+4TKDEXqH9H5dztV+36kMgCsP76CU1iIDJy2KCZJu+N8UehVVt
-	qxutaC84zVjDaBLr6ExWvsICUSnNVJp3zCvdz+igRquao6t8Xe2NYsvFo3d6JALVVa0W
-	pFQAl/eCRlrVQ9JNT7lyEq6pokMcPMdj92jCx/oNECMgTLfZ/PMd4xxkYV24uVZg3UWw
-	7hfQ==
-X-Gm-Message-State: APjAAAUmwCC/vr8cVwp/xO6vIPFgsRWfTuRcNBowb3684uOP173bYATH
-	4TkbDgauPaQYwLzV54pnQjUZ+vxqG11d7/33G7M=
-X-Google-Smtp-Source: APXvYqyjngki/kQDr0kkDdjl9oFLDbU5VXYUjsieqfN8AJ68XUrrBDe1OpVWKOQFMKtJtb64ycZGwZdh9E9ylxbdLKw=
-X-Received: by 2002:a0c:e5c1:: with SMTP id u1mr17349745qvm.206.1571534498748; 
-	Sat, 19 Oct 2019 18:21:38 -0700 (PDT)
+	bh=Y7ZJ6tKDhEi3som9bR5K0+dksCQjRqA6CaJOCCUNm/I=;
+	b=TUd+O1b+ambiJkpjKTjwfu3NAAqWnGjDvaXEX/fhMt1SXGqLf/NNjlABTPq95nxidZ
+	NjcvBec9SD1fN8JNQfz+4kpIBewpQjeqF5VR1yfI5kbmuSu6qe6CPc+kAFnR4CI/3I0e
+	iOm6OaX5qp8X89twogXvs5gciX9mvPJ6rf22PGjpife/p9NyNbtZz0Bq5K5OE3oovOqK
+	aOabeYXStpLOVUJF8DFvrVU0TE/apQy2sZ8iDQ6394xpT52EronO/3r7tWgPEKLXJyVP
+	7uA6ZLRRl0hpqLf8IVDws5M/GhfnVPoqByP60dKNxcMhJ05fzoZzPpyb45acvG+F8mJ2
+	dF5g==
+X-Gm-Message-State: APjAAAWq78MS5VO7Tezuh/5q41taoWngvzs/g20d8RMlMhkyADmWajtz
+	jBURNgg/Iqh5DNLQ83AdC5+m496A/wXStgywT/Y=
+X-Google-Smtp-Source: APXvYqxvyciQUMLeyj5pXGAKG/yw3wBzqi4xjSqVwJs0ROhrO9nWDSE3ABMmRbelA3jFTM9Ez0RuYyUOI5G7rpC/RjU=
+X-Received: by 2002:a92:60e:: with SMTP id x14mr15118232ilg.301.1571563215012; 
+	Sun, 20 Oct 2019 02:20:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191011114754.91740-1-alex.kanavin@gmail.com>
-	<20191011114754.91740-16-alex.kanavin@gmail.com>
-	<dbf128cd95ea3d8017274ea57dda52a72ad727cb.camel@gmail.com>
-	<CAMKF1srnabEcWqWYa80uoCe1H=iw-wDPNut4hu4eRwuSQ1HaoQ@mail.gmail.com>
-	<CANNYZj8J-wr1V1+aNfbRGyQ+Lk+sofRX4rT1xudaCm67gVev3Q@mail.gmail.com>
-	<da2fa30bb8fed7f991ef14a4955a67ec15bc94a6.camel@linuxfoundation.org>
-In-Reply-To: <da2fa30bb8fed7f991ef14a4955a67ec15bc94a6.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 20 Oct 2019 06:51:26 +0530
-Message-ID: <CAMKF1sr8xy+bW_UL_=B-nt7MG58bJj=WmB9VVZf5hxBqpXwPiQ@mail.gmail.com>
-To: richard.purdie@linuxfoundation.org
+Received: by 2002:ac0:9c85:0:0:0:0:0 with HTTP; Sun, 20 Oct 2019 02:20:14
+	-0700 (PDT)
+In-Reply-To: <a4ef22e6-7c12-027a-b1cd-fa807fcfccb8@gmail.com>
+References: <CAA=hcWSN3s3YGNrods9t2bRsAbwVf1x1fRXDofVgjtr-BK29Bg@mail.gmail.com>
+	<ce141cece91f76d77a7316394ecd9c8776e4b257.camel@gmail.com>
+	<CAA=hcWRXoyXKyZqh-3dXxF6rPSMe2meejtGXK7xQ8ZZB+=-0-g@mail.gmail.com>
+	<CAMKF1soEbDhviZb7LR3NcL4ieFr-Qw-G+k0eKVt1iScVDR1NDw@mail.gmail.com>
+	<CAA=hcWR8bR0Fs9gGYhF=2n-mUqw4LD3wiEObGtPu1Yc6LmAGkA@mail.gmail.com>
+	<a4ef22e6-7c12-027a-b1cd-fa807fcfccb8@gmail.com>
+From: JH <jupiter.hce@gmail.com>
+Date: Sun, 20 Oct 2019 20:20:14 +1100
+Message-ID: <CAA=hcWSWWWZH1fbrKdZZUUrza7DkhwbguvQjd5AbBPt_Jk3nCg@mail.gmail.com>
+To: Ferry Toth <fntoth@gmail.com>, Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 16/19] meson: update to 0.52.0
+	<public-openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@plane.gmane.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Failed to build zImage-initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,136 +62,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Oct 2019 01:21:39 -0000
-Content-Type: multipart/alternative; boundary="0000000000008cdf4705954d63dd"
-
---0000000000008cdf4705954d63dd
+X-List-Received-Date: Sun, 20 Oct 2019 09:20:14 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 19, 2019 at 2:56 AM <richard.purdie@linuxfoundation.org> wrote:
+Thanks Ferry and Khem,
 
-> On Fri, 2019-10-18 at 20:49 +0200, Alexander Kanavin wrote:
-> > I certainly don't mean to ignore those reports, it's just that due to
-> > my ongoing health problems, and having to dedicate most of my energy
-> > to the day job (https://mbition.io/en/home/), I am not currently able
-> > to work on the upstream issues in a timely manner the way I used to
-> > when maintaining core was actually my day job (at Intel).
-> >
-> > The question of how much effort people who update things in core
-> > should allocate to fixing 'other' layers has been a conflict point
-> > for a long time. I'd prefer to see more aggressive
-> > blacklisting/removal of recipes that no one has an interest in fixing
-> > and updating.
->
-> If anything this would be my fault for merging things despite there
-> being concerns raised. I have to admit I'd seen other patches and
-> therefore erroneously thought the issues we mostly resolved.
->
-> Should OE-Core block on all issues being resolved before merging? I'm
-> torn on that, I realise there are pros and cons.
+Finally built the zImage-initramfs, but it does not bundle the rootfs,
+how can I included the rootfs to the zImage?
 
+There is n old style link in  kernel.bbclass:
+use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
 
-If an issue is there and gets reported after it=E2=80=99s merged I think it=
-=E2=80=99s fine
-to do whatever is needed after the fact however if testing master-next from
-oe-core and reported against it I think this will help you in longer run if
-these master-next issues are looked into and blocked on. We should not run
-Oe-core so fast that other layers fall way back behind where they start
-supporting just releases and you have lost free integration testing that
-other layers would offer
+I think there is some new way to do it, what relevent kernel setup
+variables need be defined?
 
-If there are too many reports then it would be questionable to block on it
-but I don=E2=80=99t think that=E2=80=99s the case
+Thank you.
 
+Kind regards,
 
+- jh
 
+On 10/13/19, Ferry Toth <fntoth@gmail.com> wrote:
+> Hi
 >
-> It takes most of my time/energy to track the issues with core without
-> trying to remember that patch X breaks layer Y and that I need a report
-> back on that combination before I then find a patch and merge it.
+> Op 13-10-19 om 11:10 schreef JH:
+>> On 10/13/19, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>>> $ vi local.conf
+>>>> IMAGE_ROOTFS += " core-image-minimal-initramfs"
+>>>>
+>>>
+>>> INITRAMFS_IMAGE should be an image name. Like core-image-minimal or
+>>> somesuch
+>>
+>> Hmm, change it to my image, the name is solar-image.bb (bitbake
+>> solar-image), is it correct to change it in my local.conf as per your
+>> instruction?
+>>
+>> $ vi local.conf
+>> INITRAMFS_IMAGE = "solar-image"
+>>
+>> That caused circular dependecies. Without specifying INITRAMFS_IMAGE,
+>> my build was all fine, as soon as add INITRAMFS_IMAGE, it's first
+>> error was "Nothing RPROVIDES", I must miss things here.
+>>
+>> ERROR: These are usually caused by circular dependencies and any
+>> circular dependency chains found will be printed below. Increase the
+>> debug level to see a list of unbuildable tasks.
+>> ERROR:
+>> Dependency loop #1 found:
+>>    Task
+>> /build/Ramdisk/oe-core/../meta-solar/recipes-core/images/solar-image.bb:do_image_complete
+>> (dependent Tasks ['solar-image.bb:do_image_cpio',
+>> 'solar-image.bb:do_image_wic', 'solar-image.bb:do_image',
+>> 'solar-image.bb:do_image_tar'])
+>>    Task
+>> /build/Ramdisk/oe-core/../meta-solar/recipes-kernel/linux/linux-solar_4.19.bb:do_bundle_initramfs
+>> (dependent Tasks ['solar-image.bb:do_image_complete',
+>> 'linux-solar_4.19.bb:do_install'])
+>>    Task
+>> /build/Ramdisk/oe-core/../meta-solar/recipes-kernel/linux/linux-solar_4.19.bb:do_deploy
+>> (dependent Tasks ['linux-solar_4.19.bb:do_packagedata',
+>> 'depmodwrapper-cross_1.0.bb:do_populate_sysroot',
+>> 'linux-solar_4.19.bb:do_bundle_initramfs',
+>> 'linux-solar_4.19.bb:do_populate_sysroot',
+>> 'linux-solar_4.19.bb:do_assemble_fitimage_initramfs'])
+>>    Task
+>> /build/Ramdisk/oe-core/../meta-solar/recipes-core/images/solar-image.bb:do_image_wic
+>> (dependent Tasks ['linux-solar_4.19.bb:do_deploy',
+>> 'u-boot-imx_2017.03.bb:do_deploy',
+>> 'gptfdisk_1.0.4.bb:do_populate_sysroot',
+>> 'dosfstools_4.1.bb:do_populate_sysroot',
+>> 'mtools_4.0.18.bb:do_populate_sysroot',
+>> 'solar-image.bb:do_rootfs_wicenv', 'solar-image.bb:do_image',
+>> 'parted_3.2.bb:do_populate_sysroot'])
+>>
+>>
+>> ERROR: Command execution failed: 1
 >
-> So sorry, I probably shouldn't have taken this :/.
->
-> There is a fundamental issue with having enough people to help work on
-> these things though and requiring more work for changes to be merged
-> isn't going to help. I wish I knew what would help.
->
-> Cheers,
->
-> Richard
+> As an example you might want to look at my repo, I have 2 images minimal
+> and initramfs:
+> https://github.com/edison-fw/meta-intel-edison/tree/master/meta-intel-edison-distro/recipes-core/images
 >
 >
+>>
+>> Thank you very much Khem,
+>>
+>> Kind regards,
+>>
+>>   - jh
+>>
 >
 >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---0000000000008cdf4705954d63dd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sat, Oct 19, 2019 at 2:56 AM &lt;<a href=3D"mailto:richa=
-rd.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">On Fri, 2019-10-18 at 20:49 +=
-0200, Alexander Kanavin wrote:<br>
-&gt; I certainly don&#39;t mean to ignore those reports, it&#39;s just that=
- due to<br>
-&gt; my ongoing health problems, and having to dedicate most of my energy<b=
-r>
-&gt; to the day job (<a href=3D"https://mbition.io/en/home/" rel=3D"norefer=
-rer" target=3D"_blank">https://mbition.io/en/home/</a>), I am not currently=
- able<br>
-&gt; to work on the upstream issues in a timely manner the way I used to<br=
->
-&gt; when maintaining core was actually my day job (at Intel).<br>
-&gt; <br>
-&gt; The question of how much effort people who update things in core<br>
-&gt; should allocate to fixing &#39;other&#39; layers has been a conflict p=
-oint<br>
-&gt; for a long time. I&#39;d prefer to see more aggressive<br>
-&gt; blacklisting/removal of recipes that no one has an interest in fixing<=
-br>
-&gt; and updating.<br>
-<br>
-If anything this would be my fault for merging things despite there<br>
-being concerns raised. I have to admit I&#39;d seen other patches and<br>
-therefore erroneously thought the issues we mostly resolved.<br>
-<br>
-Should OE-Core block on all issues being resolved before merging? I&#39;m<b=
-r>
-torn on that, I realise there are pros and cons.</blockquote><div dir=3D"au=
-to"><br></div><div dir=3D"auto">If an issue is there and gets reported afte=
-r it=E2=80=99s merged I think it=E2=80=99s fine to do whatever is needed af=
-ter the fact however if testing master-next from oe-core and reported again=
-st it I think this will help you in longer run if these master-next issues =
-are looked into and blocked on. We should not run Oe-core so fast that othe=
-r layers fall way back behind where they start supporting just releases and=
- you have lost free integration testing that other layers would offer</div>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">If there are too many reports=
- then it would be questionable to block on it but I don=E2=80=99t think tha=
-t=E2=80=99s the case=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-It takes most of my time/energy to track the issues with core without<br>
-trying to remember that patch X breaks layer Y and that I need a report<br>
-back on that combination before I then find a patch and merge it.<br>
-<br>
-So sorry, I probably shouldn&#39;t have taken this :/. <br>
-<br>
-There is a fundamental issue with having enough people to help work on<br>
-these things though and requiring more work for changes to be merged<br>
-isn&#39;t going to help. I wish I knew what would help.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000008cdf4705954d63dd--
