@@ -1,10 +1,10 @@
 Return-Path: <ola.x.nilsson@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A271E7C7A5
+	by mail.openembedded.org (Postfix) with ESMTP id ED34A7C7A5
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 10:30:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 6CC671832C
+	by bastet.se.axis.com (Postfix) with ESMTP id D14F418326
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:36 +0200 (CEST)
 X-Axis-User: NO
@@ -12,40 +12,40 @@ X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id tPdsNCaoAZWy
+	port 10024) with LMTP id QCJ76XDsgZ28
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 12:30:35 +0200 (CEST)
+	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id B17F21834A
+	by bastet.se.axis.com (Postfix) with ESMTPS id A685818347
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 987B41E07F
+	by IMSVA (Postfix) with ESMTP id 9324D1E07B
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8B81C1E07A
+	by IMSVA (Postfix) with ESMTP id 82B911E080
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
+Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
-	by thoth.se.axis.com (Postfix) with ESMTP id 800BC1DE6
+	by seth.se.axis.com (Postfix) with ESMTP id 7717F2ECA
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
-	id 7AB0440AB2; Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
+	id 71CF540AA1; Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 From: Ola x Nilsson <ola.x.nilsson@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2019 12:30:34 +0200
-Message-Id: <20191021103034.12200-9-olani@axis.com>
+Date: Mon, 21 Oct 2019 12:30:31 +0200
+Message-Id: <20191021103034.12200-6-olani@axis.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20191021103034.12200-1-olani@axis.com>
 References: <20191021103034.12200-1-olani@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 9/9] libc-package.bbclass: Use with to manage filehandle in do_spit_gconvs
+Subject: [PATCH 6/9] report-error.bbclass: Use with to control file handle lifetime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 10:30:35 -0000
-
-Tweak the write loop slightly to avoid dict lookups that can easily be
-done in the for loop.
+X-List-Received-Date: Mon, 21 Oct 2019 10:30:36 -0000
 
 Signed-off-by: Ola x Nilsson <olani@axis.com>
 ---
- meta/classes/libc-package.bbclass | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ meta/classes/report-error.bbclass | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index a66e540884..de816bcec1 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -346,14 +346,13 @@ python package_do_split_gconvs () {
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index ea043b23e1..1a12db1206 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -78,19 +78,15 @@ python errorreport_handler () {
+             taskdata['task'] = task
+             if log:
+                 try:
+-                    logFile = codecs.open(log, 'r', 'utf-8')
+-                    logdata = logFile.read()
+-
++                    with codecs.open(log, encoding='utf-8') as logFile:
++                        logdata = logFile.read()
+                     # Replace host-specific paths so the logs are cleaner
+                     for d in ("TOPDIR", "TMPDIR"):
+                         s = e.data.getVar(d)
+                         if s:
+                             logdata = logdata.replace(s, d)
+-
+-                    logFile.close()
+                 except:
+                     logdata = "Unable to read log file"
+-
+             else:
+                 logdata = "No Log"
  
-     if use_bin == "compile":
-         makefile = oe.path.join(d.getVar("WORKDIR"), "locale-tree", "Makefile")
--        m = open(makefile, "w")
--        m.write("all: %s\n\n" % " ".join(commands.keys()))
--        total = len(commands)
--        for i, cmd in enumerate(commands):
--            m.write(cmd + ":\n")
--            m.write("\t@echo 'Progress %d/%d'\n" % (i, total))
--            m.write("\t" + commands[cmd] + "\n\n")
--        m.close()
-+        with open(makefile, "w") as m:
-+            m.write("all: %s\n\n" % " ".join(commands.keys()))
-+            total = len(commands)
-+            for i, (maketarget, makerecipe) in enumerate(commands.items()):
-+                m.write(maketarget + ":\n")
-+                m.write("\t@echo 'Progress %d/%d'\n" % (i, total))
-+                m.write("\t" + makerecipe + "\n\n")
-         d.setVar("EXTRA_OEMAKE", "-C %s ${PARALLEL_MAKE}" % (os.path.dirname(makefile)))
-         d.setVarFlag("oe_runmake", "progress", "outof:Progress\s(\d+)/(\d+)")
-         bb.note("Executing binary locale generation makefile")
 -- 
 2.11.0
 
