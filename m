@@ -1,54 +1,54 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id EAE737F457
+Return-Path: <misla011@fiu.edu>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 372927F4DB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 20:24:41 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id v9so4190025wrq.5
+	Mon, 21 Oct 2019 20:50:23 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id o49so15484084qta.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 13:24:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=5WzVeeDZmEIE6NOE74w45VgR32RmaOe+HKGwS4HgKtM=;
-	b=tzf9lAqmYvp7sqd4Rtd3w7ln6N+sQWg0vHq/QhgcjPlEtJEB/WbKRtRa1Sa7XnCLzk
-	j/G1DVFoUIkhDYSJSzseaPmjmtqzkgvk5ckYVBYbHcnfCgqXUQonQsJ3cjRW9aE8I7ir
-	6+WAeOhTkDGh1/RKlFR88EsDzhT3WpmuLLuWvo3suocoVWlQASvvsk+yjnNpTNnQV6Ym
-	dwCpzpJYme7p81BmFowcHMqRsFR+Dyfb+e0vg+E3JON7XmlmricYAnHTUGVCuDTwIsPv
-	jkYq+2OtzzNNzqwVdjQFhvTu9x1nO4k12QrH0aAQE+fqyub5b4adICfjXgoCHvSYcCOx
-	BbOA==
+	Mon, 21 Oct 2019 13:50:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=fiu-edu.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version:reply-to
+	:content-transfer-encoding;
+	bh=fMVgo7AXGc5E7BIR6IqNmZbAbM3xZ1TMH6kk0AzsZ2k=;
+	b=K0oTbiKmZL8vHEnAGmVaPc6+Tefu5ezksP2/vW5a9Gv0U6Q9kf8OkqzKvJrdRVYAcZ
+	/tIsP7b/q8F3WSYFKcMVROjoPMKtEhhi7ekSnYo9ZtSbxWtgegNDNl1T5ELoavdSUlOy
+	pEab7YygLoE5NQk67uINRNAJkh/K1UYTh3T/YKzZ9tIDajkxtwI7cL1Wi9cZQBP60diL
+	0sI72J1PmtPz4vhF8C3Hpxrlk3eJ0S4V9mwbf8ZbGdPOfH8i8dIt5Z5uUpu1OpqDqnDI
+	5zT6gAkGNGlFjDLp2tqz1+DBupMNd6vpLwvUq3JGsUXPbquwHBFCXiTAYih5tI5dQtb6
+	s6lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=5WzVeeDZmEIE6NOE74w45VgR32RmaOe+HKGwS4HgKtM=;
-	b=D/s13+SGjKYVrENxA58ExVjPn0YSrU9/T3Z9W+rv5JR1HoaAAw/smi4pmWv+g0jg7h
-	anCUQCK8xxn2OwdzL1OifNlUq3K4ZvDb3wyuSiwJmGEMl0XB5pDuP6O/ipcee/7LnMO+
-	4rUc2YgDgbwdbSXIO4vUvs2bBoq/pSyNO7oWVBZE/2ce+M8m6NXci0+mYDdub5b3SHVb
-	GkzENsdok0iL+yQE7htIkbWRFnA9lPVnf6Mnrw5yzXxgIiWKr23oShxAka08b06OAlAH
-	yLNfF6clHMQuq+SCWJ7vpYpVR0etgWydckKx8UdPdMjA+a0+CYFgfEpBxox5PxHo6oET
-	i2Rw==
-X-Gm-Message-State: APjAAAVjNh8Z+rxvNq9J7aDZqieiYlFbgRq6qT7sn6AuDZLR+TuLiRpf
-	OZw3/1nm6Hi3iGcnd1Vu6Ww=
-X-Google-Smtp-Source: APXvYqyAo7I83BNBlR0DwyYkEG6T6yXtdLW2QTyN2VgB7xRYQjobo6wSth/opB/DJ4SPCOGMdG+1YQ==
-X-Received: by 2002:adf:a547:: with SMTP id j7mr119682wrb.154.1571689482440;
-	Mon, 21 Oct 2019 13:24:42 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id p12sm2956844wrt.7.2019.10.21.13.24.41
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:reply-to:content-transfer-encoding;
+	bh=fMVgo7AXGc5E7BIR6IqNmZbAbM3xZ1TMH6kk0AzsZ2k=;
+	b=TzeLo+EEDW47Nj3A+jgzjjPscWe3aVIk6fkdAabRCGwuWpb4qvYl8uZKf2aPHD2+rv
+	xFLiJhnYE91svzXAHY/3PqlKzdNgYnLqFGUi6fjssR9+8HS3QnP+CohmPVhoq0tElNbx
+	rjCx6ubZbB/z4tmRdMxcPQq02958kwOfbc1MjhdBRqe7MQ2tGAkhu8zgubDJgD5zUyWi
+	kuOXY57tQA0rhhThC8Vjl3wVL78sS+6G0CPf02++RyT34XRyTWIdQxQmd593n5nqSoNM
+	tIzFsfu8qtEWAHQiBF0SKUsa5rhluu5JicXGlCvWpjf5cqPOmmbZqIvHwPnW0VXELT9a
+	i+bQ==
+X-Gm-Message-State: APjAAAW5D7WvEEPtCc9wP3qlG1Hx1NlfYj7QHx+i7qOS+Tc5YRI04ilE
+	ZA9qccQ+NhZOESm0vYFy0yN40ukpJzY=
+X-Google-Smtp-Source: APXvYqwfxPui78lgJ7u2VfCxGd8DRfonFFKwaXbzKnWlOc8Tb7jP7KduqjScB04UPhV8xib2c1A2RA==
+X-Received: by 2002:ad4:50a6:: with SMTP id d6mr25628263qvq.199.1571691024555; 
+	Mon, 21 Oct 2019 13:50:24 -0700 (PDT)
+Received: from
+	muislam-yocto.h0ebkyng4k5ejcojahceueqbfb.cx.internal.cloudapp.net
+	([40.84.59.7])
+	by smtp.gmail.com with ESMTPSA id c8sm5201470qkk.46.2019.10.21.13.50.23
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 21 Oct 2019 13:24:41 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 21 Oct 2019 22:24:44 +0200
-To: bruce.ashfield@gmail.com
-Message-ID: <20191021202444.GB1500@jama>
-References: <cover.1571688520.git.bruce.ashfield@gmail.com>
-	<eb27cbf9e4e86187a79967546674a0156d722c16.1571688520.git.bruce.ashfield@gmail.com>
+	Mon, 21 Oct 2019 13:50:23 -0700 (PDT)
+From: Muminul Islam <misla011@fiu.edu>
+X-Google-Original-From: Muminul Islam <muislam@microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Oct 2019 20:50:15 +0000
+Message-Id: <20191021205015.52158-1-muislam@microsoft.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <eb27cbf9e4e86187a79967546674a0156d722c16.1571688520.git.bruce.ashfield@gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/6] perf: drop 'include' copy
+Reply-To: muislam@microsoft.com; Content-Type: text/plain; charset="utf-8"
+Subject: [thud][PATCH] libcroco: Fix two CVEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,94 +61,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 20:24:42 -0000
-X-Groupsio-MsgNum: 130303
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="NMuMz9nt05w80d4+"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 21 Oct 2019 20:50:24 -0000
+Content-Transfer-Encoding: 8bit
 
---NMuMz9nt05w80d4+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+CVE: CVE-2017-8834 CVE-2017-8871
 
-On Mon, Oct 21, 2019 at 04:16:18PM -0400, bruce.ashfield@gmail.com wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->=20
-> The copy of the kernel's top level include directory is not
-> required to build perf. We have both the linux-libc-headers and
-> perf's captured/copied headers for what it requires.
->=20
-> The copy of the kernel's headers is leading us to multiple smaller
-> fixes to ensure that the various .h files are in sync. We can
-> remove the copy and all of the sync checks, and perf still builds
-> and executes correctly.
+Signed-off-by: Muminul Islam <muislam@microsoft.com>
+---
+ .../libcroco/libcroco/CVE-2017-8834_71.patch  | 38 +++++++++++++++++++
+ .../libcroco/libcroco_0.6.12.bb               |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-support/libcroco/libcroco/CVE-2017-8834_71.patch
 
-Maybe reorder this before "[OE-core] [PATCH 3/6] perf: fix v5.4+ builds"
-as it removes most of what was possibly incorrectly added there (see 2nd
-review)
+diff --git a/meta/recipes-support/libcroco/libcroco/CVE-2017-8834_71.patch b/meta/recipes-support/libcroco/libcroco/CVE-2017-8834_71.patch
+new file mode 100644
+index 0000000000..cdfc9cf5e6
+--- /dev/null
++++ b/meta/recipes-support/libcroco/libcroco/CVE-2017-8834_71.patch
+@@ -0,0 +1,38 @@
++From 38bdf8e956218dd6a72942229cf39ef8e45dd28f Mon Sep 17 00:00:00 2001
++From: Mike Gorse <mgorse@alum.wpi.edu>
++Date: Thu, 2 May 2019 10:54:43 -0500
++Subject: [PATCH] cr_utils_read_char_from_utf8_buf: move past invalid UTF-8
++Reply-To: muislam@microsoft.com; Content-Type: text/plain; charset="utf-8"
++Content-Transfer-Encoding: 8bit
++
++Otherwise, the offending character is never consumed, possibly leading
++to an infinite loop.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=782647
++
++CVE: CVE-2017-8834 CVE-2017-8871
++
++Upstream-Status: Backport
++
++Signed-off-by: Muminul Islam <muislam@microsoft.com>
++
++Upstream commit: https://bug782647.bugzilla-attachments.gnome.org/attachment.cgi?id=374219
++---
++ src/cr-utils.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/cr-utils.c b/src/cr-utils.c
++index 2420cec..6cf4849 100644
++--- a/src/cr-utils.c
+++++ b/src/cr-utils.c
++@@ -505,6 +505,7 @@ cr_utils_read_char_from_utf8_buf (const guchar * a_in,
++ 
++         } else {
++                 /*BAD ENCODING */
+++                nb_bytes_2_decode = 1;
++                 goto end;
++         }
++ 
++-- 
++2.23.0
++
+diff --git a/meta/recipes-support/libcroco/libcroco_0.6.12.bb b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
+index f95a583134..85a120d80b 100644
+--- a/meta/recipes-support/libcroco/libcroco_0.6.12.bb
++++ b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
+@@ -18,6 +18,7 @@ inherit gnomebase gtk-doc binconfig-disabled
+ 
+ SRC_URI += "file://CVE-2017-7960.patch \
+             file://CVE-2017-7961.patch \
++            file://CVE-2017-8834_71.patch \
+             "
+ 
+ SRC_URI[archive.md5sum] = "bc0984fce078ba2ce29f9500c6b9ddce"
+-- 
+2.23.0
 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
->  meta/recipes-kernel/perf/perf.bb | 9 ---------
->  1 file changed, 9 deletions(-)
->=20
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/=
-perf.bb
-> index 191305969c..5f0ba7c180 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -106,7 +106,6 @@ EXTRA_OEMAKE +=3D "\
->  EXTRA_OEMAKE_append_task-configure =3D " JOBS=3D1"
-> =20
->  PERF_SRC ?=3D "Makefile \
-> -             include \
->               tools/arch \
->               tools/build \
->               tools/include \
-> @@ -248,14 +247,6 @@ do_configure_prepend () {
->      # so we copy it from the sysroot unistd.h to the perf unistd.h
->      install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/=
-include/uapi/asm-generic/unistd.h
->      install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/includ=
-e/uapi/asm-generic/unistd.h
-> -
-> -    # bits.h can have the same issue as unistd.h, so we make the tools v=
-ariant take precedence
-> -    [ -e ${S}/tools/include/linux/bits.h ] && install -D -m0644 ${S}/too=
-ls/include/linux/bits.h ${S}/include/linux/bits.h
-> -
-> -    [ -e ${S}/tools/perf/util/include/linux/ctype.h ] && install -D -m06=
-44 ${S}/include/linux/ctype.h ${S}/tools/perf/util/include/linux/ctype.h
-> -
-> -    [ -e ${S}/include/uapi/linux/kvm.h ] && install -D -m0644 ${S}/inclu=
-de/uapi/linux/kvm.h  ${S}/tools/include/uapi/linux/kvm.h
-> -    [ -e ${S}/include/uapi/linux/sched.h ] && install -D -m0644 ${S}/inc=
-lude/uapi/linux/sched.h  ${S}/tools/include/uapi/linux/sched.h
->  }
-> =20
->  python do_package_prepend() {
-> --=20
-> 2.19.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---NMuMz9nt05w80d4+
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXa4UCwAKCRA3VSO3ZXaA
-HKllAKC7Oy5aVrTRytBFq8ZoAMahbgVDmwCcCdOqs5jDSBStJjouOTG5jHB5DxM=
-=162x
------END PGP SIGNATURE-----
-
---NMuMz9nt05w80d4+--
