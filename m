@@ -1,51 +1,52 @@
-Return-Path: <ola.x.nilsson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 23D087F49D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 566B77F35C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 10:30:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id E3B621832C
+	Mon, 21 Oct 2019 10:45:34 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id p4so13360456wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 12:30:40 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id HHw7VjqaEPUe
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 12:30:35 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 98C0218359
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 12:30:35 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8626D1E07B
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 12:30:35 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7B0401E07A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 12:30:35 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 12:30:35 +0200 (CEST)
-Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
-	by thoth.se.axis.com (Postfix) with ESMTP id 6E4112E65
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
-Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
-	id 68EF540AB2; Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
+	Mon, 21 Oct 2019 03:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=+oXt98WLgPLhL0RFT4OWa+ab/TcWW7smuMSaa4O3KOA=;
+	b=cdS33Oz9FfOrUW3FdztzY5A3QmMKvELYRFRFR/YZw8C/f8XiiXJG9agZy4iSEZ72yT
+	sSeLe8sOf38zhvXJkt1OhUOOmu5rNiHt/5cwXISPEU9sA5xnX8abS24Rx98IZ9nSn/g6
+	I0hnLp75OyChaPw8FbruEqc3hAJ++/CoJk103LHCe8Ufczl1BmP6mn9gei6r6ifBS8cZ
+	vcurFhoM2uE+O7qYRuq3mzK1p1rtDzVmI21cU0mPY0On3kUphR/8lO1FnohT+RUpYbPb
+	pS9muj9LWV3VEQ5Sq6R7Og7PGx9ArcnJ2lqeH9hysQXeTbGBKHyZU0moFk6qSI5ixP8M
+	XEtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=+oXt98WLgPLhL0RFT4OWa+ab/TcWW7smuMSaa4O3KOA=;
+	b=HCzcpS4lb6enzcb8U3pyb+n8U30mZTu7LogmNFvwk29cd1+YPIVMnGnFei/ENcs2ve
+	GEKuEtRQ6Zc6oUzVq5A3eJR0h4eCkCJRncVrIkT1m8D5ZIgk+WhxlsNTRYzS1rx+ehgT
+	RN3t5hy47j6yxH+6W+cI3XaRhuHRQfjF/Kd2sn/cau1CAuIALqZKL1lfyB7S9SlztP0Y
+	2UCDv76EAThtl9xJbhnqE9TetZxR5Lt03dZ6fDJ8x+FMoRwY6v+vP/DI0yhfomclOUrS
+	zNd15j8CIN780rgP7FCA20WuJcrjKM49Em5bT2O3UtOLciWoSUFnwdVtKLhfwkrFfM/j
+	y80A==
+X-Gm-Message-State: APjAAAXfKM8phICvfnWxcWzPJEp8I7BKGPb2eQMS7UJeabafjE05nQvs
+	OJgpEzKrHrw6aem2GbK6kUy8XtwCuhA=
+X-Google-Smtp-Source: APXvYqwLf1jsjXnd+eebmBinKIKSEYibDuvvidiVuuPn8a0pVBK8UPCgN/utCkj5IFaxP8PzWDYkIA==
+X-Received: by 2002:adf:e38a:: with SMTP id e10mr20055319wrm.348.1571654734702;
+	Mon, 21 Oct 2019 03:45:34 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id h3sm991610wrt.88.2019.10.21.03.45.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 21 Oct 2019 03:45:33 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2019 12:30:29 +0200
-Message-Id: <20191021103034.12200-4-olani@axis.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20191021103034.12200-1-olani@axis.com>
-References: <20191021103034.12200-1-olani@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH 4/9] lib/oe/package_manager: Use with to control file handle lifetime
+Date: Mon, 21 Oct 2019 11:45:30 +0100
+Message-Id: <20191021104530.11311-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH v2] python3: ensure that all forms of python3-config are in python3-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,47 +59,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 10:30:40 -0000
+X-List-Received-Date: Mon, 21 Oct 2019 10:45:34 -0000
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ola x Nilsson <olani@axis.com>
+In multilib builds python3-config gets renamed to eg python3-config-lib64 but
+this ends up being packaged in python3-core not python3-dev.
+
+The manifest uses an extended glob to package all python* binaries that are not
+python-config into python3-core:
+
+            "${bindir}/python*[!-config]",
+
+However, this doesn't do what was intended, as [] is a range match.
+
+Replace the globs with more verbose but precise matches, and clear out
+FILES_${PN} to ensure that new binaries don't end up in ${PN} (which shouldn't
+exist).
+
+[ YOCTO #13592 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oe/package_manager.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/python/python3/python3-manifest.json | 7 +++++--
+ meta/recipes-devtools/python/python3_3.7.4.bb              | 5 ++++-
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 7c373715ad..c841fdbf29 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -298,7 +298,7 @@ class DpkgIndexer(Indexer):
-                 release.write("Label: %s\n" % arch)
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 1eddda91b4a..dba92b0e396 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -210,7 +210,10 @@
+         "summary": "Python interpreter and core modules",
+         "rdepends": [],
+         "files": [
+-            "${bindir}/python*[!-config]",
++            "${bindir}/python3",
++            "${bindir}/python${PYTHON_MAJMIN}",
++            "${bindir}/python${PYTHON_MAJMIN}.real",
++            "${bindir}/python${PYTHON_BINABI}",
+             "${includedir}/python${PYTHON_BINABI}/pyconfig*.h",
+             "${prefix}/lib/python${PYTHON_MAJMIN}/config*/*[!.a]",
+             "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
+@@ -487,7 +490,7 @@
+         "files": [
+             "${base_libdir}/*.a",
+             "${base_libdir}/*.o",
+-            "${bindir}/python*-config",
++            "${bindir}/python*-config*",
+             "${datadir}/aclocal",
+             "${datadir}/pkgconfig",
+             "${includedir}",
+diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
+index 01230b0fec3..8c429e95c38 100644
+--- a/meta/recipes-devtools/python/python3_3.7.4.bb
++++ b/meta/recipes-devtools/python/python3_3.7.4.bb
+@@ -303,11 +303,14 @@ do_create_manifest[depends] += "${PN}:do_prepare_recipe_sysroot"
+ do_create_manifest[depends] += "${PN}:do_patch"
  
-             cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
--            
+ # manual dependency additions
+-RPROVIDES_${PN}-modules = "${PN}"
+ RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
+ RRECOMMENDS_${PN}-crypt_append_class-target = " openssl ca-certificates"
+ RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
+ 
++# For historical reasons PN is empty and provided by python3-modules
++FILES_${PN} = ""
++RPROVIDES_${PN}-modules = "${PN}"
 +
-             index_cmds.append(cmd)
+ FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
+ FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
  
-             deb_dirs_found = True
-@@ -655,7 +655,7 @@ def create_packages_dir(d, subrepo_dir, deploydir, taskname, filterbydependencie
-     pn = d.getVar("PN")
-     seendirs = set()
-     multilibs = {}
--   
-+
-     bb.utils.remove(subrepo_dir, recurse=True)
-     bb.utils.mkdirhier(subrepo_dir)
- 
-@@ -1006,8 +1006,8 @@ class RpmPM(PackageManager):
-     def load_old_install_solution(self):
-         if not os.path.exists(self.solution_manifest):
-             return []
--
--        return open(self.solution_manifest, 'r').read().split()
-+        with open(self.solution_manifest, 'r') as fd:
-+            return fd.read().split()
- 
-     def _script_num_prefix(self, path):
-         files = os.listdir(path)
 -- 
-2.11.0
+2.20.1
 
 
