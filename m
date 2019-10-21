@@ -1,51 +1,51 @@
 Return-Path: <ola.x.nilsson@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E24E77F44B
+	by mail.openembedded.org (Postfix) with ESMTP id 482717F382
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 10:30:37 +0000 (UTC)
+	Mon, 21 Oct 2019 10:30:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 99A1D18346
+	by bastet.se.axis.com (Postfix) with ESMTP id 880F8182BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 12:30:38 +0200 (CEST)
+	Mon, 21 Oct 2019 12:30:39 +0200 (CEST)
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id VuV95VLquZ8N
+	port 10024) with LMTP id sgqS0s7bxeca
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 93EBF182BB
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 9589F1832D
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7C5451E07E
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 81B231A06D
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 70E011E07B
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 75D181A06B
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
+	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
-	by thoth.se.axis.com (Postfix) with ESMTP id 652021DE6
+	by thoth.se.axis.com (Postfix) with ESMTP id 69DCB2DF4
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
-	id 600CE40AA1; Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
+	id 6430640AB1; Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
 From: Ola x Nilsson <ola.x.nilsson@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2019 12:30:27 +0200
-Message-Id: <20191021103034.12200-2-olani@axis.com>
+Date: Mon, 21 Oct 2019 12:30:28 +0200
+Message-Id: <20191021103034.12200-3-olani@axis.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20191021103034.12200-1-olani@axis.com>
 References: <20191021103034.12200-1-olani@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 2/9] oe.types.path: Use with to control file handle lifetime
+Subject: [PATCH 3/9] lib/oe/packagedata: Use with to control file handle lifetime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,28 +62,25 @@ X-List-Received-Date: Mon, 21 Oct 2019 10:30:38 -0000
 
 Signed-off-by: Ola x Nilsson <olani@axis.com>
 ---
- meta/lib/oe/types.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oe/packagedata.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oe/types.py b/meta/lib/oe/types.py
-index 77ee7ee541..bbbabafbf6 100644
---- a/meta/lib/oe/types.py
-+++ b/meta/lib/oe/types.py
-@@ -154,7 +154,8 @@ def path(value, relativeto='', normalize='true', mustexist='false'):
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index cbde380b03..a82085a792 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -17,9 +17,8 @@ def read_pkgdatafile(fn):
  
-     if boolean(mustexist):
-         try:
--            open(value, 'r')
-+            with open(value, 'r'):
-+                pass
-         except IOError as exc:
-             if exc.errno == errno.ENOENT:
-                 raise ValueError("{0}: {1}".format(value, os.strerror(errno.ENOENT)))
-@@ -183,4 +184,3 @@ def qemu_use_kvm(kvm, target_arch):
-         elif build_arch == target_arch:
-             use_kvm = True
-     return use_kvm
--
+     if os.access(fn, os.R_OK):
+         import re
+-        f = open(fn, 'r')
+-        lines = f.readlines()
+-        f.close()
++        with open(fn, 'r') as f:
++            lines = f.readlines()
+         r = re.compile("([^:]+):\s*(.*)")
+         for l in lines:
+             m = r.match(l)
 -- 
 2.11.0
 
