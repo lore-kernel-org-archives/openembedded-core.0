@@ -1,52 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 566B77F35C
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 61F877F35C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 10:45:34 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id p4so13360456wrm.8
+	Mon, 21 Oct 2019 10:47:00 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c2so8134840wrr.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 03:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=+oXt98WLgPLhL0RFT4OWa+ab/TcWW7smuMSaa4O3KOA=;
-	b=cdS33Oz9FfOrUW3FdztzY5A3QmMKvELYRFRFR/YZw8C/f8XiiXJG9agZy4iSEZ72yT
-	sSeLe8sOf38zhvXJkt1OhUOOmu5rNiHt/5cwXISPEU9sA5xnX8abS24Rx98IZ9nSn/g6
-	I0hnLp75OyChaPw8FbruEqc3hAJ++/CoJk103LHCe8Ufczl1BmP6mn9gei6r6ifBS8cZ
-	vcurFhoM2uE+O7qYRuq3mzK1p1rtDzVmI21cU0mPY0On3kUphR/8lO1FnohT+RUpYbPb
-	pS9muj9LWV3VEQ5Sq6R7Og7PGx9ArcnJ2lqeH9hysQXeTbGBKHyZU0moFk6qSI5ixP8M
-	XEtg==
+	Mon, 21 Oct 2019 03:47:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=+oXt98WLgPLhL0RFT4OWa+ab/TcWW7smuMSaa4O3KOA=;
-	b=HCzcpS4lb6enzcb8U3pyb+n8U30mZTu7LogmNFvwk29cd1+YPIVMnGnFei/ENcs2ve
-	GEKuEtRQ6Zc6oUzVq5A3eJR0h4eCkCJRncVrIkT1m8D5ZIgk+WhxlsNTRYzS1rx+ehgT
-	RN3t5hy47j6yxH+6W+cI3XaRhuHRQfjF/Kd2sn/cau1CAuIALqZKL1lfyB7S9SlztP0Y
-	2UCDv76EAThtl9xJbhnqE9TetZxR5Lt03dZ6fDJ8x+FMoRwY6v+vP/DI0yhfomclOUrS
-	zNd15j8CIN780rgP7FCA20WuJcrjKM49Em5bT2O3UtOLciWoSUFnwdVtKLhfwkrFfM/j
-	y80A==
-X-Gm-Message-State: APjAAAXfKM8phICvfnWxcWzPJEp8I7BKGPb2eQMS7UJeabafjE05nQvs
-	OJgpEzKrHrw6aem2GbK6kUy8XtwCuhA=
-X-Google-Smtp-Source: APXvYqwLf1jsjXnd+eebmBinKIKSEYibDuvvidiVuuPn8a0pVBK8UPCgN/utCkj5IFaxP8PzWDYkIA==
-X-Received: by 2002:adf:e38a:: with SMTP id e10mr20055319wrm.348.1571654734702;
-	Mon, 21 Oct 2019 03:45:34 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id h3sm991610wrt.88.2019.10.21.03.45.32
+	bh=5SXahGZOob6RQY9895ThwFJHJrlISC9WeOsGIiHult8=;
+	b=WZfcpSq6Lnerq3KrAs0zJdPB7uX2OyP6a2fkPhe2xnvybA3JFBkoetsljTWj+E+FVU
+	4KAWFiP6vm+FnR/RUhi9MT3hY9iXVwnlcbf0AQYpkCvoRcDdCrExZLiKUwenBrJnMWyd
+	JSoXJh6KjrmRhBklVRzTwKfKfuHiufK6AHD1o/JtBbTpZtwwU3nlan41WrQjYCMya+7Q
+	Z4Ub3UPD2KtIqUePEXKUBxgG6J92UlaGvUJGILOfBmLtb4Z78Q46sdOBa2h8EWhuGkxU
+	cZknOBzlkMZYCv9mWI51bFf+Y2u0X7WEEhqXRkpKRfhXxds1D67GrgwW8OsEgkgTmJ8M
+	ktNQ==
+X-Gm-Message-State: APjAAAWO+jOwLye4KZDpUf1PwnKwdGHoF5ldfQGFX+eELS0rn0jtKDXq
+	aAPHjz+HPWoCledTYAGmYDKfvgWu
+X-Google-Smtp-Source: APXvYqxvjAlEsGzO/M+KbYArKXS6UE4LnBpKhrpO6HEUe3/FN26AezQle24Du2y4C99vyNgW1THMXA==
+X-Received: by 2002:adf:e747:: with SMTP id c7mr19333770wrn.384.1571654820907; 
+	Mon, 21 Oct 2019 03:47:00 -0700 (PDT)
+Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	s10sm17111334wrr.5.2019.10.21.03.47.00
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 21 Oct 2019 03:45:33 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 21 Oct 2019 03:47:00 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2019 11:45:30 +0100
-Message-Id: <20191021104530.11311-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+Date: Mon, 21 Oct 2019 11:46:59 +0100
+Message-Id: <20191021104659.27059-1-git@andred.net>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-Subject: [PATCH v2] python3: ensure that all forms of python3-config are in python3-dev
+Subject: [PATCH] connman: mark connman-wait-online as SYSTEMD_PACKAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,77 +48,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 10:45:34 -0000
+X-List-Received-Date: Mon, 21 Oct 2019 10:47:00 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In multilib builds python3-config gets renamed to eg python3-config-lib64 but
-this ends up being packaged in python3-core not python3-dev.
+The connman-wait-online package currently isn't marked as
+systemd-enabled package. This means it is impossible to
+auto-enable the service during image creation or package
+installation, as no preset files and no pkg_postinst()
+snippet is being created.
 
-The manifest uses an extended glob to package all python* binaries that are not
-python-config into python3-core:
+This change should have been done as part of the
+upgrade to v1.31
 
-            "${bindir}/python*[!-config]",
+Note:
+connman-wait-online is needed when connman is in use
+in more complex network/interface setups for systemd's
+network-online.target to report success.
+systemd-networkd's systemd-networkd-wait-online.service
+alone doesn't work in such scenarios and simply times
+out, as it know nothing about the expected network/
+interface configuration, meaning the target doesn't
+boot successfully (systemctl list-units --failed),
+and long delays are seen, caused by waiting for the
+systemd-networkd-wait-online.service timeout.
 
-However, this doesn't do what was intended, as [] is a range match.
-
-Replace the globs with more verbose but precise matches, and clear out
-FILES_${PN} to ensure that new binaries don't end up in ${PN} (which shouldn't
-exist).
-
-[ YOCTO #13592 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: André Draszik <git@andred.net>
 ---
- meta/recipes-devtools/python/python3/python3-manifest.json | 7 +++++--
- meta/recipes-devtools/python/python3_3.7.4.bb              | 5 ++++-
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ meta/recipes-connectivity/connman/connman.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 1eddda91b4a..dba92b0e396 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -210,7 +210,10 @@
-         "summary": "Python interpreter and core modules",
-         "rdepends": [],
-         "files": [
--            "${bindir}/python*[!-config]",
-+            "${bindir}/python3",
-+            "${bindir}/python${PYTHON_MAJMIN}",
-+            "${bindir}/python${PYTHON_MAJMIN}.real",
-+            "${bindir}/python${PYTHON_BINABI}",
-             "${includedir}/python${PYTHON_BINABI}/pyconfig*.h",
-             "${prefix}/lib/python${PYTHON_MAJMIN}/config*/*[!.a]",
-             "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
-@@ -487,7 +490,7 @@
-         "files": [
-             "${base_libdir}/*.a",
-             "${base_libdir}/*.o",
--            "${bindir}/python*-config",
-+            "${bindir}/python*-config*",
-             "${datadir}/aclocal",
-             "${datadir}/pkgconfig",
-             "${includedir}",
-diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
-index 01230b0fec3..8c429e95c38 100644
---- a/meta/recipes-devtools/python/python3_3.7.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.4.bb
-@@ -303,11 +303,14 @@ do_create_manifest[depends] += "${PN}:do_prepare_recipe_sysroot"
- do_create_manifest[depends] += "${PN}:do_patch"
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index ee00479926..fb38ab4fc1 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -59,7 +59,7 @@ INITSCRIPT_NAME = "connman"
+ INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
  
- # manual dependency additions
--RPROVIDES_${PN}-modules = "${PN}"
- RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
- RRECOMMENDS_${PN}-crypt_append_class-target = " openssl ca-certificates"
- RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
- 
-+# For historical reasons PN is empty and provided by python3-modules
-+FILES_${PN} = ""
-+RPROVIDES_${PN}-modules = "${PN}"
-+
- FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
- FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
- 
+ python __anonymous () {
+-    systemd_packages = "${PN}"
++    systemd_packages = "${PN} ${PN}-wait-online"
+     pkgconfig = d.getVar('PACKAGECONFIG')
+     if ('openvpn' or 'vpnc' or 'l2tp' or 'pptp') in pkgconfig.split():
+         systemd_packages += " ${PN}-vpn"
 -- 
-2.20.1
+2.23.0.rc1
 
 
