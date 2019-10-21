@@ -1,24 +1,44 @@
-Return-Path: <Liwei.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 71FDC6D494
+Return-Path: <sean@geanix.com>
+Received: from first.geanix.com (first.geanix.com [116.203.34.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 005DF7D25F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 05:33:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9L5X852009791
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Oct 2019 22:33:08 -0700
-Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Sun, 20 Oct 2019 22:33:07 -0700
-From: Liwei Song <liwei.song@windriver.com>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Oct 2019 13:33:05 +0800
-Message-ID: <20191021053305.1936-1-liwei.song@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Mon, 21 Oct 2019 06:09:29 +0000 (UTC)
+Received: from [192.168.100.95] (unknown [95.138.208.137])
+	by first.geanix.com (Postfix) with ESMTPSA id 3EA9ACCC;
+	Mon, 21 Oct 2019 06:08:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
+	t=1571638108; bh=/p7S79fGy15ZcAi+4RlaQPpjc+lHW2jYr20uLcFqMeI=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To;
+	b=jfHEW6KRx7efbURx42VwBxapSsVstkeTjeifM8OIipB9IWBwlGbWwfcIkV0fwWFHq
+	dejo2wP1huR+zJwJCBLExbuJC9LK6WDOMUOG861Qwtx5E59Y8XEJfZAeuGqXUFCREV
+	Kl9tRhXHDzcHZUmmu7sLPEVivk4k/qrdLrHzm1Pu9CcXUaM5wOvlFQbLAbYJJMlerV
+	gle/kx7EBXlmtwbztCmh4Ab1SRHgvR+NvyXuxYAmh9op+ku0Dmql6P97MoSttN5bW7
+	o0gEFQ9+LC+6gXGRPYhmD+vQCRqFAxFxMRntzwdPRmwawBQTURNm2NVasz9AG4eKbe
+	qqZimQKVbUqSQ==
+To: akuster808 <akuster808@gmail.com>,
+	Alejandro Del Castillo <alejandro.delcastillo@ni.com>,
+	Denys Dmytriyenko <denis@denix.org>
+References: <1571325700-5138-1-git-send-email-akuster808@gmail.com>
+	<20191017184222.GN17412@denix.org>
+	<2e2b16b4-fff6-b84c-1f48-0e020a0f3629@gmail.com>
+	<20191017200153.GO17412@denix.org>
+	<80a9db47-73ab-3326-3488-d5d9649e352f@ni.com>
+	<21ecbf49-d34f-414c-bb05-636626ac6ee9@gmail.com>
+From: Sean Nyekjaer <sean@geanix.com>
+Message-ID: <e1c28508-ddba-32c1-73da-29d4511fefe8@geanix.com>
+Date: Mon, 21 Oct 2019 08:08:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.1.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] util-linux: fix PKNAME name is NULL when use lsblk [LIN1019-2963]
+In-Reply-To: <21ecbf49-d34f-414c-bb05-636626ac6ee9@gmail.com>
+X-Spam-Status: No, score=-1.1 required=4.0 tests=ALL_TRUSTED,BAYES_00,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	PDS_TONAME_EQ_TOLOCAL_SHORT,URIBL_BLOCKED autolearn=disabled
+	version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on b0d531b295e6
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [thud][PATCH] Revert "OpkgPM: use --add-ignore-recommends to process BAD_RECOMMENDATIONS"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,74 +51,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 05:33:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 Oct 2019 06:09:30 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
 
-PKNAME is NULL when run "lsblk -o+PKNAME /dev/sda1"
-backport an upstream patch to fix it.
 
-Signed-off-by: Liwei Song <liwei.song@windriver.com>
----
- ...-force-to-print-PKNAME-for-partition.patch | 36 +++++++++++++++++++
- .../util-linux/util-linux_2.34.bb             |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch b/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
-new file mode 100644
-index 000000000000..5d4c148fb3d1
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
-@@ -0,0 +1,36 @@
-+From e3bb9bfb76c17b1d05814436ced62c05c4011f48 Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Thu, 27 Jun 2019 09:22:18 +0200
-+Subject: [PATCH] lsblk: force to print PKNAME for partition
-+
-+PKNAME (parent kernel device name) is based on printed tree according
-+to parent -> child relationship. The tree is optional and not printed
-+if partition specified (.e.g "lsblk -o+PKNAME /dev/sda1"), but old
-+versions print the PKNAME also in this case.
-+
-+Upstream-Status: Backport [https://github.com/karelzak/util-linux/commit/e3bb9bfb76c17b1d05814436ced62c05c4011f48]
-+
-+Addresses: https://github.com/karelzak/util-linux/issues/813
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+Signed-off-by: Liwei Song <liwei.song@windriver.com>
-+---
-+ misc-utils/lsblk.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/misc-utils/lsblk.c b/misc-utils/lsblk.c
-+index e95af7af0256..3ce6da730264 100644
-+--- a/misc-utils/lsblk.c
-++++ b/misc-utils/lsblk.c
-+@@ -1019,6 +1019,9 @@ static void device_to_scols(
-+ 	DBG(DEV, ul_debugobj(dev, "add '%s' to scols", dev->name));
-+ 	ON_DBG(DEV, if (ul_path_isopen_dirfd(dev->sysfs)) ul_debugobj(dev, " %s ---> is open!", dev->name));
-+ 
-++	if (!parent && dev->wholedisk)
-++		parent = dev->wholedisk;
-++
-+ 	/* Do not print device more than one in --list mode */
-+ 	if (!(lsblk->flags & LSBLK_TREE) && dev->is_printed)
-+ 		return;
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/util-linux/util-linux_2.34.bb b/meta/recipes-core/util-linux/util-linux_2.34.bb
-index 262f4bacb00b..e9c2d80e902b 100644
---- a/meta/recipes-core/util-linux/util-linux_2.34.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.34.bb
-@@ -7,6 +7,7 @@ SRC_URI += "file://configure-sbindir.patch \
-             file://run-ptest \
-             file://display_testname_for_subtest.patch \
-             file://avoid_parallel_tests.patch \
-+            file://0001-lsblk-force-to-print-PKNAME-for-partition.patch \
- "
- SRC_URI[md5sum] = "a78cbeaed9c39094b96a48ba8f891d50"
- SRC_URI[sha256sum] = "743f9d0c7252b6db246b659c1e1ce0bd45d8d4508b4dfa427bbb4a3e9b9f62b5"
--- 
-2.17.1
+On 18/10/2019 23.18, akuster808 wrote:
+> I am not aware of any for thud. IIRC, this commit was a backport request
+> from the community.
+> 
+> It would be interesting if those who have issues with thud check against
+> master.
+> 
+> - armin
 
+Hi,
+
+Sorry I was slow to report :)
+Was this also an issue on warrior and master?
+
+/Sean
 
