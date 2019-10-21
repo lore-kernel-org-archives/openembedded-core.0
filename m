@@ -1,50 +1,52 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id EA5057F457
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 601497F353
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 21:11:15 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id m13so14838019ljj.11
+	Mon, 21 Oct 2019 21:45:53 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id c2so10407954wrr.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 14:11:17 -0700 (PDT)
+	Mon, 21 Oct 2019 14:45:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QaJ2pDPiEk4iUfOU1U0w67W7Hl2BMp5kD+CapMA9HTg=;
-	b=cKeqL+HwcAr6x5EEBDtymDNEkWkmHduok9O5QqPVS/YeJ7qifQWfVIntQrplRG/mfU
-	JCPLaT/VFzz5ZYGvTSJ2lEVkBnd+fAbGuIX6otfDPuSUF6i89DIlfahA6HyE9VwsLpgJ
-	tTeON/4p+FJ8tK2uPd5mJBZdGUw1rda0C6HP1nK+HCcbAwZNJOCmDuPtH51aNrsImgwH
-	TqfLsqqWpYJlJ38Np4dFXGGDniQGfFBnA2YDBdHUdkCSKQIQpplwrGmmJ+/keIz3mrUw
-	J2OTkDNn/gHbOzC1GfJhfDSRqI4RXElAqf/wLjxHefaDIjbZlInb5OckT/upcssYAJ2g
-	7GsA==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=inZ0RTOP7Kr0iZxQ1QAh9E1Y8pXvycb3CXpWArdRTms=;
+	b=kmSpHB+GVpZ3BrnE1Os3Sv+90i7WKyamcaOlbrT9OrsHKszxFv+eo/Pe8GgJ6TPv/Z
+	ozvxh4VOaxim1wrnnHUYlXs1rfjxilocatiJ9k3wT02f2GEn5h9XRDtfEHCRF0c5JuJz
+	XKmfMCrZRrosQxdeiXEYiaabdiF2DY6v9Ly+7NXiSpOzZOSiCBg3cw29iIUieTP8QJ5y
+	mHCKx4fOUr6HDhhPuY6ssRVAY8O12Fhbj/Lv9Q1iEAMG2sIrSUcYYQc1FXBybdg3M4EA
+	fX/DhLx2C2BPwrY5YwljEo2nPyTg2exSFGdSr5imU39dhe2GK2ew6j+P3XB9R628qLdQ
+	M/IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QaJ2pDPiEk4iUfOU1U0w67W7Hl2BMp5kD+CapMA9HTg=;
-	b=m2oY5U+jWkIvHRUOq3ZSCE8wsR1/ZFw3cKLf+LvdUkBt4i7h/WouGD7lnTVYwX/7QV
-	klKAwGQi7bMIIowGrcg8pn59Pt44zkThAw6IgAcWrGPgfRwc5X6tuH95CFjruhiTOQ5f
-	g05iN8Pa5Z17sgSpx19SzOansFu9P5Nmb8el/aQphGBuLgqXAanfJT0SvZZQV/0Gs/IH
-	vvIqC/arrRetinf1ba+7+eQKa9EIHbYWwlT0N8dmwanbfvp6/lDbjAFXOhcOY8EbvJqZ
-	1kkdA/I92XkswkyE9rH9+zYysJxygnoj3oEJwOHkcY6J1bNwIiJERILp4s7S450HrhfH
-	rb7w==
-X-Gm-Message-State: APjAAAWTRTepjPwQXBB7KNnVNHt13N6t1USPuyH7rQ2XGZxFzl1uUyyR
-	VXPoHTOC3Jk/RDkfs0okvpbWUnLPrsJSQhWZ9h0=
-X-Google-Smtp-Source: APXvYqwehqBEtgA3x2N4uTOnaZmS+Yu+THqWzhlzlb1TJ9fJGJdWVcSv8A5IlhPveR+oWfrX1Ykints31lOf3Ln5i9s=
-X-Received: by 2002:a2e:9693:: with SMTP id q19mr15943943lji.6.1571692276277; 
-	Mon, 21 Oct 2019 14:11:16 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=inZ0RTOP7Kr0iZxQ1QAh9E1Y8pXvycb3CXpWArdRTms=;
+	b=lOIbjjg18D+zskkRjUkNUJrUuBz6ERG0XFcVxc6Ub/K8LpEmc6Rin87gyznP1IYmBS
+	C3kBaz/6L1j8ttr5u1CRS4pbN+dorsQkFUzxO0zKN9H4xMISPAKMAc/Yy5/H6jC/QS9X
+	3pugo80TO5XquFbsBhcsa4elOlyEptOLkDTsHO5jyAeGVCmj/Smla+9QH+J3M5MYxsyY
+	LcNpvb8IThtdTnEoLg7pmYl6nZpFIYrHlSqjFuxvuIMcmS0kAIBUk7suGf8+pN0ju9fe
+	SUGVMQEztLy4ajK/bq+w6dephdxMI8Aa/0G6yh68sTsef5LY74CTGpyxzTTfTYqgdmcm
+	Q3uQ==
+X-Gm-Message-State: APjAAAUhgPwic3LlFxIxnZ6x7DO5cgXqxjDc6AIgQbT7JfSbjpPxNE/s
+	CP6enEmfb3Bz3D9Z0NzrJa8rQa6p
+X-Google-Smtp-Source: APXvYqzJ2n+cfeThyGu3Tm3an+NcUkS7H/M2uikJDJp8a0IbYyCwZ2dtkRhckhmV+kgAfvVSolp2EQ==
+X-Received: by 2002:adf:de84:: with SMTP id w4mr354083wrl.342.1571694353877;
+	Mon, 21 Oct 2019 14:45:53 -0700 (PDT)
+Received: from superandy.speedport.ip
+	(p200300F07F04BF542BBFE1EC90EBCF50.dip0.t-ipconnect.de.
+	[2003:f0:7f04:bf54:2bbf:e1ec:90eb:cf50])
+	by smtp.gmail.com with ESMTPSA id f7sm8996639wre.68.2019.10.21.14.45.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 21 Oct 2019 14:45:53 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Oct 2019 23:45:44 +0200
+Message-Id: <20191021214544.26125-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <cover.1571688520.git.bruce.ashfield@gmail.com>
-	<501fbbcc04603d80fb47727bdde64ca5abe14e87.1571688520.git.bruce.ashfield@gmail.com>
-	<20191021202303.GA1500@jama>
-	<CADkTA4NO85kP-RxS7CBPTeUAzA=yppwz4kN9qXCHvpgxOv4YvA@mail.gmail.com>
-In-Reply-To: <CADkTA4NO85kP-RxS7CBPTeUAzA=yppwz4kN9qXCHvpgxOv4YvA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 21 Oct 2019 17:11:05 -0400
-Message-ID: <CADkTA4PkfKmNr2BWoziay4RMKgme6tmc=Byj146W40OnZWM1uQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] perf: fix v5.4+ builds
+Subject: [PATCH] adwaita-icon-theme: upgrade 3.32.0 -> 3.34.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,113 +59,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 21:11:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 21 Oct 2019 21:45:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 21, 2019 at 4:59 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> On Mon, Oct 21, 2019 at 4:23 PM Martin Jansa <martin.jansa@gmail.com> wrote:
-> >
-> > On Mon, Oct 21, 2019 at 04:16:15PM -0400, bruce.ashfield@gmail.com wrote:
-> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > >
-> > > When building perf for 5.4+, we have some new files that need to
-> > > be copied (and synchronized) due to structural changes in the
-> > > kernel source tree.
-> > >
-> > > Some of the issues these fixes are warnings, but none the less,
-> > > they are worth fixing.
-> > >
-> > >  - We copy arch/${ARCH}/Makefile, since it is source by some perf
-> > >    Makefiles
-> > >
-> > >  - We copy scripts/, since the perf utilities are looking for files
-> > >    in that directory stucture.
-> > >
-> > >  - We have *three* copies of ctypes.h in the tools/* hierarchy
-> > >    during the build. If the tools/perf/util/include/linux/ variant
-> > >    is used, it will trigger build errors since it is not complete.
-> > >    We copy the kernel's main include/linux/ctype.h to ensure they
-> > >    are in sync.
-> > >
-> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > ---
-> > >  meta/recipes-kernel/perf/perf.bb | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >
-> > > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> > > index 8201c0cb60..0f5df74f11 100644
-> > > --- a/meta/recipes-kernel/perf/perf.bb
-> > > +++ b/meta/recipes-kernel/perf/perf.bb
-> > > @@ -113,6 +113,8 @@ PERF_SRC ?= "Makefile \
-> > >               tools/Makefile \
-> > >               tools/perf \
-> > >               tools/scripts \
-> > > +             scripts/ \
-> > > +             arch/${ARCH}/Makefile \
-> > >  "
-> > >
-> > >  PERF_EXTRA_LDFLAGS = ""
-> > > @@ -246,6 +248,11 @@ do_configure_prepend () {
-> > >
-> > >      # bits.h can have the same issue as unistd.h, so we make the tools variant take precedence
-> > >      [ -e ${S}/tools/include/linux/bits.h ] && install -D -m0644 ${S}/tools/include/linux/bits.h ${S}/include/linux/bits.h
-> > > +
-> > > +    [ -e ${S}/tools/perf/util/include/linux/ctype.h ] && install -D -m0644 ${S}/include/linux/ctype.h ${S}/tools/perf/util/include/linux/ctype.h
-> >
-> > This one doesn't look right, why are you checking for the destination
-> > existence instead of source?
->
-> It wasn't showing up in all of the versions that I tested, so I added
-> the check to ensure that the copied util/include even had the file
-> before copying something into that location. I can double check my
-> logs to be sure (about it not being everywhere), but I did intend to
-> test it the way it is written.
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ .../adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch | 2 +-
+ ...aita-icon-theme_3.32.0.bb => adwaita-icon-theme_3.34.0.bb} | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.32.0.bb => adwaita-icon-theme_3.34.0.bb} (92%)
 
-.... and having another look at this, I could just as easily test for
-the destination (or both!), since in practice if one is there, the
-other is there. I only added the check as a safety check for kernels
-that I can't test against.
-
-So I can easily switch this, or wait to see if master finds any perf
-breakage with my "drop include" patch, and none of the tests will
-matter at all. I'm ok with any or all of the above (fix and wait, fix,
-or wait).
-
-Bruce
-
->
-> Bruce
->
-> >
-> > > +    [ -e ${S}/include/uapi/linux/kvm.h ] && install -D -m0644 ${S}/include/uapi/linux/kvm.h  ${S}/tools/include/uapi/linux/kvm.h
-> > > +    [ -e ${S}/include/uapi/linux/sched.h ] && install -D -m0644 ${S}/include/uapi/linux/sched.h  ${S}/tools/include/uapi/linux/sched.h
-> > >  }
-> > >
-> > >  python do_package_prepend() {
-> > > --
-> > > 2.19.1
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> > --
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+index 4a98363313..a062aa63d3 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+@@ -19,7 +19,7 @@ index 4a84501..52dbb8e 100644
+ +++ b/configure.ac
+ @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
+  
+- AC_INIT([adwaita-icon-theme], [3.32.0],
++ AC_INIT([adwaita-icon-theme], [3.34.0],
+          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
+ -AC_CANONICAL_HOST
+  AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.0.bb
+similarity index 92%
+rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb
+rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.0.bb
+index 02676f4401..84127339b0 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.0.bb
+@@ -14,8 +14,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Run-installation-commands-as-shell-jobs.patch \
+            "
+ 
+-SRC_URI[md5sum] = "4b16278cfed860a86c8221de62eec151"
+-SRC_URI[sha256sum] = "698db6e407bb987baec736c6a30216dfc0317e3ca2403c7adf3a5aa46c193286"
++SRC_URI[md5sum] = "41b860c17efe065849b0cbf46e88811a"
++SRC_URI[sha256sum] = "40b7e91f8263552b64d0f9beff33150291b086618ce498c71bf10035e48c7c7f"
+ 
+ DEPENDS += "librsvg-native"
+ 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.21.0
+
 
