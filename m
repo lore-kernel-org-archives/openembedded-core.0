@@ -1,48 +1,24 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 429097F4C7
+Return-Path: <mark.hatle@kernel.crashing.org>
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+	by mail.openembedded.org (Postfix) with ESMTP id AF23C7F57D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 17:22:53 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id l10so14497359wrb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 10:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8HjB9r6EkLlCqnptBhjZ/z5N4XWnm2rTo8fsx31pshM=;
-	b=fZopbRLIeaNxHFKSgoDldYTZD1dBtNVjRUFVxPw2g2gSpFcheY+rnPYNCr7oyk6XJl
-	9scLg8s2P87IUrNsDo5I1njKE7JCD2gseoxZYQ0kEfhiuig9clXYs7xk3SXi/5PWbZy0
-	XsOi7HXfsr1o0aAOKacy8mmS1p/2Mx4U96kg9gq0eLV5S286L1PPs/YDe7ZPoz4rH2eN
-	L2cKYREiRlYZruOAJXF5yeKvXulShsXW5RizD7/FXSd7OA6tCEDg/No/GLgnvUdw1TJ8
-	7YjkXc7Eza7+M8YcW8tU9bZ/xQCOR95BYy+0Z7237Mt+6ZkcoQ+mC9mslFXGXaqqeOwl
-	+w3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8HjB9r6EkLlCqnptBhjZ/z5N4XWnm2rTo8fsx31pshM=;
-	b=FCIbwMI8iu7zhDDMUFHqydJh9Xiw1ldLqcXRwTgD1DQiK5gNoGBPnf96PM/4maZlTk
-	WwhqdFdYEkMAb8EBMz1AQRcECABEsezz/YAsTXXQVr+37S4WLZY7sb/PZZPIqp4GNMau
-	cV+lQg+GYjAbVg/g8XYG/jo07ChsNKHuUWa/+yR2z2EtK7eOtRTq5tKP/MDedWK4IQXq
-	5xdCEvAazP5nWbw60CHV0iZucmtQjn9FRKyboHPq9pc02/uu3IsnMnwr55e84trkbU4I
-	wCC6hb7j/fTKFUhaXXB0VMIvogMeHPrFTmkBDi9dZ3E7mMKGuH5vxv/iIvl4FBJVxlhL
-	FNrw==
-X-Gm-Message-State: APjAAAW4JJAy9WaIa8KNKBmRmBLc+UDkxjME43211S9t3Cq2keYg+7NX
-	QmEYfT0f/EAAQJcYoKGM9eoDfSxM4qFnsrsT4S4=
-X-Google-Smtp-Source: APXvYqxjhQ7kia3bDwt2YaQXdg90nE5HrqI/HYqT0yZRHR4EMaz+tx/BjTFzhk5yc6q6ryXWabdJxLb2jZl30gDKabI=
-X-Received: by 2002:adf:db0d:: with SMTP id s13mr20359745wri.319.1571678574000;
-	Mon, 21 Oct 2019 10:22:54 -0700 (PDT)
+	Mon, 21 Oct 2019 17:23:17 +0000 (UTC)
+Received: from Marks-MacBook-Pro.local ([76.164.61.198]) (authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id x9LHNHhG007915
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NO) for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2019 12:23:18 -0500
+To: openembedded-core@lists.openembedded.org
+References: <20190204031153.1348-1-jacob.kroon@gmail.com>
+	<CAJdd5GbA3MJ9KpbY81EkqfUvGwa8jZD7F8u-f+48NvKX9X+hsA@mail.gmail.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+Message-ID: <b69b9906-0ab0-3d7d-7cc1-99dafbb37528@kernel.crashing.org>
+Date: Mon, 21 Oct 2019 12:23:17 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.1.2
 MIME-Version: 1.0
-References: <b8921ea9bc7bad48a33b0a818d47e2ea069a1dc6.camel@linuxfoundation.org>
-	<db51470b-812f-d60d-b9e9-7741c536f3e2@gmail.com>
-	<3caed9f1-e9cf-662b-cf27-876bcab01f9e@intel.com>
-In-Reply-To: <3caed9f1-e9cf-662b-cf27-876bcab01f9e@intel.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 21 Oct 2019 12:22:42 -0500
-Message-ID: <CAJdd5GajChEpFfuW9LmRgxQo730UiWTiQyeod5QqZDk7HyMsxw@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Help with intermittent autobuilder exposed bugs
+In-Reply-To: <CAJdd5GbA3MJ9KpbY81EkqfUvGwa8jZD7F8u-f+48NvKX9X+hsA@mail.gmail.com>
+Subject: Re: [PATCH v2] base-passwd: Add kvm group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,27 +31,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 17:22:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 21 Oct 2019 17:23:17 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 21, 2019 at 11:50 AM Ross Burton <ross.burton@intel.com> wrote:
->
-> On 20/10/2019 16:54, akuster808 wrote:
-> >> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/440
-> >> oe-selftest reproducible.ReproducibleTests.test_reproducible_builds
-> >> [no open bug?, fedora specific perldoc reproducibility issue]
-> > Think its the same as
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=13602
->
-> Filed as https://bugzilla.yoctoproject.org/show_bug.cgi?id=13606.
 
-I'll look into that one
 
->
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On 10/21/19 12:03 PM, Joshua Watt wrote:
+> On Sun, Feb 3, 2019 at 9:13 PM Jacob Kroon <jacob.kroon@gmail.com> wrote:
+>>
+>> Although base-passwd in OE is somewhat outdated, upgrading
+>> to a newer version is not going to solve eudev warnings about
+>> missing groups during boot; input/shutdown/kvm are still not
+>> listed in groups.master. The reason for this is that
+>> Debian uses systemd, which will automatically create
+>> missing groups(systemd-sysusers). In a sysvinit+eudev
+>> configuration you instead get a warning printed to
+>> the console:
+> 
+> There is an unfortunate problem with this patch that is causing us
+> build failures when using useradd-staticids. Part of this might be our
+> fault for not realizing the repercussions in the way we chose static
+> IDs, but it exposes some deeper issues with this approach to "patching
+> in" new users and groups that we need to be careful about.
+> 
+> In our case, the problem is that we added the netdev group to our
+> static group file at ID 47. As such, we get a warning when the netdev
+> group is created:
+>  groupadd: GID '47' already exists.
+> 
+> For our part, choosing to tightly pack the group IDs and fill in the
+> missing holes with our own static IDs when those static IDs might be
+> allocated by upstream in the future was probably a poor choice.
+> However, the same reasons that make it a poor choice for us also apply
+> to this patch. Upstream doesn't have this GID, and *could* (although
+> unlikely will) add a different group at ID 47, which would conflict
+> with this patch and cause a lot of havoc with anyone using
+> useradd-staticids.
+> 
+> Compounding this is the problem that the users and groups in
+> base-passwd don't play nice in general with useradd-staticids. The
+> users and groups provided by base-passwd are always assumed to exists
+> with the fixed IDs assigned by the recipe, and there is no mechanism
+> to override the assigned IDs with a static ID file as can be done with
+> useradd.bbclass (also, adding support doesn't appear to be trivial).
+
+This was part of the original design of the static ids.
+
+When using static IDs, you should be providing your own base passwd/group files
+and optionally the static mapping files as well.
+
+This is the purpose of the USERADD_UID_TABLES, you can pass in the passwd/group
+files as inputs to these...
+
+> In general, I don't think we should be "patching in" users and groups
+> like this to base-passwd. If upstream doesn't have them, they need to
+> be added through the normal useradd.bbclass mechanism so that users of
+> useradd-staticids can choose what ID they get mapped to.
+> 
+> Is it possible to revert this and add the kvm group via the useradd.bbclass?
+> 
+>>
+>>   udevd[<pid>]: specified group 'kvm' unknown
+
+As for this particular patch, why is adding a specific KVM group required?
+Unless something is hardcoded in KVM to use group '47', a regular system type
+useradd call should be done instead.  This would avoid the problem that Joshua
+is experiencing.
+
+--Mark
+
+>> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+>> ---
+>>
+>> v2: Add reasoning in commit message trying to justify the added patch
+>>
+>>  .../base-passwd/base-passwd/kvm.patch         | 23 +++++++++++++++++++
+>>  .../base-passwd/base-passwd_3.5.29.bb         |  3 ++-
+>>  2 files changed, 25 insertions(+), 1 deletion(-)
+>>  create mode 100644 meta/recipes-core/base-passwd/base-passwd/kvm.patch
+>>
+>> diff --git a/meta/recipes-core/base-passwd/base-passwd/kvm.patch b/meta/recipes-core/base-passwd/base-passwd/kvm.patch
+>> new file mode 100644
+>> index 0000000000..113d5151e7
+>> --- /dev/null
+>> +++ b/meta/recipes-core/base-passwd/base-passwd/kvm.patch
+>> @@ -0,0 +1,23 @@
+>> +From 6355278b9f744291864c373a32a8da8f84aaaf37 Mon Sep 17 00:00:00 2001
+>> +From: Jacob Kroon <jacob.kroon@gmail.com>
+>> +Date: Wed, 30 Jan 2019 04:53:48 +0000
+>> +Subject: [PATCH] Add kvm group
+>> +
+>> +Upstream-Status: Pending
+>> +Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+>> +---
+>> + group.master | 1 +
+>> + 1 file changed, 1 insertion(+)
+>> +
+>> +diff --git a/group.master b/group.master
+>> +index cea9d60..5b62284 100644
+>> +--- a/group.master
+>> ++++ b/group.master
+>> +@@ -34,6 +34,7 @@ utmp:*:43:
+>> + video:*:44:
+>> + sasl:*:45:
+>> + plugdev:*:46:
+>> ++kvm:*:47:
+>> + staff:*:50:
+>> + games:*:60:
+>> + shutdown:*:70:
+>> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> index c6be1c1d08..d1aab09181 100644
+>> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> @@ -12,7 +12,8 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+>>             file://noshadow.patch \
+>>             file://input.patch \
+>>             file://disable-docs.patch \
+>> -          "
+>> +           file://kvm.patch \
+>> +           "
+>>
+>>  SRC_URI[md5sum] = "6beccac48083fe8ae5048acd062e5421"
+>>  SRC_URI[sha256sum] = "f0b66388b2c8e49c15692439d2bee63bcdd4bbbf7a782c7f64accc55986b6a36"
+>> --
+>> 2.20.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
