@@ -1,41 +1,49 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
-	[209.85.221.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 53A056BCD6
+Return-Path: <ola.x.nilsson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 185277C7A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 10:30:07 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id p4so13298057wrm.8
+	Mon, 21 Oct 2019 10:30:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 98C451835B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 03:30:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=pGM4XeiKExKCsKe7Io3YCz2yBK330CUplK7+7uqXa6c=;
-	b=m5ERpLPmnEbJfrKNb3ac8a4JJ9SByqsxGnagvD/nZqbscpM/x804mqR1PI6d1Abmt4
-	QoSihYQ4r+tCmWssPWDbZs+IwuR+tWnUs4ke14g/Vw9Z9Orh3hRfj/+bUdT04ZxTrEoj
-	eABLy1v1bgAHk+7/yXl2esyYC/BsNN10ESKjTs6d3xXDt4bUe92JJ+Vug/jmHX6i6y26
-	1ErtVl64rtDB8vH3jZkzZQ+rFat1YDdkI2rFcrxFjxXgq3kd2SYjr6nGQ9Mea76SstO/
-	FPXJi3OrScTpltXqU0tZuefXoqnWR2OaD/XS+sXr11fZ88hRclIz9e9WIQbkxGODujXe
-	YP9A==
-X-Gm-Message-State: APjAAAU44yyn8lvJIGghwKB9HKw6IIqUeOmEIYyhzG9qBRLV++vrJfAF
-	UUYmu9NJBALVVvn02ex4fTNqh5z0
-X-Google-Smtp-Source: APXvYqzRzbKVjwXzMU6cHp9bqON3DmQH9WWQ+MSDkUi1yZRw7FPoGa63ZioLvSnJpTQXoZfZML/bbA==
-X-Received: by 2002:adf:f686:: with SMTP id v6mr20565229wrp.141.1571653807489; 
-	Mon, 21 Oct 2019 03:30:07 -0700 (PDT)
-Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	126sm14893069wma.48.2019.10.21.03.30.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 21 Oct 2019 03:30:06 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Mon, 21 Oct 2019 12:30:35 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id CmV5Y0KYJybe
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 93EDE1832C
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7AA5C1E07D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6E69A1E07A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
+Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
+	by seth.se.axis.com (Postfix) with ESMTP id 61A2DE2F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
+Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
+	id 5B52B40AAF; Mon, 21 Oct 2019 12:30:34 +0200 (CEST)
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2019 11:30:06 +0100
-Message-Id: <20191021103006.26194-1-git@andred.net>
-X-Mailer: git-send-email 2.23.0.rc1
-MIME-Version: 1.0
-Subject: [PATCH] oeqa/runtime/context.py: ignore more files when loading controllers
+Date: Mon, 21 Oct 2019 12:30:26 +0200
+Message-Id: <20191021103034.12200-1-olani@axis.com>
+X-Mailer: git-send-email 2.11.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/9] oeqa/selftest/recipetool: Use with to control file handle lifetime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,107 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 10:30:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 21 Oct 2019 10:30:35 -0000
 
-When loading controllers as (external) modules, the code currently
-tries to load all files ending with .py. This is a problem when
-during development using an editor that creates a lock-file
-in the same directory as the .py file, as the lock file is
-typically called '.#xxxx.py'.
-Python will try to load the lock file and fail miserably with
-an exception:
-
-    The stack trace of python calls that resulted in this exception/failure was:
-    File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-         0001:
-     *** 0002:do_testimage(d)
-         0003:
-    File: 'poky/meta/classes/testimage.bbclass', lineno: 114, function: do_testimage
-         0110:    netstat -an
-         0111:}
-         0112:
-         0113:python do_testimage() {
-     *** 0114:    testimage_main(d)
-         0115:}
-         0116:
-         0117:addtask testimage
-         0118:do_testimage[nostamp] = "1"
-    File: 'poky/meta/classes/testimage.bbclass', lineno: 294, function: testimage_main
-         0290:
-         0291:    # the robot dance
-         0292:    target = OERuntimeTestContextExecutor.getTarget(
-         0293:        d.getVar("TEST_TARGET"), logger, d.getVar("TEST_TARGET_IP"),
-     *** 0294:        d.getVar("TEST_SERVER_IP"), **target_kwargs)
-         0295:
-         0296:    # test context
-         0297:    tc = OERuntimeTestContext(td, logger, target, host_dumper,
-         0298:                              image_packages, extract_dir)
-    File: 'poky/meta/lib/oeqa/runtime/context.py', lineno: 116, function: getTarget
-         0112:            # XXX: Don't base your targets on this code it will be refactored
-         0113:            # in the near future.
-         0114:            # Custom target module loading
-         0115:            target_modules_path = kwargs.get('target_modules_path', '')
-     *** 0116:            controller = OERuntimeTestContextExecutor.getControllerModule(target_type, target_modules_path)
-         0117:            target = controller(logger, target_ip, server_ip, **kwargs)
-         0118:
-         0119:        return target
-         0120:
-    File: 'poky/meta/lib/oeqa/runtime/context.py', lineno: 128, function: getControllerModule
-         0124:    # ImportError raised if a provided module can not be imported.
-         0125:    @staticmethod
-         0126:    def getControllerModule(target, target_modules_path):
-         0127:        controllerslist = OERuntimeTestContextExecutor._getControllerModulenames(target_modules_path)
-     *** 0128:        controller = OERuntimeTestContextExecutor._loadControllerFromName(target, controllerslist)
-         0129:        return controller
-         0130:
-         0131:    # Return a list of all python modules in lib/oeqa/controllers for each
-         0132:    # layer in bbpath
-    File: 'poky/meta/lib/oeqa/runtime/context.py', lineno: 163, function: _loadControllerFromName
-         0159:    # Raise ImportError if a provided module can not be imported
-         0160:    @staticmethod
-         0161:    def _loadControllerFromName(target, modulenames):
-         0162:        for name in modulenames:
-     *** 0163:            obj = OERuntimeTestContextExecutor._loadControllerFromModule(target, name)
-         0164:            if obj:
-         0165:                return obj
-         0166:        raise AttributeError("Unable to load {0} from available modules: {1}".format(target, str(modulenames)))
-         0167:
-    File: 'poky/meta/lib/oeqa/runtime/context.py', lineno: 173, function: _loadControllerFromModule
-         0169:    @staticmethod
-         0170:    def _loadControllerFromModule(target, modulename):
-         0171:        obj = None
-         0172:        # import module, allowing it to raise import exception
-     *** 0173:        module = __import__(modulename, globals(), locals(), [target])
-         0174:        # look for target class in the module, catching any exceptions as it
-         0175:        # is valid that a module may not have the target class.
-         0176:        try:
-         0177:            obj = getattr(module, target)
-    Exception: ImportError: No module named 'oeqa.controllers.'
-
-Simply ignore those when collecting the list of files to try
-to load.
-
-Signed-off-by: André Draszik <git@andred.net>
+Signed-off-by: Ola x Nilsson <olani@axis.com>
 ---
- meta/lib/oeqa/runtime/context.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/recipetool.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
-index 77d58eefa7..ef738a3359 100644
---- a/meta/lib/oeqa/runtime/context.py
-+++ b/meta/lib/oeqa/runtime/context.py
-@@ -138,7 +138,7 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
-         def add_controller_list(path):
-             if not os.path.exists(os.path.join(path, '__init__.py')):
-                 raise OSError('Controllers directory %s exists but is missing __init__.py' % path)
--            files = sorted([f for f in os.listdir(path) if f.endswith('.py') and not f.startswith('_')])
-+            files = sorted([f for f in os.listdir(path) if f.endswith('.py') and not f.startswith('_') and not f.startswith('.#')])
-             for f in files:
-                 module = 'oeqa.controllers.' + f[:-3]
-                 if module not in controllerslist:
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index 1c701a40bf..c1562c63b2 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -685,7 +685,9 @@ class RecipetoolAppendsrcTests(RecipetoolAppendsrcBase):
+ 
+         self._test_appendsrcfile(testrecipe, filepath, srcdir=subdir)
+         bitbake('%s:do_unpack' % testrecipe)
+-        self.assertEqual(open(self.testfile, 'r').read(), open(os.path.join(srcdir, filepath), 'r').read())
++        with open(self.testfile, 'r') as testfile:
++            with open(os.path.join(srcdir, filepath), 'r') as makefilein:
++                self.assertEqual(testfile.read(), makefilein.read())
+ 
+     def test_recipetool_appendsrcfiles_basic(self, destdir=None):
+         newfiles = [self.testfile]
 -- 
-2.23.0.rc1
+2.11.0
 
 
