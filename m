@@ -1,40 +1,49 @@
-Return-Path: <mfe@pengutronix.de>
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
-	[85.220.165.71])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E8D47F4DB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 463A67F4F2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 11:40:53 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-	by metis.ext.pengutronix.de with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1iMW3R-0000SH-V4; Mon, 21 Oct 2019 13:40:53 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1iMW3R-00080z-4h; Mon, 21 Oct 2019 13:40:53 +0200
-Date: Mon, 21 Oct 2019 13:40:53 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Adrian Bunk <bunk@stusta.de>
-Message-ID: <20191021114053.cw4ofpinfpwoydwh@pengutronix.de>
-References: <20191021094149.uwvkismntthgd7i3@pengutronix.de>
-	<20191021102440.GA25961@localhost>
+	Mon, 21 Oct 2019 11:41:39 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id z9so13569694wrl.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2019 04:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fyaWYAqKZNK4zlNH34tDMbKUBSSTWWivNzQUJHLCU3c=;
+	b=aRWd1IjICmZJkEVqPGGzTf/Tmbe0as7De60sExsXUHfSfXIr8RUhdCJl6xP7geuycg
+	vSd0gPdYje351YOb7hS/zSGgn0cepd44p355fjBkC0OaKU22yC8aN5NOgAB2WdSFCXF3
+	i1KrX7gvbTYtsJYWwZ9vho3cI4ZHyp3DXTMgk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fyaWYAqKZNK4zlNH34tDMbKUBSSTWWivNzQUJHLCU3c=;
+	b=onW2B5C/6KbdWrOIkqk7/gqkAiOczdyQj9V+uQlrMOQ+tdiuHROCZcbO02EwyKgYLA
+	PwUEX7V3lOD2ajaBkV6DOdcVmp/iScuDua1KgFQb7VwmFqhFWVZ7yhkKTi6yAJa6egjc
+	DyKrsbLI9ei4Pr1WlyZfaNW9JMBxchQoToyMn6ow2Aa8mWPdqU2o7bfL1gAzAQgsmhNU
+	kcjjRCuIZaUcxpF+KS/P59WqvBjD1N+y0X9/W4W3fKkHiojFd6/S7eWEuhWr9RiZoUnv
+	zGWMQrPvW3QJ1mCON2BBgvfd8KzfBf7JTLgyi6z4TQWPWaRGlMcc8HvvzQVFv8LGUIhs
+	Q4rw==
+X-Gm-Message-State: APjAAAXwlRAPh+7yX8pmuOjmW1dZwGQwZ/+kaQUv3MkQr0mFvAd/78HD
+	baH6QcZz8cKk/nL0VZeWcbjCbjblSZE=
+X-Google-Smtp-Source: APXvYqyM2BGxQujoYBrC5hWtuDtaS5KVIMNKLJ237ixm9u/mg+jpZYAhZ5WiC0kFDcsAbfB47wS1qw==
+X-Received: by 2002:a5d:53cb:: with SMTP id a11mr12194694wrw.22.1571658099328; 
+	Mon, 21 Oct 2019 04:41:39 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q11sm4259187wmq.21.2019.10.21.04.41.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 21 Oct 2019 04:41:38 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Oct 2019 12:41:37 +0100
+Message-Id: <20191021114137.14920-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191021102440.GA25961@localhost>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 13:40:37 up 156 days, 17:58, 99 users,  load average: 0.07, 0.02,
-	0.00
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Cc: kernel@pengutronix.de, openembedded-core@lists.openembedded.org
-Subject: Re: Why do we still disable mke2fs 64bit support?
+Subject: [PATCH] tinderclient: Drop obsolete class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,53 +56,393 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 11:40:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 21 Oct 2019 11:41:39 -0000
+Content-Transfer-Encoding: 8bit
 
-On 19-10-21 13:24, Adrian Bunk wrote:
-> On Mon, Oct 21, 2019 at 11:41:49AM +0200, Marco Felsch wrote:
-> > Hi,
-> > 
-> > during a initial system-setup script the mke2fs tools complains about
-> > the missing 64bit support:
-> > 
-> > 8<----------------------------------------------------------------------
-> > mke2fs 1.44.5 (15-Dec-2018)
-> > 64-bit filesystem support is not enabled.  The larger fields afforded by
-> > this feature enable full-strength checksumming. Pass -O 64bit to rectify.
-> > 8<----------------------------------------------------------------------
-> > 
-> > Other build tools e.g. PTXdist or Buildroot don't modify the build-in
-> > config. I know in the early days this feature break something but
-> > shouldn't we (re-)think this decision?
-> 
-> Already fixed in zeus:
-> https://github.com/openembedded/openembedded-core/commit/f5edce401cfb31ebd0200adaba9a201caf7ea705
+This was used for build result reporting back in the OE-Classic days. Its
+not been touched in years, isn't used as far as I know and can be removed.
 
-Thanks for the link.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/tinderclient.bbclass | 368 ------------------------------
+ 1 file changed, 368 deletions(-)
+ delete mode 100644 meta/classes/tinderclient.bbclass
 
-Regards,
-  Marco 
-
-> > Regards,
-> >   Marco
-> 
-> cu
-> Adrian
-> 
-> -- 
-> 
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
-> 
-> 
-
+diff --git a/meta/classes/tinderclient.bbclass b/meta/classes/tinderclient.bbclass
+deleted file mode 100644
+index 00f453cec1c..00000000000
+--- a/meta/classes/tinderclient.bbclass
++++ /dev/null
+@@ -1,368 +0,0 @@
+-def tinder_http_post(server, selector, content_type, body):
+-    import httplib
+-    # now post it
+-    for i in range(0,5):
+-        try:
+-            h = httplib.HTTP(server)
+-            h.putrequest('POST', selector)
+-            h.putheader('content-type', content_type)
+-            h.putheader('content-length', str(len(body)))
+-            h.endheaders()
+-            h.send(body)
+-            errcode, errmsg, headers = h.getreply()
+-            #print(errcode, errmsg, headers)
+-            return (errcode,errmsg, headers, h.file)
+-        except:
+-            print("Error sending the report!")
+-            # try again
+-            pass
+-
+-    # return some garbage
+-    return (-1, "unknown", "unknown", None)
+-
+-def tinder_form_data(bound, dict, log):
+-    output = []
+-    # for each key in the dictionary
+-    for name in dict:
+-        assert dict[name]
+-        output.append( "--" + bound )
+-        output.append( 'Content-Disposition: form-data; name="%s"' % name )
+-        output.append( "" )
+-        output.append( dict[name] )
+-    if log:
+-        output.append( "--" + bound )
+-        output.append( 'Content-Disposition: form-data; name="log"; filename="log.txt"' )
+-        output.append( '' )
+-        output.append( log )
+-    output.append( '--' + bound + '--' )
+-    output.append( '' )
+-
+-    return "\r\n".join(output)
+-
+-def tinder_time_string():
+-    """
+-    Return the time as GMT
+-    """
+-    return ""
+-
+-def tinder_format_http_post(d,status,log):
+-    """
+-    Format the Tinderbox HTTP post with the data needed
+-    for the tinderbox to be happy.
+-    """
+-
+-    import random
+-
+-    # the variables we will need to send on this form post
+-    variables =  {
+-        "tree"         : d.getVar('TINDER_TREE'),
+-        "machine_name" : d.getVar('TINDER_MACHINE'),
+-        "os"           : os.uname()[0],
+-        "os_version"   : os.uname()[2],
+-        "compiler"     : "gcc",
+-        "clobber"      : d.getVar('TINDER_CLOBBER') or "0",
+-        "srcdate"      : d.getVar('SRCDATE'),
+-        "PN"           : d.getVar('PN'),
+-        "PV"           : d.getVar('PV'),
+-        "PR"           : d.getVar('PR'),
+-        "FILE"         : d.getVar('FILE') or "N/A",
+-        "TARGETARCH"   : d.getVar('TARGET_ARCH'),
+-        "TARGETFPU"    : d.getVar('TARGET_FPU') or "Unknown",
+-        "TARGETOS"     : d.getVar('TARGET_OS') or "Unknown",
+-        "MACHINE"      : d.getVar('MACHINE') or "Unknown",
+-        "DISTRO"       : d.getVar('DISTRO') or "Unknown",
+-        "zecke-rocks"  : "sure",
+-    }
+-
+-    # optionally add the status
+-    if status:
+-        variables["status"] = str(status)
+-
+-    # try to load the machine id
+-    # we only need on build_status.pl but sending it
+-    # always does not hurt
+-    try:
+-        f = open(d.getVar('TMPDIR')+'/tinder-machine.id', 'r')
+-        id = f.read()
+-        variables['machine_id'] = id
+-    except:
+-        pass
+-
+-    # the boundary we will need
+-    boundary = "----------------------------------%d" % int(random.random()*1000000000000)
+-
+-    # now format the body
+-    body = tinder_form_data( boundary, variables, log )
+-
+-    return ("multipart/form-data; boundary=%s" % boundary),body
+-
+-
+-def tinder_build_start(d):
+-    """
+-    Inform the tinderbox that a build is starting. We do this
+-    by posting our name and tree to the build_start.pl script
+-    on the server.
+-    """
+-
+-    # get the body and type
+-    content_type, body = tinder_format_http_post(d,None,None)
+-    server = d.getVar('TINDER_HOST')
+-    url    = d.getVar('TINDER_URL')
+-
+-    selector = url + "/xml/build_start.pl"
+-
+-    #print("selector %s and url %s" % (selector, url))
+-
+-    # now post it
+-    errcode, errmsg, headers, h_file = tinder_http_post(server,selector,content_type, body)
+-    #print(errcode, errmsg, headers)
+-    report = h_file.read()
+-
+-    # now let us find the machine id that was assigned to us
+-    search = "<machine id='"
+-    report = report[report.find(search)+len(search):]
+-    report = report[0:report.find("'")]
+-
+-    bb.note("Machine ID assigned by tinderbox: %s" % report )
+-
+-    # now we will need to save the machine number
+-    # we will override any previous numbers
+-    f = open(d.getVar('TMPDIR')+"/tinder-machine.id", 'w')
+-    f.write(report)
+-
+-
+-def tinder_send_http(d, status, _log):
+-    """
+-    Send this log as build status
+-    """
+-
+-    # get the body and type
+-    server = d.getVar('TINDER_HOST')
+-    url    = d.getVar('TINDER_URL')
+-
+-    selector = url + "/xml/build_status.pl"
+-
+-    # now post it - in chunks of 10.000 characters
+-    new_log = _log
+-    while len(new_log) > 0:
+-        content_type, body = tinder_format_http_post(d,status,new_log[0:18000])
+-        errcode, errmsg, headers, h_file = tinder_http_post(server,selector,content_type, body)
+-        #print(errcode, errmsg, headers)
+-        #print(h.file.read())
+-        new_log = new_log[18000:]
+-
+-
+-def tinder_print_info(d):
+-    """
+-    Print the TinderBox Info
+-        Including informations of the BaseSystem and the Tree
+-        we use.
+-    """
+-
+-    # get the local vars
+-    time    = tinder_time_string()
+-    ops     = os.uname()[0]
+-    version = os.uname()[2]
+-    url     = d.getVar('TINDER_URL')
+-    tree    = d.getVar('TINDER_TREE')
+-    branch  = d.getVar('TINDER_BRANCH')
+-    srcdate = d.getVar('SRCDATE')
+-    machine = d.getVar('MACHINE')
+-    distro  = d.getVar('DISTRO')
+-    bbfiles = d.getVar('BBFILES')
+-    tarch   = d.getVar('TARGET_ARCH')
+-    fpu     = d.getVar('TARGET_FPU')
+-    oerev   = d.getVar('OE_REVISION') or "unknown"
+-
+-    # there is a bug with tipple quoted strings
+-    # i will work around but will fix the original
+-    # bug as well
+-    output = []
+-    output.append("== Tinderbox Info" )
+-    output.append("Time: %(time)s" )
+-    output.append("OS: %(ops)s" )
+-    output.append("%(version)s" )
+-    output.append("Compiler: gcc" )
+-    output.append("Tinderbox Client: 0.1" )
+-    output.append("Tinderbox Client Last Modified: yesterday" )
+-    output.append("Tinderbox Protocol: 0.1" )
+-    output.append("URL: %(url)s" )
+-    output.append("Tree: %(tree)s" )
+-    output.append("Config:" )
+-    output.append("branch = '%(branch)s'" )
+-    output.append("TARGET_ARCH = '%(tarch)s'" )
+-    output.append("TARGET_FPU = '%(fpu)s'" )
+-    output.append("SRCDATE = '%(srcdate)s'" )
+-    output.append("MACHINE = '%(machine)s'" )
+-    output.append("DISTRO = '%(distro)s'" )
+-    output.append("BBFILES = '%(bbfiles)s'" )
+-    output.append("OEREV = '%(oerev)s'" )
+-    output.append("== End Tinderbox Client Info" )
+-
+-    # now create the real output
+-    return "\n".join(output) % vars()
+-
+-
+-def tinder_print_env():
+-    """
+-    Print the environment variables of this build
+-    """
+-    time_start = tinder_time_string()
+-    time_end   = tinder_time_string()
+-
+-    # build the environment
+-    env = ""
+-    for var in os.environ:
+-        env += "%s=%s\n" % (var, os.environ[var])
+-
+-    output = []
+-    output.append( "---> TINDERBOX RUNNING env %(time_start)s" )
+-    output.append( env )
+-    output.append( "<--- TINDERBOX FINISHED (SUCCESS) %(time_end)s" )
+-
+-    return "\n".join(output) % vars()
+-
+-def tinder_tinder_start(d, event):
+-    """
+-    PRINT the configuration of this build
+-    """
+-
+-    time_start = tinder_time_string()
+-    config = tinder_print_info(d)
+-    #env    = tinder_print_env()
+-    time_end   = tinder_time_string()
+-    packages = " ".join( event.getPkgs() ) 
+-
+-    output = []
+-    output.append( "---> TINDERBOX PRINTING CONFIGURATION %(time_start)s" )
+-    output.append( config )
+-    #output.append( env    )
+-    output.append( "<--- TINDERBOX FINISHED PRINTING CONFIGURATION %(time_end)s" )
+-    output.append( "---> TINDERBOX BUILDING '%(packages)s'" )
+-    output.append( "<--- TINDERBOX STARTING BUILD NOW" )
+-
+-    output.append( "" )
+-
+-    return "\n".join(output) % vars()
+-
+-def tinder_do_tinder_report(event):
+-    """
+-    Report to the tinderbox:
+-        On the BuildStart we will inform the box directly
+-        On the other events we will write to the TINDER_LOG and
+-        when the Task is finished we will send the report.
+-
+-    The above is not yet fully implemented. Currently we send
+-    information immediately. The caching/queuing needs to be
+-    implemented. Also sending more or less information is not
+-    implemented yet.
+-
+-    We have two temporary files stored in the TMP directory. One file
+-    contains the assigned machine id for the tinderclient. This id gets
+-    assigned when we connect the box and start the build process the second
+-    file is used to workaround an EventHandler limitation. If BitBake is ran
+-    with the continue option we want the Build to fail even if we get the
+-    BuildCompleted Event. In this case we have to look up the status and
+-    send it instead of 100/success.
+-    """
+-    import glob
+-
+-    # variables
+-    name = bb.event.getName(event)
+-    log  = ""
+-    status = 1
+-    # Check what we need to do Build* shows we start or are done
+-    if name == "BuildStarted":
+-        tinder_build_start(event.data)
+-        log = tinder_tinder_start(event.data,event)
+-
+-        try:
+-            # truncate the tinder log file
+-            f = open(event.data.getVar('TINDER_LOG'), 'w')
+-            f.write("")
+-            f.close()
+-        except:
+-            pass
+-
+-        try:
+-            # write a status to the file. This is needed for the -k option
+-            # of BitBake
+-            g = open(event.data.getVar('TMPDIR')+"/tinder-status", 'w')
+-            g.write("")
+-            g.close()
+-        except IOError:
+-            pass
+-
+-    # Append the Task-Log (compile,configure...) to the log file
+-    # we will send to the server
+-    if name == "TaskSucceeded" or name == "TaskFailed":
+-        log_file = glob.glob("%s/log.%s.*" % (event.data.getVar('T'), event.task))
+-
+-        if len(log_file) != 0:
+-            to_file  = event.data.getVar('TINDER_LOG')
+-            log     += "".join(open(log_file[0], 'r').readlines())
+-
+-    # set the right 'HEADER'/Summary for the TinderBox
+-    if name == "TaskStarted":
+-        log += "---> TINDERBOX Task %s started\n" % event.task
+-    elif name == "TaskSucceeded":
+-        log += "<--- TINDERBOX Task %s done (SUCCESS)\n" % event.task
+-    elif name == "TaskFailed":
+-        log += "<--- TINDERBOX Task %s failed (FAILURE)\n" % event.task
+-    elif name == "PkgStarted":
+-        log += "---> TINDERBOX Package %s started\n" % event.data.getVar('PF')
+-    elif name == "PkgSucceeded":
+-        log += "<--- TINDERBOX Package %s done (SUCCESS)\n" % event.data.getVar('PF')
+-    elif name == "PkgFailed":
+-        if not event.data.getVar('TINDER_AUTOBUILD') == "0":
+-            build.exec_task('do_clean', event.data)
+-        log += "<--- TINDERBOX Package %s failed (FAILURE)\n" % event.data.getVar('PF')
+-        status = 200
+-        # remember the failure for the -k case
+-        h = open(event.data.getVar('TMPDIR')+"/tinder-status", 'w')
+-        h.write("200")
+-    elif name == "BuildCompleted":
+-        log += "Build Completed\n"
+-        status = 100
+-        # Check if we have a old status...
+-        try:
+-            h = open(event.data.getVar('TMPDIR')+'/tinder-status', 'r')
+-            status = int(h.read())
+-        except:
+-            pass
+-
+-    elif name == "MultipleProviders":
+-        log += "---> TINDERBOX Multiple Providers\n"
+-        log += "multiple providers are available (%s);\n" % ", ".join(event.getCandidates())
+-        log += "consider defining PREFERRED_PROVIDER_%s\n" % event.getItem()
+-        log += "is runtime: %d\n" % event.isRuntime()
+-        log += "<--- TINDERBOX Multiple Providers\n"
+-    elif name == "NoProvider":
+-        log += "Error: No Provider for: %s\n" % event.getItem()
+-        log += "Error:Was Runtime: %d\n" % event.isRuntime()
+-        status = 200
+-        # remember the failure for the -k case
+-        h = open(event.data.getVar('TMPDIR')+"/tinder-status", 'w')
+-        h.write("200")
+-
+-    # now post the log
+-    if len(log) == 0:
+-        return
+-
+-    # for now we will use the http post method as it is the only one
+-    log_post_method = tinder_send_http
+-    log_post_method(event.data, status, log)
+-
+-
+-# we want to be an event handler
+-addhandler tinderclient_eventhandler
+-python tinderclient_eventhandler() {
+-    if e.data is None or bb.event.getName(e) == "MsgNote":
+-        return
+-
+-    do_tinder_report = e.data.getVar('TINDER_REPORT')
+-    if do_tinder_report and do_tinder_report == "1":
+-        tinder_do_tinder_report(e)
+-
+-    return
+-}
 -- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.20.1
+
 
