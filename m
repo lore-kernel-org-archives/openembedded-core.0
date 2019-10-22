@@ -1,52 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ED727E427
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
+	[209.85.221.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C40D17D19E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 11:22:56 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id n15so6826604wrw.13
+	Tue, 22 Oct 2019 11:36:05 +0000 (UTC)
+Received: by mail-vk1-f193.google.com with SMTP id i21so1453640vka.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 04:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=HYfS/ahraw0D3TY8hQmrCLntvnpa+jo/jmGzGMfPCz4=;
-	b=g6+32bJs53LrPanWg9W0+yN8cOng8rVb2k9CcA8k6bOCe041LxFC1oeXLG/qDm9/TV
-	qNCxLhJTPKiqKRob1LOkZ2rcUgv4613WhnWoTMaM+PsQySJH48RF8i3v2uJwq5dWY43r
-	jl/6T+ODeop6VE4PjAxcMNWuyVyfOdeTDRxn4=
+	Tue, 22 Oct 2019 04:36:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=oTBUFPnyzqi2YhDjnDOLwv+9nmrUpKUOiMeH65rv8XM=;
+	b=AOy8Q4mLAmmZ0xBAFxDGwwQx8AM5jONeQNntY/bZigAAVKiALM2unOPWoXdOyFkSMS
+	YS6JgMMiqZLwxSQ39OcLPRV5suqUmgv1K7bQDEohWqEcBtkaEmARhRGBcePKpSPRWz7x
+	2lMmRSGfTBZGbFZpYIuzjXkXOgfNSUf0htMT/RP48Enn7K1/JYWkJkBXPOMeRIzhZWxX
+	NVSgxIlxTrcrSl48WUaxIo2g7Z3J4MNm55ua9Vzu9LaZD5SlFluGjZv6afqx77sPk9LU
+	Cu3JRoQV82VboQnx2d2Ud01UhFjFR5nCM2tDQBW8d/JM+BwK6VTxhq/pEN3E/VIF05xL
+	1Wgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=HYfS/ahraw0D3TY8hQmrCLntvnpa+jo/jmGzGMfPCz4=;
-	b=G1v2Nu3vW9UMXUWaxQ4ctc7T1tmitRFORkeMXFAkCKWiNFwpg5gFpmSzrn2zPzt/Pe
-	lqPt+PMEU12YQThAk1I4pYtE8OZ9bKi9fkB2o3h1+GJBY1ZhGWj5hEL+rdhODde2jMPU
-	emlcn1W++2STzfg8qabPrJe2sgcqIrpOAIEhpOxaQTKOCWRwROfUsDMTXn5sTa8ImfgE
-	VBY+wswOvtwRJ+VWyhhq7xyK6xHKB2l7uynwQ6MTbRSPCFBbclLAQNX6fhZwXz1s0d4b
-	5ertooWpfRoTAZ9fvVIxEDIqYrb9xEPp0Wv7a8Ayt/TaBKaPTuK2oCsW59IuTR4CPx/t
-	VMnQ==
-X-Gm-Message-State: APjAAAWpEsRA2LwRGfFNIqM8u7linN5ghEo5F4lgj3jY+5vReptxsWkJ
-	7UCbkbZWNfiDzpX9GzvCUbyF5A==
-X-Google-Smtp-Source: APXvYqz1W35jkD5pfZiOfVotQcY1BchVNOvl3N4xt7dnspZFuzsfmQUCZ3GHJXgqX8PsRiyy6+hD4g==
-X-Received: by 2002:adf:b21a:: with SMTP id u26mr3122332wra.119.1571743377583; 
-	Tue, 22 Oct 2019 04:22:57 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id d2sm9826418wmd.2.2019.10.22.04.22.56
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 22 Oct 2019 04:22:56 -0700 (PDT)
-Message-ID: <8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2019 12:22:55 +0100
-In-Reply-To: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
-References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
-User-Agent: Evolution 3.34.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=oTBUFPnyzqi2YhDjnDOLwv+9nmrUpKUOiMeH65rv8XM=;
+	b=malxJOSfBHNwkIq0T8fsLCPN8+3j0CdfW3UkFFZkQjQwNlgaPYfdDtOkZGU/RzWzmt
+	GjKYsrnmQDrrCQqZEjdkwVpCH2DZeLVDvRYqVZAs3BA8B/uXjLcr+Ypq2C+5ieCZDdTg
+	sg4t/f+Br6JZnT+WLdP6OALvGHajREGa4+eqwrlQBnoh8JGYxz5udCyIxvnb8VKco0gJ
+	fR9eJlwvVM1XitebKll3MtPBszKCKjLXaWxfZW1qHY3cwllhUuSWbdfjHNn02BUumxM2
+	mAMMgyul8K6r2gco+KAEeaFnThde9iAx/PtNbf+6yrXNcEhuXYC+zqh2mzSg69wHRjoL
+	im9w==
+X-Gm-Message-State: APjAAAWNcUEWgkw0ndf2S3SVrCo+rLOsIk8MC3WI+sk9kprbMQMviPKE
+	lnSUjZ5VX8qNLuO/lMRMX5Vyc63Rf8WypyhXmDSByw==
+X-Google-Smtp-Source: APXvYqziWFOxcEAO/Jtyt3QbSJBvNj9DcpophPAAfjtMhOa8sgX0z1bnjJd/NPftBDN9QjrSzu/LTRJVqw/vtgLp0+8=
+X-Received: by 2002:a1f:97c2:: with SMTP id z185mr1562500vkd.0.1571744166320; 
+	Tue, 22 Oct 2019 04:36:06 -0700 (PDT)
 MIME-Version: 1.0
-Cc: brendan.le.foll@intel.com, paul.eggleton@linux.intel.com,
-	rennes@savoirfairelinux.com
-Subject: Re: [RFC][PATCH 0/6] NPM refactoring
+References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<20191022090353.21151-2-jean-marie.lemetayer@savoirfairelinux.com>
+In-Reply-To: <20191022090353.21151-2-jean-marie.lemetayer@savoirfairelinux.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 22 Oct 2019 13:35:55 +0200
+Message-ID: <CANNYZj9y0a7PgU2+vdBWYvbJYfUyHRCaZPfVjGmW0b2HY8Z=bA@mail.gmail.com>
+To: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+Cc: brendan.le.foll@intel.com,
+	"Paul Eggleton \(paul.eggleton@linux.intel.com\)"
+	<paul.eggleton@linux.intel.com>, rennes@savoirfairelinux.com,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 1/6] npm.bbclass: refactor the npm class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,44 +57,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2019 11:22:57 -0000
+X-List-Received-Date: Tue, 22 Oct 2019 11:36:06 -0000
+Content-Type: multipart/alternative; boundary="000000000000b6204205957e34d2"
+
+--000000000000b6204205957e34d2
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-10-22 at 11:03 +0200, Jean-Marie LEMETAYER wrote:
-> The current NPM support have several issues:
->  - The current NPM fetcher downloads the dependency tree but not the other
->    fetchers. The 'subdir' parameter was used to fix this issue.
->  - They are multiple issues with package names (uppercase, exotic characters,
->    scoped packages) even if they are inside the dependencies.
->  - The lockdown file generation have issues. When a package depends on
->    multiple version of the same package (all versions have the same checksum).
-> 
-> This patchset refactors the NPM support in Yocto:
->  - As the NPM algorithm for dependency management is hard to handle, the new
->    NPM fetcher downloads only the package source (and not the dependencies,
->    like the other fetchers) (patch submitted in the bitbake-devel list).
->  - The NPM class handles the dependencies using NPM (and not manually).
->  - The NPM recipe creation is simplified to avoid issues.
->  - The lockdown file is no more used as it is no longer relevant compared to the
->    latest shrinkwrap file format.
-> 
-> This patchset may remove some features (lockdown file, license management for
-> dependencies) but fixes the majority of the NPM issues. All of these issues
-> from the bugzilla.yoctoproject.org are resolved by this patchset:
-> #10237, #10760, #11028, #11728, #11902, #12534
+On Tue, 22 Oct 2019 at 11:12, Jean-Marie LEMETAYER <
+jean-marie.lemetayer@savoirfairelinux.com> wrote:
 
-One key requirement which many of our users have from the fetcher is
-that its deterministic and allows for "offline" builds.
+> The simplest solution is to let npm do its job. Assuming the fetcher
+> only get the sources of the package, the class will now run
+> 'npm install' to create a build directory. The build directory is then
+> copied wisely to the destination.
+>
 
-What this means is that should I have a populated DL_DIR, the build
-should not need to touch the network. Also, only do_fetch tasks would
-make network accesses.
+I agree that npm dependency handing is a mess, and we should indeed let npm
+do the job.
 
-What is the situation for npm after these changes with regard to this?
+However, 'npm install' pulls various things from the network; this can only
+be happen during do_fetch(), so that offline builds can continue to work.
+Whatever has been downloaded, needs to go to DL_DIR.
 
-Cheers,
+It also needs to be reproducible (there should be a guarantee that it
+always pulls the same set of sources which are verified through a checksum
+of some kind), I guess that can only be achieved through upstream provided
+shrinkwrap?
 
-Richard
+Alex
 
+--000000000000b6204205957e34d2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, 22 Oct 2019 at 11:12, Jean-Marie LEMETAYER &lt;<a href=3D"ma=
+ilto:jean-marie.lemetayer@savoirfairelinux.com">jean-marie.lemetayer@savoir=
+fairelinux.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">The simplest solution is to let npm do its job. Assuming the =
+fetcher<br>
+only get the sources of the package, the class will now run<br>
+&#39;npm install&#39; to create a build directory. The build directory is t=
+hen<br>
+copied wisely to the destination.<br></blockquote><div><br></div><div>I agr=
+ee that npm dependency handing is a mess, and we should indeed let npm do t=
+he job.<br></div><div><br></div><div>However, &#39;npm install&#39; pulls v=
+arious things from the network; this can only be happen during do_fetch(), =
+so that offline builds can continue to work. Whatever has been downloaded, =
+needs to go to DL_DIR.<br></div><div><br></div><div>It also needs to be rep=
+roducible (there should be a guarantee that it always pulls the same set of=
+ sources which are verified through a checksum of some kind), I guess that =
+can only be achieved through upstream provided shrinkwrap?</div><div><br></=
+div><div>Alex<br></div></div></div>
+
+--000000000000b6204205957e34d2--
