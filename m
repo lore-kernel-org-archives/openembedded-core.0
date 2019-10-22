@@ -1,52 +1,24 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 601497F353
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 22B1E7CE27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 21:45:53 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id c2so10407954wrr.10
+	Tue, 22 Oct 2019 01:31:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9M1VDA5005847
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 14:45:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=inZ0RTOP7Kr0iZxQ1QAh9E1Y8pXvycb3CXpWArdRTms=;
-	b=kmSpHB+GVpZ3BrnE1Os3Sv+90i7WKyamcaOlbrT9OrsHKszxFv+eo/Pe8GgJ6TPv/Z
-	ozvxh4VOaxim1wrnnHUYlXs1rfjxilocatiJ9k3wT02f2GEn5h9XRDtfEHCRF0c5JuJz
-	XKmfMCrZRrosQxdeiXEYiaabdiF2DY6v9Ly+7NXiSpOzZOSiCBg3cw29iIUieTP8QJ5y
-	mHCKx4fOUr6HDhhPuY6ssRVAY8O12Fhbj/Lv9Q1iEAMG2sIrSUcYYQc1FXBybdg3M4EA
-	fX/DhLx2C2BPwrY5YwljEo2nPyTg2exSFGdSr5imU39dhe2GK2ew6j+P3XB9R628qLdQ
-	M/IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=inZ0RTOP7Kr0iZxQ1QAh9E1Y8pXvycb3CXpWArdRTms=;
-	b=lOIbjjg18D+zskkRjUkNUJrUuBz6ERG0XFcVxc6Ub/K8LpEmc6Rin87gyznP1IYmBS
-	C3kBaz/6L1j8ttr5u1CRS4pbN+dorsQkFUzxO0zKN9H4xMISPAKMAc/Yy5/H6jC/QS9X
-	3pugo80TO5XquFbsBhcsa4elOlyEptOLkDTsHO5jyAeGVCmj/Smla+9QH+J3M5MYxsyY
-	LcNpvb8IThtdTnEoLg7pmYl6nZpFIYrHlSqjFuxvuIMcmS0kAIBUk7suGf8+pN0ju9fe
-	SUGVMQEztLy4ajK/bq+w6dephdxMI8Aa/0G6yh68sTsef5LY74CTGpyxzTTfTYqgdmcm
-	Q3uQ==
-X-Gm-Message-State: APjAAAUhgPwic3LlFxIxnZ6x7DO5cgXqxjDc6AIgQbT7JfSbjpPxNE/s
-	CP6enEmfb3Bz3D9Z0NzrJa8rQa6p
-X-Google-Smtp-Source: APXvYqzJ2n+cfeThyGu3Tm3an+NcUkS7H/M2uikJDJp8a0IbYyCwZ2dtkRhckhmV+kgAfvVSolp2EQ==
-X-Received: by 2002:adf:de84:: with SMTP id w4mr354083wrl.342.1571694353877;
-	Mon, 21 Oct 2019 14:45:53 -0700 (PDT)
-Received: from superandy.speedport.ip
-	(p200300F07F04BF542BBFE1EC90EBCF50.dip0.t-ipconnect.de.
-	[2003:f0:7f04:bf54:2bbf:e1ec:90eb:cf50])
-	by smtp.gmail.com with ESMTPSA id f7sm8996639wre.68.2019.10.21.14.45.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 21 Oct 2019 14:45:53 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2019 23:45:44 +0200
-Message-Id: <20191021214544.26125-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Mon, 21 Oct 2019 18:31:13 -0700 (PDT)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 21 Oct 2019 18:31:12 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 22 Oct 2019 09:31:11 +0800
+Message-ID: <20191022013111.25319-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: [PATCH] adwaita-icon-theme: upgrade 3.32.0 -> 3.34.0
+Subject: [master][zeus][PATCH] go: fix CVE-2019-16276
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,49 +31,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2019 21:45:54 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Oct 2019 01:31:12 -0000
+Content-Type: text/plain
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch | 2 +-
- ...aita-icon-theme_3.32.0.bb => adwaita-icon-theme_3.34.0.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.32.0.bb => adwaita-icon-theme_3.34.0.bb} (92%)
+ meta/recipes-devtools/go/go-1.12.inc          |   1 +
+ ...o1.12-security-net-textproto-don-t-n.patch | 163 ++++++++++++++++++
+ 2 files changed, 164 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-index 4a98363313..a062aa63d3 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-@@ -19,7 +19,7 @@ index 4a84501..52dbb8e 100644
- +++ b/configure.ac
- @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
-  
-- AC_INIT([adwaita-icon-theme], [3.32.0],
-+ AC_INIT([adwaita-icon-theme], [3.34.0],
-          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
- -AC_CANONICAL_HOST
-  AC_CONFIG_MACRO_DIR([m4])
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.0.bb
-similarity index 92%
-rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb
-rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.0.bb
-index 02676f4401..84127339b0 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-Run-installation-commands-as-shell-jobs.patch \
-            "
+diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
+index 39157ff882..ed14b175e6 100644
+--- a/meta/recipes-devtools/go/go-1.12.inc
++++ b/meta/recipes-devtools/go/go-1.12.inc
+@@ -16,6 +16,7 @@ SRC_URI += "\
+     file://0006-cmd-dist-separate-host-and-target-builds.patch \
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
++    file://0001-release-branch.go1.12-security-net-textproto-don-t-n.patch \
+ "
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
  
--SRC_URI[md5sum] = "4b16278cfed860a86c8221de62eec151"
--SRC_URI[sha256sum] = "698db6e407bb987baec736c6a30216dfc0317e3ca2403c7adf3a5aa46c193286"
-+SRC_URI[md5sum] = "41b860c17efe065849b0cbf46e88811a"
-+SRC_URI[sha256sum] = "40b7e91f8263552b64d0f9beff33150291b086618ce498c71bf10035e48c7c7f"
- 
- DEPENDS += "librsvg-native"
- 
+diff --git a/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch b/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
+new file mode 100644
+index 0000000000..7b39dbd734
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
+@@ -0,0 +1,163 @@
++From 265b691ac440bfb711d8de323346f7d72e620efe Mon Sep 17 00:00:00 2001
++From: Filippo Valsorda <filippo@golang.org>
++Date: Thu, 12 Sep 2019 12:37:36 -0400
++Subject: [PATCH] [release-branch.go1.12-security] net/textproto: don't
++ normalize headers with spaces before the colon
++
++RFC 7230 is clear about headers with a space before the colon, like
++
++X-Answer : 42
++
++being invalid, but we've been accepting and normalizing them for compatibility
++purposes since CL 5690059 in 2012.
++
++On the client side, this is harmless and indeed most browsers behave the same
++to this day. On the server side, this becomes a security issue when the
++behavior doesn't match that of a reverse proxy sitting in front of the server.
++
++For example, if a WAF accepts them without normalizing them, it might be
++possible to bypass its filters, because the Go server would interpret the
++header differently. Worse, if the reverse proxy coalesces requests onto a
++single HTTP/1.1 connection to a Go server, the understanding of the request
++boundaries can get out of sync between them, allowing an attacker to tack an
++arbitrary method and path onto a request by other clients, including
++authentication headers unknown to the attacker.
++
++This was recently presented at multiple security conferences:
++https://portswigger.net/blog/http-desync-attacks-request-smuggling-reborn
++
++net/http servers already reject header keys with invalid characters.
++Simply stop normalizing extra spaces in net/textproto, let it return them
++unchanged like it does for other invalid headers, and let net/http enforce
++RFC 7230, which is HTTP specific. This loses us normalization on the client
++side, but there's no right answer on the client side anyway, and hiding the
++issue sounds worse than letting the application decide.
++
++Fixes CVE-2019-16276
++
++Change-Id: I6d272de827e0870da85d93df770d6a0e161bbcf1
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/549719
++Reviewed-by: Brad Fitzpatrick <bradfitz@google.com>
++(cherry picked from commit 1280b868e82bf173ea3e988be3092d160ee66082)
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/558776
++Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
++
++CVE: CVE-2019-16276
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/6e6f4aaf70c8b1cc81e65a26332aa9409de03ad8]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ src/net/http/serve_test.go       |  4 ++++
++ src/net/http/transport_test.go   | 27 +++++++++++++++++++++++++++
++ src/net/textproto/reader.go      | 10 ++--------
++ src/net/textproto/reader_test.go | 13 ++++++-------
++ 4 files changed, 39 insertions(+), 15 deletions(-)
++
++diff --git a/src/net/http/serve_test.go b/src/net/http/serve_test.go
++index 6eb0088a96..89bfdfbb82 100644
++--- a/src/net/http/serve_test.go
+++++ b/src/net/http/serve_test.go
++@@ -4748,6 +4748,10 @@ func TestServerValidatesHeaders(t *testing.T) {
++ 		{"foo\xffbar: foo\r\n", 400},                         // binary in header
++ 		{"foo\x00bar: foo\r\n", 400},                         // binary in header
++ 		{"Foo: " + strings.Repeat("x", 1<<21) + "\r\n", 431}, // header too large
+++		// Spaces between the header key and colon are not allowed.
+++		// See RFC 7230, Section 3.2.4.
+++		{"Foo : bar\r\n", 400},
+++		{"Foo\t: bar\r\n", 400},
++ 
++ 		{"foo: foo foo\r\n", 200},    // LWS space is okay
++ 		{"foo: foo\tfoo\r\n", 200},   // LWS tab is okay
++diff --git a/src/net/http/transport_test.go b/src/net/http/transport_test.go
++index 5c329543e2..5e5438a708 100644
++--- a/src/net/http/transport_test.go
+++++ b/src/net/http/transport_test.go
++@@ -5133,3 +5133,30 @@ func TestTransportIgnores408(t *testing.T) {
++ 	}
++ 	t.Fatalf("timeout after %v waiting for Transport connections to die off", time.Since(t0))
++ }
+++
+++func TestInvalidHeaderResponse(t *testing.T) {
+++	setParallel(t)
+++	defer afterTest(t)
+++	cst := newClientServerTest(t, h1Mode, HandlerFunc(func(w ResponseWriter, r *Request) {
+++		conn, buf, _ := w.(Hijacker).Hijack()
+++		buf.Write([]byte("HTTP/1.1 200 OK\r\n" +
+++			"Date: Wed, 30 Aug 2017 19:09:27 GMT\r\n" +
+++			"Content-Type: text/html; charset=utf-8\r\n" +
+++			"Content-Length: 0\r\n" +
+++			"Foo : bar\r\n\r\n"))
+++		buf.Flush()
+++		conn.Close()
+++	}))
+++	defer cst.close()
+++	res, err := cst.c.Get(cst.ts.URL)
+++	if err != nil {
+++		t.Fatal(err)
+++	}
+++	defer res.Body.Close()
+++	if v := res.Header.Get("Foo"); v != "" {
+++		t.Errorf(`unexpected "Foo" header: %q`, v)
+++	}
+++	if v := res.Header.Get("Foo "); v != "bar" {
+++		t.Errorf(`bad "Foo " header value: %q, want %q`, v, "bar")
+++	}
+++}
++diff --git a/src/net/textproto/reader.go b/src/net/textproto/reader.go
++index 2c4f25d5ae..1a5e364cf7 100644
++--- a/src/net/textproto/reader.go
+++++ b/src/net/textproto/reader.go
++@@ -493,18 +493,12 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader, error) {
++ 			return m, err
++ 		}
++ 
++-		// Key ends at first colon; should not have trailing spaces
++-		// but they appear in the wild, violating specs, so we remove
++-		// them if present.
+++		// Key ends at first colon.
++ 		i := bytes.IndexByte(kv, ':')
++ 		if i < 0 {
++ 			return m, ProtocolError("malformed MIME header line: " + string(kv))
++ 		}
++-		endKey := i
++-		for endKey > 0 && kv[endKey-1] == ' ' {
++-			endKey--
++-		}
++-		key := canonicalMIMEHeaderKey(kv[:endKey])
+++		key := canonicalMIMEHeaderKey(kv[:i])
++ 
++ 		// As per RFC 7230 field-name is a token, tokens consist of one or more chars.
++ 		// We could return a ProtocolError here, but better to be liberal in what we
++diff --git a/src/net/textproto/reader_test.go b/src/net/textproto/reader_test.go
++index f85fbdc36d..b92fdcd3c7 100644
++--- a/src/net/textproto/reader_test.go
+++++ b/src/net/textproto/reader_test.go
++@@ -188,11 +188,10 @@ func TestLargeReadMIMEHeader(t *testing.T) {
++ 	}
++ }
++ 
++-// Test that we read slightly-bogus MIME headers seen in the wild,
++-// with spaces before colons, and spaces in keys.
+++// TestReadMIMEHeaderNonCompliant checks that we don't normalize headers
+++// with spaces before colons, and accept spaces in keys.
++ func TestReadMIMEHeaderNonCompliant(t *testing.T) {
++-	// Invalid HTTP response header as sent by an Axis security
++-	// camera: (this is handled by IE, Firefox, Chrome, curl, etc.)
+++	// These invalid headers will be rejected by net/http according to RFC 7230.
++ 	r := reader("Foo: bar\r\n" +
++ 		"Content-Language: en\r\n" +
++ 		"SID : 0\r\n" +
++@@ -202,9 +201,9 @@ func TestReadMIMEHeaderNonCompliant(t *testing.T) {
++ 	want := MIMEHeader{
++ 		"Foo":              {"bar"},
++ 		"Content-Language": {"en"},
++-		"Sid":              {"0"},
++-		"Audio Mode":       {"None"},
++-		"Privilege":        {"127"},
+++		"SID ":             {"0"},
+++		"Audio Mode ":      {"None"},
+++		"Privilege ":       {"127"},
++ 	}
++ 	if !reflect.DeepEqual(m, want) || err != nil {
++ 		t.Fatalf("ReadMIMEHeader =\n%v, %v; want:\n%v", m, err, want)
 -- 
-2.21.0
+2.17.1
 
 
