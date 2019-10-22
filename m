@@ -1,50 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CBF3C7D19E
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 165C57F69D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 12:50:06 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id e11so9217820wrv.4
+	Tue, 22 Oct 2019 12:53:02 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id n15so7147023wrw.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 05:50:08 -0700 (PDT)
+	Tue, 22 Oct 2019 05:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=eR+VZ2dHdlcgHlVu3Mi8o5OAAZT4YHQUAN6hNl7/PhM=;
-	b=iWymtny4fUpSjaOmxDGEj+t3+B0tGG5/jmgEkKZujaFHcLwBxyzMLJf0NEiiCfCHZd
-	TzrCdgFQ6y0X25VHwdvEoxrETModvgTgVp/XHvxKX4ZtaIQLDWxGDbX3ir5bR4/7++hO
-	XlQOUc05Q5gF0pb0nO6B7jWScNZHn7/mgN1lM=
+	bh=Xfku6JruwTrvkZnCvr8qzfbpq2/L2wDrrFh1KzPdAjo=;
+	b=iLJ260BCDwLbJCK2PheuAzGGgh+xoYo7Gw15CBxYixU98CQZtO1TiCfEqjF/W5k0y+
+	Vfwgiq24NQ7qnZNUoQsFT5WXL2c1qgw9SMEGE2WtC6vmVYuFry5dda7HSxFL1hdLufwL
+	VdtHlAX9zqdQwB4pKDo9h5jUZuZdukpGk8WlU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=eR+VZ2dHdlcgHlVu3Mi8o5OAAZT4YHQUAN6hNl7/PhM=;
-	b=qx1CglTRNtCyz6MZ/h0imXulGODJGkRh1d6bC4y/r4GOTjrkbDIuZ8vvNv3LMJSmz/
-	/LGB83iTFny67N6c1Q/F/zQkgsK6lza0JdM9DBHwPc5n0TKjs/n31yhmIN2xumdhbrlZ
-	ZJklL3KRDzo8bBa8sok15xVvcytTkqhocwIxltPpySzadw77Ro//gsFzJh4ycN8NjfU+
-	4RHmSQZXatI0ItwYzaxc+/hroscYeplnE/6GAzqfBwcwuDN3Me/mYkdQicUc9hm6l6Xq
-	2z4NPlGB4BTENjv0X1SIaq/jtjeMN3WK/fA1KXhJXJo66o0b7ZK3YlTRVdmiD1NeKrng
-	J64w==
-X-Gm-Message-State: APjAAAXJ9dDf5QIsk8Z33/GMvcEflTNaeJ7E6dpQbX6ZfYB9rz8OlvvO
-	cpS5AIqyNdnqHF0IukE5A+1pR2Z00gM=
-X-Google-Smtp-Source: APXvYqyQGafRN8cFVSJaAwMk8T7s1vgNQqeC3+6lC3PXoWiB4GJeud8EcRdbWEr0YL7OMKs+7t5XiA==
-X-Received: by 2002:a5d:6585:: with SMTP id q5mr3663354wru.74.1571748607371;
-	Tue, 22 Oct 2019 05:50:07 -0700 (PDT)
+	bh=Xfku6JruwTrvkZnCvr8qzfbpq2/L2wDrrFh1KzPdAjo=;
+	b=RcS0amncTE5VXTSa8tszFalmbGB6OQ/Y0zGD0sVrONS/nn5H6meR+UIneNLCV2Xxy4
+	F2qJGcxdA8UpMG2AschQ9v816V/B+H2mtd96HnriYGnTg+j49cTaOdDtDA2WFuidOYN1
+	tgrOPUZDtQMG0n9Poezfscvocb8KwJa9weIKo5brNIjwImnI6QjVvyTBfQLLRnLELfyB
+	CDlEvgRBIoHh3IEqJN7C7E/2ekSjtesjVX5s/Eo6Ojbek9kvF5hobTpA3f56jxekhC5F
+	16nUXqMcIoSWdRseXltW9pMSEVTvIztQIKGZRyVvmpgk45VJ/tfJgD/IKf+MAAjLfEjn
+	/adQ==
+X-Gm-Message-State: APjAAAXgPeaHDrLCZ9Ff5AoLLdYgcE5x/Jt3rve45G4cOFSIoG+1X6yZ
+	/sTBtqV5d8rhvlG6ugm+dF5WtRbTiN8=
+X-Google-Smtp-Source: APXvYqyyI9mllAdJxjoJHYT7Deol5UzMc2aqX3Z1O8pFZKtiNtcUeHijroCQnGZCVs7twHy5D0vsrg==
+X-Received: by 2002:adf:f90f:: with SMTP id b15mr3410326wrr.76.1571748783713; 
+	Tue, 22 Oct 2019 05:53:03 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	j22sm21580157wrd.41.2019.10.22.05.50.05
+	s10sm11516211wrn.46.2019.10.22.05.53.02
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 22 Oct 2019 05:50:06 -0700 (PDT)
-Message-ID: <3fa389507f352aab06a4e084039e0bcf68bde9b1.camel@linuxfoundation.org>
+	Tue, 22 Oct 2019 05:53:02 -0700 (PDT)
+Message-ID: <3accc96ca5ddaf4240f535f655ca8d89a314dc1d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2019 13:50:05 +0100
-In-Reply-To: <20191004142027.27324-1-bunk@stusta.de>
-References: <20191004142027.27324-1-bunk@stusta.de>
+To: Dan Callaghan <dan.callaghan@opengear.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 22 Oct 2019 13:53:01 +0100
+In-Reply-To: <20191015224456.22136-1-dan.callaghan@opengear.com>
+References: <20191015061510.21803-1-dan.callaghan@opengear.com>
+	<20191015224456.22136-1-dan.callaghan@opengear.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] coreutils: Move stdbuf into an own package coreutils-stdbuf
+Subject: Re: [PATCH v3] elfutils: add PACKAGECONFIG for compression algorithms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,55 +59,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2019 12:50:07 -0000
+X-List-Received-Date: Tue, 22 Oct 2019 12:53:03 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-10-04 at 17:20 +0300, Adrian Bunk wrote:
-> This LD_PRELOAD trick is not really suitable for busybox,
-> so can be the only part of coreutils needed.
+On Wed, 2019-10-16 at 08:44 +1000, Dan Callaghan wrote:
+> Elfutils has optional support for bzip2 and xz (lzma). It uses
+> this for decompressing embedded ELF sections like the .gnu_debugdata
+> section for "mini debuginfo":
 > 
-> coreutils depends on the new package,
-> so nothing changes when installing coreutils.
+> https://sourceware.org/gdb/onlinedocs/gdb/MiniDebugInfo.html
 > 
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> Previously this support was unconditionally disabled but the reasons for
+> disabling them seem to no longer apply. Both the target and native
+> variants of elfutils can build successfully against both bzip2 and xz.
+> 
+> Signed-off-by: Dan Callaghan <dan.callaghan@opengear.com>
 > ---
->  meta/recipes-core/coreutils/coreutils_8.31.bb | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  meta/recipes-devtools/elfutils/elfutils_0.177.bb | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> index 4a74f619af..cfeb42d579 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> @@ -49,7 +49,7 @@ bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname
->                  env expand expr factor fmt fold groups head hostid id install \
->                  join link logname md5sum mkfifo nl nohup nproc od paste pathchk \
->                  pinky pr printf ptx readlink realpath runcon seq sha1sum sha224sum sha256sum \
-> -                sha384sum sha512sum shred shuf sort split stdbuf sum tac tail tee test timeout \
-> +                sha384sum sha512sum shred shuf sort split sum tac tail tee test timeout \
->                  tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
+> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.177.bb b/meta/recipes-devtools/elfutils/elfutils_0.177.bb
+> index 78c3791936..f050577c0d 100644
+> --- a/meta/recipes-devtools/elfutils/elfutils_0.177.bb
+> +++ b/meta/recipes-devtools/elfutils/elfutils_0.177.bb
+> @@ -3,7 +3,7 @@ HOMEPAGE = "https://sourceware.org/elfutils"
+>  SECTION = "base"
+>  LICENSE = "GPLv2 & LGPLv3+ & GPLv3+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+> -DEPENDS = "libtool bzip2 zlib virtual/libintl"
+> +DEPENDS = "libtool zlib virtual/libintl"
+>  DEPENDS_append_libc-musl = " argp-standalone fts musl-obstack "
+>  # The Debian patches below are from:
+>  # http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.176-1.debian.tar.xz
+> @@ -46,8 +46,15 @@ SRC_URI[sha256sum] = "fa489deccbcae7d8c920f60d85906124c1989c591196d90e0fd668e3dc
 >  
->  # hostname gets a special treatment and is not included in this
-> @@ -58,6 +58,10 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd echo false hostname kill l
+>  inherit autotools gettext ptest
 >  
->  sbindir_progs= "chroot"
->  
-> +PACKAGE_BEFORE_PN += "${PN}-stdbuf"
-> +FILES_${PN}-stdbuf = "${bindir}/stdbuf ${libdir}/${PN}/libstdbuf.so"
-> +RDEPENDS_${PN} += "${PN}-stdbuf"
+> -EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
+> -EXTRA_OECONF_append_class-native = " --without-bzlib"
+> +EXTRA_OECONF = "--program-prefix=eu-"
 > +
->  # Let aclocal use the relative path for the m4 file rather than the
->  # absolute since coreutils has a lot of m4 files, otherwise there might
->  # be an "Argument list too long" error when it is built in a long/deep
+> +DEPENDS_BZIP2 = "bzip2-replacement-native"
+> +DEPENDS_BZIP2_class-target = "bzip2"
+> +
+> +PACKAGECONFIG ??= "bzip2"
+> +PACKAGECONFIG[bzip2] = "--with-bzlib,--without-bzlib,${DEPENDS_BZIP2}"
+> +PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
+> +
+>  RDEPENDS_${PN}-ptest += "libasm libelf bash make coreutils ${PN}-binutils"
+>  
+>  EXTRA_OECONF_append_class-target += "--disable-tests-rpath"
 
-This seems to break core-utils-native:
+Breaks nativesdk-elftutils:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/39/builds/1157
+https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/1157
 
-(can be seen with a world build attempt)
+Probably need to do:
+
+DEPENDS_BZIP2 = "bzip2"
+DEPENDS_BZIP2_class-native = "bzip2-replacement-native"
+
+
+but I still think the default should be bzip2 off for -native unless
+someone can tell me why we need it. That would mean adding something
+like:
+
+PACKAGECONFIG_class-native ??= ""
 
 Cheers,
 
 Richard
+
 
 
