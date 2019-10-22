@@ -1,48 +1,46 @@
 Return-Path: <crg7475@mailbox.org>
-X-Greylist: delayed 408 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 22 Oct 2019 15:06:26 UTC
 Received: from mx2a.mailbox.org (mx2a.mailbox.org [80.241.60.219])
-	by mail.openembedded.org (Postfix) with ESMTP id 23CA57F72C
+	by mail.openembedded.org (Postfix) with ESMTP id 386D17F733
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 22 Oct 2019 15:06:26 +0000 (UTC)
 Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by mx2a.mailbox.org (Postfix) with ESMTPS id 99500A01CC
+	by mx2a.mailbox.org (Postfix) with ESMTPS id BB309A35EC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 16:59:40 +0200 (CEST)
+	Tue, 22 Oct 2019 16:59:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
 	references:in-reply-to:message-id:date:date:subject:subject:from
-	:from:received; s=mail20150812; t=1571756379; bh=3WBDPpuMR1NBlDW
-	ffDc8ClfH0NbO2wJ1+TC2gmxPln4=; b=jHdbZrVvOb2/56/nf4dTg9QFO7TGsvU
-	zBNlMXNrQkuOgKaHakQ8Y7wfRoo9MNx8h8zLVlHKtytbkpkwOsqlAqI6av+YtTYI
-	7pC85s2aj3fzyky4VsqfI0g+eH/jLFXdnnKQE0q4qdvu/DweyO8jH2AQIyM5f+m/
-	jHcagXF3ghqKMDPDTYkZSWfpu6c1KXTCE0XOEwRkGgueNt1DTFHOTp2QQZWVGTKs
-	FQT/szqUAF9laTYTvst1KuTbWKD4DeK2r7DFUULFBE4OkX5tFfIHLH9F9VLkBjIp
-	5r5h4aVwGX+Z6o+MQ6ujsh60jEXssaEO0WE/HTXndFEtDWgNYKpIT9w==
+	:from:received; s=mail20150812; t=1571756378; bh=+Wd/cRbYOd2q7bw
+	AhAO9UDJxZkO5GGRTIxJbSgUg6lk=; b=KzKZVGxOspRGGvL5XWOL1yFU3Ai3sIj
+	LSHYnlWX5CuqK25goZYu1ci2ZATOsJxfmWS+4QkwWtuImklY4vwBw/STlOXqUFVh
+	WZbIYMjvCTznZqI/V5IHc2vNtHXllouAn5lzJE/l3HXZ+X1a1Qvhrc+TViOT2l0E
+	hMoQ2K9qTJthmKfSsXa27Z7sIDM2cckklX9ervb6SAOlQxAAa+e1tbBNAuy8BVcE
+	ejX5RPVrV79nfEsG+6FV2LrmcbSDOnQQJUDRt5K+m16B3RNCcH+YwBp1hMAJu/tW
+	pSMxtiGI8N6v2CZOWY79LI/11EdB+IvqTI6Cl64MP3m3kySYM/DU33g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
 	s=mail20150812; t=1571756380;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:in-reply-to:in-reply-to:references:references;
-	bh=bP2ZHmp8YpBgFIfl2LG+64Id3ELspuZsJ6tXoTkQeck=;
-	b=Is+KYLrAGlHbJB+PzjTuQVRIDIXUNiD15sqr/mOXLEOI9XhCklzMPCOs8rX1gnqWDpagMk
-	GRrZdq7ih3dUvFvKwDuxtqFkE6J+HHryb+iGv2NFz0FstUzIswmI6dWv6GPTMU55nNnKuZ
-	NCnhPNZGIUMmyyKknSYhhSdGLavfgZdbatqQk3v/YKkg+MO4Cb6WFePy1vIwJlAH+ZQIVa
-	cZ8wAvFcs16JoiZVD+QYi2CgTt5zfClLWfFbdcTbi15EdNVR5pl6V5XJWN7YV/aXtznVeN
-	PXuf6zMYJkr3szd6yWc3P+o1Y0o9aUhnwKwcebfOjIaQkBKYTeJ/04arcsPFrQ==
+	bh=GI9uZXleRwV9hdmEsKF14yKlUNNfJu6Uvr+kpAXyxR8=;
+	b=dsEWskx3Y0Iu2JNa8r9D376d+AQVKVGTmPPS9a2ijJ7tzoFHs2EEAIXGANhRRjLdIO91e8
+	axwY25k/2m4QxQRyG0+i64d8vScoyyr92+lozUBLIt3gUTexFiroNJSm2BuNOtl1HQrxLA
+	SIzshvcO3BTPsJAFCjuhMbLoBZzGvAfvn6vkPxQehTzvwvcREWBItFireAyMHI/nxIGFgn
+	jvOa5itAoMSMy6fTwVYpndO2aaQnCsb0gThaIn26Mnf9bf8Ayv9X57X6WXyF+ZuBmQd10c
+	6QYvHOgJavJnKladBIDJvtuE8/3psQ3I3ncSE87nS53PGgRACkMqOef9/kIATA==
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp2.mailbox.org ([80.241.60.241])
-	by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de
-	[80.241.56.125]) (amavisd-new, port 10030) with ESMTP id r5xieBC4Nv-v
+	by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de
+	[80.241.56.123]) (amavisd-new, port 10030) with ESMTP id 1yeBHz1ea6em
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 16:59:39 +0200 (CEST)
+	Tue, 22 Oct 2019 16:59:38 +0200 (CEST)
 From: Carlos Rafael Giani <crg7475@mailbox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2019 16:59:21 +0200
-Message-Id: <20191022145927.1241-6-crg7475@mailbox.org>
+Date: Tue, 22 Oct 2019 16:59:18 +0200
+Message-Id: <20191022145927.1241-3-crg7475@mailbox.org>
 In-Reply-To: <20191022145927.1241-1-crg7475@mailbox.org>
 References: <20191022145927.1241-1-crg7475@mailbox.org>
-Subject: [PATCH 06/12] gstreamer1.0-libav: upgrade to version 1.16.1
+Subject: [PATCH 03/12] gstreamer1.0-plugins-good: upgrade to version 1.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,76 +55,134 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 22 Oct 2019 15:06:26 -0000
 
-Removed gtkdoc-no-tree.patch since its changes are now included in 1.16.1
+* 0001-scaletempo-Advertise-interleaved-layout-in-caps-temp.patch
+* headerfix.patch
+  Removed since these changes are already included in 1.16.1
 
 Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ---
- .../gstreamer1.0-libav/gtkdoc-no-tree.patch   | 35 -------------------
- ...1.16.0.bb => gstreamer1.0-libav_1.16.1.bb} |  5 ++-
- 2 files changed, 2 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/gtkdoc-no-tree.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.16.0.bb => gstreamer1.0-libav_1.16.1.bb} (94%)
+ ...tise-interleaved-layout-in-caps-temp.patch | 37 ----------------
+ .../gstreamer1.0-plugins-good/headerfix.patch | 43 -------------------
+ ...bb => gstreamer1.0-plugins-good_1.16.1.bb} |  6 +--
+ 3 files changed, 2 insertions(+), 84 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-scaletempo-Advertise-interleaved-layout-in-caps-temp.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/headerfix.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.16.0.bb => gstreamer1.0-plugins-good_1.16.1.bb} (92%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/gtkdoc-no-tree.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/gtkdoc-no-tree.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-scaletempo-Advertise-interleaved-layout-in-caps-temp.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-scaletempo-Advertise-interleaved-layout-in-caps-temp.patch
 deleted file mode 100644
-index a36fdc9a14..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/gtkdoc-no-tree.patch
+index caa080c8e7..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-scaletempo-Advertise-interleaved-layout-in-caps-temp.patch
 +++ /dev/null
-@@ -1,35 +0,0 @@
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
+@@ -1,37 +0,0 @@
+-From aadfa5f20f53601785e417fe3fcbe6d574880988 Mon Sep 17 00:00:00 2001
+-From: Philippe Normand <philn@igalia.com>
+-Date: Tue, 23 Apr 2019 10:10:01 +0100
+-Subject: [PATCH] scaletempo: Advertise interleaved layout in caps templates
 -
--From 6f720cebe632d7dc187c6907857d67ce1f7313d6 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Mon, 9 Sep 2019 22:48:49 +0100
--Subject: [PATCH] docs: don't include the type hierarchy
+-Scaletempo doesn't support non-interleaved layout. Not explicitely stating this
+-would trigger critical warnings and a caps negotiation failure when scaletempo
+-is used as playbin audio-filter.
 -
--gtk-doc can't generate a type hierarchy when scanning gst-libav, and gtk-doc
--1.30 onwards doesn't write a file if there is no type hierarchy (unlike previous
--releases, which wrote an empty file).  This results in the build failing with
--gtk-doc 1.30 onwards, so remove the type hierarchy section from the
--documentation as it doesn't serve any purpose.
+-Patch suggested by George Kiagiadakis <george.kiagiadakis@collabora.com>.
 -
--Fixes https://gitlab.freedesktop.org/gstreamer/gst-libav/issues/57
+-Fixes #591
+-Upstream-Status: Backport [merged, on track for 1.16.1.]
 ----
-- docs/plugins/gst-libav-plugins-docs.sgml | 5 -----
-- 1 file changed, 5 deletions(-)
+- gst/audiofx/gstscaletempo.c | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
 -
--diff --git a/docs/plugins/gst-libav-plugins-docs.sgml b/docs/plugins/gst-libav-plugins-docs.sgml
--index 75c68f4..f68d554 100644
----- a/docs/plugins/gst-libav-plugins-docs.sgml
--+++ b/docs/plugins/gst-libav-plugins-docs.sgml
--@@ -32,9 +32,4 @@
--     <title>gst-libav Plugins</title>
--     <xi:include href="xml/plugin-libav.xml" />
--   </chapter>
---
---  <chapter>
---    <title>Object Hierarchy</title>
---    <xi:include href="xml/tree_index.sgml" />
---  </chapter>
-- </book>
+-diff --git a/gst/audiofx/gstscaletempo.c b/gst/audiofx/gstscaletempo.c
+-index 3a719719a..83ee8fe24 100644
+---- a/gst/audiofx/gstscaletempo.c
+-+++ b/gst/audiofx/gstscaletempo.c
+-@@ -93,9 +93,9 @@ enum
+- 
+- #define SUPPORTED_CAPS \
+- GST_STATIC_CAPS ( \
+--    GST_AUDIO_CAPS_MAKE (GST_AUDIO_NE (F32)) "; " \
+--    GST_AUDIO_CAPS_MAKE (GST_AUDIO_NE (F64)) "; " \
+--    GST_AUDIO_CAPS_MAKE (GST_AUDIO_NE (S16)) \
+-+    GST_AUDIO_CAPS_MAKE (GST_AUDIO_NE (F32)) ", layout=(string)interleaved; " \
+-+    GST_AUDIO_CAPS_MAKE (GST_AUDIO_NE (F64)) ", layout=(string)interleaved; " \
+-+    GST_AUDIO_CAPS_MAKE (GST_AUDIO_NE (S16)) ", layout=(string)interleaved" \
+- )
+- 
+- static GstStaticPadTemplate sink_template = GST_STATIC_PAD_TEMPLATE ("sink",
 --- 
--2.22.0
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb
-index d2629b506d..d3918cfcb8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb
-@@ -18,10 +18,9 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz
-            file://mips64_cpu_detection.patch \
-            file://0001-configure-check-for-armv7ve-variant.patch \
-            file://0001-fix-host-contamination.patch \
--           file://gtkdoc-no-tree.patch \
-            "
--SRC_URI[md5sum] = "e3a201a45985ddc1327cd496046ca818"
--SRC_URI[sha256sum] = "dfac119043a9cfdcacd7acde77f674ab172cf2537b5812be52f49e9cddc53d9a"
-+SRC_URI[md5sum] = "58023f4c71bbd711061e350fcd76c09d"
-+SRC_URI[sha256sum] = "e8a5748ae9a4a7be9696512182ea9ffa6efe0be9b7976916548e9d4381ca61c4"
+-2.20.1
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/headerfix.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/headerfix.patch
+deleted file mode 100644
+index 34d25a0a49..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/headerfix.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-Things break with overlapping defines between glib and gstreamer with glibc 2.30.
+-
+-Discussion in the link below, basically internal __ prefixed variables 
+-shouldn't be redefined.
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/issues/635]
+-RP 2019/8/6
+-
+-Index: gst-plugins-good-1.16.0/sys/v4l2/ext/types-compat.h
+-===================================================================
+---- gst-plugins-good-1.16.0.orig/sys/v4l2/ext/types-compat.h
+-+++ gst-plugins-good-1.16.0/sys/v4l2/ext/types-compat.h
+-@@ -24,29 +24,6 @@
+- #ifndef __TYPES_COMPAT_H__
+- #define __TYPES_COMPAT_H__
+- 
+--/* From linux/types.h */
+--#ifndef __bitwise__
+--#  ifdef __CHECKER__
+--#    define __bitwise__ __attribute__((bitwise))
+--#  else
+--#    define __bitwise__
+--#  endif
+--#endif
+--
+--#ifndef __bitwise
+--#  ifdef __CHECK_ENDIAN__
+--#    define __bitwise __bitwise__
+--#  else
+--#    define __bitwise
+--#  endif
+--#endif
+--
+--#define __u64 guint64
+--#define __u32 guint32
+--#define __u16 guint16
+--#define __u8 guint8
+--#define __s64 gint64
+--#define __s32 gint32
+--#define __le32 guint32 __bitwise
+-+#include <linux/types.h>
+- 
+- #endif /* __TYPES_COMPAT_H__ */
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
+similarity index 92%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.0.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
+index 5751467db1..21d2b2bb7f 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
+@@ -2,13 +2,11 @@ require gstreamer1.0-plugins.inc
  
- S = "${WORKDIR}/gst-libav-${PV}"
+ SRC_URI = " \
+             http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
+-            file://0001-scaletempo-Advertise-interleaved-layout-in-caps-temp.patch \
+             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+-            file://headerfix.patch \
+             "
+ 
+-SRC_URI[md5sum] = "d1a7b442994d9522418de4af4330e034"
+-SRC_URI[sha256sum] = "654adef33380d604112f702c2927574cfc285e31307b79e584113858838bb0fd"
++SRC_URI[md5sum] = "515987ee763256840a11bd8ea098f2bf"
++SRC_URI[sha256sum] = "9fbabe69018fcec707df0b71150168776040cde6c1a26bb5a82a136755fa8f1f"
+ 
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
  
 -- 
 2.17.1
