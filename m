@@ -1,46 +1,46 @@
 Return-Path: <crg7475@mailbox.org>
 Received: from mx2a.mailbox.org (mx2a.mailbox.org [80.241.60.219])
-	by mail.openembedded.org (Postfix) with ESMTP id 01EF87F73D
+	by mail.openembedded.org (Postfix) with ESMTP id 05AF57F745
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 22 Oct 2019 15:06:27 +0000 (UTC)
 Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by mx2a.mailbox.org (Postfix) with ESMTPS id C9BA8A356C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 16:59:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
-	references:in-reply-to:message-id:date:date:subject:subject:from
-	:from:received; s=mail20150812; t=1571756379; bh=4iC82nJTVXcRYhu
-	S2gCNBABKFwfZ+IqMdrHRBuJ3y08=; b=k1GuLRXRjCbBEuT+iXz5NEeUhXXSX+l
-	BomN5ORHWhl6slzJybpG80OyduvnCMejsIocZkVHTNaZGudyrIKsc3P6mTDxcWsh
-	i1YNmQQdCa9oYO7/8iKQzl/41LAeyFTjIYoLOTq7m+d99sKkDTuYfSFxRYQAT0TA
-	rWyZ6aVZQbeYJq0keZXJgdox5sqFyZrMb2T6c/MlBFFunySxr2SQoqoxU0CoWxR1
-	duBh5X0P7Xz0R33+DL7cw5/XyRw9nCs1u2KUUGknPYoxrGDNFzovoaLcTxhjyNWu
-	tTZZ/Hk3rNId/vsDrXnNWLm7i/F3ny6HHnfpl8JdcrrueZLMNN+Za/Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
-	s=mail20150812; t=1571756380;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:in-reply-to:in-reply-to:references:references;
-	bh=jiGnJzRMj5ifvCqqCe0G/Ahtkp08wUKZbE5bQXn2+JY=;
-	b=H3q0abZtLrmyfXVDrklP8H0atfZpefA0mPLKFVtupZpLqx1rMcKDuDKrkA9qQxMIP2YpFj
-	LbUoWubXTVT3QPpKVPbblLpCa8CczJA1H2mf3qnkoQ1WE93UsS0eOB/xvNVbWyRQOn0tDC
-	mnV9IKMR+MZ2ZBgkX7wfBr1Kj1b5G0hesqKWkHxTC/ctj4ZbRg3pZFuznwZhjNGqUPoKI5
-	xH9b3/kyPR/96+dWRrtP8e+UsU9rXF6G2L4b1relA73WyCsXbC4qCRe1a+cngFO2q9xkGc
-	E7j48hcM3Renv5WzUKZxAMYTsJC/Ueev9fl8pyyJnuev2L6wqgbrQQLRJi2NyA==
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-	by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de
-	[80.241.56.122]) (amavisd-new, port 10030) with ESMTP id MJY3c7L9kclW
+	by mx2a.mailbox.org (Postfix) with ESMTPS id 03002A345A
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 22 Oct 2019 16:59:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+	references:in-reply-to:message-id:date:date:subject:subject:from
+	:from:received; s=mail20150812; t=1571756378; bh=SF12jUJyOuR/l/u
+	BuSTrFA7TFOBhBixkyMdtpMj6FKo=; b=LK/dxPhYWh3ddyx+EJuwJPqB8eZ59ws
+	/ylInZu77aw785O2zWczRdn6rVCC4P4T78RkULlDoLHhTVs/agNqZztmUoXYeC06
+	H6tLxKnctGVQzSZ6wUgPUW6NgmEakl71K4s8YfYXdf9BWrqhNfjSyYUJbAMGxmRz
+	dD8wFBaFxSGe9so3PdWJJHhblCcU/rdmQYg8heS4Rk5zYGZGcbxbmwJzyeU0/KV0
+	qIlp7taWGZXSamtrXpCeD/LNvVDGArQmdqKOlMGlUSvBFEE2W0NF36mu2YKFOYVG
+	Oz8jteCZdoJRSUjdzMbSHjDBfRfCwvWodjmP7t69hSILCM9U1dYfVSA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+	s=mail20150812; t=1571756379;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:in-reply-to:in-reply-to:references:references;
+	bh=OQuckCwoExf8zb/nwfzX6BOZC8b8FsWtNR0wtxNxOTk=;
+	b=vzoOYd1si/QC+FQiI5ial6M4b5WcV5eybgQXE0GqmQF0x+1CoKYu79n1HHamG4lky0senq
+	fpPcB7v1iAJswdrQTnp6r6Une/cbFiAaFKT/KurTP5KgNMp63zUJtUdzB55k+rclMVgAki
+	0wiyHHf9j+PFjQXk2LqZm2x9Ea2eOWvqT3l3AdcMRfqJuNP5KSWd69KtU4K1Ma8eIltKPz
+	7hKCDvS/kWEzM9z8zg6RN8Z8SLfup3Z8HTyETiExL7i163EOHxVpWI7ATBxgbsxIkDfzOx
+	WUKk+xDpSym/cWaeJU/otWaisRbE4Nouk6uq82v0I1jjR3Y89WyImnW/U7lzVQ==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+	by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de
+	[80.241.56.117]) (amavisd-new, port 10030) with ESMTP id dvY1MN3vIfYY
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Oct 2019 16:59:38 +0200 (CEST)
 From: Carlos Rafael Giani <crg7475@mailbox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2019 16:59:22 +0200
-Message-Id: <20191022145927.1241-7-crg7475@mailbox.org>
+Date: Tue, 22 Oct 2019 16:59:19 +0200
+Message-Id: <20191022145927.1241-4-crg7475@mailbox.org>
 In-Reply-To: <20191022145927.1241-1-crg7475@mailbox.org>
 References: <20191022145927.1241-1-crg7475@mailbox.org>
-Subject: [PATCH 07/12] gstreamer1.0-vaapi: upgrade to version 1.16.1
+Subject: [PATCH 04/12] gstreamer1.0-plugins-bad: upgrade to version 1.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +57,28 @@ X-List-Received-Date: Tue, 22 Oct 2019 15:06:27 -0000
 
 Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ---
- ...reamer1.0-vaapi_1.16.0.bb => gstreamer1.0-vaapi_1.16.1.bb} | 4 ++--
+ ...ugins-bad_1.16.0.bb => gstreamer1.0-plugins-bad_1.16.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.0.bb => gstreamer1.0-vaapi_1.16.1.bb} (93%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.16.0.bb => gstreamer1.0-plugins-bad_1.16.1.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb
-similarity index 93%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb
-index e5dfb61241..61cf705fd8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb
-@@ -13,8 +13,8 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.x
-            file://0001-vaapsink-downgrade-to-marginal.patch \
-            "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.0.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
+index f9289e92d2..4330c797a2 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
+@@ -8,8 +8,8 @@ SRC_URI = " \
+     file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+ "
+-SRC_URI[md5sum] = "e9e562d86c1527c44d904500dd35e326"
+-SRC_URI[sha256sum] = "22139de35626ada6090bdfa3423b27b7fc15a0198331d25c95e6b12cb1072b05"
++SRC_URI[md5sum] = "24d4d30ecc67d5cbc77c0475bcea1210"
++SRC_URI[sha256sum] = "56481c95339b8985af13bac19b18bc8da7118c2a7d9440ed70e7dcd799c2adb5"
  
--SRC_URI[md5sum] = "8c3f9ee3e47cbdb75a94f7183460b721"
--SRC_URI[sha256sum] = "4e7fce626ee0590dca74b5a8341d25bac76307945131a970b414fc5895f5171f"
-+SRC_URI[md5sum] = "15b08f76777359d87b0b4a561db05f1f"
-+SRC_URI[sha256sum] = "cb570f6f1e78cb364fbe3c4fb8751824ee9db0c942ba61b62380b9b5abb7603a"
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
  
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.17.1
 
