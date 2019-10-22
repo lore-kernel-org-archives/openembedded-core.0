@@ -1,59 +1,57 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 292046C0E5
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 175157E730
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 06:38:55 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id z12so12089367lfj.9
+	Tue, 22 Oct 2019 07:31:08 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id c11so10106244iom.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2019 23:38:56 -0700 (PDT)
+	Tue, 22 Oct 2019 00:31:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:from:to:references:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=/j2tOUtNgum4NclV0EJaerlry2nfD7NCQrsXsBDzhUs=;
-	b=PwQf0NF8ZBX6dKADww36KOBFQHLNoZ5Z5qpbIAKIYpYdVjWZ6tfjwa1kI38aI3qBMC
-	aigbgBZHgItyJ3jp8zj6gm3KJJ7Hw1WNpZcIUFQ3M8BTBMttGNsRAl1c2AYRp4uKK2a1
-	hSJaX5nfrYVu7ALSjc0EU7+s5YmUIQrvuNryZrtYdza5Z6YIZvxuWmwpOSDlySoaJeQK
-	M8co+E7VkxqvuvgIk5iJxMQaQCSZihNr/51zedjcYSDSrJNA0AJHXH9hOhNKPWKgKM9/
-	4yNy5baWvacoXfYWgIc7YGqOUEZDDxdS0FqlFCrE7uLkEJujSpvzKtLYpBfjHD0MaXKY
-	lX2Q==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=c+432AzdDSNB9HhMXj/vx6dsn2OXr31Cll+qQ8L/wlY=;
+	b=YcyiUu5tHrleBwgmoK/MV8oEVdBEZPwfCGehz5hmijX1a7PSx7AEEsUawr5wwzQTqm
+	d5SgvM+BoZouJkE2xOFk1xC2tQ8LPU/3zIAMqZ2+jhdSELwzFQyeXilC/lGvs6l9UUIX
+	NUWmyRgc0KFW3ldGippWxpSucULRf2CsoV9VBCc5sdvko2k4C6AslVx4EmQQOhQgGzPF
+	10dQBonQR9siM2SuiSy2f0+jn8C9Qr0w7COjyLvh0WDKO880iI6JJev8vOxIF3N3rfPu
+	PCrLdyrqdr66V5hk+WKKxPwRV1LPu5OVYjFy3iNy9nc+qDaK1ttWOzHAgwZLZ/PA+wdq
+	BggA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:from:to:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=/j2tOUtNgum4NclV0EJaerlry2nfD7NCQrsXsBDzhUs=;
-	b=FHIqz7+Ff+eOKogDFmq7GccpWUrZemK7HNTca1xWoIW2EOUDluNWVVh30AvaSuw16H
-	dn976ySMDoC2AOmHq1E8fo5R30xGfgTRPyL85uA5RqXc2lNWK6ZSKlpYPVwhvzZSCY6V
-	1QyW2I42j/H3Y4XQV7ErJfd5xnoSrfnNjX91yznSqQ5LLfHfvhh9GynMHALLYgjtrRj7
-	SOpTDj9n1gY3zeVl8IHnJ61JkPGShsDXYSeeyGL229QgGOKyBODnLtrRQWYvTX/vfRia
-	E4M8iL5YdjkH9oI968OpBwLiZTv+PkdvME6luY6w6wLQY8G0ZkYvtTfKZKj6tEqQPmUM
-	InAw==
-X-Gm-Message-State: APjAAAXHET+FKW5h5i+JmTsH4dN7l+G1gTlHNhM9bW1xydgjWPbJMrxT
-	vLkGpgcC7sLQQ2Es2Srr4tM=
-X-Google-Smtp-Source: APXvYqx0qt4GLmSC9I4CHsgYczwwQFaMS8PiBePR3AvolK1aFWSeFIbhlCzjbVNghLkxOuNqQcWIdA==
-X-Received: by 2002:ac2:5604:: with SMTP id v4mr11050878lfd.148.1571726335715; 
-	Mon, 21 Oct 2019 23:38:55 -0700 (PDT)
-Received: from [192.168.51.73] ([213.185.29.22])
-	by smtp.gmail.com with ESMTPSA id
-	t8sm12714475ljd.18.2019.10.21.23.38.53
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 21 Oct 2019 23:38:54 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>,
-	openembedded-core@lists.openembedded.org,
-	Joshua Watt <JPEW.hacker@gmail.com>
-References: <20190204031153.1348-1-jacob.kroon@gmail.com>
-	<CAJdd5GbA3MJ9KpbY81EkqfUvGwa8jZD7F8u-f+48NvKX9X+hsA@mail.gmail.com>
-	<b69b9906-0ab0-3d7d-7cc1-99dafbb37528@kernel.crashing.org>
-	<55271782-4edd-6591-3d5a-12bd071a0940@gmail.com>
-Message-ID: <b46b712e-b2a7-15b9-c79b-3262595f50dd@gmail.com>
-Date: Tue, 22 Oct 2019 08:38:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.1.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=c+432AzdDSNB9HhMXj/vx6dsn2OXr31Cll+qQ8L/wlY=;
+	b=Y0YqpIMuW92oIBtGFIKmTFU+t5SPAVsS2HLth0OcPCMAvWPOjB9nhm4/vV90Sw9Vd1
+	qO3DYMsrGGcImfTCTMVSpcNKdkJ3erHY5NVGIqQVV1FRKXDQqbsF4T7q2g0G2+eEHyhM
+	r4R8OYitSCEAWDK1996+R3KO9fpF/8UYZ6Vtf4O7I4B20IFKfkZiTGb2slM3r23brVcL
+	Phr2+XlyqQC9Qj0O/f/pgL+tF30juKw4XR+jIPpIK+qjfMT8LW12ZMlirfi7esciTRhK
+	fDp6h3po3Zp6tdWfD0KwKK5OCAL1vgQ6D9Hzh9Lgz06fJdE5q2108Cz1aQN0z79RMqQo
+	zOsw==
+X-Gm-Message-State: APjAAAVXaxCvsrR8AI5zC9o3p7ki9ZwEMNZIb66RL5sA/W6b98OHgEMK
+	aymL0sK0kskuGXMPWgTo/v9PeLB9xChVWPF8BfM=
+X-Google-Smtp-Source: APXvYqwDhaucBhlCFeEZHtQm+E1nVOwYnILr/OTsA4wsHynWoWDAVWy4fGZO3OSJ3IjqSwYmDtdc56zrbQdmvfaZees=
+X-Received: by 2002:a5d:884f:: with SMTP id t15mr2556391ios.224.1571729470097; 
+	Tue, 22 Oct 2019 00:31:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <55271782-4edd-6591-3d5a-12bd071a0940@gmail.com>
-Subject: Re: [PATCH v2] base-passwd: Add kvm group
+References: <20191011114754.91740-1-alex.kanavin@gmail.com>
+	<20191011114754.91740-16-alex.kanavin@gmail.com>
+	<dbf128cd95ea3d8017274ea57dda52a72ad727cb.camel@gmail.com>
+	<CAMKF1srnabEcWqWYa80uoCe1H=iw-wDPNut4hu4eRwuSQ1HaoQ@mail.gmail.com>
+	<CANNYZj8J-wr1V1+aNfbRGyQ+Lk+sofRX4rT1xudaCm67gVev3Q@mail.gmail.com>
+	<da2fa30bb8fed7f991ef14a4955a67ec15bc94a6.camel@linuxfoundation.org>
+	<CAMKF1sr8xy+bW_UL_=B-nt7MG58bJj=WmB9VVZf5hxBqpXwPiQ@mail.gmail.com>
+	<311c58c4bbfdd575f4b0c3123d8f833482f580d1.camel@linuxfoundation.org>
+	<CALbNGRR7rL5TcRGiDgjW4-v8UrL7j3tcT86jio8_qTmZ2fBL-Q@mail.gmail.com>
+	<CALbNGRQFKf8CEqHpsfLMie=SZ4KBpsZ1kEL+R9kB6kAcE4C_+w@mail.gmail.com>
+In-Reply-To: <CALbNGRQFKf8CEqHpsfLMie=SZ4KBpsZ1kEL+R9kB6kAcE4C_+w@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Tue, 22 Oct 2019 09:30:58 +0200
+Message-ID: <CALbNGRQVZOFLjpsqDS8M3Yr3N0WrVTnCm3EmCMtVV5y5JT9sjw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 16/19] meson: update to 0.52.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,44 +64,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2019 06:38:55 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Oct 2019 07:31:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Forgot to mention, the number chosen for the kvm group, 47, I just 
-picked one of the available slots, no further reasoning behind that choice.
+On Sun, Oct 20, 2019 at 5:53 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
+> >
+> > As soon as I finished bisecting do_rootfs issue (reported) I will try
+> >
+> > * dconf-patch
+> > * dconf+meson patch
+> >
+> > and report.
+> >
+> > Thanks for taking care
+> >
+> Had to adjust the dconf-patch:
+>
+> * Here (and in master-next) we moved dconf 0.32 -> 0.34
+> * The SRC_URI has to go below inherit gnomebase otherwise it does not
+> cause effect.
+>
+> But very important result: dconf-patch only fixes dconf build!
+>
+> Will send out reworked version to meta-oe list
+>
+15K build tasks later:
 
-/Jacob
+Have build my images with both patches (meson/dconf): No fallout but
+more interesting: The do_rootfs [1] issue is gone and the meson patch
+was the only change I applied. Have no idea how meson affects qemu
+(did not build from scratch and qemu-native was rebuild due to
+dependencies). Whatever: Have a full build again \o/
 
-On 10/22/19 8:32 AM, Jacob Kroon wrote:
-> Hi Joshua, Mark,
-> 
->>> In general, I don't think we should be "patching in" users and groups
->>> like this to base-passwd. If upstream doesn't have them, they need to
->>> be added through the normal useradd.bbclass mechanism so that users of
->>> useradd-staticids can choose what ID they get mapped to.
->>>
->>> Is it possible to revert this and add the kvm group via the 
->>> useradd.bbclass?
->>>
->>>>
->>>>    udevd[<pid>]: specified group 'kvm' unknown
->>
->> As for this particular patch, why is adding a specific KVM group 
->> required?
->> Unless something is hardcoded in KVM to use group '47', a regular 
->> system type
->> useradd call should be done instead.  This would avoid the problem 
->> that Joshua
->> is experiencing.
->>
-> 
-> The groups "shutdown" and "input" were already patched in in the same 
-> way, so I figured that was the way to do it. But it sounds like you're 
-> pointing out that we can drop those three patches, and instead use 
-> useradd.bbclass in base-passwd recipe ? Sounds like a nice cleanup.
-> 
-> Cheers,
-> Jacob
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2019-October/=
+288091.html
+
+Andreas
 
