@@ -1,44 +1,49 @@
-Return-Path: <crg7475@mailbox.org>
-Received: from mx2a.mailbox.org (mx2a.mailbox.org [80.241.60.219])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C8507F690
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B64C97F69C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 15:06:27 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
-	[IPv6:2001:67c:2050:105:465:1:2:0])
-	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-	(No client certificate requested)
-	by mx2a.mailbox.org (Postfix) with ESMTPS id 2CD56A2684
+	Tue, 22 Oct 2019 19:24:46 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id 205so11251886pfw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 16:59:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
-	message-id:date:date:subject:subject:from:from:received; s=
-	mail20150812; t=1571756377; bh=oyeqiMUJhyT1hCVti3X+x0VaGVYJZnYWT
-	iJ9GFwYsU0=; b=YV3ukuZXfc2u7337lHlvAJZsd9rl0GRm7FN7K3747vdERnDNn
-	XrhRC1hgCrjzw1P5yNlGxcCNI2M/r+XY3cI+PP2etxR7zAKg05nk+TTC9ywZu3lC
-	CSI5+O+fksr81vEW2Pj7RSg14N+m1bcXQeeF0b4hrkMicH93Fpbq6HNrtNjTnqsn
-	NX9PN1b5W1/U5aKxKjVxQgT9UhaCTOcsDu3gS3cOy8pq0i3Iw7oEO/ZPxiqKnPH8
-	dxT429zs+d9SKGzPxDfBuQ+Tq1gWPWy3v5WE1E9RQFKi09SXBjhHJL+68u7fnuGM
-	XrWaR5oxg19kBrwQXH4oNZoymeMO/WDbbtTeQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
-	s=mail20150812; t=1571756379;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc; bh=G4p4QVwhCla8C2cHqcVC32q714T3A9MSpx6Vo3byBZ4=;
-	b=qfuLZdjUHbq53eNibYwFOIwmIybtw0VRO/cNg8rUbMBAR6/te8VALpJVjU9h4ZLREIMEfc
-	JKGe1wbhMfW5PfdQ0/9ariCVAFuvYufngO1Rj6rln8V2fhctPOQLl1u6rfCI42iwIX6lU3
-	1RjHQRjjx49J1ntVojqQrze5wNQ/YTg6GpAR+5aTb94fU+/2p2apVHRAwHenZYg4N+nH5H
-	csGUR9EIcPm/VM5+gjTR3c0v+nCDj+nkaIbfa4EYIhmoyXwMoM58zFvTE5toz2Z0Ks1SyY
-	nAgQyAP1HqNKF2A2EhP8FoaL0Pq9XJF1D2ZmwzUCtSUCvl2t42kfgUsRbrrqdA==
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-	by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de
-	[80.241.56.125]) (amavisd-new, port 10030) with ESMTP id JEMjWgGpy6L3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 16:59:37 +0200 (CEST)
-From: Carlos Rafael Giani <crg7475@mailbox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2019 16:59:16 +0200
-Message-Id: <20191022145927.1241-1-crg7475@mailbox.org>
-Subject: [PATCH 01/12] gstreamer1.0: upgrade to version 1.16.1
+	Tue, 22 Oct 2019 12:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=DYh6y/4f/ZzmdAB+aLXN83B+eqEAEOJlzzX4fkl1DlI=;
+	b=lqHTHHG0X+GmIc3fe9v1PRUDu9Pjza0ll2mmeuVVzkYl5KuRvJeBmfN+IMODHAe0Bk
+	5v4KjxxwlArlPR/qO9EkEhUQQzb29slmUteLneHIBX/BMTKeVh828RURt4aBeHMU97qG
+	/9EMdH3XqrYKiETRTlTvZg3ajpKRthnZ89ISt3wK93i3dCO6B6djvkSm2kDSwHHO2Y8t
+	z/BWwuMAW4bQFsElRz4mBOeLJnIg/0DtxURI4zF7WF+BgNcofS61aEVkM5YjcNgwaL61
+	fM5ScWpRr8/zo6BNwYr7DLCCAA2Ufj7NHdTPwK4OqCwsBOWQF/mzn/zOVVyx8kEONiV0
+	M6+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=DYh6y/4f/ZzmdAB+aLXN83B+eqEAEOJlzzX4fkl1DlI=;
+	b=GJ2u4NO7zpy+ppRuhRBNlm5bHUz529TodfKSiBY3jHWWlVlw6WR3wrrhtL/12C6NHe
+	y3Qp4zKPoThEfDUvzmvB1AlqJ0MAoBi655vQ9UgsmWpklpt8lVUZVVbbu4AbgCEyqxgY
+	BiR9ieasJlD1TNdyJyyhtYgIswR6ylYzqy5m23rsxa6lPo/TBdmD6fJg7WxT8U1SrZYq
+	6aabQl0RIhb531tIE+Yo8b1jQDzJn6Pha4yoDRNbMcB2qlSFZolAcBtsuO6SkRlrsYD8
+	LLBKDH2wn9U8qv0qH0NMN26mqBxTMi3seGEzEtsov8BSmlbBTP9YRxVwoQ4X3fO7x9J4
+	TaWQ==
+X-Gm-Message-State: APjAAAVjUOm1aodGIjcbOHYxilezfhjcdWrSS988Kan2isMcqjGYw8s8
+	dBUUoZlmktxNWrBWX3fDeLE3+So76AA7S1AEaRJ6HAKA
+X-Google-Smtp-Source: APXvYqwQ0v0codnuIhA29pbqOSJWGiH21Wyh3IXr0m/ZBAGhjPqcHH+fdjV2a72TTT7JhpY6pJ0rFYr8J3lJhxd31n8=
+X-Received: by 2002:a17:90a:9f42:: with SMTP id
+	q2mr6640364pjv.95.1571772287278; 
+	Tue, 22 Oct 2019 12:24:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191014215014.9656-1-dbaryshkov@gmail.com>
+In-Reply-To: <20191014215014.9656-1-dbaryshkov@gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Date: Tue, 22 Oct 2019 22:24:35 +0300
+Message-ID: <CALT56yN4cApL0=dBcV8wGZQXK3QJD9N9ri+b-ym9VnwTShBcJw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+Subject: Re: [PATCH v3 1/5] conf/image-uefi: fix building images for multilib case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,33 +56,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2019 15:06:27 -0000
+X-List-Received-Date: Tue, 22 Oct 2019 19:24:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
----
- .../{gstreamer1.0_1.16.0.bb => gstreamer1.0_1.16.1.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.0.bb => gstreamer1.0_1.16.1.bb} (96%)
+Hello,
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-index da2d14cd99..d77c8aa198 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-@@ -27,8 +27,8 @@ SRC_URI = " \
-     file://add-a-target-to-compile-tests.patch \
-     file://run-ptest \
- "
--SRC_URI[md5sum] = "862b7e4263d946bc2ef31b3c582e5587"
--SRC_URI[sha256sum] = "0e8e2f7118be437cba879353970cf83c2acced825ecb9275ba05d9186ef07c00"
-+SRC_URI[md5sum] = "c505fb818b36988daaa846e9e63eabe8"
-+SRC_URI[sha256sum] = "02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af0639d46f1cf4377d"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    "
--- 
-2.17.1
+=D0=B2=D1=82, 15 =D0=BE=D0=BA=D1=82. 2019 =D0=B3. =D0=B2 00:50, <dbaryshkov=
+@gmail.com>:
+>
+> From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+>
+> Building live images for lib32-core-minimal-image will fail because
+> image target override won't match grub's override. Fix this by
+> introducing anonymous python function. A proper fix should be to
+> introduce multilib overrides, but it will be more intrusive.
 
+Any updates on these patches? I think all build issues should be fixed now.
+
+--=20
+With best wishes
+Dmitry
 
