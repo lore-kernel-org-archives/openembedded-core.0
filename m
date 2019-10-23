@@ -1,48 +1,30 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B30547F82F
+Return-Path: <ross.burton@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 5141B7F833
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 13:21:20 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id t18so20740796iog.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 06:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=tMwZmvTwOE8op4Y16DWOPyQXHPof6F6Q4sFhaUXxh7w=;
-	b=Xe2gHpZ99SCZTyMCH8UdvAQZe41F4lyURoKBNrguFkKIw23vgH85d8z7oE+fG3nogz
-	NF4L3Fn8BHEQIW0fQiTrFbR++8wlZF39kwstqCy/pu2E7f5J25Vzh5agRBUoB6eC8655
-	KIDBuaXJDkcd6ulN7jMU/nLDPG5aRgyk8kWneTGpUz0iAIREy6wHXDqLYUX06oOxjEny
-	/J8+XTd4+maek5oUAGmkd55n/u06CNZn2Hg3N7RSoXnJbnMZ0eZjxSv+2aV7CreC/9UI
-	IeOHJfDc0JP6fn8+9VOaU7qj/dIl4zbhg2ElLtPccaYDyh21ACWL87M+SlV5RKDBdwkj
-	yIaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=tMwZmvTwOE8op4Y16DWOPyQXHPof6F6Q4sFhaUXxh7w=;
-	b=kM41n0BcYtRV1lzvgIpl816qY0KQqmPn3V/S1O9q/7ZKaClNzA05LzwY1phbZitCxA
-	+Mafb6uPfC26SVC+dZwk0LKh/EWnrMptEDHJz0Cbj+BojgbOeW09iUwC5PzW7uA6wjzM
-	6QL1DJypWt+Ye9gcy9wS/PitHxEfO4EpyBO4x1hjDAi9lXFnxvo6wYgHL4dMmrNT5xEO
-	mtPGSizawxcFmPkZ18HITDjPCKx8Pgz5BSnaemeYUQTnJTAAK8MtJB/2UmAUIlbsg20H
-	cEWCVRdX/xkv05bU0mxplBk2vwpZdnwmrCPbf9uZCqftyrbMEZzIDH8tpde0R2/B0KKJ
-	KxoA==
-X-Gm-Message-State: APjAAAXHe+pQSvS5V+re5+9txToinFdVbl3MB8Y4dVKosBjbC9/gi+c7
-	ufJCJZo/iDQd18Ko+fjUQ2HrbrY/LslG3kQTBh4=
-X-Google-Smtp-Source: APXvYqyUyYjSjCyoGctACdfnXHl0gGDp/6Dg5rpDFZ+8pUZwxNcGM8A8tD5huYSNsb6RiwzM4GXgdHksY2lDXfZqlUM=
-X-Received: by 2002:a02:c9cb:: with SMTP id c11mr9187627jap.81.1571836881703; 
-	Wed, 23 Oct 2019 06:21:21 -0700 (PDT)
+	Wed, 23 Oct 2019 15:29:14 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Oct 2019 08:29:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,221,1569308400"; d="scan'208";a="191865223"
+Received: from adahiya-mobl1.gar.corp.intel.com (HELO blackadder.local)
+	([10.249.39.45])
+	by orsmga008.jf.intel.com with ESMTP; 23 Oct 2019 08:29:14 -0700
+To: openembedded-core@lists.openembedded.org
+References: <CAMKF1sq83g8Zu3FmqWtdpJAePA6XsGnWZ5Z6HN9A6YvT8Socjw@mail.gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <40c36a7b-6e95-efc8-4ab0-6b9e19924e54@intel.com>
+Date: Wed, 23 Oct 2019 16:29:13 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191019202140.9537-1-schnitzeltony@gmail.com>
-	<c1482d1a-3c1f-b379-4713-ae18b60c10ca@intel.com>
-In-Reply-To: <c1482d1a-3c1f-b379-4713-ae18b60c10ca@intel.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Wed, 23 Oct 2019 15:21:10 +0200
-Message-ID: <CALbNGRRAXSRajQbFBXk-KHunuxrhf2=-wORSTDbe93=vDCophg@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] gsettings-desktop-schemas: upgrade 3.32.0 -> 3.34.0
+In-Reply-To: <CAMKF1sq83g8Zu3FmqWtdpJAePA6XsGnWZ5Z6HN9A6YvT8Socjw@mail.gmail.com>
+Subject: Re: new meta-oe failures from master-next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,22 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 13:21:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 23 Oct 2019 15:29:14 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 23, 2019 at 2:11 PM Ross Burton <ross.burton@intel.com> wrote:
->
-> > -DEPENDS = "glib-2.0"
-> > +DEPENDS = "glib-2.0 gcr"
->
-> I can't see a gcr dependency in the source, and it builds fine with gcr
-> removed.  Why was this added?
->
-> Ross
-Checked sources and I agree. I must have mixed up the warning with
-another recipe's warning.
+On 23/10/2019 14:03, Khem Raj wrote:
+> Hi Richard
+> 
+> New master-next I see these fails
+> 
+> https://errors.yoctoproject.org/Errors/Build/91645/
+> 
+> First two are important one's we already know why
+> ti-display-sharing-fw fails to fetch
 
-Will test again and send V3 tonight
+ERROR: QA Issue: libiio: Files/directories were installed but not 
+shipped in any package:
+   /usr/lib/python2.7
+   /usr/lib/python2.7/site-packages
+   /usr/lib/python2.7/site-packages/libiio-0.18-py2.7.egg-info
+   /usr/lib/python2.7/site-packages/iio.pyc
+   /usr/lib/python2.7/site-packages/iio.py
 
-Andreas
+That may have been triggered by some change in oe-core but that's 
+definitely an issue with libiio.
+
+WARNING: 
+TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-r0/temp/run.do_configure.7679:1 
+exit 1 from 'NO_FETCH_BUILD=1 
+TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-r0/recipe-sysroot-native/usr/bin/python3-native/python3 
+setup.py clean'
+ERROR: Execution of 
+'TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-r0/temp/run.do_configure.7679' 
+failed with exit code 1:
+Traceback (most recent call last):
+   File "setup.py", line 17, in <module>
+     setup(**config['options'])
+   File 
+"TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-r0/recipe-sysroot-native/usr/lib/python3.7/site-packages/setuptools/__init__.py", 
+line 145, in setup
+     return distutils.core.setup(**attrs)
+
+Looks like whatever astor is doing with setuptools doesn't agree with 
+the upgrade to 41.4.0?
+
+Ross
 
