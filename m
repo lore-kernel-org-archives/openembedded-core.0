@@ -1,46 +1,24 @@
-Return-Path: <nick.owens@eero.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 66B967F7C2
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 673B27F7A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 23:59:58 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id q21so11661620pfn.11
+	Wed, 23 Oct 2019 01:59:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9N1xqt3026338
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 16:59:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eero.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=/y3h8Ga6O3iex3TXgnuBrlSBgZVqIj4MtfzHoYdA2oc=;
-	b=O0Vrh8UidEzIv2+x0G8zKSAxQ7bBPNA+1JLv9BgYQj5fvkaigIe5gBMqzveDvxqa5N
-	rU+JSpTRDkP8L6DEKfjTwTslrKL/FYzPpqbdiod1LxBOY9Q23z+XfM0f+dnOlZnoyPgt
-	srewywKrdQyagEq1UVCcKg2Tnhfzqdd4ooWtY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/y3h8Ga6O3iex3TXgnuBrlSBgZVqIj4MtfzHoYdA2oc=;
-	b=AHyP1pjq0wL0bgoGsDM5cgLf7qLz5bGnB9q2louknABpGMUydw7DFYjZWW5Sx6sjIX
-	bcHfu3ho4GhSFbMVk+N4Y4LSXo3+BsGrXXjZzY3rS6y4urV6s8nAT0MNmwOY9vspqpxF
-	eODEQKbcXE5ShsOFWD9bVgZuN9SfKuRtiej38H6Rfbq9Ka+67QvERdIKTlbwrrerFez1
-	rsklwjA09iID8yx3d5P/F30yV7m3Bg2aVvw1qekrvD0nNFXQiHyPpbXDKgnpXJGoLLFG
-	EBW2GOcooiQEo59rfBPH+5eGk2s0mvIGAramcUDmkeZwsSmXM//nWOeIBRQMPGrPYJOh
-	OHzw==
-X-Gm-Message-State: APjAAAUKMgbHacZYGIbpRg9Vej4q25oKfF/xKuOit/ux8MFlos3i4Uvu
-	+zwe4GzzEqVzFggqDuln1iH1mWU7YA0=
-X-Google-Smtp-Source: APXvYqxyBV1HLbGWhKTC3ZxDL3lp1mLz+k7y7fam5BeNPCemn+MdxXdn8DtD3cfoI8RluvZDB92q4Q==
-X-Received: by 2002:a17:90a:a889:: with SMTP id
-	h9mr7963918pjq.61.1571788799151; 
-	Tue, 22 Oct 2019 16:59:59 -0700 (PDT)
-Received: from ufdc85a1e077f5b.ant.amazon.com
-	(c-73-92-46-121.hsd1.ca.comcast.net. [73.92.46.121])
-	by smtp.googlemail.com with ESMTPSA id
-	g7sm34459268pfm.176.2019.10.22.16.59.58
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 22 Oct 2019 16:59:58 -0700 (PDT)
-From: Nick Owens <nick.owens@eero.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2019 16:59:35 -0700
-Message-Id: <20191022235935.19461-1-nick.owens@eero.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] distutils: pass along parallel make flags to setup.py build
+	Tue, 22 Oct 2019 18:59:52 -0700 (PDT)
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 22 Oct 2019 18:59:51 -0700
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 22 Oct 2019 18:59:51 -0700
+Message-ID: <20191023015951.172311-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.13.0
+MIME-Version: 1.0
+Subject: [PATCH 1/1] libxslt: fix CVE-2019-18197
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,31 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2019 23:59:58 -0000
+X-List-Received-Date: Wed, 23 Oct 2019 01:59:51 -0000
+Content-Type: text/plain
 
-parallel builds for native code in python modules was added about 5
-years ago. distutils understands '-j N', so just pass along
-${PARALLEL_MAKE} to setup.py build.
+Use patch from upstream after 1.1.33 release.
 
-Signed-off-by: Nick Owens <nick.owens@eero.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- meta/classes/distutils.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../libxslt/files/CVE-2019-18197.patch             | 33 ++++++++++++++++++++++
+ meta/recipes-support/libxslt/libxslt_1.1.33.bb     |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-18197.patch
 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index b5c9c2fbbd..d60f7083ef 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -23,7 +23,7 @@ distutils_do_compile() {
-          NO_FETCH_BUILD=1 \
-          STAGING_INCDIR=${STAGING_INCDIR} \
-          STAGING_LIBDIR=${STAGING_LIBDIR} \
--         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py build ${DISTUTILS_BUILD_ARGS} || \
-+         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py build ${PARALLEL_MAKE} ${DISTUTILS_BUILD_ARGS} || \
-          bbfatal_log "'${PYTHON_PN} setup.py build ${DISTUTILS_BUILD_ARGS}' execution failed."
- }
+diff --git a/meta/recipes-support/libxslt/files/CVE-2019-18197.patch b/meta/recipes-support/libxslt/files/CVE-2019-18197.patch
+new file mode 100644
+index 0000000..71db826
+--- /dev/null
++++ b/meta/recipes-support/libxslt/files/CVE-2019-18197.patch
+@@ -0,0 +1,33 @@
++libxslt: fix CVE-2019-18197
++
++CVE: CVE-2019-18197
++
++Added after 1.1.33 release.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt.git]
++
++commit 2232473733b7313d67de8836ea3b29eec6e8e285
++Author: Nick Wellnhofer <wellnhofer@aevum.de>
++Date:   Sat Aug 17 16:51:53 2019 +0200
++
++    Fix dangling pointer in xsltCopyText
++    
++    xsltCopyText didn't reset ctxt->lasttext in some cases which could
++    lead to various memory errors in relation with CDATA sections in input
++    documents.
++    
++    Found by OSS-Fuzz.
++
++diff --git a/libxslt/transform.c b/libxslt/transform.c
++index 95ebd07..d7ab0b6 100644
++--- a/libxslt/transform.c
+++++ b/libxslt/transform.c
++@@ -1094,6 +1094,8 @@ xsltCopyText(xsltTransformContextPtr ctxt, xmlNodePtr target,
++ 	    if ((copy->content = xmlStrdup(cur->content)) == NULL)
++ 		return NULL;
++ 	}
+++
+++	ctxt->lasttext = NULL;
++     } else {
++         /*
++ 	 * normal processing. keep counters to extend the text node
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.33.bb b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+index abc00a0..9f268e7 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.33.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
+            file://0001-Fix-security-framework-bypass.patch \
+            file://CVE-2019-13117.patch \
+            file://CVE-2019-13118.patch \
++           file://CVE-2019-18197.patch \
+ "
  
+ SRC_URI[md5sum] = "b3bd254a03e46d58f8ad1e4559cd2c2f"
 -- 
-2.17.1
+2.7.4
 
 
