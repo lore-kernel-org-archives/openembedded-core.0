@@ -1,54 +1,37 @@
-Return-Path: <maxime.roussinbelanger@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E93857F8A2
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EF2A7ED5C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 18:34:08 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id e14so13925196qto.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 11:34:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=UNiJ34ObXtEgZjXiAiLI4kWIYHfo9wji9p8sdIiBqME=;
-	b=c0V6rhvHSDRRQUThuaFtBIgNPWuBaw5wVAm2Djk5g+EADYImgcjNmuDnZu3EVXgWAQ
-	KLUm6jakb9CeDUlOqzKCSt20jSAVC+S77sQe11JNNLcs3iKcp49XmbCCvvXu9+8ZiZ85
-	TK1tzK2VrEqkGwjrlS2DMuohJUCh6JnEcS5MrvUL6quAKqUuHMkoBCVp3B70UTrJtR5q
-	ihoANcZL2p9c6NkYdf5ZJk216UYIz20sKXaTXHcs105qeOqE9a6qG4oQHiCiJ70FaH7g
-	XRGOtmaWknRge+ezLUdb1kdzFMJBqaTlcOEa+oknWtfTqOk5UzEkmlbAseHQwP2sQHSV
-	nSGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=UNiJ34ObXtEgZjXiAiLI4kWIYHfo9wji9p8sdIiBqME=;
-	b=N6l/h/KKoN8xh2aIsghoNKY/OgHJ3m1Tyu7/bvNqprfbRCq09Qja1M/0E+94MSalYy
-	KJckfNFnosnQ58B/3NRb0f+uP5/LG9cjG/UTdqVk3NLw1jIdw8YovWrVXMhe1OJxgs5b
-	XHWWYyXS1ETevi1IWceGBcouP9e7mVNPQHjalIo+Pxr6u9pM6CLMZDVT/Ntx0SZHOVh1
-	3Ar5htNc7VzwbxPMyfPrN4HaUJfxLU0u3Hvux/qug7cbmb/BX3/KkDsw0IIsjwxOwdVZ
-	RlDP6DVB4l/o8p/ZKS4RyC5pSEo7WPpOFfPDpuXPzmrLjvyD2Ae+UAC1SqKUhD9qs/+m
-	7hHA==
-X-Gm-Message-State: APjAAAVIOgBXq5DgNX+iLE1o1cnv0LGM0XSXZ9C8H2JMa1oSpTXR5L8u
-	1ekk2uuuPUdxFYd2Jz1Fec8DfGbQ2zw=
-X-Google-Smtp-Source: APXvYqyvp1IvNztsdeOPr7m/DQ3t5N16gnTFRowySUAIgHjt5cXnjQoCZJCH2Pla+rOSYorWJG1/3Q==
-X-Received: by 2002:a0c:95a1:: with SMTP id s30mr2868743qvs.110.1571855649392; 
-	Wed, 23 Oct 2019 11:34:09 -0700 (PDT)
-Received: from mbedesk.Sonatest.net
-	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
-	[174.94.156.236]) by smtp.gmail.com with ESMTPSA id
-	r7sm11686900qkf.124.2019.10.23.11.34.08
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 23 Oct 2019 11:34:09 -0700 (PDT)
-From: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
-	<maxime.roussinbelanger@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Oct 2019 14:33:58 -0400
-Message-Id: <20191023183358.2501-2-maxime.roussinbelanger@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191023183358.2501-1-maxime.roussinbelanger@gmail.com>
-References: <20191023183358.2501-1-maxime.roussinbelanger@gmail.com>
+	Wed, 23 Oct 2019 19:23:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46z0fD1z8hz44;
+	Wed, 23 Oct 2019 21:23:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1571858613;
+	bh=rlvpYQj5m3Wk2U2/gDakW+uLEcaZsePPIe/s+0XHLwc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AcpduMvgZ3KcYXU0EfuIFYb32kpevfLLyu89SMP6da0jzo6E8zlSkgvRpfsbwH6DE
+	oX+AHehdedesj3dsOlABUc0nIOKyL6fXQ8gklpqDYVE8TvvRl8enYETG88p51ZogFZ
+	O8qxgWO6u5a6zQ0VMSw3xqA/+2iEaS/wvY1lt/hMQ8G8iULSJxiRxgZeRwcWPl1bH2
+	cA3Uam2KgyvwaGmoD72OwEmcRyqe7xBZT/42ErQJcmrPXPOz1cBG3tjUk8VKYeYanH
+	TNJWlJYHirzUkq1NNYMGoipihAWlvLpeAWl2zyoyO01gcZdF4Wdd2icpO7GutuNFfZ
+	HSzeo+DXKnOCA0bga7rW3PNvN1eBKJKZvikZ4xJhPSx+CNEoxjRiShC9ap025ax51v
+	ojW2HQWo5HUIOOk1ygCy6k9UbWySXATZjlSMXAqZbeudWs5kKr6hOPGVBrv9n5abfg
+	K6FMqSkJ78E7h3HN/m32kyZRiIgGxM87ezzP7ftpnOSg09y+vD3R51DFaxTYSYf38U
+	z9OM3SjgOM5Om648NnHAd41nmaflV3KTWM4FHfjLFtwo0IKhNOkEBfDqhxc7fw+V7t
+	gs1yRfWbN8XGcasxWkH/LHXy+jR9vs46ZxqTeYycv5B7EvAmE0Kc5Ljbx44YSkILi6
+	Xgw5lz7YzyoGXz8L5jutYP6Q=
+Date: Wed, 23 Oct 2019 22:23:29 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20191023192329.GA31488@localhost>
+References: <CAMKF1sq83g8Zu3FmqWtdpJAePA6XsGnWZ5Z6HN9A6YvT8Socjw@mail.gmail.com>
+	<40c36a7b-6e95-efc8-4ab0-6b9e19924e54@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 2/2] meta: add missing description in recipes-gnome
+In-Reply-To: <40c36a7b-6e95-efc8-4ab0-6b9e19924e54@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: new meta-oe failures from master-next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,170 +44,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 18:34:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 23 Oct 2019 19:23:34 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Remove some trailing whitespace
+On Wed, Oct 23, 2019 at 04:29:13PM +0100, Ross Burton wrote:
+> On 23/10/2019 14:03, Khem Raj wrote:
+> > Hi Richard
+> > 
+> > New master-next I see these fails
+> > 
+> > https://errors.yoctoproject.org/Errors/Build/91645/
+> > 
+> > First two are important one's we already know why
+> > ti-display-sharing-fw fails to fetch
+> 
+> ERROR: QA Issue: libiio: Files/directories were installed but not shipped in
+> any package:
+>   /usr/lib/python2.7
+>   /usr/lib/python2.7/site-packages
+>   /usr/lib/python2.7/site-packages/libiio-0.18-py2.7.egg-info
+>   /usr/lib/python2.7/site-packages/iio.pyc
+>   /usr/lib/python2.7/site-packages/iio.py
+> 
+> That may have been triggered by some change in oe-core but that's definitely
+> an issue with libiio.
 
-Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
----
-Changes in v2:
-	- Fix missing \ in libsecret
+I'd agree on that:
 
-meta/recipes-gnome/gcr/gcr_3.28.1.bb                      | 3 +++
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb        | 3 +++
- meta/recipes-gnome/gnome/gconf_3.2.6.bb                   | 3 +++
- .../gobject-introspection/gobject-introspection_1.62.0.bb | 8 ++++++--
- .../gsettings-desktop-schemas_3.32.0.bb                   | 2 ++
- .../hicolor-icon-theme/hicolor-icon-theme_0.17.bb         | 2 ++
- meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb          | 3 +++
- meta/recipes-gnome/libgudev/libgudev_233.bb               | 4 ++++
- meta/recipes-gnome/librsvg/librsvg_2.40.20.bb             | 4 ++++
- meta/recipes-gnome/libsecret/libsecret_0.19.1.bb          | 4 ++++
- 10 files changed, 34 insertions(+), 2 deletions(-)
+Python bindings were converted from python2 to python3 last week,
+and it picks up the host python 2.7.
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.28.1.bb b/meta/recipes-gnome/gcr/gcr_3.28.1.bb
-index 419396f049..0a9867451e 100644
---- a/meta/recipes-gnome/gcr/gcr_3.28.1.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.28.1.bb
-@@ -1,4 +1,7 @@
- SUMMARY = "A library for bits of crypto UI and parsing etc"
-+DESCRIPTION = "GCR is a library for displaying certificates, and crypto UI, \
-+accessing key stores. It also provides the viewer for crypto files on the \
-+GNOME desktop."
- HOMEPAGE = "https://gitlab.gnome.org/GNOME/gcr"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/gcr/issues"
- 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb
-index 90196e8818..c99510609c 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb
-@@ -1,4 +1,7 @@
- SUMMARY = "Image loading library for GTK+"
-+DESCRIPTION = "The GDK Pixbuf library provides: Image loading and saving \
-+facilities, fast scaling and compositing of pixbufs and Simple animation \
-+loading (ie. animated GIFs)"
- HOMEPAGE = "https://wiki.gnome.org/Projects/GdkPixbuf"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/gdk-pixbuf/issues"
- 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index e6742f37d8..b8466d4833 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -1,4 +1,7 @@
- SUMMARY = "GNOME configuration system"
-+DESCRIPTION = "GConf is a system for storing application preferences. \
-+It is intended for user preferences; not configuration of something like \
-+Apache, or arbitrary data storage."
- SECTION = "x11/gnome"
- HOMEPAGE = "https://projects.gnome.org/gconf/"
- LICENSE = "LGPLv2+"
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb
-index 1c3697b23d..a9739cc552 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb
-@@ -1,4 +1,8 @@
- SUMMARY = "Middleware layer between GObject-using C libraries and language bindings"
-+DESCRIPTION = "GObject Introspection is a project for providing machine \
-+readable introspection data of the API of C libraries. This introspection \
-+data can be used in several different use cases, for example automatic code \
-+generation for bindings, API verification and documentation generation."
- HOMEPAGE = "https://wiki.gnome.org/action/show/Projects/GObjectIntrospection"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/gobject-introspection/issues"
- SECTION = "libs"
-@@ -92,7 +96,7 @@ EOF
- 
-         # Write out a wrapper for g-ir-scanner itself, which will be used when building introspection files
-         # for glib-based packages. This wrapper calls the native version of the scanner, and tells it to use
--        # a qemu wrapper for running transient target binaries produced by the scanner, and an include directory 
-+        # a qemu wrapper for running transient target binaries produced by the scanner, and an include directory
-         # from the target sysroot.
-         cat > ${B}/g-ir-scanner-wrapper << EOF
- #!/bin/sh
-@@ -132,7 +136,7 @@ do_compile_prepend() {
-         export GIR_EXTRA_LIBS_PATH=$B/.libs
- }
- 
--# Our wrappers need to be available system-wide, because they will be used 
-+# Our wrappers need to be available system-wide, because they will be used
- # to build introspection files for all other gobject-based packages
- do_install_append_class-target() {
-         install -d ${D}${bindir}/
-diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb
-index 2163260a02..8d19aed2bf 100644
---- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb
-+++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb
-@@ -1,4 +1,6 @@
- SUMMARY = "GNOME desktop-wide GSettings schemas"
-+DESCRIPTION = "GSettings desktop-wide schemas contains a collection of \
-+GSettings schemas for settings shared by various components of a desktop."
- HOMEPAGE = "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/issues"
- 
-diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
-index 756545976f..aad7eff25f 100644
---- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
-+++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
-@@ -1,4 +1,6 @@
- SUMMARY = "Default icon theme that all icon themes automatically inherit from"
-+DESCRIPTION = "The hicolor-icon-theme package contains a default fallback \
-+theme for implementations of the icon theme specification."
- HOMEPAGE = "https://www.freedesktop.org/wiki/Software/icon-theme"
- BUGTRACKER = "https://bugs.freedesktop.org/"
- 
-diff --git a/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb b/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
-index 56678255fd..e2973905f8 100644
---- a/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
-+++ b/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
-@@ -1,4 +1,7 @@
- SUMMARY = "The libdazzle library is a companion library to GObject and Gtk+."
-+DESCRIPTION = "A wide range of components from utilities for GIO, widgets for \
-+GTK+, an animation framework, state machines, paneling and high-performance \
-+counters are included."
- LICENSE = "GPLv3+"
- HOMEPAGE = "https://gitlab.gnome.org/GNOME/libdazzle"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/libdazzle/issues"
-diff --git a/meta/recipes-gnome/libgudev/libgudev_233.bb b/meta/recipes-gnome/libgudev/libgudev_233.bb
-index 04efc89212..8bc379ff62 100644
---- a/meta/recipes-gnome/libgudev/libgudev_233.bb
-+++ b/meta/recipes-gnome/libgudev/libgudev_233.bb
-@@ -1,4 +1,8 @@
- SUMMARY = "GObject wrapper for libudev"
-+DESCRIPTION = "This library makes it much simpler to use libudev from programs \
-+already using GObject. It also makes it possible to easily use libudev from \
-+other programming languages, such as Javascript, because of GObject \
-+introspection support."
- HOMEPAGE = "https://wiki.gnome.org/Projects/libgudev"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/libgudev/issues"
- SRC_URI[archive.sha256sum] = "587c4970eb23f4e2deee2cb1fb7838c94a78c578f41ce12cac0a3f4a80dabb03"
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-index 38532834dd..7f98127fd0 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-@@ -1,4 +1,8 @@
- SUMMARY = "Library for rendering SVG files"
-+DESCRIPTION = "A small library to render Scalable Vector Graphics (SVG), \
-+associated with the GNOME Project. It renders SVG files to Cairo surfaces. \
-+Cairo is the 2D, antialiased drawing library that GNOME uses to draw things to \
-+the screen or to generate output for printing."
- HOMEPAGE = "https://gitlab.gnome.org/GNOME/librsvg"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/librsvg/issues"
- 
-diff --git a/meta/recipes-gnome/libsecret/libsecret_0.19.1.bb b/meta/recipes-gnome/libsecret/libsecret_0.19.1.bb
-index 9145c04412..3da2a4acac 100644
---- a/meta/recipes-gnome/libsecret/libsecret_0.19.1.bb
-+++ b/meta/recipes-gnome/libsecret/libsecret_0.19.1.bb
-@@ -1,4 +1,8 @@
- SUMMARY = "libsecret is a library for storing and retrieving passwords and other secrets"
-+DESCRIPTION = "A GObject-based library for accessing the Secret Service API of \
-+the freedesktop.org project, a cross-desktop effort to access passwords, \
-+tokens and other types of secrets. libsecret provides a convenient wrapper \
-+for these methods so consumers do not have to call the low-level DBus methods."
- LICENSE = "LGPLv2.1"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/libsecret/issues"
- LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
+-inherit cmake pythonnative systemd
++inherit cmake python3native systemd
+
+This does not in any way guarantee that there is no python2 interpreter 
+available.
+
+> WARNING: TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-r0/temp/run.do_configure.7679:1
+> exit 1 from 'NO_FETCH_BUILD=1 TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-r0/recipe-sysroot-native/usr/bin/python3-native/python3
+> setup.py clean'
+> ERROR: Execution of 'TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-r0/temp/run.do_configure.7679'
+> failed with exit code 1:
+> Traceback (most recent call last):
+>   File "setup.py", line 17, in <module>
+>     setup(**config['options'])
+>   File "TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-r0/recipe-sysroot-native/usr/lib/python3.7/site-packages/setuptools/__init__.py",
+> line 145, in setup
+>     return distutils.core.setup(**attrs)
+> 
+> Looks like whatever astor is doing with setuptools doesn't agree with the
+> upgrade to 41.4.0?
+
+The recipe is behind upstream, but even the latest version needs fixing:
+https://github.com/berkerpeksag/astor/issues/162
+
+Temporarily broken leaf package, not really important.
+
+> Ross
+
+cu
+Adrian
+
 -- 
-2.20.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
