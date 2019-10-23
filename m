@@ -1,28 +1,23 @@
-Return-Path: <alessio.bogani@elettra.eu>
-Received: from spamalot.elettra.eu (spamalot.elettra.trieste.it
-	[140.105.206.208])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CAD17F876
+Return-Path: <mark.hatle@kernel.crashing.org>
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 416B77F859
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 20:25:14 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by localhost (Email Security Appliance) with ESMTP id
-	DBC8D440DCF_DB0B727B for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 20:25:11 +0000 (GMT)
-Received: from unknown-host by spamalot.elettra.eu with queue id 788366
-	for openembedded-core@lists.openembedded.org;
-	Wed, 23 Oct 2019 20:25:11 GMT
-Received: from pc-bogani.elettra.trieste.it (pc-bogani.elettra.trieste.it
-	[192.168.205.85])
-	by spamalot.elettra.eu (Sophos Email Appliance) with ESMTP id
-	7A12A43E37D_DB0B727F; Wed, 23 Oct 2019 20:25:11 +0000 (GMT)
-From: Alessio Igor Bogani <alessio.bogani@elettra.eu>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Oct 2019 22:25:04 +0200
-X-Mailer: git-send-email 2.17.1
-X-SASI-RCODE: 200
-Message-Id: <20191023202511.DBC8D440DCF_DB0B727B@spamalot.elettra.eu>
-Cc: Alessio Igor Bogani <alessio.bogani@elettra.eu>
-Subject: [PATCH] systemtap: support usrmerge
+	Wed, 23 Oct 2019 20:44:18 +0000 (UTC)
+Received: from Marks-MacBook-Pro.local ([76.164.61.198]) (authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id x9NKi8vB021685
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NO); Wed, 23 Oct 2019 15:44:09 -0500
+To: Alessio Igor Bogani <alessio.bogani@elettra.eu>,
+	openembedded-core@lists.openembedded.org
+References: <20191023202511.DBC8D440DCF_DB0B727B@spamalot.elettra.eu>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+Message-ID: <2d2d7e60-d79e-5540-1378-88fda1fab4ec@kernel.crashing.org>
+Date: Wed, 23 Oct 2019 15:44:08 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.1.2
+MIME-Version: 1.0
+In-Reply-To: <20191023202511.DBC8D440DCF_DB0B727B@spamalot.elettra.eu>
+Subject: Re: [PATCH] systemtap: support usrmerge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +30,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 20:25:14 -0000
+X-List-Received-Date: Wed, 23 Oct 2019 20:44:18 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alessio Igor Bogani <alessio.bogani@elettra.eu>
----
- meta/recipes-kernel/systemtap/systemtap_git.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 6ee3e1c0f7..2efba2e06f 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -52,10 +52,13 @@ do_install_append () {
-    fi
- 
-    # Fix makefile hardcoded path assumptions for systemd (assumes $prefix)
--   install -d `dirname ${D}${systemd_unitdir}`
--   mv ${D}${prefix}/lib/systemd `dirname ${D}${systemd_unitdir}`
-+   if not ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','true','false',d)}; then
-+      install -d `dirname ${D}${systemd_unitdir}`
-+      mv ${D}${prefix}/lib/systemd `dirname ${D}${systemd_unitdir}`
-+   fi
-    rmdir ${D}${prefix}/lib --ignore-fail-on-non-empty
- 
-+
-    # Ensure correct ownership for files copied in
-    chown root:root ${D}${sysconfdir}/stap-exporter/* -R
- }
--- 
-2.17.1
 
+On 10/23/19 3:25 PM, Alessio Igor Bogani wrote:
+> Signed-off-by: Alessio Igor Bogani <alessio.bogani@elettra.eu>
+> ---
+>  meta/recipes-kernel/systemtap/systemtap_git.bb | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+> index 6ee3e1c0f7..2efba2e06f 100644
+> --- a/meta/recipes-kernel/systemtap/systemtap_git.bb
+> +++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+> @@ -52,10 +52,13 @@ do_install_append () {
+>     fi
+>  
+>     # Fix makefile hardcoded path assumptions for systemd (assumes $prefix)
+> -   install -d `dirname ${D}${systemd_unitdir}`
+> -   mv ${D}${prefix}/lib/systemd `dirname ${D}${systemd_unitdir}`
+> +   if not ${@bb.utils.contains('DISTRO_FEATURES','usrmerge','true','false',d)}; then
+> +      install -d `dirname ${D}${systemd_unitdir}`
+> +      mv ${D}${prefix}/lib/systemd `dirname ${D}${systemd_unitdir}`
+> +   fi
+>     rmdir ${D}${prefix}/lib --ignore-fail-on-non-empty
+
+A better check out be:
+
+if [ {D}${prefix}/lib/systemd != `dirname ${D}${systemd_unitdir}` ]; then
+   install -d `dirname ${D}${systemd_unitdir}`
+   mv ${D}${prefix}/lib/systemd `dirname ${D}${systemd_unitdir}`
+   rmdir ${D}${prefix}/lib --ignore-fail-on-non-empty
+fi
+
+This way the issue is resolved even if usrmerge isn't enabled, but the user
+manually manipulated the paths.
+> +
+>     # Ensure correct ownership for files copied in
+>     chown root:root ${D}${sysconfdir}/stap-exporter/* -R
+>  }
+> 
 
