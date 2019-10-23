@@ -1,37 +1,31 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id CCE247F501
+Return-Path: <ross.burton@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 176167F238
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 11:24:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46yp1V1dr3z5w;
-	Wed, 23 Oct 2019 13:24:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1571829871;
-	bh=66sbXlWhKHuUDxD38cnagvAkr89JszvoOm3ZOHCFhs8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SspYFhc2sebHiZWitQV4vsS3l2SF6m9NeYSuXchZmxvn2Ru6nnkpJC9NKAccEOp8v
-	b6dwdUYg4Ol5IM/R1JOLN1PMXKVYhMKbnwz1/vBxOam6C++ILYghWkdC7WF/wYGyP+
-	zt3lRdID1ICGWoNfZZwHfDUwBrH9/b5lLXHROWLaTM0SDIaAqtzmS4n3uEDvXIB0Cf
-	L6cqruCF93qAdeMrA3tzAuhsiNRwD3GO0El20QCfWPtRUcixrXYzeUX+X0rgqdDiRy
-	ceulc9opO+Dknxy6ZJ75SmKKid+vWkW7N05kR3hQ/ipAqQLd1wunzrDwDlXrFm04cd
-	uZwgj5KABE1f+tP84Acp2wSPOXESnqLBtj9jum0aaay1yS+kaTFTLQvsLophueiLJ6
-	TCEbF4hrJaSQwEv4c1l7N+GSXnJqPeszbosNIchxCNThPZRQq5CpIrwyUAGmhyXN4T
-	OzPkdGlzgUMTEgB8mArEdU7efmlF677IPSEyT2Pqj43RC4qFpDjUVXNR388+TAFuCh
-	O1G+75LrsE57H8wGjPobU+LVrp1RscPm5H/LgzwSZfAji3pfUIaOTE2st/QZqkQmUa
-	GzF/2bZ0izbIIsmo/RdGxTiNyGE7RsMuVL7B4f/fcgpaOCbicvCkSv0ss61fLeYC2C
-	N16M71aC6ZgALkVW87puttk4=
-Date: Wed, 23 Oct 2019 14:24:27 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20191023112427.GA13753@localhost>
-References: <20191023023728.37008-1-Qi.Chen@windriver.com>
-	<bbd6bae9-2eb5-04b3-dd2d-652b7a74233d@intel.com>
+	Wed, 23 Oct 2019 12:11:09 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Oct 2019 05:11:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,220,1569308400"; d="scan'208";a="223163262"
+Received: from adahiya-mobl1.gar.corp.intel.com (HELO blackadder.local)
+	([10.249.39.45])
+	by fmsmga004.fm.intel.com with ESMTP; 23 Oct 2019 05:11:08 -0700
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20191019202140.9537-1-schnitzeltony@gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <c1482d1a-3c1f-b379-4713-ae18b60c10ca@intel.com>
+Date: Wed, 23 Oct 2019 13:11:07 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <bbd6bae9-2eb5-04b3-dd2d-652b7a74233d@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [zeus][PATCH 1/2] python3: fix CVE-2019-16935
+In-Reply-To: <20191019202140.9537-1-schnitzeltony@gmail.com>
+Subject: Re: [PATCH v2] gsettings-desktop-schemas: upgrade 3.32.0 -> 3.34.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +38,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 11:24:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 23 Oct 2019 12:11:10 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 23, 2019 at 11:59:37AM +0100, Ross Burton wrote:
-> Zeus and master I presume?
+> -DEPENDS = "glib-2.0"
+> +DEPENDS = "glib-2.0 gcr"
 
-And warrior.
+I can't see a gcr dependency in the source, and it builds fine with gcr 
+removed.  Why was this added?
 
-Or continue following the 3.7 stable releases in all 3 branches
-(see my patch to upgrade to 3.7.5 that also fixes this CVE).
-
-> Ross
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+Ross
 
