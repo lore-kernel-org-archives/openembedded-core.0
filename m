@@ -1,26 +1,18 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 273E47F7DE
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 02:37:31 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9N2bWxS029204
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 19:37:32 -0700 (PDT)
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 22 Oct 2019 19:37:31 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 Oct 2019 10:37:28 +0800
-Message-ID: <20191023023728.37008-2-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191023023728.37008-1-Qi.Chen@windriver.com>
-References: <20191023023728.37008-1-Qi.Chen@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id F41CB7F7A2;
+	Wed, 23 Oct 2019 03:01:48 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [zeus][PATCH 2/2] python: fix CVE-2019-16935
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Qi.Chen@windriver.com
+Date: Wed, 23 Oct 2019 03:01:50 -0000
+Message-ID: <20191023030150.2330.61490@do>
+References: <20191023023728.37008-1-Qi.Chen@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20191023023728.37008-1-Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt6ZXVzXSBweXRob24zOiBmaXggQ1ZFLTIwMTktMS4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,136 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 02:37:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 Oct 2019 03:01:49 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+== Series Details ==
+
+Series: "[zeus] python3: fix CVE-2019-1..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20603/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  zeus (currently at 59938780e7)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...cape-the-server-title-of-DocXMLRPCSe.patch | 101 ++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.16.bb |   1 +
- 2 files changed, 102 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
-
-diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
-new file mode 100644
-index 0000000000..3025cf7bc8
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
-@@ -0,0 +1,101 @@
-+From b161c89c8bd66fe928192e21364678c8e9b8fcc0 Mon Sep 17 00:00:00 2001
-+From: Dong-hee Na <donghee.na92@gmail.com>
-+Date: Tue, 1 Oct 2019 19:58:01 +0900
-+Subject: [PATCH] [2.7] bpo-38243: Escape the server title of DocXMLRPCServer
-+ (GH-16447)
-+
-+Escape the server title of DocXMLRPCServer.DocXMLRPCServer
-+when rendering the document page as HTML.
-+
-+CVE: CVE-2019-16935
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/pull/16447/commits/b41cde823d026f2adc21ef14b1c2e92b1006de06]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ Lib/DocXMLRPCServer.py                        | 13 +++++++++++-
-+ Lib/test/test_docxmlrpc.py                    | 20 +++++++++++++++++++
-+ .../2019-09-25-13-21-09.bpo-38243.1pfz24.rst  |  3 +++
-+ 3 files changed, 35 insertions(+), 1 deletion(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
-+
-+diff --git a/Lib/DocXMLRPCServer.py b/Lib/DocXMLRPCServer.py
-+index 4064ec2e48..90b037dd35 100644
-+--- a/Lib/DocXMLRPCServer.py
-++++ b/Lib/DocXMLRPCServer.py
-+@@ -20,6 +20,16 @@ from SimpleXMLRPCServer import (SimpleXMLRPCServer,
-+             CGIXMLRPCRequestHandler,
-+             resolve_dotted_attribute)
-+ 
-++
-++def _html_escape_quote(s):
-++    s = s.replace("&", "&amp;") # Must be done first!
-++    s = s.replace("<", "&lt;")
-++    s = s.replace(">", "&gt;")
-++    s = s.replace('"', "&quot;")
-++    s = s.replace('\'', "&#x27;")
-++    return s
-++
-++
-+ class ServerHTMLDoc(pydoc.HTMLDoc):
-+     """Class used to generate pydoc HTML document for a server"""
-+ 
-+@@ -210,7 +220,8 @@ class XMLRPCDocGenerator:
-+                                 methods
-+                             )
-+ 
-+-        return documenter.page(self.server_title, documentation)
-++        title = _html_escape_quote(self.server_title)
-++        return documenter.page(title, documentation)
-+ 
-+ class DocXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
-+     """XML-RPC and documentation request handler class.
-+diff --git a/Lib/test/test_docxmlrpc.py b/Lib/test/test_docxmlrpc.py
-+index 4dff4159e2..c45b892b8b 100644
-+--- a/Lib/test/test_docxmlrpc.py
-++++ b/Lib/test/test_docxmlrpc.py
-+@@ -1,5 +1,6 @@
-+ from DocXMLRPCServer import DocXMLRPCServer
-+ import httplib
-++import re
-+ import sys
-+ from test import test_support
-+ threading = test_support.import_module('threading')
-+@@ -176,6 +177,25 @@ class DocXMLRPCHTTPGETServer(unittest.TestCase):
-+         self.assertIn("""Try&nbsp;self.<strong>add</strong>,&nbsp;too.""",
-+                       response.read())
-+ 
-++    def test_server_title_escape(self):
-++        """Test that the server title and documentation
-++        are escaped for HTML.
-++        """
-++        self.serv.set_server_title('test_title<script>')
-++        self.serv.set_server_documentation('test_documentation<script>')
-++        self.assertEqual('test_title<script>', self.serv.server_title)
-++        self.assertEqual('test_documentation<script>',
-++                self.serv.server_documentation)
-++
-++        generated = self.serv.generate_html_documentation()
-++        title = re.search(r'<title>(.+?)</title>', generated).group()
-++        documentation = re.search(r'<p><tt>(.+?)</tt></p>', generated).group()
-++        self.assertEqual('<title>Python: test_title&lt;script&gt;</title>',
-++                title)
-++        self.assertEqual('<p><tt>test_documentation&lt;script&gt;</tt></p>',
-++                documentation)
-++
-++
-+ def test_main():
-+     test_support.run_unittest(DocXMLRPCHTTPGETServer)
-+ 
-+diff --git a/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
-+new file mode 100644
-+index 0000000000..8f02baed9e
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
-+@@ -0,0 +1,3 @@
-++Escape the server title of :class:`DocXMLRPCServer.DocXMLRPCServer`
-++when rendering the document page as HTML.
-++(Contributed by Dong-hee Na in :issue:`38243`.)
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
-index aec877825e..808920e06f 100644
---- a/meta/recipes-devtools/python/python_2.7.16.bb
-+++ b/meta/recipes-devtools/python/python_2.7.16.bb
-@@ -31,6 +31,7 @@ SRC_URI += " \
-            file://float-endian.patch \
-            file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch \
-            file://0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
-+           file://0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
