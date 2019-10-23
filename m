@@ -1,47 +1,44 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
-	[209.85.160.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A20E6C1D5
+Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 645687F82F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 13:05:42 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id w14so32105503qto.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 06:05:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=dykhqMhx8s/J6U5PWe3yJ02+EXeBBFyu6RIs4G1lGIg=;
-	b=AvyvKTOlaErBr73OaW753vqJznX9fXwPhAS2VI46YnzD9D6a1R+ou4iszbGqmPtQb3
-	F5Bu0bu8TznVhNPabC6O3T6+66w7xBto+0vxKLkO3HCQprkLL6TwyzE/uZarP/sOlh0O
-	Mj3h1hgFeObwDTe0TI+J3vo9e66VpVRtwgDSQw0FVQHQb27lFKB9nd+15J74rgFi6apR
-	OXU/3cjFXuXRdSbbzVZtWZWhInSMBFY81rcHdz1pQeirzzjp98TP1fBKYtLiMozMO/hb
-	2LhgM/uN9nShyz5kATuIhlOWw/yIWmjNjsJICW1mddA4N5QmotUDuv/6N5uEwGP4Elcm
-	iJTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=dykhqMhx8s/J6U5PWe3yJ02+EXeBBFyu6RIs4G1lGIg=;
-	b=nhDIdO7np5X2nzgTj5WBwcJ3mz8jD5wauodfwjsWmRc5t1+fMig3z4AmmNM0Hur2wh
-	MJLSTAutmHmm/OsLyOQDl8zX52lbG+LoRoN707jGukyIYHReSfXZ7N8+3WyMLo+kpibK
-	T/Y9Nt+ebbnxZIY88M/kB5Dn5LGqy28fQzTgBe5iL7/f+MQjjiw8YBar2Xr9qkrjn1gA
-	hErVwhmuFrGu8UmmSgcG0hnlp2rlw6jCn6c8jZa5eja9V0pdVqGNUebeuwhoflFqT1jP
-	0+ySoYyngY6ycFP3aSw+QlE9z7gW74gx59A57lHL1z+DLUwN2S/7c3DYAP5PKNbfH3Cd
-	ZFug==
-X-Gm-Message-State: APjAAAWqtnNmoyVbbHc+0xoLBi78vn9SFS2h+enRxxp9/tKSpYIF3JAD
-	uvkTPebjzIvijC/mOf+rQ0U+gF0VMruYtiXPPVU5rO6aGO+QFg==
-X-Google-Smtp-Source: APXvYqzeQsXhxY5BOd0SNRgqj0IzbahoyzGxhVFEDJzxAvHP2EQg6/glGRWJYgkJSjijI7mx40mGtGL8M6i40srN/eY=
-X-Received: by 2002:ac8:7617:: with SMTP id t23mr8912302qtq.88.1571835942749; 
-	Wed, 23 Oct 2019 06:05:42 -0700 (PDT)
+	Wed, 23 Oct 2019 13:17:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id AD5799C0368;
+	Wed, 23 Oct 2019 09:17:34 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id VfAj7aGc3by2; Wed, 23 Oct 2019 09:17:34 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 00E379C0392;
+	Wed, 23 Oct 2019 09:17:34 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id bJzfOPupovZ7; Wed, 23 Oct 2019 09:17:33 -0400 (EDT)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id CEAE39C0368;
+	Wed, 23 Oct 2019 09:17:33 -0400 (EDT)
+Date: Wed, 23 Oct 2019 09:17:33 -0400 (EDT)
+From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <957676135.250492.1571836653788.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <CANNYZj9y0a7PgU2+vdBWYvbJYfUyHRCaZPfVjGmW0b2HY8Z=bA@mail.gmail.com>
+References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<20191022090353.21151-2-jean-marie.lemetayer@savoirfairelinux.com>
+	<CANNYZj9y0a7PgU2+vdBWYvbJYfUyHRCaZPfVjGmW0b2HY8Z=bA@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAMKF1sq83g8Zu3FmqWtdpJAePA6XsGnWZ5Z6HN9A6YvT8Socjw@mail.gmail.com>
-In-Reply-To: <CAMKF1sq83g8Zu3FmqWtdpJAePA6XsGnWZ5Z6HN9A6YvT8Socjw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 23 Oct 2019 14:05:16 +0100
-Message-ID: <CAMKF1srJZNAkUKNiExu7xDbCBOHcOvOUvr-7+xHCCB=BQjawxw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: new meta-oe failures from master-next
+X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC77 (Linux)/8.8.11_GA_3737)
+Thread-Topic: npm.bbclass: refactor the npm class
+Thread-Index: +Kc4Ug7h9DzbTzOstTiVaZA+9gOUyw==
+Cc: paul eggleton <paul.eggleton@linux.intel.com>,
+	Savoir-faire Linux Rennes <rennes@savoirfairelinux.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 1/6] npm.bbclass: refactor the npm class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,21 +51,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 13:05:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 23 Oct 2019 13:17:34 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-here is AB failure link
+On Oct 22, 2019, at 1:35 PM, Alexander Kanavin alex.kanavin@gmail.com wrote:
+> On Tue, 22 Oct 2019 at 11:12, Jean-Marie LEMETAYER <
+> jean-marie.lemetayer@savoirfairelinux.com> wrote:
+> 
+>> The simplest solution is to let npm do its job. Assuming the fetcher
+>> only get the sources of the package, the class will now run
+>> 'npm install' to create a build directory. The build directory is then
+>> copied wisely to the destination.
+>>
+> 
+> I agree that npm dependency handing is a mess, and we should indeed let npm
+> do the job.
+> 
+> However, 'npm install' pulls various things from the network; this can only
+> be happen during do_fetch(), so that offline builds can continue to work.
+> Whatever has been downloaded, needs to go to DL_DIR.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/56
+You are right, I am working on a v2 to fix this point.
 
-On Wed, Oct 23, 2019 at 2:03 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Hi Richard
->
-> New master-next I see these fails
->
-> https://errors.yoctoproject.org/Errors/Build/91645/
->
-> First two are important one's we already know why
-> ti-display-sharing-fw fails to fetch
+> It also needs to be reproducible (there should be a guarantee that it
+> always pulls the same set of sources which are verified through a checksum
+> of some kind), I guess that can only be achieved through upstream provided
+> shrinkwrap?
+
+Yes, with current npm versions the "npm-shrinkwrap.json" [1] or the
+"package-lock.json" [2] are both used to describe the dependency tree and
+verify the integrity of the dependencies. This is what makes the build
+reproducible. One of these files is mandatory to build the recipe (in the
+source files or provided by the NPM_SHRINKWRAP variable).
+
+For information the current 'node' version packed in meta-oe is '10.16.3'
+which includes 'npm' version '6.9.0' [3].
+
+1: https://docs.npmjs.com/files/shrinkwrap.json
+2: https://docs.npmjs.com/files/package-lock.json
+3: https://nodejs.org/en/download/releases/
+
+Regards,
+Jean-Marie
 
