@@ -1,38 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 07A267E553
+	by mail.openembedded.org (Postfix) with ESMTP id AE21165CE9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 08:41:08 +0000 (UTC)
+	Wed, 23 Oct 2019 10:36:41 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46ykNz4r9Wz5w;
-	Wed, 23 Oct 2019 10:41:07 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 46ymyJ2Kmfz5w
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Oct 2019 12:36:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1571820068;
-	bh=2cLmvOLuTGKhXWdxxWGTWx5U2kmEIv4s9/68V0BTicQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lhgCJA6Ewvi7Gtd+IjFVUlowx7G1QJ+RPa3CNDDUONLIQfI4zaNmapdmV3ITCYXKF
-	Wn7MzvKeN7WIPYuMs6FFz6Cw+3dIVr/6HZytjgnJE5w8Kg7TKeVhKm8PhAEOIQ0CG8
-	7Nslp45S0z46ulmmHcRT6N699J4QWw0xSXBaSMcEFkY4htBsrjtEXjafPRR9bKZltg
-	58zS8VIixi9Tk6zY9xtOrPTEQxe/GCGta8o54DCL4vapwXbxCX7m9SUhxvEhlGlGrL
-	RpKD0M+ISghvsJztwkYpAAZizMwsPWaTxv/WAbMOzCRlUFOjE1J+UCxUkALDzoPuqW
-	PsTiq8ntRKgAGwdmFcUq4rVfv7l94Yh2Z3qgi1SsgHeZGm15UeCs0uvS0oLae7LOaz
-	XHehUFy98YqmbWr28sCTB7WhwmKp5zsMLODHvwj7gZNuWJ/d5Kr7ASn7A04oJinkvJ
-	0XgX8nMHEzmM8usRP36rj3+SS0TB4XOwJF5UPKCFwjlQ5wMyJwe83eTfhO/+iGNgcA
-	soSFJgcYJpyNha2FBScZXp1FPfOzfjwMAgunBWRwKftX3ccA+A9+KVSAo27bu1xhSb
-	OsHlo9hEwTvxtu6uUlDFoKpokCk0KJ6rMi8P+D8N/faJcupL6nZ/v43wPRi9DNtWbU
-	TJl4A22AQIS0XD5S/wevHiAs=
-Date: Wed, 23 Oct 2019 11:41:05 +0300
+	s=default; t=1571827000;
+	bh=27IF2/meuDce4qe+dG62GtCR2ijIi6YnMke6fWvAwzk=;
+	h=From:To:Subject:Date:From;
+	b=CivV//f04DBfDCtEWRB4DYDhK+oDvacUnKwCI0D7DYGkC4cBiQRf96l/YHv0uZqPy
+	rR1+UAB5xeSu2DqVSClcRNZt0Hz0XVJ4+arE5I9tXd82u1G8Yxx3dfrkOgAAOEwWPy
+	G4vMS822HhT280mFcWJU8iqXfQDIlNbFqsN8yxCsr4jDHAeva2t34S+lmhix0dmoct
+	pu+hTjYuRzgYiDYHsWFWQ89ZpFiNnEcmI5rSH/jDrTkpZzYrMe4f94VHoc1WafC21t
+	L07Yuq3NDRlFZWeqk6a5ryc7r3TtRUevlxnmLRq3f90i//o/Zn8N1FIKMCs1z0Xv5A
+	hKPFpvYWossGPyzK7RXIDDPdIgdKZBzgSvMRQ62gDJCJDaf4w2Yden9KFwvDSWv/JK
+	wLNDsjgk66MYpx3VL2k2HhYfT8624c9cSnP66Wm5ZMHfLcY0VI5MKIKPehpBTV4KnC
+	DuOQ+7ksrpC5UyelNlSJ6+GUpRsj3hb4yahfQUqjNpFN1NRVdRP5dRFvSOk12hAVni
+	Rs7WAsI4x4l1cfJ9ZjD+vAoNnPERCVRBF0zC9OB9m8nSsxZHGxVgFl6l7J5IUc209V
+	StoibEOjGr5PTV3dOEoCVlq9JkeeCgrGhlM8xssasv8993DFZh1F5gsaDFkeTimiEH
+	WNy7nNi5z7Qbh6gyyEPyz7Rg=
 From: Adrian Bunk <bunk@stusta.de>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20191023084104.GA4655@localhost>
-References: <1571325700-5138-1-git-send-email-akuster808@gmail.com>
-	<20191017184222.GN17412@denix.org>
-	<2e2b16b4-fff6-b84c-1f48-0e020a0f3629@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <2e2b16b4-fff6-b84c-1f48-0e020a0f3629@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [thud][PATCH] Revert "OpkgPM: use --add-ignore-recommends to process BAD_RECOMMENDATIONS"
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Oct 2019 13:36:39 +0300
+Message-Id: <20191023103639.4847-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] python3: Upgrade 3.7.4 -> 3.7.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,51 +40,211 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 08:41:09 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 23 Oct 2019 10:36:43 -0000
 
-On Thu, Oct 17, 2019 at 12:21:11PM -0700, akuster808 wrote:
-> On 10/17/19 11:42 AM, Denys Dmytriyenko wrote:
-> > Thank you for this revert! I've been pulling my hair out past couple days 
-> > figuring out why BAD_RECOMMENDATIONS stopped working for us. This fixed it.
-> 
-> What I find curious is that the offending commit has been in thud since
-> July 29th and we are just now hearing about issues.
->...
+Backported patch removed.
 
-The "Yocto is not a distribution, it is a tool to build distributions"
-adds a layer between Yocto upstream and users that results in users
-usually using old Yocto releases.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ ...lib-as-location-for-site-packages-an.patch |   2 +-
+ ...nt-parse-domains-containing-GH-13079.patch | 132 ------------------
+ ...asename-to-replace-CC-for-checking-c.patch |   2 +-
+ .../{python3_3.7.4.bb => python3_3.7.5.bb}    |   5 +-
+ 4 files changed, 4 insertions(+), 137 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
+ rename meta/recipes-devtools/python/{python3_3.7.4.bb => python3_3.7.5.bb} (98%)
 
-How large is actually the fraction of users who are creating their own 
-distributions based on Yocto releases taken directly from upstream?
-
-I would suspect most users are using 3rd party distributions provided by 
-hardware vendors or companies like Wind River.
-
-This adds quite a delay between a change being released in a Yocto 
-stable release, and users actually using it.
-
-When the distribution they are using is based on a thud release, new 
-Yocto releases from that branch will only reach them when/if their 
-distribution provider has updated and validated this change and made
-a new release of the distribution.
-
-Related, many of the Yocto user questions in various places tend to be 
-for 2-3 year old Yocto releases. Often these sound like people just 
-starting a new project with a distibution based on an old Yocto release.
-
-> - armin
-
-cu
-Adrian
-
+diff --git a/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch b/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
+index 661f52d01f..ea75262c4f 100644
+--- a/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
++++ b/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
+@@ -70,7 +70,7 @@ index 6e81b2f..671a20e 100644
+  
+  Programs/python.o: $(srcdir)/Programs/python.c
+ @@ -856,7 +857,7 @@ regen-opcode:
+- Python/compile.o Python/symtable.o Python/ast_unparse.o Python/ast.o: $(srcdir)/Include/graminit.h $(srcdir)/Include/Python-ast.h
++ Python/compile.o Python/symtable.o Python/ast_unparse.o Python/ast.o Python/future.o Parser/parsetok.o: $(srcdir)/Include/graminit.h $(srcdir)/Include/Python-ast.h
+  
+  Python/getplatform.o: $(srcdir)/Python/getplatform.c
+ -		$(CC) -c $(PY_CORE_CFLAGS) -DPLATFORM='"$(MACHDEP)"' -o $@ $(srcdir)/Python/getplatform.c
+diff --git a/meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch b/meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
+deleted file mode 100644
+index 319e7ed07e..0000000000
+--- a/meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
++++ /dev/null
+@@ -1,132 +0,0 @@
+-From 90d56127ae15b1e452755e62c77dc475dedf7161 Mon Sep 17 00:00:00 2001
+-From: jpic <jpic@users.noreply.github.com>
+-Date: Wed, 17 Jul 2019 23:54:25 +0200
+-Subject: [PATCH] bpo-34155: Dont parse domains containing @ (GH-13079)
+-
+-Before:
+-
+-        >>> email.message_from_string('From: a@malicious.org@important.com', policy=email.policy.default)['from'].addresses
+-        (Address(display_name='', username='a', domain='malicious.org'),)
+-
+-        >>> parseaddr('a@malicious.org@important.com')
+-        ('', 'a@malicious.org')
+-
+-    After:
+-
+-        >>> email.message_from_string('From: a@malicious.org@important.com', policy=email.policy.default)['from'].addresses
+-        (Address(display_name='', username='', domain=''),)
+-
+-        >>> parseaddr('a@malicious.org@important.com')
+-        ('', 'a@')
+-
+-https://bugs.python.org/issue34155
+-
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/8cb65d1381b027f0b09ee36bfed7f35bb4dec9a9]
+-
+-CVE: CVE-2019-16056
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- Lib/email/_header_value_parser.py                  |  2 ++
+- Lib/email/_parseaddr.py                            | 11 ++++++++++-
+- Lib/test/test_email/test__header_value_parser.py   | 10 ++++++++++
+- Lib/test/test_email/test_email.py                  | 14 ++++++++++++++
+- .../2019-05-04-13-33-37.bpo-34155.MJll68.rst       |  1 +
+- 5 files changed, 37 insertions(+), 1 deletion(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
+-
+-diff --git a/Lib/email/_header_value_parser.py b/Lib/email/_header_value_parser.py
+-index fc00b4a098..bbc026ec71 100644
+---- a/Lib/email/_header_value_parser.py
+-+++ b/Lib/email/_header_value_parser.py
+-@@ -1582,6 +1582,8 @@ def get_domain(value):
+-         token, value = get_dot_atom(value)
+-     except errors.HeaderParseError:
+-         token, value = get_atom(value)
+-+    if value and value[0] == '@':
+-+        raise errors.HeaderParseError('Invalid Domain')
+-     if leader is not None:
+-         token[:0] = [leader]
+-     domain.append(token)
+-diff --git a/Lib/email/_parseaddr.py b/Lib/email/_parseaddr.py
+-index cdfa3729ad..41ff6f8c00 100644
+---- a/Lib/email/_parseaddr.py
+-+++ b/Lib/email/_parseaddr.py
+-@@ -379,7 +379,12 @@ class AddrlistClass:
+-         aslist.append('@')
+-         self.pos += 1
+-         self.gotonext()
+--        return EMPTYSTRING.join(aslist) + self.getdomain()
+-+        domain = self.getdomain()
+-+        if not domain:
+-+            # Invalid domain, return an empty address instead of returning a
+-+            # local part to denote failed parsing.
+-+            return EMPTYSTRING
+-+        return EMPTYSTRING.join(aslist) + domain
+- 
+-     def getdomain(self):
+-         """Get the complete domain name from an address."""
+-@@ -394,6 +399,10 @@ class AddrlistClass:
+-             elif self.field[self.pos] == '.':
+-                 self.pos += 1
+-                 sdlist.append('.')
+-+            elif self.field[self.pos] == '@':
+-+                # bpo-34155: Don't parse domains with two `@` like
+-+                # `a@malicious.org@important.com`.
+-+                return EMPTYSTRING
+-             elif self.field[self.pos] in self.atomends:
+-                 break
+-             else:
+-diff --git a/Lib/test/test_email/test__header_value_parser.py b/Lib/test/test_email/test__header_value_parser.py
+-index 693487bc96..7dc4de1b7b 100644
+---- a/Lib/test/test_email/test__header_value_parser.py
+-+++ b/Lib/test/test_email/test__header_value_parser.py
+-@@ -1438,6 +1438,16 @@ class TestParser(TestParserMixin, TestEmailBase):
+-         self.assertEqual(addr_spec.domain, 'example.com')
+-         self.assertEqual(addr_spec.addr_spec, 'star.a.star@example.com')
+- 
+-+    def test_get_addr_spec_multiple_domains(self):
+-+        with self.assertRaises(errors.HeaderParseError):
+-+            parser.get_addr_spec('star@a.star@example.com')
+-+
+-+        with self.assertRaises(errors.HeaderParseError):
+-+            parser.get_addr_spec('star@a@example.com')
+-+
+-+        with self.assertRaises(errors.HeaderParseError):
+-+            parser.get_addr_spec('star@172.17.0.1@example.com')
+-+
+-     # get_obs_route
+- 
+-     def test_get_obs_route_simple(self):
+-diff --git a/Lib/test/test_email/test_email.py b/Lib/test/test_email/test_email.py
+-index c29cc56203..aa775881c5 100644
+---- a/Lib/test/test_email/test_email.py
+-+++ b/Lib/test/test_email/test_email.py
+-@@ -3041,6 +3041,20 @@ class TestMiscellaneous(TestEmailBase):
+-         self.assertEqual(utils.parseaddr('<>'), ('', ''))
+-         self.assertEqual(utils.formataddr(utils.parseaddr('<>')), '')
+- 
+-+    def test_parseaddr_multiple_domains(self):
+-+        self.assertEqual(
+-+            utils.parseaddr('a@b@c'),
+-+            ('', '')
+-+        )
+-+        self.assertEqual(
+-+            utils.parseaddr('a@b.c@c'),
+-+            ('', '')
+-+        )
+-+        self.assertEqual(
+-+            utils.parseaddr('a@172.17.0.1@c'),
+-+            ('', '')
+-+        )
+-+
+-     def test_noquote_dump(self):
+-         self.assertEqual(
+-             utils.formataddr(('A Silly Person', 'person@dom.ain')),
+-diff --git a/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
+-new file mode 100644
+-index 0000000000..50292e29ed
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
+-@@ -0,0 +1 @@
+-+Fix parsing of invalid email addresses with more than one ``@`` (e.g. a@b@c.com.) to not return the part before 2nd ``@`` as valid email address. Patch by maxking & jpic.
+diff --git a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
+index 5735954628..a0ea897f4e 100644
+--- a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
++++ b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
+@@ -63,7 +63,7 @@ index a7de901..4a3681f 100644
+ +  case $cc_basename in
+      *clang*)
+        AC_SUBST(LLVM_AR)
+-       AC_PATH_TARGET_TOOL(LLVM_AR, llvm-ar, '', ${llvm_path})
++       AC_PATH_TOOL(LLVM_AR, llvm-ar, '', ${llvm_path})
+ @@ -1426,7 +1427,7 @@ then
+    fi
+  fi
+diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.5.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.7.4.bb
+rename to meta/recipes-devtools/python/python3_3.7.5.bb
+index 8c429e95c3..0338fa4ba8 100644
+--- a/meta/recipes-devtools/python/python3_3.7.4.bb
++++ b/meta/recipes-devtools/python/python3_3.7.5.bb
+@@ -29,7 +29,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
+            file://0001-test_locale.py-correct-the-test-output-format.patch \
+            file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
+-           file://0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
+            "
+ 
+ SRC_URI_append_class-native = " \
+@@ -40,8 +39,8 @@ SRC_URI_append_class-nativesdk = " \
+            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
+            "
+ 
+-SRC_URI[md5sum] = "d33e4aae66097051c2eca45ee3604803"
+-SRC_URI[sha256sum] = "fb799134b868199930b75f26678f18932214042639cd52b16da7fd134cd9b13f"
++SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
++SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
