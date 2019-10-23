@@ -1,53 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 641DA7DF61
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A1237DF61
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 07:46:29 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id z9so20852657wrl.11
+	Wed, 23 Oct 2019 07:49:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9N7ngjT029470
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 00:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=mBumTb/2yAJn/xO7yKmQNKfYrgrrMVE3291/lJyr74Y=;
-	b=FrPZHy8zieSpV+9vARaDCQAuMMjFU9jbcwH0plv/0P+nRf0ZDokTxF/jhFAacXO1EQ
-	hlQQUnzmxJ0HirZswuoKklxJSSkAiP1F8KltlhIZLowyWtDaO1sq3aOn5KphbAXiP3Ob
-	CAnMbJV9H6iwadE45h1TDX37VWzQBfMSZRObc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=mBumTb/2yAJn/xO7yKmQNKfYrgrrMVE3291/lJyr74Y=;
-	b=DWykImk4tA2E8MOGSdvUM1+KV/cWk4wQW66fCEOeQT8JwXVBXx7AC88c1E4Okk/Huv
-	3pseWGkpzpNqexqEKhtFmxC5WTYUH4ZmORZcsu3GgouS76Bzl36g0oGcxslkGZhs0ceS
-	WMVH4cn6awOgmCJDxfGC9WKAnXixc1JQgZikBNflVbmxu2wbGeuPC1HvEnq4fuXRAGHJ
-	Z7hiD4DKVeeimoFQjoeo2mnoG0yRXHQ3zf9p8SHo5ALj5vDFs6sqnzR21U4g0saIZ15I
-	q73Hwl+ZEMCyjkqxB4HyUkoiPWir47RLwoXuluB+8ZkZWviTDGbRdkj3GxpFhzbvH57m
-	50RA==
-X-Gm-Message-State: APjAAAWG4+4Kl5kW++0TYVJYRqcrZt8Xt5ba+qCpTBR968a+TBmDSzhB
-	chfNy1leHVP3hRegUE+aAG97AA==
-X-Google-Smtp-Source: APXvYqxzy7UAUgnxWU6YuK3n0Vd4pvsLJxlL33h6eVjELq3ntA+sY0V7GDiayKrDcczCXIGZ+hBDFQ==
-X-Received: by 2002:adf:aacc:: with SMTP id i12mr6447909wrc.15.1571816790008; 
-	Wed, 23 Oct 2019 00:46:30 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w15sm13106866wro.65.2019.10.23.00.46.28
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 23 Oct 2019 00:46:28 -0700 (PDT)
-Message-ID: <926a535b1b0b32de2bae2ebb393401c79525b97a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alistair Francis <alistair23@gmail.com>, Alistair Francis
-	<alistair@alistair23.me>
-Date: Wed, 23 Oct 2019 08:46:27 +0100
-In-Reply-To: <CAKmqyKMtXBO6Z2NUC5ewYwYOHneorfrbiMJOf6PZfsg7hybR1Q@mail.gmail.com>
-References: <20191012165433.24511-1-alistair@alistair23.me>
-	<CAKmqyKMtXBO6Z2NUC5ewYwYOHneorfrbiMJOf6PZfsg7hybR1Q@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Wed, 23 Oct 2019 00:49:44 -0700 (PDT)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 23 Oct 2019 00:49:41 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 23 Oct 2019 15:49:38 +0800
+Message-ID: <20191023074939.17611-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: Upgrade to 19.2.1
+Subject: [PATCH v2 0/1] bind: fix CVE-2019-6471 and CVE-2018-5743
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,40 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 07:46:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Oct 2019 07:49:43 -0000
+Content-Type: text/plain
 
-On Tue, 2019-10-22 at 15:07 -0700, Alistair Francis wrote:
-> On Sat, Oct 12, 2019 at 9:54 AM Alistair Francis <
-> alistair@alistair23.me> wrote:
-> > Upgrade mesa and mesa-gl to 19.2.1.
-> > 
-> > The license hash change was a trivial new line removal.
-> > 
-> > The glx-tls option was removed as it isn't included in the
-> > meson.build
-> > file.
-> > 
-> > The -Dasm=false was removed as it also is no longer included.
-> > 
-> > Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> 
-> Ping!
+From: Kai Kang <kai.kang@windriver.com>
 
-It caused multiple failures on the autobuilder:
+v2:
+* add tag CVE in patch files
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1160
-(musl-qemux86)
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1162
-(musl-qemux86-64)
-https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/1141
-(libsdl2 compile fail)
-https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/40
-(libsdl2 compile fail)
+Kai Kang (1):
+  bind: fix CVE-2019-6471 and CVE-2018-5743
 
-Cheers,
+ .../bind/0001-bind-fix-CVE-2019-6471.patch    |  64 ++
+ ...01-fix-enforcement-of-tcp-clients-v1.patch |  60 ++
+ ...p-clients-could-still-be-exceeded-v2.patch | 670 +++++++++++++
+ ...rence-counter-for-pipeline-groups-v3.patch | 278 ++++++
+ ...accounting-and-client-mortality-chec.patch | 512 ++++++++++
+ ...a-and-pipeline-refs-allow-special-ca.patch | 911 ++++++++++++++++++
+ ...allowance-for-tcp-clients-interfaces.patch |  80 ++
+ ...perations-in-bin-named-client.c-with.patch | 140 +++
+ .../bind/bind_9.11.5-P4.bb                    |   8 +
+ 9 files changed, 2723 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/0001-bind-fix-CVE-2019-6471.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0001-fix-enforcement-of-tcp-clients-v1.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0002-tcp-clients-could-still-be-exceeded-v2.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0003-use-reference-counter-for-pipeline-groups-v3.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0004-better-tcpquota-accounting-and-client-mortality-chec.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0005-refactor-tcpquota-and-pipeline-refs-allow-special-ca.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0006-restore-allowance-for-tcp-clients-interfaces.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0007-Replace-atomic-operations-in-bin-named-client.c-with.patch
 
-Richard
+-- 
+2.17.1
 
 
