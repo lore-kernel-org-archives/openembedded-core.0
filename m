@@ -1,52 +1,54 @@
 Return-Path: <maxime.roussinbelanger@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 12C057F7A4
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FDB67F7DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 02:14:47 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id m15so30135030qtq.2
+	Wed, 23 Oct 2019 02:14:48 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id w14so30024511qto.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2019 19:14:49 -0700 (PDT)
+	Tue, 22 Oct 2019 19:14:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=sAFR/57mbg/mbjhWmPhhIqH2Jj9CxFXY/lpebsrPgYk=;
-	b=C74U/pLOw0Er6rTnZUD4t4T/eug6VZVWD5ef2gstgmIxCcqwvaTdG6usHuoF/HT59z
-	zLqTpZHPTUkygQ4F8+06OOMVyQQnke9vfbx0+2qagVW1uGGc67V+K4Ypb3Zj7W1dRZqE
-	aPcF7/J33D/+1t8ugHhTurNF8SM6FJI+iKGFGMmAZ3wUCnUSKq5WKH27gZv4TSYcO1qh
-	UYU+AF4kzxsdlWq9y/2OOHUM7c0A38O2MrKHpNoRuFLm4cydFL3dO8BBSIX9MFLolUqg
-	VS7Ku/6HU5p4rXWLenOT3jpgxENApuhky0OLjWbZlI+K9vs48Nn4cVYZJw5x1bB47dZf
-	oN/Q==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=CpW8430p8vKoLV6itvBVDeVVUSITM6wVWHJkPwsWaCA=;
+	b=YaJPJXUtZzdASPQWkXOIoB0VGzwTJOnS6gebpyZxxmGCmt1kbegrgQcLEZfRDoab8Y
+	ErreA2DMGE5UYY0nGIp3j56/D+76nKezAOfRyfSAIaaKNYmoObRxFNJxgnk8pRXmbJel
+	IrQfulakgZxDIZQxGgYUUVJdFGiJz8NGScNMJHSWDEdJhqNEfZ2ixyTJoX9aNvdhzkBe
+	o6aj6MGKeu8wRgUUB1W1eoMwEYlcR1CJvjVsFPnjBTPk5awHgnM6N0Eci8Jw9Tvm5v00
+	LcRcNWhKjLi91cxNfdbvLn5oBN/5VyySdiSojz8RNvK99eFOlZ5JEGvc5y7PkvXWwAtY
+	HVyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=sAFR/57mbg/mbjhWmPhhIqH2Jj9CxFXY/lpebsrPgYk=;
-	b=RzEaMr4oYWXCwZ+4q9nbMsmbR27L/griAFeFhl9KBtn4NZe6W6y7KutpdeZAOjeUGB
-	R4JqhaGzrmEkEoMyCdP0WS39xIOW0MuVyIb1tkiN7jBkqY8ajTDGOW7a9+QSWCX91n2h
-	D4hyoHQhgpzo2Ry/bmgBo7YbSoCnOC9v5KP+bcNgdSZaBoUUImqKo2x4FGjh9rQhGZUh
-	VFkHvrlBiocVoKsh9oBzKK0eQ1tzHz1C+Mnbnok6mQ3rhvut2W//VIHjD3bcAqzrgUZl
-	m92Nbowm2gu91VAqsRIUJgvj6m2kjCxfuNN77U3mLT37XrQsOWds6UGWnSI4nDuUoBVP
-	F7sw==
-X-Gm-Message-State: APjAAAUBz4x6hfr6qxv3A3VKUFewJkEeSUBE4FI3IVmFqEUyhMZ0Hw0p
-	ahd2Dvdn9/ZdPW0XHYSNRj3Ugwffrng=
-X-Google-Smtp-Source: APXvYqxV3yhYINMk6OD8hhmIHN3vURDLHzrJRKMPIZl1PiQ/RQ9XpKJdrWIS/4rKorSPc66Uj5kPmg==
-X-Received: by 2002:aed:3f21:: with SMTP id p30mr7097077qtf.236.1571796888475; 
-	Tue, 22 Oct 2019 19:14:48 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=CpW8430p8vKoLV6itvBVDeVVUSITM6wVWHJkPwsWaCA=;
+	b=f1pzeZCDg6EDhshabXjj1ZoatwdkjOC5UfSRJ8yFflYZwtGWEngPshElLn0CzIljf6
+	3TwejjeqNxX4i87sEsmz7GbiThTPVlus8K9LX0mC5GmWm7muZXJYdOuIZxEgoJnEcG1w
+	8gU8O6WIAcdpqwBpoLod5cr0mKIjBjVjCUmk1FNi/Gnr9/vBw6SzRmHu4m+1QEfWVPM5
+	Oh32Ybd0BbFLSuUidgZjS8L9Bc4740y4Z+FrZEIErF8JOHy4iO8FSShp0ihtR3Rx7fC2
+	A0ISFYos0NSTQridOrXtAznmub35R5EmhmwJ21secF2lhSzCy7kmMWGdpvJCoeg3IAXr
+	v+ew==
+X-Gm-Message-State: APjAAAU/X/Nt5iHXMtDs0YjpaO80Lpi+gVmtHGjBfO0F/NO4eQJjrpJx
+	LzFL/ScaK66Z/FQ4uMhS9HuJ+9YNul0=
+X-Google-Smtp-Source: APXvYqyvkLv6RrXMifGGRRrivejLwQGM1ub2X1PfW0TuJnpq75m/2rYiRlvsGowogFC/MFEvMqziQw==
+X-Received: by 2002:ac8:33fb:: with SMTP id d56mr6975834qtb.377.1571796889476; 
+	Tue, 22 Oct 2019 19:14:49 -0700 (PDT)
 Received: from mroussin.local.net
 	(qubcpq0336w-lp140-02-174-92-197-147.dsl.bell.ca. [174.92.197.147])
 	by smtp.gmail.com with ESMTPSA id
-	u43sm12003531qte.19.2019.10.22.19.14.47
+	u43sm12003531qte.19.2019.10.22.19.14.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Oct 2019 19:14:47 -0700 (PDT)
+	Tue, 22 Oct 2019 19:14:49 -0700 (PDT)
 From: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
 	<maxime.roussinbelanger@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2019 22:14:36 -0400
-Message-Id: <20191023021437.33560-1-maxime.roussinbelanger@gmail.com>
+Date: Tue, 22 Oct 2019 22:14:37 -0400
+Message-Id: <20191023021437.33560-2-maxime.roussinbelanger@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191023021437.33560-1-maxime.roussinbelanger@gmail.com>
+References: <20191023021437.33560-1-maxime.roussinbelanger@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] meta: update and add missing homepage/bugtracker links for gnome recipes
+Subject: [PATCH 2/2] meta: add missing description in recipes-gnome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,190 +61,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 02:14:48 -0000
+X-List-Received-Date: Wed, 23 Oct 2019 02:14:49 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: Maxime Roussin-Belanger <maxime.roussinbelanger@gmail.com>
 
-Gnome has moved to gitlab in 2018.
-Some of the homepage urls didn't exist anymore.
-
 Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
 ---
- meta/recipes-gnome/epiphany/epiphany_3.34.1.bb                | 1 +
- meta/recipes-gnome/gcr/gcr_3.28.1.bb                          | 4 ++--
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb            | 4 ++--
- meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb         | 4 ++--
- .../gobject-introspection/gobject-introspection_1.62.0.bb     | 2 +-
- .../gsettings-desktop-schemas_3.32.0.bb                       | 4 ++--
- .../hicolor-icon-theme/hicolor-icon-theme_0.17.bb             | 2 +-
- meta/recipes-gnome/json-glib/json-glib_1.4.4.bb               | 3 ++-
- meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb              | 2 ++
- meta/recipes-gnome/libgudev/libgudev_233.bb                   | 1 +
- meta/recipes-gnome/libnotify/libnotify_0.7.8.bb               | 3 ++-
- meta/recipes-gnome/librsvg/librsvg_2.40.20.bb                 | 4 ++--
- meta/recipes-gnome/libsecret/libsecret_0.19.1.bb              | 1 +
- 13 files changed, 21 insertions(+), 14 deletions(-)
+ meta/recipes-gnome/gcr/gcr_3.28.1.bb                      | 3 +++
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb        | 3 +++
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb                   | 3 +++
+ .../gobject-introspection/gobject-introspection_1.62.0.bb | 8 ++++++--
+ .../gsettings-desktop-schemas_3.32.0.bb                   | 2 ++
+ .../hicolor-icon-theme/hicolor-icon-theme_0.17.bb         | 2 ++
+ meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb          | 3 +++
+ meta/recipes-gnome/libgudev/libgudev_233.bb               | 4 ++++
+ meta/recipes-gnome/librsvg/librsvg_2.40.20.bb             | 4 ++++
+ meta/recipes-gnome/libsecret/libsecret_0.19.1.bb          | 4 ++++
+ 10 files changed, 34 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.34.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.34.1.bb
-index f5f086391e..d1cb515a58 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.34.1.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.34.1.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "WebKit based web browser for GNOME"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/epiphany"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
 diff --git a/meta/recipes-gnome/gcr/gcr_3.28.1.bb b/meta/recipes-gnome/gcr/gcr_3.28.1.bb
-index 2299199c31..419396f049 100644
+index 419396f049..0a9867451e 100644
 --- a/meta/recipes-gnome/gcr/gcr_3.28.1.bb
 +++ b/meta/recipes-gnome/gcr/gcr_3.28.1.bb
-@@ -1,6 +1,6 @@
+@@ -1,4 +1,7 @@
  SUMMARY = "A library for bits of crypto UI and parsing etc"
--HOMEPAGE = "http://www.gnome.org/"
--BUGTRACKER = "https://bugzilla.gnome.org/"
-+HOMEPAGE = "https://gitlab.gnome.org/GNOME/gcr"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/gcr/issues"
++DESCRIPTION = "GCR is a library for displaying certificates, and crypto UI, \
++accessing key stores. It also provides the viewer for crypto files on the \
++GNOME desktop."
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/gcr"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/gcr/issues"
  
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
 diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb
-index 0f3a63d891..90196e8818 100644
+index 90196e8818..c99510609c 100644
 --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb
 +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.2.bb
-@@ -1,6 +1,6 @@
+@@ -1,4 +1,7 @@
  SUMMARY = "Image loading library for GTK+"
--HOMEPAGE = "http://www.gtk.org/"
--BUGTRACKER = "https://bugzilla.gnome.org/"
-+HOMEPAGE = "https://wiki.gnome.org/Projects/GdkPixbuf"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/gdk-pixbuf/issues"
++DESCRIPTION = "The GDK Pixbuf library provides: Image loading and saving \
++facilities, fast scaling and compositing of pixbufs and Simple animation \
++loading (ie. animated GIFs)"
+ HOMEPAGE = "https://wiki.gnome.org/Projects/GdkPixbuf"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/gdk-pixbuf/issues"
  
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb
-index 02676f4401..2f3ce25d42 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.32.0.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "GTK+ icon theme"
--HOMEPAGE = "http://ftp.gnome.org/pub/GNOME/sources/adwaita-icon-theme/"
--BUGTRACKER = "https://bugzilla.gnome.org/"
-+HOMEPAGE = "https://gitlab.gnome.org/GNOME/adwaita-icon-theme"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/adwaita-icon-theme/issues"
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index e6742f37d8..b8466d4833 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -1,4 +1,7 @@
+ SUMMARY = "GNOME configuration system"
++DESCRIPTION = "GConf is a system for storing application preferences. \
++It is intended for user preferences; not configuration of something like \
++Apache, or arbitrary data storage."
  SECTION = "x11/gnome"
- 
- LICENSE = "LGPL-3.0 | CC-BY-SA-3.0"
+ HOMEPAGE = "https://projects.gnome.org/gconf/"
+ LICENSE = "LGPLv2+"
 diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb
-index c925115fb7..1c3697b23d 100644
+index 1c3697b23d..a9739cc552 100644
 --- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb
 +++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb
-@@ -1,6 +1,6 @@
+@@ -1,4 +1,8 @@
  SUMMARY = "Middleware layer between GObject-using C libraries and language bindings"
++DESCRIPTION = "GObject Introspection is a project for providing machine \
++readable introspection data of the API of C libraries. This introspection \
++data can be used in several different use cases, for example automatic code \
++generation for bindings, API verification and documentation generation."
  HOMEPAGE = "https://wiki.gnome.org/action/show/Projects/GObjectIntrospection"
--BUGTRACKER = "https://bugzilla.gnome.org/"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/gobject-introspection/issues"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/gobject-introspection/issues"
  SECTION = "libs"
- LICENSE = "LGPLv2+ & GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
+@@ -92,7 +96,7 @@ EOF
+ 
+         # Write out a wrapper for g-ir-scanner itself, which will be used when building introspection files
+         # for glib-based packages. This wrapper calls the native version of the scanner, and tells it to use
+-        # a qemu wrapper for running transient target binaries produced by the scanner, and an include directory 
++        # a qemu wrapper for running transient target binaries produced by the scanner, and an include directory
+         # from the target sysroot.
+         cat > ${B}/g-ir-scanner-wrapper << EOF
+ #!/bin/sh
+@@ -132,7 +136,7 @@ do_compile_prepend() {
+         export GIR_EXTRA_LIBS_PATH=$B/.libs
+ }
+ 
+-# Our wrappers need to be available system-wide, because they will be used 
++# Our wrappers need to be available system-wide, because they will be used
+ # to build introspection files for all other gobject-based packages
+ do_install_append_class-target() {
+         install -d ${D}${bindir}/
 diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb
-index 859f70466b..2163260a02 100644
+index 2163260a02..8d19aed2bf 100644
 --- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb
 +++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.32.0.bb
-@@ -1,6 +1,6 @@
+@@ -1,4 +1,6 @@
  SUMMARY = "GNOME desktop-wide GSettings schemas"
--HOMEPAGE = "http://live.gnome.org/gsettings-desktop-schemas"
--BUGTRACKER = "https://bugzilla.gnome.org/"
-+HOMEPAGE = "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/issues"
++DESCRIPTION = "GSettings desktop-wide schemas contains a collection of \
++GSettings schemas for settings shared by various components of a desktop."
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/issues"
  
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
-index fb8033448d..6ae8032710 100644
+index 6ae8032710..0ade41a1ba 100644
 --- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
 +++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
-@@ -1,5 +1,5 @@
+@@ -1,4 +1,6 @@
  SUMMARY = "Default icon theme that all icon themes automatically inherit from"
--HOMEPAGE = "http://icon-theme.freedesktop.org/wiki/HicolorTheme"
-+HOMEPAGE = "https://www.freedesktop.org/wiki/Software/icon-theme/"
++DESCRIPTION = "The hicolor-icon-theme package contains a default fallback \
++theme for implementations of the icon theme specification."
+ HOMEPAGE = "https://www.freedesktop.org/wiki/Software/icon-theme/"
  BUGTRACKER = "https://bugs.freedesktop.org/"
  
- LICENSE = "GPLv2"
-diff --git a/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb b/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
-index 1c663f93e1..5143d73ed7 100644
---- a/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
-+++ b/meta/recipes-gnome/json-glib/json-glib_1.4.4.bb
-@@ -3,7 +3,8 @@ DESCRIPTION = "Use JSON-GLib it is possible to parse and generate valid JSON\
-  data structures, using a DOM-like API. JSON-GLib also offers GObject \
- integration, providing the ability to serialize and deserialize GObject \
- instances to and from JSON data types."
--HOMEPAGE = "http://live.gnome.org/JsonGlib"
-+HOMEPAGE = "https://wiki.gnome.org/Projects/JsonGlib"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/json-glib/issues"
- 
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
 diff --git a/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb b/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
-index cf61ed5016..56678255fd 100644
+index 56678255fd..e2973905f8 100644
 --- a/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
 +++ b/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
-@@ -1,5 +1,7 @@
+@@ -1,4 +1,7 @@
  SUMMARY = "The libdazzle library is a companion library to GObject and Gtk+."
++DESCRIPTION = "A wide range of components from utilities for GIO, widgets for \
++GTK+, an animation framework, state machines, paneling and high-performance \
++counters are included."
  LICENSE = "GPLv3+"
-+HOMEPAGE = "https://gitlab.gnome.org/GNOME/libdazzle"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/libdazzle/issues"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8f0e2cd40e05189ec81232da84bd6e1a"
- 
- GNOMEBASEBUILDCLASS = "meson"
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/libdazzle"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libdazzle/issues"
 diff --git a/meta/recipes-gnome/libgudev/libgudev_233.bb b/meta/recipes-gnome/libgudev/libgudev_233.bb
-index a9f6bdd65b..04efc89212 100644
+index 04efc89212..8bc379ff62 100644
 --- a/meta/recipes-gnome/libgudev/libgudev_233.bb
 +++ b/meta/recipes-gnome/libgudev/libgudev_233.bb
-@@ -1,5 +1,6 @@
+@@ -1,4 +1,8 @@
  SUMMARY = "GObject wrapper for libudev"
++DESCRIPTION = "This library makes it much simpler to use libudev from programs \
++already using GObject. It also makes it possible to easily use libudev from \
++other programming languages, such as Javascript, because of GObject \
++introspection support."
  HOMEPAGE = "https://wiki.gnome.org/Projects/libgudev"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/libgudev/issues"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libgudev/issues"
  SRC_URI[archive.sha256sum] = "587c4970eb23f4e2deee2cb1fb7838c94a78c578f41ce12cac0a3f4a80dabb03"
- SRC_URI[archive.md5sum] = "d59a317a40aaa02a2226056c0bb4d3e1"
- 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-index 1c9084d919..f4cda7bc74 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-@@ -1,5 +1,6 @@
- SUMMARY = "Library for sending desktop notifications to a notification daemon"
--HOMEPAGE = "http://www.gnome.org"
-+HOMEPAGE = "https://gitlab.gnome.org/GNOME/libnotify"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/libnotify/issues"
- SECTION = "libs"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
 diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-index 6a798e6a91..38532834dd 100644
+index 38532834dd..7f98127fd0 100644
 --- a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
 +++ b/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-@@ -1,6 +1,6 @@
+@@ -1,4 +1,8 @@
  SUMMARY = "Library for rendering SVG files"
--HOMEPAGE = "http://ftp.gnome.org/pub/GNOME/sources/librsvg/"
--BUGTRACKER = "https://bugzilla.gnome.org/"
-+HOMEPAGE = "https://gitlab.gnome.org/GNOME/librsvg"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/librsvg/issues"
- 
- RECIPE_NO_UPDATE_REASON = "Versions from 2.41.0 requires Rust compiler to build it"
++DESCRIPTION = "A small library to render Scalable Vector Graphics (SVG), \
++associated with the GNOME Project. It renders SVG files to Cairo surfaces. \
++Cairo is the 2D, antialiased drawing library that GNOME uses to draw things to \
++the screen or to generate output for printing."
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/librsvg"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/librsvg/issues"
  
 diff --git a/meta/recipes-gnome/libsecret/libsecret_0.19.1.bb b/meta/recipes-gnome/libsecret/libsecret_0.19.1.bb
-index 0d76075239..9145c04412 100644
+index 9145c04412..5adda9a329 100644
 --- a/meta/recipes-gnome/libsecret/libsecret_0.19.1.bb
 +++ b/meta/recipes-gnome/libsecret/libsecret_0.19.1.bb
-@@ -1,5 +1,6 @@
+@@ -1,4 +1,8 @@
  SUMMARY = "libsecret is a library for storing and retrieving passwords and other secrets"
++DESCRIPTION = "A GObject-based library for accessing the Secret Service API of the
++freedesktop.org project, a cross-desktop effort to access passwords, tokens
++and other types of secrets. libsecret provides a convenient wrapper for these
++methods so consumers do not have to call the low-level DBus methods."
  LICENSE = "LGPLv2.1"
-+BUGTRACKER = "https://gitlab.gnome.org/GNOME/libsecret/issues"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libsecret/issues"
  LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
- 
- inherit gnomebase gtk-doc vala gobject-introspection manpages
 -- 
 2.23.0
 
