@@ -1,30 +1,30 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 284E96B076
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 039277F7F1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 10:56:15 +0000 (UTC)
+	Wed, 23 Oct 2019 10:59:40 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Oct 2019 03:56:16 -0700
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Oct 2019 03:59:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,220,1569308400"; d="scan'208";a="223143630"
+X-IronPort-AV: E=Sophos;i="5.68,220,1569308400"; d="scan'208";a="223144267"
 Received: from adahiya-mobl1.gar.corp.intel.com (HELO blackadder.local)
 	([10.249.39.45])
-	by fmsmga004.fm.intel.com with ESMTP; 23 Oct 2019 03:56:15 -0700
-To: openembedded-core@lists.openembedded.org
-References: <20191022235935.19461-1-nick.owens@eero.com>
+	by fmsmga004.fm.intel.com with ESMTP; 23 Oct 2019 03:59:41 -0700
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <20191023023728.37008-1-Qi.Chen@windriver.com>
 From: Ross Burton <ross.burton@intel.com>
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
 	Swindon SN3 1RJ
-Message-ID: <95105283-4f0b-7316-aaea-d5359fd6e115@intel.com>
-Date: Wed, 23 Oct 2019 11:56:12 +0100
+Message-ID: <bbd6bae9-2eb5-04b3-dd2d-652b7a74233d@intel.com>
+Date: Wed, 23 Oct 2019 11:59:37 +0100
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
 	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191022235935.19461-1-nick.owens@eero.com>
-Subject: Re: [PATCH] distutils: pass along parallel make flags to setup.py build
+In-Reply-To: <20191023023728.37008-1-Qi.Chen@windriver.com>
+Subject: Re: [zeus][PATCH 1/2] python3: fix CVE-2019-16935
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,23 +37,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 10:56:15 -0000
+X-List-Received-Date: Wed, 23 Oct 2019 10:59:41 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On 23/10/2019 00:59, Nick Owens wrote:
-> parallel builds for native code in python modules was added about 5
-> years ago. distutils understands '-j N', so just pass along
-> ${PARALLEL_MAKE} to setup.py build.
-
-Does distutils *only* understand -j?  It's not unusual to set 
-PARALLEL_MAKE to something like '-j10 -l5' to factor in the load average.
-
-If distutils doesn't handle -l then it's safer to use a function in 
-oe.utils instead:
-
-... ${@oe.utils.parallel_make_argument(d, "-j %d")} ...
+Zeus and master I presume?
 
 Ross
 
