@@ -1,18 +1,53 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DC31B7F8A9;
-	Wed, 23 Oct 2019 21:02:12 +0000 (UTC)
+Return-Path: <prvs=192c64604=alistair.francis@wdc.com>
+Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C7D177F8A9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Oct 2019 21:07:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1571864854; x=1603400854;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=DkvCdsQaXHR/BumYiDAXXBqGV3mZ/Fiw0JLWC9pqk8E=;
+	b=RNauWFx3BsQPPkK7DDYSWSGNzgFRRohZtzNcNkNnNcGoQuadzSSdXcVF
+	WdAWlcCJXlwux5kYbbWqNekTlAXzrf2TFW4JEGKHhItlg32SlLRuzB7+E
+	AtIH5WRX78XWew6+smfk0Cp+xdZQ1lc2KCQNr/pBLv6z4vsnvGRX6sqeT
+	WbdCooGQTV7CtXttJSPfr2UVkRYrsfsZj3eFbPw3sQPNDVgX4Su7tBgGH
+	58Nr+a2bEeQKLPbPEuKm+fMI1VVWGhqgQ0MF+tb2ZW9Y1ZNrTFISC9YPz
+	8Dhp/RHDePGl7ALn5iIachjQfml4tPPsXbVOQL6LPudWbhqBY+C/Z1w+c A==;
+IronPort-SDR: 8bR/IkbgiQ7juBbg9JkybpjdjrQV78rqwZnQVPAzpI/L3VgeQ5gjCYKqWYb7+P3T1D8mZsIyAu
+	0tG1WXVbh8YW2zXkbBDF7TM2nw/ZNQ2dqQnjqP6UN/JenhP+gl2kn9EUwmbyNmkaqgpgaaNDcH
+	H0PExuJ+8C+hqrPib2QEFf/CbwPMX4jRrUzM7mgwnQiRS2kfLA/TBu15tExVVVSH0Mfam8+R3C
+	RkI4826J/oi1uT328Us9I4Q9xr5XDVEBwwc63QgByJ5bLDBJR+tzMbPQrOBsCZmyJt2cRvFKKW
+	TEs=
+X-IronPort-AV: E=Sophos;i="5.68,222,1569254400"; d="scan'208";a="121201399"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 24 Oct 2019 05:07:33 +0800
+IronPort-SDR: HVWUspZbuaMyo+aY7MbtxD7fKmTbAvRSYPkbBTcY4uk73yVpp7hoVozkMEDlu8ZgY5Icmbz8bL
+	z8xF+bczufkvQmHBGu17FvYzOMxHoOcBtyVieiu3DZ9KMUhwcXGoBScamMLd/FnvNdPlH2XmDO
+	BPQGvcd95jJNwSPyHPckQWGB6sDMInTy5H55U6S6r2I61MMNaOqYKrkVODxKaiXUQ46eQ4PCgd
+	KgKJmCRxa4cbRa2tCw10OhmYbHlmkdT0Kz2DduFGgU7KkfN2NtXhFhVxOTpA9JCU8j4aguU+VR
+	zVLGXfd4+MeRgR1M3gu/HLKV
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	23 Oct 2019 14:03:03 -0700
+IronPort-SDR: jrr3n30m97/GTN4oVB30Ig0Vbsw7LbaRyeHmvHsX5dR43q+sGs/gutmXJbpwq40kt8Yq798WWd
+	vY3WDfLK5ESZnEyFbSgzXS+J50oJeRTqEb7PU4HtQrueW7M4B5G6e61XIRv8rFjm1aagIoDCFc
+	VMxR4E27NappGRWnIMWLjIzB7lZ15yK0ZAVbN8ePpcF7DrT7y/bUoWAU0xOFyB+bXnJjEmuMrG
+	Lw+vKJWohyAYurcrRynpq8quIrmkewa+FjVq0XaGkqS9m14BMKWQKU2CX8aifAUjNKdL97Cqmn
+	Bvo=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+	by uls-op-cesaip01.wdc.com with ESMTP; 23 Oct 2019 14:07:33 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Oct 2019 14:02:40 -0700
+Message-Id: <20191023210240.27983-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alistair Francis <alistair@alistair23.me>
-Date: Wed, 23 Oct 2019 21:02:14 -0000
-Message-ID: <20191023210214.2332.69944@do>
-References: <20191023205354.5652-1-alistair.francis@wdc.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20191023205354.5652-1-alistair.francis@wdc.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWVzYTogVXBncmFkZSB0byAxOS4yLjEgKHJldjIp?=
+Subject: [PATCH v3] mesa: Upgrade to 19.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +60,228 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 21:02:13 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Oct 2019 21:07:33 -0000
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+From: Alistair Francis <alistair@alistair23.me>
 
-Series: mesa: Upgrade to 19.2.1 (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/20447/
-State : failure
+Upgrade mesa and mesa-gl to 19.2.1.
 
-== Summary ==
+The license hash change was a trivial new line removal.
 
+The glx-tls option was removed as it isn't included in the meson.build
+file. It has been replaced with 'use-elf-tls' instead.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+The -Dasm=false was removed as it also is no longer included.
 
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+v3:
+ - Fix missing Upstream-Status
+v2:
+ - Add back "make TLS ELF optional" patch
+
+ ...02-meson.build-make-TLS-ELF-optional.patch | 48 +++++++++++++++++
+ ...on.build-make-TLS-GLX-optional-again.patch | 52 -------------------
+ .../{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb}  |  0
+ meta/recipes-graphics/mesa/mesa.inc           | 15 +++---
+ .../mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb}   |  6 +--
+ 5 files changed, 57 insertions(+), 64 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+ delete mode 100644 meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb} (77%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+new file mode 100644
+index 0000000000..c3b5e14cd6
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+@@ -0,0 +1,48 @@
++From edd03b8ea66ccf81b0c1d27868756d06e2d177ab Mon Sep 17 00:00:00 2001
++From: Alistair Francis <alistair.francis@wdc.com>
++Date: Wed, 23 Oct 2019 09:46:28 -0700
++Subject: [PATCH] meson.build: make TLS ELF optional
++
++USE_ELF_TLS has replaced GLX_USE_TLS so this patch is the original "make
++TLS GLX optional again" patch updated to the latest mesa.
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
++---
++ meson.build       | 2 +-
++ meson_options.txt | 6 ++++++
++ 2 files changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 7992734..06653fe 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -378,7 +378,7 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
++ endif
++ 
++ # Android uses emutls for versions <= P/28. For USE_ELF_TLS we need ELF TLS.
++-if not with_platform_android or get_option('platform-sdk-version') >= 29
+++if (not with_platform_android or get_option('platform-sdk-version') >= 29) and get_option('elf-tls')
++   pre_args += '-DUSE_ELF_TLS'
++ endif
++ 
++diff --git a/meson_options.txt b/meson_options.txt
++index 188e132..ddd47b7 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -339,6 +339,12 @@ option(
++   value : true,
++   description : 'Enable direct rendering in GLX and EGL for DRI',
++ )
+++option(
+++  'elf-tls',
+++  type : 'boolean',
+++  value : true,
+++  description : 'Enable TLS support in ELF',
+++)
++ option(
++   'I-love-half-baked-turnips',
++   type : 'boolean',
++-- 
++2.23.0
++
+diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+deleted file mode 100644
+index 641bacf1d9..0000000000
+--- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From cee8e48c5344124e5d84307cb0c48ee0c9b3e684 Mon Sep 17 00:00:00 2001
+-From: Fabio Berton <fabio.berton@ossystems.com.br>
+-Date: Wed, 12 Jun 2019 14:15:57 -0300
+-Subject: [PATCH] meson.build: make TLS GLX optional again
+-Organization: O.S. Systems Software LTDA.
+-
+-This was optional with autotools, and needs to be disabled
+-when using musl C library, for instance.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+----
+- meson.build       | 4 +++-
+- meson_options.txt | 7 +++++++
+- 2 files changed, 10 insertions(+), 1 deletion(-)
+-
+-diff --git a/meson.build b/meson.build
+-index b33b430aed4..0e50bb26c0a 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -369,7 +369,9 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
+-   endif
+- endif
+- 
+--pre_args += '-DGLX_USE_TLS'
+-+if get_option('glx-tls')
+-+  pre_args += '-DGLX_USE_TLS'
+-+endif
+- if with_glx != 'disabled'
+-   if not (with_platform_x11 and with_any_opengl)
+-     error('Cannot build GLX support without X11 platform support and at least one OpenGL API')
+-diff --git a/meson_options.txt b/meson_options.txt
+-index 1f72faabee8..fcd49efea27 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
+-@@ -339,6 +339,13 @@ option(
+-   value : true,
+-   description : 'Enable direct rendering in GLX and EGL for DRI',
+- )
+-+option(
+-+  'glx-tls',
+-+  type : 'boolean',
+-+  value : true,
+-+  description : 'Enable TLS support in GLX',
+-+)
+-+
+- option(
+-   'I-love-half-baked-turnips',
+-   type : 'boolean',
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 9e5808ee27..cccc64f0b6 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -10,7 +10,7 @@ HOMEPAGE = "http://mesa3d.org"
+ BUGTRACKER = "https://bugs.freedesktop.org"
+ SECTION = "x11"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
++LIC_FILES_CHKSUM = "file://docs/license.html;md5=3a4999caf82cc503ac8b9e37c235782e"
+ 
+ PE = "2"
+ 
+@@ -57,12 +57,12 @@ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
+-                   glx-tls \
++                   elf-tls \
+ 		   "
+-PACKAGECONFIG_class-native ?= "gbm dri egl opengl glx-tls"
+-PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl glx-tls"
++PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls"
++PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls"
+ 
+-PACKAGECONFIG_remove_libc-musl = "glx-tls"
++PACKAGECONFIG_remove_libc-musl = "elf-tls"
+ 
+ # "gbm" requires "dri", "opengl"
+ PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
+@@ -70,7 +70,7 @@ PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
+ X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes xrandr"
+ # "x11" requires "opengl"
+ PACKAGECONFIG[x11] = ",-Dglx=disabled,${X11_DEPS}"
+-PACKAGECONFIG[glx-tls] = "-Dglx-tls=true, -Dglx-tls=false"
++PACKAGECONFIG[elf-tls] = "-Delf-tls=true, -Delf-tls=false"
+ PACKAGECONFIG[xvmc] = "-Dgallium-xvmc=true,-Dgallium-xvmc=false,libxvmc"
+ PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
+ 
+@@ -140,9 +140,6 @@ PACKAGECONFIG[osmesa] = "-Dosmesa=${OSMESA},-Dosmesa=none"
+ 
+ PACKAGECONFIG[unwind] = "-Dlibunwind=true,-Dlibunwind=false,libunwind"
+ 
+-# mesa tries to run cross-built gen_matypes on build machine to get struct size information
+-EXTRA_OEMESON_append = " -Dasm=false"
+-
+ # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
+ FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_19.1.6.bb b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
+similarity index 77%
+rename from meta/recipes-graphics/mesa/mesa_19.1.6.bb
+rename to meta/recipes-graphics/mesa/mesa_19.2.1.bb
+index 19221e9e25..7543e4ffb1 100644
+--- a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
+@@ -2,12 +2,12 @@ require ${BPN}.inc
+ 
+ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
+-           file://0002-meson.build-make-TLS-GLX-optional-again.patch \
++           file://0002-meson.build-make-TLS-ELF-optional.patch \
+            file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
+            "
+ 
+-SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
+-SRC_URI[sha256sum] = "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
++SRC_URI[md5sum] = "8f9c05cfbf7b357c60a5345bb87a92c7"
++SRC_URI[sha256sum] = "4cc53ca1a8d12c6ff0e5ea44a5213c05c88447ab50d7e28bb350cd29199f01e9"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+-- 
+2.23.0
 
 
