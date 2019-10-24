@@ -1,46 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 168807F975
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 068F97F971
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 11:11:32 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id q130so2002857wme.2
+	Thu, 24 Oct 2019 11:11:33 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id r141so2163352wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 04:11:34 -0700 (PDT)
+	Thu, 24 Oct 2019 04:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=YnTpQ+VaBis8xrA/6VITHj5QqaPcOAyThH1aKatkZEY=;
-	b=F5CRkuUZ9ZVQod71xGknUhZDEUnFxKVt9lj9OWePoT9281/0uCNhHAwUchCg00V2mJ
-	ZMgIW/J+l0T/Msj7SjXwSYOgvl2Wlnz+iOhWKtPMnweIUtw8OFZPTS14n36zOvBI64aa
-	ajCYzUf9v5o0a8/stvCh22k3W6ZmTSPxX/hyA+2g4DXhaJUnTHjQIzVOk9Vlt1eWTq55
-	sUJit+FeEnrfHp5+r2tm1wI8IHsMe/S+m/Exjebvo6HHRgPSu2V+3uptIMqXEY7nkQ3y
-	RmO8G0wvq9CgMLgL3t5PYg4Nhtqg4Y3NV6VD3uao6wSLav9fHkOuH+C61j9kOVVqiMU4
-	tOYQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=ACmx+v+h7b7T0t0ZfLKg+TNxuOymE0fjeebWz6SCJNk=;
+	b=aa/6JnnNVS6E72k2PdblYtxBp9N3OoPtw4pFD1CMrjk4AwlHAzdo36topz18kZUxER
+	cvfxkEN/R3rSvR+hOUVSsPQ4LaXvtqWl6z5c6IEtbhkP4lQNFJS9FMYnDOHp7VPxM+YB
+	RW39NqoK6z3S/ci4LA4kJzOT7Xa+h7RtQfZyjvViHK3ZnaqLdjqM4o9hNFwWbD0pMGcd
+	4cex1uuAVCcyRh6tKvywQ61stWtq4eutG3SOkzUDpaBDBt4Cewc6qjqWUJEwQwhKZebh
+	waXBHZhMIjfyRiYyUaQeB6KmPoh2w2dKn2RBCcoVJy/7f8HtgEuSwWn3uNC0WNwNbkJu
+	8dsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=YnTpQ+VaBis8xrA/6VITHj5QqaPcOAyThH1aKatkZEY=;
-	b=jlIUlcTzA3RsXBuKode36D6UKg1ox2sRtFmiRiKfJJZ95n+5a5FHvS0gsA+pYDHCfW
-	p0ns82om7FjSOsT07Dwj/3Grf+Kmu1S1FngvCbJ6zO32MxBBAK3cmw0efHteRem45BhH
-	Js6qCrO4DLjiZZDytiG/R173Tafzp3Fl3kWIAFbPk5rqZBkogHf4qRbZhuymdpABTZJ7
-	KIe88wmXY2a2mLMpgLpFmY67qfG6s57Pc+MEs9/RBI1JHa+n0C6K/NPOZptUQ8E+/XU8
-	oTDL18NNIiCgq14CCn70WSDnPMjIuTkLz/RiRWDzkCxv2eqjFZjT2TuNp4+tOw3EIbSG
-	UDrA==
-X-Gm-Message-State: APjAAAUk8l4bmTeolEE8DoZcM7LCnNj2X6AdRphiH14dC/oyOWCPu0xg
-	fMNDJgb+EpMUu6NB9fNZPR3zSWy1gQk=
-X-Google-Smtp-Source: APXvYqymhAd0FMIVfUSm0tueQrld2zJ1164xNOAeySFCNLWWva2weWwbw9lCZ2P6+0WYNVQjpLuPPg==
-X-Received: by 2002:a1c:7d47:: with SMTP id y68mr4295197wmc.157.1571915493389; 
-	Thu, 24 Oct 2019 04:11:33 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=ACmx+v+h7b7T0t0ZfLKg+TNxuOymE0fjeebWz6SCJNk=;
+	b=LP3/+7uBJF/jqX7Bw4gls1UY3/MRK8HZBq4TC45JujfAaUtpycplr62B+WhmGhDJjO
+	YuiXnP9B4OJdXPvWPt1AisUiK0JlVlzdsK9A+YBdHsdl8C7r7yjz0520xHEW4GTS6alc
+	msu8VSHNWoHE9U7iZgfUFDTue4HzpV1nUj+4PJYFU1nCnWDDh+HY6Kdi0UV4SWH0qlc5
+	astX7Ka1hDaBrGqw+0+GmOHEwKdbZscYKhRMCamZln00Kl0RZ/cSPjZj5avwBE7S6F/9
+	RDNiBFVIMS3wLU6RIhhZ9QXQaFPh6G0vThfdI9flXJUZKQ2dA/AAhVBWEWfLUR6x0BfQ
+	nCxg==
+X-Gm-Message-State: APjAAAXqouj4hlx+IjNe+ij8ih9NBEasxCLGOgja3Qs2Spd4YrZERNQP
+	DU0VV9FKMy2mjZ+P/isX2smPDTS8s/U=
+X-Google-Smtp-Source: APXvYqwxfmjba4KU2wBpNUO0IZSFtDN6mxz+EIj1iBC3T9diu1oQOix/5nHavEeVfD80MRLP6afmVQ==
+X-Received: by 2002:a1c:4d14:: with SMTP id o20mr4563699wmh.7.1571915494466;
+	Thu, 24 Oct 2019 04:11:34 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id v81sm1073024wmg.4.2019.10.24.04.11.32
+	by smtp.gmail.com with ESMTPSA id v81sm1073024wmg.4.2019.10.24.04.11.33
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 24 Oct 2019 04:11:32 -0700 (PDT)
+	Thu, 24 Oct 2019 04:11:33 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Oct 2019 13:11:22 +0200
-Message-Id: <20191024111126.41198-1-alex.kanavin@gmail.com>
+Date: Thu, 24 Oct 2019 13:11:23 +0200
+Message-Id: <20191024111126.41198-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/5] runqemu: add options that enable virgl with the SDL frontend
+In-Reply-To: <20191024111126.41198-1-alex.kanavin@gmail.com>
+References: <20191024111126.41198-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/5] oe-selftest: extend virgl gtk test to also check the SDL option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +56,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 11:11:33 -0000
+X-List-Received-Date: Thu, 24 Oct 2019 11:11:34 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- scripts/runqemu | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index a05facd0db6..5c56c3fe6c1 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -67,9 +67,9 @@ of the following environment variables (in any order):
-     nographic - disable video console
-     sdl - choose the SDL UI frontend
-     gtk - choose the Gtk UI frontend
--    gl - enable virgl-based GL acceleration (also needs gtk option)
--    gl-es - enable virgl-based GL acceleration, using OpenGL ES (also needs gtk option)
--    egl-headless - enable headless EGL output; use vnc or spice to see it
-+    gl - enable virgl-based GL acceleration (also needs gtk or sdl options)
-+    gl-es - enable virgl-based GL acceleration, using OpenGL ES (also needs gtk or sdl options)
-+    egl-headless - enable headless EGL output; use vnc (via publicvnc option) or spice to see it
-     serial - enable a serial console on /dev/ttyS0
-     serialstdio - enable a serial console on the console (regardless of graphics mode)
-     slirp - enable user networking, no root privileges is required
-@@ -437,7 +437,12 @@ class BaseConfig(object):
-                 self.qemu_opt_script += ' -nographic'
-                 self.kernel_cmdline_script += ' console=ttyS0'
-             elif arg == 'sdl':
--                self.qemu_opt_script += ' -display sdl'
-+                if 'gl' in sys.argv[1:]:
-+                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=on'
-+                elif 'gl-es' in sys.argv[1:]:
-+                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=es'
-+                else:
-+                    self.qemu_opt_script += ' -display sdl'
-             elif arg == 'gtk':
-                 if 'gl' in sys.argv[1:]:
-                     self.qemu_opt_script += ' -vga virtio -display gtk,gl=on'
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 3f212bd0eac..8f98a9ead46 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -166,9 +166,9 @@ class TestImage(OESelftestTestCase):
+         bitbake('core-image-full-cmdline socat')
+         bitbake('-c testimage core-image-full-cmdline')
+ 
+-    def test_testimage_virgl_gtk(self):
++    def test_testimage_virgl_gtk_sdl(self):
+         """
+-        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
++        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk and SDL frontends
+         Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
+                   2. Check that kmscube demo runs without crashing.
+         Product: oe-core
+@@ -181,18 +181,27 @@ class TestImage(OESelftestTestCase):
+             self.skipTest('virgl isn\'t working with Debian 8')
+ 
+         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
++        sdl_packageconfig = get_bb_var('PACKAGECONFIG', 'libsdl2-native')
+         features = 'INHERIT += "testimage"\n'
+         if 'gtk+' not in qemu_packageconfig:
+             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"\n'
++        if 'sdl' not in qemu_packageconfig:
++            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " sdl"\n'
+         if 'virglrenderer' not in qemu_packageconfig:
+             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"\n'
+         if 'glx' not in qemu_packageconfig:
+             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " glx"\n'
++        if 'opengl' not in sdl_packageconfig:
++            features += 'PACKAGECONFIG_append_pn-libsdl2-native = " opengl"\n'
+         features += 'TEST_SUITES = "ping ssh virgl"\n'
+         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
+         features += 'IMAGE_INSTALL_append = " kmscube"\n'
+-        features += 'TEST_RUNQEMUPARAMS = "gtk gl"\n'
+-        self.write_config(features)
++        features_gtk = features + 'TEST_RUNQEMUPARAMS = "gtk gl"\n'
++        self.write_config(features_gtk)
++        bitbake('core-image-minimal')
++        bitbake('-c testimage core-image-minimal')
++        features_sdl = features + 'TEST_RUNQEMUPARAMS = "sdl gl"\n'
++        self.write_config(features_sdl)
+         bitbake('core-image-minimal')
+         bitbake('-c testimage core-image-minimal')
+ 
 -- 
 2.17.1
 
