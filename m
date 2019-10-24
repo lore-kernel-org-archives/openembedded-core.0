@@ -1,53 +1,58 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
-	[209.85.160.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 04D137F9AA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B1A047F98A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 13:06:43 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id t8so20175169qtc.6
+	Thu, 24 Oct 2019 13:36:26 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id q70so2903890wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 06:06:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:content-transfer-encoding:in-reply-to
-	:user-agent; bh=1A/9QDfo3RDaSN7bJSgJKip+pxw+xl+Gfv86qvzxxjY=;
-	b=gosfodZGgdNn05R86f+sL+mgoSqf9HAU5GfNuyd4xNPvhE5SJFzKyypItHu4DMnm4l
-	X/gXR2WZxxBYo0jIN66MR1DqbYa4QNAIurbvnuUhOmJqJb6LUQhG4X4KHN1YX+uBD+P0
-	wlhKMISt9eBBBnlOGGFDx+gEaGnADg0IU3fIzrWcLhFBQAZBvmRbbB5tVl9yGUr5cIFT
-	7dGYFPDxhEvMGLailJbXGMkpAw0mt2Xh6+OH0eZtbgvp3qGfp6IbyMpgNqxc9j/ldoOS
-	dOW5QhqUFH91v8wWAT+ttkIE8evbRdCvAaKNEwoyqPWjmqFRwMk4MY9MsZBGBz0y8PzL
-	4aNg==
+	Thu, 24 Oct 2019 06:36:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=Zk5bDwIRIiwVUQfQqEN0dxCJkmlXhklIWC7t2UfnmhY=;
+	b=hMllRpnOJvOtTRzIITRr9zWf8XGKeprKKomADZaFOVFR53jCkDvpIS0AmZcTEUDAbO
+	gNOnI4trFP5OelMjHeKtNIms5oySDFfTGImzIy8rH45pT1Nuu99oJvbDB5C8ZPbLCJlZ
+	gXo8a1M2zazL6Y34wbO2IzYA8sWbOsW50YNFY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=1A/9QDfo3RDaSN7bJSgJKip+pxw+xl+Gfv86qvzxxjY=;
-	b=VOCFdPcjZnQh1/Fup27MoV2NymB2UY3214ih6RRM/+6E7zWcfA19NBp6gZLQw9GOLZ
-	cHf6FOn5x6TOAvUbjEtjTK3YJvkV1IqWNn8f3z+QM8tN1k0+z04qHSb4jBjBfe/MixO1
-	Kv5Ue96TxV8ozsa96gCcsBZR2I4vno4+LAzjopb8F7PssqiYC9QFFlwzh6cEQmTDpW+2
-	VVOAjHoCJJzq4uOzLkTg/9TK3tL8heQjL9lqmpHmYWco1GOtZfulAt50bYh0N3nrwaMs
-	BUgHYhkD8M4v3FSG2AtEhGrp8QVxNtMwit30vCBGqzc7JLM/XeR2hpieEWJks6RgmUTF
-	Zc3Q==
-X-Gm-Message-State: APjAAAXgpdqvaCZGwtkRAhnxx+eil093XhYQzSJyITwDdduUP5Ayam/Z
-	dIfAGlss9HRwQ7FxRK5zE84=
-X-Google-Smtp-Source: APXvYqylu1eABDXgNawzIDKKS5wdeZU5fC23cTU3CndyOxEenT3LpOenwHz3Q3AcDdxFhTREVNrYwA==
-X-Received: by 2002:ac8:4501:: with SMTP id q1mr1445448qtn.206.1571922404583; 
-	Thu, 24 Oct 2019 06:06:44 -0700 (PDT)
-Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
-	n65sm13686859qkb.19.2019.10.24.06.06.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Oct 2019 06:06:43 -0700 (PDT)
-Date: Thu, 24 Oct 2019 09:06:41 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-Message-ID: <20191024130641.GA30191@linux-uys3>
-References: <20191021055052.10882-1-zangrc.fnst@cn.fujitsu.com>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Zk5bDwIRIiwVUQfQqEN0dxCJkmlXhklIWC7t2UfnmhY=;
+	b=IfCKYhuLLf65Iyh9kQP65BcxiNihglOf2GAuYl7WdhWzw0jgXA7uMwZkmkG+LZl3Uf
+	VOTb47zXAPx37neIWx8JXO37g/e0jYGaS1UlrwnIHPnRPxphEuZCI+Am37astHjqiouR
+	4tlRvv+ysQI3F3i74OwBbjI1xOb79vbTihEvy1Znv7mplXU35oRgdH2Y+uRdFuCOs6A1
+	VNe9JJ7oveZtt0fzwfRzMgQSlDkGXFerrokkVnu1YfIoITFP+kdWewTE4UlOCBMdwycF
+	+BhkWPq86w1/iAgEzdd1A33JKhbghkpMFK5dY9Og1RAjBf4iLD4dJ3NClduuBFyQ9bSA
+	ixqQ==
+X-Gm-Message-State: APjAAAVSzD363Ttpq0iz86CZJgrngFnqhDZkq71ViV5rirTtdtRvQbPV
+	n6BmrMcIc6/JhiPFAPtwDCKxiQ==
+X-Google-Smtp-Source: APXvYqz0XAVsiA2lp06rtlHiBIFuOholg4Z7sWNxL8OECqnpB8cFKjb/6LBWGXlrH+D8TJEIMyw9Vg==
+X-Received: by 2002:a05:600c:2056:: with SMTP id
+	p22mr4983962wmg.44.1571924187216; 
+	Thu, 24 Oct 2019 06:36:27 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 79sm3468037wmb.7.2019.10.24.06.36.25
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 24 Oct 2019 06:36:26 -0700 (PDT)
+Message-ID: <dfce773cde47183486e5b58126a98190d96d4005.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Stefan Herbrechtsmeier
+	<stefan@herbrechtsmeier.net>
+Date: Thu, 24 Oct 2019 14:36:24 +0100
+In-Reply-To: <CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
+References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
+	<5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
+	<CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <20191021055052.10882-1-zangrc.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libcap-ng:upgrade 0.7.9 -> 0.7.10
+Cc: brendan.le.foll@intel.com,
+	"Paul Eggleton \(paul.eggleton@linux.intel.com\)"
+	<paul.eggleton@linux.intel.com>, rennes@savoirfairelinux.com,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 0/6] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,48 +65,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 13:06:44 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 24 Oct 2019 13:36:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This upgrade caused my build to fail :-(
-Is anyone else seeing this?
+On Thu, 2019-10-24 at 14:12 +0200, Alexander Kanavin wrote:
+> On Thu, 24 Oct 2019 at 14:02, Stefan Herbrechtsmeier <
+> stefan@herbrechtsmeier.net> wrote:
+> > @Richard: What is your opinion about the per recipe dependency? 
+> > Typically OE use one recipe per project. The NPM based solution
+> > handle a 
+> > project and all dependencies via one recipe.
+> 
+> I don't think it's at all realistic to stick to the 'one recipe per
+> component' in node.js world. A typical 'npm install' can pull down
+> hundreds, or over a thousand dependencies, it's not feasible to have
+> a recipe for each.
+> 
+> I very much welcome a solution that uses 'npm install' in a way that
+> preserves offline builds, and integrity/reproducibility of downloads.
+> License management should be also handled by npm, and if it isn't,
+> then we need to work with the upstream to address it.
 
-	22:47:40 | x86_64-linux-libtool: link: gcc -W -Wall -Wshadow -Wformat -Wun=
-def -D_GNU_SOURCE -isystem/z/jenkins-workspace/nightly/cubietruck/build/tmp=
--glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/recipe-sysroot-native/u=
-sr/include -O2 -pipe -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/z/jenkins-=
-workspace/nightly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-na=
-tive/0.7.10-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/z/jenkins=
--workspace/nightly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-n=
-ative/0.7.10-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/z/jenkins-workspa=
-ce/nightly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.=
-7.10-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/z/jenkins-workspace/n=
-ightly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.10=
--r0/recipe-sysroot-native/lib -Wl,-O1 -o .libs/netcap netcap.o proc-llist.o=
-  -L/z/jenkins-workspace/nightly/cubietruck/build/tmp-glibc/work/x86_64-lin=
-ux/libcap-ng-native/0.7.10-r0/recipe-sysroot-native/usr/lib -L/z/jenkins-wo=
-rkspace/nightly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-nati=
-ve/0.7.10-r0/recipe-sysroot-native/lib -L../src /z/jenkins-workspace/nightl=
-y/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/b=
-uild/src/.libs/libcap-ng.so
-	22:47:40 | /usr/lib64/gcc/x86_64-suse-linux/8/../../../../x86_64-suse-linu=
-x/bin/ld: /z/jenkins-workspace/nightly/cubietruck/build/tmp-glibc/work/x86_=
-64-linux/libcap-ng-native/0.7.10-r0/build/src/.libs/libcap-ng.so: undefined=
- reference to `pthread_atfork'
-	22:47:40 | collect2: error: ld returned 1 exit status
-	22:47:40 | make[2]: *** [Makefile:480: netcap] Error 1
-	22:47:40 | make[2]: Leaving directory '/z/jenkins-workspace/nightly/cubiet=
-ruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/build/uti=
-ls'
-	22:47:40 | make[1]: *** [Makefile:445: all-recursive] Error 1
-	22:47:40 | make[1]: Leaving directory '/z/jenkins-workspace/nightly/cubiet=
-ruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/build'
-	22:47:40 | make: *** [Makefile:377: all] Error 2
-	22:47:40 | WARNING: /z/jenkins-workspace/nightly/cubietruck/build/tmp-glib=
-c/work/x86_64-linux/libcap-ng-native/0.7.10-r0/temp/run.do_compile.12127:1 =
-exit 1 from 'exit 1'
-	22:47:40 |
-	22:47:40 NOTE: recipe libcap-ng-native-0.7.10-r0: task do_compile: Failed
+I understand however keep in mind the way this patch series has been
+going, it could end up simply forceing all processing into the do_fetch
+task.
+
+We need determinism form the build in that building this today should
+give the same result as a build run in X years time, assuming the same
+host OS and so on, even if DL_DIR isn't populated. The state of the
+internet should not change that.
+
+I worry about the amount of magic "npm install" has going on which
+would mean we couldn't achieve this.
+
+Cheers,
+
+Richard
+
 
