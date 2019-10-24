@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C8DFD7F9C1;
-	Thu, 24 Oct 2019 20:32:37 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id D19017F9D5;
+	Thu, 24 Oct 2019 20:32:38 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Alexander Kube <alexander.j.kube@gmail.com>
-Date: Thu, 24 Oct 2019 20:32:39 -0000
-Message-ID: <20191024203239.2331.10353@do>
+Date: Thu, 24 Oct 2019 20:32:40 -0000
+Message-ID: <20191024203240.2331.73312@do>
 References: <20191024172908.68056-1-alexander.j.kube@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20191024172908.68056-1-alexander.j.kube@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlJlZmFjdG9yIHBhdGNoZXMgZm9yIGdvLTEuMTMuMy4uLiIgYW5kIDIgbW9yZSAocmV2Myk=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlJlZmFjdG9yIHBhdGNoZXMgZm9yIGdvLTEuMTMuMy4uLiIgYW5kIDIgbW9yZSAocmV2NCk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 20:32:37 -0000
+X-List-Received-Date: Thu, 24 Oct 2019 20:32:39 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "Refactor patches for go-1.13.3..." and 2 more (rev3)
-Revision: 3
+Series: "Refactor patches for go-1.13.3..." and 2 more (rev4)
+Revision: 4
 URL   : https://patchwork.openembedded.org/series/20653/
 State : failure
 
@@ -49,7 +49,7 @@ series by patchtest resulting in the following failures:
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at 1a8d18eeee)
 
-* Patch            [v2,2/3] Add go1.13 recipes
+* Patch            [v2,3/3] Change default GOVERSION to 1.13
  Issue             Shortlog does not follow expected format [test_shortlog_format] 
   Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
