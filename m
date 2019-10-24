@@ -1,29 +1,49 @@
-Return-Path: <stefan@herbrechtsmeier.net>
-Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D08B7CD42
+Return-Path: <>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id DFC197F9A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 17:03:53 +0000 (UTC)
-Received: from [192.168.178.37] (unknown [94.134.94.146])
-	by dd41138.kasserver.com (Postfix) with ESMTPSA id 71AEB11A002C;
-	Thu, 24 Oct 2019 19:03:53 +0200 (CEST)
-To: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
-References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
-	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
-	<5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
-	<CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
-	<22cbc060-0f73-4354-1edb-ca90dbed4d73@herbrechtsmeier.net>
-	<850133363.532592.1571930016322.JavaMail.zimbra@savoirfairelinux.com>
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Message-ID: <d0305038-65f7-6809-da7f-2c4f7b421602@herbrechtsmeier.net>
-Date: Thu, 24 Oct 2019 19:03:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <850133363.532592.1571930016322.JavaMail.zimbra@savoirfairelinux.com>
-Cc: paul eggleton <paul.eggleton@linux.intel.com>,
-	Savoir-faire Linux Rennes <rennes@savoirfairelinux.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH 0/6] NPM refactoring
+	Thu, 24 Oct 2019 17:29:29 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id w9so2223133wmm.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Oct 2019 10:29:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=+GTMFVXyLRVnP4Dsw/4AAxUlsP3P1Mu0bynd9BECTY4=;
+	b=nos2CRKTJg/Z5CqqR+SKQJ/2McPAVmO3qoye8V6HJXjdt+vVJ9dsGn1ELe6NPteSyz
+	oZQEpYOqia5gLeHDq8BxMIEHzyjbXfrSSgvfd6Cb9gYqnWAW/J5EqfbDU5jqwX+T2ZOF
+	UdMLuutyXtr/czgDwbrPD2g77KovaauyS047WwXJ8Sg5WYuuplaImw/pN2PZbKaDTS3u
+	Qk98hOP4rPwzZgI3ezaejerDRGEm9fXsMh6ysi2Gs5W4eUXrne5RpA5oouuQ6/RVijQ8
+	/B8Y7FDQW3qYEVtShrO3wQO90BByFgAU3pZTt76rqsWov7JoV3Puc35v6NAQehwNozuE
+	z5tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+GTMFVXyLRVnP4Dsw/4AAxUlsP3P1Mu0bynd9BECTY4=;
+	b=b/aaD42E3a6Chd95uUO2jLMVPQUeXAXYwR36IdoRHvrMGEUY+kABC5YC44wJlYINwo
+	VROv1CbaXOAvGc5PYHjd4hurlY1mptwDKVsJOnbz5D2SJ/kwm5hLJezbopezSAshTLqC
+	B46J/bYC8MiXPtt8Kb9PghPGVHSGTLfeh31c9i83/AZysjpxOg7n/kWopR3HNtJXtJxd
+	/oqp7xlOpLyCZyLtSbr/hPJ+PDAmYWEyzWkCkbh/oT/gKKSUuLeqxVG+xLh5XxIAmtH1
+	9W5/OQINei5ut7DES7JdLaVEWH0bavWj2TLmoWwOKfFdXjld0yv7XAHvjO1mou5iImfV
+	29Zg==
+X-Gm-Message-State: APjAAAUDqcCkIMgDGEun14eyCJ082O/2wFPLChtDSa0KEYY5NU6KgKTs
+	Pel4x18UvQ3L4K1eY6tp1sDxeIkH
+X-Google-Smtp-Source: APXvYqyE8PgsAfxfhE5QSAtXmHu4+SlMOEmLqSNCWKg/ifGsmErP8GMOXsxP4yTFuncpjyw2Fx0Usg==
+X-Received: by 2002:a1c:814b:: with SMTP id c72mr6180211wmd.167.1571938170345; 
+	Thu, 24 Oct 2019 10:29:30 -0700 (PDT)
+Received: from localhost.localdomain ([117.55.204.18])
+	by smtp.gmail.com with ESMTPSA id
+	p10sm28141824wrx.2.2019.10.24.10.29.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 24 Oct 2019 10:29:29 -0700 (PDT)
+From: Alexander Kube <alexander.j.kube@gmail.com>
+X-Google-Original-From: Alexander Kube
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Oct 2019 21:59:05 +0430
+Message-Id: <20191024172908.68056-1-alexander.j.kube@gmail.com>
+X-Mailer: git-send-email 2.17.1 (Apple Git-112)
+Subject: Add recipes for Go v1.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,60 +56,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 17:03:54 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Oct 2019 17:29:30 -0000
 
-Hi Jean-Marie,
+This patch set adds various go-1.13 recipes and changes the
+poky GOVERSION to 1.13%. It leaves the existing go-1.12
+recipes untouched and available for existing users of
+those recipes.
 
-Am 24.10.19 um 17:13 schrieb Jean-Marie LEMETAYER:
-> Hi Stefan,
-> 
-> On Oct 24, 2019, at 2:40 PM, Stefan Herbrechtsmeier stefan@herbrechtsmeier.net wrote:
->> Fist we should use 'npm ci' instead of 'npm install'.
-> 
-> Thanks for the tips, I did not know about the 'npm ci' command. Sadly it fails to handle '--global' installation. The 'npm pack && npm install' trick is much more efficient as explain in this commit:
->    https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=d38e1e2c2ea4646b34ea6282d3d7620df5b0374b
-
-Okay.
-
-> 
->> How would you handle prebuild binaries? Would you disable prebuild binaries?
-> 
-> I have no case of using prebuild binaries. Can you give me an example of a package using prebuild?
-
-The pouchdb package have some dependencies with prebuild binaries.
-
-> 
->> How would you handle native packages (ex. angular-cli)?
-> 
-> Like this (this a part of the next patchset to support angular):
-> 
->    $ cat meta-oe/recipes-devtools/angular-cli/angular-cli_8.3.12.bb
->    SUMMARY = "CLI tool for Angular"
->    HOMEPAGE = "https://github.com/angular/angular-cli"
->    LICENSE = "MIT"
->    LIC_FILES_CHKSUM = "file://LICENSE;md5=dc2a37e472c366af2a7b8bd0f2ba5af4"
->    SRC_URI = "npm://registry.npmjs.org;name=@angular/cli;version=${PV}"
->    S = "${WORKDIR}/npm"
->    inherit npm
->    NPM_SHRINKWRAP = "${THISDIR}/${BPN}/npm-shrinkwrap.json"
->    BBCLASSEXTEND = "native"
-
-You don't set the SRC_URI checksum? How you ensure that the server 
-didn't change the package?
-
-How you use this package and how you handle other dependencies? How you 
-build an angular application?
-
->> How would you patch dependencies?
-> 
-> I am not sure that it is managed in the actual implementation. I believe that the interest is limited.
-
-This is needed if you use packages with c code.
-
-Regards
-   Stefan
 
 
