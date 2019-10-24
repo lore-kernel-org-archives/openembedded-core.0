@@ -1,51 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E4257F9A0
+Return-Path: <stefan@herbrechtsmeier.net>
+Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DC4C7F9A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 17:37:49 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id w18so26486734wrt.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 10:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=SrmGp7Axk0L/hC5rSAmgMC0hmdR+Ae3ssHd9WYua19Y=;
-	b=GKICxrZErXRjEeBAJicpowqAYK55vJu5n/AH5gecS0e3pGLCmwPvS4gcMxkmR1sddL
-	sWUoBCruU5EL5qltI9DgYpC48Li1/FXIUP+r5jET26fI/d+q1++yy87BSwf6qWOYIiQm
-	urnO2jXdj3FGYpCQpoh19OYQpP98elGyWl9rA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=SrmGp7Axk0L/hC5rSAmgMC0hmdR+Ae3ssHd9WYua19Y=;
-	b=btXTyzTup+osvN9LRtskpkftSYJ6KaViBhYghDLumBc1HCX8qgtEgme2JeWai0Npyb
-	Euid1SpwkMdOWjO9ZBPaIUuOSxGNffmVPkkWX4jn/lveqSUTNeiPT2flFiUX5dT0JXgI
-	o7XlbxlWGGg0xNUZfjxG4X0UnXH/UqD+ygTlA0MjuZM5SlGqJ6+Cm0v1ml0cNU9dha8U
-	WUHoJB49Q/q3i0YUqaNv47kLf2SU/FZFfXcvzTpdWxIm+sThSNHuuQskH1XX3UXeN7M8
-	ivfJZtP6eALswuQgqecNB4nsJGfOj4lnt6qOhX3CKQpVUZ9zLEuZChysx19n+VdoJpu+
-	+7cQ==
-X-Gm-Message-State: APjAAAXEeDWvLVWu7vz8bM8kDem/sU/8kVfYPsn8b4Qcc2UVjt2lo7J/
-	r65YPoQlYLvV/4P37CCe3yOFtA==
-X-Google-Smtp-Source: APXvYqwi4MfoEE90lPBpk572tJ7ZYDfGOlf2gT1um00Bm4VCiHNQmnCMcRcYzmuAOP3cHqG8FeLycw==
-X-Received: by 2002:a5d:4885:: with SMTP id g5mr5361346wrq.219.1571938670069; 
-	Thu, 24 Oct 2019 10:37:50 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	v128sm4610383wmb.14.2019.10.24.10.37.48
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 24 Oct 2019 10:37:49 -0700 (PDT)
-Message-ID: <7d5b190d3a523f973ce6788d0234be31fe8cb631.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kube <alexander.j.kube@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 24 Oct 2019 18:37:48 +0100
-In-Reply-To: <20191024172908.68056-1-alexander.j.kube@gmail.com>
-References: <20191024172908.68056-1-alexander.j.kube@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Thu, 24 Oct 2019 17:45:00 +0000 (UTC)
+Received: from [192.168.178.37] (unknown [94.134.94.146])
+	by dd41138.kasserver.com (Postfix) with ESMTPSA id E43B811A0046;
+	Thu, 24 Oct 2019 19:45:00 +0200 (CEST)
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
+	<5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
+	<CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
+	<22cbc060-0f73-4354-1edb-ca90dbed4d73@herbrechtsmeier.net>
+	<CANNYZj9L7O9a9RfyXpQP7kY2X_HNt5P9yJQCmUONeZq1rWDKwQ@mail.gmail.com>
+	<541b19fa-54c4-42ce-0367-27ddd403d34f@herbrechtsmeier.net>
+	<CANNYZj80r-WGgREdj=2TYC-uPNpTnWEL3mfZLtG53z-XR71bOQ@mail.gmail.com>
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Message-ID: <24e39481-ea5c-06e9-6dbb-139a5d0dd445@herbrechtsmeier.net>
+Date: Thu, 24 Oct 2019 19:44:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-Subject: Re: Add recipes for Go v1.13
+In-Reply-To: <CANNYZj80r-WGgREdj=2TYC-uPNpTnWEL3mfZLtG53z-XR71bOQ@mail.gmail.com>
+Cc: "Paul Eggleton \(paul.eggleton@linux.intel.com\)"
+	<paul.eggleton@linux.intel.com>, rennes@savoirfairelinux.com,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 0/6] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,22 +38,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 17:37:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 24 Oct 2019 17:45:00 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-10-24 at 21:59 +0430, Alexander Kube wrote:
-> This patch set adds various go-1.13 recipes and changes the
-> poky GOVERSION to 1.13%. It leaves the existing go-1.12
-> recipes untouched and available for existing users of
-> those recipes.
+Am 24.10.19 um 16:22 schrieb Alexander Kanavin:
+> On Thu, 24 Oct 2019 at 15:52, Stefan Herbrechtsmeier 
+> <stefan@herbrechtsmeier.net <mailto:stefan@herbrechtsmeier.net>> wrote:
+> 
+> 
+>      > Yes:
+>      >
+>     http://lists.openembedded.org/pipermail/openembedded-architecture/2017-March/001270.html
+> 
+>     Do you have an up-to-date example? The mean.io <http://mean.io>
+>     project is dead.
+> 
+> 
+> http://meanjs.org/ I guess.
 
-Thanks for these patches. How compatible is 1.13 with 1.12 and do we
-still need the 1.12 recipes? I'm wondering how hard it will be for
-people to migrate...
+The project isn't really up-to-date and the "npm install" failed.
 
-Cheers,
+> The package-lock.json in their tarball is 600K.
 
-Richard
+The project use two major version and seven different versions with 30 
+installations of debug. Furthermore the dependencies include build tools 
+which should not be installed on the device.
 
+The "@angular/cli" (242) and "node-red" (324) package share 106 packages.
+
+Regards
+   Stefan
 
