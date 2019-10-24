@@ -1,52 +1,47 @@
-Return-Path: <daniel.diaz@linaro.org>
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
-	[209.85.210.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EB7F97F9C8
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+	[209.85.166.50])
+	by mail.openembedded.org (Postfix) with ESMTP id CF7F77F9B9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 18:34:44 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id m19so21592089otp.1
+	Thu, 24 Oct 2019 18:38:01 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id z19so30815897ior.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 11:34:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wKI1I/k+YC5A/OaYCOKFIlWYKyNyZft5ACgAKordUk4=;
-	b=FTpsawAbjqwa5A4X/SVSjU1SGWMAkd+14lysSsVreF7Xd3kEjJ41aCf4EIvFas7HiJ
-	3OkHEoqOHgLWvY400QgjYO42Q6RyOlRiavbl0ubjQxv7M7jzNnHc2zBAt4RCWNfWdJ5C
-	w8B8hDlVbyqY2hdCYSolJ0VQKa7rmAD34Ck8LwYY+GmTRbaf6VX0eVqGEioNeH0AdXYk
-	OYajTtQIzbZBS/1Z0pbpC/NOxBJd0vpq1/QAhwEZMpki5nTvc8l3BiC5884RVs1FNorH
-	6BN5tTMNjWu5wOSQtaoAJa2Xir2FU6MWy6XRAVQY1KMrZoC4t5goTdk/t4c7JV9n4HMS
-	ZFDg==
+	Thu, 24 Oct 2019 11:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=qJKGKHmemFyoynhNbUY2/v1QmrIFxCootJZ5dZDZNd0=;
+	b=T6uqAEqOTKzR12VwiLAbmQL3N7UPSAFsKkCnKwh+ZleGNI4V+baHIKOkFKe+qFHPyD
+	PxMNXFnU35/ZTGE53HaqFxFfJOJUICiXLUVMSKiT7UGLqS29F3SxnDLi/7fdWtuO/owa
+	cptiNIMFstA64iua3h0HwqOuXcKWOxvBsqBuVeRqSfCU9MWGx4RgP55p7sJRaa5cre/b
+	CINSoHcg/RKUXYFDb//4+MmIjfwW1aw4UIDZejU7ykEzyhmmTGEMk2w9m+/sVx8wOM9s
+	1iHAlpAcSy+GxhQHgzdpioxBudKk0dPrZdqOs5sEW1sSLNr/DUCubJfrLo/+UHfHi5H0
+	3aEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wKI1I/k+YC5A/OaYCOKFIlWYKyNyZft5ACgAKordUk4=;
-	b=pLbo5B7VNpEQJLGqyINlV/uP1cCHd8UBqOKc3oAqLGfkbhoZMnDwhRbXq23w8d6YXH
-	F40b65A8qEUr9zvxjeU2TuAeFZV7/y9MOrWJFQtlvorBwKXA59A9h9Grl9uYrtEwGuUd
-	RSWaTzU1q2oDxpoXC0Tsybm3skFQ4XBhpPKGTtgKR9H6NNNvvZ9Rk/Xhg1+AWqqMFXNF
-	EUz+0+innfGMy9Dk3HCze5Pa8Csesg0gqyJrV7QjxEc6budWJk468hgkd4w3bCnRNzCq
-	Czv+uBSqEmzPdFuKLhi1GNrE+g12PMqE7f1LElkDH6UqZQW1YyPetGZ5skbEiW/ec+9t
-	IdyQ==
-X-Gm-Message-State: APjAAAWchGX4sQWNA9RtKnLjehp2ywxhDBMLoj7XbRVUYcKjSttGF/uW
-	2Gs+hf9LCWdO0gd66UwCkg7SVj1GE6M6Fw==
-X-Google-Smtp-Source: APXvYqzidmn4HlluZuQpVgQ2oOKK7phyRwaKUq9UkDqelBPGIA1TDVKg+0e4mmD+5gzd99Iw3KaKNw==
-X-Received: by 2002:a05:6830:4c1:: with SMTP id
-	s1mr13695939otd.280.1571942085362; 
-	Thu, 24 Oct 2019 11:34:45 -0700 (PDT)
-Received: from alago.cortijodelrio.net
-	(CableLink-189-218-29-211.Hosts.InterCable.net. [189.218.29.211])
-	by smtp.googlemail.com with ESMTPSA id
-	v132sm6817994oif.34.2019.10.24.11.34.44
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 24 Oct 2019 11:34:44 -0700 (PDT)
-From: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Oct 2019 13:34:26 -0500
-Message-Id: <20191024183426.23676-1-daniel.diaz@linaro.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=qJKGKHmemFyoynhNbUY2/v1QmrIFxCootJZ5dZDZNd0=;
+	b=V3jb4yKrQwMAkkcGThqkwoNbg2QbiK6jxiyAeexJVfJW6X15qFqCBczSqAF8CcX3YA
+	KT34vZUOQut2Xh0jRIR0FeefWRW/UrA0PHnpHApxLMYSbXxEUuIFLtxwEvoIbax/Rtsr
+	qo51K1bZIJdn7CKtSItCwnmDKa3/iSLx/qUVk2538fiVUluxCnlS92iZFrQyWoUQqdj8
+	U0wSUf3X9aGGz0phaWrujkHSzsA7qWlDsnsIeGHeHCQCmiR2stwgzB0I8+pqkUP1E6TJ
+	/MWJ62wWXUog9y62wIfDdWN2f4RBuOjqgG/yODvH45TqlPZLIGlC43y/cfiwstCqE/I9
+	pNsw==
+X-Gm-Message-State: APjAAAU03yYKNQlc2R76WZkWRhmn8DOxepyODaAAedo9CZHSJPDECFQ6
+	XpsSx+T/FhvoUiGvXV5hlZiANMYTBPYMal3esPM=
+X-Google-Smtp-Source: APXvYqyJUMHvn2D7F0n5BZEB8gr6IRfVVC0vOlcLLgon8Ph4NB1Dfk0/z5dSVdIaMX9YQbzWJn3O+XOynMGRmW1Aysc=
+X-Received: by 2002:a02:3e96:: with SMTP id
+	s144mr16438120jas.138.1571942282662; 
+	Thu, 24 Oct 2019 11:38:02 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] perf: Add /scripts to sources
+References: <qospj1$49m$1@blaine.gmane.org>
+In-Reply-To: <qospj1$49m$1@blaine.gmane.org>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Thu, 24 Oct 2019 11:37:51 -0700
+Message-ID: <CANx9H-Bq2SBtqOAc6O6M3Cfi6Rfh9omOeQ01n8ARymxw=+=0dg@mail.gmail.com>
+To: Ferry Toth <fntoth@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: sudo: recipe broken
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +54,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 18:34:45 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 24 Oct 2019 18:38:02 -0000
+Content-Type: multipart/alternative; boundary="0000000000005d97110595ac5595"
 
-As of linux-next-20191022, we need bpf_helpers_doc.py in order to
-build libbpf, which lives in /scripts. Otherwise, do_compile fails
-with:
-| /bin/sh: 1: /oe/build/tmp/work/machine-triplet/perf/1.0-r9/perf-1.0/scripts/bpf_helpers_doc.py: not found
-| Makefile:184: recipe for target 'bpf_helper_defs.h' failed
+--0000000000005d97110595ac5595
+Content-Type: text/plain; charset="UTF-8"
 
-See commit e01a75c159691 ("libbpf: Move bpf_{helpers, helper_defs,
-endian, tracing}.h into libbpf") from linux-next.
+On Thu, Oct 24, 2019 at 11:13 AM Ferry Toth <fntoth@gmail.com> wrote:
 
-Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
----
- meta/recipes-kernel/perf/perf.bb | 1 +
- 1 file changed, 1 insertion(+)
+> It looks like https://www.sudo.ws/download.html changed certificate and
+> directory structure. So that breaks not only thud, but also warrior and
+> zeus. It can be fixed by changing the path in the recipe to
+> https://www.sudo.ws/dist/sudo-${PV}.tar.gz or
+> ftp://ftp.sudo.ws/pub/sudo/sudo-${PV}.tar.gz.
+>
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 8201c0cb60..a463eebc52 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -113,6 +113,7 @@ PERF_SRC ?= "Makefile \
-              tools/Makefile \
-              tools/perf \
-              tools/scripts \
-+             scripts \
- "
- 
- PERF_EXTRA_LDFLAGS = ""
--- 
-2.20.1
+Can you please send a patch (and please not the ftp url)
 
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--0000000000005d97110595ac5595
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Oct 24, 2019 at 11:13 AM Ferry Toth &lt;<a href=3D"=
+mailto:fntoth@gmail.com">fntoth@gmail.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex">It looks like <a href=3D"https://www.sudo.ws/download=
+.html" rel=3D"noreferrer" target=3D"_blank">https://www.sudo.ws/download.ht=
+ml</a> changed certificate and <br>
+directory structure. So that breaks not only thud, but also warrior and <br=
+>
+zeus. It can be fixed by changing the path in the recipe to <br>
+<a href=3D"https://www.sudo.ws/dist/sudo-$%7BPV%7D.tar.gz" rel=3D"noreferre=
+r" target=3D"_blank">https://www.sudo.ws/dist/sudo-${PV}.tar.gz</a> or<br>
+<a href=3D"ftp://ftp.sudo.ws/pub/sudo/sudo-$%7BPV%7D.tar.gz" rel=3D"norefer=
+rer" target=3D"_blank">ftp://ftp.sudo.ws/pub/sudo/sudo-${PV}.tar.gz</a>.<br=
+>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Can you please s=
+end a patch (and please not the ftp url)</div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+"><br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--0000000000005d97110595ac5595--
