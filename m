@@ -1,40 +1,42 @@
 Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
 	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B6F947F8BB
+	by mail.openembedded.org (Postfix) with ESMTP id 3A0877F9CB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 15:13:28 +0000 (UTC)
+	Thu, 24 Oct 2019 15:13:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id B7E1E9C041A;
-	Thu, 24 Oct 2019 11:13:29 -0400 (EDT)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 60BA89C0336;
+	Thu, 24 Oct 2019 11:13:37 -0400 (EDT)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10032)
-	with ESMTP id QsP-F5hCHJ0k; Thu, 24 Oct 2019 11:13:28 -0400 (EDT)
+	with ESMTP id iKTcfmgID5ZN; Thu, 24 Oct 2019 11:13:36 -0400 (EDT)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id DC2369C041E;
-	Thu, 24 Oct 2019 11:13:28 -0400 (EDT)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 95B479C041E;
+	Thu, 24 Oct 2019 11:13:36 -0400 (EDT)
 X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10026)
-	with ESMTP id 8AkoOwaeugKM; Thu, 24 Oct 2019 11:13:28 -0400 (EDT)
+	with ESMTP id Cmn_kFg_00T5; Thu, 24 Oct 2019 11:13:36 -0400 (EDT)
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
 	[192.168.48.237])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id B3C119C041A;
-	Thu, 24 Oct 2019 11:13:28 -0400 (EDT)
-Date: Thu, 24 Oct 2019 11:13:28 -0400 (EDT)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 555A29C0336;
+	Thu, 24 Oct 2019 11:13:36 -0400 (EDT)
+Date: Thu, 24 Oct 2019 11:13:36 -0400 (EDT)
 From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
 To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Message-ID: <706856841.532586.1571930008700.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
+Message-ID: <850133363.532592.1571930016322.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <22cbc060-0f73-4354-1edb-ca90dbed4d73@herbrechtsmeier.net>
 References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
 	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
 	<5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
+	<CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
+	<22cbc060-0f73-4354-1edb-ca90dbed4d73@herbrechtsmeier.net>
 MIME-Version: 1.0
 X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC77 (Linux)/8.8.11_GA_3737)
 Thread-Topic: NPM refactoring
-Thread-Index: 1j6akuwZnghhsfHwbNAYexPLjBRG/A==
+Thread-Index: 0Ewbt2GN/cq4LXqyO31hdi1WUYY6vg==
 Cc: paul eggleton <paul.eggleton@linux.intel.com>,
 	Savoir-faire Linux Rennes <rennes@savoirfairelinux.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
@@ -51,81 +53,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 15:13:29 -0000
+X-List-Received-Date: Thu, 24 Oct 2019 15:13:36 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
 Hi Stefan,
 
-On Oct 24, 2019, at 2:01 PM, Stefan Herbrechtsmeier stefan@herbrechtsmeier.net wrote:
-> Am 22.10.19 um 13:22 schrieb Richard Purdie:
->> On Tue, 2019-10-22 at 11:03 +0200, Jean-Marie LEMETAYER wrote:
->>> The current NPM support have several issues:
->>>   - The current NPM fetcher downloads the dependency tree but not the other
->>>     fetchers. The 'subdir' parameter was used to fix this issue.
->>>   - They are multiple issues with package names (uppercase, exotic characters,
->>>     scoped packages) even if they are inside the dependencies.
->>>   - The lockdown file generation have issues. When a package depends on
->>>     multiple version of the same package (all versions have the same checksum).
->>>
->>> This patchset refactors the NPM support in Yocto:
->>>   - As the NPM algorithm for dependency management is hard to handle, the new
->>>     NPM fetcher downloads only the package source (and not the dependencies,
->>>     like the other fetchers) (patch submitted in the bitbake-devel list).
+On Oct 24, 2019, at 2:40 PM, Stefan Herbrechtsmeier stefan@herbrechtsmeier.net wrote:
+> Fist we should use 'npm ci' instead of 'npm install'.
+
+Thanks for the tips, I did not know about the 'npm ci' command. Sadly it fails to handle '--global' installation. The 'npm pack && npm install' trick is much more efficient as explain in this commit:
+  https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=d38e1e2c2ea4646b34ea6282d3d7620df5b0374b
+
+> How would you handle prebuild binaries? Would you disable prebuild binaries?
+
+I have no case of using prebuild binaries. Can you give me an example of a package using prebuild?
+
+> How would you handle native packages (ex. angular-cli)?
+
+Like this (this a part of the next patchset to support angular):
+
+  $ cat meta-oe/recipes-devtools/angular-cli/angular-cli_8.3.12.bb 
+  SUMMARY = "CLI tool for Angular"
+  HOMEPAGE = "https://github.com/angular/angular-cli"
+  LICENSE = "MIT"
+  LIC_FILES_CHKSUM = "file://LICENSE;md5=dc2a37e472c366af2a7b8bd0f2ba5af4"
+  SRC_URI = "npm://registry.npmjs.org;name=@angular/cli;version=${PV}"
+  S = "${WORKDIR}/npm"
+  inherit npm
+  NPM_SHRINKWRAP = "${THISDIR}/${BPN}/npm-shrinkwrap.json"
+  BBCLASSEXTEND = "native"
+
+> How would you patch dependencies?
+
+I am not sure that it is managed in the actual implementation. I believe that the interest is limited.
+
+> How would you remove unneeded files (ex. documentation, examples, source
+> code)?
+
+I don't. Only the build files are removed (when using addons). It is not possible to know which files should be kept or deleted.
+
+>> License management should be also handled by npm, and if it isn't, then
+>> we need to work with the upstream to address it.
 > 
-> What make the new fetcher different from the simple wget fetcher?
+> To my knowledge npm don't check license files. It only reads the license
+> in the package.json.
 
-The fetcher asks the registry for the tarball url and its integrity. Then it uses wget to download the tarball and then check the integrity given by the registry. Finally it unpacks the tarball according to the tarball format (the root directory is called 'package' which must be renamed).
-
->>>   - The NPM class handles the dependencies using NPM (and not manually).
-> 
-> Is this really an improvement? NPM will do the cross compile during
-> fetch, loads additionally archives (not packages) from the internet and
-> doesn't reuse dependencies.
-
-In the next version of this patchset the dependencies are cached in a npm_cache directory stored in the DL_DIR during the do_fetch_append task (using 'npm cache --cache=${DL_DIR}/npm_cache'). The 'npm install' doesn't require any internet accesses because it is run with '--offline' option.
-
->>>   - The NPM recipe creation is simplified to avoid issues.
-> 
-> We create new not obvious issues. How you would handle prebuild binaries?
-
-I have no case of using prebuild binaries. After checking some informations it seems that it is handled the same way as node-gyp (by using scripts in the package.json). A patchset to support that is welcome. 
-
->>>   - The lockdown file is no more used as it is no longer relevant compared to the
->>>     latest shrinkwrap file format.
->>>
->>> This patchset may remove some features (lockdown file, license management for
->>> dependencies)
-> 
-> You really remove the license management of the dependencies? I think a
-> main feature of OE is the license management.
-
-The previous npm support was creating subpackages to handle the license management of the dependencies. This is a good idea but it fails with package with exotic names. A work will be needed to cleanly remake it.
-
->> but fixes the majority of the NPM issues. All of these issues
->>> from the bugzilla.yoctoproject.org are resolved by this patchset:
->>> #10237, #10760, #11028, #11728, #11902, #12534
->> 
->> One key requirement which many of our users have from the fetcher is
->> that its deterministic and allows for "offline" builds.
-> 
-> I think this is impossible with npm because every dependency could run a
-> script and download additional files (ex. prebuild).
-
-I have no case of using prebuild binaries. Can you give me an example of a package using prebuild? Do you know about the '--offline' and the '--ignore-scripts' options? A patchset to support that is welcome.
-
->> What this means is that should I have a populated DL_DIR, the build
->> should not need to touch the network. Also, only do_fetch tasks would
->> make network accesses.
-> 
-> @Richard: What is your opinion about the per recipe dependency?
-> Typically OE use one recipe per project. The NPM based solution handle a
-> project and all dependencies via one recipe.
-> 
-> @Jean-Marie: Do you know PNPM? They use a different node_modules layout
-> which allows the reuse of dependencies.
-
-Thanks for the link. What is the value in our scope ?
+You are right, that's also a reason why the license management needs a rework.
 
 Regards,
 Jean-Marie
