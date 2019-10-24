@@ -1,26 +1,34 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Haiqing.Bai@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C30B47F8F1
+	by mail.openembedded.org (Postfix) with ESMTP id 2F5946BCE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 04:19:18 +0000 (UTC)
+	Thu, 24 Oct 2019 06:33:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9O4JJBb016518
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2019 21:19:19 -0700 (PDT)
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 23 Oct 2019 21:19:18 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Oct 2019 12:19:15 +0800
-Message-ID: <20191024041915.28993-2-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191024041915.28993-1-Qi.Chen@windriver.com>
-References: <20191024041915.28993-1-Qi.Chen@windriver.com>
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9O6X9j9029492
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 23 Oct 2019 23:33:09 -0700 (PDT)
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.166]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0468.000;
+	Wed, 23 Oct 2019 23:33:08 -0700
+From: "Bai, Haiqing" <Haiqing.Bai@windriver.com>
+To: akuster808 <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] unfs3: fixed the issue that unfsd consumes
+	100% CPU
+Thread-Index: AQHVihzt38TkQpACLEu/ijrCRFh5E6dpVWMg
+Date: Thu, 24 Oct 2019 06:33:08 +0000
+Message-ID: <C2A454FDE6C23F41BD5011E2458C46C9FA1BB2FC@ALA-MBD.corp.ad.wrs.com>
+References: <1571884385-3662-1-git-send-email-Haiqing.Bai@windriver.com>
+	<d75b6ca2-ab06-1487-a526-8ebf7e798fc5@gmail.com>
+In-Reply-To: <d75b6ca2-ab06-1487-a526-8ebf7e798fc5@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.176.156]
 MIME-Version: 1.0
-Subject: [PATCH 2/2] python: fix CVE-2019-16935
+Subject: Re: [PATCH] unfs3: fixed the issue that unfsd consumes 100% CPU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,136 +41,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 04:19:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Oct 2019 06:33:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- ...cape-the-server-title-of-DocXMLRPCSe.patch | 101 ++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.16.bb |   1 +
- 2 files changed, 102 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
-
-diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
-new file mode 100644
-index 0000000000..3025cf7bc8
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
-@@ -0,0 +1,101 @@
-+From b161c89c8bd66fe928192e21364678c8e9b8fcc0 Mon Sep 17 00:00:00 2001
-+From: Dong-hee Na <donghee.na92@gmail.com>
-+Date: Tue, 1 Oct 2019 19:58:01 +0900
-+Subject: [PATCH] [2.7] bpo-38243: Escape the server title of DocXMLRPCServer
-+ (GH-16447)
-+
-+Escape the server title of DocXMLRPCServer.DocXMLRPCServer
-+when rendering the document page as HTML.
-+
-+CVE: CVE-2019-16935
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/pull/16447/commits/b41cde823d026f2adc21ef14b1c2e92b1006de06]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ Lib/DocXMLRPCServer.py                        | 13 +++++++++++-
-+ Lib/test/test_docxmlrpc.py                    | 20 +++++++++++++++++++
-+ .../2019-09-25-13-21-09.bpo-38243.1pfz24.rst  |  3 +++
-+ 3 files changed, 35 insertions(+), 1 deletion(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
-+
-+diff --git a/Lib/DocXMLRPCServer.py b/Lib/DocXMLRPCServer.py
-+index 4064ec2e48..90b037dd35 100644
-+--- a/Lib/DocXMLRPCServer.py
-++++ b/Lib/DocXMLRPCServer.py
-+@@ -20,6 +20,16 @@ from SimpleXMLRPCServer import (SimpleXMLRPCServer,
-+             CGIXMLRPCRequestHandler,
-+             resolve_dotted_attribute)
-+ 
-++
-++def _html_escape_quote(s):
-++    s = s.replace("&", "&amp;") # Must be done first!
-++    s = s.replace("<", "&lt;")
-++    s = s.replace(">", "&gt;")
-++    s = s.replace('"', "&quot;")
-++    s = s.replace('\'', "&#x27;")
-++    return s
-++
-++
-+ class ServerHTMLDoc(pydoc.HTMLDoc):
-+     """Class used to generate pydoc HTML document for a server"""
-+ 
-+@@ -210,7 +220,8 @@ class XMLRPCDocGenerator:
-+                                 methods
-+                             )
-+ 
-+-        return documenter.page(self.server_title, documentation)
-++        title = _html_escape_quote(self.server_title)
-++        return documenter.page(title, documentation)
-+ 
-+ class DocXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
-+     """XML-RPC and documentation request handler class.
-+diff --git a/Lib/test/test_docxmlrpc.py b/Lib/test/test_docxmlrpc.py
-+index 4dff4159e2..c45b892b8b 100644
-+--- a/Lib/test/test_docxmlrpc.py
-++++ b/Lib/test/test_docxmlrpc.py
-+@@ -1,5 +1,6 @@
-+ from DocXMLRPCServer import DocXMLRPCServer
-+ import httplib
-++import re
-+ import sys
-+ from test import test_support
-+ threading = test_support.import_module('threading')
-+@@ -176,6 +177,25 @@ class DocXMLRPCHTTPGETServer(unittest.TestCase):
-+         self.assertIn("""Try&nbsp;self.<strong>add</strong>,&nbsp;too.""",
-+                       response.read())
-+ 
-++    def test_server_title_escape(self):
-++        """Test that the server title and documentation
-++        are escaped for HTML.
-++        """
-++        self.serv.set_server_title('test_title<script>')
-++        self.serv.set_server_documentation('test_documentation<script>')
-++        self.assertEqual('test_title<script>', self.serv.server_title)
-++        self.assertEqual('test_documentation<script>',
-++                self.serv.server_documentation)
-++
-++        generated = self.serv.generate_html_documentation()
-++        title = re.search(r'<title>(.+?)</title>', generated).group()
-++        documentation = re.search(r'<p><tt>(.+?)</tt></p>', generated).group()
-++        self.assertEqual('<title>Python: test_title&lt;script&gt;</title>',
-++                title)
-++        self.assertEqual('<p><tt>test_documentation&lt;script&gt;</tt></p>',
-++                documentation)
-++
-++
-+ def test_main():
-+     test_support.run_unittest(DocXMLRPCHTTPGETServer)
-+ 
-+diff --git a/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
-+new file mode 100644
-+index 0000000000..8f02baed9e
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
-+@@ -0,0 +1,3 @@
-++Escape the server title of :class:`DocXMLRPCServer.DocXMLRPCServer`
-++when rendering the document page as HTML.
-++(Contributed by Dong-hee Na in :issue:`38243`.)
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
-index ebb4824cc1..625c5312a6 100644
---- a/meta/recipes-devtools/python/python_2.7.16.bb
-+++ b/meta/recipes-devtools/python/python_2.7.16.bb
-@@ -32,6 +32,7 @@ SRC_URI += " \
-            file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch \
-            file://0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
-            file://bpo-36742-cve-2019-10160.patch \
-+           file://0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-2.17.1
-
+WWVzLCAgdGhhbmtzLg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogYWt1c3Rl
+cjgwOCBbbWFpbHRvOmFrdXN0ZXI4MDhAZ21haWwuY29tXSANClNlbnQ6IDIwMTnlubQxMOaciDI0
+5pelIDExOjQxDQpUbzogQmFpLCBIYWlxaW5nOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gdW5mczM6IGZpeGVk
+IHRoZSBpc3N1ZSB0aGF0IHVuZnNkIGNvbnN1bWVzIDEwMCUgQ1BVDQoNCg0KDQpPbiAxMC8yMy8x
+OSA3OjMzIFBNLCBIYWlxaW5nIEJhaSB3cm90ZToNCj4gVGhlICdhY2NlcHQnIGZ1bmN0aW9uIG9u
+IHRoZSBzb2NrZXQgb2YgdW5mc2QgZGFlbW9uDQo+IGlzIGFsd2F5cyBpbiBiZWxvdyBlcnJvciBz
+dGF0ZToNCj4gYWNjZXB0KDQsIDB4N2ZmZDVlNmRkZGMwLCBbMTI4XSkgPSAtMSBFSU5WQUwgKElu
+dmFsaWQgYXJndW1lbnQpDQo+IGFjY2VwdCg2LCAweDdmZmQ1ZTZkZGRjMCwgWzEyOF0pID0gLTEg
+RUlOVkFMIChJbnZhbGlkIGFyZ3VtZW50KQ0Kd2l0aCBiYWNrcG9ydCB0byB6ZXVzPw0KDQoNCj4N
+Cj4gQW5kICdzdHJhY2UgLWMgLXAgPHRoZSBwaWQgb2YgdW5mc2Q+JyBzaG93czoNCj4gJSB0aW1l
+ICAgICBzZWNvbmRzICB1c2Vjcy9jYWxsICAgICBjYWxscyAgICBlcnJvcnMgc3lzY2FsbA0KPiAt
+LS0tLS0gLS0tLS0tLS0tLS0gLS0tLS0tLS0tLS0gLS0tLS0tLS0tIC0tLS0tLS0tLSAtLS0tLS0t
+LS0tLS0tLS0tDQo+ICA3MC44NyAgICAwLjAwNTM5MiAgICAgICAgICAgMCAgICA1MTM4ODYgICAg
+NTEzODg2IGFjY2VwdA0KPiAgMjkuMTMgICAgMC4wMDIyMTYgICAgICAgICAgIDAgICAgMjU2OTQz
+ICAgICAgICAgICBwb2xsDQo+DQo+IFRoaXMgZXJyb3Igc3RhdGUgaXMgaW4gdGhlICdmb3InIGxv
+b3Agb2YgdGhlIGRhZW1vbiwgc28gaXQgY29uc3VtZXMgMTAwJQ0KPiBDUFUuIFRoZSByZWFzb24g
+aXMgdGhhdCAnbGlzdGVuJyBpcyBub3QgY2FsbGVkIGZvciB0aGUgVENQIHNvY2tldCBiZWZvcmUN
+Cj4gJ2FjY2VwdCcuIEFjdHVhbGx5IHRoZSBjYWxsZWQgJ3N2Y190bGlfY3JlYXRlJyBmcm9tIGxp
+YnRpcnBjIHdpbGwgbm90IGNhbGwNCj4gJ2xpc3Rlbicgb24gYSBib3VuZCBzb2NrZXQuDQo+DQo+
+IFNpZ25lZC1vZmYtYnk6IEhhaXFpbmcgQmFpIDxIYWlxaW5nLkJhaUB3aW5kcml2ZXIuY29tPg0K
+PiAtLS0NCj4gIC4uLi8wMDAxLUFkZC1saXN0ZW4tYWN0aW9uLWZvci1hLXRjcC1zb2NrZXQucGF0
+Y2ggIHwgNTQgKysrKysrKysrKysrKysrKysrKysrKw0KPiAgbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3VuZnMzL3VuZnMzX2dpdC5iYiAgICAgICAgICAgfCAgMSArDQo+ICAyIGZpbGVzIGNoYW5nZWQs
+IDU1IGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvdW5mczMvdW5mczMvMDAwMS1BZGQtbGlzdGVuLWFjdGlvbi1mb3ItYS10Y3Atc29ja2V0
+LnBhdGNoDQo+DQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdW5mczMvdW5m
+czMvMDAwMS1BZGQtbGlzdGVuLWFjdGlvbi1mb3ItYS10Y3Atc29ja2V0LnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3VuZnMzL3VuZnMzLzAwMDEtQWRkLWxpc3Rlbi1hY3Rpb24tZm9yLWEt
+dGNwLXNvY2tldC5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAw
+Li5lOWI5ZDNkDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3VuZnMzL3VuZnMzLzAwMDEtQWRkLWxpc3Rlbi1hY3Rpb24tZm9yLWEtdGNwLXNvY2tldC5wYXRj
+aA0KPiBAQCAtMCwwICsxLDU0IEBADQo+ICtGcm9tIGI0MmFiOGUxYWNhOTUxZGQwNmMxMTMxNTk0
+OTFiM2ZkNWNmMDZmMmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQo+ICtGcm9tOiBIYWlxaW5n
+IEJhaSA8SGFpcWluZy5CYWlAd2luZHJpdmVyLmNvbT4NCj4gK0RhdGU6IFRodSwgMjQgT2N0IDIw
+MTkgMDk6Mzk6MDQgKzA4MDANCj4gK1N1YmplY3Q6IFtQQVRDSF0gQWRkICJsaXN0ZW4iIGFjdGlv
+biBmb3IgYSB0Y3Agc29ja2V0IHdoaWNoIGRvZXMgbm90IGNhbGwNCj4gKyAnbGlzdGVuJyBhZnRl
+ciAnYmluZCcNCj4gKw0KPiArSXQgaXMgZm91bmQgdGhhdCAvdXNyL2Jpbi91bmZzZCBjdXN0b211
+cyAxMDAlIGNwdSBhZnRlciBzdGFydGluZyBxZW11IHdpdGggJ25mcycNCj4gK29wdGlvbiwgYW5k
+IGJlbG93IGxvdHMgb2YgZXJyb3IgbWVzc2FnZXMgc2hvd3Mgd2hlbiBzdHJhY2UgdGhlIHByb2Nl
+c3M6DQo+ICsNCj4gK3BvbGwoW3tmZD0zLCBldmVudHM9UE9MTElOfFBPTExQUkl8UE9MTFJETk9S
+TXxQT0xMUkRCQU5EfSx7ZmQ9NCwgZXZlbnRzPVBPTExJTnxQT0xMUFJJfFBPTExSRE5PUk18UE9M
+TFJEQkFORH0sDQo+ICt7ZmQ9NSwgZXZlbnRzPVBPTExJTnxQT0xMUFJJfFBPTExSRE5PUk18UE9M
+TFJEQkFORH0se2ZkPTYsIGV2ZW50cyA9UE9MTElOfFBPTExQUkl8UE9MTFJETk9STXxQT0xMUkRC
+QU5EfV0sDQo+ICs0LCAyMDAwKSA9IDIgKFt7ZmQ9NCwgcmV2ZW50cz1QT0xMSFVQfSx7ZmQ9Niwg
+cmV2ZW50cz1QT0xMSFVQfV0pDQo+ICthY2NlcHQoNCwgMHg3ZmZkNWU2ZGRkYzAsIFsxMjhdKSA9
+IC0xIEVJTlZBTCAoSW52YWxpZCBhcmd1bWVudCkNCj4gK2FjY2VwdCg2LCAweDdmZmQ1ZTZkZGRj
+MCwgWzEyOF0pID0gLTEgRUlOVkFMIChJbnZhbGlkIGFyZ3VtZW50KQ0KPiArDQo+ICslIHRpbWUg
+ICAgIHNlY29uZHMgIHVzZWNzL2NhbGwgICAgIGNhbGxzICAgIGVycm9ycyBzeXNjYWxsDQo+ICst
+LS0tLS0gLS0tLS0tLS0tLS0gLS0tLS0tLS0tLS0gLS0tLS0tLS0tIC0tLS0tLS0tLSAtLS0tLS0t
+LS0tLS0tLS0tDQo+ICsgNzAuODcgICAgMC4wMDUzOTIgICAgICAgICAgIDAgICAgNTEzODg2ICAg
+IDUxMzg4NiBhY2NlcHQNCj4gKyAyOS4xMyAgICAwLjAwMjIxNiAgICAgICAgICAgMCAgICAyNTY5
+NDMgICAgICAgICAgIHBvbGwNCj4gKyAgMC4wMCAgICAwLjAwMDAwMCAgICAgICAgICAgMCAgICAg
+ICAgIDQgICAgICAgICAgIHJlYWQNCj4gKw0KPiArVGhlIHJvb3QgY2F1c2UgaXMgdGhhdCAnbGlz
+dGVuJyBpcyBub3QgY2FsbGVkIGZvciB0aGUgYmluZGVkDQo+ICtzb2NrZXQuIFRoZSBkZXBlbmRl
+ZCBsaWJ0aXBjIGRvZXMgbm90IGNhbGwgJ2xpc3RlbicgaWYgZm91bmQNCj4gK3RoZSBpbmNvbW1p
+bmcgc29ja2V0IGlzIGJpbmRlZCwgc28gJ2FjY2VwdCcgcmVwb3J0cyB0aGUgZXJyb3INCj4gK2lu
+IHRoZSAnZm9yJyBsb29wIGFuZCBjcHUgY29uc3VtZWQuDQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1
+czogUGVuZGluZw0KPiArDQo+ICtTaWduZWQtb2ZmLWJ5OiBIYWlxaW5nIEJhaSA8SGFpcWluZy5C
+YWlAd2luZHJpdmVyLmNvbT4NCj4gKy0tLQ0KPiArIGRhZW1vbi5jIHwgNyArKysrKysrDQo+ICsg
+MSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQ0KPiArDQo+ICtkaWZmIC0tZ2l0IGEvZGFl
+bW9uLmMgYi9kYWVtb24uYw0KPiAraW5kZXggMDI4YTE4MS4uNGM4NTkwMyAxMDA2NDQNCj4gKy0t
+LSBhL2RhZW1vbi5jDQo+ICsrKysgYi9kYWVtb24uYw0KPiArQEAgLTgxNCw2ICs4MTQsMTMgQEAg
+c3RhdGljIFNWQ1hQUlQgKmNyZWF0ZV90Y3BfdHJhbnNwb3J0KHVuc2lnbmVkIGludCBwb3J0KQ0K
+PiArIAkgICAgZnByaW50ZihzdGRlcnIsICJDb3VsZG4ndCBiaW5kIHRvIHRjcCBwb3J0ICVkXG4i
+LCBwb3J0KTsNCj4gKyAJICAgIGV4aXQoMSk7DQo+ICsgCX0NCj4gKysNCj4gKysJaWYgKGxpc3Rl
+bihzb2NrLCBTT01BWENPTk4pIDwgMCkgew0KPiArKwkgICAgcGVycm9yKCJsaXN0ZW4iKTsNCj4g
+KysJICAgIGZwcmludGYoc3RkZXJyLCAiQ291bGRuJ3QgbGlzdGVuIG9uIHRoZSBhZGRyZXNzIFxu
+Iik7DQo+ICsrCSAgICBjbG9zZShzb2NrKTsNCj4gKysJICAgIGV4aXQoMSk7DQo+ICsrCX0NCj4g
+KyAgICAgfQ0KPiArIA0KPiArICAgICB0cmFuc3AgPSBzdmN0Y3BfY3JlYXRlKHNvY2ssIDAsIDAp
+Ow0KPiArLS0gDQo+ICsxLjkuMQ0KPiArDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvdW5mczMvdW5mczNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3VuZnMzL3Vu
+ZnMzX2dpdC5iYg0KPiBpbmRleCA3OWQwOTc4Li5kNjBjZWU4IDEwMDY0NA0KPiAtLS0gYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvdW5mczMvdW5mczNfZ2l0LmJiDQo+ICsrKyBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy91bmZzMy91bmZzM19naXQuYmINCj4gQEAgLTIzLDYgKzIzLDcgQEAgU1JDX1VS
+SSA9ICJnaXQ6Ly9naXRodWIuY29tL3VuZnMzL3VuZnMzLmdpdDtwcm90b2NvbD1odHRwcyBcDQo+
+ICAgICAgICAgICAgIGZpbGU6Ly90Y3Bfbm9fZGVsYXkucGF0Y2ggXA0KPiAgICAgICAgICAgICBm
+aWxlOi8vMDAwMS1kYWVtb24uYy1MaWJ0aXJwYy1wb3J0aW5nLWZpeGVzLnBhdGNoIFwNCj4gICAg
+ICAgICAgICAgZmlsZTovLzAwMDEtYXR0ci1maXgtdXRpbWUtZm9yLXN5bWxpbmsucGF0Y2ggXA0K
+PiArICAgICAgICAgICBmaWxlOi8vMDAwMS1BZGQtbGlzdGVuLWFjdGlvbi1mb3ItYS10Y3Atc29j
+a2V0LnBhdGNoIFwNCj4gICAgICAgICAgICAiDQo+ICBTUkNSRVYgPSAiYzEyYTVjNjlhOGQ1OWJl
+NjkxNmNiZDBlMGY0MWMxNTlmMTk2MjQyNSINCj4gIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VY
+ID0gInVuZnMzXC0oP1A8cHZlcj4uKykiDQoNCg==
 
