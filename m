@@ -1,45 +1,26 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 21D2D7F983
+Return-Path: <stefan@herbrechtsmeier.net>
+Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 216AA7F688
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 11:54:13 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>) id 1iNbh0-0001HM-OQ
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Oct 2019 13:54:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203;
-	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Date:
-	Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=glHXIlI3O84k/oFk/1T9qnmIVcsnSd/YDF9XBJWXmVI=;
-	b=fbp6UN8JpFzl+84pHfpHjGJrp5
-	hh8++2IjMONeHoBCCvOlzlzd1ZJA4s+jNmvCp3CaagC+6Q7RhITgfEptyAvZReeE+sU+c9YPY2LuF
-	WtqagvEYaeg92HElN166OFh30wuvjz2IiB68h4S500Wu+yZbdT4qiGanlPD++IwFDDfUtgXDTHsE/
-	RqS1GCsG2VxO5suIKTWlWIKq13mQtL561YilyDdEiBfJciO5/DEVgsGIXmuAKxJ2ElnShxj7f1gKE
-	hkE5yU1oa2NwfES4B947XnZg2sZuvMF29f8z/cGOuqWMheFJjEisKPsKuEyXRHmLc82LgFwjfJZK8
-	C3SflggA==;
-Received: from host-87-242-20-26.prtelecom.hu ([87.242.20.26]
-	helo=[192.168.1.13])
-	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <zboszor@pr.hu>) id 1iNbgw-0008IE-SD
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 Oct 2019 13:54:12 +0200
-To: openembedded-core@lists.openembedded.org
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Message-ID: <7699ce77-9326-8095-43b2-b8cd2fd0cc28@pr.hu>
-Date: Thu, 24 Oct 2019 13:54:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.1.1
+	Thu, 24 Oct 2019 12:01:53 +0000 (UTC)
+Received: from [192.168.178.37] (unknown [94.134.94.146])
+	by dd41138.kasserver.com (Postfix) with ESMTPSA id AA85C11A03F3;
+	Thu, 24 Oct 2019 14:01:53 +0200 (CEST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>,
+	openembedded-core@lists.openembedded.org
+References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Message-ID: <5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
+Date: Thu, 24 Oct 2019 14:01:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Spam-Score: -1.8 (-)
-X-Scan-Signature: 179ef3736e309226eac6e039e192467d
-X-Spam-Tracer: backend.mail.pr.hu -1.8 20191024115412Z
-Subject: OPKG intercept scripts vs RPM %posttrans
+In-Reply-To: <8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
+Cc: brendan.le.foll@intel.com, paul.eggleton@linux.intel.com,
+	rennes@savoirfairelinux.com
+Subject: Re: [RFC][PATCH 0/6] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,36 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 11:54:14 -0000
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
+X-List-Received-Date: Thu, 24 Oct 2019 12:01:53 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Jean-Marie,
 
-I know that OPKG supports running scripts at the very end of
-the package manager transaction. These are the so called
-"intercept scripts" in OPKG speak. pkg_postinst() scripts can
-run these scripts that create another script that eventually
-run at the end of the transaction.
+Am 22.10.19 um 13:22 schrieb Richard Purdie:
+> On Tue, 2019-10-22 at 11:03 +0200, Jean-Marie LEMETAYER wrote:
+>> The current NPM support have several issues:
+>>   - The current NPM fetcher downloads the dependency tree but not the other
+>>     fetchers. The 'subdir' parameter was used to fix this issue.
+>>   - They are multiple issues with package names (uppercase, exotic characters,
+>>     scoped packages) even if they are inside the dependencies.
+>>   - The lockdown file generation have issues. When a package depends on
+>>     multiple version of the same package (all versions have the same checksum).
+>>
+>> This patchset refactors the NPM support in Yocto:
+>>   - As the NPM algorithm for dependency management is hard to handle, the new
+>>     NPM fetcher downloads only the package source (and not the dependencies,
+>>     like the other fetchers) (patch submitted in the bitbake-devel list).
 
-However, these are not applicable when building an RPM based
-system with Yocto.
+What make the new fetcher different from the simple wget fetcher?
 
-In RPM, there are these %posttrans scriptlets that are scheduled
-for the end of the transaction. However, creating a %posttrans
-scriptlet is not supported in package_rpm.bbclass.
+>>   - The NPM class handles the dependencies using NPM (and not manually).
 
-For example, one package may depend on another for upgraded
-contents but if this dependency is not versioned, then the
-upgrade of these two packages may be done in the wrong order,
-making the pkg_postinst (%post) script of the first package
-run earlier than the script for the dependency package.
+Is this really an improvement? NPM will do the cross compile during 
+fetch, loads additionally archives (not packages) from the internet and 
+doesn't reuse dependencies.
 
-An intercept script or RPM %posttrans script is perfect in any case.
+>>   - The NPM recipe creation is simplified to avoid issues.
 
-Is it planned to support %posttrans?
+We create new not obvious issues. How you would handle prebuild binaries?
 
-Best regards,
-Zoltán Böszörményi
+>>   - The lockdown file is no more used as it is no longer relevant compared to the
+>>     latest shrinkwrap file format.
+>>
+>> This patchset may remove some features (lockdown file, license management for
+>> dependencies)
+
+You really remove the license management of the dependencies? I think a 
+main feature of OE is the license management.
+
+> but fixes the majority of the NPM issues. All of these issues
+>> from the bugzilla.yoctoproject.org are resolved by this patchset:
+>> #10237, #10760, #11028, #11728, #11902, #12534
+> 
+> One key requirement which many of our users have from the fetcher is
+> that its deterministic and allows for "offline" builds.
+
+I think this is impossible with npm because every dependency could run a 
+script and download additional files (ex. prebuild).
+
+> What this means is that should I have a populated DL_DIR, the build
+> should not need to touch the network. Also, only do_fetch tasks would
+> make network accesses.
+
+@Richard: What is your opinion about the per recipe dependency? 
+Typically OE use one recipe per project. The NPM based solution handle a 
+project and all dependencies via one recipe.
+
+@Jean-Marie: Do you know PNPM? They use a different node_modules layout 
+which allows the reuse of dependencies.
+
+Regards
+   Stefan
 
