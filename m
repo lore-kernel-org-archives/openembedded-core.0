@@ -1,34 +1,51 @@
-Return-Path: <Haiqing.Bai@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F5946BCE7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D1677F8EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 06:33:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9O6X9j9029492
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 23 Oct 2019 23:33:09 -0700 (PDT)
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.166]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0468.000;
-	Wed, 23 Oct 2019 23:33:08 -0700
-From: "Bai, Haiqing" <Haiqing.Bai@windriver.com>
-To: akuster808 <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] unfs3: fixed the issue that unfsd consumes
-	100% CPU
-Thread-Index: AQHVihzt38TkQpACLEu/ijrCRFh5E6dpVWMg
-Date: Thu, 24 Oct 2019 06:33:08 +0000
-Message-ID: <C2A454FDE6C23F41BD5011E2458C46C9FA1BB2FC@ALA-MBD.corp.ad.wrs.com>
-References: <1571884385-3662-1-git-send-email-Haiqing.Bai@windriver.com>
-	<d75b6ca2-ab06-1487-a526-8ebf7e798fc5@gmail.com>
-In-Reply-To: <d75b6ca2-ab06-1487-a526-8ebf7e798fc5@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.156]
+	Thu, 24 Oct 2019 06:38:15 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id q70so14907522qke.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Oct 2019 23:38:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=FscOkU58B1FmFoTRcWuGf4Uwn046z1AyTPLKFehSuoA=;
+	b=JPDZm/2SWyu+rP98l189atPXANJpn0koTqLP0YUKDKrNFv+WZJ15QN5j5P1obajQRf
+	I2BI69gdt4PIwMMEJE9jTeAN4wLyVYbyJFDc5f9cLKkjyC8BdLQfaaRBx+1Ub3CnA0pJ
+	AFSIHTiUsi32fmZs/fizDSomBmG6EyBfuWNbwRm/cUC456RQIZOem/p+EecAumx+qg42
+	U1MyB1zObFMdPSKt/Gixu1GC49vzLl21sCPzFvD+IH4x/xg1kRfkW0S2KJBII5/t/DgE
+	L0g+MIwY7uzDpcqx3LLiEr+63IfEP+kgS23TQxmEYjYOwdAh6VhoBz9LWKvpotDSjrt+
+	rD2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=FscOkU58B1FmFoTRcWuGf4Uwn046z1AyTPLKFehSuoA=;
+	b=Q2JCQkPNeDfIKitnGFrZmAzJH/sJX/tsbS5kHBMUkEA2ZAB4BPkhrQsfR/Db4yE3ed
+	Vc68woUgN27Pfz4X9SeHXxh4G3YeJ6R5ub9yN79xHL+lMI1kfTNJQk0KVqPVkNpdR/6o
+	w2SPJa6pXqkH+RcaNUEvbFnyizkG4tU1nED3Mg8zf2gAaOBfeLkZpywH3c6OssYmYi8o
+	r8qe78Vnkd5zhcOJ+gc9lScHUHVoEJZGnV2gab4fwvwcyVtIsNpmp1Q39izAlVEXcSKA
+	i/kg5UTf45w/PzYbr75yCXOKSh/L5KxVyjuoCN5SeeNHTprNe7CIC4ixmYACEitTw2j0
+	2SKA==
+X-Gm-Message-State: APjAAAXl7dw/ii+g0KmaPpBlqxF/vtNtObwO/1mBljImvNomv6GRRfoM
+	/uuwFyr0pB1rarC68ZZPj13D87EKLlshIrpTITw=
+X-Google-Smtp-Source: APXvYqz0UXk7sZxrx+Lh4fHhfEQsKSC3DNsQMWR0tiSVOwF9sMyx4l4y7XthXzvgOA/R34NbHxQ4cX8ipu3rlzhY/W4=
+X-Received: by 2002:a37:b985:: with SMTP id
+	j127mr12319647qkf.337.1571899095661; 
+	Wed, 23 Oct 2019 23:38:15 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] unfs3: fixed the issue that unfsd consumes 100% CPU
+References: <CAMKF1sq83g8Zu3FmqWtdpJAePA6XsGnWZ5Z6HN9A6YvT8Socjw@mail.gmail.com>
+	<40c36a7b-6e95-efc8-4ab0-6b9e19924e54@intel.com>
+	<502fbe273fcf7a5c092e4bc93ce6e58dc8454452.camel@linuxfoundation.org>
+	<CAMKF1spmEssM+wdqvorosM4uWfigOXgbr6YEToFYFODeok7WxA@mail.gmail.com>
+In-Reply-To: <CAMKF1spmEssM+wdqvorosM4uWfigOXgbr6YEToFYFODeok7WxA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 24 Oct 2019 07:37:48 +0100
+Message-ID: <CAMKF1srQTs1EEJK40No03JwieBtt=Ym+_mG35dVa=TF=Q_9kmQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: new meta-oe failures from master-next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,92 +58,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 06:33:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 24 Oct 2019 06:38:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-WWVzLCAgdGhhbmtzLg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogYWt1c3Rl
-cjgwOCBbbWFpbHRvOmFrdXN0ZXI4MDhAZ21haWwuY29tXSANClNlbnQ6IDIwMTnlubQxMOaciDI0
-5pelIDExOjQxDQpUbzogQmFpLCBIYWlxaW5nOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gdW5mczM6IGZpeGVk
-IHRoZSBpc3N1ZSB0aGF0IHVuZnNkIGNvbnN1bWVzIDEwMCUgQ1BVDQoNCg0KDQpPbiAxMC8yMy8x
-OSA3OjMzIFBNLCBIYWlxaW5nIEJhaSB3cm90ZToNCj4gVGhlICdhY2NlcHQnIGZ1bmN0aW9uIG9u
-IHRoZSBzb2NrZXQgb2YgdW5mc2QgZGFlbW9uDQo+IGlzIGFsd2F5cyBpbiBiZWxvdyBlcnJvciBz
-dGF0ZToNCj4gYWNjZXB0KDQsIDB4N2ZmZDVlNmRkZGMwLCBbMTI4XSkgPSAtMSBFSU5WQUwgKElu
-dmFsaWQgYXJndW1lbnQpDQo+IGFjY2VwdCg2LCAweDdmZmQ1ZTZkZGRjMCwgWzEyOF0pID0gLTEg
-RUlOVkFMIChJbnZhbGlkIGFyZ3VtZW50KQ0Kd2l0aCBiYWNrcG9ydCB0byB6ZXVzPw0KDQoNCj4N
-Cj4gQW5kICdzdHJhY2UgLWMgLXAgPHRoZSBwaWQgb2YgdW5mc2Q+JyBzaG93czoNCj4gJSB0aW1l
-ICAgICBzZWNvbmRzICB1c2Vjcy9jYWxsICAgICBjYWxscyAgICBlcnJvcnMgc3lzY2FsbA0KPiAt
-LS0tLS0gLS0tLS0tLS0tLS0gLS0tLS0tLS0tLS0gLS0tLS0tLS0tIC0tLS0tLS0tLSAtLS0tLS0t
-LS0tLS0tLS0tDQo+ICA3MC44NyAgICAwLjAwNTM5MiAgICAgICAgICAgMCAgICA1MTM4ODYgICAg
-NTEzODg2IGFjY2VwdA0KPiAgMjkuMTMgICAgMC4wMDIyMTYgICAgICAgICAgIDAgICAgMjU2OTQz
-ICAgICAgICAgICBwb2xsDQo+DQo+IFRoaXMgZXJyb3Igc3RhdGUgaXMgaW4gdGhlICdmb3InIGxv
-b3Agb2YgdGhlIGRhZW1vbiwgc28gaXQgY29uc3VtZXMgMTAwJQ0KPiBDUFUuIFRoZSByZWFzb24g
-aXMgdGhhdCAnbGlzdGVuJyBpcyBub3QgY2FsbGVkIGZvciB0aGUgVENQIHNvY2tldCBiZWZvcmUN
-Cj4gJ2FjY2VwdCcuIEFjdHVhbGx5IHRoZSBjYWxsZWQgJ3N2Y190bGlfY3JlYXRlJyBmcm9tIGxp
-YnRpcnBjIHdpbGwgbm90IGNhbGwNCj4gJ2xpc3Rlbicgb24gYSBib3VuZCBzb2NrZXQuDQo+DQo+
-IFNpZ25lZC1vZmYtYnk6IEhhaXFpbmcgQmFpIDxIYWlxaW5nLkJhaUB3aW5kcml2ZXIuY29tPg0K
-PiAtLS0NCj4gIC4uLi8wMDAxLUFkZC1saXN0ZW4tYWN0aW9uLWZvci1hLXRjcC1zb2NrZXQucGF0
-Y2ggIHwgNTQgKysrKysrKysrKysrKysrKysrKysrKw0KPiAgbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3VuZnMzL3VuZnMzX2dpdC5iYiAgICAgICAgICAgfCAgMSArDQo+ICAyIGZpbGVzIGNoYW5nZWQs
-IDU1IGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvdW5mczMvdW5mczMvMDAwMS1BZGQtbGlzdGVuLWFjdGlvbi1mb3ItYS10Y3Atc29ja2V0
-LnBhdGNoDQo+DQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdW5mczMvdW5m
-czMvMDAwMS1BZGQtbGlzdGVuLWFjdGlvbi1mb3ItYS10Y3Atc29ja2V0LnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3VuZnMzL3VuZnMzLzAwMDEtQWRkLWxpc3Rlbi1hY3Rpb24tZm9yLWEt
-dGNwLXNvY2tldC5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAw
-Li5lOWI5ZDNkDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3VuZnMzL3VuZnMzLzAwMDEtQWRkLWxpc3Rlbi1hY3Rpb24tZm9yLWEtdGNwLXNvY2tldC5wYXRj
-aA0KPiBAQCAtMCwwICsxLDU0IEBADQo+ICtGcm9tIGI0MmFiOGUxYWNhOTUxZGQwNmMxMTMxNTk0
-OTFiM2ZkNWNmMDZmMmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQo+ICtGcm9tOiBIYWlxaW5n
-IEJhaSA8SGFpcWluZy5CYWlAd2luZHJpdmVyLmNvbT4NCj4gK0RhdGU6IFRodSwgMjQgT2N0IDIw
-MTkgMDk6Mzk6MDQgKzA4MDANCj4gK1N1YmplY3Q6IFtQQVRDSF0gQWRkICJsaXN0ZW4iIGFjdGlv
-biBmb3IgYSB0Y3Agc29ja2V0IHdoaWNoIGRvZXMgbm90IGNhbGwNCj4gKyAnbGlzdGVuJyBhZnRl
-ciAnYmluZCcNCj4gKw0KPiArSXQgaXMgZm91bmQgdGhhdCAvdXNyL2Jpbi91bmZzZCBjdXN0b211
-cyAxMDAlIGNwdSBhZnRlciBzdGFydGluZyBxZW11IHdpdGggJ25mcycNCj4gK29wdGlvbiwgYW5k
-IGJlbG93IGxvdHMgb2YgZXJyb3IgbWVzc2FnZXMgc2hvd3Mgd2hlbiBzdHJhY2UgdGhlIHByb2Nl
-c3M6DQo+ICsNCj4gK3BvbGwoW3tmZD0zLCBldmVudHM9UE9MTElOfFBPTExQUkl8UE9MTFJETk9S
-TXxQT0xMUkRCQU5EfSx7ZmQ9NCwgZXZlbnRzPVBPTExJTnxQT0xMUFJJfFBPTExSRE5PUk18UE9M
-TFJEQkFORH0sDQo+ICt7ZmQ9NSwgZXZlbnRzPVBPTExJTnxQT0xMUFJJfFBPTExSRE5PUk18UE9M
-TFJEQkFORH0se2ZkPTYsIGV2ZW50cyA9UE9MTElOfFBPTExQUkl8UE9MTFJETk9STXxQT0xMUkRC
-QU5EfV0sDQo+ICs0LCAyMDAwKSA9IDIgKFt7ZmQ9NCwgcmV2ZW50cz1QT0xMSFVQfSx7ZmQ9Niwg
-cmV2ZW50cz1QT0xMSFVQfV0pDQo+ICthY2NlcHQoNCwgMHg3ZmZkNWU2ZGRkYzAsIFsxMjhdKSA9
-IC0xIEVJTlZBTCAoSW52YWxpZCBhcmd1bWVudCkNCj4gK2FjY2VwdCg2LCAweDdmZmQ1ZTZkZGRj
-MCwgWzEyOF0pID0gLTEgRUlOVkFMIChJbnZhbGlkIGFyZ3VtZW50KQ0KPiArDQo+ICslIHRpbWUg
-ICAgIHNlY29uZHMgIHVzZWNzL2NhbGwgICAgIGNhbGxzICAgIGVycm9ycyBzeXNjYWxsDQo+ICst
-LS0tLS0gLS0tLS0tLS0tLS0gLS0tLS0tLS0tLS0gLS0tLS0tLS0tIC0tLS0tLS0tLSAtLS0tLS0t
-LS0tLS0tLS0tDQo+ICsgNzAuODcgICAgMC4wMDUzOTIgICAgICAgICAgIDAgICAgNTEzODg2ICAg
-IDUxMzg4NiBhY2NlcHQNCj4gKyAyOS4xMyAgICAwLjAwMjIxNiAgICAgICAgICAgMCAgICAyNTY5
-NDMgICAgICAgICAgIHBvbGwNCj4gKyAgMC4wMCAgICAwLjAwMDAwMCAgICAgICAgICAgMCAgICAg
-ICAgIDQgICAgICAgICAgIHJlYWQNCj4gKw0KPiArVGhlIHJvb3QgY2F1c2UgaXMgdGhhdCAnbGlz
-dGVuJyBpcyBub3QgY2FsbGVkIGZvciB0aGUgYmluZGVkDQo+ICtzb2NrZXQuIFRoZSBkZXBlbmRl
-ZCBsaWJ0aXBjIGRvZXMgbm90IGNhbGwgJ2xpc3RlbicgaWYgZm91bmQNCj4gK3RoZSBpbmNvbW1p
-bmcgc29ja2V0IGlzIGJpbmRlZCwgc28gJ2FjY2VwdCcgcmVwb3J0cyB0aGUgZXJyb3INCj4gK2lu
-IHRoZSAnZm9yJyBsb29wIGFuZCBjcHUgY29uc3VtZWQuDQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1
-czogUGVuZGluZw0KPiArDQo+ICtTaWduZWQtb2ZmLWJ5OiBIYWlxaW5nIEJhaSA8SGFpcWluZy5C
-YWlAd2luZHJpdmVyLmNvbT4NCj4gKy0tLQ0KPiArIGRhZW1vbi5jIHwgNyArKysrKysrDQo+ICsg
-MSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQ0KPiArDQo+ICtkaWZmIC0tZ2l0IGEvZGFl
-bW9uLmMgYi9kYWVtb24uYw0KPiAraW5kZXggMDI4YTE4MS4uNGM4NTkwMyAxMDA2NDQNCj4gKy0t
-LSBhL2RhZW1vbi5jDQo+ICsrKysgYi9kYWVtb24uYw0KPiArQEAgLTgxNCw2ICs4MTQsMTMgQEAg
-c3RhdGljIFNWQ1hQUlQgKmNyZWF0ZV90Y3BfdHJhbnNwb3J0KHVuc2lnbmVkIGludCBwb3J0KQ0K
-PiArIAkgICAgZnByaW50ZihzdGRlcnIsICJDb3VsZG4ndCBiaW5kIHRvIHRjcCBwb3J0ICVkXG4i
-LCBwb3J0KTsNCj4gKyAJICAgIGV4aXQoMSk7DQo+ICsgCX0NCj4gKysNCj4gKysJaWYgKGxpc3Rl
-bihzb2NrLCBTT01BWENPTk4pIDwgMCkgew0KPiArKwkgICAgcGVycm9yKCJsaXN0ZW4iKTsNCj4g
-KysJICAgIGZwcmludGYoc3RkZXJyLCAiQ291bGRuJ3QgbGlzdGVuIG9uIHRoZSBhZGRyZXNzIFxu
-Iik7DQo+ICsrCSAgICBjbG9zZShzb2NrKTsNCj4gKysJICAgIGV4aXQoMSk7DQo+ICsrCX0NCj4g
-KyAgICAgfQ0KPiArIA0KPiArICAgICB0cmFuc3AgPSBzdmN0Y3BfY3JlYXRlKHNvY2ssIDAsIDAp
-Ow0KPiArLS0gDQo+ICsxLjkuMQ0KPiArDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvdW5mczMvdW5mczNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3VuZnMzL3Vu
-ZnMzX2dpdC5iYg0KPiBpbmRleCA3OWQwOTc4Li5kNjBjZWU4IDEwMDY0NA0KPiAtLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvdW5mczMvdW5mczNfZ2l0LmJiDQo+ICsrKyBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy91bmZzMy91bmZzM19naXQuYmINCj4gQEAgLTIzLDYgKzIzLDcgQEAgU1JDX1VS
-SSA9ICJnaXQ6Ly9naXRodWIuY29tL3VuZnMzL3VuZnMzLmdpdDtwcm90b2NvbD1odHRwcyBcDQo+
-ICAgICAgICAgICAgIGZpbGU6Ly90Y3Bfbm9fZGVsYXkucGF0Y2ggXA0KPiAgICAgICAgICAgICBm
-aWxlOi8vMDAwMS1kYWVtb24uYy1MaWJ0aXJwYy1wb3J0aW5nLWZpeGVzLnBhdGNoIFwNCj4gICAg
-ICAgICAgICAgZmlsZTovLzAwMDEtYXR0ci1maXgtdXRpbWUtZm9yLXN5bWxpbmsucGF0Y2ggXA0K
-PiArICAgICAgICAgICBmaWxlOi8vMDAwMS1BZGQtbGlzdGVuLWFjdGlvbi1mb3ItYS10Y3Atc29j
-a2V0LnBhdGNoIFwNCj4gICAgICAgICAgICAiDQo+ICBTUkNSRVYgPSAiYzEyYTVjNjlhOGQ1OWJl
-NjkxNmNiZDBlMGY0MWMxNTlmMTk2MjQyNSINCj4gIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VY
-ID0gInVuZnMzXC0oP1A8cHZlcj4uKykiDQoNCg==
+On Wed, Oct 23, 2019 at 11:52 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Wed, Oct 23, 2019 at 8:31 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Wed, 2019-10-23 at 16:29 +0100, Ross Burton wrote:
+> > > On 23/10/2019 14:03, Khem Raj wrote:
+> > > > Hi Richard
+> > > >
+> > > > New master-next I see these fails
+> > > >
+> > > > https://errors.yoctoproject.org/Errors/Build/91645/
+> > > >
+> > > > First two are important one's we already know why
+> > > > ti-display-sharing-fw fails to fetch
+> > >
+> > > ERROR: QA Issue: libiio: Files/directories were installed but not
+> > > shipped in any package:
+> > >    /usr/lib/python2.7
+> > >    /usr/lib/python2.7/site-packages
+> > >    /usr/lib/python2.7/site-packages/libiio-0.18-py2.7.egg-info
+> > >    /usr/lib/python2.7/site-packages/iio.pyc
+> > >    /usr/lib/python2.7/site-packages/iio.py
+> > >
+> > > That may have been triggered by some change in oe-core but that's
+> > > definitely an issue with libiio.
+> >
+> > Its from this cmake change:
+> >
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=dbba06d9153ae588c9496b40e5db18b3602bfad1
+> >
+>
+> I think its causing more failures, where suddenly, the recipes are now
+> resorting to native python, is this patch correct I wonder ?
+>
+> see
+> https://git.openembedded.org/meta-openembedded-contrib/commit/?h=yoe/mut&id=5d02e814bc7d30f925b2eeec85eb053cec516f26
+>
+> https://git.openembedded.org/meta-openembedded-contrib/commit/?h=yoe/mut&id=3ab0af60e8512cbb718e8a0112d9c9aa98c620a4
+
+more fallouts
+https://errors.yoctoproject.org/Errors/Details/274418/
+>
+> >
+> > >
+> > > WARNING:
+> > > TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-
+> > > r0/temp/run.do_configure.7679:1
+> > > exit 1 from 'NO_FETCH_BUILD=1
+> > > TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-
+> > > r0/recipe-sysroot-native/usr/bin/python3-native/python3
+> > > setup.py clean'
+> > > ERROR: Execution of
+> > > 'TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-
+> > > r0/temp/run.do_configure.7679'
+> > > failed with exit code 1:
+> > > Traceback (most recent call last):
+> > >    File "setup.py", line 17, in <module>
+> > >      setup(**config['options'])
+> > >    File
+> > > "TOPDIR/build/tmp/work/mips32r2-yoe-linux/python3-astor/0.7.1-
+> > > r0/recipe-sysroot-native/usr/lib/python3.7/site-
+> > > packages/setuptools/__init__.py",
+> > > line 145, in setup
+> > >      return distutils.core.setup(**attrs)
+> > >
+> > > Looks like whatever astor is doing with setuptools doesn't agree
+> > > with the upgrade to 41.4.0?
+> >
+> > Yes, I can confirm that reverting
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=b9703df2853e72b974a63ef1146f09a6c197990d
+> > locally does make it build again.
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> >
+> >
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
