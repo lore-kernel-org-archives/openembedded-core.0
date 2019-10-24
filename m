@@ -1,18 +1,51 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D6417F9B6;
-	Thu, 24 Oct 2019 17:32:16 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alexander Kube <alexander.j.kube@gmail.com>
-Date: Thu, 24 Oct 2019 17:32:17 -0000
-Message-ID: <20191024173217.2332.29585@do>
-References: <20191024172908.68056-1-alexander.j.kube@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E4257F9A0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Oct 2019 17:37:49 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id w18so26486734wrt.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Oct 2019 10:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=SrmGp7Axk0L/hC5rSAmgMC0hmdR+Ae3ssHd9WYua19Y=;
+	b=GKICxrZErXRjEeBAJicpowqAYK55vJu5n/AH5gecS0e3pGLCmwPvS4gcMxkmR1sddL
+	sWUoBCruU5EL5qltI9DgYpC48Li1/FXIUP+r5jET26fI/d+q1++yy87BSwf6qWOYIiQm
+	urnO2jXdj3FGYpCQpoh19OYQpP98elGyWl9rA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=SrmGp7Axk0L/hC5rSAmgMC0hmdR+Ae3ssHd9WYua19Y=;
+	b=btXTyzTup+osvN9LRtskpkftSYJ6KaViBhYghDLumBc1HCX8qgtEgme2JeWai0Npyb
+	Euid1SpwkMdOWjO9ZBPaIUuOSxGNffmVPkkWX4jn/lveqSUTNeiPT2flFiUX5dT0JXgI
+	o7XlbxlWGGg0xNUZfjxG4X0UnXH/UqD+ygTlA0MjuZM5SlGqJ6+Cm0v1ml0cNU9dha8U
+	WUHoJB49Q/q3i0YUqaNv47kLf2SU/FZFfXcvzTpdWxIm+sThSNHuuQskH1XX3UXeN7M8
+	ivfJZtP6eALswuQgqecNB4nsJGfOj4lnt6qOhX3CKQpVUZ9zLEuZChysx19n+VdoJpu+
+	+7cQ==
+X-Gm-Message-State: APjAAAXEeDWvLVWu7vz8bM8kDem/sU/8kVfYPsn8b4Qcc2UVjt2lo7J/
+	r65YPoQlYLvV/4P37CCe3yOFtA==
+X-Google-Smtp-Source: APXvYqwi4MfoEE90lPBpk572tJ7ZYDfGOlf2gT1um00Bm4VCiHNQmnCMcRcYzmuAOP3cHqG8FeLycw==
+X-Received: by 2002:a5d:4885:: with SMTP id g5mr5361346wrq.219.1571938670069; 
+	Thu, 24 Oct 2019 10:37:50 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v128sm4610383wmb.14.2019.10.24.10.37.48
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 24 Oct 2019 10:37:49 -0700 (PDT)
+Message-ID: <7d5b190d3a523f973ce6788d0234be31fe8cb631.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kube <alexander.j.kube@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 24 Oct 2019 18:37:48 +0100
 In-Reply-To: <20191024172908.68056-1-alexander.j.kube@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlJlZmFjdG9yIHBhdGNoZXMgZm9yIGdvLTEuMTMuMy4uLiIgYW5kIDIgbW9yZQ==?=
+References: <20191024172908.68056-1-alexander.j.kube@gmail.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: Add recipes for Go v1.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,47 +58,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 17:32:16 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 24 Oct 2019 17:37:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Thu, 2019-10-24 at 21:59 +0430, Alexander Kube wrote:
+> This patch set adds various go-1.13 recipes and changes the
+> poky GOVERSION to 1.13%. It leaves the existing go-1.12
+> recipes untouched and available for existing users of
+> those recipes.
 
-Series: "Refactor patches for go-1.13.3..." and 2 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/20653/
-State : failure
+Thanks for these patches. How compatible is 1.13 with 1.12 and do we
+still need the 1.12 recipes? I'm wondering how hard it will be for
+people to migrate...
 
-== Summary ==
+Cheers,
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [1/3] Refactor patches for go-1.13.3
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/go/go-1.13/0001-allow-CC-and-CXX-to-have-multiple-words.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Richard
 
 
