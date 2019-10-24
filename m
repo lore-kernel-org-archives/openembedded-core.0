@@ -1,57 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 979BF7F817
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 168807F975
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 09:43:19 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id q13so2033544wmj.0
+	Thu, 24 Oct 2019 11:11:32 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id q130so2002857wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 02:43:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=yXmnlkeQlhY7qHY6zkeweWyvNUTY+4tflUYgE14588g=;
-	b=J7xnvwWMwqsdEkJgFhzwKDet0fdXTnEry6+rHeDrWtfOmC91TSVzKK0A+OqiF067CO
-	lFsYzgbf6IBiOiLb36oELx3QuAd8DL6HN++ZizzO7MG3gPHAkdLu4zfMhoOnTgxef7bt
-	2t22DKLjgxKFy6tcDPQErAUSjcaS3PHqyTOQc=
+	Thu, 24 Oct 2019 04:11:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=YnTpQ+VaBis8xrA/6VITHj5QqaPcOAyThH1aKatkZEY=;
+	b=F5CRkuUZ9ZVQod71xGknUhZDEUnFxKVt9lj9OWePoT9281/0uCNhHAwUchCg00V2mJ
+	ZMgIW/J+l0T/Msj7SjXwSYOgvl2Wlnz+iOhWKtPMnweIUtw8OFZPTS14n36zOvBI64aa
+	ajCYzUf9v5o0a8/stvCh22k3W6ZmTSPxX/hyA+2g4DXhaJUnTHjQIzVOk9Vlt1eWTq55
+	sUJit+FeEnrfHp5+r2tm1wI8IHsMe/S+m/Exjebvo6HHRgPSu2V+3uptIMqXEY7nkQ3y
+	RmO8G0wvq9CgMLgL3t5PYg4Nhtqg4Y3NV6VD3uao6wSLav9fHkOuH+C61j9kOVVqiMU4
+	tOYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=yXmnlkeQlhY7qHY6zkeweWyvNUTY+4tflUYgE14588g=;
-	b=QIVvwXzOO14HtI/Y08BDgU0tjNKCyIJTlXMpYHHDaDpcXittAIvIrSlwJ2OnPfUCVw
-	hphE9Xe+Q8VF7GFBs5nA5hy+towzpbTrDuSCEAWWA+ITlaYdjjdWHsGAbniIfIg8odvU
-	LTOK72sCfzoHEHpAZ/6m4F/hjtLrUkeG8qsD/Xj75b25k8po6jQ4/No1rweHv0E5yepM
-	7RWwadxZfTaBgrM4nxyqE1CPEvgMyEn5pn7WyRIEo8b+oUnx5aiv6wY7oY/+3N2ljYRO
-	XTrjOIYtdQGpZ01IU63OQQ3RZ665l0rWaf1+wPBS7dN7y3tpWTeg5L0932ad/PEBrU0w
-	L5nA==
-X-Gm-Message-State: APjAAAUgqMZo4iZ+7BJeKifcAJJ/DZpQPR882sHXT49Y7kEOWLW4YnyS
-	80T4rIb8cwSUhyrkf7t/FTf3AQ==
-X-Google-Smtp-Source: APXvYqzO5oaZgYQDTRjw2NsBzQvakPvSQNQykge5VTLl13FPbmducIecqSIInBZsayH44NlgKXr0IA==
-X-Received: by 2002:a1c:96c9:: with SMTP id y192mr4244910wmd.8.1571910200286; 
-	Thu, 24 Oct 2019 02:43:20 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	i3sm20354616wrw.69.2019.10.24.02.43.19
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YnTpQ+VaBis8xrA/6VITHj5QqaPcOAyThH1aKatkZEY=;
+	b=jlIUlcTzA3RsXBuKode36D6UKg1ox2sRtFmiRiKfJJZ95n+5a5FHvS0gsA+pYDHCfW
+	p0ns82om7FjSOsT07Dwj/3Grf+Kmu1S1FngvCbJ6zO32MxBBAK3cmw0efHteRem45BhH
+	Js6qCrO4DLjiZZDytiG/R173Tafzp3Fl3kWIAFbPk5rqZBkogHf4qRbZhuymdpABTZJ7
+	KIe88wmXY2a2mLMpgLpFmY67qfG6s57Pc+MEs9/RBI1JHa+n0C6K/NPOZptUQ8E+/XU8
+	oTDL18NNIiCgq14CCn70WSDnPMjIuTkLz/RiRWDzkCxv2eqjFZjT2TuNp4+tOw3EIbSG
+	UDrA==
+X-Gm-Message-State: APjAAAUk8l4bmTeolEE8DoZcM7LCnNj2X6AdRphiH14dC/oyOWCPu0xg
+	fMNDJgb+EpMUu6NB9fNZPR3zSWy1gQk=
+X-Google-Smtp-Source: APXvYqymhAd0FMIVfUSm0tueQrld2zJ1164xNOAeySFCNLWWva2weWwbw9lCZ2P6+0WYNVQjpLuPPg==
+X-Received: by 2002:a1c:7d47:: with SMTP id y68mr4295197wmc.157.1571915493389; 
+	Thu, 24 Oct 2019 04:11:33 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id v81sm1073024wmg.4.2019.10.24.04.11.32
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 24 Oct 2019 02:43:19 -0700 (PDT)
-Message-ID: <d849f7d53e9903f9db4b2fb257730270583d63cd.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Adrian Bunk <bunk@stusta.de>
-Date: Thu, 24 Oct 2019 10:43:18 +0100
-In-Reply-To: <20191024093406.GA27204@localhost>
-References: <CAMKF1sq83g8Zu3FmqWtdpJAePA6XsGnWZ5Z6HN9A6YvT8Socjw@mail.gmail.com>
-	<40c36a7b-6e95-efc8-4ab0-6b9e19924e54@intel.com>
-	<502fbe273fcf7a5c092e4bc93ce6e58dc8454452.camel@linuxfoundation.org>
-	<CAMKF1spmEssM+wdqvorosM4uWfigOXgbr6YEToFYFODeok7WxA@mail.gmail.com>
-	<25022a4c11222cda48ad70ae0f7bce0625678f15.camel@linuxfoundation.org>
-	<20191024093406.GA27204@localhost>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: new meta-oe failures from master-next
+	Thu, 24 Oct 2019 04:11:32 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Oct 2019 13:11:22 +0200
+Message-Id: <20191024111126.41198-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/5] runqemu: add options that enable virgl with the SDL frontend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,63 +53,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 09:43:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 Oct 2019 11:11:33 -0000
 
-On Thu, 2019-10-24 at 12:34 +0300, Adrian Bunk wrote:
-> On Thu, Oct 24, 2019 at 09:15:01AM +0100, 
-> richard.purdie@linuxfoundation.org wrote:
-> > The cmake change makes python visible from HOSTTOOLS. That isn't
-> > wrong
-> > as such, it is a change in behaviour. If recipes don't set python
-> > enabled/disabled explicitly, there is some fallout from that. I'd
-> > say
-> > that is a bug in those recipes which aren't giving explicit
-> > configuration to dependencies though.
-> 
-> The problem is not about enable/disable, it is more about not
-> explicitly selecting the python version.
-> 
-> For the affected libiio the python2 -> python3 change of the python 
-> bindings last week [1] was basically:
-> 
-> -inherit cmake pythonnative systemd
-> +inherit cmake python3native systemd
-> 
-> This is very fragile, and I would consider it expected that either
-> the old or the new case will break in some way when both python2 and
-> python3 are available during the build.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ scripts/runqemu | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-That isn't the complete story. We changed the search path in master:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=dbba06d9153ae588c9496b40e5db18b3602bfad1
-
-which then meant libiio found the wrong python as "python" in PATH
-became py2.
-
-As you say, it doesn't specifically declare which python it wants so
-things changed.
-
-I admit I'd misread the recipes, both for the upgrade and
-enable/disable, I should know better. I think this kind of proves my
-point about trying to push more work onto people who are already
-overworked though.
-
-The key questions:
-
-* is that OE-Core change is correct?
-* should this recipe be more explicit about its configuration?
-* are there other places this problem has been introduced?
-* who is responsible for fixing any further issues?
-
-While we remember we should document this for the 3.1 migration guide
-at the very least.
-
-Cheers,
-
-Richard
-
-
+diff --git a/scripts/runqemu b/scripts/runqemu
+index a05facd0db6..5c56c3fe6c1 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -67,9 +67,9 @@ of the following environment variables (in any order):
+     nographic - disable video console
+     sdl - choose the SDL UI frontend
+     gtk - choose the Gtk UI frontend
+-    gl - enable virgl-based GL acceleration (also needs gtk option)
+-    gl-es - enable virgl-based GL acceleration, using OpenGL ES (also needs gtk option)
+-    egl-headless - enable headless EGL output; use vnc or spice to see it
++    gl - enable virgl-based GL acceleration (also needs gtk or sdl options)
++    gl-es - enable virgl-based GL acceleration, using OpenGL ES (also needs gtk or sdl options)
++    egl-headless - enable headless EGL output; use vnc (via publicvnc option) or spice to see it
+     serial - enable a serial console on /dev/ttyS0
+     serialstdio - enable a serial console on the console (regardless of graphics mode)
+     slirp - enable user networking, no root privileges is required
+@@ -437,7 +437,12 @@ class BaseConfig(object):
+                 self.qemu_opt_script += ' -nographic'
+                 self.kernel_cmdline_script += ' console=ttyS0'
+             elif arg == 'sdl':
+-                self.qemu_opt_script += ' -display sdl'
++                if 'gl' in sys.argv[1:]:
++                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=on'
++                elif 'gl-es' in sys.argv[1:]:
++                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=es'
++                else:
++                    self.qemu_opt_script += ' -display sdl'
+             elif arg == 'gtk':
+                 if 'gl' in sys.argv[1:]:
+                     self.qemu_opt_script += ' -vga virtio -display gtk,gl=on'
+-- 
+2.17.1
 
 
