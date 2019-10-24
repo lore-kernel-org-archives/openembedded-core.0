@@ -1,54 +1,44 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
-	[209.85.221.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B30AA7F980
+Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id DAAE97F9B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 14:22:56 +0000 (UTC)
-Received: by mail-vk1-f196.google.com with SMTP id v78so5329672vke.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2019 07:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/ANBrQgvjUicpA0hNyrqEyvB0i7Ng+x04c1ieoJzQKs=;
-	b=iJ1xZIUefbk0rFT/80pWejB34aq35LVSZq7DMU0KU9TG+YyZKWOJhLvIhjO67fWu+5
-	T6VBvA2Bh3Tzl2Tg+8VtUevk5ZjlCgie7+SM3BMkUyjd4Cxn23DOXpsLw1TdNqCyNCJk
-	NxYHnDwlCpuSjR6Si/XGxTlF0GDjf4t9PTlaSsvzLqYHP8TePnJay7R1R+/0o7rjVziv
-	A/ht18ZLKR9e8x5pJMv/EbbykH5tyjho/dwDa989BF0FOz3mmwSd9ehMj55o22mfq8UE
-	IQ/aBP+0sVO/+zEzHWlSeD8jd5UJzmO+wX2ksAzi89DFQKvKyFDxQvrk/pHe4CVG2oRI
-	OyCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=/ANBrQgvjUicpA0hNyrqEyvB0i7Ng+x04c1ieoJzQKs=;
-	b=e8GzmITuNpbbUsenA0UfgSU1y7H7vj68LcJOvqQLiQULGET7MhsMiPJ2Y6h8NL6RBk
-	mOwZ7NnCqK8uYnuoB68VQI12xIZ7rUgG2oiQxNy9WpBhzyWIaByGMvxaZTkd/fy+D6Dq
-	3YaRViuTCLmkP0NZB4IhKWjL7pIFTkhPfr8vQOMCqZ/AyABgwL00a2haVSGVKKpQUrV3
-	xVTNCFMkgoSDd/ylYBFuHLOgMmSTJDqzL+2EffMLIKZCWsd1P0Yl7bMCKBddlaMYK7nH
-	cT0SZiBlaQWpuKm8D6i8opUsxlv+AQzvXOEpnxk24LwH4zRFTNGWVm4OaEauM/Slr8tL
-	eLVw==
-X-Gm-Message-State: APjAAAUxP/kqHLH6ePLPhmi/sK4myYT3zU/bAORba/KSoV6wxJgOWjuT
-	zNI7Xi6EG2ce+TzoNz9p+TUzAOPttyWCUbhZYqQ=
-X-Google-Smtp-Source: APXvYqw3Iox0u0VlEDZloKeNwTmD+nNIqHx8yx3MhzVPf8OT4bXJimz5qsuKLWTgddZqTRsJVYpzbWUjdLlriVioSdc=
-X-Received: by 2002:a1f:cac2:: with SMTP id a185mr8548829vkg.49.1571926977466; 
-	Thu, 24 Oct 2019 07:22:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
-	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
-	<5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
-	<CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
-	<22cbc060-0f73-4354-1edb-ca90dbed4d73@herbrechtsmeier.net>
-	<CANNYZj9L7O9a9RfyXpQP7kY2X_HNt5P9yJQCmUONeZq1rWDKwQ@mail.gmail.com>
-	<541b19fa-54c4-42ce-0367-27ddd403d34f@herbrechtsmeier.net>
-In-Reply-To: <541b19fa-54c4-42ce-0367-27ddd403d34f@herbrechtsmeier.net>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 24 Oct 2019 16:22:43 +0200
-Message-ID: <CANNYZj80r-WGgREdj=2TYC-uPNpTnWEL3mfZLtG53z-XR71bOQ@mail.gmail.com>
+	Thu, 24 Oct 2019 15:13:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 4717A9C0336;
+	Thu, 24 Oct 2019 11:13:19 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id YslgqGVd1a-L; Thu, 24 Oct 2019 11:13:18 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 84A099C041A;
+	Thu, 24 Oct 2019 11:13:18 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id CYyGzjeFCXM2; Thu, 24 Oct 2019 11:13:18 -0400 (EDT)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 46AED9C0336;
+	Thu, 24 Oct 2019 11:13:18 -0400 (EDT)
+Date: Thu, 24 Oct 2019 11:13:18 -0400 (EDT)
+From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
 To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Cc: "Paul Eggleton \(paul.eggleton@linux.intel.com\)"
-	<paul.eggleton@linux.intel.com>, rennes@savoirfairelinux.com,
+Message-ID: <1593978265.532574.1571929998230.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <bde8a8cd-fdf5-aa20-55e7-db9586f3f5a3@herbrechtsmeier.net>
+References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<20191022090353.21151-2-jean-marie.lemetayer@savoirfairelinux.com>
+	<bde8a8cd-fdf5-aa20-55e7-db9586f3f5a3@herbrechtsmeier.net>
+MIME-Version: 1.0
+X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC77 (Linux)/8.8.11_GA_3737)
+Thread-Topic: npm.bbclass: refactor the npm class
+Thread-Index: dMkOImsKJh+l5amURKj9QCbmAhH4ew==
+Cc: paul eggleton <paul.eggleton@linux.intel.com>,
+	Savoir-faire Linux Rennes <rennes@savoirfairelinux.com>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH 0/6] NPM refactoring
+Subject: Re: [RFC][PATCH 1/6] npm.bbclass: refactor the npm class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,46 +51,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 14:22:56 -0000
-Content-Type: multipart/alternative; boundary="0000000000001ad6b40595a8c5b7"
+X-List-Received-Date: Thu, 24 Oct 2019 15:13:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---0000000000001ad6b40595a8c5b7
-Content-Type: text/plain; charset="UTF-8"
+Hi Stefan,
 
-On Thu, 24 Oct 2019 at 15:52, Stefan Herbrechtsmeier <
-stefan@herbrechtsmeier.net> wrote:
+On Oct 24, 2019, at 1:22 PM, Stefan Herbrechtsmeier stefan@herbrechtsmeier.net wrote:
+> Am 22.10.19 um 11:03 schrieb Jean-Marie LEMETAYER:
+>> Many issues were related to npm dependencies badly handled: package
+>> names, installation directories, ... In fact npm is using an install
+>> algorithm [1] which is hard to reproduce / anticipate.
+> 
+> Why do you think it is hard to reproduce?
 
->
-> > Yes:
-> >
-> http://lists.openembedded.org/pipermail/openembedded-architecture/2017-March/001270.html
->
-> Do you have an up-to-date example? The mean.io project is dead.
->
+The previous npm support tried to manage dependencies manually. But it could easily fail. My goal with this refactoring is to actually be able to _use_ npm recipes.
 
-http://meanjs.org/ I guess. The package-lock.json in their tarball is 600K.
+I remember that you are working on a npm refactoring too, but using one recipe per package and handling dependencies using RDEPENDS. To me this will generate a lot of work to create the recipes. For instance a basic angular application gathers more than thousands of dependencies and thus would lead to thousands of recipes. The work needed to create and maintain all those recipes is huge.
 
-Alex
+>> Moreover some
+>> npm packages use scopes [2] which adds more complexity.
+> 
+> The addition complexity is limited.
 
---0000000000001ad6b40595a8c5b7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+You are right but this case was not handled in the previous npm support and is now supported.
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 24 Oct 2019 at 15:52, Stefan Herb=
-rechtsmeier &lt;<a href=3D"mailto:stefan@herbrechtsmeier.net">stefan@herbre=
-chtsmeier.net</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex"><br>
-&gt; Yes:<br>
-&gt; <a href=3D"http://lists.openembedded.org/pipermail/openembedded-archit=
-ecture/2017-March/001270.html" rel=3D"noreferrer" target=3D"_blank">http://=
-lists.openembedded.org/pipermail/openembedded-architecture/2017-March/00127=
-0.html</a><br>
-<br>
-Do you have an up-to-date example? The <a href=3D"http://mean.io" rel=3D"no=
-referrer" target=3D"_blank">mean.io</a> project is dead.<br></blockquote><d=
-iv><br></div><div><a href=3D"http://meanjs.org/">http://meanjs.org/</a> I g=
-uess. The package-lock.json in their tarball is 600K.</div><div><br></div><=
-div>Alex<br></div></div></div>
+>> The simplest solution is to let npm do its job. Assuming the fetcher
+>> only get the sources of the package, the class will now run
+>> 'npm install' to create a build directory. The build directory is then
+>> copied wisely to the destination.
+> 
+> You use an full-blown package manager which total different design goals
+> and no understanding for embedded / restricted systems.
 
---0000000000001ad6b40595a8c5b7--
+This patchset save more memory space on the target than the actual implementation as all the build artifacts are removed. So I believe that it is suitable for embedded restricted systems.
+
+>> +    # Finally install and build the tarball package in ${B}.
+>> +    local NPM_INSTALL_ARGS="${NPM_INSTALL_ARGS} --loglevel silly"
+>> +    local NPM_INSTALL_ARGS="${NPM_INSTALL_ARGS} --prefix=${B}"
+>> +    local NPM_INSTALL_ARGS="${NPM_INSTALL_ARGS} --global"
+>> +
+>> +    if [ "${NPM_INSTALL_DEV}" != 1 ]
+>> +    then
+>> +        local NPM_INSTALL_ARGS="${NPM_INSTALL_ARGS} --production"
+>> +    fi
+>> +
+>> +    local NPM_INSTALL_GYP_ARGS="${NPM_INSTALL_GYP_ARGS} --arch=${NPM_ARCH}"
+>> +    local NPM_INSTALL_GYP_ARGS="${NPM_INSTALL_GYP_ARGS}
+>> --target_arch=${NPM_ARCH}"
+>> +    local NPM_INSTALL_GYP_ARGS="${NPM_INSTALL_GYP_ARGS} --release"
+>> +
+>> +    cd ${WORKDIR} && npm install \
+> 
+> Why you don't use "npm ci"?
+
+Thanks for the tips, I did not know about the 'npm ci' command. Sadly it fails to handle '--global' installation. The 'npm pack && npm install' trick is much more efficient as explain in this commit:
+  https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=d38e1e2c2ea4646b34ea6282d3d7620df5b0374b
+
+Regards,
+Jean-Marie
+
