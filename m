@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D20B17FA84;
-	Fri, 25 Oct 2019 16:02:16 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id D90587FA86;
+	Fri, 25 Oct 2019 16:02:17 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Trevor Gamblin <trevor.gamblin@windriver.com>
-Date: Fri, 25 Oct 2019 16:02:18 -0000
-Message-ID: <20191025160218.2330.91286@do>
+Date: Fri, 25 Oct 2019 16:02:19 -0000
+Message-ID: <20191025160219.2330.59416@do>
 References: <20191025122212.25687-1-trevor.gamblin@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20191025122212.25687-1-trevor.gamblin@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IGZpeCBDVkUtMjAxOS0xNzQ1MCAocmV2NCk=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IGZpeCBDVkUtMjAxOS0xNzQ1MCAocmV2NSk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 16:02:17 -0000
+X-List-Received-Date: Fri, 25 Oct 2019 16:02:18 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: binutils: fix CVE-2019-17450 (rev4)
-Revision: 4
+Series: binutils: fix CVE-2019-17450 (rev5)
+Revision: 5
 URL   : https://patchwork.openembedded.org/series/20658/
 State : failure
 
