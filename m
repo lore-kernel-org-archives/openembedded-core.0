@@ -1,50 +1,47 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 721906D4C6
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E42FD7FA34
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 14:37:47 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p21so2404945wmg.2
+	Fri, 25 Oct 2019 15:02:29 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id n7so2496516wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 07:37:48 -0700 (PDT)
+	Fri, 25 Oct 2019 08:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=0wYvWVr9V+/hTlPNI+L8NPEz/E/nDKXEhJsOcVezK+8=;
-	b=msIyegKgTsakMNZLEEs/jHLzEzrczO62irffCHz6hRCiazRAYcwS1+mDJMfpXoe//V
-	y+n3wwiM1lJvAw7Z9W/aNwCrrOuLVxja4nrh49rM4p7j5JEnJNFkoDeW3qKvs1eIgC9A
-	NvkgfiU4imi/dGDybW0NSnuitifMF6QYRaUOTCcoiChPSJ7hVzwwfSO2DVCW2qWPMvLs
-	F0xGF7Fr8SP5GFk+Kk5F6pWhcErCn5FSVeO3Y/fL+ZwUA3du0D+tIpWDBI3FhM/jVipg
-	aovbkB00LeBNFpM7KqcPoJ4U2tFL7EG9ACAPp4bGjLdxYtR7DYkxA/5El1/984Kf1Z3S
-	OMeQ==
+	bh=30wMtsfEuEV7BZ7K5DdWqrv4MU5HhJkyBc1/jgpkXhc=;
+	b=jVtPsRQWQ062JKP/00ofq0NXOZZw1jmLB4ZdHNkyOKGSb3WRwOix56LOrvjRJt+Wa4
+	wPQF7LakKrwhgpnmcFw/fIEmjOjEp7Q3iy8lj365ii0yCaN7II6juATrTEbPJ8aAkcq1
+	Z3OiseQYwapCJEu73ipFaMu11amo+dvK4duxHsesmKtVXTCV5d/YlGD33pRSNXZiqHt+
+	u7XBGdffG7e2QDTaeQxeENHXrUsEieOH1tTpCmTx0RCFfu2zJL2GzgDFfEnEXh5rw8xe
+	4Bdz6AA1cDjJarjBYnbdR28T+PTn3mVX0DdR/2UJfpdaAbYfqdX1XxvB4ifLayY+8plr
+	uL2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=0wYvWVr9V+/hTlPNI+L8NPEz/E/nDKXEhJsOcVezK+8=;
-	b=XiQOdNAT3qh9Sh4GvzQHBqUfg5ldhuFTUhb1iDU7tnUMABMco7YZCy0NjUPBKuHWFO
-	blR8kFbnhX/jvzLRP/WI+Jdkyyo4u4X91+QzviLC89/CmqNnIzQm+5x4VDaRJMsk9fRL
-	drOkTDHMrXRmoKC25X40J5gB4i8RVxKIL3v5PDhcp8gfw7KuRKVMx14SCXcJVxtfKriv
-	j6lURaIpiBHlHTfDyl5w6PeHGJiTvJXVfl/icR3hPQAKkx9E1RnxYFlFO1HbPCPOkY51
-	NgEok1BrbI0otVXgs3RcD6oonV2WsgqCXEbvs9xxOllB6g83DTKu553EScrDoPlg4LGq
-	bang==
-X-Gm-Message-State: APjAAAW+Azd1gcCbfn4TMbC1lY5tA3WYxycjirm+oD5lCHIFl7kx3Hw/
-	FHGCFygo2PJQkJxZgUUtQlNvo5tJsjE=
-X-Google-Smtp-Source: APXvYqz1bvGM8l1pP1q5OeSNDLvlI2gWKUrveaQc/oJS+/ILi0xzrswKn5ecLjMGYY9Pay9o7JB39w==
-X-Received: by 2002:a05:600c:21d7:: with SMTP id
-	x23mr3796661wmj.6.1572014267894; 
-	Fri, 25 Oct 2019 07:37:47 -0700 (PDT)
+	bh=30wMtsfEuEV7BZ7K5DdWqrv4MU5HhJkyBc1/jgpkXhc=;
+	b=VDN89ZxC5+HUQKZBHg6m56xSu4UixurUN7pfEgeQs76SIVpkT42WNhrr00EgED7t3g
+	eN8p0PlD2WfwC5nnF0po9U4FldxACSWlKRxkvqWM+0pR9pDbcC+1v5Pq9Migerkzd1MN
+	4mOi136GWxXBly6wqiw4IbshreO1hvuW8jBtNQEAQAjoxAaulEir3YgUYBUkxBopsz5P
+	PISuTUwLavLiz8ZTnQMk4FPItLWxoGYJ7TmRCvfDl0BLhGmUTCaTDnKTMKFgYuWFIsPj
+	I/M/KmwgDq49rgxCvR37+8MIcQEY8H+CpTFnZq6pmseAMzTw8KAuQXCpegAKj1ZD6gsS
+	OrVA==
+X-Gm-Message-State: APjAAAXJ8DNOwWzledCrxHwlWPgADA7omx/GqBtD5iPW4iMO4QNrozrS
+	IB4nDebnjBP/4+5sHeecQwW9gudSwIo=
+X-Google-Smtp-Source: APXvYqyCpaDZnhSViSjTOEr+sBbJ37wuCHTLL92LtuDsARXBBYax5D0vjhgKlJNcZ9e+hRBcDVPclQ==
+X-Received: by 2002:a7b:cc01:: with SMTP id f1mr4201316wmh.113.1572015749854; 
+	Fri, 25 Oct 2019 08:02:29 -0700 (PDT)
 Received: from [172.16.50.42] ([82.3.55.76]) by smtp.gmail.com with ESMTPSA id
-	s14sm2411149wmh.18.2019.10.25.07.37.47
+	w17sm2607968wra.34.2019.10.25.08.02.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 25 Oct 2019 07:37:47 -0700 (PDT)
-To: Trevor Woerner <twoerner@gmail.com>, Khem Raj <raj.khem@gmail.com>
-References: <20191021055052.10882-1-zangrc.fnst@cn.fujitsu.com>
-	<20191024130641.GA30191@linux-uys3>
-	<20191024230510.smxm7zf3qvpec3xy@apollo.localdomain>
-	<20191025132204.GB19333@linux-uys3> <20191025134458.GA22739@linux-uys3>
+	Fri, 25 Oct 2019 08:02:29 -0700 (PDT)
+To: Trevor Gamblin <trevor.gamblin@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <20191025122212.25687-1-trevor.gamblin@windriver.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -90,14 +87,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <1e316ec4-e809-b66d-7a6f-53b0cc6fd1d5@gmail.com>
-Date: Fri, 25 Oct 2019 07:37:34 -0700
+Message-ID: <cf553688-0f48-33ae-8c4c-18c7c34a5971@gmail.com>
+Date: Fri, 25 Oct 2019 08:02:20 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191025134458.GA22739@linux-uys3>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libcap-ng:upgrade 0.7.9 -> 0.7.10
+In-Reply-To: <20191025122212.25687-1-trevor.gamblin@windriver.com>
+Subject: Re: [zeus][PATCH v3] binutils: fix CVE-2019-17450
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,26 +106,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 14:37:47 -0000
+X-List-Received-Date: Fri, 25 Oct 2019 15:02:30 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 10/25/19 6:44 AM, Trevor Woerner wrote:
-> On Fri 2019-10-25 @ 09:22:04 AM, Trevor Woerner wrote:
->> On Thu 2019-10-24 @ 04:05:10 PM, Khem Raj wrote:
->>> perhaps you need to add -pthread to LDFLAGS
->> I'll set up a test build.
-> Yes, adding the following line fixes it:
+On 10/25/19 5:22 AM, Trevor Gamblin wrote:
+> Backport upstream fix to zeus.
 >
-> 	LDFLAGS_append_class-native = " -lpthread"
->
-> (unless there's a distro-override way of doing it...?)
-
-is someone going to send a patch?
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Does this affect Master?
 
 - armin
+> ---
+>  .../binutils/binutils-2.32.inc                |  1 +
+>  .../binutils/binutils/CVE-2019-17450.patch    | 99 +++++++++++++++++++
+>  2 files changed, 100 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-17450.patch
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
+> index 19baf8a883..1e96cf494d 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.32.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
+> @@ -49,6 +49,7 @@ SRC_URI = "\
+>       file://CVE-2019-12972.patch \
+>       file://CVE-2019-14250.patch \
+>       file://CVE-2019-14444.patch \
+> +     file://CVE-2019-17450.patch \
+>  "
+>  S  = "${WORKDIR}/git"
+>  
+> diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-17450.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-17450.patch
+> new file mode 100644
+> index 0000000000..a6ce0b9a8a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-17450.patch
+> @@ -0,0 +1,99 @@
+> +From 09dd135df9ebc7a4b640537e23e26a03a288a789 Mon Sep 17 00:00:00 2001
+> +From: Alan Modra <amodra@gmail.com>
+> +Date: Wed, 9 Oct 2019 00:07:29 +1030
+> +Subject: [PATCH] PR25078, stack overflow in function find_abstract_instance
+> +
+> +Selectively backporting fix for bfd/dwarf2.c, but not the ChangeLog
+> +file. There are newer versions of binutils, but none of them contain the
+> +commit fixing CVE-2019-17450, so backport it to master and zeus.
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=063c511bd79]
+> +CVE: CVE-2019-17450
+> +Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> +
+> +	PR 25078
+> +	* dwarf2.c (find_abstract_instance): Delete orig_info_ptr, add
+> +	recur_count.  Error on recur_count reaching 100 rather than
+> +	info_ptr matching orig_info_ptr.  Adjust calls.
+> +
+> +---
+> + bfd/dwarf2.c | 35 +++++++++++++++++------------------
+> + 1 file changed, 17 insertions(+), 18 deletions(-)
+> +
+> +diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
+> +index 0b4e485582..20ec9e2e56 100644
+> +--- a/bfd/dwarf2.c
+> ++++ b/bfd/dwarf2.c
+> +@@ -2803,13 +2803,13 @@ lookup_symbol_in_variable_table (struct comp_unit *unit,
+> + }
+> + 
+> + static bfd_boolean
+> +-find_abstract_instance (struct comp_unit *   unit,
+> +-			bfd_byte *           orig_info_ptr,
+> +-			struct attribute *   attr_ptr,
+> +-			const char **        pname,
+> +-			bfd_boolean *        is_linkage,
+> +-			char **              filename_ptr,
+> +-			int *                linenumber_ptr)
+> ++find_abstract_instance (struct comp_unit *unit,
+> ++			struct attribute *attr_ptr,
+> ++			unsigned int recur_count,
+> ++			const char **pname,
+> ++			bfd_boolean *is_linkage,
+> ++			char **filename_ptr,
+> ++			int *linenumber_ptr)
+> + {
+> +   bfd *abfd = unit->abfd;
+> +   bfd_byte *info_ptr;
+> +@@ -2820,6 +2820,14 @@ find_abstract_instance (struct comp_unit *   unit,
+> +   struct attribute attr;
+> +   const char *name = NULL;
+> + 
+> ++  if (recur_count == 100)
+> ++    {
+> ++      _bfd_error_handler
+> ++	(_("DWARF error: abstract instance recursion detected"));
+> ++      bfd_set_error (bfd_error_bad_value);
+> ++      return FALSE;
+> ++    }
+> ++
+> +   /* DW_FORM_ref_addr can reference an entry in a different CU. It
+> +      is an offset from the .debug_info section, not the current CU.  */
+> +   if (attr_ptr->form == DW_FORM_ref_addr)
+> +@@ -2939,15 +2947,6 @@ find_abstract_instance (struct comp_unit *   unit,
+> + 					 info_ptr, info_ptr_end);
+> + 	      if (info_ptr == NULL)
+> + 		break;
+> +-	      /* It doesn't ever make sense for DW_AT_specification to
+> +-		 refer to the same DIE.  Stop simple recursion.  */
+> +-	      if (info_ptr == orig_info_ptr)
+> +-		{
+> +-		  _bfd_error_handler
+> +-		    (_("DWARF error: abstract instance recursion detected"));
+> +-		  bfd_set_error (bfd_error_bad_value);
+> +-		  return FALSE;
+> +-		}
+> + 	      switch (attr.name)
+> + 		{
+> + 		case DW_AT_name:
+> +@@ -2961,7 +2960,7 @@ find_abstract_instance (struct comp_unit *   unit,
+> + 		    }
+> + 		  break;
+> + 		case DW_AT_specification:
+> +-		  if (!find_abstract_instance (unit, info_ptr, &attr,
+> ++		  if (!find_abstract_instance (unit, &attr, recur_count + 1,
+> + 					       &name, is_linkage,
+> + 					       filename_ptr, linenumber_ptr))
+> + 		    return FALSE;
+> +@@ -3175,7 +3174,7 @@ scan_unit_for_symbols (struct comp_unit *unit)
+> + 
+> + 		case DW_AT_abstract_origin:
+> + 		case DW_AT_specification:
+> +-		  if (!find_abstract_instance (unit, info_ptr, &attr,
+> ++		  if (!find_abstract_instance (unit, &attr, 0,
+> + 					       &func->name,
+> + 					       &func->is_linkage,
+> + 					       &func->file,
+> +-- 
+> +2.23.0
+> +
 
 
