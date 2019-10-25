@@ -1,47 +1,51 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 955A37F7B4
+Return-Path: <twoerner@gmail.com>
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+	[209.85.222.170])
+	by mail.openembedded.org (Postfix) with ESMTP id BF6BC7FAA9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 20:16:53 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id 94so2895849oty.8
+	Fri, 25 Oct 2019 20:20:17 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id e66so2931094qkf.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 13:16:54 -0700 (PDT)
+	Fri, 25 Oct 2019 13:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Y4r3MQVO22vqYdgK+MeeImAUDZxsDz8BXR+6XTVtgx8=;
-	b=BGdQCzDQcdJH0rgr8gAB0YGbkVjkillAN+/OI+20MPIJmf7549QwTZRolHJNd0dXHq
-	Y5C0G7piyYYiuz97WA/ilWQrmI/FUKSGKwyueqwqBRQU5f8hbLTZcv5RpNgAClAbQEwo
-	4jXtz9kpXvgC9MZePxavg3Ov6e2W/n1P55a2QhDeCvrnswUWlg/wMRx5erWX9Q6xaTks
-	TgCJZCJO9Lezs2PgY52Wzq5kzxqdfJM9wgJTxUeMC9pG1dPcY3meJyEtmuHrTcMBD8t6
-	RFi+5KJocQq2W4V0IFFzWSXqiZ9sinkWylRAaUOz93lCcT8fnM94Al7MFWx8D+mREqxT
-	ks7Q==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=TzyaszPbindh5tY6F8OmEZ29zf32YchGQ81kRZr/LJk=;
+	b=bmh/UPtjG6xJkUhjeK9caOLlFvoaPbQ9nY9UkSsoBBH1nZDJutaoYL/yMb6P9U/B2X
+	gvdOy7PBIBeDk/lQUp0H1dwrJqQLONVZl9GUYuVeGEUW50gfUGAA//dEgizsvL1kTMlk
+	VsNigjUrhsNu/6md9bkCWS55tr5LAuFl40g2yMlpnWu2zD24d0Ro9DfmeZcFF1Yxa7Iz
+	W/CDw7tlcVtNk6y/0v7nihZIlWMeE5c9kwc5QKp8ZpYHs/BVTbne6PA2uU0VSvplUB1g
+	xcUOiywbPsDBYawDiupmpQUoGaD1Is8Q5oIcn0O51DsiXnoRBw+AmQJm5uXDcnCln2Jl
+	kORg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Y4r3MQVO22vqYdgK+MeeImAUDZxsDz8BXR+6XTVtgx8=;
-	b=h0k1f3A3jK9bGJ+Sz5X5fnrvkg2N0LdQYzqIBdJIC7hLwhWHC0kIEBblHiqTe6IGEO
-	IeY0GngwyWdTWcz21H1MVrSRZDFrSWXqWHxreTkjTsTJEb+qAat6/VplpE5e+XGBZguv
-	AGGTarsmY93Py7VYHVSzD3E9B9pzM7JNUKcaFgGzjKN3gOUlKlliYDfLMYrg6NZfVc61
-	nhRjMqf4QkZPzIngO0Y7uwagbKlSJzbj6KbUop/ZGKmYIeh2FKFt7yKGTeJHPevEZyKg
-	DmPFxxSHdPe/rd1KySQ9ruWxaGeDaDHaVrYzb8vMyHiph4xzCGsQw0yX/UEPa6IU2Uw5
-	j2gw==
-X-Gm-Message-State: APjAAAXfItX6amyfkzYQ2seY+41K1uQ+KaA7pdf7VIN6YUsoBNhh0PSp
-	C6PMTf8ypla0W5+McQooROO8OpF0R8wyiYiDI/LwqpY=
-X-Google-Smtp-Source: APXvYqyrrtS/CGBC+GT5XrZ5oIT09aZKix2EUGsq2lne6AcJbIGTpQxNnd63dCnKF4+4nNUktgfoCKQCNA4tRFMpI+E=
-X-Received: by 2002:a05:6830:10cc:: with SMTP id
-	z12mr4408047oto.110.1572034613608; 
-	Fri, 25 Oct 2019 13:16:53 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=TzyaszPbindh5tY6F8OmEZ29zf32YchGQ81kRZr/LJk=;
+	b=cBcUbSBSgNAdVTW8LhQXg+0P8a0JNtyoX2K+9viYIl6Z6mRmUE/+Rxvjb15NrWLGlE
+	9cvXE0FpTeZqwnL2vIgOFZMSkR3OGp/FL0LjM0HtnEuUZPDRtrQ7n8F2eM+YN7nLwwg1
+	YQZYp8a2Zx0iXAoiHySz+kWU6PrOjeqn09rWvMZGFsOG0pvwhDlVWNiVA1bpC0yZcchK
+	/JXOkQz3w+NSjmV16SnBhE0ZpEjc5MjzUyBsk20EcQbgYS9/ESpDcNBDQsd6pSWVZR0l
+	cWHpoC3wPVi4SVPX8rObkMHjYsUV5JhQczd61ruajqa8FpHarEDMYAxude/z4UgJeo6b
+	bkRg==
+X-Gm-Message-State: APjAAAWjVRGftzRbgvfR9LiHDaPc+xAnisSvLnUAi7oSH2IQxUA2IqxY
+	dup757/1mxXuCzrZY/+W5uYZA6Qw
+X-Google-Smtp-Source: APXvYqxunpcbG+8zYgBYUZqYvrFhE+ShmQBLFGVvLQavfkQZ/5q9gJhQx1RZcPpJLxhGC7P73kiUug==
+X-Received: by 2002:ae9:c20d:: with SMTP id j13mr4403007qkg.461.1572034818007; 
+	Fri, 25 Oct 2019 13:20:18 -0700 (PDT)
+Received: from linux-uys3.suse ([206.248.190.95])
+	by smtp.gmail.com with ESMTPSA id
+	k40sm2502311qta.76.2019.10.25.13.20.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 25 Oct 2019 13:20:17 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Oct 2019 16:20:08 -0400
+Message-Id: <20191025202008.23715-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.23.0.37.g745f681289
 MIME-Version: 1.0
-References: <20190925115259.26437-1-george.mccollister@gmail.com>
-	<20190925115259.26437-2-george.mccollister@gmail.com>
-In-Reply-To: <20190925115259.26437-2-george.mccollister@gmail.com>
-From: George McCollister <george.mccollister@gmail.com>
-Date: Fri, 25 Oct 2019 15:16:41 -0500
-Message-ID: <CAFSKS=OQQNyi-f1tir1ZPjZd-VDROxM7F5herSQkUcNQt_6GeQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] openssl: make OPENSSL_ENGINES match install path
+Subject: [PATCH] libcap-ng: undefined reference to `pthread_atfork'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,12 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 20:16:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 25 Oct 2019 20:20:17 -0000
+Content-Transfer-Encoding: 8bit
 
-Can we get 59565fec0b3f3e24eb01c03b671913599cd3134d cherry-picked to
-warrior now that this has landed in master?
+Some hosts need -lpthread in order to link properly (e.g. openSUSE 15.1).
 
-Thanks,
-George
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb
+index 6e6de45494..01ea9a1490 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb
++++ b/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb
+@@ -3,6 +3,7 @@ require libcap-ng.inc
+ inherit lib_package autotools
+ 
+ EXTRA_OECONF += "--without-python --without-python3"
++LDFLAGS_append_class-native = " -lpthread"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.23.0.37.g745f681289
+
 
