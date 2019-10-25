@@ -1,50 +1,50 @@
 Return-Path: <>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id E41527FA71
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 898867FADB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 14:04:49 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id p21so2281280wmg.2
+	Fri, 25 Oct 2019 14:04:50 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id p21so2281320wmg.2
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 25 Oct 2019 07:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
 	bh=VPBKhjic1WTrSfkCdn0/Jq2Bs4g5oO4i0j/j+O1n8Kc=;
-	b=PPxx6f9LyVoK3VDq3ZY79Sj10i3yqbWYp0dkN0psIE64GbZN6BSpcPbF7CAg2t7Qgx
-	nbRGBWY/HtVP9Heq/WgzbmnGEUV0cLb1nxlRZNTBNSVJxk+YAVToY5DgfTt6l7TZHV9O
-	ofzpr3NWLn6bChUnFk6IIA4RiaUYdD6C8y+lBizn9mhDV7ZSMjMDQeiUc84pEVOIUVfC
-	kmMYbfkXe5gjlhsb18AMNaVsiW8666fY786qKLjRslY//gDmW0i7e82brXfCv7PIc6dY
-	grDQX8CtnA4oOCMDm/9h6In1Oe5O4tw+3jDvADPWoiXkyIk50BOo1D0IvdXN5N31eyMg
-	w0Xw==
+	b=e9yiK7ZFnJszVieQwGwxrUDuHnUwjEuDfvPnXb1NRTQxVGtnZk+fmLUk54K4Ra3thC
+	pcDVLj5zQp0eurL8qC3QIemxGz9hbDkL9qpB1c/L4Vf/LI4n6Nce8u3McuG2kTaqBnI+
+	nGP7Lz74D86c/SXzoRJDjsSgkz1BcJuBRchMwkO6o5Z9QHjwiQDOrFJ85Hd+rc20Dt+5
+	UI00pzk9pDfybo2/leogFOQFS/VcaMHW1Sn6Ldz6WPss4yZ6mUZyuAGS63FDTUx8DB6I
+	eaEAdPK7eUiojQGRCLpvD+hJWiI6rnrARh1B2MytuNXnefwi4DDrrEuERBI0U+G79Beu
+	g+xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
 	bh=VPBKhjic1WTrSfkCdn0/Jq2Bs4g5oO4i0j/j+O1n8Kc=;
-	b=L6k9/sO+C5h6gAnVPNdY9vsGeQm4Zo2BdB6s9Uk9OFWlXBa4upy3pqnRF7n2qskzLG
-	DbXC3aG6D9pxFpRqpAqoyD+Ad+qKE8odyvi3y4+0Khl6uZYg4fFz9V+Urci91/Z9hJ+n
-	VaDETcx5f+eUXAoPh7D/jUo6bTbUTQCu7NhBb6BHqJUS4WWnaXBrEjLB6vHV4wRW8eLQ
-	RGwg7lygl83bV/G6A9MIYf6ktnsZnj49rmG4YeKcnv3svVjdKrPHTA+gfgVAWwbUVHYX
-	JMrs7wGc38W2WtnlWv1WLECKrRa0Dz1ZWkHf99YmFVkYrmFFVyQYf1aiWabevDIhRPTE
-	ucOw==
-X-Gm-Message-State: APjAAAUoXKsYzQ7EeqIXBno5JqldznrF2Kt4BdkgIhA3L5otayVg43MB
-	Q73znxOJMqMbURFMta9i4Pr1H3AK
-X-Google-Smtp-Source: APXvYqy1J47JOtn/EFSqitO/EkmWokPXqUuxds1+spkSMwz4KD1E2BfKvKOWyXd6C4GblTTcgIlfVw==
-X-Received: by 2002:a7b:cc01:: with SMTP id f1mr3939081wmh.113.1572012286927; 
-	Fri, 25 Oct 2019 07:04:46 -0700 (PDT)
+	b=d1HRMahOrjfBRIp3TSaQ5sUoZQYd2Ejl7v8GBmtWkp+M1CczpHEtnBj8gpVsYEjPlE
+	CajIzMH8laOx1G+WJer8RiyapaAOk6csWrINMbH8EKsAYfkjJGwMFO1D4TMJcwF1W9Qn
+	64393pH3cFAu8TdS7TlkFcVurDnxmjzt142nwBjqesdlZc86Nk+RJyu7YkMqZ6RYj8c5
+	9WfsRl5rI1aVicxISH5/Km8HsPMm4kkxCmwu9IPWRYDOe+Kh/mZkCgmabFuR/4+e3jWg
+	dD4K8WH58romUaDvjAWKcbtG19JdXlcaMWfvdj8m6URv7AnlJ4LIkP0BGsZJcF/jvx7x
+	TjGA==
+X-Gm-Message-State: APjAAAXN+07tiJfDt37SFHM+yZCoaBIsZLtYiffUohB8EGDboMWoQnyO
+	c5Ip88/aEWrUQE6aw50oPAw9rvpP
+X-Google-Smtp-Source: APXvYqxXm5s2ZwlgeDa+pmAYR46kfOWs/kAIExkXT30+5uVmOmCpgyMh3ByXLvnfQo6WCnRpEiILPw==
+X-Received: by 2002:a7b:c92f:: with SMTP id h15mr3797446wml.145.1572012288737; 
+	Fri, 25 Oct 2019 07:04:48 -0700 (PDT)
 Received: from localhost.localdomain ([117.55.204.18])
-	by smtp.gmail.com with ESMTPSA id l6sm2185417wmg.2.2019.10.25.07.04.44
+	by smtp.gmail.com with ESMTPSA id l6sm2185417wmg.2.2019.10.25.07.04.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Oct 2019 07:04:46 -0700 (PDT)
+	Fri, 25 Oct 2019 07:04:48 -0700 (PDT)
 From: Alexander Kube <alexander.j.kube@gmail.com>
 X-Google-Original-From: Alexander Kube
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 18:34:29 +0430
-Message-Id: <20191025140430.77773-4-alexander.j.kube@gmail.com>
+Date: Fri, 25 Oct 2019 18:34:30 +0430
+Message-Id: <20191025140430.77773-5-alexander.j.kube@gmail.com>
 X-Mailer: git-send-email 2.17.1 (Apple Git-112)
 In-Reply-To: <20191025140430.77773-1-alexander.j.kube@gmail.com>
 References: <20191025140430.77773-1-alexander.j.kube@gmail.com>
-Subject: [PATCH v4 4/4] Remove go-1.12
+Subject: [PATCH v5 4/4] go: Remove go-1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,7 +57,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 14:04:50 -0000
+X-List-Received-Date: Fri, 25 Oct 2019 14:04:51 -0000
 
 From: Alex Kube <alexander.j.kube@gmail.com>
 
