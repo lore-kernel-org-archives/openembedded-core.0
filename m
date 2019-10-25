@@ -1,28 +1,18 @@
-Return-Path: <alessio.bogani@elettra.eu>
-Received: from spamalot.elettra.eu (spamalot.elettra.trieste.it
-	[140.105.206.208])
-	by mail.openembedded.org (Postfix) with ESMTP id E7FA37FAA8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 14:02:07 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by localhost (Email Security Appliance) with ESMTP id
-	2ECD8440F5D_DB3005FB; Fri, 25 Oct 2019 14:02:07 +0000 (GMT)
-Received: from unknown-host by spamalot.elettra.eu with queue id 788818;
-	Fri, 25 Oct 2019 14:02:06 GMT
-Received: from voltumna.elettra.trieste.it (voltumna.elettra.trieste.it
-	[192.168.205.44])
-	by spamalot.elettra.eu (Sophos Email Appliance) with ESMTP id
-	BCBF443E386_DB3005EF; Fri, 25 Oct 2019 14:02:06 +0000 (GMT)
-From: Alessio Igor Bogani <alessio.bogani@elettra.eu>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 16:01:57 +0200
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <2d2d7e60-d79e-5540-1378-88fda1fab4ec@kernel.crashing.org>
-References: <2d2d7e60-d79e-5540-1378-88fda1fab4ec@kernel.crashing.org>
-X-SASI-RCODE: 200
-Message-Id: <20191025140207.2ECD8440F5D_DB3005FB@spamalot.elettra.eu>
-Cc: Alessio Igor Bogani <alessio.bogani@elettra.eu>
-Subject: [PATCH v2] systemtap: support usrmerge
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 632047FAC4;
+	Fri, 25 Oct 2019 14:02:12 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alexander Kube <alexander.j.kube@gmail.com>
+Date: Fri, 25 Oct 2019 14:02:13 -0000
+Message-ID: <20191025140213.2332.92309@do>
+References: <20191025135847.77492-1-alexander.j.kube@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20191025135847.77492-1-alexander.j.kube@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2NF0gZ286IFJlZmFjdG9yIHBhdGNoZXMgZm9yIC4uLiIgYW5kIDMgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 14:02:08 -0000
+X-List-Received-Date: Fri, 25 Oct 2019 14:02:12 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alessio Igor Bogani <alessio.bogani@elettra.eu>
+== Series Details ==
+
+Series: "[v4] go: Refactor patches for ..." and 3 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20676/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [v4,4/4] Remove go-1.12
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 6ee3e1c0f7..1c9f2aed16 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -51,10 +51,13 @@ do_install_append () {
-       rm ${D}${libexecdir}/${PN}/stap-env
-    fi
- 
--   # Fix makefile hardcoded path assumptions for systemd (assumes $prefix)
--   install -d `dirname ${D}${systemd_unitdir}`
--   mv ${D}${prefix}/lib/systemd `dirname ${D}${systemd_unitdir}`
--   rmdir ${D}${prefix}/lib --ignore-fail-on-non-empty
-+   if [ ${D}${prefix}/lib != `dirname ${D}${systemd_unitdir}` ]; then
-+      # Fix makefile hardcoded path assumptions for systemd (assumes $prefix)
-+      # without usrmerge distro feature enabled
-+      install -d `dirname ${D}${systemd_unitdir}`
-+      mv ${D}${prefix}/lib/systemd `dirname ${D}${systemd_unitdir}`
-+      rmdir ${D}${prefix}/lib --ignore-fail-on-non-empty
-+   fi
- 
-    # Ensure correct ownership for files copied in
-    chown root:root ${D}${sysconfdir}/stap-exporter/* -R
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
