@@ -1,32 +1,22 @@
 Return-Path: <stefan@herbrechtsmeier.net>
 Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
-	by mail.openembedded.org (Postfix) with ESMTP id 90F197F963
+	by mail.openembedded.org (Postfix) with ESMTP id 54C7F7FA5D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 08:58:52 +0000 (UTC)
+	Fri, 25 Oct 2019 09:10:22 +0000 (UTC)
 Received: from [192.168.178.37] (i59F77ED2.versanet.de [89.247.126.210])
-	by dd41138.kasserver.com (Postfix) with ESMTPSA id 1557E11A044E;
-	Fri, 25 Oct 2019 10:58:53 +0200 (CEST)
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	by dd41138.kasserver.com (Postfix) with ESMTPSA id D4ACA11A0046;
+	Fri, 25 Oct 2019 11:10:22 +0200 (CEST)
+To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>,
+	openembedded-core@lists.openembedded.org
 References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
-	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
-	<5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
-	<CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
-	<22cbc060-0f73-4354-1edb-ca90dbed4d73@herbrechtsmeier.net>
-	<CANNYZj9L7O9a9RfyXpQP7kY2X_HNt5P9yJQCmUONeZq1rWDKwQ@mail.gmail.com>
-	<541b19fa-54c4-42ce-0367-27ddd403d34f@herbrechtsmeier.net>
-	<CANNYZj80r-WGgREdj=2TYC-uPNpTnWEL3mfZLtG53z-XR71bOQ@mail.gmail.com>
-	<24e39481-ea5c-06e9-6dbb-139a5d0dd445@herbrechtsmeier.net>
-	<CANNYZj8Q1q-EGaUSGFCvVe2A_f4YPvQJeSmrG69bGnokHqWL2Q@mail.gmail.com>
+	<84dcb01f8a015b1717be0b2430c220b6d23ef0d8.camel@andred.net>
 From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Message-ID: <5fe554ed-ddb8-c733-2ec3-b00f178402b2@herbrechtsmeier.net>
-Date: Fri, 25 Oct 2019 10:58:52 +0200
+Message-ID: <27de9afc-27f0-29a2-6c7d-14e25e925594@herbrechtsmeier.net>
+Date: Fri, 25 Oct 2019 11:10:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj8Q1q-EGaUSGFCvVe2A_f4YPvQJeSmrG69bGnokHqWL2Q@mail.gmail.com>
-Cc: "Paul Eggleton \(paul.eggleton@linux.intel.com\)"
-	<paul.eggleton@linux.intel.com>, rennes@savoirfairelinux.com,
-	OE-core <openembedded-core@lists.openembedded.org>
+In-Reply-To: <84dcb01f8a015b1717be0b2430c220b6d23ef0d8.camel@andred.net>
 Subject: Re: [RFC][PATCH 0/6] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -40,71 +30,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 08:58:52 -0000
+X-List-Received-Date: Fri, 25 Oct 2019 09:10:22 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Am 24.10.19 um 19:58 schrieb Alexander Kanavin:
-> On Thu, 24 Oct 2019 at 19:45, Stefan Herbrechtsmeier 
-> <stefan@herbrechtsmeier.net <mailto:stefan@herbrechtsmeier.net>> wrote:
+Hi Andre,
+
+Am 25.10.19 um 10:01 schrieb André Draszik:
+> Hi,
 > 
->      > The package-lock.json in their tarball is 600K.
+> This has been an interesting discussion so far.
 > 
->     The project use two major version and seven different versions with 30
->     installations of debug. Furthermore the dependencies include build
->     tools
->     which should not be installed on the device.
+> I'd like to throw in something else...
 > 
->     The "@angular/cli" (242) and "node-red" (324) package share 106
->     packages.
+> A couple years back I wrote a little python script to automatically
+> generate all the required dependency recipes given an npm project's
+> package.json
+
+This is similar to my prototype but I try to reuse the recipetool and 
+this makes the recipe creation very slow.
+
+Do you reuse code from OE to generate the license information?
+
+> The generated recipes worked very well, including cross-compilation using
+> node-gyp.
+
+Do you use any bbclass? I have create multiple bbclasses to minimize the 
+code inside the recipes.
+
+> At least at the time this was all reasonably straight forward, avoided *any* use
+> of npm, gave me all the benefits of reproducibility, yocto caching, license
+> management, correct cross-compilation for native code, etc. Also, the
+> generated yocto packages contained none of the test- or other items that
+> npm packages usually contain and don't need to be copied onto the target
+> for image builds. All this by simply inspecting the package.json
+
+This is the reason I go this way too.
+
+> This approach also minimised maintenance cost, as all recipes were auto-generated.
 > 
-> 
-> I have to ask: what point are you trying to make?
+> The only downside was that bitbake became a bit slow, as the number of
+> tasks went to about 15000.
 
-The both packages with different audience share between 44% and 33% of 
-the packages. I think this true for other packages too.
+Do you create a recipe per package version?
 
-> Here's a related lwn article describing a similar problem faced by opensuse:
-> https://lwn.net/Articles/712318/
+> I can dig this out and share on Monday. This script could live in the
+> scripts/ subdirectory, allowing people to create recipes on demand for
+> projects they care about.
 
-Unfortunately they also have no solution.
-
-> ""Ruby dependency hell has nothing on JavaScript dependency hell," he 
-> said. A "hello world" application based on one JavaScript framework has 
-> 759 JavaScript dependencies; this framework is described as "a 
-> lightweight alternative to Angular2".
-
-Unfortunately they don't name the package nor give details about the 
-dependencies. I assume they really count the dependencies with all there 
-duplications and multiple minor or patch versions.
-
-
-> There is no way he is going to 
-> package all 759 dependencies for this thing; the current distribution 
-> package-management approach just isn't going to work here."
-
-What is the "current distribution package-management approach"? The 
-manual creating of build configuration for every package or the 
-automatic generation of recipes?
-
-What is the alternative which fulfill the requirements of an embedded 
-distribution?
-
-My prototype automatically creates recipes from the packages. It only 
-needs manual work if the package have no license file or a circular 
-dependency.
-
-The main problem is the pinning of specific versions inside the 
-package.json and the increase of the major version if the support for a 
-very old node.js version is removed.
-
-The prototype assumes a compatible inside a major version and creates a 
-recipe per major version. Thereby it always uses the latest version per 
-major version. The recipe count could further optimized in a manual step 
-which checks if there is really a breaking change between the major 
-version. The number of this recipes is low in compare to the total count 
-of recipes but the packages are often shared between different packages.
+Would be nice to see your code.
 
 Regards
    Stefan
