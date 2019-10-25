@@ -1,28 +1,31 @@
-Return-Path: <tgamblin@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 40A1B7FAA3
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FDC97FA78
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 16:36:37 +0000 (UTC)
+	Fri, 25 Oct 2019 16:57:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9PGaca0010223
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 09:36:38 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9PGvPUG018436
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 25 Oct 2019 09:57:26 -0700
+Received: from [172.25.44.8] (172.25.44.8) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 25 Oct 2019 09:36:38 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 20958)	id 3B599C610EE;
-	Fri, 25 Oct 2019 09:36:38 -0700 (PDT)
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Oct 2019 09:36:34 -0700
-Message-ID: <20191025163634.128585-2-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191025163634.128585-1-trevor.gamblin@windriver.com>
-References: <20191025163634.128585-1-trevor.gamblin@windriver.com>
+	Fri, 25 Oct 2019 09:57:25 -0700
+To: Trevor Gamblin <trevor.gamblin@windriver.com>, akuster808
+	<akuster808@gmail.com>, <openembedded-core@lists.openembedded.org>,
+	Khem Raj <raj.khem@gmail.com>
+References: <20191025122212.25687-1-trevor.gamblin@windriver.com>
+	<cf553688-0f48-33ae-8c4c-18c7c34a5971@gmail.com>
+	<370152d1-d96f-8863-4746-999422d85721@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <fac4b88a-2343-5d9c-e1d4-bff9b81a5d5b@windriver.com>
+Date: Fri, 25 Oct 2019 12:57:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.1.2
 MIME-Version: 1.0
-Subject: [zeus][PATCH v4 2/2] binutils: fix CVE-2019-17451
+In-Reply-To: <370152d1-d96f-8863-4746-999422d85721@windriver.com>
+X-Originating-IP: [172.25.44.8]
+Subject: Re: [zeus][PATCH v3] binutils: fix CVE-2019-17450
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,89 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 16:36:37 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 Oct 2019 16:57:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-Backport upstream fix to zeus.
+On 10/25/19 11:05 AM, Trevor Gamblin wrote:
+> It does, but I'm working on an upgrade for binutils to 2.33 for master 
+> that I'll then apply this (and another CVE patch) on top of.
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- .../binutils/binutils-2.32.inc                |  1 +
- .../binutils/binutils/CVE-2019-17451.patch    | 51 +++++++++++++++++++
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
+You should probably send the CVE fix to master so it gets tested there
+even if there's an upgrade coming in a few days. It might take a while
+for the upgrade to get merged.
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
-index 1e96cf494d..349c3e1154 100644
---- a/meta/recipes-devtools/binutils/binutils-2.32.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
-@@ -50,6 +50,7 @@ SRC_URI = "\
-      file://CVE-2019-14250.patch \
-      file://CVE-2019-14444.patch \
-      file://CVE-2019-17450.patch \
-+     file://CVE-2019-17451.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
-new file mode 100644
-index 0000000000..b36a532668
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
-@@ -0,0 +1,51 @@
-+From 0192438051a7e781585647d5581a2a6f62fda362 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Wed, 9 Oct 2019 10:47:13 +1030
-+Subject: [PATCH] PR25070, SEGV in function _bfd_dwarf2_find_nearest_line
-+
-+Selectively backporting fix for bfd/dwarf2.c, but not the ChangeLog
-+file. There are newer versions of binutils, but none of them contain the
-+commit fixing CVE-2019-17451, so backport it to master and zeus.
-+
-+Upstream-Status: Backport
-+[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=336bfbeb1848]
-+CVE: CVE-2019-17451
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+
-+
-+Evil testcase with two debug info sections, with sizes of 2aaaabac4ec1
-+and ffffd5555453b140 result in a total size of 1.  Reading the first
-+section of course overflows the buffer and tramples on other memory.
-+
-+	PR 25070
-+	* dwarf2.c (_bfd_dwarf2_slurp_debug_info): Catch overflow of
-+	total_size calculation.
-+---
-+ bfd/dwarf2.c | 11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
-+
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index 0b4e485582..a91597b1d0 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -4426,7 +4426,16 @@ _bfd_dwarf2_slurp_debug_info (bfd *abfd, bfd *debug_bfd,
-+       for (total_size = 0;
-+ 	   msec;
-+ 	   msec = find_debug_info (debug_bfd, debug_sections, msec))
-+-	total_size += msec->size;
-++	{
-++	  /* Catch PR25070 testcase overflowing size calculation here.  */
-++	  if (total_size + msec->size < total_size
-++	      || total_size + msec->size < msec->size)
-++	    {
-++	      bfd_set_error (bfd_error_no_memory);
-++	      return FALSE;
-++	    }
-++	  total_size += msec->size;
-++	}
-+ 
-+       stash->info_ptr_memory = (bfd_byte *) bfd_malloc (total_size);
-+       if (stash->info_ptr_memory == NULL)
-+-- 
-+2.23.0
-+
+Khem has been doing binutils upgrades recently.
+CC him in case there needs to be some co-ordination with glibc or
+other recipe upgrades.
+
+
+
 -- 
-2.23.0
-
+# Randy MacLeod
+# Wind River Linux
 
