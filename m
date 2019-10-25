@@ -1,54 +1,51 @@
 Return-Path: <twoerner@gmail.com>
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
-	[209.85.160.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 56ED17F9F6
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A15A87F8AD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 13:17:26 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id m15so3191082qtq.2
+	Fri, 25 Oct 2019 13:22:07 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id t20so3132068qtr.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 06:17:27 -0700 (PDT)
+	Fri, 25 Oct 2019 06:22:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:content-transfer-encoding:in-reply-to
-	:user-agent; bh=5YFPjOG4l9UH7U9qFBP6lzTivQsjOcedARKYL/Cbhe0=;
-	b=iyjl7GbucNQ9gJsHF8rmKRjdcATv1IMTg4qF5o+c3reD1bbHQW7R6kRQHFdFEQ+TVT
-	J4edpJQmUjv/gPRpgoddKTbWrLS4jp9PWwIXRnbS7OHlG8lPf+fRxACcIbzInK++QFBC
-	Tdty6QFKH/DzEKAfax1GF2481K5GYdYu1s4HRuHXqiGCufFA0fa4JhazvxxaQe2mtHmT
-	eIsw/KHM1EcWQKMcFatv/1suQux58GjWtWmUAnvIFswwdcCfa8rtW0/N/tRG2GjrzXRH
-	9YTpG6sJuHNB1w/jkvIZ6GjXo7PNGyhijZIuEax+/VJLHTXp/4v73qnMHR3aKLn+4S7M
-	gxfw==
+	:content-disposition:in-reply-to:user-agent;
+	bh=mhxWx2BpaMwR7ABAhYGFZ5lQ9lHCpzjzwQV1LPPptFU=;
+	b=m3hcysnG3Xu2m4NW6KmWjoT2wC5aVLxsFh2ssp6V3H9yQESAPT5jaf8UqcxQFejuN3
+	1BVIJbYWZyNLBZ4kjQsyflKmyF+zXLXAXEkY1h3oe2qKWU1BQvKLi7LOVjev/0TWFbjb
+	vk++hdQML8Wp/sewFgtbeatMUpBAh2Ck1wM9Cv0BI1VLo5nhGWASM8Ku4dGAigTkVy/F
+	vwR3hdAbDkG+IvcmIseaZ/+7+S1jSMU0Kma8DvvSQXbwjAOfotTJCvDs9sEj4MnfemXC
+	Try+iEeBe1YdiYwlWmxw9B1MineqzYc9JiiOk4Bstfp9Lz0O54DBMPJ6fa4Alnbwg8bo
+	kKcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=5YFPjOG4l9UH7U9qFBP6lzTivQsjOcedARKYL/Cbhe0=;
-	b=WWxqETkGIPRZZT/ipEKM+iSnMQVQTy3A6l9TZqHwohlckWh3Dn2dTIf8IsS4Cll899
-	1AcI4nz9CkckVEL37QY87vSTN+CA6LU032c63VzHpOHYCCqi7Fge3Q49Fn5QCvpUsCo2
-	UsSO8WHQ67HEcRaSkZLRGKs1ODkoqco8P7I3fb00MZZnGOVdFZ3HrXmPsHbdG7OiQvDW
-	uBm1SVgZMa7VJV5waLC0xnPDggqxDadiwRDyXo9iLhGs5v7kl4RT577c14fRZAJM26O8
-	ZgyZn0k/vRLe8tZduLl3A2a1avbVflXU+rEgDyeHkF8kOq3JtZP4L0fMLIRA0+2lUPKF
-	BKig==
-X-Gm-Message-State: APjAAAWAav7hE/P9WND5xvkuuNV21/ZZfvYH0M1wjYl7FaidZ6znhyqJ
-	9wnH7qX4+j4d72SasEwdJVA=
-X-Google-Smtp-Source: APXvYqyUar7IMhX9UX3DBbPHnYAytWDvMqbhqIydbW3sl+52XsR9Bo7aubgkJu+ZRbrv/8nmnUK4SQ==
-X-Received: by 2002:a0c:92e3:: with SMTP id c32mr3201969qvc.165.1572009446967; 
-	Fri, 25 Oct 2019 06:17:26 -0700 (PDT)
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=mhxWx2BpaMwR7ABAhYGFZ5lQ9lHCpzjzwQV1LPPptFU=;
+	b=n3NZT7RPZ6ifAIvPjsf9l6SLcupRjVcDUXY9yoy7K2nk5l26nzkfkZB9IQzLfOg48T
+	2sT0FHR7B0n8UVQG2IKgbqTdS6DUOfUVmZsaE31ZZjJ1w8AlFr7s60Cf6jBkAw28Q2V7
+	6knvh13a3dtsmlpoxFpnFiP0dwzjL9Ypfwq/oHb1vZWqjpJevS1faqGP6jwk3rKSVa51
+	KvpX3joq6BQjfhw/3EiQ2eH+2+Ialdkiyc7G+Aqy144w0V7A4uYXICjjZ8buycq8lf1l
+	SuesU871MaZpo4icUZUJA+fWhv0UjHicrp/mHyZ/Ye+Ajklha+D5Y93Unn7fLH3oIVAI
+	XoMQ==
+X-Gm-Message-State: APjAAAVE1XBYeak+4EL5TXUNE4fvgAOYXcA+L3AB4iCi5rvpYut4b0ZB
+	fJXQtIbkq+fnrZ6/GQkzmEQ=
+X-Google-Smtp-Source: APXvYqw2q3U9PfsmlTYqXB0kFd33zxuifA4r3qavZ2BpB8J8a9IHaVXoCdTeRCxyW1FF8nN1XXFERg==
+X-Received: by 2002:a0c:c541:: with SMTP id y1mr3054954qvi.133.1572009728404; 
+	Fri, 25 Oct 2019 06:22:08 -0700 (PDT)
 Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
-	z141sm1090913qka.126.2019.10.25.06.17.25
+	x64sm1051738qkd.88.2019.10.25.06.22.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 25 Oct 2019 06:17:26 -0700 (PDT)
-Date: Fri, 25 Oct 2019 09:17:22 -0400
+	Fri, 25 Oct 2019 06:22:07 -0700 (PDT)
+Date: Fri, 25 Oct 2019 09:22:04 -0400
 From: Trevor Woerner <twoerner@gmail.com>
-To: zangrc <zangrc.fnst@cn.fujitsu.com>
-Message-ID: <20191025131722.GA19333@linux-uys3>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20191025132204.GB19333@linux-uys3>
 References: <20191021055052.10882-1-zangrc.fnst@cn.fujitsu.com>
 	<20191024130641.GA30191@linux-uys3>
-	<33468050-37e6-a0ef-b95d-039814a52343@windriver.com>
-	<62d969ba-cf7f-8651-6dd9-e7e71b489c6e@gmail.com>
-	<62ff460a-48d7-b82a-97c6-4c4d6d74a5fa@cn.fujitsu.com>
+	<20191024230510.smxm7zf3qvpec3xy@apollo.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <62ff460a-48d7-b82a-97c6-4c4d6d74a5fa@cn.fujitsu.com>
+In-Reply-To: <20191024230510.smxm7zf3qvpec3xy@apollo.localdomain>
 User-Agent: Mutt/1.6.0 (2016-04-01)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] libcap-ng:upgrade 0.7.9 -> 0.7.10
@@ -64,19 +61,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 13:17:26 -0000
+X-List-Received-Date: Fri, 25 Oct 2019 13:22:07 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-On Fri 2019-10-25 @ 01:30:32 PM, zangrc wrote:
-> hello！
-> 
-> We think this problem has something to do with the host environment. We
-> tried to reproduce the error on ubuntu16.04 and fedora29, but they all
-> compiled successfully. Can you tell us which distributions are having this
-> problem?
+On Thu 2019-10-24 @ 04:05:10 PM, Khem Raj wrote:
+> perhaps you need to add -pthread to LDFLAGS
 
-openSUSE 15.1
-(which is the current "latest" openSUSE release)
+That's what it feels like.
+I'll set up a test build.
+
+I'm pretty sure I've stumbled across this in the past, but it seems like
+different distros package the crypto things differently, therefore building on
+some distros require linking to one set of libraries, and building on other
+distros require linking to a different set. Does that seem right?
+
+Is there a mechanism for telling OE to tweak a parameter based on the distro
+on which it is building? A distro override of some sort?
 
