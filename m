@@ -1,30 +1,53 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D07D7FAA4
+Return-Path: <twoerner@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 64AD97FAA5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 13:31:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9PDVco1007778
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 25 Oct 2019 06:31:38 -0700 (PDT)
-Received: from [128.224.56.205] (128.224.56.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Fri, 25 Oct 2019 06:31:38 -0700
-To: Trevor Woerner <twoerner@gmail.com>, zangrc <zangrc.fnst@cn.fujitsu.com>
+	Fri, 25 Oct 2019 13:45:01 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id m4so1766275qke.9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Oct 2019 06:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=sERxgBFFJ2wwYEI8X7Pufq+sYe7fdhaAE+dkhzu5Ih8=;
+	b=qpqsbje8NVMwaAN1Lww+t00gH5aPAYQOtx8R56jp870MXikeojSH6Moewj12fi3zVC
+	tPDFYVHzW30+BE6+R5T+2WnerDQ1kA4v+zXcBwNYMnaD+CiCJh9bGzvRo9bZy/8c9baZ
+	p4yyzcHqkQ0uXzC69Qz31YXOgqS6H7COhWEgomPNv/Gxdx8YGNpFMFkbIx6saKcYzLND
+	d66TFBLZYPbs/wJ4Y2zW2VCcmIQAMaLX/2sTdFyPNlxebszlNPZ9UvxVns2dx3+imO/k
+	MLXSm7c9gW6xzyo4ZvD22etJ4+lQjy1t8AqQoyq/bgHknlFHtVPdriL7OhDT9vFk6zGD
+	nTrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=sERxgBFFJ2wwYEI8X7Pufq+sYe7fdhaAE+dkhzu5Ih8=;
+	b=ANV7vRWHyHw2XXiV0VXSreO+tGKBwdOLPDhF7h9eLIYxSxNtffgni7PGcgTB31Krxm
+	2akbV+DkOrpXiioaghDSjmw46WylGTm+XB/dMqU1drdUhx0lSRxR1+RrXsfJt5WbH3gK
+	/CQRAe4Ff6x60y/z20NpmxKVr815knwxDNJ5Z3WY/pGCVdTKlVb0ofURXsE2sxkzoQUI
+	ou9wtYXB6liiYrSO1w4IQvRyPSVHLKCzyFORLS52TaW1YAjbpZbGUENK6YjM/a+knrb0
+	0jtomoJnetRwSGGSkCldoVngBb1wr6eIjkaGQ0Uyq4wdPw+jjWKo+cE0Hw5mh4PEf79J
+	1JyA==
+X-Gm-Message-State: APjAAAUjaqcn0+fNBJkvkFrlNFAtMnKihFIxuip9GnNIe0fKM4AKU6IA
+	t1UYI9iPqj+2Bzb22lEsT2k=
+X-Google-Smtp-Source: APXvYqwuftL8f/G0Sw9BMatpK+iUel6HVCVFxeD+xpUzQPptzzF3aShHh+ERdUPsWr5plsuqbHbelg==
+X-Received: by 2002:ae9:ee18:: with SMTP id i24mr3023997qkg.86.1572011101934; 
+	Fri, 25 Oct 2019 06:45:01 -0700 (PDT)
+Received: from linux-uys3 ([206.248.190.95])
+	by smtp.gmail.com with ESMTPSA id 56sm1748002qty.15.2019.10.25.06.45.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 25 Oct 2019 06:45:01 -0700 (PDT)
+Date: Fri, 25 Oct 2019 09:44:58 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20191025134458.GA22739@linux-uys3>
 References: <20191021055052.10882-1-zangrc.fnst@cn.fujitsu.com>
 	<20191024130641.GA30191@linux-uys3>
-	<33468050-37e6-a0ef-b95d-039814a52343@windriver.com>
-	<62d969ba-cf7f-8651-6dd9-e7e71b489c6e@gmail.com>
-	<62ff460a-48d7-b82a-97c6-4c4d6d74a5fa@cn.fujitsu.com>
-	<20191025131722.GA19333@linux-uys3>
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-Message-ID: <983d4e37-5da2-57dc-8e5d-e0c08d83de85@windriver.com>
-Date: Fri, 25 Oct 2019 09:31:37 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	<20191024230510.smxm7zf3qvpec3xy@apollo.localdomain>
+	<20191025132204.GB19333@linux-uys3>
 MIME-Version: 1.0
-In-Reply-To: <20191025131722.GA19333@linux-uys3>
+In-Reply-To: <20191025132204.GB19333@linux-uys3>
+User-Agent: Mutt/1.6.0 (2016-04-01)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] libcap-ng:upgrade 0.7.9 -> 0.7.10
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -39,30 +62,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 13:31:43 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 25 Oct 2019 13:45:01 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 10/25/19 9:17 AM, Trevor Woerner wrote:
+On Fri 2019-10-25 @ 09:22:04 AM, Trevor Woerner wrote:
+> On Thu 2019-10-24 @ 04:05:10 PM, Khem Raj wrote:
+> > perhaps you need to add -pthread to LDFLAGS
+> 
+> I'll set up a test build.
 
-> On Fri 2019-10-25 @ 01:30:32 PM, zangrc wrote:
->> hello！
->>
->> We think this problem has something to do with the host environment. We
->> tried to reproduce the error on ubuntu16.04 and fedora29, but they all
->> compiled successfully. Can you tell us which distributions are having this
->> problem?
-> openSUSE 15.1
-> (which is the current "latest" openSUSE release)
+Yes, adding the following line fixes it:
 
-I'm seeing it on Ubuntu 18.04.3 LTS. I've managed to get past the same 
-attempted build (bitbake binutils) on Fedora 30 Server.
+	LDFLAGS_append_class-native = " -lpthread"
 
-Out of curiosity I checked out the commit prior to the upgrade 
-(a5a987ff5e5e) on Ubuntu 18.04.3 LTS and did bitbake libcap-ng-native,
-
-and it succeeded. Going back to latest master (with the upgrade), the 
-same bitbake fails as described at do_compile.
-
+(unless there's a distro-override way of doing it...?)
 
