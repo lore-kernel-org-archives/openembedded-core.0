@@ -1,27 +1,59 @@
-Return-Path: <tgamblin@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3952B7FAAC
+Return-Path: <twoerner@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F61F7FAA5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 17:11:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9PHBoAI021743
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 25 Oct 2019 10:11:50 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 25 Oct 2019 10:11:49 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 20958)	id 5543DC610EE;
-	Fri, 25 Oct 2019 10:11:49 -0700 (PDT)
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Oct 2019 10:11:45 -0700
-Message-ID: <20191025171146.33366-2-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191025171146.33366-1-trevor.gamblin@windriver.com>
-References: <20191025171146.33366-1-trevor.gamblin@windriver.com>
+	Fri, 25 Oct 2019 17:22:44 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id p4so2454396qkf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Oct 2019 10:22:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=OqFTs9dfbiq4PLv3kzp6HmgSWU0dAzGEUEevhTdkZJI=;
+	b=cdA/CCcvgTtLFKRfmTZXYj7NtgivjOsdRkfEig/9YyJz8e68vvdNUuRgQFdq5/U2kD
+	RorkJt0+ItHvva0WOuHYZn6fasBB7QJETFWFr/3lmfcANvOgbs5BMIADnYF/h6X2V/9R
+	WTY7wi/WjgS8ZRitZoqitkkvHm3nTw34GrbFfA05I8YbDGHabEJVyXUD173pDxuabT26
+	Toekz5CSDSjXBSCdYAVKIKDkoeq3reB0m8WHAupa6PNLOEJ0EHzz2aACznD0tv5O/K61
+	N2gcqujZAAjh/lcrTdvsBqvYpndvzzeIQhxQ24Wg++ItJoHRy9056AYjBg6oy3OSXv0T
+	RnBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=OqFTs9dfbiq4PLv3kzp6HmgSWU0dAzGEUEevhTdkZJI=;
+	b=sqzONq3vwaspD+y+Mahqdl3CVrzgDAUGJgTfSQxZheATWwPT+C79PklhBZZHqQD6rT
+	/cFZGhK5xNOlPZvoD2BG5n0WxqDb5t0fm0GDFCDpV2rT9kR6p60EwC9t4QAU6lOOi51Y
+	5J5y0fo/0A2YxcZ0vp8wlRuI5AlAF+g9jr0jCasAzxFBbeANubxeAryANeOkxRD4FO4Q
+	FuAG1PtU0mMUg4yitGvFBqYko+DV+tUQQBLzG+ttgzjr//d/0agE+CNDHtk2BgnNcFEE
+	+2Nh4C574m8K4oGf8Cj3pTqH+cZ7VFU8Q7IDgtAEz6eGWpqwfp8iyj2bM6YZ80UUm0fQ
+	DZBg==
+X-Gm-Message-State: APjAAAUUSDcbYov0o+1Btxpbc8HfKORmhZzeKOAhP/IoRhE3iPs9hk/a
+	jYlKAgMmgazcXXxtfvEwIP4=
+X-Google-Smtp-Source: APXvYqzmDxuP3DD+AMIAPd1rI3Wj+okPqR2blCZuD7qsfCsXiyrT44uusiOagDdRNl1tv2h9CmQFsQ==
+X-Received: by 2002:a37:8244:: with SMTP id e65mr3788316qkd.233.1572024164922; 
+	Fri, 25 Oct 2019 10:22:44 -0700 (PDT)
+Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
+	a15sm1282875qkn.134.2019.10.25.10.22.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 25 Oct 2019 10:22:44 -0700 (PDT)
+Date: Fri, 25 Oct 2019 13:22:41 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <20191025172241.GA25729@linux-uys3>
+References: <20191021055052.10882-1-zangrc.fnst@cn.fujitsu.com>
+	<20191024130641.GA30191@linux-uys3>
+	<20191024230510.smxm7zf3qvpec3xy@apollo.localdomain>
+	<20191025132204.GB19333@linux-uys3>
+	<20191025134458.GA22739@linux-uys3>
+	<1e316ec4-e809-b66d-7a6f-53b0cc6fd1d5@gmail.com>
+	<20191025151610.GA12316@linux-uys3>
+	<7e7622dd-84b5-6cb3-ba66-ee207f0b0f85@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] binutils: fix CVE-2019-17451
+In-Reply-To: <7e7622dd-84b5-6cb3-ba66-ee207f0b0f85@windriver.com>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libcap-ng:upgrade 0.7.9 -> 0.7.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,90 +66,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 17:11:50 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 Oct 2019 17:22:44 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Backport upstream fix. No upstream release version of
-binutils it yet, so backport the fix independently.
+On Fri 2019-10-25 @ 11:44:14 AM, Trevor Gamblin wrote:
+> On 10/25/19 11:16 AM, Trevor Woerner wrote:
+> > Does this break on hosts where it had previously worked?
+> Doesn't affect my (successful) Fedora build. Would also be interested to
+> know.
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- .../binutils/binutils-2.32.inc                |  1 +
- .../binutils/binutils/CVE-2019-17451.patch    | 51 +++++++++++++++++++
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
-
-diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
-index 1e96cf494d..349c3e1154 100644
---- a/meta/recipes-devtools/binutils/binutils-2.32.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
-@@ -50,6 +50,7 @@ SRC_URI = "\
-      file://CVE-2019-14250.patch \
-      file://CVE-2019-14444.patch \
-      file://CVE-2019-17450.patch \
-+     file://CVE-2019-17451.patch \
- "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
-new file mode 100644
-index 0000000000..b36a532668
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
-@@ -0,0 +1,51 @@
-+From 0192438051a7e781585647d5581a2a6f62fda362 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Wed, 9 Oct 2019 10:47:13 +1030
-+Subject: [PATCH] PR25070, SEGV in function _bfd_dwarf2_find_nearest_line
-+
-+Selectively backporting fix for bfd/dwarf2.c, but not the ChangeLog
-+file. There are newer versions of binutils, but none of them contain the
-+commit fixing CVE-2019-17451, so backport it to master and zeus.
-+
-+Upstream-Status: Backport
-+[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=336bfbeb1848]
-+CVE: CVE-2019-17451
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+
-+
-+Evil testcase with two debug info sections, with sizes of 2aaaabac4ec1
-+and ffffd5555453b140 result in a total size of 1.  Reading the first
-+section of course overflows the buffer and tramples on other memory.
-+
-+	PR 25070
-+	* dwarf2.c (_bfd_dwarf2_slurp_debug_info): Catch overflow of
-+	total_size calculation.
-+---
-+ bfd/dwarf2.c | 11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
-+
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index 0b4e485582..a91597b1d0 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -4426,7 +4426,16 @@ _bfd_dwarf2_slurp_debug_info (bfd *abfd, bfd *debug_bfd,
-+       for (total_size = 0;
-+ 	   msec;
-+ 	   msec = find_debug_info (debug_bfd, debug_sections, msec))
-+-	total_size += msec->size;
-++	{
-++	  /* Catch PR25070 testcase overflowing size calculation here.  */
-++	  if (total_size + msec->size < total_size
-++	      || total_size + msec->size < msec->size)
-++	    {
-++	      bfd_set_error (bfd_error_no_memory);
-++	      return FALSE;
-++	    }
-++	  total_size += msec->size;
-++	}
-+ 
-+       stash->info_ptr_memory = (bfd_byte *) bfd_malloc (total_size);
-+       if (stash->info_ptr_memory == NULL)
-+-- 
-+2.23.0
-+
--- 
-2.23.0
-
+Okay, thanks for the report! :-)
 
