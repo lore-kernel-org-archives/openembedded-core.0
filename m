@@ -1,58 +1,53 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AEF967FB83
+Return-Path: <prvs=194c68654=alistair.francis@wdc.com>
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AC107FBF5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 21:38:29 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id m15so5502271qtq.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 14:38:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=bYqCBzwNN2z3Rg8Ubn1ehBp310BccFWJqV+/fcLFXgc=;
-	b=SOPWs5kDWnhz4DMhMJuIqeRhtHIVgt5dy8PyLIywiQJoTL/pNooejpUZQhD4+YRw9Y
-	V7mVrEVeQAIGwuoVvhdhA6WCuyxXwtd4Ew/LUCQTEWyVihoT8bOoFVxUagEVpHVkqyPH
-	PhhmvMAHeHnN7pteXvCeS8S7FVrnBfycLl7Jp58QovLLH3uZp56QhPtvFV3UB6tcAgc+
-	2XcFpUiC5wBUmDjkiT1V24sOHWKURQpfOYK9vy8mlTdU4NfVtLXmzQ/f4PQ7xR4HWclT
-	eFoGVZub3Q54cM6layy041l8KS//Lt/0UtCfhQz+hN6GVul/eJarkxPjFdIotJD+71Hx
-	6SkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=bYqCBzwNN2z3Rg8Ubn1ehBp310BccFWJqV+/fcLFXgc=;
-	b=OXXaW9nTggL5NAAps2xpl8sBBfs0Zz+2psoARNbtg4Mz9RHF5mQFGSZa5CcSTJB8Lb
-	uGJfaTaEjWW1waUbpYjaJJZ7RYDLdp62gJ67cujuIdTkZ0jfGIW3r4yAKqDJf3K3sA/e
-	SQpSIISqBRPaS+EDpEWwI27AZE7OwDcexrSHRBbIKahhBM7wFeOl5tJNL43dR5FDf6Pp
-	uNVdZ9XHwPwdO3ci7tvONLGnOrinkw2cQH5mN4w7Vl2e7TDAc/RdCZPbPVFA8KadgkFR
-	jD5YBCFrPoC51TCvlJEexPCDwSzAI9JmJIvKe2AgApRUwJ61apXOB0jXWIz7daHD4gxC
-	cQ3A==
-X-Gm-Message-State: APjAAAWb9lALx45CWGydU3spIuFkVBk7xNpf8wcd6FITIaDsXivPzCmj
-	yBDL+g2H9nRbUobe07jQSH3nRSOP
-X-Google-Smtp-Source: APXvYqzZQcpRbiPEnqZggTcL13+b7xgTNsdoYLtEQ4sMLLDCJg8sstuTcelNUkdqHn/6iFbCyZbjfw==
-X-Received: by 2002:ac8:5408:: with SMTP id b8mr5569600qtq.164.1572039510452; 
-	Fri, 25 Oct 2019 14:38:30 -0700 (PDT)
-Received: from linux-uys3 ([206.248.190.95]) by smtp.gmail.com with ESMTPSA id
-	x38sm2738164qtc.64.2019.10.25.14.38.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 25 Oct 2019 14:38:29 -0700 (PDT)
-Date: Fri, 25 Oct 2019 17:38:27 -0400
-From: Trevor Woerner <twoerner@gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20191025213827.GA31737@linux-uys3>
-References: <20191021055052.10882-1-zangrc.fnst@cn.fujitsu.com>
-	<20191024130641.GA30191@linux-uys3>
-	<20191024230510.smxm7zf3qvpec3xy@apollo.localdomain>
-	<20191025132204.GB19333@linux-uys3>
-	<20191025134458.GA22739@linux-uys3>
-	<1e316ec4-e809-b66d-7a6f-53b0cc6fd1d5@gmail.com>
-	<20191025172451.GC25729@linux-uys3>
+	Fri, 25 Oct 2019 21:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1572040263; x=1603576263;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=dN7zTQxvQy2A4PVAdINQJDBnFsMb3wJlCbB1w4m2ah8=;
+	b=cQJftzqR36i4SmxVrhiNgOcJCHl8/PE+Kh6sv3N33+3Sfo9TqgOwJNUM
+	uzUOP23hsOdb7HXRsVeMknAE+dn+IvIW1faLaq7jfezJOd6m98Icsr4Nr
+	yzXf3aLzPhPEPagAQ8RAIzuL+uOimUqUOz2dePUBvxKqvDV2whTa7djbc
+	gCFVLU2PpCaoYt2En4mmghqMRJ0GwF5DU/5zyPwJJ4U3GbijtAnhNgdTB
+	zUcH2fstLLRcD3ecy+nHKItLlpSEgDxJsiKrYWzgz3YLB6erKg8cYLG32
+	TOYAgxhwkmxajoqaT5t4UWemkHtUfyxl/Vqpzn5UH9tnlsAKVH25dTlJG w==;
+IronPort-SDR: ewikmYB9ton/QcqpetLzdlXCx0aAzzhLj3733yjYv8q8cDAC7Cp/PagIDbsxCeeMTDQ8W6K/ye
+	EZk4Xcx0B8NGZSQGne0UMOmUt1hIH9ZsjjxTPkxXNEWUDlSBrd+xQ20JdnhPwyVrqie06OWlrJ
+	1+jgJdhS0iWw+PSI7PO+15n3BBoXYMg9qterXCp58GnxLtNqJkDE1holla115Gem2/HFPg/pyL
+	mM5DZ0IB8w86bbHuxgEJY8lDe0aL4I7zynxzlZQWpPORQ7KTLj2AmNbVq43FEqa/DE0o2iVOBL
+	zCc=
+X-IronPort-AV: E=Sophos;i="5.68,230,1569254400"; d="scan'208";a="228516340"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 26 Oct 2019 05:51:02 +0800
+IronPort-SDR: uNew48gA4he8aAC1BKJQQAti/NAgMcj4V4PknwWZPPFqRGCmjVD/8icEIZt3eZ1E7uSoX5xKpA
+	MLcFd9mlUeORn5lWNzz0a87rs8uqAxUsN2y73Oz159Pe7pq6s9Vs+MSoxnan4guw1BlPXB2CZw
+	jS9qlFYs3tg7ITpviyKASgfVE7+1huXSN5qquESxyqfhJEJH5rXq02SPTRGzMEXVueNHV4/pKe
+	GVaDue+ppsSn16h2aOuqvO485ecq0m15YEOa1ulvOkKObML9e+jW/dbuW2Dlmhv5dvfCf1qKkj
+	tOjHl+6r5mKBa6g8r7RbtV5h
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	25 Oct 2019 14:46:28 -0700
+IronPort-SDR: dWiynVW491zNy1qPKTGUFqooJbyEq0kDobO2sODOY4Kw35zRulFumkqtykV4bFB5WdA5AHOwXK
+	zOB87MJfDKW6/hD3yMJen2+FWTIwA82uKGu3q+002MLDfr71tZRCPqS3retqvUeQZyLiWYYVGm
+	3XaneWo1u2yNWonw61yj6XLVgdfP9qD+KMvfnClVFFivt0L8NCGjAMRYCX712uF34gkfwfH3Tz
+	/FlDeE5g5cSF3TrsrwQhPCKPLfADW5N4E4EMG02TsIqC9GAC74Cic2QasGEOElQMtqPjnb4Fum
+	19o=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+	by uls-op-cesaip01.wdc.com with ESMTP; 25 Oct 2019 14:51:03 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Oct 2019 14:46:04 -0700
+Message-Id: <20191025214605.3957-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20191025172451.GC25729@linux-uys3>
-User-Agent: Mutt/1.6.0 (2016-04-01)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libcap-ng:upgrade 0.7.9 -> 0.7.10
+Subject: [PATCH v5 1/2] libsdl2: Fix build failure when using mesa 19.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,23 +60,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 21:38:29 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 25 Oct 2019 21:51:02 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri 2019-10-25 @ 01:24:51 PM, Trevor Woerner wrote:
-> On Fri 2019-10-25 @ 07:37:34 AM, akuster808 wrote:
-> > is someone going to send a patch?
-> 
-> Yes, I'm working on that now. This looks like something that should be fixed
-> upstream, so that's the approach I'm taking. Please bear with me :-)
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+v5:
+ - Backport upstream fix
 
-I sent a "quickie" fix to the list so master builds can proceed:
-https://patchwork.openembedded.org/patch/166245/
+ ...DL-fails-to-compile-with-Mesa-Master.patch | 41 +++++++++++++++++++
+ .../libsdl2/libsdl2_2.0.10.bb                 |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch
 
-But I also opened an issue with the upstream project:
-https://github.com/stevegrubb/libcap-ng/issues/9
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch b/meta/recipes-graphics/libsdl2/libsdl2/0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch
+new file mode 100644
+index 0000000000..8f5b6a0cef
+--- /dev/null
++++ b/meta/recipes-graphics/libsdl2/libsdl2/0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch
+@@ -0,0 +1,41 @@
++# HG changeset patch
++# User Sylvain Becker <sylvain.becker@gmail.com>
++# Date 1570898876 -7200
++#      Sat Oct 12 18:47:56 2019 +0200
++# Node ID 369b01006eb2f6fd563f7c315d29ae3fe503c432
++# Parent  4cbaffd0083b8cd17070dbd9d4ab1ce0fa9fca2d
++Fixed bug 4797 - SDL fails to compile with Mesa Master (thanks Michael Olbrich!)
++
++fix building with Mesa 19.2
++
++With Mesa 19.2 building fails with:
++
++/include/GLES/gl.h:63:25: error: conflicting types for 'GLsizeiptr'
++
++The same type is defined in include/SDL_opengl.h for OpenGL and the two
++headers should not be included at the same time.
++This was just never noticed because the same header guard '__gl_h_' was
++used. This was changed in Mesa. The result is this error.
++
++Fix this the same way GLES2 already handles this: Don't include the GLES
++header when the OpenGL header was already included.
++(https://hg.libsdl.org/SDL/rev/a60b3c292f0f)
++
++Upstream-Status: Backport [https://hg.libsdl.org/SDL/rev/369b01006eb2]
++Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
++
++diff --git a/src/video/SDL_video.c b/src/video/SDL_video.c
++--- a/src/video/SDL_video.c
+++++ b/src/video/SDL_video.c
++@@ -37,9 +37,9 @@
++ #include "SDL_opengl.h"
++ #endif /* SDL_VIDEO_OPENGL */
++ 
++-#if SDL_VIDEO_OPENGL_ES
+++#if SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL
++ #include "SDL_opengles.h"
++-#endif /* SDL_VIDEO_OPENGL_ES */
+++#endif /* SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL */
++ 
++ /* GL and GLES2 headers conflict on Linux 32 bits */
++ #if SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
+index cdc8650e17..862abe1d54 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
+@@ -15,6 +15,7 @@ PROVIDES = "virtual/libsdl2"
+ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+            file://more-gen-depends.patch \
+            file://0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch \
++           file://0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch \
+ "
+ 
+ S = "${WORKDIR}/SDL2-${PV}"
+-- 
+2.23.0
 
-And proposed a solution:
-https://github.com/stevegrubb/libcap-ng/pull/10
 
