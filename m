@@ -1,37 +1,33 @@
-Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 69D7B7FA9E
+Return-Path: <stefan@herbrechtsmeier.net>
+Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 90F197F963
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 08:40:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id A7C7A9C0365;
-	Fri, 25 Oct 2019 04:40:07 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id mO18FeTPNm_Q; Fri, 25 Oct 2019 04:40:07 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 0EED59C02D0;
-	Fri, 25 Oct 2019 04:40:07 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id abI2KSd8EmA9; Fri, 25 Oct 2019 04:40:06 -0400 (EDT)
-Received: from sulaco.jml.bzh (91-167-182-132.subs.proxad.net [91.167.182.132])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id E2C3F9C03EF;
-	Fri, 25 Oct 2019 04:40:05 -0400 (EDT)
-From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 10:39:52 +0200
-Message-Id: <20191025083952.14591-8-jean-marie.lemetayer@savoirfairelinux.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191025083952.14591-1-jean-marie.lemetayer@savoirfairelinux.com>
-References: <20191025083952.14591-1-jean-marie.lemetayer@savoirfairelinux.com>
+	Fri, 25 Oct 2019 08:58:52 +0000 (UTC)
+Received: from [192.168.178.37] (i59F77ED2.versanet.de [89.247.126.210])
+	by dd41138.kasserver.com (Postfix) with ESMTPSA id 1557E11A044E;
+	Fri, 25 Oct 2019 10:58:53 +0200 (CEST)
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
+	<5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
+	<CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
+	<22cbc060-0f73-4354-1edb-ca90dbed4d73@herbrechtsmeier.net>
+	<CANNYZj9L7O9a9RfyXpQP7kY2X_HNt5P9yJQCmUONeZq1rWDKwQ@mail.gmail.com>
+	<541b19fa-54c4-42ce-0367-27ddd403d34f@herbrechtsmeier.net>
+	<CANNYZj80r-WGgREdj=2TYC-uPNpTnWEL3mfZLtG53z-XR71bOQ@mail.gmail.com>
+	<24e39481-ea5c-06e9-6dbb-139a5d0dd445@herbrechtsmeier.net>
+	<CANNYZj8Q1q-EGaUSGFCvVe2A_f4YPvQJeSmrG69bGnokHqWL2Q@mail.gmail.com>
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Message-ID: <5fe554ed-ddb8-c733-2ec3-b00f178402b2@herbrechtsmeier.net>
+Date: Fri, 25 Oct 2019 10:58:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, rennes@savoirfairelinux.com, bunk@stusta.de
-Subject: [RFC][PATCH v2 7/7] oeqa/selftest/recipetool: add npm recipe creation test
+In-Reply-To: <CANNYZj8Q1q-EGaUSGFCvVe2A_f4YPvQJeSmrG69bGnokHqWL2Q@mail.gmail.com>
+Cc: "Paul Eggleton \(paul.eggleton@linux.intel.com\)"
+	<paul.eggleton@linux.intel.com>, rennes@savoirfairelinux.com,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 0/6] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,56 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2019 08:40:06 -0000
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 25 Oct 2019 08:58:52 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This commit adds a recipetool creation test for npm recipe.
+Am 24.10.19 um 19:58 schrieb Alexander Kanavin:
+> On Thu, 24 Oct 2019 at 19:45, Stefan Herbrechtsmeier 
+> <stefan@herbrechtsmeier.net <mailto:stefan@herbrechtsmeier.net>> wrote:
+> 
+>      > The package-lock.json in their tarball is 600K.
+> 
+>     The project use two major version and seven different versions with 30
+>     installations of debug. Furthermore the dependencies include build
+>     tools
+>     which should not be installed on the device.
+> 
+>     The "@angular/cli" (242) and "node-red" (324) package share 106
+>     packages.
+> 
+> 
+> I have to ask: what point are you trying to make?
 
-Signed-off-by: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinu=
-x.com>
----
- meta/lib/oeqa/selftest/cases/recipetool.py | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+The both packages with different audience share between 44% and 33% of 
+the packages. I think this true for other packages too.
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/s=
-elftest/cases/recipetool.py
-index c1562c63b2..71613fd2fb 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -421,6 +421,25 @@ class RecipetoolTests(RecipetoolBase):
-         inherits =3D ['cmake']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
-=20
-+    def test_recipetool_create_npm(self):
-+        temprecipe =3D os.path.join(self.tempdir, 'recipe')
-+        os.makedirs(temprecipe)
-+        recipefile =3D os.path.join(temprecipe, 'savoirfairelinux-node-s=
-erver-example_1.0.0.bb')
-+        shrinkwrap =3D os.path.join(temprecipe, 'savoirfairelinux-node-s=
-erver-example', 'npm-shrinkwrap.json')
-+        srcuri =3D 'npm://registry.npmjs.org;name=3D@savoirfairelinux/no=
-de-server-example;version=3D1.0.0'
-+        result =3D runCmd('recipetool create -o %s \'%s\'' % (temprecipe=
-, srcuri))
-+        self.assertTrue(os.path.isfile(recipefile))
-+        self.assertTrue(os.path.isfile(shrinkwrap))
-+        checkvars =3D {}
-+        checkvars['SUMMARY'] =3D 'Node Server Example'
-+        checkvars['HOMEPAGE'] =3D 'https://github.com/savoirfairelinux/n=
-ode-server-example#readme'
-+        checkvars['LICENSE'] =3D set(['MIT'])
-+        checkvars['SRC_URI'] =3D 'npm://registry.npmjs.org/;name=3D@savo=
-irfairelinux/node-server-example;version=3D${PV}'
-+        checkvars['S'] =3D '${WORKDIR}/npm'
-+        checkvars['NPM_SHRINKWRAP'] =3D '${THISDIR}/${BPN}/npm-shrinkwra=
-p.json'
-+        inherits =3D ['npm']
-+        self._test_recipe_contents(recipefile, checkvars, inherits)
-+
-     def test_recipetool_create_github(self):
-         # Basic test to see if github URL mangling works
-         temprecipe =3D os.path.join(self.tempdir, 'recipe')
---=20
-2.20.1
+> Here's a related lwn article describing a similar problem faced by opensuse:
+> https://lwn.net/Articles/712318/
 
+Unfortunately they also have no solution.
+
+> ""Ruby dependency hell has nothing on JavaScript dependency hell," he 
+> said. A "hello world" application based on one JavaScript framework has 
+> 759 JavaScript dependencies; this framework is described as "a 
+> lightweight alternative to Angular2".
+
+Unfortunately they don't name the package nor give details about the 
+dependencies. I assume they really count the dependencies with all there 
+duplications and multiple minor or patch versions.
+
+
+> There is no way he is going to 
+> package all 759 dependencies for this thing; the current distribution 
+> package-management approach just isn't going to work here."
+
+What is the "current distribution package-management approach"? The 
+manual creating of build configuration for every package or the 
+automatic generation of recipes?
+
+What is the alternative which fulfill the requirements of an embedded 
+distribution?
+
+My prototype automatically creates recipes from the packages. It only 
+needs manual work if the package have no license file or a circular 
+dependency.
+
+The main problem is the pinning of specific versions inside the 
+package.json and the increase of the major version if the support for a 
+very old node.js version is removed.
+
+The prototype assumes a compatible inside a major version and creates a 
+recipe per major version. Thereby it always uses the latest version per 
+major version. The recipe count could further optimized in a manual step 
+which checks if there is really a breaking change between the major 
+version. The number of this recipes is low in compare to the total count 
+of recipes but the packages are often shared between different packages.
+
+Regards
+   Stefan
 
