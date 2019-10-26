@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
-	[209.85.128.52])
-	by mail.openembedded.org (Postfix) with ESMTP id F322C7FBF9
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C0F727FBF9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 06:50:12 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id q130so4147595wme.2
+	Sat, 26 Oct 2019 06:50:13 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id g7so4361490wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 23:50:14 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=zf3u8I2hCpXJ1TPiAdrlZ45CmpI3lpXP6Yje0ZeprNs=;
-	b=cnrwpxtQhEIFuoRjBzFYXdq0xpbkhkJl95VVAtMbgigu8Myk+oA8msUKR9S5R8IeSq
-	c9E5cQwDKZ/z1lVWpWaMEZ4g9ot5YASskWpeZ2eqo+efzGsG3LvbwimHc4RzsvnRw8M5
-	GNjEyLtXjX9c4eCs/AViMoPYOvIVMz5cdz0A33HpPhUPY650/kWdzIET7TmcN0qywAXK
-	gGNDLoV7Bxk8CJJi/g/Z9oWHIR+VM8zKwZ+HnhZY9xNAY5ZBTSmlBxUUgUlHBYTjWcJX
-	m36+/spKfVAeak6eXjiplmChLw7XEJGWvvr2IOHR3lRcEWh+39BX9xEGZk6p53xHXTh/
-	584Q==
+	bh=v7xqCKrVpnXT450E4UGO2HKQyfr2fzQC5HJQ90WnBmU=;
+	b=i8wgFLV2+QGTu3ZGulR2Cya6mcdxwO5wKKL16UXWKxikrl0bntyadPyOYbvt/CzVI0
+	fSiB3jN9PINfRvFgLCFiLdw2dTfw9mHStHEcg/dDwZByaNZiEUzsr4wup2kVKNHfFVnc
+	K/ryaiTlIXOkNTTGxdCtpUwlRbN0nkz0TQZfbUaQg4j133bY75pCBuoJYl8jGiFbs5Pb
+	uB66UMI6zbKjK/Hov4xheueNE5lXe68mZ94XhlSaeLzfRgbhSXkYFiuE/QHm7nWXOTET
+	K5sYqTf2UvYUv0vz2axvpzQ7yM2vGl57gBSPy0RZqidj1x+NwnWXWw8RKz4j6ISuNfWN
+	xjfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=zf3u8I2hCpXJ1TPiAdrlZ45CmpI3lpXP6Yje0ZeprNs=;
-	b=aRC9by70ePfvRa4LsWflmbY7341xLXD+evlIT0xMy6br9NZnkhbCpJplfz8DxJTRCg
-	2Q00O2XvlPaJzooDniApINpIZ41iYbUbpFRHh2EnohUAxWls++FrkLTCAET/mCR063yc
-	oQTBNk5kBF+6gSk4i2w3OAKJs5wAg7IKEqEAzzwz+E82xXqDMmehnByr2+rJFhvC2Zua
-	HpKdcgbgrxzrJDUZUT74Qf/uaYnXzLXI/gmbY4cF9+n1OP9M45jm8rODfT08+nsbxMq+
-	qqpV9Ko7jH/pj5c/gOetmjOETdaJMkon8ih/fKRT2bDQqbnVQ02SBf//mRbvAPq/Jqsf
-	FHhA==
-X-Gm-Message-State: APjAAAVxW4P+GJXLqZDvIWvZFYGmfFUEueTQNhRn9zKeM92PS9iFVlKB
-	HVV+guU33gf2qusirNn8bh3b0AJ1E3U=
-X-Google-Smtp-Source: APXvYqxHLTTuk7HQp9HCfEMkKjVj9E3zYZup7Z6pka69ow0bfJPJtcsMXMPpa80o/ohlFRsp1X6FPw==
-X-Received: by 2002:a1c:5609:: with SMTP id k9mr6532999wmb.103.1572072613532; 
-	Fri, 25 Oct 2019 23:50:13 -0700 (PDT)
+	bh=v7xqCKrVpnXT450E4UGO2HKQyfr2fzQC5HJQ90WnBmU=;
+	b=Kgig9Sgvybyl5N/8QOieqbwADtweeLg7iCyvg/tue2yNGPqGsbSD+GSlQSPvmYJRXw
+	JfavTQg7vlTpC5zisEKb9pOBF/VQH3FA4NxcYzMShuoT24I35zsvpsx8pxXQHuh/0JE1
+	tMSzo/g6q0k0tEvMCRdgUc5TeElbQh0hmyb/fr17LpJKGWJmikGPBUS2o+UrERubJdeu
+	wiQ3sjUuQGEDFCSzYfbshWJn8jIdmDxF2bLIvG5ivKVprjKoCNcYlHvnlRcJ2to/o1S3
+	qcznFLbJ2RIquEFwtocwNHy69CjYULvx14vqXMwW5hD3er5VHPihFWnSdOovDJAaQQT3
+	uQQQ==
+X-Gm-Message-State: APjAAAUnVXZfV5vA8slGEoFlx7kEkWFLx/LzH0uaMK3YDyI1nkZaymym
+	VCda/eOCcyOYPguE4JUyK55PXCxw7XY=
+X-Google-Smtp-Source: APXvYqwgdeprVVdLTKlXK0MlWY1wYl/OZnR+1oZBem2jn1aYb35hWGzHp4OsVHi2J3PV/kCTDL29nA==
+X-Received: by 2002:a1c:7fd8:: with SMTP id a207mr6818472wmd.10.1572072614330; 
+	Fri, 25 Oct 2019 23:50:14 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.controleur.wifipass.org ([178.18.58.186])
-	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.12
+	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.13
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Oct 2019 23:50:12 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:13 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 23:49:43 -0700
-Message-Id: <956ae2c2a72914c7e9a1d59e5906c7fc75670a39.1572072422.git.akuster808@gmail.com>
+Date: Fri, 25 Oct 2019 23:49:44 -0700
+Message-Id: <e8f39536d2616ea0bb8bab459da29af63e3ee336.1572072422.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572072421.git.akuster808@gmail.com>
 References: <cover.1572072421.git.akuster808@gmail.com>
-Subject: [zeus 11/28] uninative: check .done file instead of tarball
+Subject: [zeus 12/28] openssh: fix CVE-2019-16905
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +57,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2019 06:50:13 -0000
+X-List-Received-Date: Sat, 26 Oct 2019 06:50:14 -0000
 
-From: Stefan Agner <stefan.agner@toradex.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-In case multiple builds share UNINATIVE_DLDIR's location, one build
-might be in the process of downloading the tarball while another is
-just checking whether the tarball exists. Check for the done file
-instead and rely on the fetchers lockfile mechanism in case two
-builds are running.
+Backport a patch from upstream to fix CVE-2019-16905
+https://github.com/openssh/openssh-portable/commit/a546b17bbaeb12beac4c9aeed56f74a42b18a93a
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a1c95580549cb4f77601e62c7f026b19c752d853)
+(cherry picked from commit 8bd4b87071c073a0e4d265bc00df34684a355eff)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/uninative.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...x-integer-overflow-in-XMSS-private-key-pa.patch | 40 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_8.0p1.bb |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index 3326c0d..9f8645a 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -45,7 +45,7 @@ python uninative_event_fetchloader() {
-         tarballdir = os.path.join(d.getVar("UNINATIVE_DLDIR"), chksum)
-         tarballpath = os.path.join(tarballdir, tarball)
- 
--        if not os.path.exists(tarballpath):
-+        if not os.path.exists(tarballpath + ".done"):
-             bb.utils.mkdirhier(tarballdir)
-             if d.getVar("UNINATIVE_URL") == "unset":
-                 bb.fatal("Uninative selected but not configured, please set UNINATIVE_URL")
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch b/meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch
+new file mode 100644
+index 0000000..3265be3
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch
+@@ -0,0 +1,40 @@
++From 2014fad3d28090b59d2f8a0971166c06e5fa6da6 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Fri, 18 Oct 2019 14:56:58 +0800
++Subject: [PATCH] upstream: fix integer overflow in XMSS private key parsing.
++
++Reported by Adam Zabrocki via SecuriTeam's SSH program.
++
++Note that this code is experimental and not compiled by default.
++
++ok markus@
++
++OpenBSD-Commit-ID: cd0361896d15e8a1bac495ac583ff065ffca2be1
++
++Signed-off-by: "djm@openbsd.org" <djm@openbsd.org>
++
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/a546b17bbaeb12beac4c9aeed56f74a42b18a93a]
++CVE: CVE-2019-16905
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ sshkey-xmss.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/sshkey-xmss.c b/sshkey-xmss.c
++index aaae702..c57681a 100644
++--- a/sshkey-xmss.c
+++++ b/sshkey-xmss.c
++@@ -977,7 +977,8 @@ sshkey_xmss_decrypt_state(const struct sshkey *k, struct sshbuf *encoded,
++ 		goto out;
++ 	}
++ 	/* check that an appropriate amount of auth data is present */
++-	if (sshbuf_len(encoded) < encrypted_len + authlen) {
+++	if (sshbuf_len(encoded) < authlen ||
+++	    sshbuf_len(encoded) - authlen < encrypted_len) {
++ 		r = SSH_ERR_INVALID_FORMAT;
++ 		goto out;
++ 	}
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+index 01eaecd..2ffbc9a 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
++           file://0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch \
+            "
+ SRC_URI[md5sum] = "bf050f002fe510e1daecd39044e1122d"
+ SRC_URI[sha256sum] = "bd943879e69498e8031eb6b7f44d08cdc37d59a7ab689aa0b437320c3481fd68"
 -- 
 2.7.4
 
