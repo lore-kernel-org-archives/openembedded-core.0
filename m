@@ -1,52 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D88B7FC27
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 592C77F7E4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 06:50:27 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id q13so4637788wrs.12
+	Sat, 26 Oct 2019 09:04:24 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id o25so7087245qtr.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 23:50:28 -0700 (PDT)
+	Sat, 26 Oct 2019 02:04:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=FTs8a0HHmKt9df7PGH8rAqUdTqVGnEuBwwMY6ffDzww=;
-	b=gqRo/vqn6q7HxT22WX/bDCL/A8i+zpx/BoLtwejFtFGSQGRNBgQl676mdDIs8oSWSj
-	Xt0Igzku0VzOul0MZ75RS0M29qnVPUvLEWlG8LYa2pjy0Echmf56xKF9swr6rf0hcg2v
-	mOqEyBlh6flZupnM6mXmnPH1Rk4nFo+gUfN6/wd+V6WwOcj43u7PnsHRdOSTWJ13Z6o4
-	KeSJKFXjI+woGHfn02KYRn7ZJyeMwbjYqTRvPG+fLpzB50/A/yzeDVd9ViMYklq3ZsOX
-	lvKEf3jL9r+anG2o/FWZzlyZz9YfsFYFCRHEKncJWTirqWAf4MkE0583nXw3jDX9v//O
-	0i7Q==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=uriIw6fdH1GzUYrwwxgDii0kwk2CzpkqAxGK23z4tII=;
+	b=NB2VCYL2ymMcVhDt9E/7zC2TggKnAWVooPSShLnX5FpdUt8NHY55L2bUgvIsQhGwiZ
+	0W+wMNSdqDmsakp1RsVF8GAjSyfFY9x+/bp6h7H46gH0xCdBbPoQ9m+nacsmjFEKo9lo
+	4I0cFMdfQrI8bptx41umgaQu3kNrigWkL082/+uwpR8KFXYdbBkmIKguWMHCNyw8cd4t
+	3Na1W9d3WLFjc7f0DDfPp9iut0U5IeFhH7j0puh+fAmcJV9nUC/CAHYa2JoSV6x+2xX1
+	EjJOEvV/hGLBYML31ZK6z8MToumOiFVd6Duvhv2MCckpPySVIA+dk0u8X2MVUGBt4YJY
+	CZ7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=FTs8a0HHmKt9df7PGH8rAqUdTqVGnEuBwwMY6ffDzww=;
-	b=s3FPDoPXzTfBe69C9AGoipc6mO9a8b0HOMIu6X7ACob5vNPxdsCPj8UG4DYDeONet+
-	0FjcYoxFrSV5AUL2IiGluZHdeatXQ5yfj+WJY91UduObeOgvGX/DliOwsQttpWS5Hn+p
-	Pf96R9k21hl9It2FS1MuDPOZGeFE5lxJ78+11pK9LKVArJyPrZ/N5Rq5apreyl+6SOrA
-	WvTf3ZiRdfmJKZoBDLyIHXXvH6R7JlYUhIX4+fU4g77FBATUE3GUeH6zLraY0kx087eT
-	xqcFCgbDQbsGBcZYG3merWgbeGEdhH6chAN1GaEsrmga81PfZgWbSsI/WoadFf4ps6GC
-	iwKA==
-X-Gm-Message-State: APjAAAXmt88KZInRUzPC1sSoFbcWzq8D1ocggMMW3ggs+hxqSZLRJCR2
-	F/olaqhmzgedp+qjwnertImzqgt/Eeg=
-X-Google-Smtp-Source: APXvYqwSvV9ylKJGZ9S8GpvIraAopk9xwjrlQiPTNoldQnddNw+/cYvYmGpTxjmS5UDBp37ZiXi5BQ==
-X-Received: by 2002:a5d:55c4:: with SMTP id i4mr6049249wrw.140.1572072627587; 
-	Fri, 25 Oct 2019 23:50:27 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.controleur.wifipass.org ([178.18.58.186])
-	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Oct 2019 23:50:27 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 23:50:00 -0700
-Message-Id: <a96d08ce58939ef1b4e4e6b22d79fa3a6744e9f7.1572072422.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1572072421.git.akuster808@gmail.com>
-References: <cover.1572072421.git.akuster808@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=uriIw6fdH1GzUYrwwxgDii0kwk2CzpkqAxGK23z4tII=;
+	b=GWa7fLd2oVVkGbInUAfX5lAEEWB7ifK9KYb1X9gnrvuo2CjDhuEqIfrVGZuDVxuD7Q
+	+ZzYaXAiTRjuMOyjtRsMrnOSoMPxzZ+Tl3W6sxtWt9+lcJrL5Btnovh8lbAy2KiM9Yz3
+	1Ym1GFJ3x8S9Aav9jY3Tf7fgJTF/PqRgzT3flBdu78vHtAr6wYGd67rYXUcme69aVs50
+	gUDSTDqjX1TFf4Rwjpwbh2uwvh2ke7M0RTuKVDDSB2lzvUsGYIpZ8wVIWugsL9nIbUVX
+	7aGz4QwekYj729Ou+a9Acpf/cFXKvzrg2K0kjdTY1Lm4YF9mmdRmy9L2D3vXR4v8C15h
+	5ulw==
+X-Gm-Message-State: APjAAAWyAFj3AVXSj/Ht3oDKIl8OdkPgFRF42G12UkbUOaIEty7dncxq
+	crElcr3LRkXIn5fVK2ZdsyS3rpeuxpSObnvOa3w=
+X-Google-Smtp-Source: APXvYqz13RcZ7nQIBxn0+PDZrHddYN5P51ELIyiTPwhOUR/29l3HMLAlf1DpAztJEvo1QQvW4tWqY8lnoleHGN9XtjM=
+X-Received: by 2002:a0c:ff44:: with SMTP id y4mr7250538qvt.99.1572080664799;
+	Sat, 26 Oct 2019 02:04:24 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [zeus 28/28] connman: mark connman-wait-online as SYSTEMD_PACKAGE
+References: <20191025202008.23715-1-twoerner@gmail.com>
+In-Reply-To: <20191025202008.23715-1-twoerner@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 26 Oct 2019 10:03:58 +0100
+Message-ID: <CAMKF1soPy2WuaB_z8CPPbTgKXsnztTVTVVVEv+gWSbt569qWSQ@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libcap-ng: undefined reference to `pthread_atfork'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,55 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2019 06:50:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 26 Oct 2019 09:04:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: André Draszik <git@andred.net>
+On Fri, Oct 25, 2019 at 9:20 PM Trevor Woerner <twoerner@gmail.com> wrote:
+>
+> Some hosts need -lpthread in order to link properly (e.g. openSUSE 15.1).
+>
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb
+> index 6e6de45494..01ea9a1490 100644
+> --- a/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb
+> +++ b/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb
+> @@ -3,6 +3,7 @@ require libcap-ng.inc
+>  inherit lib_package autotools
+>
+>  EXTRA_OECONF += "--without-python --without-python3"
+> +LDFLAGS_append_class-native = " -lpthread"
 
-The connman-wait-online package currently isn't marked as
-systemd-enabled package. This means it is impossible to
-auto-enable the service during image creation or package
-installation, as no preset files and no pkg_postinst()
-snippet is being created.
+Please use -pthread instead of -lpthread
 
-This change should have been done as part of the
-upgrade to v1.31
-
-Note:
-connman-wait-online is needed when connman is in use
-in more complex network/interface setups for systemd's
-network-online.target to report success.
-systemd-networkd's systemd-networkd-wait-online.service
-alone doesn't work in such scenarios and simply times
-out, as it know nothing about the expected network/
-interface configuration, meaning the target doesn't
-boot successfully (systemctl list-units --failed),
-and long delays are seen, caused by waiting for the
-systemd-networkd-wait-online.service timeout.
-
-Signed-off-by: André Draszik <git@andred.net>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1a8d18eeee6dc188d8becc778bfa933031490781)
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-connectivity/connman/connman.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index ee00479..fb38ab4 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -59,7 +59,7 @@ INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
- 
- python __anonymous () {
--    systemd_packages = "${PN}"
-+    systemd_packages = "${PN} ${PN}-wait-online"
-     pkgconfig = d.getVar('PACKAGECONFIG')
-     if ('openvpn' or 'vpnc' or 'l2tp' or 'pptp') in pkgconfig.split():
-         systemd_packages += " ${PN}-vpn"
--- 
-2.7.4
-
+>
+>  BBCLASSEXTEND = "native nativesdk"
+>
+> --
+> 2.23.0.37.g745f681289
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
