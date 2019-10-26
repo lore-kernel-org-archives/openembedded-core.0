@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 66D907FBF1
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 3064B7FC09
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 06:50:11 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id r141so4130685wme.4
+	Sat, 26 Oct 2019 06:50:12 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id g24so4361865wmh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 23:50:12 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=MFt619UA37SNnTyfsjE8YDWEyhWRU+3SVArgUA6XpA8=;
-	b=cM+NE0GND+okzceLzhdQZ6K5vf/ISgggweDxiLmRg+a9OQNBYRGAbx4xzvzVIIad3H
-	96vgPWXePoglO0Ix/apNXf/O1ws6qRF3GXHRZvrm81NWiyunF4TUOlobwEM0QkAP0odl
-	/WqKViykwZOeg7edVmE3bY3LIojIcNsPfQUD4FHozmQDVnSUH4hdBnwowSk074PeZ+FL
-	78hhqomXYY6ZHXh3l0zy+QQ+eEJNBopD2gssTqDDMbq11sqLtQS7MaNVBnu5Hcv0sMR3
-	gq6dyWv72mg++WskQ/uWLahX0aZCmOaq+1N0emmp17+EAmdZlG10mFfLCs88fa6LqKik
-	hOCg==
+	bh=QwBCnFU5ZMZOzJnNrmyXTizNkY32vmUNNK6JRylTgMo=;
+	b=WnSj6VStk12kv4isFgXVA+ftUVjk5iGFkwkuGnRjiq52Z4WlKMa72Nl2tdV0ZNrdHW
+	GenAAcIF22tgxq+hxFzVNLx/I5NyfPTOhJ49dpa5fQbcVOfjZtNhKNK+VeBi92LbnzvE
+	/VLsaz2Aoqd1FAr3HZjXigifbO3e1hZRbXMJwy8/fwHK3UoxqIAa6IzyJd7oACdvr8FB
+	IwcjNYPT/+9kwurhRUYsMSQDf1wVU4mBekuO3yCVWvANDDlj3J9kpYXAb0bViUJOUUIU
+	VTdx/O857+o4pT141YIMch3E0jncQ+ZFePhNEv7+DeTV2gsq3fIeYjZx6uTzXXHtm15S
+	yvVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=MFt619UA37SNnTyfsjE8YDWEyhWRU+3SVArgUA6XpA8=;
-	b=Fv4wtsl8Km6Ms9nGQjT7pfHrVJS787lDGZuOIhylo83DuuHe/Bs3Mb13x3R8JNMoQq
-	Jbl3udEce9OVfxxS+lomaeLEBJu7oHQvVqdDS/Rq3jRVN9str5YJshvnqbEFgruQDET7
-	PiGU7kkrK4M9GIgkPAcNrYCM70yMdysIp/gbrq2y+4Ne1k+tvoqSspKdXxzs5qk0ES8R
-	fBDduMiih4WQCBf+EzbNxX61WGm4omW4M2R+qaoGmZRicb1Qyoh193DjhgYfqvvUWaFq
-	5VsTXJNbCOOYuRz75FOeff5aqJ+DDzHwv2VaMTgagFfcCRJRtVd1CjYEgJoB7hZEn2+y
-	kYIg==
-X-Gm-Message-State: APjAAAUJM+FoeI30haTGttOJXWe4l45jHS7OTcC9qEx7SLirp+zBaMDT
-	uS3K2uXXbaYda7+8OxeajmE4iDs03fw=
-X-Google-Smtp-Source: APXvYqxjRpZSrti3CbJC4xfWH/Z1paLsOgr0Rya3sQJYRdUktiCPDfDAuF6H8Ia1xbXXYLlSITvqyA==
-X-Received: by 2002:a1c:7219:: with SMTP id n25mr6937330wmc.101.1572072611847; 
-	Fri, 25 Oct 2019 23:50:11 -0700 (PDT)
+	bh=QwBCnFU5ZMZOzJnNrmyXTizNkY32vmUNNK6JRylTgMo=;
+	b=OrnmZiw7uuXCAuSfF0W28CfZMN69KbGEsQSDoQOcx8lEzBXt7nYgFVC7fDhExF5V1P
+	kX4k/9wCxwheaA+wf7DwA3mg7zDNz2eMc6zSVs8s2afbMAwyg1htE/v63BpHRSfxA5X3
+	FFoGfR+QPJ3ukOMKxrwFgt5jmNPMYAFcyhuC9KvFNQIg9Uxh5HsXKmxuumy67V0iKZW+
+	qWGD2nxVbty8rdJEUGIFGVrITkwxMBSB3CDIKtEp8E/uFmxHxuHnl+qugHWJ5b0fsp3T
+	ad7/k7ntfFZSvuBbEwG7YOgYhWQhtrgNpWiyBMNLKOrmEQrh5IIUicHjXkPCElkCzQon
+	cxQw==
+X-Gm-Message-State: APjAAAUbV7eUyLuXjMM23DX0xFrkmw0ponECCCwndqbO61XHgQtMaB1Y
+	3DQE5ksK3C3FPbgViabkzxG5bnrMKKs=
+X-Google-Smtp-Source: APXvYqyVULlMknpO3I5P79A6Hq3fiaoed4kGNueN9PVsWLNPx0j/IEsaWCqOOmbbvli1uVMoFKIqKA==
+X-Received: by 2002:a1c:c28a:: with SMTP id s132mr6616035wmf.162.1572072612640;
+	Fri, 25 Oct 2019 23:50:12 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.controleur.wifipass.org ([178.18.58.186])
 	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.11
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Oct 2019 23:50:11 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:12 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 23:49:41 -0700
-Message-Id: <691f04965faf58d9d6323898478916ae306d046c.1572072422.git.akuster808@gmail.com>
+Date: Fri, 25 Oct 2019 23:49:42 -0700
+Message-Id: <95d3ca54453cdb0662fae2a2cf7e8173611c86f4.1572072422.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572072421.git.akuster808@gmail.com>
 References: <cover.1572072421.git.akuster808@gmail.com>
-Subject: [zeus 09/28] libsdl2: fix CVE-2019-13616
+Subject: [zeus 10/28] sanity: check the format of SDK_VENDOR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,78 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2019 06:50:11 -0000
+X-List-Received-Date: Sat, 26 Oct 2019 06:50:12 -0000
 
-From: Yi Zhao <yi.zhao@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2019-13616
+If SDK_VENDOR isn't formatted as -foosdk and is instead for example -foo-sdk
+then the triple that are constructed are not in fact triples, which results in
+mysterious compile errors.
 
-Patch from:
-https://hg.libsdl.org/SDL/rev/e7ba650a643a
+Check in sanity.bbclass so this failure is detected early.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+[ YOCTO #13573 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 70b9cdf86b9c5ed14937500619387a890a57ef20)
+(cherry picked from commit b0efd8d4d0dbc30e6505b42f5603f18fa764d732)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...538-validate-image-size-when-loading-BMP-.patch | 34 ++++++++++++++++++++++
- meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb    |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch
+ meta/classes/sanity.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch
-new file mode 100644
-index 0000000..674decc
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch
-@@ -0,0 +1,34 @@
-+From 85138c1ec673e05263ae666baf61f79384daf7e0 Mon Sep 17 00:00:00 2001
-+From: Sam Lantinga <slouken@libsdl.org>
-+Date: Tue, 30 Jul 2019 11:00:00 -0700
-+Subject: [PATCH] Fixed bug 4538 - validate image size when loading BMP files
-+
-+Upstream-Status: Backport
-+[https://hg.libsdl.org/SDL/rev/e7ba650a643a]
-+
-+CVE: CVE-2019-13616
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ src/video/SDL_bmp.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/src/video/SDL_bmp.c b/src/video/SDL_bmp.c
-+index 0b68918..a06b0c9 100644
-+--- a/src/video/SDL_bmp.c
-++++ b/src/video/SDL_bmp.c
-+@@ -226,6 +226,11 @@ SDL_LoadBMP_RW(SDL_RWops * src, int freesrc)
-+             SDL_RWseek(src, (biSize - headerSize), RW_SEEK_CUR);
-+         }
-+     }
-++    if (biWidth <= 0 || biHeight == 0) {
-++        SDL_SetError("BMP file with bad dimensions (%dx%d)", biWidth, biHeight);
-++        was_error = SDL_TRUE;
-++        goto done;
-++    }
-+     if (biHeight < 0) {
-+         topDown = SDL_TRUE;
-+         biHeight = -biHeight;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
-index 3a0654b..cdc8650 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
-@@ -14,6 +14,7 @@ PROVIDES = "virtual/libsdl2"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 2d3f49e..705062b 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -798,6 +798,11 @@ def check_sanity_everybuild(status, d):
+         elif d.getVar('SDK_ARCH', False) == "${BUILD_ARCH}":
+             status.addresult('SDKMACHINE is set, but SDK_ARCH has not been changed as a result - SDKMACHINE may have been set too late (e.g. in the distro configuration)\n')
  
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://more-gen-depends.patch \
-+           file://0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch \
- "
++    # If SDK_VENDOR looks like "-my-sdk" then the triples are badly formed so fail early
++    sdkvendor = d.getVar("SDK_VENDOR")
++    if not (sdkvendor.startswith("-") and sdkvendor.count("-") == 1):
++        status.addresult("SDK_VENDOR should be of the form '-foosdk' with a single dash\n")
++
+     check_supported_distro(d)
  
- S = "${WORKDIR}/SDL2-${PV}"
+     omask = os.umask(0o022)
 -- 
 2.7.4
 
