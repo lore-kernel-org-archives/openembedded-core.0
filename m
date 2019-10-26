@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C4A2B7FC18
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B4C347FC18
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 06:50:18 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id q130so4147766wme.2
+	Sat, 26 Oct 2019 06:50:19 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id q13so4637580wrs.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 23:50:20 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=FftV8yu9YPMh/7YLUiyBehdsSZNE5Ip+U2FIIzQGFZQ=;
-	b=q68paloW1lSGC3G2u+1F0Sx1CtomXzlnOhy/XRo7PUOuANgD2Ic1P1zX8dTaN+vXlK
-	ip1u01UyIpnHInT4B0Q59fm1QLDhMaQpMnl/cylXG4QDFQj2qouYPaEDrC7xtsq3M5zJ
-	sqMhXMg1beAs2a3f/coAP9/Vb7KJBjfPrc278B7UnTAilN9n1G9i+U5ZWuK8i2oHv+2S
-	gXW8KBGfDESJwsbwvawZWfq/lnq1DPugZDjaeVN7W5SPEO1nBzr06y7jbXktB3cQwD+w
-	hT9FSj9KBDbH4yNCmq3JNJSYnS5wiGONfgRO7HddinCgURX82hDPwz8zTEAj1hdzLLt/
-	dPVA==
+	bh=toOA5tC9SD9lNazNArWLY/d7qfUnxMP9wHqncPnIoPo=;
+	b=SH2kapzUMnh40m9WKbt96b5NrwPjldq6U7G3IIsO1dCEKkzSV7clP036IzB1tzBsls
+	zbQXRiiU6bnTfGtlivf7PC5diYKngMfDPqZc/9GrZ9gljKpTgtBst+/4jj/jppcea8h5
+	3Fz1401aom89tvPCgf9Dl5fUmSEz6GePhPtGoXfbGIjmxouBq35XAlXClPGrnTmZuCBT
+	kiPJ/dfC7HLswYGZVEbJK6/CJp1ZXao+QEhm3peJXhSW1kHFlrYoILetWcggMzmesJY8
+	0ofxQC0QUxf4gt82MFh15VFlzM2PWY1dVG2lixq0VHhS3fVdUAKTYxCuPtnHYMZ9XoXW
+	/oHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=FftV8yu9YPMh/7YLUiyBehdsSZNE5Ip+U2FIIzQGFZQ=;
-	b=UUeMAaDDOSRUfXQWrgJyl3DbHCaQ1DwVNhm2vxP6a4FYNRcwf4qk2xUcJ8nbRZCD8s
-	jFtleIPTeACjw/80fqBAhyyhaUp4iZlNjTb46irJ99C7SzGjeHN8/r3jSoLnU907gxpJ
-	tRIoj/e2Pyd1EtJg0zlacooaayaVw1JHfF6XDO12mNxOC5ZyrsVHrHBnBNY87HGQ6uFh
-	FGUSouOLHaOMZzWYoLkM36aDfTuy6Tbsw4/ULdnZE11a+6DEExeNmgnuclSxPMmeVoTD
-	MX4V0lHPgHLkKeGh19FtQ/u/abTuhf6wggq17QGcV1G6iEfXz+ydxsMw1oN4xRlEq37+
-	RHww==
-X-Gm-Message-State: APjAAAVdi1s44nkwIib+4QElJ7zCPejZ2q5eYKAQSv2WlHF4buJ6caxg
-	+9j1xGVRQ2n+t4H+fI9wQy7vJtqStxM=
-X-Google-Smtp-Source: APXvYqyonJNzNtNY7hTBZzjqJGcBn7lpzYtdVqtyXJAHYzfoowY5Uv9JcmsG359F+SmnTtRPYW7GKQ==
-X-Received: by 2002:a7b:c313:: with SMTP id k19mr7038051wmj.6.1572072619217;
-	Fri, 25 Oct 2019 23:50:19 -0700 (PDT)
+	bh=toOA5tC9SD9lNazNArWLY/d7qfUnxMP9wHqncPnIoPo=;
+	b=TLPkwydoQSefpye795vfRosGiUMuULHQDlxLQpG8kPwmFyvtxXKuKXAoilPd03UknM
+	g5voh/4a5ZJMSTYPLEh7rz1D/+PT4V3WLnE4a6GA88bJcPlWv6kftMbCtcyIweed8NcA
+	tCpOGtZCoZAR0falFHp5kzAAhYi/MPONRqMGhkh1TpkW6X823mUdjh5n3fpRuafHek41
+	9PM9BAc3hmBOZ0XE7JJ3+myqJY35I5X2VepPTnZiwcoir/S2KixroK2wtJxj2NAFR2vl
+	o1c4KbasOUxRF+xw3J0vKuVzBYRpym+/sJvdGxPudAvWZPNYSeO7aYvvvoO3fVmSO4Vb
+	e/2g==
+X-Gm-Message-State: APjAAAWfI9VLZF/NsiC5NfDFgjcVXxJ5WM+Nknw1LAR1HM7vG8ArqauX
+	c2tW63gm2Z1nw7kJrmMCze4LvAOkKTg=
+X-Google-Smtp-Source: APXvYqzfdngmiadLtW0eAL2sPvlAWJ6gkXho6vopBgYPkMh/v/xeCPUWJYa9dxAubDKvCsUOTM/bEA==
+X-Received: by 2002:adf:c98b:: with SMTP id f11mr6579549wrh.274.1572072620203; 
+	Fri, 25 Oct 2019 23:50:20 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.controleur.wifipass.org ([178.18.58.186])
-	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.18
+	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.19
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Oct 2019 23:50:18 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:19 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 23:49:50 -0700
-Message-Id: <beec8a52a8738b0a88cc81dc7898fa38b5088b68.1572072422.git.akuster808@gmail.com>
+Date: Fri, 25 Oct 2019 23:49:51 -0700
+Message-Id: <578f41124565a7cda738c7fe3d25702ee41b08ed.1572072422.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572072421.git.akuster808@gmail.com>
 References: <cover.1572072421.git.akuster808@gmail.com>
-Subject: [zeus 18/28] cmake.bbclass: add HOSTTOOLS_DIR to CMAKE_FIND_ROOT_PATH
+Subject: [zeus 19/28] openssl: make OPENSSL_ENGINES match install path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2019 06:50:19 -0000
+X-List-Received-Date: Sat, 26 Oct 2019 06:50:20 -0000
 
-From: Michael Ho <Michael.Ho@bmw.de>
+From: George McCollister <george.mccollister@gmail.com>
 
-The find_program command will fail if it is used on a tool that is listed in
-ASSUME_PROVIDED. This is because these tools are in the hosttools directory
-which is not listed in CMAKE_FIND_ROOT_PATH so cmake will not find them.
+Set OPENSSL_ENGINES to the path where engines are actually installed.
 
-Adding the directory HOSTTOOLS_DIR to the CMAKE_FIND_ROOT_PATH variable fixes
-the initial issue of needing to search for tools in ASSUME_PROVIDED.
-
-Note that this change alone does not fix the issue because find_program will
-by default only look into the subdirectories bin and usr/bin under the paths
-in CMAKE_FIND_ROOT_PATH to find the programs and the hosttools directory has
-instead the symlinks directly present without these subdirectories.
-
-Set CMAKE_PROGRAM_PATH to by default include the root directory so
-find_program can search the hosttools directory without needing the prefix
-directories.
-
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit 7847f431cd8db59fce8c9401a603c4b0678ee16d)
+(cherry picked from commit 59565fec0b3f3e24eb01c03b671913599cd3134d)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/cmake.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 2b317c8..291f1e8 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -106,11 +106,12 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+index 072f727..8819e19 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+@@ -148,7 +148,7 @@ do_install_append_class-native () {
+ 	    OPENSSL_CONF=${libdir}/ssl-1.1/openssl.cnf \
+ 	    SSL_CERT_DIR=${libdir}/ssl-1.1/certs \
+ 	    SSL_CERT_FILE=${libdir}/ssl-1.1/cert.pem \
+-	    OPENSSL_ENGINES=${libdir}/ssl-1.1/engines
++	    OPENSSL_ENGINES=${libdir}/engines-1.1
+ }
  
- # only search in the paths provided so cmake doesnt pick
- # up libraries and tools from the native build machine
--set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
-+set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN} ${HOSTTOOLS_DIR})
- set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
- set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
-+set( CMAKE_PROGRAM_PATH "/" )
- 
- # Use qt.conf settings
- set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
+ do_install_append_class-nativesdk () {
 -- 
 2.7.4
 
