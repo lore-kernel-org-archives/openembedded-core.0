@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
-	[209.85.221.51])
-	by mail.openembedded.org (Postfix) with ESMTP id B4C347FC18
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 938E27FC18
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 06:50:19 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id q13so4637580wrs.12
+	Sat, 26 Oct 2019 06:50:20 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id e11so4675056wrv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 23:50:21 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=toOA5tC9SD9lNazNArWLY/d7qfUnxMP9wHqncPnIoPo=;
-	b=SH2kapzUMnh40m9WKbt96b5NrwPjldq6U7G3IIsO1dCEKkzSV7clP036IzB1tzBsls
-	zbQXRiiU6bnTfGtlivf7PC5diYKngMfDPqZc/9GrZ9gljKpTgtBst+/4jj/jppcea8h5
-	3Fz1401aom89tvPCgf9Dl5fUmSEz6GePhPtGoXfbGIjmxouBq35XAlXClPGrnTmZuCBT
-	kiPJ/dfC7HLswYGZVEbJK6/CJp1ZXao+QEhm3peJXhSW1kHFlrYoILetWcggMzmesJY8
-	0ofxQC0QUxf4gt82MFh15VFlzM2PWY1dVG2lixq0VHhS3fVdUAKTYxCuPtnHYMZ9XoXW
-	/oHA==
+	bh=4MJn/TUYbNXO0hBrxlcYFSPPdnSWLRW0pPrrgdNegnk=;
+	b=YQEJr9P3u0jByeS5koc/5AwEnLc1EMK/nkNqIjdu7Enku2rX+FXXWzLUK1rl72I2KF
+	BVSR/G+MQPFrGhDTCaNxgW3pjl6mPHk6BxVYKUYItnpnk8U28WbiS5LjQzPTIDq8FcXe
+	b4n29kzOzE9P/6tF8JrVwrBTHxOJfODm++DDfi8j4sN+OlRkatjd9mY/r8cjWkgd2bxb
+	xquMjZeynzluB+kVVf1J1j5bcf1dmHicne7MJYgzb4dSyIOQcK+iea/HSQgs+BU6n/7t
+	swnO7bMwLHmw6tcpre+Lw4frWlQBvwk3DL2l2ND5JDXFIx/DycWhCxqPeGnt9okQixJu
+	/7YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=toOA5tC9SD9lNazNArWLY/d7qfUnxMP9wHqncPnIoPo=;
-	b=TLPkwydoQSefpye795vfRosGiUMuULHQDlxLQpG8kPwmFyvtxXKuKXAoilPd03UknM
-	g5voh/4a5ZJMSTYPLEh7rz1D/+PT4V3WLnE4a6GA88bJcPlWv6kftMbCtcyIweed8NcA
-	tCpOGtZCoZAR0falFHp5kzAAhYi/MPONRqMGhkh1TpkW6X823mUdjh5n3fpRuafHek41
-	9PM9BAc3hmBOZ0XE7JJ3+myqJY35I5X2VepPTnZiwcoir/S2KixroK2wtJxj2NAFR2vl
-	o1c4KbasOUxRF+xw3J0vKuVzBYRpym+/sJvdGxPudAvWZPNYSeO7aYvvvoO3fVmSO4Vb
-	e/2g==
-X-Gm-Message-State: APjAAAWfI9VLZF/NsiC5NfDFgjcVXxJ5WM+Nknw1LAR1HM7vG8ArqauX
-	c2tW63gm2Z1nw7kJrmMCze4LvAOkKTg=
-X-Google-Smtp-Source: APXvYqzfdngmiadLtW0eAL2sPvlAWJ6gkXho6vopBgYPkMh/v/xeCPUWJYa9dxAubDKvCsUOTM/bEA==
-X-Received: by 2002:adf:c98b:: with SMTP id f11mr6579549wrh.274.1572072620203; 
-	Fri, 25 Oct 2019 23:50:20 -0700 (PDT)
+	bh=4MJn/TUYbNXO0hBrxlcYFSPPdnSWLRW0pPrrgdNegnk=;
+	b=dFHiVb6g75RYoMbghmxdrjhhuhUckV13XOR8MxPZZ0zM4jZNDybodSqn8NX86vxImB
+	z+xenV5FHVnvnT/CgtN6aI2yoJDGX+7p616KO6vXOwVinb3NLLFlQJUNhrpPVAdQCt3I
+	7+gOsDxjZlBUt7KrXFRoGvc1p3Ec7u8Ojwj7GkJ3r55w8/D8Jy0bSbvh4mdxhHeVODWp
+	SjbknFyhKnida+KI5zQJNY6WRzGWtf+ASc90ZUTkU4dhLJ7hf75/1kcNs1g7dHfw9ckV
+	zKxdpm9+4RXBmO0A/g14b+wo3+CXxog2dnD1NCwh3ryqjImAiAUrKPtboM0SK+QS90lb
+	cQxw==
+X-Gm-Message-State: APjAAAVXJYbLzcgwKgHh2YW36rLAfQlP+/KFRQHpto6vVsypVyRvQ3Ol
+	ZPurQ2FBsgBwwq1Qq/+Q2/h9z2+Ax28=
+X-Google-Smtp-Source: APXvYqy/9qHdZ6kEVVq2BeFpxT2u9xg1oA3lEJoGn1pw5rCBIksqa0M9fq1GLwwq++kZWhKgFJS1uQ==
+X-Received: by 2002:adf:e542:: with SMTP id z2mr5819807wrm.338.1572072621085; 
+	Fri, 25 Oct 2019 23:50:21 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.controleur.wifipass.org ([178.18.58.186])
-	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.19
+	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Oct 2019 23:50:19 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:20 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 23:49:51 -0700
-Message-Id: <578f41124565a7cda738c7fe3d25702ee41b08ed.1572072422.git.akuster808@gmail.com>
+Date: Fri, 25 Oct 2019 23:49:52 -0700
+Message-Id: <8a275682ef4d9fa4e3bcdfaf75ad57fd402f32c4.1572072422.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572072421.git.akuster808@gmail.com>
 References: <cover.1572072421.git.akuster808@gmail.com>
-Subject: [zeus 19/28] openssl: make OPENSSL_ENGINES match install path
+Subject: [zeus 20/28] icecc: Export ICECC_CC and friends via wrapper-script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +57,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2019 06:50:20 -0000
+X-List-Received-Date: Sat, 26 Oct 2019 06:50:21 -0000
 
-From: George McCollister <george.mccollister@gmail.com>
+From: Douglas Royds via Openembedded-core <openembedded-core@lists.openembedded.org>
 
-Set OPENSSL_ENGINES to the path where engines are actually installed.
+By exporting ICECC_CC, ICECC_CXX, and ICECC_VERSION in a wrapper-script,
+and putting this wrapper-script in the PATH, the Makefiles generated by CMake or
+the autotools are able to function correctly outside of bitbake.
+This provides a convenient developer workflow in which the
+modify-compile-unittest cycle can happen directly in the ${B} directory.
 
-Signed-off-by: George McCollister <george.mccollister@gmail.com>
+The `rm -f $ICE_PATH/$compiler` line is transitional,
+and can go at some later date (October 2020 or later, perhaps).
+
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit 59565fec0b3f3e24eb01c03b671913599cd3134d)
+(cherry picked from commit 40d74cb1d0ddce930267e49764cacb263b244091)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/icecc.bbclass | 32 ++++++++++++++++++++------------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-index 072f727..8819e19 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-@@ -148,7 +148,7 @@ do_install_append_class-native () {
- 	    OPENSSL_CONF=${libdir}/ssl-1.1/openssl.cnf \
- 	    SSL_CERT_DIR=${libdir}/ssl-1.1/certs \
- 	    SSL_CERT_FILE=${libdir}/ssl-1.1/cert.pem \
--	    OPENSSL_ENGINES=${libdir}/ssl-1.1/engines
-+	    OPENSSL_ENGINES=${libdir}/engines-1.1
- }
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index 4376aa3..bc3d6f4 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -356,17 +356,6 @@ set_icecc_env() {
+         return
+     fi
  
- do_install_append_class-nativesdk () {
+-    # Create symlinks to icecc in the recipe-sysroot directory
+-    mkdir -p ${ICE_PATH}
+-    if [ -n "${KERNEL_CC}" ]; then
+-        compilers="${@get_cross_kernel_cc(bb,d)}"
+-    else
+-        compilers="${HOST_PREFIX}gcc ${HOST_PREFIX}g++"
+-    fi
+-    for compiler in $compilers; do
+-        ln -sf ${ICECC_BIN} ${ICE_PATH}/$compiler
+-    done
+-
+     ICECC_CC="${@icecc_get_and_check_tool(bb, d, "gcc")}"
+     ICECC_CXX="${@icecc_get_and_check_tool(bb, d, "g++")}"
+     # cannot use icecc_get_and_check_tool here because it assumes as without target_sys prefix
+@@ -385,6 +374,26 @@ set_icecc_env() {
+         return
+     fi
+ 
++    # Create symlinks to icecc and wrapper-scripts in the recipe-sysroot directory
++    mkdir -p $ICE_PATH/symlinks
++    if [ -n "${KERNEL_CC}" ]; then
++        compilers="${@get_cross_kernel_cc(bb,d)}"
++    else
++        compilers="${HOST_PREFIX}gcc ${HOST_PREFIX}g++"
++    fi
++    for compiler in $compilers; do
++        ln -sf $ICECC_BIN $ICE_PATH/symlinks/$compiler
++        rm -f $ICE_PATH/$compiler
++        cat <<-__EOF__ > $ICE_PATH/$compiler
++		#!/bin/sh -e
++		export ICECC_VERSION=$ICECC_VERSION
++		export ICECC_CC=$ICECC_CC
++		export ICECC_CXX=$ICECC_CXX
++		$ICE_PATH/symlinks/$compiler "\$@"
++		__EOF__
++        chmod 775 $ICE_PATH/$compiler
++    done
++
+     ICECC_AS="`${ICECC_CC} -print-prog-name=as`"
+     # for target recipes should return something like:
+     # /OE/tmp-eglibc/sysroots/x86_64-linux/usr/libexec/arm920tt-oe-linux-gnueabi/gcc/arm-oe-linux-gnueabi/4.8.2/as
+@@ -417,7 +426,6 @@ set_icecc_env() {
+     export CCACHE_PATH="$PATH"
+     export CCACHE_DISABLE="1"
+ 
+-    export ICECC_VERSION ICECC_CC ICECC_CXX
+     export PATH="$ICE_PATH:$PATH"
+ 
+     bbnote "Using icecc path: $ICE_PATH"
 -- 
 2.7.4
 
