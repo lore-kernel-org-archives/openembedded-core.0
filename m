@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id BC6E17FBCB
+	by mail.openembedded.org (Postfix) with ESMTP id BE6847FC03
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 26 Oct 2019 20:42:18 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 470tFk0jLkzJm
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 470tFj1YMrz6W
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 22:42:18 +0200 (CEST)
+	Sat, 26 Oct 2019 22:42:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1572122538;
-	bh=kYgbPpN3Ck3vz+eQ7Y0v6WXnItnHbTPDQcBRwQj2K7Y=;
+	s=default; t=1572122537;
+	bh=Ih5p4t8M4Nrz1Sf1LaMXP1109FSReyeEY7ChpmgCjAc=;
 	h=From:To:Subject:Date:From;
-	b=Sv/J6I3FFiciAyoFJJfekvOBNFPp3ZKg7u5IYVZXEMUI5jYDx4rWrjscugmaIBsJk
-	zexf6mBAdePtRLp7SRGBC8MA/ILeNqgtPmAUQq3exPlPVfYUJ8OnrcwgMttFgKCLt+
-	KIsEh9BmpW844Dq5uxvHSJ+mjRclYnTZK3SOOsTrriAgy50oAOpV+XzsmBMM0gHnYo
-	Gag7x2Sq0VfhDlxhRIbZZWCvenl3wfMEAKdKuKMm/pLhx/nAMx283BQdElgGEdIe8R
-	ovkIgGPZE1VY116MYbbIv0BafhW8e5uDSrP3rw9lVLOLvl6xah/5bY4g6Qn4L9EKUh
-	sjTuH4rzX+KyqOAL+7z8s/fWgYenmqJcs7DeBNthewEb2iMRNcGq2NSvZrH8zlqhsC
-	TdebxT/nN29VU87KYHBJw7CWkbjlhR/MQpBRiadpPzoNPJImzDwBVF+z7rv0mC08CQ
-	6ZYdkko7F/8t4kka1Kyji7t6GiM2p6C0CdcP089+BNcYJULFE5FKgsXzSANdUre97d
-	r9vKNDeBEDWj6XULOx80t5tcZ7pOkTRPQuV8I7ya4ZpJGt4X6EbXgDefCJr5Bcgkf6
-	AgEt8k2PcmmxKRXQ8WLDMGYbvgDQMAQom0rhzxIDJXVZLQf3NJRMksdO/VOhsjOhxo
-	bEmLPtpRhCxr/cS1fW9gI4xU=
+	b=I7KYntkbIX8oNI7pLCOmJ17g6cAn9lbuuRrB4OJnyFBZxAZ8FhbFNmPC10O5tIKv/
+	m9IjvXwDnejSnQsnlI3gGPondt1mfOUtKT8K8eMmX9k2rxYRX7OUGcZ3KEtyi+oWN/
+	mJlbJbvJ2euQ0175Lhkq+I+wJGdKJavcAY6gfYfPC5qkRmmLK5s4sHEMb1zx+LciFi
+	dd+c1fxKoBlDIMX0iXAD2qxOOcJvjO1mC5J1GMp2otfGDg+klvJXS0QWhJS4whvgKw
+	/ZB8dj+sx9k0Q8qP78YfG8Ht8XOjiiCIYwFAslGxxm+oJv1JVz5jxu/GXYxolV5yJ5
+	kxe428pD9qv5SS6J0h/Iia31JZGJi5mtA5qGUwLYRJH32mHRqF4y7AeeerFijfRrzx
+	CBTagZQhYuB3BvZX3gnR7vndGqh9sck6YM18+fhZfQdQTdqmicAvdFkDebZ1HRoleN
+	a4/52ZgdLtdybPzaU6OvdIV6IBMWrHF21CM1hZSTp3ylMABXEmyJxSUUwf2TEVZfO2
+	JBK+oOzYOffCL1R05yl5u6kUQiIT4k4xIpmFMFa3fqvE5+izjMfCqIvOevjxPcV2Z9
+	e+bZ4dd/Wu207a2ekF+mZ6sk4/2KH/rjj5CEv6Um1ZBc/dV4yqwF2GyzFUtinM9xRT
+	fzdfPFaNUgd2r+UzShXS0Tdo=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 26 Oct 2019 23:42:13 +0300
-Message-Id: <20191026204216.9298-3-bunk@stusta.de>
+Date: Sat, 26 Oct 2019 23:42:11 +0300
+Message-Id: <20191026204216.9298-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] squashfs-tools: Upgrade to 4.4
+Subject: [PATCH] gnu-efi: Upgrade 3.0.9 -> 3.0.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,70 +42,63 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 26 Oct 2019 20:42:19 -0000
 
-Patch for issue fixed upstream removed.
+Part of patch fixed upstream removed.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../squashfs-tools-4.3-sysmacros.patch        | 32 -------------------
- .../squashfs-tools/squashfs-tools_git.bb      |  5 ++-
- 2 files changed, 2 insertions(+), 35 deletions(-)
- delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
+ .../gnu-efi/parallel-make-archives.patch       | 18 ------------------
+ .../{gnu-efi_3.0.9.bb => gnu-efi_3.0.10.bb}    |  4 ++--
+ 2 files changed, 2 insertions(+), 20 deletions(-)
+ rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.9.bb => gnu-efi_3.0.10.bb} (95%)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
-deleted file mode 100644
-index f2e88f416a..0000000000
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From https://gitweb.gentoo.org/repo/gentoo.git/tree/sys-fs/squashfs-tools/files/squashfs-tools-4.3-sysmacros.patch
--
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
--
--Upstream-Status: Pending
--
--
--sys/types.h might not always include sys/sysmacros.h for major/minor/makedev
--
----- a/squashfs-tools/mksquashfs.c
--+++ b/squashfs-tools/mksquashfs.c
--@@ -59,6 +59,7 @@
-- #else
-- #include <endian.h>
-- #include <sys/sysinfo.h>
--+#include <sys/sysmacros.h>
-- #endif
-- 
-- #include "squashfs_fs.h"
----- a/squashfs-tools/unsquashfs.c
--+++ b/squashfs-tools/unsquashfs.c
--@@ -40,6 +40,10 @@
-- #include <limits.h>
-- #include <ctype.h>
-- 
--+#ifdef linux
--+#include <sys/sysmacros.h>
--+#endif
--+
-- struct cache *fragment_cache, *data_cache;
-- struct queue *to_reader, *to_inflate, *to_writer, *from_writer;
-- pthread_t *thread, *inflator_thread;
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index 51e4a5939d..53d3787271 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -5,10 +5,9 @@ SECTION = "base"
- LICENSE = "GPL-2"
- LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+index a9806cfdf6..8a0138bbe5 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+@@ -19,25 +19,7 @@ Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+ Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+ [Rebased for 3.0.8]
+ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- gnuefi/Makefile | 3 ++-
+- lib/Makefile    | 2 +-
+- 2 files changed, 3 insertions(+), 2 deletions(-)
  
--PV = "4.3+gitr${SRCPV}"
--SRCREV = "f95864afe8833fe3ad782d714b41378e860977b1"
-+PV = "4.4"
-+SRCREV = "52eb4c279cd283ed9802dd1ceb686560b22ffb67"
- SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
--           file://squashfs-tools-4.3-sysmacros.patch;striplevel=2 \
- "
- SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
- SRC_URI[lzma.sha256sum] = "c935fd04dd8e0e8c688a3078f3675d699679a90be81c12686837e0880aa0fa1e"
+-diff --git a/gnuefi/Makefile b/gnuefi/Makefile
+-index 2a61699..89b560a 100644
+---- a/gnuefi/Makefile
+-+++ b/gnuefi/Makefile
+-@@ -54,7 +54,8 @@ TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
+- 
+- all:	$(TARGETS)
+- 
+--libgnuefi.a: $(patsubst %,libgnuefi.a(%),$(OBJS))
+-+libgnuefi.a: $(OBJS)
+-+	$(AR) $(ARFLAGS) $@ $(OBJS)
+- 
+- clean:
+- 	rm -f $(TARGETS) *~ *.o $(OBJS)
+ diff --git a/lib/Makefile b/lib/Makefile
+ index 0e6410d..048751a 100644
+ --- a/lib/Makefile
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.9.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.10.bb
+similarity index 95%
+rename from meta/recipes-bsp/gnu-efi/gnu-efi_3.0.9.bb
+rename to meta/recipes-bsp/gnu-efi/gnu-efi_3.0.10.bb
+index 6d4c303353..d4e0465890 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.9.bb
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.10.bb
+@@ -18,8 +18,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
+            file://gnu-efi-3.0.9-fix-clang-build.patch \
+            "
+ 
+-SRC_URI[md5sum] = "32af17b917545a693e549af2439c4a99"
+-SRC_URI[sha256sum] = "6715ea7eae1c7e4fc5041034bd3f107ec2911962ed284a081e491646b12277f0"
++SRC_URI[md5sum] = "960a8379b6f95ee73d7778b70bf2a089"
++SRC_URI[sha256sum] = "f12082a3a5f0c3e38c67262a9f34245d139ac2cdfc0a0bdcf03c9b1f56fa4fed"
+ 
+ COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64.*|arm.*)-linux"
+ COMPATIBLE_HOST_armv4 = 'null'
 -- 
 2.17.1
 
