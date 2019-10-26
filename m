@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 219027FC07;
-	Sat, 26 Oct 2019 21:03:21 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Sat, 26 Oct 2019 21:03:23 -0000
-Message-ID: <20191026210323.2334.32620@do>
-References: <20191026204216.9298-2-bunk@stusta.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20191026204216.9298-2-bunk@stusta.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIHN0YWxlIGdjYyA4IHBhdGNoZmlsZQ==?=
+Return-Path: <gchoc-openembedded-core@m.gmane.org>
+Received: from blaine.gmane.org (195-159-176-226.customer.powertech.no
+	[195.159.176.226])
+	by mail.openembedded.org (Postfix) with ESMTP id 741EE7FBA0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Oct 2019 21:20:40 +0000 (UTC)
+Received: from list by blaine.gmane.org with local (Exim 4.89)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1iOTUE-000c7C-Lt for openembedded-core@lists.openembedded.org;
+	Sat, 26 Oct 2019 23:20:38 +0200
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Ferry Toth <fntoth@gmail.com>
+Date: Sat, 26 Oct 2019 23:20:31 +0200
+Message-ID: <de0e9a45-522a-be55-120a-b3cbd398ec6c@gmail.com>
+References: <CAA=hcWTH9VCNgbDbU+ai3sydbWWKNR9HfnuGKu3oQ7XsHN6JBQ@mail.gmail.com>
+Mime-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.1.2
+In-Reply-To: <CAA=hcWTH9VCNgbDbU+ai3sydbWWKNR9HfnuGKu3oQ7XsHN6JBQ@mail.gmail.com>
+Subject: Re: zimage Initramfs booting stuck at Start Kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +31,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2019 21:03:22 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Sat, 26 Oct 2019 21:20:40 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-== Series Details ==
+Op 26-10-2019 om 11:46 schreef JH:
+> Hi,
+> 
+> I finally built the
+> zImage->zImage--4.19.75+git0+d573e8a79f-r0-20191026074920.bin and
+> zImage-initramfs ->
+> zImage-initramfs--4.19.75+git0+d573e8a79f-r0-20191026074920.bin based
+> on oe-core kernel.bbclass.
+> 
+> The zImage could be loaded by u-boot on RAM booting but failed at
+> mount rootfs which was fine as it did not bundle the rootfs. The
+> zImage-initramfs bundled to rootfs, but it could not be started and
+> stuck at u-boot Starting kernel, there was no trace of errors.
+> 
+> Hit any key to stop autoboot:  0
+> => bootz ${loadaddr} - ${fdt_addr}
+> Kernel image @ 0x80800000 [ 0x000000 - 0x219df80 ]
+> ## Flattened Device Tree blob at 83000000
+>     Booting using the fdt blob at 0x83000000
+>     Using Device Tree in place at 83000000, end 83008831
+> ft_system_setup for mx6
+> 
+> Starting kernel ...
+> 
+> Because zImage could be started, zImage-initramfs could not, that
+> implies there were no issues in the u-boot, is must be something wrong
+> with the zImage-initramfs. Seems debug is harder, are there anyway to
+> extract information from zImage-initramfs to figure out what is wrong?
 
-Series: Remove stale gcc 8 patchfile
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/20693/
-State : failure
+As an example you might want to look at my repo, I have 2 images minimal 
+and initramfs:
+https://github.com/edison-fw/meta-intel-edison/tree/master/meta-intel-edison-distro/recipes-core/images
 
-== Summary ==
+I don't exactly know how you are doing it. But I'll try to explain what 
+I do:
+I have
+1) a normal rootfs (say edison-image-minimal) and
+2) a initramfs rootfs containing kernel modules needed for booting and a 
+init script.
 
+Initramfs is build using core-image-minimal-initramfs.bbappend. Some 
+additional unneeded packages are pulled, and as size is restricted (10MB 
+or so?) we remove them here.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+The init script is here: 
+https://github.com/edison-fw/meta-intel-edison/blob/master/meta-intel-edison-distro/recipes-core/initrdscripts/initramfs-framework/init
 
+The init script loads modules, waits for the disk with the rootfs to 
+appear and mount it. Then switchroot to it.
+If it doesn't appear it drops to a shell so you can investigate what's 
+wrong.
 
+To build everything edison-image-minimal triggers build of u-boot, 
+kernel, rootfs, initramfs and kernel-with-built-in-initramfs.
 
-* Patch            Remove stale gcc 8 patchfile
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+Search for 'init' and 'live' and find the needed lines in 
+https://github.com/edison-fw/meta-intel-edison/blob/master/meta-intel-edison-distro/recipes-core/images/edison-image-minimal.bb
 
+> Thank you.
+> 
+> Kind regards,
+> 
+> - jh
+> 
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
