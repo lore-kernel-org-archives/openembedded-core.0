@@ -1,49 +1,33 @@
-Return-Path: <crg7475@mailbox.org>
-Received: from mx2a.mailbox.org (mx2a.mailbox.org [80.241.60.219])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FB267FC57
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id BC6E17FBCB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 10:57:56 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
-	[IPv6:2001:67c:2050:105:465:1:1:0])
-	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-	(No client certificate requested)
-	by mx2a.mailbox.org (Postfix) with ESMTPS id 43351A3ADD
+	Sat, 26 Oct 2019 20:42:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 470tFk0jLkzJm
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 12:57:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
-	content-language:content-transfer-encoding:content-type
-	:content-type:mime-version:date:date:message-id:subject:subject
-	:from:from:received; s=mail20150812; t=1572087469; bh=DxJGgidGK0
-	/h9SckVdcO2Ap2DKWVzdfergQUi3TMG5k=; b=knEG9hlEYpGK1Nwg/1zf8490UB
-	+tlLndaJ9TuWwQEhgyjnZQ8QIbezUk0u5VcPJtkLVzz/8LV/mLPvJuYkfUcUqJaS
-	RE8g+HnLiOUraU/F1nZh5hFNTQ52tG4rm3Ebz9x72SZwI+HPog7XLMDrjUNwBHcK
-	xhVT66hcCYw3qeQ3hMbO3+Vzl1t98XU9gz/HhMf1WEPDJR5qqa+HnvYNeBtbgrzv
-	6CNBs18WrvsxL/J8UZ82YDxzsbOvyGU3vsCAjFyE7fXiiQ0g/v9tbpSVWrm3w8bt
-	2xZRjjO8NpKkKZCP0D7q327KfbDWJORzSPzbofxbTZy4sANcTRgl3KQgUuPw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
-	s=mail20150812; t=1572087475;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding;
-	bh=h6aUfhFvgfewY6l8qaVg4Y6vlvnpkBIAI8Zn0KMBb9I=;
-	b=xkZGqwHdIjscJNTEMbkahCr8bd5aEOcBZWdL4WAahwyToVticWOGc9YgwOyY5l57RzDVI9
-	6P7sMglbf7fEVSBYpCLnBPPKpiQ1ZDu3AfZn7byTHglBgIswrHJmfg4xWev9dhp4QXj/5M
-	5ZciyfjkUbUJ+mXR/VnS+ZMX4omeIuifxOa+FaUqHHnxsaoVUAScAh03gEOru8pP0VleuC
-	S5PlL9M6VdK1FLkbctOyPaBzwEXOEcFkelWBPYf/n2hvxqmmHBJNQ/zvj+vI/kMURukITk
-	n9Q8WFWkNmbuLVlP9sc9b0ht7SPEX7V7lbnGM59Qj+G/iSseiz0OVo6SvR69mg==
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-	by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172])
-	(amavisd-new, port 10030) with ESMTP id t-6Wrhr3BOHR
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 12:57:49 +0200 (CEST)
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-From: Carlos Rafael Giani <crg7475@mailbox.org>
-Message-ID: <f6132fd4-18d0-aba5-96d5-c259928a113d@mailbox.org>
-Date: Sat, 26 Oct 2019 12:57:47 +0200
-MIME-Version: 1.0
-Subject: GStreamer 1.0 meson build transition
+	Sat, 26 Oct 2019 22:42:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1572122538;
+	bh=kYgbPpN3Ck3vz+eQ7Y0v6WXnItnHbTPDQcBRwQj2K7Y=;
+	h=From:To:Subject:Date:From;
+	b=Sv/J6I3FFiciAyoFJJfekvOBNFPp3ZKg7u5IYVZXEMUI5jYDx4rWrjscugmaIBsJk
+	zexf6mBAdePtRLp7SRGBC8MA/ILeNqgtPmAUQq3exPlPVfYUJ8OnrcwgMttFgKCLt+
+	KIsEh9BmpW844Dq5uxvHSJ+mjRclYnTZK3SOOsTrriAgy50oAOpV+XzsmBMM0gHnYo
+	Gag7x2Sq0VfhDlxhRIbZZWCvenl3wfMEAKdKuKMm/pLhx/nAMx283BQdElgGEdIe8R
+	ovkIgGPZE1VY116MYbbIv0BafhW8e5uDSrP3rw9lVLOLvl6xah/5bY4g6Qn4L9EKUh
+	sjTuH4rzX+KyqOAL+7z8s/fWgYenmqJcs7DeBNthewEb2iMRNcGq2NSvZrH8zlqhsC
+	TdebxT/nN29VU87KYHBJw7CWkbjlhR/MQpBRiadpPzoNPJImzDwBVF+z7rv0mC08CQ
+	6ZYdkko7F/8t4kka1Kyji7t6GiM2p6C0CdcP089+BNcYJULFE5FKgsXzSANdUre97d
+	r9vKNDeBEDWj6XULOx80t5tcZ7pOkTRPQuV8I7ya4ZpJGt4X6EbXgDefCJr5Bcgkf6
+	AgEt8k2PcmmxKRXQ8WLDMGYbvgDQMAQom0rhzxIDJXVZLQf3NJRMksdO/VOhsjOhxo
+	bEmLPtpRhCxr/cS1fW9gI4xU=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 26 Oct 2019 23:42:13 +0300
+Message-Id: <20191026204216.9298-3-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] squashfs-tools: Upgrade to 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,41 +40,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2019 10:57:57 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Sat, 26 Oct 2019 20:42:19 -0000
 
-I've been working on migrating the GStreamer 1.0 recipes from autotools 
-to meson.
+Patch for issue fixed upstream removed.
 
-As expected, it is far from a straightforward change. Obviously, 
-autotools/m4 specific patches need to be discarded or replaced. But 
-there are also other differences, like how the OpenGL platforms and APIs 
-get selected, or how the unit tests are built and run. Some of these 
-changes are severe, and break not only the current way we do things in 
-the recipes, but also some gstreamer1.0 bbappends. Some packageconfigs 
-also changed. Certain checks are again done automatically without the 
-ability to explicitely enabling/disabling them (like valgrind checks), 
-so this needs patching again (ugh). gst-libav no longer has its own 
-libav/FFmpeg copy, and relies on an external one now. Furthermore, I've 
-had to create new nontrivial meson.build patches for proper ptest 
-functionality.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ .../squashfs-tools-4.3-sysmacros.patch        | 32 -------------------
+ .../squashfs-tools/squashfs-tools_git.bb      |  5 ++-
+ 2 files changed, 2 insertions(+), 35 deletions(-)
+ delete mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
 
-I think it would make sense to not try to get a meson based build done 
-for GStreamer 1.16, and instead target it for 1.18. Minor version 
-upgrades like 1.16.0 -> 1.16.1 aren't expected to bring major changes 
-with them, while major upgrades like 1.16 -> 1.18 are generally known to 
-potentially bring such changes. Also, there's a chance that new patches 
-might make their way into 1.18 before its release.
-
-I write this in case anybody else is also working on meson, and/or 
-planning on upgrading the existing recipes once 1.18 is out, to avoid us 
-working in parallel on the same recipes without knowing. I'll push my 
-changes to a development branch in the meta-gstreamer1.0 recipes in a 
-few days so that people can bring in input if they want.
-
-cheers,
-   Carlos
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
+deleted file mode 100644
+index f2e88f416a..0000000000
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools/squashfs-tools-4.3-sysmacros.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From https://gitweb.gentoo.org/repo/gentoo.git/tree/sys-fs/squashfs-tools/files/squashfs-tools-4.3-sysmacros.patch
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+-
+-Upstream-Status: Pending
+-
+-
+-sys/types.h might not always include sys/sysmacros.h for major/minor/makedev
+-
+---- a/squashfs-tools/mksquashfs.c
+-+++ b/squashfs-tools/mksquashfs.c
+-@@ -59,6 +59,7 @@
+- #else
+- #include <endian.h>
+- #include <sys/sysinfo.h>
+-+#include <sys/sysmacros.h>
+- #endif
+- 
+- #include "squashfs_fs.h"
+---- a/squashfs-tools/unsquashfs.c
+-+++ b/squashfs-tools/unsquashfs.c
+-@@ -40,6 +40,10 @@
+- #include <limits.h>
+- #include <ctype.h>
+- 
+-+#ifdef linux
+-+#include <sys/sysmacros.h>
+-+#endif
+-+
+- struct cache *fragment_cache, *data_cache;
+- struct queue *to_reader, *to_inflate, *to_writer, *from_writer;
+- pthread_t *thread, *inflator_thread;
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+index 51e4a5939d..53d3787271 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+@@ -5,10 +5,9 @@ SECTION = "base"
+ LICENSE = "GPL-2"
+ LIC_FILES_CHKSUM = "file://../COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+-PV = "4.3+gitr${SRCPV}"
+-SRCREV = "f95864afe8833fe3ad782d714b41378e860977b1"
++PV = "4.4"
++SRCREV = "52eb4c279cd283ed9802dd1ceb686560b22ffb67"
+ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
+-           file://squashfs-tools-4.3-sysmacros.patch;striplevel=2 \
+ "
+ SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
+ SRC_URI[lzma.sha256sum] = "c935fd04dd8e0e8c688a3078f3675d699679a90be81c12686837e0880aa0fa1e"
+-- 
+2.17.1
 
 
