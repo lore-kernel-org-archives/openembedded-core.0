@@ -1,52 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 26EEF6BCD6
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 95DE479C7C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 09:06:37 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id m15so7131993qtq.2
+	Sat, 26 Oct 2019 09:09:25 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id e14so7142780qto.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 02:06:38 -0700 (PDT)
+	Sat, 26 Oct 2019 02:09:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=qosrFE27pyY0G9w1xT/pHSHBrCxYLnWJvkd1W+Xfu7s=;
-	b=ig9VqNYFtvDqqkCbvwaGYBx+uAO8la2v54gOpV+ikX/T4qnckzafEyUZzc/A78kufJ
-	mDJ35gIDm44l6LsjUOgI93TmqP5kYB4Ligju6NaNOIKzgOpxliYHcHidyHeGg2KXG7bl
-	XqNgsBiEJUmJNTonj5Tdl03qevQSflFpAuoQPg6EvMGuvNds3L/h/ZzB8Hg4AGlFWYK4
-	0AWP+RsRgcUARxAt/JPFbz9K5EetyKQAaNEK2SsIm8bg5upIDyi5SEpLlgopuc3EjWdT
-	H6Lb3OBKljJkjJJzOkDRtFIdNLJZiSGfjlgW+mMjLv0CJS08fwe+N156erR7M6qR/IOb
-	GF/w==
+	:cc; bh=61mkYk4bP3IQsdkxVo81t2lObIc8xpaowtUOPMJR4V0=;
+	b=OjESHCsfxqEHr/nVqyR809EomkNECZAx3Rcc0dxmFWbBbrOtW1N9Lkq8ifJylyJv4y
+	RRNovTC6mJKJoZPtDg5qdYgOlcaneK87p7iFRnvNRNHp6ccV+91IHjQDZE5qlr4p8eKA
+	/PYPKeGslvbA2nkoUXHA+ow/OegozLRoariLKWU/rFieqra2L2W4X01774xKIjsRCRs8
+	MxPs8ZyRUUVboxR1FxHXNPQ6Ni0LG267V9vTkxOuSjxK5SFPt7NliOscz4DcRvBaZRtC
+	vReU7NVqpCFLzqbgjZKM2vDPM46OleSTfaRNlBg3rEBWTirNyjn6jRHSNeGQLbfMUY2d
+	4eSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=qosrFE27pyY0G9w1xT/pHSHBrCxYLnWJvkd1W+Xfu7s=;
-	b=g0A30MX/aLsGR1d8kj7hhvpsRth2YKQr/C5ZJ8UTv1Upft4E3y4PY0Sa0Vn7xZ5odC
-	w1T7Eyw+pgiUo9nDgUk8u6gOteMovfudM5Ayx132Jf7LRqlBOtA2Yyj19efy9PtfkUvR
-	JmJzwxIbMgx1l/K42pI3qNGaK9CZUTpYdCe+yhRxhonJZVpayPiHtJO/smnHMTv0j8bJ
-	/OzrFGWIQQoGgYzHVXaW8zx+vomD5ouV5RKenrkqk8UMR/RMIkJdlWkvgcmcsgAgrPlk
-	aorxRZmsM/6mltUPel/GNZjBXzHgUe2g35uj6z3FA2wylqYBcavQnECkLr/kfY08gFNQ
-	Kk7g==
-X-Gm-Message-State: APjAAAX7kbG/tUmwXOIexQZFNzxhHMKasI6fbLYTRdL4VGEcmjTCFU2J
-	6BOD74KyDp+62foEJO+1tgTaSHN/4AUVylBE/w2Ic0lc3Kk=
-X-Google-Smtp-Source: APXvYqzzmPvTYi3+DnE4wtRw9Fbt0UbpLOGq98UXbx8+5npx8T9A851vAhM+dQ/pPLs0Ug9Tfm/k1I0OuPPrNu5NL30=
-X-Received: by 2002:a0c:fd63:: with SMTP id k3mr7600085qvs.185.1572080797715; 
-	Sat, 26 Oct 2019 02:06:37 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=61mkYk4bP3IQsdkxVo81t2lObIc8xpaowtUOPMJR4V0=;
+	b=G/e1wjcto7oUSsu+5nggvOhnd2xbteq2wuhIa5sGiLygTOk3Ykm3mYOKV2Jv8o79pI
+	LL+JmNDqyPEZ4xgTRLpXJCxGkAsiUmMR0umhuuEuCol4Ba1pnf400XuAQHNdLL6nh/Cw
+	gEEMg0XLHlqOMruQQfBr7fLSG10OwpxQhAemTA3G43yQn4W7zYEFtHtjY882tR0lyrZb
+	bC192o1unD7U4WhyGhO8QePrN/HHe5SE9IsXMf6iPXOcmhEGAASl2kfWBbZQ4vbW1THP
+	l6VPnvkxYobmSxt+dl894wypXd+nmHfN0mnAuLo886czVs2piTO2eCeyuAnQKhwFfgIR
+	qdhQ==
+X-Gm-Message-State: APjAAAWAhkrX8WT9di4O62JVxfA+eNu/0VdhduHtlc3ADmJdJsKcoP7Y
+	bsBUO9C5hiS41XL70xpL/u0he5rfrJMDffjqx4E=
+X-Google-Smtp-Source: APXvYqzcOAM1rIJ1j1RWJB7eLrpv5TO2PEfM/IuIC7b8aEKNNDHxQPUiEYYIQEL/Q5hzm5iBODwAwQVr7kuNwSa0vF0=
+X-Received: by 2002:ac8:7617:: with SMTP id t23mr7598049qtq.88.1572080966119; 
+	Sat, 26 Oct 2019 02:09:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191021055052.10882-1-zangrc.fnst@cn.fujitsu.com>
-	<20191024130641.GA30191@linux-uys3>
-	<33468050-37e6-a0ef-b95d-039814a52343@windriver.com>
-	<62d969ba-cf7f-8651-6dd9-e7e71b489c6e@gmail.com>
-	<62ff460a-48d7-b82a-97c6-4c4d6d74a5fa@cn.fujitsu.com>
-In-Reply-To: <62ff460a-48d7-b82a-97c6-4c4d6d74a5fa@cn.fujitsu.com>
+References: <20191011201951.24617-1-fabio.berton@ossystems.com.br>
+	<CA+chaQfH5djxsVmNvSi3X+oNbDXwbq0+0V3YSU3EGZBVmfWWBw@mail.gmail.com>
+In-Reply-To: <CA+chaQfH5djxsVmNvSi3X+oNbDXwbq0+0V3YSU3EGZBVmfWWBw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 26 Oct 2019 10:06:11 +0100
-Message-ID: <CAMKF1srmj_bYgCAZKf3qk_WwbAE7cntv0EBn9r9LJKmfJmGB0g@mail.gmail.com>
-To: zangrc <zangrc.fnst@cn.fujitsu.com>
+Date: Sat, 26 Oct 2019 10:08:59 +0100
+Message-ID: <CAMKF1spsDVW3wR5RiREMC1R76EwDDJpjXk_Zpi42ZfjafQ6YmA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libcap-ng:upgrade 0.7.9 -> 0.7.10
+Subject: Re: [PATCH] mesa: Upgrade 19.1.6 -> 19.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,135 +55,248 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2019 09:06:37 -0000
+X-List-Received-Date: Sat, 26 Oct 2019 09:09:25 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 25, 2019 at 6:31 AM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
+On Sat, Oct 26, 2019 at 12:27 AM Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> hello=EF=BC=81
+> It's not part of this mesa upgrade, but as you're maintaining it and I'll possibly forget to mention it next time (or if someone is using newest mesa for whatever reason like pinephone does now)...
 >
-> We think this problem has something to do with the host environment. We t=
-ried to reproduce the error on ubuntu16.04 and fedora29, but they all compi=
-led successfully. Can you tell us which distributions are having this probl=
-em?
+> In latest mesa MESA_EGL_NO_X11_HEADERS was renamed to EGL_NO_X11 in:
+> https://github.com/mesa3d/mesa/commit/6202a13b71e18dc31ba7e2f4ea915b67eacc1ddb
+>
+> which will require do_install_append update in mesa recipe, libepoxy upgrade or patch and possibly few other fixes like I just did for pinephone here:
+> https://github.com/webOS-ports/meta-pine64-luneos/commit/a65667ab8356455557869c2e24cd6ad6a6cec61f
+>
 
-I am suspecting uninative could be masking it. So if you have it
-enabled uninative try a build without it
+This is a good point I see it being used in few layers that yoe distro uses
 
+meta-96boards/recipes-graphics/mesa/mesa-lima_git.bb
+meta-odroid/recipes-graphics/mali/mali-450_r6p1.bb
+meta-qt5/recipes-qt/qt5/qtmultimedia_git.bb
+meta-wpe/recipes-wpe/wpewebkit/wpewebkit_2.22.bb
+meta-wpe/recipes-wpe/wpewebkit/wpewebkit_20170728.bb
+
+
+> Regards,
 >
+> On Fri, Oct 11, 2019 at 10:20 PM Fabio Berton <fabio.berton@ossystems.com.br> wrote:
+>>
+>>   - Update patches with devtool finish --force-patch-refresh
+>>
+>>   - Update license checksum due to commit d5e273aad2
+>>     docs: remove pointless line-break
+>>
+>>   This upgrade include the following changes:
+>>
+>>     - Mesa 19.2.1 This is a bug fix release.
+>>       Full log: https://mesa3d.org/relnotes/19.2.1.html
+>>
+>>     - Mesa 19.2.0 This is a new development release.
+>>       Full log: https://mesa3d.org/relnotes/19.2.0.html
+>>
+>>     - Mesa 19.1.7 is released.
+>>       Full log: https://mesa3d.org/relnotes/19.1.7.html
+>>
+>>     - Mesa 19.1.6 is released. This is a bug-fix release.
+>>       Full log: https://mesa3d.org/relnotes/19.1.6.html
+>>
+>> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>> ---
+>>  ...k-for-all-linux-host_os-combinations.patch |  9 ++++----
+>>  ...on.build-make-TLS-GLX-optional-again.patch | 22 +++++++++----------
+>>  ...Allow-enable-DRI-without-DRI-drivers.patch |  9 ++++----
+>>  .../{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb}  |  0
+>>  meta/recipes-graphics/mesa/mesa.inc           |  2 +-
+>>  .../mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb}   |  4 ++--
+>>  6 files changed, 24 insertions(+), 22 deletions(-)
+>>  rename meta/recipes-graphics/mesa/{mesa-gl_19.1.6.bb => mesa-gl_19.2.1.bb} (100%)
+>>  rename meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_19.2.1.bb} (85%)
+>>
+>> diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+>> index 9fba5da4b2..461fc83345 100644
+>> --- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+>> +++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+>> @@ -1,4 +1,4 @@
+>> -From ea966884e39aae9571c038fab55f3c1663d17850 Mon Sep 17 00:00:00 2001
+>> +From 7ed5b340f4077e616287b6124dfd46cf6a2cab50 Mon Sep 17 00:00:00 2001
+>>  From: Fabio Berton <fabio.berton@ossystems.com.br>
+>>  Date: Wed, 12 Jun 2019 13:40:20 -0300
+>>  Subject: [PATCH] meson.build: check for all linux host_os combinations
+>> @@ -14,15 +14,16 @@ Upstream-Status: Pending
+>>  Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+>>  Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>>  Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> +
+>>  ---
+>>   meson.build | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>>  diff --git a/meson.build b/meson.build
+>> -index 567a81afd6f..b33b430aed4 100644
+>> +index db94f85..6f7b0ed 100644
+>>  --- a/meson.build
+>>  +++ b/meson.build
+>> -@@ -107,7 +107,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+>> +@@ -117,7 +117,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+>>   # Only build shared_glapi if at least one OpenGL API is enabled
+>>   with_shared_glapi = get_option('shared-glapi') and with_any_opengl
+>>
+>> @@ -31,7 +32,7 @@ index 567a81afd6f..b33b430aed4 100644
+>>
+>>   dri_drivers = get_option('dri-drivers')
+>>   if dri_drivers.contains('auto')
+>> -@@ -845,7 +845,7 @@ if cc.compiles('int foo(void) __attribute__((__noreturn__));',
+>> +@@ -856,7 +856,7 @@ if cc.compiles('__uint128_t foo(void) { return 0; }',
+>>   endif
+>>
+>>   # TODO: this is very incomplete
+>> diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+>> index 641bacf1d9..dc232285f0 100644
+>> --- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+>> +++ b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+>> @@ -1,4 +1,4 @@
+>> -From cee8e48c5344124e5d84307cb0c48ee0c9b3e684 Mon Sep 17 00:00:00 2001
+>> +From 78efbf1e2e733097d22ae7c558b8acf866104bec Mon Sep 17 00:00:00 2001
+>>  From: Fabio Berton <fabio.berton@ossystems.com.br>
+>>  Date: Wed, 12 Jun 2019 14:15:57 -0300
+>>  Subject: [PATCH] meson.build: make TLS GLX optional again
+>> @@ -12,31 +12,32 @@ Upstream-Status: Pending
+>>  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>>  Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>>  Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> +
+>>  ---
+>> - meson.build       | 4 +++-
+>> - meson_options.txt | 7 +++++++
+>> - 2 files changed, 10 insertions(+), 1 deletion(-)
+>> + meson.build       | 4 ++++
+>> + meson_options.txt | 6 ++++++
+>> + 2 files changed, 10 insertions(+)
+>>
+>>  diff --git a/meson.build b/meson.build
+>> -index b33b430aed4..0e50bb26c0a 100644
+>> +index 6f7b0ed..d961748 100644
+>>  --- a/meson.build
+>>  +++ b/meson.build
+>> -@@ -369,7 +369,9 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
+>> -   endif
+>> +@@ -382,6 +382,10 @@ if not with_platform_android or get_option('platform-sdk-version') >= 29
+>> +   pre_args += '-DUSE_ELF_TLS'
+>>   endif
+>>
+>> --pre_args += '-DGLX_USE_TLS'
+>>  +if get_option('glx-tls')
+>>  +  pre_args += '-DGLX_USE_TLS'
+>>  +endif
+>> ++
+>>   if with_glx != 'disabled'
+>>     if not (with_platform_x11 and with_any_opengl)
+>>       error('Cannot build GLX support without X11 platform support and at least one OpenGL API')
+>>  diff --git a/meson_options.txt b/meson_options.txt
+>> -index 1f72faabee8..fcd49efea27 100644
+>> +index b768c15..d8a2d49 100644
+>>  --- a/meson_options.txt
+>>  +++ b/meson_options.txt
+>> -@@ -339,6 +339,13 @@ option(
+>> +@@ -333,6 +333,12 @@ option(
+>>     value : true,
+>>     description : 'Enable direct rendering in GLX and EGL for DRI',
+>>   )
+>> @@ -46,7 +47,6 @@ index 1f72faabee8..fcd49efea27 100644
+>>  +  value : true,
+>>  +  description : 'Enable TLS support in GLX',
+>>  +)
+>> -+
+>>   option(
+>>     'I-love-half-baked-turnips',
+>>     type : 'boolean',
+>> diff --git a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+>> index 3458c19199..5e66e09194 100644
+>> --- a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+>> +++ b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+>> @@ -1,4 +1,4 @@
+>> -From f1482e88c2295b9c7288f5b273335a8e18039de8 Mon Sep 17 00:00:00 2001
+>> +From 8e0fe4f54d68ff962665f6d59ce5cc96520d9e7d Mon Sep 17 00:00:00 2001
+>>  From: Fabio Berton <fabio.berton@ossystems.com.br>
+>>  Date: Wed, 12 Jun 2019 14:18:31 -0300
+>>  Subject: [PATCH] Allow enable DRI without DRI drivers
+>> @@ -9,16 +9,17 @@ Upstream-Status: Pending
+>>  Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+>>  Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>>  Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> +
+>>  ---
+>>   meson.build       | 2 +-
+>>   meson_options.txt | 6 ++++++
+>>   2 files changed, 7 insertions(+), 1 deletion(-)
+>>
+>>  diff --git a/meson.build b/meson.build
+>> -index 0e50bb26c0a..de065c290d6 100644
+>> +index d961748..4e586e9 100644
+>>  --- a/meson.build
+>>  +++ b/meson.build
+>> -@@ -137,7 +137,7 @@ with_dri_r200 = dri_drivers.contains('r200')
+>> +@@ -147,7 +147,7 @@ with_dri_r200 = dri_drivers.contains('r200')
+>>   with_dri_nouveau = dri_drivers.contains('nouveau')
+>>   with_dri_swrast = dri_drivers.contains('swrast')
+>>
+>> @@ -28,7 +29,7 @@ index 0e50bb26c0a..de065c290d6 100644
+>>   gallium_drivers = get_option('gallium-drivers')
+>>   if gallium_drivers.contains('auto')
+>>  diff --git a/meson_options.txt b/meson_options.txt
+>> -index fcd49efea27..0529200b3bb 100644
+>> +index d8a2d49..3fe980e 100644
+>>  --- a/meson_options.txt
+>>  +++ b/meson_options.txt
+>>  @@ -34,6 +34,12 @@ option(
+>> diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
+>> similarity index 100%
+>> rename from meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
+>> rename to meta/recipes-graphics/mesa/mesa-gl_19.2.1.bb
+>> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+>> index 9e5808ee27..7809170f46 100644
+>> --- a/meta/recipes-graphics/mesa/mesa.inc
+>> +++ b/meta/recipes-graphics/mesa/mesa.inc
+>> @@ -10,7 +10,7 @@ HOMEPAGE = "http://mesa3d.org"
+>>  BUGTRACKER = "https://bugs.freedesktop.org"
+>>  SECTION = "x11"
+>>  LICENSE = "MIT"
+>> -LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
+>> +LIC_FILES_CHKSUM = "file://docs/license.html;md5=3a4999caf82cc503ac8b9e37c235782e"
+>>
+>>  PE = "2"
+>>
+>> diff --git a/meta/recipes-graphics/mesa/mesa_19.1.6.bb b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
+>> similarity index 85%
+>> rename from meta/recipes-graphics/mesa/mesa_19.1.6.bb
+>> rename to meta/recipes-graphics/mesa/mesa_19.2.1.bb
+>> index 19221e9e25..ca66065251 100644
+>> --- a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
+>> +++ b/meta/recipes-graphics/mesa/mesa_19.2.1.bb
+>> @@ -6,8 +6,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+>>             file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
+>>             "
+>>
+>> -SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
+>> -SRC_URI[sha256sum] = "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
+>> +SRC_URI[md5sum] = "8f9c05cfbf7b357c60a5345bb87a92c7"
+>> +SRC_URI[sha256sum] = "4cc53ca1a8d12c6ff0e5ea44a5213c05c88447ab50d7e28bb350cd29199f01e9"
+>>
+>>  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+>>
+>> --
+>> 2.20.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
-> On 10/25/19 8:19 AM, akuster808 wrote:
->
->
->
-> On 10/24/19 6:37 AM, Trevor Gamblin wrote:
->
-> On 10/24/19 9:06 AM, Trevor Woerner wrote:
->
-> This upgrade caused my build to fail :-(
-> Is anyone else seeing this?
->
->
-> Me too but only on my older ubunto 16.04.
->
-> we should bug this. If no one does by Friday night I will.
->
-> - armin
->
-> 22:47:40 | x86_64-linux-libtool: link: gcc -W -Wall -Wshadow -Wformat -Wu=
-ndef -D_GNU_SOURCE -isystem/z/jenkins-workspace/nightly/cubietruck/build/tm=
-p-glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/recipe-sysroot-native/=
-usr/include -O2 -pipe -Wl,--enable-new-dtags -Wl,-rpath-link -Wl,/z/jenkins=
--workspace/nightly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-n=
-ative/0.7.10-r0/recipe-sysroot-native/usr/lib -Wl,-rpath-link -Wl,/z/jenkin=
-s-workspace/nightly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-=
-native/0.7.10-r0/recipe-sysroot-native/lib -Wl,-rpath -Wl,/z/jenkins-worksp=
-ace/nightly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0=
-.7.10-r0/recipe-sysroot-native/usr/lib -Wl,-rpath -Wl,/z/jenkins-workspace/=
-nightly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.1=
-0-r0/recipe-sysroot-native/lib -Wl,-O1 -o .libs/netcap netcap.o proc-llist.=
-o  -L/z/jenkins-workspace/nightly/cubietruck/build/tmp-glibc/work/x86_64-li=
-nux/libcap-ng-na
->  tive/0.7.10-r0/recipe-sysroot-native/usr/lib -L/z/jenkins-workspace/nigh=
-tly/cubietruck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0=
-/recipe-sysroot-native/lib -L../src /z/jenkins-workspace/nightly/cubietruck=
-/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/build/src/.li=
-bs/libcap-ng.so
-> 22:47:40 | /usr/lib64/gcc/x86_64-suse-linux/8/../../../../x86_64-suse-lin=
-ux/bin/ld: /z/jenkins-workspace/nightly/cubietruck/build/tmp-glibc/work/x86=
-_64-linux/libcap-ng-native/0.7.10-r0/build/src/.libs/libcap-ng.so: undefine=
-d reference to `pthread_atfork'
-> 22:47:40 | collect2: error: ld returned 1 exit status
-> 22:47:40 | make[2]: *** [Makefile:480: netcap] Error 1
-> 22:47:40 | make[2]: Leaving directory '/z/jenkins-workspace/nightly/cubie=
-truck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/build/ut=
-ils'
-> 22:47:40 | make[1]: *** [Makefile:445: all-recursive] Error 1
-> 22:47:40 | make[1]: Leaving directory '/z/jenkins-workspace/nightly/cubie=
-truck/build/tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/build'
-> 22:47:40 | make: *** [Makefile:377: all] Error 2
-> 22:47:40 | WARNING: /z/jenkins-workspace/nightly/cubietruck/build/tmp-gli=
-bc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/temp/run.do_compile.12127:1=
- exit 1 from 'exit 1'
-> 22:47:40 |
-> 22:47:40 NOTE: recipe libcap-ng-native-0.7.10-r0: task do_compile: Failed
->
-> I see it too, when trying to build binutils:
->
-> | x86_64-linux-libtool: link: gcc -W -Wall -Wshadow -Wformat -Wundef -D_G=
-NU_SOURCE -isystem/ala-lpggp21/tgamblin/yocto/build/tmp-glibc/work/x86_64-l=
-inux/libcap-ng-native/0.7.10-r0/re[6/1973]
-> root-native/usr/include -O2 -pipe -Wl,--enable-new-dtags -Wl,-rpath-link =
--Wl,/ala-lpggp21/tgamblin/yocto/build/tmp-glibc/work/x86_64-linux/libcap-ng=
--native/0.7.10-r0/recipe-sysroot-native/us
-> r/lib -Wl,-rpath-link -Wl,/ala-lpggp21/tgamblin/yocto/build/tmp-glibc/wor=
-k/x86_64-linux/libcap-ng-native/0.7.10-r0/recipe-sysroot-native/lib -Wl,-rp=
-ath -Wl,/ala-lpggp21/tgamblin/yocto/build/
-> tmp-glibc/work/x86_64-linux/libcap-ng-native/0.7.10-r0/recipe-sysroot-nat=
-ive/usr/lib -Wl,-rpath -Wl,/ala-lpggp21/tgamblin/yocto/build/tmp-glibc/work=
-/x86_64-linux/libcap-ng-native/0.7.10-r0/r
-> ecipe-sysroot-native/lib -Wl,-O1 -o .libs/netcap netcap.o proc-llist.o  -=
-L/ala-lpggp21/tgamblin/yocto/build/tmp-glibc/work/x86_64-linux/libcap-ng-na=
-tive/0.7.10-r0/recipe-sysroot-native/usr/l
-> ib -L/ala-lpggp21/tgamblin/yocto/build/tmp-glibc/work/x86_64-linux/libcap=
--ng-native/0.7.10-r0/recipe-sysroot-native/lib -L../src /ala-lpggp21/tgambl=
-in/yocto/build/tmp-glibc/work/x86_64-linux
-> /libcap-ng-native/0.7.10-r0/build/src/.libs/libcap-ng.so
-> | /ala-lpggp21/tgamblin/yocto/build/tmp-glibc/work/x86_64-linux/libcap-ng=
--native/0.7.10-r0/build/src/.libs/libcap-ng.so: undefined reference to `pth=
-read_atfork'
-> | collect2: error: ld returned 1 exit status
-> | Makefile:483: recipe for target 'pscap' failed
-> | make[2]: *** [pscap] Error 1
-> | make[2]: *** Waiting for unfinished jobs....
-> | /ala-lpggp21/tgamblin/yocto/build/tmp-glibc/work/x86_64-linux/libcap-ng=
--native/0.7.10-r0/build/src/.libs/libcap-ng.so: undefined reference to `pth=
-read_atfork'
-> | collect2: error: ld returned 1 exit status
-> | Makefile:471: recipe for target 'captest' failed
-> | make[2]: *** [captest] Error 1
-> | /ala-lpggp21/tgamblin/yocto/build/tmp-glibc/work/x86_64-linux/libcap-ng=
--native/0.7.10-r0/build/src/.libs/libcap-ng.so: undefined reference to `pth=
-read_atfork'
-> | collect2: error: ld returned 1 exit status
-> | /ala-lpggp21/tgamblin/yocto/build/tmp-glibc/work/x86_64-linux/libcap-ng=
--native/0.7.10-r0/build/src/.libs/libcap-ng.so: undefined reference to `pth=
-read_atfork'
-> | collect2: error: ld returned 1 exit status
-> | Makefile:475: recipe for target 'filecap' failed
-> | make[2]: *** [filecap] Error 1
-> | Makefile:479: recipe for target 'netcap' failed
-> | make[2]: *** [netcap] Error 1
-> | make[2]: Leaving directory '/ala-lpggp21/tgamblin/yocto/build/tmp-glibc=
-/work/x86_64-linux/libcap-ng-native/0.7.10-r0/build/utils'
-> | Makefile:445: recipe for target 'all-recursive' failed
-> | make[1]: *** [all-recursive] Error 1
-> | make[1]: Leaving directory '/ala-lpggp21/tgamblin/yocto/build/tmp-glibc=
-/work/x86_64-linux/libcap-ng-native/0.7.10-r0/build'
-> | Makefile:377: recipe for target 'all' failed
-> | make: *** [all] Error 2
->
->
->
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
