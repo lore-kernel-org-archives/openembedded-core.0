@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D1BC7FC01
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 66D907FBF1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 06:50:10 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id r141so4130668wme.4
+	Sat, 26 Oct 2019 06:50:11 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id r141so4130685wme.4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 25 Oct 2019 23:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=6/oWzLdnQNt16Ikz72U4gfQXzFN+IjB54Z/iRKzowT0=;
-	b=g/FpErmhQofyMSYZHKzXfYUz8tRBOu5yZfdNcIWmXKFDXyghNXf2hqu5Ho19oIxsyc
-	nkxd8OqCFKWuEL5gtQH0/FhM3nkLY2rPuuxygjE3RFZMrCpEs3XXrrX4DpkrqfVPEpJb
-	eFtSdXgN+Zoi6DK+dwudYJYbHy5yUWwKC8lIWf9NRMIFg91hy2y6hegxmo4YDiTMkQCc
-	779cAqX49D5QyuLW/dqZWVVwx2gk+2L9HrB1nK3ccEHJLorna6nwu/wli2eVECIi1R7x
-	mFIefcMX/aECDOpmPCUhJ7E9TIWo63h7og4DRmy25ijI+yVxmF7KmL9wM7d4w4yANExz
-	ms6Q==
+	bh=MFt619UA37SNnTyfsjE8YDWEyhWRU+3SVArgUA6XpA8=;
+	b=cM+NE0GND+okzceLzhdQZ6K5vf/ISgggweDxiLmRg+a9OQNBYRGAbx4xzvzVIIad3H
+	96vgPWXePoglO0Ix/apNXf/O1ws6qRF3GXHRZvrm81NWiyunF4TUOlobwEM0QkAP0odl
+	/WqKViykwZOeg7edVmE3bY3LIojIcNsPfQUD4FHozmQDVnSUH4hdBnwowSk074PeZ+FL
+	78hhqomXYY6ZHXh3l0zy+QQ+eEJNBopD2gssTqDDMbq11sqLtQS7MaNVBnu5Hcv0sMR3
+	gq6dyWv72mg++WskQ/uWLahX0aZCmOaq+1N0emmp17+EAmdZlG10mFfLCs88fa6LqKik
+	hOCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=6/oWzLdnQNt16Ikz72U4gfQXzFN+IjB54Z/iRKzowT0=;
-	b=MnQtAJAEIAtAF+RDQ04AvoyWfPCa9/0sCGlnfL45woOOz8HY2XEF0iT6ZLMGW5gqBU
-	3dyQwZiEPRT4vMsuQHa00ov1coARShB9z4XHgtwU7Wrl8Y+DDnV+fYAqHjY3LYVtdOIT
-	bhXe3jRxXcrWehaD4S3IEzJ0+3socaCF6jFdE7AOw6hWLVB8qWzDZzwMX9o24C/aI9s+
-	szZebkwKG5hKij9CpbUo7YZd0OfTyCvkIESgsEWUfsl9OxwnY0ngKKhpXeUZ4lcKo8jA
-	M0cZOAzR+B5mW8/meuhIiTB0Qr+n98mUucVf9Xc5RCVEFA2RaAo5buIdJlPrz0nDThDF
-	dvyg==
-X-Gm-Message-State: APjAAAVDh20XjYWL9T/J2IPtr6fGxxyxL2Sek9qDbfbRjxM5LNaWC38Q
-	KQtAOMbh9w56n7x5OXdq4QyabQQUHR4=
-X-Google-Smtp-Source: APXvYqwXFy4lJUvalOR2rbbtCrZ8/F2NGrZcuvHitREM3AzALONOz5qR4SMr64WLqc5wTzV/f6j53g==
-X-Received: by 2002:a1c:a90f:: with SMTP id s15mr6631828wme.100.1572072611120; 
+	bh=MFt619UA37SNnTyfsjE8YDWEyhWRU+3SVArgUA6XpA8=;
+	b=Fv4wtsl8Km6Ms9nGQjT7pfHrVJS787lDGZuOIhylo83DuuHe/Bs3Mb13x3R8JNMoQq
+	Jbl3udEce9OVfxxS+lomaeLEBJu7oHQvVqdDS/Rq3jRVN9str5YJshvnqbEFgruQDET7
+	PiGU7kkrK4M9GIgkPAcNrYCM70yMdysIp/gbrq2y+4Ne1k+tvoqSspKdXxzs5qk0ES8R
+	fBDduMiih4WQCBf+EzbNxX61WGm4omW4M2R+qaoGmZRicb1Qyoh193DjhgYfqvvUWaFq
+	5VsTXJNbCOOYuRz75FOeff5aqJ+DDzHwv2VaMTgagFfcCRJRtVd1CjYEgJoB7hZEn2+y
+	kYIg==
+X-Gm-Message-State: APjAAAUJM+FoeI30haTGttOJXWe4l45jHS7OTcC9qEx7SLirp+zBaMDT
+	uS3K2uXXbaYda7+8OxeajmE4iDs03fw=
+X-Google-Smtp-Source: APXvYqxjRpZSrti3CbJC4xfWH/Z1paLsOgr0Rya3sQJYRdUktiCPDfDAuF6H8Ia1xbXXYLlSITvqyA==
+X-Received: by 2002:a1c:7219:: with SMTP id n25mr6937330wmc.101.1572072611847; 
 	Fri, 25 Oct 2019 23:50:11 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.controleur.wifipass.org ([178.18.58.186])
-	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.10
+	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.11
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Oct 2019 23:50:10 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:11 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 23:49:40 -0700
-Message-Id: <5c11937348debf57e3a87c7c6a6c0429fd756eca.1572072422.git.akuster808@gmail.com>
+Date: Fri, 25 Oct 2019 23:49:41 -0700
+Message-Id: <691f04965faf58d9d6323898478916ae306d046c.1572072422.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572072421.git.akuster808@gmail.com>
 References: <cover.1572072421.git.akuster808@gmail.com>
-Subject: [zeus 08/28] sysstat: fix CVE-2019-16167
+Subject: [zeus 09/28] libsdl2: fix CVE-2019-13616
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,88 +59,76 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 26 Oct 2019 06:50:11 -0000
 
-From: Wenlin Kang <wenlin.kang@windriver.com>
+From: Yi Zhao <yi.zhao@windriver.com>
 
-This commit is another part of CVE-2019-16167, please see
-https://github.com/sysstat/sysstat/issues/232.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2019-13616
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Patch from:
+https://hg.libsdl.org/SDL/rev/e7ba650a643a
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 586c045eb81b79200b46bf743f5d3fdb5f68c12d)
+(cherry picked from commit 70b9cdf86b9c5ed14937500619387a890a57ef20)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...ory-corruption-bug-due-to-Integer-Overflo.patch | 46 ++++++++++++++++++++++
- meta/recipes-extended/sysstat/sysstat_12.1.6.bb    |  4 +-
- 2 files changed, 49 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/sysstat/sysstat/0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch
+ ...538-validate-image-size-when-loading-BMP-.patch | 34 ++++++++++++++++++++++
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb    |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch
 
-diff --git a/meta/recipes-extended/sysstat/sysstat/0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch b/meta/recipes-extended/sysstat/sysstat/0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch
 new file mode 100644
-index 0000000..46b1118
+index 0000000..674decc
 --- /dev/null
-+++ b/meta/recipes-extended/sysstat/sysstat/0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch
-@@ -0,0 +1,46 @@
-+From 603ae4ed8cd65abf0776ef7f68354a5c24a3411c Mon Sep 17 00:00:00 2001
-+From: Sebastien GODARD <sysstat@users.noreply.github.com>
-+Date: Tue, 15 Oct 2019 14:39:33 +0800
-+Subject: [PATCH] Fix #232: Memory corruption bug due to Integer Overflow in
-+ remap_struct()
++++ b/meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch
+@@ -0,0 +1,34 @@
++From 85138c1ec673e05263ae666baf61f79384daf7e0 Mon Sep 17 00:00:00 2001
++From: Sam Lantinga <slouken@libsdl.org>
++Date: Tue, 30 Jul 2019 11:00:00 -0700
++Subject: [PATCH] Fixed bug 4538 - validate image size when loading BMP files
 +
-+Try to avoid integer overflow when reading a corrupted binary datafile
-+with sadf.
++Upstream-Status: Backport
++[https://hg.libsdl.org/SDL/rev/e7ba650a643a]
 +
-+Upstream-Status: Backport [https://github.com/sysstat/sysstat/commit/83fad9c895d1ac13f76af5883b7451b3302beef5]
-+CVE: CVE-2019-16167
++CVE: CVE-2019-13616
 +
-+Signed-off-by: Sebastien GODARD <sysstat@users.noreply.github.com>
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 +---
-+ sa_common.c | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
++ src/video/SDL_bmp.c | 5 +++++
++ 1 file changed, 5 insertions(+)
 +
-+diff --git a/sa_common.c b/sa_common.c
-+index 395c11c..cfa9007 100644
-+--- a/sa_common.c
-++++ b/sa_common.c
-+@@ -1336,7 +1336,8 @@ int remap_struct(unsigned int gtypes_nr[], unsigned int ftypes_nr[],
-+ 	/* Remap [unsigned] int fields */
-+ 	d = gtypes_nr[1] - ftypes_nr[1];
-+ 	if (d) {
-+-		if (ftypes_nr[1] * UL_ALIGNMENT_WIDTH < ftypes_nr[1])
-++		if (gtypes_nr[0] * ULL_ALIGNMENT_WIDTH +
-++		    ftypes_nr[1] * UL_ALIGNMENT_WIDTH < ftypes_nr[1])
-+ 			/* Overflow */
-+ 			return -1;
-+ 
-+@@ -1365,7 +1366,9 @@ int remap_struct(unsigned int gtypes_nr[], unsigned int ftypes_nr[],
-+ 	/* Remap possible fields (like strings of chars) following int fields */
-+ 	d = gtypes_nr[2] - ftypes_nr[2];
-+ 	if (d) {
-+-		if (ftypes_nr[2] * U_ALIGNMENT_WIDTH < ftypes_nr[2])
-++		if (gtypes_nr[0] * ULL_ALIGNMENT_WIDTH +
-++		    gtypes_nr[1] * UL_ALIGNMENT_WIDTH +
-++		    ftypes_nr[2] * U_ALIGNMENT_WIDTH < ftypes_nr[2])
-+ 			/* Overflow */
-+ 			return -1;
-+ 
++diff --git a/src/video/SDL_bmp.c b/src/video/SDL_bmp.c
++index 0b68918..a06b0c9 100644
++--- a/src/video/SDL_bmp.c
+++++ b/src/video/SDL_bmp.c
++@@ -226,6 +226,11 @@ SDL_LoadBMP_RW(SDL_RWops * src, int freesrc)
++             SDL_RWseek(src, (biSize - headerSize), RW_SEEK_CUR);
++         }
++     }
+++    if (biWidth <= 0 || biHeight == 0) {
+++        SDL_SetError("BMP file with bad dimensions (%dx%d)", biWidth, biHeight);
+++        was_error = SDL_TRUE;
+++        goto done;
+++    }
++     if (biHeight < 0) {
++         topDown = SDL_TRUE;
++         biHeight = -biHeight;
 +-- 
-+1.9.1
++2.7.4
 +
-diff --git a/meta/recipes-extended/sysstat/sysstat_12.1.6.bb b/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-index 8cf8c36..362888d 100644
---- a/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-@@ -2,7 +2,9 @@ require sysstat.inc
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
+index 3a0654b..cdc8650 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
+@@ -14,6 +14,7 @@ PROVIDES = "virtual/libsdl2"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+            file://more-gen-depends.patch \
++           file://0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch \
+ "
  
--SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
-+SRC_URI += "file://0001-Include-needed-headers-explicitly.patch \
-+	    file://0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch \
-+"
- 
- SRC_URI[md5sum] = "d8e3bbb9c873dd370f6d33664e326570"
- SRC_URI[sha256sum] = "f752f3c406153a6fc446496f1102872505ace3f0931d975c1d664c81ec09f129"
+ S = "${WORKDIR}/SDL2-${PV}"
 -- 
 2.7.4
 
