@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 36F297FBF9
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+	[209.85.128.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BB937FC06
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 06:50:09 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id c22so4148392wmd.1
+	Sat, 26 Oct 2019 06:50:08 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id v3so5716482wmh.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 23:50:10 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=cH9DWh0FdZQZIW+7IeMRksAONBi/7KgFHSi+tq81C9g=;
-	b=MdvC5gzREk16r6zpPVfZio0fl4zq5GFfi3rT58Jd9U2+a5vGKUvMB8L8RT2NcdHjON
-	MRtmdTEXqrK3fnavEkR/1y2/R6v5oCSYrqK4iuf7cuboYg++uHEixgHM23NpqjQZ2QYW
-	4X8B+f7Xnrb7viZWEG1saDMJcBXzzELvTdG6i+bTk7CaxPIq8EoOowBCkK2xFDk89QA5
-	hIoDsuvPDMQqueMg6uQ5unVUPTJjVdq9NlLDROxK6mtlrjMLzqgW6LTDbXCZ20f67Zm9
-	U+oWE3FOQZoMhI5I6imcnSTvRUBwI/GpIgjfhO0VK5JEjv5FaJnGBdHaQUDEMeyZ8CeX
-	48nA==
+	bh=jEPP5mgaXg7UxwtXwDO7d5bDjzHJQ+OJ5hlBOxgvD4Y=;
+	b=sbqpzse7Hgnr9Cnvj+I6A4ZIFO4CKZiRtlIjYWqPyzDIzQyEDCLrF0PdTOONL0VQSy
+	k4CQEETWPqEQveo5LygQf+nzKYv2QXbInLvQRce4ICCQ9XmrzJexEbgF8H/mi56bvqzn
+	3pVPZ/1s18fdAQhrb4kcv7SFmGB6Ov23diiXM3htpt7XWzUi0/TFjHJGDj3K6cJybd6I
+	cLuQtCGFKPT+mf3gUTBFzhDUbg3/8h/qfvEYJ9P+2vljxE7xasPhImxfjp+9ZqmutU++
+	nY8Ys6FS9SeB+OU5+i9j7DZTgxNLsp5KBMXBcpKdnqfG4mu/yOewdV0lQK71PvgCqmTc
+	kj4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=cH9DWh0FdZQZIW+7IeMRksAONBi/7KgFHSi+tq81C9g=;
-	b=WWaDfK4wp28D/U9tDF7RRvoVuDd79SoJldBsynz2b6i8CONh1OSNtiFHSI65d2g5UP
-	2xnLhgCXayNLDmnUjmt3dUK64RK2tzJALgeDdHSITKUleYf1XiNBKLnyOTRNvZ8XM25f
-	ohaLvaRfuY+d5zBQwMrHnPBlGH/1a6Q5v10eTjypjtlA50/l/QdrP3SYubub8TcA3j20
-	qud2KUOSGh4l26CdvMExpNT99rs53Y5Qt79NCDQ1G/voWe+YcXN5HsSNOMsJOoHEnSM3
-	Dv1ck0cAIBbmg/Rs36tsqYAHBFiyEVGwU0szhxMfL5O1rlXFHiSF8lcVdRjzd58s5Ji0
-	gf+w==
-X-Gm-Message-State: APjAAAXJ6NiKsA8fiPxLZ8yo1Dp6YZb1W/PLBzvnAdtBryOdEEif1IPw
-	0QaqmL+xI7u/tedF+cGjRC4YefkZucI=
-X-Google-Smtp-Source: APXvYqyks+dcBHSGEWMS7H7K3NXPMRE2EFZ1cCacouq8e5HRZYB2rTCkC7dX6UAiSRBDKgHrBOGh/w==
-X-Received: by 2002:a7b:cb05:: with SMTP id u5mr6251423wmj.36.1572072609734;
-	Fri, 25 Oct 2019 23:50:09 -0700 (PDT)
+	bh=jEPP5mgaXg7UxwtXwDO7d5bDjzHJQ+OJ5hlBOxgvD4Y=;
+	b=cxya/AvtP+mdja8BZVb63iaYk5tPUvD+1p/5sLywKFHFjZjab9m8AjrpwiK+5MWmWI
+	QNAdeaPgMsrUZgJyab3C9BrvRmONwXiOA9mip5DOhDyTsDaU8alutmhIUTnMWAomw0cc
+	9KzMM6YcED4Yhmpm55G2dwovEWC6ZpBUzTAWyOVo2n3XA1drKu6DDgyis6x2+F6ve6op
+	de72wt59vRa/v7criBNJOiHXJaDuvPpg4Oj48SB0xBzepDwuTz3TXpPe09eqft48h/7u
+	C3MJN9sAhwQLu0/bcU0+eZCpkkNUkfTEw0z+M0vWiX33diFJOS5q2NV/Wn7SykFajHsl
+	gw3A==
+X-Gm-Message-State: APjAAAWEwYPheK+GLxbWogltlvIUSekS5dDbLGD4ZuJ1XTmBF079plKo
+	XNSDpODsyQJh863EtYId7pbaiSpDm4Y=
+X-Google-Smtp-Source: APXvYqyWCDdl/tSTEAc1Sgenora1vdbg89WyeOygxiSHkYSNYWuH/pOwramTLdZJzEArhh/v2hrr/g==
+X-Received: by 2002:a1c:67d7:: with SMTP id b206mr6450835wmc.68.1572072608970; 
+	Fri, 25 Oct 2019 23:50:08 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.controleur.wifipass.org ([178.18.58.186])
-	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.09
+	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.08
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Oct 2019 23:50:09 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:08 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 23:49:38 -0700
-Message-Id: <f71b1a96529d658d1c6c7dc04dca1957ea647e4e.1572072422.git.akuster808@gmail.com>
+Date: Fri, 25 Oct 2019 23:49:37 -0700
+Message-Id: <5f51c9303940423b05ba8cfeaa1c9c2b24e36a53.1572072422.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572072421.git.akuster808@gmail.com>
 References: <cover.1572072421.git.akuster808@gmail.com>
-Subject: [zeus 06/28] runqemu: Remove disabling of high resolution timer
+Subject: [zeus 05/28] runqemu: unset another environment variable for 'egl-headless'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2019 06:50:09 -0000
+X-List-Received-Date: Sat, 26 Oct 2019 06:50:10 -0000
 
-From: Joerg Vehlow <joerg.vehlow@aox-tech.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-The option 'highres=off' sneaked itself into the runqemu script for all
-configurations, where the root filesystem type is not 'cpio' or 'cpio.gz'.
-See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13590
+Some host distributions (opensuse for example) are using 'pkgconf',
+which, unlike the original pkg-config, appends PKG_CONFIG_SYSROOT_DIR
+to every directory from the .pc file.
 
-Signed-off-by: Joerg Vehlow <joerg.vehlow@aox-tech.de>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/runqemu | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/runqemu | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 46087b8..a05facd 100755
+index 1a5aca9..46087b8 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -1198,12 +1198,12 @@ class BaseConfig(object):
- 
-                 # All branches above set vm_drive.
-                 self.rootfs_options = '%s -no-reboot' % vm_drive
--            self.kernel_cmdline = 'root=%s rw highres=off' % (self.get('QB_KERNEL_ROOT'))
-+            self.kernel_cmdline = 'root=%s rw' % (self.get('QB_KERNEL_ROOT'))
- 
-         if self.fstype == 'nfs':
-             self.rootfs_options = ''
-             k_root = '/dev/nfs nfsroot=%s:%s,%s' % (self.nfs_server, os.path.abspath(self.rootfs), self.unfs_opts)
--            self.kernel_cmdline = 'root=%s rw highres=off' % k_root
-+            self.kernel_cmdline = 'root=%s rw' % k_root
- 
-         if self.fstype == 'none':
-             self.rootfs_options = ''
+@@ -457,6 +457,7 @@ class BaseConfig(object):
+                     del os.environ['PKG_CONFIG_PATH']
+                     del os.environ['PKG_CONFIG_DIR']
+                     del os.environ['PKG_CONFIG_LIBDIR']
++                    del os.environ['PKG_CONFIG_SYSROOT_DIR']
+                 except KeyError:
+                     pass
+                 try:
 -- 
 2.7.4
 
