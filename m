@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 84EEA7FBF9
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D7FA7FBF9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2019 06:50:15 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 6so5735420wmf.0
+	Sat, 26 Oct 2019 06:50:16 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id l10so4676390wrb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2019 23:50:16 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=T/js4J/ftcnaxDRh8SqCgYB6+x/EqwUr8Fikqs9GQmw=;
-	b=jeA3S6wBBJzm86zQRneKZ6NxYgMNLiqXeTg5TbtHVgTipzfbnsqDHvqodBcxA+EYi7
-	iEBBAzpKbomnMj6iaDWEb2faomfn86wiVpKyZ4OypIi6vDIGH2can5YHp2V1U28HC2Sg
-	KyfVvmmtk3IY2wDi4W/a9Suj5Uk2mqhJyVKkUWN9tGWEkedVmBQth2i6Occ2pQPK5tQH
-	/7mdjCL885kUDfV865cYnm/2LPhNxWEQX6TeOthBR916FrS2dL16D+KHVTFzD45LZ+DU
-	aMPyJLHfSbX82+XKDupDdepyvV6/LQwBtyPBV6YiSwOUXQLg4nqlk5J6jovCmXGjislW
-	ZKSQ==
+	bh=Mfl3ii9y5/z88cnv3O6vZveoQssz5Cs3nh/jrUmBEtg=;
+	b=UiEhXhtH6hFvGqXl0gWFHOjdBYuyZy5wrdQOFbd70wDbixkuVL9jZn2SUUXGQwdMo0
+	Mykjlk8p6Wi+OPLpLHCykm18rxliMp0d9DTd5Sx99pG8Z9kmmpZkTkVNeYGHaUpw63II
+	wrD2TfggzABEeE/xy7hTvZAZDkbvDI6TjOSv1FshJ1vJIstNrrxkDEt6bZEdMB3h6iT7
+	MASrjqpAj/GHrW3Wvy9rtyLz1Z+LBCYkE1wGFWcm8JPAp/DyjdyZQdyssZueOqtfUUpz
+	tgZNTsN9ATblc1QNSQBbvgtpeDosnHHVP4NGQpjBHU2Rs3lPnNmB1Hmff2xXVg8EQe+6
+	j6dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=T/js4J/ftcnaxDRh8SqCgYB6+x/EqwUr8Fikqs9GQmw=;
-	b=uln1bwovFDMhg/xkxcOCNhyC51Yg521uZ/7nfc6B+aNphA8/Rk5v5TmJ/I8c00c/x/
-	J9jcdbP62JffALsqPUtmcdCVLsRmzjF+OBYcCqjzx6JIIntF6LcOWrGh4mBvj6KlJOft
-	uChjzGMqUsgHqILJ2PyEnocq6scExW+iEpW5Ygvi6gAHuY+51Z42sNOOI2i7UmwrJGBK
-	JPkCmzDIPbEHQLugCbwGRxqcAbiu5sulsPqnzvf1OLmxJpKQOgwkxz62n/MkPH6GbTTB
-	E16byMZ1KTE2JrgmnjNzqm6wjU5A+QuwQdqHiY10FO0Yhb9abVC8HMvdAjqVK4fxgfD2
-	FCAw==
-X-Gm-Message-State: APjAAAV38l+ZZijXKBTFkOeTtGJtw/+OiGpriMqjdSkxJuf1Z7wCCsCT
-	IpWP71BJHQhZq187Zb5TPjHVylruwLE=
-X-Google-Smtp-Source: APXvYqw6yz1zTVf8WrZGJGQGRyH5ZymLH9u1tV+a/HlpwFrCIihTTakJJOKK511J+COk/pZaM0jdeA==
-X-Received: by 2002:a7b:c74a:: with SMTP id w10mr6220056wmk.173.1572072615916; 
-	Fri, 25 Oct 2019 23:50:15 -0700 (PDT)
+	bh=Mfl3ii9y5/z88cnv3O6vZveoQssz5Cs3nh/jrUmBEtg=;
+	b=rsouCq5n9BiOVUZlGOKvbl0TShqcJhqLj7dmYW+jSfdCX70/48rIvc2TjKJ/Gy8oDQ
+	QqVErQ400+3LsfPp6s42vzuYQexZsLmnxhlkLwV00LsRDJnzJ79HyXHY5PgmVJmygrwq
+	7mtcybuwJXEVCzvC6nvUCV8P+T/9qNLPqfw+36UIqNbTq98109yOnTzBZbBz3hPx0Rzi
+	9Jo97jSemQiNAD6J0PeqCdQwTtRPpdhNLWoHRStYTzr6cRfGhaGfiHqS+TdOxAtWiSbu
+	RoPt6xjwCBTDoYCKo4bOSp/B8o8hzhIU/rXfLt/z72K0j12dzRhSEvaR9rlu6xi5C5Lt
+	IR1A==
+X-Gm-Message-State: APjAAAW7lDGJ+Ni94gzfPhIXmPPgthVVLLzvBcLnR9q3x7gLst2/4qbU
+	mFMkaLpme1VZ8tSLhcGlU3buKXT8tf8=
+X-Google-Smtp-Source: APXvYqwiqCMXzH3APHPv6GwfrBmGSTWmGAkzduidcTPSNFmbQNI2oavZ046Wp3Ub1sCiBE3ciJkQrQ==
+X-Received: by 2002:a5d:6b0e:: with SMTP id v14mr6128685wrw.280.1572072616716; 
+	Fri, 25 Oct 2019 23:50:16 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.controleur.wifipass.org ([178.18.58.186])
 	by smtp.gmail.com with ESMTPSA id v6sm4807911wru.72.2019.10.25.23.50.15
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 25 Oct 2019 23:50:15 -0700 (PDT)
+	Fri, 25 Oct 2019 23:50:16 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2019 23:49:46 -0700
-Message-Id: <cbbbee1dce84d6ff62fb72282088f839cb642857.1572072422.git.akuster808@gmail.com>
+Date: Fri, 25 Oct 2019 23:49:47 -0700
+Message-Id: <60ee826ec6f07b270ae77e24be0088269a93081e.1572072422.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572072421.git.akuster808@gmail.com>
 References: <cover.1572072421.git.akuster808@gmail.com>
-Subject: [zeus 14/28] file: explicitly disable seccomp
+Subject: [zeus 15/28] i2c-tools: Add missing RDEPEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,35 +59,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 26 Oct 2019 06:50:16 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 
-file will automatically enable seccomp if the seccomp headers are available, but
-the build will fail on Opensuse Tumbleweed because the include paths are wrong.
+Fixes:
+ # decode-dimms
+Can't locate Carp.pm in @INC (you may need to install the Carp module) (@INC contains: /usr/lib/perl5/site_perl/5.28.1/x86_64-linux /usr/lib/perl5/site_perl/5.28.1 /usr/lib/perl5/vendor_perl/5.28.1/x86_64-linux /usr/lib/perl5/vendor_perl/5.28.1 /usr/lib/perl5/5.28.1/x86_64-linux /usr/lib/perl5/5.28.1 .) at /usr/lib/perl5/5.28.1/Tie/Hash.pm line 190.
+BEGIN failed--compilation aborted at /usr/lib/perl5/5.28.1/Tie/Hash.pm line 190.
+Compilation failed in require at /usr/lib/perl5/5.28.1/x86_64-linux/POSIX.pm line 505.
+Compilation failed in require at /usr/bin/decode-dimms line 41.
+BEGIN failed--compilation aborted at /usr/bin/decode-dimms line 41.
+root@qt5222:~# apt-get install perl-module-carp
 
-Enabling seccomp is a bad idea because it interacts badly with pseudo (causing
-build failures), so explicitly and globally disable seccomp.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a752faa152df031df5acaa40491299ac115109a4)
+(cherry picked from commit c73d2a2c0ecc99f0d6d7e6a1861ecce7a2312a57)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/file/file_5.37.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/file/file_5.37.bb b/meta/recipes-devtools/file/file_5.37.bb
-index 803aa9a..6547d12 100644
---- a/meta/recipes-devtools/file/file_5.37.bb
-+++ b/meta/recipes-devtools/file/file_5.37.bb
-@@ -21,6 +21,8 @@ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
+index dcbd05a..c576117 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
+@@ -31,6 +31,7 @@ FILES_${PN}-misc = "${sbindir}/i2c-stub-from-dump \
+ RDEPENDS_${PN}-misc = "${PN} perl perl-module-posix \
+                        perl-module-constant perl-module-file-basename \
+                        perl-module-fcntl perl-module-strict perl-module-vars \
++		       perl-module-carp \
+                       "
  
- inherit autotools update-alternatives
- 
-+EXTRA_OECONF += "--disable-libseccomp"
-+
- ALTERNATIVE_${PN} = "file"
- ALTERNATIVE_LINK_NAME[file] = "${bindir}/file"
- 
+ ALTERNATIVE_PRIORITY = "100"
 -- 
 2.7.4
 
