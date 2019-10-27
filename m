@@ -1,51 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 940187FB1A
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 965E17F7C9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 15:21:26 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id 15so6237319qkh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 08:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=S9mI7UzLmrVjz/4I3C/lfavweb/+cs00YEyxs6x4VGY=;
-	b=NoDXlMdG7QmMo9NiYtQ1wNCOp+HDw+QXHmnk1r+w0qT0Nl8Dk9fUnrWeyW8dzwOKRU
-	kMFJPxhHZsnB5+UFhynKqo2dOhRP3QSAHHa8/U1ZjNPK0xKOh6ROJeHaj0oRkFHg8R4U
-	bs1NXw5mFjce6JcCtpaLhOKNBEdgpYLRuC+Bsl2H2IUaobw7IbxNExZLYPbAsQ4yEEh7
-	i4Q4sTTSjW556gN5TQZmZ7lFNFYWsF7M/xQmLUewkEPNsI8jmeH9+APLXA8Q22nAsHmB
-	G3KKbgozqHWyd0b6x2hWUuSldMt1yCvfrjwTj1MqHsQk+OIuMRLtEU38v+kZjkKmwJbM
-	x7gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=S9mI7UzLmrVjz/4I3C/lfavweb/+cs00YEyxs6x4VGY=;
-	b=Frz0DVbhNzPTYZTXe0wGFiVv0lPCcpd0XuVbiYnLR+NmUB9VIr4k8JpiXX8of+xTrf
-	BRdn4iIRLbQDUzIL8+/LSNg3tyGp9+MQuVrrefyio38NgLvrBS3mBBJsZ74u9GNtcmj/
-	uN2d+KCe5rWzq2WSVpDT3i6wjNv8MN9LppY4PWdOudm88+PcNK0IeaI36EZ6PvxHzC8V
-	BdUuYeVnDJKsMfKb0AKEpupNLzcAbLjZKQHlborn6hy8qguXuDkXNUtg90kv8bK08am5
-	G4DYIolQa7G8TEBj/60FyvFDGlSFJPkB/qn65hTiNhr5bvh7sj+qwZQhxAbmXxS/DKOW
-	Oa2Q==
-X-Gm-Message-State: APjAAAV4YKFAcJ53PGfOGN9d5qUVkTNSs1hbEhrbuoJi1XiOp22MYWM1
-	miz7XEH4AhNOVHS3Wgp2h+p0+1nuILvuTwdAtwo=
-X-Google-Smtp-Source: APXvYqz9tReuThRUEYJ4XhFGaA03W7ux1U5ivL8XxuWDNlBD0f2I/VgW5Qq9vp5/rBIjp5Tg0v1b6TXx5Jc+8VG3U6w=
-X-Received: by 2002:a37:b985:: with SMTP id
-	j127mr11958877qkf.337.1572189687022; 
-	Sun, 27 Oct 2019 08:21:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <ee102dfc-af38-5a75-0b64-0c6bb13bb106@gmail.com>
-	<CANNYZj_PpuXczLf7SPcXdukZNjeCAWMXu1y9ENFUt-sYxdZv=g@mail.gmail.com>
-	<40172517-8f02-4657-68c3-115c6596d4b9@gmail.com>
-In-Reply-To: <40172517-8f02-4657-68c3-115c6596d4b9@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 27 Oct 2019 16:21:00 +0100
-Message-ID: <CAMKF1spfjHkq9abJzmTbmg+FF0vn=c_+JDT9bSOZh6ca+9TnMw@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of stable warrior in Core/bitbake/YP layers
+	Sun, 27 Oct 2019 17:36:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 471Q5D6y4mz3P;
+	Sun, 27 Oct 2019 18:36:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1572197809;
+	bh=b+VLH1AmlJ/Jwg2DLq/20ZQRDfM7Q4ZccgfbW5iIqd4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=keS4CEAC8naeEQg4JhWw6xkQtNEQllDp+MppC4vc9zAKmB1JnhVzYw94uNkxkbMuL
+	G5E7YzRjYciu5kuEo5ivtVhLwJnjmrZaPS0JdVGv41NNQ3pCGqmaoeRbNSWcYPKWkG
+	V87QVNd691Ik/wHtPJS+cXQWULoDuaCHIG3y08xgw2jz/HlKj5dNW1CkGWyO93ZU/b
+	dZErmR1JOmtll13PTlDd/Cbqjl7Ov68EHMO8r8uipLLl/krB/XGP4OgwiGrTTyYOsN
+	5qSPYtw5vA7yOytIjnSrhqQDvMTf8Ja8rThV1BzDg3ZaQYHYn3jX5VGnNzdccRFYsV
+	Gz10E9iNMnB7PirvXpHadsF05KRFWUr/SAxZJNkkrVzscDzmTHrVud7yWwaSVpK2rV
+	Odlmgc/NpsijNAAziWKSC3MvSAcdKBxB7KY7LFgCg4MW60OFkxAI9cUkYKnpVZY5Q9
+	4cdTlxX6JLTQH4wk9yCdPTepaAU4WEhSuW9WhRRmLcdazqg9CHVrkkwubcJiX5LwLx
+	WktfnBcxOe6fnzIob2AV2YYxJ+EiSMERz+xhRU//qppg7TOxSAnj1N/kw2j6yoU/kR
+	f2EFpl0AkULz69OABoKgRf3koPhftq/MS/Ib8HvP/EM0t3O0YUjZbT8qk904kkg9pQ
+	hS1dOrlZ/BZ6OFk+skAzu0/w=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 27 Oct 2019 19:36:48 +0200
+Message-Id: <20191027173648.6095-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] python3-numpy: Stop shipping manual config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,74 +40,2285 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2019 15:21:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 27 Oct 2019 17:36:52 -0000
 
-On Sun, Oct 27, 2019 at 4:06 PM akuster808 <akuster808@gmail.com> wrote:
->
->
->
-> On 10/27/19 4:03 AM, Alexander Kanavin wrote:
->
-> On Sun, 27 Oct 2019 at 09:13, akuster808 <akuster808@gmail.com> wrote:
->>
->> Of the past month the warrior stable branch has been plagued with a
->> build failure on FedoraCore30 regarding qemu virgl tests. This has
->> caused the slip of the next dot release to occur after Thud's.
->>
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13543
->>
->> The error message was this:
->>
->> runqemu - ERROR - Failed to run qemu: libEGL warning: MESA-LOADER:
->> failed to open swrast (search paths /usr/lib64/dri)
->> libEGL warning: MESA-LOADER: failed to open swrast (search paths
->> /usr/lib64/dri)
->>
->> qemu-system-i386: egl: eglInitialize failed
->> qemu-system-i386: OpenGL is not supported by the display
->>
->> What has fixed this error is updating libdrm to 2.4.99 from 2.4.97. What
->> I can not tell is what commit(s) in those updates fixed the above error
->>
->> https://lists.freedesktop.org/archives/dri-devel/2019-July/225069.html
->> https://lists.x.org/archives/xorg-announce/2019-April/002992.html
->>
->> Has anyone seen the above error and might have an idea what commits
->> would solve this issue?
->
->
-> The DRI modules loaded from the host (swrast particularly) may try to res=
-olve a symbol in libdrm-native that doesn't exist.
->
->
-> What I justed noticed on the host is that his has both 5.2 and 5.3 kernel=
-s. FC 30 was tested in the 2.7.1 so it worked at one point in time. I wonde=
-r if the kernel got updated to 5.3 and now we need updated headers for libd=
-rm? That might support the missing symbols you mentioned above.
->
-> Thanks for the hint.
->
-> - Armin
->
->
-> I remember debugging a similar problem when TLS got accidentally switched=
- off in mesa-native, what helped was tracing symbol
-> resolution with the help of environment variables described in 'man ld.so=
-' (can't remember off the top of my head what was the exact one).
->
+Automatic generation seems to work fine,
+and does not become outdated.
 
-https://lists.x.org/archives/xorg-announce/2019-April/002992.html
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ .../python-numpy/files/aarch64/_numpyconfig.h |  32 ----
+ .../python-numpy/files/aarch64/config.h       | 139 ------------------
+ .../python-numpy/files/arm/config.h           |  21 ---
+ .../python-numpy/files/arm/numpyconfig.h      |  17 ---
+ .../python-numpy/files/armeb/config.h         |  21 ---
+ .../python-numpy/files/armeb/numpyconfig.h    |  17 ---
+ .../files/mipsarchn32eb/_numpyconfig.h        |  32 ----
+ .../python-numpy/files/mipsarchn32eb/config.h | 139 ------------------
+ .../files/mipsarchn32el/_numpyconfig.h        |  31 ----
+ .../python-numpy/files/mipsarchn32el/config.h | 138 -----------------
+ .../files/mipsarchn64eb/_numpyconfig.h        |  32 ----
+ .../python-numpy/files/mipsarchn64eb/config.h | 139 ------------------
+ .../files/mipsarchn64el/_numpyconfig.h        |  32 ----
+ .../python-numpy/files/mipsarchn64el/config.h | 138 -----------------
+ .../files/mipsarcho32eb/_numpyconfig.h        |  32 ----
+ .../python-numpy/files/mipsarcho32eb/config.h | 139 ------------------
+ .../python-numpy/files/mipsarcho32el/config.h |  21 ---
+ .../files/mipsarcho32el/numpyconfig.h         |  18 ---
+ .../python-numpy/files/powerpc/_numpyconfig.h |  32 ----
+ .../python-numpy/files/powerpc/config.h       | 139 ------------------
+ .../files/powerpc64/_numpyconfig.h            |  32 ----
+ .../python-numpy/files/powerpc64/config.h     | 139 ------------------
+ .../python-numpy/files/riscv64/_numpyconfig.h |  32 ----
+ .../python-numpy/files/riscv64/config.h       | 139 ------------------
+ .../python-numpy/files/x86-64/_numpyconfig.h  |  32 ----
+ .../python-numpy/files/x86-64/config.h        | 139 ------------------
+ .../python-numpy/files/x86/config.h           | 108 --------------
+ .../python-numpy/files/x86/numpyconfig.h      |  24 ---
+ .../python-numpy/python-numpy.inc             |  68 ---------
+ 29 files changed, 2022 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/aarch64/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/aarch64/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/arm/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/arm/numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/armeb/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/armeb/numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarchn32eb/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarchn32eb/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarchn32el/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarchn32el/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarchn64eb/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarchn64eb/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarchn64el/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarchn64el/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarcho32eb/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarcho32eb/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarcho32el/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/mipsarcho32el/numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/powerpc/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/powerpc64/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/powerpc64/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/riscv64/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/riscv64/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/x86-64/_numpyconfig.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/x86-64/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/x86/config.h
+ delete mode 100644 meta/recipes-devtools/python-numpy/files/x86/numpyconfig.h
 
-does have header fixes which might be interesting to this issue
+diff --git a/meta/recipes-devtools/python-numpy/files/aarch64/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/aarch64/_numpyconfig.h
+deleted file mode 100644
+index 109deb0435..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/aarch64/_numpyconfig.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 16
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 32
+-#define NPY_SIZEOF_PY_INTPTR_T 8
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_SIZEOF_OFF_T 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/aarch64/config.h b/meta/recipes-devtools/python-numpy/files/aarch64/config.h
+deleted file mode 100644
+index c30b868f2f..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/aarch64/config.h
++++ /dev/null
+@@ -1,139 +0,0 @@
+-#define HAVE_ENDIAN_H 1
+-#define SIZEOF_PY_INTPTR_T 8
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_IEEE_QUAD_LE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/arm/config.h b/meta/recipes-devtools/python-numpy/files/arm/config.h
+deleted file mode 100644
+index 17ef186d56..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/arm/config.h
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/* ./src.linux-i686-2.5/numpy/core/include/numpy/config.h */
+-/* #define SIZEOF_SHORT 2 */
+-/* #define SIZEOF_INT 4 */
+-/* #define SIZEOF_LONG 4 */
+-/* #define SIZEOF_FLOAT 4 */
+-/* #define SIZEOF_DOUBLE 8 */
+-#define SIZEOF_LONG_DOUBLE 12
+-#define SIZEOF_PY_INTPTR_T 4
+-/* #define SIZEOF_LONG_LONG 8 */
+-#define SIZEOF_PY_LONG_LONG 8
+-/* #define CHAR_BIT 8 */
+-#define MATHLIB m
+-#define HAVE_FLOAT_FUNCS
+-#define HAVE_LOG1P
+-#define HAVE_EXPM1
+-#define HAVE_INVERSE_HYPERBOLIC
+-#define HAVE_INVERSE_HYPERBOLIC_FLOAT
+-#define HAVE_ISNAN
+-#define HAVE_ISINF
+-#define HAVE_RINT
+-
+diff --git a/meta/recipes-devtools/python-numpy/files/arm/numpyconfig.h b/meta/recipes-devtools/python-numpy/files/arm/numpyconfig.h
+deleted file mode 100644
+index c4bf6547f0..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/arm/numpyconfig.h
++++ /dev/null
+@@ -1,17 +0,0 @@
+-/* cat ./src.linux-i686-2.5/numpy/core/include/numpy/numpyconfig.h */
+-/*
+- *  * This file is generated by numpy/core/setup.pyc. DO NOT EDIT 
+- *   */
+-#define NPY_SIZEOF_SHORT 2 
+-#define NPY_SIZEOF_INT 4 
+-#define NPY_SIZEOF_LONG 4 
+-#define NPY_SIZEOF_FLOAT 4 
+-#define NPY_SIZEOF_DOUBLE 8 
+-#define NPY_SIZEOF_LONGDOUBLE 12 
+-#define NPY_SIZEOF_PY_INTPTR_T 4 
+-#define NPY_NO_SMP 0
+-
+-#define NPY_SIZEOF_LONGLONG 8 
+-#define NPY_SIZEOF_PY_LONG_LONG 8 
+-/* #define CHAR_BIT 8 */
+-
+diff --git a/meta/recipes-devtools/python-numpy/files/armeb/config.h b/meta/recipes-devtools/python-numpy/files/armeb/config.h
+deleted file mode 100644
+index 17ef186d56..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/armeb/config.h
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/* ./src.linux-i686-2.5/numpy/core/include/numpy/config.h */
+-/* #define SIZEOF_SHORT 2 */
+-/* #define SIZEOF_INT 4 */
+-/* #define SIZEOF_LONG 4 */
+-/* #define SIZEOF_FLOAT 4 */
+-/* #define SIZEOF_DOUBLE 8 */
+-#define SIZEOF_LONG_DOUBLE 12
+-#define SIZEOF_PY_INTPTR_T 4
+-/* #define SIZEOF_LONG_LONG 8 */
+-#define SIZEOF_PY_LONG_LONG 8
+-/* #define CHAR_BIT 8 */
+-#define MATHLIB m
+-#define HAVE_FLOAT_FUNCS
+-#define HAVE_LOG1P
+-#define HAVE_EXPM1
+-#define HAVE_INVERSE_HYPERBOLIC
+-#define HAVE_INVERSE_HYPERBOLIC_FLOAT
+-#define HAVE_ISNAN
+-#define HAVE_ISINF
+-#define HAVE_RINT
+-
+diff --git a/meta/recipes-devtools/python-numpy/files/armeb/numpyconfig.h b/meta/recipes-devtools/python-numpy/files/armeb/numpyconfig.h
+deleted file mode 100644
+index c4bf6547f0..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/armeb/numpyconfig.h
++++ /dev/null
+@@ -1,17 +0,0 @@
+-/* cat ./src.linux-i686-2.5/numpy/core/include/numpy/numpyconfig.h */
+-/*
+- *  * This file is generated by numpy/core/setup.pyc. DO NOT EDIT 
+- *   */
+-#define NPY_SIZEOF_SHORT 2 
+-#define NPY_SIZEOF_INT 4 
+-#define NPY_SIZEOF_LONG 4 
+-#define NPY_SIZEOF_FLOAT 4 
+-#define NPY_SIZEOF_DOUBLE 8 
+-#define NPY_SIZEOF_LONGDOUBLE 12 
+-#define NPY_SIZEOF_PY_INTPTR_T 4 
+-#define NPY_NO_SMP 0
+-
+-#define NPY_SIZEOF_LONGLONG 8 
+-#define NPY_SIZEOF_PY_LONG_LONG 8 
+-/* #define CHAR_BIT 8 */
+-
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarchn32eb/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mipsarchn32eb/_numpyconfig.h
+deleted file mode 100644
+index debb390094..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarchn32eb/_numpyconfig.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 16
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 32
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_SIZEOF_PY_INTPTR_T 8
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_SIZEOF_OFF_T 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarchn32eb/config.h b/meta/recipes-devtools/python-numpy/files/mipsarchn32eb/config.h
+deleted file mode 100644
+index c30b868f2f..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarchn32eb/config.h
++++ /dev/null
+@@ -1,139 +0,0 @@
+-#define HAVE_ENDIAN_H 1
+-#define SIZEOF_PY_INTPTR_T 8
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_IEEE_QUAD_LE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarchn32el/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mipsarchn32el/_numpyconfig.h
+deleted file mode 100644
+index 8e2b5d0940..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarchn32el/_numpyconfig.h
++++ /dev/null
+@@ -1,31 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 16
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 32
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_SIZEOF_PY_INTPTR_T 8
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarchn32el/config.h b/meta/recipes-devtools/python-numpy/files/mipsarchn32el/config.h
+deleted file mode 100644
+index 48727039ae..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarchn32el/config.h
++++ /dev/null
+@@ -1,138 +0,0 @@
+-#define SIZEOF_PY_INTPTR_T 8
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_IEEE_QUAD_LE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarchn64eb/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mipsarchn64eb/_numpyconfig.h
+deleted file mode 100644
+index debb390094..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarchn64eb/_numpyconfig.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 16
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 32
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_SIZEOF_PY_INTPTR_T 8
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_SIZEOF_OFF_T 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarchn64eb/config.h b/meta/recipes-devtools/python-numpy/files/mipsarchn64eb/config.h
+deleted file mode 100644
+index c30b868f2f..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarchn64eb/config.h
++++ /dev/null
+@@ -1,139 +0,0 @@
+-#define HAVE_ENDIAN_H 1
+-#define SIZEOF_PY_INTPTR_T 8
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_IEEE_QUAD_LE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarchn64el/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mipsarchn64el/_numpyconfig.h
+deleted file mode 100644
+index debb390094..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarchn64el/_numpyconfig.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 16
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 32
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_SIZEOF_PY_INTPTR_T 8
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_SIZEOF_OFF_T 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarchn64el/config.h b/meta/recipes-devtools/python-numpy/files/mipsarchn64el/config.h
+deleted file mode 100644
+index 48727039ae..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarchn64el/config.h
++++ /dev/null
+@@ -1,138 +0,0 @@
+-#define SIZEOF_PY_INTPTR_T 8
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_IEEE_QUAD_LE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarcho32eb/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mipsarcho32eb/_numpyconfig.h
+deleted file mode 100644
+index 4c465c216c..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarcho32eb/_numpyconfig.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 16
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_SIZEOF_PY_INTPTR_T 4
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_SIZEOF_OFF_T 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarcho32eb/config.h b/meta/recipes-devtools/python-numpy/files/mipsarcho32eb/config.h
+deleted file mode 100644
+index 2f6135adce..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarcho32eb/config.h
++++ /dev/null
+@@ -1,139 +0,0 @@
+-#define HAVE_ENDIAN_H 1
+-#define SIZEOF_PY_INTPTR_T 4
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_IEEE_DOUBLE_BE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarcho32el/config.h b/meta/recipes-devtools/python-numpy/files/mipsarcho32el/config.h
+deleted file mode 100644
+index 17ef186d56..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarcho32el/config.h
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/* ./src.linux-i686-2.5/numpy/core/include/numpy/config.h */
+-/* #define SIZEOF_SHORT 2 */
+-/* #define SIZEOF_INT 4 */
+-/* #define SIZEOF_LONG 4 */
+-/* #define SIZEOF_FLOAT 4 */
+-/* #define SIZEOF_DOUBLE 8 */
+-#define SIZEOF_LONG_DOUBLE 12
+-#define SIZEOF_PY_INTPTR_T 4
+-/* #define SIZEOF_LONG_LONG 8 */
+-#define SIZEOF_PY_LONG_LONG 8
+-/* #define CHAR_BIT 8 */
+-#define MATHLIB m
+-#define HAVE_FLOAT_FUNCS
+-#define HAVE_LOG1P
+-#define HAVE_EXPM1
+-#define HAVE_INVERSE_HYPERBOLIC
+-#define HAVE_INVERSE_HYPERBOLIC_FLOAT
+-#define HAVE_ISNAN
+-#define HAVE_ISINF
+-#define HAVE_RINT
+-
+diff --git a/meta/recipes-devtools/python-numpy/files/mipsarcho32el/numpyconfig.h b/meta/recipes-devtools/python-numpy/files/mipsarcho32el/numpyconfig.h
+deleted file mode 100644
+index 0b7cd51af4..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/mipsarcho32el/numpyconfig.h
++++ /dev/null
+@@ -1,18 +0,0 @@
+-/* cat ./src.linux-i686-2.5/numpy/core/include/numpy/numpyconfig.h */
+-/*
+- *  * This file is generated by numpy/core/setup.pyc. DO NOT EDIT 
+- *   */
+-#define NPY_SIZEOF_SHORT 2 
+-#define NPY_SIZEOF_INT 4 
+-#define NPY_SIZEOF_LONG 4 
+-#define NPY_SIZEOF_FLOAT 4 
+-#define NPY_SIZEOF_DOUBLE 8 
+-#define NPY_SIZEOF_LONGDOUBLE 12 
+-#define NPY_SIZEOF_PY_INTPTR_T 4 
+-#define NPY_NO_SMP 0
+-
+-#define NPY_SIZEOF_LONGLONG 8 
+-#define NPY_SIZEOF_PY_LONG_LONG 8 
+-#define NPY_SIZEOF_OFF_T 8
+-/* #define CHAR_BIT 8 */
+-
+diff --git a/meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h
+deleted file mode 100644
+index 6e7262ad91..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/powerpc/_numpyconfig.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 16
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 32
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_SIZEOF_PY_INTPTR_T 4
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_SIZEOF_OFF_T 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/powerpc/config.h b/meta/recipes-devtools/python-numpy/files/powerpc/config.h
+deleted file mode 100644
+index f65d39d5de..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/powerpc/config.h
++++ /dev/null
+@@ -1,139 +0,0 @@
+-#define HAVE_ENDIAN_H 1
+-#define SIZEOF_PY_INTPTR_T 4
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_DOUBLE_DOUBLE_BE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/powerpc64/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/powerpc64/_numpyconfig.h
+deleted file mode 100644
+index debb390094..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/powerpc64/_numpyconfig.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 16
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 32
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_SIZEOF_PY_INTPTR_T 8
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_SIZEOF_OFF_T 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/powerpc64/config.h b/meta/recipes-devtools/python-numpy/files/powerpc64/config.h
+deleted file mode 100644
+index c30b868f2f..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/powerpc64/config.h
++++ /dev/null
+@@ -1,139 +0,0 @@
+-#define HAVE_ENDIAN_H 1
+-#define SIZEOF_PY_INTPTR_T 8
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_IEEE_QUAD_LE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/riscv64/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/riscv64/_numpyconfig.h
+deleted file mode 100644
+index 109deb0435..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/riscv64/_numpyconfig.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 16
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 32
+-#define NPY_SIZEOF_PY_INTPTR_T 8
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_SIZEOF_OFF_T 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/riscv64/config.h b/meta/recipes-devtools/python-numpy/files/riscv64/config.h
+deleted file mode 100644
+index c30b868f2f..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/riscv64/config.h
++++ /dev/null
+@@ -1,139 +0,0 @@
+-#define HAVE_ENDIAN_H 1
+-#define SIZEOF_PY_INTPTR_T 8
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_IEEE_QUAD_LE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/x86-64/_numpyconfig.h b/meta/recipes-devtools/python-numpy/files/x86-64/_numpyconfig.h
+deleted file mode 100644
+index b330361649..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/x86-64/_numpyconfig.h
++++ /dev/null
+@@ -1,32 +0,0 @@
+-#define NPY_HAVE_ENDIAN_H 1
+-#define NPY_SIZEOF_SHORT SIZEOF_SHORT
+-#define NPY_SIZEOF_INT SIZEOF_INT
+-#define NPY_SIZEOF_LONG SIZEOF_LONG
+-#define NPY_SIZEOF_FLOAT 4
+-#define NPY_SIZEOF_COMPLEX_FLOAT 8
+-#define NPY_SIZEOF_DOUBLE 8
+-#define NPY_SIZEOF_OFF_T 8
+-#define NPY_SIZEOF_COMPLEX_DOUBLE 16
+-#define NPY_SIZEOF_LONGDOUBLE 16
+-#define NPY_SIZEOF_COMPLEX_LONGDOUBLE 32
+-#define NPY_ENABLE_SEPARATE_COMPILATION 1
+-#define NPY_SIZEOF_PY_INTPTR_T 8
+-#define NPY_SIZEOF_PY_LONG_LONG 8
+-#define NPY_SIZEOF_LONGLONG 8
+-#define NPY_NO_SMP 0
+-#define NPY_HAVE_DECL_ISNAN
+-#define NPY_HAVE_DECL_ISINF
+-#define NPY_HAVE_DECL_ISFINITE
+-#define NPY_HAVE_DECL_SIGNBIT
+-#define NPY_USE_C99_COMPLEX 1
+-#define NPY_HAVE_COMPLEX_DOUBLE 1
+-#define NPY_HAVE_COMPLEX_FLOAT 1
+-#define NPY_HAVE_COMPLEX_LONG_DOUBLE 1
+-#define NPY_USE_C99_FORMATS 1
+-#define NPY_VISIBILITY_HIDDEN __attribute__((visibility("hidden")))
+-#define NPY_ABI_VERSION 0x01000009
+-#define NPY_API_VERSION 0x0000000A
+-
+-#ifndef __STDC_FORMAT_MACROS
+-#define __STDC_FORMAT_MACROS 1
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/x86-64/config.h b/meta/recipes-devtools/python-numpy/files/x86-64/config.h
+deleted file mode 100644
+index 0ce63b7d22..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/x86-64/config.h
++++ /dev/null
+@@ -1,139 +0,0 @@
+-#define HAVE_ENDIAN_H 1
+-#define SIZEOF_PY_INTPTR_T 8
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN 1
+-#define HAVE_COS 1
+-#define HAVE_TAN 1
+-#define HAVE_SINH 1
+-#define HAVE_COSH 1
+-#define HAVE_TANH 1
+-#define HAVE_FABS 1
+-#define HAVE_FLOOR 1
+-#define HAVE_CEIL 1
+-#define HAVE_SQRT 1
+-#define HAVE_LOG10 1
+-#define HAVE_LOG 1
+-#define HAVE_EXP 1
+-#define HAVE_ASIN 1
+-#define HAVE_ACOS 1
+-#define HAVE_ATAN 1
+-#define HAVE_FMOD 1
+-#define HAVE_MODF 1
+-#define HAVE_FREXP 1
+-#define HAVE_LDEXP 1
+-#define HAVE_RINT 1
+-#define HAVE_TRUNC 1
+-#define HAVE_EXP2 1
+-#define HAVE_LOG2 1
+-#define HAVE_ATAN2 1
+-#define HAVE_POW 1
+-#define HAVE_NEXTAFTER 1
+-#define HAVE_SINF 1
+-#define HAVE_COSF 1
+-#define HAVE_TANF 1
+-#define HAVE_SINHF 1
+-#define HAVE_COSHF 1
+-#define HAVE_TANHF 1
+-#define HAVE_FABSF 1
+-#define HAVE_FLOORF 1
+-#define HAVE_CEILF 1
+-#define HAVE_RINTF 1
+-#define HAVE_TRUNCF 1
+-#define HAVE_SQRTF 1
+-#define HAVE_LOG10F 1
+-#define HAVE_LOGF 1
+-#define HAVE_LOG1PF 1
+-#define HAVE_EXPF 1
+-#define HAVE_EXPM1F 1
+-#define HAVE_ASINF 1
+-#define HAVE_ACOSF 1
+-#define HAVE_ATANF 1
+-#define HAVE_ASINHF 1
+-#define HAVE_ACOSHF 1
+-#define HAVE_ATANHF 1
+-#define HAVE_HYPOTF 1
+-#define HAVE_ATAN2F 1
+-#define HAVE_POWF 1
+-#define HAVE_FMODF 1
+-#define HAVE_MODFF 1
+-#define HAVE_FREXPF 1
+-#define HAVE_LDEXPF 1
+-#define HAVE_EXP2F 1
+-#define HAVE_LOG2F 1
+-#define HAVE_COPYSIGNF 1
+-#define HAVE_NEXTAFTERF 1
+-#define HAVE_SINL 1
+-#define HAVE_COSL 1
+-#define HAVE_TANL 1
+-#define HAVE_SINHL 1
+-#define HAVE_COSHL 1
+-#define HAVE_TANHL 1
+-#define HAVE_FABSL 1
+-#define HAVE_FLOORL 1
+-#define HAVE_CEILL 1
+-#define HAVE_RINTL 1
+-#define HAVE_TRUNCL 1
+-#define HAVE_SQRTL 1
+-#define HAVE_LOG10L 1
+-#define HAVE_LOGL 1
+-#define HAVE_LOG1PL 1
+-#define HAVE_EXPL 1
+-#define HAVE_EXPM1L 1
+-#define HAVE_ASINL 1
+-#define HAVE_ACOSL 1
+-#define HAVE_ATANL 1
+-#define HAVE_ASINHL 1
+-#define HAVE_ACOSHL 1
+-#define HAVE_ATANHL 1
+-#define HAVE_HYPOTL 1
+-#define HAVE_ATAN2L 1
+-#define HAVE_POWL 1
+-#define HAVE_FMODL 1
+-#define HAVE_MODFL 1
+-#define HAVE_FREXPL 1
+-#define HAVE_LDEXPL 1
+-#define HAVE_EXP2L 1
+-#define HAVE_LOG2L 1
+-#define HAVE_COPYSIGNL 1
+-#define HAVE_NEXTAFTERL 1
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H 1
+-#define HAVE_CREAL 1
+-#define HAVE_CIMAG 1
+-#define HAVE_CABS 1
+-#define HAVE_CARG 1
+-#define HAVE_CEXP 1
+-#define HAVE_CSQRT 1
+-#define HAVE_CLOG 1
+-#define HAVE_CCOS 1
+-#define HAVE_CSIN 1
+-#define HAVE_CPOW 1
+-#define HAVE_CREALF 1
+-#define HAVE_CIMAGF 1
+-#define HAVE_CABSF 1
+-#define HAVE_CARGF 1
+-#define HAVE_CEXPF 1
+-#define HAVE_CSQRTF 1
+-#define HAVE_CLOGF 1
+-#define HAVE_CCOSF 1
+-#define HAVE_CSINF 1
+-#define HAVE_CPOWF 1
+-#define HAVE_CREALL 1
+-#define HAVE_CIMAGL 1
+-#define HAVE_CABSL 1
+-#define HAVE_CARGL 1
+-#define HAVE_CEXPL 1
+-#define HAVE_CSQRTL 1
+-#define HAVE_CLOGL 1
+-#define HAVE_CCOSL 1
+-#define HAVE_CSINL 1
+-#define HAVE_CPOWL 1
+-#define HAVE_LDOUBLE_INTEL_EXTENDED_16_BYTES_LE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/x86/config.h b/meta/recipes-devtools/python-numpy/files/x86/config.h
+deleted file mode 100644
+index 08e41e3d99..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/x86/config.h
++++ /dev/null
+@@ -1,108 +0,0 @@
+-#define SIZEOF_PY_INTPTR_T 4
+-#define SIZEOF_PY_LONG_LONG 8
+-#define MATHLIB m
+-#define HAVE_SIN
+-#define HAVE_COS
+-#define HAVE_TAN
+-#define HAVE_SINH
+-#define HAVE_COSH
+-#define HAVE_TANH
+-#define HAVE_FABS
+-#define HAVE_FLOOR
+-#define HAVE_CEIL
+-#define HAVE_SQRT
+-#define HAVE_LOG10
+-#define HAVE_LOG
+-#define HAVE_EXP
+-#define HAVE_ASIN
+-#define HAVE_ACOS
+-#define HAVE_ATAN
+-#define HAVE_FMOD
+-#define HAVE_MODF
+-#define HAVE_FREXP
+-#define HAVE_LDEXP
+-#define HAVE_RINT
+-#define HAVE_TRUNC
+-#define HAVE_EXP2
+-#define HAVE_LOG2
+-#define HAVE_ATAN2
+-#define HAVE_POW
+-#define HAVE_NEXTAFTER
+-#define HAVE_SINF
+-#define HAVE_COSF
+-#define HAVE_TANF
+-#define HAVE_SINHF
+-#define HAVE_COSHF
+-#define HAVE_TANHF
+-#define HAVE_FABSF
+-#define HAVE_FLOORF
+-#define HAVE_CEILF
+-#define HAVE_RINTF
+-#define HAVE_TRUNCF
+-#define HAVE_SQRTF
+-#define HAVE_LOG10F
+-#define HAVE_LOGF
+-#define HAVE_LOG1PF
+-#define HAVE_EXPF
+-#define HAVE_EXPM1F
+-#define HAVE_ASINF
+-#define HAVE_ACOSF
+-#define HAVE_ATANF
+-#define HAVE_ASINHF
+-#define HAVE_ACOSHF
+-#define HAVE_ATANHF
+-#define HAVE_HYPOTF
+-#define HAVE_ATAN2F
+-#define HAVE_POWF
+-#define HAVE_FMODF
+-#define HAVE_MODFF
+-#define HAVE_FREXPF
+-#define HAVE_LDEXPF
+-#define HAVE_EXP2F
+-#define HAVE_LOG2F
+-#define HAVE_COPYSIGNF
+-#define HAVE_NEXTAFTERF
+-#define HAVE_SINL
+-#define HAVE_COSL
+-#define HAVE_TANL
+-#define HAVE_SINHL
+-#define HAVE_COSHL
+-#define HAVE_TANHL
+-#define HAVE_FABSL
+-#define HAVE_FLOORL
+-#define HAVE_CEILL
+-#define HAVE_RINTL
+-#define HAVE_TRUNCL
+-#define HAVE_SQRTL
+-#define HAVE_LOG10L
+-#define HAVE_LOGL
+-#define HAVE_LOG1PL
+-#define HAVE_EXPL
+-#define HAVE_EXPM1L
+-#define HAVE_ASINL
+-#define HAVE_ACOSL
+-#define HAVE_ATANL
+-#define HAVE_ASINHL
+-#define HAVE_ACOSHL
+-#define HAVE_ATANHL
+-#define HAVE_HYPOTL
+-#define HAVE_ATAN2L
+-#define HAVE_POWL
+-#define HAVE_FMODL
+-#define HAVE_MODFL
+-#define HAVE_FREXPL
+-#define HAVE_LDEXPL
+-#define HAVE_EXP2L
+-#define HAVE_LOG2L
+-#define HAVE_COPYSIGNL
+-#define HAVE_NEXTAFTERL
+-#define HAVE_DECL_SIGNBIT
+-#define HAVE_COMPLEX_H
+-#define HAVE_LDOUBLE_INTEL_EXTENDED_12_BYTES_LE 1
+-#ifndef __cplusplus
+-/* #undef inline */
+-#endif
+-
+-#ifndef _NPY_NPY_CONFIG_H_
+-#error config.h should never be included directly, include npy_config.h instead
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/files/x86/numpyconfig.h b/meta/recipes-devtools/python-numpy/files/x86/numpyconfig.h
+deleted file mode 100644
+index ff7938cd96..0000000000
+--- a/meta/recipes-devtools/python-numpy/files/x86/numpyconfig.h
++++ /dev/null
+@@ -1,24 +0,0 @@
+-#ifndef _NPY_NUMPYCONFIG_H_
+-#define _NPY_NUMPYCONFIG_H_
+-
+-#include "_numpyconfig.h"
+-
+-/* 
+- * On Mac OS X, because there is only one configuration stage for all the archs
+- * in universal builds, any macro which depends on the arch needs to be
+- * harcoded
+- */
+-#ifdef __APPLE__
+-	#undef NPY_SIZEOF_LONG
+-	#undef NPY_SIZEOF_PY_INTPTR_T
+-
+-	#ifdef __LP64__
+-		#define NPY_SIZEOF_LONG 		8
+-		#define NPY_SIZEOF_PY_INTPTR_T 	8
+-	#else
+-		#define NPY_SIZEOF_LONG 		4
+-		#define NPY_SIZEOF_PY_INTPTR_T 	4
+-	#endif
+-#endif
+-
+-#endif
+diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
+index a12e72f964..f68b90e6b9 100644
+--- a/meta/recipes-devtools/python-numpy/python-numpy.inc
++++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
+@@ -8,7 +8,6 @@ SRCNAME = "numpy"
+ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+            file://0001-npy_cpu-Add-riscv-support.patch \
+-           ${CONFIGFILESURI} \
+            file://0001-numpy-random-setup.py-remove-the-detection-of-x86-ta.patch \
+            "
+ SRC_URI[md5sum] = "c48b2ad785f82cdfe28c907ce35e2a71"
+@@ -20,77 +19,10 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ # Needed for building with gcc 4.x from centos 7
+ CFLAGS_append_class-native = " -std=c99"
+ 
+-CONFIGFILESURI ?= ""
+-
+-CONFIGFILESURI_aarch64 = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-CONFIGFILESURI_arm = " \
+-    file://config.h \
+-    file://numpyconfig.h \
+-"
+-CONFIGFILESURI_armeb = " \
+-    file://config.h \
+-    file://numpyconfig.h \
+-"
+-CONFIGFILESURI_mipsarcho32el = " \
+-    file://config.h \
+-    file://numpyconfig.h \
+-"
+-CONFIGFILESURI_x86 = " \
+-    file://config.h \
+-    file://numpyconfig.h \
+-"
+-CONFIGFILESURI_x86-64 = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-CONFIGFILESURI_mipsarcho32eb = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-CONFIGFILESURI_powerpc = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-CONFIGFILESURI_powerpc64 = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-CONFIGFILESURI_mipsarchn64eb = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-CONFIGFILESURI_mipsarchn64el = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-CONFIGFILESURI_mipsarchn32eb = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-CONFIGFILESURI_mipsarchn32el = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-CONFIGFILESURI_riscv64 = " \
+-    file://config.h \
+-    file://_numpyconfig.h \
+-"
+-
+ S = "${WORKDIR}/numpy-${PV}"
+ 
+ CLEANBROKEN = "1"
+ 
+-# Make the build fail and replace *config.h with proper one
+-# This is a ugly, ugly hack - Koen
+-do_compile_prepend_class-target() {
+-    ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py build ${DISTUTILS_BUILD_ARGS} || \
+-    true
+-    cp ${WORKDIR}/*config.h ${S}/build/$(ls ${S}/build | grep src)/numpy/core/include/numpy/
+-}
+-
+ FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a"
+ 
+ # install what is needed for numpy.test()
+-- 
+2.17.1
 
-> Alex
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
