@@ -1,48 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 91DBD7D97D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
+	[209.85.222.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 62EC27FBA1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 10:15:08 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id z11so6823540wro.11
+	Sun, 27 Oct 2019 10:48:35 +0000 (UTC)
+Received: by mail-ua1-f47.google.com with SMTP id q16so1882406uao.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 03:15:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=T6ALMJYOiN8zFbfjaysLIOkB/9J4+mP3s1C29B8aI8c=;
-	b=UIFQJ36HGSd1JNFS/K3ug2TxpZQC6reYxSev63sGtWwKyHddaTYmvT2FjAZNJnetWO
-	U6Z3aU5rJhTmL07xnzHQQ5FPY+NPloZ2th+uBJiTxNV7bY4D6YZ5/iR9LGxqILyvETSi
-	CdRYb0cvFKHPM9+npvbTanb0DSIySAKvr9EUc=
+	Sun, 27 Oct 2019 03:48:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=fZ6tYCPWzG9EdlTMRzcvyvWgH/hTt3wviKAH7aHQ3U8=;
+	b=sz6LmdqFK0cu+CYuura2NDYNUGLGkLhzI7lYJ0oxAljkZMakntqEXYvT6ikdvPnrdl
+	4FK4Oj7/MbB8LPDeiZGExxRUkNuZvyTpCx/af8gD1t2rs5sD9SgeF3Vf4A0mY6HeMgSw
+	ua7eecVcfHf+98eQvAhSz/gt2t3BkvtRfvr/D2q84vZF04vlFj6dZwxhBvnA/6simALt
+	OF9d3bPynd/xHP9i6enpKBUe8A7pfbYWTBwIq+pUhzdkhK9zxl3YKc/+M3m/IpcNBW/6
+	V2BXGm6DjT7Fij8nEbjDKK/DysJ5E+beqfChNOVc6B6KQTAXXaYTmwnWaVRtLsWN2kjY
+	ou/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=T6ALMJYOiN8zFbfjaysLIOkB/9J4+mP3s1C29B8aI8c=;
-	b=jH/5yq9JJSHaxsPRU6wmPyT6p++RniAgMPClZzGv43MEkULDntFzb9hviDZ8DoQ6GJ
-	QupY3BrA7u3GyiKCFwPUJVuaIcEBKHMyqbC4RPt5x53KEgqGNrzb9D2C4mKBMSIN/ZpC
-	yIVbdCTcD9+LsT6KcF31WfT+RzQpn5RDL5NHxZ2cD7lsZFvrg9cuvEDq1N1cj3ldd5tu
-	3H26EQIcPERcS8K4ClBojr2IFeiq2KrMG92HRn9M8occLMT0xh6z13/2QguCRiyR/p9M
-	vomcfEQmhRyZM80+cQNVH5IOuX439WfeCrtyrC6sJPmjspv5U3mmPHb+vPWPnQuiMSzV
-	+lkQ==
-X-Gm-Message-State: APjAAAV5t9lhjQuRsIY/4nMCWespeNRrdGUEf66Us7aRgMrBXIJws1Vu
-	P+XSzqFej/2sncpCPmIU+jDEVD6jXn4=
-X-Google-Smtp-Source: APXvYqy+CkjGxY7UkrHX1f4cWJr2Wb6lLRVsHefo7Zb4zSViH4zHnoT65w0XWBFSDIfIlN/jNRWapQ==
-X-Received: by 2002:adf:d846:: with SMTP id k6mr10829260wrl.178.1572171308996; 
-	Sun, 27 Oct 2019 03:15:08 -0700 (PDT)
-Received: from hex.int.rpsys.net ([176.12.107.140])
-	by smtp.gmail.com with ESMTPSA id k3sm3613229wrn.95.2019.10.27.03.15.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 27 Oct 2019 03:15:08 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Oct 2019 10:15:02 +0000
-Message-Id: <20191027101502.23140-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=fZ6tYCPWzG9EdlTMRzcvyvWgH/hTt3wviKAH7aHQ3U8=;
+	b=Qo9qaGTnNqfBHKlmECSOFEuQdRn8QjAzxhIplK/HERBGwbsRNtYK93OKtIlFrgmdLu
+	r2QAV/G/l2YIjGwa4wr8da7A6uKzJTyg7UhzJDbI6CTZUCox1rvMRiNifVcnS3zo5BNQ
+	nRtgf03GonGE1OIXG44RfWlkGGWkQqsFD0JLFani3qHf+I9meoVR+FWLT5NRTkePFr4i
+	Fy4y0eSKNgydXe5UFaeOPH4xF/G5bQ9EHjmzd1M6aMYWaTlUp+C75MrdY7M6Zn3/T/YD
+	cm8Spial6pP6S4cFD8DxJrCT1C48aa4+HysrorDFFb8oJ2AHveyuWH7AaCnWMC6dzSKd
+	w8GA==
+X-Gm-Message-State: APjAAAXfFdqntTIW7frIJ9D9toa5Z34VsnqULKemqRcSNSWHWejrSBo4
+	ItD2AdYHETJiCdyK8O0jzA4z0JikC8X8y3Rfg3g=
+X-Google-Smtp-Source: APXvYqxCfLOLMEoleewU1fO2hIaZeohfEv2rMQGO7qgAcnfqEPIObmYfjg6hcrzzOpiu9yUe7R8gfGQFGI/M4vWKcjw=
+X-Received: by 2002:ab0:2907:: with SMTP id v7mr2774601uap.89.1572173316050;
+	Sun, 27 Oct 2019 03:48:36 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] qemu: Avoid potential build configuration contamination
+References: <a5bb0fd6ed961516f649139e41cbdddf42ce17e2.camel@linuxfoundation.org>
+In-Reply-To: <a5bb0fd6ed961516f649139e41cbdddf42ce17e2.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 27 Oct 2019 11:48:23 +0100
+Message-ID: <CANNYZj8z-mRj8zjT4RbXURipZVmDT94KeVROVov2hM9i4=cyqg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: qemu rebuild contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +53,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2019 10:15:09 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 27 Oct 2019 10:48:35 -0000
+Content-Type: multipart/alternative; boundary="0000000000000755090595e22023"
 
-Changing the gl options to qemu doesn't result in a correctly rebuilt
-binary, the GL linkage can persist from a build where it was enabled
-to one where it was not.
+--0000000000000755090595e22023
+Content-Type: text/plain; charset="UTF-8"
 
-As well as clearly being incorrect and non-reproducible, this caused
-some mystery failures on the autobuilder.
+On Sun, 27 Oct 2019 at 10:58, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Cleaning ${B} at do_configure time avoids this. Most recipes
-(e.g. autotools derived ones) already clean ${B} as appropriate and
-avoid this issue.
+>
+> The reason is that when configuration changes, autotools.bbclass will
+> wipe out ${B} however qemu doesn't use the autotools class and hence B
+> is not cleaned for changes in configuration.
+>
+> We could abstract the pieces of autotools.bbclass which do this into a
+> separate class, or, easier, have qemu's do_configure wipe ${B}.
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for looking; I had noticed before that when qemu's PACKAGECONFIG
+options change, it rebuilds very quickly - I assumed qemu's build scripts
+know what they do and rebuild only the needed pieces. Somehow, I had never
+hit the problem of resulting binaries mismatching the configuration in
+local tests.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index bb444b63d97..601fc2286b3 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -95,6 +95,7 @@ do_configure_prepend_class-native() {
- do_configure() {
-     ${S}/configure ${EXTRA_OECONF}
- }
-+do_configure[cleandirs] += "${B}"
- 
- do_install () {
- 	export STRIP=""
--- 
-2.20.1
+Alex
 
+--0000000000000755090595e22023
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 27 Oct 2019 at 10:58, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><br>
+The reason is that when configuration changes, autotools.bbclass will<br>
+wipe out ${B} however qemu doesn&#39;t use the autotools class and hence B<=
+br>
+is not cleaned for changes in configuration.<br>
+<br>
+We could abstract the pieces of autotools.bbclass which do this into a<br>
+separate class, or, easier, have qemu&#39;s do_configure wipe ${B}.<br></bl=
+ockquote><div><br></div><div>Thanks for looking; I had noticed before that =
+when qemu&#39;s PACKAGECONFIG options change, it rebuilds very quickly - I =
+assumed qemu&#39;s build scripts know what they do and rebuild only the nee=
+ded pieces. Somehow, I had never hit the problem of resulting binaries mism=
+atching the configuration in local tests. <br></div><div><br></div><div>Ale=
+x<br></div></div></div>
+
+--0000000000000755090595e22023--
