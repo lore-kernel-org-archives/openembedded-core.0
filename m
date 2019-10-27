@@ -1,31 +1,48 @@
-Return-Path: <stefan@herbrechtsmeier.net>
-Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
-	by mail.openembedded.org (Postfix) with ESMTP id 81FDD7FB96
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 91DBD7D97D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 09:58:26 +0000 (UTC)
-Received: from [192.168.178.36] (i59F77EF2.versanet.de [89.247.126.242])
-	by dd41138.kasserver.com (Postfix) with ESMTPSA id 8DF5F11A1245;
-	Sun, 27 Oct 2019 10:58:26 +0100 (CET)
-To: Adrian Bunk <bunk@stusta.de>
-References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
-	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
-	<5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
-	<CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
-	<20191024153740.GB9707@localhost>
-	<b15dc7e214c76e710446b6dd634f669658d5a577.camel@linuxfoundation.org>
-	<a83142c2-9106-f996-d1d9-380cbf8d2b97@herbrechtsmeier.net>
-	<20191025110849.GB17425@localhost>
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Message-ID: <02dddebb-76a0-80e4-165c-5cd989058321@herbrechtsmeier.net>
-Date: Sun, 27 Oct 2019 10:58:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	Sun, 27 Oct 2019 10:15:08 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id z11so6823540wro.11
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 Oct 2019 03:15:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=T6ALMJYOiN8zFbfjaysLIOkB/9J4+mP3s1C29B8aI8c=;
+	b=UIFQJ36HGSd1JNFS/K3ug2TxpZQC6reYxSev63sGtWwKyHddaTYmvT2FjAZNJnetWO
+	U6Z3aU5rJhTmL07xnzHQQ5FPY+NPloZ2th+uBJiTxNV7bY4D6YZ5/iR9LGxqILyvETSi
+	CdRYb0cvFKHPM9+npvbTanb0DSIySAKvr9EUc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=T6ALMJYOiN8zFbfjaysLIOkB/9J4+mP3s1C29B8aI8c=;
+	b=jH/5yq9JJSHaxsPRU6wmPyT6p++RniAgMPClZzGv43MEkULDntFzb9hviDZ8DoQ6GJ
+	QupY3BrA7u3GyiKCFwPUJVuaIcEBKHMyqbC4RPt5x53KEgqGNrzb9D2C4mKBMSIN/ZpC
+	yIVbdCTcD9+LsT6KcF31WfT+RzQpn5RDL5NHxZ2cD7lsZFvrg9cuvEDq1N1cj3ldd5tu
+	3H26EQIcPERcS8K4ClBojr2IFeiq2KrMG92HRn9M8occLMT0xh6z13/2QguCRiyR/p9M
+	vomcfEQmhRyZM80+cQNVH5IOuX439WfeCrtyrC6sJPmjspv5U3mmPHb+vPWPnQuiMSzV
+	+lkQ==
+X-Gm-Message-State: APjAAAV5t9lhjQuRsIY/4nMCWespeNRrdGUEf66Us7aRgMrBXIJws1Vu
+	P+XSzqFej/2sncpCPmIU+jDEVD6jXn4=
+X-Google-Smtp-Source: APXvYqy+CkjGxY7UkrHX1f4cWJr2Wb6lLRVsHefo7Zb4zSViH4zHnoT65w0XWBFSDIfIlN/jNRWapQ==
+X-Received: by 2002:adf:d846:: with SMTP id k6mr10829260wrl.178.1572171308996; 
+	Sun, 27 Oct 2019 03:15:08 -0700 (PDT)
+Received: from hex.int.rpsys.net ([176.12.107.140])
+	by smtp.gmail.com with ESMTPSA id k3sm3613229wrn.95.2019.10.27.03.15.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 27 Oct 2019 03:15:08 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 27 Oct 2019 10:15:02 +0000
+Message-Id: <20191027101502.23140-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191025110849.GB17425@localhost>
-Cc: "Paul Eggleton \(paul.eggleton@linux.intel.com\)"
-	<paul.eggleton@linux.intel.com>, rennes@savoirfairelinux.com,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH 0/6] NPM refactoring
+Subject: [PATCH] qemu: Avoid potential build configuration contamination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,68 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2019 09:58:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 27 Oct 2019 10:15:09 -0000
+Content-Transfer-Encoding: 8bit
 
-Am 25.10.19 um 13:08 schrieb Adrian Bunk:
-> On Fri, Oct 25, 2019 at 10:35:20AM +0200, Stefan Herbrechtsmeier wrote:
->> Am 24.10.19 um 17:59 schrieb Richard Purdie:
->>> On Thu, 2019-10-24 at 18:37 +0300, Adrian Bunk wrote:
->>>> On Thu, Oct 24, 2019 at 02:12:43PM +0200, Alexander Kanavin wrote:
->>>>> On Thu, 24 Oct 2019 at 14:02, Stefan Herbrechtsmeier <
->>>>> stefan@herbrechtsmeier.net> wrote:
->>>>>
->>>>>> @Richard: What is your opinion about the per recipe dependency?
->>>>>> Typically OE use one recipe per project. The NPM based solution
->>>>>> handle a
->>>>>> project and all dependencies via one recipe.
->>>>>
->>>>> I don't think it's at all realistic to stick to the 'one recipe per
->>>>> component' in node.js world. A typical 'npm install' can pull down
->>>>> hundreds, or over a thousand dependencies, it's not feasible to
->>>>> have a
->>>>> recipe for each.
->>>>
->>>> Debian has for the perl/python/node/go/rust/haskell ecosystems
->>>> one recipe per component, with ~ 1k recipes each.
->>>
->>> I think we'll have to end up having a smaller number of recipes which
->>> generate multiple packages. That gives a reasonable parsing time at the
->>> expense of having to pre-generate some of the recipe, a bit like the
->>> core perl and python recipes work today. The exact split will depend on
->>> the ecosystems and the "blocks" people tend to build in as its a
->>> compromise between building too much and parsing time.
->>
->> How should this work? Node.js consist of multiple independent packages and
->> every package define its own dependencies. Thereby the dependencies is
->> defined with a version range which often reference a single version.
-> 
-> Yes, it is a problem that backwards compatibility is frequently broken
-> in Node.js packages and just using npm might result in 10 different
-> versions of the same package installed and used.
+Changing the gl options to qemu doesn't result in a correctly rebuilt
+binary, the GL linkage can persist from a build where it was enabled
+to one where it was not.
 
-Therefore the distribution could add an compatibility identifier 
-(interface version) to the packages and translate the version range of 
-the dependencies into a compatibility identifier. The default 
-compatibility identifier is the major version of the package. This 
-allows the distribution to ship one package per compatibility 
-identifier. The distribution could provide multiple compatibility 
-identifiers by a single package or introduce additional packages / 
-compatibility identifiers based on the major, minor and maybe patch 
-version of the package.
+As well as clearly being incorrect and non-reproducible, this caused
+some mystery failures on the autobuilder.
 
-This information could and should be shared between different 
-distributions to automate the creation of distribution packages from npm 
-packages.
+Cleaning ${B} at do_configure time avoids this. Most recipes
+(e.g. autotools derived ones) already clean ${B} as appropriate and
+avoid this issue.
 
-> This is a huge mess that either has to be sorted out when packaging
-> (as is done in Debian), or you end up with security support basically
-> impossible for something very exposed on the internet.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Ack
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index bb444b63d97..601fc2286b3 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -95,6 +95,7 @@ do_configure_prepend_class-native() {
+ do_configure() {
+     ${S}/configure ${EXTRA_OECONF}
+ }
++do_configure[cleandirs] += "${B}"
+ 
+ do_install () {
+ 	export STRIP=""
+-- 
+2.20.1
 
-Regards
-   Stefan
 
