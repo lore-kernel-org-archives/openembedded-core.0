@@ -1,51 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BA8C7F8CB
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B3037F939
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 18:18:40 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id n15so7525103wrw.13
+	Sun, 27 Oct 2019 18:45:37 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id g24so7178027wmh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 11:18:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=ZC/OLIzKZlOiY8YNINAg9XrzpOaFnH5ED3nQD+08FMA=;
-	b=L9jBArfxHGfFrJqAaEjJFB93LPgQeB6cEKZt/8NDXIDqcLJym5l6BdomK+JUFfB1Er
-	Fr/Y+6OLGZR8+0owPDaqhiBZI0aOkmUg0jl57GtkEqLj5iJXKWBpeVgIsKHG1wzETSTK
-	MZGWpVITIiWTzWRygBI7tlcUUQ0gfKK3ZDVdE=
+	Sun, 27 Oct 2019 11:45:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0MO9anmAa2ArO6HKOzHjXKZZkDsU3yQA8xMQ3iCgPS8=;
+	b=Qicj7CI1byDzG0PlOAuYqG1OGDvmXJBJ/t7Czxe7s5ksH0M1//jotoerOODgXh7kzi
+	qophEUnnp1dPs6f2w0zXsVMxMVv/VyBN1cap1FqoamiJvXgGLQNULpFHVpx/sxINKZrk
+	gfARXqkcfKXBOJlZ6nz3gjAh/4+K37pW+WyIvAk3pzdNVqsmyqBeREHT0hI9BQeJu/Er
+	YmPx3CjYpS9fbpPoXv2rAsWrqOqQf2I0tFW9HdQC2hQPLeendE428riOvgTmYTBXhMuF
+	5HhCc6/HJByn3ZZZyrbCzqX52ygnCtPbqCzJGjlOr0XuZQJ/U+eYjBBSYO+fOB34Fuc2
+	nqBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ZC/OLIzKZlOiY8YNINAg9XrzpOaFnH5ED3nQD+08FMA=;
-	b=gsrNklsseapdS4kjNJbpzjf+1kVCvj+uCZsz02Ni3Nslh8qTMUvNLSC00wNY1Pr/hF
-	POBt62DXpM5ND7p4s1k4nLKXkBDZyd02oDvhHeo3PJ3GWfeE9dayHdCSyN2bHynJxBU6
-	+mvqfNb3CXaiX87Ki0Qrae7qnl7htNGcoGsQx7maVOg3S3fXfPJyuf5mnZjZHbGKrbA+
-	8hFC9V3jZGdAmpjZhkAzSfA7xGQyQ5rDgR8QfdvcXgkTX4g7haxJYjteGzgJq4Tj3GL6
-	/3yyGXx+GQfLEvqSDxBoAS3HHRfrJKkkchKih8ImXcfGQ7E1T6ysnaercmszgYPEWn7g
-	12WQ==
-X-Gm-Message-State: APjAAAWBgeLrGZsNSK6NAf/AjN0EFH996OPvgyz7oPQR8ca9lHtSguDG
-	uEhgH7jaML8L18HWue1Nvgjb3Q==
-X-Google-Smtp-Source: APXvYqyWE4QoEv76ARh74Yt1cB7kdZ4Zm9cc2SJ3E6ljUSsleyewSsvDh6p6HTCW/L4tJG3V1fQCiQ==
-X-Received: by 2002:adf:de84:: with SMTP id w4mr12775784wrl.342.1572200321709; 
-	Sun, 27 Oct 2019 11:18:41 -0700 (PDT)
-Received: from hex ([109.190.253.11]) by smtp.gmail.com with ESMTPSA id
-	l14sm9302935wrr.37.2019.10.27.11.18.40
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0MO9anmAa2ArO6HKOzHjXKZZkDsU3yQA8xMQ3iCgPS8=;
+	b=UQH4bX5kxnFOq5DEm7YDXyRQmS+FOwcTbZFcFxonS9wcratf9ZJqwtZVwWNT0AlVKp
+	Q0Z07M3GnBnfXpwCviPhqpVyrWqCzNryM28QMjOb5Xb+do0WwcYqrNMNrCoxGoKYt2We
+	2lDWUwtFI/oHV4sAgoT61V7723sMrmOV1OzH2IOyj/1ps2GE/pea7oBAKqgfzsvNsl8o
+	P161LAKWTw4fteEht+wtn0AOrR8i23rd9OQsTZ6OFd/EvN4HUuSUhCvA4LAS9j3llTFW
+	rCHSu5OKewBPs0rR9dqUtvl8m5uVTegx+Y2LY0FdoIQ8J11agFtrFtto8ZOawqqFtuh4
+	lfUA==
+X-Gm-Message-State: APjAAAWKsoD7ZpGvq7j2nOL7DjjgzC3cbmk8X/4Njpjb2LxEaO7YdTVp
+	+80qJiBEbpOhVo5V6dVlh+eUnT9n
+X-Google-Smtp-Source: APXvYqwSHFmxgDdpbntP5TP0tns19MqM0Gt+k7A0uV4WpxEQelmYFciXns2vqy2JMP7xW6KxIPVbAQ==
+X-Received: by 2002:a05:600c:22cd:: with SMTP id
+	13mr8364299wmg.52.1572201937851; 
+	Sun, 27 Oct 2019 11:45:37 -0700 (PDT)
+Received: from superandy.speedport.ip
+	(p200300F07F320614DE89D4DE1A96B15C.dip0.t-ipconnect.de.
+	[2003:f0:7f32:614:de89:d4de:1a96:b15c])
+	by smtp.gmail.com with ESMTPSA id q6sm9668484wrx.30.2019.10.27.11.45.36
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 27 Oct 2019 11:18:40 -0700 (PDT)
-Message-ID: <2bf2e46efd847d3771fa62f0cfe9cc508f0b4c2d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Oct 2019 18:18:38 +0000
-In-Reply-To: <52271207-9556-e9cb-667b-0b2d9916a0d1@gmail.com>
-References: <a5bb0fd6ed961516f649139e41cbdddf42ce17e2.camel@linuxfoundation.org>
-	<52271207-9556-e9cb-667b-0b2d9916a0d1@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Sun, 27 Oct 2019 11:45:37 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 27 Oct 2019 19:45:29 +0100
+Message-Id: <20191027184529.31214-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: Re: qemu rebuild contamination
+Subject: [PATCH] Introduce IMAGE_LINGUAS_COMPLEMENTARY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,83 +60,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2019 18:18:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 27 Oct 2019 18:45:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2019-10-27 at 07:56 -0700, akuster808 wrote:
-> 
-> On 10/27/19 2:57 AM, Richard Purdie wrote:
-> > I've been trying to figure out why we get a weird build failure
-> > with
-> > hash equivalence enabled. Armin has also been searching for an odd
-> > issue with warrior and the qemu tests. I may have a lead.
-> > 
-> > If you build a standard qemu:
-> > 
-> > "bitbake qemu-system-native"
-> > 
-> > and save off the resulting qemu-system-XXX binaries, then add:
-> > 
-> > PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"
-> > PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"
-> > PACKAGECONFIG_append_pn-qemu-system-native = " glx"
-> > 
-> > to local.conf, then:
-> > 
-> > "bitbake qemu-system-native"
-> > 
-> > it rebuilds as expected, save off the qemu-system-XXX binaries,
-> > 
-> > then remove the local.conf entries and:
-> > 
-> > "bitbake qemu-system-native -c configure -f"
-> > "bitbake qemu-system-native"
-> > 
-> > then save off the resulting qemu-system-XXX binaries, you'll find
-> > that
-> > whilst these first and last sets should match, they don't. Its
-> > obvious
-> > with "ldd qemu-system-x86_64" that the linked libraries persist
-> > from
-> > the second to third set when they should not.
-> > 
-> > The reason is that when configuration changes, autotools.bbclass
-> > will
-> > wipe out ${B} however qemu doesn't use the autotools class and
-> > hence B
-> > is not cleaned for changes in configuration.
-> > 
-> > We could abstract the pieces of autotools.bbclass which do this
-> > into a
-> > separate class, or, easier, have qemu's do_configure wipe ${B}.
-> > 
-> > Armin: This may be the issue you're searching for with warrior?
-> You mean the virgl failure? I did set the native packconfig to make
-> the
-> selftest and that had no affect. In facted, Zeus has the same
-> mismatch.
-> Alex's patches I believe align them to match.
-> 
-> The virgl failure is fixed using an updated version of libdrm. I
-> thought I sent an email about that.
+The allows layers adding packages other than locales automatically to images
+according to what user selects in IMAGE_LINGUAS.
 
-I'm travelling so a little out of sync, I see the email now. I think I
-managed to hit the rebuild issue when I tried to debug it which is why
-it seemed related to me.
+E.g if a layer has recipes creating packages as:
+| ${PN}-foo-en-us / ${PN}-foo-en-gb / ${PN}-foo-de / ..
 
-For the libdrm issue in warrior, we could:
+it would set
+| IMAGE_LINGUAS_COMPLEMENTARY_append = " *-foo-%s"
 
-a) Break policy and upgrade libdrm
-b) Just upgrade libdrm-native and nativesdk
-c) Mark f30 as broken in warrior for qemugl and not expected to work.
+in layer.conf to make those packages matching IMAGE_LINGUAS added to image.
 
-Any thougts?
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ meta/classes/image.bbclass     | 2 +-
+ meta/lib/oe/package_manager.py | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-I'm tempted by c).
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index f4633da3d5..c2824395c9 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -124,7 +124,7 @@ python () {
+ def rootfs_variables(d):
+     from oe.rootfs import variable_depends
+     variables = ['IMAGE_DEVICE_TABLE','IMAGE_DEVICE_TABLES','BUILD_IMAGES_FROM_FEEDS','IMAGE_TYPES_MASKED','IMAGE_ROOTFS_ALIGNMENT','IMAGE_OVERHEAD_FACTOR','IMAGE_ROOTFS_SIZE','IMAGE_ROOTFS_EXTRA_SPACE',
+-                 'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS',
++                 'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS', 'IMAGE_LINGUAS_COMPLEMENTARY',
+                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
+                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
+                  'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS', 'IMAGE_INSTALL_DEBUGFS']
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index c841fdbf29..c7135ce918 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -570,6 +570,8 @@ class PackageManager(object, metaclass=ABCMeta):
+ 
+             for lang in split_linguas:
+                 globs += " *-locale-%s" % lang
++                for complementary_linguas in (self.d.getVar('IMAGE_LINGUAS_COMPLEMENTARY') or "").split():
++                    globs += (" " + complementary_linguas) % lang
+ 
+         if globs is None:
+             return
+-- 
+2.21.0
 
 
