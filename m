@@ -1,46 +1,51 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 85ED17F765
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 940187FB1A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 15:12:43 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id p4so7266257wrm.8
+	Sun, 27 Oct 2019 15:21:26 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id 15so6237319qkh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 08:12:44 -0700 (PDT)
+	Sun, 27 Oct 2019 08:21:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=6CFnBPjVDlXwYd7R2VkEF3SBA+gt1uVebuVh4Zu7ifQ=;
-	b=dSFrLOkunkK8xd+bmDTW7AI7WGCU1mi3V6NZYXEsXy7q3cBVj0+w0hH/0K6PFqfH0S
-	TRwKZ5rCA172Gkst3IZLxd8TfFkDj7W/mQLN0kqWsxpZNp0KXm6NjbVi9QIS6kY4kiEH
-	DNGDPVu6FBtDMHIcqonyxShTgQMsuWOgQzF3GHuC+gickyaHnHqQLsue3quUc9BrveqB
-	MHVNNkEkYWQrdqkcMYHFQJHNjrZy3H8fh7OH16c3d34kNnbSU6F3Y7SsmvZDnlYkhZ9p
-	MchNLiOH3EpMflCuWEO1ae15eBcOLdN5L7hyRMDF1B3N53IDGLUQsSzTMyF6VvAe1JRb
-	iWCQ==
+	:cc:content-transfer-encoding;
+	bh=S9mI7UzLmrVjz/4I3C/lfavweb/+cs00YEyxs6x4VGY=;
+	b=NoDXlMdG7QmMo9NiYtQ1wNCOp+HDw+QXHmnk1r+w0qT0Nl8Dk9fUnrWeyW8dzwOKRU
+	kMFJPxhHZsnB5+UFhynKqo2dOhRP3QSAHHa8/U1ZjNPK0xKOh6ROJeHaj0oRkFHg8R4U
+	bs1NXw5mFjce6JcCtpaLhOKNBEdgpYLRuC+Bsl2H2IUaobw7IbxNExZLYPbAsQ4yEEh7
+	i4Q4sTTSjW556gN5TQZmZ7lFNFYWsF7M/xQmLUewkEPNsI8jmeH9+APLXA8Q22nAsHmB
+	G3KKbgozqHWyd0b6x2hWUuSldMt1yCvfrjwTj1MqHsQk+OIuMRLtEU38v+kZjkKmwJbM
+	x7gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=6CFnBPjVDlXwYd7R2VkEF3SBA+gt1uVebuVh4Zu7ifQ=;
-	b=l/J7DxYJSByjKN+Cz9jj7T+1Zo2sJmTAlQI8tpfQ8UEyGOB5VCiKjBdeCoZ5kWg5ku
-	AsB52Z3sb2E0UPW9MAmjFlTHBcST8QVw+Cta0uQa9pjIOng8pYzoPBLEcHRD+YbmmPU/
-	/ORi6lfOvpnXbiZwivX1+BBPcxldFVtCvoZfTzg8mHDhTet71wvPlz9ahN3UVikOoIn2
-	GJRTCF0JkQeUyJMMR2XhLEKbyGN6Bap5E9lZ4p+GCQQzq47+CCozpYR6XsB3Vkh60s2W
-	C7d+HIbh4NxJes7Nb+gWW3GdxcBXglmelPLpinbF79ajcnh4z0vVUui10qdkw9T2z1bk
-	7rxQ==
-X-Gm-Message-State: APjAAAWb5TzUIG3a5WaK1UzKIIY9z7UPdVYH28+Lt21u0gEooDmzCuOv
-	T5rbOH8l44vS1XqS6Fh5LwMJPtoUkdn6LLbkrFE=
-X-Google-Smtp-Source: APXvYqwMfBioKMcZGyrqTTNAB67LdSxr3L4mshG95esDrby6sVMFWHzUPGBgfRo++URRRgPlygUgyC3MgHABUSF2jPw=
-X-Received: by 2002:adf:f2d1:: with SMTP id d17mr11001762wrp.353.1572189163975;
-	Sun, 27 Oct 2019 08:12:43 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=S9mI7UzLmrVjz/4I3C/lfavweb/+cs00YEyxs6x4VGY=;
+	b=Frz0DVbhNzPTYZTXe0wGFiVv0lPCcpd0XuVbiYnLR+NmUB9VIr4k8JpiXX8of+xTrf
+	BRdn4iIRLbQDUzIL8+/LSNg3tyGp9+MQuVrrefyio38NgLvrBS3mBBJsZ74u9GNtcmj/
+	uN2d+KCe5rWzq2WSVpDT3i6wjNv8MN9LppY4PWdOudm88+PcNK0IeaI36EZ6PvxHzC8V
+	BdUuYeVnDJKsMfKb0AKEpupNLzcAbLjZKQHlborn6hy8qguXuDkXNUtg90kv8bK08am5
+	G4DYIolQa7G8TEBj/60FyvFDGlSFJPkB/qn65hTiNhr5bvh7sj+qwZQhxAbmXxS/DKOW
+	Oa2Q==
+X-Gm-Message-State: APjAAAV4YKFAcJ53PGfOGN9d5qUVkTNSs1hbEhrbuoJi1XiOp22MYWM1
+	miz7XEH4AhNOVHS3Wgp2h+p0+1nuILvuTwdAtwo=
+X-Google-Smtp-Source: APXvYqz9tReuThRUEYJ4XhFGaA03W7ux1U5ivL8XxuWDNlBD0f2I/VgW5Qq9vp5/rBIjp5Tg0v1b6TXx5Jc+8VG3U6w=
+X-Received: by 2002:a37:b985:: with SMTP id
+	j127mr11958877qkf.337.1572189687022; 
+	Sun, 27 Oct 2019 08:21:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <a5bb0fd6ed961516f649139e41cbdddf42ce17e2.camel@linuxfoundation.org>
-In-Reply-To: <a5bb0fd6ed961516f649139e41cbdddf42ce17e2.camel@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sun, 27 Oct 2019 10:12:31 -0500
-Message-ID: <CAJdd5GZ=PGC_5WT3P2uG8B0rK8pVK6s9BbNz7R5Yj-BjZ1xXPg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: qemu rebuild contamination
+References: <ee102dfc-af38-5a75-0b64-0c6bb13bb106@gmail.com>
+	<CANNYZj_PpuXczLf7SPcXdukZNjeCAWMXu1y9ENFUt-sYxdZv=g@mail.gmail.com>
+	<40172517-8f02-4657-68c3-115c6596d4b9@gmail.com>
+In-Reply-To: <40172517-8f02-4657-68c3-115c6596d4b9@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 27 Oct 2019 16:21:00 +0100
+Message-ID: <CAMKF1spfjHkq9abJzmTbmg+FF0vn=c_+JDT9bSOZh6ca+9TnMw@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of stable warrior in Core/bitbake/YP layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,141 +58,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2019 15:12:43 -0000
-Content-Type: multipart/alternative; boundary="000000000000a376c70595e5d0df"
-
---000000000000a376c70595e5d0df
+X-List-Received-Date: Sun, 27 Oct 2019 15:21:26 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 27, 2019, 4:58 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Sun, Oct 27, 2019 at 4:06 PM akuster808 <akuster808@gmail.com> wrote:
+>
+>
+>
+> On 10/27/19 4:03 AM, Alexander Kanavin wrote:
+>
+> On Sun, 27 Oct 2019 at 09:13, akuster808 <akuster808@gmail.com> wrote:
+>>
+>> Of the past month the warrior stable branch has been plagued with a
+>> build failure on FedoraCore30 regarding qemu virgl tests. This has
+>> caused the slip of the next dot release to occur after Thud's.
+>>
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13543
+>>
+>> The error message was this:
+>>
+>> runqemu - ERROR - Failed to run qemu: libEGL warning: MESA-LOADER:
+>> failed to open swrast (search paths /usr/lib64/dri)
+>> libEGL warning: MESA-LOADER: failed to open swrast (search paths
+>> /usr/lib64/dri)
+>>
+>> qemu-system-i386: egl: eglInitialize failed
+>> qemu-system-i386: OpenGL is not supported by the display
+>>
+>> What has fixed this error is updating libdrm to 2.4.99 from 2.4.97. What
+>> I can not tell is what commit(s) in those updates fixed the above error
+>>
+>> https://lists.freedesktop.org/archives/dri-devel/2019-July/225069.html
+>> https://lists.x.org/archives/xorg-announce/2019-April/002992.html
+>>
+>> Has anyone seen the above error and might have an idea what commits
+>> would solve this issue?
+>
+>
+> The DRI modules loaded from the host (swrast particularly) may try to res=
+olve a symbol in libdrm-native that doesn't exist.
+>
+>
+> What I justed noticed on the host is that his has both 5.2 and 5.3 kernel=
+s. FC 30 was tested in the 2.7.1 so it worked at one point in time. I wonde=
+r if the kernel got updated to 5.3 and now we need updated headers for libd=
+rm? That might support the missing symbols you mentioned above.
+>
+> Thanks for the hint.
+>
+> - Armin
+>
+>
+> I remember debugging a similar problem when TLS got accidentally switched=
+ off in mesa-native, what helped was tracing symbol
+> resolution with the help of environment variables described in 'man ld.so=
+' (can't remember off the top of my head what was the exact one).
+>
 
-> I've been trying to figure out why we get a weird build failure with
-> hash equivalence enabled. Armin has also been searching for an odd
-> issue with warrior and the qemu tests. I may have a lead.
->
-> If you build a standard qemu:
->
-> "bitbake qemu-system-native"
->
-> and save off the resulting qemu-system-XXX binaries, then add:
->
-> PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"
-> PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"
-> PACKAGECONFIG_append_pn-qemu-system-native = " glx"
->
-> to local.conf, then:
->
-> "bitbake qemu-system-native"
->
-> it rebuilds as expected, save off the qemu-system-XXX binaries,
->
-> then remove the local.conf entries and:
->
-> "bitbake qemu-system-native -c configure -f"
-> "bitbake qemu-system-native"
->
-> then save off the resulting qemu-system-XXX binaries, you'll find that
-> whilst these first and last sets should match, they don't. Its obvious
-> with "ldd qemu-system-x86_64" that the linked libraries persist from
-> the second to third set when they should not.
->
-> The reason is that when configuration changes, autotools.bbclass will
-> wipe out ${B} however qemu doesn't use the autotools class and hence B
-> is not cleaned for changes in configuration.
->
-> We could abstract the pieces of autotools.bbclass which do this into a
-> separate class, or, easier, have qemu's do_configure wipe ${B}.
->
+https://lists.x.org/archives/xorg-announce/2019-April/002992.html
 
-Excellent catch. Any thoughts on how might be able to automate detection of
-such problems in the reproducible build QA test?
+does have header fixes which might be interesting to this issue
 
-
-> Armin: This may be the issue you're searching for with warrior?
+> Alex
 >
-> Cheers,
->
-> Richard
 >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---000000000000a376c70595e5d0df
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sun, Oct 27, 2019, 4:58 AM Richard Purdie &lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
-tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I&#39;ve be=
-en trying to figure out why we get a weird build failure with<br>
-hash equivalence enabled. Armin has also been searching for an odd<br>
-issue with warrior and the qemu tests. I may have a lead.<br>
-<br>
-If you build a standard qemu:<br>
-<br>
-&quot;bitbake qemu-system-native&quot;<br>
-<br>
-and save off the resulting qemu-system-XXX binaries, then add:<br>
-<br>
-PACKAGECONFIG_append_pn-qemu-system-native =3D &quot; gtk+&quot;<br>
-PACKAGECONFIG_append_pn-qemu-system-native =3D &quot; virglrenderer&quot;<b=
-r>
-PACKAGECONFIG_append_pn-qemu-system-native =3D &quot; glx&quot;<br>
-<br>
-to local.conf, then:<br>
-<br>
-&quot;bitbake qemu-system-native&quot;<br>
-<br>
-it rebuilds as expected, save off the qemu-system-XXX binaries,<br>
-<br>
-then remove the local.conf entries and:<br>
-<br>
-&quot;bitbake qemu-system-native -c configure -f&quot;<br>
-&quot;bitbake qemu-system-native&quot;<br>
-<br>
-then save off the resulting qemu-system-XXX binaries, you&#39;ll find that<=
-br>
-whilst these first and last sets should match, they don&#39;t. Its obvious<=
-br>
-with &quot;ldd qemu-system-x86_64&quot; that the linked libraries persist f=
-rom<br>
-the second to third set when they should not.<br>
-<br>
-The reason is that when configuration changes, autotools.bbclass will<br>
-wipe out ${B} however qemu doesn&#39;t use the autotools class and hence B<=
-br>
-is not cleaned for changes in configuration.<br>
-<br>
-We could abstract the pieces of autotools.bbclass which do this into a<br>
-separate class, or, easier, have qemu&#39;s do_configure wipe ${B}.<br></bl=
-ockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Excellen=
-t catch. Any thoughts on how might be able to automate detection of such pr=
-oblems in the reproducible build QA test?</div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->
-<br>
-Armin: This may be the issue you&#39;re searching for with warrior?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
-.org/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div></div></div>
-
---000000000000a376c70595e5d0df--
