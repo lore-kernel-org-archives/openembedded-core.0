@@ -1,47 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id AFE167D97D
+Return-Path: <stefan@herbrechtsmeier.net>
+Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 81FDD7FB96
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 09:57:45 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id v9so6835421wrq.5
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 02:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=6IVb0sLIxm1tI/BTGUCo5besutNQC1yaxeQEy67FfxU=;
-	b=axqN2OxFG0FksqDJLwPDZxY++3mNIlqyxjELKQzT4VF/zdy+UN0sUv7KLSeMA9FEsl
-	DYQv4wqvjbL3tzn56n/9vAfE6GkMP1oD8LhWVRoGXt4lIDmdacOmOmD57GreDqfx2+gC
-	f0lyxwJvElHpmUX0fJgcNMl2J/YcNqsxeITH4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=6IVb0sLIxm1tI/BTGUCo5besutNQC1yaxeQEy67FfxU=;
-	b=OlcG/u+rxU5tKIwkDOFEeMoJIldrwSIZ1AOvBMWVnoWLE0wL7QHBUPK3HzuZLailCT
-	hBhDfqI5ODL58P8WeoFGcnK2x5aq+cFOLr0GOdMbTS14dQVnI5X/lEM6wm73nOhQ8LJq
-	upDnguyCRboQh4bfeF4vBptl3ML8kvqAtWUlMfyy8Oltltg02/G4T5VoechfdIhOtp4l
-	oAXIrPGMA5kqNEFxeFIRpz8vSio2IRKqbSnz5EhMVrMi9RC1B2KlAbwAt1NyhkZP0OtG
-	OWTrufSS79y5uDjyM0PQLKc01y8jKxxPkfcCX8M5aUxE5eGjrSwcT9WGVnnRa5n0GKh8
-	pa2A==
-X-Gm-Message-State: APjAAAXfctF1J6kTC+vjMv4PpnMphUMPgy1FYRHkh9nHD4B0nw4B5/xq
-	sFPRF1NKlIMXFXdymx2qzQJSdb62q+c=
-X-Google-Smtp-Source: APXvYqyXY/r4Zc3FU7vnBF8RtEbHcWg2At9utDwtuQl6Zfh6r0RHDXoh7WqiDhDPhuuCecT6v2eJuw==
-X-Received: by 2002:adf:94e2:: with SMTP id 89mr9479728wrr.259.1572170266257; 
-	Sun, 27 Oct 2019 02:57:46 -0700 (PDT)
-Received: from hex ([176.12.107.140]) by smtp.gmail.com with ESMTPSA id
-	s12sm1687937wrt.70.2019.10.27.02.57.40
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 27 Oct 2019 02:57:41 -0700 (PDT)
-Message-ID: <a5bb0fd6ed961516f649139e41cbdddf42ce17e2.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 27 Oct 2019 09:57:35 +0000
-User-Agent: Evolution 3.34.1-2 
+	Sun, 27 Oct 2019 09:58:26 +0000 (UTC)
+Received: from [192.168.178.36] (i59F77EF2.versanet.de [89.247.126.242])
+	by dd41138.kasserver.com (Postfix) with ESMTPSA id 8DF5F11A1245;
+	Sun, 27 Oct 2019 10:58:26 +0100 (CET)
+To: Adrian Bunk <bunk@stusta.de>
+References: <20191022090353.21151-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<8e660284b1ece9e66eb47747213e8faafdd99655.camel@linuxfoundation.org>
+	<5290bb1a-4cc8-4ed9-8f33-3c8994f06f22@herbrechtsmeier.net>
+	<CANNYZj99FATCkw+6V088NkTWm3DEUAcoZaP+XBUR0xZnGeeQdw@mail.gmail.com>
+	<20191024153740.GB9707@localhost>
+	<b15dc7e214c76e710446b6dd634f669658d5a577.camel@linuxfoundation.org>
+	<a83142c2-9106-f996-d1d9-380cbf8d2b97@herbrechtsmeier.net>
+	<20191025110849.GB17425@localhost>
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Message-ID: <02dddebb-76a0-80e4-165c-5cd989058321@herbrechtsmeier.net>
+Date: Sun, 27 Oct 2019 10:58:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-Subject: qemu rebuild contamination
+In-Reply-To: <20191025110849.GB17425@localhost>
+Cc: "Paul Eggleton \(paul.eggleton@linux.intel.com\)"
+	<paul.eggleton@linux.intel.com>, rennes@savoirfairelinux.com,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 0/6] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,51 +38,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2019 09:57:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 27 Oct 2019 09:58:26 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-I've been trying to figure out why we get a weird build failure with
-hash equivalence enabled. Armin has also been searching for an odd
-issue with warrior and the qemu tests. I may have a lead.
+Am 25.10.19 um 13:08 schrieb Adrian Bunk:
+> On Fri, Oct 25, 2019 at 10:35:20AM +0200, Stefan Herbrechtsmeier wrote:
+>> Am 24.10.19 um 17:59 schrieb Richard Purdie:
+>>> On Thu, 2019-10-24 at 18:37 +0300, Adrian Bunk wrote:
+>>>> On Thu, Oct 24, 2019 at 02:12:43PM +0200, Alexander Kanavin wrote:
+>>>>> On Thu, 24 Oct 2019 at 14:02, Stefan Herbrechtsmeier <
+>>>>> stefan@herbrechtsmeier.net> wrote:
+>>>>>
+>>>>>> @Richard: What is your opinion about the per recipe dependency?
+>>>>>> Typically OE use one recipe per project. The NPM based solution
+>>>>>> handle a
+>>>>>> project and all dependencies via one recipe.
+>>>>>
+>>>>> I don't think it's at all realistic to stick to the 'one recipe per
+>>>>> component' in node.js world. A typical 'npm install' can pull down
+>>>>> hundreds, or over a thousand dependencies, it's not feasible to
+>>>>> have a
+>>>>> recipe for each.
+>>>>
+>>>> Debian has for the perl/python/node/go/rust/haskell ecosystems
+>>>> one recipe per component, with ~ 1k recipes each.
+>>>
+>>> I think we'll have to end up having a smaller number of recipes which
+>>> generate multiple packages. That gives a reasonable parsing time at the
+>>> expense of having to pre-generate some of the recipe, a bit like the
+>>> core perl and python recipes work today. The exact split will depend on
+>>> the ecosystems and the "blocks" people tend to build in as its a
+>>> compromise between building too much and parsing time.
+>>
+>> How should this work? Node.js consist of multiple independent packages and
+>> every package define its own dependencies. Thereby the dependencies is
+>> defined with a version range which often reference a single version.
+> 
+> Yes, it is a problem that backwards compatibility is frequently broken
+> in Node.js packages and just using npm might result in 10 different
+> versions of the same package installed and used.
 
-If you build a standard qemu:
+Therefore the distribution could add an compatibility identifier 
+(interface version) to the packages and translate the version range of 
+the dependencies into a compatibility identifier. The default 
+compatibility identifier is the major version of the package. This 
+allows the distribution to ship one package per compatibility 
+identifier. The distribution could provide multiple compatibility 
+identifiers by a single package or introduce additional packages / 
+compatibility identifiers based on the major, minor and maybe patch 
+version of the package.
 
-"bitbake qemu-system-native"
+This information could and should be shared between different 
+distributions to automate the creation of distribution packages from npm 
+packages.
 
-and save off the resulting qemu-system-XXX binaries, then add:
+> This is a huge mess that either has to be sorted out when packaging
+> (as is done in Debian), or you end up with security support basically
+> impossible for something very exposed on the internet.
 
-PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"
-PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"
-PACKAGECONFIG_append_pn-qemu-system-native = " glx"
+Ack
 
-to local.conf, then:
-
-"bitbake qemu-system-native"
-
-it rebuilds as expected, save off the qemu-system-XXX binaries,
-
-then remove the local.conf entries and:
-
-"bitbake qemu-system-native -c configure -f"
-"bitbake qemu-system-native"
-
-then save off the resulting qemu-system-XXX binaries, you'll find that
-whilst these first and last sets should match, they don't. Its obvious
-with "ldd qemu-system-x86_64" that the linked libraries persist from
-the second to third set when they should not.
-
-The reason is that when configuration changes, autotools.bbclass will
-wipe out ${B} however qemu doesn't use the autotools class and hence B
-is not cleaned for changes in configuration.
-
-We could abstract the pieces of autotools.bbclass which do this into a
-separate class, or, easier, have qemu's do_configure wipe ${B}.
-
-Armin: This may be the issue you're searching for with warrior?
-
-Cheers,
-
-Richard
-
+Regards
+   Stefan
 
