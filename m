@@ -1,44 +1,48 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id AD2827FA2B
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AD5117F730
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 08:13:14 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id q130so6067234wme.2
+	Sun, 27 Oct 2019 08:19:49 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id r141so6057452wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 01:13:16 -0700 (PDT)
+	Sun, 27 Oct 2019 01:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:openpgp:autocrypt:to:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=B5MM9CpW6zI+AxugdupYQK/g/ah7YyJD9MXqfI5sTac=;
-	b=QqEUWIJkYplQvvfa2YaGiXEMnUaUDnJowEOMZ6gDUJ9Oc4Lb6DOGiE4Lo5Lj8xpifT
-	FbnC+SpiJ/GQm7ai9cRbpgpi2f4cErN+lxnFVZytuZYq/hFOrcniPB5zQMpnOterUhoS
-	jk5RwZjYv7VVeuYuP38nZ42eWA22cBDIqJrHiU9Pzaf4QW6/JaoIlclhpqwsKOFlOWSL
-	4BEbvzTZsOSAr9Lt33VFrs9BJ1G2q7yiQisLIyAYHbZBan+rfbeWHMHvLoTJ0823EUzm
-	q2HiLUpjSwcvRI7HLryJeq+sUaMtCDRNxjJG2JDOd0WPtES+AdIYbkSlZRt47GmAxQ/T
-	psqw==
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=isHyzdb++8fbd+If2NCCdoenHCfBgD+tpzbHHfKoVqg=;
+	b=kZynkSpk1TqfFdfRA3s8aBIbVKOz6Ju++l1QYBQvysiOGdByo7tzLs4Uow6wBu/vwI
+	jUsM4IgQ+eWrlMMblOR8rH8or3v9JbrQpBJmZjg/9Modj1OD+XO/p05fyxisLV5OZlQL
+	nlHiJU03YbEoQJ4HNwOznz3ew4foviOs8xi5K9J1ssL+g+xuarC/Dj9uYFkyViDiwhPK
+	c8pmDGtsxztcDpSNqJWMdvjHeGwU+3r/6FgVEMFCcXw9Poc18KJDMDFKkigVNdRewTDi
+	YauQjnmG3hVcw77he0nl+zT0FKCxqdos7dee/C9nwdGCTG4e+aCNgQ6hDDSH65jpwhU6
+	+TJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:openpgp:autocrypt:to:message-id
-	:date:user-agent:mime-version:content-transfer-encoding
-	:content-language;
-	bh=B5MM9CpW6zI+AxugdupYQK/g/ah7YyJD9MXqfI5sTac=;
-	b=mJOzUxcOJIHhGV69U/H3XiOQToMv9O2kmlRvtA0vQYGvbr9J4iP6i4FjDqikHzr1wW
-	eubNWhrFUS6ptThT6uZKp4CynyteUjES3xs1dD+pXffaugIsax1IScxX5jW9G5etAfVR
-	aKxUB9+10UeysLojqpdXBUUXP/ESS5g013EoQ43JTr6aCaIRYek44Qg45dtqjBUCjxhf
-	4jEaeCzZVsUToc0fA55sR2bI31/kd0qDYEvtZ/5lsVIbmSZ8Z6HKnkS/OavtCXNd4frE
-	hjipHpT1voBllx1z7YgnsHEl5isaiv7BtLZRZ5S4KF7ywOUlnNWirzV6aDoiX/y+xiHk
-	6AEA==
-X-Gm-Message-State: APjAAAXMjWDs5x8gpXNWoBilWDbczKp6awXg2vo8YaBKTIlXrpdk0lb5
-	97jMscTH19N6ZmOapqKhCCzREYPHdh8=
-X-Google-Smtp-Source: APXvYqwJ6bCGMaEREustO6+zo8R/Lo2IoDdshB9PH3Z4PNIGRT7/skimpbcmIkgagsMwDo6zQKVejw==
-X-Received: by 2002:a1c:9a43:: with SMTP id c64mr10280812wme.20.1572163995022; 
-	Sun, 27 Oct 2019 01:13:15 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=isHyzdb++8fbd+If2NCCdoenHCfBgD+tpzbHHfKoVqg=;
+	b=Pp2W5G+sf1OM5ZNs4MXnZmPdFTy5H1Q5utd93QGq87r2XQri5328N+9RjI1kyDFc9s
+	Hcb1qz9vouXhP1+kC3uunuzlvnMKoHIZhSg9lC6Zff7JOFE/Uiboosm+Xu36FI5F7D2P
+	i079AjhdqeTUp7KW/V9jrvaVWAeYeT8hOvdTqkzrb8UykEiwzXxdq/XRpQD1X5jD4hoQ
+	8av648TxAx76LMeg5hpfeQMcvjF4tasY2iuuUIM/wqMQRkbp0L4WotX58qC1S/INxwC3
+	ROL4n3RX+c4kJSN13+n8UkCvbtRXIpW62iOJ7KwWG7DMJI5ozpUKDcQUxtXtJCZHjx+G
+	NS6w==
+X-Gm-Message-State: APjAAAXbM9aOJdyywATLM4/VFQhTCMF/DfP4KBvoARpKJMOwLiR4rYvZ
+	jlXX9W32P8dr26wLeiIWY3Ixylxxwts=
+X-Google-Smtp-Source: APXvYqyFdTX7529lmqFawIJfn45CcurbpF7IrQ4tVBTRuSqGiE1kCiEyGNHzAMXfCrQzv4JhUofwog==
+X-Received: by 2002:a1c:4489:: with SMTP id
+	r131mr10192233wma.132.1572164390361; 
+	Sun, 27 Oct 2019 01:19:50 -0700 (PDT)
 Received: from [10.192.11.162] ([178.18.58.186])
-	by smtp.gmail.com with ESMTPSA id h17sm8073040wme.6.2019.10.27.01.13.14
-	for <openembedded-core@lists.openembedded.org>
+	by smtp.gmail.com with ESMTPSA id a17sm6938947wmb.8.2019.10.27.01.19.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 27 Oct 2019 01:13:14 -0700 (PDT)
+	Sun, 27 Oct 2019 01:19:49 -0700 (PDT)
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	openembedded-core@lists.openembedded.org
+References: <cover.1571243326.git.pkj@axis.com>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -84,14 +88,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <ee102dfc-af38-5a75-0b64-0c6bb13bb106@gmail.com>
-Date: Sun, 27 Oct 2019 01:13:13 -0700
+Message-ID: <c6db1799-ee15-0843-8325-9996e13dd8c6@gmail.com>
+Date: Sun, 27 Oct 2019 01:19:48 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.9.0
 MIME-Version: 1.0
-Subject: State of stable warrior in Core/bitbake/YP layers
+In-Reply-To: <cover.1571243326.git.pkj@axis.com>
+Subject: Re: [warrior][PATCH 0/8] Backport relevant changes from Zeus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -104,49 +107,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2019 08:13:15 -0000
+X-List-Received-Date: Sun, 27 Oct 2019 08:19:51 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
 
-Hello,
+Peter,
 
-Of the past month the warrior stable branch has been plagued with a
-build failure on FedoraCore30 regarding qemu virgl tests. This has
-caused the slip of the next dot release to occur after Thud's.
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13543
+On 10/16/19 9:30 AM, Peter Kjellerstedt wrote:
+> This patch set contains backports of our changes from Zeus that are
+> relevant for Warrior.
+>
+> //Peter
+>
+> The following changes since commit 79a850a10a4b88a6d20d607b322542f94787=
+4323:
+>
+>   conf/poky: add Fedora 30 and Opensuse Leap 15.1 to supported distribu=
+tions (2019-10-14 09:49:27 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://push.yoctoproject.org/poky-contrib pkj/warrior_sync
 
-The error message was this:
+The series is causing build failures.
 
-runqemu - ERROR - Failed to run qemu: libEGL warning: MESA-LOADER:
-failed to open swrast (search paths /usr/lib64/dri)
-libEGL warning: MESA-LOADER: failed to open swrast (search paths
-/usr/lib64/dri)
+https://errors.yoctoproject.org/Errors/Details/274748/
 
-qemu-system-i386: egl: eglInitialize failed
-qemu-system-i386: OpenGL is not supported by the display
+https://errors.yoctoproject.org/Errors/Details/274757/
 
-What has fixed this error is updating libdrm to 2.4.99 from 2.4.97. What
-I can not tell is what commit(s) in those updates fixed the above error
+I have not had the time to figure out which ones giving I have been
+working on a different build failure. So if you could double check them,
+that would be great.
 
-https://lists.freedesktop.org/archives/dri-devel/2019-July/225069.html
-https://lists.x.org/archives/xorg-announce/2019-April/002992.html
-
-Has anyone seen the above error and might have an idea what commits
-would solve this issue?
-
-Anyone familiar with the libdrm update policy? is the .99 a bugfix only,
-it does not look like it from the commit messages.
-
-The current Stable policy indicates newer hosts are supposed to be
-supported and if not updating to the .99 release is an option, I foresee
-it taking additional effort to figure which commits will fix the error.
-
-Any clues or feedback is appreciated.
-
-Regards,
+regards,
 Armin
+
+
+>
+> Niclas Svensson (1):
+>   devtool: finish: Keep patches ordered when updating bbappend
+>
+> Peter Kjellerstedt (7):
+>   meson.bbclass: Remove the MESON_*_ARGS variables
+>   nativesdk-meson: Remove some unused variables
+>   devtool: Avoid failure for recipes with S =3D=3D WORKDIR and no local=
+
+>     files
+>   package_rpm.bbclass: Remove a misleading bb.note()
+>   tzdata: Correct the packaging of /etc/localtime and /etc/timezone
+>   devtool: finish: Add suppport for the --no-clean option
+>   lib/oe/lsb: Make sure the distro ID is always lowercased
+>
+>  meta/classes/meson.bbclass                      | 15 +++++----------
+>  meta/classes/package_rpm.bbclass                |  5 ++---
+>  meta/lib/oe/lsb.py                              |  8 ++++----
+>  .../meson/nativesdk-meson_0.49.2.bb             |  5 -----
+>  meta/recipes-extended/timezone/tzdata.bb        |  5 +++--
+>  scripts/lib/devtool/standard.py                 | 17 +++++++++--------=
+
+>  6 files changed, 23 insertions(+), 32 deletions(-)
+>
 
 
 
