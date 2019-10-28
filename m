@@ -1,102 +1,54 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 160E47F9A6
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+	[209.85.166.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 9889D7FA3F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 22:55:42 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id c8so5363656pgb.2
+	Mon, 28 Oct 2019 02:02:09 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id q1so8951084ion.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 15:55:44 -0700 (PDT)
+	Sun, 27 Oct 2019 19:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=RoLOSGYYU2bVGbn5Ta2YjQsloKjBxQFyyZXMgYSBy90=;
-	b=KVZM5R8SuezgpoV2Ch2NC/yzRr7SE5Kiy6brd8iy7aZnzW+OqFz31PZRxuCmCGi8Kn
-	vzoTgRg/JM/PG0hHEwppo70wKE3YsLB511lsJwOSjykl0T8OyomrRig2ya+Hvbi63H5n
-	44QrNQfNDkZfVKSxfsxKYEKAqI+vZ3UxUz2m/Q523ELqDppMTScP81msawlTtfTKFohw
-	B0QxYvlLga/NcMPrQFm6pTrAIq3Xy5hrPQKxXGkI6tAZpL2j+DZbF5Re5qTkngwHeNcd
-	xo6tozrGLHxfYWnqD/Mjdazl9VmN4X0RkLhZYmUOFcI5V08jZX24/BBU/Nm/OeUGmDua
-	6GkA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=zk2Q8f9TKtBy8erC/Yp8Jxo5NGn9qqCyMI9rP9JXAss=;
+	b=BEVTfM8aO4uJ71kpFlxauoTpEx3gR9SXbjG+4pjt9Vv1zVDK3JGE13VQhMJTwkDei8
+	lnE92DyZd9ALdmmxnNDAWDjyV0pDIeTusN6oI2lI03NA1+NyYuOezljCfzQaHoGhePhx
+	3OsmcFNJatehB3EqCJcuUcNjJNAucAjqATm+nhxjXui09a8OxHB6m3GUnGPLhS4Cq7Ce
+	RQro8RVVreEihnbMkLrAtz6JdOHYkpsTit9tUgm8ZwSYkADNepXIS4RnXVJ2+ABP0he+
+	lNp0/q/HV93vf2U3nuKEiWQFW7rj0OqUdj9gcGFit0RKcHy+QkIRFsdorpMgYJmBvWLQ
+	178g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language;
-	bh=RoLOSGYYU2bVGbn5Ta2YjQsloKjBxQFyyZXMgYSBy90=;
-	b=gey24UgiyZvwWMMMHypcdSh6iN0P30ozX8Q+0F7djvPcepMvu3Laj8BGZinKp3jTPw
-	w0klN6muSfZ/QcWQ876A1fu3Gy3Db7Owie+K2vRg+HFTflaHqsDnMi7gPjVdG22mUtGS
-	Hj4yuRxOsiEM7sdIsizmD2ngW7/y3EDDfLL2D+1xS2nZ2Fyzm66M/0Cx/67/mFFms/D4
-	MKZP56gei7GbMq3DSmZBQYVcZqocQUGc7qv7Yi9FGwkd88VYpHvKOp54BV7rrnPRPlu6
-	eSwsxFFI2nhJsksZG7pdiDd+JcE/fnwq0QJomoQ7UZz+7hMA6TUaegjNryAUYEkSdU1t
-	S9Zw==
-X-Gm-Message-State: APjAAAUblbc3Z7iucZhyZ36uHrM3rNH5xCGnkeHOEtGxkYOD2Sh59azS
-	ewwsPy+jEVEHK9AllHpOMTI1IwBJOoE=
-X-Google-Smtp-Source: APXvYqzZ1S8Kl454sYqEWfmRgtdebx1D1J2RAuklsz3xulXnknu89icQ/dZZXFsIE5NjQhzGp+iwEA==
-X-Received: by 2002:a63:4b54:: with SMTP id k20mr17836192pgl.70.1572216943830; 
-	Sun, 27 Oct 2019 15:55:43 -0700 (PDT)
-Received: from [10.192.11.162] ([178.18.58.186])
-	by smtp.gmail.com with ESMTPSA id v3sm533365pfn.171.2019.10.27.15.55.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 27 Oct 2019 15:55:43 -0700 (PDT)
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <a5bb0fd6ed961516f649139e41cbdddf42ce17e2.camel@linuxfoundation.org>
-	<52271207-9556-e9cb-667b-0b2d9916a0d1@gmail.com>
-	<2bf2e46efd847d3771fa62f0cfe9cc508f0b4c2d.camel@linuxfoundation.org>
-	<CAMKF1sr1VP2buKXC0p4WgZvmY8+6Ok9u6QOCo8hhKoYHArV6LA@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <ab11000a-0c88-5978-ce53-8bb866695f8a@gmail.com>
-Date: Sun, 27 Oct 2019 15:55:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=zk2Q8f9TKtBy8erC/Yp8Jxo5NGn9qqCyMI9rP9JXAss=;
+	b=U9u/ngYSWsbPuU9lm22PHkxjTvHyG8BX+O7VZ7gaJC3FihoUpIGYoYrVxqOTcbFn8i
+	bBqxJM2cDhG30/rdZo4LEFriyxVaexuP4+JECX9Ah/5JfmI2i8gkdhgcWxaVSk7WEqxu
+	cZhcDBvgf5GoQ37+S73R1XKY6HEWM1OIX0wOSEFpQ+IPi7uXaIMr6A3LdscPH9L6orWD
+	7T+MX72HB7l1bFHDaI8mLJ30ElDEMtpB8vJ5sK+o/cnGy7jFGQmRrRnRlXdi/RvP+aT2
+	uq16c8BzPZd4EF4wmzigskvTRB2gvT7OQYpEJcOskRxEfkk180iQcmfs4/KrQmsjlhwp
+	Mrzg==
+X-Gm-Message-State: APjAAAWEWXQJVC7fToDhpG4PsESEpmlKKgv5RblYWbQ1hjL7w14Bn/uU
+	qqyaVsyamt9odl5SopfCvR7NLn4iH+FjRVdmrNY=
+X-Google-Smtp-Source: APXvYqxV9ZH97iLm7eTNoGrd+3x0d5LkMyJkYrIX3Ol/5NKRnwP5gVAeBNybV7GimB6LzkLVA23wJTftXgNve2ynwpE=
+X-Received: by 2002:a02:70c8:: with SMTP id
+	f191mr15143940jac.117.1572228130440; 
+	Sun, 27 Oct 2019 19:02:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr1VP2buKXC0p4WgZvmY8+6Ok9u6QOCo8hhKoYHArV6LA@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: qemu rebuild contamination
+Received: by 2002:ac0:aa09:0:0:0:0:0 with HTTP; Sun, 27 Oct 2019 19:02:09
+	-0700 (PDT)
+In-Reply-To: <e91e63ef-9da5-3110-17d2-6f78bf09c904@gmail.com>
+References: <CAA=hcWTH9VCNgbDbU+ai3sydbWWKNR9HfnuGKu3oQ7XsHN6JBQ@mail.gmail.com>
+	<de0e9a45-522a-be55-120a-b3cbd398ec6c@gmail.com>
+	<CAA=hcWSTFCUBniK19V-2d0o87PjLN1dkpsWCXhjMXfBQiFvtEw@mail.gmail.com>
+	<47af37ed-25aa-65aa-cea7-febfada814f7@gmail.com>
+	<CAA=hcWQ8xjT03MC9MQPXgFVB04ZdbE5=Nd8LOE=6w308r44kGg@mail.gmail.com>
+	<e91e63ef-9da5-3110-17d2-6f78bf09c904@gmail.com>
+From: JH <jupiter.hce@gmail.com>
+Date: Mon, 28 Oct 2019 13:02:09 +1100
+Message-ID: <CAA=hcWTF5GVrEQ6WtjgLoHovrtyNKUUt_aHYpiaQ9pzHtqt7nQ@mail.gmail.com>
+To: Ferry Toth <fntoth@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: zimage Initramfs booting stuck at Start Kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,298 +61,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2019 22:55:43 -0000
-Content-Type: multipart/alternative;
-	boundary="------------F039641696559F32B63AD78E"
-Content-Language: en-US
+X-List-Received-Date: Mon, 28 Oct 2019 02:02:09 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---------------F039641696559F32B63AD78E
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On 10/28/19, Ferry Toth <fntoth@gmail.com> wrote:
+>> No, there is no limitation in kernel, BTW, the zImage-initramfs is not
+>> just kernel space, the zImage-initramfs = kernel + rootfs which cannot
+>> be limited to 10 MB. I have a zImage-initramfs created by openwrt, the
+>> size is 28 MB. The problem is created by oe-core, most likely in
+>> kernel.bbclass, could anyone in oe-core development provide insights
+>> where is the 10 MB limitation from and how to fix it?
+>
+> I see that Ubuntu keeps the initramfs in a separate cpio, while we are
+> trying to build the cpio into the kernel (afaiu the cpio is unpacked
+> into a kernel directory, and then built-in by the kernels build system).
 
+I built all package formats, rootfs.tar.gz, rootfs.cpio.gz,
+rootfs.cpio.gz.u-boot, zImage->zImage*.bin,
+zImage-initramfs->zImage-initramfs*.bin.
 
+I did try to run different images to boot it to imx6 RAM, but the
+zImage*.bin (8MB) is the only one I could boot it to imx6 RAM,
+obviously it failed to mount rootfs as it did not bundle the rootfs.
 
-On 10/27/19 12:26 PM, Khem Raj wrote:
->
->
-> On Sun, Oct 27, 2019 at 7:19 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org
-> <mailto:richard.purdie@linuxfoundation.org>> wrote:
->
->     On Sun, 2019-10-27 at 07:56 -0700, akuster808 wrote:
->     >
->     > On 10/27/19 2:57 AM, Richard Purdie wrote:
->     > > I've been trying to figure out why we get a weird build failure=
+How did you build the cpio into the kernel?
 
->     > > with
->     > > hash equivalence enabled. Armin has also been searching for an =
-odd
->     > > issue with warrior and the qemu tests. I may have a lead.
->     > >
->     > > If you build a standard qemu:
->     > >
->     > > "bitbake qemu-system-native"
->     > >
->     > > and save off the resulting qemu-system-XXX binaries, then add:
->     > >
->     > > PACKAGECONFIG_append_pn-qemu-system-native =3D " gtk+"
->     > > PACKAGECONFIG_append_pn-qemu-system-native =3D " virglrenderer"=
+> And that cpio is ~64MB, so it must be possible.
 
->     > > PACKAGECONFIG_append_pn-qemu-system-native =3D " glx"
->     > >
->     > > to local.conf, then:
->     > >
->     > > "bitbake qemu-system-native"
->     > >
->     > > it rebuilds as expected, save off the qemu-system-XXX binaries,=
+Is the 64MB for compressed cpio.gz? If so, that should be fine. Did
+you allude that 64MB is also a limitation for cpio?
 
->     > >
->     > > then remove the local.conf entries and:
->     > >
->     > > "bitbake qemu-system-native -c configure -f"
->     > > "bitbake qemu-system-native"
->     > >
->     > > then save off the resulting qemu-system-XXX binaries, you'll fi=
-nd
->     > > that
->     > > whilst these first and last sets should match, they don't. Its
->     > > obvious
->     > > with "ldd qemu-system-x86_64" that the linked libraries persist=
+> In my case kernel, cpio and zImage-initramfs are all built. And although
+> U-Boot allows to load kernel and cpio separately I didn't try (or don't
+> remember the result). So, maybe that's the trick.
 
->     > > from
->     > > the second to third set when they should not.
->     > >
->     > > The reason is that when configuration changes, autotools.bbclas=
-s
->     > > will
->     > > wipe out ${B} however qemu doesn't use the autotools class and
->     > > hence B
->     > > is not cleaned for changes in configuration.
->     > >
->     > > We could abstract the pieces of autotools.bbclass which do this=
+Both rootfs.cpio.gz and rootfs.cpio.gz.u-boot I built are gzip
+compressed data, thaI cannot be booted to imx6 RAM.
 
->     > > into a
->     > > separate class, or, easier, have qemu's do_configure wipe ${B}.=
+Here is the image format built from openwrt which I could boot to imx6 RAM:
 
->     > >
->     > > Armin: This may be the issue you're searching for with warrior?=
+0             0x0             Linux kernel ARM boot executable zImage
+(little-endian)
+15464         0x3C68          xz compressed data
+15696         0x3D50          xz compressed data
 
->     > You mean the virgl failure? I did set the native packconfig to ma=
-ke
->     > the
->     > selftest and that had no affect. In facted, Zeus has the same
->     > mismatch.
->     > Alex's patches I believe align them to match.
->     >
->     > The virgl failure is fixed using an updated version of libdrm. I
->     > thought I sent an email about that.
->
->     I'm travelling so a little out of sync, I see the email now. I thin=
-k I
->     managed to hit the rebuild issue when I tried to debug it which is =
-why
->     it seemed related to me.
->
->     For the libdrm issue in warrior, we could:
->
->     a) Break policy and upgrade libdrm
->     b) Just upgrade libdrm-native and nativesdk
->     c) Mark f30 as broken in warrior for qemugl and not expected to wor=
-k.
->
-errrr, Looking at the test report for 2.7.1, this failed back then too
-so saying it does not work is fine.
+Here is the zImage (8MB) image format I build from bitbake which did
+not bundle rootfs, but it could be booted to imx6 RAM
 
-https://autobuilder.yocto.io/pub/releases/yocto-2.7.1.rc1/testresults/oe-=
-selftest-fedora/testresults.json
+0             0x0             Linux kernel ARM boot executable zImage
+(little-endian)
+6904          0x1AF8          LZO compressed data
+7316          0x1C94          LZO compressed data
+7918          0x1EEE          device tree image (dtb)
+57505         0xE0A1          device tree image (dtb)
+312284        0x4C3DC         LZ4 compressed data, legacy
+2049118       0x1F445E        SHA256 hash constants, little endian
+2372712       0x243468        mcrypt 2.5 encrypted data, algorithm:
+"]", keysize: 23701 bytes, mode: "(",
+6093219       0x5CF9A3        device tree image (dtb)
+8127047       0x7C0247        LZ4 compressed data, legacy
 
--armin
->
->
->     Any thougts?
->
->
-> I support c ad well but I think there is some hope to identify a fix
-> that can be backported=C2=A0
->
->
->
->     I'm tempted by c).
->
->     Cheers,
->
->     Richard
->
->     --=20
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Here is the zImage-initramfs (35 MB) I build from bitbake which
+bundled the rootfs, but could not be booted I believe the cause is the
+size too large:
 
+0             0x0             Linux kernel ARM boot executable zImage
+(little-endian)
+6904          0x1AF8          LZO compressed data
+7316          0x1C94          LZO compressed data
+7918          0x1EEE          device tree image (dtb)
+57505         0xE0A1          device tree image (dtb)
+312302        0x4C3EE         LZ4 compressed data, legacy
+2049266       0x1F44F2        SHA256 hash constants, little endian
+2372864       0x243500        mcrypt 2.5 encrypted data, algorithm:
+"]", keysize: 23701 bytes, mode: "(",
+6093526       0x5CFAD6        device tree image (dtb)
+8127489       0x7C0401        LZ4 compressed data, legacy
+10886101      0xA61BD5        ZBOOT firmware header, header size: 32
+bytes, load address: 0x0564F721, start address: 0x2E4CEE95, checksum:
+0x22771426, version: 0x1D216514, image size: 185068065 bytes
+11990008      0xB6F3F8        mcrypt 2.5 encrypted data, algorithm:
+">", keysize: 2093 bytes, mode: "-",
+12899061      0xC4D2F5        LZMA compressed data, properties: 0x63,
+dictionary size: 2097152 bytes, uncompressed size: 139006573920 bytes
+12899237      0xC4D3A5        LZMA compressed data, properties: 0x6C,
+dictionary size: 2097152 bytes, uncompressed size: 541203680 bytes
+12899272      0xC4D3C8        LZMA compressed data, properties: 0x63,
+dictionary size: 2097152 bytes, uncompressed size: 139810176352 bytes
+12899719      0xC4D587        LZMA compressed data, properties: 0x65,
+dictionary size: 2097152 bytes, uncompressed size: 541990112 bytes
+12940308      0xC57414        LZMA compressed data, properties: 0x5E,
+dictionary size: 522190848 bytes, uncompressed size: 2157628 bytes
+12945629      0xC588DD        LZMA compressed data, properties: 0xBE,
+dictionary size: -1108672512 bytes, uncompressed size: 138831226112
+bytes
+12948853      0xC59575        LZMA compressed data, properties: 0xC0,
+dictionary size: -551550976 bytes, uncompressed size: 2117660 bytes
+12995870      0xC64D1E        Copyright string: "Copyright 2017, NXP"
+13729894      0xD18066        ELF, 32-bit LSB processor-specific,
+14855286      0xE2AC76        mcrypt 2.5 encrypted data, algorithm:
+"9n", keysize: 2452 bytes, mode: "4",
+14956131      0xE43663        ELF, 32-bit LSB processor-specific, ("")
+15462188      0xEBEF2C        device tree image (dtb)
+15506348      0xEC9BAC        device tree image (dtb)
+15760959      0xF07E3F        LZ4 compressed data, legacy
+17497877      0x10AFF15       SHA256 hash constants, little endian
+17821483      0x10FEF2B       mcrypt 2.5 encrypted data, algorithm:
+"]", keysize: 23701 bytes, mode: "(",
+21542158      0x148B50E       device tree image (dtb)
+23402211      0x16516E3       LZ4 compressed data, legacy
+23899460      0x16CAD44       mcrypt 2.5 encrypted data, algorithm:
+")}", keysize: 11556 bytes, mode: "|",
+25538245      0x185AEC5       PARity archive data - file number 13345
+25763629      0x1891F2D       mcrypt 2.5 encrypted data, algorithm:
+"*l", keysize: 20516 bytes, mode: "~",
+26601909      0x195E9B5       SHA256 hash constants, little endian
+27027026      0x19C6652       SHA256 hash constants, little endian
+27294589      0x1A07B7D       ELF, 32-bit LSB processor-specific, ("")
+27377983      0x1A1C13F       mcrypt 2.5 encrypted data, algorithm:
+"ute0^", keysize: 25971 bytes, mode: """,
+27653793      0x1A5F6A1       Base64 standard index table
+28982449      0x1BA3CB1       ELF, 32-bit LSB processor-specific, ("")
+29102151      0x1BC1047       LZMA compressed data, properties: 0xB7,
+dictionary size: 1572864 bytes, uncompressed size: 106573083904 bytes
+30170892      0x1CC5F0C       SHA256 hash constants, little endian
+31079699      0x1DA3D13       lrzip compressed data
+31079703      0x1DA3D17       LZ4 compressed data
+31079707      0x1DA3D1B       LZ4 compressed data, legacy
+31081483      0x1DA440B       EBML file
+31165137      0x1DB8AD1       lrzip compressed data
+31165149      0x1DB8ADD       LZ4 compressed data
+31165156      0x1DB8AE4       LZ4 compressed data, legacy
+31167662      0x1DB94AE       Gameboy ROM,
+31168529      0x1DB9811       EBML file
+31273481      0x1DD3209       lrzip compressed data
+31273482      0x1DD320A       rzip compressed data - version 32.-20
+(-1785336650 bytes)
+31552610      0x1E17462       gzip compressed data, from FAT
+filesystem (MS-DOS, OS/2, NT), last modified: 1970-01-01 00:01:36
+(bogus date)
+32680766      0x1F2AB3E       eCos RTOS string reference: "ECOS field"
+33863073      0x204B5A1       mcrypt 2.5 encrypted data, algorithm:
+"_fd", keysize: 8881 bytes, mode: "h",
+34075614      0x207F3DE       ELF, 32-bit LSB processor-specific, ("")
+34638178      0x2108962       Copyright string: "copyrighted by many
+authors between 1998-2015."
+34664157      0x210EEDD       SHA256 hash constants, little endian
 
---------------F039641696559F32B63AD78E
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Could anyone share insights how to fix it or if there is a workarounds?
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 10/27/19 12:26 PM, Khem Raj wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAMKF1sr1VP2buKXC0p4WgZvmY8+6Ok9u6QOCo8hhKoYHArV6LA@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div><br>
-      </div>
-      <div><br>
-        <div class="gmail_quote">
-          <div dir="ltr" class="gmail_attr">On Sun, Oct 27, 2019 at 7:19
-            PM Richard Purdie &lt;<a
-              href="mailto:richard.purdie@linuxfoundation.org"
-              moz-do-not-send="true">richard.purdie@linuxfoundation.org</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun,
-            2019-10-27 at 07:56 -0700, akuster808 wrote:<br>
-            &gt; <br>
-            &gt; On 10/27/19 2:57 AM, Richard Purdie wrote:<br>
-            &gt; &gt; I've been trying to figure out why we get a weird
-            build failure<br>
-            &gt; &gt; with<br>
-            &gt; &gt; hash equivalence enabled. Armin has also been
-            searching for an odd<br>
-            &gt; &gt; issue with warrior and the qemu tests. I may have
-            a lead.<br>
-            &gt; &gt; <br>
-            &gt; &gt; If you build a standard qemu:<br>
-            &gt; &gt; <br>
-            &gt; &gt; "bitbake qemu-system-native"<br>
-            &gt; &gt; <br>
-            &gt; &gt; and save off the resulting qemu-system-XXX
-            binaries, then add:<br>
-            &gt; &gt; <br>
-            &gt; &gt; PACKAGECONFIG_append_pn-qemu-system-native = "
-            gtk+"<br>
-            &gt; &gt; PACKAGECONFIG_append_pn-qemu-system-native = "
-            virglrenderer"<br>
-            &gt; &gt; PACKAGECONFIG_append_pn-qemu-system-native = "
-            glx"<br>
-            &gt; &gt; <br>
-            &gt; &gt; to local.conf, then:<br>
-            &gt; &gt; <br>
-            &gt; &gt; "bitbake qemu-system-native"<br>
-            &gt; &gt; <br>
-            &gt; &gt; it rebuilds as expected, save off the
-            qemu-system-XXX binaries,<br>
-            &gt; &gt; <br>
-            &gt; &gt; then remove the local.conf entries and:<br>
-            &gt; &gt; <br>
-            &gt; &gt; "bitbake qemu-system-native -c configure -f"<br>
-            &gt; &gt; "bitbake qemu-system-native"<br>
-            &gt; &gt; <br>
-            &gt; &gt; then save off the resulting qemu-system-XXX
-            binaries, you'll find<br>
-            &gt; &gt; that<br>
-            &gt; &gt; whilst these first and last sets should match,
-            they don't. Its<br>
-            &gt; &gt; obvious<br>
-            &gt; &gt; with "ldd qemu-system-x86_64" that the linked
-            libraries persist<br>
-            &gt; &gt; from<br>
-            &gt; &gt; the second to third set when they should not.<br>
-            &gt; &gt; <br>
-            &gt; &gt; The reason is that when configuration changes,
-            autotools.bbclass<br>
-            &gt; &gt; will<br>
-            &gt; &gt; wipe out ${B} however qemu doesn't use the
-            autotools class and<br>
-            &gt; &gt; hence B<br>
-            &gt; &gt; is not cleaned for changes in configuration.<br>
-            &gt; &gt; <br>
-            &gt; &gt; We could abstract the pieces of autotools.bbclass
-            which do this<br>
-            &gt; &gt; into a<br>
-            &gt; &gt; separate class, or, easier, have qemu's
-            do_configure wipe ${B}.<br>
-            &gt; &gt; <br>
-            &gt; &gt; Armin: This may be the issue you're searching for
-            with warrior?<br>
-            &gt; You mean the virgl failure? I did set the native
-            packconfig to make<br>
-            &gt; the<br>
-            &gt; selftest and that had no affect. In facted, Zeus has
-            the same<br>
-            &gt; mismatch.<br>
-            &gt; Alex's patches I believe align them to match.<br>
-            &gt; <br>
-            &gt; The virgl failure is fixed using an updated version of
-            libdrm. I<br>
-            &gt; thought I sent an email about that.<br>
-            <br>
-            I'm travelling so a little out of sync, I see the email now.
-            I think I<br>
-            managed to hit the rebuild issue when I tried to debug it
-            which is why<br>
-            it seemed related to me.<br>
-            <br>
-            For the libdrm issue in warrior, we could:<br>
-            <br>
-            a) Break policy and upgrade libdrm<br>
-            b) Just upgrade libdrm-native and nativesdk<br>
-            c) Mark f30 as broken in warrior for qemugl and not expected
-            to work.<br>
-          </blockquote>
-        </div>
-      </div>
-    </blockquote>
-    errrr, Looking at the test report for 2.7.1, this failed back then
-    too so saying it does not work is fine.<br>
-    <br>
-<a class="moz-txt-link-freetext" href="https://autobuilder.yocto.io/pub/releases/yocto-2.7.1.rc1/testresults/oe-selftest-fedora/testresults.json">https://autobuilder.yocto.io/pub/releases/yocto-2.7.1.rc1/testresults/oe-selftest-fedora/testresults.json</a><br>
-    <br>
-    -armin<br>
-    <blockquote type="cite"
-cite="mid:CAMKF1sr1VP2buKXC0p4WgZvmY8+6Ok9u6QOCo8hhKoYHArV6LA@mail.gmail.com">
-      <div>
-        <div class="gmail_quote">
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">
-            <br>
-            Any thougts?</blockquote>
-          <div dir="auto"><br>
-          </div>
-          <div dir="auto">I support c ad well but I think there is some
-            hope to identify a fix that can be backported </div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-            <br>
-            I'm tempted by c).<br>
-            <br>
-            Cheers,<br>
-            <br>
-            Richard<br>
-            <br>
-            -- <br>
-            _______________________________________________<br>
-            Openembedded-core mailing list<br>
-            <a href="mailto:Openembedded-core@lists.openembedded.org"
-              target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
-            <a
-              href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-          </blockquote>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+Thanks Ferry.
 
---------------F039641696559F32B63AD78E--
+Kind regards,
+
+- jh
+
