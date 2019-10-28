@@ -1,54 +1,52 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
-	[209.85.166.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 9889D7FA3F
+Return-Path: <twoerner@gmail.com>
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+	[209.85.222.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E5EA7F7B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2019 02:02:09 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id q1so8951084ion.1
+	Mon, 28 Oct 2019 03:13:21 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id a194so7207149qkg.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2019 19:02:11 -0700 (PDT)
+	Sun, 27 Oct 2019 20:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zk2Q8f9TKtBy8erC/Yp8Jxo5NGn9qqCyMI9rP9JXAss=;
-	b=BEVTfM8aO4uJ71kpFlxauoTpEx3gR9SXbjG+4pjt9Vv1zVDK3JGE13VQhMJTwkDei8
-	lnE92DyZd9ALdmmxnNDAWDjyV0pDIeTusN6oI2lI03NA1+NyYuOezljCfzQaHoGhePhx
-	3OsmcFNJatehB3EqCJcuUcNjJNAucAjqATm+nhxjXui09a8OxHB6m3GUnGPLhS4Cq7Ce
-	RQro8RVVreEihnbMkLrAtz6JdOHYkpsTit9tUgm8ZwSYkADNepXIS4RnXVJ2+ABP0he+
-	lNp0/q/HV93vf2U3nuKEiWQFW7rj0OqUdj9gcGFit0RKcHy+QkIRFsdorpMgYJmBvWLQ
-	178g==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=bJf8cmHpd56urQN6fruMEJpVyaWUZ1GfFdeah/5fyFk=;
+	b=sCg64EGYXb4rkvD4E7buXV/kC6LkklQn5mHcKp4+K+8UCnQ1g5yEem5kyBCf78S6jJ
+	1lHx+WriJrq9IBpsy42dFa7/i5ilpEzt8p6nvsmvAQt5eEDVRamXpr7MEdNeSX9z7svq
+	nNZnlYZ132JGG0Tm3XfutaJyfcLPuwlFU8wK4h2CV+FZnL/fnNngT6q3YIaRq1bgcuq+
+	KLlffLwF5BDPaVXaXqKyR8i9QTkEj+vjeOjkkZTtUH2nAerIxxq/CFPuPO/JD3MOv3Oi
+	23QUhnkUJZWhHuA+a6RoJ5WXJTKJr+j9KJg17pgfPruOQ0xgomlBoWzrtuZckh5XxElE
+	R2Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=zk2Q8f9TKtBy8erC/Yp8Jxo5NGn9qqCyMI9rP9JXAss=;
-	b=U9u/ngYSWsbPuU9lm22PHkxjTvHyG8BX+O7VZ7gaJC3FihoUpIGYoYrVxqOTcbFn8i
-	bBqxJM2cDhG30/rdZo4LEFriyxVaexuP4+JECX9Ah/5JfmI2i8gkdhgcWxaVSk7WEqxu
-	cZhcDBvgf5GoQ37+S73R1XKY6HEWM1OIX0wOSEFpQ+IPi7uXaIMr6A3LdscPH9L6orWD
-	7T+MX72HB7l1bFHDaI8mLJ30ElDEMtpB8vJ5sK+o/cnGy7jFGQmRrRnRlXdi/RvP+aT2
-	uq16c8BzPZd4EF4wmzigskvTRB2gvT7OQYpEJcOskRxEfkk180iQcmfs4/KrQmsjlhwp
-	Mrzg==
-X-Gm-Message-State: APjAAAWEWXQJVC7fToDhpG4PsESEpmlKKgv5RblYWbQ1hjL7w14Bn/uU
-	qqyaVsyamt9odl5SopfCvR7NLn4iH+FjRVdmrNY=
-X-Google-Smtp-Source: APXvYqxV9ZH97iLm7eTNoGrd+3x0d5LkMyJkYrIX3Ol/5NKRnwP5gVAeBNybV7GimB6LzkLVA23wJTftXgNve2ynwpE=
-X-Received: by 2002:a02:70c8:: with SMTP id
-	f191mr15143940jac.117.1572228130440; 
-	Sun, 27 Oct 2019 19:02:10 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=bJf8cmHpd56urQN6fruMEJpVyaWUZ1GfFdeah/5fyFk=;
+	b=hDJKAkLYn8+c0wyOqbqWuNh4kVfyfcWqsDsYBloa67cxlSZMXgb9vScRDgMo84JoGL
+	byeRot3FMRo/FscFtWZa+TZxRtvrSdkdoGOLCvyg5GmPa3zJeCUFjHuXV08mM+qzUufk
+	0U5IceUFXL/1OOLcWJsK9atClmwALOz4nMkX2vazFJMN/ALCL8J1/oQV/F0PBmCj6Jdi
+	CelFzOHOIoW9iLFET6KPKj5oq8cLri9AtiVYIDj0KqrEwsf2bSeC5fAKVDMAuRrLnLRG
+	tvGbMlY8eu9gFIzTuCHOW1T+biMHuQ//gAVxUorcrbO70rgNXo9ALbn9LaJYqQfbnFBH
+	ptnA==
+X-Gm-Message-State: APjAAAWkOnAigVypKQEEPzsWPjqAluHilII/NKlfwi6BcHxRs9p+nXJi
+	mWWpgMtoygagL85Vg17VwZmXFi4e
+X-Google-Smtp-Source: APXvYqy97zGyD7PjX4rvwpiZ2VxpQyUePVWRiF10UL0a8e9ImwL0t/MAH7LVGeundcancY+7tdG1vw==
+X-Received: by 2002:a37:6189:: with SMTP id
+	v131mr13169144qkb.489.1572232402067; 
+	Sun, 27 Oct 2019 20:13:22 -0700 (PDT)
+Received: from linux-uys3.suse ([206.248.190.95])
+	by smtp.gmail.com with ESMTPSA id
+	x12sm4855755qtm.32.2019.10.27.20.13.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 27 Oct 2019 20:13:21 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 27 Oct 2019 23:13:13 -0400
+Message-Id: <20191028031313.2405-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.23.0.37.g745f681289
 MIME-Version: 1.0
-Received: by 2002:ac0:aa09:0:0:0:0:0 with HTTP; Sun, 27 Oct 2019 19:02:09
-	-0700 (PDT)
-In-Reply-To: <e91e63ef-9da5-3110-17d2-6f78bf09c904@gmail.com>
-References: <CAA=hcWTH9VCNgbDbU+ai3sydbWWKNR9HfnuGKu3oQ7XsHN6JBQ@mail.gmail.com>
-	<de0e9a45-522a-be55-120a-b3cbd398ec6c@gmail.com>
-	<CAA=hcWSTFCUBniK19V-2d0o87PjLN1dkpsWCXhjMXfBQiFvtEw@mail.gmail.com>
-	<47af37ed-25aa-65aa-cea7-febfada814f7@gmail.com>
-	<CAA=hcWQ8xjT03MC9MQPXgFVB04ZdbE5=Nd8LOE=6w308r44kGg@mail.gmail.com>
-	<e91e63ef-9da5-3110-17d2-6f78bf09c904@gmail.com>
-From: JH <jupiter.hce@gmail.com>
-Date: Mon, 28 Oct 2019 13:02:09 +1100
-Message-ID: <CAA=hcWTF5GVrEQ6WtjgLoHovrtyNKUUt_aHYpiaQ9pzHtqt7nQ@mail.gmail.com>
-To: Ferry Toth <fntoth@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: zimage Initramfs booting stuck at Start Kernel
+Subject: [PATCH v2] libcap-ng: undefined reference to `pthread_atfork'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,158 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2019 02:02:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 28 Oct 2019 03:13:21 -0000
+Content-Transfer-Encoding: 8bit
 
-On 10/28/19, Ferry Toth <fntoth@gmail.com> wrote:
->> No, there is no limitation in kernel, BTW, the zImage-initramfs is not
->> just kernel space, the zImage-initramfs = kernel + rootfs which cannot
->> be limited to 10 MB. I have a zImage-initramfs created by openwrt, the
->> size is 28 MB. The problem is created by oe-core, most likely in
->> kernel.bbclass, could anyone in oe-core development provide insights
->> where is the 10 MB limitation from and how to fix it?
->
-> I see that Ubuntu keeps the initramfs in a separate cpio, while we are
-> trying to build the cpio into the kernel (afaiu the cpio is unpacked
-> into a kernel directory, and then built-in by the kernels build system).
+Some hosts need -pthread in order to link properly (e.g. openSUSE 15.1).
 
-I built all package formats, rootfs.tar.gz, rootfs.cpio.gz,
-rootfs.cpio.gz.u-boot, zImage->zImage*.bin,
-zImage-initramfs->zImage-initramfs*.bin.
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+changes from v1:
+	- replaced "-lpthread" with "-pthread"
 
-I did try to run different images to boot it to imx6 RAM, but the
-zImage*.bin (8MB) is the only one I could boot it to imx6 RAM,
-obviously it failed to mount rootfs as it did not bundle the rootfs.
+ meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-How did you build the cpio into the kernel?
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb
+index 6e6de45494..a9a046571f 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb
++++ b/meta/recipes-support/libcap-ng/libcap-ng_0.7.10.bb
+@@ -3,6 +3,7 @@ require libcap-ng.inc
+ inherit lib_package autotools
+ 
+ EXTRA_OECONF += "--without-python --without-python3"
++LDFLAGS_append_class-native = " -pthread"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.23.0.37.g745f681289
 
-> And that cpio is ~64MB, so it must be possible.
-
-Is the 64MB for compressed cpio.gz? If so, that should be fine. Did
-you allude that 64MB is also a limitation for cpio?
-
-> In my case kernel, cpio and zImage-initramfs are all built. And although
-> U-Boot allows to load kernel and cpio separately I didn't try (or don't
-> remember the result). So, maybe that's the trick.
-
-Both rootfs.cpio.gz and rootfs.cpio.gz.u-boot I built are gzip
-compressed data, thaI cannot be booted to imx6 RAM.
-
-Here is the image format built from openwrt which I could boot to imx6 RAM:
-
-0             0x0             Linux kernel ARM boot executable zImage
-(little-endian)
-15464         0x3C68          xz compressed data
-15696         0x3D50          xz compressed data
-
-Here is the zImage (8MB) image format I build from bitbake which did
-not bundle rootfs, but it could be booted to imx6 RAM
-
-0             0x0             Linux kernel ARM boot executable zImage
-(little-endian)
-6904          0x1AF8          LZO compressed data
-7316          0x1C94          LZO compressed data
-7918          0x1EEE          device tree image (dtb)
-57505         0xE0A1          device tree image (dtb)
-312284        0x4C3DC         LZ4 compressed data, legacy
-2049118       0x1F445E        SHA256 hash constants, little endian
-2372712       0x243468        mcrypt 2.5 encrypted data, algorithm:
-"]", keysize: 23701 bytes, mode: "(",
-6093219       0x5CF9A3        device tree image (dtb)
-8127047       0x7C0247        LZ4 compressed data, legacy
-
-Here is the zImage-initramfs (35 MB) I build from bitbake which
-bundled the rootfs, but could not be booted I believe the cause is the
-size too large:
-
-0             0x0             Linux kernel ARM boot executable zImage
-(little-endian)
-6904          0x1AF8          LZO compressed data
-7316          0x1C94          LZO compressed data
-7918          0x1EEE          device tree image (dtb)
-57505         0xE0A1          device tree image (dtb)
-312302        0x4C3EE         LZ4 compressed data, legacy
-2049266       0x1F44F2        SHA256 hash constants, little endian
-2372864       0x243500        mcrypt 2.5 encrypted data, algorithm:
-"]", keysize: 23701 bytes, mode: "(",
-6093526       0x5CFAD6        device tree image (dtb)
-8127489       0x7C0401        LZ4 compressed data, legacy
-10886101      0xA61BD5        ZBOOT firmware header, header size: 32
-bytes, load address: 0x0564F721, start address: 0x2E4CEE95, checksum:
-0x22771426, version: 0x1D216514, image size: 185068065 bytes
-11990008      0xB6F3F8        mcrypt 2.5 encrypted data, algorithm:
-">", keysize: 2093 bytes, mode: "-",
-12899061      0xC4D2F5        LZMA compressed data, properties: 0x63,
-dictionary size: 2097152 bytes, uncompressed size: 139006573920 bytes
-12899237      0xC4D3A5        LZMA compressed data, properties: 0x6C,
-dictionary size: 2097152 bytes, uncompressed size: 541203680 bytes
-12899272      0xC4D3C8        LZMA compressed data, properties: 0x63,
-dictionary size: 2097152 bytes, uncompressed size: 139810176352 bytes
-12899719      0xC4D587        LZMA compressed data, properties: 0x65,
-dictionary size: 2097152 bytes, uncompressed size: 541990112 bytes
-12940308      0xC57414        LZMA compressed data, properties: 0x5E,
-dictionary size: 522190848 bytes, uncompressed size: 2157628 bytes
-12945629      0xC588DD        LZMA compressed data, properties: 0xBE,
-dictionary size: -1108672512 bytes, uncompressed size: 138831226112
-bytes
-12948853      0xC59575        LZMA compressed data, properties: 0xC0,
-dictionary size: -551550976 bytes, uncompressed size: 2117660 bytes
-12995870      0xC64D1E        Copyright string: "Copyright 2017, NXP"
-13729894      0xD18066        ELF, 32-bit LSB processor-specific,
-14855286      0xE2AC76        mcrypt 2.5 encrypted data, algorithm:
-"9n", keysize: 2452 bytes, mode: "4",
-14956131      0xE43663        ELF, 32-bit LSB processor-specific, ("")
-15462188      0xEBEF2C        device tree image (dtb)
-15506348      0xEC9BAC        device tree image (dtb)
-15760959      0xF07E3F        LZ4 compressed data, legacy
-17497877      0x10AFF15       SHA256 hash constants, little endian
-17821483      0x10FEF2B       mcrypt 2.5 encrypted data, algorithm:
-"]", keysize: 23701 bytes, mode: "(",
-21542158      0x148B50E       device tree image (dtb)
-23402211      0x16516E3       LZ4 compressed data, legacy
-23899460      0x16CAD44       mcrypt 2.5 encrypted data, algorithm:
-")}", keysize: 11556 bytes, mode: "|",
-25538245      0x185AEC5       PARity archive data - file number 13345
-25763629      0x1891F2D       mcrypt 2.5 encrypted data, algorithm:
-"*l", keysize: 20516 bytes, mode: "~",
-26601909      0x195E9B5       SHA256 hash constants, little endian
-27027026      0x19C6652       SHA256 hash constants, little endian
-27294589      0x1A07B7D       ELF, 32-bit LSB processor-specific, ("")
-27377983      0x1A1C13F       mcrypt 2.5 encrypted data, algorithm:
-"ute0^", keysize: 25971 bytes, mode: """,
-27653793      0x1A5F6A1       Base64 standard index table
-28982449      0x1BA3CB1       ELF, 32-bit LSB processor-specific, ("")
-29102151      0x1BC1047       LZMA compressed data, properties: 0xB7,
-dictionary size: 1572864 bytes, uncompressed size: 106573083904 bytes
-30170892      0x1CC5F0C       SHA256 hash constants, little endian
-31079699      0x1DA3D13       lrzip compressed data
-31079703      0x1DA3D17       LZ4 compressed data
-31079707      0x1DA3D1B       LZ4 compressed data, legacy
-31081483      0x1DA440B       EBML file
-31165137      0x1DB8AD1       lrzip compressed data
-31165149      0x1DB8ADD       LZ4 compressed data
-31165156      0x1DB8AE4       LZ4 compressed data, legacy
-31167662      0x1DB94AE       Gameboy ROM,
-31168529      0x1DB9811       EBML file
-31273481      0x1DD3209       lrzip compressed data
-31273482      0x1DD320A       rzip compressed data - version 32.-20
-(-1785336650 bytes)
-31552610      0x1E17462       gzip compressed data, from FAT
-filesystem (MS-DOS, OS/2, NT), last modified: 1970-01-01 00:01:36
-(bogus date)
-32680766      0x1F2AB3E       eCos RTOS string reference: "ECOS field"
-33863073      0x204B5A1       mcrypt 2.5 encrypted data, algorithm:
-"_fd", keysize: 8881 bytes, mode: "h",
-34075614      0x207F3DE       ELF, 32-bit LSB processor-specific, ("")
-34638178      0x2108962       Copyright string: "copyrighted by many
-authors between 1998-2015."
-34664157      0x210EEDD       SHA256 hash constants, little endian
-
-Could anyone share insights how to fix it or if there is a workarounds?
-
-Thanks Ferry.
-
-Kind regards,
-
-- jh
 
