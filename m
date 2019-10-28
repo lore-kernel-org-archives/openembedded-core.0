@@ -1,30 +1,31 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D9D27FB19
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 082777FACA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2019 23:29:29 +0000 (UTC)
+	Mon, 28 Oct 2019 23:52:23 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Oct 2019 16:29:30 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Oct 2019 16:52:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,241,1569308400"; d="scan'208";a="189765927"
+X-IronPort-AV: E=Sophos;i="5.68,241,1569308400"; d="scan'208";a="210987748"
 Received: from koernerm-mobl.ger.corp.intel.com (HELO blackadder.local)
 	([10.249.41.216])
-	by orsmga007.jf.intel.com with ESMTP; 28 Oct 2019 16:29:30 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2019 16:52:23 -0700
 To: openembedded-core@lists.openembedded.org
-References: <20191019155242.100169-1-trevor.gamblin@windriver.com>
+References: <20191024111126.41198-1-alex.kanavin@gmail.com>
+	<20191024111126.41198-3-alex.kanavin@gmail.com>
 From: Ross Burton <ross.burton@intel.com>
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
 	Swindon SN3 1RJ
-Message-ID: <e678117f-93e0-c3d8-0561-49b6b048f713@intel.com>
-Date: Mon, 28 Oct 2019 23:29:28 +0000
+Message-ID: <4410d29d-84f9-aa07-1a43-813987e4cf52@intel.com>
+Date: Mon, 28 Oct 2019 23:52:22 +0000
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
 	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191019155242.100169-1-trevor.gamblin@windriver.com>
-Subject: Re: [PATCH] libgcrypt: upgrade 1.8.4 -> 1.8.5
+In-Reply-To: <20191024111126.41198-3-alex.kanavin@gmail.com>
+Subject: Re: [PATCH 3/5] gcr: update to 3.34.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +38,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2019 23:29:29 -0000
+X-List-Received-Date: Mon, 28 Oct 2019 23:52:24 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On 19/10/2019 16:52, Trevor Gamblin wrote:
-> Note that the patch 0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch
-> was removed as its intent was to provide a pkg-config option, but
-> libgcrypt upstream added one in commit 813b002eaf.
+On 24/10/2019 12:11, Alexander Kanavin wrote:
+> inherit gettext, as gcr is now gettextized.
 
-I think we need to retain portions of that patch:
-
-| checking for libgcrypt-config... 
-/data/poky-tmp/master/work/corei7-64-poky-linux/gcr/3.34.0-r0/recipe-sysroot/usr/bin/crossscripts/libgcrypt-config
-| checking for LIBGCRYPT - version >= 1.4.5... ERROR: 
-/usr/bin/libgcrypt-config should not be used, use an alternative such as 
-pkg-config
-| ../gcr-3.34.0/configure: line 14093: test: 
---should-not-have-used-/usr/bin/libgcrypt-config: integer expression 
-expected
-| ../gcr-3.34.0/configure: line 14096: test: 
---should-not-have-used-/usr/bin/libgcrypt-config: integer expression 
-expected
-
-Whilst it's great that libgcrypt is shipping a pc file, we need to 
-retain the porting of the macro files to use that pc file.
+Note that gettexting means intltool-native is no longer a build 
+dependency.  No need to send a patch, I've queued it locally.
 
 Ross
-
 
