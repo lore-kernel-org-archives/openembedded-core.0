@@ -1,31 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5390B7FA95
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 056BE7FA69
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2019 22:05:56 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Oct 2019 15:05:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,241,1569308400"; d="scan'208";a="205294024"
-Received: from koernerm-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.41.216])
-	by FMSMGA003.fm.intel.com with ESMTP; 28 Oct 2019 15:05:56 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1569304805-85150-1-git-send-email-changqing.li@windriver.com>
-	<98ff244f-3fbb-ae80-788a-11b894eb18c7@windriver.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <19bed5c6-e500-d419-e8fa-8b1cf1d95068@intel.com>
-Date: Mon, 28 Oct 2019 22:05:55 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+	Mon, 28 Oct 2019 22:13:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47289x6WW8z4Q;
+	Mon, 28 Oct 2019 23:13:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1572300806;
+	bh=wxA8vX1JK+w0OnCy8w3tSakFsrhIFFfM5iF/ondp2Ng=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jOBkC0+raS5fvjwU/fvR9Py+OHH0/0Sapjh8kl9dPuyP33GpxfAuKTZ+ui1pfazdd
+	QLcbXMuNDL1H6KrT6i9qKHjQUiLAxYSc2fIESAMoMFEuR549Wr8FLPXukBvePeDCWn
+	Jsd+0R2GXD/YKhUZvPUFVBJHTdS+y5Gy4Z3c9MCbFUB8pQ/VDq+BBF+tMFHmMYg33E
+	Yjd8Blsrc+tNskmOiOTYBewViP18cYS6OnshGfDvr2Vam+di/5wi8YuXa7+SyY+XVV
+	sE9hKQfDxDMxCHmYz9kQFSYoV9dliRqIQnlZAwjNqv4VzTvh1+jjJu7cxMX+zEPDHS
+	/xASmX/8RZGObC3nfcQpljme9A2EvMNVMMybzES5/NOhoftJ8jtqrgdJKFlQpt15IA
+	UiBP1vaE1elKj5sYmxZQ2G6yGRhK8kf1XCciXCMRm3e4qI2gAX49v5G64UJFU+gimX
+	bBFeqlfVXkGcN3K8P8UDPDCluRNb9JWX1XhC+mmOg292JGWPCF96mbINevw0HhC5Yq
+	iorVMSGEU86ulChx3YgwVIVQO4S+A5BYMp15jkD3iZdqxyWzoewFA1JcaI6rKlti/F
+	YpN5UChreKa+VRo12J6yhFpLp+EP3OHn4lO3glu+m/ZKNrsAN4ucoO4cAjrc/PGrok
+	efziD9gJ12aVjrISeX/foaI8=
+Date: Tue, 29 Oct 2019 00:13:23 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20191028221323.GA7516@localhost>
+References: <20191027150425.13079-1-bunk@stusta.de>
+	<4c399ed0039fe394b53979bc52fb2f65d40664cf.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <98ff244f-3fbb-ae80-788a-11b894eb18c7@windriver.com>
-Subject: Re: [PATCH V2] mdadm: fix do_package failed when changed local.conf but not cleaned
+In-Reply-To: <4c399ed0039fe394b53979bc52fb2f65d40664cf.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] coreutils: Move stdbuf into an own package coreutils-stdbuf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,19 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2019 22:05:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Oct 2019 22:13:27 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 08/10/2019 04:16, Changqing Li wrote:
-> Ping
+On Mon, Oct 28, 2019 at 01:44:47PM +0000, Richard Purdie wrote:
+> On Sun, 2019-10-27 at 17:04 +0200, Adrian Bunk wrote:
+> > This LD_PRELOAD trick is not really suitable for busybox,
+> > so can be the only part of coreutils needed.
+> > 
+> > coreutils depends on the new package,
+> > so nothing changes when installing coreutils.
+> > 
+> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> > ---
+> > v3: coreutils-native fixed
+> > ---
+> >  meta/recipes-core/coreutils/coreutils_8.31.bb | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> This is better but there look to be nativesdk warnings:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/1406
 
-My previous comment still stands:
+I thought I was also testing nativesdk, but apparently not...
 
-Can't you just pass BINDIR=${base_sbindir} MANDIR=${docdir}/man 
-UDEVDIR=${nonarch_base_libdir}/udev etc, instead of patching the makefile?
+So the following works for native (no effect) but not for nativesdk:
+  RDEPENDS_coreutils += "coreutils-stdbuf"
 
-Ross
+v4 (sic) sent.
+
+> Cheers,
+> 
+> Richard
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
