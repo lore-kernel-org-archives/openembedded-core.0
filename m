@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CAD827FB21
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A50367FB21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 09:47:50 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id a15so577137wrf.9
+	Tue, 29 Oct 2019 09:47:51 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id c22so1658313wmd.1
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 29 Oct 2019 02:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=nySQ/H3xDz6KELGcKtKc0U+fJEb6LxzBJ0NBkMqAQIc=;
-	b=ITi6Ze3OSflrya+lxSuPvm1KlAGdRMq4+CMiZpMcIhG4WpK3e1JAVtRjNjv1MD0/lx
-	mKyS1cCCuk0xjILFfCbEHDVfv0sA1Ih7cElTHAeJ7/+MYxd2da/gDeKilfDWbnrUdUL+
-	qPaoKmp0L7I5T+k+WeNKYKE4NVXcIflKTZ6GOIt58gz4dpbYSFS1HVo9M7ZlrzdMXd2a
-	x+kFCq4DYX0KrQvxL2VHdrGEHaM0exGVrbBBpZMfoO3emuuWLEJeXxiyC82RTcvwLEdO
-	qP1RHrz7By/VVdqxGU5e19YcDh3SNva/7uD46V7gRmoerz2/3ywlFm7jHoFk/OeWVEDY
-	Vt4w==
+	bh=7aSdpAMWzpMlGsdwZU01X7mczvjQ7bbkoJrBasMyYgY=;
+	b=RQUN7wFm+svhuWgaGEmPAb0jVwaOIFQzVjyXeQThXZl1U2iSzqF4MQGrr4wQ+V2yOd
+	4IHeHcyvaXMTY0fIdGNVXYUX9A8SL7hQGwcykgvTslI+geajnIIWTaoO/zIFDCG3oQww
+	eQ7vfI4bzKPaoJ66xmFEwWKMevGbImcLf3nhRoXOzrLdeN0CyGNcOSZglOquVIuszmSH
+	hTuegpU/t+nGJry4CmXSzggditJo3bo2FSYSHPkzY9cw9ghbBXOLSXI9hNE7K7wBy8Zt
+	FW/n2Y3xMa7it3BZdIVIKlcG68FpbX01j5nbSClcxS8bAKImXDOECE+xa5hARfkVIanX
+	BlUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=nySQ/H3xDz6KELGcKtKc0U+fJEb6LxzBJ0NBkMqAQIc=;
-	b=UOa4ghjv7Bpb2C5vGmCMpXR/3HIXNWvlW983JnlWZXSx50tot3Xy91qI5OeARsHLeq
-	zd49DxMH2XAgn/cExWVeRagkKgOFJnxYpuwgLhRI91DFCpyaRvZ2rkR61kI0+spFena5
-	VSu8Xu9jA5bUQ7DsqLGUCEQB4MFDHRsWCsz9gAfUCm/KHJkLAHUoJOiJ5TAjMJ5X/qgV
-	vZOAYQMyfnojfkifU9QAczE1TOr9OILOsL9RzAzSIyHyko1Mzp5TrjVNBUjlhWmemxSH
-	RXrSyM0JYZcC1SIO+9kNkI5bTRH8063Gry8O05NN60rG17etQYStTEdLzHrL8i7lCxdD
-	oY/w==
-X-Gm-Message-State: APjAAAXV6ipF0lF0M+SsKEtvvsk4695mQX81SWUC6FSJgEyVKSloulXo
-	rBFGjrdCYWHAJkaEXchlcPQLNCw4jjA=
-X-Google-Smtp-Source: APXvYqwZHNM7tXodjMhaBDN3f71WcI0rXltspAflibi5IsxZm9k/T/Gzi8Qc8dgURPRC9ptwOMQFOQ==
-X-Received: by 2002:adf:e651:: with SMTP id b17mr17711075wrn.191.1572342471302;
-	Tue, 29 Oct 2019 02:47:51 -0700 (PDT)
+	bh=7aSdpAMWzpMlGsdwZU01X7mczvjQ7bbkoJrBasMyYgY=;
+	b=S9p3cxp7cLJxD8J1k2eu1bmcFVicCXGx8ctDnLzHj2Kk+JJ5osKb9pXyIp62sq6DTq
+	cZwUrBUWBzSOrQKvrZmz3nE/18A0Ohk+PxCokDEq3OGcWvrocOtUrSNTqRdN1/z/1IhD
+	CjBWIwavK0SmAvseLYlMq7jo68GNblEUnVNlP0cwcF7ja9l7gLuSeRoAMTpTSmAU1lOb
+	pH5EMfUK5/9RVc4JSLPx40n8Ll2uRmvlHbEy0O6vkXksGkZKRzjU8iIDb9vU6l1H9Fjj
+	dydyHi9HDTQ1hP0uHx8ntDJ6MUDMjXIEUUlbiey917sUNgmV95YPXdII0zcpG388aMbB
+	D69w==
+X-Gm-Message-State: APjAAAX3ALVP8Py/DzuTriX79Temxu7ylYhF4GOywryi8C+XGhLCdvDs
+	87vPE/SvvuievUW6H4C/UdkYmugHyzY=
+X-Google-Smtp-Source: APXvYqzbcnBdty5ha3wVhD2lFYxxOmQyirGifHLqsMjvvTxeBQD4GI/S5yOXvTJloN01t70RD7NsYg==
+X-Received: by 2002:a7b:c76d:: with SMTP id x13mr3172993wmk.155.1572342472049; 
+	Tue, 29 Oct 2019 02:47:52 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com ([91.217.168.176])
 	by smtp.gmail.com with ESMTPSA id
-	36sm29150537wrj.42.2019.10.29.02.47.50
+	36sm29150537wrj.42.2019.10.29.02.47.51
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 29 Oct 2019 02:47:50 -0700 (PDT)
+	Tue, 29 Oct 2019 02:47:51 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Oct 2019 10:47:23 +0100
-Message-Id: <8cb696bf7b8c6eb689339d3435f0e49e1a3ddb48.1572341125.git.akuster808@gmail.com>
+Date: Tue, 29 Oct 2019 10:47:24 +0100
+Message-Id: <3900d9fd530abc4a99ef89ab8e8b9d4e2cd2b409.1572341125.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572341125.git.akuster808@gmail.com>
 References: <cover.1572341125.git.akuster808@gmail.com>
-Subject: [warrior 10/19] libcroco: Fix two CVEs
+Subject: [warrior 11/19] python: include CVE patches for python-native as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,76 +58,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2019 09:47:51 -0000
+X-List-Received-Date: Tue, 29 Oct 2019 09:47:52 -0000
 
-From: Muminul Islam <misla011@fiu.edu>
+From: Anuj Mittal <anuj.mittal@intel.com>
 
-CVE: CVE-2017-8834 CVE-2017-8871
+Also avoids maintaining a different set of patches for both.
 
-Signed-off-by: Muminul Islam <muislam@microsoft.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit b3b1c00cc46b33ddbf7e008267032220e1e298af)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../libcroco/libcroco/CVE-2017-8834_71.patch       | 38 ++++++++++++++++++++++
- meta/recipes-support/libcroco/libcroco_0.6.12.bb   |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-support/libcroco/libcroco/CVE-2017-8834_71.patch
+ meta/recipes-devtools/python/python.inc       | 5 +++++
+ meta/recipes-devtools/python/python_2.7.16.bb | 5 -----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/libcroco/libcroco/CVE-2017-8834_71.patch b/meta/recipes-support/libcroco/libcroco/CVE-2017-8834_71.patch
-new file mode 100644
-index 0000000..cdfc9cf
---- /dev/null
-+++ b/meta/recipes-support/libcroco/libcroco/CVE-2017-8834_71.patch
-@@ -0,0 +1,38 @@
-+From 38bdf8e956218dd6a72942229cf39ef8e45dd28f Mon Sep 17 00:00:00 2001
-+From: Mike Gorse <mgorse@alum.wpi.edu>
-+Date: Thu, 2 May 2019 10:54:43 -0500
-+Subject: [PATCH] cr_utils_read_char_from_utf8_buf: move past invalid UTF-8
-+Reply-To: muislam@microsoft.com; Content-Type: text/plain; charset="utf-8"
-+Content-Transfer-Encoding: 8bit
-+
-+Otherwise, the offending character is never consumed, possibly leading
-+to an infinite loop.
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=782647
-+
-+CVE: CVE-2017-8834 CVE-2017-8871
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Muminul Islam <muislam@microsoft.com>
-+
-+Upstream commit: https://bug782647.bugzilla-attachments.gnome.org/attachment.cgi?id=374219
-+---
-+ src/cr-utils.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/cr-utils.c b/src/cr-utils.c
-+index 2420cec..6cf4849 100644
-+--- a/src/cr-utils.c
-++++ b/src/cr-utils.c
-+@@ -505,6 +505,7 @@ cr_utils_read_char_from_utf8_buf (const guchar * a_in,
-+ 
-+         } else {
-+                 /*BAD ENCODING */
-++                nb_bytes_2_decode = 1;
-+                 goto end;
-+         }
-+ 
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-support/libcroco/libcroco_0.6.12.bb b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-index f95a583..85a120d 100644
---- a/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-+++ b/meta/recipes-support/libcroco/libcroco_0.6.12.bb
-@@ -18,6 +18,7 @@ inherit gnomebase gtk-doc binconfig-disabled
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 779df53..8d0e908 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -8,6 +8,11 @@ INC_PR = "r1"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
  
- SRC_URI += "file://CVE-2017-7960.patch \
-             file://CVE-2017-7961.patch \
-+            file://CVE-2017-8834_71.patch \
-             "
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
++           file://bpo-35907-cve-2019-9948.patch \
++           file://bpo-35907-cve-2019-9948-fix.patch \
++           file://bpo-36216-cve-2019-9636.patch \
++           file://bpo-36216-cve-2019-9636-fix.patch \
++           file://CVE-2019-9740.patch \
+            "
  
- SRC_URI[archive.md5sum] = "bc0984fce078ba2ce29f9500c6b9ddce"
+ SRC_URI[md5sum] = "30157d85a2c0479c09ea2cbe61f2aaf5"
+diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
+index c6160ae..a02a628 100644
+--- a/meta/recipes-devtools/python/python_2.7.16.bb
++++ b/meta/recipes-devtools/python/python_2.7.16.bb
+@@ -30,11 +30,6 @@ SRC_URI += " \
+            file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
+            file://float-endian.patch \
+            file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch \
+-    file://bpo-35907-cve-2019-9948.patch \
+-    file://bpo-35907-cve-2019-9948-fix.patch \
+-    file://bpo-36216-cve-2019-9636.patch \
+-    file://bpo-36216-cve-2019-9636-fix.patch \
+-    file://CVE-2019-9740.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.7.4
 
