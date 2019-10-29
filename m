@@ -1,32 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 08AB37F9C0
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 079C27FB2D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 20:51:17 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Oct 2019 13:51:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,245,1569308400"; d="scan'208";a="211881767"
-Received: from koernerm-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.41.216])
-	by orsmga002.jf.intel.com with ESMTP; 29 Oct 2019 13:51:18 -0700
-To: openembedded-core@lists.openembedded.org
-References: <20191015061510.21803-1-dan.callaghan@opengear.com>
-	<20191015224456.22136-1-dan.callaghan@opengear.com>
-	<20191029201821.GA26658@localhost>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <ea2156a7-8f39-ffdc-55ca-6488b115eb2b@intel.com>
-Date: Tue, 29 Oct 2019 20:51:17 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+	Tue, 29 Oct 2019 21:13:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 472kpP6nfVz65;
+	Tue, 29 Oct 2019 22:13:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1572383614;
+	bh=FKUQRrevZbh/1IoBJsGaQ9tmQhnxFBLqWJtJUzQarPs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=txHLGdZ8QP4y+WBcKJxOSGK54472R9U+KXrhkga4MzAS7Ljma7KGmCq6nf9fS9jJq
+	6MzWp6tkEpxeAHPUwCDl4AXUoKxVZ84YIKYYgx78v5ISx50oNhIUXKVDNCZifICo2I
+	IiVLJfvcEywUD/GDXSRkUoVW8jIZ0RFUcCHuQrEtaSlLb7Skretz66OKttaelKl2BZ
+	girYc19zgjNZZeikT7p+kUxLuKG2fDjj27SrgwJdOj9WEVsGWUA9OTB38vkyB3/ALb
+	TDw2SorWg+0DBIuRRPEr7wakO3tpTCXTXr9VXsilBCmX5+d5L0bnNyzen7EGqnMC5W
+	nmZYLr69jM+7PvrziUe453fNtbAke5SxLKPZPVRZrAgCx3D0Q493QiZU7x7w1aLTfv
+	SK2ACRmtegepTKCk5xDl1Obu6R34KYTnk29LtpjdG7LJAErwekOqqVbmusNmMzA7Mh
+	VKUXTKRMAixTcHMXQ9n7RpEDY8FP+rhONY7KP9q6Sm2bRDc9lxdSiIwxswZxzib6QA
+	/nsNl94V+V9gZdjBykzM0/4nIw6OktvPepotrG1ZZWd7ZSNiBWEDiRkpaxkS1dMoIR
+	MVbqS9RReTs3yYqZzjmqbXELGKaIwsEiS8a0l4s4O+zgqFCzTiqbGeS9WaL+lmo7rq
+	oESLh8F+NexarkTL0PjQAyHI=
+Date: Tue, 29 Oct 2019 23:13:31 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <20191029211331.GB26658@localhost>
+References: <20191029203921.17227-1-trevor.gamblin@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20191029201821.GA26658@localhost>
-Subject: Re: [PATCH v3] elfutils: add PACKAGECONFIG for compression algorithms
+In-Reply-To: <20191029203921.17227-1-trevor.gamblin@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: inotify-tools: move recipe to oe-core from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,30 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2019 20:51:18 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Oct 2019 21:13:35 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 29/10/2019 20:18, Adrian Bunk wrote:
-> On Wed, Oct 16, 2019 at 08:44:56AM +1000, Dan Callaghan wrote:
->> Elfutils has optional support for bzip2 and xz (lzma). It uses
->> this for decompressing embedded ELF sections like the .gnu_debugdata
->> section for "mini debuginfo":
->>
->> https://sourceware.org/gdb/onlinedocs/gdb/MiniDebugInfo.html
->> ...
->> +PACKAGECONFIG ??= "bzip2"
->> +PACKAGECONFIG[bzip2] = "--with-bzlib,--without-bzlib,${DEPENDS_BZIP2}"
->> +PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
->> ...
-> 
-> Is any tooling actually doing this compression by default?
-> 
-> It is a bit surprising that this has the mostly-obsolete bzip2 enabled
-> by default but not the more common (and better compressing) xz.
+On Tue, Oct 29, 2019 at 03:39:21PM -0500, Trevor Gamblin wrote:
+> An interface for inotify already exists through pyinotify,
+> but migrating inotify-tools to oe-core provides an option
+> that doesn't rely on python.
+>... 
 
-Exactly.
+pyinotify is in meta-python.
 
-Ross
+The only option currently in oe-core is to use C,
+which is the standard way to use inotify.
+
+inotify-tools can be useful, but I don't see the rationale
+why it should move from meta-oe to oe-core.
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
