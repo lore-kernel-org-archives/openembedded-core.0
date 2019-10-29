@@ -1,59 +1,32 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 58AEB7FA21
+Return-Path: <ross.burton@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 08AB37F9C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 20:42:37 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id n17so3238800ioa.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 13:42:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9o4YEPrLd255vly5N+DTfqT9Ok4ZNgqNIYQvSbm8+1M=;
-	b=KTY5vv8DbWuLkS3PvjhXr48ADQlz0H6yuzxYCAapXJ6o8at14TsgE4+woweGRYE+9i
-	WwqIzxX7WCMi7XBnUgSyLYK/k11LL+sNcP8L6jsBSWtv8NFJcch69I7+hvjDnl15pGpD
-	czlqHHtQUyfhGeykFsHEVipp6zchOtFFBM7MAdicyExv48RwTXlONEC3vpESyD4SWcIP
-	ULwbuIaou5mxIewp+gaXQjyaSh0kda+dFzxz7pMpQ5e948933OFEuN4ehpWJKKbX4WbG
-	Kcs0kZieHFkYESz/sKOAK7oStSvRAe9vK+SpcB/Sx9DD9Q46yLHEXUnlrKSLxsthf4ja
-	3DHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=9o4YEPrLd255vly5N+DTfqT9Ok4ZNgqNIYQvSbm8+1M=;
-	b=YQLXCOX8jUvge1nqlvdofyNF+mMQeOQOkfj0Aly9e3D6j3GP2TXJp0jXURNG8vIu79
-	y5o/XrGZ62Fn7rSTl6UztSM+kXnrum/L223H2FxumphAx8iHtyC/+LmHX6kY4mGwtpwz
-	vgS6EZJKv0Ks5jiU02ZHyTUFbD+MJE5qdWQeZFGAalVkqpdyDRam/0cUoyojPT8qKRR1
-	6uIqA0ttaIX/jgKwljlzIj7PL+V1yKfrQxOEKZKngvZh1Eh0Y9sxqRj/+/IGZOsPGPPv
-	U0xptQ7jL2uUugmoCBlNc2c+i4yGzT1wj70V9SVDCjJeXK+zR5+v9WsPl9wXI2njRLwz
-	CZUg==
-X-Gm-Message-State: APjAAAVZRm4u551jJ+m6kxocPaJKUWlHdNsbMKsKK66cWjhOgS40l/ta
-	HrnlAZPTmza+mjwE1utly1A2MoL8pFFhq7Kl0O0=
-X-Google-Smtp-Source: APXvYqwAA43Ph3GmoAD13Aoums3Mx86vPUAj6oPdA0ED4ESdFLLIunPGP3R386ZuqO5pdjwub5aW5Ya5PaHLD1ym8Cs=
-X-Received: by 2002:a6b:d201:: with SMTP id q1mr3913862iob.302.1572381758335; 
-	Tue, 29 Oct 2019 13:42:38 -0700 (PDT)
+	Tue, 29 Oct 2019 20:51:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Oct 2019 13:51:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,245,1569308400"; d="scan'208";a="211881767"
+Received: from koernerm-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.41.216])
+	by orsmga002.jf.intel.com with ESMTP; 29 Oct 2019 13:51:18 -0700
+To: openembedded-core@lists.openembedded.org
+References: <20191015061510.21803-1-dan.callaghan@opengear.com>
+	<20191015224456.22136-1-dan.callaghan@opengear.com>
+	<20191029201821.GA26658@localhost>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <ea2156a7-8f39-ffdc-55ca-6488b115eb2b@intel.com>
+Date: Tue, 29 Oct 2019 20:51:17 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Received: by 2002:ac0:aa09:0:0:0:0:0 with HTTP; Tue, 29 Oct 2019 13:42:37
-	-0700 (PDT)
-In-Reply-To: <c66d5833-ffb1-327d-6297-ca41c5dcfd59@gmail.com>
-References: <CAA=hcWTH9VCNgbDbU+ai3sydbWWKNR9HfnuGKu3oQ7XsHN6JBQ@mail.gmail.com>
-	<de0e9a45-522a-be55-120a-b3cbd398ec6c@gmail.com>
-	<CAA=hcWSTFCUBniK19V-2d0o87PjLN1dkpsWCXhjMXfBQiFvtEw@mail.gmail.com>
-	<47af37ed-25aa-65aa-cea7-febfada814f7@gmail.com>
-	<CAA=hcWQ8xjT03MC9MQPXgFVB04ZdbE5=Nd8LOE=6w308r44kGg@mail.gmail.com>
-	<e91e63ef-9da5-3110-17d2-6f78bf09c904@gmail.com>
-	<CAA=hcWTF5GVrEQ6WtjgLoHovrtyNKUUt_aHYpiaQ9pzHtqt7nQ@mail.gmail.com>
-	<8733775b-ae58-30a3-2b11-daf8abed85b4@gmail.com>
-	<CAA=hcWTucG_LwdAPBX4AA3wAv44Y-h3zqEMn9af8pWEQQFG8tg@mail.gmail.com>
-	<c66d5833-ffb1-327d-6297-ca41c5dcfd59@gmail.com>
-From: JH <jupiter.hce@gmail.com>
-Date: Wed, 30 Oct 2019 07:42:37 +1100
-Message-ID: <CAA=hcWR_X2WLhmX0EEwKqvF4i0qkGEJYpWbrgSaNEYq7iowhaQ@mail.gmail.com>
-To: Ferry Toth <fntoth@gmail.com>
-Cc: public-openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@plane.gmane.org,
-	public-public-openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9-wOFGN7rlS/M9smdsby/KFg@plane.gmane.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: zimage Initramfs booting stuck at Start Kernel
+In-Reply-To: <20191029201821.GA26658@localhost>
+Subject: Re: [PATCH v3] elfutils: add PACKAGECONFIG for compression algorithms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,43 +39,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2019 20:42:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 29 Oct 2019 20:51:18 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Hi Ferry,
-
-On 10/30/19, Ferry Toth <fntoth@gmail.com> wrote:
-> Op 29-10-2019 om 11:25 schreef JH:
->> Hi Ferry,
+On 29/10/2019 20:18, Adrian Bunk wrote:
+> On Wed, Oct 16, 2019 at 08:44:56AM +1000, Dan Callaghan wrote:
+>> Elfutils has optional support for bzip2 and xz (lzma). It uses
+>> this for decompressing embedded ELF sections like the .gnu_debugdata
+>> section for "mini debuginfo":
 >>
->> On 10/29/19, Ferry Toth <fntoth@gmail.com> wrote:
->>>
->>> https://github.com/edison-fw/meta-intel-edison/blob/master/meta-intel-edison-bsp/conf/machine/edison.conf
->>>
->>> And there is the max size!
->>
->> Are you able to run u-boot to start kernel in the large size 64 MB?
->
-> No, the largest I had was 18MB compressed and it didn't boot. After I
-> brought it back to 10MB or so it boots again. Like I said, I don't know
-> where the limit comes from.
+>> https://sourceware.org/gdb/onlinedocs/gdb/MiniDebugInfo.html
+>> ...
+>> +PACKAGECONFIG ??= "bzip2"
+>> +PACKAGECONFIG[bzip2] = "--with-bzlib,--without-bzlib,${DEPENDS_BZIP2}"
+>> +PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
+>> ...
+> 
+> Is any tooling actually doing this compression by default?
+> 
+> It is a bit surprising that this has the mostly-obsolete bzip2 enabled
+> by default but not the more common (and better compressing) xz.
 
-Oh, so no one could boot zImage-initramfs in a size larger than 10 MB?
-And no one concerns?
-If anyone could provide more information about kernel.bbclass bundle
-function, I would like to help to solve this problem.
+Exactly.
 
-> I think you should be able to make the initramfs minimal and put the
-> rest in a separate file system same as I do and your problem will be
-> solved. But it looks like if you want to trace the root cause and solve
-> it, you are on your own.
-
-I have already got zImage-initramfs running in a small size of 8MB
-without rootfs bundle.
-
-Thank you.
-
-Kind regards,
-
-- jh
+Ross
 
