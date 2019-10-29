@@ -1,99 +1,56 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B8A57E437
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CC837FB54
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 04:53:44 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id 21so8629671pfj.9
+	Tue, 29 Oct 2019 06:27:42 +0000 (UTC)
+Received: by mail-il1-f196.google.com with SMTP id y5so10360384ilb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2019 21:53:45 -0700 (PDT)
+	Mon, 28 Oct 2019 23:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=XmisK7EKiZOJ3vdD8bvEKQdBG1Cn3/fm860P0zgAB/8=;
-	b=F8xVqPV7E0wzTjqKNXvxjcxdJwG1zxT/97TAux6DfeFGVfFjFdyM3rL/OUL0d0W5li
-	2jvmFFXUqfiT9YXkzcf4JkSfLR5wLJkxRLprWbGV3vz0/Tg5IJU7au23zKNtUDPC7BHr
-	6ech9IYYKa8ZIpr+7zgpYQmprfbu8MnUa5fW1jwexJ4w0sgipudQsvp7x4aMk/HwXzI9
-	mLGnZe1m3lYXW+bRsjhT4cBtVI94x+RUSe99TfN9IXEPzzBq1IU3NzddeccJAcWvREk+
-	YAzLAwdoAFUuW3f4mDrPbeh4C2Rp2Ba0JT7scP9UBAL9/74gN85zMMaexoQYzkoXkvCH
-	fFmw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HsQ0REiScxbT3lGoyv1SOH/gSyUzGO+XnLs1S0Qz6dM=;
+	b=aNyVvDN6/nSM7xdpWyzaMQjb5hvG8rIcCOoXVo1P6eNka/isjwUgRYVQKqjTcA8dq+
+	txiZGjO8Hq3oQnDAzeDQUwm+ycXzex3RvchNIL1PBQwGr4/u7U5f4UYvnVsewb2NonP9
+	8bFOeTLYKgecEzv9sH/dWg6LKBR7JYqHyentNkhqt4ozNtsu/O4IdoduYT5bQvQRpQsq
+	JUuIAgHxa9pH+i2DPeoY51vYjW/6czDLRb5L8uuTaC7m5G4JBj4HJ229sk057H4TrgJZ
+	+2pVhKsNGh47dfSpWWF1IGxqrgTRtor2PnXMIYbQZJYiX76Z8l8swWJaIp7NWwwZHzh0
+	422g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
-	:date:user-agent:mime-version:content-transfer-encoding
-	:content-language;
-	bh=XmisK7EKiZOJ3vdD8bvEKQdBG1Cn3/fm860P0zgAB/8=;
-	b=Val4KmY4xjs6+qr6mt10zJtfnxjQ4vg8nOZpIcbLXBE5mfevdIDpwS+0h/GQGgzXE0
-	pVvx0QV/aQoRgcjHxGWZg2fVmx/i/fGcJntSoTVLNTi1T2kb5LwPBXql2R32MWwfEzrF
-	ilRXBmOschXGskVRHm5E44Zv7NOC2ltsclb0AvLgaVMELJh/lAyq+AqfdguMXFX6Mdrw
-	n0tII80IbZJSn3YQKecZ/BnkETI+Xk2aVSBlrB8zJjlEH+bNdAmnJh7r1m6mP5pIk9gG
-	iEKDkNa+q1OHWW6n4XUArg+obhyfF+lFkMA6YWmKmJG1Z7dRKmFd1u8aC8BwwQAHmzWs
-	7Svg==
-X-Gm-Message-State: APjAAAWH2d/NQ+a+hWRAQ5JjZDl7QmqlkgDhyxjplgMZOi+AtrdAEC9q
-	6AbStzzvlvw5l2RS4+oKCuHAUTr+TOU=
-X-Google-Smtp-Source: APXvYqyRrlsyFpssJTUkuEArE6c40+KMTdh15YDEOXmUpnA4AQ6XLTjWQ88HR3sjrUy5d1FXmzlLBQ==
-X-Received: by 2002:a17:90a:34c1:: with SMTP id
-	m1mr3643208pjf.89.1572324825222; 
-	Mon, 28 Oct 2019 21:53:45 -0700 (PDT)
-Received: from [10.192.11.162] ([178.18.58.186])
-	by smtp.gmail.com with ESMTPSA id
-	j11sm8905310pfa.127.2019.10.28.21.53.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Oct 2019 21:53:44 -0700 (PDT)
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <59fa53a1-7cbb-3f55-3b32-b2a41cf0a4d4@gmail.com>
-Date: Tue, 29 Oct 2019 05:53:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=HsQ0REiScxbT3lGoyv1SOH/gSyUzGO+XnLs1S0Qz6dM=;
+	b=NSGsOgLXyGcOgOcyk5pcLD3R5axMw3PzLYk6Ixux2WPmdKdqdGSpoIA1H2YCObWKjR
+	KeuYJUP9EUi5eriE6Af3QW/WwfzSf1Vgfx0COnlZVrDipFVXiEdQSMymT92ciAKQNBKi
+	HIbQeRYoofEqo5pr4h1mTY0oTSDpjVs2zwENP9Wklklv53UZBB9I7Rf1MY+6f3/rmwGd
+	o57vER6ospgG70CFm6hTv/I1KgupAncL5Q3iNBz7KaWOKykQeLTbKGv2rSaHQuYl66m7
+	dMTPJ8kuzyxCcjy0mHl3EOaEQwjRB+fhY+vKKL5GvHamuq+Ut40lOEEhUNQo/887J8Kv
+	wfew==
+X-Gm-Message-State: APjAAAXUIMcCr3U2dUjrs+RMEP7U1gA1BW7cOb4f5WbPzujhqKgDtlw5
+	pJHN7NdCNZyidk9NanUdgGxXV7wjj6qq/0kSOEg=
+X-Google-Smtp-Source: APXvYqwUNa8q5sdySNLrWedjHSVV1xQNKawTwFdeI1AqSHl4ZF12S+gBSOGbi3TGX6sNl14qL6dU/QeNe7IHVXWvpQ4=
+X-Received: by 2002:a92:9e4c:: with SMTP id q73mr24780710ili.53.1572330463177; 
+	Mon, 28 Oct 2019 23:27:43 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Stable warrior decision
+Received: by 2002:ac0:aa09:0:0:0:0:0 with HTTP; Mon, 28 Oct 2019 23:27:42
+	-0700 (PDT)
+In-Reply-To: <8733775b-ae58-30a3-2b11-daf8abed85b4@gmail.com>
+References: <CAA=hcWTH9VCNgbDbU+ai3sydbWWKNR9HfnuGKu3oQ7XsHN6JBQ@mail.gmail.com>
+	<de0e9a45-522a-be55-120a-b3cbd398ec6c@gmail.com>
+	<CAA=hcWSTFCUBniK19V-2d0o87PjLN1dkpsWCXhjMXfBQiFvtEw@mail.gmail.com>
+	<47af37ed-25aa-65aa-cea7-febfada814f7@gmail.com>
+	<CAA=hcWQ8xjT03MC9MQPXgFVB04ZdbE5=Nd8LOE=6w308r44kGg@mail.gmail.com>
+	<e91e63ef-9da5-3110-17d2-6f78bf09c904@gmail.com>
+	<CAA=hcWTF5GVrEQ6WtjgLoHovrtyNKUUt_aHYpiaQ9pzHtqt7nQ@mail.gmail.com>
+	<8733775b-ae58-30a3-2b11-daf8abed85b4@gmail.com>
+From: JH <jupiter.hce@gmail.com>
+Date: Tue, 29 Oct 2019 17:27:42 +1100
+Message-ID: <CAA=hcWQjwYv8ip6W3inohK6TXahpuuY1HhMB=BD5sVfy1igLXQ@mail.gmail.com>
+To: Ferry Toth <fntoth@gmail.com>
+Cc: public-openembedded-core-ZwoEplunGu3dfDuKDZ/zN51Ccm5ICvs9@plane.gmane.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: zimage Initramfs booting stuck at Start Kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -106,19 +63,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2019 04:53:44 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+X-List-Received-Date: Tue, 29 Oct 2019 06:27:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-I decided to mark the qemu virgl issue on FC30 as a known issue as we
-saw it fail in 2.7.1.
+Hi Ferry,
 
-https://autobuilder.yocto.io/pub/releases/yocto-2.7.1.rc1/testresults/oe-=
-selftest-fedora/testresults.json
+On 10/29/19, Ferry Toth <fntoth@gmail.com> wrote:
+>> How did you build the cpio into the kernel?
+>
+> https://github.com/edison-fw/meta-intel-edison/blob/master/meta-intel-edison-bsp/conf/machine/edison.conf
 
+Thank you for sharing the config, I added the same thing to my image configure:
 
-regards.
-Armin
+INITRAMFS_MAXSIZE ="80000"
+INITRAMFS_FSTYPES = "cpio.gz"
 
+But it doesn't seem any changes in zImage-initramfs format, still
+stuck in Start Kernel. There is no cpio in zImage-initramfs format
+either:
+
+0             0x0             Linux kernel ARM boot executable zImage
+(little-endian)
+6904          0x1AF8          LZO compressed data
+7316          0x1C94          LZO compressed data
+7918          0x1EEE          device tree image (dtb)
+57505         0xE0A1          device tree image (dtb)
+312302        0x4C3EE         LZ4 compressed data, legacy
+2049266       0x1F44F2        SHA256 hash constants, little endian
+2372864       0x243500        mcrypt 2.5 encrypted data, algorithm:
+"]", keysize: 23701 bytes, mode: "(",
+6093526       0x5CFAD6        device tree image (dtb)
+8127489       0x7C0401        LZ4 compressed data, legacy
+8167809       0x7CA181        device tree image (dtb)
+8211971       0x7D4E03        device tree image (dtb)
+8466697       0x813109        LZ4 compressed data, legacy
+10203615      0x9BB1DF        SHA256 hash constants, little endian
+10527221      0xA0A1F5        mcrypt 2.5 encrypted data, algorithm:
+"]", keysize: 23701 bytes, mode: "(",
+14247896      0xD967D8        device tree image (dtb)
+16108284      0xF5CAFC        LZ4 compressed data, legacy
+16581064      0xFD01C8        mcrypt 2.5 encrypted data, algorithm:
+")}", keysize: 11556 bytes, mode: "|",
+18187148      0x115838C       PARity archive data - file number 12288
+18412397      0x118F36D       mcrypt 2.5 encrypted data, algorithm:
+"*l", keysize: 20516 bytes, mode: "~",
+18642426      0x11C75FA       mcrypt 2.5 encrypted data, algorithm:
+"9n", keysize: 2452 bytes, mode: "4",
+19350585      0x1274439       ELF, 32-bit LSB ("")
+19742605      0x12D3F8D       ELF, 32-bit LSB ("")
+22468397      0x156D72D       ELF, 32-bit LSB processor-specific, ("")
+22528640      0x157C280       ELF, 32-bit LSB processor-specific, ("")
+22974723      0x15E9103       mcrypt 2.5 encrypted data, algorithm:
+">", keysize: 2093 bytes, mode: "-",
+23196848      0x161F4B0       ZBOOT firmware header, header size: 32
+bytes, load address: 0x0564F721, start address: 0x2E4CEE95, checksum:
+0x22771426, version: 0x1D216514, image size: 185068065 bytes
+24899585      0x17BF001       LZMA compressed data, properties: 0x63,
+dictionary size: 2097152 bytes, uncompressed size: 139006573920 bytes
+24899761      0x17BF0B1       LZMA compressed data, properties: 0x6C,
+dictionary size: 2097152 bytes, uncompressed size: 541203680 bytes
+24899796      0x17BF0D4       LZMA compressed data, properties: 0x63,
+dictionary size: 2097152 bytes, uncompressed size: 139810176352 bytes
+24940767      0x17C90DF       LZMA compressed data, properties: 0x5E,
+dictionary size: 522190848 bytes, uncompressed size: 2157628 bytes
+24946105      0x17CA5B9       LZMA compressed data, properties: 0xBE,
+dictionary size: -1108672512 bytes, uncompressed size: 138831226112
+bytes
+24949352      0x17CB268       LZMA compressed data, properties: 0xC0,
+dictionary size: -551550976 bytes, uncompressed size: 2117660 bytes
+25029743      0x17DEC6F       Copyright string: "Copyright 2017, NXP"
+25827134      0x18A173E       Unix path: /var/lib/systemd/
+27216461      0x19F4A4D       eCos RTOS string reference: "ECOS field"
+27744796      0x1A75A1C       SHA256 hash constants, little endian
+27784033      0x1A7F361       mcrypt 2.5 encrypted data, algorithm:
+"ute0^", keysize: 25971 bytes, mode: """,
+28059592      0x1AC27C8       Base64 standard index table
+28258932      0x1AF3274       SHA256 hash constants, little endian
+29009250      0x1BAA562       Unix path: /lib/opkg/alternatives/cut
+29091303      0x1BBE5E7       LZMA compressed data, properties: 0xB7,
+dictionary size: 1572864 bytes, uncompressed size: 106573083904 bytes
+31513153      0x1E0DA41       SHA256 hash constants, little endian
+31800561      0x1E53CF1       PARity archive data - file number 1944
+31937419      0x1E7538B       gzip compressed data, from FAT
+filesystem (MS-DOS, OS/2, NT), last modified: 1970-01-01 00:01:36
+(bogus date)
+32101039      0x1E9D2AF       gzip compressed data, from FAT
+filesystem (MS-DOS, OS/2, NT), last modified: 1970-01-01 00:01:36
+(bogus date)
+32127133      0x1EA389D       gzip compressed data, from FAT
+filesystem (MS-DOS, OS/2, NT), last modified: 1970-01-01 00:01:36
+(bogus date)
+32480356      0x1EF9C64       rzip compressed data - version 16.42
+(881272744 bytes)
+32537394      0x1F07B32       lrzip compressed data
+32537406      0x1F07B3E       LZ4 compressed data
+32537413      0x1F07B45       LZ4 compressed data, legacy
+32539866      0x1F084DA       Gameboy ROM,
+32540730      0x1F0883A       EBML file
+32660115      0x1F25A93       LHa 2.x? archive data [lh ] [NSRL|LHA2]
+32660163      0x1F25AC3       lrzip compressed data
+32660167      0x1F25AC7       LZ4 compressed data
+32660171      0x1F25ACB       LZ4 compressed data, legacy
+32660179      0x1F25AD3       LZO compressed data
+32660287      0x1F25B3F       XAR archive, version: 31320, header
+size: 64823, TOC compressed: 6506577760731572164, TOC uncompressed:
+18243852667069869871
+32660404      0x1F25BB4       Executable script, shebang: "/bin/python3"
+32662024      0x1F26208       EBML file
+33346732      0x1FCD4AC       Copyright string: "Copyright (C) 2010
+Nikolai Kondrashov"
+33684559      0x201FC4F       mcrypt 2.5 encrypted data, algorithm:
+"_fd", keysize: 8881 bytes, mode: "h",
+34425873      0x20D4C11       Copyright string: "copyrighted by many
+authors between 1998-2015."
+34451850      0x20DB18A       SHA256 hash constants, little endian
+
+What is the Executable script, shebang: "/bin/python3" ? My image does
+not have python installed.
+
+Also the eCos RTOS string reference: "ECOS field"? My image does not have ecos??
+
+> And there is the max size!
+
+OK good to know.
+
+>>> And that cpio is ~64MB, so it must be possible.
+>>
+>> Is the 64MB for compressed cpio.gz? If so, that should be fine. Did
+>> you allude that 64MB is also a limitation for cpio?
+>
+> No I don't think so.
+
+That is good.
+
+Thanks Ferry.
+
+Kind regards,
+
+- jh
 
