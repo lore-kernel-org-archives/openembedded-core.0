@@ -1,24 +1,30 @@
 Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D6DBA7FA50
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DD4E7FBA0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 09:52:31 +0000 (UTC)
+	Tue, 29 Oct 2019 09:52:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9T9qWNL016982
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 02:52:32 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 29 Oct 2019 02:52:31 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Oct 2019 17:52:30 +0800
-Message-ID: <1572342750-123719-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9T9qgDt004455
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 29 Oct 2019 02:52:42 -0700
+Received: from [128.224.158.194] (128.224.158.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 29 Oct 2019 02:52:41 -0700
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1569304805-85150-1-git-send-email-changqing.li@windriver.com>
+	<98ff244f-3fbb-ae80-788a-11b894eb18c7@windriver.com>
+	<19bed5c6-e500-d419-e8fa-8b1cf1d95068@intel.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <5eb018b7-eff5-80d8-f74d-d5055719d9b0@windriver.com>
+Date: Tue, 29 Oct 2019 17:52:15 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Subject: [PATCH V3] mdadm: fix do_package failed when changed local.conf but not cleaned
+In-Reply-To: <19bed5c6-e500-d419-e8fa-8b1cf1d95068@intel.com>
+X-Originating-IP: [128.224.158.194]
+Subject: Re: [PATCH V2] mdadm: fix do_package failed when changed local.conf but not cleaned
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,48 +37,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2019 09:52:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Oct 2019 09:52:42 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-From: Changqing Li <changqing.li@windriver.com>
 
-reproduce steps:
-1. add DISTRO_FEATURE_append = 'usrmerge' in local.conf
-2. bitbake mdadm --success
-3. remove DISTRO_FEATURE_append = 'usrmerge' from local.conf
-4. bitbake mdadm  -- failed when do_package
-
-it is not proper to change source Makefile during do_install by sed,
-fix by pass correct config to EXTRA_OEMAKE
-
-[YOCTO #13493]
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-extended/mdadm/mdadm_4.1.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 639382e..64f519e 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -43,13 +43,12 @@ CFLAGS_append_powerpc64 = ' -D__SANE_USERSPACE_TYPES__'
- CFLAGS_append_mipsarchn64 = ' -D__SANE_USERSPACE_TYPES__'
- CFLAGS_append_mipsarchn32 = ' -D__SANE_USERSPACE_TYPES__'
- 
--EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}"'
-+EXTRA_OEMAKE = 'CHECK_RUN_DIR=0 CXFLAGS="${CFLAGS}" SYSTEMD_DIR=${systemd_unitdir}/system \
-+                BINDIR="${base_sbindir}" UDEVDIR="${nonarch_base_libdir}/udev"'
- 
- DEBUG_OPTIMIZATION_append = " -Wno-error"
- 
- do_compile() {
--	# Point to right sbindir
--	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" -e "s;SYSTEMD_DIR=/lib/systemd/system;SYSTEMD_DIR=${systemd_unitdir}/system;" ${S}/Makefile
- 	oe_runmake SYSROOT="${STAGING_DIR_TARGET}"
- }
- 
--- 
-2.7.4
-
+On 10/29/19 6:05 AM, Ross Burton wrote:
+> On 08/10/2019 04:16, Changqing Li wrote:
+>> Ping
+>
+> My previous comment still stands:
+>
+> Can't you just pass BINDIR=${base_sbindir} MANDIR=${docdir}/man 
+> UDEVDIR=${nonarch_base_libdir}/udev etc, instead of patching the 
+> makefile?
+>
+> Ross
+>
+Oh,  I missed your last comments.  Thanks for remind.     I have send a 
+V3 for this.
 
