@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A50367FB21
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F2727FB21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 09:47:51 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id c22so1658313wmd.1
+	Tue, 29 Oct 2019 09:47:52 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id n7so1789228wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 02:47:52 -0700 (PDT)
+	Tue, 29 Oct 2019 02:47:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=7aSdpAMWzpMlGsdwZU01X7mczvjQ7bbkoJrBasMyYgY=;
-	b=RQUN7wFm+svhuWgaGEmPAb0jVwaOIFQzVjyXeQThXZl1U2iSzqF4MQGrr4wQ+V2yOd
-	4IHeHcyvaXMTY0fIdGNVXYUX9A8SL7hQGwcykgvTslI+geajnIIWTaoO/zIFDCG3oQww
-	eQ7vfI4bzKPaoJ66xmFEwWKMevGbImcLf3nhRoXOzrLdeN0CyGNcOSZglOquVIuszmSH
-	hTuegpU/t+nGJry4CmXSzggditJo3bo2FSYSHPkzY9cw9ghbBXOLSXI9hNE7K7wBy8Zt
-	FW/n2Y3xMa7it3BZdIVIKlcG68FpbX01j5nbSClcxS8bAKImXDOECE+xa5hARfkVIanX
-	BlUw==
+	bh=iMlV9+mAODmlQfsrFvmf9t7LW8Lmm4X6z1rT+5AWV80=;
+	b=D8b0q86r3Eie/iHA4eBUgLeQdUy/QUiMlsAZhzktOPtEytks3ZpBCBAJuZ8qtOoJXW
+	tyd0df1WrbiOHvhdEUBQbdz1lEH2qLcaogtm4O5vMllLtWzBetvLCL1NcqqgzJoaBy3p
+	/0fPppSFl72oYtipnpH2uqzFTUsHkPtvwKjtMsQDc4kiXK4EvfNn5vJNr4r11n1rVt4v
+	siXYS7w2MNx/NPryhCl9PZwaZEqhOxHbIGHqgNdnJtDWhH77+24Qy5Zz9KkB4Y+Cf0qZ
+	to1oVkr/ecgMg9rcpvntiv8qUA37+SyKl89XPebDmo5eQ33JV0U9wP2lGMNw0dSx/whx
+	WKxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=7aSdpAMWzpMlGsdwZU01X7mczvjQ7bbkoJrBasMyYgY=;
-	b=S9p3cxp7cLJxD8J1k2eu1bmcFVicCXGx8ctDnLzHj2Kk+JJ5osKb9pXyIp62sq6DTq
-	cZwUrBUWBzSOrQKvrZmz3nE/18A0Ohk+PxCokDEq3OGcWvrocOtUrSNTqRdN1/z/1IhD
-	CjBWIwavK0SmAvseLYlMq7jo68GNblEUnVNlP0cwcF7ja9l7gLuSeRoAMTpTSmAU1lOb
-	pH5EMfUK5/9RVc4JSLPx40n8Ll2uRmvlHbEy0O6vkXksGkZKRzjU8iIDb9vU6l1H9Fjj
-	dydyHi9HDTQ1hP0uHx8ntDJ6MUDMjXIEUUlbiey917sUNgmV95YPXdII0zcpG388aMbB
-	D69w==
-X-Gm-Message-State: APjAAAX3ALVP8Py/DzuTriX79Temxu7ylYhF4GOywryi8C+XGhLCdvDs
-	87vPE/SvvuievUW6H4C/UdkYmugHyzY=
-X-Google-Smtp-Source: APXvYqzbcnBdty5ha3wVhD2lFYxxOmQyirGifHLqsMjvvTxeBQD4GI/S5yOXvTJloN01t70RD7NsYg==
-X-Received: by 2002:a7b:c76d:: with SMTP id x13mr3172993wmk.155.1572342472049; 
+	bh=iMlV9+mAODmlQfsrFvmf9t7LW8Lmm4X6z1rT+5AWV80=;
+	b=hIsLbqauAMVZtTxiNSDJDyHF/QL4x/rn4bpfdvuCyAfxb25z1VCcZvpVgbjW3IkMqn
+	ZiZyUPbFGFojXY9b4KmaF/8vXtkKkCJpNVw/VJ3tXcbsTHT1NpHJNMbP+moacrfxjaNN
+	3I+mGm5qUdw6cev00FKTwKokXoZa0DCXyckK43ddgBXCej/COoX/cUEBMvjIZ4rW3pZ0
+	pchFYtdllG7dZX3xF4oSt2ksrjQ2hLM58oiZmCbtiFukb1nBvq1rY/yhstJ2+QDW2VJ2
+	cG9WeoIfocdhW9nHkyq2v6L0Ta5jnO2vutgbOSaiB0ScztuqhWEgCRaVbXvoZL5b+OHv
+	GfTQ==
+X-Gm-Message-State: APjAAAWB1gy1hhoOBUMODbzBFYj8BbD/jwhZ0EOgA+mz/7jBdUzNHOWm
+	BN+Gg6NFDBzAm9yoKreSH1p+mooiOBA=
+X-Google-Smtp-Source: APXvYqwGyUWG2dMAEZRLJmJWFXJ5uHW0AAluZU9OL90+D2fzaGPQ9itGECev3ZeCkRpTv0Gwqb0G/A==
+X-Received: by 2002:a1c:5f82:: with SMTP id t124mr3335258wmb.114.1572342472876;
 	Tue, 29 Oct 2019 02:47:52 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com ([91.217.168.176])
 	by smtp.gmail.com with ESMTPSA id
-	36sm29150537wrj.42.2019.10.29.02.47.51
+	36sm29150537wrj.42.2019.10.29.02.47.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 29 Oct 2019 02:47:51 -0700 (PDT)
+	Tue, 29 Oct 2019 02:47:52 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Oct 2019 10:47:24 +0100
-Message-Id: <3900d9fd530abc4a99ef89ab8e8b9d4e2cd2b409.1572341125.git.akuster808@gmail.com>
+Date: Tue, 29 Oct 2019 10:47:25 +0100
+Message-Id: <c3c909bffc78087958fc061cc30d854f87cc46dd.1572341125.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572341125.git.akuster808@gmail.com>
 References: <cover.1572341125.git.akuster808@gmail.com>
-Subject: [warrior 11/19] python: include CVE patches for python-native as well
+Subject: [warrior 12/19] python: add tk-lib as runtime dependency for python-tkinter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,53 +58,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2019 09:47:52 -0000
+X-List-Received-Date: Tue, 29 Oct 2019 09:47:53 -0000
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+From: Yi Zhao <yi.zhao@windriver.com>
 
-Also avoids maintaining a different set of patches for both.
+Fixes:
+ERROR: python-2.7.16-r0 do_package_qa: QA Issue:
+/usr/lib/python2.7/lib-dynload/_tkinter.so contained in package
+python-tkinter requires libtk8.6.so, but no providers found in
+RDEPENDS_python-tkinter? [file-rdeps]
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b3b1c00cc46b33ddbf7e008267032220e1e298af)
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+(cherry picked from commit f78248a2380bbbbf271b5bb02c762f5bc7a3a92e)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/python/python.inc       | 5 +++++
- meta/recipes-devtools/python/python_2.7.16.bb | 5 -----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/python/python3_3.7.4.bb | 2 +-
+ meta/recipes-devtools/python/python_2.7.16.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index 779df53..8d0e908 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -8,6 +8,11 @@ INC_PR = "r1"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
+diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
+index dd16351..af3c325 100644
+--- a/meta/recipes-devtools/python/python3_3.7.4.bb
++++ b/meta/recipes-devtools/python/python3_3.7.4.bb
+@@ -294,6 +294,6 @@ FILES_${PN}-man = "${datadir}/man"
  
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-+           file://bpo-35907-cve-2019-9948.patch \
-+           file://bpo-35907-cve-2019-9948-fix.patch \
-+           file://bpo-36216-cve-2019-9636.patch \
-+           file://bpo-36216-cve-2019-9636-fix.patch \
-+           file://CVE-2019-9740.patch \
-            "
+ RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
+ RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+-RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
++RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
+ RDEPENDS_${PN}-dev = ""
  
- SRC_URI[md5sum] = "30157d85a2c0479c09ea2cbe61f2aaf5"
 diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
-index c6160ae..a02a628 100644
+index a02a628..ec724c3 100644
 --- a/meta/recipes-devtools/python/python_2.7.16.bb
 +++ b/meta/recipes-devtools/python/python_2.7.16.bb
-@@ -30,11 +30,6 @@ SRC_URI += " \
-            file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
-            file://float-endian.patch \
-            file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch \
--    file://bpo-35907-cve-2019-9948.patch \
--    file://bpo-35907-cve-2019-9948-fix.patch \
--    file://bpo-36216-cve-2019-9636.patch \
--    file://bpo-36216-cve-2019-9636-fix.patch \
--    file://CVE-2019-9740.patch \
- "
+@@ -173,7 +173,7 @@ RDEPENDS_${PN}-modules += "${PN}-misc"
  
- S = "${WORKDIR}/Python-${PV}"
+ # ptest
+ RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip tzdata-europe coreutils sed"
+-RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
++RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
+ # catch manpage
+ PACKAGES += "${PN}-man"
+ FILES_${PN}-man = "${datadir}/man"
 -- 
 2.7.4
 
