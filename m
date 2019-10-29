@@ -1,48 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
-	[209.85.160.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6358A7F9C0
+Return-Path: <msft.dantran@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 13D4D7F9C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 20:31:16 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id g50so33817qtb.4
+	Tue, 29 Oct 2019 20:34:32 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id d13so289143qko.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 13:31:17 -0700 (PDT)
+	Tue, 29 Oct 2019 13:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1hGgecZ0fXa8c6CMVhhOLJ0ma1+IBQ3mXiDKXF0ttxw=;
-	b=Q/0lDEbD1J2hRx3aA+v7tujq9/XuHnX1lMDmycDeYt9hUC8Di/DWExeJ4MqnxqATbR
-	AlSi56ZfekfTMem9WxVb00MF/noKsMLrfwFsOYlyBqHhru0hYyfI7/FpHvjs9T2/utY6
-	DGuAr6RU1G36Q4Kc1iqW+bIuEk6uFWU6KUf6o6IkOtUDDUMKpEiK53GEnGoHllEwhxYl
-	9+iulTNtDMUwyNX/F0sHPwpb4aCiggTrhxr5zr7BCwD2wrjFxchEM/dOvbgFBgaO3w7g
-	DertwrSTIoNChPaUpmdrhBRgxPIp3nBtcjg/kNv0PafbqJJ8kM7HZXxzPDQHyuGB2sWR
-	7Y0A==
+	h=from:to:cc:subject:date:message-id;
+	bh=XHxIr+a2a5Lh+zMKJLEmnaVdbukQpOclW6Qnvg4Oz+o=;
+	b=V9LDRFEW0bDyE7CFM+DxKfZ020tk/LZCdn8fj3CF95FzAGIcwYVLOy+MBDpSYeNsEO
+	WLH+0WQXolcUIBWpT3EF7Mf2aRMtrNxu06qMu6/AjvnfyAQb3o26L2wmAdINGVL58UMc
+	S/krXc+zRW07LxfZ1ycQpUxMFe7jO+DCg06r2kEtCMjItdOWpv+4VCtlUmBigdyCXAru
+	y4Tt0/QKMsNFGdnSG/ty7MtFRkM1CVNOZ3bUye0iG//WnL0e1lNskla7Gp3tDuGxCAS/
+	R9QfTLq5/X2zMdOURjXiStrMSYOpo8xuNIkbFZHj4+q1FCI87sqQNrBaf9+btCVKfqqU
+	fn8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=1hGgecZ0fXa8c6CMVhhOLJ0ma1+IBQ3mXiDKXF0ttxw=;
-	b=VmquAEJ2gej5F0ZJHlwaLk+wQD6bLBLfa8gkdklyWXbIduvqLcJBzx6yKF71mZq55f
-	k2OCbinq38q4vDObdArR2KzL+NWcynWBlSqzaHl8D3N4SY3Y/tpzLImdCWrazg2eUODe
-	Bl8dOCg4fmKHzcR3TnS8SAlvvjehGfsDxoktnbXML0ifDUkTWwb+sw2vyHPmalU+t/9v
-	mOz3kghhivrIBlRpRoL3oSTNLyUTJVZuVm/OvqSJflEoTRXG0PLOSyheGJlvL6OYg7TT
-	cg7n6Lk1TCdMcp5Q4ITcyt2Rno5nDUrCRu38PTQv1UY2CaYS94im598Zm4erQLh1lsqW
-	7smg==
-X-Gm-Message-State: APjAAAVRQLApcVqHMWK+Wpij4CZXFCzWEJQEYlwvI2my2Wd/N3TGDc/1
-	sj4fILlfQjL7WXbvIMdPSETEq3GVZnP8kqEqMRw=
-X-Google-Smtp-Source: APXvYqyaXfOL8S8oH1Y2aTL/YZ9haRZ5i3K5Hi05iiGWHHPH/2tqH/zGYUo6SYVM1XE0XAE5m4uDDya4WeIrCPUSgzA=
-X-Received: by 2002:ac8:c86:: with SMTP id n6mr1148644qti.80.1572381076583;
-	Tue, 29 Oct 2019 13:31:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1572072421.git.akuster808@gmail.com>
-	<beec8a52a8738b0a88cc81dc7898fa38b5088b68.1572072422.git.akuster808@gmail.com>
-	<100fd9d42893f3ea7683fb70281d0622f1896259.camel@linuxfoundation.org>
-In-Reply-To: <100fd9d42893f3ea7683fb70281d0622f1896259.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 Oct 2019 21:31:05 +0100
-Message-ID: <CAMKF1so131wZ80vgLm3KRu9DnBa=P08B=eJFwSNUb-BpAYJbnw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [zeus 18/28] cmake.bbclass: add HOSTTOOLS_DIR to CMAKE_FIND_ROOT_PATH
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XHxIr+a2a5Lh+zMKJLEmnaVdbukQpOclW6Qnvg4Oz+o=;
+	b=ZPfqh2mL58d+gxpS9AcpKGp4Sr+coXEYctDDIQgpRVeWaYpS1tOZQP9sYOOWZ+mFG1
+	d1xZZNph6buez2rM/Z5sqL5xQxZfQyj9/vHFxRvvCcPdVCqI0mIDLwcVfKhGc3ezmGYk
+	OCQryq2iyE8SuF1+FB7vlxCHP2IsZirmrRprLiJ4T/EYSQLb+B3bIuVQNPw7VBJO6Iln
+	hw9Gt8h2U3Pd1PpdBGYZrl5A24l8sDqCstkIfmM9+t4fNVuhl7LcmJZs6fP4XrEMg9ag
+	A5PuAVQZWpDYO3KOEjnwG0XnhfKQESJD9cxsE3moH4uL0Jocegnyti1t7hLXpzzWHod/
+	Exsg==
+X-Gm-Message-State: APjAAAVEz89Nm6s+nrH1gq68lL1NAq0lajfXNKasnwOgUftV3VPoUQ4c
+	LIk48kESFfrHM/jE/CtoPZEmZ9Zi
+X-Google-Smtp-Source: APXvYqy9/6RCwlirNdXlgXoW1odu1h68oxHPrSg/4GSUrcfF2mxPKWUHyPTOXR2Sbfac6qSOVz5zGA==
+X-Received: by 2002:a37:aa07:: with SMTP id t7mr23984966qke.414.1572381273386; 
+	Tue, 29 Oct 2019 13:34:33 -0700 (PDT)
+Received: from
+	dantran-yocto-ubuntu18.4z1s34kka3euddhhn33gkqkz1e.cx.internal.cloudapp.net
+	([52.167.220.70]) by smtp.gmail.com with ESMTPSA id
+	l93sm9023939qtd.86.2019.10.29.13.34.32
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 29 Oct 2019 13:34:32 -0700 (PDT)
+From: msft.dantran@gmail.com
+X-Google-Original-From: dantran@microsoft.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Oct 2019 20:34:26 +0000
+Message-Id: <20191029203426.85203-1-dantran@microsoft.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [thud][PATCH] tar: Fix CVE-2018-20482
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,126 +56,441 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2019 20:31:16 -0000
-Content-Type: multipart/alternative; boundary="000000000000857b680596127fce"
+X-List-Received-Date: Tue, 29 Oct 2019 20:34:33 -0000
 
---000000000000857b680596127fce
-Content-Type: text/plain; charset="UTF-8"
+From: Dan Tran <dantran@microsoft.com>
 
-On Tue, Oct 29, 2019 at 9:19 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Dan Tran <dantran@microsoft.com>
+---
+ .../tar/tar/CVE-2018-20482.patch              | 405 ++++++++++++++++++
+ meta/recipes-extended/tar/tar_1.30.bb         |   1 +
+ 2 files changed, 406 insertions(+)
+ create mode 100644 meta/recipes-extended/tar/tar/CVE-2018-20482.patch
 
-> On Fri, 2019-10-25 at 23:49 -0700, Armin Kuster wrote:
-> > From: Michael Ho <Michael.Ho@bmw.de>
-> >
-> > The find_program command will fail if it is used on a tool that is
-> > listed in
-> > ASSUME_PROVIDED. This is because these tools are in the hosttools
-> > directory
-> > which is not listed in CMAKE_FIND_ROOT_PATH so cmake will not find
-> > them.
-> >
-> > Adding the directory HOSTTOOLS_DIR to the CMAKE_FIND_ROOT_PATH
-> > variable fixes
-> > the initial issue of needing to search for tools in ASSUME_PROVIDED.
-> >
-> > Note that this change alone does not fix the issue because
-> > find_program will
-> > by default only look into the subdirectories bin and usr/bin under
-> > the paths
-> > in CMAKE_FIND_ROOT_PATH to find the programs and the hosttools
-> > directory has
-> > instead the symlinks directly present without these subdirectories.
-> >
-> > Set CMAKE_PROGRAM_PATH to by default include the root directory so
-> > find_program can search the hosttools directory without needing the
-> > prefix
-> > directories.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > (cherry picked from commit 7847f431cd8db59fce8c9401a603c4b0678ee16d)
-> > Signed-off-by: Armin Kuster <akuster808@gmail.com>
->
-> Given the fallout in meta-oe, I don't plan to take this.
->
+diff --git a/meta/recipes-extended/tar/tar/CVE-2018-20482.patch b/meta/recipes-extended/tar/tar/CVE-2018-20482.patch
+new file mode 100644
+index 0000000000..2a13148427
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar/CVE-2018-20482.patch
+@@ -0,0 +1,405 @@
++From 331be56598b284d41370c67046df25673b040a55 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Thu, 27 Dec 2018 17:48:57 +0200
++Subject: [PATCH] Fix CVE-2018-20482
++
++* NEWS: Update.
++* src/sparse.c (sparse_dump_region): Handle short read condition.
++(sparse_extract_region,check_data_region): Fix dumped_size calculation.
++Handle short read condition.
++(pax_decode_header): Fix dumped_size calculation.
++* tests/Makefile.am: Add new testcases.
++* tests/testsuite.at: Likewise.
++
++* tests/sptrcreat.at: New file.
++* tests/sptrdiff00.at: New file.
++* tests/sptrdiff01.at: New file.
++
++CVE: CVE-2018-20482
++Upstream-Status: Backport
++[http://git.savannah.gnu.org/cgit/tar.git/commit/?id=c15c42ccd1e2377945fd0414eca1a49294bff454]
++
++Signed-off-by: Dan Tran <dantran@microsoft.com>
++---
++ src/sparse.c        | 50 +++++++++++++++++++++++++++++++-----
++ tests/Makefile.am   |  5 +++-
++ tests/sptrcreat.at  | 62 +++++++++++++++++++++++++++++++++++++++++++++
++ tests/sptrdiff00.at | 55 ++++++++++++++++++++++++++++++++++++++++
++ tests/sptrdiff01.at | 55 ++++++++++++++++++++++++++++++++++++++++
++ tests/testsuite.at  |  5 +++-
++ 6 files changed, 224 insertions(+), 8 deletions(-)
++ create mode 100644 tests/sptrcreat.at
++ create mode 100644 tests/sptrdiff00.at
++ create mode 100644 tests/sptrdiff01.at
++
++diff --git a/src/sparse.c b/src/sparse.c
++index 0830f62..e8e8259 100644
++--- a/src/sparse.c
+++++ b/src/sparse.c
++@@ -1,6 +1,6 @@
++ /* Functions for dealing with sparse files
++ 
++-   Copyright 2003-2007, 2010, 2013-2017 Free Software Foundation, Inc.
+++   Copyright 2003-2007, 2010, 2013-2018 Free Software Foundation, Inc.
++ 
++    This program is free software; you can redistribute it and/or modify it
++    under the terms of the GNU General Public License as published by the
++@@ -427,6 +427,30 @@ sparse_dump_region (struct tar_sparse_file *file, size_t i)
++ 			     bufsize);
++ 	  return false;
++ 	}
+++      else if (bytes_read == 0)
+++	{
+++	  char buf[UINTMAX_STRSIZE_BOUND];
+++	  struct stat st;
+++	  size_t n;
+++	  if (fstat (file->fd, &st) == 0)
+++	    n = file->stat_info->stat.st_size - st.st_size;
+++	  else
+++	    n = file->stat_info->stat.st_size
+++	      - (file->stat_info->sparse_map[i].offset
+++		 + file->stat_info->sparse_map[i].numbytes
+++		 - bytes_left);
+++	  
+++	  WARNOPT (WARN_FILE_SHRANK,
+++		   (0, 0,
+++		    ngettext ("%s: File shrank by %s byte; padding with zeros",
+++			      "%s: File shrank by %s bytes; padding with zeros",
+++			      n),
+++		    quotearg_colon (file->stat_info->orig_file_name),
+++		    STRINGIFY_BIGINT (n, buf)));
+++	  if (! ignore_failed_read_option)
+++	    set_exit_status (TAREXIT_DIFFERS);
+++	  return false;
+++	}
++ 
++       memset (blk->buffer + bytes_read, 0, BLOCKSIZE - bytes_read);
++       bytes_left -= bytes_read;
++@@ -464,9 +488,9 @@ sparse_extract_region (struct tar_sparse_file *file, size_t i)
++ 	  return false;
++ 	}
++       set_next_block_after (blk);
+++      file->dumped_size += BLOCKSIZE;
++       count = blocking_write (file->fd, blk->buffer, wrbytes);
++       write_size -= count;
++-      file->dumped_size += count;
++       mv_size_left (file->stat_info->archive_file_size - file->dumped_size);
++       file->offset += count;
++       if (count != wrbytes)
++@@ -598,6 +622,12 @@ check_sparse_region (struct tar_sparse_file *file, off_t beg, off_t end)
++ 			     rdsize);
++ 	  return false;
++ 	}
+++      else if (bytes_read == 0)
+++	{
+++	  report_difference (file->stat_info, _("Size differs"));
+++	  return false;
+++	}
+++      
++       if (!zero_block_p (diff_buffer, bytes_read))
++ 	{
++ 	  char begbuf[INT_BUFSIZE_BOUND (off_t)];
++@@ -609,6 +639,7 @@ check_sparse_region (struct tar_sparse_file *file, off_t beg, off_t end)
++ 
++       beg += bytes_read;
++     }
+++
++   return true;
++ }
++ 
++@@ -635,6 +666,7 @@ check_data_region (struct tar_sparse_file *file, size_t i)
++ 	  return false;
++ 	}
++       set_next_block_after (blk);
+++      file->dumped_size += BLOCKSIZE;      
++       bytes_read = safe_read (file->fd, diff_buffer, rdsize);
++       if (bytes_read == SAFE_READ_ERROR)
++ 	{
++@@ -645,7 +677,11 @@ check_data_region (struct tar_sparse_file *file, size_t i)
++ 			     rdsize);
++ 	  return false;
++ 	}
++-      file->dumped_size += bytes_read;
+++      else if (bytes_read == 0)
+++	{
+++	  report_difference (&current_stat_info, _("Size differs"));
+++	  return false;
+++	}
++       size_left -= bytes_read;
++       mv_size_left (file->stat_info->archive_file_size - file->dumped_size);
++       if (memcmp (blk->buffer, diff_buffer, rdsize))
++@@ -1213,7 +1249,8 @@ pax_decode_header (struct tar_sparse_file *file)
++       union block *blk;
++       char *p;
++       size_t i;
++-
+++      off_t start;
+++      
++ #define COPY_BUF(b,buf,src) do                                     \
++  {                                                                 \
++    char *endp = b->buffer + BLOCKSIZE;                             \
++@@ -1229,7 +1266,6 @@ pax_decode_header (struct tar_sparse_file *file)
++        if (src == endp)                                            \
++ 	 {                                                         \
++ 	   set_next_block_after (b);                               \
++-           file->dumped_size += BLOCKSIZE;                         \
++            b = find_next_block ();                                 \
++            if (!b)                                                 \
++              FATAL_ERROR ((0, 0, _("Unexpected EOF in archive"))); \
++@@ -1242,8 +1278,8 @@ pax_decode_header (struct tar_sparse_file *file)
++    dst[-1] = 0;                                                    \
++  } while (0)
++ 
+++      start = current_block_ordinal ();
++       set_next_block_after (current_header);
++-      file->dumped_size += BLOCKSIZE;
++       blk = find_next_block ();
++       if (!blk)
++         FATAL_ERROR ((0, 0, _("Unexpected EOF in archive")));
++@@ -1282,6 +1318,8 @@ pax_decode_header (struct tar_sparse_file *file)
++ 	  sparse_add_map (file->stat_info, &sp);
++ 	}
++       set_next_block_after (blk);
+++
+++      file->dumped_size += BLOCKSIZE * (current_block_ordinal () - start);
++     }
++ 
++   return true;
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 2d7939d..ac3b6e7 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -1,6 +1,6 @@
++ # Makefile for GNU tar regression tests.
++ 
++-# Copyright 1996-1997, 1999-2001, 2003-2007, 2009, 2012-2015 Free Software
+++# Copyright 1996-1997, 1999-2001, 2003-2007, 2009, 2012-2018 Free Software
++ 
++ # This file is part of GNU tar.
++ 
++@@ -228,6 +228,9 @@ TESTSUITE_AT = \
++  spmvp00.at\
++  spmvp01.at\
++  spmvp10.at\
+++ sptrcreat.at\
+++ sptrdiff00.at\
+++ sptrdiff01.at\
++  time01.at\
++  time02.at\
++  truncate.at\
++diff --git a/tests/sptrcreat.at b/tests/sptrcreat.at
++new file mode 100644
++index 0000000..8e28f0e
++--- /dev/null
+++++ b/tests/sptrcreat.at
++@@ -0,0 +1,62 @@
+++# Process this file with autom4te to create testsuite. -*- Autotest -*-
+++
+++# Test suite for GNU tar.
+++# Copyright 2018 Free Software Foundation, Inc.
+++
+++# This file is part of GNU tar.
+++
+++# GNU tar is free software; you can redistribute it and/or modify
+++# it under the terms of the GNU General Public License as published by
+++# the Free Software Foundation; either version 3 of the License, or
+++# (at your option) any later version.
+++
+++# GNU tar is distributed in the hope that it will be useful,
+++# but WITHOUT ANY WARRANTY; without even the implied warranty of
+++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++# GNU General Public License for more details.
+++
+++# You should have received a copy of the GNU General Public License
+++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+++
+++# Tar up to 1.30 would loop endlessly if a sparse file had been truncated
+++# while being archived (with --sparse flag).
+++#
+++# The bug has been assigned id CVE-2018-20482 (on the grounds that it is a
+++# denial of service possibility).
+++# 
+++# Reported by: Chris Siebenmann <cks.gnutar-01@cs.toronto.edu>
+++# References: <20181226223948.781EB32008E@apps1.cs.toronto.edu>,
+++#   <http://lists.gnu.org/archive/html/bug-tar/2018-12/msg00023.html>
+++#   <https://utcc.utoronto.ca/~cks/space/blog/sysadmin/TarFindingTruncateBug>
+++#   <https://nvd.nist.gov/vuln/detail/CVE-2018-20482>
+++
+++AT_SETUP([sparse file truncated while archiving])
+++AT_KEYWORDS([truncate filechange sparse sptr sptrcreat])
+++
+++AT_TAR_CHECK([
+++genfile --sparse --block-size=1024 --file foo \
+++  0 ABCDEFGHIJ 1M ABCDEFGHIJ 10M ABCDEFGHIJ 200M ABCDEFGHIJ
+++genfile --file baz
+++genfile --run --checkpoint 3 --length 200m --truncate foo -- \
+++ tar --checkpoint=1 \
+++     --checkpoint-action=echo \
+++     --checkpoint-action=sleep=1 \
+++     --sparse -vcf bar foo baz
+++echo Exit status: $?
+++echo separator
+++genfile --file foo --seek 200m --length 11575296 --pattern=zeros
+++tar dvf bar],
+++[1],
+++[foo
+++baz
+++Exit status: 1
+++separator
+++foo
+++foo: Mod time differs
+++baz
+++],
+++[tar: foo: File shrank by 11575296 bytes; padding with zeros
+++],
+++[],[],[posix, gnu, oldgnu])
+++
+++AT_CLEANUP
++diff --git a/tests/sptrdiff00.at b/tests/sptrdiff00.at
++new file mode 100644
++index 0000000..c410561
++--- /dev/null
+++++ b/tests/sptrdiff00.at
++@@ -0,0 +1,55 @@
+++# Process this file with autom4te to create testsuite. -*- Autotest -*-
+++#
+++# Test suite for GNU tar.
+++# Copyright 2018 Free Software Foundation, Inc.
+++#
+++# This file is part of GNU tar.
+++#
+++# GNU tar is free software; you can redistribute it and/or modify
+++# it under the terms of the GNU General Public License as published by
+++# the Free Software Foundation; either version 3 of the License, or
+++# (at your option) any later version.
+++#
+++# GNU tar is distributed in the hope that it will be useful,
+++# but WITHOUT ANY WARRANTY; without even the implied warranty of
+++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++# GNU General Public License for more details.
+++#
+++# You should have received a copy of the GNU General Public License
+++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+++
+++# While fixing CVE-2018-20482 (see sptrcreat.at) it has been discovered
+++# that similar bug exists in file checking code (tar d). 
+++# This test case checks if tar correctly handles a short read condition
+++# appearing in check_sparse_region.
+++
+++AT_SETUP([file truncated in sparse region while comparing])
+++AT_KEYWORDS([truncate filechange sparse sptr sptrdiff diff])
+++
+++# This triggers short read in check_sparse_region.
+++AT_TAR_CHECK([
+++genfile --sparse --block-size=1024 --file foo \
+++  0 ABCDEFGHIJ 1M ABCDEFGHIJ 10M ABCDEFGHIJ 200M ABCDEFGHIJ
+++genfile --file baz
+++echo creating
+++tar --sparse -vcf bar foo baz
+++echo comparing
+++genfile --run --checkpoint 3 --length 200m --truncate foo -- \
+++ tar --checkpoint=1 \
+++     --checkpoint-action=echo='Write checkpoint %u' \
+++     --checkpoint-action=sleep=1 \
+++     --sparse -vdf bar 
+++],
+++[1],
+++[creating
+++foo
+++baz
+++comparing
+++foo
+++foo: Size differs
+++baz
+++],
+++[],
+++[],[],[posix, gnu, oldgnu])
+++
+++AT_CLEANUP
++diff --git a/tests/sptrdiff01.at b/tests/sptrdiff01.at
++new file mode 100644
++index 0000000..2da2267
++--- /dev/null
+++++ b/tests/sptrdiff01.at
++@@ -0,0 +1,55 @@
+++# Process this file with autom4te to create testsuite. -*- Autotest -*-
+++#
+++# Test suite for GNU tar.
+++# Copyright 2018 Free Software Foundation, Inc.
+++#
+++# This file is part of GNU tar.
+++#
+++# GNU tar is free software; you can redistribute it and/or modify
+++# it under the terms of the GNU General Public License as published by
+++# the Free Software Foundation; either version 3 of the License, or
+++# (at your option) any later version.
+++#
+++# GNU tar is distributed in the hope that it will be useful,
+++# but WITHOUT ANY WARRANTY; without even the implied warranty of
+++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++# GNU General Public License for more details.
+++#
+++# You should have received a copy of the GNU General Public License
+++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+++
+++# While fixing CVE-2018-20482 (see sptrcreat.at) it has been discovered
+++# that similar bug exists in file checking code (tar d). 
+++# This test case checks if tar correctly handles a short read condition
+++# appearing in check_data_region.
+++
+++AT_SETUP([file truncated in data region while comparing])
+++AT_KEYWORDS([truncate filechange sparse sptr sptrdiff diff])
+++
+++# This triggers short read in check_data_region.
+++AT_TAR_CHECK([
+++genfile --sparse --block-size=1024 --file foo \
+++  0 ABCDEFGHIJ 1M ABCDEFGHIJ 10M ABCDEFGHIJ 200M ABCDEFGHIJ
+++genfile --file baz
+++echo creating
+++tar --sparse -vcf bar foo baz
+++echo comparing
+++genfile --run --checkpoint 5 --length 221278210 --truncate foo -- \
+++ tar --checkpoint=1 \
+++     --checkpoint-action=echo='Write checkpoint %u' \
+++     --checkpoint-action=sleep=1 \
+++     --sparse -vdf bar 
+++],
+++[1],
+++[creating
+++foo
+++baz
+++comparing
+++foo
+++foo: Size differs
+++baz
+++],
+++[],
+++[],[],[posix, gnu, oldgnu])
+++
+++AT_CLEANUP
++diff --git a/tests/testsuite.at b/tests/testsuite.at
++index 2a83757..23386f7 100644
++--- a/tests/testsuite.at
+++++ b/tests/testsuite.at
++@@ -1,7 +1,7 @@
++ # Process this file with autom4te to create testsuite. -*- Autotest -*-
++ 
++ # Test suite for GNU tar.
++-# Copyright 2004-2008, 2010-2017 Free Software Foundation, Inc.
+++# Copyright 2004-2008, 2010-2018 Free Software Foundation, Inc.
++ 
++ # This file is part of GNU tar.
++ 
++@@ -405,6 +405,9 @@ m4_include([sparsemv.at])
++ m4_include([spmvp00.at])
++ m4_include([spmvp01.at])
++ m4_include([spmvp10.at])
+++m4_include([sptrcreat.at])
+++m4_include([sptrdiff00.at])
+++m4_include([sptrdiff01.at])
++ 
++ AT_BANNER([Updates])
++ m4_include([update.at])
++-- 
++2.22.0.vfs.1.1.57.gbaf16c8
++
+diff --git a/meta/recipes-extended/tar/tar_1.30.bb b/meta/recipes-extended/tar/tar_1.30.bb
+index ab1b33b378..7cf0522455 100644
+--- a/meta/recipes-extended/tar/tar_1.30.bb
++++ b/meta/recipes-extended/tar/tar_1.30.bb
+@@ -10,6 +10,7 @@ SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
+            file://remove-gets.patch \
+            file://musl_dirent.patch \
+            file://CVE-2019-9923.patch \
++           file://CVE-2018-20482.patch \
+ "
+ 
+ SRC_URI[md5sum] = "8404e4c1fc5a3000228ab2b8ad674a65"
+-- 
+2.17.1
 
-+1
 
-
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000857b680596127fce
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Oct 29, 2019 at 9:19 AM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, 2019-=
-10-25 at 23:49 -0700, Armin Kuster wrote:<br>
-&gt; From: Michael Ho &lt;<a href=3D"mailto:Michael.Ho@bmw.de" target=3D"_b=
-lank">Michael.Ho@bmw.de</a>&gt;<br>
-&gt; <br>
-&gt; The find_program command will fail if it is used on a tool that is<br>
-&gt; listed in<br>
-&gt; ASSUME_PROVIDED. This is because these tools are in the hosttools<br>
-&gt; directory<br>
-&gt; which is not listed in CMAKE_FIND_ROOT_PATH so cmake will not find<br>
-&gt; them.<br>
-&gt; <br>
-&gt; Adding the directory HOSTTOOLS_DIR to the CMAKE_FIND_ROOT_PATH<br>
-&gt; variable fixes<br>
-&gt; the initial issue of needing to search for tools in ASSUME_PROVIDED.<b=
-r>
-&gt; <br>
-&gt; Note that this change alone does not fix the issue because<br>
-&gt; find_program will<br>
-&gt; by default only look into the subdirectories bin and usr/bin under<br>
-&gt; the paths<br>
-&gt; in CMAKE_FIND_ROOT_PATH to find the programs and the hosttools<br>
-&gt; directory has<br>
-&gt; instead the symlinks directly present without these subdirectories.<br=
->
-&gt; <br>
-&gt; Set CMAKE_PROGRAM_PATH to by default include the root directory so<br>
-&gt; find_program can search the hosttools directory without needing the<br=
->
-&gt; prefix<br>
-&gt; directories.<br>
-&gt; <br>
-&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com=
-" target=3D"_blank">ross.burton@intel.com</a>&gt;<br>
-&gt; (cherry picked from commit 7847f431cd8db59fce8c9401a603c4b0678ee16d)<b=
-r>
-&gt; Signed-off-by: Armin Kuster &lt;<a href=3D"mailto:akuster808@gmail.com=
-" target=3D"_blank">akuster808@gmail.com</a>&gt;<br>
-<br>
-Given the fallout in meta-oe, I don&#39;t plan to take this.<br>
-</blockquote><div dir=3D"auto">=C2=A0</div><div dir=3D"auto">+1</div><div d=
-ir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---000000000000857b680596127fce--
