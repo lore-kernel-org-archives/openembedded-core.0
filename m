@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id D708B7FB3E
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D2FB7FB9C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 09:47:48 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id v9so12861887wrq.5
+	Tue, 29 Oct 2019 09:47:49 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id s1so12888087wro.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2019 02:47:50 -0700 (PDT)
+	Tue, 29 Oct 2019 02:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=4uul3AWpiVgCf/jggZ6mIqNXSCa/NVWfR6Z16c2WdwQ=;
-	b=FrRWNlGRMnAdtJSWPMZ7DofR0WcCpZsFNOByb1h7Se2Nrekqe9ZFfNSISjANj4DG1g
-	8KFbeJMDp0xKquo9LB8w2MzvNEVucYEaUIZcy9zV8Pio1sblJN/2++LpCwC6/e30D7YL
-	CFjA10HC6INfIk+QAJF43mFstfyxvAUmkC0audChW+aO1cD1XjznQFXFnhQrX5QOe6ap
-	d7jf8en71N+X2oL8UiXITwHrY6hWS/IQMIY5KcrPf/S9iu4BR7KE+w/CC4gAzbR6J1T9
-	u69iw4yMk3R2l+oJvGgB8nJ57rS/ZKDn0ki/tsXO0srkLRcPowoANffvqNSHo2cbej2n
-	v/hA==
+	bh=UlJcA3OhTeOk9Y9qWF51pQzEQKi2P1ty7KyJQXoc7+c=;
+	b=FmAWGs0o/MR9iJAvSn6I7juNmrTiyoEzTz2I3mFdKQYUYGeD6Pr7qAw3HoGg6oL7gx
+	aLQSH3zXQzxDSc/b1zg2m2E054Ma0iI4EUTe3HxUt7p8u9B2oUnKGQKadw8g3EPU5J0S
+	DRYbeL1WvN/uMaGVdeApC8jB3B9jiUE83WVXBgfQBb60ptyC+5HqDQnBh2ZGQRx9+rec
+	P/Pvo8KS19BONiklV8kzK5/9Fa6/ckwjZpivJWhzPh5I6iLJ6+F5wwfuUUKdhMd2JokM
+	jbNgFWJahzZovAPRiJv14gCn1r2OileWe/JEj/YT09naC3wxw5xnqYn0oGz7YsSZp9bu
+	zBeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=4uul3AWpiVgCf/jggZ6mIqNXSCa/NVWfR6Z16c2WdwQ=;
-	b=ZHDoiUayasOo/pY9wmkr5T0/yjBuz5P5aUZONkh3jbLCSxpqJy0K/61FKC+8eXKO7n
-	+V0KHW9IxZrBHYu7MvVY9hiSYMYeLWIgpGI1sJPm2xCppT6WyyPFCaKOV7Ud8cMi2s00
-	pT8LM6SzLdiexKoGRicRYHakxH32lqqOxadsp9VyQaZMhhXndAJeszwzy1zh0QctUyEI
-	0f+Zcvb2g53f2gFZFXEsJgaM48wUHpJB8hEcu7LBpup4E0NLNt3UAmTTrIaKxr5EL439
-	NUdsh6xvGa+2eJiFLeEE7S0eB62nDAcAPSNq4tTTdKPU/ut1vbWVPf0acB53T/h1Y7Xi
-	0Z1A==
-X-Gm-Message-State: APjAAAWJxXJkL4Gs0N2vZaRC8QJa6Tj8Fe+5hV2LcAIs6jNIhhLm0ouY
-	YMtznvWy2fp9cM3AlhtEjdmLsRLNPpM=
-X-Google-Smtp-Source: APXvYqzFtU5mGDQ/PZMguY9iQMjT+c72pdo0E43O0BAXgC9qhO8pxSqC6anEJS25T9PuffVCgHTIQA==
-X-Received: by 2002:adf:f087:: with SMTP id n7mr18542824wro.1.1572342469442;
-	Tue, 29 Oct 2019 02:47:49 -0700 (PDT)
+	bh=UlJcA3OhTeOk9Y9qWF51pQzEQKi2P1ty7KyJQXoc7+c=;
+	b=XRA0LeSg6vvDopHzr0RMbm0BGv679vP28ErsDmtkyflqw4DAu3T+/StCkMf3nL7Xae
+	d9CycAX/YafwCzpdetVInOeBDqyFhNrjMCgUnkKCQDiU774xmu5vdJLtm/5tqjOYuQSL
+	KFa0qTVonjqdklKCGVxw1wvkIls5VKO/lb700Ki+JwArq6WXqhCB/TzXcXifmhDPgF/y
+	N3vozuS/G37g9jCrLyjzvSGRYt3CXrrLlqd+ZZuyYgtBcCtkagEvZyyqnLOfFPnJPw3w
+	fvaym9OSIHGTxRGrlqpm0W3iNG1i0WMcmVWI3VsK3B+5+DUQzRtVM613W3kd4lfm1iOA
+	G4dw==
+X-Gm-Message-State: APjAAAVhbXhtfL7WT/Yv83F7L/r6Gz5NZ7z33Lvlv9Sg+MHLn0E6YHw9
+	qahYS9DC2VrAHW7QFeHOBPblhnp88g4=
+X-Google-Smtp-Source: APXvYqyRbLi2uVTUlrHiNTMpzHHCGFI2Ocostd1rcRFH61itjA3BHjdS0HuX865N/qw5fNHT4QY+3g==
+X-Received: by 2002:a05:6000:11c4:: with SMTP id
+	i4mr3655588wrx.277.1572342470400; 
+	Tue, 29 Oct 2019 02:47:50 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com ([91.217.168.176])
 	by smtp.gmail.com with ESMTPSA id
-	36sm29150537wrj.42.2019.10.29.02.47.48
+	36sm29150537wrj.42.2019.10.29.02.47.49
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 29 Oct 2019 02:47:48 -0700 (PDT)
+	Tue, 29 Oct 2019 02:47:50 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Oct 2019 10:47:21 +0100
-Message-Id: <fbd9939c4b0591bad52af392b904e9f41b59d558.1572341125.git.akuster808@gmail.com>
+Date: Tue, 29 Oct 2019 10:47:22 +0100
+Message-Id: <8c4454c63710e9d0a1a0c68ad1e66c8a1d3c9aa9.1572341125.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1572341125.git.akuster808@gmail.com>
 References: <cover.1572341125.git.akuster808@gmail.com>
-Subject: [warrior 08/19] linux-yocto/4.19: make drm-bochs feature available
+Subject: [warrior 09/19] linux-yocto: add drm-bochs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,62 +61,91 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 29 Oct 2019 09:47:50 -0000
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-The other active kernel versions have this feature available. To
-consistently enable the same video output for qemu, we can cherry
-pick the feature to 4.19.
+This allows better modesetting support for the '-vga std'
+emulated hardware provided by Qemu, which we want to
+standardize on.
 
-(From OE-Core rev: a777e0f34e106455f963bd58fd8728a16c588c4d)
+See here for background:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13466
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+(From OE-Core rev: 569d3f5d0454ed31f2f6df29f1703246a3dcd715)
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-dev.bb     | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb  | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb    | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb     | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index ae8c343..f6ffb1f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -46,7 +46,7 @@ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+-KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-index 958f0ee..db7ade9 100644
+index db7ade9..da87d47 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-@@ -12,7 +12,7 @@ python () {
- }
- 
- SRCREV_machine ?= "ca2e3322f4c5678eaef6434c808d0842c805d74d"
--SRCREV_meta ?= "283939d5c9ebec9750c34982405a39a9864ac10f"
-+SRCREV_meta ?= "20a6158aa35dbf11819382ef1eeb28915afea765"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-index 0178947..cadf1a7 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "b5a2efa31290f31384971494031285d394635938"
- SRCREV_machine ?= "4ec6f255163da37a4c83528e5835b6b9baccee63"
--SRCREV_meta ?= "283939d5c9ebec9750c34982405a39a9864ac10f"
-+SRCREV_meta ?= "20a6158aa35dbf11819382ef1eeb28915afea765"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
+@@ -38,6 +38,6 @@ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+-KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+index abc8b0c..928d140 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+@@ -38,6 +38,6 @@ KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+-KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
 diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-index f5e03da..d200e4d 100644
+index d200e4d..5edb97f 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "4ec6f255163da37a4c83528e5835b6b9baccee63"
- SRCREV_machine_qemux86-64 ?= "4ec6f255163da37a4c83528e5835b6b9baccee63"
- SRCREV_machine_qemumips64 ?= "ca47368b698795cd5cada84dbfcceda1f47da1aa"
- SRCREV_machine ?= "4ec6f255163da37a4c83528e5835b6b9baccee63"
--SRCREV_meta ?= "283939d5c9ebec9750c34982405a39a9864ac10f"
-+SRCREV_meta ?= "20a6158aa35dbf11819382ef1eeb28915afea765"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA} \
+@@ -43,7 +43,7 @@ COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemum
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+-KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+index 6008e3d..d415a4a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+@@ -47,7 +47,7 @@ COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemum
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+-KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
 -- 
 2.7.4
 
