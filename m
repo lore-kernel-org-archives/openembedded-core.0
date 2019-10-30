@@ -1,31 +1,34 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EA397F8F4
+Return-Path: <ross.burton@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 126657D19E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2019 21:45:17 +0000 (UTC)
+	Wed, 30 Oct 2019 23:06:01 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Oct 2019 14:45:18 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Oct 2019 16:06:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,248,1569308400"; d="scan'208";a="400277436"
-Received: from lismail-mobl.gar.corp.intel.com (HELO shodan.localnet)
-	([10.255.184.81])
-	by fmsmga005.fm.intel.com with ESMTP; 30 Oct 2019 14:45:15 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chandana Kalluri <ckalluri@xilinx.com>
-Date: Thu, 31 Oct 2019 10:45:14 +1300
-Message-ID: <3609935.G6XINI0aqE@shodan>
-Organization: Intel Corporation
-In-Reply-To: <MWHPR02MB25762722E4CF0B6245DFF65AB0610@MWHPR02MB2576.namprd02.prod.outlook.com>
-References: <1555540979-27879-1-git-send-email-chandana.kalluri@xilinx.com>
-	<2766841.sOFMSHKMPR@shodan>
-	<MWHPR02MB25762722E4CF0B6245DFF65AB0610@MWHPR02MB2576.namprd02.prod.outlook.com>
+X-IronPort-AV: E=Sophos;i="5.68,248,1569308400"; d="scan'208";a="211425966"
+Received: from koernerm-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.41.216])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Oct 2019 16:06:01 -0700
+To: Dan Callaghan <dan.callaghan@opengear.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <20191015061510.21803-1-dan.callaghan@opengear.com>
+	<20191015224456.22136-1-dan.callaghan@opengear.com>
+	<20191029201821.GA26658@localhost>
+	<1572385232-sup-1496@galangal.danc.bne.opengear.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <dd047b35-85bc-e238-48b3-1edae5c8dc00@intel.com>
+Date: Wed, 30 Oct 2019 23:05:58 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][PATCH v4 0/3] Devtool: provide easy means of
+In-Reply-To: <1572385232-sup-1496@galangal.danc.bne.opengear.com>
+Subject: Re: [PATCH v3] elfutils: add PACKAGECONFIG for compression algorithms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,137 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2019 21:45:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 30 Oct 2019 23:06:02 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Hi Chandana,
-
-Thanks! FYI the reason I bring this up is that it appears there's a problem with linux-yocto and SRCREV_machine values:
-
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=13614
-
-Would you be able to look into that as well?
-
-Thanks
-Paul
-
-On Wednesday, 30 October 2019 12:03:35 PM NZDT Chandana Kalluri wrote:
-> Hello Paul
+On 29/10/2019 21:46, Dan Callaghan wrote:
+> I couldn't find anything that would ever use the bzip2 decompression in
+> elfutils, so I had a quick look at why they even added bzip2 support in
+> the first place. It turns out it was for reading compressed kernel
+> images (presumably, in the elfutils tools like eu-readelf):
 > 
-> Yes, I am in process of sending oeself test patches for devtool reset --remove-source command as commented In the other patch. I will also add the oeselftest for devtool kernel and send them out. 
+> https://sourceware.org/git/?p=elfutils.git;a=commitdiff;h=d6ccdc1a05f27bf0bb5d802ec14f879aa9fe3e98
 > 
-> Thanks,
-> Chandana
+>      commit d6ccdc1a05f27bf0bb5d802ec14f879aa9fe3e98
+>      Author: Roland McGrath <roland@redhat.com>
+>      Date:   Wed Aug 26 00:23:01 2009 -0700
 > 
-> > -----Original Message-----
-> > From: Paul Eggleton <paul.eggleton@linux.intel.com>
-> > Sent: Tuesday, October 29, 2019 3:52 PM
-> > To: Chandana Kalluri <ckalluri@xilinx.com>
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [OE-Core][master][PATCH v4 0/3] Devtool: provide easy
-> > means of
-> > 
-> > Hi Chandana
-> > 
-> > Having added quite a bit to devtool relating to the kernel, we really ought to
-> > extend our oe-selftest tests to cover the new functionality. Would you be able
-> > to take care of that?
-> > 
-> > Thanks
-> > Paul
-> > 
-> > On Wednesday, 5 June 2019 5:07:55 PM NZDT Paul Eggleton wrote:
-> > > Hi Chandana
-> > >
-> > > My apologies for the delay in reviewing this - other work got in the way of
-> > OE-Core contributions but that should be dealt with now.
-> > >
-> > > On Thursday, 18 April 2019 10:42:56 AM NZST Sai Hari Chandana Kalluri
-> > wrote:
-> > > > This patch series provides support for the user to run menuconfig
-> > > > command in the devtool flow. This would allow the user to modify the
-> > > > current configurations and generate a config fragment to update the
-> > > > recipe using devtool finish. Devtool menuconfig command will work on all
-> > packages that contain menuconfig as a task.
-> > > >
-> > > > 1. The implementation checks if devtool menuconfig command is called
-> > > > for a valid package.
-> > > > 2. It checks for oe-local-files dir within source and creates one if
-> > > > needed, this directory is needed to store the final generated config
-> > > > fragment so that devtool finish can update the recipe.
-> > > > 3. Menuconfig command is called for users to make necessary changes.
-> > > > After saving the changes, diffconfig command is run to generate the
-> > fragment.
-> > > >
-> > > > Currently, when the user runs devtool modify command, it checks out
-> > > > the entire source tree which is a bit of an over head in time and
-> > > > space. This patch series also provides a way to create a copy(hard
-> > > > links) of the kernel source, if present, from work-shared to workspace to be
-> > more efficient .
-> > > >
-> > > > Also, if the kernel source is not present in the staging kernel dir
-> > > > and the user fetches the source tree in workspace using devtool
-> > > > modify, then this patch series creates a copy of source from
-> > > > workspace to work-shared. This is necessary for packages that may use the
-> > kernel source.
-> > >
-> > > Looking over the patches again, we're close but the following need to be
-> > corrected:
-> > >
-> > > 1) The devtool.DevtoolUpdateTests.test_devtool_update_recipe_local_files
-> > test in oe-selftest fails:
-> > >
-> > > ---------------- snip ----------------
-> > > INFO: Adding local source files to srctree...
-> > > Traceback (most recent call last):
-> > >   File "/data/poky/scripts/devtool", line 334, in <module>
-> > >     ret = main()
-> > >   File "/data/poky/scripts/devtool", line 321, in main
-> > >     ret = args.func(args, config, basepath, workspace)
-> > >   File "/data/poky/scripts/lib/devtool/standard.py", line 845, in modify
-> > >     initial_rev, _ = _extract_source(srctree, args.keep_temp, args.branch,
-> > False, config, basepath, workspace, args.fixed_setup, rd, tinfoil,
-> > no_overrides=args.no_overrides)
-> > >   File "/data/poky/scripts/lib/devtool/standard.py", line 657, in
-> > _extract_source
-> > >     symblink_oelocal_files_srctree(d,srctree)
-> > >   File "/data/poky/scripts/lib/devtool/standard.py", line 485, in
-> > symblink_oelocal_files_srctree
-> > >     oe.patch.GitApplyTree.gitCommandUserOptions(useroptions, d=d)
-> > > NameError: name 'oe' is not defined
-> > > ---------------- snip ----------------
-> > >
-> > > Probably just a missing import.
-> > >
-> > > 2) Please change "symblink" to "symlink"
-> > >
-> > > 3) Indentation is very inconsistent in the added code. Please use four spaces
-> > everywhere.
-> > >
-> > > I would also like to see oe-selftest tests covering this functionality, but I
-> > won't require them to ack these patches (especially given the delays on my
-> > part).
-> > >
-> > > Thanks
-> > > Paul
-> > >
-> > >
-> > 
-> > 
-> > --
-> > 
-> > Paul Eggleton
-> > Intel System Software Products
-> > 
+>          libdwfl: Support Linux bzip2 kernel images for automatic decompression.
 > 
+> And indeed on my Fedora host eu-readelf can decode ELF information from
+> a kernel bzImage, but the eu-readelf built by Yocto's elfutils-native
+> recipe says "not a valid ELF file" when I feed it the same bzImage.
 > 
+> Whether that's useful or not is a different question. In our product
+> I am planning to disable bzip2 (because we don't use the elfutils tools
+> for anything) and enable xz (for .gnu_debugdata sections).
 
+Good digging, thanks.
 
--- 
+Lets default to bzip being off for now, and then if anyone does want 
+this then they can just turn it on.
 
-Paul Eggleton
-Intel System Software Products
-
-
+Ross
 
