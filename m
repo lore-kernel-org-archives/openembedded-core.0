@@ -1,43 +1,52 @@
-Return-Path: <umesh.kalappa0@gmail.com>
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
-	[209.85.166.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E5B3F7F87C
+Return-Path: <yann.dirson@blade-group.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D369E7F91D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2019 09:26:05 +0000 (UTC)
-Received: by mail-io1-f42.google.com with SMTP id c11so1674749iom.10
+	Wed, 30 Oct 2019 09:32:47 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id g7so1302233wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2019 02:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=2qFdqFYPvGZag5Y1lJ1pwUhCfDhY37zUAi0JJOtvUFI=;
-	b=Z8ydwm6j336PDh8bsSucD8sopF9+QCEPPcjloGiGIRg/dH+s+dXGU9sEaMOujR1R4u
-	KoI+xttOigtsHS+y4ZT00F2JU5Db2o6lUopQb9ZIvFpktXFA6UWX9RNZEdaQ6jaS4PjO
-	ddJX3UXF2NUbH+xX1YJOdtJDGNmFSVm9TIhzR/4Bh1mVjREI/NO94+oFBeFB7viAG/xt
-	52ts4VRQrMztiiIVW0aHOLEv4/x4inwi4+wUUUL94UXbwFY02FOxCUQEB2TPi7G5ztl3
-	mICdMlK7r/HpFFkWxi2ehVTlwE8chQ3n9eCHkigDxnrE7lHHUXyai6rYcwgSNPFKQ2QJ
-	SmSw==
+	Wed, 30 Oct 2019 02:32:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=blade-group.com; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=tG2fK1nmDYsLG0pDnBYs784JLtmx2wG0I4COq0ueisg=;
+	b=XJlXm304y7Wyz+oTVv61E0wdv2LlUHC6L9gmYtAI2bpimqfjCtWqtx689tx8DxkLBf
+	Us6sU6A3uq4LI8qr95E0nvdfC3Ktqyc+24cVfSb31T5jU83Dnm8wzSM6Hb9Ags5V/7uW
+	Hkbg7XUn8J5Sar7IZ6Ap4vvO/CMPkxxwaHPoeZxVCHkW5ylR+zme5arWK6pwcqtMdRKh
+	qvg1CJiQjnLRoAqMowv+NoFRCYGPNZlJF8R3GKqdn+7pPB63zV3X0LzC4SvXNAp9cNdW
+	aoxVGnIuTTU1G7KskSGliwF4T//020BwRaJnC2y8qpCAGeHnwOiFTvWLDrJFKk8Ix6W7
+	XPtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=2qFdqFYPvGZag5Y1lJ1pwUhCfDhY37zUAi0JJOtvUFI=;
-	b=ad+hhhQKukC5NjGsy4d18Sp8LjCUsjdOMGEdRMC+P0s6ya760jf0vJ9VDbiQPpnYnE
-	485o/Ea8G8fwJsJTXcF3KAfmjHXaqmdbPw3KIYyQkykrYMS6CS/ufmthOh+wvb4yJYok
-	Ug7aLgs48dzjkKyZR2fxF9ehvEYqLJfsphAelRuwm1ZVwZACD7/zw4kLvu5ydTiJKl9b
-	x1WOwIuZNByJpQXij5aZ/IgIfQcDS5Wqnk8vvJAjnlkVCE8VDoZMJH660EyddWhcVYIB
-	enveoq+6SsuJWbrAS7BhjED3aCbXW4/+gPQ0PZmYEnvkII3UvFPOrYZ89n0Fv5r9rDeH
-	AlmQ==
-X-Gm-Message-State: APjAAAUQVIHTxjeIGr9Pjox1onrHkfXuDBUW4DyrpOcOGvjj7WUUkzB1
-	vqWKy71kERKpYarNbh9IpjpFIxiZbhiWgdRALlc=
-X-Google-Smtp-Source: APXvYqwMCzqJawVVql0kb2uJ9QG/Yo9tZKP/7Knr4NSlHLHsenHj4Qq0dPbfN7rNzXEzeAwn5NxXGADTAKcwFlctAHM=
-X-Received: by 2002:a6b:6108:: with SMTP id v8mr5367139iob.200.1572427566769; 
-	Wed, 30 Oct 2019 02:26:06 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=tG2fK1nmDYsLG0pDnBYs784JLtmx2wG0I4COq0ueisg=;
+	b=RlqkVRkTeg+XlhxgFR1Czhbp72M9Egz1UsCKnO7svHXKLigM852nVoT1JiAG4j0FY4
+	1AOqDW8pVEixBw78aGPMOrp6Iycu5EHR0+Vw6o4mdkMcBnZ1AZvAxZoYtsXuopeQRq4G
+	D6eEtJsQ/Z7ibY/LlgCQ20ATHNQWV+zy4cKj3FHcKAL12mYU/isI295tFANo1cr6bIzg
+	aRujcjkQwHNen32N2ic/IuRaHF2Wxo2eKg0il07wLGyD1o9QcoD7n3QO/dXx6K7bb+FK
+	QvmqXwEHfDgEBkpNsF0GqV+B+PT/FW/vy6PMUBJG2UFlizGSJBKTSKY+E8t7d+sgXusx
+	mCXw==
+X-Gm-Message-State: APjAAAUysdVz12n2ETr7IjXScOWBgEJwmK9v27tsy3qvnjVKtkFbShh6
+	OHMSdL1JoLXhJnk4YJMXLtmAJpGPT0zZgQ==
+X-Google-Smtp-Source: APXvYqynHUqL7DWhRmFWj1kcGVap9fgNYAnJD22H4Ubi/pNQmt/3BC4HiJdD4azwmiZ6az6wG1Pfkg==
+X-Received: by 2002:a7b:cbc8:: with SMTP id n8mr7600821wmi.119.1572427968111; 
+	Wed, 30 Oct 2019 02:32:48 -0700 (PDT)
+Received: from yantop.local ([85.118.38.73]) by smtp.gmail.com with ESMTPSA id
+	t134sm1560767wmt.24.2019.10.30.02.32.46
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 30 Oct 2019 02:32:46 -0700 (PDT)
+From: yann.dirson@blade-group.com
+X-Google-Original-From: yann@blade-group.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Oct 2019 10:32:15 +0100
+Message-Id: <20191030093215.6013-1-yann@blade-group.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-From: Umesh Kalappa <umesh.kalappa0@gmail.com>
-Date: Wed, 30 Oct 2019 14:55:57 +0530
-Message-ID: <CAGfacvQhR6zknbOetU2uBTzPwv8nBreyG1-9WcmhiEYzUMD10A@mail.gmail.com>
-To: akuster808@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: https://sourceware.org/bugzilla/show_bug.cgi?id=23657
+Cc: Yann Dirson <yann@blade-group.com>
+Subject: [PATCH] mesa: fix meson configure fix when 'dri' is excluded from PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,76 +59,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2019 09:26:06 -0000
-X-Groupsio-MsgNum: 130743
-Content-Type: multipart/mixed; boundary="0000000000008d9b4605961d52ee"
+X-List-Received-Date: Wed, 30 Oct 2019 09:32:48 -0000
+Content-Transfer-Encoding: 8bit
 
---0000000000008d9b4605961d52ee
-Content-Type: text/plain; charset="UTF-8"
+From: Yann Dirson <yann@blade-group.com>
 
-Hi Kuster ,
+Signed-off-by: Yann Dirson <yann@blade-group.com>
+---
+ .../mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Attached patch, fix the subjected issue (where we discard these weird
-sections from the final object file) and verified the same in the
-master.
+diff --git a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+index 3458c19199..346b217585 100644
+--- a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
++++ b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+@@ -23,7 +23,7 @@ index 0e50bb26c0a..de065c290d6 100644
+  with_dri_swrast = dri_drivers.contains('swrast')
+  
+ -with_dri = dri_drivers.length() != 0 and dri_drivers != ['']
+-+with_dri = get_option('dri') or (_drivers.length() != 0 and _drivers != [''])
+++with_dri = get_option('dri') or (dri_drivers.length() != 0 and dri_drivers != [''])
+  
+  gallium_drivers = get_option('gallium-drivers')
+  if gallium_drivers.contains('auto')
+-- 
+2.23.0
 
-Please let us know your comments/suggestions on the same.
 
-Thank you
-~Umesh
-
---0000000000008d9b4605961d52ee
-Content-Type: application/octet-stream; name="0001-CVE-2019-1010180.patch"
-Content-Disposition: attachment; filename="0001-CVE-2019-1010180.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_k2d2pjwr0>
-X-Attachment-Id: f_k2d2pjwr0
-
-RnJvbSAxN2RkNjZmMTNhN2Y5MWFmMTdkNjM2Mjg4YTI1N2EyZmEwZWE4ZTkzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBWaW5heSBLdW1hciA8dmluYXkua3VtYXJAYmxhY2tmaWd0ZWNo
-LmNvbT4KRGF0ZTogVHVlLCAyOSBPY3QgMjAxOSAxMjo1MzozNyArMDAwMApTdWJqZWN0OiBbUEFU
-Q0hdIENWRS0yMDE5LTEwMTAxODAgZml4CgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nZGIv
-Z2RiLTguMy4xLmluYyAgICAgICB8ICAxICsKIC4uLi9nZGIvZ2RiL0NWRS0yMDE5LTEwMTAxODAu
-cGF0Y2ggICAgICAgICAgICB8IDM0ICsrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdl
-ZCwgMzUgaW5zZXJ0aW9ucygrKQogY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9nZGIvZ2RiL0NWRS0yMDE5LTEwMTAxODAucGF0Y2gKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZ2RiL2dkYi04LjMuMS5pbmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Z2RiL2dkYi04LjMuMS5pbmMKaW5kZXggMzlmMWM0OC4uYWVjOTEzZiAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL2dkYi9nZGItOC4zLjEuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9nZGIvZ2RiLTguMy4xLmluYwpAQCAtMTYsNiArMTYsNyBAQCBTUkNfVVJJID0gIiR7
-R05VX01JUlJPUn0vZ2RiL2dkYi0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vMDAw
-OS1DaGFuZ2Utb3JkZXItb2YtQ0ZMQUdTLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMTAt
-cmVzb2x2ZS1yZXN0cmljdC1rZXl3b3JkLWNvbmZsaWN0LnBhdGNoIFwKICAgICAgICAgICAgZmls
-ZTovLzAwMTEtRml4LWludmFsaWQtc2lncHJvY21hc2stY2FsbC5wYXRjaCBcCisgICAgICAgICAg
-IGZpbGU6Ly9DVkUtMjAxOS0xMDEwMTgwLnBhdGNoIFwKICAgICAgICAgICAgIgogU1JDX1VSSVtt
-ZDVzdW1dID0gIjczYjZhNWQ4MTQxNjcyYzYyYmY4NTFjZDM0YzRhYTgzIgogU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjFlNTViNGQ3Y2RjYTdiMzRiZTEyZjRjZWFlNjUxNjIzYWE3M2IyZmQ2NDAxNTIz
-MTNmOWY2NmE3MTQ5NzU3YzQiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2Ri
-L2dkYi9DVkUtMjAxOS0xMDEwMTgwLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dkYi9n
-ZGIvQ1ZFLTIwMTktMTAxMDE4MC5wYXRjaApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAw
-MDAwLi42ZTUyMDI0Ci0tLSAvZGV2L251bGwKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dk
-Yi9nZGIvQ1ZFLTIwMTktMTAxMDE4MC5wYXRjaApAQCAtMCwwICsxLDM0IEBACitkaWZmIC0tZ2l0
-IGEvZ2RiL0NoYW5nZUxvZyBiL2dkYi9DaGFuZ2VMb2cKK2luZGV4IDk2MWEyZTIuLjFkZmIwY2Ig
-MTAwNjQ0CistLS0gYS9nZGIvQ2hhbmdlTG9nCisrKysgYi9nZGIvQ2hhbmdlTG9nCitAQCAtMSwz
-ICsxLDkgQEAKKysyMDE5LTEwLTE2ICBLZWl0aCBTZWl0eiAgPGtlaXRoc0ByZWRoYXQuY29tPgor
-KworKwlQUiBnZGIvMjM1NjcKKysJKiBkd2FyZjJyZWFkLmMgKGR3YXJmMl9wZXJfb2JqZmlsZTo6
-bG9jYXRlX3NlY3Rpb25zKTogRGlzY2FyZAorKwlzZWN0aW9ucyB3aG9zZSBzaXplIGlzIGdyZWF0
-ZXIgdGhhbiB0aGUgZmlsZSBzaXplLgorKworIDIwMTktMDktMjAgIEpvZWwgQnJvYmVja2VyICA8
-YnJvYmVja2VyQGFkYWNvcmUuY29tPgorIAorIAkqIHZlcnNpb24uaW46IFNldCBHREIgdmVyc2lv
-biBudW1iZXIgdG8gOC4zLjEuCitkaWZmIC0tZ2l0IGEvZ2RiL2R3YXJmMnJlYWQuYyBiL2dkYi9k
-d2FyZjJyZWFkLmMKK2luZGV4IDQyNTFlZDAuLmZhZmRiODkgMTAwNjQ0CistLS0gYS9nZGIvZHdh
-cmYycmVhZC5jCisrKysgYi9nZGIvZHdhcmYycmVhZC5jCitAQCAtMjM3OCw2ICsyMzc4LDE1IEBA
-IGR3YXJmMl9wZXJfb2JqZmlsZTo6bG9jYXRlX3NlY3Rpb25zIChiZmQgKmFiZmQsIGFzZWN0aW9u
-ICpzZWN0cCwKKyAgIGlmICgoYWZsYWcgJiBTRUNfSEFTX0NPTlRFTlRTKSA9PSAwKQorICAgICB7
-CisgICAgIH0KKysgIGVsc2UgaWYgKGVsZl9zZWN0aW9uX2RhdGEgKHNlY3RwKS0+dGhpc19oZHIu
-c2hfc2l6ZQorKwkgICA+IGJmZF9nZXRfZmlsZV9zaXplIChhYmZkKSkKKysgICAgeworKyAgICAg
-IGJmZF9zaXplX3R5cGUgc2l6ZSA9IGVsZl9zZWN0aW9uX2RhdGEgKHNlY3RwKS0+dGhpc19oZHIu
-c2hfc2l6ZTsKKysgICAgICB3YXJuaW5nIChfKCJEaXNjYXJkaW5nIHNlY3Rpb24gJXMgd2hpY2gg
-aGFzIGEgc2VjdGlvbiBzaXplICglcyIKKysJCSAiKSBsYXJnZXIgdGhhbiB0aGUgZmlsZSBzaXpl
-IFtpbiBtb2R1bGUgJXNdIiksCisrCSAgICAgICBiZmRfc2VjdGlvbl9uYW1lIChhYmZkLCBzZWN0
-cCksIHBoZXhfbnogKHNpemUsIHNpemVvZiAoc2l6ZSkpLAorKwkgICAgICAgYmZkX2dldF9maWxl
-bmFtZSAoYWJmZCkpOworKyAgICB9CisgICBlbHNlIGlmIChzZWN0aW9uX2lzX3AgKHNlY3RwLT5u
-YW1lLCAmbmFtZXMuaW5mbykpCisgICAgIHsKKyAgICAgICB0aGlzLT5pbmZvLnMuc2VjdGlvbiA9
-IHNlY3RwOwotLSAKMi4xOC4xCgo=
-
---0000000000008d9b4605961d52ee--
