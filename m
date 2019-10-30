@@ -1,28 +1,27 @@
 Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D0C9A7F7D3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A696F7F82D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2019 19:20:40 +0000 (UTC)
+	Wed, 30 Oct 2019 20:37:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9UJKdlT013510
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9UKaxT9004827
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 30 Oct 2019 12:20:40 -0700
+	Wed, 30 Oct 2019 13:37:01 -0700 (PDT)
 Received: from [147.11.119.146] (147.11.119.146) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 30 Oct 2019 12:20:39 -0700
-To: Umesh Kalappa <umesh.kalappa0@gmail.com>, <akuster808@gmail.com>
-References: <CAGfacvQhR6zknbOetU2uBTzPwv8nBreyG1-9WcmhiEYzUMD10A@mail.gmail.com>
+	Wed, 30 Oct 2019 13:36:59 -0700
+To: Adrian Bunk <bunk@stusta.de>, <openembedded-core@lists.openembedded.org>
+References: <20191028221328.15756-1-bunk@stusta.de>
 From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <a5c8f094-712a-204e-845d-89bb06b9eed0@windriver.com>
-Date: Wed, 30 Oct 2019 15:20:38 -0400
+Message-ID: <e3ede03b-34b7-4815-c5e3-cfc5eb6d8495@windriver.com>
+Date: Wed, 30 Oct 2019 16:36:58 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <CAGfacvQhR6zknbOetU2uBTzPwv8nBreyG1-9WcmhiEYzUMD10A@mail.gmail.com>
+In-Reply-To: <20191028221328.15756-1-bunk@stusta.de>
 X-Originating-IP: [147.11.119.146]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: https://sourceware.org/bugzilla/show_bug.cgi?id=23657
+Subject: Re: [PATCH v4] coreutils: Move stdbuf into an own package coreutils-stdbuf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,48 +34,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2019 19:20:41 -0000
+X-List-Received-Date: Wed, 30 Oct 2019 20:37:00 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-CA
 Content-Transfer-Encoding: 7bit
 
-On 10/30/19 5:25 AM, Umesh Kalappa wrote:
-> Hi Kuster ,
+On 10/28/19 6:13 PM, Adrian Bunk wrote:
+> This LD_PRELOAD trick is not really suitable for busybox,
+> so can be the only part of coreutils needed.
+
+Which LD_PRELOAD trick?
+
+Ah, I think you mean:
+
+    The coreutils implementation of stdbuf uses LD_PRELOAD [1]
+    to dynamically load libstdbuf which calls setvbuf().
+    This can't be implemented simply in busybox since it produces
+    one or two statically linked executables. Therefore, stdbuf
+    should be packaged separately.
+
+[1]  ?? 
+http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=blob;f=src/stdbuf.c;h=7eaadb45fef8c01783eeb5c27853fafbcef34f1c;hb=HEAD#l188
+
+Could you send a v5 for plebs like me?
+
+../Randy
+
 > 
-> Attached patch, fix the subjected issue (where we discard these weird
-> sections from the final object file) and verified the same in the
-> master.
+> coreutils depends on the new package,
+> so nothing changes when installing coreutils.
 > 
-> Please let us know your comments/suggestions on the same.
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>   meta/recipes-core/coreutils/coreutils_8.31.bb | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> Thank you
-> ~Umesh
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> index 4a74f619af..57b2c1bdba 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> @@ -49,7 +49,7 @@ bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname
+>                   env expand expr factor fmt fold groups head hostid id install \
+>                   join link logname md5sum mkfifo nl nohup nproc od paste pathchk \
+>                   pinky pr printf ptx readlink realpath runcon seq sha1sum sha224sum sha256sum \
+> -                sha384sum sha512sum shred shuf sort split stdbuf sum tac tail tee test timeout \
+> +                sha384sum sha512sum shred shuf sort split sum tac tail tee test timeout \
+>                   tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
+>   
+>   # hostname gets a special treatment and is not included in this
+> @@ -58,6 +58,10 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd echo false hostname kill l
+>   
+>   sbindir_progs= "chroot"
+>   
+> +PACKAGE_BEFORE_PN_class-target += "coreutils-stdbuf"
+> +FILES_coreutils-stdbuf = "${bindir}/stdbuf ${libdir}/coreutils/libstdbuf.so"
+> +RDEPENDS_coreutils_class-target += "coreutils-stdbuf"
+> +
+>   # Let aclocal use the relative path for the m4 file rather than the
+>   # absolute since coreutils has a lot of m4 files, otherwise there might
+>   # be an "Argument list too long" error when it is built in a long/deep
 > 
-> 
 
-Hi Umesh,
-
-Thanks for submitting the patch as I requested.
-The patch content itself looks fine but since I think that
-you will be involved in additional oe-core work involving
-the toolchain, please read:
-    https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
-
-Trevor and I will be happy to help you get the format right but we
-should do that off the list initially.
-
-In this case for example the bug should be fixed on the master branch
-initially, then a separate email sent for the zeus branch.
-There are examples of this on the oe-core list, such as:
-    master:
- 
-http://lists.openembedded.org/pipermail/openembedded-core/2019-October/288405.html
-
-    zeus:
- 
-http://lists.openembedded.org/pipermail/openembedded-core/2019-October/288400.html
-
-Good luck and let me know if you have any questions.
 
 -- 
 # Randy MacLeod
