@@ -1,52 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6002C7F83A
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D0C9A7F7D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2019 10:37:35 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id 6so3986275wmf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2019 03:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=adKDbDR3kXb66FjvO3rxmDHkBR09hmvnsAyfV7T3pUk=;
-	b=wwImvBAqzSGQDlPK3QaIR7oV+aJQZxcEBTL8IgAhrneEmoTB3Rw+P5LZvKdmPpkmeC
-	dJpAyl8WgQ8NDJc1BVayVLkAa3Zey4OUSRky0Q03rWI5WmgWEeh3G0uSwHWNyLAUvHON
-	eD/GZ6qRbyDTIFGlj0sy1VIsi7Zg/Qk50Q4imiIIbyijlTwW6USYlDvXIE0aFaJkU5/Y
-	yCdwU2LTUJDsVCmh4ioqG7XWVypZt/CVoMb+Rh0TFUrTDa/iGPUVH40Hi5LR2aE0Uc8b
-	D+C6S7WeCJVio3j65r0VmYVPFmCj5vrYrKvqzhdTS4CqPcIPXbuQ6P1lWFoSJ62zkv9U
-	cC/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=adKDbDR3kXb66FjvO3rxmDHkBR09hmvnsAyfV7T3pUk=;
-	b=m2WTfib9FIDsg0j9tB/bNULxTXs2vlo6nQxmOktbKWY8ndM4k7lPGu8RsLbHpjvhwv
-	K1hap9xszA4UWzl6UQT8wr+rAvWoQnn8WNUm4gQWFuzPuTTrJ/3UIxpYm4WNTRxaJa3R
-	Y6xZc9mYO2T0YtBA5v7ySnS29IXMVt7zLsvyn2+/Qud5Cwp9HS9jofOiC1IhcmEGvShm
-	289aTX3T/VRmk5i/btbUAgHMeXZ6tQ/N4KIpyeLL4tiFwW2tQlewvvTXMEJg0f7gqYkr
-	sEHZKHCBAmZQVEpBaDj7Zht8jYXvDdPvoXgexPwDwIRwvERD/DHtvjLPeoLFF/VmvwG2
-	3WlA==
-X-Gm-Message-State: APjAAAVz1tD0Os+cIjdT4RhEtcy+pmjVkKSEB/FshvH5fjzZ6heySt/Y
-	kicQIv9HDwZ/O3lKPeYATBHEdtCT5K8=
-X-Google-Smtp-Source: APXvYqzlSNJa5Ac2sIhdY3ittCYzPnQpVANqdnG3wbHhL2DqoKGN35M033bZNTDVBk+A7RO+T1cDIA==
-X-Received: by 2002:a7b:ca51:: with SMTP id m17mr1666454wml.110.1572431855372; 
-	Wed, 30 Oct 2019 03:37:35 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id h3sm1980519wrt.88.2019.10.30.03.37.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 30 Oct 2019 03:37:34 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Oct 2019 10:37:32 +0000
-Message-Id: <20191030103732.18655-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	Wed, 30 Oct 2019 19:20:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x9UJKdlT013510
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 30 Oct 2019 12:20:40 -0700
+Received: from [147.11.119.146] (147.11.119.146) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 30 Oct 2019 12:20:39 -0700
+To: Umesh Kalappa <umesh.kalappa0@gmail.com>, <akuster808@gmail.com>
+References: <CAGfacvQhR6zknbOetU2uBTzPwv8nBreyG1-9WcmhiEYzUMD10A@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <a5c8f094-712a-204e-845d-89bb06b9eed0@windriver.com>
+Date: Wed, 30 Oct 2019 15:20:38 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.1.2
 MIME-Version: 1.0
-Subject: [PATCH] gst-examples: rename so PV is in filename
+In-Reply-To: <CAGfacvQhR6zknbOetU2uBTzPwv8nBreyG1-9WcmhiEYzUMD10A@mail.gmail.com>
+X-Originating-IP: [147.11.119.146]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: https://sourceware.org/bugzilla/show_bug.cgi?id=23657
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2019 10:37:35 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 30 Oct 2019 19:20:41 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../gstreamer/{gst-examples_git.bb => gst-examples_1.16.0.bb}    | 1 -
- 1 file changed, 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_git.bb => gst-examples_1.16.0.bb} (98%)
+On 10/30/19 5:25 AM, Umesh Kalappa wrote:
+> Hi Kuster ,
+> 
+> Attached patch, fix the subjected issue (where we discard these weird
+> sections from the final object file) and verified the same in the
+> master.
+> 
+> Please let us know your comments/suggestions on the same.
+> 
+> Thank you
+> ~Umesh
+> 
+> 
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_git.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
-index f2a3afbbfe3..e83ea8cb790 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
-@@ -10,7 +10,6 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-examples.git;protocol=http
-            "
+Hi Umesh,
+
+Thanks for submitting the patch as I requested.
+The patch content itself looks fine but since I think that
+you will be involved in additional oe-core work involving
+the toolchain, please read:
+    https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+
+Trevor and I will be happy to help you get the format right but we
+should do that off the list initially.
+
+In this case for example the bug should be fixed on the master branch
+initially, then a separate email sent for the zeus branch.
+There are examples of this on the oe-core list, such as:
+    master:
  
- SRCREV = "d953c127c1146b50d5676618299933950685dcd7"
--PV = "1.16.0"
+http://lists.openembedded.org/pipermail/openembedded-core/2019-October/288405.html
+
+    zeus:
  
- S = "${WORKDIR}/git"
- 
+http://lists.openembedded.org/pipermail/openembedded-core/2019-October/288400.html
+
+Good luck and let me know if you have any questions.
+
 -- 
-2.20.1
-
+# Randy MacLeod
+# Wind River Linux
 
