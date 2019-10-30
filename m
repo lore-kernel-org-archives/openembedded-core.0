@@ -1,27 +1,31 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A696F7F82D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EA397F8F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2019 20:37:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id x9UKaxT9004827
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 30 Oct 2019 13:37:01 -0700 (PDT)
-Received: from [147.11.119.146] (147.11.119.146) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 30 Oct 2019 13:36:59 -0700
-To: Adrian Bunk <bunk@stusta.de>, <openembedded-core@lists.openembedded.org>
-References: <20191028221328.15756-1-bunk@stusta.de>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <e3ede03b-34b7-4815-c5e3-cfc5eb6d8495@windriver.com>
-Date: Wed, 30 Oct 2019 16:36:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.1.2
+	Wed, 30 Oct 2019 21:45:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Oct 2019 14:45:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,248,1569308400"; d="scan'208";a="400277436"
+Received: from lismail-mobl.gar.corp.intel.com (HELO shodan.localnet)
+	([10.255.184.81])
+	by fmsmga005.fm.intel.com with ESMTP; 30 Oct 2019 14:45:15 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chandana Kalluri <ckalluri@xilinx.com>
+Date: Thu, 31 Oct 2019 10:45:14 +1300
+Message-ID: <3609935.G6XINI0aqE@shodan>
+Organization: Intel Corporation
+In-Reply-To: <MWHPR02MB25762722E4CF0B6245DFF65AB0610@MWHPR02MB2576.namprd02.prod.outlook.com>
+References: <1555540979-27879-1-git-send-email-chandana.kalluri@xilinx.com>
+	<2766841.sOFMSHKMPR@shodan>
+	<MWHPR02MB25762722E4CF0B6245DFF65AB0610@MWHPR02MB2576.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20191028221328.15756-1-bunk@stusta.de>
-X-Originating-IP: [147.11.119.146]
-Subject: Re: [PATCH v4] coreutils: Move stdbuf into an own package coreutils-stdbuf
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [master][PATCH v4 0/3] Devtool: provide easy means of
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,69 +38,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2019 20:37:00 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Oct 2019 21:45:17 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 10/28/19 6:13 PM, Adrian Bunk wrote:
-> This LD_PRELOAD trick is not really suitable for busybox,
-> so can be the only part of coreutils needed.
+Hi Chandana,
 
-Which LD_PRELOAD trick?
+Thanks! FYI the reason I bring this up is that it appears there's a problem with linux-yocto and SRCREV_machine values:
 
-Ah, I think you mean:
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=13614
 
-    The coreutils implementation of stdbuf uses LD_PRELOAD [1]
-    to dynamically load libstdbuf which calls setvbuf().
-    This can't be implemented simply in busybox since it produces
-    one or two statically linked executables. Therefore, stdbuf
-    should be packaged separately.
+Would you be able to look into that as well?
 
-[1]  ?? 
-http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=blob;f=src/stdbuf.c;h=7eaadb45fef8c01783eeb5c27853fafbcef34f1c;hb=HEAD#l188
+Thanks
+Paul
 
-Could you send a v5 for plebs like me?
-
-../Randy
-
+On Wednesday, 30 October 2019 12:03:35 PM NZDT Chandana Kalluri wrote:
+> Hello Paul
 > 
-> coreutils depends on the new package,
-> so nothing changes when installing coreutils.
+> Yes, I am in process of sending oeself test patches for devtool reset --remove-source command as commented In the other patch. I will also add the oeselftest for devtool kernel and send them out. 
 > 
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->   meta/recipes-core/coreutils/coreutils_8.31.bb | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+> Thanks,
+> Chandana
 > 
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> index 4a74f619af..57b2c1bdba 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> @@ -49,7 +49,7 @@ bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname
->                   env expand expr factor fmt fold groups head hostid id install \
->                   join link logname md5sum mkfifo nl nohup nproc od paste pathchk \
->                   pinky pr printf ptx readlink realpath runcon seq sha1sum sha224sum sha256sum \
-> -                sha384sum sha512sum shred shuf sort split stdbuf sum tac tail tee test timeout \
-> +                sha384sum sha512sum shred shuf sort split sum tac tail tee test timeout \
->                   tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
->   
->   # hostname gets a special treatment and is not included in this
-> @@ -58,6 +58,10 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd echo false hostname kill l
->   
->   sbindir_progs= "chroot"
->   
-> +PACKAGE_BEFORE_PN_class-target += "coreutils-stdbuf"
-> +FILES_coreutils-stdbuf = "${bindir}/stdbuf ${libdir}/coreutils/libstdbuf.so"
-> +RDEPENDS_coreutils_class-target += "coreutils-stdbuf"
-> +
->   # Let aclocal use the relative path for the m4 file rather than the
->   # absolute since coreutils has a lot of m4 files, otherwise there might
->   # be an "Argument list too long" error when it is built in a long/deep
+> > -----Original Message-----
+> > From: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > Sent: Tuesday, October 29, 2019 3:52 PM
+> > To: Chandana Kalluri <ckalluri@xilinx.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [OE-Core][master][PATCH v4 0/3] Devtool: provide easy
+> > means of
+> > 
+> > Hi Chandana
+> > 
+> > Having added quite a bit to devtool relating to the kernel, we really ought to
+> > extend our oe-selftest tests to cover the new functionality. Would you be able
+> > to take care of that?
+> > 
+> > Thanks
+> > Paul
+> > 
+> > On Wednesday, 5 June 2019 5:07:55 PM NZDT Paul Eggleton wrote:
+> > > Hi Chandana
+> > >
+> > > My apologies for the delay in reviewing this - other work got in the way of
+> > OE-Core contributions but that should be dealt with now.
+> > >
+> > > On Thursday, 18 April 2019 10:42:56 AM NZST Sai Hari Chandana Kalluri
+> > wrote:
+> > > > This patch series provides support for the user to run menuconfig
+> > > > command in the devtool flow. This would allow the user to modify the
+> > > > current configurations and generate a config fragment to update the
+> > > > recipe using devtool finish. Devtool menuconfig command will work on all
+> > packages that contain menuconfig as a task.
+> > > >
+> > > > 1. The implementation checks if devtool menuconfig command is called
+> > > > for a valid package.
+> > > > 2. It checks for oe-local-files dir within source and creates one if
+> > > > needed, this directory is needed to store the final generated config
+> > > > fragment so that devtool finish can update the recipe.
+> > > > 3. Menuconfig command is called for users to make necessary changes.
+> > > > After saving the changes, diffconfig command is run to generate the
+> > fragment.
+> > > >
+> > > > Currently, when the user runs devtool modify command, it checks out
+> > > > the entire source tree which is a bit of an over head in time and
+> > > > space. This patch series also provides a way to create a copy(hard
+> > > > links) of the kernel source, if present, from work-shared to workspace to be
+> > more efficient .
+> > > >
+> > > > Also, if the kernel source is not present in the staging kernel dir
+> > > > and the user fetches the source tree in workspace using devtool
+> > > > modify, then this patch series creates a copy of source from
+> > > > workspace to work-shared. This is necessary for packages that may use the
+> > kernel source.
+> > >
+> > > Looking over the patches again, we're close but the following need to be
+> > corrected:
+> > >
+> > > 1) The devtool.DevtoolUpdateTests.test_devtool_update_recipe_local_files
+> > test in oe-selftest fails:
+> > >
+> > > ---------------- snip ----------------
+> > > INFO: Adding local source files to srctree...
+> > > Traceback (most recent call last):
+> > >   File "/data/poky/scripts/devtool", line 334, in <module>
+> > >     ret = main()
+> > >   File "/data/poky/scripts/devtool", line 321, in main
+> > >     ret = args.func(args, config, basepath, workspace)
+> > >   File "/data/poky/scripts/lib/devtool/standard.py", line 845, in modify
+> > >     initial_rev, _ = _extract_source(srctree, args.keep_temp, args.branch,
+> > False, config, basepath, workspace, args.fixed_setup, rd, tinfoil,
+> > no_overrides=args.no_overrides)
+> > >   File "/data/poky/scripts/lib/devtool/standard.py", line 657, in
+> > _extract_source
+> > >     symblink_oelocal_files_srctree(d,srctree)
+> > >   File "/data/poky/scripts/lib/devtool/standard.py", line 485, in
+> > symblink_oelocal_files_srctree
+> > >     oe.patch.GitApplyTree.gitCommandUserOptions(useroptions, d=d)
+> > > NameError: name 'oe' is not defined
+> > > ---------------- snip ----------------
+> > >
+> > > Probably just a missing import.
+> > >
+> > > 2) Please change "symblink" to "symlink"
+> > >
+> > > 3) Indentation is very inconsistent in the added code. Please use four spaces
+> > everywhere.
+> > >
+> > > I would also like to see oe-selftest tests covering this functionality, but I
+> > won't require them to ack these patches (especially given the delays on my
+> > part).
+> > >
+> > > Thanks
+> > > Paul
+> > >
+> > >
+> > 
+> > 
+> > --
+> > 
+> > Paul Eggleton
+> > Intel System Software Products
+> > 
+> 
 > 
 
 
 -- 
-# Randy MacLeod
-# Wind River Linux
+
+Paul Eggleton
+Intel System Software Products
+
+
 
