@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A1E6D7F8CB
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 68F5C7F951
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 09:37:07 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id n1so5417125wra.10
+	Thu, 31 Oct 2019 09:37:08 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id e11so5436670wrv.4
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 31 Oct 2019 02:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eeSVwD4mUbFJANOXUnuJSySWyq9jGlW1nL55HcNPwLU=;
-	b=GABUIm5OGY5MYTJYskzQx4/aJV5kqiNlNSDXk9tOKijVyB7YeZxgm6xJmlrdvPYKJs
-	hiKsq7CqAQlM5cOFb0JIzdQDlciDdHK+iJ7RYmXcJ55wqZnFd+ov+7t0Wz5QtHAmIzgv
-	vM5ThVRk6iEwF2axcJe5IU90lgMEZF9RuUa746rw8OjWutB+Dtpd7iiLAtBUENYIbzDb
-	ylWw21DS4Ooc2sPrZFD6KD7mUlCn3iXJBX+gPRii9+PsjrLHjC1vT+ATyXLbmRwHjGit
-	Uz7nRV2DB6wfboXhoRytO60HHyooKRBERVAcioKjFDzYDPuNRsjBV7TK/mGjqNIwCchy
-	sSiw==
+	bh=KvqAovypxngzEACLW9oYEv6MVM0PMcZfg3jSy59+lCc=;
+	b=tqL4rbDmUf2Z9/WQfx7L4SF1+MMlBKkb/yDd641H9W2eqYNoLfRNNQpZ04+5vSKLQq
+	jODQd1Q//35Zsutgsw2nq0dqziTGqEl46wPMiFpHs4452pmFypdcctBYiJaN1J7Bu712
+	jTa0dqfMLjJixyu/Oz9N2RO5FDMJ08mEIhzkxzPLOfgeUoX95KJuAgf1gycB34J0t54g
+	WA6G/LcADNibfUUZ/zrvDZ6JGuR9VSFGfxTLAqLIa/WjwTf022DZyA8ykkpkl/LobVa+
+	QHDDncylyZBBQNEWruNkXpluT3b6NHDoLDpJDrFWIyCmYSZZ7kbXnW26M1eleBv74GD1
+	Jx0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=eeSVwD4mUbFJANOXUnuJSySWyq9jGlW1nL55HcNPwLU=;
-	b=aRCkz31gmGL0UXEJkXl4Q+/z2X/Ke74nB0SjQhv8PnBrTL4W3RyDr68JHTfqZCFGGT
-	fiQj9BMioeS7u7xvt9JoXR/afREYV7yDF5Uz93J5/A/GLrwKCsd6YM9zTTsh6cjchOlO
-	1PKpELp84CvX3CHUQ8lvQ1R0DNBYpMJ707kiVgLFuD6nROCLmTv26NwxtsvQ55vxj3G0
-	djcjz7jy3AUEeoG0I1vBaoyjhxP11tGrGBorD1g5YW3KR7K+nvHggP2pXRspvSHn0q85
-	qwRjXtWqGXYeO8jlYtjp2ckLnC3pVMNH4cRm+Ohfz7SX2rr/WDNnRRH67q5+drULULKg
-	GRGw==
-X-Gm-Message-State: APjAAAXoRLLhqyx1B1ugH51nRjSaKHML2WSB1Avav01UTz3FBuQvi9ax
-	rOc018Jl93n9ZLJF0k4fk4Wd/AKUpP0=
-X-Google-Smtp-Source: APXvYqyfVrdG2gooYZXNJFArlyf0WXLjmuOl5BZ9QhMv49EGImxVLd1PU5B2Ko8lyhMWBgg1Eb8iCw==
-X-Received: by 2002:adf:f989:: with SMTP id f9mr4514055wrr.163.1572514628135; 
+	bh=KvqAovypxngzEACLW9oYEv6MVM0PMcZfg3jSy59+lCc=;
+	b=RGtKF1HQ8BiQXvMam/GzT/tl9pVDXhb3ElyKKzz/DG5/CxpvripbCcDvjDdXWAuSAb
+	jc5VOQMA8uZ8fIblMv2lpzVp92zsXncwKoCqwge2DxyvQykpIgorF+sO469imIdzTg3u
+	Mt4+XEfenP4MJwVIHzDN1HOsfL6PMzEcSj8xIXOKh3grMWt7YNR2Baj4Tnpi/3lXNzBl
+	GXBH6O6St9zckk/5sE0Owgjo9RjqEVlD2apKvs21DaZ50vhMwLY1tIzQJYHyqsdqWfD4
+	fRlXtfbOIo54MfAy7orpTE6dFHWamyi29KKr4CgKMyP6GR+eCPhI1w6uiu9J3b0DvxTM
+	22gw==
+X-Gm-Message-State: APjAAAWjinl8DZV5M1GHcFlhtXVySvinTMfl1JPoGImDrLvJNa1pXTyI
+	k8yEI2qMBE7dEyMl+FT/SymQJ5csj4o=
+X-Google-Smtp-Source: APXvYqzkIFJatw9cDDR5o2m8z/ho7ys7AXw6vqlEdEIL9yuHmw2MEuu9veGc/oVtLsA7o33dEhe21A==
+X-Received: by 2002:adf:dc81:: with SMTP id r1mr1152642wrj.84.1572514628857;
 	Thu, 31 Oct 2019 02:37:08 -0700 (PDT)
 Received: from localhost.localdomain ([91.217.168.176])
 	by smtp.gmail.com with ESMTPSA id
-	b186sm2950263wmb.21.2019.10.31.02.37.07
+	b186sm2950263wmb.21.2019.10.31.02.37.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 31 Oct 2019 02:37:07 -0700 (PDT)
+	Thu, 31 Oct 2019 02:37:08 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2019 10:36:53 +0100
-Message-Id: <20191031093655.14852-4-alex.kanavin@gmail.com>
+Date: Thu, 31 Oct 2019 10:36:54 +0100
+Message-Id: <20191031093655.14852-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191031093655.14852-1-alex.kanavin@gmail.com>
 References: <20191031093655.14852-1-alex.kanavin@gmail.com>
-Subject: [PATCH 4/6] gcr: update to 3.34.0
+Subject: [PATCH 5/6] btrfs-tools: update to 5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +59,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 31 Oct 2019 09:37:08 -0000
 
-inherit gettext, as gcr is now gettextized.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-gnome/gcr/{gcr_3.28.1.bb => gcr_3.34.0.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-gnome/gcr/{gcr_3.28.1.bb => gcr_3.34.0.bb} (83%)
+ .../btrfs-tools/{btrfs-tools_5.2.2.bb => btrfs-tools_5.3.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.2.2.bb => btrfs-tools_5.3.bb} (97%)
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.28.1.bb b/meta/recipes-gnome/gcr/gcr_3.34.0.bb
-similarity index 83%
-rename from meta/recipes-gnome/gcr/gcr_3.28.1.bb
-rename to meta/recipes-gnome/gcr/gcr_3.34.0.bb
-index 0a9867451ee..f13bfecbe19 100644
---- a/meta/recipes-gnome/gcr/gcr_3.28.1.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.34.0.bb
-@@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- DEPENDS = "intltool-native gtk+3 p11-kit glib-2.0 libgcrypt \
-            ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-native', '', d)}"
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.2.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.3.bb
+similarity index 97%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.2.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.3.bb
+index 6b73c01dccb..12b5c4562dc 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.2.2.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.3.bb
+@@ -14,7 +14,7 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl"
+ DEPENDS_append_class-target = " udev"
+ RDEPENDS_${PN} = "libgcc"
  
--inherit gnomebase gtk-icon-cache gtk-doc distro_features_check upstream-version-is-even vala gobject-introspection
-+inherit gnomebase gtk-icon-cache gtk-doc distro_features_check upstream-version-is-even vala gobject-introspection gettext
- # depends on gtk+3, but also x11 through gtk+-x11
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--SRC_URI[archive.md5sum] = "afd88cacfd54c1ac5b3e0eb35e3aa674"
--SRC_URI[archive.sha256sum] = "95204aa2111c301778ebfbe60975ce3ed698c958430ffcc2a785ac5e593d168b"
-+SRC_URI[archive.md5sum] = "4af28919fb1dd36d93603e8230283b6f"
-+SRC_URI[archive.sha256sum] = "29df50974a90987af694c0fb8926a6b366e68cacd8abd813817cfe1eb5d54524"
- 
- FILES_${PN} += " \
-     ${datadir}/dbus-1 \
+-SRCREV = "55a8c9626fb906c20c3206f8fd39b9a8fb259b79"
++SRCREV = "de7856cee5907938441f765ebab7cc106b7faf70"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
 -- 
 2.17.1
 
