@@ -1,50 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
-	[209.85.208.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 58EA97F965
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id D6C797F808
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 11:57:39 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id w3so2213675edt.2
+	Thu, 31 Oct 2019 12:28:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 473l3M2nclz2Y
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 04:57:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+jCn/r9r/VeoJsKe3HGGmQixMZjV/2R9kQLOodU3TW0=;
-	b=DL//86t9ZMv68VWVGUuIkPKHT7R9+QQTPES2xOc8Nv5mwhhbfmzoPNvwcllfVt0lry
-	VAcfAXyMUHPaPtbEYzxcJJSBpZg+pkmbyCFS4Gl1iaZRDd5dp7sz2KYlmG6ihkamucug
-	Vrsk6qPH1dGnU2HzZwQ5jRHSHRyL9rOVlZVCWbOcERN+qR+nriMPzU8u0sAy/J6AfrWQ
-	HgmuHDJ3nglRsY9OtCcIhWZ2T6NCwMAQQZRbxc6gOFJxX3jAe0ZnjrhH2xNwRx/sbUHP
-	Hhh5h1uLBhcr6ysvP9ku/V4Xvs75Lr00+zuOndeuTogund9YwWhQV8J8E7RLcNJdwGLH
-	jhMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=+jCn/r9r/VeoJsKe3HGGmQixMZjV/2R9kQLOodU3TW0=;
-	b=hx6q+PQHFegnRgGlBXmtQiatKWM/5WlVs+T0U4f5YFNQ4fYugnDcJVPEcxQYlAg7zf
-	0YSTgIPLpTlDydfpEB7KBgZTMzk/uDVkeF+xS0wxRx7ShjtB6N4Q+FSquknIJJ+yZsSl
-	u0p3BsLmK+4bAlt5JS8/b8u9TfslBFJGMC2UW2AlPR6gD2Te6yNGt823XSQLCOUxOY+Q
-	zUys0LbnmND4dlSSVr7P8rxH4R1irrfdh4YntBjznK4smCy56R9h87NAGIFK7SMY70tH
-	p3FdhjJdr13rb7NMwSvfAEwwg2nPywlFSLwD/cCEfZ2kMNsp5oHHgVhpTHUyinE7UXE2
-	N92A==
-X-Gm-Message-State: APjAAAWU5nR7nPMpnH2XkoFf25AhsC1dPc5xqpZAp99tRgcSoCT0h55G
-	GU9wI0La2i3fzvwY8/+ZrvepXscrWHQOVj54I4eRJ6fP
-X-Google-Smtp-Source: APXvYqyUFmkiM0u61zxiSxIRYIt/sheCVF3y0lGucUZzo/9ozeNbFrsYfdfk6/uT5ec+NMqOfgQBVKqzl3eXfo8faww=
-X-Received: by 2002:a17:906:3ca:: with SMTP id
-	c10mr3481363eja.140.1572523059840; 
-	Thu, 31 Oct 2019 04:57:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1572072421.git.akuster808@gmail.com>
-	<e02e8fa2e82cceaaa6a433466f52f97b0984762a.1572072422.git.akuster808@gmail.com>
-	<CA+chaQd4dRDmRTaS5_38eO+=rc9xC=Yq4wONwyXncVQ7Ys8Tog@mail.gmail.com>
-In-Reply-To: <CA+chaQd4dRDmRTaS5_38eO+=rc9xC=Yq4wONwyXncVQ7Ys8Tog@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 31 Oct 2019 12:57:29 +0100
-Message-ID: <CA+chaQdopiKmfqoreYzx0Q9saS-vtQpkqvLnwjEm9a9UmZ0dwA@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [zeus 25/28] go: fix CVE-2019-16276
+	Thu, 31 Oct 2019 13:28:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1572524895;
+	bh=dcBsQwnLMSOzJYdHM6+MmO1ccd1FomHuvwZl+btiBVI=;
+	h=From:To:Subject:Date:From;
+	b=QSTBF/EExmhYuGeQNnKfAnnTq2LXvjSWWo4S2hddKOYgYiniefJt/xz8wY0uQOqS4
+	9vMY22fzylU+3q3rEvndeiTEYtZcFJWqZ9bdkuMyf0CAmnh3frpcTY66DdHj+E8Oi+
+	cs6u3x/B8ewArQqS97rL+OwDyb3sizCjvg5rigMvRXG0roVbVcy5P+32lLFGFT9MN/
+	Txq2CkRD8ZZrcXCRt0qz6Euaz4Hg1VkFErfsBhJ0JNjZ9eKZX/Cgic1pdGPiup2Nh3
+	/RyePo5gdnHjGL6/VFS+20uXucOuqD15LMd5w0PxxKM8nTfPpDTb+wOR6JftuSXhbS
+	QJgvXX38QBBHMmD2Gpn/i9Ysqydtz4BGDJ3ZWpuNwLA3EPfjmRYsLeTCpVFvc2IbXI
+	bP97/p5oNrzTHcluISyIW7bZleEDPOA68vIxH9Joeo2+J0Uz6sdiDHDAQa2VyhyxOP
+	4W8D9KbXI2sa+VLmQsI0Li4m7UaWoMnbyK9qitE7VvQelMLXqD1OxVAwcqVI9TLxMF
+	U3QPqCs3fLLewNEeNlWvJkw7egsq/B7yjrjo1ffYbAGRjZWuRuVxuJ9l8uiNg0vy3V
+	TjGfxuIMVe9o1ox5Qoil6nkPQeSqrL3OkcpCBJzv+54SOLTq5BZsIJJr4VbYNOl7Lc
+	MsAp8BhyPthnFsXxARmWqrjQ=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Oct 2019 14:28:14 +0200
+Message-Id: <20191031122814.21435-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v5] coreutils: Move stdbuf into an own package coreutils-stdbuf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,642 +40,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 11:57:40 -0000
-Content-Type: multipart/alternative; boundary="000000000000620b990596338e22"
+X-List-Received-Date: Thu, 31 Oct 2019 12:28:17 -0000
 
---000000000000620b990596338e22
-Content-Type: text/plain; charset="UTF-8"
+The coreutils implementation of stdbuf uses LD_PRELOAD
+to dynamically load libstdbuf which calls setvbuf().
+This can't be implemented simply in busybox since it produces
+one or two statically linked executables. Therefore, stdbuf
+should be packaged separately for people who are using busybox
+instead of coreutils for the other tools.
 
-I'm sorry I was looking at wrong build before.
+coreutils depends on the new package,
+so nothing changes when installing coreutils.
 
-It doesn't happen in zeus and master. Only with warrior where this was
-backported as well in:
-"[OE-core] [warrior 18/19] go: fix CVE-2019-16276"
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-core/coreutils/coreutils_8.31.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Probably because warrior is using older minor version of 1.12 go:
--GO_MINOR = ".1"
-+GO_MINOR = ".9"
+diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+index 4a74f619af..57b2c1bdba 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.31.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+@@ -49,7 +49,7 @@ bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname
+                 env expand expr factor fmt fold groups head hostid id install \
+                 join link logname md5sum mkfifo nl nohup nproc od paste pathchk \
+                 pinky pr printf ptx readlink realpath runcon seq sha1sum sha224sum sha256sum \
+-                sha384sum sha512sum shred shuf sort split stdbuf sum tac tail tee test timeout \
++                sha384sum sha512sum shred shuf sort split sum tac tail tee test timeout \
+                 tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
+ 
+ # hostname gets a special treatment and is not included in this
+@@ -58,6 +58,10 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd echo false hostname kill l
+ 
+ sbindir_progs= "chroot"
+ 
++PACKAGE_BEFORE_PN_class-target += "coreutils-stdbuf"
++FILES_coreutils-stdbuf = "${bindir}/stdbuf ${libdir}/coreutils/libstdbuf.so"
++RDEPENDS_coreutils_class-target += "coreutils-stdbuf"
++
+ # Let aclocal use the relative path for the m4 file rather than the
+ # absolute since coreutils has a lot of m4 files, otherwise there might
+ # be an "Argument list too long" error when it is built in a long/deep
+-- 
+2.17.1
 
 
-On Thu, Oct 31, 2019 at 12:49 PM Martin Jansa <martin.jansa@gmail.com>
-wrote:
-
-> This seems to cause:
->
-> ERROR: go-native-1.12.1-r0 do_patch: Fuzz detected:
->
-> Applying patch
-> 0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
-> patching file src/net/http/serve_test.go
-> patching file src/net/http/transport_test.go
-> Hunk #1 succeeded at 5059 with fuzz 2 (offset -74 lines).
-> patching file src/net/textproto/reader.go
-> patching file src/net/textproto/reader_test.go
->
-> The context lines in the patches can be updated with devtool:
->
->     devtool modify go-native
->     devtool finish --force-patch-refresh go-native <layer_path>
->
-> Don't forget to review changes done by devtool!
->
-> ERROR: go-native-1.12.1-r0 do_patch: QA Issue: Patch log indicates that
-> patches do not apply cleanly. [patch-fuzz]
->
-> and the same for go-cross and go-runtime.
->
-> The version currently in master is the same, so I guess both are showing
-> this QA issue.
->
-> Regards,
->
-> On Sat, Oct 26, 2019 at 8:54 AM Armin Kuster <akuster808@gmail.com> wrote:
->
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> (cherry picked from commit e31f87e289dfd3bbca961e927447a9c7ba816d3f)
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  meta/recipes-devtools/go/go-1.12.inc               |   1 +
->>  ...nch.go1.12-security-net-textproto-don-t-n.patch | 163
->> +++++++++++++++++++++
->>  2 files changed, 164 insertions(+)
->>  create mode 100644
->> meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
->>
->> diff --git a/meta/recipes-devtools/go/go-1.12.inc
->> b/meta/recipes-devtools/go/go-1.12.inc
->> index 39157ff..ed14b17 100644
->> --- a/meta/recipes-devtools/go/go-1.12.inc
->> +++ b/meta/recipes-devtools/go/go-1.12.inc
->> @@ -16,6 +16,7 @@ SRC_URI += "\
->>      file://0006-cmd-dist-separate-host-and-target-builds.patch \
->>      file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
->>      file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
->> +
->> file://0001-release-branch.go1.12-security-net-textproto-don-t-n.patch \
->>  "
->>  SRC_URI_append_libc-musl = "
->> file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
->>
->> diff --git
->> a/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
->> b/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
->> new file mode 100644
->> index 0000000..7b39dbd
->> --- /dev/null
->> +++
->> b/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
->> @@ -0,0 +1,163 @@
->> +From 265b691ac440bfb711d8de323346f7d72e620efe Mon Sep 17 00:00:00 2001
->> +From: Filippo Valsorda <filippo@golang.org>
->> +Date: Thu, 12 Sep 2019 12:37:36 -0400
->> +Subject: [PATCH] [release-branch.go1.12-security] net/textproto: don't
->> + normalize headers with spaces before the colon
->> +
->> +RFC 7230 is clear about headers with a space before the colon, like
->> +
->> +X-Answer : 42
->> +
->> +being invalid, but we've been accepting and normalizing them for
->> compatibility
->> +purposes since CL 5690059 in 2012.
->> +
->> +On the client side, this is harmless and indeed most browsers behave the
->> same
->> +to this day. On the server side, this becomes a security issue when the
->> +behavior doesn't match that of a reverse proxy sitting in front of the
->> server.
->> +
->> +For example, if a WAF accepts them without normalizing them, it might be
->> +possible to bypass its filters, because the Go server would interpret the
->> +header differently. Worse, if the reverse proxy coalesces requests onto a
->> +single HTTP/1.1 connection to a Go server, the understanding of the
->> request
->> +boundaries can get out of sync between them, allowing an attacker to
->> tack an
->> +arbitrary method and path onto a request by other clients, including
->> +authentication headers unknown to the attacker.
->> +
->> +This was recently presented at multiple security conferences:
->> +
->> https://portswigger.net/blog/http-desync-attacks-request-smuggling-reborn
->> +
->> +net/http servers already reject header keys with invalid characters.
->> +Simply stop normalizing extra spaces in net/textproto, let it return them
->> +unchanged like it does for other invalid headers, and let net/http
->> enforce
->> +RFC 7230, which is HTTP specific. This loses us normalization on the
->> client
->> +side, but there's no right answer on the client side anyway, and hiding
->> the
->> +issue sounds worse than letting the application decide.
->> +
->> +Fixes CVE-2019-16276
->> +
->> +Change-Id: I6d272de827e0870da85d93df770d6a0e161bbcf1
->> +Reviewed-on:
->> https://team-review.git.corp.google.com/c/golang/go-private/+/549719
->> +Reviewed-by
->> <https://team-review.git.corp.google.com/c/golang/go-private/+/549719+Reviewed-by>:
->> Brad Fitzpatrick <bradfitz@google.com>
->> +(cherry picked from commit 1280b868e82bf173ea3e988be3092d160ee66082)
->> +Reviewed-on:
->> https://team-review.git.corp.google.com/c/golang/go-private/+/558776
->> +Reviewed-by
->> <https://team-review.git.corp.google.com/c/golang/go-private/+/558776+Reviewed-by>:
->> Dmitri Shuralyov <dmitshur@google.com>
->> +
->> +CVE: CVE-2019-16276
->> +
->> +Upstream-Status: Backport [
->> https://github.com/golang/go/commit/6e6f4aaf70c8b1cc81e65a26332aa9409de03ad8
->> ]
->> +
->> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> +---
->> + src/net/http/serve_test.go       |  4 ++++
->> + src/net/http/transport_test.go   | 27 +++++++++++++++++++++++++++
->> + src/net/textproto/reader.go      | 10 ++--------
->> + src/net/textproto/reader_test.go | 13 ++++++-------
->> + 4 files changed, 39 insertions(+), 15 deletions(-)
->> +
->> +diff --git a/src/net/http/serve_test.go b/src/net/http/serve_test.go
->> +index 6eb0088a96..89bfdfbb82 100644
->> +--- a/src/net/http/serve_test.go
->> ++++ b/src/net/http/serve_test.go
->> +@@ -4748,6 +4748,10 @@ func TestServerValidatesHeaders(t *testing.T) {
->> +               {"foo\xffbar: foo\r\n", 400},                         //
->> binary in header
->> +               {"foo\x00bar: foo\r\n", 400},                         //
->> binary in header
->> +               {"Foo: " + strings.Repeat("x", 1<<21) + "\r\n", 431}, //
->> header too large
->> ++              // Spaces between the header key and colon are not
->> allowed.
->> ++              // See RFC 7230, Section 3.2.4.
->> ++              {"Foo : bar\r\n", 400},
->> ++              {"Foo\t: bar\r\n", 400},
->> +
->> +               {"foo: foo foo\r\n", 200},    // LWS space is okay
->> +               {"foo: foo\tfoo\r\n", 200},   // LWS tab is okay
->> +diff --git a/src/net/http/transport_test.go
->> b/src/net/http/transport_test.go
->> +index 5c329543e2..5e5438a708 100644
->> +--- a/src/net/http/transport_test.go
->> ++++ b/src/net/http/transport_test.go
->> +@@ -5133,3 +5133,30 @@ func TestTransportIgnores408(t *testing.T) {
->> +       }
->> +       t.Fatalf("timeout after %v waiting for Transport connections to
->> die off", time.Since(t0))
->> + }
->> ++
->> ++func TestInvalidHeaderResponse(t *testing.T) {
->> ++      setParallel(t)
->> ++      defer afterTest(t)
->> ++      cst := newClientServerTest(t, h1Mode, HandlerFunc(func(w
->> ResponseWriter, r *Request) {
->> ++              conn, buf, _ := w.(Hijacker).Hijack()
->> ++              buf.Write([]byte("HTTP/1.1 200 OK\r\n" +
->> ++                      "Date: Wed, 30 Aug 2017 19:09:27 GMT\r\n" +
->> ++                      "Content-Type: text/html; charset=utf-8\r\n" +
->> ++                      "Content-Length: 0\r\n" +
->> ++                      "Foo : bar\r\n\r\n"))
->> ++              buf.Flush()
->> ++              conn.Close()
->> ++      }))
->> ++      defer cst.close()
->> ++      res, err := cst.c.Get(cst.ts.URL)
->> ++      if err != nil {
->> ++              t.Fatal(err)
->> ++      }
->> ++      defer res.Body.Close()
->> ++      if v := res.Header.Get("Foo"); v != "" {
->> ++              t.Errorf(`unexpected "Foo" header: %q`, v)
->> ++      }
->> ++      if v := res.Header.Get("Foo "); v != "bar" {
->> ++              t.Errorf(`bad "Foo " header value: %q, want %q`, v, "bar")
->> ++      }
->> ++}
->> +diff --git a/src/net/textproto/reader.go b/src/net/textproto/reader.go
->> +index 2c4f25d5ae..1a5e364cf7 100644
->> +--- a/src/net/textproto/reader.go
->> ++++ b/src/net/textproto/reader.go
->> +@@ -493,18 +493,12 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader,
->> error) {
->> +                       return m, err
->> +               }
->> +
->> +-              // Key ends at first colon; should not have trailing
->> spaces
->> +-              // but they appear in the wild, violating specs, so we
->> remove
->> +-              // them if present.
->> ++              // Key ends at first colon.
->> +               i := bytes.IndexByte(kv, ':')
->> +               if i < 0 {
->> +                       return m, ProtocolError("malformed MIME header
->> line: " + string(kv))
->> +               }
->> +-              endKey := i
->> +-              for endKey > 0 && kv[endKey-1] == ' ' {
->> +-                      endKey--
->> +-              }
->> +-              key := canonicalMIMEHeaderKey(kv[:endKey])
->> ++              key := canonicalMIMEHeaderKey(kv[:i])
->> +
->> +               // As per RFC 7230 field-name is a token, tokens consist
->> of one or more chars.
->> +               // We could return a ProtocolError here, but better to be
->> liberal in what we
->> +diff --git a/src/net/textproto/reader_test.go
->> b/src/net/textproto/reader_test.go
->> +index f85fbdc36d..b92fdcd3c7 100644
->> +--- a/src/net/textproto/reader_test.go
->> ++++ b/src/net/textproto/reader_test.go
->> +@@ -188,11 +188,10 @@ func TestLargeReadMIMEHeader(t *testing.T) {
->> +       }
->> + }
->> +
->> +-// Test that we read slightly-bogus MIME headers seen in the wild,
->> +-// with spaces before colons, and spaces in keys.
->> ++// TestReadMIMEHeaderNonCompliant checks that we don't normalize headers
->> ++// with spaces before colons, and accept spaces in keys.
->> + func TestReadMIMEHeaderNonCompliant(t *testing.T) {
->> +-      // Invalid HTTP response header as sent by an Axis security
->> +-      // camera: (this is handled by IE, Firefox, Chrome, curl, etc.)
->> ++      // These invalid headers will be rejected by net/http according
->> to RFC 7230.
->> +       r := reader("Foo: bar\r\n" +
->> +               "Content-Language: en\r\n" +
->> +               "SID : 0\r\n" +
->> +@@ -202,9 +201,9 @@ func TestReadMIMEHeaderNonCompliant(t *testing.T) {
->> +       want := MIMEHeader{
->> +               "Foo":              {"bar"},
->> +               "Content-Language": {"en"},
->> +-              "Sid":              {"0"},
->> +-              "Audio Mode":       {"None"},
->> +-              "Privilege":        {"127"},
->> ++              "SID ":             {"0"},
->> ++              "Audio Mode ":      {"None"},
->> ++              "Privilege ":       {"127"},
->> +       }
->> +       if !reflect.DeepEqual(m, want) || err != nil {
->> +               t.Fatalf("ReadMIMEHeader =\n%v, %v; want:\n%v", m, err,
->> want)
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
-
---000000000000620b990596338e22
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I&#39;m sorry I was looking at wrong build before.<div><br=
-></div><div>It doesn&#39;t happen in zeus and master. Only with warrior whe=
-re this was backported as well in:</div><div>&quot;[OE-core] [warrior 18/19=
-] go: fix CVE-2019-16276&quot;</div><div><br></div><div>Probably because wa=
-rrior is using older minor version of 1.12 go:</div><div>-GO_MINOR =3D &quo=
-t;.1&quot;<br>+GO_MINOR =3D &quot;.9&quot;<br></div><div><br></div></div><b=
-r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, =
-Oct 31, 2019 at 12:49 PM Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gm=
-ail.com">martin.jansa@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr">This seems to cause:<div>=
-<br></div><div>ERROR: go-native-1.12.1-r0 do_patch: Fuzz detected:<br><br>A=
-pplying patch 0001-release-branch.go1.12-security-net-textproto-don-t-n.pat=
-ch<br>patching file src/net/http/serve_test.go<br>patching file src/net/htt=
-p/transport_test.go<br>Hunk #1 succeeded at 5059 with fuzz 2 (offset -74 li=
-nes).<br>patching file src/net/textproto/reader.go<br>patching file src/net=
-/textproto/reader_test.go<br><br>The context lines in the patches can be up=
-dated with devtool:<br><br>=C2=A0 =C2=A0 devtool modify go-native<br>=C2=A0=
- =C2=A0 devtool finish --force-patch-refresh go-native &lt;layer_path&gt;<b=
-r><br>Don&#39;t forget to review changes done by devtool!<br><br>ERROR: go-=
-native-1.12.1-r0 do_patch: QA Issue: Patch log indicates that patches do no=
-t apply cleanly. [patch-fuzz]<br></div><div><br></div><div>and the same for=
- go-cross and go-runtime.</div><div><br></div><div>The version currently in=
- master is the same, so I guess both are showing this QA issue.</div><div><=
-br></div><div>Regards,</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Sat, Oct 26, 2019 at 8:54 AM Armin Kuster =
-&lt;<a href=3D"mailto:akuster808@gmail.com" target=3D"_blank">akuster808@gm=
-ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D=
-"_blank">Qi.Chen@windriver.com</a>&gt;<br>
-<br>
-Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
-=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
-r>
-(cherry picked from commit e31f87e289dfd3bbca961e927447a9c7ba816d3f)<br>
-Signed-off-by: Armin Kuster &lt;<a href=3D"mailto:akuster808@gmail.com" tar=
-get=3D"_blank">akuster808@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/go/go-1.12.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0...nch.go1.12-security-net-textproto-don-t-n.patch | 163 ++++++++++++=
-+++++++++<br>
-=C2=A02 files changed, 164 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/go/go-1.12/0001-release-bran=
-ch.go1.12-security-net-textproto-don-t-n.patch<br>
-<br>
-diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/g=
-o/go-1.12.inc<br>
-index 39157ff..ed14b17 100644<br>
---- a/meta/recipes-devtools/go/go-1.12.inc<br>
-+++ b/meta/recipes-devtools/go/go-1.12.inc<br>
-@@ -16,6 +16,7 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0file://0006-cmd-dist-separate-host-and-target-builds.pa=
-tch \<br>
-=C2=A0 =C2=A0 =C2=A0file://0007-cmd-go-make-GOROOT-precious-by-default.patc=
-h \<br>
-=C2=A0 =C2=A0 =C2=A0file://0008-use-GOBUILDMODE-to-set-buildmode.patch \<br=
->
-+=C2=A0 =C2=A0 file://0001-release-branch.go1.12-security-net-textproto-don=
--t-n.patch \<br>
-=C2=A0&quot;<br>
-=C2=A0SRC_URI_append_libc-musl =3D &quot; file://0009-ld-replace-glibc-dyna=
-mic-linker-with-musl.patch&quot;<br>
-<br>
-diff --git a/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-se=
-curity-net-textproto-don-t-n.patch b/meta/recipes-devtools/go/go-1.12/0001-=
-release-branch.go1.12-security-net-textproto-don-t-n.patch<br>
-new file mode 100644<br>
-index 0000000..7b39dbd<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-=
-net-textproto-don-t-n.patch<br>
-@@ -0,0 +1,163 @@<br>
-+From 265b691ac440bfb711d8de323346f7d72e620efe Mon Sep 17 00:00:00 2001<br>
-+From: Filippo Valsorda &lt;<a href=3D"mailto:filippo@golang.org" target=3D=
-"_blank">filippo@golang.org</a>&gt;<br>
-+Date: Thu, 12 Sep 2019 12:37:36 -0400<br>
-+Subject: [PATCH] [release-branch.go1.12-security] net/textproto: don&#39;t=
-<br>
-+ normalize headers with spaces before the colon<br>
-+<br>
-+RFC 7230 is clear about headers with a space before the colon, like<br>
-+<br>
-+X-Answer : 42<br>
-+<br>
-+being invalid, but we&#39;ve been accepting and normalizing them for compa=
-tibility<br>
-+purposes since CL 5690059 in 2012.<br>
-+<br>
-+On the client side, this is harmless and indeed most browsers behave the s=
-ame<br>
-+to this day. On the server side, this becomes a security issue when the<br=
->
-+behavior doesn&#39;t match that of a reverse proxy sitting in front of the=
- server.<br>
-+<br>
-+For example, if a WAF accepts them without normalizing them, it might be<b=
-r>
-+possible to bypass its filters, because the Go server would interpret the<=
-br>
-+header differently. Worse, if the reverse proxy coalesces requests onto a<=
-br>
-+single HTTP/1.1 connection to a Go server, the understanding of the reques=
-t<br>
-+boundaries can get out of sync between them, allowing an attacker to tack =
-an<br>
-+arbitrary method and path onto a request by other clients, including<br>
-+authentication headers unknown to the attacker.<br>
-+<br>
-+This was recently presented at multiple security conferences:<br>
-+<a href=3D"https://portswigger.net/blog/http-desync-attacks-request-smuggl=
-ing-reborn" rel=3D"noreferrer" target=3D"_blank">https://portswigger.net/bl=
-og/http-desync-attacks-request-smuggling-reborn</a><br>
-+<br>
-+net/http servers already reject header keys with invalid characters.<br>
-+Simply stop normalizing extra spaces in net/textproto, let it return them<=
-br>
-+unchanged like it does for other invalid headers, and let net/http enforce=
-<br>
-+RFC 7230, which is HTTP specific. This loses us normalization on the clien=
-t<br>
-+side, but there&#39;s no right answer on the client side anyway, and hidin=
-g the<br>
-+issue sounds worse than letting the application decide.<br>
-+<br>
-+Fixes CVE-2019-16276<br>
-+<br>
-+Change-Id: I6d272de827e0870da85d93df770d6a0e161bbcf1<br>
-+Reviewed-on: <a href=3D"https://team-review.git.corp.google.com/c/golang/g=
-o-private/+/549719+Reviewed-by" rel=3D"noreferrer" target=3D"_blank">https:=
-//team-review.git.corp.google.com/c/golang/go-private/+/549719<br>
-+Reviewed-by</a>: Brad Fitzpatrick &lt;<a href=3D"mailto:bradfitz@google.co=
-m" target=3D"_blank">bradfitz@google.com</a>&gt;<br>
-+(cherry picked from commit 1280b868e82bf173ea3e988be3092d160ee66082)<br>
-+Reviewed-on: <a href=3D"https://team-review.git.corp.google.com/c/golang/g=
-o-private/+/558776+Reviewed-by" rel=3D"noreferrer" target=3D"_blank">https:=
-//team-review.git.corp.google.com/c/golang/go-private/+/558776<br>
-+Reviewed-by</a>: Dmitri Shuralyov &lt;<a href=3D"mailto:dmitshur@google.co=
-m" target=3D"_blank">dmitshur@google.com</a>&gt;<br>
-+<br>
-+CVE: CVE-2019-16276<br>
-+<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/golang/go/commit/=
-6e6f4aaf70c8b1cc81e65a26332aa9409de03ad8" rel=3D"noreferrer" target=3D"_bla=
-nk">https://github.com/golang/go/commit/6e6f4aaf70c8b1cc81e65a26332aa9409de=
-03ad8</a>]<br>
-+<br>
-+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
-=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
-+---<br>
-+ src/net/http/serve_test.go=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 ++++<br>
-+ src/net/http/transport_test.go=C2=A0 =C2=A0| 27 +++++++++++++++++++++++++=
-++<br>
-+ src/net/textproto/reader.go=C2=A0 =C2=A0 =C2=A0 | 10 ++--------<br>
-+ src/net/textproto/reader_test.go | 13 ++++++-------<br>
-+ 4 files changed, 39 insertions(+), 15 deletions(-)<br>
-+<br>
-+diff --git a/src/net/http/serve_test.go b/src/net/http/serve_test.go<br>
-+index 6eb0088a96..89bfdfbb82 100644<br>
-+--- a/src/net/http/serve_test.go<br>
-++++ b/src/net/http/serve_test.go<br>
-+@@ -4748,6 +4748,10 @@ func TestServerValidatesHeaders(t *testing.T) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{&quot;foo\xffbar: =
-foo\r\n&quot;, 400},=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// binary in header<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{&quot;foo\x00bar: =
-foo\r\n&quot;, 400},=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// binary in header<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{&quot;Foo: &quot; =
-+ strings.Repeat(&quot;x&quot;, 1&lt;&lt;21) + &quot;\r\n&quot;, 431}, // h=
-eader too large<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Spaces between the he=
-ader key and colon are not allowed.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // See RFC 7230, Section=
- 3.2.4.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;Foo : bar\r\n&quo=
-t;, 400},<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;Foo\t: bar\r\n&qu=
-ot;, 400},<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{&quot;foo: foo foo=
-\r\n&quot;, 200},=C2=A0 =C2=A0 // LWS space is okay<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{&quot;foo: foo\tfo=
-o\r\n&quot;, 200},=C2=A0 =C2=A0// LWS tab is okay<br>
-+diff --git a/src/net/http/transport_test.go b/src/net/http/transport_test.=
-go<br>
-+index 5c329543e2..5e5438a708 100644<br>
-+--- a/src/net/http/transport_test.go<br>
-++++ b/src/net/http/transport_test.go<br>
-+@@ -5133,3 +5133,30 @@ func TestTransportIgnores408(t *testing.T) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0t.Fatalf(&quot;timeout after %v waiting for Tra=
-nsport connections to die off&quot;, time.Since(t0))<br>
-+ }<br>
-++<br>
-++func TestInvalidHeaderResponse(t *testing.T) {<br>
-++=C2=A0 =C2=A0 =C2=A0 setParallel(t)<br>
-++=C2=A0 =C2=A0 =C2=A0 defer afterTest(t)<br>
-++=C2=A0 =C2=A0 =C2=A0 cst :=3D newClientServerTest(t, h1Mode, HandlerFunc(=
-func(w ResponseWriter, r *Request) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 conn, buf, _ :=3D w.(Hij=
-acker).Hijack()<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf.Write([]byte(&quot;H=
-TTP/1.1 200 OK\r\n&quot; +<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;Date: Wed, 30 Aug 2017 19:09:27 GMT\r\n&quot; +<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;Content-Type: text/html; charset=3Dutf-8\r\n&quot; +<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;Content-Length: 0\r\n&quot; +<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;Foo : bar\r\n\r\n&quot;))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf.Flush()<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 conn.Close()<br>
-++=C2=A0 =C2=A0 =C2=A0 }))<br>
-++=C2=A0 =C2=A0 =C2=A0 defer cst.close()<br>
-++=C2=A0 =C2=A0 =C2=A0 res, err :=3D cst.c.Get(cst.ts.URL)<br>
-++=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Fatal(err)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 defer res.Body.Close()<br>
-++=C2=A0 =C2=A0 =C2=A0 if v :=3D res.Header.Get(&quot;Foo&quot;); v !=3D &q=
-uot;&quot; {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf(`unexpected &qu=
-ot;Foo&quot; header: %q`, v)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 if v :=3D res.Header.Get(&quot;Foo &quot;); v !=3D &=
-quot;bar&quot; {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf(`bad &quot;Foo =
-&quot; header value: %q, want %q`, v, &quot;bar&quot;)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++}<br>
-+diff --git a/src/net/textproto/reader.go b/src/net/textproto/reader.go<br>
-+index 2c4f25d5ae..1a5e364cf7 100644<br>
-+--- a/src/net/textproto/reader.go<br>
-++++ b/src/net/textproto/reader.go<br>
-+@@ -493,18 +493,12 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader, error=
-) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return m, err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+ <br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Key ends at first col=
-on; should not have trailing spaces<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // but they appear in th=
-e wild, violating specs, so we remove<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // them if present.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Key ends at first col=
-on.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i :=3D bytes.IndexB=
-yte(kv, &#39;:&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if i &lt; 0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return m, ProtocolError(&quot;malformed MIME header line: &quot; =
-+ string(kv))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 endKey :=3D i<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for endKey &gt; 0 &amp;&=
-amp; kv[endKey-1] =3D=3D &#39; &#39; {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 endKey--<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 key :=3D canonicalMIMEHe=
-aderKey(kv[:endKey])<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 key :=3D canonicalMIMEHe=
-aderKey(kv[:i])<br>
-+ <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// As per RFC 7230 =
-field-name is a token, tokens consist of one or more chars.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// We could return =
-a ProtocolError here, but better to be liberal in what we<br>
-+diff --git a/src/net/textproto/reader_test.go b/src/net/textproto/reader_t=
-est.go<br>
-+index f85fbdc36d..b92fdcd3c7 100644<br>
-+--- a/src/net/textproto/reader_test.go<br>
-++++ b/src/net/textproto/reader_test.go<br>
-+@@ -188,11 +188,10 @@ func TestLargeReadMIMEHeader(t *testing.T) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+ }<br>
-+ <br>
-+-// Test that we read slightly-bogus MIME headers seen in the wild,<br>
-+-// with spaces before colons, and spaces in keys.<br>
-++// TestReadMIMEHeaderNonCompliant checks that we don&#39;t normalize head=
-ers<br>
-++// with spaces before colons, and accept spaces in keys.<br>
-+ func TestReadMIMEHeaderNonCompliant(t *testing.T) {<br>
-+-=C2=A0 =C2=A0 =C2=A0 // Invalid HTTP response header as sent by an Axis s=
-ecurity<br>
-+-=C2=A0 =C2=A0 =C2=A0 // camera: (this is handled by IE, Firefox, Chrome, =
-curl, etc.)<br>
-++=C2=A0 =C2=A0 =C2=A0 // These invalid headers will be rejected by net/htt=
-p according to RFC 7230.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0r :=3D reader(&quot;Foo: bar\r\n&quot; +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Content-Langu=
-age: en\r\n&quot; +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;SID : 0\r\n&q=
-uot; +<br>
-+@@ -202,9 +201,9 @@ func TestReadMIMEHeaderNonCompliant(t *testing.T) {<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0want :=3D MIMEHeader{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Foo&quot;:=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;bar&quot;},<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Content-Langu=
-age&quot;: {&quot;en&quot;},<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Sid&quot;:=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;0&quot;},<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Audio Mode&quot;:=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0{&quot;None&quot;},<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Privilege&quot;:=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 {&quot;127&quot;},<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;SID &quot;:=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{&quot;0&quot;},<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Audio Mode &quot;:=
-=C2=A0 =C2=A0 =C2=A0 {&quot;None&quot;},<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Privilege &quot;:=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0{&quot;127&quot;},<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if !reflect.DeepEqual(m, want) || err !=3D nil =
-{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0t.Fatalf(&quot;Read=
-MIMEHeader =3D\n%v, %v; want:\n%v&quot;, m, err, want)<br>
--- <br>
-2.7.4<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-</blockquote></div>
-
---000000000000620b990596338e22--
