@@ -1,48 +1,18 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F6177F834
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 08:28:10 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id d19so1582664uaq.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 01:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rscxhXT9uh0o8WtltgwHS3D7J/XBDYDJMyOUHkGf+k8=;
-	b=QSHIzHM5tTQkuibptDTDpGgUJ/GZMXDyN5exjZkKdhUr86zOKmk8ftJzJ9rOpqdGc0
-	ww2NrSINpnuYTsYeacjuACMbp/5eZ20TpimRHCReJC5nc1a5OqnamkY3gmSzh2ljXO0z
-	kHU4gqrftNAGhANiqnhdvZAdGjvvs0N3yuop7VaFnPkIE6K91uSzIUQ13Ssd4wFwRt/q
-	vFkMZGA7IVDE7cdy3BNOL5vM7K062IttFhZDz6799eKtArTLaDGlrjqETuKtH52jqoyE
-	oU2LczQTgZHWqi6p/BOXLJIXD40k4E9dMEBv/8VoEI8Euq2cGLBu6VhO/SkFkS0GT0xj
-	9LWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rscxhXT9uh0o8WtltgwHS3D7J/XBDYDJMyOUHkGf+k8=;
-	b=n5gxUX4p+p+/pTlKbNyXwBZI2HDODlzit9b29N0ZkuvOSaejuedKng5iBQOdTYv3gH
-	+QKLdQilcDdwQVksxHFzW89YwP4TOwDbNxXhnSllARc+EjPlgNX68CCc/mebfnsgt/oc
-	PM5gONMwmWiQzpuFQdDcb8H4dnHK2iPRVwXRSgSOBEcOGUlM1w9rztoUcFOtHFwhGFvt
-	O1hKl8hP0qT76PDDT3I/+ok5Y0hTz9jxJf5Y+iYJfsS8l99RnD9tFg2yc1LH9aW2npOQ
-	6uqv9EE8o8Egg85aCKToGbnSG0QBdL9AZ8xpuYcVJwyNZKA1+FZarVV1jrmag97yzc+h
-	aOlw==
-X-Gm-Message-State: APjAAAXJve8FGAIbAou32uTXhQlOyjxCMntZ/Uxy9GIPQv1StNvVKlcI
-	5iaI/U+B7VQ9sk0Azy/GCmMgAk0uhnEvdTirStw=
-X-Google-Smtp-Source: APXvYqyk7DWRPNoWDpmVBljCNFSveYJj9ze7aiT3Dw+KoUqv4mxl5ILHuHzU3+dRQ0Z95i77w8E07YLH9zwyxh/w3wE=
-X-Received: by 2002:ab0:2907:: with SMTP id v7mr2145983uap.89.1572510491141;
-	Thu, 31 Oct 2019 01:28:11 -0700 (PDT)
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A4DEA7C446;
+	Thu, 31 Oct 2019 08:32:27 +0000 (UTC)
 MIME-Version: 1.0
-References: <20191024111126.41198-1-alex.kanavin@gmail.com>
-	<20191024111126.41198-2-alex.kanavin@gmail.com>
-	<cd1794cf-f129-cd0f-f2e1-21d070e41b2f@intel.com>
-In-Reply-To: <cd1794cf-f129-cd0f-f2e1-21d070e41b2f@intel.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 31 Oct 2019 09:28:00 +0100
-Message-ID: <CANNYZj-Hz2_QHS+uMSNv_GVMP27ujUBm7QxeOEGEKrf+Wwv=Yw@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] oe-selftest: extend virgl gtk test to also check the SDL option
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Vinay Kumar <vinay.m.engg@gmail.com>
+Date: Thu, 31 Oct 2019 08:32:29 -0000
+Message-ID: <20191031083229.2331.17275@do>
+References: <1572509452-17499-1-git-send-email-vinay.m.engg@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1572509452-17499-1-git-send-email-vinay.m.engg@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQmFja3BvcnQgdGhlIHVwc3RyZWFtIGZpeC4gdGhhdCB3YXMgbm90IHByZXNlbnQgaW4gbWFzdGVyLg==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,47 +25,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 08:28:10 -0000
-Content-Type: multipart/alternative; boundary="0000000000003aea75059630a1a8"
+X-List-Received-Date: Thu, 31 Oct 2019 08:32:27 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---0000000000003aea75059630a1a8
-Content-Type: text/plain; charset="UTF-8"
+== Series Details ==
 
-On Thu, 31 Oct 2019 at 00:14, Ross Burton <ross.burton@intel.com> wrote:
+Series: Backport the upstream fix. that was not present in master.
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20815/
+State : failure
 
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/771/steps/8/logs/step2d
->
-> Centos 7 worker, if that matters.
->
+== Summary ==
 
-Thanks, I think it does matter. Virgl tests are already partly disabled for
-centos 7 (they are not running kmscube with the gtk frontend), and it seems
-that with the sdl frontend it fails even before kmscube is executed. I
-guess I should disable them altogether on that (ancient) distro.
 
-Alex
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
---0000000000003aea75059630a1a8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 31 Oct 2019 at 00:14, Ross Burton=
- &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt;=
- wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/56/build=
-s/771/steps/8/logs/step2d" rel=3D"noreferrer" target=3D"_blank">https://aut=
-obuilder.yoctoproject.org/typhoon/#/builders/56/builds/771/steps/8/logs/ste=
-p2d</a><br>
-<br>
-Centos 7 worker, if that matters.<br></blockquote><div><br></div><div>Thank=
-s, I think it does matter. Virgl tests are already partly disabled for cent=
-os 7 (they are not running kmscube with the gtk frontend), and it seems tha=
-t with the sdl frontend it fails even before kmscube is executed. I guess I=
- should disable them altogether on that (ancient) distro.</div><div><br></d=
-iv><div>Alex<br></div></div></div>
 
---0000000000003aea75059630a1a8--
+* Patch            Backport the upstream fix. that was not present in master.
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
+
