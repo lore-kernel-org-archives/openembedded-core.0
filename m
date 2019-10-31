@@ -1,50 +1,24 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2362F7F8BD
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B9C37F8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 10:02:13 +0000 (UTC)
-Received: by mail-il1-f196.google.com with SMTP id y5so4839673ilb.5
+	Thu, 31 Oct 2019 10:20:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9VAKLjB025674
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 03:02:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8PqAO6lHAi00CRy2BpMj5adVZeHaWIxszDsvrWJseOA=;
-	b=EMPTBqnS0XErx8BeH8dEHJBBuezXLXfzC/Eejxc0n2SchHMDmQUZIo9tIQ4440Nqeb
-	Fza3kx7VZ8x5EQDLZrWXP83DEQqj5vF3/hM+YnyqMhB81b8eAFSWvU7wycB+72XUQuOg
-	N8ztsIwGSNejPqgQ0xRgLzBq4nippHcjMlW7FmAhZYEtFCp6smmrSEi98hRiu77uEmLm
-	tVcszZenzHsTlt3jAd6VuXNAVK+FtC2wiylp2Lk6OToTpwa7dU4fqxltJErwt6sFXiMb
-	rjVJoWmCF574S/DH1ZqpG00oISJ+UZ672cAunhpg3ifkeHes6YCjqI3Ovm/eguEj2lzG
-	/AlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8PqAO6lHAi00CRy2BpMj5adVZeHaWIxszDsvrWJseOA=;
-	b=hw8um9AE5FAuLRY15OUNhjvNPUznNt9XnriWAuh7VgStAyawLVtzuc4poecKq+rb4Q
-	gmsY5Jq/nShyfXoCvuNqQlxQrv/xsk8S5Nt3sUcR4znSlEZKGRf42zyifwHCpGxdGra7
-	N6FDo2cESkVTAK018NzZW0fgylHU9Y9cLy2Sii8lug31wONjHjRO4Q55eKxycw7AKH8T
-	J9uCrNdqvliNFkhLdhQO2QdiSn40lsvQlcW+3+0+d7rAgfAmvynqz4F7QQsXESJYafPc
-	AZfgdmzISZNm0TMathIMhw38A1n1ho47npcUYbHCARk5cKbd3b0rUf3g+jnswckHulI9
-	tIZg==
-X-Gm-Message-State: APjAAAVxk0Hi8HA48OpECTXYoKhiKJFXjl9k8vwmeXzvu3ndOnTtY1jz
-	d3iLGDhDWgcEWDHCP7myvYLwbz2cgWMt4p9l/zA=
-X-Google-Smtp-Source: APXvYqwvKkhMQ0mdaXeDI+S7rORSeotyX8IZGiLap8MzaCvj+sOWqekumVYrz5OqDkDCSWbwNMeyh+e29Ql6sNV+yAQ=
-X-Received: by 2002:a92:1305:: with SMTP id 5mr5259026ilt.299.1572516134192;
-	Thu, 31 Oct 2019 03:02:14 -0700 (PDT)
+	Thu, 31 Oct 2019 03:20:21 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 31 Oct 2019 03:20:20 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 31 Oct 2019 18:20:19 +0800
+Message-ID: <1572517219-382824-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20191031093655.14852-1-alex.kanavin@gmail.com>
-	<20191031093655.14852-4-alex.kanavin@gmail.com>
-	<CALbNGRTuGXc+fsXezqxBttBcz1LomdLyuNMotzJGFMgO6gBgaA@mail.gmail.com>
-	<CANNYZj9KWK7bahZU4OLfOpLXpeBcwXuF0oERwAfka6H3WHr-+Q@mail.gmail.com>
-In-Reply-To: <CANNYZj9KWK7bahZU4OLfOpLXpeBcwXuF0oERwAfka6H3WHr-+Q@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 31 Oct 2019 11:02:02 +0100
-Message-ID: <CALbNGRSXY9R2hO_DUjQrEBHkaBj9iWMD3dqugvrnDF44jgnqqA@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] gcr: update to 3.34.0
+Subject: [PATCH] linux-dummy: Add package kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,16 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 10:02:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 31 Oct 2019 10:20:20 -0000
+Content-Type: text/plain
 
-On Thu, Oct 31, 2019 at 10:58 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> I think Ross has a separate patch queued to address that.
->
-> Alex
-Yes - just thought is is a complete V2 -> everything fine :)
+From: He Zhe <zhe.he@windriver.com>
 
-Andreas
+Some package like packagegroup-core-boot may ask for package kernel. Let
+linux-dummy rprovide package kernel to fix the following build failure.
+
+ERROR: Nothing RPROVIDES 'kernel' (but
+.../meta/recipes-core/packagegroups/packagegroup-core-boot.bb RDEPENDS on or
+otherwise requires it)
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-dummy.bb | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
+index 62cf6f5ea6..20d7ed815d 100644
+--- a/meta/recipes-kernel/linux/linux-dummy.bb
++++ b/meta/recipes-kernel/linux/linux-dummy.bb
+@@ -8,19 +8,22 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+ 
+ PROVIDES += "virtual/kernel"
++RPROVIDES_${PN} += "kernel lib32-kernel"
+ 
+ PACKAGES_DYNAMIC += "^kernel-module-.*"
+ PACKAGES_DYNAMIC += "^kernel-image-.*"
+ PACKAGES_DYNAMIC += "^kernel-firmware-.*"
+ 
+-PACKAGES += "kernel-modules kernel-vmlinux"
++PACKAGES += "kernel-modules kernel-vmlinux kernel"
+ FILES_kernel-modules = ""
+ ALLOW_EMPTY_kernel-modules = "1"
+ DESCRIPTION_kernel-modules = "Kernel modules meta package"
+ FILES_kernel-vmlinux = ""
+ ALLOW_EMPTY_kernel-vmlinux = "1"
+ DESCRIPTION_kernel-vmlinux = "Kernel vmlinux meta package"
+-
++FILES_kernel = ""
++ALLOW_EMPTY_kernel = "1"
++DESCRIPTION_kernel = "Kernel meta package"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-- 
+2.17.1
+
 
