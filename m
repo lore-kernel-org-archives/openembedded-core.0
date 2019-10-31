@@ -1,49 +1,52 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6968A7F8C2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 297027F9B9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 15:06:08 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id y23so6616502ljc.5
+	Thu, 31 Oct 2019 16:22:04 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id o28so6910588wro.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 08:06:09 -0700 (PDT)
+	Thu, 31 Oct 2019 09:22:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=3BtezKuENUE49/alfSRjMvl9LevRAHqKBBv2iYKK9/Q=;
-	b=Z5PWoKrU9hg4DG5lBww23XH/KrdirjkNOyJKFgAIsyxaybXAVd9QMdKGvgsYgEHYsu
-	CYiGacBEhMqb+iOnz3nSD6eNOIhSS//6cj4/Yb5zYB7NStE+sqRK/9WiQMknlNduOnNb
-	0rnI4WeHnXGnQMKQbP2GPJKy7h8xXSjhZB6K+hqjbFBS6XaBBzWjkqjkeS9NSkPgDY08
-	twY7WdsnRMQVkySY6RL2VuKCKdzpoTRcTa1c5+rZpJJBdpLGtcPtwKWjZqUgfR+V2ZNW
-	Ol6Y4Nw+kbbtEPzFlM8v4S+NEPJBVU3Ka9gtHFbXs7TCcGj+LaOp53qDSzHbx6C6oBBP
-	wBAA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Fx7w+JLngzezr3lUzSINSxZHgwnWFW9YO0z6hmV4f8M=;
+	b=swIiSSc59ZsQ3A3w/yOrzwOZMAJlDOCcehkh/MXbqfG6CfXtmB6T+BI5r1hjTHLvEl
+	7lnyIbbhcjKtgRwd6ju/COABaCF7y3Td2PCeVutsSVJBYwN2YF5n7gYqpP1rxuWA1FcL
+	P5616EZ0UhEw4sZs6PCazjozq+dqZqXCCrRs6S1Yiy8EkHvqj+PA4N0GbpBtmTBq3tad
+	wRkd3QJcuo7SnAPkgMasNLmDOnmargCHdcGzS0wMAdrzW2vP42VyBe1lcleh3oUm3ikX
+	XXz6YVcpfDLxsEAeUk4yvHLUP0VhjcvmQmkovvSrsN/pWaTHKTxE67n5f6o+Vqb9nN6R
+	3xcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=3BtezKuENUE49/alfSRjMvl9LevRAHqKBBv2iYKK9/Q=;
-	b=M3GUK3y+wfbH/maG1C/3GIZjoAEmFTnd9klgtcEWzWITU9X/lz2qHqCKv8qvVaO9pu
-	P7lsdmABsQrCtRCE2pcpml0MgBurXoUdYuD7Lmj1TQd4/O4YAYw8liHhSHztBr45jJvh
-	pxTn4h/CJNZ8iboLfJ5sIjWVkIyA8DdMvXdA4GQlPsv0BQM0Rd1o5WwHQi2BwtPwoSoD
-	KmZKZJpagYtAiKrUUtMhB2Ug1xfqjNEL5dIXQsW+HufWw1hBcd08iJ7+OU1vagr2KAY4
-	u1FvC6dT4yUdbfSSeml92++FKn/Cpe6hp6qWoqGrCEve7IsDJLuc1ztpxKMcf49qE+gw
-	syxw==
-X-Gm-Message-State: APjAAAX24wtwT/Ir4I0bNW/MNqs32S2HY/KRY1wlUz3J8Rp6+Iv6xlly
-	6SnCUm9eoZFoOcB5xzhtQYKZLvOmecg=
-X-Google-Smtp-Source: APXvYqw7ZeEj77kF+oOVW/bVrlVOkeA01YXekc04GGNsHvWDNmhZXlvr98G/qrU0Ch80X1qGFZJLdg==
-X-Received: by 2002:a2e:8852:: with SMTP id z18mr4615492ljj.230.1572534368529; 
-	Thu, 31 Oct 2019 08:06:08 -0700 (PDT)
-Received: from lund.luxoft.com (c213-89-0-115.bredband.comhem.se.
-	[213.89.0.115])
-	by smtp.gmail.com with ESMTPSA id u12sm2122916lje.1.2019.10.31.08.06.07
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Fx7w+JLngzezr3lUzSINSxZHgwnWFW9YO0z6hmV4f8M=;
+	b=ep99ejCcymCtNL+8beDBvpmk2bdVO1hrJE25385OfaL8d6jjNpt6B43lOVIr+elFCw
+	jf7lYEGwOi33MewPYAMmbz//WU9HKqZhWuiwPbfBM0AoBOOY3yx1QY6RQzCfRWNKMJnk
+	enq+EtMztRRXFrloYIg92HLnY7oo/hOWxhc6/dqYErlGdB2+R+iyjOoDqYAjOgFhnDr9
+	ttOD7gBCIi/pR87fBaXwssAqHsznMiCxCCPy7J5D++VkYzNOUyy7DEZg9/KXM8yktu+e
+	tGRTo1wXxEZ4MqLVmqN7IqI7f4O19hRSLgsAVrGRMXarAyWE/ge3gGAVDvtqhUgOOXum
+	gpgQ==
+X-Gm-Message-State: APjAAAVkmDmLn5op2DhHYGTHotBkuyr2sH0sKeCTnguK4p4X9J3JsCml
+	gyUOQ0tkE4FADusGDHaNXaWPAdD0tpo=
+X-Google-Smtp-Source: APXvYqy+qQhGiYM3mEoWb81ynn7qVBP5UL5q7S0RabrY23Gs4BKKCkPgVR0ULeEDa2c5pmuvmhRzmA==
+X-Received: by 2002:a5d:6203:: with SMTP id y3mr6544375wru.142.1572538925316; 
+	Thu, 31 Oct 2019 09:22:05 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id a8sm3077903wme.11.2019.10.31.09.22.03
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 31 Oct 2019 08:06:07 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	Thu, 31 Oct 2019 09:22:03 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2019 16:06:05 +0100
-Message-Id: <20191031150605.14643-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] ofono: update to 1.31
+Date: Thu, 31 Oct 2019 16:22:00 +0000
+Message-Id: <20191031162200.2443-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] recipeutils-test: use a small dependency in the dummy recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 15:06:08 -0000
+X-List-Received-Date: Thu, 31 Oct 2019 16:22:05 -0000
+Content-Transfer-Encoding: 8bit
 
-Changelog:
-- Fix issue with handling CID 0 context identifier
-- Fix issue with handling detach state and running LTE
-- Fix issue with handling SIM states and Quectel modems
+recipeutils-test has virtual/libx11 as a DEPENDS, but this will cause errors if
+the recipe is built in an environment without x11 in DISTRO_FEATURES.
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+This dependency isn't actually used for anything so we could remove it, but to
+save updating the test cases too just swap virtual/libx11 for zlib.
+
+[ YOCTO #13611 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../ofono/{ofono_1.30.bb => ofono_1.31.bb}                    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/ofono/{ofono_1.30.bb => ofono_1.31.bb} (56%)
+ meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.30.bb b/meta/recipes-connectivity/ofono/ofono_1.31.bb
-similarity index 56%
-rename from meta/recipes-connectivity/ofono/ofono_1.30.bb
-rename to meta/recipes-connectivity/ofono/ofono_1.31.bb
-index c916cb1b22..7869ac0cf7 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.30.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.31.bb
-@@ -5,5 +5,5 @@ SRC_URI  = "\
-   file://ofono \
-   file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch \
- "
--SRC_URI[md5sum] = "2b1ce11a4db1f4b5c8cd96eb7e96ba0c"
--SRC_URI[sha256sum] = "8079735efc5d7f33be9e792e791f2f7ff75c31ce67d477b994673e32319eec5c"
-+SRC_URI[md5sum] = "1c26340e3c6ed132cc812595081bb3dc"
-+SRC_URI[sha256sum] = "a15c5d28096c10eb30e47a68b6dc2e7c4a5a99d7f4cfedf0b69624f33d859e9b"
+diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+index 7c20d9a683e..0cd0494da8f 100644
+--- a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
++++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+@@ -4,7 +4,7 @@ require recipeutils-test.inc
+ 
+ LICENSE = "Proprietary"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
+-DEPENDS += "virtual/libx11"
++DEPENDS += "zlib"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
-2.17.1
+2.20.1
 
 
