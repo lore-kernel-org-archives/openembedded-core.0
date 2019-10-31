@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id EBF6A7FA30;
-	Thu, 31 Oct 2019 18:32:50 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 309D17FA4C;
+	Thu, 31 Oct 2019 18:32:52 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: shuagr97@gmail.com
-Date: Thu, 31 Oct 2019 18:32:52 -0000
-Message-ID: <20191031183252.2330.14884@do>
-References: <1572545464-64329-1-git-send-email-shuagr@microsoft.com>
+Date: Thu, 31 Oct 2019 18:32:53 -0000
+Message-ID: <20191031183253.2332.18474@do>
+References: <1572545645-64707-1-git-send-email-shuagr@microsoft.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1572545464-64329-1-git-send-email-shuagr@microsoft.com>
+In-Reply-To: <1572545645-64707-1-git-send-email-shuagr@microsoft.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQ29ycmVjdGVkIHBhdGNoIGZpbGUgc3RydWN0dXJlIGFzIHBlciB1cHN0cmVhbQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGliZ2NyeXB0OiBDVkUtMjAxOS0xMjkwNCBmaXggVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBTaWduZWQtb2ZmLWJ5OiBTaHViaGFtIEFncmF3YWw8c2h1YWdyQG1pY3Jvc29mdC5jb20+?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 18:32:51 -0000
+X-List-Received-Date: Thu, 31 Oct 2019 18:32:52 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Corrected patch file structure as per upstream
+Series: libgcrypt: CVE-2019-12904 fix Upstream-Status: Backport Signed-off-by: Shubham Agrawal<shuagr@microsoft.com>
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/20841/
+URL   : https://patchwork.openembedded.org/series/20842/
 State : failure
 
 == Summary ==
@@ -45,13 +45,19 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  thud (currently at cd7cf933b3)
+* Patch            [thud] libgcrypt: CVE-2019-12904 fix Upstream-Status: Backport Signed-off-by: Shubham Agrawal<shuagr@microsoft.com>
+ Issue             Commit shortlog is too long [test_shortlog_length] 
+  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 108 characters)
 
-* Patch            [thud] Corrected patch file structure as per upstream
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+* Patch            [thud] libgcrypt: CVE-2019-12904 fix Upstream-Status: Backport Signed-off-by: Shubham Agrawal<shuagr@microsoft.com>
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in CVE-2019-12904_p2.patch
+  Current          Upstream-status: Backport 
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
 
 
