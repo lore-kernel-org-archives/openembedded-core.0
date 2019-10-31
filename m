@@ -1,45 +1,46 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id ED0837F940
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7272E7F92A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 09:56:48 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id p8so4838836ilp.2
+	Thu, 31 Oct 2019 09:58:48 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id a143so3665815vsd.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 02:56:50 -0700 (PDT)
+	Thu, 31 Oct 2019 02:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Xf2q1zXwEEz9y3s4aH4zjm+f0buXcjKuO3gM4q8cAJM=;
-	b=koDqI3M3b5++NhF0thPs8GhthFqkYPJC4YdlxMAoCnq9cVyyPjmpSGujFev5kOeBAz
-	OqnLMNoO9+hMOPl2CVGL5Vlu2hQoBHYIz9ZnQ1oGMKbkU43qTxkLnRjIi6MrDqbKshNR
-	Urcv5Hmb96ylzFjMPGXKNUCLtL3NLRz35GnHALgY4RiIt489ZlmRmkDg2EwhEO+5oPGK
-	94FyIoyXsMPg/HLAUiOUeZs2vI6QXPlzeZc0fnevpzbyyq1L5HnA1oAoXALLo8bQRS+H
-	d4V55+Z6xfrVlXRhmDXfu9+FOsJ2Xa07VF8LUBGRUjsvzIy2gslsYNe4ov9OlqWXD58f
-	sGhw==
+	:cc; bh=fpdJlQcF611HNLdXqQ0Mgtp6pf/uWz3VfOe0Hje4AZw=;
+	b=PL+LFvNYmwfvdN+8EP9CJjwRkryM+gaNqnIWL7RdHcTxnpKkTKLzcRPIYESsIP54lP
+	qzoHfLdZHTDmUL8cBzuaoyj4B5kIQz+ez+B09DBcagHe7+rIs00BYeUI2cDHl4xrvTDF
+	k8g2/zoPtLQIp5gNRfzWlv5DeXNtlCDBoi01eFmMDB6Oxj6NCw9cU/VZMFU8Ru0LB5U2
+	CngSN+KZayBc1DfHoXsiAD53jXR1ao/Be40v5jsUDJoCVNTJB26oARyd39p8IsWNcHgD
+	OzVkvzYoSlC7B/JkX71XXlQSX9DkKc5LF/9GErYCkvv6IHFHnZmnXv09y6x8NszYnHWN
+	Ia9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Xf2q1zXwEEz9y3s4aH4zjm+f0buXcjKuO3gM4q8cAJM=;
-	b=r2qFW2L3Rxig3kY0mFrTByoWxw+rIROZpgOTDpF7NwWiHh34RwqoVuiAcUzT25DmjS
-	xxLYsOzQs6wPk3ICRBtkkhi+dO5k5rv3LZ7BWsWqvsg9F7Broq5qdxLqZL6eqtdpDubX
-	l8pua6YnJB5ApRUnQ5V64MqFRx6ZxOADGwzhBisOG+M43FSUbLctNUADZTSK2VSIxBMx
-	dxO+Pu7/aNhECJSzG6uz2ktkEJ7tTcy+KpLJnruUGO5DzHVnTrg7vo2TeqrT7a9szzAI
-	DLi2x/S+tvofyvP3tQP5DNuXQ23caXHQdR0BPtpJOdUJco7fwGQuRnzvI+bB1jus2Gr7
-	5qBw==
-X-Gm-Message-State: APjAAAVoNo/4PvS59qYlM9Atwz8mRRptlpbbQlyr6GgqUqhF3Te8pnTJ
-	fnJLQ3MQ5vXP3HhsxLj4JsnO2XiMs8iER6ak/lw=
-X-Google-Smtp-Source: APXvYqwPGX1cW3vwf6dw0EhiXj1Kg4xlvDECZxsA4eSOAMFAaFD2IHSgyFSG6dUsDk/v6EV/Fe+bwvo+s3y+i78fXlk=
-X-Received: by 2002:a92:1305:: with SMTP id 5mr5237243ilt.299.1572515810007;
-	Thu, 31 Oct 2019 02:56:50 -0700 (PDT)
+	bh=fpdJlQcF611HNLdXqQ0Mgtp6pf/uWz3VfOe0Hje4AZw=;
+	b=L1iLR+V8tEQIfgtUmxZDpIgdRzcwsvqd3h3Ps+sxKw6nbU6vNzixJ8SvXSOH1dWZ6z
+	p9OvWrM0zhbGcRMgM8f+V9nDFzNOMdh9u2OVLPPN3gJnk+o+V17Q6nPG01g6ObeaDViS
+	XWWig9HdNo2hNwP646CqimTUOfm7YTKSu8s4xWsbWaKqvOVGO8awim03u7qGl5CPp/hs
+	o/0D6g++tO8b5htEZRtOeNdDyzGot6QLVcnhOTL4g4sBCGwVYonPnxz9PDmLqAGn09eV
+	2WR7FAK3BWrosLNpppdlLJMPg/tJOIzVmcFZYpUzkbExL7sU39I2uds+UYfmM4bdCYJ7
+	oenQ==
+X-Gm-Message-State: APjAAAU4xtJIA4mOLTyYgJmpeqZ0xE7D++p3BySnaGWQwDfVovAaVrR6
+	xGtQx8z6RG/G0sV3IblIb7oyVypYu6YSGpXH7ZM=
+X-Google-Smtp-Source: APXvYqwXHOMEXCtzEfKLc8HMUxriIcss60kaOwc9A2FzcvqD9KBGfhhoMZmm3UJcePP/yxXaNMmPvma09puGuEgqjWM=
+X-Received: by 2002:a67:ad0e:: with SMTP id t14mr2250259vsl.35.1572515929400; 
+	Thu, 31 Oct 2019 02:58:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191031093655.14852-1-alex.kanavin@gmail.com>
 	<20191031093655.14852-4-alex.kanavin@gmail.com>
-In-Reply-To: <20191031093655.14852-4-alex.kanavin@gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 31 Oct 2019 10:56:38 +0100
-Message-ID: <CALbNGRTuGXc+fsXezqxBttBcz1LomdLyuNMotzJGFMgO6gBgaA@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	<CALbNGRTuGXc+fsXezqxBttBcz1LomdLyuNMotzJGFMgO6gBgaA@mail.gmail.com>
+In-Reply-To: <CALbNGRTuGXc+fsXezqxBttBcz1LomdLyuNMotzJGFMgO6gBgaA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 31 Oct 2019 10:58:38 +0100
+Message-ID: <CANNYZj9KWK7bahZU4OLfOpLXpeBcwXuF0oERwAfka6H3WHr-+Q@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 4/6] gcr: update to 3.34.0
@@ -55,32 +56,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 09:56:49 -0000
+X-List-Received-Date: Thu, 31 Oct 2019 09:58:48 -0000
+Content-Type: multipart/alternative; boundary="000000000000602855059631e562"
+
+--000000000000602855059631e562
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 31, 2019 at 10:38 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> inherit gettext, as gcr is now gettextized.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-gnome/gcr/{gcr_3.28.1.bb => gcr_3.34.0.bb} | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-gnome/gcr/{gcr_3.28.1.bb => gcr_3.34.0.bb} (83%)
->
-> diff --git a/meta/recipes-gnome/gcr/gcr_3.28.1.bb b/meta/recipes-gnome/gcr/gcr_3.34.0.bb
-> similarity index 83%
-> rename from meta/recipes-gnome/gcr/gcr_3.28.1.bb
-> rename to meta/recipes-gnome/gcr/gcr_3.34.0.bb
-> index 0a9867451ee..f13bfecbe19 100644
-> --- a/meta/recipes-gnome/gcr/gcr_3.28.1.bb
-> +++ b/meta/recipes-gnome/gcr/gcr_3.34.0.bb
-> @@ -11,12 +11,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
->  DEPENDS = "intltool-native gtk+3 p11-kit glib-2.0 libgcrypt \
->             ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-native', '', d)}"
-Don't know if this is a complete V2. If so intltool-native dependency
-can go (as Ross suggested).
+I think Ross has a separate patch queued to address that.
 
-Andreas
+Alex
 
+On Thu, 31 Oct 2019 at 10:56, Andreas M=C3=BCller <schnitzeltony@gmail.com>
+wrote:
+
+> On Thu, Oct 31, 2019 at 10:38 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > inherit gettext, as gcr is now gettextized.
+> >
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  meta/recipes-gnome/gcr/{gcr_3.28.1.bb =3D> gcr_3.34.0.bb} | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >  rename meta/recipes-gnome/gcr/{gcr_3.28.1.bb =3D> gcr_3.34.0.bb} (83%)
+> >
+> > diff --git a/meta/recipes-gnome/gcr/gcr_3.28.1.bb
+> b/meta/recipes-gnome/gcr/gcr_3.34.0.bb
+> > similarity index 83%
+> > rename from meta/recipes-gnome/gcr/gcr_3.28.1.bb
+> > rename to meta/recipes-gnome/gcr/gcr_3.34.0.bb
+> > index 0a9867451ee..f13bfecbe19 100644
+> > --- a/meta/recipes-gnome/gcr/gcr_3.28.1.bb
+> > +++ b/meta/recipes-gnome/gcr/gcr_3.34.0.bb
+> > @@ -11,12 +11,12 @@ LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3D55ca817ccb7d5b5b66355690e9abc605"
+> >  DEPENDS =3D "intltool-native gtk+3 p11-kit glib-2.0 libgcrypt \
+> >             ${@bb.utils.contains('GI_DATA_ENABLED', 'True',
+> 'libxslt-native', '', d)}"
+> Don't know if this is a complete V2. If so intltool-native dependency
+> can go (as Ross suggested).
+>
+> Andreas
+>
+
+--000000000000602855059631e562
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>I think Ross has a separate patch queued to address t=
+hat.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 31 Oct 2019 at 10:56, A=
+ndreas M=C3=BCller &lt;<a href=3D"mailto:schnitzeltony@gmail.com">schnitzel=
+tony@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">On Thu, Oct 31, 2019 at 10:38 AM Alexander Kanavin<br>
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
+n@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; inherit gettext, as gcr is now gettextized.<br>
+&gt;<br>
+&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
+ail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-gnome/gcr/{<a href=3D"http://gcr_3.28.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">gcr_3.28.1.bb</a> =3D&gt; <a href=3D"http://g=
+cr_3.34.0.bb" rel=3D"noreferrer" target=3D"_blank">gcr_3.34.0.bb</a>} | 6 +=
+++---<br>
+&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
+&gt;=C2=A0 rename meta/recipes-gnome/gcr/{<a href=3D"http://gcr_3.28.1.bb" =
+rel=3D"noreferrer" target=3D"_blank">gcr_3.28.1.bb</a> =3D&gt; <a href=3D"h=
+ttp://gcr_3.34.0.bb" rel=3D"noreferrer" target=3D"_blank">gcr_3.34.0.bb</a>=
+} (83%)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-gnome/gcr/<a href=3D"http://gcr_3.28.1.bb" r=
+el=3D"noreferrer" target=3D"_blank">gcr_3.28.1.bb</a> b/meta/recipes-gnome/=
+gcr/<a href=3D"http://gcr_3.34.0.bb" rel=3D"noreferrer" target=3D"_blank">g=
+cr_3.34.0.bb</a><br>
+&gt; similarity index 83%<br>
+&gt; rename from meta/recipes-gnome/gcr/<a href=3D"http://gcr_3.28.1.bb" re=
+l=3D"noreferrer" target=3D"_blank">gcr_3.28.1.bb</a><br>
+&gt; rename to meta/recipes-gnome/gcr/<a href=3D"http://gcr_3.34.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">gcr_3.34.0.bb</a><br>
+&gt; index 0a9867451ee..f13bfecbe19 100644<br>
+&gt; --- a/meta/recipes-gnome/gcr/<a href=3D"http://gcr_3.28.1.bb" rel=3D"n=
+oreferrer" target=3D"_blank">gcr_3.28.1.bb</a><br>
+&gt; +++ b/meta/recipes-gnome/gcr/<a href=3D"http://gcr_3.34.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">gcr_3.34.0.bb</a><br>
+&gt; @@ -11,12 +11,12 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D55=
+ca817ccb7d5b5b66355690e9abc605&quot;<br>
+&gt;=C2=A0 DEPENDS =3D &quot;intltool-native gtk+3 p11-kit glib-2.0 libgcry=
+pt \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#=
+39;GI_DATA_ENABLED&#39;, &#39;True&#39;, &#39;libxslt-native&#39;, &#39;&#3=
+9;, d)}&quot;<br>
+Don&#39;t know if this is a complete V2. If so intltool-native dependency<b=
+r>
+can go (as Ross suggested).<br>
+<br>
+Andreas<br>
+</blockquote></div>
+
+--000000000000602855059631e562--
