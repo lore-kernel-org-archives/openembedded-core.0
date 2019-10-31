@@ -1,50 +1,18 @@
-Return-Path: <shuagr97@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 503927FA34
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 18:14:14 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id t26so9788775qtr.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 11:14:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:reply-to;
-	bh=XYMbrmB43HzoRisVD9YjJ9jfBPNYJK3uR4UmXQZs5bw=;
-	b=mjlIQacfW7oVkdKcrmVKTRAPjWiqz5O+q7CXe85xotgyTvL/s/B7WmLAvMJhTkGZ5e
-	CHpltx7zK7VnwlB1KFn+AevSqV8ixZ8fVFvmjZ6QdLM1WN11wUUHY6k5F9TVqzcPI28k
-	PGD7IHbNoK7DEXbONGS/FzSPplKThI5zutDTK2DVx6yyzpHQXmjAHSCYR9jfGM84bXlQ
-	Xb+q1sk3hsxExXzqcMN4Kb/FTvOYLbBO1iqKKcBk9zA26yBatLUkUEgCnMsLI1US2t4L
-	eZevom2ux+WkII52hIur0DXz6S/VNzsqICxR43lTJOSARymsAO7LxWP4BRmeiHS8EOR9
-	jZwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-	bh=XYMbrmB43HzoRisVD9YjJ9jfBPNYJK3uR4UmXQZs5bw=;
-	b=nUfJrgVHPiCK9JDTRCpdt6cz/JmEp6SJGL6ulJhDJ9r+sr6/8kC/Dvrx/YGMiI2khB
-	JJGJ2JBookaiRTaVj5MWL5ERtx1DcShClpbtir0snJwaQkjbK44ONVzU/VNmRNIX160Y
-	hWs44Rrma5jQ8VcxYtZJgkjV7Ud3ixmInibsRwadvZ6pu2nPMbmKbDptuk3wnvCWp9Jb
-	h7sHiS09SGhkzMgQePWJvh3t0NmoGlLOECy9BkCRKa+AUzlEwc/EDhn3BwXZVjILbT0D
-	bQzur+x808h8HC9kwHkMcuXtmeFczyROQcTf2x/AVV+IIrk5vHiz4qN3QRUNbCgyd8/S
-	u1Bw==
-X-Gm-Message-State: APjAAAXxbtrrGLOLzkJYed/iwoOV7DNRfQTBg3cbFrN0Z7cBP+LJ10tx
-	BrCXRac2lpYfyfA+wEmzChDyiW0T
-X-Google-Smtp-Source: APXvYqwXNeZJfKluDTSCbgy/aM5JPDf/e3FcvlF6g4iNwYUsp4s5YMsk8cR1ICMMu+a8i6cdOtwoxg==
-X-Received: by 2002:aed:2706:: with SMTP id n6mr1447368qtd.224.1572545653524; 
-	Thu, 31 Oct 2019 11:14:13 -0700 (PDT)
-Received: from
-	shuagr-yocto-build.eqm2f5n1p1fehm0fb53klgonjh.cx.internal.cloudapp.net
-	([137.116.56.217]) by smtp.gmail.com with ESMTPSA id
-	z70sm2299615qkb.60.2019.10.31.11.14.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 31 Oct 2019 11:14:12 -0700 (PDT)
-From: shuagr97@gmail.com
-X-Google-Original-From: shuagr@microsoft.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2019 18:14:05 +0000
-Message-Id: <1572545645-64707-1-git-send-email-shuagr@microsoft.com>
-X-Mailer: git-send-email 2.7.4
-Reply-To: shuagr@microsoft.com
-Subject: [thud][PATCH] libgcrypt: CVE-2019-12904 fix Upstream-Status: Backport Signed-off-by: Shubham Agrawal<shuagr@microsoft.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id EBF6A7FA30;
+	Thu, 31 Oct 2019 18:32:50 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: shuagr97@gmail.com
+Date: Thu, 31 Oct 2019 18:32:52 -0000
+Message-ID: <20191031183252.2330.14884@do>
+References: <1572545464-64329-1-git-send-email-shuagr@microsoft.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1572545464-64329-1-git-send-email-shuagr@microsoft.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQ29ycmVjdGVkIHBhdGNoIGZpbGUgc3RydWN0dXJlIGFzIHBlciB1cHN0cmVhbQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,550 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 18:14:14 -0000
+X-List-Received-Date: Thu, 31 Oct 2019 18:32:51 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Shubham Agrawal <shuagr@microsoft.com>
+== Series Details ==
+
+Series: Corrected patch file structure as per upstream
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20841/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  thud (currently at cd7cf933b3)
+
+* Patch            [thud] Corrected patch file structure as per upstream
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
 
 ---
- .../libgcrypt/files/CVE-2019-12904_p1.patch        | 176 +++++++++++
- .../libgcrypt/files/CVE-2019-12904_p2.patch        | 330 +++++++++++++++++++++
- meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb  |   2 +
- 3 files changed, 508 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2019-12904_p1.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/CVE-2019-12904_p2.patch
-
-diff --git a/meta/recipes-support/libgcrypt/files/CVE-2019-12904_p1.patch b/meta/recipes-support/libgcrypt/files/CVE-2019-12904_p1.patch
-new file mode 100644
-index 0000000..cda5211
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/CVE-2019-12904_p1.patch
-@@ -0,0 +1,176 @@
-+From 263ad8ae08f287e32656d4e3e0116479f3d9ad9d Mon Sep 17 00:00:00 2001
-+From: Jussi Kivilinna <jussi.kivilinna@iki.fi>
-+Date: Fri, 31 May 2019 17:27:25 +0300
-+Subject: [PATCH] GCM: move look-up table to .data section and unshare between processes
-+Reply-To: shuagr@microsoft.com
-+
-+CVE: CVE-2019-12904_p1 
-+Upstream-Status: Backport 
-+Signed-off-by: Shubham Agrawal<shuagr@microsoft.com> 
-+Upstream-commit : https://github.com/gpg/libgcrypt/commit/a4c561aab1014c3630bc88faf6f5246fee16b020
-+
-+* cipher/cipher-gcm.c (ATTR_ALIGNED_64): New.
-+(gcmR): Move to 'gcm_table' structure.
-+(gcm_table): New structure for look-up table with counters before and
-+after.
-+(gcmR): New macro.
-+(prefetch_table): Handle input with length not multiple of 256.
-+(do_prefetch_tables): Modify pre- and post-table counters to unshare
-+look-up table pages between processes.
-+--
-+GnuPG-bug-id: 4541
-+Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
-+---
-+ cipher/cipher-gcm.c | 129 ++++++++++++++++++++++++++++++++++++++--------------
-+ 1 file changed, 95 insertions(+), 34 deletions(-)
-+
-+diff --git a/cipher/cipher-gcm.c b/cipher/cipher-gcm.c
-+index 6169d14..97a8015 100644
-+--- a/cipher/cipher-gcm.c
-++++ b/cipher/cipher-gcm.c
-+@@ -30,6 +30,14 @@
-+ #include "./cipher-internal.h"
-+ 
-+ 
-++/* Helper macro to force alignment to 16 or 64 bytes.  */
-++#ifdef HAVE_GCC_ATTRIBUTE_ALIGNED
-++# define ATTR_ALIGNED_64  __attribute__ ((aligned (64)))
-++#else
-++# define ATTR_ALIGNED_64
-++#endif
-++
-++
-+ #ifdef GCM_USE_INTEL_PCLMUL
-+ extern void _gcry_ghash_setup_intel_pclmul (gcry_cipher_hd_t c);
-+ 
-+@@ -63,40 +71,93 @@ ghash_armv8_ce_pmull (gcry_cipher_hd_t c, byte *result, const byte *buf,
-+ 
-+ 
-+ #ifdef GCM_USE_TABLES
-+-static const u16 gcmR[256] = {
-+-  0x0000, 0x01c2, 0x0384, 0x0246, 0x0708, 0x06ca, 0x048c, 0x054e,
-+-  0x0e10, 0x0fd2, 0x0d94, 0x0c56, 0x0918, 0x08da, 0x0a9c, 0x0b5e,
-+-  0x1c20, 0x1de2, 0x1fa4, 0x1e66, 0x1b28, 0x1aea, 0x18ac, 0x196e,
-+-  0x1230, 0x13f2, 0x11b4, 0x1076, 0x1538, 0x14fa, 0x16bc, 0x177e,
-+-  0x3840, 0x3982, 0x3bc4, 0x3a06, 0x3f48, 0x3e8a, 0x3ccc, 0x3d0e,
-+-  0x3650, 0x3792, 0x35d4, 0x3416, 0x3158, 0x309a, 0x32dc, 0x331e,
-+-  0x2460, 0x25a2, 0x27e4, 0x2626, 0x2368, 0x22aa, 0x20ec, 0x212e,
-+-  0x2a70, 0x2bb2, 0x29f4, 0x2836, 0x2d78, 0x2cba, 0x2efc, 0x2f3e,
-+-  0x7080, 0x7142, 0x7304, 0x72c6, 0x7788, 0x764a, 0x740c, 0x75ce,
-+-  0x7e90, 0x7f52, 0x7d14, 0x7cd6, 0x7998, 0x785a, 0x7a1c, 0x7bde,
-+-  0x6ca0, 0x6d62, 0x6f24, 0x6ee6, 0x6ba8, 0x6a6a, 0x682c, 0x69ee,
-+-  0x62b0, 0x6372, 0x6134, 0x60f6, 0x65b8, 0x647a, 0x663c, 0x67fe,
-+-  0x48c0, 0x4902, 0x4b44, 0x4a86, 0x4fc8, 0x4e0a, 0x4c4c, 0x4d8e,
-+-  0x46d0, 0x4712, 0x4554, 0x4496, 0x41d8, 0x401a, 0x425c, 0x439e,
-+-  0x54e0, 0x5522, 0x5764, 0x56a6, 0x53e8, 0x522a, 0x506c, 0x51ae,
-+-  0x5af0, 0x5b32, 0x5974, 0x58b6, 0x5df8, 0x5c3a, 0x5e7c, 0x5fbe,
-+-  0xe100, 0xe0c2, 0xe284, 0xe346, 0xe608, 0xe7ca, 0xe58c, 0xe44e,
-+-  0xef10, 0xeed2, 0xec94, 0xed56, 0xe818, 0xe9da, 0xeb9c, 0xea5e,
-+-  0xfd20, 0xfce2, 0xfea4, 0xff66, 0xfa28, 0xfbea, 0xf9ac, 0xf86e,
-+-  0xf330, 0xf2f2, 0xf0b4, 0xf176, 0xf438, 0xf5fa, 0xf7bc, 0xf67e,
-+-  0xd940, 0xd882, 0xdac4, 0xdb06, 0xde48, 0xdf8a, 0xddcc, 0xdc0e,
-+-  0xd750, 0xd692, 0xd4d4, 0xd516, 0xd058, 0xd19a, 0xd3dc, 0xd21e,
-+-  0xc560, 0xc4a2, 0xc6e4, 0xc726, 0xc268, 0xc3aa, 0xc1ec, 0xc02e,
-+-  0xcb70, 0xcab2, 0xc8f4, 0xc936, 0xcc78, 0xcdba, 0xcffc, 0xce3e,
-+-  0x9180, 0x9042, 0x9204, 0x93c6, 0x9688, 0x974a, 0x950c, 0x94ce,
-+-  0x9f90, 0x9e52, 0x9c14, 0x9dd6, 0x9898, 0x995a, 0x9b1c, 0x9ade,
-+-  0x8da0, 0x8c62, 0x8e24, 0x8fe6, 0x8aa8, 0x8b6a, 0x892c, 0x88ee,
-+-  0x83b0, 0x8272, 0x8034, 0x81f6, 0x84b8, 0x857a, 0x873c, 0x86fe,
-+-  0xa9c0, 0xa802, 0xaa44, 0xab86, 0xaec8, 0xaf0a, 0xad4c, 0xac8e,
-+-  0xa7d0, 0xa612, 0xa454, 0xa596, 0xa0d8, 0xa11a, 0xa35c, 0xa29e,
-+-  0xb5e0, 0xb422, 0xb664, 0xb7a6, 0xb2e8, 0xb32a, 0xb16c, 0xb0ae,
-+-  0xbbf0, 0xba32, 0xb874, 0xb9b6, 0xbcf8, 0xbd3a, 0xbf7c, 0xbebe,
-+-};
-++static struct
-++{
-++  volatile u32 counter_head;
-++  u32 cacheline_align[64 / 4 - 1];
-++  u16 R[256];
-++  volatile u32 counter_tail;
-++} gcm_table ATTR_ALIGNED_64 =
-++  {
-++    0,
-++    { 0, },
-++    {
-++      0x0000, 0x01c2, 0x0384, 0x0246, 0x0708, 0x06ca, 0x048c, 0x054e,
-++      0x0e10, 0x0fd2, 0x0d94, 0x0c56, 0x0918, 0x08da, 0x0a9c, 0x0b5e,
-++      0x1c20, 0x1de2, 0x1fa4, 0x1e66, 0x1b28, 0x1aea, 0x18ac, 0x196e,
-++      0x1230, 0x13f2, 0x11b4, 0x1076, 0x1538, 0x14fa, 0x16bc, 0x177e,
-++      0x3840, 0x3982, 0x3bc4, 0x3a06, 0x3f48, 0x3e8a, 0x3ccc, 0x3d0e,
-++      0x3650, 0x3792, 0x35d4, 0x3416, 0x3158, 0x309a, 0x32dc, 0x331e,
-++      0x2460, 0x25a2, 0x27e4, 0x2626, 0x2368, 0x22aa, 0x20ec, 0x212e,
-++      0x2a70, 0x2bb2, 0x29f4, 0x2836, 0x2d78, 0x2cba, 0x2efc, 0x2f3e,
-++      0x7080, 0x7142, 0x7304, 0x72c6, 0x7788, 0x764a, 0x740c, 0x75ce,
-++      0x7e90, 0x7f52, 0x7d14, 0x7cd6, 0x7998, 0x785a, 0x7a1c, 0x7bde,
-++      0x6ca0, 0x6d62, 0x6f24, 0x6ee6, 0x6ba8, 0x6a6a, 0x682c, 0x69ee,
-++      0x62b0, 0x6372, 0x6134, 0x60f6, 0x65b8, 0x647a, 0x663c, 0x67fe,
-++      0x48c0, 0x4902, 0x4b44, 0x4a86, 0x4fc8, 0x4e0a, 0x4c4c, 0x4d8e,
-++      0x46d0, 0x4712, 0x4554, 0x4496, 0x41d8, 0x401a, 0x425c, 0x439e,
-++      0x54e0, 0x5522, 0x5764, 0x56a6, 0x53e8, 0x522a, 0x506c, 0x51ae,
-++      0x5af0, 0x5b32, 0x5974, 0x58b6, 0x5df8, 0x5c3a, 0x5e7c, 0x5fbe,
-++      0xe100, 0xe0c2, 0xe284, 0xe346, 0xe608, 0xe7ca, 0xe58c, 0xe44e,
-++      0xef10, 0xeed2, 0xec94, 0xed56, 0xe818, 0xe9da, 0xeb9c, 0xea5e,
-++      0xfd20, 0xfce2, 0xfea4, 0xff66, 0xfa28, 0xfbea, 0xf9ac, 0xf86e,
-++      0xf330, 0xf2f2, 0xf0b4, 0xf176, 0xf438, 0xf5fa, 0xf7bc, 0xf67e,
-++      0xd940, 0xd882, 0xdac4, 0xdb06, 0xde48, 0xdf8a, 0xddcc, 0xdc0e,
-++      0xd750, 0xd692, 0xd4d4, 0xd516, 0xd058, 0xd19a, 0xd3dc, 0xd21e,
-++      0xc560, 0xc4a2, 0xc6e4, 0xc726, 0xc268, 0xc3aa, 0xc1ec, 0xc02e,
-++      0xcb70, 0xcab2, 0xc8f4, 0xc936, 0xcc78, 0xcdba, 0xcffc, 0xce3e,
-++      0x9180, 0x9042, 0x9204, 0x93c6, 0x9688, 0x974a, 0x950c, 0x94ce,
-++      0x9f90, 0x9e52, 0x9c14, 0x9dd6, 0x9898, 0x995a, 0x9b1c, 0x9ade,
-++      0x8da0, 0x8c62, 0x8e24, 0x8fe6, 0x8aa8, 0x8b6a, 0x892c, 0x88ee,
-++      0x83b0, 0x8272, 0x8034, 0x81f6, 0x84b8, 0x857a, 0x873c, 0x86fe,
-++      0xa9c0, 0xa802, 0xaa44, 0xab86, 0xaec8, 0xaf0a, 0xad4c, 0xac8e,
-++      0xa7d0, 0xa612, 0xa454, 0xa596, 0xa0d8, 0xa11a, 0xa35c, 0xa29e,
-++      0xb5e0, 0xb422, 0xb664, 0xb7a6, 0xb2e8, 0xb32a, 0xb16c, 0xb0ae,
-++      0xbbf0, 0xba32, 0xb874, 0xb9b6, 0xbcf8, 0xbd3a, 0xbf7c, 0xbebe,
-++    },
-++    0
-++  };
-++
-++#define gcmR gcm_table.R
-++static inline
-++void prefetch_table(const void *tab, size_t len)
-++{
-++  const volatile byte *vtab = tab;
-++  size_t i;
-++
-++  for (i = 0; len - i >= 8 * 32; i += 8 * 32)
-++    {
-++      (void)vtab[i + 0 * 32];
-++      (void)vtab[i + 1 * 32];
-++      (void)vtab[i + 2 * 32];
-++      (void)vtab[i + 3 * 32];
-++      (void)vtab[i + 4 * 32];
-++      (void)vtab[i + 5 * 32];
-++      (void)vtab[i + 6 * 32];
-++      (void)vtab[i + 7 * 32];
-++    }
-++  for (; i < len; i += 32)
-++    {
-++      (void)vtab[i];
-++    }
-++
-++  (void)vtab[len - 1];
-++}
-++
-++static inline void
-++do_prefetch_tables (const void *gcmM, size_t gcmM_size)
-++{
-++  /* Modify counters to trigger copy-on-write and unsharing if physical pages
-++   * of look-up table are shared between processes.  Modifying counters also
-++   * causes checksums for pages to change and hint same-page merging algorithm
-++   * that these pages are frequently changing.  */
-++  gcm_table.counter_head++;
-++  gcm_table.counter_tail++;
-++
-++  /* Prefetch look-up tables to cache.  */
-++  prefetch_table(gcmM, gcmM_size);
-++  prefetch_table(&gcm_table, sizeof(gcm_table));
-++}
-+ 
-+ #ifdef GCM_TABLES_USE_U64
-+ static void
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/libgcrypt/files/CVE-2019-12904_p2.patch b/meta/recipes-support/libgcrypt/files/CVE-2019-12904_p2.patch
-new file mode 100644
-index 0000000..0cb503e
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/CVE-2019-12904_p2.patch
-@@ -0,0 +1,330 @@
-+From a5c359cc68a4def9bf39f63070837d89711b4e17 Mon Sep 17 00:00:00 2001
-+From: Jussi Kivilinna <jussi.kivilinna@iki.fi>
-+Date: Fri, 31 May 2019 17:18:09 +0300
-+Subject: [PATCH] AES: move look-up tables to .data section and unshare between processes
-+Reply-To: shuagr@microsoft.com
-+
-+CVE: CVE-2019-12904_p2 
-+Upstream-status: Backport 
-+Signed-off-by: Shubham Agrawal<shuagr@microsoft.com> 
-+Upstream-commit: https://github.com/gpg/libgcrypt/commit/daedbbb5541cd8ecda1459d3b843ea4d92788762
-+
-+* cipher/rijndael-internal.h (ATTR_ALIGNED_64): New.
-+* cipher/rijndael-tables.h (encT): Move to 'enc_tables' structure.
-+(enc_tables): New structure for encryption table with counters before
-+and after.
-+(encT): New macro.
-+(dec_tables): Add counters before and after encryption table; Move
-+from .rodata to .data section.
-+(do_encrypt): Change 'encT' to 'enc_tables.T'.
-+(do_decrypt): Change '&dec_tables' to 'dec_tables.T'.
-+* cipher/cipher-gcm.c (prefetch_table): Make inline; Handle input
-+with length not multiple of 256.
-+(prefetch_enc, prefetch_dec): Modify pre- and post-table counters
-+to unshare look-up table pages between processes.
-+--
-+
-+GnuPG-bug-id: 4541
-+Signed-off-by: Jussi Kivilinna <jussi.kivilinna@iki.fi>
-+---
-+ cipher/rijndael-internal.h |   4 +-
-+ cipher/rijndael-tables.h   | 155 +++++++++++++++++++++++++--------------------
-+ cipher/rijndael.c          |  35 ++++++++--
-+ 3 files changed, 118 insertions(+), 76 deletions(-)
-+
-+diff --git a/cipher/rijndael-internal.h b/cipher/rijndael-internal.h
-+index 160fb8c..a62d4b7 100644
-+--- a/cipher/rijndael-internal.h
-++++ b/cipher/rijndael-internal.h
-+@@ -29,11 +29,13 @@
-+ #define BLOCKSIZE               (128/8)
-+ 
-+ 
-+-/* Helper macro to force alignment to 16 bytes.  */
-++/* Helper macro to force alignment to 16 or 64 bytes.  */
-+ #ifdef HAVE_GCC_ATTRIBUTE_ALIGNED
-+ # define ATTR_ALIGNED_16  __attribute__ ((aligned (16)))
-++# define ATTR_ALIGNED_64  __attribute__ ((aligned (64)))
-+ #else
-+ # define ATTR_ALIGNED_16
-++# define ATTR_ALIGNED_64
-+ #endif
-+ 
-+ 
-+diff --git a/cipher/rijndael-tables.h b/cipher/rijndael-tables.h
-+index 8359470..b54d959 100644
-+--- a/cipher/rijndael-tables.h
-++++ b/cipher/rijndael-tables.h
-+@@ -21,80 +21,98 @@
-+ /* To keep the actual implementation at a readable size we use this
-+    include file to define the tables.  */
-+ 
-+-static const u32 encT[256] =
-++static struct
-++{
-++  volatile u32 counter_head;
-++  u32 cacheline_align[64 / 4 - 1];
-++  u32 T[256];
-++  volatile u32 counter_tail;
-++} enc_tables ATTR_ALIGNED_64 =
-+   {
-+-    0xa56363c6, 0x847c7cf8, 0x997777ee, 0x8d7b7bf6,
-+-    0x0df2f2ff, 0xbd6b6bd6, 0xb16f6fde, 0x54c5c591,
-+-    0x50303060, 0x03010102, 0xa96767ce, 0x7d2b2b56,
-+-    0x19fefee7, 0x62d7d7b5, 0xe6abab4d, 0x9a7676ec,
-+-    0x45caca8f, 0x9d82821f, 0x40c9c989, 0x877d7dfa,
-+-    0x15fafaef, 0xeb5959b2, 0xc947478e, 0x0bf0f0fb,
-+-    0xecadad41, 0x67d4d4b3, 0xfda2a25f, 0xeaafaf45,
-+-    0xbf9c9c23, 0xf7a4a453, 0x967272e4, 0x5bc0c09b,
-+-    0xc2b7b775, 0x1cfdfde1, 0xae93933d, 0x6a26264c,
-+-    0x5a36366c, 0x413f3f7e, 0x02f7f7f5, 0x4fcccc83,
-+-    0x5c343468, 0xf4a5a551, 0x34e5e5d1, 0x08f1f1f9,
-+-    0x937171e2, 0x73d8d8ab, 0x53313162, 0x3f15152a,
-+-    0x0c040408, 0x52c7c795, 0x65232346, 0x5ec3c39d,
-+-    0x28181830, 0xa1969637, 0x0f05050a, 0xb59a9a2f,
-+-    0x0907070e, 0x36121224, 0x9b80801b, 0x3de2e2df,
-+-    0x26ebebcd, 0x6927274e, 0xcdb2b27f, 0x9f7575ea,
-+-    0x1b090912, 0x9e83831d, 0x742c2c58, 0x2e1a1a34,
-+-    0x2d1b1b36, 0xb26e6edc, 0xee5a5ab4, 0xfba0a05b,
-+-    0xf65252a4, 0x4d3b3b76, 0x61d6d6b7, 0xceb3b37d,
-+-    0x7b292952, 0x3ee3e3dd, 0x712f2f5e, 0x97848413,
-+-    0xf55353a6, 0x68d1d1b9, 0x00000000, 0x2cededc1,
-+-    0x60202040, 0x1ffcfce3, 0xc8b1b179, 0xed5b5bb6,
-+-    0xbe6a6ad4, 0x46cbcb8d, 0xd9bebe67, 0x4b393972,
-+-    0xde4a4a94, 0xd44c4c98, 0xe85858b0, 0x4acfcf85,
-+-    0x6bd0d0bb, 0x2aefefc5, 0xe5aaaa4f, 0x16fbfbed,
-+-    0xc5434386, 0xd74d4d9a, 0x55333366, 0x94858511,
-+-    0xcf45458a, 0x10f9f9e9, 0x06020204, 0x817f7ffe,
-+-    0xf05050a0, 0x443c3c78, 0xba9f9f25, 0xe3a8a84b,
-+-    0xf35151a2, 0xfea3a35d, 0xc0404080, 0x8a8f8f05,
-+-    0xad92923f, 0xbc9d9d21, 0x48383870, 0x04f5f5f1,
-+-    0xdfbcbc63, 0xc1b6b677, 0x75dadaaf, 0x63212142,
-+-    0x30101020, 0x1affffe5, 0x0ef3f3fd, 0x6dd2d2bf,
-+-    0x4ccdcd81, 0x140c0c18, 0x35131326, 0x2fececc3,
-+-    0xe15f5fbe, 0xa2979735, 0xcc444488, 0x3917172e,
-+-    0x57c4c493, 0xf2a7a755, 0x827e7efc, 0x473d3d7a,
-+-    0xac6464c8, 0xe75d5dba, 0x2b191932, 0x957373e6,
-+-    0xa06060c0, 0x98818119, 0xd14f4f9e, 0x7fdcdca3,
-+-    0x66222244, 0x7e2a2a54, 0xab90903b, 0x8388880b,
-+-    0xca46468c, 0x29eeeec7, 0xd3b8b86b, 0x3c141428,
-+-    0x79dedea7, 0xe25e5ebc, 0x1d0b0b16, 0x76dbdbad,
-+-    0x3be0e0db, 0x56323264, 0x4e3a3a74, 0x1e0a0a14,
-+-    0xdb494992, 0x0a06060c, 0x6c242448, 0xe45c5cb8,
-+-    0x5dc2c29f, 0x6ed3d3bd, 0xefacac43, 0xa66262c4,
-+-    0xa8919139, 0xa4959531, 0x37e4e4d3, 0x8b7979f2,
-+-    0x32e7e7d5, 0x43c8c88b, 0x5937376e, 0xb76d6dda,
-+-    0x8c8d8d01, 0x64d5d5b1, 0xd24e4e9c, 0xe0a9a949,
-+-    0xb46c6cd8, 0xfa5656ac, 0x07f4f4f3, 0x25eaeacf,
-+-    0xaf6565ca, 0x8e7a7af4, 0xe9aeae47, 0x18080810,
-+-    0xd5baba6f, 0x887878f0, 0x6f25254a, 0x722e2e5c,
-+-    0x241c1c38, 0xf1a6a657, 0xc7b4b473, 0x51c6c697,
-+-    0x23e8e8cb, 0x7cdddda1, 0x9c7474e8, 0x211f1f3e,
-+-    0xdd4b4b96, 0xdcbdbd61, 0x868b8b0d, 0x858a8a0f,
-+-    0x907070e0, 0x423e3e7c, 0xc4b5b571, 0xaa6666cc,
-+-    0xd8484890, 0x05030306, 0x01f6f6f7, 0x120e0e1c,
-+-    0xa36161c2, 0x5f35356a, 0xf95757ae, 0xd0b9b969,
-+-    0x91868617, 0x58c1c199, 0x271d1d3a, 0xb99e9e27,
-+-    0x38e1e1d9, 0x13f8f8eb, 0xb398982b, 0x33111122,
-+-    0xbb6969d2, 0x70d9d9a9, 0x898e8e07, 0xa7949433,
-+-    0xb69b9b2d, 0x221e1e3c, 0x92878715, 0x20e9e9c9,
-+-    0x49cece87, 0xff5555aa, 0x78282850, 0x7adfdfa5,
-+-    0x8f8c8c03, 0xf8a1a159, 0x80898909, 0x170d0d1a,
-+-    0xdabfbf65, 0x31e6e6d7, 0xc6424284, 0xb86868d0,
-+-    0xc3414182, 0xb0999929, 0x772d2d5a, 0x110f0f1e,
-+-    0xcbb0b07b, 0xfc5454a8, 0xd6bbbb6d, 0x3a16162c
-++    0,
-++    { 0, },
-++    {
-++      0xa56363c6, 0x847c7cf8, 0x997777ee, 0x8d7b7bf6,
-++      0x0df2f2ff, 0xbd6b6bd6, 0xb16f6fde, 0x54c5c591,
-++      0x50303060, 0x03010102, 0xa96767ce, 0x7d2b2b56,
-++      0x19fefee7, 0x62d7d7b5, 0xe6abab4d, 0x9a7676ec,
-++      0x45caca8f, 0x9d82821f, 0x40c9c989, 0x877d7dfa,
-++      0x15fafaef, 0xeb5959b2, 0xc947478e, 0x0bf0f0fb,
-++      0xecadad41, 0x67d4d4b3, 0xfda2a25f, 0xeaafaf45,
-++      0xbf9c9c23, 0xf7a4a453, 0x967272e4, 0x5bc0c09b,
-++      0xc2b7b775, 0x1cfdfde1, 0xae93933d, 0x6a26264c,
-++      0x5a36366c, 0x413f3f7e, 0x02f7f7f5, 0x4fcccc83,
-++      0x5c343468, 0xf4a5a551, 0x34e5e5d1, 0x08f1f1f9,
-++      0x937171e2, 0x73d8d8ab, 0x53313162, 0x3f15152a,
-++      0x0c040408, 0x52c7c795, 0x65232346, 0x5ec3c39d,
-++      0x28181830, 0xa1969637, 0x0f05050a, 0xb59a9a2f,
-++      0x0907070e, 0x36121224, 0x9b80801b, 0x3de2e2df,
-++      0x26ebebcd, 0x6927274e, 0xcdb2b27f, 0x9f7575ea,
-++      0x1b090912, 0x9e83831d, 0x742c2c58, 0x2e1a1a34,
-++      0x2d1b1b36, 0xb26e6edc, 0xee5a5ab4, 0xfba0a05b,
-++      0xf65252a4, 0x4d3b3b76, 0x61d6d6b7, 0xceb3b37d,
-++      0x7b292952, 0x3ee3e3dd, 0x712f2f5e, 0x97848413,
-++      0xf55353a6, 0x68d1d1b9, 0x00000000, 0x2cededc1,
-++      0x60202040, 0x1ffcfce3, 0xc8b1b179, 0xed5b5bb6,
-++      0xbe6a6ad4, 0x46cbcb8d, 0xd9bebe67, 0x4b393972,
-++      0xde4a4a94, 0xd44c4c98, 0xe85858b0, 0x4acfcf85,
-++      0x6bd0d0bb, 0x2aefefc5, 0xe5aaaa4f, 0x16fbfbed,
-++      0xc5434386, 0xd74d4d9a, 0x55333366, 0x94858511,
-++      0xcf45458a, 0x10f9f9e9, 0x06020204, 0x817f7ffe,
-++      0xf05050a0, 0x443c3c78, 0xba9f9f25, 0xe3a8a84b,
-++      0xf35151a2, 0xfea3a35d, 0xc0404080, 0x8a8f8f05,
-++      0xad92923f, 0xbc9d9d21, 0x48383870, 0x04f5f5f1,
-++      0xdfbcbc63, 0xc1b6b677, 0x75dadaaf, 0x63212142,
-++      0x30101020, 0x1affffe5, 0x0ef3f3fd, 0x6dd2d2bf,
-++      0x4ccdcd81, 0x140c0c18, 0x35131326, 0x2fececc3,
-++      0xe15f5fbe, 0xa2979735, 0xcc444488, 0x3917172e,
-++      0x57c4c493, 0xf2a7a755, 0x827e7efc, 0x473d3d7a,
-++      0xac6464c8, 0xe75d5dba, 0x2b191932, 0x957373e6,
-++      0xa06060c0, 0x98818119, 0xd14f4f9e, 0x7fdcdca3,
-++      0x66222244, 0x7e2a2a54, 0xab90903b, 0x8388880b,
-++      0xca46468c, 0x29eeeec7, 0xd3b8b86b, 0x3c141428,
-++      0x79dedea7, 0xe25e5ebc, 0x1d0b0b16, 0x76dbdbad,
-++      0x3be0e0db, 0x56323264, 0x4e3a3a74, 0x1e0a0a14,
-++      0xdb494992, 0x0a06060c, 0x6c242448, 0xe45c5cb8,
-++      0x5dc2c29f, 0x6ed3d3bd, 0xefacac43, 0xa66262c4,
-++      0xa8919139, 0xa4959531, 0x37e4e4d3, 0x8b7979f2,
-++      0x32e7e7d5, 0x43c8c88b, 0x5937376e, 0xb76d6dda,
-++      0x8c8d8d01, 0x64d5d5b1, 0xd24e4e9c, 0xe0a9a949,
-++      0xb46c6cd8, 0xfa5656ac, 0x07f4f4f3, 0x25eaeacf,
-++      0xaf6565ca, 0x8e7a7af4, 0xe9aeae47, 0x18080810,
-++      0xd5baba6f, 0x887878f0, 0x6f25254a, 0x722e2e5c,
-++      0x241c1c38, 0xf1a6a657, 0xc7b4b473, 0x51c6c697,
-++      0x23e8e8cb, 0x7cdddda1, 0x9c7474e8, 0x211f1f3e,
-++      0xdd4b4b96, 0xdcbdbd61, 0x868b8b0d, 0x858a8a0f,
-++      0x907070e0, 0x423e3e7c, 0xc4b5b571, 0xaa6666cc,
-++      0xd8484890, 0x05030306, 0x01f6f6f7, 0x120e0e1c,
-++      0xa36161c2, 0x5f35356a, 0xf95757ae, 0xd0b9b969,
-++      0x91868617, 0x58c1c199, 0x271d1d3a, 0xb99e9e27,
-++      0x38e1e1d9, 0x13f8f8eb, 0xb398982b, 0x33111122,
-++      0xbb6969d2, 0x70d9d9a9, 0x898e8e07, 0xa7949433,
-++      0xb69b9b2d, 0x221e1e3c, 0x92878715, 0x20e9e9c9,
-++      0x49cece87, 0xff5555aa, 0x78282850, 0x7adfdfa5,
-++      0x8f8c8c03, 0xf8a1a159, 0x80898909, 0x170d0d1a,
-++      0xdabfbf65, 0x31e6e6d7, 0xc6424284, 0xb86868d0,
-++      0xc3414182, 0xb0999929, 0x772d2d5a, 0x110f0f1e,
-++      0xcbb0b07b, 0xfc5454a8, 0xd6bbbb6d, 0x3a16162c
-++    },
-++    0
-+   };
-+ 
-+-static const struct
-++#define encT enc_tables.T
-++
-++static struct
-+ {
-++  volatile u32 counter_head;
-++  u32 cacheline_align[64 / 4 - 1];
-+   u32 T[256];
-+   byte inv_sbox[256];
-+-} dec_tables =
-++  volatile u32 counter_tail;
-++} dec_tables ATTR_ALIGNED_64 =
-+   {
-++    0,
-++    { 0, },
-+     {
-+       0x50a7f451, 0x5365417e, 0xc3a4171a, 0x965e273a,
-+       0xcb6bab3b, 0xf1459d1f, 0xab58faac, 0x9303e34b,
-+@@ -194,7 +212,8 @@ static const struct
-+       0xc8,0xeb,0xbb,0x3c,0x83,0x53,0x99,0x61,
-+       0x17,0x2b,0x04,0x7e,0xba,0x77,0xd6,0x26,
-+       0xe1,0x69,0x14,0x63,0x55,0x21,0x0c,0x7d
-+-    }
-++    },
-++    0
-+   };
-+ 
-+ #define decT dec_tables.T
-+diff --git a/cipher/rijndael.c b/cipher/rijndael.c
-+index 8637195..d0edab2 100644
-+--- a/cipher/rijndael.c
-++++ b/cipher/rijndael.c
-+@@ -227,11 +227,11 @@ static const char *selftest(void);
-+ 
-+ 
-+ /* Prefetching for encryption/decryption tables. */
-+-static void prefetch_table(const volatile byte *tab, size_t len)
-++static inline void prefetch_table(const volatile byte *tab, size_t len)
-+ {
-+   size_t i;
-+ 
-+-  for (i = 0; i < len; i += 8 * 32)
-++  for (i = 0; len - i >= 8 * 32; i += 8 * 32)
-+     {
-+       (void)tab[i + 0 * 32];
-+       (void)tab[i + 1 * 32];
-+@@ -242,17 +242,37 @@ static void prefetch_table(const volatile byte *tab, size_t len)
-+       (void)tab[i + 6 * 32];
-+       (void)tab[i + 7 * 32];
-+     }
-++  for (; i < len; i += 32)
-++    {
-++      (void)tab[i];
-++    }
-+ 
-+   (void)tab[len - 1];
-+ }
-+ 
-+ static void prefetch_enc(void)
-+ {
-+-  prefetch_table((const void *)encT, sizeof(encT));
-++  /* Modify counters to trigger copy-on-write and unsharing if physical pages
-++   * of look-up table are shared between processes.  Modifying counters also
-++   * causes checksums for pages to change and hint same-page merging algorithm
-++   * that these pages are frequently changing.  */
-++  enc_tables.counter_head++;
-++  enc_tables.counter_tail++;
-++
-++  /* Prefetch look-up tables to cache.  */
-++  prefetch_table((const void *)&enc_tables, sizeof(enc_tables));
-+ }
-+ 
-+ static void prefetch_dec(void)
-+ {
-++  /* Modify counters to trigger copy-on-write and unsharing if physical pages
-++   * of look-up table are shared between processes.  Modifying counters also
-++   * causes checksums for pages to change and hint same-page merging algorithm
-++   * that these pages are frequently changing.  */
-++  dec_tables.counter_head++;
-++  dec_tables.counter_tail++;
-++
-++  /* Prefetch look-up tables to cache.  */
-+   prefetch_table((const void *)&dec_tables, sizeof(dec_tables));
-+ }
-+ 
-+@@ -737,7 +757,7 @@ do_encrypt (const RIJNDAEL_context *ctx,
-+ #ifdef USE_AMD64_ASM
-+ # ifdef HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS
-+   return _gcry_aes_amd64_encrypt_block(ctx->keyschenc, bx, ax, ctx->rounds,
-+-				       encT);
-++				       enc_tables.T);
-+ # else
-+   /* Call SystemV ABI function without storing non-volatile XMM registers,
-+    * as target function does not use vector instruction sets. */
-+@@ -757,7 +777,8 @@ do_encrypt (const RIJNDAEL_context *ctx,
-+   return ret;
-+ # endif /* HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS */
-+ #elif defined(USE_ARM_ASM)
-+-  return _gcry_aes_arm_encrypt_block(ctx->keyschenc, bx, ax, ctx->rounds, encT);
-++  return _gcry_aes_arm_encrypt_block(ctx->keyschenc, bx, ax, ctx->rounds,
-++				     enc_tables.T);
-+ #else
-+   return do_encrypt_fn (ctx, bx, ax);
-+ #endif /* !USE_ARM_ASM && !USE_AMD64_ASM*/
-+@@ -1120,7 +1141,7 @@ do_decrypt (const RIJNDAEL_context *ctx, unsigned char *bx,
-+ #ifdef USE_AMD64_ASM
-+ # ifdef HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS
-+   return _gcry_aes_amd64_decrypt_block(ctx->keyschdec, bx, ax, ctx->rounds,
-+-				       &dec_tables);
-++				       dec_tables.T);
-+ # else
-+   /* Call SystemV ABI function without storing non-volatile XMM registers,
-+    * as target function does not use vector instruction sets. */
-+@@ -1141,7 +1162,7 @@ do_decrypt (const RIJNDAEL_context *ctx, unsigned char *bx,
-+ # endif /* HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS */
-+ #elif defined(USE_ARM_ASM)
-+   return _gcry_aes_arm_decrypt_block(ctx->keyschdec, bx, ax, ctx->rounds,
-+-				     &dec_tables);
-++				     dec_tables.T);
-+ #else
-+   return do_decrypt_fn (ctx, bx, ax);
-+ #endif /*!USE_ARM_ASM && !USE_AMD64_ASM*/
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb
-index fda68a2..13d0378 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb
-@@ -21,6 +21,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
-            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-+           file://CVE-2019-12904_p1.patch \
-+           file://CVE-2019-12904_p2.patch \
- "
- SRC_URI[md5sum] = "fbfdaebbbc6d7e5fbbf6ffdb3e139573"
- SRC_URI[sha256sum] = "f638143a0672628fde0cad745e9b14deb85dffb175709cacc1f4fe24b93f2227"
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
