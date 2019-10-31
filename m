@@ -1,51 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 993EF7D39B
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6968A7F8C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 13:53:11 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id q130so5990925wme.2
+	Thu, 31 Oct 2019 15:06:08 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id y23so6616502ljc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 06:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OMaSHsGC+b5TbYqZZ4ZkcHuBCwiH0ZvFIs7LuNqn64k=;
-	b=s+AfFlYRoNdNVhv7BdfRkj8tM09iQhepyAvLNiLIT0qYRdMTk2zgJEFltNGhja6CFg
-	uwAtiFvL303CS2SgDtA/g+k6OrPceSE4Qb2+EZWJbSAuPQoFbQhkclUcaEpeRzwNnXiT
-	QgIE84AYekafzbZHm3EGePiuMhJhE9mTgfL53Zn7uIxL2wDt58kiCbsbPKdW86IHKW9U
-	ucmlHxkyvS6MquuGy903iTKtqNNeEuBX8uCyah/hvXe3t3CzvoZ7ibbR/O1yTx/UHPC+
-	gftCgF93miGcx3xmsWCAZGBD2cEPKmSUUHtANtVMSrVIysZo0IAJyVyY0NDF2f3eLDft
-	nvCw==
+	Thu, 31 Oct 2019 08:06:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=3BtezKuENUE49/alfSRjMvl9LevRAHqKBBv2iYKK9/Q=;
+	b=Z5PWoKrU9hg4DG5lBww23XH/KrdirjkNOyJKFgAIsyxaybXAVd9QMdKGvgsYgEHYsu
+	CYiGacBEhMqb+iOnz3nSD6eNOIhSS//6cj4/Yb5zYB7NStE+sqRK/9WiQMknlNduOnNb
+	0rnI4WeHnXGnQMKQbP2GPJKy7h8xXSjhZB6K+hqjbFBS6XaBBzWjkqjkeS9NSkPgDY08
+	twY7WdsnRMQVkySY6RL2VuKCKdzpoTRcTa1c5+rZpJJBdpLGtcPtwKWjZqUgfR+V2ZNW
+	Ol6Y4Nw+kbbtEPzFlM8v4S+NEPJBVU3Ka9gtHFbXs7TCcGj+LaOp53qDSzHbx6C6oBBP
+	wBAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=OMaSHsGC+b5TbYqZZ4ZkcHuBCwiH0ZvFIs7LuNqn64k=;
-	b=K+eEqkzJaJBDsW9wAIF7o1JGY42HrtGmBcWuks/vG89J9gdKh9zm04LlqBzoQ4T2ic
-	Y68D8Frx9PCtCAybBCBvufaakwXOZfhiMv5N+aE6aXOlZuuAogdZgifDN2rrbxwibCZb
-	I21yuFmWJltSDPd4EtR/4PGw1pigjoo5Q9jHp9Obz5TpNWqTE/shmty8XSmNAIcqZ3mC
-	JaXjc0ZnrsCu7gQlkRkYjJGcYZM2aguQnZT7kAEbKV51lceld2mfXfAlneteDTiwl4vZ
-	hVPlrTdBd8RlzEOkJG351Qm/16xg5RDtXGlFTqcFEj416RfrGI7jMxwZItWffp+cT3KP
-	4skQ==
-X-Gm-Message-State: APjAAAUDlpb/etNbN2HBl7nkLGTrrNMpP+lCsuSASgtaPMsba6sD0gyV
-	0cbamqCNuggkrgmM3/Usijpb2Z281Sk=
-X-Google-Smtp-Source: APXvYqzy6z0+bim2Ws94ofbRpw6l3SMRpmBGyLC47qjCeoW4DvBijRSJTBmaH1drIVuA3tXt7epLRA==
-X-Received: by 2002:a05:600c:1009:: with SMTP id
-	c9mr1823011wmc.71.1572529992167; 
-	Thu, 31 Oct 2019 06:53:12 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	w22sm3602712wmc.16.2019.10.31.06.53.11
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3BtezKuENUE49/alfSRjMvl9LevRAHqKBBv2iYKK9/Q=;
+	b=M3GUK3y+wfbH/maG1C/3GIZjoAEmFTnd9klgtcEWzWITU9X/lz2qHqCKv8qvVaO9pu
+	P7lsdmABsQrCtRCE2pcpml0MgBurXoUdYuD7Lmj1TQd4/O4YAYw8liHhSHztBr45jJvh
+	pxTn4h/CJNZ8iboLfJ5sIjWVkIyA8DdMvXdA4GQlPsv0BQM0Rd1o5WwHQi2BwtPwoSoD
+	KmZKZJpagYtAiKrUUtMhB2Ug1xfqjNEL5dIXQsW+HufWw1hBcd08iJ7+OU1vagr2KAY4
+	u1FvC6dT4yUdbfSSeml92++FKn/Cpe6hp6qWoqGrCEve7IsDJLuc1ztpxKMcf49qE+gw
+	syxw==
+X-Gm-Message-State: APjAAAX24wtwT/Ir4I0bNW/MNqs32S2HY/KRY1wlUz3J8Rp6+Iv6xlly
+	6SnCUm9eoZFoOcB5xzhtQYKZLvOmecg=
+X-Google-Smtp-Source: APXvYqw7ZeEj77kF+oOVW/bVrlVOkeA01YXekc04GGNsHvWDNmhZXlvr98G/qrU0Ch80X1qGFZJLdg==
+X-Received: by 2002:a2e:8852:: with SMTP id z18mr4615492ljj.230.1572534368529; 
+	Thu, 31 Oct 2019 08:06:08 -0700 (PDT)
+Received: from lund.luxoft.com (c213-89-0-115.bredband.comhem.se.
+	[213.89.0.115])
+	by smtp.gmail.com with ESMTPSA id u12sm2122916lje.1.2019.10.31.08.06.07
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 31 Oct 2019 06:53:11 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Thu, 31 Oct 2019 08:06:07 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2019 14:53:05 +0100
-Message-Id: <20191031135305.53420-2-alex.kanavin@gmail.com>
+Date: Thu, 31 Oct 2019 16:06:05 +0100
+Message-Id: <20191031150605.14643-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191031135305.53420-1-alex.kanavin@gmail.com>
-References: <20191031135305.53420-1-alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] selftest: add a test for gpl3-free images
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ofono: update to 1.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,56 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 13:53:12 -0000
+X-List-Received-Date: Thu, 31 Oct 2019 15:06:08 -0000
 
-Existing tests check that adding a specific gpl3 package (bash)
-to core-image-minimal results in expected behaviour.
+Changelog:
+- Fix issue with handling CID 0 context identifier
+- Fix issue with handling detach state and running LTE
+- Fix issue with handling SIM states and Quectel modems
 
-These tests check the ability to build two common images
-without gpl3 components in them:
-
-1. core-image-minimal needs no further tweaks and works
-out of the box.
-
-2. core-image-full-cmdline requires dropping the GNU packages
-that it pulls in; for good measure this tweaked image is
-verified with runtime tests.
-
-These two tests allow dropping meta-gplv2 from being tested
-on the autobuilder, however there should be a community consensus
-first.
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../oeqa/selftest/cases/incompatible_lic.py    | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ .../ofono/{ofono_1.30.bb => ofono_1.31.bb}                    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/ofono/{ofono_1.30.bb => ofono_1.31.bb} (56%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-index 424a9e69c3e..904b5b4094a 100644
---- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-+++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-@@ -73,3 +73,21 @@ INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
- 
-         bitbake('core-image-minimal')
- 
-+class NoGPL3InImagesTests(OESelftestTestCase):
-+    def test_core_image_minimal(self):
-+        self.write_config("""
-+INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
-+""")
-+        bitbake('core-image-minimal')
-+
-+    def test_core_image_full_cmdline(self):
-+        self.write_config("""
-+INHERIT += "testimage"\n
-+INCOMPATIBLE_LICENSE_pn-core-image-full-cmdline = "GPL-3.0 LGPL-3.0"\n
-+RDEPENDS_packagegroup-core-full-cmdline-utils_remove = "bash bc coreutils cpio ed findutils gawk grep mc mc-fish mc-helpers mc-helpers-perl sed tar time"\n
-+RDEPENDS_packagegroup-core-full-cmdline-dev-utils_remove = "diffutils m4 make patch"\n
-+RDEPENDS_packagegroup-core-full-cmdline-multiuser_remove = "gzip"\n
-+""")
-+        bitbake('core-image-full-cmdline')
-+        bitbake('-c testimage core-image-full-cmdline')
-+
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.30.bb b/meta/recipes-connectivity/ofono/ofono_1.31.bb
+similarity index 56%
+rename from meta/recipes-connectivity/ofono/ofono_1.30.bb
+rename to meta/recipes-connectivity/ofono/ofono_1.31.bb
+index c916cb1b22..7869ac0cf7 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.30.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.31.bb
+@@ -5,5 +5,5 @@ SRC_URI  = "\
+   file://ofono \
+   file://0001-mbim-add-an-optional-TEMP_FAILURE_RETRY-macro-copy.patch \
+ "
+-SRC_URI[md5sum] = "2b1ce11a4db1f4b5c8cd96eb7e96ba0c"
+-SRC_URI[sha256sum] = "8079735efc5d7f33be9e792e791f2f7ff75c31ce67d477b994673e32319eec5c"
++SRC_URI[md5sum] = "1c26340e3c6ed132cc812595081bb3dc"
++SRC_URI[sha256sum] = "a15c5d28096c10eb30e47a68b6dc2e7c4a5a99d7f4cfedf0b69624f33d859e9b"
 -- 
 2.17.1
 
