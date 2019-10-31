@@ -1,52 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AA497F8BD
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D01107F962
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 10:57:37 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id p21so5435838wmg.2
+	Thu, 31 Oct 2019 10:57:41 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id a21so4393988edj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 03:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=BKOG+snQWXYHHj12B/vL3V8QaERjAYzn7SxyWb+BAcg=;
-	b=J6M+CYfwvN3EF0gwEylyk6Jez8kdchdaVt8eWqtjUkLwFYipXkeig6MhtQQKARO6Tb
-	nQXzk7jO35BDuBNYNhmsdO0GUH7pTrkLwz9EYy39S8XHoP9Je50nfbOTmaaLSQWkhOop
-	17AwYlIo3vhVswTwRzKMk/PtyIxnzkSLyqXQ7yqfZqozQfzzhLAJEJUl5SUXokrODCJQ
-	FTugnoic54W0YD1+qyN1UhXMeIyyBn9iAEm/9uRGEkY32YpUseODBGnPWreb3i4gLVJP
-	UOlekQYO+1CB3cCBnaORpwhOfd2VhVfZPQbaWunO9qip6RIoFtx+QQWTSq0nv1NUr5HG
-	BrHQ==
+	Thu, 31 Oct 2019 03:57:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Vo9LyvZtkSO4yPvtGB2HtCQnhHQ4v1hFDurHMs+w3RQ=;
+	b=RMPL51jFv5jyIvNcNygpFxpTr2NMP3GgodNA67SeMy3Ma8BJu8MXVBgivBAPSrAtnM
+	k+Ltl/tFsRjV0yltelmDAwXZjTJvczWMS1ByLkGZxAe6AGiIXelOfa0FqA7z5cnSC3Qy
+	qFMq2Ziy27outXA6CPYAeBG3vMN0mxEU1b7QcdZOr2cSfffPpaAQO7+gkhJMgJ4DTHvX
+	TV/eT7vmsc0j4XebuONiL1sUuBc+VngAA+9HjudKLdwJugU9w7Y7of6tpHec/ByB19vn
+	CCY0/hz0AJoJQIrUFpPMal80VoIA80QFTbucqSQAgYJnrkgWX3aOcXKhl41kBBB5Nw1C
+	xKBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=BKOG+snQWXYHHj12B/vL3V8QaERjAYzn7SxyWb+BAcg=;
-	b=Dsg+vQp0ziKmQAKP3g+0vDvxUNJR3jp26z/c/AFbQvkjdeVDRU13baX+cuUUQ+1tf3
-	v9lZsUzEcf8tAq03SsgftCdW8/tX+xWyJ5qeG0kxGcExBz/asB3HjpA9IzRheptGs/h2
-	BfPBpcFiBB8B2+jIXCt4RUufi4vL3OEGilT3LoUles9VtzNRSA/Pj6KTZrg3x8r4eMbF
-	X3aZfeJoPTovMLH7pashOwjx/ApRrqL9ny3u34SFpJ2OT2QPHv9u0qpTJnzGajD56VmK
-	qCs9gN7a/7IKNidFu/2uZx0rLQShihrZGrQt+UuIvqXX8xOapZMO/bNy45i/ZqXALG+F
-	oaDA==
-X-Gm-Message-State: APjAAAUfqjXx2Ji22Y9ZBdatGhzXRBM82aDgaI9jRoKPnvw93hQ+2D4c
-	xlT2TiyPPc93eoLhBnfGG5UJ6xknvlg=
-X-Google-Smtp-Source: APXvYqztFVvslVLBWzoBCfK6ofwsnWYS7HjnksOyJ1HakyzzBp9OqRoeEzBws1JAA0Rn/8PENGFVrw==
-X-Received: by 2002:a1c:b1c3:: with SMTP id a186mr4609991wmf.10.1572519457896; 
-	Thu, 31 Oct 2019 03:57:37 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	f13sm3192113wrq.96.2019.10.31.03.57.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 31 Oct 2019 03:57:37 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2019 10:57:34 +0000
-Message-Id: <20191031105735.8141-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Vo9LyvZtkSO4yPvtGB2HtCQnhHQ4v1hFDurHMs+w3RQ=;
+	b=afA9qVS0tqvksKazNeAC4ZpPL7mpaa8RobW7kCmd4h1oGxCREpN1NHwvvJhXwm81k6
+	rQkXHn61VFzwOTqqgmGSuJPVrgoFqWQ/hpgQopbyiDVcXKQ7WeRn4hhisy844hY8jFsh
+	EKBVdJhpNXunxZNE6GRUGzb0dFkWcJQqE/B50Pf8ha6Y8DhBBxgLprNdqoXbe7VBEWDk
+	VcSR4CoR7uLQb2+KmGt4bgi7WA9ZBpSgTg7bgWc+46Dodw/z/TVbOzp1qYcr70GpZW9o
+	TNUBYM1O9BFH7Bd94TlILwcQxQ6JbpVHmvpDs9Ay65ofgItt8Jg7cC9rlBkvfPSeMHQO
+	gvPg==
+X-Gm-Message-State: APjAAAU+hzIppyXkllow43Su7841UdBbGrNhqzI+QP9BJ+NXWcKr6vri
+	SPzhDAByb5oKgEjxbR3WcQeAABS4Em4YOddIaTR687FmHhk=
+X-Google-Smtp-Source: APXvYqwOjYSx0qNEGFnqLWGxH+EiYPwhGMoN7D2uUYJumxvJSduHcofDp7nSfIv7fYFrNfoD6I5cazbj8hPITJzAKec=
+X-Received: by 2002:a17:906:1f8b:: with SMTP id
+	t11mr3170352ejr.191.1572519462320; 
+	Thu, 31 Oct 2019 03:57:42 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/2] git: some tools are no longer perl, so move to main recipe
+References: <1572517219-382824-1-git-send-email-zhe.he@windriver.com>
+In-Reply-To: <1572517219-382824-1-git-send-email-zhe.he@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 31 Oct 2019 06:57:32 -0400
+Message-ID: <CADkTA4OvFRd7wCFQRHZAv+BMki9nsX_g5_TuogsHUvSnmDGLxg@mail.gmail.com>
+To: He Zhe <zhe.he@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-dummy: Add package kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +55,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 10:57:37 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 31 Oct 2019 10:57:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Some tools are not written in Perl anymore, so they should be in PN no PN-perltools.
+On Thu, Oct 31, 2019 at 6:20 AM <zhe.he@windriver.com> wrote:
+>
+> From: He Zhe <zhe.he@windriver.com>
+>
+> Some package like packagegroup-core-boot may ask for package kernel. Let
+> linux-dummy rprovide package kernel to fix the following build failure.
+>
+> ERROR: Nothing RPROVIDES 'kernel' (but
+> .../meta/recipes-core/packagegroups/packagegroup-core-boot.bb RDEPENDS on or
+> otherwise requires it)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/git/git.inc | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+Can you expand on what the higher level use case is that something is
+using packagegroup-core-boot (or whatever), but also linux-dummy ?
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 6e137432f0a..67fc96b7aff 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -94,19 +94,15 @@ do_install_append_class-nativesdk() {
- FILES_${PN} += "${datadir}/git-core ${libexecdir}/git-core/"
- 
- PERLTOOLS = " \
-+    ${bindir}/git-cvsserver \
-     ${libexecdir}/git-core/git-add--interactive \
-     ${libexecdir}/git-core/git-archimport \
-     ${libexecdir}/git-core/git-cvsexportcommit \
-     ${libexecdir}/git-core/git-cvsimport \
-     ${libexecdir}/git-core/git-cvsserver \
--    ${bindir}/git-cvsserver \
--    ${libexecdir}/git-core/git-difftool \
-     ${libexecdir}/git-core/git-send-email \
-     ${libexecdir}/git-core/git-svn \
-     ${libexecdir}/git-core/git-instaweb \
--    ${libexecdir}/git-core/git-submodule \
--    ${libexecdir}/git-core/git-am \
--    ${libexecdir}/git-core/git-request-pull \
-     ${datadir}/gitweb/gitweb.cgi \
-     ${datadir}/git-core/templates/hooks/prepare-commit-msg.sample \
-     ${datadir}/git-core/templates/hooks/pre-rebase.sample \
+It seems like this is going to hide misconfigurations .. since you may
+want something bootable, but yet are not properly configured.
+
+If there's part of that packagroup you need, why not split it up,
+rather than masking the symptom seen here ?
+
+Bruce
+
+>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+>  meta/recipes-kernel/linux/linux-dummy.bb | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
+> index 62cf6f5ea6..20d7ed815d 100644
+> --- a/meta/recipes-kernel/linux/linux-dummy.bb
+> +++ b/meta/recipes-kernel/linux/linux-dummy.bb
+> @@ -8,19 +8,22 @@ LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+>
+>  PROVIDES += "virtual/kernel"
+> +RPROVIDES_${PN} += "kernel lib32-kernel"
+>
+>  PACKAGES_DYNAMIC += "^kernel-module-.*"
+>  PACKAGES_DYNAMIC += "^kernel-image-.*"
+>  PACKAGES_DYNAMIC += "^kernel-firmware-.*"
+>
+> -PACKAGES += "kernel-modules kernel-vmlinux"
+> +PACKAGES += "kernel-modules kernel-vmlinux kernel"
+>  FILES_kernel-modules = ""
+>  ALLOW_EMPTY_kernel-modules = "1"
+>  DESCRIPTION_kernel-modules = "Kernel modules meta package"
+>  FILES_kernel-vmlinux = ""
+>  ALLOW_EMPTY_kernel-vmlinux = "1"
+>  DESCRIPTION_kernel-vmlinux = "Kernel vmlinux meta package"
+> -
+> +FILES_kernel = ""
+> +ALLOW_EMPTY_kernel = "1"
+> +DESCRIPTION_kernel = "Kernel meta package"
+>
+>  INHIBIT_DEFAULT_DEPS = "1"
+>
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-2.20.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
