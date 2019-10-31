@@ -1,45 +1,46 @@
 Return-Path: <martin.jansa@gmail.com>
 Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
 	[209.85.208.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B2DC67F965
+	by mail.openembedded.org (Postfix) with ESMTP id 58EA97F965
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 11:49:31 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id l25so4522206edt.6
+	Thu, 31 Oct 2019 11:57:39 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id w3so2213675edt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 04:49:33 -0700 (PDT)
+	Thu, 31 Oct 2019 04:57:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/QMgOHjxA2FmmPvnpqDmlAQqIETwG1t+U+KeP7TzviE=;
-	b=lsH6itieO9u4QdOGkvPG3u//Ng0fU1e4zH03y/HS03ZkJI49Btjv+W/N5++MyxqCdF
-	lQIZzVZysb1l8nh+zZrTcI2q/BPaANzW3HuQRrBjLQb0Q4F5cAXNabZWUP6gGmllCIIk
-	Xrs39vdPqwXrbkD4jSCCZOMdtLt1pzo6lmUm69Cx/LOnfcfE/yNNC69VNNatWXG+D4E7
-	iRHAICUWaZHEGy9dDSi92YPCrSwqchZ+JHx+qOO+Cqq5sZ/qWC+NUGSargL+WVcsDp9G
-	CDrP91vBHqoHukB7km8cZvX+JqS8lvRfUDsNBrz4iDGv+OXGXP4WslJ+VXKQ/PIW4q6y
-	KNnQ==
+	:cc; bh=+jCn/r9r/VeoJsKe3HGGmQixMZjV/2R9kQLOodU3TW0=;
+	b=DL//86t9ZMv68VWVGUuIkPKHT7R9+QQTPES2xOc8Nv5mwhhbfmzoPNvwcllfVt0lry
+	VAcfAXyMUHPaPtbEYzxcJJSBpZg+pkmbyCFS4Gl1iaZRDd5dp7sz2KYlmG6ihkamucug
+	Vrsk6qPH1dGnU2HzZwQ5jRHSHRyL9rOVlZVCWbOcERN+qR+nriMPzU8u0sAy/J6AfrWQ
+	HgmuHDJ3nglRsY9OtCcIhWZ2T6NCwMAQQZRbxc6gOFJxX3jAe0ZnjrhH2xNwRx/sbUHP
+	Hhh5h1uLBhcr6ysvP9ku/V4Xvs75Lr00+zuOndeuTogund9YwWhQV8J8E7RLcNJdwGLH
+	jhMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=/QMgOHjxA2FmmPvnpqDmlAQqIETwG1t+U+KeP7TzviE=;
-	b=MXANw3/fkU9ngUpcEhrw14I7DRDkXLeT6YoxR3av5GMgo/WYOi1Qem5XYYmGnKyZcy
-	Om6Q8dL/sZ6b+QDYSsjzR2Kd4tLRIH0182v3hR//GytbS+0wQO6vx7/gJ+dEa5xVl5hj
-	6F6IFI/N8Q+y9CiYmdIZIlxyBTtat0ABwPvQnFm+IZqqnhSrdGkGfTaL3VT2Iz2WC3Le
-	Vzx/f4So6QysdVXenN3RyG2J2oyU60pchDqc5ACf7yu6hXrCjJJo3VT6O2GiBP2JZIle
-	EzxwAGILG+CD76K5M0zYLn8LYn2F0hJBEp1WT48sZLvKL2A9kHTq4KX0nAPfc0/kWuYu
-	dOcQ==
-X-Gm-Message-State: APjAAAUVqLU+IxzuHWox7X89UJp4bQ53doUDPHp4ynYTiHQEFSjBR23T
-	D4POXKngUmKpKWECtnd54JkNBT1ypF0a3qzIYQRQ0cxq
-X-Google-Smtp-Source: APXvYqw8JssbCM9tHCyKXNHdg+HIWJ9Ug5KP1WJKqiXC9zQB6lwIzJ9L6Lwt1K1MMiB/01zDnIR5xW38B12SIT8kyKE=
+	bh=+jCn/r9r/VeoJsKe3HGGmQixMZjV/2R9kQLOodU3TW0=;
+	b=hx6q+PQHFegnRgGlBXmtQiatKWM/5WlVs+T0U4f5YFNQ4fYugnDcJVPEcxQYlAg7zf
+	0YSTgIPLpTlDydfpEB7KBgZTMzk/uDVkeF+xS0wxRx7ShjtB6N4Q+FSquknIJJ+yZsSl
+	u0p3BsLmK+4bAlt5JS8/b8u9TfslBFJGMC2UW2AlPR6gD2Te6yNGt823XSQLCOUxOY+Q
+	zUys0LbnmND4dlSSVr7P8rxH4R1irrfdh4YntBjznK4smCy56R9h87NAGIFK7SMY70tH
+	p3FdhjJdr13rb7NMwSvfAEwwg2nPywlFSLwD/cCEfZ2kMNsp5oHHgVhpTHUyinE7UXE2
+	N92A==
+X-Gm-Message-State: APjAAAWU5nR7nPMpnH2XkoFf25AhsC1dPc5xqpZAp99tRgcSoCT0h55G
+	GU9wI0La2i3fzvwY8/+ZrvepXscrWHQOVj54I4eRJ6fP
+X-Google-Smtp-Source: APXvYqyUFmkiM0u61zxiSxIRYIt/sheCVF3y0lGucUZzo/9ozeNbFrsYfdfk6/uT5ec+NMqOfgQBVKqzl3eXfo8faww=
 X-Received: by 2002:a17:906:3ca:: with SMTP id
-	c10mr3441878eja.140.1572522572199; 
-	Thu, 31 Oct 2019 04:49:32 -0700 (PDT)
+	c10mr3481363eja.140.1572523059840; 
+	Thu, 31 Oct 2019 04:57:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1572072421.git.akuster808@gmail.com>
 	<e02e8fa2e82cceaaa6a433466f52f97b0984762a.1572072422.git.akuster808@gmail.com>
-In-Reply-To: <e02e8fa2e82cceaaa6a433466f52f97b0984762a.1572072422.git.akuster808@gmail.com>
+	<CA+chaQd4dRDmRTaS5_38eO+=rc9xC=Yq4wONwyXncVQ7Ys8Tog@mail.gmail.com>
+In-Reply-To: <CA+chaQd4dRDmRTaS5_38eO+=rc9xC=Yq4wONwyXncVQ7Ys8Tog@mail.gmail.com>
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 31 Oct 2019 12:49:21 +0100
-Message-ID: <CA+chaQd4dRDmRTaS5_38eO+=rc9xC=Yq4wONwyXncVQ7Ys8Tog@mail.gmail.com>
+Date: Thu, 31 Oct 2019 12:57:29 +0100
+Message-ID: <CA+chaQdopiKmfqoreYzx0Q9saS-vtQpkqvLnwjEm9a9UmZ0dwA@mail.gmail.com>
 To: Armin Kuster <akuster808@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -56,307 +57,337 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 11:49:32 -0000
-Content-Type: multipart/alternative; boundary="000000000000513cbb0596337118"
+X-List-Received-Date: Thu, 31 Oct 2019 11:57:40 -0000
+Content-Type: multipart/alternative; boundary="000000000000620b990596338e22"
 
---000000000000513cbb0596337118
+--000000000000620b990596338e22
 Content-Type: text/plain; charset="UTF-8"
 
-This seems to cause:
+I'm sorry I was looking at wrong build before.
 
-ERROR: go-native-1.12.1-r0 do_patch: Fuzz detected:
+It doesn't happen in zeus and master. Only with warrior where this was
+backported as well in:
+"[OE-core] [warrior 18/19] go: fix CVE-2019-16276"
 
-Applying patch
-0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
-patching file src/net/http/serve_test.go
-patching file src/net/http/transport_test.go
-Hunk #1 succeeded at 5059 with fuzz 2 (offset -74 lines).
-patching file src/net/textproto/reader.go
-patching file src/net/textproto/reader_test.go
+Probably because warrior is using older minor version of 1.12 go:
+-GO_MINOR = ".1"
++GO_MINOR = ".9"
 
-The context lines in the patches can be updated with devtool:
 
-    devtool modify go-native
-    devtool finish --force-patch-refresh go-native <layer_path>
+On Thu, Oct 31, 2019 at 12:49 PM Martin Jansa <martin.jansa@gmail.com>
+wrote:
 
-Don't forget to review changes done by devtool!
-
-ERROR: go-native-1.12.1-r0 do_patch: QA Issue: Patch log indicates that
-patches do not apply cleanly. [patch-fuzz]
-
-and the same for go-cross and go-runtime.
-
-The version currently in master is the same, so I guess both are showing
-this QA issue.
-
-Regards,
-
-On Sat, Oct 26, 2019 at 8:54 AM Armin Kuster <akuster808@gmail.com> wrote:
-
-> From: Chen Qi <Qi.Chen@windriver.com>
+> This seems to cause:
 >
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit e31f87e289dfd3bbca961e927447a9c7ba816d3f)
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->  meta/recipes-devtools/go/go-1.12.inc               |   1 +
->  ...nch.go1.12-security-net-textproto-don-t-n.patch | 163
-> +++++++++++++++++++++
->  2 files changed, 164 insertions(+)
->  create mode 100644
-> meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
+> ERROR: go-native-1.12.1-r0 do_patch: Fuzz detected:
 >
-> diff --git a/meta/recipes-devtools/go/go-1.12.inc
-> b/meta/recipes-devtools/go/go-1.12.inc
-> index 39157ff..ed14b17 100644
-> --- a/meta/recipes-devtools/go/go-1.12.inc
-> +++ b/meta/recipes-devtools/go/go-1.12.inc
-> @@ -16,6 +16,7 @@ SRC_URI += "\
->      file://0006-cmd-dist-separate-host-and-target-builds.patch \
->      file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
->      file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-> +
-> file://0001-release-branch.go1.12-security-net-textproto-don-t-n.patch \
->  "
->  SRC_URI_append_libc-musl = "
-> file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+> Applying patch
+> 0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
+> patching file src/net/http/serve_test.go
+> patching file src/net/http/transport_test.go
+> Hunk #1 succeeded at 5059 with fuzz 2 (offset -74 lines).
+> patching file src/net/textproto/reader.go
+> patching file src/net/textproto/reader_test.go
 >
-> diff --git
-> a/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
-> b/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
-> new file mode 100644
-> index 0000000..7b39dbd
-> --- /dev/null
-> +++
-> b/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
-> @@ -0,0 +1,163 @@
-> +From 265b691ac440bfb711d8de323346f7d72e620efe Mon Sep 17 00:00:00 2001
-> +From: Filippo Valsorda <filippo@golang.org>
-> +Date: Thu, 12 Sep 2019 12:37:36 -0400
-> +Subject: [PATCH] [release-branch.go1.12-security] net/textproto: don't
-> + normalize headers with spaces before the colon
-> +
-> +RFC 7230 is clear about headers with a space before the colon, like
-> +
-> +X-Answer : 42
-> +
-> +being invalid, but we've been accepting and normalizing them for
-> compatibility
-> +purposes since CL 5690059 in 2012.
-> +
-> +On the client side, this is harmless and indeed most browsers behave the
-> same
-> +to this day. On the server side, this becomes a security issue when the
-> +behavior doesn't match that of a reverse proxy sitting in front of the
-> server.
-> +
-> +For example, if a WAF accepts them without normalizing them, it might be
-> +possible to bypass its filters, because the Go server would interpret the
-> +header differently. Worse, if the reverse proxy coalesces requests onto a
-> +single HTTP/1.1 connection to a Go server, the understanding of the
-> request
-> +boundaries can get out of sync between them, allowing an attacker to tack
-> an
-> +arbitrary method and path onto a request by other clients, including
-> +authentication headers unknown to the attacker.
-> +
-> +This was recently presented at multiple security conferences:
-> +https://portswigger.net/blog/http-desync-attacks-request-smuggling-reborn
-> +
-> +net/http servers already reject header keys with invalid characters.
-> +Simply stop normalizing extra spaces in net/textproto, let it return them
-> +unchanged like it does for other invalid headers, and let net/http enforce
-> +RFC 7230, which is HTTP specific. This loses us normalization on the
-> client
-> +side, but there's no right answer on the client side anyway, and hiding
-> the
-> +issue sounds worse than letting the application decide.
-> +
-> +Fixes CVE-2019-16276
-> +
-> +Change-Id: I6d272de827e0870da85d93df770d6a0e161bbcf1
-> +Reviewed-on:
-> https://team-review.git.corp.google.com/c/golang/go-private/+/549719
-> +Reviewed-by
-> <https://team-review.git.corp.google.com/c/golang/go-private/+/549719+Reviewed-by>:
-> Brad Fitzpatrick <bradfitz@google.com>
-> +(cherry picked from commit 1280b868e82bf173ea3e988be3092d160ee66082)
-> +Reviewed-on:
-> https://team-review.git.corp.google.com/c/golang/go-private/+/558776
-> +Reviewed-by
-> <https://team-review.git.corp.google.com/c/golang/go-private/+/558776+Reviewed-by>:
-> Dmitri Shuralyov <dmitshur@google.com>
-> +
-> +CVE: CVE-2019-16276
-> +
-> +Upstream-Status: Backport [
-> https://github.com/golang/go/commit/6e6f4aaf70c8b1cc81e65a26332aa9409de03ad8
-> ]
-> +
-> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> +---
-> + src/net/http/serve_test.go       |  4 ++++
-> + src/net/http/transport_test.go   | 27 +++++++++++++++++++++++++++
-> + src/net/textproto/reader.go      | 10 ++--------
-> + src/net/textproto/reader_test.go | 13 ++++++-------
-> + 4 files changed, 39 insertions(+), 15 deletions(-)
-> +
-> +diff --git a/src/net/http/serve_test.go b/src/net/http/serve_test.go
-> +index 6eb0088a96..89bfdfbb82 100644
-> +--- a/src/net/http/serve_test.go
-> ++++ b/src/net/http/serve_test.go
-> +@@ -4748,6 +4748,10 @@ func TestServerValidatesHeaders(t *testing.T) {
-> +               {"foo\xffbar: foo\r\n", 400},                         //
-> binary in header
-> +               {"foo\x00bar: foo\r\n", 400},                         //
-> binary in header
-> +               {"Foo: " + strings.Repeat("x", 1<<21) + "\r\n", 431}, //
-> header too large
-> ++              // Spaces between the header key and colon are not allowed.
-> ++              // See RFC 7230, Section 3.2.4.
-> ++              {"Foo : bar\r\n", 400},
-> ++              {"Foo\t: bar\r\n", 400},
-> +
-> +               {"foo: foo foo\r\n", 200},    // LWS space is okay
-> +               {"foo: foo\tfoo\r\n", 200},   // LWS tab is okay
-> +diff --git a/src/net/http/transport_test.go
-> b/src/net/http/transport_test.go
-> +index 5c329543e2..5e5438a708 100644
-> +--- a/src/net/http/transport_test.go
-> ++++ b/src/net/http/transport_test.go
-> +@@ -5133,3 +5133,30 @@ func TestTransportIgnores408(t *testing.T) {
-> +       }
-> +       t.Fatalf("timeout after %v waiting for Transport connections to
-> die off", time.Since(t0))
-> + }
-> ++
-> ++func TestInvalidHeaderResponse(t *testing.T) {
-> ++      setParallel(t)
-> ++      defer afterTest(t)
-> ++      cst := newClientServerTest(t, h1Mode, HandlerFunc(func(w
-> ResponseWriter, r *Request) {
-> ++              conn, buf, _ := w.(Hijacker).Hijack()
-> ++              buf.Write([]byte("HTTP/1.1 200 OK\r\n" +
-> ++                      "Date: Wed, 30 Aug 2017 19:09:27 GMT\r\n" +
-> ++                      "Content-Type: text/html; charset=utf-8\r\n" +
-> ++                      "Content-Length: 0\r\n" +
-> ++                      "Foo : bar\r\n\r\n"))
-> ++              buf.Flush()
-> ++              conn.Close()
-> ++      }))
-> ++      defer cst.close()
-> ++      res, err := cst.c.Get(cst.ts.URL)
-> ++      if err != nil {
-> ++              t.Fatal(err)
-> ++      }
-> ++      defer res.Body.Close()
-> ++      if v := res.Header.Get("Foo"); v != "" {
-> ++              t.Errorf(`unexpected "Foo" header: %q`, v)
-> ++      }
-> ++      if v := res.Header.Get("Foo "); v != "bar" {
-> ++              t.Errorf(`bad "Foo " header value: %q, want %q`, v, "bar")
-> ++      }
-> ++}
-> +diff --git a/src/net/textproto/reader.go b/src/net/textproto/reader.go
-> +index 2c4f25d5ae..1a5e364cf7 100644
-> +--- a/src/net/textproto/reader.go
-> ++++ b/src/net/textproto/reader.go
-> +@@ -493,18 +493,12 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader,
-> error) {
-> +                       return m, err
-> +               }
-> +
-> +-              // Key ends at first colon; should not have trailing spaces
-> +-              // but they appear in the wild, violating specs, so we
-> remove
-> +-              // them if present.
-> ++              // Key ends at first colon.
-> +               i := bytes.IndexByte(kv, ':')
-> +               if i < 0 {
-> +                       return m, ProtocolError("malformed MIME header
-> line: " + string(kv))
-> +               }
-> +-              endKey := i
-> +-              for endKey > 0 && kv[endKey-1] == ' ' {
-> +-                      endKey--
-> +-              }
-> +-              key := canonicalMIMEHeaderKey(kv[:endKey])
-> ++              key := canonicalMIMEHeaderKey(kv[:i])
-> +
-> +               // As per RFC 7230 field-name is a token, tokens consist
-> of one or more chars.
-> +               // We could return a ProtocolError here, but better to be
-> liberal in what we
-> +diff --git a/src/net/textproto/reader_test.go
-> b/src/net/textproto/reader_test.go
-> +index f85fbdc36d..b92fdcd3c7 100644
-> +--- a/src/net/textproto/reader_test.go
-> ++++ b/src/net/textproto/reader_test.go
-> +@@ -188,11 +188,10 @@ func TestLargeReadMIMEHeader(t *testing.T) {
-> +       }
-> + }
-> +
-> +-// Test that we read slightly-bogus MIME headers seen in the wild,
-> +-// with spaces before colons, and spaces in keys.
-> ++// TestReadMIMEHeaderNonCompliant checks that we don't normalize headers
-> ++// with spaces before colons, and accept spaces in keys.
-> + func TestReadMIMEHeaderNonCompliant(t *testing.T) {
-> +-      // Invalid HTTP response header as sent by an Axis security
-> +-      // camera: (this is handled by IE, Firefox, Chrome, curl, etc.)
-> ++      // These invalid headers will be rejected by net/http according to
-> RFC 7230.
-> +       r := reader("Foo: bar\r\n" +
-> +               "Content-Language: en\r\n" +
-> +               "SID : 0\r\n" +
-> +@@ -202,9 +201,9 @@ func TestReadMIMEHeaderNonCompliant(t *testing.T) {
-> +       want := MIMEHeader{
-> +               "Foo":              {"bar"},
-> +               "Content-Language": {"en"},
-> +-              "Sid":              {"0"},
-> +-              "Audio Mode":       {"None"},
-> +-              "Privilege":        {"127"},
-> ++              "SID ":             {"0"},
-> ++              "Audio Mode ":      {"None"},
-> ++              "Privilege ":       {"127"},
-> +       }
-> +       if !reflect.DeepEqual(m, want) || err != nil {
-> +               t.Fatalf("ReadMIMEHeader =\n%v, %v; want:\n%v", m, err,
-> want)
-> --
-> 2.7.4
+> The context lines in the patches can be updated with devtool:
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     devtool modify go-native
+>     devtool finish --force-patch-refresh go-native <layer_path>
+>
+> Don't forget to review changes done by devtool!
+>
+> ERROR: go-native-1.12.1-r0 do_patch: QA Issue: Patch log indicates that
+> patches do not apply cleanly. [patch-fuzz]
+>
+> and the same for go-cross and go-runtime.
+>
+> The version currently in master is the same, so I guess both are showing
+> this QA issue.
+>
+> Regards,
+>
+> On Sat, Oct 26, 2019 at 8:54 AM Armin Kuster <akuster808@gmail.com> wrote:
+>
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> (cherry picked from commit e31f87e289dfd3bbca961e927447a9c7ba816d3f)
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> ---
+>>  meta/recipes-devtools/go/go-1.12.inc               |   1 +
+>>  ...nch.go1.12-security-net-textproto-don-t-n.patch | 163
+>> +++++++++++++++++++++
+>>  2 files changed, 164 insertions(+)
+>>  create mode 100644
+>> meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
+>>
+>> diff --git a/meta/recipes-devtools/go/go-1.12.inc
+>> b/meta/recipes-devtools/go/go-1.12.inc
+>> index 39157ff..ed14b17 100644
+>> --- a/meta/recipes-devtools/go/go-1.12.inc
+>> +++ b/meta/recipes-devtools/go/go-1.12.inc
+>> @@ -16,6 +16,7 @@ SRC_URI += "\
+>>      file://0006-cmd-dist-separate-host-and-target-builds.patch \
+>>      file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+>>      file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+>> +
+>> file://0001-release-branch.go1.12-security-net-textproto-don-t-n.patch \
+>>  "
+>>  SRC_URI_append_libc-musl = "
+>> file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+>>
+>> diff --git
+>> a/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
+>> b/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
+>> new file mode 100644
+>> index 0000000..7b39dbd
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-devtools/go/go-1.12/0001-release-branch.go1.12-security-net-textproto-don-t-n.patch
+>> @@ -0,0 +1,163 @@
+>> +From 265b691ac440bfb711d8de323346f7d72e620efe Mon Sep 17 00:00:00 2001
+>> +From: Filippo Valsorda <filippo@golang.org>
+>> +Date: Thu, 12 Sep 2019 12:37:36 -0400
+>> +Subject: [PATCH] [release-branch.go1.12-security] net/textproto: don't
+>> + normalize headers with spaces before the colon
+>> +
+>> +RFC 7230 is clear about headers with a space before the colon, like
+>> +
+>> +X-Answer : 42
+>> +
+>> +being invalid, but we've been accepting and normalizing them for
+>> compatibility
+>> +purposes since CL 5690059 in 2012.
+>> +
+>> +On the client side, this is harmless and indeed most browsers behave the
+>> same
+>> +to this day. On the server side, this becomes a security issue when the
+>> +behavior doesn't match that of a reverse proxy sitting in front of the
+>> server.
+>> +
+>> +For example, if a WAF accepts them without normalizing them, it might be
+>> +possible to bypass its filters, because the Go server would interpret the
+>> +header differently. Worse, if the reverse proxy coalesces requests onto a
+>> +single HTTP/1.1 connection to a Go server, the understanding of the
+>> request
+>> +boundaries can get out of sync between them, allowing an attacker to
+>> tack an
+>> +arbitrary method and path onto a request by other clients, including
+>> +authentication headers unknown to the attacker.
+>> +
+>> +This was recently presented at multiple security conferences:
+>> +
+>> https://portswigger.net/blog/http-desync-attacks-request-smuggling-reborn
+>> +
+>> +net/http servers already reject header keys with invalid characters.
+>> +Simply stop normalizing extra spaces in net/textproto, let it return them
+>> +unchanged like it does for other invalid headers, and let net/http
+>> enforce
+>> +RFC 7230, which is HTTP specific. This loses us normalization on the
+>> client
+>> +side, but there's no right answer on the client side anyway, and hiding
+>> the
+>> +issue sounds worse than letting the application decide.
+>> +
+>> +Fixes CVE-2019-16276
+>> +
+>> +Change-Id: I6d272de827e0870da85d93df770d6a0e161bbcf1
+>> +Reviewed-on:
+>> https://team-review.git.corp.google.com/c/golang/go-private/+/549719
+>> +Reviewed-by
+>> <https://team-review.git.corp.google.com/c/golang/go-private/+/549719+Reviewed-by>:
+>> Brad Fitzpatrick <bradfitz@google.com>
+>> +(cherry picked from commit 1280b868e82bf173ea3e988be3092d160ee66082)
+>> +Reviewed-on:
+>> https://team-review.git.corp.google.com/c/golang/go-private/+/558776
+>> +Reviewed-by
+>> <https://team-review.git.corp.google.com/c/golang/go-private/+/558776+Reviewed-by>:
+>> Dmitri Shuralyov <dmitshur@google.com>
+>> +
+>> +CVE: CVE-2019-16276
+>> +
+>> +Upstream-Status: Backport [
+>> https://github.com/golang/go/commit/6e6f4aaf70c8b1cc81e65a26332aa9409de03ad8
+>> ]
+>> +
+>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> +---
+>> + src/net/http/serve_test.go       |  4 ++++
+>> + src/net/http/transport_test.go   | 27 +++++++++++++++++++++++++++
+>> + src/net/textproto/reader.go      | 10 ++--------
+>> + src/net/textproto/reader_test.go | 13 ++++++-------
+>> + 4 files changed, 39 insertions(+), 15 deletions(-)
+>> +
+>> +diff --git a/src/net/http/serve_test.go b/src/net/http/serve_test.go
+>> +index 6eb0088a96..89bfdfbb82 100644
+>> +--- a/src/net/http/serve_test.go
+>> ++++ b/src/net/http/serve_test.go
+>> +@@ -4748,6 +4748,10 @@ func TestServerValidatesHeaders(t *testing.T) {
+>> +               {"foo\xffbar: foo\r\n", 400},                         //
+>> binary in header
+>> +               {"foo\x00bar: foo\r\n", 400},                         //
+>> binary in header
+>> +               {"Foo: " + strings.Repeat("x", 1<<21) + "\r\n", 431}, //
+>> header too large
+>> ++              // Spaces between the header key and colon are not
+>> allowed.
+>> ++              // See RFC 7230, Section 3.2.4.
+>> ++              {"Foo : bar\r\n", 400},
+>> ++              {"Foo\t: bar\r\n", 400},
+>> +
+>> +               {"foo: foo foo\r\n", 200},    // LWS space is okay
+>> +               {"foo: foo\tfoo\r\n", 200},   // LWS tab is okay
+>> +diff --git a/src/net/http/transport_test.go
+>> b/src/net/http/transport_test.go
+>> +index 5c329543e2..5e5438a708 100644
+>> +--- a/src/net/http/transport_test.go
+>> ++++ b/src/net/http/transport_test.go
+>> +@@ -5133,3 +5133,30 @@ func TestTransportIgnores408(t *testing.T) {
+>> +       }
+>> +       t.Fatalf("timeout after %v waiting for Transport connections to
+>> die off", time.Since(t0))
+>> + }
+>> ++
+>> ++func TestInvalidHeaderResponse(t *testing.T) {
+>> ++      setParallel(t)
+>> ++      defer afterTest(t)
+>> ++      cst := newClientServerTest(t, h1Mode, HandlerFunc(func(w
+>> ResponseWriter, r *Request) {
+>> ++              conn, buf, _ := w.(Hijacker).Hijack()
+>> ++              buf.Write([]byte("HTTP/1.1 200 OK\r\n" +
+>> ++                      "Date: Wed, 30 Aug 2017 19:09:27 GMT\r\n" +
+>> ++                      "Content-Type: text/html; charset=utf-8\r\n" +
+>> ++                      "Content-Length: 0\r\n" +
+>> ++                      "Foo : bar\r\n\r\n"))
+>> ++              buf.Flush()
+>> ++              conn.Close()
+>> ++      }))
+>> ++      defer cst.close()
+>> ++      res, err := cst.c.Get(cst.ts.URL)
+>> ++      if err != nil {
+>> ++              t.Fatal(err)
+>> ++      }
+>> ++      defer res.Body.Close()
+>> ++      if v := res.Header.Get("Foo"); v != "" {
+>> ++              t.Errorf(`unexpected "Foo" header: %q`, v)
+>> ++      }
+>> ++      if v := res.Header.Get("Foo "); v != "bar" {
+>> ++              t.Errorf(`bad "Foo " header value: %q, want %q`, v, "bar")
+>> ++      }
+>> ++}
+>> +diff --git a/src/net/textproto/reader.go b/src/net/textproto/reader.go
+>> +index 2c4f25d5ae..1a5e364cf7 100644
+>> +--- a/src/net/textproto/reader.go
+>> ++++ b/src/net/textproto/reader.go
+>> +@@ -493,18 +493,12 @@ func (r *Reader) ReadMIMEHeader() (MIMEHeader,
+>> error) {
+>> +                       return m, err
+>> +               }
+>> +
+>> +-              // Key ends at first colon; should not have trailing
+>> spaces
+>> +-              // but they appear in the wild, violating specs, so we
+>> remove
+>> +-              // them if present.
+>> ++              // Key ends at first colon.
+>> +               i := bytes.IndexByte(kv, ':')
+>> +               if i < 0 {
+>> +                       return m, ProtocolError("malformed MIME header
+>> line: " + string(kv))
+>> +               }
+>> +-              endKey := i
+>> +-              for endKey > 0 && kv[endKey-1] == ' ' {
+>> +-                      endKey--
+>> +-              }
+>> +-              key := canonicalMIMEHeaderKey(kv[:endKey])
+>> ++              key := canonicalMIMEHeaderKey(kv[:i])
+>> +
+>> +               // As per RFC 7230 field-name is a token, tokens consist
+>> of one or more chars.
+>> +               // We could return a ProtocolError here, but better to be
+>> liberal in what we
+>> +diff --git a/src/net/textproto/reader_test.go
+>> b/src/net/textproto/reader_test.go
+>> +index f85fbdc36d..b92fdcd3c7 100644
+>> +--- a/src/net/textproto/reader_test.go
+>> ++++ b/src/net/textproto/reader_test.go
+>> +@@ -188,11 +188,10 @@ func TestLargeReadMIMEHeader(t *testing.T) {
+>> +       }
+>> + }
+>> +
+>> +-// Test that we read slightly-bogus MIME headers seen in the wild,
+>> +-// with spaces before colons, and spaces in keys.
+>> ++// TestReadMIMEHeaderNonCompliant checks that we don't normalize headers
+>> ++// with spaces before colons, and accept spaces in keys.
+>> + func TestReadMIMEHeaderNonCompliant(t *testing.T) {
+>> +-      // Invalid HTTP response header as sent by an Axis security
+>> +-      // camera: (this is handled by IE, Firefox, Chrome, curl, etc.)
+>> ++      // These invalid headers will be rejected by net/http according
+>> to RFC 7230.
+>> +       r := reader("Foo: bar\r\n" +
+>> +               "Content-Language: en\r\n" +
+>> +               "SID : 0\r\n" +
+>> +@@ -202,9 +201,9 @@ func TestReadMIMEHeaderNonCompliant(t *testing.T) {
+>> +       want := MIMEHeader{
+>> +               "Foo":              {"bar"},
+>> +               "Content-Language": {"en"},
+>> +-              "Sid":              {"0"},
+>> +-              "Audio Mode":       {"None"},
+>> +-              "Privilege":        {"127"},
+>> ++              "SID ":             {"0"},
+>> ++              "Audio Mode ":      {"None"},
+>> ++              "Privilege ":       {"127"},
+>> +       }
+>> +       if !reflect.DeepEqual(m, want) || err != nil {
+>> +               t.Fatalf("ReadMIMEHeader =\n%v, %v; want:\n%v", m, err,
+>> want)
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 >
 
---000000000000513cbb0596337118
+--000000000000620b990596338e22
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This seems to cause:<div><br></div><div>ERROR: go-native-1=
-.12.1-r0 do_patch: Fuzz detected:<br><br>Applying patch 0001-release-branch=
-.go1.12-security-net-textproto-don-t-n.patch<br>patching file src/net/http/=
-serve_test.go<br>patching file src/net/http/transport_test.go<br>Hunk #1 su=
-cceeded at 5059 with fuzz 2 (offset -74 lines).<br>patching file src/net/te=
-xtproto/reader.go<br>patching file src/net/textproto/reader_test.go<br><br>=
-The context lines in the patches can be updated with devtool:<br><br>=C2=A0=
- =C2=A0 devtool modify go-native<br>=C2=A0 =C2=A0 devtool finish --force-pa=
-tch-refresh go-native &lt;layer_path&gt;<br><br>Don&#39;t forget to review =
-changes done by devtool!<br><br>ERROR: go-native-1.12.1-r0 do_patch: QA Iss=
-ue: Patch log indicates that patches do not apply cleanly. [patch-fuzz]<br>=
-</div><div><br></div><div>and the same for go-cross and go-runtime.</div><d=
-iv><br></div><div>The version currently in master is the same, so I guess b=
-oth are showing this QA issue.</div><div><br></div><div>Regards,</div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sa=
-t, Oct 26, 2019 at 8:54 AM Armin Kuster &lt;<a href=3D"mailto:akuster808@gm=
-ail.com">akuster808@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@wi=
-ndriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+<div dir=3D"ltr">I&#39;m sorry I was looking at wrong build before.<div><br=
+></div><div>It doesn&#39;t happen in zeus and master. Only with warrior whe=
+re this was backported as well in:</div><div>&quot;[OE-core] [warrior 18/19=
+] go: fix CVE-2019-16276&quot;</div><div><br></div><div>Probably because wa=
+rrior is using older minor version of 1.12 go:</div><div>-GO_MINOR =3D &quo=
+t;.1&quot;<br>+GO_MINOR =3D &quot;.9&quot;<br></div><div><br></div></div><b=
+r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, =
+Oct 31, 2019 at 12:49 PM Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gm=
+ail.com">martin.jansa@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr">This seems to cause:<div>=
+<br></div><div>ERROR: go-native-1.12.1-r0 do_patch: Fuzz detected:<br><br>A=
+pplying patch 0001-release-branch.go1.12-security-net-textproto-don-t-n.pat=
+ch<br>patching file src/net/http/serve_test.go<br>patching file src/net/htt=
+p/transport_test.go<br>Hunk #1 succeeded at 5059 with fuzz 2 (offset -74 li=
+nes).<br>patching file src/net/textproto/reader.go<br>patching file src/net=
+/textproto/reader_test.go<br><br>The context lines in the patches can be up=
+dated with devtool:<br><br>=C2=A0 =C2=A0 devtool modify go-native<br>=C2=A0=
+ =C2=A0 devtool finish --force-patch-refresh go-native &lt;layer_path&gt;<b=
+r><br>Don&#39;t forget to review changes done by devtool!<br><br>ERROR: go-=
+native-1.12.1-r0 do_patch: QA Issue: Patch log indicates that patches do no=
+t apply cleanly. [patch-fuzz]<br></div><div><br></div><div>and the same for=
+ go-cross and go-runtime.</div><div><br></div><div>The version currently in=
+ master is the same, so I guess both are showing this QA issue.</div><div><=
+br></div><div>Regards,</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Sat, Oct 26, 2019 at 8:54 AM Armin Kuster =
+&lt;<a href=3D"mailto:akuster808@gmail.com" target=3D"_blank">akuster808@gm=
+ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">From: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=3D=
+"_blank">Qi.Chen@windriver.com</a>&gt;<br>
 <br>
 Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
 =3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
@@ -662,5 +693,6 @@ k">Openembedded-core@lists.openembedded.org</a><br>
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
 n/listinfo/openembedded-core</a><br>
 </blockquote></div>
+</blockquote></div>
 
---000000000000513cbb0596337118--
+--000000000000620b990596338e22--
