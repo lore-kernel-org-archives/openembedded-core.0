@@ -1,33 +1,37 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id D6C797F808
+	by mail.openembedded.org (Postfix) with ESMTP id 1D7C97F9B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 12:28:16 +0000 (UTC)
+	Thu, 31 Oct 2019 12:28:31 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 473l3M2nclz2Y
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2019 13:28:15 +0100 (CET)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 473l3g5bldz2Y;
+	Thu, 31 Oct 2019 13:28:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1572524895;
-	bh=dcBsQwnLMSOzJYdHM6+MmO1ccd1FomHuvwZl+btiBVI=;
-	h=From:To:Subject:Date:From;
-	b=QSTBF/EExmhYuGeQNnKfAnnTq2LXvjSWWo4S2hddKOYgYiniefJt/xz8wY0uQOqS4
-	9vMY22fzylU+3q3rEvndeiTEYtZcFJWqZ9bdkuMyf0CAmnh3frpcTY66DdHj+E8Oi+
-	cs6u3x/B8ewArQqS97rL+OwDyb3sizCjvg5rigMvRXG0roVbVcy5P+32lLFGFT9MN/
-	Txq2CkRD8ZZrcXCRt0qz6Euaz4Hg1VkFErfsBhJ0JNjZ9eKZX/Cgic1pdGPiup2Nh3
-	/RyePo5gdnHjGL6/VFS+20uXucOuqD15LMd5w0PxxKM8nTfPpDTb+wOR6JftuSXhbS
-	QJgvXX38QBBHMmD2Gpn/i9Ysqydtz4BGDJ3ZWpuNwLA3EPfjmRYsLeTCpVFvc2IbXI
-	bP97/p5oNrzTHcluISyIW7bZleEDPOA68vIxH9Joeo2+J0Uz6sdiDHDAQa2VyhyxOP
-	4W8D9KbXI2sa+VLmQsI0Li4m7UaWoMnbyK9qitE7VvQelMLXqD1OxVAwcqVI9TLxMF
-	U3QPqCs3fLLewNEeNlWvJkw7egsq/B7yjrjo1ffYbAGRjZWuRuVxuJ9l8uiNg0vy3V
-	TjGfxuIMVe9o1ox5Qoil6nkPQeSqrL3OkcpCBJzv+54SOLTq5BZsIJJr4VbYNOl7Lc
-	MsAp8BhyPthnFsXxARmWqrjQ=
+	s=default; t=1572524912;
+	bh=SCjfOurA4Rhr4JeAKEnwn1f+7SthTJOQ3vYKepjAuk0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UwwWjP7kjBJibb+mAu2ZTN5JzIlXq23dN34JWQrC68dLbI/ENu8r3u9JOI9zsIt/d
+	OY/iKOooEa1m/X7CqbCU4uidnGiKSyv+qEWIMSuq2xtWU40brBAlV89fOGOy8dMAdA
+	vd99fVMTS1XlEu23PdBmv0Dh3n2gs+gIO8Mv9twb8/UjJvpLp1kS0lvtl6SYuaH3bm
+	y2/KFscnSJXVhsaomdjAHb88NwyAj63stj9MLNcv1VPNDcilODkGIM3UWmwVvgu21m
+	FIe25JExGsgq4yzkoipYv+DteckjLSu7SOZc8GWwhcdz/0hd0ksrnG9UYkk76xY12H
+	PKU+jRAPi0vIe69/npZteJbozQj96ynjOR+elg9f1PEpY0gUBmp5vNURXGBfs5eNX7
+	Wdn5QchwzsUrycomwK68iKkDlAVmDic5ajx0TlVRQFXeLzej+WzDLDSH2BeJCnmw+8
+	bx4howQwe194nES0SpgfpHszLWvCqhEOlmmMkEkRuihFUMcTXjSMfKVdOJf4EKkuMr
+	rWg8wg5ki8/ZtBwj+EaX7TzJhayTe353WZaFoEg6tbUxaK6lrhdJV+HTmWwB8dyO/W
+	EHOYKNPAszoVKC4944JPShMzdxH/2ZlIPHz58y+73V7l3Ij6rQ+kmDGbN2Q3GL9ZNg
+	fSejIiNK80fs8IZLQI4QJ/Pg=
+Date: Thu, 31 Oct 2019 14:28:29 +0200
 From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2019 14:28:14 +0200
-Message-Id: <20191031122814.21435-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v5] coreutils: Move stdbuf into an own package coreutils-stdbuf
+To: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <20191031122828.GA31854@localhost>
+References: <20191028221328.15756-1-bunk@stusta.de>
+	<e3ede03b-34b7-4815-c5e3-cfc5eb6d8495@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <e3ede03b-34b7-4815-c5e3-cfc5eb6d8495@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v4] coreutils: Move stdbuf into an own package coreutils-stdbuf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,48 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2019 12:28:17 -0000
+X-List-Received-Date: Thu, 31 Oct 2019 12:28:31 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-The coreutils implementation of stdbuf uses LD_PRELOAD
-to dynamically load libstdbuf which calls setvbuf().
-This can't be implemented simply in busybox since it produces
-one or two statically linked executables. Therefore, stdbuf
-should be packaged separately for people who are using busybox
-instead of coreutils for the other tools.
+On Wed, Oct 30, 2019 at 04:36:58PM -0400, Randy MacLeod wrote:
+> On 10/28/19 6:13 PM, Adrian Bunk wrote:
+> > This LD_PRELOAD trick is not really suitable for busybox,
+> > so can be the only part of coreutils needed.
+> 
+> Which LD_PRELOAD trick?
+> 
+> Ah, I think you mean:
+> 
+>    The coreutils implementation of stdbuf uses LD_PRELOAD [1]
+>    to dynamically load libstdbuf which calls setvbuf().
+>    This can't be implemented simply in busybox since it produces
+>    one or two statically linked executables. Therefore, stdbuf
+>    should be packaged separately.
+> 
+> [1]  ?? http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=blob;f=src/stdbuf.c;h=7eaadb45fef8c01783eeb5c27853fafbcef34f1c;hb=HEAD#l188
+> 
+> Could you send a v5 for plebs like me?
 
-coreutils depends on the new package,
-so nothing changes when installing coreutils.
+Done.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-core/coreutils/coreutils_8.31.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> ../Randy
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
-index 4a74f619af..57b2c1bdba 100644
---- a/meta/recipes-core/coreutils/coreutils_8.31.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-@@ -49,7 +49,7 @@ bindir_progs = "arch basename chcon cksum comm csplit cut dir dircolors dirname
-                 env expand expr factor fmt fold groups head hostid id install \
-                 join link logname md5sum mkfifo nl nohup nproc od paste pathchk \
-                 pinky pr printf ptx readlink realpath runcon seq sha1sum sha224sum sha256sum \
--                sha384sum sha512sum shred shuf sort split stdbuf sum tac tail tee test timeout \
-+                sha384sum sha512sum shred shuf sort split sum tac tail tee test timeout \
-                 tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
- 
- # hostname gets a special treatment and is not included in this
-@@ -58,6 +58,10 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd echo false hostname kill l
- 
- sbindir_progs= "chroot"
- 
-+PACKAGE_BEFORE_PN_class-target += "coreutils-stdbuf"
-+FILES_coreutils-stdbuf = "${bindir}/stdbuf ${libdir}/coreutils/libstdbuf.so"
-+RDEPENDS_coreutils_class-target += "coreutils-stdbuf"
-+
- # Let aclocal use the relative path for the m4 file rather than the
- # absolute since coreutils has a lot of m4 files, otherwise there might
- # be an "Argument list too long" error when it is built in a long/deep
+cu
+Adrian
+
 -- 
-2.17.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
