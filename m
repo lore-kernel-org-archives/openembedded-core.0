@@ -1,35 +1,50 @@
-Return-Path: <Alexander.Hirsch@gin.de>
-X-Greylist: delayed 1928 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 01 Nov 2019 12:19:32 UTC
-Received: from good-out-10.clustermail.de (good-out-10.clustermail.de
-	[212.223.36.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A07EC7F8A9
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+	[209.85.208.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 518CF7EDF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2019 12:19:32 +0000 (UTC)
-Received: from [10.0.0.2] (helo=frontend.clustermail.de)
-	by smtpout-02.clustermail.de with esmtp (Exim 4.92)
-	(envelope-from <Alexander.Hirsch@gin.de>) id 1iQVOg-0008SO-Rf
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Nov 2019 12:47:24 +0100
-Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
-	by frontend.clustermail.de with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92.2)
-	(envelope-from <Alexander.Hirsch@gin.de>) id 1iQVOg-0006a4-N7
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Nov 2019 12:47:18 +0100
-Received: from LT-001-212-1.gin-domain.local (10.160.140.121) by
-	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Fri, 1 Nov 2019 12:47:17 +0100
-Date: Fri, 1 Nov 2019 12:47:16 +0100
-From: Alexander Hirsch <alexander.hirsch@gin.de>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20191101114716.GC2935@LT-001-212-1.gin-domain.local>
+	Fri,  1 Nov 2019 14:32:05 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id t5so10493503ljk.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Nov 2019 07:32:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=55vlbBVRJJiIGRQVAqNx4N34i9rTdAM57Op4OK0Byg8=;
+	b=erVP84084lA5uC3hJaZpaPcLydXRy8Q57AP6VKEw0Yoz2IHLXhlPFyYmanCvwvA1TS
+	WtwE4hDoK9C86w0b2iof4SK1cA7t3CBwzaVjtxiyk05bBjEi5qkvgB4m/cAcvWli7qxs
+	WBAppcTQUpBlhYvaNbR6iF7zPehXXDT9CwzeZTtwVwRwztcjHdhvB5o46izu0NsUqdLi
+	BlNPZ6R4UMLSksXIx2xWlEQLa5Wl8+QsmMW36rkT5yFafCeA5vQVLmWLGF6A9lNRV+DA
+	NB67urtEtvP1ajKSLzE6PyKKpgTe+xYYcgV/DxnzboHRwv/IPwpqbcc3jigvJ8hP3c5N
+	AYVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=55vlbBVRJJiIGRQVAqNx4N34i9rTdAM57Op4OK0Byg8=;
+	b=DHEtMXHDPzVn/XB4CVqWXE66/PcZh68aimv/bemXQYw7IYfQBDxOMNhVmlBpeTl3Ed
+	l6V/xxhLsp9rA4peYlo5X1na42zPw3oIdvUaSKDjhmONd80raSkG8OcxOvOva8b/YQJL
+	GcR8MFL6uCdUEe9KtirJRUsAgzOxaPJGeyubrO0I8BrUkffsrf/fG0eH5OnBc5aIdg26
+	Bk6KgUchzcJZR4OKqjoCGHlOfSBfd2EPWsaRYu4v0gpgBxzUyJeOYRyX5yOHcmHV+BF6
+	JTeC9CR6YnpchkghX/YUYm55L8y5byPrH2UGZLAUhAdv0o+JyYP65p1WNQO/qphct/Qm
+	WZdA==
+X-Gm-Message-State: APjAAAUJ18NlWWrRKZPnHTbSrYOpPIwqEtCRJvycqNQPVRV4QAdOUvC5
+	talZIfe2LHrigkWHWY/vjPWgr3Eff/w=
+X-Google-Smtp-Source: APXvYqzCobEjftqq5J8LLcLUezRiIwUO4q9sTjhzdhU8zS2BJyDt6iC6YEljm0Kn8sXjHg/NOidycA==
+X-Received: by 2002:a2e:3505:: with SMTP id z5mr7858538ljz.126.1572618725242; 
+	Fri, 01 Nov 2019 07:32:05 -0700 (PDT)
+Received: from localhost.localdomain ([188.162.65.93])
+	by smtp.gmail.com with ESMTPSA id o5sm3626226lfn.78.2019.11.01.07.32.03
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 01 Nov 2019 07:32:04 -0700 (PDT)
+From: dbaryshkov@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Nov 2019 17:31:46 +0300
+Message-Id: <20191101143147.26812-1-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.160.140.121]
-X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
-	Win2012-02.gin-domain.local (192.168.1.12)
-Subject: [PATCH] libksba: Fix license specification
+Subject: [PATCH 0/2] fix multilib issues with UEFI bootloaders
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,63 +57,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2019 12:19:32 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 01 Nov 2019 14:32:05 -0000
 Content-Transfer-Encoding: 8bit
 
-The tools (e.g. build system, tests) & manual are licensed as GPLv3+ and
-the library itself is GPLv2+ | LGPLv3+.
-
-This is documented in libksba/AUTHORS:
-https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=blob;f=AUTHORS;h=c161951281f2a432ad0ff112111f70a83e1d93fa;hb=3df0cd32e3b21b7da96a93d1f84d6cb6a77b89be
-
-Signed-off-by: Alexander Hirsch <alexander.hirsch@gin.de>
----
-
-On the side, while looking where/how to send a patch I looked at this page:
-https://www.yoctoproject.org/community/
-The link "Submit A Patch" links to the style-guide instead of the
-"How to submit a patch"-Page on the Wiki. Is this intended?
-
- meta/recipes-support/libksba/libksba_1.3.5.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/libksba/libksba_1.3.5.bb b/meta/recipes-support/libksba/libksba_1.3.5.bb
-index a7ea53f..4deda18 100644
---- a/meta/recipes-support/libksba/libksba_1.3.5.bb
-+++ b/meta/recipes-support/libksba/libksba_1.3.5.bb
-@@ -1,6 +1,8 @@
- SUMMARY = "Easy API to create and parse X.509 and CMS related objects"
- HOMEPAGE = "http://www.gnupg.org/related_software/libksba/"
--LICENSE = "GPLv2+ | LGPLv3+ | GPLv3+"
-+LICENSE = "GPLv3+ & (GPLv2+ | LGPLv3+)"
-+LICENSE_${PN} = "GPLv2+ | LGPLv3+"
-+LICENSE_${PN}-doc = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=fd541d83f75d038c4e0617b672ed8bda \
-                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.GPLv3;md5=2f31b266d3440dd7ee50f92cf67d8e6c \
--- 
-2.7.4
+Last UEFI patchset that went in broke building not-native multilib
+images (like lib32-core-image-minimal). Fix this issue by listing
+systemd-boot as non-multilib recipe and by fixing UEFI app naming in
+multilib cases.
 
 -- 
-G.i.N. Gesellschaft für industrielle Netzwerke GmbH
-Raiffeisenstr. 15
-D-64347 Griesheim
-
-Telefon: +49 6155 - 8259 - 0
-Telefax: +49 6155 - 8259 - 11
-
-E-Mail: alexander.hirsch@gin.de
-Internet: www.gin.de
-
-Sitz: Griesheim
-Registergericht: Amtsgericht Darmstadt, HRB 5068
-Gerichtsstand: Darmstadt
-USt.-ID-Nr. DE 111633284
-WEEE-Reg.-Nr. DE 20824942
-
-Geschäftsführer:
-Dipl.-Inform. Andreas Schoenberg
-Dipl.-Ing. (FH) Kay Wuttke
+With best wishes
+Dmitry
 
