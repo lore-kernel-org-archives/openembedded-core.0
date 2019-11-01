@@ -1,45 +1,46 @@
-Return-Path: <andrey.z@gmail.com>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 0549B7FCA2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+	[209.85.222.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B4747FC2B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2019 17:33:41 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id t26so5650060wmi.4
+	Fri,  1 Nov 2019 17:39:59 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id m4so11411699qke.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Nov 2019 10:33:43 -0700 (PDT)
+	Fri, 01 Nov 2019 10:40:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=len0OiCm/WZ/vt9VUgQrAOrJEXEQByAwciAXjynAKKc=;
-	b=eyQCujhhTZOvjuAej+XDxPy7RYmN/acPJ4RP1Km6oqFsZ3jw7bpIwGMTbxc7l09L78
-	hYO5pdGFR/Rp1gr7wvqCKVtKQBn1Yn1TBF1WdaEJWdfhb4Qrxtavh3G6T1F2OWTaghy2
-	v1MtUiu9LkgFzcS1j8RiIpzmYBQDfHUR+U7Zpr1XwjFZakbyTgHm1Y1uh+aGNhdU74SZ
-	1NadkWkJiMAfM6+tdgtqThtwmghuuaaXKsslLhWssNAXJS7i0k8rZB9mhUEblCVfBFjk
-	QuA6u5XQMW5BEW0BGm70KZHVEis3XNJjZyf7bGzMof+XjDD7+JxViFzTSmskhcB26ZDX
-	9awQ==
+	:cc; bh=b+nJe60yufCKufSZIWmCHhqFr4YbPz6+4PdwtrAlGeE=;
+	b=Bc+6XaL+JtKOI/WgN6vAC9kyzLbJ7uEXyXpWEpPNy0WUUVczNTJ0DSx8P11qG/ROCy
+	zKnLijnQ/eja8UZWGa2eb6lK2AHV+HP93YfNFWh0NZn2kqLMSPjJQVw4w3VwLB8wSt7o
+	DDO23btUpaVrE9fChVsL3jxdwuWQRug7+VLCSN9GRjSo2wHfqsdSdzkIiKrc0Y69Xq5j
+	TckDojtLiptTDKDdC6bTlbNF/rNIl4LP0MHs6GQKL5J25XSGUzShidhQuuM8ZMW5/8E3
+	juH0jZC9N4ZRMAYw1VEPS1BpbOIMute2zc1Sneho7kQbNH8o6dkZyfiul6qes87AfAeb
+	zUKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=len0OiCm/WZ/vt9VUgQrAOrJEXEQByAwciAXjynAKKc=;
-	b=Bcqg7qWkAqR/tts/dOGWHPELdtopbUaHGrBgu4OFl/3fKr4zFjblhDgpEmMxr0E+3t
-	pr1LJw3G/V4Pb4uwvZi/iGWJf3yjBgAmOBvAWXRf4E+2o6g+3SjFPSDf48vqJepuwL/E
-	pmQc7SMmptFXXn8QC/7hu+/0I25M1KIJFuO55CIIC2vYfNW6pmQX+DYc06qzq2JRCb4A
-	OUJqOUx/x79nWOx6/3MLtsGSo+ooh2rKh5bhcyygkSvJb5+G0hXs4FSgY5G21YKun3SG
-	Ltinx0PPqoJt32JS1SD7ae16EprC4saFWsexxPFNo9/jtrNYTabQ1BBhJc56P+U+tZ3+
-	LhAQ==
-X-Gm-Message-State: APjAAAVxsnFjsbK0NjS1manpHT2zBEDViSuf1zIpGVOyOymSQ4kkiXSA
-	/sHeXxW0nc4Vk6JwKOYDo9nQhy2S7KS49DWTmEE=
-X-Google-Smtp-Source: APXvYqyDxwXkbH/UDr5M+OxhY5evIZm2uOv/4vZbBFrhGBDP3sUIbgA1atf9nZau/wfEJCe6EgLrRay6lD+w0Hrrmlw=
-X-Received: by 2002:a1c:b4c1:: with SMTP id d184mr10464915wmf.37.1572629622726;
-	Fri, 01 Nov 2019 10:33:42 -0700 (PDT)
+	bh=b+nJe60yufCKufSZIWmCHhqFr4YbPz6+4PdwtrAlGeE=;
+	b=sgNVzjr4asbBo5NlO72yAHsHAdPCTS72YohoyiChISQ+FR9DYfNBOviHO9KHkNOxxP
+	zxsEq0RMlstByufjfPl1hUpfLAewjeKrm7IZsArm5FI+iP16dbuu9aTgHcjfSYoXH1CT
+	87mGTBkO5I+hj3gdiM/MKwvNgtVdzCyFxvm5g//KxJ4WBDV8II+asSVeRCcRVq6kHRqT
+	UNCkyrTZPlI81gr18C0QKlgb6PdPUUHNtmi7QRPVvqLcut17y/AdTqNHHhsnMWJq17Wo
+	YTExIGYiYd+4/WeQTTnqxIL4tE6I0oyBRsA9pJbVGDcfNqBTEaK9Mh4AoGERcvtg+wFf
+	yjmQ==
+X-Gm-Message-State: APjAAAVEXwDOos4OWT/vNFkQeMamevtb0l28ghI7czeHvpwT7dH2xP2j
+	cvwcPIhzIUB2yE6it9+U3U/MWG3cvqmnge1R/pM=
+X-Google-Smtp-Source: APXvYqw4L5m+tTDfu21yqDeBPJNRJ4QLGmMiIikUk1CUHH9ZJCfWrl9pllIIdNNDLDdDfV7V+2oXSPmpY9K8LEODOe0=
+X-Received: by 2002:ae9:f010:: with SMTP id l16mr7079190qkg.212.1572630000593; 
+	Fri, 01 Nov 2019 10:40:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1572341125.git.akuster808@gmail.com>
 	<ba94d467df1cb0b67842408de3db193612aebdcd.1572341125.git.akuster808@gmail.com>
-In-Reply-To: <ba94d467df1cb0b67842408de3db193612aebdcd.1572341125.git.akuster808@gmail.com>
-From: Andrey Zhizhikin <andrey.z@gmail.com>
-Date: Fri, 1 Nov 2019 18:33:30 +0100
-Message-ID: <CAHtQpK501hXXF_iwe=SHVQkUvpvj4iPoym45CxD_piWfygEHEg@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
+	<CAHtQpK501hXXF_iwe=SHVQkUvpvj4iPoym45CxD_piWfygEHEg@mail.gmail.com>
+In-Reply-To: <CAHtQpK501hXXF_iwe=SHVQkUvpvj4iPoym45CxD_piWfygEHEg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 1 Nov 2019 10:39:34 -0700
+Message-ID: <CAMKF1so_jt85yTaTznmBFreOEfB=E_-E_7T7i_rdVnb4-1ge4Q@mail.gmail.com>
+To: Andrey Zhizhikin <andrey.z@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [warrior 18/19] go: fix CVE-2019-16276
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,36 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2019 17:33:42 -0000
+X-List-Received-Date: Fri, 01 Nov 2019 17:40:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hello Armin,
-
-On Tue, Oct 29, 2019 at 10:50 AM Armin Kuster <akuster808@gmail.com> wrote:
+On Fri, Nov 1, 2019 at 10:33 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
 >
-> From: Chen Qi <Qi.Chen@windriver.com>
+> Hello Armin,
 >
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit e31f87e289dfd3bbca961e927447a9c7ba816d3f)
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> (cherry picked from commit e02e8fa2e82cceaaa6a433466f52f97b0984762a)
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
-
-This  patch didn't apply clean on warrior, but same patch on master
-seems to be OK. I got a hunk in transport_test.go which has been
-resolved by build, but since this is security-related patch I wanted
-to bring some attention here.
-
+> On Tue, Oct 29, 2019 at 10:50 AM Armin Kuster <akuster808@gmail.com> wrote:
+> >
+> > From: Chen Qi <Qi.Chen@windriver.com>
+> >
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > (cherry picked from commit e31f87e289dfd3bbca961e927447a9c7ba816d3f)
+> > Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> > (cherry picked from commit e02e8fa2e82cceaaa6a433466f52f97b0984762a)
+> > Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> > ---
 >
+> This  patch didn't apply clean on warrior, but same patch on master
+> seems to be OK. I got a hunk in transport_test.go which has been
+> resolved by build, but since this is security-related patch I wanted
+> to bring some attention here.
+>
+
+if its failing in testcase as a last report we can drop that if that
+hunk is not backportable.
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> Regards,
+> Andrey.
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---
-Regards,
-Andrey.
 
