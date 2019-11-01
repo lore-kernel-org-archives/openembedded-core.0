@@ -1,52 +1,47 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id DCEC47FC09
+Return-Path: <andrey.z@gmail.com>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 0549B7FCA2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2019 14:32:08 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id 139so10501692ljf.1
+	Fri,  1 Nov 2019 17:33:41 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id t26so5650060wmi.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Nov 2019 07:32:10 -0700 (PDT)
+	Fri, 01 Nov 2019 10:33:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=sEGg9Sj1BP/bFt75GPjmKhLqV5N9tjB1lEizwnDJxJE=;
-	b=sNLGdXCTMSJL2Au9oHjmg8nXxaIYft7lXWSV3hizs1V0Natw8IYz+jtaieIntF6Zpt
-	KRx9TfmL2zuZ0jpRiRmPqWGFpxJTVXGT8UI2qZrdERI9gT8j6GKFhu23mMLnPMcBBLHr
-	qectmCP4kUsVGJG7b856121dxdzqGRb4r0fNRl9G673nA1on70lLvnUg5m00S7amCey4
-	wt5h+YJJhP677KAwqyukOo/2YFG+RIQy3wJb2tIszhTatE1WTfDIJAZ1XgocOjXwcwju
-	edVgVjv2UbZCK1vLDdfvCQHQSVgT3yLN6KiU3NtcNFW/wBGm6mH0QHqG/jWG1ZvzoNEx
-	dyeg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=len0OiCm/WZ/vt9VUgQrAOrJEXEQByAwciAXjynAKKc=;
+	b=eyQCujhhTZOvjuAej+XDxPy7RYmN/acPJ4RP1Km6oqFsZ3jw7bpIwGMTbxc7l09L78
+	hYO5pdGFR/Rp1gr7wvqCKVtKQBn1Yn1TBF1WdaEJWdfhb4Qrxtavh3G6T1F2OWTaghy2
+	v1MtUiu9LkgFzcS1j8RiIpzmYBQDfHUR+U7Zpr1XwjFZakbyTgHm1Y1uh+aGNhdU74SZ
+	1NadkWkJiMAfM6+tdgtqThtwmghuuaaXKsslLhWssNAXJS7i0k8rZB9mhUEblCVfBFjk
+	QuA6u5XQMW5BEW0BGm70KZHVEis3XNJjZyf7bGzMof+XjDD7+JxViFzTSmskhcB26ZDX
+	9awQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=sEGg9Sj1BP/bFt75GPjmKhLqV5N9tjB1lEizwnDJxJE=;
-	b=aH9PLa7BzgsjKx3g8uI6AGcLoX5wMj1iKYh1L1S//7ht6AXV4/qts129AAQf6PaAry
-	pN8/GaegYvYWMGaxcFCBFOR3i3TldI2DrtZu7yHFjMAG9DI5wC0qwDL4UPl0ycfZ5P1j
-	aq7QaFGtdCOT5su++OG5wK4viANZRX673ntzgysTj3romWF03V1kS3KnHT/+WKmNyDod
-	HUFb3BvUi/UJhXtLarSPNMwFz3WjenBLuEw9UESKSyjSfNo23XaD7I/CE7wg1scEzH8Z
-	+PNreM/iH5HnrbGsh131W9m1mcNH5AghMT3jhrIooJJqD/XigqZ/x2FbyZzoE/mDTPuE
-	9p0Q==
-X-Gm-Message-State: APjAAAVx0s98s3J8n/aqAbSZ+D7/GmiZMswgIBsKaGcUG4tDx8XfHsst
-	pzRrTGVk+r7VIC0l/qHdWjruFMYUn/s=
-X-Google-Smtp-Source: APXvYqx0x7u7ySInyeO5P4OUNOyPv9RJy1r/GtVDUcD2YXgWDweCGVdVcAyiYZzFQ4VmNPMfHjvmGA==
-X-Received: by 2002:a2e:8990:: with SMTP id c16mr8660953lji.226.1572618728977; 
-	Fri, 01 Nov 2019 07:32:08 -0700 (PDT)
-Received: from localhost.localdomain ([188.162.65.93])
-	by smtp.gmail.com with ESMTPSA id o5sm3626226lfn.78.2019.11.01.07.32.07
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 01 Nov 2019 07:32:08 -0700 (PDT)
-From: dbaryshkov@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Nov 2019 17:31:48 +0300
-Message-Id: <20191101143147.26812-3-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191101143147.26812-1-dbaryshkov@gmail.com>
-References: <20191101143147.26812-1-dbaryshkov@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=len0OiCm/WZ/vt9VUgQrAOrJEXEQByAwciAXjynAKKc=;
+	b=Bcqg7qWkAqR/tts/dOGWHPELdtopbUaHGrBgu4OFl/3fKr4zFjblhDgpEmMxr0E+3t
+	pr1LJw3G/V4Pb4uwvZi/iGWJf3yjBgAmOBvAWXRf4E+2o6g+3SjFPSDf48vqJepuwL/E
+	pmQc7SMmptFXXn8QC/7hu+/0I25M1KIJFuO55CIIC2vYfNW6pmQX+DYc06qzq2JRCb4A
+	OUJqOUx/x79nWOx6/3MLtsGSo+ooh2rKh5bhcyygkSvJb5+G0hXs4FSgY5G21YKun3SG
+	Ltinx0PPqoJt32JS1SD7ae16EprC4saFWsexxPFNo9/jtrNYTabQ1BBhJc56P+U+tZ3+
+	LhAQ==
+X-Gm-Message-State: APjAAAVxsnFjsbK0NjS1manpHT2zBEDViSuf1zIpGVOyOymSQ4kkiXSA
+	/sHeXxW0nc4Vk6JwKOYDo9nQhy2S7KS49DWTmEE=
+X-Google-Smtp-Source: APXvYqyDxwXkbH/UDr5M+OxhY5evIZm2uOv/4vZbBFrhGBDP3sUIbgA1atf9nZau/wfEJCe6EgLrRay6lD+w0Hrrmlw=
+X-Received: by 2002:a1c:b4c1:: with SMTP id d184mr10464915wmf.37.1572629622726;
+	Fri, 01 Nov 2019 10:33:42 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
-Subject: [PATCH 2/2] multilib.conf: add systemd-boot to non-multilib recipes list
+References: <cover.1572341125.git.akuster808@gmail.com>
+	<ba94d467df1cb0b67842408de3db193612aebdcd.1572341125.git.akuster808@gmail.com>
+In-Reply-To: <ba94d467df1cb0b67842408de3db193612aebdcd.1572341125.git.akuster808@gmail.com>
+From: Andrey Zhizhikin <andrey.z@gmail.com>
+Date: Fri, 1 Nov 2019 18:33:30 +0100
+Message-ID: <CAHtQpK501hXXF_iwe=SHVQkUvpvj4iPoym45CxD_piWfygEHEg@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [warrior 18/19] go: fix CVE-2019-16276
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,29 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2019 14:32:09 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 01 Nov 2019 17:33:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
+Hello Armin,
 
-Add systemd-boot to NON_MULTILIB_RECIPES so that it won't be built for multilib targets.
+On Tue, Oct 29, 2019 at 10:50 AM Armin Kuster <akuster808@gmail.com> wrote:
+>
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit e31f87e289dfd3bbca961e927447a9c7ba816d3f)
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> (cherry picked from commit e02e8fa2e82cceaaa6a433466f52f97b0984762a)
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin-solenikov@mentor.com>
----
- meta/conf/multilib.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This  patch didn't apply clean on warrior, but same patch on master
+seems to be OK. I got a hunk in transport_test.go which has been
+resolved by build, but since this is security-related patch I wanted
+to bring some attention here.
 
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index cfed3fbbd07f..c734a121e12d 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -29,4 +29,4 @@ PKG_CONFIG_PATH[vardepvalueexclude] = ":${WORKDIR}/recipe-sysroot/${datadir}/pkg
- 
- # These recipes don't need multilib variants, the ${BPN} PROVDES/RPROVDES
- # ${MLPREFIX}${BPN}
--NON_MULTILIB_RECIPES = "grub grub-efi make-mod-scripts ovmf"
-+NON_MULTILIB_RECIPES = "grub grub-efi systemd-boot make-mod-scripts ovmf"
--- 
-2.23.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--
+Regards,
+Andrey.
 
