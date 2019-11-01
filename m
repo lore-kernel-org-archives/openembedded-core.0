@@ -1,47 +1,35 @@
-Return-Path: <andrei@gherzan.ro>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id ABA497F693
+Return-Path: <Alexander.Hirsch@gin.de>
+X-Greylist: delayed 1928 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 01 Nov 2019 12:19:32 UTC
+Received: from good-out-10.clustermail.de (good-out-10.clustermail.de
+	[212.223.36.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A07EC7F8A9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2019 11:28:44 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id j85so6113697vsd.11
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Nov 2019 04:28:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.ro; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0pkeQE6pHfLogX/opmZk32hfLZM9HGGr836JeezRcEU=;
-	b=g46R2iWyAcj/fm6b0yiB3GzlnFcVYWb9fMWAWcFwWPDBGWgv3p/KQdZluP9PvUNQhE
-	COSW7LTrGXQFg+jltLh9FmbzgDNlGkr5r1JWS4fJJLmFnDP0tmm6m+PqQmgQAUU9dAxJ
-	uBI3ol39o8dBYNf/lx0TNqPIZDq0zykvTGQ1AnKSiGc9aE+No8R+jgmgYHh2FWwHFLTR
-	HWtukLvKVM41A13I/J3rON4ElLaH4zwxZr7dzlb6Nx0N3NZeWoHUEXbBio6S4GK6JAFP
-	7h4yOsOEVjxxJI26WEBXEQGdwdH5GalbIYL6eoWXno3LZg0sdVMyEGohZaKDmXBuo4vu
-	Z/gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=0pkeQE6pHfLogX/opmZk32hfLZM9HGGr836JeezRcEU=;
-	b=sz+EdiRmfEThOXzKbKvgEBDlVKIm/RQe/9bFNIYNBKG+Rrxp4jXwLK+F4lScYRq61Y
-	TYBookxvbCFl7DzIZCwug/5Big1COechcP0/rFjtErnFFjUWRQqsFAXcMRB39kG9i9dX
-	taaWGNBMp8qdQRg3B5lNZ6pOiQSPIa8lPhAoaDX6UWZWmMwSOi6Ucm5YEwRN24Z5kDd1
-	vPmgdE4S3EpknNeI+53bgmdj8Az4MAxt/dh2leC7b6BddrhVcQYkrzT+1nkTYMXbpIKz
-	hhvo2F1aJiDruv4TnkCWt5SffnLeT6bW53JyxsEIZhdZnEZHRiPQ4UAC1zAqxGS6YrTU
-	byHA==
-X-Gm-Message-State: APjAAAVpCc+Q0iX2+e1ICb/NJx/EXFVL/ubY4ZOFZ1onyP3xG7acipBS
-	0DBt+plh35306QFIHw0t7AJGjfXNp4h7wlVIvKbfww==
-X-Google-Smtp-Source: APXvYqz+P8H77OPd+bzA7hJuk88K94ANzQJk9U4o26BUd6gcH0D+GguRwxFjHZm/bTIk8e9iRDuOQMhomN+71db+oXQ=
-X-Received: by 2002:a67:ba16:: with SMTP id l22mr3209319vsn.147.1572607725464; 
-	Fri, 01 Nov 2019 04:28:45 -0700 (PDT)
+	Fri,  1 Nov 2019 12:19:32 +0000 (UTC)
+Received: from [10.0.0.2] (helo=frontend.clustermail.de)
+	by smtpout-02.clustermail.de with esmtp (Exim 4.92)
+	(envelope-from <Alexander.Hirsch@gin.de>) id 1iQVOg-0008SO-Rf
+	for openembedded-core@lists.openembedded.org;
+	Fri, 01 Nov 2019 12:47:24 +0100
+Received: from [217.6.33.237] (helo=Win2012-02.gin-domain.local)
+	by frontend.clustermail.de with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES256-SHA:256) (Exim 4.92.2)
+	(envelope-from <Alexander.Hirsch@gin.de>) id 1iQVOg-0006a4-N7
+	for openembedded-core@lists.openembedded.org;
+	Fri, 01 Nov 2019 12:47:18 +0100
+Received: from LT-001-212-1.gin-domain.local (10.160.140.121) by
+	Win2012-02.gin-domain.local (192.168.1.12) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Fri, 1 Nov 2019 12:47:17 +0100
+Date: Fri, 1 Nov 2019 12:47:16 +0100
+From: Alexander Hirsch <alexander.hirsch@gin.de>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20191101114716.GC2935@LT-001-212-1.gin-domain.local>
 MIME-Version: 1.0
-References: <20191101071043.16558-1-gtertych@cisco.com>
-In-Reply-To: <20191101071043.16558-1-gtertych@cisco.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Fri, 1 Nov 2019 11:28:08 +0000
-Message-ID: <CAK18fxFVpCbD38Y3FK2XMfvK_+pZF2-usf1xC5P2oR5FQhQC-Q@mail.gmail.com>
-To: grygorii tertychnyi <gtertych@cisco.com>,
-	openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com
-Subject: Re: [PATCH] archiver: avoid empty incfile in ar_recipe
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.160.140.121]
+X-ClientProxiedBy: Win2012-02.gin-domain.local (192.168.1.12) To
+	Win2012-02.gin-domain.local (192.168.1.12)
+Subject: [PATCH] libksba: Fix license specification
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,25 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2019 11:28:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 01 Nov 2019 12:19:32 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The tools (e.g. build system, tests) & manual are licensed as GPLv3+ and
+the library itself is GPLv2+ | LGPLv3+.
 
-On 01/11/2019 07:10, grygorii tertychnyi via Openembedded-core wrote:
-> do_ar_recipe fails on perf recipe on line:
->
-> include ${@bb.utils.contains('PACKAGECONFIG', 'scripting', 'perf-perl.inc', '', d)}
->
-> 1. "${...}" part expands into empty string
-> 2. bb.utils.which() takes empty string and returns first directory name from bbpath
+This is documented in libksba/AUTHORS:
+https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=blob;f=AUTHORS;h=c161951281f2a432ad0ff112111f70a83e1d93fa;hb=3df0cd32e3b21b7da96a93d1f84d6cb6a77b89be
 
-This doesn't sound sane. If the include directive has no argument,
-incfile should end up None. That's what the code "assumes" at this
-point. I would fix it either at the regex expression level or
-stripping the matched string. I reckon the former makes more sense
-(.*).
+Signed-off-by: Alexander Hirsch <alexander.hirsch@gin.de>
+---
 
---
-Andrei Gherzan
+On the side, while looking where/how to send a patch I looked at this page:
+https://www.yoctoproject.org/community/
+The link "Submit A Patch" links to the style-guide instead of the
+"How to submit a patch"-Page on the Wiki. Is this intended?
+
+ meta/recipes-support/libksba/libksba_1.3.5.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/libksba/libksba_1.3.5.bb b/meta/recipes-support/libksba/libksba_1.3.5.bb
+index a7ea53f..4deda18 100644
+--- a/meta/recipes-support/libksba/libksba_1.3.5.bb
++++ b/meta/recipes-support/libksba/libksba_1.3.5.bb
+@@ -1,6 +1,8 @@
+ SUMMARY = "Easy API to create and parse X.509 and CMS related objects"
+ HOMEPAGE = "http://www.gnupg.org/related_software/libksba/"
+-LICENSE = "GPLv2+ | LGPLv3+ | GPLv3+"
++LICENSE = "GPLv3+ & (GPLv2+ | LGPLv3+)"
++LICENSE_${PN} = "GPLv2+ | LGPLv3+"
++LICENSE_${PN}-doc = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fd541d83f75d038c4e0617b672ed8bda \
+                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.GPLv3;md5=2f31b266d3440dd7ee50f92cf67d8e6c \
+-- 
+2.7.4
+
+-- 
+G.i.N. Gesellschaft für industrielle Netzwerke GmbH
+Raiffeisenstr. 15
+D-64347 Griesheim
+
+Telefon: +49 6155 - 8259 - 0
+Telefax: +49 6155 - 8259 - 11
+
+E-Mail: alexander.hirsch@gin.de
+Internet: www.gin.de
+
+Sitz: Griesheim
+Registergericht: Amtsgericht Darmstadt, HRB 5068
+Gerichtsstand: Darmstadt
+USt.-ID-Nr. DE 111633284
+WEEE-Reg.-Nr. DE 20824942
+
+Geschäftsführer:
+Dipl.-Inform. Andreas Schoenberg
+Dipl.-Ing. (FH) Kay Wuttke
 
