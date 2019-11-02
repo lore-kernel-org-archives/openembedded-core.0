@@ -1,47 +1,48 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 567D67FC8A
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
+	[209.85.222.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 35CA97F9A2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2019 11:01:49 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id f21so3668729uan.3
+	Sat,  2 Nov 2019 12:07:33 +0000 (UTC)
+Received: by mail-ua1-f45.google.com with SMTP id v2so3675187uam.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Nov 2019 04:01:50 -0700 (PDT)
+	Sat, 02 Nov 2019 05:07:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QCLc+pl3vZVg84S+/sWF+a4siPAML5CgrLnKmFZ0SSw=;
-	b=M7DdQrmpjgSDewmvfaLXqSr6DKsbK06w5lPwS+7NdtTo8fVjDhEMtH5FBduiFc/U3d
-	MFoe4tSczguw3qZg8nkhji0iqG1MV1Y9aXbA04s9PUWfdWk8tYy2hb4KTOeLisyETUiM
-	snZptmyIcNNUgqGx0h8vBj08SQdD6GdY8BxqnnzgRj9A7wyB1vB8AFRA8+QzYV653hQ/
-	iFKx5A4JIODSRkeg7QNR/RLC01ChzF8it72ZLTlRowaavAmapHOWBLoW0RgOj+BwgE0+
-	9qlSqMPsUyaRcR9CXv7Rs98pMsVUqPrgi3J8Oai06E3fZvhaEH7BBGDMJPE1Bj6ZI0oh
-	l1sg==
+	:cc; bh=bawpLIMLBh60FCn9vFNIamjaAbm0QCzTCGu3cL5+L5k=;
+	b=Bz0Sbb+f9vW/lvA24vqRR53xdT/8ZsPy878rImS1jgP8R3ckq0J36m7pfOTg1fvh8L
+	Vdat6D3tUKZw7MAOBvlxSvh9t7rIXwM2BzE//eAKSIhlhnVqfZxv5iwXQcEyTjwebSTv
+	DuXN4E3XYT5oJ60L2vNJR7rToi3eNCusPnbFDFgomChQSWbEucD7VInZlLRWMKOTRswr
+	79zmyNdzk3UR7/YH3/yk6YdTj9WWnIWoWz5ZuNNVZoqlSqHKhPJM8APQpqGTUQIHLuM1
+	zf/AsjswX1UM8Lzsad4VJv+s+R27c+VykSnmwYclwuexZsWTPIAK00OJRBiuvq6MbYt9
+	YH6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=QCLc+pl3vZVg84S+/sWF+a4siPAML5CgrLnKmFZ0SSw=;
-	b=lOm+D6bzIh1CCs/oBSSsnmuVLR2vqu2Ot3he2R0XXE90QV8SEtOCm96T/cixvLI+lh
-	grhO8PhJLYxM/0v2zaTj0V331saREu7W4sRLsHxlhG3vjpvx+KDvWJ69bB0BA9Ckta1B
-	eD9lxtai/jApZzdAFkgB73e7DEkRJOnns5Zb5dmVtneBVu6Fu5SNc5oRSu5Jz0Te1yri
-	M96WcQ0FhIQREFlH9Ei2A+wxSdeODUC19pxUAjByt3AwrHn246rIjHecwx66WHvS5Dtk
-	RuPP2tzSRuLVS7o2pYYWH6oWZnsCWbO3aGkf7Ez0fvum1jMBOfX0GX3hw0AWCmvasMz9
-	T6cw==
-X-Gm-Message-State: APjAAAW/+TLg+iSaMJHagb+prSGgZvQ70aOH1V6OsXGp+cPfp2KEkBVd
-	gnzIhpKkKErivDywV+qwvvShHzgsIL/AnSYRWhk=
-X-Google-Smtp-Source: APXvYqzugAzoeJlPVIK8mOBcKLmCC7IMbA6UISHWRQ6YkiljB9O5FoMmbtln29ynl9nu55IH66I8AFHu/14kiN7odOY=
-X-Received: by 2002:ab0:2258:: with SMTP id z24mr8097412uan.100.1572692509893; 
-	Sat, 02 Nov 2019 04:01:49 -0700 (PDT)
+	bh=bawpLIMLBh60FCn9vFNIamjaAbm0QCzTCGu3cL5+L5k=;
+	b=muw+CJH/ksHC9/JHeFhG1pHso2oc+Ow/Lkr7BJ4l7Cj11mm/GB+y7dRnafaKsRkyf5
+	WoL2nspUFJpPPtg8GU3vj3VUelLyxrVpSjuq0Y2HER+S88rh/WhY+PFyDcVaxdOCBZS4
+	5ZQRQg8l7Xh6WT4mzoeIyYrzbtrgbZk38K1OnjXeFdqXEgYlCdMO+9YZHl2uk+238lEa
+	S+Hi4JC770s7YlbyUUrXD9YTfCIcpFxrU5RB+25t5+KGiD0DKQ3zr13Ca1C0Y3kKf8jv
+	FNyUiL8QP9me5BxTHSO437opcBhZc2xtJ4RByXAvGJvxUV4AtBRZXBLAaE0GJjXptxxM
+	v7mA==
+X-Gm-Message-State: APjAAAWYP3NU9Jj63hw7qGP1V3mD2IlZ9GoiKRtpd/W+y97xzjQtqZ3W
+	ZCYNs45uEH8sC0znjDYIqO6YBA3ze94lesdDOV8=
+X-Google-Smtp-Source: APXvYqziSj6xXRH5s1pCzVZqxBe1VBURQXP+oBWyNxaa7RllDfEtxdpmTr9Uu3Q/xxCdCB5lWauCqCevE8YLRcYCctg=
+X-Received: by 2002:ab0:3112:: with SMTP id e18mr7593155ual.22.1572696454036; 
+	Sat, 02 Nov 2019 05:07:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191101184638.31898-1-ruslan.bilovol@gmail.com>
-	<20191101201225.GA1826@localhost>
-In-Reply-To: <20191101201225.GA1826@localhost>
+References: <20191031093655.14852-1-alex.kanavin@gmail.com>
+	<20191031093655.14852-3-alex.kanavin@gmail.com>
+	<dc6caf95-a1e0-0eb7-f721-8dd3d1e2aa93@intel.com>
+In-Reply-To: <dc6caf95-a1e0-0eb7-f721-8dd3d1e2aa93@intel.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 2 Nov 2019 12:01:38 +0100
-Message-ID: <CANNYZj_qZedAe6dm-7=Lj1kfv1z_NHEfrfXQPVDH3yxTQBbNzA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
+Date: Sat, 2 Nov 2019 13:07:22 +0100
+Message-ID: <CANNYZj9i0mvP_X3WFapfda49YdVvuY9Tr1KY7mFcsnqRr5J-HA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] [PATCH] Provide users with project support status
+Subject: Re: [PATCH 3/6] oe-selftest: extend virgl gtk test to also check the SDL option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,132 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2019 11:01:49 -0000
-Content-Type: multipart/alternative; boundary="00000000000064a75005965b0226"
+X-List-Received-Date: Sat, 02 Nov 2019 12:07:34 -0000
+Content-Type: multipart/alternative; boundary="0000000000007b83c005965bed1c"
 
---00000000000064a75005965b0226
+--0000000000007b83c005965bed1c
 Content-Type: text/plain; charset="UTF-8"
 
-I too think that the information may never reach the target audience, as
-they could never update their builds to the point where it would start
-printing 'end of life'.
+On Fri, 1 Nov 2019 at 18:46, Ross Burton <ross.burton@intel.com> wrote:
 
-What could work instead is printing a link to the wiki during
-'oe-init-build-env'.
+> Same failures on the Debian 10 worker:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/778
+>
+
+runqemu - ERROR - Failed to run qemu: Xlib:  extension "RANDR" missing on
+display ":1".
+qemu-system-x86_64: ../libepoxy-1.5.3/src/dispatch_common.c:863:
+epoxy_get_proc_address: Assertion `0 && "Couldn't find current GLX or EGL
+context.\n"' failed.
+
+Thanks - the Gtk part is passing fine, so it's something SDL does that
+upsets the X/GL stack on the Debian 10 host.
+I am reluctant to disable the SDL part of the virgl tests on Debian 10, as
+it is a new distro (unlike centos 7).
+
+I'll try to see if I can run Debian 10 in a VM here and try to reproduce.
+Or is it possible to debug directly on a Debian 10 worker?
 
 Alex
 
-On Fri, 1 Nov 2019 at 21:12, Adrian Bunk <bunk@stusta.de> wrote:
-
-> On Fri, Nov 01, 2019 at 07:46:38PM +0100, Ruslan Bilovol wrote:
-> > When OE/Yocto project goes through its lifecycle, there
-> > is no any way to identify where it is other than go
-> > to a Yocto wiki and look at current status.
->
-> The status in the wiki can be updated.
->
-> > Moreover, change from maintained to community maintained
-> > end EOLing happens silently so users not always know
-> > about that.
-> >
-> > This patch aims to remove this gap. The status should
-> > be changed so users can clearly identify at which point
-> > it is now:
-> >  Development -> Stable -> Community supported -> End Of Life
-> >
-> > It is now printed during the build.
-> >...
->
-> What is printed is the status at the point in the
-> (sometime distant) past when a release was made.
->
-> It is not uncommon for hardware to come with an example BSP based
-> on an older release like for example Yocto 2.0.3 (sic) today.
->
-> The Yocto 2.0.3 release shipped as part of this distribution would
-> never print "End Of Life".
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---00000000000064a75005965b0226
+--0000000000007b83c005965bed1c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I too think that the information may never reach the =
-target audience, as they could never update their builds to the point where=
- it would start printing &#39;end of life&#39;.</div><div><br></div><div>Wh=
-at could work instead is printing a link to the wiki during &#39;oe-init-bu=
-ild-env&#39;.</div><div><br></div><div>Alex<br></div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 1 Nov 2019 a=
-t 21:12, Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- Fri, Nov 01, 2019 at 07:46:38PM +0100, Ruslan Bilovol wrote:<br>
-&gt; When OE/Yocto project goes through its lifecycle, there<br>
-&gt; is no any way to identify where it is other than go<br>
-&gt; to a Yocto wiki and look at current status.<br>
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Fri, 1 Nov 2019 at 18:46, Ross Burton &lt;<a href=3D"mailto:ross.=
+burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">Same failures on t=
+he Debian 10 worker:<br>
 <br>
-The status in the wiki can be updated.<br>
-<br>
-&gt; Moreover, change from maintained to community maintained<br>
-&gt; end EOLing happens silently so users not always know<br>
-&gt; about that.<br>
-&gt; <br>
-&gt; This patch aims to remove this gap. The status should<br>
-&gt; be changed so users can clearly identify at which point<br>
-&gt; it is now:<br>
-&gt;=C2=A0 Development -&gt; Stable -&gt; Community supported -&gt; End Of =
-Life<br>
-&gt; <br>
-&gt; It is now printed during the build.<br>
-&gt;...<br>
-<br>
-What is printed is the status at the point in the<br>
-(sometime distant) past when a release was made.<br>
-<br>
-It is not uncommon for hardware to come with an example BSP based<br>
-on an older release like for example Yocto 2.0.3 (sic) today.<br>
-<br>
-The Yocto 2.0.3 release shipped as part of this distribution would<br>
-never print &quot;End Of Life&quot;.<br>
-<br>
-cu<br>
-Adrian<br>
-<br>
--- <br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Is there not promise of rain?&quot; Ling T=
-an asked suddenly out<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 of the darkness. There had been need of rain fo=
-r many days.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Only a promise,&quot; Lao Er said.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Pearl S. =
-Buck - Dragon Seed<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/56/build=
+s/778" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
+t.org/typhoon/#/builders/56/builds/778</a><br></blockquote><div><br></div><=
+div><div dir=3D"ltr"><div>runqemu - ERROR - Failed to run qemu: Xlib: =C2=
+=A0extension &quot;RANDR&quot; missing on display &quot;:1&quot;.<br>qemu-s=
+ystem-x86_64: ../libepoxy-1.5.3/src/dispatch_common.c:863: epoxy_get_proc_a=
+ddress: Assertion `0 &amp;&amp; &quot;Couldn&#39;t find current GLX or EGL =
+context.\n&quot;&#39; failed.<br></div><div><br></div><div>Thanks - the Gtk=
+ part is passing fine, so it&#39;s something SDL does that upsets the X/GL =
+stack on the Debian 10 host.</div><div>I am reluctant to disable the SDL pa=
+rt of the virgl tests on Debian 10, as it is a new distro (unlike centos 7)=
+.<br></div><div><br></div><div>I&#39;ll try to see if I can run Debian 10 i=
+n a VM here and try to reproduce. Or is it possible to debug directly on a =
+Debian 10 worker?<br></div><div><br></div><div>Alex<br></div></div>=C2=A0</=
+div></div>
+</div>
 
---00000000000064a75005965b0226--
+--0000000000007b83c005965bed1c--
