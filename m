@@ -1,40 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 263F07F841
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 372E47FBD7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2019 21:10:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 475BY96cbKz44;
-	Sat,  2 Nov 2019 22:10:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1572729038;
-	bh=z3IJrblyr7Z2aht6NVG01CDmo+2K9Vk2Yt8Ld/UHJto=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hd0+YAyjpf01r558wBjXUX8JU2j9pRGdjlrnWzCblsJwxkWa0FrAH3tH4PtPIw0sy
-	L52wC+pbNsjY64GiyMBG7IOdqGBnsNh2yLtrnuyXunxApPY2Ms4LNSnOxhrB8k/y/h
-	bq3XgtGehi42PWaa6iL7Cw6UssB8HuaYP3ESHOpltosr0SuXoB47pXAhFCBI/5J095
-	hfKXlLzVJ3U8FFCaV651FIUOacOd6BzQ0V/cI8nQNj5eOXuqrL7K1KseiLxUCb9hVp
-	WfIJX+kK2SifEyV4rJ531YoBC8hwKAGx5/lR/FwBitpqcrN09xICOoLmJ5+Gs1kYFz
-	u/pESmj4BEewxRP0G1k300TNDhwFtx03GeRDq2yEhcP73mgKeXBWZ3XIGapkf0PFeD
-	pi7ngxwQo5SEgg3ezzM8xN0glCJz5glStKNW8EKdrEVXL8oVmfj6Z7Y9JGJwzwhPjd
-	9gBfo9SxqleT7Or0VXRDy/CujCXHfnCkXMM4e0tP5DhRFODU/bVH67ikzORWH6uQkh
-	DFnyuBqFu4cvMr49UyqznHRbYUpe6I3DPee9uVMHkruZj+0spiYDiao4Hl7bYjxW8u
-	qwHMHxoWyNGokXoiEAzuRC/XTnD6dPSdLRzR1qh3xslO/7giPmkCDwZZ8gQKf7W3Vr
-	48OKws6uR75XdK8cKsHy9+r4=
-Date: Sat, 2 Nov 2019 23:10:30 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20191102211030.GA9897@localhost>
-References: <20191101184638.31898-1-ruslan.bilovol@gmail.com>
-	<20191101201225.GA1826@localhost>
-	<CANNYZj_qZedAe6dm-7=Lj1kfv1z_NHEfrfXQPVDH3yxTQBbNzA@mail.gmail.com>
-	<20191102153021.GA31590@localhost>
-	<CANNYZj9aCEVwuPqvk=Uz4Jabjwtueo6fd=ksY24PmmK8FvT8aw@mail.gmail.com>
+	Sat,  2 Nov 2019 22:29:44 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id w25so8693141vso.4
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 02 Nov 2019 15:29:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=jCfBj7fcoWfBUkAf8J3LcKVopn2sx4FZFlUI8hR7DfA=;
+	b=GeokoE44pP6HsAisAlemyqv+xwraDp2J9PfpweV05kqGfEI4Z1izMLwW3pzQdWQjZt
+	oAiZTMqZ2TdPv0vXJDeuLxKL5pX+ipr9V0Qekwx/Ef8RouyS7V+rIpjVh5+HTjc4stoR
+	3m/5G/gWo9Sx3dpYv/Liw269UVuc/Zcid5Q3dFWfO8CDbl/scoJ6uWhxo3plvQCUWR9R
+	g7rionkGzXKcKfp6Jg8kEXOaChsY/O+PyiuAhRUmyurYtGwaGN9/tA09s6OL/s7kIE79
+	FusZ9ubcyuuwglTKAn6acFa6rm49TpH3xtRAEw084GOtITnF7WPZpJO3EPvE8VpUgV0N
+	nmpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=jCfBj7fcoWfBUkAf8J3LcKVopn2sx4FZFlUI8hR7DfA=;
+	b=MqMD2LuBgnz0/Nfe0+In+jaJ9KahKuK0kYHmNwPxIYAh7rbygVNLzZODlswpxP0c2t
+	foM5Oj2ZyfTkfTCDKfgODbsjhQ5vwCtyicMW4F5Zdf65apHQGQF6uPZq1w/vu8hnTE0H
+	QSb3VVlNblu0rzZ8ul4kMhO2a2nJPLWQ8FLhiGbLBhE/8n43Q9hOgrKdTYolz2s7Zzv1
+	xpRNYZOBZ8pIK3h1f4hDAo0o79RD32tyKPYMXplVdoNuFYwiUhI7APZD8+kLNqoIPm9G
+	yyulrp/HDAAqTHvqIQq4NUUkrYpiOUBxbhBO+1TZsJHWzZxFfvuxBvoTway5/fHeedhR
+	rz7w==
+X-Gm-Message-State: APjAAAVC+v1+GTp1aDt3S2MvdNiwevoTvphFssx8CfBGfVKr42QfOGew
+	NQCTeX9UnK9p+GqgMOe5/E0TgDHHtnj2ibZW3aw=
+X-Google-Smtp-Source: APXvYqzD65YtPjfNZRWLFAqGYS8rKNjUxExCA3BRG7qHkKcUSRYe8ITY74D8CEo8g4ZtXTyVdYYKD0khRgzmaq1xROU=
+X-Received: by 2002:a67:ad0e:: with SMTP id t14mr9405634vsl.35.1572733785001; 
+	Sat, 02 Nov 2019 15:29:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj9aCEVwuPqvk=Uz4Jabjwtueo6fd=ksY24PmmK8FvT8aw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191031093655.14852-1-alex.kanavin@gmail.com>
+	<20191031093655.14852-3-alex.kanavin@gmail.com>
+	<dc6caf95-a1e0-0eb7-f721-8dd3d1e2aa93@intel.com>
+	<CANNYZj9i0mvP_X3WFapfda49YdVvuY9Tr1KY7mFcsnqRr5J-HA@mail.gmail.com>
+In-Reply-To: <CANNYZj9i0mvP_X3WFapfda49YdVvuY9Tr1KY7mFcsnqRr5J-HA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 2 Nov 2019 23:29:33 +0100
+Message-ID: <CANNYZj9dmYgWxYOG6o3hJC9rEk6ghUxYRAak5wZjELMbtOJKag@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] [PATCH] Provide users with project support status
+Subject: Re: [PATCH 3/6] oe-selftest: extend virgl gtk test to also check the SDL option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,71 +56,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2019 21:10:40 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 02 Nov 2019 22:29:44 -0000
+Content-Type: multipart/alternative; boundary="00000000000094d2b20596649e62"
 
-On Sat, Nov 02, 2019 at 04:54:37PM +0100, Alexander Kanavin wrote:
-> On Sat, 2 Nov 2019 at 16:30, Adrian Bunk <bunk@stusta.de> wrote:
-> 
-> > The easiest way to get long-term security support in such a situation
-> > is often to take the required parts from the BSP layer, and use them
-> > to build the product on top of Ubuntu LTS (or Debian).
-> 
-> There is an alternative: engineer the product in such a way that it can be
-> updated from one Yocto release to a newer Yocto release.
-> This is what I will be pushing for where I work (Daimler).
+--00000000000094d2b20596649e62
+Content-Type: text/plain; charset="UTF-8"
 
-This is surely desirable but it can only reduce the pain when upgrading,
-not make upgrading painless.
+On Sat, 2 Nov 2019 at 13:07, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-Don't let anyone use the gpsd client libraries directly or use the gpsd
-functionality to send data over the network - these often bring breaking
-changes in new Yocto versions.
+> Same failures on the Debian 10 worker:
+>
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/778
+>>
+>
+> runqemu - ERROR - Failed to run qemu: Xlib:  extension "RANDR" missing on
+> display ":1".
+> qemu-system-x86_64: ../libepoxy-1.5.3/src/dispatch_common.c:863:
+> epoxy_get_proc_address: Assertion `0 && "Couldn't find current GLX or EGL
+> context.\n"' failed.
+>
+> Thanks - the Gtk part is passing fine, so it's something SDL does that
+> upsets the X/GL stack on the Debian 10 host.
+> I am reluctant to disable the SDL part of the virgl tests on Debian 10, as
+> it is a new distro (unlike centos 7).
+>
+> I'll try to see if I can run Debian 10 in a VM here and try to reproduce.
+> Or is it possible to debug directly on a Debian 10 worker?
+>
 
-"async" becoming a keyword in Python 3.7 broke plenty existing code and
-similar breakages might happen in the future, so Python cannot be made
-available in such a product.
+So I actually went ahead, and installed Debian 10 into a qemu image, then
+transferred a pre-populated build directory into it, and ran runqemu there
+against tigervnc (hurray for the nested kvm feature!).
 
-Do not use glibc in your product, it can happen that some obscure 
-cornercase was made more standards-compliant - and one of your
-users was relying on exactly the old behaviour.
+Both 'runqemu kvm sdl gl' and 'runqemu kvm gtk gl' work fine, including
+running kmscube!
 
-These are just some of the real-life examples I have seen in the
-past 12 months, and these are only cases of intentional upstream
-changes - there is also some amount of regressions that are just bugs.
+So I'd like to see what packages are installed on the Debian 10 worker vs.
+my Debian 10 installation.
 
-> > The core question should really be how to increase the time of upstream
-> > support that is usually left when a Yocto-based distibution reaches the
-> > user, not just how to tell users that they are screwed.
-> 
-> I'd say information about YP support windows should be more widely known,
-> both because it is useful in itself, and because maybe the users will talk
-> with their company management and with the project, and figure out 
-> ways to improve the situation.
+Can you issue 'dpkg -l' on the worker, and send me the output, please?
+Maybe something is missing?
 
-What is actually the minimum investment for that?
+Alex
 
-Six digit sums are small change for companies like Daimler,
-but that's a huge amount of money for all the small companies
-with a two digit number of employees making embedded products
-that just happen to use Yocto.
+--00000000000094d2b20596649e62
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yocto lacks a setup where small companies could contribute with
-four digit amounts to shared efforts like 5 years of LTS support.
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 2 Nov 2019 at 13:07, Alexander Ka=
+navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com<=
+/a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote">Same =
+failures on the Debian 10 worker:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/56/build=
+s/778" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
+t.org/typhoon/#/builders/56/builds/778</a><br></blockquote><div><br></div><=
+div><div dir=3D"ltr"><div>runqemu - ERROR - Failed to run qemu: Xlib: =C2=
+=A0extension &quot;RANDR&quot; missing on display &quot;:1&quot;.<br>qemu-s=
+ystem-x86_64: ../libepoxy-1.5.3/src/dispatch_common.c:863: epoxy_get_proc_a=
+ddress: Assertion `0 &amp;&amp; &quot;Couldn&#39;t find current GLX or EGL =
+context.\n&quot;&#39; failed.<br></div><div><br></div><div>Thanks - the Gtk=
+ part is passing fine, so it&#39;s something SDL does that upsets the X/GL =
+stack on the Debian 10 host.</div><div>I am reluctant to disable the SDL pa=
+rt of the virgl tests on Debian 10, as it is a new distro (unlike centos 7)=
+.<br></div><div><br></div><div>I&#39;ll try to see if I can run Debian 10 i=
+n a VM here and try to reproduce. Or is it possible to debug directly on a =
+Debian 10 worker?<br></div></div></div></div></div></blockquote><div><br></=
+div><div>So I actually went ahead, and installed Debian 10 into a qemu imag=
+e, then transferred a pre-populated build directory into it, and ran runqem=
+u there against tigervnc (hurray for the nested kvm feature!).=C2=A0</div><=
+div><br></div><div>Both &#39;runqemu kvm sdl gl&#39; and &#39;runqemu kvm g=
+tk gl&#39; work fine, including running kmscube!<br></div><div><br></div><d=
+iv>So I&#39;d like to see what packages are installed on the Debian 10 work=
+er vs. my Debian 10 installation. </div><div><br></div><div>Can you issue &=
+#39;dpkg -l&#39; on the worker, and send me the output, please? Maybe somet=
+hing is missing?</div><div><br></div><div>Alex<br></div></div></div>
 
-Otherwise the only improvement available is often "don't use Yocto".
-
-> Alex
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
-
+--00000000000094d2b20596649e62--
