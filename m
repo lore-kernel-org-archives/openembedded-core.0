@@ -1,47 +1,38 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
-	[209.85.217.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C94737ED76
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 263F07F841
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2019 15:54:47 +0000 (UTC)
-Received: by mail-vs1-f46.google.com with SMTP id w25so8328760vso.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Nov 2019 08:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=mgmcvwRXli09a0sSGMihK7gei4EHzGNdlBUgqKlZS34=;
-	b=bQY+R/NhetJ62N9AhvSQS8nFXBVh/rdTAbMlI2ghBTZNAJMed8Am1woMJN0M3pyad4
-	qQb7VzP7LZWo8JQjukjfZ0NnzGKUVMiJcsNGPOM+EiSqkGDlhr2EqngFsRCTT27kkTyh
-	QfuAZxK8zQHcdntCP4JlaLRu/JVVpCGUHUO3Fd4CYk+WdSgcA2MNJUBVR2kQiv18ib6t
-	ZybWy3CGLxhRlby3SxLgo3znhASqERPu2fXNHRoK34de3EHt63SzGgYg2ep4bN8xkAVY
-	trHhw0EFn7l3+PtydtxBNr+PUIaS4ssUe3myWXRCaSc8Nhgi173J2xBXceILQkRjRZLq
-	8EQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=mgmcvwRXli09a0sSGMihK7gei4EHzGNdlBUgqKlZS34=;
-	b=gFZ1FNyO7Ymhi4zGRbrbiABP4Q+Iqj7a1OGt4Y4X7+zfJi8hqniMdwHVZ5dRWB+Wg9
-	8Yf4PhBrriy28lJ1yzCAgYrTG+L/a5Mkn3v2GWTbxkScZqrc8QyOblt2aH6Db8Pk4UpJ
-	61WiSeH7iC8hcC02bi9qZO8uAmiVJ7/zQ9TWMugdRPYh9POn6NY0ioSh29a1a2Gs9U1O
-	kHtgSeAs+CPIrQF+hLiALXs/+68iI0Uy1jROhR62PLnO3ZoISGMi6Dp65DJKCYv0tSTq
-	kxOPPW69LNzp0U1eQOYDeMQ3S4DHv8R8dKvytls7Enq7NEjr/iGDjggQj1+7I/z1jLSU
-	GLRg==
-X-Gm-Message-State: APjAAAVBQA0S6RrbkCM806vBgWsjaZ1xY+Gkf86z0CWAOrX2yt3qJQ0t
-	hDFSs2pvBCS54AmGf0jS3Bqrp9brGEkMd5BR1ig=
-X-Google-Smtp-Source: APXvYqym7Dw3j+AB2WtmcJexIDFLGT440NAfCkNUZegNZy2CI/yYxefY2He5vbgRYJCGxFddml6Iv0FZZZkaKdfNB1M=
-X-Received: by 2002:a67:ad0e:: with SMTP id t14mr8764812vsl.35.1572710088975; 
-	Sat, 02 Nov 2019 08:54:48 -0700 (PDT)
-MIME-Version: 1.0
+	Sat,  2 Nov 2019 21:10:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 475BY96cbKz44;
+	Sat,  2 Nov 2019 22:10:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1572729038;
+	bh=z3IJrblyr7Z2aht6NVG01CDmo+2K9Vk2Yt8Ld/UHJto=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hd0+YAyjpf01r558wBjXUX8JU2j9pRGdjlrnWzCblsJwxkWa0FrAH3tH4PtPIw0sy
+	L52wC+pbNsjY64GiyMBG7IOdqGBnsNh2yLtrnuyXunxApPY2Ms4LNSnOxhrB8k/y/h
+	bq3XgtGehi42PWaa6iL7Cw6UssB8HuaYP3ESHOpltosr0SuXoB47pXAhFCBI/5J095
+	hfKXlLzVJ3U8FFCaV651FIUOacOd6BzQ0V/cI8nQNj5eOXuqrL7K1KseiLxUCb9hVp
+	WfIJX+kK2SifEyV4rJ531YoBC8hwKAGx5/lR/FwBitpqcrN09xICOoLmJ5+Gs1kYFz
+	u/pESmj4BEewxRP0G1k300TNDhwFtx03GeRDq2yEhcP73mgKeXBWZ3XIGapkf0PFeD
+	pi7ngxwQo5SEgg3ezzM8xN0glCJz5glStKNW8EKdrEVXL8oVmfj6Z7Y9JGJwzwhPjd
+	9gBfo9SxqleT7Or0VXRDy/CujCXHfnCkXMM4e0tP5DhRFODU/bVH67ikzORWH6uQkh
+	DFnyuBqFu4cvMr49UyqznHRbYUpe6I3DPee9uVMHkruZj+0spiYDiao4Hl7bYjxW8u
+	qwHMHxoWyNGokXoiEAzuRC/XTnD6dPSdLRzR1qh3xslO/7giPmkCDwZZ8gQKf7W3Vr
+	48OKws6uR75XdK8cKsHy9+r4=
+Date: Sat, 2 Nov 2019 23:10:30 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20191102211030.GA9897@localhost>
 References: <20191101184638.31898-1-ruslan.bilovol@gmail.com>
 	<20191101201225.GA1826@localhost>
 	<CANNYZj_qZedAe6dm-7=Lj1kfv1z_NHEfrfXQPVDH3yxTQBbNzA@mail.gmail.com>
 	<20191102153021.GA31590@localhost>
-In-Reply-To: <20191102153021.GA31590@localhost>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 2 Nov 2019 16:54:37 +0100
-Message-ID: <CANNYZj9aCEVwuPqvk=Uz4Jabjwtueo6fd=ksY24PmmK8FvT8aw@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
+	<CANNYZj9aCEVwuPqvk=Uz4Jabjwtueo6fd=ksY24PmmK8FvT8aw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj9aCEVwuPqvk=Uz4Jabjwtueo6fd=ksY24PmmK8FvT8aw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [RFC] [PATCH] Provide users with project support status
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,62 +47,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2019 15:54:49 -0000
-Content-Type: multipart/alternative; boundary="000000000000302af305965f1a59"
+X-List-Received-Date: Sat, 02 Nov 2019 21:10:40 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---000000000000302af305965f1a59
-Content-Type: text/plain; charset="UTF-8"
+On Sat, Nov 02, 2019 at 04:54:37PM +0100, Alexander Kanavin wrote:
+> On Sat, 2 Nov 2019 at 16:30, Adrian Bunk <bunk@stusta.de> wrote:
+> 
+> > The easiest way to get long-term security support in such a situation
+> > is often to take the required parts from the BSP layer, and use them
+> > to build the product on top of Ubuntu LTS (or Debian).
+> 
+> There is an alternative: engineer the product in such a way that it can be
+> updated from one Yocto release to a newer Yocto release.
+> This is what I will be pushing for where I work (Daimler).
 
-On Sat, 2 Nov 2019 at 16:30, Adrian Bunk <bunk@stusta.de> wrote:
+This is surely desirable but it can only reduce the pain when upgrading,
+not make upgrading painless.
 
-> The easiest way to get long-term security support in such a situation
-> is often to take the required parts from the BSP layer, and use them
-> to build the product on top of Ubuntu LTS (or Debian).
->
+Don't let anyone use the gpsd client libraries directly or use the gpsd
+functionality to send data over the network - these often bring breaking
+changes in new Yocto versions.
 
-There is an alternative: engineer the product in such a way that it can be
-updated from one Yocto release to a newer Yocto release.
-This is what I will be pushing for where I work (Daimler).
+"async" becoming a keyword in Python 3.7 broke plenty existing code and
+similar breakages might happen in the future, so Python cannot be made
+available in such a product.
+
+Do not use glibc in your product, it can happen that some obscure 
+cornercase was made more standards-compliant - and one of your
+users was relying on exactly the old behaviour.
+
+These are just some of the real-life examples I have seen in the
+past 12 months, and these are only cases of intentional upstream
+changes - there is also some amount of regressions that are just bugs.
+
+> > The core question should really be how to increase the time of upstream
+> > support that is usually left when a Yocto-based distibution reaches the
+> > user, not just how to tell users that they are screwed.
+> 
+> I'd say information about YP support windows should be more widely known,
+> both because it is useful in itself, and because maybe the users will talk
+> with their company management and with the project, and figure out 
+> ways to improve the situation.
+
+What is actually the minimum investment for that?
+
+Six digit sums are small change for companies like Daimler,
+but that's a huge amount of money for all the small companies
+with a two digit number of employees making embedded products
+that just happen to use Yocto.
+
+Yocto lacks a setup where small companies could contribute with
+four digit amounts to shared efforts like 5 years of LTS support.
+
+Otherwise the only improvement available is often "don't use Yocto".
+
+> Alex
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
-> The core question should really be how to increase the time of upstream
-> support that is usually left when a Yocto-based distibution reaches the
-> user, not just how to tell users that they are screwed.
->
-
-I'd say information about YP support windows should be more widely known,
-both because it is useful in itself, and because maybe the users will talk
-with their company management and with the project, and figure out ways to
-improve the situation.
-
-Alex
-
---000000000000302af305965f1a59
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 2 Nov 2019 at 16:30, Adrian Bunk =
-&lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></di=
-v><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">
-The easiest way to get long-term security support in such a situation<br>
-is often to take the required parts from the BSP layer, and use them<br>
-to build the product on top of Ubuntu LTS (or Debian).<br></blockquote><div=
-><br></div><div>There is an alternative: engineer the product in such a way=
- that it can be updated from one Yocto release to a newer Yocto release.</d=
-iv><div>This is what I will be pushing for where I work (Daimler).<br></div=
-><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-The core question should really be how to increase the time of upstream <br=
->
-support that is usually left when a Yocto-based distibution reaches the <br=
->
-user, not just how to tell users that they are screwed.<br></blockquote><di=
-v><br></div><div>I&#39;d say information about YP support windows should be=
- more widely known, both because it is useful in itself, and because maybe =
-the users will talk with their company management and with the project, and=
- figure out ways to improve the situation.</div><div><br></div><div>Alex<br=
-></div></div></div>
-
---000000000000302af305965f1a59--
