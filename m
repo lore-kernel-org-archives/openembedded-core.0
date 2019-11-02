@@ -1,48 +1,37 @@
-Return-Path: <andrey.z@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BDBA7F997
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C3BE76C37E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2019 13:19:27 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id c12so7551940wml.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Nov 2019 06:19:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7dIQbSFnxtESbLcqJmT3UK9XgV0WPrFCNUTCV6dx+Lo=;
-	b=uy8/IqzwP1QXHK1YzuN9G9bJFMgc2IcwCOKxnYKvmJu/J+OaDJ+ZtQsjUvZL7KK4xd
-	fFC6Jukq88dCJVhVt2j5e5/ZcRWKw3800mwh5kkWnq6FZsbdDDXjpcUWzyZMUNoexXZz
-	9silS+sXdeBcAfT1T/cX2Oh6urkIgHsgLAD/gUTECI9NKVtsIRgK+zwd1flD1zW66hNZ
-	ezDwduTniZ2diGn/VxmeUBjx7BYoSV6cZ1xNFjz8DGO+og16p3ikIqTOxxNI01NSPR8+
-	ytinVikExflyraTnyuK542IsmYw1zHmr4wvvmmJFreggQ5xH3qie/zMJ9bWQ+EfSigr/
-	mp/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7dIQbSFnxtESbLcqJmT3UK9XgV0WPrFCNUTCV6dx+Lo=;
-	b=LF5FRJ3e3GBc1WD9qTNndqxmtfmVAspBHxDttaLjo/kKMiO68awGyJHPtL6WagmJJ+
-	9/XGKsFVn5IHAvoCxi1fZkkheIc3NK8IBeYH96W73l1qvA/TgZrIE9DaVKsxcZ538H8a
-	mTQfRil60pz1lMVQxk3p/pEg5te+8iTDX9j0dM32GNPBGsdIZYoAJFH7gzwx0KVu83RK
-	Hz1pW4StRmnQka/5RLQxsMiTU0/V8unbYFI+wdjhRKCfU+GIxcHBIdNTeWsIQogwmrXm
-	5R4oLDzin4l3YVOvGANA6+r68PaHxEc90XgZRLniuR9NfTBdv7DpPimStQPFeS3xK95S
-	oFXQ==
-X-Gm-Message-State: APjAAAV6oiuy6nf01NVelM35RaUJXQeODrv3wFS898nVFkZgqLNuGxfp
-	ybY1YQGGJM9dCRkxs+FJSQJB5ULGVrf65+l3vMs=
-X-Google-Smtp-Source: APXvYqxSVzzDeQ1DhROzQtoVL9+X8MI7s1+umLhHXhpdy9wlh8+owXY5E9IHhS7rMC5IbqR5DK1n7i6HQzvp/+erlfU=
-X-Received: by 2002:a7b:cb81:: with SMTP id m1mr13651403wmi.123.1572700768030; 
-	Sat, 02 Nov 2019 06:19:28 -0700 (PDT)
-MIME-Version: 1.0
+	Sat,  2 Nov 2019 15:30:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47530c4Wqnz40;
+	Sat,  2 Nov 2019 16:30:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1572708625;
+	bh=8IFAvdj0pHowBWyN3Duez+w6kNzlMjACLE6NHLawghY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e4t35XCLAtPZ6m0mi57Yuhvs8KYHZ0Vfuqqsr/bryYAeNWZOhIRfKGx+DF89WIbSX
+	EU+wP+UV8BhVbzkXr25cb5v/JfmgdxzJTytdP+RJcRtt0djrldyd4cC9YLnVGWcyXd
+	M3187mQQZ2//GQAnf2gljWwtj8JmjeitjNFtYxYePORQR6Pm+59voG919OyI10Q0H9
+	QHx8YKwjkmUR9NmqPU3R7TztRENtLlJsE1HA6OAho1p3AjdcoO5nBEVfTxNp0jHt3c
+	IIfyuW8uynqyT141koBMtvBbbjnnVlLi2MJwYrxLc2LUlto2zKCwqx6y3m3b9EiIhu
+	RD3la1/BX1Os8cdhpHedDgif7QTdTXlv5i3buPDW6hMR7GhXoUpZdoA92iDg4Dchmb
+	6lESMDQ4z2Md06+DeHt9yOtunJdwgeMuO60lQuLWDQOawChhFppmCD6VCMvXO3va8i
+	uUJFfatN8eCWrbZPsyaZzQWmLBr5riiz1oB0mAr4E3O4Ll6cGptt+cnOKQZJxpKSSQ
+	f7aRMh1DQ11WGJK4g2WX+RA3QY9dggDQZsDrmO747NSg2EoF2arAl+FvLaZX3oUTr7
+	J2qOBSj2D5mV0aZRJbdr9M1wgAL4f7FRsOw1ix2T7fTeUBvUGwXR5ljr0UzTF5VPYt
+	lguHrkpYMiqz/DB82+JuYQOM=
+Date: Sat, 2 Nov 2019 17:30:21 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20191102153021.GA31590@localhost>
 References: <20191101184638.31898-1-ruslan.bilovol@gmail.com>
 	<20191101201225.GA1826@localhost>
 	<CANNYZj_qZedAe6dm-7=Lj1kfv1z_NHEfrfXQPVDH3yxTQBbNzA@mail.gmail.com>
+MIME-Version: 1.0
 In-Reply-To: <CANNYZj_qZedAe6dm-7=Lj1kfv1z_NHEfrfXQPVDH3yxTQBbNzA@mail.gmail.com>
-From: Andrey Zhizhikin <andrey.z@gmail.com>
-Date: Sat, 2 Nov 2019 14:19:16 +0100
-Message-ID: <CAHtQpK6=53q5j4Onggad_2P-24hu8uKe=+cubSRKx+Vh+X_zzA@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adrian Bunk <bunk@stusta.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [RFC] [PATCH] Provide users with project support status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -56,82 +45,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2019 13:19:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 02 Nov 2019 15:30:27 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Sat, Nov 2, 2019 at 12:02 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> I too think that the information may never reach the target audience, as they could never update their builds to the point where it would start printing 'end of life'.
+On Sat, Nov 02, 2019 at 12:01:38PM +0100, Alexander Kanavin wrote:
+> I too think that the information may never reach the target audience, as
+> they could never update their builds to the point where it would start
+> printing 'end of life'.
+> 
+> What could work instead is printing a link to the wiki during
+> 'oe-init-build-env'.
 
-Would it make sense to include this message in base-files recipe?
-Yocto does similar things with distro and machine name in /etc/issue
-on target rootfs via do_install_basefilesissue(), so including this
-state tag here would be also beneficial. Besides, users would see it
-on every boot.
+What should the user do based on this link?
 
->
-> What could work instead is printing a link to the wiki during 'oe-init-build-env'.
+Currently the wiki does not even state EOL dates for supported releases,
+and it is not made clear that "Community" is just an euphemism for EOL.
 
-IMHO: This I think is beneficial for developers, but rather obscure to
-the general audience which is booting device....
+Many products are just using the example BSP provided with the reference 
+hardware.
 
->
+With Ubuntu most 3rd party development happens to their LTS releases,
+and when the example BSP for the reference hardware is based on Ubuntu
+it is usually based on an LTS release.
+
+Many Yocto questions are coming from people who seem to be just starting
+a new project based on an already no longer upstream supported Yocto
+release.
+
+The easiest way to get long-term security support in such a situation
+is often to take the required parts from the BSP layer, and use them
+to build the product on top of Ubuntu LTS (or Debian).
+
+The core question should really be how to increase the time of upstream 
+support that is usually left when a Yocto-based distibution reaches the 
+user, not just how to tell users that they are screwed.
+
 > Alex
->
-> On Fri, 1 Nov 2019 at 21:12, Adrian Bunk <bunk@stusta.de> wrote:
->>
->> On Fri, Nov 01, 2019 at 07:46:38PM +0100, Ruslan Bilovol wrote:
->> > When OE/Yocto project goes through its lifecycle, there
->> > is no any way to identify where it is other than go
->> > to a Yocto wiki and look at current status.
->>
->> The status in the wiki can be updated.
->>
->> > Moreover, change from maintained to community maintained
->> > end EOLing happens silently so users not always know
->> > about that.
->> >
->> > This patch aims to remove this gap. The status should
->> > be changed so users can clearly identify at which point
->> > it is now:
->> >  Development -> Stable -> Community supported -> End Of Life
->> >
->> > It is now printed during the build.
->> >...
->>
->> What is printed is the status at the point in the
->> (sometime distant) past when a release was made.
->>
->> It is not uncommon for hardware to come with an example BSP based
->> on an older release like for example Yocto 2.0.3 (sic) today.
->>
->> The Yocto 2.0.3 release shipped as part of this distribution would
->> never print "End Of Life".
->>
->> cu
->> Adrian
->>
->> --
->>
->>        "Is there not promise of rain?" Ling Tan asked suddenly out
->>         of the darkness. There had been need of rain for many days.
->>        "Only a promise," Lao Er said.
->>                                        Pearl S. Buck - Dragon Seed
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+cu
+Adrian
 
 -- 
-Regards,
-Andrey.
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
