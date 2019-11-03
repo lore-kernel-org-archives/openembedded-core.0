@@ -1,49 +1,40 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
-	[209.85.217.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 372E47FBD7
+Return-Path: <peter.kjellerstedt@axis.com>
+X-Greylist: delayed 429 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 03 Nov 2019 15:24:58 UTC
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id E82EA6D4C6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2019 22:29:44 +0000 (UTC)
-Received: by mail-vs1-f67.google.com with SMTP id w25so8693141vso.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 02 Nov 2019 15:29:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=jCfBj7fcoWfBUkAf8J3LcKVopn2sx4FZFlUI8hR7DfA=;
-	b=GeokoE44pP6HsAisAlemyqv+xwraDp2J9PfpweV05kqGfEI4Z1izMLwW3pzQdWQjZt
-	oAiZTMqZ2TdPv0vXJDeuLxKL5pX+ipr9V0Qekwx/Ef8RouyS7V+rIpjVh5+HTjc4stoR
-	3m/5G/gWo9Sx3dpYv/Liw269UVuc/Zcid5Q3dFWfO8CDbl/scoJ6uWhxo3plvQCUWR9R
-	g7rionkGzXKcKfp6Jg8kEXOaChsY/O+PyiuAhRUmyurYtGwaGN9/tA09s6OL/s7kIE79
-	FusZ9ubcyuuwglTKAn6acFa6rm49TpH3xtRAEw084GOtITnF7WPZpJO3EPvE8VpUgV0N
-	nmpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=jCfBj7fcoWfBUkAf8J3LcKVopn2sx4FZFlUI8hR7DfA=;
-	b=MqMD2LuBgnz0/Nfe0+In+jaJ9KahKuK0kYHmNwPxIYAh7rbygVNLzZODlswpxP0c2t
-	foM5Oj2ZyfTkfTCDKfgODbsjhQ5vwCtyicMW4F5Zdf65apHQGQF6uPZq1w/vu8hnTE0H
-	QSb3VVlNblu0rzZ8ul4kMhO2a2nJPLWQ8FLhiGbLBhE/8n43Q9hOgrKdTYolz2s7Zzv1
-	xpRNYZOBZ8pIK3h1f4hDAo0o79RD32tyKPYMXplVdoNuFYwiUhI7APZD8+kLNqoIPm9G
-	yyulrp/HDAAqTHvqIQq4NUUkrYpiOUBxbhBO+1TZsJHWzZxFfvuxBvoTway5/fHeedhR
-	rz7w==
-X-Gm-Message-State: APjAAAVC+v1+GTp1aDt3S2MvdNiwevoTvphFssx8CfBGfVKr42QfOGew
-	NQCTeX9UnK9p+GqgMOe5/E0TgDHHtnj2ibZW3aw=
-X-Google-Smtp-Source: APXvYqzD65YtPjfNZRWLFAqGYS8rKNjUxExCA3BRG7qHkKcUSRYe8ITY74D8CEo8g4ZtXTyVdYYKD0khRgzmaq1xROU=
-X-Received: by 2002:a67:ad0e:: with SMTP id t14mr9405634vsl.35.1572733785001; 
-	Sat, 02 Nov 2019 15:29:45 -0700 (PDT)
+	Sun,  3 Nov 2019 15:24:58 +0000 (UTC)
+IronPort-SDR: O/zIOXS73vLiiPGGZj9MggsDd1i3DkNCJZTayvl1UvYErMl76uDM49u/ZHX5k7GnCmOq5JZHRM
+	fFIs+CLBCIaTSPWYzykm5ts042tmvVuZQZaG51ZUAqI2bSY9yfvr4Xj/0Zp6+tvW55rpmhM+r7
+	cl+NR6h77JXeEaRt4WSMKL69eCcCH/bgQb1g5y7AacO9vC89zHITDbUDrUUKzNdquVOzOHY06T
+	tiF29TSzLzGI5PdMeMThAUjFD6Y/bIMD6cFwemLZA60q0ugBgQZwgZkJSfF9pAoE9AlnypE9kN
+	zHQ=
+X-IronPort-AV: E=Sophos;i="5.68,263,1569276000"; 
+   d="scan'208";a="2110988"
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: akuster808 <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [warrior][PATCH 0/8] Backport relevant changes from
+	Zeus
+Thread-Index: AQHVhD8zsfq8DgVlsUSBraPn3NxDL6duJVYAgAuFNXA=
+Date: Sun, 3 Nov 2019 15:17:47 +0000
+Message-ID: <cd4d358ec6eb43a397764aebee84105c@XBOX03.axis.com>
+References: <cover.1571243326.git.pkj@axis.com>
+	<c6db1799-ee15-0843-8325-9996e13dd8c6@gmail.com>
+In-Reply-To: <c6db1799-ee15-0843-8325-9996e13dd8c6@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20191031093655.14852-1-alex.kanavin@gmail.com>
-	<20191031093655.14852-3-alex.kanavin@gmail.com>
-	<dc6caf95-a1e0-0eb7-f721-8dd3d1e2aa93@intel.com>
-	<CANNYZj9i0mvP_X3WFapfda49YdVvuY9Tr1KY7mFcsnqRr5J-HA@mail.gmail.com>
-In-Reply-To: <CANNYZj9i0mvP_X3WFapfda49YdVvuY9Tr1KY7mFcsnqRr5J-HA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 2 Nov 2019 23:29:33 +0100
-Message-ID: <CANNYZj9dmYgWxYOG6o3hJC9rEk6ghUxYRAak5wZjELMbtOJKag@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] oe-selftest: extend virgl gtk test to also check the SDL option
+X-TM-AS-GCONF: 00
+Subject: Re: [warrior][PATCH 0/8] Backport relevant changes from Zeus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,86 +47,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2019 22:29:44 -0000
-Content-Type: multipart/alternative; boundary="00000000000094d2b20596649e62"
+X-List-Received-Date: Sun, 03 Nov 2019 15:24:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---00000000000094d2b20596649e62
-Content-Type: text/plain; charset="UTF-8"
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBha3VzdGVyODA4IDxha3VzdGVy
+ODA4QGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDI3IG9rdG9iZXIgMjAxOSAwOToyMA0KPiBUbzog
+UGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyBvcGVuZW1i
+ZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09F
+LWNvcmVdIFt3YXJyaW9yXVtQQVRDSCAwLzhdIEJhY2twb3J0IHJlbGV2YW50IGNoYW5nZXMNCj4g
+ZnJvbSBaZXVzDQo+IA0KPiBQZXRlciwNCj4gDQo+IA0KPiBPbiAxMC8xNi8xOSA5OjMwIEFNLCBQ
+ZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4gVGhpcyBwYXRjaCBzZXQgY29udGFpbnMgYmFj
+a3BvcnRzIG9mIG91ciBjaGFuZ2VzIGZyb20gWmV1cyB0aGF0IGFyZQ0KPiA+IHJlbGV2YW50IGZv
+ciBXYXJyaW9yLg0KPiA+DQo+ID4gLy9QZXRlcg0KPiA+DQo+ID4gVGhlIGZvbGxvd2luZyBjaGFu
+Z2VzIHNpbmNlIGNvbW1pdA0KPiA3OWE4NTBhMTBhNGI4OGE2ZDIwZDYwN2IzMjI1NDJmOTQ3ODc0
+MzIzOg0KPiA+DQo+ID4gICBjb25mL3Bva3k6IGFkZCBGZWRvcmEgMzAgYW5kIE9wZW5zdXNlIExl
+YXAgMTUuMSB0byBzdXBwb3J0ZWQNCj4gZGlzdHJpYnV0aW9ucyAoMjAxOS0xMC0xNCAwOTo0OToy
+NyArMDEwMCkNCj4gPg0KPiA+IGFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0
+Og0KPiA+DQo+ID4gICBnaXQ6Ly9wdXNoLnlvY3RvcHJvamVjdC5vcmcvcG9reS1jb250cmliIHBr
+ai93YXJyaW9yX3N5bmMNCj4gDQo+IFRoZSBzZXJpZXMgaXMgY2F1c2luZyBidWlsZCBmYWlsdXJl
+cy4NCj4gDQo+IGh0dHBzOi8vZXJyb3JzLnlvY3RvcHJvamVjdC5vcmcvRXJyb3JzL0RldGFpbHMv
+Mjc0NzQ4Lw0KPiANCj4gaHR0cHM6Ly9lcnJvcnMueW9jdG9wcm9qZWN0Lm9yZy9FcnJvcnMvRGV0
+YWlscy8yNzQ3NTcvDQo+IA0KPiBJIGhhdmUgbm90IGhhZCB0aGUgdGltZSB0byBmaWd1cmUgb3V0
+IHdoaWNoIG9uZXMgZ2l2aW5nIEkgaGF2ZSBiZWVuDQo+IHdvcmtpbmcgb24gYSBkaWZmZXJlbnQg
+YnVpbGQgZmFpbHVyZS4gU28gaWYgeW91IGNvdWxkIGRvdWJsZSBjaGVjaw0KPiB0aGVtLA0KPiB0
+aGF0IHdvdWxkIGJlIGdyZWF0Lg0KPiANCj4gcmVnYXJkcywNCj4gQXJtaW4NCg0KVGhlIHByb2Js
+ZW1zIGFyZSBjYXVzZWQgYnkgdGhlICJtZXNvbi5iYmNsYXNzOiBSZW1vdmUgdGhlIE1FU09OXypf
+QVJHUyANCnZhcmlhYmxlcyIgY2hhbmdlLiBJIGhhdmUgbm90IGhhZCB0aW1lIHRvIGxvb2sgaW50
+byB3aHkgaXQgYnJlYWtzIHlldCwgDQpidXQgSSBjYW4gcmVwcm9kdWNlIGl0IHNvIGl0IHNob3Vs
+ZCBob3BlZnVsbHkgbm90IGJlIHRvbyBoYXJkIHRvIGZpZ3VyZSANCml0IG91dCBvbmNlIEkgaGF2
+ZSBhIGxpdHRsZSB0aW1lLg0KDQovL1BldGVyDQoNCj4gPiBOaWNsYXMgU3ZlbnNzb24gKDEpOg0K
+PiA+ICAgZGV2dG9vbDogZmluaXNoOiBLZWVwIHBhdGNoZXMgb3JkZXJlZCB3aGVuIHVwZGF0aW5n
+IGJiYXBwZW5kDQo+ID4NCj4gPiBQZXRlciBLamVsbGVyc3RlZHQgKDcpOg0KPiA+ICAgbWVzb24u
+YmJjbGFzczogUmVtb3ZlIHRoZSBNRVNPTl8qX0FSR1MgdmFyaWFibGVzDQo+ID4gICBuYXRpdmVz
+ZGstbWVzb246IFJlbW92ZSBzb21lIHVudXNlZCB2YXJpYWJsZXMNCj4gPiAgIGRldnRvb2w6IEF2
+b2lkIGZhaWx1cmUgZm9yIHJlY2lwZXMgd2l0aCBTID09IFdPUktESVIgYW5kIG5vIGxvY2FsDQo+
+ID4gICAgIGZpbGVzDQo+ID4gICBwYWNrYWdlX3JwbS5iYmNsYXNzOiBSZW1vdmUgYSBtaXNsZWFk
+aW5nIGJiLm5vdGUoKQ0KPiA+ICAgdHpkYXRhOiBDb3JyZWN0IHRoZSBwYWNrYWdpbmcgb2YgL2V0
+Yy9sb2NhbHRpbWUgYW5kIC9ldGMvdGltZXpvbmUNCj4gPiAgIGRldnRvb2w6IGZpbmlzaDogQWRk
+IHN1cHBwb3J0IGZvciB0aGUgLS1uby1jbGVhbiBvcHRpb24NCj4gPiAgIGxpYi9vZS9sc2I6IE1h
+a2Ugc3VyZSB0aGUgZGlzdHJvIElEIGlzIGFsd2F5cyBsb3dlcmNhc2VkDQo+ID4NCj4gPiAgbWV0
+YS9jbGFzc2VzL21lc29uLmJiY2xhc3MgICAgICAgICAgICAgICAgICAgICAgfCAxNSArKysrKy0t
+LS0tLS0tLS0NCj4gPiAgbWV0YS9jbGFzc2VzL3BhY2thZ2VfcnBtLmJiY2xhc3MgICAgICAgICAg
+ICAgICAgfCAgNSArKy0tLQ0KPiA+ICBtZXRhL2xpYi9vZS9sc2IucHkgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB8ICA4ICsrKystLS0tDQo+ID4gIC4uLi9tZXNvbi9uYXRpdmVzZGstbWVz
+b25fMC40OS4yLmJiICAgICAgICAgICAgIHwgIDUgLS0tLS0NCj4gPiAgbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL3RpbWV6b25lL3R6ZGF0YS5iYiAgICAgICAgfCAgNSArKystLQ0KPiA+ICBzY3JpcHRz
+L2xpYi9kZXZ0b29sL3N0YW5kYXJkLnB5ICAgICAgICAgICAgICAgICB8IDE3ICsrKysrKysrKy0t
+LS0tLQ0KPiAtLQ0KPiA+ICA2IGZpbGVzIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDMyIGRl
+bGV0aW9ucygtKQ0KPiA+DQo+IA0KDQo=
 
-On Sat, 2 Nov 2019 at 13:07, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> Same failures on the Debian 10 worker:
->
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/778
->>
->
-> runqemu - ERROR - Failed to run qemu: Xlib:  extension "RANDR" missing on
-> display ":1".
-> qemu-system-x86_64: ../libepoxy-1.5.3/src/dispatch_common.c:863:
-> epoxy_get_proc_address: Assertion `0 && "Couldn't find current GLX or EGL
-> context.\n"' failed.
->
-> Thanks - the Gtk part is passing fine, so it's something SDL does that
-> upsets the X/GL stack on the Debian 10 host.
-> I am reluctant to disable the SDL part of the virgl tests on Debian 10, as
-> it is a new distro (unlike centos 7).
->
-> I'll try to see if I can run Debian 10 in a VM here and try to reproduce.
-> Or is it possible to debug directly on a Debian 10 worker?
->
-
-So I actually went ahead, and installed Debian 10 into a qemu image, then
-transferred a pre-populated build directory into it, and ran runqemu there
-against tigervnc (hurray for the nested kvm feature!).
-
-Both 'runqemu kvm sdl gl' and 'runqemu kvm gtk gl' work fine, including
-running kmscube!
-
-So I'd like to see what packages are installed on the Debian 10 worker vs.
-my Debian 10 installation.
-
-Can you issue 'dpkg -l' on the worker, and send me the output, please?
-Maybe something is missing?
-
-Alex
-
---00000000000094d2b20596649e62
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 2 Nov 2019 at 13:07, Alexander Ka=
-navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com<=
-/a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote">Same =
-failures on the Debian 10 worker:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/56/build=
-s/778" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
-t.org/typhoon/#/builders/56/builds/778</a><br></blockquote><div><br></div><=
-div><div dir=3D"ltr"><div>runqemu - ERROR - Failed to run qemu: Xlib: =C2=
-=A0extension &quot;RANDR&quot; missing on display &quot;:1&quot;.<br>qemu-s=
-ystem-x86_64: ../libepoxy-1.5.3/src/dispatch_common.c:863: epoxy_get_proc_a=
-ddress: Assertion `0 &amp;&amp; &quot;Couldn&#39;t find current GLX or EGL =
-context.\n&quot;&#39; failed.<br></div><div><br></div><div>Thanks - the Gtk=
- part is passing fine, so it&#39;s something SDL does that upsets the X/GL =
-stack on the Debian 10 host.</div><div>I am reluctant to disable the SDL pa=
-rt of the virgl tests on Debian 10, as it is a new distro (unlike centos 7)=
-.<br></div><div><br></div><div>I&#39;ll try to see if I can run Debian 10 i=
-n a VM here and try to reproduce. Or is it possible to debug directly on a =
-Debian 10 worker?<br></div></div></div></div></div></blockquote><div><br></=
-div><div>So I actually went ahead, and installed Debian 10 into a qemu imag=
-e, then transferred a pre-populated build directory into it, and ran runqem=
-u there against tigervnc (hurray for the nested kvm feature!).=C2=A0</div><=
-div><br></div><div>Both &#39;runqemu kvm sdl gl&#39; and &#39;runqemu kvm g=
-tk gl&#39; work fine, including running kmscube!<br></div><div><br></div><d=
-iv>So I&#39;d like to see what packages are installed on the Debian 10 work=
-er vs. my Debian 10 installation. </div><div><br></div><div>Can you issue &=
-#39;dpkg -l&#39; on the worker, and send me the output, please? Maybe somet=
-hing is missing?</div><div><br></div><div>Alex<br></div></div></div>
-
---00000000000094d2b20596649e62--
