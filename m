@@ -1,38 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 06F047F8CB
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D2E667F8C1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 15:40:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 476H7k39QYz72;
-	Mon,  4 Nov 2019 16:40:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1572882051;
-	bh=UdKZ7GimP2UL8d7S9sEGintAXqg2t4Tj50YjomBPwoU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jWGGnhM+ltJCPggj4fSI1XtGSe873fvAIBF4/A7poZfFbKk/QHg/qb+wjXyrfNQEa
-	ySV7wveVZBOAp4oPAeqOnC6xlIy1qqpz9DySu9Qs9Ao6kcOqVznmuDBM9WwXXX+2q8
-	XeFlSBo/9p0ldKCNRLa4Ncft79GnbTO1u5ZHS6fqwOM+PCL0ueuQBeOaLNyx5iE88s
-	yq0vR6bC2X8gMy+IwLTEgDynJHBef83VillS0BnykxHHWIpULGLemcvGBH1YTi2LW7
-	PDa9CjrU2Nwhub46SvjMDb0GA/H0n69fRcOgVvhQKJLk6CYy7jPW0KnffbyvGjOTIr
-	P5CYWSGM5QS4QVTpgdFrkGkecRgNRu2EcwE4wqF05Xj0H0wrf3w5EuZ20+7QTXOdNa
-	3u3vRUxXHgI22bDAXEFKQuv4kxjuSfyTf2yDtGB1oRmgdiqWm4q0JNPkYTr6QyMkVt
-	URDA0qwzZdCI4jbmoa3hy98rhtvTJYd1eWeQjuumaq4XJJqW4rNBfgBQbIuluY/fL9
-	erpqebuTtVWI+k78kwZ34NnxVN6+y7SYMX5CawyXEPJRZOMpvbvlqBBRqeSuWfWBT9
-	vzOZ0QMZknp4krNxOGiHzdv0FOysicKxmBuWEwqUT7B6B2eemF2cAEXarUgzA1eFZN
-	0kpyHujrZGedqT5AttQN6V9Q=
-Date: Mon, 4 Nov 2019 17:40:47 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20191104154047.GB5390@localhost>
-References: <20191104124251.21923-1-ross.burton@intel.com>
-	<20191104140115.GA5390@localhost>
-	<e1411b32-8500-2971-ff45-ec717c14d3be@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <e1411b32-8500-2971-ff45-ec717c14d3be@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libpng: whitelist CVE-2019-17371
+	Mon,  4 Nov 2019 16:09:12 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id r7so9573428ljg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Nov 2019 08:09:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=eAE3HTgLK2cWSoXvK8IGRu+Ej466MPDsUMDu0S3ADUA=;
+	b=vhL2xZozVG67+pbpWS/G8R0dVW/TWGlgNMTUwwBysxZsGiAAoWWNccwV6hW2UzVShe
+	KHVWJ+C9zl8xTlUfSrD4O+LJtv96C0GAN6w1snzIPaZvegrQV+hb7hHinRCw1U9o7VPd
+	hbfmOpn2m1+RcJUyKwKcaRSdJouBiqgvTH1EM0vmCl0v9XkODFIxLpfJseMymleIwbxG
+	UuaZSw0pyV9ckV/goJReg1c36EUyfMk2Z90SXglAP8zYLtICQqoB1LdbVfpuNMsTZdLn
+	9oPLwr61LwLyYg1zFlxI/IJnQu8wzAb7DnPO5Bz4hWeoToXCY2Kdo0ls+85owVbNlo/M
+	tpkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=eAE3HTgLK2cWSoXvK8IGRu+Ej466MPDsUMDu0S3ADUA=;
+	b=cIKsScW9ZWWPfoDoVzKVIYZhZsTQUDYgpOTDPNSpLNGXyeCM0mEw1lM9Fjy49/5W9c
+	VV2cu1zAs/jvl79XV7F4X8cXRF8pOJRWprJDWQjtmNcs4YzkDxIF5YSIR0fI0KhRwvbv
+	2hlUyZ8Gyk0p11xXLqiEdwAQJs4vOiwlZzEzZGpLU6PcPNtz4MWrIhjfoR7sXaOZv7Gg
+	Tu766MNU2/Fu9o4kbrbH/JZVWUQVCmAQhqbTz2TIymizlxJ/LiwhiWQcYDePXGCkUcHK
+	bRWdzgOiRnDqDq3/k6+WYrGfsyWPpnunBAOcvtXdOlXcAtZkGhyuJsMN7WBk+BzFOYwT
+	RJPg==
+X-Gm-Message-State: APjAAAWCCAWC44StRPsnJBHpqry6x5sdBSpPWj8jF0siY83KvZzdflGd
+	mKW8hgLZawk9dnE3lna01CTwkxTtCbs=
+X-Google-Smtp-Source: APXvYqzpitFlrhedkW4YOJm7iKtZt8105U3ZbCpjixTEjbNtzbuV7S+qumAw3g7JdFkkEe/fmAQ0LQ==
+X-Received: by 2002:a2e:91ca:: with SMTP id u10mr17842698ljg.208.1572883752708;
+	Mon, 04 Nov 2019 08:09:12 -0800 (PST)
+Received: from localhost.localdomain (c213-89-0-115.bredband.comhem.se.
+	[213.89.0.115]) by smtp.gmail.com with ESMTPSA id
+	k68sm9497897lje.86.2019.11.04.08.09.11
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 04 Nov 2019 08:09:12 -0800 (PST)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Nov 2019 17:09:09 +0100
+Message-Id: <20191104160909.11332-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] git: update to 2.24.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,61 +56,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 15:40:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Nov 2019 16:09:13 -0000
 
-On Mon, Nov 04, 2019 at 02:24:08PM +0000, Ross Burton wrote:
-> On 04/11/2019 14:01, Adrian Bunk wrote:
-> > On Mon, Nov 04, 2019 at 12:42:51PM +0000, Ross Burton wrote:
-> > > This is actually a memory leak in gif2png 2.x, so whitelist it in the libpng
-> > > recipe.
-> > > 
-> > > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > > ---
-> > >   meta/recipes-multimedia/libpng/libpng_1.6.37.bb | 3 +++
-> > >   1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-> > > index 66af2f3d60e..07970e14360 100644
-> > > --- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-> > > +++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-> > > @@ -29,3 +29,6 @@ PACKAGES =+ "${PN}-tools"
-> > >   FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}/pngcp"
-> > >   BBCLASSEXTEND = "native nativesdk"
-> > > +
-> > > +# CVE-2019-17371 is actually a memory leak in gif2png 2.x
-> > > +CVE_CHECK_WHITELIST = "CVE-2019-17371"
-> > 
-> > These should use += to not overwrite whitelists defined by
-> > the distribution or the user.
-> 
-> IMHO, the distribution or user should be using _append.   The whitelist
-> should be explicitly per-recipe: there's a CVE which is tagged incorrectly
-> as being in openssl *and* mod_ssl, we don't want to whitelist it globally
-> but only in openssl.
->...
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ meta/recipes-devtools/git/git_2.23.0.bb | 11 -----------
+ meta/recipes-devtools/git/git_2.24.0.bb | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 11 deletions(-)
+ delete mode 100644 meta/recipes-devtools/git/git_2.23.0.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.24.0.bb
 
-What I had in mind are a distribution-wide cve-whitelist.inc included 
-from the distro conf or using CVE_CHECK_WHITELIST in conf/local.conf,
-you don't want to start creating dozens of bbappend files in such 
-usecases.
-
-This CVE where a change in OpenSSL created a vulnerability in Apache
-would go to the global whitelist for me when I am not using Apache.
-In OE it should not be whitelisted in both OpenSSL and Apache, but
-this is a different situation.
-
-> Ross
-
-cu
-Adrian
-
+diff --git a/meta/recipes-devtools/git/git_2.23.0.bb b/meta/recipes-devtools/git/git_2.23.0.bb
+deleted file mode 100644
+index 1539182a90..0000000000
+--- a/meta/recipes-devtools/git/git_2.23.0.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require git.inc
+-
+-EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+-                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-                 "
+-EXTRA_OEMAKE += "NO_GETTEXT=1"
+-
+-SRC_URI[tarball.md5sum] = "203c238ffdcef76f9bd6c67cfbaf949f"
+-SRC_URI[tarball.sha256sum] = "e3396c90888111a01bf607346db09b0fbf49a95bc83faf9506b61195936f0cfe"
+-SRC_URI[manpages.md5sum] = "90a72e553de712d798d68b15b57bc928"
+-SRC_URI[manpages.sha256sum] = "a5b0998f95c2290386d191d34780d145ea67e527fac98541e0350749bf76be75"
+diff --git a/meta/recipes-devtools/git/git_2.24.0.bb b/meta/recipes-devtools/git/git_2.24.0.bb
+new file mode 100644
+index 0000000000..e9cb382f69
+--- /dev/null
++++ b/meta/recipes-devtools/git/git_2.24.0.bb
+@@ -0,0 +1,11 @@
++require git.inc
++
++EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
++                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
++                 "
++EXTRA_OEMAKE += "NO_GETTEXT=1"
++
++SRC_URI[tarball.md5sum] = "ed39361a3ae362c8af852d1a06992bc2"
++SRC_URI[tarball.sha256sum] = "ad11030d2eac656ee9e8862f56d1610550f7867181beff814c7712a99192e99d"
++SRC_URI[manpages.md5sum] = "57465e83f13ba910a178b717d93958c0"
++SRC_URI[manpages.sha256sum] = "ce995f86f441b56ab1fd0788a94786904ae2e2989e7191fd68060003011366d7"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
