@@ -1,33 +1,24 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 787EA7F939
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id 6BE9F7F977
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 20:55:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 476Q6L3Gyxz8t
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 21:55:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1572900906;
-	bh=mEU5CeCdFihfuG78OrfXBdtEOrCsZy8CNvRwu5A2JaI=;
-	h=From:To:Subject:Date:From;
-	b=O/CW0NtAwawAPyEjWzWrzIipyKbCV8ciR/le9eVF9sXRNzb7PE4KFnC7pCZqfqOtB
-	rDgmUrTsyvU0STCkWTkaEJjHt14jukaLFrXH7ZMgFaFXNG+tsYohDUxndRgFwpYYHE
-	ZaTLC1TtozjEIrtD+R52GhnKQgbkM/E/yL4ZhlKcUzVP94BmCsDJtG/Ze6t/AP9Oxb
-	plKhfoArVx6IXNUhOgncQKc9/PImnCOXMm/Mp3KD4NjAiqdJ5hOPE/6CmTP4ZjACUR
-	CtRjp8lHqRcUFxx1AeNQvJenqvFEbPp8F9oLNbvI84KBBnZ6KVd2Iu9Cplg6VTP3aJ
-	hcpNIKpilhJtGd0DIGkITdNeOfsuF7M+u+4UMXSEuwXhSOUj9D43s+QTpcz+0bOuvu
-	nTLlR9bF1ISv9T+fN0EjUnozuH0XC75XVw9ot8gEF7meWIMpe2WqrBoUwYZiT42gK/
-	nP6Lrvlhj0VcbMWiu0bln60KVwt9dE3yVL7Sm7/MGIaM9WSeszJrXc/59oZCRKgS8B
-	OoglHvynyGOvU35xSl8ZBC8x6YUiexbaDhHSMz7yzWOHF6eIR7NT3x9qNJe4IlVBS7
-	NjbbQskFkcozqHbk9pYIcn/ANVp56W0NOHlnkyIiS6/kfgtQOLP35siyDbUZ3y4A9o
-	9xKG2oPkla/L9rCfLf2NzV2A=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Nov 2019 22:55:04 +0200
-Message-Id: <20191104205504.24428-2-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] lz4: Whitelist CVE-2014-4715
+	Mon,  4 Nov 2019 20:55:45 +0000 (UTC)
+Received: from [172.16.169.141] (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id 431EE1C0010;
+	Tue,  5 Nov 2019 09:55:45 +1300 (NZDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20191104011638.26010-1-douglas.royds@taitradio.com>
+	<20191104045245.19085-1-douglas.royds@taitradio.com>
+	<d38744bdfaf4022f13f06f7ea25cf9f06b6d4844.camel@linuxfoundation.org>
+From: Douglas Royds <douglas.royds@taitradio.com>
+Message-ID: <0760e4bc-2819-0b99-1baa-1688e9ec232a@taitradio.com>
+Date: Tue, 5 Nov 2019 09:55:45 +1300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <d38744bdfaf4022f13f06f7ea25cf9f06b6d4844.camel@linuxfoundation.org>
+Subject: Re: [PATCH v2] insane: file-rdeps: Readability only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,28 +31,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 20:55:08 -0000
+X-List-Received-Date: Mon, 04 Nov 2019 20:55:45 -0000
+Content-Type: multipart/alternative;
+	boundary="------------1AA60A4954991E48DBAABDF6"
+Content-Language: en-GB
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-support/lz4/lz4_1.9.2.bb | 3 +++
- 1 file changed, 3 insertions(+)
+--------------1AA60A4954991E48DBAABDF6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-support/lz4/lz4_1.9.2.bb
-index f0a8416a96..ed4452c82e 100644
---- a/meta/recipes-support/lz4/lz4_1.9.2.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
-@@ -18,6 +18,9 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
- 
- S = "${WORKDIR}/git"
- 
-+# Fixed in r118, which is larger than the current version.
-+CVE_CHECK_WHITELIST += "CVE-2014-4715"
-+
- EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
- 
- do_install() {
--- 
-2.17.1
+On 4/11/19 11:29 PM, Richard Purdie wrote:
+
+> On Mon, 2019-11-04 at 17:52 +1300, Douglas Royds via Openembedded-core
+> wrote:
+>> Mostly just longer (and hopefully more meaningful) variable names.
+> "Mostly" - what else is in there?
 
 
+Readability changes only.
+
+ =C2=A0* Longer variable names
+ =C2=A0* Reworded some comments
+ =C2=A0* Some extra blank lines (as visual paragraph breaks)
+
+I replaced this comment + hard-coded string-length:
+
+    # We already know it starts with FILERDEPENDS_
+    filerdepends[subkey] =3D key[13:]
+
+With this one-liner:
+
+    unsatisfied_rdepends[target_dependency] =3D
+    executable_that_rdepends[len('FILERDEPENDS_'):]
+
+
+
+--------------1AA60A4954991E48DBAABDF6
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
+    <p>On 4/11/19 11:29 PM, Richard Purdie wrote:
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">On Mon, 2019-11-04 at 17:5=
+2 +1300, Douglas Royds via Openembedded-core
+wrote:
+</pre>
+        <blockquote type=3D"cite">
+          <pre class=3D"moz-quote-pre" wrap=3D"">Mostly just longer (and =
+hopefully more meaningful) variable names.
+</pre>
+        </blockquote>
+        <pre class=3D"moz-quote-pre" wrap=3D"">
+"Mostly" - what else is in there?</pre>
+      </blockquote>
+    </p>
+    <p><br>
+    </p>
+    <p>Readability changes only.<br>
+    </p>
+    <p>=C2=A0* Longer variable names<br>
+      =C2=A0* Reworded some comments<br>
+      =C2=A0* Some extra blank lines (as visual paragraph breaks)</p>
+    <p>I replaced this comment + hard-coded string-length:</p>
+    <blockquote>
+      <p># We already know it starts with FILERDEPENDS_ <br>
+        filerdepends[subkey] =3D key[13:]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <br>
+      </p>
+    </blockquote>
+    <p>With this one-liner:</p>
+    <blockquote>
+      <p>unsatisfied_rdepends[target_dependency] =3D
+        executable_that_rdepends[len('FILERDEPENDS_'):]<br>
+      </p>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------1AA60A4954991E48DBAABDF6--
