@@ -1,54 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 263D37F87B
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 48BDC6C44A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 12:15:02 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id n1so16794956wra.10
+	Mon,  4 Nov 2019 12:27:17 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id t1so10908940wrv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Nov 2019 04:15:03 -0800 (PST)
+	Mon, 04 Nov 2019 04:27:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=sJkY+x+G9K5dgSRgoWD7sFFmhdGSWuPryLIIBp5Sou4=;
-	b=UG2+V3ynxhzzAIfWWDq2KgwjuQaZkz7VjY6uorJ1uD3785fmIyED2KKFBVzYy6Uj8V
-	rcTB6M/3BU5v1umiVYSZtzjhdSXgO/eawMabIrZkGvWn58+9ZI2/COqoLQMgmekatpMy
-	HZ2oyIkYbTDpGUspCJHRp+rNaCmo70569fPSG0eT92+loUsilBK1svMfViX6I4Ztk2VP
-	tLJQu6XiO/wMKmp0ENcQr6SjzmL0lpD/rbNnCY+fB20cjcLYiUa8rGt+MkBGQRdENnv5
-	2Hr6/zlj5ARAb2KVu1OKCfYZhAfgmnk85qZ2z3lGCSX5IsGrXK7bIBBv9QEWwZPCCTKz
-	RTDw==
+	bh=lvm+1NNVIqQ6lFSfxW5VzjR5nqAIA0H11crtaRapOgs=;
+	b=a7sfFswr6pxl/MPwQuo4VtXu+cRyVTSIwpV6BggtrRexwLif/6RE6bsXue1nVhbpkq
+	3mvOG+SyTO+WBBz8EVT8BNmZaV8RyZSpW/UqE+5l1oHOEkyo5uTS5TMkblPR/NneF2ZS
+	XLJBzykAGqV5KdXQOLmZHXl/Fe8rxeVFlYQ01sGHgF18wN3eP7W0vPfxV1Lr90b/60pB
+	THZ53mNGRZJUG8XSIIPd567dSJqgG9S1DjUGfEY5dcq0kw2qrHqA61eEkj7+qdLvZWdv
+	3r5DFUf3tgi+RWVF/yqAWmoNtEbjO8NO1fHViAy8TTUOQ+GHqWha9B57Rez6hGi6p3+5
+	nqog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=sJkY+x+G9K5dgSRgoWD7sFFmhdGSWuPryLIIBp5Sou4=;
-	b=sGNAXDWjNlOUnV5NfqSA7CC68x90//UdYOV80P+m3ale4oV6nUtwZb/KqjzDSuFQz9
-	4Hwxb4SMElRX4fQWHpOwuV2H7zHC73aAN9i6Br3Db+xItgIxefRjdZdauFKbSY95w/Oe
-	g35bcrdbDZ/xhtbDXMsB2RToK97a+Cg0wxauQav4pKCn3rLHeH/k8acSJOp3jnx34cU7
-	YI9SIISWmuRCi/ZrXAmvlg+OHOrYa/Eem0q0NjH76Ovdqd2PYORaKKAfQrja4zqX3jW/
-	CzmgFv6bXqPoRZwWYWY6VyuNptkowcpQZzHtAYLyW1nyS54IxTxfVMf7ZZMx4WbmO6xg
-	9ZYQ==
-X-Gm-Message-State: APjAAAVNUHcey4CwThiL/q0+42KroGix7fJU65FbpZS/cnpS2ITLLOQP
-	AhEBuaqDSECeV16aXpNTA3U8GSmH0YQ=
-X-Google-Smtp-Source: APXvYqzQbCMdXbvrogcF7GgL+1GXeD8LMgzvvbYj6SSVk4T3yaH2iNmu+R7F4kcfu8H8M9xYljYLBQ==
-X-Received: by 2002:a5d:4649:: with SMTP id j9mr11645318wrs.248.1572869702841; 
-	Mon, 04 Nov 2019 04:15:02 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lvm+1NNVIqQ6lFSfxW5VzjR5nqAIA0H11crtaRapOgs=;
+	b=TRRGtJvP0GierNHZCqVl5GRO6x1xntkpUI0ikMmg325YJtHUrjr8DOITvzJ1rTmw9x
+	lUG0xxyrWZqyDXyj45NJyzwu4QElzmqzQxdQcfRCILyfXZinT4jB7klsTO+d15il0dz9
+	X/pNhQjqJPE+Ck5Rh3Cl2mhe+v1bhiA4BPk8ssOx3fNFmdBeovMH2rksVsjd99BTIDtH
+	C1XXkK1WyCdRq2RHCMbQc6mauz8HveJH7Du17/eD6xqDqW4W6tMpuYavi1WVILsim9iN
+	q2+WorKhVy8UMu7GCctIrmt6bYGK3Df7Mo73bnotOkn9V+gAjVUIBhXVBqJKPINIllHQ
+	sx6g==
+X-Gm-Message-State: APjAAAWLDiLNh8JFkFiuBWurrhqGDWt+BKFDp44KRqBj/6+oNuIGqVmR
+	P1uK8othV+Jwf8tAJ2LZRkMrU7zxPDc=
+X-Google-Smtp-Source: APXvYqwOefM+oO2VzbSGKytTSSFgpIyV2Kf69a59CQt9Ahqyrp+TwkBFiNsW6A5ChUF5fDt8qdR5sQ==
+X-Received: by 2002:a5d:63d2:: with SMTP id c18mr12562419wrw.365.1572870436456;
+	Mon, 04 Nov 2019 04:27:16 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	b3sm15388077wma.13.2019.11.04.04.15.01
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id l4sm882487wme.4.2019.11.04.04.27.15
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 04 Nov 2019 04:15:02 -0800 (PST)
+	Mon, 04 Nov 2019 04:27:15 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Nov 2019 12:14:57 +0000
-Message-Id: <20191104121457.22123-3-ross.burton@intel.com>
+Date: Mon,  4 Nov 2019 12:27:13 +0000
+Message-Id: <20191104122713.23437-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191104121457.22123-1-ross.burton@intel.com>
-References: <20191104121457.22123-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] file: run test suite when building natively
+Subject: [PATCH] patch: the CVE-2019-13638 fix also handles CVE-2018-20969
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,33 +59,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 12:15:02 -0000
+X-List-Received-Date: Mon, 04 Nov 2019 12:27:17 -0000
 Content-Transfer-Encoding: 8bit
-
-As we apply the same patches to native and target builds of file, we can verify
-that the patches are not breaking by executing the test suite during the build
-of file-native.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/file/file_5.37.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../0001-Invoke-ed-directly-instead-of-using-the-shell.patch  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/file/file_5.37.bb b/meta/recipes-devtools/file/file_5.37.bb
-index 80e8b91058b..a96ccc0d399 100644
---- a/meta/recipes-devtools/file/file_5.37.bb
-+++ b/meta/recipes-devtools/file/file_5.37.bb
-@@ -29,6 +29,10 @@ EXTRA_OEMAKE_append_class-nativesdk = "-e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/
+diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+index f60dfe879af..d13d419f51c 100644
+--- a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
++++ b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+@@ -6,8 +6,8 @@ Subject: [PATCH] Invoke ed directly instead of using the shell
+ * src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
+ command to avoid quoting vulnerabilities.
  
- FILES_${PN} += "${datadir}/misc/*.mgc"
+-CVE: CVE-2019-13638
+-Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
++CVE: CVE-2019-13638 CVE-2018-20969
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
+ Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
  
-+do_compile_append_class-native() {
-+	oe_runmake check
-+}
-+
- do_install_append_class-native() {
- 	create_cmdline_wrapper ${D}/${bindir}/file \
- 		--magic-file ${datadir}/misc/magic.mgc
+ ---
 -- 
 2.20.1
 
