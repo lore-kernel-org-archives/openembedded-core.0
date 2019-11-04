@@ -1,53 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A0C16C44A
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B53196D230
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 12:09:13 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id q130so15774815wme.2
+	Mon,  4 Nov 2019 12:15:00 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id o28so16775555wro.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Nov 2019 04:09:14 -0800 (PST)
+	Mon, 04 Nov 2019 04:15:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
 	bh=TUmzuLbnw6MoCIFsxoOaEDqA/oDpCGpSwYcjtLHBsNk=;
-	b=Bpz1DjUUXi1Mvnv/CAYrHdJfFj/QkpHBEpqZtFJ0x1787I07S9wL9YRT3iaTMLBH00
-	Bh74qCE4NcwKxki/hdA/7n21Ja+ipcKOZIXn7QL3XP8JWUIGL+8a7YmGWtW9G1imIUzF
-	MAzPGmWX/mFsA/ZS+YADx7f2uBiGgAcXkojHSTE6+hVM5WRNeafCOYcagUlm07bhAwQF
-	tJ1az/SMws9R7nWZOKn9q6kIPTg2wk+0LKXF9b1Ra2wR/kJjRv+/lJuMp2V2wi4EU4VV
-	s2/w5GwF+WwyqApRNRx6AY+kqxOfeTGkfuWW05QKaHLz2qLtoCiKnz2cAc/tflSjllaJ
-	ZiTA==
+	b=eShnGJdWbS/sQUtUKYZOi29pnGdqSgLtP8rdAikkRwOywQv45cvU8ngsO80V+tKtVD
+	VTAn0rB9ltyMWinEavjtwHezlQw24tyJFMWASlvGZNdcvXYDObf3zCbc2RRfmmKPAMrZ
+	DfFl6HGoQGebckIhR225hf9ybY3RAd2MWGg67HCAqBlDLPh/tvKpItaFFdRa1GJMgDJz
+	sphnBDlVEYsd+nNvdr6T2CBKB918nIdVrXOb57xKXG+B18pw29/PIoOo1UY3m92nJFKN
+	OlpP+1ofwgk4INYuoi45rc1r28nwWzSKcWTNz20dmDa7S+ADX+6UJlJUwITNq6/pcL/4
+	eKSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
 	bh=TUmzuLbnw6MoCIFsxoOaEDqA/oDpCGpSwYcjtLHBsNk=;
-	b=D504ULnx28BCIvxj+JnqKEqX7CrGGVU2oywqOafMcOF73QVRTl9fP9aaKZXUr68UOt
-	AiaE93QP92AL4at2F+YEizUHuIL2i/PEymUl/bal9RN2EZtbXR9z5Yg97hApLyAbNsrB
-	CclFAMzrPKA5F5KiBEh7cRze843u44kg9djH8SlXcC5XtJ/Go8suGP2iS+FORnQRkB9V
-	s1ERMV/p3y2Kfc21daDn0e2c6iVzIHKKW9clxfx4slxb3UTtIPrxHR51dZf7Tndf8YQH
-	FT/F/WDpjB5T1IjMly3nDZrZ9k5nWZzXndc4lpUQ9qJyLJDiE7QkU8v5Z7uI/0Ssa7iI
-	nuWw==
-X-Gm-Message-State: APjAAAWlyKrbwHkSXl1DE5euUS/dFSQPDkNmEJWE7ZhczB4mtZXeAWmu
-	TkTLfrHnVlrKiNUTpFrzbxEU5rqxd+I=
-X-Google-Smtp-Source: APXvYqwUuv5FMnwBF6sfhVsoMDN9RSXTkNF8PhWwXdWUUe9l/C6j4N/W3hFDTkOB9RVtID/aALCgqg==
-X-Received: by 2002:a1c:e08a:: with SMTP id
-	x132mr23165122wmg.146.1572869353408; 
-	Mon, 04 Nov 2019 04:09:13 -0800 (PST)
+	b=p2ieU+XNOWN/g3EasRvLd3A53vSh5n9augObwBnaeZq05GZD7hemNCP0Ll+UqiCQgO
+	iwQ0pDAxPazMabF45PRdBI5VYTKp/5OvA5o9XyATactoIM5qRsApFVRL6TNjFzWtocDv
+	CXBdhkV+Qf/t+SRo6nwwjh1oIrEBPjJmTACoacKD/fQFMzu5H0wOqT0rNx3WncHqQpFo
+	ZoiiwlWfIXWAq/wgiIaKnPbFFkP8ysr3FLobYVAhcfhGRhIvQM5Lr4U3h2lv1hp4OQKb
+	gWkbCHV13F/3sw6WtN6q6fPx80rD+Cj7du2CbUgbvxre2QbyPVY7f3q/56DH1C4Ibcrf
+	Bocw==
+X-Gm-Message-State: APjAAAV4UxShGXVceV9ug55piX83yTAsVov/4ZcI34M8Zqf08c9nU3MA
+	JhwrQ6edJ31aEJcnUeh6Xz3X6BnFukk=
+X-Google-Smtp-Source: APXvYqxH4V5eXHpTml7hTRcBcoTYSIspdo8TP83YuCZFllDJbxbaNaGG96KfbEW9GHDGRLozVA9Vsw==
+X-Received: by 2002:adf:e805:: with SMTP id o5mr24706902wrm.223.1572869700895; 
+	Mon, 04 Nov 2019 04:15:00 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a7sm17884641wrr.89.2019.11.04.04.09.11
+	b3sm15388077wma.13.2019.11.04.04.14.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 04 Nov 2019 04:09:12 -0800 (PST)
+	Mon, 04 Nov 2019 04:15:00 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Nov 2019 12:09:10 +0000
-Message-Id: <20191104120910.15792-1-ross.burton@intel.com>
+Date: Mon,  4 Nov 2019 12:14:55 +0000
+Message-Id: <20191104121457.22123-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] file: fix CVE-2019-18218
+Subject: [PATCH 1/3] file: fix CVE-2019-18218
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,7 +59,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 12:09:14 -0000
+X-List-Received-Date: Mon, 04 Nov 2019 12:15:01 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
