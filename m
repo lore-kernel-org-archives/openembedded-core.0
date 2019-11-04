@@ -1,52 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
-	[209.85.128.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 68C5A7F881
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id EA3A57F881
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  4 Nov 2019 13:51:09 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id t26so12054238wmi.4
+Received: by mail-wm1-f49.google.com with SMTP id 11so16787532wmk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Nov 2019 05:51:10 -0800 (PST)
+	Mon, 04 Nov 2019 05:51:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=Ddt3ZfcFQkllPhYpVbA+LCQDlZRWk+DDHtjd51q8L5E=;
-	b=2EfSH5Gv14AKDAmouLiA3xa08W4lKTtgywQMHdCyr44LS2FDVQzSgRPrzI+dtJ6IfF
-	RE+2iXFk0AgWPO/SXUJZmP68eoHQs4PKyj+WXLhU9To3xbsq7KoBYRD3M925PotX19B7
-	Kw+o1hsNpkE3FMcMxioNb/nf2mfinkqWHxtjwceVVoEYpF9g8O9LIDy1LMLritk6Huif
-	Vwq/0o3FyPTaEnLtv0hj7k8mJkPFx4zogtlaGmfcfoN+oSfaUy6bBC35fdENr0Cpg1c1
-	O836Pe3fc7x1BkBv/spIhqp5s0gaUbcWplY71L+4qThTyOXupyY+hMeG+GqSaKW3H7Na
-	0ZUQ==
+	bh=Nd8TWsrwP4UAVeP/ecM3jzGX6mFmdvC848p5nq2FRtQ=;
+	b=pDQiC5RVcv/sMIht5I6SAXtqrEp9XYUoEh3iq1/v+Yu58uARigYrDaZu6rHfh55jq4
+	xLAvCfQ6qyOZzf68bAajaDiQjhXyJPVu4vSadbnqU5cd8jwy2ViyREW63GBZIl0jrwcv
+	wHeUUFLGvBUY3CIUIfFdsX4BV+VTFuoeD6FANpbuJAtxZXphZ6a79/7HOblqUaMY7Cqj
+	/BYEhOfT4TEOcrIf9lo8tCVQmzvjwVVxVkHU2iaag+tT2uDPKaHFTZrlOtBy8L32qlIz
+	0H3c3/nTt3SJvgAe70RyfPdBiEG2t+M6VZz3Lij7NdC3kkfm0f54AK4QZl9g9qkFhBrm
+	dDFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Ddt3ZfcFQkllPhYpVbA+LCQDlZRWk+DDHtjd51q8L5E=;
-	b=TVDD9AyiaJjYbk60mPrw+EBDrnwCJX5htyRLu/+TQqOMGNC5MbX+CO1wGvrXDM5jHt
-	NBphHmlyxH48mtcouH20jYydzD/vil+fWo2LXFbIuezdLTQnMCBc4teFYEAsLaTHCHke
-	WokPXW9hvBfTAxzfD4qtSo/UKFZnaICQ4DRy8zpTheiFsnaY2KqKXTQLp2JYhWDw9Kb1
-	2BRNfRfGHtV3io2FHbHuDmv/BwPmQc4YwoDYG56CnvnRKFzaZ86of6NxO31cg0cDAl6r
-	kAz25HAQT984dyGAFFpa08djhmhQg88oDllKL0lQJRQdKq3LkWd/MgOP5X/XouF32BuU
-	KjmQ==
-X-Gm-Message-State: APjAAAUtEcIj020rnpVzz2zGlZu96pHTL1+77MKGKET/aeGWNjXzwb4o
-	/hUBBFpUdhYO//cVCsdr3LFpNjABUHs=
-X-Google-Smtp-Source: APXvYqx0c07yAiikvpmWIwRicdg0E02Z4ks8a7tNbHCy6pHR94mC6Mo+Cim+tbxApVTItmTdCkmhow==
-X-Received: by 2002:a1c:7c14:: with SMTP id x20mr8757886wmc.136.1572875469608; 
-	Mon, 04 Nov 2019 05:51:09 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Nd8TWsrwP4UAVeP/ecM3jzGX6mFmdvC848p5nq2FRtQ=;
+	b=UQkhC9yS+988S5L3vNF6P2XD4n4bXjrRknL8V5fBZnzoeyHVn/90P8us62WxJQaDdJ
+	kt3QsIK0IX3TjvX4gXFVHsuTUV26YXouFLnjTzbQp0yVNX37URperbGNvoz8kZmnjxLC
+	KuifZWixlDkpU493ZmYYTZnXmDc49+MtZdrIq3T35S4tFcdKJlkKoOc9hn1E+/VWKkH7
+	ZQ6VA15JZSxpPlpIdcHg0Bf+C9ToHTuQ60dwLhSdUVSoPzVeIfvraas6OEh4J0meZYTF
+	QTM+c1NYqmj7hoOYCnmiYQPvpQQcZKy1ta9YrWImI4MtldYimSIxTzjvdpMTGnrWZ21N
+	sNbA==
+X-Gm-Message-State: APjAAAUJES0UIhZknH4JDsdjf53MApDnmqDRytekk98tQnMTf/81x3yZ
+	e6aNT5Q2DinAA7PYdnjr2zXWY9Damqw=
+X-Google-Smtp-Source: APXvYqzLnEalbUXUz4WlMtOHQnoGxNudMyritNIAglDtA/EbhA7OL9Yuti2qLO3B43LlOADBNb7LWg==
+X-Received: by 2002:a7b:cc8b:: with SMTP id p11mr9284468wma.38.1572875470471; 
+	Mon, 04 Nov 2019 05:51:10 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	d11sm13431368wrn.28.2019.11.04.05.51.07
+	d11sm13431368wrn.28.2019.11.04.05.51.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 04 Nov 2019 05:51:08 -0800 (PST)
+	Mon, 04 Nov 2019 05:51:09 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Nov 2019 13:51:05 +0000
-Message-Id: <20191104135106.14625-1-ross.burton@intel.com>
+Date: Mon,  4 Nov 2019 13:51:06 +0000
+Message-Id: <20191104135106.14625-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191104135106.14625-1-ross.burton@intel.com>
+References: <20191104135106.14625-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] procps: whitelist CVE-2018-1121
+Subject: [PATCH 2/2] libsndfile1: whitelist CVE-2018-13419
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +61,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 13:51:09 -0000
+X-List-Received-Date: Mon, 04 Nov 2019 13:51:10 -0000
 Content-Transfer-Encoding: 8bit
 
-This CVE is about race conditions in 'ps' which make it unsuitable for security
-audits.  As these race conditions are unavoidable ps shouldn't be used for
-security auditing, so this isn't a valid CVE.
+This is a memory leak that nobody else can replicate and has been rejected by
+upstream.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/procps/procps_3.3.15.bb | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipes-extended/procps/procps_3.3.15.bb
-index 9756db0e7b7..e128477c5fa 100644
---- a/meta/recipes-extended/procps/procps_3.3.15.bb
-+++ b/meta/recipes-extended/procps/procps_3.3.15.bb
-@@ -4,9 +4,9 @@ the /proc filesystem. The package includes the programs ps, top, vmstat, w, kill
- HOMEPAGE = "https://gitlab.com/procps-ng/procps"
- SECTION = "base"
- LICENSE = "GPLv2+ & LGPLv2+"
--LIC_FILES_CHKSUM="file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                  file://COPYING.LIB;md5=4cf66a4984120007c9881cc871cf49db \
--                 "
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://COPYING.LIB;md5=4cf66a4984120007c9881cc871cf49db \
-+                    "
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index ffb45855a4b..0ba58399624 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -33,3 +33,7 @@ PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
+ PACKAGECONFIG[regtest] = "--enable-sqlite,--disable-sqlite,sqlite3"
  
- DEPENDS = "ncurses"
- 
-@@ -64,3 +64,6 @@ python __anonymous() {
-         d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_sbindir'), prog))
- }
- 
-+# 'ps' isn't suitable for use as a security tool so whitelist this CVE.
-+# https://bugzilla.redhat.com/show_bug.cgi?id=1575473#c3
-+CVE_CHECK_WHITELIST = "CVE-2018-1121"
+ inherit autotools lib_package pkgconfig
++
++# This can't be replicated and is just a memory leak.
++# https://github.com/erikd/libsndfile/issues/398
++CVE_CHECK_WHITELIST = "CVE-2018-13419"
 -- 
 2.20.1
 
