@@ -1,36 +1,18 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 368447F8AB
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 14:01:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 476Dwt3klqz72;
-	Mon,  4 Nov 2019 15:01:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1572876078;
-	bh=G2fkk1OqZFgfvFnw1SCuTOBmKkQS7C/sTNe3KFe+Bxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GTuN+YAvQE+3g/629I8G/m6VfN+BG+YDHlwwMbNJahzngpvpbD6zPHs8ijym/mdNN
-	UbmWGZYE9/ijYptqXdsUJunTGF6IIQdS+3wnLYwTwOEarNXXqG+xDMz/y0sZ/rMhpt
-	mJ0T5CQndiIrvg4TLjtov+w5XaXpX/pRK5GcjydFN0eTytwFox6Q5hxu2+7kwGZqcn
-	EusFnDyiDQ48Iw7pmA5dIG9BFY4o0nbx2FlLK/F9rITMcFEvjH/wnU7JQ6V7uDQxXF
-	2Hxdqjh5T5telxd0cpa7UjM1BN723azBbDsBF2eq5IxTBRzR/AEnhbY5gbv8aZtaWm
-	htTH1YRa4kEBpoMuBelDfx4qfiVkkmupsiE7JkG/1mrFbqboW4hT6za/9WXNIsw7XX
-	0bpmXN2awwaeBf2Fga8ZAr3hKjfNowlonMa2EnSw+yDGCZdMwACVby4wzVkw7+KAX1
-	CBQg4bEy7nNyYxpcfvP2mJog0OT8pKKHS0aZDKvvi+VdLQXanZNOyJecLy6+obr+Zf
-	w4cPpynwkLml82U1Gy3V43eVBI+ACuU92kDFr5/hI98ULtfZGwImRvOAyhyQ6jrWbR
-	b4ONXuFeH3oaBiOdFngxvs5DQ02flebHbTsD55B8gTyBwI6aigy/4IK8uUkPPPDUhS
-	hdMiptxLEYd7kmuqcRrq0P7A=
-Date: Mon, 4 Nov 2019 16:01:15 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20191104140115.GA5390@localhost>
-References: <20191104124251.21923-1-ross.burton@intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id CD2667F89B;
+	Mon,  4 Nov 2019 14:02:04 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191104124251.21923-1-ross.burton@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Vinay Kumar <vinay.m.engg@gmail.com>
+Date: Mon, 04 Nov 2019 14:02:06 -0000
+Message-ID: <20191104140206.2331.71521@do>
+References: <1572874358-21616-1-git-send-email-vinay.m.engg@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1572874358-21616-1-git-send-email-vinay.m.engg@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libpng: whitelist CVE-2019-17371
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2RiOiBEaXNjYXJkIHNlY3Rpb25zIHdob3NlIHNpemUgaXMgZ3JlYXRlciB0aGFuIHRoZSBmaWxlIHNpemUu?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,42 +25,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 14:01:20 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Nov 2019 14:02:05 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 04, 2019 at 12:42:51PM +0000, Ross Burton wrote:
-> This is actually a memory leak in gif2png 2.x, so whitelist it in the libpng
-> recipe.
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-multimedia/libpng/libpng_1.6.37.bb | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-> index 66af2f3d60e..07970e14360 100644
-> --- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-> @@ -29,3 +29,6 @@ PACKAGES =+ "${PN}-tools"
->  FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}/pngcp"
->  
->  BBCLASSEXTEND = "native nativesdk"
-> +
-> +# CVE-2019-17371 is actually a memory leak in gif2png 2.x
-> +CVE_CHECK_WHITELIST = "CVE-2019-17371"
+== Series Details ==
 
-These should use += to not overwrite whitelists defined by
-the distribution or the user.
+Series: gdb: Discard sections whose size is greater than the file size.
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/20897/
+State : failure
 
-cu
-Adrian
+== Summary ==
 
--- 
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            gdb: Discard sections whose size is greater than the file size.
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
