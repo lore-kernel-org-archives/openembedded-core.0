@@ -1,18 +1,32 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CD2667F89B;
-	Mon,  4 Nov 2019 14:02:04 +0000 (UTC)
+Return-Path: <ross.burton@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 481D87F8B1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Nov 2019 14:24:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Nov 2019 06:24:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,267,1569308400"; d="scan'208";a="213544862"
+Received: from sptommas-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.55.33])
+	by orsmga002.jf.intel.com with ESMTP; 04 Nov 2019 06:24:09 -0800
+To: Adrian Bunk <bunk@stusta.de>
+References: <20191104124251.21923-1-ross.burton@intel.com>
+	<20191104140115.GA5390@localhost>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <e1411b32-8500-2971-ff45-ec717c14d3be@intel.com>
+Date: Mon, 4 Nov 2019 14:24:08 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Vinay Kumar <vinay.m.engg@gmail.com>
-Date: Mon, 04 Nov 2019 14:02:06 -0000
-Message-ID: <20191104140206.2331.71521@do>
-References: <1572874358-21616-1-git-send-email-vinay.m.engg@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1572874358-21616-1-git-send-email-vinay.m.engg@gmail.com>
+In-Reply-To: <20191104140115.GA5390@localhost>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2RiOiBEaXNjYXJkIHNlY3Rpb25zIHdob3NlIHNpemUgaXMgZ3JlYXRlciB0aGFuIHRoZSBmaWxlIHNpemUu?=
+Subject: Re: [PATCH] libpng: whitelist CVE-2019-17371
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,50 +39,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 14:02:05 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 04 Nov 2019 14:24:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 04/11/2019 14:01, Adrian Bunk wrote:
+> On Mon, Nov 04, 2019 at 12:42:51PM +0000, Ross Burton wrote:
+>> This is actually a memory leak in gif2png 2.x, so whitelist it in the libpng
+>> recipe.
+>>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> ---
+>>   meta/recipes-multimedia/libpng/libpng_1.6.37.bb | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
+>> index 66af2f3d60e..07970e14360 100644
+>> --- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
+>> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
+>> @@ -29,3 +29,6 @@ PACKAGES =+ "${PN}-tools"
+>>   FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}/pngcp"
+>>   
+>>   BBCLASSEXTEND = "native nativesdk"
+>> +
+>> +# CVE-2019-17371 is actually a memory leak in gif2png 2.x
+>> +CVE_CHECK_WHITELIST = "CVE-2019-17371"
+> 
+> These should use += to not overwrite whitelists defined by
+> the distribution or the user.
 
-Series: gdb: Discard sections whose size is greater than the file size.
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/20897/
-State : failure
+IMHO, the distribution or user should be using _append.   The whitelist 
+should be explicitly per-recipe: there's a CVE which is tagged 
+incorrectly as being in openssl *and* mod_ssl, we don't want to 
+whitelist it globally but only in openssl.
 
-== Summary ==
+V2 incoming, just to be safe, though.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            gdb: Discard sections whose size is greater than the file size.
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Ross
 
