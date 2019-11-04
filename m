@@ -1,47 +1,50 @@
-Return-Path: <vinay.m.engg@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 1997A7F899
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E8CAE7F8DA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 13:32:51 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id k13so1932pgh.3
+	Mon,  4 Nov 2019 13:44:39 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id v9so17155304wrq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Nov 2019 05:32:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Ihq9u2/f3HUFaT2XK0e+n66QKiWFxbNsNu+RTs3J3Qk=;
-	b=ieDqTQdkwlN3fS7KD4TcAZHS7Ik/l5fKOfLeORiYnOB7gxpiueVLOjB3cIZJnmqUul
-	EpDY7wswIFO0wWmPea4D+62RUGJH1xDAnqAHfAAE2PAA1+xW58zHiXtpu8SvPePhVpC7
-	+vRZ06C9iiBcvHVYLF0ihGh5IiKVpEyx+mlmiUOsTTbPSH9DsUqFrfp/kvC9rzcx+hTt
-	wkXtwYNqZTsorpxJPTf5lNm0hWIUycXc3g9UX5Xpe6oQYtjqU8SsxSmbCmgBCnt0qfv4
-	oPH+FPQwfkNB9t3jRi9QoswmPkWtP5dga+mQQTZT7uxc5z7gHfwcFnbob2Y0Oke4AQJY
-	56mw==
+	Mon, 04 Nov 2019 05:44:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=vkGhpWSyIqB45i3+wPnmyHhgG6fJBistU1KQvAW8HcA=;
+	b=LT6H9bQGq20crb5yD72ugyvWl4iMtxlZcMs+L5rZ3Hoj3C0FQKIWKSFHlUm7lG8aMw
+	y62FVnZ6ets/rAEDFR0eciRON38Jh724vx9vn72CHJACcGiRa75KYWNjU513F1qtFNC/
+	y0zrxnyLj0AA1h/pWaQ4fZqzGDaAV5ssC5BDU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Ihq9u2/f3HUFaT2XK0e+n66QKiWFxbNsNu+RTs3J3Qk=;
-	b=aAwgXfHQTbDuFZaFRZdDhMikY+AvX6GFYjb8YbHv905g7SMdwoXfGZWG/YCLxkiyMT
-	YkWdtzrzQpyTGhtirkvGJbABtcQKkjW2VD0g4k8gVn7NOgtyLs0TYAnlT58eS/h9U7WG
-	Agi2MyyjGeet3eVUdjuGiEg0VufbtieaIV1duC0ELVZUWmZhIc2GjjQZrTYT3m2opqZX
-	HsdIF+5t/ei1rA6WJrlPZFndgIDLBICLUyct5hPKeE1tMo/CB6bFVxhRZqn+Qs/FXlYl
-	nYOFqy+9o/6wJCauWI0YIowm0e6zW3mjggjNVsFoNSLS5QeY0q1Kj53z3hB9a5uXxPOQ
-	fL6Q==
-X-Gm-Message-State: APjAAAWMtWjld4Qc5uiJCOZV4YyJD/CIBZltN2dF1CZSjVct1lIM/SQV
-	QnkHnyE9+ZdZMoC+wqJ6wN3QspqJfVfFSQ==
-X-Google-Smtp-Source: APXvYqywb6RAKakS/AET+idX8yA2lrJUd9/xoi2zwFHDQRDCVdxqK5bCWVv7wvLcS1fAjxNGNwwdbQ==
-X-Received: by 2002:a17:90a:2e85:: with SMTP id
-	r5mr35690233pjd.53.1572874372732; 
-	Mon, 04 Nov 2019 05:32:52 -0800 (PST)
-Received: from localhost.localdomain ([49.204.85.206])
-	by smtp.gmail.com with ESMTPSA id h5sm21177818pjc.9.2019.11.04.05.32.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 04 Nov 2019 05:32:51 -0800 (PST)
-From: Vinay Kumar <vinay.m.engg@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Nov 2019 19:02:38 +0530
-Message-Id: <1572874358-21616-1-git-send-email-vinay.m.engg@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] gdb: Discard sections whose size is greater than the file size.
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=vkGhpWSyIqB45i3+wPnmyHhgG6fJBistU1KQvAW8HcA=;
+	b=hzviyEBrivP/LCGzSKAUZ+C9eo7aZoiqHvdxuj0UjbUi8e3MxZtRyqM8GSz4axltw5
+	83Pb1xed15jGdierFHNrSuTluryIt3RED6xffY+j9cf5EZG0GawRWL0+FLScREYbSf+x
+	S5g/7W0TeStdLiGqswt9Fvb4kyEab0JxIkl82vUlsYtLGewkzIA7e3T7n0dwGZNpz0SQ
+	1UAZSPQ6d8EAEQ/ZAi0q9865eCHDJlNJpT7SnRnxEbNaIZXYeB+FNQOI75Bi3zFlIrvs
+	Wa2/LQAAmfSXEQWgCxS73te6bgBDlcFVSgbYSQyx9VNvSq8Y2H97mtOiafsJcC+SYOP/
+	wcjg==
+X-Gm-Message-State: APjAAAVzFdvPoVw6QFcczCRsidHbdFbSV/ImRBgdWMgD8AXBW2gBCx57
+	oQqA8BRqmsD1h56xTHOPa10bRA==
+X-Google-Smtp-Source: APXvYqwu9j6XbSJDLDicDuN9RgbjmbZW4NfzuKHzuBWfqpEIxr1mWUeHWZNaUm4A2YhX7CkpepVz+w==
+X-Received: by 2002:adf:f651:: with SMTP id x17mr7152244wrp.114.1572875080573; 
+	Mon, 04 Nov 2019 05:44:40 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	205sm17340346wmb.3.2019.11.04.05.44.39
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 04 Nov 2019 05:44:39 -0800 (PST)
+Message-ID: <5fa064a8eb4129fa39867fa087a779b92849d16a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+Date: Mon, 04 Nov 2019 13:44:38 +0000
+In-Reply-To: <1572850260-75346-1-git-send-email-changqing.li@windriver.com>
+References: <1572850260-75346-1-git-send-email-changqing.li@windriver.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH] target-sdk-provides-dummy: set nostamp for do_package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +57,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 13:32:52 -0000
+X-List-Received-Date: Mon, 04 Nov 2019 13:44:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Backport the upstream fix. that was not present in master.
+On Mon, 2019-11-04 at 14:51 +0800, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+> 
+> It exists a situation that there is a common config file includes
+> multilib.conf but variable MULTILIBS is not set by default:
+> 
+>   require conf/multilib.conf
+>   MULTILIBS ?= ""
+> 
+> When build target-sdk-provides-dummy in the same build project with
+> following steps, it fails.
+> 
+> 1 $ echo 'MACHINE = "qemux86"' >>conf/local.conf
+>   $ bitbake target-sdk-provides-dummy
+> 2 $ cat <<EOF >>conf/local.conf
+>     MACHINE = "qemux86-64"
+>     MULTILIBS = "multilib:lib32"
+>     DEFAULTTUNE_virtclass-multilib-lib32 = "i586"
+>     EOF
+>   $ bitbake target-sdk-provides-dummy
+>   $ bitbake lib32-target-sdk-provides-dummy
+> 
+> It fails to build lib32-target-sdk-provides-dummy with error
+> messages:
+> 
+> > ERROR: target-sdk-provides-dummy-1.0-r0 do_packagedata: The recipe
+> > target-sdk-provides-dummy
+> >  is trying to install files into a shared area when those files
+> > already exist. Those files
+> >  and their manifest location are:
+> >   .../tmp/pkgdata/qemux86-64/lib32-target-sdk-provides-dummy
+> >     (matched in manifest-qemux86_64-lib32-target-sdk-provides-
+> > dummy.packagedata)
+> >   .../tmp/pkgdata/qemux86-64/runtime/lib32-target-sdk-provides-
+> > dummy
+> >     (matched in manifest-qemux86_64-lib32-target-sdk-provides-
+> > dummy.packagedata)
+> >   ... snip ...
+> > Please verify which recipe should provide the above files.
+> 
+> Because target-sdk-provides-dummy is a virtual package, its sstate
+> caches are same for both qemux86 and qemux86_64. So when build
+> target-sdk-provides-dummy for qemux86_64, it re-uses the sstate cache
+> from qemux86 and then create file lib32-target-sdk-provides-dummy
+> under
+> ${PKGDATA_DIR} which should not and it conflicts with
+> lib32-target-sdk-provides-dummy too.
+> 
+> So make do_package always be executed to fix the issue. Because it is
+> a
+> dummy package, it won't cost too much build time.
 
-CVE: CVE-2019-1010180
-Upstream-Status: Backport
+Shouldn't we ensure that the packagedata has different sstate
+signatures? Maybe do_packagedata needs a dependency on PN through
+vardeps?
 
-Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
----
- meta/recipes-devtools/gdb/gdb-8.3.1.inc              |  1 +
- meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch | 20 ++++++++++++++++++++
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
+Cheers,
 
-diff --git a/meta/recipes-devtools/gdb/gdb-8.3.1.inc b/meta/recipes-devtools/gdb/gdb-8.3.1.inc
-index 39f1c48..aec913f 100644
---- a/meta/recipes-devtools/gdb/gdb-8.3.1.inc
-+++ b/meta/recipes-devtools/gdb/gdb-8.3.1.inc
-@@ -16,6 +16,7 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-            file://0009-Change-order-of-CFLAGS.patch \
-            file://0010-resolve-restrict-keyword-conflict.patch \
-            file://0011-Fix-invalid-sigprocmask-call.patch \
-+           file://CVE-2019-1010180.patch \
-            "
- SRC_URI[md5sum] = "73b6a5d8141672c62bf851cd34c4aa83"
- SRC_URI[sha256sum] = "1e55b4d7cdca7b34be12f4ceae651623aa73b2fd640152313f9f66a7149757c4"
-diff --git a/meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch b/meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
-new file mode 100644
-index 0000000..2e4e842
---- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
-@@ -0,0 +1,20 @@
-+diff --git a/gdb/dwarf2read.c b/gdb/dwarf2read.c
-+index 4251ed0..fafdb89 100644
-+--- a/gdb/dwarf2read.c
-++++ b/gdb/dwarf2read.c
-+@@ -2378,6 +2378,15 @@ dwarf2_per_objfile::locate_sections (bfd *abfd, asection *sectp,
-+   if ((aflag & SEC_HAS_CONTENTS) == 0)
-+     {
-+     }
-++  else if (elf_section_data (sectp)->this_hdr.sh_size
-++	   > bfd_get_file_size (abfd))
-++    {
-++      bfd_size_type size = elf_section_data (sectp)->this_hdr.sh_size;
-++      warning (_("Discarding section %s which has a section size (%s"
-++		 ") larger than the file size [in module %s]"),
-++	       bfd_section_name (abfd, sectp), phex_nz (size, sizeof (size)),
-++	       bfd_get_filename (abfd));
-++    }
-+   else if (section_is_p (sectp->name, &names.info))
-+     {
-+       this->info.s.section = sectp;
--- 
-2.7.4
+Richard
+
+
+
 
 
