@@ -1,47 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 31B267F856
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DBDA7F856
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 23:25:56 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id u22so26609950qtq.13
+	Mon,  4 Nov 2019 23:42:45 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id a21so14581232edj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Nov 2019 15:25:57 -0800 (PST)
+	Mon, 04 Nov 2019 15:42:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hMmCO+y+Oq8FkuZOZswTb8WiBVrzjgc7vlIq/SNRCIQ=;
-	b=lvp7pTgBookNN4aT4+tdrDzyh0S0NoQvKbsjOhWlKNiPOrQtVbUwxgm5SyY2Q5vOE8
-	D8mvBNQUlBk6TTuEvIVptiNW2fpb4xyzDa0Bhp38OEJyLRdyqJc85eHNlcZwFdRPOGkN
-	3RVexIhGIomjPHDU63Mmdjgpa/r+4ZoJlaY3uTtLFgg3sKOiUaD/Ma32WmiHNnxm/19A
-	3Fuo9m2U1PTelrXEdujV8LgdjWK2DrzmvSBhPqWFKBLS9TuS+f9adPzaRJe4Y+7bly2B
-	jrK5c0QicFo+sP/QUcn0fFtp8JfXpKdDoK0+I/DT5L7kFxEZyTjtL8rBOCl+cF6N7wgN
-	FLng==
+	:cc:content-transfer-encoding;
+	bh=KInJNBgAyQwAic95humRkTp6D1zE0s1z5XrIPaUj7SI=;
+	b=ukpmFgN60zKdJ0bfX2oHRoyYM0GPuV7PhiCrg8mFhmUKbRGeXxC+kSoB2ftDHTpAKO
+	oRaE/rDrGA2cmcGW/kPtoM6mteCwwrl4V7Jd25Q4yhRUPSjeZIOngeVnpitDxbS+mTkP
+	1pSnQsEdO4csl347bsUBIDyiQDcxIHh0jg6hk9bsyCuOU6IHo6Mjyygh+pCmdxyuOO1d
+	Uii40+071Pq64FlaRpeW/4Mf7G3mg6Bk6pBHcmfUptnNKWo2JjVcLX8dX3oCMLrqQmld
+	n32THDWj3s6/mfYDD3r1NeHgqjAf6WGsu4qYg2IhsS59jspIvQmqv4yTr7BZu7Z6CQ59
+	JRaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=hMmCO+y+Oq8FkuZOZswTb8WiBVrzjgc7vlIq/SNRCIQ=;
-	b=KvofBrDRn4XV+pGpjdxd1IYheHIcGgO2z/KKXpmf6VCI7BM2EOe8ERMtWIvDErLDJP
-	WFaeN+thr3VQEbXh/55QIYKhmkCkSrFMOClQR7Eyp6IaCjOb/z6Bt0KpvY2eTw40mAIh
-	UuI0mu1eP9R+ry3ywzW6aQIb93Lv8h8gIjCnnn7Dg0OyBvavHrJ4OLKeDv5luFyDxx7P
-	rqcLvLghSI9fOecsxQWSlih28M+YmRjJ9ciV40YOwFR6bP1sD6oSWHyL82EZ5cbYPEye
-	fqlz2zSF7w9Rad1sl5N8IA7f9p8Ylm/e8Hf0s8z2qwSc6iigYRKHXKnIA7kEF/sReh48
-	SpXw==
-X-Gm-Message-State: APjAAAXF+EC1Z+8Ds9wck6ZAFV4E6LA3aMZ35vVEhIGcXFegzvrYEsqV
-	OEh3Jr8IIc21wVzKTU0f3V0VEWysLQh8JyRt2/y8Jgbg
-X-Google-Smtp-Source: APXvYqwI/Uge7aAfD8dRpLdJYxhK2r2Ea/gZVlBc6pir5wi8jOgYDS73FpNDSrSVevwLNEEYstWQLi6qb5cMohd9n7o=
-X-Received: by 2002:aed:2724:: with SMTP id n33mr14776413qtd.194.1572909956712;
-	Mon, 04 Nov 2019 15:25:56 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=KInJNBgAyQwAic95humRkTp6D1zE0s1z5XrIPaUj7SI=;
+	b=hi27B3t6aYc6OfnWF6Rp19zDGqFixP3nUCiFJubzPcGb+1Iei5UjGDN+t26Rq8YdAy
+	9RoSM3mg5i+ezJpL5hkWICo/6e7bULQc8oRFB1VPTDeUMC+rTv10k3b7IH8kUTQ0N5Iu
+	tMHFTkgXmjISU9/Qllhko/LTVQaYIyzYyhmQEi/0Y/M2bX3KB3PX0QHG5GRMqapyKkt0
+	wtg3L1BgFg3BbSyjldtO8UxozhYEfqXj/yRM8E60hoTRkyoEGhLkSHLWZeFbo0pagjP2
+	AEZP+mKdjpfpy7ZHvPp9685T2/+k3gMPMTPr2d0ZxaGuRuOv5xAdZHuvknV5BEmru3l7
+	I2SA==
+X-Gm-Message-State: APjAAAWNfNIqURuu3av2rbGCDgUIMXOHS/nbMgQ1qKU+VRHWP64SFL2P
+	NKtXpH3bMrNCQGgd4zr4Z6qpGqI0p7VWlhq4WF0=
+X-Google-Smtp-Source: APXvYqwmjjWyfRysI0ehN93DI8gGOBVdi9bopZFtqCxScjxpszKBfJpRfK5AIXLFumWcO1hDXVtQUnmy0RcyNRN9o4Y=
+X-Received: by 2002:a17:906:a457:: with SMTP id
+	cb23mr13486561ejb.191.1572910966194; 
+	Mon, 04 Nov 2019 15:42:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20191031172303.31664-1-open.source@oleksandr-kravchuk.com>
-In-Reply-To: <20191031172303.31664-1-open.source@oleksandr-kravchuk.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 4 Nov 2019 15:25:30 -0800
-Message-ID: <CAMKF1sraV5pEF9UanBy3Rj7mQKs33Ke2Sr_+28ewDrgaJZ43TQ@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+References: <20191024183426.23676-1-daniel.diaz@linaro.org>
+	<CAEUSe780NPpCJw_DsqZC9es6bQ4ex5BQ=7VrPOELQUL4guyatg@mail.gmail.com>
+In-Reply-To: <CAEUSe780NPpCJw_DsqZC9es6bQ4ex5BQ=7VrPOELQUL4guyatg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 4 Nov 2019 18:42:34 -0500
+Message-ID: <CADkTA4N9kt8rZvyT7M_H71VrkdSZ+Hg4sK0FRaJS4UdKohXU6w@mail.gmail.com>
+To: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ell: update to 0.26
+Subject: Re: [PATCH] perf: Add /scripts to sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,49 +57,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 23:25:56 -0000
+X-List-Received-Date: Mon, 04 Nov 2019 23:42:45 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This has API changes that will break iwd
+On Mon, Nov 4, 2019 at 5:56 PM Daniel D=C3=ADaz <daniel.diaz@linaro.org> wr=
+ote:
+>
+> Hello!
+>
+> On Thu, 24 Oct 2019 at 13:34, Daniel D=C3=ADaz <daniel.diaz@linaro.org> w=
+rote:
+> > As of linux-next-20191022, we need bpf_helpers_doc.py in order to
+> > build libbpf, which lives in /scripts. Otherwise, do_compile fails
+> > with:
+> > | /bin/sh: 1: /oe/build/tmp/work/machine-triplet/perf/1.0-r9/perf-1.0/s=
+cripts/bpf_helpers_doc.py: not found
+> > | Makefile:184: recipe for target 'bpf_helper_defs.h' failed
+> >
+> > See commit e01a75c159691 ("libbpf: Move bpf_{helpers, helper_defs,
+> > endian, tracing}.h into libbpf") from linux-next.
+> >
+> > Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
+> > ---
+> >  meta/recipes-kernel/perf/perf.bb | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/per=
+f/perf.bb
+> > index 8201c0cb60..a463eebc52 100644
+> > --- a/meta/recipes-kernel/perf/perf.bb
+> > +++ b/meta/recipes-kernel/perf/perf.bb
+> > @@ -113,6 +113,7 @@ PERF_SRC ?=3D "Makefile \
+> >               tools/Makefile \
+> >               tools/perf \
+> >               tools/scripts \
+> > +             scripts \
+> >  "
+> >
+> >  PERF_EXTRA_LDFLAGS =3D ""
+> > --
+> > 2.20.1
+>
+> Ping.
 
-On Thu, Oct 31, 2019 at 10:23 AM Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
+I just went through trying to reduce the amount of source that we copy
+for perf, since it has often ended up causing us maintenance pain.
+
+Can we just copy the one script we need, versus a complete copy of the
+directory ?
+
+My patch from a few weeks ago, makes it safe to copy a single file, so
+it should be doable.
+
+Cheers,
+
+Bruce
+
 >
-> Changelog:
-> - Fix issue with memory leak and TLS certificates
-> - Fix issue with buffer size and TLS PRF handling
-> - Add support for D-Bus non-root ObjectManager
->
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
->  meta/recipes-core/ell/{ell_0.25.bb => ell_0.26.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-core/ell/{ell_0.25.bb => ell_0.26.bb} (83%)
->
-> diff --git a/meta/recipes-core/ell/ell_0.25.bb b/meta/recipes-core/ell/ell_0.26.bb
-> similarity index 83%
-> rename from meta/recipes-core/ell/ell_0.25.bb
-> rename to meta/recipes-core/ell/ell_0.26.bb
-> index f6201f9bf6..f1f252ce4f 100644
-> --- a/meta/recipes-core/ell/ell_0.25.bb
-> +++ b/meta/recipes-core/ell/ell_0.26.bb
-> @@ -14,8 +14,8 @@ DEPENDS = "dbus"
->  inherit autotools pkgconfig
->
->  SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
-> -SRC_URI[md5sum] = "8a8adc712718c770a72e4df6c9855c26"
-> -SRC_URI[sha256sum] = "7f2be568219d991d566ca50c58a56e69df9a248619fed758dcd9a4b04e655e5b"
-> +SRC_URI[md5sum] = "4660e25541071e933a2bb02ef2f94e7d"
-> +SRC_URI[sha256sum] = "7855b4b8f271ba6ee67d87d0965b975a9a8dbeaa616665ca2248afa3b5fcbc77"
->
->  do_configure_prepend () {
->      mkdir -p ${S}/build-aux
-> --
-> 2.17.1
->
+> Daniel D=C3=ADaz
+> daniel.diaz@linaro.org
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
