@@ -1,19 +1,24 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id A451C7F7C9
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 752C16D7C1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 04:52:50 +0000 (UTC)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id 6C82C220235;
-	Mon,  4 Nov 2019 17:52:50 +1300 (NZDT)
-From: Douglas Royds <douglas.royds@taitradio.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Nov 2019 17:52:45 +1300
-Message-Id: <20191104045245.19085-1-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191104011638.26010-1-douglas.royds@taitradio.com>
-References: <20191104011638.26010-1-douglas.royds@taitradio.com>
-Subject: [PATCH v2] insane: file-rdeps: Readability only
+	Mon,  4 Nov 2019 06:14:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xA46E1xx020148
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 3 Nov 2019 22:14:01 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Sun, 3 Nov 2019 22:14:00 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Nov 2019 14:13:59 +0800
+Message-ID: <1572848039-9051-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [zeus][PATCH] e2fsprogs: fix CVE-2019-5094
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,120 +31,254 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 04:52:51 -0000
+X-List-Received-Date: Mon, 04 Nov 2019 06:14:00 -0000
+Content-Type: text/plain
 
-Mostly just longer (and hopefully more meaningful) variable names.
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/classes/insane.bbclass | 81 +++++++++++++++++++------------------
- 1 file changed, 42 insertions(+), 39 deletions(-)
+ .../e2fsprogs/e2fsprogs/CVE-2019-5094.patch        | 217 +++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb |   1 +
+ 2 files changed, 218 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5094.patch
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 9605ac2bae..f80abebbac 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -707,57 +707,60 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
-                     package_qa_handle_error("build-deps", error_msg, d)
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5094.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5094.patch
+new file mode 100644
+index 0000000..56925cb
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5094.patch
+@@ -0,0 +1,217 @@
++From 8dbe7b475ec5e91ed767239f0e85880f416fc384 Mon Sep 17 00:00:00 2001
++From: Theodore Ts'o <tytso@mit.edu>
++Date: Sun, 1 Sep 2019 00:59:16 -0400
++Subject: libsupport: add checks to prevent buffer overrun bugs in quota code
++
++A maliciously corrupted file systems can trigger buffer overruns in
++the quota code used by e2fsck.  To fix this, add sanity checks to the
++quota header fields as well as to block number references in the quota
++tree.
++
++Addresses: CVE-2019-5094
++Addresses: TALOS-2019-0887
++Signed-off-by: Theodore Ts'o <tytso@mit.edu>
++
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/commit/?h=maint&id=8dbe7b475ec5e91ed767239f0e85880f416fc384]
++CVE: CVE-2019-5094
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ lib/support/mkquota.c      |  1 +
++ lib/support/quotaio_tree.c | 71 ++++++++++++++++++++++++++++++----------------
++ lib/support/quotaio_v2.c   | 28 ++++++++++++++++++
++ 3 files changed, 76 insertions(+), 24 deletions(-)
++
++diff --git a/lib/support/mkquota.c b/lib/support/mkquota.c
++index 0b9e7665..ddb53124 100644
++--- a/lib/support/mkquota.c
+++++ b/lib/support/mkquota.c
++@@ -671,6 +671,7 @@ errcode_t quota_compare_and_update(quota_ctx_t qctx, enum quota_type qtype,
++ 	err = qh.qh_ops->scan_dquots(&qh, scan_dquots_callback, &scan_data);
++ 	if (err) {
++ 		log_debug("Error scanning dquots");
+++		*usage_inconsistent = 1;
++ 		goto out_close_qh;
++ 	}
++ 
++diff --git a/lib/support/quotaio_tree.c b/lib/support/quotaio_tree.c
++index a7c2028c..6cc4fb5b 100644
++--- a/lib/support/quotaio_tree.c
+++++ b/lib/support/quotaio_tree.c
++@@ -540,6 +540,17 @@ struct dquot *qtree_read_dquot(struct quota_handle *h, qid_t id)
++ 	return dquot;
++ }
++ 
+++static int check_reference(struct quota_handle *h, unsigned int blk)
+++{
+++	if (blk >= h->qh_info.u.v2_mdqi.dqi_qtree.dqi_blocks) {
+++		log_err("Illegal reference (%u >= %u) in %s quota file",
+++			blk, h->qh_info.u.v2_mdqi.dqi_qtree.dqi_blocks,
+++			quota_type2name(h->qh_type));
+++		return -1;
+++	}
+++	return 0;
+++}
+++
++ /*
++  * Scan all dquots in file and call callback on each
++  */
++@@ -558,7 +569,7 @@ static int report_block(struct dquot *dquot, unsigned int blk, char *bitmap,
++ 	int entries, i;
++ 
++ 	if (!buf)
++-		return 0;
+++		return -1;
++ 
++ 	set_bit(bitmap, blk);
++ 	read_blk(dquot->dq_h, blk, buf);
++@@ -580,23 +591,12 @@ static int report_block(struct dquot *dquot, unsigned int blk, char *bitmap,
++ 	return entries;
++ }
++ 
++-static void check_reference(struct quota_handle *h, unsigned int blk)
++-{
++-	if (blk >= h->qh_info.u.v2_mdqi.dqi_qtree.dqi_blocks)
++-		log_err("Illegal reference (%u >= %u) in %s quota file. "
++-			"Quota file is probably corrupted.\n"
++-			"Please run e2fsck (8) to fix it.",
++-			blk,
++-			h->qh_info.u.v2_mdqi.dqi_qtree.dqi_blocks,
++-			quota_type2name(h->qh_type));
++-}
++-
++ static int report_tree(struct dquot *dquot, unsigned int blk, int depth,
++ 		       char *bitmap,
++ 		       int (*process_dquot) (struct dquot *, void *),
++ 		       void *data)
++ {
++-	int entries = 0, i;
+++	int entries = 0, ret, i;
++ 	dqbuf_t buf = getdqbuf();
++ 	__le32 *ref = (__le32 *) buf;
++ 
++@@ -607,22 +607,40 @@ static int report_tree(struct dquot *dquot, unsigned int blk, int depth,
++ 	if (depth == QT_TREEDEPTH - 1) {
++ 		for (i = 0; i < QT_BLKSIZE >> 2; i++) {
++ 			blk = ext2fs_le32_to_cpu(ref[i]);
++-			check_reference(dquot->dq_h, blk);
++-			if (blk && !get_bit(bitmap, blk))
++-				entries += report_block(dquot, blk, bitmap,
++-							process_dquot, data);
+++			if (check_reference(dquot->dq_h, blk)) {
+++				entries = -1;
+++				goto errout;
+++			}
+++			if (blk && !get_bit(bitmap, blk)) {
+++				ret = report_block(dquot, blk, bitmap,
+++						   process_dquot, data);
+++				if (ret < 0) {
+++					entries = ret;
+++					goto errout;
+++				}
+++				entries += ret;
+++			}
++ 		}
++ 	} else {
++ 		for (i = 0; i < QT_BLKSIZE >> 2; i++) {
++ 			blk = ext2fs_le32_to_cpu(ref[i]);
++ 			if (blk) {
++-				check_reference(dquot->dq_h, blk);
++-				entries += report_tree(dquot, blk, depth + 1,
++-						       bitmap, process_dquot,
++-						       data);
+++				if (check_reference(dquot->dq_h, blk)) {
+++					entries = -1;
+++					goto errout;
+++				}
+++				ret = report_tree(dquot, blk, depth + 1,
+++						  bitmap, process_dquot,
+++						  data);
+++				if (ret < 0) {
+++					entries = ret;
+++					goto errout;
+++				}
+++				entries += ret;
++ 			}
++ 		}
++ 	}
+++errout:
++ 	freedqbuf(buf);
++ 	return entries;
++ }
++@@ -642,6 +660,7 @@ int qtree_scan_dquots(struct quota_handle *h,
++ 		      int (*process_dquot) (struct dquot *, void *),
++ 		      void *data)
++ {
+++	int ret;
++ 	char *bitmap;
++ 	struct v2_mem_dqinfo *v2info = &h->qh_info.u.v2_mdqi;
++ 	struct qtree_mem_dqinfo *info = &v2info->dqi_qtree;
++@@ -655,10 +674,14 @@ int qtree_scan_dquots(struct quota_handle *h,
++ 		ext2fs_free_mem(&dquot);
++ 		return -1;
++ 	}
++-	v2info->dqi_used_entries = report_tree(dquot, QT_TREEOFF, 0, bitmap,
++-					       process_dquot, data);
+++	ret = report_tree(dquot, QT_TREEOFF, 0, bitmap, process_dquot, data);
+++	if (ret < 0)
+++		goto errout;
+++	v2info->dqi_used_entries = ret;
++ 	v2info->dqi_data_blocks = find_set_bits(bitmap, info->dqi_blocks);
+++	ret = 0;
+++errout:
++ 	ext2fs_free_mem(&bitmap);
++ 	ext2fs_free_mem(&dquot);
++-	return 0;
+++	return ret;
++ }
++diff --git a/lib/support/quotaio_v2.c b/lib/support/quotaio_v2.c
++index 38be2a34..73906676 100644
++--- a/lib/support/quotaio_v2.c
+++++ b/lib/support/quotaio_v2.c
++@@ -175,6 +175,8 @@ static int v2_check_file(struct quota_handle *h, int type, int fmt)
++ static int v2_init_io(struct quota_handle *h)
++ {
++ 	struct v2_disk_dqinfo ddqinfo;
+++	struct v2_mem_dqinfo *info;
+++	__u64 filesize;
++ 
++ 	h->qh_info.u.v2_mdqi.dqi_qtree.dqi_entry_size =
++ 		sizeof(struct v2r1_disk_dqblk);
++@@ -185,6 +187,32 @@ static int v2_init_io(struct quota_handle *h)
++ 			 sizeof(ddqinfo)) != sizeof(ddqinfo))
++ 		return -1;
++ 	v2_disk2memdqinfo(&h->qh_info, &ddqinfo);
+++
+++	/* Check to make sure quota file info is sane */
+++	info = &h->qh_info.u.v2_mdqi;
+++	if (ext2fs_file_get_lsize(h->qh_qf.e2_file, &filesize))
+++		return -1;
+++	if ((filesize > (1U << 31)) ||
+++	    (info->dqi_qtree.dqi_blocks >
+++	     (filesize + QT_BLKSIZE - 1) >> QT_BLKSIZE_BITS)) {
+++		log_err("Quota inode %u corrupted: file size %llu; "
+++			"dqi_blocks %u", h->qh_qf.ino,
+++			filesize, info->dqi_qtree.dqi_blocks);
+++		return -1;
+++	}
+++	if (info->dqi_qtree.dqi_free_blk >= info->dqi_qtree.dqi_blocks) {
+++		log_err("Quota inode %u corrupted: free_blk %u; dqi_blocks %u",
+++			h->qh_qf.ino, info->dqi_qtree.dqi_free_blk,
+++			info->dqi_qtree.dqi_blocks);
+++		return -1;
+++	}
+++	if (info->dqi_qtree.dqi_free_entry >= info->dqi_qtree.dqi_blocks) {
+++		log_err("Quota inode %u corrupted: free_entry %u; "
+++			"dqi_blocks %u", h->qh_qf.ino,
+++			info->dqi_qtree.dqi_free_entry,
+++			info->dqi_qtree.dqi_blocks);
+++		return -1;
+++	}
++ 	return 0;
++ }
++ 
++-- 
++cgit 1.2-0.3.lf.el7
++
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
+index fdc9454..14c05a4 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
+@@ -5,6 +5,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
+             file://ptest.patch \
+             file://mkdir_p.patch \
+             file://0001-misc-create_inode.c-set-dir-s-mode-correctly.patch \
++            file://CVE-2019-5094.patch \
+             "
  
-         if "file-rdeps" not in skip:
--            ignored_file_rdeps = set(['/bin/sh', '/usr/bin/env', 'rtld(GNU_HASH)'])
-+            ignored_executable_rdeps = set(['/bin/sh', '/usr/bin/env', 'rtld(GNU_HASH)'])
-             if bb.data.inherits_class('nativesdk', d):
--                ignored_file_rdeps |= set(['/bin/bash', '/usr/bin/perl', 'perl'])
--            # For Saving the FILERDEPENDS
--            filerdepends = {}
--            rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
--            for key in rdep_data:
--                if key.startswith("FILERDEPENDS_"):
--                    for subkey in bb.utils.explode_deps(rdep_data[key]):
--                        if subkey not in ignored_file_rdeps and \
--                                not subkey.startswith('perl('):
--                            # We already know it starts with FILERDEPENDS_
--                            filerdepends[subkey] = key[13:]
--
--            if filerdepends:
--                done = rdepends[:]
--                # Add the rprovides of itself
--                if pkg not in done:
--                    done.insert(0, pkg)
-+                ignored_executable_rdeps |= set(['/bin/bash', '/usr/bin/perl', 'perl'])
-+
-+            # A dictionary of libs (or other providers) and one executable that depends on each
-+            unsatisfied_rdepends = {}
-+            current_pkg_rdep_data = oe.packagedata.read_subpkgdata(pkg, d)
-+            for executable_that_rdepends in current_pkg_rdep_data:
-+                if executable_that_rdepends.startswith("FILERDEPENDS_"):
-+                    for target_dependency in bb.utils.explode_deps(current_pkg_rdep_data[executable_that_rdepends]):
-+                        if target_dependency not in ignored_executable_rdeps \
-+                           and not target_dependency.startswith('perl('):
-+                            unsatisfied_rdepends[target_dependency] = executable_that_rdepends[len('FILERDEPENDS_'):]
-+
-+            if unsatisfied_rdepends:
-+                rdep_packages_to_consider = rdepends[:]
-+                # Each package effectively rprovides itself
-+                if pkg not in rdep_packages_to_consider:
-+                    rdep_packages_to_consider.insert(0, pkg)
- 
-                 # The python is not a package, but python-core provides it, so
-                 # skip checking /usr/bin/python if python is in the rdeps, in
-                 # case there is a RDEPENDS_pkg = "python" in the recipe.
--                for py in [ d.getVar('MLPREFIX') + "python", "python" ]:
--                    if py in done:
--                        filerdepends.pop("/usr/bin/python",None)
--                        done.remove(py)
--                for rdep in done:
--                    # The file dependencies may contain package names, e.g.,
--                    # perl
--                    filerdepends.pop(rdep,None)
--
--                    # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
--                    rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
--                    for key in rdep_data:
-+                for python_package in [ d.getVar('MLPREFIX') + "python", "python" ]:
-+                    if python_package in rdep_packages_to_consider:
-+                        unsatisfied_rdepends.pop("/usr/bin/python",None)
-+                        rdep_packages_to_consider.remove(python_package)
-+
-+                for dependent_package in rdep_packages_to_consider:
-+                    # Dependencies might contain package names, e.g. perl
-+                    unsatisfied_rdepends.pop(dependent_package,None)
-+
-+                    dependent_pkg_rdep_data = oe.packagedata.read_subpkgdata(dependent_package, d)
-+                    for key in dependent_pkg_rdep_data:
-                         if key.startswith("FILERPROVIDES_") or key.startswith("RPROVIDES_"):
--                            for subkey in bb.utils.explode_deps(rdep_data[key]):
--                                filerdepends.pop(subkey,None)
--                        # Add the files list to the rprovides
-+                            for satisfied_lib_or_provider in bb.utils.explode_deps(dependent_pkg_rdep_data[key]):
-+                                unsatisfied_rdepends.pop(satisfied_lib_or_provider,None)
-+
-+                        # FILES_INFO lists all files this dependent package provides
-                         if key == "FILES_INFO":
-                             # Use eval() to make it as a dict
--                            for subkey in eval(rdep_data[key]):
--                                filerdepends.pop(subkey,None)
--                    if not filerdepends:
-+                            for potential_provider_file in eval(dependent_pkg_rdep_data[key]):
-+                                unsatisfied_rdepends.pop(potential_provider_file,None)
-+
-+                    if not unsatisfied_rdepends:
-                         # Break if all the file rdepends are met
-                         break
--            if filerdepends:
--                for key in filerdepends:
-+
-+            if unsatisfied_rdepends:
-+                for key in unsatisfied_rdepends:
-                     error_msg = "%s contained in package %s requires %s, but no providers found in RDEPENDS_%s?" % \
--                            (filerdepends[key].replace("_%s" % pkg, "").replace("@underscore@", "_"), pkg, key, pkg)
-+                            (unsatisfied_rdepends[key].replace("_%s" % pkg, "").replace("@underscore@", "_"), pkg, key, pkg)
-                     package_qa_handle_error("file-rdeps", error_msg, d)
-+
- package_qa_check_rdepends[vardepsexclude] = "OVERRIDES"
- 
- def package_qa_check_deps(pkg, pkgdest, d):
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
 -- 
-2.17.1
+2.7.4
 
 
