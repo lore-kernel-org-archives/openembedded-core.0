@@ -1,50 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E8CAE7F8DA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+	[209.85.128.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 68C5A7F881
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2019 13:44:39 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id v9so17155304wrq.5
+	Mon,  4 Nov 2019 13:51:09 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id t26so12054238wmi.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Nov 2019 05:44:41 -0800 (PST)
+	Mon, 04 Nov 2019 05:51:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=vkGhpWSyIqB45i3+wPnmyHhgG6fJBistU1KQvAW8HcA=;
-	b=LT6H9bQGq20crb5yD72ugyvWl4iMtxlZcMs+L5rZ3Hoj3C0FQKIWKSFHlUm7lG8aMw
-	y62FVnZ6ets/rAEDFR0eciRON38Jh724vx9vn72CHJACcGiRa75KYWNjU513F1qtFNC/
-	y0zrxnyLj0AA1h/pWaQ4fZqzGDaAV5ssC5BDU=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ddt3ZfcFQkllPhYpVbA+LCQDlZRWk+DDHtjd51q8L5E=;
+	b=2EfSH5Gv14AKDAmouLiA3xa08W4lKTtgywQMHdCyr44LS2FDVQzSgRPrzI+dtJ6IfF
+	RE+2iXFk0AgWPO/SXUJZmP68eoHQs4PKyj+WXLhU9To3xbsq7KoBYRD3M925PotX19B7
+	Kw+o1hsNpkE3FMcMxioNb/nf2mfinkqWHxtjwceVVoEYpF9g8O9LIDy1LMLritk6Huif
+	Vwq/0o3FyPTaEnLtv0hj7k8mJkPFx4zogtlaGmfcfoN+oSfaUy6bBC35fdENr0Cpg1c1
+	O836Pe3fc7x1BkBv/spIhqp5s0gaUbcWplY71L+4qThTyOXupyY+hMeG+GqSaKW3H7Na
+	0ZUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=vkGhpWSyIqB45i3+wPnmyHhgG6fJBistU1KQvAW8HcA=;
-	b=hzviyEBrivP/LCGzSKAUZ+C9eo7aZoiqHvdxuj0UjbUi8e3MxZtRyqM8GSz4axltw5
-	83Pb1xed15jGdierFHNrSuTluryIt3RED6xffY+j9cf5EZG0GawRWL0+FLScREYbSf+x
-	S5g/7W0TeStdLiGqswt9Fvb4kyEab0JxIkl82vUlsYtLGewkzIA7e3T7n0dwGZNpz0SQ
-	1UAZSPQ6d8EAEQ/ZAi0q9865eCHDJlNJpT7SnRnxEbNaIZXYeB+FNQOI75Bi3zFlIrvs
-	Wa2/LQAAmfSXEQWgCxS73te6bgBDlcFVSgbYSQyx9VNvSq8Y2H97mtOiafsJcC+SYOP/
-	wcjg==
-X-Gm-Message-State: APjAAAVzFdvPoVw6QFcczCRsidHbdFbSV/ImRBgdWMgD8AXBW2gBCx57
-	oQqA8BRqmsD1h56xTHOPa10bRA==
-X-Google-Smtp-Source: APXvYqwu9j6XbSJDLDicDuN9RgbjmbZW4NfzuKHzuBWfqpEIxr1mWUeHWZNaUm4A2YhX7CkpepVz+w==
-X-Received: by 2002:adf:f651:: with SMTP id x17mr7152244wrp.114.1572875080573; 
-	Mon, 04 Nov 2019 05:44:40 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	205sm17340346wmb.3.2019.11.04.05.44.39
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ddt3ZfcFQkllPhYpVbA+LCQDlZRWk+DDHtjd51q8L5E=;
+	b=TVDD9AyiaJjYbk60mPrw+EBDrnwCJX5htyRLu/+TQqOMGNC5MbX+CO1wGvrXDM5jHt
+	NBphHmlyxH48mtcouH20jYydzD/vil+fWo2LXFbIuezdLTQnMCBc4teFYEAsLaTHCHke
+	WokPXW9hvBfTAxzfD4qtSo/UKFZnaICQ4DRy8zpTheiFsnaY2KqKXTQLp2JYhWDw9Kb1
+	2BRNfRfGHtV3io2FHbHuDmv/BwPmQc4YwoDYG56CnvnRKFzaZ86of6NxO31cg0cDAl6r
+	kAz25HAQT984dyGAFFpa08djhmhQg88oDllKL0lQJRQdKq3LkWd/MgOP5X/XouF32BuU
+	KjmQ==
+X-Gm-Message-State: APjAAAUtEcIj020rnpVzz2zGlZu96pHTL1+77MKGKET/aeGWNjXzwb4o
+	/hUBBFpUdhYO//cVCsdr3LFpNjABUHs=
+X-Google-Smtp-Source: APXvYqx0c07yAiikvpmWIwRicdg0E02Z4ks8a7tNbHCy6pHR94mC6Mo+Cim+tbxApVTItmTdCkmhow==
+X-Received: by 2002:a1c:7c14:: with SMTP id x20mr8757886wmc.136.1572875469608; 
+	Mon, 04 Nov 2019 05:51:09 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	d11sm13431368wrn.28.2019.11.04.05.51.07
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 04 Nov 2019 05:44:39 -0800 (PST)
-Message-ID: <5fa064a8eb4129fa39867fa087a779b92849d16a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
-Date: Mon, 04 Nov 2019 13:44:38 +0000
-In-Reply-To: <1572850260-75346-1-git-send-email-changqing.li@windriver.com>
-References: <1572850260-75346-1-git-send-email-changqing.li@windriver.com>
-User-Agent: Evolution 3.34.1-2 
+	Mon, 04 Nov 2019 05:51:08 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Nov 2019 13:51:05 +0000
+Message-Id: <20191104135106.14625-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] target-sdk-provides-dummy: set nostamp for do_package
+Subject: [PATCH 1/2] procps: whitelist CVE-2018-1121
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,71 +59,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2019 13:44:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Nov 2019 13:51:09 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2019-11-04 at 14:51 +0800, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> It exists a situation that there is a common config file includes
-> multilib.conf but variable MULTILIBS is not set by default:
-> 
->   require conf/multilib.conf
->   MULTILIBS ?= ""
-> 
-> When build target-sdk-provides-dummy in the same build project with
-> following steps, it fails.
-> 
-> 1 $ echo 'MACHINE = "qemux86"' >>conf/local.conf
->   $ bitbake target-sdk-provides-dummy
-> 2 $ cat <<EOF >>conf/local.conf
->     MACHINE = "qemux86-64"
->     MULTILIBS = "multilib:lib32"
->     DEFAULTTUNE_virtclass-multilib-lib32 = "i586"
->     EOF
->   $ bitbake target-sdk-provides-dummy
->   $ bitbake lib32-target-sdk-provides-dummy
-> 
-> It fails to build lib32-target-sdk-provides-dummy with error
-> messages:
-> 
-> > ERROR: target-sdk-provides-dummy-1.0-r0 do_packagedata: The recipe
-> > target-sdk-provides-dummy
-> >  is trying to install files into a shared area when those files
-> > already exist. Those files
-> >  and their manifest location are:
-> >   .../tmp/pkgdata/qemux86-64/lib32-target-sdk-provides-dummy
-> >     (matched in manifest-qemux86_64-lib32-target-sdk-provides-
-> > dummy.packagedata)
-> >   .../tmp/pkgdata/qemux86-64/runtime/lib32-target-sdk-provides-
-> > dummy
-> >     (matched in manifest-qemux86_64-lib32-target-sdk-provides-
-> > dummy.packagedata)
-> >   ... snip ...
-> > Please verify which recipe should provide the above files.
-> 
-> Because target-sdk-provides-dummy is a virtual package, its sstate
-> caches are same for both qemux86 and qemux86_64. So when build
-> target-sdk-provides-dummy for qemux86_64, it re-uses the sstate cache
-> from qemux86 and then create file lib32-target-sdk-provides-dummy
-> under
-> ${PKGDATA_DIR} which should not and it conflicts with
-> lib32-target-sdk-provides-dummy too.
-> 
-> So make do_package always be executed to fix the issue. Because it is
-> a
-> dummy package, it won't cost too much build time.
+This CVE is about race conditions in 'ps' which make it unsuitable for security
+audits.  As these race conditions are unavoidable ps shouldn't be used for
+security auditing, so this isn't a valid CVE.
 
-Shouldn't we ensure that the packagedata has different sstate
-signatures? Maybe do_packagedata needs a dependency on PN through
-vardeps?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/procps/procps_3.3.15.bb | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipes-extended/procps/procps_3.3.15.bb
+index 9756db0e7b7..e128477c5fa 100644
+--- a/meta/recipes-extended/procps/procps_3.3.15.bb
++++ b/meta/recipes-extended/procps/procps_3.3.15.bb
+@@ -4,9 +4,9 @@ the /proc filesystem. The package includes the programs ps, top, vmstat, w, kill
+ HOMEPAGE = "https://gitlab.com/procps-ng/procps"
+ SECTION = "base"
+ LICENSE = "GPLv2+ & LGPLv2+"
+-LIC_FILES_CHKSUM="file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                  file://COPYING.LIB;md5=4cf66a4984120007c9881cc871cf49db \
+-                 "
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://COPYING.LIB;md5=4cf66a4984120007c9881cc871cf49db \
++                    "
+ 
+ DEPENDS = "ncurses"
+ 
+@@ -64,3 +64,6 @@ python __anonymous() {
+         d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_sbindir'), prog))
+ }
+ 
++# 'ps' isn't suitable for use as a security tool so whitelist this CVE.
++# https://bugzilla.redhat.com/show_bug.cgi?id=1575473#c3
++CVE_CHECK_WHITELIST = "CVE-2018-1121"
+-- 
+2.20.1
 
 
