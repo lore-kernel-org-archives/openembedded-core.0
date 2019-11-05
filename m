@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FBA47F8BB
+	by mail.openembedded.org (Postfix) with ESMTP id 197A07F8BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 21:44:51 +0000 (UTC)
+	Tue,  5 Nov 2019 21:44:52 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47739J4N4rz8t
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47739K0lZqzHg
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 22:44:52 +0100 (CET)
+	Tue,  5 Nov 2019 22:44:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1572990292;
-	bh=7u8+ZvFl5WstJpUByfIu5FrSrqx7OzKJ7ox7sx1+SlA=;
+	s=default; t=1572990293;
+	bh=E0e5uwTMv8ZnE0VPmAcw8sv0xaRWuUqKQjCW16CQsW8=;
 	h=From:To:Subject:Date:From;
-	b=ACMW7dMrD+GIsVAqoefT9pjv1qeL/TM5B1MUz88+oDxdE54gxBp8c+vuT2E/WjzZD
-	Eku8xsFjao4SVkACBdVJepSKeLgGjQa9wFoohziv73/APA6+ZTcK2ZjBWjTYfy6Hx7
-	NboVcdt6JS2mqFKIhCjOD3deXgpEKFO4wafZaIEo2ivDfXifaHqDDpiVnIsocQW0dI
-	YnHnI/9zrys77GYCd0OIDW24eRZzrlJlNcXezg0tDiK+iUhXQd2dhuguUcjGa9erES
-	BikZl9pgvfcUSdswclBpoiPAIgPRAw5a5SOQSY4tJUEM7Bkjd4DyGixdkyfPrx4XNS
-	WrmrHraTKR22gsoJOPWpZk6cKbQz0/18GRTEOoVQZ9Np47ninLyEMu619Kb306LKEt
-	TarEesjtQnB/hTlJ8y+S8MtFBHl2pLTMmOfp1t0yrRL7z3nbxfzU9f+GWAm+QgcShy
-	6N57KOe/RpOtOlrEAkLQQUIT0OYwP8AB89m5xQYtVwcASJZgoeOehk0wOfsWsuhTS/
-	MDf61tFYPw/sarbqnxdmE4/lqMG6eWHd4957sWp0voGsVvQEs1ZcrLBnkRAIsJMAy8
-	Cl6akFFTpGcrE3G3h87pjq7GYdhoRnarVHeIWGqaX9pPxwPrXzaa6CWcC6tHNpKYVh
-	N1vVoJDyWPtWKTT5DOU1Uo0g=
+	b=r4oI/wQa19wwudPeZf2f3ag7ULS47KMVFKhlOM9/rTGp2W1HMZoOVBQZbQ7b7aAub
+	7LZBcFnMG2CRCD9kGC2i30MzLBLvJmEcBrLO5N2rFzeC2OhMkpCxZW5tnIs/4HeJFs
+	PYKFboW4MACkVuO+svi+DZhb+jZ6D79ikgjgcg2NPCyplNJfMB/X57uer+Kxw5ePA+
+	LJEfnC7yDz4DvOJI1PhCKbNRoVnUbxtcEsWhIYs3bP3ozVjSfkFKBN6+fLd60FIBCv
+	aWQ4efG5nbfT+gRK3O3MIdCr2p5zRDD9V/sMqHG8wKSmJ5X2fd14hnyUXzEk0m2PCm
+	eXwFqLCJHKYCY2FVtAjAuJ1mJelRid3pO9zCsnpBrlfYMqVvmPz2gTbFDlAbPkm+Qo
+	ey40MjeOg8tHr7CDNKTPuxx4q082gWV1ZUTt20x6ul0MFgG1JADuQJ8coVnCg5TVS9
+	zmcPlKJwdFbZIhV3+Pgle/iZTUGQ3WxaLcpZ9rf+TlwaU+kjJJDhoc4SDKq2x7pOXS
+	xa8OFgaRRC1HrJSt3xpCsapKKww85NAGAwqx0wKoumZsTSkcGBlBpuLncDzNa4YnzU
+	Xr09oQC9G6VB8XKl+8pFWyirs9RQi2wmPWQpgHjOAX9RM6qUgsCKn4fvRNJ1T9M0UP
+	cBub9tpykPPxI/MMwawtzPRs=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 23:44:44 +0200
-Message-Id: <20191105214448.2511-8-bunk@stusta.de>
+Date: Tue,  5 Nov 2019 23:44:45 +0200
+Message-Id: <20191105214448.2511-9-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] libxfont2: set CVE_PRODUCT
+Subject: [warrior][PATCH] libsndfile1: whitelist CVE-2018-13419
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,27 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 21:44:51 -0000
+X-List-Received-Date: Tue, 05 Nov 2019 21:44:52 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+This is a memory leak that nobody else can replicate and has been rejected by
+upstream.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
-index 2b72d6750c..6994d79e89 100644
---- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
-@@ -20,3 +20,5 @@ SRC_URI[sha256sum] = "0e8ab7fd737ccdfe87e1f02b55f221f0bd4503a1c5f28be4ed6a54586b
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index 77393db847..6044bf09c7 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -38,3 +38,6 @@ do_configure_prepend_arm() {
+ 	export ac_cv_sys_file_offset_bits=64
+ }
  
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-+
-+CVE_PRODUCT = "libxfont libxfont2"
++# This can't be replicated and is just a memory leak.
++# https://github.com/erikd/libsndfile/issues/398
++CVE_CHECK_WHITELIST += "CVE-2018-13419"
 -- 
 2.17.1
 
