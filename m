@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id F32317F8A4
+	by mail.openembedded.org (Postfix) with ESMTP id 6976C7F8A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 21:44:52 +0000 (UTC)
+	Tue,  5 Nov 2019 21:44:53 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47739L0Cj8zHg
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47739L3CFBzHq
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 22:44:53 +0100 (CET)
+	Tue,  5 Nov 2019 22:44:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1572990294;
-	bh=19CUEhodyvaIG/uko1z/qoE2J3OnQXaqAYOLkf3IvnA=;
+	bh=TDGOvceTFBTAiDIBVlH3oriIDFpUl8/od1J2r5JQE/M=;
 	h=From:To:Subject:Date:From;
-	b=Ty8Bm5BBZI64c6+oWKl/B3cY0tJ1N++A0CVu2eLr9nfYtlHqqXG4rqg3kvhAAvvM7
-	9qTgztQeVtPcGjBIGJdag0syFVBYgEE2CDhjFA6V9hk4eBnUJLXIArowmxUHLMnWSX
-	OW9hYiDk9ThpG5wX6sFhZoR1yR+dC6YDLHippKcN+uKFzlKmQ3ylLAewS8n/lBKtb7
-	/hfTrxXPemV7Se1MW2bALHrbEmt5Igp7ZrPzXIV37z7L3CJHEnnGOEcnFF0zyk1voW
-	CIjbemCOlpAoheq4EPAenBVZROlJoQAiQyLaFH+Gx4iKNqbseyem7icOapsvj3TmU7
-	dJfQa7GX5xpePpCyOs9xSGNL+nH/ygL4RRvldTNwtmr9pGM68X9TTI+n0NrYYsIlbl
-	PZcUuF2z027EL0pIJ5FlPG6SYS7bfDwdIlkpHu5BhwaYFLqT8+ACxF0nQQcB5POq9H
-	OcexSUutA4jbFB+1suCJVv9Yznb7RwyK3E+ME6Udm/YbNUVEjB9TIF7CgPujLDT9Ew
-	0o4dwW7It8xMbUqpKpTcAUf5YomG92qRcNY8Ind4Fxz323zKzsjFdZXuybjSce/bCs
-	ZiTe9ib6Q7flHWcldRuPtRZadMhxbg80jsUs31hYCj3Sj0cWNYk5abAVXpiajaKG02
-	tFmrmF9Z4XQENakndQubb78Q=
+	b=PWKAXNcX5XlT4VcaDufrQmljULB3M40Vf/L/8CJWFvsWu4KVVYQeOzq18wsHUZlJi
+	aGp/sA69pld+QStvoOpAAEhy+HRCcEdFD0t0bNUx+twLdhqe6f6lv4MD+laoOSsKUy
+	PZNvZh5yVJTvxLkEHckC8yLd8ALLlF5tcDxd+nYaiBQgxXFab+XNZJS2wVIRn9kXcR
+	EpjD+F+9JeBMk2TTZn+J+uvc608O9bRsKL2GQtM1Jwa477X0J1q6/cdlI6ZhzTXjan
+	n7nvsOyjFcXq4Ym7BFWu6dvU0cLd71gJ/WHPzf8ACjvKnU70uNDpjrUgrtfxn4O6+s
+	zMK1BpeZ0WReJpWlxr7F0qru4szbs81+SOMWhRLn46AFsivvL30twXt3K7A4XyEHqb
+	CH8AGC1//RjTemjDKuhXvV+2vnNQbLRt/QB82ccIvMQ92db1ruw/79gFEETkh9lIip
+	XZ1BYPWdSThROj12vNkxzlHOL65+ReFbs7h5MrWrWJz2JRB/Xh2Fxlg28DUDfODpvw
+	+xl5Aobp0Cijqx8p43xY6PbiV7ZDNqDr13O5YJkt3sOwDHdIakvzNpJ2mX3BsjGmUO
+	6Z8TiRA7nxxYgvE9b+Jc9L5MxM3T3B7sc4zvqmVZ8kdkSPaoP7FjZCuux2c5QTvgpL
+	nQ4yXdjCJyczR8SL4K2jhokg=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 23:44:47 +0200
-Message-Id: <20191105214448.2511-11-bunk@stusta.de>
+Date: Tue,  5 Nov 2019 23:44:48 +0200
+Message-Id: <20191105214448.2511-12-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] webkitgtk: set CVE_PRODUCT
+Subject: [warrior][PATCH] procps: whitelist CVE-2018-1121
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,28 +42,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 05 Nov 2019 21:44:53 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+This CVE is about race conditions in 'ps' which make it unsuitable for security
+audits.  As these race conditions are unavoidable ps shouldn't be used for
+security auditing, so this isn't a valid CVE.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.22.7.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/procps/procps_3.3.15.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.22.7.bb
-index 301bf10cea..26e673cbcb 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.22.7.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.22.7.bb
-@@ -30,6 +30,8 @@ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check u
+diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipes-extended/procps/procps_3.3.15.bb
+index 9756db0e7b..a20917b223 100644
+--- a/meta/recipes-extended/procps/procps_3.3.15.bb
++++ b/meta/recipes-extended/procps/procps_3.3.15.bb
+@@ -64,3 +64,6 @@ python __anonymous() {
+         d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_sbindir'), prog))
+ }
  
- REQUIRED_DISTRO_FEATURES = "x11 opengl"
- 
-+CVE_PRODUCT = "webkitgtk webkitgtk\+"
-+
- DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
-            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
- 	   pango icu bison-native gawk intltool-native libwebp \
++# 'ps' isn't suitable for use as a security tool so whitelist this CVE.
++# https://bugzilla.redhat.com/show_bug.cgi?id=1575473#c3
++CVE_CHECK_WHITELIST += "CVE-2018-1121"
 -- 
 2.17.1
 
