@@ -1,24 +1,30 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E4FA6B8BC
+Return-Path: <ross.burton@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C9F327CBDD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 10:04:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xA5A4bJ6017777
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Nov 2019 02:04:37 -0800 (PST)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 5 Nov 2019 02:04:36 -0800
-From: Wenlin Kang <wenlin.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2019 18:04:20 +0800
-Message-ID: <1572948260-142321-1-git-send-email-wenlin.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue,  5 Nov 2019 10:38:33 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Nov 2019 02:38:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,270,1569308400"; d="scan'208";a="353110242"
+Received: from sptommas-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.55.33])
+	by orsmga004.jf.intel.com with ESMTP; 05 Nov 2019 02:38:33 -0800
+To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
+References: <20191104205504.24428-1-bunk@stusta.de>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <aa3aa480-65d5-789c-71c0-3997d742424e@intel.com>
+Date: Tue, 5 Nov 2019 10:38:32 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Subject: [PATCH] sysstat: remove check for chkconfig
+In-Reply-To: <20191104205504.24428-1-bunk@stusta.de>
+Subject: Re: [PATCH] iputils: Whitelist CVE-2000-1213 CVE-2000-1214
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,90 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 10:04:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Nov 2019 10:38:33 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-For cross-platform, chkconfig can't work, so should remove check for it.
-This can only be reproduced on some platform with chkconfig(e.g. CentOS
-Linux release 7.2.1511), and need with --enable-install-cron and without
---enable-copy-only.
+On 04/11/2019 20:55, Adrian Bunk wrote:
+> +# Fixed in 2000-10-10, but the versioning of iputils
+> +# breaks the version order.
+> +CVE_CHECK_WHITELIST += "CVE-2000-1213 CVE-2000-1214"
 
-Fixed:
-| 	if [ "n" == "n" ]; then \
-| 		if [ -x "/usr/sbin/chkconfig" ]; then \
-| 			cd /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/init.d && /usr/sbin/chkconfig --add sysstat; \
-| 		else \
-| 			[ -d /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/rc2.d ] || mkdir -p /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/rc2.d; \
-| 			[ -d /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/rc3.d ] || mkdir -p /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/rc3.d; \
-| 			[ -d /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/rc5.d ] || mkdir -p /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/rc5.d; \
-| 			cd /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/rc2.d && ln -s -f ../init.d/sysstat S01sysstat; \
-| 			cd /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/rc3.d && ln -s -f ../init.d/sysstat S01sysstat; \
-| 			cd /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d/rc5.d && ln -s -f ../init.d/sysstat S01sysstat; \
-| 		fi \
-| 	fi \
-| elif [ -d /path/to/tmp/work/corei7-64-wrs-linux/sysstat/11.1.5-r0/image/etc/rc.d ]; then \
-| ...
-| fi
-| error reading information on service sysstat: No such file or directory
-| Makefile:382: recipe for target 'install_all' failed
+So the problem is that our PV matches the upstream git tags, which don't 
+match the naming convention in the CPE entries.
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
----
- ...1-configure.in-remove-check-for-chkconfig.patch | 31 ++++++++++++++++++++++
- meta/recipes-extended/sysstat/sysstat_12.1.6.bb    |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
+The tags are of the form s20190709, but the CPE uses 2010-10-10.
 
-diff --git a/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
-new file mode 100644
-index 0000000..4067bb9
---- /dev/null
-+++ b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
-@@ -0,0 +1,31 @@
-+From 1590cc614aaf0fb81cd804414d6c9d5a9227352c Mon Sep 17 00:00:00 2001
-+From: Wenlin Kang <wenlin.kang@windriver.com>
-+Date: Tue, 5 Nov 2019 16:16:44 +0800
-+Subject: [PATCH] configure.in: remove check for chkconfig
-+
-+chkconfig can't work on cross-platform, so should remove check for it.
-+
-+Upstream-Status: Inappropriate [ embedded specific ]
-+
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+---
-+ configure.in | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.in b/configure.in
-+index 48b9a31..cedeb43 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -42,7 +42,8 @@ AC_SUBST(VER_JSON)
-+ AC_SUBST(VER_XML)
-+ 
-+ AC_PATH_PROG(PATH_CP, cp)
-+-AC_PATH_PROG(PATH_CHKCONFIG, chkconfig)
-++#AC_PATH_PROG(PATH_CHKCONFIG, chkconfig)
-++AC_SUBST(PATH_CHKCONFIG)
-+ 
-+ # Check for systemd
-+ AC_CHECK_PROG(PKG_CONFIG, pkg-config, pkg-config)
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/sysstat/sysstat_12.1.6.bb b/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-index 362888d..83bb45e 100644
---- a/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
- 
- SRC_URI += "file://0001-Include-needed-headers-explicitly.patch \
- 	    file://0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch \
-+	    file://0001-configure.in-remove-check-for-chkconfig.patch \
- "
- 
- SRC_URI[md5sum] = "d8e3bbb9c873dd370f6d33664e326570"
--- 
-1.9.1
+If we assume that the CPE version scheme will remain the same then we 
+can handle this for all cases in the recipe:
 
+def cve_version(d):
+     import re
+     m = re.match(r"s(\d{4})(\d{2})(\d{2})", d.getVar("PV"))
+     return "-".join(m.groups())
+CVE_VERSION = "${@cve_version(d)}"
+
+Ross
 
