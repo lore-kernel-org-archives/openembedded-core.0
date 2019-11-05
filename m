@@ -1,51 +1,53 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 56F186BC44
+Return-Path: <prvs=2052f4dd8=alistair.francis@wdc.com>
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EC217F8B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 16:52:59 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id c13so15959322pfp.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Nov 2019 08:53:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=HDd/ubaY1ufqHeYuaDOKWW0bDl3AojC4aJ/E62+RU5s=;
-	b=YKcjA/Op2bBB8elzn1JicqrvxpNPITH/zKru6WOg9oS9iipguhYvdXkEecmb7y6K8y
-	1Itd+Y9SK2Qv/yXiWFZrHnKeiyyEwwR4JrRK+vK0SR/xgBq78cVF8R37FqG2nXoMh7+U
-	HgBIaijU3P1bShMbYr2+m8dNeA60H2yrqhtbgHpJbPGXtt+ZSRlFOjBZzldWVLFDOLB5
-	YR/IEe0/Bgn7Vl8vmFIYQErd9sJc1+UY1PF88BwYAgVMM0+Wddzdg9gBSM0344OIKgLQ
-	SoDG8VQ78b5FkaqyKMmYYOD4C02H0a5uHWEHYvMGR1Cy9aT41N+oV6711th0K8gFzrSX
-	JvYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=HDd/ubaY1ufqHeYuaDOKWW0bDl3AojC4aJ/E62+RU5s=;
-	b=PjrABfGM3hE7ou0RHEolbmAsEbj6uWItBm9D5hRoR1/gtLkjTFOBCgqlaliS18M4Y2
-	hwRu27qldyW43mWkDFSvSt/bkGbJIt0Sh9sosVl6UW2jMXwpuXBCuL1IA6BGLOKezNOS
-	/KBKEnjdiGEcS9aWP/CqgeBkPxQaNROTdpGTxKfkujhGNpkq/fzMaFE0cyLfjoSovm30
-	U6RWUxULUyoFVSXYvWjevN45SQZa+EriCOxT2Mfse1+6+dTNC44czGviv70m4TPLYRJa
-	pCtp0vXbBbKHfjGozjqCz1QUz3LxYDTlFIeMpBZfiOeQ7KUdIH4ebAr/k5h+uiFoBC3v
-	Wi+A==
-X-Gm-Message-State: APjAAAU4j4FKjjgalAON4R8KDMGxhTwInKV9qqqYkv+BOqoMnNZMBiUg
-	Vvg1EPa0wvQNxzfqqenn1Gltwm1T
-X-Google-Smtp-Source: APXvYqxuw3pLHSm8k1J+LN903y6uhG9BprFVTIrDo9sQfmf1uuZv6UufE2e7TFB+0RQ5BqSX9A9iqg==
-X-Received: by 2002:a63:1514:: with SMTP id v20mr8721186pgl.393.1572972780057; 
-	Tue, 05 Nov 2019 08:53:00 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com ([162.249.178.138])
-	by smtp.gmail.com with ESMTPSA id
-	21sm21467223pgw.87.2019.11.05.08.52.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 05 Nov 2019 08:52:59 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
+	Tue,  5 Nov 2019 18:10:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1572977434; x=1604513434;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=0PbXospGNhXXITn3kSRGp8Od/qYeFxihMD6zBN3hr5k=;
+	b=h9jRWfb10fh7eEBklwSM4SDckeGi1vhBlPutc1v8v5J+IHwr5p8aQlQk
+	WC97cdWzWcveifwxIj9ZGRqaWHKqbbDPpmGgqV/Hsway8+4CgfXkhkuQc
+	Hhb6ggVa7PudY9TCBKAiEqWgOMF8hG7Bl6XQtnQovJrMfieZT+6x0iKF3
+	3gQ+zpW74g0eIqMO2idEyGTG03fmDZUTBM3xVvG/saZ1kEnVjUFDLb9H4
+	Kn7wUM3NciBzDpL6qiaOqEo7NvLQ2Y3KZnooxaxwscXWYzmAAvVfFBKWY
+	vgfDg+pw//2JAUxOpI6NwvSURS5I+DnSTxps4FeT0pETvYwXfXH4l+CQz g==;
+IronPort-SDR: b9/qNDZpoYAskDBChUFrDvC4Zub0HDJdhPpRDIu92KVj3i7wvWk7B+3GIKw7Wj4tu5j43IhB2Z
+	5ljFnjPnSVImz/7DE2pmmOassl6MJW+Mn/bsyWkQ8U7sD16TN7ssTN6uyMyprAc0jvESL7+RED
+	XoqNllq1kk5tEQQw38mobTCCNIi155rApVMjlpff4XDJd/HbcLpwQbSieimbYssyco0yx20/Ot
+	wecTm/h2i/OJrRIT0uoxGhkn3W9zVhFFJRd8Na/XrQ3syfqdWrHzf026fia8hc+GsXbUI3NXvM
+	I1Y=
+X-IronPort-AV: E=Sophos;i="5.68,271,1569254400"; d="scan'208";a="229443794"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+	([199.255.45.15])
+	by ob1.hgst.iphmx.com with ESMTP; 06 Nov 2019 02:09:07 +0800
+IronPort-SDR: RQrCwCxVz2NML74nRGgK4YxJF9CEhkfWoJPBXkaPaxtGoyazYGfXL3kNUa3j6GT7c4zMRtPGmK
+	9aovicjwpd/MEkR9ri90I89ciGOgo/FSx/PovKB+xA6y97tc1BWVa0uNa0Y7y/VwfWCL/FkDxC
+	ksSIU8GVIbUqTPkKkfg1FI1aJCUM7/YDQemfjjWzZQmQW21xaoRTyt551OLQaAlIggtDig+mvE
+	shEADoToDVUbVP/Dx1TZp9UNnyX2fgC4orPKLvyGXBMJgL/CElCEwy5/yNLn/lkSGpiz0/e9PY
+	EtY2xaIJbG5j5roAsKlGk263
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	05 Nov 2019 10:04:20 -0800
+IronPort-SDR: dHogAAG9tVB1cmM/Z3mNWixaZ+FwRS0sRLXbx6pEzgv4yReCdnkmTNURnGKRJcJ7SrZlIoYccB
+	kEiXZBEEdK8GQEh6w13zYUJ7smV2EqKeTYmb6IqCwN5bGNXtEpLGsxPxjJnBH/AxinvZtKnS6O
+	72T4xRRyg1tM8tHe6R4C+aTSHvT4rOysNXG9Y+0p10Yp4HM0rWsfvstLOvbPOyxTPtKa2G7IF9
+	V6fdMDhyZ1WMAKF9cVWH7TSAwLIgB0k17R4+cqBh8sPDs/5MORS+Qia+ZFAb9DeRXD9gQablmr
+	y6o=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+	by uls-op-cesaip01.wdc.com with ESMTP; 05 Nov 2019 10:09:07 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 08:52:53 -0800
-Message-Id: <1572972773-4844-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1572972773-4844-1-git-send-email-akuster808@gmail.com>
-References: <1572972773-4844-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 2/2] OEQA: Add qemu checks
+Date: Tue,  5 Nov 2019 10:03:48 -0800
+Message-Id: <20191105180348.2868-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Subject: [PATCH] machine/arch-riscv: Fix newlib and baremetal builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,77 +60,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 16:52:59 -0000
+X-List-Received-Date: Tue, 05 Nov 2019 18:10:33 -0000
+Content-Transfer-Encoding: 8bit
 
-Some test should not be run in QEMU systems so
-add some checks to make that easier
+Fix the following errors for newlib and baremetal libcs:
+ld: unrecognized option '--hash-style=sysv'
+ld: unrecognized option '--hash-style=gnu'
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- meta/lib/oeqa/core/decorator/data.py | 45 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ meta/conf/machine/include/riscv/arch-riscv.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/lib/oeqa/core/decorator/data.py b/meta/lib/oeqa/core/decorator/data.py
-index ff92fba..bc4939e 100644
---- a/meta/lib/oeqa/core/decorator/data.py
-+++ b/meta/lib/oeqa/core/decorator/data.py
-@@ -27,6 +27,16 @@ def has_machine(td, machine):
-         return True
-     return False
+diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
+index 19f8f3e211..8ed9874389 100644
+--- a/meta/conf/machine/include/riscv/arch-riscv.inc
++++ b/meta/conf/machine/include/riscv/arch-riscv.inc
+@@ -8,3 +8,8 @@ TUNE_CCARGS .= ""
  
-+def is_qemu(td, qemu):
-+    """
-+        Checks if MACHINE is qemu.
-+    """
+ # QEMU usermode fails with invalid instruction error (For riscv32)
+ MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32', ' qemu-usermode', '', d)}"
 +
-+    machine = td.get('MACHINE', '')
-+    if (qemu in td.get('MACHINE', '') or
-+    machine.startswith('qemu')):
-+        return True
-+    return False
- 
- @registerDecorator
- class skipIfDataVar(OETestDecorator):
-@@ -175,3 +185,38 @@ class skipIfMachine(OETestDecorator):
-         self.logger.debug(msg)
-         if has_machine(self.case.td, self.value):
-             self.case.skipTest(self.msg)
-+
-+@registerDecorator
-+class skipIfNotQemu(OETestDecorator):
-+    """
-+        Skip test based on MACHINE.
-+
-+        value must be a qemu MACHINE or it will skip the test
-+        with msg as the reason.
-+    """
-+
-+    attrs = ('value', 'msg')
-+
-+    def setUpDecorator(self):
-+        msg = ('Checking if %s is not this MACHINE' % self.value)
-+        self.logger.debug(msg)
-+        if not is_qemu(self.case.td, self.value):
-+            self.case.skipTest(self.msg)
-+
-+@registerDecorator
-+class skipIfQemu(OETestDecorator):
-+    """
-+        Skip test based on Qemu Machine.
-+
-+        value must not be a qemu machine or it will skip the test
-+        with msg as the reason.
-+   """
-+
-+    attrs = ('value', 'msg')
-+
-+    def setUpDecorator(self):
-+        msg = ('Checking if %s is this MACHINE' % self.value)
-+        self.logger.debug(msg)
-+        if is_qemu(self.case.td, self.value):
-+             self.case.skipTest(self.msg)
-+
++# Fix: ld: unrecognized option '--hash-style=sysv'
++LINKER_HASH_STYLE_libc-newlib = ""
++# Fix: ld: unrecognized option '--hash-style=gnu'
++LINKER_HASH_STYLE_libc-baremetal = ""
 -- 
-2.7.4
+2.23.0
 
 
