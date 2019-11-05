@@ -1,49 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 90EC47F8AF
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+	[209.85.128.45])
+	by mail.openembedded.org (Postfix) with ESMTP id EA18D7F8AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 11:54:59 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q13so21020887wrs.12
+	Tue,  5 Nov 2019 11:56:31 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id c17so13209844wmk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Nov 2019 03:55:00 -0800 (PST)
+	Tue, 05 Nov 2019 03:56:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=1wRFMv4xG7FOmQupvAj+PXouEc7+gmGSZDKDf5v8ULg=;
-	b=gtjVsz/EX8hySyIVQcmAQ59NQasVyKUJkRN3XhK5SrdKhpftL4/IJWNdh71zvfoj/M
-	aEnvt4yNUQpxogA7NMh30XHCE0KIjR58IkOdr/EnFHClmXaHVjgM8A60Y6GzMfxFpxTo
-	aMByuwGiAtn6nay43WnpxwWpSEuuGDxPiCAKM=
+	bh=6YasS92qLN5c+UOicaMxyW7uYdTnz0KjEr24E3yrnJQ=;
+	b=D4u/ZmhckXJLhx4wvB6R7ll6REv4gHr9NRVhyiyrNkvW8qX+N+2gn8wajPYaU9N0oX
+	ovc7S8U3iEoyhWIxa2lgU7/UhgyPPBXOMEWWNdYwhKGOYLkgFp9EEtU61ABO04WzmNq7
+	aXDWrTDc6PaWEdA8nhjbHNzZLhQ9V0ttkIN1U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=1wRFMv4xG7FOmQupvAj+PXouEc7+gmGSZDKDf5v8ULg=;
-	b=qZ7TflFx9n5uv1OyKOPaCqILu8MAodQZ3h4GOb+PZuq+WSo+gtpz4Ft+M9n8G6Y4Kn
-	wWZmlm+GzrewoNJIPP9BvwtV/sRN2uQd+61LEyzrPwadV6N9H0N0ynhN4m7sOPO0xwpe
-	kSdRRu7N88a941Bt7iVBdvzUydj+Y6ThkbuFPOy7AimDEuWQO10II7keyFxP09hyDfFm
-	ml4wLZK7zx750s9z0OPJRZ9rKwnxK0v0B8nP3dHjzDGsq4icHIPaO8l6bAHpAFEhrbYZ
-	1c2BJAv/jH7R/7ksFM+qC/xEMmEKttejiQQJ9UIsuZdPDPolvpLq3JQT3RUMNDlon21z
-	5bgA==
-X-Gm-Message-State: APjAAAWJMTXLUFYGPBSC1OSQ1GdMvuGEvbzqUil3bPuyAXoyMyNSE7xW
-	vTC+VdPturGrnEYrYeSOcT/59SMXU+s=
-X-Google-Smtp-Source: APXvYqzmSfzkiaeiB5pYSzAk4Pi5I5tGeeKwaEknwYDdT6zvsPWKOrZ5v6ZoD3Ngcr7PBrvBYum/iA==
-X-Received: by 2002:adf:d4c2:: with SMTP id w2mr7679837wrk.340.1572954899766; 
-	Tue, 05 Nov 2019 03:54:59 -0800 (PST)
+	bh=6YasS92qLN5c+UOicaMxyW7uYdTnz0KjEr24E3yrnJQ=;
+	b=FC2j6/G7Mz/r4UORrt7tqnvJAAXi754ULPSpla9rWKg/dGpj8th8OdlVZMfZMhko6Q
+	Ppt+Owzmp9w5UC8lCLUE7PwF7+jwp73EeERzbR80hgC1FPCCTI/1mUXba3A7bY8qQj0i
+	gwimL2B9Q4up4FDWgr0pB8UKsvldi1qol139/3Hp7ZXHLO6F52qKRgW9uGye7Qxo4aev
+	cMv2sSb4BCbFn/z9eDPcQg6VeFFfJnf5IvBPU2vGR+vXz/wH8q17Z23030pqlRQg0uTk
+	wfI3ivloxHMfp0CSSud3A9eVT3sLcbNrNdWIwFKjXVm4X3rj9iKBG4CZflkrALO7yB5E
+	vKqQ==
+X-Gm-Message-State: APjAAAVK476bXiX2hA7FU8CcUsm36cNWSk5Y4AIegVBO33KafmWCg/PQ
+	tXQS+mE6Z+LOBVOwjjs6dKkCKk2Yr5Q=
+X-Google-Smtp-Source: APXvYqxBHLArJOJHOP4g3nZq4qzESe0X4l6QPJbFlEXnMjfkk3ms5HQftBq+HY/E3I2poRkTLjnafg==
+X-Received: by 2002:a7b:cd04:: with SMTP id f4mr3773204wmj.91.1572954992328;
+	Tue, 05 Nov 2019 03:56:32 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	w22sm19220635wmc.16.2019.11.05.03.54.58
+	c15sm17947463wmb.45.2019.11.05.03.56.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 05 Nov 2019 03:54:59 -0800 (PST)
+	Tue, 05 Nov 2019 03:56:31 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 11:54:58 +0000
-Message-Id: <20191105115458.12060-1-richard.purdie@linuxfoundation.org>
+Date: Tue,  5 Nov 2019 11:56:30 +0000
+Message-Id: <20191105115630.12918-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] staging: Handle files moving between dependencies
+Subject: [PATCH] sstate: Add ability to hide summary output for sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,67 +56,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 11:54:59 -0000
+X-List-Received-Date: Tue, 05 Nov 2019 11:56:32 -0000
 Content-Transfer-Encoding: 8bit
 
-Currently, if files move between recipes, do_prepare_sysroot can fail with a message like
-
-Exception: FileExistsError: [Errno 17] File exists:
-'TMPDIR/sysroots-components/core2-64/libx11/usr/include/X11/extensions/XKBgeom.h' ->
-'TMPDIR/work/core2-64-poky-linux/gtk+3/3.24.8-r0/recipe-sysroot/usr/include/X11/extensions/XKBgeom.h'
-
-This is because files are removed and then added per package. What needs to
-happen is all removes need to be processed, then all additions.
-
-This patch changes the code to process in two phases, removals first, then additions,
-which avoids the problem.
+Its confusing to keep seeing sstate summary messages when hash equivalency is
+active. This adds an option to control it. A default value is given which
+maintains compatibility with different bitbake versions.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/staging.bbclass | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ meta/classes/sstate.bbclass | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 55a9b52ed22..cca0b7e0d68 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -449,6 +449,7 @@ python extend_recipe_sysroot() {
-     msg_exists = []
-     msg_adding = []
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index b47b9c23bf2..64808f8e105 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -818,7 +818,7 @@ sstate_unpack_package () {
  
-+    # Handle all removals first since files may move between recipes
-     for dep in configuredeps:
-         c = setscenedeps[dep][0]
-         if c not in installed:
-@@ -459,7 +460,6 @@ python extend_recipe_sysroot() {
-         if os.path.exists(depdir + "/" + c):
-             lnk = os.readlink(depdir + "/" + c)
-             if lnk == c + "." + taskhash and os.path.exists(depdir + "/" + c + ".complete"):
--                msg_exists.append(c)
-                 continue
-             else:
-                 bb.note("%s exists in sysroot, but is stale (%s vs. %s), removing." % (c, lnk, c + "." + taskhash))
-@@ -470,6 +470,20 @@ python extend_recipe_sysroot() {
-         elif os.path.lexists(depdir + "/" + c):
-             os.unlink(depdir + "/" + c)
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
  
-+    # Now handle installs
-+    for dep in configuredeps:
-+        c = setscenedeps[dep][0]
-+        if c not in installed:
-+            continue
-+        taskhash = setscenedeps[dep][5]
-+        taskmanifest = depdir + "/" + c + "." + taskhash
-+
-+        if os.path.exists(depdir + "/" + c):
-+            lnk = os.readlink(depdir + "/" + c)
-+            if lnk == c + "." + taskhash and os.path.exists(depdir + "/" + c + ".complete"):
-+                msg_exists.append(c)
-+                continue
-+
-         msg_adding.append(c)
+-def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, **kwargs):
++def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
+     found = set()
+     missed = set()
+     extension = ".tgz"
+@@ -951,16 +951,17 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, **kwargs):
+             evdata['found'].append((bb.runqueue.fn_from_tid(tid), bb.runqueue.taskname_from_tid(tid), gethash(tid), sstatefile ) )
+         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
  
-         os.symlink(c + "." + taskhash, depdir + "/" + c)
+-    # Print some summary statistics about the current task completion and how much sstate
+-    # reuse there was. Avoid divide by zero errors.
+-    total = len(sq_data['hash'])
+-    complete = 0
+-    if currentcount:
+-        complete = (len(found) + currentcount) / (total + currentcount) * 100
+-    match = 0
+-    if total:
+-        match = len(found) / total * 100
+-    bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(found), len(missed), currentcount, match, complete))
++    if summary:
++        # Print some summary statistics about the current task completion and how much sstate
++        # reuse there was. Avoid divide by zero errors.
++        total = len(sq_data['hash'])
++        complete = 0
++        if currentcount:
++            complete = (len(found) + currentcount) / (total + currentcount) * 100
++        match = 0
++        if total:
++            match = len(found) / total * 100
++        bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(found), len(missed), currentcount, match, complete))
+ 
+     if hasattr(bb.parse.siggen, "checkhashes"):
+         bb.parse.siggen.checkhashes(sq_data, missed, found, d)
 -- 
 2.20.1
 
