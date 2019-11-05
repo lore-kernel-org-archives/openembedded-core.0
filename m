@@ -1,31 +1,24 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id EDD887F962
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BF7C67D717
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 06:20:41 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.68,270,1569254400"; 
-   d="scan'208";a="4676"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 05 Nov 2019 14:20:40 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id C03234CE1646
+	Tue,  5 Nov 2019 06:39:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xA56dfG0015500
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 14:12:37 +0800 (CST)
-Received: from localhost.local (10.167.225.81) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Tue, 5 Nov 2019 14:20:40 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+	Mon, 4 Nov 2019 22:39:42 -0800 (PST)
+Received: from 41ce8e763d5a.wrs.com (128.224.153.74) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 4 Nov 2019 22:39:41 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2019 14:20:59 +0800
-Message-ID: <20191105062059.16911-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+Date: Tue, 5 Nov 2019 06:38:17 +0000
+Message-ID: <20191105063817.243431-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: C03234CE1646.A9165
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] python-setuptools: upgrade 41.4.0 -> 41.6.0
+Subject: [PATCH] go: fix CVE-2019-17596
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 06:20:43 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 05 Nov 2019 06:39:40 -0000
 Content-Type: text/plain
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
- ...ython-setuptools_41.4.0.bb => python-setuptools_41.6.0.bb} | 0
- ...hon3-setuptools_41.4.0.bb => python3-setuptools_41.6.0.bb} | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-setuptools_41.4.0.bb => python-setuptools_41.6.0.bb} (100%)
- rename meta/recipes-devtools/python/{python3-setuptools_41.4.0.bb => python3-setuptools_41.6.0.bb} (100%)
+ meta/recipes-devtools/go/go-1.12.inc          |  1 +
+ .../go/go-1.12/0010-fix-CVE-2019-17596.patch  | 42 +++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index 027e259be8..f0f100f2ae 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -10,8 +10,8 @@ inherit pypi
+diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
+index 39157ff882..34be06eff3 100644
+--- a/meta/recipes-devtools/go/go-1.12.inc
++++ b/meta/recipes-devtools/go/go-1.12.inc
+@@ -16,6 +16,7 @@ SRC_URI += "\
+     file://0006-cmd-dist-separate-host-and-target-builds.patch \
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
++    file://0010-fix-CVE-2019-17596.patch \
+ "
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
  
- SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
- 
--SRC_URI[md5sum] = "89a592d733b31e180a4b6ad760c0685a"
--SRC_URI[sha256sum] = "7eae782ccf36b790c21bde7d86a4f303a441cd77036b25c559a602cf5186ce4d"
-+SRC_URI[md5sum] = "5585a55bfc28474ef13cc0b1819c5a46"
-+SRC_URI[sha256sum] = "6afa61b391dcd16cb8890ec9f66cc4015a8a31a6e1c2b4e0c464514be1a3d722"
- 
- DEPENDS += "${PYTHON_PN}"
- 
-diff --git a/meta/recipes-devtools/python/python-setuptools_41.4.0.bb b/meta/recipes-devtools/python/python-setuptools_41.6.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-setuptools_41.4.0.bb
-rename to meta/recipes-devtools/python/python-setuptools_41.6.0.bb
-diff --git a/meta/recipes-devtools/python/python3-setuptools_41.4.0.bb b/meta/recipes-devtools/python/python3-setuptools_41.6.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_41.4.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools_41.6.0.bb
+diff --git a/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+new file mode 100644
+index 0000000000..134cfab737
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+@@ -0,0 +1,42 @@
++From f1783e1ce44a86c000a7c380a57a805c89c3efbe Mon Sep 17 00:00:00 2001
++From: Katie Hockman <katie@golang.org>
++Date: Mon, 14 Oct 2019 16:42:21 -0400
++Subject: [PATCH] crypto/dsa: prevent bad public keys from causing panic
++
++dsa.Verify might currently use a nil s inverse in a
++multiplication if the public key contains a non-prime Q,
++causing a panic. Change this to check that the mod
++inverse exists before using it.
++
++Fixes CVE-2019-17596
++
++Change-Id: I94d5f3cc38f1b5d52d38dcb1d253c71b7fd1cae7
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/572809
++Reviewed-by: Filippo Valsorda <valsorda@google.com>
++(cherry picked from commit 9119dfb0511326d4485b248b83d4fde19c95d0f7)
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/575232
++
++CVE: CVE-2019-17596
++Upstream-Status: Backport [https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ src/crypto/dsa/dsa.go | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/src/crypto/dsa/dsa.go b/src/crypto/dsa/dsa.go
++index 575314b..2fc4f1f 100644
++--- a/src/crypto/dsa/dsa.go
+++++ b/src/crypto/dsa/dsa.go
++@@ -279,6 +279,9 @@ func Verify(pub *PublicKey, hash []byte, r, s *big.Int) bool {
++ 	}
++ 
++ 	w := new(big.Int).ModInverse(s, pub.Q)
+++	if w == nil {
+++		return false
+++	}
++ 
++ 	n := pub.Q.BitLen()
++ 	if n&7 != 0 {
++-- 
++2.23.0
++
 -- 
-2.20.1
-
-
+2.23.0
 
 
